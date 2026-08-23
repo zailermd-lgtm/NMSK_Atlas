@@ -1,0 +1,101 @@
+{
+  "id": "subscapularis_l",
+  "name_ta": "Musculus subscapularis",
+  "name_common": "Subscapularis",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "scapula_l",
+    "origin_landmark": "subscapular fossa",
+    "insertion_bone": "humerus_l",
+    "insertion_landmark": "lesser tubercle",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "upper_and_lower_subscapular_nerves_l",
+    "root_levels": "C5-C6"
+  },
+  "blood_supply": [
+    "subscapular_a_l"
+  ],
+  "actions": [
+    "internally rotates humerus",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple, main anterior stabilizer)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "subscapularis_l_superior",
+      "name": "Superior laminae (documented ~3 of the ~6-7 total tendinous laminae)",
+      "innervation_branch": "upper subscapular n.",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 20,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 1200.0,
+        "max_isometric_force_N": 300.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          20,
+          30,
+          40
+        ],
+        [
+          10,
+          40,
+          35
+        ],
+        [
+          5,
+          45,
+          30
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "along each lamina's central tendon",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Superior partition, separately innervated by the upper subscapular nerve -- a clear anatomical/innervation-based functional split from the inferior partition.",
+      "source": "Gray's Anatomy for Students 4th ed. ch.7 (describes subscapularis as composed of multiple laminae converging on internal tendons); dual upper/lower subscapular nerve innervation is standard brachial-plexus anatomy"
+    },
+    {
+      "id": "subscapularis_l_inferior",
+      "name": "Inferior laminae",
+      "innervation_branch": "lower subscapular n.",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 22,
+        "optimal_fascicle_length_mm": 42,
+        "physiological_cross_section_area_mm2": 1250.0,
+        "max_isometric_force_N": 312.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          25,
+          15,
+          45
+        ],
+        [
+          15,
+          10,
+          40
+        ],
+        [
+          10,
+          20,
+          35
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "along each lamina's central tendon",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Inferior partition, separately innervated by the lower subscapular nerve (which also innervates teres major).",
+      "source": "Gray's Anatomy for Students 4th ed. ch.7"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model"
+}

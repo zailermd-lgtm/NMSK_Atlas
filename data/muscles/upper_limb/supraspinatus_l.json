@@ -1,0 +1,112 @@
+{
+  "id": "supraspinatus_l",
+  "name_ta": "Musculus supraspinatus",
+  "name_common": "Supraspinatus",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "scapula_l",
+    "origin_landmark": "supraspinous fossa",
+    "insertion_bone": "humerus_l",
+    "insertion_landmark": "greater tubercle, superior facet",
+    "via_points": [
+      {
+        "structure": "under the coracoacromial arch/acromion",
+        "bone_frame": "scapula_l",
+        "position_local_mm": [
+          -5,
+          45,
+          -5
+        ],
+        "active_over_joint_range": "all abduction angles"
+      }
+    ]
+  },
+  "innervation": {
+    "nerve": "suprascapular_n_l",
+    "root_levels": "C5-C6"
+  },
+  "blood_supply": [
+    "suprascapular_a_l"
+  ],
+  "actions": [
+    "initiates/assists glenohumeral abduction (first ~15deg, then throughout with deltoid)",
+    "stabilizes humeral head in glenoid (rotator cuff force-couple)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "supraspinatus_l_anterior",
+      "name": "Anterior compartment (larger, more pennate)",
+      "innervation_branch": "suprascapular n., anterior branch",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 12,
+        "optimal_fascicle_length_mm": 32,
+        "physiological_cross_section_area_mm2": 350.0,
+        "max_isometric_force_N": 87.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          90,
+          -30
+        ],
+        [
+          0,
+          85,
+          -25
+        ],
+        [
+          -5,
+          80,
+          -30
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band, short highly-pennate fascicles",
+        "position_fraction_along_fascicle": 0.4,
+        "band_width_fraction": 0.18
+      },
+      "function_note": "Larger anterior compartment generates most of the abduction-initiation torque; documented as mechanically/architecturally distinct from the posterior compartment.",
+      "source": "Roh MS et al. (2000) Clin Orthop Relat Res 375:242-249 (supraspinatus anterior/posterior compartmentalization); Kim SY et al. cadaveric partition studies"
+    },
+    {
+      "id": "supraspinatus_l_posterior",
+      "name": "Posterior compartment (smaller)",
+      "innervation_branch": "suprascapular n., posterior branch (distal continuation)",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 30,
+        "physiological_cross_section_area_mm2": 200.0,
+        "max_isometric_force_N": 50.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          25,
+          60,
+          -40
+        ],
+        [
+          15,
+          55,
+          -45
+        ],
+        [
+          10,
+          65,
+          -35
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.4,
+        "band_width_fraction": 0.18
+      },
+      "function_note": "Smaller posterior compartment; contributes proportionally less PCSA.",
+      "source": "Roh MS et al. (2000) Clin Orthop Relat Res 375:242-249"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Roh MS, Wang VM, April EW, Pollock RG, Bigliani LU, Flatow EL (2000) Clin Orthop Relat Res 375:242-249"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/rig.schema.json",
+  "title": "RigAnchor",
+  "description": "A generic 'anchor' record: the single unifying primitive used by engine/rig.py for every point that must stay correctly positioned relative to its parent bone through arbitrary (including rotational, joint-limited) posing — muscle origins/insertions, tendon via-points, fascial entheses, nerve/vessel path via-points, and NMJ zones. Every anchor is expressed purely in its parent bone's LOCAL frame; global position at any pose is obtained by walking the kinematic chain's forward-kinematics transform (engine/rig.py:forward_kinematics) and is therefore always correct by construction, never re-fit after posing.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "anchor_type": { "type": "string", "enum": ["muscle_origin", "muscle_insertion", "muscle_via_point", "tendon_enthesis", "fascia_enthesis", "nerve_path_point", "vessel_path_point", "nmj_zone"] },
+    "owner_entity": { "type": "string", "description": "id of the muscle/fascia/nerve/vessel entity this anchor belongs to" },
+    "parent_bone_frame": { "type": "string", "description": "bone id supplying the local frame this anchor rides in" },
+    "local_position_mm": { "$ref": "common.schema.json#/definitions/vec3_mm" },
+    "blend_weights": {
+      "type": "array",
+      "description": "Optional dual/multi-bone skin weighting for anchors that sit over a joint (e.g. a via-point near a joint capsule that should blend between two adjacent segments' frames) — linear blend skinning per Magnenat-Thalmann et al. classic LBS formulation. Omitted (single-frame rigid) for the vast majority of anchors, which is anatomically correct since tendon/nerve/vessel attachment points are rigid to one bone.",
+      "items": { "type": "object", "properties": { "bone_frame": { "type": "string" }, "weight": { "type": "number", "minimum": 0, "maximum": 1 } } }
+    },
+    "notes": { "type": "string" }
+  },
+  "required": ["id", "anchor_type", "owner_entity", "parent_bone_frame", "local_position_mm"]
+}

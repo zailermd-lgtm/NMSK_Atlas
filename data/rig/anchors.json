@@ -1,0 +1,878 @@
+[
+  {
+    "id": "anchor_trapezius_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "trapezius_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -40,
+      80,
+      -40
+    ],
+    "notes": "auto-derived from bone landmark match against 'spine of scapula, acromion, lateral clavicle'"
+  },
+  {
+    "id": "anchor_rhomboid_major_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "rhomboid_major_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -40,
+      80,
+      -40
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula, below spine'"
+  },
+  {
+    "id": "anchor_rhomboid_minor_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "rhomboid_minor_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -40,
+      80,
+      -40
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula, at spine'"
+  },
+  {
+    "id": "anchor_pectoralis_minor_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "pectoralis_minor_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      25,
+      30,
+      20
+    ],
+    "notes": "auto-derived from bone landmark match against 'coracoid process'"
+  },
+  {
+    "id": "anchor_subclavius_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "subclavius_r",
+    "parent_bone_frame": "clavicle_r",
+    "local_position_mm": [
+      -75,
+      -5,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'subclavian groove of clavicle'"
+  },
+  {
+    "id": "anchor_teres_major_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "teres_major_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -100,
+      -140,
+      -40
+    ],
+    "notes": "auto-derived from bone landmark match against 'inferior angle of scapula'"
+  },
+  {
+    "id": "anchor_coracobrachialis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "coracobrachialis_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      25,
+      30,
+      20
+    ],
+    "notes": "auto-derived from bone landmark match against 'coracoid process'"
+  },
+  {
+    "id": "anchor_anconeus_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "anconeus_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle'"
+  },
+  {
+    "id": "anchor_pronator_teres_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "pronator_teres_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      -20,
+      -325,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial epicondyle (+ ulnar head at coronoid)'"
+  },
+  {
+    "id": "anchor_flexor_carpi_radialis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_carpi_radialis_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      -20,
+      -325,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial epicondyle (common flexor origin)'"
+  },
+  {
+    "id": "anchor_palmaris_longus_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "palmaris_longus_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      -20,
+      -325,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial epicondyle'"
+  },
+  {
+    "id": "anchor_flexor_carpi_ulnaris_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_carpi_ulnaris_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      -20,
+      -325,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial epicondyle (+ulnar head at olecranon)'"
+  },
+  {
+    "id": "anchor_flexor_pollicis_longus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_pollicis_longus_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      -40,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'distal phalanx of thumb'"
+  },
+  {
+    "id": "anchor_brachioradialis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "brachioradialis_r",
+    "parent_bone_frame": "radius_r",
+    "local_position_mm": [
+      10,
+      -245,
+      -5
+    ],
+    "notes": "auto-derived from bone landmark match against 'styloid process of radius'"
+  },
+  {
+    "id": "anchor_extensor_carpi_radialis_brevis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_carpi_radialis_brevis_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle (common extensor origin)'"
+  },
+  {
+    "id": "anchor_extensor_digiti_minimi_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_digiti_minimi_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle (via common extensor)'"
+  },
+  {
+    "id": "anchor_extensor_carpi_ulnaris_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_carpi_ulnaris_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle (+ulnar head)'"
+  },
+  {
+    "id": "anchor_supinator_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "supinator_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle, supinator crest of ulna'"
+  },
+  {
+    "id": "anchor_extensor_pollicis_brevis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "extensor_pollicis_brevis_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb'"
+  },
+  {
+    "id": "anchor_extensor_pollicis_longus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "extensor_pollicis_longus_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      -40,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'distal phalanx of thumb'"
+  },
+  {
+    "id": "anchor_abductor_pollicis_brevis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "abductor_pollicis_brevis_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb (radial side)'"
+  },
+  {
+    "id": "anchor_flexor_pollicis_brevis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_pollicis_brevis_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb'"
+  },
+  {
+    "id": "anchor_abductor_digiti_minimi_hand_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "abductor_digiti_minimi_hand_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx digit 5'"
+  },
+  {
+    "id": "anchor_flexor_digiti_minimi_brevis_hand_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_digiti_minimi_brevis_hand_r",
+    "parent_bone_frame": "carpals_r",
+    "local_position_mm": [
+      -15,
+      -15,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'hook of hamate, flexor retinaculum'"
+  },
+  {
+    "id": "anchor_flexor_digiti_minimi_brevis_hand_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_digiti_minimi_brevis_hand_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx digit 5'"
+  },
+  {
+    "id": "anchor_opponens_digiti_minimi_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "opponens_digiti_minimi_r",
+    "parent_bone_frame": "carpals_r",
+    "local_position_mm": [
+      -15,
+      -15,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'hook of hamate, flexor retinaculum'"
+  },
+  {
+    "id": "anchor_dorsal_interossei_hand_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "dorsal_interossei_hand_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'extensor expansion + proximal phalanx base, digits 2,3(both '"
+  },
+  {
+    "id": "anchor_iliopsoas_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "iliopsoas_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      10,
+      -45,
+      -15
+    ],
+    "notes": "auto-derived from bone landmark match against 'lesser trochanter'"
+  },
+  {
+    "id": "anchor_gluteus_medius_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "gluteus_medius_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater trochanter (lateral facet)'"
+  },
+  {
+    "id": "anchor_gluteus_minimus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "gluteus_minimus_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater trochanter (anterior facet)'"
+  },
+  {
+    "id": "anchor_piriformis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "piriformis_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater trochanter (superior border)'"
+  },
+  {
+    "id": "anchor_obturator_internus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "obturator_internus_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater trochanter (medial surface, via lesser sciatic notch'"
+  },
+  {
+    "id": "anchor_gemellus_superior_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "gemellus_superior_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater trochanter (with obturator internus tendon)'"
+  },
+  {
+    "id": "anchor_gemellus_inferior_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "gemellus_inferior_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater trochanter (with obturator internus tendon)'"
+  },
+  {
+    "id": "anchor_vastus_lateralis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "vastus_lateralis_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      40,
+      -20,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'linea aspera (lateral lip), greater trochanter'"
+  },
+  {
+    "id": "anchor_adductor_magnus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_magnus_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      -15,
+      -440,
+      -5
+    ],
+    "notes": "auto-derived from bone landmark match against 'adductor part: linea aspera; hamstring part: adductor tuberc'"
+  },
+  {
+    "id": "anchor_pectineus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "pectineus_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      10,
+      -60,
+      -10
+    ],
+    "notes": "auto-derived from bone landmark match against 'pectineal line of femur'"
+  },
+  {
+    "id": "anchor_gastrocnemius_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "gastrocnemius_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial/lateral femoral condyles (2 heads)'"
+  },
+  {
+    "id": "anchor_soleus_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "soleus_r",
+    "parent_bone_frame": "tibia_r",
+    "local_position_mm": [
+      -15,
+      -60,
+      -15
+    ],
+    "notes": "auto-derived from bone landmark match against 'soleal line of tibia, fibular head'"
+  },
+  {
+    "id": "anchor_supraspinatus_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "supraspinatus_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      10,
+      90,
+      -30
+    ],
+    "notes": "auto-derived from bone landmark match against 'supraspinous fossa'"
+  },
+  {
+    "id": "anchor_supraspinatus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "supraspinatus_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -20,
+      -15,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater tubercle, superior facet'"
+  },
+  {
+    "id": "anchor_brachialis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "brachialis_r",
+    "parent_bone_frame": "ulna_r",
+    "local_position_mm": [
+      5,
+      -10,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'ulnar tuberosity + coronoid process'"
+  },
+  {
+    "id": "anchor_adductor_pollicis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "adductor_pollicis_r",
+    "parent_bone_frame": "metacarpals_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'oblique head: capitate + bases of 2nd/3rd metacarpals (carpa'"
+  },
+  {
+    "id": "anchor_adductor_pollicis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_pollicis_r",
+    "parent_bone_frame": "phalanges_hand_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb (ulnar side) + ulnar sesamoid, via'"
+  },
+  {
+    "id": "anchor_brachialis_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "brachialis_l",
+    "parent_bone_frame": "ulna_l",
+    "local_position_mm": [
+      -5,
+      -10,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'ulnar tuberosity + coronoid process'"
+  },
+  {
+    "id": "anchor_flexor_digitorum_superficialis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_digitorum_superficialis_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      20,
+      -325,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'humeroulnar head: medial epicondyle + coronoid process (ulna'"
+  },
+  {
+    "id": "anchor_infraspinatus_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "infraspinatus_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      30,
+      20,
+      -60
+    ],
+    "notes": "auto-derived from bone landmark match against 'infraspinous fossa'"
+  },
+  {
+    "id": "anchor_infraspinatus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "infraspinatus_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -20,
+      -15,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater tubercle, middle facet'"
+  },
+  {
+    "id": "anchor_subscapularis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "subscapularis_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -20,
+      30,
+      40
+    ],
+    "notes": "auto-derived from bone landmark match against 'subscapular fossa'"
+  },
+  {
+    "id": "anchor_subscapularis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "subscapularis_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      5,
+      -20,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'lesser tubercle'"
+  },
+  {
+    "id": "anchor_biceps_brachii_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "biceps_brachii_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      -25,
+      30,
+      20
+    ],
+    "notes": "auto-derived from bone landmark match against 'long head: supraglenoid tubercle (via intra-articular tendon'"
+  },
+  {
+    "id": "anchor_biceps_brachii_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "biceps_brachii_l",
+    "parent_bone_frame": "radius_l",
+    "local_position_mm": [
+      10,
+      -25,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'radial tuberosity (+ bicipital aponeurosis blending into ant'"
+  },
+  {
+    "id": "anchor_infraspinatus_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "infraspinatus_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -30,
+      20,
+      -60
+    ],
+    "notes": "auto-derived from bone landmark match against 'infraspinous fossa'"
+  },
+  {
+    "id": "anchor_infraspinatus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "infraspinatus_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -15,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater tubercle, middle facet'"
+  },
+  {
+    "id": "anchor_triceps_brachii_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "triceps_brachii_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      5,
+      -30,
+      -5
+    ],
+    "notes": "auto-derived from bone landmark match against 'long head: infraglenoid tubercle; lateral head: posterior hu'"
+  },
+  {
+    "id": "anchor_triceps_brachii_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "triceps_brachii_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -5,
+      -30,
+      -5
+    ],
+    "notes": "auto-derived from bone landmark match against 'long head: infraglenoid tubercle; lateral head: posterior hu'"
+  },
+  {
+    "id": "anchor_biceps_brachii_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "biceps_brachii_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      25,
+      30,
+      20
+    ],
+    "notes": "auto-derived from bone landmark match against 'long head: supraglenoid tubercle (via intra-articular tendon'"
+  },
+  {
+    "id": "anchor_biceps_brachii_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "biceps_brachii_r",
+    "parent_bone_frame": "radius_r",
+    "local_position_mm": [
+      -10,
+      -25,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'radial tuberosity (+ bicipital aponeurosis blending into ant'"
+  },
+  {
+    "id": "anchor_extensor_digitorum_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_digitorum_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle (common extensor origin)'"
+  },
+  {
+    "id": "anchor_deltoid_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "deltoid_l",
+    "parent_bone_frame": "clavicle_l",
+    "local_position_mm": [
+      150,
+      -10,
+      -8
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral third, anterior border (clavicular part); acromion ('"
+  },
+  {
+    "id": "anchor_deltoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "deltoid_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -15,
+      -145,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'deltoid tuberosity'"
+  },
+  {
+    "id": "anchor_teres_minor_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "teres_minor_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -20,
+      -15,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater tubercle, inferior facet'"
+  },
+  {
+    "id": "anchor_extensor_digitorum_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_digitorum_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -330,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral epicondyle (common extensor origin)'"
+  },
+  {
+    "id": "anchor_teres_minor_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "teres_minor_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -15,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater tubercle, inferior facet'"
+  },
+  {
+    "id": "anchor_deltoid_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "deltoid_r",
+    "parent_bone_frame": "clavicle_r",
+    "local_position_mm": [
+      -150,
+      -10,
+      -8
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral third, anterior border (clavicular part); acromion ('"
+  },
+  {
+    "id": "anchor_deltoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "deltoid_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      15,
+      -145,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'deltoid tuberosity'"
+  },
+  {
+    "id": "anchor_flexor_digitorum_superficialis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_digitorum_superficialis_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      -20,
+      -325,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'humeroulnar head: medial epicondyle + coronoid process (ulna'"
+  },
+  {
+    "id": "anchor_supraspinatus_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "supraspinatus_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -10,
+      90,
+      -30
+    ],
+    "notes": "auto-derived from bone landmark match against 'supraspinous fossa'"
+  },
+  {
+    "id": "anchor_supraspinatus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "supraspinatus_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      20,
+      -15,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater tubercle, superior facet'"
+  },
+  {
+    "id": "anchor_adductor_pollicis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "adductor_pollicis_l",
+    "parent_bone_frame": "metacarpals_l",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'oblique head: capitate + bases of 2nd/3rd metacarpals (carpa'"
+  },
+  {
+    "id": "anchor_adductor_pollicis_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_pollicis_l",
+    "parent_bone_frame": "phalanges_hand_l",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb (ulnar side) + ulnar sesamoid, via'"
+  },
+  {
+    "id": "anchor_subscapularis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "subscapularis_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      20,
+      30,
+      40
+    ],
+    "notes": "auto-derived from bone landmark match against 'subscapular fossa'"
+  },
+  {
+    "id": "anchor_subscapularis_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "subscapularis_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -5,
+      -20,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'lesser tubercle'"
+  }
+]

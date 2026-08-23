@@ -1,0 +1,284 @@
+{
+  "id": "deltoid_l",
+  "name_ta": "Musculus deltoideus",
+  "name_common": "Deltoid",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "clavicle_l",
+    "origin_landmark": "lateral third, anterior border (clavicular part); acromion (acromial part, scapula_r); spine of scapula (spinal part, scapula_r)",
+    "insertion_bone": "humerus_l",
+    "insertion_landmark": "deltoid tuberosity",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "axillary_n_l",
+    "root_levels": "C5-C6"
+  },
+  "blood_supply": [
+    "posterior_circumflex_humeral_a_l",
+    "thoracoacromial_a_l_deltoid_branch"
+  ],
+  "actions": [
+    "abducts humerus (all parts, prime mover past ~15deg)",
+    "flexes and internally rotates humerus (anterior/clavicular part)",
+    "extends and externally rotates humerus (posterior/spinal part)",
+    "horizontal adduction/abduction"
+  ],
+  "functional_compartments": [
+    {
+      "id": "deltoid_l_anterior_1",
+      "name": "Anterior (clavicular) segment 1 (most medial)",
+      "innervation_branch": "axillary n., anterior branch, proximal fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 12,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 300.0,
+        "max_isometric_force_N": 75.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          110,
+          5,
+          10
+        ],
+        [
+          95,
+          0,
+          15
+        ],
+        [
+          100,
+          -10,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band, anterior clavicular fibers",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Flexion + internal rotation dominant; documented as an independently-recruitable EMG compartment.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17; Brown JM et al. (2007) J Electromyogr Kinesiol 17:57-73"
+    },
+    {
+      "id": "deltoid_l_anterior_2",
+      "name": "Anterior (clavicular) segment 2",
+      "innervation_branch": "axillary n., anterior branch, mid fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 14,
+        "optimal_fascicle_length_mm": 95,
+        "physiological_cross_section_area_mm2": 320.0,
+        "max_isometric_force_N": 80.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          100,
+          -10,
+          20
+        ],
+        [
+          85,
+          -15,
+          20
+        ],
+        [
+          90,
+          -25,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Flexion-dominant.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17"
+    },
+    {
+      "id": "deltoid_l_anterior_3",
+      "name": "Anterior (clavicular) segment 3 (most lateral, borders acromial part)",
+      "innervation_branch": "axillary n., anterior branch, distal fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 16,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 280.0,
+        "max_isometric_force_N": 70.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          90,
+          -25,
+          20
+        ],
+        [
+          70,
+          -25,
+          15
+        ],
+        [
+          75,
+          -35,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Transitional flexion/abduction fibers.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17"
+    },
+    {
+      "id": "deltoid_l_middle_1",
+      "name": "Middle (acromial) segment 1 -- multipennate about anterior intramuscular septum",
+      "innervation_branch": "axillary n., posterior branch, anterior acromial fascicle",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 21,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 550.0,
+        "max_isometric_force_N": 137.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -5,
+          45,
+          -5
+        ],
+        [
+          -15,
+          35,
+          -5
+        ],
+        [
+          -10,
+          25,
+          0
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "endplates cluster along the central intramuscular tendon, offset from geometric mid-fascicle due to pennation",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Pure abduction; the classic multipennate 'central tendon' architecture concentrates PCSA for high abduction torque at the cost of shorter fibers/excursion.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17; Gray's Anatomy for Students 4th ed. ch.7 (describes middle deltoid as multipennate around 4 fibrous septa)"
+    },
+    {
+      "id": "deltoid_l_middle_2",
+      "name": "Middle (acromial) segment 2 (central)",
+      "innervation_branch": "axillary n., posterior branch, central acromial fascicle",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 23,
+        "optimal_fascicle_length_mm": 58,
+        "physiological_cross_section_area_mm2": 600.0,
+        "max_isometric_force_N": 150.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          25,
+          0
+        ],
+        [
+          -5,
+          15,
+          -5
+        ],
+        [
+          0,
+          20,
+          0
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Pure abduction; largest PCSA segment.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17"
+    },
+    {
+      "id": "deltoid_l_middle_3",
+      "name": "Middle (acromial) segment 3 (posterior multipennate)",
+      "innervation_branch": "axillary n., posterior branch, posterior acromial fascicle",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 22,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 520.0,
+        "max_isometric_force_N": 130.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          0,
+          20,
+          0
+        ],
+        [
+          10,
+          15,
+          -10
+        ],
+        [
+          5,
+          25,
+          -15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Pure abduction.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17"
+    },
+    {
+      "id": "deltoid_l_posterior",
+      "name": "Posterior (spinal) segment",
+      "innervation_branch": "axillary n., posterior branch, spinal fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 18,
+        "optimal_fascicle_length_mm": 110,
+        "physiological_cross_section_area_mm2": 400.0,
+        "max_isometric_force_N": 100.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          40,
+          80,
+          -40
+        ],
+        [
+          30,
+          70,
+          -45
+        ],
+        [
+          35,
+          60,
+          -40
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band, posterior spinal fibers",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Extension + external rotation dominant; longest, least-pennate deltoid fibers.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17; Brown JM et al. (2007) J Electromyogr Kinesiol 17:57-73 (documented ~7-segment neuromuscular partitioning of human deltoid)"
+}

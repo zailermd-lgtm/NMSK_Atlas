@@ -1,0 +1,606 @@
+[
+  {
+    "id": "brachial_root_C5",
+    "name": "Ventral ramus C5",
+    "plexus": "brachial_plexus",
+    "parent_id": null,
+    "level": "root",
+    "root_contributions": "C5",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_root_C6",
+    "name": "Ventral ramus C6",
+    "plexus": "brachial_plexus",
+    "parent_id": null,
+    "level": "root",
+    "root_contributions": "C6",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_root_C7",
+    "name": "Ventral ramus C7",
+    "plexus": "brachial_plexus",
+    "parent_id": null,
+    "level": "root",
+    "root_contributions": "C7",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_root_C8",
+    "name": "Ventral ramus C8",
+    "plexus": "brachial_plexus",
+    "parent_id": null,
+    "level": "root",
+    "root_contributions": "C8",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_root_T1",
+    "name": "Ventral ramus T1",
+    "plexus": "brachial_plexus",
+    "parent_id": null,
+    "level": "root",
+    "root_contributions": "T1",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_trunk_superior",
+    "name": "Superior trunk",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_root_C5",
+    "level": "trunk",
+    "root_contributions": "C5-C6",
+    "targets": [],
+    "notes": "Also receives C6 fibers (root_C6 not literally a tree-parent here; graph is a tree simplification, see docs/ARCHITECTURE.md).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_trunk_middle",
+    "name": "Middle trunk",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_root_C7",
+    "level": "trunk",
+    "root_contributions": "C7 (direct continuation)",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_trunk_inferior",
+    "name": "Inferior trunk",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_root_C8",
+    "level": "trunk",
+    "root_contributions": "C8-T1",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_div_superior_ant",
+    "name": "Superior trunk, anterior division",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_superior",
+    "level": "division",
+    "root_contributions": "C5-C6",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_div_superior_post",
+    "name": "Superior trunk, posterior division",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_superior",
+    "level": "division",
+    "root_contributions": "C5-C6",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_div_middle_ant",
+    "name": "Middle trunk, anterior division",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_middle",
+    "level": "division",
+    "root_contributions": "C7",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_div_middle_post",
+    "name": "Middle trunk, posterior division",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_middle",
+    "level": "division",
+    "root_contributions": "C7",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_div_inferior_ant",
+    "name": "Inferior trunk, anterior division",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_inferior",
+    "level": "division",
+    "root_contributions": "C8-T1",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_div_inferior_post",
+    "name": "Inferior trunk, posterior division",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_inferior",
+    "level": "division",
+    "root_contributions": "C8-T1",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_cord_lateral",
+    "name": "Lateral cord",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_div_superior_ant",
+    "level": "cord",
+    "root_contributions": "C5-C7",
+    "targets": [],
+    "notes": "Formed by anterior divisions of superior + middle trunks; middle-trunk contribution not representable as a 2nd tree-parent.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_cord_posterior",
+    "name": "Posterior cord",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_div_superior_post",
+    "level": "cord",
+    "root_contributions": "C5-C8, T1",
+    "targets": [],
+    "notes": "Formed by posterior divisions of ALL THREE trunks; only superior trunk's posterior division is the tree-parent here.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "brachial_cord_medial",
+    "name": "Medial cord",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_div_inferior_ant",
+    "level": "cord",
+    "root_contributions": "C8-T1",
+    "targets": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "dorsal_scapular_n",
+    "name": "Dorsal scapular nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_root_C5",
+    "level": "muscular_branch",
+    "root_contributions": "C5",
+    "targets": [
+      "rhomboid_major_r",
+      "rhomboid_minor_r",
+      "levator_scapulae_r"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "long_thoracic_n",
+    "name": "Long thoracic nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_root_C5",
+    "level": "muscular_branch",
+    "root_contributions": "C5-C7",
+    "targets": [
+      "serratus_anterior_r"
+    ],
+    "notes": "Arises from roots directly, runs on the surface of serratus anterior; vulnerable in axillary surgery (winged scapula if injured).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "suprascapular_n",
+    "name": "Suprascapular nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_superior",
+    "level": "muscular_branch",
+    "root_contributions": "C5-C6",
+    "targets": [
+      "supraspinatus_r",
+      "infraspinatus_r"
+    ],
+    "notes": "",
+    "motor_entry_point": {
+      "target_muscle_compartment": "supraspinatus_r_anterior",
+      "entry_description": "Passes through the suprascapular notch (under the superior transverse scapular ligament) to enter supraspinatus, then continues around the spinoglenoid notch to infraspinatus."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "nerve_to_subclavius",
+    "name": "Nerve to subclavius",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_trunk_superior",
+    "level": "muscular_branch",
+    "root_contributions": "C5-C6",
+    "targets": [
+      "subclavius_r"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "lateral_pectoral_n",
+    "name": "Lateral pectoral nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_lateral",
+    "level": "muscular_branch",
+    "root_contributions": "C5-C7",
+    "targets": [
+      "pectoralis_major_r_clavicular",
+      "pectoralis_major_r_sternocostal"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "musculocutaneous_n",
+    "name": "Musculocutaneous nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_lateral",
+    "level": "terminal_branch",
+    "root_contributions": "C5-C7",
+    "targets": [
+      "coracobrachialis_r",
+      "biceps_brachii_r_long_head",
+      "biceps_brachii_r_short_head",
+      "brachialis_r_main"
+    ],
+    "notes": "",
+    "motor_entry_point": {
+      "target_muscle_compartment": "biceps_brachii_r_short_head",
+      "entry_description": "Pierces coracobrachialis, then runs between biceps and brachialis, giving motor twigs to each before continuing as the lateral cutaneous nerve of the forearm."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "median_n_lateral_root",
+    "name": "Median nerve, lateral root",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_lateral",
+    "level": "terminal_branch",
+    "root_contributions": "C5-C7 (lateral root fibers)",
+    "targets": [],
+    "notes": "Joins the medial root (from the medial cord) anterior to the axillary/brachial artery to form the median nerve trunk -- the true anatomy has two converging roots; represented here as one continuing branch (median_n) with the medial root noted as an additional contribution on that node.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "upper_subscapular_n",
+    "name": "Upper subscapular nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_posterior",
+    "level": "muscular_branch",
+    "root_contributions": "C5-C6",
+    "targets": [
+      "subscapularis_r_superior"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "thoracodorsal_n",
+    "name": "Thoracodorsal nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_posterior",
+    "level": "muscular_branch",
+    "root_contributions": "C6-C8",
+    "targets": [
+      "latissimus_dorsi_r"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "lower_subscapular_n",
+    "name": "Lower subscapular nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_posterior",
+    "level": "muscular_branch",
+    "root_contributions": "C5-C6",
+    "targets": [
+      "subscapularis_r_inferior",
+      "teres_major_r"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "axillary_n",
+    "name": "Axillary nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_posterior",
+    "level": "terminal_branch",
+    "root_contributions": "C5-C6",
+    "targets": [
+      "deltoid_r_anterior_1",
+      "deltoid_r_anterior_2",
+      "deltoid_r_anterior_3",
+      "deltoid_r_middle_1",
+      "deltoid_r_middle_2",
+      "deltoid_r_middle_3",
+      "deltoid_r_posterior",
+      "teres_minor_r_main"
+    ],
+    "notes": "Vulnerable in surgical neck of humerus fractures / anterior shoulder dislocation.",
+    "motor_entry_point": {
+      "target_muscle_compartment": "deltoid_r_middle_2",
+      "entry_description": "Passes through the quadrangular space (with posterior circumflex humeral vessels), wraps around the surgical neck of the humerus, dividing into anterior branch (deep to deltoid, supplying anterior+middle segments) and posterior branch (supplies posterior segment + teres minor, continues as superior lateral cutaneous nerve of arm)."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "radial_n",
+    "name": "Radial nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_posterior",
+    "level": "terminal_branch",
+    "root_contributions": "C5-T1",
+    "targets": [
+      "triceps_brachii_r_long_head",
+      "triceps_brachii_r_lateral_head",
+      "triceps_brachii_r_medial_head_superficial",
+      "triceps_brachii_r_medial_head_deep",
+      "anconeus_r",
+      "brachioradialis_r",
+      "extensor_carpi_radialis_longus_r"
+    ],
+    "notes": "Vulnerable in mid-shaft humeral fractures (spiral groove) -> wrist drop.",
+    "motor_entry_point": {
+      "target_muscle_compartment": "triceps_brachii_r_medial_head_superficial",
+      "entry_description": "Runs in the spiral (radial) groove of the humerus giving branches to all 3 triceps heads before emerging laterally to supply brachioradialis and ECRL, then divides into superficial (sensory) and deep (posterior interosseous) branches near the elbow."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "posterior_interosseous_n",
+    "name": "Posterior interosseous nerve (deep branch of radial n.)",
+    "plexus": "brachial_plexus",
+    "parent_id": "radial_n",
+    "level": "terminal_branch",
+    "root_contributions": "C7-C8",
+    "targets": [
+      "extensor_digitorum_r_index",
+      "extensor_digitorum_r_middle",
+      "extensor_digitorum_r_ring",
+      "extensor_digitorum_r_little"
+    ],
+    "notes": "Also supplies supinator (entry point, before piercing it), ECU, APL, EPB, EPL, EI.",
+    "motor_entry_point": {
+      "target_muscle_compartment": "extensor_digitorum_r_middle",
+      "entry_description": "Pierces supinator (arcade of Frohse), emerges on the posterior forearm to supply all extrinsic finger/thumb extensors and ECU."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "radial_n_superficial_branch",
+    "name": "Superficial branch of radial nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "radial_n",
+    "level": "cutaneous_branch",
+    "root_contributions": "C6-C8",
+    "targets": [
+      "dorsum of hand, radial 3.5 digits (dorsal aspect, proximal to nail beds)"
+    ],
+    "notes": "Purely sensory distal to the elbow.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "medial_pectoral_n",
+    "name": "Medial pectoral nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_medial",
+    "level": "muscular_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "pectoralis_major_r_abdominal",
+      "pectoralis_minor_r"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "medial_cutaneous_n_arm",
+    "name": "Medial cutaneous nerve of arm",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_medial",
+    "level": "cutaneous_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "medial skin of arm"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "medial_cutaneous_n_forearm",
+    "name": "Medial cutaneous nerve of forearm",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_medial",
+    "level": "cutaneous_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "medial skin of forearm"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "ulnar_n",
+    "name": "Ulnar nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "brachial_cord_medial",
+    "level": "terminal_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "flexor_carpi_ulnaris_r",
+      "flexor_digitorum_profundus_r_middle_ring_little"
+    ],
+    "notes": "Vulnerable at the medial epicondyle (cubital tunnel syndrome) and at Guyon's canal (distal ulnar tunnel).",
+    "motor_entry_point": {
+      "target_muscle_compartment": "flexor_digitorum_profundus_r_middle_ring_little",
+      "entry_description": "Passes posterior to the medial epicondyle (cubital tunnel -- 'funny bone'), gives muscular branches to FCU and the ulnar half of FDP in the proximal forearm, then continues into the hand through Guyon's canal."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "median_n",
+    "name": "Median nerve (lateral root + medial root union)",
+    "plexus": "brachial_plexus",
+    "parent_id": "median_n_lateral_root",
+    "level": "terminal_branch",
+    "root_contributions": "C5-T1",
+    "targets": [
+      "pronator_teres_r",
+      "flexor_carpi_radialis_r",
+      "palmaris_longus_r",
+      "flexor_digitorum_superficialis_r_digit2",
+      "flexor_digitorum_superficialis_r_digit3",
+      "flexor_digitorum_superficialis_r_digit4",
+      "flexor_digitorum_superficialis_r_digit5"
+    ],
+    "notes": "Continues as the anterior interosseous nerve (deep, motor) and the median nerve proper (superficial, to the hand via the carpal tunnel).",
+    "motor_entry_point": {
+      "target_muscle_compartment": "flexor_digitorum_superficialis_r_digit3",
+      "entry_description": "Runs medial to the brachial artery in the arm (no branches above the elbow), enters the forearm between the two heads of pronator teres, then runs deep to FDS supplying it and the more superficial forearm flexors."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "anterior_interosseous_n",
+    "name": "Anterior interosseous nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "median_n",
+    "level": "terminal_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "flexor_digitorum_profundus_r_index",
+      "flexor_pollicis_longus_r",
+      "pronator_quadratus_r"
+    ],
+    "notes": "",
+    "motor_entry_point": {
+      "target_muscle_compartment": "flexor_digitorum_profundus_r_index",
+      "entry_description": "Runs on the interosseous membrane between FDP and FPL, terminating in pronator quadratus."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "median_n_recurrent_thenar_branch",
+    "name": "Recurrent (thenar) branch of median nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "median_n",
+    "level": "muscular_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "abductor_pollicis_brevis_r",
+      "flexor_pollicis_brevis_r",
+      "opponens_pollicis_r"
+    ],
+    "notes": "Motor to the thenar eminence (except adductor pollicis, which is ulnar-innervated) -- classic 'million dollar nerve', vulnerable in superficial palmar lacerations.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "median_n_palmar_digital_nn",
+    "name": "Common + proper palmar digital nerves (median n.)",
+    "plexus": "brachial_plexus",
+    "parent_id": "median_n",
+    "level": "cutaneous_branch",
+    "root_contributions": "C6-T1",
+    "targets": [
+      "palmar skin digits 1-3 and radial half of digit 4",
+      "lumbricals_hand_r (1st and 2nd, via muscular twigs)"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "ulnar_n_dorsal_cutaneous_branch",
+    "name": "Dorsal cutaneous branch of ulnar nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "ulnar_n",
+    "level": "cutaneous_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "dorsal skin, ulnar 1.5 digits"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "ulnar_n_superficial_branch",
+    "name": "Superficial branch of ulnar nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "ulnar_n",
+    "level": "cutaneous_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "palmaris brevis (motor, tenses hypothenar skin)",
+      "palmar skin, ulnar 1.5 digits (sensory)"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "ulnar_n_deep_branch",
+    "name": "Deep branch of ulnar nerve",
+    "plexus": "brachial_plexus",
+    "parent_id": "ulnar_n",
+    "level": "terminal_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "abductor_digiti_minimi_hand_r",
+      "flexor_digiti_minimi_brevis_hand_r",
+      "opponens_digiti_minimi_r",
+      "adductor_pollicis_r_oblique",
+      "adductor_pollicis_r_transverse",
+      "dorsal_interossei_hand_r",
+      "palmar_interossei_r",
+      "flexor_pollicis_brevis_r"
+    ],
+    "notes": "",
+    "motor_entry_point": {
+      "target_muscle_compartment": "adductor_pollicis_r_transverse",
+      "entry_description": "Passes through Guyon's canal then dives deep between abductor and flexor digiti minimi to cross the palm supplying all interossei, adductor pollicis, and the deep head of flexor pollicis brevis."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "ulnar_n_lumbrical_branches",
+    "name": "Ulnar n. branches to lumbricals 3-4",
+    "plexus": "brachial_plexus",
+    "parent_id": "ulnar_n_deep_branch",
+    "level": "muscular_branch",
+    "root_contributions": "C8-T1",
+    "targets": [
+      "lumbricals_hand_r (3rd and 4th)"
+    ],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
+  }
+]

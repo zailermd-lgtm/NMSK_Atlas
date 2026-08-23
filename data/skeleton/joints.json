@@ -1,0 +1,432 @@
+[
+  {
+    "id": "temporomandibular_r", "name_ta": "Articulatio temporomandibularis",
+    "parent_bone": "temporal_r", "child_bone": "mandible", "joint_type": "compound",
+    "coordinate_system_standard": "none - custom (no single ISB TMJ standard; represented as combined rotation+translation)",
+    "center_definition": "condylar head center at rest position within mandibular fossa",
+    "degrees_of_freedom": [
+      {"axis_name": "depression_elevation", "min_deg": 0, "max_deg": 40, "rom_source": "AAOS Joint Motion: Method of Measuring and Recording (1965); clinical norm ~40-50mm interincisal opening expressed as approx. rotational equivalent"},
+      {"axis_name": "protrusion_retrusion", "min_deg": -8, "max_deg": 8, "rom_source": "AAOS (1965) — translation-dominant motion, degree-equivalent approximation"},
+      {"axis_name": "lateral_deviation", "min_deg": -10, "max_deg": 10, "rom_source": "AAOS (1965)"}
+    ],
+    "coupled_motion_notes": "Combined rotation (early opening) + anterior translation of condyle (late opening) along the articular eminence; bilateral joints move as a coupled pair.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965); Gray's Anatomy for Students 4th ed. ch.8"
+  },
+  {
+    "id": "temporomandibular_l", "name_ta": "Articulatio temporomandibularis",
+    "parent_bone": "temporal_l", "child_bone": "mandible", "joint_type": "compound",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "condylar head center at rest position within mandibular fossa",
+    "degrees_of_freedom": [
+      {"axis_name": "depression_elevation", "min_deg": 0, "max_deg": 40, "rom_source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"},
+      {"axis_name": "protrusion_retrusion", "min_deg": -8, "max_deg": 8, "rom_source": "AAOS (1965)"},
+      {"axis_name": "lateral_deviation", "min_deg": -10, "max_deg": 10, "rom_source": "AAOS (1965)"}
+    ],
+    "coupled_motion_notes": "Bilateral joints move as a coupled pair; mandible is a single rigid body driven by both.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+
+  {
+    "id": "cervical_spine", "name_ta": "Columna vertebralis cervicalis (composite)",
+    "parent_bone": "occipital", "child_bone": "cervical_vertebrae", "joint_type": "compound",
+    "coordinate_system_standard": "none - custom (per-level ISB spine JCS exists per level; represented here as one composite regional joint pending Stage 2 per-vertebra modeling, see docs/ROADMAP.md)",
+    "center_definition": "composite motion segment representing C0-C7, referenced at the atlanto-occipital joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -60, "max_deg": 50, "rom_source": "AAOS (1965) cervical spine norms: flexion ~50deg, extension ~60deg"},
+      {"axis_name": "lateral_bending", "min_deg": -45, "max_deg": 45, "rom_source": "AAOS (1965)"},
+      {"axis_name": "axial_rotation", "min_deg": -80, "max_deg": 80, "rom_source": "AAOS (1965); ~50% of cervical rotation occurs at atlantoaxial (C1-C2) level alone"}
+    ],
+    "coupled_motion_notes": "~50% of total cervical axial rotation occurs at the atlantoaxial (C1-C2) joint alone; C0-C1 contributes most flexion/extension. Represented as one composite joint pending per-vertebra Stage 2 refinement.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "thoracic_spine", "name_ta": "Columna vertebralis thoracica (composite)",
+    "parent_bone": "cervical_vertebrae", "child_bone": "thoracic_vertebrae", "joint_type": "compound",
+    "coordinate_system_standard": "none - custom (composite regional joint)",
+    "center_definition": "composite T1-T12 motion segment",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -20, "max_deg": 30, "rom_source": "AAOS (1965); rib cage substantially restricts thoracic sagittal motion"},
+      {"axis_name": "lateral_bending", "min_deg": -25, "max_deg": 25, "rom_source": "AAOS (1965)"},
+      {"axis_name": "axial_rotation", "min_deg": -30, "max_deg": 30, "rom_source": "AAOS (1965); most trunk axial rotation occurs in the thoracic region due to facet joint orientation"}
+    ],
+    "coupled_motion_notes": "Costovertebral/costotransverse joints couple rib motion to thoracic spine motion; represented as one composite joint pending Stage 2 per-vertebra refinement.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "lumbar_spine", "name_ta": "Columna vertebralis lumbalis (composite)",
+    "parent_bone": "thoracic_vertebrae", "child_bone": "lumbar_vertebrae", "joint_type": "compound",
+    "coordinate_system_standard": "none - custom (composite regional joint)",
+    "center_definition": "composite L1-L5 motion segment",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -15, "max_deg": 50, "rom_source": "AAOS (1965); lumbar spine contributes most of trunk flexion"},
+      {"axis_name": "lateral_bending", "min_deg": -20, "max_deg": 20, "rom_source": "AAOS (1965)"},
+      {"axis_name": "axial_rotation", "min_deg": -5, "max_deg": 5, "rom_source": "AAOS (1965); lumbar facet orientation strongly restricts axial rotation"}
+    ],
+    "coupled_motion_notes": "Represented as one composite joint pending Stage 2 per-vertebra refinement.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "lumbosacral", "name_ta": "Articulatio lumbosacralis",
+    "parent_bone": "lumbar_vertebrae", "child_bone": "sacrum", "joint_type": "compound",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "L5-S1 disc center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -10, "max_deg": 15, "rom_source": "AAOS (1965)"},
+      {"axis_name": "lateral_bending", "min_deg": -5, "max_deg": 5, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "sacrococcygeal", "name_ta": "Articulatio sacrococcygea",
+    "parent_bone": "sacrum", "child_bone": "coccyx", "joint_type": "hinge",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "sacrococcygeal symphysis",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -5, "max_deg": 30, "rom_source": "Gray's Anatomy for Students 4th ed. ch.5 — passive flexion increases during defecation/childbirth"}
+    ],
+    "source": "Gray's Anatomy for Students 4th ed. ch.5"
+  },
+  {
+    "id": "sacroiliac_r", "name_ta": "Articulatio sacroiliaca",
+    "parent_bone": "sacrum", "child_bone": "hip_bone_r", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "auricular surface centroid",
+    "degrees_of_freedom": [
+      {"axis_name": "nutation_counternutation", "min_deg": -2, "max_deg": 2, "rom_source": "Gray's Anatomy for Students 4th ed. ch.6 — SI joint is a strong, near-rigid load-transfer joint with only a few degrees of physiological micromotion in healthy adults"}
+    ],
+    "source": "Gray's Anatomy for Students 4th ed. ch.6"
+  },
+  {
+    "id": "sacroiliac_l", "name_ta": "Articulatio sacroiliaca",
+    "parent_bone": "sacrum", "child_bone": "hip_bone_l", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "auricular surface centroid",
+    "degrees_of_freedom": [
+      {"axis_name": "nutation_counternutation", "min_deg": -2, "max_deg": 2, "rom_source": "Gray's Anatomy for Students 4th ed. ch.6"}
+    ],
+    "source": "Gray's Anatomy for Students 4th ed. ch.6"
+  },
+
+  {
+    "id": "sternoclavicular_r", "name_ta": "Articulatio sternoclavicularis",
+    "parent_bone": "sternum", "child_bone": "clavicle_r", "joint_type": "saddle",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992 — ISB shoulder girdle recommendation",
+    "center_definition": "SC joint center per ISB shoulder recommendation",
+    "degrees_of_freedom": [
+      {"axis_name": "elevation_depression", "min_deg": -10, "max_deg": 45, "rom_source": "Wu et al. (2005); van der Helm biomechanical shoulder rig conventions"},
+      {"axis_name": "protraction_retraction", "min_deg": -15, "max_deg": 30, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "axial_rotation", "min_deg": -30, "max_deg": 30, "rom_source": "Wu et al. (2005)"}
+    ],
+    "coupled_motion_notes": "Part of the scapulothoracic/shoulder-girdle kinematic chain; SC, AC and scapulothoracic motions are coupled (scapulohumeral rhythm).",
+    "source": "Wu G et al. (2005) J Biomech 38:981-992 (ISB shoulder recommendation)"
+  },
+  {
+    "id": "sternoclavicular_l", "name_ta": "Articulatio sternoclavicularis",
+    "parent_bone": "sternum", "child_bone": "clavicle_l", "joint_type": "saddle",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "SC joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "elevation_depression", "min_deg": -10, "max_deg": 45, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "protraction_retraction", "min_deg": -15, "max_deg": 30, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "axial_rotation", "min_deg": -30, "max_deg": 30, "rom_source": "Wu et al. (2005)"}
+    ],
+    "source": "Wu G et al. (2005) J Biomech 38:981-992"
+  },
+  {
+    "id": "acromioclavicular_r", "name_ta": "Articulatio acromioclavicularis",
+    "parent_bone": "clavicle_r", "child_bone": "scapula_r", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "AC joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "upward_downward_rotation", "min_deg": -20, "max_deg": 20, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "internal_external_rotation", "min_deg": -30, "max_deg": 30, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "anterior_posterior_tilt", "min_deg": -20, "max_deg": 20, "rom_source": "Wu et al. (2005)"}
+    ],
+    "coupled_motion_notes": "Scapulohumeral rhythm: ~2 degrees of glenohumeral elevation per 1 degree of scapular upward rotation during arm elevation (Inman et al. 1944 classic ratio, refined by later studies).",
+    "source": "Wu G et al. (2005) J Biomech 38:981-992"
+  },
+  {
+    "id": "acromioclavicular_l", "name_ta": "Articulatio acromioclavicularis",
+    "parent_bone": "clavicle_l", "child_bone": "scapula_l", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "AC joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "upward_downward_rotation", "min_deg": -20, "max_deg": 20, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "internal_external_rotation", "min_deg": -30, "max_deg": 30, "rom_source": "Wu et al. (2005)"},
+      {"axis_name": "anterior_posterior_tilt", "min_deg": -20, "max_deg": 20, "rom_source": "Wu et al. (2005)"}
+    ],
+    "source": "Wu G et al. (2005) J Biomech 38:981-992"
+  },
+  {
+    "id": "glenohumeral_r", "name_ta": "Articulatio glenohumeralis",
+    "parent_bone": "scapula_r", "child_bone": "humerus_r", "joint_type": "ball_and_socket",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992 — ISB shoulder JCS",
+    "center_definition": "glenohumeral joint center (regression-estimated from scapular landmarks per ISB)",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -60, "max_deg": 180, "rom_source": "AAOS (1965): flexion 0-180, extension 0-60"},
+      {"axis_name": "abduction_adduction", "min_deg": -30, "max_deg": 180, "rom_source": "AAOS (1965): abduction 0-180; ~30deg cross-body adduction"},
+      {"axis_name": "internal_external_rotation", "min_deg": -90, "max_deg": 90, "rom_source": "AAOS (1965): with arm at side, IR 0-70/ER 0-90; combined envelope widens with abduction"}
+    ],
+    "coupled_motion_notes": "Scapulohumeral rhythm couples this joint's ROM with acromioclavicular_r and sternoclavicular_r motion (Inman et al. 1944 ~2:1 glenohumeral:scapular ratio during elevation).",
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "glenohumeral_l", "name_ta": "Articulatio glenohumeralis",
+    "parent_bone": "scapula_l", "child_bone": "humerus_l", "joint_type": "ball_and_socket",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "glenohumeral joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -60, "max_deg": 180, "rom_source": "AAOS (1965)"},
+      {"axis_name": "abduction_adduction", "min_deg": -30, "max_deg": 180, "rom_source": "AAOS (1965)"},
+      {"axis_name": "internal_external_rotation", "min_deg": -90, "max_deg": 90, "rom_source": "AAOS (1965)"}
+    ],
+    "coupled_motion_notes": "Scapulohumeral rhythm couples this joint with acromioclavicular_l and sternoclavicular_l.",
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "elbow_r", "name_ta": "Articulatio cubiti (humeroulnaris)",
+    "parent_bone": "humerus_r", "child_bone": "ulna_r", "joint_type": "hinge",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992 — ISB elbow JCS",
+    "center_definition": "trochlear-capitular axis midpoint",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": 0, "max_deg": 145, "rom_source": "AAOS (1965): 0-145 deg; some individuals show 0-10deg hyperextension"}
+    ],
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "elbow_l", "name_ta": "Articulatio cubiti (humeroulnaris)",
+    "parent_bone": "humerus_l", "child_bone": "ulna_l", "joint_type": "hinge",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "trochlear-capitular axis midpoint",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": 0, "max_deg": 145, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "radioulnar_r", "name_ta": "Articulationes radioulnares (proximal + distal, composite)",
+    "parent_bone": "ulna_r", "child_bone": "radius_r", "joint_type": "pivot",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992 — ISB forearm axis",
+    "center_definition": "forearm rotation axis: radial head center to distal ulnar head center (per ISB)",
+    "degrees_of_freedom": [
+      {"axis_name": "pronation_supination", "min_deg": -80, "max_deg": 85, "rom_source": "AAOS (1965): pronation 0-80, supination 0-85"}
+    ],
+    "coupled_motion_notes": "Proximal and distal radioulnar joints move as one functional unit (closed kinematic chain with the interosseous membrane); modeled as a single composite pivot per standard biomechanical convention (cf. Holzbaur/Delp upper-extremity model).",
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "radioulnar_l", "name_ta": "Articulationes radioulnares (proximal + distal, composite)",
+    "parent_bone": "ulna_l", "child_bone": "radius_l", "joint_type": "pivot",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "forearm rotation axis",
+    "degrees_of_freedom": [
+      {"axis_name": "pronation_supination", "min_deg": -80, "max_deg": 85, "rom_source": "AAOS (1965)"}
+    ],
+    "coupled_motion_notes": "Composite proximal+distal radioulnar joint, per standard biomechanical convention.",
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "wrist_r", "name_ta": "Articulatio radiocarpalis + mediocarpalis (composite)",
+    "parent_bone": "radius_r", "child_bone": "carpals_r", "joint_type": "condyloid",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992 — ISB wrist JCS (radiocarpal+midcarpal combined per ISB recommendation)",
+    "center_definition": "wrist joint center (capitate head, per ISB)",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -70, "max_deg": 80, "rom_source": "AAOS (1965): flexion 0-80, extension 0-70"},
+      {"axis_name": "radial_ulnar_deviation", "min_deg": -20, "max_deg": 30, "rom_source": "AAOS (1965): radial deviation 0-20, ulnar deviation 0-30"}
+    ],
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "wrist_l", "name_ta": "Articulatio radiocarpalis + mediocarpalis (composite)",
+    "parent_bone": "radius_l", "child_bone": "carpals_l", "joint_type": "condyloid",
+    "coordinate_system_standard": "Wu et al. (2005) J Biomech 38:981-992",
+    "center_definition": "wrist joint center (capitate head)",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -70, "max_deg": 80, "rom_source": "AAOS (1965)"},
+      {"axis_name": "radial_ulnar_deviation", "min_deg": -20, "max_deg": 30, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "Wu G et al. (2005) J Biomech 38:981-992; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "first_carpometacarpal_r", "name_ta": "Articulatio carpometacarpalis pollicis",
+    "parent_bone": "carpals_r", "child_bone": "metacarpals_r", "joint_type": "saddle",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "trapezium-1st metacarpal base saddle joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -15, "max_deg": 20, "rom_source": "AAOS (1965)"},
+      {"axis_name": "abduction_adduction", "min_deg": 0, "max_deg": 70, "rom_source": "AAOS (1965): palmar abduction ~70deg"},
+      {"axis_name": "opposition", "min_deg": 0, "max_deg": 45, "rom_source": "AAOS (1965); composite motion, degree-equivalent approximation of pronation component of opposition"}
+    ],
+    "coupled_motion_notes": "Opposition is a composite (flexion+abduction+pronation) enabled by the saddle geometry, not a single independent axis; approximated here as a 3rd DOF per common simplified hand-rig convention.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "first_carpometacarpal_l", "name_ta": "Articulatio carpometacarpalis pollicis",
+    "parent_bone": "carpals_l", "child_bone": "metacarpals_l", "joint_type": "saddle",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "trapezium-1st metacarpal base saddle joint center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -15, "max_deg": 20, "rom_source": "AAOS (1965)"},
+      {"axis_name": "abduction_adduction", "min_deg": 0, "max_deg": 70, "rom_source": "AAOS (1965)"},
+      {"axis_name": "opposition", "min_deg": 0, "max_deg": 45, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "metacarpophalangeal_r", "name_ta": "Articulationes metacarpophalangeae II-V (representative)",
+    "parent_bone": "metacarpals_r", "child_bone": "phalanges_hand_r", "joint_type": "condyloid",
+    "coordinate_system_standard": "none - custom (composite representing digits II-V; per-digit modeling is a Stage-2+ refinement, see docs/ROADMAP.md)",
+    "center_definition": "metacarpal head center, representative digit",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -30, "max_deg": 90, "rom_source": "AAOS (1965): MCP flexion 0-90, hyperextension 0-30"},
+      {"axis_name": "abduction_adduction", "min_deg": -20, "max_deg": 20, "rom_source": "AAOS (1965)"}
+    ],
+    "coupled_motion_notes": "PIP/DIP joints of the fingers and IP joint of the thumb are not separately instantiated in this breadth pass (all phalanges of one hand are grouped as phalanges_hand_* per data/skeleton/bones.json); their flexion/extension ROM (PIP 0-100, DIP 0-90 per AAOS 1965) is documented here for future per-phalanx refinement.",
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "metacarpophalangeal_l", "name_ta": "Articulationes metacarpophalangeae II-V (representative)",
+    "parent_bone": "metacarpals_l", "child_bone": "phalanges_hand_l", "joint_type": "condyloid",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "metacarpal head center, representative digit",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -30, "max_deg": 90, "rom_source": "AAOS (1965)"},
+      {"axis_name": "abduction_adduction", "min_deg": -20, "max_deg": 20, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+
+  {
+    "id": "hip_r", "name_ta": "Articulatio coxae",
+    "parent_bone": "hip_bone_r", "child_bone": "femur_r", "joint_type": "ball_and_socket",
+    "coordinate_system_standard": "Wu et al. (2002) J Biomech 35:543-548 — ISB hip JCS",
+    "center_definition": "acetabular (femoral head) center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -30, "max_deg": 120, "rom_source": "AAOS (1965): flexion 0-120 (up to ~145 with knee flexed), extension 0-30"},
+      {"axis_name": "abduction_adduction", "min_deg": -30, "max_deg": 45, "rom_source": "AAOS (1965): abduction 0-45, adduction 0-30"},
+      {"axis_name": "internal_external_rotation", "min_deg": -35, "max_deg": 45, "rom_source": "AAOS (1965): internal rotation 0-35, external rotation 0-45"}
+    ],
+    "source": "Wu G et al. (2002) J Biomech 35:543-548; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "hip_l", "name_ta": "Articulatio coxae",
+    "parent_bone": "hip_bone_l", "child_bone": "femur_l", "joint_type": "ball_and_socket",
+    "coordinate_system_standard": "Wu et al. (2002) J Biomech 35:543-548",
+    "center_definition": "acetabular (femoral head) center",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -30, "max_deg": 120, "rom_source": "AAOS (1965)"},
+      {"axis_name": "abduction_adduction", "min_deg": -30, "max_deg": 45, "rom_source": "AAOS (1965)"},
+      {"axis_name": "internal_external_rotation", "min_deg": -35, "max_deg": 45, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "Wu G et al. (2002) J Biomech 35:543-548; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "knee_r", "name_ta": "Articulatio genus (tibiofemoralis)",
+    "parent_bone": "femur_r", "child_bone": "tibia_r", "joint_type": "hinge",
+    "coordinate_system_standard": "Wu et al. (2002) J Biomech 35:543-548 — ISB knee JCS",
+    "center_definition": "femoral epicondylar axis midpoint",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": 0, "max_deg": 135, "rom_source": "AAOS (1965): active flexion 0-135, up to ~150 passive"},
+      {"axis_name": "internal_external_rotation", "min_deg": -10, "max_deg": 30, "rom_source": "Wu et al. (2002); tibial 'screw-home' rotation, only available near full extension/early flexion"}
+    ],
+    "coupled_motion_notes": "Screw-home mechanism: ~10-15deg obligatory external tibial rotation during terminal extension, coupled (not independently controllable) with the flexion-extension axis.",
+    "source": "Wu G et al. (2002) J Biomech 35:543-548; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "knee_l", "name_ta": "Articulatio genus (tibiofemoralis)",
+    "parent_bone": "femur_l", "child_bone": "tibia_l", "joint_type": "hinge",
+    "coordinate_system_standard": "Wu et al. (2002) J Biomech 35:543-548",
+    "center_definition": "femoral epicondylar axis midpoint",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": 0, "max_deg": 135, "rom_source": "AAOS (1965)"},
+      {"axis_name": "internal_external_rotation", "min_deg": -10, "max_deg": 30, "rom_source": "Wu et al. (2002)"}
+    ],
+    "coupled_motion_notes": "Screw-home mechanism coupled with flexion-extension.",
+    "source": "Wu G et al. (2002) J Biomech 35:543-548; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "patellofemoral_r", "name_ta": "Articulatio femoropatellaris",
+    "parent_bone": "femur_r", "child_bone": "patella_r", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "none - custom (tracks knee_r flexion via the quadriceps/patellar-ligament path, not an independent DOF)",
+    "center_definition": "patella centroid within the trochlear groove",
+    "degrees_of_freedom": [
+      {"axis_name": "tracking_flexion_extension", "min_deg": 0, "max_deg": 135, "rom_source": "Slaved to knee_r flexion_extension via the quadriceps/patellar tendon path (via-point mechanism, see schema/muscle.schema.json attachments.via_points)"}
+    ],
+    "coupled_motion_notes": "Not an independent DOF: patellar position is fully determined by knee flexion angle plus the quadriceps tendon/patellar ligament via-point path.",
+    "source": "Gray's Anatomy for Students 4th ed. ch.6"
+  },
+  {
+    "id": "patellofemoral_l", "name_ta": "Articulatio femoropatellaris",
+    "parent_bone": "femur_l", "child_bone": "patella_l", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "patella centroid within the trochlear groove",
+    "degrees_of_freedom": [
+      {"axis_name": "tracking_flexion_extension", "min_deg": 0, "max_deg": 135, "rom_source": "Slaved to knee_l flexion_extension"}
+    ],
+    "source": "Gray's Anatomy for Students 4th ed. ch.6"
+  },
+  {
+    "id": "proximal_tibiofibular_r", "name_ta": "Articulatio tibiofibularis",
+    "parent_bone": "tibia_r", "child_bone": "fibula_r", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "fibular head facet",
+    "degrees_of_freedom": [
+      {"axis_name": "gliding_rotation", "min_deg": -4, "max_deg": 4, "rom_source": "Gray's Anatomy for Students 4th ed. ch.6 — minimal-motion syndesmotic-type joint, coupled to ankle dorsiflexion via the interosseous membrane"}
+    ],
+    "source": "Gray's Anatomy for Students 4th ed. ch.6"
+  },
+  {
+    "id": "proximal_tibiofibular_l", "name_ta": "Articulatio tibiofibularis",
+    "parent_bone": "tibia_l", "child_bone": "fibula_l", "joint_type": "plane_gliding",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "fibular head facet",
+    "degrees_of_freedom": [
+      {"axis_name": "gliding_rotation", "min_deg": -4, "max_deg": 4, "rom_source": "Gray's Anatomy for Students 4th ed. ch.6"}
+    ],
+    "source": "Gray's Anatomy for Students 4th ed. ch.6"
+  },
+  {
+    "id": "ankle_r", "name_ta": "Articulatio talocruralis + subtalaris (composite ankle complex)",
+    "parent_bone": "tibia_r", "child_bone": "tarsals_r", "joint_type": "hinge",
+    "coordinate_system_standard": "Wu et al. (2002) J Biomech 35:543-548 — ISB ankle JCS",
+    "center_definition": "talocrural axis (malleolar axis)",
+    "degrees_of_freedom": [
+      {"axis_name": "dorsiflexion_plantarflexion", "min_deg": -50, "max_deg": 20, "rom_source": "AAOS (1965): dorsiflexion 0-20, plantarflexion 0-50 (talocrural joint)"},
+      {"axis_name": "inversion_eversion", "min_deg": -35, "max_deg": 15, "rom_source": "AAOS (1965): inversion 0-35, eversion 0-15 (anatomically the subtalar joint; combined into the ankle complex here per the same simplification convention used in OpenSim's gait2392 model)"}
+    ],
+    "coupled_motion_notes": "Anatomically two joints (talocrural: dorsi/plantarflexion; subtalar: inversion/eversion) combined here as an 'ankle complex' pending Stage-1 per-joint refinement.",
+    "source": "Wu G et al. (2002) J Biomech 35:543-548; AAOS Joint Motion (1965); Delp SL et al. (1990) IEEE Trans Biomed Eng 37:757-767 (gait2392 ankle-complex convention)"
+  },
+  {
+    "id": "ankle_l", "name_ta": "Articulatio talocruralis + subtalaris (composite ankle complex)",
+    "parent_bone": "tibia_l", "child_bone": "tarsals_l", "joint_type": "hinge",
+    "coordinate_system_standard": "Wu et al. (2002) J Biomech 35:543-548",
+    "center_definition": "talocrural axis (malleolar axis)",
+    "degrees_of_freedom": [
+      {"axis_name": "dorsiflexion_plantarflexion", "min_deg": -50, "max_deg": 20, "rom_source": "AAOS (1965)"},
+      {"axis_name": "inversion_eversion", "min_deg": -35, "max_deg": 15, "rom_source": "AAOS (1965)"}
+    ],
+    "coupled_motion_notes": "Composite talocrural+subtalar ankle complex.",
+    "source": "Wu G et al. (2002) J Biomech 35:543-548; AAOS Joint Motion (1965)"
+  },
+  {
+    "id": "metatarsophalangeal_r", "name_ta": "Articulationes metatarsophalangeae (representative)",
+    "parent_bone": "metatarsals_r", "child_bone": "phalanges_foot_r", "joint_type": "condyloid",
+    "coordinate_system_standard": "none - custom (composite representing all 5 toes; per-toe modeling is a Stage-2+ refinement)",
+    "center_definition": "metatarsal head center, representative digit",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -45, "max_deg": 80, "rom_source": "AAOS (1965): MTP dorsiflexion 0-80 (great toe), plantarflexion 0-45"}
+    ],
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  },
+  {
+    "id": "metatarsophalangeal_l", "name_ta": "Articulationes metatarsophalangeae (representative)",
+    "parent_bone": "metatarsals_l", "child_bone": "phalanges_foot_l", "joint_type": "condyloid",
+    "coordinate_system_standard": "none - custom",
+    "center_definition": "metatarsal head center, representative digit",
+    "degrees_of_freedom": [
+      {"axis_name": "flexion_extension", "min_deg": -45, "max_deg": 80, "rom_source": "AAOS (1965)"}
+    ],
+    "source": "AAOS Joint Motion: Method of Measuring and Recording (1965)"
+  }
+]

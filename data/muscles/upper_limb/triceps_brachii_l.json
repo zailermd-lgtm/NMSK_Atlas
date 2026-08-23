@@ -1,0 +1,178 @@
+{
+  "id": "triceps_brachii_l",
+  "name_ta": "Musculus triceps brachii",
+  "name_common": "Triceps brachii",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "scapula_l",
+    "origin_landmark": "long head: infraglenoid tubercle; lateral head: posterior humerus, proximal to spiral groove (humerus_r); medial head: posterior humerus, distal to spiral groove (humerus_r)",
+    "insertion_bone": "ulna_l",
+    "insertion_landmark": "olecranon process",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "radial_n_l",
+    "root_levels": "C6-C8"
+  },
+  "blood_supply": [
+    "profunda_brachii_a_l",
+    "brachial_a_l_muscular_branches"
+  ],
+  "actions": [
+    "extends elbow (all heads)",
+    "extends and adducts shoulder (long head only)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "triceps_brachii_l_long_head",
+      "name": "Long head",
+      "innervation_branch": "radial n., branch to long head (proximal)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 12,
+        "optimal_fascicle_length_mm": 130,
+        "physiological_cross_section_area_mm2": 570.0,
+        "max_isometric_force_N": 142.5,
+        "tendon_slack_length_mm": 190
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          5,
+          -30,
+          -5
+        ],
+        [
+          10,
+          -40,
+          -10
+        ],
+        [
+          0,
+          -45,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Only head crossing the shoulder; contributes to shoulder extension/adduction as well as elbow extension.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+    },
+    {
+      "id": "triceps_brachii_l_lateral_head",
+      "name": "Lateral head",
+      "innervation_branch": "radial n., branch to lateral head (proximal, above spiral groove)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 9,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 590.0,
+        "max_isometric_force_N": 147.5,
+        "tendon_slack_length_mm": 100
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -160,
+          -15
+        ],
+        [
+          -20,
+          -170,
+          -15
+        ],
+        [
+          -10,
+          -175,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Superficial, strongest elbow-extension moment arm of the three heads.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+    },
+    {
+      "id": "triceps_brachii_l_medial_head_superficial",
+      "name": "Medial head, superficial subregion",
+      "innervation_branch": "radial n., branch to medial head (distal, below spiral groove)",
+      "fiber_architecture": {
+        "architecture_type": "bipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 70,
+        "physiological_cross_section_area_mm2": 450.0,
+        "max_isometric_force_N": 112.5,
+        "tendon_slack_length_mm": 80
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          -200,
+          -10
+        ],
+        [
+          5,
+          -210,
+          -10
+        ],
+        [
+          15,
+          -215,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "along the central tendinous raphe",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Deep to long/lateral heads; active across the full range of elbow extension including low-force postural tasks (documented 'workhorse' recruitment pattern).",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); architecture note consistent with described deep/superficial subdivision of the medial head in cadaveric dissection studies"
+    },
+    {
+      "id": "triceps_brachii_l_medial_head_deep",
+      "name": "Medial head, deep subregion (adjacent to elbow joint capsule)",
+      "innervation_branch": "radial n., distal terminal twigs to medial head (continues as ulnar collateral/articular branch)",
+      "fiber_architecture": {
+        "architecture_type": "bipennate",
+        "pennation_deg": 18,
+        "optimal_fascicle_length_mm": 55,
+        "physiological_cross_section_area_mm2": 200.0,
+        "max_isometric_force_N": 50.0,
+        "tendon_slack_length_mm": 60
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          -215,
+          -5
+        ],
+        [
+          15,
+          -225,
+          0
+        ],
+        [
+          20,
+          -220,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "along the central tendinous raphe",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Fibers blending into the posterior elbow joint capsule (articularis cubiti-like function), tensing the capsule during extension to prevent impingement.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes deepest medial-head fibers inserting into the posterior joint capsule)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model"
+}
