@@ -30,11 +30,13 @@ def _mirror_value(v):
     if isinstance(v, dict):
         return {k: _mirror_value(x) for k, x in v.items()}
     if isinstance(v, str):
-        # matches '_r' immediately followed by another '_' or end-of-string,
-        # e.g. 'deltoid_r' -> 'deltoid_l', 'deltoid_r_anterior_1' -> 'deltoid_l_anterior_1'.
+        # matches '_r' immediately followed by an id/punctuation boundary
+        # (another '_', ')', '/', whitespace, ',', '.') or end-of-string,
+        # e.g. 'deltoid_r' -> 'deltoid_l', 'deltoid_r_anterior_1' -> 'deltoid_l_anterior_1',
+        # '(humerus_r)' -> '(humerus_l)', 'carpals_r/metacarpals_r' -> both flipped.
         # Deliberately does NOT touch plain English text (free-form notes), which never
-        # contain a literal underscore immediately before/after 'r'.
-        v2 = re.sub(r"_r(?=_|$)", "_l", v)
+        # contain a literal underscore immediately before 'r'.
+        v2 = re.sub(r"_r(?=[_)/\s,.]|$)", "_l", v)
         if v == "right":
             v2 = "left"
         return v2
