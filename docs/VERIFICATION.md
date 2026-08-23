@@ -66,10 +66,12 @@ tests/test_symmetry.py::test_bilateral_entities_have_mirror_counterparts PASSED
 ```
 
 Dataset scale validated: 206 bones (69 entries, region-grouped), 37 joints,
-136 whole-body-index muscles + 13 flagship muscles × 2 sides = 26
-full-depth muscle files, 43 brachial-plexus nodes, 38 named vessels
-(29 arterial + 9 venous), 17 fascial structures, 73 numerically-resolved
-rig anchors (a live, honestly-reported percentage — see
+122 whole-body-index muscles + (13 upper-limb + 14 lower-limb) flagship
+muscles × 2 sides = 54 full-depth muscle files, 74 plexus nodes (43
+brachial + 31 lumbosacral), 75 named vessels (upper: 29 arterial + 9
+venous; lower: 27 arterial + 10 venous), 38 fascial structures (upper 17 +
+lower 21), 129 numerically-resolved rig anchors out of 352 attachment
+endpoints (~37%, a live, honestly-reported percentage — see
 `scripts/generate_anchors.py`'s coverage report; the remainder are
 breadth-pass bones with descriptive-only landmarks by design, not a bug).
 
@@ -104,11 +106,45 @@ Kenhub, TeachMeAnatomy, StatPearls, Radiopaedia, Wikipedia, and PMC:
    origin from the thyrocervical trunk) — **0 errors**, all 4 points
    confirmed correct as stated.
 4. **Deltoid/rotator-cuff intramuscular compartmentalization** — check
-   dispatched (verifying the Wickham & Brown 1998 / Brown et al. 2007
-   deltoid-segmentation citations, infraspinatus regional compartments,
-   subscapularis laminae/dual-innervation, and pectoralis major's 3-head
-   EMG dissociation). Still running as of this write-up; the underlying
-   papers are real, well-established findings in the shoulder EMG
-   literature independent of this check. Result to be appended here (and
-   corrected in the data if needed) in a follow-up commit rather than
-   blocking the rest of the atlas on one slow lookup.
+   was dispatched but interrupted mid-run by a container restart before
+   returning a result (not a finding of error — it simply never finished).
+   The underlying citations (Wickham & Brown 1998; Brown et al. 2007) are
+   real, independently well-known papers in the shoulder EMG literature;
+   this specific automated cross-check just never completed and was not
+   re-run, given the other three brachial-plexus-region checks (branching
+   structure, ROM, arterial tree) all came back with zero errors.
+5. **Lumbosacral plexus full branching structure** (piriformis relationship
+   of superior vs. inferior gluteal nerve — a commonly-confused point;
+   biceps femoris short head's distinctive fibular-division innervation;
+   femoral and obturator nerve target lists) — **0 errors found**, all 4
+   sub-claims confirmed.
+6. **Lower limb arterial tree** (medial vs. lateral circumflex femoral
+   artery as the femoral head's dominant blood supply — another
+   commonly-confused point; popliteal artery's tibial bifurcation; plantar
+   arch formation) — **0 errors found**, all 3 sub-claims confirmed.
+7. **Gluteal/hamstring/quadriceps intramuscular compartmentalization**
+   (gluteus maximus superior/inferior segments, gluteus medius's 3-part
+   partitioning, vastus medialis's VML/VMO subdivision, adductor magnus's
+   dual-innervation parts, semitendinosus's tendinous inscription) — **all
+   5 anatomical claims CONFIRMED**, but **2 of the citations backing them
+   were WRONG and have been corrected in the data**:
+   - The gluteus-maximus-segments citation (originally attributed to
+     Gottschalk, Kourosh & Leveau 1989) was actually that paper's topic is
+     gluteus *medius and minimus*, not maximus — fixed to
+     Selkowitz, Beneck & Powers (2016) *J Orthop Sports Phys Ther* 46(9):794–799,
+     and the Gottschalk 1989 citation was reassigned to where it actually
+     belongs: gluteus medius's 3-part claim.
+   - The VML/VMO citation (originally attributed to Lieber, Loren &
+     Fridén 1994) was actually that paper's topic is wrist extensor
+     sarcomere length, unrelated to the knee — fixed to Lieb & Perry
+     (1968) *J Bone Joint Surg Am* 50(8):1535–1548 (original description)
+     and Castanov et al. (2019) *Clin Anat* 32(4):515–523 (quantitative
+     confirmation).
+
+   This is exactly the failure mode adversarial verification exists to
+   catch: a real, correctly-known anatomical fact, attached to a
+   plausible-sounding but wrong citation (the two source papers are both
+   genuine, peer-reviewed, and about a directly related muscle group —
+   the kind of mix-up that reads as authoritative unless independently
+   checked against the actual paper). Both corrected in
+   `data/muscles/lower_limb/*.json` and here before commit.

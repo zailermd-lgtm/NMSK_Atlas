@@ -44,7 +44,7 @@ throughout the dataset, stated once here rather than repeated on every file:
 **Muscle architecture**
 - Holzbaur KR, Murray WM, Delp SL (2005) "A model of the upper extremity for simulating musculoskeletal surgery and analyzing neuromuscular control." *Ann Biomed Eng* 33(6):829–840.
 - Lieber RL, Fridén J (2000) "Functional and clinical significance of skeletal muscle architecture." *Muscle Nerve* 23:1647–1666.
-- Ward SR et al. (2009) "Are current measurements of lower extremity muscle architecture accurate?" *Clin Orthop Relat Res* 467:1074–1082 (cited for the lower-limb roadmap stage; not yet used in committed data).
+- Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) "Are current measurements of lower extremity muscle architecture accurate?" *Clin Orthop Relat Res* 467:1074–1082 — primary source for lower-limb fascicle length/PCSA representative values.
 - Fridén J, Lieber RL (2003) "Spec ific tension of human skeletal muscle" — representative in-vivo specific-tension estimate used to compute illustrative `max_isometric_force_N`.
 
 **Intramuscular functional compartmentalization**
@@ -52,6 +52,12 @@ throughout the dataset, stated once here rather than repeated on every file:
 - Brown JM et al. (2007) "Muscles within muscles: coordination of 19 muscle segments within three shoulder muscles during isometric motor tasks." *J Electromyogr Kinesiol* 17:57–73.
 - Fabrizio PA, Clemente FR (2011) "Anatomic compartmentalization of infraspinatus." *J Anat* 219(3):303–310.
 - von Schroeder HP, Botte MJ (1993) "Anatomy of the extensor tendons of the fingers: variations and multiplicity." *J Hand Surg Am* 18(1):16–20 (FDP/extensor compartment anatomy).
+- Gottschalk F, Kourosh S, Leveau B (1989) "The functional anatomy of tensor fasciae latae and gluteus medius and minimus." *J Anat* 166:179–189 — describes gluteus medius's three functionally-graded parts (anterior/middle/posterior).
+- Selkowitz DM, Beneck GJ, Powers CM (2016) "Comparison of Electromyographic Activity of the Superior and Inferior Portions of the Gluteus Maximus Muscle During Common Therapeutic Exercises." *J Orthop Sports Phys Ther* 46(9):794–799 — fine-wire EMG confirming gluteus maximus's superior/inferior functional segments (corrects an earlier draft's misattribution of this claim to Gottschalk et al. 1989, which is actually about gluteus medius/minimus — caught by adversarial fact-check, see docs/VERIFICATION.md).
+- Lieb FJ, Perry J (1968) "Quadriceps function: an anatomical and mechanical study using amputated limbs." *J Bone Joint Surg Am* 50(8):1535–1548 — original description dividing vastus medialis into proximal VML and distal VMO.
+- Castanov V et al. (2019) "Muscle architecture of vastus medialis obliquus and longus and its functional implications: A three-dimensional investigation." *Clin Anat* 32(4):515–523 — quantitative pennation-angle confirmation of the VML/VMO distinction (corrects an earlier draft's citation of Lieber, Loren & Fridén 1994, which is actually about wrist extensor sarcomere length, unrelated to the knee — caught by adversarial fact-check).
+- Takizawa M et al. (2013) "The adductor part of the adductor magnus is innervated by both obturator and sciatic nerves." *Clin Anat* 27(5):778–782 — refines/confirms adductor magnus's dual-innervation adductor+hamstring parts.
+- Kellis E et al. (2011) "In vivo and in vitro examination of the tendinous inscription of the human semitendinosus muscle." *Cells Tissues Organs* 195(4):365–376.
 
 **Fascia**
 - Stecco C. *Functional Atlas of the Human Fascial System*. Churchill Livingstone/Elsevier, 2015.

@@ -1,27 +1,37 @@
 # NMSK Atlas — Roadmap to full whole-body, 1mm-verified coverage
 
-This repo delivers, in this pass: the full architecture, whole-body breadth
-data (skeleton, joints, nerve roots, muscle index), and one fully-detailed,
-fully-verified flagship region (upper limb, shoulder→hand — chosen because
-it is the single region that exercises every requirement richly: complex
-joints, pennate + parallel + multipennate muscles, documented intramuscular
-compartments, a full plexus, full named arterial/venous trees, and a dense
-fascial/retinacular/pulley system).
+This repo delivers, so far: the full architecture, whole-body breadth
+data (skeleton, joints, nerve roots, muscle index), and **two** fully-
+detailed, fully-verified flagship regions:
+- **Upper limb** (shoulder→hand) — 13 muscles, brachial plexus (43 nodes),
+  named arterial+venous trees (38 vessels), fascial/retinacular/pulley
+  system (17 structures).
+- **Lower limb** (pelvis→foot) — 14 muscles, lumbosacral plexus (31 nodes),
+  named arterial+venous trees (37 vessels), fascial compartment system
+  (21 structures).
+
+Both regions were chosen/completed because together they exercise every
+requirement richly: complex joints, pennate/parallel/multipennate/fusiform
+muscles, documented intramuscular compartments, full plexuses down to
+motor points, full named arterial/venous trees, and dense fascial/
+retinacular/pulley systems — all left/right mirrored, schema-validated,
+and adversarially fact-checked (docs/VERIFICATION.md).
 
 Extending to the rest of the body uses the **same schemas, same generator,
 same validators** — it is bounded, well-scoped data-authoring work, staged
 as follows:
 
-## Stage 1 — Lower limb kinetic chain (pelvis → foot)
-- Mirror the upper-limb methodology: hip/knee/ankle/foot joints + ROM,
-  ~40 muscles with real architecture (Ward et al. 2009 is the standard
-  cadaver source), lumbosacral plexus full tree (already researched in this
-  pass — see `data/nerves/lumbosacral_plexus.json`), femoral/popliteal/
-  tibial arterial+venous trees (already researched — see `data/vascular/
-  lower_limb_*.json`), thigh/leg/foot fascial compartments (already
-  researched — see `data/fascia/lower_limb_fascia.json`).
-- Estimated effort: comparable to the upper limb pass already completed —
-  1 focused research+authoring+verification cycle.
+## Stage 1 — Lower limb kinetic chain (pelvis → foot) — ✅ DONE
+- Full depth delivered: `data/muscles/lower_limb/*.json` (14 muscles ×2
+  sides), `data/nerves/lumbosacral_plexus.json`, `data/vascular/
+  lower_limb_arterial.json` + `lower_limb_venous.json`, `data/fascia/
+  lower_limb_fascia.json`. Remaining lower-limb muscles stay at breadth
+  depth in `data/muscles/muscle_index.json` (gluteus minimus, TFL,
+  piriformis, obturators, gemelli, quadratus femoris, sartorius, adductor
+  longus/brevis, gracilis, pectineus, plantaris, popliteus, tibialis
+  posterior, FDL, FHL, EDL, EHL, fibularis longus/brevis/tertius, and the
+  intrinsic foot muscles) — same tradeoff as the upper limb's non-flagship
+  muscles.
 
 ## Stage 2 — Trunk (spine, ribcage, abdominal & back wall, pelvic floor)
 - Vertebral column segment-by-segment joint modeling (already have ISB/
