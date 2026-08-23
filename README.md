@@ -12,14 +12,24 @@ is, what it honestly isn't (yet), and how the pieces fit together.
 ## What's in this repo
 
 - **Whole-body breadth**: all 206 bones, 37 joints (cited ROM), the full
-  spinal + cranial nerve root map, and a 136-muscle whole-body index.
-- **One fully-detailed, fully-verified flagship region**: the upper limb,
-  shoulder → hand — 13 muscles at full fascicle-architecture depth (with
-  documented intramuscular functional compartments, e.g. deltoid's 7
-  segments), the complete brachial plexus (43 nodes, root → motor point),
-  the complete named arterial + venous trees (38 vessels), and the
-  fascial/retinacular/pulley system (17 structures) — all left/right
-  mirrored, all schema-validated, all graph-connected.
+  spinal + cranial nerve root map, and a 122-muscle whole-body index.
+- **Two fully-detailed, fully-verified flagship regions**:
+  - **Upper limb** (shoulder → hand) — 13 muscles at full fascicle-
+    architecture depth (with documented intramuscular functional
+    compartments, e.g. deltoid's 7 segments), the complete brachial plexus
+    (43 nodes, root → motor point), the complete named arterial + venous
+    trees (38 vessels), and the fascial/retinacular/pulley system
+    (17 structures).
+  - **Lower limb** (pelvis → foot) — 14 muscles at the same depth
+    (gluteus medius's anterior/middle/posterior compartments, vastus
+    medialis's VML/VMO subdivision, adductor magnus's dual-innervation
+    adductor+hamstring parts, biceps femoris's dual-innervation heads),
+    the complete lumbosacral plexus (31 nodes), the complete named
+    arterial + venous trees (37 vessels), and the fascial compartment
+    system (21 structures).
+
+  Both regions: all left/right mirrored, all schema-validated, all
+  graph-connected.
 - **A procedural engine** (`engine/`) that generates 1mm-resolution muscle
   fiber fields from architecture parameters, and a kinematic rig
   (`engine/rig.py`) that keeps every attachment point correctly anchored to
@@ -39,7 +49,7 @@ pip install -r requirements.txt
 pytest tests/ -v                          # run the full verification suite
 python -m engine.build_atlas --muscle deltoid_r   # generate + validate
 python scripts/generate_anchors.py        # rebuild data/rig/anchors.json
-python scripts/mirror_side.py data/muscles/upper_limb/*_r.json  # mirror right->left
+python scripts/mirror_side.py data/muscles/upper_limb/*_r.json data/muscles/lower_limb/*_r.json  # mirror right->left
 ```
 
 ## Documentation map
