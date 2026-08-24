@@ -1,0 +1,150 @@
+{
+  "id": "rectus_abdominis_l",
+  "name_ta": "Rectus abdominis",
+  "name_common": "Rectus abdominis",
+  "side": "left",
+  "region": "trunk",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hip_bone_l",
+    "origin_landmark": "pubic crest and pubic symphysis",
+    "insertion_bone": "ribs_l",
+    "insertion_landmark": "xiphoid process and costal cartilages 5-7",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "intercostal_and_subcostal_nerves",
+    "root_levels": "T7-T12 (thoracoabdominal + subcostal nerves, one segment innervated per tendinous-intersection compartment)"
+  },
+  "actions": [
+    "flexes trunk (lumbar spine flexion)",
+    "compresses abdominal contents / raises intra-abdominal pressure"
+  ],
+  "functional_compartments": [
+    {
+      "id": "rectus_abdominis_l_seg1_superior",
+      "name": "Segment 1 (superior, costal)",
+      "innervation_branch": "7th thoracoabdominal (intercostal) nerve, T7",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 350,
+        "max_isometric_force_N": 78.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -30,
+          380,
+          30
+        ],
+        [
+          -30,
+          340,
+          25
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-segment endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Most cranial of the muscle's tendinous-intersection-bounded segments; a textbook example of a single named muscle subdivided into separately-innervated, individually-contractile compartments.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "rectus_abdominis_l_seg2",
+      "name": "Segment 2",
+      "innervation_branch": "8th-9th thoracoabdominal nerves, T8-T9",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 350,
+        "max_isometric_force_N": 78.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -30,
+          335,
+          25
+        ],
+        [
+          -30,
+          290,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-segment endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Second segment, bounded above and below by tendinous intersections that adhere firmly to the anterior rectus sheath.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "rectus_abdominis_l_seg3",
+      "name": "Segment 3",
+      "innervation_branch": "10th-11th thoracoabdominal nerves, T10-T11",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 320,
+        "max_isometric_force_N": 72.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -30,
+          285,
+          20
+        ],
+        [
+          -30,
+          220,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-segment endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Third segment, roughly at the level of the umbilicus.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "rectus_abdominis_l_seg4_inferior",
+      "name": "Segment 4 (inferior, pubic)",
+      "innervation_branch": "12th thoracoabdominal (subcostal) nerve, T12",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 300,
+        "max_isometric_force_N": 67.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -25,
+          215,
+          15
+        ],
+        [
+          -15,
+          60,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-segment endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.15
+      },
+      "function_note": "Longest, most caudal segment (intersections are not present below the umbilicus in most individuals) running to the pubic attachment.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
