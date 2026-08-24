@@ -1,0 +1,56 @@
+{
+  "id": "scalenus_posterior_r",
+  "name_ta": "Scalenus posterior",
+  "name_common": "Posterior scalene",
+  "side": "right",
+  "region": "neck",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "cervical_vertebrae",
+    "origin_landmark": "posterior tubercles of transverse processes C4-C6",
+    "insertion_bone": "ribs_r",
+    "insertion_landmark": "2nd rib, external surface",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "cervical_plexus_branches",
+    "root_levels": "C6-C8"
+  },
+  "actions": [
+    "elevates the 2nd rib (accessory inspiration)",
+    "laterally flexes the neck"
+  ],
+  "functional_compartments": [
+    {
+      "id": "scalenus_posterior_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 50,
+        "max_isometric_force_N": 11.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          220,
+          -30
+        ],
+        [
+          20,
+          80,
+          -40
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Smallest and most posterior of the three scalenes; sometimes fused with scalenus medius.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
