@@ -12,8 +12,8 @@ is, what it honestly isn't (yet), and how the pieces fit together.
 ## What's in this repo
 
 - **Whole-body breadth**: all 206 bones, 37 joints (cited ROM), the full
-  spinal + cranial nerve root map, and a 108-muscle whole-body index.
-- **Three fully-detailed, fully-verified flagship regions**:
+  spinal + cranial nerve root map, and a 73-muscle whole-body index.
+- **Four fully-detailed, fully-verified flagship regions**:
   - **Upper limb** (shoulder → hand) — 13 muscles at full fascicle-
     architecture depth (with documented intramuscular functional
     compartments, e.g. deltoid's 7 segments), the complete brachial plexus
@@ -36,8 +36,18 @@ is, what it honestly isn't (yet), and how the pieces fit together.
     thoracoabdominal, subcostal), the thoracic/abdominal aortic tree and
     its azygos-system venous counterpart (105 vessels), and the
     thoracolumbar fascia/rectus sheath system (10 structures).
+  - **Head & neck** — 35 muscle groups at the same depth (masseter's
+    superficial/deep heads, temporalis's anterior/posterior parts,
+    lateral pterygoid's two heads, digastric's dual-pharyngeal-arch-origin
+    two bellies, orbicularis oculi's palpebral/orbital parts,
+    sternocleidomastoid's two heads), the cranial nerve motor trees
+    (facial, trigeminal V3, oculomotor/trochlear/abducens, hypoglossal,
+    glossopharyngeal/vagal pharyngeal plexus) plus the cervical plexus
+    with ansa cervicalis and phrenic nerve origin (42 nodes), the
+    carotid/vertebral vascular trees (26 vessels), and the cervical
+    fascial system (5 structures, including the carotid sheath).
 
-  All three regions: all left/right mirrored (trunk's diaphragm is
+  All four regions: all left/right mirrored (trunk's diaphragm is
   midline/unpaired), all schema-validated, all graph-connected.
 - **A procedural engine** (`engine/`) that generates 1mm-resolution muscle
   fiber fields from architecture parameters, and a kinematic rig
@@ -58,7 +68,7 @@ pip install -r requirements.txt
 pytest tests/ -v                          # run the full verification suite
 python -m engine.build_atlas --muscle deltoid_r   # generate + validate
 python scripts/generate_anchors.py        # rebuild data/rig/anchors.json
-python scripts/mirror_side.py data/muscles/upper_limb/*_r.json data/muscles/lower_limb/*_r.json data/muscles/trunk/*_r.json  # mirror right->left
+python scripts/mirror_side.py data/muscles/upper_limb/*_r.json data/muscles/lower_limb/*_r.json data/muscles/trunk/*_r.json data/muscles/head_and_neck/*_r.json  # mirror right->left
 ```
 
 ## Documentation map

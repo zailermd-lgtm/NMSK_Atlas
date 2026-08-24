@@ -1,7 +1,7 @@
 # NMSK Atlas — Roadmap to full whole-body, 1mm-verified coverage
 
 This repo delivers, so far: the full architecture, whole-body breadth
-data (skeleton, joints, nerve roots, muscle index), and **three** fully-
+data (skeleton, joints, nerve roots, muscle index), and **four** fully-
 detailed, fully-verified flagship regions:
 - **Upper limb** (shoulder→hand) — 13 muscles, brachial plexus (43 nodes),
   named arterial+venous trees (38 vessels), fascial/retinacular/pulley
@@ -13,15 +13,19 @@ detailed, fully-verified flagship regions:
   muscle groups, thoracic segmental nerves (59 nodes), the thoracic/
   abdominal aortic tree + azygos venous system (105 vessels), and the
   thoracolumbar fascia/rectus sheath system (10 structures).
+- **Head & neck** — 35 muscle groups (facial expression, mastication,
+  extraocular, tongue/pharynx, neck), the cranial nerve motor trees +
+  cervical plexus (42 nodes), the carotid/vertebral vascular trees (26
+  vessels), and the cervical fascial system (5 structures).
 
-All three regions were chosen/completed because together they exercise
+All four regions were chosen/completed because together they exercise
 every requirement richly: complex joints, pennate/parallel/multipennate/
 fusiform/convergent muscles, documented intramuscular compartments (down
-to opposite-action parts of one named muscle, e.g. internal intercostals),
-full plexuses and segmental nerve maps down to motor points, full named
-arterial/venous trees, and dense fascial/retinacular/pulley/aponeurotic
-systems — all left/right mirrored, schema-validated, and adversarially
-fact-checked (docs/VERIFICATION.md).
+to opposite-action parts of one named muscle, e.g. internal intercostals
+and lateral pterygoid), full plexuses and segmental/cranial nerve maps
+down to motor points, full named arterial/venous trees, and dense
+fascial/retinacular/pulley/aponeurotic systems — all left/right mirrored,
+schema-validated, and adversarially fact-checked (docs/VERIFICATION.md).
 
 Extending to the rest of the body uses the **same schemas, same generator,
 same validators** — it is bounded, well-scoped data-authoring work, staged
@@ -72,16 +76,59 @@ as follows:
   vessels are modeled as far as their origin and are documented as
   stub/leaf nodes rather than fully branched into visceral parenchyma.
 
-## Stage 3 — Head & neck
-- Cranial nerve courses through skull foramina (root map already
-  researched), muscles of facial expression (architecturally unusual —
-  skin-inserting, not bone-to-bone, which will require a small schema
-  extension: `insertion_bone` → `insertion_dermis_region`), muscles of
-  mastication, extraocular muscles, cervical plexus, carotid/vertebral
-  arterial trees, cervical fascial layers.
-- This stage is the most schema-novel (skin insertions, cranial foramina
-  as via-points) — do it once cores 1–2 have validated the general
-  approach.
+## Stage 3 — Head & neck — ✅ DONE
+- Full depth delivered: `data/muscles/head_and_neck/*.json` (35 muscle
+  groups × 2 sides — 9 facial-expression, 4 mastication, 6 extraocular, 3
+  tongue + 2 pharynx, 11 neck), `data/nerves/cranial_and_cervical_nerves.json`
+  (42 nodes: facial n., trigeminal V3, oculomotor/trochlear/abducens,
+  hypoglossal n., glossopharyngeal n./vagal pharyngeal plexus, and the
+  cervical plexus with ansa cervicalis + phrenic n. origin),
+  `data/vascular/head_neck_arterial.json` + `head_neck_venous.json` (26
+  vessels: carotid system + middle meningeal a.; jugular system), plus a
+  `vertebral_a_r` branch added to the existing
+  `data/vascular/upper_limb_arterial.json` (subclavian's other cervical
+  branch), and `data/fascia/cervical_fascia.json` (the 3-layer deep
+  cervical fascia, carotid sheath, buccopharyngeal fascia).
+- **Schema-novelty resolved without a schema change**: the roadmap
+  originally anticipated needing an `insertion_bone` → `insertion_dermis_
+  region` extension for skin-inserting facial-expression muscles and
+  sclera-inserting extraocular muscles. In practice the *original breadth
+  pass* (Stage 0) had already solved this the same way `bones.json`
+  solves multi-landmark bones: `origin_bone`/`insertion_bone` reference
+  the nearest overlying skeletal bone frame (e.g. frontalis "inserts" on
+  the frontal bone even though the true insertion is dermal), with the
+  landmark string documenting the real soft-tissue structure and each
+  muscle's `function_note` stating the approximation explicitly. No
+  schema change was needed because this atlas's rig has no free-deforming
+  skin/eyeball rigid-body layer yet for such a field to attach to (see
+  Stage 4/5 below) — rigidly anchoring to the nearest bone is the
+  correct-for-this-rig approximation, not a workaround.
+- **Cross-file vascular/nerve seams, explicitly documented rather than
+  silently left disconnected**: the aortic arch (giving rise to the
+  brachiocephalic trunk/left common carotid/left subclavian) and the
+  internal-jugular/subclavian confluence are real single structures that
+  this atlas's per-region file split leaves as separate `tree_name`
+  groups (the connectivity validator groups strictly by `tree_name`, so
+  true cross-file parent/child edges aren't possible without a larger
+  refactor touching every already-pushed vascular file). Each such seam —
+  and the ansa cervicalis's genuine two-root loop, which the simple
+  parent/child nerve-tree model also can't represent exactly — is
+  resolved with a documented `notes` cross-reference rather than a
+  broken or silently-omitted edge.
+- Deliberately left at breadth depth in `data/muscles/muscle_index.json`:
+  the individual extrinsic/intrinsic laryngeal muscles and intrinsic
+  tongue muscles (no discrete bony attachments to anchor a rigid-body
+  compartment on, since the cartilaginous larynx isn't yet a skeletal
+  element in this atlas), the middle/inferior pharyngeal constrictors,
+  and the small intraocular smooth muscles (pupillary sphincter/dilator,
+  ciliary muscle — smooth muscle, out of this atlas's skeletal-muscle
+  focus).
+- Deliberately NOT done: the eyeball as its own rotating rigid body (a
+  natural small future extension once a proper soft-tissue/organ layer
+  exists — see Stage 4/5), and the cartilaginous larynx/hyoid-adjacent
+  skeleton as individually-modeled elements (thyroid/cricoid/arytenoid
+  cartilages are currently only referenced descriptively via the
+  adjacent hyoid attachment region in sternothyroid/stylopharyngeus).
 
 ## Stage 4 — Skin, viscera, capillary-bed aggregation
 - Below the 1mm resolution target, individual capillaries are not
