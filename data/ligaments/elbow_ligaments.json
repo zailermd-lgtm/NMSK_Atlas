@@ -1,0 +1,284 @@
+[
+  {
+    "id": "ulnar_collateral_ligament_elbow_r",
+    "name_ta": "Ligamentum collaterale ulnare",
+    "name_common": "Ulnar (medial) collateral ligament of elbow",
+    "side": "right",
+    "region": "elbow",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "humerus_r",
+      "landmark_a": "medial epicondyle",
+      "bone_b": "ulna_r",
+      "landmark_b": "coronoid process / olecranon"
+    },
+    "bands": [
+      {
+        "id": "uclE_ant_r",
+        "name": "Anterior bundle",
+        "attachments": {
+          "bone_a": "humerus_r",
+          "landmark_a": "medial epicondyle, anteroinferior",
+          "bone_b": "ulna_r",
+          "landmark_b": "sublime tubercle (medial coronoid process)"
+        },
+        "mechanical_role": "primary restraint to valgus stress through most of flexion-extension range; the functionally most important of the three bundles",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The strongest and most consistently taut bundle -- the one most commonly reconstructed in 'Tommy John' surgery.",
+        "source": "Morrey BF, An KN (1983) 'Articular and ligamentous contributions to the stability of the elbow joint.' Am J Sports Med 11(5):315-319 -- classic sequential-sectioning cadaveric study establishing the anterior bundle of the ulnar (medial) collateral ligament as the elbow's primary restraint to valgus stress."
+      },
+      {
+        "id": "uclE_post_r",
+        "name": "Posterior bundle",
+        "attachments": {
+          "bone_a": "humerus_r",
+          "landmark_a": "medial epicondyle, posteroinferior",
+          "bone_b": "ulna_r",
+          "landmark_b": "medial olecranon"
+        },
+        "mechanical_role": "secondary valgus restraint, most significant in deep flexion",
+        "tension_pattern": "taut_in_flexion",
+        "function_note": "A fan-shaped, weaker thickening of the posteromedial capsule.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "uclE_transverse_r",
+        "name": "Transverse bundle (Cooper's ligament)",
+        "attachments": {
+          "bone_a": "ulna_r",
+          "landmark_a": "olecranon",
+          "bone_b": "ulna_r",
+          "landmark_b": "coronoid process"
+        },
+        "mechanical_role": "spans olecranon to coronoid on the same bone; contributes little to elbow stability",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Runs ulna-to-ulna rather than crossing the joint, so unlike the anterior/posterior bundles it cannot meaningfully resist valgus stress across the humeroulnar joint.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The elbow's primary restraint against valgus (medially-opening) stress, of particular clinical importance in overhead-throwing athletes.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Morrey BF, An KN (1983) 'Articular and ligamentous contributions to the stability of the elbow joint.' Am J Sports Med 11(5):315-319 -- classic sequential-sectioning cadaveric study establishing the anterior bundle of the ulnar (medial) collateral ligament as the elbow's primary restraint to valgus stress.",
+    "joint": "elbow_r"
+  },
+  {
+    "id": "radial_collateral_ligament_complex_elbow_r",
+    "name_ta": "Ligamentum collaterale radiale",
+    "name_common": "Radial (lateral) collateral ligament complex of elbow",
+    "side": "right",
+    "region": "elbow",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "humerus_r",
+      "landmark_a": "lateral epicondyle",
+      "bone_b": "ulna_r",
+      "landmark_b": "annular ligament / supinator crest"
+    },
+    "bands": [
+      {
+        "id": "rcl_proper_r",
+        "name": "Radial collateral ligament proper",
+        "attachments": {
+          "bone_a": "humerus_r",
+          "landmark_a": "lateral epicondyle",
+          "bone_b": "radius_r",
+          "landmark_b": "blends into annular ligament (no direct bony insertion)"
+        },
+        "mechanical_role": "resists varus (laterally-opening) stress",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Unlike most collateral ligaments, blends into the annular ligament rather than inserting directly on a second bone -- an anatomical quirk of the radial head's own rotating-collar stabilization.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "lucl_r",
+        "name": "Lateral ulnar collateral ligament (LUCL)",
+        "attachments": {
+          "bone_a": "humerus_r",
+          "landmark_a": "lateral epicondyle",
+          "bone_b": "ulna_r",
+          "landmark_b": "supinator crest of ulna, via the annular ligament"
+        },
+        "mechanical_role": "primary restraint against posterolateral rotatory instability (PLRI) of the elbow",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Its disruption is the classic cause of posterolateral rotatory instability, a well-documented distinct clinical entity from simple varus laxity.",
+        "source": "O'Driscoll SW, Bell DF, Morrey BF (1991) 'Posterolateral rotatory instability of the elbow.' J Bone Joint Surg Am 73(3):440-446 -- original description of posterolateral rotatory instability and the lateral ulnar collateral ligament's role in preventing it."
+      }
+    ],
+    "function": "The lateral collateral ligament complex resists varus stress and, via the LUCL specifically, posterolateral rotatory subluxation of the radial head.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "elbow_r"
+  },
+  {
+    "id": "annular_ligament_r",
+    "name_ta": "Ligamentum anulare radii",
+    "name_common": "Annular ligament of radius",
+    "side": "right",
+    "region": "elbow",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "ulna_r",
+      "landmark_a": "anterior margin of radial notch",
+      "bone_b": "ulna_r",
+      "landmark_b": "posterior margin of radial notch (encircling the radial head)"
+    },
+    "bands": [
+      {
+        "id": "annular_r_main",
+        "name": "Annular ligament",
+        "attachments": {
+          "bone_a": "ulna_r",
+          "landmark_a": "anterior margin of radial notch",
+          "bone_b": "ulna_r",
+          "landmark_b": "posterior margin of radial notch"
+        },
+        "mechanical_role": "forms a fibro-osseous ring holding the radial head against the ulna's radial notch, permitting pronation/supination while preventing radial head dislocation",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "A true annulus (4/5 fibrous ring + 1/5 the radial notch itself) -- its laxity/tearing in young children (whose radial head is not yet fully developed) is the mechanism of 'nursemaid's elbow' (radial head subluxation).",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Encircles and stabilizes the radial head against the ulna, the structure that permits pronosupination at the proximal radioulnar joint while preventing radial head dislocation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "radioulnar_r"
+  },
+  {
+    "id": "ulnar_collateral_ligament_elbow_l",
+    "name_ta": "Ligamentum collaterale ulnare",
+    "name_common": "Ulnar (medial) collateral ligament of elbow",
+    "side": "left",
+    "region": "elbow",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "humerus_l",
+      "landmark_a": "medial epicondyle",
+      "bone_b": "ulna_l",
+      "landmark_b": "coronoid process / olecranon"
+    },
+    "bands": [
+      {
+        "id": "uclE_ant_l",
+        "name": "Anterior bundle",
+        "attachments": {
+          "bone_a": "humerus_l",
+          "landmark_a": "medial epicondyle, anteroinferior",
+          "bone_b": "ulna_l",
+          "landmark_b": "sublime tubercle (medial coronoid process)"
+        },
+        "mechanical_role": "primary restraint to valgus stress through most of flexion-extension range; the functionally most important of the three bundles",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The strongest and most consistently taut bundle -- the one most commonly reconstructed in 'Tommy John' surgery.",
+        "source": "Morrey BF, An KN (1983) 'Articular and ligamentous contributions to the stability of the elbow joint.' Am J Sports Med 11(5):315-319 -- classic sequential-sectioning cadaveric study establishing the anterior bundle of the ulnar (medial) collateral ligament as the elbow's primary restraint to valgus stress."
+      },
+      {
+        "id": "uclE_post_l",
+        "name": "Posterior bundle",
+        "attachments": {
+          "bone_a": "humerus_l",
+          "landmark_a": "medial epicondyle, posteroinferior",
+          "bone_b": "ulna_l",
+          "landmark_b": "medial olecranon"
+        },
+        "mechanical_role": "secondary valgus restraint, most significant in deep flexion",
+        "tension_pattern": "taut_in_flexion",
+        "function_note": "A fan-shaped, weaker thickening of the posteromedial capsule.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "uclE_transverse_l",
+        "name": "Transverse bundle (Cooper's ligament)",
+        "attachments": {
+          "bone_a": "ulna_l",
+          "landmark_a": "olecranon",
+          "bone_b": "ulna_l",
+          "landmark_b": "coronoid process"
+        },
+        "mechanical_role": "spans olecranon to coronoid on the same bone; contributes little to elbow stability",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Runs ulna-to-ulna rather than crossing the joint, so unlike the anterior/posterior bundles it cannot meaningfully resist valgus stress across the humeroulnar joint.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The elbow's primary restraint against valgus (medially-opening) stress, of particular clinical importance in overhead-throwing athletes.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Morrey BF, An KN (1983) 'Articular and ligamentous contributions to the stability of the elbow joint.' Am J Sports Med 11(5):315-319 -- classic sequential-sectioning cadaveric study establishing the anterior bundle of the ulnar (medial) collateral ligament as the elbow's primary restraint to valgus stress.",
+    "joint": "elbow_l"
+  },
+  {
+    "id": "radial_collateral_ligament_complex_elbow_l",
+    "name_ta": "Ligamentum collaterale radiale",
+    "name_common": "Radial (lateral) collateral ligament complex of elbow",
+    "side": "left",
+    "region": "elbow",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "humerus_l",
+      "landmark_a": "lateral epicondyle",
+      "bone_b": "ulna_l",
+      "landmark_b": "annular ligament / supinator crest"
+    },
+    "bands": [
+      {
+        "id": "rcl_proper_l",
+        "name": "Radial collateral ligament proper",
+        "attachments": {
+          "bone_a": "humerus_l",
+          "landmark_a": "lateral epicondyle",
+          "bone_b": "radius_l",
+          "landmark_b": "blends into annular ligament (no direct bony insertion)"
+        },
+        "mechanical_role": "resists varus (laterally-opening) stress",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Unlike most collateral ligaments, blends into the annular ligament rather than inserting directly on a second bone -- an anatomical quirk of the radial head's own rotating-collar stabilization.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "lucl_l",
+        "name": "Lateral ulnar collateral ligament (LUCL)",
+        "attachments": {
+          "bone_a": "humerus_l",
+          "landmark_a": "lateral epicondyle",
+          "bone_b": "ulna_l",
+          "landmark_b": "supinator crest of ulna, via the annular ligament"
+        },
+        "mechanical_role": "primary restraint against posterolateral rotatory instability (PLRI) of the elbow",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Its disruption is the classic cause of posterolateral rotatory instability, a well-documented distinct clinical entity from simple varus laxity.",
+        "source": "O'Driscoll SW, Bell DF, Morrey BF (1991) 'Posterolateral rotatory instability of the elbow.' J Bone Joint Surg Am 73(3):440-446 -- original description of posterolateral rotatory instability and the lateral ulnar collateral ligament's role in preventing it."
+      }
+    ],
+    "function": "The lateral collateral ligament complex resists varus stress and, via the LUCL specifically, posterolateral rotatory subluxation of the radial head.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "elbow_l"
+  },
+  {
+    "id": "annular_ligament_l",
+    "name_ta": "Ligamentum anulare radii",
+    "name_common": "Annular ligament of radius",
+    "side": "left",
+    "region": "elbow",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "ulna_l",
+      "landmark_a": "anterior margin of radial notch",
+      "bone_b": "ulna_l",
+      "landmark_b": "posterior margin of radial notch (encircling the radial head)"
+    },
+    "bands": [
+      {
+        "id": "annular_l_main",
+        "name": "Annular ligament",
+        "attachments": {
+          "bone_a": "ulna_l",
+          "landmark_a": "anterior margin of radial notch",
+          "bone_b": "ulna_l",
+          "landmark_b": "posterior margin of radial notch"
+        },
+        "mechanical_role": "forms a fibro-osseous ring holding the radial head against the ulna's radial notch, permitting pronation/supination while preventing radial head dislocation",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "A true annulus (4/5 fibrous ring + 1/5 the radial notch itself) -- its laxity/tearing in young children (whose radial head is not yet fully developed) is the mechanism of 'nursemaid's elbow' (radial head subluxation).",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "Encircles and stabilizes the radial head against the ulna, the structure that permits pronosupination at the proximal radioulnar joint while preventing radial head dislocation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "radioulnar_l"
+  }
+]
