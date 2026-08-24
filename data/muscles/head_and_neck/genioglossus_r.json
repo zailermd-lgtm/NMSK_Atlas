@@ -1,0 +1,55 @@
+{
+  "id": "genioglossus_r",
+  "name_ta": "Genioglossus",
+  "name_common": "Genioglossus",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "convergent_triangular",
+  "attachments": {
+    "origin_bone": "mandible",
+    "origin_landmark": "genial tubercle (mental spine)",
+    "insertion_bone": "hyoid",
+    "insertion_landmark": "tongue body (fanning out from apex to base) and hyoid body",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "hypoglossal_n",
+    "root_levels": "CN XII"
+  },
+  "actions": [
+    "protrudes and depresses the tongue (its most inferior fibers)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "genioglossus_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "convergent_triangular",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 300,
+        "max_isometric_force_N": 67.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          5,
+          -10,
+          40
+        ],
+        [
+          5,
+          30,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Largest of the extrinsic tongue muscles; forms the bulk of the tongue body. Clinically important as the main muscle preventing posterior tongue collapse/airway obstruction during sleep (its weakness/hypotonia is implicated in obstructive sleep apnea).",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
