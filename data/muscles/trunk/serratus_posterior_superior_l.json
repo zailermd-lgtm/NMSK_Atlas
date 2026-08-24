@@ -1,0 +1,55 @@
+{
+  "id": "serratus_posterior_superior_l",
+  "name_ta": "Serratus posterior superior",
+  "name_common": "Serratus posterior superior",
+  "side": "left",
+  "region": "trunk",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "cervical_vertebrae",
+    "origin_landmark": "spinous processes C7-T3",
+    "insertion_bone": "ribs_l",
+    "insertion_landmark": "ribs 2-5 (superior borders)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "intercostal_nerves",
+    "root_levels": "T1-T4"
+  },
+  "actions": [
+    "elevates ribs 2-5 (accessory inspiration)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "serratus_posterior_superior_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 30,
+        "max_isometric_force_N": 6.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          20,
+          200,
+          -30
+        ],
+        [
+          -50,
+          130,
+          30
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Thin, deep muscle beneath the rhomboids; despite lying in the back, its rib-elevating action makes it functionally a respiratory accessory muscle rather than a shoulder-girdle muscle.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+}
