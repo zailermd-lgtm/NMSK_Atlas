@@ -1,0 +1,88 @@
+{
+  "id": "digastric_l",
+  "name_ta": "Digastricus",
+  "name_common": "Digastric",
+  "side": "left",
+  "region": "neck",
+  "overall_architecture_type": "digastric",
+  "attachments": {
+    "origin_bone": "temporal_l",
+    "origin_landmark": "mastoid notch (posterior belly origin)",
+    "insertion_bone": "mandible",
+    "insertion_landmark": "digastric fossa of the mandible (anterior belly insertion); the two bellies connect via an intermediate tendon that slings through a fibrous loop on the hyoid",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_and_trigeminal_n_v3",
+    "root_levels": "CN VII (posterior belly) + CN V3 (anterior belly, via the mylohyoid nerve)"
+  },
+  "actions": [
+    "elevates the hyoid",
+    "depresses the mandible (opens jaw) when the hyoid is fixed"
+  ],
+  "functional_compartments": [
+    {
+      "id": "digastric_l_posterior",
+      "name": "Posterior belly",
+      "innervation_branch": "facial n., digastric branch",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 60,
+        "max_isometric_force_N": 13.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          20,
+          -20
+        ],
+        [
+          -10,
+          -20,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Longer belly, derived embryologically from the 2nd pharyngeal arch (hence facial nerve innervation) -- a textbook example of a single named muscle whose two bellies have entirely different embryological origins and cranial nerve supplies, precisely the reason the schema gives this architecture its own enum value.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "digastric_l_anterior",
+      "name": "Anterior belly",
+      "innervation_branch": "mylohyoid n. (branch of trigeminal V3)",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 50,
+        "max_isometric_force_N": 11.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          -25,
+          10
+        ],
+        [
+          -5,
+          -60,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Shorter belly, derived from the 1st pharyngeal arch (hence trigeminal innervation), joined to the posterior belly by a rounded intermediate tendon that pierces/slings through stylohyoid and a fibrous loop attached to the hyoid.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
