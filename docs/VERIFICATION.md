@@ -319,7 +319,21 @@ Kenhub, TeachMeAnatomy, StatPearls, Radiopaedia, Wikipedia, and PMC:
       "unique" was inaccurate — corrected to "near-universally present
       in humans, rare/near-absent in most other primates, not
       absolutely unique" in `fibularis_tertius_{r,l}.json`. 2 further
-      minor optional nuances noted, not corrections.
+      minor wording nuances were also applied directly to the data
+      (upgraded from initially-optional flags, since the underlying
+      point is real and worth stating precisely): gracilis's
+      function_note described it as a "no functional cost" ACL-graft
+      donor given its redundancy with the other adductors/hamstrings —
+      softened in `gracilis_{r,l}.json` to note that some literature
+      debates whether adding gracilis to a semitendinosus-only graft
+      meaningfully increases donor-site morbidity (e.g. residual
+      knee-flexion deficits); and the foot lumbricals' 1/3
+      medial-plantar/lateral-plantar innervation split (in contrast to
+      the hand's 2/2 split) is the well-established default but
+      anatomical variation studies document occasional communicating
+      branches between the medial and lateral plantar nerves that can
+      blur this boundary in a minority of specimens — noted in
+      `lumbricals_foot_{r,l}.json`.
     - **Trunk (10 newly-promoted muscles — the scapulohumeral group)** —
       trapezius's 3-fiber-part functional split, latissimus dorsi's
       origin span, rhomboid major/minor, levator scapulae, serratus
