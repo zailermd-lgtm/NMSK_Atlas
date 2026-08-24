@@ -1,0 +1,56 @@
+{
+  "id": "scalenus_anterior_l",
+  "name_ta": "Scalenus anterior",
+  "name_common": "Anterior scalene",
+  "side": "left",
+  "region": "neck",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "cervical_vertebrae",
+    "origin_landmark": "anterior tubercles of transverse processes C3-C6",
+    "insertion_bone": "ribs_l",
+    "insertion_landmark": "scalene tubercle on the 1st rib",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "cervical_plexus_and_brachial_plexus_branches",
+    "root_levels": "C4-C6"
+  },
+  "actions": [
+    "elevates the 1st rib (accessory inspiration)",
+    "flexes/laterally flexes the neck"
+  ],
+  "functional_compartments": [
+    {
+      "id": "scalenus_anterior_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 80,
+        "max_isometric_force_N": 18.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -25,
+          220,
+          -15
+        ],
+        [
+          -30,
+          60,
+          -30
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Forms the anterior boundary of the scalene triangle (with scalenus medius and the 1st rib) through which the brachial plexus and subclavian artery pass; the subclavian vein passes anterior to it. A classic thoracic-outlet-syndrome landmark.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
