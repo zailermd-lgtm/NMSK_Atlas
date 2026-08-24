@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/cartilage.schema.json",
+  "title": "Cartilage",
+  "description": "A named cartilaginous structure: articular (hyaline) cartilage coating a joint surface, fibrocartilage (menisci, intervertebral discs, labra, symphyses), costal cartilage bridging rib to sternum, or other named hyaline/elastic cartilage (nasal septum, ear, laryngeal skeleton). Structures with documented distinct sub-regions (a meniscus's horns+body, an intervertebral disc's anulus fibrosus+nucleus pulposus, a labrum's quadrants) are decomposed into parts[], the same 'one-or-more functionally distinct pieces per named structure' convention used by muscle.schema.json's functional_compartments and ligament.schema.json's bands.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name_ta": { "type": "string" },
+    "name_common": { "type": "string" },
+    "side": { "$ref": "common.schema.json#/definitions/side" },
+    "region": { "type": "string" },
+    "cartilage_type": {
+      "type": "string",
+      "enum": ["articular_hyaline", "fibrocartilage", "costal_hyaline", "elastic_cartilage", "growth_plate_physis"],
+      "description": "articular_hyaline: thin coating on a synovial joint's bearing surface; fibrocartilage: load-bearing structures with dense collagen (menisci, discs, labra, symphyses); costal_hyaline: the rib-to-sternum cartilage rods; elastic_cartilage: pinna, epiglottis, and similar structures needing flexible recoil; growth_plate_physis: an epiphyseal plate (retained here for completeness even though it ossifies with skeletal maturity)."
+    },
+    "joint": { "type": "string", "description": "id of the joint (schema/joint.schema.json) this structure is part of, for articular cartilage, menisci, labra, discs and symphyses that live inside/at a specific named joint." },
+    "parent_bone": { "type": "string", "description": "for cartilage that is a surface coating or an extension of a single bone (articular cartilage on one condyle; a costal cartilage's bone-continuous end), the bone id it is rigidly attached to/continuous with." },
+    "attachments": {
+      "type": "object",
+      "description": "for cartilage that itself bridges two bones (costal cartilage rib<->sternum; pubic symphysis's interpubic fibrocartilaginous disc hip_bone_l<->hip_bone_r) rather than merely coating or living within one joint.",
+      "properties": {
+        "bone_a": { "type": "string" },
+        "landmark_a": { "type": "string" },
+        "bone_b": { "type": "string" },
+        "landmark_b": { "type": "string" }
+      }
+    },
+    "typical_thickness_mm": { "type": "number", "description": "representative typical thickness for articular cartilage / discs, per docs/SOURCES.md's representative-vs-exact-values policy." },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Anatomically/functionally distinct sub-regions of this one named structure. A structure with no meaningful internal subdivision still gets exactly one parts[] entry.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "attachment_or_location": { "type": "string", "description": "e.g. a meniscal horn's tibial attachment, a disc's anulus vs. nucleus, a labral quadrant" },
+          "function_note": { "type": "string" },
+          "source": { "$ref": "common.schema.json#/definitions/citation" }
+        },
+        "required": ["id", "name", "source"]
+      }
+    },
+    "function": { "type": "string" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name_ta", "region", "cartilage_type", "parts", "function", "source"]
+}
