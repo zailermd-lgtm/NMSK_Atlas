@@ -66,16 +66,20 @@ tests/test_symmetry.py::test_bilateral_entities_have_mirror_counterparts PASSED
 ```
 
 Dataset scale validated: 206 bones (69 entries, region-grouped), 37 joints,
-108 whole-body-index muscles + (13 upper-limb + 14 lower-limb + 14 trunk)
-flagship muscle groups × 2 sides (trunk's diaphragm is midline, unpaired)
-= 81 full-depth muscle files, 133 nerve-tree nodes (43 brachial + 31
-lumbosacral + 59 thoracic segmental), 180 named vessels (upper: 29
-arterial + 9 venous; lower: 27 arterial + 10 venous; trunk: 65 arterial +
-40 venous), 48 fascial structures (upper 17 + lower 21 + trunk 10), 136
-numerically-resolved rig anchors out of 378 attachment endpoints (~36%, a
-live, honestly-reported percentage — see `scripts/generate_anchors.py`'s
-coverage report; the remainder are breadth-pass bones with descriptive-only
-landmarks by design, not a bug).
+73 whole-body-index muscles + (13 upper-limb + 14 lower-limb + 14 trunk +
+35 head/neck) flagship muscle groups × 2 sides (trunk's diaphragm is
+midline, unpaired) = 151 full-depth muscle files, 175 nerve-tree nodes (43
+brachial + 31 lumbosacral + 59 thoracic segmental + 42 cranial/cervical),
+207 named vessels (upper: 30 arterial + 9 venous; lower: 27 arterial + 10
+venous; trunk: 65 arterial + 40 venous; head/neck: 15 arterial + 11
+venous), 53 fascial structures (upper 17 + lower 21 + trunk 10 + cervical
+5), 136 numerically-resolved rig anchors out of 448 attachment endpoints
+(~30%, a live, honestly-reported percentage — see
+`scripts/generate_anchors.py`'s coverage report; the remainder are
+breadth-pass bones with descriptive-only landmarks by design, not a bug —
+the percentage naturally drops each time a new region's breadth-tier
+attachment endpoints are added faster than their bones gain numeric
+landmarks, which is expected, not regression).
 
 The end-to-end pipeline was also run live (`python -m engine.build_atlas
 --muscle deltoid_r`): it generated a full 7-compartment 1mm-resampled fiber
@@ -210,3 +214,67 @@ Kenhub, TeachMeAnatomy, StatPearls, Radiopaedia, Wikipedia, and PMC:
    mistake independent adversarial re-checking is designed to catch,
    and exactly why it is run as a mandatory step before every regional
    data-authoring pass ships, not an optional afterthought.
+
+9. **Head & neck region (Stage 3) — three independent adversarial passes**:
+
+   - **Muscle claims** (the van Eijden 1997 jaw-muscle architecture
+     citation's content and scope, orbicularis oculi's palpebral/orbital
+     parts, digastric's dual pharyngeal-arch origin and dual innervation,
+     sternocleidomastoid's two heads and the "lesser supraclavicular
+     fossa," geniohyoid's "hitchhiking C1" innervation, stylopharyngeus
+     as the lone CN IX-innervated pharyngeal muscle, tensor tympani/
+     tensor veli palatini as the CN V3-innervated exceptions) — **5 of 7
+     fully confirmed**; **1 real over-attribution caught**: lateral
+     pterygoid's two-heads-with-opposite-actions claim (superior head
+     active during closing, inferior during opening) was cited to van
+     Eijden et al. (1997), which is a real, correctly-cited paper for
+     the muscle's *architecture* (fascicle length, pennation, PCSA by
+     head) but contains no EMG/activity-timing data at all — the
+     functional claim was silently borrowed from separate literature.
+     Corrected to cite Murray et al. (2004), the actual source of that
+     functional model, with an added caveat that later EMG-with-imaging
+     studies found the classical reciprocal-activity pattern less
+     clear-cut than commonly taught. One additional wording softening
+     (not an error): orbicularis oculi's palpebral part was described as
+     purely involuntary/reflexive, when it also performs gentle
+     *voluntary* closure — broadened accordingly.
+   - **Cranial and cervical nerve claims** (facial nerve's branching
+     order and "pes anserinus" terminal division, trigeminal V3's full
+     motor branch list, oculomotor's superior/inferior division split,
+     ansa cervicalis formation and the thyrohyoid exception, cervical
+     plexus cutaneous branch root levels, vertebral artery's C6 entry
+     level) — **6 of 7 confirmed**; **1 real error caught**: the phrenic
+     nerve's C5 contribution was described as routing "via the brachial
+     plexus," conflating two distinct things — the primary C5 ventral
+     ramus contribution actually joins the phrenic trunk directly from
+     the cervical plexus, while a separate, variable *accessory* phrenic
+     nerve (present in ~15–62% of people) is the structure that
+     genuinely arises from a brachial-plexus branch (the nerve to
+     subclavius). Corrected to describe both pathways accurately and
+     distinctly.
+   - **Vascular and fascial claims** (external carotid's branch list/
+     order, maxillary artery's relative size and deep-face supply,
+     middle meningeal artery's foramen spinosum course and epidural
+     hematoma association, facial vein's valveless "danger triangle"
+     property, retromandibular vein's formation and anterior/posterior
+     split, the 3-layer deep cervical fascia model and its
+     pretracheal-to-pericardium/prevertebral-to-axillary-sheath
+     continuities, carotid sheath formation) — **all 7 confirmed**, with
+     2 nuances applied: maxillary artery's supply to the 4 muscles of
+     mastication was loosely described as "via pterygoid branches,"
+     corrected to name the 3 actually-distinct named branches (masseteric,
+     deep temporal, pterygoid proper); and the carotid sheath's
+     "contributions from all 3 fascial layers" was flagged as the
+     standard/majority teaching rather than an anatomically uncontested
+     fact, with a note added on the genuine literature debate.
+
+   Every genuine error across all three passes was the same recurring
+   failure mode documented in findings 7 and 8: a real anatomical fact
+   attached to a citation that doesn't actually support the specific
+   claim made from it (architecture paper cited for an activity-timing
+   claim; one nerve's pathway conflated with a different, similarly-named
+   nerve's pathway) — never a fabricated anatomical fact. All fixes
+   applied to `data/muscles/head_and_neck/*.json`,
+   `data/nerves/cranial_and_cervical_nerves.json`,
+   `data/vascular/head_neck_arterial.json`, and
+   `data/fascia/cervical_fascia.json` before commit.
