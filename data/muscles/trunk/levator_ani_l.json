@@ -1,0 +1,125 @@
+{
+  "id": "levator_ani_l",
+  "name_ta": "Levator ani (pubococcygeus, puborectalis, iliococcygeus)",
+  "name_common": "Levator ani",
+  "side": "left",
+  "region": "trunk",
+  "overall_architecture_type": "convergent_triangular",
+  "attachments": {
+    "origin_bone": "hip_bone_l",
+    "origin_landmark": "pubis, ischial spine, tendinous arch of the obturator fascia",
+    "insertion_bone": "coccyx",
+    "insertion_landmark": "coccyx, anococcygeal ligament, perineal body (puborectalis forms a U-shaped sling around the anorectal junction rather than a bony insertion)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "pudendal_n_and_direct_sacral_branches",
+    "root_levels": "S2-S4 (pudendal nerve + direct sacral branches, 'nerve to levator ani')"
+  },
+  "actions": [
+    "supports pelvic viscera",
+    "puborectalis maintains the anorectal angle (continence)",
+    "elevates the pelvic floor/coccyx"
+  ],
+  "functional_compartments": [
+    {
+      "id": "levator_ani_l_puborectalis",
+      "name": "Puborectalis",
+      "innervation_branch": "direct sacral branches S3-S4",
+      "fiber_architecture": {
+        "architecture_type": "convergent_triangular",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 300,
+        "max_isometric_force_N": 67.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -20,
+          -20,
+          -20
+        ],
+        [
+          0,
+          -40,
+          -40
+        ],
+        [
+          20,
+          -20,
+          -20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "U-shaped sling passing posterior to the anorectal junction (no posterior bony attachment); tonic contraction maintains the anorectal angle central to fecal continence -- the most functionally distinct of the muscle's three parts.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)"
+    },
+    {
+      "id": "levator_ani_l_pubococcygeus",
+      "name": "Pubococcygeus",
+      "innervation_branch": "pudendal n., perineal branch",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 80,
+        "physiological_cross_section_area_mm2": 250,
+        "max_isometric_force_N": 56.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -20,
+          -25
+        ],
+        [
+          -5,
+          -30,
+          -35
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Main sheet-like part, pubis to coccyx/anococcygeal raphe; the part most often assessed clinically for pelvic floor strength.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)"
+    },
+    {
+      "id": "levator_ani_l_iliococcygeus",
+      "name": "Iliococcygeus",
+      "innervation_branch": "pudendal n., perineal branch",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 70,
+        "physiological_cross_section_area_mm2": 150,
+        "max_isometric_force_N": 33.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          -25,
+          -35
+        ],
+        [
+          15,
+          -30,
+          -40
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Thinnest, most posterolateral part, arising from the tendinous arch (rather than the pubis directly) and often largely aponeurotic.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)"
+}
