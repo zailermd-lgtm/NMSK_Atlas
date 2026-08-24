@@ -1,0 +1,168 @@
+[
+  {
+    "id": "internal_jugular_v_r",
+    "name": "Internal jugular vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": null,
+    "level": "root",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 10,
+    "supplies_or_drains": [
+      "drains the dural venous sinuses (intracranial, out of scope) plus most facial/lingual/pharyngeal/thyroid veins"
+    ],
+    "notes": "Descends in the carotid sheath alongside the common carotid artery and vagus nerve; joins subclavian_v_r (root of data/vascular/upper_limb_venous.json) posterior to the sternoclavicular joint to form the brachiocephalic vein -- the same cross-file-seam documentation pattern used for the aortic arch in the arterial tree."
+  },
+  {
+    "id": "external_jugular_v_r",
+    "name": "External jugular vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": null,
+    "level": "root",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 4,
+    "supplies_or_drains": [
+      "drains the scalp and posterior/superficial face"
+    ],
+    "notes": "Formed by the union of the posterior division of the retromandibular vein and the posterior auricular vein; crosses sternocleidomastoid superficially (a visible surface landmark, especially when distended) before draining into subclavian_v_r."
+  },
+  {
+    "id": "facial_v_r",
+    "name": "Facial vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "internal_jugular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2,
+    "supplies_or_drains": [
+      "orbicularis_oris_r_main",
+      "zygomaticus_major_r_main",
+      "levator_labii_superioris_r_main",
+      "depressor_anguli_oris_r_main",
+      "buccinator_r_main"
+    ],
+    "notes": "Runs a straighter course than its companion facial artery; valveless, giving it clinical significance for the spread of facial infection ('danger triangle' of the face, communicating with the cavernous sinus via the ophthalmic veins)."
+  },
+  {
+    "id": "retromandibular_v_r",
+    "name": "Retromandibular vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "internal_jugular_v_r",
+    "level": "trunk",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2,
+    "supplies_or_drains": [
+      "formed within the parotid gland from the superficial temporal and maxillary veins"
+    ],
+    "notes": "Splits into an anterior division (joins facial_v_r, draining ultimately to internal_jugular_v_r) and a posterior division (joins the posterior auricular vein to form external_jugular_v_r) -- modeled here under internal_jugular_v_r to represent the anterior-division pathway, with the posterior-division contribution to external_jugular_v_r documented rather than duplicated as a second parent (the same single-parent-tree simplification used for the ansa cervicalis loop in the nerve file)."
+  },
+  {
+    "id": "superficial_temporal_v_r",
+    "name": "Superficial temporal vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "retromandibular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5,
+    "supplies_or_drains": [
+      "frontalis_r_main",
+      "temporalis_r_anterior",
+      "temporalis_r_posterior"
+    ]
+  },
+  {
+    "id": "maxillary_v_r",
+    "name": "Maxillary vein (pterygoid plexus outflow)",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "retromandibular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5,
+    "supplies_or_drains": [
+      "masseter_r_superficial",
+      "masseter_r_deep",
+      "medial_pterygoid_r_main",
+      "lateral_pterygoid_r_superior",
+      "lateral_pterygoid_r_inferior"
+    ],
+    "notes": "Drains the pterygoid venous plexus, a valveless network around the pterygoid muscles that also communicates with the cavernous sinus -- another route (with the facial vein) by which deep facial infection can spread intracranially."
+  },
+  {
+    "id": "lingual_v_r",
+    "name": "Lingual vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "internal_jugular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5,
+    "supplies_or_drains": [
+      "genioglossus_r_main",
+      "hyoglossus_r_main",
+      "styloglossus_r_main"
+    ]
+  },
+  {
+    "id": "superior_thyroid_v_r",
+    "name": "Superior thyroid vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "internal_jugular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5,
+    "supplies_or_drains": [
+      "thyroid gland (out of scope as an organ, noted for completeness)"
+    ]
+  },
+  {
+    "id": "occipital_v_r",
+    "name": "Occipital vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "internal_jugular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5,
+    "supplies_or_drains": [
+      "sternocleidomastoid_r_sternal",
+      "sternocleidomastoid_r_clavicular"
+    ],
+    "notes": "Drainage pattern is anatomically variable -- it may instead drain to the external jugular vein or directly to the suboccipital venous plexus/vertebral vein; parented here to internal_jugular_v_r as the most commonly cited pattern."
+  },
+  {
+    "id": "posterior_auricular_v_r",
+    "name": "Posterior auricular vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "external_jugular_v_r",
+    "level": "muscular_branch",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5,
+    "supplies_or_drains": [
+      "digastric_r_posterior"
+    ]
+  },
+  {
+    "id": "vertebral_v_r",
+    "name": "Vertebral vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": null,
+    "level": "root",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 3,
+    "supplies_or_drains": [
+      "longus_colli_r_main",
+      "scalenus_anterior_r_main",
+      "scalenus_medius_r_main",
+      "scalenus_posterior_r_main"
+    ],
+    "notes": "Formed from the suboccipital venous plexus, descends through the transverse foramina of the cervical vertebrae (a documented bones.json landmark) alongside the vertebral artery, but -- unlike the artery -- drains directly into the brachiocephalic vein rather than joining the internal jugular system; modeled as its own root for the same cross-file-seam reason as internal/external jugular vein."
+  }
+]

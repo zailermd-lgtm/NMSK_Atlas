@@ -1,0 +1,134 @@
+[
+  {
+    "id": "investing_layer_cervical_fascia_r",
+    "name": "Investing (superficial) layer of deep cervical fascia",
+    "region": "neck",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "mandible",
+        "landmark": "inferior border of mandible"
+      },
+      {
+        "bone": "temporal_r",
+        "landmark": "mastoid process and superior nuchal line"
+      },
+      {
+        "bone": "sternum",
+        "landmark": "manubrium (splitting to form the suprasternal space)"
+      },
+      {
+        "bone": "scapula_r",
+        "landmark": "acromion and spine of scapula"
+      }
+    ],
+    "adjacent_fascia": [
+      "pretracheal_layer_cervical_fascia_r",
+      "prevertebral_layer_cervical_fascia_r",
+      "carotid_sheath_r"
+    ],
+    "compartment_contents": [
+      "sternocleidomastoid_r_sternal",
+      "sternocleidomastoid_r_clavicular",
+      "platysma_r_main"
+    ],
+    "function": "Encircles the entire neck like a collar, splitting to enclose sternocleidomastoid and trapezius; splits again near the sternum to form the suprasternal space (containing the jugular venous arch). The most superficial of the neck's 3 deep fascial layers (deep to platysma and superficial fascia/skin, despite its name).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "pretracheal_layer_cervical_fascia_r",
+    "name": "Pretracheal layer of deep cervical fascia",
+    "region": "neck",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "hyoid",
+        "landmark": "hyoid bone (superior attachment)"
+      },
+      {
+        "bone": "sternum",
+        "landmark": "posterior manubrium (inferior, continuous with the fibrous pericardium)"
+      }
+    ],
+    "adjacent_fascia": [
+      "investing_layer_cervical_fascia_r",
+      "carotid_sheath_r"
+    ],
+    "compartment_contents": [
+      "sternohyoid_r_main",
+      "sternothyroid_r_main",
+      "omohyoid_r_inferior_belly",
+      "omohyoid_r_superior_belly"
+    ],
+    "function": "Encloses the infrahyoid ('strap') muscles and the thyroid gland/trachea/esophagus (visceral compartment); contributes to the carotid sheath laterally; its inferior continuation directly into the fibrous pericardium is the anatomical basis for infection or air (pneumomediastinum) tracking from the neck into the mediastinum.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "prevertebral_layer_cervical_fascia_r",
+    "name": "Prevertebral layer of deep cervical fascia",
+    "region": "neck",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "cervical_vertebrae",
+        "landmark": "anterior and lateral surfaces of the cervical transverse processes and vertebral bodies"
+      },
+      {
+        "bone": "occipital",
+        "landmark": "base of skull (superior attachment)"
+      }
+    ],
+    "adjacent_fascia": [
+      "carotid_sheath_r"
+    ],
+    "compartment_contents": [
+      "longus_colli_r_main",
+      "scalenus_anterior_r_main",
+      "scalenus_medius_r_main",
+      "scalenus_posterior_r_main"
+    ],
+    "function": "Deepest of the 3 layers, forming a tube around the vertebral column and its prevertebral/deep neck flexor muscles; continues laterally over the scalenes as the axillary sheath, carrying the brachial plexus and subclavian vessels into the axilla -- a direct fascial-continuity link between the neck and upper limb.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "carotid_sheath_r",
+    "name": "Carotid sheath",
+    "region": "neck",
+    "kind": "fibrous_sheath_pulley",
+    "bony_attachments": [
+      {
+        "bone": "temporal_r",
+        "landmark": "base of skull, around the carotid canal and jugular foramen"
+      }
+    ],
+    "adjacent_fascia": [
+      "investing_layer_cervical_fascia_r",
+      "pretracheal_layer_cervical_fascia_r",
+      "prevertebral_layer_cervical_fascia_r"
+    ],
+    "compartment_contents": [],
+    "function": "A condensation classically described as formed by contributions from all 3 cervical fascial layers (investing forming the anterolateral wall, pretracheal the anteromedial wall, prevertebral the posterior wall) -- the standard/majority teaching, though genuinely debated in the anatomical literature, with some authors questioning whether it is truly a discrete structure formed this way versus a looser fascial condensation -- enclosing the common/internal carotid artery, internal jugular vein, and vagus nerve (CN X) together as a single neurovascular bundle running the length of the neck. The vessels these contain are documented in data/vascular/head_neck_arterial.json and head_neck_venous.json.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "buccopharyngeal_fascia",
+    "name": "Buccopharyngeal fascia",
+    "region": "neck",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "sphenoid",
+        "landmark": "pterygoid plates (via the pterygomandibular raphe)"
+      }
+    ],
+    "adjacent_fascia": [
+      "pretracheal_layer_cervical_fascia_r"
+    ],
+    "compartment_contents": [
+      "superior_pharyngeal_constrictor_r_main",
+      "buccinator_r_main"
+    ],
+    "function": "Thin fascia covering the outer (buccal) surface of buccinator and continuing posteriorly over the outer surface of the pharyngeal constrictors; the pterygomandibular raphe -- the fibrous line where buccinator and superior pharyngeal constrictor interdigitate -- is the structure this fascia is named for spanning.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  }
+]
