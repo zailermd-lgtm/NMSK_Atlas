@@ -1,0 +1,180 @@
+[
+  {
+    "id": "wrist_ligament_complex_r",
+    "name_ta": "Ligamenta carpi",
+    "name_common": "Wrist (carpal) ligament complex",
+    "side": "right",
+    "region": "wrist",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "radius_r",
+      "landmark_a": "distal radius",
+      "bone_b": "carpals_r",
+      "landmark_b": "proximal carpal row"
+    },
+    "bands": [
+      {
+        "id": "palmar_radiocarpal_r",
+        "name": "Palmar radiocarpal ligament",
+        "attachments": {
+          "bone_a": "radius_r",
+          "landmark_a": "palmar rim of distal radius",
+          "bone_b": "carpals_r",
+          "landmark_b": "lunate, triquetrum, capitate (palmar surfaces)"
+        },
+        "mechanical_role": "the wrist's strongest capsular ligament; guides the characteristic screw-home-like coupled motion during wrist extension",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Broad, strong palmar band; its integrity is the main reason the palmar wrist capsule is stronger than the dorsal capsule.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "dorsal_radiocarpal_r",
+        "name": "Dorsal radiocarpal ligament",
+        "attachments": {
+          "bone_a": "radius_r",
+          "landmark_a": "dorsal rim of distal radius",
+          "bone_b": "carpals_r",
+          "landmark_b": "lunate, triquetrum (dorsal surfaces)"
+        },
+        "mechanical_role": "secondary dorsal restraint, weaker than its palmar counterpart",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The thinner, weaker dorsal counterpart to the palmar radiocarpal ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "ucl_wrist_r",
+        "name": "Ulnar collateral ligament of wrist",
+        "attachments": {
+          "bone_a": "ulna_r",
+          "landmark_a": "ulnar styloid process",
+          "bone_b": "carpals_r",
+          "landmark_b": "triquetrum, pisiform"
+        },
+        "mechanical_role": "resists radial deviation stress; blends with the triangular fibrocartilage complex",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Functionally continuous with the TFCC (see data/cartilage/) rather than a fully separable discrete cord.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "rcl_wrist_r",
+        "name": "Radial collateral ligament of wrist",
+        "attachments": {
+          "bone_a": "radius_r",
+          "landmark_a": "radial styloid process",
+          "bone_b": "carpals_r",
+          "landmark_b": "scaphoid, trapezium"
+        },
+        "mechanical_role": "resists ulnar deviation stress",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Continues distally into the thenar region, blending with the abductor pollicis brevis fascia.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "scapholunate_r",
+        "name": "Scapholunate interosseous ligament",
+        "attachments": {
+          "bone_a": "carpals_r",
+          "landmark_a": "scaphoid (proximal pole, dorsal/palmar/proximal-membranous regions)",
+          "bone_b": "carpals_r",
+          "landmark_b": "lunate"
+        },
+        "mechanical_role": "the primary stabilizer of the scapholunate joint; its dorsal region, described by Berger (1996) as thick with short transversely-oriented collagen fibers, is reported by separate biomechanical load-to-failure testing (not this histologic paper itself) as the mechanically strongest of its three regions -- consistent findings from two different kinds of study, not a single paper's claim (precision clarified after adversarial fact-check, see docs/VERIFICATION.md)",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Clinically the single most important intrinsic carpal ligament -- its rupture causes scapholunate dissociation (the classic 'Terry Thomas sign' gap on radiographs) and, if untreated, progresses to SLAC (scapholunate advanced collapse) wrist arthritis.",
+        "source": "Berger RA (1996) 'The gross and histologic anatomy of the scapholunate interosseous ligament.' J Hand Surg Am 21(2):170-178 -- scapholunate ligament's dorsal/palmar/proximal membranous regions and role in carpal stability."
+      }
+    ],
+    "function": "The wrist capsule's major thickenings plus the scapholunate interosseous ligament, together maintaining normal carpal alignment and coupled radiocarpal/midcarpal kinematics through wrist flexion-extension and radioulnar deviation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Berger RA (1996) 'The gross and histologic anatomy of the scapholunate interosseous ligament.' J Hand Surg Am 21(2):170-178 -- scapholunate ligament's dorsal/palmar/proximal membranous regions and role in carpal stability.",
+    "joint": "wrist_r"
+  },
+  {
+    "id": "wrist_ligament_complex_l",
+    "name_ta": "Ligamenta carpi",
+    "name_common": "Wrist (carpal) ligament complex",
+    "side": "left",
+    "region": "wrist",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "radius_l",
+      "landmark_a": "distal radius",
+      "bone_b": "carpals_l",
+      "landmark_b": "proximal carpal row"
+    },
+    "bands": [
+      {
+        "id": "palmar_radiocarpal_l",
+        "name": "Palmar radiocarpal ligament",
+        "attachments": {
+          "bone_a": "radius_l",
+          "landmark_a": "palmar rim of distal radius",
+          "bone_b": "carpals_l",
+          "landmark_b": "lunate, triquetrum, capitate (palmar surfaces)"
+        },
+        "mechanical_role": "the wrist's strongest capsular ligament; guides the characteristic screw-home-like coupled motion during wrist extension",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Broad, strong palmar band; its integrity is the main reason the palmar wrist capsule is stronger than the dorsal capsule.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "dorsal_radiocarpal_l",
+        "name": "Dorsal radiocarpal ligament",
+        "attachments": {
+          "bone_a": "radius_l",
+          "landmark_a": "dorsal rim of distal radius",
+          "bone_b": "carpals_l",
+          "landmark_b": "lunate, triquetrum (dorsal surfaces)"
+        },
+        "mechanical_role": "secondary dorsal restraint, weaker than its palmar counterpart",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The thinner, weaker dorsal counterpart to the palmar radiocarpal ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "ucl_wrist_l",
+        "name": "Ulnar collateral ligament of wrist",
+        "attachments": {
+          "bone_a": "ulna_l",
+          "landmark_a": "ulnar styloid process",
+          "bone_b": "carpals_l",
+          "landmark_b": "triquetrum, pisiform"
+        },
+        "mechanical_role": "resists radial deviation stress; blends with the triangular fibrocartilage complex",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Functionally continuous with the TFCC (see data/cartilage/) rather than a fully separable discrete cord.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "rcl_wrist_l",
+        "name": "Radial collateral ligament of wrist",
+        "attachments": {
+          "bone_a": "radius_l",
+          "landmark_a": "radial styloid process",
+          "bone_b": "carpals_l",
+          "landmark_b": "scaphoid, trapezium"
+        },
+        "mechanical_role": "resists ulnar deviation stress",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Continues distally into the thenar region, blending with the abductor pollicis brevis fascia.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "scapholunate_l",
+        "name": "Scapholunate interosseous ligament",
+        "attachments": {
+          "bone_a": "carpals_l",
+          "landmark_a": "scaphoid (proximal pole, dorsal/palmar/proximal-membranous regions)",
+          "bone_b": "carpals_l",
+          "landmark_b": "lunate"
+        },
+        "mechanical_role": "the primary stabilizer of the scapholunate joint; its dorsal region, described by Berger (1996) as thick with short transversely-oriented collagen fibers, is reported by separate biomechanical load-to-failure testing (not this histologic paper itself) as the mechanically strongest of its three regions -- consistent findings from two different kinds of study, not a single paper's claim (precision clarified after adversarial fact-check, see docs/VERIFICATION.md)",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Clinically the single most important intrinsic carpal ligament -- its rupture causes scapholunate dissociation (the classic 'Terry Thomas sign' gap on radiographs) and, if untreated, progresses to SLAC (scapholunate advanced collapse) wrist arthritis.",
+        "source": "Berger RA (1996) 'The gross and histologic anatomy of the scapholunate interosseous ligament.' J Hand Surg Am 21(2):170-178 -- scapholunate ligament's dorsal/palmar/proximal membranous regions and role in carpal stability."
+      }
+    ],
+    "function": "The wrist capsule's major thickenings plus the scapholunate interosseous ligament, together maintaining normal carpal alignment and coupled radiocarpal/midcarpal kinematics through wrist flexion-extension and radioulnar deviation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Berger RA (1996) 'The gross and histologic anatomy of the scapholunate interosseous ligament.' J Hand Surg Am 21(2):170-178 -- scapholunate ligament's dorsal/palmar/proximal membranous regions and role in carpal stability.",
+    "joint": "wrist_l"
+  }
+]

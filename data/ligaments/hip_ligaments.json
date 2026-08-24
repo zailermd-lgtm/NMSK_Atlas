@@ -1,0 +1,180 @@
+[
+  {
+    "id": "hip_ligament_complex_r",
+    "name_ta": "Ligamenta capsularia articulationis coxae",
+    "name_common": "Hip capsular ligament complex",
+    "side": "right",
+    "region": "hip",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "hip_bone_r",
+      "landmark_a": "acetabular rim",
+      "bone_b": "femur_r",
+      "landmark_b": "intertrochanteric line/crest"
+    },
+    "bands": [
+      {
+        "id": "iliofemoral_r",
+        "name": "Iliofemoral ligament (Y ligament of Bigelow)",
+        "attachments": {
+          "bone_a": "hip_bone_r",
+          "landmark_a": "anterior inferior iliac spine",
+          "bone_b": "femur_r",
+          "landmark_b": "intertrochanteric line"
+        },
+        "mechanical_role": "primary restraint against hyperextension of the hip (standard anatomical teaching); per Martin et al. (2008)'s own cadaveric testing, also the dominant restraint against external rotation, providing roughly 68-80% of total rotational resistive torque depending on hip flexion/extension angle",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "One of the strongest ligaments in the body. The hyperextension-restraint/passive-standing-posture role is standard anatomical teaching (Gray's/Kenhub level), but the cited source's own quantitative finding is specifically about rotational control: Martin et al. (2008) found the iliofemoral ligament's medial arm alone provides roughly 68% of total resistive torque against external rotation in neutral hip alignment (up to ~80% in 10 degrees of extension) -- a distinct, though related, mechanical axis from hyperextension restraint. Both roles are real, but only the rotational-torque finding is this specific paper's own measured result (clarified after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM."
+      },
+      {
+        "id": "pubofemoral_r",
+        "name": "Pubofemoral ligament",
+        "attachments": {
+          "bone_a": "hip_bone_r",
+          "landmark_a": "superior pubic ramus, iliopubic eminence",
+          "bone_b": "femur_r",
+          "landmark_b": "blends with the medial joint capsule near the lesser trochanter"
+        },
+        "mechanical_role": "resists excessive abduction and extension",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The weakest of the three major capsular ligaments.",
+        "source": "Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM."
+      },
+      {
+        "id": "ischiofemoral_r",
+        "name": "Ischiofemoral ligament",
+        "attachments": {
+          "bone_a": "hip_bone_r",
+          "landmark_a": "ischium, posterior acetabular rim",
+          "bone_b": "femur_r",
+          "landmark_b": "greater trochanter (blends with zona orbicularis)"
+        },
+        "mechanical_role": "resists internal rotation and adduction, particularly with the hip flexed; the main posterior capsular restraint",
+        "tension_pattern": "taut_in_flexion",
+        "function_note": "The only one of the three major capsular ligaments arising posteriorly, spiraling to reinforce the posterior capsule.",
+        "source": "Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM."
+      },
+      {
+        "id": "ligamentum_teres_r",
+        "name": "Ligamentum teres (ligament of the head of femur)",
+        "attachments": {
+          "bone_a": "hip_bone_r",
+          "landmark_a": "acetabular notch / transverse acetabular ligament",
+          "bone_b": "femur_r",
+          "landmark_b": "fovea capitis (femoral head)"
+        },
+        "mechanical_role": "minor mechanical restraint in adults; carries a small artery (a branch of the obturator/medial circumflex femoral system) contributing to femoral head blood supply, more significant in childhood",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Intracapsular and intra-articular; a well-known source of the acetabular artery's contribution to femoral head perfusion, clinically relevant in pediatric hip conditions and femoral head avascular necrosis risk.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "transverse_acetabular_r",
+        "name": "Transverse acetabular ligament",
+        "attachments": {
+          "bone_a": "hip_bone_r",
+          "landmark_a": "one margin of the acetabular notch",
+          "bone_b": "hip_bone_r",
+          "landmark_b": "other margin of the acetabular notch"
+        },
+        "mechanical_role": "bridges the acetabular notch, converting it into the acetabular foramen through which the acetabular vessels and ligamentum teres pass",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The inferior continuation of the acetabular labrum across the notch rather than a separate free ligament, though conventionally named and described alongside the hip's other ligaments.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The hip's capsular ligaments spiral around the femoral neck (tightening in extension) and are collectively the strongest ligamentous complex in the body, allowing the hip to bear the full weight of the trunk in standing with minimal active muscular effort.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM.",
+    "joint": "hip_r"
+  },
+  {
+    "id": "hip_ligament_complex_l",
+    "name_ta": "Ligamenta capsularia articulationis coxae",
+    "name_common": "Hip capsular ligament complex",
+    "side": "left",
+    "region": "hip",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "hip_bone_l",
+      "landmark_a": "acetabular rim",
+      "bone_b": "femur_l",
+      "landmark_b": "intertrochanteric line/crest"
+    },
+    "bands": [
+      {
+        "id": "iliofemoral_l",
+        "name": "Iliofemoral ligament (Y ligament of Bigelow)",
+        "attachments": {
+          "bone_a": "hip_bone_l",
+          "landmark_a": "anterior inferior iliac spine",
+          "bone_b": "femur_l",
+          "landmark_b": "intertrochanteric line"
+        },
+        "mechanical_role": "primary restraint against hyperextension of the hip (standard anatomical teaching); per Martin et al. (2008)'s own cadaveric testing, also the dominant restraint against external rotation, providing roughly 68-80% of total rotational resistive torque depending on hip flexion/extension angle",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "One of the strongest ligaments in the body. The hyperextension-restraint/passive-standing-posture role is standard anatomical teaching (Gray's/Kenhub level), but the cited source's own quantitative finding is specifically about rotational control: Martin et al. (2008) found the iliofemoral ligament's medial arm alone provides roughly 68% of total resistive torque against external rotation in neutral hip alignment (up to ~80% in 10 degrees of extension) -- a distinct, though related, mechanical axis from hyperextension restraint. Both roles are real, but only the rotational-torque finding is this specific paper's own measured result (clarified after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM."
+      },
+      {
+        "id": "pubofemoral_l",
+        "name": "Pubofemoral ligament",
+        "attachments": {
+          "bone_a": "hip_bone_l",
+          "landmark_a": "superior pubic ramus, iliopubic eminence",
+          "bone_b": "femur_l",
+          "landmark_b": "blends with the medial joint capsule near the lesser trochanter"
+        },
+        "mechanical_role": "resists excessive abduction and extension",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The weakest of the three major capsular ligaments.",
+        "source": "Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM."
+      },
+      {
+        "id": "ischiofemoral_l",
+        "name": "Ischiofemoral ligament",
+        "attachments": {
+          "bone_a": "hip_bone_l",
+          "landmark_a": "ischium, posterior acetabular rim",
+          "bone_b": "femur_l",
+          "landmark_b": "greater trochanter (blends with zona orbicularis)"
+        },
+        "mechanical_role": "resists internal rotation and adduction, particularly with the hip flexed; the main posterior capsular restraint",
+        "tension_pattern": "taut_in_flexion",
+        "function_note": "The only one of the three major capsular ligaments arising posteriorly, spiraling to reinforce the posterior capsule.",
+        "source": "Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM."
+      },
+      {
+        "id": "ligamentum_teres_l",
+        "name": "Ligamentum teres (ligament of the head of femur)",
+        "attachments": {
+          "bone_a": "hip_bone_l",
+          "landmark_a": "acetabular notch / transverse acetabular ligament",
+          "bone_b": "femur_l",
+          "landmark_b": "fovea capitis (femoral head)"
+        },
+        "mechanical_role": "minor mechanical restraint in adults; carries a small artery (a branch of the obturator/medial circumflex femoral system) contributing to femoral head blood supply, more significant in childhood",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Intracapsular and intra-articular; a well-known source of the acetabular artery's contribution to femoral head perfusion, clinically relevant in pediatric hip conditions and femoral head avascular necrosis risk.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "transverse_acetabular_l",
+        "name": "Transverse acetabular ligament",
+        "attachments": {
+          "bone_a": "hip_bone_l",
+          "landmark_a": "one margin of the acetabular notch",
+          "bone_b": "hip_bone_l",
+          "landmark_b": "other margin of the acetabular notch"
+        },
+        "mechanical_role": "bridges the acetabular notch, converting it into the acetabular foramen through which the acetabular vessels and ligamentum teres pass",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The inferior continuation of the acetabular labrum across the notch rather than a separate free ligament, though conventionally named and described alongside the hip's other ligaments.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      }
+    ],
+    "function": "The hip's capsular ligaments spiral around the femoral neck (tightening in extension) and are collectively the strongest ligamentous complex in the body, allowing the hip to bear the full weight of the trunk in standing with minimal active muscular effort.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Martin HD, Savage A, Braly BA, Palmer IJ, Beall DP, Kelly B (2008) 'The function of the hip capsular ligaments: a quantitative report.' Arthroscopy 24(2):188-195 -- iliofemoral/pubofemoral/ischiofemoral ligament tensioning through hip ROM.",
+    "joint": "hip_l"
+  }
+]
