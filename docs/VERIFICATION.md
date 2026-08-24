@@ -66,14 +66,16 @@ tests/test_symmetry.py::test_bilateral_entities_have_mirror_counterparts PASSED
 ```
 
 Dataset scale validated: 206 bones (69 entries, region-grouped), 37 joints,
-122 whole-body-index muscles + (13 upper-limb + 14 lower-limb) flagship
-muscles × 2 sides = 54 full-depth muscle files, 74 plexus nodes (43
-brachial + 31 lumbosacral), 75 named vessels (upper: 29 arterial + 9
-venous; lower: 27 arterial + 10 venous), 38 fascial structures (upper 17 +
-lower 21), 129 numerically-resolved rig anchors out of 352 attachment
-endpoints (~37%, a live, honestly-reported percentage — see
-`scripts/generate_anchors.py`'s coverage report; the remainder are
-breadth-pass bones with descriptive-only landmarks by design, not a bug).
+108 whole-body-index muscles + (13 upper-limb + 14 lower-limb + 14 trunk)
+flagship muscle groups × 2 sides (trunk's diaphragm is midline, unpaired)
+= 81 full-depth muscle files, 133 nerve-tree nodes (43 brachial + 31
+lumbosacral + 59 thoracic segmental), 180 named vessels (upper: 29
+arterial + 9 venous; lower: 27 arterial + 10 venous; trunk: 65 arterial +
+40 venous), 48 fascial structures (upper 17 + lower 21 + trunk 10), 136
+numerically-resolved rig anchors out of 378 attachment endpoints (~36%, a
+live, honestly-reported percentage — see `scripts/generate_anchors.py`'s
+coverage report; the remainder are breadth-pass bones with descriptive-only
+landmarks by design, not a bug).
 
 The end-to-end pipeline was also run live (`python -m engine.build_atlas
 --muscle deltoid_r`): it generated a full 7-compartment 1mm-resampled fiber
@@ -148,3 +150,63 @@ Kenhub, TeachMeAnatomy, StatPearls, Radiopaedia, Wikipedia, and PMC:
    the kind of mix-up that reads as authoritative unless independently
    checked against the actual paper). Both corrected in
    `data/muscles/lower_limb/*.json` and here before commit.
+
+8. **Trunk region (Stage 2) — three independent adversarial passes**,
+   covering the highest-risk new claims before commit:
+
+   - **Trunk muscle intramuscular compartmentalization** (rectus
+     abdominis's tendinous-intersection segments and their segmental
+     T7-T12 innervation, multifidus's short-fascicle/high-PCSA
+     architecture, quadratus lumborum's multi-bundle fiber architecture,
+     transversus abdominis's feedforward stabilizing role, internal
+     intercostal's opposite-action interosseous/interchondral parts,
+     levator ani's part division, spinalis capitis's frequent
+     fusion/absence) — **6 of 7 claims fully confirmed**; **1 citation
+     error found and corrected**: quadratus lumborum's fiber-bundle
+     architecture was attributed to Bogduk, Macintosh & Pearcy (1992),
+     which is actually a model of lumbar erector spinae and multifidus
+     with no mention of quadratus lumborum — corrected to Phillips,
+     Mercer & Bogduk (2008), the paper that actually describes QL's
+     three fiber-bundle layers. One additional nuance flagged (not an
+     error): levator ani's citation (Kearney/DeLancey 2004) was used to
+     support the traditional 3-part division, but that paper's own
+     conclusion actually argues for a finer 5-way subdivision — the
+     citation was broadened to credit Gray's for the traditional
+     3-part teaching model, with DeLancey's finer-subdivision proposal
+     noted explicitly rather than silently over-attributed.
+   - **Thoracic/abdominal vascular tree** (abdominal aorta branching
+     order, celiac trunk's 3 branches, renal artery/vein right-left
+     asymmetry, gonadal vein drainage asymmetry as the basis for
+     left-sided varicocele predominance, azygos/hemiazygos/accessory
+     hemiazygos drainage territories, ascending lumbar veins as an
+     IVC-obstruction collateral pathway, common iliac vessels and
+     May-Thurner syndrome) — **all 9 claims confirmed**, with only
+     normal-population-variation footnotes (exact aortic bifurcation
+     level, exact rib range of azygos tributaries) noted, not errors.
+   - **Thoracolumbar fascia and thoracoabdominal nerve claims** (TLF's
+     3-layer model, the posterior layer's documented myofascial coupling
+     of latissimus dorsi and gluteus maximus, lateral-raphe fusion and
+     origin of the abdominal wall muscles, rectus sheath/arcuate
+     line/Spigelian hernia relationship, inguinal ligament, T7-T11
+     thoracoabdominal nerve course and T12 subcostal nerve, L1
+     iliohypogastric/ilioinguinal contribution to the conjoint tendon) —
+     **6 of 7 claims confirmed**; **1 naming error found and
+     corrected**: the TLF's anterior layer was mislabeled "anterior
+     lumbocostal ligament" — that name actually belongs to a distinct
+     structure (the ligament of Henle) associated with the *middle*
+     layer, not the anterior layer. Corrected to "quadratus lumborum
+     fascia," with a note distinguishing it from the ligament of Henle.
+     Two additional wording softenings applied (not errors, but
+     precision nuances the fact-check surfaced): the posterior layer's
+     force-transmission role is Vleeming's documented finding, but the
+     exact phrase "self-locking mechanism" is from his separate
+     sacroiliac-joint literature, not this specific 1995 paper; and the
+     arcuate line's position is a classical "midway" approximation, with
+     cadaveric studies finding it more variable in practice.
+
+   Same pattern as finding 7: every error caught here was a real,
+   correctly-known anatomical fact wearing a plausible-but-wrong
+   citation or name, not a fabricated fact — exactly the class of
+   mistake independent adversarial re-checking is designed to catch,
+   and exactly why it is run as a mandatory step before every regional
+   data-authoring pass ships, not an optional afterthought.
