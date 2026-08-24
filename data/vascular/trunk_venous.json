@@ -1,0 +1,588 @@
+[
+  {
+    "id": "inferior_vena_cava",
+    "name": "Inferior vena cava",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": null,
+    "level": "root",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 22.0,
+    "notes": "Formed by the union of the two common iliac veins at L5; drains into the right atrium. Hepatic veins (draining the liver directly into the IVC just below the diaphragm) are visceral detail outside NMSK scope."
+  },
+  {
+    "id": "common_iliac_v_r",
+    "name": "Common iliac vein (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "trunk",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 12.0,
+    "notes": "Formed by union of external_iliac_v_r (modeled as the root of data/vascular/lower_limb_venous.json) and internal_iliac_v_r."
+  },
+  {
+    "id": "common_iliac_v_l",
+    "name": "Common iliac vein (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "trunk",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 12.0,
+    "notes": "Longer than the right and crosses the midline to reach the IVC, passing beneath the right common iliac artery -- the anatomical basis of May-Thurner compression syndrome."
+  },
+  {
+    "id": "internal_iliac_v_r",
+    "name": "Internal iliac vein (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "common_iliac_v_r",
+    "level": "trunk",
+    "supplies_or_drains": [
+      "levator_ani_r_puborectalis",
+      "levator_ani_r_pubococcygeus",
+      "coccygeus_r_main"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 8.0
+  },
+  {
+    "id": "internal_iliac_v_l",
+    "name": "Internal iliac vein (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "common_iliac_v_l",
+    "level": "trunk",
+    "supplies_or_drains": [
+      "levator_ani_l_puborectalis",
+      "levator_ani_l_pubococcygeus",
+      "coccygeus_l_main"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 8.0
+  },
+  {
+    "id": "renal_v_r",
+    "name": "Renal vein (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "terminal_branch",
+    "supplies_or_drains": [
+      "kidney (visceral organ, aggregate -- outside NMSK scope)"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 6.0
+  },
+  {
+    "id": "renal_v_l",
+    "name": "Renal vein (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "terminal_branch",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 7.0,
+    "notes": "Longer than the right, crossing the midline anterior to the aorta (potential 'nutcracker' compression point between the aorta and superior mesenteric artery)."
+  },
+  {
+    "id": "gonadal_v_r",
+    "name": "Gonadal vein (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "terminal_branch",
+    "supplies_or_drains": [
+      "gonad (visceral organ, aggregate -- outside NMSK scope)"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 3.0,
+    "notes": "Right gonadal vein drains directly into the IVC at an oblique angle."
+  },
+  {
+    "id": "gonadal_v_l",
+    "name": "Gonadal vein (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "renal_v_l",
+    "level": "terminal_branch",
+    "supplies_or_drains": [
+      "gonad (visceral organ, aggregate -- outside NMSK scope)"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 3.0,
+    "notes": "Left gonadal vein drains into the left renal vein rather than the IVC directly -- a well-documented right/left asymmetry, and the anatomical basis for left-sided predominance of varicocele."
+  },
+  {
+    "id": "lumbar_v_l1_r",
+    "name": "Lumbar vein L1 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_r_lumborum",
+      "quadratus_lumborum_r_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l1_l",
+    "name": "Lumbar vein L1 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_l_lumborum",
+      "quadratus_lumborum_l_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l2_r",
+    "name": "Lumbar vein L2 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_r_lumborum",
+      "quadratus_lumborum_r_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l2_l",
+    "name": "Lumbar vein L2 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_l_lumborum",
+      "quadratus_lumborum_l_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l3_r",
+    "name": "Lumbar vein L3 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_r_lumborum",
+      "quadratus_lumborum_r_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l3_l",
+    "name": "Lumbar vein L3 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_l_lumborum",
+      "quadratus_lumborum_l_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l4_r",
+    "name": "Lumbar vein L4 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_r_lumborum",
+      "quadratus_lumborum_r_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "lumbar_v_l4_l",
+    "name": "Lumbar vein L4 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "inferior_vena_cava",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "iliocostalis_l_lumborum",
+      "quadratus_lumborum_l_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.0
+  },
+  {
+    "id": "ascending_lumbar_v_r",
+    "name": "Ascending lumbar vein (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "trunk",
+    "supplies_or_drains": [
+      "iliocostalis_r_lumborum",
+      "quadratus_lumborum_r_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.5,
+    "notes": "Longitudinal channel connecting the lumbar veins to the azygos system -- the main lumbar-to-thoracic venous continuity, and (with the azygos/hemiazygos system as a whole) a clinically important collateral pathway when the IVC is obstructed."
+  },
+  {
+    "id": "ascending_lumbar_v_l",
+    "name": "Ascending lumbar vein (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "hemiazygos_v",
+    "level": "trunk",
+    "supplies_or_drains": [
+      "iliocostalis_l_lumborum",
+      "quadratus_lumborum_l_iliolumbar"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 2.5
+  },
+  {
+    "id": "azygos_v",
+    "name": "Azygos vein",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": null,
+    "level": "root",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 8.0,
+    "notes": "Right-sided vessel ascending in the posterior mediastinum, arching over the right main bronchus to drain into the superior vena cava (SVC/heart-side termination is Stage 3/mediastinal territory, not modeled here). Receives the right posterior intercostal veins, the right subcostal vein, and the hemiazygos/accessory hemiazygos systems."
+  },
+  {
+    "id": "posterior_intercostal_v_t4_r",
+    "name": "Posterior intercostal vein T4 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t5_r",
+    "name": "Posterior intercostal vein T5 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t6_r",
+    "name": "Posterior intercostal vein T6 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t7_r",
+    "name": "Posterior intercostal vein T7 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t8_r",
+    "name": "Posterior intercostal vein T8 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t9_r",
+    "name": "Posterior intercostal vein T9 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t10_r",
+    "name": "Posterior intercostal vein T10 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t11_r",
+    "name": "Posterior intercostal vein T11 (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_r_main",
+      "internal_intercostals_r_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "subcostal_v_r",
+    "name": "Subcostal vein (right)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "quadratus_lumborum_r_iliocostal"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "hemiazygos_v",
+    "name": "Hemiazygos vein",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "trunk",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 4.0,
+    "notes": "Left-sided, drains the lower left posterior intercostal spaces (T9-T11 approx.) and left subcostal vein, then crosses the midline (behind the aorta/thoracic duct) to join the azygos vein."
+  },
+  {
+    "id": "posterior_intercostal_v_t9_l",
+    "name": "Posterior intercostal vein T9 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t10_l",
+    "name": "Posterior intercostal vein T10 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t11_l",
+    "name": "Posterior intercostal vein T11 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "subcostal_v_l",
+    "name": "Subcostal vein (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "quadratus_lumborum_l_iliocostal"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "accessory_hemiazygos_v",
+    "name": "Accessory hemiazygos vein",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "azygos_v",
+    "level": "trunk",
+    "supplies_or_drains": [],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 3.0,
+    "notes": "Left-sided, drains the upper/middle left posterior intercostal spaces (T4-T8 approx., i.e. those not reached by the hemiazygos vein), then crosses the midline to join the azygos vein (occasionally joins the hemiazygos vein instead -- a documented normal variant)."
+  },
+  {
+    "id": "posterior_intercostal_v_t4_l",
+    "name": "Posterior intercostal vein T4 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "accessory_hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t5_l",
+    "name": "Posterior intercostal vein T5 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "accessory_hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t6_l",
+    "name": "Posterior intercostal vein T6 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "accessory_hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t7_l",
+    "name": "Posterior intercostal vein T7 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "accessory_hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  },
+  {
+    "id": "posterior_intercostal_v_t8_l",
+    "name": "Posterior intercostal vein T8 (left)",
+    "system": "venous",
+    "tree_name": "trunk_venous",
+    "parent_id": "accessory_hemiazygos_v",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "external_intercostals_l_main",
+      "internal_intercostals_l_interosseous"
+    ],
+    "anastomoses_with": [],
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 1.5
+  }
+]

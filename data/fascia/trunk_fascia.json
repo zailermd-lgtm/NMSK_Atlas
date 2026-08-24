@@ -1,0 +1,249 @@
+[
+  {
+    "id": "posterior_layer_tlf_r",
+    "name": "Thoracolumbar fascia, posterior layer",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "lumbar_vertebrae",
+        "landmark": "lumbar and lower thoracic spinous processes"
+      },
+      {
+        "bone": "hip_bone_r",
+        "landmark": "posterior iliac crest"
+      },
+      {
+        "bone": "sacrum",
+        "landmark": "median and lateral sacral crests"
+      }
+    ],
+    "adjacent_fascia": [
+      "middle_layer_tlf_r",
+      "gluteal_fascia_r",
+      "latissimus_dorsi_aponeurosis_r"
+    ],
+    "compartment_contents": [
+      "iliocostalis_r_lumborum",
+      "longissimus_r_thoracis",
+      "multifidus_r_lumbar"
+    ],
+    "function": "Most superficial of the three TLF layers, enclosing the erector spinae posteriorly; blends laterally with the aponeuroses of latissimus dorsi and gluteus maximus, forming a documented myofascial force-transmission pathway linking the contralateral latissimus dorsi and gluteus maximus across the lumbosacral junction during gait (part of the same functional coupling Vleeming separately describes as sacroiliac 'self-bracing'/form-and-force-closure, though that exact term is not used in this specific 1995 paper).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998); Vleeming A, Pool-Goudzwaard AL, Stoeckart R, van Wingerden JP, Snijders CJ (1995) Spine 20(7):753-758 -- the posterior layer of the thoracolumbar fascia's role transferring load between the spine and legs via its latissimus dorsi/gluteus maximus attachments"
+  },
+  {
+    "id": "middle_layer_tlf_r",
+    "name": "Thoracolumbar fascia, middle layer",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "lumbar_vertebrae",
+        "landmark": "tips of the lumbar transverse processes"
+      },
+      {
+        "bone": "hip_bone_r",
+        "landmark": "iliac crest"
+      },
+      {
+        "bone": "ribs_r",
+        "landmark": "12th rib"
+      }
+    ],
+    "adjacent_fascia": [
+      "posterior_layer_tlf_r",
+      "anterior_layer_tlf_r"
+    ],
+    "compartment_contents": [
+      "quadratus_lumborum_r_iliocostal",
+      "quadratus_lumborum_r_iliolumbar"
+    ],
+    "function": "Separates the erector spinae (posterior layer) from quadratus lumborum (anterior layer); laterally, all three TLF layers fuse into a single dense band that becomes the origin of transversus abdominis and internal oblique.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "anterior_layer_tlf_r",
+    "name": "Thoracolumbar fascia, anterior layer (quadratus lumborum fascia)",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "lumbar_vertebrae",
+        "landmark": "anterior surfaces of the lumbar transverse processes"
+      },
+      {
+        "bone": "ribs_r",
+        "landmark": "12th rib"
+      }
+    ],
+    "adjacent_fascia": [
+      "middle_layer_tlf_r"
+    ],
+    "compartment_contents": [
+      "quadratus_lumborum_r_iliocostal"
+    ],
+    "function": "Thinnest of the three layers, covering the anterior surface of quadratus lumborum; its thickened superior border forms the lateral arcuate ligament (lumbocostal arch), which gives partial origin to the diaphragm. Not to be confused with the lumbocostal ligament (ligament of Henle), a distinct structure lying posterior to quadratus lumborum that blends with the middle layer rather than this one.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "rectus_sheath_r",
+    "name": "Rectus sheath",
+    "region": "trunk",
+    "kind": "aponeurosis",
+    "bony_attachments": [
+      {
+        "bone": "hip_bone_r",
+        "landmark": "pubic crest (inferior continuation)"
+      },
+      {
+        "bone": "ribs_r",
+        "landmark": "costal cartilages 5-7 (superior continuation)"
+      }
+    ],
+    "adjacent_fascia": [
+      "linea_alba",
+      "external_oblique_aponeurosis_r",
+      "internal_oblique_aponeurosis_r",
+      "transversus_abdominis_aponeurosis_r"
+    ],
+    "compartment_contents": [
+      "rectus_abdominis_r_seg1_superior",
+      "rectus_abdominis_r_seg2",
+      "rectus_abdominis_r_seg3",
+      "rectus_abdominis_r_seg4_inferior"
+    ],
+    "function": "Formed by the interweaving aponeuroses of external oblique, internal oblique and transversus abdominis, enclosing rectus abdominis in anterior and posterior laminae; below the arcuate line (classically described as roughly midway between umbilicus and pubis, though cadaveric studies find its true position more variable, often closer to the umbilicus) all three aponeuroses pass anterior to rectus abdominis, leaving only transversalis fascia posteriorly -- a clinically important discontinuity near/below which Spigelian and other abdominal wall hernias occur (within the 'Spigelian belt' along the linea semilunaris, not exactly at the line itself).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "linea_alba",
+    "name": "Linea alba",
+    "region": "trunk",
+    "kind": "aponeurosis",
+    "bony_attachments": [
+      {
+        "bone": "sternum",
+        "landmark": "xiphoid process (superior)"
+      },
+      {
+        "bone": "hip_bone_r",
+        "landmark": "pubic symphysis (inferior)"
+      }
+    ],
+    "adjacent_fascia": [
+      "rectus_sheath_r"
+    ],
+    "compartment_contents": [],
+    "function": "Midline fibrous raphe formed by the decussating fibers of the left and right rectus sheaths; avascular and relatively thin, making it the conventional surgical access line for laparotomy and a documented site of acquired weakness (diastasis recti, e.g. postpartum).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "inguinal_ligament_r",
+    "name": "Inguinal ligament (Poupart's ligament)",
+    "region": "trunk",
+    "kind": "aponeurosis",
+    "bony_attachments": [
+      {
+        "bone": "hip_bone_r",
+        "landmark": "anterior superior iliac spine (lateral end)"
+      },
+      {
+        "bone": "hip_bone_r",
+        "landmark": "pubic tubercle (medial end)"
+      }
+    ],
+    "adjacent_fascia": [
+      "rectus_sheath_r",
+      "fascia_lata_r"
+    ],
+    "compartment_contents": [
+      "external_oblique_r_main (lowest fibers, rolled under to form the ligament)"
+    ],
+    "function": "Thickened, rolled-under inferior border of the external oblique aponeurosis, spanning ASIS to pubic tubercle; forms the floor of the inguinal canal and the anterior boundary between the abdomen and thigh (structures deep to it -- iliopsoas, femoral vessels, femoral nerve -- pass into the thigh beneath it).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "transversalis_fascia_r",
+    "name": "Transversalis fascia",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "hip_bone_r",
+        "landmark": "posterior inguinal ligament, iliopubic tract"
+      }
+    ],
+    "adjacent_fascia": [
+      "rectus_sheath_r"
+    ],
+    "compartment_contents": [
+      "transversus_abdominis_r_main"
+    ],
+    "function": "Part of the continuous endoabdominal fascial envelope lining the abdominal wall deep to transversus abdominis; forms the deep inguinal ring where it evaginates around the spermatic cord/round ligament, and is the sole posterior covering of rectus abdominis below the arcuate line.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "diaphragmatic_fascia",
+    "name": "Diaphragmatic fascia (phrenicopleural/phrenicoperitoneal)",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "ribs_r",
+        "landmark": "costal margin, internal surface"
+      }
+    ],
+    "adjacent_fascia": [
+      "transversalis_fascia_r",
+      "endothoracic_fascia"
+    ],
+    "compartment_contents": [
+      "diaphragm_costal",
+      "diaphragm_crural"
+    ],
+    "function": "Thin fascial covering on both surfaces of the diaphragm, continuous superiorly with the endothoracic fascia (parietal pleura's fascial backing) and inferiorly with transversalis fascia -- part of the same continuous somatic fascial envelope described by Stecco as running the length of the trunk wall.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "endothoracic_fascia",
+    "name": "Endothoracic fascia",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "ribs_r",
+        "landmark": "internal surface of the rib cage"
+      }
+    ],
+    "adjacent_fascia": [
+      "diaphragmatic_fascia"
+    ],
+    "compartment_contents": [
+      "internal_intercostals_r_interosseous"
+    ],
+    "function": "Thin areolar fascial layer lining the internal surface of the thoracic wall deep to the intercostal muscles, continuous with the diaphragmatic fascia below -- the thoracic-cage counterpart of the abdomen's transversalis fascia in Stecco's continuous-envelope model.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998); Stecco C, Functional Atlas of the Human Fascial System (2015), Churchill Livingstone"
+  },
+  {
+    "id": "pelvic_diaphragm_fascia_r",
+    "name": "Pelvic diaphragm fascia (superior/inferior fascia of levator ani)",
+    "region": "trunk",
+    "kind": "deep_fascia_sheet",
+    "bony_attachments": [
+      {
+        "bone": "hip_bone_r",
+        "landmark": "tendinous arch of levator ani (arcus tendineus levator ani)"
+      }
+    ],
+    "adjacent_fascia": [
+      "transversalis_fascia_r"
+    ],
+    "compartment_contents": [
+      "levator_ani_r_pubococcygeus",
+      "levator_ani_r_iliococcygeus",
+      "coccygeus_r_main"
+    ],
+    "function": "Fascial coverings on the superior (pelvic) and inferior (perineal) surfaces of levator ani/coccygeus, continuous with the obturator internus fascia at the tendinous arch that gives levator ani part of its origin.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.4-5; Terminologia Anatomica (FICAT 1998)"
+  }
+]
