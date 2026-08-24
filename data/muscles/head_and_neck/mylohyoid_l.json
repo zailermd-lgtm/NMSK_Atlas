@@ -1,0 +1,55 @@
+{
+  "id": "mylohyoid_l",
+  "name_ta": "Mylohyoid",
+  "name_common": "Mylohyoid",
+  "side": "left",
+  "region": "neck",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "mandible",
+    "origin_landmark": "mylohyoid line of the mandible",
+    "insertion_bone": "hyoid",
+    "insertion_landmark": "hyoid body and a median fibrous raphe with the contralateral muscle",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "trigeminal_n_v3_mylohyoid_branch",
+    "root_levels": "CN V3"
+  },
+  "actions": [
+    "elevates the floor of the mouth and hyoid (e.g. during the first stage of swallowing)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "mylohyoid_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 50,
+        "physiological_cross_section_area_mm2": 90,
+        "max_isometric_force_N": 20.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -25,
+          -15,
+          5
+        ],
+        [
+          -5,
+          -20,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Paired sheet forming the entire muscular floor of the mouth, meeting its contralateral partner at the median raphe.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
