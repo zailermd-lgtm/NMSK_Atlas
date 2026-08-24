@@ -15,6 +15,24 @@
     "approx_diameter_mm": 9.0
   },
   {
+    "id": "vertebral_a_r",
+    "name": "Vertebral artery",
+    "system": "arterial",
+    "tree_name": "upper_limb_arterial",
+    "parent_id": "subclavian_a_r",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "longus_colli_r_main",
+      "scalenus_anterior_r_main",
+      "scalenus_medius_r_main",
+      "scalenus_posterior_r_main"
+    ],
+    "anastomoses_with": [],
+    "notes": "First and most posterior branch of the subclavian artery; ascends through the transverse foramina of the cervical vertebrae (a documented data/skeleton/bones.json landmark) from C6 upward, alongside the muscles it supplies segmentally along the way. Modeled as a leaf here since its intracranial continuation (joining the contralateral vertebral a. to form the basilar artery, supplying the brain) is out of scope for this musculoskeletal-focused atlas, consistent with data/vascular/head_neck_arterial.json's internal carotid artery leaf for the same reason.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Terminologia Anatomica (FICAT 1998)",
+    "approx_diameter_mm": 4.0
+  },
+  {
     "id": "axillary_a_r",
     "name": "Axillary artery",
     "system": "arterial",
