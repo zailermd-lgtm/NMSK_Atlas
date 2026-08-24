@@ -1,0 +1,55 @@
+{
+  "id": "gluteus_minimus_r",
+  "name_ta": "Gluteus minimus",
+  "name_common": "Gluteus minimus",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "external ilium (below gluteus medius origin)",
+    "insertion_bone": "femur_r",
+    "insertion_landmark": "greater trochanter (anterior facet)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "superior_gluteal_n",
+    "root_levels": "L4-S1"
+  },
+  "actions": [
+    "abducts and internally rotates hip"
+  ],
+  "functional_compartments": [
+    {
+      "id": "gluteus_minimus_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 1100,
+        "max_isometric_force_N": 247.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          100,
+          -10
+        ],
+        [
+          30,
+          -10,
+          0
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Deepest of the 3 gluteal abductors, functionally paired with gluteus medius as a primary hip abductor/pelvic stabilizer during single-leg stance.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

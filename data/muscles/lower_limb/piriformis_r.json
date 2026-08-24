@@ -1,0 +1,55 @@
+{
+  "id": "piriformis_r",
+  "name_ta": "Piriformis",
+  "name_common": "Piriformis",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "sacrum",
+    "origin_landmark": "anterior sacrum (S2-S4 segments)",
+    "insertion_bone": "femur_r",
+    "insertion_landmark": "greater trochanter (superior border)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "nerve_to_piriformis",
+    "root_levels": "S1-S2"
+  },
+  "actions": [
+    "externally rotates hip (in extension); abducts hip (in flexion, due to its line of pull crossing above the hip center)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "piriformis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 350,
+        "max_isometric_force_N": 78.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          30,
+          -40
+        ],
+        [
+          35,
+          -15,
+          -5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Passes through the greater sciatic foramen, dividing it into supra- and infra-piriform spaces -- the sciatic nerve's relationship to this muscle (usually passing below it, but a documented anatomical variant splits or passes through it) is the anatomical basis of piriformis syndrome.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

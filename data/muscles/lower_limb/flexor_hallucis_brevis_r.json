@@ -1,0 +1,85 @@
+{
+  "id": "flexor_hallucis_brevis_r",
+  "name_ta": "Flexor hallucis brevis",
+  "name_common": "Flexor hallucis brevis",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "bipennate",
+  "attachments": {
+    "origin_bone": "tarsals_r",
+    "origin_landmark": "cuboid, lateral cuneiform",
+    "insertion_bone": "phalanges_foot_r",
+    "insertion_landmark": "proximal phalanx of the great toe (medial and lateral sesamoids)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "medial_plantar_n",
+    "root_levels": "S1-S3"
+  },
+  "actions": [
+    "flexes the great toe's MTP joint"
+  ],
+  "functional_compartments": [
+    {
+      "id": "flexor_hallucis_brevis_r_medial",
+      "name": "Medial head",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 30,
+        "physiological_cross_section_area_mm2": 130,
+        "max_isometric_force_N": 29.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          -20,
+          -15
+        ],
+        [
+          25,
+          0,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Inserts via the medial sesamoid bone, one of the two sesamoids embedded in this muscle's tendons beneath the 1st metatarsal head -- a classic radiographic landmark and a site of sesamoiditis.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    },
+    {
+      "id": "flexor_hallucis_brevis_r_lateral",
+      "name": "Lateral head",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 30,
+        "physiological_cross_section_area_mm2": 120,
+        "max_isometric_force_N": 27.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          -20,
+          -18
+        ],
+        [
+          22,
+          0,
+          8
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Inserts via the lateral sesamoid; often partly blended with adductor hallucis's transverse head fibers at their shared insertion.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

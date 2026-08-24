@@ -1,0 +1,55 @@
+{
+  "id": "gracilis_r",
+  "name_ta": "Gracilis",
+  "name_common": "Gracilis",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "pubic body/inferior ramus",
+    "insertion_bone": "tibia_r",
+    "insertion_landmark": "pes anserinus (medial proximal tibia)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "obturator_n_anterior_branch",
+    "root_levels": "L2-L3"
+  },
+  "actions": [
+    "adducts hip, flexes knee"
+  ],
+  "functional_compartments": [
+    {
+      "id": "gracilis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 280,
+        "physiological_cross_section_area_mm2": 140,
+        "max_isometric_force_N": 31.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          -40,
+          5
+        ],
+        [
+          -25,
+          -420,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Only two-joint muscle of the adductor group; long thin strap shape and long fascicles suit its dual hip-adduction/knee-flexion role. Frequently harvested as a tendon graft (e.g. ACL reconstruction) given its functional redundancy with the other adductors and hamstrings.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

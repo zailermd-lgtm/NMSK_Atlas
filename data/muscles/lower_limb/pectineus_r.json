@@ -1,0 +1,55 @@
+{
+  "id": "pectineus_r",
+  "name_ta": "Pectineus",
+  "name_common": "Pectineus",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "pectineal line of pubis",
+    "insertion_bone": "femur_r",
+    "insertion_landmark": "pectineal line of femur",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "femoral_n_and_obturator_n",
+    "root_levels": "L2-L3"
+  },
+  "actions": [
+    "flexes and adducts hip"
+  ],
+  "functional_compartments": [
+    {
+      "id": "pectineus_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 250,
+        "max_isometric_force_N": 56.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          -10,
+          10
+        ],
+        [
+          10,
+          -70,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Transitional muscle at the boundary of the anterior (femoral n.) and medial (obturator n.) thigh compartments -- documented dual innervation reflecting this position, forms the floor of the femoral triangle.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}
