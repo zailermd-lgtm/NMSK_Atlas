@@ -1,0 +1,55 @@
+{
+  "id": "hyoglossus_l",
+  "name_ta": "Hyoglossus",
+  "name_common": "Hyoglossus",
+  "side": "left",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hyoid",
+    "origin_landmark": "greater horn/body of hyoid",
+    "insertion_bone": "hyoid",
+    "insertion_landmark": "side of the tongue, blending with intrinsic tongue fibers",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "hypoglossal_n",
+    "root_levels": "CN XII"
+  },
+  "actions": [
+    "depresses and retracts the tongue"
+  ],
+  "functional_compartments": [
+    {
+      "id": "hyoglossus_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 100,
+        "max_isometric_force_N": 22.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -5,
+          5
+        ],
+        [
+          -15,
+          15,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Thin quadrilateral sheet; the lingual artery passes deep to it, a classically important surgical landmark relationship.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+}
