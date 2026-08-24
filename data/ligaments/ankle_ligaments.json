@@ -1,0 +1,274 @@
+[
+  {
+    "id": "lateral_ligament_complex_ankle_r",
+    "name_ta": "Ligamenta lateralia articulationis talocruralis",
+    "name_common": "Lateral ligament complex of the ankle",
+    "side": "right",
+    "region": "ankle",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "fibula_r",
+      "landmark_a": "lateral malleolus",
+      "bone_b": "tarsals_r",
+      "landmark_b": "talus and calcaneus"
+    },
+    "bands": [
+      {
+        "id": "atfl_r",
+        "name": "Anterior talofibular ligament (ATFL)",
+        "attachments": {
+          "bone_a": "fibula_r",
+          "landmark_a": "anterior margin of lateral malleolus",
+          "bone_b": "tarsals_r",
+          "landmark_b": "talar neck, lateral aspect"
+        },
+        "mechanical_role": "primary restraint against anterior talar translation and inversion, especially in plantarflexion",
+        "tension_pattern": "taut_in_flexion",
+        "function_note": "The weakest of the three lateral ligaments and, correspondingly, the most frequently injured ligament of the ankle (Golano et al.'s own phrasing) -- the structure torn in the classic inversion ankle sprain. Secondary sources sometimes broaden this to 'the most frequently injured ligament in the body' given how common ankle sprains are, but that broader claim is not what this specific citation states (scope narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "cfl_r",
+        "name": "Calcaneofibular ligament (CFL)",
+        "attachments": {
+          "bone_a": "fibula_r",
+          "landmark_a": "tip of lateral malleolus",
+          "bone_b": "tarsals_r",
+          "landmark_b": "lateral calcaneus (peroneal tubercle)"
+        },
+        "mechanical_role": "primary restraint against inversion with the ankle in neutral/dorsiflexion; the only one of the three that crosses both the talocrural and subtalar joints",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Its distinct extra-articular course crossing two joints (unlike ATFL/PTFL which cross only the talocrural joint) means CFL injury is often assessed with subtalar as well as ankle instability in mind.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "ptfl_r",
+        "name": "Posterior talofibular ligament (PTFL)",
+        "attachments": {
+          "bone_a": "fibula_r",
+          "landmark_a": "posterior malleolar fossa",
+          "bone_b": "tarsals_r",
+          "landmark_b": "posterolateral talus (lateral tubercle)"
+        },
+        "mechanical_role": "resists posterior talar translation and excessive dorsiflexion; the strongest of the three lateral ligaments, rarely injured in isolation",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The strongest and most horizontally-oriented of the three, injured far less often than the ATFL given its more protected position and greater strength.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      }
+    ],
+    "function": "The ankle's lateral stabilizers, of markedly unequal strength and injury frequency -- the ATFL alone accounts for the large majority of ankle sprains.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy.",
+    "joint": "ankle_r"
+  },
+  {
+    "id": "deltoid_ligament_r",
+    "name_ta": "Ligamentum deltoideum",
+    "name_common": "Deltoid (medial) ligament of the ankle",
+    "side": "right",
+    "region": "ankle",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "tibia_r",
+      "landmark_a": "medial malleolus",
+      "bone_b": "tarsals_r",
+      "landmark_b": "talus, calcaneus, navicular"
+    },
+    "bands": [
+      {
+        "id": "deltoid_tn_r",
+        "name": "Tibionavicular part",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "anterior colliculus of medial malleolus",
+          "bone_b": "tarsals_r",
+          "landmark_b": "navicular tuberosity, dorsomedial"
+        },
+        "mechanical_role": "resists eversion; part of the superficial layer",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Superficial-layer band; blends with the spring (calcaneonavicular) ligament, coupling ankle and midfoot stability.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "deltoid_tc_r",
+        "name": "Tibiocalcaneal part",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "anterior/intermediate colliculus of medial malleolus",
+          "bone_b": "tarsals_r",
+          "landmark_b": "sustentaculum tali of calcaneus"
+        },
+        "mechanical_role": "resists eversion and limits excessive subtalar pronation; part of the superficial layer",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The most vertically-oriented superficial band, running nearly straight down to the sustentaculum tali.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "deltoid_ptt_r",
+        "name": "Posterior tibiotalar part",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "intermediate/posterior colliculus of medial malleolus",
+          "bone_b": "tarsals_r",
+          "landmark_b": "posteromedial talus, medial tubercle"
+        },
+        "mechanical_role": "resists eversion, most significant in dorsiflexion; part of the superficial layer",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The most posterior of the superficial-layer bands. Golano et al.'s own classification actually splits the posterior tibiotalar band into a deep part (always present, and cited elsewhere in the literature as possibly the deltoid ligament's single largest/thickest band) and a variable superficial part -- this dataset follows the simpler, more widely-taught single-band convention rather than Golano's finer subdivision (noted after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "deltoid_att_r",
+        "name": "Anterior tibiotalar part (deep layer)",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "intercollicular groove / posterior colliculus (deep origin)",
+          "bone_b": "tarsals_r",
+          "landmark_b": "medial talus, anterior to the deep-layer footprint"
+        },
+        "mechanical_role": "the deep layer's primary component; a key restraint against talar external rotation/eversion",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Deep, intra-articular (capsular) band. Which deltoid band is mechanically strongest is genuinely disputed in the literature -- some sources point to this band, others to the deep posterior tibiotalar band (not separately modeled here, folded into the posterior tibiotalar part below) as the largest/thickest -- so no single-strongest-band claim is asserted (corrected from an overstated claim after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      }
+    ],
+    "function": "The ankle's medial stabilizer, a strong multi-layered fan resisting eversion and lateral talar shift -- injured far less often than the lateral complex given both its greater intrinsic strength and the bony buttress of the (longer) lateral malleolus limiting eversion range in the first place. Modeled here with the widely-taught 4-part (tibionavicular/tibiocalcaneal/posterior tibiotalar/anterior tibiotalar) division; the cited source (Golano et al. 2010) itself documents a more complex and partly variable 6-band classification (Milner & Soames) and explicitly notes the ligament's internal subdivision 'is still confusing' and to some extent an artificial convenience -- the simplified 4-part model is standard teaching (Kenhub/TeachMeAnatomy level), not a claim this dataset attributes to Golano's paper as its own finding (clarified after adversarial fact-check, see docs/VERIFICATION.md).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy.",
+    "joint": "ankle_r"
+  },
+  {
+    "id": "lateral_ligament_complex_ankle_l",
+    "name_ta": "Ligamenta lateralia articulationis talocruralis",
+    "name_common": "Lateral ligament complex of the ankle",
+    "side": "left",
+    "region": "ankle",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "fibula_l",
+      "landmark_a": "lateral malleolus",
+      "bone_b": "tarsals_l",
+      "landmark_b": "talus and calcaneus"
+    },
+    "bands": [
+      {
+        "id": "atfl_l",
+        "name": "Anterior talofibular ligament (ATFL)",
+        "attachments": {
+          "bone_a": "fibula_l",
+          "landmark_a": "anterior margin of lateral malleolus",
+          "bone_b": "tarsals_l",
+          "landmark_b": "talar neck, lateral aspect"
+        },
+        "mechanical_role": "primary restraint against anterior talar translation and inversion, especially in plantarflexion",
+        "tension_pattern": "taut_in_flexion",
+        "function_note": "The weakest of the three lateral ligaments and, correspondingly, the most frequently injured ligament of the ankle (Golano et al.'s own phrasing) -- the structure torn in the classic inversion ankle sprain. Secondary sources sometimes broaden this to 'the most frequently injured ligament in the body' given how common ankle sprains are, but that broader claim is not what this specific citation states (scope narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "cfl_l",
+        "name": "Calcaneofibular ligament (CFL)",
+        "attachments": {
+          "bone_a": "fibula_l",
+          "landmark_a": "tip of lateral malleolus",
+          "bone_b": "tarsals_l",
+          "landmark_b": "lateral calcaneus (peroneal tubercle)"
+        },
+        "mechanical_role": "primary restraint against inversion with the ankle in neutral/dorsiflexion; the only one of the three that crosses both the talocrural and subtalar joints",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Its distinct extra-articular course crossing two joints (unlike ATFL/PTFL which cross only the talocrural joint) means CFL injury is often assessed with subtalar as well as ankle instability in mind.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "ptfl_l",
+        "name": "Posterior talofibular ligament (PTFL)",
+        "attachments": {
+          "bone_a": "fibula_l",
+          "landmark_a": "posterior malleolar fossa",
+          "bone_b": "tarsals_l",
+          "landmark_b": "posterolateral talus (lateral tubercle)"
+        },
+        "mechanical_role": "resists posterior talar translation and excessive dorsiflexion; the strongest of the three lateral ligaments, rarely injured in isolation",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The strongest and most horizontally-oriented of the three, injured far less often than the ATFL given its more protected position and greater strength.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      }
+    ],
+    "function": "The ankle's lateral stabilizers, of markedly unequal strength and injury frequency -- the ATFL alone accounts for the large majority of ankle sprains.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy.",
+    "joint": "ankle_l"
+  },
+  {
+    "id": "deltoid_ligament_l",
+    "name_ta": "Ligamentum deltoideum",
+    "name_common": "Deltoid (medial) ligament of the ankle",
+    "side": "left",
+    "region": "ankle",
+    "structural_type": "capsular_thickening",
+    "attachments": {
+      "bone_a": "tibia_l",
+      "landmark_a": "medial malleolus",
+      "bone_b": "tarsals_l",
+      "landmark_b": "talus, calcaneus, navicular"
+    },
+    "bands": [
+      {
+        "id": "deltoid_tn_l",
+        "name": "Tibionavicular part",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "anterior colliculus of medial malleolus",
+          "bone_b": "tarsals_l",
+          "landmark_b": "navicular tuberosity, dorsomedial"
+        },
+        "mechanical_role": "resists eversion; part of the superficial layer",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Superficial-layer band; blends with the spring (calcaneonavicular) ligament, coupling ankle and midfoot stability.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "deltoid_tc_l",
+        "name": "Tibiocalcaneal part",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "anterior/intermediate colliculus of medial malleolus",
+          "bone_b": "tarsals_l",
+          "landmark_b": "sustentaculum tali of calcaneus"
+        },
+        "mechanical_role": "resists eversion and limits excessive subtalar pronation; part of the superficial layer",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The most vertically-oriented superficial band, running nearly straight down to the sustentaculum tali.",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "deltoid_ptt_l",
+        "name": "Posterior tibiotalar part",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "intermediate/posterior colliculus of medial malleolus",
+          "bone_b": "tarsals_l",
+          "landmark_b": "posteromedial talus, medial tubercle"
+        },
+        "mechanical_role": "resists eversion, most significant in dorsiflexion; part of the superficial layer",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "The most posterior of the superficial-layer bands. Golano et al.'s own classification actually splits the posterior tibiotalar band into a deep part (always present, and cited elsewhere in the literature as possibly the deltoid ligament's single largest/thickest band) and a variable superficial part -- this dataset follows the simpler, more widely-taught single-band convention rather than Golano's finer subdivision (noted after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      },
+      {
+        "id": "deltoid_att_l",
+        "name": "Anterior tibiotalar part (deep layer)",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "intercollicular groove / posterior colliculus (deep origin)",
+          "bone_b": "tarsals_l",
+          "landmark_b": "medial talus, anterior to the deep-layer footprint"
+        },
+        "mechanical_role": "the deep layer's primary component; a key restraint against talar external rotation/eversion",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Deep, intra-articular (capsular) band. Which deltoid band is mechanically strongest is genuinely disputed in the literature -- some sources point to this band, others to the deep posterior tibiotalar band (not separately modeled here, folded into the posterior tibiotalar part below) as the largest/thickest -- so no single-strongest-band claim is asserted (corrected from an overstated claim after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy."
+      }
+    ],
+    "function": "The ankle's medial stabilizer, a strong multi-layered fan resisting eversion and lateral talar shift -- injured far less often than the lateral complex given both its greater intrinsic strength and the bony buttress of the (longer) lateral malleolus limiting eversion range in the first place. Modeled here with the widely-taught 4-part (tibionavicular/tibiocalcaneal/posterior tibiotalar/anterior tibiotalar) division; the cited source (Golano et al. 2010) itself documents a more complex and partly variable 6-band classification (Milner & Soames) and explicitly notes the ligament's internal subdivision 'is still confusing' and to some extent an artificial convenience -- the simplified 4-part model is standard teaching (Kenhub/TeachMeAnatomy level), not a claim this dataset attributes to Golano's paper as its own finding (clarified after adversarial fact-check, see docs/VERIFICATION.md).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy.",
+    "joint": "ankle_l"
+  }
+]
