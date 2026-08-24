@@ -73,7 +73,11 @@ diaphragm] + 35 head/neck muscle groups × 2 sides), 175 nerve-tree nodes
 cervical), 207 named vessels (upper: 30 arterial + 9 venous; lower: 27
 arterial + 10 venous; trunk: 65 arterial + 40 venous; head/neck: 15
 arterial + 11 venous), 53 fascial structures (upper 17 + lower 21 + trunk
-10 + cervical 5), 205 numerically-resolved rig anchors out of 594
+10 + cervical 5), **57 ligament entities** (109 bands, across shoulder/
+elbow/wrist/hip/knee/ankle/spine/pelvis/TMJ) and **32 cartilage entities**
+(73 parts: articular cartilage at 7 major-joint-pairs, menisci, TMJ disc,
+intervertebral discs, glenoid/acetabular labra, pubic symphysis disc,
+TFCC disc, costal cartilage), 205 numerically-resolved rig anchors out of 594
 attachment endpoints (~34.5%, a live, honestly-reported percentage — see
 `scripts/generate_anchors.py`'s coverage report; the remainder are
 breadth-pass bones with descriptive-only landmarks by design, not a bug —
@@ -373,3 +377,127 @@ Kenhub, TeachMeAnatomy, StatPearls, Radiopaedia, Wikipedia, and PMC:
     over-precise citation/characterization — never a fabricated fact. All
     fixes applied to the affected files above before commit; full pytest
     suite (13/13) re-run and passing after every fix.
+
+11. **Ligament and cartilage schemas introduced — two independent adversarial
+    passes**, covering all 57 newly-authored ligament entities
+    (`data/ligaments/*.json`) and all 32 newly-authored cartilage entities
+    (`data/cartilage/*.json`), the first data authored against these two
+    brand-new schemas:
+
+    - **Ligaments** — 12 highest-risk claims checked (bundle/band
+      biomechanics, reciprocal tension patterns, primary-restraint
+      claims, and every named-paper citation's actual content vs. what
+      it was cited to support). **7 of 12 fully confirmed as cited**
+      (ACL AM/PL bundles + primary restraint; PCL AL/PM bundles;
+      coracoclavicular/AC ligament roles; SI interosseous ligament as
+      primary load-transfer structure per Vleeming 2012; annular
+      ligament/nursemaid's elbow; ligamentum flavum's ~80% elastin
+      content; ligamentum teres's vascular contribution). **2 clean
+      wrong-citation errors found and corrected**:
+      - The deltoid (ankle) ligament's simplified 4-part model (3
+        superficial bands + 1 "strongest" deep band) had been
+        attributed to Golano et al. (2010) as if that were the paper's
+        own description; the paper actually documents a more complex,
+        partly-variable 6-band classification (Milner & Soames) and
+        explicitly calls its own internal subdivision "confusing" and
+        somewhat artificial — it never ranks the anterior tibiotalar
+        band as strongest (other literature points to the deep
+        posterior tibiotalar band instead). Corrected in
+        `deltoid_ligament_{r,l}` entries: the top-level `function` field
+        and the affected bands' text now distinguish the simplified
+        teaching model from Golano's own more nuanced finding, and the
+        unsupported "strongest single band" claim was removed. The same
+        band's function_note also over-scoped ATFL's injury frequency
+        as "the most frequently injured ligament in the body" when
+        Golano's own phrasing is specifically "of the ankle" —
+        narrowed accordingly.
+      - The elbow UCL anterior bundle's citation for "primary valgus
+        restraint / Tommy John surgery" was Woo, Abramowitch, Kilger &
+        Liang (2006) *J Biomech* — a **knee**-ligament (ACL/PCL/MCL)
+        review with zero elbow content, correctly used elsewhere in
+        this same dataset for the knee MCL but mistakenly reused here
+        for a different joint. Corrected to Morrey & An (1983) *Am J
+        Sports Med* 11(5):315-319, the actual classic sequential-
+        sectioning elbow-stability paper. The LUCL band's citation
+        (previously a generic Gray's reference) was also upgraded to
+        O'Driscoll, Bell & Morrey (1991), the original posterolateral-
+        rotatory-instability description, for precision.
+
+      **3 further scope-mismatch/precision nuances applied** (real
+      facts, imprecisely-attributed citations, not full errors): the
+      iliofemoral ligament's "critical for passive standing posture"
+      claim is standard teaching, but the cited paper (Martin et al.
+      2008)'s own measured finding is specifically about rotational
+      (internal/external) torque control (~68-80% of resistive torque)
+      — both claims are now stated, correctly separated by which one
+      the citation actually measured; the scapholunate ligament's
+      "dorsal region mechanically strongest" claim is true but comes
+      from separate biomechanical load-to-failure testing, not from
+      Berger (1996)'s histologic paper — clarified as two different
+      kinds of supporting evidence; and the TMJ ligament complex's
+      embryological (Meckel's cartilage) and fascial-condensation
+      details for its two accessory ligaments were re-attributed to
+      general anatomy/embryology references rather than the cited TMJ
+      imaging-focused review, whose own scope doesn't extend to
+      embryology.
+
+    - **Cartilage** — 9 highest-risk claims checked, verified by
+      pulling full text directly via PubMed/PMC where reachable. **5 of
+      9 solid** (meniscal vascularity zones and mobility differences;
+      TMJ disc band anatomy and retrodiscal vascularity; intervertebral
+      disc anulus/nucleus structure and age-related water content
+      decline; costal cartilage true/false/floating rib groupings;
+      pubic symphysis as a secondary cartilaginous joint). **4 clean
+      wrong-citation errors found and corrected**, all the same
+      pattern — a real, independently-confirmed fact pinned to a real,
+      on-topic-*sounding* but non-supporting citation:
+      - Patellar cartilage's "thickest articular cartilage in the
+        human body" claim was cited to Sophia Fox, Bedi & Rodeo
+        (2009), a general cartilage-biology review whose full text
+        (confirmed by direct read) never mentions the patella at all
+        and gives only one generic non-joint-specific thickness range.
+        Corrected to Shepherd & Seedhom (1999) *Ann Rheum Dis*
+        58(1):27-34, the actual joint-by-joint thickness-measurement
+        study.
+      - The glenoid labrum's "~50% depth increase" figure was cited to
+        Cooper et al. (1992), whose actual abstract (confirmed via
+        PubMed) supports the labrum's regional attachment/vascularity
+        differences but never quantifies a depth-increase percentage.
+        Corrected by adding Howell & Galinat (1989) *Clin Orthop Relat
+        Res* 243:122-125, the actual source of that figure.
+      - The acetabular labrum's "suction-seal" fluid-mechanics claim
+        and its framing "particularly in femoroacetabular impingement
+        (FAI)" were both cited to Seldes et al. (2001), whose actual
+        abstract (confirmed via PubMed) is a histology/tear-pattern
+        study of elderly cadavers (mean age 78) about age-related
+        degenerative pathology — it never addresses fluid mechanics,
+        and it predates FAI as a defined clinical concept (Ganz et al.
+        2003, two years later) entirely. Corrected by adding Ferguson,
+        Bryant, Ganz & Ito (2003) *J Biomech* 36(2):171-178 for the
+        suction-seal claim and removing the anachronistic FAI framing
+        from Seldes' own tear-location finding.
+      - The TFCC's central-avascular/peripheral-vascularized zonation
+        was cited to Palmer & Werner (1981), whose actual abstract
+        (confirmed via PubMed) is a gross-anatomic/biomechanical
+        dissection study of TFCC composition and DRUJ stabilization —
+        it does not address vascular microanatomy. Corrected by adding
+        Bednar, Arnoczky & Weiland (1991) *J Hand Surg Am*
+        16(6):1101-1105, the actual vascular-injection study.
+
+      **1 further precision nuance**: the pubic symphysis interpubic
+      disc's cleft was described as occurring "often," when Becker,
+      Woodley & Stringer (2010)'s systematic review documents it in
+      roughly one in ten adult specimens — a minority, not the majority
+      "often" implied. Corrected with the specific figure and citation
+      added.
+
+    Every error in this finding was caught by directly reading the
+    cited paper's actual abstract/full text (via the PubMed MCP tool
+    where reachable) rather than trusting that a real, correctly-
+    formatted, topically-adjacent citation necessarily supports the
+    specific claim attached to it — the same discipline, and the same
+    recurring failure mode, documented in every finding above. All
+    fixes applied to `data/ligaments/*.json` and `data/cartilage/*.json`
+    before commit; schema validation, bone/joint-reference validation,
+    symmetry, and the full pytest suite (13/13) re-run and passing
+    after every fix.

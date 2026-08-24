@@ -87,6 +87,14 @@ NerveBranch (schema/nerve_branch.schema.json)     — tree: root → trunk → d
 VesselBranch (schema/vessel_branch.schema.json)   — tree: heart → ... → named terminal branches (+ anastomotic edges)
 FasciaCompartment (schema/fascia.schema.json)     — sheets/septa/retinacula + what they attach to and enclose
 
+Ligament (schema/ligament.schema.json)
+ └─ attachments (bone_a/bone_b + landmarks)       ← overall span
+ └─ bands[]                                        ← mechanically distinct bundles (ACL's AM/PL, deltoid lig.'s 4 parts, ...)
+     └─ tension_pattern                            ← when in the joint's ROM this band is taut vs. slack
+
+Cartilage (schema/cartilage.schema.json)          — articular (per-joint), fibrocartilage (menisci/discs/labra/TFCC/symphysis), costal
+ └─ parts[]                                        ← distinct sub-regions (a disc's anulus/nucleus, a meniscus's horns+body, ...)
+
 RigAnchor (schema/rig.schema.json)                — the single unifying "stays attached to bone X at local point P" primitive
 ```
 

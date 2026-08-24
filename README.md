@@ -55,6 +55,14 @@ is, what it honestly isn't (yet), and how the pieces fit together.
   All four regions: all left/right mirrored (trunk's diaphragm is
   midline/unpaired), all schema-validated, all graph-connected, all
   adversarially fact-checked (docs/VERIFICATION.md).
+- **Ligaments and cartilage** (`data/ligaments/`, `data/cartilage/`, 57 +
+  32 entities): major named ligaments and cartilage structures for every
+  significant joint — shoulder, elbow, wrist, hip, knee, ankle, spine,
+  pelvis, TMJ. Multi-band/multi-part structures are modeled explicitly
+  (the ACL's anteromedial/posterolateral bundles, the deltoid ligament's
+  4 parts, a meniscus's horns+body, an intervertebral disc's anulus
+  fibrosus/nucleus pulposus), the same "functionally distinct sub-groups
+  within one named structure" idea used throughout the muscle data.
 - **A procedural engine** (`engine/`) that generates 1mm-resolution muscle
   fiber fields from architecture parameters, and a kinematic rig
   (`engine/rig.py`) that keeps every attachment point correctly anchored to

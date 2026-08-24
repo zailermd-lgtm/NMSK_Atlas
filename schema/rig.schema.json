@@ -6,7 +6,7 @@
   "type": "object",
   "properties": {
     "id": { "type": "string" },
-    "anchor_type": { "type": "string", "enum": ["muscle_origin", "muscle_insertion", "muscle_via_point", "tendon_enthesis", "fascia_enthesis", "nerve_path_point", "vessel_path_point", "nmj_zone"] },
+    "anchor_type": { "type": "string", "enum": ["muscle_origin", "muscle_insertion", "muscle_via_point", "tendon_enthesis", "fascia_enthesis", "nerve_path_point", "vessel_path_point", "nmj_zone", "ligament_attachment", "cartilage_attachment"] },
     "owner_entity": { "type": "string", "description": "id of the muscle/fascia/nerve/vessel entity this anchor belongs to" },
     "parent_bone_frame": { "type": "string", "description": "bone id supplying the local frame this anchor rides in" },
     "local_position_mm": { "$ref": "common.schema.json#/definitions/vec3_mm" },

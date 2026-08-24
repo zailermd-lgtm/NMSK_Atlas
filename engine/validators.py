@@ -46,6 +46,10 @@ def _schema_for_file(path: Path) -> str | None:
         return "vessel_branch.schema.json"
     if parts[0] == "fascia":
         return "fascia.schema.json"
+    if parts[0] == "ligaments":
+        return "ligament.schema.json"
+    if parts[0] == "cartilage":
+        return "cartilage.schema.json"
     if parts[0] == "rig" and "anchor" in path.stem:
         return "rig.schema.json"
     return None
@@ -152,6 +156,44 @@ def validate_bone_references() -> List[str]:
         for entity in entities:
             for ba in entity.get("bony_attachments", []):
                 check_ref(ba.get("bone"), f"fascia {entity.get('id')} bony_attachment")
+
+    joint_ids = set()
+    if joints_path.exists():
+        joint_ids = {j["id"] for j in _load_json(joints_path)}
+
+    def check_joint_ref(ref: str, context: str):
+        if ref and ref not in joint_ids:
+            problems.append(f"{context}: references unknown joint id '{ref}'")
+
+    for path in DATA_DIR.rglob("*.json"):
+        if "ligaments" not in path.parts:
+            continue
+        payload = _load_json(path)
+        entities = payload if isinstance(payload, list) else [payload]
+        for entity in entities:
+            eid = entity.get("id")
+            check_joint_ref(entity.get("joint"), f"ligament {eid} joint")
+            att = entity.get("attachments", {})
+            check_ref(att.get("bone_a"), f"ligament {eid} attachments.bone_a")
+            check_ref(att.get("bone_b"), f"ligament {eid} attachments.bone_b")
+            for band in entity.get("bands", []):
+                batt = band.get("attachments", {})
+                check_ref(batt.get("bone_a"), f"ligament {eid} band {band.get('id')} bone_a")
+                check_ref(batt.get("bone_b"), f"ligament {eid} band {band.get('id')} bone_b")
+
+    for path in DATA_DIR.rglob("*.json"):
+        if "cartilage" not in path.parts:
+            continue
+        payload = _load_json(path)
+        entities = payload if isinstance(payload, list) else [payload]
+        for entity in entities:
+            eid = entity.get("id")
+            check_joint_ref(entity.get("joint"), f"cartilage {eid} joint")
+            check_ref(entity.get("parent_bone"), f"cartilage {eid} parent_bone")
+            att = entity.get("attachments", {})
+            if att:
+                check_ref(att.get("bone_a"), f"cartilage {eid} attachments.bone_a")
+                check_ref(att.get("bone_b"), f"cartilage {eid} attachments.bone_b")
     return problems
 
 

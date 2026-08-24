@@ -26,10 +26,32 @@ data/
   fascia/
     upper_limb_fascia.json
     lower_limb_fascia.json
+  ligaments/
+    shoulder_ligaments.json  # bone-to-bone stabilizers (schema/ligament.schema.json)
+    knee_ligaments.json      # ...one file per major joint region; see docs/ROADMAP.md
+  cartilage/
+    articular_cartilage_major_joints.json  # schema/cartilage.schema.json
+    menisci.json              # ...and other fibrocartilage/costal structures
   rig/
     skeleton_hierarchy.json  # kinematic parent/child + root
     anchors.json              # generated: every RigAnchor across all above data
 ```
+
+## Ligaments and cartilage: bands/parts, not fiber fields
+
+`data/ligaments/*.json` and `data/cartilage/*.json` follow the same
+"one-or-more functionally distinct pieces per named structure" idea as
+muscle's `functional_compartments`, but they don't drive a procedural
+fiber-field generator the way muscles do — a ligament's `bands[]` (e.g.
+the ACL's anteromedial/posterolateral bundles) and a cartilage
+structure's `parts[]` (e.g. a meniscus's anterior horn/body/posterior
+horn) are directly-authored attachment + mechanical-role records, not
+seed regions for `engine/fiber_field.py`. Both reference `bone_a`/`bone_b`
+(ligaments) or `parent_bone`/`attachments` (cartilage) exactly like
+muscle attachments do, so `engine/validators.py:validate_bone_references`
+and the rig anchor pipeline treat them the same way — a ligament band's
+attachment point is just as valid an anchor candidate as a muscle
+insertion.
 
 ## Naming note: nerve/vessel trees are side-generic
 

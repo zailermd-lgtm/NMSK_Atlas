@@ -158,6 +158,60 @@ as follows:
   cartilages are currently only referenced descriptively via the
   adjacent hyoid attachment region in sternothyroid/stylopharyngeus).
 
+## Milestone — ligaments and cartilage introduced (new categories, major structures)
+
+Following the muscular system's completion, two entirely new entity
+categories were added, per the user's explicit "complete all nerves,
+muscles, tendons, ligaments, chondrus [cartilage], bones, fascia, etc."
+directive: `schema/ligament.schema.json` and `schema/cartilage.schema.json`,
+each modeled with the same "one-or-more functionally distinct
+sub-pieces per named structure" convention used by muscle's
+`functional_compartments` (ligaments get `bands[]`, e.g. the ACL's
+anteromedial/posterolateral bundles or the deltoid ligament's 4 parts;
+cartilage gets `parts[]`, e.g. a meniscus's anterior horn/body/posterior
+horn or an intervertebral disc's anulus fibrosus/nucleus pulposus).
+
+- **Ligaments** (`data/ligaments/*.json`, 57 entities): major named
+  ligaments for the shoulder (15, incl. the glenohumeral ligament
+  complex's 4 bands and the interclavicular ligament), elbow (6, incl.
+  the UCL's 3 bands), wrist (2, incl. the wrist ligament complex's 5
+  bands covering the scapholunate interosseous ligament), hip (2, incl.
+  the hip capsular ligament complex's 5 bands), knee (10: ACL, PCL, MCL,
+  LCL, patellar ligament, each with their documented bands), ankle (4:
+  the lateral ligament complex's 3 bands + the deltoid ligament's 4
+  bands), spine (6 midline structures: ALL, PLL, ligamentum flavum,
+  interspinous, supraspinous, ligamentum nuchae), pelvis (10: SI joint
+  ligaments, sacrotuberous/sacrospinous, pubic symphysis ligaments), and
+  TMJ (2, incl. the accessory sphenomandibular/stylomandibular
+  ligaments).
+- **Cartilage** (`data/cartilage/*.json`, 32 entities): articular
+  (hyaline) cartilage at 7 major joints/joint-pairs × 2 sides (shoulder,
+  elbow, wrist, hip, knee, patellofemoral, ankle — 14 entities), the
+  knee menisci (4, each with anterior horn/body/posterior horn parts),
+  the TMJ disc (2, with anterior band/intermediate zone/posterior
+  bilaminar-zone parts), the intervertebral discs (3, one grouped entity
+  per spinal region matching the grouped-vertebrae bone convention,
+  each with anulus fibrosus/nucleus pulposus parts), the glenoid and
+  acetabular labra (4), the pubic symphysis's interpubic fibrocartilage
+  disc (1), the wrist's TFCC articular disc (2), and the costal
+  cartilages (2, with true/false/floating rib parts).
+- **Deliberately out of scope for this pass**: elastic cartilage (ear,
+  epiglottis) and the laryngeal cartilaginous skeleton (thyroid/cricoid/
+  arytenoid) — the latter already flagged as a future extension in
+  Stage 3 above, since the larynx isn't yet a skeletal element in this
+  atlas's bone set.
+- Adversarially fact-checked in 2 parallel passes (ligaments, cartilage)
+  before commit — see docs/VERIFICATION.md finding #11.
+- **Tendons remain the one category from the user's list not yet given
+  a dedicated schema** — currently tendons are only implicit in
+  muscles' `insertion_landmark`/`via_points` text (e.g. "patellar
+  ligament" in `data/ligaments/knee_ligaments.json` is explicitly noted
+  as functionally the quadriceps tendon's distal continuation). A
+  dedicated `schema/tendon.schema.json` for major named tendons
+  (Achilles, patellar, quadriceps, common flexor/extensor origins,
+  biceps/triceps, rotator cuff tendons, etc.) is the next natural
+  extension to fully close out the user's explicit list.
+
 ## Stage 4 — Skin, viscera, capillary-bed aggregation
 - Below the 1mm resolution target, individual capillaries are not
   individually meaningful entities — `schema/vessel_branch.schema.json`
