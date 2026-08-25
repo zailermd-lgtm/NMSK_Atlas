@@ -74,10 +74,13 @@ cervical), 207 named vessels (upper: 30 arterial + 9 venous; lower: 27
 arterial + 10 venous; trunk: 65 arterial + 40 venous; head/neck: 15
 arterial + 11 venous), 53 fascial structures (upper 17 + lower 21 + trunk
 10 + cervical 5), **57 ligament entities** (109 bands, across shoulder/
-elbow/wrist/hip/knee/ankle/spine/pelvis/TMJ) and **32 cartilage entities**
+elbow/wrist/hip/knee/ankle/spine/pelvis/TMJ), **32 cartilage entities**
 (73 parts: articular cartilage at 7 major-joint-pairs, menisci, TMJ disc,
 intervertebral discs, glenoid/acetabular labra, pubic symphysis disc,
-TFCC disc, costal cartilage), 205 numerically-resolved rig anchors out of 594
+TFCC disc, costal cartilage), and **37 tendon entities** (the rotator
+cuff and biceps brachii tendon complexes, the Achilles and quadriceps
+tendons, the finger flexor pulley system, conjoined tendons like pes
+anserinus and the proximal hamstring origin, and more), 205 numerically-resolved rig anchors out of 594
 attachment endpoints (~34.5%, a live, honestly-reported percentage — see
 `scripts/generate_anchors.py`'s coverage report; the remainder are
 breadth-pass bones with descriptive-only landmarks by design, not a bug —
@@ -501,3 +504,72 @@ Kenhub, TeachMeAnatomy, StatPearls, Radiopaedia, Wikipedia, and PMC:
     before commit; schema validation, bone/joint-reference validation,
     symmetry, and the full pytest suite (13/13) re-run and passing
     after every fix.
+
+12. **Tendon schema introduced — adversarial pass over all 37 newly-
+    authored tendon entities** (`data/tendons/*.json`), the first data
+    authored against `schema/tendon.schema.json`. 13 highest-risk
+    claims checked, each verified by pulling the actual cited paper's
+    metadata/abstract directly via the PubMed MCP tool. **6 of 13
+    solid** (quadriceps tendon's 3-layer configuration; palmaris
+    longus's ~10-15% absence rate; EPL/Lister's tubercle rupture
+    mechanism; pes anserinus's 3-nerve-supply convergence; the
+    diaphragm's central tendon; the conjoint tendon/inguinal falx; the
+    adductor magnus/adductor hiatus — 7 actually, all independently
+    confirmed against standard sources). **1 clean wrong-citation
+    error found and corrected**:
+    - The semimembranosus distal tendon's 4 documented expansions
+      (direct arm, anterior arm, oblique popliteal ligament expansion,
+      popliteus fascia expansion) had been cited to LaPrade, Engebretsen
+      AH, Ly, Johansen, Wentorf, Engebretsen L (2007) *J Bone Joint Surg
+      Am* 89(9):2000-2010, "The anatomy of the medial part of the
+      knee" — a real paper, but its actual abstract (confirmed via
+      PubMed) covers the medial collateral ligament and posterior
+      oblique ligament, not semimembranosus's expansions at all. The
+      correct source is a different, same-year LaPrade paper: LaPrade,
+      Morgan, Wentorf, Johansen, Engebretsen (2007) *J Bone Joint Surg
+      Am* 89(4):758-764, "The anatomy of the posterior aspect of the
+      knee," whose abstract states verbatim that the semimembranosus
+      tendon has 8 distal attachments including exactly the lateral
+      expansion to the oblique popliteal ligament, direct arm, anterior
+      arm, and popliteus-fascia expansion this dataset models — the
+      content was correct, only the citation pointed to the wrong paper
+      of the same first author and year. Corrected throughout
+      `semimembranosus_distal_tendon_{r,l}` in
+      `data/tendons/lower_limb_tendons.json`.
+
+    **4 further scope-mismatch precision nuances applied** (real,
+    independently-confirmed facts, imprecisely-attributed citations —
+    not full errors): the Achilles tendon's specific claims about which
+    direction each muscle's fibers rotate, where the twist peaks, and
+    an elastic-energy-storage mechanism are not in Doral et al.
+    (2010)'s abstract (which does confirm the spiral arrangement and
+    hypovascular mid-portion generally) — these specifics were softened
+    and re-attributed to later biomechanics literature; the "largest,
+    strongest tendon" claim was corrected to "strongest and thickest"
+    (Doral et al.'s own phrasing — thickest, not largest); the
+    supraspinatus tendon's "critical zone" is real and correctly
+    attributed to Lohr & Uhthoff (1990) for the core hypovascular/
+    tear-pathogenesis finding, but the specific "~1cm proximal to
+    insertion" distance and "single most common tear site" framing are
+    not in that paper's abstract and were softened; the biceps long
+    head tendon's citation (Vangsness et al. 1994) is scoped
+    specifically to the tendon's proximal origin (its own subject) —
+    the separate claim about its intra-articular course was
+    re-attributed to general anatomy rather than this citation; and the
+    flexor tendon pulley system's A2/A4-criticality/bowstringing claim
+    was re-attributed from Doyle (1988), an anatomic-description paper
+    that only supports the A1-A5/C1-C3 pulley count, to Lin, Amadio, An
+    & Cooney (1989), the actual biomechanical source. One further item
+    (the proximal hamstring's conjoint-tendon-vs-separate-semimembranosus
+    attachment pattern) could not be confirmed from the cited paper's
+    abstract alone (full text unreachable) despite the paper being real
+    and on-topic — its citation was qualified to note the specific
+    abstract-confirmed findings vs. the separately-corroborated
+    attachment-pattern claim.
+
+    Same recurring failure mode as every finding in this file: real,
+    correctly-known anatomical facts wearing a wrong or over-scoped
+    citation — never a fabricated fact. All fixes applied to
+    `data/tendons/*.json` before commit; schema validation, bone/
+    muscle-reference validation, symmetry, and the full pytest suite
+    (13/13) re-run and passing after every fix.

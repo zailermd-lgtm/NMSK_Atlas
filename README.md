@@ -63,6 +63,14 @@ is, what it honestly isn't (yet), and how the pieces fit together.
   4 parts, a meniscus's horns+body, an intervertebral disc's anulus
   fibrosus/nucleus pulposus), the same "functionally distinct sub-groups
   within one named structure" idea used throughout the muscle data.
+- **Tendons** (`data/tendons/`, 37 entities): major and minor named
+  tendons with standalone identity beyond a single muscle's ordinary
+  insertion — multi-muscle convergence (the rotator cuff and pes
+  anserinus), documented internal layering (the quadriceps tendon's 3
+  layers, the Achilles tendon's spiraling fibers), pulley/sheath
+  systems (the finger flexors' A1-A5/C1-C3 pulleys), and
+  clinically-named regions (the rotator cuff's hypovascular "critical
+  zone").
 - **A procedural engine** (`engine/`) that generates 1mm-resolution muscle
   fiber fields from architecture parameters, and a kinematic rig
   (`engine/rig.py`) that keeps every attachment point correctly anchored to

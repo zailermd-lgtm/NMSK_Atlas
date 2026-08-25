@@ -32,26 +32,44 @@ data/
   cartilage/
     articular_cartilage_major_joints.json  # schema/cartilage.schema.json
     menisci.json              # ...and other fibrocartilage/costal structures
+  tendons/
+    upper_limb_tendons.json  # schema/tendon.schema.json
+    lower_limb_tendons.json  # ...and trunk_tendons.json, head_neck_tendons.json
   rig/
     skeleton_hierarchy.json  # kinematic parent/child + root
     anchors.json              # generated: every RigAnchor across all above data
 ```
 
-## Ligaments and cartilage: bands/parts, not fiber fields
+## Ligaments, cartilage, and tendons: bands/parts, not fiber fields
 
-`data/ligaments/*.json` and `data/cartilage/*.json` follow the same
-"one-or-more functionally distinct pieces per named structure" idea as
-muscle's `functional_compartments`, but they don't drive a procedural
+`data/ligaments/*.json`, `data/cartilage/*.json`, and
+`data/tendons/*.json` follow the same "one-or-more functionally
+distinct pieces per named structure" idea as muscle's
+`functional_compartments`, but they don't drive a procedural
 fiber-field generator the way muscles do — a ligament's `bands[]` (e.g.
-the ACL's anteromedial/posterolateral bundles) and a cartilage
-structure's `parts[]` (e.g. a meniscus's anterior horn/body/posterior
-horn) are directly-authored attachment + mechanical-role records, not
-seed regions for `engine/fiber_field.py`. Both reference `bone_a`/`bone_b`
-(ligaments) or `parent_bone`/`attachments` (cartilage) exactly like
-muscle attachments do, so `engine/validators.py:validate_bone_references`
-and the rig anchor pipeline treat them the same way — a ligament band's
-attachment point is just as valid an anchor candidate as a muscle
-insertion.
+the ACL's anteromedial/posterolateral bundles), a cartilage structure's
+`parts[]` (e.g. a meniscus's anterior horn/body/posterior horn), and a
+tendon's `parts[]` (e.g. the quadriceps tendon's 3 fiber layers) are
+directly-authored attachment + mechanical-role records, not seed
+regions for `engine/fiber_field.py`. All three reference `bone_a`/
+`bone_b` (ligaments), `parent_bone`/`attachments` (cartilage), or
+`proximal_attachment`/`distal_attachment` (tendons) exactly like muscle
+attachments do, so `engine/validators.py:validate_bone_references` and
+the rig anchor pipeline treat them the same way — a ligament band's or
+tendon's attachment point is just as valid an anchor candidate as a
+muscle insertion. Tendons additionally carry `parent_muscles[]`
+(checked against the muscle id set the same validator collects), since
+unlike ligaments/cartilage a tendon is always the continuation of one
+or more specific muscles — this is also why `schema/tendon.schema.json`
+deliberately does NOT duplicate every muscle's ordinary insertion as
+its own tendon entity: `muscle.schema.json`'s `attachments.insertion_
+bone`/`insertion_landmark` already IS that tendon's attachment for the
+vast majority of muscles. `data/tendons/` is reserved for tendons with
+standalone identity beyond a single simple muscle's insertion —
+multi-muscle convergence, documented internal layering, pulley/sheath
+systems, or a clinically-distinct name — see
+`schema/tendon.schema.json`'s description for the full scoping
+rationale.
 
 ## Naming note: nerve/vessel trees are side-generic
 

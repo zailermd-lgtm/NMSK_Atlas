@@ -202,15 +202,52 @@ horn or an intervertebral disc's anulus fibrosus/nucleus pulposus).
   atlas's bone set.
 - Adversarially fact-checked in 2 parallel passes (ligaments, cartilage)
   before commit — see docs/VERIFICATION.md finding #11.
-- **Tendons remain the one category from the user's list not yet given
-  a dedicated schema** — currently tendons are only implicit in
-  muscles' `insertion_landmark`/`via_points` text (e.g. "patellar
-  ligament" in `data/ligaments/knee_ligaments.json` is explicitly noted
-  as functionally the quadriceps tendon's distal continuation). A
-  dedicated `schema/tendon.schema.json` for major named tendons
-  (Achilles, patellar, quadriceps, common flexor/extensor origins,
-  biceps/triceps, rotator cuff tendons, etc.) is the next natural
-  extension to fully close out the user's explicit list.
+## Milestone — tendon schema introduced, closing out the "nerves, muscles,
+tendons, ligaments, cartilage, bones, fascia" list
+
+`schema/tendon.schema.json` completes the last uncovered category from
+the user's explicit directive. Like ligaments and cartilage, it is
+deliberately NOT a duplicate of what `muscle.schema.json` already
+covers: every muscle's ordinary tendinous insertion is already fully
+described by `attachments.insertion_bone`/`insertion_landmark`, so
+`data/tendons/*.json` (37 entities) is scoped to tendons with genuine
+standalone identity beyond one simple muscle's insertion —
+multi-muscle convergence (pes anserinus, the conjoint proximal
+hamstring tendon, the abdominal wall's conjoint tendon), documented
+internal layering (the quadriceps tendon's 3 fiber layers, the
+Achilles tendon's spiraling gastrocnemius/soleus fibers), fibro-osseous
+pulley/sheath systems (the finger flexor tendons' A1-A5/C1-C3 pulleys),
+or a clinically-distinct named region (the rotator cuff's hypovascular
+"critical zone," the common flexor/extensor tendon origins of
+"golfer's"/"tennis" elbow):
+- **Upper limb** (18): the rotator cuff tendon complex (4 parts), the
+  biceps brachii tendon complex (long head's intra-articular course +
+  short head + distal bicipital aponeurosis), the triceps tendon, the
+  common flexor and common extensor tendons, the finger flexor tendon
+  pulley system, the extensor hood, and 2 minor named tendons (palmaris
+  longus, noted for its frequent congenital absence and use as a graft
+  donor; extensor pollicis longus, noted for its Lister's-tubercle
+  pulley mechanism and associated rupture risk).
+- **Lower limb** (14): the Achilles tendon (2 parts, documented spiral
+  fiber twist), the quadriceps tendon (3 layers), pes anserinus (3
+  muscle contributions), the proximal hamstring conjoint tendon, the
+  semimembranosus distal tendon (4 expansions), the iliopsoas tendon,
+  and the adductor magnus distal tendon (noted for the adductor hiatus
+  it creates for the femoral vessels).
+- **Trunk** (3): the diaphragm's central tendon (midline, unpaired) and
+  the conjoint tendon (inguinal falx) bilaterally.
+- **Head & neck** (2): the temporalis tendon.
+- Adversarially fact-checked before commit — see docs/VERIFICATION.md
+  finding #12.
+
+This completes first-class schema coverage for every category the user
+named. Bones and fascia were already comprehensively covered from
+earlier passes; nerves and vessels likewise cover the major named
+trees. Remaining future extensions (per-tendon numeric
+`position_local_mm` landmark coverage, additional minor
+tendons/ligaments/cartilage structures if identified, Stage 4/5/6 below)
+are incremental depth additions to an already-complete category set,
+not new categories.
 
 ## Stage 4 — Skin, viscera, capillary-bed aggregation
 - Below the 1mm resolution target, individual capillaries are not

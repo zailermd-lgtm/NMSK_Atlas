@@ -95,6 +95,10 @@ Ligament (schema/ligament.schema.json)
 Cartilage (schema/cartilage.schema.json)          — articular (per-joint), fibrocartilage (menisci/discs/labra/TFCC/symphysis), costal
  └─ parts[]                                        ← distinct sub-regions (a disc's anulus/nucleus, a meniscus's horns+body, ...)
 
+Tendon (schema/tendon.schema.json)                — the fibrous continuation of one or more muscles onto bone
+ └─ parent_muscles[]                                ← which muscle(s) this tendon belongs to (>1 for conjoined tendons)
+ └─ parts[]                                         ← distinct components (quadriceps tendon's 3 layers, pes anserinus's 3 muscle contributions, ...)
+
 RigAnchor (schema/rig.schema.json)                — the single unifying "stays attached to bone X at local point P" primitive
 ```
 
