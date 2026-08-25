@@ -50,6 +50,8 @@ def _schema_for_file(path: Path) -> str | None:
         return "ligament.schema.json"
     if parts[0] == "cartilage":
         return "cartilage.schema.json"
+    if parts[0] == "tendons":
+        return "tendon.schema.json"
     if parts[0] == "rig" and "anchor" in path.stem:
         return "rig.schema.json"
     return None
@@ -133,12 +135,15 @@ def validate_bone_references() -> List[str]:
             check_ref(j.get("parent_bone"), f"joint {j.get('id')}")
             check_ref(j.get("child_bone"), f"joint {j.get('id')}")
 
+    muscle_ids = set()
     for path in DATA_DIR.rglob("*.json"):
-        if "muscles" not in path.parts:
+        if "muscles" not in path.parts or path.name == "muscle_index.json":
             continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else [payload]
         for m in entities:
+            if isinstance(m, dict) and "id" in m:
+                muscle_ids.add(m["id"])
             att = m.get("attachments", {})
             check_ref(att.get("origin_bone"), f"muscle {m.get('id')} origin")
             check_ref(att.get("insertion_bone"), f"muscle {m.get('id')} insertion")
@@ -194,6 +199,33 @@ def validate_bone_references() -> List[str]:
             if att:
                 check_ref(att.get("bone_a"), f"cartilage {eid} attachments.bone_a")
                 check_ref(att.get("bone_b"), f"cartilage {eid} attachments.bone_b")
+
+    def check_attachment_endpoint(endpoint: dict, context: str):
+        if not endpoint:
+            return
+        t, ref = endpoint.get("type"), endpoint.get("ref")
+        if t == "bone":
+            check_ref(ref, context)
+        elif t == "muscle" and ref and ref not in muscle_ids:
+            problems.append(f"{context}: references unknown muscle id '{ref}'")
+
+    for path in DATA_DIR.rglob("*.json"):
+        if "tendons" not in path.parts:
+            continue
+        payload = _load_json(path)
+        entities = payload if isinstance(payload, list) else [payload]
+        for entity in entities:
+            eid = entity.get("id")
+            for pm in entity.get("parent_muscles", []):
+                if pm not in muscle_ids:
+                    problems.append(f"tendon {eid} parent_muscles: references unknown muscle id '{pm}'")
+            att = entity.get("attachments", {})
+            check_attachment_endpoint(att.get("proximal_attachment"), f"tendon {eid} proximal_attachment")
+            check_attachment_endpoint(att.get("distal_attachment"), f"tendon {eid} distal_attachment")
+            for part in entity.get("parts", []):
+                pm = part.get("parent_muscle")
+                if pm and pm not in muscle_ids:
+                    problems.append(f"tendon {eid} part {part.get('id')} parent_muscle: references unknown muscle id '{pm}'")
     return problems
 
 
