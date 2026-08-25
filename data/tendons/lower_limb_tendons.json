@@ -1,1 +1,654 @@
-PLACEHOLDER
+[
+  {
+    "id": "achilles_tendon_r",
+    "name_ta": "Tendo calcaneus",
+    "name_common": "Achilles (calcaneal) tendon",
+    "side": "right",
+    "region": "ankle",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "gastrocnemius_r",
+      "soleus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gastrocnemius_r",
+        "landmark": "gastrocnemius + soleus muscle bellies (triceps surae, representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tarsals_r",
+        "landmark": "calcaneal tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "achilles_r_gastrocnemius",
+        "name": "Gastrocnemius contribution",
+        "function_note": "Forms the more superficial/posterior fibers proximally; as the combined tendon spirals distally these fibers rotate to occupy a more lateral position by the calcaneal insertion.",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "gastrocnemius_r",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling laterally"
+      },
+      {
+        "id": "achilles_r_soleus",
+        "name": "Soleus contribution",
+        "function_note": "Forms the deeper/anterior fibers proximally, rotating to occupy a more medial position distally. The combined spiral twist is a documented structural feature; its mid-portion is a relatively watershed, hypovascular, injury-prone zone, confirmed by the cited source. The specific claims that the twist peaks at ~90 degrees in the mid-portion and that it primarily serves elastic energy storage come from later biomechanics studies, not from the tendon-anatomy paper cited here (softened after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "soleus_r",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling medially"
+      }
+    ],
+    "function": "The strongest and thickest tendon in the human body (Doral et al.'s own phrasing; 'largest' is a less precise overstatement of this) -- the conjoined distal tendon of gastrocnemius and soleus (the triceps surae), with a documented spiral fiber arrangement rather than a simple straight bundle of parallel fibers.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- describes the tendon's spiral (twisted) fiber arrangement, with gastrocnemius fibers rotating posterolaterally and soleus fibers running more anteromedially as they descend toward the calcaneal insertion.",
+    "has_synovial_sheath": false
+  },
+  {
+    "id": "quadriceps_tendon_r",
+    "name_ta": "Tendo musculi quadricipitis femoris",
+    "name_common": "Quadriceps femoris tendon",
+    "side": "right",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "rectus_femoris_r",
+      "vastus_medialis_r",
+      "vastus_lateralis_r",
+      "vastus_intermedius_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "rectus_femoris_r",
+        "landmark": "quadriceps femoris muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "patella_r",
+        "landmark": "base and lateral/medial margins of patella"
+      }
+    },
+    "parts": [
+      {
+        "id": "quad_tendon_r_superficial",
+        "name": "Superficial layer (rectus femoris)",
+        "function_note": "The most anterior layer, continuous with the rectus femoris tendon proper.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "rectus_femoris_r",
+        "attachment_or_location": "anterior patellar base"
+      },
+      {
+        "id": "quad_tendon_r_middle",
+        "name": "Middle layer (vastus medialis + vastus lateralis)",
+        "function_note": "Sandwiched between the superficial and deep layers, contributed by the two vasti muscles.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_medialis_r",
+        "attachment_or_location": "medial/lateral patellar margins"
+      },
+      {
+        "id": "quad_tendon_r_deep",
+        "name": "Deep layer (vastus intermedius)",
+        "function_note": "The most posterior layer, directly applied to the anterior femur/suprapatellar bursa proximally.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_intermedius_r",
+        "attachment_or_location": "posterior patellar base"
+      }
+    ],
+    "function": "A trilaminar (not homogeneous) tendon documented on MRI, formed by the four quadriceps components converging above the patella before continuing distally, past the patella (itself the largest sesamoid bone in the body embedded within this tendon-ligament continuum), as the patellar ligament (data/ligaments/knee_ligaments.json).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius)."
+  },
+  {
+    "id": "pes_anserinus_r",
+    "name_ta": "Pes anserinus",
+    "name_common": "Pes anserinus (conjoined tendon)",
+    "side": "right",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "sartorius_r",
+      "gracilis_r",
+      "semitendinosus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "sartorius_r",
+        "landmark": "sartorius, gracilis, semitendinosus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_r",
+        "landmark": "medial proximal tibia, anteromedial to the tibial collateral ligament"
+      }
+    },
+    "parts": [
+      {
+        "id": "pes_anserinus_r_sartorius",
+        "name": "Sartorius contribution",
+        "function_note": "The most superficial and most anterior of the three, matching sartorius's role as the body's longest muscle inserting furthest anteriorly of the three.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "sartorius_r",
+        "attachment_or_location": "anteromedial proximal tibia"
+      },
+      {
+        "id": "pes_anserinus_r_gracilis",
+        "name": "Gracilis contribution",
+        "function_note": "The middle of the three tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "gracilis_r",
+        "attachment_or_location": "proximal tibia, between sartorius and semitendinosus"
+      },
+      {
+        "id": "pes_anserinus_r_semitendinosus",
+        "name": "Semitendinosus contribution",
+        "function_note": "The most posterior and inferior of the three, and (unlike sartorius/gracilis, both hip muscles primarily) semitendinosus is also a hamstring, giving pes anserinus a mixed hip-adductor/hip-flexor/knee-flexor functional origin despite its single shared distal insertion.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "semitendinosus_r",
+        "attachment_or_location": "posteromedial proximal tibia"
+      }
+    ],
+    "function": "Named for its 'goose foot' fanned appearance -- three anatomically and functionally unrelated muscles (from three different compartments/nerve supplies: sartorius by femoral n., gracilis by obturator n., semitendinosus by tibial division of sciatic n.) converging onto one shared tibial insertion, separated from the underlying tibial collateral ligament by the anserine bursa (a common site of pes anserine bursitis).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "proximal_hamstring_tendon_r",
+    "name_ta": "Origo communis musculorum ischiocruralium",
+    "name_common": "Proximal hamstring (conjoint) tendon",
+    "side": "right",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "semitendinosus_r",
+      "semimembranosus_r",
+      "biceps_femoris_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semitendinosus_r",
+        "landmark": "semitendinosus, semimembranosus, biceps femoris (long head) muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "hip_bone_r",
+        "landmark": "ischial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "proximal_hamstring_r_st_sm",
+        "name": "Semitendinosus + semimembranosus conjoint head",
+        "function_note": "Semitendinosus and the long head of biceps femoris share a common proximal tendon at the superomedial ischial tuberosity in most individuals, while semimembranosus has its own separate, more lateral/deep attachment -- a documented three-muscle arrangement more nuanced than a simple 'all three share one tendon' model.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "semitendinosus_r",
+        "attachment_or_location": "superomedial ischial tuberosity"
+      },
+      {
+        "id": "proximal_hamstring_r_bf",
+        "name": "Biceps femoris (long head) contribution",
+        "function_note": "Shares the conjoint tendon with semitendinosus at the superomedial tuberosity (per van der Made et al.'s anatomic description); the short head of biceps femoris, by contrast, does not attach here at all -- it originates separately from the linea aspera of the femur, not the pelvis.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "biceps_femoris_r",
+        "attachment_or_location": "superomedial ischial tuberosity, conjoint with semitendinosus"
+      }
+    ],
+    "function": "The proximal hamstring origin, a frequent site of avulsion injury in sprinting/kicking athletes; anatomically more complex than a single shared tendon for all three muscles -- semimembranosus attaches somewhat separately from the semitendinosus/biceps femoris conjoint tendon.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md."
+  },
+  {
+    "id": "semimembranosus_distal_tendon_r",
+    "name_ta": "Tendo distalis musculi semimembranosi",
+    "name_common": "Semimembranosus distal tendon",
+    "side": "right",
+    "region": "knee",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "semimembranosus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semimembranosus_r",
+        "landmark": "semimembranosus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_r",
+        "landmark": "posteromedial tibia (direct arm) + multiple fibrous expansions"
+      }
+    },
+    "parts": [
+      {
+        "id": "semimembranosus_r_direct",
+        "name": "Direct arm",
+        "function_note": "The primary insertion, onto the posteromedial tibia just below the joint line.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "posteromedial tibia"
+      },
+      {
+        "id": "semimembranosus_r_anterior_arm",
+        "name": "Anterior arm",
+        "function_note": "Blends with the deep fibers of the tibial collateral ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "deep to the tibial collateral ligament"
+      },
+      {
+        "id": "semimembranosus_r_oblique_popliteal",
+        "name": "Oblique popliteal ligament expansion",
+        "function_note": "A fibrous expansion reinforcing the posterior knee capsule as the oblique popliteal ligament -- meaning semimembranosus makes an active, dynamic tensioning contribution to a structure otherwise classified as a passive capsular ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "posterior knee capsule"
+      },
+      {
+        "id": "semimembranosus_r_popliteus_fascia",
+        "name": "Popliteus fascia expansion",
+        "function_note": "A further expansion blending with the fascia overlying popliteus.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "popliteus muscle fascia"
+      }
+    ],
+    "function": "One of the most structurally complex distal tendon insertions in the body -- rather than one simple bone attachment, semimembranosus fans into several distinct fibrous expansions (this dataset models 4 of the more consistently documented ones; some sources describe up to 5), giving it an outsized dynamic stabilizing role for the posteromedial knee corner beyond simple knee flexion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here."
+  },
+  {
+    "id": "iliopsoas_tendon_r",
+    "name_ta": "Tendo musculi iliopsoatis",
+    "name_common": "Iliopsoas tendon",
+    "side": "right",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "iliopsoas_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "iliopsoas_r",
+        "landmark": "psoas major + iliacus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_r",
+        "landmark": "lesser trochanter"
+      }
+    },
+    "parts": [
+      {
+        "id": "iliopsoas_tendon_r_main",
+        "name": "Iliopsoas tendon",
+        "function_note": "Psoas major (via the lumbar plexus/vertebrae) and iliacus (via the iliac fossa) converge onto one shared distal tendon at the lesser trochanter -- a snapping/catching sensation of this tendon over the iliopectineal eminence or femoral head is a recognized cause of 'internal' snapping hip syndrome.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "iliopsoas_r",
+        "attachment_or_location": "lesser trochanter of femur"
+      }
+    ],
+    "function": "The shared distal tendon of psoas major and iliacus, two muscles with entirely separate proximal origins (vertebral column vs. iliac fossa) that functionally act as one combined hip flexor via this single conjoined insertion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "adductor_magnus_distal_tendon_r",
+    "name_ta": "Tendo distalis musculi adductoris magni",
+    "name_common": "Adductor magnus distal tendon",
+    "side": "right",
+    "region": "thigh",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "adductor_magnus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "adductor_magnus_r",
+        "landmark": "adductor magnus muscle belly (adductor part)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_r",
+        "landmark": "adductor tubercle (medial femoral epicondyle)"
+      }
+    },
+    "parts": [
+      {
+        "id": "add_magnus_tendon_r_main",
+        "name": "Adductor magnus distal tendon",
+        "function_note": "The adductor part's tendon inserts on the adductor tubercle, leaving a gap in the muscle's distal attachment -- the adductor hiatus -- through which the femoral vessels pass from the anterior thigh (adductor/subsartorial canal) into the popliteal fossa, becoming the popliteal vessels; a key anatomical landmark for vascular surgical access to the distal femoral/popliteal arteries.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "adductor_magnus_r",
+        "attachment_or_location": "adductor tubercle of femur"
+      }
+    ],
+    "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "achilles_tendon_l",
+    "name_ta": "Tendo calcaneus",
+    "name_common": "Achilles (calcaneal) tendon",
+    "side": "left",
+    "region": "ankle",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "gastrocnemius_l",
+      "soleus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gastrocnemius_l",
+        "landmark": "gastrocnemius + soleus muscle bellies (triceps surae, representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tarsals_l",
+        "landmark": "calcaneal tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "achilles_l_gastrocnemius",
+        "name": "Gastrocnemius contribution",
+        "function_note": "Forms the more superficial/posterior fibers proximally; as the combined tendon spirals distally these fibers rotate to occupy a more lateral position by the calcaneal insertion.",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "gastrocnemius_l",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling laterally"
+      },
+      {
+        "id": "achilles_l_soleus",
+        "name": "Soleus contribution",
+        "function_note": "Forms the deeper/anterior fibers proximally, rotating to occupy a more medial position distally. The combined spiral twist is a documented structural feature; its mid-portion is a relatively watershed, hypovascular, injury-prone zone, confirmed by the cited source. The specific claims that the twist peaks at ~90 degrees in the mid-portion and that it primarily serves elastic energy storage come from later biomechanics studies, not from the tendon-anatomy paper cited here (softened after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "soleus_l",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling medially"
+      }
+    ],
+    "function": "The strongest and thickest tendon in the human body (Doral et al.'s own phrasing; 'largest' is a less precise overstatement of this) -- the conjoined distal tendon of gastrocnemius and soleus (the triceps surae), with a documented spiral fiber arrangement rather than a simple straight bundle of parallel fibers.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- describes the tendon's spiral (twisted) fiber arrangement, with gastrocnemius fibers rotating posterolaterally and soleus fibers running more anteromedially as they descend toward the calcaneal insertion.",
+    "has_synovial_sheath": false
+  },
+  {
+    "id": "quadriceps_tendon_l",
+    "name_ta": "Tendo musculi quadricipitis femoris",
+    "name_common": "Quadriceps femoris tendon",
+    "side": "left",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "rectus_femoris_l",
+      "vastus_medialis_l",
+      "vastus_lateralis_l",
+      "vastus_intermedius_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "rectus_femoris_l",
+        "landmark": "quadriceps femoris muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "patella_l",
+        "landmark": "base and lateral/medial margins of patella"
+      }
+    },
+    "parts": [
+      {
+        "id": "quad_tendon_l_superficial",
+        "name": "Superficial layer (rectus femoris)",
+        "function_note": "The most anterior layer, continuous with the rectus femoris tendon proper.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "rectus_femoris_l",
+        "attachment_or_location": "anterior patellar base"
+      },
+      {
+        "id": "quad_tendon_l_middle",
+        "name": "Middle layer (vastus medialis + vastus lateralis)",
+        "function_note": "Sandwiched between the superficial and deep layers, contributed by the two vasti muscles.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_medialis_l",
+        "attachment_or_location": "medial/lateral patellar margins"
+      },
+      {
+        "id": "quad_tendon_l_deep",
+        "name": "Deep layer (vastus intermedius)",
+        "function_note": "The most posterior layer, directly applied to the anterior femur/suprapatellar bursa proximally.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_intermedius_l",
+        "attachment_or_location": "posterior patellar base"
+      }
+    ],
+    "function": "A trilaminar (not homogeneous) tendon documented on MRI, formed by the four quadriceps components converging above the patella before continuing distally, past the patella (itself the largest sesamoid bone in the body embedded within this tendon-ligament continuum), as the patellar ligament (data/ligaments/knee_ligaments.json).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius)."
+  },
+  {
+    "id": "pes_anserinus_l",
+    "name_ta": "Pes anserinus",
+    "name_common": "Pes anserinus (conjoined tendon)",
+    "side": "left",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "sartorius_l",
+      "gracilis_l",
+      "semitendinosus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "sartorius_l",
+        "landmark": "sartorius, gracilis, semitendinosus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_l",
+        "landmark": "medial proximal tibia, anteromedial to the tibial collateral ligament"
+      }
+    },
+    "parts": [
+      {
+        "id": "pes_anserinus_l_sartorius",
+        "name": "Sartorius contribution",
+        "function_note": "The most superficial and most anterior of the three, matching sartorius's role as the body's longest muscle inserting furthest anteriorly of the three.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "sartorius_l",
+        "attachment_or_location": "anteromedial proximal tibia"
+      },
+      {
+        "id": "pes_anserinus_l_gracilis",
+        "name": "Gracilis contribution",
+        "function_note": "The middle of the three tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "gracilis_l",
+        "attachment_or_location": "proximal tibia, between sartorius and semitendinosus"
+      },
+      {
+        "id": "pes_anserinus_l_semitendinosus",
+        "name": "Semitendinosus contribution",
+        "function_note": "The most posterior and inferior of the three, and (unlike sartorius/gracilis, both hip muscles primarily) semitendinosus is also a hamstring, giving pes anserinus a mixed hip-adductor/hip-flexor/knee-flexor functional origin despite its single shared distal insertion.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "semitendinosus_l",
+        "attachment_or_location": "posteromedial proximal tibia"
+      }
+    ],
+    "function": "Named for its 'goose foot' fanned appearance -- three anatomically and functionally unrelated muscles (from three different compartments/nerve supplies: sartorius by femoral n., gracilis by obturator n., semitendinosus by tibial division of sciatic n.) converging onto one shared tibial insertion, separated from the underlying tibial collateral ligament by the anserine bursa (a common site of pes anserine bursitis).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "proximal_hamstring_tendon_l",
+    "name_ta": "Origo communis musculorum ischiocruralium",
+    "name_common": "Proximal hamstring (conjoint) tendon",
+    "side": "left",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "semitendinosus_l",
+      "semimembranosus_l",
+      "biceps_femoris_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semitendinosus_l",
+        "landmark": "semitendinosus, semimembranosus, biceps femoris (long head) muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "hip_bone_l",
+        "landmark": "ischial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "proximal_hamstring_l_st_sm",
+        "name": "Semitendinosus + semimembranosus conjoint head",
+        "function_note": "Semitendinosus and the long head of biceps femoris share a common proximal tendon at the superomedial ischial tuberosity in most individuals, while semimembranosus has its own separate, more lateral/deep attachment -- a documented three-muscle arrangement more nuanced than a simple 'all three share one tendon' model.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "semitendinosus_l",
+        "attachment_or_location": "superomedial ischial tuberosity"
+      },
+      {
+        "id": "proximal_hamstring_l_bf",
+        "name": "Biceps femoris (long head) contribution",
+        "function_note": "Shares the conjoint tendon with semitendinosus at the superomedial tuberosity (per van der Made et al.'s anatomic description); the short head of biceps femoris, by contrast, does not attach here at all -- it originates separately from the linea aspera of the femur, not the pelvis.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "biceps_femoris_l",
+        "attachment_or_location": "superomedial ischial tuberosity, conjoint with semitendinosus"
+      }
+    ],
+    "function": "The proximal hamstring origin, a frequent site of avulsion injury in sprinting/kicking athletes; anatomically more complex than a single shared tendon for all three muscles -- semimembranosus attaches somewhat separately from the semitendinosus/biceps femoris conjoint tendon.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md."
+  },
+  {
+    "id": "semimembranosus_distal_tendon_l",
+    "name_ta": "Tendo distalis musculi semimembranosi",
+    "name_common": "Semimembranosus distal tendon",
+    "side": "left",
+    "region": "knee",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "semimembranosus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semimembranosus_l",
+        "landmark": "semimembranosus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_l",
+        "landmark": "posteromedial tibia (direct arm) + multiple fibrous expansions"
+      }
+    },
+    "parts": [
+      {
+        "id": "semimembranosus_l_direct",
+        "name": "Direct arm",
+        "function_note": "The primary insertion, onto the posteromedial tibia just below the joint line.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "posteromedial tibia"
+      },
+      {
+        "id": "semimembranosus_l_anterior_arm",
+        "name": "Anterior arm",
+        "function_note": "Blends with the deep fibers of the tibial collateral ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "deep to the tibial collateral ligament"
+      },
+      {
+        "id": "semimembranosus_l_oblique_popliteal",
+        "name": "Oblique popliteal ligament expansion",
+        "function_note": "A fibrous expansion reinforcing the posterior knee capsule as the oblique popliteal ligament -- meaning semimembranosus makes an active, dynamic tensioning contribution to a structure otherwise classified as a passive capsular ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "posterior knee capsule"
+      },
+      {
+        "id": "semimembranosus_l_popliteus_fascia",
+        "name": "Popliteus fascia expansion",
+        "function_note": "A further expansion blending with the fascia overlying popliteus.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "popliteus muscle fascia"
+      }
+    ],
+    "function": "One of the most structurally complex distal tendon insertions in the body -- rather than one simple bone attachment, semimembranosus fans into several distinct fibrous expansions (this dataset models 4 of the more consistently documented ones; some sources describe up to 5), giving it an outsized dynamic stabilizing role for the posteromedial knee corner beyond simple knee flexion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here."
+  },
+  {
+    "id": "iliopsoas_tendon_l",
+    "name_ta": "Tendo musculi iliopsoatis",
+    "name_common": "Iliopsoas tendon",
+    "side": "left",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "iliopsoas_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "iliopsoas_l",
+        "landmark": "psoas major + iliacus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_l",
+        "landmark": "lesser trochanter"
+      }
+    },
+    "parts": [
+      {
+        "id": "iliopsoas_tendon_l_main",
+        "name": "Iliopsoas tendon",
+        "function_note": "Psoas major (via the lumbar plexus/vertebrae) and iliacus (via the iliac fossa) converge onto one shared distal tendon at the lesser trochanter -- a snapping/catching sensation of this tendon over the iliopectineal eminence or femoral head is a recognized cause of 'internal' snapping hip syndrome.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "iliopsoas_l",
+        "attachment_or_location": "lesser trochanter of femur"
+      }
+    ],
+    "function": "The shared distal tendon of psoas major and iliacus, two muscles with entirely separate proximal origins (vertebral column vs. iliac fossa) that functionally act as one combined hip flexor via this single conjoined insertion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "adductor_magnus_distal_tendon_l",
+    "name_ta": "Tendo distalis musculi adductoris magni",
+    "name_common": "Adductor magnus distal tendon",
+    "side": "left",
+    "region": "thigh",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "adductor_magnus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "adductor_magnus_l",
+        "landmark": "adductor magnus muscle belly (adductor part)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_l",
+        "landmark": "adductor tubercle (medial femoral epicondyle)"
+      }
+    },
+    "parts": [
+      {
+        "id": "add_magnus_tendon_l_main",
+        "name": "Adductor magnus distal tendon",
+        "function_note": "The adductor part's tendon inserts on the adductor tubercle, leaving a gap in the muscle's distal attachment -- the adductor hiatus -- through which the femoral vessels pass from the anterior thigh (adductor/subsartorial canal) into the popliteal fossa, becoming the popliteal vessels; a key anatomical landmark for vascular surgical access to the distal femoral/popliteal arteries.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "adductor_magnus_l",
+        "attachment_or_location": "adductor tubercle of femur"
+      }
+    ],
+    "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  }
+]

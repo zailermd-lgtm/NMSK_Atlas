@@ -1,1 +1,77 @@
-PLACEHOLDER
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/tendon.schema.json",
+  "title": "Tendon",
+  "description": "A named tendon: the fibrous continuation of one or more muscles onto bone (or, for a small number of intra-articular tendons, directly onto a labrum/joint capsule). Most muscles' tendinous attachment is already fully described by muscle.schema.json's attachments.insertion_bone/insertion_landmark and is NOT duplicated here -- this schema exists for tendons with genuine standalone identity beyond 'the insertion of one simple muscle': multiple muscles converging into one conjoined/conjoint tendon (pes anserinus, the hamstrings' proximal conjoint origin, the abdominal conjoint tendon), a tendon with documented internal layering (the quadriceps tendon's 3 fiber layers, the Achilles tendon's spiraling gastrocnemius/soleus fiber contributions), a fibro-osseous pulley/sheath system (the finger flexor tendons' annular/cruciate pulleys), or a clinically-named region distinct from simple muscle anatomy (the rotator cuff's hypovascular 'critical zone', the common flexor/extensor tendon origins of 'golfer's'/'tennis' elbow). Modeled with the same 'one-or-more functionally distinct pieces per named structure' convention as muscle's functional_compartments, ligament's bands, and cartilage's parts.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name_ta": { "type": "string" },
+    "name_common": { "type": "string" },
+    "side": { "$ref": "common.schema.json#/definitions/side" },
+    "region": { "type": "string" },
+    "tendon_type": {
+      "type": "string",
+      "enum": ["simple_cord", "flat_aponeurotic", "conjoined_multi_muscle", "fibrous_sheath_pulley_system", "intra_articular"],
+      "description": "simple_cord: a single round/cordlike tendon (Achilles); flat_aponeurotic: a broad flat sheet (quadriceps tendon, extensor hood); conjoined_multi_muscle: two or more distinct muscles' tendons fusing into one shared structure (pes anserinus, conjoint tendon); fibrous_sheath_pulley_system: a tendon running through a retinacular/pulley tunnel system (finger flexor tendons + their annular/cruciate pulleys); intra_articular: a tendon segment running within a joint capsule before reaching its bony attachment (biceps brachii long head)."
+    },
+    "parent_muscles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "ids of the muscle(s) (schema/muscle.schema.json) this tendon is the fibrous continuation of -- more than one entry for a conjoined tendon."
+    },
+    "attachments": {
+      "type": "object",
+      "description": "Overall span: where the tendon leaves its parent muscle(s) and where it ends on bone (or, for intra_articular tendons, its bony/labral origin and its eventual bony insertion).",
+      "properties": {
+        "proximal_attachment": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["muscle", "bone"] },
+            "ref": { "type": "string", "description": "muscle id or bone id, matching 'type'" },
+            "landmark": { "type": "string" }
+          },
+          "required": ["type", "ref", "landmark"]
+        },
+        "distal_attachment": {
+          "type": "object",
+          "properties": {
+            "type": { "type": "string", "enum": ["muscle", "bone"] },
+            "ref": { "type": "string" },
+            "landmark": { "type": "string" }
+          },
+          "required": ["type", "ref", "landmark"]
+        }
+      },
+      "required": ["proximal_attachment", "distal_attachment"]
+    },
+    "has_synovial_sheath": { "type": "boolean" },
+    "retinaculum_or_pulley_refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "ids of related fibrous_sheath_pulley/retinaculum entries in schema/fascia.schema.json data, if this tendon runs through one."
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Anatomically/functionally distinct components of this one named tendon (e.g. the quadriceps tendon's 3 fiber layers, the pes anserinus's 3 muscle contributions, the rotator cuff tendon complex's 4 tendons). A tendon with no meaningful internal subdivision still gets exactly one parts[] entry.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "parent_muscle": { "type": "string", "description": "the specific muscle this part continues from, for multi-part/conjoined tendons" },
+          "attachment_or_location": { "type": "string" },
+          "cross_sectional_area_mm2": { "type": "number" },
+          "failure_load_N": { "type": "number", "description": "representative literature ultimate tensile load, where documented -- an illustrative typical value, not a patient-specific measurement (see docs/SOURCES.md's representative-vs-exact-values policy)." },
+          "function_note": { "type": "string" },
+          "source": { "$ref": "common.schema.json#/definitions/citation" }
+        },
+        "required": ["id", "name", "source"]
+      }
+    },
+    "function": { "type": "string" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name_ta", "region", "tendon_type", "parent_muscles", "attachments", "parts", "function", "source"]
+}

@@ -1,1 +1,752 @@
-PLACEHOLDER
+[
+  {
+    "id": "rotator_cuff_tendon_complex_r",
+    "name_ta": "Tendines musculorum rotatorum",
+    "name_common": "Rotator cuff tendon complex",
+    "side": "right",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "supraspinatus_r",
+      "infraspinatus_r",
+      "teres_minor_r",
+      "subscapularis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "supraspinatus_r",
+        "landmark": "supraspinatus muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "greater tubercle (supraspinatus/infraspinatus/teres minor) and lesser tubercle (subscapularis)"
+      }
+    },
+    "parts": [
+      {
+        "id": "rotator_cuff_r_supraspinatus",
+        "name": "Supraspinatus tendon",
+        "function_note": "Contains the hypovascular 'critical zone' -- a watershed region between the tendon's osseous and muscular blood supply, implicated in degenerative rotator cuff tearing (the ~1cm-proximal-to-insertion distance and 'single most common tear site' framing are widely repeated but trace to older/separate sources, not to the cited paper itself -- narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing.",
+        "parent_muscle": "supraspinatus_r",
+        "attachment_or_location": "greater tubercle, superior facet"
+      },
+      {
+        "id": "rotator_cuff_r_infraspinatus",
+        "name": "Infraspinatus tendon",
+        "function_note": "Blends with the supraspinatus tendon anteriorly and the teres minor tendon posteriorly, forming a continuous cuff rather than three fully separate insertions.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "infraspinatus_r",
+        "attachment_or_location": "greater tubercle, middle facet"
+      },
+      {
+        "id": "rotator_cuff_r_teres_minor",
+        "name": "Teres minor tendon",
+        "function_note": "The most posterior and, functionally, the least injured of the four rotator cuff tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "teres_minor_r",
+        "attachment_or_location": "greater tubercle, inferior facet"
+      },
+      {
+        "id": "rotator_cuff_r_subscapularis",
+        "name": "Subscapularis tendon",
+        "function_note": "The only rotator cuff tendon inserting on the lesser tubercle (anterior); its upper fibers form the floor of the bicipital (intertubercular) groove alongside the transverse humeral ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "subscapularis_r",
+        "attachment_or_location": "lesser tubercle"
+      }
+    ],
+    "function": "The confluent tendinous insertion of the four rotator cuff muscles onto the humeral tubercles, functioning as a dynamic stabilizing 'cuff' around the glenohumeral joint that centers the humeral head against the much larger deltoid's compressive/shear forces during arm elevation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing."
+  },
+  {
+    "id": "biceps_brachii_tendon_complex_r",
+    "name_ta": "Tendines musculi bicipitis brachii",
+    "name_common": "Biceps brachii tendon complex",
+    "side": "right",
+    "region": "shoulder_elbow",
+    "tendon_type": "intra_articular",
+    "parent_muscles": [
+      "biceps_brachii_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "biceps_brachii_r",
+        "landmark": "biceps brachii muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "radius_r",
+        "landmark": "radial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "biceps_tendon_r_lh",
+        "name": "Long head tendon",
+        "function_note": "Originates from the supraglenoid tubercle and glenoid labrum (with documented variability in exactly how much of each contributes) and runs intra-articularly across the humeral head before exiting the joint capsule to descend in the intertubercular (bicipital) groove -- an unusual intra-articular-then-extra-articular course among tendons, and a common site of tendinopathy/instability.",
+        "source": "Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin. This paper's own scope is specifically the tendon's proximal origin (the roughly 50/50 labrum-vs-tubercle split it documents, with 4 distinct origin patterns); the tendon's subsequent intra-articular course across the humeral head and exit into the bicipital groove is separately well-established general anatomy (Gray's/Kenhub level), not a claim made by this specific citation (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "biceps_brachii_r",
+        "attachment_or_location": "supraglenoid tubercle / glenoid labrum"
+      },
+      {
+        "id": "biceps_tendon_r_sh",
+        "name": "Short head tendon",
+        "function_note": "Originates from the coracoid process (conjoint tendon with coracobrachialis) and, unlike the long head, has an entirely extra-articular course.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_r",
+        "attachment_or_location": "coracoid process"
+      },
+      {
+        "id": "biceps_tendon_r_distal",
+        "name": "Distal (bicipital) tendon + bicipital aponeurosis (lacertus fibrosus)",
+        "function_note": "The distal tendon inserts on the radial tuberosity; a fibrous expansion (the bicipital aponeurosis/lacertus fibrosus) fans off it medially to blend with the deep antebrachial fascia over the forearm flexor mass -- clinically relevant as a landmark protecting the underlying brachial artery and median nerve during venipuncture at the cubital fossa.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_r",
+        "attachment_or_location": "radial tuberosity"
+      }
+    ],
+    "function": "The two-headed proximal origin (glenoid/labrum + coracoid) converges into one muscle belly and one distal tendon; the long head's intra-articular course through the glenohumeral joint is anatomically unusual and a well-documented source of shoulder pain independent of rotator cuff pathology.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin."
+  },
+  {
+    "id": "triceps_brachii_tendon_r",
+    "name_ta": "Tendo musculi tricipitis brachii",
+    "name_common": "Triceps brachii tendon",
+    "side": "right",
+    "region": "elbow",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "triceps_brachii_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "triceps_brachii_r",
+        "landmark": "triceps brachii muscle belly (representative, all 3 heads)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "ulna_r",
+        "landmark": "olecranon process"
+      }
+    },
+    "parts": [
+      {
+        "id": "triceps_tendon_r_main",
+        "name": "Triceps brachii tendon",
+        "function_note": "All three heads (long, lateral, medial) converge into one common tendon inserting on the olecranon -- unlike the rotator cuff or quadriceps, the triceps' three heads do not maintain separately identifiable insertional layers.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "triceps_brachii_r",
+        "attachment_or_location": "olecranon process"
+      }
+    ],
+    "function": "The common distal tendon of the elbow's primary extensor, transmitting the combined force of all three triceps heads to the ulna.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_flexor_tendon_r",
+    "name_ta": "Tendo communis flexorum",
+    "name_common": "Common flexor tendon",
+    "side": "right",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "pronator_teres_r",
+      "flexor_carpi_radialis_r",
+      "palmaris_longus_r",
+      "flexor_carpi_ulnaris_r",
+      "flexor_digitorum_superficialis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_carpi_radialis_r",
+        "landmark": "forearm flexor-pronator group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "medial epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_flexor_tendon_r_main",
+        "name": "Common flexor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm flexor-pronator group; repetitive-strain degeneration/microtearing here is the anatomical basis of medial epicondylitis ('golfer's elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "flexor_carpi_radialis_r",
+        "attachment_or_location": "medial epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm flexor/pronator muscles arise, rather than each having its own separate humeral attachment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_extensor_tendon_r",
+    "name_ta": "Tendo communis extensorum",
+    "name_common": "Common extensor tendon",
+    "side": "right",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "extensor_carpi_radialis_brevis_r",
+      "extensor_digitorum_r",
+      "extensor_digiti_minimi_r",
+      "extensor_carpi_ulnaris_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_carpi_radialis_brevis_r",
+        "landmark": "forearm extensor group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "lateral epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_extensor_tendon_r_main",
+        "name": "Common extensor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm extensor group; repetitive-strain degeneration/microtearing here (most consistently implicating extensor carpi radialis brevis specifically) is the anatomical basis of lateral epicondylitis ('tennis elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_carpi_radialis_brevis_r",
+        "attachment_or_location": "lateral epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm extensor muscles arise, rather than each having its own separate humeral attachment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "flexor_tendon_pulley_system_hand_r",
+    "name_ta": "Vaginae fibrosae digitorum manus",
+    "name_common": "Finger flexor tendon sheath and pulley system",
+    "side": "right",
+    "region": "hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "flexor_digitorum_superficialis_r",
+      "flexor_digitorum_profundus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_digitorum_profundus_r",
+        "landmark": "FDS/FDP muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_r",
+        "landmark": "FDS: middle phalanx base (split around FDP -- 'Camper's chiasm'); FDP: distal phalanx base"
+      }
+    },
+    "parts": [
+      {
+        "id": "pulley_system_r_annular",
+        "name": "Annular pulleys (A1-A5)",
+        "function_note": "Five fibro-osseous annular bands overlying the metacarpophalangeal and interphalangeal joints, resisting bowstringing of the flexor tendons away from the bone during finger flexion; A2 and A4 are the mechanically most critical for maintaining grip efficiency, and their surgical/traumatic loss produces a clinically well-documented bowstringing deformity.",
+        "source": "Lin GT, Amadio PC, An KN, Cooney WP (1989) 'Functional anatomy of the human digital flexor pulley system.' J Hand Surg Am 14(6):949-956 -- the biomechanical source of the A2/A4 pulleys' particular importance to grip efficiency and bowstringing resistance (Doyle 1988, used elsewhere in this entity for the pulley count/nomenclature, is an anatomic-description paper that does not itself address this biomechanical finding -- caught by adversarial fact-check, see docs/VERIFICATION.md).",
+        "attachment_or_location": "palmar aspect of proximal/middle phalanges and MCP/IP joints"
+      },
+      {
+        "id": "pulley_system_r_cruciate",
+        "name": "Cruciate pulleys (C1-C3)",
+        "function_note": "Three thinner, more flexible cruciform (X-shaped) bands interposed between the annular pulleys, allowing the sheath to collapse/fold during finger flexion without losing overall containment of the tendons.",
+        "source": "Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+        "attachment_or_location": "between the annular pulleys"
+      }
+    ],
+    "function": "The flexor digitorum superficialis and profundus tendons of each finger run together within one common fibrous digital sheath reinforced by this alternating annular/cruciate pulley system -- without it, tendon excursion during finger flexion would bowstring away from the phalanges rather than efficiently flexing the joints.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+    "has_synovial_sheath": true
+  },
+  {
+    "id": "extensor_hood_r",
+    "name_ta": "Expansio dorsalis digitorum manus",
+    "name_common": "Extensor hood (dorsal digital expansion)",
+    "side": "right",
+    "region": "hand",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "extensor_digitorum_r",
+      "lumbricals_hand_r",
+      "dorsal_interossei_hand_r",
+      "palmar_interossei_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_digitorum_r",
+        "landmark": "extensor digitorum + intrinsic hand muscles (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_r",
+        "landmark": "middle phalanx base (central slip) and distal phalanx base (lateral bands, via the terminal/conjoined tendon)"
+      }
+    },
+    "parts": [
+      {
+        "id": "extensor_hood_r_main",
+        "name": "Extensor hood",
+        "function_note": "A triangular fibrous expansion over the dorsum of each finger's proximal phalanx where the extrinsic extensor digitorum tendon and the intrinsic lumbrical/interosseous tendons converge -- the central slip continues to the middle phalanx while lateral bands rejoin distally to the terminal tendon, the anatomical basis for the distinct boutonniere (central slip injury) and mallet finger (terminal tendon injury) deformities.",
+        "source": "von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20.",
+        "attachment_or_location": "dorsum of each finger, proximal to middle phalanx"
+      }
+    ],
+    "function": "The site where extrinsic (extensor digitorum) and intrinsic (lumbrical, interosseous) finger muscles' tendons converge into one shared dorsal fibrous mechanism -- functionally coordinating MCP extension (extrinsic) with IP joint extension (intrinsic contribution), rather than each muscle acting in isolation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20."
+  },
+  {
+    "id": "palmaris_longus_tendon_r",
+    "name_ta": "Tendo musculi palmaris longi",
+    "name_common": "Palmaris longus tendon",
+    "side": "right",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "palmaris_longus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "palmaris_longus_r",
+        "landmark": "palmaris longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "carpals_r",
+        "landmark": "flexor retinaculum / palmar aponeurosis (no direct bony insertion)"
+      }
+    },
+    "parts": [
+      {
+        "id": "palmaris_longus_tendon_r_main",
+        "name": "Palmaris longus tendon",
+        "function_note": "Congenitally absent (unilaterally or bilaterally) in a substantial minority of the population -- classic large cadaveric surveys report roughly 10-15% absence, with documented variation by population/ethnicity -- making it, when present, a popular expendable autograft donor (e.g. for thumb UCL or other small ligament reconstructions) since its loss produces no functional deficit thanks to redundant wrist flexors.",
+        "source": "Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates.",
+        "parent_muscle": "palmaris_longus_r",
+        "attachment_or_location": "flexor retinaculum, palmar aponeurosis"
+      }
+    ],
+    "function": "A vestigial-function but clinically useful tendon (unlike most forearm flexor tendons, it inserts into soft tissue rather than bone) whose frequent congenital absence and consequent expendability make it a preferred graft donor.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates."
+  },
+  {
+    "id": "extensor_pollicis_longus_tendon_r",
+    "name_ta": "Tendo musculi extensoris pollicis longi",
+    "name_common": "Extensor pollicis longus tendon",
+    "side": "right",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "extensor_pollicis_longus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_pollicis_longus_r",
+        "landmark": "extensor pollicis longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_r",
+        "landmark": "distal phalanx of thumb"
+      }
+    },
+    "parts": [
+      {
+        "id": "epl_tendon_r_main",
+        "name": "Extensor pollicis longus tendon",
+        "function_note": "Runs through the wrist's third dorsal extensor compartment and hooks around the medial side of Lister's (dorsal radial) tubercle, which acts as a pulley redirecting its course toward the thumb -- this sharp angulation, combined with the compartment's relatively poor vascularity, makes this tendon a recognized site of attritional rupture, classically after minor distal radius fractures even when well-healed.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_pollicis_longus_r",
+        "attachment_or_location": "Lister's tubercle pulley; distal phalanx of thumb"
+      }
+    ],
+    "function": "A tendon whose sharp, pulley-like redirection around a bony tubercle (rather than a straight course) creates a well-documented, distinctive rupture risk not shared by the more medially-running abductor pollicis longus/extensor pollicis brevis tendons of the adjacent first compartment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "rotator_cuff_tendon_complex_l",
+    "name_ta": "Tendines musculorum rotatorum",
+    "name_common": "Rotator cuff tendon complex",
+    "side": "left",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "supraspinatus_l",
+      "infraspinatus_l",
+      "teres_minor_l",
+      "subscapularis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "supraspinatus_l",
+        "landmark": "supraspinatus muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "greater tubercle (supraspinatus/infraspinatus/teres minor) and lesser tubercle (subscapularis)"
+      }
+    },
+    "parts": [
+      {
+        "id": "rotator_cuff_l_supraspinatus",
+        "name": "Supraspinatus tendon",
+        "function_note": "Contains the hypovascular 'critical zone' -- a watershed region between the tendon's osseous and muscular blood supply, implicated in degenerative rotator cuff tearing (the ~1cm-proximal-to-insertion distance and 'single most common tear site' framing are widely repeated but trace to older/separate sources, not to the cited paper itself -- narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing.",
+        "parent_muscle": "supraspinatus_l",
+        "attachment_or_location": "greater tubercle, superior facet"
+      },
+      {
+        "id": "rotator_cuff_l_infraspinatus",
+        "name": "Infraspinatus tendon",
+        "function_note": "Blends with the supraspinatus tendon anteriorly and the teres minor tendon posteriorly, forming a continuous cuff rather than three fully separate insertions.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "infraspinatus_l",
+        "attachment_or_location": "greater tubercle, middle facet"
+      },
+      {
+        "id": "rotator_cuff_l_teres_minor",
+        "name": "Teres minor tendon",
+        "function_note": "The most posterior and, functionally, the least injured of the four rotator cuff tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "teres_minor_l",
+        "attachment_or_location": "greater tubercle, inferior facet"
+      },
+      {
+        "id": "rotator_cuff_l_subscapularis",
+        "name": "Subscapularis tendon",
+        "function_note": "The only rotator cuff tendon inserting on the lesser tubercle (anterior); its upper fibers form the floor of the bicipital (intertubercular) groove alongside the transverse humeral ligament.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "subscapularis_l",
+        "attachment_or_location": "lesser tubercle"
+      }
+    ],
+    "function": "The confluent tendinous insertion of the four rotator cuff muscles onto the humeral tubercles, functioning as a dynamic stabilizing 'cuff' around the glenohumeral joint that centers the humeral head against the much larger deltoid's compressive/shear forces during arm elevation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Lohr JF, Uhthoff HK (1990) 'The microvascular pattern of the supraspinatus tendon.' Clin Orthop Relat Res 254:35-38 -- documents the hypovascular 'critical zone' near the supraspinatus tendon's insertion, a watershed region between osseous and tendinous blood supply implicated in degenerative rotator cuff tearing."
+  },
+  {
+    "id": "biceps_brachii_tendon_complex_l",
+    "name_ta": "Tendines musculi bicipitis brachii",
+    "name_common": "Biceps brachii tendon complex",
+    "side": "left",
+    "region": "shoulder_elbow",
+    "tendon_type": "intra_articular",
+    "parent_muscles": [
+      "biceps_brachii_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "biceps_brachii_l",
+        "landmark": "biceps brachii muscle belly (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "radius_l",
+        "landmark": "radial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "biceps_tendon_l_lh",
+        "name": "Long head tendon",
+        "function_note": "Originates from the supraglenoid tubercle and glenoid labrum (with documented variability in exactly how much of each contributes) and runs intra-articularly across the humeral head before exiting the joint capsule to descend in the intertubercular (bicipital) groove -- an unusual intra-articular-then-extra-articular course among tendons, and a common site of tendinopathy/instability.",
+        "source": "Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin. This paper's own scope is specifically the tendon's proximal origin (the roughly 50/50 labrum-vs-tubercle split it documents, with 4 distinct origin patterns); the tendon's subsequent intra-articular course across the humeral head and exit into the bicipital groove is separately well-established general anatomy (Gray's/Kenhub level), not a claim made by this specific citation (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "biceps_brachii_l",
+        "attachment_or_location": "supraglenoid tubercle / glenoid labrum"
+      },
+      {
+        "id": "biceps_tendon_l_sh",
+        "name": "Short head tendon",
+        "function_note": "Originates from the coracoid process (conjoint tendon with coracobrachialis) and, unlike the long head, has an entirely extra-articular course.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_l",
+        "attachment_or_location": "coracoid process"
+      },
+      {
+        "id": "biceps_tendon_l_distal",
+        "name": "Distal (bicipital) tendon + bicipital aponeurosis (lacertus fibrosus)",
+        "function_note": "The distal tendon inserts on the radial tuberosity; a fibrous expansion (the bicipital aponeurosis/lacertus fibrosus) fans off it medially to blend with the deep antebrachial fascia over the forearm flexor mass -- clinically relevant as a landmark protecting the underlying brachial artery and median nerve during venipuncture at the cubital fossa.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "biceps_brachii_l",
+        "attachment_or_location": "radial tuberosity"
+      }
+    ],
+    "function": "The two-headed proximal origin (glenoid/labrum + coracoid) converges into one muscle belly and one distal tendon; the long head's intra-articular course through the glenohumeral joint is anatomically unusual and a well-documented source of shoulder pain independent of rotator cuff pathology.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin."
+  },
+  {
+    "id": "triceps_brachii_tendon_l",
+    "name_ta": "Tendo musculi tricipitis brachii",
+    "name_common": "Triceps brachii tendon",
+    "side": "left",
+    "region": "elbow",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "triceps_brachii_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "triceps_brachii_l",
+        "landmark": "triceps brachii muscle belly (representative, all 3 heads)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "ulna_l",
+        "landmark": "olecranon process"
+      }
+    },
+    "parts": [
+      {
+        "id": "triceps_tendon_l_main",
+        "name": "Triceps brachii tendon",
+        "function_note": "All three heads (long, lateral, medial) converge into one common tendon inserting on the olecranon -- unlike the rotator cuff or quadriceps, the triceps' three heads do not maintain separately identifiable insertional layers.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "triceps_brachii_l",
+        "attachment_or_location": "olecranon process"
+      }
+    ],
+    "function": "The common distal tendon of the elbow's primary extensor, transmitting the combined force of all three triceps heads to the ulna.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_flexor_tendon_l",
+    "name_ta": "Tendo communis flexorum",
+    "name_common": "Common flexor tendon",
+    "side": "left",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "pronator_teres_l",
+      "flexor_carpi_radialis_l",
+      "palmaris_longus_l",
+      "flexor_carpi_ulnaris_l",
+      "flexor_digitorum_superficialis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_carpi_radialis_l",
+        "landmark": "forearm flexor-pronator group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "medial epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_flexor_tendon_l_main",
+        "name": "Common flexor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm flexor-pronator group; repetitive-strain degeneration/microtearing here is the anatomical basis of medial epicondylitis ('golfer's elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "flexor_carpi_radialis_l",
+        "attachment_or_location": "medial epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm flexor/pronator muscles arise, rather than each having its own separate humeral attachment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "common_extensor_tendon_l",
+    "name_ta": "Tendo communis extensorum",
+    "name_common": "Common extensor tendon",
+    "side": "left",
+    "region": "elbow",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "extensor_carpi_radialis_brevis_l",
+      "extensor_digitorum_l",
+      "extensor_digiti_minimi_l",
+      "extensor_carpi_ulnaris_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_carpi_radialis_brevis_l",
+        "landmark": "forearm extensor group (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "lateral epicondyle"
+      }
+    },
+    "parts": [
+      {
+        "id": "common_extensor_tendon_l_main",
+        "name": "Common extensor tendon",
+        "function_note": "The shared proximal origin of the superficial forearm extensor group; repetitive-strain degeneration/microtearing here (most consistently implicating extensor carpi radialis brevis specifically) is the anatomical basis of lateral epicondylitis ('tennis elbow').",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_carpi_radialis_brevis_l",
+        "attachment_or_location": "lateral epicondyle of humerus"
+      }
+    ],
+    "function": "A single shared tendinous origin from which multiple distinct forearm extensor muscles arise, rather than each having its own separate humeral attachment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "flexor_tendon_pulley_system_hand_l",
+    "name_ta": "Vaginae fibrosae digitorum manus",
+    "name_common": "Finger flexor tendon sheath and pulley system",
+    "side": "left",
+    "region": "hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "flexor_digitorum_superficialis_l",
+      "flexor_digitorum_profundus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "flexor_digitorum_profundus_l",
+        "landmark": "FDS/FDP muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_l",
+        "landmark": "FDS: middle phalanx base (split around FDP -- 'Camper's chiasm'); FDP: distal phalanx base"
+      }
+    },
+    "parts": [
+      {
+        "id": "pulley_system_l_annular",
+        "name": "Annular pulleys (A1-A5)",
+        "function_note": "Five fibro-osseous annular bands overlying the metacarpophalangeal and interphalangeal joints, resisting bowstringing of the flexor tendons away from the bone during finger flexion; A2 and A4 are the mechanically most critical for maintaining grip efficiency, and their surgical/traumatic loss produces a clinically well-documented bowstringing deformity.",
+        "source": "Lin GT, Amadio PC, An KN, Cooney WP (1989) 'Functional anatomy of the human digital flexor pulley system.' J Hand Surg Am 14(6):949-956 -- the biomechanical source of the A2/A4 pulleys' particular importance to grip efficiency and bowstringing resistance (Doyle 1988, used elsewhere in this entity for the pulley count/nomenclature, is an anatomic-description paper that does not itself address this biomechanical finding -- caught by adversarial fact-check, see docs/VERIFICATION.md).",
+        "attachment_or_location": "palmar aspect of proximal/middle phalanges and MCP/IP joints"
+      },
+      {
+        "id": "pulley_system_l_cruciate",
+        "name": "Cruciate pulleys (C1-C3)",
+        "function_note": "Three thinner, more flexible cruciform (X-shaped) bands interposed between the annular pulleys, allowing the sheath to collapse/fold during finger flexion without losing overall containment of the tendons.",
+        "source": "Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+        "attachment_or_location": "between the annular pulleys"
+      }
+    ],
+    "function": "The flexor digitorum superficialis and profundus tendons of each finger run together within one common fibrous digital sheath reinforced by this alternating annular/cruciate pulley system -- without it, tendon excursion during finger flexion would bowstring away from the phalanges rather than efficiently flexing the joints.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doyle JR (1988) 'Anatomy of the finger flexor tendon sheath and pulley system: a current review.' J Hand Surg Am 13(4):473-484 -- the standard nomenclature (A1-A5 annular, C1-C3 cruciate pulleys) for the finger flexor tendon sheath system.",
+    "has_synovial_sheath": true
+  },
+  {
+    "id": "extensor_hood_l",
+    "name_ta": "Expansio dorsalis digitorum manus",
+    "name_common": "Extensor hood (dorsal digital expansion)",
+    "side": "left",
+    "region": "hand",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "extensor_digitorum_l",
+      "lumbricals_hand_l",
+      "dorsal_interossei_hand_l",
+      "palmar_interossei_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_digitorum_l",
+        "landmark": "extensor digitorum + intrinsic hand muscles (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_l",
+        "landmark": "middle phalanx base (central slip) and distal phalanx base (lateral bands, via the terminal/conjoined tendon)"
+      }
+    },
+    "parts": [
+      {
+        "id": "extensor_hood_l_main",
+        "name": "Extensor hood",
+        "function_note": "A triangular fibrous expansion over the dorsum of each finger's proximal phalanx where the extrinsic extensor digitorum tendon and the intrinsic lumbrical/interosseous tendons converge -- the central slip continues to the middle phalanx while lateral bands rejoin distally to the terminal tendon, the anatomical basis for the distinct boutonniere (central slip injury) and mallet finger (terminal tendon injury) deformities.",
+        "source": "von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20.",
+        "attachment_or_location": "dorsum of each finger, proximal to middle phalanx"
+      }
+    ],
+    "function": "The site where extrinsic (extensor digitorum) and intrinsic (lumbrical, interosseous) finger muscles' tendons converge into one shared dorsal fibrous mechanism -- functionally coordinating MCP extension (extrinsic) with IP joint extension (intrinsic contribution), rather than each muscle acting in isolation.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); von Schroeder HP, Botte MJ (1993) 'Anatomy of the extensor tendons of the fingers: variations and multiplicity.' J Hand Surg Am 18(1):16-20."
+  },
+  {
+    "id": "palmaris_longus_tendon_l",
+    "name_ta": "Tendo musculi palmaris longi",
+    "name_common": "Palmaris longus tendon",
+    "side": "left",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "palmaris_longus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "palmaris_longus_l",
+        "landmark": "palmaris longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "carpals_l",
+        "landmark": "flexor retinaculum / palmar aponeurosis (no direct bony insertion)"
+      }
+    },
+    "parts": [
+      {
+        "id": "palmaris_longus_tendon_l_main",
+        "name": "Palmaris longus tendon",
+        "function_note": "Congenitally absent (unilaterally or bilaterally) in a substantial minority of the population -- classic large cadaveric surveys report roughly 10-15% absence, with documented variation by population/ethnicity -- making it, when present, a popular expendable autograft donor (e.g. for thumb UCL or other small ligament reconstructions) since its loss produces no functional deficit thanks to redundant wrist flexors.",
+        "source": "Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates.",
+        "parent_muscle": "palmaris_longus_l",
+        "attachment_or_location": "flexor retinaculum, palmar aponeurosis"
+      }
+    ],
+    "function": "A vestigial-function but clinically useful tendon (unlike most forearm flexor tendons, it inserts into soft tissue rather than bone) whose frequent congenital absence and consequent expendability make it a preferred graft donor.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Reimann AF, Daseler EH, Anson BJ, Beaton LE (1944) 'The palmaris longus muscle and tendon: a study of 1600 extremities.' Anat Rec 89(4):495-505 -- the classic large cadaveric study of palmaris longus absence rates."
+  },
+  {
+    "id": "extensor_pollicis_longus_tendon_l",
+    "name_ta": "Tendo musculi extensoris pollicis longi",
+    "name_common": "Extensor pollicis longus tendon",
+    "side": "left",
+    "region": "wrist_hand",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "extensor_pollicis_longus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "extensor_pollicis_longus_l",
+        "landmark": "extensor pollicis longus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "phalanges_hand_l",
+        "landmark": "distal phalanx of thumb"
+      }
+    },
+    "parts": [
+      {
+        "id": "epl_tendon_l_main",
+        "name": "Extensor pollicis longus tendon",
+        "function_note": "Runs through the wrist's third dorsal extensor compartment and hooks around the medial side of Lister's (dorsal radial) tubercle, which acts as a pulley redirecting its course toward the thumb -- this sharp angulation, combined with the compartment's relatively poor vascularity, makes this tendon a recognized site of attritional rupture, classically after minor distal radius fractures even when well-healed.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "extensor_pollicis_longus_l",
+        "attachment_or_location": "Lister's tubercle pulley; distal phalanx of thumb"
+      }
+    ],
+    "function": "A tendon whose sharp, pulley-like redirection around a bony tubercle (rather than a straight course) creates a well-documented, distinctive rupture risk not shared by the more medially-running abductor pollicis longus/extensor pollicis brevis tendons of the adjacent first compartment.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  }
+]

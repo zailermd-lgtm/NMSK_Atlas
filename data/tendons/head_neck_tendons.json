@@ -1,1 +1,72 @@
-PLACEHOLDER
+[
+  {
+    "id": "temporalis_tendon_r",
+    "name_ta": "Tendo musculi temporalis",
+    "name_common": "Temporalis tendon",
+    "side": "right",
+    "region": "head_neck",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "temporalis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "temporalis_r",
+        "landmark": "temporalis muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "mandible",
+        "landmark": "coronoid process of mandible"
+      }
+    },
+    "parts": [
+      {
+        "id": "temporalis_tendon_r_main",
+        "name": "Temporalis tendon",
+        "function_note": "The muscle's broad, fan-shaped origin from the entire temporal fossa converges as it descends deep to the zygomatic arch into a single strong tendon inserting on the coronoid process -- a fan-to-cord convergence pattern architecturally similar to (though not modeled with separate parts here, unlike) the quadriceps and rotator cuff tendons' documented internal layering.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "temporalis_r",
+        "attachment_or_location": "coronoid process of mandible"
+      }
+    ],
+    "function": "The convergent tendon of one of the four muscles of mastication; its extensive fan-shaped origin funneling to a single narrow coronoid insertion is a clear architectural example of a fan-to-cord (convergent) muscle-tendon unit.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "temporalis_tendon_l",
+    "name_ta": "Tendo musculi temporalis",
+    "name_common": "Temporalis tendon",
+    "side": "left",
+    "region": "head_neck",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "temporalis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "temporalis_l",
+        "landmark": "temporalis muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "mandible",
+        "landmark": "coronoid process of mandible"
+      }
+    },
+    "parts": [
+      {
+        "id": "temporalis_tendon_l_main",
+        "name": "Temporalis tendon",
+        "function_note": "The muscle's broad, fan-shaped origin from the entire temporal fossa converges as it descends deep to the zygomatic arch into a single strong tendon inserting on the coronoid process -- a fan-to-cord convergence pattern architecturally similar to (though not modeled with separate parts here, unlike) the quadriceps and rotator cuff tendons' documented internal layering.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "temporalis_l",
+        "attachment_or_location": "coronoid process of mandible"
+      }
+    ],
+    "function": "The convergent tendon of one of the four muscles of mastication; its extensive fan-shaped origin funneling to a single narrow coronoid insertion is a clear architectural example of a fan-to-cord (convergent) muscle-tendon unit.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  }
+]

@@ -1,1 +1,109 @@
-PLACEHOLDER
+[
+  {
+    "id": "central_tendon_diaphragm",
+    "name_ta": "Centrum tendineum diaphragmatis",
+    "name_common": "Central tendon of the diaphragm",
+    "side": "midline",
+    "region": "trunk",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "diaphragm"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "diaphragm",
+        "landmark": "diaphragmatic muscular fibers converging from the sternal, costal, and lumbar (crural) parts"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "sternum",
+        "landmark": "no bony insertion -- the muscular fibers converge onto and terminate within this fibrous central sheet itself, which then attaches to the pericardium above rather than to bone"
+      }
+    },
+    "parts": [
+      {
+        "id": "central_tendon_diaphragm_main",
+        "name": "Central tendon",
+        "function_note": "A trefoil (clover-leaf)-shaped, largely non-elastic fibrous sheet into which all three muscular parts of the diaphragm (sternal, costal, lumbar/crural) converge and insert; unlike most named tendons it has no direct bony attachment of its own -- it is fused superiorly to the fibrous pericardium, and its relative fixity (compared to the surrounding muscular diaphragm) is what allows diaphragmatic contraction to actually descend/flatten the dome during inspiration rather than simply shortening in place.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "diaphragm",
+        "attachment_or_location": "apex of the diaphragmatic dome, fused to the pericardium"
+      }
+    ],
+    "function": "The diaphragm's central fibrous sheet -- structurally a tendon (all diaphragmatic muscle fibers insert into it) but functionally unusual in having a fibrous, not bony, distal partner (the pericardium), and in being the fixed point around which the entire muscle's contraction is organized.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "conjoint_tendon_r",
+    "name_ta": "Falx inguinalis",
+    "name_common": "Conjoint tendon (inguinal falx)",
+    "side": "right",
+    "region": "trunk",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "internal_oblique_r",
+      "transversus_abdominis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "internal_oblique_r",
+        "landmark": "internal oblique + transversus abdominis muscle bellies (representative, lower fibers)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "hip_bone_r",
+        "landmark": "pubic crest and pecten pubis"
+      }
+    },
+    "parts": [
+      {
+        "id": "conjoint_tendon_r_main",
+        "name": "Conjoint tendon",
+        "function_note": "The fused aponeurotic insertion of internal oblique's and transversus abdominis's lowermost fibers, arching over the spermatic cord (or round ligament of the uterus) to attach to the pubic crest/pecten pubis, forming the posterior wall of the medial inguinal canal directly behind the superficial inguinal ring -- its integrity is central to preventing direct inguinal hernias, which characteristically occur medial to the inferior epigastric vessels through a weakness in exactly this structure (Hesselbach's triangle).",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "internal_oblique_r",
+        "attachment_or_location": "pubic crest / pecten pubis"
+      }
+    ],
+    "function": "The shared aponeurotic insertion of internal oblique's and transversus abdominis's lower fibers, clinically central to inguinal hernia anatomy (data/fascia/trunk_fascia.json documents the related transversalis fascia/inguinal ligament structures of the same region).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "conjoint_tendon_l",
+    "name_ta": "Falx inguinalis",
+    "name_common": "Conjoint tendon (inguinal falx)",
+    "side": "left",
+    "region": "trunk",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "internal_oblique_l",
+      "transversus_abdominis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "internal_oblique_l",
+        "landmark": "internal oblique + transversus abdominis muscle bellies (representative, lower fibers)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "hip_bone_l",
+        "landmark": "pubic crest and pecten pubis"
+      }
+    },
+    "parts": [
+      {
+        "id": "conjoint_tendon_l_main",
+        "name": "Conjoint tendon",
+        "function_note": "The fused aponeurotic insertion of internal oblique's and transversus abdominis's lowermost fibers, arching over the spermatic cord (or round ligament of the uterus) to attach to the pubic crest/pecten pubis, forming the posterior wall of the medial inguinal canal directly behind the superficial inguinal ring -- its integrity is central to preventing direct inguinal hernias, which characteristically occur medial to the inferior epigastric vessels through a weakness in exactly this structure (Hesselbach's triangle).",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "internal_oblique_l",
+        "attachment_or_location": "pubic crest / pecten pubis"
+      }
+    ],
+    "function": "The shared aponeurotic insertion of internal oblique's and transversus abdominis's lower fibers, clinically central to inguinal hernia anatomy (data/fascia/trunk_fascia.json documents the related transversalis fascia/inguinal ligament structures of the same region).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  }
+]
