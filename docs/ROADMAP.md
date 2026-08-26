@@ -291,9 +291,25 @@ ligaments, 2 fat bodies, pelvis→feet, with aligned cryosection and CT
 stacks, 3D Slicer masks, and STL at several processing levels. Map its
 structure names onto this atlas's existing IDs; convert to the atlas frame.
 
+The "Final 3D STL models" folder is 87.8 MB zipped, so this stage is a small
+download rather than the bulk fetch the earlier draft implied. But those
+models are remeshed to 1.5 mm (muscle) / 1.0 mm (bone) / 0.75 mm (cartilage,
+ligament) edge lengths — **coarser than this project's sub-millimetre
+target**. They are the right starting point for mapping and rigging; the raw
+~0.33 mm STLs or the native-resolution segmentation masks are what a
+sub-millimetre surface has to come from. See
+[GEOMETRY_SOURCES.md](GEOMETRY_SOURCES.md) for the full folder table.
+
 ### 5b — Arbitrary-plane cross-section engine
 Resample the voxel stack on any plane, with cryosection / CT / MRI shown
 side by side against the segmented overlay.
+
+Cheaper than first assumed: the aligned cryosection and CT DICOM folders are
+about 765 MB together, not the hundreds of gigabytes this stage was drafted
+against. The CT is already registered to the cryosections, and the transverse
+offsets present in the original Visible Human sequences are already
+corrected — so the cross-modality correlation arrives without a registration
+step of our own.
 
 ### 5c — Nerves and vessels
 Not present in the DU release, and the layer that injection safety depends

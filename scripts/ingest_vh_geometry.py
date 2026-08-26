@@ -7,11 +7,24 @@ the Visible Human Female and Male." Sci Data 10:34 (2023).
 doi:10.1038/s41597-022-01905-2 -- reported CC BY 4.0, CONFIRM AT SOURCE.
 Underlying imagery courtesy of the U.S. National Library of Medicine.
 
-The dataset is ~211 GB (male) and ~144 GB (female), so download it yourself
-and point this script at the folder. Nothing here reaches the network.
+Download the data yourself and point this script at the folder. Nothing here
+reaches the network.
 
-    Digital Commons @ DU   doi:10.56902/COB.vh.2022.0
+    Digital Commons @ DU   https://digitalcommons.du.edu/visiblehuman/
+                           doi:10.56902/COB.vh.2022.0
     SimTK mirror           https://simtk.org/projects/3d-vh-geometry
+
+Take the **"Final 3D STL models"** folder -- 87.8 MB zipped, 117 MB extracted,
+split into a Right and a Left download. Those meshes are already smoothed,
+overlap-free and corrected to a uniform 0.05 mm gap, so they need no further
+processing. Start with Right: the atlas names motor targets on the right side.
+
+Note what "final" costs. Those models were remeshed to target edge lengths of
+1.5 mm (muscle), 1.0 mm (bone) and 0.75 mm (cartilage, ligament) -- coarser
+than this project's sub-millimetre goal. For true sub-millimetre surface
+detail use the **raw** STL models instead, written at ScanIP's ~0.33 mm
+default, at the cost of the segmentation artefacts the smoothing removed.
+This script reads either; see docs/GEOMETRY_SOURCES.md.
 
 Run the three steps in order. Each one stops and shows you its work before
 anything is written to data/.

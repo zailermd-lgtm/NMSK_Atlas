@@ -137,7 +137,62 @@ Biomechanics, University of Denver.
 Contents — **260 geometries**, per subject: 76 muscles, 28 bones, 16
 cartilages, 8 ligaments, 2 fat bodies. Distributed as aligned cryosection and
 CT image stacks, 3D Slicer segmentation masks, and raw plus post-processed
-STL meshes. 211 GB (male) and 144 GB (female).
+STL meshes.
+
+### Download folders and their real sizes
+
+The 211 GB / 144 GB figures quoted in the paper describe the complete
+release. The download page splits it into folders that are individually far
+smaller, and the one this project needs first is under 100 MB:
+
+| Folder | Zip | Extracted |
+|---|---|---|
+| **Final 3D STL models** (Right *or* Left) | **87.8 MB** | **117 MB** |
+| Smoothed 3D STL models (Right or Left) | 173 MB | 601 MB |
+| Original (raw) 3D STL models | 506 MB | 5.66 GB |
+| Aligned cryosection DICOM | 463 MB | 485 MB |
+| Aligned CT DICOM | 302 MB | 316 MB |
+| Aligned scan images (.mat/.tif/.ctbl) | 1.47 GB | 1.54 GB |
+| Original segmentation masks + scans (3D Slicer) | 2.62 GB | 2.74 GB |
+| Smoothed segmentation masks + scans (3D Slicer) | 2.07 GB | 2.18 GB |
+| Final segmentation masks + scans (3D Slicer) | 2.08 GB | 2.18 GB |
+| Original segmentation label maps (.mat/.tif) | 2.08 GB | 2.18 GB |
+| ⚠️ Original segmentation masks + scans (**.mhd**) | 1.32 GB | **129 GB** |
+
+The `.mhd` folder is the only one that explodes on extraction -- 1.3 GB
+compressed to 129 GB on disk. Take the 3D Slicer variant instead unless that
+exact format is needed.
+
+### ⚠️ The final models are NOT sub-millimetre
+
+This matters for a project whose stated target is under 1 mm³ per voxel. The
+smoothed models -- and the final models derived from them -- were **remeshed
+to target edge lengths of 1.5 mm for muscle, 1.0 mm for bone, and 0.75 mm for
+cartilage and ligament**. That is the surface sampling density, and it is
+coarser than the target.
+
+Sub-millimetre surface detail has to come from one of:
+
+- the **raw STL models**, written at ScanIP's default ~0.33 mm edge length,
+  matching the cryosection resolution -- but carrying, in the authors' words,
+  "issues resulting from segmentation";
+- the **segmentation masks** at their native voxel resolution, re-meshed
+  here rather than accepting the published remesh.
+
+Use the final models for rigging, display and the first ingest -- they are
+clean, gap-corrected and immediately usable. Reach for the raw models or the
+masks when surface fidelity, rather than topology, is what is being measured.
+
+### The cross-section stage is much cheaper than expected
+
+The aligned cryosection and CT DICOM folders together are about **765 MB**,
+not the hundreds of gigabytes assumed when stage 5b was drafted. The CT is
+already registered to the cryosections and the transverse offsets in the
+original sequences are already corrected -- so the cross-modality correlation
+this project wants arrives without a registration step of our own.
+
+The overclosure-correction MATLAB code the authors used is public at
+<https://github.com/thor-andreassen/femors>.
 
 Quality notes recorded by the authors:
 
