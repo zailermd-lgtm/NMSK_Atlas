@@ -84,10 +84,24 @@ The project also includes **CT and MRI of the same two cadavers**, which is
 what makes cross-modality correlation possible against ground truth rather
 than against a different body.
 
-**Obtaining it.** Project page:
-<https://www.nlm.nih.gov/research/visible/visible_human.html>. Terms and
-access: <https://www.nlm.nih.gov/research/visible/getting_data.html>. Data
-directory: <https://data.lhncbc.nlm.nih.gov/public/Visible-Human/>.
+**Obtaining it.** NLM has moved the entry point more than once, and the old
+`data.lhncbc.nlm.nih.gov/public/Visible-Human/` directory listing no longer
+resolves reliably. Current routes, best first:
+
+| Route | Where |
+|---|---|
+| **Imaging Data Commons (NCI)** — DICOM-converted, cloud-hosted, browsable, with download manifests | <https://portal.imaging.datacommons.cancer.gov/collections/nlm_visible_human_project> |
+| NLM Data Discovery — the current official landing page | <https://datadiscovery.nlm.nih.gov/Images/Visible-Human-Project/ux2j-9i9a/about_data> |
+| Zenodo — manifests for the IDC collection | <https://zenodo.org/records/12690050> |
+| data.gov catalog entry | <https://catalog-beta.data.gov/dataset/visible-human-project> |
+| Project overview and terms | <https://www.nlm.nih.gov/research/visible/visible_human.html> |
+
+The IDC route is worth preferring: the imagery is already in DICOM and can be
+pulled selectively by manifest rather than as a bulk directory fetch.
+
+None of these could be checked from the machine this was written on — the
+environment's network policy denies those hosts outright — so treat them as
+starting points rather than verified endpoints.
 
 **Licensing.** Before July 2019 the NLM required a signed license agreement.
 That requirement was removed; access is now governed by NLM's Terms and
