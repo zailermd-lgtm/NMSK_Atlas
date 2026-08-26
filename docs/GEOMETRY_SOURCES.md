@@ -22,6 +22,8 @@ good the meshes are.
 |---|---|---|---|
 | **Visible Human Project** (NLM) | 0.33 mm (F) / 1 mm (M) axial | US public domain; attribution requested | **Adopted** — substrate |
 | **VH lower-extremity geometry** (Univ. of Denver) | segmented from the above | CC BY 4.0 *(verify — see below)* | **Adopted** — stage 1 |
+| **SPARC / SCKAN** (NIH Common Fund) | connectivity statements, no geometry | CC BY 4.0 | **Deferred** — wrong domain; see below |
+| **IT'IS Virtual Population** (Yoon-sun, Jeduk) | segmented nerve trajectories | commercial, paid | **Open question** — see below |
 | **Z-Anatomy** / BodyParts3D | ~3.65 M polygons, unstated scale | CC BY-SA 4.0 | **Rejected** — share-alike |
 | Parametric generation from atlas data | n/a | ours outright | **Rejected** — insufficient fidelity |
 
@@ -143,6 +145,74 @@ cryosections were hard to resolve.
 
 ---
 
+## SPARC / SCKAN (evaluated — deferred, and worth revisiting for viscera)
+
+The NIH Common Fund's SPARC program (*Stimulating Peripheral Activity to
+Relieve Conditions*) and its knowledge base SCKAN were evaluated as a source
+for the missing peripheral nerve layer.
+
+**The licensing is ideal.** Public SPARC datasets are CC BY 4.0 — attribution
+only, commercial use permitted, derivatives may be proprietary. One
+exception: **embargoed** datasets sit under a Data Use Agreement that forbids
+commercial use without a separate licence from the data owner. Filter on
+embargo status before touching anything.
+
+**The content is for a different problem.** SPARC exists to serve
+bioelectronic medicine — vagus nerve stimulation, autonomic neuromodulation
+of viscera. Per the SCKAN paper
+([doi:10.3389/fninf.2025.1541184](https://doi.org/10.3389/fninf.2025.1541184)),
+the knowledge base's neuron populations break down by circuit role as:
+
+| Circuit role / phenotype | Populations |
+|---|---|
+| Sympathetic | 131 |
+| Parasympathetic | 77 |
+| Sensory | 40 |
+| **Motor** | **9** |
+| Enteric | 1 |
+
+Nine motor populations in the whole knowledge base. The words "somatic" and
+"skeletal muscle" do not appear in the paper at all. Its authors state they
+are "in the process of extending the content with peripheral sensory and
+motor pathways" — that is future work, not present content.
+
+Three further disqualifiers for this project:
+
+- **No geometry.** SCKAN holds semantic statements of the form *"neurons with
+  somas in structure A project to structure B via nerve C"*. "Coordinate" and
+  "geometry" appear zero times in the paper. This is the same *shape* of data
+  the atlas already has in `data/nerves/` — topology without coordinates. It
+  would not close the gap, it would duplicate it.
+- **Predominantly rodent.** Models are described as "observed predominantly
+  in rodents."
+- **The program is winding down**, per the same paper.
+
+**Revisit it for one thing.** If the atlas ever wants organ innervation —
+which nerve supplies which viscus — SPARC is the best freely licensed source
+that exists, and CC BY 4.0 makes it usable here. That is a later layer, not
+the musculoskeletal one.
+
+## IT'IS Virtual Population (open question — the only segmented human nerves found)
+
+SPARC-funded work at the IT'IS Foundation produced the **Yoon-sun** and
+**Jeduk** models (Virtual Population V4.0): whole-body human models with
+segmented, anatomically extracted **peripheral nerve trajectories**. That is
+precisely the geometry missing everywhere else.
+
+Two problems, neither resolved:
+
+- These are a **commercial product** of IT'IS / Zurich MedTech, licensed
+  through the Sim4Life sales team. Not CC BY, not free. The actual licence
+  terms could not be retrieved — itis.swiss was unreachable from the machine
+  this was written on — so whether a proprietary derivative is permitted at
+  any price is **unknown**.
+- They derive from the **Visible Korean Human**, which carries its own access
+  restrictions distinct from the NLM Visible Human's public-domain status.
+
+If buying geometry is on the table, this is the most promising lead found.
+It requires a direct conversation with IT'IS before it can be costed or
+relied on.
+
 ## What this dataset does **not** contain
 
 These are not footnotes — they are the clinically load-bearing layers, and
@@ -152,7 +222,7 @@ will be owned outright.
 | Missing | Why it matters | Where it must come from |
 |---|---|---|
 | **Upper limb and trunk** | The DU set is pelvis→feet only. For post-stroke spasticity the upper limb is the larger clinical need | Segment from VHP ourselves |
-| **Peripheral nerves** | Without them there is no injection safety — the neurovascular bundle to avoid is invisible | Segment from cryosections |
+| **Peripheral nerves** | Without them there is no injection safety — the neurovascular bundle to avoid is invisible | Segment from cryosections (SPARC does not cover somatic nerves — see above) |
 | **Blood vessels** | Same | Segment from cryosections |
 | **Motor points / NMJ zones** | **Not resolvable in cryosection at any resolution.** Botulinum dosing targets endplate-rich zones, not muscle centroids | Literature (Sihler-stain studies) → atlas data layer |
 | Patellar and full Achilles tendon | Excluded from the DU release | Segment from cryosections |
