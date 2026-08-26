@@ -84,6 +84,11 @@ The project also includes **CT and MRI of the same two cadavers**, which is
 what makes cross-modality correlation possible against ground truth rather
 than against a different body.
 
+**Obtaining it.** Project page:
+<https://www.nlm.nih.gov/research/visible/visible_human.html>. Terms and
+access: <https://www.nlm.nih.gov/research/visible/getting_data.html>. Data
+directory: <https://data.lhncbc.nlm.nih.gov/public/Visible-Human/>.
+
 **Licensing.** Before July 2019 the NLM required a signed license agreement.
 That requirement was removed; access is now governed by NLM's Terms and
 Conditions, with no registration, no fee, and no royalty. As a work of the
@@ -135,6 +140,33 @@ Achilles tendon are absent**; some Visible Human Female left knee extensor
 anatomy was disrupted pre- or post-mortem and was segmented to a
 representative rather than observed form; some inter-structure borders in the
 cryosections were hard to resolve.
+
+### Obtaining it
+
+| What | Where |
+|---|---|
+| Digital Commons @ DU collection | <https://digitalcommons.du.edu/visiblehuman/> |
+| — Visible Human Female | <https://digitalcommons.du.edu/visiblehuman/1/> |
+| — Visible Human Male | <https://digitalcommons.du.edu/visiblehuman/2/> |
+| SimTK mirror (usually needs a free account) | <https://simtk.org/projects/3d-vh-geometry> |
+| Data DOI | <https://doi.org/10.56902/COB.vh.2022.0> |
+
+**Do not download the full package for stage 1.** The 211 GB and 144 GB
+figures are the complete releases including the cryosection and CT image
+stacks. `scripts/ingest_vh_geometry.py` reads only the **processed STL
+geometry** — 260 meshes, orders of magnitude smaller. The authors split the
+release into separate folders precisely so that subset can be taken alone.
+The image stacks are needed later, for the cross-section engine (stage 5b),
+not for the geometry ingest.
+
+Then:
+
+```bash
+python3 scripts/ingest_vh_geometry.py inspect <folder> --subject vhm
+```
+
+which reports the structure names, bounding box, inferred units and up-axis
+without writing anything. `propose` and `convert` follow from there.
 
 > ⚠️ **Verify the license before commercial release.** The dataset is
 > reported as **CC BY 4.0** (attribution only, no share-alike — compatible
