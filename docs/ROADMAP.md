@@ -260,21 +260,59 @@ not new categories.
   layer (organ bounding surfaces + their neurovascular pedicles only) could
   be added in this stage if needed.
 
-## Stage 5 — True 1mm surface mesh geometry
-- What's built in this pass generates 1mm-sampled **centerlines/point
-  fields** (fiber tracts, nerve/vessel paths) — the geometrically and
-  computationally hard, genuinely novel part for animation-safe rigging.
-  Turning bones/muscle bellies into 1mm-resolution watertight **surface
-  meshes** additionally requires either (a) a licensed segmented volumetric
-  source — the NIH Visible Human Project (public domain, ~15GB) or AIST's
-  BodyParts3D/Anatomography (CC BY-SA, https://lifesciencedb.jp/bp3d/) are
-  the legitimate options — imported and re-topologized onto this rig's
-  anchor set, or (b) procedural lofting from the `landmarks[]`/cross-section
-  data already in `bones.json`, which `engine/geometry.py` supports for
-  bones today and would need a soft-tissue (muscle belly / fat / skin
-  offset-surface) extension. This is primarily a data-acquisition and mesh
-  pipeline task rather than a modeling-design task — the anchors and fiber
-  fields it would be built around are already correct.
+## Stage 5 — Sub-millimetre voxel geometry (revised)
+
+**Superseded plan.** Earlier drafts of this stage listed BodyParts3D /
+Z-Anatomy (CC BY-SA) alongside the Visible Human Project as interchangeable
+options, and offered procedural lofting as a fallback. Both of those are now
+ruled out, for reasons recorded in full in
+[GEOMETRY_SOURCES.md](GEOMETRY_SOURCES.md):
+
+- **CC BY-SA sources are excluded.** Share-alike forces every derivative
+  open and forbids restricting third parties, which is incompatible with
+  this project's proprietary intent. Editing the meshes does not escape it.
+- **Procedural lofting is insufficient.** It cannot support the clinical
+  targets — injection planning into a named muscle compartment, or
+  correlation against a real ultrasound image, needs true tissue boundaries
+  from a real body, not an extruded approximation.
+
+**Target.** Below 1 mm³ per voxel. The Visible Human Female cryosections are
+0.33 mm isotropic (0.036 mm³); the Male is 0.33 × 0.33 × 1.0 mm
+(0.109 mm³). Both already clear the target, and both come with CT and MRI of
+the *same* cadaver, which is what makes cross-modality correlation possible
+against ground truth.
+
+### 5a — Ingest the lower-extremity segmentation
+Andreassen et al. (Univ. of Denver), *Sci Data* 10:34 (2023),
+[doi:10.1038/s41597-022-01905-2](https://doi.org/10.1038/s41597-022-01905-2),
+reported as CC BY 4.0 — **confirm at source before commercial release**.
+260 geometries per subject: 76 muscles, 28 bones, 16 cartilages, 8
+ligaments, 2 fat bodies, pelvis→feet, with aligned cryosection and CT
+stacks, 3D Slicer masks, and STL at several processing levels. Map its
+structure names onto this atlas's existing IDs; convert to the atlas frame.
+
+### 5b — Arbitrary-plane cross-section engine
+Resample the voxel stack on any plane, with cryosection / CT / MRI shown
+side by side against the segmented overlay.
+
+### 5c — Nerves and vessels
+Not present in the DU release, and the layer that injection safety depends
+on. Segment from the cryosections ourselves — which also means this layer is
+owned outright.
+
+### 5d — Upper limb and trunk
+The DU release stops at the pelvis. For post-stroke spasticity the upper
+limb is the larger clinical need. Segment from VHP.
+
+### 5e — Motor points / NMJ zones
+**Not resolvable in cryosection at any resolution.** Botulinum dosing targets
+endplate-rich zones, not muscle centroids, so this layer must come from the
+Sihler-stain and electrophysiology literature and lands in the atlas data
+layer, not the geometry layer.
+
+The centerline and fibre-field work already built (1 mm-sampled fibre tracts,
+nerve and vessel paths, anchor set) remains correct and is what the voxel
+geometry gets registered *onto* — it is not superseded by this stage.
 
 ## Stage 6 — Physiologically-driven validation
 - Cross-check generated moment arms against published values (e.g.

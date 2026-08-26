@@ -105,11 +105,28 @@ python scripts/mirror_side.py data/muscles/upper_limb/*_r.json data/muscles/lowe
 
 ## License
 
-Code: MIT (implied — no restrictions on the schemas/engine/scripts in this
-repo). Data is authored from public-domain/standard-reference anatomical
-knowledge (Terminologia Anatomica, Gray's Anatomy descriptions, published
-peer-reviewed literature — see `docs/SOURCES.md`); no proprietary or
-copyrighted dataset content is included. Third-party datasets referenced
-for future scale-up (BodyParts3D, Visible Human Project, OpenSim) carry
-their own licenses (CC BY-SA, public domain, BSD respectively) — attribute
-per their terms if incorporated.
+**Proprietary — all rights reserved.** See [LICENSE](LICENSE).
+
+Everything in this repository is original work: the schemas, the engine and
+scripts, and the anatomical records themselves, which were authored from
+Terminologia Anatomica, standard reference descriptions, and the
+peer-reviewed literature cited in [docs/SOURCES.md](docs/SOURCES.md). No
+third-party dataset content is included.
+
+Anatomical facts are not owned by anyone and the license does not claim them.
+What it covers is the expression built on top of them — the schema design,
+the functional-compartment decomposition, the identifier scheme, the written
+qualifications, and the arrangement of the corpus.
+
+**On 3D geometry.** This repository contains no mesh or voxel data from any
+external atlas. Geometry sourcing is a deliberate, licence-driven decision
+recorded in **[docs/GEOMETRY_SOURCES.md](docs/GEOMETRY_SOURCES.md)**: the
+Visible Human Project (US public domain) is the intended substrate, the
+University of Denver lower-extremity segmentation (CC BY 4.0) the first
+geometry layer, and CC BY-SA sources such as Z-Anatomy and BodyParts3D are
+excluded because share-alike is incompatible with a proprietary derivative.
+Read that document before adding any geometry to this repository.
+
+**Not a medical device.** This is an anatomical reference dataset. It has not
+been reviewed or cleared by any regulatory authority and is not validated for
+diagnosis or treatment planning. See section 4 of [LICENSE](LICENSE).

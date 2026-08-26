@@ -98,8 +98,12 @@ def validate_source_coverage() -> List[str]:
     fine-grained data)."""
     problems = []
     for path in _all_data_files():
-        if path.name == "anchors.json":
-            continue  # auto-derived (scripts/generate_anchors.py); citation lives on the owning entity
+        # Generated artifacts carry no citation of their own -- the citation
+        # lives on the entities they were derived from.
+        #   anchors.json           <- scripts/generate_anchors.py
+        #   scene_3d_preview.json  <- scripts/export_3d_scene.py
+        if path.name in ("anchors.json", "scene_3d_preview.json"):
+            continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else payload.get("items", [payload])
         for entity in entities:
