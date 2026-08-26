@@ -11,9 +11,21 @@ is, what it honestly isn't (yet), and how the pieces fit together.
 
 ## What's in this repo
 
-- **Whole-body breadth**: all 206 bones, 37 joints (cited ROM), and the
+- **Whole-body breadth**: all 206 bones, 60 joints (cited ROM), and the
   full spinal + cranial nerve root map.
-- **The entire whole-body muscular system at full flagship depth** — 297
+
+  | Category | Entities |
+  |---|---|
+  | Bones (representing all 206) | 69 |
+  | Joints | 60 |
+  | Muscles | 404 |
+  | Nerves | 266 |
+  | Vessels and lymphatics | 250 |
+  | Fascia | 85 |
+  | Ligaments | 62 |
+  | Cartilage | 36 |
+  | Tendons | 37 |
+- **The entire whole-body muscular system at full flagship depth** — 404
   muscle files across four regions, every one with fascicle-level
   architecture, documented intramuscular functional compartments, NMJ
   zones, and cited sources (no muscle remains at breadth-only depth —
@@ -55,8 +67,8 @@ is, what it honestly isn't (yet), and how the pieces fit together.
   All four regions: all left/right mirrored (trunk's diaphragm is
   midline/unpaired), all schema-validated, all graph-connected, all
   adversarially fact-checked (docs/VERIFICATION.md).
-- **Ligaments and cartilage** (`data/ligaments/`, `data/cartilage/`, 57 +
-  32 entities): major named ligaments and cartilage structures for every
+- **Ligaments and cartilage** (`data/ligaments/`, `data/cartilage/`, 62 +
+  36 entities): major named ligaments and cartilage structures for every
   significant joint — shoulder, elbow, wrist, hip, knee, ankle, spine,
   pelvis, TMJ. Multi-band/multi-part structures are modeled explicitly
   (the ACL's anteromedial/posterolateral bundles, the deltoid ligament's
@@ -71,6 +83,20 @@ is, what it honestly isn't (yet), and how the pieces fit together.
   systems (the finger flexors' A1-A5/C1-C3 pulleys), and
   clinically-named regions (the rotator cuff's hypovascular "critical
   zone").
+- **Complete peripheral and deep systems.** Every standard muscle group is
+  represented, including the ones usually omitted from anatomical datasets:
+  all seven intrinsic laryngeal muscles, the soft palate, the intrinsic
+  tongue muscles, the middle ear muscles, the suboccipital and splenius
+  groups, the deep thoracic muscles and the perineum. The nerve trees reach
+  branch level throughout -- every muscular branch of the limb plexuses, the
+  saphenous and sural systems, the cranial nerves including the accessory
+  and both recurrent laryngeal nerves, and the dorsal rami with the medial
+  branches that facet joint denervation targets. The venous trees run from
+  the dural sinuses to the plantar plexus, the lymphatic system is present
+  from the thoracic duct to the named node groups, and the fascial layer
+  carries the canals and spaces that regional blocks are aimed at -- the
+  adductor canal, Guyon's canal, the cubital tunnel, the deep neck spaces.
+
 - **A procedural engine** (`engine/`) that generates 1mm-resolution muscle
   fiber fields from architecture parameters, and a kinematic rig
   (`engine/rig.py`) that keeps every attachment point correctly anchored to
@@ -78,8 +104,9 @@ is, what it honestly isn't (yet), and how the pieces fit together.
   within cited anatomical ROM limits.
 - **A verification suite** (`tests/`, `engine/validators.py`) checking
   schema validity, citation coverage, bone-reference integrity, nerve/
-  vessel graph connectivity, ROM plausibility, left/right symmetry, and
-  anchor rigidity under posing.
+  vessel graph connectivity, ROM plausibility, left/right symmetry, anchor
+  rigidity under posing, and cross-entity reference integrity -- muscle to
+  nerve, nerve to muscle compartment, and fascia to adjacent fascia.
 - **A roadmap** (`docs/ROADMAP.md`) for extending the same pipeline to full
   body coverage, staged and independently verifiable.
 
