@@ -3,3 +3,8 @@ __pycache__/
 .pytest_cache/
 *.npy
 _flagship_part*.json
+
+# Visible Human ingest working directory: reports, hand-edited mappings, and
+# converted geometry. The geometry is CC BY 4.0 third-party material and the
+# source dataset is ~355 GB -- neither belongs in git.
+build/
