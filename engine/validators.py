@@ -197,14 +197,29 @@ def validate_bone_references() -> List[str]:
         for a in _load_json(anchors_path):
             check_ref(a.get("parent_bone_frame"), f"anchor {a.get('id')}")
 
+    # Fascia is a network, not a tree: 'adjacent_fascia' is how continuity
+    # between sheets is recorded, and a name that resolves to nothing breaks
+    # exactly the traversal that makes the layer useful.
+    fascia_ids = set()
+    fascia_entities = []
     for path in DATA_DIR.rglob("*.json"):
         if "fascia" not in path.parts:
             continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else [payload]
         for entity in entities:
+            if isinstance(entity, dict) and "id" in entity:
+                fascia_ids.add(entity["id"])
+                fascia_entities.append(entity)
             for ba in entity.get("bony_attachments", []):
                 check_ref(ba.get("bone"), f"fascia {entity.get('id')} bony_attachment")
+
+    for entity in fascia_entities:
+        for neighbour in entity.get("adjacent_fascia", []):
+            if neighbour not in fascia_ids:
+                problems.append(
+                    f"fascia {entity['id']} adjacent_fascia: "
+                    f"references unknown fascia id '{neighbour}'")
 
     joint_ids = set()
     if joints_path.exists():

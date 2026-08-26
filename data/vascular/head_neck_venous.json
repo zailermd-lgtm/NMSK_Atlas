@@ -164,5 +164,127 @@
       "scalenus_posterior_r_main"
     ],
     "notes": "Formed from the suboccipital venous plexus, descends through the transverse foramina of the cervical vertebrae (a documented bones.json landmark) alongside the vertebral artery, but -- unlike the artery -- drains directly into the brachiocephalic vein rather than joining the internal jugular system; modeled as its own root for the same cross-file-seam reason as internal/external jugular vein."
+  },
+  {
+    "id": "anterior_jugular_v_r",
+    "name": "Anterior jugular vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "external_jugular_v_r",
+    "level": "trunk",
+    "approx_diameter_mm": 3,
+    "supplies_or_drains": [
+      "superficial anterior neck"
+    ],
+    "anastomoses_with": [],
+    "notes": "Descends near the midline to drain into the external jugular or subclavian vein. Left and right are joined just above the sternum by the jugular venous arch, which bleeds briskly if divided during a low tracheostomy.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "pterygoid_venous_plexus_r",
+    "name": "Pterygoid venous plexus",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "maxillary_v_r",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "deep face and infratemporal fossa"
+    ],
+    "anastomoses_with": [],
+    "notes": "Communicates with the cavernous sinus through emissary veins and with the facial vein through the deep facial vein. Because those communications are valveless, infection in the 'danger area' of the face can propagate backwards into the cavernous sinus.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "deep_cervical_v_r",
+    "name": "Deep cervical vein",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "vertebral_v_r",
+    "level": "muscular_branch",
+    "approx_diameter_mm": 3,
+    "supplies_or_drains": [
+      "suboccipital and deep posterior neck musculature"
+    ],
+    "anastomoses_with": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "sigmoid_sinus_r",
+    "name": "Sigmoid sinus",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "internal_jugular_v_r",
+    "level": "trunk",
+    "approx_diameter_mm": 7,
+    "supplies_or_drains": [
+      "transverse sinus and the posterior cranial fossa"
+    ],
+    "anastomoses_with": [],
+    "notes": "S-shaped continuation of the transverse sinus, grooving the mastoid and becoming the internal jugular vein at the jugular foramen. Its proximity to the mastoid air cells is why otitis media and mastoiditis can cause sigmoid sinus thrombosis.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "transverse_sinus_r",
+    "name": "Transverse sinus",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "sigmoid_sinus_r",
+    "level": "trunk",
+    "approx_diameter_mm": 7,
+    "supplies_or_drains": [
+      "superior sagittal and straight sinuses, via the confluence of sinuses"
+    ],
+    "anastomoses_with": [],
+    "notes": "Usually asymmetric, the right being dominant in most people. That normal variant must not be read as thrombosis on imaging.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "superior_sagittal_sinus",
+    "name": "Superior sagittal sinus",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "transverse_sinus_r",
+    "level": "trunk",
+    "approx_diameter_mm": 8,
+    "supplies_or_drains": [
+      "superior cerebral veins",
+      "cerebrospinal fluid, via the arachnoid granulations"
+    ],
+    "anastomoses_with": [],
+    "notes": "Runs in the attached margin of the falx cerebri. Its arachnoid granulations return CSF to venous blood, which is why sagittal sinus thrombosis raises intracranial pressure.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "straight_sinus",
+    "name": "Straight sinus",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "transverse_sinus_r",
+    "level": "trunk",
+    "approx_diameter_mm": 5,
+    "supplies_or_drains": [
+      "great cerebral vein of Galen",
+      "inferior sagittal sinus"
+    ],
+    "anastomoses_with": [],
+    "notes": "",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "cavernous_sinus_r",
+    "name": "Cavernous sinus",
+    "system": "venous",
+    "tree_name": "head_neck_venous",
+    "parent_id": "sigmoid_sinus_r",
+    "level": "muscular_branch",
+    "supplies_or_drains": [
+      "ophthalmic veins",
+      "superficial middle cerebral vein",
+      "pterygoid venous plexus"
+    ],
+    "anastomoses_with": [],
+    "notes": "Contains the internal carotid artery and CN VI within the sinus itself, with CN III, IV, V1 and V2 in its lateral wall. That packing explains the syndrome of cavernous sinus thrombosis: ophthalmoplegia, facial sensory loss in V1/V2 territory, proptosis and chemosis.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
   }
 ]
