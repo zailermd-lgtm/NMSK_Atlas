@@ -43,12 +43,37 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Largest PCSA of the deep posterior compartment's long toe flexors; runs in a groove on the posterior talus and under the sustentaculum tali (both documented bones.json landmarks) before reaching the great toe.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            40
+          ],
+          "reference_line_from": "most prominent point of the lateral malleolus",
+          "reference_line_to": "fibular head",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Distal of two zones; this line runs DISTAL to PROXIMAL.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        },
+        {
+          "zone_percent_range": [
+            60,
+            70
+          ],
+          "reference_line_from": "most prominent point of the lateral malleolus",
+          "reference_line_to": "fibular head",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Proximal of two zones.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"

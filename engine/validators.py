@@ -246,6 +246,53 @@ def validate_bone_references() -> List[str]:
                     f"muscle {m.get('id')} innervation.nerve: "
                     f"references unknown nerve id '{nerve}'")
 
+    # Motor endplate data comes in two forms that answer different questions,
+    # and conflating them would put an injection in the wrong place:
+    #
+    #   position_fraction_along_fascicle -- where the endplate sits along an
+    #       individual fascicle. Near its midpoint for essentially every
+    #       muscle, so 0.5 is a defensible default rather than a measurement.
+    #   motor_endplate_zones -- where the endplate band sits along the whole
+    #       MUSCLE, as a percentage of a named external landmark line. This is
+    #       the published, muscle-specific figure and the one a clinician
+    #       measures against.
+    #
+    # Every zone must therefore say which it is, and must never claim the
+    # fascicle fraction is measured just because a published muscle-level zone
+    # was added alongside it.
+    for path in DATA_DIR.rglob("*.json"):
+        if "muscles" not in path.parts or path.name == "muscle_index.json":
+            continue
+        payload = _load_json(path)
+        for m in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(m, dict):
+                continue
+            for comp in m.get("functional_compartments", []):
+                cid = comp.get("id")
+                zone = comp.get("neuromuscular_junction_zone")
+                if zone is not None and not zone.get("evidence"):
+                    problems.append(
+                        f"compartment {cid} neuromuscular_junction_zone: missing "
+                        f"'evidence' -- say whether the fascicle fraction is "
+                        f"'measured' or a 'modelling_default'")
+                for mz in comp.get("motor_endplate_zones", []):
+                    rng = mz.get("zone_percent_range")
+                    if not (isinstance(rng, list) and len(rng) == 2):
+                        problems.append(
+                            f"compartment {cid} motor_endplate_zones: "
+                            f"zone_percent_range must be [low, high]")
+                    elif rng[0] > rng[1]:
+                        problems.append(
+                            f"compartment {cid} motor_endplate_zones: "
+                            f"zone_percent_range {rng} is inverted")
+                    if not mz.get("reference_line_from") or not mz.get("reference_line_to"):
+                        problems.append(
+                            f"compartment {cid} motor_endplate_zones: a percentage "
+                            f"is meaningless without both ends of its reference line")
+                    if not mz.get("source"):
+                        problems.append(
+                            f"compartment {cid} motor_endplate_zones: missing source")
+
     anchors_path = DATA_DIR / "rig" / "anchors.json"
     if anchors_path.exists():
         for a in _load_json(anchors_path):

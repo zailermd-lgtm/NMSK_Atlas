@@ -44,12 +44,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Wraps the deeper neck muscles like a bandage -- splenion, a bandage. Unlike sternocleidomastoid it rotates the head to the SAME side, so the two are tested against each other.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            50,
+            50
+          ],
+          "reference_line_from": "origin (nuchal ligament and spinous processes C7-T3)",
+          "reference_line_to": "insertion (mastoid process and superior nuchal line)",
+          "method": "high-density surface EMG innervation-zone mapping",
+          "notes": "Located at half muscle length.",
+          "source": "Delnooz CCS, Veugen LC, Pasman JW, Lapatki BG, van Dijk JP, van de Warrenburg BPC. 'The clinical utility of botulinum toxin injections targeted at the motor endplate zone in cervical dystonia.' Eur J Neurol 21(12):1486 (2014), doi:10.1111/ene.12517 -- high-density surface EMG in 18 cervical dystonia patients"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"

@@ -64,12 +64,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "central aponeurosis endplate band",
+        "location_description": "central aponeurosis endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.4,
-        "band_width_fraction": 0.15
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
       },
       "function_note": "Larger of the two heads; documented independently-controllable EMG compartment from the lateral head (different recruitment during standing balance vs push-off).",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            75,
+            75
+          ],
+          "reference_line_from": "intercondylar line",
+          "reference_line_to": "intermalleolar line",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Approximately three-quarters of muscle length -- slightly more proximal than the lateral head, which extends further distally.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     },
     {
       "id": "gastrocnemius_r_lateral_head",
@@ -100,12 +114,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "central aponeurosis endplate band",
+        "location_description": "central aponeurosis endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.4,
-        "band_width_fraction": 0.15
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
       },
       "function_note": "Smaller head, more laterally placed.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            80,
+            80
+          ],
+          "reference_line_from": "intercondylar line",
+          "reference_line_to": "intermalleolar line",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported as approximately four-fifths of muscle length along this line. Note the line runs proximal to distal, so this zone lies DISTALLY, well below the common practice of injecting the prominent proximal bulk.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"

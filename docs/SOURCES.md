@@ -132,3 +132,41 @@ docs/VERIFICATION.md for what they checked and found.
 - NIH Visible Human Project — public domain, ~15GB of 1mm axial cryosection/CT/MRI data. https://www.nlm.nih.gov/research/visible/visible_human.html
 - AIST BodyParts3D / Anatomography — CC BY-SA segmented 3D anatomy meshes. https://lifesciencedb.jp/bp3d/
 - OpenSim (Stanford) musculoskeletal models — BSD-licensed, published moment-arm/muscle-path data usable for Stage 6 validation. https://opensim.stanford.edu
+
+## Motor endplate zones (injection targeting)
+
+Added for the muscles most often injected with botulinum toxin in spasticity.
+All retrieved via PubMed.
+
+| Source | What it supplies |
+|---|---|
+| Diaconu S et al., *Toxins* 17(10):508 (2025), [doi:10.3390/toxins17100508](https://doi.org/10.3390/toxins17100508) | Intramuscular neural arborization zones for ten distal lower-limb muscles, each as a percentage range along a named external landmark line. A review synthesising the primary mapping literature (Lee, Yi and others) that it cites. |
+| Van Campenhout A, Hubens G, Fagard K, Molenaers G, *Muscle Nerve* 42(2):202-7 (2010), [doi:10.1002/mus.21660](https://doi.org/10.1002/mus.21660) | Psoas endplate zone, 30-70% of the T12-to-inguinal-ligament distance, from stereoscopic dissection of 24 cadaver muscles. |
+| Delnooz CCS et al., *Eur J Neurol* 21(12):1486 (2014), [doi:10.1111/ene.12517](https://doi.org/10.1111/ene.12517) | Sternocleidomastoid endplate zone at the lower border of the superior third; splenius capitis at half muscle length. High-density surface EMG, 18 patients. Half-dose endplate-targeted injection matched a full standard dose. |
+| Van Campenhout A, Molenaers G, *Dev Med Child Neurol* 53(2):108-19 (2011), [doi:10.1111/j.1469-8749.2010.03816.x](https://doi.org/10.1111/j.1469-8749.2010.03816.x) | Review of lower-limb endplate localisation. Notes that for many muscles the zone differs from where clinical practice currently injects. Not open access; its per-muscle figures are **not** yet entered here. |
+| Lapatki BG et al., *Clin Neurophysiol* 122(8):1611-6 (2011), [doi:10.1016/j.clinph.2010.11.018](https://doi.org/10.1016/j.clinph.2010.11.018) | Why the zone matters quantitatively: moving the injection 1 cm away from the endplate zone reduced the effect of botulinum toxin by 46%. |
+| Van Campenhout A et al., *Res Dev Disabil* 34(3):1052-8 (2013), [doi:10.1016/j.ridd.2012.11.016](https://doi.org/10.1016/j.ridd.2012.11.016) | Endplate-targeted psoas injection produced measurable atrophy on MRI (79.5% of pre-injection volume) where a more distal injection did not (107.8%). |
+| Guzmán-Venegas RA, Araneda OF, Silvestre RA, *J Electromyogr Kinesiol* 24(6):923-7 (2014), [doi:10.1016/j.jelekin.2014.07.012](https://doi.org/10.1016/j.jelekin.2014.07.012) | Motor point and innervation zone are not the same location -- they differed by 10.7 mm in biceps brachii. Clinically, the motor point is what is usually targeted. |
+| Deshpande S, Gormley ME, Carey JR, *Neurotox Res* 9(2-3):115-20 (2006), [doi:10.1007/BF03033928](https://doi.org/10.1007/BF03033928) | The origin of the mid-belly assumption. States explicitly that the endplate zone is *assumed* to be near the muscle fibre midpoint, and locates fibre midpoints from musculotendinous junctions -- an assumption, not a measurement. |
+
+### Two different quantities, deliberately kept apart
+
+`neuromuscular_junction_zone.position_fraction_along_fascicle` and
+`motor_endplate_zones` are not the same measurement and must not be merged.
+
+- The **fascicle fraction** is where the endplate sits along an individual
+  fascicle. It is near the midpoint for essentially every muscle, so 0.5 is a
+  defensible default rather than a finding. Every zone now carries
+  `evidence: "modelling_default"` or `"measured"` so this is never implied to
+  be more than it is.
+- A **motor endplate zone** is where the endplate band sits along the whole
+  muscle, as a percentage of a named landmark line. This is the published,
+  muscle-specific figure.
+
+Zones are stored in each source's own terms and are **not** converted to a
+fascicle fraction, because the published reference lines do not consistently
+run origin-to-insertion. Tibialis anterior's zone is "70-80% along lateral
+malleolus → fibular head" -- that line runs distal to proximal, so the zone
+lies near the knee, roughly 0.2-0.3 on the muscle's own axis. A silent
+conversion would invert it, and an inverted injection target does not
+announce itself.

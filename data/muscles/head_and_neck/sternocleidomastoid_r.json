@@ -45,12 +45,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Rounder, more superficial head arising from the manubrium.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            33
+          ],
+          "reference_line_from": "mastoid process",
+          "reference_line_to": "sternal head origin",
+          "method": "high-density surface EMG innervation-zone mapping",
+          "notes": "Located at the lower border of the superior third of the muscle. Half-dose injections targeted here matched the effect of a full standard dose.",
+          "source": "Delnooz CCS, Veugen LC, Pasman JW, Lapatki BG, van Dijk JP, van de Warrenburg BPC. 'The clinical utility of botulinum toxin injections targeted at the motor endplate zone in cervical dystonia.' Eur J Neurol 21(12):1486 (2014), doi:10.1111/ene.12517 -- high-density surface EMG in 18 cervical dystonia patients"
+        }
+      ]
     },
     {
       "id": "sternocleidomastoid_r_clavicular",
@@ -76,12 +90,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Broader, flatter, deeper head arising from the medial clavicle; the two heads are separated by a palpable triangular gap (the lesser supraclavicular fossa) at their origin.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            33
+          ],
+          "reference_line_from": "mastoid process",
+          "reference_line_to": "clavicular head origin",
+          "method": "high-density surface EMG innervation-zone mapping",
+          "notes": "Reported for sternocleidomastoid as a whole; the two heads were not separately mapped.",
+          "source": "Delnooz CCS, Veugen LC, Pasman JW, Lapatki BG, van Dijk JP, van de Warrenburg BPC. 'The clinical utility of botulinum toxin injections targeted at the motor endplate zone in cervical dystonia.' Eur J Neurol 21(12):1486 (2014), doi:10.1111/ene.12517 -- high-density surface EMG in 18 cervical dystonia patients"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"

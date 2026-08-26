@@ -67,7 +67,8 @@
       "neuromuscular_junction_zone": {
         "location_description": "mid-belly endplate band",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.1
+        "band_width_fraction": 0.1,
+        "evidence": "modelling_default"
       },
       "function_note": "Fan-shaped, arises from the iliac fossa; joins psoas major's tendon just proximal to the lesser trochanter.",
       "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
@@ -101,12 +102,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.1
+        "band_width_fraction": 0.1,
+        "evidence": "modelling_default"
       },
       "function_note": "Arises segmentally from lumbar vertebral bodies/discs and transverse processes; distinct innervation (direct lumbar plexus branches, not the femoral nerve trunk) from iliacus despite the shared distal tendon.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            70
+          ],
+          "reference_line_from": "twelfth thoracic vertebra (T12)",
+          "reference_line_to": "the point where psoas passes under the inguinal ligament",
+          "method": "stereoscopic microscopic dissection of intramuscular nerve branches",
+          "notes": "An average of 3.7 nerve branches (range 2-7) enter psoas from the lumbar plexus. Expressed against the sacral promontory (P) instead, the limits run from 50% of the T12-to-P distance to 20% of the P-to-pubis distance. Endplate-targeted injection here produced measurable muscle atrophy where a more distal injection did not (Van Campenhout et al., Res Dev Disabil 34(3):1052-8, 2013, doi:10.1016/j.ridd.2012.11.016).",
+          "source": "Van Campenhout A, Hubens G, Fagard K, Molenaers G. 'Localization of motor nerve branches of the human psoas muscle.' Muscle Nerve 42(2):202-7 (2010), doi:10.1002/mus.21660 -- stereoscopic microscopic dissection of 24 cadaver psoas muscles"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"

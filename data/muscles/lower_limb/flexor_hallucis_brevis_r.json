@@ -43,12 +43,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Inserts via the medial sesamoid bone, one of the two sesamoids embedded in this muscle's tendons beneath the 1st metatarsal head -- a classic radiographic landmark and a site of sesamoiditis.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            50,
+            70
+          ],
+          "reference_line_from": "middle-lowest point of the sole of the foot",
+          "reference_line_to": "middle-lowest point of the great toe",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the muscle as a whole; the medial and lateral heads are not separately mapped in the source.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     },
     {
       "id": "flexor_hallucis_brevis_r_lateral",
@@ -73,12 +87,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Inserts via the lateral sesamoid; often partly blended with adductor hallucis's transverse head fibers at their shared insertion.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            50,
+            70
+          ],
+          "reference_line_from": "middle-lowest point of the sole of the foot",
+          "reference_line_to": "middle-lowest point of the great toe",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the muscle as a whole; the medial and lateral heads are not separately mapped in the source.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"

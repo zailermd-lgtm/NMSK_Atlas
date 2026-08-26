@@ -64,12 +64,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.48,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Most superficial, most powerful ankle dorsiflexor; commonly used clinical/EMG landmark muscle.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            70,
+            80
+          ],
+          "reference_line_from": "lateral malleolus",
+          "reference_line_to": "fibular head",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "This line runs DISTAL to PROXIMAL, so 70-80% is near the fibular head -- the proximal third of the leg. Expressed on the muscle's own origin-to-insertion axis this would be roughly 0.2-0.3, the inverse of the published number, which is exactly why the zone is stored in the source's terms and not converted.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"

@@ -43,12 +43,37 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
       },
       "function_note": "Largest PCSA of any deep posterior compartment muscle; its multi-slip insertion fanning across most of the midfoot makes it the single most important dynamic stabilizer of the medial arch -- its dysfunction is the leading cause of acquired adult flatfoot deformity.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            10,
+            40
+          ],
+          "reference_line_from": "medial proximal tibial articular margin",
+          "reference_line_to": "distal medial malleolus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Proximal of two zones (Lee et al., as cited in the review).",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        },
+        {
+          "zone_percent_range": [
+            70,
+            80
+          ],
+          "reference_line_from": "medial proximal tibial articular margin",
+          "reference_line_to": "distal medial malleolus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Distal of two zones (Lee et al.). A separate mapping by Yi et al. places a zone at 70-80% along the lateral malleolus to fibular head line, which is a different reference line running the opposite way -- the two are not directly comparable and are reported here as the review reports them.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
