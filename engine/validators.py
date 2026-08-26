@@ -6,6 +6,7 @@ for the methodology this implements.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Dict, List
 
@@ -140,6 +141,7 @@ def validate_bone_references() -> List[str]:
             check_ref(j.get("child_bone"), f"joint {j.get('id')}")
 
     muscle_ids = set()
+    compartment_ids = set()
     for path in DATA_DIR.rglob("*.json"):
         if "muscles" not in path.parts or path.name == "muscle_index.json":
             continue
@@ -148,9 +150,47 @@ def validate_bone_references() -> List[str]:
         for m in entities:
             if isinstance(m, dict) and "id" in m:
                 muscle_ids.add(m["id"])
+                for comp in m.get("functional_compartments", []):
+                    if isinstance(comp, dict) and comp.get("id"):
+                        compartment_ids.add(comp["id"])
             att = m.get("attachments", {})
             check_ref(att.get("origin_bone"), f"muscle {m.get('id')} origin")
             check_ref(att.get("insertion_bone"), f"muscle {m.get('id')} insertion")
+
+    # A nerve's targets hold three kinds of value: a muscle or
+    # functional-compartment id for a motor branch, a dermatome label such as
+    # 'lateral_trunk_skin_T4', and free prose such as 'skin of the medial
+    # sole'. Only the first kind is a reference that has to resolve.
+    #
+    # Muscle and compartment ids always carry a side marker -- they end in
+    # '_l'/'_r' or contain '_l_'/'_r_' -- which the other two kinds never do.
+    # That is what separates a typo'd muscle reference from a territory label.
+    motor_targets = muscle_ids | compartment_ids
+    sided = re.compile(r"(^|_)[lr](_|$)")
+
+    def check_motor_ref(value: str, context: str):
+        if not isinstance(value, str) or " " in value.strip():
+            return
+        if not sided.search(value):
+            return  # dermatome label or other non-muscle target
+        if value not in motor_targets:
+            problems.append(f"{context}: unknown muscle/compartment id '{value}'")
+
+    for path in DATA_DIR.rglob("*.json"):
+        if "nerves" not in path.parts:
+            continue
+        payload = _load_json(path)
+        if not isinstance(payload, list):
+            continue  # reference tables, not nerve_branch entities
+        for entity in payload:
+            if not isinstance(entity, dict):
+                continue
+            nid = entity.get("id")
+            for target in entity.get("targets", []):
+                check_motor_ref(target, f"nerve {nid} targets")
+            entry = entity.get("motor_entry_point") or {}
+            check_motor_ref(entry.get("target_muscle_compartment") or "",
+                            f"nerve {nid} motor_entry_point")
 
     anchors_path = DATA_DIR / "rig" / "anchors.json"
     if anchors_path.exists():
