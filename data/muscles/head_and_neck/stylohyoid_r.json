@@ -1,0 +1,55 @@
+{
+  "id": "stylohyoid_r",
+  "name_ta": "Stylohyoideus",
+  "name_common": "Stylohyoideus",
+  "side": "right",
+  "region": "neck",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "temporal_r",
+    "origin_landmark": "posterior surface of the styloid process",
+    "insertion_bone": "hyoid",
+    "insertion_landmark": "body of the hyoid at the junction with the greater horn",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_trunk",
+    "root_levels": "CN VII"
+  },
+  "actions": [
+    "elevates and retracts the hyoid, lengthening the floor of the mouth"
+  ],
+  "functional_compartments": [
+    {
+      "id": "stylohyoid_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 45,
+        "max_isometric_force_N": 10.1
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          22,
+          18,
+          -14
+        ],
+        [
+          6,
+          -2,
+          -2
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Its tendon is perforated by the posterior belly of digastric, which it parallels -- both are second pharyngeal arch muscles and both take CN VII.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}

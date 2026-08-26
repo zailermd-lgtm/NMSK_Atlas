@@ -1,0 +1,56 @@
+{
+  "id": "semispinalis_thoracis_l",
+  "name_ta": "Semispinalis thoracis",
+  "name_common": "Semispinalis thoracis",
+  "side": "left",
+  "region": "trunk",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "thoracic_vertebrae",
+    "origin_landmark": "transverse processes T6-T10",
+    "insertion_bone": "thoracic_vertebrae",
+    "insertion_landmark": "spinous processes C6-T4, spanning about five segments",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "dorsal_ramus_medial_branches",
+    "root_levels": "thoracic dorsal rami (medial branches)"
+  },
+  "actions": [
+    "extends the thoracic spine",
+    "rotates the trunk to the opposite side"
+  ],
+  "functional_compartments": [
+    {
+      "id": "semispinalis_thoracis_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 75,
+        "physiological_cross_section_area_mm2": 120,
+        "max_isometric_force_N": 27.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -14,
+          -60,
+          -26
+        ],
+        [
+          -8,
+          -10,
+          -22
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}

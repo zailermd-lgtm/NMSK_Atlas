@@ -1,1 +1,113 @@
-{"id":"iliopsoas_r","name_ta":"Musculus iliopsoas","name_common":"Iliopsoas (iliacus + psoas major)","side":"right","region":"lower_limb","overall_architecture_type":"fusiform","attachments":{"origin_bone":"hip_bone_r","origin_landmark":"iliacus: iliac fossa; psoas major: T12-L5 vertebral bodies/transverse processes (lumbar_vertebrae, not repeated as a 2nd origin_bone -- see compartment notes)","insertion_bone":"femur_r","insertion_landmark":"lesser trochanter","via_points":[{"structure":"iliopectineal eminence / pelvic brim","bone_frame":"hip_bone_r","position_local_mm":[-10,-10,20],"active_over_joint_range":"all hip flexion angles -- the tendon wraps over the pelvic brim like a pulley"}]},"innervation":{"nerve":"femoral_n_r_iliacus_branch_and_lumbar_plexus_r_psoas_branches","root_levels":"L1-L4"},"blood_supply":["iliolumbar_a_r","medial_circumflex_femoral_a_r"],"actions":["flexes hip (primary/strongest hip flexor)","psoas major also laterally flexes/stabilizes the lumbar spine"],"functional_compartments":[{"id":"iliopsoas_r_iliacus","name":"Iliacus","innervation_branch":"femoral n., direct muscular branch","fiber_architecture":{"architecture_type":"fusiform","pennation_deg":8,"optimal_fascicle_length_mm":100,"physiological_cross_section_area_mm2":1500.0,"max_isometric_force_N":375.0},"fiber_field_seed_region_local_mm":[[15,60,30],[10,40,40],[5,20,35]],"neuromuscular_junction_zone":{"location_description":"mid-belly endplate band","position_fraction_along_fascicle":0.5,"band_width_fraction":0.1},"function_note":"Fan-shaped, arises from the iliac fossa; joins psoas major's tendon just proximal to the lesser trochanter.","source":"Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"},{"id":"iliopsoas_r_psoas_major","name":"Psoas major","innervation_branch":"lumbar plexus, direct branches from L1-L3 ventral rami (proximal to femoral n. formation)","fiber_architecture":{"architecture_type":"fusiform","pennation_deg":10,"optimal_fascicle_length_mm":115,"physiological_cross_section_area_mm2":1700.0,"max_isometric_force_N":425.0},"fiber_field_seed_region_local_mm":[[-5,100,-10],[-5,60,0],[0,30,15]],"neuromuscular_junction_zone":{"location_description":"mid-belly endplate band","position_fraction_along_fascicle":0.5,"band_width_fraction":0.1},"function_note":"Arises segmentally from lumbar vertebral bodies/discs and transverse processes; distinct innervation (direct lumbar plexus branches, not the femoral nerve trunk) from iliacus despite the shared distal tendon.","source":"Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"}],"source":"Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"}
+{
+  "id": "iliopsoas_r",
+  "name_ta": "Musculus iliopsoas",
+  "name_common": "Iliopsoas (iliacus + psoas major)",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "iliacus: iliac fossa; psoas major: T12-L5 vertebral bodies/transverse processes (lumbar_vertebrae, not repeated as a 2nd origin_bone -- see compartment notes)",
+    "insertion_bone": "femur_r",
+    "insertion_landmark": "lesser trochanter",
+    "via_points": [
+      {
+        "structure": "iliopectineal eminence / pelvic brim",
+        "bone_frame": "hip_bone_r",
+        "position_local_mm": [
+          -10,
+          -10,
+          20
+        ],
+        "active_over_joint_range": "all hip flexion angles -- the tendon wraps over the pelvic brim like a pulley"
+      }
+    ]
+  },
+  "innervation": {
+    "nerve": "femoral_n_iliacus_branch_and_lumbar_plexus_psoas_branches",
+    "root_levels": "L1-L4"
+  },
+  "blood_supply": [
+    "iliolumbar_a_r",
+    "medial_circumflex_femoral_a_r"
+  ],
+  "actions": [
+    "flexes hip (primary/strongest hip flexor)",
+    "psoas major also laterally flexes/stabilizes the lumbar spine"
+  ],
+  "functional_compartments": [
+    {
+      "id": "iliopsoas_r_iliacus",
+      "name": "Iliacus",
+      "innervation_branch": "femoral n., direct muscular branch",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 8,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 1500.0,
+        "max_isometric_force_N": 375.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          15,
+          60,
+          30
+        ],
+        [
+          10,
+          40,
+          40
+        ],
+        [
+          5,
+          20,
+          35
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.1
+      },
+      "function_note": "Fan-shaped, arises from the iliac fossa; joins psoas major's tendon just proximal to the lesser trochanter.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+    },
+    {
+      "id": "iliopsoas_r_psoas_major",
+      "name": "Psoas major",
+      "innervation_branch": "lumbar plexus, direct branches from L1-L3 ventral rami (proximal to femoral n. formation)",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 115,
+        "physiological_cross_section_area_mm2": 1700.0,
+        "max_isometric_force_N": 425.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -5,
+          100,
+          -10
+        ],
+        [
+          -5,
+          60,
+          0
+        ],
+        [
+          0,
+          30,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.1
+      },
+      "function_note": "Arises segmentally from lumbar vertebral bodies/discs and transverse processes; distinct innervation (direct lumbar plexus branches, not the femoral nerve trunk) from iliacus despite the shared distal tendon.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

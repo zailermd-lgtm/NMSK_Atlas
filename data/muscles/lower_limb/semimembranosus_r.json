@@ -1,1 +1,65 @@
-{"id":"semimembranosus_r","name_ta":"Musculus semimembranosus","name_common":"Semimembranosus","side":"right","region":"lower_limb","overall_architecture_type":"unipennate","attachments":{"origin_bone":"hip_bone_r","origin_landmark":"ischial tuberosity (flat membranous tendon, separate from the biceps/semitendinosus conjoint tendon)","insertion_bone":"tibia_r","insertion_landmark":"posteromedial tibial condyle (+ oblique popliteal ligament, popliteus fascia)","via_points":[]},"innervation":{"nerve":"tibial_part_of_sciatic_n_r","root_levels":"L5-S2"},"blood_supply":["perforating_branches_of_profunda_femoris_a_r"],"actions":["extends hip","flexes and internally rotates knee"],"functional_compartments":[{"id":"semimembranosus_r_main","name":"Single fiber population","innervation_branch":"tibial division of sciatic n.","fiber_architecture":{"architecture_type":"unipennate","pennation_deg":15,"optimal_fascicle_length_mm":80,"physiological_cross_section_area_mm2":1200.0,"max_isometric_force_N":300.0},"fiber_field_seed_region_local_mm":[[-15,-70,-35],[-20,-180,-25],[-15,-280,-15]],"neuromuscular_junction_zone":{"location_description":"mid-belly endplate band","position_fraction_along_fascicle":0.48,"band_width_fraction":0.12},"function_note":"Largest PCSA of the hamstring group; broad flat proximal tendon distinguishes its architecture from semitendinosus's round cord-like tendon.","source":"Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"}],"source":"Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"}
+{
+  "id": "semimembranosus_r",
+  "name_ta": "Musculus semimembranosus",
+  "name_common": "Semimembranosus",
+  "side": "right",
+  "region": "lower_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "ischial tuberosity (flat membranous tendon, separate from the biceps/semitendinosus conjoint tendon)",
+    "insertion_bone": "tibia_r",
+    "insertion_landmark": "posteromedial tibial condyle (+ oblique popliteal ligament, popliteus fascia)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "sciatic_n",
+    "root_levels": "L5-S2"
+  },
+  "blood_supply": [
+    "perforating_branches_of_profunda_femoris_a_r"
+  ],
+  "actions": [
+    "extends hip",
+    "flexes and internally rotates knee"
+  ],
+  "functional_compartments": [
+    {
+      "id": "semimembranosus_r_main",
+      "name": "Single fiber population",
+      "innervation_branch": "tibial division of sciatic n.",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 80,
+        "physiological_cross_section_area_mm2": 1200.0,
+        "max_isometric_force_N": 300.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -70,
+          -35
+        ],
+        [
+          -20,
+          -180,
+          -25
+        ],
+        [
+          -15,
+          -280,
+          -15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Largest PCSA of the hamstring group; broad flat proximal tendon distinguishes its architecture from semitendinosus's round cord-like tendon.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

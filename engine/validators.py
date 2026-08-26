@@ -192,6 +192,60 @@ def validate_bone_references() -> List[str]:
             check_motor_ref(entry.get("target_muscle_compartment") or "",
                             f"nerve {nid} motor_entry_point")
 
+    # Every muscle names the nerve that supplies it. Before this check existed,
+    # over half the muscle set pointed at ids that resolved to nothing --
+    # sided forms of unsided nerve entities, and branch names spelled
+    # differently from the entity that already represented them.
+    #
+    # A minority of muscles genuinely have more than one source (adductor
+    # magnus, the lumbricals, pectoralis major) or are supplied by a group
+    # rather than a named branch. The schema holds one string, so those stay
+    # descriptive and are listed here explicitly -- which is what lets a real
+    # dual supply be told apart from a typo.
+    MULTI_SOURCE_INNERVATION = {
+        "accessory_n_and_c2_c3", "accessory_n_and_c3_c4",
+        "cervical_plexus_and_brachial_plexus_branches",
+        "cervical_plexus_branches", "direct_sacral_branches",
+        "dorsal_scapular_n_and_c3_c4", "facial_n_and_trigeminal_n_v3",
+        "femoral_n_and_obturator_n",
+        "intercostal_and_iliohypogastric_ilioinguinal",
+        "intercostal_and_subcostal_nerves", "intercostal_nerves",
+        "lumbar_plexus_branches",
+        "medial_plantar_n_1_lateral_plantar_n_2_4",
+        "median_n_1_2_ulnar_n_3_4",
+        "median_n_recurrent_and_ulnar_deep_branch",
+        "pudendal_n_and_direct_sacral_branches",
+        # the classic dually innervated muscles
+        "lateral_and_medial_pectoral_nerves",          # pectoralis major
+        "upper_and_lower_subscapular_nerves",          # subscapularis
+        "median_n_anterior_interosseous_branch_and_ulnar_n",   # FDP
+        "femoral_n_iliacus_branch_and_lumbar_plexus_psoas_branches",  # iliopsoas
+        "obturator_n_posterior_branch_and_tibial_part_of_sciatic_n",  # adductor magnus
+        "tibial_part_of_sciatic_n_long_head_common_fibular_part_short_head",  # biceps femoris
+    }
+    nerve_ids = set()
+    for path in DATA_DIR.rglob("*.json"):
+        if "nerves" not in path.parts:
+            continue
+        payload = _load_json(path)
+        if isinstance(payload, list):
+            nerve_ids |= {e["id"] for e in payload
+                          if isinstance(e, dict) and "id" in e}
+
+    for path in DATA_DIR.rglob("*.json"):
+        if "muscles" not in path.parts or path.name == "muscle_index.json":
+            continue
+        payload = _load_json(path)
+        for m in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(m, dict):
+                continue
+            nerve = (m.get("innervation") or {}).get("nerve")
+            if nerve and nerve not in nerve_ids \
+                    and nerve not in MULTI_SOURCE_INNERVATION:
+                problems.append(
+                    f"muscle {m.get('id')} innervation.nerve: "
+                    f"references unknown nerve id '{nerve}'")
+
     anchors_path = DATA_DIR / "rig" / "anchors.json"
     if anchors_path.exists():
         for a in _load_json(anchors_path):

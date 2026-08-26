@@ -1,1 +1,64 @@
-{"id":"vastus_lateralis_l","name_ta":"Musculus vastus lateralis","name_common":"Vastus lateralis","side":"left","region":"lower_limb","overall_architecture_type":"unipennate","attachments":{"origin_bone":"femur_l","origin_landmark":"linea aspera (lateral lip), greater trochanter, intertrochanteric line","insertion_bone":"patella_l","insertion_landmark":"lateral base of patella, via quadriceps tendon","via_points":[]},"innervation":{"nerve":"femoral_n_l","root_levels":"L2-L4"},"blood_supply":["lateral_circumflex_femoral_a_l"],"actions":["extends knee (largest quadriceps head by PCSA)"],"functional_compartments":[{"id":"vastus_lateralis_l_main","name":"Single fiber population","innervation_branch":"femoral n., muscular branch","fiber_architecture":{"architecture_type":"unipennate","pennation_deg":18,"optimal_fascicle_length_mm":70,"physiological_cross_section_area_mm2":2400.0,"max_isometric_force_N":600.0},"fiber_field_seed_region_local_mm":[[-30,0,0],[-25,-100,5],[-20,-200,10]],"neuromuscular_junction_zone":{"location_description":"mid-belly endplate band","position_fraction_along_fascicle":0.5,"band_width_fraction":0.12},"function_note":"Largest PCSA of the 4 quadriceps heads.","source":"Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"}],"source":"Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"}
+{
+  "id": "vastus_lateralis_l",
+  "name_ta": "Musculus vastus lateralis",
+  "name_common": "Vastus lateralis",
+  "side": "left",
+  "region": "lower_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "femur_l",
+    "origin_landmark": "linea aspera (lateral lip), greater trochanter, intertrochanteric line",
+    "insertion_bone": "patella_l",
+    "insertion_landmark": "lateral base of patella, via quadriceps tendon",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "femoral_n",
+    "root_levels": "L2-L4"
+  },
+  "blood_supply": [
+    "lateral_circumflex_femoral_a_l"
+  ],
+  "actions": [
+    "extends knee (largest quadriceps head by PCSA)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "vastus_lateralis_l_main",
+      "name": "Single fiber population",
+      "innervation_branch": "femoral n., muscular branch",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 18,
+        "optimal_fascicle_length_mm": 70,
+        "physiological_cross_section_area_mm2": 2400.0,
+        "max_isometric_force_N": 600.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -30,
+          0,
+          0
+        ],
+        [
+          -25,
+          -100,
+          5
+        ],
+        [
+          -20,
+          -200,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Largest PCSA of the 4 quadriceps heads.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+}

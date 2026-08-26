@@ -1,0 +1,86 @@
+{
+  "id": "nasalis_r",
+  "name_ta": "Nasalis",
+  "name_common": "Nasalis",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "maxilla_r",
+    "origin_landmark": "maxilla above the incisor and canine teeth",
+    "insertion_bone": "nasal_r",
+    "insertion_landmark": "nasal cartilage and the aponeurosis over the bridge of the nose",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_zygomatic_branch",
+    "root_levels": "CN VII"
+  },
+  "actions": [
+    "compresses the nasal aperture (transverse part)",
+    "flares the nostril (alar part)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "nasalis_r_transverse_part",
+      "name": "Transverse part (compressor naris)",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 20,
+        "physiological_cross_section_area_mm2": 8,
+        "max_isometric_force_N": 1.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          8,
+          -6,
+          12
+        ],
+        [
+          2,
+          6,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Compresses the nasal aperture across the bridge.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "nasalis_r_alar_part",
+      "name": "Alar part (dilator naris)",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 20,
+        "physiological_cross_section_area_mm2": 6,
+        "max_isometric_force_N": 1.4
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          8,
+          -6,
+          12
+        ],
+        [
+          2,
+          6,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Draws the ala laterally and downwards, widening the nostril. Visible nasal flaring in respiratory distress is this part recruited as an accessory muscle of respiration.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "bulbospongiosus_r",
+  "name_ta": "Bulbospongiosus",
+  "name_common": "Bulbospongiosus",
+  "side": "right",
+  "region": "trunk",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "perineal body and the median raphe of the bulb of the penis (or the perineal body in the female)",
+    "insertion_bone": "hip_bone_r",
+    "insertion_landmark": "perineal membrane, corpus spongiosum and the dorsal aspect of the penis or clitoris",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "pudendal_n",
+    "root_levels": "S2-S4 (deep perineal branch of the pudendal nerve)"
+  },
+  "actions": [
+    "empties the urethra at the end of micturition",
+    "assists erection by compressing the deep dorsal vein",
+    "contributes to the ejaculatory and orgasmic contractions"
+  ],
+  "functional_compartments": [
+    {
+      "id": "bulbospongiosus_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 60,
+        "max_isometric_force_N": 13.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          6,
+          -4,
+          20
+        ],
+        [
+          2,
+          -2,
+          -14
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "In the female the two halves are separated by the vaginal orifice and act as a weak vaginal sphincter (sphincter vaginae). The bulbocavernosus reflex it mediates is the standard test of sacral reflex arc integrity after spinal cord injury.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}

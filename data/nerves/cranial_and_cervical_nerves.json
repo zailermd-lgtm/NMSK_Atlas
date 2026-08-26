@@ -297,7 +297,15 @@
     "level": "muscular_branch",
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
     "targets": [
-      "superior_pharyngeal_constrictor_r_main"
+      "superior_pharyngeal_constrictor_r_main",
+      "middle_pharyngeal_constrictor_r_main",
+      "inferior_pharyngeal_constrictor_r_thyropharyngeus",
+      "inferior_pharyngeal_constrictor_r_cricopharyngeus",
+      "palatopharyngeus_r_main",
+      "salpingopharyngeus_r_main",
+      "levator_veli_palatini_r_main",
+      "musculus_uvulae_main",
+      "palatoglossus_r_main"
     ],
     "notes": "Also supplies the middle and inferior pharyngeal constrictors (not yet modeled as separate entities in this pass, since the cartilaginous larynx/hyoid-only lower pharynx attachment points are not yet fully skeletonized)."
   },
@@ -849,11 +857,15 @@
     "level": "terminal_branch",
     "root_contributions": "",
     "targets": [
-      "cricothyroid muscle (external branch) -- no atlas muscle entity yet",
+      "cricothyroid_r_main",
       "laryngeal mucosa above the vocal folds (internal branch)"
     ],
     "notes": "Divides into an internal branch -- sensory above the vocal folds, the afferent limb of the cough reflex, piercing the thyrohyoid membrane -- and an external branch, motor to cricothyroid. The external branch runs with the superior thyroid artery and is at risk in thyroidectomy; injury lowers vocal pitch and weakens projection without causing frank hoarseness.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
+    "motor_entry_point": {
+      "target_muscle_compartment": "cricothyroid_r_main",
+      "entry_description": "The external branch descends with the superior thyroid artery on the inferior constrictor and enters the posterior surface of cricothyroid."
+    }
   },
   {
     "id": "vagus_n_recurrent_laryngeal_branch_r",
@@ -863,11 +875,20 @@
     "level": "terminal_branch",
     "root_contributions": "",
     "targets": [
-      "intrinsic laryngeal muscles except cricothyroid -- no atlas muscle entities yet",
+      "posterior_cricoarytenoid_r_main",
+      "lateral_cricoarytenoid_r_main",
+      "thyroarytenoid_r_main",
+      "vocalis_r_main",
+      "oblique_arytenoid_r_main",
+      "transverse_arytenoid_main",
       "laryngeal mucosa below the vocal folds"
     ],
     "notes": "Hooks beneath the RIGHT SUBCLAVIAN ARTERY and ascends in the tracheo-oesophageal groove. Shorter and more oblique than the left, and more variable -- including a non-recurrent variant associated with an aberrant right subclavian artery, which raises operative risk precisely because the nerve is not where it is expected.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
+    "motor_entry_point": {
+      "target_muscle_compartment": "posterior_cricoarytenoid_r_main",
+      "entry_description": "Ascends in the tracheo-oesophageal groove and enters the larynx behind the cricothyroid joint, deep to the inferior constrictor, supplying every intrinsic laryngeal muscle except cricothyroid."
+    }
   },
   {
     "id": "vagus_n_recurrent_laryngeal_branch_l",
@@ -877,11 +898,20 @@
     "level": "terminal_branch",
     "root_contributions": "",
     "targets": [
-      "intrinsic laryngeal muscles except cricothyroid -- no atlas muscle entities yet",
+      "posterior_cricoarytenoid_r_main",
+      "lateral_cricoarytenoid_r_main",
+      "thyroarytenoid_r_main",
+      "vocalis_r_main",
+      "oblique_arytenoid_r_main",
+      "transverse_arytenoid_main",
       "laryngeal mucosa below the vocal folds"
     ],
     "notes": "Hooks beneath the AORTIC ARCH lateral to the ligamentum arteriosum, giving it a long intrathoracic course. This is why left vocal cord palsy is a recognised presenting sign of mediastinal pathology -- lung apex tumour, aortic arch aneurysm, left atrial enlargement. Both recurrent laryngeal nerves supply every intrinsic laryngeal muscle except cricothyroid.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
+    "motor_entry_point": {
+      "target_muscle_compartment": "posterior_cricoarytenoid_r_main",
+      "entry_description": "Ascends in the tracheo-oesophageal groove and enters the larynx behind the cricothyroid joint, deep to the inferior constrictor, supplying every intrinsic laryngeal muscle except cricothyroid."
+    }
   },
   {
     "id": "vagus_n_cardiac_branches",

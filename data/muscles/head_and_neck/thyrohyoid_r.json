@@ -1,0 +1,56 @@
+{
+  "id": "thyrohyoid_r",
+  "name_ta": "Thyrohyoideus",
+  "name_common": "Thyrohyoideus",
+  "side": "right",
+  "region": "neck",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hyoid",
+    "origin_landmark": "oblique line of the thyroid cartilage (the laryngeal cartilages are not modeled as skeletal elements in this pass -- approximated via the adjacent hyoid attachment region)",
+    "insertion_bone": "hyoid",
+    "insertion_landmark": "lower border of the body and greater horn of the hyoid",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "hypoglossal_n",
+    "root_levels": "C1 fibres travelling with CN XII"
+  },
+  "actions": [
+    "depresses the hyoid",
+    "raises the larynx when the hyoid is fixed"
+  ],
+  "functional_compartments": [
+    {
+      "id": "thyrohyoid_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 20,
+        "physiological_cross_section_area_mm2": 55,
+        "max_isometric_force_N": 12.4
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          4,
+          8
+        ],
+        [
+          8,
+          -8,
+          6
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "The one infrahyoid muscle NOT supplied by the ansa cervicalis: it takes C1 fibres that hitch a ride on the hypoglossal nerve and leave it separately. Raising the larynx towards the hyoid is what tucks it under the tongue base during swallowing.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}

@@ -1,0 +1,116 @@
+{
+  "id": "external_anal_sphincter",
+  "name_ta": "Sphincter ani externus",
+  "name_common": "Sphincter ani externus",
+  "side": "midline",
+  "region": "trunk",
+  "overall_architecture_type": "circular",
+  "attachments": {
+    "origin_bone": "coccyx",
+    "origin_landmark": "anococcygeal ligament and the tip of the coccyx",
+    "insertion_bone": "hip_bone_r",
+    "insertion_landmark": "perineal body (a midline structure; the right hip bone is named only because the schema takes one insertion)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "pudendal_n",
+    "root_levels": "S2-S4 (inferior rectal branch of the pudendal nerve)"
+  },
+  "actions": [
+    "maintains voluntary faecal continence",
+    "contracts reflexly on rises in intra-abdominal pressure"
+  ],
+  "functional_compartments": [
+    {
+      "id": "external_anal_sphincter_subcutaneous_part",
+      "name": "Subcutaneous part",
+      "fiber_architecture": {
+        "architecture_type": "circular",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 35,
+        "physiological_cross_section_area_mm2": 25,
+        "max_isometric_force_N": 5.6
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          14,
+          -6,
+          12
+        ],
+        [
+          -14,
+          -6,
+          -12
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Encircles the anal orifice just beneath the skin; its contraction is the anal wink reflex used to test S2-S4 integrity.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "external_anal_sphincter_superficial_part",
+      "name": "Superficial part",
+      "fiber_architecture": {
+        "architecture_type": "circular",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 35,
+        "physiological_cross_section_area_mm2": 45,
+        "max_isometric_force_N": 10.1
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          14,
+          -6,
+          12
+        ],
+        [
+          -14,
+          -6,
+          -12
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Elliptical, anchored between the perineal body and the coccyx -- the only part with bony attachment.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    },
+    {
+      "id": "external_anal_sphincter_deep_part",
+      "name": "Deep part",
+      "fiber_architecture": {
+        "architecture_type": "circular",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 35,
+        "physiological_cross_section_area_mm2": 50,
+        "max_isometric_force_N": 11.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          14,
+          -6,
+          12
+        ],
+        [
+          -14,
+          -6,
+          -12
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "Blends with puborectalis above. Puborectalis maintains the anorectal angle, which contributes more to gross continence than sphincter tone alone; the two are damaged together in obstetric injury.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}

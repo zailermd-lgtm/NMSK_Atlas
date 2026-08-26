@@ -1,0 +1,111 @@
+[
+  {
+    "id": "dorsal_rami_of_spinal_nerves",
+    "name": "Dorsal rami of the spinal nerves",
+    "plexus": "dorsal_rami",
+    "parent_id": null,
+    "level": "root",
+    "root_contributions": "C1-S5",
+    "targets": [],
+    "notes": "Every spinal nerve divides into a ventral and a dorsal ramus. The dorsal rami keep the primitive segmental arrangement: each supplies the deep (intrinsic) back muscles and the skin of the back within its own segment, and -- with the single exception of the C1 dorsal ramus (suboccipital nerve) -- none contributes to a limb plexus. This is the reason the intrinsic back muscles are defined as those supplied by dorsal rami, while trapezius and latissimus dorsi, though anatomically on the back, are not.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "dorsal_ramus_medial_branches",
+    "name": "Medial branches of the dorsal rami",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_rami_of_spinal_nerves",
+    "level": "muscular_branch",
+    "root_contributions": "C2-L5",
+    "targets": [
+      "transversospinales group (multifidus, rotatores, semispinalis)",
+      "zygapophysial (facet) joint capsules, each joint receiving branches from two adjacent levels"
+    ],
+    "notes": "The medial branch runs a constant course over the junction of the superior articular and transverse processes, held against bone by the mamillo-accessory ligament. That constancy is what makes the MEDIAL BRANCH BLOCK reproducible, and the dual segmental supply of each facet joint is why two levels must be blocked to anaesthetise one joint. Radiofrequency ablation of these branches denervates the joint; the accompanying multifidus denervation is an accepted trade-off.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "dorsal_ramus_lateral_branches",
+    "name": "Lateral branches of the dorsal rami",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_rami_of_spinal_nerves",
+    "level": "muscular_branch",
+    "root_contributions": "C2-L5",
+    "targets": [
+      "iliocostalis and longissimus columns of erector spinae",
+      "skin of the back, lateral to the midline"
+    ],
+    "notes": "The lateral branches of the upper lumbar dorsal rami (L1-L3) cross the iliac crest to supply the skin of the buttock as the superior cluneal nerves, where they can be entrapped against the crest and mimic radicular low back pain.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "suboccipital_n",
+    "name": "Suboccipital nerve (C1 dorsal ramus)",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_rami_of_spinal_nerves",
+    "level": "muscular_branch",
+    "root_contributions": "C1",
+    "targets": [
+      "rectus_capitis_posterior_major_r_main",
+      "rectus_capitis_posterior_minor_r_main",
+      "obliquus_capitis_superior_r_main",
+      "obliquus_capitis_inferior_r_main"
+    ],
+    "notes": "Purely motor -- the only dorsal ramus with no cutaneous territory. Runs in the suboccipital triangle between the vertebral artery and the posterior arch of the atlas.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "greater_occipital_n",
+    "name": "Greater occipital nerve (C2 dorsal ramus, medial branch)",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_rami_of_spinal_nerves",
+    "level": "cutaneous_branch",
+    "root_contributions": "C2",
+    "targets": [
+      "skin of the posterior scalp as far forward as the vertex",
+      "semispinalis_capitis_r_main"
+    ],
+    "notes": "The largest cutaneous dorsal ramus branch. Pierces semispinalis capitis and then the trapezius aponeurosis about 2-3 cm lateral to the external occipital protuberance -- the landmark for greater occipital nerve block in occipital neuralgia and in some chronic migraine protocols.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "third_occipital_n",
+    "name": "Third occipital nerve (C3 dorsal ramus, medial branch)",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_rami_of_spinal_nerves",
+    "level": "cutaneous_branch",
+    "root_contributions": "C3",
+    "targets": [
+      "skin over the suboccipital region",
+      "C2-C3 zygapophysial joint capsule"
+    ],
+    "notes": "Carries the sole articular supply to the C2-C3 facet joint, which makes third occipital nerve block the specific diagnostic test for cervicogenic headache arising from that joint.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "cluneal_nn_superior",
+    "name": "Superior cluneal nerves",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_ramus_lateral_branches",
+    "level": "cutaneous_branch",
+    "root_contributions": "L1-L3",
+    "targets": [
+      "skin of the upper buttock"
+    ],
+    "notes": "Cross the posterior iliac crest through an osteofibrous tunnel roughly 6-8 cm lateral to the midline. Entrapment there is a recognised and commonly missed cause of low back and buttock pain, and the crest is also where bone graft is harvested.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "cluneal_nn_middle",
+    "name": "Middle cluneal nerves",
+    "plexus": "dorsal_rami",
+    "parent_id": "dorsal_rami_of_spinal_nerves",
+    "level": "cutaneous_branch",
+    "root_contributions": "S1-S3",
+    "targets": [
+      "skin over the sacrum and medial buttock"
+    ],
+    "notes": "From the sacral dorsal rami, emerging through the posterior sacral foramina.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.2 and ch.4; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- back and vertebral column chapters; Terminologia Anatomica (FICAT 1998)"
+  }
+]

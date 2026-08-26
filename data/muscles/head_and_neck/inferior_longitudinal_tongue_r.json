@@ -1,0 +1,56 @@
+{
+  "id": "inferior_longitudinal_tongue_r",
+  "name_ta": "Longitudinalis inferior linguae",
+  "name_common": "Longitudinalis inferior linguae",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hyoid",
+    "origin_landmark": "root of the tongue and the body of the hyoid",
+    "insertion_bone": "mandible",
+    "insertion_landmark": "apex of the tongue",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "hypoglossal_n",
+    "root_levels": "CN XII"
+  },
+  "actions": [
+    "shortens the tongue",
+    "turns the tip downwards, making the dorsum convex"
+  ],
+  "functional_compartments": [
+    {
+      "id": "inferior_longitudinal_tongue_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 50,
+        "physiological_cross_section_area_mm2": 30,
+        "max_isometric_force_N": 6.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          6,
+          -6,
+          -18
+        ],
+        [
+          6,
+          -4,
+          24
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12
+      },
+      "function_note": "",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+}
