@@ -256,6 +256,41 @@
     },
     "source": {
       "$ref": "common.schema.json#/definitions/citation"
+    },
+    "ultrasound_injection_approach": {
+      "type": "object",
+      "description": "How this muscle is found and safely injected under ultrasound. Distinct from motor_endplate_zones: a zone says WHERE ALONG the muscle the endplate band lies, while this says how to bring the probe and needle to it and what must not be hit on the way. Both are needed before an injection is planned.",
+      "required": [
+        "transducer_placement",
+        "source"
+      ],
+      "properties": {
+        "transducer_placement": {
+          "type": "string",
+          "description": "probe position and orientation, referenced to palpable landmarks"
+        },
+        "depth_layer": {
+          "type": "string",
+          "description": "which compartment layer the muscle occupies and what lies superficial and deep to it"
+        },
+        "identification_cues": {
+          "type": "string",
+          "description": "sonographic appearance and dynamic manoeuvres that confirm the muscle"
+        },
+        "structures_at_risk": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "nerves and vessels close enough to the needle path to matter"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
     }
   },
   "required": [

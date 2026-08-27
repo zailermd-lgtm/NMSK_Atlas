@@ -170,3 +170,33 @@ malleolus → fibular head" -- that line runs distal to proximal, so the zone
 lies near the knee, roughly 0.2-0.3 on the muscle's own axis. A silent
 conversion would invert it, and an inverted injection target does not
 announce itself.
+
+## Ultrasound injection approach
+
+Transducer placement, layer relationships and the neurovascular structures at
+risk, for the muscles injected in upper-limb spasticity.
+
+| Source | What it supplies |
+|---|---|
+| Diaconu S et al., *Toxins* 17(3):107 (2025), [doi:10.3390/toxins17030107](https://doi.org/10.3390/toxins17030107) | Part I, distal upper limb. Probe positions, compartment layer, sonographic cues and adjacent neurovascular structures for 14 muscles from pronator teres to the interossei. |
+
+`ultrasound_injection_approach` and `motor_endplate_zones` answer different
+halves of the same question. A zone says where along the muscle to aim; the
+approach says how to bring probe and needle there, and what must not be hit
+on the way. Flexor pollicis longus is the case that makes the point: the
+radial artery and median nerve sit less than a centimetre from the target,
+which belongs in the data and not only in a paper.
+
+### Known gap: no upper-limb endplate zones
+
+Part I carries no numeric intramuscular arborization percentages in its
+extractable text -- that content sits in tables and figures. **No
+`motor_endplate_zones` have therefore been entered for any upper-limb
+muscle.** This is recorded as an open gap rather than filled by inference.
+Closing it needs either the figures read directly, or the primary
+localization studies the review cites.
+
+Parts II and III of the same series (proximal upper limb,
+[doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276);
+proximal lower limb, [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240))
+are open access and not yet mined.

@@ -293,6 +293,18 @@ def validate_bone_references() -> List[str]:
                         problems.append(
                             f"compartment {cid} motor_endplate_zones: missing source")
 
+            approach = m.get("ultrasound_injection_approach")
+            if approach is not None:
+                if not approach.get("transducer_placement"):
+                    problems.append(
+                        f"muscle {m.get('id')} ultrasound_injection_approach: "
+                        f"a probe position is the whole point -- "
+                        f"transducer_placement is required")
+                if not approach.get("source"):
+                    problems.append(
+                        f"muscle {m.get('id')} ultrasound_injection_approach: "
+                        f"missing source")
+
     anchors_path = DATA_DIR / "rig" / "anchors.json"
     if anchors_path.exists():
         for a in _load_json(anchors_path):
