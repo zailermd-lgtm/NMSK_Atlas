@@ -43,13 +43,65 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Two heads (humeral, larger; ulnar, smaller) sandwich the median nerve between them -- pronator teres syndrome's classic entrapment site.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            25.53,
+            55.31
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "Nerve-dense region of the ulnar head. Its centre of highest muscle-spindle abundance sits in the UPPER third of that region, at 31.23% of muscle length. The source recommends prioritising the radial nerve-dense region when only one site is injected. The atlas models pronator teres as a single compartment; the source maps its ulnar and humeral heads separately, so both sets are recorded here and distinguished by label.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        },
+        {
+          "zone_percent_range": [
+            12.52,
+            37.69
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "Nerve-dense region of the humeral head, which begins more proximally than the ulnar head's. Its centre of highest spindle abundance sits in the LOWER third, at 30.13% of muscle length -- so the two heads' optimal points nearly coincide in level even though their nerve-dense regions do not. The atlas models pronator teres as a single compartment; the source maps its ulnar and humeral heads separately, so both sets are recorded here and distinguished by label.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "injection_target_points": [
+        {
+          "label": "ulnar head",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 42.48,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 18.38,
+          "depth_percent_of_limb_thickness": 21.92,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        },
+        {
+          "label": "humeral head",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 45.52,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 12.54,
+          "depth_percent_of_limb_thickness": 27.25,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",

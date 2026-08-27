@@ -326,26 +326,42 @@ endplate-rich zones, not muscle centroids, so this layer must come from the
 Sihler-stain and electrophysiology literature and lands in the atlas data
 layer, not the geometry layer.
 
-Done so far: 96 `motor_endplate_zones` entries across 27 muscles — ten distal
-lower-limb, nine proximal lower-limb, seven proximal upper-limb, plus psoas,
-sternocleidomastoid and splenius capitis — each as a percentage range along a
-named landmark line, in the source's own terms. Every
+Done so far: 132 `motor_endplate_zones` entries across 35 muscles — ten distal
+lower-limb, nine proximal lower-limb, seven proximal upper-limb, eight anterior
+forearm, plus psoas, sternocleidomastoid and splenius capitis — each as a
+percentage range along a named landmark line, in the source's own terms. Every
 `neuromuscular_junction_zone` declares whether its fascicle fraction is
 `measured` or a `modelling_default`; all 534 are currently the latter.
 `ultrasound_injection_approach` added for 35 muscles: 14 distal upper limb, 10
 proximal upper limb, 11 proximal lower limb. All four published parts of the
-Elias University Hospital series have now been mined.
+Elias University Hospital series have been mined.
+
+New in this stage: `injection_target_points`, 36 entries across the eight
+anterior forearm muscles. Where a zone gives only a level along the muscle, a
+target point fixes the transverse position and the depth too — a point in the
+limb, not a level — which is the difference between choosing where to scan and
+planning a needle path. From a primary cadaveric study, not a review.
+
+That study also supplies the evidence for a modelling choice made earlier on
+judgement: only four of the eight anterior forearm muscles have their
+nerve-dense region near mid-belly, and flexor carpi ulnaris's sits in the upper
+fifth. The mid-belly default is a default, and is now labelled as one for a
+documented reason rather than a cautious one.
 
 Still open:
-- **No distal upper-limb endplate zones.** The Part I review's numeric content
-  is in tables and figures, not extractable prose, and was not inferred.
-- **Five muscles covered by the series still carry no zone**, for three
+- **The hand has no endplate zones** — thenar group, adductor pollicis,
+  lumbricals, interossei. They carry an ultrasound approach and nothing else.
+  The forearm gap is closed.
+- **Five muscles covered by the EUH series still carry no zone**, for three
   different reasons, all written up in `docs/SOURCES.md`: deltoid (the
   literature itself has no data — the source says so), subscapularis and
   biceps femoris (numbers lost to text extraction), gluteus maximus
   (percentages survive but their reference lines do not), pectoralis major's
   abdominal part (not mapped by the source). None was reconstructed by
   analogy with a neighbouring muscle.
+- **The anterior/posterior surface of the Zhou et al. puncture points** is
+  unresolved for one of eleven points, so `depth_measured_from` is omitted on
+  all of them. Closing this needs the paper's CT figure read directly.
 - Van Campenhout's 2011 lower-limb review is paywalled; its per-muscle
   figures are not entered.
 

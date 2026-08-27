@@ -316,6 +316,36 @@ def validate_bone_references() -> List[str]:
                         problems.append(
                             f"compartment {cid} motor_endplate_zones: missing source")
 
+                # An injection_target_point names a point in the limb, not a
+                # level along a muscle, so the ways it can be wrong are worse.
+                # A depth with no stated surface is the dangerous one: 40% of
+                # forearm thickness from the front and 40% from the back are
+                # different places, and nothing in the number says which.
+                for pt in comp.get("injection_target_points", []):
+                    for end in ("transverse_line_from", "transverse_line_to",
+                                "longitudinal_line_from",
+                                "longitudinal_line_to"):
+                        text = str(pt.get(end, "")).strip().lower()
+                        if not text or any(text.startswith(p)
+                                           for p in _NON_LANDMARKS):
+                            problems.append(
+                                f"compartment {cid} injection_target_points: "
+                                f"{end} must name a palpable landmark, not "
+                                f"{pt.get(end)!r}")
+                    if not pt.get("source"):
+                        problems.append(
+                            f"compartment {cid} injection_target_points: "
+                            f"missing source")
+                    if pt.get("depth_percent_of_limb_thickness") is not None \
+                            and not pt.get("depth_measured_from") \
+                            and not pt.get("notes"):
+                        problems.append(
+                            f"compartment {cid} injection_target_points: a "
+                            f"depth with neither 'depth_measured_from' nor a "
+                            f"note explaining its absence does not say which "
+                            f"surface it is measured from, and is a needle "
+                            f"depth in no particular direction")
+
             approach = m.get("ultrasound_injection_approach")
             if approach is not None:
                 if not approach.get("transducer_placement"):

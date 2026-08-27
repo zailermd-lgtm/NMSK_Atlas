@@ -244,6 +244,74 @@
                 }
               }
             }
+          },
+          "injection_target_points": {
+            "type": "array",
+            "description": "Published body-surface puncture points with needle depth. This is a strictly richer datum than motor_endplate_zones: a zone gives only a position ALONG the muscle, while a target point adds the transverse position and the depth, so it specifies a point in the limb rather than a level. Everything is expressed as a percentage of a named line between palpable landmarks, never as an absolute distance, so it transfers across body sizes. Depth is a percentage of the limb's own thickness at that point, measured from the named surface inward.",
+            "items": {
+              "type": "object",
+              "required": [
+                "label",
+                "transverse_line_from",
+                "transverse_line_to",
+                "transverse_percent",
+                "longitudinal_line_from",
+                "longitudinal_line_to",
+                "longitudinal_percent",
+                "source"
+              ],
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "description": "which target this is, when a muscle has more than one"
+                },
+                "transverse_line_from": {
+                  "type": "string",
+                  "description": "the 0% landmark of the transverse (cross-limb) reference line"
+                },
+                "transverse_line_to": {
+                  "type": "string",
+                  "description": "the 100% landmark of the transverse reference line"
+                },
+                "transverse_percent": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "longitudinal_line_from": {
+                  "type": "string",
+                  "description": "the 0% landmark of the longitudinal (along-limb) reference line"
+                },
+                "longitudinal_line_to": {
+                  "type": "string",
+                  "description": "the 100% landmark of the longitudinal reference line"
+                },
+                "longitudinal_percent": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "depth_percent_of_limb_thickness": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "how far along the line from the surface projection point, through the target, to the opposite surface. Meaningful only together with depth_measured_from; where the source's surface could not be established, that field is omitted and notes must say so."
+                },
+                "depth_measured_from": {
+                  "type": "string",
+                  "description": "the surface the projection point lies on, e.g. 'anterior surface of the forearm'. Omitted rather than guessed when unknown."
+                },
+                "method": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "required": [

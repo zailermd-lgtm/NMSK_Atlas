@@ -191,17 +191,69 @@ on the way. Flexor pollicis longus is the case that makes the point: the
 radial artery and median nerve sit less than a centimetre from the target,
 which belongs in the data and not only in a paper.
 
-### Known gap: no *distal* upper-limb endplate zones
+### Narrowed gap: the hand, not the forearm
 
 Part I carries no numeric intramuscular arborization percentages in its
-extractable text -- that content sits in tables and figures. **No
-`motor_endplate_zones` have therefore been entered for any distal upper-limb
-muscle** -- pronator teres through the interossei. This is recorded as an open
-gap rather than filled by inference. Closing it needs either the figures read
-directly, or the primary localization studies the review cites.
+extractable text -- that content sits in tables and figures. That gap has since
+been closed for the eight anterior forearm muscles from a **primary** study
+rather than a review (Zhou et al. 2023, below), and the proximal upper limb
+from Part II. What remains without zones is the **hand**: the thenar group,
+adductor pollicis, the lumbricals and the interossei. Those still carry an
+`ultrasound_injection_approach` and nothing else.
 
-The proximal upper limb is no longer part of this gap: Part II keeps most of
-its numbers in prose, and seven of its ten muscles now carry zones.
+## Injection target points (3D)
+
+A different and richer datum than a zone, which is why it has its own field,
+`injection_target_points`, rather than being squeezed into
+`motor_endplate_zones`. A zone gives a position *along* a muscle. A target
+point additionally fixes the transverse position and the depth, so it names a
+point in the limb -- enough to plan a needle path rather than only a level to
+scan at. Everything is a percentage of a line between palpable landmarks, never
+an absolute distance, so it transfers across body sizes.
+
+| Source | What it supplies |
+|---|---|
+| Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, *J Anat* 244(5):803-814 (2023), [doi:10.1111/joa.14000](https://doi.org/10.1111/joa.14000) | 24 adult cadavers. Modified Sihler's staining for the intramuscular nerve-dense region, haematoxylin-eosin muscle-spindle counts to find the densest part of it, then spiral CT with barium sulphate labelling to project that point onto the skin and measure its depth. Gives both `motor_endplate_zones` and `injection_target_points` for pronator teres (both heads), flexor carpi radialis, palmaris longus, flexor carpi ulnaris, flexor digitorum superficialis (two regions), flexor pollicis longus, flexor digitorum profundus (radial and ulnar halves) and pronator quadratus. |
+
+Two findings from that study are worth stating outside the data, because they
+undercut assumptions the atlas itself used to encode:
+
+- **Mid-belly is wrong more often than it is right.** Only flexor carpi
+  radialis, palmaris longus, flexor pollicis longus and pronator quadratus have
+  their nerve-dense region near mid-belly. Flexor carpi ulnaris's sits at
+  9.5-19.8% of muscle length -- the upper fifth. This is direct evidence for
+  why `neuromuscular_junction_zone.position_fraction_along_fascicle` is marked
+  `modelling_default` rather than treated as a finding.
+- **The nerve entry point is not the endplate zone.** A companion study in
+  child cadavers (Yang F et al., *Am J Transl Res* 8(12):5730-5738 (2016),
+  PMID 28078019) found every nerve entry point lay away from the corresponding
+  nerve-terminal dense zone, and concluded that injecting at the nerve entry
+  point is not the optimal choice. The atlas stores endplate zones, not nerve
+  entry points, and this is the reason.
+
+### Two things Zhou et al. deliberately do *not* assert in this data
+
+- **Which surface each puncture point is on.** The paper places all but one of
+  its eleven projection points on the anterior forearm and one on the
+  posterior, but the label identifying the exception was lost in full-text
+  extraction. `depth_measured_from` is therefore **omitted** on every point --
+  not filled with a placeholder -- and each point's notes say why. Pronator
+  quadratus is the obvious candidate, lying on the interosseous membrane, but
+  that is a guess and is recorded as one. `validate_bone_references` rejects a
+  depth that has neither a stated surface nor a note explaining its absence:
+  40% of forearm thickness from the front and from the back are different
+  places, and the number alone does not say which.
+- **Which flexor digitorum superficialis region is ulnar and which radial.**
+  The prose names them only upper and lower; the ulnar/radial labels live in
+  table rows whose subscripts were lost. They are recorded as upper and lower.
+  Flexor digitorum profundus *is* explicit about ulnar and radial and is
+  recorded that way.
+
+One transcription error in the source is corrected in the data and flagged in
+the note: its flexor carpi ulnaris paragraph opens "The FCR branch of the
+median nerve", which cannot be right -- flexor carpi ulnaris is an ulnar nerve
+muscle. The measurements match that muscle's own table rows and are kept; the
+innervation claim is not.
 
 ### Known gap: three Part II muscles with no zone, for three different reasons
 
