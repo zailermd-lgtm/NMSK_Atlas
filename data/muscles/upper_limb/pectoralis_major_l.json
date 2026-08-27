@@ -55,13 +55,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.1,
         "evidence": "modelling_default"
       },
       "function_note": "Flexion-dominant; independently active during shoulder flexion tasks vs. the sternocostal head (documented EMG dissociation).",
-      "source": "Brown JM et al. -- pectoralis major regional EMG partitioning studies (analogous methodology to Wickham/Brown deltoid work); Gray's Anatomy for Students 4th ed. ch.7"
+      "source": "Brown JM et al. -- pectoralis major regional EMG partitioning studies (analogous methodology to Wickham/Brown deltoid work); Gray's Anatomy for Students 4th ed. ch.7",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            60,
+            60
+          ],
+          "reference_line_from": "origin (medial clavicle)",
+          "reference_line_to": "insertion (lateral lip of the bicipital groove)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Li et al. 2021, a single densest point rather than a range.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     },
     {
       "id": "pectoralis_major_l_sternocostal",
@@ -92,13 +105,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band, fanning fibers",
+        "location_description": "mid-belly endplate band, fanning fibers -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.1,
         "evidence": "modelling_default"
       },
       "function_note": "Adduction-dominant; largest PCSA compartment.",
-      "source": "Gray's Anatomy for Students 4th ed. ch.7"
+      "source": "Gray's Anatomy for Students 4th ed. ch.7",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            55,
+            55
+          ],
+          "reference_line_from": "origin (sternum and costal cartilages)",
+          "reference_line_to": "insertion (lateral lip of the bicipital groove)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Li et al. 2021. The abdominal part is NOT mapped by this source and carries no zone; it is not given the average of the two heads that are.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     },
     {
       "id": "pectoralis_major_l_abdominal",
@@ -138,5 +164,14 @@
       "source": "Gray's Anatomy for Students 4th ed. ch.7"
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transducer angled 45 degrees toward the axilla on the anterior thoracic wall, about 2-3 cm distal to the lateral third of the clavicle. Injection at the points of maximum thickness of each head.",
+    "depth_layer": "Superficial to the rib cortex and intercostal muscles; pectoralis minor lies deeper.",
+    "structures_at_risk": [
+      "pleura (pneumothorax)"
+    ],
+    "notes": "The most frequently injected muscle in the adducted, internally rotated shoulder pattern, usually with pectoralis minor, latissimus dorsi, subscapularis and teres major. The clavicular head flexes the humerus and the sternocostal head extends it from flexion, so the two heads are functionally opposed and are targeted separately. For hemiplegic shoulder pain, injection here was more effective than a subscapular nerve block at medium term.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }

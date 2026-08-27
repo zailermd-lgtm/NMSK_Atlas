@@ -141,6 +141,7 @@ All retrieved via PubMed.
 | Source | What it supplies |
 |---|---|
 | Diaconu S et al., *Toxins* 17(10):508 (2025), [doi:10.3390/toxins17100508](https://doi.org/10.3390/toxins17100508) | Intramuscular neural arborization zones for ten distal lower-limb muscles, each as a percentage range along a named external landmark line. A review synthesising the primary mapping literature (Lee, Yi and others) that it cites. |
+| Diaconu S et al., *Toxins* 17(6):276 (2025), [doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276) | Part II, proximal upper limb. Arborization zones for seven muscles: latissimus dorsi, teres major, pectoralis major (two heads separately), pectoralis minor, triceps brachii (three heads separately), biceps brachii, brachialis, brachioradialis. Synthesises Yi, Li, Yang and Moon. Also carries the subscapularis fascial-septum finding. |
 | Diaconu S et al., *Toxins* 17(5):240 (2025), [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240) | Part III, proximal lower limb. Arborization zones for nine muscles: piriformis, psoas major, rectus femoris, sartorius, gracilis, adductor longus, adductor magnus, semimembranosus, semitendinosus. Same review form as Part IV. Two of its eleven muscles yield no usable zone -- see the gap note below. |
 | Van Campenhout A, Hubens G, Fagard K, Molenaers G, *Muscle Nerve* 42(2):202-7 (2010), [doi:10.1002/mus.21660](https://doi.org/10.1002/mus.21660) | Psoas endplate zone, 30-70% of the T12-to-inguinal-ligament distance, from stereoscopic dissection of 24 cadaver muscles. |
 | Delnooz CCS et al., *Eur J Neurol* 21(12):1486 (2014), [doi:10.1111/ene.12517](https://doi.org/10.1111/ene.12517) | Sternocleidomastoid endplate zone at the lower border of the superior third; splenius capitis at half muscle length. High-density surface EMG, 18 patients. Half-dose endplate-targeted injection matched a full standard dose. |
@@ -180,6 +181,7 @@ risk, for the muscles injected in upper-limb spasticity.
 | Source | What it supplies |
 |---|---|
 | Diaconu S et al., *Toxins* 17(3):107 (2025), [doi:10.3390/toxins17030107](https://doi.org/10.3390/toxins17030107) | Part I, distal upper limb. Probe positions, compartment layer, sonographic cues and adjacent neurovascular structures for 14 muscles from pronator teres to the interossei. |
+| Diaconu S et al., *Toxins* 17(6):276 (2025), [doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276) | Part II, proximal upper limb. Probe positions and layer relationships for 10 muscles from latissimus dorsi to brachioradialis. Pneumothorax is the recurring hazard for the five that lie on the chest wall; brachioradialis and brachialis are recorded with the two nerves that constrain them. |
 | Diaconu S et al., *Toxins* 17(5):240 (2025), [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240) | Part III, proximal lower limb. Probe positions and layer relationships for 11 muscles from gluteus maximus to biceps femoris, including the two non-standard limb positions (supine, hip abducted and externally rotated) required to reach gracilis and adductor magnus. |
 
 `ultrasound_injection_approach` and `motor_endplate_zones` answer different
@@ -189,18 +191,40 @@ on the way. Flexor pollicis longus is the case that makes the point: the
 radial artery and median nerve sit less than a centimetre from the target,
 which belongs in the data and not only in a paper.
 
-### Known gap: no upper-limb endplate zones
+### Known gap: no *distal* upper-limb endplate zones
 
 Part I carries no numeric intramuscular arborization percentages in its
 extractable text -- that content sits in tables and figures. **No
-`motor_endplate_zones` have therefore been entered for any upper-limb
-muscle.** This is recorded as an open gap rather than filled by inference.
-Closing it needs either the figures read directly, or the primary
-localization studies the review cites.
+`motor_endplate_zones` have therefore been entered for any distal upper-limb
+muscle** -- pronator teres through the interossei. This is recorded as an open
+gap rather than filled by inference. Closing it needs either the figures read
+directly, or the primary localization studies the review cites.
 
-Part II of the same series (proximal upper limb,
-[doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276)) is open
-access and not yet mined. Part III has now been mined -- see below.
+The proximal upper limb is no longer part of this gap: Part II keeps most of
+its numbers in prose, and seven of its ten muscles now carry zones.
+
+### Known gap: three Part II muscles with no zone, for three different reasons
+
+The distinction between these matters, because only one of them is a defect in
+our own reading:
+
+- **Deltoid — a gap in the field.** The source states outright that data on
+  optimal injection sites for the three parts of the deltoid are insufficient
+  and that further study is needed. Nothing was lost in extraction; the
+  measurement does not exist to be entered. Recorded in the muscle's
+  `ultrasound_injection_approach` notes.
+- **Subscapularis — numbers lost, structure kept.** The 2023 compartment
+  study's innervation-zone figures sit in a dropped list, so no zone is
+  recorded. Its structural finding survives and is the more consequential half:
+  an intramuscular fascial septum divides the muscle into a superior and an
+  inferior compartment with distinct innervation zones and fibre compositions,
+  and that septum is a real barrier to diffusion of injected toxin, so each
+  compartment must be injected separately. The atlas already carried
+  `subscapularis_*_superior` and `subscapularis_*_inferior` as separate
+  compartments, which now has a clinical reason attached to it.
+- **Pectoralis major's abdominal part — not mapped.** Li et al. map the
+  clavicular and sternocostal heads only. The third compartment is left empty
+  rather than given the average of the other two.
 
 ### Known gap: two Part III muscles with no usable zone
 

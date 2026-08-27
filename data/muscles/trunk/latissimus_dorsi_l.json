@@ -43,14 +43,58 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Broadest muscle in the body by surface area, with fibers converging from an enormous fan-shaped origin down to a single narrow tendon at the humerus -- fully spanning the posterior trunk and functionally linking the arm to the pelvis via the thoracolumbar fascia (the same continuity documented in data/fascia/trunk_fascia.json's posterior TLF layer).",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            60
+          ],
+          "reference_line_from": "the line from the T5 spinous process to the midpoint of the iliac crest (the muscle's vertebral origin border)",
+          "reference_line_to": "the medial aspect of the surgical neck of the humerus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Middle third of the muscle's width. The source also divides the muscle across its width into equal medial, middle and lateral thirds. That is a second, transverse axis which this atlas's single latissimus dorsi compartment does not represent, so the width band is carried in the note rather than the geometry.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            40,
+            60
+          ],
+          "reference_line_from": "the line from the T5 spinous process to the midpoint of the iliac crest (the muscle's vertebral origin border)",
+          "reference_line_to": "the medial aspect of the surgical neck of the humerus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Medial and lateral thirds of the muscle's width. The source also divides the muscle across its width into equal medial, middle and lateral thirds. That is a second, transverse axis which this atlas's single latissimus dorsi compartment does not represent, so the width band is carried in the note rather than the geometry.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            70,
+            90
+          ],
+          "reference_line_from": "the line from the T5 spinous process to the midpoint of the iliac crest (the muscle's vertebral origin border)",
+          "reference_line_to": "the medial aspect of the surgical neck of the humerus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "A second, more proximal band running across all three width thirds. Because latissimus dorsi is large, the source's point is that several injection sites are needed and that missing these zones forces higher doses -- which raises the risk of antibody formation and loss of effect. The source also divides the muscle across its width into equal medial, middle and lateral thirds. That is a second, transverse axis which this atlas's single latissimus dorsi compartment does not represent, so the width band is carried in the note rather than the geometry.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the posterior trunk about 9 cm distal to the inferior angle of the scapula to identify it. For injection, about 7 cm distal to the inferior angle of the scapula, along the interscapulovertebral line at the T7-L5 levels.",
+    "depth_layer": "Superficial to the rib cortex and the intercostal muscles.",
+    "structures_at_risk": [
+      "pleura (pneumothorax)"
+    ],
+    "notes": "A large muscle needing several injection sites. The source's argument for targeting the arborization zones is dose: missing them forces higher doses to gain range of motion, which raises the risk of antibody formation and loss of long-term effect. Usually injected with teres major for the adducted, extended, internally rotated shoulder.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }

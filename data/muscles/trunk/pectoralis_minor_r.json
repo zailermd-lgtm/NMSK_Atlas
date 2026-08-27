@@ -43,14 +43,37 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Deep to pectoralis major; the axillary artery and brachial plexus cords pass directly behind it. More precisely, the cords' names (lateral/medial/posterior) are defined by their position relative to the axillary artery's 2nd part -- which is itself the segment of the artery running directly posterior to this muscle, so 'relative to pectoralis minor' is the standard shorthand for a relationship that is technically defined one step removed, via the artery (adjusted for precision after adversarial fact-check, see docs/VERIFICATION.md).",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            75,
+            75
+          ],
+          "reference_line_from": "origin (ribs 3-5)",
+          "reference_line_to": "insertion (coracoid process of the scapula)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Three-quarters of muscle length. The needle path crosses toward the chest wall and the underlying brachial plexus, which is why the source treats ultrasound as mandatory here.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transducer angled 45 degrees toward the axilla on the anterior thoracic wall, along the midclavicular line, about 5-6 cm distal to the clavicle.",
+    "depth_layer": "Deep to pectoralis major, superficial to the rib cortex and intercostal muscles.",
+    "structures_at_risk": [
+      "pleura (pneumothorax)",
+      "brachial plexus and axillary vessels (the underlying neurovascular bundle)"
+    ],
+    "notes": "Also injected for pectoralis minor syndrome, where the overactive muscle compresses the distal brachial plexus branches beneath it -- the same bundle that is the hazard of the injection.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }

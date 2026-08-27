@@ -55,13 +55,37 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Only head crossing the shoulder; contributes to shoulder extension/adduction as well as elbow extension.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            50
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Distal of two zones (Yi et al. 2023). This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            60,
+            70
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Proximal of two zones. The clinic injects the long head at two sites accordingly -- mid posterior arm and 2 cm proximal to it. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     },
     {
       "id": "triceps_brachii_l_lateral_head",
@@ -93,13 +117,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Superficial, strongest elbow-extension moment arm of the three heads.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            40
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Single zone, the narrowest of the three heads. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     },
     {
       "id": "triceps_brachii_l_medial_head_superficial",
@@ -131,13 +168,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "along the central tendinous raphe",
+        "location_description": "along the central tendinous raphe -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.45,
         "band_width_fraction": 0.15,
         "evidence": "modelling_default"
       },
       "function_note": "Deep to long/lateral heads; active across the full range of elbow extension including low-force postural tasks (documented 'workhorse' recruitment pattern).",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); architecture note consistent with described deep/superficial subdivision of the medial head in cadaveric dissection studies"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); architecture note consistent with described deep/superficial subdivision of the medial head in cadaveric dissection studies",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            60
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the medial head as a whole; the source does not separate its superficial and deep parts, so the same zone is recorded on each. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     },
     {
       "id": "triceps_brachii_l_medial_head_deep",
@@ -169,14 +219,33 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "along the central tendinous raphe",
+        "location_description": "along the central tendinous raphe -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.45,
         "band_width_fraction": 0.15,
         "evidence": "modelling_default"
       },
       "function_note": "Fibers blending into the posterior elbow joint capsule (articularis cubiti-like function), tensing the capsule during extension to prevent impingement.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes deepest medial-head fibers inserting into the posterior joint capsule)"
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes deepest medial-head fibers inserting into the posterior joint capsule)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            60
+          ],
+          "reference_line_from": "midpoint of the olecranon",
+          "reference_line_to": "anteroinferior point of the acromion",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the medial head as a whole; the source does not separate its superficial and deep parts, so the same zone is recorded on each. This line runs DISTAL to PROXIMAL, so a higher percentage is nearer the shoulder.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse at the midpoint of the posterior arm. Injection sites follow the heads: long head at mid-arm and again 2 cm proximal, lateral head at mid-arm, medial head 1 cm distal to mid-arm.",
+    "depth_layer": "Superficial and medial to the humeral cortex.",
+    "notes": "Second only to the posterior deltoid among muscles injected for the extended shoulder. In biceps-triceps co-contraction, injecting triceps reduces resistance to passive elbow flexion.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }

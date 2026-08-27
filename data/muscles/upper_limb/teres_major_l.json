@@ -43,14 +43,37 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "'Lat dorsi's little helper' -- shares the same insertion groove and internal-rotator/adductor/extensor action.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            40,
+            60
+          ],
+          "reference_line_from": "origin (inferior angle of the scapula)",
+          "reference_line_to": "insertion (crest of the lesser tubercle of the humerus)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Given by Yi et al. as the middle 20% of the muscle from origin to insertion.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the posterior thoracic wall 2-3 cm distal to the posterior axillary fold, with the shoulder held adducted and internally rotated.",
+    "depth_layer": "Superficial to the rib cortex and intercostal muscles.",
+    "identification_cues": "Three masses appear medial to lateral: subscapularis, teres major, latissimus dorsi.",
+    "structures_at_risk": [
+      "pleura (pneumothorax)"
+    ],
+    "notes": "Injected with pectoralis major and subscapularis for the internally rotated, adducted shoulder, and with latissimus dorsi for the extended one. Also used for hemiplegic shoulder pain, where the deep pair (teres major, subscapularis) is injected alongside the superficial pair (pectoralis major, latissimus dorsi).",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }

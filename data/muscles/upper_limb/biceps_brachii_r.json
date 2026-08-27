@@ -66,13 +66,26 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly single endplate band, typical of parallel-fibered muscle",
+        "location_description": "mid-belly single endplate band, typical of parallel-fibered muscle -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.1,
         "evidence": "modelling_default"
       },
       "function_note": "Crosses both glenohumeral and elbow joints; contributes to shoulder stability/flexion in addition to elbow flexion/supination.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            67,
+            100
+          ],
+          "reference_line_from": "the proximal end of the arm segment (acromion)",
+          "reference_line_to": "the elbow",
+          "method": "EMG motor point mapping",
+          "notes": "Moon et al., by EMG. Within the distal third the long head's motor points sit in the LATERAL portion of the muscle. The source states the location as 'the distal third of the arm', which is rendered here as 67-100% of that segment. That is arithmetic on the source's own words, not an inference about the anatomy; no narrower band is claimed than the source gave.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     },
     {
       "id": "biceps_brachii_r_short_head",
@@ -104,14 +117,34 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly single endplate band",
+        "location_description": "mid-belly single endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.1,
         "evidence": "modelling_default"
       },
       "function_note": "Crosses only the elbow (and slightly the shoulder via coracoid); more purely an elbow flexor/supinator than the long head.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            67,
+            100
+          ],
+          "reference_line_from": "the proximal end of the arm segment (acromion)",
+          "reference_line_to": "the elbow",
+          "method": "EMG motor point mapping",
+          "notes": "Moon et al., by EMG. Within the distal third the short head's motor points sit in the MEDIAL portion of the muscle -- the medial/lateral split is what makes one probe position serve both heads. The source states the location as 'the distal third of the arm', which is rendered here as 67-100% of that segment. That is arithmetic on the source's own words, not an inference about the anatomy; no narrower band is claimed than the source gave.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the anterior arm at the distal third. The short head is injected in the medial portion at this level and the long head in the lateral portion.",
+    "depth_layer": "Superficial to the humeral cortex, with brachialis as the second oval mass deep and lateral to it.",
+    "identification_cues": "Two oval masses at the distal third: brachialis and biceps brachii.",
+    "notes": "One probe position serves both heads because their motor points separate medially and laterally rather than along the arm.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }

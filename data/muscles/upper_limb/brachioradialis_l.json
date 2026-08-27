@@ -43,14 +43,48 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Unusually long fascicles for a forearm muscle, an architecture suited to its role generating elbow flexion velocity across a wide range of forearm rotation rather than pure force.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            39.04,
+            61.9
+          ],
+          "reference_line_from": "origin (lateral supracondylar ridge of the humerus)",
+          "reference_line_to": "insertion (styloid process of the radius)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Yang et al. 2017. The two decimal places are the source's own precision and are kept rather than rounded, so the figure can be traced back.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            73.8,
+            90.47
+          ],
+          "reference_line_from": "origin (lateral supracondylar ridge of the humerus)",
+          "reference_line_to": "insertion (styloid process of the radius)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Distal of two zones (Yang et al. 2017). This one lies in the forearm compartment, where the fascia between brachioradialis and extensor carpi radialis longus is the stated source of injection error.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Two approaches. Arm compartment: transverse on the anterolateral arm about 2-3 cm proximal to the lateral epicondyle. Forearm compartment: transverse on the anterolateral forearm about 2-3 cm distal to the lateral epicondyle.",
+    "depth_layer": "In the arm, superficial to brachialis over the radial cortex. In the forearm, the most superficial of four muscles over the radial cortex -- supinator deepest, then extensor carpi radialis brevis, extensor carpi radialis longus, then brachioradialis.",
+    "identification_cues": "To tell brachioradialis from extensor carpi radialis longus, ask for wrist extension and abduction with the forearm pronated.",
+    "structures_at_risk": [
+      "posterior interosseous nerve (between the heads of supinator, in the forearm window)"
+    ],
+    "notes": "The two compartments correspond to the muscle's two arborization zones. The source names the intermuscular fascia between brachioradialis and extensor carpi radialis longus as a concrete source of error for less experienced injectors in the forearm window.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  }
 }
