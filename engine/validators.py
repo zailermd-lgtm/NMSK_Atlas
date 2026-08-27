@@ -19,6 +19,12 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 SCHEMA_DIR = REPO_ROOT / "schema"
 DATA_DIR = REPO_ROOT / "data"
 
+# Words that mark a field as "we did not know", written where a real value
+# belongs. They pass every emptiness check and read like content, which makes
+# them more dangerous in clinical data than a blank.
+_NON_LANDMARKS = ("unspecified", "unknown", "not specified", "not stated",
+                  "tbd", "todo", "n/a", "none", "?")
+
 
 def _load_json(path: Path) -> dict:
     with open(path, "r", encoding="utf-8") as f:
@@ -289,6 +295,23 @@ def validate_bone_references() -> List[str]:
                         problems.append(
                             f"compartment {cid} motor_endplate_zones: a percentage "
                             f"is meaningless without both ends of its reference line")
+                    else:
+                        # A placeholder is not a landmark. Some published zones
+                        # define their reference line only in a figure; when the
+                        # endpoints are not known, the honest record is NO zone
+                        # plus a note (see gluteus maximus), not a zone whose
+                        # line reads 'unspecified'. Such an entry would pass the
+                        # emptiness check above while still being unusable, and
+                        # worse, would look like a target.
+                        for end in ("reference_line_from", "reference_line_to"):
+                            text = str(mz[end]).strip().lower()
+                            if any(text.startswith(p) for p in _NON_LANDMARKS):
+                                problems.append(
+                                    f"compartment {cid} motor_endplate_zones: "
+                                    f"{end} is a placeholder ({mz[end]!r}), not a "
+                                    f"landmark -- record the gap in notes and "
+                                    f"omit the zone rather than publishing an "
+                                    f"unusable target")
                     if not mz.get("source"):
                         problems.append(
                             f"compartment {cid} motor_endplate_zones: missing source")

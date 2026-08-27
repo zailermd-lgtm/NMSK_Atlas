@@ -43,14 +43,37 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Passes through the greater sciatic foramen, dividing it into supra- and infra-piriform spaces -- the sciatic nerve's relationship to this muscle (usually passing below it, but a documented anatomical variant splits or passes through it) is the anatomical basis of piriformis syndrome.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            60,
+            80
+          ],
+          "reference_line_from": "greater trochanter",
+          "reference_line_to": "sacrum",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Given in the source as between three-fifths and four-fifths of the distance along the muscle. The sciatic nerve lies close to this target, which is the stated reason ultrasound guidance is used here.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the posterior surface of the hip joint, angled about 20 degrees laterally toward the sacrum, roughly 8 cm lateral to the sacrum and 10 cm proximal to the ischial tuberosity.",
+    "depth_layer": "Deep to gluteus maximus, lying on the acetabular cortex.",
+    "identification_cues": "From deep to superficial the sequence is acetabular cortex, piriformis, then gluteus maximus.",
+    "structures_at_risk": [
+      "sciatic nerve"
+    ],
+    "notes": "Injected both for spasm and for the pain of piriformis syndrome, where the muscle compresses the sciatic nerve -- so the structure at risk is also the reason for treating.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+  }
 }

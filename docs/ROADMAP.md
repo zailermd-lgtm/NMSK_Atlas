@@ -326,18 +326,23 @@ endplate-rich zones, not muscle centroids, so this layer must come from the
 Sihler-stain and electrophysiology literature and lands in the atlas data
 layer, not the geometry layer.
 
-Done so far: `motor_endplate_zones` for 28 compartments — ten distal
-lower-limb muscles, psoas, sternocleidomastoid and splenius capitis — each as
-a percentage range along a named landmark line, in the source's own terms.
-Every `neuromuscular_junction_zone` now declares whether its fascicle
-fraction is `measured` or a `modelling_default`; all 534 are currently the
-latter. `ultrasound_injection_approach` added for 14 distal upper-limb
-muscles.
+Done so far: 62 `motor_endplate_zones` entries across 19 muscles — the ten
+distal lower-limb muscles, nine proximal lower-limb muscles, psoas,
+sternocleidomastoid and splenius capitis — each as a percentage range along a
+named landmark line, in the source's own terms. Every
+`neuromuscular_junction_zone` declares whether its fascicle fraction is
+`measured` or a `modelling_default`; all 534 are currently the latter.
+`ultrasound_injection_approach` added for 25 muscles: 14 distal upper limb and
+11 proximal lower limb.
 
 Still open:
 - **No upper-limb endplate zones.** The Part I review's numeric content is in
   tables and figures, not extractable prose, and was not inferred.
-- Proximal upper limb and proximal lower limb (Parts II and III) not yet mined.
+- **Biceps femoris and gluteus maximus have no zone** even though Part III
+  covers them — in one case the percentages were lost to extraction, in the
+  other the reference-line definitions were. Both are recorded as gaps in
+  `docs/SOURCES.md`; neither was reconstructed by analogy.
+- Proximal upper limb (Part II) not yet mined.
 - Van Campenhout's 2011 lower-limb review is paywalled; its per-muscle
   figures are not entered.
 

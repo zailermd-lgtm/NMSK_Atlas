@@ -120,9 +120,29 @@
           "method": "stereoscopic microscopic dissection of intramuscular nerve branches",
           "notes": "An average of 3.7 nerve branches (range 2-7) enter psoas from the lumbar plexus. Expressed against the sacral promontory (P) instead, the limits run from 50% of the T12-to-P distance to 20% of the P-to-pubis distance. Endplate-targeted injection here produced measurable muscle atrophy where a more distal injection did not (Van Campenhout et al., Res Dev Disabil 34(3):1052-8, 2013, doi:10.1016/j.ridd.2012.11.016).",
           "source": "Van Campenhout A, Hubens G, Fagard K, Molenaers G. 'Localization of motor nerve branches of the human psoas muscle.' Muscle Nerve 42(2):202-7 (2010), doi:10.1002/mus.21660 -- stereoscopic microscopic dissection of 24 cadaver psoas muscles"
+        },
+        {
+          "zone_percent_range": [
+            50,
+            50
+          ],
+          "reference_line_from": "twelfth thoracic vertebra (T12)",
+          "reference_line_to": "midpoint of the inguinal ligament",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "A single peak, on a reference line almost identical to the one Van Campenhout et al. used for the 30-70% range already recorded on this compartment. The two are compatible -- a peak sitting near the centre of a range -- and both are kept, because the range comes from direct cadaveric dissection and the peak from a clinical review, and neither supersedes the other.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
         }
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse (or longitudinal) on the posterior trunk, about 2 cm lateral to the L4 spinous process and 1 cm proximal to the iliac crest. Targets psoas major.",
+    "depth_layer": "From superficial to deep beside the L4 spinous process: paraspinal muscles, then quadratus lumborum lateral and superficial, then psoas major deeper, with the intraperitoneal space deep to psoas.",
+    "structures_at_risk": [
+      "intraperitoneal space (deep to the target)"
+    ],
+    "notes": "The approach exists to keep the needle out of the intraperitoneal space, which sits immediately beyond the muscle. In ambulatory patients psoas spasticity blocks hip extension in mid- and terminal stance; in non-ambulatory patients it drives poor seated posture and myotendinous retraction and complicates nursing care.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+  }
 }

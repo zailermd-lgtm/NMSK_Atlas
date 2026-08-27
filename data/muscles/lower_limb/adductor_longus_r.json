@@ -43,14 +43,33 @@
         ]
       ],
       "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
         "position_fraction_along_fascicle": 0.5,
         "band_width_fraction": 0.12,
         "evidence": "modelling_default"
       },
       "function_note": "Most anterior and superficial of the adductor group; its prominent tendon is a palpable landmark forming the medial border of the femoral triangle.",
-      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            40,
+            50
+          ],
+          "reference_line_from": "origin (pubis)",
+          "reference_line_to": "insertion (linea aspera)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "The source gives this as 40-50% of muscle length but then glosses it as 'approximately three-fifths' (60%), which does not agree with its own figure. The numeric range is recorded and the discrepancy is flagged rather than silently resolved. Unlike the other muscles here the source names no external landmark line, so percentage is along the muscle's own length.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the proximal third of the medial thigh.",
+    "depth_layer": "One of three adductor layers stacked over the femoral cortex.",
+    "notes": "Targeted where spasticity resists hip abduction and external rotation of the thigh.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part III -- Proximal Lower Limb Muscles', Toxins 17(5):240 (2025), doi:10.3390/toxins17050240 -- review synthesis of the intramuscular neural arborization literature it cites"
+  }
 }

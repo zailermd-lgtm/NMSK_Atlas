@@ -141,6 +141,7 @@ All retrieved via PubMed.
 | Source | What it supplies |
 |---|---|
 | Diaconu S et al., *Toxins* 17(10):508 (2025), [doi:10.3390/toxins17100508](https://doi.org/10.3390/toxins17100508) | Intramuscular neural arborization zones for ten distal lower-limb muscles, each as a percentage range along a named external landmark line. A review synthesising the primary mapping literature (Lee, Yi and others) that it cites. |
+| Diaconu S et al., *Toxins* 17(5):240 (2025), [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240) | Part III, proximal lower limb. Arborization zones for nine muscles: piriformis, psoas major, rectus femoris, sartorius, gracilis, adductor longus, adductor magnus, semimembranosus, semitendinosus. Same review form as Part IV. Two of its eleven muscles yield no usable zone -- see the gap note below. |
 | Van Campenhout A, Hubens G, Fagard K, Molenaers G, *Muscle Nerve* 42(2):202-7 (2010), [doi:10.1002/mus.21660](https://doi.org/10.1002/mus.21660) | Psoas endplate zone, 30-70% of the T12-to-inguinal-ligament distance, from stereoscopic dissection of 24 cadaver muscles. |
 | Delnooz CCS et al., *Eur J Neurol* 21(12):1486 (2014), [doi:10.1111/ene.12517](https://doi.org/10.1111/ene.12517) | Sternocleidomastoid endplate zone at the lower border of the superior third; splenius capitis at half muscle length. High-density surface EMG, 18 patients. Half-dose endplate-targeted injection matched a full standard dose. |
 | Van Campenhout A, Molenaers G, *Dev Med Child Neurol* 53(2):108-19 (2011), [doi:10.1111/j.1469-8749.2010.03816.x](https://doi.org/10.1111/j.1469-8749.2010.03816.x) | Review of lower-limb endplate localisation. Notes that for many muscles the zone differs from where clinical practice currently injects. Not open access; its per-muscle figures are **not** yet entered here. |
@@ -179,6 +180,7 @@ risk, for the muscles injected in upper-limb spasticity.
 | Source | What it supplies |
 |---|---|
 | Diaconu S et al., *Toxins* 17(3):107 (2025), [doi:10.3390/toxins17030107](https://doi.org/10.3390/toxins17030107) | Part I, distal upper limb. Probe positions, compartment layer, sonographic cues and adjacent neurovascular structures for 14 muscles from pronator teres to the interossei. |
+| Diaconu S et al., *Toxins* 17(5):240 (2025), [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240) | Part III, proximal lower limb. Probe positions and layer relationships for 11 muscles from gluteus maximus to biceps femoris, including the two non-standard limb positions (supine, hip abducted and externally rotated) required to reach gracilis and adductor magnus. |
 
 `ultrasound_injection_approach` and `motor_endplate_zones` answer different
 halves of the same question. A zone says where along the muscle to aim; the
@@ -196,7 +198,37 @@ muscle.** This is recorded as an open gap rather than filled by inference.
 Closing it needs either the figures read directly, or the primary
 localization studies the review cites.
 
-Parts II and III of the same series (proximal upper limb,
-[doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276);
-proximal lower limb, [doi:10.3390/toxins17050240](https://doi.org/10.3390/toxins17050240))
-are open access and not yet mined.
+Part II of the same series (proximal upper limb,
+[doi:10.3390/toxins17060276](https://doi.org/10.3390/toxins17060276)) is open
+access and not yet mined. Part III has now been mined -- see below.
+
+### Known gap: two Part III muscles with no usable zone
+
+Part III's percentages are in its prose, so nine of its eleven muscles yield
+zones. Two do not, and neither has been filled by inference:
+
+- **Biceps femoris.** The source introduces its arborization percentages with
+  "located at the following:" and then a list that full-text extraction
+  dropped. The reference line is known -- femoral condyles (0%) to ischial
+  tuberosity (100%) -- but the numbers are not, and are deliberately not
+  borrowed from semitendinosus or semimembranosus, which share that line.
+- **Gluteus maximus.** The percentages survive (40-70% on line a, 30-60% on
+  line b, 40-70% on line c) but the definitions of lines a, b and c were
+  dropped. A percentage without both ends of its reference line is not an
+  injection target, so no zone is recorded; `validate_bone_references` now
+  rejects any zone whose reference line is a placeholder such as
+  "unspecified", which is what made writing one down the wrong option rather
+  than merely a poor one. The authors' operative conclusion -- three injection
+  points, one per segment -- is recorded in the muscle's
+  `ultrasound_injection_approach` notes, since it does not depend on the line
+  definitions.
+
+Both gaps close by reading the original figures.
+
+### One internal inconsistency, flagged rather than resolved
+
+Part III gives the adductor longus motor-point region as "40-50% of the muscle
+length, corresponding to approximately three-fifths of the muscle's total
+length". Those two statements disagree. The numeric range is what is recorded,
+and the discrepancy is carried in the zone's own `notes` so a reader meets it
+at the point of use rather than discovering it later.
