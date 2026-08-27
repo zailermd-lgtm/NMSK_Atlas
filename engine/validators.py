@@ -315,6 +315,15 @@ def validate_bone_references() -> List[str]:
                     if not mz.get("source"):
                         problems.append(
                             f"compartment {cid} motor_endplate_zones: missing source")
+                    # A zone the source rules out is still recorded -- the
+                    # anatomy is real and "do not put a needle here" is worth
+                    # knowing -- but it must say why, or it reads as an
+                    # unexplained downgrade of a perfectly good target.
+                    if mz.get("recommended_as_injection_target") is False \
+                            and not mz.get("notes"):
+                        problems.append(
+                            f"compartment {cid} motor_endplate_zones: a zone "
+                            f"marked not recommended must say why in 'notes'")
 
                 # An injection_target_point names a point in the limb, not a
                 # level along a muscle, so the ways it can be wrong are worse.

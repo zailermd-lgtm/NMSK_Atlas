@@ -236,6 +236,10 @@
                   "type": "string",
                   "description": "how the zone was determined, e.g. Sihler stain arborization mapping, EMG innervation-zone imaging, cadaveric dissection"
                 },
+                "recommended_as_injection_target": {
+                  "type": "boolean",
+                  "description": "Whether the source recommends putting a needle here. ABSENT means the source expressed no view, which is the usual case. FALSE means it explicitly rejected this zone -- some studies simulate the puncture and rule out nerve-dense regions that lie behind the pleura, a gland or a plexus. Such a zone is still real anatomy and is recorded, but a consumer selecting injection targets must filter on this field rather than on the presence of a zone. Where false, notes must give the reason."
+                },
                 "notes": {
                   "type": "string"
                 },
@@ -300,6 +304,28 @@
                 "depth_measured_from": {
                   "type": "string",
                   "description": "the surface the projection point lies on, e.g. 'anterior surface of the forearm'. Omitted rather than guessed when unknown."
+                },
+                "depth_mm": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Absolute depth from the skin to the target, in mm. Some studies report depth this way instead of as a fraction of limb thickness. Unlike the percentage it does NOT transfer between body sizes -- it is the mean of the study's own cadaver sample -- so treat it as a starting expectation to confirm on the screen, not a setting to dial in."
+                },
+                "needle_angle_to_skin_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180,
+                  "description": "Acute angle between needle and skin at the entry point. 90 is perpendicular. Matters where a perpendicular approach would cross something it must not: longus capitis is entered at about 58 degrees for exactly that reason."
+                },
+                "needle_path": {
+                  "type": "string",
+                  "description": "Tissue layers the needle crosses, in order from skin, and the interval it is aimed through."
+                },
+                "structures_at_risk": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "What lies close enough to this specific needle path to matter. Distinct from the muscle-level ultrasound_injection_approach list, which describes the probe's window rather than one target's path."
                 },
                 "method": {
                   "type": "string"

@@ -213,6 +213,8 @@ an absolute distance, so it transfers across body sizes.
 
 | Source | What it supplies |
 |---|---|
+| Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, *Front Neuroanat* 18:1340468 (2024), [doi:10.3389/fnana.2024.1340468](https://doi.org/10.3389/fnana.2024.1340468) | 36 adult cadavers. Deep cervical muscles: scalenus anterior, medius and posterior, longus capitis, longus colli. Same method as Zhou et al., plus a cadaveric puncture simulation and a measured needle angle. Depth in centimetres rather than as a fraction of thickness. Also divides each muscle into neuromuscular compartments by root territory. |
+| He X, Wen S, Liu X, Li Y, Yang S, *Anat Sci Int* 101(1):44-53 (2025), [doi:10.1007/s12565-025-00831-8](https://doi.org/10.1007/s12565-025-00831-8) | 24 adults. Splenius capitis and splenius cervicis, referenced to the external occipital protuberance, mastoid process and T3 spinous process, with depth as a percentage. |
 | Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, *J Anat* 244(5):803-814 (2023), [doi:10.1111/joa.14000](https://doi.org/10.1111/joa.14000) | 24 adult cadavers. Modified Sihler's staining for the intramuscular nerve-dense region, haematoxylin-eosin muscle-spindle counts to find the densest part of it, then spiral CT with barium sulphate labelling to project that point onto the skin and measure its depth. Gives both `motor_endplate_zones` and `injection_target_points` for pronator teres (both heads), flexor carpi radialis, palmaris longus, flexor carpi ulnaris, flexor digitorum superficialis (two regions), flexor pollicis longus, flexor digitorum profundus (radial and ulnar halves) and pronator quadratus. |
 
 Two findings from that study are worth stating outside the data, because they
@@ -230,6 +232,24 @@ undercut assumptions the atlas itself used to encode:
   nerve-terminal dense zone, and concluded that injecting at the nerve entry
   point is not the optimal choice. The atlas stores endplate zones, not nerve
   entry points, and this is the reason.
+
+### A zone is not the same as a target: `recommended_as_injection_target`
+
+Wang et al. do something no other source here does. They simulated the
+puncture on the cadaver and **ruled several nerve-dense regions out**:
+scalenus medius INDR2c and longus colli INDR5c risk the pleura and lung apex,
+longus capitis INDR4a and longus colli INDR5a risk the submandibular gland,
+and scalenus medius INDR2a lies under the brachial plexus.
+
+Those regions are real anatomy and are recorded — "there is a nerve-dense
+region here and you must not put a needle in it" is precisely the fact that
+disappears when only the recommended target is written down. But recording
+them creates a hazard of its own: a consumer selecting injection targets by
+looking for `motor_endplate_zones` would pick them up. So zones carry
+`recommended_as_injection_target`, and **that is the field to filter on, not
+the presence of a zone**. Absent means the source expressed no view, which is
+the usual case; `false` means it explicitly rejected the zone, and the
+validator requires a reason in `notes` whenever it is false.
 
 ### Two things Zhou et al. deliberately do *not* assert in this data
 

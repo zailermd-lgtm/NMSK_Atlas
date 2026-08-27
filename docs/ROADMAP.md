@@ -326,21 +326,31 @@ endplate-rich zones, not muscle centroids, so this layer must come from the
 Sihler-stain and electrophysiology literature and lands in the atlas data
 layer, not the geometry layer.
 
-Done so far: 132 `motor_endplate_zones` entries across 35 muscles — ten distal
+Done so far: 152 `motor_endplate_zones` entries across 40 muscles — ten distal
 lower-limb, nine proximal lower-limb, seven proximal upper-limb, eight anterior
-forearm, plus psoas, sternocleidomastoid and splenius capitis — each as a
-percentage range along a named landmark line, in the source's own terms. Every
+forearm, five deep cervical, plus psoas, sternocleidomastoid and splenius
+capitis — each as a percentage range along a named landmark line, in the
+source's own terms. Ten of them are flagged
+`recommended_as_injection_target: false`: real nerve-dense regions that a
+cadaveric puncture simulation ruled out because the pleura, the lung apex, the
+submandibular gland or the brachial plexus lies in the path. **Consumers
+selecting injection targets must filter on that field, not on the presence of
+a zone.** Every
 `neuromuscular_junction_zone` declares whether its fascicle fraction is
 `measured` or a `modelling_default`; all 534 are currently the latter.
 `ultrasound_injection_approach` added for 35 muscles: 14 distal upper limb, 10
 proximal upper limb, 11 proximal lower limb. All four published parts of the
 Elias University Hospital series have been mined.
 
-New in this stage: `injection_target_points`, 36 entries across the eight
-anterior forearm muscles. Where a zone gives only a level along the muscle, a
-target point fixes the transverse position and the depth too — a point in the
-limb, not a level — which is the difference between choosing where to scan and
-planning a needle path. From a primary cadaveric study, not a review.
+New in this stage: `injection_target_points`, 50 entries across 15 muscles —
+the eight anterior forearm muscles, the five deep cervical muscles and the two
+splenii. Where a zone gives only a level along the muscle, a target point fixes
+the transverse position and the depth too — a point in the limb or neck, not a
+level — which is the difference between choosing where to scan and planning a
+needle path. All from primary cadaveric studies, not reviews. The cervical
+entries add a measured needle angle and the tissue layers crossed: longus
+capitis is entered at 58° rather than perpendicular, because the trachea and
+oesophagus cover the target in front and the carotid lies lateral to it.
 
 That study also supplies the evidence for a modelling choice made earlier on
 judgement: only four of the eight anterior forearm muscles have their
