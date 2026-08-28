@@ -257,8 +257,72 @@ Then:
 python3 scripts/ingest_vh_geometry.py inspect <folder> --subject vhm
 ```
 
-which reports the structure names, bounding box, inferred units and up-axis
-without writing anything. `propose` and `convert` follow from there.
+which reports the structure names, bounding box, inferred units, up-axis and
+the hip joint centre, without writing anything. `propose` and `convert`
+follow from there.
+
+### The frame, as measured against the VHM right-side smoothed set
+
+Run 2026-08-28 on 63 meshes, 1,510,948 triangles, no read failures. The
+coordinate frame is **not** inferred from the bounding box — that can only
+say which axis is longest, never which way is up. Each axis was fixed by an
+anatomical test on the geometry itself:
+
+| Atlas axis | Source | How it was established |
+|---|---|---|
+| +X (right) | −x | Lateral-minus-medial on five independent pairs: gastrocnemius heads, vastus lateralis/medialis, lateral/medial cuneiform, LCL/MCL, tibial plateau cartilages. Unanimous. |
+| +Y (superior) | −z | Pelvis centroid minus calcaneus centroid, dominant component −935 mm. |
+| +Z (anterior) | +y | Tibialis anterior minus soleus, +50 mm; cross-checked by patella minus femur, +43 mm. |
+
+So `--axes '-x,-z,+y' --units mm`.
+
+**The origin needed solving separately, and originally did not exist.** The
+atlas puts (0,0,0) at the midpoint of the hip joint centres
+(`docs/ARCHITECTURE.md`); `convert` applied rotation and scale only, so
+geometry landed on the scanner's volume corner and would have missed every
+anchor in `data/rig/anchors.json`. `inspect` now measures the hip joint
+centre by least-squares sphere fit to the femoral head cartilage, and
+`convert` takes `--origin`.
+
+The fit is the check on itself: **radius 24.73 mm, rms residual 0.87 mm** on
+91,920 points. A femoral head is a sphere to well under a millimetre, and a
+mesh that is not one will not fit like this. The midline coordinate came from
+the medial face of the hemipelvis — the pubic symphyseal surface, which lies
+within a few millimetres of the midline.
+
+That midline estimate then validates independently: with it, the
+hip-joint-centre half-distance is 88.9 mm, so the inter-hip-centre distance
+is **177.8 mm**, against a published adult-male range of roughly 170–190 mm.
+Nothing about that number was used to place the midline, so it is a real
+check and not a restatement of the assumption.
+
+Converted extents, hip centre at the origin: X 0 → 213 mm (a right limb never
+crosses the midline), Y −994 → +302 mm (heel to iliac crest), Z −121 → +101
+mm.
+
+### What the mapping needed a human for
+
+Of 63 meshes, 41 matched on name alone and 22 did not — and the 22 are not
+matcher failures. They are recorded in `mappings/du_vh_overrides.json`, which
+is version-controlled precisely because `build/` is not, and every entry
+states its reason.
+
+- **Cartilage is decomposed differently by the two datasets.** The release
+  names it by the bone surface it covers (`FemurDistal`, `PelvisAcetabulum`,
+  `TibiaLateral`); this atlas names it by the joint. `femur distal` and
+  `knee articular cartilage` share no token, so no name-similarity method can
+  bridge it at any threshold.
+- **Seven tarsals to one `tarsals_r`**, two biceps femoris heads, two
+  gastrocnemius heads, and iliacus + psoas major to `iliopsoas_r`. Real
+  many-to-one relationships, and for the muscles they land on functional
+  compartments the atlas already models.
+- **`Phalanges` ties exactly** between foot and hand on name. Resolved by the
+  fact that this is a lower-extremity release; the tie itself was correct.
+
+One override is deliberately imprecise and says so: `Cartilage_FemurDistal`
+covers both the tibiofemoral condyles and the trochlea, which this atlas
+splits between two entities. Separating them needs geometric segmentation,
+not a name mapping.
 
 > ✅ **License confirmed at source.** The Digital Commons @ DU record states:
 > *"This work is licensed under a Creative Commons Attribution 4.0

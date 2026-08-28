@@ -364,6 +364,66 @@ def _iter_entities(payload) -> Iterable[dict]:
                         yield item
 
 
+OVERRIDES_PATH = REPO_ROOT / "mappings" / "du_vh_overrides.json"
+
+
+def override_key(source_name: str) -> Optional[str]:
+    """The key an override entry is looked up by: 'class|normalised name'.
+
+    The tissue class is part of the key because the release ships both
+    Bone_Patella and Cartilage_Patella, which normalise identically once the
+    class token is dropped. Returns None when the name states no class, since
+    a key that cannot distinguish those two would be worse than no key.
+    """
+    category = tissue_category(source_name)
+    if not category:
+        return None
+    name, _ = split_side(source_name)
+    normalised = normalise(name)
+    return f"{category}|{normalised}" if normalised else None
+
+
+def load_overrides(path: Path = OVERRIDES_PATH) -> Dict[str, dict]:
+    """Reviewed decisions that no name matcher can or should make itself.
+
+    Kept in version control rather than in the per-run mapping file, because
+    build/ is ignored and everything learned by reading the release once has
+    to survive the next run.
+    """
+    if not path.exists():
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    table: Dict[str, dict] = {}
+    for entry in payload.get("entries", []):
+        key = entry.get("match")
+        if not key:
+            continue
+        if key in table:
+            raise ValueError(f"{path.name}: duplicate override for {key!r}")
+        table[key] = entry
+    return table
+
+
+def apply_override(entry: dict, side: Optional[str]) -> dict:
+    """Fill the {side} placeholders from the mesh's own side marker."""
+    marker = {"right": "r", "left": "l"}.get(side or "")
+    resolved = dict(entry)
+    for field_name in ("atlas_id", "compartment_id"):
+        value = entry.get(field_name)
+        if not value:
+            continue
+        if "{side}" in value:
+            if not marker:
+                # A sided template with no side marker would silently produce
+                # a broken ID. Refuse rather than guess a side.
+                raise ValueError(
+                    f"override {entry['match']!r} needs a side but the mesh "
+                    f"name carries no side marker")
+            value = value.replace("{side}", marker)
+        resolved[field_name] = value
+    return resolved
+
+
 def load_atlas_index(categories: Optional[Sequence[str]] = None) -> List[AtlasEntity]:
     """Every atlas entity that geometry could attach to, with its names."""
     wanted = set(categories) if categories else None
@@ -552,6 +612,37 @@ def infer_frame(bbox_min: np.ndarray, bbox_max: np.ndarray) -> FrameReport:
         guessed_units=guessed,
         notes=notes,
     )
+
+
+def fit_sphere(points: np.ndarray) -> Tuple[np.ndarray, float, float]:
+    """Least-squares sphere through a point cloud: (centre, radius, rms).
+
+    Used on the femoral head cartilage to recover the hip joint centre, which
+    is what the atlas puts its origin on. The rms residual is returned and
+    must be looked at: a good femoral head fits to well under a millimetre,
+    and anything worse means the mesh is not the near-spherical surface this
+    assumes.
+    """
+    design = np.hstack([2.0 * points, np.ones((len(points), 1))])
+    solution, *_ = np.linalg.lstsq(design, (points ** 2).sum(axis=1), rcond=None)
+    centre = solution[:3]
+    radius = float(np.sqrt(solution[3] + (centre ** 2).sum()))
+    rms = float(np.sqrt((( np.linalg.norm(points - centre, axis=1) - radius) ** 2).mean()))
+    return centre, radius, rms
+
+
+def parse_origin(spec: str) -> np.ndarray:
+    """Parse an explicit '--origin x,y,z' in source units."""
+    parts = [p.strip() for p in spec.split(",")]
+    if len(parts) != 3:
+        raise ValueError(
+            f"Bad origin {spec!r}. Expected three comma-separated numbers in "
+            f"source units, e.g. '-346,-425.4,176.4'."
+        )
+    try:
+        return np.asarray([float(p) for p in parts], dtype=np.float64)
+    except ValueError as exc:
+        raise ValueError(f"Bad origin {spec!r}: {exc}") from exc
 
 
 def parse_axes(spec: str) -> np.ndarray:

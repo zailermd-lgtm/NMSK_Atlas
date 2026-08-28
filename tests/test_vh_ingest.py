@@ -337,3 +337,133 @@ def test_grouping_also_respects_tissue_class():
     atlas = _atlas_stub()
     hits = vh.find_grouping_entity("VHM_Bone_Calcaneous_smooth", atlas, side="right")
     assert {h.entity_id for h in hits} == {"tarsals_r"}
+
+
+# --------------------------------------------------------------------------
+# Curated overrides
+# --------------------------------------------------------------------------
+
+def test_override_key_separates_bone_from_cartilage():
+    """The release ships Bone_Patella and Cartilage_Patella, which normalise
+    identically once the class token is dropped. The key must not collide."""
+    assert vh.override_key("VHM_Right_Bone_Patella_smooth.stl") == "bone|patella"
+    assert (vh.override_key("VHM_Right_Cartilage_Patella_smooth.stl")
+            == "cartilage|patella")
+
+
+def test_override_key_is_none_without_a_tissue_class():
+    assert vh.override_key("Soleus_R.stl") is None
+
+
+def test_shipped_overrides_load_and_target_real_entities():
+    """Every curated override must name an entity that actually exists, or it
+    is a silent no-op that looks like a decision."""
+    overrides = vh.load_overrides()
+    assert overrides, "the shipped override table should not be empty"
+    ids = {e.entity_id for e in vh.load_atlas_index()}
+    for key, entry in overrides.items():
+        resolved = vh.apply_override(entry, "right")
+        assert resolved["atlas_id"] in ids, f"{key} -> {resolved['atlas_id']}"
+        assert entry.get("note"), f"{key} has no recorded reason"
+        assert entry["relationship"] in {"exact", "part_of", "compartment"}
+
+
+def test_override_side_placeholder_resolves_both_ways():
+    entry = {"match": "bone|talus", "atlas_id": "tarsals_{side}",
+             "relationship": "part_of", "note": "x"}
+    assert vh.apply_override(entry, "right")["atlas_id"] == "tarsals_r"
+    assert vh.apply_override(entry, "left")["atlas_id"] == "tarsals_l"
+
+
+def test_override_refuses_to_guess_a_missing_side():
+    """A sided template with no side marker would produce a broken ID."""
+    entry = {"match": "bone|talus", "atlas_id": "tarsals_{side}",
+             "relationship": "part_of", "note": "x"}
+    with pytest.raises(ValueError, match="side"):
+        vh.apply_override(entry, None)
+
+
+def test_compartment_overrides_name_a_real_compartment():
+    """A compartment override that points at a compartment the atlas does not
+    have would attach geometry to nothing."""
+    import json as _json
+    overrides = vh.load_overrides()
+    known = set()
+    for path in (vh.DATA_DIR / "muscles").rglob("*.json"):
+        if path.name == "muscle_index.json":
+            continue
+        payload = _json.loads(path.read_text())
+        for muscle in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(muscle, dict):
+                continue
+            for comp in muscle.get("functional_compartments", []):
+                known.add(comp.get("id"))
+    checked = 0
+    for key, entry in overrides.items():
+        if entry["relationship"] != "compartment":
+            continue
+        resolved = vh.apply_override(entry, "right")
+        assert resolved["compartment_id"] in known, (
+            f"{key} -> {resolved['compartment_id']}")
+        checked += 1
+    assert checked, "expected at least one compartment override to check"
+
+
+# --------------------------------------------------------------------------
+# Origin recovery
+# --------------------------------------------------------------------------
+
+def test_fit_sphere_recovers_a_known_sphere():
+    rng = np.random.default_rng(7)
+    unit = rng.normal(size=(3000, 3))
+    unit /= np.linalg.norm(unit, axis=1, keepdims=True)
+    truth, radius = np.array([10.0, -20.0, 30.0]), 24.5
+    centre, got_r, rms = vh.fit_sphere(unit * radius + truth)
+    np.testing.assert_allclose(centre, truth, atol=1e-6)
+    assert abs(got_r - radius) < 1e-6
+    assert rms < 1e-6
+
+
+def test_fit_sphere_works_on_a_partial_cap():
+    """A femoral head mesh is a cap, not a whole sphere, and the centroid of a
+    cap is nowhere near its centre -- which is exactly why this fits rather
+    than averages."""
+    rng = np.random.default_rng(11)
+    unit = rng.normal(size=(6000, 3))
+    unit /= np.linalg.norm(unit, axis=1, keepdims=True)
+    cap = unit[unit[:, 2] > 0.3]
+    truth, radius = np.array([5.0, 5.0, 5.0]), 25.0
+    points = cap * radius + truth
+    centre, got_r, _ = vh.fit_sphere(points)
+    np.testing.assert_allclose(centre, truth, atol=1e-6)
+    assert np.linalg.norm(points.mean(axis=0) - truth) > 5.0, (
+        "the centroid must actually be far from the centre, or this test "
+        "would pass even for a naive mean")
+
+
+def test_fit_sphere_rms_flags_a_non_spherical_mesh():
+    rng = np.random.default_rng(3)
+    slab = rng.uniform(-30, 30, size=(2000, 3))
+    slab[:, 2] *= 0.02
+    _, _, rms = vh.fit_sphere(slab)
+    assert rms > 1.5, "a flat slab must not pass as a femoral head"
+
+
+def test_parse_origin_round_trip():
+    np.testing.assert_allclose(
+        vh.parse_origin("-346.042, 176.42,425.42"), [-346.042, 176.42, 425.42])
+
+
+@pytest.mark.parametrize("bad", ["1,2", "1,2,3,4", "a,b,c", ""])
+def test_parse_origin_rejects_malformed(bad):
+    with pytest.raises(ValueError):
+        vh.parse_origin(bad)
+
+
+def test_origin_translation_happens_before_rotation():
+    """--origin is quoted in source units, as inspect prints it, so the
+    subtraction has to precede the axis permutation."""
+    axes = vh.parse_axes("-x,-z,+y")
+    origin = np.array([346.042, 176.42, 425.42])
+    moved = vh.to_atlas_frame((origin - origin).reshape(1, 3), axes, 1.0)
+    np.testing.assert_allclose(moved, [[0.0, 0.0, 0.0]], atol=1e-12)

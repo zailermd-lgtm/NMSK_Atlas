@@ -1,0 +1,177 @@
+{
+  "_README": [
+    "Reviewed source-structure -> atlas-entity mappings for the University of",
+    "Denver Visible Human release, for the cases no name-similarity matcher",
+    "can or should decide by itself.",
+    "",
+    "WHY THIS FILE EXISTS SEPARATELY FROM build/vh/*_mapping.json.",
+    "That file is a per-run artifact and build/ is gitignored. Everything",
+    "learned by reading the release once has to survive the next run, the next",
+    "subject and the next machine, so it lives here in version control and is",
+    "applied automatically by `propose`.",
+    "",
+    "HOW ENTRIES ARE KEYED.",
+    "On tissue class plus normalised structure name, with the side stripped:",
+    "'cartilage|femur distal'. The class is part of the key because the",
+    "release ships both Bone_Patella and Cartilage_Patella, which normalise",
+    "identically once the class token is removed. '{side}' in an atlas_id is",
+    "filled from the mesh's own side marker, so one entry covers left and",
+    "right.",
+    "",
+    "RELATIONSHIPS.",
+    "'exact'      one mesh, one atlas entity, same thing.",
+    "'part_of'    the mesh is one piece of a coarser atlas entity. Several",
+    "             meshes will legitimately carry the same atlas_id.",
+    "'compartment' the mesh is a named functional compartment of an atlas",
+    "             muscle. compartment_id says which, so downstream code can",
+    "             attach geometry to the compartment and not just the muscle.",
+    "",
+    "Every entry states why. An override is a decision, and a decision with",
+    "no recorded reason is indistinguishable from a mistake."
+  ],
+  "source": "Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2. CC BY 4.0.",
+  "reviewed": "2026-08-28",
+  "reviewed_against": "VHM right-side smoothed STL set, 63 structures",
+  "entries": [
+    {
+      "match": "bone|talus",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "The atlas carries the seven tarsals as one entity, whose Latin name lists them individually. The release ships each separately. This is a real many-to-one, not a failed match."
+    },
+    {
+      "match": "bone|calcaneus",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "Spelled 'Calcaneous' in the release. Previously matched achilles_tendon_r at 0.90 because the Achilles is also the calcaneal tendon; tissue-class constraint now blocks that."
+    },
+    {
+      "match": "bone|navicular",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "One of the seven tarsals."
+    },
+    {
+      "match": "bone|cuboid",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "One of the seven tarsals."
+    },
+    {
+      "match": "bone|medial cuneiform",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "One of the three cuneiforms. Scored 0.12 against tarsals_r on names alone -- the atlas name says 'cuneiforme x3' rather than naming each."
+    },
+    {
+      "match": "bone|intermediate cuneiform",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "One of the three cuneiforms."
+    },
+    {
+      "match": "bone|lateral cuneiform",
+      "atlas_id": "tarsals_{side}",
+      "relationship": "part_of",
+      "note": "One of the three cuneiforms."
+    },
+    {
+      "match": "bone|phalanges",
+      "atlas_id": "phalanges_foot_{side}",
+      "relationship": "exact",
+      "note": "Flagged ambiguous by the matcher because phalanges_foot and phalanges_hand tie exactly on name. Resolved here, not by the matcher: this is a lower-extremity release and contains no upper limb at all. The tie was correct behaviour and the name alone cannot break it."
+    },
+
+    {
+      "match": "cartilage|femur head",
+      "atlas_id": "hip_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "The release names cartilage by the bone surface it covers; the atlas names it by the joint it belongs to. No name-similarity method can bridge that -- 'femur head' and 'hip articular cartilage' share no token -- which is why all eight cartilage meshes needed a curated decision rather than a better matcher."
+    },
+    {
+      "match": "cartilage|hip acetabulum",
+      "atlas_id": "hip_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "Named 'PelvisAcetabulum' in the release; 'pelvis' normalises to 'hip'. The acetabular and femoral head surfaces are the two halves of one atlas entity."
+    },
+    {
+      "match": "cartilage|femur distal",
+      "atlas_id": "knee_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "IMPRECISE, deliberately. This single mesh covers both the tibiofemoral condyles and the trochlear surface, and the atlas splits those between knee_articular_cartilage and patellofemoral_articular_cartilage. Assigning it to the knee entity is the closer of the two, not a clean fit. Separating them needs geometric segmentation of the mesh, not a name mapping, and is left as known work rather than papered over."
+    },
+    {
+      "match": "cartilage|tibia lateral",
+      "atlas_id": "knee_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "Lateral tibial plateau. Do not confuse with lateral_meniscus_r, which it scored 0.33 against -- the meniscus is fibrocartilage between the surfaces, a separate atlas entity, and is not in this release."
+    },
+    {
+      "match": "cartilage|tibial medial",
+      "atlas_id": "knee_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "Medial tibial plateau. The release spells this one 'TibialMedial' while its neighbours are 'TibiaLateral' and 'TibiaDistal' -- an inconsistency in the source, not a different structure."
+    },
+    {
+      "match": "cartilage|patella",
+      "atlas_id": "patellofemoral_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "The retropatellar surface. Distinct from bone|patella, which is why tissue class is part of the key: both normalise to 'patella'."
+    },
+    {
+      "match": "cartilage|tibia distal",
+      "atlas_id": "ankle_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "Tibial plafond -- the ankle, not the knee, despite sharing the word 'tibia' with the two plateau meshes."
+    },
+    {
+      "match": "cartilage|talus",
+      "atlas_id": "ankle_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "Talar dome. Pairs with the tibial plafond as the two halves of the ankle entity."
+    },
+
+    {
+      "match": "muscle|biceps femoris long",
+      "atlas_id": "biceps_femoris_{side}",
+      "compartment_id": "biceps_femoris_{side}_long_head",
+      "relationship": "compartment",
+      "note": "The atlas already models the two heads as functional compartments, so this is geometry for a compartment that exists rather than a merge that loses information."
+    },
+    {
+      "match": "muscle|biceps femoris short",
+      "atlas_id": "biceps_femoris_{side}",
+      "compartment_id": "biceps_femoris_{side}_short_head",
+      "relationship": "compartment",
+      "note": "The short head has its own innervation (common fibular) distinct from the long head (tibial), which is exactly why the compartment split matters here."
+    },
+    {
+      "match": "muscle|gastrocnemius lateral",
+      "atlas_id": "gastrocnemius_{side}",
+      "compartment_id": "gastrocnemius_{side}_lateral_head",
+      "relationship": "compartment",
+      "note": "Both heads carry separately published motor endplate zones in this atlas, so keeping their geometry apart is required, not optional."
+    },
+    {
+      "match": "muscle|gastrocnemius medial",
+      "atlas_id": "gastrocnemius_{side}",
+      "compartment_id": "gastrocnemius_{side}_medial_head",
+      "relationship": "compartment",
+      "note": "See the lateral head."
+    },
+    {
+      "match": "muscle|iliacus",
+      "atlas_id": "iliopsoas_{side}",
+      "compartment_id": "iliopsoas_{side}_iliacus",
+      "relationship": "compartment",
+      "note": "Spelled 'Illiacus' in the release. The atlas models iliopsoas as one muscle with iliacus and psoas major compartments; the release ships them as separate meshes, which matches the compartments one for one."
+    },
+    {
+      "match": "muscle|psoas major",
+      "atlas_id": "iliopsoas_{side}",
+      "compartment_id": "iliopsoas_{side}_psoas_major",
+      "relationship": "compartment",
+      "note": "This compartment carries the atlas's only cadaver-dissection endplate zone (Van Campenhout et al.), so attaching its geometry correctly has direct consequences for injection targeting."
+    }
+  ]
+}

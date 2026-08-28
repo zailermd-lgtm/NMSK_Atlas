@@ -169,6 +169,35 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     for note in frame.notes:
         print(f"  - {note}")
 
+    # The atlas puts its origin at the midpoint of the hip joint centres
+    # (docs/ARCHITECTURE.md). Converted geometry otherwise sits wherever the
+    # scanner's volume corner happened to be, which is nowhere in particular,
+    # and would miss every anchor in data/rig/anchors.json. Report the
+    # measurement; let the human pass it back in via --origin.
+    head = next((p for p in meshes
+                 if "cartilage" in p.name.lower() and "femurhead" in
+                 p.name.lower().replace("_", "")), None)
+    if head is not None:
+        centre, radius, rms = vh.fit_sphere(load_mesh(head).reshape(-1, 3))
+        print("\nhip joint centre (from the femoral head cartilage)")
+        print(f"  source mesh  {head.name}")
+        print(f"  centre       {np.array2string(centre, precision=2)}  (source units)")
+        print(f"  radius       {radius:.2f}   rms residual {rms:.3f}")
+        if rms > 1.5:
+            print("  - POOR FIT. A femoral head fits a sphere to well under a "
+                  "millimetre; this does not, so do not use this centre.")
+        else:
+            print("  - Good fit. This is one hip centre. The atlas origin is the "
+                  "MIDPOINT OF BOTH, so it lies on the sagittal midline at this "
+                  "height and depth -- take the midline coordinate from the "
+                  "medial face of the pubic symphysis, and pass the result to "
+                  "convert as --origin.")
+    else:
+        print("\nhip joint centre: no femoral head cartilage mesh found, so the "
+              "atlas origin cannot be measured from this folder. convert will "
+              "leave the geometry in the source's own origin unless you pass "
+              "--origin explicitly.")
+
     print("\nlargest structures")
     for rec in sorted(records, key=lambda r: -r["triangles"])[:12]:
         side = f" [{rec['side']}]" if rec["side"] else ""
@@ -223,7 +252,9 @@ def cmd_propose(args: argparse.Namespace) -> int:
 
     atlas = vh.load_atlas_index()
     print(f"atlas index: {len(atlas)} entities across "
-          f"{len(set(e.category for e in atlas))} categories\n")
+          f"{len(set(e.category for e in atlas))} categories")
+    overrides = vh.load_overrides()
+    print(f"curated overrides: {len(overrides)}\n")
 
     entries = []
     counts = Counter()
@@ -233,7 +264,16 @@ def cmd_propose(args: argparse.Namespace) -> int:
         runner = cands[1] if len(cands) > 1 else None
         note = None
 
-        if any(k in rec["normalised"] for k in KNOWN_UNMAPPABLE):
+        override = overrides.get(vh.override_key(rec["structure"]) or "")
+        if override is not None:
+            # A reviewed decision outranks any score. These are the cases the
+            # matcher cannot settle -- the release names cartilage by bone
+            # surface where the atlas names it by joint, and ships seven
+            # tarsals where the atlas carries one entity.
+            resolved = vh.apply_override(override, rec["side"])
+            status, chosen = "curated", resolved["atlas_id"]
+            note = f"{resolved['relationship']}: {resolved['note']}"
+        elif any(k in rec["normalised"] for k in KNOWN_UNMAPPABLE):
             status, chosen = "no_atlas_category", None
             note = "This tissue class has no counterpart in the atlas schema."
         elif best is not None and best.score >= vh.EXACT and (
@@ -271,6 +311,10 @@ def cmd_propose(args: argparse.Namespace) -> int:
         }
         if note:
             entry["note"] = note
+        if override is not None:
+            entry["relationship"] = resolved["relationship"]
+            if resolved.get("compartment_id"):
+                entry["compartment_id"] = resolved["compartment_id"]
         entries.append(entry)
 
     # Two meshes landing on one atlas entity is a real relationship -- the DU
@@ -280,6 +324,11 @@ def cmd_propose(args: argparse.Namespace) -> int:
     claim_counts = Counter(e["atlas_id"] for e in entries if e["atlas_id"])
     for entry in entries:
         entity_id = entry["atlas_id"]
+        if entry["status"] == "curated":
+            # Several meshes sharing one atlas_id is exactly what a reviewed
+            # 'part_of' says should happen. Downgrading it would undo the
+            # decision the override exists to record.
+            continue
         if entity_id and claim_counts[entity_id] > 1:
             counts[entry["status"]] -= 1
             counts["grouped"] += 1
@@ -293,11 +342,17 @@ def cmd_propose(args: argparse.Namespace) -> int:
             )
 
     mapped_ids = {e["atlas_id"] for e in entries if e["atlas_id"]}
+    # A curated entry's atlas_id need not appear among its scored candidates
+    # -- that is the point of curating it -- so fall back to the entity's own
+    # category rather than reporting it as unknown.
+    category_of = {e.entity_id: e.category for e in atlas}
     by_cat = Counter(
-        next((c["category"] for c in e["candidates"] if c["atlas_id"] == e["atlas_id"]), "?")
+        next((c["category"] for c in e["candidates"] if c["atlas_id"] == e["atlas_id"]),
+             category_of.get(e["atlas_id"], "?"))
         for e in entries if e["atlas_id"]
     )
 
+    print(f"  curated             {counts['curated']}   (reviewed in mappings/du_vh_overrides.json)")
     print(f"  confident           {counts['confident']}")
     print(f"  ambiguous           {counts['ambiguous']}   (top two within {args.margin} -- pick one by hand)")
     print(f"  grouped             {counts['grouped']}   (atlas has a coarser entity covering this)")
@@ -310,10 +365,22 @@ def cmd_propose(args: argparse.Namespace) -> int:
         if got is not None and got < expected:
             print(f"  note: {got}/{expected} expected {category} structures mapped automatically")
 
-    dupes = [i for i, n in Counter(
-        e["atlas_id"] for e in entries if e["atlas_id"]).items() if n > 1]
+    # Several meshes on one atlas ID is only a problem when nobody decided it
+    # should happen. A curated 'part_of' says exactly that it should -- seven
+    # tarsal meshes onto one tarsals entity -- so those are reported as the
+    # merges they are, and only the unreviewed collisions are warnings.
+    claimed = Counter(e["atlas_id"] for e in entries if e["atlas_id"])
+    curated_ids = {e["atlas_id"] for e in entries if e["status"] == "curated"}
+    merges = sorted(i for i, n in claimed.items() if n > 1 and i in curated_ids)
+    dupes = sorted(i for i, n in claimed.items() if n > 1 and i not in curated_ids)
+    if merges:
+        print(f"\n  {len(merges)} curated merge(s) -- several meshes to one entity, "
+              f"as reviewed:")
+        for entity_id in merges:
+            print(f"    {entity_id}  <- {claimed[entity_id]} meshes")
     if dupes:
-        print(f"\n  WARNING: {len(dupes)} atlas ID(s) claimed by more than one mesh:")
+        print(f"\n  WARNING: {len(dupes)} atlas ID(s) claimed by more than one mesh "
+              f"with no reviewed decision behind it:")
         for entity_id in dupes[:10]:
             print(f"    {entity_id}")
 
@@ -337,7 +404,11 @@ def cmd_propose(args: argparse.Namespace) -> int:
     }, indent=2))
     print(f"\nwrote {out.relative_to(REPO_ROOT)}")
     print(f"next: review that file by hand, then convert")
-    print(f"      {len(mapped_ids)} of {len(entries)} meshes currently have an atlas_id")
+    # mapped_ids is a set of entity IDs, so using it here undercounted every
+    # curated merge: seven tarsal meshes share one ID and were reported as one.
+    resolved_meshes = sum(1 for e in entries if e["atlas_id"])
+    print(f"      {resolved_meshes} of {len(entries)} meshes currently have an "
+          f"atlas_id, across {len(mapped_ids)} atlas entities")
     return 0
 
 
@@ -375,7 +446,21 @@ def cmd_convert(args: argparse.Namespace) -> int:
     except ValueError as exc:
         raise SystemExit(str(exc)) from None
     scale = vh.UNIT_SCALE_TO_MM[args.units]
-    print(f"axes {args.axes}  units {args.units} (x{scale})  {len(entries)} mesh(es)\n")
+    origin = np.zeros(3)
+    if args.origin:
+        try:
+            origin = vh.parse_origin(args.origin)
+        except ValueError as exc:
+            raise SystemExit(str(exc)) from None
+    print(f"axes {args.axes}  units {args.units} (x{scale})  {len(entries)} mesh(es)")
+    if args.origin:
+        print(f"origin {args.origin} (source units) -> atlas (0,0,0)")
+    else:
+        print("origin: NOT SET. Geometry keeps the source's own origin, which is "
+              "the scanner volume corner, not the atlas's midpoint of the hip "
+              "joint centres. It will not line up with data/rig/anchors.json. "
+              "Run inspect to measure the hip centre, then pass --origin.")
+    print()
 
     known = {e.entity_id for e in vh.load_atlas_index()}
     unknown = sorted({e["atlas_id"] for e in entries} - known)
@@ -400,7 +485,10 @@ def cmd_convert(args: argparse.Namespace) -> int:
             raise SystemExit(f"Missing mesh referenced by the mapping: {path}")
         tris = load_mesh(path)
         verts, faces = vh.weld(tris, tol_mm=args.weld_tol)
-        verts = vh.to_atlas_frame(verts, axes, scale)
+        # Translate in SOURCE units before rotating, so --origin is the
+        # number inspect printed rather than something the caller has to
+        # transform by hand first.
+        verts = vh.to_atlas_frame(verts - origin, axes, scale)
 
         mn, mx = verts.min(axis=0), verts.max(axis=0)
         lo, hi = np.minimum(lo, mn), np.maximum(hi, mx)
@@ -496,6 +584,12 @@ def main(argv: list[str] | None = None) -> int:
     p_convert = common(sub.add_parser("convert", help="apply the mapping and emit geometry"))
     p_convert.add_argument("--axes", required=True,
                            help="source->atlas axis spec, e.g. '+x,+z,-y'. See 'inspect' output.")
+    p_convert.add_argument("--origin", default=None,
+                           help="source-unit coordinates to move to the atlas origin, "
+                                "'x,y,z'. The atlas origin is the midpoint of the hip "
+                                "joint centres; inspect measures one of them for you. "
+                                "Omit and the source origin is kept, which will not "
+                                "line up with the atlas rig.")
     p_convert.add_argument("--units", required=True, choices=sorted(vh.UNIT_SCALE_TO_MM),
                            help="units of the source coordinates")
     p_convert.add_argument("--weld-tol", type=float, default=1e-4,
