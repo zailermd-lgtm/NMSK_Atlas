@@ -167,6 +167,33 @@ SYNONYMS = {
     "pcl": "posterior cruciate",
     "mcl": "tibial collateral",
     "lcl": "fibular collateral",
+    # Misspellings present in the DU Visible Human release itself, confirmed
+    # against the actual file listing (VHM_Right_Bone_Calcaneous_smooth.stl,
+    # VHM_Right_Muscle_Illiacus_smooth.stl,
+    # VHM_Right_Muscle_QuadratisFemoris_smooth.stl). These are corrections to
+    # observed strings, not guesses about how the dataset *might* abbreviate,
+    # which is the distinction the note above insists on.
+    "calcaneous": "calcaneus",
+    "illiacus": "iliacus",
+    "quadratis": "quadratus",
+}
+
+# Tokens that describe the FILE rather than the anatomy: which subject the
+# scan came from, and which processing variant of the mesh this is. The DU
+# release encodes both in every filename -- VHM_Right_Bone_Femur_smooth.stl
+# is subject, side, tissue class, structure, variant -- so without stripping
+# these, every single name carries two junk tokens that dilute the score
+# enough to sink an otherwise exact match. 'vhm calcaneus smooth' against
+# 'calcaneus' scored 0.
+#
+# Unlike the truncation expansions this file deliberately refuses to make,
+# these are safe: they are not anatomical words in a musculoskeletal atlas,
+# and they are added against an observed naming convention rather than a
+# guessed one.
+DATASET_TOKENS = {
+    "vhm", "vhf",                                    # subject
+    "smooth", "smoothed", "final", "original", "raw",  # processing variant
+    "remesh", "remeshed", "decimated",
 }
 
 # Words that carry no discriminating information.
@@ -179,6 +206,42 @@ STOPWORDS = {
     "muscle", "muscles", "bone", "bones", "ligament", "ligaments",
     "cartilage", "tendon", "the", "of", "and", "m", "lig", "os", "ossa",
 }
+
+# Tissue class as the dataset states it, mapped to the atlas's category.
+#
+# The DU filenames name the tissue outright -- VHM_Right_Bone_Calcaneous,
+# VHM_Right_Cartilage_FemurDistal -- and that is hard information, not a hint.
+# It was previously thrown away into STOPWORDS, which let the calcaneus BONE
+# match achilles_tendon_r at 0.90 and be written out as "confident", because
+# the Achilles is also called the calcaneal tendon. It also let the femoral
+# CARTILAGE meshes match femur_r, colliding with the actual femur.
+#
+# So the class is now a disqualifier, exactly like the side marker: a bone
+# mesh may not become a tendon entity however well the words line up.
+TISSUE_CLASS_TO_CATEGORY = {
+    "bone": "bone", "bones": "bone", "osseous": "bone",
+    "muscle": "muscle", "muscles": "muscle",
+    "cartilage": "cartilage", "cartilages": "cartilage",
+    "ligament": "ligament", "ligaments": "ligament",
+    "tendon": "tendon", "tendons": "tendon",
+    "fascia": "fascia",
+}
+
+
+def tissue_category(name: str) -> Optional[str]:
+    """Read the tissue class out of a structure name, if it states one.
+
+    Returns an atlas category, or None when the name says nothing about
+    tissue -- in which case callers must not constrain, since plenty of
+    datasets do not encode it.
+    """
+    text = re.sub(r"(?<=[a-z])(?=[A-Z])", " ", name)
+    for token in re.split(r"[_\-.,()\[\]/\s]+", text.lower()):
+        category = TISSUE_CLASS_TO_CATEGORY.get(token)
+        if category:
+            return category
+    return None
+
 
 _SIDE_PATTERNS = [
     (re.compile(r"(?:^|[_\-\s])(left|lt|l)(?:$|[_\-\s])", re.I), "left"),
@@ -209,7 +272,10 @@ def normalise(name: str) -> str:
     text = re.sub(r"[_\-.,()\[\]/]+", " ", text).lower()
     for src, dst in SYNONYMS.items():
         text = re.sub(rf"\b{re.escape(src)}\b", dst, text)
-    tokens = [t for t in text.split() if t and t not in STOPWORDS and not t.isdigit()]
+    tokens = [
+        t for t in text.split()
+        if t and t not in STOPWORDS and t not in DATASET_TOKENS and not t.isdigit()
+    ]
     return " ".join(tokens)
 
 
@@ -353,20 +419,27 @@ def propose_matches(
     atlas: Sequence[AtlasEntity],
     *,
     side: Optional[str] = None,
+    category: Optional[str] = None,
     top_n: int = 3,
 ) -> List[MatchCandidate]:
     """Rank atlas entities against one dataset structure name.
 
     A side mismatch is disqualifying rather than merely penalised: mapping a
     left soleus onto the right one would be silently wrong in exactly the way
-    that is hardest to notice downstream.
+    that is hardest to notice downstream. A tissue-class mismatch is treated
+    the same way and for the same reason -- see TISSUE_CLASS_TO_CATEGORY.
+    Pass category=None to leave the class unconstrained.
     """
     query = normalise(source_name)
     if not query:
         return []
+    if category is None:
+        category = tissue_category(source_name)
     scored: List[MatchCandidate] = []
     for entity in atlas:
         if side and entity.side and entity.side != side:
+            continue
+        if category and entity.category != category:
             continue
         best = max(
             ((similarity(query, n), raw) for n, raw in zip(entity.normalised, entity.names)),
@@ -386,6 +459,7 @@ def find_grouping_entity(
     atlas: Sequence[AtlasEntity],
     *,
     side: Optional[str] = None,
+    category: Optional[str] = None,
 ) -> List[MatchCandidate]:
     """Find a coarser atlas entity that *contains* this structure by name.
 
@@ -398,9 +472,13 @@ def find_grouping_entity(
     query = set(normalise(source_name).split())
     if not query:
         return []
+    if category is None:
+        category = tissue_category(source_name)
     hits: List[MatchCandidate] = []
     for entity in atlas:
         if side and entity.side and entity.side != side:
+            continue
+        if category and entity.category != category:
             continue
         for norm, raw in zip(entity.normalised, entity.names):
             tokens = set(norm.split())

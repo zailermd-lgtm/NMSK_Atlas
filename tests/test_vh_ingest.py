@@ -255,3 +255,85 @@ def test_infer_frame_flags_implausible_extents():
     report = vh.infer_frame(np.zeros(3), np.array([1e-9, 2e-9, 3e-9]))
     assert report.guessed_units is None
     assert any("not a plausible" in n for n in report.notes)
+
+
+# --------------------------------------------------------------------------
+# Regressions found by running against the real DU release
+#
+# Everything below reproduces a bug that only appeared once actual
+# VHM_Right_*_smooth.stl filenames were available. The module was written
+# without the dataset in hand and guessed the convention; these are the
+# places the guess was wrong.
+# --------------------------------------------------------------------------
+
+def _atlas_stub():
+    """Minimal atlas covering the entities the regressions turn on."""
+    return [
+        vh.AtlasEntity("achilles_tendon_r", "tendon", "right",
+                       ("Achilles tendon", "Tendo calcaneus"), "t.json"),
+        vh.AtlasEntity("tarsals_r", "bone", "right",
+                       ("Tarsal bones (7)",
+                        "Ossa tarsi (talus, calcaneus, naviculare, "
+                        "cuneiforme x3, cuboideum)"), "b.json"),
+        vh.AtlasEntity("femur_r", "bone", "right",
+                       ("Femur (thigh bone)", "Os femoris"), "b.json"),
+        vh.AtlasEntity("knee_articular_cartilage_r", "cartilage", "right",
+                       ("Knee articular cartilage",), "c.json"),
+    ]
+
+
+def test_dataset_tokens_do_not_dilute_the_score():
+    """Subject and processing-variant tokens are file metadata, not anatomy.
+
+    'VHM ... smooth' left two junk tokens in every single name. Against the
+    real release that was enough to drive an otherwise exact match to 0.
+    """
+    assert vh.normalise("VHM_Bone_Femur_smooth.stl") == "femur"
+    assert vh.normalise("VHF_Muscle_Soleus_original") == "soleus"
+
+
+def test_source_misspellings_are_corrected():
+    """Spellings observed in the release itself, not guessed abbreviations."""
+    assert vh.normalise("Bone_Calcaneous") == "calcaneus"
+    assert vh.normalise("Muscle_Illiacus") == "iliacus"
+    assert vh.normalise("Muscle_QuadratisFemoris") == "quadratus femoris"
+
+
+def test_tissue_class_is_read_from_the_name():
+    assert vh.tissue_category("VHM_Right_Bone_Calcaneous_smooth.stl") == "bone"
+    assert vh.tissue_category("VHM_Right_Cartilage_FemurDistal_smooth") == "cartilage"
+    assert vh.tissue_category("Right_Muscle_Soleus") == "muscle"
+    # A name that states no tissue class must not be forced into one, or
+    # datasets that do not encode it would match nothing at all.
+    assert vh.tissue_category("Soleus_R.stl") is None
+
+
+def test_bone_does_not_match_a_tendon_however_well_the_words_line_up():
+    """The calcaneus bone scored 0.90 against achilles_tendon_r and was
+    written out as 'confident', because the Achilles is also the calcaneal
+    tendon. Tissue class disqualifies it the way a side marker would."""
+    atlas = _atlas_stub()
+    name, side = vh.split_side("VHM_Right_Bone_Calcaneous_smooth.stl")
+
+    unconstrained = vh.propose_matches(name, atlas, side=side, category="tendon")
+    assert unconstrained and unconstrained[0].entity_id == "achilles_tendon_r", (
+        "the tempting wrong match must still exist -- otherwise this test "
+        "would pass for the wrong reason")
+
+    got = vh.propose_matches(name, atlas, side=side)
+    assert all(c.category == "bone" for c in got)
+    assert "achilles_tendon_r" not in {c.entity_id for c in got}
+
+
+def test_cartilage_does_not_collide_with_its_bone():
+    """Cartilage_FemurDistal matched femur_r, which then collided with the
+    real femur mesh and dragged both into 'grouped'."""
+    atlas = _atlas_stub()
+    got = vh.propose_matches("VHM_Cartilage_FemurDistal_smooth", atlas, side="right")
+    assert "femur_r" not in {c.entity_id for c in got}
+
+
+def test_grouping_also_respects_tissue_class():
+    atlas = _atlas_stub()
+    hits = vh.find_grouping_entity("VHM_Bone_Calcaneous_smooth", atlas, side="right")
+    assert {h.entity_id for h in hits} == {"tarsals_r"}
