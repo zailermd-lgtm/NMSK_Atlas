@@ -145,19 +145,42 @@ The 211 GB / 144 GB figures quoted in the paper describe the complete
 release. The download page splits it into folders that are individually far
 smaller, and the one this project needs first is under 100 MB:
 
+Two listings are recorded below because they do not agree, and the difference
+matters when telling someone what to download.
+
+**As observed after download** (zip sizes, reported by the repository owner
+2026-08-28). Note these folder names carry no Right/Left split:
+
+| Folder | Zip |
+|---|---|
+| **Final 3D STL Models-stl** | **133 MB** |
+| Smoothed 3D STL Models-stl | 244 MB |
+| Original 3D STL Models-stl | 1.27 GB |
+| MetaData | **58 KB** |
+| Aligned Cryosection-DICOM | 579 MB |
+| Aligned CT-DICOM | 278 MB |
+| Aligned Scan Images-mat_tif | 1.94 GB |
+| Final Segmentation Masks and Aligned Scans-Slicer | 2.71 GB |
+| Smoothed Segmentation Masks and Aligned Scans-Slicer | 2.71 GB |
+| Original Segmentation Masks and Aligned Scans-Slicer | 3.18 GB |
+| Original Segmentation Labelmaps-mat_tif | 3.79 GB |
+| Original Segmentation Masks and Aligned Scans-MHD | 1.49 GB (extracts to ~129 GB) |
+
+**As listed on the download page** consulted earlier, which splits the STL
+folders by side:
+
 | Folder | Zip | Extracted |
 |---|---|---|
-| **Final 3D STL models** (Right *or* Left) | **87.8 MB** | **117 MB** |
+| Final 3D STL models (Right *or* Left) | 87.8 MB | 117 MB |
 | Smoothed 3D STL models (Right or Left) | 173 MB | 601 MB |
 | Original (raw) 3D STL models | 506 MB | 5.66 GB |
-| Aligned cryosection DICOM | 463 MB | 485 MB |
-| Aligned CT DICOM | 302 MB | 316 MB |
-| Aligned scan images (.mat/.tif/.ctbl) | 1.47 GB | 1.54 GB |
-| Original segmentation masks + scans (3D Slicer) | 2.62 GB | 2.74 GB |
-| Smoothed segmentation masks + scans (3D Slicer) | 2.07 GB | 2.18 GB |
-| Final segmentation masks + scans (3D Slicer) | 2.08 GB | 2.18 GB |
-| Original segmentation label maps (.mat/.tif) | 2.08 GB | 2.18 GB |
-| ⚠️ Original segmentation masks + scans (**.mhd**) | 1.32 GB | **129 GB** |
+
+The likeliest explanation is that the two describe different subjects, or that
+the observed folders hold both sides where the page offered them separately.
+Either way, **the folder to start from is the Final STL folder**, and
+`MetaData` at 58 KB is worth taking as well — it is the smallest thing in the
+release and the most likely place to find the naming convention and the
+coordinate frame written down.
 
 The `.mhd` folder is the only one that explodes on extraction -- 1.3 GB
 compressed to 129 GB on disk. Take the 3D Slicer variant instead unless that
@@ -237,12 +260,16 @@ python3 scripts/ingest_vh_geometry.py inspect <folder> --subject vhm
 which reports the structure names, bounding box, inferred units and up-axis
 without writing anything. `propose` and `convert` follow from there.
 
-> ⚠️ **Verify the license before commercial release.** The dataset is
-> reported as **CC BY 4.0** (attribution only, no share-alike — compatible
-> with a proprietary derivative). This has *not* yet been confirmed directly
-> from the Digital Commons @ DU record, because that host was unreachable
-> from the environment where this document was written. Confirm at the source
-> and record the result here before shipping anything built on it.
+> ✅ **License confirmed at source.** The Digital Commons @ DU record states:
+> *"This work is licensed under a Creative Commons Attribution 4.0
+> International License."* Confirmed by the repository owner reading the
+> record directly, 2026-08-28. **CC BY 4.0 — attribution only, no
+> share-alike.** A proprietary derivative is permitted, which is the whole
+> reason this dataset was chosen over Z-Anatomy. Attribution obligations are
+> listed under *Attribution* below and must be honoured in any release.
+>
+> This was the last unverified claim in the licence analysis. Everything the
+> project's commercial position depends on is now checked at the source.
 
 ---
 
@@ -368,8 +395,12 @@ Male", Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2,
 used under CC BY 4.0.
 ```
 
-The license line in this block is the one item still to be confirmed at the
-source — see the warning above.
+The CC BY 4.0 line in this block is confirmed at the Digital Commons @ DU
+record (2026-08-28). CC BY 4.0 requires attribution, a link to the licence,
+and an indication of whether changes were made — this project makes extensive
+changes, so say so. It does **not** require the derivative to be licensed
+alike, which is what makes the proprietary licence on this repository
+possible.
 
 ---
 
