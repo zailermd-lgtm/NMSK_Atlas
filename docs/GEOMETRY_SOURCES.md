@@ -261,9 +261,20 @@ which reports the structure names, bounding box, inferred units, up-axis and
 the hip joint centre, without writing anything. `propose` and `convert`
 follow from there.
 
-### The frame, as measured against the VHM right-side smoothed set
+### Do not read the folder off the filename
 
-Run 2026-08-28 on 63 meshes, 1,510,948 triangles, no read failures. The
+Every mesh in the **Final** folder is named `..._smooth.stl`. That suffix is
+part of the Final release's own naming and does **not** mean the file came
+from the Smoothed folder. Confirmed by the repository owner, who downloaded
+both from under the Final heading. The consequence matters: everything
+ingested so far is Final, so the remesh target edge lengths — 1.5 mm muscle,
+1.0 mm bone, 0.75 mm cartilage and ligament — apply to it, and it is coarser
+than this project's sub-millimetre goal.
+
+### The frame, as measured against the VHM Final set, both sides
+
+Run 2026-08-28 on 128 meshes (63 right, 63 left, 2 midline), 3,077,884
+triangles, 1,539,203 welded vertices, no read failures. The
 coordinate frame is **not** inferred from the bounding box — that can only
 say which axis is longest, never which way is up. Each axis was fixed by an
 anatomical test on the geometry itself:
@@ -276,6 +287,28 @@ anatomical test on the geometry itself:
 
 So `--axes '-x,-z,+y' --units mm`.
 
+**The two sides are not spelled consistently with each other**, which only
+became visible once the left side arrived. Six structures differ:
+`BicepsFemorisLong`/`Longus`, `ExtensorHallucisLongus`/`Hallicus`,
+`FlexorHallucisLongus`/`Hallicus`, `QuadratisFemoris`/`Quadratus`,
+`Semitendinosus`/`Semitendonosus`, `TibialMedial`/`TibiaMedial`. Note that
+neither side is consistently the correct one — right has `Quadratis`, left has
+`Hallicus`. Four are normalised to the correct form; `Long`/`Longus` and the
+`Tibial`/`Tibia` pair get separate override keys instead, because "longus" is
+a real anatomical word and mapping it to "long" would corrupt adductor longus
+and every other longus in the atlas.
+
+One of these was a near miss rather than a clean failure: `ExtensorHallicusLongus`
+scored **0.50 against extensor digitorum longus**, just under the 0.55
+threshold. A slightly more permissive threshold would have silently mapped
+extensor hallucis longus onto a different muscle.
+
+**The left folder also carries the midline bones.** `VHM_Left_Bone_Sacrum` and
+`VHM_Left_Bone_Coccyx` are not left-sided; they are in the folder someone put
+them in. Taking the filename's word for it stamped `side="left"` on a midline
+bone. `resolve_side()` now drops the side for known midline structures, and
+the sacrum's converted geometry straddles X = 0 as it should.
+
 **The origin needed solving separately, and originally did not exist.** The
 atlas puts (0,0,0) at the midpoint of the hip joint centres
 (`docs/ARCHITECTURE.md`); `convert` applied rotation and scale only, so
@@ -284,25 +317,28 @@ anchor in `data/rig/anchors.json`. `inspect` now measures the hip joint
 centre by least-squares sphere fit to the femoral head cartilage, and
 `convert` takes `--origin`.
 
-The fit is the check on itself: **radius 24.73 mm, rms residual 0.87 mm** on
-91,920 points. A femoral head is a sphere to well under a millimetre, and a
-mesh that is not one will not fit like this. The midline coordinate came from
-the medial face of the hemipelvis — the pubic symphyseal surface, which lies
-within a few millimetres of the midline.
+The fit is the check on itself: **radius 24.73 mm right and 25.05 mm left,
+rms residual 0.87 and 1.10 mm**. A femoral head is a sphere to well under a
+millimetre, and a mesh that is not one will not fit like this.
 
-That midline estimate then validates independently: with it, the
-hip-joint-centre half-distance is 88.9 mm, so the inter-hip-centre distance
-is **177.8 mm**, against a published adult-male range of roughly 170–190 mm.
-Nothing about that number was used to place the midline, so it is a real
-check and not a restatement of the assumption.
+With **one side only**, the midline has to be estimated — the medial face of
+the hemipelvis, i.e. the pubic symphyseal surface. With **both sides**, it is
+measured: `inspect` fits both heads and prints their midpoint, which is
+exactly the atlas's definition of the origin, and no estimate is involved.
 
-Converted extents, hip centre at the origin: X 0 → 213 mm (a right limb never
-crosses the midline), Y −994 → +302 mm (heel to iliac crest), Z −121 → +101
-mm.
+The right-side-only run is therefore also a test of that estimate, and it
+passed well: the symphysis-based midline was **0.78 mm** from the true
+midpoint later measured from both femoral heads. The inter-hip-centre
+distance came out 177.8 mm estimated against **179.42 mm measured**.
+
+Final bilateral frame: hip centres land at ±89.66, ∓0.93, ∓2.94 mm — exactly
+symmetric, midpoint (0, 0, 0). Extents X −205 → +214 mm, Y −993 → +303 mm
+(heel to iliac crest), Z −123 → +127 mm. The residual left/right differences
+in Y and Z are this cadaver's own asymmetry, not registration error.
 
 ### What the mapping needed a human for
 
-Of 63 meshes, 41 matched on name alone and 22 did not — and the 22 are not
+Of 128 meshes, 84 matched on name alone and 44 did not — and the 22 are not
 matcher failures. They are recorded in `mappings/du_vh_overrides.json`, which
 is version-controlled precisely because `build/` is not, and every entry
 states its reason.

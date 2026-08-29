@@ -467,3 +467,66 @@ def test_origin_translation_happens_before_rotation():
     origin = np.array([346.042, 176.42, 425.42])
     moved = vh.to_atlas_frame((origin - origin).reshape(1, 3), axes, 1.0)
     np.testing.assert_allclose(moved, [[0.0, 0.0, 0.0]], atol=1e-12)
+
+
+# --------------------------------------------------------------------------
+# Regressions found by running against the LEFT side as well
+#
+# The two sides of the release are not spelled consistently with each other,
+# and the left folder carries the midline bones. Neither was visible from the
+# right side alone.
+# --------------------------------------------------------------------------
+
+@pytest.mark.parametrize("left,right", [
+    ("Muscle_ExtensorHallicusLongus", "Muscle_ExtensorHallucisLongus"),
+    ("Muscle_FlexorHallicusLongus", "Muscle_FlexorHallucisLongus"),
+    ("Muscle_Semitendonosus", "Muscle_Semitendinosus"),
+    ("Muscle_QuadratusFemoris", "Muscle_QuadratisFemoris"),
+])
+def test_the_two_sides_normalise_to_the_same_string(left, right):
+    """A mapping made against one side has to apply to the other."""
+    assert vh.normalise(left) == vh.normalise(right)
+
+
+def test_extensor_hallucis_is_not_extensor_digitorum():
+    """The left spelling scored 0.50 against extensor digitorum longus -- just
+    under the 0.55 threshold. Once corrected it must match its own muscle
+    outright, not squeak past a near neighbour."""
+    atlas = [
+        vh.AtlasEntity("extensor_hallucis_longus_l", "muscle", "left",
+                       ("Extensor hallucis longus",), "m.json"),
+        vh.AtlasEntity("extensor_digitorum_longus_l", "muscle", "left",
+                       ("Extensor digitorum longus",), "m.json"),
+    ]
+    name, side = vh.resolve_side("VHM_Left_Muscle_ExtensorHallicusLongus_smooth.stl")
+    got = vh.propose_matches(name, atlas, side=side)
+    assert got[0].entity_id == "extensor_hallucis_longus_l"
+    assert got[0].score >= vh.EXACT
+
+
+@pytest.mark.parametrize("name", [
+    "VHM_Left_Bone_Sacrum_smooth.stl",
+    "VHM_Left_Bone_Coccyx_smooth.stl",
+])
+def test_midline_bones_do_not_inherit_the_folder_side(name):
+    """The release files the sacrum and coccyx under Left. They are midline
+    bones, and stamping side='left' on them would carry a falsehood into
+    every manifest downstream."""
+    _, side = vh.resolve_side(name)
+    assert side is None
+
+
+def test_resolve_side_still_reads_a_real_side():
+    assert vh.resolve_side("VHM_Left_Bone_Femur_smooth.stl")[1] == "left"
+    assert vh.resolve_side("VHM_Right_Bone_Femur_smooth.stl")[1] == "right"
+
+
+def test_left_spellings_have_their_own_override_entries():
+    """'longus' cannot be normalised to 'long' -- that would corrupt adductor
+    longus and every other longus -- so the left spelling needs its own key."""
+    overrides = vh.load_overrides()
+    for key in ("muscle|biceps femoris long", "muscle|biceps femoris longus",
+                "cartilage|tibial medial", "cartilage|tibia medial"):
+        assert key in overrides, key
+    assert (vh.apply_override(overrides["muscle|biceps femoris longus"], "left")
+            ["compartment_id"] == "biceps_femoris_l_long_head")

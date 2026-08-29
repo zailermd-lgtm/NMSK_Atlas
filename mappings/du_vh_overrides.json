@@ -31,7 +31,7 @@
   ],
   "source": "Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2. CC BY 4.0.",
   "reviewed": "2026-08-28",
-  "reviewed_against": "VHM right-side smoothed STL set, 63 structures",
+  "reviewed_against": "VHM right-side and left-side Final STL sets, 63 and 65 structures",
   "entries": [
     {
       "match": "bone|talus",
@@ -81,7 +81,6 @@
       "relationship": "exact",
       "note": "Flagged ambiguous by the matcher because phalanges_foot and phalanges_hand tie exactly on name. Resolved here, not by the matcher: this is a lower-extremity release and contains no upper limb at all. The tie was correct behaviour and the name alone cannot break it."
     },
-
     {
       "match": "cartilage|femur head",
       "atlas_id": "hip_articular_cartilage_{side}",
@@ -130,7 +129,6 @@
       "relationship": "part_of",
       "note": "Talar dome. Pairs with the tibial plafond as the two halves of the ankle entity."
     },
-
     {
       "match": "muscle|biceps femoris long",
       "atlas_id": "biceps_femoris_{side}",
@@ -172,6 +170,19 @@
       "compartment_id": "iliopsoas_{side}_psoas_major",
       "relationship": "compartment",
       "note": "This compartment carries the atlas's only cadaver-dissection endplate zone (Van Campenhout et al.), so attaching its geometry correctly has direct consequences for injection targeting."
+    },
+    {
+      "match": "cartilage|tibia medial",
+      "atlas_id": "knee_articular_cartilage_{side}",
+      "relationship": "part_of",
+      "note": "Medial tibial plateau, LEFT-side spelling. The release writes 'TibialMedial' on the right and 'TibiaMedial' on the left; both are the same structure. Keyed twice rather than normalised, because turning 'tibial' into 'tibia' globally would be a rule about a word rather than about these two files."
+    },
+    {
+      "match": "muscle|biceps femoris longus",
+      "atlas_id": "biceps_femoris_{side}",
+      "compartment_id": "biceps_femoris_{side}_long_head",
+      "relationship": "compartment",
+      "note": "Long head, LEFT-side spelling: the release writes 'BicepsFemorisLong' on the right and 'BicepsFemorisLongus' on the left. Not fixed by a synonym, because 'longus' is a real anatomical word -- mapping it to 'long' would corrupt adductor longus, fibularis longus and every other longus in the atlas."
     }
   ]
 }

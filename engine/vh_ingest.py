@@ -176,7 +176,30 @@ SYNONYMS = {
     "calcaneous": "calcaneus",
     "illiacus": "iliacus",
     "quadratis": "quadratus",
+    # The two sides of the release are not spelled consistently with each
+    # other. Right says QuadratisFemoris where left says QuadratusFemoris
+    # (left is the correct one); left says Hallicus and Semitendonosus where
+    # right says Hallucis and Semitendinosus (right is correct there). Both
+    # spellings of each are normalised to the correct form, so a mapping made
+    # against one side applies to the other.
+    "hallicus": "hallucis",
+    "semitendonosus": "semitendinosus",
 }
+
+# Structures that lie on the midline but are filed under one side in the
+# release: VHM_Left_Bone_Sacrum_smooth.stl is not a left sacrum, it is the
+# sacrum, in the folder someone put it in. Taking the folder's word for it
+# would stamp side="left" on a midline bone and carry that falsehood into
+# every manifest downstream.
+MIDLINE_STRUCTURES = {"sacrum", "coccyx", "pubic symphysis", "sacrum coccyx"}
+
+
+def resolve_side(name: str) -> Tuple[str, Optional[str]]:
+    """split_side(), with the side dropped for known midline structures."""
+    base, side = split_side(name)
+    if normalise(base) in MIDLINE_STRUCTURES:
+        return base, None
+    return base, side
 
 # Tokens that describe the FILE rather than the anatomy: which subject the
 # scan came from, and which processing variant of the mesh this is. The DU

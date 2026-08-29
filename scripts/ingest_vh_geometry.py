@@ -14,10 +14,19 @@ reaches the network.
                            doi:10.56902/COB.vh.2022.0
     SimTK mirror           https://simtk.org/projects/3d-vh-geometry
 
-Take the **"Final 3D STL models"** folder -- 87.8 MB zipped, 117 MB extracted,
-split into a Right and a Left download. Those meshes are already smoothed,
-overlap-free and corrected to a uniform 0.05 mm gap, so they need no further
-processing. Start with Right: the atlas names motor targets on the right side.
+Take the **"Final 3D STL models"** folder, which splits into a Right and a
+Left download. Those meshes are already smoothed, overlap-free and corrected
+to a uniform 0.05 mm gap, so they need no further processing.
+
+Take BOTH sides if you can. With one side the atlas origin has to be estimated
+from the pubic symphysis; with both, inspect measures it directly as the
+midpoint of the two femoral head centres, which is what the atlas origin
+actually is. On this release the one-sided estimate came within 0.8 mm, but
+that is a result, not a guarantee.
+
+Note that every file in the Final folder is named `..._smooth.stl`. That is
+Final's own naming -- it does not mean the file came from the Smoothed
+folder. Do not infer the folder from the filename.
 
 Note what "final" costs. Those models were remeshed to target edge lengths of
 1.5 mm (muscle), 1.0 mm (bone) and 0.75 mm (cartilage, ligament) -- coarser
@@ -137,7 +146,7 @@ def cmd_inspect(args: argparse.Namespace) -> int:
         lo = np.minimum(lo, mn)
         hi = np.maximum(hi, mx)
         raw = structure_name(path, root)
-        base, side = vh.split_side(raw)
+        base, side = vh.resolve_side(raw)
         records.append({
             "file": path.relative_to(root).as_posix(),
             "raw_name": raw,
@@ -174,29 +183,48 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     # scanner's volume corner happened to be, which is nowhere in particular,
     # and would miss every anchor in data/rig/anchors.json. Report the
     # measurement; let the human pass it back in via --origin.
-    head = next((p for p in meshes
-                 if "cartilage" in p.name.lower() and "femurhead" in
-                 p.name.lower().replace("_", "")), None)
-    if head is not None:
-        centre, radius, rms = vh.fit_sphere(load_mesh(head).reshape(-1, 3))
-        print("\nhip joint centre (from the femoral head cartilage)")
-        print(f"  source mesh  {head.name}")
-        print(f"  centre       {np.array2string(centre, precision=2)}  (source units)")
-        print(f"  radius       {radius:.2f}   rms residual {rms:.3f}")
-        if rms > 1.5:
-            print("  - POOR FIT. A femoral head fits a sphere to well under a "
-                  "millimetre; this does not, so do not use this centre.")
-        else:
-            print("  - Good fit. This is one hip centre. The atlas origin is the "
-                  "MIDPOINT OF BOTH, so it lies on the sagittal midline at this "
-                  "height and depth -- take the midline coordinate from the "
-                  "medial face of the pubic symphysis, and pass the result to "
-                  "convert as --origin.")
-    else:
+    heads = [p for p in meshes
+             if "cartilage" in p.name.lower()
+             and "femurhead" in p.name.lower().replace("_", "")]
+    fits = []
+    for path in heads:
+        centre, radius, rms = vh.fit_sphere(load_mesh(path).reshape(-1, 3))
+        _, side = vh.resolve_side(structure_name(path, root))
+        fits.append((side, path.name, centre, radius, rms))
+
+    if not fits:
         print("\nhip joint centre: no femoral head cartilage mesh found, so the "
               "atlas origin cannot be measured from this folder. convert will "
               "leave the geometry in the source's own origin unless you pass "
               "--origin explicitly.")
+    else:
+        print("\nhip joint centre (least-squares sphere on the femoral head cartilage)")
+        for side, name, centre, radius, rms in fits:
+            flag = "  POOR FIT" if rms > 1.5 else ""
+            print(f"  {side or 'unsided':7} {np.array2string(centre, precision=2)}"
+                  f"  r {radius:.2f}  rms {rms:.3f}{flag}")
+        if any(rms > 1.5 for *_, rms in fits):
+            print("  - A femoral head fits a sphere to well under a millimetre. "
+                  "Do not use a centre whose fit is worse than that.")
+
+        sides = {side for side, *_ in fits if side}
+        if {"left", "right"} <= sides:
+            left = next(c for side, _, c, _, _ in fits if side == "left")
+            right = next(c for side, _, c, _, _ in fits if side == "right")
+            midpoint = (left + right) / 2.0
+            print(f"\n  BOTH SIDES PRESENT -- the atlas origin is measured, not "
+                  f"estimated.")
+            print(f"  midpoint     {np.array2string(midpoint, precision=3)}  "
+                  f"(source units)")
+            print(f"  inter-hip-centre distance {float(np.linalg.norm(left - right)):.2f} mm")
+            print(f"  pass:  --origin=\"{midpoint[0]:.3f},{midpoint[1]:.3f},{midpoint[2]:.3f}\"")
+        else:
+            print("\n  Only one side is present, so this is one hip centre and not "
+                  "the midpoint the atlas origin is defined as. Either add the "
+                  "other side, or take the midline coordinate from the medial "
+                  "face of the pubic symphysis -- on this release that was "
+                  "within 0.8 mm of the true midpoint -- and pass the result "
+                  "to convert as --origin.")
 
     print("\nlargest structures")
     for rec in sorted(records, key=lambda r: -r["triangles"])[:12]:
@@ -243,7 +271,7 @@ def cmd_propose(args: argparse.Namespace) -> int:
         records = []
         for path in find_meshes(root):
             raw = structure_name(path, root)
-            base, side = vh.split_side(raw)
+            base, side = vh.resolve_side(raw)
             records.append({
                 "file": path.relative_to(root).as_posix(),
                 "raw_name": raw, "structure": base, "side": side,
