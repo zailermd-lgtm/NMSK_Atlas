@@ -530,3 +530,56 @@ def test_left_spellings_have_their_own_override_entries():
         assert key in overrides, key
     assert (vh.apply_override(overrides["muscle|biceps femoris longus"], "left")
             ["compartment_id"] == "biceps_femoris_l_long_head")
+
+
+# --------------------------------------------------------------------------
+# Regression: the side marker appearing twice in one path
+#
+# Found on a real download, stored as .../Left/VHM_Left_Bone_Sacrum.stl, so
+# the folder and the filename each carry the side. Removing only the first
+# left "left" behind as an anatomical token.
+# --------------------------------------------------------------------------
+
+def test_duplicated_side_marker_is_fully_stripped():
+    base, side = vh.split_side("Left VHM_Left_Bone_Sacrum_smooth")
+    assert side == "left"
+    assert vh.normalise(base) == "sacrum", (
+        "a residual side token makes this 'left sacrum', which is not a "
+        "midline structure and not the atlas's 'sacrum' either")
+
+
+def test_duplicated_side_marker_restores_the_exact_match():
+    """The extra token dropped extensor digitorum longus from 1.00 to 0.95 --
+    below the exact-match rule and inside the ambiguity margin of extensor
+    digitorum, a different muscle. It became unmappable."""
+    atlas = [
+        vh.AtlasEntity("extensor_digitorum_longus_l", "muscle", "left",
+                       ("Extensor digitorum longus",), "m.json"),
+        vh.AtlasEntity("extensor_digitorum_l", "muscle", "left",
+                       ("Extensor digitorum",), "m.json"),
+    ]
+    name, side = vh.resolve_side(
+        "Left VHM_Left_Muscle_ExtensorDigitorumLongus_smooth.stl")
+    got = vh.propose_matches(name, atlas, side=side)
+    assert got[0].entity_id == "extensor_digitorum_longus_l"
+    assert got[0].score >= vh.EXACT, (
+        f"expected an exact match, got {got[0].score}")
+
+
+def test_nested_layout_finds_midline_bones():
+    for name in ("Left VHM_Left_Bone_Sacrum_smooth.stl",
+                 "Left VHM_Left_Bone_Coccyx_smooth.stl"):
+        assert vh.resolve_side(name)[1] is None
+
+
+def test_a_name_claiming_both_sides_is_not_guessed():
+    """`Left/..._Right_...` is a contradiction. Believing half of it silently
+    is exactly the error class this module exists to prevent."""
+    assert vh.side_markers("Left VHM_Right_Bone_Femur") == {"left", "right"}
+    assert vh.split_side("Left VHM_Right_Bone_Femur")[1] is None
+
+
+def test_single_letter_markers_still_need_delimiters():
+    assert vh.split_side("Soleus_L")[1] == "left"
+    assert vh.split_side("Iliacus")[1] is None
+    assert vh.split_side("Left Soleus_L")[1] == "left"

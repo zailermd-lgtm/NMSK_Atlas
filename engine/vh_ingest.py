@@ -266,24 +266,58 @@ def tissue_category(name: str) -> Optional[str]:
     return None
 
 
+# The trailing delimiter is a lookahead, not a consumed group, so that two
+# adjacent markers -- "Left_VHM_Left_..." -- can both be found. Consuming it
+# left the second one without a preceding delimiter and it survived.
 _SIDE_PATTERNS = [
-    (re.compile(r"(?:^|[_\-\s])(left|lt|l)(?:$|[_\-\s])", re.I), "left"),
-    (re.compile(r"(?:^|[_\-\s])(right|rt|r)(?:$|[_\-\s])", re.I), "right"),
+    (re.compile(r"(?:^|[_\-\s])(left|lt|l)(?=$|[_\-\s])", re.I), "left"),
+    (re.compile(r"(?:^|[_\-\s])(right|rt|r)(?=$|[_\-\s])", re.I), "right"),
 ]
 
 
+def side_markers(name: str) -> set:
+    """Every side a name claims. More than one means the name disagrees with
+    itself, which is a data problem and not something to resolve by picking
+    the first."""
+    found = set()
+    for pattern, side in _SIDE_PATTERNS:
+        if pattern.search(name):
+            found.add(side)
+    return found
+
+
 def split_side(name: str) -> Tuple[str, Optional[str]]:
-    """Strip a side marker off a structure name.
+    """Strip side markers off a structure name.
 
     Returns (name_without_side, "left"|"right"|None). Bare single-letter
     markers are only honoured when delimited, so 'Soleus_L' resolves but
     'Iliacus' is not read as ending in a side.
+
+    EVERY marker is removed, not just the first. A release stored as
+    `.../Left/VHM_Left_Bone_Sacrum.stl` puts the side in both the folder and
+    the filename, and removing only one left "left" behind as an anatomical
+    token. That extra token pushed extensor digitorum longus from an exact
+    1.00 match down to 0.95 -- under the exact-match rule, and within the
+    ambiguity margin of extensor digitorum, which is a different muscle. It
+    also broke midline detection, because "left sacrum" is not "sacrum".
+
+    A name claiming BOTH sides returns side=None, because a file called
+    `Left/..._Right_...` is a genuine contradiction and guessing which half
+    of its own name to believe is exactly the silent error this module
+    exists to avoid. Callers should check side_markers() and report it.
     """
-    for pattern, side in _SIDE_PATTERNS:
-        m = pattern.search(name)
-        if m:
-            return (name[: m.start()] + " " + name[m.end():]).strip(" _-"), side
-    return name.strip(" _-"), None
+    found = side_markers(name)
+    text = name
+    changed = True
+    while changed:
+        changed = False
+        for pattern, _ in _SIDE_PATTERNS:
+            m = pattern.search(text)
+            if m:
+                text = text[: m.start()] + " " + text[m.end():]
+                changed = True
+    text = " ".join(text.split()).strip(" _-")
+    return text, (found.pop() if len(found) == 1 else None)
 
 
 def normalise(name: str) -> str:

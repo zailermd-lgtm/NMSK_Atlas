@@ -147,11 +147,13 @@ def cmd_inspect(args: argparse.Namespace) -> int:
         hi = np.maximum(hi, mx)
         raw = structure_name(path, root)
         base, side = vh.resolve_side(raw)
+        markers = vh.side_markers(raw)
         records.append({
             "file": path.relative_to(root).as_posix(),
             "raw_name": raw,
             "structure": base,
             "side": side,
+            "side_markers": sorted(markers),
             "normalised": vh.normalise(base),
             "triangles": int(tris.shape[0]),
             "bbox_min": [float(v) for v in mn],
@@ -168,6 +170,16 @@ def cmd_inspect(args: argparse.Namespace) -> int:
     if sides.get("none"):
         print(f"               {sides['none']} file(s) carry no side marker -- "
               f"midline structures, or a naming convention split_side() misses.")
+    # A name claiming both sides is a contradiction, not a midline structure.
+    # It reads as unsided, which would let it match either side, so it has to
+    # be said out loud rather than folded into the count above.
+    conflicting = [r for r in records if len(r["side_markers"]) > 1]
+    if conflicting:
+        print(f"\n  WARNING: {len(conflicting)} file(s) claim BOTH sides in "
+              f"their own path and are treated as unsided, which lets them "
+              f"match either side. Fix the layout or map them by hand:")
+        for rec in conflicting[:10]:
+            print(f"    {rec['file']}")
 
     frame = vh.infer_frame(lo, hi)
     print("\ncoordinate frame")
