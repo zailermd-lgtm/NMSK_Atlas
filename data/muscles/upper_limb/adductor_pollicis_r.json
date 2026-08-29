@@ -58,7 +58,13 @@
         "evidence": "modelling_default"
       },
       "function_note": "More proximal/oblique pull, contributes to thumb flexion component of adduction.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "relative_muscle_spindle_abundance": {
+        "value": 0.39,
+        "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+        "notes": "Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+        "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+      }
     },
     {
       "id": "adductor_pollicis_r_transverse",
@@ -95,7 +101,13 @@
         "evidence": "modelling_default"
       },
       "function_note": "Purely transverse pull, the more powerful pure-adduction compartment; architecturally distinct fan-shaped origin from the 3rd metacarpal shaft.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "relative_muscle_spindle_abundance": {
+        "value": 0.34,
+        "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+        "notes": "Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+        "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+      }
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
@@ -105,5 +117,12 @@
     "identification_cues": "Triangular. The transverse and oblique heads can be targeted separately.",
     "notes": "Its spasticity resists thumb abduction and directly degrades grasp and pinch.",
     "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
-  }
+  },
+  "relative_muscle_spindle_abundance": {
+    "value": 0.52,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 0.72 +/- 0.19 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "Both heads are supplied by the deep branch of the ulnar nerve, and the source counts them as separate nerve compartments. The oblique head's branch is the thicker of the two, its intramuscular arborisation is denser, and its spindle abundance is higher (0.39 against 0.34), so the source treats the oblique head as the functionally dominant one for pinch and joint stability. Where a single injection must be chosen, that is the head the anatomy points to."
 }

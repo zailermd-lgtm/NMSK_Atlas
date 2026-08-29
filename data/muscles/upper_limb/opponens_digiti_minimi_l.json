@@ -49,8 +49,28 @@
         "evidence": "modelling_default"
       },
       "function_note": "Deepest hypothenar muscle; cups the palm during opposition, the hand's structural mirror of opponens pollicis.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            100
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve mapping",
+          "notes": "Major branches densely distributed in the middle and distal parts of the muscle belly. The source states this in words rather than as a measured percentage -- it is a hand-surgery paper, not an injection-targeting one -- so the range is that wording read as thirds of muscle length, and nothing narrower is claimed.",
+          "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "relative_muscle_spindle_abundance": {
+    "value": 0.59,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 0.49 +/- 0.26 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "Highest spindle abundance of the hypothenar muscles. Has the SHORTEST extramuscular nerve trunk of the whole group at 0.49 +/- 0.26 cm, which together with its depth is why it is almost never used as a transfer donor -- and, for the same reasons, why it is hard to reach blind."
 }

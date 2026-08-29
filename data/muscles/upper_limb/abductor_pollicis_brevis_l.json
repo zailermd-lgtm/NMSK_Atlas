@@ -49,7 +49,20 @@
         "evidence": "modelling_default"
       },
       "function_note": "Most superficial of the 3 thenar muscles; its motor point (the recurrent branch of median n.) is a classic surgical landmark to avoid during carpal tunnel release.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            40
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve mapping",
+          "notes": "Nerve enters from the ulnar side at the junction of the proximal and middle thirds and its minor branches are densely distributed along the medial and lateral borders at that junction. The source states this in words rather than as a measured percentage -- it is a hand-surgery paper, not an injection-targeting one -- so the range is that wording read as thirds of muscle length, and nothing narrower is claimed.",
+          "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+        }
+      ]
     }
   ],
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
@@ -59,5 +72,12 @@
     "identification_cues": "Fusiform.",
     "notes": "The paper notes that published data on abductor pollicis brevis spasticity specifically is limited.",
     "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
-  }
+  },
+  "relative_muscle_spindle_abundance": {
+    "value": 0.56,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 2.29 +/- 0.22 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "Has the LONGEST extramuscular nerve trunk of the thenar and hypothenar group at 2.29 +/- 0.22 cm, which is why it is usable as a transfer donor. The source warns against disrupting its continuity, because its nerve fans out from a single junction rather than running the length of the muscle. In 32 of 40 hands (80%) its deep head is innervated by a branch from the ULNAR nerve, not the median -- a variant common enough that a median block cannot be assumed to silence the whole muscle."
 }

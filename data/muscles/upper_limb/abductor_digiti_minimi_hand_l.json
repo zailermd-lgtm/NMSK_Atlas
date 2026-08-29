@@ -49,8 +49,28 @@
         "evidence": "modelling_default"
       },
       "function_note": "Most superficial and ulnar of the 3 hypothenar muscles; the hand's structural mirror of abductor pollicis brevis on the thenar side.",
-      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            67
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve mapping",
+          "notes": "Major branches densely distributed in the middle part of each of the muscle's two compartments. The source states this in words rather than as a measured percentage -- it is a hand-surgery paper, not an injection-targeting one -- so the range is that wording read as thirds of muscle length, and nothing narrower is claimed.",
+          "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+        }
+      ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "relative_muscle_spindle_abundance": {
+    "value": 0.4,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 1.64 +/- 0.20 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "COMPARTMENTED, and this atlas does not yet model it. Two independent ulnar branches supply an ulnar and a radial territory separated by real connective tissue septa, with the ulnar compartment about one third of the muscle and the radial about two thirds. They are recorded here as a note rather than as new functional_compartments, because a compartment in this atlas carries fibre architecture and an origin footprint and the source supplies neither -- the same reason the deep cervical compartments are notes. Lowest spindle abundance of the hypothenar group, which the authors read as a strength rather than a fine-control role."
 }

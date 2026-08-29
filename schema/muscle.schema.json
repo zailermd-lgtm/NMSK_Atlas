@@ -338,6 +338,30 @@
                 }
               }
             }
+          },
+          "relative_muscle_spindle_abundance": {
+            "type": "object",
+            "description": "Relative muscle spindle abundance: actual spindle count divided by the count predicted from muscle mass (Banks' allometric correction), so it is comparable between muscles of very different size in a way raw spindle density is not. Recorded because it is the criterion the intramuscular localisation literature uses to choose between candidate injection sites: where a muscle has several nerve-dense regions, the spindle-richest one is the preferred botulinum target. A number here is not itself a location.",
+            "required": [
+              "value",
+              "source"
+            ],
+            "properties": {
+              "value": {
+                "type": "number",
+                "minimum": 0,
+                "description": "actual / predicted spindle count; 1.0 means as many as mass predicts"
+              },
+              "method": {
+                "type": "string"
+              },
+              "notes": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            }
           }
         },
         "required": [
@@ -377,6 +401,30 @@
             "type": "string"
           },
           "description": "nerves and vessels close enough to the needle path to matter"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "relative_muscle_spindle_abundance": {
+      "type": "object",
+      "description": "Relative muscle spindle abundance: actual spindle count divided by the count predicted from muscle mass (Banks' allometric correction), so it is comparable between muscles of very different size in a way raw spindle density is not. Recorded because it is the criterion the intramuscular localisation literature uses to choose between candidate injection sites: where a muscle has several nerve-dense regions, the spindle-richest one is the preferred botulinum target. A number here is not itself a location.",
+      "required": [
+        "value",
+        "source"
+      ],
+      "properties": {
+        "value": {
+          "type": "number",
+          "minimum": 0,
+          "description": "actual / predicted spindle count; 1.0 means as many as mass predicts"
+        },
+        "method": {
+          "type": "string"
         },
         "notes": {
           "type": "string"
