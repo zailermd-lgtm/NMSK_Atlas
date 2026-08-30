@@ -583,3 +583,55 @@ def test_single_letter_markers_still_need_delimiters():
     assert vh.split_side("Soleus_L")[1] == "left"
     assert vh.split_side("Iliacus")[1] is None
     assert vh.split_side("Left Soleus_L")[1] == "left"
+
+
+# --------------------------------------------------------------------------
+# Geometry audit
+# --------------------------------------------------------------------------
+
+def test_mesh_volume_matches_an_analytic_sphere():
+    """The whole volume audit rests on this being right, so it is tested
+    against a shape whose volume is known in closed form."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "audit", Path(__file__).resolve().parent.parent
+        / "scripts" / "audit_geometry_vs_atlas.py")
+    audit = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(audit)
+
+    # icosahedron subdivided to a near-sphere
+    t = (1 + 5 ** 0.5) / 2
+    v = np.array([[-1, t, 0], [1, t, 0], [-1, -t, 0], [1, -t, 0],
+                  [0, -1, t], [0, 1, t], [0, -1, -t], [0, 1, -t],
+                  [t, 0, -1], [t, 0, 1], [-t, 0, -1], [-t, 0, 1]], float)
+    f = np.array([[0, 11, 5], [0, 5, 1], [0, 1, 7], [0, 7, 10], [0, 10, 11],
+                  [1, 5, 9], [5, 11, 4], [11, 10, 2], [10, 7, 6], [7, 1, 8],
+                  [3, 9, 4], [3, 4, 2], [3, 2, 6], [3, 6, 8], [3, 8, 9],
+                  [4, 9, 5], [2, 4, 11], [6, 2, 10], [8, 6, 7], [9, 8, 1]])
+    for _ in range(4):
+        cache, vl, nf = {}, list(v), []
+        def mid(a, b):
+            key = (min(a, b), max(a, b))
+            if key not in cache:
+                cache[key] = len(vl)
+                vl.append((vl[a] + vl[b]) / 2)
+            return cache[key]
+        for a, b, c in f:
+            ab, bc, ca = mid(a, b), mid(b, c), mid(c, a)
+            nf += [[a, ab, ca], [b, bc, ab], [c, ca, bc], [ab, bc, ca]]
+        v, f = np.array(vl), np.array(nf)
+    r = 30.0
+    v = v / np.linalg.norm(v, axis=1, keepdims=True) * r
+
+    assert audit.is_closed(f)
+    got = audit.mesh_volume_mm3(v, f)
+    exact = 4 / 3 * np.pi * r ** 3
+    assert abs(got / exact - 1) < 0.005
+
+    # The divergence theorem is translation invariant; the converted geometry
+    # sits nowhere near the origin, so this must hold far from it.
+    moved = audit.mesh_volume_mm3(v + np.array([500.0, -900.0, 300.0]), f)
+    assert abs(moved - got) < 1e-6
+
+    # An open surface must be rejected rather than given a plausible number.
+    assert not audit.is_closed(f[:-1])

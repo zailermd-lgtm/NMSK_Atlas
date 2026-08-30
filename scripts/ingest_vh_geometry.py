@@ -516,6 +516,7 @@ def cmd_convert(args: argparse.Namespace) -> int:
 
     verts_blocks, faces_blocks, manifest = [], [], []
     vertex_base = 0
+    face_base = 0
     lo = np.full(3, np.inf)
     hi = np.full(3, -np.inf)
 
@@ -539,6 +540,7 @@ def cmd_convert(args: argparse.Namespace) -> int:
             "side": entry["side"],
             "source_file": entry["file"],
             "vertex_offset": vertex_base,
+            "face_offset": face_base,
             "vertex_count": int(verts.shape[0]),
             "triangle_count": int(faces.shape[0]),
             "bbox_min_mm": [round(float(v), 4) for v in mn],
@@ -547,6 +549,7 @@ def cmd_convert(args: argparse.Namespace) -> int:
         verts_blocks.append(verts.astype(np.float32))
         faces_blocks.append((faces + vertex_base).astype(np.uint32))
         vertex_base += verts.shape[0]
+        face_base += faces.shape[0]
 
     all_verts = np.concatenate(verts_blocks)
     all_faces = np.concatenate(faces_blocks)

@@ -379,7 +379,41 @@ The centerline and fibre-field work already built (1 mm-sampled fibre tracts,
 nerve and vessel paths, anchor set) remains correct and is what the voxel
 geometry gets registered *onto* — it is not superseded by this stage.
 
-## Stage 6 — Physiologically-driven validation
+## Stage 6 — Physiologically-driven validation — 🔶 STARTED
+
+`scripts/audit_geometry_vs_atlas.py` tests the atlas's hand-authored
+`fiber_architecture` against the ingested Visible Human geometry. Until the
+ingest landed, every one of those numbers had only ever been checked against
+other literature; there is now a physical object to test them on.
+
+Three checks, run on the 128-mesh bilateral VHM set:
+
+- **Scale.** Femur 481.9 / 482.8 mm, tibia 412.3 / 408.2 mm — inside human
+  ranges, so a unit or scale error is ruled out before anything else is
+  concluded. This is what makes the volume result below trustworthy.
+- **Fascicle length vs mesh extent** — a hard constraint, since a fascicle
+  cannot exceed the muscle containing it. **No violations**, across every
+  compartment with both a fascicle length and geometry.
+- **Volume vs implied volume**, where PCSA = V·cosθ/L_f gives the atlas's own
+  numbers an implied volume. Median ratio **4.67**, range 0.88–19.9, only
+  3 of 69 muscles within a factor of two.
+
+That last result is systematic and one-directional — this body has more
+muscle than the architecture implies, almost everywhere — which is the
+signature of a population difference rather than scattered data-entry errors.
+The likely cause is donor age: the standard lower-limb architecture source
+(Ward et al. 2009) has a mean donor age in the eighties, while the Visible
+Human Male was 39 and large. Segmentation contributes too, since these meshes
+include investing fascia and aponeurosis that architecture studies dissect
+away.
+
+**The operational conclusion is a prohibition, not a correction.** Atlas PCSA
+and this geometry's volume describe *different bodies* and must not be
+combined into a single force estimate without an explicit, recorded scaling
+decision. Rescaling the literature averages onto one unrepresentative cadaver
+would trade a documented average for an individual, and is not done here.
+
+Still open:
 - Cross-check generated moment arms against published values (e.g.
   OpenSim's Delp/Holzbaur models, BSD-licensed, https://opensim.stanford.edu)
   for the regions modeled — this is the strongest possible correctness
