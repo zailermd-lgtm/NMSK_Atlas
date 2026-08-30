@@ -680,3 +680,63 @@ def test_a_hole_is_not_a_surface_feature():
         "this test is meaningless if no landmark is marked as a hole")
     foramen = [n for n, k in kinds.items() if k == "foramen_or_canal"]
     assert any(n.startswith("obturator foramen") for n in foramen)
+
+
+def _gen():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "genanchors", Path(__file__).resolve().parent.parent
+        / "scripts" / "generate_anchors.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_landmark_tokens_ignore_punctuation():
+    """A landmark named "greater trochanter, lateral facet (...)" produced the
+    token "trochanter," -- with the comma -- under the old tokeniser, which
+    matches nothing. Every trochanteric facet added silently failed to match
+    and the muscles kept resolving to the old catch-all point."""
+    gen = _gen()
+    assert "trochanter" in gen._tokens("greater trochanter, lateral facet")
+    assert not any("," in t for t in
+                   gen._tokens("greater trochanter, lateral facet (x)"))
+
+
+def test_most_specific_landmark_wins():
+    """Seven muscles attach to different facets of the greater trochanter.
+    Matching on the first two tokens alone made them indistinguishable."""
+    gen = _gen()
+    candidates = [
+        ("greater trochanter (gluteus medius/minimus, piriformis, obturator "
+         "internus insertion)", [63.7, -20, -18.1]),
+        ("greater trochanter, superior border (piriformis insertion)",
+         [18.1, 14.9, 1.2]),
+    ]
+    pos, skipped = gen._match("greater trochanter (superior border)", candidates)
+    assert pos == [18.1, 14.9, 1.2] and skipped is None
+
+
+def test_raw_count_beats_fraction_for_a_long_landmark_name():
+    """Scoring by fraction first sent obturator internus to the LESSER
+    trochanter, 60 mm from its own facet, because its facet's name lists
+    every muscle attaching there and so scores a poor fraction."""
+    gen = _gen()
+    candidates = [
+        ("lesser trochanter (iliopsoas insertion)", [10, -45, -15]),
+        ("greater trochanter, medial surface and trochanteric fossa "
+         "(obturator internus, gemelli, obturator externus insertion)",
+         [23.2, -47.1, -32.1]),
+    ]
+    pos, _ = gen._match(
+        "greater trochanter (medial surface, via lesser sciatic notch)",
+        candidates)
+    assert pos == [23.2, -47.1, -32.1]
+
+
+def test_an_equal_match_is_refused_not_guessed():
+    gen = _gen()
+    candidates = [("linea aspera", [1, 2, 3]), ("adductor tubercle", [4, 5, 6])]
+    pos, skipped = gen._match("linea aspera and adductor tubercle",
+                              candidates)
+    assert pos is None and "equally" in skipped

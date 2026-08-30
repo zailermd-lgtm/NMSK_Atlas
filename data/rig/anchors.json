@@ -486,8 +486,8 @@
     "parent_bone_frame": "ulna_r",
     "local_position_mm": [
       5,
-      -10,
-      10
+      -20,
+      8
     ],
     "notes": "auto-derived from bone landmark match against 'ulnar tuberosity + coronoid process'"
   },
@@ -557,9 +557,9 @@
     "owner_entity": "flexor_carpi_ulnaris_l",
     "parent_bone_frame": "humerus_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      20,
+      -325,
+      5
     ],
     "notes": "auto-derived from bone landmark match against 'humeral head: medial epicondyle; ulnar head: olecranon'"
   },
@@ -642,8 +642,8 @@
     "parent_bone_frame": "ulna_l",
     "local_position_mm": [
       -5,
-      -10,
-      10
+      -20,
+      8
     ],
     "notes": "auto-derived from bone landmark match against 'ulnar tuberosity + coronoid process'"
   },
@@ -809,9 +809,9 @@
     "owner_entity": "flexor_carpi_ulnaris_r",
     "parent_bone_frame": "humerus_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -20,
+      -325,
+      5
     ],
     "notes": "auto-derived from bone landmark match against 'humeral head: medial epicondyle; ulnar head: olecranon'"
   },
@@ -1373,9 +1373,9 @@
     "owner_entity": "gemellus_inferior_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -46.3,
+      -27.6,
+      -34.3
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (with obturator internus tendon)'"
   },
@@ -1541,9 +1541,9 @@
     "owner_entity": "obturator_internus_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -46.3,
+      -27.6,
+      -34.3
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (medial surface, via lesser sciatic notch'"
   },
@@ -1606,6 +1606,18 @@
       20
     ],
     "notes": "auto-derived from bone landmark match against 'anterior iliac crest, ASIS'"
+  },
+  {
+    "id": "anchor_flexor_hallucis_longus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_hallucis_longus_r",
+    "parent_bone_frame": "phalanges_foot_r",
+    "local_position_mm": [
+      25,
+      -35,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'distal phalanx of the great toe'"
   },
   {
     "id": "anchor_extensor_hallucis_brevis_r_insertion",
@@ -1673,9 +1685,9 @@
     "owner_entity": "gluteus_medius_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -67.8,
+      -35.1,
+      -12.9
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter, lateral facet'"
   },
@@ -1721,9 +1733,9 @@
     "owner_entity": "gluteus_medius_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      67.3,
+      -36.4,
+      -18.4
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter, lateral facet'"
   },
@@ -1733,9 +1745,9 @@
     "owner_entity": "vastus_lateralis_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -67.8,
+      -35.1,
+      -12.9
     ],
     "notes": "auto-derived from bone landmark match against 'linea aspera (lateral lip), greater trochanter, intertrochan'"
   },
@@ -1805,11 +1817,23 @@
     "owner_entity": "piriformis_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -48.7,
+      0.5,
+      -19.8
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (superior border)'"
+  },
+  {
+    "id": "anchor_extensor_hallucis_longus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "extensor_hallucis_longus_r",
+    "parent_bone_frame": "phalanges_foot_r",
+    "local_position_mm": [
+      25,
+      -35,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'distal phalanx of the great toe'"
   },
   {
     "id": "anchor_gluteus_minimus_l_insertion",
@@ -1817,9 +1841,9 @@
     "owner_entity": "gluteus_minimus_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -48.3,
+      -18.8,
+      8.7
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (anterior facet)'"
   },
@@ -1853,9 +1877,9 @@
     "owner_entity": "gemellus_inferior_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      46.4,
+      -27.5,
+      -39.1
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (with obturator internus tendon)'"
   },
@@ -1894,6 +1918,18 @@
       0
     ],
     "notes": "auto-derived from bone landmark match against 'fibular head'"
+  },
+  {
+    "id": "anchor_gastrocnemius_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "gastrocnemius_l",
+    "parent_bone_frame": "femur_l",
+    "local_position_mm": [
+      0,
+      -450,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial head: posterior surface above medial condyle; lateral'"
   },
   {
     "id": "anchor_gastrocnemius_l_insertion",
@@ -1937,9 +1973,9 @@
     "owner_entity": "obturator_internus_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      46.4,
+      -27.5,
+      -39.1
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (medial surface, via lesser sciatic notch'"
   },
@@ -1985,9 +2021,9 @@
     "owner_entity": "gemellus_superior_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -65.0,
-      -20,
-      -13.6
+      -46.3,
+      -27.6,
+      -34.3
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (with obturator internus tendon)'"
   },
@@ -2057,9 +2093,9 @@
     "owner_entity": "gluteus_minimus_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      48.1,
+      -21.1,
+      5.8
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (anterior facet)'"
   },
@@ -2196,18 +2232,6 @@
     "notes": "auto-derived from bone landmark match against 'adductor part: inferior pubic ramus + ischial ramus; hamstri'"
   },
   {
-    "id": "anchor_adductor_magnus_l_insertion",
-    "anchor_type": "muscle_insertion",
-    "owner_entity": "adductor_magnus_l",
-    "parent_bone_frame": "femur_l",
-    "local_position_mm": [
-      -19.3,
-      -200,
-      -5.5
-    ],
-    "notes": "auto-derived from bone landmark match against 'adductor part: linea aspera (broad linear insertion); hamstr'"
-  },
-  {
     "id": "anchor_semitendinosus_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "semitendinosus_l",
@@ -2218,6 +2242,18 @@
       -40
     ],
     "notes": "auto-derived from bone landmark match against 'ischial tuberosity (conjoint tendon with biceps femoris long'"
+  },
+  {
+    "id": "anchor_gastrocnemius_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "gastrocnemius_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      0,
+      -450,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial head: posterior surface above medial condyle; lateral'"
   },
   {
     "id": "anchor_gastrocnemius_r_insertion",
@@ -2292,14 +2328,26 @@
     "notes": "auto-derived from bone landmark match against '5th metatarsal tuberosity'"
   },
   {
+    "id": "anchor_extensor_hallucis_longus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "extensor_hallucis_longus_l",
+    "parent_bone_frame": "phalanges_foot_l",
+    "local_position_mm": [
+      -25,
+      -35,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'distal phalanx of the great toe'"
+  },
+  {
     "id": "anchor_piriformis_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "piriformis_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      49.3,
+      -4.8,
+      -23.1
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (superior border)'"
   },
@@ -2333,9 +2381,9 @@
     "owner_entity": "gemellus_superior_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      46.4,
+      -27.5,
+      -39.1
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter (with obturator internus tendon)'"
   },
@@ -2376,6 +2424,18 @@
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the little toe'"
   },
   {
+    "id": "anchor_flexor_hallucis_longus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_hallucis_longus_l",
+    "parent_bone_frame": "phalanges_foot_l",
+    "local_position_mm": [
+      -25,
+      -35,
+      5
+    ],
+    "notes": "auto-derived from bone landmark match against 'distal phalanx of the great toe'"
+  },
+  {
     "id": "anchor_plantaris_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "plantaris_r",
@@ -2400,14 +2460,26 @@
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (medial and lateral sesamo'"
   },
   {
+    "id": "anchor_gluteus_maximus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "gluteus_maximus_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      19.1,
+      -200,
+      -7.4
+    ],
+    "notes": "auto-derived from bone landmark match against 'gluteal tuberosity (deep fibers) + iliotibial tract (superfi'"
+  },
+  {
     "id": "anchor_vastus_lateralis_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "vastus_lateralis_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      63.7,
-      -20,
-      -18.1
+      67.3,
+      -36.4,
+      -18.4
     ],
     "notes": "auto-derived from bone landmark match against 'linea aspera (lateral lip), greater trochanter, intertrochan'"
   },
