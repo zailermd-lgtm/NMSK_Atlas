@@ -985,3 +985,71 @@ def test_a_segment_through_a_mesh_is_detected_and_one_beside_it_is_not():
     beside = np.linspace([-30.0, 80.0, 0.0], [30.0, 80.0, 0.0], 40)
     assert vh.points_inside_mesh(through, verts, faces).any()
     assert not vh.points_inside_mesh(beside, verts, faces).any()
+
+
+# --------------------------------------------------------------------------
+# tendon paths
+# --------------------------------------------------------------------------
+
+def _audit():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "auditlm", REPO_ROOT / "scripts" / "audit_landmarks_vs_geometry.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_a_path_grazing_a_bone_is_not_through_it():
+    """A tendon in its groove touches bone -- that is what a pulley is -- and
+    a landmark measured on a surface sits a millimetre either side of it.
+    Only real depth counts, or every via point would fail its own check."""
+    audit = _audit()
+    # Meshed at roughly millimetre edges, like the real bone surfaces:
+    # depth is measured to the nearest vertex, so a coarse mesh reads deeper
+    # than it is and this check would fire on a graze.
+    verts, faces = _tube(0.0, 0.0, 0.0, 60.0, [8.0] * 61, sections=48)
+    meshes, fs = {"femur_r": verts}, {"femur_r": faces}
+    # skims a couple of millimetres inside the wall
+    graze = np.linspace([-30.0, 30.0, 6.5], [30.0, 30.0, 6.5], 60)
+    assert audit.path_through_bone(graze, meshes, fs)[0] is None
+    # straight through the middle
+    through = np.linspace([-30.0, 30.0, 0.0], [30.0, 30.0, 0.0], 60)
+    bone, depth = audit.path_through_bone(through, meshes, fs)
+    assert bone == "femur_r" and depth > audit.MAX_TENDON_DEPTH_MM
+
+
+def test_only_bone_blocks_a_tendon():
+    """Tendons run through and between muscle bellies constantly, and the
+    cartilage meshes sit on top of the bones they belong to. Counting either
+    would report every tendon in the body as obstructed."""
+    audit = _audit()
+    assert audit.is_bone("femur_r") and audit.is_bone("tarsals_l")
+    assert not audit.is_bone("gastrocnemius_r")
+    assert not audit.is_bone("knee_articular_cartilage_r")
+
+
+def test_every_declared_via_point_names_a_real_bone_frame():
+    """A via point is stored in a bone's local coordinates. If the frame it
+    names does not exist, the point cannot be placed and the path silently
+    falls back to a straight line."""
+    audit = _audit()
+    bone_ids = {b["id"] for b in json.loads(
+        (REPO_ROOT / "data" / "skeleton" / "bones.json").read_text())}
+    for muscle, points in audit.load_via_points().items():
+        for vp in points:
+            assert vp.get("bone_frame") in bone_ids, f"{muscle}: {vp}"
+            assert len(vp.get("position_local_mm", [])) == 3, f"{muscle}: {vp}"
+
+
+def test_via_points_are_only_read_for_insertions():
+    """They are stored proximal-to-distal, so they describe the route out to
+    the insertion. Applying them to an origin would run the path backwards."""
+    audit = _audit()
+    via = {"soleus_r": [{"structure": "x", "bone_frame": "tarsals_r",
+                         "position_local_mm": [0, 0, 0]}]}
+    frames = {"tarsals_r": (np.zeros(3), np.eye(3), "test", "neither")}
+    ins = {"anchor_type": "muscle_insertion"}
+    org = {"anchor_type": "muscle_origin"}
+    assert audit.via_path("soleus_r", ins, via, frames) is not None
+    assert audit.via_path("soleus_r", org, via, frames) is None

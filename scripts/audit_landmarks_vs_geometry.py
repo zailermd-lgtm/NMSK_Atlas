@@ -263,6 +263,75 @@ def expected_member(name: str, members: dict):
     return hits.pop() if len(hits) == 1 else None
 
 
+# How deep inside a bone a path may run before it counts as going THROUGH it.
+# Not zero, because a tendon lying in its groove is supposed to touch bone --
+# that is what a pulley is -- and a landmark measured on a surface sits a
+# millimetre or two either side of it. A path through the body of the talus
+# runs 15 mm deep or more, so the two are not close.
+MAX_TENDON_DEPTH_MM = 5.0
+
+
+def path_through_bone(points: np.ndarray, meshes: dict, faces: dict):
+    """Which bone, if any, a polyline runs deep inside.
+
+    Returns (bone id, depth in mm), or (None, 0.0) when the path only grazes
+    surfaces.
+
+    Depth is measured to the nearest VERTEX, not to the nearest point of the
+    nearest triangle, so on a coarsely tessellated mesh it reads deeper than
+    it is: a point 1 mm under a surface whose vertices are 12 mm apart scores
+    6 mm. The meshes here carry roughly millimetre edges, where the two agree
+    closely enough for a 5 mm threshold; anything much coarser would need a
+    real point-to-triangle distance.
+    """
+    lo, hi = points.min(axis=0) - 1.0, points.max(axis=0) + 1.0
+    worst, worst_bone = 0.0, None
+    for bone_id, verts in meshes.items():
+        f = faces.get(bone_id)
+        if f is None or not is_bone(bone_id):
+            continue
+        if np.any(verts.min(axis=0) > hi) or np.any(verts.max(axis=0) < lo):
+            continue          # bounding boxes do not even overlap
+        inside = vh.points_inside_mesh(points, verts, f)
+        if not inside.any():
+            continue
+        depth = float(nearest_distance(points[inside], verts).max())
+        if depth > worst:
+            worst, worst_bone = depth, bone_id
+    return (worst_bone, worst) if worst > MAX_TENDON_DEPTH_MM else (None, 0.0)
+
+
+def load_via_points():
+    """Each muscle's declared wrap path, as {muscle_id: [via point, ...]}."""
+    out = {}
+    for path in sorted((DATA_DIR / "muscles").rglob("*.json")):
+        payload = json.loads(path.read_text())
+        for m in (payload if isinstance(payload, list) else [payload]):
+            pts = (m.get("attachments") or {}).get("via_points") or []
+            if pts:
+                out[m["id"]] = pts
+    return out
+
+
+def via_path(owner, anchor, via_points, frames):
+    """The declared path in world coordinates, or None if there is not one.
+
+    Only insertions get a path here: via_points are stored proximal-to-distal,
+    so they describe the route from the belly out to the insertion.
+    """
+    pts = via_points.get(owner)
+    if not pts or anchor.get("anchor_type") != "muscle_insertion":
+        return None
+    out = []
+    for vp in pts:
+        frame = frames.get(vp.get("bone_frame"))
+        if frame is None:
+            return None
+        origin, basis = frame[:2]
+        out.append(origin + np.array(vp["position_local_mm"], float) @ basis)
+    return out
+
+
 def blocked_by_bone(cloud: np.ndarray, target: np.ndarray, meshes: dict,
                     faces: dict, samples: int = 60):
     """Which bone, if any, the straight line from a muscle to `target` enters.
@@ -276,17 +345,7 @@ def blocked_by_bone(cloud: np.ndarray, target: np.ndarray, meshes: dict,
     if cloud is None:
         return None
     start = cloud[np.argmin(np.linalg.norm(cloud - target, axis=1))]
-    line = np.linspace(start, target, samples)
-    lo, hi = line.min(axis=0) - 1.0, line.max(axis=0) + 1.0
-    for bone_id, verts in meshes.items():
-        f = faces.get(bone_id)
-        if f is None or not is_bone(bone_id):
-            continue
-        if np.any(verts.min(axis=0) > hi) or np.any(verts.max(axis=0) < lo):
-            continue          # bounding boxes do not even overlap
-        if vh.points_inside_mesh(line, verts, f).any():
-            return bone_id
-    return None
+    return path_through_bone(np.linspace(start, target, samples), meshes, faces)[0]
 
 
 # Only bone blocks a tendon. Tendons run through and between muscle bellies
@@ -311,22 +370,14 @@ def nearest_distance(points: np.ndarray, cloud: np.ndarray, chunk: int = 256):
     return out
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser(
-        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--subject", default="vhm_both")
-    ap.add_argument("--worst", type=int, default=12)
-    args = ap.parse_args()
+def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
+    """Every bone frame this script can MEASURE, as
+    {entity_id: (origin, basis, how it was found, which axes are fitted)}.
 
-    try:
-        manifest, blocks, by_atlas_id, faces_by_atlas_id = load_geometry(args.subject)
-    except FileNotFoundError:
-        raise SystemExit(f"No converted geometry for {args.subject!r}. "
-                         f"Run the ingest's convert step first.")
-
-    bones = {b["id"]: b for b in json.loads(
-        (DATA_DIR / "skeleton" / "bones.json").read_text())}
-
+    Separate from main() because the wrap paths need the same frames: a
+    via point is stored in a bone's local coordinates, and putting it in
+    the world needs exactly this.
+    """
     frames = {}
     for side, tag in (("r", "right"), ("l", "left")):
         head = find(blocks, tag, "cartilage", "femurhead")
@@ -448,6 +499,27 @@ def main() -> int:
                     prox, orthonormal_frame(prox, tips),
                     "the proximal phalangeal bases; long axis to the toe tips",
                     "long")
+
+    return frames
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--subject", default="vhm_both")
+    ap.add_argument("--worst", type=int, default=12)
+    args = ap.parse_args()
+
+    try:
+        manifest, blocks, by_atlas_id, faces_by_atlas_id = load_geometry(args.subject)
+    except FileNotFoundError:
+        raise SystemExit(f"No converted geometry for {args.subject!r}. "
+                         f"Run the ingest's convert step first.")
+
+    bones = {b["id"]: b for b in json.loads(
+        (DATA_DIR / "skeleton" / "bones.json").read_text())}
+
+    frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
 
     meshes = dict(by_atlas_id)
 
@@ -612,6 +684,8 @@ def main() -> int:
     muscle_cloud = by_atlas_id
 
     checked, bone_far, muscle_far, wraps, no_muscle = [], [], [], [], 0
+    routed = []
+    via_points = load_via_points()
     for a in anchors:
         frame = frames.get(a.get("parent_bone_frame"))
         if not frame:
@@ -669,11 +743,28 @@ def main() -> int:
         # and where it is blocked the muscle is reported as needing a wrap
         # path rather than as a misplaced anchor.
         if d_muscle == d_muscle and lateral > 20:
-            blocker = blocked_by_bone(cloud, world, meshes, faces_by_atlas_id)
-            if blocker:
-                wraps.append((a["id"], owner, d_muscle, blocker))
+            # A muscle that DECLARES a path gets tested on that path, not on
+            # the straight line. That is the point of via_points: they are
+            # the atlas's answer to this check, so the check has to read them.
+            route = via_path(owner, a, via_points, frames)
+            if route is not None:
+                start = cloud[np.argmin(np.linalg.norm(cloud - route[0], axis=1))]
+                pts = [start] + route + [world]
+                blocker = next(
+                    (b for b, _d in (path_through_bone(np.linspace(u, v, 60),
+                                                       meshes, faces_by_atlas_id)
+                                     for u, v in zip(pts, pts[1:])) if b), None)
+                if blocker is None:
+                    routed.append((a["id"], owner, len(route)))
+                else:
+                    wraps.append((a["id"], owner, d_muscle,
+                                  f"{blocker} (despite {len(route)} via point(s))"))
             else:
-                muscle_far.append((d_muscle, a["id"], owner, beyond, lateral))
+                blocker = blocked_by_bone(cloud, world, meshes, faces_by_atlas_id)
+                if blocker:
+                    wraps.append((a["id"], owner, d_muscle, blocker))
+                else:
+                    muscle_far.append((d_muscle, a["id"], owner, beyond, lateral))
 
     if checked:
         db = np.array([c[2] for c in checked])
@@ -710,6 +801,11 @@ def main() -> int:
             for d, aid, owner, beyond, lateral in sorted(muscle_far, reverse=True)[:10]:
                 print(f"    side {lateral:6.1f} mm (of {d:6.1f} total, "
                       f"{beyond:5.1f} past the end)  {aid[:44]:46} -> {owner}")
+        if routed:
+            print(f"\n  {len(routed)} attachments reached by a DECLARED path, "
+                  f"clear of bone the whole way:")
+            for aid, owner, n in sorted(routed):
+                print(f"    {n} via point(s)  {aid[:52]:54} -> {owner}")
         if wraps:
             print(f"\n  {len(wraps)} attachments their muscle cannot reach in a "
                   f"straight line: bone is in the way. Not a placement error "

@@ -20,7 +20,7 @@
         "type": "object",
         "properties": {
           "name": { "type": "string" },
-          "kind": { "type": "string", "enum": ["muscle_attachment", "ligament_attachment", "joint_surface", "foramen_or_canal", "palpable_landmark", "axis_reference"] },
+          "kind": { "type": "string", "enum": ["muscle_attachment", "ligament_attachment", "joint_surface", "foramen_or_canal", "palpable_landmark", "axis_reference", "tendon_pulley"], "description": "tendon_pulley marks a groove, retinaculum or sesamoid a tendon is deflected around rather than attached to. It is not an attachment: the muscle passes over it and carries on, and it is what a muscle's attachments.via_points point at." },
           "position_local_mm": { "$ref": "common.schema.json#/definitions/vec3_mm" },
           "notes": { "type": "string" }
         },
