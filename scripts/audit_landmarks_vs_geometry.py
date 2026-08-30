@@ -136,7 +136,7 @@ def main() -> int:
     args = ap.parse_args()
 
     try:
-        _, blocks = load_geometry(args.subject)
+        manifest, blocks = load_geometry(args.subject)
     except FileNotFoundError:
         raise SystemExit(f"No converted geometry for {args.subject!r}. "
                          f"Run the ingest's convert step first.")
@@ -213,7 +213,7 @@ def main() -> int:
         print(f"    median {np.median(dist):6.1f} mm   mean {dist.mean():6.1f}"
               f"   max {dist.max():6.1f}")
         print(f"    of which along the measured long axis: median "
-              f"{np.median(along):.1f} mm; across it (rotation not measured): "
+              f"{np.median(along):.1f} mm; across it: "
               f"median {np.median(across):.1f} mm")
         for lm, d, a, c in sorted(zip(landmarks, dist, along, across),
                                   key=lambda t: -t[1])[:3]:
@@ -260,6 +260,80 @@ def main() -> int:
             print(f"  {stem}_{side}  {label}: atlas {stated:5.1f} mm, "
                   f"measured {measured:5.1f} mm{flag}")
 
+    # ---- anchors: are muscle attachments on their own muscle? ------------
+    #
+    # data/rig/anchors.json places 205 muscle origins and insertions in bone
+    # frames. A landmark only has to be on its bone; an ANCHOR has to be on
+    # its bone AND on the muscle that owns it. The second half has never been
+    # testable before, and it is the one that catches an attachment placed on
+    # the correct bone but at the wrong end of it.
+    anchors = json.loads((DATA_DIR / "rig" / "anchors.json").read_text())
+    # blocks is keyed by source file; regroup it by the atlas entity each
+    # mesh was mapped to, so a muscle split across two meshes (the
+    # gastrocnemius heads, say) is tested as the one entity the anchor names.
+    by_atlas_id = {}
+    for rec in manifest["structures"]:
+        block = blocks.get(rec["source_file"])
+        if block is not None:
+            by_atlas_id.setdefault(rec["atlas_id"], []).append(block)
+    muscle_cloud = {k: np.vstack(v) for k, v in by_atlas_id.items()}
+
+    checked, bone_far, muscle_far, no_muscle = [], [], [], 0
+    for a in anchors:
+        frame = frames.get(a.get("parent_bone_frame"))
+        if not frame:
+            continue
+        origin, basis, _ = frame
+        world = origin + np.array(a["local_position_mm"], float) @ basis
+        bone_mesh = meshes.get(a["parent_bone_frame"])
+        d_bone = (float(nearest_distance(world[None, :], bone_mesh)[0])
+                  if bone_mesh is not None else float("nan"))
+        owner = a.get("owner_entity")
+        cloud = muscle_cloud.get(owner)
+        if cloud is None:
+            no_muscle += 1
+            d_muscle = float("nan")
+        else:
+            d_muscle = float(nearest_distance(world[None, :], cloud)[0])
+        checked.append((a["id"], owner, d_bone, d_muscle, a.get("anchor_type", "")))
+        if d_bone == d_bone and d_bone > 20:
+            bone_far.append((d_bone, a["id"], owner))
+        if d_muscle == d_muscle and d_muscle > 20:
+            muscle_far.append((d_muscle, a["id"], owner))
+
+    if checked:
+        db = np.array([c[2] for c in checked])
+        print(f"\nanchors on bones with a measured frame: {len(checked)} of "
+              f"{len(anchors)}")
+        print(f"  to its own bone   median {np.median(db):5.1f} mm   "
+              f"{int((db > 20).sum())} beyond 20 mm")
+        # Origins and insertions are not comparable here. These meshes are
+        # muscle BELLIES: the DU segmentation does not include tendon. A
+        # tendinous insertion on a bony prominence is therefore legitimately
+        # far from its own muscle -- piriformis inserts on the greater
+        # trochanter by a tendon that simply is not in the geometry. A fleshy
+        # ORIGIN has no such excuse, so that is where this check has teeth.
+        for kind in ("muscle_origin", "muscle_insertion"):
+            sub = np.array([c[3] for c in checked
+                            if c[4] == kind and c[3] == c[3]])
+            if not len(sub):
+                continue
+            note = ("" if kind == "muscle_origin"
+                    else "   (tendon absent from these meshes -- see note)")
+            print(f"  {kind:16} to its own muscle: median {np.median(sub):5.1f}"
+                  f" mm, {int((sub > 20).sum())}/{len(sub)} beyond 20 mm{note}")
+        if no_muscle:
+            print(f"  ({no_muscle} anchors own a structure with no geometry here)")
+        muscle_far = [r for r in muscle_far
+                      if next(c[4] for c in checked if c[1] == r[2]
+                              and c[0] == r[1]) == "muscle_origin"]
+        for label, rowset in (("far from its bone", bone_far),
+                              ("ORIGINS far from their own muscle", muscle_far)):
+            if rowset:
+                print(f"\n  {len(rowset)} anchors {label}:")
+                for d, aid, owner in sorted(rowset, reverse=True)[:10]:
+                    print(f"    {d:6.1f} mm  {aid[:52]:54} -> {owner}")
+
     if not rows:
         print("No bone had both a measurable frame and geometry.")
         return 0
@@ -274,10 +348,20 @@ def main() -> int:
     print("""
 These are approximations being measured, not tests being failed. The
 coordinates were written from anatomical description without geometry to
-check against; this is the first time there has been any. Treat a landmark
-tens of millimetres off the surface as a correction to make, and remember
-that the across-axis component carries the unmeasured transverse rotation
-and so overstates the error for landmarks that sit round the side of a shaft.
+check against; this is the first time there has been any.
+
+Both frame axes are measured from the geometry -- the long axis from the
+joint centres, the transverse axis from the epicondyles or the plateau
+cartilages -- so an across-axis error belongs to the landmark, not to the
+frame. An earlier version of this report said the rotation was unmeasured;
+that was left behind after the epicondylar fit was added.
+
+Read the paired-landmark spans above as well as the distances. A landmark
+can name the WRONG FEATURE and still sit close to the bone, because it slid
+ALONG the surface rather than off it, and distance-to-surface cannot see
+that. The lateral epicondyle scored a comfortable 7.1 mm while being 18 mm
+too medial; only the implied bicondylar width, 65 mm against 83 measured,
+gave it away.
 """)
     return 0
 

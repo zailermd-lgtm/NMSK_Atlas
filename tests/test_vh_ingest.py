@@ -635,3 +635,32 @@ def test_mesh_volume_matches_an_analytic_sphere():
 
     # An open surface must be rejected rather than given a plausible number.
     assert not audit.is_closed(f[:-1])
+
+
+def test_anchor_generator_refuses_a_displaced_landmark():
+    """"below soleal line" names the soleal line in order to say the origin is
+    NOT there. A plain substring match read that as a hit and anchored flexor
+    digitorum longus exactly on it, 46-55 mm from its own muscle in the
+    Visible Human geometry. A wrong coordinate is worse than a missing one:
+    nobody questions it."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "genanchors", Path(__file__).resolve().parent.parent
+        / "scripts" / "generate_anchors.py")
+    gen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(gen)
+
+    candidates = [("soleal line (soleus, popliteus, tibialis posterior origin)",
+                   [-6.1, -60, -4.6])]
+
+    pos, skipped = gen._match("posterior tibia (medial, below soleal line)",
+                              candidates)
+    assert pos is None and skipped and "below" in skipped
+
+    pos, skipped = gen._match("above the soleal line", candidates)
+    assert pos is None and "above" in skipped
+
+    # An unqualified mention must still match, or the guard would break every
+    # attachment that legitimately sits on its landmark.
+    pos, skipped = gen._match("soleal line of the tibia", candidates)
+    assert pos == [-6.1, -60, -4.6] and skipped is None

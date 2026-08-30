@@ -37,18 +37,47 @@ def _bone_landmark_lookup(bones: list[dict]) -> dict:
     return lut
 
 
-def _match(landmark_text: str, candidates: list) -> list | None:
+# Words that place an attachment somewhere OTHER than the landmark they
+# qualify. "posterior tibia (medial, below soleal line)" names the soleal line
+# in order to say the origin is not there, and a plain substring match read
+# that as a hit: flexor digitorum longus was anchored exactly on the soleal
+# line, 46-55 mm from its own muscle in the Visible Human geometry, which is
+# how this was found. Matching a negation as a match is worse than not
+# matching, because it produces a confident coordinate instead of a gap.
+DISPLACEMENT_QUALIFIERS = (
+    "below", "above", "beneath", "under", "distal to", "proximal to",
+    "inferior to", "superior to", "medial to", "lateral to", "anterior to",
+    "posterior to", "just ", "adjacent to", "lateral of", "medial of",
+)
+QUALIFIER_WINDOW = 28
+
+
+def _is_displaced(text: str, at: int) -> str | None:
+    """A qualifier shortly before the match means 'not here'."""
+    window = text[max(0, at - QUALIFIER_WINDOW):at]
+    for word in DISPLACEMENT_QUALIFIERS:
+        if word in window:
+            return word.strip()
+    return None
+
+
+def _match(landmark_text: str, candidates: list):
+    """Returns (position, skipped_reason). Exactly one is ever non-None."""
     text = landmark_text.lower()
-    best = None
     for name, pos in candidates:
         # substring match either direction: landmark text often contains extra
         # parenthetical annotation ("... (muscle attachment)") around the
         # bone's own landmark name.
         tokens = [t for t in name.replace("(", " ").replace(")", " ").split() if len(t) > 3]
-        if tokens and all(t in text for t in tokens[:2]):
-            best = pos
-            break
-    return best
+        if not tokens or not all(t in text for t in tokens[:2]):
+            continue
+        qualifier = _is_displaced(text, text.find(tokens[0]))
+        if qualifier:
+            return None, (f"matched {name!r} but the text says "
+                          f"{qualifier!r} it, so the landmark is not the "
+                          f"attachment site")
+        return pos, None
+    return None, None
 
 
 def main():
@@ -57,6 +86,7 @@ def main():
 
     muscle_files = list((DATA_DIR / "muscles").rglob("*.json"))
     anchors = []
+    displaced = []
     total_ends = 0
     matched_ends = 0
 
@@ -74,7 +104,9 @@ def main():
                 total_ends += 1
                 bone_id = att.get(bone_key)
                 landmark_text = att.get(landmark_key, "")
-                pos = _match(landmark_text, lut.get(bone_id, []))
+                pos, skipped = _match(landmark_text, lut.get(bone_id, []))
+                if skipped:
+                    displaced.append((m["id"], role, skipped))
                 if pos is not None:
                     matched_ends += 1
                     anchors.append({
@@ -91,6 +123,13 @@ def main():
         json.dump(anchors, f, indent=2)
 
     print(f"anchors written: {len(anchors)}")
+    if displaced:
+        # Reported, never silent. A refused match is a gap the caller can see
+        # and fill; a wrong match is a coordinate nobody questions.
+        print(f"\n{len(displaced)} endpoint(s) refused because the text places "
+              f"the attachment AWAY from the landmark it names:")
+        for owner, role, why in sorted(displaced):
+            print(f"  {owner} {role.split('_')[1]}: {why}")
     print(f"attachment endpoints with a resolved numeric anchor: {matched_ends}/{total_ends} "
           f"({100*matched_ends/total_ends:.1f}%)")
     print("Unmatched endpoints have no numeric bone landmark yet (breadth-pass bones intentionally "
