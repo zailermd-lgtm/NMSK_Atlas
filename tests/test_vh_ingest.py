@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import json
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -664,3 +665,18 @@ def test_anchor_generator_refuses_a_displaced_landmark():
     # attachment that legitimately sits on its landmark.
     pos, skipped = gen._match("soleal line of the tibia", candidates)
     assert pos == [-6.1, -60, -4.6] and skipped is None
+
+
+def test_a_hole_is_not_a_surface_feature():
+    """The obturator foramen is a hole roughly 35x45 mm. A landmark at its
+    centre is CORRECTLY about 20 mm from any bone, and the audit was scoring
+    that as the second-worst error in the set. Landmarks of kind
+    'foramen_or_canal' are excluded from the distance-to-surface check for
+    the same reason a landmark at the frame's own origin is."""
+    bones = json.loads((vh.DATA_DIR / "skeleton" / "bones.json").read_text())
+    hip = next(b for b in bones if b["id"] == "hip_bone_r")
+    kinds = {lm["name"]: lm.get("kind") for lm in hip["landmarks"]}
+    assert any(k == "foramen_or_canal" for k in kinds.values()), (
+        "this test is meaningless if no landmark is marked as a hole")
+    foramen = [n for n, k in kinds.items() if k == "foramen_or_canal"]
+    assert any(n.startswith("obturator foramen") for n in foramen)

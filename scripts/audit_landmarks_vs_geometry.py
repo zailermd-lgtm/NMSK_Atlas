@@ -229,9 +229,22 @@ def main() -> int:
         # the origin. The femoral head sits at [0,0,0] by definition, so its
         # "distance to the surface" is just the head radius and says nothing
         # about the authored coordinates.
-        landmarks = [lm for lm in bone.get("landmarks", [])
-                     if lm.get("position_local_mm")
-                     and np.linalg.norm(lm["position_local_mm"]) > 1e-6]
+        # Distance-to-surface is only meaningful for a landmark that is
+        # SUPPOSED to be on the surface. Two kinds are not:
+        #   - a landmark at the frame's own origin IS the origin, so its
+        #     distance is just the joint radius and tests nothing;
+        #   - a foramen or canal is a HOLE. A point at the centre of the
+        #     obturator foramen is correctly about 20 mm from any bone, and
+        #     scoring that as the second-worst error in the set, as this did,
+        #     was the check misreading a hole as a mistake.
+        skipped_kinds = {"foramen_or_canal"}
+        landmarks, holes = [], []
+        for lm in bone.get("landmarks", []):
+            if not lm.get("position_local_mm"):
+                continue
+            if np.linalg.norm(lm["position_local_mm"]) <= 1e-6:
+                continue
+            (holes if lm.get("kind") in skipped_kinds else landmarks).append(lm)
         if not landmarks:
             continue
         local = np.array([lm["position_local_mm"] for lm in landmarks], float)
@@ -245,7 +258,10 @@ def main() -> int:
         along = np.abs(delta @ basis[1])
         across = np.sqrt(np.maximum(dist ** 2 - along ** 2, 0.0))
         print(f"{bone_id}   frame origin from {how}")
-        print(f"  {len(landmarks)} landmarks, distance to nearest bone surface:")
+        extra = (f", {len(holes)} foramen/canal excluded (a hole is not a "
+                 f"surface)" if holes else "")
+        print(f"  {len(landmarks)} landmarks{extra}, distance to nearest "
+              f"bone surface:")
         print(f"    median {np.median(dist):6.1f} mm   mean {dist.mean():6.1f}"
               f"   max {dist.max():6.1f}")
         # Which axis is trustworthy differs by bone. The femur and tibia have
