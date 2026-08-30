@@ -222,6 +222,44 @@ def main() -> int:
         print()
         rows.extend((d, bone_id, lm["name"]) for lm, d in zip(landmarks, dist))
 
+    # ---- span check: does the atlas imply the right bone dimensions? -----
+    #
+    # Distance-to-surface has a blind spot. A landmark can name the WRONG
+    # FEATURE and still sit near the bone, because it slid along the surface
+    # rather than off it. The lateral epicondyle scored a mild 7.1 mm that
+    # way while being 18 mm too medial; what exposed it was that the two
+    # epicondyles then implied a bicondylar width of 65 mm where the geometry
+    # measures 83 mm on both sides. A distance between two landmarks is
+    # independent of where either one sits, so it catches what the other
+    # check cannot.
+    print("\ndistances between paired landmarks -- atlas vs measured")
+    pairs = [("femur", "medial epicondyle", "lateral epicondyle",
+              "bicondylar width")]
+    for stem, a_name, b_name, label in pairs:
+        for side in ("r", "l"):
+            bone = bones.get(f"{stem}_{side}")
+            if not bone or f"{stem}_{side}" not in frames:
+                continue
+            pick = {}
+            for lm in bone.get("landmarks", []):
+                for want in (a_name, b_name):
+                    if lm["name"].startswith(want):
+                        pick[want] = np.array(lm["position_local_mm"], float)
+            if len(pick) != 2:
+                continue
+            origin, basis, _ = frames[f"{stem}_{side}"]
+            mesh = meshes[f"{stem}_{side}"]
+            local = (mesh - origin) @ basis.T
+            level = pick[a_name][1]
+            band = local[np.abs(local[:, 1] - level) < 8.0]
+            if len(band) < 20:
+                continue
+            measured = float(band[:, 0].max() - band[:, 0].min())
+            stated = float(abs(pick[a_name][0] - pick[b_name][0]))
+            flag = "" if abs(stated - measured) < 8 else "   <-- MISMATCH"
+            print(f"  {stem}_{side}  {label}: atlas {stated:5.1f} mm, "
+                  f"measured {measured:5.1f} mm{flag}")
+
     if not rows:
         print("No bone had both a measurable frame and geometry.")
         return 0
