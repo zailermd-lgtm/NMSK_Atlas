@@ -4,7 +4,7 @@
 `data/skeleton/bones.json` gives every bone a local frame and a set of
 landmarks in that frame's coordinates -- greater trochanter, adductor
 tubercle, medial malleolus and so on. Those numbers were written by hand from
-anatomical description. `data/rig/anchors.json` then places 205 muscle
+anatomical description. `data/rig/anchors.json` then places ~200 muscle
 attachments against them. Nothing has ever checked that they land on the bone.
 
 WHAT IS MEASURED, AND WHAT IS ASSUMED.
@@ -24,19 +24,35 @@ actually contain:
   tibia   origin = centroid of the two tibial plateau cartilages.
           Y axis = from there toward the centroid of the distal tibial
                    (plafond) cartilage.
+          X axis = lateral plateau minus medial plateau.
+  hip     origin = centre of a sphere through the acetabular cartilage, which
+                   is what "hip (acetabulum) joint center" denotes.
+          X axis = the line between the two acetabular centres.
+          Y axis = world superior, orthogonalised. The pelvis is defined in
+                   the anatomical position and the world frame IS that
+                   position, so this is a convention rather than a fit, and
+                   is the one assumed axis left anywhere in this script.
 
-X is then the world lateral direction orthogonalised against Y, and Z
-completes a right-handed set. The residual assumption is that the frame's
-transverse rotation about its own long axis matches the world's, which the
-long-axis fit cannot pin down. Landmarks that are mostly proximal-distal are
-therefore tested much more strongly than ones that differ only in how far
-round the shaft they sit, and the report says which is which by splitting the
-error into along-axis and off-axis parts.
+TWO METRICS, BECAUSE ONE OF THEM IS BLIND.
 
-A landmark is a surface feature, so the figure of merit is its distance to
-the nearest point of the bone's own mesh. This is a measurement, not a pass
-or fail: these coordinates were authored as approximations and the point is
-to find out how good they are and which ones are wrong.
+Distance to the nearest point of the bone's own mesh is the obvious figure of
+merit, and it is not enough. A landmark can name the WRONG FEATURE and still
+sit close to the bone, having slid ALONG the surface rather than off it. The
+lateral epicondyle scored a comfortable 7.1 mm while being 18 mm too medial.
+
+So paired landmarks are also checked against the dimension they imply. Those
+two epicondyles implied a bicondylar width of 65 mm where the geometry
+measures 83 -- and a distance BETWEEN two landmarks does not depend on where
+either one sits. That is what caught it.
+
+Anchors get a third check: a muscle attachment must be near its bone AND near
+the muscle that owns it. Origins and insertions are reported separately,
+because the DU meshes are muscle bellies with no tendon, so a tendinous
+insertion on a bony prominence is legitimately far from its own muscle.
+
+None of this is pass/fail. These coordinates were authored as approximations
+with no geometry to check against; the point is to find out how good they are
+and which ones are wrong.
 
     python3 scripts/audit_landmarks_vs_geometry.py --subject vhm_both
 """
@@ -157,7 +173,7 @@ def main() -> int:
             frames[f"femur_{side}"] = (centre, orthonormal_frame(
                 centre, cond.mean(axis=0), trans), f"femoral head sphere fit, "
                 f"r={radius:.1f} mm, rms={rms:.2f} mm; transverse axis from "
-                f"the distal epicondylar spread")
+                f"the distal epicondylar spread", "both")
 
         lat = find(blocks, tag, "cartilage", "tibialateral")
         # The release spells this 'TibialMedial' on the right and
@@ -175,16 +191,36 @@ def main() -> int:
             frames[f"tibia_{side}"] = (centre, orthonormal_frame(
                 centre, plaf.mean(axis=0), trans), "centroid of both tibial "
                 "plateau cartilages; long axis toward the plafond, transverse "
-                "axis from lateral-minus-medial plateau")
+                "axis from lateral-minus-medial plateau", "both")
+
+    # Hip: acetabular sphere centre, with the transverse axis taken from the
+    # line between the two acetabula -- so it needs both sides present.
+    acetabula = {}
+    for side, tag in (("r", "right"), ("l", "left")):
+        cup = find(blocks, tag, "cartilage", "pelvisacetabulum")
+        if cup is not None:
+            acetabula[side] = fit_sphere(cup)
+    if {"r", "l"} <= set(acetabula):
+        across = acetabula["r"][0] - acetabula["l"][0]
+        for side in ("r", "l"):
+            centre, radius, rms = acetabula[side]
+            up = np.array([0.0, 1.0, 0.0])
+            frames[f"hip_bone_{side}"] = (centre, orthonormal_frame(
+                centre, centre - up * 100.0, across),
+                f"acetabular sphere fit, r={radius:.1f} mm, rms={rms:.2f} mm; "
+                f"transverse axis from the interacetabular line; superior axis "
+                f"by anatomical-position convention, not fitted", "transverse")
 
     meshes = {"femur_r": find(blocks, "right", "bonefemur"),
               "femur_l": find(blocks, "left", "bonefemur"),
               "tibia_r": find(blocks, "right", "bonetibia"),
-              "tibia_l": find(blocks, "left", "bonetibia")}
+              "tibia_l": find(blocks, "left", "bonetibia"),
+              "hip_bone_r": find(blocks, "right", "bonepelvis"),
+              "hip_bone_l": find(blocks, "left", "bonepelvis")}
 
     print(f"subject {args.subject}\n")
     rows = []
-    for bone_id, (origin, basis, how) in sorted(frames.items()):
+    for bone_id, (origin, basis, how, fitted) in sorted(frames.items()):
         mesh = meshes.get(bone_id)
         bone = bones.get(bone_id)
         if mesh is None or not bone:
@@ -212,8 +248,14 @@ def main() -> int:
         print(f"  {len(landmarks)} landmarks, distance to nearest bone surface:")
         print(f"    median {np.median(dist):6.1f} mm   mean {dist.mean():6.1f}"
               f"   max {dist.max():6.1f}")
-        print(f"    of which along the measured long axis: median "
-              f"{np.median(along):.1f} mm; across it: "
+        # Which axis is trustworthy differs by bone. The femur and tibia have
+        # a FITTED long axis; the pelvis's long axis is the anatomical-position
+        # convention and only its transverse axis is fitted. Calling both
+        # "measured" would quietly credit the pelvis with a precision it does
+        # not have, and its landmarks' errors sit mostly on that very axis.
+        long_tag = "fitted" if fitted == "both" else "ASSUMED"
+        print(f"    along the long axis ({long_tag}): median "
+              f"{np.median(along):.1f} mm; across it (fitted): "
               f"median {np.median(across):.1f} mm")
         for lm, d, a, c in sorted(zip(landmarks, dist, along, across),
                                   key=lambda t: -t[1])[:3]:
@@ -247,7 +289,7 @@ def main() -> int:
                         pick[want] = np.array(lm["position_local_mm"], float)
             if len(pick) != 2:
                 continue
-            origin, basis, _ = frames[f"{stem}_{side}"]
+            origin, basis = frames[f"{stem}_{side}"][:2]
             mesh = meshes[f"{stem}_{side}"]
             local = (mesh - origin) @ basis.T
             level = pick[a_name][1]
@@ -283,7 +325,7 @@ def main() -> int:
         frame = frames.get(a.get("parent_bone_frame"))
         if not frame:
             continue
-        origin, basis, _ = frame
+        origin, basis = frame[:2]
         world = origin + np.array(a["local_position_mm"], float) @ basis
         bone_mesh = meshes.get(a["parent_bone_frame"])
         d_bone = (float(nearest_distance(world[None, :], bone_mesh)[0])
