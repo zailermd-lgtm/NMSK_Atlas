@@ -457,6 +457,63 @@ will be owned outright.
 
 ---
 
+## Everything above the hip has no geometry (open — stage 2)
+
+The Denver release is **pelvis to ankle**. That was checked at source rather
+than assumed, because a web search summary claimed it covered "lower-limb,
+torso and upper limbs"; the paper and the repository both say lower
+extremity, 260 geometries, pelvis to ankle.
+
+So the clavicle, scapula, humerus, radius, ulna, carpals, ribs, sternum and
+the whole spine carry coordinates written from anatomical description that
+have never been measured against anything. **That is not a hypothetical
+risk.** The clavicle turned out to be stored mirrored on *both* sides,
+putting the acromioclavicular joint 300 mm from where it belongs with the
+scapula, humerus and the entire flagship upper-limb chain hanging off it. It
+was caught by a lexical rule about the words "medial" and "lateral", not by
+measurement, because there was nothing to measure against. A landmark that
+does not happen to state a side in its own name would not have been caught
+at all.
+
+### The ingest for it is built and the source is not settled
+
+`scripts/ingest_volume_geometry.py` reads a **segmented CT or MRI** — a
+NIfTI label map, as produced by TotalSegmentator, 3D Slicer, ITK-SNAP or any
+nnU-Net model — and writes the same manifest the STL ingest does, so every
+audit already written runs on it unchanged. It recovers the atlas origin the
+same way too, by fitting both femoral heads, except that a CT gives one
+`femur` label with no separate cartilage, so the head is isolated from the
+shaft by direction and the fit is reported with its radius and residual to
+be accepted or rejected.
+
+This is worth having on its own terms: comparing the atlas against a
+patient's CT or MRI is one of the things it is for, and that comparison needs
+the scan in the atlas frame.
+
+**TotalSegmentator** is the obvious candidate to fill the gap.
+
+| | |
+|---|---|
+| Code | Apache-2.0 — the class map in `mappings/totalsegmentator_labels.json` is transcribed from it |
+| Dataset (1228 segmented CTs) | **NOT VERIFIED.** Reported as CC BY 4.0 by several secondary sources; `zenodo.org` is unreachable from the machine this was written on, so the licence line has never been read at its source |
+| Would give | clavicula, scapula, humerus, ribs, sternum, vertebrae C1–L5, sacrum, hip, femur — most of what has no geometry here |
+| Would **not** give | any individual upper-limb muscle. It carries ten muscles in total: the three glutei, iliopsoas and autochthon. There is no deltoid, no biceps, no forearm compartment |
+
+Two things follow, and neither should be skipped.
+
+**The licence must be read at the Zenodo record before any geometry derived
+from it ships.** This is the same discipline the Denver licence got: that one
+was also "reported as CC BY" for a long time and was only settled by reading
+the page. A search summary is not a licence, and one of them has already been
+wrong about this dataset's contents.
+
+**A second subject is not the Visible Human.** Denver geometry and CT
+geometry are two different bodies, and combining them into one skeleton is
+the same error as combining measured fascicle lengths with measured mesh
+volumes — already prohibited elsewhere in this project. Upper-body geometry
+from a CT is for **checking** authored coordinates, where a second body is
+if anything a stronger test, not for shipping as one continuous skeleton.
+
 ## Resulting architecture
 
 ```
