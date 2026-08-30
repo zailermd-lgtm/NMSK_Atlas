@@ -875,6 +875,70 @@ def infer_frame(bbox_min: np.ndarray, bbox_max: np.ndarray) -> FrameReport:
     )
 
 
+def points_inside_mesh(points: np.ndarray, verts: np.ndarray,
+                       faces: np.ndarray) -> np.ndarray:
+    """Which of `points` lie inside a closed triangle mesh.
+
+    Ray-crossing parity along +X, with the ray-triangle intersection done in
+    the YZ plane: a point is inside when a ray leaving it crosses the surface
+    an odd number of times. The meshes this is used on are the segmentation's
+    own closed bone surfaces.
+
+    Exists to answer one question that no distance can: whether a straight
+    line from a muscle to its bony attachment passes THROUGH a bone. If it
+    does, the tendon has to wrap around something, and any measurement that
+    assumes a straight tendon is meaningless for that muscle.
+    """
+    if len(points) == 0:
+        return np.zeros(0, dtype=bool)
+    lo, hi = verts.min(axis=0), verts.max(axis=0)
+    inside = np.zeros(len(points), dtype=bool)
+    near = np.all((points >= lo) & (points <= hi), axis=1)
+    if not near.any():
+        return inside
+
+    a, b, c = verts[faces[:, 0]], verts[faces[:, 1]], verts[faces[:, 2]]
+    # Solve p_yz - a_yz = u*(b_yz - a_yz) + v*(c_yz - a_yz) for each triangle.
+    e1 = b[:, 1:] - a[:, 1:]
+    e2 = c[:, 1:] - a[:, 1:]
+    det = e1[:, 0] * e2[:, 1] - e2[:, 0] * e1[:, 1]
+    usable = np.abs(det) > 1e-12          # edge-on triangles cannot be crossed
+    # A cheap YZ bounding box per triangle, so each ray only does the algebra
+    # for the few triangles it could possibly cross.
+    ylo = np.minimum.reduce([a[:, 1], b[:, 1], c[:, 1]])
+    yhi = np.maximum.reduce([a[:, 1], b[:, 1], c[:, 1]])
+    zlo = np.minimum.reduce([a[:, 2], b[:, 2], c[:, 2]])
+    zhi = np.maximum.reduce([a[:, 2], b[:, 2], c[:, 2]])
+
+    # Offset the ray by a deterministic fraction of a micron in Y and Z. A
+    # ray that passes exactly along a shared edge, or through a vertex, is
+    # counted an unpredictable number of times: with a tube meshed into 24
+    # sections a vertex sits exactly at z=0, and a ray from the axis scored
+    # the centre of the tube as OUTSIDE it. The two offsets differ so the
+    # ray cannot land on a diagonal either. Both are far below the
+    # sub-millimetre resolution of anything measured here.
+    for i in np.flatnonzero(near):
+        p = points[i]
+        py, pz = p[1] + 1.7e-6, p[2] + 2.9e-6
+        cand = np.flatnonzero(usable & (ylo <= py) & (yhi >= py)
+                              & (zlo <= pz) & (zhi >= pz))
+        if not len(cand):
+            continue
+        r0 = py - a[cand, 1]
+        r1 = pz - a[cand, 2]
+        d = det[cand]
+        u = (r0 * e2[cand, 1] - e2[cand, 0] * r1) / d
+        v = (e1[cand, 0] * r1 - r0 * e1[cand, 1]) / d
+        hit = (u >= 0) & (v >= 0) & (u + v <= 1)
+        if not hit.any():
+            continue
+        f = cand[hit]
+        x = (a[f, 0] + u[hit] * (b[f, 0] - a[f, 0])
+             + v[hit] * (c[f, 0] - a[f, 0]))
+        inside[i] = bool(np.count_nonzero(x > p[0]) % 2)
+    return inside
+
+
 def fit_sphere(points: np.ndarray) -> Tuple[np.ndarray, float, float]:
     """Least-squares sphere through a point cloud: (centre, radius, rms).
 

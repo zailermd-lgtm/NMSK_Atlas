@@ -961,3 +961,27 @@ def test_ordinal_words_and_digits_are_read_the_same_way():
     assert gen._ordinals("bases of metatarsals 2-4") == {2, 3, 4}
     assert gen._ordinals("the fifth metatarsal") == {5}
     assert gen._ordinals("extensor expansion") == set()
+
+
+def test_points_inside_a_closed_mesh_are_found():
+    """A tendon cannot pass through bone, and no distance can tell you that
+    it would. This is what answers it."""
+    verts, faces = _tube(0.0, 0.0, 0.0, 60.0, [8.0] * 6, sections=24)
+    probe = np.array([
+        [0.0, 30.0, 0.0],      # dead centre of the tube
+        [6.0, 30.0, 0.0],      # inside, near the wall
+        [12.0, 30.0, 0.0],     # outside, just past the wall
+        [0.0, 90.0, 0.0],      # beyond the closed end
+        [0.0, -10.0, 0.0],     # before the closed end
+        [50.0, 30.0, 50.0],    # far away
+    ])
+    got = vh.points_inside_mesh(probe, verts, faces)
+    assert list(got) == [True, True, False, False, False, False]
+
+
+def test_a_segment_through_a_mesh_is_detected_and_one_beside_it_is_not():
+    verts, faces = _tube(0.0, 0.0, 0.0, 60.0, [8.0] * 6, sections=24)
+    through = np.linspace([-30.0, 30.0, 0.0], [30.0, 30.0, 0.0], 40)
+    beside = np.linspace([-30.0, 80.0, 0.0], [30.0, 80.0, 0.0], 40)
+    assert vh.points_inside_mesh(through, verts, faces).any()
+    assert not vh.points_inside_mesh(beside, verts, faces).any()

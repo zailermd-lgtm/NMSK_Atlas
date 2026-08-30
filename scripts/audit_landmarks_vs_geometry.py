@@ -50,6 +50,17 @@ the muscle that owns it. Origins and insertions are reported separately,
 because the DU meshes are muscle bellies with no tendon, so a tendinous
 insertion on a bony prominence is legitimately far from its own muscle.
 
+How far is "legitimately" is itself a measurement, not a judgement. Splitting
+that distance along the belly's own long axis -- past the end versus off to
+the side -- assumes the tendon carries on in the direction the belly points.
+For anything crossing a retinaculum that is simply false: flexor hallucis
+longus turns a right angle behind the medial malleolus, and scored 155 mm
+"off to the side" of a muscle it is attached to correctly. So the straight
+line from muscle to attachment is tested against the bones, because a tendon
+cannot pass through bone. Where it is blocked, the anchor is reported as
+needing a path rather than as misplaced -- which moved 35 of the 45 flagged
+attachments out of the error list and into a specific, actionable one.
+
 None of this is pass/fail. These coordinates were authored as approximations
 with no geometry to check against; the point is to find out how good they are
 and which ones are wrong.
@@ -250,6 +261,44 @@ def expected_member(name: str, members: dict):
     hits = {m for m, terms in words.items()
             if m in members and any(t in low for t in terms)}
     return hits.pop() if len(hits) == 1 else None
+
+
+def blocked_by_bone(cloud: np.ndarray, target: np.ndarray, meshes: dict,
+                    faces: dict, samples: int = 60):
+    """Which bone, if any, the straight line from a muscle to `target` enters.
+
+    The muscle end used is its own point nearest the target, so this asks the
+    most generous version of the question: even taking the shortest route the
+    belly offers, does the tendon still have to go through bone?
+
+    Returns the bone's entity id, or None when the straight path is clear.
+    """
+    if cloud is None:
+        return None
+    start = cloud[np.argmin(np.linalg.norm(cloud - target, axis=1))]
+    line = np.linspace(start, target, samples)
+    lo, hi = line.min(axis=0) - 1.0, line.max(axis=0) + 1.0
+    for bone_id, verts in meshes.items():
+        f = faces.get(bone_id)
+        if f is None or not is_bone(bone_id):
+            continue
+        if np.any(verts.min(axis=0) > hi) or np.any(verts.max(axis=0) < lo):
+            continue          # bounding boxes do not even overlap
+        if vh.points_inside_mesh(line, verts, f).any():
+            return bone_id
+    return None
+
+
+# Only bone blocks a tendon. Tendons run through and between muscle bellies
+# constantly, and the cartilage meshes are joint surfaces sitting on top of
+# the bones they belong to, so counting either would report every tendon in
+# the body as obstructed.
+_BONE_STEMS = ("femur", "tibia", "fibula", "patella", "hip_bone", "sacrum",
+               "coccyx", "tarsals", "metatarsals", "phalanges_foot")
+
+
+def is_bone(entity_id: str) -> bool:
+    return entity_id.startswith(_BONE_STEMS)
 
 
 def nearest_distance(points: np.ndarray, cloud: np.ndarray, chunk: int = 256):
@@ -562,7 +611,7 @@ def main() -> int:
     # gastrocnemius heads, say) is tested as the one entity the anchor names.
     muscle_cloud = by_atlas_id
 
-    checked, bone_far, muscle_far, no_muscle = [], [], [], 0
+    checked, bone_far, muscle_far, wraps, no_muscle = [], [], [], [], 0
     for a in anchors:
         frame = frames.get(a.get("parent_bone_frame"))
         if not frame:
@@ -606,8 +655,25 @@ def main() -> int:
             bone_far.append((d_bone, a["id"], owner))
         # Only an attachment that is off to the SIDE of its muscle is a
         # placement error; one past the end is a missing tendon.
+        #
+        # ...unless the tendon TURNS A CORNER, and then this split means
+        # nothing. Splitting the distance along the belly's own long axis
+        # assumes the tendon carries on in that direction. Flexor hallucis
+        # longus runs down the deep posterior compartment, behind the medial
+        # malleolus, under the sustentaculum tali and forward along the sole
+        # to the great toe: a right angle. That scored 155 mm "off to the
+        # side" of a muscle it is correctly attached to.
+        #
+        # A tendon cannot pass through bone. So the straight line from the
+        # muscle to its attachment is tested against every bone in the way,
+        # and where it is blocked the muscle is reported as needing a wrap
+        # path rather than as a misplaced anchor.
         if d_muscle == d_muscle and lateral > 20:
-            muscle_far.append((d_muscle, a["id"], owner, beyond, lateral))
+            blocker = blocked_by_bone(cloud, world, meshes, faces_by_atlas_id)
+            if blocker:
+                wraps.append((a["id"], owner, d_muscle, blocker))
+            else:
+                muscle_far.append((d_muscle, a["id"], owner, beyond, lateral))
 
     if checked:
         db = np.array([c[2] for c in checked])
@@ -640,10 +706,21 @@ def main() -> int:
                 print(f"    {d:6.1f} mm  {aid[:52]:54} -> {owner}")
         if muscle_far:
             print(f"\n  {len(muscle_far)} anchors OFF TO THE SIDE of their own "
-                  f"muscle (past-the-end excluded -- that is missing tendon):")
+                  f"muscle (past-the-end and wrapping tendons excluded):")
             for d, aid, owner, beyond, lateral in sorted(muscle_far, reverse=True)[:10]:
                 print(f"    side {lateral:6.1f} mm (of {d:6.1f} total, "
                       f"{beyond:5.1f} past the end)  {aid[:44]:46} -> {owner}")
+        if wraps:
+            print(f"\n  {len(wraps)} attachments their muscle cannot reach in a "
+                  f"straight line: bone is in the way. Not a placement error "
+                  f"against the muscle -- either the tendon wraps and the path "
+                  f"is missing (the quadriceps over the patella, flexor "
+                  f"hallucis longus under the sustentaculum), or the anchor is "
+                  f"on the far side of its own bone (fibularis longus arises "
+                  f"ON the fibula named below). Both need looking at; neither "
+                  f"is fixed by moving the anchor toward the belly:")
+            for aid, owner, d, blocker in sorted(wraps, key=lambda r: -r[2]):
+                print(f"    {d:6.1f} mm  blocked by {blocker:16} {aid[:44]:46}")
 
     # ---- collapsed landmarks: many muscles on one coordinate ------------
     #
