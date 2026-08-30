@@ -1409,9 +1409,9 @@
     "owner_entity": "abductor_digiti_minimi_foot_r",
     "parent_bone_frame": "phalanges_foot_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -1.3,
+      3.1,
+      0.8
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the little toe'"
   },
@@ -1421,9 +1421,9 @@
     "owner_entity": "dorsal_interossei_foot_r",
     "parent_bone_frame": "metatarsals_r",
     "local_position_mm": [
-      0.0,
-      -65.7,
-      -0.0
+      0.5,
+      -26.1,
+      2.7
     ],
     "notes": "auto-derived from bone landmark match against 'adjacent metatarsal shafts (each with 2 heads, bipennate)'"
   },
@@ -1505,9 +1505,9 @@
     "owner_entity": "abductor_hallucis_r",
     "parent_bone_frame": "phalanges_foot_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -28.2,
+      -63.1,
+      23.0
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (medial sesamoid)'"
   },
@@ -1577,9 +1577,9 @@
     "owner_entity": "abductor_digiti_minimi_foot_l",
     "parent_bone_frame": "phalanges_foot_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      0.7,
+      1.3,
+      2.5
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the little toe'"
   },
@@ -1625,9 +1625,9 @@
     "owner_entity": "extensor_hallucis_brevis_r",
     "parent_bone_frame": "phalanges_foot_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -28.2,
+      -63.1,
+      23.0
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe'"
   },
@@ -1697,9 +1697,9 @@
     "owner_entity": "adductor_hallucis_l",
     "parent_bone_frame": "metatarsals_l",
     "local_position_mm": [
-      18.3,
-      -9.3,
-      16.7
+      -4.1,
+      -0.8,
+      4.2
     ],
     "notes": "auto-derived from bone landmark match against 'oblique head: bases of metatarsals 2-4; transverse head: dee'"
   },
@@ -1709,9 +1709,9 @@
     "owner_entity": "adductor_hallucis_l",
     "parent_bone_frame": "phalanges_foot_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      30.7,
+      -66.2,
+      20.9
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (lateral sesamoid, with fl'"
   },
@@ -1721,9 +1721,9 @@
     "owner_entity": "extensor_hallucis_brevis_l",
     "parent_bone_frame": "phalanges_foot_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      30.7,
+      -66.2,
+      20.9
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe'"
   },
@@ -1793,11 +1793,23 @@
     "owner_entity": "fibularis_tertius_l",
     "parent_bone_frame": "metatarsals_l",
     "local_position_mm": [
-      18.3,
-      -9.3,
-      16.7
+      -6.0,
+      11.7,
+      -29.4
     ],
     "notes": "auto-derived from bone landmark match against '5th metatarsal base (dorsal surface)'"
+  },
+  {
+    "id": "anchor_plantar_interossei_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "plantar_interossei_l",
+    "parent_bone_frame": "metatarsals_l",
+    "local_position_mm": [
+      -5.5,
+      -24.8,
+      -9.3
+    ],
+    "notes": "auto-derived from bone landmark match against 'metatarsals 3-5 (single-headed, medial surface)'"
   },
   {
     "id": "anchor_abductor_hallucis_l_insertion",
@@ -1805,9 +1817,9 @@
     "owner_entity": "abductor_hallucis_l",
     "parent_bone_frame": "phalanges_foot_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      30.7,
+      -66.2,
+      20.9
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (medial sesamoid)'"
   },
@@ -1889,9 +1901,9 @@
     "owner_entity": "flexor_hallucis_brevis_r",
     "parent_bone_frame": "phalanges_foot_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -28.2,
+      -63.1,
+      23.0
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (medial and lateral sesamo'"
   },
@@ -1985,9 +1997,9 @@
     "owner_entity": "flexor_digiti_minimi_brevis_foot_r",
     "parent_bone_frame": "metatarsals_r",
     "local_position_mm": [
-      -20.0,
-      -10.1,
-      13.5
+      9.3,
+      12.7,
+      -29.7
     ],
     "notes": "auto-derived from bone landmark match against '5th metatarsal base'"
   },
@@ -1997,9 +2009,9 @@
     "owner_entity": "flexor_digiti_minimi_brevis_foot_r",
     "parent_bone_frame": "phalanges_foot_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -1.3,
+      3.1,
+      0.8
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the little toe'"
   },
@@ -2100,6 +2112,18 @@
     "notes": "auto-derived from bone landmark match against 'greater trochanter (anterior facet)'"
   },
   {
+    "id": "anchor_plantar_interossei_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "plantar_interossei_r",
+    "parent_bone_frame": "metatarsals_r",
+    "local_position_mm": [
+      6.3,
+      -22.1,
+      -7.3
+    ],
+    "notes": "auto-derived from bone landmark match against 'metatarsals 3-5 (single-headed, medial surface)'"
+  },
+  {
     "id": "anchor_semitendinosus_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "semitendinosus_r",
@@ -2117,9 +2141,9 @@
     "owner_entity": "adductor_hallucis_r",
     "parent_bone_frame": "metatarsals_r",
     "local_position_mm": [
-      -20.0,
-      -10.1,
-      13.5
+      3.6,
+      -0.9,
+      5.4
     ],
     "notes": "auto-derived from bone landmark match against 'oblique head: bases of metatarsals 2-4; transverse head: dee'"
   },
@@ -2129,9 +2153,9 @@
     "owner_entity": "adductor_hallucis_r",
     "parent_bone_frame": "phalanges_foot_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -28.2,
+      -63.1,
+      23.0
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (lateral sesamoid, with fl'"
   },
@@ -2189,9 +2213,9 @@
     "owner_entity": "fibularis_tertius_r",
     "parent_bone_frame": "metatarsals_r",
     "local_position_mm": [
-      -20.0,
-      -10.1,
-      13.5
+      9.3,
+      12.7,
+      -29.7
     ],
     "notes": "auto-derived from bone landmark match against '5th metatarsal base (dorsal surface)'"
   },
@@ -2201,9 +2225,9 @@
     "owner_entity": "dorsal_interossei_foot_l",
     "parent_bone_frame": "metatarsals_l",
     "local_position_mm": [
-      0.0,
-      -66.8,
-      0.0
+      -0.1,
+      -28.3,
+      1.7
     ],
     "notes": "auto-derived from bone landmark match against 'adjacent metatarsal shafts (each with 2 heads, bipennate)'"
   },
@@ -2405,9 +2429,9 @@
     "owner_entity": "flexor_digiti_minimi_brevis_foot_l",
     "parent_bone_frame": "metatarsals_l",
     "local_position_mm": [
-      18.3,
-      -9.3,
-      16.7
+      -6.0,
+      11.7,
+      -29.4
     ],
     "notes": "auto-derived from bone landmark match against '5th metatarsal base'"
   },
@@ -2417,9 +2441,9 @@
     "owner_entity": "flexor_digiti_minimi_brevis_foot_l",
     "parent_bone_frame": "phalanges_foot_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      0.7,
+      1.3,
+      2.5
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the little toe'"
   },
@@ -2453,9 +2477,9 @@
     "owner_entity": "flexor_hallucis_brevis_l",
     "parent_bone_frame": "phalanges_foot_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      30.7,
+      -66.2,
+      20.9
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe (medial and lateral sesamo'"
   },

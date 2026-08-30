@@ -27,8 +27,13 @@ def _side_claimed(name: str):
     medial surface and trochanteric fossa is a medial-facing part of the most
     LATERAL prominence of the femur, and reading it as a medial landmark
     would flag a coordinate measured off the geometry as an error.
+
+    "medial surface" and "lateral surface" are excluded for the same reason
+    even when they lead, because which way a surface FACES says nothing about
+    where it sits: the medial surfaces of the third to fifth metatarsals are
+    lateral of the metatarsal frame's origin.
     """
-    low = name.lower()
+    low = re.sub(r"\b(medial|lateral)\s+surfaces?\b", " ", name.lower())
     scope = (low.split() or [""])[0] + " " + " ".join(re.findall(r"\(([^)]*)\)", low))
     medial, lateral = "medial" in scope, "lateral" in scope
     if medial == lateral:

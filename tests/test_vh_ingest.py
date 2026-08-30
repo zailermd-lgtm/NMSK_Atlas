@@ -916,3 +916,48 @@ def test_forefoot_split_refuses_a_long_ray_with_no_waist():
     verts, faces = _combine(pieces)
     with pytest.raises(ValueError, match="waist"):
         vh.split_forefoot(verts, faces)
+
+
+def test_an_ordinal_mismatch_disqualifies_rather_than_costs_a_point():
+    """Fibularis tertius inserts on the FIFTH metatarsal and its attachment
+    text says so. _tokens() drops words of three characters or fewer, so
+    "5th" was invisible: the muscle scored two tokens against "1st metatarsal
+    base" and one against "5th metatarsal tuberosity", and was anchored on
+    the first metatarsal, the opposite side of the foot."""
+    gen = _gen()
+    candidates = [
+        ("1st metatarsal base (fibularis longus, tibialis anterior insertion)",
+         [-20.0, -10.1, 13.5]),
+        ("5th metatarsal base (fibularis tertius insertion)", [9.3, 12.7, -29.7]),
+    ]
+    pos, _ = gen._match("5th metatarsal base (dorsal surface)", candidates)
+    assert pos == [9.3, 12.7, -29.7]
+    pos, _ = gen._match("1st metatarsal base + medial cuneiform", candidates)
+    assert pos == [-20.0, -10.1, 13.5]
+
+
+def test_a_range_of_rays_matches_any_ray_in_it():
+    gen = _gen()
+    candidates = [("bases of the 2nd to 4th metatarsals", [3.6, -0.9, 5.4]),
+                  ("1st metatarsal base", [-20.0, -10.1, 13.5])]
+    pos, _ = gen._match("oblique head: bases of metatarsals 2-4", candidates)
+    assert pos == [3.6, -0.9, 5.4]
+
+
+def test_a_landmark_naming_no_ray_still_serves_a_text_that_does():
+    """The disqualifier needs an ordinal on BOTH sides. A group landmark is a
+    legitimate match for a text that names one ray, and a stray digit in
+    prose -- "each with 2 heads, bipennate" -- must not be read as a ray."""
+    gen = _gen()
+    candidates = [("metatarsal shafts (dorsal interossei origin)", [0.5, -26.1, 2.7])]
+    pos, _ = gen._match("adjacent metatarsal shafts (each with 2 heads, "
+                        "bipennate)", candidates)
+    assert pos == [0.5, -26.1, 2.7]
+
+
+def test_ordinal_words_and_digits_are_read_the_same_way():
+    gen = _gen()
+    assert gen._ordinals("5th metatarsal base") == {5}
+    assert gen._ordinals("bases of metatarsals 2-4") == {2, 3, 4}
+    assert gen._ordinals("the fifth metatarsal") == {5}
+    assert gen._ordinals("extensor expansion") == set()

@@ -66,6 +66,28 @@ def _tokens(name: str) -> list:
     return [t for t in cleaned.split() if len(t) > 3]
 
 
+_ORDINAL_WORDS = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5}
+
+
+def _ordinals(text: str) -> set:
+    """Which rays or digits a piece of text names, as numbers.
+
+    _tokens() drops words of three characters or fewer, so "1st" and "5th"
+    were invisible to the matcher: fibularis tertius, whose text correctly
+    reads "5th metatarsal base", scored two tokens against "1st metatarsal
+    base" and one against "5th metatarsal tuberosity", and was anchored on
+    the FIRST metatarsal -- the opposite side of the foot from where it
+    inserts. An ordinal is not worth a point; it is a disqualifier.
+    """
+    low = text.lower()
+    found = {n for word, n in _ORDINAL_WORDS.items() if word in low}
+    found |= {int(d) for d in re.findall(r"(?<![a-z0-9])([1-5])(?:st|nd|rd|th)?"
+                                         r"(?![a-z0-9])", low)}
+    for lo, hi in re.findall(r"([1-5])\s*(?:-|--|to)\s*([1-5])", low):
+        found |= set(range(int(lo), int(hi) + 1))
+    return found
+
+
 def _is_displaced(text: str, at: int) -> str | None:
     """A qualifier shortly before the match means 'not here'."""
     window = text[max(0, at - QUALIFIER_WINDOW):at]
@@ -89,10 +111,19 @@ def _match(landmark_text: str, candidates: list):
     names its facet find its facet.
     """
     text = landmark_text.lower()
+    wanted = _ordinals(text)
     scored = []
     for name, pos in candidates:
         tokens = _tokens(name)
         if not tokens or not all(t in text for t in tokens[:2]):
+            continue
+        # A landmark that names a different ray is not a weaker match, it is
+        # the wrong bone. Only disqualify when BOTH sides state an ordinal:
+        # a landmark named for the group ("metatarsal heads") is a legitimate
+        # match for a text that names one ray, and a stray digit in prose
+        # ("each with 2 heads, bipennate") must not be read as a ray.
+        mine = _ordinals(name)
+        if wanted and mine and not (wanted & mine):
             continue
         # Score by how many of the landmark's tokens the text contains, with
         # the fraction only as a tiebreak. Ordering matters and both orders
