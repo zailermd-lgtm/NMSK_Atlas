@@ -413,6 +413,54 @@ combined into a single force estimate without an explicit, recorded scaling
 decision. Rescaling the literature averages onto one unrepresentative cadaver
 would trade a documented average for an individual, and is not done here.
 
+### Landmark and anchor audit — what the geometry found
+
+`scripts/audit_landmarks_vs_geometry.py`. Bone frames are measured from the
+geometry, not assumed: femoral head and acetabular sphere fits for the
+origins, epicondylar and plateau spreads for the transverse axes. Only the
+pelvis's superior axis remains a convention.
+
+Corrected, 12 landmarks: linea aspera, soleal line, tibial tuberosity, both
+epicondyles and the greater trochanter, bilaterally. Median landmark distance
+from its bone surface fell **4.2 mm → 1.9 mm**, with none beyond 40 mm.
+Anchor-to-bone median fell **10.9 mm → 2.5 mm** once the anchors were
+regenerated, since they are derived copies and my landmark edits had left
+them stale.
+
+Two checks turned out to be measuring nothing, and both are now excluded:
+a landmark AT the frame's own origin (the femoral head) and a landmark of
+kind `foramen_or_canal` (the obturator foramen, a 35×45 mm hole whose centre
+is correctly ~20 mm from bone). The foramen had been the second-worst
+"error" in the set.
+
+One real bug in `scripts/generate_anchors.py`: it matched **negations**.
+"posterior tibia (medial, below soleal line)" names the soleal line in order
+to exclude it, and the substring matcher anchored flexor digitorum longus
+exactly there. Four bilateral pairs were affected — FDL, gluteus medius,
+popliteus, rhomboid major. It now refuses such a match and reports it.
+
+**Still open, and not fixable by moving a coordinate.** Some landmarks are
+broad attachment lines collapsed to a single point, so no one value can serve
+the muscles hanging off them:
+
+| Landmark | Muscles sharing one coordinate |
+|---|---|
+| iliac crest | 6 — TFL, quadratus lumborum, longissimus, iliocostalis, both obliques |
+| ischial tuberosity | 8 — adductor magnus, biceps femoris, gemellus inferior, quadratus femoris, … |
+| greater trochanter | 7 — both gemelli, gluteus medius/minimus, obturator internus, piriformis, … |
+| phalanges (hand/foot) | 7 each — every intrinsic, all on digit III's proximal base |
+
+The iliac crest measures as a **90 mm arc**: the atlas's point sits on its
+anterior end, the crest's highest point 49 mm away on its posterior end, and
+both are legitimately "the iliac crest". The phalanges case is worse than a
+broad line — 14 separate bones are one atlas entity, so abductor pollicis
+brevis and abductor digiti minimi both resolve to digit III.
+
+Closing these needs either per-muscle attachment points along a named line,
+or splitting the grouped bone entities. It is a data-model change, not a
+correction, and moving the existing coordinates would hide it rather than
+fix it.
+
 Still open:
 - Cross-check generated moment arms against published values (e.g.
   OpenSim's Delp/Holzbaur models, BSD-licensed, https://opensim.stanford.edu)

@@ -419,6 +419,32 @@ def main() -> int:
                 print(f"    side {lateral:6.1f} mm (of {d:6.1f} total, "
                       f"{beyond:5.1f} past the end)  {aid[:44]:46} -> {owner}")
 
+    # ---- collapsed landmarks: many muscles on one coordinate ------------
+    #
+    # This needs no geometry and applies to the whole atlas, but the geometry
+    # is what made it visible. The iliac crest is a 90 mm ARC on the ilium.
+    # The atlas gives it one point, and six muscles -- tensor fasciae latae,
+    # quadratus lumborum, longissimus, iliocostalis and both obliques -- all
+    # anchor to that same coordinate, though they attach at different places
+    # along it. The atlas's point sits on the ANTERIOR crest; the crest's
+    # highest point is 49 mm away on the POSTERIOR crest, and both are
+    # legitimately "the iliac crest". No single coordinate can be right for
+    # all six, which is why moving it would not have helped.
+    shared = {}
+    for a in anchors:
+        key = (a.get("parent_bone_frame"), tuple(a.get("local_position_mm", [])))
+        shared.setdefault(key, []).append(a["owner_entity"])
+    crowded = sorted(((len(v), k, v) for k, v in shared.items() if len(v) >= 4),
+                     reverse=True)
+    if crowded:
+        print(f"\nlandmarks carrying 4+ different muscles on ONE coordinate")
+        print("  a broad attachment line collapsed to a point -- each muscle "
+              "takes its own part of it, so no single value fits them all")
+        for n, (bone, pos), owners in crowded[:8]:
+            print(f"  {n:2} muscles at {bone} {list(pos)}: "
+                  f"{', '.join(sorted(owners)[:5])}"
+                  f"{' ...' if len(owners) > 5 else ''}")
+
     if not rows:
         print("No bone had both a measurable frame and geometry.")
         return 0
