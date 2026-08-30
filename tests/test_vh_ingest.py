@@ -366,7 +366,19 @@ def test_shipped_overrides_load_and_target_real_entities():
         resolved = vh.apply_override(entry, "right")
         assert resolved["atlas_id"] in ids, f"{key} -> {resolved['atlas_id']}"
         assert entry.get("note"), f"{key} has no recorded reason"
-        assert entry["relationship"] in {"exact", "part_of", "compartment"}
+        assert entry["relationship"] in {"exact", "part_of", "compartment", "split"}
+        if entry["relationship"] == "split":
+            # A split promises geometry for entities no other mesh supplies.
+            # If the splitter name is wrong, or a part names an entity that
+            # does not exist, convert would fail late on a machine that has
+            # the 355 GB release -- and pass here, where it never runs.
+            assert entry.get("splitter") in vh.SPLITTERS, (
+                f"{key} names splitter {entry.get('splitter')!r}, which is not "
+                f"registered in vh_ingest.SPLITTERS")
+            parts = resolved.get("split_parts") or {}
+            assert parts, f"{key} is a split with no split_parts"
+            for part, entity_id in parts.items():
+                assert entity_id in ids, f"{key} part {part!r} -> {entity_id}"
 
 
 def test_override_side_placeholder_resolves_both_ways():
@@ -740,3 +752,167 @@ def test_an_equal_match_is_refused_not_guessed():
     pos, skipped = gen._match("linea aspera and adductor tubercle",
                               candidates)
     assert pos is None and "equally" in skipped
+
+
+# --------------------------------------------------------------------------
+# Splitting one mesh into several atlas entities
+# --------------------------------------------------------------------------
+
+def _tube(x, z, y0, y1, radii, sections=16):
+    """A closed tube along +Y whose radius follows `radii` from y0 to y1.
+
+    Enough to give split_forefoot the two things it actually reads: connected
+    components of a known size, and a cross-sectional radius profile with a
+    waist in a known place.
+    """
+    rings = []
+    for i, r in enumerate(radii):
+        y = y0 + (y1 - y0) * i / (len(radii) - 1)
+        ang = np.linspace(0, 2 * np.pi, sections, endpoint=False)
+        rings.append(np.stack([x + r * np.cos(ang),
+                               np.full(sections, y),
+                               z + r * np.sin(ang)], axis=1))
+    verts = np.concatenate(rings)
+    faces = []
+    for i in range(len(rings) - 1):
+        a, b = i * sections, (i + 1) * sections
+        for j in range(sections):
+            k = (j + 1) % sections
+            faces.append([a + j, a + k, b + j])
+            faces.append([a + k, b + k, b + j])
+    cap0, cap1 = len(verts), len(verts) + 1
+    verts = np.concatenate([verts, [[x, y0, z]], [[x, y1, z]]])
+    top = (len(rings) - 1) * sections
+    for j in range(sections):
+        k = (j + 1) % sections
+        faces.append([cap0, k, j])
+        faces.append([cap1, top + j, top + k])
+    return verts, np.array(faces, dtype=np.int64)
+
+
+def _combine(pieces):
+    verts, faces, base = [], [], 0
+    for v, f in pieces:
+        verts.append(v)
+        faces.append(f + base)
+        base += len(v)
+    return np.concatenate(verts), np.concatenate(faces)
+
+
+# base, shaft, head -- the profile every metatarsal in the release shows.
+_MT = [9.0, 9.5, 6.0, 4.2, 4.0, 4.2, 6.5, 9.5, 10.4, 8.0]
+_TOE = [4.0, 4.5, 4.0, 3.5, 4.0]
+
+
+def _forefoot(fuse_ray=None, sections=16):
+    """Five metatarsals splayed along X, with toes distal to them.
+
+    `fuse_ray` welds that ray to its toe the way the left fourth metatarsal
+    arrives in the release: one component running the length of both bones.
+    """
+    pieces = []
+    for i in range(5):
+        x = 20.0 * i
+        if i == fuse_ray:
+            # metatarsal, then the MTP waist, then the toe -- one surface
+            pieces.append(_tube(x, 0.0, 0.0, 105.0,
+                                _MT + [7.5] + _TOE, sections))
+        else:
+            pieces.append(_tube(x, 0.0, 0.0, 70.0, _MT, sections))
+            pieces.append(_tube(x, 0.0, 75.0, 105.0, _TOE, sections))
+    return _combine(pieces)
+
+
+def test_mesh_components_finds_disjoint_pieces_largest_first():
+    verts, faces = _combine([_tube(0, 0, 0, 70, _MT, sections=24),
+                             _tube(50, 0, 0, 30, _TOE, sections=8)])
+    comps = vh.mesh_components(faces)
+    assert len(comps) == 2
+    assert len(comps[0]) > len(comps[1])
+
+
+def test_submesh_compacts_vertices_and_keeps_the_surface():
+    verts, faces = _combine([_tube(0, 0, 0, 70, _MT), _tube(50, 0, 0, 30, _TOE)])
+    comps = vh.mesh_components(faces)
+    v, f = vh.submesh(verts, faces, comps[1])
+    assert len(v) < len(verts)
+    assert int(f.max()) == len(v) - 1          # no vertex left unreferenced
+    assert np.allclose(v[f].mean(axis=1).mean(axis=0)[0], 50.0, atol=1.0)
+
+
+def test_forefoot_split_separates_metatarsals_from_phalanges():
+    verts, faces = _forefoot()
+    parts = vh.split_forefoot(verts, faces)
+    mv, mf = parts["metatarsals"]
+    pv, pf = parts["phalanges"]
+    assert len(vh.mesh_components(mf)) == 5
+    assert len(vh.mesh_components(pf)) == 5
+    # metatarsals are the proximal group; no toe vertex may leak into them
+    assert mv[:, 1].max() < pv[:, 1].min()
+    assert mf.shape[0] + pf.shape[0] == faces.shape[0]
+
+
+def test_forefoot_split_cuts_a_ray_fused_to_its_toe():
+    """The left fourth metatarsal arrives welded to its toe. Cutting it at the
+    metatarsophalangeal waist has to give back a metatarsal the same length as
+    the four that needed no cutting."""
+    verts, faces = _forefoot(fuse_ray=2)
+    parts = vh.split_forefoot(verts, faces)
+    mv, mf = parts["metatarsals"]
+    comps = vh.mesh_components(mf)
+    assert len(comps) == 5
+    lengths = []
+    for comp in comps:
+        pts = mv[np.unique(mf[comp])]
+        lengths.append(float(pts[:, 1].max() - pts[:, 1].min()))
+    assert max(lengths) - min(lengths) < 8.0, lengths
+
+
+def test_forefoot_split_is_not_fooled_by_finely_tessellated_toes():
+    """Tessellation density is a property of the segmentation run, not of the
+    bone. Mesh the toes far more finely than the metatarsals and a
+    largest-component rule selects the TOES and files them as metatarsals.
+    Selecting on length -- 70 mm against 30 -- is immune to it."""
+    pieces = []
+    for i in range(5):
+        pieces.append(_tube(20.0 * i, 0.0, 0.0, 70.0, _MT, sections=12))
+        pieces.append(_tube(20.0 * i, 0.0, 75.0, 105.0, _TOE, sections=64))
+    verts, faces = _combine(pieces)
+    biggest = vh.mesh_components(faces)[0]
+    assert verts[np.unique(faces[biggest])][:, 1].min() > 70.0, \
+        "fixture is wrong: the largest component should be a toe"
+
+    parts = vh.split_forefoot(verts, faces)
+    mv, mf = parts["metatarsals"]
+    pv, _pf = parts["phalanges"]
+    assert mv[:, 1].max() < pv[:, 1].min(), \
+        "toes were filed as metatarsals"
+    assert len(vh.mesh_components(mf)) == 5
+
+
+def test_forefoot_split_refuses_when_length_cannot_tell_the_bones_apart():
+    """Without a clear length break there is no way to say which five
+    components are metatarsals, and guessing puts toe bones into
+    metatarsals_*."""
+    pieces = []
+    for i in range(5):
+        pieces.append(_tube(20.0 * i, 0.0, 0.0, 70.0, _MT))
+        pieces.append(_tube(20.0 * i, 0.0, 75.0, 140.0, _MT))   # toes as long
+    verts, faces = _combine(pieces)
+    with pytest.raises(ValueError, match="length break"):
+        vh.split_forefoot(verts, faces)
+
+
+def test_forefoot_split_refuses_a_long_ray_with_no_waist():
+    """A ray long enough to be fused, but with no metatarsophalangeal pinch,
+    gives nowhere defensible to cut."""
+    pieces = []
+    for i in range(5):
+        radii = _MT if i else [6.0] * 20      # ray 0: long, no waist anywhere
+        y1 = 70.0 if i else 130.0
+        pieces.append(_tube(20.0 * i, 0.0, 0.0, y1, radii))
+        pieces.append(_tube(20.0 * i, 0.0, 135.0 if not i else 75.0,
+                            165.0 if not i else 105.0, _TOE))
+    verts, faces = _combine(pieces)
+    with pytest.raises(ValueError, match="waist"):
+        vh.split_forefoot(verts, faces)

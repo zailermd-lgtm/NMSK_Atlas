@@ -68,6 +68,7 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from engine import vh_ingest as vh  # noqa: E402
 from engine.vh_ingest import fit_sphere  # noqa: E402
 
 BUILD_DIR = REPO_ROOT / "build" / "vh"
@@ -78,11 +79,32 @@ def load_geometry(subject: str):
     out = BUILD_DIR / subject
     manifest = json.loads((out / "manifest.json").read_text())
     verts = np.fromfile(out / "vertices.f32", dtype="<f4").reshape(-1, 3).astype(np.float64)
-    blocks = {}
+    tris = np.fromfile(out / "faces.u32", dtype="<u4").reshape(-1, 3).astype(np.int64)
+    blocks, by_atlas_id, faces_by_atlas_id = {}, {}, {}
+    base_of: dict = {}
     for rec in manifest["structures"]:
         v0, vn = rec["vertex_offset"], rec["vertex_count"]
-        blocks.setdefault(rec["source_file"], verts[v0:v0 + vn])
-    return manifest, blocks
+        f0, fn = rec["face_offset"], rec["triangle_count"]
+        atlas_id = rec["atlas_id"]
+        chunk = verts[v0:v0 + vn]
+        # Faces index the global vertex array. Rebase them onto the entity's
+        # own concatenated vertices, so connectivity survives without dragging
+        # 1.5 million vertices through every component search -- and so an
+        # entity assembled from several meshes (seven tarsals, two
+        # gastrocnemius heads) keeps each mesh's faces pointing at its own.
+        faces_by_atlas_id.setdefault(atlas_id, []).append(
+            tris[f0:f0 + fn] - v0 + base_of.get(atlas_id, 0))
+        base_of[atlas_id] = base_of.get(atlas_id, 0) + vn
+        # One source file can now produce SEVERAL structures: the forefoot
+        # mesh is split into metatarsals and phalanges. Keying blocks by
+        # filename and keeping the first, as this did, silently gave both
+        # entities the same partial mesh.
+        blocks.setdefault(rec["source_file"], []).append(chunk)
+        by_atlas_id.setdefault(atlas_id, []).append(chunk)
+    return (manifest,
+            {k: np.vstack(v) for k, v in blocks.items()},
+            {k: np.vstack(v) for k, v in by_atlas_id.items()},
+            {k: np.concatenate(v) for k, v in faces_by_atlas_id.items()})
 
 
 def find(blocks, *needles):
@@ -134,6 +156,102 @@ def orthonormal_frame(origin: np.ndarray, distal: np.ndarray,
     return np.vstack([x, y, np.cross(x, y)])
 
 
+def metatarsal_rays(by_atlas_id, faces_by_atlas_id, side: str):
+    """The five metatarsals of one foot, ordered medial to lateral.
+
+    Available only because the forefoot mesh is split during ingest; before
+    that, the five bones were inside one surface with the toes.
+    """
+    verts = by_atlas_id.get(f"metatarsals_{side}")
+    faces = faces_by_atlas_id.get(f"metatarsals_{side}")
+    if verts is None or faces is None:
+        return []
+    clouds = [verts[np.unique(faces[c])] for c in vh.mesh_components(faces)]
+    if len(clouds) != 5:
+        return []
+    # +X is the subject's right, so on the right foot medial is the low-X end
+    # and on the left foot the high-X end.
+    clouds.sort(key=lambda c: c[:, 0].mean() * (1.0 if side == "r" else -1.0))
+    return clouds
+
+
+def ray_ends(ray: np.ndarray, proximal_ref: np.ndarray):
+    """The proximal and distal end centroids of one long bone."""
+    centre = ray.mean(axis=0)
+    axis = np.linalg.svd(ray - centre, full_matrices=False)[2][0]
+    if float((centre - proximal_ref) @ axis) < 0:
+        axis = -axis
+    t = (ray - centre) @ axis
+    return (ray[t < np.quantile(t, 0.1)].mean(axis=0),
+            ray[t > np.quantile(t, 0.9)].mean(axis=0))
+
+
+# Which individual bone each name inside a group entity refers to. The key is
+# the member's own mesh; the values are the words a landmark would use for it.
+# 'sustentaculum tali' is the giveaway case: the name says talus but the shelf
+# is part of the CALCANEUS, so a word-overlap rule would test the wrong bone.
+_MEMBER_WORDS = {
+    "talus": ("talus", "talar", "trochlea", "subtalar"),
+    "calcaneous": ("calcaneus", "calcaneal", "achilles", "sustentaculum"),
+    "navicular": ("navicular",),
+    "cuboid": ("cuboid",),
+    "medialcuneiform": ("medial cuneiform",),
+    "intermediatecuneiform": ("intermediate cuneiform",),
+    "lateralcuneiform": ("lateral cuneiform",),
+}
+# Ordinals only. A muscle's name is not a claim about where it attaches:
+# 'hallucis' says a muscle acts on the great toe, and reading it as 'first
+# metatarsal' flagged adductor hallucis, which genuinely arises from the
+# bases of the second to fourth. The same for 'digiti minimi' and the fifth,
+# where abductor digiti minimi arises from the calcaneus. Only a name that
+# states a ray is testable against that ray.
+_RAY_WORDS = {
+    "MT1": ("1st metatarsal", "first metatarsal"),
+    "MT2": ("2nd metatarsal", "second metatarsal"),
+    "MT3": ("3rd metatarsal", "third metatarsal"),
+    "MT4": ("4th metatarsal", "fourth metatarsal"),
+    "MT5": ("5th metatarsal", "fifth metatarsal"),
+}
+
+
+def named_members(blocks, by_atlas_id, faces_by_atlas_id):
+    """Bone groups whose individual members can be told apart geometrically.
+
+    The tarsals arrive as seven separate meshes and the metatarsals fall out
+    as five connected components once the forefoot block is split, so for
+    these two entities -- and only these -- a landmark that names one bone
+    can be tested against that bone rather than against the group.
+    """
+    out = {}
+    for side, tag in (("r", "right"), ("l", "left")):
+        members = {}
+        for stem in _MEMBER_WORDS:
+            mesh = find(blocks, tag, "bone" + stem)
+            if mesh is not None:
+                members[stem] = mesh
+        if len(members) == len(_MEMBER_WORDS):
+            out[f"tarsals_{side}"] = members
+        rays = metatarsal_rays(by_atlas_id, faces_by_atlas_id, side)
+        if rays:
+            out[f"metatarsals_{side}"] = {f"MT{i+1}": r for i, r in enumerate(rays)}
+    return out
+
+
+def expected_member(name: str, members: dict):
+    """Which member of the group this landmark's own name claims, if one.
+
+    Returns None when the name claims none or more than one, because a
+    landmark named 'cuneiforms' or 'metatarsal heads' is deliberately about
+    the whole group and testing it against a single bone would invent a
+    failure.
+    """
+    words = _RAY_WORDS if next(iter(members)).startswith("MT") else _MEMBER_WORDS
+    low = name.lower()
+    hits = {m for m, terms in words.items()
+            if m in members and any(t in low for t in terms)}
+    return hits.pop() if len(hits) == 1 else None
+
+
 def nearest_distance(points: np.ndarray, cloud: np.ndarray, chunk: int = 256):
     """Distance from each point to the nearest vertex of the mesh."""
     out = np.empty(len(points))
@@ -152,7 +270,7 @@ def main() -> int:
     args = ap.parse_args()
 
     try:
-        manifest, blocks = load_geometry(args.subject)
+        manifest, blocks, by_atlas_id, faces_by_atlas_id = load_geometry(args.subject)
     except FileNotFoundError:
         raise SystemExit(f"No converted geometry for {args.subject!r}. "
                          f"Run the ingest's convert step first.")
@@ -211,12 +329,78 @@ def main() -> int:
                 f"transverse axis from the interacetabular line; superior axis "
                 f"by anatomical-position convention, not fitted", "transverse")
 
-    meshes = {"femur_r": find(blocks, "right", "bonefemur"),
-              "femur_l": find(blocks, "left", "bonefemur"),
-              "tibia_r": find(blocks, "right", "bonetibia"),
-              "tibia_l": find(blocks, "left", "bonetibia"),
-              "hip_bone_r": find(blocks, "right", "bonepelvis"),
-              "hip_bone_l": find(blocks, "left", "bonepelvis")}
+    # ---- the foot, the fibula and the patella --------------------------
+    #
+    # These carry 54 anchors between them and until now not one was checked,
+    # because a frame was only ever fitted for the femur, tibia and pelvis.
+    # Every one of these frames is anchored on a MEASURED origin; where an
+    # axis is the anatomical-position convention rather than a fit, it is
+    # tagged ASSUMED and the report says so.
+    for side, tag in (("r", "right"), ("l", "left")):
+        fibula = by_atlas_id.get(f"fibula_{side}")
+        if fibula is not None:
+            # The fibular head is the superior end: the bone runs almost
+            # vertically, so the extremes along world Y are head and malleolus.
+            head = fibula[fibula[:, 1] > np.quantile(fibula[:, 1], 0.98)].mean(axis=0)
+            tip = fibula[fibula[:, 1] < np.quantile(fibula[:, 1], 0.02)].mean(axis=0)
+            frames[f"fibula_{side}"] = (
+                head, orthonormal_frame(head, tip),
+                "the fibular head, as the superior 2% of the shaft; long axis "
+                "to the lateral malleolus", "long")
+
+        patella = by_atlas_id.get(f"patella_{side}")
+        if patella is not None:
+            frames[f"patella_{side}"] = (
+                patella.mean(axis=0), np.eye(3),
+                "the patellar centroid; axes by anatomical-position convention, "
+                "not fitted", "neither")
+
+        # The tarsal frame's origin is the talar trochlea, which is exactly
+        # what the talar articular cartilage mesh is.
+        dome = find(blocks, tag, "cartilage", "talus")
+        if dome is not None:
+            frames[f"tarsals_{side}"] = (
+                dome.mean(axis=0), np.eye(3),
+                "the talar trochlea, measured as the centroid of the talar "
+                "articular cartilage; axes by anatomical-position convention, "
+                "not fitted", "neither")
+
+        # The metatarsal frame sits on the bases and runs out to the heads.
+        # Both ends are measured, so its long axis is fitted -- and since the
+        # foot is plantarflexed in this cadaver, that axis is nothing like
+        # world Y, so assuming otherwise would have been badly wrong.
+        #
+        # The axis has to come from the RAYS, not from the group. The five
+        # metatarsals form a fan about 80 mm across and each bone is only
+        # 70 mm long, so the group's own principal axis is the diagonal of
+        # the fan: fitting it that way put the "metatarsal bases" origin at
+        # world x=201, which is the fifth metatarsal, not the middle of
+        # anything. Each ray's principal axis is unambiguous, and their mean
+        # is the direction the forefoot actually points.
+        rays = metatarsal_rays(by_atlas_id, faces_by_atlas_id, side)
+        tarsal_cloud = by_atlas_id.get(f"tarsals_{side}")
+        if rays and tarsal_cloud is not None:
+            ends = [ray_ends(r, tarsal_cloud.mean(axis=0)) for r in rays]
+            base = np.mean([e[0] for e in ends], axis=0)
+            heads = np.mean([e[1] for e in ends], axis=0)
+            axis = heads - base
+            axis /= np.linalg.norm(axis)
+            frames[f"metatarsals_{side}"] = (
+                base, orthonormal_frame(base, heads),
+                "the mean of the five metatarsal bases; long axis to the mean "
+                "of the five heads, each ray measured separately", "long")
+
+            ph = by_atlas_id.get(f"phalanges_foot_{side}")
+            if ph is not None:
+                u = (ph - base) @ axis
+                prox = ph[u < np.quantile(u, 0.05)].mean(axis=0)
+                tips = ph[u > np.quantile(u, 0.95)].mean(axis=0)
+                frames[f"phalanges_foot_{side}"] = (
+                    prox, orthonormal_frame(prox, tips),
+                    "the proximal phalangeal bases; long axis to the toe tips",
+                    "long")
+
+    meshes = dict(by_atlas_id)
 
     print(f"subject {args.subject}\n")
     rows = []
@@ -264,14 +448,20 @@ def main() -> int:
               f"bone surface:")
         print(f"    median {np.median(dist):6.1f} mm   mean {dist.mean():6.1f}"
               f"   max {dist.max():6.1f}")
-        # Which axis is trustworthy differs by bone. The femur and tibia have
-        # a FITTED long axis; the pelvis's long axis is the anatomical-position
-        # convention and only its transverse axis is fitted. Calling both
-        # "measured" would quietly credit the pelvis with a precision it does
-        # not have, and its landmarks' errors sit mostly on that very axis.
-        long_tag = "fitted" if fitted == "both" else "ASSUMED"
-        print(f"    along the long axis ({long_tag}): median "
-              f"{np.median(along):.1f} mm; across it (fitted): "
+        # Which axis is trustworthy differs by bone, and BOTH tags have to be
+        # read off the frame rather than assumed. The femur and tibia have
+        # both axes fitted; the pelvis's long axis is the anatomical-position
+        # convention and only its transverse axis is fitted; the metatarsals
+        # are the other way round -- long axis fitted on the five rays,
+        # transverse taken from the world frame. Printing "across it (fitted)"
+        # unconditionally, as this did, credited three bones with a precision
+        # they do not have.
+        tag = {"both": ("fitted", "fitted"),
+               "long": ("fitted", "ASSUMED"),
+               "transverse": ("ASSUMED", "fitted"),
+               "neither": ("ASSUMED", "ASSUMED")}[fitted]
+        print(f"    along the long axis ({tag[0]}): median "
+              f"{np.median(along):.1f} mm; across it ({tag[1]}): "
               f"median {np.median(across):.1f} mm")
         for lm, d, a, c in sorted(zip(landmarks, dist, along, across),
                                   key=lambda t: -t[1])[:3]:
@@ -279,6 +469,47 @@ def main() -> int:
                   f"{lm['name'][:62]}")
         print()
         rows.extend((d, bone_id, lm["name"]) for lm, d in zip(landmarks, dist))
+
+    # ---- identity check: is it on the bone it NAMES? ---------------------
+    #
+    # The sharpest version of the wrong-feature problem. Distance-to-surface
+    # cannot catch a mediolateral mirror inside a group of bones at all: a
+    # point placed on the fifth metatarsal instead of the first is still on
+    # a metatarsal, 3 mm from a surface, and scores as a good landmark.
+    #
+    # Two atlas entities are groups whose members the release ships or yields
+    # separately -- the seven tarsals as seven meshes, the five metatarsals as
+    # five connected components once the forefoot is split. So for those, a
+    # landmark that names one member can be tested against that member, and
+    # this is the only check here that can see a mirror.
+    print("\nis each landmark on the bone it NAMES?")
+    all_anchors = json.loads((DATA_DIR / "rig" / "anchors.json").read_text())
+    named = named_members(blocks, by_atlas_id, faces_by_atlas_id)
+    identity_bad = []
+    for bone_id, members in sorted(named.items()):
+        if bone_id not in frames or bone_id not in bones:
+            continue
+        origin, basis = frames[bone_id][:2]
+        items = [(lm["name"], lm["position_local_mm"])
+                 for lm in bones[bone_id].get("landmarks", [])
+                 if lm.get("position_local_mm")]
+        items += [(a["id"], a["local_position_mm"]) for a in all_anchors
+                  if a.get("parent_bone_frame") == bone_id]
+        for name, local in items:
+            want = expected_member(name, members)
+            if want is None:
+                continue          # names no single member; nothing to test
+            world = origin + np.array(local, float) @ basis
+            got = min(members, key=lambda m: float(
+                np.linalg.norm(members[m] - world, axis=1).min()))
+            if got != want:
+                identity_bad.append((bone_id, name, want, got))
+    if identity_bad:
+        print(f"  {len(identity_bad)} land on the WRONG member of their group:")
+        for bone_id, name, want, got in identity_bad:
+            print(f"    {bone_id:16} names {want:12} sits on {got:12}  {name[:44]}")
+    else:
+        print("  every landmark naming one member of a bone group sits on it.")
 
     # ---- span check: does the atlas imply the right bone dimensions? -----
     #
@@ -329,12 +560,7 @@ def main() -> int:
     # blocks is keyed by source file; regroup it by the atlas entity each
     # mesh was mapped to, so a muscle split across two meshes (the
     # gastrocnemius heads, say) is tested as the one entity the anchor names.
-    by_atlas_id = {}
-    for rec in manifest["structures"]:
-        block = blocks.get(rec["source_file"])
-        if block is not None:
-            by_atlas_id.setdefault(rec["atlas_id"], []).append(block)
-    muscle_cloud = {k: np.vstack(v) for k, v in by_atlas_id.items()}
+    muscle_cloud = by_atlas_id
 
     checked, bone_far, muscle_far, no_muscle = [], [], [], 0
     for a in anchors:

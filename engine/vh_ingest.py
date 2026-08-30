@@ -124,6 +124,204 @@ def weld(tris: np.ndarray, tol_mm: float = 1e-4) -> Tuple[np.ndarray, np.ndarray
 
 
 # --------------------------------------------------------------------------
+# Splitting one source mesh into several atlas entities
+# --------------------------------------------------------------------------
+#
+# The release ships some meshes that hold more than one atlas entity. They are
+# not merges that a mapping table can undo by naming: the bones are inside one
+# surface and have to be separated geometrically or not at all.
+#
+# A splitter is only written where the separation is MEASURABLE and where the
+# measurement can be checked against something independent. Where it cannot
+# be -- the hand phalanges, where the atlas carries fourteen bones as one
+# entity by its own design -- the block stays whole and the limitation is
+# recorded instead.
+
+def mesh_components(faces: np.ndarray) -> List[np.ndarray]:
+    """Connected components of a face array, as arrays of face indices.
+
+    Connectivity is through shared vertex indices, so this only means anything
+    on a welded mesh. Components come back largest first.
+    """
+    n_v = int(faces.max()) + 1
+    parent = np.arange(n_v)
+
+    def find(a: int) -> int:
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return int(a)
+
+    for tri in faces:
+        a = find(int(tri[0]))
+        for other in tri[1:]:
+            b = find(int(other))
+            if a != b:
+                parent[b] = a
+
+    roots = np.array([find(int(t)) for t in faces[:, 0]])
+    out = [np.flatnonzero(roots == r) for r in np.unique(roots)]
+    out.sort(key=lambda idx: -len(idx))
+    return out
+
+
+def submesh(verts: np.ndarray, faces: np.ndarray,
+            keep: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+    """Extract the faces in `keep` as a standalone mesh with its own vertices.
+
+    Each part gets its own compacted vertex array rather than a slice of a
+    shared one. A cut runs through the middle of the surface, so the two sides
+    share the boundary vertices; giving each part its own copy is what keeps
+    the manifest's promise that a structure's vertices are contiguous and
+    disjoint from every other structure's.
+    """
+    used = np.unique(faces[keep])
+    remap = np.full(int(used.max()) + 1, -1, dtype=np.int64)
+    remap[used] = np.arange(len(used))
+    return verts[used], remap[faces[keep]]
+
+
+def _principal_axis(points: np.ndarray, towards: np.ndarray) -> np.ndarray:
+    """The long axis of a point cloud, oriented to point along `towards`."""
+    axis = np.linalg.svd(points - points.mean(axis=0), full_matrices=False)[2][0]
+    return -axis if float(np.dot(axis, towards)) < 0 else axis
+
+
+def _radial_profile(points: np.ndarray, origin: np.ndarray, axis: np.ndarray,
+                    step: float = 2.0) -> Tuple[np.ndarray, np.ndarray]:
+    """Cross-sectional radius in `step`-millimetre bins along `axis`."""
+    t = (points - origin) @ axis
+    edges = np.arange(t.min(), t.max() + step, step)
+    centres, radii = [], []
+    for i in range(len(edges) - 1):
+        sl = points[(t >= edges[i]) & (t < edges[i + 1])]
+        if len(sl) < 4:
+            continue
+        perp = sl - origin - np.outer((sl - origin) @ axis, axis)
+        centres.append(0.5 * (edges[i] + edges[i + 1]))
+        radii.append(float(np.percentile(np.linalg.norm(perp, axis=1), 90)))
+    return np.array(centres), np.array(radii)
+
+
+# A metatarsal in this dataset measures 68-79 mm along its own axis on both
+# feet. Anything appreciably longer is a metatarsal fused to its toe by the
+# segmentation, not a long metatarsal.
+FUSED_RAY_MM = 90.0
+
+
+def split_forefoot(verts: np.ndarray,
+                   faces: np.ndarray) -> Dict[str, Tuple[np.ndarray, np.ndarray]]:
+    """Separate the metatarsals from the phalanges in the forefoot block.
+
+    The release ships no Bone_Metatarsals. `Bone_Phalanges` is the whole
+    forefoot: five metatarsals and fourteen phalanges in one surface, which
+    is why the atlas's `metatarsals_*` entities had no geometry at all and
+    every muscle attaching to them went unchecked.
+
+    HOW THE METATARSALS ARE IDENTIFIED. By length: the five longest connected
+    components. A metatarsal in this release measures 68-79 mm along its own
+    axis and the longest phalanx measures 38 mm, so the five come out with a
+    gap of 1.8x behind them on both feet. The gap is checked rather than
+    assumed.
+
+    Length, specifically, and not vertex count -- though on this release the
+    two happen to agree. Vertex count measures how finely a surface was
+    tessellated, which is a property of the segmentation run and not of the
+    bone: mesh the toes more densely than the metatarsals and a size rule
+    silently selects the toes and files them as metatarsals. Length is a
+    property of the bone.
+
+    Component count cannot be used either: the same block yields seventeen
+    components on the right foot and twelve on the left, against nineteen
+    bones. Toes touch, and where they touch the segmentation welds them.
+
+    THE FUSED RAY. On the left foot the fourth metatarsal comes through fused
+    to its toe -- one component 108 mm long where a metatarsal is 68-79 mm.
+    It is cut at the metatarsophalangeal waist: walking distally from the
+    narrowest point of the shaft, the surface flares into the head and then
+    pinches at the joint. The axis for that profile is fitted to the
+    component's proximal half only, because the axis of the whole fused mass
+    runs obliquely through both bones and its cross-sections mean nothing.
+
+    The cut is not taken on trust. It puts the left fourth metatarsal at
+    73.5 mm against 72.2 mm measured on the intact right fourth metatarsal --
+    a closer agreement than the third metatarsals, which are 2.9 mm apart and
+    needed no cutting at all -- and both feet come out with the first
+    metatarsal shortest and the second longest, which is the metatarsal
+    parabola. Two independent checks, neither of which a cut in the wrong
+    place could pass by accident.
+    """
+    comps = mesh_components(faces)
+    if len(comps) < 6:
+        raise ValueError(
+            f"forefoot split: {len(comps)} connected components, expected at "
+            f"least six (five metatarsals and some phalanges)")
+
+    def extent(comp: np.ndarray) -> float:
+        pts = verts[np.unique(faces[comp])]
+        t = (pts - pts.mean(axis=0)) @ _principal_axis(pts, np.array([1.0, 0, 0]))
+        return float(t.max() - t.min())
+
+    lengths = [extent(c) for c in comps]
+    order = sorted(range(len(comps)), key=lambda i: -lengths[i])
+    if lengths[order[4]] < 1.4 * lengths[order[5]]:
+        raise ValueError(
+            f"forefoot split: no clear length break between the fifth longest "
+            f"component ({lengths[order[4]]:.1f} mm) and the sixth "
+            f"({lengths[order[5]]:.1f} mm). Metatarsals cannot be told from "
+            f"phalanges by length here, and guessing would put toe bones into "
+            f"metatarsals_*.")
+
+    rays = [comps[i] for i in order[:5]]
+    toes = [comps[i] for i in order[5:]]
+    ray_pts = verts[np.unique(faces[np.concatenate(rays)])]
+    toe_pts = verts[np.unique(faces[np.concatenate(toes)])]
+    distal = toe_pts.mean(axis=0) - ray_pts.mean(axis=0)
+    distal /= np.linalg.norm(distal)
+
+    mt_faces, ph_faces = [], list(toes)
+    for comp in rays:
+        pts = verts[np.unique(faces[comp])]
+        centre = pts.mean(axis=0)
+        axis = _principal_axis(pts, distal)
+        t = (pts - centre) @ axis
+        if float(t.max() - t.min()) <= FUSED_RAY_MM:
+            mt_faces.append(comp)
+            continue
+
+        half = pts[t < t.min() + 0.5 * (t.max() - t.min())]
+        origin = half.mean(axis=0)
+        axis = _principal_axis(half, distal)
+        centres, radii = _radial_profile(pts, origin, axis)
+        span = centres[-1] - centres[0]
+        shaft = np.flatnonzero(centres < centres[0] + 0.6 * span)
+        i = int(shaft[np.argmin(radii[shaft])])
+        peak = radii[i]
+        cut = None
+        for j in range(i + 1, len(radii)):
+            peak = max(peak, radii[j])
+            if peak > radii[i] + 2.0 and radii[j] < peak - 0.8:
+                cut = float(centres[j])
+                break
+        if cut is None:
+            raise ValueError(
+                "forefoot split: a ray is long enough to be fused but shows no "
+                "metatarsophalangeal waist, so there is nowhere defensible to "
+                "cut it.")
+        tf = (verts[faces[comp]].mean(axis=1) - origin) @ axis
+        mt_faces.append(comp[tf < cut])
+        ph_faces.append(comp[tf >= cut])
+
+    return {
+        "metatarsals": submesh(verts, faces, np.concatenate(mt_faces)),
+        "phalanges": submesh(verts, faces, np.concatenate(ph_faces)),
+    }
+
+
+SPLITTERS = {"forefoot": split_forefoot}
+
+
+# --------------------------------------------------------------------------
 # Name normalisation and matching
 # --------------------------------------------------------------------------
 
@@ -464,20 +662,26 @@ def load_overrides(path: Path = OVERRIDES_PATH) -> Dict[str, dict]:
 def apply_override(entry: dict, side: Optional[str]) -> dict:
     """Fill the {side} placeholders from the mesh's own side marker."""
     marker = {"right": "r", "left": "l"}.get(side or "")
+
+    def fill(value: str) -> str:
+        if "{side}" not in value:
+            return value
+        if not marker:
+            # A sided template with no side marker would silently produce
+            # a broken ID. Refuse rather than guess a side.
+            raise ValueError(
+                f"override {entry['match']!r} needs a side but the mesh "
+                f"name carries no side marker")
+        return value.replace("{side}", marker)
+
     resolved = dict(entry)
     for field_name in ("atlas_id", "compartment_id"):
         value = entry.get(field_name)
-        if not value:
-            continue
-        if "{side}" in value:
-            if not marker:
-                # A sided template with no side marker would silently produce
-                # a broken ID. Refuse rather than guess a side.
-                raise ValueError(
-                    f"override {entry['match']!r} needs a side but the mesh "
-                    f"name carries no side marker")
-            value = value.replace("{side}", marker)
-        resolved[field_name] = value
+        if value:
+            resolved[field_name] = fill(value)
+    if entry.get("split_parts"):
+        resolved["split_parts"] = {part: fill(entity_id)
+                                   for part, entity_id in entry["split_parts"].items()}
     return resolved
 
 

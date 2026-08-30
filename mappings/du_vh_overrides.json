@@ -25,6 +25,12 @@
     "'compartment' the mesh is a named functional compartment of an atlas",
     "             muscle. compartment_id says which, so downstream code can",
     "             attach geometry to the compartment and not just the muscle.",
+    "'split'      one mesh holds SEVERAL atlas entities inside one surface, so",
+    "             no naming decision can separate them -- only geometry can.",
+    "             'splitter' names the routine in engine/vh_ingest.py that does",
+    "             it and 'split_parts' maps each part it returns to an entity.",
+    "             A splitter is written only where the separation is measurable",
+    "             AND checkable against something independent.",
     "",
     "Every entry states why. An override is a decision, and a decision with",
     "no recorded reason is indistinguishable from a mistake."
@@ -78,8 +84,13 @@
     {
       "match": "bone|phalanges",
       "atlas_id": "phalanges_foot_{side}",
-      "relationship": "exact",
-      "note": "Flagged ambiguous by the matcher because phalanges_foot and phalanges_hand tie exactly on name. Resolved here, not by the matcher: this is a lower-extremity release and contains no upper limb at all. The tie was correct behaviour and the name alone cannot break it."
+      "relationship": "split",
+      "splitter": "forefoot",
+      "split_parts": {
+        "metatarsals": "metatarsals_{side}",
+        "phalanges": "phalanges_foot_{side}"
+      },
+      "note": "The name is wrong and it matters. The release ships no Bone_Metatarsals: this one mesh is the whole forefoot, five metatarsals and fourteen phalanges in a single surface. Mapping it to phalanges_foot alone left metatarsals_{side} with no geometry, so every muscle attaching to a metatarsal -- tibialis anterior and posterior, both peroneals, adductor hallucis, the interossei -- was skipped by the anchor audit, and a metatarsal-base attachment misfiled under phalanges would still have passed. split_forefoot() separates the two by size and cuts the one ray the segmentation welded to its toe. The name also tied phalanges_foot against phalanges_hand exactly; that tie was correct behaviour and is broken here, not by the matcher, because this is a lower-extremity release containing no upper limb."
     },
     {
       "match": "cartilage|femur head",

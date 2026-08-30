@@ -355,6 +355,9 @@ def cmd_propose(args: argparse.Namespace) -> int:
             entry["relationship"] = resolved["relationship"]
             if resolved.get("compartment_id"):
                 entry["compartment_id"] = resolved["compartment_id"]
+            if resolved.get("split_parts"):
+                entry["splitter"] = resolved["splitter"]
+                entry["split_parts"] = resolved["split_parts"]
         entries.append(entry)
 
     # Two meshes landing on one atlas entity is a real relationship -- the DU
@@ -503,7 +506,10 @@ def cmd_convert(args: argparse.Namespace) -> int:
     print()
 
     known = {e.entity_id for e in vh.load_atlas_index()}
-    unknown = sorted({e["atlas_id"] for e in entries} - known)
+    claimed = {e["atlas_id"] for e in entries}
+    for entry in entries:
+        claimed.update(entry.get("split_parts", {}).values())
+    unknown = sorted(claimed - known)
     if unknown:
         raise SystemExit(
             f"{len(unknown)} atlas_id value(s) in the mapping do not exist in data/:\n"
@@ -531,25 +537,55 @@ def cmd_convert(args: argparse.Namespace) -> int:
         # transform by hand first.
         verts = vh.to_atlas_frame(verts - origin, axes, scale)
 
-        mn, mx = verts.min(axis=0), verts.max(axis=0)
-        lo, hi = np.minimum(lo, mn), np.maximum(hi, mx)
+        # Most meshes are one atlas entity. A few hold several inside one
+        # surface and are separated geometrically -- see the 'split'
+        # relationship in mappings/du_vh_overrides.json.
+        if entry.get("split_parts"):
+            splitter = vh.SPLITTERS.get(entry["splitter"])
+            if splitter is None:
+                raise SystemExit(
+                    f"{entry['source_structure']}: no splitter named "
+                    f"{entry['splitter']!r} in engine/vh_ingest.py")
+            try:
+                produced = splitter(verts, faces)
+            except ValueError as exc:
+                raise SystemExit(f"{entry['source_structure']}: {exc}") from None
+            missing = set(entry["split_parts"]) - set(produced)
+            if missing:
+                raise SystemExit(
+                    f"{entry['source_structure']}: splitter {entry['splitter']!r} "
+                    f"returned no part named {', '.join(sorted(missing))}")
+            parts = [(entry["split_parts"][name], *produced[name])
+                     for name in entry["split_parts"]]
+            print(f"  split {entry['source_structure']} -> "
+                  + ", ".join(f"{i} ({len(f):,} tris)" for i, _v, f in parts))
+        else:
+            parts = [(entry["atlas_id"], verts, faces)]
 
-        manifest.append({
-            "atlas_id": entry["atlas_id"],
-            "source_structure": entry["source_structure"],
-            "side": entry["side"],
-            "source_file": entry["file"],
-            "vertex_offset": vertex_base,
-            "face_offset": face_base,
-            "vertex_count": int(verts.shape[0]),
-            "triangle_count": int(faces.shape[0]),
-            "bbox_min_mm": [round(float(v), 4) for v in mn],
-            "bbox_max_mm": [round(float(v), 4) for v in mx],
-        })
-        verts_blocks.append(verts.astype(np.float32))
-        faces_blocks.append((faces + vertex_base).astype(np.uint32))
-        vertex_base += verts.shape[0]
-        face_base += faces.shape[0]
+        for atlas_id, part_verts, part_faces in parts:
+            mn, mx = part_verts.min(axis=0), part_verts.max(axis=0)
+            lo, hi = np.minimum(lo, mn), np.maximum(hi, mx)
+
+            record = {
+                "atlas_id": atlas_id,
+                "source_structure": entry["source_structure"],
+                "side": entry["side"],
+                "source_file": entry["file"],
+                "vertex_offset": vertex_base,
+                "face_offset": face_base,
+                "vertex_count": int(part_verts.shape[0]),
+                "triangle_count": int(part_faces.shape[0]),
+                "bbox_min_mm": [round(float(v), 4) for v in mn],
+                "bbox_max_mm": [round(float(v), 4) for v in mx],
+            }
+            if entry.get("split_parts"):
+                record["split_from"] = entry["source_structure"]
+                record["splitter"] = entry["splitter"]
+            manifest.append(record)
+            verts_blocks.append(part_verts.astype(np.float32))
+            faces_blocks.append((part_faces + vertex_base).astype(np.uint32))
+            vertex_base += part_verts.shape[0]
+            face_base += part_faces.shape[0]
 
     all_verts = np.concatenate(verts_blocks)
     all_faces = np.concatenate(faces_blocks)
