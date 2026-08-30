@@ -337,11 +337,35 @@ def main() -> int:
             d_muscle = float("nan")
         else:
             d_muscle = float(nearest_distance(world[None, :], cloud)[0])
-        checked.append((a["id"], owner, d_bone, d_muscle, a.get("anchor_type", "")))
+            # Distinguish an attachment that lies BEYOND the end of its muscle
+            # from one that is off to the side. The DU meshes carry no tendon,
+            # so a muscle with a long proximal tendon legitimately begins far
+            # from its bony origin: semimembranosus starts 89 mm below the
+            # ischial tuberosity, while biceps femoris and semitendinosus --
+            # same tuberosity, short tendons -- start right at it. Calling
+            # that an error, as an earlier version of this report did, blamed
+            # the atlas for anatomy the geometry simply does not contain.
+            # "Past the end" has to be measured along the MUSCLE's own long
+            # axis, not world Y. Piriformis, the gemelli and obturator
+            # internus all run transversely and reach the greater trochanter
+            # by a sideways tendon; measured along Y they score zero past the
+            # end and their missing tendon is misread as a placement error.
+            centred = cloud - cloud.mean(axis=0)
+            axis = np.linalg.svd(centred.T @ centred)[0][:, 0]
+            proj = centred @ axis
+            t = float((world - cloud.mean(axis=0)) @ axis)
+            beyond = max(0.0, t - float(proj.max()), float(proj.min()) - t)
+            lateral = float(np.sqrt(max(d_muscle ** 2 - beyond ** 2, 0.0)))
+        checked.append((a["id"], owner, d_bone, d_muscle,
+                        a.get("anchor_type", ""),
+                        beyond if cloud is not None else float("nan"),
+                        lateral if cloud is not None else float("nan")))
         if d_bone == d_bone and d_bone > 20:
             bone_far.append((d_bone, a["id"], owner))
-        if d_muscle == d_muscle and d_muscle > 20:
-            muscle_far.append((d_muscle, a["id"], owner))
+        # Only an attachment that is off to the SIDE of its muscle is a
+        # placement error; one past the end is a missing tendon.
+        if d_muscle == d_muscle and lateral > 20:
+            muscle_far.append((d_muscle, a["id"], owner, beyond, lateral))
 
     if checked:
         db = np.array([c[2] for c in checked])
@@ -360,21 +384,24 @@ def main() -> int:
                             if c[4] == kind and c[3] == c[3]])
             if not len(sub):
                 continue
-            note = ("" if kind == "muscle_origin"
-                    else "   (tendon absent from these meshes -- see note)")
+            side_only = np.array([c[6] for c in checked
+                                  if c[4] == kind and c[6] == c[6]])
             print(f"  {kind:16} to its own muscle: median {np.median(sub):5.1f}"
-                  f" mm, {int((sub > 20).sum())}/{len(sub)} beyond 20 mm{note}")
+                  f" mm total, of which off to the SIDE: median "
+                  f"{np.median(side_only):5.1f} mm, "
+                  f"{int((side_only > 20).sum())}/{len(side_only)} beyond 20 mm")
         if no_muscle:
             print(f"  ({no_muscle} anchors own a structure with no geometry here)")
-        muscle_far = [r for r in muscle_far
-                      if next(c[4] for c in checked if c[1] == r[2]
-                              and c[0] == r[1]) == "muscle_origin"]
-        for label, rowset in (("far from its bone", bone_far),
-                              ("ORIGINS far from their own muscle", muscle_far)):
-            if rowset:
-                print(f"\n  {len(rowset)} anchors {label}:")
-                for d, aid, owner in sorted(rowset, reverse=True)[:10]:
-                    print(f"    {d:6.1f} mm  {aid[:52]:54} -> {owner}")
+        if bone_far:
+            print(f"\n  {len(bone_far)} anchors far from its bone:")
+            for d, aid, owner in sorted(bone_far, reverse=True)[:10]:
+                print(f"    {d:6.1f} mm  {aid[:52]:54} -> {owner}")
+        if muscle_far:
+            print(f"\n  {len(muscle_far)} anchors OFF TO THE SIDE of their own "
+                  f"muscle (past-the-end excluded -- that is missing tendon):")
+            for d, aid, owner, beyond, lateral in sorted(muscle_far, reverse=True)[:10]:
+                print(f"    side {lateral:6.1f} mm (of {d:6.1f} total, "
+                      f"{beyond:5.1f} past the end)  {aid[:44]:46} -> {owner}")
 
     if not rows:
         print("No bone had both a measurable frame and geometry.")
@@ -392,11 +419,11 @@ These are approximations being measured, not tests being failed. The
 coordinates were written from anatomical description without geometry to
 check against; this is the first time there has been any.
 
-Both frame axes are measured from the geometry -- the long axis from the
-joint centres, the transverse axis from the epicondyles or the plateau
-cartilages -- so an across-axis error belongs to the landmark, not to the
-frame. An earlier version of this report said the rotation was unmeasured;
-that was left behind after the epicondylar fit was added.
+Which axes are fitted differs by bone and each block above says so. Femur
+and tibia have both fitted, so an error either way is the landmark's. The
+pelvis's superior axis is the anatomical-position convention, so read its
+along-axis figure with that in mind -- though in practice the pelvic errors
+sit on the FITTED transverse axis, which is what makes them actionable.
 
 Read the paired-landmark spans above as well as the distances. A landmark
 can name the WRONG FEATURE and still sit close to the bone, because it slid
