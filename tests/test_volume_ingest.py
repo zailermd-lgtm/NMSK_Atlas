@@ -162,3 +162,70 @@ def test_inspect_runs_end_to_end_and_recovers_the_origin(tmp_path):
     line = next(l for l in out.stdout.splitlines() if "--origin" in l)
     x = float(line.split("'")[1].split(",")[0])
     assert abs(x - 140.0) < 6.0, line
+
+
+def test_merging_per_structure_masks_produces_the_ingest_s_label_map(tmp_path):
+    """The released dataset gives one BINARY mask per structure, not the
+    single label volume the ingest reads."""
+    seg = tmp_path / "s0001" / "segmentations"
+    seg.mkdir(parents=True)
+    shape = (20, 20, 20)
+    affine = np.diag([1.5, 1.5, 1.5, 1.0])
+    for name, box in (("humerus_left", (slice(2, 6),) * 3),
+                      ("clavicula_right", (slice(10, 14),) * 3),
+                      ("liver", (slice(16, 19),) * 3)):
+        m = np.zeros(shape, np.uint8)
+        m[box] = 1
+        nib.save(nib.Nifti1Image(m, affine), str(seg / f"{name}.nii.gz"))
+
+    out = tmp_path / "merged.nii.gz"
+    r = subprocess.run(
+        [sys.executable,
+         str(REPO_ROOT / "scripts" / "merge_totalsegmentator_masks.py"),
+         str(tmp_path / "s0001"), "-o", str(out)],
+        capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0, r.stderr
+
+    volume, got_affine, _codes = vol.load_labels(out)
+    names = vol.load_label_names("totalsegmentator")
+    present = {names[i] for i in set(np.unique(volume).tolist()) - {0}}
+    assert present == {"humerus_left", "clavicula_right"}, present
+    assert "liver" in r.stdout and "not musculoskeletal" in r.stdout
+    np.testing.assert_allclose(got_affine, affine)
+    # the ids must be the ones the ingest will look up, not 1..n
+    assert volume[3, 3, 3] == 69 and volume[11, 11, 11] == 74
+
+
+def test_merging_refuses_masks_from_a_different_scan(tmp_path):
+    """Two subjects' masks share no grid, and merging them would produce a
+    body assembled from two people without saying so."""
+    seg = tmp_path / "s0002" / "segmentations"
+    seg.mkdir(parents=True)
+    a = np.zeros((20, 20, 20), np.uint8); a[2:6, 2:6, 2:6] = 1
+    b = np.zeros((24, 20, 20), np.uint8); b[2:6, 2:6, 2:6] = 1
+    nib.save(nib.Nifti1Image(a, np.eye(4)), str(seg / "humerus_left.nii.gz"))
+    nib.save(nib.Nifti1Image(b, np.eye(4)), str(seg / "scapula_left.nii.gz"))
+    r = subprocess.run(
+        [sys.executable,
+         str(REPO_ROOT / "scripts" / "merge_totalsegmentator_masks.py"),
+         str(tmp_path / "s0002"), "-o", str(tmp_path / "x.nii.gz")],
+        capture_output=True, text=True, timeout=600)
+    assert r.returncode != 0
+    assert "different scans" in (r.stdout + r.stderr)
+
+
+def test_overlapping_masks_are_counted_not_hidden(tmp_path):
+    seg = tmp_path / "s0003" / "segmentations"
+    seg.mkdir(parents=True)
+    a = np.zeros((20, 20, 20), np.uint8); a[2:8, 2:8, 2:8] = 1
+    b = np.zeros((20, 20, 20), np.uint8); b[6:12, 2:8, 2:8] = 1   # overlaps
+    nib.save(nib.Nifti1Image(a, np.eye(4)), str(seg / "humerus_left.nii.gz"))
+    nib.save(nib.Nifti1Image(b, np.eye(4)), str(seg / "scapula_left.nii.gz"))
+    r = subprocess.run(
+        [sys.executable,
+         str(REPO_ROOT / "scripts" / "merge_totalsegmentator_masks.py"),
+         str(tmp_path / "s0003"), "-o", str(tmp_path / "y.nii.gz")],
+        capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0, r.stderr
+    assert "claimed by more than" in r.stdout
+    assert "That is a lot" in r.stdout
