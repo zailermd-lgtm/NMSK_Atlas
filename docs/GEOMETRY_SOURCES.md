@@ -495,17 +495,26 @@ the scan in the atlas frame.
 | | |
 |---|---|
 | Code | Apache-2.0 — the class map in `mappings/totalsegmentator_labels.json` is transcribed from it |
-| Dataset (1228 segmented CTs) | **NOT VERIFIED.** Reported as CC BY 4.0 by several secondary sources; `zenodo.org` is unreachable from the machine this was written on, so the licence line has never been read at its source |
+| Dataset (1228 segmented CTs) | **CC BY 4.0**, 23.6 GB. Read at the Zenodo record by the repository owner, because `zenodo.org` is unreachable from the machine this was written on |
 | Would give | clavicula, scapula, humerus, ribs, sternum, vertebrae C1–L5, sacrum, hip, femur — most of what has no geometry here |
 | Would **not** give | any individual upper-limb muscle. It carries ten muscles in total: the three glutei, iliopsoas and autochthon. There is no deltoid, no biceps, no forearm compartment |
 
 Two things follow, and neither should be skipped.
 
-**The licence must be read at the Zenodo record before any geometry derived
-from it ships.** This is the same discipline the Denver licence got: that one
-was also "reported as CC BY" for a long time and was only settled by reading
-the page. A search summary is not a licence, and one of them has already been
-wrong about this dataset's contents.
+**The licence was read at the Zenodo record**, not taken from a search
+summary — the same discipline the Denver licence got, and for the same
+reason: a search summary is not a licence, and one of them had already been
+wrong about the Denver dataset's contents in this very investigation.
+Attribution under CC BY 4.0 is required and is emitted into the manifest of
+anything converted from it.
+
+**A CT gives something the Visible Human cannot: more than one body.**
+For the lower limb there is exactly one subject, so the only cross-check
+available was bilateral consistency -- an error that mirrors is systematic,
+an error that does not is noise. With 1228 segmented subjects the same
+question can be asked across people, which separates "this atlas coordinate
+is wrong" from "this one cadaver is unusual" in a way one body never can.
+That is worth more than the extra resolution.
 
 **A second subject is not the Visible Human.** Denver geometry and CT
 geometry are two different bodies, and combining them into one skeleton is

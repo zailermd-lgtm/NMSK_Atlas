@@ -160,32 +160,45 @@ def is_right_handed(affine: np.ndarray) -> bool:
 # the atlas origin
 # --------------------------------------------------------------------------
 
-def femoral_head_centre(points: np.ndarray, side: str,
-                        frac: float = 0.12) -> Tuple[np.ndarray, float, float]:
-    """Fit the femoral head from a whole-femur surface.
+def proximal_head_centre(points: np.ndarray, side: str,
+                         frac: float = 0.12) -> Tuple[np.ndarray, float, float]:
+    """Fit the ball head at the proximal end of a long bone.
 
     The STL release ships femoral head cartilage as its own mesh, so its
-    centre is a sphere fit away. A CT segmentation gives one `femur` label
-    and nothing else, so the head has to be isolated first.
+    centre is a sphere fit away. A CT segmentation gives one `femur` label,
+    or one `humerus` label, and nothing else -- so the head has to be
+    isolated from the rest of the bone first.
 
-    It is isolated by direction, not by height: the head sits at the MEDIAL
-    end of the proximal femur, and taking the superior fraction alone would
-    take the greater trochanter with it -- the trochanter is the more
-    superior of the two on many people. Points are ranked by how far they
-    lie along (superior + medial), and the extreme fraction is fitted.
+    It is isolated by DIRECTION, not by height. Both heads sit at the
+    superior-MEDIAL corner of their bone and both have a lateral prominence
+    beside them -- the greater trochanter, the greater tubercle -- that on
+    many people reaches HIGHER than the head does. Taking the superior
+    fraction alone therefore fits the prominence and calls it the joint
+    centre. Points are ranked along (superior + medial) instead, and the
+    extreme fraction is fitted.
 
-    Returns (centre, radius, rms). A radius outside 18-30 mm or an rms above
-    ~2 mm means the fit did not find a femoral head, and the caller should
-    say so rather than use the number.
+    Returns (centre, radius, rms). The caller judges plausibility, because
+    what counts as a plausible radius differs by joint.
     """
     if len(points) < 100:
-        raise ValueError("too few points to fit a femoral head")
+        raise ValueError("too few points to fit a joint head")
     medial = -1.0 if side == "right" else 1.0      # +X is the subject's right
     direction = np.array([medial, 1.0, 0.0])
     direction /= np.linalg.norm(direction)
     score = points @ direction
     head = points[score >= np.quantile(score, 1.0 - frac)]
     return vh.fit_sphere(head)
+
+
+# Kept as a name because it says which joint is meant at the call site.
+femoral_head_centre = proximal_head_centre
+humeral_head_centre = proximal_head_centre
+
+# Plausible radii, in millimetres. A fit that lands on the wrong part of the
+# bone still returns a centre, so the radius is what catches it: a femoral
+# head is 20-28 mm across the adult range and a humeral head 20-27, while a
+# trochanter or tubercle fitted as a sphere comes back far off either.
+HEAD_RADIUS_MM = {"femur": (18.0, 30.0), "humerus": (16.0, 30.0)}
 
 
 def hip_joint_origin(surfaces: Dict[str, np.ndarray]) -> dict:
@@ -200,8 +213,9 @@ def hip_joint_origin(surfaces: Dict[str, np.ndarray]) -> dict:
         pts = surfaces.get(f"femur_{side}")
         if pts is None or len(pts) < 100:
             continue
-        centre, radius, rms = femoral_head_centre(pts, side)
-        plausible = 18.0 <= radius <= 30.0 and rms <= 2.0
+        centre, radius, rms = proximal_head_centre(pts, side)
+        lo, hi = HEAD_RADIUS_MM["femur"]
+        plausible = lo <= radius <= hi and rms <= 2.0
         out["sides"][side] = {
             "centre_mm": [round(float(v), 3) for v in centre],
             "radius_mm": round(float(radius), 2),

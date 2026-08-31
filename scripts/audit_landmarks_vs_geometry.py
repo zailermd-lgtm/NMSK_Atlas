@@ -80,6 +80,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
 from engine import vh_ingest as vh  # noqa: E402
+from engine import volume_ingest  # noqa: E402
 from engine.vh_ingest import fit_sphere  # noqa: E402
 
 BUILD_DIR = REPO_ROOT / "build" / "vh"
@@ -500,6 +501,80 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                     "the proximal phalangeal bases; long axis to the toe tips",
                     "long")
 
+
+    # ---- the upper body ------------------------------------------------
+    #
+    # Nothing above the hip has ever been measured: the Denver release is
+    # pelvis to ankle. These frames are built from atlas ids rather than
+    # source filenames, so they work with geometry from EITHER ingest -- an
+    # STL release or a segmented CT -- and stay silent when the entity is
+    # absent, which is what happens on a lower-limb-only subject.
+    for side in ("r", "l"):
+        full = "right" if side == "r" else "left"
+
+        # The humeral head is a ball joint fitted exactly like the femoral
+        # head, and for the same reason: the greater TUBERCLE sits lateral to
+        # it and often reaches higher, so isolating the head by height fits
+        # the tubercle instead.
+        humerus = by_atlas_id.get(f"humerus_{side}")
+        if humerus is not None and len(humerus) > 100:
+            centre, radius, rms = volume_ingest.proximal_head_centre(humerus, full)
+            lo, hi = volume_ingest.HEAD_RADIUS_MM["humerus"]
+            if lo <= radius <= hi and rms <= 3.0:
+                distal = humerus[humerus[:, 1] < np.quantile(humerus[:, 1], 0.02)]
+                frames[f"humerus_{side}"] = (
+                    centre, orthonormal_frame(centre, distal.mean(axis=0)),
+                    f"a sphere fit to the humeral head, r={radius:.1f} mm, "
+                    f"rms={rms:.2f} mm; long axis to the distal end", "long")
+
+        # The clavicle's frame origin is the sternoclavicular joint, which is
+        # its MEDIAL end -- the end nearest the midline. Measuring it that way
+        # rather than taking an extreme along world X matters, because the
+        # bone that had a mirrored landmark set is this one, and a frame built
+        # from the same mistaken convention would hide it.
+        clavicle = by_atlas_id.get(f"clavicle_{side}")
+        if clavicle is not None and len(clavicle) > 20:
+            towards_midline = np.abs(clavicle[:, 0])
+            medial = clavicle[towards_midline <= np.quantile(towards_midline, 0.05)]
+            lateral = clavicle[towards_midline >= np.quantile(towards_midline, 0.95)]
+            frames[f"clavicle_{side}"] = (
+                medial.mean(axis=0),
+                orthonormal_frame(medial.mean(axis=0), lateral.mean(axis=0)),
+                "the sternoclavicular end, as the 5% of the bone nearest the "
+                "midline; long axis out to the acromial end", "long")
+
+        # The scapula's origin is the glenoid centre. The glenoid is a shallow
+        # fossa with no rim to fit, but it is the part of the scapula that
+        # FACES the humeral head, so the humerus locates it -- and if there is
+        # no humerus in the scan there is no defensible glenoid either.
+        scapula = by_atlas_id.get(f"scapula_{side}")
+        if scapula is not None and f"humerus_{side}" in frames:
+            head = frames[f"humerus_{side}"][0]
+            near = scapula[np.linalg.norm(scapula - head, axis=1)
+                           <= np.quantile(np.linalg.norm(scapula - head, axis=1), 0.02)]
+            glenoid = near.mean(axis=0)
+            medial_border = scapula[scapula[:, 0] * (1 if side == "r" else -1)
+                                    <= np.quantile(scapula[:, 0] * (1 if side == "r" else -1), 0.02)]
+            frames[f"scapula_{side}"] = (
+                glenoid, orthonormal_frame(glenoid, medial_border.mean(axis=0)),
+                "the glenoid, as the 2% of the scapula closest to the fitted "
+                "humeral head centre", "neither")
+
+    # The jugular notch is the superior midline notch of the manubrium: the
+    # most superior point, taken near the midline so a clavicular facet
+    # cannot win it.
+    sternum = by_atlas_id.get("sternum")
+    if sternum is not None and len(sternum) > 20:
+        midline = sternum[np.abs(sternum[:, 0] - np.median(sternum[:, 0])) < 12.0]
+        if len(midline) > 20:
+            notch = midline[midline[:, 1] >= np.quantile(midline[:, 1], 0.98)]
+            frames["sternum"] = (
+                notch.mean(axis=0), np.eye(3),
+                "the jugular notch, as the superior 2% of the manubrium within "
+                "12 mm of the sternal midline; axes by anatomical-position "
+                "convention, not fitted", "neither")
+
+
     return frames
 
 
@@ -584,6 +659,29 @@ def main() -> int:
         print(f"    along the long axis ({tag[0]}): median "
               f"{np.median(along):.1f} mm; across it ({tag[1]}): "
               f"median {np.median(across):.1f} mm")
+        # Size, before anyone reads the along-axis figure as an error.
+        #
+        # A landmark's along-axis coordinate is a distance in millimetres from
+        # a joint centre, so it only means the same thing on a bone of the
+        # same length. Run this against a subject whose humerus is 20 mm
+        # shorter than the one the coordinates were written for and EVERY
+        # distal landmark reads 20 mm past the end -- which is a real
+        # mismatch, but a mismatch of scale, not of placement, and treating
+        # it as placement would move correct landmarks to fit one body.
+        #
+        # This mattered little on the Visible Human, where the coordinates
+        # and the geometry describe the same person. It matters immediately
+        # on a CT of somebody else.
+        if fitted in ("both", "long"):
+            along_bone = (mesh - origin) @ basis[1]
+            span = float(along_bone.max() - along_bone.min())
+            reach = float(np.abs(local[:, 1]).max())
+            note = ""
+            if reach > span:
+                note = ("   <-- the atlas reaches PAST the end of this bone; "
+                        "read the along-axis figures as scale, not placement")
+            print(f"    bone measures {span:.0f} mm along that axis; the most "
+                  f"distal landmark sits {reach:.0f} mm out{note}")
         for lm, d, a, c in sorted(zip(landmarks, dist, along, across),
                                   key=lambda t: -t[1])[:3]:
             print(f"      {d:6.1f} mm  (along {a:5.1f}, across {c:5.1f})  "
