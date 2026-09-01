@@ -54,7 +54,7 @@
     20.0
    ],
    "b": [
-    120.0,
+    -180.0,
     470.0,
     12.0
    ],
@@ -71,7 +71,7 @@
     20.0
    ],
    "b": [
-    -120.0,
+    180.0,
     470.0,
     12.0
    ],
@@ -83,14 +83,14 @@
    "name": "Femur",
    "shape": "capsule",
    "a": [
-    -90.0,
-    0.0,
-    0.0
+    -138.7,
+    0.5,
+    -19.8
    ],
    "b": [
-    -90.0,
-    -450.0,
-    10.0
+    -45.7,
+    -445.0,
+    1.3
    ],
    "ra": 20,
    "rb": 17.6
@@ -100,14 +100,14 @@
    "name": "Femur",
    "shape": "capsule",
    "a": [
-    90.0,
-    0.0,
-    0.0
+    139.3,
+    -4.8,
+    -23.1
    ],
    "b": [
-    90.0,
-    -450.0,
-    10.0
+    44.9,
+    -445.0,
+    3.4
    ],
    "ra": 20,
    "rb": 17.6
@@ -117,14 +117,14 @@
    "name": "Fibula",
    "shape": "capsule",
    "a": [
+    -87.7,
+    -832.9,
+    0.5
+   ],
+   "b": [
     -90.0,
     -450.0,
     10.0
-   ],
-   "b": [
-    -100.0,
-    -825.0,
-    5.0
    ],
    "ra": 7,
    "rb": 6.16
@@ -134,14 +134,14 @@
    "name": "Fibula",
    "shape": "capsule",
    "a": [
+    87.9,
+    -832.0,
+    0.4
+   ],
+   "b": [
     90.0,
     -450.0,
     10.0
-   ],
-   "b": [
-    100.0,
-    -825.0,
-    5.0
    ],
    "ra": 7,
    "rb": 6.16
@@ -151,9 +151,9 @@
    "name": "Hip bone",
    "shape": "ellipsoid",
    "center": [
-    -81.1,
-    12.2,
-    5.6
+    -77.8,
+    21.9,
+    -14.3
    ],
    "radii": [
     34,
@@ -166,9 +166,9 @@
    "name": "Hip bone",
    "shape": "ellipsoid",
    "center": [
-    81.1,
-    12.2,
-    5.6
+    77.8,
+    21.9,
+    -14.3
    ],
    "radii": [
     34,
@@ -249,14 +249,14 @@
    "name": "Metatarsals (5)",
    "shape": "capsule",
    "a": [
-    -65.0,
-    -850.0,
-    50.0
+    -82.8,
+    -878.4,
+    27.5
    ],
    "b": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.8,
+    -956.9,
+    56.9
    ],
    "ra": 5,
    "rb": 4.4
@@ -266,14 +266,14 @@
    "name": "Metatarsals (5)",
    "shape": "capsule",
    "a": [
-    65.0,
-    -850.0,
-    50.0
+    80.8,
+    -880.3,
+    20.4
    ],
    "b": [
-    90.0,
-    -915.0,
-    45.0
+    71.5,
+    -958.7,
+    50.1
    ],
    "ra": 5,
    "rb": 4.4
@@ -313,14 +313,14 @@
    "name": "Toe phalanges (14)",
    "shape": "capsule",
    "a": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.1,
+    -955.6,
+    59.4
    ],
    "b": [
-    -115.0,
-    -950.0,
-    50.0
+    -68.0,
+    -1045.1,
+    64.0
    ],
    "ra": 4,
    "rb": 3.52
@@ -330,21 +330,21 @@
    "name": "Toe phalanges (14)",
    "shape": "capsule",
    "a": [
-    90.0,
-    -915.0,
-    45.0
+    70.2,
+    -955.6,
+    50.9
    ],
    "b": [
-    115.0,
-    -950.0,
-    50.0
+    66.2,
+    -1040.3,
+    56.1
    ],
    "ra": 4,
    "rb": 3.52
   },
   {
    "id": "phalanges_hand_l",
-   "name": "Finger/thumb phalanges (14)",
+   "name": "Finger/thumb phalanges (14: thumb x2, fingers x3 each)",
    "shape": "capsule",
    "a": [
     -180.0,
@@ -445,9 +445,9 @@
    "name": "Tarsal bones (7)",
    "shape": "ellipsoid",
    "center": [
-    -75.7,
-    -850.0,
-    17.9
+    -67.5,
+    -871.4,
+    13.1
    ],
    "radii": [
     28,
@@ -460,9 +460,9 @@
    "name": "Tarsal bones (7)",
    "shape": "ellipsoid",
    "center": [
-    75.7,
-    -850.0,
-    17.9
+    67.3,
+    -871.3,
+    10.7
    ],
    "radii": [
     28,
@@ -475,13 +475,13 @@
    "name": "Tibia (shin bone)",
    "shape": "capsule",
    "a": [
-    -90.0,
-    -450.0,
-    10.0
+    -88.0,
+    -835.3,
+    -13.4
    ],
    "b": [
-    -75.0,
-    -835.0,
+    -90.0,
+    -450.0,
     10.0
    ],
    "ra": 15,
@@ -492,13 +492,13 @@
    "name": "Tibia (shin bone)",
    "shape": "capsule",
    "a": [
-    90.0,
-    -450.0,
-    10.0
+    88.6,
+    -837.3,
+    -13.0
    ],
    "b": [
-    75.0,
-    -835.0,
+    90.0,
+    -450.0,
     10.0
    ],
    "ra": 15,
@@ -715,7 +715,7 @@
    "name": "acromial (lateral) end",
    "kind": "joint_surface",
    "xyz": [
-    120.0,
+    -180.0,
     470.0,
     12.0
    ]
@@ -725,7 +725,7 @@
    "name": "conoid tubercle (coracoclavicular lig.)",
    "kind": "ligament_attachment",
    "xyz": [
-    95.0,
+    -155.0,
     472.0,
     10.0
    ]
@@ -735,7 +735,7 @@
    "name": "deltoid tubercle / anterior border, lateral third (deltoid origin)",
    "kind": "muscle_attachment",
    "xyz": [
-    80.0,
+    -140.0,
     485.0,
     30.0
    ]
@@ -745,7 +745,7 @@
    "name": "subclavian groove (subclavius insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    45.0,
+    -105.0,
     475.0,
     25.0
    ]
@@ -765,7 +765,7 @@
    "name": "acromial (lateral) end",
    "kind": "joint_surface",
    "xyz": [
-    -120.0,
+    180.0,
     470.0,
     12.0
    ]
@@ -775,7 +775,7 @@
    "name": "conoid tubercle (coracoclavicular lig.)",
    "kind": "ligament_attachment",
    "xyz": [
-    -95.0,
+    155.0,
     472.0,
     10.0
    ]
@@ -785,7 +785,7 @@
    "name": "deltoid tubercle / anterior border, lateral third (deltoid origin)",
    "kind": "muscle_attachment",
    "xyz": [
-    -80.0,
+    140.0,
     485.0,
     30.0
    ]
@@ -795,9 +795,49 @@
    "name": "subclavian groove (subclavius insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    -45.0,
+    105.0,
     475.0,
     25.0
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter lateral facet (gluteus medius insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -157.8,
+    -35.1,
+    -12.9
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter anterior facet (gluteus minimus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -138.3,
+    -18.8,
+    8.7
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter superior border (piriformis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -138.7,
+    0.5,
+    -19.8
+   ]
+  },
+  {
+   "bone": "femur_l",
+   "name": "greater trochanter medial surface and trochanteric fossa (obturator internus, gemelli, obturator externus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -136.3,
+    -27.6,
+    -34.3
    ]
   },
   {
@@ -815,9 +855,9 @@
    "name": "greater trochanter",
    "kind": "muscle_attachment",
    "xyz": [
-    -130.0,
+    -155.0,
     -20.0,
-    0.0
+    -13.6
    ]
   },
   {
@@ -835,9 +875,9 @@
    "name": "linea aspera",
    "kind": "muscle_attachment",
    "xyz": [
-    -85.0,
+    -109.3,
     -200.0,
-    -15.0
+    -5.5
    ]
   },
   {
@@ -865,9 +905,9 @@
    "name": "medial epicondyle",
    "kind": "muscle_attachment",
    "xyz": [
-    -70.0,
+    -45.7,
     -445.0,
-    5.0
+    1.3
    ]
   },
   {
@@ -875,9 +915,9 @@
    "name": "lateral epicondyle (LCL, popliteus origin)",
    "kind": "muscle_attachment",
    "xyz": [
-    -110.0,
+    -128.5,
     -445.0,
-    5.0
+    -4.1
    ]
   },
   {
@@ -902,6 +942,46 @@
   },
   {
    "bone": "femur_r",
+   "name": "greater trochanter lateral facet (gluteus medius insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    157.3,
+    -36.4,
+    -18.4
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter anterior facet (gluteus minimus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    138.1,
+    -21.1,
+    5.8
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter superior border (piriformis insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    139.3,
+    -4.8,
+    -23.1
+   ]
+  },
+  {
+   "bone": "femur_r",
+   "name": "greater trochanter medial surface and trochanteric fossa (obturator internus, gemelli, obturator externus insertion)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    136.4,
+    -27.5,
+    -39.1
+   ]
+  },
+  {
+   "bone": "femur_r",
    "name": "femoral head",
    "kind": "joint_surface",
    "xyz": [
@@ -915,9 +995,9 @@
    "name": "greater trochanter (gluteus medius/minimus, piriformis, obturator internus insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    130.0,
+    153.7,
     -20.0,
-    0.0
+    -18.1
    ]
   },
   {
@@ -935,9 +1015,9 @@
    "name": "gluteal tuberosity/linea aspera (gluteus maximus, adductors, vastus medialis/lateralis, short head biceps femoris)",
    "kind": "muscle_attachment",
    "xyz": [
-    85.0,
+    109.1,
     -200.0,
-    -15.0
+    -7.4
    ]
   },
   {
@@ -965,9 +1045,9 @@
    "name": "medial epicondyle",
    "kind": "muscle_attachment",
    "xyz": [
-    70.0,
+    44.9,
     -445.0,
-    5.0
+    3.4
    ]
   },
   {
@@ -975,9 +1055,9 @@
    "name": "lateral epicondyle (LCL origin, popliteus origin)",
    "kind": "muscle_attachment",
    "xyz": [
-    110.0,
+    128.2,
     -445.0,
-    5.0
+    -1.7
    ]
   },
   {
@@ -998,6 +1078,16 @@
     90.0,
     -440.0,
     25.0
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "retromalleolar groove, lateral (fibularis longus and brevis tendons under the peroneal retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    -87.7,
+    -832.9,
+    0.5
    ]
   },
   {
@@ -1031,6 +1121,36 @@
    ]
   },
   {
+   "bone": "fibula_l",
+   "name": "fibular shaft, proximal lateral surface (fibularis longus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -92.7,
+    -544.5,
+    9.5
+   ]
+  },
+  {
+   "bone": "fibula_l",
+   "name": "fibular shaft, distal lateral surface (fibularis brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -91.6,
+    -687.0,
+    11.8
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "retromalleolar groove, lateral (fibularis longus and brevis tendons under the peroneal retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    87.9,
+    -832.0,
+    0.4
+   ]
+  },
+  {
    "bone": "fibula_r",
    "name": "fibular head (biceps femoris insertion, LCL, common fibular n. passage)",
    "kind": "muscle_attachment",
@@ -1061,6 +1181,26 @@
    ]
   },
   {
+   "bone": "fibula_r",
+   "name": "fibular shaft, proximal lateral surface (fibularis longus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    92.7,
+    -544.5,
+    9.5
+   ]
+  },
+  {
+   "bone": "fibula_r",
+   "name": "fibular shaft, distal lateral surface (fibularis brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    91.6,
+    -687.0,
+    11.8
+   ]
+  },
+  {
    "bone": "hip_bone_l",
    "name": "acetabulum (hip joint)",
    "kind": "joint_surface",
@@ -1088,26 +1228,6 @@
     -105.0,
     40.0,
     50.0
-   ]
-  },
-  {
-   "bone": "hip_bone_l",
-   "name": "iliac crest",
-   "kind": "muscle_attachment",
-   "xyz": [
-    -100.0,
-    120.0,
-    20.0
-   ]
-  },
-  {
-   "bone": "hip_bone_l",
-   "name": "ischial tuberosity (hamstring origin)",
-   "kind": "muscle_attachment",
-   "xyz": [
-    -80.0,
-    -60.0,
-    -40.0
    ]
   },
   {
@@ -1151,6 +1271,116 @@
    ]
   },
   {
+   "bone": "hip_bone_l",
+   "name": "iliac crest, anterior part, outer lip (tensor fasciae latae, external oblique)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -137.0,
+    109.0,
+    31.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "iliac crest, middle part, intermediate line (internal oblique, transversus abdominis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -106.0,
+    148.0,
+    -21.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "iliac crest, posterior part, inner lip (quadratus lumborum, iliolumbar ligament; erector spinae: iliocostalis, longissimus)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -46.0,
+    126.0,
+    -69.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, superolateral facet of the upper area (semimembranosus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -59.0,
+    -46.5,
+    -60.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, inferomedial facet of the upper area (semitendinosus and biceps femoris long head, conjoint tendon)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -48.0,
+    -47.0,
+    -48.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, lower area, lateral part (adductor magnus, hamstring part)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -59.5,
+    -55.5,
+    -56.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, lateral border (quadratus femoris, gemellus inferior)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -74.0,
+    -48.0,
+    -45.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "ischial tuberosity, medial (perineal) surface, continuing onto the ischial ramus (ischiocavernosus, superficial transverse perineal)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -29.5,
+    -57.0,
+    -18.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "external (gluteal) surface of the ilium between the anterior and posterior gluteal lines (gluteus medius origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -111.0,
+    90.5,
+    -6.5
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "posterior (gluteal) surface of the ilium behind the posterior gluteal line (gluteus maximus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -71.5,
+    74.0,
+    -52.0
+   ]
+  },
+  {
+   "bone": "hip_bone_l",
+   "name": "external (gluteal) surface of the ilium between the anterior and inferior gluteal lines (gluteus minimus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -109.5,
+    50.5,
+    17.5
+   ]
+  },
+  {
    "bone": "hip_bone_r",
    "name": "acetabulum (hip joint)",
    "kind": "joint_surface",
@@ -1178,26 +1408,6 @@
     105.0,
     40.0,
     50.0
-   ]
-  },
-  {
-   "bone": "hip_bone_r",
-   "name": "iliac crest (abdominal wall, gluteal, TFL, quadratus lumborum attachments)",
-   "kind": "muscle_attachment",
-   "xyz": [
-    100.0,
-    120.0,
-    20.0
-   ]
-  },
-  {
-   "bone": "hip_bone_r",
-   "name": "ischial tuberosity (hamstring origin)",
-   "kind": "muscle_attachment",
-   "xyz": [
-    80.0,
-    -60.0,
-    -40.0
    ]
   },
   {
@@ -1238,6 +1448,116 @@
     70.0,
     30.0,
     -50.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "iliac crest, anterior part, outer lip (tensor fasciae latae, external oblique)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    137.0,
+    109.0,
+    31.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "iliac crest, middle part, intermediate line (internal oblique, transversus abdominis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    106.0,
+    148.0,
+    -21.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "iliac crest, posterior part, inner lip (quadratus lumborum, iliolumbar ligament; erector spinae: iliocostalis, longissimus)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    46.0,
+    126.0,
+    -69.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, superolateral facet of the upper area (semimembranosus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    59.0,
+    -46.5,
+    -60.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, inferomedial facet of the upper area (semitendinosus and biceps femoris long head, conjoint tendon)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    48.0,
+    -47.0,
+    -48.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, lower area, lateral part (adductor magnus, hamstring part)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    59.5,
+    -55.5,
+    -56.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, lateral border (quadratus femoris, gemellus inferior)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    74.0,
+    -48.0,
+    -45.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "ischial tuberosity, medial (perineal) surface, continuing onto the ischial ramus (ischiocavernosus, superficial transverse perineal)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    29.5,
+    -57.0,
+    -18.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "external (gluteal) surface of the ilium between the anterior and posterior gluteal lines (gluteus medius origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    111.0,
+    90.5,
+    -6.5
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "posterior (gluteal) surface of the ilium behind the posterior gluteal line (gluteus maximus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    71.5,
+    74.0,
+    -52.0
+   ]
+  },
+  {
+   "bone": "hip_bone_r",
+   "name": "external (gluteal) surface of the ilium between the anterior and inferior gluteal lines (gluteus minimus origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    109.5,
+    50.5,
+    17.5
    ]
   },
   {
@@ -1522,12 +1842,52 @@
   },
   {
    "bone": "metatarsals_l",
+   "name": "metatarsals 3 to 5, medial surfaces of the shafts (plantar interossei origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -82.3,
+    -914.9,
+    47.6
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "metatarsal shafts (dorsal interossei origin, bipennate from adjacent shafts)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -76.9,
+    -918.4,
+    58.6
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "bases of the 2nd to 4th metatarsals (adductor hallucis oblique head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -80.9,
+    -890.9,
+    61.1
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
+   "name": "5th metatarsal base (fibularis tertius insertion, flexor digiti minimi brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -82.8,
+    -878.4,
+    27.5
+   ]
+  },
+  {
+   "bone": "metatarsals_l",
    "name": "5th metatarsal tuberosity (peroneus brevis insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    -65.0,
-    -850.0,
-    50.0
+    -92.7,
+    -889.7,
+    35.4
    ]
   },
   {
@@ -1535,9 +1895,9 @@
    "name": "1st metatarsal base (peroneus longus, tibialis anterior insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    -110.0,
-    -850.0,
-    40.0
+    -58.5,
+    -899.4,
+    73.6
    ]
   },
   {
@@ -1545,9 +1905,49 @@
    "name": "metatarsal heads (MTP joints)",
    "kind": "joint_surface",
    "xyz": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.8,
+    -956.9,
+    56.9
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "metatarsals 3 to 5, medial surfaces of the shafts (plantar interossei origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    77.8,
+    -915.1,
+    42.8
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "metatarsal shafts (dorsal interossei origin, bipennate from adjacent shafts)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    72.0,
+    -919.1,
+    52.8
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "bases of the 2nd to 4th metatarsals (adductor hallucis oblique head origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    75.1,
+    -893.9,
+    55.5
+   ]
+  },
+  {
+   "bone": "metatarsals_r",
+   "name": "5th metatarsal base (fibularis tertius insertion, flexor digiti minimi brevis origin)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    80.8,
+    -880.3,
+    20.4
    ]
   },
   {
@@ -1555,9 +1955,9 @@
    "name": "5th metatarsal tuberosity (peroneus brevis insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    65.0,
-    -850.0,
-    50.0
+    88.7,
+    -886.6,
+    22.0
    ]
   },
   {
@@ -1565,9 +1965,9 @@
    "name": "1st metatarsal base (peroneus longus, tibialis anterior insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    110.0,
-    -850.0,
-    40.0
+    51.5,
+    -903.1,
+    63.6
    ]
   },
   {
@@ -1575,9 +1975,9 @@
    "name": "metatarsal heads (MTP joints)",
    "kind": "joint_surface",
    "xyz": [
-    90.0,
-    -915.0,
-    45.0
+    71.5,
+    -958.7,
+    50.1
    ]
   },
   {
@@ -1622,12 +2022,32 @@
   },
   {
    "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the little toe (abductor and flexor digiti minimi brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -76.1,
+    -955.6,
+    59.4
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe (hallux MTP joint; abductor hallucis, adductor hallucis, flexor and extensor hallucis brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -46.1,
+    -1023.1,
+    77.8
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
    "name": "proximal phalanx base (MTP joint)",
    "kind": "muscle_attachment",
    "xyz": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.8,
+    -956.9,
+    56.9
    ]
   },
   {
@@ -1635,9 +2055,29 @@
    "name": "distal phalanx, great toe (FHL/EHL insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    -115.0,
-    -950.0,
-    50.0
+    -68.0,
+    -1045.1,
+    64.0
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the little toe (abductor and flexor digiti minimi brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    70.2,
+    -955.6,
+    50.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe (hallux MTP joint; abductor hallucis, adductor hallucis, flexor and extensor hallucis brevis insertions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    43.3,
+    -1021.8,
+    73.1
    ]
   },
   {
@@ -1645,9 +2085,9 @@
    "name": "proximal phalanx base (MTP joint, extensor/flexor tendon insertions)",
    "kind": "muscle_attachment",
    "xyz": [
-    90.0,
-    -915.0,
-    45.0
+    71.5,
+    -958.7,
+    50.1
    ]
   },
   {
@@ -1655,9 +2095,9 @@
    "name": "distal phalanx, great toe (FHL/EHL insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    115.0,
-    -950.0,
-    50.0
+    66.2,
+    -1040.3,
+    56.1
    ]
   },
   {
@@ -2125,9 +2565,9 @@
    "name": "calcaneus (Achilles tendon insertion, plantar fascia origin)",
    "kind": "muscle_attachment",
    "xyz": [
-    -75.0,
-    -875.0,
-    -20.0
+    -54.9,
+    -874.9,
+    -48.0
    ]
   },
   {
@@ -2135,9 +2575,9 @@
    "name": "sustentaculum tali (spring lig.)",
    "kind": "ligament_attachment",
    "xyz": [
-    -65.0,
-    -855.0,
-    15.0
+    -51.0,
+    -866.2,
+    -2.5
    ]
   },
   {
@@ -2145,9 +2585,9 @@
    "name": "navicular tuberosity (tibialis posterior insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    -90.0,
-    -840.0,
-    30.0
+    -51.4,
+    -868.8,
+    43.8
    ]
   },
   {
@@ -2155,9 +2595,9 @@
    "name": "cuneiforms",
    "kind": "muscle_attachment",
    "xyz": [
-    -90.0,
-    -845.0,
-    45.0
+    -76.8,
+    -890.1,
+    56.9
    ]
   },
   {
@@ -2165,9 +2605,9 @@
    "name": "cuboid (peroneus longus tendon groove)",
    "kind": "muscle_attachment",
    "xyz": [
-    -60.0,
-    -850.0,
-    45.0
+    -88.5,
+    -915.0,
+    31.6
    ]
   },
   {
@@ -2195,9 +2635,9 @@
    "name": "calcaneus (Achilles tendon insertion, plantar fascia origin, flexor retinaculum)",
    "kind": "muscle_attachment",
    "xyz": [
-    75.0,
-    -875.0,
-    -20.0
+    61.9,
+    -871.6,
+    -55.8
    ]
   },
   {
@@ -2205,9 +2645,9 @@
    "name": "sustentaculum tali (spring lig., FHL tunnel)",
    "kind": "ligament_attachment",
    "xyz": [
-    65.0,
-    -855.0,
-    15.0
+    52.2,
+    -862.4,
+    8.6
    ]
   },
   {
@@ -2215,9 +2655,9 @@
    "name": "navicular tuberosity (tibialis posterior insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    90.0,
-    -840.0,
-    30.0
+    48.9,
+    -871.5,
+    37.2
    ]
   },
   {
@@ -2225,9 +2665,9 @@
    "name": "cuneiforms (tibialis anterior/posterior partial insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    90.0,
-    -845.0,
-    45.0
+    71.5,
+    -893.0,
+    50.1
    ]
   },
   {
@@ -2235,9 +2675,19 @@
    "name": "cuboid (peroneus longus tendon groove)",
    "kind": "muscle_attachment",
    "xyz": [
-    60.0,
-    -850.0,
-    45.0
+    86.7,
+    -915.3,
+    25.0
+   ]
+  },
+  {
+   "bone": "tibia_l",
+   "name": "retromalleolar groove, medial (tibialis posterior, flexor digitorum longus and flexor hallucis longus tendons under the flexor retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    -88.0,
+    -835.3,
+    -13.4
    ]
   },
   {
@@ -2255,9 +2705,9 @@
    "name": "tibial tuberosity (patellar ligament insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    -95.0,
+    -101.5,
     -490.0,
-    35.0
+    54.3
    ]
   },
   {
@@ -2275,9 +2725,9 @@
    "name": "soleal line",
    "kind": "muscle_attachment",
    "xyz": [
-    -75.0,
+    -90.7,
     -510.0,
-    -5.0
+    4.2
    ]
   },
   {
@@ -2302,6 +2752,16 @@
   },
   {
    "bone": "tibia_r",
+   "name": "retromalleolar groove, medial (tibialis posterior, flexor digitorum longus and flexor hallucis longus tendons under the flexor retinaculum)",
+   "kind": "tendon_pulley",
+   "xyz": [
+    88.6,
+    -837.3,
+    -13.0
+   ]
+  },
+  {
+   "bone": "tibia_r",
    "name": "medial/lateral condyles (tibiofemoral joint)",
    "kind": "joint_surface",
    "xyz": [
@@ -2315,9 +2775,9 @@
    "name": "tibial tuberosity (patellar ligament insertion)",
    "kind": "muscle_attachment",
    "xyz": [
-    95.0,
+    100.1,
     -490.0,
-    35.0
+    53.9
    ]
   },
   {
@@ -2335,9 +2795,9 @@
    "name": "soleal line (soleus, popliteus, tibialis posterior origin)",
    "kind": "muscle_attachment",
    "xyz": [
-    75.0,
+    83.9,
     -510.0,
-    -5.0
+    5.4
    ]
   },
   {
@@ -2746,14 +3206,14 @@
   {
    "joint": "metatarsophalangeal_r",
    "from_xyz": [
-    90.0,
-    -845.0,
-    45.0
+    71.5,
+    -893.0,
+    50.1
    ],
    "to_xyz": [
-    90.0,
-    -915.0,
-    45.0
+    71.5,
+    -958.7,
+    50.1
    ]
   },
   {
@@ -2824,14 +3284,14 @@
   {
    "joint": "metatarsophalangeal_l",
    "from_xyz": [
-    -90.0,
-    -845.0,
-    45.0
+    -76.8,
+    -890.1,
+    56.9
    ],
    "to_xyz": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.8,
+    -956.9,
+    56.9
    ]
   }
  ],
@@ -2855,7 +3315,7 @@
    "rb": 10.3,
    "pcsa": 550.0,
    "compartments": 2,
-   "nerve": "suprascapular_n_l",
+   "nerve": "suprascapular_n",
    "roots": "C5-C6",
    "actions": [
     "initiates/assists glenohumeral abduction (first ~15deg, then throughout with deltoid)",
@@ -2906,7 +3366,7 @@
    "rb": 6.5,
    "pcsa": 55.0,
    "compartments": 2,
-   "nerve": "median_n_recurrent_and_ulnar_deep_branch",
+   "nerve": "median_n_recurrent_thenar_branch, ulnar_n_deep_branch",
    "roots": "C8-T1",
    "actions": [
     "flexes thumb MCP joint (thenar muscle)"
@@ -2956,7 +3416,7 @@
    "rb": 9.2,
    "pcsa": 330.0,
    "compartments": 2,
-   "nerve": "ulnar_n_r_deep_branch",
+   "nerve": "ulnar_n_deep_branch",
    "roots": "C8-T1",
    "actions": [
     "adducts thumb CMC/MCP toward the palm (key/lateral pinch prime mover)"
@@ -2981,7 +3441,7 @@
    "rb": 6.4,
    "pcsa": 50.0,
    "compartments": 1,
-   "nerve": "median_n_recurrent_branch",
+   "nerve": "median_n_recurrent_thenar_branch",
    "roots": "C8-T1",
    "actions": [
     "abducts thumb (thenar muscle)"
@@ -3006,7 +3466,7 @@
    "rb": 13.1,
    "pcsa": 1500.0,
    "compartments": 2,
-   "nerve": "suprascapular_n_l",
+   "nerve": "suprascapular_n",
    "roots": "C5-C6",
    "actions": [
     "externally rotates humerus",
@@ -3058,7 +3518,7 @@
    "rb": 14.8,
    "pcsa": 2450.0,
    "compartments": 2,
-   "nerve": "upper_and_lower_subscapular_nerves_r",
+   "nerve": "upper_subscapular_n, lower_subscapular_n",
    "roots": "C5-C6",
    "actions": [
     "internally rotates humerus",
@@ -3084,7 +3544,7 @@
    "rb": 11.0,
    "pcsa": 740.0,
    "compartments": 2,
-   "nerve": "musculocutaneous_n_l",
+   "nerve": "musculocutaneous_n",
    "roots": "C5-C6",
    "actions": [
     "flexes elbow (strongest supinated)",
@@ -3111,7 +3571,7 @@
    "rb": 13.1,
    "pcsa": 1500.0,
    "compartments": 2,
-   "nerve": "suprascapular_n_r",
+   "nerve": "suprascapular_n",
    "roots": "C5-C6",
    "actions": [
     "externally rotates humerus",
@@ -3138,7 +3598,7 @@
    "rb": 11.0,
    "pcsa": 740.0,
    "compartments": 2,
-   "nerve": "musculocutaneous_n_r",
+   "nerve": "musculocutaneous_n",
    "roots": "C5-C6",
    "actions": [
     "flexes elbow (strongest supinated)",
@@ -3152,7 +3612,7 @@
    "region": "upper_limb",
    "shape": "capsule",
    "a": [
-    120.0,
+    -180.0,
     470.0,
     12.0
    ],
@@ -3165,7 +3625,7 @@
    "rb": 15.6,
    "pcsa": 2970.0,
    "compartments": 7,
-   "nerve": "axillary_n_l",
+   "nerve": "axillary_n",
    "roots": "C5-C6",
    "actions": [
     "abducts humerus (all parts, prime mover past ~15deg)",
@@ -3204,7 +3664,7 @@
    "region": "upper_limb",
    "shape": "capsule",
    "a": [
-    -120.0,
+    180.0,
     470.0,
     12.0
    ],
@@ -3217,7 +3677,7 @@
    "rb": 15.6,
    "pcsa": 2970.0,
    "compartments": 7,
-   "nerve": "axillary_n_r",
+   "nerve": "axillary_n",
    "roots": "C5-C6",
    "actions": [
     "abducts humerus (all parts, prime mover past ~15deg)",
@@ -3244,7 +3704,7 @@
    "rb": 10.3,
    "pcsa": 550.0,
    "compartments": 2,
-   "nerve": "suprascapular_n_r",
+   "nerve": "suprascapular_n",
    "roots": "C5-C6",
    "actions": [
     "initiates/assists glenohumeral abduction (first ~15deg, then throughout with deltoid)",
@@ -3270,7 +3730,7 @@
    "rb": 9.2,
    "pcsa": 330.0,
    "compartments": 2,
-   "nerve": "ulnar_n_l_deep_branch",
+   "nerve": "ulnar_n_deep_branch",
    "roots": "C8-T1",
    "actions": [
     "adducts thumb CMC/MCP toward the palm (key/lateral pinch prime mover)"
@@ -3295,7 +3755,7 @@
    "rb": 14.8,
    "pcsa": 2450.0,
    "compartments": 2,
-   "nerve": "upper_and_lower_subscapular_nerves_l",
+   "nerve": "upper_subscapular_n, lower_subscapular_n",
    "roots": "C5-C6",
    "actions": [
     "internally rotates humerus",
@@ -3308,14 +3768,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -80.0,
-    -60.0,
-    -40.0
+    -74.0,
+    -48.0,
+    -45.0
    ],
    "b": [
-    -130.0,
-    -20.0,
-    0.0
+    -136.3,
+    -27.6,
+    -34.3
    ],
    "ra": 13.2,
    "rb": 7.3,
@@ -3333,14 +3793,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    90.0,
-    -915.0,
-    45.0
+    72.0,
+    -919.1,
+    52.8
    ],
    "b": [
-    90.0,
-    -915.0,
-    45.0
+    71.5,
+    -958.7,
+    50.1
    ],
    "ra": 14.2,
    "rb": 7.8,
@@ -3358,9 +3818,9 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    80.0,
-    -60.0,
-    -40.0
+    59.5,
+    -55.5,
+    -56.5
    ],
    "b": [
     75.0,
@@ -3371,7 +3831,7 @@
    "rb": 13.7,
    "pcsa": 1800.0,
    "compartments": 2,
-   "nerve": "obturator_n_r_posterior_branch_and_tibial_part_of_sciatic_n_r",
+   "nerve": "obturator_n, obturator_n_branch_to_adductor_magnus_adductor_part, sciatic_n, sciatic_n_branch_to_adductor_magnus_hamstring_part",
    "roots": "L2-L4 (adductor part), L4 (hamstring part)",
    "actions": [
     "adducts hip (adductor part)",
@@ -3384,14 +3844,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    95.0,
-    -640.0,
-    0.0
+    91.6,
+    -687.0,
+    11.8
    ],
    "b": [
-    65.0,
-    -850.0,
-    50.0
+    88.7,
+    -886.6,
+    22.0
    ],
    "ra": 16.9,
    "rb": 9.3,
@@ -3409,14 +3869,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -90.0,
-    -450.0,
-    10.0
+    -92.7,
+    -544.5,
+    9.5
    ],
    "b": [
-    -110.0,
-    -850.0,
-    40.0
+    -58.5,
+    -899.4,
+    73.6
    ],
    "ra": 18.3,
    "rb": 10.1,
@@ -3434,20 +3894,20 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -100.0,
-    120.0,
-    20.0
+    -111.0,
+    90.5,
+    -6.5
    ],
    "b": [
-    -130.0,
-    -20.0,
-    0.0
+    -157.8,
+    -35.1,
+    -12.9
    ],
    "ra": 25.7,
    "rb": 14.1,
    "pcsa": 2050.0,
    "compartments": 3,
-   "nerve": "superior_gluteal_n_l",
+   "nerve": "superior_gluteal_n",
    "roots": "L4-S1",
    "actions": [
     "abducts hip (prime mover)",
@@ -3461,14 +3921,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -110.0,
-    -850.0,
-    40.0
+    -80.9,
+    -890.9,
+    61.1
    ],
    "b": [
-    -90.0,
-    -915.0,
-    45.0
+    -46.1,
+    -1023.1,
+    77.8
    ],
    "ra": 17.4,
    "rb": 9.6,
@@ -3486,20 +3946,20 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    100.0,
-    120.0,
-    20.0
+    111.0,
+    90.5,
+    -6.5
    ],
    "b": [
-    130.0,
-    -20.0,
-    0.0
+    157.3,
+    -36.4,
+    -18.4
    ],
    "ra": 25.7,
    "rb": 14.1,
    "pcsa": 2050.0,
    "compartments": 3,
-   "nerve": "superior_gluteal_n_r",
+   "nerve": "superior_gluteal_n",
    "roots": "L4-S1",
    "actions": [
     "abducts hip (prime mover)",
@@ -3513,9 +3973,9 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -130.0,
-    -20.0,
-    0.0
+    -157.8,
+    -35.1,
+    -12.9
    ],
    "b": [
     -90.0,
@@ -3526,10 +3986,35 @@
    "rb": 14.7,
    "pcsa": 2400.0,
    "compartments": 1,
-   "nerve": "femoral_n_l",
+   "nerve": "femoral_n",
    "roots": "L2-L4",
    "actions": [
     "extends knee (largest quadriceps head by PCSA)"
+   ]
+  },
+  {
+   "id": "gluteus_minimus_l",
+   "name": "Gluteus minimus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -109.5,
+    50.5,
+    17.5
+   ],
+   "b": [
+    -138.3,
+    -18.8,
+    8.7
+   ],
+   "ra": 22.0,
+   "rb": 12.1,
+   "pcsa": 1100.0,
+   "compartments": 1,
+   "nerve": "superior_gluteal_n",
+   "roots": "L4-S1",
+   "actions": [
+    "abducts and internally rotates hip"
    ]
   },
   {
@@ -3538,14 +4023,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    80.0,
-    -60.0,
-    -40.0
+    74.0,
+    -48.0,
+    -45.0
    ],
    "b": [
-    130.0,
-    -20.0,
-    0.0
+    136.4,
+    -27.5,
+    -39.1
    ],
    "ra": 13.2,
    "rb": 7.3,
@@ -3563,9 +4048,9 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    80.0,
-    -60.0,
-    -40.0
+    48.0,
+    -47.0,
+    -48.0
    ],
    "b": [
     90.0,
@@ -3576,11 +4061,37 @@
    "rb": 12.2,
    "pcsa": 1150.0,
    "compartments": 2,
-   "nerve": "tibial_part_of_sciatic_n_r_long_head_common_fibular_part_short_head",
+   "nerve": "sciatic_n, sciatic_n_branch_to_biceps_femoris_long_head, sciatic_n_branch_to_biceps_femoris_short_head",
    "roots": "L5-S2",
    "actions": [
     "extends hip (long head only)",
     "flexes and externally rotates knee"
+   ]
+  },
+  {
+   "id": "gastrocnemius_l",
+   "name": "Gastrocnemius",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -90.0,
+    -450.0,
+    10.0
+   ],
+   "b": [
+    -54.9,
+    -874.9,
+    -48.0
+   ],
+   "ra": 24.5,
+   "rb": 13.5,
+   "pcsa": 1700.0,
+   "compartments": 2,
+   "nerve": "tibial_n",
+   "roots": "S1-S2",
+   "actions": [
+    "plantarflexes ankle",
+    "flexes knee (crosses both joints, unlike soleus)"
    ]
   },
   {
@@ -3589,14 +4100,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    110.0,
-    -850.0,
-    40.0
+    80.8,
+    -880.3,
+    20.4
    ],
    "b": [
-    90.0,
-    -915.0,
-    45.0
+    70.2,
+    -955.6,
+    50.9
    ],
    "ra": 11.7,
    "rb": 6.4,
@@ -3619,9 +4130,9 @@
     -30.0
    ],
    "b": [
-    -130.0,
-    -20.0,
-    0.0
+    -136.3,
+    -27.6,
+    -34.3
    ],
    "ra": 11.7,
    "rb": 6.4,
@@ -3639,9 +4150,9 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -85.0,
+    -109.3,
     -200.0,
-    -15.0
+    -5.5
    ],
    "b": [
     -90.0,
@@ -3652,7 +4163,7 @@
    "rb": 13.3,
    "pcsa": 1600.0,
    "compartments": 2,
-   "nerve": "femoral_n_l",
+   "nerve": "femoral_n",
    "roots": "L2-L4",
    "actions": [
     "extends knee",
@@ -3665,23 +4176,48 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    75.0,
+    83.9,
     -510.0,
-    -5.0
+    5.4
    ],
    "b": [
-    75.0,
-    -875.0,
-    -20.0
+    61.9,
+    -871.6,
+    -55.8
    ],
    "ra": 30.0,
    "rb": 16.5,
    "pcsa": 5100.0,
    "compartments": 1,
-   "nerve": "tibial_n_r",
+   "nerve": "tibial_n",
    "roots": "S1-S2",
    "actions": [
     "plantarflexes ankle (primary postural/gait plantarflexor -- crosses only the ankle, unlike gastrocnemius, so remains effective regardless of knee position)"
+   ]
+  },
+  {
+   "id": "gluteus_minimus_r",
+   "name": "Gluteus minimus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    109.5,
+    50.5,
+    17.5
+   ],
+   "b": [
+    138.1,
+    -21.1,
+    5.8
+   ],
+   "ra": 22.0,
+   "rb": 12.1,
+   "pcsa": 1100.0,
+   "compartments": 1,
+   "nerve": "superior_gluteal_n",
+   "roots": "L4-S1",
+   "actions": [
+    "abducts and internally rotates hip"
    ]
   },
   {
@@ -3690,14 +4226,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    110.0,
-    -850.0,
-    40.0
+    75.1,
+    -893.9,
+    55.5
    ],
    "b": [
-    90.0,
-    -915.0,
-    45.0
+    43.3,
+    -1021.8,
+    73.1
    ],
    "ra": 17.4,
    "rb": 9.6,
@@ -3715,14 +4251,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    90.0,
-    -450.0,
-    10.0
+    92.7,
+    -544.5,
+    9.5
    ],
    "b": [
-    110.0,
-    -850.0,
-    40.0
+    51.5,
+    -903.1,
+    63.6
    ],
    "ra": 18.3,
    "rb": 10.1,
@@ -3740,20 +4276,20 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -75.0,
+    -90.7,
     -510.0,
-    -5.0
+    4.2
    ],
    "b": [
-    -75.0,
-    -875.0,
-    -20.0
+    -54.9,
+    -874.9,
+    -48.0
    ],
    "ra": 30.0,
    "rb": 16.5,
    "pcsa": 5100.0,
    "compartments": 1,
-   "nerve": "tibial_n_l",
+   "nerve": "tibial_n",
    "roots": "S1-S2",
    "actions": [
     "plantarflexes ankle (primary postural/gait plantarflexor -- crosses only the ankle, unlike gastrocnemius, so remains effective regardless of knee position)"
@@ -3765,14 +4301,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.9,
+    -918.4,
+    58.6
    ],
    "b": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.8,
+    -956.9,
+    56.9
    ],
    "ra": 14.2,
    "rb": 7.8,
@@ -3785,29 +4321,29 @@
    ]
   },
   {
-   "id": "adductor_magnus_l",
-   "name": "Adductor magnus",
+   "id": "gastrocnemius_r",
+   "name": "Gastrocnemius",
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -80.0,
-    -60.0,
-    -40.0
+    90.0,
+    -450.0,
+    10.0
    ],
    "b": [
-    -85.0,
-    -200.0,
-    -15.0
+    61.9,
+    -871.6,
+    -55.8
    ],
-   "ra": 24.9,
-   "rb": 13.7,
-   "pcsa": 1800.0,
+   "ra": 24.5,
+   "rb": 13.5,
+   "pcsa": 1700.0,
    "compartments": 2,
-   "nerve": "obturator_n_l_posterior_branch_and_tibial_part_of_sciatic_n_l",
-   "roots": "L2-L4 (adductor part), L4 (hamstring part)",
+   "nerve": "tibial_n",
+   "roots": "S1-S2",
    "actions": [
-    "adducts hip (adductor part)",
-    "extends hip (hamstring/ischiocondylar part)"
+    "plantarflexes ankle",
+    "flexes knee (crosses both joints, unlike soleus)"
    ]
   },
   {
@@ -3816,9 +4352,9 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -80.0,
-    -60.0,
-    -40.0
+    -48.0,
+    -47.0,
+    -48.0
    ],
    "b": [
     -90.0,
@@ -3829,7 +4365,7 @@
    "rb": 12.2,
    "pcsa": 1150.0,
    "compartments": 2,
-   "nerve": "tibial_part_of_sciatic_n_l_long_head_common_fibular_part_short_head",
+   "nerve": "sciatic_n, sciatic_n_branch_to_biceps_femoris_long_head, sciatic_n_branch_to_biceps_femoris_short_head",
    "roots": "L5-S2",
    "actions": [
     "extends hip (long head only)",
@@ -3842,14 +4378,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -95.0,
-    -640.0,
-    0.0
+    -91.6,
+    -687.0,
+    11.8
    ],
    "b": [
-    -65.0,
-    -850.0,
-    50.0
+    -92.7,
+    -889.7,
+    35.4
    ],
    "ra": 16.9,
    "rb": 9.3,
@@ -3872,9 +4408,9 @@
     -30.0
    ],
    "b": [
-    130.0,
-    -20.0,
-    0.0
+    136.4,
+    -27.5,
+    -39.1
    ],
    "ra": 11.7,
    "rb": 6.4,
@@ -3892,14 +4428,14 @@
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    -110.0,
-    -850.0,
-    40.0
+    -82.8,
+    -878.4,
+    27.5
    ],
    "b": [
-    -90.0,
-    -915.0,
-    45.0
+    -76.1,
+    -955.6,
+    59.4
    ],
    "ra": 11.7,
    "rb": 6.4,
@@ -3912,14 +4448,41 @@
    ]
   },
   {
+   "id": "gluteus_maximus_r",
+   "name": "Gluteus maximus",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    71.5,
+    74.0,
+    -52.0
+   ],
+   "b": [
+    109.1,
+    -200.0,
+    -7.4
+   ],
+   "ra": 27.3,
+   "rb": 15.0,
+   "pcsa": 2600.0,
+   "compartments": 2,
+   "nerve": "inferior_gluteal_n",
+   "roots": "L5-S2",
+   "actions": [
+    "extends hip (main climbing/rising-from-sit/sprinting muscle)",
+    "externally rotates hip",
+    "upper fibers assist abduction, lower fibers assist adduction"
+   ]
+  },
+  {
    "id": "vastus_lateralis_r",
    "name": "Vastus lateralis",
    "region": "lower_limb",
    "shape": "capsule",
    "a": [
-    130.0,
-    -20.0,
-    0.0
+    157.3,
+    -36.4,
+    -18.4
    ],
    "b": [
     90.0,
@@ -3930,7 +4493,7 @@
    "rb": 14.7,
    "pcsa": 2400.0,
    "compartments": 1,
-   "nerve": "femoral_n_r",
+   "nerve": "femoral_n",
    "roots": "L2-L4",
    "actions": [
     "extends knee (largest quadriceps head by PCSA)"
@@ -4127,6 +4690,44 @@
    ],
    "approximate": true,
    "note": "1 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "plantar_ligament_complex_r",
+   "name": "plantar_ligament_complex_r",
+   "region": "ankle_foot",
+   "shape": "ellipsoid",
+   "center": [
+    75.0,
+    -835.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
+  },
+  {
+   "kind": "ligament",
+   "id": "plantar_ligament_complex_l",
+   "name": "plantar_ligament_complex_l",
+   "region": "ankle_foot",
+   "shape": "ellipsoid",
+   "center": [
+    -75.0,
+    -835.0,
+    10.0
+   ],
+   "radii": [
+    11,
+    11,
+    11
+   ],
+   "approximate": true,
+   "note": "5 documented band(s)"
   },
   {
    "kind": "ligament",

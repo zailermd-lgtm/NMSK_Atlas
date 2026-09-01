@@ -439,27 +439,51 @@ to exclude it, and the substring matcher anchored flexor digitorum longus
 exactly there. Four bilateral pairs were affected — FDL, gluteus medius,
 popliteus, rhomboid major. It now refuses such a match and reports it.
 
-**Still open, and not fixable by moving a coordinate.** Some landmarks are
-broad attachment lines collapsed to a single point, so no one value can serve
-the muscles hanging off them:
+**Collapsed landmarks.** Some landmarks were broad attachment lines collapsed
+to a single point, so no one value could serve the muscles hanging off them:
 
-| Landmark | Muscles sharing one coordinate |
-|---|---|
-| iliac crest | 6 — TFL, quadratus lumborum, longissimus, iliocostalis, both obliques |
-| ischial tuberosity | 8 — adductor magnus, biceps femoris, gemellus inferior, quadratus femoris, … |
-| greater trochanter | 7 — both gemelli, gluteus medius/minimus, obturator internus, piriformis, … |
-| phalanges (hand/foot) | 7 each — every intrinsic, all on digit III's proximal base |
+| Landmark | Muscles sharing one coordinate | Now |
+|---|---|---|
+| iliac crest | 6 — TFL, quadratus lumborum, longissimus, iliocostalis, both obliques | split into three measured points along the arc |
+| ischial tuberosity | 8 — adductor magnus, biceps femoris, gemellus inferior, quadratus femoris, … | split into five measured facets |
+| greater trochanter | 7 — both gemelli, gluteus medius/minimus, obturator internus, piriformis, … | split into facets earlier |
+| phalanges (hand/foot) | 7 each — every intrinsic, all on digit III's proximal base | open |
 
-The iliac crest measures as a **90 mm arc**: the atlas's point sits on its
-anterior end, the crest's highest point 49 mm away on its posterior end, and
-both are legitimately "the iliac crest". The phalanges case is worse than a
-broad line — 14 separate bones are one atlas entity, so abductor pollicis
-brevis and abductor digiti minimi both resolve to digit III.
+The iliac crest measures as a **176 mm arc** from ASIS to PSIS on the Visible
+Human pelvis, and its highest point sits 50 mm behind where the atlas's single
+point was. It now carries an anterior point on the outer lip (tensor fasciae
+latae, external oblique), a middle point on the intermediate line (internal
+oblique, transversus) and a posterior point on the inner lip (quadratus
+lumborum, erector spinae), each measured on both hip bones and averaged; the
+two sides differ by 7–10 mm in X, the left ilium sitting further lateral of
+its acetabulum. The ischial tuberosity carries the superolateral facet of the
+upper area (semimembranosus), the inferomedial facet (the conjoint tendon of
+semitendinosus and the long head of biceps), the lateral part of the lower
+area (adductor magnus), the lateral border (quadratus femoris, gemellus
+inferior) and the medial, perineal surface (ischiocavernosus, superficial
+transverse perineal); those agree between sides within 1–4 mm. The gluteal
+surface of the ilium gained a representative origin point each for gluteus
+medius, minimus and maximus, and the fibula a proximal and a distal point on
+the lateral surface of its shaft (fibularis longus, brevis), so fibularis
+longus no longer originates at the frame origin inside the fibular head.
+Each muscle's attachment prose was made to name the facet it takes, since
+that is what the anchor generator reads. 114 landmarks are now measured
+against geometry, median 1.2 mm from the bone surface.
 
-Closing these needs either per-muscle attachment points along a named line,
-or splitting the grouped bone entities. It is a data-model change, not a
-correction, and moving the existing coordinates would hide it rather than
-fix it.
+The matcher needed two corrections to make this work: a word repeated in a
+landmark name scored twice, and the parenthesised list of WHO attaches was
+scored like the description of WHERE, so a muscle whose text names its
+neighbour ("deep to fibularis longus") matched the neighbour's landmark. The
+site is now scored first and the attachment list only breaks ties. One new
+flag is honest: the long head of biceps femoris arises from the inferomedial
+facet and its tendon wraps laterally round the tuberosity to reach its belly,
+which the straight-line check reports as blocked by the hip bone. Origins
+have no declared path yet; only insertions do.
+
+The phalanges case is worse than a broad line — 14 separate bones are one
+atlas entity, so abductor pollicis brevis and abductor digiti minimi both
+resolve to digit III. Closing it needs the grouped bone entity split, which
+is a data-model change, not a correction.
 
 Still open:
 - Cross-check generated moment arms against published values (e.g.

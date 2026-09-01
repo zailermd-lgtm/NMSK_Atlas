@@ -63,7 +63,11 @@ def _tokens(name: str) -> list:
     resolving to the old catch-all point.
     """
     cleaned = re.sub(r"[^\w\s]", " ", name.lower())
-    return [t for t in cleaned.split() if len(t) > 3]
+    # Each word once. A name that repeats a word -- "lower area, lateral
+    # part (adductor magnus, hamstring part)" -- scored that word twice for
+    # any text containing it, which is how quadratus femoris, whose text
+    # names the tuberosity's lateral BORDER, was sent to its lower area.
+    return list(dict.fromkeys(t for t in cleaned.split() if len(t) > 3))
 
 
 _ORDINAL_WORDS = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5}
@@ -117,6 +121,16 @@ def _match(landmark_text: str, candidates: list):
         tokens = _tokens(name)
         if not tokens or not all(t in text for t in tokens[:2]):
             continue
+        # A landmark name has two parts: the SITE ("ischial tuberosity,
+        # lateral border") and, in parentheses, WHO attaches there. Only the
+        # site describes where the landmark is. The attachment list is a
+        # hazard when scored the same way, because a muscle's text often
+        # names its neighbours in order to place itself relative to them --
+        # fibularis brevis arises "deep to fibularis longus" -- and every
+        # landmark listing that neighbour then scores as if it had been
+        # named. The site is scored first; the attachment list only breaks
+        # ties between sites that fit equally.
+        site = set(_tokens(re.sub(r"\([^)]*\)", " ", name)))
         # A landmark that names a different ray is not a weaker match, it is
         # the wrong bone. Only disqualify when BOTH sides state an ordinal:
         # a landmark named for the group ("metatarsal heads") is a legitimate
@@ -133,17 +147,20 @@ def _match(landmark_text: str, candidates: list):
         # (iliopsoas insertion)" scored 2/4 against 4/11 for its own facet,
         # whose name lists every muscle attaching there. Raw count first
         # gives 4 against 2 and picks the facet.
-        hits = sum(1 for t in tokens if t in text)
-        scored.append((hits, hits / len(tokens), name, pos, tokens))
+        site_hits = sum(1 for t in tokens if t in site and t in text)
+        other_hits = sum(1 for t in tokens if t not in site and t in text)
+        key = (site_hits, site_hits / max(len(site), 1), other_hits,
+               (site_hits + other_hits) / len(tokens))
+        scored.append((key, name, pos, tokens))
     if not scored:
         return None, None
-    scored.sort(key=lambda r: (-r[0], -r[1]))
-    if len(scored) > 1 and scored[0][:2] == scored[1][:2]:
+    scored.sort(key=lambda r: tuple(-v for v in r[0]))
+    if len(scored) > 1 and scored[0][0] == scored[1][0]:
         # Two landmarks fit equally well. Silently taking either would be a
         # coin toss recorded as a coordinate.
-        return None, (f"matches {scored[0][2]!r} and {scored[1][2]!r} equally "
+        return None, (f"matches {scored[0][1]!r} and {scored[1][1]!r} equally "
                       f"well; the text does not say which")
-    _, _, name, pos, tokens = scored[0]
+    _, name, pos, tokens = scored[0]
     qualifier = _is_displaced(text, text.find(tokens[0]))
     if qualifier:
         return None, (f"matched {name!r} but the text says "
