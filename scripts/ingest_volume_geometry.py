@@ -127,7 +127,15 @@ def cmd_propose(args) -> int:
     volume, _affine, _codes = vol.load_labels(path)
     names = vol.load_label_names(args.labels)
     atlas = vh.load_atlas_index()
-    overrides = vh.load_overrides()
+    reviewed = vol.load_atlas_mapping(args.labels)
+    known_ids = {e.entity_id for e in atlas}
+    bad = {n: m["atlas_id"] for n, m in reviewed.items()
+           if m.get("atlas_id") and m["atlas_id"] not in known_ids}
+    if bad:
+        raise SystemExit(
+            f"{args.labels}: {len(bad)} reviewed mapping(s) name an atlas "
+            f"entity that does not exist, so they would silently do nothing:\n"
+            + "\n".join(f"  {n} -> {i}" for n, i in list(bad.items())[:10]))
 
     present = sorted(set(np.unique(volume).tolist()) - {0})
     entries, counts = [], Counter()
@@ -141,6 +149,19 @@ def cmd_propose(args) -> int:
             continue
         pretty = raw.replace("_", " ")
         _base, side = vh.split_side(pretty)
+        decision = reviewed.get(raw)
+        if decision is not None:
+            # A reviewed decision outranks any score, including a decision
+            # NOT to map -- which is why atlas_id may be null here.
+            status = "curated" if decision["atlas_id"] else "no_atlas_entity"
+            entries.append({"label": label, "source_structure": raw,
+                            "side": side, "status": status,
+                            "atlas_id": decision["atlas_id"],
+                            "relationship": decision.get("relationship"),
+                            "note": decision.get("note") or None,
+                            "candidates": []})
+            counts[status] += 1
+            continue
         if any(k in raw for k in NOT_MUSCULOSKELETAL):
             status, chosen, note = "no_atlas_category", None, (
                 "Correctly segmented, but this atlas is musculoskeletal and "
@@ -151,13 +172,12 @@ def cmd_propose(args) -> int:
             best = cands[0] if cands else None
             runner = cands[1] if len(cands) > 1 else None
             note = None
-            key = vh.override_key(pretty)
-            override = overrides.get(key or "")
-            if override is not None:
-                resolved = vh.apply_override(override, side)
-                status, chosen = "curated", resolved["atlas_id"]
-                note = f"{resolved['relationship']}: {resolved['note']}"
-            elif best is not None and best.score >= vh.EXACT and (
+            # The STL ingest's override table is not consulted here. It keys
+            # on a tissue-class token ('bone|talus') that CT structure names
+            # never carry, so every lookup missed; the reviewed decisions for
+            # this label map live in the label map itself and were applied
+            # above.
+            if best is not None and best.score >= vh.EXACT and (
                     runner is None or runner.score < vh.EXACT):
                 status, chosen = "confident", best.entity_id
             elif best is None or best.score < args.min_score:

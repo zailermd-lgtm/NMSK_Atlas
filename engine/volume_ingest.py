@@ -87,6 +87,21 @@ def load_labels(path: Path) -> Tuple[np.ndarray, np.ndarray, str]:
     return data.astype(np.int32), np.asarray(img.affine, dtype=float), codes
 
 
+def load_atlas_mapping(name: str) -> Dict[str, dict]:
+    """Reviewed structure-name -> atlas-entity decisions for a label map.
+
+    The override table the STL ingest uses keys on a tissue-class token
+    ('bone|talus'), which CT structure names do not carry, so these live
+    beside the label numbering instead. Without them 63 of the 90
+    musculoskeletal and vascular structures in this release map to nothing:
+    'rib_left_7' scores 0.17 against an atlas that carries one 'ribs_l'.
+    """
+    path = LABEL_MAPS_DIR / f"{name}_labels.json"
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8")).get("atlas", {})
+
+
 def load_label_names(name: str) -> Dict[int, str]:
     """id -> structure name, from mappings/<name>_labels.json."""
     path = LABEL_MAPS_DIR / f"{name}_labels.json"

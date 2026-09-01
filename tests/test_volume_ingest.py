@@ -229,3 +229,66 @@ def test_overlapping_masks_are_counted_not_hidden(tmp_path):
     assert r.returncode == 0, r.stderr
     assert "claimed by more than" in r.stdout
     assert "That is a lot" in r.stdout
+
+
+def test_every_ct_structure_reaches_a_decision():
+    """Without the reviewed mapping, 63 of the 90 musculoskeletal and vascular
+    structures in this release map to nothing: the matcher scores
+    'rib_left_7' against an atlas carrying one 'ribs_l' entity and gets 0.17,
+    and 'vertebrae_T8' against 'thoracic_vertebrae' and gets 0.33. Every
+    structure must end up either mapped or refused for a stated reason -- an
+    unmatched one is a silent hole in whatever is measured afterwards."""
+    import sys as _sys
+    _sys.path.insert(0, str(REPO_ROOT))
+    from engine import vh_ingest as vh
+
+    names = vol.load_label_names("totalsegmentator")
+    reviewed = vol.load_atlas_mapping("totalsegmentator")
+    atlas = vh.load_atlas_index()
+    visceral = ("spleen", "kidney", "gallbladder", "liver", "stomach",
+                "pancreas", "adrenal", "lung", "esophagus", "trachea",
+                "thyroid", "bowel", "duodenum", "colon", "bladder",
+                "prostate", "heart", "atrial", "brain", "cyst")
+
+    undecided = []
+    for raw in names.values():
+        if raw in reviewed or any(k in raw for k in visceral):
+            continue
+        pretty = raw.replace("_", " ")
+        _b, side = vh.split_side(pretty)
+        cands = vh.propose_matches(pretty, atlas, side=side, top_n=2)
+        best = cands[0] if cands else None
+        runner = cands[1] if len(cands) > 1 else None
+        confident = (best is not None and best.score >= 0.55
+                     and not (runner and best.score - runner.score < 0.08))
+        if not confident:
+            undecided.append(f"{raw} (best {best.score if best else 0:.2f})")
+    assert not undecided, "\n".join(undecided)
+
+
+def test_every_reviewed_mapping_names_an_entity_that_exists():
+    """A mapping to an id the atlas does not carry does nothing at all, and
+    looks identical to a mapping that worked."""
+    import sys as _sys
+    _sys.path.insert(0, str(REPO_ROOT))
+    from engine import vh_ingest as vh
+    known = {e.entity_id for e in vh.load_atlas_index()}
+    bad = [f"{n} -> {m['atlas_id']}"
+           for n, m in vol.load_atlas_mapping("totalsegmentator").items()
+           if m.get("atlas_id") and m["atlas_id"] not in known]
+    assert not bad, "\n".join(bad)
+
+
+def test_a_refusal_to_map_carries_its_reason():
+    """atlas_id null is a decision, not an omission. Two opposite kinds live
+    here and both must say which they are: the ribs and vertebrae are cases
+    where the RELEASE is finer than the atlas, handled by part_of; autochthon
+    is a case where the ATLAS is finer than the release, which no mapping can
+    fix because the information is not in the mask."""
+    reviewed = vol.load_atlas_mapping("totalsegmentator")
+    refused = {n: m for n, m in reviewed.items() if not m.get("atlas_id")}
+    assert refused, "expected some structures to be deliberately unmapped"
+    for name, entry in refused.items():
+        assert len(entry.get("note", "")) > 40, f"{name} refused without a reason"
+    assert "autochthon_left" in refused
+    assert "finer" in refused["autochthon_left"]["note"]
