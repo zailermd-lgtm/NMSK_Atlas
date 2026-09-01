@@ -19,13 +19,9 @@ reference to something the atlas does not carry is never invented; it is
 reported, because a missing left-side compartment is a gap in the muscle data
 and papering over it here would hide it.
 
-WHAT THIS DOES NOT FIX. `motor_entry_point.target_muscle_compartment` is a
-single string, so a side-agnostic nerve can name only one side's motor point.
-The entry description beside it is side-independent anatomy ("passes through
-the suprascapular notch..."), so nothing there is wrong -- but the compartment
-it names is one side's, and for injection work the motor point IS the target.
-That limitation is left in place and stated rather than worked around, since
-fixing it means changing the schema and every record that uses it.
+`motor_entry_point.target_muscle_compartment` was the same defect in a
+single-valued field, and was fixed afterwards by letting it hold a list: 71
+of 74 motor points named the right side alone, and each now names both.
 """
 from __future__ import annotations
 

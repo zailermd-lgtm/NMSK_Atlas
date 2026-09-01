@@ -368,3 +368,23 @@ def test_the_cross_reference_check_catches_a_dangling_id(tmp_path, monkeypatch):
     assert any("quadriceps_femoris_group_r" in p for p in problems), problems
     # and prose in the same field must not be reported
     assert not any("laryngeal mucosa" in p for p in problems)
+
+
+def test_a_side_agnostic_nerve_names_both_motor_points():
+    """motor_entry_point.target_muscle_compartment was a single string, so a
+    side-agnostic nerve could name only one side's motor point -- and for
+    injection work the motor point IS the target. 71 of 74 named the right
+    side alone. Now each names both, where both exist."""
+    bad = []
+    for filename, rec in _tree_records():
+        mep = rec.get("motor_entry_point")
+        if not mep or _SIDE_TOKEN.search(rec["id"]):
+            continue
+        target = mep.get("target_muscle_compartment")
+        names = target if isinstance(target, list) else [target]
+        for one in names:
+            if isinstance(one, str) and _SIDE_TOKEN.search(one) \
+                    and _mirror(one) not in names:
+                bad.append(f"{filename}: {rec['id']} motor point names {one!r} "
+                           f"but not {_mirror(one)!r}")
+    assert not bad, "\n".join(bad[:20])

@@ -71,20 +71,38 @@ systems, or a clinically-distinct name — see
 `schema/tendon.schema.json`'s description for the full scoping
 rationale.
 
-## Naming note: nerve/vessel trees are side-generic
+## Naming note: nerves are side-generic, vessels are not
 
-`data/nerves/brachial_plexus.json` and `data/vascular/upper_limb_*.json`
-model *one* plexus/tree (e.g. `median_n`, `axillary_n`), applicable to
-either side by the same bilateral-symmetry convention used everywhere else
-in the atlas — they are not duplicated as `_r`/`_l`. A muscle's top-level
-`innervation.nerve` field is a free-text descriptive summary (e.g.
-`"median_n_r"`, or a compound string like
-`"median_n_r_anterior_interosseous_branch_and_ulnar_n_r"` for a
-dual-innervated muscle) and is not schema-constrained to literally equal a
-`nerve_branch` id — the precise, individually-verifiable link is each
-`functional_compartments[i].innervation_branch` free-text field, cross-
-checked against `data/nerves/brachial_plexus.json`'s actual branch nodes
-during this pass's adversarial fact-check (see docs/VERIFICATION.md).
+**Nerves.** `data/nerves/*.json` model *one* plexus or tree (`median_n`,
+`axillary_n`), standing for both sides. Only two nerve entities carry a side
+suffix (the recurrent laryngeal branches). A side-generic nerve's `targets`
+therefore name **both** sides' compartments — `deltoid_r_anterior` and
+`deltoid_l_anterior` — and its `motor_entry_point.target_muscle_compartment`
+is a list naming both. For a long time neither did: 359 target references
+pointed right and none left, and 71 of 74 motor points named the right side
+alone, so "what does the axillary nerve supply?" answered with half the body.
+Tests in `tests/test_symmetry.py` now hold both sides present.
+
+**Vessels.** `data/vascular/*.json` are sided, `_r`/`_l`, like muscles and
+bones. The trunk trees always were; the limb and head/neck trees were
+right-side only until `scripts/mirror_lateral_vessels.py` built the left
+(129 entities). One vessel is deliberately unilateral, the brachiocephalic
+trunk, and the test that demands a counterpart for every sided vessel lists
+it with the reason.
+
+**A muscle's innervation.** `innervation.nerve` is a nerve entity id, or a
+**list** of them for a muscle with more than one nerve — adductor magnus is
+obturator and sciatic, biceps femoris is tibial-division long head and
+common-fibular-division short head. Every element must resolve
+(`engine/validators.py`). Which nerve reaches *which* compartment is on the
+compartment: `innervation_branch` is the prose ("tibial division of sciatic
+n."), and `innervation_branch_ids` is its resolvable counterpart. On the
+dually innervated muscles the compartment, not the muscle, is the unit that
+has one nerve, and that is the unit a nerve block or a botulinum plan works
+in. Two nerves were once packed into a single pseudo-id string
+(`femoral_n_and_obturator_n`) that resolved to nothing; an allow-list in the
+validator excused 22 such strings, which is how 64 muscles came to point at
+no nerve while every check passed. That form is no longer accepted.
 
 ## Worked example: how one muscle becomes 1mm fiber geometry
 
@@ -100,12 +118,13 @@ during this pass's adversarial fact-check (see docs/VERIFICATION.md).
     "origin_bone": "clavicle_r", "origin_landmark": "lateral third, anterior border",
     "insertion_bone": "humerus_r", "insertion_landmark": "deltoid tuberosity"
   },
-  "innervation": { "nerve": "axillary_n_r", "root_levels": "C5-C6" },
+  "innervation": { "nerve": "axillary_n", "root_levels": "C5-C6" },
   "functional_compartments": [
     {
-      "id": "deltoid_r_clavicular_anterior",
+      "id": "deltoid_r_anterior_1",
       "name": "Anterior (clavicular) fibers",
-      "innervation_branch": "axillary n., anterior branch",
+      "innervation_branch": "axillary n., anterior branch, proximal fascicle",
+      "innervation_branch_ids": ["axillary_n"],
       "fiber_architecture": { "architecture_type": "parallel_strap", "pennation_deg": 0, ... },
       "neuromuscular_junction_zone": { "position_fraction_along_fascicle": 0.5 },
       "source": "..."

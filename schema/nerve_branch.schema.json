@@ -5,32 +5,102 @@
   "description": "One node in a nerve tree graph (root, trunk, division, cord, or named branch down to terminal muscular/cutaneous twigs). The full set of NerveBranch records for a plexus forms a directed tree rooted at the spinal nerve roots; engine/nerve_tree.py builds and validates this graph (every non-root node must resolve to exactly one parent, every leaf must terminate in a documented target).",
   "type": "object",
   "properties": {
-    "id": { "type": "string" },
-    "name": { "type": "string" },
-    "plexus": { "type": "string", "description": "e.g. 'brachial_plexus', 'lumbar_plexus', 'sacral_plexus', or 'cranial' / 'direct_spinal' for non-plexus nerves" },
-    "parent_id": { "type": ["string", "null"], "description": "id of the proximal nerve segment this branches from; null only for plexus root nodes (spinal nerve roots)" },
-    "level": { "type": "string", "enum": ["root", "trunk", "division", "cord", "terminal_branch", "muscular_branch", "cutaneous_branch", "articular_branch"] },
-    "root_contributions": { "type": "string", "description": "spinal levels contributing fibers, e.g. 'C5-C6'" },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "plexus": {
+      "type": "string",
+      "description": "e.g. 'brachial_plexus', 'lumbar_plexus', 'sacral_plexus', or 'cranial' / 'direct_spinal' for non-plexus nerves"
+    },
+    "parent_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "id of the proximal nerve segment this branches from; null only for plexus root nodes (spinal nerve roots)"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "root",
+        "trunk",
+        "division",
+        "cord",
+        "terminal_branch",
+        "muscular_branch",
+        "cutaneous_branch",
+        "articular_branch"
+      ]
+    },
+    "root_contributions": {
+      "type": "string",
+      "description": "spinal levels contributing fibers, e.g. 'C5-C6'"
+    },
     "path_via_points_mm": {
       "type": "array",
-      "description": "ordered polyline landmarks the nerve trunk travels through in the global frame (or a named bone's local frame) — enough to generate a smooth 1mm-sampled centerline that is later reparented onto the rig so it deforms with the limb.",
-      "items": { "type": "object", "properties": { "landmark": { "type": "string" }, "bone_frame": { "type": "string" }, "position_local_mm": { "$ref": "common.schema.json#/definitions/vec3_mm" } } }
+      "description": "ordered polyline landmarks the nerve trunk travels through in the global frame (or a named bone's local frame) \u2014 enough to generate a smooth 1mm-sampled centerline that is later reparented onto the rig so it deforms with the limb.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "landmark": {
+            "type": "string"
+          },
+          "bone_frame": {
+            "type": "string"
+          },
+          "position_local_mm": {
+            "$ref": "common.schema.json#/definitions/vec3_mm"
+          }
+        }
+      }
     },
     "targets": {
       "type": "array",
       "description": "muscle compartment ids and/or skin dermatome regions this branch innervates",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "motor_entry_point": {
       "type": "object",
       "description": "Where the branch pierces the target muscle to reach its neuromuscular junction zone (the classic 'motor point').",
       "properties": {
-        "target_muscle_compartment": { "type": "string" },
-        "entry_description": { "type": "string" }
+        "target_muscle_compartment": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          ],
+          "description": "The compartment(s) this branch enters. A LIST on a side-agnostic nerve, naming both sides' compartments: one entity stands for the left nerve and the right, and a single string could name only one side's motor point -- which for injection work IS the target. The entry_description beside it is side-independent anatomy and applies to each."
+        },
+        "entry_description": {
+          "type": "string"
+        }
       }
     },
-    "notes": { "type": "string" },
-    "source": { "$ref": "common.schema.json#/definitions/citation" }
+    "notes": {
+      "type": "string"
+    },
+    "source": {
+      "$ref": "common.schema.json#/definitions/citation"
+    }
   },
-  "required": ["id", "name", "plexus", "level", "source"]
+  "required": [
+    "id",
+    "name",
+    "plexus",
+    "level",
+    "source"
+  ]
 }
