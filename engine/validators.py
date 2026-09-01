@@ -457,6 +457,103 @@ def validate_bone_references() -> List[str]:
     return problems
 
 
+# Fields whose values are ids of other entities. Anything in one of these
+# that looks like an id and resolves to nothing is a hole in the graph. The
+# list is explicit rather than inferred from field names, because the same
+# word means different things in different records: `targets` on a nerve
+# holds compartment ids AND dermatome prose, and `articulates_with` on a
+# bone may name a bone this skeleton groups away.
+_CROSS_REFERENCE_FIELDS = (
+    "parent_id", "owner_entity", "parent_bone_frame", "bone_frame",
+    "origin_bone", "insertion_bone", "supplies_or_drains", "targets",
+    "anastomoses_with", "root_contributions", "innervation_branch_ids",
+    "parent_muscles", "target_muscle_compartment",
+)
+
+# Referenced ids this atlas knowingly does not carry, each with the reason.
+# An allow-list without reasons is a place to hide missing data.
+_KNOWN_ABSENT = {
+    # The skeleton groups the facial bones; a mandible's articulation with the
+    # maxilla is real, and the maxilla is not an entity here.
+    "parietal": "skull bones are not modelled individually",
+    "nasal": "skull bones are not modelled individually",
+    "zygomatic": "skull bones are not modelled individually",
+    "maxilla": "skull bones are not modelled individually",
+    "lacrimal": "skull bones are not modelled individually",
+    "temporal": "skull bones are not modelled individually",
+    "frontal": "skull bones are not modelled individually",
+    "sphenoid": "skull bones are not modelled individually",
+    "ethmoid": "skull bones are not modelled individually",
+    "palatine": "skull bones are not modelled individually",
+    "hyoid": "not carried as a bone entity",
+    # Regions a vessel supplies, named in prose in supplies_or_drains. One
+    # lowercase word is indistinguishable from an id by shape alone --
+    # 'sacrum' and 'sternum' are ids -- so these are named here instead.
+    "breast": "a region, not an entity",
+    "perineum": "a region, not an entity",
+    "acromion": "a region of the scapula, not an entity",
+}
+
+_BARE_ID = re.compile(r"^[a-z][a-z0-9_]*$")
+
+
+def validate_cross_references() -> List[str]:
+    """Every id-valued reference field must point at an entity that exists.
+
+    This found lateral_circumflex_femoral_a_r supplying
+    'quadriceps_femoris_group_r', an id the atlas has never carried, and the
+    22 packed innervation strings that 64 muscles pointed at. Free text is
+    allowed in fields the schema says hold prose -- "laryngeal mucosa below
+    the vocal folds" is a legitimate nerve target -- so only values shaped
+    like a bare id are checked, and a bare id that resolves to nothing is
+    reported unless it is in _KNOWN_ABSENT with a reason.
+    """
+    known = set()
+
+    def collect(node):
+        if isinstance(node, dict):
+            if isinstance(node.get("id"), str):
+                known.add(node["id"])
+            for v in node.values():
+                collect(v)
+        elif isinstance(node, list):
+            for v in node:
+                collect(v)
+
+    payloads = {}
+    for path in _all_data_files():
+        payloads[path] = _load_json(path)
+        collect(payloads[path])
+
+    problems = []
+
+    def check(value, where):
+        if not isinstance(value, str) or not _BARE_ID.match(value):
+            return
+        if value in known or value in _KNOWN_ABSENT:
+            return
+        problems.append(f"{where}: references unknown id '{value}'")
+
+    def scan(node, where):
+        if isinstance(node, dict):
+            label = node.get("id", where) if isinstance(node.get("id"), str) else where
+            for k, v in node.items():
+                if k in _CROSS_REFERENCE_FIELDS:
+                    if isinstance(v, list):
+                        for x in v:
+                            check(x, f"{label}.{k}")
+                    else:
+                        check(v, f"{label}.{k}")
+                scan(v, label)
+        elif isinstance(node, list):
+            for v in node:
+                scan(v, where)
+
+    for path, payload in payloads.items():
+        scan(payload, str(path.relative_to(DATA_DIR)))
+    return problems
+
+
 def validate_symmetry() -> List[str]:
     """Every 'right'-sided bilateral entity should have a matching 'left'
     counterpart with the same base id (id minus the _r/_l suffix).

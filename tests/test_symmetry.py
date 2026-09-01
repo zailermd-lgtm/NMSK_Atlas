@@ -330,3 +330,41 @@ def test_the_validator_catches_a_packed_string_again(tmp_path, monkeypatch):
     monkeypatch.setattr(validators, "DATA_DIR", fake)
     problems = [p for p in validators.validate_bone_references() if "innervation" in p]
     assert any("femoral_n_and_obturator_n" in p for p in problems), problems
+
+
+# --------------------------------------------------------------------------
+# referential integrity across the whole atlas
+# --------------------------------------------------------------------------
+
+def test_every_reference_points_at_something():
+    """A one-off scan for dangling ids found lateral_circumflex_femoral_a_r
+    supplying 'quadriceps_femoris_group_r', an id the atlas has never
+    carried, and the 22 packed innervation strings 64 muscles pointed at.
+    Each looked exactly like a reference that worked. Now it is a validator,
+    and what it knowingly cannot resolve is listed with a reason."""
+    from engine import validators
+    problems = validators.validate_cross_references()
+    assert not problems, "\n".join(problems[:20])
+    for ref, why in validators._KNOWN_ABSENT.items():
+        assert len(why) > 12, f"{ref} is excused without a reason"
+
+
+def test_the_cross_reference_check_catches_a_dangling_id(tmp_path, monkeypatch):
+    """Verified by putting one back."""
+    from engine import validators
+    root = BONES.parent.parent
+    fake = tmp_path / "data"
+    for folder in ("skeleton", "nerves", "vascular"):
+        (fake / folder).mkdir(parents=True)
+        for f in (root / folder).glob("*.json"):
+            (fake / folder / f.name).write_text(f.read_text())
+    art = fake / "vascular" / "lower_limb_arterial.json"
+    payload = json.loads(art.read_text())
+    victim = next(r for r in payload if r.get("id") == "lateral_circumflex_femoral_a_r")
+    victim["supplies_or_drains"].append("quadriceps_femoris_group_r")
+    art.write_text(json.dumps(payload))
+    monkeypatch.setattr(validators, "DATA_DIR", fake)
+    problems = validators.validate_cross_references()
+    assert any("quadriceps_femoris_group_r" in p for p in problems), problems
+    # and prose in the same field must not be reported
+    assert not any("laryngeal mucosa" in p for p in problems)
