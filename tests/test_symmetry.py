@@ -96,3 +96,103 @@ def test_a_medial_surface_of_a_lateral_feature_is_not_flagged():
         "(obturator internus, gemelli, obturator externus insertion)") is None
     assert _side_claimed("medial epicondyle") == "medial"
     assert _side_claimed("acromial (lateral) end") == "lateral"
+
+
+# --------------------------------------------------------------------------
+# laterality in the nerve and vessel graphs
+# --------------------------------------------------------------------------
+
+_SIDE_TOKEN = re.compile(r"_(r|l)(?=_|$)")
+_LIST_REFS = ("targets", "supplies_or_drains", "anastomoses_with",
+              "root_contributions")
+
+
+def _mirror(ref: str) -> str:
+    return _SIDE_TOKEN.sub(lambda m: "_l" if m.group(1) == "r" else "_r",
+                           ref, count=1)
+
+
+def _tree_records():
+    for folder in ("nerves", "vascular"):
+        for path in sorted((BONES.parent.parent / folder).glob("*.json")):
+            payload = json.loads(path.read_text())
+            for rec in (payload if isinstance(payload, list) else [payload]):
+                if isinstance(rec, dict) and "id" in rec:
+                    yield path.name, rec
+
+
+def _one_sided_targets(records):
+    """Side-agnostic entities whose sided references name only one side."""
+    bad = []
+    for filename, rec in records:
+        if _SIDE_TOKEN.search(rec["id"]):
+            continue
+        for field in _LIST_REFS:
+            refs = rec.get(field) or []
+            for ref in refs:
+                # Free text is legitimate in `targets` -- the schema says it
+                # holds "muscle compartment ids and/or skin dermatome
+                # regions" -- so only entries carrying a side token are ids.
+                if isinstance(ref, str) and _SIDE_TOKEN.search(ref):
+                    if _mirror(ref) not in refs:
+                        bad.append(f"{filename}: {rec['id']}.{field} has "
+                                   f"{ref!r} but not {_mirror(ref)!r}")
+    return bad
+
+
+def _crossed_sides(records):
+    """Sided entities whose sided references name the OTHER side."""
+    bad = []
+    for filename, rec in records:
+        own = _SIDE_TOKEN.search(rec["id"])
+        if not own:
+            continue
+        for field in _LIST_REFS:
+            for ref in rec.get(field) or []:
+                if not isinstance(ref, str):
+                    continue
+                hit = _SIDE_TOKEN.search(ref)
+                if hit and hit.group(1) != own.group(1):
+                    bad.append(f"{filename}: {rec['id']} is _{own.group(1)} "
+                               f"but {field} names {ref!r}")
+    return bad
+
+
+def test_a_side_agnostic_nerve_reaches_both_sides():
+    """Nerve ids are side-agnostic by convention -- 393 of 404 muscles cite an
+    unsided nerve -- so one entity stands for the left nerve and the right.
+    Its targets once did not: 359 references to right-side compartments and
+    ZERO to the left, which made the graph complete in one direction and half
+    empty in the other. That is worse than being visibly incomplete in both,
+    because "what does the axillary nerve supply?" answered confidently with
+    half the body."""
+    assert not _one_sided_targets(_tree_records()), \
+        "\n".join(_one_sided_targets(_tree_records())[:20])
+
+
+def test_a_sided_nerve_does_not_supply_the_other_side():
+    """The left recurrent laryngeal nerve had been given the RIGHT laryngeal
+    compartments -- all five of them -- so it appeared to supply the right
+    larynx while nothing reached the left."""
+    assert not _crossed_sides(_tree_records()), \
+        "\n".join(_crossed_sides(_tree_records())[:20])
+
+
+def test_both_laterality_checks_catch_the_faults_they_are_for():
+    """Verified by feeding each check the fault it exists to catch."""
+    half = [("x.json", {"id": "axillary_n",
+                        "targets": ["deltoid_r_anterior"]})]
+    assert _one_sided_targets(half), "a one-sided target list went unnoticed"
+    assert not _crossed_sides(half), "an unsided entity cannot cross sides"
+
+    crossed = [("x.json", {"id": "vagus_n_recurrent_laryngeal_branch_l",
+                           "targets": ["vocalis_r_main"]})]
+    assert _crossed_sides(crossed), "a nerve supplying the other side went unnoticed"
+
+    # A midline muscle is not sided and must not be demanded in pairs.
+    midline = [("x.json", {"id": "some_n", "targets": ["transverse_arytenoid_main"]})]
+    assert not _one_sided_targets(midline)
+    # Nor is free text an id to be mirrored.
+    prose = [("x.json", {"id": "some_n",
+                         "targets": ["laryngeal mucosa below the vocal folds"]})]
+    assert not _one_sided_targets(prose)

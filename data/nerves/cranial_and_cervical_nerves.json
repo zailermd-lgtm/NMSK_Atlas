@@ -1,929 +1,978 @@
 [
-  {
-    "id": "facial_n_trunk",
-    "name": "Facial nerve, extracranial trunk",
-    "plexus": "facial_n",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN VII",
-    "notes": "Exits the stylomastoid foramen and passes through the parotid gland (without supplying it), dividing into 5 terminal branches within the parotid ('pes anserinus')."
-  },
-  {
-    "id": "facial_n_digastric_branch",
-    "name": "Digastric branch",
-    "plexus": "facial_n",
-    "parent_id": "facial_n_trunk",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "digastric_r_posterior"
-    ],
-    "motor_entry_point": {
-      "target_muscle_compartment": "digastric_r_posterior",
-      "entry_description": "given off just before the nerve enters the parotid gland"
-    }
-  },
-  {
-    "id": "facial_n_temporal_branch",
-    "name": "Temporal branch",
-    "plexus": "facial_n",
-    "parent_id": "facial_n_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "frontalis_r_main",
-      "orbicularis_oculi_r_orbital"
-    ]
-  },
-  {
-    "id": "facial_n_zygomatic_branch",
-    "name": "Zygomatic branch",
-    "plexus": "facial_n",
-    "parent_id": "facial_n_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "orbicularis_oculi_r_palpebral",
-      "zygomaticus_major_r_main",
-      "levator_labii_superioris_r_main"
-    ]
-  },
-  {
-    "id": "facial_n_buccal_branch",
-    "name": "Buccal branch",
-    "plexus": "facial_n",
-    "parent_id": "facial_n_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "orbicularis_oris_r_main",
-      "buccinator_r_main"
-    ]
-  },
-  {
-    "id": "facial_n_marginal_mandibular_branch",
-    "name": "Marginal mandibular branch",
-    "plexus": "facial_n",
-    "parent_id": "facial_n_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "depressor_anguli_oris_r_main",
-      "mentalis_r_main"
-    ]
-  },
-  {
-    "id": "facial_n_cervical_branch",
-    "name": "Cervical branch",
-    "plexus": "facial_n",
-    "parent_id": "facial_n_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "platysma_r_main"
-    ]
-  },
-  {
-    "id": "trigeminal_n_v3_trunk",
-    "name": "Trigeminal n., mandibular division (V3)",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN V3",
-    "notes": "Exits the skull through foramen ovale; the only trigeminal division with a motor root (to the muscles of mastication and other 1st-pharyngeal-arch derivatives)."
-  },
-  {
-    "id": "trigeminal_n_v3_masseteric_branch",
-    "name": "Masseteric branch",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "masseter_r_superficial",
-      "masseter_r_deep"
-    ]
-  },
-  {
-    "id": "trigeminal_n_v3_deep_temporal_branches",
-    "name": "Deep temporal branches",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "temporalis_r_anterior",
-      "temporalis_r_posterior"
-    ]
-  },
-  {
-    "id": "trigeminal_n_v3_medial_pterygoid_branch",
-    "name": "Medial pterygoid branch",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "medial_pterygoid_r_main"
-    ]
-  },
-  {
-    "id": "trigeminal_n_v3_lateral_pterygoid_branch",
-    "name": "Lateral pterygoid branch",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "lateral_pterygoid_r_superior",
-      "lateral_pterygoid_r_inferior"
-    ]
-  },
-  {
-    "id": "trigeminal_n_v3_mylohyoid_branch",
-    "name": "Mylohyoid nerve",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "mylohyoid_r_main",
-      "digastric_r_anterior"
-    ],
-    "notes": "A single branch supplying both mylohyoid and the anterior belly of digastric -- both derive from the 1st pharyngeal arch, unlike digastric's posterior belly (facial nerve, 2nd arch)."
-  },
-  {
-    "id": "trigeminal_n_v3_tensor_tympani_branch",
-    "name": "Nerve to tensor tympani",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "tensor tympani (middle ear muscle, not yet modeled in this pass)"
-    ]
-  },
-  {
-    "id": "trigeminal_n_v3_tensor_veli_palatini_branch",
-    "name": "Nerve to tensor veli palatini",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "tensor veli palatini (soft palate muscle, not yet modeled in this pass)"
-    ],
-    "notes": "Along with tensor tympani, one of the two muscles of pharyngeal-arch-1 origin that are NOT vagus-innervated among the palate/pharynx/larynx muscle group (the classic 'tensor-tensor' exception to the 'everything else is vagus' rule)."
-  },
-  {
-    "id": "oculomotor_n",
-    "name": "Oculomotor nerve",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN III",
-    "notes": "Enters the orbit via the superior orbital fissure, within the common tendinous ring, dividing into superior and inferior divisions."
-  },
-  {
-    "id": "oculomotor_n_superior_division",
-    "name": "Superior division",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": "oculomotor_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "superior_rectus_r_main"
-    ],
-    "notes": "Also supplies levator palpebrae superioris (eyelid elevator, not yet modeled in this pass)."
-  },
-  {
-    "id": "oculomotor_n_inferior_division",
-    "name": "Inferior division",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": "oculomotor_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "inferior_rectus_r_main",
-      "medial_rectus_r_main",
-      "inferior_oblique_r_main"
-    ],
-    "notes": "Also gives the parasympathetic root to the ciliary ganglion (pupillary sphincter/ciliary muscle -- smooth muscle, out of scope for this skeletal-muscle-focused atlas)."
-  },
-  {
-    "id": "trochlear_n",
-    "name": "Trochlear nerve",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN IV",
-    "notes": "The only cranial nerve to exit the brainstem dorsally, and the only one supplying a single specific muscle from outside the orbit before entering it."
-  },
-  {
-    "id": "trochlear_n_terminal",
-    "name": "Trochlear n. terminal branch",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": "trochlear_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "superior_oblique_r_main"
-    ]
-  },
-  {
-    "id": "abducens_n",
-    "name": "Abducens nerve",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN VI",
-    "notes": "Longest intracranial course of any cranial nerve relative to its exit point, making it especially vulnerable to raised intracranial pressure (a classic false-localizing sign)."
-  },
-  {
-    "id": "abducens_n_terminal",
-    "name": "Abducens n. terminal branch",
-    "plexus": "extraocular_cranial_nerves",
-    "parent_id": "abducens_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "lateral_rectus_r_main"
-    ]
-  },
-  {
-    "id": "hypoglossal_n",
-    "name": "Hypoglossal nerve",
-    "plexus": "hypoglossal_n",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN XII",
-    "notes": "Exits the hypoglossal canal of the occipital bone; the C1 ventral ramus fibers that supply geniohyoid and thyrohyoid travel within its sheath for part of its course but are not true CN XII motor fibers (see geniohyoid's documented C1 innervation)."
-  },
-  {
-    "id": "hypoglossal_n_lingual_branches",
-    "name": "Lingual muscular branches",
-    "plexus": "hypoglossal_n",
-    "parent_id": "hypoglossal_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "genioglossus_r_main",
-      "hyoglossus_r_main",
-      "styloglossus_r_main"
-    ],
-    "notes": "Also supplies all intrinsic tongue muscles (not modeled as separate entities in this pass, since they lack discrete bony attachments to anchor a rigid-body compartment)."
-  },
-  {
-    "id": "vagus_n_pharyngeal_contribution",
-    "name": "Vagus n., pharyngeal plexus contribution",
-    "plexus": "pharyngeal_plexus",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN X",
-    "notes": "The vagus's pharyngeal branches join glossopharyngeal (sensory) and sympathetic fibers on the pharyngeal wall to form the pharyngeal plexus, which supplies essentially all palate/pharynx/larynx muscles except stylopharyngeus (CN IX) and tensor veli palatini (CN V3)."
-  },
-  {
-    "id": "pharyngeal_plexus_to_constrictors",
-    "name": "Pharyngeal plexus branch to constrictors",
-    "plexus": "pharyngeal_plexus",
-    "parent_id": "vagus_n_pharyngeal_contribution",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "superior_pharyngeal_constrictor_r_main",
-      "middle_pharyngeal_constrictor_r_main",
-      "inferior_pharyngeal_constrictor_r_thyropharyngeus",
-      "inferior_pharyngeal_constrictor_r_cricopharyngeus",
-      "palatopharyngeus_r_main",
-      "salpingopharyngeus_r_main",
-      "levator_veli_palatini_r_main",
-      "musculus_uvulae_main",
-      "palatoglossus_r_main"
-    ],
-    "notes": "Also supplies the middle and inferior pharyngeal constrictors (not yet modeled as separate entities in this pass, since the cartilaginous larynx/hyoid-only lower pharynx attachment points are not yet fully skeletonized)."
-  },
-  {
-    "id": "glossopharyngeal_n",
-    "name": "Glossopharyngeal nerve",
-    "plexus": "pharyngeal_plexus",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "CN IX",
-    "notes": "Exits the jugular foramen; the sole exception among pharynx muscles to vagal (pharyngeal plexus) innervation."
-  },
-  {
-    "id": "glossopharyngeal_n_stylopharyngeus_branch",
-    "name": "Branch to stylopharyngeus",
-    "plexus": "pharyngeal_plexus",
-    "parent_id": "glossopharyngeal_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "stylopharyngeus_r_main"
-    ]
-  },
-  {
-    "id": "cervical_plexus_root_C1",
-    "name": "Cervical plexus root, ventral ramus C1",
-    "plexus": "cervical_plexus",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C1",
-    "notes": "Ventral ramus of spinal nerve C1, contributing to the cervical plexus's loops and branches."
-  },
-  {
-    "id": "cervical_plexus_root_C2",
-    "name": "Cervical plexus root, ventral ramus C2",
-    "plexus": "cervical_plexus",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C2",
-    "notes": "Ventral ramus of spinal nerve C2, contributing to the cervical plexus's loops and branches."
-  },
-  {
-    "id": "cervical_plexus_root_C3",
-    "name": "Cervical plexus root, ventral ramus C3",
-    "plexus": "cervical_plexus",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C3",
-    "notes": "Ventral ramus of spinal nerve C3, contributing to the cervical plexus's loops and branches."
-  },
-  {
-    "id": "cervical_plexus_root_C4",
-    "name": "Cervical plexus root, ventral ramus C4",
-    "plexus": "cervical_plexus",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C4",
-    "notes": "Ventral ramus of spinal nerve C4, contributing to the cervical plexus's loops and branches."
-  },
-  {
-    "id": "ansa_cervicalis_superior_root",
-    "name": "Ansa cervicalis, superior root (descendens hypoglossi)",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C1",
-    "level": "trunk",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "notes": "C1 fibers that join the hypoglossal nerve briefly before leaving it to descend as the superior root of the ansa -- the same C1-via-XII pathway documented in geniohyoid's innervation."
-  },
-  {
-    "id": "ansa_cervicalis_inferior_root",
-    "name": "Ansa cervicalis, inferior root (descendens cervicalis)",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C1",
-    "level": "trunk",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C2-C3",
-    "notes": "Formed from C2-C3 ventral rami; loops down to meet the superior root anterior to the internal/common carotid artery, forming the ansa cervicalis proper. Modeled here with parent_id pointing to the C1 root purely to keep this a valid single-parent tree -- anatomically it is a genuine second, independent contribution (a real loop, not a simple branch), which this schema's parent/child model cannot represent exactly; see module docstring."
-  },
-  {
-    "id": "ansa_cervicalis_loop",
-    "name": "Ansa cervicalis (loop)",
-    "plexus": "cervical_plexus",
-    "parent_id": "ansa_cervicalis_inferior_root",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "sternohyoid_r_main",
-      "sternothyroid_r_main",
-      "omohyoid_r_inferior_belly",
-      "omohyoid_r_superior_belly"
-    ],
-    "notes": "The completed loop (C1 superior root + C2-C3 inferior root) gives branches to all the infrahyoid 'strap' muscles except thyrohyoid (which is supplied directly by C1 fibers via the hypoglossal nerve, the same pathway as geniohyoid)."
-  },
-  {
-    "id": "phrenic_n",
-    "name": "Phrenic nerve",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C4",
-    "level": "trunk",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C3-C5",
-    "notes": "The single most clinically important cervical plexus branch; C4 is the major contributor, with C3 and C5 joining the trunk directly from their own cervical plexus roots ('C3, 4, 5 keeps the diaphragm alive'). A separate, variable accessory phrenic nerve (present in roughly 15-62% of individuals) arises instead from the nerve to subclavius -- a C5 branch of the brachial plexus's upper trunk -- and joins the main phrenic trunk lower in the neck or in the thorax; this accessory pathway is a real but supplemental contribution, not the primary route of the C5 root itself (corrects an earlier draft that conflated the two -- caught by adversarial fact-check, see docs/VERIFICATION.md). Descends through the neck and thorax on scalenus anterior's surface to reach the diaphragm."
-  },
-  {
-    "id": "phrenic_n_terminal",
-    "name": "Phrenic n. terminal branches",
-    "plexus": "cervical_plexus",
-    "parent_id": "phrenic_n",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "diaphragm_costal",
-      "diaphragm_crural",
-      "diaphragm_sternal"
-    ],
-    "motor_entry_point": {
-      "target_muscle_compartment": "diaphragm_crural",
-      "entry_description": "pierces the diaphragm near the central tendon to reach its abdominal (peritoneal) surface, distributing to all 3 parts"
-    }
-  },
-  {
-    "id": "cervical_plexus_to_scalenes_and_prevertebrals",
-    "name": "Cervical plexus muscular branches (scalenes, longus colli)",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C3",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "targets": [
-      "scalenus_anterior_r_main",
-      "scalenus_medius_r_main",
-      "scalenus_posterior_r_main",
-      "longus_colli_r_main"
-    ],
-    "notes": "Segmental branches direct from the cervical plexus roots (C3-C8, the lower contributions overlapping with the brachial plexus) rather than via a single named nerve."
-  },
-  {
-    "id": "lesser_occipital_n",
-    "name": "Lesser occipital nerve",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C2",
-    "level": "cutaneous_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C2",
-    "targets": [
-      "skin over the lateral scalp posterior to the ear"
-    ]
-  },
-  {
-    "id": "great_auricular_n",
-    "name": "Great auricular nerve",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C2",
-    "level": "cutaneous_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C2-C3",
-    "targets": [
-      "skin over the parotid gland and ear"
-    ],
-    "notes": "Parented to its C2 root; C3's contribution to this and the other C2-C3/C3-C4 cutaneous branches below is a real second root the simple parent/child tree cannot show explicitly (same documented simplification as the ansa cervicalis loop)."
-  },
-  {
-    "id": "transverse_cervical_n",
-    "name": "Transverse cervical nerve",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C2",
-    "level": "cutaneous_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C2-C3",
-    "targets": [
-      "skin of the anterior neck"
-    ]
-  },
-  {
-    "id": "supraclavicular_n",
-    "name": "Supraclavicular nerves",
-    "plexus": "cervical_plexus",
-    "parent_id": "cervical_plexus_root_C3",
-    "level": "cutaneous_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "root_contributions": "C3-C4",
-    "targets": [
-      "skin over the clavicle, shoulder, and upper chest"
-    ]
-  },
-  {
-    "id": "olfactory_n",
-    "name": "Olfactory nerve (CN I)",
-    "plexus": "olfactory_n",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "special sensory",
-    "targets": [
-      "olfactory epithelium of the upper nasal cavity"
-    ],
-    "notes": "Unmyelinated axons of olfactory receptor neurons crossing the cribriform plate of the ethmoid to the olfactory bulb. A CNS tract rather than a true peripheral nerve: no Schwann-cell sheath, and it does not regenerate the way a peripheral nerve does. Sheared by cribriform-plate fracture, causing anosmia.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "optic_n",
-    "name": "Optic nerve (CN II)",
-    "plexus": "optic_n",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "special sensory",
-    "targets": [
-      "retina (retinal ganglion cell axons)"
-    ],
-    "notes": "Retinal ganglion cell axons running to the optic chiasm. Also a CNS tract -- myelinated by oligodendrocytes and invested by meninges and subarachnoid space, which is why raised intracranial pressure produces papilloedema.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_trunk",
-    "name": "Trigeminal n., ophthalmic division (V1)",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "purely sensory",
-    "targets": [],
-    "notes": "From the trigeminal (Gasserian) ganglion in Meckel's cave; runs in the lateral wall of the cavernous sinus and enters the orbit through the superior orbital fissure. Carries the afferent limb of the corneal reflex, whose efferent limb is CN VII.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_frontal_branch",
-    "name": "Frontal nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [],
-    "notes": "Largest V1 branch; runs forward on levator palpebrae superioris and divides into the supraorbital and supratrochlear nerves.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_supraorbital_branch",
-    "name": "Supraorbital nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_frontal_branch",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin of the forehead and anterior scalp to the vertex",
-      "mucosa of the frontal sinus"
-    ],
-    "notes": "Exits the supraorbital notch or foramen at the medial third of the orbital rim, roughly in line with the pupil in neutral gaze. Supplies forehead and anterior scalp back to the vertex. The standard target for supraorbital nerve block.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_supratrochlear_branch",
-    "name": "Supratrochlear nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_frontal_branch",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin of the medial forehead and upper eyelid"
-    ],
-    "notes": "Emerges about a centimetre medial to the supraorbital nerve; supplies the medial forehead and upper eyelid.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_lacrimal_branch",
-    "name": "Lacrimal nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin and conjunctiva of the lateral upper eyelid",
-      "lacrimal gland (secretomotor fibres received via V2)"
-    ],
-    "notes": "Sensory to the lateral upper eyelid and conjunctiva. Also delivers postganglionic parasympathetic secretomotor fibres to the lacrimal gland, which reach it from the zygomatic nerve (V2) through a communicating branch.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_nasociliary_branch",
-    "name": "Nasociliary nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [],
-    "notes": "Gives the long ciliary nerves carrying corneal sensation, the posterior and anterior ethmoidal nerves, and the infratrochlear nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_anterior_ethmoidal_branch",
-    "name": "Anterior ethmoidal nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_nasociliary_branch",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "mucosa of the anterior nasal septum and lateral wall",
-      "skin of the nasal tip (external nasal branch)"
-    ],
-    "notes": "Supplies the anterior nasal septum and lateral wall, then emerges as the external nasal branch to the nasal tip. That territory is the basis of Hutchinson's sign -- vesicles on the nasal tip in herpes zoster ophthalmicus warning of ocular involvement.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v1_infratrochlear_branch",
-    "name": "Infratrochlear nerve",
-    "plexus": "trigeminal_n_v1",
-    "parent_id": "trigeminal_n_v1_nasociliary_branch",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin of the medial eyelids, lacrimal sac and side of the nose"
-    ],
-    "notes": "Medial eyelids, lacrimal sac and the side of the nose.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v2_trunk",
-    "name": "Trigeminal n., maxillary division (V2)",
-    "plexus": "trigeminal_n_v2",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "purely sensory",
-    "targets": [],
-    "notes": "Leaves the skull through foramen rotundum, crosses the pterygopalatine fossa, and enters the orbit through the inferior orbital fissure to continue as the infraorbital nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v2_infraorbital_branch",
-    "name": "Infraorbital nerve",
-    "plexus": "trigeminal_n_v2",
-    "parent_id": "trigeminal_n_v2_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin of the lower eyelid, lateral nose and upper lip",
-      "mucosa and gingiva of the upper incisors"
-    ],
-    "notes": "Emerges from the infraorbital foramen about a centimetre below the orbital rim, vertically in line with the supraorbital notch above and the mental foramen below. Supplies lower eyelid, lateral nose, upper lip and upper incisor gingiva. Injured in orbital floor blow-out fracture.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v2_superior_alveolar_branches",
-    "name": "Superior alveolar nerves (anterior, middle, posterior)",
-    "plexus": "trigeminal_n_v2",
-    "parent_id": "trigeminal_n_v2_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "maxillary teeth (superior dental plexus)",
-      "mucosal lining of the maxillary sinus"
-    ],
-    "notes": "Form the superior dental plexus supplying the maxillary teeth and the lining of the maxillary sinus -- which is why maxillary sinusitis so often presents as upper molar toothache.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v2_zygomatic_branch",
-    "name": "Zygomatic nerve (zygomaticotemporal + zygomaticofacial)",
-    "plexus": "trigeminal_n_v2",
-    "parent_id": "trigeminal_n_v2_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin over the temple and the prominence of the cheek"
-    ],
-    "notes": "Sensory to the temple and the prominence of the cheek. Carries the parasympathetic fibres destined for the lacrimal gland and hands them to the lacrimal nerve of V1.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v2_palatine_branches",
-    "name": "Nasopalatine and greater/lesser palatine nerves",
-    "plexus": "trigeminal_n_v2",
-    "parent_id": "trigeminal_n_v2_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "mucosa of the nasal septum",
-      "mucosa of the hard and soft palate"
-    ],
-    "notes": "Distributed from the pterygopalatine ganglion to the nasal septum and to the hard and soft palate mucosa.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v3_auriculotemporal_branch",
-    "name": "Auriculotemporal nerve",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "temporomandibular joint capsule",
-      "skin of the temple, external acoustic meatus and tympanic membrane",
-      "parotid gland (secretomotor fibres from the otic ganglion)"
-    ],
-    "notes": "Encircles the middle meningeal artery by two roots, passes behind the temporomandibular joint and ascends with the superficial temporal vessels. Sensory to the TMJ, external acoustic meatus, tympanic membrane and temple, and it carries secretomotor fibres to the parotid from the otic ganglion. That parotid course underlies Frey syndrome after parotidectomy, and its TMJ supply is why joint pathology refers pain to the ear.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v3_inferior_alveolar_branch",
-    "name": "Inferior alveolar nerve",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "mandibular teeth (inferior dental plexus)"
-    ],
-    "notes": "Enters the mandibular foramen, runs the mandibular canal supplying the lower teeth, and leaves as the mental nerve. Target of the standard inferior alveolar dental block, and the nerve at risk in third-molar extraction and mandibular angle fracture.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v3_mental_branch",
-    "name": "Mental nerve",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_inferior_alveolar_branch",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin of the chin and lower lip"
-    ],
-    "notes": "Exits the mental foramen, usually near the lower premolar roots, completing the vertical line of supraorbital, infraorbital and mental foramina. Supplies the chin and lower lip.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v3_buccal_branch",
-    "name": "Buccal nerve (sensory, V3)",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "cutaneous_branch",
-    "root_contributions": "",
-    "targets": [
-      "skin and mucosa of the cheek"
-    ],
-    "notes": "Sensory to cheek mucosa and skin. Not to be confused with the buccal BRANCH OF THE FACIAL NERVE, which is motor to buccinator: the muscle is CN VII, the sensation over it is V3.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "trigeminal_n_v3_lingual_branch",
-    "name": "Lingual nerve",
-    "plexus": "trigeminal_n_v3",
-    "parent_id": "trigeminal_n_v3_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "mucosa of the anterior two-thirds of the tongue (general sensation)",
-      "floor of the mouth and lingual gingiva"
-    ],
-    "notes": "General sensation to the anterior two-thirds of the tongue, and the conduit for chorda tympani (CN VII) fibres carrying taste and submandibular/sublingual secretomotor supply. Lies directly deep to the mucosa beside the third molar, where it is vulnerable during extraction.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "vestibulocochlear_n",
-    "name": "Vestibulocochlear nerve (CN VIII)",
-    "plexus": "vestibulocochlear_n",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "special sensory",
-    "targets": [],
-    "notes": "Traverses the internal acoustic meatus alongside CN VII. Site of vestibular schwannoma, which characteristically presents with unilateral sensorineural hearing loss and tinnitus before vertigo, because central compensation masks slowly progressive vestibular loss.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "vestibulocochlear_n_cochlear_division",
-    "name": "Cochlear division (CN VIII)",
-    "plexus": "vestibulocochlear_n",
-    "parent_id": "vestibulocochlear_n",
-    "level": "division",
-    "root_contributions": "",
-    "targets": [
-      "organ of Corti (cochlear hair cells)"
-    ],
-    "notes": "Bipolar neurons of the spiral ganglion; hearing.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "vestibulocochlear_n_vestibular_division",
-    "name": "Vestibular division (CN VIII)",
-    "plexus": "vestibulocochlear_n",
-    "parent_id": "vestibulocochlear_n",
-    "level": "division",
-    "root_contributions": "",
-    "targets": [
-      "semicircular canal cristae, utricular and saccular maculae"
-    ],
-    "notes": "Superior and inferior divisions arising from the vestibular (Scarpa's) ganglion, serving the semicircular canals, utricle and saccule.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "accessory_n",
-    "name": "Accessory nerve (CN XI), spinal root",
-    "plexus": "accessory_n",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "C1-C5/C6 spinal accessory nucleus",
-    "targets": [],
-    "notes": "Ascends through the foramen magnum, leaves by the jugular foramen, then descends across the posterior triangle of the neck. In that triangle it lies SUBCUTANEOUSLY, crossing at about the junction of the upper and middle thirds of the posterior border of sternocleidomastoid. It is the most commonly iatrogenically injured nerve of the neck -- typically during posterior triangle lymph node biopsy -- producing trapezius palsy with shoulder droop, lateral scapular winging and painful loss of abduction above 90 degrees.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "accessory_n_scm_branch",
-    "name": "Accessory n. branch to sternocleidomastoid",
-    "plexus": "accessory_n",
-    "parent_id": "accessory_n",
-    "level": "muscular_branch",
-    "root_contributions": "C1-C3, with a cervical plexus contribution",
-    "targets": [
-      "sternocleidomastoid_r"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "sternocleidomastoid_r",
-      "entry_description": "Enters the deep surface of sternocleidomastoid in its upper third, then continues through or around the muscle to reach the posterior triangle."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "accessory_n_trapezius_branch",
-    "name": "Accessory n. branch to trapezius",
-    "plexus": "accessory_n",
-    "parent_id": "accessory_n",
-    "level": "muscular_branch",
-    "root_contributions": "motor from the spinal accessory nucleus; C3-C4 adds proprioceptive/sensory fibres",
-    "targets": [
-      "trapezius_r"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "trapezius_r",
-      "entry_description": "Crosses the posterior triangle on levator scapulae, passes deep to the anterior border of trapezius roughly 5 cm above the clavicle, and descends on the muscle's deep surface supplying upper, middle and lower parts in turn."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "vagus_n_trunk",
-    "name": "Vagus nerve (CN X), cervical trunk",
-    "plexus": "vagus_n",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "dorsal motor nucleus, nucleus ambiguus, nucleus of the solitary tract",
-    "targets": [],
-    "notes": "Descends inside the carotid sheath, between and behind the internal jugular vein and the common carotid artery. The longest cranial nerve; mixed motor, sensory and parasympathetic.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "vagus_n_superior_laryngeal_branch",
-    "name": "Superior laryngeal nerve",
-    "plexus": "vagus_n",
-    "parent_id": "vagus_n_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "cricothyroid_r_main",
-      "laryngeal mucosa above the vocal folds (internal branch)"
-    ],
-    "notes": "Divides into an internal branch -- sensory above the vocal folds, the afferent limb of the cough reflex, piercing the thyrohyoid membrane -- and an external branch, motor to cricothyroid. The external branch runs with the superior thyroid artery and is at risk in thyroidectomy; injury lowers vocal pitch and weakens projection without causing frank hoarseness.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
-    "motor_entry_point": {
-      "target_muscle_compartment": "cricothyroid_r_main",
-      "entry_description": "The external branch descends with the superior thyroid artery on the inferior constrictor and enters the posterior surface of cricothyroid."
-    }
-  },
-  {
-    "id": "vagus_n_recurrent_laryngeal_branch_r",
-    "name": "Recurrent laryngeal nerve, right",
-    "plexus": "vagus_n",
-    "parent_id": "vagus_n_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "posterior_cricoarytenoid_r_main",
-      "lateral_cricoarytenoid_r_main",
-      "thyroarytenoid_r_main",
-      "vocalis_r_main",
-      "oblique_arytenoid_r_main",
-      "transverse_arytenoid_main",
-      "laryngeal mucosa below the vocal folds"
-    ],
-    "notes": "Hooks beneath the RIGHT SUBCLAVIAN ARTERY and ascends in the tracheo-oesophageal groove. Shorter and more oblique than the left, and more variable -- including a non-recurrent variant associated with an aberrant right subclavian artery, which raises operative risk precisely because the nerve is not where it is expected.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
-    "motor_entry_point": {
-      "target_muscle_compartment": "posterior_cricoarytenoid_r_main",
-      "entry_description": "Ascends in the tracheo-oesophageal groove and enters the larynx behind the cricothyroid joint, deep to the inferior constrictor, supplying every intrinsic laryngeal muscle except cricothyroid."
-    }
-  },
-  {
-    "id": "vagus_n_recurrent_laryngeal_branch_l",
-    "name": "Recurrent laryngeal nerve, left",
-    "plexus": "vagus_n",
-    "parent_id": "vagus_n_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "posterior_cricoarytenoid_r_main",
-      "lateral_cricoarytenoid_r_main",
-      "thyroarytenoid_r_main",
-      "vocalis_r_main",
-      "oblique_arytenoid_r_main",
-      "transverse_arytenoid_main",
-      "laryngeal mucosa below the vocal folds"
-    ],
-    "notes": "Hooks beneath the AORTIC ARCH lateral to the ligamentum arteriosum, giving it a long intrathoracic course. This is why left vocal cord palsy is a recognised presenting sign of mediastinal pathology -- lung apex tumour, aortic arch aneurysm, left atrial enlargement. Both recurrent laryngeal nerves supply every intrinsic laryngeal muscle except cricothyroid.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
-    "motor_entry_point": {
-      "target_muscle_compartment": "posterior_cricoarytenoid_r_main",
-      "entry_description": "Ascends in the tracheo-oesophageal groove and enters the larynx behind the cricothyroid joint, deep to the inferior constrictor, supplying every intrinsic laryngeal muscle except cricothyroid."
-    }
-  },
-  {
-    "id": "vagus_n_cardiac_branches",
-    "name": "Vagal cardiac branches (cervical and thoracic)",
-    "plexus": "vagus_n",
-    "parent_id": "vagus_n_trunk",
-    "level": "terminal_branch",
-    "root_contributions": "",
-    "targets": [
-      "cardiac plexus (sinoatrial and atrioventricular nodes)"
-    ],
-    "notes": "Parasympathetic supply to the cardiac plexus; the efferent limb of the baroreceptor reflex, and the pathway exploited by vagal manoeuvres used to terminate supraventricular tachycardia.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ {
+  "id": "facial_n_trunk",
+  "name": "Facial nerve, extracranial trunk",
+  "plexus": "facial_n",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN VII",
+  "notes": "Exits the stylomastoid foramen and passes through the parotid gland (without supplying it), dividing into 5 terminal branches within the parotid ('pes anserinus')."
+ },
+ {
+  "id": "facial_n_digastric_branch",
+  "name": "Digastric branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "digastric_r_posterior",
+   "digastric_l_posterior"
+  ],
+  "motor_entry_point": {
+   "target_muscle_compartment": "digastric_r_posterior",
+   "entry_description": "given off just before the nerve enters the parotid gland"
   }
+ },
+ {
+  "id": "facial_n_temporal_branch",
+  "name": "Temporal branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "frontalis_r_main",
+   "frontalis_l_main",
+   "orbicularis_oculi_r_orbital",
+   "orbicularis_oculi_l_orbital"
+  ]
+ },
+ {
+  "id": "facial_n_zygomatic_branch",
+  "name": "Zygomatic branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "orbicularis_oculi_r_palpebral",
+   "orbicularis_oculi_l_palpebral",
+   "zygomaticus_major_r_main",
+   "zygomaticus_major_l_main",
+   "levator_labii_superioris_r_main",
+   "levator_labii_superioris_l_main"
+  ]
+ },
+ {
+  "id": "facial_n_buccal_branch",
+  "name": "Buccal branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "orbicularis_oris_r_main",
+   "orbicularis_oris_l_main",
+   "buccinator_r_main",
+   "buccinator_l_main"
+  ]
+ },
+ {
+  "id": "facial_n_marginal_mandibular_branch",
+  "name": "Marginal mandibular branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "depressor_anguli_oris_r_main",
+   "depressor_anguli_oris_l_main",
+   "mentalis_r_main",
+   "mentalis_l_main"
+  ]
+ },
+ {
+  "id": "facial_n_cervical_branch",
+  "name": "Cervical branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "platysma_r_main",
+   "platysma_l_main"
+  ]
+ },
+ {
+  "id": "trigeminal_n_v3_trunk",
+  "name": "Trigeminal n., mandibular division (V3)",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN V3",
+  "notes": "Exits the skull through foramen ovale; the only trigeminal division with a motor root (to the muscles of mastication and other 1st-pharyngeal-arch derivatives)."
+ },
+ {
+  "id": "trigeminal_n_v3_masseteric_branch",
+  "name": "Masseteric branch",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "masseter_r_superficial",
+   "masseter_l_superficial",
+   "masseter_r_deep",
+   "masseter_l_deep"
+  ]
+ },
+ {
+  "id": "trigeminal_n_v3_deep_temporal_branches",
+  "name": "Deep temporal branches",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "temporalis_r_anterior",
+   "temporalis_l_anterior",
+   "temporalis_r_posterior",
+   "temporalis_l_posterior"
+  ]
+ },
+ {
+  "id": "trigeminal_n_v3_medial_pterygoid_branch",
+  "name": "Medial pterygoid branch",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "medial_pterygoid_r_main",
+   "medial_pterygoid_l_main"
+  ]
+ },
+ {
+  "id": "trigeminal_n_v3_lateral_pterygoid_branch",
+  "name": "Lateral pterygoid branch",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "lateral_pterygoid_r_superior",
+   "lateral_pterygoid_l_superior",
+   "lateral_pterygoid_r_inferior",
+   "lateral_pterygoid_l_inferior"
+  ]
+ },
+ {
+  "id": "trigeminal_n_v3_mylohyoid_branch",
+  "name": "Mylohyoid nerve",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "mylohyoid_r_main",
+   "mylohyoid_l_main",
+   "digastric_r_anterior",
+   "digastric_l_anterior"
+  ],
+  "notes": "A single branch supplying both mylohyoid and the anterior belly of digastric -- both derive from the 1st pharyngeal arch, unlike digastric's posterior belly (facial nerve, 2nd arch)."
+ },
+ {
+  "id": "trigeminal_n_v3_tensor_tympani_branch",
+  "name": "Nerve to tensor tympani",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "tensor tympani (middle ear muscle, not yet modeled in this pass)"
+  ]
+ },
+ {
+  "id": "trigeminal_n_v3_tensor_veli_palatini_branch",
+  "name": "Nerve to tensor veli palatini",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "tensor veli palatini (soft palate muscle, not yet modeled in this pass)"
+  ],
+  "notes": "Along with tensor tympani, one of the two muscles of pharyngeal-arch-1 origin that are NOT vagus-innervated among the palate/pharynx/larynx muscle group (the classic 'tensor-tensor' exception to the 'everything else is vagus' rule)."
+ },
+ {
+  "id": "oculomotor_n",
+  "name": "Oculomotor nerve",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN III",
+  "notes": "Enters the orbit via the superior orbital fissure, within the common tendinous ring, dividing into superior and inferior divisions."
+ },
+ {
+  "id": "oculomotor_n_superior_division",
+  "name": "Superior division",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": "oculomotor_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "superior_rectus_r_main",
+   "superior_rectus_l_main"
+  ],
+  "notes": "Also supplies levator palpebrae superioris (eyelid elevator, not yet modeled in this pass)."
+ },
+ {
+  "id": "oculomotor_n_inferior_division",
+  "name": "Inferior division",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": "oculomotor_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "inferior_rectus_r_main",
+   "inferior_rectus_l_main",
+   "medial_rectus_r_main",
+   "medial_rectus_l_main",
+   "inferior_oblique_r_main",
+   "inferior_oblique_l_main"
+  ],
+  "notes": "Also gives the parasympathetic root to the ciliary ganglion (pupillary sphincter/ciliary muscle -- smooth muscle, out of scope for this skeletal-muscle-focused atlas)."
+ },
+ {
+  "id": "trochlear_n",
+  "name": "Trochlear nerve",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN IV",
+  "notes": "The only cranial nerve to exit the brainstem dorsally, and the only one supplying a single specific muscle from outside the orbit before entering it."
+ },
+ {
+  "id": "trochlear_n_terminal",
+  "name": "Trochlear n. terminal branch",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": "trochlear_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "superior_oblique_r_main",
+   "superior_oblique_l_main"
+  ]
+ },
+ {
+  "id": "abducens_n",
+  "name": "Abducens nerve",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN VI",
+  "notes": "Longest intracranial course of any cranial nerve relative to its exit point, making it especially vulnerable to raised intracranial pressure (a classic false-localizing sign)."
+ },
+ {
+  "id": "abducens_n_terminal",
+  "name": "Abducens n. terminal branch",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": "abducens_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "lateral_rectus_r_main",
+   "lateral_rectus_l_main"
+  ]
+ },
+ {
+  "id": "hypoglossal_n",
+  "name": "Hypoglossal nerve",
+  "plexus": "hypoglossal_n",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN XII",
+  "notes": "Exits the hypoglossal canal of the occipital bone; the C1 ventral ramus fibers that supply geniohyoid and thyrohyoid travel within its sheath for part of its course but are not true CN XII motor fibers (see geniohyoid's documented C1 innervation)."
+ },
+ {
+  "id": "hypoglossal_n_lingual_branches",
+  "name": "Lingual muscular branches",
+  "plexus": "hypoglossal_n",
+  "parent_id": "hypoglossal_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "genioglossus_r_main",
+   "genioglossus_l_main",
+   "hyoglossus_r_main",
+   "hyoglossus_l_main",
+   "styloglossus_r_main",
+   "styloglossus_l_main"
+  ],
+  "notes": "Also supplies all intrinsic tongue muscles (not modeled as separate entities in this pass, since they lack discrete bony attachments to anchor a rigid-body compartment)."
+ },
+ {
+  "id": "vagus_n_pharyngeal_contribution",
+  "name": "Vagus n., pharyngeal plexus contribution",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN X",
+  "notes": "The vagus's pharyngeal branches join glossopharyngeal (sensory) and sympathetic fibers on the pharyngeal wall to form the pharyngeal plexus, which supplies essentially all palate/pharynx/larynx muscles except stylopharyngeus (CN IX) and tensor veli palatini (CN V3)."
+ },
+ {
+  "id": "pharyngeal_plexus_to_constrictors",
+  "name": "Pharyngeal plexus branch to constrictors",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "vagus_n_pharyngeal_contribution",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "superior_pharyngeal_constrictor_r_main",
+   "superior_pharyngeal_constrictor_l_main",
+   "middle_pharyngeal_constrictor_r_main",
+   "middle_pharyngeal_constrictor_l_main",
+   "inferior_pharyngeal_constrictor_r_thyropharyngeus",
+   "inferior_pharyngeal_constrictor_l_thyropharyngeus",
+   "inferior_pharyngeal_constrictor_r_cricopharyngeus",
+   "inferior_pharyngeal_constrictor_l_cricopharyngeus",
+   "palatopharyngeus_r_main",
+   "palatopharyngeus_l_main",
+   "salpingopharyngeus_r_main",
+   "salpingopharyngeus_l_main",
+   "levator_veli_palatini_r_main",
+   "levator_veli_palatini_l_main",
+   "musculus_uvulae_main",
+   "palatoglossus_r_main",
+   "palatoglossus_l_main"
+  ],
+  "notes": "Also supplies the middle and inferior pharyngeal constrictors (not yet modeled as separate entities in this pass, since the cartilaginous larynx/hyoid-only lower pharynx attachment points are not yet fully skeletonized)."
+ },
+ {
+  "id": "glossopharyngeal_n",
+  "name": "Glossopharyngeal nerve",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "CN IX",
+  "notes": "Exits the jugular foramen; the sole exception among pharynx muscles to vagal (pharyngeal plexus) innervation."
+ },
+ {
+  "id": "glossopharyngeal_n_stylopharyngeus_branch",
+  "name": "Branch to stylopharyngeus",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "glossopharyngeal_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "stylopharyngeus_r_main",
+   "stylopharyngeus_l_main"
+  ]
+ },
+ {
+  "id": "cervical_plexus_root_C1",
+  "name": "Cervical plexus root, ventral ramus C1",
+  "plexus": "cervical_plexus",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C1",
+  "notes": "Ventral ramus of spinal nerve C1, contributing to the cervical plexus's loops and branches."
+ },
+ {
+  "id": "cervical_plexus_root_C2",
+  "name": "Cervical plexus root, ventral ramus C2",
+  "plexus": "cervical_plexus",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C2",
+  "notes": "Ventral ramus of spinal nerve C2, contributing to the cervical plexus's loops and branches."
+ },
+ {
+  "id": "cervical_plexus_root_C3",
+  "name": "Cervical plexus root, ventral ramus C3",
+  "plexus": "cervical_plexus",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C3",
+  "notes": "Ventral ramus of spinal nerve C3, contributing to the cervical plexus's loops and branches."
+ },
+ {
+  "id": "cervical_plexus_root_C4",
+  "name": "Cervical plexus root, ventral ramus C4",
+  "plexus": "cervical_plexus",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C4",
+  "notes": "Ventral ramus of spinal nerve C4, contributing to the cervical plexus's loops and branches."
+ },
+ {
+  "id": "ansa_cervicalis_superior_root",
+  "name": "Ansa cervicalis, superior root (descendens hypoglossi)",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C1",
+  "level": "trunk",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "notes": "C1 fibers that join the hypoglossal nerve briefly before leaving it to descend as the superior root of the ansa -- the same C1-via-XII pathway documented in geniohyoid's innervation."
+ },
+ {
+  "id": "ansa_cervicalis_inferior_root",
+  "name": "Ansa cervicalis, inferior root (descendens cervicalis)",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C1",
+  "level": "trunk",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C2-C3",
+  "notes": "Formed from C2-C3 ventral rami; loops down to meet the superior root anterior to the internal/common carotid artery, forming the ansa cervicalis proper. Modeled here with parent_id pointing to the C1 root purely to keep this a valid single-parent tree -- anatomically it is a genuine second, independent contribution (a real loop, not a simple branch), which this schema's parent/child model cannot represent exactly; see module docstring."
+ },
+ {
+  "id": "ansa_cervicalis_loop",
+  "name": "Ansa cervicalis (loop)",
+  "plexus": "cervical_plexus",
+  "parent_id": "ansa_cervicalis_inferior_root",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "sternohyoid_r_main",
+   "sternohyoid_l_main",
+   "sternothyroid_r_main",
+   "sternothyroid_l_main",
+   "omohyoid_r_inferior_belly",
+   "omohyoid_l_inferior_belly",
+   "omohyoid_r_superior_belly",
+   "omohyoid_l_superior_belly"
+  ],
+  "notes": "The completed loop (C1 superior root + C2-C3 inferior root) gives branches to all the infrahyoid 'strap' muscles except thyrohyoid (which is supplied directly by C1 fibers via the hypoglossal nerve, the same pathway as geniohyoid)."
+ },
+ {
+  "id": "phrenic_n",
+  "name": "Phrenic nerve",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C4",
+  "level": "trunk",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C3-C5",
+  "notes": "The single most clinically important cervical plexus branch; C4 is the major contributor, with C3 and C5 joining the trunk directly from their own cervical plexus roots ('C3, 4, 5 keeps the diaphragm alive'). A separate, variable accessory phrenic nerve (present in roughly 15-62% of individuals) arises instead from the nerve to subclavius -- a C5 branch of the brachial plexus's upper trunk -- and joins the main phrenic trunk lower in the neck or in the thorax; this accessory pathway is a real but supplemental contribution, not the primary route of the C5 root itself (corrects an earlier draft that conflated the two -- caught by adversarial fact-check, see docs/VERIFICATION.md). Descends through the neck and thorax on scalenus anterior's surface to reach the diaphragm."
+ },
+ {
+  "id": "phrenic_n_terminal",
+  "name": "Phrenic n. terminal branches",
+  "plexus": "cervical_plexus",
+  "parent_id": "phrenic_n",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "diaphragm_costal",
+   "diaphragm_crural",
+   "diaphragm_sternal"
+  ],
+  "motor_entry_point": {
+   "target_muscle_compartment": "diaphragm_crural",
+   "entry_description": "pierces the diaphragm near the central tendon to reach its abdominal (peritoneal) surface, distributing to all 3 parts"
+  }
+ },
+ {
+  "id": "cervical_plexus_to_scalenes_and_prevertebrals",
+  "name": "Cervical plexus muscular branches (scalenes, longus colli)",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C3",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "scalenus_anterior_r_main",
+   "scalenus_anterior_l_main",
+   "scalenus_medius_r_main",
+   "scalenus_medius_l_main",
+   "scalenus_posterior_r_main",
+   "scalenus_posterior_l_main",
+   "longus_colli_r_main",
+   "longus_colli_l_main"
+  ],
+  "notes": "Segmental branches direct from the cervical plexus roots (C3-C8, the lower contributions overlapping with the brachial plexus) rather than via a single named nerve."
+ },
+ {
+  "id": "lesser_occipital_n",
+  "name": "Lesser occipital nerve",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C2",
+  "level": "cutaneous_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C2",
+  "targets": [
+   "skin over the lateral scalp posterior to the ear"
+  ]
+ },
+ {
+  "id": "great_auricular_n",
+  "name": "Great auricular nerve",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C2",
+  "level": "cutaneous_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C2-C3",
+  "targets": [
+   "skin over the parotid gland and ear"
+  ],
+  "notes": "Parented to its C2 root; C3's contribution to this and the other C2-C3/C3-C4 cutaneous branches below is a real second root the simple parent/child tree cannot show explicitly (same documented simplification as the ansa cervicalis loop)."
+ },
+ {
+  "id": "transverse_cervical_n",
+  "name": "Transverse cervical nerve",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C2",
+  "level": "cutaneous_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C2-C3",
+  "targets": [
+   "skin of the anterior neck"
+  ]
+ },
+ {
+  "id": "supraclavicular_n",
+  "name": "Supraclavicular nerves",
+  "plexus": "cervical_plexus",
+  "parent_id": "cervical_plexus_root_C3",
+  "level": "cutaneous_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "root_contributions": "C3-C4",
+  "targets": [
+   "skin over the clavicle, shoulder, and upper chest"
+  ]
+ },
+ {
+  "id": "olfactory_n",
+  "name": "Olfactory nerve (CN I)",
+  "plexus": "olfactory_n",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "special sensory",
+  "targets": [
+   "olfactory epithelium of the upper nasal cavity"
+  ],
+  "notes": "Unmyelinated axons of olfactory receptor neurons crossing the cribriform plate of the ethmoid to the olfactory bulb. A CNS tract rather than a true peripheral nerve: no Schwann-cell sheath, and it does not regenerate the way a peripheral nerve does. Sheared by cribriform-plate fracture, causing anosmia.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "optic_n",
+  "name": "Optic nerve (CN II)",
+  "plexus": "optic_n",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "special sensory",
+  "targets": [
+   "retina (retinal ganglion cell axons)"
+  ],
+  "notes": "Retinal ganglion cell axons running to the optic chiasm. Also a CNS tract -- myelinated by oligodendrocytes and invested by meninges and subarachnoid space, which is why raised intracranial pressure produces papilloedema.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_trunk",
+  "name": "Trigeminal n., ophthalmic division (V1)",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "purely sensory",
+  "targets": [],
+  "notes": "From the trigeminal (Gasserian) ganglion in Meckel's cave; runs in the lateral wall of the cavernous sinus and enters the orbit through the superior orbital fissure. Carries the afferent limb of the corneal reflex, whose efferent limb is CN VII.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_frontal_branch",
+  "name": "Frontal nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [],
+  "notes": "Largest V1 branch; runs forward on levator palpebrae superioris and divides into the supraorbital and supratrochlear nerves.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_supraorbital_branch",
+  "name": "Supraorbital nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_frontal_branch",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin of the forehead and anterior scalp to the vertex",
+   "mucosa of the frontal sinus"
+  ],
+  "notes": "Exits the supraorbital notch or foramen at the medial third of the orbital rim, roughly in line with the pupil in neutral gaze. Supplies forehead and anterior scalp back to the vertex. The standard target for supraorbital nerve block.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_supratrochlear_branch",
+  "name": "Supratrochlear nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_frontal_branch",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin of the medial forehead and upper eyelid"
+  ],
+  "notes": "Emerges about a centimetre medial to the supraorbital nerve; supplies the medial forehead and upper eyelid.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_lacrimal_branch",
+  "name": "Lacrimal nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin and conjunctiva of the lateral upper eyelid",
+   "lacrimal gland (secretomotor fibres received via V2)"
+  ],
+  "notes": "Sensory to the lateral upper eyelid and conjunctiva. Also delivers postganglionic parasympathetic secretomotor fibres to the lacrimal gland, which reach it from the zygomatic nerve (V2) through a communicating branch.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_nasociliary_branch",
+  "name": "Nasociliary nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [],
+  "notes": "Gives the long ciliary nerves carrying corneal sensation, the posterior and anterior ethmoidal nerves, and the infratrochlear nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_anterior_ethmoidal_branch",
+  "name": "Anterior ethmoidal nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_nasociliary_branch",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "mucosa of the anterior nasal septum and lateral wall",
+   "skin of the nasal tip (external nasal branch)"
+  ],
+  "notes": "Supplies the anterior nasal septum and lateral wall, then emerges as the external nasal branch to the nasal tip. That territory is the basis of Hutchinson's sign -- vesicles on the nasal tip in herpes zoster ophthalmicus warning of ocular involvement.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v1_infratrochlear_branch",
+  "name": "Infratrochlear nerve",
+  "plexus": "trigeminal_n_v1",
+  "parent_id": "trigeminal_n_v1_nasociliary_branch",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin of the medial eyelids, lacrimal sac and side of the nose"
+  ],
+  "notes": "Medial eyelids, lacrimal sac and the side of the nose.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v2_trunk",
+  "name": "Trigeminal n., maxillary division (V2)",
+  "plexus": "trigeminal_n_v2",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "purely sensory",
+  "targets": [],
+  "notes": "Leaves the skull through foramen rotundum, crosses the pterygopalatine fossa, and enters the orbit through the inferior orbital fissure to continue as the infraorbital nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v2_infraorbital_branch",
+  "name": "Infraorbital nerve",
+  "plexus": "trigeminal_n_v2",
+  "parent_id": "trigeminal_n_v2_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin of the lower eyelid, lateral nose and upper lip",
+   "mucosa and gingiva of the upper incisors"
+  ],
+  "notes": "Emerges from the infraorbital foramen about a centimetre below the orbital rim, vertically in line with the supraorbital notch above and the mental foramen below. Supplies lower eyelid, lateral nose, upper lip and upper incisor gingiva. Injured in orbital floor blow-out fracture.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v2_superior_alveolar_branches",
+  "name": "Superior alveolar nerves (anterior, middle, posterior)",
+  "plexus": "trigeminal_n_v2",
+  "parent_id": "trigeminal_n_v2_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "maxillary teeth (superior dental plexus)",
+   "mucosal lining of the maxillary sinus"
+  ],
+  "notes": "Form the superior dental plexus supplying the maxillary teeth and the lining of the maxillary sinus -- which is why maxillary sinusitis so often presents as upper molar toothache.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v2_zygomatic_branch",
+  "name": "Zygomatic nerve (zygomaticotemporal + zygomaticofacial)",
+  "plexus": "trigeminal_n_v2",
+  "parent_id": "trigeminal_n_v2_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin over the temple and the prominence of the cheek"
+  ],
+  "notes": "Sensory to the temple and the prominence of the cheek. Carries the parasympathetic fibres destined for the lacrimal gland and hands them to the lacrimal nerve of V1.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v2_palatine_branches",
+  "name": "Nasopalatine and greater/lesser palatine nerves",
+  "plexus": "trigeminal_n_v2",
+  "parent_id": "trigeminal_n_v2_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "mucosa of the nasal septum",
+   "mucosa of the hard and soft palate"
+  ],
+  "notes": "Distributed from the pterygopalatine ganglion to the nasal septum and to the hard and soft palate mucosa.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v3_auriculotemporal_branch",
+  "name": "Auriculotemporal nerve",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "temporomandibular joint capsule",
+   "skin of the temple, external acoustic meatus and tympanic membrane",
+   "parotid gland (secretomotor fibres from the otic ganglion)"
+  ],
+  "notes": "Encircles the middle meningeal artery by two roots, passes behind the temporomandibular joint and ascends with the superficial temporal vessels. Sensory to the TMJ, external acoustic meatus, tympanic membrane and temple, and it carries secretomotor fibres to the parotid from the otic ganglion. That parotid course underlies Frey syndrome after parotidectomy, and its TMJ supply is why joint pathology refers pain to the ear.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v3_inferior_alveolar_branch",
+  "name": "Inferior alveolar nerve",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "mandibular teeth (inferior dental plexus)"
+  ],
+  "notes": "Enters the mandibular foramen, runs the mandibular canal supplying the lower teeth, and leaves as the mental nerve. Target of the standard inferior alveolar dental block, and the nerve at risk in third-molar extraction and mandibular angle fracture.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v3_mental_branch",
+  "name": "Mental nerve",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_inferior_alveolar_branch",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin of the chin and lower lip"
+  ],
+  "notes": "Exits the mental foramen, usually near the lower premolar roots, completing the vertical line of supraorbital, infraorbital and mental foramina. Supplies the chin and lower lip.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v3_buccal_branch",
+  "name": "Buccal nerve (sensory, V3)",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "cutaneous_branch",
+  "root_contributions": "",
+  "targets": [
+   "skin and mucosa of the cheek"
+  ],
+  "notes": "Sensory to cheek mucosa and skin. Not to be confused with the buccal BRANCH OF THE FACIAL NERVE, which is motor to buccinator: the muscle is CN VII, the sensation over it is V3.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "trigeminal_n_v3_lingual_branch",
+  "name": "Lingual nerve",
+  "plexus": "trigeminal_n_v3",
+  "parent_id": "trigeminal_n_v3_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "mucosa of the anterior two-thirds of the tongue (general sensation)",
+   "floor of the mouth and lingual gingiva"
+  ],
+  "notes": "General sensation to the anterior two-thirds of the tongue, and the conduit for chorda tympani (CN VII) fibres carrying taste and submandibular/sublingual secretomotor supply. Lies directly deep to the mucosa beside the third molar, where it is vulnerable during extraction.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vestibulocochlear_n",
+  "name": "Vestibulocochlear nerve (CN VIII)",
+  "plexus": "vestibulocochlear_n",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "special sensory",
+  "targets": [],
+  "notes": "Traverses the internal acoustic meatus alongside CN VII. Site of vestibular schwannoma, which characteristically presents with unilateral sensorineural hearing loss and tinnitus before vertigo, because central compensation masks slowly progressive vestibular loss.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vestibulocochlear_n_cochlear_division",
+  "name": "Cochlear division (CN VIII)",
+  "plexus": "vestibulocochlear_n",
+  "parent_id": "vestibulocochlear_n",
+  "level": "division",
+  "root_contributions": "",
+  "targets": [
+   "organ of Corti (cochlear hair cells)"
+  ],
+  "notes": "Bipolar neurons of the spiral ganglion; hearing.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vestibulocochlear_n_vestibular_division",
+  "name": "Vestibular division (CN VIII)",
+  "plexus": "vestibulocochlear_n",
+  "parent_id": "vestibulocochlear_n",
+  "level": "division",
+  "root_contributions": "",
+  "targets": [
+   "semicircular canal cristae, utricular and saccular maculae"
+  ],
+  "notes": "Superior and inferior divisions arising from the vestibular (Scarpa's) ganglion, serving the semicircular canals, utricle and saccule.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "accessory_n",
+  "name": "Accessory nerve (CN XI), spinal root",
+  "plexus": "accessory_n",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "C1-C5/C6 spinal accessory nucleus",
+  "targets": [],
+  "notes": "Ascends through the foramen magnum, leaves by the jugular foramen, then descends across the posterior triangle of the neck. In that triangle it lies SUBCUTANEOUSLY, crossing at about the junction of the upper and middle thirds of the posterior border of sternocleidomastoid. It is the most commonly iatrogenically injured nerve of the neck -- typically during posterior triangle lymph node biopsy -- producing trapezius palsy with shoulder droop, lateral scapular winging and painful loss of abduction above 90 degrees.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "accessory_n_scm_branch",
+  "name": "Accessory n. branch to sternocleidomastoid",
+  "plexus": "accessory_n",
+  "parent_id": "accessory_n",
+  "level": "muscular_branch",
+  "root_contributions": "C1-C3, with a cervical plexus contribution",
+  "targets": [
+   "sternocleidomastoid_r",
+   "sternocleidomastoid_l"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "sternocleidomastoid_r",
+   "entry_description": "Enters the deep surface of sternocleidomastoid in its upper third, then continues through or around the muscle to reach the posterior triangle."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "accessory_n_trapezius_branch",
+  "name": "Accessory n. branch to trapezius",
+  "plexus": "accessory_n",
+  "parent_id": "accessory_n",
+  "level": "muscular_branch",
+  "root_contributions": "motor from the spinal accessory nucleus; C3-C4 adds proprioceptive/sensory fibres",
+  "targets": [
+   "trapezius_r",
+   "trapezius_l"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "trapezius_r",
+   "entry_description": "Crosses the posterior triangle on levator scapulae, passes deep to the anterior border of trapezius roughly 5 cm above the clavicle, and descends on the muscle's deep surface supplying upper, middle and lower parts in turn."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vagus_n_trunk",
+  "name": "Vagus nerve (CN X), cervical trunk",
+  "plexus": "vagus_n",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "dorsal motor nucleus, nucleus ambiguus, nucleus of the solitary tract",
+  "targets": [],
+  "notes": "Descends inside the carotid sheath, between and behind the internal jugular vein and the common carotid artery. The longest cranial nerve; mixed motor, sensory and parasympathetic.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "vagus_n_superior_laryngeal_branch",
+  "name": "Superior laryngeal nerve",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "cricothyroid_r_main",
+   "cricothyroid_l_main",
+   "laryngeal mucosa above the vocal folds (internal branch)"
+  ],
+  "notes": "Divides into an internal branch -- sensory above the vocal folds, the afferent limb of the cough reflex, piercing the thyrohyoid membrane -- and an external branch, motor to cricothyroid. The external branch runs with the superior thyroid artery and is at risk in thyroidectomy; injury lowers vocal pitch and weakens projection without causing frank hoarseness.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
+  "motor_entry_point": {
+   "target_muscle_compartment": "cricothyroid_r_main",
+   "entry_description": "The external branch descends with the superior thyroid artery on the inferior constrictor and enters the posterior surface of cricothyroid."
+  }
+ },
+ {
+  "id": "vagus_n_recurrent_laryngeal_branch_r",
+  "name": "Recurrent laryngeal nerve, right",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "posterior_cricoarytenoid_r_main",
+   "lateral_cricoarytenoid_r_main",
+   "thyroarytenoid_r_main",
+   "vocalis_r_main",
+   "oblique_arytenoid_r_main",
+   "transverse_arytenoid_main",
+   "laryngeal mucosa below the vocal folds"
+  ],
+  "notes": "Hooks beneath the RIGHT SUBCLAVIAN ARTERY and ascends in the tracheo-oesophageal groove. Shorter and more oblique than the left, and more variable -- including a non-recurrent variant associated with an aberrant right subclavian artery, which raises operative risk precisely because the nerve is not where it is expected.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
+  "motor_entry_point": {
+   "target_muscle_compartment": "posterior_cricoarytenoid_r_main",
+   "entry_description": "Ascends in the tracheo-oesophageal groove and enters the larynx behind the cricothyroid joint, deep to the inferior constrictor, supplying every intrinsic laryngeal muscle except cricothyroid."
+  }
+ },
+ {
+  "id": "vagus_n_recurrent_laryngeal_branch_l",
+  "name": "Recurrent laryngeal nerve, left",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "posterior_cricoarytenoid_l_main",
+   "lateral_cricoarytenoid_l_main",
+   "thyroarytenoid_l_main",
+   "vocalis_l_main",
+   "oblique_arytenoid_l_main",
+   "transverse_arytenoid_main",
+   "laryngeal mucosa below the vocal folds"
+  ],
+  "notes": "Hooks beneath the AORTIC ARCH lateral to the ligamentum arteriosum, giving it a long intrathoracic course. This is why left vocal cord palsy is a recognised presenting sign of mediastinal pathology -- lung apex tumour, aortic arch aneurysm, left atrial enlargement. Both recurrent laryngeal nerves supply every intrinsic laryngeal muscle except cricothyroid. Targets corrected: this branch had been given the RIGHT laryngeal compartments, so the left recurrent laryngeal nerve appeared to supply the right larynx and nothing reached the left.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)",
+  "motor_entry_point": {
+   "target_muscle_compartment": "posterior_cricoarytenoid_r_main",
+   "entry_description": "Ascends in the tracheo-oesophageal groove and enters the larynx behind the cricothyroid joint, deep to the inferior constrictor, supplying every intrinsic laryngeal muscle except cricothyroid."
+  }
+ },
+ {
+  "id": "vagus_n_cardiac_branches",
+  "name": "Vagal cardiac branches (cervical and thoracic)",
+  "plexus": "vagus_n",
+  "parent_id": "vagus_n_trunk",
+  "level": "terminal_branch",
+  "root_contributions": "",
+  "targets": [
+   "cardiac plexus (sinoatrial and atrioventricular nodes)"
+  ],
+  "notes": "Parasympathetic supply to the cardiac plexus; the efferent limb of the baroreceptor reflex, and the pathway exploited by vagal manoeuvres used to terminate supraventricular tachycardia.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ }
 ]

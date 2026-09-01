@@ -1,1263 +1,1371 @@
 [
-  {
-    "id": "lumbar_root_T12",
-    "name": "Ventral ramus T12",
-    "plexus": "lumbar_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "T12",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "lumbar_root_L1",
-    "name": "Ventral ramus L1",
-    "plexus": "lumbar_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "L1",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "lumbar_root_L2",
-    "name": "Ventral ramus L2",
-    "plexus": "lumbar_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "L2",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "lumbar_root_L3",
-    "name": "Ventral ramus L3",
-    "plexus": "lumbar_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "L3",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "lumbar_root_L4",
-    "name": "Ventral ramus L4",
-    "plexus": "lumbar_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "L4",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "iliohypogastric_n",
-    "name": "Iliohypogastric nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "lumbar_root_L1",
-    "level": "terminal_branch",
-    "root_contributions": "T12-L1",
-    "targets": [
-      "internal_oblique_r",
-      "transversus_abdominis_r",
-      "suprapubic skin"
-    ],
-    "notes": "Emerges from psoas major's lateral border, runs anterior to quadratus lumborum.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "ilioinguinal_n",
-    "name": "Ilioinguinal nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "lumbar_root_L1",
-    "level": "terminal_branch",
-    "root_contributions": "L1",
-    "targets": [
-      "internal_oblique_r",
-      "transversus_abdominis_r",
-      "inguinal/scrotal-labial skin"
-    ],
-    "notes": "Runs parallel and inferior to iliohypogastric n., through the inguinal canal.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "genitofemoral_n",
-    "name": "Genitofemoral nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "lumbar_root_L1",
-    "level": "terminal_branch",
-    "root_contributions": "L1-L2",
-    "targets": [
-      "cremaster (genital branch)",
-      "skin of femoral triangle (femoral branch)"
-    ],
-    "notes": "Pierces psoas major anteriorly, splits into genital and femoral branches near the inguinal ligament.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "lateral_femoral_cutaneous_n",
-    "name": "Lateral femoral cutaneous nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "lumbar_root_L2",
-    "level": "cutaneous_branch",
-    "root_contributions": "L2-L3",
-    "targets": [
-      "lateral thigh skin"
-    ],
-    "notes": "Emerges from psoas major's lateral border, crosses iliacus, passes under/through the inguinal ligament near the ASIS -- entrapment here causes meralgia paresthetica.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "obturator_n",
-    "name": "Obturator nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "lumbar_root_L2",
-    "level": "terminal_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "obturator_externus_r",
-      "adductor_longus_r",
-      "adductor_brevis_r",
-      "adductor_magnus_r_adductor_part",
-      "gracilis_r",
-      "pectineus_r (variable, often also femoral n.)"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "adductor_magnus_r_adductor_part",
-      "entry_description": "Descends through psoas major, crosses the pelvic brim, passes through the obturator foramen (obturator canal) into the medial thigh, dividing into anterior (adductor longus/brevis/gracilis) and posterior (obturator externus, adductor magnus adductor part) branches."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "femoral_n",
-    "name": "Femoral nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "lumbar_root_L2",
-    "level": "terminal_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "iliopsoas_r_iliacus",
-      "sartorius_r",
-      "pectineus_r",
-      "rectus_femoris_r_straight_head",
-      "rectus_femoris_r_reflected_head",
-      "vastus_lateralis_r_main",
-      "vastus_medialis_r_longus",
-      "vastus_medialis_r_obliquus",
-      "vastus_intermedius_r_main"
-    ],
-    "notes": "Largest branch of the lumbar plexus.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "vastus_medialis_r_longus",
-      "entry_description": "Descends in the groove between psoas major and iliacus, passes under the inguinal ligament (lateral to the femoral vessels) into the femoral triangle, then fans into anterior (sartorius, quadriceps) branches and the saphenous nerve (sensory, continues to the medial leg/foot)."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sacral_root_L4",
-    "name": "Ventral ramus L4",
-    "plexus": "sacral_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "L4",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sacral_root_L5",
-    "name": "Ventral ramus L5",
-    "plexus": "sacral_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "L5",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sacral_root_S1",
-    "name": "Ventral ramus S1",
-    "plexus": "sacral_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "S1",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sacral_root_S2",
-    "name": "Ventral ramus S2",
-    "plexus": "sacral_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "S2",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sacral_root_S3",
-    "name": "Ventral ramus S3",
-    "plexus": "sacral_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "S3",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sacral_root_S4",
-    "name": "Ventral ramus S4",
-    "plexus": "sacral_plexus",
-    "parent_id": null,
-    "level": "root",
-    "root_contributions": "S4",
-    "targets": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "superior_gluteal_n",
-    "name": "Superior gluteal nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_L4",
-    "level": "muscular_branch",
-    "root_contributions": "L4-S1",
-    "targets": [
-      "gluteus_medius_r_anterior",
-      "gluteus_medius_r_middle",
-      "gluteus_medius_r_posterior",
-      "gluteus_minimus_r",
-      "tensor_fasciae_latae_r"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "gluteus_medius_r_middle",
-      "entry_description": "Exits the pelvis through the greater sciatic foramen ABOVE piriformis, runs between gluteus medius and minimus."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "inferior_gluteal_n",
-    "name": "Inferior gluteal nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_L5",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "gluteus_maximus_r_superior",
-      "gluteus_maximus_r_inferior"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "gluteus_maximus_r_inferior",
-      "entry_description": "Exits the pelvis through the greater sciatic foramen BELOW piriformis, enters the deep surface of gluteus maximus."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "nerve_to_piriformis",
-    "name": "Nerve to piriformis",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_S1",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "piriformis_r"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "nerve_to_obturator_internus",
-    "name": "Nerve to obturator internus (and superior gemellus)",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_L5",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "obturator_internus_r",
-      "gemellus_superior_r"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "nerve_to_quadratus_femoris",
-    "name": "Nerve to quadratus femoris (and inferior gemellus)",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_L4",
-    "level": "muscular_branch",
-    "root_contributions": "L4-S1",
-    "targets": [
-      "quadratus_femoris_r",
-      "gemellus_inferior_r"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "posterior_femoral_cutaneous_n",
-    "name": "Posterior femoral cutaneous nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_S1",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "posterior thigh skin, perineum"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "pudendal_n",
-    "name": "Pudendal nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_S2",
-    "level": "terminal_branch",
-    "root_contributions": "S2-S4",
-    "targets": [
-      "external anal sphincter",
-      "external urethral sphincter",
-      "perineal skin/genitalia"
-    ],
-    "notes": "Exits greater sciatic foramen, crosses ischial spine, re-enters via lesser sciatic foramen into the pudendal (Alcock's) canal.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "sciatic_n",
-    "name": "Sciatic nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sacral_root_L4",
-    "level": "terminal_branch",
-    "root_contributions": "L4-S3",
-    "targets": [
-      "biceps_femoris_r_long_head",
-      "biceps_femoris_r_short_head",
-      "semitendinosus_r_main",
-      "semimembranosus_r_main",
-      "adductor_magnus_r_hamstring_part"
-    ],
-    "notes": "Actually two nerves (tibial + common fibular divisions) bound in one sheath through the thigh; the split is often already present anatomically well above the knee.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "semimembranosus_r_main",
-      "entry_description": "Largest nerve in the body; exits the pelvis through the greater sciatic foramen below piriformis (a common anatomical variant has it piercing piriformis), descends through the posterior thigh giving hamstring branches, then splits into tibial and common fibular (peroneal) nerves at (variably above) the popliteal fossa."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "tibial_n",
-    "name": "Tibial nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "terminal_branch",
-    "root_contributions": "L4-S3 (tibial division)",
-    "targets": [
-      "gastrocnemius_r_medial_head",
-      "gastrocnemius_r_lateral_head",
-      "soleus_r_main",
-      "tibialis_posterior_r",
-      "flexor_digitorum_longus_r",
-      "flexor_hallucis_longus_r",
-      "popliteus_r",
-      "plantaris_r"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "soleus_r_main",
-      "entry_description": "Descends through the popliteal fossa and deep posterior leg compartment, passes behind the medial malleolus (tarsal tunnel) to enter the foot, dividing into medial and lateral plantar nerves."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "common_fibular_n",
-    "name": "Common fibular (peroneal) nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "terminal_branch",
-    "root_contributions": "L4-S2 (fibular division)",
-    "targets": [],
-    "notes": "Wraps around the fibular neck (superficial, vulnerable to compression/injury -- classic foot-drop mechanism) before dividing into superficial and deep fibular nerves. The short head of biceps femoris is innervated further proximally, by the common-fibular division while still within the sciatic trunk (see sciatic_n targets) -- not by this node itself.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "superficial_fibular_n",
-    "name": "Superficial fibular (peroneal) nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "common_fibular_n",
-    "level": "terminal_branch",
-    "root_contributions": "L4-S1",
-    "targets": [
-      "fibularis_longus_r_main",
-      "fibularis_brevis_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "fibularis_longus_r_main",
-      "entry_description": "Descends in the lateral compartment of the leg, becomes cutaneous over the distal leg/dorsum of foot."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "deep_fibular_n",
-    "name": "Deep fibular (peroneal) nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "common_fibular_n",
-    "level": "terminal_branch",
-    "root_contributions": "L4-S1",
-    "targets": [
-      "tibialis_anterior_r_main",
-      "extensor_digitorum_longus_r",
-      "extensor_hallucis_longus_r",
-      "fibularis_tertius_r",
-      "extensor_digitorum_brevis_r",
-      "extensor_hallucis_brevis_r"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "tibialis_anterior_r_main",
-      "entry_description": "Pierces the anterior intermuscular septum to enter the anterior compartment, runs with the anterior tibial vessels, continues onto the dorsum of the foot."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "medial_plantar_n",
-    "name": "Medial plantar nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "terminal_branch",
-    "root_contributions": "L4-S3",
-    "targets": [
-      "abductor_hallucis_r",
-      "flexor_digitorum_brevis_r",
-      "flexor_hallucis_brevis_r",
-      "lumbricals_foot_r (1st)"
-    ],
-    "notes": "The 'median nerve equivalent' of the foot; larger of tibial n.'s two terminal branches.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "lateral_plantar_n",
-    "name": "Lateral plantar nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "terminal_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "quadratus_plantae_r",
-      "abductor_digiti_minimi_foot_r",
-      "flexor_digiti_minimi_brevis_foot_r",
-      "adductor_hallucis_r",
-      "dorsal_interossei_foot_r",
-      "plantar_interossei_r",
-      "lumbricals_foot_r (2nd-4th)"
-    ],
-    "notes": "The 'ulnar nerve equivalent' of the foot; deep branch supplies most intrinsic foot muscles.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
-  },
-  {
-    "id": "femoral_n_branch_to_iliacus",
-    "name": "Femoral n. branch to iliacus",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "iliopsoas_r_iliacus"
-    ],
-    "notes": "Given off above the inguinal ligament, inside the abdomen. This is why a femoral nerve injury distal to the ligament spares hip flexion by iliacus while abolishing knee extension.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "iliopsoas_r_iliacus",
-      "entry_description": "Enters the anterior surface of iliacus within the iliac fossa, proximal to the inguinal ligament."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_branch_to_pectineus",
-    "name": "Femoral n. branch to pectineus",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L3",
-    "targets": [
-      "pectineus_r_main"
-    ],
-    "notes": "Pectineus has a dual supply: femoral nerve, and often an accessory obturator or obturator branch. That dual innervation is the usual explanation for its variable behaviour after isolated nerve injury.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "pectineus_r_main",
-      "entry_description": "Passes behind the femoral sheath to reach the anterior surface of pectineus."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_branch_to_sartorius",
-    "name": "Femoral n. branch to sartorius",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L3",
-    "targets": [
-      "sartorius_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "sartorius_r_main",
-      "entry_description": "Enters the deep surface of the proximal third of sartorius, often as two or three twigs, shortly below the inguinal ligament."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_branch_to_rectus_femoris",
-    "name": "Femoral n. branch to rectus femoris",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "rectus_femoris_r_straight_head",
-      "rectus_femoris_r_reflected_head"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "rectus_femoris_r_straight_head",
-      "entry_description": "Enters the deep (posterior) surface of the proximal third of the muscle; the branch also supplies an articular twig to the hip."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_branch_to_vastus_lateralis",
-    "name": "Femoral n. branch to vastus lateralis",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "vastus_lateralis_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "vastus_lateralis_r_main",
-      "entry_description": "Descends along the anterior border of the muscle with the descending branch of the lateral circumflex femoral artery, entering the deep surface over the proximal half."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_branch_to_vastus_medialis",
-    "name": "Femoral n. branch to vastus medialis",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "vastus_medialis_r_longus",
-      "vastus_medialis_r_obliquus"
-    ],
-    "notes": "Runs in the adductor canal alongside the saphenous nerve, which is why an adductor canal block placed too proximally can weaken the quadriceps instead of producing the intended purely sensory block.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "vastus_medialis_r_longus",
-      "entry_description": "Enters the muscle along its anteromedial surface within the adductor canal, supplying twigs down to the vastus medialis obliquus fibres near the knee."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_branch_to_vastus_intermedius",
-    "name": "Femoral n. branch to vastus intermedius",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "vastus_intermedius_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "vastus_intermedius_r_main",
-      "entry_description": "Enters the anterior surface of the muscle in its proximal third; a deep twig continues to articularis genus."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "femoral_n_anterior_cutaneous_branches",
-    "name": "Anterior cutaneous branches of the femoral nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L2-L3",
-    "targets": [
-      "skin of the anterior and anteromedial thigh"
-    ],
-    "notes": "Intermediate and medial cutaneous nerves of the thigh; pierce fascia lata to supply the anterior thigh down to the knee.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "saphenous_n",
-    "name": "Saphenous nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "femoral_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L3-L4",
-    "targets": [
-      "skin of the anteromedial leg and the medial border of the foot"
-    ],
-    "notes": "The longest cutaneous branch of the femoral nerve and its only branch below the knee -- purely sensory. Descends in the adductor (Hunter's) canal, then leaves the canal WITHOUT entering the popliteal fossa, piercing the fascia between sartorius and gracilis. Runs with the great saphenous vein, which makes it the nerve at risk in saphenous vein harvest, varicose vein stripping and medial ankle approaches. The target of the adductor canal block, which spares the quadriceps and so preserves the ability to weight-bear after knee arthroplasty. Course: enters the adductor canal lateral to the femoral artery, crosses anterior to it, and exits through the vasto-adductor membrane roughly a hand's breadth above the knee.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "saphenous_n_infrapatellar_branch",
-    "name": "Infrapatellar branch of the saphenous nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "saphenous_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L3-L4",
-    "targets": [
-      "skin over the patellar tendon and the anteroinferior knee"
-    ],
-    "notes": "Crosses the front of the knee transversely. Divided by the standard midline knee arthrotomy and by medial arthroscopy portals, producing the numb patch lateral to the scar that many arthroplasty patients report, and occasionally a painful neuroma.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "saphenous_n_medial_crural_branches",
-    "name": "Medial crural cutaneous branches of the saphenous nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "saphenous_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L3-L4",
-    "targets": [
-      "skin of the medial leg from below the knee to the medial malleolus"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_anterior_division",
-    "name": "Obturator n., anterior division",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n",
-    "level": "division",
-    "root_contributions": "L2-L4",
-    "targets": [],
-    "notes": "Passes in front of obturator externus and adductor brevis. Supplies the superficial adductor group and gives the cutaneous branch to the medial thigh; also an articular branch to the hip, which is the anatomical basis for hip pathology referring pain to the medial knee (the Obturator/Hilton's law referral).",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_posterior_division",
-    "name": "Obturator n., posterior division",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n",
-    "level": "division",
-    "root_contributions": "L2-L4",
-    "targets": [],
-    "notes": "Pierces obturator externus and descends behind adductor brevis. Gives an articular branch to the knee through the adductor hiatus -- the other half of the hip-to-knee referral pattern.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_branch_to_obturator_externus",
-    "name": "Obturator n. branch to obturator externus",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n_posterior_division",
-    "level": "muscular_branch",
-    "root_contributions": "L3-L4",
-    "targets": [
-      "obturator_externus_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "obturator_externus_r_main",
-      "entry_description": "The posterior division pierces the muscle itself, supplying it from within."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_branch_to_adductor_longus",
-    "name": "Obturator n. branch to adductor longus",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n_anterior_division",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "adductor_longus_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "adductor_longus_r_main",
-      "entry_description": "Enters the deep (posterior) surface of the muscle in its proximal third."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_branch_to_adductor_brevis",
-    "name": "Obturator n. branch to adductor brevis",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n_anterior_division",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "adductor_brevis_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "adductor_brevis_r_main",
-      "entry_description": "Enters the anterior surface; adductor brevis is the plane that separates the anterior from the posterior obturator division."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_branch_to_gracilis",
-    "name": "Obturator n. branch to gracilis",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n_anterior_division",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "gracilis_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "gracilis_r_main",
-      "entry_description": "Enters the deep surface of the proximal third of the muscle."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_branch_to_adductor_magnus_adductor_part",
-    "name": "Obturator n. branch to adductor magnus (adductor part)",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n_posterior_division",
-    "level": "muscular_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "adductor_magnus_r_adductor_part"
-    ],
-    "notes": "Adductor magnus is the classic dually innervated muscle: the adductor part is obturator, the ischiocondylar (hamstring) part is the tibial division of the sciatic nerve. The two parts behave as separate functional muscles.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "adductor_magnus_r_adductor_part",
-      "entry_description": "Enters the anterior surface of the adductor portion; the hamstring portion is supplied separately from behind by the sciatic nerve."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "obturator_n_cutaneous_branch",
-    "name": "Cutaneous branch of the obturator nerve",
-    "plexus": "lumbar_plexus",
-    "parent_id": "obturator_n_anterior_division",
-    "level": "cutaneous_branch",
-    "root_contributions": "L2-L4",
-    "targets": [
-      "skin of the medial thigh, distal third"
-    ],
-    "notes": "Small and inconstant; its territory overlaps that of the medial femoral cutaneous branches.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sciatic_n_branch_to_semitendinosus",
-    "name": "Sciatic n. (tibial division) branch to semitendinosus",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "semitendinosus_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "semitendinosus_r_main",
-      "entry_description": "Enters the deep surface of the muscle; semitendinosus characteristically receives two separate branches, one proximal and one distal to its tendinous inscription."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sciatic_n_branch_to_semimembranosus",
-    "name": "Sciatic n. (tibial division) branch to semimembranosus",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "semimembranosus_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "semimembranosus_r_main",
-      "entry_description": "Enters the deep surface of the muscle in its proximal half."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sciatic_n_branch_to_biceps_femoris_long_head",
-    "name": "Sciatic n. (tibial division) branch to biceps femoris, long head",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "biceps_femoris_r_long_head"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "biceps_femoris_r_long_head",
-      "entry_description": "Enters the deep surface of the long head in the proximal thigh."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sciatic_n_branch_to_biceps_femoris_short_head",
-    "name": "Sciatic n. (common fibular division) branch to biceps femoris, short head",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "biceps_femoris_r_short_head"
-    ],
-    "notes": "The ONLY hamstring supplied by the common fibular division. That makes it a useful electrodiagnostic landmark: short-head denervation with a normal long head localises a lesion to the fibular division rather than the whole sciatic nerve.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "biceps_femoris_r_short_head",
-      "entry_description": "Enters the short head from its lateral aspect, arising separately from the common fibular division within the sciatic sheath."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sciatic_n_branch_to_adductor_magnus_hamstring_part",
-    "name": "Sciatic n. (tibial division) branch to adductor magnus (ischiocondylar part)",
-    "plexus": "sacral_plexus",
-    "parent_id": "sciatic_n",
-    "level": "muscular_branch",
-    "root_contributions": "L4-S1",
-    "targets": [
-      "adductor_magnus_r_hamstring_part"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "adductor_magnus_r_hamstring_part",
-      "entry_description": "Enters the posterior surface of the ischiocondylar (hamstring) portion; the adductor portion is obturator-supplied."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_gastrocnemius",
-    "name": "Tibial n. branches to gastrocnemius (medial and lateral heads)",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "gastrocnemius_r_medial_head",
-      "gastrocnemius_r_lateral_head"
-    ],
-    "notes": "Each head receives its own branch, entering close to the popliteal crease. Both heads are common botulinum toxin targets in spastic equinus, and the motor points sit in the proximal third of each belly rather than at its midpoint.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "gastrocnemius_r_medial_head",
-      "entry_description": "Two separate branches leave the tibial nerve in the popliteal fossa and enter the deep surface of each head near its origin."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_soleus",
-    "name": "Tibial n. branch to soleus",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "soleus_r_main"
-    ],
-    "notes": "Soleus usually receives a proximal branch entering its posterior surface near the origin and a second, deeper branch entering the anterior surface further distally, from within the deep posterior compartment. Injection targeting only the superficial belly can therefore miss a substantial part of the muscle.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "soleus_r_main",
-      "entry_description": "The nerve passes deep to the tendinous arch of soleus, supplying the muscle from both its posterior and anterior surfaces."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_plantaris",
-    "name": "Tibial n. branch to plantaris",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "plantaris_r_main"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_popliteus",
-    "name": "Tibial n. branch to popliteus",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "L4-S1",
-    "targets": [
-      "popliteus_r_main"
-    ],
-    "notes": "Reaches the muscle by winding around its distal border to enter the anterior (deep) surface -- an unusual approach, and one reason popliteus can be spared in some proximal tibial lesions.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "popliteus_r_main",
-      "entry_description": "Descends over the popliteus, curls around its lower border and enters the deep surface."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_tibialis_posterior",
-    "name": "Tibial n. branch to tibialis posterior",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "L4-L5",
-    "targets": [
-      "tibialis_posterior_r_main"
-    ],
-    "notes": "A frequent botulinum target in spastic equinovarus, where tibialis posterior drives the varus component. It lies deep, against the interosseous membrane, so accurate injection needs ultrasound or stimulation guidance rather than surface landmarks.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "tibialis_posterior_r_main",
-      "entry_description": "Enters the deep surface of the muscle in the proximal leg, within the deep posterior compartment."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_flexor_digitorum_longus",
-    "name": "Tibial n. branch to flexor digitorum longus",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "flexor_digitorum_longus_r_main"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_branch_to_flexor_hallucis_longus",
-    "name": "Tibial n. branch to flexor hallucis longus",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "flexor_hallucis_longus_r_main"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_medial_calcaneal_branches",
-    "name": "Medial calcaneal branches of the tibial nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "skin of the medial and plantar heel"
-    ],
-    "notes": "Arise above or within the tarsal tunnel and pierce the flexor retinaculum. Because they usually branch proximal to the tunnel, heel sensation is often preserved in tarsal tunnel syndrome -- a useful discriminator from plantar fasciitis.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "tibial_n_medial_sural_cutaneous_n",
-    "name": "Medial sural cutaneous nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "skin of the posterior leg (upper part)"
-    ],
-    "notes": "Descends between the two heads of gastrocnemius, then joins the sural communicating branch to form the sural nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "common_fibular_n_lateral_sural_cutaneous_n",
-    "name": "Lateral sural cutaneous nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "common_fibular_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L5-S2",
-    "targets": [
-      "skin of the upper lateral leg"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sural_communicating_branch",
-    "name": "Sural communicating branch",
-    "plexus": "sacral_plexus",
-    "parent_id": "common_fibular_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "contributes to the sural nerve"
-    ],
-    "notes": "Its presence and level are variable; in a minority of people it is absent and the sural nerve is formed by the medial sural cutaneous nerve alone.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sural_n",
-    "name": "Sural nerve",
-    "plexus": "sacral_plexus",
-    "parent_id": "tibial_n_medial_sural_cutaneous_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "skin of the posterolateral leg, lateral heel and lateral border of the foot"
-    ],
-    "notes": "Formed by the medial sural cutaneous nerve joining the sural communicating branch. Runs with the small saphenous vein behind the lateral malleolus. Purely sensory and superficial, which is why it is the standard donor for nerve biopsy and for nerve grafting, and why it is routinely used for sensory conduction studies. Also the nerve at risk in percutaneous Achilles repair and lateral hindfoot approaches.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "sural_n_lateral_dorsal_cutaneous_n",
-    "name": "Lateral dorsal cutaneous nerve of the foot",
-    "plexus": "sacral_plexus",
-    "parent_id": "sural_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S2",
-    "targets": [
-      "skin of the lateral border of the foot and the fifth toe"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_fibular_n_branch_to_tibialis_anterior",
-    "name": "Deep fibular n. branch to tibialis anterior",
-    "plexus": "sacral_plexus",
-    "parent_id": "deep_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L4-L5",
-    "targets": [
-      "tibialis_anterior_r_main"
-    ],
-    "notes": "The first muscular branch after the nerve pierces the anterior intermuscular septum. Loss here is the foot drop of a common fibular palsy at the fibular neck.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "tibialis_anterior_r_main",
-      "entry_description": "Enters the deep surface of the muscle in the proximal third of the leg."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_fibular_n_branch_to_extensor_digitorum_longus",
-    "name": "Deep fibular n. branch to extensor digitorum longus",
-    "plexus": "sacral_plexus",
-    "parent_id": "deep_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "extensor_digitorum_longus_r_main"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_fibular_n_branch_to_extensor_hallucis_longus",
-    "name": "Deep fibular n. branch to extensor hallucis longus",
-    "plexus": "sacral_plexus",
-    "parent_id": "deep_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "extensor_hallucis_longus_r_main"
-    ],
-    "notes": "Extensor hallucis longus is the classic L5 indicator muscle on manual testing.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_fibular_n_branch_to_fibularis_tertius",
-    "name": "Deep fibular n. branch to fibularis tertius",
-    "plexus": "sacral_plexus",
-    "parent_id": "deep_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "fibularis_tertius_r_main"
-    ],
-    "notes": "Fibularis tertius is absent in a minority of people; when present it is an anterior-compartment muscle and so deep fibular, not superficial fibular, despite its name.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_fibular_n_lateral_terminal_branch",
-    "name": "Deep fibular n., lateral terminal branch",
-    "plexus": "sacral_plexus",
-    "parent_id": "deep_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "extensor_digitorum_brevis_r_main",
-      "extensor_hallucis_brevis_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "extensor_digitorum_brevis_r_main",
-      "entry_description": "Passes under the extensor retinaculum and expands into a pseudoganglion on the deep surface of extensor digitorum brevis."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_fibular_n_medial_terminal_branch",
-    "name": "Deep fibular n., medial terminal branch",
-    "plexus": "sacral_plexus",
-    "parent_id": "deep_fibular_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "skin of the first web space (adjacent sides of the great and second toes)"
-    ],
-    "notes": "The first web space is the deep fibular nerve's ONLY cutaneous territory, and is the sensory area tested to separate a deep from a superficial fibular lesion. Entrapment beneath the extensor retinaculum is anterior tarsal tunnel syndrome.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "superficial_fibular_n_branch_to_fibularis_longus",
-    "name": "Superficial fibular n. branch to fibularis longus",
-    "plexus": "sacral_plexus",
-    "parent_id": "superficial_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "fibularis_longus_r_main"
-    ],
-    "notes": "",
-    "motor_entry_point": {
-      "target_muscle_compartment": "fibularis_longus_r_main",
-      "entry_description": "Enters the deep surface of the muscle high in the lateral compartment, close to the fibular neck."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "superficial_fibular_n_branch_to_fibularis_brevis",
-    "name": "Superficial fibular n. branch to fibularis brevis",
-    "plexus": "sacral_plexus",
-    "parent_id": "superficial_fibular_n",
-    "level": "muscular_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "fibularis_brevis_r_main"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "superficial_fibular_n_medial_dorsal_cutaneous_n",
-    "name": "Medial dorsal cutaneous nerve of the foot",
-    "plexus": "sacral_plexus",
-    "parent_id": "superficial_fibular_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "skin of the medial dorsum of the foot and the medial great toe",
-      "skin of the adjacent sides of the second and third toes"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
-    "name": "Intermediate dorsal cutaneous nerve of the foot",
-    "plexus": "sacral_plexus",
-    "parent_id": "superficial_fibular_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "L5-S1",
-    "targets": [
-      "skin of the lateral dorsum of the foot and the third to fifth toes"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "medial_plantar_n_muscular_branches",
-    "name": "Medial plantar n. muscular branches",
-    "plexus": "sacral_plexus",
-    "parent_id": "medial_plantar_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "abductor_hallucis_r_main",
-      "flexor_digitorum_brevis_r_main",
-      "flexor_hallucis_brevis_r_medial",
-      "flexor_hallucis_brevis_r_lateral",
-      "lumbricals_foot_r_1"
-    ],
-    "notes": "Supplies the first lumbrical only; lumbricals 2-4 are lateral plantar. The pattern mirrors the median/ulnar division of the hand -- medial plantar is the foot's median nerve.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "abductor_hallucis_r_main",
-      "entry_description": "Runs deep to abductor hallucis, then between it and flexor digitorum brevis, supplying both from their deep surfaces."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "medial_plantar_n_digital_branches",
-    "name": "Medial plantar n. proper plantar digital nerves",
-    "plexus": "sacral_plexus",
-    "parent_id": "medial_plantar_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "skin of the medial sole",
-      "plantar skin and nail beds of the medial three and a half toes"
-    ],
-    "notes": "The interdigital branches to the second and third web spaces are where Morton's neuroma forms, most often in the third space where medial and lateral plantar branches communicate.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "lateral_plantar_n_superficial_branch",
-    "name": "Lateral plantar n., superficial branch",
-    "plexus": "sacral_plexus",
-    "parent_id": "lateral_plantar_n",
-    "level": "cutaneous_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "skin of the lateral sole",
-      "plantar skin of the lateral one and a half toes",
-      "flexor_digiti_minimi_brevis_foot_r_main"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "lateral_plantar_n_deep_branch",
-    "name": "Lateral plantar n., deep branch",
-    "plexus": "sacral_plexus",
-    "parent_id": "lateral_plantar_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "adductor_hallucis_r_oblique",
-      "adductor_hallucis_r_transverse",
-      "plantar_interossei_r_main",
-      "dorsal_interossei_foot_r_main",
-      "lumbricals_foot_r_2_4"
-    ],
-    "notes": "Curves medially across the sole with the plantar arch, deep to the long flexor tendons -- the exact counterpart of the deep branch of the ulnar nerve in the hand.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "adductor_hallucis_r_oblique",
-      "entry_description": "Accompanies the plantar arterial arch deep to the oblique head of adductor hallucis."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "lateral_plantar_n_muscular_branches",
-    "name": "Lateral plantar n. proximal muscular branches",
-    "plexus": "sacral_plexus",
-    "parent_id": "lateral_plantar_n",
-    "level": "muscular_branch",
-    "root_contributions": "S1-S3",
-    "targets": [
-      "quadratus_plantae_r_main",
-      "abductor_digiti_minimi_foot_r_main"
-    ],
-    "notes": "The first branch of the lateral plantar nerve, to abductor digiti minimi, is Baxter's nerve. Its entrapment between abductor hallucis and quadratus plantae is a recognised cause of chronic heel pain that mimics plantar fasciitis but, unlike it, produces no morning-first-step pattern and may show denervation of abductor digiti minimi on EMG.",
-    "motor_entry_point": {
-      "target_muscle_compartment": "quadratus_plantae_r_main",
-      "entry_description": "Passes between flexor digitorum brevis and quadratus plantae after entering the sole deep to abductor hallucis."
-    },
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
-  }
+ {
+  "id": "lumbar_root_T12",
+  "name": "Ventral ramus T12",
+  "plexus": "lumbar_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "T12",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "lumbar_root_L1",
+  "name": "Ventral ramus L1",
+  "plexus": "lumbar_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "L1",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "lumbar_root_L2",
+  "name": "Ventral ramus L2",
+  "plexus": "lumbar_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "L2",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "lumbar_root_L3",
+  "name": "Ventral ramus L3",
+  "plexus": "lumbar_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "L3",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "lumbar_root_L4",
+  "name": "Ventral ramus L4",
+  "plexus": "lumbar_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "L4",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "iliohypogastric_n",
+  "name": "Iliohypogastric nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "lumbar_root_L1",
+  "level": "terminal_branch",
+  "root_contributions": "T12-L1",
+  "targets": [
+   "internal_oblique_r",
+   "internal_oblique_l",
+   "transversus_abdominis_r",
+   "transversus_abdominis_l",
+   "suprapubic skin"
+  ],
+  "notes": "Emerges from psoas major's lateral border, runs anterior to quadratus lumborum.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "ilioinguinal_n",
+  "name": "Ilioinguinal nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "lumbar_root_L1",
+  "level": "terminal_branch",
+  "root_contributions": "L1",
+  "targets": [
+   "internal_oblique_r",
+   "internal_oblique_l",
+   "transversus_abdominis_r",
+   "transversus_abdominis_l",
+   "inguinal/scrotal-labial skin"
+  ],
+  "notes": "Runs parallel and inferior to iliohypogastric n., through the inguinal canal.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "genitofemoral_n",
+  "name": "Genitofemoral nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "lumbar_root_L1",
+  "level": "terminal_branch",
+  "root_contributions": "L1-L2",
+  "targets": [
+   "cremaster (genital branch)",
+   "skin of femoral triangle (femoral branch)"
+  ],
+  "notes": "Pierces psoas major anteriorly, splits into genital and femoral branches near the inguinal ligament.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "lateral_femoral_cutaneous_n",
+  "name": "Lateral femoral cutaneous nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "lumbar_root_L2",
+  "level": "cutaneous_branch",
+  "root_contributions": "L2-L3",
+  "targets": [
+   "lateral thigh skin"
+  ],
+  "notes": "Emerges from psoas major's lateral border, crosses iliacus, passes under/through the inguinal ligament near the ASIS -- entrapment here causes meralgia paresthetica.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "obturator_n",
+  "name": "Obturator nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "lumbar_root_L2",
+  "level": "terminal_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "obturator_externus_r",
+   "obturator_externus_l",
+   "adductor_longus_r",
+   "adductor_longus_l",
+   "adductor_brevis_r",
+   "adductor_brevis_l",
+   "adductor_magnus_r_adductor_part",
+   "adductor_magnus_l_adductor_part",
+   "gracilis_r",
+   "gracilis_l",
+   "pectineus_r (variable, often also femoral n.)"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "adductor_magnus_r_adductor_part",
+   "entry_description": "Descends through psoas major, crosses the pelvic brim, passes through the obturator foramen (obturator canal) into the medial thigh, dividing into anterior (adductor longus/brevis/gracilis) and posterior (obturator externus, adductor magnus adductor part) branches."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "femoral_n",
+  "name": "Femoral nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "lumbar_root_L2",
+  "level": "terminal_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "iliopsoas_r_iliacus",
+   "iliopsoas_l_iliacus",
+   "sartorius_r",
+   "sartorius_l",
+   "pectineus_r",
+   "pectineus_l",
+   "rectus_femoris_r_straight_head",
+   "rectus_femoris_l_straight_head",
+   "rectus_femoris_r_reflected_head",
+   "rectus_femoris_l_reflected_head",
+   "vastus_lateralis_r_main",
+   "vastus_lateralis_l_main",
+   "vastus_medialis_r_longus",
+   "vastus_medialis_l_longus",
+   "vastus_medialis_r_obliquus",
+   "vastus_medialis_l_obliquus",
+   "vastus_intermedius_r_main",
+   "vastus_intermedius_l_main"
+  ],
+  "notes": "Largest branch of the lumbar plexus.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "vastus_medialis_r_longus",
+   "entry_description": "Descends in the groove between psoas major and iliacus, passes under the inguinal ligament (lateral to the femoral vessels) into the femoral triangle, then fans into anterior (sartorius, quadriceps) branches and the saphenous nerve (sensory, continues to the medial leg/foot)."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sacral_root_L4",
+  "name": "Ventral ramus L4",
+  "plexus": "sacral_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "L4",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sacral_root_L5",
+  "name": "Ventral ramus L5",
+  "plexus": "sacral_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "L5",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sacral_root_S1",
+  "name": "Ventral ramus S1",
+  "plexus": "sacral_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "S1",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sacral_root_S2",
+  "name": "Ventral ramus S2",
+  "plexus": "sacral_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "S2",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sacral_root_S3",
+  "name": "Ventral ramus S3",
+  "plexus": "sacral_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "S3",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sacral_root_S4",
+  "name": "Ventral ramus S4",
+  "plexus": "sacral_plexus",
+  "parent_id": null,
+  "level": "root",
+  "root_contributions": "S4",
+  "targets": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "superior_gluteal_n",
+  "name": "Superior gluteal nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_L4",
+  "level": "muscular_branch",
+  "root_contributions": "L4-S1",
+  "targets": [
+   "gluteus_medius_r_anterior",
+   "gluteus_medius_l_anterior",
+   "gluteus_medius_r_middle",
+   "gluteus_medius_l_middle",
+   "gluteus_medius_r_posterior",
+   "gluteus_medius_l_posterior",
+   "gluteus_minimus_r",
+   "gluteus_minimus_l",
+   "tensor_fasciae_latae_r",
+   "tensor_fasciae_latae_l"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "gluteus_medius_r_middle",
+   "entry_description": "Exits the pelvis through the greater sciatic foramen ABOVE piriformis, runs between gluteus medius and minimus."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "inferior_gluteal_n",
+  "name": "Inferior gluteal nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_L5",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "gluteus_maximus_r_superior",
+   "gluteus_maximus_l_superior",
+   "gluteus_maximus_r_inferior",
+   "gluteus_maximus_l_inferior"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "gluteus_maximus_r_inferior",
+   "entry_description": "Exits the pelvis through the greater sciatic foramen BELOW piriformis, enters the deep surface of gluteus maximus."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "nerve_to_piriformis",
+  "name": "Nerve to piriformis",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_S1",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "piriformis_r",
+   "piriformis_l"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "nerve_to_obturator_internus",
+  "name": "Nerve to obturator internus (and superior gemellus)",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_L5",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "obturator_internus_r",
+   "obturator_internus_l",
+   "gemellus_superior_r",
+   "gemellus_superior_l"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "nerve_to_quadratus_femoris",
+  "name": "Nerve to quadratus femoris (and inferior gemellus)",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_L4",
+  "level": "muscular_branch",
+  "root_contributions": "L4-S1",
+  "targets": [
+   "quadratus_femoris_r",
+   "quadratus_femoris_l",
+   "gemellus_inferior_r",
+   "gemellus_inferior_l"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "posterior_femoral_cutaneous_n",
+  "name": "Posterior femoral cutaneous nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_S1",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "posterior thigh skin, perineum"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "pudendal_n",
+  "name": "Pudendal nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_S2",
+  "level": "terminal_branch",
+  "root_contributions": "S2-S4",
+  "targets": [
+   "external anal sphincter",
+   "external urethral sphincter",
+   "perineal skin/genitalia"
+  ],
+  "notes": "Exits greater sciatic foramen, crosses ischial spine, re-enters via lesser sciatic foramen into the pudendal (Alcock's) canal.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "sciatic_n",
+  "name": "Sciatic nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sacral_root_L4",
+  "level": "terminal_branch",
+  "root_contributions": "L4-S3",
+  "targets": [
+   "biceps_femoris_r_long_head",
+   "biceps_femoris_l_long_head",
+   "biceps_femoris_r_short_head",
+   "biceps_femoris_l_short_head",
+   "semitendinosus_r_main",
+   "semitendinosus_l_main",
+   "semimembranosus_r_main",
+   "semimembranosus_l_main",
+   "adductor_magnus_r_hamstring_part",
+   "adductor_magnus_l_hamstring_part"
+  ],
+  "notes": "Actually two nerves (tibial + common fibular divisions) bound in one sheath through the thigh; the split is often already present anatomically well above the knee.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "semimembranosus_r_main",
+   "entry_description": "Largest nerve in the body; exits the pelvis through the greater sciatic foramen below piriformis (a common anatomical variant has it piercing piriformis), descends through the posterior thigh giving hamstring branches, then splits into tibial and common fibular (peroneal) nerves at (variably above) the popliteal fossa."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "tibial_n",
+  "name": "Tibial nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "terminal_branch",
+  "root_contributions": "L4-S3 (tibial division)",
+  "targets": [
+   "gastrocnemius_r_medial_head",
+   "gastrocnemius_l_medial_head",
+   "gastrocnemius_r_lateral_head",
+   "gastrocnemius_l_lateral_head",
+   "soleus_r_main",
+   "soleus_l_main",
+   "tibialis_posterior_r",
+   "tibialis_posterior_l",
+   "flexor_digitorum_longus_r",
+   "flexor_digitorum_longus_l",
+   "flexor_hallucis_longus_r",
+   "flexor_hallucis_longus_l",
+   "popliteus_r",
+   "popliteus_l",
+   "plantaris_r",
+   "plantaris_l"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "soleus_r_main",
+   "entry_description": "Descends through the popliteal fossa and deep posterior leg compartment, passes behind the medial malleolus (tarsal tunnel) to enter the foot, dividing into medial and lateral plantar nerves."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "common_fibular_n",
+  "name": "Common fibular (peroneal) nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "terminal_branch",
+  "root_contributions": "L4-S2 (fibular division)",
+  "targets": [],
+  "notes": "Wraps around the fibular neck (superficial, vulnerable to compression/injury -- classic foot-drop mechanism) before dividing into superficial and deep fibular nerves. The short head of biceps femoris is innervated further proximally, by the common-fibular division while still within the sciatic trunk (see sciatic_n targets) -- not by this node itself.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "superficial_fibular_n",
+  "name": "Superficial fibular (peroneal) nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "common_fibular_n",
+  "level": "terminal_branch",
+  "root_contributions": "L4-S1",
+  "targets": [
+   "fibularis_longus_r_main",
+   "fibularis_longus_l_main",
+   "fibularis_brevis_r_main",
+   "fibularis_brevis_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "fibularis_longus_r_main",
+   "entry_description": "Descends in the lateral compartment of the leg, becomes cutaneous over the distal leg/dorsum of foot."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "deep_fibular_n",
+  "name": "Deep fibular (peroneal) nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "common_fibular_n",
+  "level": "terminal_branch",
+  "root_contributions": "L4-S1",
+  "targets": [
+   "tibialis_anterior_r_main",
+   "tibialis_anterior_l_main",
+   "extensor_digitorum_longus_r",
+   "extensor_digitorum_longus_l",
+   "extensor_hallucis_longus_r",
+   "extensor_hallucis_longus_l",
+   "fibularis_tertius_r",
+   "fibularis_tertius_l",
+   "extensor_digitorum_brevis_r",
+   "extensor_digitorum_brevis_l",
+   "extensor_hallucis_brevis_r",
+   "extensor_hallucis_brevis_l"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "tibialis_anterior_r_main",
+   "entry_description": "Pierces the anterior intermuscular septum to enter the anterior compartment, runs with the anterior tibial vessels, continues onto the dorsum of the foot."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "medial_plantar_n",
+  "name": "Medial plantar nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "terminal_branch",
+  "root_contributions": "L4-S3",
+  "targets": [
+   "abductor_hallucis_r",
+   "abductor_hallucis_l",
+   "flexor_digitorum_brevis_r",
+   "flexor_digitorum_brevis_l",
+   "flexor_hallucis_brevis_r",
+   "flexor_hallucis_brevis_l",
+   "lumbricals_foot_r (1st)"
+  ],
+  "notes": "The 'median nerve equivalent' of the foot; larger of tibial n.'s two terminal branches.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "lateral_plantar_n",
+  "name": "Lateral plantar nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "terminal_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "quadratus_plantae_r",
+   "quadratus_plantae_l",
+   "abductor_digiti_minimi_foot_r",
+   "abductor_digiti_minimi_foot_l",
+   "flexor_digiti_minimi_brevis_foot_r",
+   "flexor_digiti_minimi_brevis_foot_l",
+   "adductor_hallucis_r",
+   "adductor_hallucis_l",
+   "dorsal_interossei_foot_r",
+   "dorsal_interossei_foot_l",
+   "plantar_interossei_r",
+   "plantar_interossei_l",
+   "lumbricals_foot_r (2nd-4th)"
+  ],
+  "notes": "The 'ulnar nerve equivalent' of the foot; deep branch supplies most intrinsic foot muscles.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus chapters"
+ },
+ {
+  "id": "femoral_n_branch_to_iliacus",
+  "name": "Femoral n. branch to iliacus",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "iliopsoas_r_iliacus",
+   "iliopsoas_l_iliacus"
+  ],
+  "notes": "Given off above the inguinal ligament, inside the abdomen. This is why a femoral nerve injury distal to the ligament spares hip flexion by iliacus while abolishing knee extension.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "iliopsoas_r_iliacus",
+   "entry_description": "Enters the anterior surface of iliacus within the iliac fossa, proximal to the inguinal ligament."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_branch_to_pectineus",
+  "name": "Femoral n. branch to pectineus",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L3",
+  "targets": [
+   "pectineus_r_main",
+   "pectineus_l_main"
+  ],
+  "notes": "Pectineus has a dual supply: femoral nerve, and often an accessory obturator or obturator branch. That dual innervation is the usual explanation for its variable behaviour after isolated nerve injury.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "pectineus_r_main",
+   "entry_description": "Passes behind the femoral sheath to reach the anterior surface of pectineus."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_branch_to_sartorius",
+  "name": "Femoral n. branch to sartorius",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L3",
+  "targets": [
+   "sartorius_r_main",
+   "sartorius_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "sartorius_r_main",
+   "entry_description": "Enters the deep surface of the proximal third of sartorius, often as two or three twigs, shortly below the inguinal ligament."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_branch_to_rectus_femoris",
+  "name": "Femoral n. branch to rectus femoris",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "rectus_femoris_r_straight_head",
+   "rectus_femoris_l_straight_head",
+   "rectus_femoris_r_reflected_head",
+   "rectus_femoris_l_reflected_head"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "rectus_femoris_r_straight_head",
+   "entry_description": "Enters the deep (posterior) surface of the proximal third of the muscle; the branch also supplies an articular twig to the hip."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_branch_to_vastus_lateralis",
+  "name": "Femoral n. branch to vastus lateralis",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "vastus_lateralis_r_main",
+   "vastus_lateralis_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "vastus_lateralis_r_main",
+   "entry_description": "Descends along the anterior border of the muscle with the descending branch of the lateral circumflex femoral artery, entering the deep surface over the proximal half."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_branch_to_vastus_medialis",
+  "name": "Femoral n. branch to vastus medialis",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "vastus_medialis_r_longus",
+   "vastus_medialis_l_longus",
+   "vastus_medialis_r_obliquus",
+   "vastus_medialis_l_obliquus"
+  ],
+  "notes": "Runs in the adductor canal alongside the saphenous nerve, which is why an adductor canal block placed too proximally can weaken the quadriceps instead of producing the intended purely sensory block.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "vastus_medialis_r_longus",
+   "entry_description": "Enters the muscle along its anteromedial surface within the adductor canal, supplying twigs down to the vastus medialis obliquus fibres near the knee."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_branch_to_vastus_intermedius",
+  "name": "Femoral n. branch to vastus intermedius",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "vastus_intermedius_r_main",
+   "vastus_intermedius_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "vastus_intermedius_r_main",
+   "entry_description": "Enters the anterior surface of the muscle in its proximal third; a deep twig continues to articularis genus."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "femoral_n_anterior_cutaneous_branches",
+  "name": "Anterior cutaneous branches of the femoral nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L2-L3",
+  "targets": [
+   "skin of the anterior and anteromedial thigh"
+  ],
+  "notes": "Intermediate and medial cutaneous nerves of the thigh; pierce fascia lata to supply the anterior thigh down to the knee.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "saphenous_n",
+  "name": "Saphenous nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "femoral_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L3-L4",
+  "targets": [
+   "skin of the anteromedial leg and the medial border of the foot"
+  ],
+  "notes": "The longest cutaneous branch of the femoral nerve and its only branch below the knee -- purely sensory. Descends in the adductor (Hunter's) canal, then leaves the canal WITHOUT entering the popliteal fossa, piercing the fascia between sartorius and gracilis. Runs with the great saphenous vein, which makes it the nerve at risk in saphenous vein harvest, varicose vein stripping and medial ankle approaches. The target of the adductor canal block, which spares the quadriceps and so preserves the ability to weight-bear after knee arthroplasty. Course: enters the adductor canal lateral to the femoral artery, crosses anterior to it, and exits through the vasto-adductor membrane roughly a hand's breadth above the knee.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "saphenous_n_infrapatellar_branch",
+  "name": "Infrapatellar branch of the saphenous nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "saphenous_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L3-L4",
+  "targets": [
+   "skin over the patellar tendon and the anteroinferior knee"
+  ],
+  "notes": "Crosses the front of the knee transversely. Divided by the standard midline knee arthrotomy and by medial arthroscopy portals, producing the numb patch lateral to the scar that many arthroplasty patients report, and occasionally a painful neuroma.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "saphenous_n_medial_crural_branches",
+  "name": "Medial crural cutaneous branches of the saphenous nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "saphenous_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L3-L4",
+  "targets": [
+   "skin of the medial leg from below the knee to the medial malleolus"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_anterior_division",
+  "name": "Obturator n., anterior division",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n",
+  "level": "division",
+  "root_contributions": "L2-L4",
+  "targets": [],
+  "notes": "Passes in front of obturator externus and adductor brevis. Supplies the superficial adductor group and gives the cutaneous branch to the medial thigh; also an articular branch to the hip, which is the anatomical basis for hip pathology referring pain to the medial knee (the Obturator/Hilton's law referral).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_posterior_division",
+  "name": "Obturator n., posterior division",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n",
+  "level": "division",
+  "root_contributions": "L2-L4",
+  "targets": [],
+  "notes": "Pierces obturator externus and descends behind adductor brevis. Gives an articular branch to the knee through the adductor hiatus -- the other half of the hip-to-knee referral pattern.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_branch_to_obturator_externus",
+  "name": "Obturator n. branch to obturator externus",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n_posterior_division",
+  "level": "muscular_branch",
+  "root_contributions": "L3-L4",
+  "targets": [
+   "obturator_externus_r_main",
+   "obturator_externus_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "obturator_externus_r_main",
+   "entry_description": "The posterior division pierces the muscle itself, supplying it from within."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_branch_to_adductor_longus",
+  "name": "Obturator n. branch to adductor longus",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n_anterior_division",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "adductor_longus_r_main",
+   "adductor_longus_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "adductor_longus_r_main",
+   "entry_description": "Enters the deep (posterior) surface of the muscle in its proximal third."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_branch_to_adductor_brevis",
+  "name": "Obturator n. branch to adductor brevis",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n_anterior_division",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "adductor_brevis_r_main",
+   "adductor_brevis_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "adductor_brevis_r_main",
+   "entry_description": "Enters the anterior surface; adductor brevis is the plane that separates the anterior from the posterior obturator division."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_branch_to_gracilis",
+  "name": "Obturator n. branch to gracilis",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n_anterior_division",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "gracilis_r_main",
+   "gracilis_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "gracilis_r_main",
+   "entry_description": "Enters the deep surface of the proximal third of the muscle."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_branch_to_adductor_magnus_adductor_part",
+  "name": "Obturator n. branch to adductor magnus (adductor part)",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n_posterior_division",
+  "level": "muscular_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "adductor_magnus_r_adductor_part",
+   "adductor_magnus_l_adductor_part"
+  ],
+  "notes": "Adductor magnus is the classic dually innervated muscle: the adductor part is obturator, the ischiocondylar (hamstring) part is the tibial division of the sciatic nerve. The two parts behave as separate functional muscles.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "adductor_magnus_r_adductor_part",
+   "entry_description": "Enters the anterior surface of the adductor portion; the hamstring portion is supplied separately from behind by the sciatic nerve."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "obturator_n_cutaneous_branch",
+  "name": "Cutaneous branch of the obturator nerve",
+  "plexus": "lumbar_plexus",
+  "parent_id": "obturator_n_anterior_division",
+  "level": "cutaneous_branch",
+  "root_contributions": "L2-L4",
+  "targets": [
+   "skin of the medial thigh, distal third"
+  ],
+  "notes": "Small and inconstant; its territory overlaps that of the medial femoral cutaneous branches.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sciatic_n_branch_to_semitendinosus",
+  "name": "Sciatic n. (tibial division) branch to semitendinosus",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "semitendinosus_r_main",
+   "semitendinosus_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "semitendinosus_r_main",
+   "entry_description": "Enters the deep surface of the muscle; semitendinosus characteristically receives two separate branches, one proximal and one distal to its tendinous inscription."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sciatic_n_branch_to_semimembranosus",
+  "name": "Sciatic n. (tibial division) branch to semimembranosus",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "semimembranosus_r_main",
+   "semimembranosus_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "semimembranosus_r_main",
+   "entry_description": "Enters the deep surface of the muscle in its proximal half."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sciatic_n_branch_to_biceps_femoris_long_head",
+  "name": "Sciatic n. (tibial division) branch to biceps femoris, long head",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "biceps_femoris_r_long_head",
+   "biceps_femoris_l_long_head"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "biceps_femoris_r_long_head",
+   "entry_description": "Enters the deep surface of the long head in the proximal thigh."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sciatic_n_branch_to_biceps_femoris_short_head",
+  "name": "Sciatic n. (common fibular division) branch to biceps femoris, short head",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "biceps_femoris_r_short_head",
+   "biceps_femoris_l_short_head"
+  ],
+  "notes": "The ONLY hamstring supplied by the common fibular division. That makes it a useful electrodiagnostic landmark: short-head denervation with a normal long head localises a lesion to the fibular division rather than the whole sciatic nerve.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "biceps_femoris_r_short_head",
+   "entry_description": "Enters the short head from its lateral aspect, arising separately from the common fibular division within the sciatic sheath."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sciatic_n_branch_to_adductor_magnus_hamstring_part",
+  "name": "Sciatic n. (tibial division) branch to adductor magnus (ischiocondylar part)",
+  "plexus": "sacral_plexus",
+  "parent_id": "sciatic_n",
+  "level": "muscular_branch",
+  "root_contributions": "L4-S1",
+  "targets": [
+   "adductor_magnus_r_hamstring_part",
+   "adductor_magnus_l_hamstring_part"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "adductor_magnus_r_hamstring_part",
+   "entry_description": "Enters the posterior surface of the ischiocondylar (hamstring) portion; the adductor portion is obturator-supplied."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_gastrocnemius",
+  "name": "Tibial n. branches to gastrocnemius (medial and lateral heads)",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "gastrocnemius_r_medial_head",
+   "gastrocnemius_l_medial_head",
+   "gastrocnemius_r_lateral_head",
+   "gastrocnemius_l_lateral_head"
+  ],
+  "notes": "Each head receives its own branch, entering close to the popliteal crease. Both heads are common botulinum toxin targets in spastic equinus, and the motor points sit in the proximal third of each belly rather than at its midpoint.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "gastrocnemius_r_medial_head",
+   "entry_description": "Two separate branches leave the tibial nerve in the popliteal fossa and enter the deep surface of each head near its origin."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_soleus",
+  "name": "Tibial n. branch to soleus",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "soleus_r_main",
+   "soleus_l_main"
+  ],
+  "notes": "Soleus usually receives a proximal branch entering its posterior surface near the origin and a second, deeper branch entering the anterior surface further distally, from within the deep posterior compartment. Injection targeting only the superficial belly can therefore miss a substantial part of the muscle.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "soleus_r_main",
+   "entry_description": "The nerve passes deep to the tendinous arch of soleus, supplying the muscle from both its posterior and anterior surfaces."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_plantaris",
+  "name": "Tibial n. branch to plantaris",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "plantaris_r_main",
+   "plantaris_l_main"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_popliteus",
+  "name": "Tibial n. branch to popliteus",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "L4-S1",
+  "targets": [
+   "popliteus_r_main",
+   "popliteus_l_main"
+  ],
+  "notes": "Reaches the muscle by winding around its distal border to enter the anterior (deep) surface -- an unusual approach, and one reason popliteus can be spared in some proximal tibial lesions.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "popliteus_r_main",
+   "entry_description": "Descends over the popliteus, curls around its lower border and enters the deep surface."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_tibialis_posterior",
+  "name": "Tibial n. branch to tibialis posterior",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "L4-L5",
+  "targets": [
+   "tibialis_posterior_r_main",
+   "tibialis_posterior_l_main"
+  ],
+  "notes": "A frequent botulinum target in spastic equinovarus, where tibialis posterior drives the varus component. It lies deep, against the interosseous membrane, so accurate injection needs ultrasound or stimulation guidance rather than surface landmarks.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "tibialis_posterior_r_main",
+   "entry_description": "Enters the deep surface of the muscle in the proximal leg, within the deep posterior compartment."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_flexor_digitorum_longus",
+  "name": "Tibial n. branch to flexor digitorum longus",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "flexor_digitorum_longus_r_main",
+   "flexor_digitorum_longus_l_main"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_branch_to_flexor_hallucis_longus",
+  "name": "Tibial n. branch to flexor hallucis longus",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "flexor_hallucis_longus_r_main",
+   "flexor_hallucis_longus_l_main"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_medial_calcaneal_branches",
+  "name": "Medial calcaneal branches of the tibial nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "skin of the medial and plantar heel"
+  ],
+  "notes": "Arise above or within the tarsal tunnel and pierce the flexor retinaculum. Because they usually branch proximal to the tunnel, heel sensation is often preserved in tarsal tunnel syndrome -- a useful discriminator from plantar fasciitis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "tibial_n_medial_sural_cutaneous_n",
+  "name": "Medial sural cutaneous nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "skin of the posterior leg (upper part)"
+  ],
+  "notes": "Descends between the two heads of gastrocnemius, then joins the sural communicating branch to form the sural nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "common_fibular_n_lateral_sural_cutaneous_n",
+  "name": "Lateral sural cutaneous nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "common_fibular_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L5-S2",
+  "targets": [
+   "skin of the upper lateral leg"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sural_communicating_branch",
+  "name": "Sural communicating branch",
+  "plexus": "sacral_plexus",
+  "parent_id": "common_fibular_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "contributes to the sural nerve"
+  ],
+  "notes": "Its presence and level are variable; in a minority of people it is absent and the sural nerve is formed by the medial sural cutaneous nerve alone.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sural_n",
+  "name": "Sural nerve",
+  "plexus": "sacral_plexus",
+  "parent_id": "tibial_n_medial_sural_cutaneous_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "skin of the posterolateral leg, lateral heel and lateral border of the foot"
+  ],
+  "notes": "Formed by the medial sural cutaneous nerve joining the sural communicating branch. Runs with the small saphenous vein behind the lateral malleolus. Purely sensory and superficial, which is why it is the standard donor for nerve biopsy and for nerve grafting, and why it is routinely used for sensory conduction studies. Also the nerve at risk in percutaneous Achilles repair and lateral hindfoot approaches.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "sural_n_lateral_dorsal_cutaneous_n",
+  "name": "Lateral dorsal cutaneous nerve of the foot",
+  "plexus": "sacral_plexus",
+  "parent_id": "sural_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S2",
+  "targets": [
+   "skin of the lateral border of the foot and the fifth toe"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_fibular_n_branch_to_tibialis_anterior",
+  "name": "Deep fibular n. branch to tibialis anterior",
+  "plexus": "sacral_plexus",
+  "parent_id": "deep_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L4-L5",
+  "targets": [
+   "tibialis_anterior_r_main",
+   "tibialis_anterior_l_main"
+  ],
+  "notes": "The first muscular branch after the nerve pierces the anterior intermuscular septum. Loss here is the foot drop of a common fibular palsy at the fibular neck.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "tibialis_anterior_r_main",
+   "entry_description": "Enters the deep surface of the muscle in the proximal third of the leg."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_fibular_n_branch_to_extensor_digitorum_longus",
+  "name": "Deep fibular n. branch to extensor digitorum longus",
+  "plexus": "sacral_plexus",
+  "parent_id": "deep_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "extensor_digitorum_longus_r_main",
+   "extensor_digitorum_longus_l_main"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_fibular_n_branch_to_extensor_hallucis_longus",
+  "name": "Deep fibular n. branch to extensor hallucis longus",
+  "plexus": "sacral_plexus",
+  "parent_id": "deep_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "extensor_hallucis_longus_r_main",
+   "extensor_hallucis_longus_l_main"
+  ],
+  "notes": "Extensor hallucis longus is the classic L5 indicator muscle on manual testing.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_fibular_n_branch_to_fibularis_tertius",
+  "name": "Deep fibular n. branch to fibularis tertius",
+  "plexus": "sacral_plexus",
+  "parent_id": "deep_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "fibularis_tertius_r_main",
+   "fibularis_tertius_l_main"
+  ],
+  "notes": "Fibularis tertius is absent in a minority of people; when present it is an anterior-compartment muscle and so deep fibular, not superficial fibular, despite its name.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_fibular_n_lateral_terminal_branch",
+  "name": "Deep fibular n., lateral terminal branch",
+  "plexus": "sacral_plexus",
+  "parent_id": "deep_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "extensor_digitorum_brevis_r_main",
+   "extensor_digitorum_brevis_l_main",
+   "extensor_hallucis_brevis_r_main",
+   "extensor_hallucis_brevis_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "extensor_digitorum_brevis_r_main",
+   "entry_description": "Passes under the extensor retinaculum and expands into a pseudoganglion on the deep surface of extensor digitorum brevis."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_fibular_n_medial_terminal_branch",
+  "name": "Deep fibular n., medial terminal branch",
+  "plexus": "sacral_plexus",
+  "parent_id": "deep_fibular_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "skin of the first web space (adjacent sides of the great and second toes)"
+  ],
+  "notes": "The first web space is the deep fibular nerve's ONLY cutaneous territory, and is the sensory area tested to separate a deep from a superficial fibular lesion. Entrapment beneath the extensor retinaculum is anterior tarsal tunnel syndrome.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "superficial_fibular_n_branch_to_fibularis_longus",
+  "name": "Superficial fibular n. branch to fibularis longus",
+  "plexus": "sacral_plexus",
+  "parent_id": "superficial_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "fibularis_longus_r_main",
+   "fibularis_longus_l_main"
+  ],
+  "notes": "",
+  "motor_entry_point": {
+   "target_muscle_compartment": "fibularis_longus_r_main",
+   "entry_description": "Enters the deep surface of the muscle high in the lateral compartment, close to the fibular neck."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "superficial_fibular_n_branch_to_fibularis_brevis",
+  "name": "Superficial fibular n. branch to fibularis brevis",
+  "plexus": "sacral_plexus",
+  "parent_id": "superficial_fibular_n",
+  "level": "muscular_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "fibularis_brevis_r_main",
+   "fibularis_brevis_l_main"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "superficial_fibular_n_medial_dorsal_cutaneous_n",
+  "name": "Medial dorsal cutaneous nerve of the foot",
+  "plexus": "sacral_plexus",
+  "parent_id": "superficial_fibular_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "skin of the medial dorsum of the foot and the medial great toe",
+   "skin of the adjacent sides of the second and third toes"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "superficial_fibular_n_intermediate_dorsal_cutaneous_n",
+  "name": "Intermediate dorsal cutaneous nerve of the foot",
+  "plexus": "sacral_plexus",
+  "parent_id": "superficial_fibular_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "L5-S1",
+  "targets": [
+   "skin of the lateral dorsum of the foot and the third to fifth toes"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "medial_plantar_n_muscular_branches",
+  "name": "Medial plantar n. muscular branches",
+  "plexus": "sacral_plexus",
+  "parent_id": "medial_plantar_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "abductor_hallucis_r_main",
+   "abductor_hallucis_l_main",
+   "flexor_digitorum_brevis_r_main",
+   "flexor_digitorum_brevis_l_main",
+   "flexor_hallucis_brevis_r_medial",
+   "flexor_hallucis_brevis_l_medial",
+   "flexor_hallucis_brevis_r_lateral",
+   "flexor_hallucis_brevis_l_lateral",
+   "lumbricals_foot_r_1",
+   "lumbricals_foot_l_1"
+  ],
+  "notes": "Supplies the first lumbrical only; lumbricals 2-4 are lateral plantar. The pattern mirrors the median/ulnar division of the hand -- medial plantar is the foot's median nerve.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "abductor_hallucis_r_main",
+   "entry_description": "Runs deep to abductor hallucis, then between it and flexor digitorum brevis, supplying both from their deep surfaces."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "medial_plantar_n_digital_branches",
+  "name": "Medial plantar n. proper plantar digital nerves",
+  "plexus": "sacral_plexus",
+  "parent_id": "medial_plantar_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "skin of the medial sole",
+   "plantar skin and nail beds of the medial three and a half toes"
+  ],
+  "notes": "The interdigital branches to the second and third web spaces are where Morton's neuroma forms, most often in the third space where medial and lateral plantar branches communicate.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "lateral_plantar_n_superficial_branch",
+  "name": "Lateral plantar n., superficial branch",
+  "plexus": "sacral_plexus",
+  "parent_id": "lateral_plantar_n",
+  "level": "cutaneous_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "skin of the lateral sole",
+   "plantar skin of the lateral one and a half toes",
+   "flexor_digiti_minimi_brevis_foot_r_main",
+   "flexor_digiti_minimi_brevis_foot_l_main"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "lateral_plantar_n_deep_branch",
+  "name": "Lateral plantar n., deep branch",
+  "plexus": "sacral_plexus",
+  "parent_id": "lateral_plantar_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "adductor_hallucis_r_oblique",
+   "adductor_hallucis_l_oblique",
+   "adductor_hallucis_r_transverse",
+   "adductor_hallucis_l_transverse",
+   "plantar_interossei_r_main",
+   "plantar_interossei_l_main",
+   "dorsal_interossei_foot_r_main",
+   "dorsal_interossei_foot_l_main",
+   "lumbricals_foot_r_2_4",
+   "lumbricals_foot_l_2_4"
+  ],
+  "notes": "Curves medially across the sole with the plantar arch, deep to the long flexor tendons -- the exact counterpart of the deep branch of the ulnar nerve in the hand.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "adductor_hallucis_r_oblique",
+   "entry_description": "Accompanies the plantar arterial arch deep to the oblique head of adductor hallucis."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "lateral_plantar_n_muscular_branches",
+  "name": "Lateral plantar n. proximal muscular branches",
+  "plexus": "sacral_plexus",
+  "parent_id": "lateral_plantar_n",
+  "level": "muscular_branch",
+  "root_contributions": "S1-S3",
+  "targets": [
+   "quadratus_plantae_r_main",
+   "quadratus_plantae_l_main",
+   "abductor_digiti_minimi_foot_r_main",
+   "abductor_digiti_minimi_foot_l_main"
+  ],
+  "notes": "The first branch of the lateral plantar nerve, to abductor digiti minimi, is Baxter's nerve. Its entrapment between abductor hallucis and quadratus plantae is a recognised cause of chronic heel pain that mimics plantar fasciitis but, unlike it, produces no morning-first-step pattern and may show denervation of abductor digiti minimi on EMG.",
+  "motor_entry_point": {
+   "target_muscle_compartment": "quadratus_plantae_r_main",
+   "entry_description": "Passes between flexor digitorum brevis and quadratus plantae after entering the sole deep to abductor hallucis."
+  },
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.6; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- lumbar and sacral plexus sections; Terminologia Anatomica (FICAT 1998)"
+ }
 ]

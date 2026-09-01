@@ -48,6 +48,15 @@ CATEGORY_BY_DIR = {
     "cartilage": "cartilage",
     "tendons": "tendon",
     "fascia": "fascia",
+    # Vessels and nerves were missing here, so load_atlas_index() could not
+    # see either system and no ingest could ever map one. That cost nothing
+    # against the Denver release, which ships neither -- but a segmented CT
+    # names the aorta, the vena cavae, both carotids, both subclavians and
+    # the iliac vessels, and those are exactly the structures an injection
+    # plan has to avoid. An atlas that cannot see them cannot check a needle
+    # path against them.
+    "vascular": "vessel",
+    "nerves": "nerve",
 }
 
 # Structures the DU release contains, by their own description. Used only to
