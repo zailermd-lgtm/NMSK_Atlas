@@ -299,6 +299,84 @@ def test_every_muscle_is_reached_by_a_nerve():
         "\n".join(f"{m} (says {n!r})" for m, n in _muscles_no_nerve_reaches())
 
 
+def _ancestors(rec, nid):
+    out = set()
+    while nid in rec:
+        nid = rec[nid].get("parent_id")
+        if nid:
+            out.add(nid)
+    return out
+
+
+def _compartment_wiring_faults():
+    """Every compartment must say which nerve entities reach it, each of them
+    must exist, each must be the muscle's stated nerve or a branch of it (or
+    the stated nerve must be listed alongside, when the two are genuinely
+    different claims), and each must list the compartment back."""
+    # Vessels carry `system`; nerves do not.
+    nerves = {r["id"]: r for _f, r in _tree_records() if "system" not in r}
+    faults = []
+    for path in sorted((BONES.parent.parent / "muscles").rglob("*.json")):
+        payload = json.loads(path.read_text())
+        for m in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(m, dict) or "id" not in m:
+                continue
+            stated = (m.get("innervation") or {}).get("nerve")
+            stated = set(stated) if isinstance(stated, list) else {stated}
+            for c in m.get("functional_compartments") or []:
+                ids = c.get("innervation_branch_ids")
+                if not ids:
+                    faults.append(f"{c['id']}: no innervation_branch_ids")
+                    continue
+                for nid in ids:
+                    if nid not in nerves:
+                        faults.append(f"{c['id']}: {nid!r} is not a nerve")
+                        continue
+                    if c["id"] not in (nerves[nid].get("targets") or []):
+                        faults.append(f"{c['id']}: {nid} does not list it back")
+                    related = {nid} | _ancestors(nerves, nid)
+                    if not (related & stated) and not (stated & set(ids)):
+                        faults.append(f"{c['id']}: {nid} is neither the stated "
+                                      f"nerve {sorted(stated)} nor a branch of "
+                                      f"it, and the stated nerve is not listed")
+    return faults
+
+
+def test_every_compartment_names_the_nerves_that_reach_it():
+    """innervation_branch_ids was present on 108 compartments and absent on
+    426, so nothing could rely on it. Now every compartment carries the ids
+    derived from the tree -- the nerves whose targets name the compartment,
+    or failing that the muscle -- plus the muscle's own stated nerve where
+    that is a different claim (the orbital part of orbicularis oculi is
+    reached by the temporal branch in the tree and the zygomatic branch in
+    the muscle's record, and both are true). Each id must resolve, must be
+    the stated nerve or descend from it, and must list the compartment back,
+    so the two directions of the graph cannot drift apart again."""
+    faults = _compartment_wiring_faults()
+    assert not faults, f"{len(faults)} faults:\n" + "\n".join(faults[:15])
+
+
+def test_the_compartment_wiring_check_catches_a_broken_link(tmp_path, monkeypatch):
+    """Verified by breaking one: point a compartment at a branch of the wrong
+    nerve, and at a nerve that does not exist."""
+    src = BONES.parent.parent / "muscles"
+    root = tmp_path / "data"
+    import shutil
+    shutil.copytree(src, root / "muscles")
+    for folder in ("nerves", "vascular"):
+        shutil.copytree(BONES.parent.parent / folder, root / folder)
+    victim = next(root.joinpath("muscles").rglob("deltoid_r.json"))
+    payload = json.loads(victim.read_text())
+    m = payload[0] if isinstance(payload, list) else payload
+    m["functional_compartments"][0]["innervation_branch_ids"] = [
+        "musculocutaneous_n", "not_a_nerve"]
+    victim.write_text(json.dumps(payload))
+    monkeypatch.setattr("tests.test_symmetry.BONES", root / "skeleton" / "bones.json")
+    faults = _compartment_wiring_faults()
+    assert any("not_a_nerve" in f for f in faults), faults[:5]
+    assert any("musculocutaneous_n is neither" in f for f in faults), faults[:5]
+
+
 def test_no_innervation_is_a_packed_pseudo_id():
     """'femoral_n_and_obturator_n' looked like an id and was not one. An
     allow-list in the validator excused 22 such strings, which is how 64

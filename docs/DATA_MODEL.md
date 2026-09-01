@@ -96,10 +96,18 @@ obturator and sciatic, biceps femoris is tibial-division long head and
 common-fibular-division short head. Every element must resolve
 (`engine/validators.py`). Which nerve reaches *which* compartment is on the
 compartment: `innervation_branch` is the prose ("tibial division of sciatic
-n."), and `innervation_branch_ids` is its resolvable counterpart. On the
-dually innervated muscles the compartment, not the muscle, is the unit that
-has one nerve, and that is the unit a nerve block or a botulinum plan works
-in. Two nerves were once packed into a single pseudo-id string
+n."), and `innervation_branch_ids` is its resolvable counterpart, present on
+**every** compartment (534 of 534). It was derived from the nerve tree by
+`scripts/derive_compartment_innervation.py`: the nerve entities whose
+targets name the compartment, or failing that the muscle, plus the muscle's
+own stated nerve where that is a different claim rather than an ancestor of
+one already found (the orbital orbicularis oculi: temporal branch in the
+tree, zygomatic branch on the muscle, both true). Every nerve so named
+lists the compartment back in `targets`, and a test holds the two
+directions together. On the dually innervated muscles the compartment, not
+the muscle, is the unit that has one nerve, and that is the unit a nerve
+block or a botulinum plan works in. Two nerves were once packed into a
+single pseudo-id string
 (`femoral_n_and_obturator_n`) that resolved to nothing; an allow-list in the
 validator excused 22 such strings, which is how 64 muscles came to point at
 no nerve while every check passed. That form is no longer accepted.

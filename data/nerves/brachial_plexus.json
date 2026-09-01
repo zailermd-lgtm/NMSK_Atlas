@@ -201,7 +201,11 @@
    "levator_scapulae_r",
    "levator_scapulae_l",
    "levator_scapulae_l_main",
-   "levator_scapulae_r_main"
+   "levator_scapulae_r_main",
+   "rhomboid_major_l_main",
+   "rhomboid_major_r_main",
+   "rhomboid_minor_l_main",
+   "rhomboid_minor_r_main"
   ],
   "notes": "",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -215,7 +219,9 @@
   "root_contributions": "C5-C7",
   "targets": [
    "serratus_anterior_r",
-   "serratus_anterior_l"
+   "serratus_anterior_l",
+   "serratus_anterior_l_main",
+   "serratus_anterior_r_main"
   ],
   "notes": "Arises from roots directly, runs on the surface of serratus anterior; vulnerable in axillary surgery (winged scapula if injured).",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -231,7 +237,15 @@
    "supraspinatus_r",
    "supraspinatus_l",
    "infraspinatus_r",
-   "infraspinatus_l"
+   "infraspinatus_l",
+   "infraspinatus_l_superior",
+   "infraspinatus_l_inferior",
+   "infraspinatus_r_superior",
+   "infraspinatus_r_inferior",
+   "supraspinatus_l_anterior",
+   "supraspinatus_l_posterior",
+   "supraspinatus_r_anterior",
+   "supraspinatus_r_posterior"
   ],
   "notes": "",
   "motor_entry_point": {
@@ -252,7 +266,9 @@
   "root_contributions": "C5-C6",
   "targets": [
    "subclavius_r",
-   "subclavius_l"
+   "subclavius_l",
+   "subclavius_l_main",
+   "subclavius_r_main"
   ],
   "notes": "",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -288,7 +304,9 @@
    "biceps_brachii_r_short_head",
    "biceps_brachii_l_short_head",
    "brachialis_r_main",
-   "brachialis_l_main"
+   "brachialis_l_main",
+   "coracobrachialis_l_main",
+   "coracobrachialis_r_main"
   ],
   "notes": "",
   "motor_entry_point": {
@@ -334,7 +352,9 @@
   "root_contributions": "C6-C8",
   "targets": [
    "latissimus_dorsi_r",
-   "latissimus_dorsi_l"
+   "latissimus_dorsi_l",
+   "latissimus_dorsi_l_main",
+   "latissimus_dorsi_r_main"
   ],
   "notes": "",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -350,7 +370,9 @@
    "subscapularis_r_inferior",
    "subscapularis_l_inferior",
    "teres_major_r",
-   "teres_major_l"
+   "teres_major_l",
+   "teres_major_l_main",
+   "teres_major_r_main"
   ],
   "notes": "",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -411,7 +433,13 @@
    "brachioradialis_r",
    "brachioradialis_l",
    "extensor_carpi_radialis_longus_r",
-   "extensor_carpi_radialis_longus_l"
+   "extensor_carpi_radialis_longus_l",
+   "anconeus_l_main",
+   "anconeus_r_main",
+   "brachioradialis_l_main",
+   "brachioradialis_r_main",
+   "extensor_carpi_radialis_longus_l_main",
+   "extensor_carpi_radialis_longus_r_main"
   ],
   "notes": "Vulnerable in mid-shaft humeral fractures (spiral groove) -> wrist drop.",
   "motor_entry_point": {
@@ -492,7 +520,9 @@
    "pectoralis_minor_r",
    "pectoralis_minor_l",
    "pectoralis_major_r_sternocostal",
-   "pectoralis_major_l_sternocostal"
+   "pectoralis_major_l_sternocostal",
+   "pectoralis_minor_l_main",
+   "pectoralis_minor_r_main"
   ],
   "notes": "Targets completed: the sternocostal head of pectoralis major is supplied by BOTH pectoral nerves (its compartment prose has said so throughout), and this entity had listed only the abdominal head.",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -534,7 +564,9 @@
    "flexor_carpi_ulnaris_r",
    "flexor_carpi_ulnaris_l",
    "flexor_digitorum_profundus_r_middle_ring_little",
-   "flexor_digitorum_profundus_l_middle_ring_little"
+   "flexor_digitorum_profundus_l_middle_ring_little",
+   "flexor_carpi_ulnaris_l_main",
+   "flexor_carpi_ulnaris_r_main"
   ],
   "notes": "Vulnerable at the medial epicondyle (cubital tunnel syndrome) and at Guyon's canal (distal ulnar tunnel).",
   "motor_entry_point": {
@@ -567,7 +599,13 @@
    "flexor_digitorum_superficialis_r_digit4",
    "flexor_digitorum_superficialis_l_digit4",
    "flexor_digitorum_superficialis_r_digit5",
-   "flexor_digitorum_superficialis_l_digit5"
+   "flexor_digitorum_superficialis_l_digit5",
+   "flexor_carpi_radialis_l_main",
+   "flexor_carpi_radialis_r_main",
+   "palmaris_longus_l_main",
+   "palmaris_longus_r_main",
+   "pronator_teres_l_main",
+   "pronator_teres_r_main"
   ],
   "notes": "Continues as the anterior interosseous nerve (deep, motor) and the median nerve proper (superficial, to the hand via the carpal tunnel).",
   "motor_entry_point": {
@@ -592,7 +630,11 @@
    "flexor_pollicis_longus_r",
    "flexor_pollicis_longus_l",
    "pronator_quadratus_r",
-   "pronator_quadratus_l"
+   "pronator_quadratus_l",
+   "flexor_pollicis_longus_l_main",
+   "flexor_pollicis_longus_r_main",
+   "pronator_quadratus_l_main",
+   "pronator_quadratus_r_main"
   ],
   "notes": "",
   "motor_entry_point": {
@@ -619,7 +661,11 @@
    "opponens_pollicis_r",
    "opponens_pollicis_l",
    "flexor_pollicis_brevis_l_superficial",
-   "flexor_pollicis_brevis_r_superficial"
+   "flexor_pollicis_brevis_r_superficial",
+   "abductor_pollicis_brevis_l_main",
+   "abductor_pollicis_brevis_r_main",
+   "opponens_pollicis_l_main",
+   "opponens_pollicis_r_main"
   ],
   "notes": "Motor to the thenar eminence (except adductor pollicis, which is ulnar-innervated) -- classic 'million dollar nerve', vulnerable in superficial palmar lacerations.",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- brachial plexus chapter; Terminologia Anatomica (FICAT 1998)"
@@ -694,7 +740,17 @@
    "flexor_pollicis_brevis_r",
    "flexor_pollicis_brevis_l",
    "flexor_pollicis_brevis_l_deep",
-   "flexor_pollicis_brevis_r_deep"
+   "flexor_pollicis_brevis_r_deep",
+   "abductor_digiti_minimi_hand_l_main",
+   "abductor_digiti_minimi_hand_r_main",
+   "dorsal_interossei_hand_l_main",
+   "dorsal_interossei_hand_r_main",
+   "flexor_digiti_minimi_brevis_hand_l_main",
+   "flexor_digiti_minimi_brevis_hand_r_main",
+   "opponens_digiti_minimi_l_main",
+   "opponens_digiti_minimi_r_main",
+   "palmar_interossei_l_main",
+   "palmar_interossei_r_main"
   ],
   "notes": "",
   "motor_entry_point": {
