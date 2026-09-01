@@ -1,93 +1,97 @@
 {
-  "id": "scalenus_posterior_l",
-  "name_ta": "Scalenus posterior",
-  "name_common": "Posterior scalene",
-  "side": "left",
-  "region": "neck",
-  "overall_architecture_type": "parallel_strap",
-  "attachments": {
-    "origin_bone": "cervical_vertebrae",
-    "origin_landmark": "posterior tubercles of transverse processes C4-C6",
-    "insertion_bone": "ribs_l",
-    "insertion_landmark": "2nd rib, external surface",
-    "via_points": []
-  },
-  "innervation": {
-    "nerve": "cervical_plexus_branches",
-    "root_levels": "C6-C8"
-  },
-  "actions": [
-    "elevates the 2nd rib (accessory inspiration)",
-    "laterally flexes the neck"
-  ],
-  "functional_compartments": [
+ "id": "scalenus_posterior_l",
+ "name_ta": "Scalenus posterior",
+ "name_common": "Posterior scalene",
+ "side": "left",
+ "region": "neck",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "cervical_vertebrae",
+  "origin_landmark": "posterior tubercles of transverse processes C4-C6",
+  "insertion_bone": "ribs_l",
+  "insertion_landmark": "2nd rib, external surface",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": "cervical_plexus_to_scalenes_and_prevertebrals",
+  "root_levels": "C6-C8",
+  "was_packed_as": "cervical_plexus_branches"
+ },
+ "actions": [
+  "elevates the 2nd rib (accessory inspiration)",
+  "laterally flexes the neck"
+ ],
+ "functional_compartments": [
+  {
+   "id": "scalenus_posterior_l_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 90,
+    "physiological_cross_section_area_mm2": 50,
+    "max_isometric_force_N": 11.2
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -15,
+     220,
+     -30
+    ],
+    [
+     -20,
+     80,
+     -40
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Smallest and most posterior of the three scalenes; sometimes fused with scalenus medius.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "motor_endplate_zones": [
     {
-      "id": "scalenus_posterior_l_main",
-      "name": "Single fiber population",
-      "fiber_architecture": {
-        "architecture_type": "parallel_strap",
-        "pennation_deg": 0,
-        "optimal_fascicle_length_mm": 90,
-        "physiological_cross_section_area_mm2": 50,
-        "max_isometric_force_N": 11.2
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -15,
-          220,
-          -30
-        ],
-        [
-          -20,
-          80,
-          -40
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Smallest and most posterior of the three scalenes; sometimes fused with scalenus medius.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-      "motor_endplate_zones": [
-        {
-          "zone_percent_range": [
-            44.74,
-            70.79
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "recommended_as_injection_target": true,
-          "notes": "INDR3. A band-shaped region running diagonally across the muscle, about 1.89 cm2, formed by the C7 and C8 branches. Centre of highest spindle abundance at 57.24% of muscle length, in its middle third. Unobstructed on puncture simulation.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        }
-      ],
-      "injection_target_points": [
-        {
-          "label": "centre of the region of highest muscle spindle abundance",
-          "transverse_line_from": "lowest point of the jugular notch",
-          "transverse_line_to": "acromion",
-          "transverse_percent": 47.31,
-          "longitudinal_line_from": "lowest point of the jugular notch",
-          "longitudinal_line_to": "tip of the chin",
-          "longitudinal_percent": 32.73,
-          "depth_measured_from": "anterior surface of the neck",
-          "depth_mm": 29.9,
-          "needle_angle_to_skin_deg": 88.21,
-          "needle_path": "Two finger-breadths above the clavicle, entered anterosuperior to posteroinferior through skin, subcutaneous fat, the superficial fascial layer and sternocleidomastoid, into the angle between the suprascapular and transverse cervical arteries.",
-          "structures_at_risk": [
-            "suprascapular artery",
-            "transverse cervical artery"
-          ],
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
-          "notes": "The target sits more lateral and lower than scalenus medius's; the suprascapular artery is the structure to avoid on the way down. Depth is reported by the source in centimetres, as the mean of its own cadaver sample, so unlike a percentage it does not scale with the patient. Treat it as the depth to expect on the screen, not a setting to dial in. Deep cervical muscles sit under complex structures and the source recommends ultrasound guidance for all of them. Divided into two neuromuscular compartments by the C7 and C8 branch territories. For scalenectomy the source recommends releasing the C8 compartment. About 1 unit at this target.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        }
-      ]
+     "zone_percent_range": [
+      44.74,
+      70.79
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "recommended_as_injection_target": true,
+     "notes": "INDR3. A band-shaped region running diagonally across the muscle, about 1.89 cm2, formed by the C7 and C8 branches. Centre of highest spindle abundance at 57.24% of muscle length, in its middle third. Unobstructed on puncture simulation.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
     }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+   ],
+   "injection_target_points": [
+    {
+     "label": "centre of the region of highest muscle spindle abundance",
+     "transverse_line_from": "lowest point of the jugular notch",
+     "transverse_line_to": "acromion",
+     "transverse_percent": 47.31,
+     "longitudinal_line_from": "lowest point of the jugular notch",
+     "longitudinal_line_to": "tip of the chin",
+     "longitudinal_percent": 32.73,
+     "depth_measured_from": "anterior surface of the neck",
+     "depth_mm": 29.9,
+     "needle_angle_to_skin_deg": 88.21,
+     "needle_path": "Two finger-breadths above the clavicle, entered anterosuperior to posteroinferior through skin, subcutaneous fat, the superficial fascial layer and sternocleidomastoid, into the angle between the suprascapular and transverse cervical arteries.",
+     "structures_at_risk": [
+      "suprascapular artery",
+      "transverse cervical artery"
+     ],
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+     "notes": "The target sits more lateral and lower than scalenus medius's; the suprascapular artery is the structure to avoid on the way down. Depth is reported by the source in centimetres, as the mean of its own cadaver sample, so unlike a percentage it does not scale with the patient. Treat it as the depth to expect on the screen, not a setting to dial in. Deep cervical muscles sit under complex structures and the source recommends ultrasound guidance for all of them. Divided into two neuromuscular compartments by the C7 and C8 branch territories. For scalenectomy the source recommends releasing the C8 compartment. About 1 unit at this target.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
+    }
+   ],
+   "innervation_branch_ids": [
+    "cervical_plexus_to_scalenes_and_prevertebrals"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
 }

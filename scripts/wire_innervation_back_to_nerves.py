@@ -58,16 +58,32 @@ def main() -> int:
         for m in (payload if isinstance(payload, list) else [payload]):
             if not isinstance(m, dict) or "id" not in m:
                 continue
-            comps = [c["id"] for c in m.get("functional_compartments", [])
-                     if isinstance(c, dict) and "id" in c] or [m["id"]]
-            if any(targeted.get(c) for c in comps + [m["id"]]):
+            comps = [c for c in m.get("functional_compartments", [])
+                     if isinstance(c, dict) and "id" in c]
+            # A compartment that names its own nerves is the finer source of
+            # truth: for a dually innervated muscle it is the compartment, not
+            # the muscle, that has one nerve. Each named nerve gains the
+            # compartment, whether or not something else already reaches it.
+            fine = False
+            for c in comps:
+                for nid in c.get("innervation_branch_ids") or []:
+                    fine = True
+                    if nid not in nerve_rec:
+                        unresolvable[nid] += 1
+                    elif nid not in targeted.get(c["id"], set()):
+                        to_add[nid].append(c["id"])
+            if fine:
+                continue
+            comp_ids = [c["id"] for c in comps] or [m["id"]]
+            if any(targeted.get(c) for c in comp_ids + [m["id"]]):
                 continue                        # some nerve already reaches it
             nerve = (m.get("innervation") or {}).get("nerve")
-            if nerve not in nerve_rec:
-                unresolvable[nerve or "(none)"] += 1
-                continue
-            for c in comps:
-                to_add[nerve].append(c)
+            for one in (nerve if isinstance(nerve, list) else [nerve]):
+                if one not in nerve_rec:
+                    unresolvable[one or "(none)"] += 1
+                    continue
+                for c in comp_ids:
+                    to_add[one].append(c)
 
     print(f"{sum(len(v) for v in to_add.values())} targets would be added to "
           f"{len(to_add)} nerves")

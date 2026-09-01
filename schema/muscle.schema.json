@@ -82,7 +82,20 @@
       "type": "object",
       "properties": {
         "nerve": {
-          "type": "string"
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 2,
+              "uniqueItems": true
+            }
+          ],
+          "description": "Nerve entity id(s) from data/nerves. A single string for a muscle with one nerve. An ARRAY for a muscle with more than one -- adductor magnus is obturator and sciatic, biceps femoris is tibial-division long head and common-fibular-division short head -- listing every nerve entity that reaches any of its compartments. Two nerves were once packed into one pseudo-id string such as 'femoral_n_and_obturator_n', which resolved to nothing; that form is no longer accepted. Which nerve reaches WHICH compartment is on the compartment, in innervation_branch_ids."
         },
         "root_levels": {
           "type": "string"
@@ -362,6 +375,15 @@
                 "type": "string"
               }
             }
+          },
+          "innervation_branch_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "uniqueItems": true,
+            "description": "Nerve entity id(s) that reach THIS compartment. The resolvable counterpart of innervation_branch, which is prose. For a muscle with one nerve this repeats the muscle's; it earns its place on the dually innervated muscles, where the compartment is the unit that has one nerve and the muscle does not -- and where a nerve block or a botulinum plan needs to know which head answers to which nerve."
           }
         },
         "required": [

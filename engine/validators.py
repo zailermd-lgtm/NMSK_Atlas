@@ -205,30 +205,12 @@ def validate_bone_references() -> List[str]:
     #
     # A minority of muscles genuinely have more than one source (adductor
     # magnus, the lumbricals, pectoralis major) or are supplied by a group
-    # rather than a named branch. The schema holds one string, so those stay
-    # descriptive and are listed here explicitly -- which is what lets a real
-    # dual supply be told apart from a typo.
-    MULTI_SOURCE_INNERVATION = {
-        "accessory_n_and_c2_c3", "accessory_n_and_c3_c4",
-        "cervical_plexus_and_brachial_plexus_branches",
-        "cervical_plexus_branches", "direct_sacral_branches",
-        "dorsal_scapular_n_and_c3_c4", "facial_n_and_trigeminal_n_v3",
-        "femoral_n_and_obturator_n",
-        "intercostal_and_iliohypogastric_ilioinguinal",
-        "intercostal_and_subcostal_nerves", "intercostal_nerves",
-        "lumbar_plexus_branches",
-        "medial_plantar_n_1_lateral_plantar_n_2_4",
-        "median_n_1_2_ulnar_n_3_4",
-        "median_n_recurrent_and_ulnar_deep_branch",
-        "pudendal_n_and_direct_sacral_branches",
-        # the classic dually innervated muscles
-        "lateral_and_medial_pectoral_nerves",          # pectoralis major
-        "upper_and_lower_subscapular_nerves",          # subscapularis
-        "median_n_anterior_interosseous_branch_and_ulnar_n",   # FDP
-        "femoral_n_iliacus_branch_and_lumbar_plexus_psoas_branches",  # iliopsoas
-        "obturator_n_posterior_branch_and_tibial_part_of_sciatic_n",  # adductor magnus
-        "tibial_part_of_sciatic_n_long_head_common_fibular_part_short_head",  # biceps femoris
-    }
+    # rather than a named branch. innervation.nerve holds a LIST for those,
+    # every element of which must resolve, and each compartment names its
+    # own nerves in innervation_branch_ids. For a while the schema held one
+    # string and those muscles carried a packed pseudo-id that an allow-list
+    # here excused; that is how 64 muscles came to point at nothing while
+    # every check passed.
     nerve_ids = set()
     for path in DATA_DIR.rglob("*.json"):
         if "nerves" not in path.parts:
@@ -245,12 +227,24 @@ def validate_bone_references() -> List[str]:
         for m in (payload if isinstance(payload, list) else [payload]):
             if not isinstance(m, dict):
                 continue
+            # innervation.nerve is one id or a list of ids, and every one of
+            # them has to be a nerve entity. Until it was made a list, muscles
+            # with two nerves carried a packed pseudo-id such as
+            # 'femoral_n_and_obturator_n' that an allow-list here excused --
+            # which meant 64 muscles pointed at nothing and the validator said
+            # so was fine. The allow-list is gone; the data was fixed instead.
             nerve = (m.get("innervation") or {}).get("nerve")
-            if nerve and nerve not in nerve_ids \
-                    and nerve not in MULTI_SOURCE_INNERVATION:
-                problems.append(
-                    f"muscle {m.get('id')} innervation.nerve: "
-                    f"references unknown nerve id '{nerve}'")
+            for one in (nerve if isinstance(nerve, list) else [nerve]):
+                if one and one not in nerve_ids:
+                    problems.append(
+                        f"muscle {m.get('id')} innervation.nerve: "
+                        f"references unknown nerve id '{one}'")
+            for c in m.get("functional_compartments") or []:
+                for one in (c.get("innervation_branch_ids") or []):
+                    if one not in nerve_ids:
+                        problems.append(
+                            f"compartment {c.get('id')} innervation_branch_ids: "
+                            f"references unknown nerve id '{one}'")
 
     # Motor endplate data comes in two forms that answer different questions,
     # and conflating them would put an injection in the wrong place:

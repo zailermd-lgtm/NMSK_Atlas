@@ -426,7 +426,13 @@
   "level": "root",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "root_contributions": "C2",
-  "notes": "Ventral ramus of spinal nerve C2, contributing to the cervical plexus's loops and branches."
+  "notes": "Ventral ramus of spinal nerve C2, contributing to the cervical plexus's loops and branches.",
+  "targets": [
+   "sternocleidomastoid_l_sternal",
+   "sternocleidomastoid_l_clavicular",
+   "sternocleidomastoid_r_sternal",
+   "sternocleidomastoid_r_clavicular"
+  ]
  },
  {
   "id": "cervical_plexus_root_C3",
@@ -436,7 +442,21 @@
   "level": "root",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "root_contributions": "C3",
-  "notes": "Ventral ramus of spinal nerve C3, contributing to the cervical plexus's loops and branches."
+  "notes": "Ventral ramus of spinal nerve C3, contributing to the cervical plexus's loops and branches.",
+  "targets": [
+   "sternocleidomastoid_l_sternal",
+   "sternocleidomastoid_l_clavicular",
+   "sternocleidomastoid_r_sternal",
+   "sternocleidomastoid_r_clavicular",
+   "levator_scapulae_l_main",
+   "levator_scapulae_r_main",
+   "trapezius_l_upper",
+   "trapezius_l_middle",
+   "trapezius_l_lower",
+   "trapezius_r_upper",
+   "trapezius_r_middle",
+   "trapezius_r_lower"
+  ]
  },
  {
   "id": "cervical_plexus_root_C4",
@@ -446,7 +466,17 @@
   "level": "root",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "root_contributions": "C4",
-  "notes": "Ventral ramus of spinal nerve C4, contributing to the cervical plexus's loops and branches."
+  "notes": "Ventral ramus of spinal nerve C4, contributing to the cervical plexus's loops and branches.",
+  "targets": [
+   "levator_scapulae_l_main",
+   "levator_scapulae_r_main",
+   "trapezius_l_upper",
+   "trapezius_l_middle",
+   "trapezius_l_lower",
+   "trapezius_r_upper",
+   "trapezius_r_middle",
+   "trapezius_r_lower"
+  ]
  },
  {
   "id": "ansa_cervicalis_superior_root",
@@ -905,7 +935,11 @@
   "root_contributions": "C1-C3, with a cervical plexus contribution",
   "targets": [
    "sternocleidomastoid_r",
-   "sternocleidomastoid_l"
+   "sternocleidomastoid_l",
+   "sternocleidomastoid_l_sternal",
+   "sternocleidomastoid_l_clavicular",
+   "sternocleidomastoid_r_sternal",
+   "sternocleidomastoid_r_clavicular"
   ],
   "notes": "",
   "motor_entry_point": {
@@ -923,7 +957,13 @@
   "root_contributions": "motor from the spinal accessory nucleus; C3-C4 adds proprioceptive/sensory fibres",
   "targets": [
    "trapezius_r",
-   "trapezius_l"
+   "trapezius_l",
+   "trapezius_l_upper",
+   "trapezius_l_middle",
+   "trapezius_l_lower",
+   "trapezius_r_upper",
+   "trapezius_r_middle",
+   "trapezius_r_lower"
   ],
   "notes": "",
   "motor_entry_point": {

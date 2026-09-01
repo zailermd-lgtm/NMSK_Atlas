@@ -1,120 +1,124 @@
 {
-  "id": "longus_colli_l",
-  "name_ta": "Longus colli",
-  "name_common": "Longus colli",
-  "side": "left",
-  "region": "neck",
-  "overall_architecture_type": "parallel_strap",
-  "attachments": {
-    "origin_bone": "cervical_vertebrae",
-    "origin_landmark": "anterior vertebral bodies C1-T3 (superior oblique, vertical, and inferior oblique fiber groups spanning different multi-level ranges)",
-    "insertion_bone": "cervical_vertebrae",
-    "insertion_landmark": "anterior vertebral bodies at other levels within the same span (multi-level, segmental)",
-    "via_points": []
-  },
-  "innervation": {
-    "nerve": "cervical_plexus_branches",
-    "root_levels": "C2-C6"
-  },
-  "actions": [
-    "flexes and slightly rotates the neck",
-    "one of the prevertebral 'deep neck flexor' group important for cervical spine segmental stability"
-  ],
-  "functional_compartments": [
+ "id": "longus_colli_l",
+ "name_ta": "Longus colli",
+ "name_common": "Longus colli",
+ "side": "left",
+ "region": "neck",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "cervical_vertebrae",
+  "origin_landmark": "anterior vertebral bodies C1-T3 (superior oblique, vertical, and inferior oblique fiber groups spanning different multi-level ranges)",
+  "insertion_bone": "cervical_vertebrae",
+  "insertion_landmark": "anterior vertebral bodies at other levels within the same span (multi-level, segmental)",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": "cervical_plexus_to_scalenes_and_prevertebrals",
+  "root_levels": "C2-C6",
+  "was_packed_as": "cervical_plexus_branches"
+ },
+ "actions": [
+  "flexes and slightly rotates the neck",
+  "one of the prevertebral 'deep neck flexor' group important for cervical spine segmental stability"
+ ],
+ "functional_compartments": [
+  {
+   "id": "longus_colli_l_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 80,
+    "physiological_cross_section_area_mm2": 60,
+    "max_isometric_force_N": 13.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -10,
+     300,
+     20
+    ],
+    [
+     -10,
+     60,
+     15
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Deepest of the prevertebral neck muscles, lying directly on the anterior vertebral bodies from the atlas to T3; part of the deep cervical flexor system whose endurance/motor-control deficits are well documented in chronic neck pain, analogous to multifidus's role in the lumbar spine.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "motor_endplate_zones": [
     {
-      "id": "longus_colli_l_main",
-      "name": "Single fiber population",
-      "fiber_architecture": {
-        "architecture_type": "parallel_strap",
-        "pennation_deg": 0,
-        "optimal_fascicle_length_mm": 80,
-        "physiological_cross_section_area_mm2": 60,
-        "max_isometric_force_N": 13.5
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -10,
-          300,
-          20
-        ],
-        [
-          -10,
-          60,
-          15
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Deepest of the prevertebral neck muscles, lying directly on the anterior vertebral bodies from the atlas to T3; part of the deep cervical flexor system whose endurance/motor-control deficits are well documented in chronic neck pain, analogous to multifidus's role in the lumbar spine.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-      "motor_endplate_zones": [
-        {
-          "zone_percent_range": [
-            20.95,
-            27.92
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "recommended_as_injection_target": false,
-          "notes": "INDR5a. Proximal of three nerve-dense regions, about 0.74 cm2, from the C2 and C3 branches. NOT recommended as a target: puncture simulation found the increased depth brought the submandibular gland into the path.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        },
-        {
-          "zone_percent_range": [
-            39.97,
-            48.9
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "recommended_as_injection_target": true,
-          "notes": "INDR5b. Middle of three, about 0.55 cm2, from the C4 branch. Centre of highest spindle abundance at 44.75% of muscle length, in its middle third. Unobstructed on puncture simulation; the recommended target.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        },
-        {
-          "zone_percent_range": [
-            78.95,
-            83.7
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "recommended_as_injection_target": false,
-          "notes": "INDR5c. Distal of three, about 0.30 cm2, from the C5 branch. NOT recommended as a target: puncture simulation found it could penetrate the pleural cavity and injure the lung apex.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        }
-      ],
-      "injection_target_points": [
-        {
-          "label": "centre of the region of highest muscle spindle abundance",
-          "transverse_line_from": "lowest point of the jugular notch",
-          "transverse_line_to": "acromion",
-          "transverse_percent": 42.71,
-          "longitudinal_line_from": "lowest point of the jugular notch",
-          "longitudinal_line_to": "tip of the chin",
-          "longitudinal_percent": 51.15,
-          "depth_measured_from": "anterior surface of the neck",
-          "depth_mm": 31.7,
-          "needle_angle_to_skin_deg": 77.75,
-          "needle_path": "Perpendicular to the skin at the level of the hyoid bone, through skin, subcutaneous fat and platysma, passing between the lateral edge of the thyroid cartilage plate and the medial side of the common carotid artery.",
-          "structures_at_risk": [
-            "common carotid artery",
-            "trachea",
-            "oesophagus",
-            "thyroid gland",
-            "pleura and lung apex (at the more distal INDR5c)"
-          ],
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
-          "notes": "The lateral edge of the thyroid cartilage plate is the source's landmark for the entry interval. Depth is reported by the source in centimetres, as the mean of its own cadaver sample, so unlike a percentage it does not scale with the patient. Treat it as the depth to expect on the screen, not a setting to dial in. Deep cervical muscles sit under complex structures and the source recommends ultrasound guidance for all of them. Divided into three neuromuscular compartments, C2-C3, C4 and C5, with limited C6 innervation at the insertion. When the muscle is used as a flap to repair oesophageal perforation after cervical spine surgery, the source recommends selecting the compartment whose area matches the defect. About 0.4 units at this target, the smallest of the five.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        }
-      ]
+     "zone_percent_range": [
+      20.95,
+      27.92
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "recommended_as_injection_target": false,
+     "notes": "INDR5a. Proximal of three nerve-dense regions, about 0.74 cm2, from the C2 and C3 branches. NOT recommended as a target: puncture simulation found the increased depth brought the submandibular gland into the path.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
+    },
+    {
+     "zone_percent_range": [
+      39.97,
+      48.9
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "recommended_as_injection_target": true,
+     "notes": "INDR5b. Middle of three, about 0.55 cm2, from the C4 branch. Centre of highest spindle abundance at 44.75% of muscle length, in its middle third. Unobstructed on puncture simulation; the recommended target.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
+    },
+    {
+     "zone_percent_range": [
+      78.95,
+      83.7
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "recommended_as_injection_target": false,
+     "notes": "INDR5c. Distal of three, about 0.30 cm2, from the C5 branch. NOT recommended as a target: puncture simulation found it could penetrate the pleural cavity and injure the lung apex.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
     }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+   ],
+   "injection_target_points": [
+    {
+     "label": "centre of the region of highest muscle spindle abundance",
+     "transverse_line_from": "lowest point of the jugular notch",
+     "transverse_line_to": "acromion",
+     "transverse_percent": 42.71,
+     "longitudinal_line_from": "lowest point of the jugular notch",
+     "longitudinal_line_to": "tip of the chin",
+     "longitudinal_percent": 51.15,
+     "depth_measured_from": "anterior surface of the neck",
+     "depth_mm": 31.7,
+     "needle_angle_to_skin_deg": 77.75,
+     "needle_path": "Perpendicular to the skin at the level of the hyoid bone, through skin, subcutaneous fat and platysma, passing between the lateral edge of the thyroid cartilage plate and the medial side of the common carotid artery.",
+     "structures_at_risk": [
+      "common carotid artery",
+      "trachea",
+      "oesophagus",
+      "thyroid gland",
+      "pleura and lung apex (at the more distal INDR5c)"
+     ],
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+     "notes": "The lateral edge of the thyroid cartilage plate is the source's landmark for the entry interval. Depth is reported by the source in centimetres, as the mean of its own cadaver sample, so unlike a percentage it does not scale with the patient. Treat it as the depth to expect on the screen, not a setting to dial in. Deep cervical muscles sit under complex structures and the source recommends ultrasound guidance for all of them. Divided into three neuromuscular compartments, C2-C3, C4 and C5, with limited C6 innervation at the insertion. When the muscle is used as a flap to repair oesophageal perforation after cervical spine surgery, the source recommends selecting the compartment whose area matches the defect. About 0.4 units at this target, the smallest of the five.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
+    }
+   ],
+   "innervation_branch_ids": [
+    "cervical_plexus_to_scalenes_and_prevertebrals"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
 }

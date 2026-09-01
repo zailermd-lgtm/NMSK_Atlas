@@ -293,7 +293,8 @@ for mid, d in anchor_by_muscle.items():
         "a": r3(o), "b": r3(i), "ra": round(r, 1), "rb": round(r * 0.55, 1),
         "pcsa": round(pcsa, 1),
         "compartments": len(m.get("functional_compartments", [])),
-        "nerve": (m.get("innervation") or {}).get("nerve", ""),
+        "nerve": ", ".join(n) if isinstance(
+            n := (m.get("innervation") or {}).get("nerve", ""), list) else n,
         "roots": (m.get("innervation") or {}).get("root_levels", ""),
         "actions": m.get("actions", [])[:3],
     })

@@ -1,62 +1,78 @@
 {
-  "id": "transversus_abdominis_r",
-  "name_ta": "Transversus abdominis",
-  "name_common": "Transversus abdominis",
-  "side": "right",
-  "region": "trunk",
-  "overall_architecture_type": "parallel_strap",
-  "attachments": {
-    "origin_bone": "ribs_r",
-    "origin_landmark": "costal cartilages 7-12, thoracolumbar fascia, iliac crest, lateral inguinal ligament",
-    "insertion_bone": "lumbar_vertebrae",
-    "insertion_landmark": "linea alba (via aponeurosis) and pubic crest; lowest fibers contribute to the conjoint tendon",
-    "via_points": []
-  },
-  "innervation": {
-    "nerve": "intercostal_and_iliohypogastric_ilioinguinal",
-    "root_levels": "T7-T12, L1"
-  },
-  "actions": [
-    "compresses abdominal contents / raises intra-abdominal pressure",
-    "feedforward stabilization of the lumbar spine preceding limb movement"
+ "id": "transversus_abdominis_r",
+ "name_ta": "Transversus abdominis",
+ "name_common": "Transversus abdominis",
+ "side": "right",
+ "region": "trunk",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "ribs_r",
+  "origin_landmark": "costal cartilages 7-12, thoracolumbar fascia, iliac crest, lateral inguinal ligament",
+  "insertion_bone": "lumbar_vertebrae",
+  "insertion_landmark": "linea alba (via aponeurosis) and pubic crest; lowest fibers contribute to the conjoint tendon",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "subcostal_n_abdominal_wall_muscular",
+   "thoracoabdominal_n_t10_abdominal_wall_muscular",
+   "thoracoabdominal_n_t11_abdominal_wall_muscular",
+   "thoracoabdominal_n_t7_abdominal_wall_muscular",
+   "thoracoabdominal_n_t8_abdominal_wall_muscular",
+   "thoracoabdominal_n_t9_abdominal_wall_muscular"
   ],
-  "functional_compartments": [
-    {
-      "id": "transversus_abdominis_r_main",
-      "name": "Single fiber population",
-      "fiber_architecture": {
-        "architecture_type": "parallel_strap",
-        "pennation_deg": 0,
-        "optimal_fascicle_length_mm": 110,
-        "physiological_cross_section_area_mm2": 900,
-        "max_isometric_force_N": 202.5
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          130,
-          150,
-          10
-        ],
-        [
-          60,
-          100,
-          5
-        ],
-        [
-          0,
-          60,
-          0
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Deepest of the three flat abdominal layers; fibers run purely horizontally (transversely), distinct from both overlying oblique layers -- functionally the primary intrinsic spinal stabilizer of the group, with well-documented feedforward (anticipatory) activation before limb movement.",
-      "source": "Hodges PW, Richardson CA (1996) Spine 21(22):2640-2650 -- transversus abdominis's role in lumbar spine stabilization (feedforward activation preceding limb movement)"
-    }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Hodges PW, Richardson CA (1996) Spine 21(22):2640-2650 -- transversus abdominis's role in lumbar spine stabilization (feedforward activation preceding limb movement)"
+  "root_levels": "T7-T12, L1",
+  "was_packed_as": "intercostal_and_iliohypogastric_ilioinguinal"
+ },
+ "actions": [
+  "compresses abdominal contents / raises intra-abdominal pressure",
+  "feedforward stabilization of the lumbar spine preceding limb movement"
+ ],
+ "functional_compartments": [
+  {
+   "id": "transversus_abdominis_r_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 110,
+    "physiological_cross_section_area_mm2": 900,
+    "max_isometric_force_N": 202.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     130,
+     150,
+     10
+    ],
+    [
+     60,
+     100,
+     5
+    ],
+    [
+     0,
+     60,
+     0
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Deepest of the three flat abdominal layers; fibers run purely horizontally (transversely), distinct from both overlying oblique layers -- functionally the primary intrinsic spinal stabilizer of the group, with well-documented feedforward (anticipatory) activation before limb movement.",
+   "source": "Hodges PW, Richardson CA (1996) Spine 21(22):2640-2650 -- transversus abdominis's role in lumbar spine stabilization (feedforward activation preceding limb movement)",
+   "innervation_branch_ids": [
+    "subcostal_n_abdominal_wall_muscular",
+    "thoracoabdominal_n_t10_abdominal_wall_muscular",
+    "thoracoabdominal_n_t11_abdominal_wall_muscular",
+    "thoracoabdominal_n_t7_abdominal_wall_muscular",
+    "thoracoabdominal_n_t8_abdominal_wall_muscular",
+    "thoracoabdominal_n_t9_abdominal_wall_muscular"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Hodges PW, Richardson CA (1996) Spine 21(22):2640-2650 -- transversus abdominis's role in lumbar spine stabilization (feedforward activation preceding limb movement)"
 }

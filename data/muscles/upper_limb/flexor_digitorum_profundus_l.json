@@ -1,205 +1,215 @@
 {
-  "id": "flexor_digitorum_profundus_l",
-  "name_ta": "Musculus flexor digitorum profundus",
-  "name_common": "Flexor digitorum profundus",
-  "side": "left",
-  "region": "upper_limb",
-  "overall_architecture_type": "multipennate",
-  "attachments": {
-    "origin_bone": "ulna_l",
-    "origin_landmark": "proximal 3/4 of anteromedial ulnar shaft + interosseous membrane",
-    "insertion_bone": "phalanges_hand_l",
-    "insertion_landmark": "distal phalanges, digits 2-5",
-    "via_points": [
-      {
-        "structure": "flexor retinaculum (carpal tunnel), deep to FDS",
-        "bone_frame": "carpals_l",
-        "position_local_mm": [
-          0,
-          -22,
-          12
-        ],
-        "active_over_joint_range": "all wrist positions"
-      }
+ "id": "flexor_digitorum_profundus_l",
+ "name_ta": "Musculus flexor digitorum profundus",
+ "name_common": "Flexor digitorum profundus",
+ "side": "left",
+ "region": "upper_limb",
+ "overall_architecture_type": "multipennate",
+ "attachments": {
+  "origin_bone": "ulna_l",
+  "origin_landmark": "proximal 3/4 of anteromedial ulnar shaft + interosseous membrane",
+  "insertion_bone": "phalanges_hand_l",
+  "insertion_landmark": "distal phalanges, digits 2-5",
+  "via_points": [
+   {
+    "structure": "flexor retinaculum (carpal tunnel), deep to FDS",
+    "bone_frame": "carpals_l",
+    "position_local_mm": [
+     0,
+     -22,
+     12
+    ],
+    "active_over_joint_range": "all wrist positions"
+   }
+  ]
+ },
+ "innervation": {
+  "nerve": [
+   "anterior_interosseous_n",
+   "ulnar_n"
+  ],
+  "root_levels": "C8-T1",
+  "was_packed_as": "median_n_anterior_interosseous_branch_and_ulnar_n"
+ },
+ "blood_supply": [
+  "ulnar_a_l_muscular_branches",
+  "anterior_interosseous_a_l"
+ ],
+ "actions": [
+  "flexes DIP joints of digits 2-5 (only muscle able to)",
+  "assists PIP/MCP/wrist flexion"
+ ],
+ "functional_compartments": [
+  {
+   "id": "flexor_digitorum_profundus_l_index",
+   "name": "Index (digit 2) portion -- most independently separable belly",
+   "innervation_branch": "median n., anterior interosseous branch",
+   "fiber_architecture": {
+    "architecture_type": "unipennate",
+    "pennation_deg": 10,
+    "optimal_fascicle_length_mm": 70,
+    "physiological_cross_section_area_mm2": 150.0,
+    "max_isometric_force_N": 37.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -5,
+     -20,
+     8
+    ],
+    [
+     -10,
+     -60,
+     5
+    ],
+    [
+     -8,
+     -100,
+     0
     ]
-  },
-  "innervation": {
-    "nerve": "median_n_anterior_interosseous_branch_and_ulnar_n",
-    "root_levels": "C8-T1"
-  },
-  "blood_supply": [
-    "ulnar_a_l_muscular_branches",
-    "anterior_interosseous_a_l"
-  ],
-  "actions": [
-    "flexes DIP joints of digits 2-5 (only muscle able to)",
-    "assists PIP/MCP/wrist flexion"
-  ],
-  "functional_compartments": [
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "proximal-third endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.4,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Classic example of a single named muscle whose index compartment is both anatomically distinct (separate muscle belly, per Gray's) and separately innervated (AIN/median vs ulnar for the rest).",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (index portion of FDP typically has a separate muscle belly); von Schroeder HP, Botte MJ (1993) J Hand Surg -- FDP anatomic compartmentalization",
+   "motor_endplate_zones": [
     {
-      "id": "flexor_digitorum_profundus_l_index",
-      "name": "Index (digit 2) portion -- most independently separable belly",
-      "innervation_branch": "median n., anterior interosseous branch",
-      "fiber_architecture": {
-        "architecture_type": "unipennate",
-        "pennation_deg": 10,
-        "optimal_fascicle_length_mm": 70,
-        "physiological_cross_section_area_mm2": 150.0,
-        "max_isometric_force_N": 37.5
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -5,
-          -20,
-          8
-        ],
-        [
-          -10,
-          -60,
-          5
-        ],
-        [
-          -8,
-          -100,
-          0
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "proximal-third endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
-        "position_fraction_along_fascicle": 0.4,
-        "band_width_fraction": 0.12,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Classic example of a single named muscle whose index compartment is both anatomically distinct (separate muscle belly, per Gray's) and separately innervated (AIN/median vs ulnar for the rest).",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (index portion of FDP typically has a separate muscle belly); von Schroeder HP, Botte MJ (1993) J Hand Surg -- FDP anatomic compartmentalization",
-      "motor_endplate_zones": [
-        {
-          "zone_percent_range": [
-            31.17,
-            51.34
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "notes": "Supplied by the anterior interosseous nerve, which 'mainly dominates the radial half'. About 7.20 cm2, the largest nerve-dense region measured in the study. Highest spindle abundance in its upper third, at 34.71% of muscle length. The source recommends the radial region as the priority target for this muscle. This atlas splits flexor digitorum profundus into an index compartment and a middle/ring/little compartment, while the source splits it into a radial half (anterior interosseous nerve) and an ulnar half (ulnar nerve). Those two divisions do not coincide: the middle/ring/little compartment straddles both halves, so it carries both of the source's regions, while the index compartment carries only the radial one.",
-          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
-        }
-      ],
-      "injection_target_points": [
-        {
-          "label": "radial half",
-          "transverse_line_from": "medial epicondyle of the humerus",
-          "transverse_line_to": "lateral epicondyle of the humerus",
-          "transverse_percent": 38.41,
-          "longitudinal_line_from": "medial epicondyle of the humerus",
-          "longitudinal_line_to": "ulnar styloid process",
-          "longitudinal_percent": 45.94,
-          "depth_percent_of_limb_thickness": 45.14,
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
-          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
-          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
-        }
-      ]
+     "zone_percent_range": [
+      31.17,
+      51.34
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "notes": "Supplied by the anterior interosseous nerve, which 'mainly dominates the radial half'. About 7.20 cm2, the largest nerve-dense region measured in the study. Highest spindle abundance in its upper third, at 34.71% of muscle length. The source recommends the radial region as the priority target for this muscle. This atlas splits flexor digitorum profundus into an index compartment and a middle/ring/little compartment, while the source splits it into a radial half (anterior interosseous nerve) and an ulnar half (ulnar nerve). Those two divisions do not coincide: the middle/ring/little compartment straddles both halves, so it carries both of the source's regions, while the index compartment carries only the radial one.",
+     "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+    }
+   ],
+   "injection_target_points": [
+    {
+     "label": "radial half",
+     "transverse_line_from": "medial epicondyle of the humerus",
+     "transverse_line_to": "lateral epicondyle of the humerus",
+     "transverse_percent": 38.41,
+     "longitudinal_line_from": "medial epicondyle of the humerus",
+     "longitudinal_line_to": "ulnar styloid process",
+     "longitudinal_percent": 45.94,
+     "depth_percent_of_limb_thickness": 45.14,
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+     "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+     "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+    }
+   ],
+   "innervation_branch_ids": [
+    "anterior_interosseous_n"
+   ]
+  },
+  {
+   "id": "flexor_digitorum_profundus_l_middle_ring_little",
+   "name": "Middle/ring/little (digits 3-5) common mass",
+   "innervation_branch": "ulnar n., muscular branch",
+   "fiber_architecture": {
+    "architecture_type": "multipennate",
+    "pennation_deg": 12,
+    "optimal_fascicle_length_mm": 65,
+    "physiological_cross_section_area_mm2": 450.0,
+    "max_isometric_force_N": 112.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -5,
+     -25,
+     10
+    ],
+    [
+     0,
+     -70,
+     8
+    ],
+    [
+     5,
+     -110,
+     5
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "endplate band along the shared central tendon -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.42,
+    "band_width_fraction": 0.15,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Digits 3-5 typically share a common undivided muscle mass (less independent than digit 2), consistent with reduced independent motor control of the ulnar 3 fingers.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); von Schroeder HP, Botte MJ (1993) J Hand Surg",
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      31.17,
+      51.34
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "notes": "Supplied by the anterior interosseous nerve, which 'mainly dominates the radial half'. About 7.20 cm2, the largest nerve-dense region measured in the study. Highest spindle abundance in its upper third, at 34.71% of muscle length. The source recommends the radial region as the priority target for this muscle. This atlas splits flexor digitorum profundus into an index compartment and a middle/ring/little compartment, while the source splits it into a radial half (anterior interosseous nerve) and an ulnar half (ulnar nerve). Those two divisions do not coincide: the middle/ring/little compartment straddles both halves, so it carries both of the source's regions, while the index compartment carries only the radial one.",
+     "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
     },
     {
-      "id": "flexor_digitorum_profundus_l_middle_ring_little",
-      "name": "Middle/ring/little (digits 3-5) common mass",
-      "innervation_branch": "ulnar n., muscular branch",
-      "fiber_architecture": {
-        "architecture_type": "multipennate",
-        "pennation_deg": 12,
-        "optimal_fascicle_length_mm": 65,
-        "physiological_cross_section_area_mm2": 450.0,
-        "max_isometric_force_N": 112.5
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -5,
-          -25,
-          10
-        ],
-        [
-          0,
-          -70,
-          8
-        ],
-        [
-          5,
-          -110,
-          5
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "endplate band along the shared central tendon -- for where this band lies along the muscle, see motor_endplate_zones",
-        "position_fraction_along_fascicle": 0.42,
-        "band_width_fraction": 0.15,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Digits 3-5 typically share a common undivided muscle mass (less independent than digit 2), consistent with reduced independent motor control of the ulnar 3 fingers.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); von Schroeder HP, Botte MJ (1993) J Hand Surg",
-      "motor_endplate_zones": [
-        {
-          "zone_percent_range": [
-            31.17,
-            51.34
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "notes": "Supplied by the anterior interosseous nerve, which 'mainly dominates the radial half'. About 7.20 cm2, the largest nerve-dense region measured in the study. Highest spindle abundance in its upper third, at 34.71% of muscle length. The source recommends the radial region as the priority target for this muscle. This atlas splits flexor digitorum profundus into an index compartment and a middle/ring/little compartment, while the source splits it into a radial half (anterior interosseous nerve) and an ulnar half (ulnar nerve). Those two divisions do not coincide: the middle/ring/little compartment straddles both halves, so it carries both of the source's regions, while the index compartment carries only the radial one.",
-          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
-        },
-        {
-          "zone_percent_range": [
-            16.34,
-            29.42
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "notes": "Supplied by the ulnar nerve, which enters the proximal surface. About 4.77 cm2. Highest spindle abundance in its upper third, at 18.34% of muscle length -- markedly more proximal than the radial half's. This atlas splits flexor digitorum profundus into an index compartment and a middle/ring/little compartment, while the source splits it into a radial half (anterior interosseous nerve) and an ulnar half (ulnar nerve). Those two divisions do not coincide: the middle/ring/little compartment straddles both halves, so it carries both of the source's regions, while the index compartment carries only the radial one.",
-          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
-        }
-      ],
-      "injection_target_points": [
-        {
-          "label": "radial half",
-          "transverse_line_from": "medial epicondyle of the humerus",
-          "transverse_line_to": "lateral epicondyle of the humerus",
-          "transverse_percent": 38.41,
-          "longitudinal_line_from": "medial epicondyle of the humerus",
-          "longitudinal_line_to": "ulnar styloid process",
-          "longitudinal_percent": 45.94,
-          "depth_percent_of_limb_thickness": 45.14,
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
-          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
-          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
-        },
-        {
-          "label": "ulnar half",
-          "transverse_line_from": "medial epicondyle of the humerus",
-          "transverse_line_to": "lateral epicondyle of the humerus",
-          "transverse_percent": 12.28,
-          "longitudinal_line_from": "medial epicondyle of the humerus",
-          "longitudinal_line_to": "ulnar styloid process",
-          "longitudinal_percent": 20.05,
-          "depth_percent_of_limb_thickness": 38.72,
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
-          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
-          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
-        }
-      ]
+     "zone_percent_range": [
+      16.34,
+      29.42
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "notes": "Supplied by the ulnar nerve, which enters the proximal surface. About 4.77 cm2. Highest spindle abundance in its upper third, at 18.34% of muscle length -- markedly more proximal than the radial half's. This atlas splits flexor digitorum profundus into an index compartment and a middle/ring/little compartment, while the source splits it into a radial half (anterior interosseous nerve) and an ulnar half (ulnar nerve). Those two divisions do not coincide: the middle/ring/little compartment straddles both halves, so it carries both of the source's regions, while the index compartment carries only the radial one.",
+     "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
     }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; von Schroeder HP, Botte MJ (1993) J Hand Surg Am 18(1):16-20",
-  "ultrasound_injection_approach": {
-    "transducer_placement": "Transverse on the volar forearm at roughly half its length.",
-    "depth_layer": "Deep layer of the anterior compartment, lying directly on the radial and ulnar cortices, deep to flexor digitorum superficialis.",
-    "identification_cues": "Four bellies for digits II-V. The thumb is NOT included -- its distal phalanx is flexed by flexor pollicis longus, a separate muscle -- so targeting 'FDP' always means FDP2-5.",
-    "structures_at_risk": [
-      "median nerve",
-      "ulnar nerve"
-    ],
-    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+   ],
+   "injection_target_points": [
+    {
+     "label": "radial half",
+     "transverse_line_from": "medial epicondyle of the humerus",
+     "transverse_line_to": "lateral epicondyle of the humerus",
+     "transverse_percent": 38.41,
+     "longitudinal_line_from": "medial epicondyle of the humerus",
+     "longitudinal_line_to": "ulnar styloid process",
+     "longitudinal_percent": 45.94,
+     "depth_percent_of_limb_thickness": 45.14,
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+     "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+     "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+    },
+    {
+     "label": "ulnar half",
+     "transverse_line_from": "medial epicondyle of the humerus",
+     "transverse_line_to": "lateral epicondyle of the humerus",
+     "transverse_percent": 12.28,
+     "longitudinal_line_from": "medial epicondyle of the humerus",
+     "longitudinal_line_to": "ulnar styloid process",
+     "longitudinal_percent": 20.05,
+     "depth_percent_of_limb_thickness": 38.72,
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+     "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+     "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+    }
+   ],
+   "innervation_branch_ids": [
+    "ulnar_n"
+   ]
   }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; von Schroeder HP, Botte MJ (1993) J Hand Surg Am 18(1):16-20",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Transverse on the volar forearm at roughly half its length.",
+  "depth_layer": "Deep layer of the anterior compartment, lying directly on the radial and ulnar cortices, deep to flexor digitorum superficialis.",
+  "identification_cues": "Four bellies for digits II-V. The thumb is NOT included -- its distal phalanx is flexed by flexor pollicis longus, a separate muscle -- so targeting 'FDP' always means FDP2-5.",
+  "structures_at_risk": [
+   "median nerve",
+   "ulnar nerve"
+  ],
+  "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+ }
 }

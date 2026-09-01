@@ -1,95 +1,99 @@
 {
-  "id": "scalenus_anterior_r",
-  "name_ta": "Scalenus anterior",
-  "name_common": "Anterior scalene",
-  "side": "right",
-  "region": "neck",
-  "overall_architecture_type": "parallel_strap",
-  "attachments": {
-    "origin_bone": "cervical_vertebrae",
-    "origin_landmark": "anterior tubercles of transverse processes C3-C6",
-    "insertion_bone": "ribs_r",
-    "insertion_landmark": "scalene tubercle on the 1st rib",
-    "via_points": []
-  },
-  "innervation": {
-    "nerve": "cervical_plexus_and_brachial_plexus_branches",
-    "root_levels": "C4-C6"
-  },
-  "actions": [
-    "elevates the 1st rib (accessory inspiration)",
-    "flexes/laterally flexes the neck"
-  ],
-  "functional_compartments": [
+ "id": "scalenus_anterior_r",
+ "name_ta": "Scalenus anterior",
+ "name_common": "Anterior scalene",
+ "side": "right",
+ "region": "neck",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "cervical_vertebrae",
+  "origin_landmark": "anterior tubercles of transverse processes C3-C6",
+  "insertion_bone": "ribs_r",
+  "insertion_landmark": "scalene tubercle on the 1st rib",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": "cervical_plexus_to_scalenes_and_prevertebrals",
+  "root_levels": "C4-C6",
+  "was_packed_as": "cervical_plexus_and_brachial_plexus_branches"
+ },
+ "actions": [
+  "elevates the 1st rib (accessory inspiration)",
+  "flexes/laterally flexes the neck"
+ ],
+ "functional_compartments": [
+  {
+   "id": "scalenus_anterior_r_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 100,
+    "physiological_cross_section_area_mm2": 80,
+    "max_isometric_force_N": 18.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     25,
+     220,
+     -15
+    ],
+    [
+     30,
+     60,
+     -30
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Forms the anterior boundary of the scalene triangle (with scalenus medius and the 1st rib) through which the brachial plexus and subclavian artery pass; the subclavian vein passes anterior to it. A classic thoracic-outlet-syndrome landmark.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "motor_endplate_zones": [
     {
-      "id": "scalenus_anterior_r_main",
-      "name": "Single fiber population",
-      "fiber_architecture": {
-        "architecture_type": "parallel_strap",
-        "pennation_deg": 0,
-        "optimal_fascicle_length_mm": 100,
-        "physiological_cross_section_area_mm2": 80,
-        "max_isometric_force_N": 18.0
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          25,
-          220,
-          -15
-        ],
-        [
-          30,
-          60,
-          -30
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Forms the anterior boundary of the scalene triangle (with scalenus medius and the 1st rib) through which the brachial plexus and subclavian artery pass; the subclavian vein passes anterior to it. A classic thoracic-outlet-syndrome landmark.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-      "motor_endplate_zones": [
-        {
-          "zone_percent_range": [
-            45.41,
-            59.66
-          ],
-          "reference_line_from": "origin",
-          "reference_line_to": "insertion",
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
-          "recommended_as_injection_target": true,
-          "notes": "INDR1. The single nerve-dense region, about 1.55 cm2, formed where the C5 branch arborises in mid-belly. Centre of highest muscle-spindle abundance at 51.87% of muscle length, in its middle third. Cadaveric puncture simulation found this region unobstructed, so it is the recommended target.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        }
-      ],
-      "injection_target_points": [
-        {
-          "label": "centre of the region of highest muscle spindle abundance",
-          "transverse_line_from": "lowest point of the jugular notch",
-          "transverse_line_to": "acromion",
-          "transverse_percent": 36.27,
-          "longitudinal_line_from": "lowest point of the jugular notch",
-          "longitudinal_line_to": "tip of the chin",
-          "longitudinal_percent": 26.53,
-          "depth_measured_from": "anterior surface of the neck",
-          "depth_mm": 24.7,
-          "needle_angle_to_skin_deg": 87.13,
-          "needle_path": "Two finger-breadths above the clavicle, entered lateral to medial through skin, subcutaneous fat, platysma and sternocleidomastoid, aimed into the interval between the phrenic nerve and the lateral side of the ascending cervical artery, above the transverse cervical artery.",
-          "structures_at_risk": [
-            "phrenic nerve",
-            "ascending cervical artery",
-            "transverse cervical artery",
-            "C5 nerve root"
-          ],
-          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
-          "notes": "The needle is threaded through a gap between a nerve and an artery, which is why the source treats ultrasound as necessary rather than optional here. Depth is reported by the source in centimetres, as the mean of its own cadaver sample, so unlike a percentage it does not scale with the patient. Treat it as the depth to expect on the screen, not a setting to dial in. Deep cervical muscles sit under complex structures and the source recommends ultrasound guidance for all of them. Sihler's staining divides this muscle into three neuromuscular compartments by the independent territories of the C4, C5 and C6 branches. They are recorded here as a note rather than as separate functional_compartments, because the source supplies no fibre architecture or origin footprint for them and a compartment in this atlas carries geometry. For scalenectomy in neurogenic thoracic outlet syndrome the source recommends releasing the C5 compartment, the most densely innervated. About 1 unit of botulinum toxin A at this target, on the source's own area-to-dose reasoning.",
-          "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
-        }
-      ]
+     "zone_percent_range": [
+      45.41,
+      59.66
+     ],
+     "reference_line_from": "origin",
+     "reference_line_to": "insertion",
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+     "recommended_as_injection_target": true,
+     "notes": "INDR1. The single nerve-dense region, about 1.55 cm2, formed where the C5 branch arborises in mid-belly. Centre of highest muscle-spindle abundance at 51.87% of muscle length, in its middle third. Cadaveric puncture simulation found this region unobstructed, so it is the recommended target.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
     }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+   ],
+   "injection_target_points": [
+    {
+     "label": "centre of the region of highest muscle spindle abundance",
+     "transverse_line_from": "lowest point of the jugular notch",
+     "transverse_line_to": "acromion",
+     "transverse_percent": 36.27,
+     "longitudinal_line_from": "lowest point of the jugular notch",
+     "longitudinal_line_to": "tip of the chin",
+     "longitudinal_percent": 26.53,
+     "depth_measured_from": "anterior surface of the neck",
+     "depth_mm": 24.7,
+     "needle_angle_to_skin_deg": 87.13,
+     "needle_path": "Two finger-breadths above the clavicle, entered lateral to medial through skin, subcutaneous fat, platysma and sternocleidomastoid, aimed into the interval between the phrenic nerve and the lateral side of the ascending cervical artery, above the transverse cervical artery.",
+     "structures_at_risk": [
+      "phrenic nerve",
+      "ascending cervical artery",
+      "transverse cervical artery",
+      "C5 nerve root"
+     ],
+     "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+     "notes": "The needle is threaded through a gap between a nerve and an artery, which is why the source treats ultrasound as necessary rather than optional here. Depth is reported by the source in centimetres, as the mean of its own cadaver sample, so unlike a percentage it does not scale with the patient. Treat it as the depth to expect on the screen, not a setting to dial in. Deep cervical muscles sit under complex structures and the source recommends ultrasound guidance for all of them. Sihler's staining divides this muscle into three neuromuscular compartments by the independent territories of the C4, C5 and C6 branches. They are recorded here as a note rather than as separate functional_compartments, because the source supplies no fibre architecture or origin footprint for them and a compartment in this atlas carries geometry. For scalenectomy in neurogenic thoracic outlet syndrome the source recommends releasing the C5 compartment, the most densely innervated. About 1 unit of botulinum toxin A at this target, on the source's own area-to-dose reasoning.",
+     "source": "Wang D, Chen P, Jia F, Wang M, Wu J, Yang S, 'Division of neuromuscular compartments and localization of the center of the highest region of muscle spindles abundance in deep cervical muscles based on Sihler's staining', Front Neuroanat 18:1340468 (2024), doi:10.3389/fnana.2024.1340468 -- 36 adult cadavers, modified Sihler's staining with muscle-spindle histology, cadaveric puncture simulation and spiral CT localisation"
+    }
+   ],
+   "innervation_branch_ids": [
+    "cervical_plexus_to_scalenes_and_prevertebrals"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
 }

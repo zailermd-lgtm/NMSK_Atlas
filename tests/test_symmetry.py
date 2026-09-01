@@ -263,25 +263,6 @@ def test_the_left_carotid_comes_off_the_arch_not_a_mirrored_trunk():
     raise AssertionError("common_carotid_a_l not found")
 
 
-# Muscles whose stated nerve is a segmental series or a compound with no
-# single entity in the tree. Each is a known limit of the nerve model, not a
-# muscle nobody innervates -- and the reason has to be stated here, or this
-# becomes a list to hide gaps in.
-UNREACHABLE_BY_DESIGN = {
-    "intercostal_nerves":
-        "a segmental series T1-T11; the tree carries each segment's muscular "
-        "branch, but no single entity stands for 'the intercostal nerves'",
-    "direct_sacral_branches":
-        "twigs from S3-S4 ventral rami with no named trunk to model",
-    "pudendal_n_and_direct_sacral_branches":
-        "dual innervation packed into one string; see the compound-innervation "
-        "limit in scripts/complete_lateral_references.py",
-    "median_n_1_2_ulnar_n_3_4":
-        "per-compartment innervation packed into one string: lumbricals 1-2 "
-        "are median, 3-4 ulnar",
-}
-
-
 def _muscles_no_nerve_reaches():
     targeted = set()
     for _f, rec in _tree_records():
@@ -301,16 +282,51 @@ def _muscles_no_nerve_reaches():
     return out
 
 
-def test_every_muscle_is_reached_by_the_nerve_it_names():
+def test_every_muscle_is_reached_by_a_nerve():
     """107 muscles were the target of no nerve entity -- all eleven tongue
-    muscles say hypoglossal_n, and the hypoglossal nerve listed none of them;
+    muscles say hypoglossal_n and the hypoglossal nerve listed none of them;
     sixteen forearm extensors say posterior_interosseous_n and it listed none
     of those. The muscle-to-nerve direction was authored and the reverse was
-    not, for a third of the body. Now each nerve lists what says it supplies
-    it, and what remains unreached is unreached for a stated reason."""
-    unexplained = [f"{mid} (says {nerve!r})"
-                   for mid, nerve in _muscles_no_nerve_reaches()
-                   if nerve not in UNREACHABLE_BY_DESIGN]
-    assert not unexplained, "\n".join(unexplained)
-    for reason in UNREACHABLE_BY_DESIGN.values():
-        assert len(reason) > 40
+    not, for a third of the body.
+
+    The last sixteen were muscles whose nerve was packed into one string --
+    "intercostal_nerves", "median_n_1_2_ulnar_n_3_4" -- which no entity could
+    match. Those strings are gone: innervation.nerve is now a list of real
+    ids where a muscle has more than one, each compartment names its own in
+    innervation_branch_ids, and every nerve so named lists the compartment
+    back. Nothing is excused any more."""
+    assert not _muscles_no_nerve_reaches(), \
+        "\n".join(f"{m} (says {n!r})" for m, n in _muscles_no_nerve_reaches())
+
+
+def test_no_innervation_is_a_packed_pseudo_id():
+    """'femoral_n_and_obturator_n' looked like an id and was not one. An
+    allow-list in the validator excused 22 such strings, which is how 64
+    muscles came to point at nothing while every check passed."""
+    from engine import validators
+    problems = [p for p in validators.validate_bone_references()
+                if "innervation" in p]
+    assert not problems, "\n".join(problems[:10])
+
+
+def test_the_validator_catches_a_packed_string_again(tmp_path, monkeypatch):
+    """Verified by putting one back."""
+    from engine import validators
+    src = BONES.parent.parent / "muscles"
+    victim = next(p for p in src.rglob("pectineus_r.json"))
+    payload = json.loads(victim.read_text())
+    payload["innervation"]["nerve"] = "femoral_n_and_obturator_n"
+    fake = tmp_path / "data"
+    (fake / "muscles").mkdir(parents=True)
+    (fake / "nerves").mkdir()
+    (fake / "skeleton").mkdir()
+    # The validator returns early without a skeleton, and that one line of
+    # complaint would be filtered out below -- which is how a first version
+    # of this test passed vacuously.
+    (fake / "skeleton" / "bones.json").write_text(BONES.read_text())
+    for n in (BONES.parent.parent / "nerves").glob("*.json"):
+        (fake / "nerves" / n.name).write_text(n.read_text())
+    (fake / "muscles" / "pectineus_r.json").write_text(json.dumps(payload))
+    monkeypatch.setattr(validators, "DATA_DIR", fake)
+    problems = [p for p in validators.validate_bone_references() if "innervation" in p]
+    assert any("femoral_n_and_obturator_n" in p for p in problems), problems

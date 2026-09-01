@@ -1,63 +1,79 @@
 {
-  "id": "external_oblique_l",
-  "name_ta": "External oblique",
-  "name_common": "External oblique",
-  "side": "left",
-  "region": "trunk",
-  "overall_architecture_type": "parallel_strap",
-  "attachments": {
-    "origin_bone": "ribs_l",
-    "origin_landmark": "external surfaces of ribs 5-12 (interdigitating with serratus anterior and latissimus dorsi)",
-    "insertion_bone": "hip_bone_l",
-    "insertion_landmark": "iliac crest, inguinal ligament, and linea alba via the aponeurosis",
-    "via_points": []
-  },
-  "innervation": {
-    "nerve": "intercostal_and_subcostal_nerves",
-    "root_levels": "T7-T12"
-  },
-  "actions": [
-    "flexes trunk (bilateral)",
-    "laterally flexes and contralaterally rotates trunk (unilateral)",
-    "compresses abdominal contents"
+ "id": "external_oblique_l",
+ "name_ta": "External oblique",
+ "name_common": "External oblique",
+ "side": "left",
+ "region": "trunk",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "ribs_l",
+  "origin_landmark": "external surfaces of ribs 5-12 (interdigitating with serratus anterior and latissimus dorsi)",
+  "insertion_bone": "hip_bone_l",
+  "insertion_landmark": "iliac crest, inguinal ligament, and linea alba via the aponeurosis",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "subcostal_n_abdominal_wall_muscular",
+   "thoracoabdominal_n_t10_abdominal_wall_muscular",
+   "thoracoabdominal_n_t11_abdominal_wall_muscular",
+   "thoracoabdominal_n_t7_abdominal_wall_muscular",
+   "thoracoabdominal_n_t8_abdominal_wall_muscular",
+   "thoracoabdominal_n_t9_abdominal_wall_muscular"
   ],
-  "functional_compartments": [
-    {
-      "id": "external_oblique_l_main",
-      "name": "Single fiber population",
-      "fiber_architecture": {
-        "architecture_type": "parallel_strap",
-        "pennation_deg": 0,
-        "optimal_fascicle_length_mm": 150,
-        "physiological_cross_section_area_mm2": 1200,
-        "max_isometric_force_N": 270.0
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -100,
-          250,
-          40
-        ],
-        [
-          -40,
-          60,
-          20
-        ],
-        [
-          10,
-          -60,
-          0
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.12,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Fibers run obliquely inferomedially ('hands in pockets' direction) -- the most superficial of the three flat abdominal wall layers, and the layer whose fiber direction most differs from transversus abdominis's purely transverse fibers deep to it.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
-    }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "root_levels": "T7-T12",
+  "was_packed_as": "intercostal_and_subcostal_nerves"
+ },
+ "actions": [
+  "flexes trunk (bilateral)",
+  "laterally flexes and contralaterally rotates trunk (unilateral)",
+  "compresses abdominal contents"
+ ],
+ "functional_compartments": [
+  {
+   "id": "external_oblique_l_main",
+   "name": "Single fiber population",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 150,
+    "physiological_cross_section_area_mm2": 1200,
+    "max_isometric_force_N": 270.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -100,
+     250,
+     40
+    ],
+    [
+     -40,
+     60,
+     20
+    ],
+    [
+     10,
+     -60,
+     0
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Fibers run obliquely inferomedially ('hands in pockets' direction) -- the most superficial of the three flat abdominal wall layers, and the layer whose fiber direction most differs from transversus abdominis's purely transverse fibers deep to it.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "innervation_branch_ids": [
+    "subcostal_n_abdominal_wall_muscular",
+    "thoracoabdominal_n_t10_abdominal_wall_muscular",
+    "thoracoabdominal_n_t11_abdominal_wall_muscular",
+    "thoracoabdominal_n_t7_abdominal_wall_muscular",
+    "thoracoabdominal_n_t8_abdominal_wall_muscular",
+    "thoracoabdominal_n_t9_abdominal_wall_muscular"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
 }
