@@ -286,9 +286,192 @@ def test_a_refusal_to_map_carries_its_reason():
     is a case where the ATLAS is finer than the release, which no mapping can
     fix because the information is not in the mask."""
     reviewed = vol.load_atlas_mapping("totalsegmentator")
-    refused = {n: m for n, m in reviewed.items() if not m.get("atlas_id")}
+    # A split has no atlas_id either, but it is the opposite of a refusal.
+    refused = {n: m for n, m in reviewed.items()
+               if not m.get("atlas_id") and m.get("relationship") != "split"}
     assert refused, "expected some structures to be deliberately unmapped"
     for name, entry in refused.items():
         assert len(entry.get("note", "")) > 40, f"{name} refused without a reason"
     assert "autochthon_left" in refused
     assert "finer" in refused["autochthon_left"]["note"]
+
+
+# --------------------------------------------------------------------------
+# splitting one label into several atlas entities
+# --------------------------------------------------------------------------
+
+def _ids():
+    return {n: i for i, n in vol.load_label_names("totalsegmentator").items()}
+
+
+def _thorax(volume, ids, with_arch_level=True, with_hiatus_level=True):
+    """A stylised trunk in voxel RAS: x right, y anterior, z superior.
+
+    Vertebral bodies posterior (low y). The aorta is an inverted U: the
+    ascending column anterior, the arch over the top, the descending column
+    against the spine and continuing down past the hiatus.
+    """
+    if with_arch_level:
+        volume[26:34, 8:16, 90:98] = ids["vertebrae_T4"]
+        volume[26:34, 8:16, 80:88] = ids["vertebrae_T5"]
+    if with_hiatus_level:
+        volume[26:34, 8:16, 30:38] = ids["vertebrae_T12"]
+        volume[26:34, 8:16, 20:28] = ids["vertebrae_L1"]
+    a = ids["aorta"]
+    volume[28:33, 18:23, 10:96] = a            # descending, posterior
+    volume[28:33, 48:53, 60:96] = a            # ascending, anterior
+    volume[28:33, 18:53, 96:101] = a           # the arch joining them
+    return volume
+
+
+def test_the_aorta_is_cut_at_the_vertebral_levels_the_scan_itself_labels():
+    """Arch above the T4/T5 disc, abdominal below the T12/L1 disc, and
+    between them the POSTERIOR column is the descending aorta -- the
+    ascending aorta runs in front of it at the same heights, so no
+    horizontal plane separates those two and connected components must."""
+    ids = _ids()
+    volume = _thorax(np.zeros((60, 80, 120), np.int16), ids)
+    affine = np.diag([2.0, 2.0, 2.0, 1.0])
+    parts, notes = vol.split_aorta(volume, ids["aorta"], affine, ids)
+
+    mask = volume == ids["aorta"]
+    union = np.zeros_like(mask)
+    for p in parts.values():
+        assert not (union & p).any(), "parts overlap"
+        union |= p
+    assert (union == mask).all(), "parts do not add up to the label"
+
+    # T4 centroid z=93.5, T5 z=83.5 -> disc at z=88.5 voxels (177 mm)
+    assert parts["arch"][30, 20, 97] and parts["arch"][30, 50, 90]
+    assert not parts["arch"][30, 20, 88]
+    # T12 z=33.5, L1 z=23.5 -> hiatus at z=28.5 voxels
+    assert parts["abdominal"][30, 20, 15] and parts["abdominal"][30, 20, 28]
+    assert parts["descending_thoracic"][30, 20, 29]
+    assert parts["descending_thoracic"][30, 20, 70]
+    assert parts["ascending"][30, 50, 70] and not parts["descending_thoracic"][30, 50, 70]
+    assert not parts["ascending"][30, 20, 70]
+    assert any("T4/T5" in n for n in notes) and any("T12/L1" in n for n in notes)
+
+
+def test_a_scan_without_the_heart_has_no_arch_and_says_so():
+    """An abdominal CT starts below T4: the whole label is one column, all
+    of it descending or abdominal, and the missing level is reported rather
+    than guessed at."""
+    ids = _ids()
+    volume = np.zeros((60, 80, 60), np.int16)
+    volume[26:34, 8:16, 30:38] = ids["vertebrae_T12"]
+    volume[26:34, 8:16, 20:28] = ids["vertebrae_L1"]
+    volume[28:33, 18:23, 5:55] = ids["aorta"]
+    parts, notes = vol.split_aorta(volume, ids["aorta"], np.eye(4), ids)
+    assert not parts["arch"].any() and not parts["ascending"].any()
+    assert parts["descending_thoracic"][30, 20, 50]
+    assert parts["abdominal"][30, 20, 10]
+    assert any("T4/T5 not in the scan" in n for n in notes)
+
+
+def test_an_aorta_with_no_vertebral_level_at_all_is_refused():
+    ids = _ids()
+    volume = np.zeros((20, 20, 20), np.int16)
+    volume[8:12, 8:12, 2:18] = ids["aorta"]
+    with pytest.raises(ValueError, match="neither T4/T5 nor T12/L1"):
+        vol.split_aorta(volume, ids["aorta"], np.eye(4), ids)
+
+
+def test_an_upside_down_scan_is_caught_by_the_vertebral_order():
+    """If T4 comes out BELOW T5 the affine's superior axis is wrong, and a cut
+    placed from it would be wrong in a way nothing downstream could see."""
+    ids = _ids()
+    volume = np.zeros((60, 80, 120), np.int16)
+    volume[26:34, 8:16, 80:88] = ids["vertebrae_T4"]     # swapped heights
+    volume[26:34, 8:16, 90:98] = ids["vertebrae_T5"]
+    volume[28:33, 18:23, 10:96] = ids["aorta"]
+    with pytest.raises(ValueError, match="not above"):
+        vol.split_aorta(volume, ids["aorta"], np.eye(4), ids)
+
+
+def test_costal_cartilages_are_cut_at_the_subject_s_midline_not_the_scanner_s():
+    """The sternum sits at voxel x=30 here while the scanner's X=0 is the
+    corner of the volume: a split at X=0 would put everything on one side."""
+    ids = _ids()
+    volume = np.zeros((60, 40, 40), np.int16)
+    volume[28:33, 25:30, 5:35] = ids["sternum"]
+    volume[10:20, 22:28, 10:30] = ids["costal_cartilages"]   # subject's LEFT (low x)
+    volume[40:50, 22:28, 10:30] = ids["costal_cartilages"]   # subject's RIGHT
+    parts, notes = vol.split_at_midline(volume, ids["costal_cartilages"],
+                                        np.eye(4), ids)
+    assert parts["right"][45, 25, 20] and not parts["left"][45, 25, 20]
+    assert parts["left"][15, 25, 20] and not parts["right"][15, 25, 20]
+    assert "sternum" in notes[0]
+    # With no sternum the thoracic vertebrae give the midline instead.
+    volume[volume == ids["sternum"]] = 0
+    volume[28:33, 5:10, 5:35] = ids["vertebrae_T6"]
+    parts, notes = vol.split_at_midline(volume, ids["costal_cartilages"],
+                                        np.eye(4), ids)
+    assert parts["right"][45, 25, 20] and parts["left"][15, 25, 20]
+    assert "vertebra" in notes[0]
+    volume[volume == ids["vertebrae_T6"]] = 0
+    with pytest.raises(ValueError, match="midline cannot be measured"):
+        vol.split_at_midline(volume, ids["costal_cartilages"], np.eye(4), ids)
+
+
+def test_every_split_in_the_mapping_names_a_real_splitter_and_real_entities():
+    """A split whose splitter does not exist, or whose parts name entities
+    the atlas does not carry, would refuse at convert time -- or worse, map
+    silently to nothing."""
+    from engine import vh_ingest as vh
+    known = {e.entity_id for e in vh.load_atlas_index()}
+    splits = {n: m for n, m in vol.load_atlas_mapping("totalsegmentator").items()
+              if m.get("relationship") == "split"}
+    assert {"aorta", "costal_cartilages"} <= set(splits)
+    for name, m in splits.items():
+        assert m["splitter"] in vol.LABEL_SPLITTERS, name
+        assert m["split_parts"], name
+        for part, target in m["split_parts"].items():
+            assert target is None or target in known, f"{name}[{part}] -> {target}"
+        assert len(m.get("note", "")) > 40, f"{name}: a split needs its reason"
+
+
+def test_convert_writes_one_manifest_record_per_split_part(tmp_path):
+    """End to end: a volume holding one aorta label and one costal label
+    comes out as five atlas entities, and the part with no entity (the
+    ascending aorta) is dropped by name rather than silently."""
+    ids = _ids()
+    volume = _thorax(np.zeros((60, 80, 120), np.int16), ids)
+    volume[28:33, 60:65, 40:100] = ids["sternum"]
+    volume[10:20, 58:64, 50:90] = ids["costal_cartilages"]
+    volume[40:50, 58:64, 50:90] = ids["costal_cartilages"]
+    path = tmp_path / "seg.nii.gz"
+    _write_nifti(path, volume, spacing=(2.0, 2.0, 2.0))
+
+    subject = "_pytest_split"
+    script = REPO_ROOT / "scripts" / "ingest_volume_geometry.py"
+    mapping_file = REPO_ROOT / "build" / "vh" / f"{subject}_volume_mapping.json"
+    try:
+        r = subprocess.run([sys.executable, str(script), "propose", str(path),
+                            "--subject", subject, "--force"],
+                           capture_output=True, text=True, timeout=600)
+        assert r.returncode == 0, r.stderr
+        entries = {e["source_structure"]: e
+                   for e in json.loads(mapping_file.read_text())["entries"]}
+        assert entries["aorta"]["status"] == "curated"
+        assert entries["aorta"]["splitter"] == "aorta_by_vertebral_level"
+        r = subprocess.run([sys.executable, str(script), "convert", str(path),
+                            "--subject", subject, "--out", str(tmp_path / "out")],
+                           capture_output=True, text=True, timeout=600)
+        assert r.returncode == 0, r.stderr + r.stdout
+    finally:
+        mapping_file.unlink(missing_ok=True)
+
+    manifest = json.loads((tmp_path / "out" / "manifest.json").read_text())
+    by_id = {s["atlas_id"]: s for s in manifest["structures"]}
+    assert {"aortic_arch_and_great_vessels", "descending_thoracic_aorta",
+            "abdominal_aorta", "costal_cartilage_r", "costal_cartilage_l"} <= set(by_id)
+    assert "ascending: no atlas entity, not ingested" in r.stdout
+    for part in ("descending_thoracic_aorta", "costal_cartilage_r"):
+        assert by_id[part]["split_from"] in ("aorta", "costal_cartilages")
+    # the abdominal part sits below the thoracic part, in atlas Y
+    assert by_id["abdominal_aorta"]["bbox_max_mm"][1] <= \
+        by_id["descending_thoracic_aorta"]["bbox_min_mm"][1] + 2.0
+    # right cartilage at higher atlas X than left
+    assert by_id["costal_cartilage_r"]["bbox_min_mm"][0] > \
+        by_id["costal_cartilage_l"]["bbox_max_mm"][0]

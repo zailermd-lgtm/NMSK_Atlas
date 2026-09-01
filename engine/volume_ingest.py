@@ -118,27 +118,31 @@ def load_label_names(name: str) -> Dict[int, str]:
 # surfacing
 # --------------------------------------------------------------------------
 
-def label_surface(volume: np.ndarray, label: int,
-                  step: int = 1) -> Tuple[np.ndarray, np.ndarray]:
-    """A closed surface around one label, in VOXEL coordinates.
+def mask_surface(mask: np.ndarray, step: int = 1) -> Tuple[np.ndarray, np.ndarray]:
+    """A closed surface around a binary mask, in VOXEL coordinates.
 
-    Marching cubes over a padded binary mask. The padding is what makes the
-    surface closed: a structure touching the edge of the scan would otherwise
-    come back as an open sheet, and every inside/outside test downstream --
-    which is how tendon paths are checked -- silently inverts on an open
-    mesh.
+    Marching cubes over a padded mask. The padding is what makes the surface
+    closed: a structure touching the edge of the scan would otherwise come
+    back as an open sheet, and every inside/outside test downstream -- which
+    is how tendon paths are checked -- silently inverts on an open mesh.
     """
     try:
         from skimage import measure
     except ImportError:  # pragma: no cover - environment-dependent
         raise SystemExit(
             "Surfacing a label map needs scikit-image:  pip install scikit-image")
-    mask = np.pad((volume == label), 1, mode="constant", constant_values=False)
-    if not mask.any():
+    padded = np.pad(mask.astype(bool), 1, mode="constant", constant_values=False)
+    if not padded.any():
         return np.zeros((0, 3)), np.zeros((0, 3), dtype=np.int64)
     verts, faces, _normals, _values = measure.marching_cubes(
-        mask.astype(np.float32), level=0.5, step_size=step)
+        padded.astype(np.float32), level=0.5, step_size=step)
     return verts - 1.0, faces.astype(np.int64)      # undo the pad
+
+
+def label_surface(volume: np.ndarray, label: int,
+                  step: int = 1) -> Tuple[np.ndarray, np.ndarray]:
+    """A closed surface around one label, in VOXEL coordinates."""
+    return mask_surface(volume == label, step=step)
 
 
 def voxels_to_atlas(points: np.ndarray, affine: np.ndarray) -> np.ndarray:
@@ -169,6 +173,199 @@ def is_right_handed(affine: np.ndarray) -> bool:
     operated on.
     """
     return float(np.linalg.det(affine[:3, :3])) < 0
+
+
+# --------------------------------------------------------------------------
+# splitting one label into several atlas entities
+# --------------------------------------------------------------------------
+#
+# Two labels in the TotalSegmentator release each hold what the atlas keeps
+# as separate entities: `aorta` is one label from the root to the
+# bifurcation, where the atlas has the arch, the descending thoracic and the
+# abdominal aorta; `costal_cartilages` is one label over both sides, where
+# the atlas has a right and a left. Mapping either to any one entity would
+# be wrong for most of its extent, so both were refused until the split was
+# written. The splits below are measured from the scan itself -- from the
+# vertebrae it labels and from its own midline -- never from a fixed
+# millimetre value, because every scan is a different body.
+#
+# A splitter takes the whole volume (it needs the OTHER labels to locate its
+# cuts), the label to split, the affine, and name -> id for the label map.
+# It returns {part name: boolean mask} plus notes on where the cuts fell,
+# for the operator to read. Missing context is a ValueError with the reason.
+
+_THORACIC_VERTEBRAE = tuple(f"vertebrae_T{i}" for i in range(1, 13))
+
+
+def atlas_points_of(mask: np.ndarray, affine: np.ndarray
+                    ) -> Tuple[np.ndarray, np.ndarray]:
+    """(voxel indices, atlas-frame mm) of every set voxel."""
+    idx = np.argwhere(mask)
+    return idx, voxels_to_atlas(idx.astype(float), affine)
+
+
+def _centroid_y(volume, affine, label_ids, name) -> Optional[float]:
+    lid = label_ids.get(name)
+    if lid is None:
+        return None
+    mask = volume == lid
+    if not mask.any():
+        return None
+    return float(atlas_points_of(mask, affine)[1][:, 1].mean())
+
+
+def disc_level(volume: np.ndarray, affine: np.ndarray, label_ids: Dict[str, int],
+               upper: str, lower: str) -> Optional[float]:
+    """Superior (atlas Y) coordinate of the disc between two named vertebrae.
+
+    Taken as the midpoint of the two vertebrae's centroids. A vertebra label
+    includes its spinous process, which slopes below the body's inferior
+    endplate, so the centroid sits a few millimetres below the body's own
+    centre -- on both vertebrae alike, so the midpoint is barely moved.
+    None when either vertebra is not in the scan; the caller decides what
+    that means for its cut.
+    """
+    ys = [_centroid_y(volume, affine, label_ids, n) for n in (upper, lower)]
+    if ys[0] is None or ys[1] is None:
+        return None
+    if ys[0] <= ys[1]:
+        raise ValueError(
+            f"{upper} (Y={ys[0]:.1f}) is not above {lower} (Y={ys[1]:.1f}): the "
+            f"scan's superior axis is not where its affine says it is")
+    return float(np.mean(ys))
+
+
+def split_aorta(volume: np.ndarray, label: int, affine: np.ndarray,
+                label_ids: Dict[str, int]) -> Tuple[Dict[str, np.ndarray], List[str]]:
+    """aorta -> arch / ascending / descending_thoracic / abdominal.
+
+    Two horizontal cuts, each located from the vertebrae the same scan
+    labels: the arch ends at the lower border of T4, so everything above the
+    T4/T5 disc is arch; the aortic hiatus is at T12, so everything below the
+    T12/L1 disc is abdominal. Between the two cuts the label has TWO columns
+    -- the ascending aorta in front of the heart and the descending aorta on
+    the vertebral bodies -- which no horizontal plane separates and which
+    connected components do: the posterior column is the descending aorta.
+
+    A scan that stops above T12 has no abdominal part, and one that starts
+    below T4 has no arch; each missing level is reported and that part is
+    left empty rather than guessed at. A scan with neither pair of vertebrae
+    cannot be split and says so.
+    """
+    from scipy import ndimage
+
+    mask = volume == label
+    if not mask.any():
+        raise ValueError("the aorta label is empty")
+    idx, pts = atlas_points_of(mask, affine)
+    y, z = pts[:, 1], pts[:, 2]
+    notes: List[str] = []
+
+    arch_level = disc_level(volume, affine, label_ids, "vertebrae_T4", "vertebrae_T5")
+    hiatus_level = disc_level(volume, affine, label_ids, "vertebrae_T12", "vertebrae_L1")
+    if arch_level is None and hiatus_level is None:
+        raise ValueError("neither T4/T5 nor T12/L1 is in this scan, so no cut "
+                         "in the aorta can be located")
+    if arch_level is None:
+        notes.append("T4/T5 not in the scan: no arch part; the whole label is "
+                     "treated as below the arch")
+        arch_level = np.inf
+    else:
+        notes.append(f"arch ends at the T4/T5 disc, Y={arch_level:.1f} mm")
+    if hiatus_level is None:
+        notes.append("T12/L1 not in the scan: no abdominal part")
+        hiatus_level = -np.inf
+    else:
+        notes.append(f"aortic hiatus at the T12/L1 disc, Y={hiatus_level:.1f} mm")
+
+    def blank():
+        return np.zeros(mask.shape, dtype=bool)
+
+    parts = {k: blank() for k in ("arch", "ascending", "descending_thoracic",
+                                  "abdominal")}
+    above = y > arch_level
+    parts["arch"][tuple(idx[above].T)] = True
+
+    below = blank()
+    below[tuple(idx[~above].T)] = True
+    comp, n = ndimage.label(below)
+    if n == 0:
+        notes.append("nothing below the arch level")
+        return parts, notes
+    sizes = ndimage.sum(below, comp, index=range(1, n + 1))
+    by_size = [int(c) for c in np.argsort(sizes)[::-1] + 1]
+    comp_of = comp[tuple(idx[~above].T)]
+    z_below = z[~above]
+    mean_z = {c: float(z_below[comp_of == c].mean()) for c in by_size}
+
+    if n == 1:
+        descending, ascending = {by_size[0]}, set()
+        notes.append("one column below the arch level: taken as the "
+                     "descending aorta (no ascending aorta in the scan)")
+    else:
+        a, b = by_size[0], by_size[1]
+        desc_c, asc_c = (a, b) if mean_z[a] < mean_z[b] else (b, a)
+        descending, ascending = {desc_c}, {asc_c}
+        for c in by_size[2:]:
+            near_desc = abs(mean_z[c] - mean_z[desc_c]) <= abs(mean_z[c] - mean_z[asc_c])
+            (descending if near_desc else ascending).add(c)
+        notes.append(f"below the arch: descending column at Z={mean_z[desc_c]:.1f} mm "
+                     f"(posterior), ascending at Z={mean_z[asc_c]:.1f} mm; "
+                     f"{n} components")
+
+    sel = np.isin(comp_of, list(ascending))
+    parts["ascending"][tuple(idx[~above][sel].T)] = True
+    sel = np.isin(comp_of, list(descending))
+    desc_idx, desc_y = idx[~above][sel], y[~above][sel]
+    parts["descending_thoracic"][tuple(desc_idx[desc_y > hiatus_level].T)] = True
+    parts["abdominal"][tuple(desc_idx[desc_y <= hiatus_level].T)] = True
+    return parts, notes
+
+
+def midline_x(volume: np.ndarray, affine: np.ndarray,
+              label_ids: Dict[str, int]) -> Tuple[float, str]:
+    """The body's median plane, as an atlas X, measured from the scan.
+
+    The sternum is the midline structure a thoracic label map is most likely
+    to carry; failing that, the thoracic vertebral bodies. Either is the
+    subject's own midline, which is not the scanner's X=0.
+    """
+    lid = label_ids.get("sternum")
+    if lid is not None and (volume == lid).any():
+        return float(atlas_points_of(volume == lid, affine)[1][:, 0].mean()), "sternum"
+    xs = []
+    for name in _THORACIC_VERTEBRAE:
+        lid = label_ids.get(name)
+        if lid is not None and (volume == lid).any():
+            xs.append(atlas_points_of(volume == lid, affine)[1][:, 0].mean())
+    if xs:
+        return float(np.mean(xs)), f"{len(xs)} thoracic vertebrae"
+    raise ValueError("no sternum and no thoracic vertebra in this scan, so the "
+                     "midline cannot be measured")
+
+
+def split_at_midline(volume: np.ndarray, label: int, affine: np.ndarray,
+                     label_ids: Dict[str, int]) -> Tuple[Dict[str, np.ndarray], List[str]]:
+    """One bilateral label -> right / left, cut at the measured midline."""
+    mask = volume == label
+    if not mask.any():
+        raise ValueError("the label is empty")
+    mid, source = midline_x(volume, affine, label_ids)
+    idx, pts = atlas_points_of(mask, affine)
+    right = np.zeros(mask.shape, dtype=bool)
+    left = np.zeros(mask.shape, dtype=bool)
+    on_right = pts[:, 0] > mid                    # +X is the subject's right
+    right[tuple(idx[on_right].T)] = True
+    left[tuple(idx[~on_right].T)] = True
+    notes = [f"midline at X={mid:.1f} mm from the {source}; "
+             f"{int(on_right.sum())} voxels right, {int((~on_right).sum())} left"]
+    return {"right": right, "left": left}, notes
+
+
+LABEL_SPLITTERS = {
+    "aorta_by_vertebral_level": split_aorta,
+    "midline": split_at_midline,
+}
 
 
 # --------------------------------------------------------------------------

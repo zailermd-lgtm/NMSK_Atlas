@@ -30,6 +30,14 @@
     "than the release, which no mapping can handle because the information is",
     "not in the mask.",
     "",
+    "A third kind is 'split': one label holds SEVERAL atlas entities, and the",
+    "atlas is finer in a way that IS measurable from the scan. 'splitter'",
+    "names the routine in engine/volume_ingest.py that makes the cut and",
+    "'split_parts' maps each part it returns to an entity, or to null for a",
+    "part the atlas has no entity for and which is deliberately not ingested.",
+    "The cuts are measured from the scan's own vertebrae and midline, never",
+    "from a fixed millimetre value.",
+    "",
     "LICENCE. The TotalSegmentator CODE is Apache-2.0, which is what this",
     "transcription comes from. The DATASET of 1228 segmented CTs is a",
     "separate work under its own licence, which must be read at its Zenodo",
@@ -160,8 +168,15 @@
   "atlas": {
     "aorta": {
       "atlas_id": null,
-      "relationship": "no_atlas_entity",
-      "note": "One label spans the whole vessel; the atlas carries descending_thoracic_aorta and abdominal_aorta as separate entities. Mapping to either would be wrong for half its length. Separable at the diaphragm, which this release does not label, though the T12/L1 vertebrae it DOES label would locate it."
+      "relationship": "split",
+      "splitter": "aorta_by_vertebral_level",
+      "split_parts": {
+        "arch": "aortic_arch_and_great_vessels",
+        "ascending": null,
+        "descending_thoracic": "descending_thoracic_aorta",
+        "abdominal": "abdominal_aorta"
+      },
+      "note": "One label spans the whole vessel; the atlas carries the arch, the descending thoracic aorta and the abdominal aorta as separate entities, so mapping to any one would be wrong for most of its length. Cut at two levels measured from the vertebrae this release labels: the arch ends at the lower border of T4 (the T4/T5 disc) and the aortic hiatus is at T12 (the T12/L1 disc). Between the cuts the posterior column is the descending aorta and the anterior one the ascending aorta, which the atlas has no entity for (null: deliberately not ingested)."
     },
     "autochthon_left": {
       "atlas_id": null,
@@ -200,8 +215,13 @@
     },
     "costal_cartilages": {
       "atlas_id": null,
-      "relationship": "no_atlas_entity",
-      "note": "One label spans both sides; the atlas carries costal_cartilage_l and costal_cartilage_r. A midline split would settle it and has not been written."
+      "relationship": "split",
+      "splitter": "midline",
+      "split_parts": {
+        "right": "costal_cartilage_r",
+        "left": "costal_cartilage_l"
+      },
+      "note": "One label spans both sides; the atlas carries costal_cartilage_r and costal_cartilage_l. Cut at the subject's own midline, measured from the sternum label (or the thoracic vertebral bodies when there is no sternum), not at the scanner's X=0."
     },
     "hip_left": {
       "atlas_id": "hip_bone_l",

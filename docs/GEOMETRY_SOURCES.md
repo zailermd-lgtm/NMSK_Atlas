@@ -499,6 +499,19 @@ the scan in the atlas frame.
 | Would give | clavicula, scapula, humerus, ribs, sternum, vertebrae C1–L5, sacrum, hip, femur — most of what has no geometry here |
 | Would **not** give | any individual upper-limb muscle. It carries ten muscles in total: the three glutei, iliopsoas and autochthon. There is no deltoid, no biceps, no forearm compartment |
 
+Every one of its 117 labels has a reviewed decision in the `atlas` section
+of `mappings/totalsegmentator_labels.json`: mapped one-to-one, mapped
+`part_of` a coarser atlas entity (each rib into `ribs_r`, each vertebra into
+its region), refused with a reason (viscera, brain, cord, skull; autochthon
+because the atlas is finer than the mask), or **split**. Two labels hold
+several atlas entities and are cut geometrically at convert time, at levels
+measured from the scan itself rather than from any fixed millimetre: the
+aorta at the T4/T5 and T12/L1 discs into arch, descending thoracic and
+abdominal (the ascending aorta between the cuts is the anterior of the two
+columns and has no atlas entity, so it is dropped by name), and the costal
+cartilages at the subject's midline as measured from the sternum. A scan
+missing a level is told so and that part is left empty, never guessed.
+
 Two things follow, and neither should be skipped.
 
 **The licence was read at the Zenodo record**, not taken from a search

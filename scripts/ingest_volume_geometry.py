@@ -131,6 +131,12 @@ def cmd_propose(args) -> int:
     known_ids = {e.entity_id for e in atlas}
     bad = {n: m["atlas_id"] for n, m in reviewed.items()
            if m.get("atlas_id") and m["atlas_id"] not in known_ids}
+    for n, m in reviewed.items():
+        for part, target in (m.get("split_parts") or {}).items():
+            if target and target not in known_ids:
+                bad[f"{n}[{part}]"] = target
+        if m.get("splitter") and m["splitter"] not in vol.LABEL_SPLITTERS:
+            bad[n] = f"splitter {m['splitter']!r} (not in engine/volume_ingest.py)"
     if bad:
         raise SystemExit(
             f"{args.labels}: {len(bad)} reviewed mapping(s) name an atlas "
@@ -152,14 +158,21 @@ def cmd_propose(args) -> int:
         decision = reviewed.get(raw)
         if decision is not None:
             # A reviewed decision outranks any score, including a decision
-            # NOT to map -- which is why atlas_id may be null here.
-            status = "curated" if decision["atlas_id"] else "no_atlas_entity"
-            entries.append({"label": label, "source_structure": raw,
-                            "side": side, "status": status,
-                            "atlas_id": decision["atlas_id"],
-                            "relationship": decision.get("relationship"),
-                            "note": decision.get("note") or None,
-                            "candidates": []})
+            # NOT to map -- which is why atlas_id may be null here. A split
+            # has no atlas_id either: its entities are named per part.
+            split = decision.get("relationship") == "split"
+            status = ("curated" if decision["atlas_id"] or split
+                      else "no_atlas_entity")
+            entry = {"label": label, "source_structure": raw,
+                     "side": side, "status": status,
+                     "atlas_id": decision["atlas_id"],
+                     "relationship": decision.get("relationship"),
+                     "note": decision.get("note") or None,
+                     "candidates": []}
+            if split:
+                entry["splitter"] = decision["splitter"]
+                entry["split_parts"] = decision["split_parts"]
+            entries.append(entry)
             counts[status] += 1
             continue
         if any(k in raw for k in NOT_MUSCULOSKELETAL):
@@ -216,8 +229,8 @@ def cmd_propose(args) -> int:
         "entries": entries,
     }, indent=2))
     print(f"\nwrote {out.relative_to(REPO_ROOT)}")
-    print(f"      {sum(1 for e in entries if e['atlas_id'])} of {len(entries)} "
-          f"labels currently have an atlas_id")
+    print(f"      {sum(1 for e in entries if e['atlas_id'] or e.get('split_parts'))} "
+          f"of {len(entries)} labels currently have an atlas_id or a split")
     return 0
 
 
@@ -231,18 +244,25 @@ def cmd_convert(args) -> int:
     if not mapping_file.exists():
         raise SystemExit(f"No mapping at {mapping_file}. Run 'propose' first.")
     mapping = json.loads(mapping_file.read_text())
-    entries = [e for e in mapping["entries"] if e.get("atlas_id")]
+    entries = [e for e in mapping["entries"]
+               if e.get("atlas_id") or e.get("split_parts")]
     if not entries:
         raise SystemExit(f"{mapping_file.name} has no entry with an atlas_id.")
 
     known = {e.entity_id for e in vh.load_atlas_index()}
-    unknown = sorted({e["atlas_id"] for e in entries} - known)
+    claimed = {e["atlas_id"] for e in entries if e.get("atlas_id")}
+    for e in entries:
+        # A part mapped to null is a decision not to ingest it (the
+        # ascending aorta has no atlas entity); only named parts are checked.
+        claimed.update(t for t in (e.get("split_parts") or {}).values() if t)
+    unknown = sorted(claimed - known)
     if unknown:
         raise SystemExit("atlas_id values that do not exist in data/:\n"
                          + "\n".join(f"  {i}" for i in unknown[:12]))
 
     volume, affine, _codes = vol.load_labels(path)
     names = vol.load_label_names(mapping.get("label_map", args.labels))
+    label_ids = {n: i for i, n in names.items()}
     origin = np.zeros(3)
     if args.origin:
         origin = vh.parse_origin(args.origin)
@@ -260,28 +280,73 @@ def cmd_convert(args) -> int:
     vertex_base = face_base = 0
     lo, hi = np.full(3, np.inf), np.full(3, -np.inf)
     for entry in entries:
-        v, f = vol.label_surface(volume, entry["label"], step=args.step)
-        if len(v) == 0:
-            print(f"  {entry['source_structure']}: label absent, skipped")
-            continue
-        v = vol.voxels_to_atlas(v, affine) - origin
-        mn, mx = v.min(axis=0), v.max(axis=0)
-        lo, hi = np.minimum(lo, mn), np.maximum(hi, mx)
-        manifest.append({
-            "atlas_id": entry["atlas_id"],
-            "source_structure": entry["source_structure"],
-            "side": entry.get("side"),
-            "source_file": f"{path.name}#{entry['label']}",
-            "vertex_offset": vertex_base, "face_offset": face_base,
-            "vertex_count": int(v.shape[0]),
-            "triangle_count": int(f.shape[0]),
-            "bbox_min_mm": [round(float(x), 4) for x in mn],
-            "bbox_max_mm": [round(float(x), 4) for x in mx],
-        })
-        verts_blocks.append(v.astype(np.float32))
-        faces_blocks.append((f + vertex_base).astype(np.uint32))
-        vertex_base += v.shape[0]
-        face_base += f.shape[0]
+        # Most labels are one atlas entity. Two hold several -- see the
+        # 'split' relationship in mappings/<labels>_labels.json -- and are
+        # cut geometrically, at levels measured from the scan itself.
+        if entry.get("split_parts"):
+            splitter = vol.LABEL_SPLITTERS.get(entry.get("splitter"))
+            if splitter is None:
+                raise SystemExit(
+                    f"{entry['source_structure']}: no splitter named "
+                    f"{entry.get('splitter')!r} in engine/volume_ingest.py")
+            if not (volume == entry["label"]).any():
+                print(f"  {entry['source_structure']}: label absent, skipped")
+                continue
+            try:
+                produced, notes = splitter(volume, entry["label"], affine, label_ids)
+            except ValueError as exc:
+                raise SystemExit(f"{entry['source_structure']}: {exc}") from None
+            missing = set(entry["split_parts"]) - set(produced)
+            if missing:
+                raise SystemExit(
+                    f"{entry['source_structure']}: splitter {entry['splitter']!r} "
+                    f"returned no part named {', '.join(sorted(missing))}")
+            print(f"  split {entry['source_structure']}:")
+            for line in notes:
+                print(f"      {line}")
+            parts = []
+            for part, target in entry["split_parts"].items():
+                if not target:
+                    print(f"      {part}: no atlas entity, not ingested")
+                    continue
+                if not produced[part].any():
+                    print(f"      {part}: empty in this scan")
+                    continue
+                v, f = vol.mask_surface(produced[part], step=args.step)
+                parts.append((target, v, f))
+        else:
+            v, f = vol.label_surface(volume, entry["label"], step=args.step)
+            if len(v) == 0:
+                print(f"  {entry['source_structure']}: label absent, skipped")
+                continue
+            parts = [(entry["atlas_id"], v, f)]
+
+        for atlas_id, v, f in parts:
+            v = vol.voxels_to_atlas(v, affine) - origin
+            mn, mx = v.min(axis=0), v.max(axis=0)
+            lo, hi = np.minimum(lo, mn), np.maximum(hi, mx)
+            record = {
+                "atlas_id": atlas_id,
+                "source_structure": entry["source_structure"],
+                "side": entry.get("side"),
+                "source_file": f"{path.name}#{entry['label']}",
+                "vertex_offset": vertex_base, "face_offset": face_base,
+                "vertex_count": int(v.shape[0]),
+                "triangle_count": int(f.shape[0]),
+                "bbox_min_mm": [round(float(x), 4) for x in mn],
+                "bbox_max_mm": [round(float(x), 4) for x in mx],
+            }
+            if entry.get("split_parts"):
+                record["split_from"] = entry["source_structure"]
+                record["splitter"] = entry["splitter"]
+            manifest.append(record)
+            verts_blocks.append(v.astype(np.float32))
+            faces_blocks.append((f + vertex_base).astype(np.uint32))
+            vertex_base += v.shape[0]
+            face_base += f.shape[0]
+
+    if not verts_blocks:
+        raise SystemExit("no mapped label is present in this volume")
 
     all_verts = np.concatenate(verts_blocks)
     all_faces = np.concatenate(faces_blocks)
