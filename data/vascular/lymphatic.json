@@ -1,244 +1,351 @@
 [
-  {
-    "id": "thoracic_duct",
-    "name": "Thoracic duct",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": null,
-    "level": "root",
-    "approx_diameter_mm": 5,
-    "supplies_or_drains": [
-      "lower limbs, abdomen, left thorax, left upper limb, left head and neck"
-    ],
-    "anastomoses_with": [],
-    "notes": "Drains roughly three-quarters of the body. Ascends from the cisterna chyli through the aortic hiatus, crosses to the left at about T5, and empties at the junction of the left subclavian and internal jugular veins. Injury during left neck dissection or oesophagectomy produces a chylous leak.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "right_lymphatic_duct",
-    "name": "Right lymphatic duct",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": null,
-    "level": "root",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "right upper limb, right head and neck, right thorax"
-    ],
-    "anastomoses_with": [],
-    "notes": "Drains the remaining quarter of the body into the junction of the right subclavian and internal jugular veins. About a centimetre long, and often absent as a single vessel -- its three trunks may open separately.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "cisterna_chyli",
-    "name": "Cisterna chyli",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "thoracic_duct",
-    "level": "trunk",
-    "approx_diameter_mm": 6,
-    "supplies_or_drains": [
-      "lumbar and intestinal lymphatic trunks"
-    ],
-    "anastomoses_with": [],
-    "notes": "A saccular dilatation at about L1-L2, behind and to the right of the aorta. Receives the intestinal trunk carrying chyle, which is why chylous effusions look milky after a fatty meal.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "lumbar_lymphatic_trunk",
-    "name": "Lumbar lymphatic trunks",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "cisterna_chyli",
-    "level": "trunk",
-    "approx_diameter_mm": 3,
-    "supplies_or_drains": [
-      "lower limbs, pelvis, kidneys, adrenal glands, abdominal wall"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "intestinal_lymphatic_trunk",
-    "name": "Intestinal lymphatic trunk",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "cisterna_chyli",
-    "level": "trunk",
-    "approx_diameter_mm": 3,
-    "supplies_or_drains": [
-      "stomach, intestine, pancreas, spleen, part of the liver"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "jugular_lymphatic_trunk_l",
-    "name": "Jugular lymphatic trunk, left",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "thoracic_duct",
-    "level": "trunk",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "left head and neck, from the deep cervical nodes"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "subclavian_lymphatic_trunk_l",
-    "name": "Subclavian lymphatic trunk, left",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "thoracic_duct",
-    "level": "trunk",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "left upper limb, from the apical axillary nodes"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "bronchomediastinal_lymphatic_trunk_l",
-    "name": "Bronchomediastinal lymphatic trunk, left",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "thoracic_duct",
-    "level": "trunk",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "left lung, heart, thymus, oesophagus and thoracic wall"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "jugular_lymphatic_trunk_r",
-    "name": "Jugular lymphatic trunk, right",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "right_lymphatic_duct",
-    "level": "trunk",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "right head and neck, from the deep cervical nodes"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "subclavian_lymphatic_trunk_r",
-    "name": "Subclavian lymphatic trunk, right",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "right_lymphatic_duct",
-    "level": "trunk",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "right upper limb, from the apical axillary nodes"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_cervical_lymph_nodes_r",
-    "name": "Deep cervical lymph nodes (levels I-VI)",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "jugular_lymphatic_trunk_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [
-      "head and neck, via the superficial node groups"
-    ],
-    "anastomoses_with": [],
-    "notes": "Arranged along the internal jugular vein. The jugulodigastric (tonsillar) and jugulo-omohyoid (tongue) nodes are the named sentinel members. Level classification drives neck dissection planning in head and neck cancer.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "axillary_lymph_nodes_r",
-    "name": "Axillary lymph nodes (levels I-III)",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "subclavian_lymphatic_trunk_r",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "upper limb",
-      "breast",
-      "anterolateral trunk wall"
-    ],
-    "anastomoses_with": [],
-    "notes": "Levels are defined by pectoralis minor: level I lateral to it, level II behind it, level III medial. This is the staging basis in breast cancer, and the reason axillary clearance carries a lymphoedema risk that sentinel node biopsy avoids.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "cubital_lymph_nodes_r",
-    "name": "Cubital (supratrochlear) lymph nodes",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "axillary_lymph_nodes_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [
-      "ulnar side of the forearm and hand, along the basilic vein"
-    ],
-    "anastomoses_with": [],
-    "notes": "Palpable above the medial epicondyle. Classically enlarged in secondary syphilis and in cat-scratch disease.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "deep_inguinal_lymph_nodes_r",
-    "name": "Deep inguinal lymph nodes",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "lumbar_lymphatic_trunk",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "glans penis or clitoris",
-      "deep lower limb lymphatics",
-      "superficial inguinal nodes"
-    ],
-    "anastomoses_with": [],
-    "notes": "Lie medial to the femoral vein; the highest of them, sitting in the femoral canal, is the node of Cloquet.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "superficial_inguinal_lymph_nodes_r",
-    "name": "Superficial inguinal lymph nodes",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "deep_inguinal_lymph_nodes_r",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "lower limb",
-      "lower abdominal wall",
-      "perineum",
-      "gluteal region",
-      "anal canal below the pectinate line"
-    ],
-    "anastomoses_with": [],
-    "notes": "Lie in the superficial fascia parallel to and below the inguinal ligament. Their perineal territory is why they enlarge in genital infection, and why anal carcinoma above versus below the pectinate line spreads to entirely different node groups.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "popliteal_lymph_nodes_r",
-    "name": "Popliteal lymph nodes",
-    "system": "lymphatic",
-    "tree_name": "lymphatic",
-    "parent_id": "deep_inguinal_lymph_nodes_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [
-      "lateral foot and posterolateral leg, along the small saphenous vein"
-    ],
-    "anastomoses_with": [],
-    "notes": "The lateral foot drains here first, whereas the medial foot drains directly to the superficial inguinal nodes along the great saphenous vein -- so the site of a foot lesion predicts which node group enlarges.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  }
+ {
+  "id": "thoracic_duct",
+  "name": "Thoracic duct",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": null,
+  "level": "root",
+  "approx_diameter_mm": 5,
+  "supplies_or_drains": [
+   "lower limbs, abdomen, left thorax, left upper limb, left head and neck"
+  ],
+  "anastomoses_with": [],
+  "notes": "Drains roughly three-quarters of the body. Ascends from the cisterna chyli through the aortic hiatus, crosses to the left at about T5, and empties at the junction of the left subclavian and internal jugular veins. Injury during left neck dissection or oesophagectomy produces a chylous leak.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "right_lymphatic_duct",
+  "name": "Right lymphatic duct",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": null,
+  "level": "root",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "right upper limb, right head and neck, right thorax"
+  ],
+  "anastomoses_with": [],
+  "notes": "Drains the remaining quarter of the body into the junction of the right subclavian and internal jugular veins. About a centimetre long, and often absent as a single vessel -- its three trunks may open separately.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "cisterna_chyli",
+  "name": "Cisterna chyli",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "thoracic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 6,
+  "supplies_or_drains": [
+   "lumbar and intestinal lymphatic trunks"
+  ],
+  "anastomoses_with": [],
+  "notes": "A saccular dilatation at about L1-L2, behind and to the right of the aorta. Receives the intestinal trunk carrying chyle, which is why chylous effusions look milky after a fatty meal.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "lumbar_lymphatic_trunk",
+  "name": "Lumbar lymphatic trunks",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "cisterna_chyli",
+  "level": "trunk",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "lower limbs, pelvis, kidneys, adrenal glands, abdominal wall"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "intestinal_lymphatic_trunk",
+  "name": "Intestinal lymphatic trunk",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "cisterna_chyli",
+  "level": "trunk",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "stomach, intestine, pancreas, spleen, part of the liver"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "jugular_lymphatic_trunk_l",
+  "name": "Jugular lymphatic trunk, left",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "thoracic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "left head and neck, from the deep cervical nodes"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "subclavian_lymphatic_trunk_l",
+  "name": "Subclavian lymphatic trunk, left",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "thoracic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "left upper limb, from the apical axillary nodes"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "bronchomediastinal_lymphatic_trunk_l",
+  "name": "Bronchomediastinal lymphatic trunk, left",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "thoracic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "left lung, heart, thymus, oesophagus and thoracic wall"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "jugular_lymphatic_trunk_r",
+  "name": "Jugular lymphatic trunk, right",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "right_lymphatic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "right head and neck, from the deep cervical nodes"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "subclavian_lymphatic_trunk_r",
+  "name": "Subclavian lymphatic trunk, right",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "right_lymphatic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "right upper limb, from the apical axillary nodes"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_cervical_lymph_nodes_r",
+  "name": "Deep cervical lymph nodes (levels I-VI)",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "jugular_lymphatic_trunk_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "head and neck, via the superficial node groups"
+  ],
+  "anastomoses_with": [],
+  "notes": "Arranged along the internal jugular vein. The jugulodigastric (tonsillar) and jugulo-omohyoid (tongue) nodes are the named sentinel members. Level classification drives neck dissection planning in head and neck cancer.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "axillary_lymph_nodes_r",
+  "name": "Axillary lymph nodes (levels I-III)",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "subclavian_lymphatic_trunk_r",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "upper limb",
+   "breast",
+   "anterolateral trunk wall"
+  ],
+  "anastomoses_with": [],
+  "notes": "Levels are defined by pectoralis minor: level I lateral to it, level II behind it, level III medial. This is the staging basis in breast cancer, and the reason axillary clearance carries a lymphoedema risk that sentinel node biopsy avoids.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "cubital_lymph_nodes_r",
+  "name": "Cubital (supratrochlear) lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "axillary_lymph_nodes_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "ulnar side of the forearm and hand, along the basilic vein"
+  ],
+  "anastomoses_with": [],
+  "notes": "Palpable above the medial epicondyle. Classically enlarged in secondary syphilis and in cat-scratch disease.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_inguinal_lymph_nodes_r",
+  "name": "Deep inguinal lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "lumbar_lymphatic_trunk",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "glans penis or clitoris",
+   "deep lower limb lymphatics",
+   "superficial inguinal nodes"
+  ],
+  "anastomoses_with": [],
+  "notes": "Lie medial to the femoral vein; the highest of them, sitting in the femoral canal, is the node of Cloquet.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "superficial_inguinal_lymph_nodes_r",
+  "name": "Superficial inguinal lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "deep_inguinal_lymph_nodes_r",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "lower limb",
+   "lower abdominal wall",
+   "perineum",
+   "gluteal region",
+   "anal canal below the pectinate line"
+  ],
+  "anastomoses_with": [],
+  "notes": "Lie in the superficial fascia parallel to and below the inguinal ligament. Their perineal territory is why they enlarge in genital infection, and why anal carcinoma above versus below the pectinate line spreads to entirely different node groups.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "popliteal_lymph_nodes_r",
+  "name": "Popliteal lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "deep_inguinal_lymph_nodes_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "lateral foot and posterolateral leg, along the small saphenous vein"
+  ],
+  "anastomoses_with": [],
+  "notes": "The lateral foot drains here first, whereas the medial foot drains directly to the superficial inguinal nodes along the great saphenous vein -- so the site of a foot lesion predicts which node group enlarges.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "bronchomediastinal_lymphatic_trunk_r",
+  "name": "Bronchomediastinal lymphatic trunk, left",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "right_lymphatic_duct",
+  "level": "trunk",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "left lung, heart, thymus, oesophagus and thoracic wall"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_cervical_lymph_nodes_l",
+  "name": "Deep cervical lymph nodes (levels I-VI)",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "jugular_lymphatic_trunk_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "head and neck, via the superficial node groups"
+  ],
+  "anastomoses_with": [],
+  "notes": "Arranged along the internal jugular vein. The jugulodigastric (tonsillar) and jugulo-omohyoid (tongue) nodes are the named sentinel members. Level classification drives neck dissection planning in head and neck cancer.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "axillary_lymph_nodes_l",
+  "name": "Axillary lymph nodes (levels I-III)",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "subclavian_lymphatic_trunk_l",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "upper limb",
+   "breast",
+   "anterolateral trunk wall"
+  ],
+  "anastomoses_with": [],
+  "notes": "Levels are defined by pectoralis minor: level I lateral to it, level II behind it, level III medial. This is the staging basis in breast cancer, and the reason axillary clearance carries a lymphoedema risk that sentinel node biopsy avoids.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "cubital_lymph_nodes_l",
+  "name": "Cubital (supratrochlear) lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "axillary_lymph_nodes_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "ulnar side of the forearm and hand, along the basilic vein"
+  ],
+  "anastomoses_with": [],
+  "notes": "Palpable above the medial epicondyle. Classically enlarged in secondary syphilis and in cat-scratch disease.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "deep_inguinal_lymph_nodes_l",
+  "name": "Deep inguinal lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "lumbar_lymphatic_trunk",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "glans penis or clitoris",
+   "deep lower limb lymphatics",
+   "superficial inguinal nodes"
+  ],
+  "anastomoses_with": [],
+  "notes": "Lie medial to the femoral vein; the highest of them, sitting in the femoral canal, is the node of Cloquet.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "superficial_inguinal_lymph_nodes_l",
+  "name": "Superficial inguinal lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "deep_inguinal_lymph_nodes_l",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "lower limb",
+   "lower abdominal wall",
+   "perineum",
+   "gluteal region",
+   "anal canal below the pectinate line"
+  ],
+  "anastomoses_with": [],
+  "notes": "Lie in the superficial fascia parallel to and below the inguinal ligament. Their perineal territory is why they enlarge in genital infection, and why anal carcinoma above versus below the pectinate line spreads to entirely different node groups.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "popliteal_lymph_nodes_l",
+  "name": "Popliteal lymph nodes",
+  "system": "lymphatic",
+  "tree_name": "lymphatic",
+  "parent_id": "deep_inguinal_lymph_nodes_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "lateral foot and posterolateral leg, along the small saphenous vein"
+  ],
+  "anastomoses_with": [],
+  "notes": "The lateral foot drains here first, whereas the medial foot drains directly to the superficial inguinal nodes along the great saphenous vein -- so the site of a foot lesion predicts which node group enlarges.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ }
 ]

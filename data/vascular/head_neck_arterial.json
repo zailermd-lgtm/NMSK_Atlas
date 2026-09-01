@@ -1,217 +1,410 @@
 [
-  {
-    "id": "aortic_arch_and_great_vessels",
-    "name": "Aortic arch (great vessel origins)",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": null,
-    "level": "root",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 25,
-    "notes": "Same aortic arch that continues as the descending thoracic aorta (data/vascular/trunk_arterial.json's root) -- modeled as a separate tree root here only because of this atlas's per-region file split, not because it is a different anatomical structure. Gives rise, in order, to the brachiocephalic trunk, left common carotid a., and left subclavian a."
-  },
-  {
-    "id": "brachiocephalic_trunk_r",
-    "name": "Brachiocephalic trunk",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "aortic_arch_and_great_vessels",
-    "level": "trunk",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 12,
-    "notes": "Divides into the right common carotid and right subclavian arteries; the left side's equivalents arise directly from the arch instead of via a shared trunk -- an asymmetry this atlas represents with one generic side per vessel (see module docstring)."
-  },
-  {
-    "id": "common_carotid_a_r",
-    "name": "Common carotid artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "brachiocephalic_trunk_r",
-    "level": "trunk",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 8,
-    "notes": "Ascends in the carotid sheath without branching until it bifurcates at approximately the C3-C4 vertebral level (the carotid bifurcation, marked by the carotid body chemoreceptor and carotid sinus baroreceptor)."
-  },
-  {
-    "id": "external_carotid_a_r",
-    "name": "External carotid artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "common_carotid_a_r",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 5,
-    "notes": "Supplies essentially all extracranial head & neck structures via its 6 named cervical/facial branches plus 2 terminal branches."
-  },
-  {
-    "id": "internal_carotid_a_r",
-    "name": "Internal carotid artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "common_carotid_a_r",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 5,
-    "supplies_or_drains": [
-      "brain and orbit contents (intracranial, out of scope for this musculoskeletal-focused atlas)"
-    ],
-    "notes": "No branches in the neck; ascends to enter the carotid canal of the temporal bone and become intracranial. Intracranial distribution (supplying the brain) is out of scope, consistent with the organ-parenchyma boundary documented in docs/ROADMAP.md Stage 4 -- modeled here as a leaf/stub."
-  },
-  {
-    "id": "superior_thyroid_a_r",
-    "name": "Superior thyroid artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "thyroid gland (out of scope as an organ, noted for completeness)"
-    ],
-    "notes": "First and most inferior branch of the external carotid; also supplies the infrahyoid strap muscles' inferior fibers and sternocleidomastoid's anterior border via small muscular twigs."
-  },
-  {
-    "id": "lingual_a_r",
-    "name": "Lingual artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5,
-    "supplies_or_drains": [
-      "genioglossus_r_main",
-      "hyoglossus_r_main",
-      "styloglossus_r_main"
-    ],
-    "notes": "Passes deep to hyoglossus -- a classic anatomical landmark relationship also noted in hyoglossus's own muscle file."
-  },
-  {
-    "id": "facial_a_r",
-    "name": "Facial artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5,
-    "supplies_or_drains": [
-      "orbicularis_oris_r_main",
-      "zygomaticus_major_r_main",
-      "levator_labii_superioris_r_main",
-      "depressor_anguli_oris_r_main",
-      "buccinator_r_main"
-    ],
-    "notes": "Tortuous course crossing the mandible's inferior border anterior to masseter (a standard pulse-palpation point), then ascending tortuously alongside the nose to the medial eye."
-  },
-  {
-    "id": "ascending_pharyngeal_a_r",
-    "name": "Ascending pharyngeal artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5,
-    "supplies_or_drains": [
-      "superior_pharyngeal_constrictor_r_main",
-      "stylopharyngeus_r_main"
-    ],
-    "notes": "Smallest and most medial branch of the external carotid, the only one without a consistently named terminal territory outside the pharynx/prevertebral region."
-  },
-  {
-    "id": "occipital_a_r",
-    "name": "Occipital artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "sternocleidomastoid_r_sternal",
-      "sternocleidomastoid_r_clavicular",
-      "digastric_r_posterior"
-    ],
-    "notes": "Runs deep to the posterior belly of digastric, which it crosses; supplies the posterior scalp beyond this atlas's modeled muscle territory too."
-  },
-  {
-    "id": "posterior_auricular_a_r",
-    "name": "Posterior auricular artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "muscular_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5,
-    "supplies_or_drains": [
-      "digastric_r_posterior"
-    ],
-    "notes": "Small branch supplying the region around and behind the ear, and a small contribution to the posterior belly of digastric alongside occipital a."
-  },
-  {
-    "id": "superficial_temporal_a_r",
-    "name": "Superficial temporal artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "frontalis_r_main",
-      "temporalis_r_anterior",
-      "temporalis_r_posterior"
-    ],
-    "notes": "One of the external carotid's 2 terminal branches; palpable anterior to the ear (a classic pulse point) before dividing into frontal and parietal scalp branches."
-  },
-  {
-    "id": "maxillary_a_r",
-    "name": "Maxillary artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "external_carotid_a_r",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5,
-    "supplies_or_drains": [
-      "masseter_r_superficial",
-      "masseter_r_deep",
-      "medial_pterygoid_r_main",
-      "lateral_pterygoid_r_superior",
-      "lateral_pterygoid_r_inferior",
-      "temporalis_r_anterior"
-    ],
-    "notes": "The external carotid's other, larger terminal branch (confirmed larger-caliber than superficial temporal a.); its pterygoid (2nd) part supplies all 4 muscles of mastication via distinct named branches -- the masseteric artery (masseter), deep temporal arteries (temporalis), and the pterygoid branches proper (medial and lateral pterygoids specifically, not a blanket name for all four) -- adjusted from an earlier draft that used 'pterygoid branches' loosely for all four muscles' supply, caught by adversarial fact-check, see docs/VERIFICATION.md."
-  },
-  {
-    "id": "middle_meningeal_a_r",
-    "name": "Middle meningeal artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "maxillary_a_r",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5,
-    "supplies_or_drains": [
-      "dura mater (out of musculoskeletal scope, included for its clinical significance)"
-    ],
-    "notes": "Enters the skull via the foramen spinosum (already a documented landmark on the sphenoid bone in data/skeleton/bones.json); its rupture from a temporal bone fracture is the classic cause of an epidural (extradural) hematoma."
-  },
-  {
-    "id": "inferior_alveolar_a_r",
-    "name": "Inferior alveolar artery",
-    "system": "arterial",
-    "tree_name": "head_neck_arterial",
-    "parent_id": "maxillary_a_r",
-    "level": "terminal_branch",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5,
-    "supplies_or_drains": [
-      "mylohyoid_r_main",
-      "mandibular teeth (out of scope)"
-    ],
-    "notes": "Enters the mandibular foramen (a documented landmark on the mandible bone) alongside the inferior alveolar nerve and vein, giving off the mylohyoid branch just before entering."
-  }
+ {
+  "id": "aortic_arch_and_great_vessels",
+  "name": "Aortic arch (great vessel origins)",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": null,
+  "level": "root",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 25,
+  "notes": "Same aortic arch that continues as the descending thoracic aorta (data/vascular/trunk_arterial.json's root) -- modeled as a separate tree root here only because of this atlas's per-region file split, not because it is a different anatomical structure. Gives rise, in order, to the brachiocephalic trunk, left common carotid a., and left subclavian a."
+ },
+ {
+  "id": "brachiocephalic_trunk_r",
+  "name": "Brachiocephalic trunk",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "aortic_arch_and_great_vessels",
+  "level": "trunk",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 12,
+  "notes": "Divides into the right common carotid and right subclavian arteries; the left side's equivalents arise directly from the arch instead of via a shared trunk -- an asymmetry this atlas represents with one generic side per vessel (see module docstring)."
+ },
+ {
+  "id": "common_carotid_a_r",
+  "name": "Common carotid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "brachiocephalic_trunk_r",
+  "level": "trunk",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 8,
+  "notes": "Ascends in the carotid sheath without branching until it bifurcates at approximately the C3-C4 vertebral level (the carotid bifurcation, marked by the carotid body chemoreceptor and carotid sinus baroreceptor)."
+ },
+ {
+  "id": "external_carotid_a_r",
+  "name": "External carotid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "common_carotid_a_r",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 5,
+  "notes": "Supplies essentially all extracranial head & neck structures via its 6 named cervical/facial branches plus 2 terminal branches."
+ },
+ {
+  "id": "internal_carotid_a_r",
+  "name": "Internal carotid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "common_carotid_a_r",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 5,
+  "supplies_or_drains": [
+   "brain and orbit contents (intracranial, out of scope for this musculoskeletal-focused atlas)"
+  ],
+  "notes": "No branches in the neck; ascends to enter the carotid canal of the temporal bone and become intracranial. Intracranial distribution (supplying the brain) is out of scope, consistent with the organ-parenchyma boundary documented in docs/ROADMAP.md Stage 4 -- modeled here as a leaf/stub."
+ },
+ {
+  "id": "superior_thyroid_a_r",
+  "name": "Superior thyroid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "thyroid gland (out of scope as an organ, noted for completeness)"
+  ],
+  "notes": "First and most inferior branch of the external carotid; also supplies the infrahyoid strap muscles' inferior fibers and sternocleidomastoid's anterior border via small muscular twigs."
+ },
+ {
+  "id": "lingual_a_r",
+  "name": "Lingual artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5,
+  "supplies_or_drains": [
+   "genioglossus_r_main",
+   "hyoglossus_r_main",
+   "styloglossus_r_main"
+  ],
+  "notes": "Passes deep to hyoglossus -- a classic anatomical landmark relationship also noted in hyoglossus's own muscle file."
+ },
+ {
+  "id": "facial_a_r",
+  "name": "Facial artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5,
+  "supplies_or_drains": [
+   "orbicularis_oris_r_main",
+   "zygomaticus_major_r_main",
+   "levator_labii_superioris_r_main",
+   "depressor_anguli_oris_r_main",
+   "buccinator_r_main"
+  ],
+  "notes": "Tortuous course crossing the mandible's inferior border anterior to masseter (a standard pulse-palpation point), then ascending tortuously alongside the nose to the medial eye."
+ },
+ {
+  "id": "ascending_pharyngeal_a_r",
+  "name": "Ascending pharyngeal artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "superior_pharyngeal_constrictor_r_main",
+   "stylopharyngeus_r_main"
+  ],
+  "notes": "Smallest and most medial branch of the external carotid, the only one without a consistently named terminal territory outside the pharynx/prevertebral region."
+ },
+ {
+  "id": "occipital_a_r",
+  "name": "Occipital artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "sternocleidomastoid_r_sternal",
+   "sternocleidomastoid_r_clavicular",
+   "digastric_r_posterior"
+  ],
+  "notes": "Runs deep to the posterior belly of digastric, which it crosses; supplies the posterior scalp beyond this atlas's modeled muscle territory too."
+ },
+ {
+  "id": "posterior_auricular_a_r",
+  "name": "Posterior auricular artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "digastric_r_posterior"
+  ],
+  "notes": "Small branch supplying the region around and behind the ear, and a small contribution to the posterior belly of digastric alongside occipital a."
+ },
+ {
+  "id": "superficial_temporal_a_r",
+  "name": "Superficial temporal artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "frontalis_r_main",
+   "temporalis_r_anterior",
+   "temporalis_r_posterior"
+  ],
+  "notes": "One of the external carotid's 2 terminal branches; palpable anterior to the ear (a classic pulse point) before dividing into frontal and parietal scalp branches."
+ },
+ {
+  "id": "maxillary_a_r",
+  "name": "Maxillary artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_r",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5,
+  "supplies_or_drains": [
+   "masseter_r_superficial",
+   "masseter_r_deep",
+   "medial_pterygoid_r_main",
+   "lateral_pterygoid_r_superior",
+   "lateral_pterygoid_r_inferior",
+   "temporalis_r_anterior"
+  ],
+  "notes": "The external carotid's other, larger terminal branch (confirmed larger-caliber than superficial temporal a.); its pterygoid (2nd) part supplies all 4 muscles of mastication via distinct named branches -- the masseteric artery (masseter), deep temporal arteries (temporalis), and the pterygoid branches proper (medial and lateral pterygoids specifically, not a blanket name for all four) -- adjusted from an earlier draft that used 'pterygoid branches' loosely for all four muscles' supply, caught by adversarial fact-check, see docs/VERIFICATION.md."
+ },
+ {
+  "id": "middle_meningeal_a_r",
+  "name": "Middle meningeal artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "maxillary_a_r",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "dura mater (out of musculoskeletal scope, included for its clinical significance)"
+  ],
+  "notes": "Enters the skull via the foramen spinosum (already a documented landmark on the sphenoid bone in data/skeleton/bones.json); its rupture from a temporal bone fracture is the classic cause of an epidural (extradural) hematoma."
+ },
+ {
+  "id": "inferior_alveolar_a_r",
+  "name": "Inferior alveolar artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "maxillary_a_r",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "mylohyoid_r_main",
+   "mandibular teeth (out of scope)"
+  ],
+  "notes": "Enters the mandibular foramen (a documented landmark on the mandible bone) alongside the inferior alveolar nerve and vein, giving off the mylohyoid branch just before entering."
+ },
+ {
+  "id": "common_carotid_a_l",
+  "name": "Common carotid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "aortic_arch_and_great_vessels",
+  "level": "trunk",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 8,
+  "notes": "Ascends in the carotid sheath without branching until it bifurcates at approximately the C3-C4 vertebral level (the carotid bifurcation, marked by the carotid body chemoreceptor and carotid sinus baroreceptor)."
+ },
+ {
+  "id": "external_carotid_a_l",
+  "name": "External carotid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "common_carotid_a_l",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 5,
+  "notes": "Supplies essentially all extracranial head & neck structures via its 6 named cervical/facial branches plus 2 terminal branches."
+ },
+ {
+  "id": "internal_carotid_a_l",
+  "name": "Internal carotid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "common_carotid_a_l",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 5,
+  "supplies_or_drains": [
+   "brain and orbit contents (intracranial, out of scope for this musculoskeletal-focused atlas)"
+  ],
+  "notes": "No branches in the neck; ascends to enter the carotid canal of the temporal bone and become intracranial. Intracranial distribution (supplying the brain) is out of scope, consistent with the organ-parenchyma boundary documented in docs/ROADMAP.md Stage 4 -- modeled here as a leaf/stub."
+ },
+ {
+  "id": "superior_thyroid_a_l",
+  "name": "Superior thyroid artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "thyroid gland (out of scope as an organ, noted for completeness)"
+  ],
+  "notes": "First and most inferior branch of the external carotid; also supplies the infrahyoid strap muscles' inferior fibers and sternocleidomastoid's anterior border via small muscular twigs."
+ },
+ {
+  "id": "lingual_a_l",
+  "name": "Lingual artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5,
+  "supplies_or_drains": [
+   "genioglossus_l_main",
+   "hyoglossus_l_main",
+   "styloglossus_l_main"
+  ],
+  "notes": "Passes deep to hyoglossus -- a classic anatomical landmark relationship also noted in hyoglossus's own muscle file."
+ },
+ {
+  "id": "facial_a_l",
+  "name": "Facial artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5,
+  "supplies_or_drains": [
+   "orbicularis_oris_l_main",
+   "zygomaticus_major_l_main",
+   "levator_labii_superioris_l_main",
+   "depressor_anguli_oris_l_main",
+   "buccinator_l_main"
+  ],
+  "notes": "Tortuous course crossing the mandible's inferior border anterior to masseter (a standard pulse-palpation point), then ascending tortuously alongside the nose to the medial eye."
+ },
+ {
+  "id": "ascending_pharyngeal_a_l",
+  "name": "Ascending pharyngeal artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "superior_pharyngeal_constrictor_l_main",
+   "stylopharyngeus_l_main"
+  ],
+  "notes": "Smallest and most medial branch of the external carotid, the only one without a consistently named terminal territory outside the pharynx/prevertebral region."
+ },
+ {
+  "id": "occipital_a_l",
+  "name": "Occipital artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "sternocleidomastoid_l_sternal",
+   "sternocleidomastoid_l_clavicular",
+   "digastric_l_posterior"
+  ],
+  "notes": "Runs deep to the posterior belly of digastric, which it crosses; supplies the posterior scalp beyond this atlas's modeled muscle territory too."
+ },
+ {
+  "id": "posterior_auricular_a_l",
+  "name": "Posterior auricular artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "digastric_l_posterior"
+  ],
+  "notes": "Small branch supplying the region around and behind the ear, and a small contribution to the posterior belly of digastric alongside occipital a."
+ },
+ {
+  "id": "superficial_temporal_a_l",
+  "name": "Superficial temporal artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "frontalis_l_main",
+   "temporalis_l_anterior",
+   "temporalis_l_posterior"
+  ],
+  "notes": "One of the external carotid's 2 terminal branches; palpable anterior to the ear (a classic pulse point) before dividing into frontal and parietal scalp branches."
+ },
+ {
+  "id": "maxillary_a_l",
+  "name": "Maxillary artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "external_carotid_a_l",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5,
+  "supplies_or_drains": [
+   "masseter_l_superficial",
+   "masseter_l_deep",
+   "medial_pterygoid_l_main",
+   "lateral_pterygoid_l_superior",
+   "lateral_pterygoid_l_inferior",
+   "temporalis_l_anterior"
+  ],
+  "notes": "The external carotid's other, larger terminal branch (confirmed larger-caliber than superficial temporal a.); its pterygoid (2nd) part supplies all 4 muscles of mastication via distinct named branches -- the masseteric artery (masseter), deep temporal arteries (temporalis), and the pterygoid branches proper (medial and lateral pterygoids specifically, not a blanket name for all four) -- adjusted from an earlier draft that used 'pterygoid branches' loosely for all four muscles' supply, caught by adversarial fact-check, see docs/VERIFICATION.md."
+ },
+ {
+  "id": "middle_meningeal_a_l",
+  "name": "Middle meningeal artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "maxillary_a_l",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "dura mater (out of musculoskeletal scope, included for its clinical significance)"
+  ],
+  "notes": "Enters the skull via the foramen spinosum (already a documented landmark on the sphenoid bone in data/skeleton/bones.json); its rupture from a temporal bone fracture is the classic cause of an epidural (extradural) hematoma."
+ },
+ {
+  "id": "inferior_alveolar_a_l",
+  "name": "Inferior alveolar artery",
+  "system": "arterial",
+  "tree_name": "head_neck_arterial",
+  "parent_id": "maxillary_a_l",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5,
+  "supplies_or_drains": [
+   "mylohyoid_l_main",
+   "mandibular teeth (out of scope)"
+  ],
+  "notes": "Enters the mandibular foramen (a documented landmark on the mandible bone) alongside the inferior alveolar nerve and vein, giving off the mylohyoid branch just before entering."
+ }
 ]

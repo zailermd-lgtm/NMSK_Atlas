@@ -1,468 +1,934 @@
 [
-  {
-    "id": "subclavian_a_r",
-    "name": "Subclavian artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": null,
-    "level": "root",
-    "supplies_or_drains": [
-      "upper limb, root"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 9.0
-  },
-  {
-    "id": "vertebral_a_r",
-    "name": "Vertebral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "subclavian_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "longus_colli_r_main",
-      "scalenus_anterior_r_main",
-      "scalenus_medius_r_main",
-      "scalenus_posterior_r_main"
-    ],
-    "anastomoses_with": [],
-    "notes": "First and most posterior branch of the subclavian artery; ascends through the transverse foramina of the cervical vertebrae (a documented data/skeleton/bones.json landmark) from C6 upward, alongside the muscles it supplies segmentally along the way. Modeled as a leaf here since its intracranial continuation (joining the contralateral vertebral a. to form the basilar artery, supplying the brain) is out of scope for this musculoskeletal-focused atlas, consistent with data/vascular/head_neck_arterial.json's internal carotid artery leaf for the same reason.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 4.0
-  },
-  {
-    "id": "axillary_a_r",
-    "name": "Axillary artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "subclavian_a_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "Continuation of subclavian a. distal to the 1st rib; divided into 3 parts by pectoralis minor.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 8.0
-  },
-  {
-    "id": "superior_thoracic_a_r",
-    "name": "Superior thoracic artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "1st/2nd intercostal spaces, serratus anterior_r"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5
-  },
-  {
-    "id": "thoracoacromial_a_r",
-    "name": "Thoracoacromial artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "pectoralis_major_r",
-      "pectoralis_minor_r",
-      "deltoid_r",
-      "acromion"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.0
-  },
-  {
-    "id": "lateral_thoracic_a_r",
-    "name": "Lateral thoracic artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "serratus_anterior_r",
-      "pectoralis_major_r",
-      "breast tissue"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5
-  },
-  {
-    "id": "subscapular_a_r",
-    "name": "Subscapular artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "subscapularis_r",
-      "latissimus_dorsi_r (via thoracodorsal branch)",
-      "teres_major_r"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 3.5
-  },
-  {
-    "id": "circumflex_scapular_a_r",
-    "name": "Circumflex scapular artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "subscapular_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "infraspinatus_r",
-      "teres_minor_r"
-    ],
-    "anastomoses_with": [
-      "suprascapular_a_r"
-    ],
-    "notes": "Major contributor to the scapular anastomosis (collateral pathway around the shoulder).",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.0
-  },
-  {
-    "id": "anterior_circumflex_humeral_a_r",
-    "name": "Anterior circumflex humeral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "glenohumeral joint, biceps_brachii_r_long_head tendon (intertubercular groove)"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5
-  },
-  {
-    "id": "posterior_circumflex_humeral_a_r",
-    "name": "Posterior circumflex humeral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "deltoid_r",
-      "teres_minor_r",
-      "glenohumeral joint"
-    ],
-    "anastomoses_with": [
-      "anterior_circumflex_humeral_a_r"
-    ],
-    "notes": "Accompanies axillary nerve through the quadrangular space.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5
-  },
-  {
-    "id": "suprascapular_a_r",
-    "name": "Suprascapular artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "subclavian_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "supraspinatus_r",
-      "infraspinatus_r"
-    ],
-    "anastomoses_with": [
-      "circumflex_scapular_a_r"
-    ],
-    "notes": "Branch of the thyrocervical trunk of the subclavian a., not the axillary a.; crosses over the superior transverse scapular ligament (nerve passes under it -- classic mnemonic 'artery over, nerve under').",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.0
-  },
-  {
-    "id": "brachial_a_r",
-    "name": "Brachial artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "axillary_a_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "Continuation of axillary a. distal to teres major; runs in the medial bicipital groove with the median nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 6.0
-  },
-  {
-    "id": "profunda_brachii_a_r",
-    "name": "Profunda brachii (deep brachial) artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "brachial_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "triceps_brachii_r"
-    ],
-    "anastomoses_with": [],
-    "notes": "Accompanies the radial nerve in the spiral groove.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 3.0
-  },
-  {
-    "id": "superior_ulnar_collateral_a_r",
-    "name": "Superior ulnar collateral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "brachial_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "posterior_ulnar_recurrent_a_r"
-    ],
-    "notes": "Part of the elbow (cubital) anastomosis; accompanies the ulnar nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5
-  },
-  {
-    "id": "inferior_ulnar_collateral_a_r",
-    "name": "Inferior ulnar collateral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "brachial_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "anterior_ulnar_recurrent_a_r"
-    ],
-    "notes": "Part of the elbow (cubital) anastomosis.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.2
-  },
-  {
-    "id": "radial_collateral_a_r",
-    "name": "Radial collateral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "profunda_brachii_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "radial_recurrent_a_r"
-    ],
-    "notes": "Terminal branch of profunda brachii; part of the elbow anastomosis.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5
-  },
-  {
-    "id": "middle_collateral_a_r",
-    "name": "Middle collateral artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "profunda_brachii_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "interosseous_recurrent_a_r"
-    ],
-    "notes": "Other terminal branch of profunda brachii; supplies triceps and the elbow anastomosis.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.3
-  },
-  {
-    "id": "radial_a_r",
-    "name": "Radial artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "brachial_a_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "Brachial a. terminal branch (lateral); palpable at the wrist (radial pulse).",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 3.0
-  },
-  {
-    "id": "radial_recurrent_a_r",
-    "name": "Radial recurrent artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "radial_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "brachioradialis_r",
-      "extensor_carpi_radialis_longus_r"
-    ],
-    "anastomoses_with": [
-      "radial_collateral_a_r"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.2
-  },
-  {
-    "id": "ulnar_a_r",
-    "name": "Ulnar artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "brachial_a_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "Brachial a. terminal branch (medial), larger than the radial a.; gives off the common interosseous a.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 3.2
-  },
-  {
-    "id": "anterior_ulnar_recurrent_a_r",
-    "name": "Anterior ulnar recurrent artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "ulnar_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "inferior_ulnar_collateral_a_r"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.0
-  },
-  {
-    "id": "posterior_ulnar_recurrent_a_r",
-    "name": "Posterior ulnar recurrent artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "ulnar_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "superior_ulnar_collateral_a_r"
-    ],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.0
-  },
-  {
-    "id": "common_interosseous_a_r",
-    "name": "Common interosseous artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "ulnar_a_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.0
-  },
-  {
-    "id": "anterior_interosseous_a_r",
-    "name": "Anterior interosseous artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "common_interosseous_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "flexor_digitorum_profundus_r",
-      "flexor_pollicis_longus_r",
-      "pronator_quadratus_r"
-    ],
-    "anastomoses_with": [],
-    "notes": "Accompanies the anterior interosseous nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.3
-  },
-  {
-    "id": "posterior_interosseous_a_r",
-    "name": "Posterior interosseous artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "common_interosseous_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [
-      "extensor_digitorum_r",
-      "extensor carpi ulnaris, other posterior forearm extensors"
-    ],
-    "anastomoses_with": [],
-    "notes": "Accompanies the posterior interosseous nerve.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.2
-  },
-  {
-    "id": "interosseous_recurrent_a_r",
-    "name": "Interosseous recurrent artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "posterior_interosseous_a_r",
-    "level": "muscular_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "middle_collateral_a_r"
-    ],
-    "notes": "Ascends posterior to the elbow to complete the elbow (cubital) anastomosis with the profunda brachii's middle collateral branch.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.0
-  },
-  {
-    "id": "superficial_palmar_arch_r",
-    "name": "Superficial palmar arch",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "ulnar_a_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "radial_a_r"
-    ],
-    "notes": "Predominantly formed by the ulnar artery, completed (variably) by the superficial palmar branch of the radial artery.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5
-  },
-  {
-    "id": "common_palmar_digital_a_r",
-    "name": "Common palmar digital arteries",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "superficial_palmar_arch_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [
-      "palmar digits 2-5"
-    ],
-    "anastomoses_with": [],
-    "notes": "Arise from the superficial arch, each dividing into 2 proper palmar digital arteries.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.0
-  },
-  {
-    "id": "deep_palmar_arch_r",
-    "name": "Deep palmar arch",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "radial_a_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "ulnar_a_r"
-    ],
-    "notes": "Predominantly formed by the radial artery, completed by the deep branch of the ulnar artery (anastomosis target simplified to the ulnar_a_r trunk node); gives princeps pollicis a. and palmar metacarpal aa.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.0
-  },
-  {
-    "id": "princeps_pollicis_a_r",
-    "name": "Princeps pollicis artery",
-    "system": "arterial",
-    "tree_name": "upper_limb_arterial",
-    "parent_id": "deep_palmar_arch_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [
-      "thumb (both sides), adductor_pollicis_r"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.0
-  }
+ {
+  "id": "subclavian_a_r",
+  "name": "Subclavian artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": null,
+  "level": "root",
+  "supplies_or_drains": [
+   "upper limb, root"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 9.0
+ },
+ {
+  "id": "vertebral_a_r",
+  "name": "Vertebral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subclavian_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "longus_colli_r_main",
+   "scalenus_anterior_r_main",
+   "scalenus_medius_r_main",
+   "scalenus_posterior_r_main"
+  ],
+  "anastomoses_with": [],
+  "notes": "First and most posterior branch of the subclavian artery; ascends through the transverse foramina of the cervical vertebrae (a documented data/skeleton/bones.json landmark) from C6 upward, alongside the muscles it supplies segmentally along the way. Modeled as a leaf here since its intracranial continuation (joining the contralateral vertebral a. to form the basilar artery, supplying the brain) is out of scope for this musculoskeletal-focused atlas, consistent with data/vascular/head_neck_arterial.json's internal carotid artery leaf for the same reason.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "axillary_a_r",
+  "name": "Axillary artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subclavian_a_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Continuation of subclavian a. distal to the 1st rib; divided into 3 parts by pectoralis minor.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 8.0
+ },
+ {
+  "id": "superior_thoracic_a_r",
+  "name": "Superior thoracic artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "1st/2nd intercostal spaces, serratus anterior_r"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "thoracoacromial_a_r",
+  "name": "Thoracoacromial artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "pectoralis_major_r",
+   "pectoralis_minor_r",
+   "deltoid_r",
+   "acromion"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "lateral_thoracic_a_r",
+  "name": "Lateral thoracic artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "serratus_anterior_r",
+   "pectoralis_major_r",
+   "breast tissue"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "subscapular_a_r",
+  "name": "Subscapular artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "subscapularis_r",
+   "latissimus_dorsi_r (via thoracodorsal branch)",
+   "teres_major_r"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.5
+ },
+ {
+  "id": "circumflex_scapular_a_r",
+  "name": "Circumflex scapular artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subscapular_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "infraspinatus_r",
+   "teres_minor_r"
+  ],
+  "anastomoses_with": [
+   "suprascapular_a_r"
+  ],
+  "notes": "Major contributor to the scapular anastomosis (collateral pathway around the shoulder).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "anterior_circumflex_humeral_a_r",
+  "name": "Anterior circumflex humeral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "glenohumeral joint, biceps_brachii_r_long_head tendon (intertubercular groove)"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "posterior_circumflex_humeral_a_r",
+  "name": "Posterior circumflex humeral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "deltoid_r",
+   "teres_minor_r",
+   "glenohumeral joint"
+  ],
+  "anastomoses_with": [
+   "anterior_circumflex_humeral_a_r"
+  ],
+  "notes": "Accompanies axillary nerve through the quadrangular space.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "suprascapular_a_r",
+  "name": "Suprascapular artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subclavian_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "supraspinatus_r",
+   "infraspinatus_r"
+  ],
+  "anastomoses_with": [
+   "circumflex_scapular_a_r"
+  ],
+  "notes": "Branch of the thyrocervical trunk of the subclavian a., not the axillary a.; crosses over the superior transverse scapular ligament (nerve passes under it -- classic mnemonic 'artery over, nerve under').",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "brachial_a_r",
+  "name": "Brachial artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Continuation of axillary a. distal to teres major; runs in the medial bicipital groove with the median nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 6.0
+ },
+ {
+  "id": "profunda_brachii_a_r",
+  "name": "Profunda brachii (deep brachial) artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "triceps_brachii_r"
+  ],
+  "anastomoses_with": [],
+  "notes": "Accompanies the radial nerve in the spiral groove.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.0
+ },
+ {
+  "id": "superior_ulnar_collateral_a_r",
+  "name": "Superior ulnar collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "posterior_ulnar_recurrent_a_r"
+  ],
+  "notes": "Part of the elbow (cubital) anastomosis; accompanies the ulnar nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "inferior_ulnar_collateral_a_r",
+  "name": "Inferior ulnar collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "anterior_ulnar_recurrent_a_r"
+  ],
+  "notes": "Part of the elbow (cubital) anastomosis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.2
+ },
+ {
+  "id": "radial_collateral_a_r",
+  "name": "Radial collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "profunda_brachii_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "radial_recurrent_a_r"
+  ],
+  "notes": "Terminal branch of profunda brachii; part of the elbow anastomosis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "middle_collateral_a_r",
+  "name": "Middle collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "profunda_brachii_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "interosseous_recurrent_a_r"
+  ],
+  "notes": "Other terminal branch of profunda brachii; supplies triceps and the elbow anastomosis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.3
+ },
+ {
+  "id": "radial_a_r",
+  "name": "Radial artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Brachial a. terminal branch (lateral); palpable at the wrist (radial pulse).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.0
+ },
+ {
+  "id": "radial_recurrent_a_r",
+  "name": "Radial recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "radial_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "brachioradialis_r",
+   "extensor_carpi_radialis_longus_r"
+  ],
+  "anastomoses_with": [
+   "radial_collateral_a_r"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.2
+ },
+ {
+  "id": "ulnar_a_r",
+  "name": "Ulnar artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Brachial a. terminal branch (medial), larger than the radial a.; gives off the common interosseous a.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.2
+ },
+ {
+  "id": "anterior_ulnar_recurrent_a_r",
+  "name": "Anterior ulnar recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "inferior_ulnar_collateral_a_r"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "posterior_ulnar_recurrent_a_r",
+  "name": "Posterior ulnar recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "superior_ulnar_collateral_a_r"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "common_interosseous_a_r",
+  "name": "Common interosseous artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "anterior_interosseous_a_r",
+  "name": "Anterior interosseous artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "common_interosseous_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "flexor_digitorum_profundus_r",
+   "flexor_pollicis_longus_r",
+   "pronator_quadratus_r"
+  ],
+  "anastomoses_with": [],
+  "notes": "Accompanies the anterior interosseous nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.3
+ },
+ {
+  "id": "posterior_interosseous_a_r",
+  "name": "Posterior interosseous artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "common_interosseous_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "extensor_digitorum_r",
+   "extensor carpi ulnaris, other posterior forearm extensors"
+  ],
+  "anastomoses_with": [],
+  "notes": "Accompanies the posterior interosseous nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.2
+ },
+ {
+  "id": "interosseous_recurrent_a_r",
+  "name": "Interosseous recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "posterior_interosseous_a_r",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "middle_collateral_a_r"
+  ],
+  "notes": "Ascends posterior to the elbow to complete the elbow (cubital) anastomosis with the profunda brachii's middle collateral branch.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "superficial_palmar_arch_r",
+  "name": "Superficial palmar arch",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "radial_a_r"
+  ],
+  "notes": "Predominantly formed by the ulnar artery, completed (variably) by the superficial palmar branch of the radial artery.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "common_palmar_digital_a_r",
+  "name": "Common palmar digital arteries",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "superficial_palmar_arch_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "palmar digits 2-5"
+  ],
+  "anastomoses_with": [],
+  "notes": "Arise from the superficial arch, each dividing into 2 proper palmar digital arteries.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "deep_palmar_arch_r",
+  "name": "Deep palmar arch",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "radial_a_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "ulnar_a_r"
+  ],
+  "notes": "Predominantly formed by the radial artery, completed by the deep branch of the ulnar artery (anastomosis target simplified to the ulnar_a_r trunk node); gives princeps pollicis a. and palmar metacarpal aa.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "princeps_pollicis_a_r",
+  "name": "Princeps pollicis artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "deep_palmar_arch_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "thumb (both sides), adductor_pollicis_r"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "subclavian_a_l",
+  "name": "Subclavian artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": null,
+  "level": "root",
+  "supplies_or_drains": [
+   "upper limb, root"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 9.0
+ },
+ {
+  "id": "vertebral_a_l",
+  "name": "Vertebral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subclavian_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "longus_colli_l_main",
+   "scalenus_anterior_l_main",
+   "scalenus_medius_l_main",
+   "scalenus_posterior_l_main"
+  ],
+  "anastomoses_with": [],
+  "notes": "First and most posterior branch of the subclavian artery; ascends through the transverse foramina of the cervical vertebrae (a documented data/skeleton/bones.json landmark) from C6 upward, alongside the muscles it supplies segmentally along the way. Modeled as a leaf here since its intracranial continuation (joining the contralateral vertebral a. to form the basilar artery, supplying the brain) is out of scope for this musculoskeletal-focused atlas, consistent with data/vascular/head_neck_arterial.json's internal carotid artery leaf for the same reason.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "axillary_a_l",
+  "name": "Axillary artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subclavian_a_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Continuation of subclavian a. distal to the 1st rib; divided into 3 parts by pectoralis minor.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 8.0
+ },
+ {
+  "id": "superior_thoracic_a_l",
+  "name": "Superior thoracic artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "1st/2nd intercostal spaces, serratus anterior_l"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "thoracoacromial_a_l",
+  "name": "Thoracoacromial artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "pectoralis_major_l",
+   "pectoralis_minor_l",
+   "deltoid_l",
+   "acromion"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "lateral_thoracic_a_l",
+  "name": "Lateral thoracic artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "serratus_anterior_l",
+   "pectoralis_major_l",
+   "breast tissue"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "subscapular_a_l",
+  "name": "Subscapular artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "subscapularis_l",
+   "latissimus_dorsi_r (via thoracodorsal branch)",
+   "teres_major_l"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.5
+ },
+ {
+  "id": "circumflex_scapular_a_l",
+  "name": "Circumflex scapular artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subscapular_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "infraspinatus_l",
+   "teres_minor_l"
+  ],
+  "anastomoses_with": [
+   "suprascapular_a_l"
+  ],
+  "notes": "Major contributor to the scapular anastomosis (collateral pathway around the shoulder).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "anterior_circumflex_humeral_a_l",
+  "name": "Anterior circumflex humeral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "glenohumeral joint, biceps_brachii_l_long_head tendon (intertubercular groove)"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "posterior_circumflex_humeral_a_l",
+  "name": "Posterior circumflex humeral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "deltoid_l",
+   "teres_minor_l",
+   "glenohumeral joint"
+  ],
+  "anastomoses_with": [
+   "anterior_circumflex_humeral_a_l"
+  ],
+  "notes": "Accompanies axillary nerve through the quadrangular space.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "suprascapular_a_l",
+  "name": "Suprascapular artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "subclavian_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "supraspinatus_l",
+   "infraspinatus_l"
+  ],
+  "anastomoses_with": [
+   "circumflex_scapular_a_l"
+  ],
+  "notes": "Branch of the thyrocervical trunk of the subclavian a., not the axillary a.; crosses over the superior transverse scapular ligament (nerve passes under it -- classic mnemonic 'artery over, nerve under').",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "brachial_a_l",
+  "name": "Brachial artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "axillary_a_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Continuation of axillary a. distal to teres major; runs in the medial bicipital groove with the median nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 6.0
+ },
+ {
+  "id": "profunda_brachii_a_l",
+  "name": "Profunda brachii (deep brachial) artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "triceps_brachii_l"
+  ],
+  "anastomoses_with": [],
+  "notes": "Accompanies the radial nerve in the spiral groove.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.0
+ },
+ {
+  "id": "superior_ulnar_collateral_a_l",
+  "name": "Superior ulnar collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "posterior_ulnar_recurrent_a_l"
+  ],
+  "notes": "Part of the elbow (cubital) anastomosis; accompanies the ulnar nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "inferior_ulnar_collateral_a_l",
+  "name": "Inferior ulnar collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "anterior_ulnar_recurrent_a_l"
+  ],
+  "notes": "Part of the elbow (cubital) anastomosis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.2
+ },
+ {
+  "id": "radial_collateral_a_l",
+  "name": "Radial collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "profunda_brachii_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "radial_recurrent_a_l"
+  ],
+  "notes": "Terminal branch of profunda brachii; part of the elbow anastomosis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "middle_collateral_a_l",
+  "name": "Middle collateral artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "profunda_brachii_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "interosseous_recurrent_a_l"
+  ],
+  "notes": "Other terminal branch of profunda brachii; supplies triceps and the elbow anastomosis.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.3
+ },
+ {
+  "id": "radial_a_l",
+  "name": "Radial artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Brachial a. terminal branch (lateral); palpable at the wrist (radial pulse).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.0
+ },
+ {
+  "id": "radial_recurrent_a_l",
+  "name": "Radial recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "radial_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "brachioradialis_l",
+   "extensor_carpi_radialis_longus_l"
+  ],
+  "anastomoses_with": [
+   "radial_collateral_a_l"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.2
+ },
+ {
+  "id": "ulnar_a_l",
+  "name": "Ulnar artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "brachial_a_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Brachial a. terminal branch (medial), larger than the radial a.; gives off the common interosseous a.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.2
+ },
+ {
+  "id": "anterior_ulnar_recurrent_a_l",
+  "name": "Anterior ulnar recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "inferior_ulnar_collateral_a_l"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "posterior_ulnar_recurrent_a_l",
+  "name": "Posterior ulnar recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "superior_ulnar_collateral_a_l"
+  ],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "common_interosseous_a_l",
+  "name": "Common interosseous artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "anterior_interosseous_a_l",
+  "name": "Anterior interosseous artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "common_interosseous_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "flexor_digitorum_profundus_l",
+   "flexor_pollicis_longus_l",
+   "pronator_quadratus_l"
+  ],
+  "anastomoses_with": [],
+  "notes": "Accompanies the anterior interosseous nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.3
+ },
+ {
+  "id": "posterior_interosseous_a_l",
+  "name": "Posterior interosseous artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "common_interosseous_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [
+   "extensor_digitorum_l",
+   "extensor carpi ulnaris, other posterior forearm extensors"
+  ],
+  "anastomoses_with": [],
+  "notes": "Accompanies the posterior interosseous nerve.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.2
+ },
+ {
+  "id": "interosseous_recurrent_a_l",
+  "name": "Interosseous recurrent artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "posterior_interosseous_a_l",
+  "level": "muscular_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "middle_collateral_a_l"
+  ],
+  "notes": "Ascends posterior to the elbow to complete the elbow (cubital) anastomosis with the profunda brachii's middle collateral branch.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "superficial_palmar_arch_l",
+  "name": "Superficial palmar arch",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "ulnar_a_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "radial_a_l"
+  ],
+  "notes": "Predominantly formed by the ulnar artery, completed (variably) by the superficial palmar branch of the radial artery.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "common_palmar_digital_a_l",
+  "name": "Common palmar digital arteries",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "superficial_palmar_arch_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "palmar digits 2-5"
+  ],
+  "anastomoses_with": [],
+  "notes": "Arise from the superficial arch, each dividing into 2 proper palmar digital arteries.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ },
+ {
+  "id": "deep_palmar_arch_l",
+  "name": "Deep palmar arch",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "radial_a_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "ulnar_a_l"
+  ],
+  "notes": "Predominantly formed by the radial artery, completed by the deep branch of the ulnar artery (anastomosis target simplified to the ulnar_a_r trunk node); gives princeps pollicis a. and palmar metacarpal aa.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.0
+ },
+ {
+  "id": "princeps_pollicis_a_l",
+  "name": "Princeps pollicis artery",
+  "system": "arterial",
+  "tree_name": "upper_limb_arterial",
+  "parent_id": "deep_palmar_arch_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "thumb (both sides), adductor_pollicis_l"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.0
+ }
 ]

@@ -196,3 +196,68 @@ def test_both_laterality_checks_catch_the_faults_they_are_for():
     prose = [("x.json", {"id": "some_n",
                          "targets": ["laryngeal mucosa below the vocal folds"]})]
     assert not _one_sided_targets(prose)
+
+
+# Vessels that exist on one side only. Anatomy, not a gap -- and the reason
+# has to be stated, or this list becomes a place to hide missing data.
+UNILATERAL_VESSELS = {
+    "brachiocephalic_trunk_r":
+        "arises from the aortic arch and divides into the right common "
+        "carotid and right subclavian; on the left those two come off the "
+        "arch directly, so there is no left brachiocephalic trunk",
+}
+
+
+def _vessels_without_a_counterpart(ids):
+    return sorted(i for i in ids
+                  if _SIDE_TOKEN.search(i)
+                  and _mirror(i) not in ids
+                  and i not in UNILATERAL_VESSELS)
+
+
+def _vessel_ids():
+    out = set()
+    for path in sorted((BONES.parent.parent / "vascular").glob("*.json")):
+        for rec in json.loads(path.read_text()):
+            if isinstance(rec, dict) and "id" in rec:
+                out.add(rec["id"])
+    return out
+
+
+def test_every_sided_vessel_has_its_other_side():
+    """The left arm, the left leg and the left side of the neck had no
+    arteries and no veins at all: 129 vessel entities with no counterpart,
+    every limb and head/neck file right-side only while the trunk files were
+    complete. For an atlas meant to say what a needle would pass through,
+    that was half of every patient."""
+    missing = _vessels_without_a_counterpart(_vessel_ids())
+    assert not missing, "\n".join(missing[:20])
+
+
+def test_the_vessel_symmetry_check_catches_a_missing_side():
+    ids = _vessel_ids()
+    assert "common_carotid_a_l" in ids, "the left carotid should exist by now"
+    assert _vessels_without_a_counterpart(ids - {"common_carotid_a_l"}) == \
+        ["common_carotid_a_r"]
+
+
+def test_a_genuinely_unilateral_vessel_is_excused_with_a_reason():
+    ids = _vessel_ids()
+    assert "brachiocephalic_trunk_r" in ids
+    assert "brachiocephalic_trunk_l" not in ids, \
+        "there is no left brachiocephalic trunk; mirroring invented a vessel"
+    for eid, why in UNILATERAL_VESSELS.items():
+        assert len(why) > 40, f"{eid} is excused without a real reason"
+
+
+def test_the_left_carotid_comes_off_the_arch_not_a_mirrored_trunk():
+    """The one place the mirror could not just flip a suffix: the right common
+    carotid's parent is the brachiocephalic trunk, and copying that would have
+    hung the left carotid off a vessel that does not exist."""
+    for path in sorted((BONES.parent.parent / "vascular").glob("*.json")):
+        for rec in json.loads(path.read_text()):
+            if isinstance(rec, dict) and rec.get("id") == "common_carotid_a_l":
+                assert rec.get("parent_id") == "aortic_arch_and_great_vessels", \
+                    rec.get("parent_id")
+                return
+    raise AssertionError("common_carotid_a_l not found")

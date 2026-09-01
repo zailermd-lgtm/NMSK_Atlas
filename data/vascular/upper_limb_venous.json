@@ -1,208 +1,414 @@
 [
-  {
-    "id": "subclavian_v_r",
-    "name": "Subclavian vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": null,
-    "level": "root",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "Drains into the brachiocephalic vein; continuation of the axillary vein.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 10.0
-  },
-  {
-    "id": "axillary_v_r",
-    "name": "Axillary vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "subclavian_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 9.0
-  },
-  {
-    "id": "cephalic_v_r",
-    "name": "Cephalic vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "axillary_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "superficial lateral arm/forearm"
-    ],
-    "anastomoses_with": [],
-    "notes": "Superficial vein, ascends the lateral arm/forearm, drains into the axillary v. via the deltopectoral groove/clavipectoral fascia (piercing point).",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 4.0
-  },
-  {
-    "id": "basilic_v_r",
-    "name": "Basilic vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "axillary_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "superficial medial arm/forearm"
-    ],
-    "anastomoses_with": [
-      "median_cubital_v_r"
-    ],
-    "notes": "Superficial vein, ascends the medial forearm/arm, pierces deep fascia at the mid-arm to join the brachial veins forming the axillary v.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 4.0
-  },
-  {
-    "id": "median_cubital_v_r",
-    "name": "Median cubital vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "cephalic_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [
-      "basilic_v_r"
-    ],
-    "notes": "Connects cephalic and basilic veins across the cubital fossa; classic venipuncture site.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 3.5
-  },
-  {
-    "id": "brachial_v_r",
-    "name": "Brachial veins (venae comitantes)",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "axillary_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [],
-    "anastomoses_with": [],
-    "notes": "Paired deep veins accompanying the brachial artery.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 4.0
-  },
-  {
-    "id": "radial_v_r",
-    "name": "Radial veins (venae comitantes)",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "brachial_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "deep lateral forearm, accompanying radial artery territory"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5
-  },
-  {
-    "id": "ulnar_v_r",
-    "name": "Ulnar veins (venae comitantes)",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "brachial_v_r",
-    "level": "trunk",
-    "supplies_or_drains": [
-      "deep medial forearm, accompanying ulnar artery territory"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 2.5
-  },
-  {
-    "id": "dorsal_venous_network_hand_r",
-    "name": "Dorsal venous network of the hand",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "cephalic_v_r",
-    "level": "terminal_branch",
-    "supplies_or_drains": [
-      "dorsal skin of hand"
-    ],
-    "anastomoses_with": [],
-    "notes": "Superficial plexus draining the hand; origin of the cephalic (radial side) and basilic (ulnar side) veins.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
-    "approx_diameter_mm": 1.5
-  },
-  {
-    "id": "median_antebrachial_v_r",
-    "name": "Median antebrachial vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "basilic_v_r",
-    "level": "trunk",
-    "approx_diameter_mm": 3,
-    "supplies_or_drains": [
-      "superficial palmar aspect and volar forearm"
-    ],
-    "anastomoses_with": [],
-    "notes": "Ascends the middle of the volar forearm and drains variably into the basilic vein, the median cubital, or both after dividing into median basilic and median cephalic veins.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "accessory_cephalic_v_r",
-    "name": "Accessory cephalic vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "cephalic_v_r",
-    "level": "trunk",
-    "approx_diameter_mm": 3,
-    "supplies_or_drains": [
-      "dorsolateral forearm"
-    ],
-    "anastomoses_with": [],
-    "notes": "",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "perforator_veins_forearm_r",
-    "name": "Perforating veins of the forearm",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "cephalic_v_r",
-    "level": "muscular_branch",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "connections from the superficial to the deep venous system"
-    ],
-    "anastomoses_with": [],
-    "notes": "Valved to direct flow from superficial to deep, the same arrangement as in the leg, although upper limb valvular incompetence is rarely clinically significant.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "thoracoepigastric_v_r",
-    "name": "Thoracoepigastric vein",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "axillary_v_r",
-    "level": "muscular_branch",
-    "approx_diameter_mm": 3,
-    "supplies_or_drains": [
-      "lateral trunk wall, linking the axillary and femoral venous systems"
-    ],
-    "anastomoses_with": [],
-    "notes": "A caval collateral channel: it distends visibly on the lateral chest and abdominal wall in inferior vena cava obstruction.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  },
-  {
-    "id": "dorsal_metacarpal_v_r",
-    "name": "Dorsal metacarpal veins",
-    "system": "venous",
-    "tree_name": "upper_limb_venous",
-    "parent_id": "dorsal_venous_network_hand_r",
-    "level": "terminal_branch",
-    "approx_diameter_mm": 2,
-    "supplies_or_drains": [
-      "dorsum of the hand and the interdigital spaces"
-    ],
-    "anastomoses_with": [],
-    "notes": "Feed the dorsal venous network, the origin of both the cephalic and basilic veins and the standard site for peripheral cannulation.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
-  }
+ {
+  "id": "subclavian_v_r",
+  "name": "Subclavian vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": null,
+  "level": "root",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Drains into the brachiocephalic vein; continuation of the axillary vein.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 10.0
+ },
+ {
+  "id": "axillary_v_r",
+  "name": "Axillary vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "subclavian_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 9.0
+ },
+ {
+  "id": "cephalic_v_r",
+  "name": "Cephalic vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "superficial lateral arm/forearm"
+  ],
+  "anastomoses_with": [],
+  "notes": "Superficial vein, ascends the lateral arm/forearm, drains into the axillary v. via the deltopectoral groove/clavipectoral fascia (piercing point).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "basilic_v_r",
+  "name": "Basilic vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "superficial medial arm/forearm"
+  ],
+  "anastomoses_with": [
+   "median_cubital_v_r"
+  ],
+  "notes": "Superficial vein, ascends the medial forearm/arm, pierces deep fascia at the mid-arm to join the brachial veins forming the axillary v.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "median_cubital_v_r",
+  "name": "Median cubital vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "basilic_v_r"
+  ],
+  "notes": "Connects cephalic and basilic veins across the cubital fossa; classic venipuncture site.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.5
+ },
+ {
+  "id": "brachial_v_r",
+  "name": "Brachial veins (venae comitantes)",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Paired deep veins accompanying the brachial artery.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "radial_v_r",
+  "name": "Radial veins (venae comitantes)",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "brachial_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "deep lateral forearm, accompanying radial artery territory"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "ulnar_v_r",
+  "name": "Ulnar veins (venae comitantes)",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "brachial_v_r",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "deep medial forearm, accompanying ulnar artery territory"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "dorsal_venous_network_hand_r",
+  "name": "Dorsal venous network of the hand",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_r",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "dorsal skin of hand"
+  ],
+  "anastomoses_with": [],
+  "notes": "Superficial plexus draining the hand; origin of the cephalic (radial side) and basilic (ulnar side) veins.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "median_antebrachial_v_r",
+  "name": "Median antebrachial vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "basilic_v_r",
+  "level": "trunk",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "superficial palmar aspect and volar forearm"
+  ],
+  "anastomoses_with": [],
+  "notes": "Ascends the middle of the volar forearm and drains variably into the basilic vein, the median cubital, or both after dividing into median basilic and median cephalic veins.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "accessory_cephalic_v_r",
+  "name": "Accessory cephalic vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_r",
+  "level": "trunk",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "dorsolateral forearm"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "perforator_veins_forearm_r",
+  "name": "Perforating veins of the forearm",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_r",
+  "level": "muscular_branch",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "connections from the superficial to the deep venous system"
+  ],
+  "anastomoses_with": [],
+  "notes": "Valved to direct flow from superficial to deep, the same arrangement as in the leg, although upper limb valvular incompetence is rarely clinically significant.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "thoracoepigastric_v_r",
+  "name": "Thoracoepigastric vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_r",
+  "level": "muscular_branch",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "lateral trunk wall, linking the axillary and femoral venous systems"
+  ],
+  "anastomoses_with": [],
+  "notes": "A caval collateral channel: it distends visibly on the lateral chest and abdominal wall in inferior vena cava obstruction.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "dorsal_metacarpal_v_r",
+  "name": "Dorsal metacarpal veins",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "dorsal_venous_network_hand_r",
+  "level": "terminal_branch",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "dorsum of the hand and the interdigital spaces"
+  ],
+  "anastomoses_with": [],
+  "notes": "Feed the dorsal venous network, the origin of both the cephalic and basilic veins and the standard site for peripheral cannulation.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "subclavian_v_l",
+  "name": "Subclavian vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": null,
+  "level": "root",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Drains into the brachiocephalic vein; continuation of the axillary vein.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 10.0
+ },
+ {
+  "id": "axillary_v_l",
+  "name": "Axillary vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "subclavian_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 9.0
+ },
+ {
+  "id": "cephalic_v_l",
+  "name": "Cephalic vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "superficial lateral arm/forearm"
+  ],
+  "anastomoses_with": [],
+  "notes": "Superficial vein, ascends the lateral arm/forearm, drains into the axillary v. via the deltopectoral groove/clavipectoral fascia (piercing point).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "basilic_v_l",
+  "name": "Basilic vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "superficial medial arm/forearm"
+  ],
+  "anastomoses_with": [
+   "median_cubital_v_l"
+  ],
+  "notes": "Superficial vein, ascends the medial forearm/arm, pierces deep fascia at the mid-arm to join the brachial veins forming the axillary v.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "median_cubital_v_l",
+  "name": "Median cubital vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [
+   "basilic_v_l"
+  ],
+  "notes": "Connects cephalic and basilic veins across the cubital fossa; classic venipuncture site.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 3.5
+ },
+ {
+  "id": "brachial_v_l",
+  "name": "Brachial veins (venae comitantes)",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [],
+  "anastomoses_with": [],
+  "notes": "Paired deep veins accompanying the brachial artery.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 4.0
+ },
+ {
+  "id": "radial_v_l",
+  "name": "Radial veins (venae comitantes)",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "brachial_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "deep lateral forearm, accompanying radial artery territory"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "ulnar_v_l",
+  "name": "Ulnar veins (venae comitantes)",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "brachial_v_l",
+  "level": "trunk",
+  "supplies_or_drains": [
+   "deep medial forearm, accompanying ulnar artery territory"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 2.5
+ },
+ {
+  "id": "dorsal_venous_network_hand_l",
+  "name": "Dorsal venous network of the hand",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_l",
+  "level": "terminal_branch",
+  "supplies_or_drains": [
+   "dorsal skin of hand"
+  ],
+  "anastomoses_with": [],
+  "notes": "Superficial plexus draining the hand; origin of the cephalic (radial side) and basilic (ulnar side) veins.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.7; Terminologia Anatomica (FICAT 1998)",
+  "approx_diameter_mm": 1.5
+ },
+ {
+  "id": "median_antebrachial_v_l",
+  "name": "Median antebrachial vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "basilic_v_l",
+  "level": "trunk",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "superficial palmar aspect and volar forearm"
+  ],
+  "anastomoses_with": [],
+  "notes": "Ascends the middle of the volar forearm and drains variably into the basilic vein, the median cubital, or both after dividing into median basilic and median cephalic veins.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "accessory_cephalic_v_l",
+  "name": "Accessory cephalic vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_l",
+  "level": "trunk",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "dorsolateral forearm"
+  ],
+  "anastomoses_with": [],
+  "notes": "",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "perforator_veins_forearm_l",
+  "name": "Perforating veins of the forearm",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "cephalic_v_l",
+  "level": "muscular_branch",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "connections from the superficial to the deep venous system"
+  ],
+  "anastomoses_with": [],
+  "notes": "Valved to direct flow from superficial to deep, the same arrangement as in the leg, although upper limb valvular incompetence is rarely clinically significant.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "thoracoepigastric_v_l",
+  "name": "Thoracoepigastric vein",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "axillary_v_l",
+  "level": "muscular_branch",
+  "approx_diameter_mm": 3,
+  "supplies_or_drains": [
+   "lateral trunk wall, linking the axillary and femoral venous systems"
+  ],
+  "anastomoses_with": [],
+  "notes": "A caval collateral channel: it distends visibly on the lateral chest and abdominal wall in inferior vena cava obstruction.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "dorsal_metacarpal_v_l",
+  "name": "Dorsal metacarpal veins",
+  "system": "venous",
+  "tree_name": "upper_limb_venous",
+  "parent_id": "dorsal_venous_network_hand_l",
+  "level": "terminal_branch",
+  "approx_diameter_mm": 2,
+  "supplies_or_drains": [
+   "dorsum of the hand and the interdigital spaces"
+  ],
+  "anastomoses_with": [],
+  "notes": "Feed the dorsal venous network, the origin of both the cephalic and basilic veins and the standard site for peripheral cannulation.",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+ }
 ]
