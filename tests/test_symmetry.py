@@ -261,3 +261,56 @@ def test_the_left_carotid_comes_off_the_arch_not_a_mirrored_trunk():
                     rec.get("parent_id")
                 return
     raise AssertionError("common_carotid_a_l not found")
+
+
+# Muscles whose stated nerve is a segmental series or a compound with no
+# single entity in the tree. Each is a known limit of the nerve model, not a
+# muscle nobody innervates -- and the reason has to be stated here, or this
+# becomes a list to hide gaps in.
+UNREACHABLE_BY_DESIGN = {
+    "intercostal_nerves":
+        "a segmental series T1-T11; the tree carries each segment's muscular "
+        "branch, but no single entity stands for 'the intercostal nerves'",
+    "direct_sacral_branches":
+        "twigs from S3-S4 ventral rami with no named trunk to model",
+    "pudendal_n_and_direct_sacral_branches":
+        "dual innervation packed into one string; see the compound-innervation "
+        "limit in scripts/complete_lateral_references.py",
+    "median_n_1_2_ulnar_n_3_4":
+        "per-compartment innervation packed into one string: lumbricals 1-2 "
+        "are median, 3-4 ulnar",
+}
+
+
+def _muscles_no_nerve_reaches():
+    targeted = set()
+    for _f, rec in _tree_records():
+        for t in rec.get("targets") or []:
+            if isinstance(t, str):
+                targeted.add(t)
+    out = []
+    for path in sorted((BONES.parent.parent / "muscles").rglob("*.json")):
+        payload = json.loads(path.read_text())
+        for m in (payload if isinstance(payload, list) else [payload]):
+            if not isinstance(m, dict) or "id" not in m:
+                continue
+            comps = [c["id"] for c in m.get("functional_compartments", [])
+                     if isinstance(c, dict) and "id" in c]
+            if not any(c in targeted for c in comps + [m["id"]]):
+                out.append((m["id"], (m.get("innervation") or {}).get("nerve")))
+    return out
+
+
+def test_every_muscle_is_reached_by_the_nerve_it_names():
+    """107 muscles were the target of no nerve entity -- all eleven tongue
+    muscles say hypoglossal_n, and the hypoglossal nerve listed none of them;
+    sixteen forearm extensors say posterior_interosseous_n and it listed none
+    of those. The muscle-to-nerve direction was authored and the reverse was
+    not, for a third of the body. Now each nerve lists what says it supplies
+    it, and what remains unreached is unreached for a stated reason."""
+    unexplained = [f"{mid} (says {nerve!r})"
+                   for mid, nerve in _muscles_no_nerve_reaches()
+                   if nerve not in UNREACHABLE_BY_DESIGN]
+    assert not unexplained, "\n".join(unexplained)
+    for reason in UNREACHABLE_BY_DESIGN.values():
+        assert len(reason) > 40

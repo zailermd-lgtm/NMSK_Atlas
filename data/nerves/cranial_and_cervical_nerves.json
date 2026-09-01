@@ -7,7 +7,13 @@
   "level": "root",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "root_contributions": "CN VII",
-  "notes": "Exits the stylomastoid foramen and passes through the parotid gland (without supplying it), dividing into 5 terminal branches within the parotid ('pes anserinus')."
+  "notes": "Exits the stylomastoid foramen and passes through the parotid gland (without supplying it), dividing into 5 terminal branches within the parotid ('pes anserinus').",
+  "targets": [
+   "stapedius_l_main",
+   "stapedius_r_main",
+   "stylohyoid_l_main",
+   "stylohyoid_r_main"
+  ]
  },
  {
   "id": "facial_n_digastric_branch",
@@ -36,7 +42,12 @@
    "frontalis_r_main",
    "frontalis_l_main",
    "orbicularis_oculi_r_orbital",
-   "orbicularis_oculi_l_orbital"
+   "orbicularis_oculi_l_orbital",
+   "occipitofrontalis_l_frontal_belly",
+   "occipitofrontalis_l_occipital_belly",
+   "occipitofrontalis_r_frontal_belly",
+   "occipitofrontalis_r_occipital_belly",
+   "procerus_main"
   ]
  },
  {
@@ -52,7 +63,13 @@
    "zygomaticus_major_r_main",
    "zygomaticus_major_l_main",
    "levator_labii_superioris_r_main",
-   "levator_labii_superioris_l_main"
+   "levator_labii_superioris_l_main",
+   "nasalis_l_transverse_part",
+   "nasalis_l_alar_part",
+   "nasalis_r_transverse_part",
+   "nasalis_r_alar_part",
+   "zygomaticus_minor_l_main",
+   "zygomaticus_minor_r_main"
   ]
  },
  {
@@ -66,7 +83,9 @@
    "orbicularis_oris_r_main",
    "orbicularis_oris_l_main",
    "buccinator_r_main",
-   "buccinator_l_main"
+   "buccinator_l_main",
+   "risorius_l_main",
+   "risorius_r_main"
   ]
  },
  {
@@ -103,7 +122,11 @@
   "level": "root",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "root_contributions": "CN V3",
-  "notes": "Exits the skull through foramen ovale; the only trigeminal division with a motor root (to the muscles of mastication and other 1st-pharyngeal-arch derivatives)."
+  "notes": "Exits the skull through foramen ovale; the only trigeminal division with a motor root (to the muscles of mastication and other 1st-pharyngeal-arch derivatives).",
+  "targets": [
+   "tensor_veli_palatini_l_main",
+   "tensor_veli_palatini_r_main"
+  ]
  },
  {
   "id": "trigeminal_n_v3_masseteric_branch",
@@ -182,7 +205,9 @@
   "level": "terminal_branch",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "targets": [
-   "tensor tympani (middle ear muscle, not yet modeled in this pass)"
+   "tensor tympani (middle ear muscle, not yet modeled in this pass)",
+   "tensor_tympani_l_main",
+   "tensor_tympani_r_main"
   ]
  },
  {
@@ -216,7 +241,9 @@
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "targets": [
    "superior_rectus_r_main",
-   "superior_rectus_l_main"
+   "superior_rectus_l_main",
+   "levator_palpebrae_superioris_l_main",
+   "levator_palpebrae_superioris_r_main"
   ],
   "notes": "Also supplies levator palpebrae superioris (eyelid elevator, not yet modeled in this pass)."
  },
@@ -289,7 +316,20 @@
   "level": "root",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
   "root_contributions": "CN XII",
-  "notes": "Exits the hypoglossal canal of the occipital bone; the C1 ventral ramus fibers that supply geniohyoid and thyrohyoid travel within its sheath for part of its course but are not true CN XII motor fibers (see geniohyoid's documented C1 innervation)."
+  "notes": "Exits the hypoglossal canal of the occipital bone; the C1 ventral ramus fibers that supply geniohyoid and thyrohyoid travel within its sheath for part of its course but are not true CN XII motor fibers (see geniohyoid's documented C1 innervation).",
+  "targets": [
+   "geniohyoid_l_main",
+   "geniohyoid_r_main",
+   "inferior_longitudinal_tongue_l_main",
+   "inferior_longitudinal_tongue_r_main",
+   "superior_longitudinal_tongue_main",
+   "thyrohyoid_l_main",
+   "thyrohyoid_r_main",
+   "transverse_tongue_l_main",
+   "transverse_tongue_r_main",
+   "vertical_tongue_l_main",
+   "vertical_tongue_r_main"
+  ]
  },
  {
   "id": "hypoglossal_n_lingual_branches",
@@ -488,7 +528,13 @@
    "scalenus_posterior_r_main",
    "scalenus_posterior_l_main",
    "longus_colli_r_main",
-   "longus_colli_l_main"
+   "longus_colli_l_main",
+   "longus_capitis_l_main",
+   "longus_capitis_r_main",
+   "rectus_capitis_anterior_l_main",
+   "rectus_capitis_anterior_r_main",
+   "rectus_capitis_lateralis_l_main",
+   "rectus_capitis_lateralis_r_main"
   ],
   "notes": "Segmental branches direct from the cervical plexus roots (C3-C8, the lower contributions overlapping with the brachial plexus) rather than via a single named nerve."
  },
