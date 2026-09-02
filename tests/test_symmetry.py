@@ -32,8 +32,18 @@ def _side_claimed(name: str):
     even when they lead, because which way a surface FACES says nothing about
     where it sits: the medial surfaces of the third to fifth metatarsals are
     lateral of the metatarsal frame's origin.
+
+    The same goes for a SIDE or BORDER of a named feature, and for a HEAD or
+    SESAMOID named in the parenthesised list of what attaches there. The
+    lateral side of the great toe's proximal phalanx sits at x = -19.7 on
+    the right foot -- still medial of the phalanges group's own origin,
+    because the whole hallux is the most medial ray -- and its parenthesised
+    list names the lateral head of flexor hallucis brevis and the lateral
+    sesamoid, neither of which is a claim about where the landmark is.
     """
-    low = re.sub(r"\b(medial|lateral)\s+surfaces?\b", " ", name.lower())
+    low = re.sub(r"\b(medial|lateral)\s+"
+                 r"(surfaces?|sides?|borders?|heads?|sesamoids?)\b",
+                 " ", name.lower())
     scope = (low.split() or [""])[0] + " " + " ".join(re.findall(r"\(([^)]*)\)", low))
     medial, lateral = "medial" in scope, "lateral" in scope
     if medial == lateral:

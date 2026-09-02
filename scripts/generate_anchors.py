@@ -72,6 +72,16 @@ def _tokens(name: str) -> list:
 
 _ORDINAL_WORDS = {"first": 1, "second": 2, "third": 3, "fourth": 4, "fifth": 5}
 
+# Digits are also named, not numbered. "great toe" IS digit 1 and "little
+# toe" IS digit 5, so a text naming digits 2-4 must be disqualified from a
+# landmark on the hallux -- which is how the dorsal interossei, inserting on
+# digits 2, 3 and 4, came to tie between the medial and the lateral side of
+# the great toe's proximal phalanx. "pollicis" and "hallucis" are deliberately
+# NOT here: they name a muscle, not the bone a landmark sits on, and a
+# landmark named for its muscle would then disqualify every other digit.
+_DIGIT_NAMES = {"great toe": 1, "hallux": 1, "big toe": 1, "thumb": 1,
+                "little toe": 5, "fifth toe": 5, "little finger": 5}
+
 
 def _ordinals(text: str) -> set:
     """Which rays or digits a piece of text names, as numbers.
@@ -85,6 +95,7 @@ def _ordinals(text: str) -> set:
     """
     low = text.lower()
     found = {n for word, n in _ORDINAL_WORDS.items() if word in low}
+    found |= {n for phrase, n in _DIGIT_NAMES.items() if phrase in low}
     found |= {int(d) for d in re.findall(r"(?<![a-z0-9])([1-5])(?:st|nd|rd|th)?"
                                          r"(?![a-z0-9])", low)}
     for lo, hi in re.findall(r"([1-5])\s*(?:-|--|to)\s*([1-5])", low):

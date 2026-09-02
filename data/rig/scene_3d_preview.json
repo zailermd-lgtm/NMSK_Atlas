@@ -2061,6 +2061,46 @@
    ]
   },
   {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe, base, medial side (abductor hallucis and the medial head of flexor hallucis brevis, via the medial sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -34.7,
+    -1042.5,
+    88.6
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe, base, lateral side (adductor hallucis and the lateral head of flexor hallucis brevis, via the lateral sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -53.6,
+    -1042.4,
+    84.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanx of the great toe, base, dorsal surface (extensor hallucis brevis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -46.1,
+    -1040.9,
+    94.7
+   ]
+  },
+  {
+   "bone": "phalanges_foot_l",
+   "name": "proximal phalanges of the second to fourth toes, bases (dorsal interossei, via the extensor expansions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    -66.9,
+    -1010.2,
+    71.6
+   ]
+  },
+  {
    "bone": "phalanges_foot_r",
    "name": "proximal phalanx of the little toe (abductor and flexor digiti minimi brevis insertions)",
    "kind": "muscle_attachment",
@@ -2098,6 +2138,46 @@
     62.7,
     -1058.8,
     68.1
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe, base, medial side (abductor hallucis and the medial head of flexor hallucis brevis, via the medial sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    29.4,
+    -1044.3,
+    81.8
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe, base, lateral side (adductor hallucis and the lateral head of flexor hallucis brevis, via the lateral sesamoid)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    48.3,
+    -1044.2,
+    78.1
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanx of the great toe, base, dorsal surface (extensor hallucis brevis)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    40.8,
+    -1042.7,
+    87.9
+   ]
+  },
+  {
+   "bone": "phalanges_foot_r",
+   "name": "proximal phalanges of the second to fourth toes, bases (dorsal interossei, via the extensor expansions)",
+   "kind": "muscle_attachment",
+   "xyz": [
+    61.6,
+    -1012.0,
+    64.8
    ]
   },
   {
@@ -3926,9 +4006,9 @@
     73.1
    ],
    "b": [
-    -42.6,
-    -1041.6,
-    89.8
+    -53.6,
+    -1042.4,
+    84.9
    ],
    "ra": 17.4,
    "rb": 9.6,
@@ -3990,6 +4070,31 @@
    "roots": "L2-L4",
    "actions": [
     "extends knee (largest quadriceps head by PCSA)"
+   ]
+  },
+  {
+   "id": "plantar_interossei_l",
+   "name": "Plantar interossei",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    -78.8,
+    -933.4,
+    59.6
+   ],
+   "b": [
+    -66.9,
+    -1010.2,
+    71.6
+   ],
+   "ra": 12.7,
+   "rb": 7.0,
+   "pcsa": 80.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "adduct toes 3-5 toward the axial line (digit 2)"
    ]
   },
   {
@@ -4221,6 +4326,31 @@
    ]
   },
   {
+   "id": "plantar_interossei_r",
+   "name": "Plantar interossei",
+   "region": "lower_limb",
+   "shape": "capsule",
+   "a": [
+    74.3,
+    -933.6,
+    54.8
+   ],
+   "b": [
+    61.6,
+    -1012.0,
+    64.8
+   ],
+   "ra": 12.7,
+   "rb": 7.0,
+   "pcsa": 80.0,
+   "compartments": 1,
+   "nerve": "lateral_plantar_n_deep_branch",
+   "roots": "S1-S3",
+   "actions": [
+    "adduct toes 3-5 toward the axial line (digit 2)"
+   ]
+  },
+  {
    "id": "adductor_hallucis_r",
    "name": "Adductor hallucis",
    "region": "lower_limb",
@@ -4231,9 +4361,9 @@
     67.5
    ],
    "b": [
-    39.8,
-    -1040.3,
-    85.1
+    48.3,
+    -1044.2,
+    78.1
    ],
    "ra": 17.4,
    "rb": 9.6,
