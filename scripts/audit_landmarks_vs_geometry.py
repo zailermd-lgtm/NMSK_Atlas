@@ -419,14 +419,59 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
         cup = find(blocks, tag, "cartilage", "pelvisacetabulum")
         if cup is not None:
             acetabula[side] = fit_sphere(cup)
+    # A CT ships no cartilage. TotalSegmentator labels bone and nothing else,
+    # so every frame above -- each of which keys on a cartilage mesh the
+    # Denver release happens to carry -- finds nothing, and the audit reports
+    # "no bone had both a measurable frame and geometry" on a scan that is
+    # perfectly good. The femoral head is still there, in the femur label;
+    # it just has to be isolated from the bone by direction instead of read
+    # off a separate mesh. That is exactly what the volume ingest already
+    # does to recover the atlas origin, so the same routine serves here.
+    for side, tag in (("r", "right"), ("l", "left")):
+        if f"femur_{side}" in frames:
+            continue
+        femur = by_atlas_id.get(f"femur_{side}")
+        if femur is None or len(femur) < 64:
+            continue
+        try:
+            centre, radius, rms = volume_ingest.femoral_head_centre(
+                femur, "right" if side == "r" else "left")
+        except Exception:
+            continue
+        lo, hi = volume_ingest.HEAD_RADIUS_MM["femur"]
+        if not (lo <= radius <= hi and rms <= 3.0):
+            print(f"  femur_{side}: head fit rejected (r={radius:.1f} mm, "
+                  f"rms={rms:.2f} mm), so no frame for it")
+            continue
+        distal = femur[femur[:, 1] < np.percentile(femur[:, 1], 4)].mean(axis=0)
+        frames[f"femur_{side}"] = (
+            centre, orthonormal_frame(centre, distal, None),
+            f"femoral head isolated from the bone by direction and sphere-"
+            f"fitted, r={radius:.1f} mm, rms={rms:.2f} mm; long axis to the "
+            f"distal 4% of the shaft; NO cartilage in this scan, so the "
+            f"transverse axis is convention, not fitted", "long")
+        # The hip frame's own origin_landmark is the acetabular joint centre,
+        # and the femoral head centre IS that centre to within the joint
+        # space. With no acetabular cartilage to fit, this is the honest
+        # substitute -- and it is named as such rather than passed off as a
+        # fit of the socket.
+        acetabula.setdefault(side, (centre, radius, rms))
+
     if {"r", "l"} <= set(acetabula):
         across = acetabula["r"][0] - acetabula["l"][0]
         for side in ("r", "l"):
+            if f"hip_bone_{side}" in frames:
+                continue
             centre, radius, rms = acetabula[side]
             up = np.array([0.0, 1.0, 0.0])
+            cup = find(blocks, "right" if side == "r" else "left",
+                       "cartilage", "pelvisacetabulum")
+            how = ("acetabular sphere fit" if cup is not None
+                   else "FEMORAL HEAD centre standing in for the acetabular "
+                        "centre, there being no acetabular cartilage in this scan")
             frames[f"hip_bone_{side}"] = (centre, orthonormal_frame(
                 centre, centre - up * 100.0, across),
-                f"acetabular sphere fit, r={radius:.1f} mm, rms={rms:.2f} mm; "
+                f"{how}, r={radius:.1f} mm, rms={rms:.2f} mm; "
                 f"transverse axis from the interacetabular line; superior axis "
                 f"by anatomical-position convention, not fitted", "transverse")
 

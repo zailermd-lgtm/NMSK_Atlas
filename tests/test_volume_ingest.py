@@ -475,3 +475,68 @@ def test_convert_writes_one_manifest_record_per_split_part(tmp_path):
     # right cartilage at higher atlas X than left
     assert by_id["costal_cartilage_r"]["bbox_min_mm"][0] > \
         by_id["costal_cartilage_l"]["bbox_max_mm"][0]
+
+
+def test_a_ct_gets_bone_only_frames_because_it_ships_no_cartilage():
+    """Every lower-limb frame in the landmark audit keys on a CARTILAGE mesh,
+    because the Denver release happens to carry them. TotalSegmentator labels
+    bone and nothing else, so on a CT all of those find nothing and the audit
+    reported "no bone had both a measurable frame and geometry" for a scan
+    that was perfectly good.
+
+    The femoral head is still in the scan; it is inside the femur label and
+    has to be isolated by direction rather than read off its own mesh. The
+    frame must come back, must say in its own description that no cartilage
+    was involved, and must NOT claim to have fitted the acetabulum -- the
+    femoral head centre stands in for it, and saying so is the point.
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(REPO_ROOT / "scripts"))
+    import audit_landmarks_vs_geometry as audit
+
+    # A femur in ATLAS coordinates: head at the top, shaft running inferior.
+    def femur(side_sign):
+        rng = np.random.default_rng(4)
+        u = rng.normal(size=(1400, 3))
+        u /= np.linalg.norm(u, axis=1)[:, None]
+        head = u * 24.0 + np.array([90.0 * side_sign, 0.0, 0.0])
+        t = np.linspace(0, 1, 900)[:, None]
+        shaft = (np.array([90.0 * side_sign + 24 * side_sign, -30.0, 0.0]) * (1 - t)
+                 + np.array([95.0 * side_sign, -420.0, 0.0]) * t)
+        shaft = shaft + rng.normal(scale=1.2, size=shaft.shape)
+        return np.vstack([head, shaft])
+
+    by_id = {"femur_r": femur(+1), "femur_l": femur(-1)}
+    frames = audit.build_frames(by_id, {}, {})
+
+    for side in ("r", "l"):
+        assert f"femur_{side}" in frames, f"no femur_{side} frame from bone alone"
+        how = frames[f"femur_{side}"][2]
+        assert "NO cartilage" in how, how
+        assert frames[f"femur_{side}"][3] == "long", "transverse axis is not fitted here"
+        assert f"hip_bone_{side}" in frames, f"no hip_bone_{side} frame"
+        hip_how = frames[f"hip_bone_{side}"][2]
+        assert "FEMORAL HEAD centre standing in" in hip_how, hip_how
+        assert "acetabular sphere fit," not in hip_how, \
+            "a femoral head fit must not be reported as a fit of the socket"
+
+    # The origin is the head centre, and the two are a hip-width apart.
+    across = np.linalg.norm(frames["hip_bone_r"][0] - frames["hip_bone_l"][0])
+    assert 150 < across < 210, f"hip centres {across:.0f} mm apart"
+    # +Y of the femur frame must point superior, back up the shaft.
+    assert frames["femur_r"][1][1][1] > 0.9, frames["femur_r"][1]
+
+
+def test_the_bone_only_frame_refuses_a_head_it_cannot_fit():
+    """A femur label that is all shaft and no head must produce no frame at
+    all, rather than a frame centred on whatever the sphere fit converged to.
+    """
+    import sys as _sys
+    _sys.path.insert(0, str(REPO_ROOT / "scripts"))
+    import audit_landmarks_vs_geometry as audit
+    rng = np.random.default_rng(11)
+    t = np.linspace(0, 1, 1500)[:, None]
+    shaft = (np.array([90.0, 0.0, 0.0]) * (1 - t) + np.array([95.0, -420.0, 0.0]) * t)
+    shaft = shaft + rng.normal(scale=1.0, size=shaft.shape)
+    frames = audit.build_frames({"femur_r": shaft}, {}, {})
+    assert "femur_r" not in frames, "a shaft with no head must not yield a frame"
