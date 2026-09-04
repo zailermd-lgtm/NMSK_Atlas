@@ -52,6 +52,30 @@
       "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
       "innervation_branch_ids": [
         "dorsal_scapular_n"
+      ],
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            0,
+            33
+          ],
+          "reference_line_from": "spinous processes of C7-T1 (origin)",
+          "reference_line_to": "medial border of the scapula (insertion)",
+          "method": "modified Sihler staining, whole-mount nerve arborization mapping",
+          "notes": "The medial (origin-side) third, one of two arborization-dense bands. The dorsal scapular nerve enters in the middle third (33-67%), between this zone and the lateral one -- avoid that band, since a documented case of dorsal scapular neuropathy followed an injection placed there.",
+          "source": "Yi KH, Lee HJ, Choi YJ, Hu KS, Kim HJ, 'Intramuscular Neural Distribution of Rhomboid Muscles: Evaluation for Botulinum Toxin Injection Using Modified Sihler's Method', Toxins 12(5):289 (2020), doi:10.3390/toxins12050289 -- 30 rhomboid major + 30 minor muscles, 10 of each Sihler-stained, Korean cadavers. Retrieved via PubMed (PMC7291336)."
+        },
+        {
+          "zone_percent_range": [
+            67,
+            100
+          ],
+          "reference_line_from": "spinous processes of C7-T1 (origin)",
+          "reference_line_to": "medial border of the scapula (insertion)",
+          "method": "modified Sihler staining, whole-mount nerve arborization mapping",
+          "notes": "The lateral (insertion-side) third, the second arborization-dense band, mirroring the medial one across the avoided middle third.",
+          "source": "Yi KH, Lee HJ, Choi YJ, Hu KS, Kim HJ, 'Intramuscular Neural Distribution of Rhomboid Muscles: Evaluation for Botulinum Toxin Injection Using Modified Sihler's Method', Toxins 12(5):289 (2020), doi:10.3390/toxins12050289 -- 30 rhomboid major + 30 minor muscles, 10 of each Sihler-stained, Korean cadavers. Retrieved via PubMed (PMC7291336)."
+        }
       ]
     }
   ],

@@ -52,6 +52,19 @@
       "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
       "innervation_branch_ids": [
         "dorsal_scapular_n"
+      ],
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            67
+          ],
+          "reference_line_from": "spinous processes of T2-T5 (origin)",
+          "reference_line_to": "medial border of the scapula (insertion)",
+          "method": "modified Sihler staining, whole-mount nerve arborization mapping",
+          "notes": "Unlike rhomboid minor, the densest arborization for rhomboid major sits in the MIDDLE third, not split around it -- the two muscles are not mirror images in this respect. The dorsal scapular nerve's entry point for both muscles is in the middle third at the C7-T1 level specifically, one row above rhomboid major's own span, so this zone does not carry the same nerve-trunk risk rhomboid minor's middle third does.",
+          "source": "Yi KH, Lee HJ, Choi YJ, Hu KS, Kim HJ, 'Intramuscular Neural Distribution of Rhomboid Muscles: Evaluation for Botulinum Toxin Injection Using Modified Sihler's Method', Toxins 12(5):289 (2020), doi:10.3390/toxins12050289 -- 30 rhomboid major + 30 minor muscles, 10 of each Sihler-stained, Korean cadavers. Retrieved via PubMed (PMC7291336)."
+        }
       ]
     }
   ],
