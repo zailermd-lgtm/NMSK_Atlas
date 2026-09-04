@@ -13,6 +13,32 @@ The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
 Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 149 tests pass (includes bone-only frame derivation for CT).
 
+No CT data is available yet from the repository owner (they have clinical
+scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
+that, work has continued on literature-based content depth — see below.
+
+## Recently deepened (literature-based, no geometry needed)
+
+- **Lymphatic system**: 23 → 56 entities. Added the head/neck superficial
+  node groups (submental, submandibular, parotid, mastoid, occipital,
+  superficial cervical), supraclavicular nodes, mediastinal nodes
+  (tracheobronchial, paratracheal, parasternal), abdominal nodes (celiac,
+  superior/inferior mesenteric, lumbar/para-aortic), and the full pelvic
+  chain (common/external/internal iliac, obturator). Reparented deep
+  inguinal nodes onto the new external iliac nodes (was wired straight to
+  the lumbar trunk).
+- **Fascia**: added the osteofascial compartments of the hand (carpal
+  tunnel, thenar, hypothenar, adductor, interosseous) and foot (medial,
+  lateral, central, interosseous) — the surgical fasciotomy models,
+  parallel to the leg/forearm compartments already carried.
+- **Autonomic nervous system**: new, was entirely absent. Added the
+  sympathetic trunk end to end — cervical chain (superior/middle cervical
+  ganglia, stellate ganglion), thoracic chain with the splanchnic nerves,
+  lumbar and sacral chains, ganglion impar, and the celiac and hypogastric
+  plexuses. These are exactly the targets of stellate ganglion, lumbar
+  sympathetic, celiac plexus and hypogastric plexus blocks — real
+  image-guided procedures this atlas's injection-planning purpose covers.
+
 ## Atlas frame
 
 +X subject's right, +Y superior, +Z anterior, millimetres, origin at the
