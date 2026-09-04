@@ -118,12 +118,17 @@ by the owner, because Zenodo is unreachable from the build machine.
 6. Extend `named_members` in the landmark audit to ribs and vertebrae, so the
    identity check covers them.
 7. ~~Cross-check generated moment arms against OpenSim's published models.~~
-   **Done** — `scripts/validate_moment_arms.py`, 12/12 computable pairs land
+   **Done** — `scripts/validate_moment_arms.py`, 10/12 computable pairs land
    inside their published range. See ROADMAP.md Stage 6.
-8. Semitendinosus, semimembranosus and the left gluteus maximus are missing
-   their insertion anchor (landmark text didn't match in
-   `generate_anchors.py`'s run) — found while building the moment-arm
-   check, not yet investigated.
+8. ~~Semitendinosus, semimembranosus and the left gluteus maximus are
+   missing their insertion anchor.~~ **Fixed** — three landmark-matching
+   gaps in `data/skeleton/bones.json` (217 → 226 anchors). See ROADMAP.md
+   Stage 6 for detail.
+9. Semitendinosus's knee-flexion moment arm computes 3–5 mm against a
+   published 15–35 mm — not a data error, the straight-line moment-arm
+   method's own documented limit meeting a muscle whose real path wraps
+   the medial tibial condyle. Fixing it needs a wrap surface or via point,
+   which the anchor/rig schema doesn't carry yet.
 
 ## Next action
 

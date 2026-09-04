@@ -496,17 +496,47 @@ geometry, not a convention; hip and ankle flexion/extension use the atlas's
 mediolateral convention, the same convention already used where no
 cartilage mesh gives a transverse axis to fit.
 
-12 of 12 computable muscle-joint pairs (gluteus maximus/hip extension,
-biceps femoris/knee flexion, gastrocnemius and soleus/ankle
-plantarflexion, bilateral) land inside their published range: Delp SL, PhD
-dissertation (1990) and Arnold EM et al., Ann Biomed Eng 38:269 (2010)
-[OpenSim's gait2392 lower-limb model] for the hip and knee; Herzog W, Read
-LJ, J Anat 182:213 (1993) for the knee flexors; Maganaris CN et al., J
-Physiol 510:977 (1998) and Rugg SG et al., J Biomech 23:495 (1990) for the
-ankle. Semitendinosus, semimembranosus and the left gluteus maximus have no
-computable moment arm — their insertion anchor is missing (the landmark
-text didn't match during `generate_anchors.py`'s run), a pre-existing gap
-in anchor coverage, not a moment-arm-specific problem.
+Building this surfaced three landmark-matching gaps (below), fixing which
+took the computable set from 6 pairs to all 12: gluteus maximus/hip
+extension, the three hamstrings/knee flexion, and gastrocnemius and
+soleus/ankle plantarflexion, all bilateral.
+
+**10 of 12 land inside their published range**: Delp SL, PhD dissertation
+(1990) and Arnold EM et al., Ann Biomed Eng 38:269 (2010) [OpenSim's
+gait2392 lower-limb model] for the hip and knee; Herzog W, Read LJ, J Anat
+182:213 (1993) for the knee flexors; Maganaris CN et al., J Physiol
+510:977 (1998) and Rugg SG et al., J Biomech 23:495 (1990) for the ankle.
+
+**Semitendinosus is the instructive exception, both sides.** It computes a
+3–5 mm knee-flexion moment arm against a published 15–35 mm — not a data
+error, but the straight-line method meeting its own stated limit. Biceps
+femoris and semimembranosus insert POSTERIOR to the knee axis (fibular
+head; posteromedial tibial condyle) throughout, so a straight chord from
+the ischial tuberosity stays on the correct side of the axis and gives a
+believable lever arm. Semitendinosus's real insertion, at the pes
+anserinus, is well ANTERIOR on the tibial shaft — the actual tendon curves
+around the medial tibial condyle to get there, and a straight chord to
+that anterior point swings close to the knee axis instead of staying
+behind it, which is exactly the wrap-dependent case the module docstring
+already warns a bare two-point path cannot handle. Left as a documented
+miss rather than adjusted to pass: the fix is a wrap surface or via point
+at the condyle, not a different coordinate.
+
+**The three gaps**, all in `data/skeleton/bones.json`, found because their
+absence left an insertion anchor unresolved for a muscle this check
+needed: femur_l had no "gluteal tuberosity" entry at all (only "linea
+aspera", under a different name), so gluteus_maximus_l's insertion text
+matched nothing even though the identical text matches femur_r — added as
+a new entry, mirrored, rather than a rename, so the three other muscles
+already resolving against femur_l's existing entry were undisturbed.
+Tibia's pes anserinus landmark was named "...insertion (...)", and no
+muscle's own attachment prose uses the word "insertion" to describe
+itself, so sartorius, gracilis and semitendinosus all failed to match it
+on both sides despite naming this exact structure — renamed to drop that
+word. Neither tibia carried semimembranosus's real insertion site
+(posteromedial tibial condyle) at all — added new. All three new/changed
+coordinates were re-audited against the real geometry: 3.9–5.7 mm from
+the bone surface, inside this atlas's existing tolerance.
 
 This is a straight-line, no-wrap, single-pose method — it deliberately
 does not model the posterior wrap of the Achilles tendon around the
