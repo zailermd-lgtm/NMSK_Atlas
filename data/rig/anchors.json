@@ -900,16 +900,28 @@
     "notes": "auto-derived from bone landmark match against 'lateral epicondyle (common extensor origin)'"
   },
   {
-    "id": "anchor_biceps_brachii_l_origin",
+    "id": "anchor_biceps_brachii_l_long_head_origin",
     "anchor_type": "muscle_origin",
-    "owner_entity": "biceps_brachii_l",
+    "owner_entity": "biceps_brachii_l_long_head",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      0,
+      15,
+      10
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'long head: supraglenoid tubercle (via intra-articular tendon'"
+  },
+  {
+    "id": "anchor_biceps_brachii_l_short_head_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "biceps_brachii_l_short_head",
     "parent_bone_frame": "scapula_l",
     "local_position_mm": [
       -25,
       30,
       20
     ],
-    "notes": "auto-derived from bone landmark match against 'long head: supraglenoid tubercle (via intra-articular tendon'"
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'short head: coracoid process (with coracobrachialis)'"
   },
   {
     "id": "anchor_biceps_brachii_l_insertion",
@@ -1008,16 +1020,28 @@
     "notes": "auto-derived from bone landmark match against 'hook of hamate, flexor retinaculum'"
   },
   {
-    "id": "anchor_biceps_brachii_r_origin",
+    "id": "anchor_biceps_brachii_r_long_head_origin",
     "anchor_type": "muscle_origin",
-    "owner_entity": "biceps_brachii_r",
+    "owner_entity": "biceps_brachii_r_long_head",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      0,
+      15,
+      10
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'long head: supraglenoid tubercle (via intra-articular tendon'"
+  },
+  {
+    "id": "anchor_biceps_brachii_r_short_head_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "biceps_brachii_r_short_head",
     "parent_bone_frame": "scapula_r",
     "local_position_mm": [
       25,
       30,
       20
     ],
-    "notes": "auto-derived from bone landmark match against 'long head: supraglenoid tubercle (via intra-articular tendon'"
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'short head: coracoid process (with coracobrachialis)'"
   },
   {
     "id": "anchor_biceps_brachii_r_insertion",
@@ -1452,16 +1476,28 @@
     "notes": "auto-derived from bone landmark match against 'adductor part: inferior pubic ramus + ischial ramus; hamstri'"
   },
   {
-    "id": "anchor_adductor_magnus_r_insertion",
+    "id": "anchor_adductor_magnus_r_adductor_part_insertion",
     "anchor_type": "muscle_insertion",
-    "owner_entity": "adductor_magnus_r",
+    "owner_entity": "adductor_magnus_r_adductor_part",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      19.3,
+      -200,
+      -5.5
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'adductor part: linea aspera (broad linear insertion); '"
+  },
+  {
+    "id": "anchor_adductor_magnus_r_hamstring_part_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_magnus_r_hamstring_part",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
       -15,
       -440,
       -5
     ],
-    "notes": "auto-derived from bone landmark match against 'adductor part: linea aspera (broad linear insertion); hamstr'"
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'hamstring part: adductor tubercle (via a distinct tendon, wi'"
   },
   {
     "id": "anchor_fibularis_brevis_r_origin",
@@ -1486,6 +1522,18 @@
       -28.1
     ],
     "notes": "auto-derived from bone landmark match against '5th metatarsal tuberosity'"
+  },
+  {
+    "id": "anchor_adductor_brevis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_brevis_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      19.3,
+      -200,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'linea aspera (proximal third)'"
   },
   {
     "id": "anchor_adductor_longus_l_insertion",
@@ -1594,6 +1642,18 @@
       5
     ],
     "notes": "auto-derived from bone landmark match against 'base of patella, via quadriceps tendon -> patellar ligament '"
+  },
+  {
+    "id": "anchor_adductor_longus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_longus_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      19.3,
+      -200,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'linea aspera (middle third)'"
   },
   {
     "id": "anchor_gluteus_maximus_l_origin",
@@ -2016,6 +2076,30 @@
     "notes": "auto-derived from bone landmark match against 'greater trochanter, medial surface (with the obturator inter'"
   },
   {
+    "id": "anchor_flexor_hallucis_brevis_r_medial_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_hallucis_brevis_r_medial",
+    "parent_bone_frame": "phalanges_foot_r",
+    "local_position_mm": [
+      -38.6,
+      -67.1,
+      19.7
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'proximal phalanx of the great toe, base:  medial head to the'"
+  },
+  {
+    "id": "anchor_flexor_hallucis_brevis_r_lateral_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_hallucis_brevis_r_lateral",
+    "parent_bone_frame": "phalanges_foot_r",
+    "local_position_mm": [
+      -19.7,
+      -67.0,
+      16.0
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'proximal phalanx of the great toe, base:  lateral head to th'"
+  },
+  {
     "id": "anchor_biceps_femoris_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "biceps_femoris_r",
@@ -2412,6 +2496,30 @@
     "notes": "auto-derived from bone landmark match against 'adductor part: inferior pubic ramus + ischial ramus; hamstri'"
   },
   {
+    "id": "anchor_adductor_magnus_l_adductor_part_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_magnus_l_adductor_part",
+    "parent_bone_frame": "femur_l",
+    "local_position_mm": [
+      -19.3,
+      -200,
+      -5.5
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'adductor part: linea aspera (broad linear insertion); '"
+  },
+  {
+    "id": "anchor_adductor_magnus_l_hamstring_part_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "adductor_magnus_l_hamstring_part",
+    "parent_bone_frame": "femur_l",
+    "local_position_mm": [
+      15,
+      -440,
+      -5
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'hamstring part: adductor tubercle (via a distinct tendon, wi'"
+  },
+  {
     "id": "anchor_semitendinosus_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "semitendinosus_l",
@@ -2652,6 +2760,30 @@
     "notes": "auto-derived from bone landmark match against 'calcaneus (via a long thin tendon running medial to the Achi'"
   },
   {
+    "id": "anchor_flexor_hallucis_brevis_l_medial_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_hallucis_brevis_l_medial",
+    "parent_bone_frame": "phalanges_foot_l",
+    "local_position_mm": [
+      38.6,
+      -67.1,
+      19.7
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'proximal phalanx of the great toe, base:  medial head to the'"
+  },
+  {
+    "id": "anchor_flexor_hallucis_brevis_l_lateral_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_hallucis_brevis_l_lateral",
+    "parent_bone_frame": "phalanges_foot_l",
+    "local_position_mm": [
+      19.7,
+      -67.0,
+      16.0
+    ],
+    "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'proximal phalanx of the great toe, base:  lateral head to th'"
+  },
+  {
     "id": "anchor_gluteus_maximus_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "gluteus_maximus_r",
@@ -2698,6 +2830,18 @@
       5
     ],
     "notes": "auto-derived from bone landmark match against 'lateral base of patella, via quadriceps tendon'"
+  },
+  {
+    "id": "anchor_vastus_medialis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "vastus_medialis_r",
+    "parent_bone_frame": "femur_r",
+    "local_position_mm": [
+      19.3,
+      -200,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'linea aspera (medial lip), intertrochanteric line'"
   },
   {
     "id": "anchor_vastus_medialis_r_insertion",

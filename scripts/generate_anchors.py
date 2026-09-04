@@ -180,6 +180,55 @@ def _match(landmark_text: str, candidates: list):
     return pos, None
 
 
+_COMPARTMENT_STOPWORDS = {"part", "head", "belly", "division", "compartment",
+                          "the", "and", "muscle"}
+
+
+def _compartment_qualifier(name: str) -> str | None:
+    """The one word a compartment's own name contributes that its siblings
+    don't -- 'Adductor part' -> 'adductor', 'Hamstring (ischiocondylar) part'
+    -> 'hamstring', 'Medial head' -> 'medial'. None if nothing distinctive
+    is left, which is the common case (most compartments are 'Main' or
+    numbered, not textually distinguishable, and are left alone)."""
+    cleaned = re.sub(r"\([^)]*\)", " ", name.lower())
+    cleaned = re.sub(r"[^\w\s]", " ", cleaned)
+    words = [w for w in cleaned.split() if w not in _COMPARTMENT_STOPWORDS]
+    return words[0] if words else None
+
+
+def _split_by_compartments(text: str, qualifiers: list) -> dict | None:
+    """One muscle, one `attachments` block, but a text like 'adductor part:
+    X; hamstring part: Y' or '...base: medial head to A, lateral head to B'
+    is really two claims wearing one field. A single match then has to
+    pick one candidate for text that names two different sites, which is
+    exactly the tie _match refuses rather than guess.
+
+    Splits the text at each compartment's own qualifying word (first
+    occurrence, whichever comes first in the running text) and prepends
+    whatever precedes the first qualifier -- the shared site context both
+    compartments need ('proximal phalanx of the great toe, base:') -- to
+    every piece. Returns {qualifier: reconstructed_text}, or None if any
+    qualifier is missing from the text or two land at the same position
+    (nothing to split on, or the split would be ambiguous)."""
+    low = text.lower()
+    positions = []
+    for q in qualifiers:
+        m = re.search(rf"\b{re.escape(q)}\b", low)
+        if m is None:
+            return None
+        positions.append((m.start(), q))
+    if len(set(p for p, _ in positions)) != len(positions):
+        return None
+    positions.sort()
+    preamble = text[:positions[0][0]]
+    out = {}
+    for i, (start, q) in enumerate(positions):
+        end = positions[i + 1][0] if i + 1 < len(positions) else len(text)
+        chunk = text[start:end]
+        out[q] = (preamble + " " + chunk) if preamble else chunk
+    return out
+
+
 def main():
     bones = _load(DATA_DIR / "skeleton" / "bones.json")
     lut = _bone_landmark_lookup(bones)
@@ -190,6 +239,7 @@ def main():
     total_ends = 0
     matched_ends = 0
 
+    per_compartment_anchors = 0
     for path in muscle_files:
         payload = _load(path)
         entities = payload if isinstance(payload, list) else [payload]
@@ -197,6 +247,22 @@ def main():
             att = m.get("attachments")
             if not att:
                 continue
+            # A muscle whose compartments each carry their own distinguishing
+            # word ('adductor part' / 'hamstring part', 'medial head' /
+            # 'lateral head') can have its single attachments text split one
+            # clause per compartment. Most muscles' compartments don't
+            # (single compartment, or several identical 'Fascicle N' ones)
+            # and this is simply None for them -- unchanged, whole-muscle
+            # behaviour below.
+            comps = m.get("functional_compartments", [])
+            comp_qualifiers = None
+            if len(comps) >= 2:
+                quals = [(_compartment_qualifier(c.get("name", "")), c.get("id"))
+                         for c in comps]
+                if (all(q for q, _ in quals)
+                        and len(set(q for q, _ in quals)) == len(quals)):
+                    comp_qualifiers = quals
+
             for role, bone_key, landmark_key in (
                 ("muscle_origin", "origin_bone", "origin_landmark"),
                 ("muscle_insertion", "insertion_bone", "insertion_landmark"),
@@ -204,7 +270,39 @@ def main():
                 total_ends += 1
                 bone_id = att.get(bone_key)
                 landmark_text = att.get(landmark_key, "")
-                pos, skipped = _match(landmark_text, lut.get(bone_id, []))
+                candidates = lut.get(bone_id, [])
+
+                resolved_per_compartment = None
+                if comp_qualifiers:
+                    split = _split_by_compartments(
+                        landmark_text, [q for q, _ in comp_qualifiers])
+                    if split is not None:
+                        resolved_per_compartment = {}
+                        for q, comp_id in comp_qualifiers:
+                            p, _skip = _match(split[q], candidates)
+                            if p is None:
+                                resolved_per_compartment = None
+                                break
+                            resolved_per_compartment[comp_id] = (p, split[q])
+
+                if resolved_per_compartment is not None:
+                    matched_ends += 1
+                    for comp_id, (pos, chunk_text) in resolved_per_compartment.items():
+                        per_compartment_anchors += 1
+                        anchors.append({
+                            "id": f"anchor_{comp_id}_{role.split('_')[1]}",
+                            "anchor_type": role,
+                            "owner_entity": comp_id,
+                            "parent_bone_frame": bone_id,
+                            "local_position_mm": pos,
+                            "notes": "auto-derived, per functional compartment "
+                                     f"(one shared attachments field split by "
+                                     f"compartment), from bone landmark match "
+                                     f"against '{chunk_text[:60]}'",
+                        })
+                    continue
+
+                pos, skipped = _match(landmark_text, candidates)
                 if skipped:
                     displaced.append((m["id"], role, skipped))
                 if pos is not None:
@@ -222,7 +320,10 @@ def main():
     with open(DATA_DIR / "rig" / "anchors.json", "w") as f:
         json.dump(anchors, f, indent=2)
 
-    print(f"anchors written: {len(anchors)}")
+    print(f"anchors written: {len(anchors)}"
+          + (f" ({per_compartment_anchors} of them per-compartment, "
+             f"from a shared attachments field that named more than one site)"
+             if per_compartment_anchors else ""))
     if displaced:
         # Reported, never silent. A refused match is a gap the caller can see
         # and fill; a wrong match is a coordinate nobody questions.

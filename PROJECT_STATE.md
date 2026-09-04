@@ -129,6 +129,23 @@ by the owner, because Zenodo is unreachable from the build machine.
    method's own documented limit meeting a muscle whose real path wraps
    the medial tibial condyle. Fixing it needs a wrap surface or via point,
    which the anchor/rig schema doesn't carry yet.
+10. ~~Flexor hallucis brevis is refused an anchor... per-compartment
+   anchors would fix it.~~ **Fixed** — `generate_anchors.py` now splits a
+   muscle's one `attachments` text into one clause per compartment when
+   each compartment's own name supplies a distinguishing word ("medial
+   head"/"lateral head", "adductor part"/"hamstring part"), and emits one
+   anchor per compartment instead of refusing the tie. Also fixed
+   adductor_magnus (same mechanism) and, incidentally, restored
+   adductor_longus_r/adductor_brevis_r/vastus_medialis_r's insertion
+   anchors, which had silently had no anchor at all because femur_r had no
+   standalone "linea aspera" landmark (only the compound "gluteal
+   tuberosity/linea aspera" one) — added, mirroring femur_l. 226 → 238
+   anchors. **Still open**: vastus_lateralis_r's origin resolves to
+   "greater trochanter lateral facet (gluteus medius insertion)" — a
+   facet meant for a different muscle — because its own text names both
+   linea aspera AND greater trochanter and the latter scores higher; a
+   single-compartment multi-site origin, not fixable by the mechanism
+   above. Found while fixing the above, not investigated further.
 
 ## Next action
 

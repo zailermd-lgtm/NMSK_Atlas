@@ -485,6 +485,36 @@ atlas entity, so abductor pollicis brevis and abductor digiti minimi both
 resolve to digit III. Closing it needs the grouped bone entity split, which
 is a data-model change, not a correction.
 
+**Per-compartment anchors.** Flexor hallucis brevis's two heads insert on
+opposite sides of the hallux, described in one shared `attachments.
+insertion_landmark` string — "medial head ... via the medial sesamoid,
+lateral head ... via the lateral sesamoid" — and the generator refused it
+outright rather than guess which compartment the coordinate belonged to.
+`generate_anchors.py` now recognises when a muscle's compartments each
+supply their own distinguishing word (derived from the compartment's own
+`name`: "Medial head" -> "medial", "Adductor part" -> "adductor") and
+splits the ONE shared text into one clause per compartment at that word,
+matching each clause independently and emitting one anchor per
+compartment (`anchor_<compartment_id>_insertion`) instead of one anchor
+for the whole muscle. Falls back to the original whole-muscle match
+whenever the split can't be done cleanly (most muscles, which have one
+compartment or several undifferentiable ones), so nothing regresses.
+
+Fixed flexor hallucis brevis (medial/lateral heads) and adductor magnus
+(adductor/hamstring parts) this way. Doing so exposed a third,
+independent bug: femur_r had no standalone "linea aspera" landmark, only
+the compound "gluteal tuberosity/linea aspera" entry, so
+adductor_longus_r, adductor_brevis_r and vastus_medialis_r's insertions
+had silently resolved to nothing at all on the right side while their
+left counterparts worked — added, mirroring femur_l's entry. 226 -> 238
+anchors. Still open, found in the process and not yet fixed:
+vastus_lateralis_r's origin resolves to "greater trochanter lateral facet
+(gluteus medius insertion)" -- a facet that belongs to a different muscle
+-- because its own text names both linea aspera and greater trochanter
+and the trochanter facet scores higher; a single-compartment muscle with
+a genuinely multi-site origin, which the per-compartment mechanism above
+cannot help since there is only one compartment to split into.
+
 **Moment-arm cross-check — done for the regions modeled.**
 `scripts/validate_moment_arms.py` computes each muscle's moment arm as the
 classic rigid-body moment of a line-of-action force about an axis,
