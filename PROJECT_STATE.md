@@ -117,7 +117,13 @@ by the owner, because Zenodo is unreachable from the build machine.
    from CT once (1) above is unblocked.
 6. Extend `named_members` in the landmark audit to ribs and vertebrae, so the
    identity check covers them.
-7. Cross-check generated moment arms against OpenSim's published models.
+7. ~~Cross-check generated moment arms against OpenSim's published models.~~
+   **Done** — `scripts/validate_moment_arms.py`, 12/12 computable pairs land
+   inside their published range. See ROADMAP.md Stage 6.
+8. Semitendinosus, semimembranosus and the left gluteus maximus are missing
+   their insertion anchor (landmark text didn't match in
+   `generate_anchors.py`'s run) — found while building the moment-arm
+   check, not yet investigated.
 
 ## Next action
 

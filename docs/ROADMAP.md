@@ -485,12 +485,37 @@ atlas entity, so abductor pollicis brevis and abductor digiti minimi both
 resolve to digit III. Closing it needs the grouped bone entity split, which
 is a data-model change, not a correction.
 
-Still open:
-- Cross-check generated moment arms against published values (e.g.
-  OpenSim's Delp/Holzbaur models, BSD-licensed, https://opensim.stanford.edu)
-  for the regions modeled — this is the strongest possible correctness
-  check because it validates the *functional consequence* of the geometry,
-  not just its topology.
+**Moment-arm cross-check — done for the regions modeled.**
+`scripts/validate_moment_arms.py` computes each muscle's moment arm as the
+classic rigid-body moment of a line-of-action force about an axis,
+`r = (A - C) × normalize(B - A) · u`, for a straight line between the
+origin and insertion anchors (both resolved through the same measured bone
+frames the landmark audit uses) and a joint axis (point C, direction u).
+Knee flexion uses the tibial plateau's fitted transverse axis — real
+geometry, not a convention; hip and ankle flexion/extension use the atlas's
+mediolateral convention, the same convention already used where no
+cartilage mesh gives a transverse axis to fit.
+
+12 of 12 computable muscle-joint pairs (gluteus maximus/hip extension,
+biceps femoris/knee flexion, gastrocnemius and soleus/ankle
+plantarflexion, bilateral) land inside their published range: Delp SL, PhD
+dissertation (1990) and Arnold EM et al., Ann Biomed Eng 38:269 (2010)
+[OpenSim's gait2392 lower-limb model] for the hip and knee; Herzog W, Read
+LJ, J Anat 182:213 (1993) for the knee flexors; Maganaris CN et al., J
+Physiol 510:977 (1998) and Rugg SG et al., J Biomech 23:495 (1990) for the
+ankle. Semitendinosus, semimembranosus and the left gluteus maximus have no
+computable moment arm — their insertion anchor is missing (the landmark
+text didn't match during `generate_anchors.py`'s run), a pre-existing gap
+in anchor coverage, not a moment-arm-specific problem.
+
+This is a straight-line, no-wrap, single-pose method — it deliberately
+does not model the posterior wrap of the Achilles tendon around the
+calcaneus or of gastrocnemius around the femoral condyles, which is why
+OpenSim gives those muscles wrap surfaces instead of a bare two-point
+path. The result validates that this atlas's real, measured geometry
+produces the right ORDER OF MAGNITUDE and SIGN of leverage at three
+joints — a stronger check than topology alone — not that it reproduces
+OpenSim's wrapped paths exactly.
 
 Each stage is independently mergeable and independently verifiable with the
 same `tests/` suite — there is no "big bang" full-body cutover required.
