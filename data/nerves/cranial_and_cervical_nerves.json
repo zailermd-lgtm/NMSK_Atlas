@@ -1074,5 +1074,122 @@
   ],
   "notes": "Parasympathetic supply to the cardiac plexus; the efferent limb of the baroreceptor reflex, and the pathway exploited by vagal manoeuvres used to terminate supraventricular tachycardia.",
   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) ch.8; Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed. -- head and neck / summary of cranial nerves; Terminologia Anatomica (FICAT 1998)"
+ },
+ {
+  "id": "glossopharyngeal_n_tympanic_branch",
+  "name": "Tympanic branch (nerve of Jacobson)",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "glossopharyngeal_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "Re-enters the temporal bone through the inferior tympanic canaliculus to form the tympanic plexus on the promontory of the middle ear, then continues as the lesser petrosal nerve -- the parasympathetic route to the otic ganglion and, from there, the parotid gland."
+ },
+ {
+  "id": "lesser_petrosal_n",
+  "name": "Lesser petrosal nerve",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "glossopharyngeal_n_tympanic_branch",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "Carries preganglionic parasympathetic fibers from the tympanic plexus to the otic ganglion, exiting the skull through the foramen ovale alongside the mandibular nerve (CN V3)."
+ },
+ {
+  "id": "glossopharyngeal_n_carotid_branch",
+  "name": "Carotid sinus branch",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "glossopharyngeal_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "carotid sinus baroreceptors and carotid body chemoreceptors -- the afferent limb of the baroreceptor reflex; also at risk in carotid endarterectomy, where inadvertent stimulation causes acute bradycardia and hypotension"
+  ]
+ },
+ {
+  "id": "glossopharyngeal_n_tonsillar_branches",
+  "name": "Tonsillar branches",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "glossopharyngeal_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "palatine tonsil and surrounding oropharyngeal mucosa (soft palate, fauces) -- the sensory territory numbed by a peritonsillar/glossopharyngeal nerve block for tonsillectomy or awake fiberoptic intubation"
+  ]
+ },
+ {
+  "id": "glossopharyngeal_n_lingual_branch",
+  "name": "Lingual branches",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "glossopharyngeal_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "targets": [
+   "general sensation and taste from the posterior third of the tongue and vallate papillae -- the reason posterior tongue lesions refer pain to the ear (via the tympanic branch's shared central connections), unlike anterior two-thirds lesions"
+  ]
+ },
+ {
+  "id": "otic_ganglion",
+  "name": "Otic ganglion",
+  "plexus": "pharyngeal_plexus",
+  "parent_id": "lesser_petrosal_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "Lies just below the foramen ovale, applied to the mandibular nerve; postganglionic fibers reach the parotid gland by hitching a ride on the auriculotemporal nerve (CN V3) rather than traveling independently.",
+  "targets": [
+   "parotid gland (secretomotor) -- the parasympathetic supply responsible for salivation; aberrant regeneration of these fibers onto sweat glands after parotid surgery, misdirected to the overlying skin, produces Frey's (gustatory sweating) syndrome"
+  ]
+ },
+ {
+  "id": "greater_petrosal_n",
+  "name": "Greater petrosal nerve",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "Arises from the facial nerve at the geniculate ganglion, inside the temporal bone -- proximal to the stylomastoid foramen this atlas's facial_n_trunk otherwise starts from, included here as a child of it for parasympathetic completeness. Joins the deep petrosal (sympathetic) nerve to form the nerve of the pterygoid canal, which reaches the pterygopalatine ganglion."
+ },
+ {
+  "id": "pterygopalatine_ganglion",
+  "name": "Pterygopalatine (sphenopalatine) ganglion",
+  "plexus": "facial_n",
+  "parent_id": "greater_petrosal_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998); Piagkou M et al., Pain Pract 12:399 (2012) [SPG block anatomy]",
+  "notes": "The largest of the four cranial parasympathetic ganglia, suspended in the pterygopalatine fossa. Reached transnasally for sphenopalatine ganglion (SPG) block, a real image-guided/topical procedure used for cluster headache, migraine, and some facial neuralgias -- one of the few parasympathetic ganglia that is itself a routine injection/block target rather than only a relay point.",
+  "targets": [
+   "lacrimal gland (via the zygomatic nerve and lacrimal nerve, a well-documented parasympathetic detour through two branches of CN V1/V2) and the mucous glands of the nasal cavity, palate and pharynx"
+  ]
+ },
+ {
+  "id": "chorda_tympani_n",
+  "name": "Chorda tympani",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "Branches from the facial nerve in the facial canal, proximal to the stylomastoid foramen -- like the greater petrosal nerve, included here as a child of facial_n_trunk for parasympathetic completeness. Crosses the middle ear medial to the tympanic membrane (at risk in middle-ear surgery), then joins the lingual nerve (CN V3) to travel with it to the submandibular ganglion."
+ },
+ {
+  "id": "submandibular_ganglion",
+  "name": "Submandibular ganglion",
+  "plexus": "facial_n",
+  "parent_id": "chorda_tympani_n",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "Suspended from the lingual nerve above the deep part of the submandibular gland -- the only cranial parasympathetic ganglion not applied directly to a named foramen, since it hangs from the nerve carrying its preganglionic fibers rather than sitting at their site of entry.",
+  "targets": [
+   "submandibular and sublingual salivary glands (secretomotor); also carries taste fibers from the anterior two-thirds of the tongue, via the chorda tympani and lingual nerve, through this same relay without synapsing"
+  ]
+ },
+ {
+  "id": "ciliary_ganglion",
+  "name": "Ciliary ganglion",
+  "plexus": "extraocular_cranial_nerves",
+  "parent_id": "oculomotor_n_inferior_division",
+  "level": "terminal_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "notes": "The smallest of the four cranial parasympathetic ganglia, lying in the posterior orbit between the optic nerve and lateral rectus. Receives its parasympathetic root from the branch to inferior oblique (part of the oculomotor nerve's inferior division); a lesion here or along that root -- compressive (uncal herniation) or pharmacologic (mydriatic drops) -- produces a fixed, dilated pupil (Adie's tonic pupil, when the lesion is the ciliary ganglion itself) before it produces any extraocular muscle weakness, because the pupillomotor fibers run on the nerve's outer surface.",
+  "targets": [
+   "sphincter pupillae (pupillary constriction) and ciliary muscle (lens accommodation) -- both smooth muscle, not modeled as discrete entities in this atlas; postganglionic fibers reach the globe as the short ciliary nerves"
+  ]
  }
 ]
