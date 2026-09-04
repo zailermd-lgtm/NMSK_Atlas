@@ -125,7 +125,48 @@ def load_atlas_records():
     return out
 
 
-def summarise(folder, rec):
+def resolve_anchor_points(subject: str):
+    """muscle_id -> {"origin": [x,y,z], "insertion": [x,y,z]} in the atlas's
+    global mm frame, for every anchor whose bone has real measured geometry.
+
+    Anchors are stored in data/rig/anchors.json as a LOCAL position plus the
+    bone frame that owns it -- the same frames
+    scripts/audit_landmarks_vs_geometry.py fits from the ingested geometry
+    (femoral head sphere, tibial plateau transverse axis, etc.), reused here
+    rather than re-derived. Bones with no real geometry yet (everything
+    above the hip) have no frame, so their anchors are silently skipped --
+    the viewer then falls back to the text description alone, same as
+    before this existed.
+    """
+    anchors_path = DATA_DIR / "rig" / "anchors.json"
+    if not anchors_path.exists():
+        return {}
+    anchors = json.loads(anchors_path.read_text())
+    if not anchors:
+        return {}
+    from scripts.audit_landmarks_vs_geometry import load_geometry as _load_geom, build_frames
+    _manifest, blocks, by_atlas_id, faces_by_atlas_id = _load_geom(subject)
+    frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
+    out = {}
+    role_key = {"muscle_origin": "origin", "muscle_insertion": "insertion"}
+    for a in anchors:
+        frame = frames.get(a["parent_bone_frame"])
+        if frame is None:
+            continue
+        origin, basis = frame[:2]
+        world = origin + np.array(a["local_position_mm"], float) @ basis
+        # A compartment-level anchor (e.g. 'flexor_hallucis_brevis_r_medial')
+        # is filed under its own id, not the muscle's -- the inspector below
+        # only looks up the muscle id, so a handful of multi-headed muscles
+        # (flexor hallucis brevis, adductor magnus) won't show a point here
+        # even though one exists; their whole-muscle text description is
+        # unaffected, same as before this existed.
+        out.setdefault(a["owner_entity"], {})[role_key.get(a["anchor_type"], a["anchor_type"])] = \
+            [round(float(x), 1) for x in world]
+    return out
+
+
+def summarise(folder, rec, anchor_points=None):
     """What the inspector panel shows. Kept small on purpose."""
     out = {
         "name": rec.get("name_common") or rec.get("name") or rec.get("id"),
@@ -139,6 +180,18 @@ def summarise(folder, rec):
     if att:
         out["origin"] = f"{att.get('origin_bone', '')}: {att.get('origin_landmark', '')}".strip(": ")
         out["insertion"] = f"{att.get('insertion_bone', '')}: {att.get('insertion_landmark', '')}".strip(": ")
+        # Text alone left "pes anserinus" naming three different tendons'
+        # worth of muscle at the same vague spot. Where the muscle's own
+        # bone HAS real measured geometry, the anchor generator already
+        # resolved this to an actual point (data/rig/anchors.json); adding
+        # it here is the difference between reading a place-name and being
+        # shown where it is.
+        pts = (anchor_points or {}).get(rec.get("id"))
+        if pts:
+            if pts.get("origin"):
+                out["origin_point_mm"] = pts["origin"]
+            if pts.get("insertion"):
+                out["insertion_point_mm"] = pts["insertion"]
     inn = (rec.get("innervation") or {}).get("nerve")
     if inn:
         out["nerve"] = inn if isinstance(inn, list) else [inn]
@@ -207,6 +260,7 @@ def main() -> int:
     atlas = load_atlas_records()
     from engine import vh_ingest as vh
     category = {e.entity_id: e.category for e in vh.load_atlas_index()}
+    anchor_points = resolve_anchor_points(args.subject)
 
     parts, blobs, index = [], [], []
     vert_base = 0
@@ -240,7 +294,7 @@ def main() -> int:
             "tris_full": s["triangle_count"],
         }
         if rec is not None:
-            entry["rec"] = summarise(folder, rec)
+            entry["rec"] = summarise(folder, rec, anchor_points)
         index.append(entry)
         kept_tris += len(df)
         vert_base += len(dv)

@@ -136,6 +136,10 @@ aside{border-right:1px solid var(--line)}
 .empty{padding:26px 16px;color:var(--muted);font-size:12.5px}
 .pill{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);
       font-size:10.5px;margin:0 3px 3px 0}
+.pt-btn{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);
+      font-size:10.5px;margin:0 0 3px 6px;border:1px solid var(--accent);color:var(--accent);
+      cursor:pointer;font-family:inherit}
+.pt-btn:hover{background:var(--accent);color:#fff}
 .warn{margin-top:6px;font-size:11px;color:var(--risk)}
 @media (max-width:1080px){
   #app{grid-template-columns:200px minmax(0,1fr) 300px}
@@ -260,6 +264,26 @@ var centre = minv.clone().add(maxv).multiplyScalar(0.5);
 var span = maxv.clone().sub(minv);
 var radius = span.length() / 2;
 root.position.copy(centre).multiplyScalar(-1);
+
+/* Anchor-point markers: small spheres for a selected muscle's resolved
+   origin/insertion coordinates (data/rig/anchors.json, resolved against
+   real bone geometry -- see resolve_anchor_points() in
+   scripts/export_viewer_bundle.py). Parented under root so they sit in
+   the same raw-mm frame as the mesh vertices and pick up root's
+   recentring for free. Hidden until a point button is clicked. */
+var markerR = Math.max(3, radius * 0.012);
+var markerGeom = new THREE.SphereGeometry(markerR, 16, 16);
+var originMarker = new THREE.Mesh(markerGeom, new THREE.MeshBasicMaterial({color:0xffb703, depthTest:false}));
+var insertionMarker = new THREE.Mesh(markerGeom, new THREE.MeshBasicMaterial({color:0xff3d7f, depthTest:false}));
+originMarker.visible = insertionMarker.visible = false;
+originMarker.renderOrder = insertionMarker.renderOrder = 999;
+root.add(originMarker, insertionMarker);
+function showPoint(kind, x, y, z){
+  var m = kind === "origin" ? originMarker : insertionMarker;
+  m.position.set(x, y, z);
+  m.visible = true;
+  draw();
+}
 
 /* One atlas entity can arrive as SEVERAL meshes: the Denver release ships
    the two gastrocnemius heads separately where the atlas carries one
@@ -496,6 +520,12 @@ function num(v, unit, dp){
   return '<span class="mono">' + Number(v).toFixed(dp == null ? 0 : dp) + '</span>' +
          (unit ? '<small>' + unit + '</small>' : "");
 }
+function pointSuffix(pt, kind){
+  if (!pt) return "";
+  var xyz = pt.map(function(v){ return v.toFixed(1); }).join(", ");
+  return ' <button type="button" class="pt-btn" title="Resolved from real bone geometry -- click to mark in the 3D view" ' +
+    'onclick="showPoint(\'' + kind + '\',' + pt[0] + ',' + pt[1] + ',' + pt[2] + ')">📍 ' + xyz + ' mm</button>';
+}
 function zoneHtml(z){
   if (!z.range) return "";
   var lo = Math.max(0, Math.min(100, z.range[0])), hi = Math.max(0, Math.min(100, z.range[1]));
@@ -535,6 +565,7 @@ function pointHtml(p){
 }
 function select(id){
   selected = id;
+  originMarker.visible = insertionMarker.visible = false;
   var s = id ? groups[id] : null;
   var head = document.getElementById("i-name"), body = document.getElementById("i-body");
   document.querySelectorAll(".row").forEach(function(r){ r.setAttribute("aria-current", "false"); });
@@ -562,8 +593,10 @@ function select(id){
   var h = "";
   if (r.origin || r.insertion || r.nerve){
     h += '<div class="sec"><p class="eyebrow">Attachments and supply</p><dl class="kv">';
-    if (r.origin) h += "<dt>Origin</dt><dd>" + esc(r.origin) + "</dd>";
-    if (r.insertion) h += "<dt>Insertion</dt><dd>" + esc(r.insertion) + "</dd>";
+    if (r.origin) h += "<dt>Origin</dt><dd>" + esc(r.origin) +
+      pointSuffix(r.origin_point_mm, "origin") + "</dd>";
+    if (r.insertion) h += "<dt>Insertion</dt><dd>" + esc(r.insertion) +
+      pointSuffix(r.insertion_point_mm, "insertion") + "</dd>";
     if (r.nerve) h += "<dt>Nerve</dt><dd>" +
       r.nerve.map(function(n){ return '<span class="pill mono">' + esc(n) + "</span>"; }).join("") + "</dd>";
     h += "</dl></div>";
