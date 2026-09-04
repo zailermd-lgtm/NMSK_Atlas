@@ -143,12 +143,19 @@ def _match(landmark_text: str, candidates: list):
         # ties between sites that fit equally.
         site = set(_tokens(re.sub(r"\([^)]*\)", " ", name)))
         # A landmark that names a different ray is not a weaker match, it is
-        # the wrong bone. Only disqualify when BOTH sides state an ordinal:
-        # a landmark named for the group ("metatarsal heads") is a legitimate
-        # match for a text that names one ray, and a stray digit in prose
-        # ("each with 2 heads, bipennate") must not be read as a ray.
+        # the wrong bone. Only disqualify when BOTH sides state an ordinal
+        # AND neither's set contains the other's: a landmark named for the
+        # group ("metatarsal heads") is a legitimate match for a text that
+        # names one ray, a stray digit in prose ("each with 2 heads,
+        # bipennate") must not be read as a ray, and a text naming one ray a
+        # broader landmark's ordinals already cover is legitimate too.
+        # Overlap alone is not enough: a landmark for digits 2-4 (the dorsal
+        # interossei's own site) shares the digit 4 with text naming digits
+        # 3-5 (plantar interossei) merely because the ranges are adjacent,
+        # not because either names the other's site -- plantar interossei's
+        # insertion was anchored on the dorsal interossei's landmark this way.
         mine = _ordinals(name)
-        if wanted and mine and not (wanted & mine):
+        if wanted and mine and not (wanted <= mine or mine <= wanted):
             continue
         # Score by how many of the landmark's tokens the text contains, with
         # the fraction only as a tiebreak. Ordering matters and both orders
