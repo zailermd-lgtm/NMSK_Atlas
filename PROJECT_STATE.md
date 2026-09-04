@@ -148,55 +148,37 @@ by the owner, because Zenodo is unreachable from the build machine.
    above. Found while fixing the above, not investigated further.
 11. A full anchor-plausibility audit (every one of the 238 anchors,
     cross-referenced against the landmark it resolved to and the muscle's
-    own attachment text) found 3 more mismatches of the same shape as (9)
-    above, all in `_match()` in `scripts/generate_anchors.py`. One is
-    fixed; two are deliberately left open because every attempted general
-    fix broke other, previously-correct anchors elsewhere in the corpus —
-    recorded here in enough detail to fix properly later, rather than
-    patched into a worse state under time pressure.
-    - **Fixed**: `plantar_interossei_r/l`'s insertion matched a landmark
-      reserved for dorsal interossei ("digits 2-4") because the ordinal
-      check only required the two digit-sets to *overlap* (`3,4,5` and
-      `2,3,4` share the 4), not that one contain the other. Changed to
-      require a subset relationship. Verified against the full 808-endpoint
-      corpus: exactly those 2 anchors removed, nothing else changed.
-    - **Open**: `rhomboid_minor_r/l`'s insertion matches "spine of scapula
-      (trapezius insertion, deltoid origin)" instead of "medial (vertebral)
-      border (rhomboids, serratus anterior insertion)" — the correct
-      landmark's own first two tokens are `('medial', 'vertebral')`, and no
-      muscle's prose says "vertebral", so it never becomes a candidate.
-      Gating on site-only tokens (stripping the parenthetical qualifier)
-      fixes this but breaks `gluteus_medius_r/l`'s origin the same way in
-      the other direction — its correct landmark's site-only gate becomes
-      `('external', 'surface')`, and the text says "external ILIUM", never
-      "surface". A gate based on "at least N site words match, not
-      specifically the first two" fixes both of those but then admits
-      `adductor_longus`, `iliopsoas` and `obturator_externus` as false
-      candidates for gluteus medius/minimus's own landmarks, purely because
-      their unrelated text happens to contain 2 of that landmark's 8 site
-      words ("external", "surface"). No fix attempted so far survives the
-      whole corpus.
-    - **Open**: `extensor_carpi_ulnaris_r/l`'s origin matches "humeral head
-      (glenohumeral joint)" — the shoulder — instead of "lateral epicondyle
-      (common extensor origin)" — the elbow, ~330mm away. Both candidates
-      tie exactly on site-hit count and purity; the final tiebreaker
-      (fewer total tokens wins) picks the shorter name regardless of fit.
-      Dropping that tiebreaker turns this specific case into a correct
-      refusal, but also turns several previously-*correctly-resolved*
-      ties (`brachialis`'s insertion among others) into refusals, because
-      they relied on the same flawed tiebreaker for a right answer some of
-      the time. A real fix needs the tiebreaker to know something about
-      the muscle being anchored, not just the two candidate landmarks in
-      isolation — e.g. does either candidate's own attachment-list name
-      this muscle — which `_match()` does not currently receive.
-    - `vastus_lateralis_r/l`'s origin (item 9 above) turns out to be the
-      same class of problem as `extensor_carpi_ulnaris`: the correct
-      landmark ("gluteal tuberosity/linea aspera ... vastus
-      medialis/lateralis ...") explicitly names this muscle in its own
-      attachment list, which is exactly the "own-name" signal that would
-      fix it — reinforcing that a `_match()` signature change (passing the
-      owning muscle's id/name in) is the right next step for all three
-      open items at once, rather than three separate patches.
+    own attachment text) found 4 mismatches of the same shape, including
+    the previously-documented `vastus_lateralis_r/l` one (item 9 above).
+    All 4 are now fixed. One (`plantar_interossei`) took a general rule
+    fix; the other three took a named, explicit override instead, because
+    every general fix attempted for them corrected the target case while
+    silently breaking a different, previously-correct anchor elsewhere in
+    the corpus (verified each time by diffing the full anchors.json, not
+    by re-checking only the target case) — a symptom of `_match()`
+    deciding between candidate landmarks without knowing which muscle it
+    is placing. A `_match()` signature change to fix that properly (pass
+    the owning muscle's id in, so it can prefer a candidate whose own
+    attachment list names it) is still open as a design task, but three
+    known-bad pairs did not need to wait for it:
+    - **Fixed, general rule**: `plantar_interossei_r/l`'s insertion
+      matched a landmark reserved for dorsal interossei ("digits 2-4")
+      because the ordinal check only required the two digit-sets to
+      *overlap* (`3,4,5` and `2,3,4` share the 4), not that one contain
+      the other. Changed to require a subset relationship. Verified
+      against the full 808-endpoint corpus: exactly those 2 anchors
+      changed, nothing else.
+    - **Fixed, named override** (`_KNOWN_MISMATCH_OVERRIDES` in
+      `generate_anchors.py`): `rhomboid_minor_r/l` insertion,
+      `extensor_carpi_ulnaris_r/l` origin, and `vastus_lateralis_r/l`
+      origin. Each entry names the (muscle, role) pair and a substring
+      unique to the correct landmark's name, checked before `_match()`
+      runs at all. An assertion fires if `bones.json` ever changes such
+      that the substring no longer resolves to exactly one landmark, so a
+      stale override cannot silently point at the wrong thing (or
+      nothing). Verified against the full corpus: exactly those 6 anchors
+      changed, nothing else. 236 → 236 anchors (same count — these were
+      already "resolved", just resolved wrong).
 
 ## Next action
 

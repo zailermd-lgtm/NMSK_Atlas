@@ -236,6 +236,56 @@ def _split_by_compartments(text: str, qualifiers: list) -> dict | None:
     return out
 
 
+# `_match()` picks between candidate landmarks without knowing which
+# muscle it is placing. Three cases were found (a full audit against every
+# one of the 238 anchors, cross-checked against the muscle's own text and
+# the real geometry) where that costs the right answer: the correct
+# landmark loses to an unrelated one purely because the loser shares more
+# incidental words, or the correct one's own distinguishing word never
+# appears in ordinary muscle prose. Every general fix attempted for these
+# -- a looser gate, a stricter ordinal check, dropping the length-biased
+# tiebreak -- corrected the target case while silently breaking a
+# different, previously-correct anchor elsewhere in the corpus (verified
+# by diffing the full anchors.json each time, not by re-checking only the
+# target). See PROJECT_STATE.md for exactly what broke and why. Pinning
+# these three pairs directly is safer than shipping a broader rule whose
+# reach was not fully verified.
+_KNOWN_MISMATCH_OVERRIDES = {
+    ("rhomboid_minor_r", "muscle_insertion"): "vertebral",
+    ("rhomboid_minor_l", "muscle_insertion"): "vertebral",
+    ("extensor_carpi_ulnaris_r", "muscle_origin"): "common extensor origin",
+    ("extensor_carpi_ulnaris_l", "muscle_origin"): "common extensor origin",
+    # The original documented case (see ROADMAP.md's landmark-audit section
+    # and validate_moment_arms.py): "linea aspera (lateral lip), greater
+    # trochanter, intertrochanteric line" scores 3 site-word hits against
+    # "greater trochanter lateral facet (gluteus medius insertion)" -- a
+    # facet belonging to a different muscle -- against only 2 against the
+    # correct, explicitly self-naming landmark. Raw site-hit count is
+    # primary by design (the obturator internus/lesser trochanter case this
+    # function's docstring describes needs exactly that), so no reordering
+    # of the existing criteria reaches this one without unreordering that
+    # one.
+    ("vastus_lateralis_r", "muscle_origin"): "vastus medialis/lateralis",
+    ("vastus_lateralis_l", "muscle_origin"): "vastus medialis/lateralis",
+}
+
+
+def _apply_override(muscle_id: str, role: str, candidates: list):
+    """The verified-correct landmark's position for a (muscle, role) pair
+    _match() gets wrong, identified by a substring unique to that
+    landmark's name; None if this pair has no override, so the caller
+    falls through to _match() as normal."""
+    needle = _KNOWN_MISMATCH_OVERRIDES.get((muscle_id, role))
+    if needle is None:
+        return None
+    hits = [pos for name, pos in candidates if needle in name]
+    assert len(hits) == 1, (
+        f"override for {muscle_id} {role} expected exactly one landmark "
+        f"containing {needle!r}, found {len(hits)} -- bones.json changed "
+        f"under this override; fix or remove the entry")
+    return hits[0]
+
+
 def main():
     bones = _load(DATA_DIR / "skeleton" / "bones.json")
     lut = _bone_landmark_lookup(bones)
@@ -307,6 +357,21 @@ def main():
                                      f"compartment), from bone landmark match "
                                      f"against '{chunk_text[:60]}'",
                         })
+                    continue
+
+                override_pos = _apply_override(m["id"], role, candidates)
+                if override_pos is not None:
+                    matched_ends += 1
+                    anchors.append({
+                        "id": f"anchor_{m['id']}_{role.split('_')[1]}",
+                        "anchor_type": role,
+                        "owner_entity": m["id"],
+                        "parent_bone_frame": bone_id,
+                        "local_position_mm": override_pos,
+                        "notes": "manually verified override, not the automatic "
+                                 "matcher's own pick -- see PROJECT_STATE.md "
+                                 "for why this pair needed one",
+                    })
                     continue
 
                 pos, skipped = _match(landmark_text, candidates)

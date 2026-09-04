@@ -5,11 +5,11 @@
     "owner_entity": "rhomboid_minor_r",
     "parent_bone_frame": "scapula_r",
     "local_position_mm": [
-      -40,
-      80,
+      -140,
+      40,
       -40
     ],
-    "notes": "auto-derived from bone landmark match against 'medial border of scapula, at the root of the spine'"
+    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
   },
   {
     "id": "anchor_longissimus_r_origin",
@@ -161,11 +161,11 @@
     "owner_entity": "rhomboid_minor_l",
     "parent_bone_frame": "scapula_l",
     "local_position_mm": [
+      140,
       40,
-      80,
       -40
     ],
-    "notes": "auto-derived from bone landmark match against 'medial border of scapula, at the root of the spine'"
+    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
   },
   {
     "id": "anchor_trapezius_l_insertion",
@@ -821,11 +821,11 @@
     "owner_entity": "extensor_carpi_ulnaris_l",
     "parent_bone_frame": "humerus_l",
     "local_position_mm": [
-      0,
-      0,
-      0
+      -20,
+      -330,
+      5
     ],
-    "notes": "auto-derived from bone landmark match against 'humeral head: lateral epicondyle; ulnar head: posterior ulna'"
+    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
   },
   {
     "id": "anchor_flexor_digiti_minimi_brevis_hand_l_origin",
@@ -881,11 +881,11 @@
     "owner_entity": "extensor_carpi_ulnaris_r",
     "parent_bone_frame": "humerus_r",
     "local_position_mm": [
-      0,
-      0,
-      0
+      20,
+      -330,
+      5
     ],
-    "notes": "auto-derived from bone landmark match against 'humeral head: lateral epicondyle; ulnar head: posterior ulna'"
+    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
   },
   {
     "id": "anchor_extensor_carpi_radialis_brevis_r_origin",
@@ -1889,11 +1889,11 @@
     "owner_entity": "vastus_lateralis_l",
     "parent_bone_frame": "femur_l",
     "local_position_mm": [
-      -67.8,
-      -35.1,
-      -12.9
+      -19.1,
+      -200,
+      -7.4
     ],
-    "notes": "auto-derived from bone landmark match against 'linea aspera (lateral lip), greater trochanter, intertrochan'"
+    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
   },
   {
     "id": "anchor_vastus_lateralis_l_insertion",
@@ -2789,11 +2789,11 @@
     "owner_entity": "vastus_lateralis_r",
     "parent_bone_frame": "femur_r",
     "local_position_mm": [
-      67.3,
-      -36.4,
-      -18.4
+      19.1,
+      -200,
+      -7.4
     ],
-    "notes": "auto-derived from bone landmark match against 'linea aspera (lateral lip), greater trochanter, intertrochan'"
+    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
   },
   {
     "id": "anchor_vastus_lateralis_r_insertion",

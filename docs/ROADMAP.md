@@ -507,13 +507,35 @@ the compound "gluteal tuberosity/linea aspera" entry, so
 adductor_longus_r, adductor_brevis_r and vastus_medialis_r's insertions
 had silently resolved to nothing at all on the right side while their
 left counterparts worked — added, mirroring femur_l's entry. 226 -> 238
-anchors. Still open, found in the process and not yet fixed:
-vastus_lateralis_r's origin resolves to "greater trochanter lateral facet
-(gluteus medius insertion)" -- a facet that belongs to a different muscle
--- because its own text names both linea aspera and greater trochanter
-and the trochanter facet scores higher; a single-compartment muscle with
-a genuinely multi-site origin, which the per-compartment mechanism above
-cannot help since there is only one compartment to split into.
+anchors.
+
+**Full anchor-plausibility audit.** Every one of those 238 anchors,
+cross-checked against the landmark it resolved to and the muscle's own
+attachment text. Found one more general bug (`plantar_interossei`'s
+insertion landed on a dorsal-interossei-specific landmark because the
+ordinal-overlap check accepted any shared digit rather than requiring one
+range to contain the other — fixed by tightening it to a subset check,
+verified against the whole 808-endpoint corpus) and three more instances
+of `vastus_lateralis_r`'s class of bug: `rhomboid_minor_r/l` insertion and
+`extensor_carpi_ulnaris_r/l` origin (landing on the shoulder instead of
+the elbow). Every general fix attempted for these three corrected the
+target while breaking a different, previously-correct anchor elsewhere —
+a gate loosened to admit the right landmark also admitted false positives
+for unrelated muscles on the same bone; dropping the flawed
+shortest-name tiebreak turned other, previously-*correct* ties into
+refusals. Each attempt was verified against the full corpus before being
+reverted, not just against its target case.
+
+Fixed instead with `_KNOWN_MISMATCH_OVERRIDES`, a small named table in
+`generate_anchors.py`: each of the three (muscle, role) pairs maps to a
+substring unique to its correct landmark's name, checked before `_match()`
+runs. An assertion fails loudly if bones.json ever changes so the
+substring no longer resolves to exactly one landmark. All three, plus
+`vastus_lateralis_r`, share a root cause worth fixing properly: `_match()`
+never learns which muscle it is placing, so it cannot prefer a candidate
+whose own attachment list names that muscle — the signal that would
+resolve all four at once. That signature change is still open; the
+override table is the safe stopgap until it lands.
 
 **Moment-arm cross-check — done for the regions modeled.**
 `scripts/validate_moment_arms.py` computes each muscle's moment arm as the
