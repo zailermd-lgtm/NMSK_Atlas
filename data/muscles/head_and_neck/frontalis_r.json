@@ -50,6 +50,19 @@
       },
       "function_note": "No bony insertion -- true insertion is into the dermis of the eyebrow/forehead skin; modeled here as fixed to the frontal bone frame, an appropriate simplification since this atlas does not yet model a free-deforming skin layer (see docs/ROADMAP.md).",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            25,
+            75
+          ],
+          "reference_line_from": "superior margin of the eyebrow (mid-pupillary line)",
+          "reference_line_to": "hairline",
+          "method": "modified Sihler staining, whole-mount nerve arborization mapping (19 hemifaces, 15 embalmed cadavers)",
+          "notes": "Frontalis was divided into a 4x4 grid (4 rows from eyebrow to hairline x 4 columns from facial midline to temporal border). Distal endings of the temporal branch of the facial nerve were densest in the two central rows (57.9-89.5% of specimens), most heavily in the medial-to-mid columns; no endings were seen in the row nearest the hairline at the facial midline, and the row nearest the eyebrow risks crossing into procerus, corrugator supercilii and orbicularis oculi fibers. Two distinct arborization patterns were seen; 3 of 19 specimens (15.8%) had a markedly sparser nerve branch count -- a source of individual variability in response to a fixed injection pattern.",
+          "source": "Han JE, Kim T, Lee SH, Shin KJ, Sci Rep 15(1):8919 (2025), doi:10.1038/s41598-025-93900-x (https://doi.org/10.1038/s41598-025-93900-x) -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "facial_n_temporal_branch"
       ]

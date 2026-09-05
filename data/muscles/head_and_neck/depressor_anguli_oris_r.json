@@ -50,10 +50,47 @@
       },
       "function_note": "Broad triangular base along the mandible converging to the narrow modiolus insertion, mirroring zygomaticus major's opposite (elevating) action from the same modiolus target.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            67
+          ],
+          "reference_line_from": "mandibular (oblique line) attachment of depressor anguli oris",
+          "reference_line_to": "modiolus",
+          "method": "cadaveric topographic dissection, nerve entry point mapping (34 hemifaces)",
+          "notes": "The buccal branch of the facial nerve entered the muscle through the middle third of its lateral border in this series. The mental foramen lay within the DAO's coverage in 67.7% of specimens, so injections placed too far medially near the mandibular symphysis risk the mental nerve.",
+          "source": "Hur MS, Hu KS, Cho JY, Kwak HH, Song WC, Koh KS, Lorente M, Kim HJ, Surg Radiol Anat 30(5):403-407 (2008), doi:10.1007/s00276-008-0343-4 (https://doi.org/10.1007/s00276-008-0343-4) -- retrieved via PubMed"
+        },
+        {
+          "zone_percent_range": [
+            0,
+            33
+          ],
+          "reference_line_from": "mandibular (oblique line) attachment of depressor anguli oris",
+          "reference_line_to": "modiolus",
+          "method": "cadaveric topographic dissection, nerve entry point mapping (34 hemifaces)",
+          "notes": "The marginal mandibular branch of the facial nerve entered the muscle through the lower third of its lateral border (nearest the mandible) in 17 of 34 hemifaces (60.7%), providing supplementary co-innervation alongside the buccal branch -- a proposed anatomical explanation for the paradoxical DAO hypertonicity/DLI hypotonicity seen in synkinetic facial palsy.",
+          "source": "Hur MS, Hu KS, Cho JY, Kwak HH, Song WC, Koh KS, Lorente M, Kim HJ, Surg Radiol Anat 30(5):403-407 (2008), doi:10.1007/s00276-008-0343-4 (https://doi.org/10.1007/s00276-008-0343-4) -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "facial_n_marginal_mandibular_branch"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Over the labiomandibular fold, along the cutaneous line from the modiolus (oral commissure) to the mandibular first-molar border -- the DAO fibers consistently pass anterior to the first mandibular molar en route to the modiolus. A cadaveric landmark method (n=42) instead defines a fan-shaped safe injection zone bounded by two lines from the modiolus: one to the point where the DAO's lateral border meets the mandibular border (~44.7 degrees from the sagittal/vertical line through the modiolus), and one to the most concave point of the DAO's medial border (~31.8 degrees from that same vertical line).",
+    "depth_layer": "Superficial to the depressor labii inferioris medially; DAO's medial border overlaps DLI and its lateral border is adjacent to risorius, zygomaticus major and platysma, so injections should stay within the fan-shaped zone described above rather than at the muscle's overlapping edges.",
+    "identification_cues": "Ask the patient to depress the corner of the mouth (frown); the modiolus is located on average 11.0 +/- 2.6 mm lateral and 8.9 +/- 2.8 mm inferior to the cheilion, giving a reproducible starting landmark.",
+    "structures_at_risk": [
+      "depressor labii inferioris, overlapped by the DAO's medial border -- weakening it can worsen, not improve, smile asymmetry in synkinetic patients",
+      "buccal and marginal mandibular branches of the facial nerve, entering the muscle's lateral border in its middle and lower thirds respectively",
+      "mental nerve/foramen, confined within the DAO's coverage in 67.7% of specimens, at risk if injecting too far medially near the mandibular symphysis",
+      "facial artery, crossing near the anterior mandibular border close to the medial DAO"
+    ],
+    "notes": "Diagnostic percutaneous lidocaine injection along the modiolus-to-first-molar line is also used to confirm the DAO as the source of a synkinetic/hyperactive lower-lip pull before committing to BoNT-A or myectomy.",
+    "source": "Choi YJ, Kim JS, Gil YC, Phetudom T, Kim HJ, Tansatit T, Hu KS, Plast Reconstr Surg 134(5):917-921 (2014), doi:10.1097/PRS.0000000000000589 (https://doi.org/10.1097/PRS.0000000000000589) -- retrieved via PubMed; Krag AE, Dumestre D, Hembd A, Glick S, Mohanty AJ, Rozen SM, Plast Reconstr Surg 147(2):268e-278e (2021), doi:10.1097/PRS.0000000000007593 (https://doi.org/10.1097/PRS.0000000000007593) -- retrieved via PubMed"
+  }
 }

@@ -50,10 +50,35 @@
       },
       "function_note": "The most caudally-placed muscle of facial expression -- a thin sheet spanning from the chest wall fascia up into the lower face, unusually long and thin for a facial-expression muscle.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            0,
+            67
+          ],
+          "reference_line_from": "inferior border of the mandible",
+          "reference_line_to": "clavicle",
+          "method": "Sihler-stained cadaveric dissection translated into an ultrasound-guided clinical injection protocol (40 patients)",
+          "notes": "Motor end-plates, supplied by the cervical branch of the facial nerve (with supplementary marginal mandibular branch supply to the uppermost part), cluster in the upper two-thirds of the platysma; the lower third is innervated mainly by sensory nerves (transverse cervical, great auricular, supraclavicular) and contributes little to dynamic banding. The underlying Sihler-staining nerve map is reported separately in Cho TH, Won SY, Yang HM, Clin Anat 36(2):277-284 (2022), doi:10.1002/ca.23984.",
+          "source": "Yi KH, Wong IKJ, Wan J, J Cosmet Dermatol 24(7):e70301 (2025), doi:10.1111/jocd.70301 (https://doi.org/10.1111/jocd.70301) -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "facial_n_cervical_branch"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Linear probe over the anterior neck, transverse or along a vertical platysmal band; injection sites concentrated in the upper two-thirds of the muscle and along the marginal mandibular border -- e.g. 5 points along the mandibular body, 5 at the mandibular border, and 5 approximately 1.5-2.0 cm below the mandibular border (15 points/side).",
+    "depth_layer": "Superficial subdermal/subplatysmal plane; the muscle is thin and broad, immediately deep to the skin and superficial fat of the anterior neck.",
+    "identification_cues": "Visible/palpable vertical bands on contraction (platysmal banding); ultrasound confirms the thin muscle layer and helps titrate injection depth, particularly in patients with thicker pre-platysmal fat.",
+    "structures_at_risk": [
+      "deeper cervical strap muscles and neurovascular structures if the needle passes below the platysma (risk of dysphagia/dysphonia with over-deep injection)",
+      "marginal mandibular branch of the facial nerve near the mandibular border",
+      "transverse cervical, great auricular and supraclavicular nerves in the lower third (sensory; largely uninvolved in banding but nearby)"
+    ],
+    "notes": "In a 40-patient series, concentrating 30-60 U BoNT-A per side in the motor-rich upper two-thirds under ultrasound guidance produced a >=2-grade reduction in dynamic bands in 92.5% of patients by week 4 (maintained to week 12), with a 35% reduction in mean toxin dose and no dysphagia or lower-face weakness versus historical whole-muscle dosing. The authors note this is a preliminary clinical series (no control/randomized comparison), anatomically grounded in prior Sihler-staining nerve mapping of the platysma.",
+    "source": "Yi KH, Wong IKJ, Wan J, J Cosmet Dermatol 24(7):e70301 (2025), doi:10.1111/jocd.70301 (https://doi.org/10.1111/jocd.70301) -- retrieved via PubMed"
+  }
 }
