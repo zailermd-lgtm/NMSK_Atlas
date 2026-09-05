@@ -50,10 +50,35 @@
       },
       "function_note": "True insertion is onto the sclera of the eyeball, not a fixed bony point; the eyeball is not modeled as its own rigid body with rotational DOF in this pass (a natural candidate for a small future extension), so this muscle's insertion is given relative to the orbital bone frame as an engineering approximation of its resting position rather than a moving attachment.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            35,
+            47
+          ],
+          "reference_line_from": "scleral insertion",
+          "reference_line_to": "muscle origin at the common tendinous ring (annulus of Zinn)",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "Range across 20 specimens for the distance from the scleral insertion to the anterior-most termination of the intramuscular oculomotor nerve arborization, expressed as % of total muscle length; the terminal nerve plexus (site of highest motor endplate density) clusters near this point, close to mid-muscle length. Compared directly against inferior rectus in the same study; both share the same general Y-shaped arborization pattern.",
+          "source": "Haladaj R, Polguj M, Tubbs RS, 'Comparison of the Superior and Inferior Rectus Muscles in Humans: An Anatomical Study with Notes on Morphology, Anatomical Variations, and Intramuscular Innervation Patterns', Biomed Res Int 2020:9037693, doi:10.1155/2020/9037693 (https://doi.org/10.1155/2020/9037693) -- 20 SR specimens, Sihler staining, PMC7210515 -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "oculomotor_n_superior_division"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "EMG-needle approach, not ultrasound: with the globe anesthetized topically and gently rotated into infraduction to put SR on stretch, a fine monopolar EMG needle is passed percutaneously (or trans-conjunctivally through the superior fornix) toward the muscle belly a few millimeters posterior to its scleral insertion (~7mm behind the limbus), then advanced while the awake patient is asked to look up (elevate) so contraction-related EMG activity at the needle tip confirms intramuscular placement before injecting.",
+    "depth_layer": "Superficial extraocular/sub-Tenon plane just posterior to the insertion; the belly is thin (~9N max isometric force), so only a few millimeters of needle travel separate conjunctiva from the globe wall.",
+    "identification_cues": "EMG discharge that increases with attempted elevation (and with intorsion/adduction, its secondary actions) confirms the needle tip is in SR rather than in Tenon's fascia or an adjacent muscle.",
+    "structures_at_risk": [
+      "globe (perforation risk, given the short, thin muscle belly and the needle tip's proximity to the sclera)",
+      "levator palpebrae superioris, which lies immediately superficial to SR for most of its course and shares a fascial sheath with it -- diffusion here is the usual cause of inadvertent ptosis after SR injection",
+      "superior oblique tendon, which crosses under SR near the superonasal globe"
+    ],
+    "notes": "SR is only occasionally injected directly (most often for a vertical deviation such as dissociated vertical deviation, or paired with an antagonist injection); the EMG-guided percutaneous technique described here follows the method Alan Scott's group documents for extraocular muscle injection generally, most thoroughly published for the horizontal recti. Guidance is by needle-tip EMG, never ultrasound, in real clinical practice.",
+    "source": "Debert I, Miller JM, Danh KK, Scott AB, 'Pharmacologic injection treatment of comitant strabismus', J AAPOS 20(2):106-111.e2 (2016), doi:10.1016/j.jaapos.2015.11.011 (https://doi.org/10.1016/j.jaapos.2015.11.011) -- EMG-guided technique description, PMC4833878; Hariharan P, Balzer JR, Anetakis K, Crammond DJ, Thirumala PD, 'Electrophysiology of Extraocular Cranial Nerves: Oculomotor, Trochlear, and Abducens Nerve', J Clin Neurophysiol 35(1):11-15 (2018), doi:10.1097/WNP.0000000000000417 (https://doi.org/10.1097/WNP.0000000000000417) -- review noting EMG-guided botulinum injection in strabismus -- both retrieved via PubMed"
+  }
 }

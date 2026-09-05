@@ -50,10 +50,35 @@
       },
       "function_note": "Dual supply is what makes ptosis diagnostic: CN III palsy gives complete ptosis, whereas loss of the sympathetic supply to the smooth superior tarsal (Muller's) muscle within it gives the partial ptosis of Horner syndrome.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            0,
+            67
+          ],
+          "reference_line_from": "origin (lesser wing of the sphenoid, above the optic canal)",
+          "reference_line_to": "insertion (tarsal plate and skin of the upper eyelid)",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "The oculomotor branch typically wraps around the medial border of superior rectus (78.6% of specimens) before entering LPS's inferior surface; its tree-like intramuscular sub-branches concentrate within the proximal two-thirds of the muscle (this 0-67% band, counted from the origin), though thin retrograde twigs can extend as far as the insertion. This favors placing an injection posteriorly/proximally when the goal is to weaken the whole muscle uniformly.",
+          "source": "Haladaj R, Wysiadecki G, Tubbs RS, Topol M, 'Anatomical variations of the levator palpebrae superioris, including observations on its innervation and intramuscular nerves' distribution pattern', Ann Anat 228:151439 (2020), doi:10.1016/j.aanat.2019.151439 (https://doi.org/10.1016/j.aanat.2019.151439) -- 70 orbits, Sihler staining -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "oculomotor_n_superior_division"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Not an ultrasound or EMG technique in real practice -- guidance is by direct anatomic visualization. Classic technique: percutaneous/transcutaneous injection through the mid-upper-eyelid skin, 2-3mm above the lash line in the eyelid crease, needle angled toward the superior orbit and advanced 12-15mm to reach LPS anterior to the orbital septum. Modern, complication-reducing technique: the upper lid is double-everted over a Desmarres retractor and the toxin is injected trans-conjunctivally at the superior edge of Muller's muscle, where it lies immediately adjacent to LPS.",
+    "depth_layer": "Anterior orbit/eyelid, superficial to the orbital septum for the transcutaneous route; sub-conjunctival, just deep to Muller's muscle, for the trans-conjunctival route.",
+    "identification_cues": "No electrical or sonographic confirmation is used; correct placement is inferred from surface landmarks (eyelid crease, superior tarsal border) and from the resulting ptosis, which develops over 2-5 days.",
+    "structures_at_risk": [
+      "superior rectus, which the transcutaneous approach risks paretically involving if the injection tracks too posteriorly/deep -- the main reason the trans-conjunctival technique was developed",
+      "Muller's (superior tarsal) muscle -- unaffected by a purely transcutaneous injection, which is why lagophthalmos/incomplete ptosis is more common with that route",
+      "globe, if the needle is advanced too deep during the transcutaneous approach"
+    ],
+    "notes": "Used clinically to create a deliberate, reversible 'protective ptosis' covering the cornea in exposure keratopathy, neurotrophic ulcers, and facial-palsy-related lagophthalmos -- not for strabismus. This is one of the few extraocular botulinum indications where EMG guidance is NOT used at all; guidance is anatomic/visual.",
+    "source": "Tint NL, Saxby EPI, Young SL, Alexander P, 'A modified transconjunctival technique for botulinum toxin chemodenervation of levator palpebrae superioris for corneal protection', Eye (Lond) 36(6):1217-1221 (2022), doi:10.1038/s41433-021-01587-x (https://doi.org/10.1038/s41433-021-01587-x) -- 21 patients, PMC9151670; Naik MN, Gangopadhyay N, Fernandes M, Murthy R, Honavar SG, 'Anterior chemodenervation of levator palpebrae superioris with botulinum toxin type-A (Botox) to induce temporary ptosis for corneal protection', Eye (Lond) 22(9):1132-1136 (2007), doi:10.1038/sj.eye.6702866 (https://doi.org/10.1038/sj.eye.6702866) -- 10 eyes, classic transcutaneous technique -- both retrieved via PubMed"
+  }
 }

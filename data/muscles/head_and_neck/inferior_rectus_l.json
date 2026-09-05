@@ -50,10 +50,35 @@
       },
       "function_note": "True insertion is onto the sclera of the eyeball, not a fixed bony point; the eyeball is not modeled as its own rigid body with rotational DOF in this pass (a natural candidate for a small future extension), so this muscle's insertion is given relative to the orbital bone frame as an engineering approximation of its resting position rather than a moving attachment.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            27,
+            47
+          ],
+          "reference_line_from": "scleral insertion",
+          "reference_line_to": "muscle origin at the common tendinous ring",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "Range across 20 specimens for the distance from the scleral insertion to the anterior-most termination of the intramuscular oculomotor nerve arborization, expressed as % of total muscle length. A companion Sihler study of IR alone found the nerve entering near the posterior quarter of the muscle with its intramuscular course extending to about the distal three-fifths of the belly, broadly consistent with this range. In ~20% of specimens the branch supplying inferior oblique pierces IR en route -- a variant relevant to needle path planning.",
+          "source": "Haladaj R, Polguj M, Tubbs RS, 'Comparison of the Superior and Inferior Rectus Muscles in Humans...', Biomed Res Int 2020:9037693, doi:10.1155/2020/9037693 (https://doi.org/10.1155/2020/9037693) -- 20 IR specimens, Sihler staining, PMC7210515; Shin HJ, Lee SH, Ha TJ, Song WC, Lee AG, Koh KS, 'Intramuscular Nerves of the Inferior Rectus Muscle: Distribution and Characteristics', Curr Eye Res 45(12):1598-1603 (2020), doi:10.1080/02713683.2020.1776333 (https://doi.org/10.1080/02713683.2020.1776333) -- 93 IR specimens, Sihler staining -- both retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "oculomotor_n_inferior_division"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "EMG-needle approach, not ultrasound: with the eye held in supraduction to put IR on stretch, a monopolar EMG needle is passed percutaneously or trans-conjunctivally through the lower fornix toward the muscle belly a few millimeters posterior to its scleral insertion (~6.5mm behind the limbus), advanced while the awake patient looks down (depresses the eye) so EMG discharge at the needle tip confirms placement in IR before injecting -- used directly, for example, alongside lateral rectus transposition surgery for monocular elevation deficiency.",
+    "depth_layer": "Superficial extraocular/sub-Tenon plane just posterior to the insertion.",
+    "identification_cues": "EMG discharge increasing with depression (and with adduction/extorsion, its secondary actions).",
+    "structures_at_risk": [
+      "globe (perforation risk from the short muscle belly)",
+      "inferior oblique, which crosses IR's insertion region and in ~20% of people receives its nerve via a branch piercing IR",
+      "inferior division of the oculomotor nerve and ciliary ganglion, lying just posterior to the muscle near the orbital floor"
+    ],
+    "notes": "Direct IR injection is less common than horizontal-rectus injection but is used clinically, e.g. as an adjunct to lateral rectus transposition for monocular elevation deficiency. Guidance is by needle-tip EMG, never ultrasound, in real clinical practice.",
+    "source": "Chen AC, Velez FG, Silverberg M, Bergman M, Pineles SL, 'Single horizontal rectus muscle vertical augmented transposition with posterior fixation suture in management of monocular elevation deficiency', Strabismus 29(1):51-56 (2021), doi:10.1080/09273972.2020.1871376 (https://doi.org/10.1080/09273972.2020.1871376) -- case series including simultaneous IR botulinum toxin injection; Debert I, Miller JM, Danh KK, Scott AB, 'Pharmacologic injection treatment of comitant strabismus', J AAPOS 20(2):106-111.e2 (2016), doi:10.1016/j.jaapos.2015.11.011 (https://doi.org/10.1016/j.jaapos.2015.11.011) -- EMG-guided technique description, PMC4833878 -- both retrieved via PubMed"
+  }
 }
