@@ -50,6 +50,19 @@
       },
       "function_note": "Long fascicles like its neighbor brachioradialis; most radial of the wrist extensors.",
       "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            0,
+            33
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "cadaveric dissection -- radial-nerve motor branch entry point (motor point) location, not a Sihler's-stain arborization density map",
+          "notes": "In all 30 dissected limbs (100%), the nerve branch to ECRL entered the muscle within its proximal third; the branch itself averaged 2.9 +/- 1.0 motor sub-points and 3.2 +/- 1.0 cm in length. Motor point (nerve entry) is typically close to, but not identical with, the point of densest intramuscular arborization -- treat this range as a proximal-third targeting zone rather than a fine-grained endplate band.",
+          "source": "Caetano EB, Vieira LA, Sabongi Neto JJ, Caetano MBF, Picin CP, Silva Junior LCN, 'Anatomical Study of the Motor Branches of the Radial Nerve in the Forearm', Rev Bras Ortop (Sao Paulo) 55(6):764-770 (2020), doi:10.1055/s-0040-1713403 (https://doi.org/10.1055/s-0040-1713403) -- 30 limbs from 15 adult cadavers -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "radial_n"
       ]
