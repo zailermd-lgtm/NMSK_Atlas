@@ -56,6 +56,19 @@
    },
    "function_note": "Longer belly, derived embryologically from the 2nd pharyngeal arch (hence facial nerve innervation) -- a textbook example of a single named muscle whose two bellies have entirely different embryological origins and cranial nerve supplies, precisely the reason the schema gives this architecture its own enum value.",
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      33,
+      100
+     ],
+     "reference_line_from": "mastoid notch (posterior belly origin)",
+     "reference_line_to": "intermediate tendon at the hyoid bone (posterior belly insertion)",
+     "method": "modified Sihler's staining, intramuscular nerve distribution mapping",
+     "notes": "Intramuscular nerve endings were densely distributed in both the middle and anterior thirds (100% of 12 specimens) versus the posterior third nearest the mastoid notch (25%); the single facial-nerve entry point fell in the middle third in 75% of specimens and the posterior third in 25%. The posterior third is also disfavored practically: ultrasound transducer placement is limited there by the earlobe, and it lies deep to the mastoid process and sternocleidomastoid. The segment between the hyoid bone and the angle of the mandible is intermediate tendon only (no muscle fibers) and must be excluded from targeting. A landmark ~1 cm posterior to the angle of the mandible falls within this middle-to-anterior target zone. 12 specimens from 6 embalmed Korean cadavers (mean age 78.5 years).",
+     "source": "Park HJ, Choi YJ. 'Anatomy-Based Botulinum Toxin Injection of the Posterior Belly of Digastric Muscle.' Toxins (Basel) 18(7):302 (2026), doi:10.3390/toxins18070302 (https://doi.org/10.3390/toxins18070302) -- modified Sihler's staining, 12 specimens/6 cadavers. Retrieved via PubMed."
+    }
+   ],
    "innervation_branch_ids": [
     "facial_n_digastric_branch"
    ]
@@ -91,10 +104,47 @@
    },
    "function_note": "Shorter belly, derived from the 1st pharyngeal arch (hence trigeminal innervation), joined to the posterior belly by a rounded intermediate tendon that pierces/slings through stylohyoid and a fibrous loop attached to the hyoid.",
    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      33,
+      67
+     ],
+     "reference_line_from": "gnathion (chin point)",
+     "reference_line_to": "hyoid bone",
+     "method": "Sihler's staining, intramuscular nerve distribution mapping",
+     "notes": "Primary injection target: nerve endings were concentrated in the middle third in 100% of 12 specimens, and the mylohyoid nerve's single entry point into the muscle fell in the middle third in all cases. 12 specimens from 6 embalmed cadavers.",
+     "source": "Choi YJ, Hu HW, Kim SB, Lee JH, Kim ST, Kim HJ. 'Sihler's staining of the anterior belly of digastric muscle for botulinum toxin injection.' Surg Radiol Anat 46(9):1543-1548 (2024), doi:10.1007/s00276-024-03440-8 (https://doi.org/10.1007/s00276-024-03440-8) -- Sihler's staining, 12 specimens/6 cadavers. Retrieved via PubMed."
+    },
+    {
+     "zone_percent_range": [
+      0,
+      33
+     ],
+     "reference_line_from": "gnathion (chin point)",
+     "reference_line_to": "hyoid bone",
+     "method": "Sihler's staining, intramuscular nerve distribution mapping",
+     "notes": "Secondary, less consistent zone: nerve endings were also present in the anterior third (nearer the gnathion) in 58.3% of the same 12 specimens, versus 100% in the middle third above. No nerve endings were found in the posterior third (nearest the hyoid), which is excluded from targeting.",
+     "source": "Choi YJ, Hu HW, Kim SB, Lee JH, Kim ST, Kim HJ. 'Sihler's staining of the anterior belly of digastric muscle for botulinum toxin injection.' Surg Radiol Anat 46(9):1543-1548 (2024), doi:10.1007/s00276-024-03440-8 (https://doi.org/10.1007/s00276-024-03440-8) -- Sihler's staining, 12 specimens/6 cadavers. Retrieved via PubMed."
+    }
+   ],
    "innervation_branch_ids": [
     "trigeminal_n_v3_mylohyoid_branch"
    ]
   }
  ],
- "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Two separate targets on one muscle: for the posterior belly, place the transducer between the angle of the mandible and the anterior border of sternocleidomastoid, centered approximately 1 cm posterior to the angle of the mandible (falls within the anterior-to-middle-third target zone of that belly). For the anterior belly, place the transducer in the submental region along the line from the gnathion (chin point) to the hyoid bone, centered over the middle third of that line.",
+  "depth_layer": "Posterior belly: deep to the tail of the parotid gland at this level -- the needle traverses the parotid tail to reach the muscle. Anterior belly: superficial, directly beneath the platysma in the submental triangle.",
+  "identification_cues": "Angle of the mandible, gnathion and hyoid bone are palpable surface landmarks used to define both reference lines. For the posterior-belly target, Doppler ultrasound is recommended to confirm the position of the external jugular vein and carotid artery before needle passage.",
+  "structures_at_risk": [
+   "external jugular vein and carotid artery, near the posterior-belly injection site -- Doppler confirmation recommended before needle passage",
+   "parotid gland (the posterior-belly target lies deep to its tail; an overly superficial injection risks salivary dysfunction)",
+   "stylohyoid muscle, coursing parallel and deep to the posterior belly at this level -- an overly deep injection risks dysphagia from impaired hyoid/laryngeal elevation",
+   "facial nerve trunk, lying deep to the posterior belly near the stylomastoid foramen"
+  ],
+  "notes": "The digastric's two bellies are embryologically and functionally distinct (see functional_compartments for per-belly motor endplate zones) and are targeted separately. The segment between the hyoid bone and the angle of the mandible is intermediate tendon only and must be excluded from posterior-belly targeting. Ultrasound-guided injection of the anterior belly alongside masseter has separately been used clinically in a sleep-bruxism RCT, though that study did not report a landmark-referenced technique in the same detail as the two Sihler's-staining studies cited here.",
+  "source": "Park HJ, Choi YJ. 'Anatomy-Based Botulinum Toxin Injection of the Posterior Belly of Digastric Muscle.' Toxins (Basel) 18(7):302 (2026), doi:10.3390/toxins18070302 (https://doi.org/10.3390/toxins18070302); Choi YJ, Hu HW, Kim SB, Lee JH, Kim ST, Kim HJ. 'Sihler's staining of the anterior belly of digastric muscle for botulinum toxin injection.' Surg Radiol Anat 46(9):1543-1548 (2024), doi:10.1007/s00276-024-03440-8 (https://doi.org/10.1007/s00276-024-03440-8); Kim SB, Choi YJ, Kim ST, Kim HJ. 'Comparison between botulinum toxin type A injection on masseter muscle only and additional injection on anterior belly of digastric muscle in sleep bruxism patients.' J Oral Rehabil 51(10):2125-2132 (2024), doi:10.1111/joor.13800 (https://doi.org/10.1111/joor.13800) -- all retrieved via PubMed."
+ }
 }
