@@ -50,10 +50,35 @@
       },
       "function_note": "The principal adductor, and the direct antagonist of posterior cricoarytenoid.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            67
+          ],
+          "reference_line_from": "muscular process of the arytenoid (insertion)",
+          "reference_line_to": "upper border of the cricoid arch, laterally (origin)",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "Unlike posterior cricoarytenoid, LCA showed a single homogeneous nerve plexus confined to the middle third of the muscle in all 5 specimens studied, consistent with a single neuromuscular compartment (no evidence for functionally distinct medial/lateral zones despite some investigators' suggestion that its lateral edge assists abduction). The zone given here is that middle third.",
+          "source": "Sanders I, Mu L, Wu BL, Biller HF, 'The intramuscular nerve supply of the human lateral cricoarytenoid muscle', Acta Otolaryngol 113(5):679-682 (1993), doi:10.3109/00016489309135884 (https://doi.org/10.3109/00016489309135884) -- 5 human larynges, Sihler staining -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "vagus_n_recurrent_laryngeal_branch_r"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Percutaneous EMG-guided injection through the cricothyroid membrane, not ultrasound: using the same membrane-puncture approach as for thyroarytenoid, the needle is directed slightly more inferolaterally and deeper to reach LCA, which lies just deep/inferior to thyroarytenoid between the arytenoid's muscular process and the lateral cricoid arch.",
+    "depth_layer": "Deep to thyroarytenoid, in the paraglottic space between the cricoid arch and the arytenoid muscular process.",
+    "identification_cues": "EMG activity increasing with phonation/adduction, as for thyroarytenoid; the two muscles are not reliably distinguished by surface landmarks, so operators rely on needle depth and angle rather than a distinct EMG signature.",
+    "structures_at_risk": [
+      "thyroarytenoid, immediately superficial -- in practice the two are frequently co-injected/co-diffused rather than separately targeted (aniline-blue tracer reaches LCA in over 90% of thyroarytenoid injections)",
+      "cricoid cartilage, deep to the muscle -- limits how far medially/deep the needle should be advanced",
+      "airway lumen, if the needle is advanced through the full thickness of the paraglottic tissues"
+    ],
+    "notes": "LCA is rarely injected as an isolated target; it is most often treated as part of the thyroarytenoid injection for adductor spasmodic dysphonia (by direct spread) or, less commonly, deliberately co-injected with thyroarytenoid for a stronger adductor effect. Guidance is by EMG, never ultrasound.",
+    "source": "Blitzer A, Brin MF, Stewart CF, 'Botulinum toxin management of spasmodic dysphonia (laryngeal dystonia): a 12-year experience in more than 900 patients', Laryngoscope 108(10):1435-1441 (1998), doi:10.1097/00005537-199810000-00003 (https://doi.org/10.1097/00005537-199810000-00003); Alonso VM, Chagury AA, Hachiya A, Imamura R, Tsuji DH, Sennes LU, 'Diffusion of aniline blue injected into the thyroarytenoid muscle as a proxy for botulinum toxin injection...', Int Arch Otorhinolaryngol 17(3):315-320 (2013), doi:10.7162/S1809-977720130003000012 (https://doi.org/10.7162/S1809-977720130003000012) -- 94.3% of specimens showed diffusion from thyroarytenoid into LCA -- both retrieved via PubMed"
+  }
 }
