@@ -50,10 +50,35 @@
       },
       "function_note": "True insertion is onto the sclera of the eyeball, not a fixed bony point; the eyeball is not modeled as its own rigid body with rotational DOF in this pass (a natural candidate for a small future extension), so this muscle's insertion is given relative to the orbital bone frame as an engineering approximation of its resting position rather than a moving attachment.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            49,
+            56
+          ],
+          "reference_line_from": "scleral insertion",
+          "reference_line_to": "muscle origin at the common tendinous ring",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "The abducens nerve divides into superior and inferior intramuscular branches ~37mm posterior to the insertion; both branches' terminal arborizations end, on average, at 52.9% (SD 3.5%) of total muscle length from the insertion -- the range given is that mean +/- 1 SD. In 84% of specimens the superior and inferior branch territories did not overlap, i.e. LR has two largely separate neuromuscular subterritories rather than one homogeneous zone.",
+          "source": "Nam YS, Kim IB, Shin SY, 'Detailed anatomy of the abducens nerve in the lateral rectus muscle', Clin Anat 30(7):873-877 (2017), doi:10.1002/ca.22918 (https://doi.org/10.1002/ca.22918) -- 32 LR specimens, Sihler staining -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "abducens_n_terminal"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "EMG-guided percutaneous injection (Alan Scott technique): after topical anesthetic (e.g. proparacaine) and a topical vasoconstrictor, a fine EMG needle is inserted percutaneously (or trans-conjunctivally over the lateral globe) and advanced into the LR belly, most often aiming for its posterior two-thirds; the awake patient is asked to make voluntary gaze shifts into abduction (LR's field of action) while EMG is recorded at the needle tip to confirm intramuscular placement before injecting.",
+    "depth_layer": "Sub-Tenon/intramuscular, injected preferentially in the posterior two-thirds to middle of the belly rather than right at the insertion.",
+    "identification_cues": "EMG burst discharge time-locked to attempted abduction confirms the needle tip is within LR rather than in orbital fat or an adjacent muscle.",
+    "structures_at_risk": [
+      "globe (perforation, the main reported risk of EMG-guided EOM injection generally, though none occurred in the largest published series)",
+      "abducens nerve trunk, which divides into two branches ~37mm posterior to the insertion -- injecting too far posteriorly risks blocking the nerve rather than the muscle",
+      "lacrimal gland and vessels, lying superotemporal to LR"
+    ],
+    "notes": "The most extensively documented EMG-guided EOM injection technique in the literature, used for esotropia (weakening an overacting LR) or, as the antagonist injection, alongside medial rectus bupivacaine to correct exotropia. Guidance is by needle-tip EMG, never ultrasound.",
+    "source": "Debert I, Miller JM, Danh KK, Scott AB, 'Pharmacologic injection treatment of comitant strabismus', J AAPOS 20(2):106-111.e2 (2016), doi:10.1016/j.jaapos.2015.11.011 (https://doi.org/10.1016/j.jaapos.2015.11.011) -- 55 adults, EMG-guided technique, PMC4833878 -- retrieved via PubMed"
+  }
 }

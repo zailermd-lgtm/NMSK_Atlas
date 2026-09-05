@@ -50,10 +50,35 @@
       },
       "function_note": "True insertion is onto the sclera of the eyeball, not a fixed bony point; the eyeball is not modeled as its own rigid body with rotational DOF in this pass (a natural candidate for a small future extension), so this muscle's insertion is given relative to the orbital bone frame as an engineering approximation of its resting position rather than a moving attachment.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            45,
+            64
+          ],
+          "reference_line_from": "scleral insertion",
+          "reference_line_to": "muscle origin at the common tendinous ring",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "The oculomotor branch enters MR at a mean 24mm posterior to the insertion (~64% of the ~37.6mm muscle-belly length) and its Y-shaped terminal plexus finishes at a mean 17mm posterior to the insertion (~45% of belly length); this 45-64% band brackets where the plexus (and therefore motor endplates) concentrate. The upper part of the plexus consistently extends further anteriorly than the lower part.",
+          "source": "Shin HJ, Lee SH, Ha TJ, Song WC, Koh KS, 'Intramuscular Nerve Distribution in the Medial Rectus Muscle and Its Clinical Implications', Curr Eye Res 44(5):522-526 (2019), doi:10.1080/02713683.2018.1562556 (https://doi.org/10.1080/02713683.2018.1562556) -- 37 MR specimens, Sihler staining -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "oculomotor_n_inferior_division"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "EMG-guided percutaneous injection (Alan Scott technique): with topical anesthesia, a fine EMG needle is passed percutaneously or trans-conjunctivally over the medial globe into the MR belly; the awake patient is asked to make voluntary gaze shifts into adduction (MR's field of action) while EMG is recorded at the needle tip to confirm placement before injecting bupivacaine and/or botulinum toxin.",
+    "depth_layer": "Sub-Tenon/intramuscular; MR is the shortest-tendoned and largest-cross-section of the 4 recti, so the belly is reached only a few millimeters posterior to its insertion (~5.5mm behind the limbus).",
+    "identification_cues": "EMG burst discharge time-locked to attempted adduction.",
+    "structures_at_risk": [
+      "globe (perforation risk)",
+      "anterior ciliary vessels running with MR, injury to which (especially with bilateral MR surgery/injection) risks anterior segment ischemia",
+      "one reported case of persistent conjunctival thickening at 5-year follow-up after a maximal-dose (120mg bupivacaine) MR injection, prompting a subsequent 90mg per-injection ceiling"
+    ],
+    "notes": "The most extensively documented EMG-guided EOM injection technique in the literature, used for exotropia (weakening an overacting MR) or, as the antagonist injection, alongside lateral rectus bupivacaine to correct esotropia. Guidance is by needle-tip EMG, never ultrasound.",
+    "source": "Debert I, Miller JM, Danh KK, Scott AB, 'Pharmacologic injection treatment of comitant strabismus', J AAPOS 20(2):106-111.e2 (2016), doi:10.1016/j.jaapos.2015.11.011 (https://doi.org/10.1016/j.jaapos.2015.11.011) -- 55 adults, EMG-guided technique, PMC4833878 -- retrieved via PubMed"
+  }
 }

@@ -50,6 +50,19 @@
       },
       "function_note": "True insertion is onto the sclera of the eyeball, not a fixed bony point; the eyeball is not modeled as its own rigid body with rotational DOF in this pass (a natural candidate for a small future extension), so this muscle's insertion is given relative to the orbital bone frame as an engineering approximation of its resting position rather than a moving attachment.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            39
+          ],
+          "reference_line_from": "trochlea (fibrocartilaginous pulley)",
+          "reference_line_to": "superior oblique origin (body of sphenoid, superomedial to the optic canal)",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "Because SO's course distal to the trochlea is pure tendon, all motor endplates lie proximal to the trochlea, within the origin-to-trochlea muscle belly. The trochlear nerve's most distal (trochlea-ward) intramuscular ending sits a mean 17.2mm from the trochlea (~30% of total origin-to-insertion muscle length), and the intramuscular arborization spans a further ~9.4% of that length toward the origin. 71% of specimens showed no overlap between the anterior and posterior intramuscular nerve branches, i.e. two largely separate subterritories.",
+          "source": "Nam YS, Park Y, Kim IB, Shin SY, 'Detailed anatomy of the trochlear nerve in the superior oblique muscle', Graefes Arch Clin Exp Ophthalmol 257(10):2173-2178 (2019), doi:10.1007/s00417-019-04436-6 (https://doi.org/10.1007/s00417-019-04436-6) -- 28 orbits, Sihler staining; Haladaj R, Tubbs RS, Brzezinski P, Olewnik L, Polguj M, 'Anatomical variations and innervation patterns of the superior oblique muscle', Ann Anat 230:151522 (2020), doi:10.1016/j.aanat.2020.151522 (https://doi.org/10.1016/j.aanat.2020.151522) -- 78 orbits, Sihler staining -- both retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "trochlear_n_terminal"
       ]

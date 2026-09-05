@@ -50,10 +50,35 @@
       },
       "function_note": "True insertion is onto the sclera of the eyeball, not a fixed bony point; the eyeball is not modeled as its own rigid body with rotational DOF in this pass (a natural candidate for a small future extension), so this muscle's insertion is given relative to the orbital bone frame as an engineering approximation of its resting position rather than a moving attachment.",
       "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            50
+          ],
+          "reference_line_from": "insertion (posterolateral sclera, near the macula)",
+          "reference_line_to": "origin (orbital floor, lateral to the nasolacrimal groove)",
+          "method": "cadaveric Sihler's whole-mount nerve staining",
+          "notes": "The oculomotor nerve branch enters IO near the middle of the muscle and its root-like intramuscular arborization (covering ~7.6mm of a ~30.0mm-long muscle) extends toward the insertion, finishing around the boundary of the distal third of the muscle -- i.e. roughly the middle third of IO's length carries the motor endplates. IO is also the extraocular muscle most directly and most often injected clinically.",
+          "source": "Shin HJ, Lee SH, Ha TJ, Song WC, Koh KS, 'Intramuscular Nerve Distribution of the Inferior Oblique Muscle', Curr Eye Res 45(2):215-220 (2019), doi:10.1080/02713683.2019.1662055 (https://doi.org/10.1080/02713683.2019.1662055) -- 72 IO specimens, Sihler staining -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "oculomotor_n_inferior_division"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Trans-conjunctival, EMG- or landmark-guided injection: the globe is rotated into adduction and elevation (or steadied with forceps) to expose the inferotemporal bulbar conjunctiva, and a needle is passed through the conjunctiva over IO's known course beneath the inferolateral rectus/lateral canthus region, directly into the muscle belly; some centers add EMG confirmation via manual globe rotation, others inject by direct visualization alone under brief general anesthesia in children.",
+    "depth_layer": "Immediately deep to the inferotemporal bulbar conjunctiva/Tenon's capsule, superficial to the orbital floor periosteum.",
+    "identification_cues": "In the EMG-guided technique, discharge increasing with attempted extorsion/elevation-in-adduction (IO's action) confirms placement; in the trans-conjunctival pediatric technique the muscle is often directly visualized.",
+    "structures_at_risk": [
+      "inferior rectus, whose lateral border IO crosses obliquely just deep to it",
+      "inferior oblique's own neurovascular pedicle and the inferior vortex vein, which run near the muscle's posterior third",
+      "globe perforation if the needle is advanced beyond the thin muscle belly"
+    ],
+    "notes": "Two real technique variants: an EMG-guided percutaneous/trans-conjunctival approach in cooperative adults (used, for example, to simulate an inferior oblique myectomy before committing to surgery), and a simpler trans-conjunctival injection without EMG guidance (a fixed 5 units) commonly used under brief anesthesia in children with inferior oblique overaction. Guidance is EMG or direct visualization, not ultrasound, in real clinical practice.",
+    "source": "Norbury C, Shah H, Marsh I, 'Is inferior oblique botulinum toxin injection an effective surgical simulator prior to inferior oblique myectomy? A 30-year retrospective review', Strabismus 33(3):166-173 (2025), doi:10.1080/09273972.2025.2452623 (https://doi.org/10.1080/09273972.2025.2452623) -- 68 patients, EMG-guided technique by a single surgeon; AlQahtani G, Sesma G, AlMesfer S, Alhaimi F, 'Efficacy of botulinum toxin injection in treating primary inferior oblique overaction', Eur J Ophthalmol 36(4):1048-1053 (2026), doi:10.1177/11206721251414695 (https://doi.org/10.1177/11206721251414695) -- 42 eyes, trans-conjunctival technique in children -- both retrieved via PubMed"
+  }
 }
