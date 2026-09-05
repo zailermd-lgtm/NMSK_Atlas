@@ -798,5 +798,117 @@
     ],
     "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "gluteal_tendon_complex_r",
+    "name_ta": "Tendines musculorum glutei medii et minimi",
+    "name_common": "Gluteal (gluteus medius/minimus) tendon complex",
+    "side": "right",
+    "region": "hip",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "gluteus_medius_r",
+      "gluteus_minimus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gluteus_medius_r",
+        "landmark": "gluteus medius and gluteus minimus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_r",
+        "landmark": "greater trochanter, lateral facet (gluteus medius) and anterior facet (gluteus minimus)"
+      }
+    },
+    "parts": [
+      {
+        "id": "gluteal_tendon_r_medius",
+        "name": "Gluteus medius tendon",
+        "function_note": "Inserts on the lateral facet of the greater trochanter; this footprint, together with the gluteus minimus tendon immediately anterior to it, forms the hip's functional equivalent of the shoulder's rotator cuff (data/tendons/upper_limb_tendons.json's rotator_cuff_tendon_complex) -- degenerative tearing here is now understood as the primary lesion in most 'greater trochanteric pain syndrome' (GTPS), previously attributed mainly to trochanteric bursitis.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_medius_r",
+        "attachment_or_location": "greater trochanter, lateral facet"
+      },
+      {
+        "id": "gluteal_tendon_r_minimus",
+        "name": "Gluteus minimus tendon",
+        "function_note": "Inserts on the anterior facet of the greater trochanter, deep and anterior to the gluteus medius tendon; involved less often than gluteus medius in GTPS tendinopathy/tearing but frequently affected concurrently.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_minimus_r",
+        "attachment_or_location": "greater trochanter, anterior facet"
+      }
+    ],
+    "function": "The combined distal tendons of gluteus medius and gluteus minimus, which together abduct and internally rotate the hip and, functioning as a dynamic stabilizer, resist pelvic drop (Trendelenburg sign) during single-leg stance -- the hip's structural and functional analogue of the shoulder's rotator cuff.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer over the lateral hip directly above the greater trochanter, in both long-axis (parallel to the femoral shaft, tracking the gluteus medius tendon down to its lateral-facet footprint) and short-axis planes, with the patient side-lying and the hip slightly internally rotated to bring the tendon footprint into view.",
+      "target_zone": "The gluteus medius tendon footprint on the lateral facet of the greater trochanter (the most common site of tendinosis/partial tearing in GTPS) and, when involved, the gluteus minimus tendon on the anterior facet just anterior to it; the adjacent trochanteric bursa is frequently injected concurrently since bursal and tendon pathology commonly coexist.",
+      "depth_layer": "The iliotibial band and tensor fasciae latae lie superficial to the tendon footprint; the trochanteric bursa lies between the tendon and the overlying fascia; the femoral cortex of the greater trochanter lies immediately deep to the tendon insertion.",
+      "identification_cues": "Focal hypoechoic thickening or a discrete anechoic cleft (partial tear) at the tendon footprint, cortical irregularity of the greater trochanter, and peritendinous/bursal fluid; dynamic internal/external rotation can help distinguish tendon from adjacent iliotibial band.",
+      "structures_at_risk": [
+        "Superior gluteal nerve and vessels, proximal to the injection field",
+        "Sciatic nerve, posterior and deep to the trochanter -- outside the usual lateral approach but relevant if the needle is angled too far posteriorly"
+      ],
+      "notes": "Evidence is genuinely mixed, and this atlas records that honestly rather than presenting PRP as settled for GTPS. The best single trial -- Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025), a double-blinded RCT of 79 patients with ultrasound-guided injection into the trochanteric bursa and gluteus medius tendon -- found NO significant difference between leukocyte-rich PRP and placebo at any timepoint up to 12 months, concluding 'we do not support the routine use of PRP for the treatment of this condition.' Against this, a 2026 systematic review/meta-analysis of 5 GTPS RCTs (Kuhns BD et al., Arthroscopy, doi:10.1002/arj.70024) found a significant pooled treatment effect favoring PRP on the modified Harris Hip Score, and a separate systematic review of 4 GTPS RCTs (Mahajan U et al. 2024, Cureus, doi:10.7759/cureus.74690) found 2 of 4 trials positive and 2 negative, attributing much of the disagreement to unstandardized PRP preparation protocols (platelet concentration varied over two orders of magnitude across studies) and inconsistent injection-site targeting (gluteal tendon vs. bursa vs. both). Report this as real but unsettled evidence, not a confident indication.",
+      "source": "Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025) 'Efficacy of Platelet-Rich Plasma Versus Placebo for the Treatment of Greater Trochanteric Pain Syndrome: A Double-Blinded Randomized Controlled Trial.' J Bone Joint Surg Am 107(5):444-451, doi:10.2106/JBJS.24.00763 (https://doi.org/10.2106/JBJS.24.00763) -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Donati D et al. (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 -- confirms GTPS as primarily gluteus medius/minimus tendinopathy rather than isolated bursitis"
+  },
+  {
+    "id": "gluteal_tendon_complex_l",
+    "name_ta": "Tendines musculorum glutei medii et minimi",
+    "name_common": "Gluteal (gluteus medius/minimus) tendon complex",
+    "side": "left",
+    "region": "hip",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "gluteus_medius_l",
+      "gluteus_minimus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gluteus_medius_l",
+        "landmark": "gluteus medius and gluteus minimus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_l",
+        "landmark": "greater trochanter, lateral facet (gluteus medius) and anterior facet (gluteus minimus)"
+      }
+    },
+    "parts": [
+      {
+        "id": "gluteal_tendon_l_medius",
+        "name": "Gluteus medius tendon",
+        "function_note": "Inserts on the lateral facet of the greater trochanter; this footprint, together with the gluteus minimus tendon immediately anterior to it, forms the hip's functional equivalent of the shoulder's rotator cuff (data/tendons/upper_limb_tendons.json's rotator_cuff_tendon_complex) -- degenerative tearing here is now understood as the primary lesion in most 'greater trochanteric pain syndrome' (GTPS), previously attributed mainly to trochanteric bursitis.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_medius_l",
+        "attachment_or_location": "greater trochanter, lateral facet"
+      },
+      {
+        "id": "gluteal_tendon_l_minimus",
+        "name": "Gluteus minimus tendon",
+        "function_note": "Inserts on the anterior facet of the greater trochanter, deep and anterior to the gluteus medius tendon; involved less often than gluteus medius in GTPS tendinopathy/tearing but frequently affected concurrently.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_minimus_l",
+        "attachment_or_location": "greater trochanter, anterior facet"
+      }
+    ],
+    "function": "The combined distal tendons of gluteus medius and gluteus minimus, which together abduct and internally rotate the hip and, functioning as a dynamic stabilizer, resist pelvic drop (Trendelenburg sign) during single-leg stance -- the hip's structural and functional analogue of the shoulder's rotator cuff.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer over the lateral hip directly above the greater trochanter, in both long-axis (parallel to the femoral shaft, tracking the gluteus medius tendon down to its lateral-facet footprint) and short-axis planes, with the patient side-lying and the hip slightly internally rotated to bring the tendon footprint into view.",
+      "target_zone": "The gluteus medius tendon footprint on the lateral facet of the greater trochanter (the most common site of tendinosis/partial tearing in GTPS) and, when involved, the gluteus minimus tendon on the anterior facet just anterior to it; the adjacent trochanteric bursa is frequently injected concurrently since bursal and tendon pathology commonly coexist.",
+      "depth_layer": "The iliotibial band and tensor fasciae latae lie superficial to the tendon footprint; the trochanteric bursa lies between the tendon and the overlying fascia; the femoral cortex of the greater trochanter lies immediately deep to the tendon insertion.",
+      "identification_cues": "Focal hypoechoic thickening or a discrete anechoic cleft (partial tear) at the tendon footprint, cortical irregularity of the greater trochanter, and peritendinous/bursal fluid; dynamic internal/external rotation can help distinguish tendon from adjacent iliotibial band.",
+      "structures_at_risk": [
+        "Superior gluteal nerve and vessels, proximal to the injection field",
+        "Sciatic nerve, posterior and deep to the trochanter -- outside the usual lateral approach but relevant if the needle is angled too far posteriorly"
+      ],
+      "notes": "Evidence is genuinely mixed, and this atlas records that honestly rather than presenting PRP as settled for GTPS. The best single trial -- Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025), a double-blinded RCT of 79 patients with ultrasound-guided injection into the trochanteric bursa and gluteus medius tendon -- found NO significant difference between leukocyte-rich PRP and placebo at any timepoint up to 12 months, concluding 'we do not support the routine use of PRP for the treatment of this condition.' Against this, a 2026 systematic review/meta-analysis of 5 GTPS RCTs (Kuhns BD et al., Arthroscopy, doi:10.1002/arj.70024) found a significant pooled treatment effect favoring PRP on the modified Harris Hip Score, and a separate systematic review of 4 GTPS RCTs (Mahajan U et al. 2024, Cureus, doi:10.7759/cureus.74690) found 2 of 4 trials positive and 2 negative, attributing much of the disagreement to unstandardized PRP preparation protocols (platelet concentration varied over two orders of magnitude across studies) and inconsistent injection-site targeting (gluteal tendon vs. bursa vs. both). Report this as real but unsettled evidence, not a confident indication.",
+      "source": "Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025) 'Efficacy of Platelet-Rich Plasma Versus Placebo for the Treatment of Greater Trochanteric Pain Syndrome: A Double-Blinded Randomized Controlled Trial.' J Bone Joint Surg Am 107(5):444-451, doi:10.2106/JBJS.24.00763 (https://doi.org/10.2106/JBJS.24.00763) -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Donati D et al. (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 -- confirms GTPS as primarily gluteus medius/minimus tendinopathy rather than isolated bursitis"
   }
 ]
