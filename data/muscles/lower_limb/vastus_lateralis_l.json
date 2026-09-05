@@ -69,11 +69,36 @@
    },
    "function_note": "Largest PCSA of the 4 quadriceps heads.",
    "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      25,
+      75
+     ],
+     "reference_line_from": "greater trochanter of the femur",
+     "reference_line_to": "base of the patella",
+     "method": "modified Sihler's whole-mount nerve staining, 12 cadavers, cross-validated with ultrasound-guided dye injection",
+     "notes": "Muscle divided into 4 equal 25%-long zones. Nerve-ending density was lowest in zone 1 (0-25%, 14.1%), rose in zone 2 (25-50%, 26.6%), peaked in zone 3 (50-75%, 40.4%), and fell in zone 4 (75-100%, 19.0%); no entry points were seen in zone 4 at all. The source's own recommended injection point is the muscle midpoint (50%). A prior study (Li et al., cited by this source) placed the nerve-dense center at ~48.9% with a broader 25-72% range, consistent with this finding.",
+     "source": "Yi KH, Hu H, Hwang SO, Lee JH, Lee HJ (2026) Sci Rep 16(1):5353, doi:10.1038/s41598-026-37960-7 -- retrieved via PubMed"
+    }
+   ],
    "innervation_branch_ids": [
     "femoral_n",
     "femoral_n_branch_to_vastus_lateralis"
    ]
   }
  ],
- "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Transverse (short-axis) over the lateral thigh, first positioned to differentiate vastus intermedius (deep) from vastus lateralis (superficial), then swept toward the VL insertion to confirm the muscle narrowing distally; the injection point is the muscle's midpoint (50%) between the greater trochanter and the base of the patella, at the intersection with the lateral-third line of the thigh.",
+  "depth_layer": "Skin, subcutaneous fat, fascia lata, then vastus lateralis muscle belly; scanning depth 3-5 cm depending on muscle thickness. Muscle thickness peaks in the mid-thigh (zone 3) and thins distally (zone 4).",
+  "identification_cues": "VL is confirmed by its narrowing toward the muscle-tendon junction near the patella and by tracking it as a distinct layer superficial to vastus intermedius.",
+  "structures_at_risk": [
+   "vastus intermedius",
+   "rectus femoris",
+   "tensor fasciae latae"
+  ],
+  "notes": "Cadaveric validation: a 23-gauge 2.54-cm needle placed in-plane under real-time transverse ultrasound at the midpoint target delivered 2 mL of dye that stayed confined to VL, spreading ~15 cm along the muscle fibers with no diffusion into vastus intermedius, rectus femoris, or tensor fasciae latae in any of 4 thighs tested.",
+  "source": "Yi KH, Hu H, Hwang SO, Lee JH, Lee HJ (2026) Sci Rep 16(1):5353, doi:10.1038/s41598-026-37960-7 -- retrieved via PubMed"
+ }
 }

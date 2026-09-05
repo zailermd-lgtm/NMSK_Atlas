@@ -50,10 +50,34 @@
       },
       "function_note": "Makes a sharp ~90-degree turn around the lesser sciatic notch (acting as a pulley) between its origin and insertion -- a genuine anatomical redirection, not just a curved path.",
       "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            20,
+            40
+          ],
+          "reference_line_from": "medial edge of the obturator foramen",
+          "reference_line_to": "greater trochanter of the femur",
+          "method": "modified Sihler's whole-mount nerve staining, 16 cadaveric specimens",
+          "notes": "The intrapelvic portion of the muscle carries the neural arborization; the source states most of the extrapelvic portion (beyond the lesser sciatic notch) is tendinous and should be considered unsuitable as an injection site.",
+          "source": "Yi KH, An MH, Lee JH, Lee HJ (2023) Surg Radiol Anat 45(10):1239-1244, doi:10.1007/s00276-023-03216-6 -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "nerve_to_obturator_internus"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Patient prone; transducer placed transversely over the posterior hip near the ischial spine/lesser sciatic notch, deep to gluteus maximus, to bring obturator internus into short axis for a direct intramuscular approach.",
+    "depth_layer": "Deep to gluteus maximus, superficial to the ischium and hip joint capsule.",
+    "structures_at_risk": [
+      "sciatic nerve",
+      "inferior gluteal vessels",
+      "superior gluteal vessels"
+    ],
+    "notes": "Validated in a cadaveric model (5 pelvis specimens, 22-gauge 3.5-in needle): direct sonographic guidance for an intramuscular obturator internus injection placed 100% of the injectate within the muscle with no injury to the sciatic nerve or gluteal arteries in any specimen. For the chronic-pelvic-pain indication (rather than hip external-rotator spasticity), obturator internus is instead often approached transvaginally with EMG/nerve-stimulation guidance or under fluoroscopy/CT, targeting the intrapelvic portion described in motor_endplate_zones since the extrapelvic portion is largely tendinous.",
+    "source": "Smith J, Wisniewski SJ, Wempe MK, Landry BW, Sellon JL (2012) J Ultrasound Med 31(10):1597-1608, doi:10.7863/jum.2012.31.10.1597 -- retrieved via PubMed"
+  }
 }

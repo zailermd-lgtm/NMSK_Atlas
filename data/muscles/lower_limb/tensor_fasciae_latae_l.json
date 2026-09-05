@@ -50,10 +50,28 @@
       },
       "function_note": "Its tendon becomes the iliotibial band's proximal continuation, giving it a functional influence extending all the way to the knee -- a genuine two-joint muscle-tendon unit.",
       "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            10.1,
+            25
+          ],
+          "reference_line_from": "anterior superior iliac spine (ASIS)",
+          "reference_line_to": "patella",
+          "method": "modified Sihler's whole-mount nerve staining, 20 cadaveric specimens (16 fixed, 4 fresh)",
+          "notes": "Superior gluteal nerve branches entered the muscle only within parts 3-5 of a 20-part ASIS-to-patella scale (10.1-25%); main branches concentrated in parts 4-5 (15.1-25%), tiny branches sometimes extended to part 8 (up to ~38.8%, the muscle's own distal end). No branches were seen in parts 1-3 (0-15%).",
+          "source": "Choi S, Yang HM, Cho TH, Yeo IS, Won SY (2023) Clin Anat 36(8):1089-1094, doi:10.1002/ca.24034 -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "superior_gluteal_n"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Over the anterolateral proximal thigh where TFL forms a discrete fascial envelope between gluteus medius and sartorius/rectus femoris, visualized in short or long axis for direct sonographic needle guidance; the intramuscular target sits within 10-25% of the way from the ASIS to the patella (see motor_endplate_zones).",
+    "notes": "Clinically validated: 45 patients received ultrasound-guided botulinum toxin A (Dysport) injection into TFL for lateral patellofemoral overload syndrome, with significant improvement in anterior knee pain scores sustained to a mean 5-year follow-up.",
+    "source": "Stephen JM, Urquhart DWJ, van Arkel RJ, Ball S, Jaggard MKJ, Lee JC, Church JS (2016) Am J Sports Med 44(5):1195-1202, doi:10.1177/0363546516629432 -- retrieved via PubMed"
+  }
 }
