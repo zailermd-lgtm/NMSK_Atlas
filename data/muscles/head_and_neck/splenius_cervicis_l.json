@@ -67,10 +67,33 @@
           "source": "He X, Wen S, Liu X, Li Y, Yang S, 'Optimal target localization for botulinum toxin A in treating splenius muscles dystonia based on the distribution of intramuscular nerves and spindles', Anat Sci Int 101(1):44-53 (2025), doi:10.1007/s12565-025-00831-8 -- 24 adults, modified Sihler's staining with muscle-spindle histology and CT localisation"
         }
       ],
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            70
+          ],
+          "reference_line_from": "spinous processes T3-T6 (origin)",
+          "reference_line_to": "posterior tubercles of the transverse processes C1-C3 (insertion)",
+          "method": "modified Sihler's staining, intramuscular nerve arborization mapping",
+          "notes": "Nerve pathways ran vertically from the insertion toward the origin, with motor entry concentrated over the middle 40% of muscle length. Muscle is also implicated in chronic tension-type headache. A later cadaveric CT-localization study on an independent sample narrowed the densest sub-zone further, to roughly 56-64% of muscle length -- see this muscle's injection_target_points entry for that more precise point.",
+          "source": "Kwon HJ, Yang HM, Won SY, 'Intramuscular innervation patterns of the splenius capitis and splenius cervicis and their clinical implications for botulinum toxin injections', Clin Anat 33(8):1138-1143 (2020), doi:10.1002/ca.23553 -- 10 splenius cervicis specimens from cadaveric dissection, modified Sihler's staining. Retrieved via PubMed."
+        }
+      ],
       "innervation_branch_ids": [
         "dorsal_ramus_lateral_branches"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "High-frequency linear probe (5-18 MHz) over the posterior triangle of the neck at the level of the C4-C5 spinous processes; scan laterally to identify the levator scapulae muscle belly, then look immediately deep to it.",
+    "depth_layer": "Deep to levator scapulae; at the C4-C5 level splenius cervicis is the most superficial component of the common lateral muscle mass (shared with longissimus cervicis, and with splenius capitis more cranially).",
+    "identification_cues": "Dynamic lateral scanning shows the muscle's downward, backward and inward fiber orientation, helping distinguish it from the adjacent longissimus cervicis. The chosen landmark was validated by placing a metal clip under ultrasound guidance and confirming its position by cadaveric dissection.",
+    "structures_at_risk": [
+      "levator scapulae (deliberately transfixed en route to the target)"
+    ],
+    "notes": "Injection is carried out anteroposteriorly, transfixing levator scapulae, aiming for the craniocaudal space bounded by the horizontal lines through the C4 and C5 spinous processes. Landmark defined on 2 fixed cadavers plus MRI/ultrasound correlation in a healthy volunteer, then validated on a fresh cadaver.",
+    "source": "Brumpt E, Aubry S, Vuillier F, Tatu L, 'Anatomo-sonographic identification of the longissimus capitis and splenius cervicis muscles: principles for possible application to ultrasound-guided botulinum toxin injections in cervical dystonia', Surg Radiol Anat 43(6):909-915 (2021), doi:10.1007/s00276-020-02646-w -- 2 fixed cadavers + 1 fresh cadaver, ultrasound/MRI correlation with cadaveric dissection validation. Retrieved via PubMed."
+  }
 }
