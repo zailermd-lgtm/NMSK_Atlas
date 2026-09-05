@@ -71,6 +71,36 @@
       }
     },
     "function": { "type": "string" },
+    "prp_injection_approach": {
+      "type": "object",
+      "description": "How this tendon is found and safely injected under ultrasound for PRP/orthobiologic or corticosteroid injection -- distinct from a muscle's motor_endplate_zones/ultrasound_injection_approach, since a tendon injection targets a region of the tendon itself (an enthesis, a watershed/hypovascular zone, mid-substance) rather than a motor point. Only populated where real, citable clinical literature (tendinopathy injection trials, cadaveric injection-approach studies) exists for this specific tendon.",
+      "required": ["transducer_placement", "source"],
+      "properties": {
+        "transducer_placement": {
+          "type": "string",
+          "description": "probe position and orientation, referenced to palpable landmarks"
+        },
+        "target_zone": {
+          "type": "string",
+          "description": "the clinically targeted region within the tendon (e.g. 'watershed zone, 2-6 cm proximal to the calcaneal insertion' for the Achilles tendon, or 'common extensor origin at the lateral epicondyle'), and why -- typically the site of documented hypovascularity or the site of maximal tendinosis on imaging."
+        },
+        "depth_layer": {
+          "type": "string",
+          "description": "which layer the tendon occupies and what lies superficial and deep to it"
+        },
+        "identification_cues": {
+          "type": "string",
+          "description": "sonographic appearance (hypoechoic tendinosis, neovascularity, calcification) and dynamic manoeuvres that confirm the tendon and the pathology being targeted"
+        },
+        "structures_at_risk": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "nerves and vessels close enough to the needle path to matter"
+        },
+        "notes": { "type": "string" },
+        "source": { "type": "string" }
+      }
+    },
     "source": { "$ref": "common.schema.json#/definitions/citation" }
   },
   "required": ["id", "name_ta", "region", "tendon_type", "parent_muscles", "attachments", "parts", "function", "source"]
