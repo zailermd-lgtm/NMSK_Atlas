@@ -50,10 +50,34 @@
       },
       "function_note": "Its origin tendon runs intra-articularly (inside the knee joint capsule) before the muscle belly proper begins -- a distinctive anatomical relationship among lower-limb muscles.",
       "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            56,
+            64
+          ],
+          "reference_line_from": "insertion (posterior tibia, above the soleal line)",
+          "reference_line_to": "origin (lateral femoral condyle)",
+          "method": "modified Sihler's whole-mount nerve staining + grid-based density mapping, 26 muscles from 16 cadavers, cross-validated with ultrasonography",
+          "notes": "Insertion defined as 0% and origin as 100% of muscle length. Tibial nerve branches (2.8 +/- 1.1 per specimen) entered along the posterolateral margin near the fibular head; the consistently high-density entry zone (superolateral one-third of the muscle) fell at 56-64% from the insertion. A separate branch supplying tibialis posterior crossed the muscle surface at ~51.3% and showed more variable positioning, warranting caution there.",
+          "source": "Kim SJ, Lee JH, Yeo IS (2026) Diagnostics (Basel) 16(6):834, doi:10.3390/diagnostics16060834 -- retrieved via PubMed"
+        }
+      ],
       "innervation_branch_ids": [
         "tibial_n_branch_to_popliteus"
       ]
     }
   ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset"
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Cadaver/patient prone, knee flexed ~20 degrees, ankle neutral. A virtual line is drawn from the muscle's proximal origin to its distal insertion as a probe-placement reference; the transducer is placed longitudinally along this line, then shifted medially and laterally to confirm the muscle's borders, then rotated to an oblique orientation over the central tendon to assess fascicle arrangement.",
+    "depth_layer": "Popliteus separates into a superficial layer, a central tendon, and a deep layer on ultrasound; penetration depth 4-7 cm depending on body size. The high-density nerve entry zone lies along the posterolateral margin near the fibular head.",
+    "identification_cues": "The central tendon is the most distinctly visualized landmark, dividing the muscle into a thinner, more pennate superficial layer and a more homogeneous, less pennate deep layer.",
+    "structures_at_risk": [
+      "tibial nerve",
+      "popliteal vessels"
+    ],
+    "notes": "Assessed with a 40-mm linear array transducer (3-14 MHz). The branch to tibialis posterior crosses near 51.3% of muscle length and is more variably placed, so needle depth/trajectory should be adjusted with extra care in that region.",
+    "source": "Kim SJ, Lee JH, Yeo IS (2026) Diagnostics (Basel) 16(6):834, doi:10.3390/diagnostics16060834 -- retrieved via PubMed"
+  }
 }
