@@ -50,6 +50,19 @@
       },
       "function_note": "Sometimes absent as a distinct belly, blended with opponens digiti minimi -- a documented anatomical variant.",
       "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            67
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve mapping",
+          "notes": "Two main branches of the ulnar nerve run in parallel through the middle part of the muscle, obliquely following the fibre direction from the ulnar origin to the radial insertion, before dividing into major branches with an H-like anastomosis. The source states this in words ('middle part') rather than as a measured percentage -- it is a hand-surgery paper, not an injection-targeting one -- so the range is that wording read as thirds of muscle length, and nothing narrower is claimed.",
+          "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+        }
+      ],
       "innervation_branch_ids": [
         "ulnar_n_deep_branch"
       ]
