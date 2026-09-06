@@ -432,6 +432,34 @@
         }
       }
     },
+    "trigger_points": {
+      "type": "array",
+      "description": "Myofascial trigger point(s) and their documented referred-pain pattern (Travell & Simons framework). Distinct from motor_endplate_zones and ultrasound_injection_approach: those describe where/how to deliver a therapeutic injection into the motor point, while this describes a palpable taut-band point whose compression reproduces pain felt elsewhere -- a differential-diagnosis and manual-therapy construct, not itself an injection target, though trigger-point dry needling/injection is a real, separate procedure some sources describe. Populated only where a specific, citable source (typically Travell, Simons & Simons' Trigger Point Manual, or a peer-reviewed study) gives a location and referral pattern for this muscle.",
+      "items": {
+        "type": "object",
+        "required": ["location_description", "referred_pain_pattern", "source"],
+        "properties": {
+          "location_description": {
+            "type": "string",
+            "description": "where in the muscle the trigger point is classically found, referenced to palpable landmarks"
+          },
+          "referred_pain_pattern": {
+            "type": "string",
+            "description": "the essential (dark) referral zone, and any documented spillover zone, per Travell & Simons unless otherwise stated"
+          },
+          "activation_perpetuating_factors": {
+            "type": "string",
+            "description": "movements/postures/overuse patterns reported to activate or perpetuate this trigger point"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "relative_muscle_spindle_abundance": {
       "type": "object",
       "description": "Relative muscle spindle abundance: actual spindle count divided by the count predicted from muscle mass (Banks' allometric correction), so it is comparable between muscles of very different size in a way raw spindle density is not. Recorded because it is the criterion the intramuscular localisation literature uses to choose between candidate injection sites: where a muscle has several nerve-dense regions, the spindle-richest one is the preferred botulinum target. A number here is not itself a location.",

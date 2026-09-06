@@ -59,6 +59,8 @@ def _schema_for_file(path: Path) -> str | None:
         return "cartilage.schema.json"
     if parts[0] == "tendons":
         return "tendon.schema.json"
+    if parts[0] == "bursae":
+        return "bursa.schema.json"
     if parts[0] == "rig" and "anchor" in path.stem:
         return "rig.schema.json"
     return None
