@@ -180,6 +180,83 @@ by the owner, because Zenodo is unreachable from the build machine.
       changed, nothing else. 236 → 236 anchors (same count — these were
       already "resolved", just resolved wrong).
 
+## 2026-09-06 session: viewer anchor points + large-scale clinical/anatomical data pass
+
+- **Viewer**: `scripts/export_viewer_bundle.py` now resolves every muscle
+  anchor (`data/rig/anchors.json`) whose bone has real geometry into a
+  global-mm coordinate (`resolve_anchor_points()`), and
+  `viewer/atlas_viewer.template.html`'s inspector shows a 📍 button next
+  to Origin/Insertion that drops a 3D marker at that point. Verified
+  pes anserinus (sartorius/gracilis/semitendinosus) converge on the
+  identical point per side. Scope limit: only bones with real geometry
+  (pelvis→ankle) resolve; compartment-filed anchors
+  (flexor_hallucis_brevis, adductor_magnus) are skipped by muscle-id
+  lookup, unaffected in their text fields.
+
+- **Clinical injection-data pass** (~20 parallel background agents,
+  each in an isolated git worktree/branch, merged sequentially into
+  this branch): added `motor_endplate_zones`/`ultrasound_injection_approach`
+  to essentially every muscle with real published literature —
+  294/404 muscle files now carry one or both (up from ~230). Every
+  gap left is a genuine "searched, not found" negative, not a skip.
+  Real, sometimes mixed/negative evidence is recorded honestly
+  (Achilles PRP, GTPS PRP, rotator cuff PRP all have contradicting
+  trials cited side by side, not cherry-picked).
+
+- **Tendon `prp_injection_approach` field** (new, `schema/tendon.schema.json`):
+  30/51 tendon entities now carry it (up from 0). Includes a newly
+  authored `gluteal_tendon_complex_r/l` entity (GTPS target, didn't
+  exist as a tendon before) and `first_dorsal_compartment_r/l`
+  (de Quervain's).
+
+- **Anatomical completeness pass** (5 parallel agents auditing every
+  ligament/tendon file against standard references): added real,
+  previously-missing structures — lunotriquetral ligament, all of
+  `data/ligaments/hand_ligaments.json` (new file: thumb MCP UCL/RCL,
+  finger MCP/PIP complex), tibiofibular syndesmosis, tibialis
+  posterior tendon (PTTD), fibularis tendon complex, 1st MTP plantar
+  plate, MPFL, iliolumbar ligament, popliteofibular ligament,
+  meniscofemoral ligaments, transverse ligament of the knee, zona
+  orbicularis, superior transverse scapular + transverse humeral
+  ligaments, pectoralis major tendon, quadrate ligament, intertransverse
+  ligament, atlantoaxial membranes, lateral atlanto-occipital ligament,
+  sternocostal ligament complex, digastric/omohyoid intermediate
+  tendons. 91 ligament records now exist (up from 62), 51 tendon
+  entities (up from 39). Nothing was force-added — several agents
+  explicitly reported "audited, nothing missing" for files that were
+  already complete (elbow ligaments, hip ligaments' base structures).
+
+- **Trigger points + bursae** (new, from 8 user-uploaded clinical
+  reference documents covering wrist/elbow/shoulder/hand-intrinsic/
+  head-neck muscles — Gray's Anatomy + Travell & Simons + peer-reviewed
+  biomechanics): new `trigger_points[]` field on `schema/muscle.schema.json`
+  (referred-pain pattern, distinct from the injection-targeting fields)
+  and a brand-new `schema/bursa.schema.json` + `data/bursae/` category
+  (bursae didn't exist in this atlas at all before today). 161 muscle
+  files now carry trigger_points; 33 bursae across 4 files
+  (wrist/elbow/shoulder/head-neck). One real merge conflict handled:
+  biceps/triceps brachii were independently covered by both the elbow
+  and shoulder source documents (they cross both regions) — kept the
+  more complete version, discarded the redundant duplicate.
+
+- Every merge in this pass was verified with the full test suite
+  (`149 passed`) before pushing. HEAD is `36234dc`.
+
+## Open, not literature-fixable
+
+- **Real 3D geometry above the hip is still blocked on the repository
+  owner's local machine** (Python 3.13 needed for `nibabel`/
+  `scikit-image`, see "Blocked on the repository owner" above) — no
+  amount of research fixes this, it needs that local CT/TotalSegmentator
+  ingest step run.
+- Flagged, not yet done: a `gluteus_medius/minimus` **muscle's own**
+  motor-point/BoNT injection data search came back empty (its
+  *tendon* now has PRP data — different structure, different
+  literature) — a legitimate negative finding, not an oversight.
+- Not yet covered by the trigger-point/bursa pass: lower limb and deep
+  trunk muscles (no reference documents uploaded for those regions
+  yet) — same treatment could be extended if more documents arrive.
+
 ## Next action
 
 Whatever is unblocked from the list above; otherwise wait on the CT ingest.
