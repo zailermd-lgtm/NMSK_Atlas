@@ -270,5 +270,127 @@
     "function": "The ankle's medial stabilizer, a strong multi-layered fan resisting eversion and lateral talar shift -- injured far less often than the lateral complex given both its greater intrinsic strength and the bony buttress of the (longer) lateral malleolus limiting eversion range in the first place. Modeled here with the widely-taught 4-part (tibionavicular/tibiocalcaneal/posterior tibiotalar/anterior tibiotalar) division; the cited source (Golano et al. 2010) itself documents a more complex and partly variable 6-band classification (Milner & Soames) and explicitly notes the ligament's internal subdivision 'is still confusing' and to some extent an artificial convenience -- the simplified 4-part model is standard teaching (Kenhub/TeachMeAnatomy level), not a claim this dataset attributes to Golano's paper as its own finding (clarified after adversarial fact-check, see docs/VERIFICATION.md).",
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Golano P, Vega J, de Leeuw PA, Malagelada F, Manzanares MC, Gotzens V, van Dijk CN (2010) 'Anatomy of the ankle ligaments: a pictorial essay.' Knee Surg Sports Traumatol Arthrosc 18(5):557-569 -- lateral (ATFL/CFL/PTFL) and medial deltoid ligament complex anatomy.",
     "joint": "ankle_l"
+  },
+  {
+    "id": "tibiofibular_syndesmosis_r",
+    "name_ta": "Syndesmosis tibiofibularis",
+    "name_common": "Distal tibiofibular syndesmosis",
+    "side": "right",
+    "region": "ankle",
+    "structural_type": "interosseous",
+    "attachments": {
+      "bone_a": "tibia_r",
+      "landmark_a": "fibular notch (incisura fibularis) of the distal tibia, with its anterior and posterior tubercles",
+      "bone_b": "fibula_r",
+      "landmark_b": "distal medial surface of the fibula, from the interosseous border down to the malleolar fossa"
+    },
+    "bands": [
+      {
+        "id": "aitfl_r",
+        "name": "Anterior inferior tibiofibular ligament (AITFL)",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "anterolateral tubercle of the distal tibia (tubercle of Chaput)",
+          "bone_b": "fibula_r",
+          "landmark_b": "anterior tubercle of the distal fibula (tubercle of Wagstaffe)"
+        },
+        "mechanical_role": "primary restraint against external rotation and anterior diastasis of the distal tibiofibular joint",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Runs obliquely from the anterior tibia down and laterally to the fibula. The syndesmotic band most often torn first, from a forced external-rotation and/or hyperdorsiflexion mechanism -- the anatomic basis of the 'high ankle sprain', a distinct clinical and imaging entity from the inversion-mediated ATFL/CFL sprains of the lateral collateral complex modeled in lateral_ligament_complex_ankle_r. High ankle sprains typically carry a longer recovery than lateral sprains, and an unstable syndesmosis is managed with its own fixation strategy (syndesmotic screw or suture-button), not the bracing/rehab default for lateral sprains.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      },
+      {
+        "id": "pitfl_r",
+        "name": "Posterior inferior tibiofibular ligament (PITFL)",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "posterior tubercle of the distal tibia",
+          "bone_b": "fibula_r",
+          "landmark_b": "posterior aspect of the lateral malleolus"
+        },
+        "mechanical_role": "the strongest of the three syndesmotic ligaments; resists posterior fibular translation and external rotation, contributing the largest single share of syndesmotic stability",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Has a deep component, often distinguished as the inferior transverse ligament, which runs nearly horizontally and extends the posterior tibial articular surface, acting as a bony-like buttress against posterior talar displacement in addition to its ligamentous restraint of the fibula.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      },
+      {
+        "id": "tibiofibular_interosseous_lig_r",
+        "name": "Interosseous ligament (distal tibiofibular part)",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "distal interosseous border of the tibia, immediately proximal to the plafond",
+          "bone_b": "fibula_r",
+          "landmark_b": "corresponding medial interosseous border of the distal fibula"
+        },
+        "mechanical_role": "primary restraint against proximal (axial) migration and diastasis of the fibula relative to the tibia; the deepest and most axially-oriented component of the syndesmosis",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The direct thickened continuation of the crural interosseous membrane (data/fascia/lower_limb_fascia.json's interosseous_membrane_leg_r) immediately proximal to the syndesmosis proper -- the schema's own structural_type enum names this exact structure ('tibiofibular interosseous ligament') as its worked example of the 'interosseous' category. Its disruption underlies the widening/diastasis seen on stress radiographs or MRI in unstable syndesmotic injury.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      }
+    ],
+    "function": "Binds the distal tibia and fibula together immediately proximal to the ankle mortise, holding the fibula snugly in the tibia's fibular notch and preserving the mortise's precise congruency with the talus under load. Disruption -- from a forced external-rotation and/or hyperdorsiflexion mechanism, distinct from the inversion mechanism of lateral ligament sprains -- is the anatomic basis of the 'high ankle sprain', a separately-recognized and separately-managed clinical entity.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "ankle_r"
+  },
+  {
+    "id": "tibiofibular_syndesmosis_l",
+    "name_ta": "Syndesmosis tibiofibularis",
+    "name_common": "Distal tibiofibular syndesmosis",
+    "side": "left",
+    "region": "ankle",
+    "structural_type": "interosseous",
+    "attachments": {
+      "bone_a": "tibia_l",
+      "landmark_a": "fibular notch (incisura fibularis) of the distal tibia, with its anterior and posterior tubercles",
+      "bone_b": "fibula_l",
+      "landmark_b": "distal medial surface of the fibula, from the interosseous border down to the malleolar fossa"
+    },
+    "bands": [
+      {
+        "id": "aitfl_l",
+        "name": "Anterior inferior tibiofibular ligament (AITFL)",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "anterolateral tubercle of the distal tibia (tubercle of Chaput)",
+          "bone_b": "fibula_l",
+          "landmark_b": "anterior tubercle of the distal fibula (tubercle of Wagstaffe)"
+        },
+        "mechanical_role": "primary restraint against external rotation and anterior diastasis of the distal tibiofibular joint",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Runs obliquely from the anterior tibia down and laterally to the fibula. The syndesmotic band most often torn first, from a forced external-rotation and/or hyperdorsiflexion mechanism -- the anatomic basis of the 'high ankle sprain', a distinct clinical and imaging entity from the inversion-mediated ATFL/CFL sprains of the lateral collateral complex modeled in lateral_ligament_complex_ankle_l. High ankle sprains typically carry a longer recovery than lateral sprains, and an unstable syndesmosis is managed with its own fixation strategy (syndesmotic screw or suture-button), not the bracing/rehab default for lateral sprains.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      },
+      {
+        "id": "pitfl_l",
+        "name": "Posterior inferior tibiofibular ligament (PITFL)",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "posterior tubercle of the distal tibia",
+          "bone_b": "fibula_l",
+          "landmark_b": "posterior aspect of the lateral malleolus"
+        },
+        "mechanical_role": "the strongest of the three syndesmotic ligaments; resists posterior fibular translation and external rotation, contributing the largest single share of syndesmotic stability",
+        "tension_pattern": "taut_in_extension",
+        "function_note": "Has a deep component, often distinguished as the inferior transverse ligament, which runs nearly horizontally and extends the posterior tibial articular surface, acting as a bony-like buttress against posterior talar displacement in addition to its ligamentous restraint of the fibula.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      },
+      {
+        "id": "tibiofibular_interosseous_lig_l",
+        "name": "Interosseous ligament (distal tibiofibular part)",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "distal interosseous border of the tibia, immediately proximal to the plafond",
+          "bone_b": "fibula_l",
+          "landmark_b": "corresponding medial interosseous border of the distal fibula"
+        },
+        "mechanical_role": "primary restraint against proximal (axial) migration and diastasis of the fibula relative to the tibia; the deepest and most axially-oriented component of the syndesmosis",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The direct thickened continuation of the crural interosseous membrane (data/fascia/lower_limb_fascia.json's interosseous_membrane_leg_r) immediately proximal to the syndesmosis proper -- the schema's own structural_type enum names this exact structure ('tibiofibular interosseous ligament') as its worked example of the 'interosseous' category. Its disruption underlies the widening/diastasis seen on stress radiographs or MRI in unstable syndesmotic injury.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+      }
+    ],
+    "function": "Binds the distal tibia and fibula together immediately proximal to the ankle mortise, holding the fibula snugly in the tibia's fibular notch and preserving the mortise's precise congruency with the talus under load. Disruption -- from a forced external-rotation and/or hyperdorsiflexion mechanism, distinct from the inversion mechanism of lateral ligament sprains -- is the anatomic basis of the 'high ankle sprain', a separately-recognized and separately-managed clinical entity.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "joint": "ankle_l"
   }
 ]
