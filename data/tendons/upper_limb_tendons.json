@@ -131,6 +131,49 @@
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin."
   },
   {
+    "id": "pectoralis_major_tendon_r",
+    "name_ta": "Tendo musculi pectoralis majoris",
+    "name_common": "Pectoralis major tendon",
+    "side": "right",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "pectoralis_major_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "pectoralis_major_r",
+        "landmark": "pectoralis major muscle belly (representative, all 3 heads/compartments)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_r",
+        "landmark": "lateral lip of the intertubercular (bicipital) groove, proximal humerus"
+      }
+    },
+    "parts": [
+      {
+        "id": "pectoralis_major_tendon_r_clavicular_lamina",
+        "name": "Clavicular head lamina (anterior lamina)",
+        "parent_muscle": "pectoralis_major_r",
+        "attachment_or_location": "most inferior part of the humeral footprint on the lateral lip of the intertubercular groove",
+        "function_note": "Forms the anterior of the tendon's two laminae; because the clavicular head's fibers do not spiral, it inserts most inferiorly despite originating most superiorly (proximally) on the chest wall -- the mirror image of the sternocostal/abdominal lamina.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "pectoralis_major_tendon_r_sternocostal_lamina",
+        "name": "Sternocostal/abdominal head lamina (posterior lamina)",
+        "parent_muscle": "pectoralis_major_r",
+        "attachment_or_location": "most superior part of the humeral footprint on the lateral lip of the intertubercular groove, deep to the clavicular lamina",
+        "function_note": "Forms the posterior lamina; the sternocostal and abdominal fibers spiral through roughly 180 degrees so that the most inferiorly-originating (abdominal) fibers insert most superiorly (proximally) on the humerus, deep to the clavicular head's fibers. This bilaminar, spiraled tendon is the anatomic basis for the Tietjen/Bak-type classifications of pectoralis major rupture, which distinguish isolated tears of one lamina (most often the sternocostal head, torn during the eccentric-load phase of the bench press) from complete tears of both.",
+        "source": "Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024"
+      }
+    ],
+    "function": "Transmits the combined adduction/internal-rotation (and, for the clavicular head, flexion) force of the three pectoralis major compartments to the proximal humerus via a distinctive bilaminar, spiraled tendon just lateral to the intertubercular groove.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024 -- pectoralis major tendon rupture is a well-documented, distinct clinical entity, classically occurring during the bench press, staged by the Tietjen/Bak-derived classification systems and generally managed with early surgical repair in active patients."
+  },
+  {
     "id": "triceps_brachii_tendon_r",
     "name_ta": "Tendo musculi tricipitis brachii",
     "name_common": "Triceps brachii tendon",
@@ -549,6 +592,49 @@
       "source": "Slevin J, Joyce M, Galvin JW, Mahlon MA, Grant MD, Eichinger JK, Grassbaugh JA (2021) 'Ultrasound-Guided Biceps Tendon Sheath Injections Frequently Extravasate Into the Glenohumeral Joint.' Arthroscopy 37(6):1711-1716, doi:10.1016/j.arthro.2020.12.238 (https://doi.org/10.1016/j.arthro.2020.12.238) -- retrieved via PubMed."
     },
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Vangsness CT Jr, Jorgenson SS, Watson T, Johnson DL (1994) 'The origin of the long head of the biceps from the scapula and glenoid labrum.' J Bone Joint Surg Br 76(6):951-954 -- cadaveric study of the long head tendon's variable supraglenoid tubercle/labral origin."
+  },
+  {
+    "id": "pectoralis_major_tendon_l",
+    "name_ta": "Tendo musculi pectoralis majoris",
+    "name_common": "Pectoralis major tendon",
+    "side": "left",
+    "region": "shoulder",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "pectoralis_major_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "pectoralis_major_l",
+        "landmark": "pectoralis major muscle belly (representative, all 3 heads/compartments)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "humerus_l",
+        "landmark": "lateral lip of the intertubercular (bicipital) groove, proximal humerus"
+      }
+    },
+    "parts": [
+      {
+        "id": "pectoralis_major_tendon_l_clavicular_lamina",
+        "name": "Clavicular head lamina (anterior lamina)",
+        "parent_muscle": "pectoralis_major_l",
+        "attachment_or_location": "most inferior part of the humeral footprint on the lateral lip of the intertubercular groove",
+        "function_note": "Forms the anterior of the tendon's two laminae; because the clavicular head's fibers do not spiral, it inserts most inferiorly despite originating most superiorly (proximally) on the chest wall -- the mirror image of the sternocostal/abdominal lamina.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "pectoralis_major_tendon_l_sternocostal_lamina",
+        "name": "Sternocostal/abdominal head lamina (posterior lamina)",
+        "parent_muscle": "pectoralis_major_l",
+        "attachment_or_location": "most superior part of the humeral footprint on the lateral lip of the intertubercular groove, deep to the clavicular lamina",
+        "function_note": "Forms the posterior lamina; the sternocostal and abdominal fibers spiral through roughly 180 degrees so that the most inferiorly-originating (abdominal) fibers insert most superiorly (proximally) on the humerus, deep to the clavicular head's fibers. This bilaminar, spiraled tendon is the anatomic basis for the Tietjen/Bak-type classifications of pectoralis major rupture, which distinguish isolated tears of one lamina (most often the sternocostal head, torn during the eccentric-load phase of the bench press) from complete tears of both.",
+        "source": "Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024"
+      }
+    ],
+    "function": "Transmits the combined adduction/internal-rotation (and, for the clavicular head, flexion) force of the three pectoralis major compartments to the proximal humerus via a distinctive bilaminar, spiraled tendon just lateral to the intertubercular groove.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Marsh NA, Calcei JG, Antosh IJ, Cordasco FA (2020) 'Isolated tears of the sternocostal head of the pectoralis major muscle: surgical technique, clinical outcomes, and a modification of the Tietjen and Bak classification.' J Shoulder Elbow Surg 29(7):1359-1367, doi:10.1016/j.jse.2019.11.024 -- pectoralis major tendon rupture is a well-documented, distinct clinical entity, classically occurring during the bench press, staged by the Tietjen/Bak-derived classification systems and generally managed with early surgical repair in active patients."
   },
   {
     "id": "triceps_brachii_tendon_l",
