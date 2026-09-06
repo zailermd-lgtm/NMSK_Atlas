@@ -838,5 +838,113 @@
     ],
     "function": "A tendon whose sharp, pulley-like redirection around a bony tubercle (rather than a straight course) creates a well-documented, distinctive rupture risk not shared by the more medially-running abductor pollicis longus/extensor pollicis brevis tendons of the adjacent first compartment.",
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "first_dorsal_compartment_r",
+    "name_ta": "Compartimentum extensorium primum",
+    "name_common": "First dorsal (extensor) compartment of the wrist",
+    "side": "right",
+    "region": "wrist_hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "abductor_pollicis_longus_r",
+      "extensor_pollicis_brevis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "abductor_pollicis_longus_r",
+        "landmark": "abductor pollicis longus and extensor pollicis brevis muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "metacarpals_r",
+        "landmark": "APL: radial base of 1st metacarpal (frequently via multiple slips, sometimes with an accessory slip to the trapezium/thenar fascia); EPB: base of proximal phalanx of thumb (distal to the compartment itself)"
+      }
+    },
+    "parts": [
+      {
+        "id": "first_dorsal_compartment_r_apl",
+        "name": "Abductor pollicis longus tendon",
+        "parent_muscle": "abductor_pollicis_longus_r",
+        "attachment_or_location": "radial styloid groove, then radial base of 1st metacarpal",
+        "function_note": "The most anatomically variable tendon at the wrist -- 2 or more APL slips (rather than a single tendon) are common, one contributor to the anatomic variability that can make de Quervain's tenosynovitis harder to treat than a simple single-tendon sheath problem.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "first_dorsal_compartment_r_epb",
+        "name": "Extensor pollicis brevis tendon",
+        "parent_muscle": "extensor_pollicis_brevis_r",
+        "attachment_or_location": "radial styloid groove, then base of proximal phalanx of thumb",
+        "function_note": "Usually the smaller, more ulnar tendon of the pair; in a substantial proportion of wrists it runs in its own separate sub-tunnel, divided from the APL tendon(s) by a longitudinal intracompartmental septum -- a documented source of incomplete symptom relief when a corticosteroid injection or surgical release is aimed only at the compartment as a whole rather than confirmed to reach both sub-tunnels.",
+        "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+      }
+    ],
+    "function": "The shared fibro-osseous tunnel at the radial styloid through which the abductor pollicis longus and extensor pollicis brevis tendons run together to the thumb -- functionally a single named clinical entity because it is this compartment, not either tendon individually, that becomes stenotic and inflamed in de Quervain's tenosynovitis, one of the most common upper-limb conditions treated with image-guided injection.",
+    "prp_injection_approach": {
+      "transducer_placement": "Wrist in neutral rotation, thumb resting comfortably; a high-frequency linear probe is placed transversely (short-axis) directly over the radial styloid to identify the APL and EPB tendons in cross-section, then rotated 90 degrees to longitudinal (long-axis) view along the compartment for the needle pass, entering in-plane from proximal or distal to the probe.",
+      "target_zone": "The first dorsal compartment overlying the radial styloid, 1-2cm proximal to the radiocarpal joint -- the site of retinacular thickening and peritendinous fluid/hyperemia on ultrasound in symptomatic de Quervain's tenosynovitis; the injectate is placed into the tendon sheath itself, and ultrasound guidance is used specifically to confirm the needle tip and injectate reach both the APL and EPB sub-tunnels when a septum is present, since this is a well-documented reason blind (palpation-guided) injections under-treat the EPB compartment.",
+      "depth_layer": "The compartment lies directly deep to thin subcutaneous tissue at the radial wrist -- there is very little soft-tissue padding here -- with the radial artery running deep and slightly volar to the tendons and the superficial branch of the radial nerve crossing directly over the compartment, sometimes multiple small branches, making this one of the most nerve-injury-prone superficial injection sites in the upper limb.",
+      "identification_cues": "Thickened, hypoechoic/heterogeneous first-compartment retinaculum, anechoic distension of the tendon sheath, and dynamic thumb abduction/extension confirming smooth APL/EPB tendon glide is regained after injection; sonographic identification of a discrete hyperechoic septum splitting the compartment into two sub-tunnels should prompt a second, separately targeted injection into the EPB sub-tunnel.",
+      "structures_at_risk": ["superficial branch of the radial nerve (crosses directly over the compartment, often as multiple small branches -- the leading cause of injection-related complications here)", "radial artery (deep/volar to the tendons)", "cephalic vein tributaries"],
+      "notes": "This is a corticosteroid-dominant literature, not a PRP-dominant one -- report it honestly as such. Ultrasound-guided corticosteroid injection into the first compartment is one of the best-studied hand/wrist injections in existence, with systematic-review pooled complete-symptom-resolution rates around 70-75% and significantly better outcomes than palpation-guided injection, particularly attributable to detecting the intracompartmental septum/subcompartment variability described above; a head-to-head randomized trial found no significant difference between ultrasound- and palpation-guided technique in a smaller single-center cohort, so ultrasound guidance's main proven advantage is in septum detection and lower recurrence rather than a uniformly demonstrated difference in every trial. A separate randomized equivalence trial found autologous PRP comparably effective to corticosteroid at 12 weeks, with corticosteroid producing faster early (1-4 week) functional improvement -- meaning PRP is a reasonable but not clearly superior alternative here, not an established first-line replacement for corticosteroid.",
+      "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed.",
+    "has_synovial_sheath": true
+  },
+  {
+    "id": "first_dorsal_compartment_l",
+    "name_ta": "Compartimentum extensorium primum",
+    "name_common": "First dorsal (extensor) compartment of the wrist",
+    "side": "left",
+    "region": "wrist_hand",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "abductor_pollicis_longus_l",
+      "extensor_pollicis_brevis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "abductor_pollicis_longus_l",
+        "landmark": "abductor pollicis longus and extensor pollicis brevis muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "metacarpals_l",
+        "landmark": "APL: radial base of 1st metacarpal (frequently via multiple slips, sometimes with an accessory slip to the trapezium/thenar fascia); EPB: base of proximal phalanx of thumb (distal to the compartment itself)"
+      }
+    },
+    "parts": [
+      {
+        "id": "first_dorsal_compartment_l_apl",
+        "name": "Abductor pollicis longus tendon",
+        "parent_muscle": "abductor_pollicis_longus_l",
+        "attachment_or_location": "radial styloid groove, then radial base of 1st metacarpal",
+        "function_note": "The most anatomically variable tendon at the wrist -- 2 or more APL slips (rather than a single tendon) are common, one contributor to the anatomic variability that can make de Quervain's tenosynovitis harder to treat than a simple single-tendon sheath problem.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)"
+      },
+      {
+        "id": "first_dorsal_compartment_l_epb",
+        "name": "Extensor pollicis brevis tendon",
+        "parent_muscle": "extensor_pollicis_brevis_l",
+        "attachment_or_location": "radial styloid groove, then base of proximal phalanx of thumb",
+        "function_note": "Usually the smaller, more ulnar tendon of the pair; in a substantial proportion of wrists it runs in its own separate sub-tunnel, divided from the APL tendon(s) by a longitudinal intracompartmental septum -- a documented source of incomplete symptom relief when a corticosteroid injection or surgical release is aimed only at the compartment as a whole rather than confirmed to reach both sub-tunnels.",
+        "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+      }
+    ],
+    "function": "The shared fibro-osseous tunnel at the radial styloid through which the abductor pollicis longus and extensor pollicis brevis tendons run together to the thumb -- functionally a single named clinical entity because it is this compartment, not either tendon individually, that becomes stenotic and inflamed in de Quervain's tenosynovitis, one of the most common upper-limb conditions treated with image-guided injection.",
+    "prp_injection_approach": {
+      "transducer_placement": "Wrist in neutral rotation, thumb resting comfortably; a high-frequency linear probe is placed transversely (short-axis) directly over the radial styloid to identify the APL and EPB tendons in cross-section, then rotated 90 degrees to longitudinal (long-axis) view along the compartment for the needle pass, entering in-plane from proximal or distal to the probe.",
+      "target_zone": "The first dorsal compartment overlying the radial styloid, 1-2cm proximal to the radiocarpal joint -- the site of retinacular thickening and peritendinous fluid/hyperemia on ultrasound in symptomatic de Quervain's tenosynovitis; the injectate is placed into the tendon sheath itself, and ultrasound guidance is used specifically to confirm the needle tip and injectate reach both the APL and EPB sub-tunnels when a septum is present, since this is a well-documented reason blind (palpation-guided) injections under-treat the EPB compartment.",
+      "depth_layer": "The compartment lies directly deep to thin subcutaneous tissue at the radial wrist -- there is very little soft-tissue padding here -- with the radial artery running deep and slightly volar to the tendons and the superficial branch of the radial nerve crossing directly over the compartment, sometimes multiple small branches, making this one of the most nerve-injury-prone superficial injection sites in the upper limb.",
+      "identification_cues": "Thickened, hypoechoic/heterogeneous first-compartment retinaculum, anechoic distension of the tendon sheath, and dynamic thumb abduction/extension confirming smooth APL/EPB tendon glide is regained after injection; sonographic identification of a discrete hyperechoic septum splitting the compartment into two sub-tunnels should prompt a second, separately targeted injection into the EPB sub-tunnel.",
+      "structures_at_risk": ["superficial branch of the radial nerve (crosses directly over the compartment, often as multiple small branches -- the leading cause of injection-related complications here)", "radial artery (deep/volar to the tendons)", "cephalic vein tributaries"],
+      "notes": "This is a corticosteroid-dominant literature, not a PRP-dominant one -- report it honestly as such. Ultrasound-guided corticosteroid injection into the first compartment is one of the best-studied hand/wrist injections in existence, with systematic-review pooled complete-symptom-resolution rates around 70-75% and significantly better outcomes than palpation-guided injection, particularly attributable to detecting the intracompartmental septum/subcompartment variability described above; a head-to-head randomized trial found no significant difference between ultrasound- and palpation-guided technique in a smaller single-center cohort, so ultrasound guidance's main proven advantage is in septum detection and lower recurrence rather than a uniformly demonstrated difference in every trial. A separate randomized equivalence trial found autologous PRP comparably effective to corticosteroid at 12 weeks, with corticosteroid producing faster early (1-4 week) functional improvement -- meaning PRP is a reasonable but not clearly superior alternative here, not an established first-line replacement for corticosteroid.",
+      "source": "He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed."
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); He KS, He KS, Cheah A, Al-Halabi B, Danino MA, Efanov JI (2023) 'Unblinding de Quervain: A systematic review of ultrasound-guided injection of corticosteroids for treatment of stenosing tenosynovitis of the 1st extensor compartment.' J Med Radiat Sci 70(3):319-326, doi:10.1002/jmrs.681 -- retrieved via PubMed.",
+    "has_synovial_sheath": true
   }
 ]
