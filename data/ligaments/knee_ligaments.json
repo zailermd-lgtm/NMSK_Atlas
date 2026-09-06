@@ -207,6 +207,40 @@
     "joint": "knee_r"
   },
   {
+    "id": "medial_patellofemoral_ligament_r",
+    "name_ta": "Ligamentum patellofemorale mediale",
+    "name_common": "Medial patellofemoral ligament (MPFL)",
+    "side": "right",
+    "region": "knee",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "femur_r",
+      "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+      "bone_b": "patella_r",
+      "landmark_b": "superomedial border of patella"
+    },
+    "bands": [
+      {
+        "id": "mpfl_r_main",
+        "name": "Medial patellofemoral ligament",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+          "bone_b": "patella_r",
+          "landmark_b": "superomedial border of patella, deep to vastus medialis obliquus"
+        },
+        "mechanical_role": "primary passive restraint to lateral patellar translation; per selective-sectioning cadaveric testing, contributes roughly 60% of the total medial soft-tissue restraining force at 20 degrees of knee flexion",
+        "tension_pattern": "taut_in_extension",
+        "failure_load_N": 208,
+        "function_note": "Lies in the second (capsular) layer of the medial knee between the vastus medialis obliquus and the joint capsule; its femoral origin at Schottle's point is the standard fluoroscopic/anatomic landmark for tunnel placement in MPFL reconstruction, now one of the most commonly performed knee ligament reconstructions given the ligament's role as the primary restraint to lateral patellar dislocation. Mean native tensile strength ~208 N (SD 90) per cadaveric testing.",
+        "source": "Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- selective-sectioning cadaveric study quantifying MPFL as the primary restraint (60% of total restraining force) to lateral patellar translation; Mountney J, Senavongse W, Amis AA, Thomas NP (2005) 'Tensile strength of the medial patellofemoral ligament before and after repair or reconstruction.' J Bone Joint Surg Br 87(1):36-40 -- native MPFL tensile strength 208N (SD 90) at 26mm displacement, cadaveric testing."
+      }
+    ],
+    "function": "The primary soft-tissue restraint to lateral patellar dislocation, resisting lateral translation of the patella particularly in early flexion before the patella engages the trochlear groove; its reconstruction (typically with a gracilis or semitendinosus graft anchored near Schottle's point) is one of the most commonly performed knee ligament surgeries for recurrent patellar instability.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Schottle PB, Schmeling A, Rosenstiel N, Weiler A (2007) 'Radiographic landmarks for femoral tunnel placement in medial patellofemoral ligament reconstruction.' Am J Sports Med 35(5):801-804, doi:10.1177/0363546506296415 (https://doi.org/10.1177/0363546506296415) -- defines the femoral origin landmark (Schottle's point) used clinically for MPFL reconstruction tunnel placement; Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- MPFL identified as primary restraint to lateral patellar translation via selective-sectioning cadaveric study.",
+    "joint": "patellofemoral_r"
+  },
+  {
     "id": "anterior_cruciate_ligament_l",
     "name_ta": "Ligamentum cruciatum anterius",
     "name_common": "Anterior cruciate ligament (ACL)",
@@ -412,5 +446,39 @@
     "function": "The distal continuation of the quadriceps mechanism; a common autograft source (bone-patellar tendon-bone) for ACL reconstruction given its robust bone-to-bone attachments.",
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
     "joint": "knee_l"
+  },
+  {
+    "id": "medial_patellofemoral_ligament_l",
+    "name_ta": "Ligamentum patellofemorale mediale",
+    "name_common": "Medial patellofemoral ligament (MPFL)",
+    "side": "left",
+    "region": "knee",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "femur_l",
+      "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+      "bone_b": "patella_l",
+      "landmark_b": "superomedial border of patella"
+    },
+    "bands": [
+      {
+        "id": "mpfl_l_main",
+        "name": "Medial patellofemoral ligament",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+          "bone_b": "patella_l",
+          "landmark_b": "superomedial border of patella, deep to vastus medialis obliquus"
+        },
+        "mechanical_role": "primary passive restraint to lateral patellar translation; per selective-sectioning cadaveric testing, contributes roughly 60% of the total medial soft-tissue restraining force at 20 degrees of knee flexion",
+        "tension_pattern": "taut_in_extension",
+        "failure_load_N": 208,
+        "function_note": "Lies in the second (capsular) layer of the medial knee between the vastus medialis obliquus and the joint capsule; its femoral origin at Schottle's point is the standard fluoroscopic/anatomic landmark for tunnel placement in MPFL reconstruction, now one of the most commonly performed knee ligament reconstructions given the ligament's role as the primary restraint to lateral patellar dislocation. Mean native tensile strength ~208 N (SD 90) per cadaveric testing.",
+        "source": "Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- selective-sectioning cadaveric study quantifying MPFL as the primary restraint (60% of total restraining force) to lateral patellar translation; Mountney J, Senavongse W, Amis AA, Thomas NP (2005) 'Tensile strength of the medial patellofemoral ligament before and after repair or reconstruction.' J Bone Joint Surg Br 87(1):36-40 -- native MPFL tensile strength 208N (SD 90) at 26mm displacement, cadaveric testing."
+      }
+    ],
+    "function": "The primary soft-tissue restraint to lateral patellar dislocation, resisting lateral translation of the patella particularly in early flexion before the patella engages the trochlear groove; its reconstruction (typically with a gracilis or semitendinosus graft anchored near Schottle's point) is one of the most commonly performed knee ligament surgeries for recurrent patellar instability.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Schottle PB, Schmeling A, Rosenstiel N, Weiler A (2007) 'Radiographic landmarks for femoral tunnel placement in medial patellofemoral ligament reconstruction.' Am J Sports Med 35(5):801-804, doi:10.1177/0363546506296415 (https://doi.org/10.1177/0363546506296415) -- defines the femoral origin landmark (Schottle's point) used clinically for MPFL reconstruction tunnel placement; Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- MPFL identified as primary restraint to lateral patellar translation via selective-sectioning cadaveric study.",
+    "joint": "patellofemoral_l"
   }
 ]
