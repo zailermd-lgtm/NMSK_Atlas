@@ -207,6 +207,40 @@
     "joint": "knee_r"
   },
   {
+    "id": "medial_patellofemoral_ligament_r",
+    "name_ta": "Ligamentum patellofemorale mediale",
+    "name_common": "Medial patellofemoral ligament (MPFL)",
+    "side": "right",
+    "region": "knee",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "femur_r",
+      "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+      "bone_b": "patella_r",
+      "landmark_b": "superomedial border of patella"
+    },
+    "bands": [
+      {
+        "id": "mpfl_r_main",
+        "name": "Medial patellofemoral ligament",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+          "bone_b": "patella_r",
+          "landmark_b": "superomedial border of patella, deep to vastus medialis obliquus"
+        },
+        "mechanical_role": "primary passive restraint to lateral patellar translation; per selective-sectioning cadaveric testing, contributes roughly 60% of the total medial soft-tissue restraining force at 20 degrees of knee flexion",
+        "tension_pattern": "taut_in_extension",
+        "failure_load_N": 208,
+        "function_note": "Lies in the second (capsular) layer of the medial knee between the vastus medialis obliquus and the joint capsule; its femoral origin at Schottle's point is the standard fluoroscopic/anatomic landmark for tunnel placement in MPFL reconstruction, now one of the most commonly performed knee ligament reconstructions given the ligament's role as the primary restraint to lateral patellar dislocation. Mean native tensile strength ~208 N (SD 90) per cadaveric testing.",
+        "source": "Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- selective-sectioning cadaveric study quantifying MPFL as the primary restraint (60% of total restraining force) to lateral patellar translation; Mountney J, Senavongse W, Amis AA, Thomas NP (2005) 'Tensile strength of the medial patellofemoral ligament before and after repair or reconstruction.' J Bone Joint Surg Br 87(1):36-40 -- native MPFL tensile strength 208N (SD 90) at 26mm displacement, cadaveric testing."
+      }
+    ],
+    "function": "The primary soft-tissue restraint to lateral patellar dislocation, resisting lateral translation of the patella particularly in early flexion before the patella engages the trochlear groove; its reconstruction (typically with a gracilis or semitendinosus graft anchored near Schottle's point) is one of the most commonly performed knee ligament surgeries for recurrent patellar instability.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Schottle PB, Schmeling A, Rosenstiel N, Weiler A (2007) 'Radiographic landmarks for femoral tunnel placement in medial patellofemoral ligament reconstruction.' Am J Sports Med 35(5):801-804, doi:10.1177/0363546506296415 (https://doi.org/10.1177/0363546506296415) -- defines the femoral origin landmark (Schottle's point) used clinically for MPFL reconstruction tunnel placement; Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- MPFL identified as primary restraint to lateral patellar translation via selective-sectioning cadaveric study.",
+    "joint": "patellofemoral_r"
+  },
+  {
     "id": "anterior_cruciate_ligament_l",
     "name_ta": "Ligamentum cruciatum anterius",
     "name_common": "Anterior cruciate ligament (ACL)",
@@ -412,5 +446,303 @@
     "function": "The distal continuation of the quadriceps mechanism; a common autograft source (bone-patellar tendon-bone) for ACL reconstruction given its robust bone-to-bone attachments.",
     "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
     "joint": "knee_l"
+  },
+  {
+    "id": "popliteofibular_ligament_r",
+    "name_ta": "Ligamentum popliteofibulare",
+    "name_common": "Popliteofibular ligament",
+    "side": "right",
+    "region": "knee",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "femur_r",
+      "landmark_a": "popliteus musculotendinous junction, near the lateral epicondyle",
+      "bone_b": "fibula_r",
+      "landmark_b": "fibular styloid process (apex of fibular head)"
+    },
+    "bands": [
+      {
+        "id": "popfib_r_anterior",
+        "name": "Anterior division",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "popliteus musculotendinous junction",
+          "bone_b": "fibula_r",
+          "landmark_b": "anteromedial aspect of the fibular styloid process tip"
+        },
+        "mechanical_role": "anchors the popliteus musculotendinous junction to the fibular head, resisting external tibial rotation and varus as part of the posterolateral corner",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Present in all specimens in the defining cadaveric morphometric study; anatomically and functionally distinct from the fibular collateral ligament, though both converge near the fibular styloid.",
+        "source": "LaPrade RF, Ly TV, Wentorf FA, Engebretsen L (2003) 'The posterolateral attachments of the knee: a qualitative and quantitative morphologic analysis of the fibular collateral ligament, popliteus tendon, popliteofibular ligament, and lateral gastrocnemius tendon.' Am J Sports Med 31(6):854-860, doi:10.1177/03635465030310062101 (https://doi.org/10.1177/03635465030310062101) -- cadaveric morphometric study finding a consistent two-division popliteofibular ligament in all 10 specimens, distinct from the fibular collateral ligament."
+      },
+      {
+        "id": "popfib_r_posterior",
+        "name": "Posterior division",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "popliteus musculotendinous junction",
+          "bone_b": "fibula_r",
+          "landmark_b": "posteromedial aspect of the fibular styloid process tip"
+        },
+        "mechanical_role": "together with the anterior division, secures the popliteus musculotendinous junction to the fibular head as a key static restraint of the posterolateral corner",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The larger and more consistently robust of the two divisions in cadaveric dissection.",
+        "source": "LaPrade RF, Ly TV, Wentorf FA, Engebretsen L (2003) 'The posterolateral attachments of the knee: a qualitative and quantitative morphologic analysis of the fibular collateral ligament, popliteus tendon, popliteofibular ligament, and lateral gastrocnemius tendon.' Am J Sports Med 31(6):854-860, doi:10.1177/03635465030310062101 (https://doi.org/10.1177/03635465030310062101) -- cadaveric morphometric study finding a consistent two-division popliteofibular ligament in all 10 specimens, distinct from the fibular collateral ligament."
+      }
+    ],
+    "function": "A key static stabilizer of the posterolateral corner, anchoring the popliteus musculotendinous junction to the fibular styloid process; genuinely distinct from the fibular collateral ligament despite their close proximity, and a frequent target of posterolateral corner reconstruction alongside the FCL and popliteus tendon.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); LaPrade RF, Ly TV, Wentorf FA, Engebretsen L (2003) 'The posterolateral attachments of the knee: a qualitative and quantitative morphologic analysis of the fibular collateral ligament, popliteus tendon, popliteofibular ligament, and lateral gastrocnemius tendon.' Am J Sports Med 31(6):854-860, doi:10.1177/03635465030310062101 (https://doi.org/10.1177/03635465030310062101) -- cadaveric morphometric study establishing the popliteofibular ligament as a consistent, two-division posterolateral corner structure distinct from the fibular collateral ligament.",
+    "joint": "knee_r"
+  },
+  {
+    "id": "popliteofibular_ligament_l",
+    "name_ta": "Ligamentum popliteofibulare",
+    "name_common": "Popliteofibular ligament",
+    "side": "left",
+    "region": "knee",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "femur_l",
+      "landmark_a": "popliteus musculotendinous junction, near the lateral epicondyle",
+      "bone_b": "fibula_l",
+      "landmark_b": "fibular styloid process (apex of fibular head)"
+    },
+    "bands": [
+      {
+        "id": "popfib_l_anterior",
+        "name": "Anterior division",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "popliteus musculotendinous junction",
+          "bone_b": "fibula_l",
+          "landmark_b": "anteromedial aspect of the fibular styloid process tip"
+        },
+        "mechanical_role": "anchors the popliteus musculotendinous junction to the fibular head, resisting external tibial rotation and varus as part of the posterolateral corner",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "Present in all specimens in the defining cadaveric morphometric study; anatomically and functionally distinct from the fibular collateral ligament, though both converge near the fibular styloid.",
+        "source": "LaPrade RF, Ly TV, Wentorf FA, Engebretsen L (2003) 'The posterolateral attachments of the knee: a qualitative and quantitative morphologic analysis of the fibular collateral ligament, popliteus tendon, popliteofibular ligament, and lateral gastrocnemius tendon.' Am J Sports Med 31(6):854-860, doi:10.1177/03635465030310062101 (https://doi.org/10.1177/03635465030310062101) -- cadaveric morphometric study finding a consistent two-division popliteofibular ligament in all 10 specimens, distinct from the fibular collateral ligament."
+      },
+      {
+        "id": "popfib_l_posterior",
+        "name": "Posterior division",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "popliteus musculotendinous junction",
+          "bone_b": "fibula_l",
+          "landmark_b": "posteromedial aspect of the fibular styloid process tip"
+        },
+        "mechanical_role": "together with the anterior division, secures the popliteus musculotendinous junction to the fibular head as a key static restraint of the posterolateral corner",
+        "tension_pattern": "taut_throughout_rom",
+        "function_note": "The larger and more consistently robust of the two divisions in cadaveric dissection.",
+        "source": "LaPrade RF, Ly TV, Wentorf FA, Engebretsen L (2003) 'The posterolateral attachments of the knee: a qualitative and quantitative morphologic analysis of the fibular collateral ligament, popliteus tendon, popliteofibular ligament, and lateral gastrocnemius tendon.' Am J Sports Med 31(6):854-860, doi:10.1177/03635465030310062101 (https://doi.org/10.1177/03635465030310062101) -- cadaveric morphometric study finding a consistent two-division popliteofibular ligament in all 10 specimens, distinct from the fibular collateral ligament."
+      }
+    ],
+    "function": "A key static stabilizer of the posterolateral corner, anchoring the popliteus musculotendinous junction to the fibular styloid process; genuinely distinct from the fibular collateral ligament despite their close proximity, and a frequent target of posterolateral corner reconstruction alongside the FCL and popliteus tendon.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); LaPrade RF, Ly TV, Wentorf FA, Engebretsen L (2003) 'The posterolateral attachments of the knee: a qualitative and quantitative morphologic analysis of the fibular collateral ligament, popliteus tendon, popliteofibular ligament, and lateral gastrocnemius tendon.' Am J Sports Med 31(6):854-860, doi:10.1177/03635465030310062101 (https://doi.org/10.1177/03635465030310062101) -- cadaveric morphometric study establishing the popliteofibular ligament as a consistent, two-division posterolateral corner structure distinct from the fibular collateral ligament.",
+    "joint": "knee_l"
+  },
+  {
+    "id": "meniscofemoral_ligaments_r",
+    "name_ta": "Ligamenta meniscofemoralia (anterius et posterius)",
+    "name_common": "Meniscofemoral ligaments (ligament of Humphry and ligament of Wrisberg)",
+    "side": "right",
+    "region": "knee",
+    "structural_type": "intracapsular",
+    "attachments": {
+      "bone_a": "femur_r",
+      "landmark_a": "medial femoral condyle, adjacent to the PCL femoral attachment",
+      "bone_b": "tibia_r",
+      "landmark_b": "posterior horn of the lateral meniscus"
+    },
+    "bands": [
+      {
+        "id": "mfl_r_humphry",
+        "name": "Anterior meniscofemoral ligament (ligament of Humphry)",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "medial femoral condyle, immediately anterior to the PCL attachment",
+          "bone_b": "tibia_r",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes anterior to the PCL; contributes secondary restraint to posterior tibial translation and helps control lateral meniscal posterior horn motion during knee flexion",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 7.8,
+        "failure_load_N": 297,
+        "function_note": "Present in roughly 55% of knees on MRI/cadaveric study; when present, its average cross-sectional area is comparable to the ligament of Wrisberg. A frequent cause of a 'pseudotear' appearance of the posterior horn of the lateral meniscus on MRI, and a structure surgeons must recognize during PCL reconstruction. Genuinely distinct from the MCL's deep (meniscofemoral/meniscotibial) layer, which anchors the medial meniscus rather than the lateral, and has no direct relationship to the PCL.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      },
+      {
+        "id": "mfl_r_wrisberg",
+        "name": "Posterior meniscofemoral ligament (ligament of Wrisberg)",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "medial femoral condyle, immediately posterior to the PCL attachment",
+          "bone_b": "tibia_r",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes posterior to the PCL; contributes secondary restraint to posterior tibial translation and tethers the lateral meniscal posterior horn during tibiofemoral rotation",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 6.7,
+        "failure_load_N": 297,
+        "function_note": "The more consistently present of the two meniscofemoral ligaments, found in roughly 94% of knees on MRI/cadaveric study (at least one of the pair is present in essentially 100% of knees). Average cross-sectional area of the two ligaments combined runs approximately 12% that of the PCL in the same knee, and cadaveric tensile testing of the meniscofemoral bone-ligament-meniscus complex gives a mean ultimate load of ~297N -- substantial enough that the authors concluded the complex is a genuine secondary biomechanical restraint, not a vestigial structure.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      }
+    ],
+    "function": "A pair of accessory intracapsular bands (Humphry, anterior to the PCL; Wrisberg, posterior to it) tethering the posterior horn of the lateral meniscus to the medial femoral condyle; at least one is present in essentially all knees and together they act as a secondary restraint to posterior tibial translation, with an ultimate load substantial enough to be biomechanically meaningful rather than vestigial. Anatomically and functionally distinct from the deep (meniscofemoral/meniscotibial) layer of the tibial collateral ligament, which anchors the medial (not lateral) meniscus and has no relationship to the PCL.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical study of the meniscofemoral ligaments; de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- incidence and MRI-pseudotear study.",
+    "joint": "knee_r"
+  },
+  {
+    "id": "meniscofemoral_ligaments_l",
+    "name_ta": "Ligamenta meniscofemoralia (anterius et posterius)",
+    "name_common": "Meniscofemoral ligaments (ligament of Humphry and ligament of Wrisberg)",
+    "side": "left",
+    "region": "knee",
+    "structural_type": "intracapsular",
+    "attachments": {
+      "bone_a": "femur_l",
+      "landmark_a": "medial femoral condyle, adjacent to the PCL femoral attachment",
+      "bone_b": "tibia_l",
+      "landmark_b": "posterior horn of the lateral meniscus"
+    },
+    "bands": [
+      {
+        "id": "mfl_l_humphry",
+        "name": "Anterior meniscofemoral ligament (ligament of Humphry)",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "medial femoral condyle, immediately anterior to the PCL attachment",
+          "bone_b": "tibia_l",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes anterior to the PCL; contributes secondary restraint to posterior tibial translation and helps control lateral meniscal posterior horn motion during knee flexion",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 7.8,
+        "failure_load_N": 297,
+        "function_note": "Present in roughly 55% of knees on MRI/cadaveric study; when present, its average cross-sectional area is comparable to the ligament of Wrisberg. A frequent cause of a 'pseudotear' appearance of the posterior horn of the lateral meniscus on MRI, and a structure surgeons must recognize during PCL reconstruction. Genuinely distinct from the MCL's deep (meniscofemoral/meniscotibial) layer, which anchors the medial meniscus rather than the lateral, and has no direct relationship to the PCL.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      },
+      {
+        "id": "mfl_l_wrisberg",
+        "name": "Posterior meniscofemoral ligament (ligament of Wrisberg)",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "medial femoral condyle, immediately posterior to the PCL attachment",
+          "bone_b": "tibia_l",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes posterior to the PCL; contributes secondary restraint to posterior tibial translation and tethers the lateral meniscal posterior horn during tibiofemoral rotation",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 6.7,
+        "failure_load_N": 297,
+        "function_note": "The more consistently present of the two meniscofemoral ligaments, found in roughly 94% of knees on MRI/cadaveric study (at least one of the pair is present in essentially 100% of knees). Average cross-sectional area of the two ligaments combined runs approximately 12% that of the PCL in the same knee, and cadaveric tensile testing of the meniscofemoral bone-ligament-meniscus complex gives a mean ultimate load of ~297N -- substantial enough that the authors concluded the complex is a genuine secondary biomechanical restraint, not a vestigial structure.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      }
+    ],
+    "function": "A pair of accessory intracapsular bands (Humphry, anterior to the PCL; Wrisberg, posterior to it) tethering the posterior horn of the lateral meniscus to the medial femoral condyle; at least one is present in essentially all knees and together they act as a secondary restraint to posterior tibial translation, with an ultimate load substantial enough to be biomechanically meaningful rather than vestigial. Anatomically and functionally distinct from the deep (meniscofemoral/meniscotibial) layer of the tibial collateral ligament, which anchors the medial (not lateral) meniscus and has no relationship to the PCL.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical study of the meniscofemoral ligaments; de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- incidence and MRI-pseudotear study.",
+    "joint": "knee_l"
+  },
+  {
+    "id": "transverse_ligament_of_knee_r",
+    "name_ta": "Ligamentum transversum genus",
+    "name_common": "Transverse ligament of the knee (transverse geniculate ligament)",
+    "side": "right",
+    "region": "knee",
+    "structural_type": "intracapsular",
+    "attachments": {
+      "bone_a": "tibia_r",
+      "landmark_a": "anterior horn of the medial meniscus",
+      "bone_b": "tibia_r",
+      "landmark_b": "anterior horn of the lateral meniscus"
+    },
+    "bands": [
+      {
+        "id": "tlk_r_main",
+        "name": "Transverse ligament of the knee",
+        "attachments": {
+          "bone_a": "tibia_r",
+          "landmark_a": "anterior horn of the medial meniscus",
+          "bone_b": "tibia_r",
+          "landmark_b": "anterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "couples the anterior horns of the two menisci, coordinating their anterior displacement during knee motion",
+        "tension_pattern": "taut_throughout_rom",
+        "representative_length_mm": 38.75,
+        "function_note": "An inconstant intracapsular band -- present on MRI in roughly two-thirds of knees -- crossing the infrapatellar fat pad anterior to the cruciate ligaments; a recognized cause of a 'pseudotear' appearance of the anterior horn of the meniscus on MRI when mistaken for a meniscal tear.",
+        "source": "Kang CW, Wu LX, Pu XB, Tan G, Dong CC, Yan ZK, Liu L (2020) 'Pseudotear Sign of the Anterior Horn of the Meniscus.' Arthroscopy 37(2):588-597, doi:10.1016/j.arthro.2020.08.024 (https://doi.org/10.1016/j.arthro.2020.08.024) -- MRI study of the transverse geniculate ligament's occurrence rate (67.3%), dimensions, and meniscal insertion patterns, and its pseudotear-of-the-anterior-horn appearance."
+      }
+    ],
+    "function": "Connects the anterior horns of the medial and lateral menisci across the front of the tibial plateau; an inconstant but well-documented structure, clinically notable as a cause of pseudotear appearance of the meniscal anterior horn on MRI.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Kang CW, Wu LX, Pu XB, Tan G, Dong CC, Yan ZK, Liu L (2020) 'Pseudotear Sign of the Anterior Horn of the Meniscus.' Arthroscopy 37(2):588-597, doi:10.1016/j.arthro.2020.08.024 (https://doi.org/10.1016/j.arthro.2020.08.024) -- MRI-based occurrence rate and morphology study of the transverse geniculate ligament.",
+    "joint": "knee_r"
+  },
+  {
+    "id": "transverse_ligament_of_knee_l",
+    "name_ta": "Ligamentum transversum genus",
+    "name_common": "Transverse ligament of the knee (transverse geniculate ligament)",
+    "side": "left",
+    "region": "knee",
+    "structural_type": "intracapsular",
+    "attachments": {
+      "bone_a": "tibia_l",
+      "landmark_a": "anterior horn of the medial meniscus",
+      "bone_b": "tibia_l",
+      "landmark_b": "anterior horn of the lateral meniscus"
+    },
+    "bands": [
+      {
+        "id": "tlk_l_main",
+        "name": "Transverse ligament of the knee",
+        "attachments": {
+          "bone_a": "tibia_l",
+          "landmark_a": "anterior horn of the medial meniscus",
+          "bone_b": "tibia_l",
+          "landmark_b": "anterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "couples the anterior horns of the two menisci, coordinating their anterior displacement during knee motion",
+        "tension_pattern": "taut_throughout_rom",
+        "representative_length_mm": 38.75,
+        "function_note": "An inconstant intracapsular band -- present on MRI in roughly two-thirds of knees -- crossing the infrapatellar fat pad anterior to the cruciate ligaments; a recognized cause of a 'pseudotear' appearance of the anterior horn of the meniscus on MRI when mistaken for a meniscal tear.",
+        "source": "Kang CW, Wu LX, Pu XB, Tan G, Dong CC, Yan ZK, Liu L (2020) 'Pseudotear Sign of the Anterior Horn of the Meniscus.' Arthroscopy 37(2):588-597, doi:10.1016/j.arthro.2020.08.024 (https://doi.org/10.1016/j.arthro.2020.08.024) -- MRI study of the transverse geniculate ligament's occurrence rate (67.3%), dimensions, and meniscal insertion patterns, and its pseudotear-of-the-anterior-horn appearance."
+      }
+    ],
+    "function": "Connects the anterior horns of the medial and lateral menisci across the front of the tibial plateau; an inconstant but well-documented structure, clinically notable as a cause of pseudotear appearance of the meniscal anterior horn on MRI.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Kang CW, Wu LX, Pu XB, Tan G, Dong CC, Yan ZK, Liu L (2020) 'Pseudotear Sign of the Anterior Horn of the Meniscus.' Arthroscopy 37(2):588-597, doi:10.1016/j.arthro.2020.08.024 (https://doi.org/10.1016/j.arthro.2020.08.024) -- MRI-based occurrence rate and morphology study of the transverse geniculate ligament.",
+    "joint": "knee_l"
+  },
+  {
+    "id": "medial_patellofemoral_ligament_l",
+    "name_ta": "Ligamentum patellofemorale mediale",
+    "name_common": "Medial patellofemoral ligament (MPFL)",
+    "side": "left",
+    "region": "knee",
+    "structural_type": "extracapsular",
+    "attachments": {
+      "bone_a": "femur_l",
+      "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+      "bone_b": "patella_l",
+      "landmark_b": "superomedial border of patella"
+    },
+    "bands": [
+      {
+        "id": "mpfl_l_main",
+        "name": "Medial patellofemoral ligament",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "saddle point between the adductor tubercle and medial epicondyle (Schottle's point)",
+          "bone_b": "patella_l",
+          "landmark_b": "superomedial border of patella, deep to vastus medialis obliquus"
+        },
+        "mechanical_role": "primary passive restraint to lateral patellar translation; per selective-sectioning cadaveric testing, contributes roughly 60% of the total medial soft-tissue restraining force at 20 degrees of knee flexion",
+        "tension_pattern": "taut_in_extension",
+        "failure_load_N": 208,
+        "function_note": "Lies in the second (capsular) layer of the medial knee between the vastus medialis obliquus and the joint capsule; its femoral origin at Schottle's point is the standard fluoroscopic/anatomic landmark for tunnel placement in MPFL reconstruction, now one of the most commonly performed knee ligament reconstructions given the ligament's role as the primary restraint to lateral patellar dislocation. Mean native tensile strength ~208 N (SD 90) per cadaveric testing.",
+        "source": "Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- selective-sectioning cadaveric study quantifying MPFL as the primary restraint (60% of total restraining force) to lateral patellar translation; Mountney J, Senavongse W, Amis AA, Thomas NP (2005) 'Tensile strength of the medial patellofemoral ligament before and after repair or reconstruction.' J Bone Joint Surg Br 87(1):36-40 -- native MPFL tensile strength 208N (SD 90) at 26mm displacement, cadaveric testing."
+      }
+    ],
+    "function": "The primary soft-tissue restraint to lateral patellar dislocation, resisting lateral translation of the patella particularly in early flexion before the patella engages the trochlear groove; its reconstruction (typically with a gracilis or semitendinosus graft anchored near Schottle's point) is one of the most commonly performed knee ligament surgeries for recurrent patellar instability.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Schottle PB, Schmeling A, Rosenstiel N, Weiler A (2007) 'Radiographic landmarks for femoral tunnel placement in medial patellofemoral ligament reconstruction.' Am J Sports Med 35(5):801-804, doi:10.1177/0363546506296415 (https://doi.org/10.1177/0363546506296415) -- defines the femoral origin landmark (Schottle's point) used clinically for MPFL reconstruction tunnel placement; Desio SM, Burks RT, Bachus KN (1998) 'Soft tissue restraints to lateral patellar translation in the human knee.' Am J Sports Med 26(1):59-65, doi:10.1177/03635465980260012701 (https://doi.org/10.1177/03635465980260012701) -- MPFL identified as primary restraint to lateral patellar translation via selective-sectioning cadaveric study.",
+    "joint": "patellofemoral_l"
   }
 ]
