@@ -542,6 +542,108 @@
     "joint": "knee_l"
   },
   {
+    "id": "meniscofemoral_ligaments_r",
+    "name_ta": "Ligamenta meniscofemoralia (anterius et posterius)",
+    "name_common": "Meniscofemoral ligaments (ligament of Humphry and ligament of Wrisberg)",
+    "side": "right",
+    "region": "knee",
+    "structural_type": "intracapsular",
+    "attachments": {
+      "bone_a": "femur_r",
+      "landmark_a": "medial femoral condyle, adjacent to the PCL femoral attachment",
+      "bone_b": "tibia_r",
+      "landmark_b": "posterior horn of the lateral meniscus"
+    },
+    "bands": [
+      {
+        "id": "mfl_r_humphry",
+        "name": "Anterior meniscofemoral ligament (ligament of Humphry)",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "medial femoral condyle, immediately anterior to the PCL attachment",
+          "bone_b": "tibia_r",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes anterior to the PCL; contributes secondary restraint to posterior tibial translation and helps control lateral meniscal posterior horn motion during knee flexion",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 7.8,
+        "failure_load_N": 297,
+        "function_note": "Present in roughly 55% of knees on MRI/cadaveric study; when present, its average cross-sectional area is comparable to the ligament of Wrisberg. A frequent cause of a 'pseudotear' appearance of the posterior horn of the lateral meniscus on MRI, and a structure surgeons must recognize during PCL reconstruction. Genuinely distinct from the MCL's deep (meniscofemoral/meniscotibial) layer, which anchors the medial meniscus rather than the lateral, and has no direct relationship to the PCL.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      },
+      {
+        "id": "mfl_r_wrisberg",
+        "name": "Posterior meniscofemoral ligament (ligament of Wrisberg)",
+        "attachments": {
+          "bone_a": "femur_r",
+          "landmark_a": "medial femoral condyle, immediately posterior to the PCL attachment",
+          "bone_b": "tibia_r",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes posterior to the PCL; contributes secondary restraint to posterior tibial translation and tethers the lateral meniscal posterior horn during tibiofemoral rotation",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 6.7,
+        "failure_load_N": 297,
+        "function_note": "The more consistently present of the two meniscofemoral ligaments, found in roughly 94% of knees on MRI/cadaveric study (at least one of the pair is present in essentially 100% of knees). Average cross-sectional area of the two ligaments combined runs approximately 12% that of the PCL in the same knee, and cadaveric tensile testing of the meniscofemoral bone-ligament-meniscus complex gives a mean ultimate load of ~297N -- substantial enough that the authors concluded the complex is a genuine secondary biomechanical restraint, not a vestigial structure.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      }
+    ],
+    "function": "A pair of accessory intracapsular bands (Humphry, anterior to the PCL; Wrisberg, posterior to it) tethering the posterior horn of the lateral meniscus to the medial femoral condyle; at least one is present in essentially all knees and together they act as a secondary restraint to posterior tibial translation, with an ultimate load substantial enough to be biomechanically meaningful rather than vestigial. Anatomically and functionally distinct from the deep (meniscofemoral/meniscotibial) layer of the tibial collateral ligament, which anchors the medial (not lateral) meniscus and has no relationship to the PCL.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical study of the meniscofemoral ligaments; de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- incidence and MRI-pseudotear study.",
+    "joint": "knee_r"
+  },
+  {
+    "id": "meniscofemoral_ligaments_l",
+    "name_ta": "Ligamenta meniscofemoralia (anterius et posterius)",
+    "name_common": "Meniscofemoral ligaments (ligament of Humphry and ligament of Wrisberg)",
+    "side": "left",
+    "region": "knee",
+    "structural_type": "intracapsular",
+    "attachments": {
+      "bone_a": "femur_l",
+      "landmark_a": "medial femoral condyle, adjacent to the PCL femoral attachment",
+      "bone_b": "tibia_l",
+      "landmark_b": "posterior horn of the lateral meniscus"
+    },
+    "bands": [
+      {
+        "id": "mfl_l_humphry",
+        "name": "Anterior meniscofemoral ligament (ligament of Humphry)",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "medial femoral condyle, immediately anterior to the PCL attachment",
+          "bone_b": "tibia_l",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes anterior to the PCL; contributes secondary restraint to posterior tibial translation and helps control lateral meniscal posterior horn motion during knee flexion",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 7.8,
+        "failure_load_N": 297,
+        "function_note": "Present in roughly 55% of knees on MRI/cadaveric study; when present, its average cross-sectional area is comparable to the ligament of Wrisberg. A frequent cause of a 'pseudotear' appearance of the posterior horn of the lateral meniscus on MRI, and a structure surgeons must recognize during PCL reconstruction. Genuinely distinct from the MCL's deep (meniscofemoral/meniscotibial) layer, which anchors the medial meniscus rather than the lateral, and has no direct relationship to the PCL.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      },
+      {
+        "id": "mfl_l_wrisberg",
+        "name": "Posterior meniscofemoral ligament (ligament of Wrisberg)",
+        "attachments": {
+          "bone_a": "femur_l",
+          "landmark_a": "medial femoral condyle, immediately posterior to the PCL attachment",
+          "bone_b": "tibia_l",
+          "landmark_b": "posterior horn of the lateral meniscus"
+        },
+        "mechanical_role": "passes posterior to the PCL; contributes secondary restraint to posterior tibial translation and tethers the lateral meniscal posterior horn during tibiofemoral rotation",
+        "tension_pattern": "reciprocal_with_sibling_band",
+        "cross_sectional_area_mm2": 6.7,
+        "failure_load_N": 297,
+        "function_note": "The more consistently present of the two meniscofemoral ligaments, found in roughly 94% of knees on MRI/cadaveric study (at least one of the pair is present in essentially 100% of knees). Average cross-sectional area of the two ligaments combined runs approximately 12% that of the PCL in the same knee, and cadaveric tensile testing of the meniscofemoral bone-ligament-meniscus complex gives a mean ultimate load of ~297N -- substantial enough that the authors concluded the complex is a genuine secondary biomechanical restraint, not a vestigial structure.",
+        "source": "Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical characterization of the Humphry and Wrisberg ligaments (cross-sectional area, stiffness, ultimate load); de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- MRI/cadaveric incidence study (ligament of Humphry present in 55% of patients, ligament of Wrisberg in 94%)."
+      }
+    ],
+    "function": "A pair of accessory intracapsular bands (Humphry, anterior to the PCL; Wrisberg, posterior to it) tethering the posterior horn of the lateral meniscus to the medial femoral condyle; at least one is present in essentially all knees and together they act as a secondary restraint to posterior tibial translation, with an ultimate load substantial enough to be biomechanically meaningful rather than vestigial. Anatomically and functionally distinct from the deep (meniscofemoral/meniscotibial) layer of the tibial collateral ligament, which anchors the medial (not lateral) meniscus and has no relationship to the PCL.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Kusayama T, Harner CD, Carlin GJ, Xerogeanes JW, Smith BA (1994) 'Anatomical and biomechanical characteristics of human meniscofemoral ligaments.' Knee Surg Sports Traumatol Arthrosc 2(4):234-237, doi:10.1007/BF01845594 (https://doi.org/10.1007/BF01845594) -- cadaveric structural/biomechanical study of the meniscofemoral ligaments; de Abreu MR, Chung CB, Trudell D, Resnick D (2007) 'Meniscofemoral ligaments: patterns of tears and pseudotears of the menisci using cadaveric and clinical material.' Skeletal Radiol 36(8):729-735, doi:10.1007/s00256-007-0298-2 (https://doi.org/10.1007/s00256-007-0298-2) -- incidence and MRI-pseudotear study.",
+    "joint": "knee_l"
+  },
+  {
     "id": "medial_patellofemoral_ligament_l",
     "name_ta": "Ligamentum patellofemorale mediale",
     "name_common": "Medial patellofemoral ligament (MPFL)",
