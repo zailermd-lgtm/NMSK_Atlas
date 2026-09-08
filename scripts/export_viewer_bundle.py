@@ -248,68 +248,103 @@ def summarise(folder, rec, anchor_points=None):
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--subject", default="vhm_both")
+    ap.add_argument("--subject", action="append",
+                     help="repeatable. Earlier subjects win on an atlas_id collision, so "
+                          "list the most-trusted/most-complete subject first (e.g. "
+                          "--subject vhm_both --subject ct_s1371 lets a second real "
+                          "specimen fill in structures the first doesn't have -- upper-body "
+                          "bone from a CT case, say -- without overwriting anything the "
+                          "first subject already carries).")
     ap.add_argument("-o", "--out", default="build/viewer")
     args = ap.parse_args()
-
-    src = BUILD_DIR / args.subject
-    manifest = json.loads((src / "manifest.json").read_text())
-    verts = np.frombuffer((src / "vertices.f32").read_bytes(), dtype=np.float32).reshape(-1, 3)
-    faces = np.frombuffer((src / "faces.u32").read_bytes(), dtype=np.uint32).reshape(-1, 3)
+    subjects = args.subject or ["vhm_both"]
 
     atlas = load_atlas_records()
     from engine import vh_ingest as vh
     category = {e.entity_id: e.category for e in vh.load_atlas_index()}
-    anchor_points = resolve_anchor_points(args.subject)
 
     parts, blobs, index = [], [], []
-    vert_base = 0
     kept_tris = 0
-    for s in manifest["structures"]:
-        aid = s["atlas_id"]
-        v = verts[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]].astype(np.float64)
-        f = (faces[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64)
-             - s["vertex_offset"])
-        cat = category.get(aid, "other")
-        dv, df, cell = decimate_to(v, f, BUDGET.get(cat, DEFAULT_BUDGET))
-        if len(df) == 0:
-            print(f"  {aid}: decimated away, kept at full resolution")
-            dv, df, cell = v, f, 0.0
-        if len(dv) > MAX_VERTS:
-            raise SystemExit(
-                f"{aid}: {len(dv)} vertices exceeds the uint16 index limit; "
-                f"lower the budget for category {cat!r}")
-        q = np.rint(dv / QUANTUM_MM).astype(np.int16)
-        idx = df.astype(np.uint16)
-        blobs.append(q.tobytes())
-        blobs.append(idx.tobytes())
-        folder, rec = atlas.get(aid, (None, None))
-        entry = {
-            "id": aid,
-            "cat": cat,
-            "side": s.get("side"),
-            "nv": int(q.shape[0]),
-            "nf": int(idx.shape[0]),
-            "cell": round(cell, 2),
-            "tris_full": s["triangle_count"],
-        }
-        if rec is not None:
-            entry["rec"] = summarise(folder, rec, anchor_points)
-        index.append(entry)
-        kept_tris += len(df)
-        vert_base += len(dv)
-        parts.append(aid)
+    source_tris_total = 0
+    # Claimed at subject granularity, not structure granularity: one atlas
+    # entity can legitimately arrive as SEVERAL mesh parts sharing one
+    # atlas_id even within a single subject (the gastrocnemius heads, the
+    # forefoot splitter) -- those must all be kept. What must NOT repeat is
+    # a later subject re-adding an id an earlier, higher-priority subject
+    # already fully provided, so this set is only updated once a subject's
+    # own structures have all been processed, not structure-by-structure.
+    claimed_by_prior_subjects = set()
+    anchor_points = {}
+    frame = None
+    attributions = []
+    subject_totals = {}
+    for subject in subjects:
+        src = BUILD_DIR / subject
+        manifest = json.loads((src / "manifest.json").read_text())
+        verts = np.frombuffer((src / "vertices.f32").read_bytes(), dtype=np.float32).reshape(-1, 3)
+        faces = np.frombuffer((src / "faces.u32").read_bytes(), dtype=np.uint32).reshape(-1, 3)
+        frame = frame or manifest["frame"]
+        if manifest.get("attribution"):
+            attributions.append(manifest["attribution"])
+        source_tris_total += manifest["triangle_count"]
+
+        subj_anchors = resolve_anchor_points(subject)
+        for mid, pts in subj_anchors.items():
+            anchor_points.setdefault(mid, pts)
+
+        kept_here = 0
+        this_subject_ids = set()
+        for s in manifest["structures"]:
+            aid = s["atlas_id"]
+            if aid in claimed_by_prior_subjects:
+                continue
+            this_subject_ids.add(aid)
+            v = verts[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]].astype(np.float64)
+            f = (faces[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64)
+                 - s["vertex_offset"])
+            cat = category.get(aid, "other")
+            dv, df, cell = decimate_to(v, f, BUDGET.get(cat, DEFAULT_BUDGET))
+            if len(df) == 0:
+                print(f"  {aid}: decimated away, kept at full resolution")
+                dv, df, cell = v, f, 0.0
+            if len(dv) > MAX_VERTS:
+                raise SystemExit(
+                    f"{aid}: {len(dv)} vertices exceeds the uint16 index limit; "
+                    f"lower the budget for category {cat!r}")
+            q = np.rint(dv / QUANTUM_MM).astype(np.int16)
+            idx = df.astype(np.uint16)
+            blobs.append(q.tobytes())
+            blobs.append(idx.tobytes())
+            folder, rec = atlas.get(aid, (None, None))
+            entry = {
+                "id": aid,
+                "cat": cat,
+                "side": s.get("side"),
+                "nv": int(q.shape[0]),
+                "nf": int(idx.shape[0]),
+                "cell": round(cell, 2),
+                "tris_full": s["triangle_count"],
+                "subject": subject,
+            }
+            if rec is not None:
+                entry["rec"] = summarise(folder, rec, anchor_points)
+            index.append(entry)
+            kept_tris += len(df)
+            kept_here += len(df)
+            parts.append(aid)
+        subject_totals[subject] = kept_here
+        claimed_by_prior_subjects |= this_subject_ids
 
     blob = b"".join(blobs)
     out_dir = REPO_ROOT / args.out
     out_dir.mkdir(parents=True, exist_ok=True)
     bundle = {
-        "subject": args.subject,
-        "frame": manifest["frame"],
+        "subject": "+".join(subjects),
+        "frame": frame,
         "quantum_mm": QUANTUM_MM,
-        "source_triangles": manifest["triangle_count"],
+        "source_triangles": source_tris_total,
         "triangles": int(kept_tris),
-        "attribution": manifest.get("attribution"),
+        "attribution": attributions[0] if len(attributions) == 1 else (attributions or None),
         "structures": index,
     }
     (out_dir / "bundle.json").write_text(json.dumps(bundle, separators=(",", ":")))
@@ -317,9 +352,11 @@ def main() -> int:
     b64 = base64.b64encode(blob).decode("ascii")
     (out_dir / "bundle.b64").write_text(b64)
 
-    print(f"\n{len(index)} structures")
-    print(f"triangles  {manifest['triangle_count']:,} -> {kept_tris:,} "
-          f"({100 * kept_tris / manifest['triangle_count']:.1f}%)")
+    print(f"\n{len(index)} structures from {len(subjects)} subject(s): {', '.join(subjects)}")
+    for subject, n in subject_totals.items():
+        print(f"  {subject}: {n:,} triangles kept")
+    print(f"triangles  {source_tris_total:,} -> {kept_tris:,} "
+          f"({100 * kept_tris / source_tris_total:.1f}%)")
     print(f"binary     {len(blob) / 1e6:.2f} MB, base64 {len(b64) / 1e6:.2f} MB")
     print(f"index      {len(json.dumps(bundle)) / 1e6:.2f} MB")
     print(f"wrote      {out_dir}")
