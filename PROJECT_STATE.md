@@ -242,13 +242,73 @@ by the owner, because Zenodo is unreachable from the build machine.
 - Every merge in this pass was verified with the full test suite
   (`149 passed`) before pushing. HEAD is `36234dc`.
 
+## 2026-09-08: real bone/vessel geometry above the hip, first time ever
+
+The repository owner widened this remote environment's network policy and
+supplied a real CT case (TotalSegmentator v2.0.1, Zenodo record 10047292,
+case `s1371`, CC BY 4.0) via the Hugging Face connector's metadata search
+plus a direct upload of the case's segmentation masks. Full account in
+`docs/GEOMETRY_SOURCES.md`'s "Stage 2, first subject" section — short
+version: `scripts/merge_totalsegmentator_masks.py` →
+`scripts/ingest_volume_geometry.py inspect/propose/convert` (already built,
+never fed real input before now) produced real geometry for cervical/
+thoracic/lumbar spine, all ribs, sternum, costal cartilage, clavicle,
+scapula, humerus, and (unplanned) several great vessels. The small merged
+label volume is checked in at `data/ct_sources/` so this is reproducible
+without re-fetching anything. `scripts/export_viewer_bundle.py --subject`
+is now repeatable to combine subjects, with the already-verified VH data
+always winning on a collision (regression-verified: `--subject vhm_both`
+alone still produces the prior exact 130-structure/283,720-triangle
+bundle — a real bug, dedup collapsing one subject's own multi-part
+entities like the 12 ribs sharing `ribs_l`, was caught and fixed on the
+way). The viewer now tags every non-primary-subject structure with a
+visible badge, per `docs/GEOMETRY_SOURCES.md`'s existing, explicit rule
+against ever presenting two different real bodies as one continuous
+skeleton — this is shown for comparison/checking, not fused.
+
+**What it is not**: no unified skull entity to receive TotalSegmentator's
+skull mask (atlas only has mandible + occipital), no forearm/hand bones
+(not in TotalSegmentator's structure set at all), and no upper-limb/trunk/
+neck **muscle** geometry (TotalSegmentator segments ~10 muscles total, all
+already covered by VH). "Complete the upper body" is not accurate as a
+description of this step — real bone and great-vessel geometry above the
+hip, for the first time, is.
+
+**Real anchor-placement errors found, not yet fixed** — running
+`scripts/audit_landmarks_vs_geometry.py --subject ct_s1371` gave the
+upper-body anchors their first-ever real geometry to check against, and
+several disagree with it materially:
+- `anchor_deltoid_r_origin` / `_l`: ~130 mm off its own muscle
+- `anchor_subclavius_r_insertion` / `_l`: ~55 mm off
+- `clavicle_r/l` acromial (lateral) end landmark: ~130 mm from the bone
+  surface — likely the same root cause as the deltoid anchors (they share
+  that end of the clavicle)
+- distal-femur landmarks (medial epicondyle, condyles, patellar groove)
+  show large "errors" that are a scan-coverage artifact, NOT a data bug:
+  this CT case's femur mask is only 315 mm long (315 mm along its own
+  fitted axis vs. the atlas's ~450 mm femur) — the scan's field of view
+  ends around mid-thigh, so read those specific figures as scale, not
+  placement, per the audit script's own caveat.
+
+Next action on this thread: fix the deltoid/subclavius/clavicle anchors
+against the new real geometry, the same way `vastus_lateralis_r`'s origin
+was fixed earlier from the lower-limb audit — likely a landmark-matching
+or authoring error in `data/skeleton/bones.json`'s clavicle landmarks
+rather than in `generate_anchors.py` itself, since the femur/hip errors
+that DO trace to `generate_anchors.py` bugs were already fixed this
+session. Verify against the full anchor corpus before committing, per this
+project's standing rule for any anchor-generation change.
+
 ## Open, not literature-fixable
 
-- **Real 3D geometry above the hip is still blocked on the repository
-  owner's local machine** (Python 3.13 needed for `nibabel`/
-  `scikit-image`, see "Blocked on the repository owner" above) — no
-  amount of research fixes this, it needs that local CT/TotalSegmentator
-  ingest step run.
+- **Partially unblocked 2026-09-08** (see above): real bone and great-vessel
+  geometry above the hip now exists, from one CT case. Still genuinely
+  missing and not fixable by more of the same case: a unified skull,
+  forearm/hand bones, and every upper-limb/trunk/neck **muscle** — none of
+  which TotalSegmentator segments. Getting those needs either a different
+  segmented source (a hand/wrist-specific dataset, a muscle-segmentation
+  model) or the original local CT/TotalSegmentator route this section used
+  to describe as the only option.
 - Flagged, not yet done: a `gluteus_medius/minimus` **muscle's own**
   motor-point/BoNT injection data search came back empty (its
   *tendon* now has PRP data — different structure, different

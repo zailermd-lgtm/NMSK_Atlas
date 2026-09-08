@@ -104,6 +104,7 @@ aside{border-right:1px solid var(--line)}
 .tagrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
 .tag{padding:2px 7px;border-radius:99px;font-size:10.5px;font-weight:600;border:1px solid var(--line);color:var(--ink-2)}
 .tag.cat{border-color:transparent;color:#1B1B1B}
+.tag.warn{border-color:var(--risk);color:var(--risk);background:var(--risk-soft)}
 .kv{display:grid;grid-template-columns:78px minmax(0,1fr);gap:4px 10px;font-size:12px}
 .kv dt{color:var(--muted)}
 .kv dd{margin:0;overflow-wrap:anywhere}
@@ -150,7 +151,7 @@ aside{border-right:1px solid var(--line)}
 <div id="app">
   <header>
     <h1>NMSK Atlas Viewer</h1>
-    <div class="sub">Visible Human Male &middot; pelvis to ankle</div>
+    <div class="sub" id="s-subtitle">Visible Human &middot; pelvis to ankle</div>
     <div class="spacer"></div>
     <div class="stat"><b id="s-str">0</b> structures</div>
     <div class="stat"><b id="s-tri">0</b> triangles shown</div>
@@ -202,6 +203,20 @@ aside{border-right:1px solid var(--line)}
 "use strict";
 var BUNDLE = JSON.parse(document.getElementById("bundle-json").textContent);
 var B64 = document.getElementById("bundle-b64").textContent.trim();
+
+/* Two different real bodies can appear in one bundle (e.g. Visible Human
+   pelvis-to-ankle plus a second specimen filling in bone/vessel geometry
+   above the hip) -- see docs/GEOMETRY_SOURCES.md's explicit warning against
+   ever presenting that as one continuous skeleton. The primary/first-listed
+   subject is the reference specimen everything is measured against; any
+   other subject is a second real body shown for comparison, not fused into
+   it, so every structure from it is labelled as such in the inspector. */
+var SUBJECTS = BUNDLE.subject.split("+");
+var PRIMARY_SUBJECT = SUBJECTS[0];
+var SUBJECT_LABELS = {
+  vhm_both: "Visible Human (DU lower-extremity release)",
+  ct_s1371: "second specimen -- TotalSegmentator CT case s1371, CC BY 4.0"
+};
 
 /* ---------- decode ---------- */
 var bin = atob(B64), buf = new ArrayBuffer(bin.length), bytes = new Uint8Array(buf);
@@ -294,7 +309,7 @@ var groups = {}, order = [];
 meshes.forEach(function(m){
   var s = m.userData, g = groups[s.id];
   if (!g){
-    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec,
+    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject,
                         meshes:[], nf:0, tris_full:0, cell:s.cell, parts:0};
     order.push(g);
   }
@@ -588,7 +603,11 @@ function select(id){
     (s.side ? '<span class="tag">' + esc(s.side) + '</span>' : "") +
     (r.region ? '<span class="tag">' + esc(r.region).replace(/_/g, " ") + '</span>' : "") +
     '<span class="tag mono">' + s.nf.toLocaleString() + ' tri</span>' +
-    (s.parts > 1 ? '<span class="tag">' + s.parts + ' meshes</span>' : "");
+    (s.parts > 1 ? '<span class="tag">' + s.parts + ' meshes</span>' : "") +
+    (s.subject && s.subject !== PRIMARY_SUBJECT
+      ? '<span class="tag warn" title="Shown for reference at the same scale, not as part of one continuous cadaver -- see docs/GEOMETRY_SOURCES.md">' +
+        esc(SUBJECT_LABELS[s.subject] || s.subject) + '</span>'
+      : "");
 
   var h = "";
   if (r.origin || r.insertion || r.nerve){
@@ -647,6 +666,9 @@ function select(id){
 }
 
 /* ---------- go ---------- */
+document.getElementById("s-subtitle").textContent = SUBJECTS.length > 1
+  ? "Visible Human (pelvis to ankle) + a second real specimen (bone/vessel reference above the hip, not one continuous body)"
+  : "Visible Human · pelvis to ankle";
 document.getElementById("s-full").textContent = BUNDLE.source_triangles.toLocaleString();
 renderList();
 resize();

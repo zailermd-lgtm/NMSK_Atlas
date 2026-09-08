@@ -22,6 +22,7 @@ good the meshes are.
 |---|---|---|---|
 | **Visible Human Project** (NLM) | 0.33 mm (F) / 1 mm (M) axial | US public domain; attribution requested | **Adopted** — substrate |
 | **VH lower-extremity geometry** (Univ. of Denver) | segmented from the above | CC BY 4.0 *(verify — see below)* | **Adopted** — stage 1 |
+| **TotalSegmentator v2.0.1** (Wasserthal et al., Univ. Hospital Basel) | clinical CT, 1.5 mm isotropic (this subject) | CC BY 4.0 | **Adopted** — stage 2, upper body/trunk |
 | **SPARC / SCKAN** (NIH Common Fund) | connectivity statements, no geometry | CC BY 4.0 | **Deferred** — wrong domain; see below |
 | **IT'IS Virtual Population** (Yoon-sun, Jeduk) | segmented nerve trajectories | commercial, paid | **Open question** — see below |
 | **Z-Anatomy** / BodyParts3D | ~3.65 M polygons, unstated scale | CC BY-SA 4.0 | **Rejected** — share-alike |
@@ -535,6 +536,39 @@ the same error as combining measured fascicle lengths with measured mesh
 volumes — already prohibited elsewhere in this project. Upper-body geometry
 from a CT is for **checking** authored coordinates, where a second body is
 if anything a stronger test, not for shipping as one continuous skeleton.
+
+### Stage 2, first subject (2026-09-08): real, but bones/vessels only
+
+`data/ct_sources/totalsegmentator_v201_s1371_labels.nii.gz` (911 KB, checked
+in — small enough, unlike the ~355 GB VH source or the ~23.6 GB full
+TotalSegmentator release, neither of which belongs in git) is one real,
+pathology-free, whole-body CT case (Zenodo record 10047292, case `s1371`)
+run through the ingest above. It gives real geometry, for the first time,
+for: cervical/thoracic/lumbar vertebrae, all 24 ribs, sternum, costal
+cartilage, clavicle, scapula, humerus — plus, unplanned, several great
+vessels whose TotalSegmentator masks matched existing
+`data/vascular/*.json` entity ids (aorta, venae cavae, subclavian/carotid/
+brachiocephalic vessels). It does **not** give a unified skull (this atlas
+only carries mandible and occipital as separate bones — no cranial-vault
+entity exists to receive TotalSegmentator's `skull` mask, flagged by the
+mapping step rather than silently dropped), forearm/hand bones
+(TotalSegmentator doesn't segment radius, ulna, carpals, metacarpals, or
+phalanges at all), or any upper-limb/trunk/neck **muscle** — TotalSegmentator
+carries ten muscles total (three glutei, iliopsoas, autochthon), all of
+which the atlas already had real geometry for from the DU release.
+
+**The "not one continuous skeleton" rule above is still in force.** The
+viewer bundle can now be built from both subjects at once
+(`export_viewer_bundle.py --subject vhm_both --subject ct_s1371`, earlier
+subjects win on any id collision so the already-verified VH data is never
+overwritten) — but every structure from the second subject is tagged with
+which specimen it came from, and the viewer inspector shows a visible badge
+on it precisely so nobody mistakes the two for one cadaver. This is shown,
+not fused: a second real body at the same anatomical scale, for comparison
+and for checking authored anchor coordinates against, exactly as prescribed
+above — running `scripts/audit_landmarks_vs_geometry.py --subject ct_s1371`
+surfaced real errors in anchors that had never had geometry to check
+against before (see PROJECT_STATE.md).
 
 ## Resulting architecture
 
