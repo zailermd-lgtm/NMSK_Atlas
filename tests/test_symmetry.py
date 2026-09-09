@@ -51,24 +51,47 @@ def _side_claimed(name: str):
     return "medial" if medial else "lateral"
 
 
+#  scripts/audit_landmarks_vs_geometry.py's orthonormal_frame() always puts
+#  the bone's OWN long axis in Y (negative toward the distal reference
+#  point), not X, and does NOT flip that sign between left and right --
+#  each side's frame is fit independently, and "further along the bone"
+#  means the same thing on both. That matches this axis to medial-lateral
+#  for most limb bones for free, because their long axis runs roughly
+#  superior-inferior and X is left as the transverse (~medial-lateral,
+#  side-flipping) axis. The clavicle is the exception: its long axis runs
+#  roughly medial-lateral, so medial/lateral is carried by Y, not X --
+#  same sign on both sides, since Y is "how far out towards the acromial
+#  end", not "which way is right". Getting this wrong here was the second
+#  clavicle axis bug this project found, after the mirroring one below.
+LONG_AXIS_IS_MEDIOLATERAL = {"clavicle_r", "clavicle_l"}
+
+
 def _contradictions(bones):
-    """Landmarks whose x sign contradicts the side their name states."""
+    """Landmarks whose mediolateral coordinate contradicts the side their
+    name states."""
     bad = []
     for bone in bones:
         bone_id = bone.get("id", "")
         if not bone_id.endswith(("_r", "_l")):
             continue
+        mediolateral_axis = 1 if bone_id in LONG_AXIS_IS_MEDIOLATERAL else 0
         # +x is the subject's right, so medial is toward -x on the right limb
-        # and toward +x on the left.
-        outward = 1.0 if bone_id.endswith("_r") else -1.0
+        # and toward +x on the left -- except on the clavicle's Y, which
+        # does not flip with side (see LONG_AXIS_IS_MEDIOLATERAL above).
+        if mediolateral_axis == 1:
+            outward = -1.0  # more negative Y = further out towards acromial, on EITHER side
+        else:
+            outward = 1.0 if bone_id.endswith("_r") else -1.0
         for lm in bone.get("landmarks", []):
             pos = lm.get("position_local_mm")
             side = _side_claimed(lm["name"]) if pos else None
             if not side:
                 continue
             want = -outward if side == "medial" else outward
-            if pos[0] * want < 0:
-                bad.append(f"{bone_id} {lm['name']!r}: names {side} but x={pos[0]}")
+            value = pos[mediolateral_axis]
+            if value * want < 0:
+                bad.append(f"{bone_id} {lm['name']!r}: names {side} but "
+                           f"axis[{mediolateral_axis}]={value}")
     return bad
 
 
@@ -87,12 +110,18 @@ def test_landmarks_named_medial_or_lateral_are_on_that_side():
 
 
 def test_the_mediolateral_check_actually_catches_a_mirror():
-    """Verify the check by breaking the data it is meant to protect."""
+    """Verify the check by breaking the data it is meant to protect.
+
+    Flips Y, not X: the clavicle's medial-lateral coordinate lives in Y
+    (see LONG_AXIS_IS_MEDIOLATERAL above) -- flipping X would break nothing
+    here on purpose, which is exactly what this test must not let pass
+    silently, so it targets the axis the check actually reads.
+    """
     bones = json.loads(BONES.read_text())
     victim = next(lm for b in bones if b.get("id") == "clavicle_r"
                   for lm in b.get("landmarks", [])
                   if lm["name"].startswith("acromial"))
-    victim["position_local_mm"][0] *= -1
+    victim["position_local_mm"][1] *= -1
     bad = _contradictions(bones)
     assert any("clavicle_r" in b for b in bad), bad
 
