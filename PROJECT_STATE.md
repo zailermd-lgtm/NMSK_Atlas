@@ -488,9 +488,43 @@ files live there and are already ingested via direct upload (Zenodo itself
 stays unreachable from this sandbox's network policy, as established
 earlier). No new content found there beyond what's already in use.
 
+## 2026-09-09 (same day, continued again): BHaM — a real, license-unverified forearm/wrist lead
+
+Pushing the search past the named-source list surfaced one genuinely new,
+not-previously-known candidate: **BHaM (Biomechanics Hand Modeling
+database)**, Diaz et al., *Scientific Data* 2026, DOI
+`10.1038/s41597-026-06939-4` (PMID 41807417, PMC13111597 — fetched and
+read directly via the PubMed connector, not just its abstract). A subset
+of 15 living subjects received 3T MRI from shoulder to wrist, and
+"forearm muscles and bones were manually segmented in 3D Slicer by a
+single, trained researcher." The dataset is hosted on Kaggle, DOI
+`10.34740/kaggle/ds/7895310`.
+
+**Unverified, and here's exactly why**: `kaggle.com` and `nature.com` are
+both unreachable from this sandbox's network policy (confirmed by direct
+`curl`/`WebFetch` attempts, both `EGRESS_BLOCKED`/`connect_rejected`) —
+the PubMed connector's full text doesn't include the paper's data-file
+table, so it's not established from here whether Kaggle actually hosts
+the raw segmentation files (NRRD/NIfTI masks) or only derived numeric
+summaries (muscle volumes), nor is the dataset's exact license confirmed
+(Kaggle license metadata isn't in the paper text). Even in the best case
+this only covers forearm muscles/bones (not hand intrinsics, not
+shoulder/upper-arm muscles, not pelvic floor or foot) and n=15.
+
+**Next action, if pursued**: this needs a human to open
+`https://www.kaggle.com/datasets/maximilliantdiaz/bham-biomechanics-hand-modeling-dataset`,
+confirm the license and check whether segmentation files are actually
+included (not just summary CSVs), and if so download and upload it here
+the same way the TotalSegmentator CT case was supplied this session. Not
+pursued further without that confirmation — no point ingesting against
+an unverified license after this project's own standing rule about
+checking licenses before, not after.
+
 **Net conclusion**: the pelvic-floor/foot-intrinsic/fibularis/forearm-hand/
-upper-limb geometry gap has exactly two remaining paths, both requiring a
-decision from the repository owner rather than more searching: (1) revisit
+upper-limb geometry gap has three remaining paths now, all requiring a
+decision or an action from the repository owner rather than more
+searching from here: (0) check whether BHaM's Kaggle listing is actually
+usable (forearm/wrist only, license unverified), (1) revisit
 the no-CC-BY-SA-source rule for a specific, scoped exception, which would
 obligate share-alike licensing on whatever uses that geometry, or
 (2) purchase Zygote (or an equivalent commercial, ownable-license) content
