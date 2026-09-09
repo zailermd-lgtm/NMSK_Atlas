@@ -414,11 +414,89 @@ muscles):
   CC BY-NC-SA (non-commercial), which would conflict with this project's
   proprietary/commercial licensing even if it did.
 
-**Conclusion**: no reachable source currently fills these gaps. They
-remain open pending either a hand/wrist-specific dataset, a dedicated
-upper-limb/pelvic-floor muscle-segmentation model run against raw
-imaging, or literature-only description (already done for the clinical
-fields; 3D geometry is what's missing).
+**Conclusion at that point**: no reachable *ingestible* source fills these
+gaps. Superseded below — one source that structurally *would* fill them
+was found and confirmed, then confirmed disqualified for a reason already
+on record in this project.
+
+## 2026-09-09 (same day, continued): BodyParts3D/Z-Anatomy re-confirmed, still disqualified; BioDigital/Zygote/Gray's checked
+
+The repository owner named specific sources to check more deeply:
+Z-Anatomy, Visible Human, Zenodo, BioDigital, Zygote Body, Gray's Anatomy.
+
+**Z-Anatomy / BodyParts3D — actually would fill every remaining gap.**
+`docs/GEOMETRY_SOURCES.md` already had a "Why Z-Anatomy was rejected"
+section from earlier in the project (CC BY-SA 4.0 share-alike, disqualified
+outright per this repo's own rule, `PROJECT_STATE.md` line 12: "no CC BY-SA
+source may enter it"). To check whether that rejection still made sense
+against the current specific gap list, its upstream source, BodyParts3D
+(DBCLS, CC BY-SA 2.1 Japan), was located and inspected directly — GitHub
+mirror `Kevin-Mattheus-Moerman/BodyParts3D`, reachable via this sandbox's
+anonymous git-clone proxy even though the original `dbarchive.biosciencedbc.jp`
+host is not. Cloned (934 STL files, single male body, FMA-ontology-named,
+~1.4 GB), then grepped its part list directly rather than trusting memory:
+it has named, meshed entries for **all** of pelvic floor (levator ani,
+pubococcygeus, puborectalis, iliococcygeus, coccygeus — confirmed present
+as actual `.stl` files, not just ontology entries), foot intrinsics
+(abductor hallucis, flexor hallucis/digitorum brevis, lumbricals,
+interossei), fibularis brevis/tertius, forearm bones (radius, ulna),
+hand bones (carpals, metacarpals, phalanges), hand intrinsics (lumbricals,
+interossei of the hand), and the full upper-limb muscle set (deltoid,
+biceps brachii, pronator teres, etc. — all sided, all present). This is a
+structurally complete answer to every open geometry gap this project has.
+
+**It is still disqualified, for the reason already documented**: the
+license is CC BY-SA (Japan 2.1 for the raw data, 4.0 for Z-Anatomy's own
+re-packaging) — share-alike, which forces any distributed derivative to
+carry the same license and forbids adding restrictions. That is exactly
+what `docs/GEOMETRY_SOURCES.md`'s existing "Why Z-Anatomy was rejected"
+section and `PROJECT_STATE.md`'s standing rule both already rule out for
+a proprietary, sellable product. Confirming this in detail didn't change
+the answer, but it does mean the gap is not "no source exists" — a
+complete, freely-downloadable source exists and is simply incompatible
+with the licensing model this project has chosen. The clone was deleted
+after inspection (not committed, not kept on disk); only its small
+plain-text part list and LICENSE_content were saved to this session's
+scratchpad for reference, not the repo.
+
+**BioDigital Human**: ~14,000 structures, but the free and paid tiers are
+a hosted viewer/API (embed their viewer, or call their API for interactive
+views) — not a source of exportable, ownable mesh files. There is no
+tier, free or paid, that hands over raw geometry for inclusion in a
+separately-distributed dataset; you license access to their viewer, not
+the meshes themselves. Structurally incompatible with this project's
+architecture (own mesh files, own manifest/ingest pipeline) regardless of
+what tier is purchased.
+
+**Zygote Body / Zygote Media Group**: real exportable mesh geometry (MA,
+3DS, C4D, LWO, XSI), commercial, purchased per-model (~$200+) or as a
+software/IP license with royalties; the full collection is ~$21-25k.
+This is a genuine option structurally — owned meshes, standard proprietary
+commercial licensing, no share-alike problem — but it costs real money and
+is a purchasing decision for the repository owner, not something
+resolvable from here.
+
+**Gray's Anatomy (1918, 20th US edition)**: confirmed public domain (US
+copyright expired), but it is text and 2D engraved plates only — Bartleby,
+Wikimedia Commons, and Internet Archive all host the same 2D content.
+No 3D geometry exists from this source under any circumstance; it is
+already the kind of descriptive-literature source this project cites for
+facts, not a candidate for filling a mesh gap.
+
+**Zenodo**: not itself a geometry source, a repository host — TotalSegmentator's
+files live there and are already ingested via direct upload (Zenodo itself
+stays unreachable from this sandbox's network policy, as established
+earlier). No new content found there beyond what's already in use.
+
+**Net conclusion**: the pelvic-floor/foot-intrinsic/fibularis/forearm-hand/
+upper-limb geometry gap has exactly two remaining paths, both requiring a
+decision from the repository owner rather than more searching: (1) revisit
+the no-CC-BY-SA-source rule for a specific, scoped exception, which would
+obligate share-alike licensing on whatever uses that geometry, or
+(2) purchase Zygote (or an equivalent commercial, ownable-license) content
+for the missing regions. No amount of further free-source searching will
+change this — the search space for freely-licensed, ownable, ingestible
+geometry for these specific structures has now been covered.
 
 ## Next action
 
