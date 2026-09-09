@@ -1,124 +1,131 @@
 {
-  "id": "multifidus_l",
-  "name_ta": "Multifidus",
-  "name_common": "Multifidus",
-  "side": "left",
-  "region": "trunk",
-  "overall_architecture_type": "multipennate",
-  "attachments": {
-    "origin_bone": "sacrum",
-    "origin_landmark": "sacrum, mammillary processes, posterior sacroiliac ligaments",
-    "insertion_bone": "lumbar_vertebrae",
-    "insertion_landmark": "spinous processes 2-4 vertebral levels above each origin (repeating unit, sacrum to axis)",
-    "via_points": []
-  },
-  "innervation": {
-    "nerve": "dorsal_rami_of_spinal_nerves",
-    "root_levels": "segmental (L5-S1 up to C2, matching level of each fascicle)"
-  },
-  "actions": [
-    "stabilizes and extends/rotates individual vertebral segments (primary intersegmental spine stabilizer)"
-  ],
-  "functional_compartments": [
-    {
-      "id": "multifidus_l_lumbar",
-      "name": "Multifidus, lumbar part",
-      "innervation_branch": "dorsal rami, lumbar levels (medial branch)",
-      "fiber_architecture": {
-        "architecture_type": "multipennate",
-        "pennation_deg": 20,
-        "optimal_fascicle_length_mm": 55,
-        "physiological_cross_section_area_mm2": 550,
-        "max_isometric_force_N": 123.8
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -15,
-          20,
-          -20
-        ],
-        [
-          -10,
-          -20,
-          -15
-        ],
-        [
-          -5,
-          -60,
-          -10
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.15,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Unusually short fascicles relative to its large PCSA -- an architecture specialized for producing high segmental stiffness/force rather than excursion, per Ward et al.'s intraoperative measurements; the most clinically studied part (its atrophy is a well-documented finding in chronic low back pain).",
-      "source": "Ward SR, Kim CW, Eng CM, Gottschalk LJ 4th, Tomiya A, Garfin SR, Lieber RL (2009) J Bone Joint Surg Am 91(1):176-185 -- architectural analysis showing multifidus's unique short-fascicle, high-PCSA design for lumbar segmental stability",
-      "innervation_branch_ids": [
-        "dorsal_rami_of_spinal_nerves"
-      ]
-    },
-    {
-      "id": "multifidus_l_thoracocervical",
-      "name": "Multifidus, thoracic and cervical parts",
-      "innervation_branch": "dorsal rami, thoracic and cervical levels (medial branch)",
-      "fiber_architecture": {
-        "architecture_type": "multipennate",
-        "pennation_deg": 15,
-        "optimal_fascicle_length_mm": 45,
-        "physiological_cross_section_area_mm2": 150,
-        "max_isometric_force_N": 33.8
-      },
-      "fiber_field_seed_region_local_mm": [
-        [
-          -10,
-          200,
-          -20
-        ],
-        [
-          -8,
-          100,
-          -15
-        ],
-        [
-          -5,
-          20,
-          -10
-        ]
-      ],
-      "neuromuscular_junction_zone": {
-        "location_description": "mid-belly endplate band",
-        "position_fraction_along_fascicle": 0.5,
-        "band_width_fraction": 0.15,
-        "evidence": "modelling_default"
-      },
-      "function_note": "Same repeating 2-4-level architecture continued cranially; smaller cross-section than the lumbar part and less individually studied.",
-      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
-      "innervation_branch_ids": [
-        "dorsal_rami_of_spinal_nerves"
-      ]
-    }
-  ],
-  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Kim CW, Eng CM, Gottschalk LJ 4th, Tomiya A, Garfin SR, Lieber RL (2009) J Bone Joint Surg Am 91(1):176-185 -- architectural analysis showing multifidus's unique short-fascicle, high-PCSA design for lumbar segmental stability",
-  "ultrasound_injection_approach": {
-    "transducer_placement": "Linear (or curvilinear in larger patients) probe in parasagittal orientation, 2-3 cm lateral to the spinous process at the target vertebral level (T5 in the original thoracic description of the block; the same parasagittal technique is also used at lumbar levels for chronic low back pain).",
-    "depth_layer": "The needle passes through trapezius, rhomboid major (at thoracic levels) and the erector spinae muscle group to contact the transverse process; local anesthetic is deposited in the fascial plane between erector spinae (superficial) and this muscle (deep). This muscle lies directly on the lamina/transverse process, in the plane the erector spinae plane (ESP) block targets, rather than being penetrated itself.",
-    "identification_cues": "Hyperechoic tip of the transverse process contacted by the needle; visible linear anechoic spread lifting the erector spinae muscle mass off the transverse process/this muscle on injection.",
-    "structures_at_risk": [
-      "dorsal and ventral rami of the spinal nerves near the transverse process -- the likely site of action per the original cadaveric/CT dye-spread study",
-      "pleura, at thoracic levels, if the needle is walked laterally off the transverse process (the classic technique avoids this by stopping at bone contact)"
+ "id": "multifidus_l",
+ "name_ta": "Multifidus",
+ "name_common": "Multifidus",
+ "side": "left",
+ "region": "trunk",
+ "overall_architecture_type": "multipennate",
+ "attachments": {
+  "origin_bone": "sacrum",
+  "origin_landmark": "sacrum, mammillary processes, posterior sacroiliac ligaments",
+  "insertion_bone": "lumbar_vertebrae",
+  "insertion_landmark": "spinous processes 2-4 vertebral levels above each origin (repeating unit, sacrum to axis)",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": "dorsal_rami_of_spinal_nerves",
+  "root_levels": "segmental (L5-S1 up to C2, matching level of each fascicle)"
+ },
+ "actions": [
+  "stabilizes and extends/rotates individual vertebral segments (primary intersegmental spine stabilizer)"
+ ],
+ "functional_compartments": [
+  {
+   "id": "multifidus_l_lumbar",
+   "name": "Multifidus, lumbar part",
+   "innervation_branch": "dorsal rami, lumbar levels (medial branch)",
+   "fiber_architecture": {
+    "architecture_type": "multipennate",
+    "pennation_deg": 20,
+    "optimal_fascicle_length_mm": 55,
+    "physiological_cross_section_area_mm2": 550,
+    "max_isometric_force_N": 123.8
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -15,
+     20,
+     -20
     ],
-    "notes": "No motor-point/neural-arborization mapping for BoNT injection into this muscle's own belly was found -- consistent with this atlas's established finding (see the erector spinae/iliocostalis entries) that deep paraspinal motor-point data is genuinely sparse compared to limb muscles. What is well documented is the erector spinae plane (ESP) block, whose target plane lies directly superficial to this muscle, deep to the erector spinae group; included here because it is the real, common clinical ultrasound technique relevant to the fascial plane immediately superficial to this muscle, not a claim of a motor point within it.",
-    "source": "Forero M, Adhikary SD, Lopez H, Tsui C, Chin KJ (2016) 'The Erector Spinae Plane Block: A Novel Analgesic Technique in Thoracic Neuropathic Pain', Reg Anesth Pain Med 41(5):621-627, doi:10.1097/AAP.0000000000000451 -- original description of the block, including cadaveric/CT dye-spread investigation of its likely site of action"
+    [
+     -10,
+     -20,
+     -15
+    ],
+    [
+     -5,
+     -60,
+     -10
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.15,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Unusually short fascicles relative to its large PCSA -- an architecture specialized for producing high segmental stiffness/force rather than excursion, per Ward et al.'s intraoperative measurements; the most clinically studied part (its atrophy is a well-documented finding in chronic low back pain).",
+   "source": "Ward SR, Kim CW, Eng CM, Gottschalk LJ 4th, Tomiya A, Garfin SR, Lieber RL (2009) J Bone Joint Surg Am 91(1):176-185 -- architectural analysis showing multifidus's unique short-fascicle, high-PCSA design for lumbar segmental stability",
+   "innervation_branch_ids": [
+    "dorsal_rami_of_spinal_nerves"
+   ]
   },
-  "trigger_points": [
-    {
-      "location_description": "Cervical multifidus: posterior cervical TrP1 at C4-C5 (shared with semispinalis cervicis), and lower trigger points at C7-T1.",
-      "referred_pain_pattern": "Upward to the suboccipital region and posterior neck; downward to the medial scapular border and upper trapezius region.",
-      "notes": "Documented only for the cervical part of this combined multifidus record.",
-      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999)"
-    }
-  ]
+  {
+   "id": "multifidus_l_thoracocervical",
+   "name": "Multifidus, thoracic and cervical parts",
+   "innervation_branch": "dorsal rami, thoracic and cervical levels (medial branch)",
+   "fiber_architecture": {
+    "architecture_type": "multipennate",
+    "pennation_deg": 15,
+    "optimal_fascicle_length_mm": 45,
+    "physiological_cross_section_area_mm2": 150,
+    "max_isometric_force_N": 33.8
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -10,
+     200,
+     -20
+    ],
+    [
+     -8,
+     100,
+     -15
+    ],
+    [
+     -5,
+     20,
+     -10
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.15,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Same repeating 2-4-level architecture continued cranially; smaller cross-section than the lumbar part and less individually studied.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "innervation_branch_ids": [
+    "dorsal_rami_of_spinal_nerves"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Kim CW, Eng CM, Gottschalk LJ 4th, Tomiya A, Garfin SR, Lieber RL (2009) J Bone Joint Surg Am 91(1):176-185 -- architectural analysis showing multifidus's unique short-fascicle, high-PCSA design for lumbar segmental stability",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Linear (or curvilinear in larger patients) probe in parasagittal orientation, 2-3 cm lateral to the spinous process at the target vertebral level (T5 in the original thoracic description of the block; the same parasagittal technique is also used at lumbar levels for chronic low back pain).",
+  "depth_layer": "The needle passes through trapezius, rhomboid major (at thoracic levels) and the erector spinae muscle group to contact the transverse process; local anesthetic is deposited in the fascial plane between erector spinae (superficial) and this muscle (deep). This muscle lies directly on the lamina/transverse process, in the plane the erector spinae plane (ESP) block targets, rather than being penetrated itself.",
+  "identification_cues": "Hyperechoic tip of the transverse process contacted by the needle; visible linear anechoic spread lifting the erector spinae muscle mass off the transverse process/this muscle on injection.",
+  "structures_at_risk": [
+   "dorsal and ventral rami of the spinal nerves near the transverse process -- the likely site of action per the original cadaveric/CT dye-spread study",
+   "pleura, at thoracic levels, if the needle is walked laterally off the transverse process (the classic technique avoids this by stopping at bone contact)"
+  ],
+  "notes": "No motor-point/neural-arborization mapping for BoNT injection into this muscle's own belly was found -- consistent with this atlas's established finding (see the erector spinae/iliocostalis entries) that deep paraspinal motor-point data is genuinely sparse compared to limb muscles. What is well documented is the erector spinae plane (ESP) block, whose target plane lies directly superficial to this muscle, deep to the erector spinae group; included here because it is the real, common clinical ultrasound technique relevant to the fascial plane immediately superficial to this muscle, not a claim of a motor point within it.",
+  "source": "Forero M, Adhikary SD, Lopez H, Tsui C, Chin KJ (2016) 'The Erector Spinae Plane Block: A Novel Analgesic Technique in Thoracic Neuropathic Pain', Reg Anesth Pain Med 41(5):621-627, doi:10.1097/AAP.0000000000000451 -- original description of the block, including cadaveric/CT dye-spread investigation of its likely site of action"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Cervical multifidus: posterior cervical TrP1 at C4-C5 (shared with semispinalis cervicis), and lower trigger points at C7-T1.",
+   "referred_pain_pattern": "Upward to the suboccipital region and posterior neck; downward to the medial scapular border and upper trapezius region.",
+   "notes": "Documented only for the cervical part of this combined multifidus record.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999)"
+  },
+  {
+   "location_description": "Lumbar and lower thoracic multifidus trigger points at each vertebral level, distinct from the cervical multifidus point already recorded above for this combined muscle record.",
+   "referred_pain_pattern": "Trigger points from about L1-L5 refer pain around the corresponding spinous process and anteriorly into the abdomen; an S1-level trigger point refers pain down toward the coccyx; trigger points around T4-T5 refer pain laterally toward the inferior angle of the scapula.",
+   "activation_perpetuating_factors": "Segmental instability, prolonged flexed or rotated postures, and acute twisting injury of the lumbar spine.",
+   "notes": "Documented for the thoracic/lumbar part of this combined multifidus record; the cervical entry above covers only the cervical portion. Satellite trigger points are described as commonly co-occurring in latissimus dorsi, quadratus lumborum, and serratus posterior superior/inferior.",
+   "source": "Simons, Travell & Simons Trigger Point Manual, as reflected in secondary clinical compilations of the multifidus/rotatores chapter (Niel Asher Education multifidus trigger point reference)."
+  }
+ ]
 }
