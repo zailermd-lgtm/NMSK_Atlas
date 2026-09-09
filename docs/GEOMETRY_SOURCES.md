@@ -558,8 +558,8 @@ carries ten muscles total (three glutei, iliopsoas, autochthon), all of
 which the atlas already had real geometry for from the DU release.
 
 **The "not one continuous skeleton" rule above is still in force.** The
-viewer bundle can now be built from both subjects at once
-(`export_viewer_bundle.py --subject vhm_both --subject ct_s1371`, earlier
+viewer bundle can now be built from a second subject at once with `vhm_both`
+(`export_viewer_bundle.py --subject vhm_both --subject ct_s0913`, earlier
 subjects win on any id collision so the already-verified VH data is never
 overwritten) — but every structure from the second subject is tagged with
 which specimen it came from, and the viewer inspector shows a visible badge
@@ -568,7 +568,42 @@ not fused: a second real body at the same anatomical scale, for comparison
 and for checking authored anchor coordinates against, exactly as prescribed
 above — running `scripts/audit_landmarks_vs_geometry.py --subject ct_s1371`
 surfaced real errors in anchors that had never had geometry to check
-against before (see PROJECT_STATE.md).
+against before (see PROJECT_STATE.md), specifically a clavicle landmark
+axis-convention bug fixed in `data/skeleton/bones.json`.
+
+### Stage 2, second subject (2026-09-09): s0913 adopted as primary
+
+A second whole-body case, `s0913` (same Zenodo record, same CC BY 4.0
+TotalSegmentator release), was ingested through the identical pipeline:
+`data/ct_sources/totalsegmentator_v201_s0913_labels.nii.gz` (769 KB, merged
+83-structure label volume; 810 overlapping voxels between masks, 0.04%,
+resolved by the merge script's fixed structure-priority order). 78 of 83
+structures auto-mapped to atlas ids; conversion produced 773,672 vertices /
+1,547,480 triangles, with correct splits for the aorta (into its named
+segments) and the costal cartilages.
+
+Diffing s1371's and s0913's atlas-id coverage (`set(s1371 structures) ==
+set(s0913 structures)`, verified directly) showed the two cases are
+**fully redundant** with each other for this atlas's purposes — no
+structure exists in one that is missing from the other. Since only one
+was worth keeping in the default combined bundle, s0913 was chosen because
+it is the better specimen on every measure that differs:
+
+| | s1371 | s0913 |
+|---|---|---|
+| cervical spine | C6-C7 only | full C1-C7 |
+| clavicle length | 101-114 mm | 138-143 mm (closer to the ~150 mm the hand-authored landmarks assume) |
+| femoral-head sphere fit (rms) | 0.8-1.8 mm | 0.6 mm, both sides |
+| post-clavicle-fix landmark audit | residual 10-60 mm | 7-19 mm |
+
+The default combined bundle is now `--subject vhm_both --subject ct_s0913`
+(197 structures; ct_s0913 contributes 241,432 of the kept triangles).
+`ct_s1371`'s label volume stays committed for provenance and is still a
+valid `--subject` argument on its own — it is simply not part of the
+bundle the viewer ships by default. Femur/humerus landmarks in both cases
+show expected CT-field-of-view cutoff artifacts near the joint away from
+the scan centre, not placement bugs — the audit script's "reaches PAST the
+end of this bone" note is the tell.
 
 ## Resulting architecture
 

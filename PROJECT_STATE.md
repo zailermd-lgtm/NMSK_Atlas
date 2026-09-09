@@ -70,21 +70,27 @@ midpoint of the two hip joint centres.
 | Region | Source | State |
 |---|---|---|
 | Pelvis → ankle | DU Visible Human (CC BY 4.0) | ingested, `build/vh/vhm_both` |
-| Above the hip | none yet | **blocked** — see below |
+| Spine, ribs, sternum, clavicle, scapula, humerus, great vessels | TotalSegmentator v2.0.1 CT case `s0913` (CC BY 4.0) | ingested 2026-09-09, `build/ct_s0913` — see "2026-09-09" section below |
+| Skull (unified), forearm/hand bones, every upper-limb/trunk/neck/pelvic-floor/foot-intrinsic **muscle** | none | **still missing** — not in TotalSegmentator's structure set at all, see "Open, not literature-fixable" |
 
 122 landmarks are measured against geometry: median 1.2 mm from the bone
 surface, all within 15 mm. 217 anchors, median 0.9 mm from their own bone.
+(Figures above are for the VH lower-limb geometry; see the 2026-09-08/09
+sections below for the upper-body CT audit figures, which are worse and
+explained there — real anchor-authoring errors found and fixed, plus
+expected scan-field-of-view artifacts that are not bugs.)
 
-## Blocked on the repository owner
+## Previously blocked, now unblocked (2026-09-08)
 
-Python 3.13 is needed on the Windows machine — the installed 3.14 free-threaded
-build has no pip, so `nibabel` and `scikit-image` cannot be installed:
-
-```
-py -3.13 -m pip install nibabel scikit-image
-```
-
-Then, for a TotalSegmentator subject that includes the pelvis:
+The repository owner widened this remote environment's network policy and
+supplied real TotalSegmentator CT cases directly via chat upload, working
+around the network egress allowlist (Zenodo, Hugging Face, and NLM are all
+unreachable from this sandbox's proxy). The Python-3.13-on-Windows blocker
+described here previously was never actually exercised — this sandbox's
+Python already had `nibabel`/`scikit-image` installed, so the only real
+blocker was network access to the source data, not tooling. The full
+merge → inspect → propose → convert → audit pipeline below is now
+proven working end-to-end on two real cases (s1371, s0913):
 
 ```
 python3 scripts/merge_totalsegmentator_masks.py <subject_dir> -o merged.nii.gz
@@ -94,9 +100,8 @@ python3 scripts/ingest_volume_geometry.py convert merged.nii.gz --subject ct01 -
 python3 scripts/audit_landmarks_vs_geometry.py --subject ct01
 ```
 
-The 0.33 mm `Original 3D STL Models-stl` ingest (`--subject vhm_raw`) is also
-waiting. TotalSegmentator's dataset licence (CC BY 4.0) was verified at Zenodo
-by the owner, because Zenodo is unreachable from the build machine.
+The 0.33 mm `Original 3D STL Models-stl` ingest (`--subject vhm_raw`) is
+still waiting — unrelated to the CT work above.
 
 ## Open, in rough priority order
 
@@ -299,24 +304,100 @@ that DO trace to `generate_anchors.py` bugs were already fixed this
 session. Verify against the full anchor corpus before committing, per this
 project's standing rule for any anchor-generation change.
 
+## 2026-09-09: clavicle fix verified, second CT case (s0913) adopted as primary
+
+Root cause of the deltoid/subclavius/clavicle errors above: `clavicle_r`/
+`clavicle_l` landmarks in `data/skeleton/bones.json` used the femur's
+axis convention (X = medial-lateral) on a bone whose long axis actually
+runs along Y in local coordinates — clavicle is mediolateral along its
+own long axis, not superoinferior, so the femur convention doesn't apply.
+Fixed by remapping each landmark's `position_local_mm` from `[x, y, z]`
+to `[y, -abs(x), z]` (verified against femur_l/femur_r's stored values
+first — an initial `[y, -x, z]` attempt gave the left clavicle a positive
+Y, inconsistent with femur's non-side-flipping Y convention, and was
+reverted before committing). Result: the acromial-end landmark went from
+`[150.0,-10.0,-8.0]`/`[-150.0,-10.0,-8.0]` (r/l) to a uniform
+`[-10.0,-150.0,-8.0]` for both sides. `scripts/generate_anchors.py`
+re-run and diffed against the pre-fix baseline: exactly 4 anchors changed
+(`anchor_deltoid_r/l_origin`, `anchor_subclavius_r/l_insertion`), 236
+total anchors unchanged in count. `tests/test_symmetry.py` updated with a
+`LONG_AXIS_IS_MEDIOLATERAL = {"clavicle_r", "clavicle_l"}` exception set
+so its mirror-consistency checks use axis 1 (Y) for these two bones
+instead of axis 0 (X). Re-running the audit against `ct_s1371` after the
+fix: clavicle errors dropped from ~130 mm to ~10-60 mm residual (see
+below for why residual error remains).
+
+A second CT case, `s0913` (same source, same license), was then ingested
+through the identical pipeline and compared against `s1371`: the two
+cases cover the exact same set of atlas ids (verified by a direct
+set-diff, not assumed), so there is no complementary value in keeping
+both in the default combined bundle. s0913 is the better specimen on
+every axis that differs — full C1-C7 vs C6-C7-only cervical spine, a
+138-143 mm clavicle vs 101-114 mm (closer to the ~150 mm the
+hand-authored landmarks assume), tighter femoral-head sphere fit (rms
+0.6 mm vs 0.8-1.8 mm), and a materially better post-fix landmark audit
+(7-19 mm residual vs s1371's 10-60 mm — the remaining error is
+consistent with normal anatomical variation in clavicle length/curvature
+between real specimens, not a further bug). The default combined bundle
+is now `--subject vhm_both --subject ct_s0913` (197 structures). s1371's
+merged label volume stays committed under `data/ct_sources/` for
+provenance; it's simply not part of the shipped bundle. Full detail in
+`docs/GEOMETRY_SOURCES.md`'s "Stage 2, second subject" section.
+
+Also completed this window, per the repository owner's "all of the
+above" instruction: `schema/bursa.schema.json` (new) and a
+`trigger_points[]` field on `schema/muscle.schema.json` (new), populated
+via 3 background research agents (PubMed/WebSearch-sourced, no reference
+document available for these regions) covering hip/thigh (25 muscles ×2
+sides + 8 bursae), deep trunk/pelvic floor (11 muscle types ×2 sides,
+several honest negatives for perineal/intercostal muscles), and leg/foot
+(21 muscles ×2 sides + 4 bursae, 3 honest negatives). Combined with the
+head/neck and upper-limb trigger-point work from earlier sessions, the
+corpus now stands at 271 muscle files carrying `trigger_points` and 45
+bursae total.
+
+**Still genuinely open** (confirmed by direct file-level checks against
+this session's real ingests, not assumed): pelvic floor **muscles**
+already have literature-based clinical data added above, but still no
+segmented 3D geometry (TotalSegmentator doesn't carry them); foot
+intrinsics and fibularis brevis/tertius likewise have clinical data but
+no mesh; forearm/hand bones and all upper-limb muscles have neither —
+TotalSegmentator's structure set does not include them at all, so no
+number of additional whole-body CT cases from this same source will
+close these gaps. Closing them needs a different segmented source
+entirely (a hand/wrist-specific dataset, or a muscle-segmentation model
+run against raw CT/MRI).
+
 ## Open, not literature-fixable
 
-- **Partially unblocked 2026-09-08** (see above): real bone and great-vessel
-  geometry above the hip now exists, from one CT case. Still genuinely
-  missing and not fixable by more of the same case: a unified skull,
-  forearm/hand bones, and every upper-limb/trunk/neck **muscle** — none of
-  which TotalSegmentator segments. Getting those needs either a different
-  segmented source (a hand/wrist-specific dataset, a muscle-segmentation
-  model) or the original local CT/TotalSegmentator route this section used
-  to describe as the only option.
+- **Partially unblocked 2026-09-08, second case adopted 2026-09-09** (see
+  above): real bone and great-vessel geometry above the hip now exists,
+  from two independently-checked CT cases (s1371, s0913; s0913 is the
+  default). Confirmed via direct diffing of both cases' structure sets:
+  still genuinely missing and not fixable by more cases from this same
+  source — a unified skull, forearm/hand bones, and every upper-limb/
+  trunk/neck **muscle**, plus (checked explicitly this window) pelvic
+  floor muscles, foot intrinsics, and fibularis brevis/tertius as
+  meshes — none of which TotalSegmentator segments at all. Getting those
+  needs a different segmented source (a hand/wrist-specific dataset, a
+  muscle-segmentation model run against raw CT/MRI).
 - Flagged, not yet done: a `gluteus_medius/minimus` **muscle's own**
   motor-point/BoNT injection data search came back empty (its
   *tendon* now has PRP data — different structure, different
   literature) — a legitimate negative finding, not an oversight.
-- Not yet covered by the trigger-point/bursa pass: lower limb and deep
-  trunk muscles (no reference documents uploaded for those regions
-  yet) — same treatment could be extended if more documents arrive.
+- Trigger-point/bursa pass now extended to hip/thigh, deep trunk/pelvic
+  floor, and leg/foot this window (see above); upper-limb and head/neck
+  were already covered from earlier sessions. No remaining muscle region
+  is unaddressed for this specific data type.
 
 ## Next action
 
-Whatever is unblocked from the list above; otherwise wait on the CT ingest.
+CT ingest and the trigger-point/bursa literature pass are both done for
+now (2026-09-09). Remaining explicit ask from the repository owner, not
+yet started: check other available data sources for anything that could
+supply the still-missing geometry (pelvic floor, foot intrinsics,
+fibularis brevis/tertius, forearm/hand bones, upper-limb muscles) —
+re-check the Google Drive "library" folder, and search Hugging Face (or
+whatever else this sandbox's network policy allows) for a hand/wrist or
+upper-limb muscle-segmentation dataset. Otherwise, whatever is unblocked
+from the "Open, in rough priority order" list above.
