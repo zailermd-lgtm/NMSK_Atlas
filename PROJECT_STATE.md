@@ -532,9 +532,68 @@ for the missing regions. No amount of further free-source searching will
 change this — the search space for freely-licensed, ownable, ingestible
 geometry for these specific structures has now been covered.
 
+## 2026-09-09 (continued, "search deeper"): four uploaded papers + a systematic sweep
+
+**The four PDFs the owner uploaded** (all read in full, `pymupdf`): BHaM
+(Diaz 2026, doi:10.1038/s41597-026-06939-4) — the paper states outright
+"The original DICOM files and segmentations are not published due to
+data privacy requirements"; only `MuscleVolumeMeasurements.csv` (in vivo
+volumes of 18 forearm muscles + radius/ulna, n=15) ships. No geometry.
+KIMHu (Hernández 2023), Lucchetti 2025, MyoKi (Andreas 2025): motion
+capture / EMG / RGB-D datasets — no anatomy geometry of any kind. All four
+closed as geometry sources; BHaM's volume CSV is a legitimate literature
+reference for forearm muscle volumes if ever needed.
+
+**Systematic sweep** (PubMed connector — which works from this sandbox —
+plus `modenaxe/awesome-biomechanics`, the curated public index of
+biomechanics datasets, fetched from GitHub): what exists, with license,
+for each remaining gap. Every host below (Zenodo, MorphoSource, OSF,
+figshare, Kaggle, Nature, Wiley, PeerJ, KU Leuven) is **blocked from this
+sandbox**, so every one of these needs the owner to download and upload
+here, exactly as the CT case was supplied.
+
+| Gap | Source | Content | License | Status |
+|---|---|---|---|---|
+| **Skull (unified), head/neck muscles, trunk wall muscles** | **TotalSegmentator free tasks** run on s0913's own raw CT (`ct.nii.gz` in the Zenodo zip, CC BY 4.0) | `craniofacial_structures` (skull, mandible, teeth), `head_muscles` (masseter, temporalis, pterygoids, digastric, tongue), `headneck_muscles` (SCM, trapezius, platysma, levator scapulae, 3 scalenes, sternothyroid, thyrohyoid, prevertebral, 3 pharyngeal constrictors), `headneck_bones_vessels` (hyoid, thyroid/cricoid cartilage, ICA, IJV), `abdominal_muscles` (pec major, rectus abdominis, serratus anterior, lat dorsi, obliques, erector spinae, transversospinalis, psoas, QL), `oculomotor_muscles` | Apache-2.0 — README: "Openly available for any usage" | **Best option: same specimen, consistent frame, no new license.** TotalSegmentator installed here (pypi reachable, weights host github.com/…/releases reachable, CPU-only, 4 cores/15 GB — fine with `--fast`). Blocked only on `s0913/ct.nii.gz` not having been uploaded. s0913 FOV confirmed head→mid-thigh (skull+brain masks present, 697 mm). Atlas already has entities for nearly all of these muscles (verified by id grep). |
+| Forearm/hand bones, shoulder/thigh muscle groups | TotalSegmentator `appendicular_bones`, `thigh_shoulder_muscles` | radius/ulna/carpals/metacarpals/phalanges; deltoid, rotator cuff, triceps, quadriceps… | **Licensed**: free for non-commercial only, commercial license from jakob.wasserthal@usb.ch | Purchase decision. Note s0913 has no hands in FOV anyway; meta.csv has one `ct upper limb both` case (s0035, trauma thorax) and 50 CTA neck→leg runoff cases (feet likely in FOV, e.g. s0367 46 m, s0804 44 f, no pathology). |
+| **Forearm + hand muscles, bones, cartilage (cadaver)** | Kerkhof, van Leeuwen, Vereecke 2018, *J Anat* doi:10.1111/joa.12877 — "The digital human forearm and hand" | 7T MRI + CT of one un-embalmed arm; STL of bones, cartilage, muscles, muscle paths; dissection PCSA/pennation/volumes | **Unverified** — MorphoSource project P419 (media 21064); MorphoSource licenses are per-item (CC0 / CC BY / CC BY-NC all common) | Owner must open morphosource.org P419 and read the license line. If CC BY or CC0 → download and upload. If NC → out. |
+| **Intrinsic hand muscles, tendons, neurovasculature (whole hand)** | Steer … Holliday 2026, *Anat Rec* doi:10.1002/ar.70304 — DiceCT hand atlas, 48.8 µm | PLY of every intrinsic muscle, tendon, bone, nerve, vessel, retinaculum; Blender/.usdc scene | **Unverified** — OSF `osf.io/avq7d` (raw scan on MorphoSource media 000850386, project 000868567) | Owner must open the OSF page and read the license. The single most complete hand-intrinsic geometry found anywhere. |
+| Hand muscle attachments + MRI bone/hand-muscle geometry | Havelková et al. 2020, Zenodo 3954024 (basis of the AnyBody RUHM hand model) | 16 cadavers dissected for attachment maps; MRI of one cadaveric upper limb reconstructed for all bones and hand muscles | **CC BY** (confirmed) | Download + upload; check the file list contains meshes, not only tables. |
+| **Foot bones** (talus, calcaneus, navicular, cuboid, cuneiforms, metatarsals) | Grant et al. 2019/2020, PeerJ doi:10.7717/peerj.8397, Zenodo 3464747 | manually segmented STL from MRI, 34 subjects | **CC BY** (confirmed) | Download + upload. The atlas currently has NO tarsal entities at all (`bones.json` carries only metatarsals/phalanges for the foot) — entities need authoring too. |
+| Talus/tibia/fibula | Lenz et al. 2021, Sci Rep, Zenodo 4274217 | PLY, weight-bearing CT, 27 subjects | **CC0** (confirmed) | Download + upload if a second talus source is wanted. |
+| Foot intrinsic muscles | — | nothing found: no open segmented dataset exists (DiceCT foot not published; VH-DU release stops at the ankle) | — | Still open. |
+| Pelvic floor muscles (adult) | — | only a *foetal* pelvic-floor micro-CT (PLOS One 2025) and clinical retrospective series with unpublished masks | — | Still open. |
+
+**Rejected in this sweep, with reason**: OpenHands finger-bone SSM (CC BY-SA
+→ share-alike, and synthetic mean shapes); BoneDat pelvis/L4-L5 (CC
+BY-NC-ND); VSDFullBodyBoneModels lower-body bones incl. feet (underlying
+SMIR/VSDFullBody CTs are CC BY-NC-SA); SPL Head & Neck atlas (Slicer
+license on the labels, but built on the OsiriX MANIX dataset, whose terms
+are research/teaching only, no commercial use); MedShapeNet (CC BY 4.0
+umbrella, but its 23 source datasets contain no hand/foot/limb-muscle
+shapes — checked the full source list); MUG500+ skulls (figshare, CC0 by
+default — superseded by getting the skull from s0913 itself); Visible
+Korean Human (642 surface models, access by request, no stated open
+license); tongue-muscle MRI dataset (OSF, real but tongue only — the
+`head_muscles` task gives tongue from s0913 anyway).
+
+**Sandbox capability discovered**: PubMed full text works via the connector
+even though every NLM/Nature/Wiley host is blocked to `curl`; pypi.org,
+files.pythonhosted.org and github.com release downloads are reachable.
+That is what makes the TotalSegmentator route runnable here.
+
 ## Next action
 
-CT ingest, the trigger-point/bursa literature pass, and the "other
-sources" check are all done for now (2026-09-09) — the last with a
-negative but verified result (see above). Otherwise, whatever is unblocked
-from the "Open, in rough priority order" list above.
+1. **Owner uploads `s0913/ct.nii.gz`** (from the Zenodo zip already on
+   their machine) → run the free TotalSegmentator tasks listed in the
+   2026-09-09 sweep table on it → extend `mappings/totalsegmentator_labels.json`
+   with the new task label maps → `merge` → `ingest_volume_geometry.py`
+   → audit → combined viewer bundle. Environment is already installed and
+   weights pre-fetched (`scratchpad/ts_env/setup.log`).
+2. Owner checks licenses on MorphoSource P419 (Kerkhof) and OSF avq7d
+   (Steer); downloads Grant (Zenodo 3464747, CC BY) and Havelková (Zenodo
+   3954024, CC BY); uploads whatever is CC BY / CC0. Each needs a small
+   STL/PLY ingest path (the VH STL ingest is the template) and, for the
+   foot, new tarsal bone entities in `data/skeleton/bones.json`.
+3. Pelvic floor and foot intrinsics remain literature-only until a source
+   appears; that search is now exhausted for open data.
