@@ -390,14 +390,39 @@ run against raw CT/MRI).
   were already covered from earlier sessions. No remaining muscle region
   is unaddressed for this specific data type.
 
+## 2026-09-09: "other sources" check — negative result
+
+Per the repository owner's request, checked for any other reachable
+source that could supply the still-missing geometry (pelvic floor, foot
+intrinsics, fibularis brevis/tertius, forearm/hand bones, upper-limb
+muscles):
+
+- **Google Drive "library" folder** (`1znmXUIxT-7sIEl2zQNQi2lxxxaclA3ZU`):
+  re-listed directly (not assumed from memory) — still contains only
+  `Sobotta Anatomy Atlas (General And Musculoskeletal).pdf`, which this
+  project cannot use as a geometry or data source (copyrighted atlas
+  imagery, not a licensed segmented dataset). No change from before.
+- **Hugging Face** (`hub_repo_search` and `hf_fs search`, multiple
+  phrasings: hand/wrist/carpal bone segmentation, foot bone/intrinsic
+  muscle segmentation, upper-limb/shoulder/forearm muscle segmentation,
+  pelvic floor MRI segmentation): no matching dataset found. The one
+  concrete near-hit, `YongchengYAO/TotalSegmentator-MR-Lite` (the MRI
+  counterpart to the CT release already in use), was checked directly —
+  its 50-structure label set is the same bones and the same ~10 muscles
+  as the CT version (humerus/scapula/clavicle/femur/hip +
+  glutei/autochthon/iliopsoas), so it adds nothing new; it is also
+  CC BY-NC-SA (non-commercial), which would conflict with this project's
+  proprietary/commercial licensing even if it did.
+
+**Conclusion**: no reachable source currently fills these gaps. They
+remain open pending either a hand/wrist-specific dataset, a dedicated
+upper-limb/pelvic-floor muscle-segmentation model run against raw
+imaging, or literature-only description (already done for the clinical
+fields; 3D geometry is what's missing).
+
 ## Next action
 
-CT ingest and the trigger-point/bursa literature pass are both done for
-now (2026-09-09). Remaining explicit ask from the repository owner, not
-yet started: check other available data sources for anything that could
-supply the still-missing geometry (pelvic floor, foot intrinsics,
-fibularis brevis/tertius, forearm/hand bones, upper-limb muscles) —
-re-check the Google Drive "library" folder, and search Hugging Face (or
-whatever else this sandbox's network policy allows) for a hand/wrist or
-upper-limb muscle-segmentation dataset. Otherwise, whatever is unblocked
+CT ingest, the trigger-point/bursa literature pass, and the "other
+sources" check are all done for now (2026-09-09) — the last with a
+negative but verified result (see above). Otherwise, whatever is unblocked
 from the "Open, in rough priority order" list above.
