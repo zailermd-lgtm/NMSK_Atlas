@@ -610,6 +610,19 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                 "humeral head centre; axes by anatomical-position convention, "
                 "not fitted", "neither")
 
+    # The menton is the lowest point of the mandibular symphysis in the
+    # midline; the mandible's authored frame originates there. Axes are the
+    # anatomical-position convention: the bone has no fittable long axis.
+    mandible = by_atlas_id.get("mandible")
+    if mandible is not None and len(mandible) > 20:
+        midline = mandible[np.abs(mandible[:, 0] - np.median(mandible[:, 0])) < 6.0]
+        if len(midline) > 5:
+            frames["mandible"] = (
+                midline[np.argmin(midline[:, 1])], np.eye(3),
+                "the menton, as the lowest point of the symphysis within 6 mm "
+                "of the mandibular midline; axes by anatomical-position "
+                "convention, not fitted", "neither")
+
     # The jugular notch is the superior midline notch of the manubrium: the
     # most superior point, taken near the midline so a clavicular facet
     # cannot win it.

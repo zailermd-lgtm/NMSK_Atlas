@@ -733,6 +733,18 @@ and bone geometry in the same body. Findings, separated by cause:
 - Clavicle: 4-5 mm median on this second specimen too -- the earlier fix
   holds.
 
+**Mandible, same session**: the mandible had descriptive landmarks only
+(no numbers, so no jaw-muscle anchor could ever resolve), and
+`generate_anchors.py` gave a left-side muscle on a midline bone the same
+coordinates as the right. Fixed both: condylar process, coronoid process,
+angle and digastric fossa measured on s1159's mandible mesh (right/left
+averaged after mirroring because that head is turned), authored for the
+right side; the generator now mirrors X for `_l` owners on midline bones;
+the audit gained a menton-origin mandible frame. Audit: 4.9 mm median.
+Eight new anchors (masseter, temporalis, medial pterygoid, digastric
+insertions, both sides), zero existing anchors changed. Masseter is a
+first-line botulinum-toxin target, so this one matters clinically.
+
 ## Next action
 
 1. Audit follow-ups: a case with elbows in the field of view for the

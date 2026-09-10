@@ -1,5 +1,101 @@
 [
   {
+    "id": "anchor_masseter_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "masseter_r",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      47.0,
+      13.0,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'angle and ramus of mandible'"
+  },
+  {
+    "id": "anchor_medial_pterygoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "medial_pterygoid_r",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      47.0,
+      13.0,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial surface of the ramus/angle of mandible'"
+  },
+  {
+    "id": "anchor_medial_pterygoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "medial_pterygoid_l",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      -47.0,
+      13.0,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial surface of the ramus/angle of mandible'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_temporalis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "temporalis_r",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      47.0,
+      57.0,
+      -39.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'coronoid process of mandible (via a fan-shaped tendon)'"
+  },
+  {
+    "id": "anchor_masseter_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "masseter_l",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      -47.0,
+      13.0,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'angle and ramus of mandible'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_temporalis_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "temporalis_l",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      -47.0,
+      57.0,
+      -39.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'coronoid process of mandible (via a fan-shaped tendon)'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_digastric_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "digastric_r",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      10.0,
+      5.0,
+      -12.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'digastric fossa of the mandible (anterior belly insertion); '"
+  },
+  {
+    "id": "anchor_digastric_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "digastric_l",
+    "parent_bone_frame": "mandible",
+    "local_position_mm": [
+      -10.0,
+      5.0,
+      -12.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'digastric fossa of the mandible (anterior belly insertion); '; X mirrored for the left side of a midline bone"
+  },
+  {
     "id": "anchor_rhomboid_minor_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "rhomboid_minor_r",

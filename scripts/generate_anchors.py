@@ -388,6 +388,19 @@ def main():
                         "notes": f"auto-derived from bone landmark match against '{landmark_text[:60]}'",
                     })
 
+    # A midline bone (mandible, sternum, occipital ...) carries ONE landmark
+    # for a bilateral feature, authored for the subject's RIGHT (+X). A
+    # left-side muscle attaching there must get the mirror image, or both
+    # masseters would insert on the right angle of the mandible.
+    bone_side = {b["id"]: b.get("side") for b in bones}
+    for a in anchors:
+        if bone_side.get(a["parent_bone_frame"]) == "midline" \
+                and re.search(r"_l(?:_|$)", a["owner_entity"]) \
+                and a["local_position_mm"][0] != 0:
+            x, y, z = a["local_position_mm"]
+            a["local_position_mm"] = [-x, y, z]
+            a["notes"] += "; X mirrored for the left side of a midline bone"
+
     (DATA_DIR / "rig").mkdir(parents=True, exist_ok=True)
     with open(DATA_DIR / "rig" / "anchors.json", "w") as f:
         json.dump(anchors, f, indent=2)
