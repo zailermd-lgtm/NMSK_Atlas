@@ -657,6 +657,54 @@ each structure with its body and task. As of the end of 2026-09-10 s1159's own m
 the VH lower limb plus s1159 alone, one consistent body from vertex to hip;
 s0913 is retired from the bundle and kept for comparison.
 
+### Stage 2, the Visible Human male's own CT (2026-09-10, night): head to pelvis, arms included, same body as the lower limb
+
+The lower limb in this atlas is the Visible Human male (DU release). The
+same cadaver's CT is public domain (NLM Visible Human Project) and is
+served, DICOM by DICOM, from the Imaging Data Commons mirror bucket
+`gs://idc-open-data` (anonymous HTTPS; manifest from Zenodo record 12690050,
+`nlm_visible_human_project-idc_v15-gcs.s5cmd`; the `public-datasets-idc`
+bucket named in the manifest does not resolve, the same UUID prefixes do on
+`idc-open-data`). Series used, all VHP-M, study "Frozen", 1 mm slices:
+
+| series UUID | slices | in-plane | covers |
+|---|---|---|---|
+| `5d409385-d3e7-48a9-ae50-150b39e834da` | 844 | 0.527 mm (head, 231 slices), 0.781 mm (24), 0.9375 mm (589) | vertex to proximal femur, both arms in the field of view |
+| `145c2668-7d2f-4d7e-b1c7-2cf2462bef60` | 809 | 0.9375 mm | pelvis to ankle |
+| `94755b62-0f88-4aa8-82ec-2d6d5cb8dbc7` | 224 | 0.9375 mm | ankle to toes |
+
+The head-to-pelvis series mixes three reconstruction fields of view, so a
+converter that trusts one pixel spacing draws the head 1.8x too large.
+`stack.py` (session scratchpad; to be moved under `scripts/`) stacks the
+slices by their own ImagePositionPatient/PixelSpacing onto one 0.9375 x
+0.9375 x 1 mm grid (finest group wins where they overlap; one missing slice
+at z = -274 mm filled from its neighbours) and a second 0.527 mm grid of the
+head and neck for the 0.5 mm head tasks. The three series were scanned in
+separate table sessions and their z origins do not agree, so the pelvis
+block is placed by the atlas rule (origin = midpoint of the femoral-head
+sphere fits, taken from the legs series and carried over by the hip-bone
+overlap), never by the DICOM z value.
+
+Provenance: NLM Visible Human Project, public domain with attribution
+("Courtesy of the U.S. National Library of Medicine"); IDC citation
+Fedorov A et al., "National Cancer Institute Imaging Data Commons",
+Radiographics 2023, doi:10.1148/rg.230180. Segmentations are produced here
+with TotalSegmentator's Apache-2.0 tasks (`total`, `headneck_muscles`,
+`headneck_bones_vessels`, `abdominal_muscles`, `craniofacial_structures`,
+`head_muscles`, `oculomotor_muscles`); nothing from the licensed tasks.
+Frozen-cadaver CT is not what those models were trained on; every label
+is checked against the CT before it ships (see PROJECT_STATE for the
+per-task verdicts).
+
+Why this matters more than another Zenodo case: it is the SAME body as
+the lower limb, so the hip is one specimen from both sides of the
+pelvis-thigh boundary, and the arms are in the scan -- which no case in
+the TotalSegmentator release above the hip had. Forearm and hand BONES can
+be taken from it by HU threshold and connected components (frozen cartilage
+separates the bones at 1 mm), reviewed one component at a time; upper-limb
+MUSCLES still cannot, without the licensed `thigh_shoulder_muscles` task or
+a manual segmentation of the cryosections.
+
 ## Resulting architecture
 
 ```

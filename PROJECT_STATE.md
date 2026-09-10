@@ -804,6 +804,39 @@ matcher changes -- 126 landmarks median 1.2 mm, all within 15 mm; 150
 anchors to their own bone median 0.9 mm, none beyond 20 mm. Identical to
 the baseline, as the zero-changed anchor diffs predicted.
 
+## 2026-09-10, night: the Visible Human male's own CT found on IDC -- head, neck, torso, pelvis AND arms
+
+User: "MUST HAVE MUCH MORE ACCURATE HEAD, NECK, TORSO AND PELVIS. YOU DON'T
+HAVE UPPER LIMBS AT ALL! LOOK IN DROPBOX AND IN THE NET ASAP! ... COMPLETE
+ALL TENDONS AND LIGAMENTS AND NERVES."
+
+- Dropbox `/claude`: Steer OSF hand archive (avq7d, 289 MB), Wiley supinfo
+  zip (183 MB), Sobotta PDF parts. Unchanged verdict: no licence on the
+  Steer data, Sobotta is copyright -- neither may be ingested.
+- Net: the whole NLM Visible Human Project is on the Imaging Data Commons
+  GCS mirror (`idc-open-data`, anonymous), public domain. 39 series indexed
+  (`scratchpad/vh_idc/series_index.json`). VHP-M frozen CT = 3 blocks:
+  head->proximal femur with both arms (844 slices), pelvis->ankle (809),
+  feet (224). VHP-F "Normal" CT (985 slices, head->mid-thigh) also there.
+- Built `scratchpad/vh_idc/stack.py`: physical-coordinate stacking of the
+  mixed-FOV series (dcm2niix mis-scales the 0.527 mm head slices).
+  Volumes: `vh_idc/nii/vhm_torso_0937.nii.gz` (512x512x844),
+  `vhm_headneck_0527.nii.gz` (512x512x381), legs `vhm_frozen_3.nii.gz`.
+- Running (CPU, chunked): `total` on the torso, then headneck_muscles,
+  headneck_bones_vessels, abdominal_muscles, craniofacial, head_muscles,
+  oculomotor; then `total` on the pelvis block of the legs series for the
+  femoral-head origin; `arm_bones.py` = HU>=200 components outside `total`
+  bones for radius/ulna/hand bones. Logs `scratchpad/vhm_ts/*.log`.
+  Subject ids reserved in the viewer: `ct_vhm`, `ct_vhm_{neck,neckbv,abd,
+  head,headm,orbit,arm}`.
+- Chunk 1 of `total` (pelvis, z 0-229): 42 labels, hip/sacrum/L1-S1/
+  gluteals/iliopsoas present; **femur absent** (heads sit at the very edge
+  of the block), hence the legs-block run for the origin.
+- Still true, will be reported plainly: upper-limb muscles, tendons,
+  ligaments and nerves have no open 3-D source; the atlas carries them as
+  data records with anchors only (VH DU ligaments of the lower limb are the
+  sole ligament meshes).
+
 ## Next action
 
 1. Audit follow-ups: a case with elbows in the field of view for the

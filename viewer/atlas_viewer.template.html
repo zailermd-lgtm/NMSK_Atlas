@@ -214,6 +214,14 @@ var B64 = document.getElementById("bundle-b64").textContent.trim();
 var SUBJECTS = BUNDLE.subject.split("+");
 var PRIMARY_SUBJECT = SUBJECTS[0];
 var SUBJECT_LABELS = {
+  ct_vhm: "Visible Human male, frozen CT (NLM VHP via IDC, public domain) -- TotalSegmentator total task",
+  ct_vhm_neck: "Visible Human male, frozen CT -- TotalSegmentator headneck_muscles",
+  ct_vhm_neckbv: "Visible Human male, frozen CT -- TotalSegmentator headneck_bones_vessels",
+  ct_vhm_abd: "Visible Human male, frozen CT -- TotalSegmentator abdominal_muscles",
+  ct_vhm_head: "Visible Human male, frozen CT -- TotalSegmentator craniofacial_structures",
+  ct_vhm_headm: "Visible Human male, frozen CT -- TotalSegmentator head_muscles",
+  ct_vhm_orbit: "Visible Human male, frozen CT -- TotalSegmentator oculomotor_muscles",
+  ct_vhm_arm: "Visible Human male, frozen CT -- forearm/hand bones by HU threshold + connected components (reviewed)",
   vhm_both: "Visible Human (DU lower-extremity release)",
   ct_s0913: "second specimen -- TotalSegmentator CT case s0913, CC BY 4.0",
   ct_s1371: "second specimen -- TotalSegmentator CT case s1371, CC BY 4.0",
