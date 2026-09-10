@@ -118,31 +118,50 @@ def load_label_names(name: str) -> Dict[int, str]:
 # surfacing
 # --------------------------------------------------------------------------
 
-def mask_surface(mask: np.ndarray, step: int = 1) -> Tuple[np.ndarray, np.ndarray]:
+def mask_surface(mask: np.ndarray, step: int = 1,
+                 smooth: float = 0.0) -> Tuple[np.ndarray, np.ndarray]:
     """A closed surface around a binary mask, in VOXEL coordinates.
 
     Marching cubes over a padded mask. The padding is what makes the surface
     closed: a structure touching the edge of the scan would otherwise come
     back as an open sheet, and every inside/outside test downstream -- which
     is how tendon paths are checked -- silently inverts on an open mesh.
+
+    `smooth` is a Gaussian sigma in voxels applied to the mask before the
+    0.5 iso-surface is taken. Zero (the default) reproduces the raw voxel
+    staircase, which at 1.5 mm reads as a blurred block next to the 0.33 mm
+    Visible Human meshes; one voxel removes the staircase without moving
+    the surface more than about half a voxel, and is what the CT subjects
+    are converted with. Never applied to the label VOLUME, only to the
+    surface drawn around one label, so no voxel changes owner.
     """
     try:
         from skimage import measure
     except ImportError:  # pragma: no cover - environment-dependent
         raise SystemExit(
             "Surfacing a label map needs scikit-image:  pip install scikit-image")
-    padded = np.pad(mask.astype(bool), 1, mode="constant", constant_values=False)
+    pad = 1 if smooth <= 0 else int(np.ceil(3 * smooth)) + 1
+    padded = np.pad(mask.astype(bool), pad, mode="constant", constant_values=False)
     if not padded.any():
         return np.zeros((0, 3)), np.zeros((0, 3), dtype=np.int64)
+    field = padded.astype(np.float32)
+    if smooth > 0:
+        from scipy.ndimage import gaussian_filter
+        blurred = gaussian_filter(field, sigma=smooth)
+        # A structure only a few voxels across (a styloid process, a thin
+        # platysma) can be smoothed entirely below the iso-level. Such a
+        # structure keeps its raw staircase rather than vanishing.
+        if blurred.max() > 0.5:
+            field = blurred
     verts, faces, _normals, _values = measure.marching_cubes(
-        padded.astype(np.float32), level=0.5, step_size=step)
-    return verts - 1.0, faces.astype(np.int64)      # undo the pad
+        field, level=0.5, step_size=step)
+    return verts - float(pad), faces.astype(np.int64)      # undo the pad
 
 
 def label_surface(volume: np.ndarray, label: int,
-                  step: int = 1) -> Tuple[np.ndarray, np.ndarray]:
+                  step: int = 1, smooth: float = 0.0) -> Tuple[np.ndarray, np.ndarray]:
     """A closed surface around one label, in VOXEL coordinates."""
-    return mask_surface(volume == label, step=step)
+    return mask_surface(volume == label, step=step, smooth=smooth)
 
 
 def voxels_to_atlas(points: np.ndarray, affine: np.ndarray) -> np.ndarray:

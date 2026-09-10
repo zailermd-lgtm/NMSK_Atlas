@@ -48,7 +48,7 @@ BUILD_DIR = REPO_ROOT / "build" / "vh"
 # belly is a blob whose shape reads at a tenth of the detail.
 BUDGET = {
     "bone": 4500,
-    "muscle": 1800,
+    "muscle": 2600,
     "cartilage": 1200,
     "ligament": 900,
     "tendon": 900,
@@ -56,6 +56,10 @@ BUDGET = {
     "nerve": 1500,
 }
 DEFAULT_BUDGET = 1500
+# A few entities are far larger than their category's typical member and
+# read as crude at the category budget: the whole skull is one composite
+# 'bone'.
+BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000}
 QUANTUM_MM = 0.25
 
 # Indices are uint16, which is the whole reason for the budgets above: at
@@ -303,7 +307,7 @@ def main() -> int:
             f = (faces[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64)
                  - s["vertex_offset"])
             cat = category.get(aid, "other")
-            dv, df, cell = decimate_to(v, f, BUDGET.get(cat, DEFAULT_BUDGET))
+            dv, df, cell = decimate_to(v, f, BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)))
             if len(df) == 0:
                 print(f"  {aid}: decimated away, kept at full resolution")
                 dv, df, cell = v, f, 0.0

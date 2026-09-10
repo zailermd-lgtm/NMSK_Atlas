@@ -767,6 +767,43 @@ are all cases where the T4-L4 trunk mask or the neck mask does not
 contain the end of the muscle that reaches the anchor -- mask limits, not
 anchor errors, and recorded as such.
 
+## 2026-09-10, evening: "upper muscles are partial and blurred" -- what is fixable and what is not
+
+**Blurred -- fixed.** The CT subjects were surfaced by marching cubes
+straight off 1.5 mm binary masks (a voxel staircase), then decimated to
+the 1,800-triangle muscle budget; beside the 0.33 mm Visible Human
+meshes that reads as a smeared block. `engine/volume_ingest.mask_surface`
+now takes `smooth` (Gaussian sigma in voxels, applied to the mask copy the
+iso-surface is drawn from -- the label volume is never touched, no voxel
+changes owner; default 0 keeps the old behaviour and the 23 volume-ingest
+tests pass unchanged); `convert --smooth 1.0` is used for every CT
+subject and recorded in the manifest. Viewer budgets: muscle 1,800 ->
+2,600 triangles, per-entity overrides for the composite skull (14,000)
+and mandible (6,000).
+
+**Partial -- verified NOT fixable with the free tasks.** The obvious
+suspicion was that my z-crop (T3 + 15 slices) cut pectoralis major,
+serratus anterior and latissimus dorsi. Checked directly on both s0913
+and s1159: no trunk-wall muscle label touches the crop's top slice; the
+`abdominal_muscles` model simply stops there, because its training labels
+are confined to T4-L4. The clavicular head of pectoralis major, the upper
+serratus digitations and the humeral part of latissimus are outside what
+this model knows, and no re-run recovers them. Deltoid, rotator cuff,
+biceps, triceps, coracobrachialis, pectoralis minor, rhomboids, forearm
+and hand muscles are not produced by any free task. The routes that exist
+are already on record: the licensed `thigh_shoulder_muscles` task
+(commercial licence from University Hospital Basel; gives deltoid,
+supraspinatus, infraspinatus, subscapularis, coracobrachialis, teres
+major, pectoralis minor, full serratus anterior, triceps -- still not
+biceps or pectoralis major's clavicular head), or a licensed cadaver
+dataset (Kerkhof, Steer). "Complete" for the upper limb is a licence
+decision, not more computation.
+
+**Recheck, lower limb**: audit on `vhm_both` after today's generator and
+matcher changes -- 126 landmarks median 1.2 mm, all within 15 mm; 150
+anchors to their own bone median 0.9 mm, none beyond 20 mm. Identical to
+the baseline, as the zero-changed anchor diffs predicted.
+
 ## Next action
 
 1. Audit follow-ups: a case with elbows in the field of view for the

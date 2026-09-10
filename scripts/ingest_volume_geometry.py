@@ -312,10 +312,10 @@ def cmd_convert(args) -> int:
                 if not produced[part].any():
                     print(f"      {part}: empty in this scan")
                     continue
-                v, f = vol.mask_surface(produced[part], step=args.step)
+                v, f = vol.mask_surface(produced[part], step=args.step, smooth=args.smooth)
                 parts.append((target, v, f))
         else:
-            v, f = vol.label_surface(volume, entry["label"], step=args.step)
+            v, f = vol.label_surface(volume, entry["label"], step=args.step, smooth=args.smooth)
             if len(v) == 0:
                 print(f"  {entry['source_structure']}: label absent, skipped")
                 continue
@@ -359,6 +359,7 @@ def cmd_convert(args) -> int:
         "source_kind": "labelled volume (NIfTI)",
         "label_map": mapping.get("label_map", args.labels),
         "marching_cubes_step": args.step,
+        "surface_smoothing_sigma_voxels": args.smooth,
         "vertex_count": int(all_verts.shape[0]),
         "triangle_count": int(all_faces.shape[0]),
         "bbox_min_mm": [round(float(v), 4) for v in lo],
@@ -391,6 +392,11 @@ def main() -> int:
         p = sub.add_parser(name)
         p.add_argument("volume")
         p.add_argument("--labels", default="totalsegmentator")
+        p.add_argument("--smooth", type=float, default=0.0,
+                       help="Gaussian sigma in voxels applied to each label's mask "
+                            "before surfacing (0 = raw voxel staircase; 1.0 used for "
+                            "the 1.5 mm CT subjects). The label volume itself is never "
+                            "changed; see engine/volume_ingest.mask_surface.")
         p.add_argument("--step", type=int, default=1,
                        help="marching-cubes step; >1 decimates and is faster")
         p.set_defaults(fn=fn)
