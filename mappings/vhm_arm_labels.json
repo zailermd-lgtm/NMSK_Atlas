@@ -1,0 +1,61 @@
+{
+ "_README": [
+  "Label id -> structure name for the upper-limb bone label volume produced from the Visible Human male frozen CT by scripts/segment_arm_bones_vhm.py (HU threshold, marker-controlled watershed on the smoothed CT; markers from the TotalSegmentator `total` humerus label and the densest forearm cortex), plus the reviewed mapping onto atlas entities.",
+  "A KEY, not data: it contains no anatomy and no geometry. The reconstruction field of view (480 mm) clips both arms around the elbow, so every bone here is PARTIAL: the humerus lacks its distal end, the radius and ulna lack their proximal ends (about 85% and 65% of their length is in the scan, along the bone axis), and the hand is complete but unseparated."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), series 5d409385-d3e7-48a9-ae50-150b39e834da via the NCI Imaging Data Commons mirror (Fedorov A et al., Radiographics 2023, doi:10.1148/rg.230180). Segmentation produced in this repository; radius/ulna identity by distal width (radius wider) confirmed by distal reach (radial styloid lower), both sides.",
+ "task": "vhm_arm",
+ "version": "2026-09-10",
+ "labels": {
+  "1": "humerus_right",
+  "2": "radius_right",
+  "3": "ulna_right",
+  "4": "hand_right",
+  "5": "humerus_left",
+  "6": "radius_left",
+  "7": "ulna_left",
+  "8": "hand_left"
+ },
+ "atlas": {
+  "humerus_right": {
+   "atlas_id": "humerus_r",
+   "relationship": "exact",
+   "note": "TotalSegmentator humerus label extended distally by watershed; distal end truncated by the field of view."
+  },
+  "radius_right": {
+   "atlas_id": "radius_r",
+   "relationship": "exact",
+   "note": "Proximal end truncated by the field of view (no radial head/neck)."
+  },
+  "ulna_right": {
+   "atlas_id": "ulna_r",
+   "relationship": "exact",
+   "note": "Proximal end truncated by the field of view (no olecranon/coronoid)."
+  },
+  "hand_right": {
+   "atlas_id": "hand_r",
+   "relationship": "part_of",
+   "note": "All hand bones in one mask; the atlas keeps carpals, metacarpals and phalanges as separate entities, so this maps to the composite hand_r."
+  },
+  "humerus_left": {
+   "atlas_id": "humerus_l",
+   "relationship": "exact",
+   "note": "TotalSegmentator humerus label extended distally by watershed; distal end truncated by the field of view."
+  },
+  "radius_left": {
+   "atlas_id": "radius_l",
+   "relationship": "exact",
+   "note": "Proximal end truncated by the field of view (no radial head/neck)."
+  },
+  "ulna_left": {
+   "atlas_id": "ulna_l",
+   "relationship": "exact",
+   "note": "Proximal end truncated by the field of view (no olecranon/coronoid)."
+  },
+  "hand_left": {
+   "atlas_id": "hand_l",
+   "relationship": "part_of",
+   "note": "All hand bones in one mask; the atlas keeps carpals, metacarpals and phalanges as separate entities, so this maps to the composite hand_l."
+  }
+ }
+}
