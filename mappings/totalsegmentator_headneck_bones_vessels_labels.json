@@ -1,0 +1,85 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'headneck_bones_vessels' task, plus the reviewed mapping onto atlas entities.",
+    "A KEY, not data: it contains no anatomy and no geometry. Entries with atlas_id null are decisions NOT to map, each with its reason."
+  ],
+  "source": "Wasserthal J et al., TotalSegmentator (Radiology: AI 2023, doi:10.1148/ryai.230024); class map transcribed from totalsegmentator/map_to_binary.py, v2.18.0, Apache-2.0. Task listed in the project README under 'Openly available for any usage (Apache-2.0 license)'.",
+  "task": "headneck_bones_vessels",
+  "version": "v2.18.0",
+  "labels": {
+    "1": "larynx_air",
+    "2": "thyroid_cartilage",
+    "3": "hyoid",
+    "4": "cricoid_cartilage",
+    "5": "zygomatic_arch_right",
+    "6": "zygomatic_arch_left",
+    "7": "styloid_process_right",
+    "8": "styloid_process_left",
+    "9": "internal_carotid_artery_right",
+    "10": "internal_carotid_artery_left",
+    "11": "internal_jugular_vein_right",
+    "12": "internal_jugular_vein_left"
+  },
+  "atlas": {
+    "hyoid": {
+      "atlas_id": "hyoid",
+      "relationship": "exact",
+      "note": ""
+    },
+    "internal_carotid_artery_right": {
+      "atlas_id": "internal_carotid_a_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "internal_carotid_artery_left": {
+      "atlas_id": "internal_carotid_a_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "internal_jugular_vein_right": {
+      "atlas_id": "internal_jugular_v_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "internal_jugular_vein_left": {
+      "atlas_id": "internal_jugular_v_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "zygomatic_arch_right": {
+      "atlas_id": "zygomatic_r",
+      "relationship": "part_of",
+      "note": "The arch is the temporal process of the zygomatic bone plus the zygomatic process of the temporal bone; assigned to the zygomatic bone, which carries most of it."
+    },
+    "zygomatic_arch_left": {
+      "atlas_id": "zygomatic_l",
+      "relationship": "part_of",
+      "note": "The arch is the temporal process of the zygomatic bone plus the zygomatic process of the temporal bone; assigned to the zygomatic bone, which carries most of it."
+    },
+    "styloid_process_right": {
+      "atlas_id": "temporal_r",
+      "relationship": "part_of",
+      "note": "Process of the temporal bone."
+    },
+    "styloid_process_left": {
+      "atlas_id": "temporal_l",
+      "relationship": "part_of",
+      "note": "Process of the temporal bone."
+    },
+    "larynx_air": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Air column, not tissue."
+    },
+    "thyroid_cartilage": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "The atlas has no laryngeal cartilage entity (it carries the laryngeal muscles). Candidate for authoring."
+    },
+    "cricoid_cartilage": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "The atlas has no laryngeal cartilage entity. Candidate for authoring."
+    }
+  }
+}
