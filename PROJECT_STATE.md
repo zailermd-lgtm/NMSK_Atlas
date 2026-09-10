@@ -582,6 +582,88 @@ even though every NLM/Nature/Wiley host is blocked to `curl`; pypi.org,
 files.pythonhosted.org and github.com release downloads are reachable.
 That is what makes the TotalSegmentator route runnable here.
 
+## 2026-09-10: network opened; raw CT in hand; TotalSegmentator free tasks running here
+
+**What changed**: the owner set this environment's network access to Custom
+with zenodo.org, huggingface.co, *.hf.co, osf.io, morphosource.org, figshare,
+kaggle allowed. It applied to the running session. Direct consequences,
+all verified: the 23.6 GB Zenodo zip (record 10047292, CC BY 4.0) serves
+HTTP byte ranges, so single cases are pulled out of it in seconds
+(`scratchpad/zenodo_zip/rangezip.py`: an HTTP-Range file object under
+`zipfile`; central directory = 147,361 entries). Zenodo/OSF/MorphoSource
+APIs answer. No more chat uploads needed for anything on those hosts.
+
+**s0913 raw CT** arrived first as 8 x 10 MiB chat parts (`ct.nii`, 77,674,882
+bytes, verified against the NIfTI header and byte-identical affine with the
+label volume). **Correction of an earlier claim**: s0913 has NO head -- its
+`skull.nii.gz`/`brain.nii.gz`/C1/C2 masks exist but are all-zero; the scan
+tops out at C7 (meta.csv: `ct neck-thorax-abdomen-pelvis`). File presence
+was mistaken for content. Every neck muscle the `headneck_muscles` task
+finds on it is cut at the top slice (SCM, scalenes, levator scapulae,
+sternothyroid, prevertebral all end at z=464); only trapezius is whole.
+`abdominal_muscles` is the task that pays off on s0913.
+
+**The dataset crops images unpredictably**, so field of view must be probed
+before pulling a CT: `scratchpad/zenodo_zip/probe_fov.py` reads only the
+small `skull`/`C1`/`C4`/`C7`/`T1`/`T4`/`brain` masks of every healthy adult
+case of the head/neck/polytrauma/whole-body study types (118 cases) and
+reports voxel counts, z-ranges and edge contact (`probe_fov.tsv`). s0364
+("thorax-neck") turned out to start at T1; s0460 (head CTA) has the skull
+touching both edges. **Chosen instead: s1159** -- 47 y female, `ct
+polytrauma`, `no_pathology`, 537 slices = 806 mm, vertex to hip: skull with
+margin (z 420-530 of 536), C1 through the sacrum, both humeri, femoral
+heads clipped at the bottom edge. One body from vertex to hip.
+
+**Placement of a subject without femoral heads**: the atlas origin cannot
+be sphere-fitted on s1159, so it is placed by a translation that puts its
+sacrum centroid where s0913's sacrum centroid sits in the atlas frame
+(origin `-6.232, 85.723, 199.149` atlas mm; L5/L4/T12 centroids would give
+origins within ~15 mm of this -- two different bodies, spine curvature
+differs -- so this is a convention, not a registration, and the viewer
+badge says so). Same convention will place any head/neck-only case via a
+shared vertebra.
+
+**Running TotalSegmentator here, CPU-only (4 cores, 15 GB)**: pypi and the
+GitHub release weights host are reachable; installed v2.18.0; free-task
+weights pre-fetched. Two real failure modes found and fixed:
+1. `headneck_bones_vessels` and `abdominal_muscles` use 0.75 mm models; on a
+   trunk crop (578x402x508 voxels x 22 classes of softmax) the worker is
+   OOM-killed at ~12.4 GB (kernel log: `Memory cgroup out of memory: Killed
+   process ... TotalSegmentato`) and the parent waits on a futex forever
+   -- it looks "stuck", not failed. Fix: `scratchpad/tools/ts_chunked.py`
+   runs a task on overlapping z-chunks (96 slices, 16 overlap) of the
+   z-range that matters (from the case's own vertebra/skull masks) and
+   stitches by index; each chunk keeps its own affine. Peak ~5.5 GB.
+2. A stale `inspect.py` in the scratchpad shadowed the stdlib module for any
+   script run from that directory; renamed.
+The head tasks on s0913 correctly return "Crop is empty".
+
+**Label maps**: `mappings/totalsegmentator_<task>_labels.json` for the six
+Apache-2.0 tasks, fully reviewed (see commit). `propose`/`convert` were
+exercised on the s0913 `headneck_muscles` multilabel output (17 curated,
+3 no-entity, 54,944 vertices) -- the multilabel path works unchanged.
+New composite bone `cranium` receives the whole-skull mask.
+
+**Source verdicts from the opened network** (all checked on the record/API,
+not the paper): Grant 2019 foot bones -- CC BY 4.0, 125 ASCII STLs, mm, but
+**each bone sits in its own SSM-aligned frame** (calcaneus centroids
+~[18,4,38] in every subject, talus ~[6,0,6]): shapes for statistics, not an
+articulated foot; assembling one needs a registration to the VH ankle that
+does not exist yet. Lenz 2021 tibia/fibula/talus -- CC0 (LICENSE file in
+the GitHub release). Havelkova 2020 -- CC BY, but the files are muscle
+*paths* (polylines) and tables, no bone or muscle meshes. Kerkhof 2018
+forearm/hand on MorphoSource -- `copyright_statement`
+rightsstatements.org **InC-EDU** (in copyright, educational use permitted),
+"CommercialUsePermitted" flag notwithstanding, derivatives must be archived
+on MorphoSource: not usable in a sellable product without the author's
+written licence. Steer 2026 DiceCT hand on OSF `avq7d` -- 45 PLYs (every
+intrinsic muscle, tendons, nerves, all bones in one mesh, palmar
+aponeurosis) plus the 563 MB whole-hand OBJ, **no licence set on the node**
+("for review for Anatomical Record"): all rights reserved by default;
+needs a written licence from the University of Missouri authors (Steer /
+Holliday) before any use. Both hand sources are therefore a
+correspondence task for the owner, not a download.
+
 ## Next action
 
 1. **Owner uploads `s0913/ct.nii.gz`** (from the Zenodo zip already on
