@@ -832,6 +832,32 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
 - Chunk 1 of `total` (pelvis, z 0-229): 42 labels, hip/sacrum/L1-S1/
   gluteals/iliopsoas present; **femur absent** (heads sit at the very edge
   of the block), hence the legs-block run for the origin.
+- `total` on the frozen torso: 110 labels; C1-S1, all 24 ribs, sternum,
+  both clavicles/scapulae/humeri, hips, sacrum, skull, gluteals, iliopsoas,
+  autochthon all present and, on coronal/sagittal projection, in place.
+  Vessels are fragments (aorta 21 cm3 vs 164 cm3 on s1159: no contrast,
+  frozen) -> nulled in `ct_vhm`. `headneck_muscles`: SCM 57/61 cm3,
+  trapezius 172/182, levator scapulae 43/35, scalenes, prevertebral --
+  plausible; platysma absent (nulled). `headneck_bones_vessels`: thyroid
+  8.6, cricoid 4.1, hyoid 1.9 cm3; styloids and vessels fragments (nulled).
+  **`abdominal_muscles` fails on the frozen cadaver**: pectoralis major
+  14/96 cm3 (s1159: 171/173), rectus abdominis 0.6/13 (100/99), latissimus
+  27/7 (183/163), obliques 6-9 (100-114), erector spinae 675 (403, i.e.
+  leaking into fat). Not shipped from this body; the trunk muscles stay
+  s1159's, badged as such.
+- Arms: the 480 mm reconstruction FOV clips both arms around the elbow
+  (seen on axial slices: the arm leaves the image laterally, and the FOV
+  edge is a bright cupping band ~20 columns wide that thresholds like
+  bone). `scripts/segment_arm_bones_vhm.py`: HU>=200 opened once, minus
+  `total` labels and the edge columns; markers = eroded `total` humerus,
+  the two largest HU>=800 forearm fragments (overlapping along the forearm
+  axis), HU>=600 seeds beyond their distal end (hand); watershed on the
+  smoothed CT so basins meet in the joint spaces; per-label cavity fill.
+  Radius = wider distal end AND reaches further distally (radial styloid);
+  both rules agree on both sides. Result (axis length in the scan): radius
+  210/197 mm, ulna 191/158 mm, hand 25/48 cm3, humerus extended below its
+  `total` label away from the edge band. All partial at the elbow.
+  Composite `hand_r`/`hand_l` entities added (as `cranium`).
 - Still true, will be reported plainly: upper-limb muscles, tendons,
   ligaments and nerves have no open 3-D source; the atlas carries them as
   data records with anchors only (VH DU ligaments of the lower limb are the
