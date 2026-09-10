@@ -598,12 +598,17 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
             near = scapula[np.linalg.norm(scapula - head, axis=1)
                            <= np.quantile(np.linalg.norm(scapula - head, axis=1), 0.02)]
             glenoid = near.mean(axis=0)
-            medial_border = scapula[scapula[:, 0] * (1 if side == "r" else -1)
-                                    <= np.quantile(scapula[:, 0] * (1 if side == "r" else -1), 0.02)]
+            # Only the origin is measurable: the scapula has no long axis to
+            # fit, and a frame built from the medial border (tried first)
+            # points its Y toward the glenoid and its Z downward, which no
+            # hand-authored landmark could be written in. Axes are therefore
+            # the anatomical-position convention, as for the hip bone and
+            # sternum: X right, Y up, Z anterior, at the glenoid centre.
             frames[f"scapula_{side}"] = (
-                glenoid, orthonormal_frame(glenoid, medial_border.mean(axis=0)),
+                glenoid, np.eye(3),
                 "the glenoid, as the 2% of the scapula closest to the fitted "
-                "humeral head centre", "neither")
+                "humeral head centre; axes by anatomical-position convention, "
+                "not fitted", "neither")
 
     # The jugular notch is the superior midline notch of the manubrium: the
     # most superior point, taken near the midline so a clavicular facet

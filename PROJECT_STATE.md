@@ -699,10 +699,46 @@ constrictors and prevertebral/tongue/erector masses are deliberately
 unmapped (atlas finer than the mask); (d) laryngeal cartilages, eyeballs
 and teeth have no atlas entities -- candidates for authoring.
 
+## 2026-09-10, later: first audit of upper-body anchors against s1159 -- scapula fixed
+
+`audit_landmarks_vs_geometry.py --subject ct_s1159_all` (a merged subject of
+s1159's bones plus all its task-derived muscles; built ad hoc, see
+`scratchpad`) gave the upper-body anchors their first check against muscle
+and bone geometry in the same body. Findings, separated by cause:
+
+- **Scapula (real authoring error, fixed)**: all ten landmarks on both sides
+  were 37-40 mm median / up to 115 mm off the bone. Two causes. (1) The
+  audit's scapula frame was built from the medial border and ended up with
+  Y pointing at the glenoid and Z pointing DOWN -- no hand-authored value
+  could ever be right in it; changed to the anatomical-position convention
+  (X right, Y up, Z anterior) at the glenoid, as the hip bone and sternum
+  already use. (2) The values themselves drew the blade flat and twice too
+  big (medial border 140 mm medial, inferior angle 140 mm down, both only
+  40 mm posterior; measured on s1159: 65 mm medial / 95 mm down / 65-90 mm
+  posterior, because the glenoid faces anterolaterally and the blade wraps
+  the ribs). Rewritten from the measured mesh, each side from its own
+  scapula, rounded to 5 mm. Result: median 1.5 mm (r) / 1.9 mm (l).
+  Exactly 22 anchors changed (rotator cuff origins, biceps and triceps
+  long/short heads, coracobrachialis, pectoralis minor, rhomboid minor,
+  teres major, trapezius insertion), 236 total unchanged; "anchor to own
+  bone" median 40.0 -> 4.6 mm; trapezius insertion off-to-side 103 -> 22 mm.
+- **Humerus (field-of-view artefact, not fixed, correctly)**: the left arm
+  is cut by the image's lateral edge and the right elbow is cut flat, so the
+  fitted long axis and the distal landmarks (epicondyles, capitulum,
+  trochlea, and the six forearm-muscle origins sharing them) read 35-88 mm
+  "off". Nothing to fix; a case with the elbows in the field would settle it.
+- **Latissimus insertion (mask artefact)**: the trunk task stops at T4, so
+  the mask has no tendon to the humerus; the anchor is correctly placed
+  past the mask's end.
+- Clavicle: 4-5 mm median on this second specimen too -- the earlier fix
+  holds.
+
 ## Next action
 
-1. Run the landmark/anchor audit on the s1159 subjects (head, neck, trunk
-   muscles) and fix what it finds, corpus-wide as before.
+1. Audit follow-ups: a case with elbows in the field of view for the
+   humerus; the per-muscle anchor checks for the new head/neck muscles
+   (the audit only reports anchors whose bone has a measured frame, so
+   the skull-attached ones are not yet covered -- add a cranium frame).
 2. Owner correspondence for the hand: Kerkhof (MorphoSource P419, InC-EDU)
    and Steer/Holliday (OSF avq7d, no licence). Nothing further can be done
    here without a written licence.
