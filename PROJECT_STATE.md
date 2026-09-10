@@ -614,14 +614,17 @@ polytrauma`, `no_pathology`, 537 slices = 806 mm, vertex to hip: skull with
 margin (z 420-530 of 536), C1 through the sacrum, both humeri, femoral
 heads clipped at the bottom edge. One body from vertex to hip.
 
-**Placement of a subject without femoral heads**: the atlas origin cannot
-be sphere-fitted on s1159, so it is placed by a translation that puts its
-sacrum centroid where s0913's sacrum centroid sits in the atlas frame
-(origin `-6.232, 85.723, 199.149` atlas mm; L5/L4/T12 centroids would give
-origins within ~15 mm of this -- two different bodies, spine curvature
-differs -- so this is a convention, not a registration, and the viewer
-badge says so). Same convention will place any head/neck-only case via a
-shared vertebra.
+**Placement of s1159**: its femoral heads are clipped at the bottom edge
+(top ~24 mm of each head in the field of view), yet the standard
+sphere fit still converges cleanly -- right r=22.1 mm rms 0.49 mm, left
+r=23.3 mm rms 0.53 mm -- so s1159 is placed by the same fitted origin as
+every other CT subject (`--origin '-14.573,103.145,200.400'`). A
+translation-only sacrum-centroid alignment tried first landed 8 mm (X) and
+17 mm (Y) away from the fit, which is a useful measure of how wrong that
+convention would have been; it is not used. The clipped femur stubs are
+nulled in the s1159 mapping so they never claim the femur ids from the VH
+data, and s0913's 8-slice C7 stub is nulled so s1159's complete cervical
+spine is the one shown.
 
 **Running TotalSegmentator here, CPU-only (4 cores, 15 GB)**: pypi and the
 GitHub release weights host are reachable; installed v2.18.0; free-task

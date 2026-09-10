@@ -399,9 +399,9 @@
       "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
     },
     "skull": {
-      "atlas_id": null,
-      "relationship": "no_atlas_entity",
-      "note": "The atlas carries mandible and occipital only; it has no single skull entity to receive this."
+      "atlas_id": "cranium",
+      "relationship": "part_of",
+      "note": "One mask over the whole skull minus the mandible; received by the composite 'cranium' (added 2026-09-10), the same way 'ribs_l' receives twelve rib masks. The individual cranial and facial bone entries remain the anatomical record; CT at 1.5 mm cannot separate them along their sutures."
     },
     "spinal_cord": {
       "atlas_id": null,
