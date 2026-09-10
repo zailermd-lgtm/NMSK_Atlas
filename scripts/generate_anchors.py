@@ -130,7 +130,20 @@ def _match(landmark_text: str, candidates: list):
     scored = []
     for name, pos in candidates:
         tokens = _tokens(name)
-        if not tokens or not all(t in text for t in tokens[:2]):
+        # The gate must look at the SITE only. Taking the first two tokens of
+        # the whole name pulled the second one out of the attachment list
+        # for any one-word site -- "manubrium (sternocleidomastoid, ...)"
+        # demanded that "sternocleidomastoid" appear in the text, which
+        # rejected every plain "manubrium" origin (found 2026-09-10 when the
+        # sternum first got numeric landmarks).
+        # Either rule may admit a candidate: the whole-name rule keeps every
+        # match that ever worked (a clarifying parenthetical inside a site,
+        # "external (gluteal) surface", is part of the site's own words);
+        # the site rule admits one-word sites whose second whole-name token
+        # is an attaching muscle.
+        site_tokens = _tokens(re.sub(r"\([^)]*\)", " ", name)) or tokens
+        if not tokens or not (all(t in text for t in tokens[:2])
+                              or all(t in text for t in site_tokens[:2])):
             continue
         # A landmark name has two parts: the SITE ("ischial tuberosity,
         # lateral border") and, in parentheses, WHO attaches there. Only the

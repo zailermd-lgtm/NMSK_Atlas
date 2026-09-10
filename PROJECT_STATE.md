@@ -745,6 +745,28 @@ Eight new anchors (masseter, temporalis, medial pterygoid, digastric
 insertions, both sides), zero existing anchors changed. Masseter is a
 first-line botulinum-toxin target, so this one matters clinically.
 
+**Sternum and hyoid, same session**: numeric landmarks measured on s1159
+(jugular notch frame already existed; a hyoid frame at the anterior
+midline point of the body was added). Audit: sternum 2.9 mm, hyoid 0.9 mm.
+This exposed a matcher bug in `generate_anchors.py`: the gate took the
+first two tokens of the WHOLE landmark name, so a one-word site such as
+"manubrium (sternocleidomastoid, ...)" demanded that "sternocleidomastoid"
+appear in the muscle's text and rejected every plain "manubrium" origin.
+The gate now admits a candidate if either the whole-name rule or the
+site-only rule holds (a strict superset of the old behaviour, verified:
+46 anchors gained across sternum, hyoid, humerus, ulna, scapula, carpals,
+tarsals, metacarpals; zero existing anchors changed, zero removed). The
+manubrium was then split into anterior (SCM, pec major) and posterior
+(sternohyoid, sternothyroid) surfaces -- the infrahyoids arise from the
+back of the bone, ~17 mm behind the front -- with the surface named inside
+the attachment list so the matcher's tie-break, not its gate, decides;
+sternohyoid's own text now says "posterior surface". Anchors: 300.
+Remaining "off to the side" figures on s1159 (serratus anterior and
+latissimus insertions, pectoralis major insertion, sternothyroid origin)
+are all cases where the T4-L4 trunk mask or the neck mask does not
+contain the end of the muscle that reaches the anchor -- mask limits, not
+anchor errors, and recorded as such.
+
 ## Next action
 
 1. Audit follow-ups: a case with elbows in the field of view for the

@@ -1,5 +1,53 @@
 [
   {
+    "id": "anchor_middle_pharyngeal_constrictor_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "middle_pharyngeal_constrictor_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      10.0,
+      5.0,
+      -5.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater and lesser horns of the hyoid and the stylohyoid lig'"
+  },
+  {
+    "id": "anchor_sternohyoid_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "sternohyoid_r",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      10.0,
+      -25.0,
+      5.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'posterior surface of the manubrium and medial end of the cla'"
+  },
+  {
+    "id": "anchor_sternohyoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "sternohyoid_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body'"
+  },
+  {
+    "id": "anchor_thyrohyoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "thyrohyoid_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      -20.0,
+      0.0,
+      -25.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'lower border of the body and greater horn of the hyoid'; X mirrored for the left side of a midline bone"
+  },
+  {
     "id": "anchor_masseter_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "masseter_r",
@@ -10,6 +58,30 @@
       -58.0
     ],
     "notes": "auto-derived from bone landmark match against 'angle and ramus of mandible'"
+  },
+  {
+    "id": "anchor_genioglossus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "genioglossus_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'tongue body (fanning out from apex to base) and hyoid body'"
+  },
+  {
+    "id": "anchor_stylohyoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "stylohyoid_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      20.0,
+      0.0,
+      -25.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'body of the hyoid at the junction with the greater horn'"
   },
   {
     "id": "anchor_medial_pterygoid_r_insertion",
@@ -24,6 +96,102 @@
     "notes": "auto-derived from bone landmark match against 'medial surface of the ramus/angle of mandible'"
   },
   {
+    "id": "anchor_middle_pharyngeal_constrictor_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "middle_pharyngeal_constrictor_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      -10.0,
+      5.0,
+      -5.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater and lesser horns of the hyoid and the stylohyoid lig'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_genioglossus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "genioglossus_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'tongue body (fanning out from apex to base) and hyoid body'"
+  },
+  {
+    "id": "anchor_hyoglossus_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "hyoglossus_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      -20.0,
+      0.0,
+      -25.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater horn/body of hyoid'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_omohyoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "omohyoid_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body, via an intermediate tendon slung by a fascial lo'"
+  },
+  {
+    "id": "anchor_geniohyoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "geniohyoid_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body'"
+  },
+  {
+    "id": "anchor_sternothyroid_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "sternothyroid_l",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      -10.0,
+      -25.0,
+      5.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'manubrium (deep to sternohyoid)'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_thyrohyoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "thyrohyoid_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      20.0,
+      0.0,
+      -25.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'lower border of the body and greater horn of the hyoid'"
+  },
+  {
+    "id": "anchor_hyoglossus_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "hyoglossus_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      20.0,
+      0.0,
+      -25.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'greater horn/body of hyoid'"
+  },
+  {
     "id": "anchor_medial_pterygoid_l_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "medial_pterygoid_l",
@@ -36,6 +204,102 @@
     "notes": "auto-derived from bone landmark match against 'medial surface of the ramus/angle of mandible'; X mirrored for the left side of a midline bone"
   },
   {
+    "id": "anchor_sternocleidomastoid_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "sternocleidomastoid_l",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      -12.0,
+      -25.0,
+      22.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'sternal head: manubrium; clavicular head: medial third of cl'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_omohyoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "omohyoid_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body, via an intermediate tendon slung by a fascial lo'"
+  },
+  {
+    "id": "anchor_inferior_longitudinal_tongue_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "inferior_longitudinal_tongue_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'root of the tongue and the body of the hyoid'"
+  },
+  {
+    "id": "anchor_sternocleidomastoid_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "sternocleidomastoid_r",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      12.0,
+      -25.0,
+      22.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'sternal head: manubrium; clavicular head: medial third of cl'"
+  },
+  {
+    "id": "anchor_geniohyoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "geniohyoid_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body'"
+  },
+  {
+    "id": "anchor_sternothyroid_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "sternothyroid_r",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      10.0,
+      -25.0,
+      5.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'manubrium (deep to sternohyoid)'"
+  },
+  {
+    "id": "anchor_sternohyoid_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "sternohyoid_l",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      -10.0,
+      -25.0,
+      5.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'posterior surface of the manubrium and medial end of the cla'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_sternohyoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "sternohyoid_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body'"
+  },
+  {
     "id": "anchor_temporalis_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "temporalis_r",
@@ -46,6 +310,18 @@
       -39.0
     ],
     "notes": "auto-derived from bone landmark match against 'coronoid process of mandible (via a fan-shaped tendon)'"
+  },
+  {
+    "id": "anchor_stylohyoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "stylohyoid_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      -20.0,
+      0.0,
+      -25.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'body of the hyoid at the junction with the greater horn'; X mirrored for the left side of a midline bone"
   },
   {
     "id": "anchor_masseter_l_insertion",
@@ -72,6 +348,30 @@
     "notes": "auto-derived from bone landmark match against 'coronoid process of mandible (via a fan-shaped tendon)'; X mirrored for the left side of a midline bone"
   },
   {
+    "id": "anchor_mylohyoid_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "mylohyoid_r",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body and a median fibrous raphe with the contralateral'"
+  },
+  {
+    "id": "anchor_mylohyoid_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "mylohyoid_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'hyoid body and a median fibrous raphe with the contralateral'"
+  },
+  {
     "id": "anchor_digastric_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "digastric_r",
@@ -96,6 +396,18 @@
     "notes": "auto-derived from bone landmark match against 'digastric fossa of the mandible (anterior belly insertion); '; X mirrored for the left side of a midline bone"
   },
   {
+    "id": "anchor_inferior_longitudinal_tongue_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "inferior_longitudinal_tongue_l",
+    "parent_bone_frame": "hyoid",
+    "local_position_mm": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'root of the tongue and the body of the hyoid'"
+  },
+  {
     "id": "anchor_rhomboid_minor_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "rhomboid_minor_r",
@@ -106,6 +418,18 @@
       -65.0
     ],
     "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
+  },
+  {
+    "id": "anchor_serratus_anterior_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "serratus_anterior_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      75.0,
+      5.0,
+      -50.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula (costal/anterior surface)'"
   },
   {
     "id": "anchor_longissimus_r_origin",
@@ -250,6 +574,18 @@
       5.0
     ],
     "notes": "auto-derived from bone landmark match against 'subclavian groove of clavicle'"
+  },
+  {
+    "id": "anchor_transversus_thoracis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "transversus_thoracis_l",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      0.0,
+      -133.0,
+      26.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'posterior surface of the lower sternum and xiphoid process'"
   },
   {
     "id": "anchor_rhomboid_minor_l_insertion",
@@ -408,6 +744,18 @@
     "notes": "auto-derived from bone landmark match against 'pubis, ischial spine, tendinous arch of the obturator fascia'"
   },
   {
+    "id": "anchor_transversus_thoracis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "transversus_thoracis_r",
+    "parent_bone_frame": "sternum",
+    "local_position_mm": [
+      0.0,
+      -133.0,
+      26.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'posterior surface of the lower sternum and xiphoid process'"
+  },
+  {
     "id": "anchor_iliocostalis_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "iliocostalis_l",
@@ -444,6 +792,18 @@
     "notes": "auto-derived from bone landmark match against 'ischial spine'"
   },
   {
+    "id": "anchor_serratus_anterior_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "serratus_anterior_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -65.0,
+      10.0,
+      -65.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula (costal/anterior surface)'"
+  },
+  {
     "id": "anchor_pectoralis_minor_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "pectoralis_minor_r",
@@ -466,6 +826,18 @@
       5
     ],
     "notes": "auto-derived from bone landmark match against 'medial epicondyle (+ ulnar head at coronoid)'"
+  },
+  {
+    "id": "anchor_opponens_pollicis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "opponens_pollicis_r",
+    "parent_bone_frame": "metacarpals_r",
+    "local_position_mm": [
+      25,
+      -5,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against '1st metacarpal (radial border)'"
   },
   {
     "id": "anchor_extensor_pollicis_longus_r_insertion",
@@ -552,6 +924,18 @@
     "notes": "auto-derived from bone landmark match against 'lateral epicondyle'"
   },
   {
+    "id": "anchor_anconeus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "anconeus_r",
+    "parent_bone_frame": "ulna_r",
+    "local_position_mm": [
+      0,
+      15,
+      -15
+    ],
+    "notes": "auto-derived from bone landmark match against 'olecranon/posterior ulna'"
+  },
+  {
     "id": "anchor_extensor_carpi_radialis_brevis_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "extensor_carpi_radialis_brevis_l",
@@ -612,6 +996,18 @@
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb'"
   },
   {
+    "id": "anchor_abductor_digiti_minimi_hand_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "abductor_digiti_minimi_hand_l",
+    "parent_bone_frame": "carpals_l",
+    "local_position_mm": [
+      18,
+      -5,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'pisiform'"
+  },
+  {
     "id": "anchor_abductor_digiti_minimi_hand_l_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "abductor_digiti_minimi_hand_l",
@@ -658,6 +1054,18 @@
       5
     ],
     "notes": "auto-derived from bone landmark match against 'humeral head: medial epicondyle; ulnar head: olecranon'"
+  },
+  {
+    "id": "anchor_flexor_carpi_ulnaris_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_carpi_ulnaris_l",
+    "parent_bone_frame": "carpals_l",
+    "local_position_mm": [
+      18,
+      -5,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'pisiform (continuing via ligaments to hamate and 5th metacar'"
   },
   {
     "id": "anchor_coracobrachialis_r_origin",
@@ -708,6 +1116,18 @@
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb (ulnar side) + ulnar sesamoid, via'"
   },
   {
+    "id": "anchor_flexor_pollicis_brevis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_pollicis_brevis_r",
+    "parent_bone_frame": "carpals_r",
+    "local_position_mm": [
+      0,
+      0,
+      0
+    ],
+    "notes": "auto-derived from bone landmark match against 'superficial head: flexor retinaculum; deep head: trapezium/c'"
+  },
+  {
     "id": "anchor_flexor_pollicis_brevis_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "flexor_pollicis_brevis_r",
@@ -756,6 +1176,18 @@
     "notes": "auto-derived from bone landmark match against 'lateral epicondyle (via common extensor)'"
   },
   {
+    "id": "anchor_abductor_digiti_minimi_hand_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "abductor_digiti_minimi_hand_r",
+    "parent_bone_frame": "carpals_r",
+    "local_position_mm": [
+      -18,
+      -5,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'pisiform'"
+  },
+  {
     "id": "anchor_abductor_digiti_minimi_hand_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "abductor_digiti_minimi_hand_r",
@@ -766,6 +1198,18 @@
       0
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx digit 5'"
+  },
+  {
+    "id": "anchor_pectoralis_major_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "pectoralis_major_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      10,
+      -40,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral lip of intertubercular groove (fibers spiral so clav'"
   },
   {
     "id": "anchor_abductor_pollicis_brevis_l_origin",
@@ -912,6 +1356,30 @@
     "notes": "auto-derived from bone landmark match against 'humeral head: medial epicondyle; ulnar head: olecranon'"
   },
   {
+    "id": "anchor_flexor_carpi_ulnaris_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "flexor_carpi_ulnaris_r",
+    "parent_bone_frame": "carpals_r",
+    "local_position_mm": [
+      -18,
+      -5,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'pisiform (continuing via ligaments to hamate and 5th metacar'"
+  },
+  {
+    "id": "anchor_opponens_pollicis_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "opponens_pollicis_l",
+    "parent_bone_frame": "metacarpals_l",
+    "local_position_mm": [
+      -25,
+      -5,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against '1st metacarpal (radial border)'"
+  },
+  {
     "id": "anchor_extensor_carpi_ulnaris_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "extensor_carpi_ulnaris_l",
@@ -1044,6 +1512,18 @@
     "notes": "auto-derived from bone landmark match against 'inferior angle of scapula'"
   },
   {
+    "id": "anchor_teres_major_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "teres_major_r",
+    "parent_bone_frame": "humerus_r",
+    "local_position_mm": [
+      10,
+      -40,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial lip of intertubercular groove'"
+  },
+  {
     "id": "anchor_infraspinatus_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "infraspinatus_r",
@@ -1080,6 +1560,18 @@
     "notes": "auto-derived from bone landmark match against 'long head: infraglenoid tubercle; lateral head: posterior hu'"
   },
   {
+    "id": "anchor_triceps_brachii_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "triceps_brachii_l",
+    "parent_bone_frame": "ulna_l",
+    "local_position_mm": [
+      0,
+      15,
+      -15
+    ],
+    "notes": "auto-derived from bone landmark match against 'olecranon process'"
+  },
+  {
     "id": "anchor_teres_major_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "teres_major_l",
@@ -1092,6 +1584,18 @@
     "notes": "auto-derived from bone landmark match against 'inferior angle of scapula'"
   },
   {
+    "id": "anchor_teres_major_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "teres_major_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -10,
+      -40,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial lip of intertubercular groove'"
+  },
+  {
     "id": "anchor_triceps_brachii_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "triceps_brachii_r",
@@ -1102,6 +1606,18 @@
       -20.0
     ],
     "notes": "auto-derived from bone landmark match against 'long head: infraglenoid tubercle; lateral head: posterior hu'"
+  },
+  {
+    "id": "anchor_triceps_brachii_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "triceps_brachii_r",
+    "parent_bone_frame": "ulna_r",
+    "local_position_mm": [
+      0,
+      15,
+      -15
+    ],
+    "notes": "auto-derived from bone landmark match against 'olecranon process'"
   },
   {
     "id": "anchor_opponens_digiti_minimi_l_origin",
@@ -1176,6 +1692,18 @@
     "notes": "auto-derived from bone landmark match against 'lateral epicondyle'"
   },
   {
+    "id": "anchor_anconeus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "anconeus_l",
+    "parent_bone_frame": "ulna_l",
+    "local_position_mm": [
+      0,
+      15,
+      -15
+    ],
+    "notes": "auto-derived from bone landmark match against 'olecranon/posterior ulna'"
+  },
+  {
     "id": "anchor_extensor_digitorum_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "extensor_digitorum_l",
@@ -1198,6 +1726,18 @@
       0
     ],
     "notes": "auto-derived from bone landmark match against 'distal phalanx of thumb'"
+  },
+  {
+    "id": "anchor_abductor_pollicis_brevis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "abductor_pollicis_brevis_r",
+    "parent_bone_frame": "carpals_r",
+    "local_position_mm": [
+      15,
+      10,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'scaphoid, flexor retinaculum'"
   },
   {
     "id": "anchor_abductor_pollicis_brevis_r_insertion",
@@ -1234,6 +1774,18 @@
       10
     ],
     "notes": "auto-derived from bone landmark match against 'deltoid tuberosity'"
+  },
+  {
+    "id": "anchor_abductor_pollicis_longus_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "abductor_pollicis_longus_l",
+    "parent_bone_frame": "metacarpals_l",
+    "local_position_mm": [
+      -25,
+      -5,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'base of 1st metacarpal'"
   },
   {
     "id": "anchor_extensor_pollicis_longus_l_insertion",
@@ -1344,6 +1896,18 @@
     "notes": "auto-derived from bone landmark match against 'deltoid tuberosity'"
   },
   {
+    "id": "anchor_pectoralis_major_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "pectoralis_major_l",
+    "parent_bone_frame": "humerus_l",
+    "local_position_mm": [
+      -10,
+      -40,
+      15
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral lip of intertubercular groove (fibers spiral so clav'"
+  },
+  {
     "id": "anchor_flexor_digitorum_superficialis_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "flexor_digitorum_superficialis_r",
@@ -1414,6 +1978,18 @@
       0
     ],
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of thumb (ulnar side) + ulnar sesamoid, via'"
+  },
+  {
+    "id": "anchor_abductor_pollicis_longus_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "abductor_pollicis_longus_r",
+    "parent_bone_frame": "metacarpals_r",
+    "local_position_mm": [
+      25,
+      -5,
+      10
+    ],
+    "notes": "auto-derived from bone landmark match against 'base of 1st metacarpal'"
   },
   {
     "id": "anchor_subscapularis_l_origin",
@@ -1594,6 +2170,18 @@
       -5
     ],
     "notes": "auto-derived, per functional compartment (one shared attachments field split by compartment), from bone landmark match against 'hamstring part: adductor tubercle (via a distinct tendon, wi'"
+  },
+  {
+    "id": "anchor_quadratus_plantae_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "quadratus_plantae_r",
+    "parent_bone_frame": "tarsals_r",
+    "local_position_mm": [
+      -13.1,
+      -36.6,
+      -65.8
+    ],
+    "notes": "auto-derived from bone landmark match against 'calcaneus (medial and lateral heads, flanking the long plant'"
   },
   {
     "id": "anchor_fibularis_brevis_r_origin",
@@ -1836,6 +2424,18 @@
     "notes": "auto-derived from bone landmark match against 'distal phalanx of the great toe'"
   },
   {
+    "id": "anchor_extensor_hallucis_brevis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_hallucis_brevis_r",
+    "parent_bone_frame": "tarsals_r",
+    "local_position_mm": [
+      -13.1,
+      -36.6,
+      -65.8
+    ],
+    "notes": "auto-derived from bone landmark match against 'calcaneus (dorsal surface, medial-most slip of the EDB mass)'"
+  },
+  {
     "id": "anchor_extensor_hallucis_brevis_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "extensor_hallucis_brevis_r",
@@ -1944,6 +2544,18 @@
     "notes": "auto-derived from bone landmark match against 'proximal phalanx of the great toe, base, lateral side (via t'"
   },
   {
+    "id": "anchor_extensor_hallucis_brevis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_hallucis_brevis_l",
+    "parent_bone_frame": "tarsals_l",
+    "local_position_mm": [
+      20.1,
+      -39.9,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'calcaneus (dorsal surface, medial-most slip of the EDB mass)'"
+  },
+  {
     "id": "anchor_extensor_hallucis_brevis_l_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "extensor_hallucis_brevis_l",
@@ -2014,6 +2626,18 @@
       -10
     ],
     "notes": "auto-derived from bone landmark match against 'pectineal line of femur'"
+  },
+  {
+    "id": "anchor_extensor_digitorum_brevis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_digitorum_brevis_l",
+    "parent_bone_frame": "tarsals_l",
+    "local_position_mm": [
+      20.1,
+      -39.9,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'calcaneus (dorsal/lateral surface, anterior to the sinus tar'"
   },
   {
     "id": "anchor_plantaris_l_insertion",
@@ -2136,6 +2760,18 @@
     "notes": "auto-derived from bone landmark match against 'lesser trochanter'"
   },
   {
+    "id": "anchor_quadratus_plantae_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "quadratus_plantae_l",
+    "parent_bone_frame": "tarsals_l",
+    "local_position_mm": [
+      20.1,
+      -39.9,
+      -58.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'calcaneus (medial and lateral heads, flanking the long plant'"
+  },
+  {
     "id": "anchor_gemellus_inferior_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "gemellus_inferior_r",
@@ -2158,6 +2794,18 @@
       -39.1
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter, medial surface (with the obturator inter'"
+  },
+  {
+    "id": "anchor_flexor_hallucis_brevis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_hallucis_brevis_r",
+    "parent_bone_frame": "tarsals_r",
+    "local_position_mm": [
+      11.7,
+      -80.3,
+      15.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'cuboid, lateral cuneiform'"
   },
   {
     "id": "anchor_flexor_hallucis_brevis_r_medial_insertion",
@@ -2326,6 +2974,18 @@
       -34.3
     ],
     "notes": "auto-derived from bone landmark match against 'greater trochanter, medial surface (with the obturator inter'"
+  },
+  {
+    "id": "anchor_extensor_digitorum_brevis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "extensor_digitorum_brevis_r",
+    "parent_bone_frame": "tarsals_r",
+    "local_position_mm": [
+      -13.1,
+      -36.6,
+      -65.8
+    ],
+    "notes": "auto-derived from bone landmark match against 'calcaneus (dorsal/lateral surface, anterior to the sinus tar'"
   },
   {
     "id": "anchor_vastus_medialis_l_origin",
@@ -2830,6 +3490,18 @@
       -65.8
     ],
     "notes": "auto-derived from bone landmark match against 'calcaneus (via a long thin tendon running medial to the Achi'"
+  },
+  {
+    "id": "anchor_flexor_hallucis_brevis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "flexor_hallucis_brevis_l",
+    "parent_bone_frame": "tarsals_l",
+    "local_position_mm": [
+      -13.5,
+      -80.0,
+      21.6
+    ],
+    "notes": "auto-derived from bone landmark match against 'cuboid, lateral cuneiform'"
   },
   {
     "id": "anchor_flexor_hallucis_brevis_l_medial_insertion",

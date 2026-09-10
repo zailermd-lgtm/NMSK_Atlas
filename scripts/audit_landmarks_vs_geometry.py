@@ -623,6 +623,16 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                 "of the mandibular midline; axes by anatomical-position "
                 "convention, not fitted", "neither")
 
+    # The hyoid's authored origin is the anterior midline point of its body.
+    hyoid = by_atlas_id.get("hyoid")
+    if hyoid is not None and len(hyoid) > 20:
+        midline = hyoid[np.abs(hyoid[:, 0] - np.median(hyoid[:, 0])) < 6.0]
+        if len(midline) > 5:
+            frames["hyoid"] = (
+                midline[np.argmax(midline[:, 2])], np.eye(3),
+                "the anterior midline point of the hyoid body; axes by "
+                "anatomical-position convention, not fitted", "neither")
+
     # The jugular notch is the superior midline notch of the manubrium: the
     # most superior point, taken near the midline so a clavicular facet
     # cannot win it.
