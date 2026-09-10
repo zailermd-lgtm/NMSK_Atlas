@@ -605,6 +605,57 @@ show expected CT-field-of-view cutoff artifacts near the joint away from
 the scan centre, not placement bugs — the audit script's "reaches PAST the
 end of this bone" note is the tell.
 
+### Stage 2, muscles above the hip (2026-09-10): the model is a tool, the CT is the source
+
+The geometry gap above the hip was never a shortage of CT: it was that the
+TotalSegmentator *release* ships only the `total` task's masks (bones,
+viscera, ten muscles). The TotalSegmentator *software* (Apache-2.0) has
+further tasks that its README lists as "Openly available for any usage":
+`abdominal_muscles`, `headneck_muscles`, `headneck_bones_vessels`,
+`head_muscles`, `craniofacial_structures`, `oculomotor_muscles`. Run on a
+case's own raw CT (in the same CC BY 4.0 release), they yield trunk-wall,
+neck, jaw and extraocular muscles, a whole skull, laryngeal cartilages and
+the neck vessels, on the **same specimen** whose bones are already here.
+No new licence enters the repository: the CT is CC BY 4.0, the model is a
+tool, and its output is ours to derive. (The `appendicular_bones` and
+`thigh_shoulder_muscles` tasks -- forearm/hand bones, rotator cuff, deltoid,
+triceps, thigh compartments -- are **licensed**: free only for
+non-commercial use, commercial licence from University Hospital Basel. Not
+run.)
+
+Label maps: `mappings/totalsegmentator_<task>_labels.json`, one per task,
+each with a reviewed `atlas` section. Where the mask is coarser than the
+atlas (erector spinae vs. iliocostalis/longissimus/spinalis; prevertebral
+vs. longus colli/capitis; tongue vs. its named muscles) the label is
+deliberately not mapped, exactly as `autochthon` is not. The one new entity
+is `cranium`, a composite for the whole skull minus the mandible, because
+1.5 mm CT cannot separate the cranial bones at their sutures; the
+individual bone entries remain the record.
+
+Subjects now: **s0913** (29 m, C7 to mid-thigh) -- bones, vessels, and the
+16 bilateral trunk-wall muscles of `abdominal_muscles`; its scan has no
+head (the release's `skull.nii.gz` for it is an all-zero file). **s1159**
+(47 f, `ct polytrauma`, `no_pathology`, vertex to hip in one body) --
+chosen by probing the release's small masks for field of view before
+downloading, since the release crops images unpredictably; origin fitted on
+its own femoral heads (rms 0.49/0.53 mm) even though only the top ~24 mm of
+each head is in the scan. The head, neck, orbit and trunk tasks are run on
+it. Data files: `data/ct_sources/totalsegmentator_v201_s1159_labels.nii.gz`
+(merged `total` masks); the raw CTs and task outputs live in `build/` and
+the session scratchpad, reproducible from the Zenodo record by case id.
+
+Running the tasks on a 4-core, 15 GB machine needed
+`scripts/run_totalsegmentator_chunked.py`: the 0.75 mm task models hold a
+softmax over every class for the whole crop and are OOM-killed on a trunk,
+after which the parent waits forever on a futex. Chunks of 96 slices with
+16 overlap, stitched by voxel index, keep the peak near 5 GB; seams were
+checked slice by slice on s0913 and are continuous. Head tasks are run as a
+single chunk because they locate the head with a rough model first.
+
+**The "not one continuous skeleton" rule still holds.** The viewer badges
+each structure with its body and task. Once s1159's own muscles are in, it
+is one consistent body from vertex to hip and s0913 need not be shown.
+
 ## Resulting architecture
 
 ```
