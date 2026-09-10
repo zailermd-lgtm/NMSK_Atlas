@@ -667,18 +667,47 @@ needs a written licence from the University of Missouri authors (Steer /
 Holliday) before any use. Both hand sources are therefore a
 correspondence task for the owner, not a download.
 
+## 2026-09-10, end of day: s1159 is one body from vertex to hip, with muscles
+
+Final bundle (viewer v8, 271 structures, 640k triangles): `vhm_both` +
+the s1159 family (`ct_s1159` bones/vessels, `_head` skull+mandible,
+`_headm` masseter/temporalis/pterygoids/digastric, `_neck` SCM, scalenes,
+levator scapulae, sternothyroid, thyrohyoid, platysma, trapezius,
+`_neckbv` hyoid/ICA/IJV/zygomatic arch/styloid, `_orbit` six extraocular
+muscles + levator palpebrae + optic nerve, `_abd` pectoralis major, rectus
+abdominis, serratus anterior, latissimus dorsi, obliques, quadratus
+lumborum). s0913 is retired from the shipped bundle (its files and
+`ct_s0913_abd` stay for comparison; identical structure set, no head).
+
+Things learned the hard way today, all fixed and all verified on the data:
+the neck muscles were first cut at z=347 by MY crop, not the scan (they
+reach the manubrium at z=329); re-run with the crop extended to T4-20 in
+three chunks. Trapezius spans both the neck task and the trunk task, so the
+trunk part is unioned into the neck volume before conversion and the trunk
+mapping nulls it -- one mesh, occiput to ~T11. The craniofacial output is
+real (952k voxels; I misread a truncated log line as 95). Task label
+volumes and the per-subject mapping decisions are committed under
+`data/ct_sources/task_outputs/` and `subject_mappings/` (4.6 MB) so the
+conversion is reproducible without re-running the models.
+
+Not yet done with this material: (a) the anchor/landmark audit
+(`audit_landmarks_vs_geometry.py`) has not been run against s1159 -- its
+head, neck and trunk muscles are the first geometry many upper-body
+anchors could ever be checked against; (b) `thyrohyoid_left` carries a
+small stray fragment at z=295 (mislabel), untouched; (c) the pharyngeal
+constrictors and prevertebral/tongue/erector masses are deliberately
+unmapped (atlas finer than the mask); (d) laryngeal cartilages, eyeballs
+and teeth have no atlas entities -- candidates for authoring.
+
 ## Next action
 
-1. **Owner uploads `s0913/ct.nii.gz`** (from the Zenodo zip already on
-   their machine) → run the free TotalSegmentator tasks listed in the
-   2026-09-09 sweep table on it → extend `mappings/totalsegmentator_labels.json`
-   with the new task label maps → `merge` → `ingest_volume_geometry.py`
-   → audit → combined viewer bundle. Environment is already installed and
-   weights pre-fetched (`scratchpad/ts_env/setup.log`).
-2. Owner checks licenses on MorphoSource P419 (Kerkhof) and OSF avq7d
-   (Steer); downloads Grant (Zenodo 3464747, CC BY) and Havelková (Zenodo
-   3954024, CC BY); uploads whatever is CC BY / CC0. Each needs a small
-   STL/PLY ingest path (the VH STL ingest is the template) and, for the
-   foot, new tarsal bone entities in `data/skeleton/bones.json`.
-3. Pelvic floor and foot intrinsics remain literature-only until a source
-   appears; that search is now exhausted for open data.
+1. Run the landmark/anchor audit on the s1159 subjects (head, neck, trunk
+   muscles) and fix what it finds, corpus-wide as before.
+2. Owner correspondence for the hand: Kerkhof (MorphoSource P419, InC-EDU)
+   and Steer/Holliday (OSF avq7d, no licence). Nothing further can be done
+   here without a written licence.
+3. Consider a commercial TotalSegmentator licence (jakob.wasserthal@usb.ch)
+   for `appendicular_bones` and `thigh_shoulder_muscles`: with it, the same
+   s1159 CT yields deltoid, rotator cuff, triceps and thigh compartments,
+   and a CTA runoff case (e.g. s0367) yields forearm/hand/foot bones.
+4. Pelvic floor and foot intrinsics remain literature-only.

@@ -653,8 +653,9 @@ checked slice by slice on s0913 and are continuous. Head tasks are run as a
 single chunk because they locate the head with a rough model first.
 
 **The "not one continuous skeleton" rule still holds.** The viewer badges
-each structure with its body and task. Once s1159's own muscles are in, it
-is one consistent body from vertex to hip and s0913 need not be shown.
+each structure with its body and task. As of the end of 2026-09-10 s1159's own muscles are in: the shipped bundle is
+the VH lower limb plus s1159 alone, one consistent body from vertex to hip;
+s0913 is retired from the bundle and kept for comparison.
 
 ## Resulting architecture
 
