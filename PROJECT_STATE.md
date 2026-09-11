@@ -1110,12 +1110,14 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q18 (21:20) data/derived/audit_male_vs_female.json: per-bone landmark audit on both bodies; the bones that agree across bodies (hip, clavicle, scapula, ulna) point at landmarks that are right; the ones that disagree point at the landmark or at a truncated mesh.
 - [x] Q22 (21:30) report only: data/derived/landmarks_off_on_both_bodies.json lists the landmarks >12 mm off on BOTH bodies (the likelier culprit is the landmark); no coordinates changed -- a reviewer decides, using the audit's frames.
 - [x] Q28 (20:25 -> 22:50, through a container reset) Female LOWER LIMB bones shipped: female viewer Version 6, 167 structures (+12: tibia, fibula, patella, tarsals, metatarsals, phalanges per side; femur now united from both blocks). See the 22:50 section.
-- [ ] Q29 (added 22:05, after the container reset) Restore the MALE build so the male viewer can be republished
-      again: re-download the DU "Final 3D STL models" (Right + Left, ~133 MB, CC BY 4.0) and re-ingest `vhm_both`;
-      reconvert every `ct_vhm*` subject from the repository task outputs (all cryo-derived male volumes are in
-      `data/ct_sources/task_outputs`); the male body surface (`ct_vhm_skin`, from the cryosections) is NOT in the
-      repository -- re-stream the cryosection silhouette (`scripts/cryo/skin_from_cryo.py`, 1878 slices) or ship
-      the male without depth tags until then. Republish only if the bundle changes.
+- [-] Q29 BLOCKED (23:05) Restore the MALE build (re-ingest `vhm_both` after the container reset): the DU release
+      hosts are denied by this environment's network policy (`digitalcommons.du.edu` and `simtk.org` answer 403 at
+      the proxy CONNECT; zenodo.org is open) and no STL zip is in Dropbox `/claude`. Needs the owner: either allow
+      `digitalcommons.du.edu` in the environment's network policy, or drop the DU "Final 3D STL models" zips
+      (Right + Left, ~133 MB, CC BY 4.0) into Dropbox `/claude`; then `scripts/ingest_vh_geometry.py`, reconvert
+      every `ct_vhm*` subject from the repository task outputs (chain to write like `vhf_rebuild_bundle.sh`), and
+      re-stream the cryosection silhouette for `ct_vhm_skin` (not in the repository). The male artifact (Version 25)
+      stays live meanwhile; nothing about it can be changed until this is done.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
