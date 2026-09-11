@@ -1005,26 +1005,31 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   iliocostalis 260/211 cm3. Shipped `ct_vhm_es`. The hybrid
   transversospinalis mask (214/205 cm3) is shown under multifidus with a
   group note (rotatores and semispinalis thoracis included).
+- Hybrid CT v2 (muscle 80 / fat -120 / fascia 20 HU) is WORSE than v1 on
+  every trunk muscle (pec major 53+146 vs 152+268, latissimus 244+275 vs
+  412+373; rectus abdominis still 0.1+0.2 cm3). v1 stays; rectus, the
+  obliques and quadratus lumborum stay s1159's. The rectus is the
+  model's blind spot on this cadaver, not a contrast problem.
 ## Next action
 
-1. **Arms, remaining**: fix the right radial head (walk the radius before
-   the ulna on that side, or seed it at the elbow); separate the hand
-   bones at full photograph resolution (0.33 mm); individual arm/forearm
-   muscles need slice-by-slice review of the compartment intermediate.
-   Rectus abdominis and the obliques: try the hybrid CT with a wider HU
-   spread, or take them from the photographs by position.
-2. Audit follow-ups: radius/ulna/hand have no frame builder in
-   `audit_landmarks_vs_geometry.py` (add one; the VH arm bones are there
-   to measure against); cranium frame for the skull-attached anchors.
-3. Owner correspondence for the hand: Kerkhof (MorphoSource P419, InC-EDU)
-   and Steer/Holliday (OSF avq7d, no licence; the user has the archive in
-   Dropbox `/claude` -- still not ingestible without a written licence).
-4. Commercial TotalSegmentator licence (jakob.wasserthal@usb.ch) for
-   `thigh_shoulder_muscles` / `appendicular_bones`: on the VH male torso it
-   would add deltoid, rotator cuff, triceps, thigh compartments in one
-   consistent body.
-5. Tendons, ligaments and nerves remain data records with anchors; the
-   only ligament meshes are the DU lower-limb ones. No open 3-D source
-   exists; the cryosections are the only route (nerves and tendons are
-   visible in them but small).
-6. Pelvic floor and foot intrinsics remain literature-only.
+1. Rectus abdominis and the obliques from the photographs by position
+   (paired paramedian muscle anterior to the abdominal cavity between
+   costal margin and pubis; lateral wall layered by depth) -- the model
+   does not find them on this cadaver at any contrast.
+2. Review the rule-based muscles slice by slice against the photographs
+   (arm compartments, deltoid, cuff, erector columns): each has a
+   recorded volume and a render; tighten the rules where a reviewer
+   disagrees. Candidates for the same treatment: teres major, pectoralis
+   minor, the rhomboids, the forearm compartments (flexor side = the
+   side of the interosseous line facing the body midline in this
+   pronated position).
+3. Separate carpal bones at full photograph resolution (0.33 mm); fix
+   the residual right radial-head/ulna boundary.
+4. Add frame builders for radius/ulna/hand to
+   `audit_landmarks_vs_geometry.py` and audit the upper-limb anchors.
+5. Owner correspondence (Kerkhof, Steer) and the commercial
+   TotalSegmentator licence remain options for a second, independent
+   source of the upper limb.
+6. Tendons, ligaments and nerves: data records with anchors only; the
+   photographs show them but naming them is slice-by-slice work.
+7. Pelvic floor and foot intrinsics remain literature-only.
