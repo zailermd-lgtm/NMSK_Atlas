@@ -1,0 +1,232 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhf_abd",
+ "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhf_ts/abdominal_muscles.nii.gz",
+ "label_map": "totalsegmentator_abdominal_muscles",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "pectoralis_major_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "pectoralis_major_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "pectoralis_major_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "pectoralis_major_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "rectus_abdominis_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "rectus_abdominis_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 4,
+   "source_structure": "rectus_abdominis_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "rectus_abdominis_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 5,
+   "source_structure": "serratus_anterior_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "serratus_anterior_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 6,
+   "source_structure": "serratus_anterior_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "serratus_anterior_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 7,
+   "source_structure": "latissimus_dorsi_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "latissimus_dorsi_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 8,
+   "source_structure": "latissimus_dorsi_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "latissimus_dorsi_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 9,
+   "source_structure": "trapezius_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "trapezius_r",
+   "relationship": "exact",
+   "note": "This task segments within T4-L4 only, so the mask is the thoracic part of the muscle; the cervical part is absent, not missing.",
+   "candidates": []
+  },
+  {
+   "label": 10,
+   "source_structure": "trapezius_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "trapezius_l",
+   "relationship": "exact",
+   "note": "This task segments within T4-L4 only, so the mask is the thoracic part of the muscle; the cervical part is absent, not missing.",
+   "candidates": []
+  },
+  {
+   "label": 11,
+   "source_structure": "external_oblique_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "external_oblique_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 12,
+   "source_structure": "external_oblique_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "external_oblique_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 13,
+   "source_structure": "internal_oblique_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "internal_oblique_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 14,
+   "source_structure": "internal_oblique_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "internal_oblique_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 15,
+   "source_structure": "erector_spinae_right",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: iliocostalis, longissimus, spinalis.",
+   "candidates": []
+  },
+  {
+   "label": 16,
+   "source_structure": "erector_spinae_left",
+   "side": "left",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: iliocostalis, longissimus, spinalis.",
+   "candidates": []
+  },
+  {
+   "label": 17,
+   "source_structure": "transversospinalis_right",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: multifidus, rotatores, semispinalis.",
+   "candidates": []
+  },
+  {
+   "label": 18,
+   "source_structure": "transversospinalis_left",
+   "side": "left",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: multifidus, rotatores, semispinalis.",
+   "candidates": []
+  },
+  {
+   "label": 19,
+   "source_structure": "psoas_major_right",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "Psoas major alone; the atlas carries iliopsoas as one entity and the total task already maps its iliopsoas mask onto it for the same subject. Not mapped a second time.",
+   "candidates": []
+  },
+  {
+   "label": 20,
+   "source_structure": "psoas_major_left",
+   "side": "left",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "Psoas major alone; the atlas carries iliopsoas as one entity and the total task already maps its iliopsoas mask onto it for the same subject. Not mapped a second time.",
+   "candidates": []
+  },
+  {
+   "label": 21,
+   "source_structure": "quadratus_lumborum_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "quadratus_lumborum_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 22,
+   "source_structure": "quadratus_lumborum_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "quadratus_lumborum_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  }
+ ]
+}

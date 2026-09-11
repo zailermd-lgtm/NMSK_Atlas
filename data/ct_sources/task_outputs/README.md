@@ -37,3 +37,13 @@ serratus anterior and latissimus dorsi ship from it; rectus abdominis,
 the obliques and quadratus lumborum do not (see PROJECT_STATE
 2026-09-11). `vhm_headneck_muscles_merged`: the neck run with the hybrid
 run's T4-L4 trapezius unioned in.
+
+## Visible Human female fresh-cadaver CT (`vhf_*`, 2026-09-11)
+
+The same seven TotalSegmentator tasks on the NLM Visible Human female
+"Normal" CT (IDC series `b9cf8e7a-2505-4137-9ae3-f8d0cf756c13`, vertex to
+mid-thigh, stacked by `scripts/stack_dicom_series.py`; head tasks on the
+0.488 mm head-and-neck grid). Unfrozen tissue: every task, including
+`abdominal_muscles`, gives symmetric textbook-range volumes. Ingested as
+`ct_vhf_*` with her own femoral-head origin and shipped as a SECOND viewer
+bundle (`scripts/cryo/vhf_ingest.sh`).
