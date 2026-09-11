@@ -996,6 +996,15 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   the last two are over-inclusive (deep serratus slips, teres). Render:
   subscapularis between scapula and ribs, infraspinatus dorsal, supra-
   spinatus in the fossa. Shipped `ct_vhm_cuff`, badged as rule-based; viewer Version 18 (284 structures).
+- **Erector spinae columns** (`scripts/cryo/erector_columns_from_autochthon.py`,
+  key `mappings/vhm_erector_labels.json`): base mass = hybrid-CT erector
+  spinae label (transversospinalis removed) completed by the `total`
+  autochthon outside the T4-L4 window; split by distance from the
+  vertebral-body midline (spinalis <=20 mm down to L2, longissimus 20-50,
+  iliocostalis >50). Volumes r/l: spinalis 67/71, longissimus 473/514,
+  iliocostalis 260/211 cm3. Shipped `ct_vhm_es`. The hybrid
+  transversospinalis mask (214/205 cm3) is shown under multifidus with a
+  group note (rotatores and semispinalis thoracis included).
 ## Next action
 
 1. **Arms, remaining**: fix the right radial head (walk the radius before

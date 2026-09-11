@@ -1,0 +1,49 @@
+{
+ "_README": [
+  "Label id -> structure name for the erector spinae column volume derived from the Visible Human male frozen CT (TotalSegmentator `total` autochthon masks) by scripts/cryo/erector_columns_from_autochthon.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. The paraspinal mass is split by distance from the vertebral-body midline at each level: spinalis <= 20 mm (down to L2), longissimus 20-50 mm, iliocostalis > 50 mm -- the textbook columns as planes, not the fascial planes between them."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male frozen CT via IDC, segmented with TotalSegmentator v2.18.0 (autochthon labels). Rule: Standring S (ed.), Gray's Anatomy, 42nd ed., 'Back' (erector spinae columns).",
+ "task": "vhm_erector",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "spinalis_right",
+  "2": "longissimus_right",
+  "3": "iliocostalis_right",
+  "4": "spinalis_left",
+  "5": "longissimus_left",
+  "6": "iliocostalis_left"
+ },
+ "atlas": {
+  "spinalis_right": {
+   "atlas_id": "spinalis_r",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "longissimus_right": {
+   "atlas_id": "longissimus_r",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "iliocostalis_right": {
+   "atlas_id": "iliocostalis_r",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "spinalis_left": {
+   "atlas_id": "spinalis_l",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "longissimus_left": {
+   "atlas_id": "longissimus_l",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  },
+  "iliocostalis_left": {
+   "atlas_id": "iliocostalis_l",
+   "relationship": "exact",
+   "note": "Column by distance from the midline; boundary rule-based."
+  }
+ }
+}
