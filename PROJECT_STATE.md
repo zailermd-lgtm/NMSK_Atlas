@@ -1101,8 +1101,8 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q11 (19:55) male-rule vs female-model volume table: data/derived/male_rules_vs_female_model.json (male external oblique L 322 vs female 160, latissimus 412/373 vs 316/273, serratus 186 vs 122: the rule-based/hybrid male values run 1.3-2x high on those; rectus and transversospinalis agree).
 - [-] Q12 BLOCKED (20:20): her arms are clipped by the 480 mm FOV like the male's; the CT watershed gives a partial right radius (24 cm3, 191 mm) and ulna (12 cm3) and finds no second forearm fragment on the left (crash). Completing them needs her cryosections (a 40 GB series; ~4.5 GB at 1 mm, more than the 4.4 GB free), so not now.
 - [x] Q13 (20:05) female audit: hip bones 2.0/3.9 mm median, clavicles 5.5/3.9, femur 33 mm along the axis (femur ends at mid-thigh, distal landmarks off-scan), humerus 74 mm (her arms are clipped by the 480 mm FOV like the male's). Cranium frame still to do.
-- [ ] Q15 Cranium frame in the audit (skull-attached anchors: mastoid, zygomatic arch) using the ct_vhm_head cranium mesh; audit ct_vhm_head/headm anchors.
-- [ ] Q16 Viewer README: what each badge means, the two bodies, the rule-based table; link from docs/GEOMETRY_SOURCES.md.
+- [-] Q15 DEFERRED (20:35): the skull landmarks in bones.json (temporal, zygomatic, occipital) carry no numeric coordinates, so a cranium frame would audit nothing; the real task is to MEASURE them on the ct_vhm_head cranium mesh in a defined skull frame (origin: basion or sella -- neither is found automatically yet). Needs a reviewer's choice of frame.
+- [x] Q16 (20:35) docs/VIEWER_README.md written (badges, two bodies, trust levels, depth tables), linked from GEOMETRY_SOURCES. Was: what each badge means, the two bodies, the rule-based table; link from docs/GEOMETRY_SOURCES.md.
 - [ ] Q17 Skin-depth table for the female (same script on build/viewer_f) once she has a skin surface (her CT body silhouette HU>-300 can stand in: add a `ct_vhf_skin` from the CT body mask).
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what

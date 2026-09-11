@@ -860,6 +860,8 @@ injection-planning question directly ("how deep is the shallowest point
 of the subscapularis on this body?"). Regenerate it after any bundle
 change; it is derived data, not a measurement on a patient.
 
+See `docs/VIEWER_README.md` for what the viewer badges mean and where the two bodies are published.
+
 ## Resulting architecture
 
 ```
