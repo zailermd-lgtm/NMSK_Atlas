@@ -874,6 +874,16 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   that reason and is not used.
 - Task outputs copied to `data/ct_sources/task_outputs/vhm_*`; per-subject
   mappings to `mappings/subjects/ct_vhm*_volume_mapping.json`.
+- **Cross-check of the placement against the DU release (same body)**:
+  in the band both hold (atlas y >= 85 mm) hip_bone_r top 148.9 (DU) vs
+  149.0 (CT) mm, hip_bone_l 149.0 vs 150.9, sacrum 129.9 vs 129.9; band
+  centroid differences (-1.4, 0.5, 1.7) and (0.5, 0.5, 4.0) mm for the hip
+  bones. Two independent routes to the same pelvis agree to a few mm, so
+  the torso block sits on the DU lower limb as one specimen.
+- Landmark audit on ct_vhm (50 landmarks): median 5.5 mm; clavicle 5.7/
+  4.9, scapula 4.2/3.3, sternum 6.6 mm; humerus epicondyles 94-137 mm
+  along the axis because the CT humerus ends above the elbow (FOV) -- an
+  artefact of truncation, not of the landmarks.
 - Still true, will be reported plainly: upper-limb muscles, tendons,
   ligaments and nerves have no open 3-D source; the atlas carries them as
   data records with anchors only (VH DU ligaments of the lower limb are the
