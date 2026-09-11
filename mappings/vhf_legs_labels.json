@@ -1,11 +1,12 @@
 {
  "_README": [
-  "Label id -> structure name for the lower-limb bone volume of the Visible Human female (IDC series af18f5e4, femur-to-toes fresh CT, 0.72 mm) by scripts/cryo/vhf_legs_bones.py, plus the mapping onto atlas entities.",
-  "A KEY, not data. Femurs come from the TotalSegmentator `total` task on the same block and are shipped from ct_vhf (torso block, proximal part) and here (whole); tibia and fibula are the two long HU>=200 components below the femur (the thinner is the fibula); the patella is the largest component anterior to the distal femur; the foot bones are grouped by planes along the foot axis from the heel (tarsals <115 mm, metatarsals 115-190, phalanges beyond). Registered to the torso block by the femoral-head sphere fits present in both scans."
+  "Label id -> structure name for the lower-limb bone volume of the Visible Human female (IDC series af18f5e4, femur-to-toes CT, 0.72 mm) by scripts/vhf_lower_limb_bones.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. Bone = HU >= 200 split at the joints by a distance-transform watershed (medullary canals tube-filled, 3.5 mm bone-core markers, fragments re-united where their common boundary is thick bone). Tibia = the largest component > 250 mm tall below the femur; fibula = the pieces lateral to the tibia within its height; patella = the largest component anterior to the distal femur; foot bones grouped by planes along the foot axis from the heel (tarsals < 115 mm, metatarsals 115-190, phalanges beyond). Femur = the legs-block femur (mid-thigh to condyles) united with the TotalSegmentator femur of her torso block (head to mid-thigh) after registration.",
+  "Registration legs -> torso block: the legs block starts at mid-thigh (no femoral head in it), so the shift comes from continuity across the junction (inter-femur distance, body and fat areas): x +6.0, y -3.6, z -943.5 mm, +-4 mm in z."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female, via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 femur labels.",
  "task": "vhf_legs",
- "version": "2026-09-11",
+ "version": "2026-09-11b",
  "labels": {
   "1": "tibia_right",
   "2": "fibula_right",
@@ -18,7 +19,9 @@
   "9": "patella_left",
   "10": "tarsals_left",
   "11": "metatarsals_left",
-  "12": "phalanges_left"
+  "12": "phalanges_left",
+  "13": "femur_right",
+  "14": "femur_left"
  },
  "atlas": {
   "tibia_right": {
@@ -80,6 +83,16 @@
    "atlas_id": "phalanges_foot_l",
    "relationship": "part_of",
    "note": "Component / plane rule as described in the README."
+  },
+  "femur_right": {
+   "atlas_id": "femur_r",
+   "relationship": "exact",
+   "note": "Two CT blocks of the same body united at mid-thigh (torso block: TotalSegmentator femur; legs block: HU>=200 component); 3-slice junction gap closed along z."
+  },
+  "femur_left": {
+   "atlas_id": "femur_l",
+   "relationship": "exact",
+   "note": "Two CT blocks of the same body united at mid-thigh (torso block: TotalSegmentator femur; legs block: HU>=200 component); 3-slice junction gap closed along z."
   }
  }
 }

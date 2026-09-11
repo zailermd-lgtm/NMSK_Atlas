@@ -1127,6 +1127,27 @@ tick the item here with a one-line result. Never fabricate; keep the
   `'7.769,-885.229,14.137'`. Ingestion running (`vhf_ingest.sh`), second
   bundle `build/viewer_f`. Trapezius: neck-task label only (the T4-L4 part
   from the trunk task is not unioned yet).
+## 2026-09-11, 21:20: container reset -- scratchpad, build/ and the Python packages wiped
+
+The container was rebuilt mid-run (the bone-splitting job was killed with exit 137 first). Everything outside git
+is gone: every stacked CT, every cryosection array, every TotalSegmentator output in the scratchpad, the whole
+`build/` tree (converted geometry of every subject, both viewer bundles) and the installed packages. The repo was
+back at the initial commit and had to be reset to `origin/claude/3d-human-anatomy-atlas-e0kbxe`. Both published
+artifacts (male Version 25, female Version 5) are unaffected -- they live on claude.ai. What can be rebuilt from
+the repository alone: every `ct_vhm*`/`ct_vhf*` subject whose label volume is in `data/ct_sources/task_outputs`
+(the free-task outputs, the cryo-derived male volumes, and now the female lower-limb bones). What cannot,
+without re-downloading: the VH male STL geometry (`vhm_both`, DU release, ~133 MB Final STL) and every
+cryosection-derived intermediate (1.5 GB of photographs streamed from IDC), the hybrid CT, and the body-surface
+volumes (re-derived from the restacked CT in minutes). Lessons: keep every SHIPPED label volume in the
+repository (they are small uint8 NIfTIs); write scripts into `scripts/` first and run them from there, never
+only in the scratchpad; the pkill pattern rule also applies to heredoc text inside the same tool command
+(a python heredoc containing the script name killed the shell again, exit 144).
+
+Rebuild done in this window: pip deps, IDC series af18f5e4 (legs) and b9cf8e7a (torso) re-downloaded and
+restacked (`scripts/inspect_dicom_series.py` + `scripts/stack_dicom_series.py`, same grids as before), female
+body surface re-derived, `scripts/cryo/vhf_rebuild_bundle.sh` written to reconvert every female subject from the
+repository copies and export the female bundle.
+
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position
