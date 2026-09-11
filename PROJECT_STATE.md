@@ -938,6 +938,17 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   left radius to the radial head; RIGHT radial head/neck partly labelled
   ulna (known defect). Elbow surfaces +-10 mm. Volume:
   `data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz`.
+- Arm muscle compartments from the photographs
+  (`scripts/cryo/arm_compartments_from_cryo.py`, key
+  `mappings/vhm_arm_compartments_labels.json`, volume
+  `data/ct_sources/task_outputs/vhm_arm_compartments_cryo.nii.gz`): the
+  arm's muscle mass split anterior/posterior through the humerus centre;
+  anterior 721/776 cm3, posterior 713/789 cm3 (right/left). NOT shipped:
+  the muscle schema needs fibre parameters a compartment does not have
+  (no fabrication), and the forearm split does not follow the septa in
+  this pronated arm. Kept as a reviewable intermediate.
+- Viewer Version 14: arms complete to the elbow (humeri, ulnae; left
+  radius to the head; right radial head defect noted).
 ## Next action
 
 1. **Full arms**: the VH male cryosections on IDC (series 4aaf9181, 1878
