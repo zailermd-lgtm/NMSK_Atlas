@@ -756,25 +756,36 @@ things came out of them:
    `mappings/vhm_arm_muscles_labels.json`); the biceps/brachialis boundary
    is a rule, not a traced fascia, and the viewer badge says so.
 
+4. **Rule-based muscles** (same day, later): deltoid (superficial to the
+   proximal humerus), the rotator cuff (by which scapular surface is
+   nearest), the erector spinae columns (by distance from the midline).
+   Every one of these is a textbook rule applied to the muscle mass the
+   photographs or the hybrid CT delineate; the viewer badge and the label
+   map say so, and the volumes are recorded in PROJECT_STATE so a reviewer
+   can judge them.
+
 Not from the photographs, deliberately: individual forearm muscles (the
 arm lies pronated on the thigh and an image-frame split does not follow
-the forearm septa), separated carpal bones, tendons, ligaments, nerves.
-Each of those needs slice-by-slice review, not thresholds.
+the forearm septa), separated carpal bones, teres major, pectoralis minor,
+the rhomboids, tendons, ligaments, nerves. Each of those needs
+slice-by-slice review, not thresholds.
 
 What the frozen scan is and is not good for, measured (2026-09-11):
 `total` bones are all there and in place; `headneck_muscles`, the head
 muscles and craniofacial bones are plausible for a large male; the
 `abdominal_muscles` task fails on it (superficial trunk muscles come out
 as fragments, erector spinae leaks into fat), and there is no vascular
-contrast. So the shipped bundle (viewer Version 18, 284 structures) is:
+contrast. So the shipped bundle (viewer Version 19, 292 structures) is:
 the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
 fingertips (arms complete; hands as carpal/metacarpal/phalangeal groups),
 the arm muscles by compartment rules (biceps, brachialis,
 coracobrachialis, triceps), the deltoid by superficial-proximity rules, the rotator cuff
 (supraspinatus, infraspinatus with teres minor, subscapularis) by
-scapular-surface rules, the head/neck/orbit muscles, pectoralis
+scapular-surface rules, the erector spinae columns (spinalis,
+longissimus, iliocostalis) by distance from the midline, the
+transversospinalis mass under multifidus, the head/neck/orbit muscles, pectoralis
 major, serratus anterior, latissimus dorsi, trapezius, the gluteals and
-iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_delt`, `ct_vhm_cuff`, `ct_vhm_head`,
+iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_delt`, `ct_vhm_cuff`, `ct_vhm_es`, `ct_vhm_head`,
 `ct_vhm_headm`, `ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`,
 `ct_vhm_abd`); and, badged
 as a second specimen, s1159's abdominal-wall muscles (`ct_s1159_abd`:
