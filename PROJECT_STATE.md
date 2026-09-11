@@ -1103,7 +1103,7 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q13 (20:05) female audit: hip bones 2.0/3.9 mm median, clavicles 5.5/3.9, femur 33 mm along the axis (femur ends at mid-thigh, distal landmarks off-scan), humerus 74 mm (her arms are clipped by the 480 mm FOV like the male's). Cranium frame still to do.
 - [-] Q15 DEFERRED (20:35): the skull landmarks in bones.json (temporal, zygomatic, occipital) carry no numeric coordinates, so a cranium frame would audit nothing; the real task is to MEASURE them on the ct_vhm_head cranium mesh in a defined skull frame (origin: basion or sella -- neither is found automatically yet). Needs a reviewer's choice of frame.
 - [x] Q16 (20:35) docs/VIEWER_README.md written (badges, two bodies, trust levels, depth tables), linked from GEOMETRY_SOURCES. Was: what each badge means, the two bodies, the rule-based table; link from docs/GEOMETRY_SOURCES.md.
-- [ ] Q17 Skin-depth table for the female (same script on build/viewer_f) once she has a skin surface (her CT body silhouette HU>-300 can stand in: add a `ct_vhf_skin` from the CT body mask).
+- [x] Q17 (20:50) female body surface from her CT silhouette (`ct_vhf_skin`, 75 M voxels), female viewer Version 4 (155 structures, 8.1 MB), depth table data/derived/skin_depth_vhf.json (154 rows). Was: (same script on build/viewer_f) once she has a skin surface (her CT body silhouette HU>-300 can stand in: add a `ct_vhf_skin` from the CT body mask).
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
