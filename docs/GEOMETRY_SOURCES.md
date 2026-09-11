@@ -709,11 +709,30 @@ per-task verdicts).
 Why this matters more than another Zenodo case: it is the SAME body as
 the lower limb, so the hip is one specimen from both sides of the
 pelvis-thigh boundary, and the arms are in the scan -- which no case in
-the TotalSegmentator release above the hip had. Forearm and hand BONES can
-be taken from it by HU threshold and connected components (frozen cartilage
-separates the bones at 1 mm), reviewed one component at a time; upper-limb
-MUSCLES still cannot, without the licensed `thigh_shoulder_muscles` task or
-a manual segmentation of the cryosections.
+the TotalSegmentator release above the hip had. Forearm and hand BONES are
+taken from it by `scripts/segment_arm_bones_vhm.py` (HU threshold,
+marker-controlled watershed on the smoothed CT; key
+`mappings/vhm_arm_labels.json`), but the 480 mm reconstruction field of
+view clips both arms around the elbow, so the humerus lacks its distal
+end and the radius/ulna their proximal ends (about 85% / 65% of their
+length is in the scan); the hand ships as one composite mesh per side
+(`hand_r`/`hand_l`). Upper-limb MUSCLES still cannot come from it, without
+the licensed `thigh_shoulder_muscles` task or a segmentation of the
+cryosections (which do hold the whole arms, at 0.33 mm, in colour).
+
+What the frozen scan is and is not good for, measured (2026-09-11):
+`total` bones are all there and in place; `headneck_muscles`, the head
+muscles and craniofacial bones are plausible for a large male; the
+`abdominal_muscles` task fails on it (superficial trunk muscles come out
+as fragments, erector spinae leaks into fat), and there is no vascular
+contrast. So the shipped bundle (viewer Version 13, 264 structures) is:
+the DU lower limb; the VH male CT for every bone from the skull to the
+pelvis, the arms, the head/neck/orbit muscles, the gluteals and iliopsoas
+(subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_head`, `ct_vhm_headm`,
+`ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`); and, badged as a second
+specimen, s1159's trunk muscles (`ct_s1159_abd`) and vessels (`ct_s1159`,
+its bones dropped on collision). The VH pelvis was cross-checked against
+the DU release of the same body: iliac crest tops agree within 0.1 mm.
 
 ## Resulting architecture
 

@@ -891,15 +891,24 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
 
 ## Next action
 
-1. Audit follow-ups: a case with elbows in the field of view for the
-   humerus; the per-muscle anchor checks for the new head/neck muscles
-   (the audit only reports anchors whose bone has a measured frame, so
-   the skull-attached ones are not yet covered -- add a cranium frame).
-2. Owner correspondence for the hand: Kerkhof (MorphoSource P419, InC-EDU)
-   and Steer/Holliday (OSF avq7d, no licence). Nothing further can be done
-   here without a written licence.
-3. Consider a commercial TotalSegmentator licence (jakob.wasserthal@usb.ch)
-   for `appendicular_bones` and `thigh_shoulder_muscles`: with it, the same
-   s1159 CT yields deltoid, rotator cuff, triceps and thigh compartments,
-   and a CTA runoff case (e.g. s0367) yields forearm/hand/foot bones.
-4. Pelvic floor and foot intrinsics remain literature-only.
+1. **Full arms**: the VH male cryosections on IDC (series 4aaf9181, 1878
+   slices, 0.33 mm, colour, 14 GB; public domain) hold the whole arms and
+   hands that the CT field of view clips. Route: download, stack, classify
+   bone by colour, then the same marker watershed; that also gives the
+   proximal radius/ulna, distal humerus and, with care, the upper-limb
+   muscles by colour -- the only open path to upper-limb muscle geometry.
+2. Audit follow-ups: radius/ulna/hand have no frame builder in
+   `audit_landmarks_vs_geometry.py` (add one; the VH arm bones are there
+   to measure against); cranium frame for the skull-attached anchors.
+3. Owner correspondence for the hand: Kerkhof (MorphoSource P419, InC-EDU)
+   and Steer/Holliday (OSF avq7d, no licence; the user has the archive in
+   Dropbox `/claude` -- still not ingestible without a written licence).
+4. Commercial TotalSegmentator licence (jakob.wasserthal@usb.ch) for
+   `thigh_shoulder_muscles` / `appendicular_bones`: on the VH male torso it
+   would add deltoid, rotator cuff, triceps, thigh compartments in one
+   consistent body.
+5. Tendons, ligaments and nerves remain data records with anchors; the
+   only ligament meshes are the DU lower-limb ones. No open 3-D source
+   exists; the cryosections are the only route (nerves and tendons are
+   visible in them but small).
+6. Pelvic floor and foot intrinsics remain literature-only.
