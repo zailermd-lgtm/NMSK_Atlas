@@ -1103,6 +1103,17 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q8 (16:10) rule-based table with VH volumes vs textbook ranges added to GEOMETRY_SOURCES. Was: GEOMETRY_SOURCES "what is rule-based" table
       with volumes vs textbook ranges; README for the viewer badges.
 
+- **VH female (Q9) results, 19:25**: `total` full (femoral heads r 24.4
+  mm, rms 0.65/0.69; aorta 185 cm3 along its course); `abdominal_muscles`
+  WORKS on the unfrozen cadaver: rectus 99/94, external oblique 146/160,
+  internal 69/73, transversus n/a (not in the task), QL 43/42, pec major
+  199/210, serratus 122/126, latissimus 316/273, erector 440/422,
+  transversospinalis 185/173 cm3 -- symmetric and in textbook range, which
+  settles that the male's failures were frozen-tissue contrast, not the
+  model. Neck: SCM 46/39, trapezius 136/142, levator 29/34. Origin
+  `'7.769,-885.229,14.137'`. Ingestion running (`vhf_ingest.sh`), second
+  bundle `build/viewer_f`. Trapezius: neck-task label only (the T4-L4 part
+  from the trunk task is not unioned yet).
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position
