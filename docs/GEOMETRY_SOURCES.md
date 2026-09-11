@@ -799,6 +799,38 @@ as a second specimen, s1159's quadratus lumborum (`ct_s1159_abd`) and
 vessels (`ct_s1159`, its bones dropped on collision). The VH pelvis was cross-checked against
 the DU release of the same body: iliac crest tops agree within 0.1 mm.
 
+### Rule-based structures: what the rule is, and how the volume compares (2026-09-11)
+
+Textbook ranges are adult male values from Holzbaur et al. 2005 (upper limb
+model volumes), Standring 2021 and the cadaveric literature they cite,
+scaled up for a 90-kg subject; they are orientation, not tests. Volumes are
+right / left in cm3 as measured on the Visible Human male.
+
+| structure | rule | VH volume | textbook (large male) | verdict |
+|---|---|---|---|---|
+| biceps brachii | anterior compartment minus brachialis/coracobrachialis; boundary from full-res fascial lines | 526 / 513 | 300-400 | over (takes part of brachialis) |
+| brachialis | anterior, within 22 mm of the humerus, distal 65 % | 152 / 214 | 200-280 | under on the right |
+| coracobrachialis | anterior, proximal 35 %, medial, within 15 mm of the humerus | 44 / 50 | 40-70 | plausible |
+| triceps brachii | whole posterior compartment | 713 / 789 | 550-750 | plausible / slightly over |
+| deltoid | superficial to the proximal humerus, lateral to the scapula (+ spine third) | 282 / 215 | 350-500 | under (deep part missed) |
+| supraspinatus | dorsal scapula above the spine level, medial to the glenoid | 68 / 69 | 45-80 | plausible |
+| infraspinatus (+teres minor) | dorsal scapula below the spine level | 353 / 340 | 200-300 (+40) | over (teres major slips) |
+| subscapularis | ventral scapula, <=18 mm, not nearer the ribs | 321 / 321 | 200-300 | over |
+| pectoralis minor | sheet <=10 mm deep to pec major, >=8 mm from ribs | 77 / 51 | 30-60 | over |
+| rhomboids (major+minor) | scapula medial border to midline, deep to trapezius, C7-T6 | 124 / 135 | 100-160 | plausible |
+| rectus abdominis | <=70 mm of midline, <=45 mm behind the anterior skin, xiphoid to iliac crest | 181 / 189 | 120-200 (whole) | plausible for the part present |
+| external oblique | lateral wall, outer 40 % of depth | 176 / 322 | 150-250 | left over |
+| internal oblique | middle 35 % | 44 / 116 | 100-180 | right under |
+| transversus abdominis | inner 25 % | 82 / 227 | 80-150 | left over |
+| spinalis / longissimus / iliocostalis | erector mass by distance from midline (20 / 50 mm) | 67 / 71, 473 / 514, 260 / 211 | 40-80, 350-550, 200-320 | plausible |
+| multifidus (transversospinalis group) | hybrid-CT label | 214 / 205 | 150-250 (group) | plausible |
+| hand groups | planes along the hand axis (45 / 115 mm) | carpals 24 / 33, metacarpals 11 / 24, phalanges 14 / 16 | 15-20, 20-30, 12-18 | carpals over (metacarpal bases) |
+
+Everything in this table is badged in the viewer; a slice-by-slice review
+against the photographs (all renders are in the session scratchpad and
+reproducible from `scripts/cryo/`) is the way to turn "plausible" into
+"verified".
+
 ## Resulting architecture
 
 ```

@@ -1081,7 +1081,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       layer to be contiguous), deltoid posterior part over the spine.
       Re-render, re-record volumes, republish.
 - [x] Q3 (16:05) radius/ulna frames added to the audit (proximal 2 % = radial head / trochlear notch, long axis distal). ct_vhm_arm: humerus median 6.2/9.5 mm (was 94-137 before the distal end existed), ulna 9.0/6.6 mm, radius_r 19.4 mm, radius_l 57.5 mm along the axis -- the LEFT radius mesh's proximal end is off by ~55 mm along the bone (the cryo walk's radial head on that side needs review). Hand and cranium frames still to do; no anchor edits made (reviewer's call).
-- [ ] Q4 Forearm: flexor / extensor compartments by the interosseous line
+- [-] Q4 SKIPPED: a forearm flexor/extensor split has no atlas entity to map to (individual forearm muscles only), so it would stay an intermediate; not worth the compute now. Was: flexor / extensor compartments by the interosseous line
       (flexor side faces the body midline in this pronated arm); if the
       split holds on renders, ship as biceps-style rule muscles only where
       an entity exists (brachioradialis, flexor mass -> not mappable: keep
@@ -1097,7 +1097,7 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
-- [ ] Q8 Documentation pass: GEOMETRY_SOURCES "what is rule-based" table
+- [x] Q8 (16:10) rule-based table with VH volumes vs textbook ranges added to GEOMETRY_SOURCES. Was: GEOMETRY_SOURCES "what is rule-based" table
       with volumes vs textbook ranges; README for the viewer badges.
 
 ## Next action
