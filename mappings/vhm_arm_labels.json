@@ -1,11 +1,11 @@
 {
  "_README": [
-  "Label id -> structure name for the upper-limb bone label volume produced from the Visible Human male frozen CT by scripts/segment_arm_bones_vhm.py (HU threshold, marker-controlled watershed on the smoothed CT; markers from the TotalSegmentator `total` humerus label and the densest forearm cortex), plus the reviewed mapping onto atlas entities.",
-  "A KEY, not data: it contains no anatomy and no geometry. The reconstruction field of view (480 mm) clips both arms around the elbow, so every bone here is PARTIAL: the humerus lacks its distal end, the radius and ulna lack their proximal ends (about 85% and 65% of their length is in the scan, along the bone axis), and the hand is complete but unseparated."
+  "Label id -> structure name for the upper-limb bone label volume of the Visible Human male: CT part from scripts/segment_arm_bones_vhm.py (HU threshold, marker watershed), extended through the colour cryosections by scripts/cryo/complete_arm_bones_from_cryo.py where the CT field of view clips the arms (elbow region), plus the reviewed mapping onto atlas entities.",
+  "A KEY, not data. Version 2 (2026-09-11): the humerus now runs to the elbow, the ulna to the olecranon, the radius to the radial head on the left; on the right the proximal radius (radial head/neck) is partly labelled as ulna. The elbow joint surfaces are placed by a luminance watershed between the bones' own regions plus an anatomical joint line estimated from the humeral head (about +-10 mm); treat the elbow as approximate. The hand is complete but unseparated (composite hand_r / hand_l)."
  ],
- "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), series 5d409385-d3e7-48a9-ae50-150b39e834da via the NCI Imaging Data Commons mirror (Fedorov A et al., Radiographics 2023, doi:10.1148/rg.230180). Segmentation produced in this repository; radius/ulna identity by distal width (radius wider) confirmed by distal reach (radial styloid lower), both sides.",
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), series 5d409385-d3e7-48a9-ae50-150b39e834da via the NCI Imaging Data Commons mirror (Fedorov A et al., Radiographics 2023, doi:10.1148/rg.230180). Segmentation produced in this repository; radius/ulna identity by distal width (radius wider) confirmed by distal reach (radial styloid lower), both sides. Cryosection part: NLM Visible Human Project male colour cryosections (public domain), IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md).",
  "task": "vhm_arm",
- "version": "2026-09-10",
+ "version": "2026-09-11 v2 (CT + cryosections)",
  "labels": {
   "1": "humerus_right",
   "2": "radius_right",
@@ -20,17 +20,17 @@
   "humerus_right": {
    "atlas_id": "humerus_r",
    "relationship": "exact",
-   "note": "TotalSegmentator humerus label extended distally by watershed; distal end truncated by the field of view."
+   "note": "TotalSegmentator humerus label, extended through the photographs to the elbow joint line; distal joint surface approximate (+-10 mm)."
   },
   "radius_right": {
    "atlas_id": "radius_r",
    "relationship": "exact",
-   "note": "Proximal end truncated by the field of view (no radial head/neck)."
+   "note": "CT part from the wrist; proximal end from the photographs. Right: radial head/neck partly taken by the ulna label -- known defect."
   },
   "ulna_right": {
    "atlas_id": "ulna_r",
    "relationship": "exact",
-   "note": "Proximal end truncated by the field of view (no olecranon/coronoid)."
+   "note": "CT part from the wrist; proximal end (coronoid, olecranon) from the photographs; trochlear notch approximate."
   },
   "hand_right": {
    "atlas_id": "hand_r",
@@ -40,17 +40,17 @@
   "humerus_left": {
    "atlas_id": "humerus_l",
    "relationship": "exact",
-   "note": "TotalSegmentator humerus label extended distally by watershed; distal end truncated by the field of view."
+   "note": "TotalSegmentator humerus label, extended through the photographs to the elbow joint line; distal joint surface approximate (+-10 mm)."
   },
   "radius_left": {
    "atlas_id": "radius_l",
    "relationship": "exact",
-   "note": "Proximal end truncated by the field of view (no radial head/neck)."
+   "note": "CT part from the wrist; proximal end from the photographs. Left: reaches the radial head."
   },
   "ulna_left": {
    "atlas_id": "ulna_l",
    "relationship": "exact",
-   "note": "Proximal end truncated by the field of view (no olecranon/coronoid)."
+   "note": "CT part from the wrist; proximal end (coronoid, olecranon) from the photographs; trochlear notch approximate."
   },
   "hand_left": {
    "atlas_id": "hand_l",

@@ -926,6 +926,18 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   the FOV edge, so the walk starts from the last solid cross-section;
   the marrow photographs red-brown, so the cortical ring is closed and
   filled before the area check. Running.
+- **Arm bones completed through the photographs** (v2,
+  `scripts/cryo/complete_arm_bones_from_cryo.py`): local per-slice
+  registration of the arm (the global fit is ~6 px off at the forearm),
+  walks from the last solid CT slice (marrow photographs red-brown, so
+  the cortical ring is closed and filled), all three bones walked without
+  stopping at each other, then the contested elbow voxels split by a
+  watershed on photograph luminance (the joint line is darker), then the
+  humerus cut at the joint line estimated from its head (head top - 340
+  mm). Result: humeri to the elbow (both), ulnae to the olecranon (both),
+  left radius to the radial head; RIGHT radial head/neck partly labelled
+  ulna (known defect). Elbow surfaces +-10 mm. Volume:
+  `data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz`.
 ## Next action
 
 1. **Full arms**: the VH male cryosections on IDC (series 4aaf9181, 1878
