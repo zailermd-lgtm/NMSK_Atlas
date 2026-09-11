@@ -29,3 +29,11 @@ upper-limb bone volume from `scripts/segment_arm_bones_vhm.py` (key
 record and NOT shipped: on the frozen cadaver that model finds fragments
 (see PROJECT_STATE, 2026-09-10 night). The raw DICOMs are not stored:
 `scripts/download_idc_series.py <uuid>` fetches them.
+
+`vhm_hybrid_abdominal_muscles`: the same task on the HYBRID CT
+(`scripts/cryo/hybrid_ct_from_cryo.py`: frozen CT with muscle/fat HU
+restored from the registered cryosection photographs). Pectoralis major,
+serratus anterior and latissimus dorsi ship from it; rectus abdominis,
+the obliques and quadratus lumborum do not (see PROJECT_STATE
+2026-09-11). `vhm_headneck_muscles_merged`: the neck run with the hybrid
+run's T4-L4 trapezius unioned in.

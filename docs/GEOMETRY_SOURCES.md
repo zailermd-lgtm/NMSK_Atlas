@@ -720,18 +720,52 @@ length is in the scan); the hand ships as one composite mesh per side
 the licensed `thigh_shoulder_muscles` task or a segmentation of the
 cryosections (which do hold the whole arms, at 0.33 mm, in colour).
 
+### The cryosections (2026-09-11): registration, the hybrid CT, and what they gave
+
+The same cadaver's colour cryosections (IDC series 4aaf9181, 1878 slices,
+0.33 mm, public domain) are streamed into a 1 mm volume and registered to
+the CT (`scripts/cryo/README.md`: rows flipped, in-plane by silhouette,
+z by mutual information, cryo index = -16 - z_RAS +-4 mm, verified by
+overlaying the `total` outlines on the photographs at five levels). Two
+things came out of them:
+
+1. **The arms to the elbow.** `scripts/cryo/complete_arm_bones_from_cryo.py`
+   walks each CT-clipped bone through the photographs (local per-slice
+   registration of the arm; the cortical ring closed and filled because
+   marrow photographs red-brown; the elbow split by a luminance watershed
+   between the bones plus a joint line estimated from the humeral head).
+   Humeri to the elbow, ulnae to the olecranon, left radius to its head;
+   the right radial head is partly labelled ulna. Elbow surfaces +-10 mm.
+2. **The hybrid CT** (`scripts/cryo/hybrid_ct_from_cryo.py`): the frozen
+   CT with muscle/fat HU replaced from the photograph classes. On it the
+   `abdominal_muscles` task finds pectoralis major, serratus anterior,
+   latissimus dorsi and the trunk part of trapezius on the right muscles
+   (overlay checked); rectus abdominis and the obliques still fail. The
+   bundle takes those four from the Visible Human (`ct_vhm_abd`, trapezius
+   unioned into `ct_vhm_neck`) and only rectus, obliques and quadratus
+   lumborum from s1159.
+
+Not from the photographs, deliberately: individual arm/forearm muscles
+(the intermuscular septa are visible, the finer fascial planes are not
+reliable -- an anterior/posterior compartment split is kept as an
+intermediate, `mappings/vhm_arm_compartments_labels.json`), separated
+hand bones, tendons, ligaments, nerves. Each of those needs slice-by-slice
+review, not thresholds.
+
 What the frozen scan is and is not good for, measured (2026-09-11):
 `total` bones are all there and in place; `headneck_muscles`, the head
 muscles and craniofacial bones are plausible for a large male; the
 `abdominal_muscles` task fails on it (superficial trunk muscles come out
 as fragments, erector spinae leaks into fat), and there is no vascular
-contrast. So the shipped bundle (viewer Version 13, 264 structures) is:
-the DU lower limb; the VH male CT for every bone from the skull to the
-pelvis, the arms, the head/neck/orbit muscles, the gluteals and iliopsoas
-(subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_head`, `ct_vhm_headm`,
-`ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`); and, badged as a second
-specimen, s1159's trunk muscles (`ct_s1159_abd`) and vessels (`ct_s1159`,
-its bones dropped on collision). The VH pelvis was cross-checked against
+contrast. So the shipped bundle (viewer Version 15, 264 structures) is:
+the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
+pelvis, the arms to the elbow, the head/neck/orbit muscles, pectoralis
+major, serratus anterior, latissimus dorsi, trapezius, the gluteals and
+iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_head`, `ct_vhm_headm`,
+`ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`, `ct_vhm_abd`); and, badged
+as a second specimen, s1159's abdominal-wall muscles (`ct_s1159_abd`:
+rectus, obliques, quadratus lumborum) and vessels (`ct_s1159`, its bones
+dropped on collision). The VH pelvis was cross-checked against
 the DU release of the same body: iliac crest tops agree within 0.1 mm.
 
 ## Resulting architecture

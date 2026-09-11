@@ -947,16 +947,27 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   the muscle schema needs fibre parameters a compartment does not have
   (no fabrication), and the forearm split does not follow the septa in
   this pronated arm. Kept as a reviewable intermediate.
-- Viewer Version 14: arms complete to the elbow (humeri, ulnae; left
+- Viewer Version 15: VH pec major/serratus/lat dorsi added; Version 14: arms complete to the elbow (humeri, ulnae; left
   radius to the head; right radial head defect noted).
+- **Hybrid CT works for the big trunk muscles.** `abdominal_muscles` on
+  the photograph-restored CT (cm3, hybrid / frozen / s1159): pectoralis
+  major 152+268 / 14+96 / 171+173; serratus anterior 186+149 / 108+47 /
+  76+77; latissimus dorsi 412+373 / 27+7 / 183+163; trapezius (T4-L4 part)
+  105+91 / 18+37 / 46+50. Still failing: rectus abdominis 1+6, obliques and
+  quadratus lumborum asymmetric by 2-6x -> nulled, stay s1159's.
+  Overlay on the photographs at four thoracic levels: pectoralis major
+  (under-segmented in depth), serratus, latissimus, trapezius all on the
+  right muscles. Shipped as `ct_vhm_abd` (pec major, serratus, lat
+  dorsi); trapezius unioned into the neck volume
+  (`vhm_headneck_muscles_merged`) as one mesh per side.
 ## Next action
 
-1. **Full arms**: the VH male cryosections on IDC (series 4aaf9181, 1878
-   slices, 0.33 mm, colour, 14 GB; public domain) hold the whole arms and
-   hands that the CT field of view clips. Route: download, stack, classify
-   bone by colour, then the same marker watershed; that also gives the
-   proximal radius/ulna, distal humerus and, with care, the upper-limb
-   muscles by colour -- the only open path to upper-limb muscle geometry.
+1. **Arms, remaining**: fix the right radial head (walk the radius before
+   the ulna on that side, or seed it at the elbow); separate the hand
+   bones at full photograph resolution (0.33 mm); individual arm/forearm
+   muscles need slice-by-slice review of the compartment intermediate.
+   Rectus abdominis and the obliques: try the hybrid CT with a wider HU
+   spread, or take them from the photographs by position.
 2. Audit follow-ups: radius/ulna/hand have no frame builder in
    `audit_landmarks_vs_geometry.py` (add one; the VH arm bones are there
    to measure against); cranium frame for the skull-attached anchors.
