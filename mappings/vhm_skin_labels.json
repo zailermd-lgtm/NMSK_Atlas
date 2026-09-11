@@ -1,0 +1,19 @@
+{
+ "_README": [
+  "Label id -> structure name for the body-surface volume built from the Visible Human male cryosections by scripts/cryo/skin_from_cryo.py: the tissue silhouette (everything that is not the blue gelatin), holes filled per slice, largest connected body kept (the colour charts and slice labels photographed beside the body are dropped).",
+  "A KEY, not data."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md).",
+ "task": "vhm_skin",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "body_surface"
+ },
+ "atlas": {
+  "body_surface": {
+   "atlas_id": "skin",
+   "relationship": "exact",
+   "note": "Whole-body silhouette at 1 mm; the two in-plane shifts of the CT blocks differ by 2-4 mm and the torso block's is used throughout."
+  }
+ }
+}

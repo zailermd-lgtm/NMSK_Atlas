@@ -47,8 +47,8 @@ BUILD_DIR = REPO_ROOT / "build" / "vh"
 # is what everything else is measured against, so it keeps the most; a muscle
 # belly is a blob whose shape reads at a tenth of the detail.
 BUDGET = {
-    "bone": 4500,
-    "muscle": 2600,
+    "bone": 6000,
+    "muscle": 3600,
     "cartilage": 1200,
     "ligament": 900,
     "tendon": 900,
@@ -59,7 +59,7 @@ DEFAULT_BUDGET = 1500
 # A few entities are far larger than their category's typical member and
 # read as crude at the category budget: the whole skull is one composite
 # 'bone'.
-BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000}
+BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000}
 QUANTUM_MM = 0.25
 
 # Indices are uint16, which is the whole reason for the budgets above: at
