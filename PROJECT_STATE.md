@@ -889,6 +889,25 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   data records with anchors only (VH DU ligaments of the lower limb are the
   sole ligament meshes).
 
+## 2026-09-11: cryosections (user: "use the cryosections, complete all structures top to bottom; Sobotta as knowledge only")
+
+- The VH male colour cryosections are streamed from IDC into a 1 mm RGB
+  volume (`scratchpad/vh_cryo/cryo_1mm.npy`, 1878 slices, vertex to
+  soles, both arms fully in frame) -- see `scripts/cryo/README.md`.
+- Photograph quality is excellent (thorax slice: humerus a clean white
+  disc, every muscle outlined by fascia). Colour classes work for
+  tissue/fat/muscle; bone cortex is cream like fat, so bone comes from
+  the CT except where the CT is clipped. Blocks are photographed with
+  different flips (abdomen block spine-up, thorax block spine-down), so
+  registration to the CT is per block (`register_cryo_to_ct.py`).
+- Tried automatic muscle separation on a full-resolution arm crop
+  (top-hat of the fascial lines + marker watershed): 26 compartments
+  where ~6 muscles exist -- the intermuscular septa are visible, the
+  finer fascial planes are not reliable. So individual muscles from the
+  photographs are NOT automatic; compartments bounded by the septa are.
+- Sobotta: used as anatomical knowledge for positions and relations
+  (which muscle lies where relative to which bone), never its images.
+
 ## Next action
 
 1. **Full arms**: the VH male cryosections on IDC (series 4aaf9181, 1878
