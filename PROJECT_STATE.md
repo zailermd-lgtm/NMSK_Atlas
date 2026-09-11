@@ -1198,8 +1198,11 @@ time), `mappings/vhf_legs_labels.json` (labels 13/14 femur), subject `ct_vhf_leg
 so its united femur wins over the torso stub. Body surface now covers both blocks on one grid
 (`scripts/cryo/vhf_whole_body_skin.py`: silhouettes of both CTs, legs resampled with the shift, 1739 slices)
 so the depth tags below the knee are real (tibia 1.6 mm at its subcutaneous border, femur 11 mm, patella
-3 mm). `data/derived/skin_depth_vhf.json` regenerated (166 rows, min/median). Female artifact Version 6:
-167 structures, 8.97 MB. Tests 149 pass. Feet remain plane-grouped (same limitation as the male CT feet);
+3 mm). `data/derived/skin_depth_vhf.json` regenerated (166 rows, min/median). Female artifact Version 6, then Version 7 (subtitle now names the body: the template's header line used to
+say "pelvis to ankle + a second specimen" on every bundle; it is now derived from the subject list):
+167 meshes / 122 atlas entities, 8.97 MB. Verified in headless Chromium (Playwright, three.js served from the
+npm tarball because cdnjs/jsdelivr/unpkg are denied by the network policy): the tibia mesh loads, the depth
+tag reads 1.7-18.3 mm, the badge reads the new registration text. Tests 149 pass. Feet remain plane-grouped (same limitation as the male CT feet);
 the female's phalanges are under-captured at HU 200.
 
 ## Next action

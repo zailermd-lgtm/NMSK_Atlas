@@ -838,7 +838,10 @@ TotalSegmentator femur (head to mid-thigh) and this block's component
 (mid-thigh to condyles). The foot bones are grouped by planes along the
 foot axis (tarsals / metatarsals / phalanges), not separated: the same
 limitation as the male CT feet. Volumes are recorded in
-`data/ct_sources/task_outputs/vhf_lower_limb_bones_report.json`.
+`data/ct_sources/task_outputs/vhf_lower_limb_bones_report.json`. The female
+bundle (viewer Version 6) is 167 meshes / 122 atlas entities from nine
+subjects, `ct_vhf_legs` listed before `ct_vhf` so the united femur wins
+over the torso block's stub; her body surface spans both blocks.
 
 ### Rule-based structures: what the rule is, and how the volume compares (2026-09-11)
 

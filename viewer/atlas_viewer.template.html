@@ -701,7 +701,10 @@ function select(id){
 }
 
 /* ---------- go ---------- */
-document.getElementById("s-subtitle").textContent = SUBJECTS.length > 1
+document.getElementById("s-subtitle").textContent =
+  SUBJECTS.every(s => s.startsWith("ct_vhf")) ? "Visible Human female · one body, head to toes (CT of two blocks, registered)"
+  : SUBJECTS.some(s => s.startsWith("ct_vhm") || s === "vhm_both") ? "Visible Human male · skull to fingertips and toes (DU release + his own CT and cryosections; badges name the source of every structure)"
+  : SUBJECTS.length > 1
   ? "Visible Human (pelvis to ankle) + a second real specimen (bone/vessel reference above the hip, not one continuous body)"
   : "Visible Human · pelvis to ankle";
 document.getElementById("s-full").textContent = BUNDLE.source_triangles.toLocaleString();
