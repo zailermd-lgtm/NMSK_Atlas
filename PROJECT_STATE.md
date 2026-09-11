@@ -1062,6 +1062,47 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   threshold separates them at 1 mm. Full-resolution texture (fibre
   striation) is the remaining route.
 - Viewer Version 22: 299 structures, 18 subjects, 14.4 MB.
+## Autonomous queue (2026-09-11; user away for days, session self-wakes hourly)
+
+Rules for every wake: read this section; check running jobs in the
+scratchpad (`vhm_ts/*.log`, `vh_cryo/*.log`); take the first unchecked
+item; verify with a render/volume before shipping; tests must pass;
+commit + push; republish the viewer (same URL) when the bundle changed;
+tick the item here with a one-line result. Never fabricate; keep the
+"badged, rule-based" honesty. If blocked, write why and move on.
+
+- [ ] Q1 Feet: CT feet block (series 94755b62, ankle->toes) -- register
+      to the legs block (shared slice, like torso/legs), HU>=200 bone
+      components, group tarsals / metatarsals / phalanges by planes along
+      the foot axis from the tibia's distal end; ship `ct_vhm_foot`.
+- [ ] Q2 Fix over-counting: pectoralis minor (thin sheet, <=10 mm deep to
+      pec major, exclude anything touching the ribs), subscapularis
+      (<=18 mm from the scapula, exclude the serratus zone), abdominal wall
+      (cap rectus at 45 mm behind the anterior skin; require each lateral
+      layer to be contiguous), deltoid posterior part over the spine.
+      Re-render, re-record volumes, republish.
+- [ ] Q3 Landmark audit: frame builders for radius/ulna/hand/cranium in
+      `audit_landmarks_vs_geometry.py`; audit ct_vhm_arm and fix anchors
+      that are clearly off (report per bone).
+- [ ] Q4 Forearm: flexor / extensor compartments by the interosseous line
+      (flexor side faces the body midline in this pronated arm); if the
+      split holds on renders, ship as biceps-style rule muscles only where
+      an entity exists (brachioradialis, flexor mass -> not mappable: keep
+      as intermediate).
+- [ ] Q5 Full-resolution muscle boundaries for deltoid/cuff/abdominal wall
+      (watershed on fascial-line maps within the rule masks, as done for
+      biceps/brachialis); adopt only where volumes move toward textbook
+      values.
+- [ ] Q6 Vessels of the VH male: the frozen CT has no contrast; try the
+      photographs -- large arteries (aorta, iliacs, femoral) are dark red
+      lumina with a pale wall; rule + tracking from the `total` aorta
+      fragment. Ship only if the aorta tracks continuously.
+- [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
+      gluteal render), median/ulnar in the arm crops; ship only what
+      tracks continuously for >100 mm.
+- [ ] Q8 Documentation pass: GEOMETRY_SOURCES "what is rule-based" table
+      with volumes vs textbook ranges; README for the viewer badges.
+
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position
