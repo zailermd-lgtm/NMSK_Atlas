@@ -29,3 +29,20 @@ What the photographs are used for, and not: bone where the CT is clipped
 (elbow region, hands); muscle compartments where fascial planes are
 visible. Individual muscle naming from the photographs needs review slice
 by slice and is not automatic; what ships from them is labelled as such.
+
+## Registration result (2026-09-11)
+
+Silhouette matching (IoU 0.84-0.95 at every anchor) fixes the flip (rows
+reversed, `fy`, for every block) and the in-plane shift ((0, -98) px torso
+block, (4, -96) legs block in the 480 x 700 padded frame, cryo pixel =
+0.99 mm). Its z estimate scatters by +-10 mm, so z is taken from mutual
+information between the CT slice and the photograph's luminance, which
+peaks sharply: cryo index = -16 - z_RAS (+-4 mm) at every anchor of BOTH
+CT blocks -- the photographs are one contiguous 1 mm stack from vertex to
+sole, and the CT blocks are contiguous with each other, as found earlier.
+Two other z routes were tried and rejected: cross-section-area profiles
+(spurious 60 mm jumps) and bone-map correlation (bone is cream in the
+photographs, indistinguishable from fat by colour).
+`resample_cryo_to_ct_frame.py` writes the photographs into the CT torso
+grid (`cryo_torso_frame_rgb.npy`, 843 x 480 x 480 x 3) so CT labels and
+photographs share voxels.
