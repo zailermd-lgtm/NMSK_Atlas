@@ -1075,7 +1075,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       to the legs block (shared slice, like torso/legs), HU>=200 bone
       components, group tarsals / metatarsals / phalanges by planes along
       the foot axis from the tibia's distal end; ship `ct_vhm_foot`.
-- [~] Q2 Fix over-counting: pectoralis minor DONE (sheet <=10 mm deep to pec major, >=8 mm from ribs: 148/104 -> 77/51 cm3); subscapularis
+- [x] Q2 (done 15:55) pec minor 148/104 -> 77/51; subscapularis 358/358 -> 321/321 (<=18 mm, not nearer the ribs); rectus 225/226 -> 181/189 (45 mm window), wall layers one piece per slice (external 176/322, internal 44/116, transversus 82/227: left still over); deltoid 261/197 -> 282/215 with the posterior part over the spine. All reconverted and republished. Was: subscapularis
       (<=18 mm from the scapula, exclude the serratus zone), abdominal wall
       (cap rectus at 45 mm behind the anterior skin; require each lateral
       layer to be contiguous), deltoid posterior part over the spine.
