@@ -908,6 +908,24 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
 - Sobotta: used as anatomical knowledge for positions and relations
   (which muscle lies where relative to which bone), never its images.
 
+- Registration cryo->CT done: flip rows, in-plane shift from silhouettes,
+  z from mutual information (cryo index = -16 - z_RAS, +-4 mm, both CT
+  blocks). Overlay of `total` outlines on the photographs checked at five
+  levels (vertebrae, ribs, lungs, kidneys, skull, humeri all land).
+- Photographs resampled into the CT torso grid widened by 110 mm each
+  side (`cryo_torso_frame_rgb.npy`, 843 x 480 x 700), because the arms
+  that the CT clips lie outside the CT's 480 mm frame.
+- **Hybrid CT**: frozen CT with muscle/fat HU replaced from the
+  photograph classes (muscle 60, fat -100; 48.7 M voxels changed, bones
+  and air untouched) -> `vh_idc/nii/vhm_torso_hybrid.nii.gz`; the
+  `abdominal_muscles` task is being rerun on it (the model needs the
+  soft-tissue contrast the frozen CT lacks). Result to be compared with
+  s1159's volumes before anything ships.
+- Arm bone extension through the photographs
+  (`vh_cryo/complete_arm_bones.py`): the CT bone tapers to a sliver at
+  the FOV edge, so the walk starts from the last solid cross-section;
+  the marrow photographs red-brown, so the cortical ring is closed and
+  filled before the area check. Running.
 ## Next action
 
 1. **Full arms**: the VH male cryosections on IDC (series 4aaf9181, 1878
