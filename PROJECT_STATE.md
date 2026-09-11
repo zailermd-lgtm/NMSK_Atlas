@@ -1090,10 +1090,11 @@ tick the item here with a one-line result. Never fabricate; keep the
       (watershed on fascial-line maps within the rule masks, as done for
       biceps/brachialis); adopt only where volumes move toward textbook
       values.
-- [ ] Q6 Vessels of the VH male: the frozen CT has no contrast; try the
+- [-] Q6 BLOCKED (16:20): `scripts/cryo/aorta_from_cryo.py` seeds on the CT aorta fragment; the clotted lumen photographs near-black but fragmented (seed 112 mm2, no round 250-900 mm2 component in the next slice), so the walk dies within 2 mm. Needs a lumen colour model built from hand-picked samples. Was: the frozen CT has no contrast; try the
       photographs -- large arteries (aorta, iliacs, femoral) are dark red
       lumina with a pale wall; rule + tracking from the `total` aorta
       fragment. Ship only if the aorta tracks continuously.
+- [ ] Q9 VH FEMALE 'Normal' CT (IDC b9cf8e7a, 985 slices head->mid-thigh, fresh cadaver): dcm2niix, `total` + the free tasks chunked; expect the abdominal_muscles task to work (not frozen); ingest as `ct_vhf_*` with its own femoral-head origin; export as a SECOND viewer bundle/artifact (a second consistent body, not mixed into the male). Also a check of the male rule-based volumes against a model-segmented body.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
