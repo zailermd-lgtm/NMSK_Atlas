@@ -1109,6 +1109,7 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q19 (21:05) depth below skin computed by the exporter for every structure (min / median mm from the skin mesh) and shown as a tag in the info panel of both viewers.
 - [x] Q18 (21:20) data/derived/audit_male_vs_female.json: per-bone landmark audit on both bodies; the bones that agree across bodies (hip, clavicle, scapula, ulna) point at landmarks that are right; the ones that disagree point at the landmark or at a truncated mesh.
 - [x] Q22 (21:30) report only: data/derived/landmarks_off_on_both_bodies.json lists the landmarks >12 mm off on BOTH bodies (the likelier culprit is the landmark); no coordinates changed -- a reviewer decides, using the audit's frames.
+- [~] Q28 (started 20:25) Female LOWER LIMB bones: IDC series af18f5e4 ('1X1 AXIAL FEMUR-TOES NCE', 0.72 mm, fresh CT): download, dcm2niix, `total` (femur), then HU>=200 components with the femur removed -> tibia, fibula, patella by size/position, foot bones by planes; register to her torso block by the shared femur (both hold the proximal femur) and ship in the female bundle.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
