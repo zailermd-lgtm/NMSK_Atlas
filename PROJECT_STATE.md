@@ -1097,6 +1097,10 @@ tick the item here with a one-line result. Never fabricate; keep the
       lumina with a pale wall; rule + tracking from the `total` aorta
       fragment. Ship only if the aorta tracks continuously.
 - [x] Q9 (done 19:45) VH female: 154 structures from 7 subjects, second viewer https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e (Version 1, 7.8 MB); mappings in mappings/subjects/ct_vhf_*; task outputs in data/ct_sources/task_outputs/vhf_*. Open: union her trapezius (neck + trunk parts); audit her landmarks; compare her model-segmented muscles with the male's rule-based ones. Was: VH FEMALE 'Normal' CT (IDC b9cf8e7a, 985 slices head->mid-thigh, fresh cadaver): dcm2niix, `total` + the free tasks chunked; expect the abdominal_muscles task to work (not frozen); ingest as `ct_vhf_*` with its own femoral-head origin; export as a SECOND viewer bundle/artifact (a second consistent body, not mixed into the male). Also a check of the male rule-based volumes against a model-segmented body.
+- [~] Q10 Female trapezius unioned (neck + trunk), ct_vhf_neck reconverting; female landmark audit next wake.
+- [x] Q11 (19:55) male-rule vs female-model volume table: data/derived/male_rules_vs_female_model.json (male external oblique L 322 vs female 160, latissimus 412/373 vs 316/273, serratus 186 vs 122: the rule-based/hybrid male values run 1.3-2x high on those; rectus and transversospinalis agree).
+- [ ] Q12 Female arms: check whether her arms are inside the 480 mm FOV; if so run scripts/segment_arm_bones_vhm.py adapted (marker watershed) for radius/ulna/hand and ship in the female bundle.
+- [ ] Q13 Female landmark audit (audit_landmarks_vs_geometry.py --subject ct_vhf) and the cranium frame.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
