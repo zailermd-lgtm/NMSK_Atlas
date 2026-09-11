@@ -342,7 +342,7 @@ var groups = {}, order = [];
 meshes.forEach(function(m){
   var s = m.userData, g = groups[s.id];
   if (!g){
-    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject,
+    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject, depth_min:s.depth_min, depth_med:s.depth_med,
                         meshes:[], nf:0, tris_full:0, cell:s.cell, parts:0};
     order.push(g);
   }
@@ -636,6 +636,7 @@ function select(id){
     (s.side ? '<span class="tag">' + esc(s.side) + '</span>' : "") +
     (r.region ? '<span class="tag">' + esc(r.region).replace(/_/g, " ") + '</span>' : "") +
     '<span class="tag mono">' + s.nf.toLocaleString() + ' tri</span>' +
+    (s.depth_min !== undefined ? '<span class="tag" title="shallowest / median distance of this structure\'s surface from the body surface, on this body">' + s.depth_min + '\u2013' + s.depth_med + ' mm below skin</span>' : "") +
     (s.parts > 1 ? '<span class="tag">' + s.parts + ' meshes</span>' : "") +
     (s.subject && s.subject !== PRIMARY_SUBJECT
       ? '<span class="tag warn" title="Shown for reference at the same scale, not as part of one continuous cadaver -- see docs/GEOMETRY_SOURCES.md">' +
