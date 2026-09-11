@@ -1,0 +1,113 @@
+{
+ "_README": [
+  "Landmark-to-surface audit (scripts/audit_landmarks_vs_geometry.py) per bone on the Visible Human male (ct_vhm + ct_vhm_arm) and female (ct_vhf): median and max distance of the atlas's landmark coordinates from the measured bone surface, mm. Large values on a truncated bone (femur on the female, humerus distal end) are the scan's edge, not the landmark. Derived data."
+ ],
+ "source": "Derived from the meshes in this repository.",
+ "rows": [
+  {
+   "bone": "clavicle_l",
+   "male_median_mm": 5.7,
+   "male_max_mm": 13.8,
+   "female_median_mm": 3.9,
+   "female_max_mm": 17.7
+  },
+  {
+   "bone": "clavicle_r",
+   "male_median_mm": 4.9,
+   "male_max_mm": 9.6,
+   "female_median_mm": 5.5,
+   "female_max_mm": 15.6
+  },
+  {
+   "bone": "femur_l",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 33.5,
+   "female_max_mm": 309.9
+  },
+  {
+   "bone": "femur_r",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 33.8,
+   "female_max_mm": 309.7
+  },
+  {
+   "bone": "hip_bone_l",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 3.9,
+   "female_max_mm": 8.2
+  },
+  {
+   "bone": "hip_bone_r",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 2.0,
+   "female_max_mm": 7.7
+  },
+  {
+   "bone": "humerus_l",
+   "male_median_mm": 137.2,
+   "male_max_mm": 144.2,
+   "female_median_mm": 74.1,
+   "female_max_mm": 87.7
+  },
+  {
+   "bone": "humerus_r",
+   "male_median_mm": 94.1,
+   "male_max_mm": 101.6,
+   "female_median_mm": 56.8,
+   "female_max_mm": 66.9
+  },
+  {
+   "bone": "radius_l",
+   "male_median_mm": 57.5,
+   "male_max_mm": 61.8,
+   "female_median_mm": null,
+   "female_max_mm": null
+  },
+  {
+   "bone": "radius_r",
+   "male_median_mm": 19.4,
+   "male_max_mm": 22.9,
+   "female_median_mm": null,
+   "female_max_mm": null
+  },
+  {
+   "bone": "scapula_l",
+   "male_median_mm": 4.2,
+   "male_max_mm": 17.0,
+   "female_median_mm": 4.7,
+   "female_max_mm": 28.3
+  },
+  {
+   "bone": "scapula_r",
+   "male_median_mm": 3.3,
+   "male_max_mm": 7.3,
+   "female_median_mm": 10.6,
+   "female_max_mm": 23.2
+  },
+  {
+   "bone": "sternum",
+   "male_median_mm": 6.6,
+   "male_max_mm": 14.6,
+   "female_median_mm": 2.8,
+   "female_max_mm": 4.5
+  },
+  {
+   "bone": "ulna_l",
+   "male_median_mm": 6.6,
+   "male_max_mm": 46.9,
+   "female_median_mm": null,
+   "female_max_mm": null
+  },
+  {
+   "bone": "ulna_r",
+   "male_median_mm": 9.0,
+   "male_max_mm": 17.3,
+   "female_median_mm": null,
+   "female_max_mm": null
+  }
+ ]
+}

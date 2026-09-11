@@ -1105,7 +1105,8 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q16 (20:35) docs/VIEWER_README.md written (badges, two bodies, trust levels, depth tables), linked from GEOMETRY_SOURCES. Was: what each badge means, the two bodies, the rule-based table; link from docs/GEOMETRY_SOURCES.md.
 - [x] Q17 (20:50) female body surface from her CT silhouette (`ct_vhf_skin`, 75 M voxels), female viewer Version 4 (155 structures, 8.1 MB), depth table data/derived/skin_depth_vhf.json (154 rows). Was: (same script on build/viewer_f) once she has a skin surface (her CT body silhouette HU>-300 can stand in: add a `ct_vhf_skin` from the CT body mask).
 - [x] Q19 (21:05) depth below skin computed by the exporter for every structure (min / median mm from the skin mesh) and shown as a tag in the info panel of both viewers.
-- [ ] Q18 Compare the male and female landmark audits per bone (report table) -- both bodies now audited.
+- [x] Q18 (21:20) data/derived/audit_male_vs_female.json: per-bone landmark audit on both bodies; the bones that agree across bodies (hip, clavicle, scapula, ulna) point at landmarks that are right; the ones that disagree point at the landmark or at a truncated mesh.
+- [ ] Q22 Landmark corrections: for every landmark beyond 12 mm on BOTH bodies with a fitted axis, propose a corrected local coordinate from the nearest surface point (report only; a reviewer accepts).
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
