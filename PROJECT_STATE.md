@@ -979,6 +979,14 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
 - Right elbow: below the joint line every cut humerus voxel now goes to
   the ulna (the radius claims its head first), closing the gap in the
   proximal ulna seen in v3.
+- **Deltoid** (`scripts/cryo/deltoid_from_cryo.py`, key
+  `mappings/vhm_deltoid_labels.json`): muscle within 55 mm of the
+  proximal humerus and 40 mm of the skin, lateral to the scapula's
+  lateral edge, not already pec/lat/serratus/trapezius/biceps/triceps;
+  261/197 cm3 (right/left; undersized, the deep boundary against the
+  cuff is a rule). Render: wraps the humeral head laterally and
+  anteriorly, tapers to mid-shaft. Shipped `ct_vhm_delt`, Version 17
+  (278 structures).
 ## Next action
 
 1. **Arms, remaining**: fix the right radial head (walk the radius before

@@ -766,13 +766,13 @@ What the frozen scan is and is not good for, measured (2026-09-11):
 muscles and craniofacial bones are plausible for a large male; the
 `abdominal_muscles` task fails on it (superficial trunk muscles come out
 as fragments, erector spinae leaks into fat), and there is no vascular
-contrast. So the shipped bundle (viewer Version 16, 276 structures) is:
+contrast. So the shipped bundle (viewer Version 17, 278 structures) is:
 the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
 fingertips (arms complete; hands as carpal/metacarpal/phalangeal groups),
 the arm muscles by compartment rules (biceps, brachialis,
-coracobrachialis, triceps), the head/neck/orbit muscles, pectoralis
+coracobrachialis, triceps), the deltoid by superficial-proximity rules, the head/neck/orbit muscles, pectoralis
 major, serratus anterior, latissimus dorsi, trapezius, the gluteals and
-iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_head`,
+iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_delt`, `ct_vhm_head`,
 `ct_vhm_headm`, `ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`,
 `ct_vhm_abd`); and, badged
 as a second specimen, s1159's abdominal-wall muscles (`ct_s1159_abd`:
