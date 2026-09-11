@@ -1,0 +1,85 @@
+{
+ "_README": [
+  "Label id -> structure name for the lower-limb bone volume of the Visible Human female (IDC series af18f5e4, femur-to-toes fresh CT, 0.72 mm) by scripts/cryo/vhf_legs_bones.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. Femurs come from the TotalSegmentator `total` task on the same block and are shipped from ct_vhf (torso block, proximal part) and here (whole); tibia and fibula are the two long HU>=200 components below the femur (the thinner is the fibula); the patella is the largest component anterior to the distal femur; the foot bones are grouped by planes along the foot axis from the heel (tarsals <115 mm, metatarsals 115-190, phalanges beyond). Registered to the torso block by the femoral-head sphere fits present in both scans."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female, via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 femur labels.",
+ "task": "vhf_legs",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "tibia_right",
+  "2": "fibula_right",
+  "3": "patella_right",
+  "4": "tarsals_right",
+  "5": "metatarsals_right",
+  "6": "phalanges_right",
+  "7": "tibia_left",
+  "8": "fibula_left",
+  "9": "patella_left",
+  "10": "tarsals_left",
+  "11": "metatarsals_left",
+  "12": "phalanges_left"
+ },
+ "atlas": {
+  "tibia_right": {
+   "atlas_id": "tibia_r",
+   "relationship": "exact",
+   "note": "Component / plane rule as described in the README."
+  },
+  "fibula_right": {
+   "atlas_id": "fibula_r",
+   "relationship": "exact",
+   "note": "Component / plane rule as described in the README."
+  },
+  "patella_right": {
+   "atlas_id": "patella_r",
+   "relationship": "exact",
+   "note": "Component / plane rule as described in the README."
+  },
+  "tarsals_right": {
+   "atlas_id": "tarsals_r",
+   "relationship": "part_of",
+   "note": "Component / plane rule as described in the README."
+  },
+  "metatarsals_right": {
+   "atlas_id": "metatarsals_r",
+   "relationship": "part_of",
+   "note": "Component / plane rule as described in the README."
+  },
+  "phalanges_right": {
+   "atlas_id": "phalanges_foot_r",
+   "relationship": "part_of",
+   "note": "Component / plane rule as described in the README."
+  },
+  "tibia_left": {
+   "atlas_id": "tibia_l",
+   "relationship": "exact",
+   "note": "Component / plane rule as described in the README."
+  },
+  "fibula_left": {
+   "atlas_id": "fibula_l",
+   "relationship": "exact",
+   "note": "Component / plane rule as described in the README."
+  },
+  "patella_left": {
+   "atlas_id": "patella_l",
+   "relationship": "exact",
+   "note": "Component / plane rule as described in the README."
+  },
+  "tarsals_left": {
+   "atlas_id": "tarsals_l",
+   "relationship": "part_of",
+   "note": "Component / plane rule as described in the README."
+  },
+  "metatarsals_left": {
+   "atlas_id": "metatarsals_l",
+   "relationship": "part_of",
+   "note": "Component / plane rule as described in the README."
+  },
+  "phalanges_left": {
+   "atlas_id": "phalanges_foot_l",
+   "relationship": "part_of",
+   "note": "Component / plane rule as described in the README."
+  }
+ }
+}
