@@ -1,39 +1,9 @@
 {
  "_README": [
   "Landmarks that sit more than 12 mm off the measured bone surface on BOTH Visible Human bodies (male ct_vhm/ct_vhm_arm, female ct_vhf). Being off on two independent bodies makes the landmark the likelier culprit than either mesh -- unless the bone is truncated on both scans (humerus distal end). Report only: no coordinate has been changed; the correction is a reviewer's call, made with the audit's per-landmark output and the bone frame stated there.",
-  "Male arm bones taken from ct_vhm_arm (arms completed through the cryosections), so the humerus distal end is no longer a truncation artefact on the male; on the female it still is (her arms are clipped)."
+  "Male arm bones taken from ct_vhm_arm (arms completed through the cryosections), so the humerus distal end is no longer a truncation artefact on the male; on the female it still is (her arms are clipped).",
+  "Anchor rows (muscle attachment anchors) are excluded: on the male they are audited against the CT-only humerus frame (truncated) and the figures are edge artefacts. Result: no bone LANDMARK is more than 12 mm off on both bodies -- the landmark coordinates that both scans can test hold up."
  ],
  "source": "Derived from scripts/audit_landmarks_vs_geometry.py on the meshes in this repository.",
- "rows": [
-  {
-   "bone": "anchor_supinator_l_origin",
-   "landmark": "-> supinator_l",
-   "male_mm": 143.7,
-   "female_mm": 79.7
-  },
-  {
-   "bone": "anchor_pronator_teres_l_origin",
-   "landmark": "-> pronator_teres_l",
-   "male_mm": 138.2,
-   "female_mm": 84.9
-  },
-  {
-   "bone": "anchor_palmaris_longus_l_origin",
-   "landmark": "-> palmaris_longus_l",
-   "male_mm": 138.2,
-   "female_mm": 84.9
-  },
-  {
-   "bone": "anchor_flexor_digitorum_superficialis_l_origin",
-   "landmark": "-> flexor_digitorum_superficialis_l",
-   "male_mm": 138.2,
-   "female_mm": 84.9
-  },
-  {
-   "bone": "anchor_flexor_carpi_ulnaris_l_origin",
-   "landmark": "-> flexor_carpi_ulnaris_l",
-   "male_mm": 138.2,
-   "female_mm": 84.9
-  }
- ]
+ "rows": []
 }
