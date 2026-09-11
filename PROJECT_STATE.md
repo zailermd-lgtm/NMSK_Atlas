@@ -987,6 +987,15 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   cuff is a rule). Render: wraps the humeral head laterally and
   anteriorly, tapers to mid-shaft. Shipped `ct_vhm_delt`, Version 17
   (278 structures).
+- **Rotator cuff** (`scripts/cryo/rotator_cuff_from_cryo.py`, key
+  `mappings/vhm_rotator_cuff_labels.json`): muscle within 25 mm of the
+  scapula, >8 mm from the ribs, unlabelled so far; ventral -> subscapularis,
+  dorsal above the spine level and medial to the glenoid -> supraspinatus,
+  other dorsal -> infraspinatus (+ teres minor merged). Volumes (r/l):
+  supraspinatus 68/69, infraspinatus 357/342, subscapularis 358/358 cm3 --
+  the last two are over-inclusive (deep serratus slips, teres). Render:
+  subscapularis between scapula and ribs, infraspinatus dorsal, supra-
+  spinatus in the fossa. Shipped `ct_vhm_cuff`, badged as rule-based.
 ## Next action
 
 1. **Arms, remaining**: fix the right radial head (walk the radius before

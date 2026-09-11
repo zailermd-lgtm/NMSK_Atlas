@@ -1,0 +1,49 @@
+{
+ "_README": [
+  "Label id -> structure name for the rotator-cuff volume derived from the Visible Human male colour cryosections by scripts/cryo/rotator_cuff_from_cryo.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based: muscle-coloured voxels within 25 mm of the scapula (TotalSegmentator label), more than 8 mm from any rib, not already labelled deltoid / pectoralis / latissimus / serratus / trapezius / arm; ventral of the nearest scapular voxel -> subscapularis; dorsal -> supraspinatus when above the scapular-spine level (top 22 % of the scapula's height) and medial to the glenoid, otherwise infraspinatus, into which teres minor is merged (no rule separates them here). Teres major is not extracted. Boundaries are rules, not traced fascia."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md). Rules from standard anatomy: Standring S (ed.), Gray's Anatomy, 42nd ed., 'Shoulder girdle and arm'.",
+ "task": "vhm_rotator_cuff",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "supraspinatus_right",
+  "2": "infraspinatus_right",
+  "3": "subscapularis_right",
+  "4": "supraspinatus_left",
+  "5": "infraspinatus_left",
+  "6": "subscapularis_left"
+ },
+ "atlas": {
+  "supraspinatus_right": {
+   "atlas_id": "supraspinatus_r",
+   "relationship": "exact",
+   "note": "Supraspinous fossa by level and glenoid rule; over-inclusive at the tendon."
+  },
+  "infraspinatus_right": {
+   "atlas_id": "infraspinatus_r",
+   "relationship": "exact",
+   "note": "Dorsal scapular surface below the spine level; teres minor merged in."
+  },
+  "subscapularis_right": {
+   "atlas_id": "subscapularis_r",
+   "relationship": "exact",
+   "note": "Ventral scapular surface, more than 8 mm from the ribs."
+  },
+  "supraspinatus_left": {
+   "atlas_id": "supraspinatus_l",
+   "relationship": "exact",
+   "note": "Supraspinous fossa by level and glenoid rule; over-inclusive at the tendon."
+  },
+  "infraspinatus_left": {
+   "atlas_id": "infraspinatus_l",
+   "relationship": "exact",
+   "note": "Dorsal scapular surface below the spine level; teres minor merged in."
+  },
+  "subscapularis_left": {
+   "atlas_id": "subscapularis_l",
+   "relationship": "exact",
+   "note": "Ventral scapular surface, more than 8 mm from the ribs."
+  }
+ }
+}
