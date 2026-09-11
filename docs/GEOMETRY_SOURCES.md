@@ -766,8 +766,9 @@ things came out of them:
 
 Not from the photographs, deliberately: individual forearm muscles (the
 arm lies pronated on the thigh and an image-frame split does not follow
-the forearm septa), separated carpal bones, teres major, pectoralis minor,
-the rhomboids, tendons, ligaments, nerves. The sciatic nerve was tried
+the forearm septa), separated carpal bones (tried at 0.33 mm: fragments
+only), teres major, tendons (tried: cream like the fat around them at
+1 mm), ligaments, nerves. The sciatic nerve was tried
 (`scripts/cryo/sciatic_from_cryo.py`): at 1 mm it is not separable from
 the fat plane it lies in, and on the 0.33 mm photograph it is not
 identifiable without expert reading. Each of those needs slice-by-slice
@@ -778,11 +779,12 @@ What the frozen scan is and is not good for, measured (2026-09-11):
 muscles and craniofacial bones are plausible for a large male; the
 `abdominal_muscles` task fails on it (superficial trunk muscles come out
 as fragments, erector spinae leaks into fat), and there is no vascular
-contrast. So the shipped bundle (viewer Version 21, 295 structures) is:
+contrast. So the shipped bundle (viewer Version 22, 299 structures) is:
 the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
 fingertips (arms complete; hands as carpal/metacarpal/phalangeal groups),
 the arm muscles by compartment rules (biceps, brachialis,
-coracobrachialis, triceps), the deltoid by superficial-proximity rules, the rotator cuff
+coracobrachialis, triceps), the deltoid by superficial-proximity rules, pectoralis minor and the
+rhomboids by position, the rotator cuff
 (supraspinatus, infraspinatus with teres minor, subscapularis) by
 scapular-surface rules, the erector spinae columns (spinalis,
 longissimus, iliocostalis) by distance from the midline, the

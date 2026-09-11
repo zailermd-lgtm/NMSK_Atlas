@@ -1053,6 +1053,15 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   (major+minor, shown under rhomboid major). Render: pec minor on the
   upper anterior chest wall deep to pec major, rhomboids paravertebral
   between the scapulae. Shipped `ct_vhm_pmr`, badged.
+- **Tendons: attempted, not shipped.** `scripts/cryo/tendons_from_cryo.py`
+  anchors cylinders on the DU bones (quadriceps tendon above the patella's
+  superior pole; Achilles would need the calcaneus, which the DU release
+  does not carry). Above the patella the photograph classes are almost
+  all 'fat' (cream): the tendon is cream like the fat around it, and the
+  b/r and g/r histograms inside the cylinder are unimodal -- no colour
+  threshold separates them at 1 mm. Full-resolution texture (fibre
+  striation) is the remaining route.
+- Viewer Version 22: 299 structures, 18 subjects, 14.4 MB.
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position
