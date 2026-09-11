@@ -249,6 +249,36 @@ def summarise(folder, rec, anchor_points=None):
     return {k: v for k, v in out.items() if v}
 
 
+def add_skin_depth(index, subjects):
+    """Depth below the body surface for every structure in the index, in mm:
+    the shallowest and the median distance of its surface from the 'skin'
+    mesh, when one of the subjects carries one. This is the number an
+    injection plan starts from, so it rides in the bundle and the viewer
+    shows it. Computed on the source meshes (subsampled), not the decimated
+    ones; nothing here is anatomy, it is a distance."""
+    from scipy.spatial import cKDTree
+    meshes = {}
+    for sub in subjects:
+        d = BUILD_DIR / sub
+        m = json.loads((d / "manifest.json").read_text())
+        v = np.fromfile(d / "vertices.f32", np.float32).reshape(-1, 3)
+        for st in m["structures"]:
+            a = st["vertex_offset"]; n = st["vertex_count"]
+            meshes.setdefault((sub, st["atlas_id"]), []).append(v[a:a + n])
+    skin = [np.concatenate(pts) for (sub, aid), pts in meshes.items() if aid == "skin"]
+    if not skin:
+        return 0
+    tree = cKDTree(np.concatenate(skin)[::2]); done = 0
+    for e in index:
+        pts = meshes.get((e["subject"], e["id"]))
+        if not pts or e["id"] == "skin":
+            continue
+        pv = np.concatenate(pts); pv = pv[::max(1, len(pv) // 4000)]
+        dist, _ = tree.query(pv)
+        e["depth_min"] = round(float(dist.min()), 1); e["depth_med"] = round(float(np.median(dist)), 1); done += 1
+    return done
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -340,34 +370,6 @@ def main() -> int:
         claimed_by_prior_subjects |= this_subject_ids
 
 
-def add_skin_depth(index, subjects):
-    """Depth below the body surface for every structure in the index, in mm:
-    the shallowest and the median distance of its surface from the 'skin'
-    mesh, when one of the subjects carries one. This is the number an
-    injection plan starts from, so it rides in the bundle and the viewer
-    shows it. Computed on the source meshes (subsampled), not the decimated
-    ones; nothing here is anatomy, it is a distance."""
-    from scipy.spatial import cKDTree
-    meshes = {}
-    for sub in subjects:
-        d = BUILD_DIR / sub
-        m = json.loads((d / "manifest.json").read_text())
-        v = np.fromfile(d / "vertices.f32", np.float32).reshape(-1, 3)
-        for st in m["structures"]:
-            a = st["vertex_offset"]; n = st["vertex_count"]
-            meshes.setdefault((sub, st["atlas_id"]), []).append(v[a:a + n])
-    skin = [np.concatenate(pts) for (sub, aid), pts in meshes.items() if aid == "skin"]
-    if not skin:
-        return 0
-    tree = cKDTree(np.concatenate(skin)[::2]); done = 0
-    for e in index:
-        pts = meshes.get((e["subject"], e["id"]))
-        if not pts or e["id"] == "skin":
-            continue
-        pv = np.concatenate(pts); pv = pv[::max(1, len(pv) // 4000)]
-        dist, _ = tree.query(pv)
-        e["depth_min"] = round(float(dist.min()), 1); e["depth_med"] = round(float(np.median(dist)), 1); done += 1
-    return done
 
     n_depth = add_skin_depth(index, subjects)
     print(f"depth below skin attached to {n_depth} structures")
