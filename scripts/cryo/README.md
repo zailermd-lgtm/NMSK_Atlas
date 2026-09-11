@@ -46,3 +46,14 @@ photographs, indistinguishable from fat by colour).
 `resample_cryo_to_ct_frame.py` writes the photographs into the CT torso
 grid (`cryo_torso_frame_rgb.npy`, 843 x 480 x 480 x 3) so CT labels and
 photographs share voxels.
+
+## Hands, named arm muscles (2026-09-11, later)
+
+`hands_from_both_blocks.py`: the fingers lie in the legs CT block (the
+torso block ends at the palm); union of both blocks in a frame extended
+250 mm downward, then carpal / metacarpal / phalangeal groups by planes
+along the hand axis. `name_arm_muscles_from_cryo.py`: the photograph
+compartments turned into biceps, brachialis, coracobrachialis and
+triceps by depth-and-level rules from standard anatomy; the biceps /
+brachialis boundary is a rule, not a traced fascia. Both are shipped
+with that caveat in the viewer badge and the label maps.

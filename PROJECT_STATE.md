@@ -960,6 +960,25 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   right muscles. Shipped as `ct_vhm_abd` (pec major, serratus, lat
   dorsi); trapezius unioned into the neck volume
   (`vhm_headneck_muscles_merged`) as one mesh per side.
+- **Hands** (`scripts/cryo/hands_from_both_blocks.py`): the torso CT
+  block ends at the palm; the fingers are in the top of the legs CT block
+  (where `total` mislabels them "skull"). Both parts unioned in a frame
+  extended 250 mm downward, junk not connected to the wrist dropped, then
+  planes along the hand axis from the radius end: carpals <45 mm,
+  metacarpals 45-115, phalanges beyond. Right 175 mm / left 189 mm long;
+  carpals 24/33, metacarpals 11/24, phalanges 14/16 cm3 (carpal group
+  over-counted: it takes the metacarpal bases). Four finger rays visible
+  on both sides in projection. Label map `vhm_arm_labels.json` v3.
+- **Named arm muscles** (`scripts/cryo/name_arm_muscles_from_cryo.py`,
+  key `mappings/vhm_arm_muscles_labels.json`): posterior compartment =
+  triceps (713/789 cm3); anterior within 22 mm of the humerus, distal
+  65 % = brachialis (164/221); proximal-medial = coracobrachialis
+  (44/50); rest = biceps (514/506, over-counted). Rule-based boundaries;
+  render checked at seven levels (biceps superficial, brachialis on the
+  bone, triceps posterior). Shipped as `ct_vhm_armm`, badged.
+- Right elbow: below the joint line every cut humerus voxel now goes to
+  the ulna (the radius claims its head first), closing the gap in the
+  proximal ulna seen in v3.
 ## Next action
 
 1. **Arms, remaining**: fix the right radial head (walk the radius before

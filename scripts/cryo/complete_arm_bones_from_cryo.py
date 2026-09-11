@@ -68,8 +68,8 @@ for side,(cols,ids) in SIDES.items():
     r={}
     ktop=int(np.where((sub==ids[0]).any(axis=(1,2)))[0].max()); elbow=ktop-340
     print(side,"humeral head top k",ktop,"-> elbow estimate k",elbow,flush=True)
-    r["ulna"]=walk(ids[2],+1,(ids[0],ids[1],ids[3]),elbow+25)
     r["radius"]=walk(ids[1],+1,(ids[0],ids[2],ids[3]),elbow+12)
+    r["ulna"]=walk(ids[2],+1,(ids[0],ids[1],ids[3]),elbow+25)
     r["humerus"]=walk(ids[0],-1,(ids[1],ids[2],ids[3]),elbow-12)
     # resolve where two walks claimed the same voxels (the joints): watershed on the photograph luminance,
     # markers = each bone's CT part + its uncontested walked part; the joint line is darker than bone

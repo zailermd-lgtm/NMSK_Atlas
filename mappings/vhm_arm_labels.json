@@ -1,7 +1,8 @@
 {
  "_README": [
   "Label id -> structure name for the upper-limb bone label volume of the Visible Human male: CT part from scripts/segment_arm_bones_vhm.py (HU threshold, marker watershed), extended through the colour cryosections by scripts/cryo/complete_arm_bones_from_cryo.py where the CT field of view clips the arms (elbow region), plus the reviewed mapping onto atlas entities.",
-  "A KEY, not data. Version 2 (2026-09-11): the humerus now runs to the elbow, the ulna to the olecranon, the radius to the radial head on the left; on the right the proximal radius (radial head/neck) is partly labelled as ulna. The elbow joint surfaces are placed by a luminance watershed between the bones' own regions plus an anatomical joint line estimated from the humeral head (about +-10 mm); treat the elbow as approximate. The hand is complete but unseparated (composite hand_r / hand_l)."
+  "A KEY, not data. Version 2 (2026-09-11): the humerus now runs to the elbow, the ulna to the olecranon, the radius to the radial head on the left; on the right the proximal radius (radial head/neck) is partly labelled as ulna. The elbow joint surfaces are placed by a luminance watershed between the bones' own regions plus an anatomical joint line estimated from the humeral head (about +-10 mm); treat the elbow as approximate. The hand is complete but unseparated (composite hand_r / hand_l).",
+  "Version 3 (2026-09-11): hand masses 4/8 replaced by the carpal/metacarpal/phalangeal groups 9-14 (labels 4/8 no longer occur); the fingers come from the top of the legs CT block (the torso block ends at the palm), carried over by the measured block offset."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), series 5d409385-d3e7-48a9-ae50-150b39e834da via the NCI Imaging Data Commons mirror (Fedorov A et al., Radiographics 2023, doi:10.1148/rg.230180). Segmentation produced in this repository; radius/ulna identity by distal width (radius wider) confirmed by distal reach (radial styloid lower), both sides. Cryosection part: NLM Visible Human Project male colour cryosections (public domain), IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md).",
  "task": "vhm_arm",
@@ -14,7 +15,13 @@
   "5": "humerus_left",
   "6": "radius_left",
   "7": "ulna_left",
-  "8": "hand_left"
+  "8": "hand_left",
+  "9": "carpals_right",
+  "10": "metacarpals_right",
+  "11": "phalanges_right",
+  "12": "carpals_left",
+  "13": "metacarpals_left",
+  "14": "phalanges_left"
  },
  "atlas": {
   "humerus_right": {
@@ -32,11 +39,6 @@
    "relationship": "exact",
    "note": "CT part from the wrist; proximal end (coronoid, olecranon) from the photographs; trochlear notch approximate."
   },
-  "hand_right": {
-   "atlas_id": "hand_r",
-   "relationship": "part_of",
-   "note": "All hand bones in one mask; the atlas keeps carpals, metacarpals and phalanges as separate entities, so this maps to the composite hand_r."
-  },
   "humerus_left": {
    "atlas_id": "humerus_l",
    "relationship": "exact",
@@ -52,10 +54,35 @@
    "relationship": "exact",
    "note": "CT part from the wrist; proximal end (coronoid, olecranon) from the photographs; trochlear notch approximate."
   },
-  "hand_left": {
-   "atlas_id": "hand_l",
+  "carpals_right": {
+   "atlas_id": "carpals_r",
    "relationship": "part_of",
-   "note": "All hand bones in one mask; the atlas keeps carpals, metacarpals and phalanges as separate entities, so this maps to the composite hand_l."
+   "note": "Hand mass (torso CT block + fingers from the legs CT block) cut by planes along the hand axis: 0-45 mm from the radius end. Rule-based grouping, bones not separated."
+  },
+  "metacarpals_right": {
+   "atlas_id": "metacarpals_r",
+   "relationship": "part_of",
+   "note": "45-115 mm along the hand axis; the thumb metacarpal, which starts more proximally, is cut by the same planes."
+  },
+  "phalanges_right": {
+   "atlas_id": "phalanges_hand_r",
+   "relationship": "part_of",
+   "note": "Beyond 115 mm along the hand axis."
+  },
+  "carpals_left": {
+   "atlas_id": "carpals_l",
+   "relationship": "part_of",
+   "note": "Hand mass (torso CT block + fingers from the legs CT block) cut by planes along the hand axis: 0-45 mm from the radius end. Rule-based grouping, bones not separated."
+  },
+  "metacarpals_left": {
+   "atlas_id": "metacarpals_l",
+   "relationship": "part_of",
+   "note": "45-115 mm along the hand axis; the thumb metacarpal, which starts more proximally, is cut by the same planes."
+  },
+  "phalanges_left": {
+   "atlas_id": "phalanges_hand_l",
+   "relationship": "part_of",
+   "note": "Beyond 115 mm along the hand axis."
   }
  }
 }
