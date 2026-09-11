@@ -1,0 +1,242 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhm_neck",
+ "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/headneck_muscles.nii.gz",
+ "label_map": "totalsegmentator_headneck_muscles",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "sternocleidomastoid_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "sternocleidomastoid_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "sternocleidomastoid_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "sternocleidomastoid_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "superior_pharyngeal_constrictor",
+   "side": null,
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped.",
+   "candidates": []
+  },
+  {
+   "label": 4,
+   "source_structure": "middle_pharyngeal_constrictor",
+   "side": null,
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped.",
+   "candidates": []
+  },
+  {
+   "label": 5,
+   "source_structure": "inferior_pharyngeal_constrictor",
+   "side": null,
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped.",
+   "candidates": []
+  },
+  {
+   "label": 6,
+   "source_structure": "trapezius_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "trapezius_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 7,
+   "source_structure": "trapezius_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "trapezius_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 8,
+   "source_structure": "platysma_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "Under 50 voxels on this scan: the model did not find the platysma in the frozen cadaver. Not ingested.",
+   "candidates": []
+  },
+  {
+   "label": 9,
+   "source_structure": "platysma_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "Under 50 voxels on this scan: the model did not find the platysma in the frozen cadaver. Not ingested.",
+   "candidates": []
+  },
+  {
+   "label": 10,
+   "source_structure": "levator_scapulae_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "levator_scapulae_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 11,
+   "source_structure": "levator_scapulae_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "levator_scapulae_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 12,
+   "source_structure": "anterior_scalene_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "scalenus_anterior_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 13,
+   "source_structure": "anterior_scalene_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "scalenus_anterior_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 14,
+   "source_structure": "middle_scalene_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "scalenus_medius_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 15,
+   "source_structure": "middle_scalene_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "scalenus_medius_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 16,
+   "source_structure": "posterior_scalene_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "scalenus_posterior_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 17,
+   "source_structure": "posterior_scalene_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "scalenus_posterior_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 18,
+   "source_structure": "sterno_thyroid_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "sternothyroid_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 19,
+   "source_structure": "sterno_thyroid_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "sternothyroid_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 20,
+   "source_structure": "thyrohyoid_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "thyrohyoid_r",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 21,
+   "source_structure": "thyrohyoid_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "thyrohyoid_l",
+   "relationship": "exact",
+   "note": null,
+   "candidates": []
+  },
+  {
+   "label": 22,
+   "source_structure": "prevertebral_right",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: longus colli, longus capitis.",
+   "candidates": []
+  },
+  {
+   "label": 23,
+   "source_structure": "prevertebral_left",
+   "side": "left",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_atlas_entity",
+   "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: longus colli, longus capitis.",
+   "candidates": []
+  }
+ ]
+}

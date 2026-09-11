@@ -858,6 +858,22 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   210/197 mm, ulna 191/158 mm, hand 25/48 cm3, humerus extended below its
   `total` label away from the edge band. All partial at the elbow.
   Composite `hand_r`/`hand_l` entities added (as `cranium`).
+- Head tasks on the 0.527 mm head-neck grid: craniofacial mandible 60.7,
+  cranium 700 cm3, teeth, sinuses; head muscles masseter 31/33, temporalis
+  61/64, pterygoids 9-15, tongue 45 cm3 (a large male; s1159's are about
+  half) -- plausible; orbit: eyeballs 5.8/5.3, extraocular muscles
+  0.15-1.3 cm3, superior rectus 0.01/0.08 (fragments, nulled).
+- Origin: `total` on the legs block's pelvis slab fits both femoral heads
+  (r 25.9/25.7 mm, rms 0.74/0.71). The torso and legs blocks do NOT
+  overlap -- torso z=0 is the legs block's top slice (image correlation
+  0.945; no legs slice matches torso z=15) -- so the offset is fixed:
+  legs->torso (+2.72, -0.89, -693.0) mm RAS, in-plane by sub-voxel phase
+  correlation of the shared slice, +-1 mm in z. Torso-frame origin
+  `--origin '-6.035,-895.476,4.787'`. The pelvis-overlap registration
+  (`scripts/register_vhm_blocks_by_pelvis.py`) peaks at coverage 0.31 for
+  that reason and is not used.
+- Task outputs copied to `data/ct_sources/task_outputs/vhm_*`; per-subject
+  mappings to `mappings/subjects/ct_vhm*_volume_mapping.json`.
 - Still true, will be reported plainly: upper-limb muscles, tendons,
   ligaments and nerves have no open 3-D source; the atlas carries them as
   data records with anchors only (VH DU ligaments of the lower limb are the

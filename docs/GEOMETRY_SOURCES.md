@@ -680,10 +680,20 @@ slices by their own ImagePositionPatient/PixelSpacing onto one 0.9375 x
 0.9375 x 1 mm grid (finest group wins where they overlap; one missing slice
 at z = -274 mm filled from its neighbours) and a second 0.527 mm grid of the
 head and neck for the 0.5 mm head tasks. The three series were scanned in
-separate table sessions and their z origins do not agree, so the pelvis
-block is placed by the atlas rule (origin = midpoint of the femoral-head
-sphere fits, taken from the legs series and carried over by the hip-bone
-overlap), never by the DICOM z value.
+separate table sessions and their z origins do not agree. They also do
+not overlap: the torso block's bottom slice IS the legs block's top slice
+(image correlation 0.945 between torso z=0 and legs z=808, and no legs
+slice matches torso z=15), so the blocks are contiguous and the offset is
+fixed, not fitted: legs->torso = (+2.72, -0.89, -693.0) mm RAS, the
+in-plane part from sub-voxel phase correlation of that shared slice
+(+-1 mm in z if the two slices are adjacent rather than identical). The
+atlas origin is the femoral-head rule applied to the legs block
+(`total` on its pelvis slab: right head r=25.9 mm rms 0.74, left r=25.7
+rms 0.71) carried over by that offset:
+`--origin '-6.035,-895.476,4.787'` for every torso-block subject. A
+pelvis-overlap registration was tried first and is kept as
+`scripts/register_vhm_blocks_by_pelvis.py`; it cannot work here (best
+coverage 0.31) precisely because there is no overlap.
 
 Provenance: NLM Visible Human Project, public domain with attribution
 ("Courtesy of the U.S. National Library of Medicine"); IDC citation
