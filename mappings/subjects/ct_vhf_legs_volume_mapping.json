@@ -1,0 +1,152 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_legs",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_lower_limb_bones.nii.gz",
+  "label_map": "vhf_legs",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "tibia_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "tibia_r",
+      "relationship": "exact",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "fibula_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "fibula_r",
+      "relationship": "exact",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "patella_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "patella_r",
+      "relationship": "exact",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "tarsals_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "tarsals_r",
+      "relationship": "part_of",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "metatarsals_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metatarsals_r",
+      "relationship": "part_of",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "phalanges_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "phalanges_foot_r",
+      "relationship": "part_of",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "tibia_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "tibia_l",
+      "relationship": "exact",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "fibula_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "fibula_l",
+      "relationship": "exact",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 9,
+      "source_structure": "patella_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "patella_l",
+      "relationship": "exact",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 10,
+      "source_structure": "tarsals_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "tarsals_l",
+      "relationship": "part_of",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 11,
+      "source_structure": "metatarsals_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "metatarsals_l",
+      "relationship": "part_of",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 12,
+      "source_structure": "phalanges_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "phalanges_foot_l",
+      "relationship": "part_of",
+      "note": "Component / plane rule as described in the README.",
+      "candidates": []
+    },
+    {
+      "label": 13,
+      "source_structure": "femur_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "femur_r",
+      "relationship": "exact",
+      "note": "Two CT blocks of the same body united at mid-thigh (torso block: TotalSegmentator femur; legs block: HU>=200 component); 3-slice junction gap closed along z.",
+      "candidates": []
+    },
+    {
+      "label": 14,
+      "source_structure": "femur_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "femur_l",
+      "relationship": "exact",
+      "note": "Two CT blocks of the same body united at mid-thigh (torso block: TotalSegmentator femur; legs block: HU>=200 component); 3-slice junction gap closed along z.",
+      "candidates": []
+    }
+  ]
+}

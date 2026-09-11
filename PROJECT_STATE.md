@@ -1109,7 +1109,13 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [x] Q19 (21:05) depth below skin computed by the exporter for every structure (min / median mm from the skin mesh) and shown as a tag in the info panel of both viewers.
 - [x] Q18 (21:20) data/derived/audit_male_vs_female.json: per-bone landmark audit on both bodies; the bones that agree across bodies (hip, clavicle, scapula, ulna) point at landmarks that are right; the ones that disagree point at the landmark or at a truncated mesh.
 - [x] Q22 (21:30) report only: data/derived/landmarks_off_on_both_bodies.json lists the landmarks >12 mm off on BOTH bodies (the likelier culprit is the landmark); no coordinates changed -- a reviewer decides, using the audit's frames.
-- [~] Q28 (started 20:25) Female LOWER LIMB bones: IDC series af18f5e4 ('1X1 AXIAL FEMUR-TOES NCE', 0.72 mm, fresh CT): download, dcm2niix, `total` (femur), then HU>=200 components with the femur removed -> tibia, fibula, patella by size/position, foot bones by planes; register to her torso block by the shared femur (both hold the proximal femur) and ship in the female bundle.
+- [x] Q28 (20:25 -> 22:50, through a container reset) Female LOWER LIMB bones shipped: female viewer Version 6, 167 structures (+12: tibia, fibula, patella, tarsals, metatarsals, phalanges per side; femur now united from both blocks). See the 22:50 section.
+- [ ] Q29 (added 22:05, after the container reset) Restore the MALE build so the male viewer can be republished
+      again: re-download the DU "Final 3D STL models" (Right + Left, ~133 MB, CC BY 4.0) and re-ingest `vhm_both`;
+      reconvert every `ct_vhm*` subject from the repository task outputs (all cryo-derived male volumes are in
+      `data/ct_sources/task_outputs`); the male body surface (`ct_vhm_skin`, from the cryosections) is NOT in the
+      repository -- re-stream the cryosection silhouette (`scripts/cryo/skin_from_cryo.py`, 1878 slices) or ship
+      the male without depth tags until then. Republish only if the bundle changes.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
@@ -1147,6 +1153,52 @@ Rebuild done in this window: pip deps, IDC series af18f5e4 (legs) and b9cf8e7a (
 restacked (`scripts/inspect_dicom_series.py` + `scripts/stack_dicom_series.py`, same grids as before), female
 body surface re-derived, `scripts/cryo/vhf_rebuild_bundle.sh` written to reconvert every female subject from the
 repository copies and export the female bundle.
+
+## 2026-09-11, 22:50: Q28 done -- the female's lower limb (femur to toes) from her second CT block
+
+`scripts/vhf_lower_limb_bones.py` on IDC series af18f5e4 (femur-to-toes, 0.72 mm, restacked after the reset).
+The block starts at MID-THIGH, so the queue item's premise (a shared femoral head) was wrong: the first run's
+sphere fits on the legs block (r 31-33 mm, rms 7-8) were fits to the shaft and the 54 mm side disagreement
+was the symptom. Registration instead by CONTINUITY across the torso/legs junction: quadratic fits through
+the inter-femur distance of the torso's bottom 24 slices and the block's top 24 slices under candidate
+shifts (best z -943.0, rms 0.15 mm), agreeing with body-area (-943.5) and subcutaneous-fat-area (-942.5)
+fits; femur cross-section areas disagree by 7 mm (a ~2 % partial-volume bias between the 0.94 and 0.72 mm
+grids) and are recorded, not used. Shift (+6.0, -3.6, -943.5) mm, +-4 mm in height; the junction gap is
+about 3 slices (the blocks are nearly contiguous, like the male's).
+
+Bones: HU >= 200 split at the joints by a distance-transform watershed. What failed first: (1) a 450 mm
+"tall junk" rule deleted the whole leg (femur+tibia+foot are one HU component through the joints) -> rule
+now needs a mean section < 150 mm2; (2) plain 2-voxel erosion fragmented the fibula (cortical ring 2 voxels
+thick) and did not open the ankle; (3) per-slice hole filling closed the ankle crescents and tarsal joint
+spaces (holes < 300 mm2 for a few slices) so 4 mm markers fused tibia+foot -> canals are now filled only as
+TUBES (2-D holes < 300 mm2 persisting >= 40 mm); (4) the watershed cut every constriction (femoral condyles,
+fibular necks) -> fragments re-united where the boundary saddle (max distance-transform on the common face)
+is >= 2 mm, i.e. thick bone; a joint bridge is a 1-voxel sheet; (5) that merge also glued the fibula to the
+tibia (the boundary ran through the fibular shaft, not the joint) -> the fibula is split from the tibia
+label slice by slice (smaller lateral 2-D component seeded from the shaft's middle 70 %, touching slices by
+a 2-D watershed from the neighbouring slice). Femur = legs-block component united with the torso block's
+TotalSegmentator femur on the legs grid extended 200 slices upward; 3-slice gap closed along z.
+Verified by front/side projections (render in the log; femurs whole with heads, patellae anterior, fibulae
+lateral to the malleolus, feet plantar-flexed) and by volumes:
+
+| bone | right cm3 | left cm3 | length mm | textbook |
+|---|---|---|---|---|
+| femur (united) | 402 | 389 | 424 | female femur ~ 43 cm, 350-450 cm3 |
+| tibia | 179 | 174 | 362 / 358 | ~ 36 cm, 150-250 cm3 |
+| fibula | 43.5 | 43.2 | 351 / 339 | ~ 35 cm, 35-55 cm3 |
+| patella | 20.7 | 20.5 | | 15-25 cm3 |
+| tarsals (group) | 129 | 132 | foot 223 / 226 | calcaneus+talus+5 ~ 130 cm3; female foot ~ 23 cm |
+| metatarsals (group) | 45.5 | 38.4 | | 40-50 cm3 |
+| phalanges (group) | 7.5 | 5.9 | | ~ 15 cm3 (distal phalanges below 200 HU on this cadaver) |
+
+Shipped: `data/ct_sources/task_outputs/vhf_lower_limb_bones.nii.gz` (+ `_report.json`, IN the repository this
+time), `mappings/vhf_legs_labels.json` (labels 13/14 femur), subject `ct_vhf_legs` exported BEFORE `ct_vhf`
+so its united femur wins over the torso stub. Body surface now covers both blocks on one grid
+(`scripts/cryo/vhf_whole_body_skin.py`: silhouettes of both CTs, legs resampled with the shift, 1739 slices)
+so the depth tags below the knee are real (tibia 1.6 mm at its subcutaneous border, femur 11 mm, patella
+3 mm). `data/derived/skin_depth_vhf.json` regenerated (166 rows, min/median). Female artifact Version 6:
+167 structures, 8.97 MB. Tests 149 pass. Feet remain plane-grouped (same limitation as the male CT feet);
+the female's phalanges are under-captured at HU 200.
 
 ## Next action
 

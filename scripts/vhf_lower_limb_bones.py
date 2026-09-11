@@ -12,8 +12,9 @@ No free TotalSegmentator task labels bones below the femur, so this is threshold
   are re-united. What stays apart is separated by a thin partial-volume sheet: the joint contacts (knee, ankle,
   tibiofibular, tarsal). Then, per side (RAS x sign):
     femur   = the component reaching the top of the block (registration, and label 13/14 below);
-    tibia   = largest remaining component > 250 mm tall; fibula = every piece > 40 mm tall lateral to the tibia within
-              the tibia's height (the slender fibular shaft seeds several markers; they are united as one label);
+    tibia   = largest remaining component > 250 mm tall; fibula = split from that label slice by slice (the smaller, lateral
+              2-D component; touching slices by a 2-D watershed seeded from the neighbouring slice), plus any
+              lateral piece the 3-D watershed had left apart;
     patella = largest 5-60 cm3 component anterior (+y) of the distal femur, within its z window;
     femur   = the block's femur united with the torso block's TotalSegmentator femur (labels 13/14, the grid is
               extended 200 slices upward to hold the head);
@@ -100,6 +101,36 @@ for sgn in (1,-1):
 np.save(str(Path(a.out).with_suffix('')).replace('.nii','')+'_components.npy',cl) if a.keep_components else None
 n=nlab; objs=ndi.find_objects(cl); sizes=ndi.sum(np.ones_like(cl),cl,np.arange(1,n+1))
 ztop=A[2,3]+(sh[2]-4)*A[2,2]
+
+def split_fibula(mask,sgn):
+    """Tibia and fibula from one merged label, slice by slice. On most slices the two are separate 2-D components
+    (the smaller, more lateral one is the fibula); where they touch (proximal tibiofibular joint, syndesmosis) the
+    slice is split by a 2-D watershed seeded from the nearest already-assigned slice."""
+    nz=mask.shape[2]; fib=np.zeros_like(mask); assigned=np.zeros(nz,bool); clean=[]
+    ks=np.argwhere(mask.any(axis=(0,1))).ravel(); k0,k1=ks.min(),ks.max()
+    for k in range(nz):
+        sl=mask[:,:,k]
+        if not sl.any() or k<k0+0.15*(k1-k0) or k>k1-0.15*(k1-k0): continue   # seed only from the shaft; the ends (plateau, plafond) are reached by propagation
+        l2,n2=ndi.label(sl,structure=np.ones((3,3))); 
+        if n2<2: continue
+        ar=ndi.sum(np.ones_like(l2),l2,np.arange(1,n2+1))*zm[0]*zm[1]; big=np.argsort(ar)[::-1][:2]
+        if ar[big[1]]<30: continue
+        cx=[ndi.center_of_mass(l2==b+1)[0] for b in big]; xr_=[A[0,3]+c*A[0,0] for c in cx]
+        f=big[1] if sgn*(xr_[1]-xr_[0])>0 else big[0]      # the more lateral of the two large pieces
+        if f==big[0] or ar[f]>0.6*ar[big[0]]: continue   # the lateral piece must be the clearly smaller one, or this is not a tibia/fibula pair
+        fib[:,:,k]=l2==f+1; assigned[k]=True; clean.append(k)
+    if not clean: return mask,fib
+    order=sorted([k for k in range(nz) if mask[:,:,k].any() and not assigned[k]],key=lambda k:min(abs(k-c) for c in clean))
+    for k in order:
+        near=[j for j in (k-1,k+1) if 0<=j<nz and assigned[j]]
+        if not near: assigned[k]=True; continue
+        j=near[0]; sl=mask[:,:,k]; pf=ndi.binary_erosion(fib[:,:,j])&sl; pt=ndi.binary_erosion(mask[:,:,j]&~fib[:,:,j])&sl
+        if pf.any() and pt.any():
+            mk=np.zeros(sl.shape,np.int32); mk[pt]=1; mk[pf]=2; d=ndi.distance_transform_edt(sl,sampling=zm[:2]); fib[:,:,k]=watershed(-d,mk,mask=sl)==2
+        elif pf.any() and not pt.any(): fib[:,:,k]=sl
+        assigned[k]=True
+    return mask&~fib,fib
+
 out=np.zeros(sh,np.uint8); report={}; femur_mask={}
 for side,sgn,base in (("right",1,0),("left",-1,6)):
     comps=[]
@@ -116,12 +147,13 @@ for side,sgn,base in (("right",1,0),("left",-1,6)):
     longs=sorted([c for c in comps if c["i"]!=fe["i"] and c["ext"]>250],key=lambda c:-c["n"])
     rep={"femur_in_block_cm3":round(fe["n"]*vox/1000,1),"femur_in_block_len_mm":round(fe["ext"])}
     if not longs: print(side,"tibia not found"); report[side]=rep; continue
-    tib=longs[0]; out[cl==tib["i"]]=base+1
+    tib=longs[0]; tm=cl==tib["i"]
     if tib["ext"]>420: print(side,"WARNING tibia component too tall (joined to the foot?)",round(tib["ext"]),flush=True)
-    # fibula: every piece lateral to the tibia within the tibia's height (its slender shaft can seed several markers)
+    # fibula: lateral pieces beside the tibia (if the watershed left any), plus the slice-wise split of the tibia label
     fibs=[c for c in comps if c["i"] not in (tib["i"],fe["i"]) and c["ext"]>40 and c["zmin"]>tib["zmin"]-15 and c["zmax"]<tib["zmax"]+15 and sgn*(c["cx"]-tib["cx"])>10]
-    fm=np.isin(cl,[c["i"] for c in fibs]); out[fm]=base+2; fib=dict(n=int(fm.sum()),ext=(max(c["zmax"] for c in fibs)-min(c["zmin"] for c in fibs)) if fibs else 0)
-    rep.update({"tibia_cm3":round(tib["n"]*vox/1000,1),"tibia_len_mm":round(tib["ext"]),"fibula_cm3":round(fib["n"]*vox/1000,1),"fibula_len_mm":round(fib["ext"]),"fibula_pieces":len(fibs)})
+    tm,fm=split_fibula(tm,sgn); fm|=np.isin(cl,[c["i"] for c in fibs]); out[tm]=base+1; out[fm]=base+2
+    fz=np.argwhere(fm.any(axis=(0,1))).ravel(); fib=dict(n=int(fm.sum()),ext=float((fz.max()-fz.min())*zm[2]) if len(fz) else 0.0)
+    rep.update({"tibia_cm3":round(float(tm.sum())*vox/1000,1),"tibia_len_mm":round(tib["ext"]),"fibula_cm3":round(fib["n"]*vox/1000,1),"fibula_len_mm":round(fib["ext"]),"fibula_pieces_from_watershed":len(fibs)})
     used={tib["i"],fe["i"]}|{c["i"] for c in fibs}
     pat=[c for c in comps if c["i"] not in used and c["cz"]>tib["zmax"]-40 and c["cz"]<fz_min+80 and c["cy"]>fy+15 and 5000<c["n"]*vox<60000]
     if pat: p=max(pat,key=lambda c:c["n"]); out[cl==p["i"]]=base+3; used.add(p["i"]); rep["patella_cm3"]=round(p["n"]*vox/1000,1)
