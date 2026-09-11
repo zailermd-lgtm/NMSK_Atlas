@@ -947,7 +947,7 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   the muscle schema needs fibre parameters a compartment does not have
   (no fabrication), and the forearm split does not follow the septa in
   this pronated arm. Kept as a reviewable intermediate.
-- Viewer Version 15: VH pec major/serratus/lat dorsi added; Version 14: arms complete to the elbow (humeri, ulnae; left
+- Viewer Version 16 (276 structures): hands grouped, named arm muscles; Version 15: VH pec major/serratus/lat dorsi added; Version 14: arms complete to the elbow (humeri, ulnae; left
   radius to the head; right radial head defect noted).
 - **Hybrid CT works for the big trunk muscles.** `abdominal_muscles` on
   the photograph-restored CT (cm3, hybrid / frozen / s1159): pectoralis

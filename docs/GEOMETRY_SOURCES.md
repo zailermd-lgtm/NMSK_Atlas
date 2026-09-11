@@ -745,24 +745,36 @@ things came out of them:
    unioned into `ct_vhm_neck`) and only rectus, obliques and quadratus
    lumborum from s1159.
 
-Not from the photographs, deliberately: individual arm/forearm muscles
-(the intermuscular septa are visible, the finer fascial planes are not
-reliable -- an anterior/posterior compartment split is kept as an
-intermediate, `mappings/vhm_arm_compartments_labels.json`), separated
-hand bones, tendons, ligaments, nerves. Each of those needs slice-by-slice
-review, not thresholds.
+3. **Hands and named arm muscles** (later the same day). The fingers lie
+   in the legs CT block (the torso block ends at the palm; `total` labels
+   them "skull" there); both blocks are unioned and each hand cut by
+   planes along its axis into carpal, metacarpal and phalangeal groups
+   (`scripts/cryo/hands_from_both_blocks.py`). The arm compartments are
+   turned into biceps, brachialis, coracobrachialis and triceps by
+   depth-and-level rules from standard anatomy
+   (`scripts/cryo/name_arm_muscles_from_cryo.py`, key
+   `mappings/vhm_arm_muscles_labels.json`); the biceps/brachialis boundary
+   is a rule, not a traced fascia, and the viewer badge says so.
+
+Not from the photographs, deliberately: individual forearm muscles (the
+arm lies pronated on the thigh and an image-frame split does not follow
+the forearm septa), separated carpal bones, tendons, ligaments, nerves.
+Each of those needs slice-by-slice review, not thresholds.
 
 What the frozen scan is and is not good for, measured (2026-09-11):
 `total` bones are all there and in place; `headneck_muscles`, the head
 muscles and craniofacial bones are plausible for a large male; the
 `abdominal_muscles` task fails on it (superficial trunk muscles come out
 as fragments, erector spinae leaks into fat), and there is no vascular
-contrast. So the shipped bundle (viewer Version 15, 264 structures) is:
+contrast. So the shipped bundle (viewer Version 16, 276 structures) is:
 the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
-pelvis, the arms to the elbow, the head/neck/orbit muscles, pectoralis
+fingertips (arms complete; hands as carpal/metacarpal/phalangeal groups),
+the arm muscles by compartment rules (biceps, brachialis,
+coracobrachialis, triceps), the head/neck/orbit muscles, pectoralis
 major, serratus anterior, latissimus dorsi, trapezius, the gluteals and
-iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_head`, `ct_vhm_headm`,
-`ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`, `ct_vhm_abd`); and, badged
+iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_head`,
+`ct_vhm_headm`, `ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`,
+`ct_vhm_abd`); and, badged
 as a second specimen, s1159's abdominal-wall muscles (`ct_s1159_abd`:
 rectus, obliques, quadratus lumborum) and vessels (`ct_s1159`, its bones
 dropped on collision). The VH pelvis was cross-checked against
