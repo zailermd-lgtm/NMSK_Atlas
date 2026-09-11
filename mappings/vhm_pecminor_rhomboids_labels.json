@@ -1,11 +1,11 @@
 {
  "_README": [
   "Label id -> structure name for the pectoralis minor / rhomboid volume derived from the Visible Human male colour cryosections by scripts/cryo/pecminor_rhomboids.py, plus the mapping onto atlas entities.",
-  "A KEY, not data. Rule-based: pectoralis minor = unlabelled muscle deep to the pectoralis major label (within 18 mm behind it), anterior to the ribs, 20-130 mm lateral of the midline, clavicle to rib 6; rhomboids = unlabelled muscle between the scapula's medial border and the midline, posterior, deep to the trapezius label, C7 to T6, major and minor as one mass. Volumes r/l: pectoralis minor 148/104 cm3 (over-counted: the real muscle is 30-60 cm3, so intercostal / serratus slips are included), rhomboids 124/135 cm3."
+  "A KEY, not data. Rule-based: pectoralis minor = unlabelled muscle deep to the pectoralis major label (within 18 mm behind it), anterior to the ribs, 20-130 mm lateral of the midline, clavicle to rib 6; rhomboids = unlabelled muscle between the scapula's medial border and the midline, posterior, deep to the trapezius label, C7 to T6, major and minor as one mass. Volumes r/l (v2, sheet <=10 mm deep to pec major, >=8 mm from the ribs): pectoralis minor 77/51 cm3 (textbook 30-60: still somewhat over-counted), rhomboids 124/135 cm3."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md). Rules from standard anatomy: Standring S (ed.), Gray's Anatomy, 42nd ed.",
  "task": "vhm_pecminor_rhomboids",
- "version": "2026-09-11",
+ "version": "2026-09-11 v2",
  "labels": {
   "1": "pecminor_right",
   "2": "pecminor_left",

@@ -30,10 +30,10 @@ for k in range(zrib6[0],zclav[1]+1):
     for side,sgn,lid in (("right",-1,1),("left",1,2)):   # frame col increases towards the patient's LEFT (x = 350 - col)
         pm=hb==ha[f"pectoralis_major_{side}"]
         if not pm.any(): continue
-        deep=ndi.binary_dilation(pm,iterations=18)&~pm&(yy>np.where(pm)[0].mean())   # behind the pec major
+        deep=ndi.binary_dilation(pm,iterations=10)&~pm&(yy>np.where(pm)[0].mean())   # a thin sheet directly behind the pec major (<=10 mm)
         rb=np.isin(t,ribs); ant=(yy<vrow-40)
         lat=(sgn*(xx-mid)>20)&(sgn*(xx-mid)<130)
-        m=free&deep&ant&lat&~ndi.binary_dilation(rb,iterations=3)
+        m=free&deep&ant&lat&~ndi.binary_dilation(rb,iterations=8)   # anything hugging the ribs is intercostal / serratus, not pec minor
         if m.any():
             cl,mm=ndi.label(m); sizes=ndi.sum(np.ones_like(cl),cl,np.arange(1,mm+1)); m=cl==(np.argmax(sizes)+1)
             if sizes.max()>=40: out[k][m]=lid

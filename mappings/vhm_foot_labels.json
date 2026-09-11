@@ -1,0 +1,49 @@
+{
+ "_README": [
+  "Label id -> structure name for the foot bone volume from the Visible Human male frozen CT feet block (IDC series 94755b62-0f88-4aa8-82ec-2d6d5cb8dbc7, ankle to toes) by scripts/cryo/feet_from_ct.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. HU>=200 bone, the distal tibia/fibula removed by proximity to the DU tibia/fibula meshes of the same body, then each foot cut by planes along its own axis from the heel: tarsals <115 mm, metatarsals 115-190 mm, phalanges beyond. Rule-based grouping, bones not separated. The feet block is registered to the legs block by their shared slice (correlation 0.968)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male frozen CT via the NCI Imaging Data Commons.",
+ "task": "vhm_foot",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "tarsals_right",
+  "2": "metatarsals_right",
+  "3": "phalanges_right",
+  "4": "tarsals_left",
+  "5": "metatarsals_left",
+  "6": "phalanges_left"
+ },
+ "atlas": {
+  "tarsals_right": {
+   "atlas_id": "tarsals_r",
+   "relationship": "part_of",
+   "note": "Heel to 115 mm along the foot axis (calcaneus, talus, navicular, cuboid, cuneiforms unseparated)."
+  },
+  "metatarsals_right": {
+   "atlas_id": "metatarsals_r",
+   "relationship": "part_of",
+   "note": "115-190 mm along the foot axis."
+  },
+  "phalanges_right": {
+   "atlas_id": "phalanges_foot_r",
+   "relationship": "part_of",
+   "note": "Beyond 190 mm along the foot axis."
+  },
+  "tarsals_left": {
+   "atlas_id": "tarsals_l",
+   "relationship": "part_of",
+   "note": "Heel to 115 mm along the foot axis (calcaneus, talus, navicular, cuboid, cuneiforms unseparated)."
+  },
+  "metatarsals_left": {
+   "atlas_id": "metatarsals_l",
+   "relationship": "part_of",
+   "note": "115-190 mm along the foot axis."
+  },
+  "phalanges_left": {
+   "atlas_id": "phalanges_foot_l",
+   "relationship": "part_of",
+   "note": "Beyond 190 mm along the foot axis."
+  }
+ }
+}
