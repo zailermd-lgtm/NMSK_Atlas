@@ -5,7 +5,7 @@
     "'status' is advisory; convert reads 'atlas_id' only."
   ],
   "subject": "ct_vhm_arm",
-  "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/arm_bones_labels.nii.gz",
+  "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/arm_bones_cryo_completed.nii.gz",
   "label_map": "vhm_arm",
   "entries": [
     {
@@ -15,7 +15,7 @@
       "status": "curated",
       "atlas_id": "humerus_r",
       "relationship": "exact",
-      "note": "TotalSegmentator humerus label extended distally by watershed; distal end truncated by the field of view.",
+      "note": "TotalSegmentator humerus label, extended through the photographs to the elbow joint line; distal joint surface approximate (+-10 mm).",
       "candidates": []
     },
     {
@@ -25,7 +25,7 @@
       "status": "curated",
       "atlas_id": "radius_r",
       "relationship": "exact",
-      "note": "Proximal end truncated by the field of view (no radial head/neck).",
+      "note": "CT part from the wrist; proximal end from the photographs. Right: radial head/neck partly taken by the ulna label -- known defect.",
       "candidates": []
     },
     {
@@ -35,17 +35,7 @@
       "status": "curated",
       "atlas_id": "ulna_r",
       "relationship": "exact",
-      "note": "Proximal end truncated by the field of view (no olecranon/coronoid).",
-      "candidates": []
-    },
-    {
-      "label": 4,
-      "source_structure": "hand_right",
-      "side": "right",
-      "status": "curated",
-      "atlas_id": "hand_r",
-      "relationship": "part_of",
-      "note": "All hand bones in one mask; the atlas keeps carpals, metacarpals and phalanges as separate entities, so this maps to the composite hand_r.",
+      "note": "CT part from the wrist; proximal end (coronoid, olecranon) from the photographs; trochlear notch approximate.",
       "candidates": []
     },
     {
@@ -55,7 +45,7 @@
       "status": "curated",
       "atlas_id": "humerus_l",
       "relationship": "exact",
-      "note": "TotalSegmentator humerus label extended distally by watershed; distal end truncated by the field of view.",
+      "note": "TotalSegmentator humerus label, extended through the photographs to the elbow joint line; distal joint surface approximate (+-10 mm).",
       "candidates": []
     },
     {
@@ -65,7 +55,7 @@
       "status": "curated",
       "atlas_id": "radius_l",
       "relationship": "exact",
-      "note": "Proximal end truncated by the field of view (no radial head/neck).",
+      "note": "CT part from the wrist; proximal end from the photographs. Left: reaches the radial head.",
       "candidates": []
     },
     {
@@ -75,17 +65,67 @@
       "status": "curated",
       "atlas_id": "ulna_l",
       "relationship": "exact",
-      "note": "Proximal end truncated by the field of view (no olecranon/coronoid).",
+      "note": "CT part from the wrist; proximal end (coronoid, olecranon) from the photographs; trochlear notch approximate.",
       "candidates": []
     },
     {
-      "label": 8,
-      "source_structure": "hand_left",
+      "label": 9,
+      "source_structure": "carpals_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "carpals_r",
+      "relationship": "part_of",
+      "note": "Hand mass (torso CT block + fingers from the legs CT block) cut by planes along the hand axis: 0-45 mm from the radius end. Rule-based grouping, bones not separated.",
+      "candidates": []
+    },
+    {
+      "label": 10,
+      "source_structure": "metacarpals_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpals_r",
+      "relationship": "part_of",
+      "note": "45-115 mm along the hand axis; the thumb metacarpal, which starts more proximally, is cut by the same planes.",
+      "candidates": []
+    },
+    {
+      "label": 11,
+      "source_structure": "phalanges_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "phalanges_hand_r",
+      "relationship": "part_of",
+      "note": "Beyond 115 mm along the hand axis.",
+      "candidates": []
+    },
+    {
+      "label": 12,
+      "source_structure": "carpals_left",
       "side": "left",
       "status": "curated",
-      "atlas_id": "hand_l",
+      "atlas_id": "carpals_l",
       "relationship": "part_of",
-      "note": "All hand bones in one mask; the atlas keeps carpals, metacarpals and phalanges as separate entities, so this maps to the composite hand_l.",
+      "note": "Hand mass (torso CT block + fingers from the legs CT block) cut by planes along the hand axis: 0-45 mm from the radius end. Rule-based grouping, bones not separated.",
+      "candidates": []
+    },
+    {
+      "label": 13,
+      "source_structure": "metacarpals_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "metacarpals_l",
+      "relationship": "part_of",
+      "note": "45-115 mm along the hand axis; the thumb metacarpal, which starts more proximally, is cut by the same planes.",
+      "candidates": []
+    },
+    {
+      "label": 14,
+      "source_structure": "phalanges_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "phalanges_hand_l",
+      "relationship": "part_of",
+      "note": "Beyond 115 mm along the hand axis.",
       "candidates": []
     }
   ]

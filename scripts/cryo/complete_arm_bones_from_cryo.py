@@ -89,7 +89,7 @@ for side,(cols,ids) in SIDES.items():
     # anything the walk labelled humerus below that line belongs to the ulna if it touches it, else is dropped
     below=np.zeros(sub.shape,bool); below[:elbow]=True; hb=(sub==ids[0])&below
     if hb.any():
-        near=ndi.binary_dilation(sub==ids[2],iterations=3)&hb; sub[hb]=0; sub[near]=ids[2]; r["humerus_cut_voxels"]=int(hb.sum()); r["to_ulna"]=int(near.sum())
+        sub[hb]=ids[2]; r["humerus_cut_voxels"]=int(hb.sum()); r["to_ulna"]=int(hb.sum())   # below the joint line only forearm bone remains; the radius has already claimed its head
     report[side]=r; print(side,r,flush=True)
     out[:,:,cols]=sub
 np.save(S+"vh_cryo/arm_bones_completed_frame.npy",out)
