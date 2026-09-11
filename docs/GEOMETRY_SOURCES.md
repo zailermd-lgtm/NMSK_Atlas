@@ -767,15 +767,18 @@ things came out of them:
 Not from the photographs, deliberately: individual forearm muscles (the
 arm lies pronated on the thigh and an image-frame split does not follow
 the forearm septa), separated carpal bones, teres major, pectoralis minor,
-the rhomboids, tendons, ligaments, nerves. Each of those needs
-slice-by-slice review, not thresholds.
+the rhomboids, tendons, ligaments, nerves. The sciatic nerve was tried
+(`scripts/cryo/sciatic_from_cryo.py`): at 1 mm it is not separable from
+the fat plane it lies in, and on the 0.33 mm photograph it is not
+identifiable without expert reading. Each of those needs slice-by-slice
+review, not thresholds.
 
 What the frozen scan is and is not good for, measured (2026-09-11):
 `total` bones are all there and in place; `headneck_muscles`, the head
 muscles and craniofacial bones are plausible for a large male; the
 `abdominal_muscles` task fails on it (superficial trunk muscles come out
 as fragments, erector spinae leaks into fat), and there is no vascular
-contrast. So the shipped bundle (viewer Version 19, 292 structures) is:
+contrast. So the shipped bundle (viewer Version 21, 295 structures) is:
 the DU lower limb; the VH male CT and cryosections for every bone from the skull to the
 fingertips (arms complete; hands as carpal/metacarpal/phalangeal groups),
 the arm muscles by compartment rules (biceps, brachialis,
@@ -783,14 +786,15 @@ coracobrachialis, triceps), the deltoid by superficial-proximity rules, the rota
 (supraspinatus, infraspinatus with teres minor, subscapularis) by
 scapular-surface rules, the erector spinae columns (spinalis,
 longissimus, iliocostalis) by distance from the midline, the
-transversospinalis mass under multifidus, the head/neck/orbit muscles, pectoralis
+transversospinalis mass under multifidus, the anterolateral abdominal
+wall (rectus, external and internal oblique, transversus) by position and
+depth fraction, and the body surface (`skin`), the head/neck/orbit muscles, pectoralis
 major, serratus anterior, latissimus dorsi, trapezius, the gluteals and
 iliopsoas (subjects `ct_vhm`, `ct_vhm_arm`, `ct_vhm_armm`, `ct_vhm_delt`, `ct_vhm_cuff`, `ct_vhm_es`, `ct_vhm_head`,
 `ct_vhm_headm`, `ct_vhm_neck`, `ct_vhm_neckbv`, `ct_vhm_orbit`,
 `ct_vhm_abd`); and, badged
-as a second specimen, s1159's abdominal-wall muscles (`ct_s1159_abd`:
-rectus, obliques, quadratus lumborum) and vessels (`ct_s1159`, its bones
-dropped on collision). The VH pelvis was cross-checked against
+as a second specimen, s1159's quadratus lumborum (`ct_s1159_abd`) and
+vessels (`ct_s1159`, its bones dropped on collision). The VH pelvis was cross-checked against
 the DU release of the same body: iliac crest tops agree within 0.1 mm.
 
 ## Resulting architecture
