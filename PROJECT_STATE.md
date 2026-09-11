@@ -995,7 +995,7 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   supraspinatus 68/69, infraspinatus 357/342, subscapularis 358/358 cm3 --
   the last two are over-inclusive (deep serratus slips, teres). Render:
   subscapularis between scapula and ribs, infraspinatus dorsal, supra-
-  spinatus in the fossa. Shipped `ct_vhm_cuff`, badged as rule-based.
+  spinatus in the fossa. Shipped `ct_vhm_cuff`, badged as rule-based; viewer Version 18 (284 structures).
 ## Next action
 
 1. **Arms, remaining**: fix the right radial head (walk the radius before
