@@ -1016,6 +1016,27 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   kind 'skin' added). Viewer budgets raised (muscle 2600->3600, bone
   4500->6000, skin 30000); bundle 14.2 MB (limit 16). Version 20 (293
   structures).
+- **Sciatic nerve: attempted, not shipped.** `scripts/cryo/sciatic_from_cryo.py`
+  seeds at the ischial-tuberosity level midway between IT and greater
+  trochanter (from the legs-block `total` labels) and tracks a pale
+  30-250 mm2 blob downward. At 1 mm the nerve is not separable from the
+  fat plane it lies in by colour (no seed blob of that size exists: the
+  pale class merges into the fat), and on the 0.33 mm photograph the
+  nerve is not identifiable with confidence without expert reading. Nerve
+  geometry therefore stays out; the tracker is kept for a reviewer who
+  places the seed by hand.
+- **Abdominal wall by position** (`scripts/cryo/abdominal_wall_from_cryo.py`,
+  key `mappings/vhm_abdominal_wall_labels.json`): wall = muscle within
+  60 mm of the skin, anterior to the vertebral-body centre, in the trunk's
+  tissue component, >8 mm from CT-labelled organs (bowel photographs like
+  muscle), arms excluded; rectus = within 70 mm of the midline and 70 mm
+  behind the anterior skin; lateral wall split by depth fraction
+  (external 40 % / internal 35 % / transversus 25 %). Volumes r/l: rectus
+  225/226, external 195/350, internal 57/160, transversus 107/286 cm3 --
+  over-counted, asymmetric, lower wall (below the iliac crest) missing.
+  Render at five levels: rectus paramedian, layers along the flanks, no
+  bowel. Shipped `ct_vhm_abw` ahead of s1159's (which now fills nothing
+  but quadratus lumborum and the vessels).
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position

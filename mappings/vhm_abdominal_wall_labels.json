@@ -1,0 +1,61 @@
+{
+ "_README": [
+  "Label id -> structure name for the anterolateral abdominal wall volume derived from the Visible Human male colour cryosections by scripts/cryo/abdominal_wall_from_cryo.py, plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based: muscle-coloured voxels within 60 mm of the skin, anterior to the vertebral-body centre, in the trunk's own tissue component, not within 8 mm of any CT-labelled organ/bone and not the arms; rectus abdominis = within 70 mm of the midline and 70 mm behind the anterior midline skin; the lateral wall (>55 mm from the midline) split by depth fraction from the skin-facing boundary: external oblique (outer 40 %), internal oblique (middle 35 %), transversus abdominis (inner 25 %). From the xiphoid level to the bottom of the torso CT block (about the iliac crest), so the lowest part of the wall is missing. Volumes (r/l): rectus 225/226, external 195/350, internal 57/160, transversus 107/286 cm3 -- over-counted and left-right asymmetric; the layer boundaries are planes of depth fraction, not the real aponeurotic planes."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, registered to the CT (scripts/cryo/README.md). Rules from standard anatomy: Standring S (ed.), Gray's Anatomy, 42nd ed., 'Anterior abdominal wall'.",
+ "task": "vhm_abdominal_wall",
+ "version": "2026-09-11",
+ "labels": {
+  "1": "rectus_right",
+  "2": "external_right",
+  "3": "internal_right",
+  "4": "transversus_right",
+  "5": "rectus_left",
+  "6": "external_left",
+  "7": "internal_left",
+  "8": "transversus_left"
+ },
+ "atlas": {
+  "rectus_right": {
+   "atlas_id": "rectus_abdominis_r",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "external_right": {
+   "atlas_id": "external_oblique_r",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "internal_right": {
+   "atlas_id": "internal_oblique_r",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "transversus_right": {
+   "atlas_id": "transversus_abdominis_r",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "rectus_left": {
+   "atlas_id": "rectus_abdominis_l",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "external_left": {
+   "atlas_id": "external_oblique_l",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "internal_left": {
+   "atlas_id": "internal_oblique_l",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  },
+  "transversus_left": {
+   "atlas_id": "transversus_abdominis_l",
+   "relationship": "exact",
+   "note": "Rule-based (position / depth fraction); lower wall below the iliac crest missing."
+  }
+ }
+}
