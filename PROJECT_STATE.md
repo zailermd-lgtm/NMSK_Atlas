@@ -1118,6 +1118,15 @@ tick the item here with a one-line result. Never fabricate; keep the
       every `ct_vhm*` subject from the repository task outputs (chain to write like `vhf_rebuild_bundle.sh`), and
       re-stream the cryosection silhouette for `ct_vhm_skin` (not in the repository). The male artifact (Version 25)
       stays live meanwhile; nothing about it can be changed until this is done.
+- [~] Q30 (started 23:20) Female CRYOSECTIONS for her arms and hands (the CT clips them; Q12 is blocked on this):
+      stream IDC series 56f8119f (5186 full-colour slices, 0.33 mm) every 3rd slice = 1729 slices at 1 mm with the
+      new RESUMABLE `scripts/cryo/stream_cryosections.py` into scratchpad `vh_cryo_f/` (13 GB streamed, 1.4 GB
+      kept; progress in done.json -- relaunch the same command after any restart, it continues). Then: classify
+      (`cryo_classes.py` thresholds were tuned on the male; re-check on her), register her TRUNK to her fresh CT
+      (a different state -- fresh scan vs frozen block -- so expect a pose difference; register per region, badge
+      it), and walk her arm bones like the male (`complete_arm_bones_from_cryo.py`). Her fresh CT has NO frozen
+      counterpart in the index (VHP-F CT studies are 'Normal' only), so the registration cannot assume the male's
+      rigid fit; if the trunk does not register rigidly within ~3 mm, ship the arms as a separate badged frame.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
