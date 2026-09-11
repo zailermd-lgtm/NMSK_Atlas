@@ -1097,10 +1097,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       lumina with a pale wall; rule + tracking from the `total` aorta
       fragment. Ship only if the aorta tracks continuously.
 - [x] Q9 (done 19:45) VH female: 154 structures from 7 subjects, second viewer https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e (Version 1, 7.8 MB); mappings in mappings/subjects/ct_vhf_*; task outputs in data/ct_sources/task_outputs/vhf_*. Open: union her trapezius (neck + trunk parts); audit her landmarks; compare her model-segmented muscles with the male's rule-based ones. Was: VH FEMALE 'Normal' CT (IDC b9cf8e7a, 985 slices head->mid-thigh, fresh cadaver): dcm2niix, `total` + the free tasks chunked; expect the abdominal_muscles task to work (not frozen); ingest as `ct_vhf_*` with its own femoral-head origin; export as a SECOND viewer bundle/artifact (a second consistent body, not mixed into the male). Also a check of the male rule-based volumes against a model-segmented body.
-- [~] Q10 Female trapezius unioned (neck + trunk), ct_vhf_neck reconverting; female landmark audit next wake.
+- [x] Q10 (20:20) female trapezius unioned (154k+161k -> 178k/190k voxels), ct_vhf_neck/abd reconverted, female viewer Version 3.
 - [x] Q11 (19:55) male-rule vs female-model volume table: data/derived/male_rules_vs_female_model.json (male external oblique L 322 vs female 160, latissimus 412/373 vs 316/273, serratus 186 vs 122: the rule-based/hybrid male values run 1.3-2x high on those; rectus and transversospinalis agree).
-- [ ] Q12 Female arms: check whether her arms are inside the 480 mm FOV; if so run scripts/segment_arm_bones_vhm.py adapted (marker watershed) for radius/ulna/hand and ship in the female bundle.
+- [-] Q12 BLOCKED (20:20): her arms are clipped by the 480 mm FOV like the male's; the CT watershed gives a partial right radius (24 cm3, 191 mm) and ulna (12 cm3) and finds no second forearm fragment on the left (crash). Completing them needs her cryosections (a 40 GB series; ~4.5 GB at 1 mm, more than the 4.4 GB free), so not now.
 - [x] Q13 (20:05) female audit: hip bones 2.0/3.9 mm median, clavicles 5.5/3.9, femur 33 mm along the axis (femur ends at mid-thigh, distal landmarks off-scan), humerus 74 mm (her arms are clipped by the 480 mm FOV like the male's). Cranium frame still to do.
+- [ ] Q15 Cranium frame in the audit (skull-attached anchors: mastoid, zygomatic arch) using the ct_vhm_head cranium mesh; audit ct_vhm_head/headm anchors.
+- [ ] Q16 Viewer README: what each badge means, the two bodies, the rule-based table; link from docs/GEOMETRY_SOURCES.md.
+- [ ] Q17 Skin-depth table for the female (same script on build/viewer_f) once she has a skin surface (her CT body silhouette HU>-300 can stand in: add a `ct_vhf_skin` from the CT body mask).
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
