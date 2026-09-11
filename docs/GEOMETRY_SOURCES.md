@@ -799,6 +799,25 @@ as a second specimen, s1159's quadratus lumborum (`ct_s1159_abd`) and
 vessels (`ct_s1159`, its bones dropped on collision). The VH pelvis was cross-checked against
 the DU release of the same body: iliac crest tops agree within 0.1 mm.
 
+### The Visible Human FEMALE (2026-09-11, evening): a second, model-segmented body
+
+Series `b9cf8e7a-2505-4137-9ae3-f8d0cf756c13` (VHP-F, study "Normal",
+fresh cadaver, non-contrast, 985 slices at 1 mm, in-plane 0.488 mm over
+the head and 0.9375 mm over the trunk, vertex to mid-thigh), stacked by
+`scripts/stack_dicom_series.py` like the male, segmented with the same
+free TotalSegmentator tasks. Because the cadaver was not frozen, the
+soft-tissue contrast is clinical and the models behave: the femoral
+heads fit at r = 24.4 mm with rms 0.65 / 0.69 mm, the aorta is labelled
+along its whole course (185 cm3), and the trunk-muscle task is expected
+to find the muscles the frozen male defeated. She is ingested as
+`ct_vhf_*` subjects with her own femoral-head origin
+(`--origin '7.769,-885.229,14.137'`) and exported as a SECOND viewer
+bundle (`build/viewer_f`): the two bodies are never mixed in one scene,
+and the viewer badge names the body on every structure. Her role: a
+second complete specimen for injection planning, and a model-segmented
+reference against which the male's rule-based muscles can be compared
+(same model, same tasks, unfrozen tissue).
+
 ### Rule-based structures: what the rule is, and how the volume compares (2026-09-11)
 
 Textbook ranges are adult male values from Holzbaur et al. 2005 (upper limb
