@@ -1100,7 +1100,7 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [~] Q10 Female trapezius unioned (neck + trunk), ct_vhf_neck reconverting; female landmark audit next wake.
 - [x] Q11 (19:55) male-rule vs female-model volume table: data/derived/male_rules_vs_female_model.json (male external oblique L 322 vs female 160, latissimus 412/373 vs 316/273, serratus 186 vs 122: the rule-based/hybrid male values run 1.3-2x high on those; rectus and transversospinalis agree).
 - [ ] Q12 Female arms: check whether her arms are inside the 480 mm FOV; if so run scripts/segment_arm_bones_vhm.py adapted (marker watershed) for radius/ulna/hand and ship in the female bundle.
-- [ ] Q13 Female landmark audit (audit_landmarks_vs_geometry.py --subject ct_vhf) and the cranium frame.
+- [x] Q13 (20:05) female audit: hip bones 2.0/3.9 mm median, clavicles 5.5/3.9, femur 33 mm along the axis (femur ends at mid-thigh, distal landmarks off-scan), humerus 74 mm (her arms are clipped by the 480 mm FOV like the male's). Cranium frame still to do.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
