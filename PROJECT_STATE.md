@@ -1064,6 +1064,8 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
 - Viewer Version 22: 299 structures, 18 subjects, 14.4 MB.
 ## Autonomous queue (2026-09-11; user away for days, session self-wakes hourly)
 
+Operational lessons (16:35): the container is reclaimed when the session idles and every background job dies -- keep a background waiter running while long jobs run, and make chains idempotent (skip outputs that exist); the scratchpad filesystem filled (14 GB of intermediates) and killed the female `total` run mid-chunk -- chains now refuse to start under 2.5 GB free, and superseded intermediates (DICOM series already converted, silhouettes, hand full-res crops) were deleted.
+
 Rules for every wake: read this section; check running jobs in the
 scratchpad (`vhm_ts/*.log`, `vh_cryo/*.log`); take the first unchecked
 item; verify with a render/volume before shipping; tests must pass;
@@ -1086,7 +1088,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       split holds on renders, ship as biceps-style rule muscles only where
       an entity exists (brachioradialis, flexor mass -> not mappable: keep
       as intermediate).
-- [ ] Q5 Full-resolution muscle boundaries for deltoid/cuff/abdominal wall
+- [-] Q5 deltoid tried at 0.33 mm (`scripts/cryo/fullres_deltoid.py`, marker watershed on fascial lines, 128 slices): 270/204 cm3 vs the rule's 282/215 -- moved AWAY from textbook (350-500), not adopted. Cuff/abdominal wall have no full-res crops (trunk not streamed at 0.33 mm). Was: Q5 Full-resolution muscle boundaries for deltoid/cuff/abdominal wall
       (watershed on fascial-line maps within the rule masks, as done for
       biceps/brachialis); adopt only where volumes move toward textbook
       values.
@@ -1094,7 +1096,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       photographs -- large arteries (aorta, iliacs, femoral) are dark red
       lumina with a pale wall; rule + tracking from the `total` aorta
       fragment. Ship only if the aorta tracks continuously.
-- [ ] Q9 VH FEMALE 'Normal' CT (IDC b9cf8e7a, 985 slices head->mid-thigh, fresh cadaver): dcm2niix, `total` + the free tasks chunked; expect the abdominal_muscles task to work (not frozen); ingest as `ct_vhf_*` with its own femoral-head origin; export as a SECOND viewer bundle/artifact (a second consistent body, not mixed into the male). Also a check of the male rule-based volumes against a model-segmented body.
+- [~] Q9 (in progress; first pass lost `total` to the disk-full incident, head tasks ran; second pass queued automatically) VH FEMALE 'Normal' CT (IDC b9cf8e7a, 985 slices head->mid-thigh, fresh cadaver): dcm2niix, `total` + the free tasks chunked; expect the abdominal_muscles task to work (not frozen); ingest as `ct_vhf_*` with its own femoral-head origin; export as a SECOND viewer bundle/artifact (a second consistent body, not mixed into the male). Also a check of the male rule-based volumes against a model-segmented body.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
