@@ -1010,6 +1010,12 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   412+373; rectus abdominis still 0.1+0.2 cm3). v1 stays; rectus, the
   obliques and quadratus lumborum stay s1159's. The rectus is the
   model's blind spot on this cadaver, not a contrast problem.
+- **Body surface** (`scripts/cryo/skin_from_cryo.py`): tissue silhouette
+  of every cryosection, holes filled, largest 3-D body kept (colour charts
+  and slice labels dropped: 9.4 M voxels); new fascia entity `skin` (schema
+  kind 'skin' added). Viewer budgets raised (muscle 2600->3600, bone
+  4500->6000, skin 30000); bundle 14.2 MB (limit 16). Version 20 (293
+  structures).
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position
