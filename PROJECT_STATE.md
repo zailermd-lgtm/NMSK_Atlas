@@ -1064,7 +1064,7 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
 - Viewer Version 22: 299 structures, 18 subjects, 14.4 MB.
 ## Autonomous queue (2026-09-11; user away for days, session self-wakes hourly)
 
-Operational lessons (16:35): the container is reclaimed when the session idles and every background job dies -- keep a background waiter running while long jobs run, and make chains idempotent (skip outputs that exist); the scratchpad filesystem filled (14 GB of intermediates) and killed the female `total` run mid-chunk -- chains now refuse to start under 2.5 GB free, and superseded intermediates (DICOM series already converted, silhouettes, hand full-res crops) were deleted.
+Operational lessons (16:35, 17:25): never edit a bash chain while it runs (bash reads the file incrementally; the female chain died with a syntax error after the in-place idempotency patch, so pass 2 had to be started by hand at 17:21); never pkill/pgrep-kill with a pattern that also appears in the killing shell's own command line (it kills the tool shell: exit 144, twice today); the container is reclaimed when the session idles and every background job dies -- keep a background waiter running while long jobs run, and make chains idempotent (skip outputs that exist); the scratchpad filesystem filled (14 GB of intermediates) and killed the female `total` run mid-chunk -- chains now refuse to start under 2.5 GB free, and superseded intermediates (DICOM series already converted, silhouettes, hand full-res crops) were deleted.
 
 Rules for every wake: read this section; check running jobs in the
 scratchpad (`vhm_ts/*.log`, `vh_cryo/*.log`); take the first unchecked
