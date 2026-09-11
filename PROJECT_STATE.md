@@ -1071,12 +1071,11 @@ commit + push; republish the viewer (same URL) when the bundle changed;
 tick the item here with a one-line result. Never fabricate; keep the
 "badged, rule-based" honesty. If blocked, write why and move on.
 
-- [ ] Q1 Feet: CT feet block (series 94755b62, ankle->toes) -- register
+- [x] Q1 Feet (done 2026-09-11 15:40): feet block registered to the legs block by the shared slice (corr 0.968, legs k=0 = feet k=221, in-plane (-6.6,-36.6) mm); HU>=200 minus the block-edge column (persistent in >150 slices) minus everything within 4 mm of the DU tibia/fibula or above the plafond; tarsals 114/123, metatarsals 47/45, phalanges 7.6/7.2 cm3 (r/l); render: both feet, heel to toes. Shipped `ct_vhm_foot`. Was: CT feet block (series 94755b62, ankle->toes) -- register
       to the legs block (shared slice, like torso/legs), HU>=200 bone
       components, group tarsals / metatarsals / phalanges by planes along
       the foot axis from the tibia's distal end; ship `ct_vhm_foot`.
-- [ ] Q2 Fix over-counting: pectoralis minor (thin sheet, <=10 mm deep to
-      pec major, exclude anything touching the ribs), subscapularis
+- [~] Q2 Fix over-counting: pectoralis minor DONE (sheet <=10 mm deep to pec major, >=8 mm from ribs: 148/104 -> 77/51 cm3); subscapularis
       (<=18 mm from the scapula, exclude the serratus zone), abdominal wall
       (cap rectus at 45 mm behind the anterior skin; require each lateral
       layer to be contiguous), deltoid posterior part over the spine.

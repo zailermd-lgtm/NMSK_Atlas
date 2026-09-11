@@ -20,6 +20,8 @@ for aid in ("tibia_r","tibia_l","fibula_r","fibula_l"):
 pts=np.concatenate(pts); tree=cKDTree(pts)
 idx=np.argwhere(bone); ras=nib.affines.apply_affine(A,idx); d,_=tree.query(ras,distance_upper_bound=4.0); keep=~np.isfinite(d)
 print("bone voxels",len(idx),"removed as tibia/fibula",int((~keep).sum()),flush=True)
+zcut=pts[:,2].min()+8.0   # nothing above the tibial plafond (DU tibia's lowest point) is foot
+above=ras[:,2]>zcut; keep&=~above; print("removed above the plafond",int(above.sum()),"zcut",round(float(zcut)),flush=True)
 mask=np.zeros(bone.shape,bool); mask[tuple(idx[keep].T)]=True
 mask=ndi.binary_opening(mask,iterations=1)
 cl,n=ndi.label(mask,structure=np.ones((3,3,3))); sizes=ndi.sum(np.ones_like(cl),cl,np.arange(1,n+1))
