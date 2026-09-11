@@ -1080,9 +1080,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       (cap rectus at 45 mm behind the anterior skin; require each lateral
       layer to be contiguous), deltoid posterior part over the spine.
       Re-render, re-record volumes, republish.
-- [ ] Q3 Landmark audit: frame builders for radius/ulna/hand/cranium in
-      `audit_landmarks_vs_geometry.py`; audit ct_vhm_arm and fix anchors
-      that are clearly off (report per bone).
+- [x] Q3 (16:05) radius/ulna frames added to the audit (proximal 2 % = radial head / trochlear notch, long axis distal). ct_vhm_arm: humerus median 6.2/9.5 mm (was 94-137 before the distal end existed), ulna 9.0/6.6 mm, radius_r 19.4 mm, radius_l 57.5 mm along the axis -- the LEFT radius mesh's proximal end is off by ~55 mm along the bone (the cryo walk's radial head on that side needs review). Hand and cranium frames still to do; no anchor edits made (reviewer's call).
 - [ ] Q4 Forearm: flexor / extensor compartments by the interosseous line
       (flexor side faces the body midline in this pronated arm); if the
       split holds on renders, ship as biceps-style rule muscles only where

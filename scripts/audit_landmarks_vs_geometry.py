@@ -572,6 +572,24 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                     f"a sphere fit to the humeral head, r={radius:.1f} mm, "
                     f"rms={rms:.2f} mm; long axis to the distal end", "long")
 
+        # Radius and ulna (added 2026-09-11, when the Visible Human arms
+        # arrived). The atlas puts their origins at the PROXIMAL joint
+        # surfaces (radial head; trochlear notch) with the long axis running
+        # distally, so: origin = the proximal 2% of the bone along the
+        # subject's superior axis, long axis to the distal 2%. On the VH
+        # male those proximal ends come from the cryosection walk and are
+        # +-10 mm at the elbow, which is the honest precision of this frame.
+        for bone_name in ("radius", "ulna"):
+            bone = by_atlas_id.get(f"{bone_name}_{side}")
+            if bone is not None and len(bone) > 100:
+                prox = bone[bone[:, 1] >= np.quantile(bone[:, 1], 0.98)]
+                dist = bone[bone[:, 1] <= np.quantile(bone[:, 1], 0.02)]
+                frames[f"{bone_name}_{side}"] = (
+                    prox.mean(axis=0), orthonormal_frame(prox.mean(axis=0), dist.mean(axis=0)),
+                    "the proximal 2% of the bone along the superior axis "
+                    "(radial head / trochlear notch, +-10 mm at the elbow on "
+                    "the VH male); long axis to the distal 2%", "long")
+
         # The clavicle's frame origin is the sternoclavicular joint, which is
         # its MEDIAL end -- the end nearest the midline. Measuring it that way
         # rather than taking an extreme along world X matters, because the
