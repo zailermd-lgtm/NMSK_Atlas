@@ -818,6 +818,28 @@ second complete specimen for injection planning, and a model-segmented
 reference against which the male's rule-based muscles can be compared
 (same model, same tasks, unfrozen tissue).
 
+#### Her lower limb (2026-09-11, night): the femur-to-toes block
+
+Series `af18f5e4-f010-4b23-9be7-7c9f1aaa21a5` ("1X1 AXIAL FEMUR-TOES NCE",
+749 slices at 1 mm, in-plane 0.9375 mm over the top 128 slices and 0.7227
+mm below, stacked on the 0.7227 mm grid). The block starts at mid-thigh, so
+it shares no femoral head with her torso block; the two are registered by
+continuity across the junction (`scripts/vhf_lower_limb_bones.py`): a
+quadratic fitted through the inter-femur distance of the torso's bottom
+24 slices and the block's top 24 slices under candidate shifts (rms 0.15
+mm at z = -943.0), agreeing with the body-area and fat-area fits of a
+first run (-943.5, -942.5); the shift used is (+6.0, -3.6, -943.5) mm,
++-4 mm in height. No free TotalSegmentator task labels bones below the
+femur, so the bones are HU >= 200 split at the joints by a
+distance-transform watershed (medullary canals tube-filled, 3.5 mm
+bone-core markers, fragments re-united where their common boundary is
+thick bone). The femur ships as one label united from the torso block's
+TotalSegmentator femur (head to mid-thigh) and this block's component
+(mid-thigh to condyles). The foot bones are grouped by planes along the
+foot axis (tarsals / metatarsals / phalanges), not separated: the same
+limitation as the male CT feet. Volumes are recorded in
+`data/ct_sources/task_outputs/vhf_lower_limb_bones_report.json`.
+
 ### Rule-based structures: what the rule is, and how the volume compares (2026-09-11)
 
 Textbook ranges are adult male values from Holzbaur et al. 2005 (upper limb
