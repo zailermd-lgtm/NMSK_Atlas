@@ -831,6 +831,16 @@ against the photographs (all renders are in the session scratchpad and
 reproducible from `scripts/cryo/`) is the way to turn "plausible" into
 "verified".
 
+### Derived: depth below the skin (2026-09-11)
+
+`data/derived/skin_depth_vhm.json` lists, for every shipped structure of
+the Visible Human male, the minimum, median and maximum distance of its
+surface from the body surface mesh (mm). It is computed from the meshes
+in `build/vh` and is the first product of the atlas that answers an
+injection-planning question directly ("how deep is the shallowest point
+of the subscapularis on this body?"). Regenerate it after any bundle
+change; it is derived data, not a measurement on a patient.
+
 ## Resulting architecture
 
 ```
