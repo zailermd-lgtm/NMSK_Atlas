@@ -1037,6 +1037,22 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   Render at five levels: rectus paramedian, layers along the flanks, no
   bowel. Shipped `ct_vhm_abw` ahead of s1159's (which now fills nothing
   but quadratus lumborum and the vessels).
+- **Full-resolution pass** (`scripts/cryo/stream_arm_crops.py`: 0.33 mm
+  crops of both arms and hands, 260 slices each): (a) biceps/brachialis
+  boundary re-traced by a marker watershed on the fascial-line map within
+  the anterior compartment (`fullres_biceps_brachialis.py`): 80-93 k
+  voxels moved, totals barely changed (biceps 526/513, brachialis
+  152/214 cm3) -- the plane is not a continuous barrier at this scale;
+  adopted, as it follows visible lines where they exist. (b) hand bones
+  by luminance watershed inside the group masks (`carpals_fullres.py`):
+  ~4 blobs per slice, fragments only, group volumes grew 20 % with cream
+  fat -- NOT adopted; the rule-based groups stand.
+- **Pectoralis minor and rhomboids** (`scripts/cryo/pecminor_rhomboids.py`,
+  key `mappings/vhm_pecminor_rhomboids_labels.json`): pec minor 148/104
+  cm3 (over-counted 2-3x: intercostal/serratus slips), rhomboids 124/135
+  (major+minor, shown under rhomboid major). Render: pec minor on the
+  upper anterior chest wall deep to pec major, rhomboids paravertebral
+  between the scapulae. Shipped `ct_vhm_pmr`, badged.
 ## Next action
 
 1. Rectus abdominis and the obliques from the photographs by position
