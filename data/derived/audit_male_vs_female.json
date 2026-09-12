@@ -1,6 +1,7 @@
 {
  "_README": [
-  "Landmark-to-surface audit (scripts/audit_landmarks_vs_geometry.py) per bone on the Visible Human male (ct_vhm + ct_vhm_arm) and female (ct_vhf): median and max distance of the atlas's landmark coordinates from the measured bone surface, mm. Large values on a truncated bone (femur on the female, humerus distal end) are the scan's edge, not the landmark. Derived data."
+  "Landmark-to-surface audit (scripts/audit_landmarks_vs_geometry.py) per bone on the Visible Human male (ct_vhm + ct_vhm_arm) and female (ct_vhf): median and max distance of the atlas's landmark coordinates from the measured bone surface, mm. Large values on a truncated bone (femur on the female, humerus distal end) are the scan's edge, not the landmark. Derived data.",
+  "2026-09-12: female rows for the fibulae, patellae (ct_vhf_legs) and the right radius and ulna (ct_vhf_armb) added; the femora are not fitted here (their head fit is rejected on the united label: r 28 mm, rms 6 -- the ball is the TotalSegmentator head from the torso block joined to the legs-block shaft)."
  ],
  "source": "Derived from the meshes in this repository.",
  "rows": [
@@ -74,9 +75,10 @@
    "bone": "radius_r",
    "male_median_mm": 19.4,
    "male_max_mm": 22.9,
-   "female_median_mm": null,
-   "female_max_mm": null,
-   "male_source": "ct_vhm_arm (arms completed through the cryosections)"
+   "female_median_mm": 58.6,
+   "female_max_mm": 63.2,
+   "male_source": "ct_vhm_arm (arms completed through the cryosections)",
+   "female_note": "the proximal ~50 mm (head, neck) lie outside her CT field of view, so the fitted origin sits that far distal and every landmark inherits it"
   },
   {
    "bone": "scapula_l",
@@ -111,9 +113,40 @@
    "bone": "ulna_r",
    "male_median_mm": 9.0,
    "male_max_mm": 17.3,
-   "female_median_mm": null,
-   "female_max_mm": null,
-   "male_source": "ct_vhm_arm (arms completed through the cryosections)"
+   "female_median_mm": 14.4,
+   "female_max_mm": 162.5,
+   "male_source": "ct_vhm_arm (arms completed through the cryosections)",
+   "female_note": "the proximal ~110 mm lie outside her CT field of view; the distal landmarks inherit the shifted origin"
+  },
+  {
+   "bone": "fibula_l",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 1.9,
+   "female_max_mm": 61.7,
+   "female_note": "as fibula_r"
+  },
+  {
+   "bone": "fibula_r",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 4.7,
+   "female_max_mm": 48.9,
+   "female_note": "her fibula is 35 mm shorter than the male's the landmarks were written on; the malleolar landmarks fall beyond her bone's end"
+  },
+  {
+   "bone": "patella_l",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 2.5,
+   "female_max_mm": 3.7
+  },
+  {
+   "bone": "patella_r",
+   "male_median_mm": null,
+   "male_max_mm": null,
+   "female_median_mm": 2.5,
+   "female_max_mm": 4.1
   }
  ]
 }

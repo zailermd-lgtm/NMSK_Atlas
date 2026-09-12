@@ -1232,6 +1232,14 @@ tick the item here with a one-line result. Never fabricate; keep the
       forearm) and the extensor bellies sit at the elbow end where the segment starts. The atlas has the entities
       (`volar_forearm_compartment_r`, `dorsal_forearm_compartment_r`); nothing ships until the ulna is completed
       (Q30's photograph route) or a reviewer marks the interosseous line on a few slices.
+- [x] Q41 (12:20 wake) Landmark AUDIT of the new female bones (`scripts/audit_landmarks_vs_geometry.py` on
+      ct_vhf_legs and ct_vhf_armb; rows added to `data/derived/audit_male_vs_female.json`): patellae 2.5 mm median;
+      fibulae 1.9 / 4.7 mm median but the malleolar landmarks 49-62 mm off -- her fibula is 35 mm shorter than
+      the male's the landmarks were written on, so they fall beyond her bone's end (the label itself reaches
+      16 mm below the tibial plafond, the lateral malleolus is there); femora not fitted (head fit rejected on
+      the united label, r 28 mm rms 6); right radius median 58.6 mm ALONG the axis and ulna distal landmarks
+      150+ mm off = the truncations measured: her radius lacks its proximal ~50 mm and the ulna ~110 mm (outside
+      the CT field of view). Label-map notes, viewer label and docs corrected from "nearly complete" to that.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
