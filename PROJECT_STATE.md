@@ -1239,7 +1239,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       16 mm below the tibial plafond, the lateral malleolus is there); femora not fitted (head fit rejected on
       the united label, r 28 mm rms 6); right radius median 58.6 mm ALONG the axis and ulna distal landmarks
       150+ mm off = the truncations measured: her radius lacks its proximal ~50 mm and the ulna ~110 mm (outside
-      the CT field of view). Label-map notes, viewer label and docs corrected from "nearly complete" to that.
+      the CT field of view). Label-map notes, viewer label and docs corrected from "nearly complete" to that; female viewer Version 15 (badge text only).
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
