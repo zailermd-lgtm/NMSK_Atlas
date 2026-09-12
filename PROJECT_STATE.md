@@ -1188,7 +1188,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       anterior chest wall (within 25 mm of the ribs' anterior arc), bound the rhomboids to the band between the
       scapula's medial border and the spinous processes ABOVE the erector columns, and reject any voxel inside
       the rib cage (TS lung/organ hull). Chain and viewer label removed until then.
-- [-] Q36 TRIED, NOT SHIPPED (05:55 -> 06:20) Female upper-arm muscles by the male's compartment rules
+- [x] Q36 (shipped at 07:00 via Q37: biceps, brachialis, triceps; coracobrachialis not) -- earlier record: Female upper-arm muscles by the male's compartment rules
       (`scripts/cryo/vhf_arm_muscles_from_cryo.py`, key `mappings/vhf_arm_muscles_labels.json` kept): with the
       male's muscle-mass selection the volumes were slivers (biceps 22 / 31, triceps 7 / 7 cm3); with every muscle
       piece within 45 mm of the humerus kept: biceps 238 / 287 (female 150-250: over, takes brachialis as on the
@@ -1198,10 +1198,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       (r > g+15, 60 < v < 170) misses 40-60 % of it (right arm at z -450: 7083 px class 3 vs 3185 red-brown px
       not class 3 plus 1435 very dark ones). The same under-capture sits behind the "under" deltoid (Q32) and cuff
       volumes. Chain and viewer label removed; script kept.
-- [ ] Q37 FEMALE COLOUR CLASSES: retune `cryo_classes.py` thresholds on her photographs (muscle: r > g+8, v 35-170,
-      r > b+15; check fat / pale / white against samples of her fat, tendon and cortex), reclassify her 1 mm volume
-      (2 min), re-resample the class frame, then RERUN deltoid (Q32), cuff (Q33) and the arm rules (Q36) and compare
-      every volume with the female textbook ranges before republishing; keep the male's classes for the male.
+- [x] Q37 (06:20 -> 07:00) FEMALE COLOUR CLASSES `scripts/cryo/cryo_classes_f.py` (tissue from value 30 instead of
+      60, muscle r > g+10 instead of +15; measured on her: 20 % of in-body thorax pixels had been unclassified,
+      median value 49, r-g 20, r-b 27 = dark muscle/organ, not gelatin). Reclassified, re-resampled, reran the
+      three photograph rules: deltoid 225 / 213 cm3 (was 164 / 153; female 200-300 -> in range), cuff supraspinatus
+      45 / 50, infraspinatus+teres minor 235 / 216, subscapularis 230 / 210 (supraspinatus in range, the other two
+      over as on the male), upper arm biceps 394 / 456 (over, takes brachialis and the anterior fat plane),
+      brachialis 111 / 74, triceps 295 / 315 (in range), coracobrachialis < 1 (rule finds nothing on her; nulled).
+      Crop renders checked (compartments now fill the arm; the coronal split line is visible as on the male).
+      Shipped: `ct_vhf_delt` and `ct_vhf_cuff` reconverted, `ct_vhf_armm` new (Q36 partly done: three of four);
+      female viewer Version 11: 189 structures. Rule table and viewer README updated with the new numbers.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

@@ -59,4 +59,7 @@ scapula labels as anchors (key `mappings/vhf_deltoid_labels.json`). `vhf_rotator
 (`scripts/cryo/vhf_rotator_cuff_from_cryo.py`, key `mappings/vhf_rotator_cuff_labels.json`) on the same
 registered photographs. `vhf_erector_columns`: the male's distance-from-midline rule on her model erector-spinae
 and autochthon labels (`scripts/cryo/vhf_erector_columns.py`, key `mappings/vhf_erector_labels.json`), no
-photographs involved. Rule-based; volumes in the report JSONs.
+photographs involved. `vhf_arm_muscles_cryo`: the male's compartment rules around her humerus
+(`scripts/cryo/vhf_arm_muscles_from_cryo.py`, key `mappings/vhf_arm_muscles_labels.json`). Her photographs are
+classified with `scripts/cryo/cryo_classes_f.py` (female thresholds: her frozen muscle is darker and browner
+than the male's). Rule-based; volumes in the report JSONs.

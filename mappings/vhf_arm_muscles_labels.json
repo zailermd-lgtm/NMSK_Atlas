@@ -1,7 +1,8 @@
 {
  "_README": [
   "Label id -> structure name for the Visible Human FEMALE upper-arm muscle volume (scripts/cryo/vhf_arm_muscles_from_cryo.py: the male's compartment and naming rules on her registered cryosection photographs around her TotalSegmentator humerus label), plus the mapping onto atlas entities.",
-  "A KEY, not data. Rule-based: anterior/posterior by the coronal plane through the humerus; brachialis within 22 mm of the humerus in the distal 65 %; coracobrachialis proximal, medial, within 15 mm; biceps the rest anterior; triceps the whole posterior compartment. Boundaries are rules, not traced fascia; badge it."
+  "A KEY, not data. Rule-based: anterior/posterior by the coronal plane through the humerus; brachialis within 22 mm of the humerus in the distal 65 %; coracobrachialis proximal, medial, within 15 mm; biceps the rest anterior; triceps the whole posterior compartment. Boundaries are rules, not traced fascia; badge it.",
+  "Female colour classes (scripts/cryo/cryo_classes_f.py, 2026-09-12): her frozen muscle is darker and browner than the male's; the male's class missed 40-60 % of it."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 humerus label as anchor.",
  "task": "vhf_arm_muscles",
@@ -28,9 +29,9 @@
    "note": "anterior compartment within 22 mm of the humerus, distal 65 %"
   },
   "coracobrachialis_right": {
-   "atlas_id": "coracobrachialis_r",
-   "relationship": "exact",
-   "note": "proximal-medial anterior compartment; rule-based"
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "The proximal-medial rule finds under 1 cm3 on her (2026-09-12); not shipped."
   },
   "triceps_right": {
    "atlas_id": "triceps_brachii_r",
@@ -48,9 +49,9 @@
    "note": "anterior compartment within 22 mm of the humerus, distal 65 %"
   },
   "coracobrachialis_left": {
-   "atlas_id": "coracobrachialis_l",
-   "relationship": "exact",
-   "note": "proximal-medial anterior compartment; rule-based"
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "The proximal-medial rule finds under 1 cm3 on her (2026-09-12); not shipped."
   },
   "triceps_left": {
    "atlas_id": "triceps_brachii_l",

@@ -1,0 +1,92 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_armm",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
+  "label_map": "vhf_arm_muscles",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "biceps_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "biceps_brachii_r",
+      "relationship": "exact",
+      "note": "superficial anterior compartment; boundary with brachialis rule-based",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "brachialis_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "brachialis_r",
+      "relationship": "exact",
+      "note": "anterior compartment within 22 mm of the humerus, distal 65 %",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "coracobrachialis_right",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "The proximal-medial rule finds under 1 cm3 on her (2026-09-12); not shipped.",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "triceps_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "triceps_brachii_r",
+      "relationship": "exact",
+      "note": "whole posterior compartment; three heads not separated",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "biceps_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "biceps_brachii_l",
+      "relationship": "exact",
+      "note": "superficial anterior compartment; boundary with brachialis rule-based",
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "brachialis_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "brachialis_l",
+      "relationship": "exact",
+      "note": "anterior compartment within 22 mm of the humerus, distal 65 %",
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "coracobrachialis_left",
+      "side": "left",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "The proximal-medial rule finds under 1 cm3 on her (2026-09-12); not shipped.",
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "triceps_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "triceps_brachii_l",
+      "relationship": "exact",
+      "note": "whole posterior compartment; three heads not separated",
+      "candidates": []
+    }
+  ]
+}

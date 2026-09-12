@@ -1,11 +1,12 @@
 {
  "_README": [
   "Label id -> structure name for the Visible Human FEMALE deltoid volume (scripts/cryo/vhf_deltoid_from_cryo.py: the male's superficial-proximity rule applied to her registered cryosection photographs, anchored on her TotalSegmentator humerus and scapula labels), plus the mapping onto atlas entities.",
-  "A KEY, not data. Rule-based: muscle-class voxels within 55 mm of the proximal humerus, within 40 mm of the skin, lateral to the scapula's lateral edge, not already a trunk-muscle label; deep and posterior boundaries are approximate; badge it."
+  "A KEY, not data. Rule-based: muscle-class voxels within 55 mm of the proximal humerus, within 40 mm of the skin, lateral to the scapula's lateral edge, not already a trunk-muscle label; deep and posterior boundaries are approximate; badge it.",
+  "Reclassified with the female colour classes (scripts/cryo/cryo_classes_f.py, 2026-09-12)."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels as anchors.",
  "task": "vhf_deltoid",
- "version": "2026-09-12",
+ "version": "2026-09-12b",
  "labels": {
   "1": "deltoid_right",
   "2": "deltoid_left"

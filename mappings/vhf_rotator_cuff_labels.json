@@ -1,11 +1,12 @@
 {
  "_README": [
   "Label id -> structure name for the Visible Human FEMALE rotator-cuff volume (scripts/cryo/vhf_rotator_cuff_from_cryo.py: the male's scapular-surface rules on her registered cryosection photographs, anchored on her TotalSegmentator scapula label), plus the mapping onto atlas entities.",
-  "A KEY, not data. Rule-based: muscle within 25 mm of the scapula by nearest surface (ventral = subscapularis; dorsal above the spine level and medial to the glenoid = supraspinatus; else infraspinatus with teres minor merged); boundaries are rules, not traced fascia; badge it."
+  "A KEY, not data. Rule-based: muscle within 25 mm of the scapula by nearest surface (ventral = subscapularis; dorsal above the spine level and medial to the glenoid = supraspinatus; else infraspinatus with teres minor merged); boundaries are rules, not traced fascia; badge it.",
+  "Reclassified with the female colour classes (scripts/cryo/cryo_classes_f.py, 2026-09-12)."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels as anchors.",
  "task": "vhf_rotator_cuff",
- "version": "2026-09-12",
+ "version": "2026-09-12b",
  "labels": {
   "1": "supraspinatus_right",
   "2": "infraspinatus_right",
