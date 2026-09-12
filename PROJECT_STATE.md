@@ -1205,6 +1205,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       Crop renders checked (compartments now fill the arm; the coronal split line is visible as on the male).
       Shipped: `ct_vhf_delt` and `ct_vhf_cuff` reconverted, `ct_vhf_armm` new (Q36 partly done: three of four);
       female viewer Version 11: 189 structures. Rule table and viewer README updated with the new numbers.
+- [x] Q38 (08:20 -> 08:50 wake) Female BODY SURFACE WITH THE ARMS: her CT clips the arms, so every arm/shoulder
+      structure's depth tag was measured to a clipped surface (deltoid 0.1-0.3 mm "below skin"). `scripts/cryo/
+      vhf_skin_union.py` unites the CT silhouette with the registered photograph silhouette above RAS z -950
+      (13 % more surface voxels, the arms; below that the CT stays exact -- a first version without the cut added a
+      registration rim along one leg, seen on the front render). Depth tags now: deltoid 13-15 mm min / 32 median,
+      supraspinatus 22-23 / 59-63, subscapularis 17-18 / 59-62, biceps 0.1-0.6 / 24-29, legs unchanged.
+      `ct_vhf_skin` reconverted; female viewer Version 13; `data/derived/skin_depth_vhf.json` regenerated.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

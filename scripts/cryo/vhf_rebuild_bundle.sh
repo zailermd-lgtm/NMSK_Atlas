@@ -31,7 +31,8 @@ conv $T/vhf_arm_muscles_cryo.nii.gz vhf_arm_muscles ct_vhf_armm --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_pmr"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
-if [ -f $S/vhf_ts/skin_ct.nii.gz ]; then conv $S/vhf_ts/skin_ct.nii.gz vhm_skin ct_vhf_skin --smooth 1.5 --step 2; SUBJ="$SUBJ --subject ct_vhf_skin"; else echo "skin volume absent: bundle without depth tags"; fi
+SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
+if [ -f $SKIN ]; then conv $SKIN vhm_skin ct_vhf_skin --smooth 1.5 --step 2; SUBJ="$SUBJ --subject ct_vhf_skin"; else echo "skin volume absent: bundle without depth tags"; fi
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1
 sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' build/viewer_f/atlas_viewer_female.html

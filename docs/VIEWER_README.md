@@ -28,7 +28,7 @@ the source and the method:
 | `ct_vhm_skin` | male | cryosections | tissue silhouette |
 | `ct_s1159`, `ct_s1159_abd` | a third body (TotalSegmentator case s1159, CC BY 4.0) | clinical CT | TotalSegmentator; fills only what the male lacks (vessels, quadratus lumborum) |
 | `ct_vhf`, `ct_vhf_*` | female | fresh CT | TotalSegmentator free tasks |
-| `ct_vhf_skin` | female | CT | body silhouette (HU > -300) |
+| `ct_vhf_skin` | female | CT, plus the photographs for the arms the CT clips (above the pelvis) | body silhouette (HU > -300) united with the cryosection silhouette |
 | `ct_vhf_delt` | female | colour cryosections registered to her CT (+-9 mm in height; her frozen block's pose differs from the fresh scan) | **rule-based**: the male's deltoid rule (superficial, within 55 mm of the proximal humerus, lateral to the scapula); deep boundary approximate |
 | `ct_vhf_armm` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: the male's compartment rules around her humerus (biceps over-inclusive, brachialis, triceps) |
 | `ct_vhf_pmr` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: pectoralis minor by position (deep to pec major, on the chest wall); her rhomboids are not shipped |
