@@ -1,11 +1,12 @@
 {
  "_README": [
   "Label id -> structure name for the Visible Human FEMALE pectoralis minor / rhomboid volume (scripts/cryo/vhf_pecminor_rhomboids.py: the male's position rules on her registered cryosection photographs, anchored on her model pectoralis major, trapezius, scapula, rib and vertebra labels), plus the mapping onto atlas entities.",
-  "A KEY, not data. Rule-based; pectoralis minor over-inclusive on the male; rhomboid major and minor as one mass; badge it."
+  "A KEY, not data. Rule-based; pectoralis minor over-inclusive on the male; rhomboid major and minor as one mass; badge it.",
+  "v3 with the female colour classes and the thoracic-cage convex hull: pectoralis minor shipped (42 / 31 cm3), rhomboids not."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels as anchors.",
  "task": "vhf_pecminor_rhomboids",
- "version": "2026-09-12",
+ "version": "2026-09-12c",
  "labels": {
   "1": "pecminor_right",
   "2": "pecminor_left",
@@ -19,9 +20,9 @@
    "note": "Rule-based; over-inclusive (see README)."
   },
   "rhomboid_right": {
-   "atlas_id": "rhomboid_major_r",
-   "relationship": "part_of",
-   "note": "Rhomboid major and minor as one mass, shown under rhomboid major."
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "On her the rhomboid rule finds 49 / 32 cm3 of patches (female 70-110), paraspinal rather than the sheet; not shipped (2026-09-12)."
   },
   "pecminor_left": {
    "atlas_id": "pectoralis_minor_l",
@@ -29,9 +30,9 @@
    "note": "Rule-based; over-inclusive (see README)."
   },
   "rhomboid_left": {
-   "atlas_id": "rhomboid_major_l",
-   "relationship": "part_of",
-   "note": "Rhomboid major and minor as one mass, shown under rhomboid major."
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "On her the rhomboid rule finds 49 / 32 cm3 of patches (female 70-110), paraspinal rather than the sheet; not shipped (2026-09-12)."
   }
  }
 }

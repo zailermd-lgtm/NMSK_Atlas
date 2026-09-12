@@ -62,4 +62,5 @@ and autochthon labels (`scripts/cryo/vhf_erector_columns.py`, key `mappings/vhf_
 photographs involved. `vhf_arm_muscles_cryo`: the male's compartment rules around her humerus
 (`scripts/cryo/vhf_arm_muscles_from_cryo.py`, key `mappings/vhf_arm_muscles_labels.json`). Her photographs are
 classified with `scripts/cryo/cryo_classes_f.py` (female thresholds: her frozen muscle is darker and browner
-than the male's). Rule-based; volumes in the report JSONs.
+than the male's). `vhf_pecminor_rhomboids_cryo`: position rules (`scripts/cryo/vhf_pecminor_rhomboids.py`, key
+`mappings/vhf_pecminor_rhomboids_labels.json`); only pectoralis minor is mapped. Rule-based; volumes in the report JSONs.

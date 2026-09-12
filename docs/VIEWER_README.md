@@ -31,6 +31,7 @@ the source and the method:
 | `ct_vhf_skin` | female | CT | body silhouette (HU > -300) |
 | `ct_vhf_delt` | female | colour cryosections registered to her CT (+-9 mm in height; her frozen block's pose differs from the fresh scan) | **rule-based**: the male's deltoid rule (superficial, within 55 mm of the proximal humerus, lateral to the scapula); deep boundary approximate |
 | `ct_vhf_armm` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: the male's compartment rules around her humerus (biceps over-inclusive, brachialis, triceps) |
+| `ct_vhf_pmr` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: pectoralis minor by position (deep to pec major, on the chest wall); her rhomboids are not shipped |
 | `ct_vhf_cuff` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis) |
 | `ct_vhf_es` | female | CT (model labels) | **rule-based**: erector spinae columns by distance from the vertebral midline (20 / 50 mm) |
 | `ct_vhf_legs` | female | fresh CT, femur-to-toes block registered to her torso block by continuity (+-4 mm in height) | HU threshold split at the joints by a distance-transform watershed; femur united from both blocks; foot bones grouped by planes (not separated) |

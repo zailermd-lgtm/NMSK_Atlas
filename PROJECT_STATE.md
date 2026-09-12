@@ -1177,17 +1177,14 @@ tick the item here with a one-line result. Never fabricate; keep the
       spinalis asymmetric by the midline rule). Her `abdominal_muscles` transversospinalis label had been NULLED in
       `ct_vhf_abd` (propose default) -- now mapped to multifidus_r/l as on the male: 185 / 173 cm3. Shipped as
       `ct_vhf_es` + the corrected `ct_vhf_abd`; female viewer Version 10: 183 structures.
-- [-] Q35 TRIED, NOT SHIPPED (05:30 -> 05:55) Female pectoralis minor / rhomboids by the male's rules
-      (`scripts/cryo/vhf_pecminor_rhomboids.py`, key `mappings/vhf_pecminor_rhomboids_labels.json` kept for a rerun):
-      pec minor 39 / 34 cm3 (female 20-40: plausible volume) but the zoomed render shows the strips right at
-      mid-thorax (z -362) AND slivers at liver level (z -514, -438) inside the rule's rib-6-to-clavicle band;
-      rhomboids 32 / 23 cm3 (female 70-110: 3x under) with one blob INSIDE the abdominal cavity (stomach wall
-      muscle within 25 mm "deep to" a thin trapezius) and paraspinal patches, not the rhomboid sheet. Her
-      trapezius/pec-major model labels are thinner than the male's hybrid-CT ones, so the "deep to" dilations
-      reach the wrong tissue. Fix when resumed: bound pec minor to the clavicle..rib-5 band and to the
-      anterior chest wall (within 25 mm of the ribs' anterior arc), bound the rhomboids to the band between the
-      scapula's medial border and the spinous processes ABOVE the erector columns, and reject any voxel inside
-      the rib cage (TS lung/organ hull). Chain and viewer label removed until then.
+- [x] Q35 (05:30 tried; 07:05 -> 07:25 shipped in part) Female PECTORALIS MINOR shipped, rhomboids not. v3 of
+      `scripts/cryo/vhf_pecminor_rhomboids.py` with the female colour classes, the thoracic cage's convex hull as
+      an exclusion (nothing inside it is chest-wall muscle), pec minor bounded to rib 5..clavicle and 8-30 mm from
+      the ribs: pec minor 42 / 31 cm3 (female 20-40; strips deep to pec major on the anterior chest wall at
+      mid-thorax on the zoomed render; a sliver at liver level remains), rhomboids 49 / 32 (female 70-110; patches
+      beside the spine, not the sheet -> nulled in the key). Shipped as `ct_vhf_pmr`; female viewer Version 12:
+      191 structures. The first try (male classes, no hull) had given 39 / 34 and 32 / 23 with a rhomboid blob
+      inside the abdominal cavity.
 - [x] Q36 (shipped at 07:00 via Q37: biceps, brachialis, triceps; coracobrachialis not) -- earlier record: Female upper-arm muscles by the male's compartment rules
       (`scripts/cryo/vhf_arm_muscles_from_cryo.py`, key `mappings/vhf_arm_muscles_labels.json` kept): with the
       male's muscle-mass selection the volumes were slivers (biceps 22 / 31, triceps 7 / 7 cm3); with every muscle

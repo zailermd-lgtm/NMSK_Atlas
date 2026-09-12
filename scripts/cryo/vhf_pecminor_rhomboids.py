@@ -1,11 +1,12 @@
 """Female pectoralis minor and rhomboids by the male's rules (pecminor_rhomboids.py v2) on her registered cryosection
 photographs with her MODEL labels as anchors: pectoralis minor = unlabelled muscle in a sheet <= 10 mm deep to her
-pectoralis major label, anterior to the vertebral level, 20-130 mm lateral of the midline, clavicle to rib 6, >= 8 mm
-from the ribs, not touching the skin; rhomboids = unlabelled muscle between the scapula's medial border and the
-midline, posterior, deep to her trapezius label (neck run), C7-T6 (major + minor as one mass under rhomboid_major).
+pectoralis major label, anterior to the vertebral level, 20-130 mm lateral of the midline, clavicle to rib 5, 8-30 mm
+from the ribs (on the chest wall), outside the thoracic cage's convex hull, not touching the skin; rhomboids = unlabelled muscle between the scapula's medial border and the
+midline, posterior, deep to her trapezius label (neck run), C7-T6, outside the cage's convex hull (major + minor as one mass under rhomboid_major). v3 2026-09-12 with the female colour classes.
 Rule-based: badge it, record the volumes. Output vhf_ts/pecminor_rhomboids_cryo.nii.gz (torso RAS), report, render."""
 import numpy as np, nibabel as nib, json
 from scipy import ndimage as ndi
+from skimage.morphology import convex_hull_image
 from PIL import Image
 S="/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/"; D=S+"vh_cryo_f/"; R="/home/user/NMSK_Atlas/"; T=R+"data/ct_sources/task_outputs/"
 cls=np.load(D+"cryo_frame_cls.npy",mmap_mode="r"); rgb=np.load(D+"cryo_frame_rgb.npy",mmap_mode="r"); z0=json.load(open(D+"frame.json"))["z0"]; n,H,W=cls.shape; OFF=110
@@ -23,7 +24,7 @@ def frame_fr(arr,zoff,k):
     kk=int(round(z0+k-zoff)); return arr[:,:,kk].T.astype(np.int32) if 0<=kk<arr.shape[2] else np.zeros((H,W),np.int32)
 def kr(ids):   # frame k range of CT labels
     z=np.where(np.isin(tot,ids).any(axis=(0,1)))[0]; return int(round(zT0+z.min()-z0)),int(round(zT0+z.max()-z0))
-kC7=kr([labs["vertebrae_C7"]]); kT6=kr([labs["vertebrae_T6"]]); kclav=kr([labs["clavicula_right"],labs["clavicula_left"]]); krib6=kr([labs["rib_right_6"],labs["rib_left_6"]])
+kC7=kr([labs["vertebrae_C7"]]); kT6=kr([labs["vertebrae_T6"]]); kclav=kr([labs["clavicula_right"],labs["clavicula_left"]]); krib6=kr([labs["rib_right_6"],labs["rib_left_6"]]); krib5=kr([labs["rib_right_5"],labs["rib_left_5"]])
 out=np.zeros((n,H,W),np.uint8); OUT={"pecminor_right":1,"pecminor_left":2,"rhomboid_right":3,"rhomboid_left":4}
 for k in range(krib6[0],kclav[1]+1):
     t=frame_ct(tot,zT0,k); hb=frame_ct(hyb,zA0,k); nk=frame_ct(neck,zN0,k); e=frame_ct(es,zE0,k); c=np.asarray(cls[k])
@@ -32,13 +33,16 @@ for k in range(krib6[0],kclav[1]+1):
     ys,xs=np.where(vb); mid=xs.mean(); vrow=ys.mean()
     tissue=ndi.binary_fill_holes(ndi.binary_closing(c>0,iterations=3)); dskin=ndi.distance_transform_edt(tissue); yy,xx=np.mgrid[0:H,0:W]
     labelled=(t>0)|(hb>0)|(nk>0)|(e>0)|(frame_fr(cuff,zC0,k)>0)|(frame_fr(delt,zD0,k)>0)
-    free=(c==3)&~labelled&(dskin>6)
+    cage=np.isin(t,ribs)|vb; hull=convex_hull_image(cage) if cage.sum()>50 else np.zeros_like(cage)   # the thoracic cage's convex hull: nothing inside it is chest-wall muscle
+    free=(c==3)&~labelled&(dskin>6)&~hull
     for side,sgn,lid in (("right",-1,1),("left",1,2)):
         pm=hb==ha[f"pectoralis_major_{side}"]
         if not pm.any(): continue
         deep=ndi.binary_dilation(pm,iterations=10)&~pm&(yy>np.where(pm)[0].mean())
+        if not (krib5[0]<=k<=kclav[1]): continue   # pectoralis minor: rib 5 to the clavicle
         rb=np.isin(t,ribs); ant=(yy<vrow-40); lat=(sgn*(xx-mid)>20)&(sgn*(xx-mid)<130)
-        m=free&deep&ant&lat&~ndi.binary_dilation(rb,iterations=8)
+        drib=ndi.distance_transform_edt(~rb) if rb.any() else np.full(rb.shape,999.0)
+        m=free&deep&ant&lat&(drib>8)&(drib<=30)   # on the anterior chest wall: 8-30 mm from the ribs
         if m.any():
             cl,mm=ndi.label(m); sizes=ndi.sum(np.ones_like(cl),cl,np.arange(1,mm+1)); m=cl==(np.argmax(sizes)+1)
             if sizes.max()>=40: out[k][m]=lid

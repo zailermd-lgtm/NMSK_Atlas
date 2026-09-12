@@ -865,6 +865,8 @@ right / left in cm3 as measured on the Visible Human male.
 | rotator cuff, FEMALE (`ct_vhf_cuff`, 2026-09-12) | the same three rules on her cryosections registered to her fresh CT (z +-9 mm; her scapula label shifted 11 / 15 px onto the photographs) | supraspinatus 45 / 50, infraspinatus (+teres minor) 235 / 216, subscapularis 230 / 210 (female colour classes) | female: 35-60 / 130-200 / 120-180 | supraspinatus plausible; infraspinatus and subscapularis over, as on the male |
 | pectoralis minor | sheet <=10 mm deep to pec major, >=8 mm from ribs | 77 / 51 | 30-60 | over |
 | rhomboids (major+minor) | scapula medial border to midline, deep to trapezius, C7-T6 | 124 / 135 | 100-160 | plausible |
+| pectoralis minor, FEMALE (`ct_vhf_pmr`, 2026-09-12) | sheet <= 10 mm deep to her model pec major, 8-30 mm from the ribs, rib 5 to clavicle, outside the cage's convex hull (female colour classes) | 42 / 31 | 20-40 (female) | plausible; a sliver at liver level remains |
+| rhomboids, FEMALE | the same rule on her | 49 / 32 | 70-110 (female) | NOT shipped: patches beside the spine, not the sheet |
 | rectus abdominis | <=70 mm of midline, <=45 mm behind the anterior skin, xiphoid to iliac crest | 181 / 189 | 120-200 (whole) | plausible for the part present |
 | external oblique | lateral wall, outer 40 % of depth | 176 / 322 | 150-250 | left over |
 | internal oblique | middle 35 % | 44 / 116 | 100-180 | right under |
