@@ -1212,6 +1212,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       registration rim along one leg, seen on the front render). Depth tags now: deltoid 13-15 mm min / 32 median,
       supraspinatus 22-23 / 59-63, subscapularis 17-18 / 59-62, biceps 0.1-0.6 / 24-29, legs unchanged.
       `ct_vhf_skin` reconverted; female viewer Version 13; `data/derived/skin_depth_vhf.json` regenerated.
+- [x] Q39 (09:20 -> 09:50 wake) Female RIGHT FOREARM AND HAND from her torso CT: the male's marker watershed
+      (`scripts/segment_arm_bones_vhm.py`) adapted as `scripts/vhf_arm_bones_ct.py` -- her right forearm lies inside
+      the CT field of view after all (Q12 had read the earlier partial result as a failure): radius 23.7 cm3 /
+      191 mm (nearly complete), ulna 11.9 cm3 / 119 mm (its proximal part outside the field), hand 61 cm3 grouped
+      by planes from the wrist (`vhf_arm_bones_ship.py`: carpals 22, metacarpals 27, phalanges 11 cm3 -- female
+      textbook 15-25 / 25-35 / 12-18); the left arm is outside the field of view (the watershed finds no forearm
+      fragment). Coronal and sagittal renders checked (the hand lies flexed on the thigh; the humerus basin is not
+      repackaged -- it drags a truncation cloud at the field edge; ct_vhf keeps the TotalSegmentator humerus).
+      Shipped as `ct_vhf_armb` (key `mappings/vhf_arm_bones_labels.json`); female viewer Version 14: 196
+      structures. Q30's photograph route stays parked; this covers the right side from the CT instead.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

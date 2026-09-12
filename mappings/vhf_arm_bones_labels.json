@@ -1,0 +1,43 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE right forearm and hand volume from her torso CT (scripts/vhf_arm_bones_ct.py: the male's marker-controlled watershed on the smoothed CT with her TotalSegmentator humerus as the marker; scripts/vhf_arm_bones_ship.py groups the hand), plus the mapping onto atlas entities.",
+  "A KEY, not data. Her arms are clipped by the CT's 480 mm field of view: the right radius is nearly complete (191 mm), the right ulna's proximal part is outside the field (119 mm kept), the hand lies within it; the LEFT arm is outside the field and is not in this volume. Hand groups by planes from the wrist (carpals < 45 mm, metacarpals 45-115, phalanges beyond), not separated bones."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female 'Normal' CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 humerus label as marker.",
+ "task": "vhf_arm_bones",
+ "version": "2026-09-12",
+ "labels": {
+  "1": "radius_right",
+  "2": "ulna_right",
+  "3": "carpals_right",
+  "4": "metacarpals_right",
+  "5": "phalanges_right"
+ },
+ "atlas": {
+  "radius_right": {
+   "atlas_id": "radius_r",
+   "relationship": "exact",
+   "note": "Nearly complete (191 mm of about 220): the distal end lies within the field of view."
+  },
+  "ulna_right": {
+   "atlas_id": "ulna_r",
+   "relationship": "exact",
+   "note": "Proximal half outside the CT field of view (119 mm kept)."
+  },
+  "carpals_right": {
+   "atlas_id": "carpals_r",
+   "relationship": "part_of",
+   "note": "Plane group from the wrist, < 45 mm."
+  },
+  "metacarpals_right": {
+   "atlas_id": "metacarpals_r",
+   "relationship": "part_of",
+   "note": "Plane group 45-115 mm."
+  },
+  "phalanges_right": {
+   "atlas_id": "phalanges_hand_r",
+   "relationship": "part_of",
+   "note": "Plane group beyond 115 mm."
+  }
+ }
+}

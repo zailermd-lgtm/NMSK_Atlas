@@ -48,6 +48,10 @@ mid-thigh, stacked by `scripts/stack_dicom_series.py`; head tasks on the
 `ct_vhf_*` with her own femoral-head origin and shipped as a SECOND viewer
 bundle (`scripts/cryo/vhf_ingest.sh`).
 
+`vhf_arm_bones_ct` (2026-09-12): her right radius, ulna and hand from the torso CT by the male's marker
+watershed (`scripts/vhf_arm_bones_ct.py` + `vhf_arm_bones_ship.py`, key `mappings/vhf_arm_bones_labels.json`);
+clipped by the field of view, left arm absent.
+
 ## Visible Human female cryosection-derived volumes (`vhf_*_cryo`, 2026-09-12)
 
 `vhf_lower_limb_bones` (2026-09-11) is from her femur-to-toes CT (`scripts/vhf_lower_limb_bones.py`, see

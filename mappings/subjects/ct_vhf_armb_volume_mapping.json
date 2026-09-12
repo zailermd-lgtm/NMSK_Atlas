@@ -1,0 +1,62 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_armb",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz",
+  "label_map": "vhf_arm_bones",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "radius_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "radius_r",
+      "relationship": "exact",
+      "note": "Nearly complete (191 mm of about 220): the distal end lies within the field of view.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "ulna_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "ulna_r",
+      "relationship": "exact",
+      "note": "Proximal half outside the CT field of view (119 mm kept).",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "carpals_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "carpals_r",
+      "relationship": "part_of",
+      "note": "Plane group from the wrist, < 45 mm.",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "metacarpals_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "metacarpals_r",
+      "relationship": "part_of",
+      "note": "Plane group 45-115 mm.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "phalanges_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "phalanges_hand_r",
+      "relationship": "part_of",
+      "note": "Plane group beyond 115 mm.",
+      "candidates": []
+    }
+  ]
+}

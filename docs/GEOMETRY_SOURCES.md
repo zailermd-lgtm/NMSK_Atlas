@@ -841,7 +841,10 @@ limitation as the male CT feet. Volumes are recorded in
 `data/ct_sources/task_outputs/vhf_lower_limb_bones_report.json`. The female
 bundle (viewer Version 12, 2026-09-12) is 191 meshes from fourteen subjects,
 `ct_vhf_legs` listed before `ct_vhf` so the united femur wins over the torso
-block's stub; her body surface spans both blocks. Her cryosections (registered
+block's stub; her body surface spans both blocks. Her torso CT also yields the RIGHT forearm and hand by the male's marker
+watershed (`scripts/vhf_arm_bones_ct.py`; radius 191 mm, ulna 119 mm with its
+proximal part outside the field of view, hand 61 cm3 grouped by planes); the
+left arm lies outside the field of view. Her cryosections (registered
 to the CT, female colour classes) add the deltoid, the rotator cuff, the
 upper-arm muscles and pectoralis minor by the male's rules; her model labels add
 the erector spinae columns and multifidus.

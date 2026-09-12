@@ -3,7 +3,7 @@
   "Depth below the body surface for every shipped structure of the Visible Human FEMALE (mm; shallowest point and median over the structure's surface), as computed by scripts/export_viewer_bundle.py (add_skin_depth) for the female bundle. Her body surface is the CT body silhouette (HU > -300) of BOTH CT blocks united on one grid (scripts/cryo/vhf_whole_body_skin.py) plus, above RAS z -950, the photograph silhouette of the registered cryosections for the ARMS the CT clips (scripts/cryo/vhf_skin_union.py); the trunk and legs stay CT-exact, the arm surface is +-10 mm. Derived data, regenerated 2026-09-12 after the lower-limb block, deltoid, rotator cuff, erector columns, upper-arm muscles and pectoralis minor were added; the legs->torso registration is +-4 mm in height, which bounds the depths below the knee to the same tolerance. Structures from the cryosection rules (ct_vhf_delt, ct_vhf_cuff, ct_vhf_armm, ct_vhf_pmr) carry the +-10 mm shoulder/arm registration uncertainty as well."
  ],
  "source": "Derived from the Visible Human female meshes in this repository (NLM VHP, public domain; TotalSegmentator segmentations).",
- "bundle": "build/viewer_f (191 structures, 14 subjects; female viewer Version 13, 2026-09-12)",
+ "bundle": "build/viewer_f (196 structures, 15 subjects; female viewer Version 14, 2026-09-12)",
  "rows": [
   {
    "atlas_id": "mandible",
@@ -116,6 +116,41 @@
    "category": "bone",
    "min_depth_mm": 10.4,
    "median_depth_mm": 46.3
+  },
+  {
+   "atlas_id": "radius_r",
+   "subject": "ct_vhf_armb",
+   "category": "bone",
+   "min_depth_mm": 2.6,
+   "median_depth_mm": 17.6
+  },
+  {
+   "atlas_id": "ulna_r",
+   "subject": "ct_vhf_armb",
+   "category": "bone",
+   "min_depth_mm": 4.6,
+   "median_depth_mm": 11.6
+  },
+  {
+   "atlas_id": "carpals_r",
+   "subject": "ct_vhf_armb",
+   "category": "bone",
+   "min_depth_mm": 2.9,
+   "median_depth_mm": 14.8
+  },
+  {
+   "atlas_id": "metacarpals_r",
+   "subject": "ct_vhf_armb",
+   "category": "bone",
+   "min_depth_mm": 1.7,
+   "median_depth_mm": 8.5
+  },
+  {
+   "atlas_id": "phalanges_hand_r",
+   "subject": "ct_vhf_armb",
+   "category": "bone",
+   "min_depth_mm": 1.7,
+   "median_depth_mm": 4.6
   },
   {
    "atlas_id": "sacrum",
