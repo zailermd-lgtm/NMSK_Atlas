@@ -1188,9 +1188,20 @@ tick the item here with a one-line result. Never fabricate; keep the
       anterior chest wall (within 25 mm of the ribs' anterior arc), bound the rhomboids to the band between the
       scapula's medial border and the spinous processes ABOVE the erector columns, and reject any voxel inside
       the rib cage (TS lung/organ hull). Chain and viewer label removed until then.
-- [ ] Q36 Female UPPER-ARM compartments (biceps + brachialis + coracobrachialis anterior, triceps posterior) by the
-      male's rules (`arm_compartments_from_cryo.py` / `name_arm_muscles_from_cryo.py`) around her CT humerus label
-      on the registered cryosections (the forearm is out: Q30); verify volumes and renders; ship as `ct_vhf_armm`.
+- [-] Q36 TRIED, NOT SHIPPED (05:55 -> 06:20) Female upper-arm muscles by the male's compartment rules
+      (`scripts/cryo/vhf_arm_muscles_from_cryo.py`, key `mappings/vhf_arm_muscles_labels.json` kept): with the
+      male's muscle-mass selection the volumes were slivers (biceps 22 / 31, triceps 7 / 7 cm3); with every muscle
+      piece within 45 mm of the humerus kept: biceps 238 / 287 (female 150-250: over, takes brachialis as on the
+      male), brachialis 64 / 45 (100-180: under), triceps 172 / 133 (250-400: under), coracobrachialis 0 (the
+      proximal medial rule finds nothing). The crop renders show WHY: patches, with much of her arm muscle left
+      unlabelled -- her frozen muscle is darker and browner than the male's, and the male's colour class
+      (r > g+15, 60 < v < 170) misses 40-60 % of it (right arm at z -450: 7083 px class 3 vs 3185 red-brown px
+      not class 3 plus 1435 very dark ones). The same under-capture sits behind the "under" deltoid (Q32) and cuff
+      volumes. Chain and viewer label removed; script kept.
+- [ ] Q37 FEMALE COLOUR CLASSES: retune `cryo_classes.py` thresholds on her photographs (muscle: r > g+8, v 35-170,
+      r > b+15; check fat / pale / white against samples of her fat, tendon and cortex), reclassify her 1 mm volume
+      (2 min), re-resample the class frame, then RERUN deltoid (Q32), cuff (Q33) and the arm rules (Q36) and compare
+      every volume with the female textbook ranges before republishing; keep the male's classes for the male.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

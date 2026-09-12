@@ -1,0 +1,61 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE upper-arm muscle volume (scripts/cryo/vhf_arm_muscles_from_cryo.py: the male's compartment and naming rules on her registered cryosection photographs around her TotalSegmentator humerus label), plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based: anterior/posterior by the coronal plane through the humerus; brachialis within 22 mm of the humerus in the distal 65 %; coracobrachialis proximal, medial, within 15 mm; biceps the rest anterior; triceps the whole posterior compartment. Boundaries are rules, not traced fascia; badge it."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 humerus label as anchor.",
+ "task": "vhf_arm_muscles",
+ "version": "2026-09-12",
+ "labels": {
+  "1": "biceps_right",
+  "2": "brachialis_right",
+  "3": "coracobrachialis_right",
+  "4": "triceps_right",
+  "5": "biceps_left",
+  "6": "brachialis_left",
+  "7": "coracobrachialis_left",
+  "8": "triceps_left"
+ },
+ "atlas": {
+  "biceps_right": {
+   "atlas_id": "biceps_brachii_r",
+   "relationship": "exact",
+   "note": "superficial anterior compartment; boundary with brachialis rule-based"
+  },
+  "brachialis_right": {
+   "atlas_id": "brachialis_r",
+   "relationship": "exact",
+   "note": "anterior compartment within 22 mm of the humerus, distal 65 %"
+  },
+  "coracobrachialis_right": {
+   "atlas_id": "coracobrachialis_r",
+   "relationship": "exact",
+   "note": "proximal-medial anterior compartment; rule-based"
+  },
+  "triceps_right": {
+   "atlas_id": "triceps_brachii_r",
+   "relationship": "exact",
+   "note": "whole posterior compartment; three heads not separated"
+  },
+  "biceps_left": {
+   "atlas_id": "biceps_brachii_l",
+   "relationship": "exact",
+   "note": "superficial anterior compartment; boundary with brachialis rule-based"
+  },
+  "brachialis_left": {
+   "atlas_id": "brachialis_l",
+   "relationship": "exact",
+   "note": "anterior compartment within 22 mm of the humerus, distal 65 %"
+  },
+  "coracobrachialis_left": {
+   "atlas_id": "coracobrachialis_l",
+   "relationship": "exact",
+   "note": "proximal-medial anterior compartment; rule-based"
+  },
+  "triceps_left": {
+   "atlas_id": "triceps_brachii_l",
+   "relationship": "exact",
+   "note": "whole posterior compartment; three heads not separated"
+  }
+ }
+}
