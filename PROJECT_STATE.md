@@ -1248,6 +1248,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       rows added (median 2.9 / 4.9 mm; condylar landmarks 50-53 mm beyond her shorter bone, as with the fibula).
       Tests 149 pass. Also the reason the first Q28 registration attempt failed on the legs block: the same fit on
       a shaft with no head, and on RAS points whose second axis is anterior, not superior.
+- [ ] Q43 (added 15:20; needs a reviewer's decision, not done) The bone landmarks in `data/skeleton/bones.json` are
+      written in millimetres for a male-length bone: on the female every distal landmark of the femur, fibula and
+      humerus falls 50-70 mm beyond her shorter bone (audit rows of 2026-09-12). Options: (a) keep them and read the
+      audit's "along the axis" figure as a length difference, (b) store landmarks as a FRACTION of the measured
+      bone length plus a millimetre offset across it, so the same record fits both bodies. (b) changes hand-authored
+      data and every consumer (`rig/anchors`, the audit, the viewer's landmark placement); a reviewer's call.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
