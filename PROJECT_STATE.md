@@ -1137,7 +1137,11 @@ tick the item here with a one-line result. Never fabricate; keep the
       CT (Q12) for the right arm only, or a reviewer marking the two discs every 20 mm (about 20 clicks per arm),
       after which the walk between marks is constrained enough. Nothing from Q30 ships. The scratchpad
       intermediates rebuild in ~10 minutes from the scripts if the container resets.
-- [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
+- [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
+      intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
+      `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
+      with the container reset, so this item now applies to the FEMALE unless the male is re-streamed)
+      Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.
 - [x] Q8 (16:10) rule-based table with VH volumes vs textbook ranges added to GEOMETRY_SOURCES. Was: GEOMETRY_SOURCES "what is rule-based" table
