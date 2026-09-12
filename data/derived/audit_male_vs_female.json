@@ -2,7 +2,8 @@
  "_README": [
   "Landmark-to-surface audit (scripts/audit_landmarks_vs_geometry.py) per bone on the Visible Human male (ct_vhm + ct_vhm_arm) and female (ct_vhf): median and max distance of the atlas's landmark coordinates from the measured bone surface, mm. Large values on a truncated bone (femur on the female, humerus distal end) are the scan's edge, not the landmark. Derived data.",
   "2026-09-12: female rows for the fibulae, patellae (ct_vhf_legs) and the right radius and ulna (ct_vhf_armb) added; the femora are not fitted here (their head fit is rejected on the united label: r 28 mm, rms 6 -- the ball is the TotalSegmentator head from the torso block joined to the legs-block shaft).",
-  "2026-09-12, later: the femora are fitted after all -- proximal_head_centre now ranks the head within the proximal 90 mm of a bone longer than 200 mm (engine/volume_ingest.py); the torso-block stubs and every origin are unchanged."
+  "2026-09-12, later: the femora are fitted after all -- proximal_head_centre now ranks the head within the proximal 90 mm of a bone longer than 200 mm (engine/volume_ingest.py); the torso-block stubs and every origin are unchanged.",
+  "2026-09-12, 14:20 wake: the female torso rows (clavicles, hip bones, humeri, scapulae) re-audited after the head-fit change and unchanged to 0.1 mm (humeri r 24.4 / 23.5 mm as before); the humeral 56-74 mm figures are the distal landmarks written on the male's longer bone falling beyond her label's distal end, the same effect as her fibulae and femora."
  ],
  "source": "Derived from the meshes in this repository.",
  "rows": [
