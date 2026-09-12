@@ -1146,8 +1146,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       marker depth (4 mm: 90 + 15 + 9 + 8 + 7 cm3; 5 mm: 51 + 17 + 16 + 15 + 14; 6 mm: 49 + 39 + 26 + 15 on the
       right) and the 6 mm cut runs through the calcaneal neck, so an unseeded split is not a bone split. Do it with
       ONE placed seed per bone (talus under the tibial plafond, calcaneus at the tuberosity): a seeded watershed is
-      then reliable, and the volumes (female calcaneus 55-70 cm3, talus 30-40) verify it. Not attempted further
-      without the seeds.
+      then reliable, and the volumes (female calcaneus 55-70 cm3, talus 30-40) verify it. 03:30 wake: seeds
+      PLACED BY RULE (talus = under the tibial plafond, calcaneus = the posterior 20 mm of the tarsal mass,
+      midfoot = the anterior 15 mm) and watershed on the distance transform AND on the smoothed CT itself both
+      fail the same way: the talus flood takes the whole calcaneal body (talus 66-100 cm3, calcaneus 10-14 = the
+      tuberosity only) because the subtalar joint shows no HU barrier on this cadaver at 0.72 mm (lateral render
+      checked). So a seed is not enough either: this needs a drawn subtalar contour on a few sagittal slices or
+      an outside shape model. Parked; the male's DU release already has both bones separately (Q29 first).
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
