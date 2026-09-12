@@ -1,7 +1,8 @@
 {
  "_README": [
   "Landmark-to-surface audit (scripts/audit_landmarks_vs_geometry.py) per bone on the Visible Human male (ct_vhm + ct_vhm_arm) and female (ct_vhf): median and max distance of the atlas's landmark coordinates from the measured bone surface, mm. Large values on a truncated bone (femur on the female, humerus distal end) are the scan's edge, not the landmark. Derived data.",
-  "2026-09-12: female rows for the fibulae, patellae (ct_vhf_legs) and the right radius and ulna (ct_vhf_armb) added; the femora are not fitted here (their head fit is rejected on the united label: r 28 mm, rms 6 -- the ball is the TotalSegmentator head from the torso block joined to the legs-block shaft)."
+  "2026-09-12: female rows for the fibulae, patellae (ct_vhf_legs) and the right radius and ulna (ct_vhf_armb) added; the femora are not fitted here (their head fit is rejected on the united label: r 28 mm, rms 6 -- the ball is the TotalSegmentator head from the torso block joined to the legs-block shaft).",
+  "2026-09-12, later: the femora are fitted after all -- proximal_head_centre now ranks the head within the proximal 90 mm of a bone longer than 200 mm (engine/volume_ingest.py); the torso-block stubs and every origin are unchanged."
  ],
  "source": "Derived from the meshes in this repository.",
  "rows": [
@@ -23,15 +24,17 @@
    "bone": "femur_l",
    "male_median_mm": null,
    "male_max_mm": null,
-   "female_median_mm": 33.5,
-   "female_max_mm": 309.9
+   "female_median_mm": 2.9,
+   "female_max_mm": 53.2,
+   "female_note": "united femur (torso-block head + legs-block shaft), head fitted r 23.7 mm rms 0.6-0.7 after the 2026-09-12 fix; the condylar landmarks were written on the male's longer femur and fall beyond her bone's end"
   },
   {
    "bone": "femur_r",
    "male_median_mm": null,
    "male_max_mm": null,
-   "female_median_mm": 33.8,
-   "female_max_mm": 309.7
+   "female_median_mm": 4.9,
+   "female_max_mm": 50.5,
+   "female_note": "united femur (torso-block head + legs-block shaft), head fitted r 23.7 mm rms 0.6-0.7 after the 2026-09-12 fix; the condylar landmarks were written on the male's longer femur and fall beyond her bone's end"
   },
   {
    "bone": "hip_bone_l",

@@ -1240,6 +1240,14 @@ tick the item here with a one-line result. Never fabricate; keep the
       the united label, r 28 mm rms 6); right radius median 58.6 mm ALONG the axis and ulna distal landmarks
       150+ mm off = the truncations measured: her radius lacks its proximal ~50 mm and the ulna ~110 mm (outside
       the CT field of view). Label-map notes, viewer label and docs corrected from "nearly complete" to that; female viewer Version 15 (badge text only).
+- [x] Q42 (13:20 wake) ENGINE FIX: `proximal_head_centre` fitted the femoral head from the extreme 12 % of the whole
+      bone by (superior + medial), which on a WHOLE femur (her united 424 mm one) spans head, neck and trochanter
+      and was rejected (r 28, rms 6). It now ranks within the proximal 90 mm when the bone is longer than 200 mm
+      along the superior axis; shorter pieces are untouched, so every origin stays exactly as computed (her
+      `inspect` origin re-checked: 7.769,-885.229,14.137). Her femora now fit r 23.7 mm, rms 0.60 / 0.68; audit
+      rows added (median 2.9 / 4.9 mm; condylar landmarks 50-53 mm beyond her shorter bone, as with the fibula).
+      Tests 149 pass. Also the reason the first Q28 registration attempt failed on the legs block: the same fit on
+      a shaft with no head, and on RAS points whose second axis is anterior, not superior.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

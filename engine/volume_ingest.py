@@ -414,6 +414,16 @@ def proximal_head_centre(points: np.ndarray, side: str,
     if len(points) < 100:
         raise ValueError("too few points to fit a joint head")
     medial = -1.0 if side == "right" else 1.0      # +X is the subject's right
+    # A WHOLE bone (a united femur, 420 mm; a full humerus) puts the head at the
+    # far end of a long shaft: the extreme 12 % by (superior + medial) then
+    # spans head, neck and trochanter together and the sphere fit is rejected
+    # (r 28 mm, rms 6 on the VH female's united femur). So the ranking is done
+    # within the proximal 90 mm only when the bone is longer than 200 mm along
+    # the superior axis; shorter pieces (a CT block's femur stub) are unchanged,
+    # which keeps every origin computed so far exactly as it was.
+    top = points[:, 1].max()
+    if top - points[:, 1].min() > 200.0:
+        points = points[points[:, 1] >= top - 90.0]
     direction = np.array([medial, 1.0, 0.0])
     direction /= np.linalg.norm(direction)
     score = points @ direction
