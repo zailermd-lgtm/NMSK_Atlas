@@ -1118,25 +1118,25 @@ tick the item here with a one-line result. Never fabricate; keep the
       every `ct_vhm*` subject from the repository task outputs (chain to write like `vhf_rebuild_bundle.sh`), and
       re-stream the cryosection silhouette for `ct_vhm_skin` (not in the repository). The male artifact (Version 25)
       stays live meanwhile; nothing about it can be changed until this is done.
-- [~] Q30 (23:20 -> 00:30, continues) Female CRYOSECTIONS for her arms and hands. Done: series 56f8119f streamed
-      every 3rd slice (1729 slices at 1 mm, 3 minutes with `scripts/cryo/stream_cryosections.py`, resumable);
-      classified; registered to her CT (`scripts/cryo/vhf_register_cryo.py`: 43 anchors over the whole body,
-      silhouette IoU 0.72-0.93, flip `fy` everywhere, in-plane shift drifting from (-4,-108) px at the legs to
-      (-13,-121) in the thorax and (+14,-117) at the head = the frozen block's pose differs from the fresh scan;
-      z offset fitted as a LINE through the anchors with muscle NCC >= 0.55: cryo = -(-26.3 + 0.0105 z) - z,
-      residual rms 8.9 mm -- the thorax anchors (NCC 0.26-0.45) scatter by 30 mm and were left out);
-      resampled into her whole-body CT frame widened to 700 columns (`scripts/cryo/vhf_resample_cryo.py`,
-      1739 x 480 x 700; overlay check of CT label outlines on the photographs at six levels: good in the trunk
-      and thighs). Finding: her CT humerus labels are nearly COMPLETE (273 mm, 154 / 166 cm3, already in the female
-      bundle), so only the forearms and hands are missing. Not done: the forearm bones from the photographs.
-      Her bone cross-sections photograph as small cream discs (marrow + cortex, colour class 2/4/5) enclosed by
-      muscle, not as white rings; the enclosed-disc detector (`scripts/cryo/vhf_arm_bones_from_cryo.py`, step 1)
-      finds them only in fragments of <= 30 mm along z, and the slice-to-slice walk (step 2, both the male's rules
-      and tighter ones) breaks within a few slices because the 1 mm (3x-averaged) discs vary too much. Next:
-      (a) stream the forearm/hand crops at FULL resolution (0.33 mm, like the male's `stream_arm_crops.py`) and
-      walk there; (b) seed from her CT's partial right radius/ulna with the male's local registration; (c) a
-      texture rule (cortex brightness gradient) instead of colour. Nothing from Q30 ships yet; the scratchpad
-      intermediates are rebuilt in ~10 minutes by the three scripts if the container resets again.
+- [-] Q30 PARKED (23:20 -> 02:00) Female CRYOSECTIONS for her arms and hands. Done and kept: the series streamed
+      (1729 slices at 1 mm, resumable, 3 min), classified, registered to her CT (43 anchors, IoU 0.72-0.93, flip
+      `fy`; in-plane shift drifts (-4,-108) px legs -> (-13,-121) thorax -> (+14,-117) head = the frozen block's pose
+      differs from the fresh scan; z offset a line through the NCC >= 0.55 anchors, rms 8.9 mm), resampled into her
+      whole-body CT frame widened to 700 columns, with an overlay check at six levels. Full-resolution (0.33 mm)
+      crops of both forearms and hands streamed (`scripts/cryo/vhf_stream_arm_crops.py`, 491 slices, 30 s).
+      Finding: her CT humerus labels are nearly complete (273 mm, 154 / 166 cm3, already in the bundle), so only
+      the forearms and hands are missing. NOT achieved after four detector designs and a tracking walk
+      (`vhf_arm_bones_from_cryo.py`, `vhf_forearm_hand_fullres.py`, `vhf_forearm_track.py`): her bone sections
+      photograph as cream discs whose cortex is the same cream as the marrow (no white ring at this resolution),
+      the subcutaneous fat is the same colour family (marrow: b/r 0.61-0.63, saturation 0.37-0.39; fat: 0.54-0.58,
+      0.42-0.46 -- separable on average, not per pixel), and the ulna's posterior border and the distal radius lie
+      on that fat with no muscle between. Enclosed-disc rules give fragments <= 30 mm; a colour rule floods fat
+      lobules; the tracking walk rides along the skin rim (the 195 mm "ulna" was the fat rim) and, with a
+      muscle-surround rule, stops at 65-93 mm (right radius correct for 93 mm, verified on the overlay). What would
+      work: seeds AND per-slice verification from an independent modality -- her partial right radius/ulna in the
+      CT (Q12) for the right arm only, or a reviewer marking the two discs every 20 mm (about 20 clicks per arm),
+      after which the walk between marks is constrained enough. Nothing from Q30 ships. The scratchpad
+      intermediates rebuild in ~10 minutes from the scripts if the container resets.
 - [ ] Q7 Nerves at full resolution: sciatic (hand-placed seed from the
       gluteal render), median/ulnar in the arm crops; ship only what
       tracks continuously for >100 mm.

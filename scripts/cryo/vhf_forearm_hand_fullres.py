@@ -1,6 +1,6 @@
 """Female forearm and hand bones from the FULL-RESOLUTION (0.33 mm) cryosection crops (vhf_stream_arm_crops.py).
-Per slice and side: colour classes; a bone is a cream marrow disc (class 2) bounded by its pale/white cortex line (classes 4/5, used as a wall so
-the distal radius/ulna do not merge with the subcutaneous fat they lie on) -- opened by 4 px to cut the fat septa, never within 3 px (1 mm) of the outside of the body silhouette (the distal radius and ulna are subcutaneous), 300-6000 px
+Per slice and side: colour classes; a bone is a disc of BONE-CREAM (cream classes 2/4/5 that are pinker and less saturated than the
+subcutaneous fat: smoothed b/r > 0.59 and saturation < 0.41, measured on her photographs) -- opened by 3 px, never within 3 px (1 mm) of the outside of the body silhouette (the distal radius and ulna are subcutaneous), 300-6000 px
 (3-650 mm2), compact (filled area / box >= 0.4) -- grown back to its edge. Anything within 4 mm of a CT bone label
 (torso TotalSegmentator bones, lower-limb volume, mapped through the frame) is removed: the hip and thigh share the crop with the hand.
 Slices above the CT humerus's lower end + 3 mm are ignored (the trochlea would join the ulna through the joint
@@ -40,8 +40,12 @@ for side,base in (("right",0),("left",5)):
     for j,(zr,zi) in enumerate(zip(ZR,ZI)):
         if zr>HUM_BOT[side]+3: continue
         w=bb["windows"][str(zi)][side]; im=np.asarray(V[j][:w[1]-w[0],:w[3]-w[2]]); c=classify(im)
-        cream=np.isin(c,[2,4,5]); wall=ndi.binary_dilation(np.isin(c,[4,5]),iterations=1)   # the pale/white cortex line is a WALL: distally the bones lie on the subcutaneous fat with no muscle between
-        core=ndi.binary_opening((c==2)&~wall,iterations=4)
+        # bone marrow + cortex photograph pinker and less saturated than the subcutaneous fat (measured on her: marrow b/r 0.61-0.63,
+        # saturation 0.37-0.39, local texture std 8-11; fat b/r 0.54-0.58, saturation 0.42-0.46, std 4-5), so a per-pixel colour rule
+        # on a 5x5-smoothed image separates them even where a distal bone lies directly on the fat
+        sm=ndi.uniform_filter(im.astype(np.float32),size=(5,5,1)); r_,g_,b_=sm[...,0],sm[...,1],sm[...,2]; v=sm.max(-1); sat=(v-sm.min(-1))/(v+1e-3)
+        cream=np.isin(c,[2,4,5]); bonecream=cream&(sat<0.41)&(b_/(r_+1e-3)>0.59)&(v>120)
+        core=ndi.binary_opening(bonecream,iterations=3)
         body=ndi.binary_fill_holes(ndi.binary_closing(c>0,iterations=5)); nearbg=ndi.binary_dilation(~body,iterations=3)   # background = outside the body silhouette (dark marrow and blood are class 0 too, but inside)
         l2,n2=ndi.label(core); keep=np.zeros_like(cream)
         if n2:
@@ -53,7 +57,7 @@ for side,base in (("right",0),("left",5)):
                 mf=ndi.binary_fill_holes(m)
                 if mf.sum()/float(m.shape[0]*m.shape[1])<0.4: continue
                 keep[ob]|=mf
-        b=ndi.binary_fill_holes(ndi.binary_dilation(keep,iterations=4)&cream)
+        b=ndi.binary_fill_holes(ndi.binary_dilation(keep,iterations=3)&bonecream)
         if not b.any(): continue
         # crop px -> frame (1 mm): r=(w0+y)/3, c=(w2+x)/3 ; row_f=RS+((H-1)-r)*sc ; col_f=110+CS+c*sc
         RS=float(np.interp(zr,zs_a,rs)); CS=float(np.interp(zr,zs_a,cs)); ys,xs=np.where(b)
@@ -67,12 +71,15 @@ for side,base in (("right",0),("left",5)):
         if objs[i] is None or sizes[i]<200: continue
         ob=objs[i]; sub=cl[ob]==i+1; idx=np.argwhere(sub)+[s.start for s in ob]
         comps.append(dict(i=i+1,cm3=round(float(sizes[i])/1000,1),ext=int(idx[:,0].max()-idx[:,0].min()),z_top=ZR[idx[:,0].min()],z_bot=ZR[idx[:,0].max()],col=float(idx[:,2].mean()),row=float(idx[:,1].mean())))
-    comps.sort(key=lambda c:-c["ext"]); print(side,"components",[(c["cm3"],c["ext"],c["z_top"],c["z_bot"],round(c["col"])) for c in comps[:8]],flush=True)
+    comps.sort(key=lambda c:-c["ext"]); print(side,"components",[(c["i"],c["cm3"],c["ext"],c["z_top"],c["z_bot"],round(c["col"])) for c in comps[:10]],flush=True)
+    np.save(D+f"fullres_components_{side}.npy",cl.astype(np.int32)); json.dump(comps,open(D+f"fullres_components_{side}.json","w"),indent=1)
+    lutc=np.random.RandomState(3).randint(70,255,(m+1,3)).astype(np.uint8); lutc[0]=0
+    Image.fromarray(lutc[cl.max(axis=1)][::-1]).save(D+f"fullres_components_{side}_front.png"); Image.fromarray(lutc[cl.max(axis=2)][::-1]).save(D+f"fullres_components_{side}_side.png")
     r={}; longs=[]
     for c in [c for c in comps if c["ext"]>=100]:   # the two forearm bones: tallest pair with overlapping z ranges, centroids < 45 mm apart
         if not longs: longs=[c]; continue
         a=longs[0]; ov=min(a["z_top"],c["z_top"])-max(a["z_bot"],c["z_bot"])
-        if ov>=0.5*min(a["ext"],c["ext"]) and abs(a["col"]-c["col"])+abs(a["row"]-c["row"])<45: longs.append(c); break
+        if ov>=0.4*min(a["ext"],c["ext"]) and abs(a["col"]-c["col"])+abs(a["row"]-c["row"])<90: longs.append(c); break
     kmap={zr:int(round(zr-z0)) for zr in ZR}   # frame slice index of each crop slice
     def to_frame(mask3):
         for j in range(len(ZR)): out[kmap[ZR[j]]][mask3[j]]=0
