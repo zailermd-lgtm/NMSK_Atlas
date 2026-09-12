@@ -29,6 +29,7 @@ the source and the method:
 | `ct_s1159`, `ct_s1159_abd` | a third body (TotalSegmentator case s1159, CC BY 4.0) | clinical CT | TotalSegmentator; fills only what the male lacks (vessels, quadratus lumborum) |
 | `ct_vhf`, `ct_vhf_*` | female | fresh CT | TotalSegmentator free tasks |
 | `ct_vhf_skin` | female | CT | body silhouette (HU > -300) |
+| `ct_vhf_delt` | female | colour cryosections registered to her CT (+-9 mm in height; her frozen block's pose differs from the fresh scan) | **rule-based**: the male's deltoid rule (superficial, within 55 mm of the proximal humerus, lateral to the scapula); deep boundary approximate |
 | `ct_vhf_legs` | female | fresh CT, femur-to-toes block registered to her torso block by continuity (+-4 mm in height) | HU threshold split at the joints by a distance-transform watershed; femur united from both blocks; foot bones grouped by planes (not separated) |
 
 ## How much to trust a rule-based muscle

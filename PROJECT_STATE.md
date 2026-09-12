@@ -1153,6 +1153,20 @@ tick the item here with a one-line result. Never fabricate; keep the
       tuberosity only) because the subtalar joint shows no HU barrier on this cadaver at 0.72 mm (lateral render
       checked). So a seed is not enough either: this needs a drawn subtalar contour on a few sagittal slices or
       an outside shape model. Parked; the male's DU release already has both bones separately (Q29 first).
+- [x] Q32 (04:20 -> 04:45 wake) Female DELTOID by the male's rule on her registered cryosections
+      (`scripts/cryo/vhf_deltoid_from_cryo.py`): 164 / 153 cm3 (female textbook 200-300; under and symmetric, the
+      deep part missed as on the male's 282 / 215), z -424..-294 / -412..-282, her CT humerus/scapula labels shifted
+      11 / 15 px onto the photographs (the residual of the piecewise registration at the arms); crop renders checked
+      on both sides (crescent lateral to the humeral head and shaft; the lowest slices catch arm muscle, so the
+      rule now stops 130 mm below the head top instead of 150). Shipped as `ct_vhf_delt` (label map
+      `mappings/vhf_deltoid_labels.json`, volume + report in `data/ct_sources/task_outputs`), female viewer
+      Version 8: 169 structures. Depth tags on it carry the +-10 mm shoulder registration uncertainty (min 0.1 mm
+      at the skin). Rule-based, badged. Next candidates by the same route: her rotator cuff (`rotator_cuff_from_cryo.py`
+      rules on her scapula label) -- added as Q33.
+- [ ] Q33 Female ROTATOR CUFF by the male's rules (`scripts/cryo/rotator_cuff_from_cryo.py` v2: supraspinatus above
+      the scapular spine level, infraspinatus + teres minor below, subscapularis ventral <= 18 mm and not nearer the
+      ribs) on her registered cryosections with her scapula label; verify by volumes (male 68 / 353 / 321 cm3 vs
+      textbook 45-80 / 200-300 / 200-300) and crop renders; ship as `ct_vhf_cuff`.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

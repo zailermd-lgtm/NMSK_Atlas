@@ -24,7 +24,8 @@ conv $T/vhf_headneck_bones_vessels.nii.gz totalsegmentator_headneck_bones_vessel
 conv $T/vhf_abdominal_muscles.nii.gz totalsegmentator_abdominal_muscles ct_vhf_abd --smooth 1.0
 [ -n "${STOP_BEFORE_LEGS:-}" ] && { echo CONV_DONE; exit 0; }   # torso subjects only (run while the legs volume is still being made)
 conv $T/vhf_lower_limb_bones.nii.gz vhf_legs ct_vhf_legs --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
+conv $T/vhf_deltoid_cryo.nii.gz vhf_deltoid ct_vhf_delt --smooth 1.0
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_delt"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 if [ -f $S/vhf_ts/skin_ct.nii.gz ]; then conv $S/vhf_ts/skin_ct.nii.gz vhm_skin ct_vhf_skin --smooth 1.5 --step 2; SUBJ="$SUBJ --subject ct_vhf_skin"; else echo "skin volume absent: bundle without depth tags"; fi
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f 2>&1 | grep -E "structures from|->|Error|Trace"

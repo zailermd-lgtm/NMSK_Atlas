@@ -47,3 +47,12 @@ mid-thigh, stacked by `scripts/stack_dicom_series.py`; head tasks on the
 `abdominal_muscles`, gives symmetric textbook-range volumes. Ingested as
 `ct_vhf_*` with her own femoral-head origin and shipped as a SECOND viewer
 bundle (`scripts/cryo/vhf_ingest.sh`).
+
+## Visible Human female cryosection-derived volumes (`vhf_*_cryo`, 2026-09-12)
+
+`vhf_lower_limb_bones` (2026-09-11) is from her femur-to-toes CT (`scripts/vhf_lower_limb_bones.py`, see
+its report JSON). `vhf_deltoid_cryo`: the male's deltoid rule applied to her colour cryosections (IDC series
+`56f8119f-5940-48c1-96ee-8d445dc0b5fd`, every 3rd slice at 1 mm, `scripts/cryo/stream_cryosections.py`),
+registered to her CT by `scripts/cryo/vhf_register_cryo.py` + `vhf_resample_cryo.py` (piecewise in-plane,
+linear z, +-9 mm) and cut by `scripts/cryo/vhf_deltoid_from_cryo.py` with her TotalSegmentator humerus and
+scapula labels as anchors (key `mappings/vhf_deltoid_labels.json`). Rule-based; volumes in the report JSON.

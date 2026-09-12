@@ -857,6 +857,7 @@ right / left in cm3 as measured on the Visible Human male.
 | coracobrachialis | anterior, proximal 35 %, medial, within 15 mm of the humerus | 44 / 50 | 40-70 | plausible |
 | triceps brachii | whole posterior compartment | 713 / 789 | 550-750 | plausible / slightly over |
 | deltoid | superficial to the proximal humerus, lateral to the scapula (+ spine third) | 282 / 215 | 350-500 | under (deep part missed) |
+| deltoid, FEMALE (`ct_vhf_delt`, 2026-09-12) | the same rule on her cryosections registered to her fresh CT (piecewise in-plane, z +-9 mm; her CT humerus/scapula as anchors, shifted 11 / 15 px onto the photographs) | 164 / 153 | 200-300 (female) | under, symmetric (deep part missed, as on the male) |
 | supraspinatus | dorsal scapula above the spine level, medial to the glenoid | 68 / 69 | 45-80 | plausible |
 | infraspinatus (+teres minor) | dorsal scapula below the spine level | 353 / 340 | 200-300 (+40) | over (teres major slips) |
 | subscapularis | ventral scapula, <=18 mm, not nearer the ribs | 321 / 321 | 200-300 | over |

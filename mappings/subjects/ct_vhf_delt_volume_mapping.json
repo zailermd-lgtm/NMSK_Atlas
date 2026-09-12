@@ -1,0 +1,32 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_delt",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deltoid_cryo.nii.gz",
+  "label_map": "vhf_deltoid",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "deltoid_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "deltoid_r",
+      "relationship": "exact",
+      "note": "Rule-based extraction; deep and posterior boundaries approximate.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "deltoid_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "deltoid_l",
+      "relationship": "exact",
+      "note": "Rule-based extraction; deep and posterior boundaries approximate.",
+      "candidates": []
+    }
+  ]
+}
