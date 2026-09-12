@@ -1177,10 +1177,17 @@ tick the item here with a one-line result. Never fabricate; keep the
       spinalis asymmetric by the midline rule). Her `abdominal_muscles` transversospinalis label had been NULLED in
       `ct_vhf_abd` (propose default) -- now mapped to multifidus_r/l as on the male: 185 / 173 cm3. Shipped as
       `ct_vhf_es` + the corrected `ct_vhf_abd`; female viewer Version 10: 183 structures.
-- [ ] Q35 Female PECTORALIS MINOR and RHOMBOIDS by the male's rules (`scripts/cryo/pecminor_rhomboids.py` v2: sheet
-      <= 10 mm deep to her pectoralis major label, >= 8 mm from the ribs; rhomboid band deep to her trapezius label
-      C7-T6) on her registered cryosections; verify volumes (male values in the rule table) and crop renders; ship
-      as `ct_vhf_pmr`.
+- [-] Q35 TRIED, NOT SHIPPED (05:30 -> 05:55) Female pectoralis minor / rhomboids by the male's rules
+      (`scripts/cryo/vhf_pecminor_rhomboids.py`, key `mappings/vhf_pecminor_rhomboids_labels.json` kept for a rerun):
+      pec minor 39 / 34 cm3 (female 20-40: plausible volume) but the zoomed render shows the strips right at
+      mid-thorax (z -362) AND slivers at liver level (z -514, -438) inside the rule's rib-6-to-clavicle band;
+      rhomboids 32 / 23 cm3 (female 70-110: 3x under) with one blob INSIDE the abdominal cavity (stomach wall
+      muscle within 25 mm "deep to" a thin trapezius) and paraspinal patches, not the rhomboid sheet. Her
+      trapezius/pec-major model labels are thinner than the male's hybrid-CT ones, so the "deep to" dilations
+      reach the wrong tissue. Fix when resumed: bound pec minor to the clavicle..rib-5 band and to the
+      anterior chest wall (within 25 mm of the ribs' anterior arc), bound the rhomboids to the band between the
+      scapula's medial border and the spinous processes ABOVE the erector columns, and reject any voxel inside
+      the rib cage (TS lung/organ hull). Chain and viewer label removed until then.
 - [ ] Q36 Female UPPER-ARM compartments (biceps + brachialis + coracobrachialis anterior, triceps posterior) by the
       male's rules (`arm_compartments_from_cryo.py` / `name_arm_muscles_from_cryo.py`) around her CT humerus label
       on the registered cryosections (the forearm is out: Q30); verify volumes and renders; ship as `ct_vhf_armm`.

@@ -1,0 +1,37 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE pectoralis minor / rhomboid volume (scripts/cryo/vhf_pecminor_rhomboids.py: the male's position rules on her registered cryosection photographs, anchored on her model pectoralis major, trapezius, scapula, rib and vertebra labels), plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based; pectoralis minor over-inclusive on the male; rhomboid major and minor as one mass; badge it."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels as anchors.",
+ "task": "vhf_pecminor_rhomboids",
+ "version": "2026-09-12",
+ "labels": {
+  "1": "pecminor_right",
+  "2": "pecminor_left",
+  "3": "rhomboid_right",
+  "4": "rhomboid_left"
+ },
+ "atlas": {
+  "pecminor_right": {
+   "atlas_id": "pectoralis_minor_r",
+   "relationship": "exact",
+   "note": "Rule-based; over-inclusive (see README)."
+  },
+  "rhomboid_right": {
+   "atlas_id": "rhomboid_major_r",
+   "relationship": "part_of",
+   "note": "Rhomboid major and minor as one mass, shown under rhomboid major."
+  },
+  "pecminor_left": {
+   "atlas_id": "pectoralis_minor_l",
+   "relationship": "exact",
+   "note": "Rule-based; over-inclusive (see README)."
+  },
+  "rhomboid_left": {
+   "atlas_id": "rhomboid_major_l",
+   "relationship": "part_of",
+   "note": "Rhomboid major and minor as one mass, shown under rhomboid major."
+  }
+ }
+}
