@@ -1171,11 +1171,19 @@ tick the item here with a one-line result. Never fabricate; keep the
       Shipped as `ct_vhf_cuff` (key `mappings/vhf_rotator_cuff_labels.json`, volume + report in the task outputs);
       female viewer Version 9: 175 structures. Rule-based, badged. Her shoulder is now: humerus, scapula, clavicle
       (CT), deltoid + cuff (rules), pectoralis major / latissimus / serratus / trapezius (CT model).
-- [ ] Q34 Female ERECTOR SPINAE columns and TRANSVERSOSPINALIS by the male's rules
-      (`scripts/cryo/erector_columns_from_autochthon.py`: her `total` autochthon label split into spinalis /
-      longissimus / iliocostalis by 20 / 50 mm planes from the midline, the mass under multifidus deep to a
-      depth fraction) -- her autochthon label is model-segmented (unfrozen CT), so this needs no photographs;
-      verify by volumes against the male's and ship as `ct_vhf_es`.
+- [x] Q34 (05:10 -> 05:30) Female ERECTOR SPINAE columns + MULTIFIDUS. `scripts/cryo/vhf_erector_columns.py` (the male's
+      20 / 50 mm midline rule on her MODEL erector-spinae + autochthon labels, no photographs): spinalis 44 / 64,
+      longissimus 310 / 304, iliocostalis 157 / 126 cm3 (female textbook 30-60 / 250-400 / 150-250; plausible,
+      spinalis asymmetric by the midline rule). Her `abdominal_muscles` transversospinalis label had been NULLED in
+      `ct_vhf_abd` (propose default) -- now mapped to multifidus_r/l as on the male: 185 / 173 cm3. Shipped as
+      `ct_vhf_es` + the corrected `ct_vhf_abd`; female viewer Version 10: 183 structures.
+- [ ] Q35 Female PECTORALIS MINOR and RHOMBOIDS by the male's rules (`scripts/cryo/pecminor_rhomboids.py` v2: sheet
+      <= 10 mm deep to her pectoralis major label, >= 8 mm from the ribs; rhomboid band deep to her trapezius label
+      C7-T6) on her registered cryosections; verify volumes (male values in the rule table) and crop renders; ship
+      as `ct_vhf_pmr`.
+- [ ] Q36 Female UPPER-ARM compartments (biceps + brachialis + coracobrachialis anterior, triceps posterior) by the
+      male's rules (`arm_compartments_from_cryo.py` / `name_arm_muscles_from_cryo.py`) around her CT humerus label
+      on the registered cryosections (the forearm is out: Q30); verify volumes and renders; ship as `ct_vhf_armm`.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone

@@ -57,4 +57,6 @@ registered to her CT by `scripts/cryo/vhf_register_cryo.py` + `vhf_resample_cryo
 linear z, +-9 mm) and cut by `scripts/cryo/vhf_deltoid_from_cryo.py` with her TotalSegmentator humerus and
 scapula labels as anchors (key `mappings/vhf_deltoid_labels.json`). `vhf_rotator_cuff_cryo`: the male's scapular-surface rules
 (`scripts/cryo/vhf_rotator_cuff_from_cryo.py`, key `mappings/vhf_rotator_cuff_labels.json`) on the same
-registered photographs. Rule-based; volumes in the report JSONs.
+registered photographs. `vhf_erector_columns`: the male's distance-from-midline rule on her model erector-spinae
+and autochthon labels (`scripts/cryo/vhf_erector_columns.py`, key `mappings/vhf_erector_labels.json`), no
+photographs involved. Rule-based; volumes in the report JSONs.

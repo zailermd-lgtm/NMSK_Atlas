@@ -870,6 +870,8 @@ right / left in cm3 as measured on the Visible Human male.
 | transversus abdominis | inner 25 % | 82 / 227 | 80-150 | left over |
 | spinalis / longissimus / iliocostalis | erector mass by distance from midline (20 / 50 mm) | 67 / 71, 473 / 514, 260 / 211 | 40-80, 350-550, 200-320 | plausible |
 | multifidus (transversospinalis group) | hybrid-CT label | 214 / 205 | 150-250 (group) | plausible |
+| spinalis / longissimus / iliocostalis, FEMALE (`ct_vhf_es`, 2026-09-12) | the same 20 / 50 mm rule on her MODEL erector-spinae + autochthon labels (unfrozen CT; no photographs needed) | 44 / 64, 310 / 304, 157 / 126 | female: 30-60, 250-400, 150-250 | plausible; spinalis asymmetric (midline rule) |
+| multifidus, FEMALE (`ct_vhf_abd`) | model transversospinalis label, mapped as on the male | 185 / 173 | 120-200 (group) | plausible |
 | hand groups | planes along the hand axis (45 / 115 mm) | carpals 24 / 33, metacarpals 11 / 24, phalanges 14 / 16 | 15-20, 20-30, 12-18 | carpals over (metacarpal bases) |
 
 Everything in this table is badged in the viewer; a slice-by-slice review
