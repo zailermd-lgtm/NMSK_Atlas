@@ -1,0 +1,49 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE rotator-cuff volume (scripts/cryo/vhf_rotator_cuff_from_cryo.py: the male's scapular-surface rules on her registered cryosection photographs, anchored on her TotalSegmentator scapula label), plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based: muscle within 25 mm of the scapula by nearest surface (ventral = subscapularis; dorsal above the spine level and medial to the glenoid = supraspinatus; else infraspinatus with teres minor merged); boundaries are rules, not traced fascia; badge it."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels as anchors.",
+ "task": "vhf_rotator_cuff",
+ "version": "2026-09-12",
+ "labels": {
+  "1": "supraspinatus_right",
+  "2": "infraspinatus_right",
+  "3": "subscapularis_right",
+  "4": "supraspinatus_left",
+  "5": "infraspinatus_left",
+  "6": "subscapularis_left"
+ },
+ "atlas": {
+  "supraspinatus_right": {
+   "atlas_id": "supraspinatus_r",
+   "relationship": "exact",
+   "note": "Supraspinous fossa by level and glenoid rule; over-inclusive at the tendon."
+  },
+  "infraspinatus_right": {
+   "atlas_id": "infraspinatus_r",
+   "relationship": "exact",
+   "note": "Dorsal scapular surface below the spine level; teres minor merged in."
+  },
+  "subscapularis_right": {
+   "atlas_id": "subscapularis_r",
+   "relationship": "exact",
+   "note": "Ventral scapular surface, more than 8 mm from the ribs."
+  },
+  "supraspinatus_left": {
+   "atlas_id": "supraspinatus_l",
+   "relationship": "exact",
+   "note": "Supraspinous fossa by level and glenoid rule; over-inclusive at the tendon."
+  },
+  "infraspinatus_left": {
+   "atlas_id": "infraspinatus_l",
+   "relationship": "exact",
+   "note": "Dorsal scapular surface below the spine level; teres minor merged in."
+  },
+  "subscapularis_left": {
+   "atlas_id": "subscapularis_l",
+   "relationship": "exact",
+   "note": "Ventral scapular surface, more than 8 mm from the ribs."
+  }
+ }
+}

@@ -861,6 +861,7 @@ right / left in cm3 as measured on the Visible Human male.
 | supraspinatus | dorsal scapula above the spine level, medial to the glenoid | 68 / 69 | 45-80 | plausible |
 | infraspinatus (+teres minor) | dorsal scapula below the spine level | 353 / 340 | 200-300 (+40) | over (teres major slips) |
 | subscapularis | ventral scapula, <=18 mm, not nearer the ribs | 321 / 321 | 200-300 | over |
+| rotator cuff, FEMALE (`ct_vhf_cuff`, 2026-09-12) | the same three rules on her cryosections registered to her fresh CT (z +-9 mm; her scapula label shifted 11 / 15 px onto the photographs) | supraspinatus 38 / 38, infraspinatus (+teres minor) 208 / 180, subscapularis 151 / 105 | female: 35-60 / 130-200 / 120-180 | plausible; subscapularis asymmetric (left low: registration at the ventral scapula) |
 | pectoralis minor | sheet <=10 mm deep to pec major, >=8 mm from ribs | 77 / 51 | 30-60 | over |
 | rhomboids (major+minor) | scapula medial border to midline, deep to trapezius, C7-T6 | 124 / 135 | 100-160 | plausible |
 | rectus abdominis | <=70 mm of midline, <=45 mm behind the anterior skin, xiphoid to iliac crest | 181 / 189 | 120-200 (whole) | plausible for the part present |

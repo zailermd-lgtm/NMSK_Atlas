@@ -55,4 +55,6 @@ its report JSON). `vhf_deltoid_cryo`: the male's deltoid rule applied to her col
 `56f8119f-5940-48c1-96ee-8d445dc0b5fd`, every 3rd slice at 1 mm, `scripts/cryo/stream_cryosections.py`),
 registered to her CT by `scripts/cryo/vhf_register_cryo.py` + `vhf_resample_cryo.py` (piecewise in-plane,
 linear z, +-9 mm) and cut by `scripts/cryo/vhf_deltoid_from_cryo.py` with her TotalSegmentator humerus and
-scapula labels as anchors (key `mappings/vhf_deltoid_labels.json`). Rule-based; volumes in the report JSON.
+scapula labels as anchors (key `mappings/vhf_deltoid_labels.json`). `vhf_rotator_cuff_cryo`: the male's scapular-surface rules
+(`scripts/cryo/vhf_rotator_cuff_from_cryo.py`, key `mappings/vhf_rotator_cuff_labels.json`) on the same
+registered photographs. Rule-based; volumes in the report JSONs.

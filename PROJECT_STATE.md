@@ -1163,10 +1163,19 @@ tick the item here with a one-line result. Never fabricate; keep the
       Version 8: 169 structures. Depth tags on it carry the +-10 mm shoulder registration uncertainty (min 0.1 mm
       at the skin). Rule-based, badged. Next candidates by the same route: her rotator cuff (`rotator_cuff_from_cryo.py`
       rules on her scapula label) -- added as Q33.
-- [ ] Q33 Female ROTATOR CUFF by the male's rules (`scripts/cryo/rotator_cuff_from_cryo.py` v2: supraspinatus above
-      the scapular spine level, infraspinatus + teres minor below, subscapularis ventral <= 18 mm and not nearer the
-      ribs) on her registered cryosections with her scapula label; verify by volumes (male 68 / 353 / 321 cm3 vs
-      textbook 45-80 / 200-300 / 200-300) and crop renders; ship as `ct_vhf_cuff`.
+- [x] Q33 (04:50 -> 05:10) Female ROTATOR CUFF by the male's rules on her registered cryosections
+      (`scripts/cryo/vhf_rotator_cuff_from_cryo.py`): supraspinatus 38 / 38 cm3, infraspinatus (+teres minor)
+      208 / 180, subscapularis 151 / 105 (female textbook 35-60 / 130-200 / 120-180; plausible, the left
+      subscapularis low -- the ventral scapula is where the frozen pose and the fresh CT differ most); crop renders
+      checked on both sides (dorsal blue = infraspinatus, ventral purple = subscapularis, supraspinatus at the top).
+      Shipped as `ct_vhf_cuff` (key `mappings/vhf_rotator_cuff_labels.json`, volume + report in the task outputs);
+      female viewer Version 9: 175 structures. Rule-based, badged. Her shoulder is now: humerus, scapula, clavicle
+      (CT), deltoid + cuff (rules), pectoralis major / latissimus / serratus / trapezius (CT model).
+- [ ] Q34 Female ERECTOR SPINAE columns and TRANSVERSOSPINALIS by the male's rules
+      (`scripts/cryo/erector_columns_from_autochthon.py`: her `total` autochthon label split into spinalis /
+      longissimus / iliocostalis by 20 / 50 mm planes from the midline, the mass under multifidus deep to a
+      depth fraction) -- her autochthon label is model-segmented (unfrozen CT), so this needs no photographs;
+      verify by volumes against the male's and ship as `ct_vhf_es`.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
