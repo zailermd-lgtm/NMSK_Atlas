@@ -1,9 +1,9 @@
 {
  "_README": [
-  "Depth below the body surface for every shipped structure of the Visible Human FEMALE (mm; shallowest point and median over the structure's surface), as computed by scripts/export_viewer_bundle.py (add_skin_depth) for the female bundle. Her body surface is the CT body silhouette (HU > -300) of BOTH CT blocks united on one grid (scripts/cryo/vhf_whole_body_skin.py), not a photograph. Derived data, regenerated 2026-09-11 night after the lower-limb block was added; the legs->torso registration is +-4 mm in height, which bounds the depths below the knee to the same tolerance."
+  "Depth below the body surface for every shipped structure of the Visible Human FEMALE (mm; shallowest point and median over the structure's surface), as computed by scripts/export_viewer_bundle.py (add_skin_depth) for the female bundle. Her body surface is the CT body silhouette (HU > -300) of BOTH CT blocks united on one grid (scripts/cryo/vhf_whole_body_skin.py), not a photograph. Derived data, regenerated 2026-09-12 after the lower-limb block, deltoid, rotator cuff, erector columns, upper-arm muscles and pectoralis minor were added; the legs->torso registration is +-4 mm in height, which bounds the depths below the knee to the same tolerance. Structures from the cryosection rules (ct_vhf_delt, ct_vhf_cuff, ct_vhf_armm, ct_vhf_pmr) carry the +-10 mm shoulder/arm registration uncertainty as well."
  ],
  "source": "Derived from the Visible Human female meshes in this repository (NLM VHP, public domain; TotalSegmentator segmentations).",
- "bundle": "build/viewer_f (167 structures, 9 subjects)",
+ "bundle": "build/viewer_f (191 structures, 14 subjects; female viewer Version 12, 2026-09-12)",
  "rows": [
   {
    "atlas_id": "mandible",
@@ -1154,6 +1154,20 @@
    "median_depth_mm": 34.4
   },
   {
+   "atlas_id": "multifidus_r",
+   "subject": "ct_vhf_abd",
+   "category": "muscle",
+   "min_depth_mm": 10.9,
+   "median_depth_mm": 31.8
+  },
+  {
+   "atlas_id": "multifidus_l",
+   "subject": "ct_vhf_abd",
+   "category": "muscle",
+   "min_depth_mm": 9.0,
+   "median_depth_mm": 30.6
+  },
+  {
    "atlas_id": "quadratus_lumborum_r",
    "subject": "ct_vhf_abd",
    "category": "muscle",
@@ -1166,6 +1180,160 @@
    "category": "muscle",
    "min_depth_mm": 41.3,
    "median_depth_mm": 55.8
+  },
+  {
+   "atlas_id": "deltoid_r",
+   "subject": "ct_vhf_delt",
+   "category": "muscle",
+   "min_depth_mm": 0.3,
+   "median_depth_mm": 13.1
+  },
+  {
+   "atlas_id": "deltoid_l",
+   "subject": "ct_vhf_delt",
+   "category": "muscle",
+   "min_depth_mm": 0.1,
+   "median_depth_mm": 18.4
+  },
+  {
+   "atlas_id": "supraspinatus_r",
+   "subject": "ct_vhf_cuff",
+   "category": "muscle",
+   "min_depth_mm": 7.5,
+   "median_depth_mm": 28.9
+  },
+  {
+   "atlas_id": "infraspinatus_r",
+   "subject": "ct_vhf_cuff",
+   "category": "muscle",
+   "min_depth_mm": 0.4,
+   "median_depth_mm": 25.5
+  },
+  {
+   "atlas_id": "subscapularis_r",
+   "subject": "ct_vhf_cuff",
+   "category": "muscle",
+   "min_depth_mm": 2.1,
+   "median_depth_mm": 40.0
+  },
+  {
+   "atlas_id": "supraspinatus_l",
+   "subject": "ct_vhf_cuff",
+   "category": "muscle",
+   "min_depth_mm": 6.8,
+   "median_depth_mm": 33.1
+  },
+  {
+   "atlas_id": "infraspinatus_l",
+   "subject": "ct_vhf_cuff",
+   "category": "muscle",
+   "min_depth_mm": 0.3,
+   "median_depth_mm": 25.8
+  },
+  {
+   "atlas_id": "subscapularis_l",
+   "subject": "ct_vhf_cuff",
+   "category": "muscle",
+   "min_depth_mm": 7.0,
+   "median_depth_mm": 42.2
+  },
+  {
+   "atlas_id": "spinalis_r",
+   "subject": "ct_vhf_es",
+   "category": "muscle",
+   "min_depth_mm": 9.5,
+   "median_depth_mm": 28.8
+  },
+  {
+   "atlas_id": "longissimus_r",
+   "subject": "ct_vhf_es",
+   "category": "muscle",
+   "min_depth_mm": 11.1,
+   "median_depth_mm": 33.3
+  },
+  {
+   "atlas_id": "iliocostalis_r",
+   "subject": "ct_vhf_es",
+   "category": "muscle",
+   "min_depth_mm": 11.5,
+   "median_depth_mm": 32.2
+  },
+  {
+   "atlas_id": "spinalis_l",
+   "subject": "ct_vhf_es",
+   "category": "muscle",
+   "min_depth_mm": 8.2,
+   "median_depth_mm": 26.7
+  },
+  {
+   "atlas_id": "longissimus_l",
+   "subject": "ct_vhf_es",
+   "category": "muscle",
+   "min_depth_mm": 10.9,
+   "median_depth_mm": 31.4
+  },
+  {
+   "atlas_id": "iliocostalis_l",
+   "subject": "ct_vhf_es",
+   "category": "muscle",
+   "min_depth_mm": 12.3,
+   "median_depth_mm": 30.2
+  },
+  {
+   "atlas_id": "biceps_brachii_r",
+   "subject": "ct_vhf_armm",
+   "category": "muscle",
+   "min_depth_mm": 0.2,
+   "median_depth_mm": 18.4
+  },
+  {
+   "atlas_id": "brachialis_r",
+   "subject": "ct_vhf_armm",
+   "category": "muscle",
+   "min_depth_mm": 0.1,
+   "median_depth_mm": 18.8
+  },
+  {
+   "atlas_id": "triceps_brachii_r",
+   "subject": "ct_vhf_armm",
+   "category": "muscle",
+   "min_depth_mm": 0.3,
+   "median_depth_mm": 27.9
+  },
+  {
+   "atlas_id": "biceps_brachii_l",
+   "subject": "ct_vhf_armm",
+   "category": "muscle",
+   "min_depth_mm": 0.2,
+   "median_depth_mm": 16.4
+  },
+  {
+   "atlas_id": "brachialis_l",
+   "subject": "ct_vhf_armm",
+   "category": "muscle",
+   "min_depth_mm": 0.2,
+   "median_depth_mm": 22.6
+  },
+  {
+   "atlas_id": "triceps_brachii_l",
+   "subject": "ct_vhf_armm",
+   "category": "muscle",
+   "min_depth_mm": 0.2,
+   "median_depth_mm": 31.7
+  },
+  {
+   "atlas_id": "pectoralis_minor_r",
+   "subject": "ct_vhf_pmr",
+   "category": "muscle",
+   "min_depth_mm": 21.3,
+   "median_depth_mm": 44.4
+  },
+  {
+   "atlas_id": "pectoralis_minor_l",
+   "subject": "ct_vhf_pmr",
+   "category": "muscle",
+   "min_depth_mm": 20.8,
+   "median_depth_mm": 39.9
   }
  ]
 }
