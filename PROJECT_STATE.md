@@ -1222,11 +1222,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       repackaged -- it drags a truncation cloud at the field edge; ct_vhf keeps the TotalSegmentator humerus).
       Shipped as `ct_vhf_armb` (key `mappings/vhf_arm_bones_labels.json`); female viewer Version 14: 196
       structures. Q30's photograph route stays parked; this covers the right side from the CT instead.
-- [ ] Q40 Female RIGHT FOREARM compartments (flexor-pronator anterior / extensor posterior, split by the line
-      through the radius and ulna centroids as in the male's `arm_compartments_from_cryo.py`) on her registered
-      cryosections, now that `ct_vhf_armb` gives the right radius and ulna in the CT; the left forearm has no bones
-      (outside the field of view) and stays out. Verify volumes (female flexor group ~ 250-350 cm3, extensor
-      ~ 150-250) and crop renders; ship as `ct_vhf_forem` (right only, badged).
+- [-] Q40 TRIED, NOT SHIPPED (10:20 -> 10:50) Female right forearm compartments
+      (`scripts/cryo/vhf_forearm_compartments.py`, kept). Three passes: (1) the male's rule as is -> flexor 222 /
+      extensor 183 cm3, but the render shows the "extensor" on the trunk and thigh her forearm rests on (the tissue
+      component holding the bones is the whole body there); (2) muscle pieces within 25 mm of the bones only ->
+      116 / 2; (3) the forearm's own cross-section isolated by an 8 px erosion of the silhouette, split oriented by
+      the ulna's subcutaneous border -> 158 / 11.5. The split fails because her CT ulna covers only 97 of the 178
+      segment slices (the rest falls back to a row split that means nothing in her pronated, thigh-resting
+      forearm) and the extensor bellies sit at the elbow end where the segment starts. The atlas has the entities
+      (`volar_forearm_compartment_r`, `dorsal_forearm_compartment_r`); nothing ships until the ulna is completed
+      (Q30's photograph route) or a reviewer marks the interosseous line on a few slices.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
