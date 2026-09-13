@@ -60,6 +60,8 @@ def main():
     ap.add_argument("--labels-out", default="mappings/vhf_xfer_septa_labels.json")
     ap.add_argument("--mapping-out", default="mappings/subjects/xfer_vhm2vhf_sep_volume_mapping.json")
     ap.add_argument("--overlay", default=None)
+    ap.add_argument("--own-labels", default="data/ct_sources/task_outputs/vhf_total.nii.gz",
+                    help="her TotalSegmentator total labels: her own glutei/iliopsoas/autochthon are excluded from the region")
     a = ap.parse_args()
     D = Path(a.frame); cls = np.load(D / "cryo_frame_cls.npy", mmap_mode="r"); rgb = np.load(D / "cryo_frame_rgb.npy", mmap_mode="r")
     z0 = json.load(open(D / "frame.json"))["z0"]; n, H, W = cls.shape
@@ -78,12 +80,28 @@ def main():
         ok = (col >= 0) & (col < W) & (row >= 0) & (row < H) & (k >= 0) & (k < n)
         lab[k[ok], row[ok], col[ok]] = lab_of[aid]
     before = {aid: int((lab == l).sum()) for aid, l in lab_of.items()}
+    # her OWN model-segmented muscles (glutei, iliopsoas, autochthon...) must not be absorbed by a transferred neighbour
+    own = None
+    if a.own_labels:
+        tot = nib.load(a.own_labels); totd = np.asanyarray(tot.dataobj); zT0 = float(tot.affine[2, 3]); OFF = 110
+        key = json.load(open(REPO / "mappings" / "totalsegmentator_labels.json"))["labels"]
+        mus_ids = [int(i) for i, nm in key.items() if any(t in nm for t in ("gluteus", "iliopsoas", "autochthon"))]
+        own = (totd, zT0, tot.shape, OFF, mus_ids)
+
+    def own_mask(k):
+        if own is None:
+            return np.zeros((H, W), bool)
+        totd, zT0, shape, OFF, mus_ids = own
+        kk = int(round(z0 + k - zT0)); full = np.zeros((H, W), np.int32)
+        if 0 <= kk < shape[2]:
+            full[:, OFF:OFF + 480] = ndi.zoom(np.asarray(totd[:, :, kk]), 480 / 512, order=0).T
+        return ndi.binary_dilation(np.isin(full, mus_ids), iterations=2)
     ks = np.where(lab.any(axis=(1, 2)))[0]
     out = np.zeros_like(lab); moved_px = []
     for k in ks:
         L = lab[k]; c = np.asarray(cls[k]); im = np.asarray(rgb[k])
         union = L > 0
-        region = ndi.binary_fill_holes(ndi.binary_closing(c == 3, iterations=2)) & ndi.binary_dilation(union, iterations=DILATE_PX)
+        region = ndi.binary_fill_holes(ndi.binary_closing(c == 3, iterations=2)) & ndi.binary_dilation(union, iterations=DILATE_PX) & ~own_mask(k)
         if not region.any():
             continue
         markers = np.zeros_like(L)
