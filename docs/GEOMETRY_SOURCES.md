@@ -968,9 +968,13 @@ lower-limb muscles, 12 knee ligaments/cartilages and hip/ankle cartilages, coccy
 rule-based rhomboids, coracobrachialis and transversus abdominis (their source trust is
 recorded per structure: `transfer.source_trust`). Not transferred: his left radius, ulna,
 carpals, metacarpals and hand phalanges (her left forearm lies outside her CT: no bone on
-that side to drive them). Female -> male (`xfer_vhf2vhm`, 8): digastric, internal carotid,
+that side to drive them). Female -> male (`xfer_vhf2vhm`, 18): digastric, internal carotid,
 internal jugular, superior rectus, driven by cranium, mandible, hyoid and cervical
-vertebrae; her `temporal`/`zygomatic` pieces were found to be 2 mm label fragments (16-58
+vertebrae, and (Q47, 2026-09-13) ten more orbit pieces that replace his own: his frozen-CT
+oculomotor segmentation gave 0.08-0.37 cm3 for muscles that measure 0.6-0.9 cm3 on her fresh CT
+(a rectus muscle is of that order), so where his piece is under half of hers it is replaced by her
+transferred one and badged; his left levator, left inferior oblique and left medial rectus (0.45-1.05
+cm3) stay his; her `temporal`/`zygomatic` pieces were found to be 2 mm label fragments (16-58
 vertices) and are refused as degenerate. Both subjects are listed LAST in the export so a
 body's own structure always wins, and the viewer badge on each reads "TRANSFERRED ... not
 measured on her/him". The male viewer itself is now rebuilt from the bundle recovered from

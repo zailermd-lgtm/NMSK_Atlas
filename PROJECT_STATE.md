@@ -1316,9 +1316,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       350-500 for men): over-inclusive on her -- likely the 40 mm skin depth window now captures subcutaneous-fat-bounded
       muscle of the arm/pectoral region; tighten (fascial boundary at 0.33 mm, or the scapular spine as the posterior
       limit) and re-record; likewise check her left triceps/brachialis (0.42/0.45 of his after bone scaling).
-- [ ] Q47 (added 18:10) His orbit muscles from the frozen CT are 0.1-0.4 cm3 (hers 0.4-0.9): replace them on the male
-      viewer with the transferred female ones (extend cross_subject_transfer --ids to overwrite degenerate targets, badge)
-      or re-run the oculomotor task on his head block at 0.527 mm.
+- [x] Q47 (18:55) His orbit: 10 of his 13 frozen-CT orbit pieces are under half of hers (inferior_oblique_r 0.10 vs
+      0.73, inferior_rectus_l 0.08 vs 0.64, lateral_rectus_l 0.17 vs 0.78, superior_obliques 0.16 vs 0.43 ...); those
+      ten plus the two superior recti now ship transferred from her (`xfer_vhf2vhm`, 18 structures, listed before
+      ct_vhm_orbit so they win; badged), his left levator (1.05), left inferior oblique (0.59) and left medial rectus
+      (0.45) stay his. Male viewer Version 28. The oculomotor task on his 0.527 mm head block was not re-run (his
+      eyes are frozen; the model's failure is in the data, not the run).
 - [ ] Q48 (added 18:10) The transfer keeps the DONOR's boundaries between neighbouring muscles; her photographs show
       her own intermuscular septa (fascial lines) -- a per-muscle refinement by watershed inside the transferred masks
       (as done for the male biceps/brachialis at 0.33 mm) would make the thigh compartments hers. Needs full-resolution
