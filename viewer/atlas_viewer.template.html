@@ -214,6 +214,8 @@ var B64 = document.getElementById("bundle-b64").textContent.trim();
 var SUBJECTS = BUNDLE.subject.split("+");
 var PRIMARY_SUBJECT = SUBJECTS[0];
 var SUBJECT_LABELS = {
+  xfer_vhm2vhf: "TRANSFERRED from the Visible Human male, not measured on her: his structure carried onto her bones by piecewise affine maps and, for the lower-limb muscles, re-placed inside her muscle compartment as measured on her cryosections; the boundaries between muscles are his. An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
+  xfer_vhf2vhm: "TRANSFERRED from the Visible Human female, not measured on him: her structure carried onto his bones by piecewise affine maps. An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
   ct_vhf_armb: "Visible Human female, CT -- right radius (proximal ~50 mm outside the field of view), ulna (proximal ~110 mm outside) and hand grouped as carpals/metacarpals/phalanges by marker watershed; the left arm lies outside the CT field of view",
   ct_vhf_legs: "Visible Human female, femur-to-toes CT registered to her torso block by continuity (+-4 mm) -- femur united from both blocks; tibia, fibula, patella by distance-watershed rules; foot bones grouped by planes",
   ct_vhf: "Visible Human female, fresh-cadaver CT (NLM VHP via IDC, public domain) -- TotalSegmentator total task",
@@ -223,11 +225,11 @@ var SUBJECT_LABELS = {
   ct_vhf_neck: "Visible Human female, CT -- headneck_muscles",
   ct_vhf_neckbv: "Visible Human female, CT -- headneck_bones_vessels",
   ct_vhf_abd: "Visible Human female, CT -- abdominal_muscles",
-  ct_vhf_delt: "Visible Human female, colour cryosections registered to her CT (+-9 mm in height) -- deltoid by the same superficial-proximity rule as the male; deep boundary approximate",
+  ct_vhf_delt: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- deltoid by the same superficial-proximity rule as the male; deep boundary approximate",
   ct_vhf_es: "Visible Human female, CT -- erector spinae columns (spinalis, longissimus, iliocostalis) by distance-from-midline rule on her model labels",
-  ct_vhf_armm: "Visible Human female, colour cryosections registered to her CT (+-9 mm in height) -- upper-arm muscles by the male's compartment rules (biceps, brachialis, triceps); boundaries rule-based, biceps over-inclusive",
-  ct_vhf_pmr: "Visible Human female, colour cryosections registered to her CT (+-9 mm in height) -- pectoralis minor by position rules (deep to pectoralis major, on the chest wall); rule-based",
-  ct_vhf_cuff: "Visible Human female, colour cryosections registered to her CT (+-9 mm in height) -- rotator cuff by the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis)",
+  ct_vhf_armm: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- upper-arm muscles by the male's compartment rules (biceps, brachialis, triceps); boundaries rule-based, biceps over-inclusive",
+  ct_vhf_pmr: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- pectoralis minor by position rules (deep to pectoralis major, on the chest wall); rule-based",
+  ct_vhf_cuff: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- rotator cuff by the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis)",
   ct_vhm: "Visible Human male, frozen CT (NLM VHP via IDC, public domain) -- TotalSegmentator total task",
   ct_vhm_neck: "Visible Human male, frozen CT -- TotalSegmentator headneck_muscles",
   ct_vhm_neckbv: "Visible Human male, frozen CT -- TotalSegmentator headneck_bones_vessels",
@@ -708,8 +710,8 @@ function select(id){
 
 /* ---------- go ---------- */
 document.getElementById("s-subtitle").textContent =
-  SUBJECTS.every(s => s.startsWith("ct_vhf")) ? "Visible Human female · one body, head to toes (CT of two blocks, registered)"
-  : SUBJECTS.some(s => s.startsWith("ct_vhm") || s === "vhm_both") ? "Visible Human male · skull to fingertips and toes (DU release + his own CT and cryosections; badges name the source of every structure)"
+  SUBJECTS.every(s => s.startsWith("ct_vhf") || s.startsWith("xfer_")) ? "Visible Human female · one body, head to toes (CT of two blocks, registered)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · lower-limb muscles, ligaments and cartilage transferred from the male and badged" : "")
+  : SUBJECTS.some(s => s.startsWith("ct_vhm") || s === "vhm_both") ? "Visible Human male · skull to fingertips and toes (DU release + his own CT and cryosections; badges name the source of every structure)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · a few head/neck structures transferred from the female and badged" : "")
   : SUBJECTS.length > 1
   ? "Visible Human (pelvis to ankle) + a second real specimen (bone/vessel reference above the hip, not one continuous body)"
   : "Visible Human · pelvis to ankle";

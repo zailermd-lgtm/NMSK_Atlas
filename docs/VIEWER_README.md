@@ -30,10 +30,12 @@ the source and the method:
 | `ct_vhf`, `ct_vhf_*` | female | fresh CT | TotalSegmentator free tasks |
 | `ct_vhf_skin` | female | CT, plus the photographs for the arms the CT clips (above the pelvis) | body silhouette (HU > -300) united with the cryosection silhouette |
 | `ct_vhf_delt` | female | colour cryosections registered to her CT (+-9 mm in height; her frozen block's pose differs from the fresh scan) | **rule-based**: the male's deltoid rule (superficial, within 55 mm of the proximal humerus, lateral to the scapula); deep boundary approximate |
-| `ct_vhf_armm` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: the male's compartment rules around her humerus (biceps over-inclusive, brachialis, triceps) |
-| `ct_vhf_pmr` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: pectoralis minor by position (deep to pec major, on the chest wall); her rhomboids are not shipped |
-| `ct_vhf_cuff` | female | colour cryosections registered to her CT (+-9 mm in height) | **rule-based**: the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis) |
+| `ct_vhf_armm` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: the male's compartment rules around her humerus (biceps over-inclusive, brachialis, triceps) |
+| `ct_vhf_pmr` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: pectoralis minor by position (deep to pec major, on the chest wall); her rhomboids are not shipped |
+| `ct_vhf_cuff` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis) |
 | `ct_vhf_es` | female | CT (model labels) | **rule-based**: erector spinae columns by distance from the vertebral midline (20 / 50 mm) |
+| `xfer_vhm2vhf` | female | **transferred from the male**, not measured on her | his structure carried onto her bones by piecewise affine maps; lower-limb muscles re-placed inside her measured muscle compartment and scaled to her measured muscle cross-section (GEOMETRY_SOURCES 'Cross-subject transfer'); boundaries between muscles are his |
+| `xfer_vhf2vhm` | male | **transferred from the female**, not measured on him | her structure carried onto his bones by piecewise affine maps (digastric, internal carotid/jugular, superior rectus) |
 | `ct_vhf_armb` | female | CT (the arms are clipped by its field of view) | marker watershed: right radius, ulna (partial), hand grouped by planes; no left forearm |
 | `ct_vhf_legs` | female | fresh CT, femur-to-toes block registered to her torso block by continuity (+-4 mm in height) | HU threshold split at the joints by a distance-transform watershed; femur united from both blocks; foot bones grouped by planes (not separated) |
 

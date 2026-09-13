@@ -1,0 +1,1797 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male and female CT and cryosections via the NCI Imaging Data Commons; lower-limb geometry Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2 (CC BY 4.0). Derived data, measured by the named script.",
+ "direction": "m2f",
+ "bulk_transverse": {
+  "lower_limb": 1.0,
+  "default": 1.0
+ },
+ "fill_correction": {
+  "thigh": 0.749,
+  "calf": 0.76
+ },
+ "fill_detail": {
+  "thigh_45pct_femur": {
+   "y": -187.1,
+   "measured_muscle_cm2": 151.0,
+   "transferred_cm2": 224.9
+  },
+  "thigh_70pct_femur": {
+   "y": -291.1,
+   "measured_muscle_cm2": 44.1,
+   "transferred_cm2": 123.0
+  },
+  "calf_mid_tibia": {
+   "y": -566.9,
+   "measured_muscle_cm2": 35.9,
+   "transferred_cm2": 62.2
+  }
+ },
+ "n": 85,
+ "not_transferred": {
+  "carpals_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "metacarpals_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "phalanges_hand_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "radius_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "ulna_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them"
+ },
+ "rows": [
+  {
+   "atlas_id": "adductor_brevis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.557,
+    "hip_bone_l": 0.405,
+    "sacrum": 0.038,
+    "patella_l": 0.0
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.568,
+   "volume_src_cm3": 146.4,
+   "volume_out_cm3": 52.8,
+   "displacement_mm_median": 17.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "adductor_brevis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.544,
+    "hip_bone_r": 0.415,
+    "sacrum": 0.04,
+    "patella_r": 0.0
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.565,
+   "volume_src_cm3": 159.5,
+   "volume_out_cm3": 51.8,
+   "displacement_mm_median": 19.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "adductor_longus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.655,
+    "hip_bone_l": 0.286,
+    "sacrum": 0.04,
+    "patella_l": 0.019
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.703,
+   "volume_src_cm3": 242.4,
+   "volume_out_cm3": 66.8,
+   "displacement_mm_median": 25.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "adductor_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.637,
+    "hip_bone_r": 0.305,
+    "sacrum": 0.042,
+    "patella_r": 0.015
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.686,
+   "volume_src_cm3": 282.4,
+   "volume_out_cm3": 68.3,
+   "displacement_mm_median": 30.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "adductor_magnus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.664,
+    "hip_bone_l": 0.261,
+    "sacrum": 0.034,
+    "patella_l": 0.032
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.617,
+   "volume_src_cm3": 1055.7,
+   "volume_out_cm3": 423.0,
+   "displacement_mm_median": 28.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "adductor_magnus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.646,
+    "hip_bone_r": 0.275,
+    "sacrum": 0.038,
+    "patella_r": 0.033
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.632,
+   "volume_src_cm3": 1137.7,
+   "volume_out_cm3": 494.2,
+   "displacement_mm_median": 29.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "ankle_articular_cartilage_l",
+   "category": "cartilage",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "ankle",
+   "driving_bones": {
+    "tarsals_l": 0.49,
+    "tibia_l": 0.396,
+    "fibula_l": 0.114
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 1.9,
+   "volume_out_cm3": 1.1,
+   "displacement_mm_median": 171.8,
+   "outside_target_skin_fraction": 0.021
+  },
+  {
+   "atlas_id": "ankle_articular_cartilage_r",
+   "category": "cartilage",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "ankle",
+   "driving_bones": {
+    "tarsals_r": 0.499,
+    "tibia_r": 0.39,
+    "fibula_r": 0.111
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 1.6,
+   "volume_out_cm3": 0.3,
+   "displacement_mm_median": 185.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "anterior_cruciate_ligament_l",
+   "category": "ligament",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "femur_l": 0.66,
+    "tibia_l": 0.313,
+    "fibula_l": 0.014,
+    "patella_l": 0.013
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 2.2,
+   "volume_out_cm3": 1.7,
+   "displacement_mm_median": 73.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "anterior_cruciate_ligament_r",
+   "category": "ligament",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "femur_r": 0.652,
+    "tibia_r": 0.32,
+    "patella_r": 0.018,
+    "fibula_r": 0.01
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 2.7,
+   "volume_out_cm3": 1.8,
+   "displacement_mm_median": 78.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "biceps_femoris_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.768,
+    "patella_l": 0.082,
+    "tibia_l": 0.07,
+    "hip_bone_l": 0.056
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.717,
+   "volume_src_cm3": 449.0,
+   "volume_out_cm3": 127.4,
+   "displacement_mm_median": 51.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "biceps_femoris_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.777,
+    "patella_r": 0.079,
+    "tibia_r": 0.066,
+    "hip_bone_r": 0.055
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.706,
+   "volume_src_cm3": 499.1,
+   "volume_out_cm3": 186.5,
+   "displacement_mm_median": 51.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "coccyx",
+   "category": "bone",
+   "side": null,
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "vertebral_column",
+   "driving_bones": {
+    "sacrum": 0.919,
+    "hip_bone_r": 0.042,
+    "hip_bone_l": 0.038
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 2.9,
+   "volume_out_cm3": 2.6,
+   "displacement_mm_median": 7.6,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "coracobrachialis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "ct_vhm_armm",
+   "source_trust": "RULE-BASED on the male (compartment rules on his photographs)",
+   "region": "upper_limb",
+   "driving_bones": {
+    "humerus_l": 0.885,
+    "ribs_l": 0.065,
+    "scapula_l": 0.05
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 48.8,
+   "volume_out_cm3": 36.9,
+   "displacement_mm_median": 27.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "coracobrachialis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "ct_vhm_armm",
+   "source_trust": "RULE-BASED on the male (compartment rules on his photographs)",
+   "region": "upper_limb",
+   "driving_bones": {
+    "humerus_r": 0.9,
+    "scapula_r": 0.05,
+    "ribs_r": 0.05
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 41.5,
+   "volume_out_cm3": 31.1,
+   "displacement_mm_median": 31.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "extensor_digitorum_longus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_l": 0.595,
+    "tibia_l": 0.361,
+    "tarsals_l": 0.026,
+    "femur_l": 0.017
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.741,
+   "volume_src_cm3": 102.8,
+   "volume_out_cm3": 15.8,
+   "displacement_mm_median": 129.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "extensor_digitorum_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_r": 0.612,
+    "tibia_r": 0.342,
+    "tarsals_r": 0.029,
+    "femur_r": 0.017
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.746,
+   "volume_src_cm3": 93.1,
+   "volume_out_cm3": 14.8,
+   "displacement_mm_median": 142.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "extensor_hallucis_longus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_l": 0.527,
+    "fibula_l": 0.436,
+    "tarsals_l": 0.036,
+    "femur_l": 0.001
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.561,
+   "volume_src_cm3": 25.4,
+   "volume_out_cm3": 5.0,
+   "displacement_mm_median": 142.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "extensor_hallucis_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_r": 0.501,
+    "fibula_r": 0.467,
+    "tarsals_r": 0.031,
+    "femur_r": 0.001
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.609,
+   "volume_src_cm3": 35.5,
+   "volume_out_cm3": 9.8,
+   "displacement_mm_median": 153.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "fibular_collateral_ligament_l",
+   "category": "ligament",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "tibia_l": 0.368,
+    "femur_l": 0.367,
+    "fibula_l": 0.266
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 0.9,
+   "volume_out_cm3": 0.6,
+   "displacement_mm_median": 71.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "fibular_collateral_ligament_r",
+   "category": "ligament",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "femur_r": 0.405,
+    "tibia_r": 0.304,
+    "fibula_r": 0.291
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 0.8,
+   "volume_out_cm3": 0.5,
+   "displacement_mm_median": 85.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "fibularis_longus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_l": 0.812,
+    "tibia_l": 0.155,
+    "tarsals_l": 0.019,
+    "femur_l": 0.015
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.836,
+   "volume_src_cm3": 178.6,
+   "volume_out_cm3": 18.3,
+   "displacement_mm_median": 128.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "fibularis_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_r": 0.799,
+    "tibia_r": 0.165,
+    "tarsals_r": 0.019,
+    "femur_r": 0.016
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.839,
+   "volume_src_cm3": 192.1,
+   "volume_out_cm3": 32.8,
+   "displacement_mm_median": 140.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "flexor_digitorum_longus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_l": 0.852,
+    "fibula_l": 0.128,
+    "tarsals_l": 0.019,
+    "femur_l": 0.002
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.52,
+   "volume_src_cm3": 40.3,
+   "volume_out_cm3": 13.5,
+   "displacement_mm_median": 130.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "flexor_digitorum_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_r": 0.841,
+    "fibula_r": 0.141,
+    "tarsals_r": 0.016,
+    "femur_r": 0.003
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.497,
+   "volume_src_cm3": 39.9,
+   "volume_out_cm3": 14.4,
+   "displacement_mm_median": 137.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "flexor_hallucis_longus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_l": 0.573,
+    "tibia_l": 0.382,
+    "tarsals_l": 0.045,
+    "femur_l": 0.001
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.646,
+   "volume_src_cm3": 119.1,
+   "volume_out_cm3": 32.4,
+   "displacement_mm_median": 137.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "flexor_hallucis_longus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_r": 0.619,
+    "tibia_r": 0.341,
+    "tarsals_r": 0.039,
+    "femur_r": 0.001
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.646,
+   "volume_src_cm3": 113.2,
+   "volume_out_cm3": 42.6,
+   "displacement_mm_median": 153.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gastrocnemius_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_l": 0.42,
+    "tibia_l": 0.389,
+    "femur_l": 0.189,
+    "tarsals_l": 0.002
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.853,
+   "volume_src_cm3": 670.7,
+   "volume_out_cm3": 185.8,
+   "displacement_mm_median": 89.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gastrocnemius_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_r": 0.415,
+    "tibia_r": 0.401,
+    "femur_r": 0.183,
+    "tarsals_r": 0.001
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.851,
+   "volume_src_cm3": 610.8,
+   "volume_out_cm3": 187.0,
+   "displacement_mm_median": 102.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gemellus_inferior_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_l": 0.657,
+    "femur_l": 0.324,
+    "sacrum": 0.018
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.41,
+   "volume_src_cm3": 2.9,
+   "volume_out_cm3": 1.8,
+   "displacement_mm_median": 5.6,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gemellus_inferior_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_r": 0.641,
+    "femur_r": 0.339,
+    "sacrum": 0.02
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 2.2,
+   "volume_out_cm3": 2.1,
+   "displacement_mm_median": 10.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gemellus_superior_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_l": 0.814,
+    "femur_l": 0.154,
+    "sacrum": 0.033
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 5.8,
+   "volume_out_cm3": 6.2,
+   "displacement_mm_median": 5.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gemellus_superior_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_r": 0.788,
+    "femur_r": 0.176,
+    "sacrum": 0.036
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 6.7,
+   "volume_out_cm3": 6.5,
+   "displacement_mm_median": 11.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gracilis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.536,
+    "hip_bone_l": 0.287,
+    "patella_l": 0.091,
+    "sacrum": 0.043
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.927,
+   "volume_src_cm3": 146.9,
+   "volume_out_cm3": 41.4,
+   "displacement_mm_median": 38.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "gracilis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.519,
+    "hip_bone_r": 0.305,
+    "patella_r": 0.087,
+    "sacrum": 0.048
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.93,
+   "volume_src_cm3": 148.1,
+   "volume_out_cm3": 44.5,
+   "displacement_mm_median": 30.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "hip_articular_cartilage_l",
+   "category": "cartilage",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "hip",
+   "driving_bones": {
+    "hip_bone_l": 0.507,
+    "femur_l": 0.483,
+    "sacrum": 0.01
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 4.0,
+   "volume_out_cm3": 4.8,
+   "displacement_mm_median": 6.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "hip_articular_cartilage_r",
+   "category": "cartilage",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "hip",
+   "driving_bones": {
+    "hip_bone_r": 0.498,
+    "femur_r": 0.493,
+    "sacrum": 0.009
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 2.6,
+   "volume_out_cm3": 2.8,
+   "displacement_mm_median": 11.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "knee_articular_cartilage_l",
+   "category": "cartilage",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "tibia_l": 0.504,
+    "femur_l": 0.457,
+    "fibula_l": 0.028,
+    "patella_l": 0.01
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 10.4,
+   "volume_out_cm3": 7.5,
+   "displacement_mm_median": 75.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "knee_articular_cartilage_r",
+   "category": "cartilage",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "tibia_r": 0.512,
+    "femur_r": 0.443,
+    "fibula_r": 0.029,
+    "patella_r": 0.015
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 14.4,
+   "volume_out_cm3": 10.0,
+   "displacement_mm_median": 82.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "obturator_externus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_l": 0.699,
+    "femur_l": 0.284,
+    "sacrum": 0.018
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.641,
+   "volume_src_cm3": 78.7,
+   "volume_out_cm3": 48.2,
+   "displacement_mm_median": 6.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "obturator_externus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_r": 0.692,
+    "femur_r": 0.291,
+    "sacrum": 0.017
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.632,
+   "volume_src_cm3": 75.0,
+   "volume_out_cm3": 41.5,
+   "displacement_mm_median": 10.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "obturator_internus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_l": 0.805,
+    "femur_l": 0.143,
+    "sacrum": 0.053
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.8,
+   "volume_src_cm3": 107.5,
+   "volume_out_cm3": 61.9,
+   "displacement_mm_median": 7.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "obturator_internus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_r": 0.799,
+    "femur_r": 0.144,
+    "sacrum": 0.057
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.797,
+   "volume_src_cm3": 112.8,
+   "volume_out_cm3": 66.7,
+   "displacement_mm_median": 11.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "patellofemoral_articular_cartilage_l",
+   "category": "cartilage",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "patella_l": 0.725,
+    "femur_l": 0.26,
+    "tibia_l": 0.016
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 4.2,
+   "volume_out_cm3": 3.1,
+   "displacement_mm_median": 66.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "patellofemoral_articular_cartilage_r",
+   "category": "cartilage",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "patella_r": 0.722,
+    "femur_r": 0.26,
+    "tibia_r": 0.018
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 4.5,
+   "volume_out_cm3": 3.5,
+   "displacement_mm_median": 65.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "pectineus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.489,
+    "hip_bone_l": 0.477,
+    "sacrum": 0.034
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.582,
+   "volume_src_cm3": 104.5,
+   "volume_out_cm3": 45.7,
+   "displacement_mm_median": 11.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "pectineus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_r": 0.49,
+    "femur_r": 0.477,
+    "sacrum": 0.033
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.574,
+   "volume_src_cm3": 98.4,
+   "volume_out_cm3": 41.6,
+   "displacement_mm_median": 14.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "piriformis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_l": 0.537,
+    "sacrum": 0.352,
+    "femur_l": 0.106,
+    "lumbar_vertebrae": 0.005
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 41.9,
+   "volume_out_cm3": 42.6,
+   "displacement_mm_median": 6.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "piriformis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "hip_bone_r": 0.531,
+    "sacrum": 0.375,
+    "femur_r": 0.085,
+    "lumbar_vertebrae": 0.009
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 58.8,
+   "volume_out_cm3": 58.8,
+   "displacement_mm_median": 10.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "plantaris_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.436,
+    "tibia_l": 0.333,
+    "fibula_l": 0.23,
+    "patella_l": 0.001
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.605,
+   "volume_src_cm3": 18.8,
+   "volume_out_cm3": 5.9,
+   "displacement_mm_median": 74.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "plantaris_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.436,
+    "tibia_r": 0.316,
+    "fibula_r": 0.247,
+    "patella_r": 0.001
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.634,
+   "volume_src_cm3": 19.8,
+   "volume_out_cm3": 6.7,
+   "displacement_mm_median": 86.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "popliteus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_l": 0.8,
+    "fibula_l": 0.156,
+    "femur_l": 0.044
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.353,
+   "volume_src_cm3": 32.9,
+   "volume_out_cm3": 8.4,
+   "displacement_mm_median": 86.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "popliteus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_r": 0.794,
+    "fibula_r": 0.162,
+    "femur_r": 0.045
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.359,
+   "volume_src_cm3": 31.9,
+   "volume_out_cm3": 9.3,
+   "displacement_mm_median": 96.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "posterior_cruciate_ligament_l",
+   "category": "ligament",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "femur_l": 0.506,
+    "tibia_l": 0.458,
+    "fibula_l": 0.032,
+    "patella_l": 0.005
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 4.1,
+   "volume_out_cm3": 3.0,
+   "displacement_mm_median": 74.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "posterior_cruciate_ligament_r",
+   "category": "ligament",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "tibia_r": 0.502,
+    "femur_r": 0.458,
+    "fibula_r": 0.034,
+    "patella_r": 0.006
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 3.2,
+   "volume_out_cm3": 2.2,
+   "displacement_mm_median": 81.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "quadratus_femoris_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.561,
+    "hip_bone_l": 0.42,
+    "sacrum": 0.018
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.356,
+   "volume_src_cm3": 41.2,
+   "volume_out_cm3": 18.4,
+   "displacement_mm_median": 10.6,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "quadratus_femoris_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.573,
+    "hip_bone_r": 0.406,
+    "sacrum": 0.02
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.367,
+   "volume_src_cm3": 58.0,
+   "volume_out_cm3": 20.0,
+   "displacement_mm_median": 10.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "rectus_femoris_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.721,
+    "hip_bone_l": 0.186,
+    "patella_l": 0.047,
+    "sacrum": 0.039
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.858,
+   "volume_src_cm3": 397.5,
+   "volume_out_cm3": 71.4,
+   "displacement_mm_median": 43.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "rectus_femoris_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.703,
+    "hip_bone_r": 0.208,
+    "sacrum": 0.042,
+    "patella_r": 0.041
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.847,
+   "volume_src_cm3": 413.0,
+   "volume_out_cm3": 78.0,
+   "displacement_mm_median": 51.7,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "rhomboid_major_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "ct_vhm_pmr",
+   "source_trust": "RULE-BASED on the male (position rules on his photographs)",
+   "region": "trunk",
+   "driving_bones": {
+    "ribs_l": 0.392,
+    "thoracic_vertebrae": 0.282,
+    "scapula_l": 0.24,
+    "clavicle_l": 0.057
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 119.3,
+   "volume_out_cm3": 77.7,
+   "displacement_mm_median": 15.6,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "rhomboid_major_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "ct_vhm_pmr",
+   "source_trust": "RULE-BASED on the male (position rules on his photographs)",
+   "region": "trunk",
+   "driving_bones": {
+    "ribs_r": 0.435,
+    "scapula_r": 0.281,
+    "thoracic_vertebrae": 0.242,
+    "clavicle_r": 0.036
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 112.1,
+   "volume_out_cm3": 70.8,
+   "displacement_mm_median": 20.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "sartorius_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.658,
+    "hip_bone_l": 0.189,
+    "patella_l": 0.068,
+    "tibia_l": 0.051
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.898,
+   "volume_src_cm3": 266.8,
+   "volume_out_cm3": 79.0,
+   "displacement_mm_median": 37.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "sartorius_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.639,
+    "hip_bone_r": 0.202,
+    "patella_r": 0.069,
+    "tibia_r": 0.054
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.901,
+   "volume_src_cm3": 270.5,
+   "volume_out_cm3": 79.6,
+   "displacement_mm_median": 41.6,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "semimembranosus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.704,
+    "patella_l": 0.109,
+    "tibia_l": 0.094,
+    "hip_bone_l": 0.067
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.774,
+   "volume_src_cm3": 440.1,
+   "volume_out_cm3": 161.9,
+   "displacement_mm_median": 53.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "semimembranosus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.71,
+    "patella_r": 0.106,
+    "tibia_r": 0.095,
+    "hip_bone_r": 0.063
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.759,
+   "volume_src_cm3": 467.1,
+   "volume_out_cm3": 178.1,
+   "displacement_mm_median": 55.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "semitendinosus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.607,
+    "hip_bone_l": 0.23,
+    "patella_l": 0.079,
+    "tibia_l": 0.043
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.824,
+   "volume_src_cm3": 260.5,
+   "volume_out_cm3": 107.6,
+   "displacement_mm_median": 34.6,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "semitendinosus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.604,
+    "hip_bone_r": 0.236,
+    "patella_r": 0.074,
+    "sacrum": 0.044
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.822,
+   "volume_src_cm3": 297.9,
+   "volume_out_cm3": 147.4,
+   "displacement_mm_median": 36.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "soleus_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_l": 0.558,
+    "tibia_l": 0.393,
+    "femur_l": 0.037,
+    "tarsals_l": 0.012
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.733,
+   "volume_src_cm3": 742.7,
+   "volume_out_cm3": 168.0,
+   "displacement_mm_median": 106.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "soleus_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_r": 0.548,
+    "tibia_r": 0.405,
+    "femur_r": 0.034,
+    "tarsals_r": 0.012
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.742,
+   "volume_src_cm3": 684.8,
+   "volume_out_cm3": 194.3,
+   "displacement_mm_median": 122.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tensor_fasciae_latae_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.586,
+    "hip_bone_l": 0.346,
+    "sacrum": 0.068
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.866,
+   "volume_src_cm3": 133.8,
+   "volume_out_cm3": 54.0,
+   "displacement_mm_median": 9.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tensor_fasciae_latae_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.574,
+    "hip_bone_r": 0.362,
+    "sacrum": 0.064
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.87,
+   "volume_src_cm3": 122.8,
+   "volume_out_cm3": 55.2,
+   "displacement_mm_median": 21.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tibial_collateral_ligament_l",
+   "category": "ligament",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "femur_l": 0.509,
+    "tibia_l": 0.475,
+    "fibula_l": 0.009,
+    "patella_l": 0.007
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 2.1,
+   "volume_out_cm3": 1.4,
+   "displacement_mm_median": 80.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tibial_collateral_ligament_r",
+   "category": "ligament",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "knee",
+   "driving_bones": {
+    "femur_r": 0.586,
+    "tibia_r": 0.399,
+    "patella_r": 0.01,
+    "fibula_r": 0.005
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 1.7,
+   "volume_out_cm3": 1.1,
+   "displacement_mm_median": 81.8,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tibialis_anterior_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_l": 0.717,
+    "fibula_l": 0.259,
+    "femur_l": 0.02,
+    "tarsals_l": 0.003
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.66,
+   "volume_src_cm3": 184.2,
+   "volume_out_cm3": 27.5,
+   "displacement_mm_median": 117.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tibialis_anterior_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_r": 0.703,
+    "fibula_r": 0.272,
+    "femur_r": 0.019,
+    "tarsals_r": 0.007
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.669,
+   "volume_src_cm3": 181.0,
+   "volume_out_cm3": 34.5,
+   "displacement_mm_median": 127.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tibialis_posterior_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_l": 0.555,
+    "fibula_l": 0.432,
+    "femur_l": 0.007,
+    "tarsals_l": 0.006
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.367,
+   "volume_src_cm3": 133.7,
+   "volume_out_cm3": 33.7,
+   "displacement_mm_median": 117.2,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "tibialis_posterior_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_r": 0.564,
+    "fibula_r": 0.424,
+    "femur_r": 0.006,
+    "tarsals_r": 0.006
+   },
+   "bulk_transverse": 0.76,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.363,
+   "volume_src_cm3": 124.7,
+   "volume_out_cm3": 40.4,
+   "displacement_mm_median": 131.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "transversus_abdominis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "ct_vhm_abw",
+   "source_trust": "RULE-BASED on the male (depth-fraction rules on his photographs)",
+   "region": "trunk",
+   "driving_bones": {
+    "lumbar_vertebrae": 0.432,
+    "sacrum": 0.228,
+    "thoracic_vertebrae": 0.21,
+    "sternum": 0.084
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 153.7,
+   "volume_out_cm3": 103.9,
+   "displacement_mm_median": 71.4,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "transversus_abdominis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "ct_vhm_abw",
+   "source_trust": "RULE-BASED on the male (depth-fraction rules on his photographs)",
+   "region": "trunk",
+   "driving_bones": {
+    "lumbar_vertebrae": 0.468,
+    "sacrum": 0.23,
+    "thoracic_vertebrae": 0.18,
+    "sternum": 0.058
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 49.2,
+   "volume_out_cm3": 36.0,
+   "displacement_mm_median": 37.9,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "vastus_intermedius_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.898,
+    "patella_l": 0.051,
+    "hip_bone_l": 0.032,
+    "tibia_l": 0.014
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.499,
+   "volume_src_cm3": 812.4,
+   "volume_out_cm3": 112.5,
+   "displacement_mm_median": 43.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "vastus_intermedius_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.901,
+    "hip_bone_r": 0.041,
+    "patella_r": 0.039,
+    "tibia_r": 0.011
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.486,
+   "volume_src_cm3": 876.0,
+   "volume_out_cm3": 169.7,
+   "displacement_mm_median": 45.0,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "vastus_lateralis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.821,
+    "patella_l": 0.076,
+    "hip_bone_l": 0.068,
+    "tibia_l": 0.021
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.79,
+   "volume_src_cm3": 1155.0,
+   "volume_out_cm3": 164.9,
+   "displacement_mm_median": 50.1,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "vastus_lateralis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.818,
+    "patella_r": 0.078,
+    "hip_bone_r": 0.068,
+    "tibia_r": 0.023
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.792,
+   "volume_src_cm3": 1127.2,
+   "volume_out_cm3": 256.9,
+   "displacement_mm_median": 52.5,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "vastus_medialis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_l": 0.824,
+    "patella_l": 0.112,
+    "hip_bone_l": 0.03,
+    "tibia_l": 0.03
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.637,
+   "volume_src_cm3": 740.4,
+   "volume_out_cm3": 135.1,
+   "displacement_mm_median": 48.3,
+   "outside_target_skin_fraction": 0.0
+  },
+  {
+   "atlas_id": "vastus_medialis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "femur_r": 0.824,
+    "patella_r": 0.113,
+    "tibia_r": 0.03,
+    "hip_bone_r": 0.03
+   },
+   "bulk_transverse": 0.749,
+   "lean_envelope": true,
+   "mean_radial_fraction_src": 0.631,
+   "volume_src_cm3": 725.8,
+   "volume_out_cm3": 143.8,
+   "displacement_mm_median": 50.1,
+   "outside_target_skin_fraction": 0.0
+  }
+ ]
+}

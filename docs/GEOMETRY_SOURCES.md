@@ -901,6 +901,110 @@ change; it is derived data, not a measurement on a patient.
 
 See `docs/VIEWER_README.md` for what the viewer badges mean and where the two bodies are published.
 
+### Cross-subject transfer (2026-09-13): making the two bodies compatible
+
+The two viewers were two different people. The user's instruction was to make the models
+compatible while remembering how the donors differ, to correct data before it goes into
+either model, and, where one body lacks a structure, to learn the difference between the
+sexes/bodies and carry the structure across with the modifications needed. Everything
+below is measured on the data (`scripts/transfer/subject_anthropometrics.py` ->
+`data/derived/subject_anthropometrics.json`); the donor facts are what the DU release
+paper states (Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2,
+Methods: retrieved via PubMed/PMC, PMC9849470).
+
+| | male | female | female / male |
+|---|---|---|---|
+| donor (published) | 39 y, 71 in (180 cm), 90 kg, BMI 27.8 | 59 y, 62 in (157 cm), 88 kg, BMI 36.0 | 0.87 stature |
+| stature proxy on the meshes (cranium top to lowest foot bone, supine) | 1862 mm | 1727 mm | 0.93 (feet plantar-flexed on both) |
+| femur length (principal-axis extent) | 476 / 474 mm | 418 / 414 mm | 0.88 |
+| tibia length | 399 / 396 mm | 335 / 330 mm | 0.84 |
+| hip bone height, bi-iliac width | 127 / 136 mm, 280 mm | 139 / 139 mm, 295 mm | 1.05, 1.05 (her pelvis is not smaller) |
+| scapula, clavicle, sternum | 196 / 191, 157 / 163, 193 mm | 174 / 163, 138 / 139, 161 mm | 0.85-0.89 |
+| cranium (length / width / depth) | 132 / 149 / 199 mm | 136 / 149 / 184 mm | 1.03 / 1.00 / 0.93 |
+| thigh at 45 % of the femur: section, fat, muscle (photographs, colour classes) | 680 cm2, 23 % fat, 65 % muscle (442 cm2) | 335 cm2, 50 % fat, 45 % muscle (151 cm2) | muscle 0.34 |
+| mid-tibia: section, fat, muscle | 191 cm2, 20 %, 48 % (91 cm2) | 109 cm2, 39 %, 33 % (36 cm2) | muscle 0.39 |
+| pelvis-abdomen (y 40..250): fat / muscle of the section | 45 % / 41 % | 55 % / 40 % | |
+| thorax (y 250..450) | 28 % / 54 % | 37 % / 56 % | |
+| glutei, iliopsoas (his DU manual vs her CT model) | 1.0 | 0.33-0.62 of his | |
+
+Fat fractions come from the photographs on both bodies with the same colour classes (his
+frozen CT cannot separate fat from lean tissue: both HU peaks sit at -20; hers can, and her
+CT fat fractions 0.548 / 0.381 agree with her photographs 0.547 / 0.366). So: she is 13 %
+shorter with 12-16 % shorter long bones, a pelvis as large as his, a smaller thorax and
+shoulder girdle, twice his fat fraction, and lower-limb muscle a third of his by
+cross-section. Nothing of his can be pasted onto her at its own coordinates.
+
+**Bone frames and the map** (`scripts/transfer/bone_frames.py`, `cross_subject_transfer.py`).
+Every bone both bodies carry gets a frame per body: principal axes with signs fixed to the
+atlas axes, 1st/99th-percentile extents, box centre. The affine that takes his box onto
+hers (rotate into his frame, scale each axis by the extent ratio, rotate out into hers) is
+the map near that bone; the bones truncated by a CT field of view (humeri, radius, ulna) get
+a similarity from their proximal 200 mm so a missing distal end cannot scale the arm. A
+transferred vertex moves by the inverse-square-distance blend of the three nearest bones'
+affines, candidates restricted to the region's bones (his right hand lies beside his thigh
+and must not carry thigh muscles). Bones, cartilage and ligaments get that and nothing else.
+
+**Lean envelope** (`scripts/transfer/lean_envelope.py`, `build_envelopes.py` ->
+`data/derived/lean_envelope_vh{m,f}.json`). The bone map keeps his soft-tissue thickness:
+his anterior thigh is 95 mm deep in front of the femur, hers 56 mm, so bone-mapped quadriceps
+stood 30-50 % outside her skin. Each lower-limb muscle vertex is therefore re-placed
+radially: its fraction of the distance from the femur/tibia centre to the outer boundary of
+the muscle compartment on him (the envelope of his own DU muscles, per 10 mm level and 36
+directions) is kept on her, where the compartment radius is the outermost muscle-class
+pixel along the ray in her registered photographs, as a fraction of her skin radius, times
+her measured skin mesh. Then a fill correction: the transferred muscles filled her
+compartment the way his fill his, but her photographs say only 151 cm2 of the 225 cm2
+compartment at 45 % of the femur is muscle (the rest is fat between and inside the
+bellies), so every thigh muscle is scaled about its own axis by sqrt(151+44 / 225+123) =
+0.75 and every calf muscle by 0.76. Result: 0.0 % of transferred vertices outside her skin
+(max 2 % on one ankle cartilage), thigh muscle cross-section matching her measured lean
+area, vastus lateralis 1127 -> 257 cm3, soleus 685 -> 194 cm3, adductor magnus 1138 -> 494
+cm3 (`data/derived/transfer_report_vhm2vhf.json` has every structure).
+
+**What crossed, what did not.** Male -> female (`xfer_vhm2vhf`, 85 structures): the 60 DU
+lower-limb muscles, 12 knee ligaments/cartilages and hip/ankle cartilages, coccyx, and his
+rule-based rhomboids, coracobrachialis and transversus abdominis (their source trust is
+recorded per structure: `transfer.source_trust`). Not transferred: his left radius, ulna,
+carpals, metacarpals and hand phalanges (her left forearm lies outside her CT: no bone on
+that side to drive them). Female -> male (`xfer_vhf2vhm`, 8): digastric, internal carotid,
+internal jugular, superior rectus, driven by cranium, mandible, hyoid and cervical
+vertebrae; her `temporal`/`zygomatic` pieces were found to be 2 mm label fragments (16-58
+vertices) and are refused as degenerate. Both subjects are listed LAST in the export so a
+body's own structure always wins, and the viewer badge on each reads "TRANSFERRED ... not
+measured on her/him". The male viewer itself is now rebuilt from the bundle recovered from
+its published page (`data/derived/viewer_bundles/vhm_v25`, `scripts/transfer/
+bundle_to_subjects.py`): the DU STL hosts are denied by the network policy, so this is the
+only copy that survives a container reset.
+
+**Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
+-> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
+volume ratio against the ratio the driving bones predict, and for muscles against the
+measured lean-section ratio; flags LOW/HIGH outside 0.6-1.6. See the file for the current
+flags; the ones produced by the same pipeline on both bodies are the ones that point at a
+real problem.
+
+### The female cryosection frame was 47-90 mm too high (2026-09-13): found, corrected, structures rebuilt
+
+Building the envelopes exposed it: the photograph at the frame's height for her mid-thigh
+showed her knee. `scripts/cryo/vhf_check_frame_z.py` then measured it properly, level by
+level: her photographs are in-plane registered to her CT, so a CT slice and the photograph
+of the same anatomy agree pixel for pixel in where fat (HU -190..-30 / class 2) and muscle
+(HU 20..150 / class 3) lie; the best-Dice photograph for each CT slice lay 47 mm (upper
+thorax) to 70 mm (pelvis) to 90 mm (lower leg) BELOW the expected slice, over the whole body
+under the neck (`data/derived/vhf_cryo_frame_z_survey.json`, 57 levels). The frame's z line
+had been fitted with the thorax anchors left out ("scatter by 30 mm"), and the legs anchors
+carried the error. `scripts/cryo/vhf_correct_frame_z.py` rewrote the frame from a smoothed
+offset(y) (the v1 arrays are kept beside it); the re-check reads 0 +- 5 mm at every level
+with a sharp score.
+
+Consequence for what had shipped: `ct_vhf_delt`, `ct_vhf_cuff`, `ct_vhf_armm`, `ct_vhf_pmr`
+and the photograph part of `ct_vhf_skin` (her arms) were built from photographs ~70 mm
+below the CT bones they were measured against. They are re-derived on the corrected frame
+by the same scripts (`scripts/cryo/vhf_rebuild_after_frame_fix.sh`); the volumes before and
+after are in PROJECT_STATE (Q44) and the rule table above is superseded by the new reports
+in `data/ct_sources/task_outputs/vhf_*_report.json`. The lower limb was never read off her
+photographs before this, so nothing else moved.
+
 ## Resulting architecture
 
 ```

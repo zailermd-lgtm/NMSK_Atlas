@@ -159,6 +159,10 @@ def resolve_anchor_points(subject: str):
             continue
         origin, basis = frame[:2]
         world = origin + np.array(a["local_position_mm"], float) @ basis
+        if not np.all(np.isfinite(world)):
+            # a degenerate bone frame (a recovered, decimated mesh can give one) would put NaN into the
+            # bundle JSON and break the viewer's JSON.parse; the text description alone is shown instead
+            continue
         # A compartment-level anchor (e.g. 'flexor_hallucis_brevis_r_medial')
         # is filed under its own id, not the muscle's -- the inspector below
         # only looks up the muscle id, so a handful of multi-headed muscles
