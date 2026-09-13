@@ -1349,9 +1349,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       517/581). Male viewer Version 29. Audit: her triceps flags clear; her left biceps stays LOW (0.45 of his) and
       HIS brachialis (49/75) is now smaller than hers (106/109) -> the 22 mm "within the bone" brachialis band is too
       tight for his thicker arm (Q52).
-- [ ] Q52 (added 22:20) Scale the brachialis band (22 mm from the bone) and the coracobrachialis band (15 mm) by the
-      arm's muscle-compartment radius on each body (his upper arm is ~1.3x hers in radius) in both arm rules, so the
-      compartments are split at the same relative depth; re-record both, re-audit.
+- [x] Q52 (23:00) Premise wrong: the mid-arm muscle sections are the same on both bodies (his 40/45 cm2, hers 41/37;
+      equivalent radius 36 vs 35 mm), so the bands need no size scaling -- his brachialis is thicker RELATIVE to his
+      arm. His fascia-traced v1 boundary (fullres_biceps_brachialis.py, 133/189 cm3) is the measured reference, so his
+      band was calibrated to it: 22 mm -> 74/105, 28 -> 111/145, 34 -> 154/192; 32 mm adopted (label 140/176, meshes 110/144). Hers
+      stays 22 mm (no traced boundary on her; same radius). Male viewer Version 30; asymmetry of the two rules
+      recorded in VIEWER_README / GEOMETRY_SOURCES.
+
 
 
 

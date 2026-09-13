@@ -1042,7 +1042,11 @@ grid in the repository). Volumes biceps 472/475 -> 452/432, brachialis -> 74/105
 -> 48/41, triceps 675/762 -> 549/602 cm3: the compartment rule on a 90 kg man's arms; still rule-based
 and badged so (meshes after smoothing: biceps 400/392, brachialis 49/75, triceps 517/581). Her triceps now sit
 inside the audit's band against his; her left biceps stays low (0.45) and his brachialis comes out smaller than
-hers, which says the fixed 22 mm brachialis band suits her arm and not his thicker one (queued as Q52).
+hers. Q52 then measured both arms: the mid-arm muscle sections are equal (40/45 vs 41/37 cm2), so no size
+scaling applies; his brachialis is simply thicker relative to his arm, which his fascia-traced v1 boundary had
+measured (133/189 cm3). His band is therefore calibrated to that traced value (32 mm: 140/176 cm3; 22 -> 74/105,
+28 -> 111/145, 34 -> 154/192), hers stays 22 mm for want of a traced boundary on her -- the one place the two
+bodies' rules differ by design, and the reason is recorded here.
 
 **Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
 -> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male

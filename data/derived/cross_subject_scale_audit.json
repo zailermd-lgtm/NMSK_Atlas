@@ -3,7 +3,7 @@
  "_README": [
   "Re-check every structure both bodies carry, at matched scale.",
   "Flags: residual < 0.6 LOW, > 1.6 HIGH (vs the lean-section expectation for muscles where one exists, else vs bones). 'same_method' lists the ids the same pipeline produced on both bodies.",
-  "2026-09-13, 22:20: male arm rule v2 (build/viewer_m V29)."
+  "2026-09-13, 23:00: male brachialis band calibrated (V30); no arm-muscle flags remain."
  ],
  "lean_section_ratios_female_over_male": {
   "thigh_45pct_femur": 0.495,
@@ -15,9 +15,6 @@
  "flagged": [
   "abdominal_aorta",
   "aortic_arch_and_great_vessels",
-  "biceps_brachii_l",
-  "brachialis_l",
-  "brachialis_r",
   "common_carotid_a_l",
   "common_carotid_a_r",
   "common_iliac_a_l",
@@ -36,9 +33,6 @@
   "thyrohyoid_r"
  ],
  "same_method_flagged": [
-  "biceps_brachii_l",
-  "brachialis_l",
-  "brachialis_r",
   "deltoid_l",
   "pectoralis_major_r",
   "scalenus_posterior_l",
@@ -78,14 +72,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 391.7,
+   "male_cm3": 324.2,
    "female_cm3": 177.1,
-   "female_over_male": 0.452,
-   "expected_from_bones": 0.774,
-   "residual": 0.584,
-   "expected_from_lean_sections": 0.776,
-   "residual_vs_lean": 0.583,
-   "flag": "LOW"
+   "female_over_male": 0.546,
+   "expected_from_bones": 0.773,
+   "residual": 0.707,
+   "expected_from_lean_sections": 0.775,
+   "residual_vs_lean": 0.705,
+   "flag": ""
   },
   {
    "atlas_id": "biceps_brachii_r",
@@ -93,13 +87,13 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 400.2,
+   "male_cm3": 350.2,
    "female_cm3": 208.5,
-   "female_over_male": 0.521,
+   "female_over_male": 0.595,
    "expected_from_bones": 0.788,
-   "residual": 0.661,
-   "expected_from_lean_sections": 0.78,
-   "residual_vs_lean": 0.668,
+   "residual": 0.755,
+   "expected_from_lean_sections": 0.781,
+   "residual_vs_lean": 0.762,
    "flag": ""
   },
   {
@@ -108,14 +102,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 75.4,
+   "male_cm3": 143.5,
    "female_cm3": 109.1,
-   "female_over_male": 1.447,
-   "expected_from_bones": 0.788,
-   "residual": 1.836,
+   "female_over_male": 0.76,
+   "expected_from_bones": 0.785,
+   "residual": 0.968,
    "expected_from_lean_sections": 0.78,
-   "residual_vs_lean": 1.855,
-   "flag": "HIGH"
+   "residual_vs_lean": 0.974,
+   "flag": ""
   },
   {
    "atlas_id": "brachialis_r",
@@ -123,14 +117,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 48.9,
+   "male_cm3": 109.6,
    "female_cm3": 106.2,
-   "female_over_male": 2.17,
+   "female_over_male": 0.969,
    "expected_from_bones": 0.805,
-   "residual": 2.696,
+   "residual": 1.204,
    "expected_from_lean_sections": 0.786,
-   "residual_vs_lean": 2.76,
-   "flag": "HIGH"
+   "residual_vs_lean": 1.233,
+   "flag": ""
   },
   {
    "atlas_id": "brachiocephalic_trunk_r",
