@@ -1274,7 +1274,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       1.05, cranium 1.0 of his; photographs (same colour-class method on both; his frozen CT cannot separate fat, both
       HU peaks at -20): thigh fat 23 % vs 49 %, thigh muscle 442 vs 219 cm2 (0.50), calf 91 vs 73, trunk fat 45/28 %
       vs 52/35 %; her glutei/iliopsoas 0.33-0.62 of his. Male cryosections streamed every 10th mm for this (188 slices).
-      (2) TRANSFER (scripts/transfer/cross_subject_transfer.py + bone_frames.py + lean_envelope.py + build_envelopes.py):
+      (2) TRANSFER (female viewer published as Version 16, male as Version 26; scripts/transfer/cross_subject_transfer.py + bone_frames.py + lean_envelope.py + build_envelopes.py):
       per-bone PCA frames on both bodies, box-to-box affines blended by inverse-square distance over the region's three
       nearest bones (his right hand lies beside his thigh: candidates restricted by atlas region); lower-limb muscles
       then re-placed radially inside HER muscle compartment (envelope of his DU muscles per 10 mm level x 36 directions
