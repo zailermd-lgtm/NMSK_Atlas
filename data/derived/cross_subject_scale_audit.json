@@ -2,7 +2,8 @@
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male and female CT and cryosections via the NCI Imaging Data Commons; lower-limb geometry Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2 (CC BY 4.0). Derived data (scripts/transfer/cross_subject_scale_audit.py).",
  "_README": [
   "Re-check every structure both bodies carry, at matched scale.",
-  "Flags: residual < 0.6 LOW, > 1.6 HIGH (vs the lean-section expectation for muscles where one exists, else vs bones). 'same_method' lists the ids the same pipeline produced on both bodies."
+  "Flags: residual < 0.6 LOW, > 1.6 HIGH (vs the lean-section expectation for muscles where one exists, else vs bones). 'same_method' lists the ids the same pipeline produced on both bodies.",
+  "2026-09-13, 18:40: male side read from build/viewer_m (Version 27: his left metatarsals/phalanges from his CT, the DU left foot having filed metatarsal heads under phalanges); the metatarsals_l flag is gone; phalanges_foot_l and tarsals_r stay flagged against a bone-scale expectation dominated by the tibia/fibula affines (tarsal boxes are near-isotropic and the transfer's driving-bone weighting is not a foot-size measure), and the two feet agree side to side on each body."
  ],
  "lean_section_ratios_female_over_male": {
   "thigh_45pct_femur": 0.495,
@@ -30,7 +31,6 @@
   "lateral_rectus_r",
   "levator_palpebrae_superioris_r",
   "medial_rectus_r",
-  "metatarsals_l",
   "optic_n",
   "pectoralis_major_r",
   "phalanges_foot_l",
@@ -442,7 +442,7 @@
    "male_cm3": 653.8,
    "female_cm3": 385.4,
    "female_over_male": 0.59,
-   "expected_from_bones": 0.797,
+   "expected_from_bones": 0.798,
    "residual": 0.739,
    "flag": ""
   },
@@ -469,7 +469,7 @@
    "female_cm3": 40.5,
    "female_over_male": 0.576,
    "expected_from_bones": 0.721,
-   "residual": 0.8,
+   "residual": 0.799,
    "flag": ""
   },
   {
@@ -494,10 +494,10 @@
    "male_cm3": 1195.0,
    "female_cm3": 603.4,
    "female_over_male": 0.505,
-   "expected_from_bones": 0.925,
-   "residual": 0.546,
-   "expected_from_lean_sections": 0.482,
-   "residual_vs_lean": 1.048,
+   "expected_from_bones": 0.926,
+   "residual": 0.545,
+   "expected_from_lean_sections": 0.483,
+   "residual_vs_lean": 1.045,
    "flag": ""
   },
   {
@@ -524,10 +524,10 @@
    "male_cm3": 455.3,
    "female_cm3": 281.2,
    "female_over_male": 0.618,
-   "expected_from_bones": 0.972,
+   "expected_from_bones": 0.973,
    "residual": 0.635,
-   "expected_from_lean_sections": 0.49,
-   "residual_vs_lean": 1.26,
+   "expected_from_lean_sections": 0.491,
+   "residual_vs_lean": 1.258,
    "flag": ""
   },
   {
@@ -554,7 +554,7 @@
    "male_cm3": 223.4,
    "female_cm3": 74.2,
    "female_over_male": 0.332,
-   "expected_from_bones": 0.977,
+   "expected_from_bones": 0.978,
    "residual": 0.34,
    "expected_from_lean_sections": 0.491,
    "residual_vs_lean": 0.676,
@@ -679,7 +679,7 @@
    "male_cm3": 729.6,
    "female_cm3": 235.6,
    "female_over_male": 0.323,
-   "expected_from_bones": 0.915,
+   "expected_from_bones": 0.916,
    "residual": 0.353,
    "expected_from_lean_sections": 0.481,
    "residual_vs_lean": 0.671,
@@ -1114,14 +1114,14 @@
    "atlas_id": "metatarsals_l",
    "category": "bone",
    "region": "lower_limb",
-   "male_subject": "vhm_both",
+   "male_subject": "ct_vhm_foot",
    "female_subject": "ct_vhf_legs",
-   "male_cm3": 16.4,
+   "male_cm3": 40.2,
    "female_cm3": 35.9,
-   "female_over_male": 2.188,
-   "expected_from_bones": 0.687,
-   "residual": 3.185,
-   "flag": "HIGH"
+   "female_over_male": 0.892,
+   "expected_from_bones": 0.753,
+   "residual": 1.185,
+   "flag": ""
   },
   {
    "atlas_id": "metatarsals_r",
@@ -1269,13 +1269,13 @@
    "atlas_id": "phalanges_foot_l",
    "category": "bone",
    "region": "lower_limb",
-   "male_subject": "vhm_both",
+   "male_subject": "ct_vhm_foot",
    "female_subject": "ct_vhf_legs",
-   "male_cm3": 35.3,
+   "male_cm3": 6.6,
    "female_cm3": 5.5,
-   "female_over_male": 0.156,
-   "expected_from_bones": 0.659,
-   "residual": 0.237,
+   "female_over_male": 0.834,
+   "expected_from_bones": 1.407,
+   "residual": 0.593,
    "flag": "LOW"
   },
   {
@@ -1799,8 +1799,8 @@
    "male_cm3": 163.3,
    "female_cm3": 130.0,
    "female_over_male": 0.796,
-   "expected_from_bones": 1.064,
-   "residual": 0.748,
+   "expected_from_bones": 1.074,
+   "residual": 0.741,
    "flag": ""
   },
   {

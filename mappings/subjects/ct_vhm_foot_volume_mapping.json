@@ -13,9 +13,9 @@
    "source_structure": "tarsals_right",
    "side": "right",
    "status": "curated",
-   "atlas_id": "tarsals_r",
-   "relationship": "part_of",
-   "note": "Heel to 115 mm along the foot axis (calcaneus, talus, navicular, cuboid, cuneiforms unseparated).",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "The DU release carries every tarsal as its own mesh (7 pieces per side); this CT tarsus (unseparated) is the registration cross-check only.",
    "candidates": []
   },
   {
@@ -43,9 +43,9 @@
    "source_structure": "tarsals_left",
    "side": "left",
    "status": "curated",
-   "atlas_id": "tarsals_l",
-   "relationship": "part_of",
-   "note": "Heel to 115 mm along the foot axis (calcaneus, talus, navicular, cuboid, cuneiforms unseparated).",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "The DU release carries every tarsal as its own mesh (7 pieces per side); this CT tarsus (unseparated) is the registration cross-check only.",
    "candidates": []
   },
   {
@@ -53,9 +53,9 @@
    "source_structure": "metatarsals_left",
    "side": "left",
    "status": "curated",
-   "atlas_id": null,
-   "relationship": "no_usable_label",
-   "note": "The DU release carries the metatarsals and phalanges of this body at higher quality (bbox agreement with this CT within 5 mm); only the tarsals ship from the CT, because the DU 'tarsals' is a single 45 mm bone (talus-sized) and the CT has the whole tarsus including the calcaneus.",
+   "atlas_id": "metatarsals_l",
+   "relationship": "part_of",
+   "note": "2026-09-13: the DU release's LEFT foot files ~22 cm3 of metatarsal under 'phalanges' (DU left metatarsals 16.4 cm3 / phalanges 35.3 vs this CT 44.9 / 7.2 and the DU right 38.8 / 6.8; totals agree to 0.5 cm3), so the left metatarsals and phalanges ship from his own CT feet block (planes 115/190 mm along the foot axis), listed before vhm_both so they win.",
    "candidates": []
   },
   {
@@ -63,9 +63,9 @@
    "source_structure": "phalanges_left",
    "side": "left",
    "status": "curated",
-   "atlas_id": null,
-   "relationship": "no_usable_label",
-   "note": "The DU release carries the metatarsals and phalanges of this body at higher quality (bbox agreement with this CT within 5 mm); only the tarsals ship from the CT, because the DU 'tarsals' is a single 45 mm bone (talus-sized) and the CT has the whole tarsus including the calcaneus.",
+   "atlas_id": "phalanges_foot_l",
+   "relationship": "part_of",
+   "note": "2026-09-13: the DU release's LEFT foot files ~22 cm3 of metatarsal under 'phalanges' (DU left metatarsals 16.4 cm3 / phalanges 35.3 vs this CT 44.9 / 7.2 and the DU right 38.8 / 6.8; totals agree to 0.5 cm3), so the left metatarsals and phalanges ship from his own CT feet block (planes 115/190 mm along the foot axis), listed before vhm_both so they win.",
    "candidates": []
   }
  ]

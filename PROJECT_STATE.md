@@ -1305,10 +1305,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       ct_s1159 (a third body) vs her, not comparable; abdominal-wall flags are the known male rule over-inclusion (Q11).
       (4) Docs: GEOMETRY_SOURCES 'Cross-subject transfer' + 'frame was 47-90 mm too high'; VIEWER_README badge rows;
       template badges/subtitles; tests/test_transfer.py (4); full suite 153 pass; requirements + trimesh/shapely/rtree.
-- [ ] Q45 (added 18:10) Female LEFT foot grouping: phalanges_foot_l 5.5 cm3 vs right 7.2 and his 35; metatarsals_l 36
-      vs right 27 -- the 115/190 mm planes along the foot axis put her left toes into the metatarsal group. Re-derive the
-      left foot's planes from its own tibia axis and the metatarsal heads (scripts/vhf_lower_limb_bones.py), reconvert
-      ct_vhf_legs, republish.
+- [x] Q45 (18:40) Her left foot is FINE (metatarsals 35.9 vs right 41.5, phalanges 5.5 vs 7.0; the same planes on
+      both sides). The flag was the MALE's DU left foot: DU left metatarsals 16.4 / phalanges 35.3 cm3 vs his right
+      38.8 / 6.8 and his own CT feet block 44.9 / 7.2 (totals agree to 0.5 cm3): ~22 cm3 of metatarsal heads are filed
+      under "phalanges" in the DU left-foot STLs. Fixed on the male viewer (Version 27): his left metatarsals and
+      phalanges now ship from his CT feet block (`ct_vhm_foot`, mapping labels 5/6, legs-block origin
+      -8.755,-202.476,5.677 = the torso origin minus the legs->torso offset), listed before vhm_both; CT boxes within
+      10 mm of the DU ones, volumes 40.2 / 6.6 cm3. Docs (GEOMETRY_SOURCES, VIEWER_README), template label updated.
 - [ ] Q46 (added 18:10) Her deltoid by the male's rule on the CORRECTED frame is 357/331 cm3 (his 232/180, textbook
       350-500 for men): over-inclusive on her -- likely the 40 mm skin depth window now captures subcutaneous-fat-bounded
       muscle of the arm/pectoral region; tighten (fascial boundary at 0.33 mm, or the scapular spine as the posterior

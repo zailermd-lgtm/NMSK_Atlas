@@ -25,6 +25,7 @@ the source and the method:
 | `ct_vhm_abd` | male | frozen CT with soft-tissue contrast restored from the cryosections ("hybrid CT") | TotalSegmentator `abdominal_muscles` |
 | `ct_vhm_arm` | male | CT + cryosections | HU threshold + marker watershed; elbow region walked through the photographs; hands grouped by planes |
 | `ct_vhm_armm`, `ct_vhm_delt`, `ct_vhm_cuff`, `ct_vhm_pmr`, `ct_vhm_es`, `ct_vhm_abw` | male | cryosections (+ CT labels as anchors) | **rule-based**: textbook position rules applied to the muscle mass; boundaries are rules, not traced fascia |
+| `ct_vhm_foot` | male | frozen CT feet block | left metatarsals and toe phalanges by planes along the foot axis; used because the DU release files ~22 cm3 of his left metatarsals under 'phalanges' (16.4 / 35.3 cm3 vs his CT 44.9 / 7.2 and the DU right 38.8 / 6.8) |
 | `ct_vhm_skin` | male | cryosections | tissue silhouette |
 | `ct_s1159`, `ct_s1159_abd` | a third body (TotalSegmentator case s1159, CC BY 4.0) | clinical CT | TotalSegmentator; fills only what the male lacks (vessels, quadratus lumborum) |
 | `ct_vhf`, `ct_vhf_*` | female | fresh CT | TotalSegmentator free tasks |

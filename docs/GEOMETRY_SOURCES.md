@@ -978,6 +978,14 @@ its published page (`data/derived/viewer_bundles/vhm_v25`, `scripts/transfer/
 bundle_to_subjects.py`): the DU STL hosts are denied by the network policy, so this is the
 only copy that survives a container reset.
 
+**One DU defect found by that recheck (2026-09-13).** The DU release's LEFT foot has 16.4 cm3 of
+metatarsals and 35.3 cm3 of toe phalanges where the right has 38.8 / 6.8 and his own CT feet block
+44.9 / 7.2: about 22 cm3 of metatarsal (the heads) is filed under "phalanges" in the left-foot STLs
+(the totals agree to 0.5 cm3). The male viewer therefore ships his left metatarsals and phalanges from
+his CT (`ct_vhm_foot`, planes 115/190 mm along the foot axis, listed before `vhm_both`); the CT boxes
+lie within 10 mm of the DU ones and the volumes come out level with the right foot (40.2 / 6.6 cm3).
+Her feet (35.9 / 41.5 and 5.5 / 7.0 cm3) were the first suspect and are fine.
+
 **Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
 -> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
 volume ratio against the ratio the driving bones predict, and for muscles against the
