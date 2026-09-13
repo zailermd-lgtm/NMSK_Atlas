@@ -3,7 +3,7 @@
  "_README": [
   "Re-check every structure both bodies carry, at matched scale.",
   "Flags: residual < 0.6 LOW, > 1.6 HIGH (vs the lean-section expectation for muscles where one exists, else vs bones). 'same_method' lists the ids the same pipeline produced on both bodies.",
-  "2026-09-13, 19:20: female deltoid rule v2 (226/282 cm3, was 377/348)."
+  "2026-09-13, 20:50: female arm rule v2 (humerus located in the photographs)."
  ],
  "lean_section_ratios_female_over_male": {
   "thigh_45pct_femur": 0.495,
@@ -15,7 +15,8 @@
  "flagged": [
   "abdominal_aorta",
   "aortic_arch_and_great_vessels",
-  "brachialis_l",
+  "biceps_brachii_l",
+  "biceps_brachii_r",
   "common_carotid_a_l",
   "common_carotid_a_r",
   "common_iliac_a_l",
@@ -32,16 +33,19 @@
   "tarsals_r",
   "thyrohyoid_l",
   "thyrohyoid_r",
-  "triceps_brachii_l"
+  "triceps_brachii_l",
+  "triceps_brachii_r"
  ],
  "same_method_flagged": [
-  "brachialis_l",
+  "biceps_brachii_l",
+  "biceps_brachii_r",
   "deltoid_l",
   "pectoralis_major_r",
   "scalenus_posterior_l",
   "thyrohyoid_l",
   "thyrohyoid_r",
-  "triceps_brachii_l"
+  "triceps_brachii_l",
+  "triceps_brachii_r"
  ],
  "rows": [
   {
@@ -77,13 +81,13 @@
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
    "male_cm3": 472.4,
-   "female_cm3": 395.5,
-   "female_over_male": 0.837,
+   "female_cm3": 177.1,
+   "female_over_male": 0.375,
    "expected_from_bones": 0.772,
-   "residual": 1.085,
+   "residual": 0.486,
    "expected_from_lean_sections": 0.775,
-   "residual_vs_lean": 1.08,
-   "flag": ""
+   "residual_vs_lean": 0.484,
+   "flag": "LOW"
   },
   {
    "atlas_id": "biceps_brachii_r",
@@ -92,13 +96,13 @@
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
    "male_cm3": 474.6,
-   "female_cm3": 274.9,
-   "female_over_male": 0.579,
+   "female_cm3": 208.5,
+   "female_over_male": 0.439,
    "expected_from_bones": 0.798,
-   "residual": 0.726,
+   "residual": 0.551,
    "expected_from_lean_sections": 0.784,
-   "residual_vs_lean": 0.739,
-   "flag": ""
+   "residual_vs_lean": 0.56,
+   "flag": "LOW"
   },
   {
    "atlas_id": "brachialis_l",
@@ -107,13 +111,13 @@
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
    "male_cm3": 188.7,
-   "female_cm3": 84.8,
-   "female_over_male": 0.45,
+   "female_cm3": 109.1,
+   "female_over_male": 0.578,
    "expected_from_bones": 0.787,
-   "residual": 0.571,
+   "residual": 0.734,
    "expected_from_lean_sections": 0.78,
-   "residual_vs_lean": 0.576,
-   "flag": "LOW"
+   "residual_vs_lean": 0.741,
+   "flag": ""
   },
   {
    "atlas_id": "brachialis_r",
@@ -122,12 +126,12 @@
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
    "male_cm3": 132.9,
-   "female_cm3": 104.2,
-   "female_over_male": 0.784,
+   "female_cm3": 106.2,
+   "female_over_male": 0.799,
    "expected_from_bones": 0.811,
-   "residual": 0.966,
+   "residual": 0.985,
    "expected_from_lean_sections": 0.788,
-   "residual_vs_lean": 0.995,
+   "residual_vs_lean": 1.014,
    "flag": ""
   },
   {
@@ -1796,12 +1800,12 @@
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
    "male_cm3": 762.2,
-   "female_cm3": 322.4,
-   "female_over_male": 0.423,
+   "female_cm3": 295.6,
+   "female_over_male": 0.388,
    "expected_from_bones": 0.767,
-   "residual": 0.552,
+   "residual": 0.506,
    "expected_from_lean_sections": 0.773,
-   "residual_vs_lean": 0.547,
+   "residual_vs_lean": 0.502,
    "flag": "LOW"
   },
   {
@@ -1811,13 +1815,13 @@
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
    "male_cm3": 674.5,
-   "female_cm3": 314.3,
-   "female_over_male": 0.466,
+   "female_cm3": 246.4,
+   "female_over_male": 0.365,
    "expected_from_bones": 0.758,
-   "residual": 0.614,
+   "residual": 0.482,
    "expected_from_lean_sections": 0.771,
-   "residual_vs_lean": 0.604,
-   "flag": ""
+   "residual_vs_lean": 0.474,
+   "flag": "LOW"
   },
   {
    "atlas_id": "ulna_r",

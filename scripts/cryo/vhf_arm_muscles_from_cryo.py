@@ -15,7 +15,25 @@ cls=np.load(D+"cryo_frame_cls.npy",mmap_mode="r"); rgb=np.load(D+"cryo_frame_rgb
 def load(name): im=nib.load(T+name); return np.asarray(im.dataobj),float(im.affine[2,3])
 tot,zT0=load("vhf_total.nii.gz"); delt,zD0=load("vhf_deltoid_cryo.nii.gz"); cuff,zC0=load("vhf_rotator_cuff_cryo.nii.gz")
 labs={v:int(k) for k,v in json.load(open(R+"mappings/totalsegmentator_labels.json"))["labels"].items()}
-SHIFT={"right":(0,11),"left":(0,-15)}
+SHIFT={"right":(3,19),"left":(0,-13)}   # v2: the corrected-frame deltoid run's CT->photo constants (scripts/cryo/vhf_deltoid_from_cryo.py)
+def photo_humerus(c,h_ct,cy,cx):
+    """v2 (Q49): the humerus AS PHOTOGRAPHED -- the CT label shifted by one constant lands beside the bone lower down the arm
+    (her arm and the CT arm are not the same rigid body). The bone is the round non-muscle hole inside the arm's muscle
+    compartment: candidates = holes of the closed muscle class, 120-900 px, solidity >= 0.6, within 45 px of the CT label's
+    centre; the nearest wins. Falls back to the CT label when none qualifies."""
+    comp=ndi.binary_fill_holes(ndi.binary_closing(c==3,iterations=2)); holes=comp&~(c==3)&~ndi.binary_dilation(c==3,iterations=1)
+    hl,hn=ndi.label(holes)
+    if hn==0: return h_ct,False
+    best=None
+    for i in range(1,hn+1):
+        m=hl==i; a=int(m.sum())
+        if a<120 or a>900: continue
+        ys,xs=np.where(m); yc,xc=ys.mean(),xs.mean(); d=np.hypot(yc-cy,xc-cx)
+        if d>45: continue
+        hull=ndi.binary_fill_holes(m); sol=a/max(int(ndi.binary_closing(m,iterations=3).sum()),1)
+        if sol<0.6: continue
+        if best is None or d<best[0]: best=(d,m)
+    return (best[1],True) if best else (h_ct,False)
 def frame_ct(arr,zoff,k,dy,dx):
     kk=int(round(z0+k-zoff)); f=np.zeros((H,W),np.int32)
     if 0<=kk<arr.shape[2]: f[:,OFF:OFF+480]=ndi.zoom(arr[:,:,kk],480/512,order=0).T
@@ -23,17 +41,22 @@ def frame_ct(arr,zoff,k,dy,dx):
 def frame_fr(arr,zoff,k):
     kk=int(round(z0+k-zoff)); return arr[:,:,kk].T.astype(np.int32) if 0<=kk<arr.shape[2] else np.zeros((H,W),np.int32)
 OUT={"biceps_right":1,"brachialis_right":2,"coracobrachialis_right":3,"triceps_right":4,"biceps_left":5,"brachialis_left":6,"coracobrachialis_left":7,"triceps_left":8}
-out=np.zeros((n,H,W),np.uint8); rep={}
+out=np.zeros((n,H,W),np.uint8); rep={}; nfound={"right":0,"left":0}
 for side,(cols,base,medial_sign) in {"right":(slice(0,300),0,+1),"left":(slice(400,700),4,-1)}.items():
     hum=labs[f"humerus_{side}"]; dy,dx=SHIFT[side]
     kT=np.where((tot==hum).any(axis=(0,1)))[0]; kbot=int(round(zT0+kT.min()-z0)); ktop=int(round(zT0+kT.max()-z0))
     k0,k1=max(kbot+10,ktop-320),ktop-70; L=k1-k0;   # a female humerus is ~300 mm: the segment never starts more than 320 mm below the head (her left label carries a stray piece lower down) print(side,"arm segment frame k",k0,"..",k1,"z",z0+k0,z0+k1,flush=True)
     for k in range(k0,k1+1):
-        h=frame_ct(tot,zT0,k,dy,dx)[:,cols]==hum
-        if h.sum()<30: continue
+        h_ct=frame_ct(tot,zT0,k,dy,dx)[:,cols]==hum
+        if h_ct.sum()<30: continue
         c=np.asarray(cls[k])[:,cols]; other=(frame_fr(delt,zD0,k)[:,cols]>0)|(frame_fr(cuff,zC0,k)[:,cols]>0)
-        tissue=ndi.binary_fill_holes(ndi.binary_closing(c>0,iterations=3)); tl,tn=ndi.label(tissue)
-        u=np.unique(tl[h]); comp=np.isin(tl,u[u>0]); ys,xs=np.where(h); cy,cx=ys.mean(),xs.mean(); yy,xx=np.mgrid[0:H,0:cols.stop-cols.start]
+        ys,xs=np.where(h_ct); h,found=photo_humerus(c,h_ct,ys.mean(),xs.mean()); nfound[side]+=int(found)
+        # the arm island: the tissue opened by 6 px (breaks the thin gelatin bridge to the trunk); if that still merges
+        # with the trunk (> 15000 px) fall back to the 70 mm disc about the humerus
+        t_open=ndi.binary_opening(ndi.binary_fill_holes(c>0),iterations=6); tl,tn=ndi.label(t_open)
+        ys,xs=np.where(h); cy,cx=ys.mean(),xs.mean(); yy,xx=np.mgrid[0:H,0:cols.stop-cols.start]
+        u=np.unique(tl[h]); comp=np.isin(tl,u[u>0]) if u[u>0].size else np.zeros_like(h)
+        if comp.sum()>15000 or comp.sum()==0: comp=ndi.binary_fill_holes(ndi.binary_closing(c>0,iterations=3))
         comp&=((yy-cy)**2+(xx-cx)**2)<70**2
         # her arm muscle is fattier and septated than the male's: keep every muscle piece (opened by 1 px) whose nearest point
         # lies within 45 mm of the humerus, inside the arm's own cross-section (the male's erode-3 / 12 px rule kept only slivers)
@@ -48,10 +71,10 @@ for side,(cols,base,medial_sign) in {"right":(slice(0,300),0,+1),"left":(slice(4
         cor=a&(frac>=0.6)&(d<=15)&(medial_sign*(xx-cx)>0); o[cor]=base+3
         o[a&~brach&~cor]=base+1
 for name,v in OUT.items(): rep[name]=round(float((out==v).sum())/1000,1)
-print("volumes cm3",rep,flush=True)
+rep["humerus_found_in_photo_slices"]=nfound; print("volumes cm3",rep,flush=True)
 nz=np.where(out.any(axis=(1,2)))[0]; ka,kb=nz.min(),nz.max()+1
 aff=np.array([[-1,0,0,350],[0,-1,0,240],[0,0,1,z0+ka],[0,0,0,1]],float); nib.save(nib.Nifti1Image(np.ascontiguousarray(out[ka:kb].transpose(2,1,0)),aff),S+"vhf_ts/arm_muscles_cryo.nii.gz")
-json.dump({"_README":["Female upper-arm muscles by the male's compartment and naming rules on her registered cryosections (scripts/cryo/vhf_arm_muscles_from_cryo.py). Rule-based, derived data."],"source":"U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 humerus label as anchor.","volumes_cm3":rep},open(D+"arm_muscles_report.json","w"),indent=1)
+json.dump({"_README":["Female upper-arm muscles by the male's compartment and naming rules on her registered cryosections (scripts/cryo/vhf_arm_muscles_from_cryo.py), v2 (2026-09-13, Q49): the humerus located in the photograph itself (the round hole in the muscle compartment nearest the shifted CT label), the arm island opened 6 px off the trunk; corrected-frame CT->photo constants. Rule-based, derived data."],"source":"U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 humerus label as anchor.","volumes_cm3":rep},open(D+"arm_muscles_report.json","w"),indent=1)
 lut=np.array([[0,0,0],[255,90,90],[255,200,90],[200,120,255],[90,120,255],[255,90,90],[255,200,90],[200,120,255],[90,120,255]],np.uint8)
 for side,cols in (("right",slice(0,300)),("left",slice(400,700))):
     ks=np.where((out[:,:,cols]>0).any(axis=(1,2)))[0]; ts=[]

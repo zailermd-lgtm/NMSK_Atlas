@@ -1334,10 +1334,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       `xfer_vhm2vhf_sep` (label key mappings/vhf_xfer_septa_labels.json, listed before xfer_vhm2vhf in the rebuild
       chain), female viewer Version 18; badge says the walls are hers, the muscle set his. Overlays checked at y
       -150..-600 (contours follow the visible bellies).
-- [ ] Q49 (added 20:20) Her LEFT upper-arm rule muscles are small: triceps_l 322 vs his 762 (0.42), brachialis_l 85 vs
-      189 (0.45) after bone scaling (lean sections predict ~0.77), right side 0.47/0.78. Overlay her left arm slices
-      (as done for the deltoid) to see whether the compartment rules under-run on that side (her left arm lies
-      differently; the CT->photo shift there is (0, -13) px) and re-derive; badge and record.
+- [x] Q49 (20:50) Her arm rule v2: overlays showed the CT humerus label (one shift constant per side) sitting BESIDE
+      the bone lower down the arm, so the coronal plane / bone distances split the compartments from the wrong point
+      and trunk muscle at the axilla was admitted. v2 locates the humerus in the photograph (round hole in the muscle
+      compartment nearest the CT label; 110/171 slices r/l) and cuts the arm island off the trunk (opening 6 px).
+      biceps 322/444 -> 267/224, brachialis 112/92 -> 117/120, triceps 342/346 -> 303/337 cm3. Female viewer
+      Version 19. Her biceps/triceps are 0.36-0.44 of HIS rule values (472/475, 675/762 cm3, far above textbook) -> Q51 on the male rule.
+- [ ] Q51 (added 20:50) His triceps by the male arm rule is 675/762 cm3 (textbook 350-450 for a man) and biceps
+      472/475 (textbook 200-300): the male compartment rule over-includes (deltoid/forearm/trunk spill?). His 1 mm cryo frame is gone
+      (only every 10th slice streamed); re-stream his arm levels (i 300-700, ~400 slices, 3 GB) and re-run
+      arm_compartments_from_cryo.py / name_arm_muscles_from_cryo.py with the photo-located humerus as for her.
 - [ ] Q50 (added 20:20) The male viewer's rebuild after a reset is now `scripts/vhm_rebuild_bundle.sh` (recovered
       bundle + CT left forefoot + the female transfer); it reproduces Version 28. If the DU STL host is ever allowed,
       replace the recovered decimated meshes with the originals (scripts/ingest_vh_geometry.py) and re-run.

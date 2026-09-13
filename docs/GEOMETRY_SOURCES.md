@@ -1017,6 +1017,19 @@ listed before `xfer_vhm2vhf` so the refined belly wins and the unrefined transfe
 ligaments, cartilage, coccyx and trunk pieces. Still a transfer: the muscle set, attachments and rough
 shape are his; the walls between adjacent bellies are now hers.
 
+**Her upper-arm rule, v2 (Q49, 2026-09-13).** The audit flagged her left triceps and brachialis at 0.42-0.45
+of his. Mask overlays showed why: the arm rule placed her CT humerus label on the photographs with one
+constant per side (the deltoid level's), and lower down the arm that label sits BESIDE the bone (her arm
+and the CT arm are not one rigid body), so the coronal plane and the bone distances that split the
+compartments were measured from the wrong point, and trunk muscle next to the axilla was admitted. v2
+(`scripts/cryo/vhf_arm_muscles_from_cryo.py`): the humerus is located in the photograph itself, as the
+round non-muscle hole (120-900 px, solidity >= 0.6) inside the closed muscle compartment nearest the
+shifted CT label (found on 110 / 171 slices right / left; the CT label is the fallback), and the arm island
+is the tissue opened by 6 px (which cuts the gelatin bridge to the trunk) with the 70 mm disc as fallback.
+Volumes biceps 322/444 -> 267/224, brachialis 112/92 -> 117/120, triceps 342/346 -> 303/337 cm3. Against
+his rule values (biceps 472/475, triceps 675/762 cm3) she is 0.38-0.44 on both -- his values are themselves
+far above textbook (biceps 200-300, triceps 350-450 cm3 for a man), so those flags now point at HIS rule (Q51).
+
 **Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
 -> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
 volume ratio against the ratio the driving bones predict, and for muscles against the
