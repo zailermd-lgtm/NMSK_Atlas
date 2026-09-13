@@ -1325,10 +1325,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       ct_vhm_orbit so they win; badged), his left levator (1.05), left inferior oblique (0.59) and left medial rectus
       (0.45) stay his. Male viewer Version 28. The oculomotor task on his 0.527 mm head block was not re-run (his
       eyes are frozen; the model's failure is in the data, not the run).
-- [ ] Q48 (added 18:10) The transfer keeps the DONOR's boundaries between neighbouring muscles; her photographs show
-      her own intermuscular septa (fascial lines) -- a per-muscle refinement by watershed inside the transferred masks
-      (as done for the male biceps/brachialis at 0.33 mm) would make the thigh compartments hers. Needs full-resolution
-      thigh crops (the arm-crop streamer generalised).
+- [x] Q48 (20:10) Transferred thigh/leg muscles refined to HER septa: scripts/transfer/refine_transfer_to_septa.py
+      voxelises the 57 transferred muscles into her 1 mm frame, marker watershed on the white top-hat of the
+      photographs (fascial planes = ridges), markers = masks eroded 3 mm, region = her muscle class within 4 mm of
+      the transferred union minus her own glutei/iliopsoas/autochthon, max move 8 mm, no growth into fat. 810
+      slices, total conserved (10.14 -> 9.91 L), median ratio 1.02; gracilis_r 114 -> 75, TFL 104/108 -> 70/84,
+      semitendinosus 198/222 -> 159/176 cm3 (report beside the label volume in task_outputs). Ships as
+      `xfer_vhm2vhf_sep` (label key mappings/vhf_xfer_septa_labels.json, listed before xfer_vhm2vhf in the rebuild
+      chain), female viewer Version 18; badge says the walls are hers, the muscle set his. Overlays checked at y
+      -150..-600 (contours follow the visible bellies).
+
 
 - **VH female (Q9) results, 19:25**: `total` full (femoral heads r 24.4
   mm, rms 0.65/0.69; aorta 185 cm3 along its course); `abdominal_muscles`

@@ -1001,6 +1001,22 @@ wedge about the humerus within 40 mm. Result 226 / 282 cm3, the overlays a later
 on the tuberosity; the left is still 1.6x his rule value where the lean sections predict 0.77, so
 it stays badged with that note.
 
+**Boundaries refined to her own septa (Q48, 2026-09-13).** The transfer keeps the donor's boundaries
+between neighbouring bellies. `scripts/transfer/refine_transfer_to_septa.py` voxelises the 57
+transferred thigh and leg muscles into her registered 1 mm frame and, slice by slice, runs a marker
+watershed on the white top-hat of the photograph brightness (her fascial planes are bright ridges):
+markers = each transferred mask eroded 3 mm, region = her muscle class within 4 mm of the transferred
+union with her own model-segmented muscles (glutei, iliopsoas, autochthon) excluded, no muscle moving
+more than 8 mm from its transferred mask and no growth into her subcutaneous fat. 810 slices, ~3800
+pixels reassigned per slice; the muscle total is conserved (10.14 -> 9.91 L), the median volume ratio
+is 1.02, and the largest moves are small bellies whose neighbours they were sharing a septum with
+(gracilis right 114 -> 75 cm3, tensor fasciae latae 104/108 -> 70/84, semitendinosus 198/222 -> 159/176,
+flexor digitorum longus left 26 -> 42; `data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa_report.json`).
+Ships as `xfer_vhm2vhf_sep` (label volume in the repository, key `mappings/vhf_xfer_septa_labels.json`),
+listed before `xfer_vhm2vhf` so the refined belly wins and the unrefined transfer still supplies the
+ligaments, cartilage, coccyx and trunk pieces. Still a transfer: the muscle set, attachments and rough
+shape are his; the walls between adjacent bellies are now hers.
+
 **Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
 -> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
 volume ratio against the ratio the driving bones predict, and for muscles against the
