@@ -1,13 +1,13 @@
 {
  "_README": [
-  "Female deltoid by the male's rule on her registered cryosections (scripts/cryo/vhf_deltoid_from_cryo.py). Rule-based, derived data."
+  "Female deltoid by the male's rule on her registered cryosections (scripts/cryo/vhf_deltoid_from_cryo.py), v2: window 113 mm (his 130 scaled by her scapula), depth band 25 mm from the outer surface of the muscle compartment instead of 40 mm from the skin (her subcutaneous fat is thicker); below the humeral head (40 mm under its top) only the lateral +-80 deg wedge about the humerus within 40 mm. Rule-based, derived data."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 labels as anchors.",
  "deltoid": {
   "right": {
-   "cm3": 377.1,
+   "cm3": 226.3,
    "z_range": [
-    -424.0,
+    -407.0,
     -294.0
    ],
    "ct_shift_px": [
@@ -16,9 +16,9 @@
    ]
   },
   "left": {
-   "cm3": 347.7,
+   "cm3": 281.6,
    "z_range": [
-    -412.0,
+    -395.0,
     -282.0
    ],
    "ct_shift_px": [

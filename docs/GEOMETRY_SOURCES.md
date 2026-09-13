@@ -990,6 +990,17 @@ his CT (`ct_vhm_foot`, planes 115/190 mm along the foot axis, listed before `vhm
 lie within 10 mm of the DU ones and the volumes come out level with the right foot (40.2 / 6.6 cm3).
 Her feet (35.9 / 41.5 and 5.5 / 7.0 cm3) were the first suspect and are fine.
 
+**Her deltoid rule, v2 (Q46, 2026-09-13).** On the corrected frame the male's rule gave her 377 / 348
+cm3 (his 232 / 180): overlays on her photographs showed that below the axilla her thin arm lies
+wholly inside the 40 mm skin band, so the label swallowed biceps and triceps around the humerus,
+and the fixed 130 mm window reached below her shorter deltoid. v2 (`scripts/cryo/
+vhf_deltoid_from_cryo.py`): depth band 25 mm from the outer surface of the muscle compartment
+(muscle+bone classes closed and filled) instead of 40 mm from the skin, window 113 mm (130 x her
+scapula ratio 0.87), and below the humeral head (40 mm under its top) only the lateral +-80 deg
+wedge about the humerus within 40 mm. Result 226 / 282 cm3, the overlays a lateral shell converging
+on the tuberosity; the left is still 1.6x his rule value where the lean sections predict 0.77, so
+it stays badged with that note.
+
 **Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
 -> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
 volume ratio against the ratio the driving bones predict, and for muscles against the

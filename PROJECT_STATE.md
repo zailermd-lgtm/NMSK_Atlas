@@ -1312,10 +1312,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       phalanges now ship from his CT feet block (`ct_vhm_foot`, mapping labels 5/6, legs-block origin
       -8.755,-202.476,5.677 = the torso origin minus the legs->torso offset), listed before vhm_both; CT boxes within
       10 mm of the DU ones, volumes 40.2 / 6.6 cm3. Docs (GEOMETRY_SOURCES, VIEWER_README), template label updated.
-- [ ] Q46 (added 18:10) Her deltoid by the male's rule on the CORRECTED frame is 357/331 cm3 (his 232/180, textbook
-      350-500 for men): over-inclusive on her -- likely the 40 mm skin depth window now captures subcutaneous-fat-bounded
-      muscle of the arm/pectoral region; tighten (fascial boundary at 0.33 mm, or the scapular spine as the posterior
-      limit) and re-record; likewise check her left triceps/brachialis (0.42/0.45 of his after bone scaling).
+- [x] Q46 (19:20) Her deltoid rule v2: overlays on her photographs showed the male's rule swallowing the whole arm
+      section below the axilla (her thin arm lies inside the 40 mm skin band) and the fixed 130 mm window reaching below
+      her deltoid. v2: depth band 25 mm from the muscle-compartment surface (not the skin), window 113 mm (scapula
+      ratio), lateral +-80 deg wedge about the humerus below the head. 377/348 -> 226/282 cm3 (his rule 232/180;
+      lean sections predict ~0.77 of his, so the left is still high -- the anterior part over pectoralis at the cap
+      level is the remaining suspect). Reconverted, female viewer Version 17; VIEWER_README row, GEOMETRY_SOURCES,
+      template label updated. Her left triceps/brachialis (0.42/0.45 of his) not touched (arm rules, Q48-adjacent).
 - [x] Q47 (18:55) His orbit: 10 of his 13 frozen-CT orbit pieces are under half of hers (inferior_oblique_r 0.10 vs
       0.73, inferior_rectus_l 0.08 vs 0.64, lateral_rectus_l 0.17 vs 0.78, superior_obliques 0.16 vs 0.43 ...); those
       ten plus the two superior recti now ship transferred from her (`xfer_vhf2vhm`, 18 structures, listed before

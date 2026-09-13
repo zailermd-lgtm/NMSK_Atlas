@@ -3,7 +3,7 @@
  "_README": [
   "Re-check every structure both bodies carry, at matched scale.",
   "Flags: residual < 0.6 LOW, > 1.6 HIGH (vs the lean-section expectation for muscles where one exists, else vs bones). 'same_method' lists the ids the same pipeline produced on both bodies.",
-  "2026-09-13, 18:40: male side read from build/viewer_m (Version 27: his left metatarsals/phalanges from his CT, the DU left foot having filed metatarsal heads under phalanges); the metatarsals_l flag is gone; phalanges_foot_l and tarsals_r stay flagged against a bone-scale expectation dominated by the tibia/fibula affines (tarsal boxes are near-isotropic and the transfer's driving-bone weighting is not a foot-size measure), and the two feet agree side to side on each body."
+  "2026-09-13, 19:20: female deltoid rule v2 (226/282 cm3, was 377/348)."
  ],
  "lean_section_ratios_female_over_male": {
   "thigh_45pct_femur": 0.495,
@@ -11,7 +11,7 @@
   "pelvis_abdomen_y40_250": 0.884,
   "thorax_y250_450": 0.845
  },
- "n": 138,
+ "n": 128,
  "flagged": [
   "abdominal_aorta",
   "aortic_arch_and_great_vessels",
@@ -21,25 +21,14 @@
   "common_iliac_a_l",
   "common_iliac_a_r",
   "deltoid_l",
-  "deltoid_r",
   "external_oblique_l",
-  "inferior_oblique_r",
-  "inferior_rectus_l",
-  "inferior_rectus_r",
   "internal_oblique_r",
-  "lateral_rectus_l",
-  "lateral_rectus_r",
-  "levator_palpebrae_superioris_r",
-  "medial_rectus_r",
-  "optic_n",
   "pectoralis_major_r",
   "phalanges_foot_l",
   "radius_r",
   "scalenus_posterior_l",
   "subclavian_a_l",
   "subclavian_a_r",
-  "superior_oblique_l",
-  "superior_oblique_r",
   "tarsals_r",
   "thyrohyoid_l",
   "thyrohyoid_r",
@@ -48,19 +37,8 @@
  "same_method_flagged": [
   "brachialis_l",
   "deltoid_l",
-  "deltoid_r",
-  "inferior_oblique_r",
-  "inferior_rectus_l",
-  "inferior_rectus_r",
-  "lateral_rectus_l",
-  "lateral_rectus_r",
-  "levator_palpebrae_superioris_r",
-  "medial_rectus_r",
-  "optic_n",
   "pectoralis_major_r",
   "scalenus_posterior_l",
-  "superior_oblique_l",
-  "superior_oblique_r",
   "thyrohyoid_l",
   "thyrohyoid_r",
   "triceps_brachii_l"
@@ -367,12 +345,12 @@
    "male_subject": "ct_vhm_delt",
    "female_subject": "ct_vhf_delt",
    "male_cm3": 180.0,
-   "female_cm3": 330.7,
-   "female_over_male": 1.838,
+   "female_cm3": 267.2,
+   "female_over_male": 1.485,
    "expected_from_bones": 0.747,
-   "residual": 2.46,
+   "residual": 1.988,
    "expected_from_lean_sections": 0.767,
-   "residual_vs_lean": 2.396,
+   "residual_vs_lean": 1.936,
    "flag": "HIGH"
   },
   {
@@ -382,13 +360,13 @@
    "male_subject": "ct_vhm_delt",
    "female_subject": "ct_vhf_delt",
    "male_cm3": 231.7,
-   "female_cm3": 356.8,
-   "female_over_male": 1.54,
+   "female_cm3": 206.5,
+   "female_over_male": 0.891,
    "expected_from_bones": 0.772,
-   "residual": 1.995,
+   "residual": 1.155,
    "expected_from_lean_sections": 0.775,
-   "residual_vs_lean": 1.987,
-   "flag": "HIGH"
+   "residual_vs_lean": 1.15,
+   "flag": ""
   },
   {
    "atlas_id": "descending_thoracic_aorta",
@@ -714,45 +692,6 @@
    "flag": ""
   },
   {
-   "atlas_id": "inferior_oblique_r",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.1,
-   "female_cm3": 0.7,
-   "female_over_male": 7.096,
-   "expected_from_bones": 0.942,
-   "residual": 7.532,
-   "flag": "HIGH"
-  },
-  {
-   "atlas_id": "inferior_rectus_l",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.1,
-   "female_cm3": 0.6,
-   "female_over_male": 8.339,
-   "expected_from_bones": 0.945,
-   "residual": 8.827,
-   "flag": "HIGH"
-  },
-  {
-   "atlas_id": "inferior_rectus_r",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.4,
-   "female_cm3": 0.7,
-   "female_over_male": 2.033,
-   "expected_from_bones": 0.945,
-   "residual": 2.152,
-   "flag": "HIGH"
-  },
-  {
    "atlas_id": "inferior_vena_cava",
    "category": "vessel",
    "region": null,
@@ -852,32 +791,6 @@
    "flag": ""
   },
   {
-   "atlas_id": "lateral_rectus_l",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.2,
-   "female_cm3": 0.8,
-   "female_over_male": 4.508,
-   "expected_from_bones": 0.945,
-   "residual": 4.769,
-   "flag": "HIGH"
-  },
-  {
-   "atlas_id": "lateral_rectus_r",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.4,
-   "female_cm3": 0.8,
-   "female_over_male": 2.172,
-   "expected_from_bones": 0.945,
-   "residual": 2.298,
-   "flag": "HIGH"
-  },
-  {
    "atlas_id": "latissimus_dorsi_l",
    "category": "muscle",
    "region": "trunk",
@@ -919,19 +832,6 @@
    "expected_from_bones": 0.95,
    "residual": 0.862,
    "flag": ""
-  },
-  {
-   "atlas_id": "levator_palpebrae_superioris_r",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.4,
-   "female_cm3": 0.9,
-   "female_over_male": 2.434,
-   "expected_from_bones": 0.95,
-   "residual": 2.562,
-   "flag": "HIGH"
   },
   {
    "atlas_id": "levator_scapulae_l",
@@ -1085,19 +985,6 @@
    "flag": ""
   },
   {
-   "atlas_id": "medial_rectus_r",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.4,
-   "female_cm3": 0.8,
-   "female_over_male": 2.088,
-   "expected_from_bones": 0.948,
-   "residual": 2.203,
-   "flag": "HIGH"
-  },
-  {
    "atlas_id": "metacarpals_r",
    "category": "bone",
    "region": "upper_limb",
@@ -1165,19 +1052,6 @@
    "expected_from_lean_sections": 0.77,
    "residual_vs_lean": 1.125,
    "flag": ""
-  },
-  {
-   "atlas_id": "optic_n",
-   "category": "nerve",
-   "region": null,
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.3,
-   "female_cm3": 1.0,
-   "female_over_male": 2.997,
-   "expected_from_bones": 0.947,
-   "residual": 3.165,
-   "flag": "HIGH"
   },
   {
    "atlas_id": "patella_l",
@@ -1720,32 +1594,6 @@
    "expected_from_lean_sections": 0.748,
    "residual_vs_lean": 1.157,
    "flag": ""
-  },
-  {
-   "atlas_id": "superior_oblique_l",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.2,
-   "female_cm3": 0.4,
-   "female_over_male": 2.576,
-   "expected_from_bones": 0.95,
-   "residual": 2.712,
-   "flag": "HIGH"
-  },
-  {
-   "atlas_id": "superior_oblique_r",
-   "category": "muscle",
-   "region": "head",
-   "male_subject": "ct_vhm_orbit",
-   "female_subject": "ct_vhf_orbit",
-   "male_cm3": 0.2,
-   "female_cm3": 0.4,
-   "female_over_male": 2.469,
-   "expected_from_bones": 0.951,
-   "residual": 2.596,
-   "flag": "HIGH"
   },
   {
    "atlas_id": "superior_vena_cava",
