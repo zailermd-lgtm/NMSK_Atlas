@@ -9,7 +9,7 @@ size on her, but the boundaries between neighbouring muscles are his. Her photog
 septa as bright fascial lines between dark muscle bellies. Per 1 mm slice of her registered frame:
 the transferred meshes are voxelised into the frame grid; markers = each transferred muscle's mask
 eroded by 3 mm (its whole mask where the erosion empties); region = her muscle class (closed, filled)
-within 6 mm of the union of transferred masks; a marker watershed on the white top-hat of the
+within 4 mm of the union of transferred masks, her own model-segmented muscles excluded; a marker watershed on the white top-hat of the
 brightness (fascial lines are ridges) reassigns the region to the markers, each muscle allowed to
 move at most 8 mm from its transferred mask. Output: a label volume in her frame (torso RAS) for
 `ingest_volume_geometry.py convert` (label key mappings/vhf_xfer_septa_labels.json), a report with
@@ -33,7 +33,7 @@ from skimage.segmentation import watershed
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
-ERODE_PX, DILATE_PX, MAX_MOVE_PX = 3, 6, 8
+ERODE_PX, DILATE_PX, MAX_MOVE_PX = 3, 4, 8
 SOURCE = ("U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections via the NCI Imaging "
           "Data Commons; the transferred muscle set from the male's DU lower-limb release (Andreassen et al. 2023, Sci Data 10:34, "
           "doi:10.1038/s41597-022-01905-2, CC BY 4.0). Derived data (scripts/transfer/refine_transfer_to_septa.py).")
@@ -116,7 +116,7 @@ def main():
             near = ndi.binary_dilation(L == l, iterations=MAX_MOVE_PX)
             res[(ws == l) & near] = l
         # transferred pixels the watershed left unassigned (outside her muscle class) keep their label if inside tissue
-        keep = (res == 0) & union & (c > 0)
+        keep = (res == 0) & union & ndi.binary_dilation(c == 3, iterations=3)   # not into her subcutaneous fat
         res[keep] = L[keep]
         out[k] = res; moved_px.append(int((res != L).sum()))
     after = {aid: int((out == l).sum()) for aid, l in lab_of.items()}

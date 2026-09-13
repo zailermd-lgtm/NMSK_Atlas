@@ -41,6 +41,12 @@ if [ ! -f build/vh/xfer_vhm2vhf/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
     --envelope-src data/derived/lean_envelope_vhm.json --envelope-dst data/derived/lean_envelope_vhf.json \
     --skin-nii $SKIN --skin-origin="$O" -o build/vh/xfer_vhm2vhf --report data/derived/transfer_report_vhm2vhf.json 2>&1 | grep -v Deprec | head -1 | cut -c1-200
 fi
+# the transferred lower-limb muscles with their boundaries refined to HER septa (scripts/transfer/refine_transfer_to_septa.py,
+# label volume in the repo); listed BEFORE xfer_vhm2vhf so the refined muscle wins and the unrefined transfer supplies the rest
+if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
+  conv $T/vhf_xfer_lowerlimb_septa.nii.gz vhf_xfer_septa xfer_vhm2vhf_sep --smooth 1.0
+  [ -f build/vh/xfer_vhm2vhf_sep/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep"
+fi
 [ -f build/vh/xfer_vhm2vhf/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1
