@@ -1,8 +1,8 @@
 {
- "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male and female CT and cryosections via the NCI Imaging Data Commons; lower-limb geometry Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2 (CC BY 4.0). Derived data, measured by the named script.",
  "_README": [
   "Differences between the two Visible Human bodies, measured on the shipped meshes and CTs. Atlas frame: +X right, +Y superior, +Z anterior, mm, origin at the hip joint centres. Used by scripts/transfer/cross_subject_transfer.py; see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'."
  ],
+ "source": "Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB (2023) 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34, doi:10.1038/s41597-022-01905-2 (Methods: donor data as supplied by NLM); retrieved via PubMed/PMC (PMC9849470); measurements: NLM Visible Human Project male and female CT and cryosections via the NCI Imaging Data Commons (public domain), derived by this script",
  "published": {
   "source": "Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB (2023) 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34, doi:10.1038/s41597-022-01905-2 (Methods: donor data as supplied by NLM); retrieved via PubMed/PMC (PMC9849470)",
   "male": {
@@ -918,59 +918,59 @@
      "subject": "ct_vhf"
     },
     "deltoid_r": {
-     "volume_cm3": 210.1,
+     "volume_cm3": 356.8,
      "subject": "ct_vhf_delt"
     },
     "deltoid_l": {
-     "volume_cm3": 201.0,
+     "volume_cm3": 330.7,
      "subject": "ct_vhf_delt"
     },
     "supraspinatus_r": {
-     "volume_cm3": 39.9,
+     "volume_cm3": 42.5,
      "subject": "ct_vhf_cuff"
     },
     "supraspinatus_l": {
-     "volume_cm3": 44.7,
+     "volume_cm3": 49.3,
      "subject": "ct_vhf_cuff"
     },
     "infraspinatus_r": {
-     "volume_cm3": 209.0,
+     "volume_cm3": 287.5,
      "subject": "ct_vhf_cuff"
     },
     "infraspinatus_l": {
-     "volume_cm3": 196.0,
+     "volume_cm3": 274.1,
      "subject": "ct_vhf_cuff"
     },
     "subscapularis_r": {
-     "volume_cm3": 189.0,
+     "volume_cm3": 243.6,
      "subject": "ct_vhf_cuff"
     },
     "subscapularis_l": {
-     "volume_cm3": 172.5,
+     "volume_cm3": 224.3,
      "subject": "ct_vhf_cuff"
     },
     "biceps_brachii_r": {
-     "volume_cm3": 360.3,
+     "volume_cm3": 274.9,
      "subject": "ct_vhf_armm"
     },
     "biceps_brachii_l": {
-     "volume_cm3": 414.5,
+     "volume_cm3": 395.5,
      "subject": "ct_vhf_armm"
     },
     "triceps_brachii_r": {
-     "volume_cm3": 264.0,
+     "volume_cm3": 314.3,
      "subject": "ct_vhf_armm"
     },
     "triceps_brachii_l": {
-     "volume_cm3": 291.9,
+     "volume_cm3": 322.4,
      "subject": "ct_vhf_armm"
     },
     "brachialis_r": {
-     "volume_cm3": 105.5,
+     "volume_cm3": 104.2,
      "subject": "ct_vhf_armm"
     },
     "brachialis_l": {
-     "volume_cm3": 70.1,
+     "volume_cm3": 84.8,
      "subject": "ct_vhf_armm"
     },
     "pectoralis_major_r": {
@@ -1062,11 +1062,11 @@
      "subject": "ct_vhf_abd"
     },
     "pectoralis_minor_r": {
-     "volume_cm3": 36.3,
+     "volume_cm3": 31.4,
      "subject": "ct_vhf_pmr"
     },
     "pectoralis_minor_l": {
-     "volume_cm3": 27.4,
+     "volume_cm3": 20.5,
      "subject": "ct_vhf_pmr"
     },
     "sternocleidomastoid_r": {
@@ -1099,17 +1099,17 @@
      -886.2,
      847.8
     ],
-    "volume_L_whole_mesh": 92.0,
-    "width_chest_y350_mm": 528.2,
-    "ap_depth_chest_y350_mm": 246.2,
-    "width_waist_y150_mm": 420.5,
-    "ap_depth_waist_y150_mm": 285.0,
-    "width_mid_thigh_y-200_mm": 333.5,
-    "ap_depth_mid_thigh_y-200_mm": 176.5,
-    "width_knee_y-420_mm": 247.0,
-    "ap_depth_knee_y-420_mm": 131.8,
-    "width_calf_y-600_mm": 203.5,
-    "ap_depth_calf_y-600_mm": 103.8
+    "volume_L_whole_mesh": 86.1,
+    "width_chest_y350_mm": 523.0,
+    "ap_depth_chest_y350_mm": 224.5,
+    "width_waist_y150_mm": 415.2,
+    "ap_depth_waist_y150_mm": 259.8,
+    "width_mid_thigh_y-200_mm": 331.5,
+    "ap_depth_mid_thigh_y-200_mm": 161.5,
+    "width_knee_y-420_mm": 246.8,
+    "ap_depth_knee_y-420_mm": 130.2,
+    "width_calf_y-600_mm": 206.2,
+    "ap_depth_calf_y-600_mm": 104.0
    },
    "stature_proxy_mm": 1726.5,
    "stature_proxy_note": "top of the cranium mesh to the lowest foot-bone vertex along the table axis; the feet are plantar-flexed on both cadavers so this overstates standing height by the foot's plantar flexion, equally on both",
@@ -1148,43 +1148,43 @@
    "cryo_classes": {
     "pelvis_abdomen_y40_250": {
      "slices": 21,
-     "fat_fraction": 0.547,
-     "muscle_fraction": 0.395,
-     "body_area_cm2": 844.0,
-     "fat_area_cm2": 461.7,
-     "muscle_area_cm2": 333.3
+     "fat_fraction": 0.524,
+     "muscle_fraction": 0.401,
+     "body_area_cm2": 853.6,
+     "fat_area_cm2": 447.4,
+     "muscle_area_cm2": 341.9
     },
     "thorax_y250_450": {
      "slices": 20,
-     "fat_fraction": 0.366,
-     "muscle_fraction": 0.557,
-     "body_area_cm2": 781.5,
-     "fat_area_cm2": 286.1,
-     "muscle_area_cm2": 435.1
+     "fat_fraction": 0.353,
+     "muscle_fraction": 0.571,
+     "body_area_cm2": 832.9,
+     "fat_area_cm2": 294.4,
+     "muscle_area_cm2": 475.4
     },
     "thigh_45pct_femur": {
      "slices": 1,
-     "fat_fraction": 0.502,
-     "muscle_fraction": 0.451,
-     "body_area_cm2": 335.2,
-     "fat_area_cm2": 168.2,
-     "muscle_area_cm2": 151.0
+     "fat_fraction": 0.487,
+     "muscle_fraction": 0.477,
+     "body_area_cm2": 459.3,
+     "fat_area_cm2": 223.8,
+     "muscle_area_cm2": 219.1
     },
     "thigh_70pct_femur": {
      "slices": 1,
-     "fat_fraction": 0.765,
-     "muscle_fraction": 0.162,
-     "body_area_cm2": 272.1,
-     "fat_area_cm2": 208.0,
-     "muscle_area_cm2": 44.1
+     "fat_fraction": 0.516,
+     "muscle_fraction": 0.439,
+     "body_area_cm2": 321.6,
+     "fat_area_cm2": 166.0,
+     "muscle_area_cm2": 141.3
     },
     "calf_mid_tibia": {
      "slices": 1,
-     "fat_fraction": 0.391,
-     "muscle_fraction": 0.329,
-     "body_area_cm2": 109.1,
-     "fat_area_cm2": 42.6,
-     "muscle_area_cm2": 35.9
+     "fat_fraction": 0.37,
+     "muscle_fraction": 0.418,
+     "body_area_cm2": 174.3,
+     "fat_area_cm2": 64.6,
+     "muscle_area_cm2": 72.8
     },
     "note": "female cryosections at 1 mm registered to her CT; classes scripts/cryo/cryo_classes_f.py; fractions of the filled body silhouette"
    }
@@ -1346,72 +1346,72 @@
    "female_subject": "ct_vhf"
   },
   "deltoid_r": {
-   "volume_cm3": 0.907,
+   "volume_cm3": 1.54,
    "male_subject": "ct_vhm_delt",
    "female_subject": "ct_vhf_delt"
   },
   "deltoid_l": {
-   "volume_cm3": 1.117,
+   "volume_cm3": 1.837,
    "male_subject": "ct_vhm_delt",
    "female_subject": "ct_vhf_delt"
   },
   "supraspinatus_r": {
-   "volume_cm3": 0.732,
+   "volume_cm3": 0.78,
    "male_subject": "ct_vhm_cuff",
    "female_subject": "ct_vhf_cuff"
   },
   "supraspinatus_l": {
-   "volume_cm3": 0.753,
+   "volume_cm3": 0.83,
    "male_subject": "ct_vhm_cuff",
    "female_subject": "ct_vhf_cuff"
   },
   "infraspinatus_r": {
-   "volume_cm3": 0.649,
+   "volume_cm3": 0.893,
    "male_subject": "ct_vhm_cuff",
    "female_subject": "ct_vhf_cuff"
   },
   "infraspinatus_l": {
-   "volume_cm3": 0.627,
+   "volume_cm3": 0.877,
    "male_subject": "ct_vhm_cuff",
    "female_subject": "ct_vhf_cuff"
   },
   "subscapularis_r": {
-   "volume_cm3": 0.672,
+   "volume_cm3": 0.866,
    "male_subject": "ct_vhm_cuff",
    "female_subject": "ct_vhf_cuff"
   },
   "subscapularis_l": {
-   "volume_cm3": 0.616,
+   "volume_cm3": 0.8,
    "male_subject": "ct_vhm_cuff",
    "female_subject": "ct_vhf_cuff"
   },
   "biceps_brachii_r": {
-   "volume_cm3": 0.759,
+   "volume_cm3": 0.579,
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm"
   },
   "biceps_brachii_l": {
-   "volume_cm3": 0.877,
+   "volume_cm3": 0.837,
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm"
   },
   "triceps_brachii_r": {
-   "volume_cm3": 0.391,
+   "volume_cm3": 0.466,
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm"
   },
   "triceps_brachii_l": {
-   "volume_cm3": 0.383,
+   "volume_cm3": 0.423,
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm"
   },
   "brachialis_r": {
-   "volume_cm3": 0.794,
+   "volume_cm3": 0.784,
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm"
   },
   "brachialis_l": {
-   "volume_cm3": 0.371,
+   "volume_cm3": 0.449,
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm"
   },
@@ -1526,12 +1526,12 @@
    "female_subject": "ct_vhf_abd"
   },
   "pectoralis_minor_r": {
-   "volume_cm3": 0.605,
+   "volume_cm3": 0.523,
    "male_subject": "ct_vhm_pmr",
    "female_subject": "ct_vhf_pmr"
   },
   "pectoralis_minor_l": {
-   "volume_cm3": 0.682,
+   "volume_cm3": 0.51,
    "male_subject": "ct_vhm_pmr",
    "female_subject": "ct_vhf_pmr"
   },

@@ -1071,7 +1071,7 @@ If no unchecked item is feasible: check both viewers are the latest published ve
 Rules for every wake: read this section; check running jobs in the
 scratchpad (`vhm_ts/*.log`, `vh_cryo/*.log`); take the first unchecked
 item; verify with a render/volume before shipping; tests must pass;
-commit + push; republish the viewer (same URL) when the bundle changed;
+commit + push; republish the viewer (same URL; male c5d01522, female 0651399d) when the bundle changed;
 tick the item here with a one-line result. Never fabricate; keep the
 "badged, rule-based" honesty. If blocked, write why and move on.
 
@@ -1263,6 +1263,63 @@ tick the item here with a one-line result. Never fabricate; keep the
       tracks continuously for >100 mm.
 - [x] Q8 (16:10) rule-based table with VH volumes vs textbook ranges added to GEOMETRY_SOURCES. Was: GEOMETRY_SOURCES "what is rule-based" table
       with volumes vs textbook ranges; README for the viewer badges.
+
+- [x] Q44 (2026-09-13, 13:00 -> 18:10, user instruction while away: "beware of noncompatible models -- make them
+      compatible, remember the differences (sex, height, fat, weight); correct the data before inserting it into
+      either model; recheck previous data; where a model lacks something, learn the male/female difference and use
+      one model to enhance the other with the modifications needed"). DONE, in four parts:
+      (1) MEASURED DIFFERENCES `data/derived/subject_anthropometrics.json` (scripts/transfer/subject_anthropometrics.py):
+      published donors (Andreassen 2023, Sci Data 10:34, via PubMed/PMC): male 39 y 180 cm 90 kg BMI 27.8, female 59 y
+      157 cm 88 kg BMI 36; measured on the meshes: femur 0.88, tibia 0.84, scapula/clavicle/sternum 0.85-0.89, pelvis
+      1.05, cranium 1.0 of his; photographs (same colour-class method on both; his frozen CT cannot separate fat, both
+      HU peaks at -20): thigh fat 23 % vs 49 %, thigh muscle 442 vs 219 cm2 (0.50), calf 91 vs 73, trunk fat 45/28 %
+      vs 52/35 %; her glutei/iliopsoas 0.33-0.62 of his. Male cryosections streamed every 10th mm for this (188 slices).
+      (2) TRANSFER (scripts/transfer/cross_subject_transfer.py + bone_frames.py + lean_envelope.py + build_envelopes.py):
+      per-bone PCA frames on both bodies, box-to-box affines blended by inverse-square distance over the region's three
+      nearest bones (his right hand lies beside his thigh: candidates restricted by atlas region); lower-limb muscles
+      then re-placed radially inside HER muscle compartment (envelope of his DU muscles per 10 mm level x 36 directions
+      -> her outermost muscle-class pixel / skin along the ray in her photographs x her skin mesh) and scaled to her
+      measured muscle cross-section (fill 0.97 thigh, 1.09 calf). Female viewer Version 16: +85 badged structures
+      (`xfer_vhm2vhf`: 60 DU lower-limb muscles, knee ligaments, hip/knee/ankle cartilage, coccyx, his rule-based
+      rhomboids/coracobrachialis/transversus; source trust recorded per structure); at most 4 % of any structure's
+      vertices outside her skin; vastus lateralis 1127 -> 453 cm3, rectus femoris 413 -> 162, soleus 685 -> 395, adductor
+      magnus 1138 -> 778 (data/derived/transfer_report_vhm2vhf.json). NOT transferred: his left radius/ulna/hand (her
+      left forearm lies outside her CT: no driving bone). Male viewer Version 26: rebuilt from the bundle recovered from
+      its published page (data/derived/viewer_bundles/vhm_v25 -- the DU STL hosts stay denied, this is the only copy that
+      survives a reset; scripts/transfer/bundle_to_subjects.py) + 8 from her (`xfer_vhf2vhm`: digastric, internal
+      carotid, internal jugular, superior rectus); her temporal/zygomatic pieces are 2 mm label fragments (refused).
+      Exporter fix: non-finite anchor points broke the viewer's JSON.parse.
+      (3) RECHECK OF PREVIOUS DATA -- the big one: her cryosection frame was 47-90 mm TOO HIGH over the whole body below
+      the neck (scripts/cryo/vhf_check_frame_z.py: pixel-wise fat/muscle Dice of each CT slice against the photographs,
+      57 levels, data/derived/vhf_cryo_frame_z_survey.json; the z line had been fitted without the thorax anchors).
+      Corrected in place (vhf_correct_frame_z.py, v1 arrays kept; re-check 0 +- 5 mm). Everything shipped from her
+      photographs was re-derived on the corrected frame (scripts/cryo/vhf_rebuild_after_frame_fix.sh): deltoid 225/213
+      -> 357/331 cm3 (now HIGH vs his 232/180 rule value: the rule over-includes on her, Q46), supraspinatus 45/50 ->
+      43/53, infraspinatus+teres minor 235/216 -> 288/297, subscapularis 230/210 -> 244/260, biceps 394/456 -> 275/444,
+      brachialis 111/74 -> 104/92, triceps 295/315 -> 314/346, pec minor 42/31 -> 31/26, skin union arms re-cut,
+      depth table regenerated. Scale audit of the 138 shared structures (scripts/transfer/cross_subject_scale_audit.py
+      -> data/derived/cross_subject_scale_audit.json): 32 flagged, of which same-method: her deltoid HIGH (rule), her
+      left triceps/brachialis LOW (0.42/0.45; her left arm rule volumes small), his orbit muscles 2-8x smaller than hers
+      (his frozen-CT orbit segmentation is degraded, Q47), her left foot phalanges 5.5 vs his 35 cm3 and her left
+      metatarsals 36 vs his 16 (the left foot's grouping planes misassign toes to metatarsals, Q45); the vessel flags are
+      ct_s1159 (a third body) vs her, not comparable; abdominal-wall flags are the known male rule over-inclusion (Q11).
+      (4) Docs: GEOMETRY_SOURCES 'Cross-subject transfer' + 'frame was 47-90 mm too high'; VIEWER_README badge rows;
+      template badges/subtitles; tests/test_transfer.py (4); full suite 153 pass; requirements + trimesh/shapely/rtree.
+- [ ] Q45 (added 18:10) Female LEFT foot grouping: phalanges_foot_l 5.5 cm3 vs right 7.2 and his 35; metatarsals_l 36
+      vs right 27 -- the 115/190 mm planes along the foot axis put her left toes into the metatarsal group. Re-derive the
+      left foot's planes from its own tibia axis and the metatarsal heads (scripts/vhf_lower_limb_bones.py), reconvert
+      ct_vhf_legs, republish.
+- [ ] Q46 (added 18:10) Her deltoid by the male's rule on the CORRECTED frame is 357/331 cm3 (his 232/180, textbook
+      350-500 for men): over-inclusive on her -- likely the 40 mm skin depth window now captures subcutaneous-fat-bounded
+      muscle of the arm/pectoral region; tighten (fascial boundary at 0.33 mm, or the scapular spine as the posterior
+      limit) and re-record; likewise check her left triceps/brachialis (0.42/0.45 of his after bone scaling).
+- [ ] Q47 (added 18:10) His orbit muscles from the frozen CT are 0.1-0.4 cm3 (hers 0.4-0.9): replace them on the male
+      viewer with the transferred female ones (extend cross_subject_transfer --ids to overwrite degenerate targets, badge)
+      or re-run the oculomotor task on his head block at 0.527 mm.
+- [ ] Q48 (added 18:10) The transfer keeps the DONOR's boundaries between neighbouring muscles; her photographs show
+      her own intermuscular septa (fascial lines) -- a per-muscle refinement by watershed inside the transferred masks
+      (as done for the male biceps/brachialis at 0.33 mm) would make the thigh compartments hers. Needs full-resolution
+      thigh crops (the arm-crop streamer generalised).
 
 - **VH female (Q9) results, 19:25**: `total` full (femoral heads r 24.4
   mm, rms 0.65/0.69; aorta 185 cm3 along its course); `abdominal_muscles`

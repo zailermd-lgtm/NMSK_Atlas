@@ -15,7 +15,7 @@ import numpy as np
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
-from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id  # noqa: E402
+from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id, own_only  # noqa: E402
 from scripts.transfer import lean_envelope as le  # noqa: E402
 
 
@@ -29,8 +29,8 @@ def main():
     ap.add_argument("--out-female", default="data/derived/lean_envelope_vhf.json")
     ap.add_argument("--frame-correction", default="data/derived/vhf_cryo_frame_y_correction.json")
     a = ap.parse_args()
-    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = meshes_by_id(bm, blob)
-    bf, blobf = read_bundle_dir(a.female_bundle); F = meshes_by_id(bf, blobf)
+    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = own_only(meshes_by_id(bm, blob))
+    bf, blobf = read_bundle_dir(a.female_bundle); F = own_only(meshes_by_id(bf, blobf))
 
     bones_m = {k: M[k]["v"] for k in ("femur_r", "femur_l", "tibia_r", "tibia_l")}
     bones_f = {k: F[k]["v"] for k in ("femur_r", "femur_l", "tibia_r", "tibia_l")}

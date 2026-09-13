@@ -33,7 +33,7 @@ from scipy.spatial import cKDTree
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
-from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id, mesh_volume_cm3  # noqa: E402
+from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id, mesh_volume_cm3, own_only  # noqa: E402
 from scripts.transfer.bone_frames import bone_frame, bone_affine, apply  # noqa: E402
 from scripts.transfer import lean_envelope as le  # noqa: E402
 
@@ -199,8 +199,8 @@ def main():
     ap.add_argument("--report", default=None)
     a = ap.parse_args()
 
-    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = meshes_by_id(bm, blob)
-    bf, blobf = read_bundle_dir(a.female_bundle); F = meshes_by_id(bf, blobf)
+    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = own_only(meshes_by_id(bm, blob))
+    bf, blobf = read_bundle_dir(a.female_bundle); F = own_only(meshes_by_id(bf, blobf))
     src, dst = (M, F) if a.direction == "m2f" else (F, M)
     src_name, dst_name = ("vhm", "vhf") if a.direction == "m2f" else ("vhf", "vhm")
     anthro = json.loads(Path(a.anthro).read_text()) if Path(a.anthro).exists() else {}

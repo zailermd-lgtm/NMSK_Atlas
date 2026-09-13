@@ -22,7 +22,7 @@ import numpy as np
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
-from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id, mesh_volume_cm3  # noqa: E402
+from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id, mesh_volume_cm3, own_only  # noqa: E402
 from scripts.transfer.bone_frames import bone_frame  # noqa: E402
 
 PUBLISHED = {
@@ -195,8 +195,8 @@ def main():
     ap.add_argument("--female-cryo-cls", help="her registered class frame (cryo_frame_cls.npy) + frame.json beside it")
     ap.add_argument("-o", "--out", default="data/derived/subject_anthropometrics.json")
     a = ap.parse_args()
-    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = meshes_by_id(bm, blob)
-    bf, blobf = read_bundle_dir(a.female_bundle); F = meshes_by_id(bf, blobf)
+    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = own_only(meshes_by_id(bm, blob))
+    bf, blobf = read_bundle_dir(a.female_bundle); F = own_only(meshes_by_id(bf, blobf))
     res = {"_README": ["Differences between the two Visible Human bodies, measured on the shipped meshes and CTs. "
                        "Atlas frame: +X right, +Y superior, +Z anterior, mm, origin at the hip joint centres. "
                        "Used by scripts/transfer/cross_subject_transfer.py; see docs/GEOMETRY_SOURCES.md "

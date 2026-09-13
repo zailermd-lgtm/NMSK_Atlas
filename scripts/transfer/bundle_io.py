@@ -60,6 +60,12 @@ def meshes_by_id(bundle, blob):
     return out
 
 
+def own_only(meshes):
+    """Drop structures a body received by cross-subject transfer (subject xfer_*): what a body
+    'has' for the purpose of the transfer, the audit and the anthropometrics is what was measured on it."""
+    return {k: m for k, m in meshes.items() if not str(m.get("subject", "")).startswith("xfer_")}
+
+
 def mesh_volume_cm3(v, f):
     a, b, c = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
     return abs(float(np.einsum("ij,ij->i", a, np.cross(b, c)).sum()) / 6.0) / 1000.0

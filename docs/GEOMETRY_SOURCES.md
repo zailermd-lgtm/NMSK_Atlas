@@ -921,18 +921,19 @@ Methods: retrieved via PubMed/PMC, PMC9849470).
 | hip bone height, bi-iliac width | 127 / 136 mm, 280 mm | 139 / 139 mm, 295 mm | 1.05, 1.05 (her pelvis is not smaller) |
 | scapula, clavicle, sternum | 196 / 191, 157 / 163, 193 mm | 174 / 163, 138 / 139, 161 mm | 0.85-0.89 |
 | cranium (length / width / depth) | 132 / 149 / 199 mm | 136 / 149 / 184 mm | 1.03 / 1.00 / 0.93 |
-| thigh at 45 % of the femur: section, fat, muscle (photographs, colour classes) | 680 cm2, 23 % fat, 65 % muscle (442 cm2) | 335 cm2, 50 % fat, 45 % muscle (151 cm2) | muscle 0.34 |
-| mid-tibia: section, fat, muscle | 191 cm2, 20 %, 48 % (91 cm2) | 109 cm2, 39 %, 33 % (36 cm2) | muscle 0.39 |
-| pelvis-abdomen (y 40..250): fat / muscle of the section | 45 % / 41 % | 55 % / 40 % | |
-| thorax (y 250..450) | 28 % / 54 % | 37 % / 56 % | |
+| thigh at 45 % of the femur: section, fat, muscle (photographs, colour classes) | 680 cm2, 23 % fat, 65 % muscle (442 cm2) | 459 cm2, 49 % fat, 48 % muscle (219 cm2) | muscle 0.50 |
+| mid-tibia: section, fat, muscle | 191 cm2, 20 %, 48 % (91 cm2) | 174 cm2, 37 %, 42 % (73 cm2) | muscle 0.80 |
+| pelvis-abdomen (y 40..250): fat / muscle of the section | 45 % / 41 % | 52 % / 40 % | |
+| thorax (y 250..450) | 28 % / 54 % | 35 % / 57 % | |
 | glutei, iliopsoas (his DU manual vs her CT model) | 1.0 | 0.33-0.62 of his | |
 
 Fat fractions come from the photographs on both bodies with the same colour classes (his
 frozen CT cannot separate fat from lean tissue: both HU peaks sit at -20; hers can, and her
 CT fat fractions 0.548 / 0.381 agree with her photographs 0.547 / 0.366). So: she is 13 %
 shorter with 12-16 % shorter long bones, a pelvis as large as his, a smaller thorax and
-shoulder girdle, twice his fat fraction, and lower-limb muscle a third of his by
-cross-section. Nothing of his can be pasted onto her at its own coordinates.
+shoulder girdle, twice his fat fraction at the thigh, and thigh muscle half of his by
+cross-section (these are the numbers AFTER the frame correction below; before it her
+thigh levels were read 70 mm too low and showed 151 cm2). Nothing of his can be pasted onto her at its own coordinates.
 
 **Bone frames and the map** (`scripts/transfer/bone_frames.py`, `cross_subject_transfer.py`).
 Every bone both bodies carry gets a frame per body: principal axes with signs fixed to the
@@ -953,13 +954,14 @@ the muscle compartment on him (the envelope of his own DU muscles, per 10 mm lev
 directions) is kept on her, where the compartment radius is the outermost muscle-class
 pixel along the ray in her registered photographs, as a fraction of her skin radius, times
 her measured skin mesh. Then a fill correction: the transferred muscles filled her
-compartment the way his fill his, but her photographs say only 151 cm2 of the 225 cm2
-compartment at 45 % of the femur is muscle (the rest is fat between and inside the
-bellies), so every thigh muscle is scaled about its own axis by sqrt(151+44 / 225+123) =
-0.75 and every calf muscle by 0.76. Result: 0.0 % of transferred vertices outside her skin
-(max 2 % on one ankle cartilage), thigh muscle cross-section matching her measured lean
-area, vastus lateralis 1127 -> 257 cm3, soleus 685 -> 194 cm3, adductor magnus 1138 -> 494
-cm3 (`data/derived/transfer_report_vhm2vhf.json` has every structure).
+compartment the way his fill his; her photographs say how much of the compartment is
+muscle tissue (219 cm2 at 45 % of the femur against 239 cm2 transferred, 141 vs 146 at
+70 %, 73 vs 62 at mid-tibia), so every thigh muscle is scaled about its own axis by
+sqrt(219+141 / 239+146) = 0.97 and every calf muscle by 1.09. Result: at most 4 % of any
+transferred structure's vertices outside her skin (rectus femoris, at its anterior face),
+thigh muscle cross-section matching her measured lean area, vastus lateralis 1127 -> 453
+cm3, rectus femoris 413 -> 162, soleus 685 -> 395, adductor magnus 1138 -> 778 cm3
+(`data/derived/transfer_report_vhm2vhf.json` has every structure).
 
 **What crossed, what did not.** Male -> female (`xfer_vhm2vhf`, 85 structures): the 60 DU
 lower-limb muscles, 12 knee ligaments/cartilages and hip/ankle cartilages, coccyx, and his
