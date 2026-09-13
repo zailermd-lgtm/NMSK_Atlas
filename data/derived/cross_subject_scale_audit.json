@@ -3,7 +3,7 @@
  "_README": [
   "Re-check every structure both bodies carry, at matched scale.",
   "Flags: residual < 0.6 LOW, > 1.6 HIGH (vs the lean-section expectation for muscles where one exists, else vs bones). 'same_method' lists the ids the same pipeline produced on both bodies.",
-  "2026-09-13, 20:50: female arm rule v2 (humerus located in the photographs)."
+  "2026-09-13, 22:20: male arm rule v2 (build/viewer_m V29)."
  ],
  "lean_section_ratios_female_over_male": {
   "thigh_45pct_femur": 0.495,
@@ -16,7 +16,8 @@
   "abdominal_aorta",
   "aortic_arch_and_great_vessels",
   "biceps_brachii_l",
-  "biceps_brachii_r",
+  "brachialis_l",
+  "brachialis_r",
   "common_carotid_a_l",
   "common_carotid_a_r",
   "common_iliac_a_l",
@@ -32,20 +33,17 @@
   "subclavian_a_r",
   "tarsals_r",
   "thyrohyoid_l",
-  "thyrohyoid_r",
-  "triceps_brachii_l",
-  "triceps_brachii_r"
+  "thyrohyoid_r"
  ],
  "same_method_flagged": [
   "biceps_brachii_l",
-  "biceps_brachii_r",
+  "brachialis_l",
+  "brachialis_r",
   "deltoid_l",
   "pectoralis_major_r",
   "scalenus_posterior_l",
   "thyrohyoid_l",
-  "thyrohyoid_r",
-  "triceps_brachii_l",
-  "triceps_brachii_r"
+  "thyrohyoid_r"
  ],
  "rows": [
   {
@@ -80,13 +78,13 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 472.4,
+   "male_cm3": 391.7,
    "female_cm3": 177.1,
-   "female_over_male": 0.375,
-   "expected_from_bones": 0.772,
-   "residual": 0.486,
-   "expected_from_lean_sections": 0.775,
-   "residual_vs_lean": 0.484,
+   "female_over_male": 0.452,
+   "expected_from_bones": 0.774,
+   "residual": 0.584,
+   "expected_from_lean_sections": 0.776,
+   "residual_vs_lean": 0.583,
    "flag": "LOW"
   },
   {
@@ -95,14 +93,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 474.6,
+   "male_cm3": 400.2,
    "female_cm3": 208.5,
-   "female_over_male": 0.439,
-   "expected_from_bones": 0.798,
-   "residual": 0.551,
-   "expected_from_lean_sections": 0.784,
-   "residual_vs_lean": 0.56,
-   "flag": "LOW"
+   "female_over_male": 0.521,
+   "expected_from_bones": 0.788,
+   "residual": 0.661,
+   "expected_from_lean_sections": 0.78,
+   "residual_vs_lean": 0.668,
+   "flag": ""
   },
   {
    "atlas_id": "brachialis_l",
@@ -110,14 +108,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 188.7,
+   "male_cm3": 75.4,
    "female_cm3": 109.1,
-   "female_over_male": 0.578,
-   "expected_from_bones": 0.787,
-   "residual": 0.734,
+   "female_over_male": 1.447,
+   "expected_from_bones": 0.788,
+   "residual": 1.836,
    "expected_from_lean_sections": 0.78,
-   "residual_vs_lean": 0.741,
-   "flag": ""
+   "residual_vs_lean": 1.855,
+   "flag": "HIGH"
   },
   {
    "atlas_id": "brachialis_r",
@@ -125,14 +123,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 132.9,
+   "male_cm3": 48.9,
    "female_cm3": 106.2,
-   "female_over_male": 0.799,
-   "expected_from_bones": 0.811,
-   "residual": 0.985,
-   "expected_from_lean_sections": 0.788,
-   "residual_vs_lean": 1.014,
-   "flag": ""
+   "female_over_male": 2.17,
+   "expected_from_bones": 0.805,
+   "residual": 2.696,
+   "expected_from_lean_sections": 0.786,
+   "residual_vs_lean": 2.76,
+   "flag": "HIGH"
   },
   {
    "atlas_id": "brachiocephalic_trunk_r",
@@ -1799,14 +1797,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 762.2,
+   "male_cm3": 580.6,
    "female_cm3": 295.6,
-   "female_over_male": 0.388,
-   "expected_from_bones": 0.767,
-   "residual": 0.506,
-   "expected_from_lean_sections": 0.773,
-   "residual_vs_lean": 0.502,
-   "flag": "LOW"
+   "female_over_male": 0.509,
+   "expected_from_bones": 0.758,
+   "residual": 0.671,
+   "expected_from_lean_sections": 0.771,
+   "residual_vs_lean": 0.66,
+   "flag": ""
   },
   {
    "atlas_id": "triceps_brachii_r",
@@ -1814,14 +1812,14 @@
    "region": "upper_limb",
    "male_subject": "ct_vhm_armm",
    "female_subject": "ct_vhf_armm",
-   "male_cm3": 674.5,
+   "male_cm3": 517.2,
    "female_cm3": 246.4,
-   "female_over_male": 0.365,
-   "expected_from_bones": 0.758,
-   "residual": 0.482,
-   "expected_from_lean_sections": 0.771,
-   "residual_vs_lean": 0.474,
-   "flag": "LOW"
+   "female_over_male": 0.476,
+   "expected_from_bones": 0.755,
+   "residual": 0.631,
+   "expected_from_lean_sections": 0.769,
+   "residual_vs_lean": 0.619,
+   "flag": ""
   },
   {
    "atlas_id": "ulna_r",

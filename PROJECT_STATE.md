@@ -1340,13 +1340,19 @@ tick the item here with a one-line result. Never fabricate; keep the
       compartment nearest the CT label; 110/171 slices r/l) and cuts the arm island off the trunk (opening 6 px).
       biceps 322/444 -> 267/224, brachialis 112/92 -> 117/120, triceps 342/346 -> 303/337 cm3. Female viewer
       Version 19. Her biceps/triceps are 0.36-0.44 of HIS rule values (472/475, 675/762 cm3, far above textbook) -> Q51 on the male rule.
-- [ ] Q51 (added 20:50) His triceps by the male arm rule is 675/762 cm3 (textbook 350-450 for a man) and biceps
-      472/475 (textbook 200-300): the male compartment rule over-includes (deltoid/forearm/trunk spill?). His 1 mm cryo frame is gone
-      (only every 10th slice streamed); re-stream his arm levels (i 300-700, ~400 slices, 3 GB) and re-run
-      arm_compartments_from_cryo.py / name_arm_muscles_from_cryo.py with the photo-located humerus as for her.
-- [ ] Q50 (added 20:20) The male viewer's rebuild after a reset is now `scripts/vhm_rebuild_bundle.sh` (recovered
-      bundle + CT left forefoot + the female transfer); it reproduces Version 28. If the DU STL host is ever allowed,
-      replace the recovered decimated meshes with the originals (scripts/ingest_vh_geometry.py) and re-run.
+- [x] Q51 (22:20) His upper-arm compartments v2 without his lost frame: arm levels re-streamed (290 slices),
+      per-slice whole-body-centroid registration to his CT, humerus found in each photograph (seeded by his complete
+      humerus mesh; the frozen-CT label stops 100 mm below the head), deltoid/cuff/CT trunk labels and lateral forearm
+      origins excluded (scripts/cryo/vhm_arm_muscles_v2.py, volume in task_outputs, converts as ct_vhm_armm in
+      scripts/vhm_rebuild_bundle.sh). biceps 472/475 -> 452/432, brachialis -> 74/105, coracobrachialis -> 48/41,
+      triceps 675/762 -> 549/602 cm3 (label volumes; meshes after smoothing biceps 400/392, brachialis 49/75, triceps
+      517/581). Male viewer Version 29. Audit: her triceps flags clear; her left biceps stays LOW (0.45 of his) and
+      HIS brachialis (49/75) is now smaller than hers (106/109) -> the 22 mm "within the bone" brachialis band is too
+      tight for his thicker arm (Q52).
+- [ ] Q52 (added 22:20) Scale the brachialis band (22 mm from the bone) and the coracobrachialis band (15 mm) by the
+      arm's muscle-compartment radius on each body (his upper arm is ~1.3x hers in radius) in both arm rules, so the
+      compartments are split at the same relative depth; re-record both, re-audit.
+
 
 
 

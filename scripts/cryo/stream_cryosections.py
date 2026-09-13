@@ -8,7 +8,7 @@ Output: OUT_DIR/cryo_1mm.npy memmap (Z,Y,X,3) uint8, OUT_DIR/cryo_index.json [(o
 slices kept (superior first), OUT_DIR/done.json. Series: male 4aaf9181 (1878 slices, 1 mm apart, step 1);
 female 56f8119f (5186 slices, 0.33 mm apart, step 3 -> 1729 slices at 1 mm). Public domain (NLM VHP)."""
 import json, urllib.request, io, os, sys, argparse, numpy as np, pydicom, concurrent.futures as cf, time
-ap=argparse.ArgumentParser(); ap.add_argument("uuid"); ap.add_argument("out"); ap.add_argument("--step",type=int,default=3); ap.add_argument("--factor",type=int,default=3); ap.add_argument("--workers",type=int,default=6)
+ap=argparse.ArgumentParser(); ap.add_argument("uuid"); ap.add_argument("out"); ap.add_argument("--step",type=int,default=3); ap.add_argument("--factor",type=int,default=3); ap.add_argument("--workers",type=int,default=6); ap.add_argument("--start",type=int,default=0,help="first index in the z-ordered list (superior first)"); ap.add_argument("--stop",type=int,default=None,help="one past the last index")
 a=ap.parse_args(); B='idc-open-data'; O=a.out; os.makedirs(O,exist_ok=True); F=a.factor
 def objects():
     names=[]; tok=None
@@ -29,6 +29,7 @@ else:
     names=objects(); print("objects",len(names),flush=True)
     with cf.ThreadPoolExecutor(16) as ex: allidx=list(ex.map(head,names))
     allidx.sort(key=lambda t:-t[2]); idx=allidx[::a.step]; json.dump(idx,open(ip,"w")); print("indexed",len(allidx),"kept",len(idx),"z",idx[0][2],idx[-1][2],flush=True)
+idx=idx[a.start:a.stop]; json.dump(idx,open(ip,"w"))   # --start/--stop: a contiguous range of the ordered list (e.g. the arm levels only)
 Z=len(idx); R,C=idx[0][3],idx[0][4]; H,W=R//F,C//F
 vp=f"{O}/cryo_1mm.npy"; dp=f"{O}/done.json"
 vol=np.lib.format.open_memmap(vp,mode="r+" if os.path.exists(vp) else "w+",dtype=np.uint8,shape=(Z,H,W,3))

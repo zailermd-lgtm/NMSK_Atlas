@@ -1030,6 +1030,20 @@ Volumes biceps 322/444 -> 267/224, brachialis 112/92 -> 117/120, triceps 342/346
 his rule values (biceps 472/475, triceps 675/762 cm3) she is 0.38-0.44 on both -- his values are themselves
 far above textbook (biceps 200-300, triceps 350-450 cm3 for a man), so those flags now point at HIS rule (Q51).
 
+**His upper-arm rule, v2 (Q51, 2026-09-13).** The same defect as hers, fixed the same way, without his lost
+1 mm frame: his arm levels (cryo index 350-640, 290 slices) were re-streamed from IDC, each slice registered
+to his CT by whole-body silhouette centroid (translation; this series lies spine-up with the patient's left
+on the image right, checked on four levels), the humerus found in the photograph as the round non-muscle
+hole nearest his complete humerus mesh's section at that height (478 of 478 slices, 12.9 mm median from
+the mesh seed; his frozen-CT humerus label stops 100 mm below the head and cannot seed the lower arm),
+and the compartment rules applied with his deltoid, rotator cuff and CT-labelled trunk muscles and the
+forearm origins lateral of the bone excluded (`scripts/cryo/vhm_arm_muscles_v2.py`, label volume on his CT
+grid in the repository). Volumes biceps 472/475 -> 452/432, brachialis -> 74/105, coracobrachialis
+-> 48/41, triceps 675/762 -> 549/602 cm3: the compartment rule on a 90 kg man's arms; still rule-based
+and badged so (meshes after smoothing: biceps 400/392, brachialis 49/75, triceps 517/581). Her triceps now sit
+inside the audit's band against his; her left biceps stays low (0.45) and his brachialis comes out smaller than
+hers, which says the fixed 22 mm brachialis band suits her arm and not his thicker one (queued as Q52).
+
 **Recheck of what both bodies already had** (`scripts/transfer/cross_subject_scale_audit.py`
 -> `data/derived/cross_subject_scale_audit.json`): every shared structure's female/male
 volume ratio against the ratio the driving bones predict, and for muscles against the
