@@ -30,6 +30,7 @@ ap.add_argument("--origin-y", type=float, default=-895.476, help="atlas origin's
 ap.add_argument("--hum-y", default="590,250,603,262", help="humerus head top / lower end (atlas y) right, left")
 ap.add_argument("--px", type=float, default=0.99, help="photograph pixel after the 3x downsample, mm")
 ap.add_argument("--overlay", default=None)
+ap.add_argument("--brach-mm", type=float, default=22.0); ap.add_argument("--cor-mm", type=float, default=15.0)
 ap.add_argument("--bundle", default="data/derived/viewer_bundles/vhm_v25")
 ap.add_argument("--deltoid", default="data/ct_sources/task_outputs/vhm_deltoid_cryo.nii.gz"); ap.add_argument("--cuff", default="data/ct_sources/task_outputs/vhm_rotator_cuff_cryo.nii.gz")
 ap.add_argument("--total", default="data/ct_sources/task_outputs/vhm_total.nii.gz"); ap.add_argument("--abd", default="data/ct_sources/task_outputs/vhm_abdominal_muscles.nii.gz")
@@ -169,8 +170,8 @@ for j in range(len(idx)):
         musc &= ~((frac > 0.6) & lateral & (np.abs(xx - cx) * a.px > 25))
         o = np.zeros_like(lab_slice); p_ = musc & ~ant; o[p_] = base + 4
         # frac runs 0 at the top of the segment to 1 at the elbow: brachialis in the distal 65 %, coracobrachialis in the proximal 40 %
-        an = musc & ant; brach = an & (dh <= 22) & (frac > 0.35); o[brach] = base + 2
-        cor = an & (frac <= 0.4) & (dh <= 15) & medial; o[cor] = base + 3
+        an = musc & ant; brach = an & (dh <= a.brach_mm) & (frac > 0.35); o[brach] = base + 2
+        cor = an & (frac <= 0.4) & (dh <= a.cor_mm) & medial; o[cor] = base + 3
         o[an & ~brach & ~cor] = base + 1
         rr, cc_ = np.where(o > 0)
         x = T[2] - (cc_ - T[1]) * a.px; y = T[3] + (rr - T[0]) * a.px

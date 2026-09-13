@@ -7,7 +7,8 @@ through the humerus centre: posterior -> triceps brachii; anterior: within 22 mm
 -> brachialis; proximal 40 %, medial, within 15 mm -> coracobrachialis; the rest -> biceps brachii. Boundaries are
 rules, not traced fascia (the forearm is not attempted: its bones are not segmented, Q30). Badge; record volumes.
 Output vhf_ts/arm_muscles_cryo.nii.gz (torso RAS), report, crop renders."""
-import numpy as np, nibabel as nib, json
+import numpy as np, nibabel as nib, json, os
+BRACH_MM=float(os.environ.get("BRACH_MM","22")); COR_MM=float(os.environ.get("COR_MM","15"))   # Q52: bands scaled to the arm
 from scipy import ndimage as ndi
 from PIL import Image
 S="/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/"; D=S+"vh_cryo_f/"; R="/home/user/NMSK_Atlas/"; T=R+"data/ct_sources/task_outputs/"
@@ -67,8 +68,8 @@ for side,(cols,base,medial_sign) in {"right":(slice(0,300),0,+1),"left":(slice(4
         musc=ndi.binary_dilation(np.isin(el,keep),iterations=1)&mall
         ant=yy<cy; d=ndi.distance_transform_edt(~h); frac=(k-k0)/L
         o=out[k][:,cols]; a=musc&ant; p=musc&~ant; o[p]=base+4
-        brach=a&(d<=22)&(frac<0.65); o[brach]=base+2
-        cor=a&(frac>=0.6)&(d<=15)&(medial_sign*(xx-cx)>0); o[cor]=base+3
+        brach=a&(d<=BRACH_MM)&(frac<0.65); o[brach]=base+2
+        cor=a&(frac>=0.6)&(d<=COR_MM)&(medial_sign*(xx-cx)>0); o[cor]=base+3
         o[a&~brach&~cor]=base+1
 for name,v in OUT.items(): rep[name]=round(float((out==v).sum())/1000,1)
 rep["humerus_found_in_photo_slices"]=nfound; print("volumes cm3",rep,flush=True)
