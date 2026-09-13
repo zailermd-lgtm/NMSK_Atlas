@@ -1,0 +1,23 @@
+#!/bin/bash
+# Rebuild the Visible Human MALE viewer bundle from what the repository holds, after a container reset wiped build/.
+# His DU lower-limb STLs cannot be re-downloaded (hosts denied by the network policy) and his cryosection skin is not
+# stored, so the source is the bundle recovered from his published page (data/derived/viewer_bundles/vhm_v25,
+# decimated meshes) unpacked into per-subject folders, plus: his CT feet block for the LEFT metatarsals/phalanges
+# (the DU left foot files metatarsal heads under phalanges) and the structures transferred from the female
+# (head/neck pieces and the orbit muscles his frozen CT segmented at a fraction of their size). Idempotent.
+set -u; cd /home/user/NMSK_Atlas; T=data/ct_sources/task_outputs; B=data/derived/viewer_bundles/vhm_v25; mkdir -p build/vh
+[ -f build/vh/vhm_both/manifest.json ] || python3 scripts/transfer/bundle_to_subjects.py $B --out build/vh --label "recovered from the published male viewer (Version 25)" | tail -1
+if [ ! -f build/vh/ct_vhm_foot/manifest.json ]; then
+  cp mappings/subjects/ct_vhm_foot_volume_mapping.json build/vh/
+  python3 scripts/ingest_volume_geometry.py convert $T/vhm_foot_bones.nii.gz --labels vhm_foot --subject ct_vhm_foot --origin='-8.755,-202.476,5.677' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
+if [ ! -f build/vh/xfer_vhf2vhm/manifest.json ]; then
+  [ -f build/viewer_f/bundle.json ] || { echo "female bundle absent: run scripts/cryo/vhf_rebuild_bundle.sh first"; exit 1; }
+  python3 scripts/transfer/cross_subject_transfer.py --direction f2m --male-html $B --female-bundle build/viewer_f \
+    --ids digastric_l digastric_r internal_carotid_a_l internal_carotid_a_r internal_jugular_v_l internal_jugular_v_r superior_rectus_l superior_rectus_r inferior_oblique_r inferior_rectus_l inferior_rectus_r lateral_rectus_l lateral_rectus_r levator_palpebrae_superioris_r medial_rectus_r optic_n superior_oblique_l superior_oblique_r \
+    -o build/vh/xfer_vhf2vhm --report data/derived/transfer_report_vhf2vhm.json 2>&1 | head -1 | cut -c1-160
+fi
+SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1
+echo VHM_REBUILD_DONE

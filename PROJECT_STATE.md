@@ -1334,6 +1334,14 @@ tick the item here with a one-line result. Never fabricate; keep the
       `xfer_vhm2vhf_sep` (label key mappings/vhf_xfer_septa_labels.json, listed before xfer_vhm2vhf in the rebuild
       chain), female viewer Version 18; badge says the walls are hers, the muscle set his. Overlays checked at y
       -150..-600 (contours follow the visible bellies).
+- [ ] Q49 (added 20:20) Her LEFT upper-arm rule muscles are small: triceps_l 322 vs his 762 (0.42), brachialis_l 85 vs
+      189 (0.45) after bone scaling (lean sections predict ~0.77), right side 0.47/0.78. Overlay her left arm slices
+      (as done for the deltoid) to see whether the compartment rules under-run on that side (her left arm lies
+      differently; the CT->photo shift there is (0, -13) px) and re-derive; badge and record.
+- [ ] Q50 (added 20:20) The male viewer's rebuild after a reset is now `scripts/vhm_rebuild_bundle.sh` (recovered
+      bundle + CT left forefoot + the female transfer); it reproduces Version 28. If the DU STL host is ever allowed,
+      replace the recovered decimated meshes with the originals (scripts/ingest_vh_geometry.py) and re-run.
+
 
 
 - **VH female (Q9) results, 19:25**: `total` full (femoral heads r 24.4
