@@ -1062,6 +1062,26 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   threshold separates them at 1 mm. Full-resolution texture (fibre
   striation) is the remaining route.
 - Viewer Version 22: 299 structures, 18 subjects, 14.4 MB.
+## What the OWNER must do (2026-09-14; everything else runs unattended)
+
+1. Q29 / Q50 / Q31 -- the male's ORIGINAL geometry. The DU release hosts answer 403 at this
+   environment's proxy (`digitalcommons.du.edu`, `simtk.org`). EITHER add `digitalcommons.du.edu` to the
+   environment's network policy (claude.ai/code -> the environment used by this session -> network
+   policy -> allowed domains), OR download "Final 3D STL models" Right and Left zips (Andreassen 2023,
+   CC BY 4.0, ~133 MB) yourself and drop them into Dropbox `/claude/`. Then the male rebuilds from source,
+   the recovered decimated meshes are replaced, and his talus and calcaneus become separate bones (Q31).
+2. Q43 -- decide: (a) keep landmarks in millimetres of a male-length bone, or (b) store them as a
+   fraction of the measured bone length. Recommendation: (b). Reply with one letter.
+3. Q31 on the FEMALE -- her CT cannot separate talus from calcaneus (no HU barrier). If you want her own
+   split: open the female viewer, look at the tarsals, and describe the subtalar joint line on 3 sagittal
+   levels (or accept the male's DU talus/calcaneus transferred onto her, badged, after item 1).
+4. Licences -- Steer OSF hand data and Kerkhof MorphoSource data stay out until a written licence exists;
+   an e-mail to the authors asking for CC BY or a commercial licence is the owner's step.
+5. Your own clinical CT scans (mentioned 2026-09-09) -- if de-identified and consented for a commercial
+   atlas, upload NIfTI/DICOM zips into Dropbox `/claude/`; TotalSegmentator runs here.
+6. Review the shipped rule-based structures in the viewers (each badge says what the rule was) and
+   write disagreements as queue items; the sciatic nerve montages are regenerable on request.
+
 ## Autonomous queue (2026-09-11; user away for days, session self-wakes hourly)
 
 Operational lessons (16:35, 17:25): never edit a bash chain while it runs (bash reads the file incrementally; the female chain died with a syntax error after the in-place idempotency patch, so pass 2 had to be started by hand at 17:21); never pkill/pgrep-kill with a pattern that also appears in the killing shell's own command line (it kills the tool shell: exit 144, twice today); the container is reclaimed when the session idles and every background job dies -- keep a background waiter running while long jobs run, and make chains idempotent (skip outputs that exist); the scratchpad filesystem filled (14 GB of intermediates) and killed the female `total` run mid-chunk -- chains now refuse to start under 2.5 GB free, and superseded intermediates (DICOM series already converted, silhouettes, hand full-res crops) were deleted.
@@ -1368,6 +1388,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       Also this wake: the viewer's NEEDLE PATH tool (Needle path button: entry click + target click ->
       length, structures crossed with depth ranges, depth below skin; `tests/test_viewer_template.py`) and
       the 📍 origin/insertion buttons fixed (showPoint was not reachable from the inline onclick).
+      Female viewer Version 20, male viewer Version 31 (needle tool + button fix; his bundle unchanged).
 - [ ] Q54 Sciatic division -> tibial and common fibular nerves through the popliteal fossa to the fibular
       neck (left montage shows the bundle plainly at -303..-333 in the popliteal fat): the detector needs a
       "pale bundle in fat" mode (texture only: cells + walls, brightness up to the fat's; drop the near-fat
