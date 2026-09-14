@@ -1498,6 +1498,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       three (391/386, 1083/1004, 2210/2174 voxels r/l), female middle + inferior (the superior is 196 voxels,
       13 right: not shipped). ct_vhm_neck now converts from his merged volume in the chain instead of the
       recovered bundle. Male viewer Version 33, female Version 22.
+- [ ] Q62 PROGRESS 2026-09-14 13:50: step 1 female right forearm SHIPPED as `ct_vhf_forearm` (12 muscles, rule-based,
+      FCU 55 / BR 48 cm3 flagged for review; PT+FCR+PL+FDS, ECRL+ECRB, supinator+anconeus merged and unshipped;
+      docs/GEOMETRY_SOURCES.md); step 2 done; step 3 (deep neck, `ct_vhf_dneck`) and step 6 (diaphragm +
+      intercostals, `ct_vh{f,m}_twall`) running as subagents; step 8 = Q65 done. Next: his forearm (his 1 mm frame
+      is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
+      head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
       COMPLETENESS PROGRAMME. Measured: 404 muscle entities, 154 with a mesh on both bodies, 250 (128 distinct
       muscles) on neither -- `docs/MUSCLE_GAPS.md` lists them by group with the real-source route each. Z-Anatomy
@@ -1547,7 +1553,10 @@ tick the item here with a one-line result. Never fabricate; keep the
       and the inspector renders "Clinical reference (owner's compilation)" before Source: per document
       function, trigger points, referred-pain sources, tests with Se/Sp, the caveat, a collapsed source list.
       Pages 14.88 / 15.36 MB; render verified (biceps brachii). Female Version 24, male Version 36.
-- [ ] Q58 Viewer: show the nerve's depth below the skin along its course (per-level minimum skin distance
+- [x] Q58 (DONE 2026-09-14 13:50: exporter `depth_profile` = per 20 mm band of atlas y the nerve's shallowest
+      point, its skin distance and the nearest skin point; inspector table "Depth below skin along the course"
+      with `show` (marks both points) and `needle` (lays the needle-path tool skin -> nerve); sciatic_n 12 rows
+      on her, 43-47 mm at the distal thigh; test in tests/test_viewer_template.py) Viewer: show the nerve's depth below the skin along its course (per-level minimum skin distance
       from `skin_depth_vhf.json` is one number; a needle-path preset "sciatic block, subgluteal" that places
       the entry on the skin at the gluteal fold would use the new tool).
 
