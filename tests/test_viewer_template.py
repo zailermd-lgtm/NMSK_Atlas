@@ -49,3 +49,30 @@ def test_template_renders_the_clinical_block_and_exporter_compacts_it():
                            "caveat": "c", "sources": ["s1"]}])
     assert c[0]["trigger_points"] == [{"location": "L", "referred_pain": "R", "source": "S"}]
     assert c[0]["tests"] == [{"name": "T", "sensitivity": 91, "source": "S"}] and "adjacent_structures" not in c[0]
+
+
+def test_nerve_depth_profile_rows_and_course_table():
+    """Q58: a nerve's depth below the skin along its course -- one row per 20 mm
+    band of atlas y with the shallowest point and its nearest skin point -- and
+    the inspector's course table with its show/needle actions."""
+    import sys
+    from pathlib import Path
+    import numpy as np
+    from scipy.spatial import cKDTree
+    repo = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(repo / "scripts"))
+    import export_viewer_bundle as ev
+    # a skin cylinder of radius 50 around the y axis, a nerve line at x = 30 running y = 0..100
+    ang = np.linspace(0, 2 * np.pi, 360, endpoint=False)
+    ys = np.arange(-20, 130, 2.0)
+    skin = np.array([[50 * np.cos(a), y, 50 * np.sin(a)] for y in ys for a in ang[::6]])
+    nerve = np.array([[30.0, y, 0.0] for y in np.linspace(0, 100, 400)])
+    rows = ev.depth_profile(nerve, cKDTree(skin), skin, step=20.0)
+    assert len(rows) in (5, 6) and all(len(r) == 8 for r in rows)
+    assert all(abs(r[1] - 20.0) < 1.5 for r in rows), rows          # 50 - 30 = 20 mm below the skin
+    assert all(abs(r[2] - 30.0) < 1e-6 and abs(r[4]) < 1e-6 for r in rows)  # the shallowest point is on the line
+    assert all(abs(np.hypot(r[5], r[7]) - 50.0) < 1e-6 for r in rows)      # the entry point is on the skin
+    html = (repo / "viewer" / "atlas_viewer.template.html").read_text()
+    for needle in ("Depth below skin along the course", "function courseShow", "function courseNeedle",
+                   "depth_profile:s.depth_profile", "table.course"):
+        assert needle in html, needle

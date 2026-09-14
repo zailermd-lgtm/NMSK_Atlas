@@ -30,15 +30,21 @@ RULE, per level (0.33 mm px):
   frame    = e: ulna -> radius unit vector, n: its perpendicular pointing AWAY from the ulna's subcutaneous border
              (the male's compartment rule: the ulna's posterior border lies under the skin, so that side is
              extensor); f = level fraction along the segment (0 radial head, 1 distal radius);
-  markers  = MARKER_RULES: per muscle a position in the bone frame (mm from the bone centres, the disc radii
-             added) and the f-window in which it is seeded (textbook belly extent); once a muscle has a region,
-             its marker at the next level is that region eroded 2 mm (tracking), the rule seed only starts it;
+  markers  = MARKER_RULES: per muscle a position in the bone frame (mm from the bone SURFACES, the disc radii
+             added) and the f-window in which it is seeded (textbook belly extent); a 1.7 mm disc snapped into
+             its compartment's muscle within 5 mm, seeded afresh at every level (no level-to-level tracking);
+  comps    = flexor / lateral (mobile wad, beyond the radius centre) / extensor by the bone-line rule
+             (compartments()); each compartment is split on its own, so the compartment borders are rule lines;
   split    = marker watershed on the white top-hat (disk 4 px) of the brightness inside the muscle mass (closed
-             1 mm, seams <= 8 mm2 filled, bones out): the pale fascial septa are the ridges. A region may not
-             move more than 3 mm per level from its previous region (a new one: 10 mm around its seed); pixels
-             nobody may claim stay unassigned. A muscle with no region for > 10 levels ends.
-Boundaries the photographs do not show are not invented: the muscles whose watershed split is not a visible
-septum are MERGED into named compartments (see MERGE and the mapping notes) and mapped to null.
+             1 mm, seams <= 8 mm2 filled, bones out): the pale fascial septa are the ridges. Muscle pixels in a
+             compartment without a marker stay unassigned. boundary_support (report) scores every adjacent pair:
+             mean top-hat on the boundary band / mean top-hat inside (>= 1.8 = the split runs on a pale line).
+Boundaries the photographs do not show are not invented: the muscles whose watershed regions are not credible
+(volumes outside what the muscle can have, or a split without a pale line at most levels) are MERGED into named
+compartments (vhf_forearm_merge.json, --merge) and mapped to null with the reason in the mapping note.
+Orientation: the flexor side of the bone line was checked two ways -- the ulna's nearest skin (its subcutaneous
+posterior border) lies on the other side, and her CT thumb metacarpal lies 35 mm off the MC2-5 plane on that
+side (the palm).
 Output: label volume (RAS, 0.5 x 0.5 x 1 mm, positive-determinant affine) for `ingest_volume_geometry.py convert`,
 label key, subject mapping, report (per-muscle volumes, bone track, CT residual, montage paths), montages.
 """
@@ -72,7 +78,7 @@ SOURCE = ("U.S. National Library of Medicine, The Visible Human Project (public 
 # and e_mm != 0 and sign]) + n * (n_mm [+ disc radius]); anchors: U ulna, R radius, M midpoint. n > 0 flexor side.
 MARKER_RULES = {
     # superficial flexors (medial epicondyle origin; lateral -> medial: PT, FCR, PL, FCU)
-    "pronator_teres":                 ("R", +6, +8, 0.00, 0.40, "flexor"),
+    "pronator_teres":                 ("R", -2, +9, 0.00, 0.40, "flexor"),
     "flexor_carpi_radialis":          ("R", -2, +14, 0.00, 0.55, "flexor"),
     "palmaris_longus":                ("M", 0, +24, 0.00, 0.45, "flexor"),
     "flexor_carpi_ulnaris":           ("U", -8, +4, 0.00, 0.85, "flexor"),
@@ -90,7 +96,7 @@ MARKER_RULES = {
     "extensor_digiti_minimi":         ("U", +10, -8, 0.10, 0.65, "extensor"),
     "extensor_carpi_ulnaris":         ("U", -2, -5, 0.05, 0.80, "extensor"),
     "anconeus":                       ("U", +6, -4, 0.00, 0.12, "extensor"),
-    "supinator":                      ("R", +2, -3, 0.00, 0.28, "extensor"),
+    "supinator":                      ("R", -2, -4, 0.00, 0.28, "extensor"),
     "abductor_pollicis_longus":       ("M", +5, -5, 0.35, 0.80, "extensor"),
     "extensor_pollicis_brevis":       ("M", +9, -4, 0.55, 0.85, "extensor"),
     "extensor_pollicis_longus":       ("M", -3, -5, 0.40, 0.85, "extensor"),
@@ -559,7 +565,9 @@ def main(argv=None):
                     help="JSON {merged_name: [members]} of muscles the photographs do not separate (written to the label key as compartments)")
     a = ap.parse_args(argv)
     crops, track, residual, (j_top, j_bot), labels_by_level, ids, area, unassigned, frames, support = run(a)
-    merge = json.load(open(a.merge)) if a.merge and Path(a.merge).exists() else {}
+    merge_raw = json.load(open(a.merge)) if a.merge and Path(a.merge).exists() else {}
+    merge = {k: (v["members"] if isinstance(v, dict) else v) for k, v in merge_raw.items() if not k.startswith("_")}
+    merge_note = {k: v.get("note", "") for k, v in merge_raw.items() if isinstance(v, dict)}
     # apply merges: members -> one label (the first member's id), name = merged compartment
     final_ids = dict(ids); final_names = {l: nm for nm, l in ids.items()}; remap = np.arange(max(ids.values()) + 1, dtype=np.uint8)
     for comp, members in merge.items():
@@ -592,7 +600,7 @@ def main(argv=None):
     report = {"_README": [f"Female right forearm muscles from her full-resolution cryosections ({Path(__file__).name}); {BADGE}. "
                           "Bones tracked in the photographs; markers by textbook position rules in the radius-ulna frame; boundaries by a "
                           "marker watershed on the pale fascial septa; muscles the photographs do not separate merged into compartments.",
-                          "ct_to_photo_shift_mm: photographed bone disc centre minus the CT section centre (rows +posterior->anterior?, cols), per bone: "
+                          "ct_to_photo_shift_mm: photographed bone disc centre minus the CT section centre, [photo rows, photo cols] in mm, per bone: "
                           "the residual of the CT->cryo registration at the forearm; it varies along the arm, so the CT bones were not used as the frame."],
               "source": SOURCE, "badge": BADGE, "segment_levels": [j_top, j_bot],
               "segment_atlas_y": [round(crops.level(j_top)["y"], 1), round(crops.level(j_bot)["y"], 1)],
@@ -610,11 +618,13 @@ def main(argv=None):
     for l, nm in sorted(final_names.items()):
         if nm in merge:
             entries.append({"label": l, "source_structure": nm, "side": "right", "status": "no_atlas_entity", "atlas_id": None,
-                            "relationship": "no_usable_label", "note": f"Compartment holding {', '.join(merge[nm])}: the photographs show no septum the "
-                            f"watershed could follow between them at most levels, so no boundary is invented. {vols.get(nm, 0)} cm3.", "candidates": [m + "_r" for m in merge[nm]]})
+                            "relationship": "no_usable_label", "note": f"{BADGE}; compartment holding {', '.join(merge[nm])} ({vols.get(nm, 0)} cm3), not split: "
+                            f"{merge_note.get(nm, 'the photographs show no septum the watershed could follow between them at most levels')}",
+                            "candidates": [m + "_r" for m in merge[nm]]})
         else:
             entries.append({"label": l, "source_structure": nm, "side": "right", "status": "curated", "atlas_id": nm + "_r", "relationship": "exact",
-                            "note": f"{BADGE}: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; {vols.get(nm, 0)} cm3.",
+                            "note": f"{BADGE}: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; {vols.get(nm, 0)} cm3."
+                                    + (" REVIEW: volume outside 5-45 cm3, the region may hold a neighbour's belly." if not 5.0 <= vols.get(nm, 0) <= 45.0 else ""),
                             "candidates": []})
     Path(a.mapping_out).write_text(json.dumps({"_README": ["Review every entry before running convert.", "Set 'atlas_id' to the correct entity, or null to skip the label.",
                                                             "'status' is advisory; convert reads 'atlas_id' only."],

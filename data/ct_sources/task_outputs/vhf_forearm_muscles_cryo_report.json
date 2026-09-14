@@ -1,0 +1,599 @@
+{
+ "_README": [
+  "Female right forearm muscles from her full-resolution cryosections (vhf_forearm_muscles_from_cryo.py); rule-based. Bones tracked in the photographs; markers by textbook position rules in the radius-ulna frame; boundaries by a marker watershed on the pale fascial septa; muscles the photographs do not separate merged into compartments.",
+  "ct_to_photo_shift_mm: photographed bone disc centre minus the CT section centre (rows +posterior->anterior?, cols), per bone: the residual of the CT->cryo registration at the forearm; it varies along the arm, so the CT bones were not used as the frame."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) and CT via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_forearm_muscles_from_cryo.py), rule-based.",
+ "badge": "rule-based",
+ "segment_levels": [
+  17,
+  177
+ ],
+ "segment_atlas_y": [
+  299.4,
+  139.7
+ ],
+ "ct_to_photo_shift_mm": {
+  "radius": {
+   "n_levels": 162,
+   "mean_mm": [
+    10.6,
+    -6.4
+   ],
+   "sd_mm": [
+    7.0,
+    6.6
+   ],
+   "at_levels": {
+    "40": [
+     3.8,
+     -13.0
+    ],
+    "70": [
+     5.7,
+     -5.1
+    ],
+    "100": [
+     7.0,
+     -5.7
+    ],
+    "130": [
+     11.4,
+     -4.3
+    ],
+    "160": [
+     13.6,
+     -3.0
+    ]
+   }
+  },
+  "ulna": {
+   "n_levels": 91,
+   "mean_mm": [
+    7.8,
+    -6.1
+   ],
+   "sd_mm": [
+    4.2,
+    1.9
+   ],
+   "at_levels": {
+    "100": [
+     3.9,
+     -7.6
+    ],
+    "130": [
+     7.9,
+     -4.7
+    ],
+    "160": [
+     8.0,
+     -4.5
+    ]
+   }
+  }
+ },
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volumes_cm3": {
+  "superficial_flexor_compartment": 104.6,
+  "flexor_carpi_ulnaris": 55.4,
+  "flexor_digitorum_profundus": 37.1,
+  "flexor_pollicis_longus": 16.2,
+  "pronator_quadratus": 17.3,
+  "brachioradialis": 47.7,
+  "extensor_carpi_radialis_compartment": 43.0,
+  "extensor_digitorum": 19.7,
+  "extensor_digiti_minimi": 9.9,
+  "extensor_carpi_ulnaris": 12.8,
+  "supinator_anconeus_compartment": 8.3,
+  "abductor_pollicis_longus": 9.4,
+  "extensor_pollicis_brevis": 4.8,
+  "extensor_pollicis_longus": 8.6,
+  "extensor_indicis": 10.0
+ },
+ "unassigned_muscle_cm3": 13.8,
+ "merged_compartments": {
+  "superficial_flexor_compartment": [
+   "pronator_teres",
+   "flexor_carpi_radialis",
+   "palmaris_longus",
+   "flexor_digitorum_superficialis"
+  ],
+  "extensor_carpi_radialis_compartment": [
+   "extensor_carpi_radialis_longus",
+   "extensor_carpi_radialis_brevis"
+  ],
+  "supinator_anconeus_compartment": [
+   "supinator",
+   "anconeus"
+  ]
+ },
+ "montages": [
+  "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/fa/forearm_muscles_right.png"
+ ],
+ "labels": {
+  "1": "superficial_flexor_compartment",
+  "4": "flexor_carpi_ulnaris",
+  "6": "flexor_digitorum_profundus",
+  "7": "flexor_pollicis_longus",
+  "8": "pronator_quadratus",
+  "9": "brachioradialis",
+  "10": "extensor_carpi_radialis_compartment",
+  "12": "extensor_digitorum",
+  "13": "extensor_digiti_minimi",
+  "14": "extensor_carpi_ulnaris",
+  "16": "supinator_anconeus_compartment",
+  "17": "abductor_pollicis_longus",
+  "18": "extensor_pollicis_brevis",
+  "19": "extensor_pollicis_longus",
+  "20": "extensor_indicis"
+ },
+ "boundary_support": {
+  "abductor_pollicis_longus|extensor_indicis": {
+   "levels": 10,
+   "median_ridge_ratio": 3.67,
+   "frac_levels_ratio_ge_1.8": 0.9,
+   "contact_mm": 28.6
+  },
+  "abductor_pollicis_longus|extensor_pollicis_brevis": {
+   "levels": 41,
+   "median_ridge_ratio": 2.88,
+   "frac_levels_ratio_ge_1.8": 0.93,
+   "contact_mm": 31.9
+  },
+  "abductor_pollicis_longus|extensor_pollicis_longus": {
+   "levels": 64,
+   "median_ridge_ratio": 2.88,
+   "frac_levels_ratio_ge_1.8": 0.95,
+   "contact_mm": 29.7
+  },
+  "anconeus|supinator": {
+   "levels": 15,
+   "median_ridge_ratio": 2.91,
+   "frac_levels_ratio_ge_1.8": 0.73,
+   "contact_mm": 19.1
+  },
+  "brachioradialis|extensor_carpi_radialis_brevis": {
+   "levels": 33,
+   "median_ridge_ratio": 3.5,
+   "frac_levels_ratio_ge_1.8": 0.94,
+   "contact_mm": 29.8
+  },
+  "brachioradialis|extensor_carpi_radialis_longus": {
+   "levels": 57,
+   "median_ridge_ratio": 3.9,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 49.2
+  },
+  "extensor_carpi_radialis_brevis|abductor_pollicis_longus": {
+   "levels": 11,
+   "median_ridge_ratio": 1.13,
+   "frac_levels_ratio_ge_1.8": 0.27,
+   "contact_mm": 8.5
+  },
+  "extensor_carpi_radialis_brevis|anconeus": {
+   "levels": 5,
+   "median_ridge_ratio": 1.18,
+   "frac_levels_ratio_ge_1.8": 0.2,
+   "contact_mm": 11.0
+  },
+  "extensor_carpi_radialis_brevis|extensor_digiti_minimi": {
+   "levels": 18,
+   "median_ridge_ratio": 1.25,
+   "frac_levels_ratio_ge_1.8": 0.33,
+   "contact_mm": 13.7
+  },
+  "extensor_carpi_radialis_brevis|extensor_digitorum": {
+   "levels": 51,
+   "median_ridge_ratio": 0.96,
+   "frac_levels_ratio_ge_1.8": 0.16,
+   "contact_mm": 24.0
+  },
+  "extensor_carpi_radialis_brevis|supinator": {
+   "levels": 11,
+   "median_ridge_ratio": 1.39,
+   "frac_levels_ratio_ge_1.8": 0.09,
+   "contact_mm": 10.8
+  },
+  "extensor_carpi_radialis_longus|anconeus": {
+   "levels": 5,
+   "median_ridge_ratio": 0.77,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 10.7
+  },
+  "extensor_carpi_radialis_longus|extensor_carpi_radialis_brevis": {
+   "levels": 73,
+   "median_ridge_ratio": 2.06,
+   "frac_levels_ratio_ge_1.8": 0.67,
+   "contact_mm": 41.7
+  },
+  "extensor_carpi_radialis_longus|extensor_digitorum": {
+   "levels": 15,
+   "median_ridge_ratio": 1.21,
+   "frac_levels_ratio_ge_1.8": 0.33,
+   "contact_mm": 14.1
+  },
+  "extensor_carpi_radialis_longus|supinator": {
+   "levels": 13,
+   "median_ridge_ratio": 1.55,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 9.6
+  },
+  "extensor_carpi_ulnaris|abductor_pollicis_longus": {
+   "levels": 11,
+   "median_ridge_ratio": 3.45,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 21.2
+  },
+  "extensor_carpi_ulnaris|extensor_indicis": {
+   "levels": 8,
+   "median_ridge_ratio": 2.66,
+   "frac_levels_ratio_ge_1.8": 0.88,
+   "contact_mm": 20.6
+  },
+  "extensor_carpi_ulnaris|extensor_pollicis_longus": {
+   "levels": 25,
+   "median_ridge_ratio": 3.16,
+   "frac_levels_ratio_ge_1.8": 0.92,
+   "contact_mm": 12.7
+  },
+  "extensor_carpi_ulnaris|supinator": {
+   "levels": 25,
+   "median_ridge_ratio": 6.55,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 9.7
+  },
+  "extensor_digiti_minimi|abductor_pollicis_longus": {
+   "levels": 15,
+   "median_ridge_ratio": 5.89,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 13.2
+  },
+  "extensor_digiti_minimi|extensor_carpi_ulnaris": {
+   "levels": 67,
+   "median_ridge_ratio": 3.48,
+   "frac_levels_ratio_ge_1.8": 0.97,
+   "contact_mm": 24.0
+  },
+  "extensor_digiti_minimi|extensor_indicis": {
+   "levels": 8,
+   "median_ridge_ratio": 2.33,
+   "frac_levels_ratio_ge_1.8": 0.75,
+   "contact_mm": 14.2
+  },
+  "extensor_digiti_minimi|extensor_pollicis_longus": {
+   "levels": 34,
+   "median_ridge_ratio": 5.39,
+   "frac_levels_ratio_ge_1.8": 0.94,
+   "contact_mm": 17.7
+  },
+  "extensor_digiti_minimi|supinator": {
+   "levels": 20,
+   "median_ridge_ratio": 6.07,
+   "frac_levels_ratio_ge_1.8": 0.9,
+   "contact_mm": 17.6
+  },
+  "extensor_digitorum|abductor_pollicis_longus": {
+   "levels": 46,
+   "median_ridge_ratio": 3.63,
+   "frac_levels_ratio_ge_1.8": 0.93,
+   "contact_mm": 29.1
+  },
+  "extensor_digitorum|anconeus": {
+   "levels": 11,
+   "median_ridge_ratio": 5.62,
+   "frac_levels_ratio_ge_1.8": 0.82,
+   "contact_mm": 10.2
+  },
+  "extensor_digitorum|extensor_carpi_ulnaris": {
+   "levels": 27,
+   "median_ridge_ratio": 5.61,
+   "frac_levels_ratio_ge_1.8": 0.93,
+   "contact_mm": 10.8
+  },
+  "extensor_digitorum|extensor_digiti_minimi": {
+   "levels": 87,
+   "median_ridge_ratio": 3.04,
+   "frac_levels_ratio_ge_1.8": 0.89,
+   "contact_mm": 21.1
+  },
+  "extensor_digitorum|extensor_pollicis_brevis": {
+   "levels": 12,
+   "median_ridge_ratio": 2.75,
+   "frac_levels_ratio_ge_1.8": 0.92,
+   "contact_mm": 21.4
+  },
+  "extensor_digitorum|extensor_pollicis_longus": {
+   "levels": 39,
+   "median_ridge_ratio": 3.4,
+   "frac_levels_ratio_ge_1.8": 0.95,
+   "contact_mm": 25.3
+  },
+  "extensor_digitorum|supinator": {
+   "levels": 34,
+   "median_ridge_ratio": 5.58,
+   "frac_levels_ratio_ge_1.8": 0.91,
+   "contact_mm": 19.9
+  },
+  "extensor_pollicis_brevis|extensor_indicis": {
+   "levels": 8,
+   "median_ridge_ratio": 3.19,
+   "frac_levels_ratio_ge_1.8": 0.88,
+   "contact_mm": 17.2
+  },
+  "extensor_pollicis_brevis|extensor_pollicis_longus": {
+   "levels": 22,
+   "median_ridge_ratio": 3.13,
+   "frac_levels_ratio_ge_1.8": 0.95,
+   "contact_mm": 22.3
+  },
+  "extensor_pollicis_longus|extensor_indicis": {
+   "levels": 41,
+   "median_ridge_ratio": 2.24,
+   "frac_levels_ratio_ge_1.8": 0.73,
+   "contact_mm": 31.2
+  },
+  "flexor_carpi_radialis|brachioradialis": {
+   "levels": 21,
+   "median_ridge_ratio": 1.01,
+   "frac_levels_ratio_ge_1.8": 0.1,
+   "contact_mm": 40.6
+  },
+  "flexor_carpi_radialis|extensor_carpi_radialis_brevis": {
+   "levels": 9,
+   "median_ridge_ratio": 1.25,
+   "frac_levels_ratio_ge_1.8": 0.33,
+   "contact_mm": 19.5
+  },
+  "flexor_carpi_radialis|extensor_carpi_radialis_longus": {
+   "levels": 24,
+   "median_ridge_ratio": 1.08,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 33.6
+  },
+  "flexor_carpi_radialis|flexor_carpi_ulnaris": {
+   "levels": 29,
+   "median_ridge_ratio": 3.77,
+   "frac_levels_ratio_ge_1.8": 0.93,
+   "contact_mm": 28.0
+  },
+  "flexor_carpi_radialis|flexor_digitorum_profundus": {
+   "levels": 19,
+   "median_ridge_ratio": 2.86,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 25.5
+  },
+  "flexor_carpi_radialis|flexor_digitorum_superficialis": {
+   "levels": 34,
+   "median_ridge_ratio": 2.41,
+   "frac_levels_ratio_ge_1.8": 0.94,
+   "contact_mm": 33.1
+  },
+  "flexor_carpi_radialis|flexor_pollicis_longus": {
+   "levels": 36,
+   "median_ridge_ratio": 2.96,
+   "frac_levels_ratio_ge_1.8": 0.92,
+   "contact_mm": 24.0
+  },
+  "flexor_carpi_radialis|palmaris_longus": {
+   "levels": 71,
+   "median_ridge_ratio": 2.32,
+   "frac_levels_ratio_ge_1.8": 0.82,
+   "contact_mm": 43.4
+  },
+  "flexor_carpi_ulnaris|extensor_carpi_ulnaris": {
+   "levels": 10,
+   "median_ridge_ratio": 0.39,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 8.0
+  },
+  "flexor_carpi_ulnaris|flexor_digitorum_profundus": {
+   "levels": 92,
+   "median_ridge_ratio": 2.56,
+   "frac_levels_ratio_ge_1.8": 0.93,
+   "contact_mm": 42.6
+  },
+  "flexor_carpi_ulnaris|flexor_digitorum_superficialis": {
+   "levels": 45,
+   "median_ridge_ratio": 3.53,
+   "frac_levels_ratio_ge_1.8": 0.98,
+   "contact_mm": 26.6
+  },
+  "flexor_carpi_ulnaris|flexor_pollicis_longus": {
+   "levels": 8,
+   "median_ridge_ratio": 5.23,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 25.1
+  },
+  "flexor_digitorum_profundus|abductor_pollicis_longus": {
+   "levels": 24,
+   "median_ridge_ratio": 2.38,
+   "frac_levels_ratio_ge_1.8": 0.75,
+   "contact_mm": 16.3
+  },
+  "flexor_digitorum_profundus|extensor_carpi_radialis_brevis": {
+   "levels": 5,
+   "median_ridge_ratio": 0.89,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 15.5
+  },
+  "flexor_digitorum_profundus|extensor_digitorum": {
+   "levels": 7,
+   "median_ridge_ratio": 2.36,
+   "frac_levels_ratio_ge_1.8": 0.57,
+   "contact_mm": 14.7
+  },
+  "flexor_digitorum_profundus|extensor_indicis": {
+   "levels": 14,
+   "median_ridge_ratio": 0.79,
+   "frac_levels_ratio_ge_1.8": 0.14,
+   "contact_mm": 14.8
+  },
+  "flexor_digitorum_profundus|extensor_pollicis_brevis": {
+   "levels": 9,
+   "median_ridge_ratio": 3.26,
+   "frac_levels_ratio_ge_1.8": 0.78,
+   "contact_mm": 11.1
+  },
+  "flexor_digitorum_profundus|extensor_pollicis_longus": {
+   "levels": 32,
+   "median_ridge_ratio": 0.98,
+   "frac_levels_ratio_ge_1.8": 0.16,
+   "contact_mm": 19.8
+  },
+  "flexor_digitorum_profundus|flexor_pollicis_longus": {
+   "levels": 68,
+   "median_ridge_ratio": 2.96,
+   "frac_levels_ratio_ge_1.8": 0.94,
+   "contact_mm": 27.1
+  },
+  "flexor_digitorum_profundus|pronator_quadratus": {
+   "levels": 5,
+   "median_ridge_ratio": 2.12,
+   "frac_levels_ratio_ge_1.8": 0.8,
+   "contact_mm": 45.1
+  },
+  "flexor_digitorum_profundus|supinator": {
+   "levels": 8,
+   "median_ridge_ratio": 0.9,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 15.4
+  },
+  "flexor_digitorum_superficialis|abductor_pollicis_longus": {
+   "levels": 8,
+   "median_ridge_ratio": 1.89,
+   "frac_levels_ratio_ge_1.8": 0.62,
+   "contact_mm": 18.2
+  },
+  "flexor_digitorum_superficialis|extensor_pollicis_brevis": {
+   "levels": 8,
+   "median_ridge_ratio": 2.94,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 11.9
+  },
+  "flexor_digitorum_superficialis|extensor_pollicis_longus": {
+   "levels": 12,
+   "median_ridge_ratio": 1.38,
+   "frac_levels_ratio_ge_1.8": 0.17,
+   "contact_mm": 19.7
+  },
+  "flexor_digitorum_superficialis|flexor_digitorum_profundus": {
+   "levels": 99,
+   "median_ridge_ratio": 2.17,
+   "frac_levels_ratio_ge_1.8": 0.77,
+   "contact_mm": 45.8
+  },
+  "flexor_digitorum_superficialis|flexor_pollicis_longus": {
+   "levels": 76,
+   "median_ridge_ratio": 3.0,
+   "frac_levels_ratio_ge_1.8": 0.87,
+   "contact_mm": 31.0
+  },
+  "flexor_pollicis_longus|abductor_pollicis_longus": {
+   "levels": 5,
+   "median_ridge_ratio": 2.76,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 10.3
+  },
+  "flexor_pollicis_longus|brachioradialis": {
+   "levels": 6,
+   "median_ridge_ratio": 0.87,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 11.8
+  },
+  "flexor_pollicis_longus|extensor_carpi_radialis_brevis": {
+   "levels": 8,
+   "median_ridge_ratio": 0.84,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 18.2
+  },
+  "flexor_pollicis_longus|extensor_carpi_radialis_longus": {
+   "levels": 11,
+   "median_ridge_ratio": 0.89,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 19.3
+  },
+  "palmaris_longus|brachioradialis": {
+   "levels": 19,
+   "median_ridge_ratio": 0.95,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 36.1
+  },
+  "palmaris_longus|extensor_carpi_radialis_longus": {
+   "levels": 14,
+   "median_ridge_ratio": 1.04,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 48.8
+  },
+  "palmaris_longus|flexor_carpi_ulnaris": {
+   "levels": 54,
+   "median_ridge_ratio": 3.83,
+   "frac_levels_ratio_ge_1.8": 0.96,
+   "contact_mm": 39.2
+  },
+  "palmaris_longus|flexor_digitorum_profundus": {
+   "levels": 31,
+   "median_ridge_ratio": 2.83,
+   "frac_levels_ratio_ge_1.8": 0.97,
+   "contact_mm": 33.4
+  },
+  "palmaris_longus|flexor_digitorum_superficialis": {
+   "levels": 28,
+   "median_ridge_ratio": 3.04,
+   "frac_levels_ratio_ge_1.8": 0.75,
+   "contact_mm": 21.8
+  },
+  "pronator_teres|brachioradialis": {
+   "levels": 11,
+   "median_ridge_ratio": 1.16,
+   "frac_levels_ratio_ge_1.8": 0.0,
+   "contact_mm": 33.4
+  },
+  "pronator_teres|extensor_carpi_radialis_longus": {
+   "levels": 10,
+   "median_ridge_ratio": 1.1,
+   "frac_levels_ratio_ge_1.8": 0.2,
+   "contact_mm": 26.0
+  },
+  "pronator_teres|flexor_carpi_radialis": {
+   "levels": 53,
+   "median_ridge_ratio": 2.61,
+   "frac_levels_ratio_ge_1.8": 0.68,
+   "contact_mm": 16.2
+  },
+  "pronator_teres|flexor_carpi_ulnaris": {
+   "levels": 8,
+   "median_ridge_ratio": 4.51,
+   "frac_levels_ratio_ge_1.8": 1.0,
+   "contact_mm": 22.5
+  },
+  "pronator_teres|flexor_digitorum_profundus": {
+   "levels": 12,
+   "median_ridge_ratio": 2.1,
+   "frac_levels_ratio_ge_1.8": 0.67,
+   "contact_mm": 11.7
+  },
+  "pronator_teres|flexor_digitorum_superficialis": {
+   "levels": 25,
+   "median_ridge_ratio": 2.48,
+   "frac_levels_ratio_ge_1.8": 0.84,
+   "contact_mm": 13.9
+  },
+  "pronator_teres|flexor_pollicis_longus": {
+   "levels": 33,
+   "median_ridge_ratio": 2.18,
+   "frac_levels_ratio_ge_1.8": 0.76,
+   "contact_mm": 20.1
+  },
+  "pronator_teres|palmaris_longus": {
+   "levels": 21,
+   "median_ridge_ratio": 2.11,
+   "frac_levels_ratio_ge_1.8": 0.71,
+   "contact_mm": 26.3
+  }
+ }
+}

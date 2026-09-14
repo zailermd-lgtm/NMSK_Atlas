@@ -1188,6 +1188,26 @@ teres major 77/74; his 248/234, 50/52, 94/89, rhomboid major 94/89, minor 30/46.
 200 because the cuff run's tendon-and-capsule zone above the glenoid was kept, not deleted. Subjects
 `ct_vhf_shsp` / `ct_vhm_shsp`, listed before the cuff subjects so the split wins; badged rule-based.
 
+### Her right forearm muscles from the full-resolution cryosections (2026-09-14, Q62 step 1)
+
+`scripts/cryo/vhf_forearm_muscles_from_cryo.py`: the radius and ulna are tracked level by level in her 0.33 mm
+forearm crops (the CT bones only seed the search: the photographed bone discs sit 4-14 mm from the CT sections,
+growing distally, so the CT is not the frame), the flexor side of the radius-ulna line is confirmed two ways
+(the ulna's subcutaneous border faces away from it; her CT thumb metacarpal lies 35 mm on the palm side of the
+MC2-5 plane), markers for twenty muscles are placed by textbook position rules in the radius-ulna frame at each
+level, and a marker watershed on the pale fascial lines draws the boundaries. Twelve muscles whose boundaries run
+on a pale line at >=73 % of the shared levels are shipped as subject `ct_vhf_forearm` (badge: rule-based):
+flexor carpi ulnaris 55 cm3 (REVIEW: wide superficial band, about twice a typical adult value), flexor digitorum
+profundus 37, flexor pollicis longus 16, pronator quadratus 17, brachioradialis 48 (REVIEW), extensor digitorum
+20, extensor digiti minimi 10 (large for that muscle), extensor carpi ulnaris 13, abductor pollicis longus 9,
+extensor pollicis brevis 5, extensor pollicis longus 9, extensor indicis 10. Not shipped, merged into named
+compartments recorded in `scripts/cryo/vhf_forearm_merge.json` and the report: pronator teres + flexor carpi
+radialis + palmaris longus + flexor digitorum superficialis (105 cm3: the pale lines the watershed found are not
+those septa, the individual volumes were impossible), extensor carpi radialis longus + brevis (43 cm3, split
+supported at only 67 % of levels), supinator + anconeus (8 cm3). Compartment borders are rule lines, not septa;
+seeds are re-placed at every level (no level-to-level tracking). Output 0.5 x 0.5 x 1 mm, radial head to the
+carpus (atlas y 299 -> 140). Report `data/ct_sources/task_outputs/vhf_forearm_muscles_cryo_report.json`.
+
 ## Resulting architecture
 
 ```

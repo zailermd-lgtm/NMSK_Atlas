@@ -1,0 +1,173 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_forearm",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
+  "label_map": "vhf_forearm_muscles",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "superficial_flexor_compartment",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "rule-based; compartment holding pronator_teres, flexor_carpi_radialis, palmaris_longus, flexor_digitorum_superficialis (104.6 cm3), not split: PT, FCR, PL and FDS from the common flexor origin: the watershed regions had volumes the muscles cannot have (PL 41 cm3, FCR 29, PT 6, FDS 29), i.e. the pale lines it followed are not the PT/FCR/PL/FDS septa; their sum (105 cm3) fits the four together.",
+      "candidates": [
+        "pronator_teres_r",
+        "flexor_carpi_radialis_r",
+        "palmaris_longus_r",
+        "flexor_digitorum_superficialis_r"
+      ]
+    },
+    {
+      "label": 4,
+      "source_structure": "flexor_carpi_ulnaris",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "flexor_carpi_ulnaris_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 55.4 cm3. REVIEW: volume outside 5-45 cm3, the region may hold a neighbour's belly.",
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "flexor_digitorum_profundus",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "flexor_digitorum_profundus_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 37.1 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 7,
+      "source_structure": "flexor_pollicis_longus",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "flexor_pollicis_longus_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 16.2 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 8,
+      "source_structure": "pronator_quadratus",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "pronator_quadratus_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 17.3 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 9,
+      "source_structure": "brachioradialis",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "brachioradialis_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 47.7 cm3. REVIEW: volume outside 5-45 cm3, the region may hold a neighbour's belly.",
+      "candidates": []
+    },
+    {
+      "label": 10,
+      "source_structure": "extensor_carpi_radialis_compartment",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "rule-based; compartment holding extensor_carpi_radialis_longus, extensor_carpi_radialis_brevis (43.0 cm3), not split: ECRL and ECRB: their split followed a pale line at only 67% of the 73 shared levels (median ridge ratio 2.06), the weakest within-compartment boundary; kept together (43 cm3, textbook ECRL 20 + ECRB 15).",
+      "candidates": [
+        "extensor_carpi_radialis_longus_r",
+        "extensor_carpi_radialis_brevis_r"
+      ]
+    },
+    {
+      "label": 12,
+      "source_structure": "extensor_digitorum",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "extensor_digitorum_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 19.7 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 13,
+      "source_structure": "extensor_digiti_minimi",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "extensor_digiti_minimi_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 9.9 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 14,
+      "source_structure": "extensor_carpi_ulnaris",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "extensor_carpi_ulnaris_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 12.8 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 16,
+      "source_structure": "supinator_anconeus_compartment",
+      "side": "right",
+      "status": "no_atlas_entity",
+      "atlas_id": null,
+      "relationship": "no_usable_label",
+      "note": "rule-based; compartment holding supinator, anconeus (8.3 cm3), not split: Supinator (7.6 cm3) and anconeus (0.7 cm3) at the proximal end: the anconeus region is far too small to be the muscle, and the supinator wraps the radius where its border with the mobile wad is the position rule line, not a septum.",
+      "candidates": [
+        "supinator_r",
+        "anconeus_r"
+      ]
+    },
+    {
+      "label": 17,
+      "source_structure": "abductor_pollicis_longus",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "abductor_pollicis_longus_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 9.4 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 18,
+      "source_structure": "extensor_pollicis_brevis",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "extensor_pollicis_brevis_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 4.8 cm3. REVIEW: volume outside 5-45 cm3, the region may hold a neighbour's belly.",
+      "candidates": []
+    },
+    {
+      "label": 19,
+      "source_structure": "extensor_pollicis_longus",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "extensor_pollicis_longus_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 8.6 cm3.",
+      "candidates": []
+    },
+    {
+      "label": 20,
+      "source_structure": "extensor_indicis",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "extensor_indicis_r",
+      "relationship": "exact",
+      "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 10.0 cm3.",
+      "candidates": []
+    }
+  ]
+}

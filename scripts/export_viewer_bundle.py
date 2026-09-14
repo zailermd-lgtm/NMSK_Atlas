@@ -294,7 +294,7 @@ def add_skin_depth(index, subjects):
     skin = [np.concatenate(pts) for (sub, aid), pts in meshes.items() if aid == "skin"]
     if not skin:
         return 0
-    tree = cKDTree(np.concatenate(skin)[::2]); done = 0
+    skin_pts = np.concatenate(skin)[::2]; tree = cKDTree(skin_pts); done = 0
     for e in index:
         pts = meshes.get((e["subject"], e["id"]))
         if not pts or e["id"] == "skin":
@@ -302,7 +302,37 @@ def add_skin_depth(index, subjects):
         pv = np.concatenate(pts); pv = pv[::max(1, len(pv) // 4000)]
         dist, _ = tree.query(pv)
         e["depth_min"] = round(float(dist.min()), 1); e["depth_med"] = round(float(np.median(dist)), 1); done += 1
+        if e.get("cat") == "nerve":
+            prof = depth_profile(np.concatenate(pts), tree, skin_pts)
+            if prof:
+                e["depth_profile"] = prof
     return done
+
+
+PROFILE_STEP_MM = 20.0
+
+
+def depth_profile(pv, tree, skin_pts, step=PROFILE_STEP_MM):
+    """A nerve's depth below the skin ALONG ITS COURSE: the structure's vertices
+    binned every `step` mm of atlas y (superior axis); per bin the shallowest
+    vertex, its distance to the skin, and the skin point nearest to it, so the
+    viewer can list the course level by level and put a needle on any row
+    (entry = that skin point, target = that vertex). Rows are
+    [y_level, depth_mm, px, py, pz, sx, sy, sz], nearest 0.1 mm. Geometry only."""
+    if len(pv) < 10:
+        return []
+    pv = pv[::max(1, len(pv) // 20000)]
+    lo = np.floor(pv[:, 1].min() / step) * step
+    rows = []
+    for y0 in np.arange(lo, pv[:, 1].max() + step, step):
+        sel = pv[(pv[:, 1] >= y0) & (pv[:, 1] < y0 + step)]
+        if len(sel) < 3:
+            continue
+        d, j = tree.query(sel); k = int(d.argmin())
+        p = sel[k]; s = skin_pts[j[k]]
+        rows.append([round(float(y0 + step / 2), 1), round(float(d[k]), 1)] +
+                    [round(float(t), 1) for t in p] + [round(float(t), 1) for t in s])
+    return rows
 
 
 def main() -> int:

@@ -106,6 +106,11 @@ aside{border-right:1px solid var(--line)}
 .tag.cat{border-color:transparent;color:#1B1B1B}
 .tag.warn{border-color:var(--risk);color:var(--risk);background:var(--risk-soft)}
 .kv{display:grid;grid-template-columns:78px minmax(0,1fr);gap:4px 10px;font-size:12px}
+table.course{border-collapse:collapse;font-size:12px;margin:4px 0}
+table.course th{text-align:left;font-weight:600;color:#666;padding:2px 8px 2px 0}
+table.course td{padding:2px 8px 2px 0;border-top:1px solid #eee}
+button.mini{font:inherit;font-size:11px;padding:1px 6px;border:1px solid #bbb;border-radius:4px;background:#fff;cursor:pointer}
+button.mini:hover{background:#f2f2f2}
 .kv dt{color:var(--muted)}
 .kv dd{margin:0;overflow-wrap:anywhere}
 .arch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
@@ -373,11 +378,12 @@ var groups = {}, order = [];
 meshes.forEach(function(m){
   var s = m.userData, g = groups[s.id];
   if (!g){
-    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject, depth_min:s.depth_min, depth_med:s.depth_med,
+    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject, depth_min:s.depth_min, depth_med:s.depth_med, depth_profile:s.depth_profile,
                         meshes:[], nf:0, tris_full:0, cell:s.cell, parts:0};
     order.push(g);
   }
   g.meshes.push(m); g.nf += s.nf; g.tris_full += s.tris_full; g.parts++;
+  if (!g.depth_profile && s.depth_profile) g.depth_profile = s.depth_profile;
 });
 order.sort(function(a, b){ return a.id < b.id ? -1 : 1; });
 
@@ -735,6 +741,22 @@ function select(id){
     (s.cell ? "<dt>Cell</dt><dd>" + s.cell.toFixed(2) + " mm clustering grid</dd>" : "") +
     "</dl><p class=\"cite\">Decimated for viewing only. Every measurement in this atlas is " +
     "made against the full-resolution mesh, never this copy.</p></div>";
+  if (s.depth_profile && s.depth_profile.length) {
+    /* Q58: the nerve's depth below the skin level by level along its course
+       (every 20 mm of atlas y, the superior axis; y = 0 is the hip-joint
+       midpoint). "show" marks the shallowest point of that level, "needle"
+       lays the needle-path tool from the nearest skin point to it. Geometry
+       on this body only, not a block technique. */
+    h += '<div class="sec"><p class="eyebrow">Depth below skin along the course</p>' +
+      '<table class="course"><thead><tr><th>level (y, mm)</th><th>shallowest</th><th></th></tr></thead><tbody>';
+    s.depth_profile.forEach(function(row, i){
+      h += '<tr><td class="mono">' + row[0].toFixed(0) + '</td><td class="mono">' + row[1].toFixed(1) + ' mm</td>' +
+        '<td><button type="button" class="mini" onclick="courseShow(\'' + esc(id) + '\',' + i + ')">show</button> ' +
+        '<button type="button" class="mini" onclick="courseNeedle(\'' + esc(id) + '\',' + i + ')">needle</button></td></tr>';
+    });
+    h += '</tbody></table><p class="cite">Shallowest surface point of this structure in each 20 mm band, and its distance to the ' +
+      'skin mesh of this body. A measurement, not an approach.</p></div>';
+  }
   var clin = BUNDLE.clinical && BUNDLE.clinical[id.replace(/_[rl]$/, "")];
   if (clin && clin.length) {
     h += '<div class="sec"><p class="eyebrow">Clinical reference (owner\'s compilation)</p>';
@@ -822,6 +844,20 @@ function needleAddPoint(pt, mesh){
 }
 /* Programmatic entry point: two atlas-mm points, each optionally with the
    id of the mesh it lies on (a click supplies that itself). */
+function courseShow(id, i){
+  var g = groups[id]; if (!g || !g.depth_profile || !g.depth_profile[i]) return;
+  var r = g.depth_profile[i];
+  showPoint("insertion", r[2], r[3], r[4]);
+  showPoint("origin", r[5], r[6], r[7]);
+}
+function courseNeedle(id, i){
+  var g = groups[id]; if (!g || !g.depth_profile || !g.depth_profile[i]) return;
+  var r = g.depth_profile[i];
+  needleToggle(true);
+  var skinMesh = meshes.filter(isSkinMesh)[0];
+  needleSetPoints([r[5], r[6], r[7]], [r[2], r[3], r[4]], skinMesh ? skinMesh.userData.id : null, id);
+}
+window.courseShow = courseShow; window.courseNeedle = courseNeedle;
 function needleSetPoints(entry, target, entryId, targetId){
   needleClear();
   needleAddPoint(new THREE.Vector3(entry[0], entry[1], entry[2]), entryId ? byId[entryId] || null : null);
