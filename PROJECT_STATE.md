@@ -1511,6 +1511,22 @@ tick the item here with a one-line result. Never fabricate; keep the
       on her 1 mm frame; (4) hand intrinsics from her hand crops; (5) foot: DU female release (Q59) or a foot
       stream; (6) diaphragm, intercostals, pelvic floor; (7) head/larynx from head cryosections at full res;
       (8) the ~15 entities. Regenerate the counts: the snippet in the Q62 commit (scratchpad/muscle_gaps.json).
+- [x] Q66 (2026-09-14, 11:00) REGRESSION found by the refreshed scale audit and fixed: since the male chain was
+      rerun this morning (vhm_both deleted for the tarsal renaming), `bundle_to_subjects.py` had re-created
+      `ct_vhm_armm` from the recovered bundle (v1 compartments: biceps 475, triceps 675/762 cm3 as meshes) and the
+      `v2.done` marker made the chain skip the v2 conversion (labels 386/361, 549/602). Viewer Versions 32-33
+      carried the v1 arm muscles. Fix: `--skip ct_vhm_foot ct_vhm_armm ct_vhm_neck` on the bundle copy, guards by
+      the manifest's source_file instead of marker files. The converter itself is fine (mesh = label +-2 %,
+      measured). Male rebuilt and republished: Version 34 (biceps 350, triceps 581 cm3 as meshes again).
+- [ ] Q64 Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges): the Q30 failure lacked an
+      independent prior; now his complete left bones can be transferred onto her (driven by her left humerus)
+      and used as +-10 mm priors for the bone discs in her full-resolution left forearm/hand crops (on disk),
+      then her own bone surfaces traced. Needed before the left forearm muscles (Q62 step 1).
+- [ ] Q65 The ~15 small muscles Z-Anatomy names that the entity list lacks (articularis genus, dartos, depressor
+      labii inferioris, depressor septi nasi, depressor supercilii, levator anguli oris, auricularis anterior/
+      superior/posterior, helicis major/minor, tragicus, antitragicus, transverse and oblique auricular): records
+      with Gray's/TA attachments and innervation; architecture numbers ONLY where a source gives them, otherwise
+      the record says so (no invented PCSA).
 - [ ] Q60 The owner's compiled muscle references (Dropbox /claude, 2026-09-14): shoulder, elbow, wrist, hand
       intrinsic, head/neck HTML (function/biomechanics, trigger points, referred pain, adjacent structures,
       per-muscle references, verification appendix; Gray's 43rd, Moore 9th, Neumann 3rd, Travell & Simons

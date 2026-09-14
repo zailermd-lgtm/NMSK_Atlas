@@ -8,8 +8,10 @@
 set -u; cd /home/user/NMSK_Atlas; T=data/ct_sources/task_outputs; B=data/derived/viewer_bundles/vhm_v25; mkdir -p build/vh
 # the seven tarsal pieces the bundle carries as tarsals_r/l are named (talus, calcaneus, ...) by scripts/transfer/name_tarsal_pieces.py
 [ -f mappings/subjects/vhm_both_piece_names.json ] || python3 scripts/transfer/name_tarsal_pieces.py $B -o mappings/subjects/vhm_both_piece_names.json | tail -1
-[ -f build/vh/vhm_both/manifest.json ] || python3 scripts/transfer/bundle_to_subjects.py $B --out build/vh --label "recovered from the published male viewer (Version 25)" --rename mappings/subjects/vhm_both_piece_names.json | tail -1
-if [ ! -f build/vh/ct_vhm_foot/manifest.json ]; then
+# subjects that have their own volume in the repo (foot, arm compartments v2, neck) are NEVER taken from the bundle:
+# 2026-09-14 the bundle copy silently overwrote the v2 arm compartments (biceps 475 vs 386 cm3) because the v2.done marker survived
+[ -f build/vh/vhm_both/manifest.json ] || python3 scripts/transfer/bundle_to_subjects.py $B --out build/vh --label "recovered from the published male viewer (Version 25)" --rename mappings/subjects/vhm_both_piece_names.json --skip ct_vhm_foot ct_vhm_armm ct_vhm_neck | tail -1
+if ! grep -q vhm_foot_bones build/vh/ct_vhm_foot/manifest.json 2>/dev/null; then
   cp mappings/subjects/ct_vhm_foot_volume_mapping.json build/vh/
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_foot_bones.nii.gz --labels vhm_foot --subject ct_vhm_foot --origin='-8.755,-202.476,5.677' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
@@ -20,7 +22,7 @@ if [ ! -f build/vh/xfer_vhf2vhm/manifest.json ]; then
     -o build/vh/xfer_vhf2vhm --report data/derived/transfer_report_vhf2vhm.json 2>&1 | head -1 | cut -c1-160
 fi
 # his upper-arm compartments v2 (scripts/cryo/vhm_arm_muscles_v2.py, label volume in the repo) replace the recovered ct_vhm_armm
-if [ -f $T/vhm_arm_muscles_cryo_v2.nii.gz ] && [ ! -f build/vh/ct_vhm_armm/v2.done ]; then
+if [ -f $T/vhm_arm_muscles_cryo_v2.nii.gz ] && ! grep -q vhm_arm_muscles_cryo_v2 build/vh/ct_vhm_armm/manifest.json 2>/dev/null; then
   rm -rf build/vh/ct_vhm_armm; cp mappings/subjects/ct_vhm_armm_volume_mapping.json build/vh/
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_arm_muscles_cryo_v2.nii.gz --labels vhm_arm_muscles --subject ct_vhm_armm --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace" && touch build/vh/ct_vhm_armm/v2.done
 fi

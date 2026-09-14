@@ -29,6 +29,7 @@ def main():
     ap.add_argument("bundle", help="published viewer HTML, or a directory with bundle.json + bundle.bin")
     ap.add_argument("--out", default="build/vh")
     ap.add_argument("--only", nargs="*")
+    ap.add_argument("--skip", nargs="*", default=[], help="subjects NOT to write (those rebuilt from their own volumes)")
     ap.add_argument("--label", default="recovered from the published viewer bundle")
     ap.add_argument("--rename", default=None, help="JSON from name_tarsal_pieces.py: {id: {piece order: new atlas id}}")
     a = ap.parse_args()
@@ -41,7 +42,7 @@ def main():
         s = e["subject"]
         k = seen.get(e["id"], 0); seen[e["id"]] = k + 1
         new_id = rename.get(e["id"], {}).get(str(k))
-        if a.only and s not in a.only:
+        if (a.only and s not in a.only) or s in a.skip:
             continue
         d = per.setdefault(s, {"v": [], "f": [], "st": []})
         voff = sum(len(x) for x in d["v"]); foff = sum(len(x) for x in d["f"])
