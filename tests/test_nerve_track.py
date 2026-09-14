@@ -68,3 +68,16 @@ def test_seed_rule_uses_the_bony_landmarks():
               "femur_r": {"v": np.array([[160.0, -30.0, -20.0], [110.0, 0.0, -10.0], [100.0, -400.0, 0.0], [120.0, -50.0, 0.0]])}}
     s = nt.seed_rule("sciatic", meshes, "right")
     assert s["y"] == pytest.approx(-80.0) and s["x"] == pytest.approx(110.0) and s["z"] == pytest.approx(-35.0)
+
+
+def test_scorer_features_and_augmentation_shapes():
+    from scripts.cryo import vhf_nerve_scorer as sc
+    rng = np.random.default_rng(1)
+    X = rng.integers(0, 255, (5, 48, 48, 3), dtype=np.uint8); Y = np.array([1, 0, 1, 0, 0], np.uint8)
+    F = sc.features(X)
+    assert F.shape == (5, 144 + 3 + 3 + 1 + 4) and np.isfinite(F).all()
+    Xa, Ya = sc.augment(X, Y)
+    assert Xa.shape == (40, 48, 48, 3) and Ya.sum() == 8 * Y.sum()
+    # a rotation of a patch gives the same pooled energy features (rotation-invariant parts)
+    F2 = sc.features(np.rot90(X, 1, axes=(1, 2)))
+    assert np.allclose(F[:, 147:151], F2[:, 147:151], atol=1e-4)

@@ -1115,6 +1115,25 @@ nerve; the 1 mm gaps (24 right, 37 left) are filled with the nearest tracked sec
 the chain. Rule-based, badged; the montages that were checked are in the scratchpad record of the
 session (`sciatic_*_zoom.png`), regenerable from the scripts in ~10 minutes per side.
 
+### A learned nerve-section scorer, trained on her own verified track (2026-09-14, Q54)
+
+Below the mid-thigh the hand-crafted detector fails for a measured reason: the tibial nerve in the
+popliteal fat is a compact 8 mm oval whose fascicles are 1-2 px specks, and every first-order feature
+(mean red 157 vs 152, gradient 46 vs 87, residual roughness 3.5 vs 5.6, blue/red 0.55 vs 0.52) puts it
+INSIDE the range of the connective tissue beside it; a reader knows it by shape and speckle. So the
+scorer is learned from the atlas's own evidence: `scripts/cryo/vhf_nerve_patches.py` cuts 48 px
+(16 mm) patches at every verified level of the Q53 track (2,324 positives with +-3 px jitter) and
+negatives from the same levels (every other blob the detector offered = 1,000 hard negatives on
+muscle/fat edges, random corridor points and random crop points >= 10 mm from the nerve; 3,603 in
+all); `scripts/cryo/vhf_nerve_scorer.py` fits a histogram gradient-boosting classifier on 155 features
+(red channel pooled to 12 x 12, colour means, residual energy at 1/2/4 px, mean gradient, 4-ring radial
+profile) over all 8 rotations/flips. Validation holds out every fifth LEVEL: AUC 0.998, average
+precision 0.997, recall 0.98 at 0.5, false positives 1.9 % of hard negatives, 2.4 % of corridor
+points, 0.5 % of random points (`data/derived/vhf_nerve_scorer_report.json`). The tracker uses it
+(`--scorer`) to score every candidate and to scan the corridor densely (6 px grid) where the detector
+finds nothing; the chain cost becomes jump + 15 mm x (1 - probability). What it cannot do: tell a
+nerve from a structure that never appeared in the training levels; the montage check stays.
+
 ## Resulting architecture
 
 ```

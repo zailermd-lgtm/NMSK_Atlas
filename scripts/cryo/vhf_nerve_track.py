@@ -182,7 +182,36 @@ def seed_rule(nerve, meshes, side):
     raise SystemExit("no seed rule for " + nerve)
 
 
-def collect(crops, meshes, side, spec, y_top, y_end, lab_store=None, log=print):
+def learned_candidates(scorer, im, cor, cands, lab, lab_store_slot=None):
+    """Score the hand-crafted candidates with the learned patch scorer and add blobs of its dense corridor scan
+    (probability > 0.5, 6-200 mm2) that no hand-crafted candidate covers. Label ids for the new blobs continue
+    after the detector's; the label image is updated in place so the volume builder can find them."""
+    from scripts.cryo import vhf_nerve_scorer as sc
+    P = sc.P; pads = []
+    for c in cands:
+        r, cc = int(round(c["rc"][0])), int(round(c["rc"][1]))
+        ok = P <= r < im.shape[0] - P and P <= cc < im.shape[1] - P
+        pads.append(im[r - P:r + P, cc - P:cc + P] if ok else np.zeros((2 * P, 2 * P, 3), np.uint8))
+    probs = sc.score_patches(scorer, pads)
+    for c, p in zip(cands, probs):
+        c["score"] = round(float(p), 3)
+    prob = sc.dense_scan(scorer, im, cor)
+    blob = (prob > 0.5) & cor
+    if not blob.any():
+        return cands, lab
+    bl, nb = ndi.label(blob); nxt = int(lab.max()) + 1; lab = lab.copy()
+    for i in range(1, nb + 1):
+        mm = bl == i; ar = mm.sum() * PX * PX
+        if not (6.0 <= ar <= 200.0) or any((lab == c["lab"])[mm].mean() > 0.3 for c in cands):
+            continue
+        lab[mm & (lab == 0)] = nxt; mm = lab == nxt
+        cy, cx = ndi.center_of_mass(mm)
+        cands.append({"lab": nxt, "area_mm2": float(mm.sum() * PX * PX), "rc": (float(cy), float(cx)), "inside": float(cor[mm].mean()),
+                      "aspect": None, "score": round(float(prob[mm].mean()), 3), "learned": True}); nxt += 1
+    return cands, lab
+
+
+def collect(crops, meshes, side, spec, y_top, y_end, lab_store=None, log=print, scorer=None):
     """Per level: candidate blobs (atlas centroid, area, label id) and the blob label image (stored if lab_store given)."""
     if y_end > y_top:                                     # tracking UPWARD from the seed
         ys = sorted(y for y in crops.ys if y_top <= y <= y_end)
@@ -193,6 +222,8 @@ def collect(crops, meshes, side, spec, y_top, y_end, lab_store=None, log=print):
         im = crops.image(y); masks = section_masks(meshes, spec["roof"] + spec["floor"] + spec.get("bone", []), side, y, crops, im.shape[:2])
         cor, _ = corridor_mask(im, masks, spec)
         cands, lab = candidates(im, cor, spec["area_mm2"])
+        if scorer is not None:
+            cands, lab = learned_candidates(scorer, im, cor, cands, lab)
         if lab_store is not None:
             lab_store[i, :lab.shape[0], :lab.shape[1]] = np.clip(lab, 0, 255)
         for c in cands:
@@ -258,14 +289,15 @@ def viterbi(ys, per, seed, jump_mm=8.0, gap_cost=6.0, seed_radius=25.0, lam=8.0)
     return chain[::-1]
 
 
-def track(crops, meshes, side, spec, seed, y_end, lab_store=None, log=print):
-    ys, per = collect(crops, meshes, side, spec, seed["y"], y_end, lab_store, log)
-    chain = viterbi(ys, per, seed)
+def track(crops, meshes, side, spec, seed, y_end, lab_store=None, log=print, scorer=None):
+    ys, per = collect(crops, meshes, side, spec, seed["y"], y_end, lab_store, log, scorer=scorer)
+    chain = viterbi(ys, per, seed, lam=15.0 if scorer is not None else 8.0)
     rows = []
     for y, x, z, idx in chain:
         c = per[y][idx] if idx is not None else None
         rows.append({"y": y, "gap": c is None, "x": round(x, 1), "z": round(z, 1), "n_cands": len(per[y]),
-                     **({"area_mm2": round(c["area_mm2"], 1), "inside": round(c["inside"], 2), "lab": int(c["lab"]), "score": c.get("score"), "level_index": ys.index(y)} if c else {})})
+                     **({"area_mm2": round(c["area_mm2"], 1), "inside": round(c["inside"], 2), "lab": int(c["lab"]), "score": c.get("score"),
+                         "learned": bool(c.get("learned", False)), "level_index": ys.index(y)} if c else {})})
     lost = chain[-1][0] if chain else None
     return rows, lost
 
@@ -294,6 +326,7 @@ def main():
     ap.add_argument("--y-end", type=float, default=-440, help="last level; above the seed = track upward")
     ap.add_argument("--seed", default=None, help="x,y,z atlas mm (overrides the rule)")
     ap.add_argument("--out", required=True); ap.add_argument("--montage", default=None); ap.add_argument("--every", type=int, default=20)
+    ap.add_argument("--scorer", default=None, help="learned patch scorer (vhf_nerve_scorer.py train) -> candidates scored, corridor scanned")
     a = ap.parse_args()
     crops = Crops(a.crops, a.side); bf, blob = read_bundle_dir(a.bundle); meshes = meshes_by_id(bf, blob)
     lab_store = np.lib.format.open_memmap(a.out.replace(".json", "_labels.npy"), mode="w+", dtype=np.uint8,
@@ -302,7 +335,11 @@ def main():
     seed = seed_rule(a.nerve, meshes, a.side) if a.seed is None else dict(zip("xyz", map(float, a.seed.split(","))), rule="given")
     seed["y"] = float(int(round(seed["y"])))
     print("seed", {k: (round(v, 1) if isinstance(v, float) else v) for k, v in seed.items()})
-    rows, lost = track(crops, meshes, a.side, spec, seed, a.y_end, lab_store); lab_store.flush()
+    scorer = None
+    if a.scorer:
+        from scripts.cryo import vhf_nerve_scorer as sc
+        scorer = sc.load(a.scorer)
+    rows, lost = track(crops, meshes, a.side, spec, seed, a.y_end, lab_store, scorer=scorer); lab_store.flush()
     found = [r for r in rows if not r["gap"]]
     span = (found[0]["y"] - found[-1]["y"]) if found else 0
     print(f"{len(found)} levels with a blob of {len(rows)} ({span:.0f} mm span), lost at {lost}")
