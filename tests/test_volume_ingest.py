@@ -540,3 +540,14 @@ def test_the_bone_only_frame_refuses_a_head_it_cannot_fit():
     shaft = shaft + rng.normal(scale=1.0, size=shaft.shape)
     frames = audit.build_frames({"femur_r": shaft}, {}, {})
     assert "femur_r" not in frames, "a shaft with no head must not yield a frame"
+
+
+def test_label_centre_splitter_cuts_a_midline_tube_without_sternum_or_vertebra():
+    from engine.volume_ingest import split_at_label_centre
+    vol = np.zeros((60, 50, 40), np.uint8); aff = np.diag([1.0, 1.0, 1.0, 1.0]); aff[:3, 3] = [-30, -25, -20]
+    vol[20:41, 20:31, 15:26] = 7                        # a block straddling the scanner's centre, shifted 0 mm
+    vol[41:46, 20:31, 15:26] = 7                        # ... plus an asymmetric tail to the +X (subject's right) side
+    parts, notes = split_at_label_centre(vol, 7, aff, {})
+    assert "label's own centre" in notes[0]
+    assert parts["right"].sum() + parts["left"].sum() == (vol == 7).sum()
+    assert parts["right"][44, 25, 20] and not parts["left"][44, 25, 20]

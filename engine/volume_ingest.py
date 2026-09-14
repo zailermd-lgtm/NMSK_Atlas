@@ -370,6 +370,23 @@ def split_at_midline(volume: np.ndarray, label: int, affine: np.ndarray,
     if not mask.any():
         raise ValueError("the label is empty")
     mid, source = midline_x(volume, affine, label_ids)
+    return _split_at_x(mask, affine, mid, source)
+
+
+def split_at_label_centre(volume: np.ndarray, label: int, affine: np.ndarray,
+                          label_ids: Dict[str, int]) -> Tuple[Dict[str, np.ndarray], List[str]]:
+    """One bilateral MIDLINE structure (a pharyngeal constrictor: a tube around the median plane) -> right / left,
+    cut at the label's own centre of mass. For label maps that carry no sternum or vertebra (the head/neck muscle
+    task). Only for structures that straddle the midline symmetrically; a pair of separate bilateral bodies would be
+    cut at the wrong place if one side were larger -- those keep the strict `midline` splitter."""
+    mask = volume == label
+    if not mask.any():
+        raise ValueError("the label is empty")
+    mid = float(atlas_points_of(mask, affine)[1][:, 0].mean())
+    return _split_at_x(mask, affine, mid, "label's own centre (no sternum or vertebra in this label map)")
+
+
+def _split_at_x(mask, affine, mid, source):
     idx, pts = atlas_points_of(mask, affine)
     right = np.zeros(mask.shape, dtype=bool)
     left = np.zeros(mask.shape, dtype=bool)
@@ -384,6 +401,7 @@ def split_at_midline(volume: np.ndarray, label: int, affine: np.ndarray,
 LABEL_SPLITTERS = {
     "aorta_by_vertebral_level": split_aorta,
     "midline": split_at_midline,
+    "midline_by_label_centre": split_at_label_centre,
 }
 
 

@@ -1492,6 +1492,25 @@ tick the item here with a one-line result. Never fabricate; keep the
       now map each tarsal file to its own entity), rebuild the male from source (replacing the recovered
       decimated meshes), and replace `xfer_vhm2vhf`/`xfer_vhm2vhf_sep` on the female with HER OWN DU lower
       limb (keep the septa-refined transfer only where the release has nothing).
+- [x] Q63 (2026-09-14, 10:10) Pharyngeal constrictors on both bodies from the head/neck task labels that were
+      mapped to null ("unsided"): new splitter `midline_by_label_centre` (engine/volume_ingest.py; the strict
+      `midline` still requires sternum/vertebrae and still raises) cuts each tube at its own centre; male all
+      three (391/386, 1083/1004, 2210/2174 voxels r/l), female middle + inferior (the superior is 196 voxels,
+      13 right: not shipped). ct_vhm_neck now converts from his merged volume in the chain instead of the
+      recovered bundle. Male viewer Version 33.
+- [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
+      COMPLETENESS PROGRAMME. Measured: 404 muscle entities, 154 with a mesh on both bodies, 250 (128 distinct
+      muscles) on neither -- `docs/MUSCLE_GAPS.md` lists them by group with the real-source route each. Z-Anatomy
+      (CC BY-SA, read as a CHECKLIST from the file names of its description texts; nothing copied) names 184
+      muscle-like structures; the entity list lacks ~15 small ones (articularis genus, dartos, depressor labii
+      inferioris, depressor septi nasi, depressor supercilii, levator anguli oris, the auricular muscles). So the
+      list is nearly complete and the GEOMETRY is the gap. Order: (1) forearm muscles on her (full-res crops on
+      disk, 491 levels both sides; compartments by the interosseous membrane, then a marker watershed on the
+      fascial lines with position-rule markers relative to radius/ulna), then him; (2) shoulder girdle: teres
+      major/minor split of the cuff label, rhomboid major/minor split, subclavius; (3) deep neck + suboccipitals
+      on her 1 mm frame; (4) hand intrinsics from her hand crops; (5) foot: DU female release (Q59) or a foot
+      stream; (6) diaphragm, intercostals, pelvic floor; (7) head/larynx from head cryosections at full res;
+      (8) the ~15 entities. Regenerate the counts: the snippet in the Q62 commit (scratchpad/muscle_gaps.json).
 - [ ] Q60 The owner's compiled muscle references (Dropbox /claude, 2026-09-14): shoulder, elbow, wrist, hand
       intrinsic, head/neck HTML (function/biomechanics, trigger points, referred pain, adjacent structures,
       per-muscle references, verification appendix; Gray's 43rd, Moore 9th, Neumann 3rd, Travell & Simons

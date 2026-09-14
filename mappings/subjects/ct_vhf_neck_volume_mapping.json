@@ -32,31 +32,41 @@
    "label": 3,
    "source_structure": "superior_pharyngeal_constrictor",
    "side": null,
-   "status": "no_atlas_entity",
+   "status": "skipped",
    "atlas_id": null,
-   "relationship": "no_atlas_entity",
-   "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped.",
+   "relationship": "part_of",
+   "note": "196 voxels on her scan and 13 of them right of the midline: too little to ship either half. Middle and inferior constrictors are split at the midline.",
    "candidates": []
   },
   {
    "label": 4,
    "source_structure": "middle_pharyngeal_constrictor",
    "side": null,
-   "status": "no_atlas_entity",
+   "status": "curated",
    "atlas_id": null,
-   "relationship": "no_atlas_entity",
-   "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped.",
-   "candidates": []
+   "relationship": "split",
+   "note": "Unsided in the release; a tube around the median plane, cut at its own centre into the atlas _r/_l halves (this task's label map has no sternum or vertebra for the measured midline).",
+   "candidates": [],
+   "splitter": "midline_by_label_centre",
+   "split_parts": {
+    "right": "middle_pharyngeal_constrictor_r",
+    "left": "middle_pharyngeal_constrictor_l"
+   }
   },
   {
    "label": 5,
    "source_structure": "inferior_pharyngeal_constrictor",
    "side": null,
-   "status": "no_atlas_entity",
+   "status": "curated",
    "atlas_id": null,
-   "relationship": "no_atlas_entity",
-   "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped.",
-   "candidates": []
+   "relationship": "split",
+   "note": "Unsided in the release; a tube around the median plane, cut at its own centre into the atlas _r/_l halves (this task's label map has no sternum or vertebra for the measured midline).",
+   "candidates": [],
+   "splitter": "midline_by_label_centre",
+   "split_parts": {
+    "right": "inferior_pharyngeal_constrictor_r",
+    "left": "inferior_pharyngeal_constrictor_l"
+   }
   },
   {
    "label": 6,
