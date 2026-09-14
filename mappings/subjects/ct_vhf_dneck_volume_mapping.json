@@ -1,0 +1,218 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhf_dneck",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+ "label_map": "vhf_deep_neck",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "splenius_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "79.0 cm3; compartment: splenius capitis + splenius cervicis, one sheet in these photographs (no septum between the capitis and its inferolateral cervicis part at 1 mm); mapped to null, candidates listed.",
+   "candidates": [
+    "splenius_capitis_r",
+    "splenius_cervicis_r"
+   ]
+  },
+  {
+   "label": 2,
+   "source_structure": "semispinalis_capitis_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "semispinalis_capitis_r",
+   "relationship": "exact",
+   "note": "35.3 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "semispinalis_cervicis_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "semispinalis_cervicis_r",
+   "relationship": "exact",
+   "note": "15.1 cm3; rule-based: semispinalis cervicis with the cervical multifidus (inseparable at 1 mm), C2-T1; below T1 its origin lies inside the erector columns.",
+   "candidates": []
+  },
+  {
+   "label": 4,
+   "source_structure": "rectus_capitis_posterior_minor_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "rectus_capitis_posterior_minor_r",
+   "relationship": "exact",
+   "note": "2.2 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 5,
+   "source_structure": "rectus_capitis_posterior_major_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "rectus_capitis_posterior_major_r",
+   "relationship": "exact",
+   "note": "2.8 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 6,
+   "source_structure": "obliquus_capitis_inferior_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "obliquus_capitis_inferior_r",
+   "relationship": "exact",
+   "note": "7.4 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 7,
+   "source_structure": "obliquus_capitis_superior_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "obliquus_capitis_superior_r",
+   "relationship": "exact",
+   "note": "0.5 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 8,
+   "source_structure": "erector_cervical_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "42.7 cm3; NOT shipped: sink for the longissimus / iliocostalis cervicis-capitis lateral of the semispinalis capitis (erector column, not a target; keeps erector muscle out of the semispinalis).",
+   "candidates": []
+  },
+  {
+   "label": 9,
+   "source_structure": "longus_colli_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "longus_colli_r",
+   "relationship": "exact",
+   "note": "3.8 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 10,
+   "source_structure": "longus_capitis_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "longus_capitis_r",
+   "relationship": "exact",
+   "note": "2.4 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 11,
+   "source_structure": "splenius_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "68.1 cm3; compartment: splenius capitis + splenius cervicis, one sheet in these photographs (no septum between the capitis and its inferolateral cervicis part at 1 mm); mapped to null, candidates listed.",
+   "candidates": [
+    "splenius_capitis_l",
+    "splenius_cervicis_l"
+   ]
+  },
+  {
+   "label": 12,
+   "source_structure": "semispinalis_capitis_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "semispinalis_capitis_l",
+   "relationship": "exact",
+   "note": "41.4 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 13,
+   "source_structure": "semispinalis_cervicis_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "semispinalis_cervicis_l",
+   "relationship": "exact",
+   "note": "15.9 cm3; rule-based: semispinalis cervicis with the cervical multifidus (inseparable at 1 mm), C2-T1; below T1 its origin lies inside the erector columns.",
+   "candidates": []
+  },
+  {
+   "label": 14,
+   "source_structure": "rectus_capitis_posterior_minor_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "rectus_capitis_posterior_minor_l",
+   "relationship": "exact",
+   "note": "2.5 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 15,
+   "source_structure": "rectus_capitis_posterior_major_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "rectus_capitis_posterior_major_l",
+   "relationship": "exact",
+   "note": "2.6 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 16,
+   "source_structure": "obliquus_capitis_inferior_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "obliquus_capitis_inferior_l",
+   "relationship": "exact",
+   "note": "7.7 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 17,
+   "source_structure": "obliquus_capitis_superior_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "obliquus_capitis_superior_l",
+   "relationship": "exact",
+   "note": "0.3 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 18,
+   "source_structure": "erector_cervical_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "41.0 cm3; NOT shipped: sink for the longissimus / iliocostalis cervicis-capitis lateral of the semispinalis capitis (erector column, not a target; keeps erector muscle out of the semispinalis).",
+   "candidates": []
+  },
+  {
+   "label": 19,
+   "source_structure": "longus_colli_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "longus_colli_l",
+   "relationship": "exact",
+   "note": "2.6 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 20,
+   "source_structure": "longus_capitis_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "longus_capitis_l",
+   "relationship": "exact",
+   "note": "3.6 cm3; rule-based: position-rule marker relative to her vertebral labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  }
+ ]
+}

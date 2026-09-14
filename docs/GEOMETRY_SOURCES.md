@@ -1208,6 +1208,33 @@ supported at only 67 % of levels), supinator + anconeus (8 cm3). Compartment bor
 seeds are re-placed at every level (no level-to-level tracking). Output 0.5 x 0.5 x 1 mm, radial head to the
 carpus (atlas y 299 -> 140). Report `data/ct_sources/task_outputs/vhf_forearm_muscles_cryo_report.json`.
 
+### Deep neck and suboccipital muscles on her 1 mm frame (2026-09-14, Q62 step 3)
+
+`scripts/cryo/vhf_deep_neck_from_cryo.py`: between her vertebral labels (C1-T3, skull), the head/neck muscle labels
+(trapezius, SCM, levator scapulae, scalenes, constrictors as exclusions; the `prevertebral` label as the longus mass),
+the carotid/jugular labels and her erector columns, the posterior neck muscle of the photographs is split by layer
+rules (splenius superficial and lateral; semispinalis capitis the thick medial column beside the ligamentum nuchae;
+semispinalis cervicis against the laminae; the suboccipital triangle at C1-C2 from the C1 posterior tubercle / C2
+spine / C1 transverse process / occiput; longus colli and capitis on the anterior vertebral bodies medial to the
+carotid sheath). Shipped as subject `ct_vhf_dneck` (badge: rule-based): semispinalis capitis 35/41 cm3, semispinalis
+cervicis 15/16, rectus capitis posterior minor 2.2/2.5, major 2.8/2.6, obliquus capitis inferior 7.4/7.7, superior
+0.5/0.3, longus colli 3.8/2.6, longus capitis 2.4/3.6. Not shipped: the splenius sheet (79/68 cm3; capitis and
+cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectus capitis anterior/lateralis (about
+1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
+comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
+
+### Diaphragm and intercostal sheets on both bodies from the CT labels (2026-09-14, Q62 step 6)
+
+`scripts/trunk_wall_from_ct.py --body f|m`: the diaphragm is a 4 mm sheet (central tendon about 2 mm, muscular
+periphery 3-5 mm) laid on the boundary between the thoracic content (lung lobes + heart) and the closed abdominal
+viscera, extended along the inner rib surfaces of the costodiaphragmatic recess (apposition) and down the L1-L3
+bodies as the crura; the intercostals are the soft tissue between adjacent ribs within the rib depth, one label per
+side standing for the external, internal and innermost layers the CT cannot separate. Her volume is HU-gated to the
+muscle window (-30..150 HU); his frozen CT's HU overlap (muscle and liver both about -10 HU) so his is geometric only.
+Volumes: diaphragm 290 cm3 (her) / 338 (him) = 307 / 359 g against 250-350 g for an adult; intercostals 182/172 (her)
+and 307/307 (him; above expectation, recorded). Subjects `ct_vhf_twall`, `ct_vhm_twall`, badge rule-based; reports
+`data/ct_sources/task_outputs/vh{f,m}_trunk_wall_report.json` with the montages beside them.
+
 ## Resulting architecture
 
 ```
