@@ -50,7 +50,21 @@
    "occipitofrontalis_l_occipital_belly",
    "occipitofrontalis_r_frontal_belly",
    "occipitofrontalis_r_occipital_belly",
-   "procerus_main"
+   "procerus_main",
+   "helicis_major_l_main",
+   "auricularis_superior_r_main",
+   "auricularis_anterior_l_main",
+   "helicis_minor_r_main",
+   "antitragicus_r_main",
+   "depressor_supercilii_r_main",
+   "depressor_supercilii_l_main",
+   "tragicus_l_main",
+   "antitragicus_l_main",
+   "helicis_minor_l_main",
+   "auricularis_superior_l_main",
+   "auricularis_anterior_r_main",
+   "helicis_major_r_main",
+   "tragicus_r_main"
   ]
  },
  {
@@ -90,7 +104,11 @@
    "buccinator_r_main",
    "buccinator_l_main",
    "risorius_l_main",
-   "risorius_r_main"
+   "risorius_r_main",
+   "levator_anguli_oris_r_main",
+   "depressor_septi_nasi_l_main",
+   "levator_anguli_oris_l_main",
+   "depressor_septi_nasi_r_main"
   ]
  },
  {
@@ -104,7 +122,9 @@
    "depressor_anguli_oris_r_main",
    "depressor_anguli_oris_l_main",
    "mentalis_r_main",
-   "mentalis_l_main"
+   "mentalis_l_main",
+   "depressor_labii_inferioris_r_main",
+   "depressor_labii_inferioris_l_main"
   ]
  },
  {
@@ -1191,5 +1211,32 @@
   "targets": [
    "sphincter pupillae (pupillary constriction) and ciliary muscle (lens accommodation) -- both smooth muscle, not modeled as discrete entities in this atlas; postganglionic fibers reach the globe as the short ciliary nerves"
   ]
+ },
+ {
+  "id": "facial_n_posterior_auricular_branch",
+  "name": "Posterior auricular branch",
+  "plexus": "facial_n",
+  "parent_id": "facial_n_trunk",
+  "level": "muscular_branch",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998). Added 2026-09-14 (Q65) with the auricular muscles.",
+  "targets": [
+   "auricularis_posterior_r_main",
+   "auricularis_posterior_l_main",
+   "transversus_auriculae_r_main",
+   "transversus_auriculae_l_main",
+   "obliquus_auriculae_r_main",
+   "obliquus_auriculae_l_main"
+  ],
+  "motor_entry_point": {
+   "target_muscle_compartment": [
+    "auricularis_posterior_r_main",
+    "auricularis_posterior_l_main",
+    "transversus_auriculae_r_main",
+    "transversus_auriculae_l_main",
+    "obliquus_auriculae_r_main",
+    "obliquus_auriculae_l_main"
+   ],
+   "entry_description": "given off just below the stylomastoid foramen, ascending behind the auricle with the posterior auricular artery; also supplies the occipital belly of occipitofrontalis (recorded on that muscle as the temporal branch in this atlas's older data)"
+  }
  }
 ]

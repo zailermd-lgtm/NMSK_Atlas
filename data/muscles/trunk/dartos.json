@@ -1,0 +1,42 @@
+{
+  "id": "dartos",
+  "name_ta": "Tunica dartos",
+  "name_common": "Dartos muscle (smooth muscle of the scrotum and labia majora)",
+  "side": "midline",
+  "region": "trunk",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "hip_bone_r",
+    "origin_landmark": "no bony attachment: smooth-muscle sheet in the subcutaneous tissue of the scrotum (male) and labia majora (female), continuous with the membranous layer of the superficial perineal fascia (the schema takes a bone id; the true attachment is cartilage/skin and is named in the landmark text)",
+    "insertion_bone": "hip_bone_l",
+    "insertion_landmark": "skin of the scrotum / labia majora and the scrotal septum",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": [
+      "genitofemoral_n",
+      "lumbar_sympathetic_chain_r",
+      "lumbar_sympathetic_chain_l"
+    ],
+    "root_levels": "L1-L2 (sympathetic postganglionic fibres carried in the genital branch of the genitofemoral nerve)"
+  },
+  "actions": [
+    "wrinkles the scrotal skin and draws the testes toward the body in cold (thermoregulation); smooth muscle, not under voluntary control"
+  ],
+  "functional_compartments": [
+    {
+      "id": "dartos_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "evidence": "no measured architecture recorded: no PCSA, fascicle length or force verified from a source for this muscle (Q65 rule: numbers only where a source gives them)"
+      },
+      "function_note": "Smooth muscle, so no skeletal-muscle architecture applies; listed because Z-Anatomy and TA name it. Not a botulinum or PRP target in this atlas.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "genitofemoral_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998). Entity added 2026-09-14 (Q65): named in Z-Anatomy's structure list, which was read as a checklist only; no Z-Anatomy data or geometry is used."
+}

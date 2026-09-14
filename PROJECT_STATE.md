@@ -1526,7 +1526,10 @@ tick the item here with a one-line result. Never fabricate; keep the
       independent prior; now his complete left bones can be transferred onto her (driven by her left humerus)
       and used as +-10 mm priors for the bone discs in her full-resolution left forearm/hand crops (on disk),
       then her own bone surfaces traced. Needed before the left forearm muscles (Q62 step 1).
-- [ ] Q65 The ~15 small muscles Z-Anatomy names that the entity list lacks (articularis genus, dartos, depressor
+- [x] Q65 (DONE 2026-09-14 13:30: 29 records = 14 sided muscles + midline dartos, in data/muscles; attachments/innervation/
+      actions from Gray's and TA, fiber_architecture carries only the type plus an 'evidence' line saying no number was
+      verified; nerve entity facial_n_posterior_auricular_branch added and every new compartment listed in its nerve's
+      targets; 184 tests pass) The ~15 small muscles Z-Anatomy names that the entity list lacks (articularis genus, dartos, depressor
       labii inferioris, depressor septi nasi, depressor supercilii, levator anguli oris, auricularis anterior/
       superior/posterior, helicis major/minor, tragicus, antitragicus, transverse and oblique auricular): records
       with Gray's/TA attachments and innervation; architecture numbers ONLY where a source gives them, otherwise

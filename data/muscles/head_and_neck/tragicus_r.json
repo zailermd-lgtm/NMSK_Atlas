@@ -1,0 +1,38 @@
+{
+  "id": "tragicus_r",
+  "name_ta": "Musculus tragicus",
+  "name_common": "Tragicus",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "temporal_r",
+    "origin_landmark": "lower part of the lateral surface of the tragus (auricular cartilage; the schema takes a bone id; the true attachment is cartilage/skin and is named in the landmark text)",
+    "insertion_bone": "temporal_r",
+    "insertion_landmark": "upper part of the lateral surface of the tragus (vertical band) (auricular cartilage; the schema takes a bone id; the true attachment is cartilage/skin and is named in the landmark text)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_temporal_branch",
+    "root_levels": "CN VII"
+  },
+  "actions": [
+    "no defined action (vestigial)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "tragicus_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "evidence": "no measured architecture recorded: no PCSA, fascicle length or force verified from a source for this muscle (Q65 rule: numbers only where a source gives them)"
+      },
+      "function_note": "Intrinsic muscle of the auricle: rudimentary, of no functional or clinical significance in humans; temporal branches of the facial nerve supply the muscles of the lateral surface of the auricle (Gray's).",
+      "source": "Standring S (ed), Gray's Anatomy, 42nd ed. (Elsevier 2021), ch. 'Face and scalp' and 'External and middle ear'; Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "facial_n_temporal_branch"
+      ]
+    }
+  ],
+  "source": "Standring S (ed), Gray's Anatomy, 42nd ed. (Elsevier 2021), ch. 'Face and scalp' and 'External and middle ear'; Terminologia Anatomica (FICAT 1998). Entity added 2026-09-14 (Q65): named in Z-Anatomy's structure list, which was read as a checklist only; no Z-Anatomy data or geometry is used."
+}
