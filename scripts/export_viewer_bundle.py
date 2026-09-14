@@ -92,6 +92,26 @@ def cluster(verts: np.ndarray, faces: np.ndarray, cell: float):
     return new_verts[used], new_faces.reshape(-1, 3)
 
 
+# Thin sheets (a 4 mm diaphragm, the intercostal sheets) cannot be vertex-clustered: once the cell exceeds the
+# thickness the two faces of the sheet merge and the mesh turns into a lace of holes. Those ids are decimated
+# by quadric edge collapse instead (fast_simplification), which keeps a sheet a sheet; clustering stays for
+# everything else so the rest of the page is unchanged.
+SHEET_IDS = {"diaphragm", "external_intercostals_r", "external_intercostals_l"}
+
+
+def decimate_quadric(verts, faces, budget):
+    """Quadric edge-collapse decimation to about `budget` triangles; None when the library is missing."""
+    try:
+        import fast_simplification as fs
+    except ImportError:
+        return None
+    if len(faces) <= budget:
+        return verts, faces
+    v, f = fs.simplify(np.ascontiguousarray(verts, dtype=np.float32), np.ascontiguousarray(faces, dtype=np.int32),
+                       target_reduction=1.0 - budget / len(faces), agg=7)
+    return v.astype(np.float64), f.astype(np.int64)
+
+
 def decimate_to(verts, faces, budget):
     """Fit the cell size to a triangle budget by bisection on the grid."""
     if len(faces) <= budget:
@@ -398,7 +418,12 @@ def main() -> int:
             f = (faces[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64)
                  - s["vertex_offset"])
             cat = category.get(aid, "other")
-            dv, df, cell = decimate_to(v, f, max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale)))
+            budget = max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale))
+            q = decimate_quadric(v, f, budget) if aid in SHEET_IDS else None
+            if q is not None:
+                dv, df = q; cell = 0.0
+            else:
+                dv, df, cell = decimate_to(v, f, budget)
             if len(df) == 0:
                 print(f"  {aid}: decimated away, kept at full resolution")
                 dv, df, cell = v, f, 0.0

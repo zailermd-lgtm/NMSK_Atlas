@@ -1505,7 +1505,9 @@ tick the item here with a one-line result. Never fabricate; keep the
       four suboccipitals, longus colli/capitis; splenius sheet + erector sink unshipped, rectus capitis ant/lat too
       small for the frame); step 6 SHIPPED as `ct_vhf_twall` + `ct_vhm_twall` (diaphragm 290/338 cm3, intercostal
       sheets on external_intercostals_r/l standing for all three layers; his 307/307 cm3 above expectation, geometric
-      rule only); step 8 = Q65 done; his forearm (`ct_vhm_forearm`) running as a subagent (crops streamed, script
+      rule only); female viewer Version 26 (333 structures, 14.2 MB), male Version 37 (321, 14.3 MB; also carries
+      the Q58 course table); thin sheets are decimated by quadric collapse (`SHEET_IDS`, fast-simplification) because
+      vertex clustering laced them with holes; step 8 = Q65 done; his forearm (`ct_vhm_forearm`) running as a subagent (crops streamed, script
       written, run interrupted by the 13:20 rate limit and resumed 18:05). Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).

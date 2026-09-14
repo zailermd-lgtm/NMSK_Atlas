@@ -76,3 +76,22 @@ def test_nerve_depth_profile_rows_and_course_table():
     for needle in ("Depth below skin along the course", "function courseShow", "function courseNeedle",
                    "depth_profile:s.depth_profile", "table.course"):
         assert needle in html, needle
+
+
+def test_thin_sheets_are_decimated_by_quadric_collapse_not_clustering():
+    """A 4 mm sheet vertex-clustered at a cell wider than its thickness turns into a lace of holes; the sheet ids
+    go through quadric edge collapse instead, which keeps a closed sheet closed."""
+    import sys
+    from pathlib import Path
+    import numpy as np
+    import trimesh
+    pytest.importorskip("fast_simplification")
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    import export_viewer_bundle as ev
+    assert {"diaphragm", "external_intercostals_r", "external_intercostals_l"} <= ev.SHEET_IDS
+    # a closed 4 mm thick slab, 200 x 200 mm, finely triangulated (like a label-volume sheet)
+    slab = trimesh.creation.box(extents=(200.0, 4.0, 200.0)).subdivide().subdivide().subdivide().subdivide()
+    v, f = ev.decimate_quadric(slab.vertices, slab.faces, 800)
+    out = trimesh.Trimesh(v, f, process=False)
+    assert len(f) < len(slab.faces) and out.is_watertight, (len(f), out.is_watertight)   # a cube collapses less than a real sheet; the closed surface is the point
+    assert abs(out.volume - slab.volume) / slab.volume < 0.05
