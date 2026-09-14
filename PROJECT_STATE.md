@@ -1531,7 +1531,10 @@ tick the item here with a one-line result. Never fabricate; keep the
       superior/posterior, helicis major/minor, tragicus, antitragicus, transverse and oblique auricular): records
       with Gray's/TA attachments and innervation; architecture numbers ONLY where a source gives them, otherwise
       the record says so (no invented PCSA).
-- [ ] Q60 The owner's compiled muscle references (Dropbox /claude, 2026-09-14): shoulder, elbow, wrist, hand
+- [x] Q60 (DONE 2026-09-14 12:40 by a subagent: `clinical` block in 100 muscle records = 50 muscles, 64 entries from
+      the shoulder/elbow/wrist/hand files, every entry with the owner's caveat + sources; 52 elbow tests with Se/Sp
+      where he gives one; schema + docs/DATA_MODEL + tests/test_clinical_blocks.py, 179 pass; the head/neck file's
+      text extraction has no cards -- owner: re-export it as plain HTML without collapsed sections) The owner's compiled muscle references (Dropbox /claude, 2026-09-14): shoulder, elbow, wrist, hand
       intrinsic, head/neck HTML (function/biomechanics, trigger points, referred pain, adjacent structures,
       per-muscle references, verification appendix; Gray's 43rd, Moore 9th, Neumann 3rd, Travell & Simons
       3rd, PubMed records) -> per-muscle clinical fields in data/muscles with the owner's citations; text

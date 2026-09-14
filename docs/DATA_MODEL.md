@@ -228,3 +228,39 @@ torso block's femora end at mid-thigh at 0.34 of a femur. `engine.geometry.scale
 therefore applies the along-axis factor only when measured/reference lies within `TRUNCATION_GUARD`
 (0.6-1.5); outside it the landmarks are placed unscaled and the audit prints the factor so the
 truncation is visible.
+
+### Owner's clinical reference block: `clinical` (Q60, 2026-09-14)
+
+The repository owner (a physician) compiled his own per-region muscle
+references -- shoulder (v1, 31/08/2026), elbow (v2, 04/09/2026), wrist (v2,
+31/08/2026) and hand intrinsics (v1, 03/09/2026) -- each with function and
+biomechanics, adjacent structures, trigger points and referred pain in both
+directions, clinical tests with sensitivity/specificity where a primary study
+exists, per-muscle references and a verification appendix. They are ingested
+verbatim as an optional top-level array `clinical` on the muscle record
+(schema: `schema/muscle.schema.json`, `properties.clinical`), one entry per
+source document that profiles the muscle, so the 14 muscles covered by both
+the elbow and the wrist file (and biceps/triceps by shoulder and elbow) carry
+two entries. Both sides get the identical block.
+
+Each entry carries `document`, `compiled`, `compiled_by` (owner + the
+document's own sources-policy sentence), `function_biomechanics`,
+`adjacent_structures`, `trigger_points[]` (`location`, `referred_pain`,
+`activation_perpetuating_factors`, `notes`, `source`),
+`pain_referred_into_this_muscle_from[]` with the document's own territory
+heading in `pain_referred_into_territory`, optional
+`non_myofascial_differential`, `movement_restrictions_aggravators`, `tests[]`
+(`name`, `performance`, `positive_finding`, `structures_loaded` /
+`muscle_basis`, `sensitivity`, `specificity` as percent or null, the verbatim
+`accuracy` statement, `source`) with the table's framing `tests_caveat`,
+`notes`, the document's verbatim evidence-quality `caveat` (Travell & Simons
+referral maps are expert consensus, not validated criteria) and `sources`
+(full reference strings resolved from the document's reference list; a
+leading `[n]` is the number used inside that document's text, kept so the
+bracket citations inside the fields stay resolvable). Nothing in the block
+is written by the atlas: it changes only with a new version of his
+documents. It is distinct from the atlas's own top-level `trigger_points`.
+`tests/test_clinical_blocks.py` checks that every entry has sources and a
+caveat, that every trigger point and test carries a source, and that both
+sides match. The head/neck document's extraction contained only its header
+and reference list, so no head/neck muscle has a block yet.

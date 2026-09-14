@@ -96,9 +96,7 @@ MARKER_RULES = {
     "extensor_pollicis_longus":       ("M", -3, -5, 0.40, 0.85, "extensor"),
     "extensor_indicis":               ("M", -6, -4, 0.60, 0.92, "extensor"),
 }
-TRACK_BEYOND = 0.15          # a region is still tracked this far (in f) past its seeding window
-ERODE_PX, MAX_MOVE_PX, NEW_ZONE_PX, SEED_PX = 6, 9, 30, 5
-LOST_LEVELS = 10
+SEED_PX = 5                  # rule seed disc radius (1.7 mm)
 
 
 # ----------------------------------------------------------------------------------------------- crops / mapping
@@ -266,7 +264,11 @@ def level_fraction(j, j_top, j_bot):
 
 
 # ----------------------------------------------------------------------------------------------- per-level split
+GROUP_ID = {"flexor": 1, "lateral": 2, "extensor": 3}
+
+
 def snap(pt, region, max_px=15):
+    """`pt` (row, col) if it lies in `region`, else the nearest region pixel within max_px, else None."""
     r, c = int(round(pt[0])), int(round(pt[1]))
     if 0 <= r < region.shape[0] and 0 <= c < region.shape[1] and region[r, c]:
         return r, c
@@ -278,38 +280,61 @@ def snap(pt, region, max_px=15):
     return (int(ys[k]), int(xs[k])) if np.hypot(ys[k] - r, xs[k] - c) <= max_px else None
 
 
-def split_level(th, region, prev, seeds, ids):
-    """Marker watershed of `region` on top-hat `th`. prev: {name: mask} of the previous level; seeds: {name: (r, c)}
-    for muscles that may start here. Returns {name: mask}, unassigned mask."""
-    markers = np.zeros(region.shape, np.int32); allowed = {}
-    for name in ids:
-        m = None
-        if name in prev and prev[name] is not None and prev[name].any():
-            e = ndi.binary_erosion(prev[name], iterations=ERODE_PX) & region
-            m = e if e.any() else (prev[name] & region)
-            if m.any():
-                allowed[name] = ndi.binary_dilation(prev[name], iterations=MAX_MOVE_PX)
-        if (m is None or not m.any()) and name in seeds:
-            p = snap(seeds[name], region & (markers == 0))
-            if p is not None:
-                m = np.zeros(region.shape, bool); m[p] = True; m = ndi.binary_dilation(m, iterations=SEED_PX) & region & (markers == 0)
-                z = np.zeros(region.shape, bool); z[p] = True; allowed[name] = ndi.binary_dilation(z, iterations=NEW_ZONE_PX)
-        if m is not None and m.any():
-            markers[m & (markers == 0)] = ids[name]
-    if not markers.any():
-        return {}, region.copy()
-    ws = watershed(th, markers, mask=region); res = np.zeros_like(ws)
-    for name, l in ids.items():
-        if name in allowed:
-            res[(ws == l) & allowed[name]] = l
-    left = region & (res == 0)
-    if left.any():
-        ws2 = watershed(th, res, mask=region)
+def compartments(shape, U, R, ru, rr, e, n):
+    """Pixel -> compartment by the bone-line rule (px in, radii in px): s = position along ulna -> radius (0..1
+    between the centres), t = mm from the line, + on the flexor side. lateral (mobile wad) = beyond the radius
+    centre (s > 1) from the flexor side round to 14 mm behind the radius surface; flexor = the flexor side of the line
+    plus the ulna's medial face (s < 0, t > -ulna radius), not lateral; extensor = the rest."""
+    yy, xx = np.mgrid[0:shape[0], 0:shape[1]]; py = yy - U[0]; px = xx - U[1]; d = np.hypot(R[0] - U[0], R[1] - U[1])
+    s = (py * e[0] + px * e[1]) / d; t = (py * n[0] + px * n[1]) * PX
+    lat = (s > 1.0) & (t > -(rr * PX + 14.0))
+    flex = ((t > 0) | ((s < 0) & (t > -ru * PX))) & ~lat
+    comp = np.full(shape, GROUP_ID["extensor"], np.uint8); comp[lat] = GROUP_ID["lateral"]; comp[flex] = GROUP_ID["flexor"]
+    return comp
+
+
+def split_level(th, region, comp, seeds, ids, groups):
+    """Within each compartment, a marker watershed of `region` on the top-hat `th` from the rule seeds (1.7 mm discs
+    snapped into the compartment's muscle within 5 mm). Returns {name: mask}, unassigned mask."""
+    out = {}
+    for g, gid in GROUP_ID.items():
+        reg = region & (comp == gid); markers = np.zeros(region.shape, np.int32)
+        for name, pt in seeds.items():
+            if groups[name] != g:
+                continue
+            p = snap(pt, reg & (markers == 0))
+            if p is None:
+                continue
+            z = np.zeros(region.shape, bool); z[p] = True
+            markers[ndi.binary_dilation(z, iterations=SEED_PX) & reg & (markers == 0)] = ids[name]
+        if not markers.any():
+            continue
+        ws = watershed(th, markers, mask=reg)
         for name, l in ids.items():
-            if name in allowed:
-                res[left & (ws2 == l) & allowed[name]] = l
-    out = {name: res == l for name, l in ids.items() if (res == l).any()}
-    return out, region & (res == 0)
+            m = ws == l
+            if m.any():
+                out[name] = m
+    lab = np.zeros(region.shape, bool)
+    for m in out.values():
+        lab |= m
+    return out, region & ~lab
+
+
+def boundary_support(th, cur, ids, min_contact_px=15):
+    """Per adjacent pair of regions: (contact px, mean top-hat on the 1 px boundary band / mean top-hat 2 px inside
+    the two regions). A ridge ratio well above 1 means the split follows a pale septum."""
+    out = {}; names = list(cur)
+    er = {nm: ndi.binary_erosion(cur[nm], iterations=2) for nm in names}
+    dil = {nm: ndi.binary_dilation(cur[nm], iterations=1) for nm in names}
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            band = (dil[a] & cur[b]) | (dil[b] & cur[a]); nb = int(band.sum())
+            if nb < min_contact_px:
+                continue
+            inside = er[a] | er[b]
+            ratio = float(th[band].mean() / max(th[inside].mean(), 1e-3)) if inside.any() else 0.0
+            out[(a, b)] = (nb, round(ratio, 2))
+    return out
 
 
 # ----------------------------------------------------------------------------------------------- bone tracking
@@ -376,64 +401,70 @@ def segment_bounds(track):
 
 
 # ----------------------------------------------------------------------------------------------- main
-def run(a):
-    crops = ArmCrops(a.crops); meshes = load_meshes(a.bones); log = print
-    track, residual = track_bones(crops, meshes, a.anchor, a.j_lo, a.j_hi, log)
+def level_region(t):
+    """The muscle mass to split at a tracked level: muscle class closed 1 mm, seams <= 8 mm2 filled, bones out."""
+    isl = t["island"]; cl = t["cl"]
+    region = ndi.binary_closing(cl["muscle"], iterations=3) & isl
+    holes = ndi.binary_fill_holes(region) & ~region; hl, hn = ndi.label(holes)
+    if hn:
+        hs = ndi.sum(holes, hl, range(1, hn + 1)); small = np.zeros(hn + 1, bool); small[1:] = hs * PX * PX <= 8.0; region |= small[hl]
+    bones = np.zeros(isl.shape, bool)
+    for b in ("radius", "ulna"):
+        if t[b][3] is not None:
+            bones |= ndi.binary_dilation(t[b][3], iterations=2)
+    return region & ~bones
+
+
+def level_frame(t, orient_prev):
+    U = np.array(t["ulna"][:2]); R = np.array(t["radius"][:2]); isl = t["island"]
+    dist_out, idx = ndi.distance_transform_edt(isl, return_indices=True)
+    um = t["ulna"][3]
+    if um is not None and um.any():
+        ys, xs = np.where(um); k = np.argmin(dist_out[ys, xs]); skin = np.array([idx[0][ys[k], xs[k]], idx[1][ys[k], xs[k]]], float) - U
+    else:
+        ui, uj = int(round(U[0])), int(round(U[1])); skin = np.array([idx[0][ui, uj], idx[1][ui, uj]], float) - U
+    e, n, d = bone_frame(U, R, skin)
+    if orient_prev is not None and np.dot(n, orient_prev) < 0:
+        n = -n                                           # never flips between adjacent levels
+    return U, R, e, n, d
+
+
+def run(a, log=print):
+    crops = ArmCrops(a.crops); meshes = load_meshes(a.bones); cache = Path(a.cache) if getattr(a, "cache", None) else None
+    if cache and cache.exists():
+        import pickle; track, residual = pickle.load(open(cache, "rb")); log(f"bone track from cache {cache}")
+    else:
+        track, residual = track_bones(crops, meshes, a.anchor, a.j_lo, a.j_hi, log)
+        if cache:
+            import pickle; pickle.dump((track, residual), open(cache, "wb"), protocol=4)
     j_top, j_bot = segment_bounds(track)
     if j_top is None:
         raise SystemExit("no level with two separate bone discs")
     log(f"segment levels {j_top}..{j_bot}  (atlas y {crops.level(j_top)['y']:.0f} .. {crops.level(j_bot)['y']:.0f})")
-    names = list(MARKER_RULES); ids = {nm: i + 1 for i, nm in enumerate(names)}
-    prev = {}; lost = {nm: 0 for nm in names}; ended = set(); started = set()
-    labels_by_level = {}; area = {nm: 0.0 for nm in names}; unassigned = 0.0; orient_prev = None; frames = {}
+    names = list(MARKER_RULES); ids = {nm: i + 1 for i, nm in enumerate(names)}; groups = {nm: MARKER_RULES[nm][5] for nm in names}
+    labels_by_level = {}; area = {nm: 0.0 for nm in names}; unassigned = 0.0; orient_prev = None; frames = {}; support = {}
     for j in range(j_top, j_bot + 1):
         t = track.get(j)
         if t is None:
             continue
-        isl = t["island"]; cl = t["cl"]; im = t["im"]
-        U = np.array(t["ulna"][:2]); R = np.array(t["radius"][:2]); ru, rr = t["ulna"][2], t["radius"][2]
-        dist_out, idx = ndi.distance_transform_edt(isl, return_indices=True)
-        ui, uj = int(round(U[0])), int(round(U[1])); skin = np.array([idx[0][ui, uj], idx[1][ui, uj]], float) - U if isl[ui, uj] else np.array([1.0, 0.0])
-        # the nearest skin point of the ulna: use the skin point nearest the ulna's DISC (its boundary), not its centre
-        um = t["ulna"][3] if t["ulna"][3] is not None else None
-        if um is not None:
-            ys, xs = np.where(um); k = np.argmin(dist_out[ys, xs]); skin = np.array([idx[0][ys[k], xs[k]], idx[1][ys[k], xs[k]]], float) - U
-        e, n, d = bone_frame(U, R, skin)
-        if orient_prev is not None and np.dot(n, orient_prev) < 0:
-            n = -n                                       # never flips between adjacent levels
-        orient_prev = n
+        U, R, e, n, d = level_frame(t, orient_prev); orient_prev = n; ru, rr = t["ulna"][2], t["radius"][2]
         f = level_fraction(j, j_top, j_bot); frames[j] = {"U": U.tolist(), "R": R.tolist(), "e": e.tolist(), "n": n.tolist(), "f": round(f, 3)}
-        bones = np.zeros(isl.shape, bool)
-        for b in ("radius", "ulna"):
-            if t[b][3] is not None:
-                bones |= ndi.binary_dilation(t[b][3], iterations=2)
-        region = ndi.binary_closing(cl["muscle"], iterations=3) & isl
-        holes = ndi.binary_fill_holes(region) & ~region; hl, hn = ndi.label(holes)
-        if hn:
-            hs = ndi.sum(holes, hl, range(1, hn + 1)); small = np.zeros(hn + 1, bool); small[1:] = hs * PX * PX <= 8.0; region |= small[hl]
-        region &= ~bones
-        th = white_tophat(im.max(-1).astype(np.float32), disk(4))
-        seeds = {}
-        for nm, p in marker_positions(U, R, ru, rr, e, n, f).items():
-            if nm not in ended:
-                seeds[nm] = p
-        active = {nm for nm in names if nm not in ended and (nm in seeds or (nm in started and f <= MARKER_RULES[nm][4] + TRACK_BEYOND))}
-        cur, left = split_level(th, region, {nm: prev.get(nm) for nm in active}, {nm: seeds[nm] for nm in seeds if nm in active}, {nm: ids[nm] for nm in active})
-        for nm in names:
-            if nm in cur:
-                started.add(nm); lost[nm] = 0; area[nm] += cur[nm].sum() * PX * PX
-            elif nm in started and nm not in ended:
-                lost[nm] += 1
-                if lost[nm] > LOST_LEVELS:
-                    ended.add(nm)
+        region = level_region(t); comp = compartments(region.shape, U, R, ru, rr, e, n)
+        th = white_tophat(t["im"].max(-1).astype(np.float32), disk(4))
+        seeds = marker_positions(U, R, ru, rr, e, n, f); frames[j]["seeds"] = {nm: [float(p[0]), float(p[1])] for nm, p in seeds.items()}
+        cur, left = split_level(th, region, comp, seeds, ids, groups)
+        for nm, m in cur.items():
+            area[nm] += m.sum() * PX * PX
         unassigned += left.sum() * PX * PX
-        lab = np.zeros(isl.shape, np.uint8)
+        for pair, v in boundary_support(th, cur, ids).items():
+            support.setdefault(pair, []).append((j,) + v)
+        lab = np.zeros(region.shape, np.uint8)
         for nm, m in cur.items():
             lab[m] = ids[nm]
-        labels_by_level[j] = lab; prev = {nm: cur.get(nm) for nm in names}
+        labels_by_level[j] = lab
         if j % 20 == 0:
             log(f"  level {j} f={f:.2f} y={t['L']['y']:.0f} regions={len(cur)} unassigned={left.sum() * PX * PX:.0f} mm2")
-    return crops, track, residual, (j_top, j_bot), labels_by_level, ids, area, unassigned, frames
+    return crops, track, residual, (j_top, j_bot), labels_by_level, ids, area, unassigned, frames, support
 
 
 def to_volume(crops, labels_by_level, dx=0.5):
@@ -486,6 +517,8 @@ def montage(crops, track, labels_by_level, ids, frames, levels, path, colors):
             U = np.array(fr["U"]) - (r0, c0); R = np.array(fr["R"]) - (r0, c0); n = np.array(fr["n"])
             dr.line([(U[1], U[0]), (R[1], R[0])], fill=(255, 255, 255), width=1)
             M = (U + R) / 2; dr.line([(M[1], M[0]), (M[1] + n[1] * 30, M[0] + n[0] * 30)], fill=(0, 255, 255), width=2)
+        for nm, p in (fr.get("seeds", {}) if fr else {}).items():
+            y, x = p[0] - r0, p[1] - c0; dr.line([(x - 4, y), (x + 4, y)], fill=colors[ids.get(nm, 0)], width=2); dr.line([(x, y - 4), (x, y + 4)], fill=colors[ids.get(nm, 0)], width=2)
         dr.text((3, 3), f"j{j} y{t['L']['y']:.0f} f{fr['f'] if fr else '-'}", fill=(255, 255, 0))
         for nm, l in ids.items():
             m = lab[r0:r1, c0:c1] == l
@@ -521,10 +554,11 @@ def main(argv=None):
     ap.add_argument("--labels-out", default=str(REPO / "mappings/vhf_forearm_muscles_labels.json"))
     ap.add_argument("--mapping-out", default=str(REPO / "mappings/subjects/ct_vhf_forearm_volume_mapping.json"))
     ap.add_argument("--montage-dir", default=None); ap.add_argument("--montage-levels", default="")
+    ap.add_argument("--cache", default=None, help="pickle of the bone track (scratch only; speeds up re-runs)")
     ap.add_argument("--merge", default=str(REPO / "scripts/cryo/vhf_forearm_merge.json"),
                     help="JSON {merged_name: [members]} of muscles the photographs do not separate (written to the label key as compartments)")
     a = ap.parse_args(argv)
-    crops, track, residual, (j_top, j_bot), labels_by_level, ids, area, unassigned, frames = run(a)
+    crops, track, residual, (j_top, j_bot), labels_by_level, ids, area, unassigned, frames, support = run(a)
     merge = json.load(open(a.merge)) if a.merge and Path(a.merge).exists() else {}
     # apply merges: members -> one label (the first member's id), name = merged compartment
     final_ids = dict(ids); final_names = {l: nm for nm, l in ids.items()}; remap = np.arange(max(ids.values()) + 1, dtype=np.uint8)
@@ -552,6 +586,9 @@ def main(argv=None):
                        "sd_mm": [round(float(np.std([x[0] for x in v.values()])), 1), round(float(np.std([x[1] for x in v.values()])), 1)],
                        "at_levels": {str(k): v[k] for k in sorted(v) if k % 30 == 10}} for b, v in residual.items()}
     membership = {comp: members for comp, members in merge.items()}
+    supp = {f"{p[0]}|{p[1]}": {"levels": len(v), "median_ridge_ratio": round(float(np.median([x[2] for x in v])), 2),
+                               "frac_levels_ratio_ge_1.8": round(float(np.mean([x[2] >= 1.8 for x in v])), 2),
+                               "contact_mm": round(float(np.mean([x[1] for x in v])) * PX, 1)} for p, v in sorted(support.items()) if len(v) >= 5}
     report = {"_README": [f"Female right forearm muscles from her full-resolution cryosections ({Path(__file__).name}); {BADGE}. "
                           "Bones tracked in the photographs; markers by textbook position rules in the radius-ulna frame; boundaries by a "
                           "marker watershed on the pale fascial septa; muscles the photographs do not separate merged into compartments.",
@@ -561,7 +598,8 @@ def main(argv=None):
               "segment_atlas_y": [round(crops.level(j_top)["y"], 1), round(crops.level(j_bot)["y"], 1)],
               "ct_to_photo_shift_mm": res_summary, "voxel_mm": [float(aff[0, 0]), float(aff[1, 1]), float(aff[2, 2])],
               "volumes_cm3": vols, "unassigned_muscle_cm3": round(unassigned / 1000.0, 1), "merged_compartments": membership,
-              "montages": mont, "labels": {str(l): nm for l, nm in sorted(final_names.items())}}
+              "montages": mont, "labels": {str(l): nm for l, nm in sorted(final_names.items())},
+              "boundary_support": supp}
     Path(str(a.out).replace(".nii.gz", "_report.json")).write_text(json.dumps(report, indent=1))
     key = {"_README": [f"Label id -> structure for the Visible Human FEMALE right forearm muscle volume ({Path(__file__).name}). A KEY, not data. {BADGE}: "
                        "see the script docstring for the rule; compartments are muscles the photographs do not separate (mapped to null)."],

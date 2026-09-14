@@ -483,6 +483,163 @@
           "type": "string"
         }
       }
+    },
+    "clinical": {
+      "type": "array",
+      "description": "Clinical reference compiled by the repository owner (physician) from his own per-region muscle reference documents (shoulder, elbow, wrist, hand-intrinsic), one entry per source document that profiles this muscle, so a muscle covered by two documents (e.g. biceps brachii in the shoulder and elbow files) carries two entries. Every field is the owner's text; his citations are carried in `sources` (full reference strings, resolved from each document's reference list; a leading [n] is the number used inside that document's text) and on every trigger point and test. Distinct from the top-level `trigger_points` (the atlas's own citable TrP record): this block is the owner's clinical view -- function, adjacent structures, referral in both directions, examination tests with published accuracy where a primary study exists -- and it must never be edited except from a new version of his documents.",
+      "items": {
+        "type": "object",
+        "required": [
+          "document",
+          "compiled_by",
+          "caveat",
+          "sources"
+        ],
+        "properties": {
+          "document": {
+            "type": "string",
+            "description": "file name of the owner's source document"
+          },
+          "compiled": {
+            "type": "string",
+            "description": "compilation date(s) as stated in the document, DD/MM/YYYY"
+          },
+          "compiled_by": {
+            "type": "string",
+            "description": "who compiled it, the document and date, and the document's own sources policy sentence"
+          },
+          "function_biomechanics": {
+            "type": "string"
+          },
+          "adjacent_structures": {
+            "type": "string",
+            "description": "adjacent bursae/sheaths, relations and coupled structures as the document lists them (labelled sub-parts)"
+          },
+          "trigger_points": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "referred_pain",
+                "source"
+              ],
+              "properties": {
+                "location": {
+                  "type": "string"
+                },
+                "referred_pain": {
+                  "type": "string",
+                  "description": "referred pain FROM this muscle as described in the document (may state that Travell & Simons map no separate pattern)"
+                },
+                "activation_perpetuating_factors": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string",
+                  "description": "symptoms/mimics, entrapment, associated TrPs"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "pain_referred_into_this_muscle_from": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "sources (muscles, joints, nerves, viscera) whose pain is referred INTO this muscle's territory; the document's list split at its own separators"
+          },
+          "pain_referred_into_territory": {
+            "type": "string",
+            "description": "the document's own heading naming the territory the list above refers into"
+          },
+          "non_myofascial_differential": {
+            "type": "string"
+          },
+          "movement_restrictions_aggravators": {
+            "type": "string"
+          },
+          "tests": {
+            "type": "array",
+            "description": "physical-examination tests/signs the document ties to this muscle; sensitivity/specificity are percent as reported by the cited primary study, null where the document gives none or only a range (the verbatim accuracy statement is kept in `accuracy`)",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "source"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "performance": {
+                  "type": "string"
+                },
+                "positive_finding": {
+                  "type": "string"
+                },
+                "structures_loaded": {
+                  "type": "string"
+                },
+                "muscle_basis": {
+                  "type": "string"
+                },
+                "sensitivity": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "specificity": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "accuracy": {
+                  "type": "string",
+                  "description": "the document's accuracy statement, verbatim"
+                },
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "tests_caveat": {
+            "type": "string",
+            "description": "the document's framing caveat for its test-accuracy table, verbatim"
+          },
+          "notes": {
+            "type": "string",
+            "description": "clinical pearls / clinical notes / clinical anatomy paragraph"
+          },
+          "caveat": {
+            "type": "string",
+            "description": "the document's own evidence-quality statement, verbatim (Travell & Simons referral maps are expert consensus, not validated criteria)"
+          },
+          "references_as_listed": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "the per-muscle reference list exactly as printed in the document, where it differs in form from `sources`"
+          },
+          "sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "required": [
