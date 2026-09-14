@@ -1479,7 +1479,8 @@ tick the item here with a one-line result. Never fabricate; keep the
       subject `ct_vhf_tarsal`): calcaneus 56/60, talus 31/33 cm3 (expected 55-70 / 30-40), cuboid 19/17,
       navicular 8.5/7.4, cuneiforms 9.4/9.5, 3.9/4.7, 0.8/1.4 (intermediate under-assigned). ICP refinement
       measured worse and left off. 14 entities in bones.json, DU overrides retargeted, composite kept for
-      single-label scans and dropped from the female legs subject. Both viewers rebuilt.
+      single-label scans and dropped from the female legs subject. Both viewers rebuilt: female Version 21, male
+      Version 32 (talus/calcaneus renders checked on both).
 - [x] Q43 (b) DONE 2026-09-14 by the landmark-scaling change (see the Q43 item above): `engine/geometry.py`
       scale_local_to_length + reference_length_mm on 14 long bones; truncation guard 0.6-1.5 added after
       the subagent's caveat (a femur cut at mid-thigh measured 0.34).
