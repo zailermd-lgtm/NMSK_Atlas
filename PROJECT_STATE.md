@@ -1403,7 +1403,19 @@ tick the item here with a one-line result. Never fabricate; keep the
       (count of bright cells 0.5-2 mm bounded by darker walls inside the blob, e.g. local maxima of the
       3 px-smoothed R at >= 1 mm spacing per mm2, or the ratio of the blob's own internal edge density to
       its boundary edge density), with the Viterbi cost = jump + lambda x (1 - score); and a second
-      branch for the common fibular nerve. The gluteal course above -70 fails differently: the flattened
+      branch for the common fibular nerve. 06:30 UPDATE, measured on the left -313 tibial nerve: NO hand-crafted feature
+      separates it from the connective tissue beside it -- peak density 0.02/mm2 (its fascicles are 1-2 px
+      specks, not 1-2 mm cells), mean R 157 vs 152, gradient 46 vs 87, roughness 3.5 vs 5.6, b/r 0.55 vs
+      0.52; a human sees it by SHAPE (compact 8 mm oval in fat beside the popliteal vessels) and by the
+      speckle. A `honeycomb_score` (peaks/mm2) is in the tracker but is ~0 for every blob at these levels,
+      so it is inert. Next attempt must be LEARNED: a small patch classifier trained on her own verified
+      sciatic sections (the ~330 tracked levels of Q53 as positives, corridor patches >= 10 mm away as
+      negatives, 48 px = 16 mm patches, flips/rotations), used as the candidate scorer and as a dense
+      corridor scan where the hand-crafted detector finds nothing; badge as "tracked with a classifier
+      trained on her own proximal sections". torch and scikit-learn are NOT installed (wiped with the
+      container reset); pypi is reachable, so `pip install torch --index-url
+      https://download.pytorch.org/whl/cpu` (or scikit-learn for a forest on multi-scale patch features)
+      is the first step. One focused wake. The gluteal course above -70 fails differently: the flattened
       nerve under gluteus maximus is 3 mm thick and the 1 mm near-muscle exclusion removes it. Verify on
       30 mm zoom montages every 10 mm as for Q53. Left montage shows the bundle plainly at -303..-333
       in the popliteal fat: the detector needs a
