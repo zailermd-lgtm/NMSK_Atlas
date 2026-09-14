@@ -1497,7 +1497,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       `midline` still requires sternum/vertebrae and still raises) cuts each tube at its own centre; male all
       three (391/386, 1083/1004, 2210/2174 voxels r/l), female middle + inferior (the superior is 196 voxels,
       13 right: not shipped). ct_vhm_neck now converts from his merged volume in the chain instead of the
-      recovered bundle. Male viewer Version 33.
+      recovered bundle. Male viewer Version 33, female Version 22.
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
       COMPLETENESS PROGRAMME. Measured: 404 muscle entities, 154 with a mesh on both bodies, 250 (128 distinct
       muscles) on neither -- `docs/MUSCLE_GAPS.md` lists them by group with the real-source route each. Z-Anatomy
