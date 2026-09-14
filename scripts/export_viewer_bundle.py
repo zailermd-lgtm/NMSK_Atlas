@@ -180,6 +180,22 @@ def resolve_anchor_points(subject: str):
     return out
 
 
+def compact_clinical(entries):
+    """The owner's `clinical` block (data/muscles, Q60) reduced to what the inspector shows: the document, the
+    function paragraph, trigger points with their referred pain, what refers pain INTO the muscle, the tests with
+    their sensitivity/specificity, his caveat and the sources. Shared by both sides, so the bundle keys it by the
+    base id once (about 3 KB per muscle instead of 9 KB per side)."""
+    out = []
+    for e in entries or []:
+        out.append({k: e[k] for k in ("document", "compiled", "compiled_by", "function_biomechanics", "pain_referred_into_this_muscle_from",
+                                       "pain_referred_into_territory", "caveat", "tests_caveat", "sources") if e.get(k)}
+                   | ({"trigger_points": [{k: t[k] for k in ("location", "referred_pain", "source") if t.get(k)} for t in e["trigger_points"]]}
+                      if e.get("trigger_points") else {})
+                   | ({"tests": [{k: t.get(k) for k in ("name", "sensitivity", "specificity", "accuracy", "source") if t.get(k) is not None}
+                                 for t in e["tests"]]} if e.get("tests") else {}))
+    return out
+
+
 def summarise(folder, rec, anchor_points=None):
     """What the inspector panel shows. Kept small on purpose."""
     out = {
@@ -386,8 +402,15 @@ def main() -> int:
     blob = b"".join(blobs)
     out_dir = REPO_ROOT / args.out
     out_dir.mkdir(parents=True, exist_ok=True)
+    clinical = {}
+    for entry in index:
+        folder, rec = atlas.get(entry["id"], (None, None))
+        if rec is not None and rec.get("clinical"):
+            base = entry["id"][:-2] if entry["id"].endswith(("_r", "_l")) else entry["id"]
+            clinical.setdefault(base, compact_clinical(rec["clinical"]))
     bundle = {
         "subject": "+".join(subjects),
+        "clinical": clinical,
         "frame": frame,
         "quantum_mm": QUANTUM_MM,
         "source_triangles": source_tris_total,

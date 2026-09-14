@@ -93,3 +93,14 @@ viewing meshes the page carries, not on the full-resolution atlas meshes,
 and along the path rather than perpendicular to the skin. It is a
 geometric measurement for orientation, not a clinical recommendation of
 an approach, angle or depth.
+
+
+## Clinical reference panel
+
+Muscles that carry the owner's compiled clinical block (`clinical` in `data/muscles`, Q60: shoulder, elbow,
+wrist and hand intrinsic references, 2026-09) show a "Clinical reference (owner's compilation)" section in
+the inspector: the function paragraph, trigger points with their referred-pain pattern, what refers pain
+into the muscle, the clinical tests with sensitivity/specificity where a primary study gives one, his
+evidence caveat verbatim, and the sources (collapsed). The bundle keys one compact block per muscle, shared
+by both sides (`bundle.clinical[base_id]`). It is the owner's reading of the literature he cites, not a
+measurement; the caveat in every block says what the referral maps are (expert consensus).

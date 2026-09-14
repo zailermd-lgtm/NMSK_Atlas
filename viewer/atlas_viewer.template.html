@@ -735,6 +735,33 @@ function select(id){
     (s.cell ? "<dt>Cell</dt><dd>" + s.cell.toFixed(2) + " mm clustering grid</dd>" : "") +
     "</dl><p class=\"cite\">Decimated for viewing only. Every measurement in this atlas is " +
     "made against the full-resolution mesh, never this copy.</p></div>";
+  var clin = BUNDLE.clinical && BUNDLE.clinical[id.replace(/_[rl]$/, "")];
+  if (clin && clin.length) {
+    h += '<div class="sec"><p class="eyebrow">Clinical reference (owner\'s compilation)</p>';
+    clin.forEach(function(c){
+      h += '<div class="comp"><h4>' + esc(c.document || "") + '</h4>' +
+           (c.compiled ? '<div class="cid">' + esc(c.compiled) + '</div>' : "");
+      if (c.function_biomechanics) h += '<p class="note prose">' + esc(c.function_biomechanics) + '</p>';
+      if (c.trigger_points && c.trigger_points.length) {
+        h += '<p class="eyebrow" style="margin-top:8px">Trigger points and referred pain</p><ul style="margin:0;padding-left:16px;font-size:12px">';
+        c.trigger_points.forEach(function(t){ h += '<li><b>' + esc(t.location || "") + '</b>' + (t.referred_pain ? ' &rarr; ' + esc(t.referred_pain) : "") + '</li>'; });
+        h += '</ul>';
+      }
+      if (c.pain_referred_into_this_muscle_from && c.pain_referred_into_this_muscle_from.length)
+        h += '<p class="eyebrow" style="margin-top:8px">Pain referred into it from</p><p class="note">' + c.pain_referred_into_this_muscle_from.map(esc).join("; ") + '</p>';
+      if (c.tests && c.tests.length) {
+        h += '<p class="eyebrow" style="margin-top:8px">Tests</p><table style="font-size:11.5px;border-collapse:collapse"><tr><th align="left">test</th><th>Se %</th><th>Sp %</th></tr>';
+        c.tests.forEach(function(t){ h += '<tr><td>' + esc(t.name || "") + '</td><td align="center">' + (t.sensitivity == null ? "&ndash;" : t.sensitivity) +
+                                          '</td><td align="center">' + (t.specificity == null ? "&ndash;" : t.specificity) + '</td></tr>'; });
+        h += '</table>';
+      }
+      if (c.caveat) h += '<p class="cite">' + esc(c.caveat) + '</p>';
+      if (c.sources && c.sources.length) h += '<details><summary class="cite" style="cursor:pointer">' + c.sources.length + ' sources</summary><ul class="cite" style="padding-left:16px">' +
+                                              c.sources.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></details>';
+      h += '</div>';
+    });
+    h += '</div>';
+  }
   if (r.source) h += '<div class="sec"><p class="eyebrow">Source</p><p class="cite">' +
     esc(r.source) + "</p></div>";
   body.innerHTML = h;

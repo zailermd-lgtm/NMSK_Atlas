@@ -1514,7 +1514,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       PROGRESS 12:00: step 2 DONE by a subagent -- `split_shoulder_girdle.py`, subjects ct_vhf_shsp / ct_vhm_shsp
       (her infraspinatus 233/216, teres minor 46/44, teres major 77/74; his 248/234, 50/52, 94/89 + rhomboids
       94/30, 89/46; her rhomboids unusable, not shipped); wired before the cuff subjects in both chains. Step 1
-      (her right forearm) and Q60 (owner's references) running as subagents. Viewers: female Version 23, male Version 35.
+      (her right forearm) and Q60 (owner's references) running as subagents. Viewers: female Version 24, male Version 36 (Q67).
 - [x] Q66 (2026-09-14, 11:00) REGRESSION found by the refreshed scale audit and fixed: since the male chain was
       rerun this morning (vhm_both deleted for the tarsal renaming), `bundle_to_subjects.py` had re-created
       `ct_vhm_armm` from the recovered bundle (v1 compartments: biceps 475, triceps 675/762 cm3 as meshes) and the
@@ -1539,6 +1539,11 @@ tick the item here with a one-line result. Never fabricate; keep the
       per-muscle references, verification appendix; Gray's 43rd, Moore 9th, Neumann 3rd, Travell & Simons
       3rd, PubMed records) -> per-muscle clinical fields in data/muscles with the owner's citations; text
       via the Dropbox fetch tool (each < 5 MB; the shoulder file is 111 k characters). Source-coverage tests.
+- [x] Q67 (2026-09-14 13:05) Clinical panel in the viewer: the exporter packs each muscle's `clinical` block
+      once per base id (`compact_clinical`, bundle key `clinical`, 17 keys / 0.58 MB in the female bundle)
+      and the inspector renders "Clinical reference (owner's compilation)" before Source: per document
+      function, trigger points, referred-pain sources, tests with Se/Sp, the caveat, a collapsed source list.
+      Pages 14.88 / 15.36 MB; render verified (biceps brachii). Female Version 24, male Version 36.
 - [ ] Q58 Viewer: show the nerve's depth below the skin along its course (per-level minimum skin distance
       from `skin_depth_vhf.json` is one number; a needle-path preset "sciatic block, subgluteal" that places
       the entry on the skin at the gluteal fold would use the new tool).
