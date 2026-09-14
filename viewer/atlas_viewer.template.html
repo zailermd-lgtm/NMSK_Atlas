@@ -142,6 +142,17 @@ aside{border-right:1px solid var(--line)}
       cursor:pointer;font-family:inherit}
 .pt-btn:hover{background:var(--accent);color:#fff}
 .warn{margin-top:6px;font-size:11px;color:var(--risk)}
+
+/* ---------- needle path ---------- */
+#needle-panel{padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+#needle-panel .eyebrow{margin-top:0}
+#needle-panel .np-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+#needle-panel .np-row h3{margin:0;font-size:13px;font-weight:700}
+#needle-panel .np-status{font-size:11.5px;color:var(--muted);margin:0 0 6px}
+#needle-panel ol{margin:4px 0 0;padding-left:18px;font-size:12px}
+#needle-panel ol li{margin:2px 0}
+#needle-panel ol .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+#needle-panel ol .rng{color:var(--muted);margin-left:4px;white-space:nowrap}
 @media (max-width:1080px){
   #app{grid-template-columns:200px minmax(0,1fr) 300px}
 }
@@ -174,6 +185,7 @@ aside{border-right:1px solid var(--line)}
     <div class="overlay" id="tools">
       <button class="tool" id="t-iso" aria-pressed="false">Isolate</button>
       <button class="tool" id="t-xray" aria-pressed="false">X-ray</button>
+      <button class="tool" id="t-needle" aria-pressed="false" title="Click an entry point, then a target; the panel reports the path length and every structure the path crosses">Needle path</button>
       <button class="tool" id="t-reset">Reset view</button>
     </div>
     <div class="overlay" id="frame-note">
@@ -190,6 +202,11 @@ aside{border-right:1px solid var(--line)}
       <div class="lat" id="i-lat"></div>
       <div class="idline mono" id="i-id"></div>
       <div class="tagrow" id="i-tags"></div>
+    </div>
+    <div id="needle-panel" hidden>
+      <div class="np-row"><h3>Needle path</h3><button type="button" class="pt-btn" id="needle-clear">Clear</button></div>
+      <p class="np-status" id="needle-status"></p>
+      <div id="needle-report"></div>
     </div>
     <div id="i-body"><div class="empty">Click any structure in the model, or pick one from the list.</div></div>
   </div>
@@ -229,6 +246,7 @@ var SUBJECT_LABELS = {
   ct_vhf_delt: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- deltoid by the male's superficial-proximity rule adapted to her (depth band relative to the muscle compartment, window scaled to her scapula, lateral wedge below the humeral head); rule-based, still above expectation on the left",
   ct_vhf_es: "Visible Human female, CT -- erector spinae columns (spinalis, longissimus, iliocostalis) by distance-from-midline rule on her model labels",
   ct_vhf_armm: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- upper-arm muscles by the male's compartment rules (biceps, brachialis, triceps) with the humerus located in the photograph itself; boundaries rule-based",
+  ct_vhf_nerve: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) registered to her CT -- peripheral nerve tracked level by level as a bundle of fascicles between the muscles, from a landmark-rule seed (sciatic: midway between the ischial tuberosity and the greater trochanter); rule-based, each level checked on a montage; ends where the fascicles could no longer be followed",
   ct_vhf_pmr: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- pectoralis minor by position rules (deep to pectoralis major, on the chest wall); rule-based",
   ct_vhf_cuff: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- rotator cuff by the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis)",
   ct_vhm: "Visible Human male, frozen CT (NLM VHP via IDC, public domain) -- TotalSegmentator total task",
@@ -393,8 +411,8 @@ renderer.domElement.addEventListener("pointermove", function(e){
     hv.hidden = false; hv.textContent = hit.userData.rec ? hit.userData.rec.name : hit.userData.id;
     hv.style.left = (e.clientX - stage.getBoundingClientRect().left) + "px";
     hv.style.top = (e.clientY - stage.getBoundingClientRect().top) + "px";
-    renderer.domElement.style.cursor = "pointer";
-  } else { hv.hidden = true; renderer.domElement.style.cursor = drag ? "grabbing" : "default"; }
+    renderer.domElement.style.cursor = needle.active ? "crosshair" : "pointer";
+  } else { hv.hidden = true; renderer.domElement.style.cursor = drag ? "grabbing" : (needle.active ? "crosshair" : "default"); }
   if (!drag) return;
   var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
   drag.x = e.clientX; drag.y = e.clientY; drag.moved += Math.abs(dx) + Math.abs(dy);
@@ -410,7 +428,10 @@ renderer.domElement.addEventListener("pointermove", function(e){
   place(); draw();
 });
 window.addEventListener("pointerup", function(e){
-  if (drag && drag.moved < 5) select(pick(e) ? pick(e).userData.id : null);
+  if (drag && drag.moved < 5){
+    if (needle.active) needleClick(e);
+    else { var h = pick(e); select(h ? h.userData.id : null); }
+  }
   drag = null;
 });
 renderer.domElement.addEventListener("contextmenu", function(e){ e.preventDefault(); });
@@ -421,13 +442,21 @@ renderer.domElement.addEventListener("wheel", function(e){
 }, {passive:false});
 
 var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
-function pick(e){
+/* Nearest visible hit under the pointer (full intersection: object, world
+   point, face). `skip` is a mesh to look through -- the needle tool uses it
+   so the second click reaches the structure beneath the skin the first
+   click landed on. */
+function pickHit(e, skip){
   var r = renderer.domElement.getBoundingClientRect();
   ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
   ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
   ray.setFromCamera(ndc, camera);
-  var hits = ray.intersectObjects(meshes.filter(function(m){ return m.visible; }), false);
-  return hits.length ? hits[0].object : null;
+  var hits = ray.intersectObjects(meshes.filter(function(m){ return m.visible && m !== skip; }), false);
+  return hits.length ? hits[0] : null;
+}
+function pick(e){
+  var h = pickHit(e, null);
+  return h ? h.object : null;
 }
 
 /* ---------- render ---------- */
@@ -550,6 +579,7 @@ function apply(){
   });
   document.getElementById("s-str").textContent = shown;
   document.getElementById("s-tri").textContent = tris.toLocaleString();
+  needleRefresh();
   draw();
 }
 document.getElementById("t-iso").addEventListener("click", function(){
@@ -708,6 +738,237 @@ function select(id){
   document.getElementById("inspector").scrollTop = 0;
   apply();
 }
+
+/* ---------- needle path ---------- */
+/* A straight segment from an ENTRY point (first click, normally on the
+   skin) to a TARGET point (second click). Both are exact ray hits on the
+   decimated viewing meshes, held in root-local coordinates -- i.e. atlas
+   millimetres (+X right, +Y superior, +Z anterior), the same frame the
+   vertices were decoded into with BUNDLE.quantum_mm. The panel reports the
+   length, every visible structure the segment passes through with the
+   depth range (mm from the entry) at which it is inside that mesh, and the
+   target's depth below the skin. Geometry only: a measurement on viewing
+   meshes, not an approach recommendation. */
+var needle = {active:false, entry:null, entryMesh:null, target:null, targetMesh:null};
+var needleGroup = new THREE.Group(); needleGroup.visible = false; root.add(needleGroup);
+var needleR = Math.max(0.6, markerR * 0.3);
+var needleEntryDot = new THREE.Mesh(new THREE.SphereGeometry(needleR * 2.4, 16, 16),
+  new THREE.MeshBasicMaterial({color:0x2F7D5B, depthTest:false}));
+var needleTargetDot = new THREE.Mesh(new THREE.SphereGeometry(needleR * 2.4, 16, 16),
+  new THREE.MeshBasicMaterial({color:0xE8875A, depthTest:false}));
+var needleShaft = new THREE.Mesh(new THREE.CylinderGeometry(needleR, needleR, 1, 12, 1),
+  new THREE.MeshBasicMaterial({color:0xF2C14E, depthTest:false}));
+needleEntryDot.renderOrder = needleTargetDot.renderOrder = needleShaft.renderOrder = 998;
+needleGroup.add(needleEntryDot, needleTargetDot, needleShaft);
+var needleRay = new THREE.Raycaster();
+var NEEDLE_EPS = 0.5;   // mm the cast starts before the entry / after the target, so a hit exactly at either end is not lost
+var NEEDLE_MIN = 0.05;  // mm; shorter intervals are raycast noise on a decimated surface
+
+function isSkinMesh(m){ return /^skin(_|$)/.test(m.userData.id); }
+function meshName(m){ return m.userData.rec && m.userData.rec.name ? m.userData.rec.name : m.userData.id; }
+
+function needleToggle(onOff){
+  needle.active = (onOff == null) ? !needle.active : !!onOff;
+  document.getElementById("t-needle").setAttribute("aria-pressed", String(needle.active));
+  document.getElementById("needle-panel").hidden = !needle.active;
+  if (!needle.active) needleClear();
+  else needleRender();
+  draw();
+}
+function needleClear(){
+  needle.entry = needle.entryMesh = needle.target = needle.targetMesh = null;
+  needleGroup.visible = false;
+  needleRender(); draw();
+}
+/* pt: THREE.Vector3 in atlas mm (root-local); mesh: the mesh it was hit on. */
+function needleAddPoint(pt, mesh){
+  if (!needle.entry || needle.target){          // first click, or a third one: start over
+    needle.entry = pt.clone(); needle.entryMesh = mesh;
+    needle.target = needle.targetMesh = null;
+  } else {
+    needle.target = pt.clone(); needle.targetMesh = mesh;
+  }
+  needleDraw(); needleRender(); draw();
+}
+/* Programmatic entry point: two atlas-mm points, each optionally with the
+   id of the mesh it lies on (a click supplies that itself). */
+function needleSetPoints(entry, target, entryId, targetId){
+  needleClear();
+  needleAddPoint(new THREE.Vector3(entry[0], entry[1], entry[2]), entryId ? byId[entryId] || null : null);
+  if (target) needleAddPoint(new THREE.Vector3(target[0], target[1], target[2]), targetId ? byId[targetId] || null : null);
+}
+function needleClick(e){
+  // The target click looks through the entry structure, so the skin can
+  // stay on while the structure beneath it is picked.
+  var skip = (needle.entry && !needle.target) ? needle.entryMesh : null;
+  var h = pickHit(e, skip);
+  if (!h) return;
+  needleAddPoint(root.worldToLocal(h.point.clone()), h.object);
+}
+function needleDraw(){
+  if (!needle.entry){ needleGroup.visible = false; return; }
+  needleEntryDot.position.copy(needle.entry);
+  needleTargetDot.visible = needleShaft.visible = !!needle.target;
+  if (needle.target){
+    var d = needle.target.clone().sub(needle.entry), L = d.length();
+    needleTargetDot.position.copy(needle.target);
+    needleShaft.scale.set(1, Math.max(L, 1e-3), 1);
+    needleShaft.position.copy(needle.entry).addScaledVector(d, 0.5);
+    needleShaft.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
+  }
+  needleGroup.visible = true;
+}
+/* Every crossing of the segment A->B with the given meshes: a sorted list
+   of {mesh, t, enter} with t in mm from A. Cast from just before A towards
+   B and from just after B back towards A, so a hit that sits exactly on
+   either endpoint is found, and merge the two casts (a triangle the
+   forward cast slid past can still be caught by the backward one). Whether
+   a hit is an entry into or an exit from the mesh is read off the face
+   normal against the path direction, which does not depend on the mesh
+   being watertight the way a parity count would. */
+function needleHits(A, B, list){
+  var d = B.clone().sub(A), L = d.length(); if (L < 1e-6) return [];
+  d.normalize();
+  var evs = [], ws = new THREE.Vector3(), wd = new THREE.Vector3();
+  function cast(origin, dir, sign, base){
+    root.localToWorld(ws.copy(origin));
+    needleRay.set(ws, wd.copy(dir));   // root has no rotation, so a local direction is a world direction
+    needleRay.near = 0; needleRay.far = L + 2 * NEEDLE_EPS;
+    needleRay.intersectObjects(list, false).forEach(function(h){
+      var t = base + sign * h.distance;
+      var nd = h.face ? h.face.normal.dot(d) : 0;
+      evs.push({mesh:h.object, t:t, enter:nd < 0, flat:Math.abs(nd) < 1e-6});
+    });
+  }
+  cast(A.clone().addScaledVector(d, -NEEDLE_EPS), d, 1, -NEEDLE_EPS);
+  cast(B.clone().addScaledVector(d, NEEDLE_EPS), d.clone().negate(), -1, L + NEEDLE_EPS);
+  evs.sort(function(a, b){ return a.t - b.t; });
+  var out = [];
+  evs.forEach(function(e){
+    var last = out.length ? out[out.length - 1] : null;
+    // the same triangle seen by both casts: keep one
+    if (last && last.mesh === e.mesh && Math.abs(last.t - e.t) < 0.02 && last.enter === e.enter) return;
+    out.push(e);
+  });
+  return {hits:out, L:L};
+}
+/* Depth intervals (mm from the entry) at which the segment is inside each
+   mesh, in order of first entry. */
+function needleCrossings(A, B, list){
+  var r = needleHits(A, B, list); if (!r.hits) return [];
+  var L = r.L, per = new Map();
+  r.hits.forEach(function(e){
+    var s = per.get(e.mesh);
+    if (!s){ s = {mesh:e.mesh, inside:false, start:0, ivs:[]}; per.set(e.mesh, s); }
+    var enter = e.flat ? !s.inside : e.enter;
+    if (enter){ if (!s.inside){ s.inside = true; s.start = Math.max(0, e.t); } }
+    else {
+      var t = Math.min(L, e.t);
+      if (s.inside){ s.ivs.push([s.start, t]); s.inside = false; }
+      else if (t > 0) s.ivs.push([0, t]);                 // exit with no entry: started inside
+    }
+  });
+  var rows = [];
+  per.forEach(function(s){
+    if (s.inside) s.ivs.push([s.start, L]);
+    var ivs = s.ivs.filter(function(iv){ return iv[1] - iv[0] >= NEEDLE_MIN; });
+    if (!ivs.length && s.mesh === needle.targetMesh) ivs = [[L, L]];  // reached at its surface
+    if (!ivs.length) return;
+    ivs.forEach(function(iv){ rows.push({mesh:s.mesh, id:s.mesh.userData.id, name:meshName(s.mesh), from:iv[0], to:iv[1]}); });
+  });
+  rows.sort(function(a, b){ return a.from - b.from || a.to - b.to; });
+  return rows;
+}
+/* Depth of the target below the skin: the path length when the entry sits
+   on the skin, else the distance back from the target to the nearest skin
+   hit along the path. Skin meshes count whether or not they are shown. */
+function needleSkinDepth(A, B){
+  var skins = meshes.filter(isSkinMesh);
+  if (!skins.length) return null;
+  var L = B.clone().sub(A).length();
+  if (needle.entryMesh && isSkinMesh(needle.entryMesh)) return {depth:L, how:"entry on the skin"};
+  var r = needleHits(A, B, skins), best = null;
+  (r.hits || []).forEach(function(e){
+    if (e.t < -NEEDLE_MIN || e.t > L + NEEDLE_MIN) return;
+    var dd = L - Math.max(0, Math.min(L, e.t));
+    if (best == null || dd < best) best = dd;
+  });
+  return best == null ? {depth:null, how:"no skin crossed"} : {depth:best, how:"nearest skin hit on the path"};
+}
+function needleReport(){
+  if (!needle.entry || !needle.target) return null;
+  var vis = meshes.filter(function(m){ return m.visible; });
+  var rows = needleCrossings(needle.entry, needle.target, vis);
+  return {
+    length_mm: needle.target.clone().sub(needle.entry).length(),
+    entry: needle.entry.toArray(), target: needle.target.toArray(),
+    entry_id: needle.entryMesh ? needle.entryMesh.userData.id : null,
+    target_id: needle.targetMesh ? needle.targetMesh.userData.id : null,
+    target_name: needle.targetMesh ? meshName(needle.targetMesh) : null,
+    crossings: rows.map(function(r){ return {id:r.id, name:r.name, from_mm:r.from, to_mm:r.to}; }),
+    skin: needleSkinDepth(needle.entry, needle.target)
+  };
+}
+function mm1(v){ return '<span class="mono">' + Number(v).toFixed(1) + '</span>'; }
+function xyz1(v){ return '<span class="mono">' + v.map(function(c){ return c.toFixed(1); }).join(", ") + '</span> mm'; }
+function needleRender(){
+  var st = document.getElementById("needle-status"), rep = document.getElementById("needle-report");
+  if (!needle.active) return;
+  if (!needle.entry){
+    var skinCat = (meshes.filter(isSkinMesh)[0] || {userData:{}}).userData.cat;
+    st.textContent = "Click the entry point (usually the skin" +
+      (skinCat ? " -- switch the " + (TISSUE[skinCat] || TISSUE.other).label + " system on to show it" : "") + ").";
+    rep.innerHTML = ""; return;
+  }
+  if (!needle.target){
+    st.innerHTML = "Entry on <b>" + esc(needle.entryMesh ? meshName(needle.entryMesh) : "?") + "</b> at " + xyz1(needle.entry.toArray()) +
+      ". Now click the target structure (the click looks through the entry structure; hide anything else in the way).";
+    rep.innerHTML = ""; return;
+  }
+  var R = needleReport();
+  st.innerHTML = "Entry <b>" + esc(needle.entryMesh ? meshName(needle.entryMesh) : "?") + "</b> &rarr; target <b>" +
+    esc(R.target_name || "?") + "</b>. Click again to start a new path; Esc clears.";
+  var h = '<dl class="kv">' +
+    "<dt>Length</dt><dd>" + mm1(R.length_mm) + " mm</dd>" +
+    "<dt>Entry</dt><dd>" + xyz1(R.entry) + "</dd>" +
+    "<dt>Target</dt><dd>" + xyz1(R.target) + "</dd>" +
+    "<dt>Below skin</dt><dd>" + (R.skin
+      ? (R.skin.depth == null ? esc(R.skin.how) : mm1(R.skin.depth) + " mm <span class=\"hint\">(" + esc(R.skin.how) + ")</span>")
+      : '<span class="hint">no skin mesh in this bundle</span>') + "</dd>" +
+    "</dl>";
+  h += '<p class="eyebrow" style="margin-top:9px">Passes through (mm from entry)</p>';
+  if (!R.crossings.length) h += '<p class="hint">No visible structure is crossed.</p>';
+  else {
+    h += "<ol>" + R.crossings.map(function(c){
+      var m = byId[c.id], tis = TISSUE[(m ? m.userData.cat : "other")] || TISSUE.other;
+      var rng = (c.to_mm - c.from_mm < NEEDLE_MIN)
+        ? '<span class="rng mono">' + c.from_mm.toFixed(1) + " (surface reached)</span>"
+        : '<span class="rng mono">' + c.from_mm.toFixed(1) + "&ndash;" + c.to_mm.toFixed(1) + "</span>";
+      return '<li><span class="dot" style="background:' + hexCss(tis.hex) + '"></span>' + esc(c.name) +
+        (c.name !== c.id ? ' <span class="hint mono">' + esc(c.id) + "</span>" : "") + rng + "</li>";
+    }).join("") + "</ol>";
+  }
+  h += '<p class="cite">Straight-line geometry on the decimated viewing meshes, visible structures only; ' +
+       'depths are along the path, not perpendicular to the skin. Not a clinical recommendation.</p>';
+  rep.innerHTML = h;
+}
+function needleRefresh(){ if (needle.active && needle.target) needleRender(); }
+document.getElementById("t-needle").addEventListener("click", function(){ needleToggle(); });
+document.getElementById("needle-clear").addEventListener("click", function(){ needleClear(); });
+window.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && needle.active){ needleClear(); }
+});
+/* Exposed so a test harness (or a console) can drive the tool:
+   NeedlePath.setPoints([x,y,z],[x,y,z],"skin","femur_r"); NeedlePath.report() */
+window.showPoint = showPoint;   // the inline 📍 buttons call it from outside this strict IIFE
+window.NeedlePath = {
+  toggle:needleToggle, clear:needleClear, setPoints:needleSetPoints, report:needleReport,
+  toScreen:function(p){   // atlas mm -> CSS px within the stage, for synthetic clicks
+    var v = root.localToWorld(new THREE.Vector3(p[0], p[1], p[2])).project(camera);
+    var r = renderer.domElement.getBoundingClientRect();
+    return [r.left + (v.x + 1) / 2 * r.width, r.top + (1 - v.y) / 2 * r.height];
+  }
+};
 
 /* ---------- go ---------- */
 document.getElementById("s-subtitle").textContent =

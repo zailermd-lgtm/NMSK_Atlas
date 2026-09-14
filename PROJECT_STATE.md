@@ -1355,6 +1355,41 @@ tick the item here with a one-line result. Never fabricate; keep the
       band was calibrated to it: 22 mm -> 74/105, 28 -> 111/145, 34 -> 154/192; 32 mm adopted (label 140/176, meshes 110/144). Hers
       stays 22 mm (no traced boundary on her; same radius). Male viewer Version 30; asymmetry of the two rules
       recorded in VIEWER_README / GEOMETRY_SOURCES.
+- [x] Q53 (2026-09-14, 05:30 -> 09:40; user: "you have a lot of work to do -- continue") SCIATIC NERVE on the
+      female from her FULL-RESOLUTION cryosections (0.33 mm; 1 mm frame could not show it, Q7). New:
+      `scripts/cryo/vhf_stream_crops.py` (atlas-box crops of any level range, streamed from IDC in seconds),
+      `vhf_nerve_track.py` (muscle-section corridor from her meshes + fascicle-HONEYCOMB texture detector +
+      landmark-rule seed + Viterbi chain; montage of every level for the human check), `vhf_nerve_volume.py`
+      (merged verified ranges -> 0.5 mm label volume, subject `ct_vhf_nerve`, id `sciatic_n`). Shipped: right
+      -70..-235, left -70..-293 mm (19.7 cm3 label / 18.0 mesh both sides, median sections 26/34 mm2), every checked montage tile
+      shows the honeycomb at the cross-hair. Not shipped (honest limits, see GEOMETRY_SOURCES): the gluteal
+      course above -70 (detector locks onto gluteus maximus' fatty striations) and the popliteal division
+      (right lost at -245 on muscle/fat edges; left the paler bundle sits 8 mm off the cross-hair at -303..-333).
+      Also this wake: the viewer's NEEDLE PATH tool (Needle path button: entry click + target click ->
+      length, structures crossed with depth ranges, depth below skin; `tests/test_viewer_template.py`) and
+      the 📍 origin/insertion buttons fixed (showPoint was not reachable from the inline onclick).
+- [ ] Q54 Sciatic division -> tibial and common fibular nerves through the popliteal fossa to the fibular
+      neck (left montage shows the bundle plainly at -303..-333 in the popliteal fat): the detector needs a
+      "pale bundle in fat" mode (texture only: cells + walls, brightness up to the fat's; drop the near-fat
+      exclusion inside the fossa hull) and the chain a second branch (CFN along the medial edge of biceps
+      femoris). Verify on 30 mm zoom montages every 10 mm as for Q53. Then the same for the gluteal course
+      above -70 (corridor = between gluteus maximus and the short rotators/quadratus femoris; exclude the
+      muscle interior by the muscle-class closing at 5 mm).
+- [ ] Q55 Femoral neurovascular bundle on the female at full resolution: femoral artery/vein (dark lumen,
+      unmistakable) and femoral nerve in the femoral triangle and adductor canal (corridor between sartorius,
+      adductor longus, vastus medialis, iliopsoas; seed by the rule "midpoint of the inguinal ligament =
+      ASIS-pubic tubercle midpoint, artery medial to the nerve"). Vessel ids are sided (`femoral_a_r`).
+- [ ] Q56 Popliteal artery/vein (the dark round lumens in the Q53 distal montages) and the tibial nerve's
+      relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
+      (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between
+      biceps and triceps; the arm crops on disk are elbow-to-fingertips only).
+- [ ] Q57 Male sciatic nerve by the same tracker: his cryosections at full resolution need a registered
+      frame (his 1 mm frame was lost with the container reset; `stream_cryosections.py --start/--stop` and
+      the whole-body centroid registration of `vhm_arm_muscles_v2.py` are the pieces) -- do after Q54 so
+      the detector is final.
+- [ ] Q58 Viewer: show the nerve's depth below the skin along its course (per-level minimum skin distance
+      from `skin_depth_vhf.json` is one number; a needle-path preset "sciatic block, subgluteal" that places
+      the entry on the skin at the gluteal fold would use the new tool).
 
 
 

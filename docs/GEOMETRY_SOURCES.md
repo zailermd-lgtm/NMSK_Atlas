@@ -1077,6 +1077,44 @@ after are in PROJECT_STATE (Q44) and the rule table above is superseded by the n
 in `data/ct_sources/task_outputs/vhf_*_report.json`. The lower limb was never read off her
 photographs before this, so nothing else moved.
 
+### Nerves from the female's FULL-RESOLUTION cryosections (2026-09-14): the sciatic nerve, tracked
+
+The 1 mm registered frame cannot show a nerve (Q7): at that scale the sciatic nerve is the same
+orange-cream as the intermuscular connective tissue. At the photographs' own resolution (0.33 mm,
+`scripts/cryo/vhf_stream_crops.py` streams a fixed atlas-space box per level straight from the IDC
+DICOMs, ~1 s per 10 levels) a nerve is unmistakable: a compact HONEYCOMB of fascicles (pale cells
+0.5-2 mm across with darker walls) in the connective tissue between muscle bellies -- never inside a
+belly, and unlike fat (uniform, no texture), muscle (dark) and fascia (single bright lines).
+
+`scripts/cryo/vhf_nerve_track.py` turns that into a rule: per level, a CORRIDOR (not muscle, not gel,
+under the deep fascia or inside the hull of the nerve's own muscles, within 15 mm of the muscles that
+roof the nerve and of those it lies on, sections of her meshes; 4 mm away from bone, whose cortex
+mimics the texture), a DETECTOR (3 mm mean brightness 95-190 with dense fine edges, not bimodal, away
+from muscle/fat edges; blobs 6-200 mm2 at least half inside the corridor) and a CHAIN (Viterbi over
+the levels from a LANDMARK-RULE seed -- the sciatic nerve midway between the ischial tuberosity and
+the greater trochanter, 20 mm below the tuberosity -- with the smallest total centroid jump, a level
+without a blob costs 6 mm, jumps over 8 mm forbidden). The human check is a montage of every level
+at native resolution: the tracked cord must show the honeycomb at the cross-hair.
+
+Result (`data/ct_sources/task_outputs/vhf_nerves_cryo.nii.gz`, 0.5 x 0.5 x 1 mm, subject
+`ct_vhf_nerve`, atlas id `sciatic_n` for both sides as nerve ids are side-agnostic):
+
+| side | verified span (atlas y) | tracked levels | median section | note |
+|---|---|---|---|---|
+| right | -70 .. -235 mm (165 mm) | 146 of 166 | 26 mm2 | honeycomb at the cross-hair on every montage tile from the gluteal fold to the distal third |
+| left | -70 .. -293 mm (223 mm) | 186 of 223 | 34 mm2 | as right; from -243 the paler popliteal bundle (three runs merged) |
+
+Both sides together 19.7 cm3 in the label volume, 18.0 cm3 as the smoothed mesh (one label). What it is NOT yet: above -70 (under gluteus maximus) the
+detector locks onto the fatty striations of the muscle itself, so the gluteal course is not shipped;
+below the verified span the tracker either sits on muscle/fat edges (right, from -245) or leaves the
+nerve where it is plainly visible 8 mm posterior of the cross-hair in the popliteal fat (left, -303
+to -333): there the bundle is as pale as the fat and only its texture differs, and the corridor's
+"near fat" exclusion erodes it -- the division into tibial and common fibular nerves is queue item
+Q54. The sections (26-34 mm2) are the fascicle core with little epineurium, smaller than the whole
+nerve; the 1 mm gaps (24 right, 37 left) are filled with the nearest tracked section shifted along
+the chain. Rule-based, badged; the montages that were checked are in the scratchpad record of the
+session (`sciatic_*_zoom.png`), regenerable from the scripts in ~10 minutes per side.
+
 ## Resulting architecture
 
 ```

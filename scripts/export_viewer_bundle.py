@@ -59,7 +59,8 @@ DEFAULT_BUDGET = 1500
 # A few entities are far larger than their category's typical member and
 # read as crude at the category budget: the whole skull is one composite
 # 'bone'.
-BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000}
+BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000,
+                    "sciatic_n": 12000}   # a 6 mm cord 200 mm long breaks into fragments at the nerve budget's 5 mm cells
 QUANTUM_MM = 0.25
 
 # Indices are uint16, which is the whole reason for the budgets above: at

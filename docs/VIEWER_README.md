@@ -32,6 +32,7 @@ the source and the method:
 | `ct_vhf_skin` | female | CT, plus the photographs for the arms the CT clips (above the pelvis) | body silhouette (HU > -300) united with the cryosection silhouette |
 | `ct_vhf_delt` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: the male's deltoid rule adapted to her -- muscle within 55 mm of the humerus, within 25 mm of the outer surface of the muscle compartment (not 40 mm of the skin: her fat is thicker), window 113 mm (his 130 scaled to her scapula), and below the humeral head only the lateral +-80 deg wedge within 40 mm; 226 / 282 cm3 (his rule value 232 / 180), the left still above the lean-section expectation |
 | `ct_vhf_armm` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: the male's compartment rules (posterior of the coronal plane through the humerus = triceps; anterior within 22 mm of the bone in the distal 65 % = brachialis; proximal medial = coracobrachialis; the rest = biceps) with, since v2, the humerus located in the photograph (the round hole in the muscle compartment nearest the shifted CT label) and the arm island cut off the trunk; biceps 267 / 224, brachialis 117 / 120, triceps 303 / 337 cm3 |
+| `ct_vhf_nerve` | female | colour cryosections at full resolution (0.33 mm) registered to her CT | **rule-based tracking**: a nerve is found as a bundle of fascicles (pale honeycomb texture) in the connective tissue between the muscles that bound it, seeded by a landmark rule and chained level by level (Viterbi, jumps <= 8 mm); the montage of every level is the check; ends where the fascicles could not be followed (the sciatic nerve: gluteal fold to the distal thigh, see GEOMETRY_SOURCES) |
 | `ct_vhf_pmr` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: pectoralis minor by position (deep to pec major, on the chest wall); her rhomboids are not shipped |
 | `ct_vhf_cuff` | female | colour cryosections registered to her CT (height corrected 2026-09-13, 0 +- 5 mm) | **rule-based**: the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis) |
 | `ct_vhf_es` | female | CT (model labels) | **rule-based**: erector spinae columns by distance from the vertebral midline (20 / 50 mm) |
@@ -56,3 +57,36 @@ rule are reproducible from `scripts/cryo/`.
 `data/derived/skin_depth_vhm.json` and `skin_depth_vhf.json` give, for
 every structure, the shallowest, median and deepest distance of its
 surface from the body surface -- the number an injection plan starts from.
+
+## Needle path
+
+The **Needle path** button in the tool bar turns the two clicks after it
+into a straight-line measurement. The first click on any structure sets
+the entry point (the exact hit on that surface -- normally the skin, so
+switch its system on first); the second sets the target. The target click
+looks through the entry structure, so the skin can stay on while you pick
+what lies beneath it; hide any other system in the way. The path is drawn
+as a thin rod with a green entry bead and an orange target bead, and the
+panel above the inspector reports:
+
+- the path length in mm and both points in atlas mm (+X subject's right,
+  +Y superior, +Z anterior; origin at the midpoint of the hip joint centres);
+- every visible structure the segment passes through, in order from the
+  entry, with the depth range along the path (mm from the entry) at which
+  the segment is inside that mesh -- e.g. `skin 0.0-38.6, rectus_femoris_r
+  20.6-26.8, vastus_intermedius_r 29.1-38.6, femur_r 38.6 (surface
+  reached)`. It is found by casting the segment against each shown mesh
+  from both ends and pairing the entry and exit hits (an entry is a face
+  whose normal points against the path); the skin here is the whole body
+  silhouette, so it spans the path from a skin entry, and unmodelled
+  tissue (subcutaneous fat) appears as a gap;
+- the depth of the target below the skin: the path length when the entry
+  is on the skin, otherwise the distance from the target back to the
+  nearest skin crossing along the path, skin hidden or not.
+
+A third click starts a new path; **Clear** or Esc removes it; switching
+the tool off removes the drawing. Everything is measured on the decimated
+viewing meshes the page carries, not on the full-resolution atlas meshes,
+and along the path rather than perpendicular to the skin. It is a
+geometric measurement for orientation, not a clinical recommendation of
+an approach, angle or depth.
