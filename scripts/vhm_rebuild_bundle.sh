@@ -34,12 +34,17 @@ if [ -f $T/vhm_shoulder_split_cryo.nii.gz ] && ! grep -q vhm_shoulder_split buil
   cp mappings/subjects/ct_vhm_shsp_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_shsp
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_shoulder_split_cryo.nii.gz --labels vhm_shoulder_split --subject ct_vhm_shsp --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
+# Q62 step 1: his right forearm from the full-resolution crops (scripts/cryo/vhm_forearm_muscles_from_cryo.py); only FDS, FDP, APL shipped by name
+if [ -f $T/vhm_forearm_muscles_cryo.nii.gz ] && ! grep -q vhm_forearm_muscles build/vh/ct_vhm_forearm/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhm_forearm_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_forearm
+  python3 scripts/ingest_volume_geometry.py convert $T/vhm_forearm_muscles_cryo.nii.gz --labels vhm_forearm_muscles --subject ct_vhm_forearm --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
 # Q62 step 6: diaphragm + intercostal sheets from his total-task labels (scripts/trunk_wall_from_ct.py --body m; geometric rule only, his frozen HU overlap)
 if [ -f $T/vhm_trunk_wall.nii.gz ] && ! grep -q vhm_trunk_wall build/vh/ct_vhm_twall/manifest.json 2>/dev/null; then
   cp mappings/subjects/ct_vhm_twall_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_twall
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_trunk_wall.nii.gz --labels vhm_trunk_wall --subject ct_vhm_twall --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
-SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1
 echo VHM_REBUILD_DONE

@@ -1208,6 +1208,20 @@ supported at only 67 % of levels), supinator + anconeus (8 cm3). Compartment bor
 seeds are re-placed at every level (no level-to-level tracking). Output 0.5 x 0.5 x 1 mm, radial head to the
 carpus (atlas y 299 -> 140). Report `data/ct_sources/task_outputs/vhf_forearm_muscles_cryo_report.json`.
 
+### His right forearm by the same method (2026-09-14, Q62 step 1b)
+
+`scripts/cryo/vhm_forearm_muscles_from_cryo.py` with `scripts/cryo/vhm_stream_crops.py`: his forearm levels (instances
+1625-1761, atlas y 255 -> 119) streamed at 0.33 mm around the right forearm, radius and ulna tracked as bone discs
+(residual to his CT bones <= 1.1 mm after correction), the same position rules and pale-line watershed as hers. The
+photographs support far fewer boundaries on him: only flexor digitorum superficialis 54 cm3, flexor digitorum profundus
+58 and abductor pollicis longus 13 are within range and shipped as subject `ct_vhm_forearm`; flexor carpi ulnaris (139),
+pronator quadratus (57), palmaris longus (35), extensor carpi ulnaris (39), extensor digiti minimi (20), extensor
+indicis (16), extensor pollicis longus (13.5) and brevis (8) are more than twice any adult expectation (the rule lines
+give them neighbouring mass) and stay in the label volume unshipped, with the merged radial-flexor (105), mobile-wad
+(264, which also holds brachialis/biceps at the elbow levels) and extensor digitorum/supinator/anconeus (49)
+compartments. Holzbaur et al. 2007 (J Biomech 40:742, doi:10.1016/j.jbiomech.2006.11.011) is the volume reference; its
+per-muscle numbers were not read this session, so the cut is a conservative textbook range.
+
 ### Deep neck and suboccipital muscles on her 1 mm frame (2026-09-14, Q62 step 3)
 
 `scripts/cryo/vhf_deep_neck_from_cryo.py`: between her vertebral labels (C1-T3, skull), the head/neck muscle labels
