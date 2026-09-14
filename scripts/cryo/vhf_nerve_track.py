@@ -127,6 +127,14 @@ def nerve_blobs(im, cl=None):
     return ndi.label(grown)
 
 
+def honeycomb_score(R, mask):
+    """Density of fascicle CELLS in a blob: local maxima of the 1 px-smoothed red channel that stand >= 12 above
+    the darkest pixel within 1 mm (a cell bounded by walls), at >= 1 mm spacing, per mm2; 0.4 / mm2 = 1.0."""
+    sm = ndi.gaussian_filter(R, 1.0)
+    peaks = (sm == ndi.maximum_filter(sm, size=7)) & ((sm - ndi.minimum_filter(sm, size=7)) >= 12) & mask
+    return float(min(peaks.sum() / max(mask.sum() * PX * PX, 1e-6) / 0.4, 1.0))
+
+
 def candidates(im, corridor, area_mm2, min_inside=0.5, max_aspect=3.0):
     cl = photo_classes(im); lab, n = nerve_blobs(im, cl); out = []
     for i in range(1, n + 1):
@@ -137,7 +145,8 @@ def candidates(im, corridor, area_mm2, min_inside=0.5, max_aspect=3.0):
             aspect = float(np.sqrt(max(ev[1], 1e-6) / max(ev[0], 1e-6)))
             if aspect > max_aspect:                       # a strip hugging a muscle edge is not a nerve section
                 continue
-            out.append({"lab": i, "area_mm2": float(ar), "rc": (float(cy), float(cx)), "mask": mm, "inside": float(inside), "aspect": round(aspect, 2)})
+            out.append({"lab": i, "area_mm2": float(ar), "rc": (float(cy), float(cx)), "mask": mm, "inside": float(inside), "aspect": round(aspect, 2),
+                        "score": round(honeycomb_score(cl["R"], mm), 2)})
     return out, lab
 
 
@@ -194,16 +203,18 @@ def collect(crops, meshes, side, spec, y_top, y_end, lab_store=None, log=print):
     return ys, per
 
 
-def viterbi(ys, per, seed, jump_mm=8.0, gap_cost=6.0, seed_radius=25.0):
-    """Best chain of candidates from the seed level down: cost = sum of centroid jumps (mm), a level without a
-    candidate costs gap_cost and keeps the position; a jump > jump_mm (+2 mm per preceding gap) is forbidden."""
+def viterbi(ys, per, seed, jump_mm=8.0, gap_cost=6.0, seed_radius=25.0, lam=8.0):
+    """Best chain of candidates from the seed level down: cost = sum of centroid jumps (mm) + lam x (1 - honeycomb
+    score) per blob, a level without a candidate costs gap_cost and keeps the position; a jump > jump_mm (+2 mm per
+    preceding gap) is forbidden."""
     INF = 1e18; states = []          # per level: list of (x, z, cand_index or None)
     for y in ys:
         st = [(c["x"], c["z"], k) for k, c in enumerate(per[y])]
         states.append(st)
+    texture = [[lam * (1.0 - c.get("score", 1.0)) for c in per[y]] for y in ys]      # a blob without fascicle cells costs lam mm
     cost = []; back = []
     # level 0: candidates near the seed, or a gap at the seed
-    c0 = [np.hypot(x - seed["x"], z - seed["z"]) for x, z, _ in states[0]]
+    c0 = [np.hypot(x - seed["x"], z - seed["z"]) + texture[0][k] for k, (x, z, _) in enumerate(states[0])]
     c0 = [c if c <= seed_radius else INF for c in c0] + [gap_cost]; states[0] = states[0] + [(seed["x"], seed["z"], None)]
     cost.append(c0); back.append([None] * len(c0)); gaps_at = [[0] * len(c0)]
     for i in range(1, len(ys)):
@@ -225,7 +236,7 @@ def viterbi(ys, per, seed, jump_mm=8.0, gap_cost=6.0, seed_radius=25.0):
                     d = np.hypot(x - px_, z - pz_); lim = jump_mm + 2.0 * gaps_at[i - 1][j]
                     if d > lim:
                         continue
-                    c = pcost[j] + d; g = 0
+                    c = pcost[j] + d + texture[i][k]; g = 0
                 if c < best:
                     best, bj, bg = c, j, g
             ci.append(best); bi.append(bj); gi.append(bg)
@@ -254,7 +265,7 @@ def track(crops, meshes, side, spec, seed, y_end, lab_store=None, log=print):
     for y, x, z, idx in chain:
         c = per[y][idx] if idx is not None else None
         rows.append({"y": y, "gap": c is None, "x": round(x, 1), "z": round(z, 1), "n_cands": len(per[y]),
-                     **({"area_mm2": round(c["area_mm2"], 1), "inside": round(c["inside"], 2), "lab": int(c["lab"]), "level_index": ys.index(y)} if c else {})})
+                     **({"area_mm2": round(c["area_mm2"], 1), "inside": round(c["inside"], 2), "lab": int(c["lab"]), "score": c.get("score"), "level_index": ys.index(y)} if c else {})})
     lost = chain[-1][0] if chain else None
     return rows, lost
 
