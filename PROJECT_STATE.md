@@ -1415,7 +1415,18 @@ tick the item here with a one-line result. Never fabricate; keep the
       trained on her own proximal sections". torch and scikit-learn are NOT installed (wiped with the
       container reset); pypi is reachable, so `pip install torch --index-url
       https://download.pytorch.org/whl/cpu` (or scikit-learn for a forest on multi-scale patch features)
-      is the first step. One focused wake. The gluteal course above -70 fails differently: the flattened
+      is the first step. One focused wake. 07:40 RESULT: done in this wake with scikit-learn (torch's CPU index is
+      blocked) -- `vhf_nerve_patches.py` (2,324 positives / 3,603 negatives from the verified track) +
+      `vhf_nerve_scorer.py` (HGB on 155 patch features; level-held-out AUC 0.998) wired in as `--scorer`.
+      It does NOT generalise: on the popliteal levels the probability at the visible tibial nerve is 0.01-
+      0.21 while muscle edges score 0.8 (probe_scorer.png), and the runs with it produced all-gap chains.
+      The proximal honeycomb and the popliteal speckled oval are different appearances; the classifier has
+      never seen the second. Also found and reverted: the muscle-interior exclusion removed 5/7 verified
+      left nerve positions (her thigh muscles are transferred meshes). WHAT WOULD WORK: popliteal training
+      examples -- a reviewer marking the tibial nerve every 10 mm from -300 to -400 on each side (10 clicks
+      per side on the 30 mm montage tiles; the nerve is the grey speckled oval beside the black popliteal
+      vessels), after which the scorer retrains and the chain runs between the marks. Parked until marks
+      exist; Q55/Q56 (vessels: black lumens, trivially detectable) are the better next items. The gluteal course above -70 fails differently: the flattened
       nerve under gluteus maximus is 3 mm thick and the 1 mm near-muscle exclusion removes it. Verify on
       30 mm zoom montages every 10 mm as for Q53. Left montage shows the bundle plainly at -303..-333
       in the popliteal fat: the detector needs a

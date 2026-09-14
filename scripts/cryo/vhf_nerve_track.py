@@ -165,10 +165,10 @@ def corridor_mask(im, masks, spec):
     # the space between the roof muscles themselves (the popliteal fossa between biceps femoris and semimembranosus)
     # counts as floor: a nerve there lies on fat, not on a muscle
     fossa = convex_hull_image(roof) if roof.any() else np.zeros_like(roof)
-    # never inside a belly: the interior of the muscles' own sections (eroded 3 mm for registration slack) is out --
-    # gluteus maximus' fatty striations otherwise pass every photograph test
-    inside = ndi.binary_erosion(roof | floor, structure=disk(3), iterations=3)
-    return deep & ~cl["gel"] & near_roof & (near_floor | fossa) & ~near_bone & ~inside, deep
+    # NOT excluded: the interior of the muscles' own sections. Tried 2026-09-14 against gluteus maximus' fatty
+    # striations, but her thigh muscles are TRANSFERRED meshes and their sections cover 5 of 7 verified nerve
+    # positions on the left (cor_check.py), so the rule would have deleted the sciatic nerve itself.
+    return deep & ~cl["gel"] & near_roof & (near_floor | fossa) & ~near_bone, deep
 
 
 def seed_rule(nerve, meshes, side):
