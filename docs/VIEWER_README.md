@@ -62,6 +62,20 @@ rule are reproducible from `scripts/cryo/`.
 every structure, the shallowest, median and deepest distance of its
 surface from the body surface -- the number an injection plan starts from.
 
+For a NERVE the inspector adds "Depth below skin along the course": one row
+per 20 mm band of atlas y (the superior axis, y = 0 at the hip-joint midpoint)
+with the shallowest point of the nerve in that band and its distance to the
+skin mesh of that body. `show` marks that point and the skin point nearest to
+it; `needle` lays the needle-path tool from the skin point to the nerve point,
+so the report gives the structures the straight path would cross. It is a
+measurement on this body's meshes, not a block technique or a recommended
+approach (Q58, exporter `depth_profile`).
+
+Page size: an artifact page must stay under 16 MB, so the exporter takes
+`--budget-scale` (every triangle budget multiplied; the female chain ships at
+0.85 since its 21st subject). The full-resolution meshes are untouched; only
+the viewing copies get coarser.
+
 ## Needle path
 
 The **Needle path** button in the tool bar turns the two clicks after it

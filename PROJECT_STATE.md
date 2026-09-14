@@ -1499,7 +1499,8 @@ tick the item here with a one-line result. Never fabricate; keep the
       13 right: not shipped). ct_vhm_neck now converts from his merged volume in the chain instead of the
       recovered bundle. Male viewer Version 33, female Version 22.
 - [ ] Q62 PROGRESS 2026-09-14 13:50: step 1 female right forearm SHIPPED as `ct_vhf_forearm` (12 muscles, rule-based,
-      FCU 55 / BR 48 cm3 flagged for review; PT+FCR+PL+FDS, ECRL+ECRB, supinator+anconeus merged and unshipped;
+      FCU 55 / BR 48 cm3 flagged for review; PT+FCR+PL+FDS, ECRL+ECRB, supinator+anconeus merged and unshipped; female viewer Version 25 (page 15.52 MB of the 16 MB cap: the next female subject
+      needs a triangle-budget trim); Q58 course table verified on sciatic_n;
       docs/GEOMETRY_SOURCES.md); step 2 done; step 3 (deep neck, `ct_vhf_dneck`) and step 6 (diaphragm +
       intercostals, `ct_vh{f,m}_twall`) running as subagents; step 8 = Q65 done. Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),

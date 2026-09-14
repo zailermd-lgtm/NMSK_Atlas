@@ -346,7 +346,11 @@ def main() -> int:
                           "bone from a CT case, say -- without overwriting anything the "
                           "first subject already carries).")
     ap.add_argument("-o", "--out", default="build/viewer")
+    ap.add_argument("--budget-scale", type=float, default=1.0,
+                    help="multiply every triangle budget (categories and overrides) by this; the page must stay "
+                         "under the 16 MB artifact cap, so a body with many structures ships at 0.8-0.9")
     args = ap.parse_args()
+    scale = args.budget_scale
     subjects = args.subject or ["vhm_both"]
 
     atlas = load_atlas_records()
@@ -393,7 +397,7 @@ def main() -> int:
             f = (faces[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64)
                  - s["vertex_offset"])
             cat = category.get(aid, "other")
-            dv, df, cell = decimate_to(v, f, BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)))
+            dv, df, cell = decimate_to(v, f, max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale)))
             if len(df) == 0:
                 print(f"  {aid}: decimated away, kept at full resolution")
                 dv, df, cell = v, f, 0.0
