@@ -1514,7 +1514,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       PROGRESS 12:00: step 2 DONE by a subagent -- `split_shoulder_girdle.py`, subjects ct_vhf_shsp / ct_vhm_shsp
       (her infraspinatus 233/216, teres minor 46/44, teres major 77/74; his 248/234, 50/52, 94/89 + rhomboids
       94/30, 89/46; her rhomboids unusable, not shipped); wired before the cuff subjects in both chains. Step 1
-      (her right forearm) and Q60 (owner's references) running as subagents.
+      (her right forearm) and Q60 (owner's references) running as subagents. Viewers: female Version 23, male Version 35.
 - [x] Q66 (2026-09-14, 11:00) REGRESSION found by the refreshed scale audit and fixed: since the male chain was
       rerun this morning (vhm_both deleted for the tarsal renaming), `bundle_to_subjects.py` had re-created
       `ct_vhm_armm` from the recovered bundle (v1 compartments: biceps 475, triceps 675/762 cm3 as meshes) and the

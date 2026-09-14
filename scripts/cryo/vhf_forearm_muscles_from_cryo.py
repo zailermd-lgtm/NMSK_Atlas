@@ -123,7 +123,8 @@ class ArmCrops:
                 "CS": float(np.interp(z1, self.zs, self.cs)), "y": y, "z_true": y - 885.229}
 
     def image(self, j):
-        w = self.level(j)["w"]; return np.asarray(self.a[j, :w[1] - w[0], :w[3] - w[2]])
+        """The whole memmap slice (one fixed shape for every level; outside this level's window it is black)."""
+        return np.asarray(self.a[j])
 
     def px_to_ras(self, L, pr, pc):
         r = (H - 1 - (np.asarray(pr, float) + L["w"][0]) / 3) * SC + L["RS"]
