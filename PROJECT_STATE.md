@@ -1501,8 +1501,12 @@ tick the item here with a one-line result. Never fabricate; keep the
 - [ ] Q62 PROGRESS 2026-09-14 13:50: step 1 female right forearm SHIPPED as `ct_vhf_forearm` (12 muscles, rule-based,
       FCU 55 / BR 48 cm3 flagged for review; PT+FCR+PL+FDS, ECRL+ECRB, supinator+anconeus merged and unshipped; female viewer Version 25 (page 15.52 MB of the 16 MB cap: the next female subject
       needs a triangle-budget trim); Q58 course table verified on sciatic_n;
-      docs/GEOMETRY_SOURCES.md); step 2 done; step 3 (deep neck, `ct_vhf_dneck`) and step 6 (diaphragm +
-      intercostals, `ct_vh{f,m}_twall`) running as subagents; step 8 = Q65 done. Next: his forearm (his 1 mm frame
+      docs/GEOMETRY_SOURCES.md); step 2 done; step 3 SHIPPED 18:00 as `ct_vhf_dneck` (semispinalis capitis/cervicis,
+      four suboccipitals, longus colli/capitis; splenius sheet + erector sink unshipped, rectus capitis ant/lat too
+      small for the frame); step 6 SHIPPED as `ct_vhf_twall` + `ct_vhm_twall` (diaphragm 290/338 cm3, intercostal
+      sheets on external_intercostals_r/l standing for all three layers; his 307/307 cm3 above expectation, geometric
+      rule only); step 8 = Q65 done; his forearm (`ct_vhm_forearm`) running as a subagent (crops streamed, script
+      written, run interrupted by the 13:20 rate limit and resumed 18:05). Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
