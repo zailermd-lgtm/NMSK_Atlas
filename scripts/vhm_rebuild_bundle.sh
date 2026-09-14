@@ -29,7 +29,12 @@ fi
 # ct_vhm_neck from his own volume (not the recovered bundle): the pharyngeal constrictors are split at the midline (2026-09-14)
 grep -q constrictor_r build/vh/ct_vhm_neck/manifest.json 2>/dev/null || { cp mappings/subjects/ct_vhm_neck_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_neck
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_headneck_muscles_merged.nii.gz --labels totalsegmentator_headneck_muscles --subject ct_vhm_neck --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"; }
-SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+# shoulder girdle split (Q62): infraspinatus / teres minor / teres major / rhomboid major + minor by rule from his cuff and rhomboid labels; listed BEFORE ct_vhm_cuff and ct_vhm_pmr
+if [ -f $T/vhm_shoulder_split_cryo.nii.gz ] && ! grep -q vhm_shoulder_split build/vh/ct_vhm_shsp/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhm_shsp_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_shsp
+  python3 scripts/ingest_volume_geometry.py convert $T/vhm_shoulder_split_cryo.nii.gz --labels vhm_shoulder_split --subject ct_vhm_shsp --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
+SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1
 echo VHM_REBUILD_DONE

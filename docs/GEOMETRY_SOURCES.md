@@ -1172,6 +1172,22 @@ mass was measured and rejected (it slid the set 15-17 mm on the union's inner jo
 her calcaneus to 36 cm3). The composite entities stay for scans that label the tarsals as one mass; the
 DU overrides now map each release file to its own entity for the day the release itself is ingested.
 
+### Shoulder girdle: teres minor, teres major and the rhomboids out of merged rule labels (2026-09-14, Q62)
+
+The cuff rule's "infraspinatus" was 316/297 cm3 on her and 353/340 on him because the posterior-scapular-surface
+rule swept teres minor and teres major (and 37-41 cm3 of teres major's belly had gone to the ventral rule's
+subscapularis). `scripts/cryo/split_shoulder_girdle.py` re-divides that mass by the attachments (Gray's 42nd ed.,
+TA): per axial level the lateral-border tip of the scapula section is the reference; infraspinatus is the fossa
+more than 25 mm medial of it, teres minor the dorsal lateral border from the lower third up to the glenoid,
+teres major the inferior-angle third and the belly lateral of the border on its way to the anterior humerus. On
+her the boundaries are then settled by a marker watershed on the fascial lines of her photographs; on him (his
+1 mm frame is gone) by the nearest marker alone. His rhomboid mass is cut into minor and major by the line from
+the T1 spinous process to the root of the scapular spine; hers (62/44 cm3 of paraspinal patches) cut to minor
+larger than major and is not shipped. Result (right/left, cm3): her infraspinatus 233/216, teres minor 46/44,
+teres major 77/74; his 248/234, 50/52, 94/89, rhomboid major 94/89, minor 30/46. Infraspinatus stays above
+200 because the cuff run's tendon-and-capsule zone above the glenoid was kept, not deleted. Subjects
+`ct_vhf_shsp` / `ct_vhm_shsp`, listed before the cuff subjects so the split wins; badged rule-based.
+
 ## Resulting architecture
 
 ```

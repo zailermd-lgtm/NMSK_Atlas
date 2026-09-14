@@ -21,10 +21,12 @@ RULE, per level (0.33 mm px):
   island   = the tissue component (R > B + 30, not black) holding the bones, separated from the thigh it rests on by
              the smallest erosion (>= 4 mm) that frees it, grown back inside the tissue;
   muscle   = 5 px-mean red channel < 100 inside the island (this cadaver: muscle R 50-90, fat > 178);
-  bones    = pale compact blobs (fill-holed, 30-900 mm2, solidity >= 0.6) enclosed by the closed muscle mass,
-             tracked level to level from the CT-seeded level (nearest blob within 6 mm; a lost bone keeps its
-             last position for up to 8 levels); the segment runs from the first level where the radius and ulna are
-             two separate discs (radial head) to the last level with both discs before the carpals;
+  bones    = the largest circle inscribed in the pale class (its marrow filled) within 6 mm of the previous
+             level's centre and >= 7 mm from the skin (the fat under the skin is thinner than a bone is wide);
+             seeded at one level from the CT sections (9 mm), tracked in both directions (a lost bone widens the
+             search 2 mm per level, > 8 levels lost or the discs merging (< 15 mm) ends the track); the segment
+             runs from the top of her CT radius label (the radial head, y 300) to the last tracked level (the
+             discs merge into the carpus below y ~140);
   frame    = e: ulna -> radius unit vector, n: its perpendicular pointing AWAY from the ulna's subcutaneous border
              (the male's compartment rule: the ulna's posterior border lies under the skin, so that side is
              extensor); f = level fraction along the segment (0 radial head, 1 distal radius);
@@ -206,29 +208,30 @@ def classes(im, isl):
     return {"R": R, "m5": m5, "muscle": muscle, "pale": pale}
 
 
-def bone_candidates(cl, isl, open_px=10, skin_mm=8.0):
-    """Bone discs in the photograph: the pale class opened by a 3.3 mm disc (breaks the neck where the ulna's
-    subcutaneous border joins the fat under the skin), blobs >= 20 mm2 whose centre lies >= 8 mm from the skin and
-    whose box-solidity is >= 0.5 (a disc, not a strand of fascia), grown back 3.3 mm into the pale class but not into
-    the 5 mm fat layer under the skin; 30-900 mm2. [(cy, cx, area_px, mask)]"""
-    dist = ndi.distance_transform_edt(isl); ring = dist <= skin_mm * 0.625 / PX      # the fat layer under the skin (5 mm)
-    core = ndi.binary_opening(cl["pale"] & isl, structure=disk(open_px)); lab, n = ndi.label(core); out = []
-    for i in range(1, n + 1):
-        m = lab == i; a = int(m.sum())
-        if a * PX * PX < 20:
-            continue
-        ys, xs = np.where(m); cy, cx = ys.mean(), xs.mean()
-        if dist[int(cy), int(cx)] * PX < skin_mm:
-            continue
-        box = (ys.max() - ys.min() + 1) * (xs.max() - xs.min() + 1)
-        if a / box < 0.5:
-            continue
-        full = ndi.binary_fill_holes(ndi.binary_dilation(m, structure=disk(open_px)) & cl["pale"] & ~ring | m)
-        af = int(full.sum())
-        if af * PX * PX < 30 or af * PX * PX > 900:
-            continue
-        ys, xs = np.where(full); out.append((ys.mean(), xs.mean(), af, full))
-    return out
+def pale_filled(cl, isl, marrow_mm2=200.0):
+    """The pale class closed by 2 px with its small holes (the marrow, <= 200 mm2) filled -- not the muscle mass the
+    subcutaneous fat ring encloses."""
+    p0 = ndi.binary_closing(cl["pale"] & isl, iterations=2); holes = ndi.binary_fill_holes(p0) & ~p0; hl, hn = ndi.label(holes)
+    if hn:
+        hs = ndi.sum(holes, hl, range(1, hn + 1)); small = np.zeros(hn + 1, bool); small[1:] = hs * PX * PX <= marrow_mm2; p0 = p0 | small[hl]
+    return p0
+
+
+def dt_bone(dt, dist, prev, search_mm, skin_mm=7.0, min_r_mm=3.5):
+    """A bone disc = the largest circle inscribed in the pale class (peak of its distance transform `dt`) within
+    `search_mm` of the previous centre and >= `skin_mm` from the skin (`dist`: distance to the island edge). The fat
+    under the skin is thinner than a bone is wide, so its inscribed circles lose. Returns (cy, cx, r_px) or None."""
+    yy, xx = np.mgrid[0:dt.shape[0], 0:dt.shape[1]]
+    win = (np.hypot(yy - prev[0], xx - prev[1]) * PX <= search_mm) & (dist * PX >= skin_mm)
+    if not win.any():
+        return None
+    v = np.where(win, dt, -1.0); cy, cx = np.unravel_index(int(np.argmax(v)), v.shape); r = float(dt[cy, cx])
+    return (float(cy), float(cx), r) if r * PX >= min_r_mm else None
+
+
+def bone_mask(pale, cy, cx, r_px):
+    yy, xx = np.mgrid[0:pale.shape[0], 0:pale.shape[1]]
+    return ndi.binary_fill_holes(pale & (np.hypot(yy - cy, xx - cx) <= r_px + 3))
 
 
 # ----------------------------------------------------------------------------------------------- pure rules
@@ -309,67 +312,66 @@ def split_level(th, region, prev, seeds, ids):
 
 
 # ----------------------------------------------------------------------------------------------- bone tracking
-def nearest_blob(cands, ref, max_mm=6.0):
-    best = None
-    for cy, cx, a, m in cands:
-        d = np.hypot(cy - ref[0], cx - ref[1]) * PX
-        if d <= max_mm and (best is None or d < best[0]):
-            best = (d, cy, cx, a, m)
-    return best
-
-
-def track_bones(crops, meshes, j_anchor, j_lo, j_hi, log=print):
-    """Bone discs per level: {j: {'radius': (cy, cx, r_px, mask), 'ulna': ..., 'island': mask, 'lost': {...}}}.
-    Seeded at j_anchor from the CT sections; tracked outward in both directions."""
-    out = {}
+def track_bones(crops, meshes, j_anchor, j_lo, j_hi, log=print, merge_mm=15.0, lost_max=8):
+    """Bone discs per level: {j: {'radius': (cy, cx, r_px, mask), 'ulna': ..., 'island', 'cl', 'im', 'L', 'found',
+    'ct': {bone: CT section centroid}}}. Seeded at j_anchor from the CT sections (search 9 mm), then tracked outward
+    in both directions (search 6 mm, +2 mm per level lost; a bone lost for > 8 levels or the two discs merging
+    (< 15 mm apart) end the track). residual: photographed centre minus CT centre (mm) where both exist."""
+    out = {}; residual = {}
     L = crops.level(j_anchor); im = crops.image(j_anchor); se = sections(meshes, crops, L, im.shape[:2])
     if "radius_r" not in se or "ulna_r" not in se:
         raise SystemExit(f"no CT radius+ulna section at anchor level {j_anchor}")
     cent = {b: tuple(np.mean(np.where(se[b + "_r"]), axis=1)) for b in ("radius", "ulna")}
-    ref = tuple(np.mean([cent["radius"], cent["ulna"]], axis=0))
-    residual = {}
 
-    def one(j, prev):
-        L = crops.level(j); im = crops.image(j); isl, er = island_mask(im, prev["ref"])
+    def one(j, prev, lost, first=False):
+        L = crops.level(j); im = crops.image(j); ref = tuple(np.mean([prev["radius"], prev["ulna"]], axis=0)); isl, er = island_mask(im, ref)
         if isl is None:
             return None
-        cl = classes(im, isl); cands = bone_candidates(cl, isl); rec = {"island": isl, "erode": er, "lost": {}, "cl": cl, "im": im, "L": L}
+        cl = classes(im, isl); pale = pale_filled(cl, isl); dt = ndi.distance_transform_edt(pale); dist = ndi.distance_transform_edt(isl)
+        rec = {"island": isl, "erode": er, "cl": cl, "im": im, "L": L, "found": {}, "ct": {}}
         for b in ("radius", "ulna"):
-            hit = nearest_blob(cands, prev[b][:2], 6.0 if prev["found"][b] else 9.0)
-            if hit is None:
-                rec[b] = (prev[b][0], prev[b][1], prev[b][2], None); rec["lost"][b] = prev["lost"].get(b, 0) + 1
+            h = dt_bone(dt, dist, prev[b], 9.0 if first else 6.0 + 2.0 * lost[b])
+            if h is None:
+                rec[b] = (prev[b][0], prev[b][1], 0.0, None); rec["found"][b] = False
             else:
-                d, cy, cx, a, m = hit; rec[b] = (cy, cx, np.sqrt(a / np.pi), m); rec["lost"][b] = 0
-        rec["found"] = {b: rec[b][3] is not None for b in ("radius", "ulna")}
-        rec["ref"] = tuple(np.mean([rec["radius"][:2], rec["ulna"][:2]], axis=0))
+                rec[b] = (h[0], h[1], h[2], bone_mask(pale, *h)); rec["found"][b] = True
         se = sections(meshes, crops, L, im.shape[:2], ("radius_r", "ulna_r"))
         for b in ("radius", "ulna"):
-            if b + "_r" in se and rec["found"][b]:
-                c = np.mean(np.where(se[b + "_r"]), axis=1)
-                residual.setdefault(b, {})[j] = [round(float((rec[b][0] - c[0]) * PX), 1), round(float((rec[b][1] - c[1]) * PX), 1)]
+            if b + "_r" in se:
+                c = np.mean(np.where(se[b + "_r"]), axis=1); rec["ct"][b] = (float(c[0]), float(c[1]))
+                if rec["found"][b]:
+                    residual.setdefault(b, {})[j] = [round(float((rec[b][0] - c[0]) * PX), 1), round(float((rec[b][1] - c[1]) * PX), 1)]
         return rec
 
-    prev0 = {"ref": ref, "radius": cent["radius"] + (0,), "ulna": cent["ulna"] + (0,), "found": {"radius": False, "ulna": False}, "lost": {}}
-    rec = one(j_anchor, prev0)
+    rec = one(j_anchor, cent, {"radius": 0, "ulna": 0}, first=True)
     if rec is None or not all(rec["found"].values()):
         raise SystemExit("bones not found in the photograph at the anchor level")
     out[j_anchor] = rec
     for rng in (range(j_anchor - 1, j_lo - 1, -1), range(j_anchor + 1, j_hi + 1)):
-        prev = out[j_anchor]
+        prev = {b: out[j_anchor][b][:2] for b in ("radius", "ulna")}; lost = {"radius": 0, "ulna": 0}
         for j in rng:
-            r = one(j, prev)
-            if r is None or max(r["lost"].values()) > 8:
-                log(f"  bone track stops at level {j} ({'no island' if r is None else 'bone lost'})"); break
-            out[j] = r; prev = r
+            r = one(j, prev, lost)
+            if r is None:
+                log(f"  bone track stops at level {j} (no island)"); break
+            for b in ("radius", "ulna"):
+                if r["found"][b]:
+                    prev[b] = r[b][:2]; lost[b] = 0
+                else:
+                    lost[b] += 1
+            if max(lost.values()) > lost_max:
+                log(f"  bone track stops at level {j} (bone lost)"); break
+            if np.hypot(prev["radius"][0] - prev["ulna"][0], prev["radius"][1] - prev["ulna"][1]) * PX < merge_mm:
+                log(f"  bone track stops at level {j} (discs merge)"); break
+            out[j] = r
     return out, residual
 
 
 def segment_bounds(track):
-    """First level (proximal) where radius and ulna are two separate found discs, last level (distal) with both found."""
-    js = sorted(track)
-    both = [j for j in js if all(track[j]["found"].values()) and not (track[j]["radius"][3] & track[j]["ulna"][3]).any()
-            and np.hypot(track[j]["radius"][0] - track[j]["ulna"][0], track[j]["radius"][1] - track[j]["ulna"][1]) * PX > 8]
-    return (min(both), max(both)) if both else (None, None)
+    """Proximal end: the first tracked level at which her CT radius label has a section (its top is the radial head,
+    y 300; above it the crops show the elbow joint); distal end: the last tracked level (before the discs merge into
+    the carpus)."""
+    js = sorted(track); top = [j for j in js if "radius" in track[j]["ct"] and all(track[j]["found"].values())]
+    return (min(top), max(js)) if top else (None, None)
 
 
 # ----------------------------------------------------------------------------------------------- main

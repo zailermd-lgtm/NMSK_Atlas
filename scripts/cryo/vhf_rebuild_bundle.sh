@@ -41,13 +41,15 @@ fi
 conv $T/vhf_tarsals_split.nii.gz vhf_tarsals ct_vhf_tarsal --smooth 1.0
 conv $T/vhf_arm_bones_ct.nii.gz vhf_arm_bones ct_vhf_armb --smooth 1.0
 conv $T/vhf_deltoid_cryo.nii.gz vhf_deltoid ct_vhf_delt --smooth 1.0
+# shoulder girdle split (Q62): infraspinatus / teres minor / teres major out of the cuff's merged mass (scripts/cryo/split_shoulder_girdle.py); listed BEFORE the cuff so the split wins
+conv $T/vhf_shoulder_split_cryo.nii.gz vhf_shoulder_split ct_vhf_shsp --smooth 1.0
 conv $T/vhf_rotator_cuff_cryo.nii.gz vhf_rotator_cuff ct_vhf_cuff --smooth 1.0
 conv $T/vhf_erector_columns.nii.gz vhf_erector ct_vhf_es --smooth 1.0
 conv $T/vhf_arm_muscles_cryo.nii.gz vhf_arm_muscles ct_vhf_armm --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_pmr"
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_pmr"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
