@@ -40,7 +40,8 @@ from scripts.transfer.bundle_io import read_bundle_dir, meshes_by_id  # noqa: E4
 PX = 1 / 3.0                      # mm per full-resolution pixel
 NERVES = {
     "sciatic": {"roof": ["gluteus_maximus", "biceps_femoris", "semitendinosus", "semimembranosus"],
-                "floor": ["quadratus_femoris", "adductor_magnus", "gluteus_minimus", "gluteus_medius", "popliteus", "gastrocnemius", "vastus_lateralis"],
+                "floor": ["quadratus_femoris", "adductor_magnus", "gluteus_minimus", "gluteus_medius", "piriformis", "obturator_internus",
+                          "gemellus_superior", "gemellus_inferior", "obturator_externus", "popliteus", "gastrocnemius", "vastus_lateralis"],
                 "bone": ["femur", "patella", "tibia", "fibula"],
                 "corridor_mm": 15.0, "area_mm2": (6.0, 200.0)},
 }
@@ -126,13 +127,17 @@ def nerve_blobs(im, cl=None):
     return ndi.label(grown)
 
 
-def candidates(im, corridor, area_mm2, min_inside=0.5):
+def candidates(im, corridor, area_mm2, min_inside=0.5, max_aspect=3.0):
     cl = photo_classes(im); lab, n = nerve_blobs(im, cl); out = []
     for i in range(1, n + 1):
         mm = lab == i; ar = mm.sum() * PX * PX; inside = corridor[mm].mean()
         if area_mm2[0] <= ar <= area_mm2[1] and inside >= min_inside:
-            cy, cx = ndi.center_of_mass(mm)
-            out.append({"lab": i, "area_mm2": float(ar), "rc": (float(cy), float(cx)), "mask": mm, "inside": float(inside)})
+            yy, xx = np.nonzero(mm); cy, cx = yy.mean(), xx.mean()
+            cov = np.cov(np.stack([yy - cy, xx - cx])); ev = np.sort(np.linalg.eigvalsh(cov))
+            aspect = float(np.sqrt(max(ev[1], 1e-6) / max(ev[0], 1e-6)))
+            if aspect > max_aspect:                       # a strip hugging a muscle edge is not a nerve section
+                continue
+            out.append({"lab": i, "area_mm2": float(ar), "rc": (float(cy), float(cx)), "mask": mm, "inside": float(inside), "aspect": round(aspect, 2)})
     return out, lab
 
 
@@ -148,7 +153,13 @@ def corridor_mask(im, masks, spec):
     near_roof = ndi.binary_dilation(roof, structure=disk(6), iterations=d // 6) if roof.any() else np.zeros_like(roof)
     near_floor = ndi.binary_dilation(floor, structure=disk(6), iterations=d // 6) if floor.any() else np.ones_like(floor)   # no floor muscle at this level (popliteal fossa): the roof alone bounds the corridor
     near_bone = ndi.binary_dilation(bone, structure=disk(6), iterations=2) if bone.any() else np.zeros_like(bone)   # 4 mm: periosteum/cortex texture mimics fascicles
-    return deep & ~cl["gel"] & near_roof & near_floor & ~near_bone, deep
+    # the space between the roof muscles themselves (the popliteal fossa between biceps femoris and semimembranosus)
+    # counts as floor: a nerve there lies on fat, not on a muscle
+    fossa = convex_hull_image(roof) if roof.any() else np.zeros_like(roof)
+    # never inside a belly: the interior of the muscles' own sections (eroded 3 mm for registration slack) is out --
+    # gluteus maximus' fatty striations otherwise pass every photograph test
+    inside = ndi.binary_erosion(roof | floor, structure=disk(3), iterations=3)
+    return deep & ~cl["gel"] & near_roof & (near_floor | fossa) & ~near_bone & ~inside, deep
 
 
 def seed_rule(nerve, meshes, side):

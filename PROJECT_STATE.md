@@ -1389,8 +1389,24 @@ tick the item here with a one-line result. Never fabricate; keep the
       length, structures crossed with depth ranges, depth below skin; `tests/test_viewer_template.py`) and
       the 📍 origin/insertion buttons fixed (showPoint was not reachable from the inline onclick).
       Female viewer Version 20, male viewer Version 31 (needle tool + button fix; his bundle unchanged).
-- [ ] Q54 Sciatic division -> tibial and common fibular nerves through the popliteal fossa to the fibular
-      neck (left montage shows the bundle plainly at -303..-333 in the popliteal fat): the detector needs a
+- [ ] Q54 (06:20 wake, 2 h, NOT done -- four detector/corridor changes, none tracks the popliteal bundle)
+      Sciatic division -> tibial and common fibular nerves through the popliteal fossa to the fibular
+      neck. Tried and kept in `vhf_nerve_track.py` (they do not change the shipped Q53 volume, which was
+      built at commit 679caa9): the fossa between the roof muscles counts as floor (the corridor was EMPTY
+      there: a 726 px vastus lateralis sliver made "near floor" demand 15 mm of it); muscle interiors
+      (sections eroded 3 mm) excluded; brightness band up to 190; candidates with aspect > 3 rejected.
+      Result: left tracks to -303 (bundle at the cross-hair), then from -313 the chain sits on muscle-edge
+      blobs while the tibial nerve is plainly visible 15-20 mm away beside the popliteal vessels; right
+      the same from -245. Diagnosis (q54_diag2 overlay): the texture core fires all along muscle/fat
+      edges even with the 1 mm exclusion and the sd < 35 test, so edge blobs outnumber the nerve 10:1 and
+      the Viterbi picks the nearest. What is needed: a per-blob HONEYCOMB SCORE to rank candidates
+      (count of bright cells 0.5-2 mm bounded by darker walls inside the blob, e.g. local maxima of the
+      3 px-smoothed R at >= 1 mm spacing per mm2, or the ratio of the blob's own internal edge density to
+      its boundary edge density), with the Viterbi cost = jump + lambda x (1 - score); and a second
+      branch for the common fibular nerve. The gluteal course above -70 fails differently: the flattened
+      nerve under gluteus maximus is 3 mm thick and the 1 mm near-muscle exclusion removes it. Verify on
+      30 mm zoom montages every 10 mm as for Q53. Left montage shows the bundle plainly at -303..-333
+      in the popliteal fat: the detector needs a
       "pale bundle in fat" mode (texture only: cells + walls, brightness up to the fat's; drop the near-fat
       exclusion inside the fossa hull) and the chain a second branch (CFN along the medial edge of biceps
       femoris). Verify on 30 mm zoom montages every 10 mm as for Q53. Then the same for the gluteal course
