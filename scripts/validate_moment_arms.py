@@ -44,20 +44,23 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-from scripts.audit_landmarks_vs_geometry import load_geometry, build_frames  # noqa: E402
+from scripts.audit_landmarks_vs_geometry import load_geometry, build_frames, place  # noqa: E402
 
 DATA_DIR = REPO_ROOT / "data"
 
 
-def resolve_anchor(anchors_by_id: dict, muscle_id: str, role: str, frames: dict):
+def resolve_anchor(anchors_by_id: dict, muscle_id: str, role: str, frames: dict,
+                   bones: dict | None = None):
     a = anchors_by_id.get((muscle_id, role))
     if a is None:
         return None
     frame = frames.get(a["parent_bone_frame"])
     if frame is None:
         return None
-    origin, basis = frame[:2]
-    return origin + np.array(a["local_position_mm"], float) @ basis
+    # Along-axis scaling by measured/reference bone length (Q43). This script
+    # runs on vhm_both, the body the references were measured on, so the
+    # factor is 1.0 here; the call is for consistency with every other consumer.
+    return place(a["local_position_mm"], frame, (bones or {}).get(a["parent_bone_frame"]))
 
 
 def moment_arm(a: np.ndarray, b: np.ndarray, axis_point: np.ndarray, axis_dir: np.ndarray) -> float:
@@ -81,6 +84,8 @@ def main() -> int:
 
     manifest, blocks, by_atlas_id, faces_by_atlas_id = load_geometry("vhm_both")
     frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
+    bones = {b["id"]: b for b in json.loads(
+        (DATA_DIR / "skeleton" / "bones.json").read_text())}
 
     print(f"{'muscle':<24}{'joint':<10}{'computed mm':>12}  reference (source)")
     print("-" * 100)
@@ -124,8 +129,8 @@ def main() -> int:
 
     out_of_range = []
     for muscle_id, joint, axis_point, axis_dir, ref_range, source in cases:
-        a = resolve_anchor(anchors_by_id, muscle_id, "muscle_origin", frames)
-        b = resolve_anchor(anchors_by_id, muscle_id, "muscle_insertion", frames)
+        a = resolve_anchor(anchors_by_id, muscle_id, "muscle_origin", frames, bones)
+        b = resolve_anchor(anchors_by_id, muscle_id, "muscle_insertion", frames, bones)
         if a is None or b is None:
             print(f"{muscle_id:<24}{joint:<10}{'(no anchor)':>12}  {source}")
             continue

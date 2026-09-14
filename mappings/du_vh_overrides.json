@@ -41,45 +41,45 @@
   "entries": [
     {
       "match": "bone|talus",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "talus_{side}",
       "relationship": "part_of",
-      "note": "The atlas carries the seven tarsals as one entity, whose Latin name lists them individually. The release ships each separately. This is a real many-to-one, not a failed match."
+      "note": "The atlas carries the seven tarsals as one entity, whose Latin name lists them individually. The release ships each separately. This is a real many-to-one, not a failed match. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|calcaneus",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "calcaneus_{side}",
       "relationship": "part_of",
-      "note": "Spelled 'Calcaneous' in the release. Previously matched achilles_tendon_r at 0.90 because the Achilles is also the calcaneal tendon; tissue-class constraint now blocks that."
+      "note": "Spelled 'Calcaneous' in the release. Previously matched achilles_tendon_r at 0.90 because the Achilles is also the calcaneal tendon; tissue-class constraint now blocks that. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|navicular",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "navicular_{side}",
       "relationship": "part_of",
-      "note": "One of the seven tarsals."
+      "note": "One of the seven tarsals. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|cuboid",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "cuboid_{side}",
       "relationship": "part_of",
-      "note": "One of the seven tarsals."
+      "note": "One of the seven tarsals. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|medial cuneiform",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "cuneiform_medial_{side}",
       "relationship": "part_of",
-      "note": "One of the three cuneiforms. Scored 0.12 against tarsals_r on names alone -- the atlas name says 'cuneiforme x3' rather than naming each."
+      "note": "One of the three cuneiforms. Scored 0.12 against tarsals_r on names alone -- the atlas name says 'cuneiforme x3' rather than naming each. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|intermediate cuneiform",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "cuneiform_intermediate_{side}",
       "relationship": "part_of",
-      "note": "One of the three cuneiforms."
+      "note": "One of the three cuneiforms. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|lateral cuneiform",
-      "atlas_id": "tarsals_{side}",
+      "atlas_id": "cuneiform_lateral_{side}",
       "relationship": "part_of",
-      "note": "One of the three cuneiforms."
+      "note": "One of the three cuneiforms. 2026-09-14: now its own entity (Q61); was folded into tarsals_{side}."
     },
     {
       "match": "bone|phalanges",

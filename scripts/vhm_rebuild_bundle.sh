@@ -6,7 +6,9 @@
 # (the DU left foot files metatarsal heads under phalanges) and the structures transferred from the female
 # (head/neck pieces and the orbit muscles his frozen CT segmented at a fraction of their size). Idempotent.
 set -u; cd /home/user/NMSK_Atlas; T=data/ct_sources/task_outputs; B=data/derived/viewer_bundles/vhm_v25; mkdir -p build/vh
-[ -f build/vh/vhm_both/manifest.json ] || python3 scripts/transfer/bundle_to_subjects.py $B --out build/vh --label "recovered from the published male viewer (Version 25)" | tail -1
+# the seven tarsal pieces the bundle carries as tarsals_r/l are named (talus, calcaneus, ...) by scripts/transfer/name_tarsal_pieces.py
+[ -f mappings/subjects/vhm_both_piece_names.json ] || python3 scripts/transfer/name_tarsal_pieces.py $B -o mappings/subjects/vhm_both_piece_names.json | tail -1
+[ -f build/vh/vhm_both/manifest.json ] || python3 scripts/transfer/bundle_to_subjects.py $B --out build/vh --label "recovered from the published male viewer (Version 25)" --rename mappings/subjects/vhm_both_piece_names.json | tail -1
 if [ ! -f build/vh/ct_vhm_foot/manifest.json ]; then
   cp mappings/subjects/ct_vhm_foot_volume_mapping.json build/vh/
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_foot_bones.nii.gz --labels vhm_foot --subject ct_vhm_foot --origin='-8.755,-202.476,5.677' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"

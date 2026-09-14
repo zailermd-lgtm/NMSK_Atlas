@@ -82,6 +82,7 @@ sys.path.insert(0, str(REPO_ROOT))
 from engine import vh_ingest as vh  # noqa: E402
 from engine import volume_ingest  # noqa: E402
 from engine.vh_ingest import fit_sphere  # noqa: E402
+from engine.geometry import bone_length_along_axis, local_to_world  # noqa: E402
 
 BUILD_DIR = REPO_ROOT / "build" / "vh"
 DATA_DIR = REPO_ROOT / "data"
@@ -314,7 +315,7 @@ def load_via_points():
     return out
 
 
-def via_path(owner, anchor, via_points, frames):
+def via_path(owner, anchor, via_points, frames, bones=None):
     """The declared path in world coordinates, or None if there is not one.
 
     Only insertions get a path here: via_points are stored proximal-to-distal,
@@ -328,8 +329,8 @@ def via_path(owner, anchor, via_points, frames):
         frame = frames.get(vp.get("bone_frame"))
         if frame is None:
             return None
-        origin, basis = frame[:2]
-        out.append(origin + np.array(vp["position_local_mm"], float) @ basis)
+        out.append(place(vp["position_local_mm"], frame,
+                         (bones or {}).get(vp.get("bone_frame"))))
     return out
 
 
@@ -373,7 +374,14 @@ def nearest_distance(points: np.ndarray, cloud: np.ndarray, chunk: int = 256):
 
 def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
     """Every bone frame this script can MEASURE, as
-    {entity_id: (origin, basis, how it was found, which axes are fitted)}.
+    {entity_id: (origin, basis, how it was found, which axes are fitted,
+                 length along the long axis in mm, or None)}.
+
+    The length is the 1st-99th percentile extent of the bone's own vertices
+    along the frame's Y, measured only where that axis is fitted. It is what
+    `reference_length_mm` in bones.json was measured with on the male, and
+    what `engine.geometry.local_to_world` divides it by to put a landmark on
+    a subject of another size (Q43).
 
     Separate from main() because the wrap paths need the same frames: a
     via point is stored in a bone's local coordinates, and putting it in
@@ -566,7 +574,11 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
             centre, radius, rms = volume_ingest.proximal_head_centre(humerus, full)
             lo, hi = volume_ingest.HEAD_RADIUS_MM["humerus"]
             if lo <= radius <= hi and rms <= 3.0:
-                distal = humerus[humerus[:, 1] < np.quantile(humerus[:, 1], 0.02)]
+                # `<=`, not `<`: a humerus cut flat by a CT field of view has
+                # more than 2% of its vertices AT the minimum, and a strict
+                # comparison then selects nothing and the frame comes out NaN
+                # (the male's right humerus did, silently, until 2026-09-14).
+                distal = humerus[humerus[:, 1] <= np.quantile(humerus[:, 1], 0.02)]
                 frames[f"humerus_{side}"] = (
                     centre, orthonormal_frame(centre, distal.mean(axis=0)),
                     f"a sphere fit to the humeral head, r={radius:.1f} mm, "
@@ -665,8 +677,26 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                 "12 mm of the sternal midline; axes by anatomical-position "
                 "convention, not fitted", "neither")
 
+    # Length along the fitted long axis, for the landmark scaling (Q43).
+    # Frames whose long axis is the anatomical-position convention (pelvis,
+    # scapula, sternum ...) get None: a landmark on them stays in millimetres.
+    for bone_id, (origin, basis, how, fitted) in list(frames.items()):
+        mesh = by_atlas_id.get(bone_id)
+        length = (bone_length_along_axis(mesh, origin, basis[1])
+                  if fitted in ("both", "long") and mesh is not None and len(mesh) > 1
+                  else None)
+        frames[bone_id] = (origin, basis, how, fitted, length)
 
     return frames
+
+
+def place(local_mm, frame, bone_record):
+    """A local point of `bone_record`'s frame in world coordinates, on THIS
+    subject: the one place the along-axis scaling is applied here."""
+    origin, basis = frame[0], frame[1]
+    return local_to_world(local_mm, origin, basis,
+                          (bone_record or {}).get("reference_length_mm"),
+                          frame[4] if len(frame) > 4 else None)
 
 
 def main() -> int:
@@ -691,11 +721,13 @@ def main() -> int:
 
     print(f"subject {args.subject}\n")
     rows = []
-    for bone_id, (origin, basis, how, fitted) in sorted(frames.items()):
+    for bone_id, (origin, basis, how, fitted, length) in sorted(frames.items()):
         mesh = meshes.get(bone_id)
         bone = bones.get(bone_id)
         if mesh is None or not bone:
             continue
+        ref_len = bone.get("reference_length_mm")
+        factor = (length / ref_len) if (ref_len and length) else 1.0
         # A landmark at the frame's own origin cannot test anything -- it IS
         # the origin. The femoral head sits at [0,0,0] by definition, so its
         # "distance to the surface" is just the head radius and says nothing
@@ -719,7 +751,7 @@ def main() -> int:
         if not landmarks:
             continue
         local = np.array([lm["position_local_mm"] for lm in landmarks], float)
-        world = origin + local @ basis
+        world = np.vstack([place(p, frames[bone_id], bone) for p in local])
         dist = nearest_distance(world, mesh)
         # Split the error along the bone's own long axis from the error across
         # it: the long axis is measured, the transverse rotation is not, so
@@ -729,6 +761,9 @@ def main() -> int:
         along = np.abs(delta @ basis[1])
         across = np.sqrt(np.maximum(dist ** 2 - along ** 2, 0.0))
         print(f"{bone_id}   frame origin from {how}")
+        if ref_len and length:
+            print(f"  along-axis landmark coordinates scaled by {factor:.3f} "
+                  f"(this bone {length:.1f} mm, reference {ref_len:.1f} mm)")
         extra = (f", {len(holes)} foramen/canal excluded (a hole is not a "
                  f"surface)" if holes else "")
         print(f"  {len(landmarks)} landmarks{extra}, distance to nearest "
@@ -766,7 +801,7 @@ def main() -> int:
         if fitted in ("both", "long"):
             along_bone = (mesh - origin) @ basis[1]
             span = float(along_bone.max() - along_bone.min())
-            reach = float(np.abs(local[:, 1]).max())
+            reach = float(np.abs(local[:, 1]).max() * factor)
             note = ""
             if reach > span:
                 note = ("   <-- the atlas reaches PAST the end of this bone; "
@@ -799,7 +834,6 @@ def main() -> int:
     for bone_id, members in sorted(named.items()):
         if bone_id not in frames or bone_id not in bones:
             continue
-        origin, basis = frames[bone_id][:2]
         items = [(lm["name"], lm["position_local_mm"])
                  for lm in bones[bone_id].get("landmarks", [])
                  if lm.get("position_local_mm")]
@@ -809,7 +843,7 @@ def main() -> int:
             want = expected_member(name, members)
             if want is None:
                 continue          # names no single member; nothing to test
-            world = origin + np.array(local, float) @ basis
+            world = place(local, frames[bone_id], bones[bone_id])
             got = min(members, key=lambda m: float(
                 np.linalg.norm(members[m] - world, axis=1).min()))
             if got != want:
@@ -849,7 +883,7 @@ def main() -> int:
             origin, basis = frames[f"{stem}_{side}"][:2]
             mesh = meshes[f"{stem}_{side}"]
             local = (mesh - origin) @ basis.T
-            level = pick[a_name][1]
+            level = (place(pick[a_name], frames[f"{stem}_{side}"], bone) - origin) @ basis[1]
             band = local[np.abs(local[:, 1] - level) < 8.0]
             if len(band) < 20:
                 continue
@@ -879,8 +913,7 @@ def main() -> int:
         frame = frames.get(a.get("parent_bone_frame"))
         if not frame:
             continue
-        origin, basis = frame[:2]
-        world = origin + np.array(a["local_position_mm"], float) @ basis
+        world = place(a["local_position_mm"], frame, bones.get(a.get("parent_bone_frame")))
         bone_mesh = meshes.get(a["parent_bone_frame"])
         d_bone = (float(nearest_distance(world[None, :], bone_mesh)[0])
                   if bone_mesh is not None else float("nan"))
@@ -935,7 +968,7 @@ def main() -> int:
             # A muscle that DECLARES a path gets tested on that path, not on
             # the straight line. That is the point of via_points: they are
             # the atlas's answer to this check, so the check has to read them.
-            route = via_path(owner, a, via_points, frames)
+            route = via_path(owner, a, via_points, frames, bones)
             if route is not None:
                 start = cloud[np.argmin(np.linalg.norm(cloud - route[0], axis=1))]
                 pts = [start] + route + [world]

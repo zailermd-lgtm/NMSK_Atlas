@@ -328,3 +328,13 @@ length, corresponding to approximately three-fifths of the muscle's total
 length". Those two statements disagree. The numeric range is what is recorded,
 and the discrepancy is carried in the zone's own `notes` so a reader meets it
 at the point of use rather than discovering it later.
+
+## Sources named by the owner on 2026-09-14 -- licence check
+
+| Source | What it is | Licence found | Decision |
+|---|---|---|---|
+| Z-Anatomy (github.com/LluisV/Z-Anatomy) | Blender/FBX whole-body atlas | The repository states verbatim "This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License" (CC BY-**SA**, not CC BY) | EXCLUDED by the repository rule "no CC BY-SA source may enter it": ShareAlike would force this atlas's derived geometry under the same licence. Its structure LIST may be read as a checklist (facts are not copyrightable); no mesh, texture or label file may be copied. |
+| caskanatomy.info/open3dviewer/?model=hand | web 3D viewer of a hand model | page blocked by this environment's network policy (egress denied), licence NOT verified | Owner: open the page, copy the licence/credits text into Dropbox `/claude/licences.txt`. Not used until then. |
+| anatomytool.org open3dmodel hand and wrist bones and cartilages | 3D model, English labels | page blocked here, licence NOT verified (AnatomyTOOL content is commonly CC BY-NC-SA, which would exclude it twice: NC and SA) | Owner: copy the licence statement; not used until then. |
+| humanome.co/about | company site | blocked here, terms NOT verified | Owner: copy the terms; if it sells models, a purchased licence must permit redistribution inside a sellable atlas. |
+| DU Visible Human **Female** lower-limb release (digitalcommons.du.edu/visiblehuman/1/, Andreassen et al. 2023) | Final 3D STL models of HER lower limb, 133 MB, plus 3D Slicer label volumes | Creative Commons Attribution 4.0 International (stated on the page) | WANTED: replaces the transferred male lower limb on the female with her own segmented geometry. Download is behind a Cloudflare browser challenge this sandbox cannot pass (see PROJECT_STATE Q59). |

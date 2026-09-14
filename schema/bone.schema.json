@@ -13,6 +13,8 @@
     "count_in_body": { "type": "integer", "minimum": 1 },
     "parent_in_kinematic_chain": { "type": ["string", "null"], "description": "id of the proximal bone this one articulates with in the rig hierarchy (null for the root, e.g. sacrum/pelvis)" },
     "local_frame": { "$ref": "common.schema.json#/definitions/local_frame" },
+    "reference_length_mm": { "type": "number", "exclusiveMinimum": 0, "description": "Length of the bone the landmarks were measured on (the Visible Human male) along the local frame's long axis (+Y), 1st-99th percentile extent of its vertices. Only bones whose frame has a fitted long axis carry it. A consumer that has measured the subject's own length L places each landmark's along-axis coordinate at y * L / reference_length_mm and leaves the two across-axis coordinates in mm (engine.geometry.local_to_world). Absent: the landmark is used exactly as stored." },
+    "reference_length_note": { "type": "string", "description": "How and on which subject reference_length_mm was measured." },
     "landmarks": {
       "type": "array",
       "description": "Named bony landmarks (processes, tuberosities, epicondyles, foramina) used as muscle/ligament attachment anchors, nerve/vessel passage points, or frame axis definitions.",

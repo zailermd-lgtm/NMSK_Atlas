@@ -30,19 +30,22 @@ def main():
     ap.add_argument("--out", default="build/vh")
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--label", default="recovered from the published viewer bundle")
+    ap.add_argument("--rename", default=None, help="JSON from name_tarsal_pieces.py: {id: {piece order: new atlas id}}")
     a = ap.parse_args()
     p = Path(a.bundle)
     bundle, blob = read_bundle_dir(p) if p.is_dir() else read_bundle_html(p)
     subjects_in_order = bundle["subject"].split("+")
     attributions = bundle.get("attribution") or []
-    per = {}
+    per = {}; rename = json.load(open(a.rename))["rename"] if a.rename else {}; seen = {}
     for e, v, f in decode(bundle, blob):
         s = e["subject"]
+        k = seen.get(e["id"], 0); seen[e["id"]] = k + 1
+        new_id = rename.get(e["id"], {}).get(str(k))
         if a.only and s not in a.only:
             continue
         d = per.setdefault(s, {"v": [], "f": [], "st": []})
         voff = sum(len(x) for x in d["v"]); foff = sum(len(x) for x in d["f"])
-        d["st"].append({"atlas_id": e["id"], "source_structure": e["id"], "side": e.get("side"),
+        d["st"].append({"atlas_id": new_id or e["id"], "source_structure": e["id"] + (f"#piece{k}" if new_id else ""), "side": e.get("side"),
                         "source_file": f"{a.label}#{e['id']}", "vertex_offset": voff, "face_offset": foff,
                         "vertex_count": int(len(v)), "triangle_count": int(len(f)),
                         "bbox_min_mm": [round(float(x), 4) for x in v.min(axis=0)],

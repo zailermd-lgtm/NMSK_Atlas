@@ -1062,25 +1062,35 @@ ALL TENDONS AND LIGAMENTS AND NERVES."
   threshold separates them at 1 mm. Full-resolution texture (fibre
   striation) is the remaining route.
 - Viewer Version 22: 299 structures, 18 subjects, 14.4 MB.
-## What the OWNER must do (2026-09-14; everything else runs unattended)
+## What the OWNER must do (updated 2026-09-14 09:30; everything else runs unattended)
 
-1. Q29 / Q50 / Q31 -- the male's ORIGINAL geometry. The DU release hosts answer 403 at this
-   environment's proxy (`digitalcommons.du.edu`, `simtk.org`). EITHER add `digitalcommons.du.edu` to the
-   environment's network policy (claude.ai/code -> the environment used by this session -> network
-   policy -> allowed domains), OR download "Final 3D STL models" Right and Left zips (Andreassen 2023,
-   CC BY 4.0, ~133 MB) yourself and drop them into Dropbox `/claude/`. Then the male rebuilds from source,
-   the recovered decimated meshes are replaced, and his talus and calcaneus become separate bones (Q31).
-2. Q43 -- decide: (a) keep landmarks in millimetres of a male-length bone, or (b) store them as a
-   fraction of the measured bone length. Recommendation: (b). Reply with one letter.
-3. Q31 on the FEMALE -- her CT cannot separate talus from calcaneus (no HU barrier). If you want her own
-   split: open the female viewer, look at the tarsals, and describe the subtalar joint line on 3 sagittal
-   levels (or accept the male's DU talus/calcaneus transferred onto her, badged, after item 1).
-4. Licences -- Steer OSF hand data and Kerkhof MorphoSource data stay out until a written licence exists;
-   an e-mail to the authors asking for CC BY or a commercial licence is the owner's step.
-5. Your own clinical CT scans (mentioned 2026-09-09) -- if de-identified and consented for a commercial
-   atlas, upload NIfTI/DICOM zips into Dropbox `/claude/`; TotalSegmentator runs here.
-6. Review the shipped rule-based structures in the viewers (each badge says what the rule was) and
-   write disagreements as queue items; the sciatic nerve montages are regenerable on request.
+Answered 2026-09-14: Q43 = (b) DONE (landmarks scale with the measured bone length; her distal femur/fibula
+landmarks now 1-7 mm from the bone, were 45-62); Q31 = "like in male" DONE (Q61: seven tarsals on both
+bodies). Still needed from you:
+
+1. **The DU STL releases (male AND female), Q59.** `digitalcommons.du.edu` now answers through the proxy
+   (thank you), but the file endpoint `/cgi/viewcontent.cgi` sits behind a Cloudflare browser challenge that
+   curl cannot pass and the sandbox's Chromium has no network at all; `dl.dropboxusercontent.com` (Dropbox
+   file content) is also blocked, so the zip you would upload cannot be pulled either. EITHER add
+   `dl.dropboxusercontent.com` to the environment's allowed domains (then upload the zips to Dropbox
+   `/claude/`), OR push them into this GitHub repository on a branch `data-du` in parts under 100 MB
+   (`split -b 90m`). Files: on https://digitalcommons.du.edu/visiblehuman/2/ (male) and /1/ (FEMALE) the
+   "Final 3D STL Models" (133 MB each) and "Metadata". The female release is her OWN segmented lower limb
+   (muscles, ligaments, cartilage, separate tarsals) and replaces the transferred male limb on her.
+2. **Licences of the three sites you named** -- all three are blocked for this sandbox, so I could not read
+   them: open each page and paste its licence/credits text into Dropbox `/claude/licences.txt`:
+   caskanatomy.info/open3dviewer (hand), anatomytool.org open3dmodel hand and wrist bones and cartilages
+   (AnatomyTOOL content is usually CC BY-NC-SA, which would exclude it twice), humanome.co (commercial terms).
+3. **Z-Anatomy is CC BY-SA 4.0, not CC BY** (verbatim on its GitHub page: "This work is licensed under a
+   Creative Commons Attribution-ShareAlike 4.0 International License"). Under the repository rule no
+   ShareAlike source may enter a sellable atlas, so no Z-Anatomy mesh or label file will be used; its
+   structure list is read as a checklist only. If you want it anyway, that is a licence decision for you
+   to make explicitly (it would put the derived geometry under CC BY-SA).
+4. **Your Dropbox uploads of 2026-09-14 06:56**: the muscle reference HTMLs (shoulder, elbow, wrist, hand
+   intrinsic, head/neck, mind maps) are readable here and are queued as Q60 (per-muscle clinical fields with
+   your citations). `male-body-base-mesh-highpoly.zip` cannot be downloaded (item 1) -- and what is it and
+   under what licence? An artist base mesh is not measured anatomy and would only serve as a skin shell.
+5. Q54 (popliteal division of the sciatic nerve): 10 marks per side on the montage tiles, as before.
 
 ## Autonomous queue (2026-09-11; user away for days, session self-wakes hourly)
 
@@ -1157,7 +1167,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       CT (Q12) for the right arm only, or a reviewer marking the two discs every 20 mm (about 20 clicks per arm),
       after which the walk between marks is constrained enough. Nothing from Q30 ships. The scratchpad
       intermediates rebuild in ~10 minutes from the scripts if the container resets.
-- [ ] Q31 (added at the 02:20 wake) Calcaneus and talus as their OWN entities (the atlas has only the composite
+- [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
       `data/skeleton/bones.json` (TA names, sources), `tarsals` count 7 -> 5 with the remaining five named, the DU
@@ -1268,12 +1278,26 @@ tick the item here with a one-line result. Never fabricate; keep the
       rows added (median 2.9 / 4.9 mm; condylar landmarks 50-53 mm beyond her shorter bone, as with the fibula).
       Tests 149 pass. Also the reason the first Q28 registration attempt failed on the legs block: the same fit on
       a shaft with no head, and on RAS points whose second axis is anterior, not superior.
-- [ ] Q43 (added 15:20; needs a reviewer's decision, not done) The bone landmarks in `data/skeleton/bones.json` are
-      written in millimetres for a male-length bone: on the female every distal landmark of the femur, fibula and
-      humerus falls 50-70 mm beyond her shorter bone (audit rows of 2026-09-12). Options: (a) keep them and read the
-      audit's "along the axis" figure as a length difference, (b) store landmarks as a FRACTION of the measured
-      bone length plus a millimetre offset across it, so the same record fits both bodies. (b) changes hand-authored
-      data and every consumer (`rig/anchors`, the audit, the viewer's landmark placement); a reviewer's call.
+- [x] Q43 (decided (b) by the owner; done 2026-09-14) The bone landmarks in `data/skeleton/bones.json` were
+      millimetres on a male-length bone: on the female every distal landmark of the femur, fibula and humerus fell
+      50-70 mm beyond her shorter bone. Done with no change to the stored coordinates: femur, tibia, fibula, humerus,
+      radius, ulna and clavicle now carry `reference_length_mm` (his length along the frame's +Y, 1st-99th
+      percentile, measured on vhm_both / ct_vhm_arm / ct_vhm; `reference_length_note` says how) and ONE helper,
+      `engine.geometry.local_to_world` / `scale_local_to_length`, multiplies the along-axis coordinate by
+      measured/reference and leaves the across-axis mm alone; `build_frames` returns the measured length as each
+      frame's 5th element, `audit_landmarks_vs_geometry.place()` wraps it, and the audit, `export_viewer_bundle
+      .resolve_anchor_points` and `validate_moment_arms` all use it. Female before -> after (same audit): ct_vhf_legs
+      femur condyles 53.2/50.5 -> 2.6/2.6 mm, medial epicondyle 46.7/44.4 -> 7.0/6.3, lateral epicondyle 49.6/46.1
+      -> 6.0/6.0, fibula lateral malleolus 61.7/48.9 -> 0.7/1.4, overall 42 landmarks median 3.4 -> 2.2 mm, 11 -> 0
+      beyond 40 mm, 4 -> 0 anchors >20 mm from their bone; ct_vhf right humerus median 55.8 -> 5.6 mm (trochlea
+      65.8 -> 10.6, capitulum 65.9 -> 11.8); ct_vhf_armb right ulna styloid 162.5 -> 6.8. Male: factor 1.000 on
+      every bone, audit output identical (vhm_both, ct_vhm); ct_vhm_arm additionally gained a right-humerus frame
+      (a `<` on the distal 2% selected nothing on a bone cut flat by the CT, so it was NaN before). Caveats: a bone
+      truncated by a CT field of view measures its truncation, and the factor then compresses the landmarks onto
+      the fragment (her ct_vhf femora at 0.34, her ct_vhf_armb ulna at 0.42, his left radius/ulna at 0.85/0.90 --
+      those two carry the complete RIGHT side's length as reference); the audit prints the factor per bone. No
+      reference for metatarsals/phalanges_foot: no frame fits on either recovered body. Tests
+      tests/test_landmark_scaling.py (7), suite 169 pass.
 - [ ] Q7 (wake 02:10: checked on the female frame at 1 mm -- the sciatic nerve is not separable from the
       intermuscular fat by colour at that resolution; a full-resolution thigh crop stream is a 30-second job with
       `vhf_stream_arm_crops.py`'s window logic once a reviewer places the seed; the male cryosections are gone
@@ -1447,6 +1471,31 @@ tick the item here with a one-line result. Never fabricate; keep the
       frame (his 1 mm frame was lost with the container reset; `stream_cryosections.py --start/--stop` and
       the whole-body centroid registration of `vhm_arm_muscles_v2.py` are the pieces) -- do after Q54 so
       the detector is final.
+- [x] Q61 (2026-09-14, 07:20 -> 09:30; owner: Q31 "like in male") The seven TARSALS as their own bones on both
+      bodies. Male: the recovered bundle's seven `tarsals_r/l` pieces named by rule (`name_tarsal_pieces.py`,
+      matches the DU alphabetical order on both sides); `bundle_to_subjects.py --rename` in the male chain.
+      Female: his seven transferred onto her (`cross_subject_transfer m2f`, driven by tibia/fibula/metatarsals)
+      and her CT tarsal label assigned voxel-wise to the deepest transferred bone (`vhf_split_tarsals.py`,
+      subject `ct_vhf_tarsal`): calcaneus 56/60, talus 31/33 cm3 (expected 55-70 / 30-40), cuboid 19/17,
+      navicular 8.5/7.4, cuneiforms 9.4/9.5, 3.9/4.7, 0.8/1.4 (intermediate under-assigned). ICP refinement
+      measured worse and left off. 14 entities in bones.json, DU overrides retargeted, composite kept for
+      single-label scans and dropped from the female legs subject. Both viewers rebuilt.
+- [x] Q43 (b) DONE 2026-09-14 by the landmark-scaling change (see the Q43 item above): `engine/geometry.py`
+      scale_local_to_length + reference_length_mm on 14 long bones; truncation guard 0.6-1.5 added after
+      the subagent's caveat (a femur cut at mid-thigh measured 0.34).
+- [-] Q59 BLOCKED on the owner (see the owner list): DU Final 3D STL releases, male AND FEMALE. The pages are
+      reachable through the proxy now; the file endpoint is behind a Cloudflare browser challenge (curl gets
+      "Just a moment..." 403 with cookies, HTTP/2 and Chrome headers; Chromium here has no network at all:
+      ERR_CONNECTION_RESET even to open hosts); Dropbox file content (`dl.dropboxusercontent.com`) is blocked
+      at the proxy CONNECT. Once the zips arrive: `scripts/ingest_vh_geometry.py` for both bodies (overrides
+      now map each tarsal file to its own entity), rebuild the male from source (replacing the recovered
+      decimated meshes), and replace `xfer_vhm2vhf`/`xfer_vhm2vhf_sep` on the female with HER OWN DU lower
+      limb (keep the septa-refined transfer only where the release has nothing).
+- [ ] Q60 The owner's compiled muscle references (Dropbox /claude, 2026-09-14): shoulder, elbow, wrist, hand
+      intrinsic, head/neck HTML (function/biomechanics, trigger points, referred pain, adjacent structures,
+      per-muscle references, verification appendix; Gray's 43rd, Moore 9th, Neumann 3rd, Travell & Simons
+      3rd, PubMed records) -> per-muscle clinical fields in data/muscles with the owner's citations; text
+      via the Dropbox fetch tool (each < 5 MB; the shoulder file is 111 k characters). Source-coverage tests.
 - [ ] Q58 Viewer: show the nerve's depth below the skin along its course (per-level minimum skin distance
       from `skin_depth_vhf.json` is one number; a needle-path preset "sciatic block, subgluteal" that places
       the entry on the skin at the gluteal fold would use the new tool).

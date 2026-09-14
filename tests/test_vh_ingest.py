@@ -180,8 +180,11 @@ def test_grouping_entity_found_for_a_component_bone():
     atlas = vh.load_atlas_index()
     for side, suffix in (("left", "_l"), ("right", "_r")):
         hits = vh.find_grouping_entity("Talus", atlas, side=side)
-        assert hits, f"talus should be found inside the tarsal group ({side})"
-        assert hits[0].entity_id == f"tarsals{suffix}"
+        assert hits, f"talus should be found ({side})"
+        # since 2026-09-14 the talus is its own entity; the composite tarsals_* remains the group for scans that label
+        # the seven bones as one mass, and is what a name absent from the entities (e.g. "Ossa tarsi") falls back to
+        assert hits[0].entity_id == f"talus{suffix}"
+        assert any(e.entity_id == f"tarsals{suffix}" for e in atlas), "the composite must survive as the group"
 
 
 def test_paired_bones_carry_matching_names():

@@ -149,17 +149,22 @@ def resolve_anchor_points(subject: str):
     anchors = json.loads(anchors_path.read_text())
     if not anchors:
         return {}
-    from scripts.audit_landmarks_vs_geometry import load_geometry as _load_geom, build_frames
+    from scripts.audit_landmarks_vs_geometry import load_geometry as _load_geom, build_frames, place
     _manifest, blocks, by_atlas_id, faces_by_atlas_id = _load_geom(subject)
     frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
+    # The anchors' along-axis coordinates are millimetres on the MALE bone;
+    # `place` stretches them by this subject's measured length over the
+    # bone's reference_length_mm (Q43), so the same anchor sits at the same
+    # fraction of her femur as of his.
+    bones = {b["id"]: b for b in json.loads(
+        (DATA_DIR / "skeleton" / "bones.json").read_text())}
     out = {}
     role_key = {"muscle_origin": "origin", "muscle_insertion": "insertion"}
     for a in anchors:
         frame = frames.get(a["parent_bone_frame"])
         if frame is None:
             continue
-        origin, basis = frame[:2]
-        world = origin + np.array(a["local_position_mm"], float) @ basis
+        world = place(a["local_position_mm"], frame, bones.get(a["parent_bone_frame"]))
         if not np.all(np.isfinite(world)):
             # a degenerate bone frame (a recovered, decimated mesh can give one) would put NaN into the
             # bundle JSON and break the viewer's JSON.parse; the text description alone is shown instead

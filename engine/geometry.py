@@ -62,6 +62,68 @@ class Transform:
         return Transform(R, np.zeros(3) if t is None else np.asarray(t, dtype=float))
 
 
+# ---------------------------------------------------------------------------
+# Landmarks scale with the bone they sit on (Q43, 2026-09-14).
+#
+# `data/skeleton/bones.json` stores every landmark as position_local_mm in
+# the bone's local frame: origin at a joint centre, +Y the long axis. Those
+# millimetres were measured on the Visible Human MALE, so on a subject whose
+# femur is 0.88 of his every distal landmark lands 50-70 mm past the end of
+# the bone. The record therefore also carries the male's bone length along
+# that same axis (`reference_length_mm`), and a consumer that has MEASURED
+# the subject's own length stretches or shrinks the along-axis coordinate by
+# the ratio. The across-axis coordinates stay in millimetres: bone widths do
+# not scale with length between these two bodies (her pelvis is as large as
+# his), and the frame's transverse axes are fitted, not assumed.
+# ---------------------------------------------------------------------------
+
+LONG_AXIS = 1   # +Y of every ISB-style bone frame in bones.json is the long axis
+
+
+def bone_length_along_axis(mesh: np.ndarray, origin: Vec3, axis: Vec3,
+                           lo_pct: float = 1.0, hi_pct: float = 99.0) -> float:
+    """Extent of a bone mesh along a unit axis, 1st to 99th percentile of its
+    vertices. That is the definition `reference_length_mm` was measured with,
+    so the same function must measure the subject; the percentiles keep one
+    stray vertex from stretching every landmark on the bone."""
+    proj = (np.asarray(mesh, float) - np.asarray(origin, float)) @ np.asarray(axis, float)
+    return float(np.percentile(proj, hi_pct) - np.percentile(proj, lo_pct))
+
+
+TRUNCATION_GUARD = (0.6, 1.5)   # measured/reference outside this band = a truncated or mis-fitted bone: factor 1
+
+
+def scale_local_to_length(local_mm, reference_length_mm, measured_length_mm,
+                          axis: int = LONG_AXIS) -> np.ndarray:
+    """A landmark's local coordinates on a subject whose bone measures
+    `measured_length_mm` where the record's were written for
+    `reference_length_mm`: the along-axis component is multiplied by
+    measured/reference, the other two are returned unchanged. Either length
+    missing, non-finite or non-positive means no information, and the
+    coordinates come back exactly as stored (factor 1); so does a ratio
+    outside TRUNCATION_GUARD (a femur that leaves the scan at mid-thigh
+    measures 0.34 of a femur and must not squash its landmarks)."""
+    local = np.array(local_mm, dtype=float)
+    if reference_length_mm is None or measured_length_mm is None:
+        return local
+    ref, meas = float(reference_length_mm), float(measured_length_mm)
+    if not (np.isfinite(ref) and np.isfinite(meas)) or ref <= 0 or meas <= 0:
+        return local
+    if not (TRUNCATION_GUARD[0] <= meas / ref <= TRUNCATION_GUARD[1]):
+        return local          # a bone cut by the scan's field of view measures its truncation, not its length
+    local[..., axis] *= meas / ref
+    return local
+
+
+def local_to_world(local_mm, origin: Vec3, basis: np.ndarray,
+                   reference_length_mm=None, measured_length_mm=None) -> np.ndarray:
+    """origin + local @ basis, with the along-axis scaling above applied
+    first. `basis` rows are the frame's X, Y, Z in world coordinates, as
+    scripts/audit_landmarks_vs_geometry.py:build_frames returns them."""
+    local = scale_local_to_length(local_mm, reference_length_mm, measured_length_mm)
+    return np.asarray(origin, float) + local @ np.asarray(basis, float)
+
+
 def resample_polyline(points: Sequence[Vec3], spacing_mm: float = 1.0) -> np.ndarray:
     """Arc-length resample a polyline (list of 3D points) to a uniform
     `spacing_mm` step. This is the core '1mm resolution' primitive: every

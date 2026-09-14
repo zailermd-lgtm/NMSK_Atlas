@@ -1055,6 +1055,22 @@ measured lean-section ratio; flags LOW/HIGH outside 0.6-1.6. See the file for th
 flags; the ones produced by the same pipeline on both bodies are the ones that point at a
 real problem.
 
+**Landmarks scale with the bone (Q43, 2026-09-14).** The 347 hand-authored landmarks in
+`data/skeleton/bones.json` are millimetres on HIS bones, so on her every distal landmark of the
+femur, fibula and humerus sat 50-70 mm past the end of the bone (femur condyles 50-53 mm,
+lateral malleolus 49-62 mm, humeral trochlea/capitulum 66 mm from any bone). Each long bone with a
+fitted frame axis now records his length along that axis (`reference_length_mm`, measured on
+`vhm_both` / `ct_vhm_arm` / `ct_vhm` with the same 1st-99th-percentile definition
+`build_frames` uses for every subject), and every consumer places a landmark through
+`engine.geometry.local_to_world`, which multiplies the along-axis coordinate by her measured
+length over his and leaves the across-axis coordinates in millimetres. Same audit afterwards:
+her femoral condyles 2.6 / 2.6 mm, epicondyles 6-7 mm, lateral malleoli 0.7 / 1.4 mm, right
+humeral trochlea 10.6 mm; 42 lower-limb landmarks median 3.4 -> 2.2 mm with none beyond 40 mm
+(was 11). His own numbers are unchanged (factor 1.000). Caveat: a bone cut by a CT field of view
+(her humeri and forearm in `ct_vhf`/`ct_vhf_armb`, his left forearm) measures its truncation,
+and the factor then compresses the landmarks onto the fragment; the audit prints the factor per
+bone so that reads as what it is.
+
 ### The female cryosection frame was 47-90 mm too high (2026-09-13): found, corrected, structures rebuilt
 
 Building the envelopes exposed it: the photograph at the frame's height for her mid-thigh
@@ -1133,6 +1149,28 @@ points, 0.5 % of random points (`data/derived/vhf_nerve_scorer_report.json`). Th
 (`--scorer`) to score every candidate and to scan the corridor densely (6 px grid) where the detector
 finds nothing; the chain cost becomes jump + 15 mm x (1 - probability). What it cannot do: tell a
 nerve from a structure that never appeared in the training levels; the montage check stays.
+
+### The seven tarsals as their own bones (2026-09-14, Q61; owner: "like in male")
+
+The atlas carried one composite `tarsals_r/l`. The DU release ships each tarsal separately, and the
+recovered male bundle kept them as seven pieces per side under the composite id, so on the MALE the split
+is a naming problem: `scripts/transfer/name_tarsal_pieces.py` names them by size and position (calcaneus
+the largest, talus the second and highest, cuboid the lowest of the rest, navicular the widest across,
+cuneiforms medial to lateral by x) and the result -- calcaneus 73/80, talus 39/39, cuboid 14/14, navicular
+10/10, cuneiforms 10/10, 6/7, 3.5/3.7 cm3 (right/left) -- matches the release's alphabetical file order on
+both sides, an independent check. The FEMALE's CT shows no boundary at the subtalar joint (Q31), so her
+tarsal label is split by his shapes: the seven bones transferred onto her by the bone-driven transfer
+(driven by her tibia, fibula and metatarsals), voxelised on her legs grid, and every voxel of her label
+given to the bone it lies deepest inside (signed distance from the distance transforms; a voxel outside
+all seven, 40 % of them, to the nearest). Her outer bone surfaces are therefore her CT's; the joint
+surfaces between the bones are his shapes placed on her (`scripts/vhf_split_tarsals.py`, subject
+`ct_vhf_tarsal`, badged). Volumes: calcaneus 56.4/59.7, talus 30.5/32.6, cuboid 19.3/17.1, navicular
+8.5/7.4, medial cuneiform 9.4/9.5, lateral 3.9/4.7, intermediate 0.8/1.4 cm3 -- the two bones the heel
+and ankle injections need are in the expected range for her (calcaneus 55-70, talus 30-40); the
+intermediate cuneiform is under-assigned. A rigid ICP refinement of the transferred set onto her tarsal
+mass was measured and rejected (it slid the set 15-17 mm on the union's inner joint surfaces and shrank
+her calcaneus to 36 cm3). The composite entities stay for scans that label the tarsals as one mass; the
+DU overrides now map each release file to its own entity for the day the release itself is ingested.
 
 ## Resulting architecture
 

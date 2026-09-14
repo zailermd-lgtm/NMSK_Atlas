@@ -184,3 +184,47 @@ mathematically defined relative to the humerus, not fit to a snapshot.
 `tests/test_rig_preserves_anchors.py` samples the joint's full ROM (from
 `joints.json`, including combined-axis end-of-range poses) and asserts this
 holds for every anchor.
+
+### Landmarks and anchors scale with the bone's measured length (Q43, 2026-09-14)
+
+`position_local_mm` (and every anchor's `local_position_mm`, which is copied
+from it) is a coordinate on the **Visible Human male**: the along-axis value
+is his millimetres down his bone. Put on the female, whose femur is 0.88 of
+his and tibia 0.84, every distal landmark of the femur, fibula and humerus
+fell 50-70 mm beyond the end of her bone. So a bone whose local frame has a
+fitted long axis (femur, tibia, fibula, humerus, radius, ulna, clavicle)
+also carries
+
+```json
+"reference_length_mm": 476.7,
+"reference_length_note": "Length of the VH MALE bone along the local frame's long axis (+Y) ... Measured as: ..."
+```
+
+the male's length along the frame's +Y (1st-99th percentile extent of his
+vertices; the note names the subject folder and the function). The stored
+coordinates are never rewritten. A consumer that has **measured** the
+subject's own length `L` of that bone places a landmark at
+`[x, y * L / reference_length_mm, z]`: only the along-axis coordinate
+scales, the two across-axis coordinates stay in millimetres (bone widths do
+not follow length between these two bodies -- her pelvis is as large as
+his). Bones without the field (pelvis, scapula, sternum, tarsals ...) are
+used exactly as stored.
+
+This lives in one place, `engine/geometry.py`:
+`scale_local_to_length(local_mm, reference_length_mm, measured_length_mm)`
+and `local_to_world(local_mm, origin, basis, reference_length_mm,
+measured_length_mm)`; `bone_length_along_axis(mesh, origin, axis)` is the
+length definition. `scripts/audit_landmarks_vs_geometry.py:build_frames`
+returns the measured length as each frame's fifth element and its `place()`
+wraps the lookup; the audit, the viewer export (`resolve_anchor_points`) and
+`validate_moment_arms.py` all go through it. On the male the factor is 1.0.
+On a bone cut by a CT field of view the measured length is the truncation,
+not the bone, and the factor is wrong by construction -- the audit prints the
+factor with each bone so that case is visible.
+
+
+**Truncated bones.** A bone cut by a scan's field of view measures its truncation, not its length: her
+torso block's femora end at mid-thigh at 0.34 of a femur. `engine.geometry.scale_local_to_length`
+therefore applies the along-axis factor only when measured/reference lies within `TRUNCATION_GUARD`
+(0.6-1.5); outside it the landmarks are placed unscaled and the audit prints the factor so the
+truncation is visible.

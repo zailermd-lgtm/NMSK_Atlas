@@ -24,6 +24,21 @@ conv $T/vhf_headneck_bones_vessels.nii.gz totalsegmentator_headneck_bones_vessel
 conv $T/vhf_abdominal_muscles.nii.gz totalsegmentator_abdominal_muscles ct_vhf_abd --smooth 1.0
 [ -n "${STOP_BEFORE_LEGS:-}" ] && { echo CONV_DONE; exit 0; }   # torso subjects only (run while the legs volume is still being made)
 conv $T/vhf_lower_limb_bones.nii.gz vhf_legs ct_vhf_legs --smooth 1.0
+# her seven tarsal bones: her CT tarsal label split by the male's separately segmented tarsals transferred onto her
+# (scripts/transfer/name_tarsal_pieces.py -> cross_subject_transfer m2f -> scripts/vhf_split_tarsals.py); the split volume is in the repo
+if [ ! -f $T/vhf_tarsals_split.nii.gz ] || [ -n "${RECONVERT:-}" ]; then
+  python3 - <<'PY'
+import json,shutil,os
+b=json.load(open('data/derived/viewer_bundles/vhm_v25/bundle.json')); ren=json.load(open('mappings/subjects/vhm_both_piece_names.json'))['rename']; seen={}
+for e in b['structures']:
+    k=seen.get(e['id'],0); seen[e['id']]=k+1; new=ren.get(e['id'],{}).get(str(k))
+    if new: e['id']=new
+os.makedirs('build/vhm_named',exist_ok=True); json.dump(b,open('build/vhm_named/bundle.json','w')); shutil.copy('data/derived/viewer_bundles/vhm_v25/bundle.bin','build/vhm_named/bundle.bin')
+PY
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/vhm_named --ids calcaneus_r talus_r cuboid_r navicular_r cuneiform_medial_r cuneiform_intermediate_r cuneiform_lateral_r calcaneus_l talus_l cuboid_l navicular_l cuneiform_medial_l cuneiform_intermediate_l cuneiform_lateral_l -o build/vh/xfer_tarsals --report data/derived/transfer_report_tarsals.json 2>&1 | grep -v Deprec | tail -1 | cut -c1-160
+  python3 scripts/vhf_split_tarsals.py --xfer build/vh/xfer_tarsals 2>&1 | grep -v Deprec | tail -3
+fi
+conv $T/vhf_tarsals_split.nii.gz vhf_tarsals ct_vhf_tarsal --smooth 1.0
 conv $T/vhf_arm_bones_ct.nii.gz vhf_arm_bones ct_vhf_armb --smooth 1.0
 conv $T/vhf_deltoid_cryo.nii.gz vhf_deltoid ct_vhf_delt --smooth 1.0
 conv $T/vhf_rotator_cuff_cryo.nii.gz vhf_rotator_cuff ct_vhf_cuff --smooth 1.0
@@ -32,7 +47,7 @@ conv $T/vhf_arm_muscles_cryo.nii.gz vhf_arm_muscles ct_vhf_armm --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_pmr"
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_pmr"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
