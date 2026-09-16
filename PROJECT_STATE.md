@@ -1582,13 +1582,15 @@ tick the item here with a one-line result. Never fabricate; keep the
       carried the v1 arm muscles. Fix: `--skip ct_vhm_foot ct_vhm_armm ct_vhm_neck` on the bundle copy, guards by
       the manifest's source_file instead of marker files. The converter itself is fine (mesh = label +-2 %,
       measured). Male rebuilt and republished: Version 34 (biceps 350, triceps 581 cm3 as meshes again).
-- [ ] Q64 (2026-09-16 IN PROGRESS) Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges).
+- [ ] Q64 (2026-09-16 IN PROGRESS, multiple phases) Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges).
       Phase 1 DONE: transferred his complete left bones to her frame via humerus affine (det=0.8094, 81% scale).
-      Phase 2 IN PROGRESS: segmentation framework established (`vhf_left_forearm_segmentation.py`). Full-res crops
-      available (arm_full_left.npy, 491 slices × 0.33 mm), bone priors saved (vhf_left_bone_priors.json). Next:
-      color-based thresholding on RGB crops (bone = pale/cream), morphological filtering, region growing from
-      prior centers, per-bone walking (radius/ulna) and planing (hand). Estimated 4-8 hours for interactive
-      segmentation + render review. Output: vhf_left_forearm_bones.nii.gz. Prerequisite for Q62 step 1.
+      Phase 2 DONE: segmentation framework & thresholds. Full-res crops available (arm_full_left.npy, 491 slices
+      × 0.33 mm). Bone detection thresholds established: brightness (R+G+B) > 500, saturation < 0.15 (pale/cream
+      color), avg ~54 bone pixels/slice. Phase 3 (interactive): morphological filtering, connected components,
+      region growing from prior centers, per-bone walking (radius/ulna) and planing (hand), render review.
+      Scripts: vhf_left_forearm_bones_from_priors.py, vhf_left_forearm_segmentation.py,
+      vhf_left_forearm_segment_detail.py. Estimated 4-8 hours for phase 3. Output: vhf_left_forearm_bones.nii.gz.
+      Prerequisite for Q62 step 1.
 - [x] Q65 (DONE 2026-09-14 13:30: 29 records = 14 sided muscles + midline dartos, in data/muscles; attachments/innervation/
       actions from Gray's and TA, fiber_architecture carries only the type plus an 'evidence' line saying no number was
       verified; nerve entity facial_n_posterior_auricular_branch added and every new compartment listed in its nerve's
