@@ -1252,6 +1252,22 @@ nerve rests on 9 detected levels of 26 with the rest interpolated, and the adduc
 hiatus could not be confirmed on the montage and are NOT shipped. The mask is the lumen (clotted blood), not the
 vessel wall.
 
+### The popliteal vessels and the tibial nerve in her popliteal fossa (2026-09-16, Q56)
+
+`scripts/cryo/vhf_popliteal_track.py`, the femoral tracker carried to the knee in the same posterior-thigh crops the
+sciatic run streamed. Shipped as subject `ct_vhf_popliteal`: popliteal artery y -307 to -386 mm (70 of 80 levels
+detected, 10 gaps filled), median lumen 4.3 mm, 1.30 cm3; popliteal vein y -305 to -360, median 5.5 mm, 1.34 cm3;
+tibial nerve y -340 to -374, 0.94 cm3 (below the shipped sciatic track, so nothing is duplicated). Both lumens read
+under a living vessel (5-8 and 7-11 mm) because a cadaveric artery is contracted, the vein is collapsed and the mask
+stops at the dark clot; the numbers are reported as measured rather than forced up, and neither is off by the factor
+of two that would have nulled it. The depth order was checked on the label volume itself and is anatomical: the
+artery is anterior-most in every 10 mm band (mean atlas z -28.9 at y -305 falling to -51.4 at y -365), the vein lies
+between, and the nerve runs a median 19.9 mm posterior and 15.9 mm lateral to the artery on every level where both
+exist. One rule had to be added that the femoral run did not need -- a lumen's surround must not be muscle-red -- or
+the walk followed intramuscular striations. Not covered: the common fibular nerve (13 of 32 levels, not unambiguous,
+nulled with the reason in the mapping) and the artery's division at the lower border of popliteus, because below
+y -390 the paired walk ran into gastrocnemius.
+
 ### What the cross-body transfer can and cannot carry (measured 2026-09-16)
 
 After the new subjects, 16 muscles existed on her alone and 5 on him alone, so both directions of
