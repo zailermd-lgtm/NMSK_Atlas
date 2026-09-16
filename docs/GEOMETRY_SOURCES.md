@@ -1237,6 +1237,21 @@ cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectu
 1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
 comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
 
+### The femoral neurovascular bundle in her femoral triangle (2026-09-16, Q55)
+
+`scripts/cryo/vhf_femoral_track.py`, built on the sciatic tracker: in the same full-resolution anterior-thigh crops,
+the femoral artery and vein are followed as dark round lumina level by level from a seed at the inguinal-ligament
+midpoint (the midpoint of her anterior superior iliac spine and pubic tubercle), and the femoral nerve as a
+fascicle-texture blob lateral to the artery. Shipped as subject `ct_vhf_femoral`: artery y +14 to -46 mm, median
+lumen 5.7 mm (5.2-6.7), 1.65 cm3; vein y +14 to -34, median 7.8 mm (6.9-9.2), 2.69 cm3 -- under the 9-13 mm of a
+living vein because a cadaveric vein is collapsed; nerve trunk y +13 to -12, 1.07 cm3, ending where it divides into
+its anterior and posterior divisions, 45 mm below the inguinal ligament. The medial-lateral order was checked on the
+shipped meshes and is anatomical: nerve most lateral (x 87-94 mm), artery between (80-85), vein medial and slightly
+posterior (73-79). Limits recorded in the report: the crops start below the top of the common femoral vessels, the
+nerve rests on 9 detected levels of 26 with the rest interpolated, and the adductor canal proper and the adductor
+hiatus could not be confirmed on the montage and are NOT shipped. The mask is the lumen (clotted blood), not the
+vessel wall.
+
 ### What the cross-body transfer can and cannot carry (measured 2026-09-16)
 
 After the new subjects, 16 muscles existed on her alone and 5 on him alone, so both directions of
