@@ -1237,6 +1237,18 @@ cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectu
 1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
 comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
 
+### Her neck and floor-of-mouth muscles carried onto him (2026-09-16, Q62)
+
+He has neither the deep neck nor the floor of the mouth: his frozen CT cannot separate those muscles and his 1 mm
+photograph frame was lost with a container reset. Following the owner's rule that where one body lacks a structure
+the other supplies it with the differences corrected, the 16 deep-neck/suboccipital and 10 floor-of-mouth muscles
+shipped on her were carried onto his bones by the existing piecewise affine transfer
+(`scripts/transfer/cross_subject_transfer.py --direction f2m`), as subject `xfer_vhf2vhm_neck`. Volumes grow with
+his frame (semispinalis capitis 30 -> 35 cm3, genioglossus 9.4 -> 13.9, mylohyoid 9.0 -> 10.4), displacements are
+27-35 mm, and every structure is badged TRANSFERRED: it is an estimate on top of an estimate, because the source
+was itself rule-based on her photographs. Per-structure numbers in
+`data/derived/transfer_report_vhf2vhm_neck.json`.
+
 ### Floor of the mouth and the extrinsic tongue muscles on her 1 mm frame (2026-09-16, Q62 step 7a)
 
 `scripts/cryo/vhf_hyoid_muscles_from_cryo.py`: between her mandible, hyoid, styloid-process, thyroid-cartilage and

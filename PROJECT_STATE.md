@@ -1514,7 +1514,9 @@ tick the item here with a one-line result. Never fabricate; keep the
       and left hyoglossus flagged for review; female viewer Version 27, 343 structures, 14.54 MB); step 4 (her hand
       intrinsics, `ct_vhf_hand`) running as a subagent (first attempt died on the 2026-09-14 rate limit with scripts
       written but no outputs; resumed 2026-09-16). NOTE: three subagents (hand, hyoid, femoral) were killed mid-run by
-      the usage limit on 2026-09-14; the hyoid one had written its outputs, the other two had not. Next: his forearm (his 1 mm frame
+      the usage limit on 2026-09-14; the hyoid one had written its outputs, the other two had not.
+      Her deep-neck + floor-of-mouth muscles were also TRANSFERRED onto him (subject `xfer_vhf2vhm_neck`, 26
+      structures, badged doubly derived; male viewer Version 39, 350 structures, 15.41 MB). Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
