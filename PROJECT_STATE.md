@@ -1571,11 +1571,17 @@ tick the item here with a one-line result. Never fabricate; keep the
       on her 1 mm frame; (4) hand intrinsics from her hand crops; (5) foot: DU female release (Q59) or a foot
       stream; (6) diaphragm, intercostals, pelvic floor; (7) head/larynx from head cryosections at full res;
       (8) the ~15 entities. Regenerate the counts: the snippet in the Q62 commit (scratchpad/muscle_gaps.json).
-      PROGRESS 2026-09-16 14:00: Q64 prerequisite (left forearm bones) COMPLETE. Step 1a DONE:
+      PROGRESS 2026-09-16 14:00 → 15:35: Q64 prerequisite (left forearm bones) COMPLETE. Step 1a DONE:
       vhf_left_forearm_compartments_phase1.py separates flexor/extensor compartments (16.1M/12.7M voxels).
-      Step 1b DONE: vhf_left_forearm_muscles_phase1b.py initial muscle separation (5 flexor + 4 extensor regions, 28.7M voxels, framework for marker-watershed refinement).
-      Step 2 DONE (shoulder girdle) by subagent -- `split_shoulder_girdle.py`, subjects ct_vhf_shsp / ct_vhm_shsp (teres, rhomboids); step 1 (her right forearm)
-      SHIPPED as `ct_vhf_forearm` (12 muscles). Viewers: female Version 32, male Version 39.
+      Step 1b DONE: vhf_left_forearm_muscles_phase1b.py initial muscle separation (5 flexor + 4 extensor regions, 28.7M voxels, framework for marker-watershed refinement via white-tophat fascial detection).
+      Step 2 DONE (shoulder girdle) -- `split_shoulder_girdle.py`, subjects ct_vhf_shsp / ct_vhm_shsp (teres, rhomboids).
+      Step 1 (her RIGHT forearm) SHIPPED as `ct_vhf_forearm` (12 muscles, partial separation).
+      Step 4 (her hand intrinsics) SHIPPED as `ct_vhf_hand` (adductor pollicis, hypothenars, interossei as groups; thenar/lumbricals not split).
+      Step 3 (deep neck) partially SHIPPED via hyoid muscles `ct_vhf_hyoid` (mylohyoid, geniohyoid, genioglossus, hyoglossus, styloglossus).
+      Step 6 (trunk) SHIPPED via `ct_vhf_twall` (diaphragm, intercostals).
+      His forearm muscle separation SHIPPED as `ct_vhm_forearm` (3 muscles by name: FDS, FDP, APL; eight regions >2x expectation remain unshipped).
+      Viewers: female Version 32 (351 structures, 14.89 MB), male Version 39 (350 structures, 15.41 MB).
+      Remaining gaps: her left forearm muscles need marker-watershed refinement; his forearm/hand need full-resolution frame rebuild (his 1 mm cryosection frame lost with container reset); foot intrinsics (Q59 blocked).
 - [x] Q66 (2026-09-14, 11:00) REGRESSION found by the refreshed scale audit and fixed: since the male chain was
       rerun this morning (vhm_both deleted for the tarsal renaming), `bundle_to_subjects.py` had re-created
       `ct_vhm_armm` from the recovered bundle (v1 compartments: biceps 475, triceps 675/762 cm3 as meshes) and the
