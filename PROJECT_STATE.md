@@ -1479,6 +1479,17 @@ tick the item here with a one-line result. Never fabricate; keep the
       tests are kept for review. The reusable result is the FRAME: a deep-arm muscle hull (her arm touches her chest,
       so the island rule fails) with the photographed humerus tracked on 182/203 levels, residual 8.9 mm. Caveat: her
       arm is rotated, so body-medial is not the arm's medial.
+- [x] Q62 pelvic floor SHIPPED 2026-09-16 as `ct_vhf_pfloor` (female viewer Version 32, 15.38 MB): levator ani
+      36.3/26.4 cm3 (REVIEW: 62.7 bilateral against the 19.8-46.6 of Fielding's MRI series, the rule sheet is 10-13 mm
+      where Gray's gives 3-5), coccygeus 4.0/2.4, external anal sphincter 19.6 midline, bulbospongiosus 2.7/2.9 and
+      ischiocavernosus 2.7/1.2 (both include their erectile bodies), deep transverse perineal 1.9/1.4. Superficial
+      transverse perineal (0.8/0.4) under what the frame supports and unshipped. Zero overlap with the bone and organ
+      labels; 76-100 % of every mask on her muscle class. HIM: needs his 1 mm frame rebuilt plus prostate/penile-bulb
+      rules -- new queue item Q68.
+- [ ] Q68 Male pelvic floor: rebuild his 1 mm cryosection frame (stream -> register -> resample, the pieces are in
+      scripts/cryo/stream_vhm_cryosections.py and the whole-body centroid registration of vhm_arm_muscles_v2.py),
+      then run scripts/cryo/vhf_pelvic_floor_from_cryo.py's rules with the male variants: the prostate at the hiatus,
+      a midline penile bulb, a deep-pouch external urethral sphincter.
       Was: Popliteal artery/vein (the dark round lumens in the Q53 distal montages) and the tibial nerve's
       relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
       (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between
