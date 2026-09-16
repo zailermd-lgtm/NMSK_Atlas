@@ -1268,6 +1268,27 @@ the walk followed intramuscular striations. Not covered: the common fibular nerv
 nulled with the reason in the mapping) and the artery's division at the lower border of popliteus, because below
 y -390 the paired walk ran into gastrocnemius.
 
+### The brachial bundle in her upper arm: attempted, nothing shipped (2026-09-16, Q56 second half)
+
+`scripts/cryo/vhf_brachial_track.py` streamed new full-resolution crops of her right upper arm (y 592 to 300, 200 MB,
+deleted afterwards) and ran the same tracker that produced the femoral and popliteal bundles. NOTHING is shipped
+under an anatomical name: all four labels are nulled in `mappings/subjects/ct_vhf_brachial_volume_mapping.json` with
+the reason on each entry, and no subject is built.
+
+What failed and why: the femoral and popliteal rule finds a near-black clotted lumen, and her UPPER-ARM muscle
+photographs nearly as dark as a thigh lumen, so the arm-tuned contrast rule found zero or one candidate per level
+inside the neurovascular corridor. The best artery chain covered y 498-396 on 60 of 103 levels at a median 2.1 mm,
+and reading the montage settled it: the mask is a 2 mm dark patch on the muscle's medial border with no pale arterial
+wall, where a woman's brachial artery is 3.5-5 mm. The median and ulnar nerve walks held a single level each; the
+radial nerve held 18 levels over 60 mm, under the 20-level gate. The only vessel that spans the arm (144 levels,
+4.1 mm) lies 45 mm anterior, outside the deep fascia -- a superficial vein, and it is not named.
+
+What is worth keeping: the frame. Her arm touches her chest at these levels, so the forearm's tissue-island rule runs
+into the thorax; a deep-arm muscle hull replaces it and tracks the photographed humerus disc on 182 of 203 levels
+(y 520-318) with a median CT-to-photograph residual of 8.9 mm. Any future run at these levels should start there. One
+caveat is recorded: her arm is rotated (the epicondylar axis lies along atlas z on two independent estimates), so
+"medial" in body coordinates is not the arm's medial, and the corridor assumed it was.
+
 ### What the cross-body transfer can and cannot carry (measured 2026-09-16)
 
 After the new subjects, 16 muscles existed on her alone and 5 on him alone, so both directions of

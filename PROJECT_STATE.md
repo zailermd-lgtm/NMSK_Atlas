@@ -1472,7 +1472,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       median lumen 4.3 mm 1.30 cm3, vein -305..-360 5.5 mm 1.34, tibial nerve -340..-374 0.94; depth order verified on
       the label volume, artery anterior-most in every band, nerve 20 mm posterior and 16 mm lateral to it; the common
       fibular nerve was not unambiguous and the division at popliteus is not covered). STILL TO DO: the brachial artery
-      and median/ulnar/radial nerves in NEW upper-arm crops (her arm crops on disk are elbow-to-fingertips only).
+      and median/ulnar/radial nerves: ATTEMPTED 2026-09-16 in new upper-arm crops and NOTHING SHIPPED -- her upper-arm
+      muscle photographs as dark as a thigh lumen, so the lumen rule found 0-1 candidates per level; the best artery
+      chain is a 2.1 mm patch on the muscle border (a woman's brachial artery is 3.5-5 mm), the median and ulnar walks
+      held one level each and the radial 18. All four labels nulled with reasons; the label volume, montage, script and
+      tests are kept for review. The reusable result is the FRAME: a deep-arm muscle hull (her arm touches her chest,
+      so the island rule fails) with the photographed humerus tracked on 182/203 levels, residual 8.9 mm. Caveat: her
+      arm is rotated, so body-medial is not the arm's medial.
       Was: Popliteal artery/vein (the dark round lumens in the Q53 distal montages) and the tibial nerve's
       relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
       (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between
