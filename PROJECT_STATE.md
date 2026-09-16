@@ -1509,7 +1509,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       the Q58 course table); thin sheets are decimated by quadric collapse (`SHEET_IDS`, fast-simplification) because
       vertex clustering laced them with holes; step 8 = Q65 done; his forearm SHIPPED 18:40 as `ct_vhm_forearm` with only FDS 54 / FDP 58 / APL 13 cm3 by
       name (eight regions were >2x expectation and stay unshipped in the label volume; the photographs separate far
-      less on him than on her; male viewer Version 38, 14.5 MB); step 4 (her hand intrinsics, `ct_vhf_hand`) running as a subagent. Next: his forearm (his 1 mm frame
+      less on him than on her; male viewer Version 38, 14.5 MB); step 7a SHIPPED 2026-09-16 as `ct_vhf_hyoid` (mylohyoid, geniohyoid, genioglossus,
+      hyoglossus, styloglossus both sides; the infrahyoid straps came out as fragments and are unshipped, mylohyoid
+      and left hyoglossus flagged for review; female viewer Version 27, 343 structures, 14.54 MB); step 4 (her hand
+      intrinsics, `ct_vhf_hand`) running as a subagent (first attempt died on the 2026-09-14 rate limit with scripts
+      written but no outputs; resumed 2026-09-16). NOTE: three subagents (hand, hyoid, femoral) were killed mid-run by
+      the usage limit on 2026-09-14; the hyoid one had written its outputs, the other two had not. Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
