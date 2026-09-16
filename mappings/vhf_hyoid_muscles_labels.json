@@ -1,0 +1,160 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE suprahyoid / infrahyoid / extrinsic tongue volume (scripts/cryo/vhf_hyoid_muscles_from_cryo.py), plus the mapping onto atlas entities. A KEY, not data. rule-based: markers by position rules relative to her mandible, hyoid, larynx, styloid and tongue labels, boundaries by marker watershed on the pale septa of her cryosection photographs; sinks and compartments are mapped to null."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female colour cryosections (1 mm frame) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total`, `headneck_muscles`, `headneck_bones_vessels`, `head_muscles` (tongue, digastric) and `craniofacial_structures` (mandible) labels as anchors. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 29 'Neck' and ch. 30 'Oral cavity', and Moore KL et al., Clinically Oriented Anatomy, 8th ed., ch. 8 'Head' and ch. 9 'Neck'. Derived data (scripts/cryo/vhf_hyoid_muscles_from_cryo.py), rule-based.",
+ "task": "vhf_hyoid_muscles",
+ "version": "2026-09-14",
+ "badge": "rule-based",
+ "labels": {
+  "1": "sternohyoid_right",
+  "2": "omohyoid_right",
+  "3": "mylohyoid_right",
+  "4": "geniohyoid_right",
+  "5": "genioglossus_right",
+  "6": "hyoglossus_right",
+  "7": "styloglossus_right",
+  "8": "stylohyoid_right",
+  "9": "deep_strap_right",
+  "10": "floor_lateral_right",
+  "11": "tongue_intrinsic_right",
+  "12": "sternohyoid_left",
+  "13": "omohyoid_left",
+  "14": "mylohyoid_left",
+  "15": "geniohyoid_left",
+  "16": "genioglossus_left",
+  "17": "hyoglossus_left",
+  "18": "styloglossus_left",
+  "19": "stylohyoid_left",
+  "20": "deep_strap_left",
+  "21": "floor_lateral_left",
+  "22": "tongue_intrinsic_left"
+ },
+ "merged_compartments": {
+  "stylohyoid": [
+   "stylohyoid",
+   "digastric"
+  ]
+ },
+ "not_attempted": {
+  "intrinsic_tongue": "superior / inferior longitudinal, transverse and vertical muscles: no septa at 1 mm; carried in the tongue_intrinsic sink",
+  "palatoglossus": "a 1-2 mm fold; out of scope",
+  "palate_and_pharynx": "out of scope (the constrictors are shipped from the CT task)",
+  "larynx": "out of scope",
+  "omohyoid_inferior_belly": "a 2-3 mm band across the posterior triangle in fat at 1 mm; not attempted",
+  "digastric": "already shipped from the head_muscles CT task (ct_vhf_headm); its label is excluded here",
+  "sternothyroid_thyrohyoid": "shipped from the CT task (ct_vhf_neck); their labels excluded, the deep strap layer is a sink"
+ },
+ "atlas": {
+  "sternohyoid_right": {
+   "atlas_id": "sternohyoid_r",
+   "relationship": "exact",
+   "note": "1.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "omohyoid_right": {
+   "atlas_id": "omohyoid_r",
+   "relationship": "exact",
+   "note": "0.9 cm3; rule-based: superior belly and its course under the SCM; the inferior belly across the posterior triangle is not attempted."
+  },
+  "mylohyoid_right": {
+   "atlas_id": "mylohyoid_r",
+   "relationship": "exact",
+   "note": "10.4 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "geniohyoid_right": {
+   "atlas_id": "geniohyoid_r",
+   "relationship": "exact",
+   "note": "2.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "genioglossus_right": {
+   "atlas_id": "genioglossus_r",
+   "relationship": "exact",
+   "note": "9.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "hyoglossus_right": {
+   "atlas_id": "hyoglossus_r",
+   "relationship": "exact",
+   "note": "4.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "styloglossus_right": {
+   "atlas_id": "styloglossus_r",
+   "relationship": "exact",
+   "note": "1.8 cm3; rule-based: corridor from the styloid process to the side of the tongue and the lateral posterior side of the tongue label."
+  },
+  "stylohyoid_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "2.3 cm3; compartment: stylohyoid + posterior belly of the digastric (one band from the styloid / mastoid to the hyoid at 1 mm; the stylohyoid splits around the digastric tendon) -- at ~2 cm3 it is 2-3x a stylohyoid; mapped to null, candidates listed."
+  },
+  "deep_strap_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "1.7 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid."
+  },
+  "floor_lateral_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "3.6 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target."
+  },
+  "tongue_intrinsic_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "14.1 cm3; NOT shipped: sink for the intrinsic tongue (superior / inferior longitudinal, transverse, vertical) and the palatoglossus: no septa at 1 mm, out of scope."
+  },
+  "sternohyoid_left": {
+   "atlas_id": "sternohyoid_l",
+   "relationship": "exact",
+   "note": "1.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "omohyoid_left": {
+   "atlas_id": "omohyoid_l",
+   "relationship": "exact",
+   "note": "0.4 cm3; rule-based: superior belly and its course under the SCM; the inferior belly across the posterior triangle is not attempted."
+  },
+  "mylohyoid_left": {
+   "atlas_id": "mylohyoid_l",
+   "relationship": "exact",
+   "note": "10.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "geniohyoid_left": {
+   "atlas_id": "geniohyoid_l",
+   "relationship": "exact",
+   "note": "2.9 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "genioglossus_left": {
+   "atlas_id": "genioglossus_l",
+   "relationship": "exact",
+   "note": "10.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "hyoglossus_left": {
+   "atlas_id": "hyoglossus_l",
+   "relationship": "exact",
+   "note": "7.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa."
+  },
+  "styloglossus_left": {
+   "atlas_id": "styloglossus_l",
+   "relationship": "exact",
+   "note": "1.5 cm3; rule-based: corridor from the styloid process to the side of the tongue and the lateral posterior side of the tongue label."
+  },
+  "stylohyoid_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "2.4 cm3; compartment: stylohyoid + posterior belly of the digastric (one band from the styloid / mastoid to the hyoid at 1 mm; the stylohyoid splits around the digastric tendon) -- at ~2 cm3 it is 2-3x a stylohyoid; mapped to null, candidates listed."
+  },
+  "deep_strap_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "1.6 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid."
+  },
+  "floor_lateral_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "5.5 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target."
+  },
+  "tongue_intrinsic_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "14.5 cm3; NOT shipped: sink for the intrinsic tongue (superior / inferior longitudinal, transverse, vertical) and the palatoglossus: no septa at 1 mm, out of scope."
+  }
+ }
+}

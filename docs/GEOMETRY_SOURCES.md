@@ -1237,6 +1237,21 @@ cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectu
 1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
 comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
 
+### Floor of the mouth and the extrinsic tongue muscles on her 1 mm frame (2026-09-16, Q62 step 7a)
+
+`scripts/cryo/vhf_hyoid_muscles_from_cryo.py`: between her mandible, hyoid, styloid-process, thyroid-cartilage and
+tongue labels (with the digastric, sternothyroid, thyrohyoid and constrictor labels excluded because they already
+ship from the CT tasks), the muscle of the photographs is split by position rules into mylohyoid (the sheet from the
+mylohyoid line to the hyoid), geniohyoid (above it from the mental spine), genioglossus (the fan into the tongue),
+hyoglossus (from the greater horn up the side of the tongue) and styloglossus. Subject `ct_vhf_hyoid`, badge
+rule-based. Volumes right/left: mylohyoid 10.4/10.1 cm3, geniohyoid 2.0/2.9, genioglossus 9.1/10.2, hyoglossus
+4.2/7.1, styloglossus 1.8/1.5. Mylohyoid (1.7x the 3-6 cm3 expectation) and the left hyoglossus are flagged for
+review in the mapping: her head is flexed, so the floor-of-mouth rules take more of the mass than a neutral neck
+would. Sternohyoid (1.0) and omohyoid (0.9/0.4) came out as fragments of the real muscles and are NOT shipped; the
+stylohyoid corridor cannot be told from the posterior digastric belly at 1 mm and stays merged; the intrinsic tongue
+muscles, palate and larynx have no septa at this resolution and are recorded as out of scope. The frame's z residual
+is 8.9 mm rms, which is why nothing below the thyroid cartilage is shipped by name.
+
 ### Diaphragm and intercostal sheets on both bodies from the CT labels (2026-09-14, Q62 step 6)
 
 `scripts/trunk_wall_from_ct.py --body f|m`: the diaphragm is a 4 mm sheet (central tendon about 2 mm, muscular

@@ -1,0 +1,246 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhf_hyoid",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
+ "label_map": "vhf_hyoid_muscles",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "sternohyoid_right",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "1.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 1.0 cm3 against 3-6 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "candidates": [
+    "sternohyoid_r"
+   ]
+  },
+  {
+   "label": 2,
+   "source_structure": "omohyoid_right",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "0.9 cm3; rule-based: superior belly and its course under the SCM; the inferior belly across the posterior triangle is not attempted. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 0.9 cm3 against 2-4 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "candidates": [
+    "omohyoid_r"
+   ]
+  },
+  {
+   "label": 3,
+   "source_structure": "mylohyoid_right",
+   "side": "right",
+   "status": "review",
+   "atlas_id": "mylohyoid_r",
+   "relationship": "exact",
+   "note": "10.4 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 10.4 cm3 against 3-6 expected (1.7x): the sheet rule takes the whole floor of her flexed mouth.",
+   "candidates": []
+  },
+  {
+   "label": 4,
+   "source_structure": "geniohyoid_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "geniohyoid_r",
+   "relationship": "exact",
+   "note": "2.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 5,
+   "source_structure": "genioglossus_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "genioglossus_r",
+   "relationship": "exact",
+   "note": "9.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 6,
+   "source_structure": "hyoglossus_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "hyoglossus_r",
+   "relationship": "exact",
+   "note": "4.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 7,
+   "source_structure": "styloglossus_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "styloglossus_r",
+   "relationship": "exact",
+   "note": "1.8 cm3; rule-based: corridor from the styloid process to the side of the tongue and the lateral posterior side of the tongue label.",
+   "candidates": []
+  },
+  {
+   "label": 8,
+   "source_structure": "stylohyoid_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "2.3 cm3; compartment: stylohyoid + posterior belly of the digastric (one band from the styloid / mastoid to the hyoid at 1 mm; the stylohyoid splits around the digastric tendon) -- at ~2 cm3 it is 2-3x a stylohyoid; mapped to null, candidates listed.",
+   "candidates": [
+    "stylohyoid_r",
+    "digastric_r"
+   ]
+  },
+  {
+   "label": 9,
+   "source_structure": "deep_strap_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "1.7 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid.",
+   "candidates": []
+  },
+  {
+   "label": 10,
+   "source_structure": "floor_lateral_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "3.6 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target.",
+   "candidates": []
+  },
+  {
+   "label": 11,
+   "source_structure": "tongue_intrinsic_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "14.1 cm3; NOT shipped: sink for the intrinsic tongue (superior / inferior longitudinal, transverse, vertical) and the palatoglossus: no septa at 1 mm, out of scope.",
+   "candidates": []
+  },
+  {
+   "label": 12,
+   "source_structure": "sternohyoid_left",
+   "side": "left",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "1.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 1.0 cm3 against 3-6 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "candidates": [
+    "sternohyoid_l"
+   ]
+  },
+  {
+   "label": 13,
+   "source_structure": "omohyoid_left",
+   "side": "left",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "0.4 cm3; rule-based: superior belly and its course under the SCM; the inferior belly across the posterior triangle is not attempted. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 0.4 cm3 against 2-4 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "candidates": [
+    "omohyoid_l"
+   ]
+  },
+  {
+   "label": 14,
+   "source_structure": "mylohyoid_left",
+   "side": "left",
+   "status": "review",
+   "atlas_id": "mylohyoid_l",
+   "relationship": "exact",
+   "note": "10.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 10.1 cm3 against 3-6 expected (1.7x): same rule.",
+   "candidates": []
+  },
+  {
+   "label": 15,
+   "source_structure": "geniohyoid_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "geniohyoid_l",
+   "relationship": "exact",
+   "note": "2.9 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 16,
+   "source_structure": "genioglossus_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "genioglossus_l",
+   "relationship": "exact",
+   "note": "10.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "candidates": []
+  },
+  {
+   "label": 17,
+   "source_structure": "hyoglossus_left",
+   "side": "left",
+   "status": "review",
+   "atlas_id": "hyoglossus_l",
+   "relationship": "exact",
+   "note": "7.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 7.1 cm3 against 2-4 expected (1.8x) while the right is 4.2: the left side takes more of the tongue base.",
+   "candidates": []
+  },
+  {
+   "label": 18,
+   "source_structure": "styloglossus_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "styloglossus_l",
+   "relationship": "exact",
+   "note": "1.5 cm3; rule-based: corridor from the styloid process to the side of the tongue and the lateral posterior side of the tongue label.",
+   "candidates": []
+  },
+  {
+   "label": 19,
+   "source_structure": "stylohyoid_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "2.4 cm3; compartment: stylohyoid + posterior belly of the digastric (one band from the styloid / mastoid to the hyoid at 1 mm; the stylohyoid splits around the digastric tendon) -- at ~2 cm3 it is 2-3x a stylohyoid; mapped to null, candidates listed.",
+   "candidates": [
+    "stylohyoid_l",
+    "digastric_l"
+   ]
+  },
+  {
+   "label": 20,
+   "source_structure": "deep_strap_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "1.6 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid.",
+   "candidates": []
+  },
+  {
+   "label": 21,
+   "source_structure": "floor_lateral_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "5.5 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target.",
+   "candidates": []
+  },
+  {
+   "label": 22,
+   "source_structure": "tongue_intrinsic_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "14.5 cm3; NOT shipped: sink for the intrinsic tongue (superior / inferior longitudinal, transverse, vertical) and the palatoglossus: no septa at 1 mm, out of scope.",
+   "candidates": []
+  }
+ ]
+}
