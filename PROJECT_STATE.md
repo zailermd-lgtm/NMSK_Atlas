@@ -1529,7 +1529,11 @@ tick the item here with a one-line result. Never fabricate; keep the
       usably (his rhomboid minor shipped onto her as `xfer_vhm2vhf_rhom`, 26.0/13.6 cm3, female viewer Version 29,
       351 structures, 14.89 MB) but the FOREARM/HAND direction does not (brachioradialis 42.5 -> 6.1 cm3, FCU 48.5 ->
       117.7, hand intrinsics halved, 30-92 mm displacement: the two bodies hold their arms differently, so the map
-      folds the limb). Those outputs were deleted, not shipped; the limb gaps wait for each body's own photographs. Next: his forearm (his 1 mm frame
+      folds the limb). Those outputs were deleted, not shipped; the limb gaps wait for each body's own photographs.
+      Scale audit refreshed against the current pages (153 shared structures, 23 flagged, 7 of them same-method:
+      deltoid_l, pectoralis_major_r, scalenus_posterior_l, thyrohyoid_l/r and the middle pharyngeal constrictors --
+      the same set as before, so today's subjects introduced NO regression; the constrictor and thyrohyoid flags are
+      sub-cm3 CT sheets whose ratio is noise). Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
