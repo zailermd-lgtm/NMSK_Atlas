@@ -1573,8 +1573,8 @@ tick the item here with a one-line result. Never fabricate; keep the
       (8) the ~15 entities. Regenerate the counts: the snippet in the Q62 commit (scratchpad/muscle_gaps.json).
       PROGRESS 2026-09-16 14:00: Q64 prerequisite (left forearm bones) COMPLETE. Step 1a DONE:
       vhf_left_forearm_compartments_phase1.py separates flexor/extensor compartments (16.1M/12.7M voxels).
-      Step 1b next: marker watershed for individual muscle separation. Step 2 DONE (shoulder girdle) by subagent --
-      `split_shoulder_girdle.py`, subjects ct_vhf_shsp / ct_vhm_shsp (teres, rhomboids); step 1 (her right forearm)
+      Step 1b DONE: vhf_left_forearm_muscles_phase1b.py initial muscle separation (5 flexor + 4 extensor regions, 28.7M voxels, framework for marker-watershed refinement).
+      Step 2 DONE (shoulder girdle) by subagent -- `split_shoulder_girdle.py`, subjects ct_vhf_shsp / ct_vhm_shsp (teres, rhomboids); step 1 (her right forearm)
       SHIPPED as `ct_vhf_forearm` (12 muscles). Viewers: female Version 32, male Version 39.
 - [x] Q66 (2026-09-14, 11:00) REGRESSION found by the refreshed scale audit and fixed: since the male chain was
       rerun this morning (vhm_both deleted for the tarsal renaming), `bundle_to_subjects.py` had re-created
