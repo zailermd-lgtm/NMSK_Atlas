@@ -1237,6 +1237,22 @@ cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectu
 1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
 comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
 
+### Her right hand intrinsics from the full-resolution crops (2026-09-16, Q62 step 4)
+
+`scripts/cryo/vhf_hand_muscles_from_cryo.py` with `vhf_stream_hand_crops.py`: her hand levels streamed at 0.33 mm,
+the five metacarpal shafts taken from her CT bone meshes as the compartment axes, markers placed by the textbook
+compartment rules (thenar radial to the first metacarpal, adductor pollicis in the first web space, hypothenar ulnar
+to the fifth, interossei filling the intermetacarpal spaces and split dorsal/palmar by the plane through the shaft
+centres) and the boundaries drawn by the same pale-line watershed as the forearm. Subject `ct_vhf_hand`, badge
+rule-based: adductor pollicis 10.5 cm3 (flagged, 1.3x the 5-8 expectation, it probably absorbs deep palmar tendon
+mass), abductor digiti minimi 5.1, flexor digiti minimi brevis 2.7, opponens digiti minimi 4.9, dorsal interossei
+10.5 and palmar interossei 6.9 as the group entities. The thenar group (11.3 cm3) is NOT split: with the merge off,
+the watershed put abductor, flexor and opponens pollicis on only 16, 23 and 19 of the 44 first-metacarpal levels and
+the regions swapped identity, because her thumb lies off the palm. Lumbricals and palmaris brevis are not shipped
+(no muscle blob between the flexor tendons; the brevis is a subcutaneous sheet below the resolution). The
+dorsal/palmar interosseous border is a rule plane, not a photographed one, and 7.4 cm3 of muscle class stayed
+unassigned; both are recorded in the report.
+
 ### Her neck and floor-of-mouth muscles carried onto him (2026-09-16, Q62)
 
 He has neither the deep neck nor the floor of the mouth: his frozen CT cannot separate those muscles and his 1 mm
