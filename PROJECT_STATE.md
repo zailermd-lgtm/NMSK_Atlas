@@ -1519,7 +1519,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       structures, badged doubly derived; male viewer Version 39, 350 structures, 15.41 MB).
       Step 4 SHIPPED as `ct_vhf_hand` (adductor pollicis 10.5 cm3 REVIEW, the three hypothenar muscles, dorsal and
       palmar interossei as groups; the thenar group could not be split and stays unshipped with the lumbricals and
-      palmaris brevis; female viewer Version 28, 349 structures, 14.80 MB). Next: his forearm (his 1 mm frame
+      palmaris brevis; female viewer Version 28, 349 structures, 14.80 MB).
+      2026-09-16 cross-body audit: 16 muscles were hers alone and 5 his alone; the TRUNK/NECK direction transfers
+      usably (his rhomboid minor shipped onto her as `xfer_vhm2vhf_rhom`, 26.0/13.6 cm3, female viewer Version 29,
+      351 structures, 14.89 MB) but the FOREARM/HAND direction does not (brachioradialis 42.5 -> 6.1 cm3, FCU 48.5 ->
+      117.7, hand intrinsics halved, 30-92 mm displacement: the two bodies hold their arms differently, so the map
+      folds the limb). Those outputs were deleted, not shipped; the limb gaps wait for each body's own photographs. Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
