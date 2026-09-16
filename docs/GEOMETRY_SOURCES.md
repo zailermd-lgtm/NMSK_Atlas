@@ -1252,6 +1252,28 @@ nerve rests on 9 detected levels of 26 with the rest interpolated, and the adduc
 hiatus could not be confirmed on the montage and are NOT shipped. The mask is the lumen (clotted blood), not the
 vessel wall.
 
+### Her pelvic floor and perineum (2026-09-16, Q62)
+
+`scripts/cryo/vhf_pelvic_floor_from_cryo.py`: inside her bony pelvis, between the hip-bone, sacrum, bladder and colon
+labels, the muscle of her 1 mm photographs is divided by position rules into the levator ani funnel (medial to the
+obturator internus band, slung from the tendinous arch to the anal canal and the anococcygeal raphe), coccygeus
+behind it from the ischial spine, the external anal sphincter as the ring within 10 mm of the anal canal, and the
+superficial-pouch muscles (bulbospongiosus flanking the vaginal opening, ischiocavernosus on the ischiopubic ramus,
+the transverse perineal muscles to the perineal body). Subject `ct_vhf_pfloor`, badge rule-based. Volumes right/left:
+levator ani 36.3/26.4 cm3, coccygeus 4.0/2.4, bulbospongiosus 2.7/2.9, ischiocavernosus 2.7/1.2, deep transverse
+perineal 1.9/1.4, external anal sphincter 19.6 (midline).
+
+Checks that passed: zero voxels overlap the bone labels, zero overlap the organ labels, 76-100 % of every mask lies
+on her muscle class, and the vertical order is right -- the levator sits below the bladder (mean atlas y -17.6/-16.0
+against -9.8) and above the perineal muscles (-43 to -59). What is flagged rather than hidden: the levator is 62.7
+cm3 bilateral against the 19.8-46.6 cm3 of an MRI series (Fielding, PMID 10701604) because the rule produces a 10-13
+mm sheet where Gray's describes 3-5 mm, so it carries some anorectal wall and fat; the sphincter ring shares its
+upper levels with puborectalis; bulbospongiosus and ischiocavernosus include their erectile bodies. Not shipped: the
+superficial transverse perineal muscle (0.8/0.4 cm3, below what a frame with an 8.9 mm z residual supports) and the
+obturator internus and perineal sinks. No septum ratio fell below 1.25, so the levator is one muscle per side by
+rule, not by a measured boundary. The male needs his 1 mm frame rebuilt first, and different rules at the hiatus
+(prostate, a midline penile bulb, a deep-pouch urethral sphincter).
+
 ### The popliteal vessels and the tibial nerve in her popliteal fossa (2026-09-16, Q56)
 
 `scripts/cryo/vhf_popliteal_track.py`, the femoral tracker carried to the knee in the same posterior-thigh crops the
