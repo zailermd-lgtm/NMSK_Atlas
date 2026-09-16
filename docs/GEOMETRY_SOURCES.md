@@ -1237,6 +1237,24 @@ cervicis are one sheet at 1 mm; mapped to null), the lateral erector sink, rectu
 1 cm3 each, below the frame's 8.9 mm z residual), semispinalis thoracis (inside the erector labels). Literature
 comparison in the report is by MRI cross-sectional areas (PubMed ids recorded), not volumes.
 
+### What the cross-body transfer can and cannot carry (measured 2026-09-16)
+
+After the new subjects, 16 muscles existed on her alone and 5 on him alone, so both directions of
+`cross_subject_transfer.py` were run over those lists and the volumes read before shipping anything. The result
+splits cleanly by region:
+
+- Trunk and neck transfers are usable: the deep-neck and floor-of-mouth set grew 15-45 % onto his larger frame with
+  27-35 mm displacements (shipped as `xfer_vhf2vhm_neck`), and his rhomboid minor carried onto her at 41.4 -> 26.0
+  and 26.4 -> 13.6 cm3 with 22-27 mm displacement (shipped as `xfer_vhm2vhf_rhom`, filling the gap her unusable
+  rhomboid mass left).
+- Forearm and hand transfers are NOT usable and were rejected: the same map turned her brachioradialis from 42.5
+  into 6.1 cm3, her flexor carpi ulnaris from 48.5 into 117.7, her extensor pollicis longus from 6.2 into 1.7, and
+  halved every hand intrinsic, with displacements of 30-92 mm; in the other direction his flexor digitorum
+  superficialis fell from 46.9 to 19.5. The two bodies hold their forearms differently (hers beside the thigh, his
+  across the abdomen), so a bone-driven piecewise affine map across the wrist folds the limb. Those outputs were
+  deleted rather than shipped. The forearm and hand gaps on each body stay open until each body's own photographs
+  are segmented.
+
 ### Her right hand intrinsics from the full-resolution crops (2026-09-16, Q62 step 4)
 
 `scripts/cryo/vhf_hand_muscles_from_cryo.py` with `vhf_stream_hand_crops.py`: her hand levels streamed at 0.33 mm,

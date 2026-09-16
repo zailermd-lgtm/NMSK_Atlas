@@ -59,7 +59,7 @@ conv $T/vhf_hand_muscles_cryo.nii.gz vhf_hand_muscles ct_vhf_hand --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_twall --subject ct_vhf_pmr"
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
@@ -78,6 +78,12 @@ if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
   [ -f build/vh/xfer_vhm2vhf_sep/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep"
 fi
 [ -f build/vh/xfer_vhm2vhf/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf"
+# his rhomboid minor carried onto her (her own rhomboid mass was unusable, Q62 step 2); the forearm/hand transfer was
+# measured and REJECTED (see docs/GEOMETRY_SOURCES.md): that map distorts limb volumes by 2-3x
+if [ ! -f build/vh/xfer_vhm2vhf_rhom/manifest.json ]; then
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/viewer_m/atlas_viewer_male.html --female-bundle build/viewer_f \
+    --ids rhomboid_minor_l rhomboid_minor_r -o build/vh/xfer_vhm2vhf_rhom --report data/derived/transfer_report_vhm2vhf_rhom.json 2>&1 | tail -1 | cut -c1-140
+fi
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 0.85 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1
 sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' build/viewer_f/atlas_viewer_female.html

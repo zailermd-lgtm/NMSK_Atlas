@@ -1,0 +1,54 @@
+{
+ "source": "Anatomical imagery courtesy of the U.S. National Library of Medicine (Visible Human Project). Lower-extremity musculoskeletal geometry derived from Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, used under CC BY 4.0. Derived data (scripts/transfer/cross_subject_transfer.py).",
+ "direction": "m2f",
+ "bulk_transverse": {
+  "lower_limb": 1.0,
+  "default": 1.0
+ },
+ "fill_correction": {},
+ "fill_detail": {},
+ "n": 2,
+ "not_transferred": {},
+ "rows": [
+  {
+   "atlas_id": "rhomboid_minor_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "ct_vhm_shsp",
+   "source_trust": "model segmentation of the source CT",
+   "region": "trunk",
+   "driving_bones": {
+    "scapula_l": 0.327,
+    "ribs_l": 0.226,
+    "thoracic_vertebrae": 0.211,
+    "clavicle_l": 0.157
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 41.4,
+   "volume_out_cm3": 26.0,
+   "displacement_mm_median": 22.2
+  },
+  {
+   "atlas_id": "rhomboid_minor_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "ct_vhm_shsp",
+   "source_trust": "model segmentation of the source CT",
+   "region": "trunk",
+   "driving_bones": {
+    "scapula_r": 0.48,
+    "ribs_r": 0.248,
+    "thoracic_vertebrae": 0.149,
+    "clavicle_r": 0.106
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 26.4,
+   "volume_out_cm3": 13.6,
+   "displacement_mm_median": 27.0
+  }
+ ]
+}
