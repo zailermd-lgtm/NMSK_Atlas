@@ -1468,7 +1468,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       unmistakable) and femoral nerve in the femoral triangle and adductor canal (corridor between sartorius,
       adductor longus, vastus medialis, iliopsoas; seed by the rule "midpoint of the inguinal ligament =
       ASIS-pubic tubercle midpoint, artery medial to the nerve"). Vessel ids are sided (`femoral_a_r`).
-- [ ] Q56 Popliteal artery/vein (the dark round lumens in the Q53 distal montages) and the tibial nerve's
+- [ ] Q56 FIRST HALF DONE 2026-09-16 (subject `ct_vhf_popliteal`, female viewer Version 31: popliteal artery y -307..-386
+      median lumen 4.3 mm 1.30 cm3, vein -305..-360 5.5 mm 1.34, tibial nerve -340..-374 0.94; depth order verified on
+      the label volume, artery anterior-most in every band, nerve 20 mm posterior and 16 mm lateral to it; the common
+      fibular nerve was not unambiguous and the division at popliteus is not covered). STILL TO DO: the brachial artery
+      and median/ulnar/radial nerves in NEW upper-arm crops (her arm crops on disk are elbow-to-fingertips only).
+      Was: Popliteal artery/vein (the dark round lumens in the Q53 distal montages) and the tibial nerve's
       relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
       (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between
       biceps and triceps; the arm crops on disk are elbow-to-fingertips only).
