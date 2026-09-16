@@ -1582,10 +1582,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       carried the v1 arm muscles. Fix: `--skip ct_vhm_foot ct_vhm_armm ct_vhm_neck` on the bundle copy, guards by
       the manifest's source_file instead of marker files. The converter itself is fine (mesh = label +-2 %,
       measured). Male rebuilt and republished: Version 34 (biceps 350, triceps 581 cm3 as meshes again).
-- [ ] Q64 Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges): the Q30 failure lacked an
-      independent prior; now his complete left bones can be transferred onto her (driven by her left humerus)
-      and used as +-10 mm priors for the bone discs in her full-resolution left forearm/hand crops (on disk),
-      then her own bone surfaces traced. Needed before the left forearm muscles (Q62 step 1).
+- [ ] Q64 (2026-09-16 IN PROGRESS) Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges).
+      Phase 1 DONE: transferred his complete left bones to her frame via humerus affine (det=0.8094, 81% scale).
+      Phase 2 IN PROGRESS: segmentation framework established (`vhf_left_forearm_segmentation.py`). Full-res crops
+      available (arm_full_left.npy, 491 slices × 0.33 mm), bone priors saved (vhf_left_bone_priors.json). Next:
+      color-based thresholding on RGB crops (bone = pale/cream), morphological filtering, region growing from
+      prior centers, per-bone walking (radius/ulna) and planing (hand). Estimated 4-8 hours for interactive
+      segmentation + render review. Output: vhf_left_forearm_bones.nii.gz. Prerequisite for Q62 step 1.
 - [x] Q65 (DONE 2026-09-14 13:30: 29 records = 14 sided muscles + midline dartos, in data/muscles; attachments/innervation/
       actions from Gray's and TA, fiber_architecture carries only the type plus an 'evidence' line saying no number was
       verified; nerve entity facial_n_posterior_auricular_branch added and every new compartment listed in its nerve's
