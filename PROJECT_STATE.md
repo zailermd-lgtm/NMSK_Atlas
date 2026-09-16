@@ -1459,7 +1459,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       femoris). Verify on 30 mm zoom montages every 10 mm as for Q53. Then the same for the gluteal course
       above -70 (corridor = between gluteus maximus and the short rotators/quadratus femoris; exclude the
       muscle interior by the muscle-class closing at 5 mm).
-- [ ] Q55 (IN PROGRESS 18:25 as a subagent: right side first, new subject `ct_vhf_femoral`, own volume so the sciatic subject is untouched) Femoral neurovascular bundle on the female at full resolution: femoral artery/vein (dark lumen,
+- [x] Q55 (DONE 2026-09-16, RIGHT side: subject `ct_vhf_femoral`, female viewer Version 30. Artery y +14..-46, median
+      lumen 5.7 mm, 1.65 cm3; vein y +14..-34, 7.8 mm, 2.69 cm3 (collapsed cadaveric vein, under the living 9-13 mm);
+      nerve trunk y +13..-12, 1.07 cm3, ends where it divides 45 mm below the inguinal ligament and rests on 9
+      detected levels of 26. Medial-lateral order verified on the meshes: nerve x 87-94, artery 80-85, vein 73-79.
+      NOT covered: the top of the common femoral vessels (above the crops) and the adductor canal/hiatus (the walk
+      drifts into muscle and could not be confirmed). LEFT side not run.) Femoral neurovascular bundle on the female at full resolution: femoral artery/vein (dark lumen,
       unmistakable) and femoral nerve in the femoral triangle and adductor canal (corridor between sartorius,
       adductor longus, vastus medialis, iliopsoas; seed by the rule "midpoint of the inguinal ligament =
       ASIS-pubic tubercle midpoint, artery medial to the nerve"). Vessel ids are sided (`femoral_a_r`).
