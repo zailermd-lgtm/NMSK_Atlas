@@ -1516,7 +1516,10 @@ tick the item here with a one-line result. Never fabricate; keep the
       written but no outputs; resumed 2026-09-16). NOTE: three subagents (hand, hyoid, femoral) were killed mid-run by
       the usage limit on 2026-09-14; the hyoid one had written its outputs, the other two had not.
       Her deep-neck + floor-of-mouth muscles were also TRANSFERRED onto him (subject `xfer_vhf2vhm_neck`, 26
-      structures, badged doubly derived; male viewer Version 39, 350 structures, 15.41 MB). Next: his forearm (his 1 mm frame
+      structures, badged doubly derived; male viewer Version 39, 350 structures, 15.41 MB).
+      Step 4 SHIPPED as `ct_vhf_hand` (adductor pollicis 10.5 cm3 REVIEW, the three hypothenar muscles, dorsal and
+      palmar interossei as groups; the thenar group could not be split and stays unshipped with the lumbricals and
+      palmaris brevis; female viewer Version 28, 349 structures, 14.80 MB). Next: his forearm (his 1 mm frame
       is gone: needs `stream_vhm_cryosections.py` at full resolution around his forearm), hand intrinsics (step 4),
       head/larynx (step 7), foot (Q59).
 - [ ] Q62 (owner 2026-09-14: "a lot of missed muscles, partial or complete -- compare to Z-Anatomy") MUSCLE
