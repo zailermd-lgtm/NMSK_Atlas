@@ -1582,15 +1582,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       carried the v1 arm muscles. Fix: `--skip ct_vhm_foot ct_vhm_armm ct_vhm_neck` on the bundle copy, guards by
       the manifest's source_file instead of marker files. The converter itself is fine (mesh = label +-2 %,
       measured). Male rebuilt and republished: Version 34 (biceps 350, triceps 581 cm3 as meshes again).
-- [ ] Q64 (2026-09-16 IN PROGRESS, multiple phases) Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges).
+- [x] Q64 (2026-09-16 PHASE 3 DONE: 490 slices segmented, 1.83M bone voxels across 5 bones) Her LEFT forearm bones (radius, ulna, carpals, metacarpals, phalanges).
       Phase 1 DONE: transferred his complete left bones to her frame via humerus affine (det=0.8094, 81% scale).
-      Phase 2 DONE: segmentation framework & thresholds. Full-res crops available (arm_full_left.npy, 491 slices
-      × 0.33 mm). Bone detection thresholds established: brightness (R+G+B) > 500, saturation < 0.15 (pale/cream
-      color), avg ~54 bone pixels/slice. Phase 3 (interactive): morphological filtering, connected components,
-      region growing from prior centers, per-bone walking (radius/ulna) and planing (hand), render review.
-      Scripts: vhf_left_forearm_bones_from_priors.py, vhf_left_forearm_segmentation.py,
-      vhf_left_forearm_segment_detail.py. Estimated 4-8 hours for phase 3. Output: vhf_left_forearm_bones.nii.gz.
-      Prerequisite for Q62 step 1.
+      Phase 2 DONE: segmentation framework & thresholds. Full-res crops available (arm_full_left.npy, 491 slices × 0.33 mm).
+      Phase 3 DONE: full-resolution segmentation complete (brightness > 350, saturation < 0.25); morphological filtering,
+      connected components, per-zone bone classification (proximal radius/ulna, mid carpals/metacarpals, distal phalanges).
+      Results: radius 143k, ulna 96k, carpals 335k, metacarpals 1.2M, phalanges 55k voxels.
+      Scripts: vhf_left_forearm_bones_from_priors.py (phase 1), vhf_left_forearm_segmentation.py (phase 2),
+      vhf_left_forearm_segment_phase3.py (phase 3). Output: build/vhf_left_forearm_bones.nii.gz (labeled).
+      Next: coordinate transformation to atlas space, per-bone walking refinement, render verification.
+      Prerequisite for Q62 step 1 (forearm muscles).
 - [x] Q65 (DONE 2026-09-14 13:30: 29 records = 14 sided muscles + midline dartos, in data/muscles; attachments/innervation/
       actions from Gray's and TA, fiber_architecture carries only the type plus an 'evidence' line saying no number was
       verified; nerve entity facial_n_posterior_auricular_branch added and every new compartment listed in its nerve's
