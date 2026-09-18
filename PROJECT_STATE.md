@@ -1296,6 +1296,21 @@ tick the item here with a one-line result. Never fabricate; keep the
       diagnostic scripts are scratchpad-only and not needed to resume (the finding above is enough to redo the
       analysis in a few minutes: `voxels_to_atlas`-style reprojection of `build/vh/ct_vhm_arm` vertices, atlas
       origin `(-6.035,-895.476,4.787)`, against `data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`).
+      ADDENDUM (2026-09-18, later wake): tried the "converging from both good ends" idea above, but as a
+      RIGID transform rather than per-vertex nudging (fit one rotation+translation per bone with RANSAC over
+      per-vertex nearest-CT-bone-point correspondences within the bad region, tapered to identity at the good
+      anchor so the good end stays untouched and the transition stays smooth) -- reasoning that a real bone is
+      rigid, so the true correction should be ONE consistent rigid motion, not independent per-vertex noise.
+      RESULT: WORSE than the earlier per-bin approach, not better (humerus_r 21.8%->18.5%, ulna_r
+      26.9%->26.6%, humerus_l 23.4%->22.5%, ulna_l 25.1%->22.9%, vs. 13.1/17.5/16.9/13.5% before). Even with
+      59-69% RANSAC inlier rates (so the fit itself converged on a self-consistent rigid motion, not noise),
+      the residual stayed large -- meaning the mismatch between this recovered mesh and the real CT bone in
+      the elbow region is NOT well explained by a single rigid transform either. Two structurally different
+      correction strategies (independent-vertex and rigid-body) both plateau in the same 13-27% range: this
+      now looks like a real ceiling for corrections built only from local CT bone-matching in this crowded
+      region, not a tuning problem. Not shipped, reverted to no correction. Next idea worth trying, if anyone
+      picks this up: a full new bone segmentation of just the elbow region (both bones, one connected pass)
+      rather than any correction to the recovered mesh at all.
 - [x] Q73 (DONE 2026-09-18) Same sweep found a second, smaller, SHIPPABLE poke-through while investigating Q72:
       a dark-red patch at his posterior right ankle, visible in both front and back renders. Clicked and
       confirmed ("TITLE: Fibularis (peroneus) longus"). This muscle is also `vhm_both` (recovered from the
