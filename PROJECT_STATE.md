@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a DONE (compartment separation, 28.8M muscle voxels), Q62 Step 1b DONE (initial muscle separation, 5 flexor + 4 extensor regions, 28.7M voxels). Female viewer V33 (368 structures), male V39 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a/1b DONE (forearm compartments and initial muscle separation). Female viewer V33 (368 structures), male V40 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1175,24 +1175,25 @@ tick the item here with a one-line result. Never fabricate; keep the
       NOT the only source for his leg skin. See Q70: his own CT already covers pelvis-to-toes and is reachable
       right now (verified live), so the leg skin gap is fixable WITHOUT the DU release or a photograph re-stream.
 
-- [ ] Q70 (found 2026-09-18, NOT started) Male leg skin surface from his OWN CT, not the blocked photograph
-      route. `docs/GEOMETRY_SOURCES.md` "Stage 2" table lists his CT as three IDC series, all VHP-M "Frozen",
-      reachable now (`curl https://storage.googleapis.com/storage/v1/b/idc-open-data/o?prefix=145c2668-.../`
-      returned real object names this session -- `idc-open-data` is NOT one of the hosts the network policy
-      blocks; only `digitalcommons.du.edu`/`simtk.org` are): head-to-pelvis `5d409385-...` (already stacked and
-      used for `ct_vhm`/`ct_vhm_arm`, origin `-6.035,-895.476,4.787`), pelvis-to-ankle `145c2668-...` (809
-      slices, offset from the torso block already measured: legs->torso `(+2.72, -0.89, -693.0)` mm RAS, see
-      the "Stage 2" section), ankle-to-toes `94755b62-...` (already independently registered to the DU-STL leg
-      geometry in Q1: corr 0.968, legs k=0 = feet k=221, in-plane (-6.6,-36.6) mm). The method is a direct
-      copy of the female's `scripts/cryo/vhf_whole_body_skin.py` (HU > -300 per-slice silhouette, opened,
-      holes filled, largest 3-D component, extend the torso grid downward by the block offset) -- no
-      cryosection photographs needed at all for this fix, unlike what Q29 implies. Untried risk: the
-      pelvis-to-ankle block (145c2668) itself has never been registered against the DU-STL bones directly (only
-      the ankle-to-toes block has, via Q1) -- chain the registration through torso->145c2668 (known offset)
-      and 94755b62->DU-STL (known offset, both blocks presumably contiguous the way the female's were) and
-      verify with a render before shipping; do not guess the chain without checking a shared-slice correlation
-      the way Q1 and the "Stage 2" section did. Download is ~800+224 slices at 0.9375 mm, comparable to what
-      the female's Q28 rebuild already did successfully after its own container reset.
+- [x] Q70 (DONE 2026-09-18) Male full-body skin surface from his OWN CT, not the DU-blocked photograph route.
+      Downloaded and stacked the two remaining IDC series (`145c2668-...` pelvis-to-ankle 809 slices,
+      `94755b62-...` ankle-to-toes 224 slices; `idc-open-data` confirmed reachable, unlike
+      `digitalcommons.du.edu`/`simtk.org`). `scripts/cryo/vhm_whole_body_skin.py` unions HU>-300 silhouettes
+      from all three CT blocks. The documented block-to-block shifts (image correlation) turned out NOT tight
+      enough: checked against every `vhm_both` bone/muscle vertex in the region, they left up to 42% of
+      tarsal/phalanx vertices and 15-17% of thigh/calf muscle vertices outside the silhouette (right side
+      worse than left both times -- a small torsional difference between table sessions, not a sign error).
+      Re-fitted each shift directly against those vertices instead of the raw image correlation
+      (`optimize_legs_shift.py`, `optimize_feet_shift.py`, scratchpad only): legs->torso `(4.72, 2.11, -698.0)`
+      mm RAS (was `(2.72,-0.89,-693.0)`), feet->legs `(3.5,-35.0,-406.0)` mm RAS (was `(-6.6,-36.6,-409)`).
+      Mean vertex containment failure across all 130 `vhm_both` structures: 0.49%; a 2 mm dilation margin on
+      the finished silhouette brings it to 0.03% (worst case `fibularis_longus_r` 1.8%). Verified by rendering
+      `ct_vhm_skin` together with `vhm_both`: continuous head-to-toe surface, no bone/muscle breaking through
+      at the scale a render shows. Shipped as `ct_vhm_skin` (replacing the torso-only version;
+      `data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`, `mappings/vhm_skin_labels.json`,
+      `mappings/subjects/ct_vhm_skin_volume_mapping.json`); male viewer re-exported (350 structures, unchanged
+      count) and republished at the same URL, Version 40. Tests 252 pass. `docs/GEOMETRY_SOURCES.md` has the
+      full writeup. Q29's photograph-route skin stays blocked and is no longer needed for this purpose.
 - [-] Q30 PARKED (23:20 -> 02:00) Female CRYOSECTIONS for her arms and hands. Done and kept: the series streamed
       (1729 slices at 1 mm, resumable, 3 min), classified, registered to her CT (43 anchors, IoU 0.72-0.93, flip
       `fy`; in-plane shift drifts (-4,-108) px legs -> (-13,-121) thorax -> (+14,-117) head = the frozen block's pose
