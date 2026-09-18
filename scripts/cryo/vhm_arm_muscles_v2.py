@@ -185,9 +185,50 @@ for j in range(len(idx)):
         pic[m] = (0.5 * col[m] + 0.5 * pic[m]).astype(np.uint8)
         renders.append(pic[40:380])
 print("photo-humerus vs CT-label residual mm: median", round(float(np.median(resid)), 1) if resid else None, "n", len(resid), flush=True)
+# Each per-slice muscle band is tracked from the photograph independently level by level, so a single noisy
+# level (a fascial septum misclassified, or the tracked bone position jittering by a few mm) can drop the
+# band out of a slice or two and split what should be one continuous muscle into disconnected pieces. A small
+# closing (one pass, a 3x3x3 structuring element -- the same fix already used for "the few-slice junction gap"
+# in scripts/cryo/vhf_whole_body_skin.py) bridges those dropouts without adding new anatomy beyond the label's
+# own already-tracked extent. Per label, so it never merges two different muscles.
+# Gated on largest-piece fraction (checked empirically, 2026-09-18 -- Q79): the brachialis band is thin and
+# hugs the bone closely, so a single dropped level easily severs it (measured 50-65% one piece before this,
+# on both the freshly re-streamed data AND the already-shipped file); biceps/coracobrachialis/triceps are
+# bulkier and land at 75-98% one piece raw, and after this pipeline's own Gaussian smoothing (marching-cubes
+# sigma=1.0) their mesh is ALREADY one continuous piece without any closing (checked by converting both ways)
+# -- running closing unconditionally on those bulkier muscles anyway just inflates surface-adjacent volume for
+# no continuity gain (measured: pushed triceps to 670-730 cm3, the same too-high range v1 was rejected for).
+# 0.70 sits between the two groups (biceps' worst raw fraction 0.746-0.757, brachialis' best 0.647).
+CLOSE_THRESHOLD = 0.70
+frac_before = {}
+for name, lid in OUT.items():
+    if name == "humerus_found_in_photo_slices":
+        continue
+    m = out == lid
+    if not m.any():
+        continue
+    lbl0, n0 = ndi.label(m, structure=np.ones((3, 3, 3)))
+    sizes0 = ndi.sum(np.ones_like(lbl0), lbl0, range(1, n0 + 1))
+    frac_before[name] = round(float(max(sizes0) / m.sum()), 3) if n0 else 1.0
+    if frac_before[name] >= CLOSE_THRESHOLD:
+        continue
+    closed = ndi.binary_closing(m, structure=np.ones((3, 3, 3)), iterations=1)
+    out[m] = 0; out[closed] = lid
 vox = float(abs(np.linalg.det(A[:3, :3])))
 rep = {name: round(float((out == v).sum()) * vox / 1000, 1) for name, v in OUT.items()}
 rep["humerus_found_in_photo_slices"] = found
+frac_after = {}
+for name, lid in OUT.items():
+    if name == "humerus_found_in_photo_slices":
+        continue
+    m = out == lid
+    if not m.any():
+        continue
+    lbl1, n1 = ndi.label(m, structure=np.ones((3, 3, 3)))
+    sizes1 = ndi.sum(np.ones_like(lbl1), lbl1, range(1, n1 + 1))
+    frac_after[name] = round(float(max(sizes1) / m.sum()), 3) if n1 else 1.0
+rep["largest_component_fraction_before_closing"] = frac_before
+rep["largest_component_fraction_after_closing"] = frac_after
 print("volumes cm3", rep, flush=True)
 nib.save(nib.Nifti1Image(out, A), a.out)
 json.dump({"_README": ["Male upper-arm muscles by the compartment rules on his cryosection photographs, v2 (scripts/cryo/vhm_arm_muscles_v2.py): "

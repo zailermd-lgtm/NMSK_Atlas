@@ -11,7 +11,14 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V44 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q79 DONE -- BREAKTHROUGH: his whole-body
+1 mm cryosection photograph stream (lost since a container reset, the blocker behind Q57/Q68/Q71/Q72/Q78) turns
+out to be re-streamable from scratch today (`scripts/cryo/vhm_stream_crops.py` lists its own IDC objects, no
+lost `objects.json` needed; series `4aaf9181-...`, 1878 slices, ~3 min); used it to fix `brachialis_r/l`
+(`ct_vhm_armm`), confirmed badly fragmented in the shipped viewer (50-64% one piece) -- one gated morphological
+closing pass brings both to 99-100%, render-verified. `triceps_brachii_r` found similarly fragmented at the
+mesh level (70%) but NOT fixed this pass (the same fix costs 25% more volume there, a worse trade). Male
+viewer V45. Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V45 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1457,6 +1464,51 @@ tick the item here with a one-line result. Never fabricate; keep the
       re-streamed (the same missing prerequisite as Q57/Q68) and `abdominal_wall_from_cryo.py` re-run and
       reconverted -- a real fix, not a patch. Left in the label volume as-is; nothing changed, no viewer
       republish needed.
+- [x] Q79 (DONE 2026-09-18) BREAKTHROUGH: his whole-body 1 mm cryosection photograph stream (lost since a
+      container reset, the blocker behind Q57/Q68/Q71/Q72/Q78) is RE-STREAMABLE from scratch after all.
+      `scripts/cryo/vhm_stream_crops.py` (written for a narrower purpose, full-res arm crops) lists its own
+      objects directly from the IDC bucket via the JSON API (`storage.googleapis.com/storage/v1/b/...`) using
+      series `4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385` (documented in `docs/GEOMETRY_SOURCES.md` -- his colour
+      cryosections, 1878 slices) -- no pre-built `objects.json` needed, unlike the older
+      `scripts/cryo/stream_vhm_cryosections.py`, whose committed script assumes that file exists but the file
+      itself was never committed. Combined the working object-listing code with the whole-body 1mm-downsample
+      loop: re-streamed all 1878 slices fresh (~3 min, 6 threads) to `cryo_1mm.npy` (1878, 405, 682, 3) +
+      `cryo_index.json`, matching the documented format exactly. NOT committed anywhere yet (session
+      scratchpad only, ~1.5 GB) but the RECIPE now is: this works, today, from a clean container, with nothing
+      but network access -- worth turning into a proper script (`scripts/cryo/stream_vhm_cryosections.py` fixed
+      to list its own objects, or a new one) so it survives the NEXT reset too, rather than being re-solved by
+      chance again.
+      Used it to re-run `scripts/cryo/vhm_arm_muscles_v2.py` (needs exactly this stream + his torso CT, both
+      now in hand) and investigate a fresh lead from the volume-scale audit: `ct_vhm_armm`'s `brachialis_r`
+      was visibly, badly fragmented in the shipped viewer (isolated render: a jumbled stack of disconnected
+      blocks, not a muscle) -- confirmed on the ALREADY-SHIPPED label volume (not something this session broke):
+      voxel-level largest-connected-piece fraction 50.6% right / 64.4% left. A full pipeline re-run reproduced
+      the same defect (confirming it is a property of the rule, not stale data) but ALSO showed run-to-run
+      volume drift unrelated to continuity (e.g. biceps_right 452->569 cm3 between two otherwise-identical
+      re-runs) that is not understood and not worth chasing today -- so the fix was applied directly to the
+      ALREADY-SHIPPED, already-reviewed label volume instead of a fresh full re-derivation, to avoid importing
+      that unexplained drift. Fix: one pass of 3x3x3 morphological closing (the same technique already used
+      for "the few-slice junction gap" in `vhf_whole_body_skin.py`), gated to labels whose raw voxel fraction
+      is below 0.70 -- checked empirically that biceps/coracobrachialis/triceps sit at 75-98% raw and are
+      ALREADY one continuous piece after this pipeline's own smoothing step (so closing them anyway only
+      inflates volume for no gain: tested unconditionally first, it pushed triceps to 670-730 cm3, back into
+      the range v1 was originally rejected for), while brachialis genuinely needs it. Result: brachialis_r
+      99.7% / brachialis_l 100% one piece (voxel level), 97% / 99% at the final mesh level -- matches the other
+      three muscles' quality. Volumes rose with it (140.0->174.7 cm3 right, 176.1->220.1 left, both now above
+      the Q52 fascia-traced calibration target of 133/189) because the muscle is thin and hugs the bone, so
+      bridging real gaps and smoothing its surface move volume the same direction; recorded plainly in the
+      report rather than hidden. Render-verified: brachialis_r isolated now reads as one continuous muscle
+      band top to bottom. Reconverted `ct_vhm_armm`, re-exported. Tests 252 pass. Male viewer Version 45 (350
+      structures, republished).
+      FOLLOW-UP FOUND, NOT FIXED: the same mesh-level check turned up `triceps_brachii_r` at only 70% one piece
+      at the FINAL MESH despite 95.9% at the RAW VOXEL level -- a different failure mode (a thin bridge that
+      survives raw voxel connectivity but gets severed by this pipeline's own Gaussian smoothing before
+      marching cubes, not a genuine data gap) confirmed visibly fragmented in an isolated render. The same
+      voxel-domain closing does bridge it (95.9%->98.9%) but costs 25% more volume on an already-large muscle,
+      pushing it toward the same too-high range noted above for triceps -- a worse trade-off than brachialis
+      got, so NOT applied this pass. Left for whoever next touches `ct_vhm_armm`: either accept the volume
+      cost, or fix it before smoothing (e.g. a small dilation on just the thin-bridge region, or smoothing at
+      a lower sigma for this one label) rather than closing the whole label after the fact.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in

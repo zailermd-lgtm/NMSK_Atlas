@@ -1,16 +1,17 @@
 {
  "_README": [
   "Male upper-arm muscles by the compartment rules on his cryosection photographs, v2 (scripts/cryo/vhm_arm_muscles_v2.py): humerus located in the photograph, each arm island registered to his CT by centroid; rule-based, derived data.",
-  "Brachialis band 32 mm (Q52): calibrated so the rule reproduces his fascia-traced v1 brachialis (133/189 cm3; band 22 gave 74/105, 28 111/145, 34 154/192). Coracobrachialis band 15 mm."
+  "Brachialis band 32 mm (Q52): calibrated so the rule reproduces his fascia-traced v1 brachialis (133/189 cm3; band 22 gave 74/105, 28 111/145, 34 154/192). Coracobrachialis band 15 mm.",
+  "Q79 (2026-09-18): visual QA found brachialis badly fragmented in the shipped mesh (voxel-level largest-connected-piece fraction 50.6% right / 64.4% left -- confirmed on the original label volume, not a rendering artifact); a single-pass 3x3x3 morphological closing (scripts/cryo/vhm_arm_muscles_v2.py, gated to labels below 0.70, so biceps/coracobrachialis/triceps -- already 75-98% one piece and already one continuous piece once this pipeline's own marching-cubes smoothing is applied -- are untouched) brings brachialis to 99.7% / 100% one piece. Volumes rose with it (140.0->174.7 right, 176.1->220.1 left, both above the Q52 fascia-traced calibration target of 133/189) because the muscle is thin and hugs the bone, so bridging real gaps and smoothing its surface both move volume in the same direction; the alternative (ship it fragmented at the calibrated volume) does not meet the continuous-tissue standard the rest of this atlas is held to. Applied directly to the shipped label volume, not a full pipeline re-run."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections and CT via the NCI Imaging Data Commons.",
  "volumes_cm3": {
   "biceps_right": 385.6,
-  "brachialis_right": 140.0,
+  "brachialis_right": 174.7,
   "coracobrachialis_right": 47.8,
   "triceps_right": 548.7,
   "biceps_left": 360.5,
-  "brachialis_left": 176.1,
+  "brachialis_left": 220.1,
   "coracobrachialis_left": 41.1,
   "triceps_left": 601.5,
   "humerus_found_in_photo_slices": {
@@ -18,5 +19,15 @@
    "left": 227
   }
  },
- "brachialis_band_mm": 32
+ "brachialis_band_mm": 32,
+ "largest_component_fraction": {
+  "brachialis_right": {
+   "before_closing": 0.506,
+   "after_closing": 0.997
+  },
+  "brachialis_left": {
+   "before_closing": 0.644,
+   "after_closing": 1.0
+  }
+ }
 }
