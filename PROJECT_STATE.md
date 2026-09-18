@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body; follow-up clipped his deltoid/triceps to the new skin too), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a/1b DONE (forearm compartments and initial muscle separation). Female viewer V33 (368 structures), male V42 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q73 DONE (his fibularis longus was poking through the ankle skin, found by a visual-QA sweep; fixed by nudging the ~1-6% of its vertices that were actually outside back inside a margined skin, patched into the committed `vhm_v25` source bundle so it survives a reset), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- root-caused to a genuine legacy mis-registration of the recovered `ct_vhm_arm` bones against the Q70 skin, not a skin gap; a CT-guided local correction only got partway there and was not reliable enough to ship), Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body; follow-up clipped his deltoid/triceps to the new skin too), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap). Female viewer V33 (368 structures), male V43 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1296,6 +1296,31 @@ tick the item here with a one-line result. Never fabricate; keep the
       diagnostic scripts are scratchpad-only and not needed to resume (the finding above is enough to redo the
       analysis in a few minutes: `voxels_to_atlas`-style reprojection of `build/vh/ct_vhm_arm` vertices, atlas
       origin `(-6.035,-895.476,4.787)`, against `data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`).
+- [x] Q73 (DONE 2026-09-18) Same sweep found a second, smaller, SHIPPABLE poke-through while investigating Q72:
+      a dark-red patch at his posterior right ankle, visible in both front and back renders. Clicked and
+      confirmed ("TITLE: Fibularis (peroneus) longus"). This muscle is also `vhm_both` (recovered from the
+      published Version 25 bundle, same as Q72's bones) but unlike the bones it has no CT ground truth to
+      conflict with -- Q70 had already measured it as the single worst case left after the leg-skin rebuild
+      (1.8% of vertices outside `vhm_skin_ct.nii.gz`, accepted at the time without a render check at this
+      zoom). Fixed the concentrated cluster of ~32-108 vertices at the ankle (identified by the same
+      atlas-to-voxel containment check, NOT the ~15% of the muscle elsewhere that is merely close to the
+      skin, which was left untouched) by projecting each bad vertex inward, along the ray from the
+      structure's own contained centroid, to just inside a 1-3 px eroded copy of the skin mask -- pure
+      geometric correction within its own already-measured envelope, no fabrication, same family as Q69/Q70's
+      label-volume clips but done on baked mesh vertices since `vhm_both` has no source volume to reconvert
+      from. Iterated the margin (0px: patch shrank but a sliver remained per a fresh render; 1px, then 2px,
+      then 3px restricted to the same ankle cluster only) until the render showed no matching red pixels and
+      a click at the same screen location returned "Integumentum commune" (skin), not the muscle. Whole-body
+      vhm_both recheck after the fix: every other structure's worst case dropped to phalanges_foot_l 1.3%,
+      fibula_r 0.35%, tibialis_anterior_r 0.18% -- all below what a render shows at normal zoom, none touched.
+      IMPORTANT for persistence: `build/` is gitignored, and `vhm_both` is normally re-extracted on a container
+      reset from the COMMITTED source `data/derived/viewer_bundles/vhm_v25/bundle.bin` (0.25 mm-quantised
+      int16 positions, `scripts/transfer/bundle_to_subjects.py`) -- so the fix was written into the build copy
+      AND then re-quantised and patched byte-for-byte into that source bundle.bin at fibularis_longus_r's own
+      offset (verified: extracting fresh into a throwaway directory afterwards reproduces 0% outside).
+      Re-exported and rebuilt the male viewer HTML (`scripts/export_viewer_bundle.py` then
+      `scripts/build_viewer_html.py` -- the export step alone does NOT refresh the HTML, a rebuild-script
+      detail worth remembering). Tests still 252 pass. Male viewer Version 43 (350 structures, republished).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
