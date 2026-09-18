@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q73 DONE (his fibularis longus was poking through the ankle skin, found by a visual-QA sweep; fixed by nudging the ~1-6% of its vertices that were actually outside back inside a margined skin, patched into the committed `vhm_v25` source bundle so it survives a reset), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- root-caused to a genuine legacy mis-registration of the recovered `ct_vhm_arm` bones against the Q70 skin, not a skin gap; a CT-guided local correction only got partway there and was not reliable enough to ship), Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body; follow-up clipped his deltoid/triceps to the new skin too), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap). Female viewer V33 (368 structures), male V43 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q75 DONE (a scripted pixel-anomaly sweep of both bodies' renders found and fixed 3 more small `vhm_both` poke-throughs -- gastrocnemius_l, phalanges_foot_l, fibula_r, same fix family as Q73; whole-`vhm_both` recheck now 0.0% outside on every structure), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, likely from the per-2D-slice silhouette having no 3-D continuity -- not a poke-through, lower priority, would need a full recheck of her body if her skin volume changes), Q73 DONE (his fibularis longus was poking through the ankle skin; fixed by nudging the vertices that were actually outside back inside a margined skin, patched into the committed `vhm_v25` source bundle so it survives a reset), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- root-caused to a genuine legacy mis-registration of the recovered `ct_vhm_arm` bones against the Q70 skin, not a skin gap; a CT-guided local correction only got partway there and was not reliable enough to ship). Female viewer V33 (368 structures), male V44 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1339,6 +1339,26 @@ tick the item here with a one-line result. Never fabricate; keep the
       per-slice 2-D one, or a mild 3-D closing pass on the finished `out` mask, and compare the shoulder
       region before/after in a render). Left for a session with room to redo the whole-body recheck this
       implies.
+- [x] Q75 (DONE 2026-09-18) Continued the same pixel-anomaly sweep across full front/back/side renders of both
+      bodies (this time scripted: threshold the render for reddish/tan pixels outside the header and side
+      panel, cluster the hits, inspect each cluster) rather than eyeballing crops region by region. Found and
+      fixed 3 more small `vhm_both` poke-throughs, all the same species as Q73 (a handful of vertices right at
+      the skin boundary, not the whole muscle): `gastrocnemius_l` (3 vertices outside the bare skin mask, 33
+      once a 1 px margin is added -- a visible dark-red patch at the mid-calf, back view), `phalanges_foot_l`
+      (85 at 1 px margin, the very tip of the toes) and `fibula_r` (37 at 1 px margin). Also cleared
+      `tibialis_anterior_r` (61 at 1 px margin) though it was not independently visible in a render at this
+      zoom -- caught only by the same whole-`vhm_both` recheck the fix script runs after every muscle, so
+      fixed alongside the others rather than left half-margined. Same fix as Q73 (project the actually-outside
+      vertices inward along the ray from the structure's own centroid to just inside a 1 px eroded skin mask,
+      nothing else touched) and same persistence step (patched into
+      `data/derived/viewer_bundles/vhm_v25/bundle.bin` at each structure's own byte offset -- gastrocnemius_l
+      is stored as TWO pieces under the one atlas id, 1757 + 1732 vertices; matched by vertex count as well as
+      id to patch the right one). Whole-`vhm_both` recheck after all four: every structure now at 0.0% outside
+      `vhm_skin_ct.nii.gz`. Verified: the calf patch is gone from a fresh render and a click at the same pixel
+      now returns skin; a throwaway re-extraction from the patched bundle.bin reproduces 0% for all four.
+      Tests 252 pass. Male viewer Version 44 (350 structures, republished). The (documented, not fixed) Q72
+      elbow bones and Q74 female shoulder seam are a different, harder class of defect and are unaffected by
+      this pass.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
