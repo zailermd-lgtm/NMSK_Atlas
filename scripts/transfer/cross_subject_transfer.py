@@ -164,9 +164,12 @@ def fill_correction(entries, anthro, dst_name, knee_y):
     return factors, detail
 
 
-def skin_lookup(path, origin):
+def skin_lookup(path, origin, margin_px=0):
     import nibabel as nib
+    from scipy import ndimage as ndi
     im = nib.load(path); vol = np.asanyarray(im.dataobj) > 0
+    if margin_px > 0:
+        vol = ndi.binary_erosion(vol, structure=np.ones((3, 3, 3)), iterations=margin_px)
     inv = np.linalg.inv(im.affine); o = np.array([float(t) for t in origin.split(",")])
 
     def inside(pts):
@@ -177,6 +180,31 @@ def skin_lookup(path, origin):
         res[ok] = vol[ijk[ok, 0], ijk[ok, 1], ijk[ok, 2]]
         return res, ok
     return inside
+
+
+def clip_to_skin(nv, inside_margined):
+    """Pull the few vertices that ended up outside the target's skin back to just inside it,
+    along the ray to this structure's own (already-inside) centroid -- pure position correction,
+    no change to any vertex that is already inside. Silent no-op if every vertex is already inside."""
+    ins, ok = inside_margined(nv)
+    bad = np.where(~ins & ok)[0]
+    if len(bad) == 0:
+        return nv, 0
+    centroid = nv[ins].mean(axis=0) if ins.any() else nv.mean(axis=0)
+    out = nv.copy()
+    for i in bad:
+        d = nv[i] - centroid
+        lo, hi = 0.0, 1.0
+        for _ in range(25):
+            mid = (lo + hi) / 2
+            cand = (centroid + mid * d).reshape(1, 3)
+            c_ins, c_ok = inside_margined(cand)
+            if c_ins[0] and c_ok[0]:
+                lo = mid
+            else:
+                hi = mid
+        out[i] = centroid + lo * d
+    return out, len(bad)
 
 
 def main():
@@ -214,6 +242,7 @@ def main():
     skipped = {i: blocked[i] for i in ids if i in blocked}
     ids = [i for i in ids if i not in blocked]
     inside = skin_lookup(a.skin_nii, a.skin_origin) if a.skin_nii else None
+    inside_margined = skin_lookup(a.skin_nii, a.skin_origin, margin_px=1) if a.skin_nii else None
     env_src = le.load(a.envelope_src) if a.envelope_src else None
     env_dst = le.load(a.envelope_dst) if a.envelope_dst else None
     if env_src and env_dst:
@@ -261,7 +290,9 @@ def main():
                "displacement_mm_median": round(float(np.median(disp)), 1)}
         if inside is not None:
             ins, ok = inside(nv)
-            row["outside_target_skin_fraction"] = round(float((~ins & ok).sum() / max(ok.sum(), 1)), 3)
+            row["outside_target_skin_fraction_before_clip"] = round(float((~ins & ok).sum() / max(ok.sum(), 1)), 3)
+            nv, n_clipped = clip_to_skin(nv, inside_margined)
+            row["vertices_clipped_to_skin"] = n_clipped
         report.append(row)
         nv32 = nv.astype(np.float32)
         structures.append({"atlas_id": aid, "source_structure": aid, "side": side,
@@ -318,8 +349,8 @@ def main():
           f"fill {fill} {fill_detail}; not transferred: {sorted(skipped)}")
     for r in report:
         print(f"  {r['atlas_id']:36s} {r['category']:9s} {r['volume_src_cm3']:7.1f} -> {r['volume_out_cm3']:7.1f} cm3 "
-              f"disp {r['displacement_mm_median']:6.1f} mm  out-of-skin {r.get('outside_target_skin_fraction', '-')}  "
-              f"{list(r['driving_bones'])[:3]}")
+              f"disp {r['displacement_mm_median']:6.1f} mm  out-of-skin {r.get('outside_target_skin_fraction_before_clip', '-')}"
+              f" clipped {r.get('vertices_clipped_to_skin', '-')}  {list(r['driving_bones'])[:3]}")
 
 
 if __name__ == "__main__":

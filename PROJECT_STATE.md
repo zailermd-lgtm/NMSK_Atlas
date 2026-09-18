@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved, non-regressed geometry; re-investigated sternohyoid/omohyoid with the fix -- volumes now plausible but connected-component analysis proved them genuinely fragmented into a dozen-plus disconnected islands, confirmed pre-existing not a regression, so still NOT shipped), Q75 DONE (a scripted pixel-anomaly sweep of both bodies' renders found and fixed 3 more small `vhm_both` poke-throughs -- gastrocnemius_l, phalanges_foot_l, fibula_r, same fix family as Q73), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders -- not a poke-through, lower priority), Q73 DONE (his fibularis longus was poking through the ankle skin; fixed and patched into the committed `vhm_v25` source bundle so it survives a reset), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V34 (368 structures), male V44 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V44 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1387,6 +1387,33 @@ tick the item here with a one-line result. Never fabricate; keep the
       five with a render (mylohyoid isolated: one continuous sheet, matches the component count). Tests 252
       pass. Female viewer Version 34 (368 structures, unchanged count -- these ids were already shipped,
       only their geometry improved; republished).
+- [x] Q77 (DONE 2026-09-18) A comprehensive containment sweep (the atlas-to-voxel check used all session, run
+      across EVERY subject on each body, not just the one that broke last time) found the same small-fraction
+      poke-through pattern from Q73/Q75 also present on several of her `xfer_vhm2vhf` muscles (his lower-limb
+      muscles transferred onto her bones): rectus_femoris_l/r (4.2/3.1%), sartorius_r/l, vastus_lateralis_l/r,
+      tibialis_anterior_l/r, semitendinosus_r/l, fibularis_longus_r/l, ankle_articular_cartilage_l,
+      extensor_hallucis_longus_r, extensor_digitorum_longus_r, soleus_r, biceps_femoris_r -- all under 5%,
+      the same "close but not quite" smoothing-margin story, not a completeness gap. The male side's
+      equivalent sweep (every non-`vhm_both` subject checked the same way) found nothing beyond the already-
+      documented Q72 elbow bones -- confirms Q73/Q75 were thorough.
+      DIFFERENT FROM Q73/Q75 in one respect: `xfer_vhm2vhf` has no committed static bundle to patch (unlike
+      `vhm_both`'s `vhm_v25/bundle.bin`) -- it is fully RECOMPUTED from committed sources every rebuild by
+      `scripts/transfer/cross_subject_transfer.py`. A one-off vertex nudge on the build copy would have been
+      silently undone on the next container reset. So the fix went into the script itself: it already computed
+      an `outside_target_skin_fraction` per structure for the report but never acted on it (skin-nii/skin-origin
+      were being spent on a diagnostic nobody read, not a correction). Added `clip_to_skin()`, the same
+      centroid-ray-shrink-into-a-1px-margined-skin used all session, called on every transferred structure
+      whenever `--skin-nii` is given (silent no-op if already fully inside) -- so this fix now applies
+      automatically, forever, to every past and future `cross_subject_transfer.py` run that passes skin info,
+      not just today's `xfer_vhm2vhf`. Verified: re-running the exact command `vhf_rebuild_bundle.sh` uses
+      (same `--ids` list, confirmed identical to the committed manifest's 85 structures) now reports
+      `out-of-skin 0.0... clipped N` for every muscle that needed it and reproduces 0.0% outside on a fresh
+      full-body recheck. Replaced the build copy with this regenerated, reproducible one (no manual patching
+      needed this time). Render-verified rectus_femoris_l isolated: one continuous piece, no fragmentation
+      introduced. `xfer_vhf2vhm`/`xfer_vhf2vhm_neck` (the other transfer direction, onto the male) are not run
+      with `--skin-nii` today and were unaffected either way (already 0% naturally -- orbital muscles sit
+      deep in the skull, far from any skin margin). Tests 252 pass. Female viewer Version 35 (368 structures,
+      republished).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
