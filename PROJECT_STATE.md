@@ -1168,11 +1168,31 @@ tick the item here with a one-line result. Never fabricate; keep the
       stays live meanwhile; nothing about it can be changed until this is done.
       CONFIRMED visually 2026-09-18 (Q69 visual-QA pass, current male V39): "Other"/Integumentum on him only
       covers the torso, arms and thighs -- both lower legs render with skin ABSENT below the knee (raw
-      muscle+bone exposed) because no `ct_vhm_skin` subject exists in the current build at all, not because of a
-      registration gap like the female's Q69 fix. This is by far the largest visible difference from Z-Anatomy on
-      the male body. Not fixable without this item: needs either network access to re-fetch the DU release or a
-      full re-stream of his cryosections at the leg levels (his 1 mm frame was lost in the 2026-09-11 container
-      reset, see Q30/Q57/Q68). No action taken.
+      muscle+bone exposed). This is by far the largest visible difference from Z-Anatomy on the male body.
+      CORRECTION, same day: the ct_vhm_skin that DOES exist and ships (subject tag "Visible Human male, colour
+      cryosections -- body surface") was derived from his 1 mm PHOTOGRAPH stream (`skin_from_cryo.py`,
+      `cryo_1mm_classes.npy`), which is what needs the DU-blocked re-stream this item describes -- but that is
+      NOT the only source for his leg skin. See Q70: his own CT already covers pelvis-to-toes and is reachable
+      right now (verified live), so the leg skin gap is fixable WITHOUT the DU release or a photograph re-stream.
+
+- [ ] Q70 (found 2026-09-18, NOT started) Male leg skin surface from his OWN CT, not the blocked photograph
+      route. `docs/GEOMETRY_SOURCES.md` "Stage 2" table lists his CT as three IDC series, all VHP-M "Frozen",
+      reachable now (`curl https://storage.googleapis.com/storage/v1/b/idc-open-data/o?prefix=145c2668-.../`
+      returned real object names this session -- `idc-open-data` is NOT one of the hosts the network policy
+      blocks; only `digitalcommons.du.edu`/`simtk.org` are): head-to-pelvis `5d409385-...` (already stacked and
+      used for `ct_vhm`/`ct_vhm_arm`, origin `-6.035,-895.476,4.787`), pelvis-to-ankle `145c2668-...` (809
+      slices, offset from the torso block already measured: legs->torso `(+2.72, -0.89, -693.0)` mm RAS, see
+      the "Stage 2" section), ankle-to-toes `94755b62-...` (already independently registered to the DU-STL leg
+      geometry in Q1: corr 0.968, legs k=0 = feet k=221, in-plane (-6.6,-36.6) mm). The method is a direct
+      copy of the female's `scripts/cryo/vhf_whole_body_skin.py` (HU > -300 per-slice silhouette, opened,
+      holes filled, largest 3-D component, extend the torso grid downward by the block offset) -- no
+      cryosection photographs needed at all for this fix, unlike what Q29 implies. Untried risk: the
+      pelvis-to-ankle block (145c2668) itself has never been registered against the DU-STL bones directly (only
+      the ankle-to-toes block has, via Q1) -- chain the registration through torso->145c2668 (known offset)
+      and 94755b62->DU-STL (known offset, both blocks presumably contiguous the way the female's were) and
+      verify with a render before shipping; do not guess the chain without checking a shared-slice correlation
+      the way Q1 and the "Stage 2" section did. Download is ~800+224 slices at 0.9375 mm, comparable to what
+      the female's Q28 rebuild already did successfully after its own container reset.
 - [-] Q30 PARKED (23:20 -> 02:00) Female CRYOSECTIONS for her arms and hands. Done and kept: the series streamed
       (1729 slices at 1 mm, resumable, 3 min), classified, registered to her CT (43 anchors, IoU 0.72-0.93, flip
       `fy`; in-plane shift drifts (-4,-108) px legs -> (-13,-121) thorax -> (+14,-117) head = the frozen block's pose
