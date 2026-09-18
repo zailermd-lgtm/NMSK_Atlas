@@ -11,7 +11,11 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q79 DONE -- BREAKTHROUGH: his whole-body
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q80 DONE (made Q79's re-stream recipe
+permanent: `scripts/cryo/stream_vhm_cryosections.py` rewritten to list its own IDC objects, like
+`vhm_stream_crops.py`, instead of needing a never-committed `objects.json` -- verified end to end; the missing
+piece for Q57/Q68/Q78 is now specifically the registration-to-CT step, not the stream itself, which is
+committed and working), Q79 DONE -- BREAKTHROUGH: his whole-body
 1 mm cryosection photograph stream (lost since a container reset, the blocker behind Q57/Q68/Q71/Q72/Q78) turns
 out to be re-streamable from scratch today (`scripts/cryo/vhm_stream_crops.py` lists its own IDC objects, no
 lost `objects.json` needed; series `4aaf9181-...`, 1878 slices, ~3 min); used it to fix `brachialis_r/l`
@@ -1509,6 +1513,23 @@ tick the item here with a one-line result. Never fabricate; keep the
       got, so NOT applied this pass. Left for whoever next touches `ct_vhm_armm`: either accept the volume
       cost, or fix it before smoothing (e.g. a small dilation on just the thin-bridge region, or smoothing at
       a lower sigma for this one label) rather than closing the whole label after the fact.
+- [x] Q80 (DONE 2026-09-18) Made Q79's re-stream recipe permanent so it survives the next container reset
+      instead of needing to be re-solved by chance again: rewrote `scripts/cryo/stream_vhm_cryosections.py`
+      to list its own objects from the IDC bucket (the JSON API, same call `vhm_stream_crops.py` already used)
+      instead of reading a pre-built `objects.json` that was never committed -- that was the actual reason his
+      whole-body frame looked unrecoverable after a reset, not a real data-loss. Also fixed it writing its
+      1.5 GB output into `scripts/cryo/` (its own source directory) by giving it a required output-directory
+      argument, matching `vhm_stream_crops.py`'s convention, instead of writing next to the script. Verified
+      end to end from a fresh output directory: `listed 1878` -> `indexed 1878` -> 1878/1878 slices in ~160s,
+      byte-identical shape/dtype to the documented format. Tests 252 pass (this script isn't exercised by the
+      suite, just confirmed it still imports cleanly). No viewer change -- this is a tooling fix, not a
+      geometry change; nothing to reconvert or republish.
+      This unblocks the *stream* step for Q57 (male sciatic nerve), Q68 (male pelvic floor) and Q78 (abdominal
+      wall fragmentation) -- all three additionally need a REGISTRATION step (resampling the raw stream into
+      the CT's own frame, silhouette + mutual-information alignment, the way the female's frame was built) that
+      is not itself committed anywhere and was not attempted this wake; `docs/GEOMETRY_SOURCES.md`'s "The
+      cryosections" section describes the method in prose but no script implements it for him. That
+      registration step, not the stream itself, is the next real blocker for those three.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
