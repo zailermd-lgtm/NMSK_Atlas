@@ -11,7 +11,16 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q81 NOT SHIPPED (finished the Q78
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q82 NOT SHIPPED (male sciatic nerve
+via `sciatic_from_cryo.py`, now that Q79-81 made his 1 mm cryo frame real: fixed 3 real bugs -- a stale
+legs->torso t_off, a legs-CT/TotalSegmentator orientation mismatch (LPS vs LAS, landmarks were landing ~470 mm
+off), and a seed search that now scans for the first persistently-matching level instead of the raw IT/GT
+midpoint (which, like the female's gluteal course in Q7/Q53, isn't colour-separable from surrounding fat at
+1 mm) -- but the resulting tracked corridors are only 27 mm (right) and 39 mm (left), two short disconnected
+stubs nowhere near a real several-hundred-mm sciatic course; position looks anatomically plausible where
+tracked (posterior thigh cleft, no bone overlap) but continuity/length fail decisively, so NOT shipped;
+the female's own partial result needed full-resolution photographs plus a texture classifier (Q53), which is
+the real next step, not further 1 mm tuning), Q81 NOT SHIPPED (finished the Q78
 pipeline for the first time since the container reset -- classified and resampled the Q79/Q80 re-stream into
 the CT torso frame, fixed two blocking bugs in `abdominal_wall_from_cryo.py` that pre-dated this session (a
 stale 700px-wide frame-width constant that crashed it outright, and a missing arm-exclusion source file) and
@@ -1592,6 +1601,46 @@ tick the item here with a one-line result. Never fabricate; keep the
       specimen. Also newly tractable with the working resample step (not attempted this session, per scope):
       Q57 (male sciatic nerve, needs the LEGS-block frame, not torso) and Q68 (male pelvic floor). Tests 252
       pass. No viewer change.
+- [-] Q82 (attempted 2026-09-18, NOT shipped) Male sciatic nerve via `scripts/cryo/sciatic_from_cryo.py`, now
+      that Q79/Q80/Q81 made the male 1 mm cryo frame real again. Three prerequisite paths wired: `vhm_ts/legs_total.nii.gz`
+      copied from the already-committed `data/ct_sources/task_outputs/vhm_legs_total.nii.gz`; the raw legs CT
+      loaded from `vh_idc/nii/vhm_legs_0937.nii.gz` (the lost `vhm_frozen_3.nii.gz` name was never coming back).
+      Two real bugs found and fixed permanently in the script itself (kept regardless of shipping): (1) the
+      stale legs->torso offset `t_off=(2.72,-0.89,-693.0)` predates Q70's re-fit; replaced with Q70's measured
+      `(4.72,2.11,-698.0)` mm RAS. (2) a genuine orientation bug, not a path issue: TotalSegmentator's
+      `vhm_legs_total.nii.gz` (LAS) is flipped along axis 1 relative to the raw CT `vhm_legs_0937.nii.gz` (LPS)
+      despite identical shape/spacing -- the script was applying the CT's own affine to the segmentation's
+      voxel indices, which lands landmarks ~470 mm off in Y. Verified empirically (apply_affine(seg's own
+      affine, seg's own indices) reproduces bone-HU voxels in the raw CT at the transformed point;
+      apply_affine(CT's affine, seg's indices) does not) and fixed by using the segmentation volume's own
+      affine on its own indices, independent of either file's storage orientation. With both fixes the
+      IT/greater-trochanter landmarks land at plausible RAS positions, but seeding right at that anatomical
+      midpoint found nothing: same failure this project already documented for the female's gluteal course
+      (Q7/Q53 -- "the pale class merges into the fat" / "the detector locks onto gluteus maximus' fatty
+      striations" above -70 mm). Added a third, evidence-based fix: scan downward from the IT/GT midpoint (up
+      to 180 mm) for the first level where a plausibly-sized pale blob persists for >=3 consecutive mm (a single
+      matching slice was confirmed to be transient noise -- it died within 1 tracking step); real corridors were
+      found starting 35 mm (right) and 41 mm (left) distal to the midpoint. Tracking from there: right 27 mm
+      (1.64 cm3, stops because the tracked blob shrinks under the 25 mm2 floor), left 39 mm (2.81 cm3, stops
+      because no candidate remains in the corridor at all) -- both confirmed by the coronal projection
+      (`vh_cryo/sciatic_cor.png`: two short disconnected stubs, no tube shape) and the axial montage
+      (`vh_cryo/sciatic_axial.png`: the tracked contour does sit in a plausible cleft between two large
+      posterior-thigh muscle bellies, not in bone, for as long as it survives). Verdict: position is
+      plausible where tracked, but 27-39 mm is nowhere near "several hundred mm" of a real sciatic course --
+      even short of the female's own partial 165/223 mm result (Q53, which needed full-resolution 0.33 mm
+      photographs plus a fascicle-texture detector and a trained classifier, and still could not solve the
+      gluteal or popliteal segments). This project's 1 mm colour-blob approach hits the same wall on the male
+      that it hit on the female, just a bit further down the leg. NOT shipped: no mapping/subject/viewer
+      changes. Kept: the three script fixes above (`scripts/cryo/sciatic_from_cryo.py`), which turn it from
+      "cannot run" into "runs correctly and finds a genuine but short corridor" -- a real, permanent step
+      forward for the next attempt. Next attempt needs the same full-resolution + texture-detector route Q53
+      used for the female (0.33 mm crops via `stream_arm_crops.py`-style streaming in the legs region,
+      registered the same way, then a honeycomb/fascicle detector or a classifier trained on whatever
+      full-resolution ground truth can be hand-verified), not further 1 mm parameter tuning -- the failure is
+      colour-separability at 1 mm, not a tracking-radius or corridor-width bug. The underlying cryo-frame
+      infrastructure (Q79/Q80) is confirmed solid for this purpose; Q68 (male pelvic floor) is correspondingly
+      more tractable to attempt now too, but is a different problem (prostate/penile-bulb/urethral-sphincter
+      rules) and is left as its own queue item, not started here. Tests 252 pass. No viewer change.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
