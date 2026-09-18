@@ -10,10 +10,18 @@ from PIL import Image
 from totalsegmentator.map_to_binary import class_map
 S="/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/"
 cls=np.load(S+"vh_cryo/cryo_torso_frame_cls.npy",mmap_mode="r"); rgb=np.load(S+"vh_cryo/cryo_torso_frame_rgb.npy",mmap_mode="r")
-n,H,W=cls.shape; OFF=110
+n,H,W=cls.shape; OFF=0   # Q78: resample_cryo_to_ct_frame.py now emits an exact 480x480 CT-matched frame
+                          # (512*0.9375mm = 480mm, zoomed 1:1), not the older 700px-wide padded frame this
+                          # OFF used to assume -- OFF=110 made frame() below overrun the array and crash.
 tot=np.asarray(nib.load(S+"vhm_ts/total.nii.gz").dataobj); hyb=np.asarray(nib.load(S+"vhm_hyb/abdominal_muscles.nii.gz").dataobj)
 inv={v:k for k,v in class_map['total'].items()}; vert=[k for k,v in class_map['total'].items() if v.startswith('vertebrae_')]
-armb=np.load(S+"vh_cryo/arm_bones_completed_frame.npy",mmap_mode="r"); armm=np.load(S+"vh_cryo/arm_muscles_frame.npy",mmap_mode="r")
+# Q78: complete_arm_bones_from_cryo.py / arm_compartments_from_cryo.py (the intended source of armb/armm)
+# assume that same stale 700px-wide frame (OFF=110, SIDES columns 0:300/400:700) and are not safe to run
+# unmodified against the current 480px frame -- repairing them is out of scope for this fix. Arms are
+# excluded here instead using the raw (un-completed) CT arm-bone labels, zoomed onto the frame and
+# generously dilated; this is the same exclusion purpose (arms resting against the flanks) with a
+# simpler, already-correct input.
+armb=np.asarray(nib.load(S+"vhm_ts/arm_bones_labels.nii.gz").dataobj)
 ribs=[k for k,v in class_map['total'].items() if v.startswith('rib_') or v=='costal_cartilages']
 ztop=int(np.where((tot==inv['sternum']).any(axis=(0,1)))[0].min())   # xiphoid level
 def frame(vol,k):
@@ -28,7 +36,7 @@ for k in range(0,ztop):
     tissue=ndi.binary_fill_holes(c>0); dskin=ndi.distance_transform_edt(tissue)
     yy,xx=np.mgrid[0:H,0:W]
     excl=ndi.binary_dilation(t>0,iterations=8)|(hb>0)|ndi.binary_dilation(np.isin(t,ribs),iterations=6)   # organs (bowel photographs like muscle), bones, labelled muscles
-    arms=ndi.binary_dilation((np.asarray(armb[k])>0)|(np.asarray(armm[k])>0),iterations=40); excl|=arms   # the arms lie against the flanks
+    arms=ndi.binary_dilation(frame(armb,k)>0,iterations=45); excl|=arms   # the arms lie against the flanks (raw CT bone geometry, dilated -- see Q78 note above)
     excl[:, :OFF+15]=True; excl[:, OFF+465:]=True                                                         # outside the CT field of view
     trunk=ndi.label(tissue)[0]; trunk=trunk==trunk[int(vrow),int(mid)]                                    # the tissue component holding the spine
     wall=(c==3)&(dskin<=60)&~excl&(yy<vrow)&trunk     # anterior to the vertebral body centre (row increases posteriorly)
@@ -49,11 +57,32 @@ for k in range(0,ztop):
             for side,sgn,base in (("r",1,2),("l",-1,6)):
                 sm=lat&((xx>=mid) if sgn>0 else (xx<mid))
                 o[sm&(frac<0.40)]=base; o[sm&(frac>=0.40)&(frac<0.75)]=base+1; o[sm&(frac>=0.75)]=base+2
+# Q78: each per-slice wall band is drawn independently level by level (depth-fraction / position rule), so a
+# single noisy slice (a rib/organ exclusion nicking the band, a depth-fraction boundary jittering) drops the
+# band out and splits what should be one continuous sheet -- the same failure mode fixed for the brachialis in
+# Q79 (scripts/cryo/vhm_arm_muscles_v2.py), same remedy: one pass of 3x3x3 morphological closing per label,
+# gated on voxel-level largest-piece fraction so bulkier layers that are already one piece are not touched.
+CLOSE_THRESHOLD=0.85
+frac_before={}; frac_after={}
+for name,lid in OUT.items():
+    m=out==lid
+    if not m.any(): continue
+    lbl0,n0=ndi.label(m,structure=np.ones((3,3,3)))
+    sizes0=ndi.sum(np.ones_like(lbl0),lbl0,range(1,n0+1))
+    frac_before[name]=round(float(max(sizes0)/m.sum()),3) if n0 else 1.0
+    if frac_before[name]>=CLOSE_THRESHOLD:
+        frac_after[name]=frac_before[name]; continue
+    closed=ndi.binary_closing(m,structure=np.ones((3,3,3)),iterations=1)
+    out[m]=0; out[closed]=lid
+    m2=out==lid; lbl1,n1=ndi.label(m2,structure=np.ones((3,3,3))); sizes1=ndi.sum(np.ones_like(lbl1),lbl1,range(1,n1+1))
+    frac_after[name]=round(float(max(sizes1)/m2.sum()),3) if n1 else 1.0
 rep={k:round(float((out==v).sum())/1000,1) for k,v in OUT.items()}; print("volumes cm3",rep)
+print("largest_component_fraction_before_closing",frac_before)
+print("largest_component_fraction_after_closing",frac_after)
 np.save(S+"vh_cryo/abdwall_frame.npy",out)
 aff=np.array([[-1,0,0,350],[0,-1,0,240],[0,0,1,-863],[0,0,0,1]],float); nib.save(nib.Nifti1Image(np.ascontiguousarray(out.transpose(2,1,0)),aff),S+"vhm_ts/abdominal_wall_cryo.nii.gz")
 lut=np.zeros((9,3),np.uint8); lut[1]=lut[5]=(255,80,80); lut[2]=lut[6]=(255,200,60); lut[3]=lut[7]=(80,200,255); lut[4]=lut[8]=(160,255,120)
 ks=np.where((out>0).any(axis=(1,2)))[0]; ts=[]
 for k in np.linspace(ks.min()+5,ks.max()-5,5).astype(int):
-    im=np.asarray(rgb[k]).copy(); m=out[k]; im[m>0]=(0.5*im[m>0]+0.5*lut[m[m>0]]).astype(np.uint8); ts.append(im[:, 60:640])
+    im=np.asarray(rgb[k]).copy(); m=out[k]; im[m>0]=(0.5*im[m>0]+0.5*lut[m[m>0]]).astype(np.uint8); ts.append(im)
 Image.fromarray(np.concatenate(ts,axis=1)).save(S+"vh_cryo/abdwall.png"); print("done")

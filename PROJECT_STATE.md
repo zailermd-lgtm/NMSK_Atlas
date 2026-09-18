@@ -11,7 +11,16 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q80 DONE (made Q79's re-stream recipe
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q81 NOT SHIPPED (finished the Q78
+pipeline for the first time since the container reset -- classified and resampled the Q79/Q80 re-stream into
+the CT torso frame, fixed two blocking bugs in `abdominal_wall_from_cryo.py` that pre-dated this session (a
+stale 700px-wide frame-width constant that crashed it outright, and a missing arm-exclusion source file) and
+added the same gated morphological-closing pass that fixed Q79's brachialis -- but the three flagged
+structures still don't clear the bar: `internal_oblique_r` unchanged/worse (46% -> 43% largest mesh piece),
+`internal_oblique_l` improved but short of the 85% target (49% -> 77%), `transversus_abdominis_r` improved but
+short (44% -> 73%); pushing closing harder plateaus around 80% or costs 20-43% extra volume for no further
+continuity gain, the same bad trade this project already rejected for the male triceps in Q79. Correctly NOT
+shipped; the script fixes are real and kept for a future attempt), Q80 DONE (made Q79's re-stream recipe
 permanent: `scripts/cryo/stream_vhm_cryosections.py` rewritten to list its own IDC objects, like
 `vhm_stream_crops.py`, instead of needing a never-committed `objects.json` -- verified end to end; the missing
 piece for Q57/Q68/Q78 is now specifically the registration-to-CT step, not the stream itself, which is
@@ -1530,6 +1539,59 @@ tick the item here with a one-line result. Never fabricate; keep the
       is not itself committed anywhere and was not attempted this wake; `docs/GEOMETRY_SOURCES.md`'s "The
       cryosections" section describes the method in prose but no script implements it for him. That
       registration step, not the stream itself, is the next real blocker for those three.
+- [-] Q81 (attempted 2026-09-18, NOT shipped) Finished the pipeline Q80 said was still needed for Q78: the
+      resample-to-CT-frame step (`scripts/cryo/resample_cryo_to_ct_frame.py torso`, already committed and
+      already correct -- verified by overlaying the CT's vertebral-body labels on the resampled photograph at
+      six levels, they land exactly on the visible vertebra every time) had never actually been run against
+      the Q79/Q80 re-stream this session; running it, then `classify_cryo_volume.py`, then
+      `abdominal_wall_from_cryo.py`, surfaced two real bugs that predate this session and would have crashed
+      or silently corrupted the script regardless of the missing data: (1) `OFF=110` assumed the older,
+      700px-wide padded photograph frame that `complete_arm_bones_from_cryo.py` / `arm_compartments_from_cryo.py`
+      were written against; the current `resample_cryo_to_ct_frame.py` emits an exact 480x480 CT-matched frame
+      (512 x 0.9375 mm = 480 mm, zoomed 1:1) with no padding, so `OFF=110` overran the array and crashed
+      `frame()` outright -- fixed to `OFF=0`, justified by the exact physical-extent match, not a guess.
+      (2) the script reads a nonexistent `arm_muscles_frame.npy`, meant to come from
+      `complete_arm_bones_from_cryo.py` + `arm_compartments_from_cryo.py` -- both of which have the SAME stale
+      700px-frame assumption (`SIDES` column ranges 0:300/400:700 don't fit a 480-wide array either) and are
+      not safe to run unmodified; repairing them was judged out of scope for Q78 (they exist only to build an
+      arm-exclusion mask). Substituted a simpler, correct exclusion instead: the raw (un-completed) CT
+      arm-bone labels (`vhm_arm_bones_labels.nii.gz`, already committed), zoomed onto the same frame and
+      dilated 45 mm -- same purpose ("the arms lie against the flanks"), no photograph tracking needed.
+      Alignment check (six levels, vertebral-body overlay) and the rendered preview both look right: a
+      continuous ring of layers around the flanks, arm/hand cross-sections visible but correctly left uncoloured
+      at the frame edges. Converted to mesh (`ct_vhm_abw`, `--origin='-6.035,-895.476,4.787'` -- the same
+      torso-frame origin every other `vhm_ts`-derived subject uses, confirmed by Y/Z bbox matching the
+      currently-shipped mesh to within 1 mm) and ran this session's mesh-topology connected-components check
+      (face-adjacency graph, largest component's vertex fraction) on all 8 layers, before and after adding a
+      Q79-style gated 3x3x3 morphological-closing pass (threshold 0.85, one iteration, per label):
+      `rectus_abdominis_r/l` 74.4%/61.0% -> 94.8%/97.4% (cheap, clean win, closing costs ~5% extra volume),
+      `external_oblique_r/l` 86-88% both before and after (already fine, matches baseline), `transversus_abdominis_l`
+      93.8% (already fine). The three structures Q78 flagged did NOT clear the bar: `internal_oblique_r` 42.1%
+      before closing, 43.3% after (baseline was 46% -- unchanged to slightly worse), `internal_oblique_l` 74.0%
+      before, 76.8% after (baseline 49% -- a real improvement, but short of the 85% target), `transversus_abdominis_r`
+      71.6% before, 72.7% after (baseline 44% -- a real improvement, also short). Tried pushing the closing
+      pass harder (2/3/5 iterations, measured on the label volume): `transversus_right` plateaus at 80.1-80.2%
+      regardless of iteration count while volume grows 11-38% (the gap is wider than closing can bridge, not a
+      few-slice dropout); `internal_right` needs 5 iterations to reach 82.5% voxel fraction at +26.3% volume --
+      both are the same bad trade (fragmentation "fixed" by inflating the muscle well past its already
+      generous size) this project explicitly rejected for the male triceps in Q79. Conclusion: the male
+      torso photograph frame is genuinely re-derivable now (Q79/Q80 were right), and re-running the real
+      pipeline is a further, real improvement over the previous "no safe local patch exists" verdict for 2 of
+      the 3 flagged structures -- but not the third, and none clears the shipping bar, so per this project's
+      standing rule this is NOT shipped: `mappings/subjects/ct_vhm_abw_volume_mapping.json` is untouched, no
+      viewer republish. Kept: the two bug fixes and the closing pass in `scripts/cryo/abdominal_wall_from_cryo.py`
+      itself (real, permanent fixes -- the script could not have run at all before this), so the next attempt
+      starts from a working pipeline instead of a crashing one. Volumes this run, cm3 (r/l, before/after
+      closing unaffected by the volume columns below since closing changed too little to round differently
+      except where noted): rectus 225/226 -> 238/242, external 194/356 -> 188/343, internal 59/164 -> 64/188,
+      transversus 111/293 -> 123/281 -- same order of magnitude as the currently-shipped, already-documented
+      "over-counted" volumes, not a new problem. Next real step for Q78: the depth-fraction rule itself needs
+      revisiting for the two deep layers (internal oblique, transversus), not another closing pass -- e.g.
+      tracking the aponeurotic planes directly rather than a fixed depth fraction of wall thickness, since the
+      35%/25% depth bands are demonstrably not one contiguous region along the muscle's length in this
+      specimen. Also newly tractable with the working resample step (not attempted this session, per scope):
+      Q57 (male sciatic nerve, needs the LEGS-block frame, not torso) and Q68 (male pelvic floor). Tests 252
+      pass. No viewer change.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
