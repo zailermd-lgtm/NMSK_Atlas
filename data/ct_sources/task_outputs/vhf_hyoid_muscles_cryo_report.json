@@ -6,27 +6,27 @@
  "badge": "rule-based",
  "version": "2026-09-14",
  "volumes_cm3": {
-  "sternohyoid_right": 1.0,
-  "omohyoid_right": 0.9,
-  "mylohyoid_right": 10.4,
-  "geniohyoid_right": 2.0,
+  "sternohyoid_right": 2.7,
+  "omohyoid_right": 3.8,
+  "mylohyoid_right": 8.9,
+  "geniohyoid_right": 2.3,
   "genioglossus_right": 9.1,
-  "hyoglossus_right": 4.2,
+  "hyoglossus_right": 4.0,
   "styloglossus_right": 1.8,
   "stylohyoid_right": 2.3,
-  "deep_strap_right": 1.7,
-  "floor_lateral_right": 3.6,
+  "deep_strap_right": 5.8,
+  "floor_lateral_right": 4.9,
   "tongue_intrinsic_right": 14.1,
-  "sternohyoid_left": 1.0,
-  "omohyoid_left": 0.4,
-  "mylohyoid_left": 10.1,
-  "geniohyoid_left": 2.9,
-  "genioglossus_left": 10.2,
-  "hyoglossus_left": 7.1,
+  "sternohyoid_left": 2.7,
+  "omohyoid_left": 3.5,
+  "mylohyoid_left": 8.2,
+  "geniohyoid_left": 3.0,
+  "genioglossus_left": 10.5,
+  "hyoglossus_left": 5.4,
   "styloglossus_left": 1.5,
   "stylohyoid_left": 2.4,
-  "deep_strap_left": 1.6,
-  "floor_lateral_left": 5.5,
+  "deep_strap_left": 5.2,
+  "floor_lateral_left": 8.8,
   "tongue_intrinsic_left": 14.5
  },
  "labels": {
@@ -75,19 +75,19 @@
   "tongue_intrinsic": "sink for the intrinsic tongue (superior / inferior longitudinal, transverse, vertical) and the palatoglossus: no septa at 1 mm, out of scope"
  },
  "septum_support": {
-  "geniohyoid|mylohyoid": {
-   "ratio": 2.08,
-   "contact_px": 826,
+  "geniohyoid|hyoglossus": {
+   "ratio": 3.56,
+   "contact_px": 245,
    "merge": false
   },
   "hyoglossus|mylohyoid": {
-   "ratio": 2.84,
-   "contact_px": 1455,
+   "ratio": 3.02,
+   "contact_px": 686,
    "merge": false
   },
-  "genioglossus|mylohyoid": {
-   "ratio": 2.86,
-   "contact_px": 136,
+  "geniohyoid|mylohyoid": {
+   "ratio": 1.97,
+   "contact_px": 737,
    "merge": false
   },
   "styloglossus|stylohyoid": {
@@ -95,14 +95,19 @@
    "contact_px": 18,
    "merge": false
   },
-  "geniohyoid|hyoglossus": {
-   "ratio": 3.1,
-   "contact_px": 243,
+  "genioglossus|hyoglossus": {
+   "ratio": 1.87,
+   "contact_px": 2110,
    "merge": false
   },
-  "genioglossus|hyoglossus": {
-   "ratio": 1.91,
-   "contact_px": 2262,
+  "omohyoid|sternohyoid": {
+   "ratio": 13454.96,
+   "contact_px": 33,
+   "merge": false
+  },
+  "genioglossus|mylohyoid": {
+   "ratio": 2.51,
+   "contact_px": 70,
    "merge": false
   }
  },
@@ -187,11 +192,11 @@
    "thyrohyoid_lateral_mm": 8.0
   },
   "floor": {
-   "mylohyoid_thickness_mm": 6.0,
+   "mylohyoid_thickness_mm": 5.0,
    "geniohyoid_half_width_mm": 9.0,
    "genioglossus_half_width_mm": 12.0,
    "mental_spine_above_mandible_mm": 12,
-   "hyoglossus_g": 0.35
+   "hyoglossus_g": 0.45
   },
   "tongue": {
    "genioglossus": [
@@ -226,8 +231,8 @@
   },
   "geniohyoid_here": {
    "volume_cm3": {
-    "right": 2.0,
-    "left": 2.9
+    "right": 2.3,
+    "left": 3.0
    },
    "note": "a paired 1-3 cm3 muscle ~35 mm long is consistent with a 2-2.5 cm2 sagittal CSA (the CSA covers both bellies)"
   },

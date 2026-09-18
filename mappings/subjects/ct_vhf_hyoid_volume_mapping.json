@@ -14,8 +14,8 @@
    "side": "right",
    "status": "review",
    "atlas_id": null,
-   "relationship": "exact",
-   "note": "1.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 1.0 cm3 against 3-6 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "relationship": "no_usable_label",
+   "note": "2.7 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 24 disconnected islands, largest one only 26% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
    "candidates": [
     "sternohyoid_r"
    ]
@@ -26,8 +26,8 @@
    "side": "right",
    "status": "review",
    "atlas_id": null,
-   "relationship": "exact",
-   "note": "0.9 cm3; rule-based: superior belly and its course under the SCM; the inferior belly across the posterior triangle is not attempted. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 0.9 cm3 against 2-4 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "relationship": "no_usable_label",
+   "note": "3.8 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 13 disconnected islands, largest one only 40% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
    "candidates": [
     "omohyoid_r"
    ]
@@ -39,7 +39,7 @@
    "status": "review",
    "atlas_id": "mylohyoid_r",
    "relationship": "exact",
-   "note": "10.4 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 10.4 cm3 against 3-6 expected (1.7x): the sheet rule takes the whole floor of her flexed mouth.",
+   "note": "8.9 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: still above the 3-6 cm3 expected range (improved from ~10 cm3 pre-fix to ~8.5 cm3 after fixing a numpy casting bug in floor_rules() that was silently breaking the mylohyoid/geniohyoid sling split above the mental spine on some numpy versions; the floor sheet rule still likely takes more than the true mylohyoid at some levels).",
    "candidates": []
   },
   {
@@ -49,7 +49,7 @@
    "status": "curated",
    "atlas_id": "geniohyoid_r",
    "relationship": "exact",
-   "note": "2.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "note": "2.3 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
    "candidates": []
   },
   {
@@ -69,7 +69,7 @@
    "status": "curated",
    "atlas_id": "hyoglossus_r",
    "relationship": "exact",
-   "note": "4.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "note": "4.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
    "candidates": []
   },
   {
@@ -102,7 +102,7 @@
    "status": "curated",
    "atlas_id": null,
    "relationship": "no_usable_label",
-   "note": "1.7 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid.",
+   "note": "5.8 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid.",
    "candidates": []
   },
   {
@@ -112,7 +112,7 @@
    "status": "curated",
    "atlas_id": null,
    "relationship": "no_usable_label",
-   "note": "3.6 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target.",
+   "note": "4.9 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target.",
    "candidates": []
   },
   {
@@ -131,8 +131,8 @@
    "side": "left",
    "status": "review",
    "atlas_id": null,
-   "relationship": "exact",
-   "note": "1.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 1.0 cm3 against 3-6 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "relationship": "no_usable_label",
+   "note": "2.7 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 23 disconnected islands, largest one only 20% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
    "candidates": [
     "sternohyoid_l"
    ]
@@ -143,8 +143,8 @@
    "side": "left",
    "status": "review",
    "atlas_id": null,
-   "relationship": "exact",
-   "note": "0.4 cm3; rule-based: superior belly and its course under the SCM; the inferior belly across the posterior triangle is not attempted. NOT SHIPPED (main session 2026-09-16): only a fragment of the muscle, 0.4 cm3 against 2-4 expected; the strap layer below the thyroid cartilage is cut by the excluded CT labels. Kept in the label volume for review.",
+   "relationship": "no_usable_label",
+   "note": "3.5 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 15 disconnected islands, largest one only 39% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
    "candidates": [
     "omohyoid_l"
    ]
@@ -156,7 +156,7 @@
    "status": "review",
    "atlas_id": "mylohyoid_l",
    "relationship": "exact",
-   "note": "10.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 10.1 cm3 against 3-6 expected (1.7x): same rule.",
+   "note": "8.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: still above the 3-6 cm3 expected range (improved from ~10 cm3 pre-fix to ~8.5 cm3 after fixing a numpy casting bug in floor_rules() that was silently breaking the mylohyoid/geniohyoid sling split above the mental spine on some numpy versions; the floor sheet rule still likely takes more than the true mylohyoid at some levels).",
    "candidates": []
   },
   {
@@ -166,7 +166,7 @@
    "status": "curated",
    "atlas_id": "geniohyoid_l",
    "relationship": "exact",
-   "note": "2.9 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "note": "3.0 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
    "candidates": []
   },
   {
@@ -176,7 +176,7 @@
    "status": "curated",
    "atlas_id": "genioglossus_l",
    "relationship": "exact",
-   "note": "10.2 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
+   "note": "10.5 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa.",
    "candidates": []
   },
   {
@@ -186,7 +186,7 @@
    "status": "review",
    "atlas_id": "hyoglossus_l",
    "relationship": "exact",
-   "note": "7.1 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 7.1 cm3 against 2-4 expected (1.8x) while the right is 4.2: the left side takes more of the tongue base.",
+   "note": "5.4 cm3; rule-based: position-rule marker relative to her mandible / hyoid / larynx / tongue labels, boundary by the marker watershed on her fascial septa. REVIEW: 5.4 cm3 against 2-4 expected (was 7.1 before the floor_rules fix; still the larger of the two sides, consistent with the right hyoglossus sitting at 4.0 which is in range).",
    "candidates": []
   },
   {
@@ -219,7 +219,7 @@
    "status": "curated",
    "atlas_id": null,
    "relationship": "no_usable_label",
-   "note": "1.6 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid.",
+   "note": "5.2 cm3; NOT shipped: sink for the deep strap layer (sternothyroid / thyrohyoid, shipped from the CT task as ct_vhf_neck; their CT labels are also excluded); keeps that layer out of the sternohyoid.",
    "candidates": []
   },
   {
@@ -229,7 +229,7 @@
    "status": "curated",
    "atlas_id": null,
    "relationship": "no_usable_label",
-   "note": "5.5 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target.",
+   "note": "8.8 cm3; NOT shipped: sink for the anterolateral floor lateral of the geniohyoid / genioglossus (sublingual region, lateral genioglossus fibres); not a target.",
    "candidates": []
   },
   {

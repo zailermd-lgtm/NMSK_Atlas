@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q75 DONE (a scripted pixel-anomaly sweep of both bodies' renders found and fixed 3 more small `vhm_both` poke-throughs -- gastrocnemius_l, phalanges_foot_l, fibula_r, same fix family as Q73; whole-`vhm_both` recheck now 0.0% outside on every structure), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, likely from the per-2D-slice silhouette having no 3-D continuity -- not a poke-through, lower priority, would need a full recheck of her body if her skin volume changes), Q73 DONE (his fibularis longus was poking through the ankle skin; fixed by nudging the vertices that were actually outside back inside a margined skin, patched into the committed `vhm_v25` source bundle so it survives a reset), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- root-caused to a genuine legacy mis-registration of the recovered `ct_vhm_arm` bones against the Q70 skin, not a skin gap; a CT-guided local correction only got partway there and was not reliable enough to ship). Female viewer V33 (368 structures), male V44 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved, non-regressed geometry; re-investigated sternohyoid/omohyoid with the fix -- volumes now plausible but connected-component analysis proved them genuinely fragmented into a dozen-plus disconnected islands, confirmed pre-existing not a regression, so still NOT shipped), Q75 DONE (a scripted pixel-anomaly sweep of both bodies' renders found and fixed 3 more small `vhm_both` poke-throughs -- gastrocnemius_l, phalanges_foot_l, fibula_r, same fix family as Q73), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders -- not a poke-through, lower priority), Q73 DONE (his fibularis longus was poking through the ankle skin; fixed and patched into the committed `vhm_v25` source bundle so it survives a reset), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V34 (368 structures), male V44 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1359,6 +1359,34 @@ tick the item here with a one-line result. Never fabricate; keep the
       Tests 252 pass. Male viewer Version 44 (350 structures, republished). The (documented, not fixed) Q72
       elbow bones and Q74 female shoulder seam are a different, harder class of defect and are unaffected by
       this pass.
+- [x] Q76 (DONE 2026-09-18) Went back to Q62's queued sternohyoid/omohyoid rejection (`docs/MUSCLE_GAPS.md`
+      "shoulder girdle"/"deep neck" work) to see whether it was still correctly rejected. Re-running
+      `scripts/cryo/vhf_hyoid_muscles_from_cryo.py` (her existing 1 mm frame, unchanged data) crashed:
+      `floor_rules()` did `(g < 0.5) & ~above_spine` where `above_spine` is a plain Python bool, not an array
+      -- `~True` is bitwise-NOT on an int (`-2`), not logical negation, and a newer numpy refuses to cast that
+      back into the bool array with `&=`. This means the script has been UNRUNNABLE since some numpy upgrade,
+      and everything currently shipped from it (mylohyoid, geniohyoid, genioglossus, hyoglossus, styloglossus)
+      is stale relative to the script's own current rules. FIX: `(not above_spine)`, one line.
+      Re-ran with the fix: mylohyoid dropped from ~10.3 to ~8.5 cm3 (still above the 3-6 expected but closer),
+      hyoglossus_left from 7.1 to 5.4 cm3 (still above 2-4 but closer), genioglossus/geniohyoid/styloglossus
+      essentially unchanged; connected-component check on the label volume (new vs the pre-fix backup) shows
+      NONE of the five got WORSE -- mylohyoid_left actually went from 2 pieces to 1. Re-shipped these five
+      (re-curated the mapping, reconverted `ct_vhf_hyoid`, re-exported): a real improvement, no regression.
+      Sternohyoid/omohyoid ALSO changed a lot with the same fix (1.0/0.9 cm3 -> 2.7/3.5-3.8 cm3, now inside
+      the 3-6 / 2-4 expected ranges) and were briefly re-curated as shippable on that basis alone -- until an
+      isolated render showed a scatter of disconnected blobs, not a strap muscle. Connected-component count
+      confirmed it: 23-24 islands for sternohyoid, 13-15 for omohyoid, the largest only 20-40% of the total
+      volume. Checked the SAME count on the pre-fix backup: 9-13 islands, 31-48% largest -- so the
+      fragmentation is not something this fix caused, it is what "only a fragment of the muscle" in the
+      original 2026-09-16 rejection note actually meant, now precisely characterised rather than just a low
+      total-volume complaint. A plausible SUM of a dozen disconnected blobs is not one continuous muscle, so
+      REVERTED sternohyoid/omohyoid back to unshipped (atlas_id null), with the fragmentation finding written
+      into their mapping notes for whoever next tries to fix `strap_compartment()`/`strap_rules()` (the
+      per-slice cleanup at `STRAP_MIN_PART_PX` most likely creates the gaps; a fix needs 3-D-consistent
+      cleanup, not a bigger `min_part`, which would only shrink the islands further). Verified the re-shipped
+      five with a render (mylohyoid isolated: one continuous sheet, matches the component count). Tests 252
+      pass. Female viewer Version 34 (368 structures, unchanged count -- these ids were already shipped,
+      only their geometry improved; republished).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in

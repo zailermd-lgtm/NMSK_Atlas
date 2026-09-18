@@ -168,7 +168,7 @@ def floor_rules(dx, g, d_out, comp, above_spine, d_mand=None):
     """{muscle: mask} in the floor compartment (see the docstring)."""
     mh = comp & (d_out <= MH_T_MM)
     if d_mand is not None:                   # the sheet stays on the mandible; its sling crosses the floor only below the mental spine
-        mh &= (d_mand <= MH_MAND_MM) | ((g < 0.5) & ~above_spine)
+        mh &= (d_mand <= MH_MAND_MM) | ((g < 0.5) & (not above_spine))
     deep = comp & ~mh
     w = GG_W_MM if above_spine else GH_W_MM
     para = deep & (dx < w)
