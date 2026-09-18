@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V44 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V44 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1429,6 +1429,34 @@ tick the item here with a one-line result. Never fabricate; keep the
       with `--skin-nii` today and were unaffected either way (already 0% naturally -- orbital muscles sit
       deep in the skull, far from any skin margin). Tests 252 pass. Female viewer Version 35 (368 structures,
       republished).
+- [-] Q78 (found 2026-09-18, NOT fixed -- blocked on lost source data) `data/derived/cross_subject_scale_audit.json`
+      flagged several male-vs-female volume-ratio outliers; most turned out to be the audit comparing across
+      genuinely different DONOR BODIES (his `abdominal_aorta` etc. come from the third body `ct_s1159`, not
+      his own CT, so a bone-derived scaling ratio was never going to hold -- not a bug) or noise on sub-cm3
+      structures. One held up: `external_oblique`, `internal_oblique` and `transversus_abdominis` on
+      `ct_vhm_abw` (his own abdominal-wall photograph segmentation, subject "recovered from the published male
+      viewer (Version 25)" like `vhm_both`/`ct_vhm_arm` -- its real source, `scripts/cryo/abdominal_wall_from_cryo.py`'s
+      `vh_cryo/cryo_torso_frame_cls.npy` and related frame arrays, is not in this session's scratchpad, same
+      loss as Q71/Q72's data). Rendering `external_oblique_r`/`internal_oblique_r` isolated in the viewer
+      showed real, visible gaps -- not a subtle boundary issue -- confirmed by a proper mesh-topology check
+      (connected components via face adjacency, not a distance threshold): `internal_oblique_r` splits into 11
+      pieces, the largest only 46% of the mesh; `internal_oblique_l` splits into 15 pieces, largest 49%;
+      `transversus_abdominis_r` splits into 11 pieces, largest 44%. `external_oblique_r` is milder (88%
+      largest, 5 pieces) and `external_oblique_l`, `transversus_abdominis_l`, `rectus_abdominis_r/l` are
+      essentially whole (92-100% largest, a real single sheet in each case -- confirmed by isolating
+      `external_oblique_l` in the viewer: one continuous piece). So this is NOT a left/right issue as the
+      audit's volume ratio first suggested (both internal obliques are equally fragmented); it is specifically
+      the two DEEPER layers of the rule ("the middle 35%" and "the inner 25%" of wall thickness), which makes
+      sense: they are thinner, sit closer to the organ/vertebra exclusion zones the rule carves out, and are
+      the likeliest layers for a photograph-classification rule to scatter into small islands rather than one
+      sheet. NOT FIXED: the source frame arrays needed to re-run the rule are gone, and this session's
+      recovered mesh IS the only surviving copy of this geometry -- there is no safe local correction (keeping
+      only the largest island would drop roughly half of each muscle's real length, trading "continuous" for
+      "truncated", not a net improvement per the "complete, continuous" mandate; interpolating a bridge between
+      islands would fabricate geometry the source never supported). Needs the male torso photograph frame
+      re-streamed (the same missing prerequisite as Q57/Q68) and `abdominal_wall_from_cryo.py` re-run and
+      reconverted -- a real fix, not a patch. Left in the label volume as-is; nothing changed, no viewer
+      republish needed.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
