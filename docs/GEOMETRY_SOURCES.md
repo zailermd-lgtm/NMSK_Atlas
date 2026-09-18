@@ -1429,6 +1429,43 @@ changes, so say so. It does **not** require the derivative to be licensed
 alike, which is what makes the proprietary licence on this repository
 possible.
 
+### The male's full-body skin surface, from his own CT instead of the DU-blocked photograph route (2026-09-18, Q70)
+
+Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they should look better")
+found the male's body surface (`ct_vhm_skin`) covered only the torso, arms and thighs — both lower
+legs rendered with raw muscle and bone exposed below the knee, by far the largest visible gap against
+Z-Anatomy on either body. `ct_vhm_skin` had been derived from his 1 mm colour cryosections
+(`scripts/cryo/skin_from_cryo.py`), which needs a re-stream that Q29 records as blocked (the intermediate
+`cryo_1mm_classes.npy` was lost in the 2026-09-11 container reset). That framing conflated two different
+data routes, though: his OWN CT — used throughout this "Stage 2" section for `ct_vhm`, `ct_vhm_arm`, etc. —
+already covers pelvis-to-toes in two more IDC series (`145c2668-...`, 809 slices, and `94755b62-...`,
+224 slices) that are reachable from this sandbox (verified live; only `digitalcommons.du.edu` and
+`simtk.org` are denied, not `idc-open-data`), and needs no photographs at all.
+
+`scripts/cryo/vhm_whole_body_skin.py` downloads and stacks both series (`scripts/download_idc_series.py`,
+`scripts/stack_dicom_series.py`), takes an HU > -300 silhouette per slice on all three CT blocks (torso,
+legs, feet), and unions them onto the torso block's own grid. The block-to-block placement is a rigid
+shift per pair (torso<->legs, legs<->feet), but the shifts already on record — the "Stage 2" table's
+image-correlation figure for torso<->legs, and Q1's for legs<->feet — turned out not to be tight enough
+for this purpose: checked directly against the vertices of every bone and muscle `vhm_both` (the DU
+lower-extremity release) already ships for that region, they left up to 42% of the tarsal/phalanx
+vertices and 15-17% of the thigh/calf muscle vertices outside the silhouette (right side worse than left
+in both cases, consistent with a small torsional/positioning difference between table sessions that a
+pure translation can't capture, not a sign error). Re-fitting each shift directly against those vertices
+(not the raw image correlation) brought the mean vertex containment failure across all 130 `vhm_both`
+structures to 0.49%; a further 2 mm dilation margin on the finished silhouette — the same kind of safety
+margin the female pipeline's registration uncertainty already carries elsewhere — brought it to 0.03%,
+worst case `fibularis_longus_r` at 1.8%. Verified by rendering `ct_vhm_skin` together with `vhm_both` and
+checking the surface is continuous head-to-toe with no bone or muscle breaking through, in addition to the
+vertex-containment numbers above.
+
+Shipped as `ct_vhm_skin` (replacing the torso-only version; `mappings/vhm_skin_labels.json`,
+`data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`), male viewer republished at the same URL. The
+photograph-route `skin_from_cryo.py` script is unchanged and still blocked (Q29); it is no longer needed
+for this purpose. Depth-below-skin tags for every male structure change now that the surface actually
+exists below the knee — not regenerated as a separate derived-data file this session (the male body, unlike
+the female, has never had one; `data/derived/skin_depth_vhf.json` is female-only).
+
 ---
 
 *This document records engineering and licensing analysis, not legal advice.
