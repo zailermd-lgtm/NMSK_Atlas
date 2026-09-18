@@ -1200,7 +1200,37 @@ tick the item here with a one-line result. Never fabricate; keep the
       exactly, so `scripts/cryo/clip_arm_to_skin.py` reprojected every voxel through the two affines and
       dropped any outside `ct_vhm_skin` (44,015 voxels for deltoid, 206,581 for triceps). Reconverted,
       re-exported (350 structures, unchanged), confirmed by render, republished at the same URL, Version 41.
-- [-] Q30 PARKED (23:20 -> 02:00) Female CRYOSECTIONS for her arms and hands. Done and kept: the series streamed
+
+- [-] Q71 (2026-09-18) Her LEFT forearm muscle separation: TRIED, IMPROVED, STILL NOT SHIPPABLE. Continuing Q62
+      (her left forearm is the queue's own stated next item). `scripts/cryo/vhf_left_forearm_muscles_from_cryo.py`
+      adapts the right forearm's already-shipped pipeline (vhf_forearm_muscles_from_cryo.py, imported directly)
+      to the left side.
+      FINDING 1 (root cause of the earlier Phase 1b framework never producing named muscles): Q64 Phase 3's
+      colour-threshold bone labels (build/vhf_left_forearm_bones.nii.gz) are unreliable as a seed -- overlaid on
+      the actual photographs, several "radius"/"ulna" masks land on the TRUNK, not the forearm (a render check,
+      not a guess: see the finding recorded here for anyone reusing that volume). Rejected as a seed.
+      FINDING 2 (fix): find_anchor_pair(), a dual-peak detector on the same photograph classification the
+      tracker itself uses, correctly locates both bones at a hand-verified anchor level (visually confirmed by
+      rendering the two candidate circles on the raw crop). Seeded from that one level, the existing
+      right-arm track_bones()/dt_bone() logic (imported unchanged, plus a max-radius cap, MAX_BONE_R_MM=16mm,
+      against a slower drift) tracks 168 levels (atlas y 316 -> 150, ~166 mm) before the two discs falsely
+      "merge" -- up from a single unusable frame before this fix. Montage checked: bone circles and fascial-line
+      boundaries look right through most of the tracked range.
+      STILL WRONG: (a) the segment is proximal-only, about 60% of a full ~260 mm forearm (the raw crop data
+      is valid and continuous well past level 168, confirmed by non-black pixel counts to level 450+, so this
+      is a tracker limitation, not a data gap); (b) several flexor-group volumes exceed typical FULL-muscle
+      textbook ranges despite the segment being partial (flexor_carpi_radialis 39.6 cm3 vs 15-25 full,
+      palmaris_longus 43.6 vs 5-15, flexor_pollicis_longus 40.0 vs 15-25), meaning they absorbed a neighbour's
+      territory; the whole lateral/mobile-wad compartment (brachioradialis, ECRL, ECRB) came back at 0 cm3,
+      never seeded. Tried and reverted: a tighter 12 mm bone-radius cap and a per-level radius-growth limit
+      both killed legitimate tracking within a few levels of the anchor (this cadaver's bone genuinely exceeds
+      12 mm nearby) without fixing the j160ish drift -- the true fix needs either periodic re-validation with
+      find_anchor_pair() partway along the track (not just a single anchor) or a smarter drift detector, not
+      tighter thresholds on the same one-shot seed.
+      NOT SHIPPED: `data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz` and its mapping/labels
+      are kept (every entry `status: review`, `atlas_id: null` -- convert would skip all of them as written),
+      for whoever continues this to resume from rather than re-derive. No subject added to the female bundle;
+      no viewer change. Tests pass; nothing about the shipped bodies changed by this item.
       (1729 slices at 1 mm, resumable, 3 min), classified, registered to her CT (43 anchors, IoU 0.72-0.93, flip
       `fy`; in-plane shift drifts (-4,-108) px legs -> (-13,-121) thorax -> (+14,-117) head = the frozen block's pose
       differs from the fresh scan; z offset a line through the NCC >= 0.55 anchors, rms 8.9 mm), resampled into her

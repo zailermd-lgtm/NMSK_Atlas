@@ -1,20 +1,23 @@
 """Female LEFT forearm muscles from her FULL-RESOLUTION cryosection crops (Q62 step 1, left side). Rule-based; badged.
 
-    python3 scripts/cryo/vhf_left_forearm_muscles_from_cryo.py --crops SCRATCH/vh_cryo_f \
-        --bones build/vhf_left_forearm_bones.nii.gz \
+    python3 scripts/cryo/vhf_left_forearm_muscles_from_cryo.py --crops SCRATCH/vh_cryo_f --anchor 100 \
         --out data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz --montage-dir SCRATCH/vh_cryo_f
 
 The left counterpart of vhf_forearm_muscles_from_cryo.py (her rules, her watershed, her report format,
 imported directly); what differs:
 
 BONE SEED. Her right forearm seeds the bone tracker from her CT radius/ulna mesh sections (ct_vhf_armb),
-which does not exist for the left arm (outside her CT's field of view, Q30/Q39). Her left forearm bones
-were instead segmented directly IN the photographs by colour threshold (Q64 Phase 3,
-scripts/cryo/vhf_left_forearm_segment_phase3.py -> build/vhf_left_forearm_bones.nii.gz, indexed
-(Z, H, W) identically to arm_full_left.npy -- the same crop level j, no registration needed). That
-per-slice mask seeds the SAME dt_bone()/track_bones() tracker used on the right, at an anchor level
-picked inside the phase-3 volume's confident radius/ulna z-range (0-149 of 491): there is therefore no
-CT-to-photo residual to report (both the seed and the tracked disc come from the same photographs).
+which does not exist for the left arm (outside her CT's field of view, Q30/Q39). Q64 Phase 3 tried
+segmenting her left forearm bones directly in the photographs by a per-slice colour threshold
+(build/vhf_left_forearm_bones.nii.gz) as a substitute seed; TRIED AND REJECTED here after it produced
+garbage (up to 33 mm "bone" circles landing on the trunk, not the forearm -- see PROJECT_STATE Q62).
+Instead, find_anchor_pair() finds the bone pair directly at the anchor level with its own dual-peak
+detector on the SAME classify()/pale_filled() the tracker itself uses, verified by eye against several
+raw crops before use (a min/max radius, a skin clearance and a plausible radius-ulna separation window
+reject the fat-rim and single-bone-two-peaks false positives that broke the phase-3 seed). Propagation
+from that one verified anchor level uses the SAME per-level dt_bone tracker as the right arm, with an
+added max-radius cap (MAX_BONE_R_MM) as a second line of defence against drifting onto a fat pocket.
+There is no CT-to-photo residual to report (the seed and the tracked disc both come from the photographs).
 
 Everything else -- island/muscle/bone classification, the radius-ulna frame, MARKER_RULES (unscaled,
 same body), compartments(), the marker watershed on the fascial-septa top-hat, boundary_support scoring
@@ -22,7 +25,9 @@ and the merge-into-compartments fallback -- is imported unchanged from the right
 operates purely in per-level pixel space and is not handedness-specific.
 
 Output: label volume (RAS, 0.5 x 0.5 x 1 mm) for `ingest_volume_geometry.py convert`, label key, subject
-mapping, report, montage.
+mapping, report, montage. Every mapping entry ships as status "review" (atlas_id left null): this route
+has no independent check the way the CT-seeded right arm does, so a human should confirm the montage
+before any label is set.
 """
 from __future__ import annotations
 
@@ -46,24 +51,70 @@ from scripts.cryo.vhf_forearm_muscles_from_cryo import (  # noqa: E402
 
 BADGE = _BADGE
 SOURCE = ("U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full "
-          "resolution (0.33 mm) via the NCI Imaging Data Commons; her left forearm bones (Q64 Phase 3, colour "
-          "threshold in the same photographs) seed the bone tracker. Derived data "
-          "(scripts/cryo/vhf_left_forearm_muscles_from_cryo.py), rule-based.")
-BONE_LABEL = {"radius": 1, "ulna": 2}
+          "resolution (0.33 mm) via the NCI Imaging Data Commons; the bone tracker is seeded directly in the "
+          "photographs (a dual-peak detector on the pale/bone distance transform), not from a CT section -- her CT "
+          "does not cover the left arm. Derived data (scripts/cryo/vhf_left_forearm_muscles_from_cryo.py), rule-based.")
+MAX_BONE_R_MM = 16.0   # a forearm long bone's inscribed circle does not exceed this; caps the false-positive fat-pocket
+                       # matches found when Q64 Phase 3's colour-threshold bone labels were used to seed this tracker
+                       # directly (up to 33 mm "bones" on the skin rim) -- see PROJECT_STATE Q62 for the finding.
+                       # A tighter cap (12 mm) and a per-level growth-rate limit were both tried to catch a slower
+                       # drift (both radii climbed from ~8 mm to ~15 mm between j120 and j165 before the discs
+                       # falsely "merged"); neither improved on this value without also killing legitimate tracking
+                       # near the anchor (this cadaver's radius genuinely exceeds 12 mm within a few cm of j100) --
+                       # left at 16 mm, so the j160ish drift is a known, undocumented-further limitation.
+
+
+def _dt_bone_capped(dt, dist, prev, search_mm, skin_mm=7.0, min_r_mm=3.5, max_r_mm=MAX_BONE_R_MM):
+    yy, xx = np.mgrid[0:dt.shape[0], 0:dt.shape[1]]
+    win = (np.hypot(yy - prev[0], xx - prev[1]) * PX <= search_mm) & (dist * PX >= skin_mm) & (dt * PX <= max_r_mm)
+    if not win.any():
+        return None
+    v = np.where(win, dt, -1.0); cy, cx = np.unravel_index(int(np.argmax(v)), v.shape); r = float(dt[cy, cx])
+    return (float(cy), float(cx), r) if r * PX >= min_r_mm else None
+
+
+def find_anchor_pair(im, ref, min_r_mm=6.0, min_sep_mm=20.0, max_sep_mm=80.0):
+    """The two bone centres at one level with no prior: the distance-transform peaks of the pale/bone class,
+    kept if >= 7 mm from the skin and >= min_r_mm, scored by the SMALLER of a candidate pair's two radii (so
+    two peaks on one big bone, or a peak on the subcutaneous fat rim, lose to a true well-separated pair) and
+    filtered to a plausible radius-ulna separation. Verified by eye on several levels (see PROJECT_STATE Q62)
+    before use; every level still needs a render check, this is not assumed correct blind."""
+    from skimage.feature import peak_local_max
+    from itertools import combinations
+    isl, er = island_mask(im, ref)
+    if isl is None:
+        return None
+    cl = classes(im, isl); pale = pale_filled(cl, isl)
+    dt = ndi.distance_transform_edt(pale); dist = ndi.distance_transform_edt(isl)
+    coords = peak_local_max(dt, min_distance=10, threshold_abs=4)
+    cands = [(float(cy), float(cx), float(dt[cy, cx])) for cy, cx in coords
+             if float(dist[cy, cx]) * PX >= 7.0 and float(dt[cy, cx]) * PX >= min_r_mm]
+    if len(cands) < 2:
+        return None
+    best = None
+    for a, b in combinations(cands, 2):
+        d_mm = float(np.hypot(a[0] - b[0], a[1] - b[1])) * PX
+        if not (min_sep_mm <= d_mm <= max_sep_mm):
+            continue
+        score = min(a[2], b[2])
+        if best is None or score > best[0]:
+            best = (score, a, b, d_mm)
+    return best
 
 
 # ----------------------------------------------------------------------------------------------- bone tracking (left)
-def track_bones_left(crops, bones, j_anchor, j_lo, j_hi, log=print, merge_mm=15.0, lost_max=8):
-    """Like track_bones() in the right-arm module, but seeded from the phase-3 pixel-space bone volume
-    instead of a CT mesh section; residual is not tracked (no independent modality to compare to)."""
+def track_bones_left(crops, j_anchor, j_lo, j_hi, log=print, merge_mm=15.0, lost_max=8):
+    """Like track_bones() in the right-arm module (dt_bone, island_mask, pale_filled all imported unchanged),
+    but seeded from find_anchor_pair() directly in the photograph instead of a CT mesh section, and with a
+    max-radius cap on every bone match (MAX_BONE_R_MM) since there is no independent modality to catch a
+    tracker that has drifted onto a fat pocket."""
     out = {}
-    L = crops.level(j_anchor); im = crops.image(j_anchor)
-    cent = {}
-    for b, lab in BONE_LABEL.items():
-        m = np.asarray(bones[j_anchor]) == lab
-        if not m.any():
-            raise SystemExit(f"no phase-3 {b} mask at anchor level {j_anchor}")
-        cent[b] = tuple(float(v) for v in ndi.center_of_mass(m))
+    im = crops.image(j_anchor)
+    res = find_anchor_pair(im, ((crops.image(j_anchor).shape[0]) * 0.6, (crops.image(j_anchor).shape[1]) * 0.4))
+    if res is None:
+        raise SystemExit(f"no plausible bone pair found at anchor level {j_anchor}")
+    _, a, b, _ = res
+    cent = {"radius": a[:2], "ulna": b[:2]}
 
     def one(j, prev, lost, first=False):
         L = crops.level(j); im = crops.image(j); ref = tuple(np.mean([prev["radius"], prev["ulna"]], axis=0))
@@ -73,15 +124,11 @@ def track_bones_left(crops, bones, j_anchor, j_lo, j_hi, log=print, merge_mm=15.
         cl = classes(im, isl); pale = pale_filled(cl, isl); dt = ndi.distance_transform_edt(pale); dist = ndi.distance_transform_edt(isl)
         rec = {"island": isl, "erode": er, "cl": cl, "im": im, "L": L, "found": {}, "ct": {}}
         for b in ("radius", "ulna"):
-            h = dt_bone(dt, dist, prev[b], 9.0 if first else 6.0 + 2.0 * lost[b])
+            h = _dt_bone_capped(dt, dist, prev[b], 9.0 if first else 6.0 + 2.0 * lost[b])
             if h is None:
                 rec[b] = (prev[b][0], prev[b][1], 0.0, None); rec["found"][b] = False
             else:
                 rec[b] = (h[0], h[1], h[2], bone_mask(pale, *h)); rec["found"][b] = True
-            if j < bones.shape[0]:
-                m = np.asarray(bones[j]) == BONE_LABEL[b]
-                if m.any():
-                    rec["ct"][b] = tuple(float(v) for v in ndi.center_of_mass(m))
         return rec
 
     rec = one(j_anchor, cent, {"radius": 0, "ulna": 0}, first=True)
@@ -107,12 +154,13 @@ def track_bones_left(crops, bones, j_anchor, j_lo, j_hi, log=print, merge_mm=15.
     return out
 
 
-def segment_bounds_left(track, bones):
-    """Proximal end: the first tracked level where the phase-3 radius label has a section (its top is the
-    radial head); distal end: the last tracked level."""
+def segment_bounds_left(track, j_hi_cap):
+    """Distal end: the last tracked level. Proximal end: her right forearm's segment starts at the radial
+    head (the top of the CT radius label); the left has no CT there, so instead this uses the first tracked
+    level outward from the anchor -- the anchor is picked past the elbow already, so this is the practical
+    proximal bound, NOT independently verified against the radial head the way the right side is."""
     js = sorted(track)
-    top = [j for j in js if j < bones.shape[0] and (np.asarray(bones[j]) == BONE_LABEL["radius"]).any() and all(track[j]["found"].values())]
-    return (min(top), max(js)) if top else (None, None)
+    return (min(js), max(js)) if js else (None, None)
 
 
 def level_frame_left(t, orient_prev):
@@ -131,15 +179,14 @@ def level_frame_left(t, orient_prev):
 
 def run(a, log=print):
     crops = ArmCrops(a.crops, side="left")
-    bones = np.asarray(nib.load(a.bones).dataobj).astype(np.uint8)
     cache = Path(a.cache) if getattr(a, "cache", None) else None
     if cache and cache.exists():
         import pickle; track = pickle.load(open(cache, "rb")); log(f"bone track from cache {cache}")
     else:
-        track = track_bones_left(crops, bones, a.anchor, a.j_lo, a.j_hi, log)
+        track = track_bones_left(crops, a.anchor, a.j_lo, a.j_hi, log)
         if cache:
             import pickle; pickle.dump(track, open(cache, "wb"), protocol=4)
-    j_top, j_bot = segment_bounds_left(track, bones)
+    j_top, j_bot = segment_bounds_left(track, a.j_hi)
     if j_top is None:
         raise SystemExit("no level with two separate bone discs")
     log(f"segment levels {j_top}..{j_bot}  (atlas y {crops.level(j_top)['y']:.0f} .. {crops.level(j_bot)['y']:.0f})")
@@ -237,8 +284,7 @@ def montage(crops, track, labels_by_level, ids, frames, levels, path, colors):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--crops", required=True, help="SCRATCH/vh_cryo_f (arm_full_left.npy, arm_full_bbox.json)")
-    ap.add_argument("--bones", default=str(REPO / "build/vhf_left_forearm_bones.nii.gz"))
-    ap.add_argument("--anchor", type=int, default=60, help="crop level (index into arm_full_left.npy) where the phase-3 bone volume seeds the tracker")
+    ap.add_argument("--anchor", type=int, default=100, help="crop level (index into arm_full_left.npy) where find_anchor_pair() seeds the tracker")
     ap.add_argument("--j-lo", type=int, default=0); ap.add_argument("--j-hi", type=int, default=490)
     ap.add_argument("--out", default=str(REPO / "data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz"))
     ap.add_argument("--labels-out", default=str(REPO / "mappings/vhf_left_forearm_muscles_labels.json"))
