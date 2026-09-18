@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body; follow-up clipped his deltoid/triceps to the new skin too), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a/1b DONE (forearm compartments and initial muscle separation). Female viewer V33 (368 structures), male V41 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body; follow-up clipped his deltoid/triceps to the new skin too), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a/1b DONE (forearm compartments and initial muscle separation). Female viewer V33 (368 structures), male V42 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1200,6 +1200,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       exactly, so `scripts/cryo/clip_arm_to_skin.py` reprojected every voxel through the two affines and
       dropped any outside `ct_vhm_skin` (44,015 voxels for deltoid, 206,581 for triceps). Reconverted,
       re-exported (350 structures, unchanged), confirmed by render, republished at the same URL, Version 41.
+      FOLLOW-UP v2 same day: a broader visual-QA sweep (front+back+side renders, not just front) found
+      triceps_brachii still poking through at BOTH elbows -- the exact-boundary clip only checked the shoulder
+      from the front. Same root cause as Q69: independently-smoothed isosurfaces don't nest exactly.
+      clip_arm_to_skin.py now eroded the skin mask by 3 mm before clipping (163,067 more voxels removed).
+      Reconverted, re-exported (350, unchanged), confirmed by render (elbow red pixels 49 -> 5), republished
+      at the same URL, Version 42.
 
 - [-] Q71 (2026-09-18) Her LEFT forearm muscle separation: TRIED, IMPROVED, STILL NOT SHIPPABLE. Continuing Q62
       (her left forearm is the queue's own stated next item). `scripts/cryo/vhf_left_forearm_muscles_from_cryo.py`
