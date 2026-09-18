@@ -1255,6 +1255,47 @@ tick the item here with a one-line result. Never fabricate; keep the
       CT (Q12) for the right arm only, or a reviewer marking the two discs every 20 mm (about 20 clicks per arm),
       after which the walk between marks is constrained enough. Nothing from Q30 ships. The scratchpad
       intermediates rebuild in ~10 minutes from the scripts if the container resets.
+- [-] Q72 (2026-09-18) Visual-QA sweep on the male found his humerus/ulna poking through his own skin at the
+      elbow (a jagged bone-coloured shard, both arms, worst at mid-bicep/elbow): clicked and confirmed via the
+      viewer ("TITLE: Humerus"), then quantified with the same atlas-to-voxel containment check used all
+      session (`build/vh/ct_vhm_arm/manifest.json` vertices against `vhm_skin_ct.nii.gz`): humerus_r 21.8%,
+      humerus_l 23.4%, ulna_r 26.9%, ulna_l 25.1% of vertices outside; radius mostly fine (0.9-8%); every hand
+      bone (carpals/metacarpals/phalanges) exactly 0%.
+      ROOT CAUSE, confirmed not guessed: `ct_vhm_arm`'s bones are NOT built by this session's own pipeline --
+      the manifest's `source_file` for all 12 entries reads "recovered from the published male viewer (Version
+      25)" (a legacy asset pulled back from an old shipped bundle after some earlier data loss, not
+      reconverted from CT since). Per-Y-bin containment on both sides shows the SAME shape on all four long
+      bones: humerus is perfect for its proximal 2/3 (shoulder end) and fails increasingly toward its distal
+      (elbow) end; ulna/radius are perfect for their distal 2/3 (wrist end, matching the hand bones exactly)
+      and fail increasingly toward their proximal (elbow) end -- i.e. both ends anchored near where they meet
+      OTHER already-correct geometry (the shoulder girdle transfer, the hand bones) and the error concentrates
+      exactly at the elbow joint, symmetric on both arms. Checked whether this is merely a smoothing-sigma
+      edge case (the Q69/Q70 muscle-poke-through pattern): NO -- sampled the raw torso CT HU values at the
+      "outside" vertex coordinates directly (not the smoothed mesh) and most are in confirmed AIR (HU -1024,
+      i.e. this cadaver truly has no tissue there; several are outside the CT's own field of view, needing a
+      negative voxel index). So the skin is right and the recovered elbow-region bone position is wrong -- a
+      genuine legacy mis-registration between this "Version 25" recovery and the freshly-rebuilt (Q70) skin,
+      not a completeness gap to fix by changing the skin.
+      TRIED: a per-Y-bin correction that only touches bins already failing (>3%), nudging each bin's (x,z)
+      centroid onto the nearest real CT bone (HU>250) connected component within a small search window around
+      its current position, tapering to zero at the already-good bins (translation only, bone shape
+      untouched -- the same category of fix as Q70's block-registration shifts, not fabrication). RESULT:
+      improved but not enough to ship -- humerus_r 21.8%->13.1%, ulna_r 26.9%->17.5%, humerus_l
+      23.4%->16.9%, ulna_l 25.1%->13.5%, radius_r 8.0%->5.4%, radius_l regressed slightly (0.9%->1.2%,
+      within noise). A tighter search window (12 mm vs 20 mm) did not do better (same ~13-18% floor). The
+      elbow has three long bones plus the humeral/radial/ulnar condyles crowded within a few cm, so a window
+      or largest-connected-component match keeps latching onto the wrong bone's fragment -- the same
+      reliability ceiling Q71 hit tracking the left forearm. NOT SHIPPED: no file in the repository or
+      `build/` changed by this item; the live viewers are unaffected. Documented here rather than pushed
+      half-working, per the "never ship unverified/implausible anatomy" rule -- moving already-correct
+      vertices on an unreliable guess would be worse than leaving the (smaller, now bounded and explained)
+      poke-through in place. What would actually fix it: a proper short bone-tracking walk seeded from BOTH
+      good ends inward (like Q71's `find_anchor_pair`, but converging from the shoulder and the wrist toward
+      the elbow instead of one-shot from a single anchor), or replacing `ct_vhm_arm`'s elbow region with a
+      fresh CT-only segmentation instead of nudging the recovered mesh. Left for a future session; the
+      diagnostic scripts are scratchpad-only and not needed to resume (the finding above is enough to redo the
+      analysis in a few minutes: `voxels_to_atlas`-style reprojection of `build/vh/ct_vhm_arm` vertices, atlas
+      origin `(-6.035,-895.476,4.787)`, against `data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
