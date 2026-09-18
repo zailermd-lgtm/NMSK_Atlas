@@ -1166,6 +1166,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       every `ct_vhm*` subject from the repository task outputs (chain to write like `vhf_rebuild_bundle.sh`), and
       re-stream the cryosection silhouette for `ct_vhm_skin` (not in the repository). The male artifact (Version 25)
       stays live meanwhile; nothing about it can be changed until this is done.
+      CONFIRMED visually 2026-09-18 (Q69 visual-QA pass, current male V39): "Other"/Integumentum on him only
+      covers the torso, arms and thighs -- both lower legs render with skin ABSENT below the knee (raw
+      muscle+bone exposed) because no `ct_vhm_skin` subject exists in the current build at all, not because of a
+      registration gap like the female's Q69 fix. This is by far the largest visible difference from Z-Anatomy on
+      the male body. Not fixable without this item: needs either network access to re-fetch the DU release or a
+      full re-stream of his cryosections at the leg levels (his 1 mm frame was lost in the 2026-09-11 container
+      reset, see Q30/Q57/Q68). No action taken.
 - [-] Q30 PARKED (23:20 -> 02:00) Female CRYOSECTIONS for her arms and hands. Done and kept: the series streamed
       (1729 slices at 1 mm, resumable, 3 min), classified, registered to her CT (43 anchors, IoU 0.72-0.93, flip
       `fy`; in-plane shift drifts (-4,-108) px legs -> (-13,-121) thorax -> (+14,-117) head = the frozen block's pose
