@@ -11,7 +11,7 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a/1b DONE (forearm compartments and initial muscle separation). Female viewer V33 (368 structures), male V40 (350 structures).
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q70 DONE (male full-body skin surface from his own CT, not the DU-blocked photograph route -- his legs and feet now have skin at all, the largest visual gap against Z-Anatomy on either body; follow-up clipped his deltoid/triceps to the new skin too), Q69 DONE (transferred tibialis anterior clipped to her skin -- was poking through near the ankle, a rendering/registration defect found by visual QA against Z-Anatomy, not a completeness gap), Q64 Phase 3 DONE (left forearm bones, 490/491 slices, 1.83M voxels), Q62 Step 1a/1b DONE (forearm compartments and initial muscle separation). Female viewer V33 (368 structures), male V41 (350 structures).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1194,6 +1194,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       `mappings/subjects/ct_vhm_skin_volume_mapping.json`); male viewer re-exported (350 structures, unchanged
       count) and republished at the same URL, Version 40. Tests 252 pass. `docs/GEOMETRY_SOURCES.md` has the
       full writeup. Q29's photograph-route skin stays blocked and is no longer needed for this purpose.
+      FOLLOW-UP same day: with the skin now complete, the same visual-QA pass found deltoid_r (17% of
+      vertices) and triceps_brachii_r/l (17-27%) poking through at the shoulder/upper arm -- his own
+      cryosection-derived muscles, not vhm_both. Both label volumes already share the torso block's frame
+      exactly, so `scripts/cryo/clip_arm_to_skin.py` reprojected every voxel through the two affines and
+      dropped any outside `ct_vhm_skin` (44,015 voxels for deltoid, 206,581 for triceps). Reconverted,
+      re-exported (350 structures, unchanged), confirmed by render, republished at the same URL, Version 41.
 - [-] Q30 PARKED (23:20 -> 02:00) Female CRYOSECTIONS for her arms and hands. Done and kept: the series streamed
       (1729 slices at 1 mm, resumable, 3 min), classified, registered to her CT (43 anchors, IoU 0.72-0.93, flip
       `fy`; in-plane shift drifts (-4,-108) px legs -> (-13,-121) thorax -> (+14,-117) head = the frozen block's pose
