@@ -1105,6 +1105,24 @@ commit + push; republish the viewer (same URL; male c5d01522, female 0651399d) w
 tick the item here with a one-line result. Never fabricate; keep the
 "badged, rule-based" honesty. If blocked, write why and move on.
 
+- [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
+      should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
+      (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
+      distal shin/ankle -- caught by raycasting the rendered mesh at the exact screen pixel showing red
+      through the skin, which selected "Tibialis anterior" instead of the skin. Root cause: the transferred
+      label volume and the skin volume are independently Gaussian-smoothed before marching cubes (sigma 1.0
+      vs 1.5), so their 0.5-isosurfaces don't nest exactly even where the hard voxel masks do, especially
+      under a thin skin fold. Fix: `data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz` clipped
+      against her whole-body skin silhouette (skin_union.nii.gz, same frame, offset 140 slices) eroded by an
+      extra 3 mm margin -- 33,948 of ~9.9M voxels removed (mostly tibialis_anterior_l/r, also
+      extensor_hallucis_longus, fibularis_longus_r, semitendinosus_r and 9 others), well inside this
+      transfer's existing +-4 mm registration / +-8 mm max-move uncertainty (already badged). Reconverted
+      subject `xfer_vhm2vhf_sep`, re-exported the female bundle (368 structures, 1,160,062 triangles shown),
+      re-rendered and confirmed zero residual red pixels at the same pixels a raycast previously hit muscle.
+      Tests 252 pass. Female viewer republished, same URL, Version 33. The muscle-COMPLETENESS half of the
+      owner's comparison (250/404 muscle entities still without a mesh) is unchanged and tracked under Q62;
+      this item only fixed a rendering/registration defect on structures that already exist.
+
 - [x] Q1 Feet (done 2026-09-11 15:40): feet block registered to the legs block by the shared slice (corr 0.968, legs k=0 = feet k=221, in-plane (-6.6,-36.6) mm); HU>=200 minus the block-edge column (persistent in >150 slices) minus everything within 4 mm of the DU tibia/fibula or above the plafond; tarsals 114/123, metatarsals 47/45, phalanges 7.6/7.2 cm3 (r/l); render: both feet, heel to toes. The DU release already carries metatarsals and phalanges (bbox within 5 mm of the CT ones = registration check passed) but its 'tarsals' is one talus-sized bone; CORRECTION: the DU release carries every tarsal as its own mesh under the group id (14 pieces; the first piece's bbox was the talus), so the CT feet add nothing the DU lacks -- `ct_vhm_foot` is NOT in the bundle; it stays as the registration cross-check (metatarsals/phalanges within 5 mm of DU). Was: CT feet block (series 94755b62, ankle->toes) -- register
       to the legs block (shared slice, like torso/legs), HU>=200 bone
       components, group tarsals / metatarsals / phalanges by planes along
