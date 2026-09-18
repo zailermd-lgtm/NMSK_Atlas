@@ -135,6 +135,9 @@ def track_bones_left(crops, j_anchor, j_lo, j_hi, log=print, merge_mm=15.0, lost
     if rec is None or not all(rec["found"].values()):
         raise SystemExit("bones not found in the photograph at the anchor level")
     out[j_anchor] = rec
+    resnap_every = 6   # periodic re-validation: without this, a slow radius/position drift compounds over many
+                        # levels into a false "discs merge" stop well before the true end of the track (found at
+                        # j160-168 with a single anchor; see PROJECT_STATE Q71) -- catch it every ~2 mm instead.
     for rng in (range(j_anchor - 1, j_lo - 1, -1), range(j_anchor + 1, j_hi + 1)):
         prev = {b: out[j_anchor][b][:2] for b in ("radius", "ulna")}; lost = {"radius": 0, "ulna": 0}
         for j in rng:
@@ -146,6 +149,23 @@ def track_bones_left(crops, j_anchor, j_lo, j_hi, log=print, merge_mm=15.0, lost
                     prev[b] = r[b][:2]; lost[b] = 0
                 else:
                     lost[b] += 1
+            if (j - j_anchor) % resnap_every == 0:
+                res2 = find_anchor_pair(r["im"], tuple(np.mean([prev["radius"], prev["ulna"]], axis=0)))
+                if res2 is not None:
+                    _, a2, b2, _ = res2
+                    # assign {a2, b2} to {radius, ulna} by whichever pairing has the lower total distance to
+                    # the current track (2 candidates, 2 targets: only 2 possible pairings)
+                    d_ra = np.hypot(a2[0] - prev["radius"][0], a2[1] - prev["radius"][1])
+                    d_ru = np.hypot(b2[0] - prev["radius"][0], b2[1] - prev["radius"][1])
+                    if d_ra <= d_ru:
+                        pair = {"radius": a2, "ulna": b2}
+                    else:
+                        pair = {"radius": b2, "ulna": a2}
+                    for bone, cand in pair.items():
+                        d = float(np.hypot(cand[0] - prev[bone][0], cand[1] - prev[bone][1])) * PX
+                        if d <= 8.0:
+                            prev[bone] = cand[:2]
+                    log(f"  re-anchored at level {j}")
             if max(lost.values()) > lost_max:
                 log(f"  bone track stops at level {j} (bone lost)"); break
             if np.hypot(prev["radius"][0] - prev["ulna"][0], prev["radius"][1] - prev["ulna"][1]) * PX < merge_mm:
