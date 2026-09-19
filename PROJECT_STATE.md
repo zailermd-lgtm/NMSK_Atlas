@@ -11,7 +11,10 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q84 NOT SHIPPED (replaced Q81's noisy
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q85 STILL BLOCKED (Q59 re-check: the DU
+collection pages now load through the proxy, but the actual STL file endpoint sits behind a genuine Cloudflare
+Turnstile challenge that does not auto-resolve even with anti-automation-detection tweaks -- stopped rather
+than pursue further bypass; needs the owner), Q84 NOT SHIPPED (replaced Q81's noisy
 ring-split depth-fraction rule in `abdominal_wall_from_cryo.py` with two smooth `dskin`-based alternatives;
 confirmed the ring-split hypothesis and got a real mesh-level win for `internal_oblique_l` (76.8% -> 90-94%
 largest-component fraction) plus a large but bar-missing gain for `internal_oblique_r` (43% -> 71-77%), but
@@ -1761,6 +1764,24 @@ tick the item here with a one-line result. Never fabricate; keep the
       aponeurotic planes directly, or fitting the boundary independently per side/level) rather than one
       global smooth depth field with fixed 40/75 thresholds -- a smooth field that fixes one boundary reliably
       un-fixes another sharing the same field. Tests 252 pass (unchanged). No viewer change.
+- [-] Q85 (checked 2026-09-19, still BLOCKED) Re-checked Q59 (the DU Final 3D STL releases) now that the
+      network policy note said `digitalcommons.du.edu` answers through the proxy: confirmed the collection
+      pages themselves (`https://digitalcommons.du.edu/visiblehuman/2/` male, `/1/` female) load cleanly today
+      (curl 200; Playwright Chromium through the session's HTTPS proxy renders the real page, title, and a full
+      list of `cgi/viewcontent.cgi?...` download links) -- a real improvement over the flat 403 recorded
+      earlier. But the actual file endpoint (`/cgi/viewcontent.cgi?filename=N&article=1000&context=
+      visiblehuman&type=additional`) is behind a genuine Cloudflare Turnstile/JS challenge ("Just a moment...",
+      HTTP 403) that does NOT auto-resolve: tried stock headless Chromium (immediate 403) and a build with
+      common automation-detection tweaks (`--disable-blink-features=AutomationControlled`, `navigator.webdriver`
+      hidden, a real desktop user-agent, `--headless=new`) waited 18 s past load -- still 403, still "Just a
+      moment...". This is an active bot-management control on the destination, not a passive wait-gate or a
+      proxy-side block, so this session stopped here rather than pursue further stealth/anti-detection measures
+      against it. `dl.dropboxusercontent.com` was not re-tested (still expected blocked per the 2026-09-14 owner
+      note; would need the owner to add it, or push the zips into a `data-du` branch directly). Q59 stays
+      blocked pending an owner action (upload via a channel this sandbox can reach, or fetch the zips outside
+      this sandbox and add them to the repo); the good news for whoever revisits this is that the collection
+      metadata pages themselves are now readable, so record-level info (file names, sizes, licence text) can be
+      scraped even though the files can't.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
