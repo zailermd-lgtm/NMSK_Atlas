@@ -11,7 +11,14 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q92 DONE (followed up Q91's own
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q93 DONE (checked the rest of
+`xfer_vhf2vhm`/`xfer_vhf2vhm_neck` for the Q91/Q92 CT-native-replacement trick before spending more agent
+time on it: internal_carotid_a/internal_jugular_v are an already-declined dead end (his frozen non-contrast
+CT gives sub-0.5cm3 vessel fragments, already documented in `ct_vhm_neckbv`'s own mapping), digastric is a
+NEW confirmed dead end (TotalSegmentator's head_muscles task finds 0 voxels for it on this scan, not just a
+fragment); masseter/temporalis/pterygoids from the same task are already shipped, nothing new; the
+extraocular muscles were not re-investigated (a known, previously-diagnosed CT-undersizing issue, not an
+untried gap). Pure investigation, no code/mapping/viewer change), Q92 DONE (followed up Q91's own
 note: checked whether mylohyoid, geniohyoid, hyoglossus and styloglossus -- shipped on the male only via
 the `xfer_vhf2vhm_neck` cross-body transfer -- could each be recovered from his own CT the way genioglossus
 was. Read `vhf_hyoid_muscles_from_cryo.py`'s `floor_rules()`/`tongue_rules()` closely per muscle: mylohyoid
@@ -2082,6 +2089,30 @@ tick the item here with a one-line result. Never fabricate; keep the
       88 -- unchanged, since styloglossus was never in the missing-on-both set either (it was already
       "shipped on at least one body" via the transfer before this work). `docs/MUSCLE_GAPS.md`'s head-region
       section updated with this finding.
+- [x] Q93 (2026-09-19) Checked whether the same trick that fixed Q91/Q92 (replace a cross-body transfer with
+      native CT where the source body's own segmentation actually has it) applies to the REST of
+      `xfer_vhf2vhm`/`xfer_vhf2vhm_neck`'s remaining ids, before spending an agent on it. Two concrete
+      negative results, confirmed with real numbers, so nobody re-investigates these from scratch:
+      - `internal_carotid_a_r/l`, `internal_jugular_v_r/l`: his own `headneck_bones_vessels` task DOES
+        segment these (labels 9-12) and already has a reviewed atlas mapping ready in
+        `mappings/subjects/ct_vhm_neckbv_volume_mapping.json` -- but that mapping ALREADY tried this and
+        declined it: on his frozen, non-contrast cadaver CT the vessel lumens don't opacify, so each label
+        comes out as a sub-0.5 cm3 fragment, not a usable vessel. This is a pre-existing, already-documented
+        decision (not an oversight this session could fix), confirmed by re-reading the mapping rather than
+        re-deriving it.
+      - `digastric_r/l`: TotalSegmentator's `head_muscles` task (`totalsegmentator_head_muscles_labels.json`)
+        DOES define digastric as labels 10/11, and this exact task output is the same
+        `vhm_head_muscles.nii.gz` already used for Q91's genioglossus and Q90's tongue pilot -- checked its
+        actual label 10/11 voxel counts directly: 0 voxels each. TotalSegmentator did not detect digastric
+        at all on this scan (not fragmentary like the vessels -- genuinely absent). Not recoverable from CT.
+      Masseter/temporalis/lateral+medial pterygoid (the same task's labels 1-8) ARE present with plausible
+      volumes (31-64 cm3 masseter/temporalis, 9-15 cm3 pterygoids) and are already curated and shipped via
+      `ct_vhm_headm` -- nothing new there, just confirmed while checking the file. The extraocular muscles
+      (`xfer_vhf2vhm`'s other main content) were NOT re-investigated this pass: PROJECT_STATE already records
+      that his own frozen-CT oculomotor segmentation comes out at a fraction of the correct size (a known,
+      previously-diagnosed deficiency, not an untried opportunity like the tongue muscles were), so revisiting
+      it needs a new technique, not just a "did anyone check this" pass like this item was. No code, mapping,
+      or viewer change -- pure investigation, recorded so the same two dead ends aren't rediscovered.
 - [x] Q91 (2026-09-19) Followed up Q90's recommended next step: attempt male genioglossus specifically,
       anchored on its mandibular-symphysis origin, at native cryo resolution rather than the whole
       intrinsic-tongue group. Verified the scratchpad inputs were still intact (`cryo_1mm.npy` 1.56 GB,
