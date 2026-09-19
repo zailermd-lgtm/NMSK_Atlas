@@ -11,7 +11,14 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q93 DONE (checked the rest of
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q94 NOT SHIPPED (followed up Q84's
+own diagnosis for the abdominal wall's 3 unshippable structures: made the depth-fraction field independent
+per side, as Q84's own root-cause analysis said to try. The simplest per-side split alone barely moved the
+two worst structures; layering Q84's smooth field on top per side gave a big real gain to `internal_oblique_r`
+(39.5%->73.2% mesh-level, still short of the ~85% bar) but caused hard new regressions to `external_oblique_r`
+and `transversus_abdominis_l` -- refining Q84's diagnosis: even after removing cross-SIDE sharing, all 3
+depth layers on one side still share one field, so the sharing problem is finer-grained than left/right.
+Script reverted byte-identical to Q81's committed version; no mapping/viewer change), Q93 DONE (checked the rest of
 `xfer_vhf2vhm`/`xfer_vhf2vhm_neck` for the Q91/Q92 CT-native-replacement trick before spending more agent
 time on it: internal_carotid_a/internal_jugular_v are an already-declined dead end (his frozen non-contrast
 CT gives sub-0.5cm3 vessel fragments, already documented in `ct_vhm_neckbv`'s own mapping), digastric is a
@@ -2233,6 +2240,65 @@ tick the item here with a one-line result. Never fabricate; keep the
       `vhf_hyoid_muscles_from_cryo.py` anchors on bone, rather than the whole tongue or the perioral face).
       No geometry, mapping, or viewer change; both bundles and the 88-entity head gap are unchanged. Tests
       252 pass (unchanged).
+- [-] Q94 (attempted 2026-09-19, NOT shipped) Followed up Q84's own explicit conclusion and diagnosis for the
+      last 3 male abdominal-wall structures (`internal_oblique_r/l`, `transversus_abdominis_r`, subject
+      `ct_vhm_abw`, `scripts/cryo/abdominal_wall_from_cryo.py`): Q84 found that all 8 wall layers are cut
+      from ONE shared per-slice depth field (`frac`), computed once on the combined left+right lateral-wall
+      mask, so any normalization change that reshaped the field to help one side's problem layers also
+      reshaped the other side's already-fine layers. The untried fix: make the depth-fraction computation
+      INDEPENDENT per side (split `lat` into `lat_r`/`lat_l` BEFORE computing `bnd`/`outer`/`inner`/`frac`,
+      not just at the final assignment step).
+      METHODOLOGY NOTE (re-confirmed from Q84): re-running the UNCHANGED, committed script against this
+      session's freshly-restored scratchpad inputs (`total.nii.gz`, `vhm_hyb/abdominal_muscles.nii.gz`,
+      `arm_bones_labels.nii.gz`, cryo frame arrays -- all restored at the same timestamp, before this
+      session's own work) gave real mesh-level numbers that drifted noticeably from Q84's own recorded
+      baseline, most likely from TotalSegmentator/hybrid-run nondeterminism between the two runs that
+      produced these inputs: internal_oblique_r 43.3%->39.5%, internal_oblique_l 76.8%->87.7%,
+      transversus_abdominis_r 72.7%->70.4%, external_oblique_r 86.1%->80.3%, transversus_abdominis_l
+      93.8%->95.9% (rectus_r/l, external_oblique_l roughly stable: 93-95%/88%/84-88%). Confirmed this
+      drift is real and not a bug in the checker by independently re-checking the actual committed
+      `build/vh/ct_vhm_abw` mesh already on disk (generated earlier this same day from the same restored
+      inputs, before any edit): it reproduces Q84's exact recorded numbers (43.3/76.8/72.7/86.1/93.8), so
+      the drift is in what a fresh pipeline run of the UNCHANGED script now produces from today's restored
+      inputs, not in the measurement method. All comparisons below use this session's own freshly-measured,
+      same-inputs baseline (re-running the unchanged script) as the fair "before", since that isolates the
+      effect of the code change from unrelated input drift.
+      Tried, in increasing order of complexity per the task's own instruction to try the simplest change
+      first: (1) per-side split, ORIGINAL ring-split math unchanged (just `sm=lat&(xx>=mid or xx<mid)`
+      computed before `bnd`/`outer`/`inner`/`frac` instead of after): internal_oblique_r 39.5%->41.1%
+      (+1.6, marginal, nowhere near the ~85% bar), internal_oblique_l 87.7%->87.4% (flat),
+      transversus_abdominis_r 70.4%->72.8% (+2.4, marginal), external_oblique_r 80.3%->77.0% (-3.3, a real
+      regression), transversus_abdominis_l 95.9%->96.0% (flat), external_oblique_l 83.9%->88.4% (+4.5).
+      Removing the cross-side sharing alone barely moves the two worst structures -- most of the ring-
+      split's noise is inherent to the method itself (the per-slice boundary-median split Q84 already
+      diagnosed as noisy), not from cross-side contamination. (2) Per-side split PLUS Q84's windowed
+      local-min/max smooth field (`ndi.minimum_filter`/`maximum_filter` size 31, `gaussian_filter` sigma
+      1.5, on `dskin` restricted to each side's own blob) layered on top -- the combination Q84 never
+      tried, since it only tried the smooth field shared: internal_oblique_r 39.5%->73.2% (big real gain,
+      still short of 85%), internal_oblique_l 87.7%->92.1% (+4.4), transversus_abdominis_r 70.4%->71.6%
+      (+1.2, still short) -- but external_oblique_r 80.3%->66.4% (-13.9, hard regression) and
+      transversus_abdominis_l 95.9%->64.9% (-31.0, severe hard regression). (3) Per-side split plus Q84's
+      OTHER smooth-field family, per-connected-component 5th/95th percentile of `dskin`: worse across the
+      board -- internal_oblique_r 39.5%->66.2% (some gain), but internal_oblique_l 87.7%->61.7% (-26.0),
+      transversus_abdominis_r 70.4%->29.9% (-40.5), external_oblique_r 80.3%->66.4% (-13.9),
+      transversus_abdominis_l 95.9%->75.6% (-20.3) -- clearly dominated by variant (2).
+      ROOT-CAUSE REFINEMENT beyond Q84's own diagnosis: making the field truly independent per side (verified
+      by construction: `sm` is split before any of `bnd`/`outer`/`inner`/`frac`/the windowed or percentile
+      fields are computed) removes cross-SIDE contamination, exactly as Q84 predicted, but does NOT remove
+      the deeper sharing: on each side, all 3 depth layers (external/internal/transversus) still come from
+      the SAME per-side field, so a smoothing change that fixes that side's internal/transversus boundary
+      unavoidably reshapes that side's external-oblique/transversus boundary too -- external_oblique_r and
+      transversus_abdominis_l regressed in variant (2) even though they are on OPPOSITE sides from each
+      other, which rules out cross-side sharing as their cause and implicates this finer-grained per-side,
+      cross-LAYER sharing instead. Fixing this for real would need independent geometric rules per layer
+      boundary (not just per side), which is a bigger redesign than this follow-up's scope.
+      Verdict: NOT SHIPPED -- neither per-side variant clears the ~85% bar for a flagged structure without a
+      hard regression on an already-good one, the same non-negotiable requirement Q84 used. Script reverted
+      to the exact byte-identical Q81-committed content (diff-verified, `git diff` empty) rather than keeping
+      any variant, since none dominates. No mapping or viewer change. Tests 252 pass (unchanged). Next
+      question for whoever picks this up: is per-layer (not just per-side) independence worth the redesign,
+      or should these 3 structures be accepted as a permanent rule-based limitation of the depth-fraction
+      approach and left unshipped.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
