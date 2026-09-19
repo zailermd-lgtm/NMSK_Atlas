@@ -1305,29 +1305,65 @@ commit + push; republish the viewer (same URL; male c5d01522, female 0651399d) w
 tick the item here with a one-line result. Never fabricate; keep the
 "badged, rule-based" honesty. If blocked, write why and move on.
 
-- [ ] Q102 (2026-09-19, IN PROGRESS -- delegated to a background agent) Re-mined Q88's own 282
-      "skip_no_clean_drop" leftovers (data/derived/stray_mesh_islands_scan.json) for a second, WIDER pass:
-      45 structure-pieces have >=3 cm3 of non-main-component mesh (main_frac 0.81-0.99) that Q88's
-      conservative small-and-far gate correctly refused to touch. Sampled three at native mesh level
-      (face-adjacency on the real shipped mesh, not voxel): infraspinatus_l (ct_vhm_shsp, main_frac 0.872)
-      carries two SUBSTANTIAL secondary lobes (3.7 cm3 @ 61.6 mm, 5.2 cm3 @ 110.2 mm from the main body,
-      not dust); external_oblique_l (ct_vhm_abw) and biceps_brachii_r (ct_vhm_armm) show the same shape --
-      one dominant body plus a handful of multi-cm3 chunks, not a swarm of sub-cm3 specks. This is a
-      genuine tissue-CONTINUITY defect (the owner's own standing mandate), distinct from Q88's noise-fleck
-      class and distinct from Q78's already-known abdominal-wall depth-field problem (ct_vhm_abw/ct_vhf_abd
-      entries here are the SAME Q78 issue, excluded from this item). Repeats hardest on rotator-cuff
-      muscles: infraspinatus fragments on BOTH bodies across BOTH pipelines that touch it (ct_vhm_shsp,
-      ct_vhm_cuff, ct_vhf_cuff, ct_vhf_shsp), plus subscapularis (ct_vhm_cuff, ct_vhf_cuff), deltoid_r
-      (ct_vhm_delt), biceps_brachii_l/r + brachialis_r (ct_vhm_armm), iliocostalis_r + spinalis_l
-      (ct_vhm_es) -- all single-belly muscles with a committed source recipe (durable fix possible),
-      excluding known multi-piece-by-anatomy muscles (biceps_femoris, gastrocnemius, triceps' 3 heads,
-      pectoralis, rhomboid, adductor_magnus) and excluding merged multi-bone entities (metatarsals_l,
-      lumbar/thoracic_vertebrae groups) where >1 component is anatomically correct, not a defect. Hypothesis
-      to try: `scipy.ndimage.binary_closing` on each label's own binary mask (small structuring element,
-      1-2 iterations) before `ingest_volume_geometry.py convert`, verified against the REAL re-converted,
-      re-smoothed mesh's own face-adjacency components (Q100's lesson: voxel-level closing looking fixed is
-      not proof) with a volume-conservation bound so closing does not fabricate tissue. Ship only structures
-      that pass; leave the rest documented. Result pending.
+- [x] Q102 (2026-09-19) Attempted `scipy.ndimage.binary_closing` (structuring element
+      `np.ones((3,3,3))`, iterations 1 then 2) on the 18 candidates specified for this item, all drawn
+      from Q88's `skip_no_clean_drop` leftovers with >=3 cm3 non-main-component volume: `ct_vhm_shsp`
+      infraspinatus_r/l + teres_major_l, `ct_vhf_cuff` infraspinatus_l/r + subscapularis_l/r, `ct_vhf_shsp`
+      infraspinatus_l/r, `ct_vhm_delt` deltoid_r, `ct_vhm_armm` biceps_brachii_l/r + brachialis_r,
+      `ct_vhm_es` iliocostalis_r + spinalis_l, `ct_vhm_arm` ulna_r. RESULT: 0 shipped, all 18 declined --
+      closing at this structuring-element size cannot bridge these gaps within the task's own 5%
+      volume-conservation bound; where it DOES close the mesh, it only does so by growing the structure
+      8-35%, i.e. it is filling real anatomical/segmentation gaps of many mm (matches the original
+      sample's own measured gap distances, 61.6/110.2 mm for infraspinatus_l), not small surface cracks.
+      Full before/iter1/iter2 numbers (main_frac, volume growth%), every one measured on the REAL
+      re-converted, re-smoothed mesh's own face-adjacency components (Q100's lesson applied throughout,
+      not just the voxel mask): `ct_vhm_shsp` infraspinatus_r 0.813->0.772(+9.3%)->0.977(+22.0%);
+      infraspinatus_l 0.872->0.888(+8.8%)->0.870(+18.6%, regressed at iter2); teres_major_l
+      0.948->0.976(+3.9%, in-bound but short of 0.99)->0.972(+8.0%, regressed). `ct_vhf_cuff`
+      infraspinatus_l 0.960->0.945(+4.6%)->0.975(+8.4%); infraspinatus_r
+      0.971->0.955(+5.3%)->0.979(+12.6%); subscapularis_l 0.985->0.983(+8.5%)->0.992(+12.7%);
+      subscapularis_r 0.988->0.994(+7.6%, closest miss of the batch: high main_frac but 2.6 points over
+      the growth cap)->0.999(+11.5%). `ct_vhf_shsp` infraspinatus_l
+      0.956->0.945(+5.6%)->0.997(+10.3%); infraspinatus_r 0.969->0.952(+7.0%)->0.985(+16.4%). `ct_vhm_delt`
+      deltoid_r 0.837->0.846(+9.6%)->0.860(+16.8%). `ct_vhm_armm` biceps_brachii_l
+      0.966->0.958(+22.4%)->0.972(+35.3%); biceps_brachii_r 0.972->0.977(+20.2%)->0.978(+33.5%);
+      brachialis_r 0.970->0.970(+0.0%, closing added not one voxel at iter1 -- the gap is a marching-cubes
+      surface artifact on an already-touching voxel mask, the same voxel/mesh mismatch Q88 itself
+      documented, not a fillable gap at all)->0.976(+18.0%). `ct_vhm_es` iliocostalis_r
+      0.972(shipped)->0.968(switched to its recipe source, see below)->0.968(+0.2%)->0.969(+0.6%, growth
+      trivial but main_frac barely moves -- gap wider than this kernel reaches); spinalis_l
+      0.916(shipped)->0.930(switched)->0.930(+0.3%)->0.931(+1.0%, same). `ct_vhm_arm` ulna_r
+      0.884(shipped)->0.889(switched)->0.889(+1.4%, no real gain) -- iter2 not run, moot given the
+      independent reason below.
+      SEPARATE, EMPIRICALLY-VERIFIED FINDING (not guessed): `ct_vhm_cuff` and `ct_vhm_es` are NOT
+      currently built from their own `SUBJECT_RECIPES` source at all -- both subjects' shipped
+      `build/vh/*/manifest.json` reads source_file "recovered from the published male viewer (Version
+      25)" for every entry, because `vhm_rebuild_bundle.sh`'s blanket `bundle_to_subjects.py` recovery
+      step (line 13) is not skipped for them and no idempotent reconvert block was ever added for them
+      (unlike `ct_vhm_shsp`/`_delt`/`_armm` and the two female subjects, which ARE correctly wired and
+      needed no script changes here). A trial `ingest_volume_geometry.py convert` from their committed
+      .nii.gz into a scratch `--out` dir (build/ never touched) confirms this gap is load-bearing: for
+      `ct_vhm_cuff` the fresh conversion is WORSE than the currently-shipped recovered mesh on every
+      target (subscapularis_r 0.915->0.833, subscapularis_l 0.960->0.859, infraspinatus_l 0.940->0.890,
+      infraspinatus_r 0.988->0.838) -- switching this subject onto its own recipe, even before any
+      closing, would REGRESS continuity, so it was declined without layering closing on top of a
+      regression. `ct_vhm_es`'s fresh conversion is close to a wash on the two targets (numbers above)
+      but also touches an out-of-scope structure in the same file (longissimus_r 1.0->0.998); combined
+      with closing doing essentially nothing on top of it, declined -- no net benefit to justify
+      switching the whole subject's mesh source for this task. `ct_vhm_arm` carries the same "recovered
+      V25" wiring gap for ALL its structures, and independently already carries a DOCUMENTED, UNRESOLVED
+      elbow mis-registration (its own earlier investigation: up to ~27% of humerus_r/ulna_r vertices
+      outside the male skin surface at the elbow, between the "Version 25" recovery and the
+      freshly-rebuilt skin) -- switching ulna_r's source interacts with that open problem, so per this
+      task's own explicit bone caution it was dropped from scope rather than layering a narrow
+      continuity fix onto a subject with a known, larger, unresolved registration defect.
+      No source volumes, mappings, rebuild scripts, or build/ output changed by this item (nothing
+      shipped, so no mapping notes to add, no bundle to re-export, no viewer to republish). Tests
+      unaffected: 252 pass (verified before and after; PROJECT_STATE.md is the only file touched).
+      LEFT FOR FOLLOW-UP: `ct_vhm_cuff`/`ct_vhm_es`/`ct_vhm_pmr`/`ct_vhm_arm`'s missing idempotent
+      rebuild-script wiring is a real, separate latent gap (their Q88-era "fixed durably" claim does not
+      currently survive a from-scratch `build/` wipe) -- worth its own item, but out of scope here since,
+      for cuff/es, the recipe source itself is not demonstrably better than what already ships.
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
