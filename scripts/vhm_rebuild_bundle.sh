@@ -46,9 +46,12 @@ if [ -f $T/vhm_trunk_wall.nii.gz ] && ! grep -q vhm_trunk_wall build/vh/ct_vhm_t
 fi
 # Q62: her deep-neck / suboccipital and floor-of-mouth muscles carried onto him (he has none of them; badged as transferred)
 # Q91: genioglossus_r/l EXCLUDED here -- replaced by his own CT-derived version, ct_vhm_ggl below
+# Q92: styloglossus_r/l ALSO EXCLUDED here -- replaced by his own CT-derived version, ct_vhm_sgl below
+# (mylohyoid/geniohyoid/hyoglossus stay on the transfer -- Q92 found their rules need cryo photograph
+# texture that his CT alone cannot supply; see scripts/cryo/vhm_styloglossus_from_ct.py's docstring)
 if [ ! -f build/vh/xfer_vhf2vhm_neck/manifest.json ]; then
   [ -f build/viewer_f/bundle.json ] || { echo "female bundle absent: run scripts/cryo/vhf_rebuild_bundle.sh first"; exit 1; }
-  IDS=$(python3 -c "import json;print(' '.join(s['atlas_id'] for f in ('ct_vhf_dneck','ct_vhf_hyoid') for s in json.load(open(f'build/vh/{f}/manifest.json'))['structures'] if s['atlas_id'] not in ('genioglossus_r','genioglossus_l')))")
+  IDS=$(python3 -c "import json;print(' '.join(s['atlas_id'] for f in ('ct_vhf_dneck','ct_vhf_hyoid') for s in json.load(open(f'build/vh/{f}/manifest.json'))['structures'] if s['atlas_id'] not in ('genioglossus_r','genioglossus_l','styloglossus_r','styloglossus_l')))")
   python3 scripts/transfer/cross_subject_transfer.py --direction f2m --male-html $B --female-bundle build/viewer_f \
     --ids $IDS -o build/vh/xfer_vhf2vhm_neck --report data/derived/transfer_report_vhf2vhm_neck.json 2>&1 | head -1 | cut -c1-160
 fi
@@ -57,7 +60,12 @@ if [ -f $T/vhm_genioglossus_ct.nii.gz ] && ! grep -q vhm_genioglossus_ct build/v
   cp mappings/subjects/ct_vhm_ggl_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_ggl
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_genioglossus_ct.nii.gz --labels vhm_genioglossus_ct --subject ct_vhm_ggl --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
-SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+# Q92: styloglossus (intralingual portion only) from his OWN CT tongue label (scripts/cryo/vhm_styloglossus_from_ct.py)
+if [ -f $T/vhm_styloglossus_ct.nii.gz ] && ! grep -q vhm_styloglossus_ct build/vh/ct_vhm_sgl/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhm_sgl_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_sgl
+  python3 scripts/ingest_volume_geometry.py convert $T/vhm_styloglossus_ct.nii.gz --labels vhm_styloglossus_ct --subject ct_vhm_sgl --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
+SUBJ=""; for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1
 echo VHM_REBUILD_DONE

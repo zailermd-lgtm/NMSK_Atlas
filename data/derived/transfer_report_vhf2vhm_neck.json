@@ -7,7 +7,7 @@
  },
  "fill_correction": {},
  "fill_detail": {},
- "n": 26,
+ "n": 22,
  "not_transferred": {},
  "rows": [
   {
@@ -332,17 +332,17 @@
    "source_trust": "model segmentation of the source CT",
    "region": "neck",
    "driving_bones": {
-    "mandible": 0.482,
-    "hyoid": 0.426,
-    "cervical_vertebrae": 0.07,
-    "cranium": 0.022
+    "mandible": 0.504,
+    "hyoid": 0.407,
+    "cervical_vertebrae": 0.065,
+    "cranium": 0.024
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 9.6,
-   "volume_out_cm3": 13.5,
-   "displacement_mm_median": 30.3
+   "volume_src_cm3": 8.1,
+   "volume_out_cm3": 11.2,
+   "displacement_mm_median": 30.4
   },
   {
    "atlas_id": "geniohyoid_r",
@@ -352,37 +352,17 @@
    "source_trust": "model segmentation of the source CT",
    "region": "neck",
    "driving_bones": {
-    "hyoid": 0.591,
-    "cervical_vertebrae": 0.218,
-    "mandible": 0.191,
-    "cranium": 0.0
+    "hyoid": 0.576,
+    "mandible": 0.215,
+    "cervical_vertebrae": 0.204,
+    "cranium": 0.005
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 1.6,
-   "volume_out_cm3": 2.2,
-   "displacement_mm_median": 29.4
-  },
-  {
-   "atlas_id": "genioglossus_r",
-   "category": "muscle",
-   "side": "right",
-   "source_subject": "ct_vhf_hyoid",
-   "source_trust": "model segmentation of the source CT",
-   "region": "head",
-   "driving_bones": {
-    "mandible": 0.37,
-    "hyoid": 0.252,
-    "cranium": 0.233,
-    "cervical_vertebrae": 0.145
-   },
-   "bulk_transverse": 1.0,
-   "lean_envelope": false,
-   "mean_radial_fraction_src": null,
-   "volume_src_cm3": 8.4,
-   "volume_out_cm3": 13.4,
-   "displacement_mm_median": 31.7
+   "volume_src_cm3": 1.8,
+   "volume_out_cm3": 2.5,
+   "displacement_mm_median": 29.6
   },
   {
    "atlas_id": "hyoglossus_r",
@@ -392,37 +372,17 @@
    "source_trust": "model segmentation of the source CT",
    "region": "head",
    "driving_bones": {
-    "hyoid": 0.539,
-    "mandible": 0.226,
-    "cervical_vertebrae": 0.209,
-    "cranium": 0.026
+    "hyoid": 0.538,
+    "mandible": 0.236,
+    "cervical_vertebrae": 0.199,
+    "cranium": 0.027
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 3.1,
-   "volume_out_cm3": 4.9,
-   "displacement_mm_median": 29.5
-  },
-  {
-   "atlas_id": "styloglossus_r",
-   "category": "muscle",
-   "side": "right",
-   "source_subject": "ct_vhf_hyoid",
-   "source_trust": "model segmentation of the source CT",
-   "region": "head",
-   "driving_bones": {
-    "mandible": 0.563,
-    "cranium": 0.344,
-    "hyoid": 0.058,
-    "cervical_vertebrae": 0.035
-   },
-   "bulk_transverse": 1.0,
-   "lean_envelope": false,
-   "mean_radial_fraction_src": null,
-   "volume_src_cm3": 1.5,
-   "volume_out_cm3": 2.2,
-   "displacement_mm_median": 35.1
+   "volume_src_cm3": 3.0,
+   "volume_out_cm3": 4.7,
+   "displacement_mm_median": 29.6
   },
   {
    "atlas_id": "mylohyoid_l",
@@ -432,17 +392,17 @@
    "source_trust": "model segmentation of the source CT",
    "region": "neck",
    "driving_bones": {
-    "mandible": 0.451,
-    "hyoid": 0.417,
-    "cervical_vertebrae": 0.115,
-    "cranium": 0.017
+    "mandible": 0.511,
+    "hyoid": 0.38,
+    "cervical_vertebrae": 0.088,
+    "cranium": 0.02
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 9.0,
-   "volume_out_cm3": 10.4,
-   "displacement_mm_median": 27.6
+   "volume_src_cm3": 7.2,
+   "volume_out_cm3": 8.1,
+   "displacement_mm_median": 28.0
   },
   {
    "atlas_id": "geniohyoid_l",
@@ -452,37 +412,17 @@
    "source_trust": "model segmentation of the source CT",
    "region": "neck",
    "driving_bones": {
-    "hyoid": 0.57,
-    "cervical_vertebrae": 0.282,
-    "mandible": 0.148,
-    "cranium": 0.0
+    "hyoid": 0.563,
+    "cervical_vertebrae": 0.277,
+    "mandible": 0.16,
+    "cranium": 0.001
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 2.2,
-   "volume_out_cm3": 3.0,
-   "displacement_mm_median": 27.4
-  },
-  {
-   "atlas_id": "genioglossus_l",
-   "category": "muscle",
-   "side": "left",
-   "source_subject": "ct_vhf_hyoid",
-   "source_trust": "model segmentation of the source CT",
-   "region": "head",
-   "driving_bones": {
-    "mandible": 0.349,
-    "hyoid": 0.302,
-    "cranium": 0.211,
-    "cervical_vertebrae": 0.138
-   },
-   "bulk_transverse": 1.0,
-   "lean_envelope": false,
-   "mean_radial_fraction_src": null,
-   "volume_src_cm3": 9.4,
-   "volume_out_cm3": 13.9,
-   "displacement_mm_median": 30.8
+   "volume_src_cm3": 2.3,
+   "volume_out_cm3": 3.1,
+   "displacement_mm_median": 27.5
   },
   {
    "atlas_id": "hyoglossus_l",
@@ -492,37 +432,17 @@
    "source_trust": "model segmentation of the source CT",
    "region": "head",
    "driving_bones": {
-    "hyoid": 0.413,
-    "cervical_vertebrae": 0.365,
-    "mandible": 0.203,
-    "cranium": 0.018
+    "hyoid": 0.412,
+    "cervical_vertebrae": 0.375,
+    "mandible": 0.192,
+    "cranium": 0.022
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 6.2,
-   "volume_out_cm3": 5.8,
-   "displacement_mm_median": 26.7
-  },
-  {
-   "atlas_id": "styloglossus_l",
-   "category": "muscle",
-   "side": "left",
-   "source_subject": "ct_vhf_hyoid",
-   "source_trust": "model segmentation of the source CT",
-   "region": "head",
-   "driving_bones": {
-    "mandible": 0.468,
-    "cranium": 0.417,
-    "hyoid": 0.084,
-    "cervical_vertebrae": 0.031
-   },
-   "bulk_transverse": 1.0,
-   "lean_envelope": false,
-   "mean_radial_fraction_src": null,
-   "volume_src_cm3": 1.1,
-   "volume_out_cm3": 1.5,
-   "displacement_mm_median": 34.5
+   "volume_src_cm3": 4.4,
+   "volume_out_cm3": 4.0,
+   "displacement_mm_median": 27.8
   }
  ]
 }

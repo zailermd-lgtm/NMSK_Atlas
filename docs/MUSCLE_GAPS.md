@@ -110,6 +110,60 @@ section: several of the OTHER "missing" entries listed above (mylohyoid, geniohy
 styloglossus) may be similarly recoverable from CT position rules alone, without native cryo, now that this
 pilot has shown the technique transfers from her pipeline to his CT directly -- not attempted this pass.
 
+**Q92 (2026-09-19) followed up Q91's own note: checked all four candidates, shipped one (styloglossus),
+left three on the transfer with a documented reason each.** Read `vhf_hyoid_muscles_from_cryo.py`'s
+`floor_rules()` and `tongue_rules()` in full for mylohyoid, geniohyoid, hyoglossus and styloglossus and
+checked, per muscle, whether its rule needs only CT-visible position or fundamentally needs cryosection
+photograph texture:
+- **mylohyoid, geniohyoid: NOT recoverable from CT alone, left on the transfer.** Both live entirely in her
+  `floor_rules()`'s "floor of mouth" compartment below the tongue, and that compartment itself
+  (`floor_compartment()`) is `M["dark"]` (her cryo photograph's dark-muscle colour class) intersected with
+  a CT-geometric box -- nothing in the male's CT labels (`total`, `head_muscles`, `headneck_bones_vessels`,
+  `headneck_muscles_merged`, `craniofacial_structures`) segments the submandibular/sublingual glands or fat
+  that also fill that space (her own script's data list doesn't have a gland CT label either -- her
+  exclusion of them is entirely from the cryo photograph's pale colour class). 0% of either muscle falls
+  inside his CT tongue label (the one CT-native "this is already a muscle" mask), so there is nothing to
+  split positionally the way genioglossus was split. Confirmed present on him only via `xfer_vhf2vhm_neck`.
+- **hyoglossus: NOT recoverable from CT alone (checked quantitatively), left on the transfer.** Its rule
+  has TWO sources: `floor_rules()`'s "hg" sheet (same cryo-dark floor-compartment dependency as
+  mylohyoid/geniohyoid) plus `tongue_rules()`'s "hg" (purely positional, inside the tongue label). Probed
+  her OWN CT tongue label with the exact `tongue_rules()` hg formula and compared to her actual shipped
+  hyoglossus_r/l (4.0 + 5.4 = 9.4 cm3): the tongue-only portion is 1.98 cm3, ~21% of her real muscle. The
+  other ~79% needs cryo texture. Shipping just that CT-tongue fragment for the male would be a small,
+  unrepresentative sliver at the tongue's postero-lateral margin, not a recognizable hyoglossus (a flat
+  quadrilateral sheet whose bulk sits BELOW the tongue) -- would degrade, not improve on, the transfer.
+- **styloglossus: recoverable from CT alone, and SHIPPED.** Same two-source structure as hyoglossus (a
+  cryo-dependent CORRIDOR from the styloid process, plus a positional `tongue_rules()` "sg" portion), but
+  the same probe on her data gives the opposite answer: her tongue-only sg is 3.53 cm3 vs her actual shipped
+  total 3.3 cm3 -- i.e. essentially ALL of her styloglossus volume is already inside the CT tongue label
+  (the extralingual corridor is a slender cord contributing little bulk; the muscle fans out and
+  interdigitates with the tongue's intrinsic fibres over most of its length). New script
+  `scripts/cryo/vhm_styloglossus_from_ct.py` replicates `tongue_rules()`'s sg criterion (dxT >= 15 mm of
+  the tongue label's OWN per-slice centroid -- not the mandibular midline genioglossus uses, which
+  collapsed styloglossus to ~0 cm3 when tried first; the mandible axis is right for genioglossus
+  specifically because that muscle originates there, but styloglossus/hyoglossus are positioned relative to
+  the bulk of the tongue, which is what her original centroid-based dxT measures) directly in his CT, using
+  the ALREADY-SHIPPED `ct_vhm_ggl` mask (loaded, not recomputed) as the "not genioglossus" exclusion so
+  there is zero overlap by construction, plus a matching hyoglossus-shaped exclusion zone (not shipped)
+  so styloglossus does not eat into where hyoglossus would be. His styloid process IS present in his own
+  CT (`vhm_headneck_bones_vessels.nii.gz` labels 7/8, same ids as her file) but that landmark ended up not
+  needed, same as genioglossus's floor-of-mouth extension was not needed for Q91. RESULT: styloglossus_r
+  0.68 cm3 (mesh) / 0.75 cm3 (voxel), styloglossus_l 1.33 / 1.41 cm3 -- same order of magnitude as her own
+  native value (1.8/1.5 cm3) and smaller than the previously-transferred value (2.19/1.48 cm3); the R/L
+  asymmetry is larger than hers and traced to the tongue label's own lateral extent being asymmetric right
+  at the 15 mm threshold band -- noted as a limitation, not hidden. Verification: 1 connected component per
+  side at both voxel and mesh level (after keeping only the largest voxel component, which dropped a single
+  stray fragment adding <0.001 cm3); 0.0 fraction of vertices found inside the mandible, genioglossus or
+  geniohyoid (both watertight, `trimesh` containment check); nearest-surface distances to mandible (6.6-7.9
+  mm), mylohyoid (20.3-20.4 mm), geniohyoid (25.0-26.1 mm) and the transferred hyoglossus (8.5-8.6 mm) all
+  positive -- adjacent, not overlapping; Playwright render QA (headless Chromium, local three.js) shows a
+  plausible rounded muscle mass seated at the tongue's postero-lateral margin, correctly positioned among
+  the other head muscles. Does NOT include the extralingual (styloid-to-tongue corridor) part of the
+  muscle -- same partial-but-honest ship style as Q91's genioglossus. SHIPPED, replacing the transferred
+  copy: new subject `ct_vhm_sgl`; `xfer_vhf2vhm_neck` no longer carries styloglossus (mylohyoid, geniohyoid
+  and hyoglossus still do, correctly, per the findings above). Male viewer bundle re-exported (357
+  structures, unchanged count -- a swap, not a new gap closed) and republished (Version 50).
+
 ### Face and ear -- 16 missing
 
 `occipitofrontalis`, `frontalis`, `orbicularis_oculi`, `procerus`, `nasalis`, `orbicularis_oris`, `buccinator`, `zygomaticus_major`, `zygomaticus_minor`, `levator_labii_superioris`, `depressor_anguli_oris`, `mentalis`, `risorius`, `platysma`, `stapedius`, `tensor_tympani`
