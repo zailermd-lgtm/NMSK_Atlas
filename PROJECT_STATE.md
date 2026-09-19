@@ -11,7 +11,19 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q89 DONE (refreshed the muscle-
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q90 DONE (followed up Q89's
+finding that `head` (88 missing-on-both) is the largest gap and its claim that it needed a head
+cryosection stream neither body has -- WRONG, his whole-body stream re-derived for Q79/80 already starts
+at the vertex and runs through the head continuously; characterized it precisely against his CT head/neck
+labels (cryo-index ranges for orbits/nasal/oral/mandible/hyoid/larynx, all confirmed by rendering the
+predicted slices), found the existing "torso" cryo-to-CT-frame resample branch already covers it with no
+gap and no new registration needed, confirmed `stapedius`/`tensor_tympani` are permanently out of scope
+for any photographic or CT source (dense featureless bone at the temporal-bone level, as expected), then
+piloted tongue musculature and shipped zero muscles by choice: the 1 mm downsample shows the tongue body
+and its median septum clearly but no boundary between any of the 15 named tongue-muscle entities, and the
+4 intrinsic layers have no fascial plane to find at any resolution; native-resolution DICOM frames fetched
+directly from the source series show more detail (a real, unconfirmed lead) but were not pursued further
+this pilot. `docs/MUSCLE_GAPS.md` head-region sections rewritten with the full finding), Q89 DONE (refreshed the muscle-
 completeness recount, stale since 2026-09-16: 433 entities, 202 on BOTH bodies (was 195), 225 on at least one
 (was 214), 208 on neither (was 219) -- most of the gain is his new pelvic floor matching entities her own
 2026-09-16 ship already had. By region, `head` (88 missing-on-both) is now overwhelmingly the largest open
@@ -1959,6 +1971,56 @@ tick the item here with a one-line result. Never fabricate; keep the
       trunk 31, lower_limb 30 (mostly the DU-blocked foot), neck 16, wrist_hand 2. This item is pure
       bookkeeping -- no geometry, mapping, or viewer change; it exists so the next session picks its next
       target from real numbers instead of a 3-day-stale count. Tests 252 pass (unchanged).
+- [x] Q90 (2026-09-19) Followed up Q89's finding that `head` (88 missing-on-both) is the largest remaining
+      gap, and its claim that this was "unattempted all session since it needs a full-resolution head
+      cryosection stream neither body has." That claim was WRONG: his whole-body cryosection stream
+      re-derived this session for Q79/80 (`scripts/cryo/stream_vhm_cryosections.py`, output re-verified
+      intact in the scratchpad, 1878 slices x 405x682 x3, 1 mm downsample) starts at the vertex (raw cryo
+      index 0 is the very top of the skull) and runs continuously through the head, neck and into the
+      thorax by index ~300 -- the head photographs were already sitting in the same stream that unlocked
+      the arm. Two-part task: characterize precisely, then one pilot attempt.
+      PART 1 (characterization): cross-checked the raw cryo indices against his CT head/neck labels
+      (`vhm_craniofacial_structures.nii.gz`, `vhm_oculomotor_muscles.nii.gz`, `vhm_head_muscles.nii.gz`,
+      `vhm_headneck_bones_vessels.nii.gz`) via the resample script's own `cryo_idx = -16 - z_ras` mapping,
+      then rendered the actual cryo slices at every predicted index to confirm by eye: frontal sinus/
+      forehead cryo idx ~43-95, orbits ~94-118 (eyeballs directly visible), maxillary sinus/cheek ~115-167,
+      upper teeth ~159-183, mandible ~128-232, tongue body ~165-211, lower teeth ~175-205, hyoid ~222-232,
+      thyroid cartilage ~231-272, cricoid cartilage ~258-280, unambiguous thorax by ~290-310 -- every
+      prediction matched the rendered anatomy. NO GAP and NO NEW RESAMPLE BRANCH NEEDED: the existing
+      "torso" branch of `scripts/cryo/resample_cryo_to_ct_frame.py` already spans this whole range (cryo
+      idx ~4-847) with the same shift/scale/flip used for the trunk, and the already-computed
+      `cryo_torso_frame_rgb.npy` sitting in the scratchpad from earlier this session was checked directly
+      at k=741 (predicted orbit level: shows correctly-aligned eyeballs) and k=615 (predicted larynx/neck
+      level: shows a correctly-aligned laryngeal/vertebral cross-section) -- a future head script can read
+      that frame directly, the way `vhf_pelvic_floor_from_cryo.py` reads its own body's frame, with no new
+      registration work. `stapedius`/`tensor_tympani` confirmed genuinely out of scope: rendered the
+      temporal-bone region (cryo idx ~105-157) and it shows dense, uniform, featureless bone with no
+      internal muscle-colored texture at any resolution available here, as expected for a few-millimetre
+      muscle fully embedded in an air-filled cavity, visible only by micro-dissection or micro-CT -- marked
+      literature-only permanently in `docs/MUSCLE_GAPS.md`, not "needs head cryosections" like the rest.
+      PART 2 (pilot, tongue musculature -- the task's own top non-facial candidate): the 1 mm downsample
+      clearly and consistently shows the tongue body (large, well-contrasted, correctly bounded by the
+      mandible) and even a faint median lingual septum (a genuine fibrous midline structure), but resolves
+      no boundary between any of the 15 named tongue-muscle entities, and none should exist for the 4
+      intrinsic layers (superior/inferior longitudinal, transverse, vertical), which are defined by fibre
+      orientation with no fascial plane even at full dissection -- a true anatomical fact, not a resolution
+      limit. Fetched 3 native-resolution DICOM frames directly from the IDC series (1216x2048, ~3x finer
+      than the streamed downsample) at the same tongue/chin levels: the median septum shows much more
+      clearly, and there is a subtle, UNCONFIRMED texture patch in the chin consistent with (but not
+      verified as) mentalis -- a real lead, not pursued further this pilot. Also checked perioral/chin skin
+      at 1 mm (idx 158-190): no discrete facial-expression muscle band resolves out of the general
+      subcutaneous layer, worse than the tongue. RESULT: zero muscles shipped, by choice, not by failure --
+      CT already has an unshipped, undifferentiated "tongue" mask (`vhm_head_muscles.nii.gz` label 9,
+      `no_atlas_entity` in `mappings/subjects/ct_vhm_headm_volume_mapping.json`) that would misrepresent any
+      single named tongue muscle if assigned to it whole (none of the 15 is "the whole tongue"), and a
+      left/right septum split would still not correspond to any one named muscle either. This is the
+      documented negative result the task explicitly said was an acceptable outcome, not a forced/
+      implausible ship. `docs/MUSCLE_GAPS.md`'s head-region sections rewritten with the full characterization,
+      the stapedius/tensor_tympani permanent-out-of-scope note, and the recommended next step (native-
+      resolution genioglossus specifically, anchored on its mandibular-symphysis origin the way
+      `vhf_hyoid_muscles_from_cryo.py` anchors on bone, rather than the whole tongue or the perioral face).
+      No geometry, mapping, or viewer change; both bundles and the 88-entity head gap are unchanged. Tests
+      252 pass (unchanged).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
