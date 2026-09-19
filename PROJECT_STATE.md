@@ -11,7 +11,11 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q97 SHIPPED (systematic audit of
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q98 STILL BLOCKED (re-checked Q59 for
+a third-party mirror of the DU muscle STLs via web search -- both Hugging Face candidates found are bones-only
+or the wrong dataset, and the paper's own alternate hosts (SimTK, nature.com, PMC) are all blocked at the
+network-policy level, not just the DU Cloudflare gate; no automated route exists, ruling this out so it's not
+re-searched), Q97 SHIPPED (systematic audit of
 every `atlas_id: null` mapping entry across both bodies for a Q96-style soft pre-toolkit decline; of 64
 keyword hits only her left forearm's 20 pending-review entries were genuine candidates -- 5 verified and
 shipped, `extensor_digitorum_l/extensor_digiti_minimi_l/abductor_pollicis_longus_l/extensor_pollicis_brevis_l/
@@ -2404,6 +2408,31 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/MUSCLE_GAPS.md`'s Forearm section and recount line updated. Full candidate list with per-entry
       verdicts (shipped / confirmed-still-declined / not-a-candidate-already-settled) saved to
       `data/derived/mapping_decline_audit.json` for a future pass to resume from without re-searching.
+- [x] Q98 (2026-09-19) Re-checked Q59/Q85 (the DU Final 3D STL releases) once more for a third-party mirror
+      that might dodge the DU Cloudflare Turnstile entirely, using web search (not previously tried -- Q85
+      only tested the DU site itself). Found and checked two real candidates, both dead ends, so the search
+      doesn't need repeating:
+      - Hugging Face `BoneHub/visible-human-3d-models` (5.33 GB, CC BY 4.0, both bodies, NRRD+STL+IGES/STEP,
+        confirmed reachable from this sandbox, `curl` 200) -- but it is BONES ONLY ("Only bone is segmented...
+        Segmentations from these modalities may be added in the future" per the dataset card): no muscles,
+        cartilage, or ligaments, which is specifically what Q59 needs (this repo's bones are already
+        reasonably covered via CT/TotalSegmentator; the DU release's real value is its 76 muscles per body).
+      - Hugging Face `BoneHub/vsd-lower-extremities-seg` looked promising by name but is a DIFFERENT, unrelated
+        dataset entirely (30 cadavers from the VSD/Zurich database, not the Visible Human Male/Female), also
+        bones-only, CC BY-NC-SA (a more restrictive licence than this repo accepts anyway).
+      - The paper's own likely alternate hosts were also checked and are BOTH blocked at the network-policy
+        level (not a Cloudflare/bot-detection issue like the DU file endpoint, a hard proxy CONNECT/egress
+        rejection): `simtk.org` and its subdomains (`databank.`, `files.`) all return `connect_rejected`
+        (organization policy) -- the actual SimTK download host is not reachable at all, so even if its own
+        file endpoint has no bot-gate, this sandbox cannot reach it to find out. `nature.com` and
+        `pmc.ncbi.nlm.nih.gov` (candidate hosts for the paper's own Data Availability statement, which might
+        have named a repository this search didn't surface) are both flatly `EGRESS_BLOCKED` by the proxy.
+      CONCLUSION: no automated route to the muscle geometry exists from this sandbox right now -- not the DU
+      site (Turnstile, Q85), not a third-party mirror (bones-only or wrong-dataset, this item), not the
+      paper's own alternate citations (network-policy blocked, can't even read the Data Availability
+      statement to find out if there's a repository this search missed). Q59 stays blocked pending an owner
+      action exactly as Q85 concluded; this item's value is ruling out the "maybe there's an easier mirror"
+      hope so a future pass doesn't re-spend a search on it. No code, mapping, or viewer change.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
