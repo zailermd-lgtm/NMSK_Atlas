@@ -1596,24 +1596,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       Re-exported and rebuilt the male viewer HTML (`scripts/export_viewer_bundle.py` then
       `scripts/build_viewer_html.py` -- the export step alone does NOT refresh the HTML, a rebuild-script
       detail worth remembering). Tests still 252 pass. Male viewer Version 43 (350 structures, republished).
-- [ ] Q74 (found 2026-09-18, NOT fixed) Visual-QA sweep on the FEMALE found a cosmetic seam: a visible step/ridge
-      in her skin surface encircling each upper arm at the shoulder/axilla, symmetric on both sides, in front,
-      back and side renders. Clicking it confirms it is "Integumentum commune" (skin) both above and below the
-      step, not two different structures and not a poke-through -- her skin stays fully continuous there, this
-      is a shading/geometry crease in one continuous mesh, not missing or exposed tissue, so it is lower
-      priority than the poke-through class of defect this session has been fixing. Likely cause (not yet
-      confirmed by testing): `scripts/cryo/vhf_whole_body_skin.py`'s `silhouette()` runs `binary_opening` and
-      `binary_fill_holes` independently PER 2-D SLICE with no 3-D continuity constraint; right at the
-      shoulder/axilla, where the arm's cross-section changes fastest (from fused-with-torso to a separate
-      near-circular limb), small per-slice inconsistencies in a purely 2-D operator plausibly show up as a
-      ridge in the reconstructed 3-D surface. NOT attempted this wake: her whole-body skin volume is the
-      containment reference for essentially every other structure on her body (the same role `vhm_skin_ct.nii.gz`
-      plays for him), so a change to it needs a full recheck across all her structures before shipping --
-      bigger blast radius than a single-muscle vertex nudge, and not worth doing without first confirming the
-      per-slice-opening theory (e.g. rerun `silhouette()` with a small 3-D structuring element instead of a
-      per-slice 2-D one, or a mild 3-D closing pass on the finished `out` mask, and compare the shoulder
-      region before/after in a render). Left for a session with room to redo the whole-body recheck this
-      implies.
+- [x] Q74 (DONE 2026-09-19) Visual-QA sweep on the FEMALE found a cosmetic seam: a visible step/ridge
+      in her skin surface encircling each upper arm at the shoulder/axilla. Root cause confirmed and fixed:
+      `scripts/cryo/vhf_skin_union.py`'s hard z=-950 photo-vs-CT switch was admitting all arm-width extra
+      in one 1 mm slice (~3170-voxel spike vs normal 140-230 delta/slice), creating a ridge visible in renders.
+      FIX: introduce RAMP_MM=40 to taper the photo-only contribution back in over a short z band above the
+      switch instead of admitting it all at once, using each slice's own distance metric so the top slice
+      still matches the original unrestricted union exactly. VERIFICATION: skin volume regenerated,
+      re-exported, re-rendered (cosmetic seam no longer visible). Full containment recheck across all 295
+      female structures after skin change: 0 poke-throughs (all pass). Tests 252 pass. Female viewer
+      republished, Version 40 (291 structures, unchanged count; skin geometry improved).
 - [x] Q75 (DONE 2026-09-18) Continued the same pixel-anomaly sweep across full front/back/side renders of both
       bodies (this time scripted: threshold the render for reddish/tan pixels outside the header and side
       panel, cluster the hits, inspect each cluster) rather than eyeballing crops region by region. Found and
