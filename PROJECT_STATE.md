@@ -1305,6 +1305,30 @@ commit + push; republish the viewer (same URL; male c5d01522, female 0651399d) w
 tick the item here with a one-line result. Never fabricate; keep the
 "badged, rule-based" honesty. If blocked, write why and move on.
 
+- [ ] Q102 (2026-09-19, IN PROGRESS -- delegated to a background agent) Re-mined Q88's own 282
+      "skip_no_clean_drop" leftovers (data/derived/stray_mesh_islands_scan.json) for a second, WIDER pass:
+      45 structure-pieces have >=3 cm3 of non-main-component mesh (main_frac 0.81-0.99) that Q88's
+      conservative small-and-far gate correctly refused to touch. Sampled three at native mesh level
+      (face-adjacency on the real shipped mesh, not voxel): infraspinatus_l (ct_vhm_shsp, main_frac 0.872)
+      carries two SUBSTANTIAL secondary lobes (3.7 cm3 @ 61.6 mm, 5.2 cm3 @ 110.2 mm from the main body,
+      not dust); external_oblique_l (ct_vhm_abw) and biceps_brachii_r (ct_vhm_armm) show the same shape --
+      one dominant body plus a handful of multi-cm3 chunks, not a swarm of sub-cm3 specks. This is a
+      genuine tissue-CONTINUITY defect (the owner's own standing mandate), distinct from Q88's noise-fleck
+      class and distinct from Q78's already-known abdominal-wall depth-field problem (ct_vhm_abw/ct_vhf_abd
+      entries here are the SAME Q78 issue, excluded from this item). Repeats hardest on rotator-cuff
+      muscles: infraspinatus fragments on BOTH bodies across BOTH pipelines that touch it (ct_vhm_shsp,
+      ct_vhm_cuff, ct_vhf_cuff, ct_vhf_shsp), plus subscapularis (ct_vhm_cuff, ct_vhf_cuff), deltoid_r
+      (ct_vhm_delt), biceps_brachii_l/r + brachialis_r (ct_vhm_armm), iliocostalis_r + spinalis_l
+      (ct_vhm_es) -- all single-belly muscles with a committed source recipe (durable fix possible),
+      excluding known multi-piece-by-anatomy muscles (biceps_femoris, gastrocnemius, triceps' 3 heads,
+      pectoralis, rhomboid, adductor_magnus) and excluding merged multi-bone entities (metatarsals_l,
+      lumbar/thoracic_vertebrae groups) where >1 component is anatomically correct, not a defect. Hypothesis
+      to try: `scipy.ndimage.binary_closing` on each label's own binary mask (small structuring element,
+      1-2 iterations) before `ingest_volume_geometry.py convert`, verified against the REAL re-converted,
+      re-smoothed mesh's own face-adjacency components (Q100's lesson: voxel-level closing looking fixed is
+      not proof) with a volume-conservation bound so closing does not fabricate tissue. Ship only structures
+      that pass; leave the rest documented. Result pending.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
