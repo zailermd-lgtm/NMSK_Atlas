@@ -7,7 +7,7 @@
  },
  "fill_correction": {
   "thigh": 0.977,
-  "calf": 1.087
+  "calf": 1.086
  },
  "fill_detail": {
   "thigh_45pct_femur": {
@@ -23,11 +23,17 @@
   "calf_mid_tibia": {
    "y": -566.9,
    "measured_muscle_cm2": 72.8,
-   "transferred_cm2": 61.6
+   "transferred_cm2": 61.7
   }
  },
- "n": 85,
- "not_transferred": {},
+ "n": 87,
+ "not_transferred": {
+  "carpals_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "metacarpals_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "phalanges_hand_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "radius_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them",
+  "ulna_l": "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them"
+ },
  "rows": [
   {
    "atlas_id": "adductor_brevis_l",
@@ -329,7 +335,7 @@
    "mean_radial_fraction_src": null,
    "volume_src_cm3": 48.8,
    "volume_out_cm3": 37.8,
-   "displacement_mm_median": 28.4,
+   "displacement_mm_median": 28.5,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
   },
@@ -367,7 +373,7 @@
     "femur_l": 0.018,
     "metatarsals_l": 0.004
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.741,
    "volume_src_cm3": 102.8,
@@ -389,7 +395,7 @@
     "femur_r": 0.017,
     "metatarsals_r": 0.004
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.746,
    "volume_src_cm3": 93.1,
@@ -411,12 +417,12 @@
     "metatarsals_l": 0.006,
     "femur_l": 0.001
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.561,
    "volume_src_cm3": 25.4,
    "volume_out_cm3": 16.5,
-   "displacement_mm_median": 140.7,
+   "displacement_mm_median": 140.8,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
   },
@@ -433,11 +439,11 @@
     "metatarsals_r": 0.006,
     "femur_r": 0.001
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.609,
    "volume_src_cm3": 35.5,
-   "volume_out_cm3": 20.9,
+   "volume_out_cm3": 21.0,
    "displacement_mm_median": 152.4,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 7
@@ -497,11 +503,11 @@
     "femur_l": 0.016,
     "metatarsals_l": 0.003
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.836,
    "volume_src_cm3": 178.6,
-   "volume_out_cm3": 72.4,
+   "volume_out_cm3": 72.3,
    "displacement_mm_median": 120.6,
    "outside_target_skin_fraction_before_clip": 0.001,
    "vertices_clipped_to_skin": 16
@@ -519,11 +525,11 @@
     "femur_r": 0.017,
     "metatarsals_r": 0.003
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.835,
    "volume_src_cm3": 187.2,
-   "volume_out_cm3": 88.9,
+   "volume_out_cm3": 88.8,
    "displacement_mm_median": 135.7,
    "outside_target_skin_fraction_before_clip": 0.002,
    "vertices_clipped_to_skin": 6
@@ -541,7 +547,7 @@
     "metatarsals_l": 0.005,
     "femur_l": 0.003
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.52,
    "volume_src_cm3": 40.3,
@@ -563,11 +569,11 @@
     "metatarsals_r": 0.004,
     "femur_r": 0.003
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.497,
    "volume_src_cm3": 39.9,
-   "volume_out_cm3": 18.6,
+   "volume_out_cm3": 18.5,
    "displacement_mm_median": 135.2,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
@@ -585,11 +591,11 @@
     "metatarsals_l": 0.008,
     "femur_l": 0.002
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.646,
    "volume_src_cm3": 119.1,
-   "volume_out_cm3": 86.4,
+   "volume_out_cm3": 86.3,
    "displacement_mm_median": 138.7,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
@@ -607,11 +613,11 @@
     "metatarsals_r": 0.007,
     "femur_r": 0.002
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.646,
    "volume_src_cm3": 113.2,
-   "volume_out_cm3": 94.7,
+   "volume_out_cm3": 94.5,
    "displacement_mm_median": 152.0,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
@@ -629,11 +635,11 @@
     "femur_l": 0.19,
     "patella_l": 0.0
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.853,
    "volume_src_cm3": 670.1,
-   "volume_out_cm3": 387.5,
+   "volume_out_cm3": 387.1,
    "displacement_mm_median": 87.9,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 2
@@ -651,14 +657,14 @@
     "femur_r": 0.184,
     "patella_r": 0.0
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.851,
    "volume_src_cm3": 610.8,
-   "volume_out_cm3": 382.0,
+   "volume_out_cm3": 381.2,
    "displacement_mm_median": 102.4,
    "outside_target_skin_fraction_before_clip": 0.0,
-   "vertices_clipped_to_skin": 3
+   "vertices_clipped_to_skin": 4
   },
   {
    "atlas_id": "gemellus_inferior_l",
@@ -1126,7 +1132,7 @@
    "mean_radial_fraction_src": 0.634,
    "volume_src_cm3": 19.8,
    "volume_out_cm3": 10.4,
-   "displacement_mm_median": 86.9,
+   "displacement_mm_median": 87.0,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
   },
@@ -1142,7 +1148,7 @@
     "fibula_l": 0.156,
     "femur_l": 0.044
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.353,
    "volume_src_cm3": 32.9,
@@ -1163,12 +1169,12 @@
     "fibula_r": 0.162,
     "femur_r": 0.045
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.359,
    "volume_src_cm3": 31.9,
    "volume_out_cm3": 16.5,
-   "displacement_mm_median": 95.2,
+   "displacement_mm_median": 95.3,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
   },
@@ -1299,8 +1305,8 @@
    "volume_src_cm3": 413.0,
    "volume_out_cm3": 165.4,
    "displacement_mm_median": 48.4,
-   "outside_target_skin_fraction_before_clip": 0.033,
-   "vertices_clipped_to_skin": 64
+   "outside_target_skin_fraction_before_clip": 0.037,
+   "vertices_clipped_to_skin": 66
   },
   {
    "atlas_id": "rhomboid_major_l",
@@ -1341,7 +1347,7 @@
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
    "volume_src_cm3": 112.1,
-   "volume_out_cm3": 70.9,
+   "volume_out_cm3": 70.8,
    "displacement_mm_median": 20.2,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
@@ -1365,8 +1371,8 @@
    "volume_src_cm3": 266.8,
    "volume_out_cm3": 129.0,
    "displacement_mm_median": 38.3,
-   "outside_target_skin_fraction_before_clip": 0.015,
-   "vertices_clipped_to_skin": 29
+   "outside_target_skin_fraction_before_clip": 0.018,
+   "vertices_clipped_to_skin": 42
   },
   {
    "atlas_id": "sartorius_r",
@@ -1387,8 +1393,8 @@
    "volume_src_cm3": 270.5,
    "volume_out_cm3": 140.1,
    "displacement_mm_median": 40.4,
-   "outside_target_skin_fraction_before_clip": 0.03,
-   "vertices_clipped_to_skin": 70
+   "outside_target_skin_fraction_before_clip": 0.031,
+   "vertices_clipped_to_skin": 77
   },
   {
    "atlas_id": "semimembranosus_l",
@@ -1429,7 +1435,7 @@
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.759,
    "volume_src_cm3": 467.1,
-   "volume_out_cm3": 335.9,
+   "volume_out_cm3": 335.7,
    "displacement_mm_median": 54.1,
    "outside_target_skin_fraction_before_clip": 0.004,
    "vertices_clipped_to_skin": 17
@@ -1491,11 +1497,11 @@
     "femur_l": 0.04,
     "metatarsals_l": 0.003
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.733,
    "volume_src_cm3": 742.7,
-   "volume_out_cm3": 366.2,
+   "volume_out_cm3": 365.8,
    "displacement_mm_median": 106.0,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
@@ -1513,14 +1519,58 @@
     "femur_r": 0.037,
     "metatarsals_r": 0.003
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.742,
    "volume_src_cm3": 684.8,
-   "volume_out_cm3": 401.4,
-   "displacement_mm_median": 120.5,
+   "volume_out_cm3": 400.7,
+   "displacement_mm_median": 120.6,
    "outside_target_skin_fraction_before_clip": 0.001,
    "vertices_clipped_to_skin": 3
+  },
+  {
+   "atlas_id": "tarsals_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 0.521,
+    "tibia_l": 0.273,
+    "fibula_l": 0.198,
+    "phalanges_foot_l": 0.008
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 163.3,
+   "volume_out_cm3": 119.2,
+   "displacement_mm_median": 178.6,
+   "outside_target_skin_fraction_before_clip": 0.104,
+   "vertices_clipped_to_skin": 2322
+  },
+  {
+   "atlas_id": "tarsals_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 0.519,
+    "tibia_r": 0.268,
+    "fibula_r": 0.207,
+    "phalanges_foot_r": 0.005
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 154.6,
+   "volume_out_cm3": 140.3,
+   "displacement_mm_median": 178.4,
+   "outside_target_skin_fraction_before_clip": 0.238,
+   "vertices_clipped_to_skin": 4331
   },
   {
    "atlas_id": "tensor_fasciae_latae_l",
@@ -1621,13 +1671,13 @@
     "femur_l": 0.021,
     "metatarsals_l": 0.001
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.66,
    "volume_src_cm3": 184.2,
-   "volume_out_cm3": 108.7,
+   "volume_out_cm3": 108.6,
    "displacement_mm_median": 112.8,
-   "outside_target_skin_fraction_before_clip": 0.012,
+   "outside_target_skin_fraction_before_clip": 0.011,
    "vertices_clipped_to_skin": 38
   },
   {
@@ -1643,7 +1693,7 @@
     "femur_r": 0.019,
     "metatarsals_r": 0.001
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.669,
    "volume_src_cm3": 180.6,
@@ -1665,11 +1715,11 @@
     "femur_l": 0.008,
     "metatarsals_l": 0.002
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.367,
    "volume_src_cm3": 133.7,
-   "volume_out_cm3": 71.8,
+   "volume_out_cm3": 71.7,
    "displacement_mm_median": 116.9,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
@@ -1687,12 +1737,12 @@
     "femur_r": 0.007,
     "metatarsals_r": 0.002
    },
-   "bulk_transverse": 1.087,
+   "bulk_transverse": 1.086,
    "lean_envelope": true,
    "mean_radial_fraction_src": 0.363,
    "volume_src_cm3": 124.7,
-   "volume_out_cm3": 79.0,
-   "displacement_mm_median": 130.7,
+   "volume_out_cm3": 78.9,
+   "displacement_mm_median": 130.8,
    "outside_target_skin_fraction_before_clip": 0.0,
    "vertices_clipped_to_skin": 0
   },
