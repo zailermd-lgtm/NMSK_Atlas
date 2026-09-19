@@ -18,7 +18,7 @@ fi
 if [ ! -f build/vh/xfer_vhf2vhm/manifest.json ]; then
   [ -f build/viewer_f/bundle.json ] || { echo "female bundle absent: run scripts/cryo/vhf_rebuild_bundle.sh first"; exit 1; }
   python3 scripts/transfer/cross_subject_transfer.py --direction f2m --male-html $B --female-bundle build/viewer_f \
-    --ids digastric_l digastric_r internal_carotid_a_l internal_carotid_a_r internal_jugular_v_l internal_jugular_v_r superior_rectus_l superior_rectus_r inferior_oblique_r inferior_rectus_l inferior_rectus_r lateral_rectus_l lateral_rectus_r levator_palpebrae_superioris_r medial_rectus_r optic_n superior_oblique_l superior_oblique_r \
+    --ids digastric_l digastric_r internal_carotid_a_l internal_carotid_a_r internal_jugular_v_l internal_jugular_v_r superior_rectus_l superior_rectus_r inferior_oblique_r inferior_rectus_l inferior_rectus_r lateral_rectus_l lateral_rectus_r levator_palpebrae_superioris_r levator_palpebrae_superioris_l medial_rectus_r optic_n superior_oblique_l superior_oblique_r \
     -o build/vh/xfer_vhf2vhm --report data/derived/transfer_report_vhf2vhm.json 2>&1 | head -1 | cut -c1-160
 fi
 # his upper-arm compartments v2 (scripts/cryo/vhm_arm_muscles_v2.py, label volume in the repo) replace the recovered ct_vhm_armm

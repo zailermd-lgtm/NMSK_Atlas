@@ -11,7 +11,12 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q98 STILL BLOCKED (re-checked Q59 for
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q99 SHIPPED (confirmed his orbit
+muscles' native-CT undersizing is real and quantitative, not a Q96-style soft call, so no reversal there --
+but found and fixed a genuine visible defect: `levator_palpebrae_superioris_l` was shipping his fragmented,
+undersized native mesh (4 components, a floating sliver on render) instead of the female-transferred version
+already used for its counterpart on the right side; added it to `xfer_vhf2vhm`'s ids list, now a single
+component, render-confirmed fixed; male viewer V51), Q98 STILL BLOCKED (re-checked Q59 for
 a third-party mirror of the DU muscle STLs via web search -- both Hugging Face candidates found are bones-only
 or the wrong dataset, and the paper's own alternate hosts (SimTK, nature.com, PMC) are all blocked at the
 network-policy level, not just the DU Cloudflare gate; no automated route exists, ruling this out so it's not
@@ -2433,6 +2438,44 @@ tick the item here with a one-line result. Never fabricate; keep the
       statement to find out if there's a repository this search missed). Q59 stays blocked pending an owner
       action exactly as Q85 concluded; this item's value is ruling out the "maybe there's an easier mirror"
       hope so a future pass doesn't re-spend a search on it. No code, mapping, or viewer change.
+- [x] Q99 (2026-09-19) Male `levator_palpebrae_superioris_l`: found and fixed a real, currently-shipped,
+      VISIBLE mesh defect while investigating whether his orbit muscles (undersized on native CT, per this
+      project's own long-documented finding) might be reversal candidates like Q96's platysma. They are NOT
+      -- checked with real numbers first, before assuming a reversal opportunity: compared his native
+      `ct_vhm_orbit` volumes against the female's own shipped values for the same 10 native-mapped muscles
+      (both measured the same way, watertight-mesh volume) and every one is severely undersized (12-70% of
+      hers, most 15-50%), confirming the old "fraction of the correct size" diagnosis is solid, quantitative,
+      and still correct -- NOT a soft pre-toolkit judgment call, so this is not a Q96-style reversal
+      candidate and the existing design (prefer the female-transferred version for most of these muscles) is
+      right and unchanged.
+      BUT: `xfer_vhf2vhm`'s transfer `--ids` list (in `scripts/vhm_rebuild_bundle.sh`) turned out to be
+      ASYMMETRIC in a way that wasn't just a defensible per-muscle judgment call: `inferior_oblique`,
+      `levator_palpebrae_superioris` and `medial_rectus` are each transferred on only ONE side (matching
+      whichever side's native volume was worse), keeping the OTHER side's native geometry on the reasoning
+      that it was "good enough." That reasoning holds for `inferior_oblique_l`/`medial_rectus_l` (native,
+      watertight, 68-70% of the female's value -- moderate but real, continuous anatomy, correctly left
+      alone). It does NOT hold for `levator_palpebrae_superioris_l`: rendering it in the actual shipped
+      viewer showed a visibly floating disconnected fragment, and Q88's own stray-mesh scan already had the
+      number for it (`main_frac` 0.909, 4 components) but it fell just under Q88's conservative auto-clean
+      threshold so it was correctly left for manual review rather than silently touched -- this is that
+      manual review. Added `levator_palpebrae_superioris_l` to the `xfer_vhf2vhm` `--ids` list (now
+      transferred on BOTH sides, matching `superior_rectus`/`inferior_rectus`/`lateral_rectus`/
+      `superior_oblique`, which were already symmetric). Re-ran the transfer: 0.9 -> 0.8 cm3 (her value ->
+      his, after skin-clipping), now a SINGLE mesh component (was 4) via the established face-adjacency
+      check. Render-verified before/after: the floating fragment is gone, replaced by one continuous
+      elongated sheet, correctly badged "TRANSFERRED from the Visible Human female" in the inspector.
+      `ct_vhm_orbit`'s own mapping entry for this label kept its real `atlas_id` (not nulled), matching how
+      the file already treats `superior_rectus`'s override -- this file records what a label COULD map to,
+      not which subject's copy the export actually ships; a note was added explaining the override and
+      pointing at `vhm_rebuild_bundle.sh`'s `--ids`/SUBJ order for what actually wins.
+      NOTED, NOT FIXED (Q87's own flagged gap, re-confirmed still open): `xfer_vhf2vhm`'s rebuild command
+      still does not pass `--skin-nii`/`--skin-origin`, so Q77's `clip_to_skin()` durability fix does not
+      self-apply to this transfer direction. This session's female-receiving transfers (`xfer_vhm2vhf`) DO
+      pass it. Not fixed this round to keep this item's diff isolated and reviewable; left as a clearly-
+      described follow-up rather than bundled in silently.
+      Re-exported the male bundle using the canonical `--subject` order from `vhm_rebuild_bundle.sh` itself
+      (357 structures, unchanged -- a source swap, not a new/removed structure) and republished at the same
+      URL, Version 51. Tests 252 pass.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
