@@ -3,10 +3,18 @@ clips the arms laterally) united with the photograph silhouette (colour classes 
 >= 20 cm2 per slice, the ruler rows at the top of the frame dropped) on the registered 1 mm frame (480 x 700), photographs used only
 above RAS z -950 (the arm levels; lower down they would add a registration rim along the legs).
 The trunk and legs therefore stay CT-exact; the arms come from the photographs (+-10 mm, the registration). Output
-vhf_ts/skin_union.nii.gz (label 1 = body) in torso RAS on the frame grid, for `ct_vhf_skin` and the depth tags."""
+vhf_ts/skin_union.nii.gz (label 1 = body) in torso RAS on the frame grid, for `ct_vhf_skin` and the depth tags.
+
+Q74: the switch at z=-950 used to be a hard on/off (t zeroed below it, unrestricted above), which put the whole
+photo-vs-CT arm-width difference into a single 1 mm slice -- a ~3170-voxel single-slice area spike right there
+(measured: normal neighbouring per-slice deltas are ~140-230 voxels), i.e. a literal step encircling each upper
+arm at the shoulder/axilla in the reconstructed surface. RAMP_MM tapers the photo-only contribution back in over
+a short z band above the switch instead of admitting it all at once, using each slice's own true extra-vs-CT
+distance so the band's top slice still matches the original unrestricted union exactly."""
 import numpy as np, nibabel as nib, json
 from scipy import ndimage as ndi
 S="/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/"; D=S+"vh_cryo_f/"
+RAMP_MM=64   # small, local to the switch band only -- does not touch overall stature/contour elsewhere
 cls=np.load(D+"cryo_frame_cls.npy",mmap_mode="r"); z0=json.load(open(D+"frame.json"))["z0"]; n,H,W=cls.shape; OFF=110
 sk=nib.load(S+"vhf_ts/skin_ct.nii.gz"); skd=np.asarray(sk.dataobj); zS0=float(sk.affine[2,3])
 out=np.zeros((n,H,W),np.uint8); ncryo=0; nct=0
@@ -16,7 +24,15 @@ for k in range(n):
     if m: sz=ndi.sum(np.ones_like(l),l,np.arange(1,m+1)); t=np.isin(l,np.arange(1,m+1)[sz>=2000])
     kk=int(round(z0+k-zS0)); ctm=np.zeros((H,W),bool)
     if 0<=kk<skd.shape[2]: ctm[:,OFF:OFF+480]=ndi.zoom(skd[:,:,kk],480/512,order=0).T>0
-    if z0+k<-950: t=np.zeros_like(t)   # below the arms (RAS z < -950) the CT silhouette is exact; the photographs would add a registration rim along the legs
+    zk=z0+k
+    if zk<-950: t=np.zeros_like(t)   # below the arms (RAS z < -950) the CT silhouette is exact; the photographs would add a registration rim along the legs
+    elif zk<-950+RAMP_MM:            # Q74: taper the photo-only extra back in over RAMP_MM mm instead of admitting it in one slice
+        extra=t&~ctm
+        if extra.any():
+            dist=ndi.distance_transform_edt(~ctm)
+            frac=min((zk+950)/(RAMP_MM-1),1.0)
+            thr=-1 if frac<=0 else np.quantile(dist[extra],frac)   # area-fraction ramp (not radius-fraction); frac=0 admits none
+            t=ctm|(extra&(dist<=thr))
     u=t|ctm; out[k]=u; ncryo+=int((t&~ctm).sum()); nct+=int(ctm.sum())
 print("CT silhouette voxels",nct,"added from the photographs",ncryo,"(%.1f %%)"%(100*ncryo/max(nct,1)),flush=True)
 aff=np.array([[-1,0,0,350],[0,-1,0,240],[0,0,1,z0],[0,0,0,1]],float)
