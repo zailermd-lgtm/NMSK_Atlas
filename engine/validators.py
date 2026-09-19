@@ -109,9 +109,12 @@ def validate_source_coverage() -> List[str]:
     for path in _all_data_files():
         # Generated artifacts carry no citation of their own -- the citation
         # lives on the entities they were derived from.
-        #   anchors.json           <- scripts/generate_anchors.py
-        #   scene_3d_preview.json  <- scripts/export_3d_scene.py
-        if path.name in ("anchors.json", "scene_3d_preview.json"):
+        #   anchors.json                  <- scripts/generate_anchors.py
+        #   scene_3d_preview.json         <- scripts/export_3d_scene.py
+        #   stray_mesh_islands_scan.json  <- scripts/clean_stray_mesh_islands.py
+        #   stray_mesh_islands_report.json <- scripts/clean_stray_mesh_islands.py
+        if path.name in ("anchors.json", "scene_3d_preview.json",
+                         "stray_mesh_islands_scan.json", "stray_mesh_islands_report.json"):
             continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else payload.get("items", [payload])

@@ -11,7 +11,25 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q87 AUDITED, CLEAN (systematic
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q88 DONE (built
+`scripts/clean_stray_mesh_islands.py`, a general conservative tool for Q87's non-positional finding -- tiny
+TotalSegmentator/photograph mislabeled-voxel islands floating far from a structure's real body, the
+mirror-image problem to the Q76/78/81 fragmentation work and a direct hit on the owner's "complete, continuous
+tissues" concern. Conservative gate: main component already >=95% of the piece, candidate <=2% of vertices AND
+<=1% of volume AND <=1.5 cm3 absolute, >=40mm from the main centroid, name not on a documented multi-piece
+list (biceps_femoris, gastrocnemius, pectoralis, serratus, intercostals, interossei, tendons, retinacula, etc).
+Fixed durably at the committed label-volume level (zeroed in the source `.nii.gz`, re-surfaced with
+`ingest_volume_geometry.py convert`) for 12 of 16 touched subjects; mesh-level-only (not yet durable across a
+from-scratch rebuild, same known limitation as Q71/72/78) for the 4 subjects the current rebuild scripts still
+source from the recovered `vhm_v25` bundle (`ct_vhm`, `ct_vhm_abd`, `ct_vhm_head`, `ct_vhf_skin`). 37
+structure-pieces cleaned across both bodies (every removal under 0.55% of its own structure's volume; example:
+`ct_vhf_armb`'s `radius_r` lost a 268-vertex/120mm-out fragment, render-verified isolated before/after -- a
+visible bump on the shaft is gone, taper smooth); re-scanned after cleanup, every touched piece now one
+component. 15 structure-pieces left alone as matching the known-multi-piece list, 282 left alone as not passing
+the conservative gate (mostly already-documented Q78-style genuine fragmentation, a different problem) --
+full candidate list with every metric saved in `data/derived/stray_mesh_islands_scan.json` for a future pass.
+Both viewer bundles re-exported (unchanged structure counts, pure cleanup) and republished: male Version 48
+(358 structures), female Version 36 (368 structures). Q87 AUDITED, CLEAN (systematic
 skin-containment + bounding-box/midline sweep of every structure on BOTH bodies not yet checked this way,
 the Q73/75/77/86 method generalized: coarse bbox/midline pass across all 57 subject manifests found nothing
 real (only a `side=None`-despite-`_r`/`_l`-suffix metadata quirk on `costal_cartilage_r/l` in both bodies,
@@ -1850,6 +1868,76 @@ tick the item here with a one-line result. Never fabricate; keep the
       progress or response to a status check; it was stopped (`TaskStop`) and its already-good, well-evidenced
       fix (verified independently before being trusted) was carried through to shipping rather than discarded,
       since the diff and the numbers it had already produced were sound on inspection.
+- [x] Q88 (2026-09-19) Follow-up on Q87's non-positional finding: the systemic pattern of small
+      TotalSegmentator/photograph mislabeled-voxel islands sitting fully inside the skin, floating a real
+      distance from a structure's own main body -- the mirror-image problem to the fragmentation-into-gaps
+      Q76/78/81 worked on, and directly the owner's "we need complete, continuous tissues" concern. Built a
+      GENERAL tool, `scripts/clean_stray_mesh_islands.py`, rather than fixing structures one at a time.
+      DETECTION (mesh level, on `build/vh/<subject>/manifest.json` -- the currently-shipped geometry for both
+      bodies): connected components by face adjacency (`e0/e1` edge lists -> `scipy.sparse.coo_matrix` ->
+      `scipy.sparse.csgraph.connected_components`), the method this session already used for Q78/81. A
+      component is only ever auto-dropped when ALL of: the piece's main component is already >=95% of it
+      (so a genuinely fragmented structure like Q78's internal_oblique/transversus_abdominis, largest piece
+      44-54%, is never touched -- it fails this gate and stays logged for manual review, not guessed at);
+      the candidate is <=2% of the piece's vertices AND <=1% of its volume AND <=1.5 cm3 absolute (chosen
+      because every legitimately shipped separate muscle belly/slip/small intrinsic in this atlas runs several
+      cm3 or more, while the actual noise flecks found ran from a few hundred voxels down to single digits --
+      well under a tenth of that floor); and it sits >=40 mm from the main component's centroid (Q87's own
+      140 mm example, and this session's existing containment-audit threshold). Structures whose name matched
+      a documented multi-piece keyword list (biceps_femoris, gastrocnemius, pectoralis, serratus, digastric,
+      intercostal, interosse*, lumbrical, flexor/extensor_digitorum, extensor/flexor_hallucis, adductor_magnus,
+      triceps, biceps_brachii, multifidus, scalenus, rhomboid, trapezius, retinaculum, tendon,
+      sternocleidomastoid, omohyoid, sternohyoid, constrictor, levator_costarum -- muscles/tendons/retinacula
+      with a real second piece expected by anatomy) were scanned but excluded from auto-cleaning by name, not
+      just by the numeric gate. `xfer_vhm2vhf_sep` (septa-refined transferred lower-limb muscles) was treated
+      with the same numeric criteria, not blanket-skipped, since nothing in its own structure marks it as
+      inherently ambiguous the way a tendon or a documented multi-bellied muscle is.
+      TWO WAYS TO FIX, tried in order: (1) durable -- when the structure's committed source `.nii.gz` and its
+      exact conversion recipe (labels key, origin, smoothing) are known from `scripts/vhm_rebuild_bundle.sh` /
+      `scripts/cryo/vhf_rebuild_bundle.sh`, the same stray voxels are found in 3-D (`scipy.ndimage.label`,
+      26-connectivity) and zeroed in the committed label volume itself, then re-surfaced with the project's own
+      `ingest_volume_geometry.py convert` -- a future from-scratch rebuild reproduces the clean mesh because the
+      fix lives in committed `data/ct_sources/task_outputs/*.nii.gz`, not just in `build/`. (2) mesh -- otherwise
+      (or when voxel-level 26-connectivity disagrees with mesh face-adjacency, which happened for roughly a third
+      of drops: two voxel regions touching only at a corner are one 26-connected blob but marching cubes can
+      still draw them as separate surface islands) the flagged component's vertices/faces are removed directly
+      from `build/vh/<subject>` and every later structure's offsets in that file are rewritten. A mesh-level
+      catch-up pass ran after every volume-level fix specifically to close this voxel/mesh gap, so every
+      originally-flagged, criteria-passing piece ended up actually clean, not just the ones the voxel path
+      happened to catch.
+      RESULT: 37 structure-pieces cleaned across 16 subjects on both bodies (`ct_vhf` x5 incl. `lumbar_vertebrae`'s
+      neighbour `ribs_r`, `ct_vhf_abd` x4, `ct_vhf_armb` x1, `ct_vhf_es` x2, `ct_vhf_forearm` x3, `ct_vhf_headm`
+      x2, `ct_vhf_legs` x1, `ct_vhf_pfloor` x1, `ct_vhf_skin` x1, `ct_vhm` x5 incl. `lumbar_vertebrae` itself
+      (the male counterpart of Q87's flagship `ct_vhf` example), `ct_vhm_abd` x2, `ct_vhm_arm` x1, `ct_vhm_es`
+      x1, `ct_vhm_head` x1, `xfer_vhf2vhm_neck` x2, `xfer_vhm2vhf_sep` x8); 12 of the 16 subjects fixed durably
+      at the source-volume level, 4 mesh-only (`ct_vhf_skin`, `ct_vhm`, `ct_vhm_abd`, `ct_vhm_head` -- these
+      four are, in the CURRENT rebuild scripts, sourced from the recovered decimated `vhm_v25`/scratchpad
+      copies rather than reconverted fresh, the same already-documented Q71/72/78 limitation, not a new one).
+      Example before/after: `ct_vhf`'s `humerus_l` lost 3 components (252 verts, 0.13% of 167 cm3, up to 332 mm
+      away); `ct_vhm`'s `lumbar_vertebrae` lost a 52-vertex/0.31% fragment 70.6 mm from its body; `ct_vhf_armb`'s
+      `radius_r` lost a 268-vertex/0.42% fragment 120 mm out -- render-verified isolated before/after (a visible
+      bump on the mid-shaft in the "before" screenshot is gone and the taper is smooth in "after", with the
+      subject's total triangle count dropping by exactly the removed amount and nothing else changing). Every
+      one of the 37 removals was under 0.55% of its structure's own volume (full list with sizes/distances/
+      volumes in `data/derived/stray_mesh_islands_report.json`); none came close to the "more than a token
+      amount" flag threshold, so nothing was skipped as suspicious. Re-ran the mesh-level connected-components
+      check after cleanup (`scripts/clean_stray_mesh_islands.py scan`): every touched piece is now a single
+      component (100% largest fraction). LEFT FOR FOLLOW-UP, not guessed at: 15 structure-pieces skipped as
+      matching the known-multi-piece list (pectoralis_major, serratus_anterior, sternocleidomastoid, trapezius,
+      multifidus, flexor_hallucis_longus, gastrocnemius -- all real anatomy, not this bug); 282 structure-pieces
+      have more than one component but did not pass the conservative numeric gate (most because the "main"
+      piece is under 95% -- these are the Q78-style genuinely-fragmented cases, a different and already-
+      documented problem, not silently reclassified as clean); the full candidate list with every metric is
+      saved in `data/derived/stray_mesh_islands_scan.json` so a future pass does not need to re-scan from
+      scratch. `xfer_vhm2vhf`/`xfer_vhf2vhm`/`xfer_vhf2vhm_neck` (pure runtime cross-subject-transfer output,
+      no committed label volume at all) had a handful of qualifying pieces cleaned at mesh level only; making
+      this durable would mean adding a general stray-island drop to `cross_subject_transfer.py` itself
+      (Q77's `clip_to_skin()` precedent) -- not done this round, left as a concrete next step.
+      Re-exported both viewer bundles from their own `bundle.json` subject lists (unchanged: male 24 subjects/
+      358 structures, female 28 subjects/368 structures -- pure cleanup, nothing added or removed), rebuilt
+      both HTMLs separately, republished: male Version 48, female Version 36. Tests 252 pass (one new rule
+      added to `engine/validators.py`'s source-citation exemption list for the two new generated report/scan
+      JSON files, the same pattern `anchors.json`/`scene_3d_preview.json` already use).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
