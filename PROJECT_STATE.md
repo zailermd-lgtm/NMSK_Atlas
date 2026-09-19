@@ -11,7 +11,9 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q94 NOT SHIPPED (followed up Q84's
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q95 DONE (skin-containment + L/R sign
+check on the three newest male subjects, ct_vhm_ggl/ct_vhm_sgl/ct_vhm_pfloor, none swept since Q87 predates
+them -- all clean, 0.0% outside skin, no repeat of Q86's sign bug), Q94 NOT SHIPPED (followed up Q84's
 own diagnosis for the abdominal wall's 3 unshippable structures: made the depth-fraction field independent
 per side, as Q84's own root-cause analysis said to try. The simplest per-side split alone barely moved the
 two worst structures; layering Q84's smooth field on top per side gave a big real gain to `internal_oblique_r`
@@ -2299,6 +2301,16 @@ tick the item here with a one-line result. Never fabricate; keep the
       question for whoever picks this up: is per-layer (not just per-side) independence worth the redesign,
       or should these 3 structures be accepted as a permanent rule-based limitation of the depth-fraction
       approach and left unshipped.
+- [x] Q95 (2026-09-19) Quick skin-containment + left/right sanity check on the three newest male subjects
+      (`ct_vhm_ggl`, `ct_vhm_sgl` from Q91/Q92; `ct_vhm_pfloor` from Q83/Q86) -- none of these existed when
+      Q87's whole-body sweep ran, so nobody had checked them against `ct_vhm_skin` yet, and `ct_vhm_ggl`/
+      `ct_vhm_sgl` are exactly the kind of newly-derived, small, sided structure where Q86's affine-constant
+      bug would show up if it recurred. All clean: 0.0% of vertices outside a 2 mm-eroded `ct_vhm_skin` for
+      all three (19,140 / 4,298 / 29,816 vertices, 0 out of bounds). Left/right sign check (the exact signal
+      that caught Q86): `genioglossus_r` mean atlas x +7.9..+17.9 mm, `genioglossus_l` -2.1..+7.9 mm;
+      `styloglossus_r` +17.9..+23.0 mm, `styloglossus_l` -8.9..-2.1 mm -- correctly straddling the midline
+      with sensible small overlap near 0 for paramedian tongue muscles, no repeat of Q86's same-side bug.
+      No fix needed. No code, mapping, or viewer change.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
