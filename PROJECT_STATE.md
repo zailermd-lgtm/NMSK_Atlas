@@ -11,7 +11,38 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q86 SHIPPED (found and fixed a real
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q87 AUDITED, CLEAN (systematic
+skin-containment + bounding-box/midline sweep of every structure on BOTH bodies not yet checked this way,
+the Q73/75/77/86 method generalized: coarse bbox/midline pass across all 57 subject manifests found nothing
+real (only a `side=None`-despite-`_r`/`_l`-suffix metadata quirk on `costal_cartilage_r/l` in both bodies,
+correctly mirrored, not a bug); full per-vertex reprojection through each body's own skin volume (male:
+`vhm_skin_ct.nii.gz`, torso-block frame, origin `-6.035,-895.476,4.787`; female: `skin_union.nii.gz`, origin
+`7.769,-885.229,14.137`, confirmed byte-identical to the file `ct_vhf_skin`'s own manifest already cites)
+covered every remaining male subject (`ct_vhm`, `_abd/_armm/_cuff/_delt/_es/_foot/_forearm/_head/_headm/_neck/
+_neckbv/_orbit/_pmr/_shsp/_twall`, `ct_s1159[_abd]`, `xfer_vhf2vhm[_neck]`) at 0.00% outside raw skin, `vhm_both`
+in full (not just spot-checked, 216879 verts, 0.00%), and every remaining female subject (`ct_vhf` main plus
+`_abd/_armb/_armm/_cuff/_delt/_dneck/_es/_femoral/_forearm/_hand/_head/_headm/_hyoid/_legs/_neck/_neckbv/_nerve/
+_orbit/_pfloor/_pmr/_popliteal/_shsp/_tarsal/_twall`, `xfer_vhm2vhf[_rhom/_sep]`) at 0.00-0.60% (all negligible
+single-digit-vertex joint-surface noise). `xfer_vhm2vhf`'s own transfer report confirms Q77's `clip_to_skin()`
+genuinely ran on the currently-shipped mesh (22/85 structures needed clipping, max pre-clip 4.3%, 0% after).
+Two real risks investigated and both ruled out: (1) `ct_vhf_tarsal` initially flagged at up to 18.8% outside
+a 2mm-eroded skin margin -- re-checked against the RAW (unmargined) skin surface and came back 0.00%, i.e. the
+transferred tarsals are genuinely touching-not-poking (real anatomy: skin lies within 1-2mm of bone on the
+foot dorsum) and the erosion margin was producing a false positive there, not the transfer; (2) `ct_vhm_arm`
+(humerus/ulna/radius/hand, `_r`/`_l`) showed real but small poke-through (humerus 2.5-2.9%, ulna ~0.85%) plus
+a large out-of-bounds fraction from the skin volume's limited lateral field of view for the outstretched
+arm -- this is Q72's already-documented, already-investigated "genuine legacy mis-registration, not reliably
+fixable yet", re-confirmed with real numbers rather than a new finding. `xfer_vhf2vhm`/`xfer_vhf2vhm_neck`'s
+own rebuild-script invocations were also found to never pass `--skin-nii` at all (so Q77's fix never actually
+runs for the male-receiving transfer direction, only the female-receiving one does) -- but the currently
+shipped geometry there checks out at 0.00% anyway, so this is a latent process gap worth remembering, not a
+live bug. One non-positional observation, not fixed: a systemic pattern of small (~0.02-3%) TotalSegmentator
+mislabeled-voxel islands sitting fully INSIDE the skin (confirmed via connected-component analysis on `ct_vhf`'s
+`lumbar_vertebrae`, one piece carrying a 454-vertex/1.8% stray fragment ~140mm from its main body) recurs
+across roughly 150 structure-pieces in both bodies at a similarly low rate -- a segmentation-quality issue
+already the subject of Q76/78/81's fragmentation work, not a new "wrong position" class of bug, and far too
+widespread to chase in this pass. No fix shipped this round; no viewer/bundle/mapping files changed. Q86
+SHIPPED (found and fixed a real
 ~110 mm mispositioning bug in the just-shipped `ct_vhm_pfloor`: its NIfTI affine's X-translation constant was
 copy-pasted from the torso-frame convention (350) without being re-derived for the LEGS-block frame Q83 had
 switched the script to use; corrected to 240, verified against `legs_total.nii.gz`'s own affine and against
