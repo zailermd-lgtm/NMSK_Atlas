@@ -4,6 +4,15 @@
 
 The atlas carries **404 muscle entities** (one record per side). Meshes exist for **154** of them on both bodies and for **250** (128 distinct muscles) on neither. Z-Anatomy's structure list (read as a CHECKLIST only: its models are CC BY-SA and do not enter this repository) names 184 muscle-like structures; after removing groups and synonyms it adds about fifteen small muscles the entity list lacks (articularis genus, dartos, depressor labii inferioris, depressor septi nasi, depressor supercilii, levator anguli oris, and the auricular muscles: auricularis anterior/superior/posterior, helicis major/minor, tragicus, antitragicus, transverse and oblique muscles of the auricle). Those fifteen were added on 2026-09-14 (Q65) as literature records (Gray's / TA attachments, innervation and actions; no architecture numbers, the records say none were verified; dartos is one midline smooth-muscle record; the posterior auricular branch of the facial nerve was added as a nerve entity), so the atlas now carries 433 muscle entities. The ENTITY list is complete against that checklist; the GEOMETRY is not.
 
+**Recount 2026-09-19, after Q97** (female viewer V38, male V50): 433 entities, meshes on BOTH bodies for
+**202** (unchanged -- all five new ids are her-only), on at least one for **232** (was 227), on NEITHER for
+**201** (was 206, 110 distinct muscles). `upper_limb` missing-on-both dropped 41 -> 36: her left-forearm
+`extensor_digitorum_l`, `extensor_digiti_minimi_l`, `abductor_pollicis_longus_l`, `extensor_pollicis_brevis_l`,
+`extensor_pollicis_longus_l` shipped from a Q71 dataset that had been left pending review, verified against
+Q96's mesh-topology/skin-containment/render bar (see PROJECT_STATE Q97 and the Forearm section below). The
+other 15 left-forearm muscles remain unshipped; Q71's proximal-only-tracker finding holds. All other region
+counts unchanged from the entry below.
+
 **Recount 2026-09-19, after Q96** (female viewer V37, male V50): 433 entities, meshes on BOTH bodies for
 **202** (unchanged -- platysma is her-only), on at least one for **227** (was 225), on NEITHER for **206**
 (was 208, 115 distinct muscles). `neck` missing-on-both dropped 16 -> 14 (both `platysma_l/r`). All other
@@ -19,11 +28,13 @@ already-shipped structure rather than closing a new gap; regenerated with `scrip
 
 ## Missing on both bodies, by group, with the real-source route
 
-### Forearm -- 20 missing
+### Forearm -- 15 missing
 
-`brachioradialis`, `anconeus`, `pronator_teres`, `pronator_quadratus`, `supinator`, `flexor_carpi_radialis`, `flexor_carpi_ulnaris`, `palmaris_longus`, `flexor_digitorum_superficialis`, `flexor_digitorum_profundus`, `flexor_pollicis_longus`, `extensor_carpi_radialis_longus`, `extensor_carpi_radialis_brevis`, `extensor_digitorum`, `extensor_digiti_minimi`, `extensor_carpi_ulnaris`, `abductor_pollicis_longus`, `extensor_pollicis_brevis`, `extensor_pollicis_longus`, `extensor_indicis`
+`brachioradialis`, `anconeus`, `pronator_teres`, `pronator_quadratus`, `supinator`, `flexor_carpi_radialis`, `flexor_carpi_ulnaris`, `palmaris_longus`, `flexor_digitorum_superficialis`, `flexor_digitorum_profundus`, `flexor_pollicis_longus`, `extensor_carpi_radialis_longus`, `extensor_carpi_radialis_brevis`, `extensor_carpi_ulnaris`, `extensor_indicis`
 
-Route: HER full-resolution cryosection crops of both forearms are on disk (elbow to fingertips, 491 levels): flexor/extensor compartments by the interosseous membrane, then each muscle by a marker watershed on the fascial lines with markers placed by position rules relative to radius and ulna (as the septa refinement did for the thigh). Him: the DU release does not cover the arm; his arm cryosections at 1 mm (re-streamable) give the same rules at lower resolution. Her CT has only the RIGHT radius/ulna; the left forearm needs its bones first (the Q30 lesson: seeds from an independent modality).
+`extensor_digitorum`, `extensor_digiti_minimi`, `abductor_pollicis_longus`, `extensor_pollicis_brevis` and `extensor_pollicis_longus` REMOVED from this list (Q97): shipped as `_l` from her own left-forearm cryosection track (Q71's data, which Q71 itself left `atlas_id: null` pending review) -- verified against Q96's bar (watertight, near-single mesh component, 0.0% outside raw skin, within 5-30% of her already-shipped `_r` twin, render-confirmed as the correct dorsal deep-extensor "outcropping" shape). This is a she-only, partial-forearm win, not a precedent for the rest of this list: the remaining 15 are proven bad on the SAME dataset (either ~0 cm3, never seeded on the left side, or a 2-10x bilateral mismatch against her shipped right-side twin), a hard fact from Q71's own root-cause diagnosis (the left-forearm bone tracker is proximal-only and absorbs neighbouring muscle territory), not a soft judgment call -- confirmed still correctly declined by Q97.
+
+Route: HER full-resolution cryosection crops of both forearms are on disk (elbow to fingertips, 491 levels): flexor/extensor compartments by the interosseous membrane, then each muscle by a marker watershed on the fascial lines with markers placed by position rules relative to radius and ulna (as the septa refinement did for the thigh). Him: the DU release does not cover the arm; his arm cryosections at 1 mm (re-streamable) give the same rules at lower resolution. Her CT has only the RIGHT radius/ulna; the left forearm's remaining 15 muscles need a better bone track than Q71's proximal-only one (the Q30 lesson: seeds from an independent modality) before any more of them can ship.
 
 ### Hand intrinsics -- 11 missing
 

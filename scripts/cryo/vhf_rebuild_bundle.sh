@@ -48,6 +48,12 @@ conv $T/vhf_erector_columns.nii.gz vhf_erector ct_vhf_es --smooth 1.0
 conv $T/vhf_arm_muscles_cryo.nii.gz vhf_arm_muscles ct_vhf_armm --smooth 1.0
 # Q62 step 1: her right forearm muscles from the full-resolution crops (rule-based; twelve muscles, the rest merged/unshipped)
 conv $T/vhf_forearm_muscles_cryo.nii.gz vhf_forearm_muscles ct_vhf_forearm --smooth 1.0
+# Q71/Q97: her LEFT forearm from a proximal-only cryosection track (Q71, ~60% of the forearm length); five of
+# twenty muscles clear Q97's mesh-topology/skin-containment/render bar (extensor_digitorum_l,
+# extensor_digiti_minimi_l, abductor_pollicis_longus_l, extensor_pollicis_brevis_l, extensor_pollicis_longus_l),
+# the rest stay null (0 cm3 unseeded compartments or gross bilateral volume mismatches, confirmed defects, not
+# soft doubt)
+conv $T/vhf_left_forearm_muscles_cryo.nii.gz vhf_left_forearm_muscles ct_vhf_left_forearm --smooth 1.0
 # Q62 step 3: deep neck + suboccipitals from her 1 mm frame (rule-based; splenius and erector_cervical sinks unshipped)
 conv $T/vhf_deep_neck_cryo.nii.gz vhf_deep_neck ct_vhf_dneck --smooth 1.0
 # Q62 step 6: diaphragm + intercostal sheets from her total-task labels (rule-based, 4 mm sheet)
@@ -65,7 +71,7 @@ conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available

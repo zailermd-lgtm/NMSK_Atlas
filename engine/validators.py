@@ -113,8 +113,10 @@ def validate_source_coverage() -> List[str]:
         #   scene_3d_preview.json         <- scripts/export_3d_scene.py
         #   stray_mesh_islands_scan.json  <- scripts/clean_stray_mesh_islands.py
         #   stray_mesh_islands_report.json <- scripts/clean_stray_mesh_islands.py
+        #   mapping_decline_audit.json    <- Q97 audit of atlas_id:null mapping entries, resumable-scan record
         if path.name in ("anchors.json", "scene_3d_preview.json",
-                         "stray_mesh_islands_scan.json", "stray_mesh_islands_report.json"):
+                         "stray_mesh_islands_scan.json", "stray_mesh_islands_report.json",
+                         "mapping_decline_audit.json"):
             continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else payload.get("items", [payload])

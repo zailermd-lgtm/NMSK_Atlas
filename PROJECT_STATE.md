@@ -11,7 +11,13 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q96 SHIPPED (female platysma_r/l from
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q97 SHIPPED (systematic audit of
+every `atlas_id: null` mapping entry across both bodies for a Q96-style soft pre-toolkit decline; of 64
+keyword hits only her left forearm's 20 pending-review entries were genuine candidates -- 5 verified and
+shipped, `extensor_digitorum_l/extensor_digiti_minimi_l/abductor_pollicis_longus_l/extensor_pollicis_brevis_l/
+extensor_pollicis_longus_l`, each watertight, near-single-component, 0.0% outside raw skin, and within
+5-30% of her already-shipped right-side twin; female viewer V38, 375 structures. The other 15 confirmed
+still correctly declined -- Q71's proximal-only-tracker root cause holds), Q96 SHIPPED (female platysma_r/l from
 her own CT, reversing a prior "not trusted at this resolution" decision on new evidence -- single mesh
 component per side, watertight, plausible thin-sheet shape, 0.0% outside raw skin; female viewer V37, 370
 structures. His own platysma is genuinely absent on CT, 0.01 cm3, so male-side unaffected), Q95 DONE
@@ -2345,6 +2351,59 @@ tick the item here with a one-line result. Never fabricate; keep the
       SHIPPED: female viewer re-exported (370 structures, +2 from 368) and republished at the same URL,
       Version 37. `scripts/recount_muscle_gaps.py` re-run: on-neither 208 -> 206, neck-region gap 16 -> 14.
       Tests 252 pass. `docs/MUSCLE_GAPS.md`'s neck section and recount line updated.
+- [x] Q97 (2026-09-19) Systematic audit of every `mappings/subjects/*_volume_mapping.json` entry with
+      `atlas_id: null` and a qualitative-doubt note ("not trusted", "fragment", "review", "questionable", etc.)
+      rather than an already-settled hard fact, following up on Q96's platysma reversal to see if it was a
+      one-off or a pattern. Searched every subject file (`grep -l '"atlas_id": null'` gave 58 files); of 64
+      keyword hits, 44 already cited a specific established number (a measured fragment/voxel size, a
+      component-analysis result already run, a stated volume outside a stated expected range, a specific L/R
+      mismatch) and do not meet this audit's own bar -- they are verbose SETTLED notes, not soft pre-toolkit
+      doubt, and were left untouched (full list with per-entry verdicts:
+      `data/derived/mapping_decline_audit.json`). The one real cluster of genuinely still-open judgment calls
+      was `ct_vhf_left_forearm`'s 20 entries (Q71, dated the day before this audit): every one was left
+      `status: review` / `atlas_id: null` with an identical boilerplate note ("NOT yet confirmed against a
+      textbook volume range -- review before setting atlas_id") pending exactly the kind of check this session
+      can now do.
+      Checked all 20 against her already-shipped RIGHT forearm (`ct_vhf_forearm`, same subject, same
+      rule-based pipeline) as a bilateral-symmetry reference, then verified the plausible ones with Q96's full
+      bar: isolated test conversion (`ingest_volume_geometry.py convert`), face-adjacency connected components,
+      trimesh watertight + extent check, skin-containment (nearest-vertex normal test against her raw
+      `ct_vhf_skin`, decimation/full ray-casting both timed out at this mesh size so a KD-tree nearest-vertex
+      approximation was used instead -- exact enough for a 0%/not-0% call), and a Playwright render (local
+      three.js, `/opt/pw-browsers/chromium --use-gl=swiftshader`).
+      SHIPPED (5 of 20): `extensor_digitorum_l` (22.6 cm3 mesh volume, 4 components/98.8% largest, vs her
+      shipped `extensor_digitorum_r` 19.7 cm3), `extensor_digiti_minimi_l` (11.6 cm3, 5 components/90.6%
+      largest with a 0.55 cm3 satellite sliver at a thin waist, vs `extensor_digiti_minimi_r` 9.9 cm3),
+      `abductor_pollicis_longus_l` (7.7 cm3, single component, vs `abductor_pollicis_longus_r` 9.4 cm3),
+      `extensor_pollicis_brevis_l` (5.0 cm3, single component, vs `extensor_pollicis_brevis_r` 4.8 cm3),
+      `extensor_pollicis_longus_l` (7.5 cm3, 3 components/99.8% largest, vs `extensor_pollicis_longus_r` 8.6
+      cm3). All five watertight, 0.0% of vertices outside her raw skin, and render-confirmed as the expected
+      dorsal-forearm deep-extensor "outcropping" group (APL/EPB/EPL) converging toward the wrist alongside
+      ED/EDM -- a coherent anatomical layout, not a blob. None of these five ids existed on EITHER body before
+      this ship.
+      CONFIRMED STILL CORRECTLY DECLINED (15 of 20): the rest of the left forearm -- `pronator_teres`,
+      `flexor_carpi_radialis`, `palmaris_longus`, `flexor_carpi_ulnaris`, `flexor_digitorum_superficialis`,
+      `flexor_digitorum_profundus`, `flexor_pollicis_longus`, `pronator_quadratus`, `brachioradialis`,
+      `extensor_carpi_radialis_longus`, `extensor_carpi_radialis_brevis`, `extensor_carpi_ulnaris`,
+      `anconeus`, `supinator`, `extensor_indicis` -- either ~0.0-0.1 cm3 (never seeded on the left side) or a
+      2-10x bilateral mismatch against the already-shipped right-side twin, both consistent with Q71's own
+      root-cause finding (the left-forearm bone tracker is proximal-only and absorbs/loses neighbouring
+      muscle territory). That Q71 finding is itself a hard, specific, already-established fact, not an
+      informal doubt, so these 15 were left as-is rather than re-verified from scratch -- correctly declined,
+      a valuable negative result confirming Q71's diagnosis still holds.
+      Updated `ct_vhf_left_forearm_volume_mapping.json` (5 entries: `atlas_id` set, note cites this evidence)
+      and `scripts/cryo/vhf_rebuild_bundle.sh` (added the `ct_vhf_left_forearm` `conv` line and `--subject` to
+      the canonical SUBJ order, placed right after `ct_vhf_forearm`; no id collisions with any other subject
+      so placement was not order-sensitive here, unlike Q96's `xfer_vhm2vhf_sep` footgun). Reconverted the
+      real subject, re-ran the canonical rebuild script end to end (idempotent; everything else was already
+      built) to get the export subject order right, re-exported (375 structures, +5 from 370) and republished
+      the female viewer at the same URL, Version 38. `scripts/recount_muscle_gaps.py`: on-neither 206 -> 201,
+      `upper_limb` missing-on-both 41 -> 36. Tests 252 pass (one new failure fixed along the way: the source-
+      citation validator flagged the new `data/derived/mapping_decline_audit.json` audit file, added to
+      `engine/validators.py`'s generated-artifact exemption list alongside Q88's stray-mesh-island files).
+      `docs/MUSCLE_GAPS.md`'s Forearm section and recount line updated. Full candidate list with per-entry
+      verdicts (shipped / confirmed-still-declined / not-a-candidate-already-settled) saved to
+      `data/derived/mapping_decline_audit.json` for a future pass to resume from without re-searching.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
