@@ -85,7 +85,6 @@
   "flexor_pollicis_longus": 16.2,
   "pronator_quadratus": 17.3,
   "brachioradialis": 47.7,
-  "extensor_carpi_radialis_compartment": 43.0,
   "extensor_digitorum": 19.7,
   "extensor_digiti_minimi": 9.9,
   "extensor_carpi_ulnaris": 12.8,
@@ -93,7 +92,9 @@
   "abductor_pollicis_longus": 9.4,
   "extensor_pollicis_brevis": 4.8,
   "extensor_pollicis_longus": 8.6,
-  "extensor_indicis": 10.0
+  "extensor_indicis": 10.0,
+  "extensor_carpi_radialis_longus": 27.1,
+  "extensor_carpi_radialis_brevis": 15.87
  },
  "unassigned_muscle_cm3": 13.8,
  "merged_compartments": {
@@ -102,10 +103,6 @@
    "flexor_carpi_radialis",
    "palmaris_longus",
    "flexor_digitorum_superficialis"
-  ],
-  "extensor_carpi_radialis_compartment": [
-   "extensor_carpi_radialis_longus",
-   "extensor_carpi_radialis_brevis"
   ],
   "supinator_anconeus_compartment": [
    "supinator",
@@ -122,7 +119,6 @@
   "7": "flexor_pollicis_longus",
   "8": "pronator_quadratus",
   "9": "brachioradialis",
-  "10": "extensor_carpi_radialis_compartment",
   "12": "extensor_digitorum",
   "13": "extensor_digiti_minimi",
   "14": "extensor_carpi_ulnaris",
@@ -130,7 +126,9 @@
   "17": "abductor_pollicis_longus",
   "18": "extensor_pollicis_brevis",
   "19": "extensor_pollicis_longus",
-  "20": "extensor_indicis"
+  "20": "extensor_indicis",
+  "10": "extensor_carpi_radialis_longus",
+  "21": "extensor_carpi_radialis_brevis"
  },
  "boundary_support": {
   "abductor_pollicis_longus|extensor_indicis": {
@@ -594,6 +592,29 @@
    "median_ridge_ratio": 2.11,
    "frac_levels_ratio_ge_1.8": 0.71,
    "contact_mm": 26.3
+  }
+ },
+ "splits": {
+  "extensor_carpi_radialis_compartment": {
+   "script": "vhf_split_ecrl_ecrb.py",
+   "badge": "position-rule, not a traced septum",
+   "sigma_mm": 20.0,
+   "threshold_mm": 22.5,
+   "axis": "projection onto the smoothed (extensor_digitorum centroid) -> (compartment centroid) direction, per level",
+   "extensor_carpi_radialis_longus": {
+    "vol_cm3": 27.1,
+    "components": 4,
+    "largest_component_frac": 0.9664,
+    "mesh_components": 3,
+    "mesh_largest_component_frac": 0.9459
+   },
+   "extensor_carpi_radialis_brevis": {
+    "vol_cm3": 15.87,
+    "components": 1,
+    "largest_component_frac": 1.0,
+    "mesh_components": 1,
+    "mesh_largest_component_frac": 1.0
+   }
   }
  }
 }

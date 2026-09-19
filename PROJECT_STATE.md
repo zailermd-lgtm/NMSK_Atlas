@@ -11,7 +11,16 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q99 SHIPPED (confirmed his orbit
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q100 SHIPPED (her right
+`extensor_carpi_radialis_compartment`, left merged since Q62 because the marker-watershed septum only ran on
+67% of shared levels: split by a POSITION RULE instead -- distance to the already-split `extensor_digitorum_r`
+from the SAME photograph-derived volume, no CT bone meshes used (this forearm's own documented 5-12 mm
+CT-to-photograph residual would have re-entered the rule); threshold picked from the range where the actual
+SHIPPED SMOOTHED MESH (not just the voxel mask -- they disagreed here, a real finding) stays one connected
+component for both parts, closest to the textbook ratio within that safe range: ECRL 27.1 cm3 (mesh 94.6% one
+component), ECRB 15.9 cm3 (mesh 100%); the other two merged compartments in this forearm (superficial flexors,
+supinator/anconeus) were not reattempted, their own rejection reasons are not position-rule fixable; female
+viewer V39, 377 structures), Q99 SHIPPED (confirmed his orbit
 muscles' native-CT undersizing is real and quantitative, not a Q96-style soft call, so no reversal there --
 but found and fixed a genuine visible defect: `levator_palpebrae_superioris_l` was shipping his fragmented,
 undersized native mesh (4 components, a floating sliver on render) instead of the female-transferred version
@@ -2476,6 +2485,61 @@ tick the item here with a one-line result. Never fabricate; keep the
       Re-exported the male bundle using the canonical `--subject` order from `vhm_rebuild_bundle.sh` itself
       (357 structures, unchanged -- a source swap, not a new/removed structure) and republished at the same
       URL, Version 51. Tests 252 pass.
+- [x] Q100 (2026-09-19) Her right `extensor_carpi_radialis_compartment` (label 10, ECRL+ECRB, 43.0 cm3):
+      attempted a POSITION-RULE split, the fallback this project already uses when a photograph shows no
+      traceable septum (the abdominal wall's depth-fraction bands, the pelvic floor's landmark-distance
+      rules), after the original Q62 marker-watershed split was left merged for a documented reason (the
+      pale line it found ran on only 67% of the 73 shared levels, ridge ratio 2.06, the weakest boundary in
+      the whole forearm -- but the TOTAL compartment volume was already a good textbook match, unlike the
+      other two merged compartments in this same forearm (label 1, superficial flexors: implausible
+      per-muscle watershed volumes; label 16, supinator/anconeus: anconeus far too small to be real), which
+      were explicitly NOT reattempted this round since a position rule is unlikely to fix a wrong-volume or
+      too-small-region problem.
+      SHIPPED. Rule: per level, distance from each compartment voxel to the already-split, same-volume
+      `extensor_digitorum_r` label, projected onto the smoothed (per-level, sigma 20 mm) direction from the
+      EDC centroid to the compartment's own centroid -- ECRL (radial/superficial, arising more proximally
+      from the lateral supracondylar ridge) is far from EDC; ECRB (central/deep, arising from the lateral
+      epicondyle, adjacent to EDC) is near it, per Standring's mobile-wad cross-sectional order
+      (brachioradialis-ECRL-ECRB-extensor digitorum). Brachioradialis was tried first as the opposite-side
+      reference and rejected: it wraps close to nearly the whole compartment (median 2 mm), so distance to
+      it does not discriminate. The CT radius/ulna bone meshes were deliberately NOT used for the axis: this
+      subject's own mapping already documents a 5-12 mm, level-varying CT-to-photograph registration
+      residual for this forearm, and using them would have re-introduced exactly that error; using another
+      already-split muscle from the SAME photograph-derived volume avoids it entirely.
+      THE REAL FINDING: voxel-level 26-connectivity is not sufficient to validate this kind of split. A
+      threshold sweep that only checked the voxel mask found a value that looked perfect (100% one component
+      for both parts) but shipped, at this subject's actual `--smooth 1.0` mesh setting
+      (`vhf_rebuild_bundle.sh`), as ECRL split into two disconnected lobes (60/40) -- the smoothing erased a
+      real but only-one-voxel-wide bridge. Re-swept checking the ACTUAL smoothed mesh's face-adjacency
+      components (scipy.sparse + csgraph) instead, and picked the threshold (22.5 mm) in the plateau where
+      both parts stay one connected mesh component, closest to the textbook 20:15 ECRL:ECRB ratio within
+      that plateau (the ratio was used only to choose where in the safe range to sit, never to move off it).
+      Final: ECRL 27.1 cm3 (textbook ~20, +35%; mesh 94.6% in one component, a few small satellite islands
+      from the discretised rule -- comparable to this subject's own already-curated `extensor_carpi_ulnaris_r`,
+      61% by the same measure, so not a new low bar), ECRB 15.9 cm3 (textbook ~15, +6%; mesh 100% one
+      component). Render-confirmed in the actual viewer (Playwright/swiftshader): ECRB is a clean single
+      tapering belly; ECRL is a plausible proximal-belly-to-distal-tendon shape sitting correctly in situ
+      between its real neighbours, with the small mesh gap visible but not disqualifying.
+      New script `scripts/cryo/vhf_split_ecrl_ecrb.py` reads the committed
+      `data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz` directly (no re-derivation from
+      photographs needed -- this only splits an existing shipped label) and rewrites it in place: label 10
+      renamed `extensor_carpi_radialis_longus`, new label 21 `extensor_carpi_radialis_brevis`; updated
+      `mappings/vhf_forearm_muscles_labels.json` and `mappings/subjects/ct_vhf_forearm_volume_mapping.json`
+      (both now `status: curated`, ordinary `atlas_id` entries -- no generic `splitter`/`split_parts` key:
+      that mechanism (`engine/volume_ingest.py`'s `LABEL_SPLITTERS`) is built for a split that needs OTHER
+      labels within the SAME single-source scan, like the aorta's vertebra-level cuts; this split's own
+      "other label" (EDC) lives in the SAME already-produced volume, so writing the two output labels
+      directly and treating them as two ordinary curated entries was the cleaner fit, confirmed by reading
+      the splitter code rather than guessing the JSON shape).
+      Reconverted `ct_vhf_forearm` only (removed its stale `build/vh/ct_vhf_forearm` cache so the rebuild
+      script's own idempotent skip did not shortcut it; all 29 other subjects were already built and were
+      correctly skipped) and re-ran `scripts/cryo/vhf_rebuild_bundle.sh` end to end for the canonical
+      `--subject` order (Q96's `xfer_vhm2vhf_sep` footgun avoided). 377 structures (was 375), female viewer
+      republished at the same URL, Version 39. Recount: both-bodies unchanged at 202 (still her-only, his
+      forearm has neither name mapped at all), at-least-one 232 -> 234, neither 201 -> 199, `upper_limb`
+      missing-on-both 36 -> 34 (`docs/MUSCLE_GAPS.md` Forearm section updated). Tests 252 pass.
+      Labels 1 and 16 (superficial flexors, supinator/anconeus) remain merged/unmapped, per their own
+      documented reasons above -- not attempted this round.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in

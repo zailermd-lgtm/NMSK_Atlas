@@ -1,6 +1,7 @@
 {
  "_README": [
-  "Label id -> structure for the Visible Human FEMALE right forearm muscle volume (vhf_forearm_muscles_from_cryo.py). A KEY, not data. rule-based: see the script docstring for the rule; compartments are muscles the photographs do not separate (mapped to null)."
+  "Label id -> structure for the Visible Human FEMALE right forearm muscle volume (vhf_forearm_muscles_from_cryo.py). A KEY, not data. rule-based: see the script docstring for the rule; compartments are muscles the photographs do not separate (mapped to null).",
+  "Q100 (vhf_split_ecrl_ecrb.py): label 10 (extensor_carpi_radialis_compartment) split into 10 (extensor_carpi_radialis_longus) and 21 (extensor_carpi_radialis_brevis) by a position-rule, not a traced septum; the compartment name no longer appears as a label."
  ],
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) and CT via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_forearm_muscles_from_cryo.py), rule-based.",
  "task": "vhf_forearm_muscles",
@@ -13,7 +14,7 @@
   "7": "flexor_pollicis_longus",
   "8": "pronator_quadratus",
   "9": "brachioradialis",
-  "10": "extensor_carpi_radialis_compartment",
+  "10": "extensor_carpi_radialis_longus",
   "12": "extensor_digitorum",
   "13": "extensor_digiti_minimi",
   "14": "extensor_carpi_ulnaris",
@@ -21,7 +22,8 @@
   "17": "abductor_pollicis_longus",
   "18": "extensor_pollicis_brevis",
   "19": "extensor_pollicis_longus",
-  "20": "extensor_indicis"
+  "20": "extensor_indicis",
+  "21": "extensor_carpi_radialis_brevis"
  },
  "merged_compartments": {
   "superficial_flexor_compartment": [
@@ -29,10 +31,6 @@
    "flexor_carpi_radialis",
    "palmaris_longus",
    "flexor_digitorum_superficialis"
-  ],
-  "extensor_carpi_radialis_compartment": [
-   "extensor_carpi_radialis_longus",
-   "extensor_carpi_radialis_brevis"
   ],
   "supinator_anconeus_compartment": [
    "supinator",
