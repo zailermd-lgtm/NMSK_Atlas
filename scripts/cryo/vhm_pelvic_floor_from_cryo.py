@@ -737,7 +737,16 @@ def main(argv=None):
         mid = mids.get(k, mids[max(mids)])
         left = np.arange(fr.W)[None, :] > mid
         vol[k - ka] = np.where(left, lut_l[out[k]], lut_r[out[k]])
-    aff = np.array([[-1, 0, 0, 350], [0, -1, 0, 240], [0, 0, 1, fr.z0 + ka], [0, 0, 0, 1]], float)
+    # X TRANSLATION: 240, NOT 350 (the female/torso-frame scripts' own constant, which this script had ported
+    # unchanged along with everything else torso-frame-related -- Q86 found this was never re-derived for the
+    # LEGS-block frame this script actually uses). 240 matches legs_total.nii.gz's OWN affine x-translation
+    # (verified: its hip label's true RAS x at k=720 is -78.75..60.0, symmetric about ~0, matching vhm_both's
+    # hip bones; the old 350 constant put the same pixels at 31..170, a uniform +110 mm rightward offset) and
+    # is independently confirmed by external_anal_sphincter -- an anatomically midline structure by the rule's
+    # own construction -- landing at mean atlas x=-5.7 with 240 (right next to vhm_both's sacrum center -3.75)
+    # versus +104.3 with the old 350. Y translation (240, unchanged) was checked too and is fine: the (unshipped)
+    # obturator_internus atlas Z already fell inside vhm_both's own obturator_internus z-range under the old code.
+    aff = np.array([[-1, 0, 0, 240], [0, -1, 0, 240], [0, 0, 1, fr.z0 + ka], [0, 0, 0, 1]], float)
     nib.save(nib.Nifti1Image(np.ascontiguousarray(vol.transpose(2, 1, 0)), aff), a.out)
     vols = {nm: round(float((vol == lid).sum()) / 1000, 1) for lid, (nm, *_) in labels.items()}
     nlev = {nm: int((vol == lid).any(axis=(1, 2)).sum()) for lid, (nm, *_) in labels.items()}
@@ -748,7 +757,7 @@ def main(argv=None):
         kk, rr, cc = np.where(vol == lid)
         if len(kk) == 0:
             continue
-        geom[nm] = {"mean_atlas_x": round(float((350 - cc).mean()) - ORIGIN[0], 1),
+        geom[nm] = {"mean_atlas_x": round(float((240 - cc).mean()) - ORIGIN[0], 1),
                     "mean_atlas_y": round(float((fr.z0 + ka + kk).mean()) - ORIGIN[1], 1),
                     "mean_atlas_z": round(float((240 - rr).mean()) - ORIGIN[2], 1),
                     "z_ras_range": [float(fr.z0 + ka + kk.min()), float(fr.z0 + ka + kk.max())],

@@ -11,7 +11,13 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q85 STILL BLOCKED (Q59 re-check: the DU
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q86 SHIPPED (found and fixed a real
+~110 mm mispositioning bug in the just-shipped `ct_vhm_pfloor`: its NIfTI affine's X-translation constant was
+copy-pasted from the torso-frame convention (350) without being re-derived for the LEGS-block frame Q83 had
+switched the script to use; corrected to 240, verified against `legs_total.nii.gz`'s own affine and against
+`external_anal_sphincter` -- an anatomically midline structure -- landing at atlas x=-5.7 mm instead of the old
++104.3 mm; skin-containment re-checked clean at 0.0% outside a 2 mm-eroded `ct_vhm_skin` margin; male viewer
+Version 47), Q85 STILL BLOCKED (Q59 re-check: the DU
 collection pages now load through the proxy, but the actual STL file endpoint sits behind a genuine Cloudflare
 Turnstile challenge that does not auto-resolve even with anti-automation-detection tweaks -- stopped rather
 than pursue further bypass; needs the owner), Q84 NOT SHIPPED (replaced Q81's noisy
@@ -1782,6 +1788,37 @@ tick the item here with a one-line result. Never fabricate; keep the
       this sandbox and add them to the repo); the good news for whoever revisits this is that the collection
       metadata pages themselves are now readable, so record-level info (file names, sizes, licence text) can be
       scraped even though the files can't.
+- [x] Q86 (2026-09-19) A quick post-Q83 skin-containment QA pass on the brand-new `ct_vhm_pfloor` subject
+      (nobody had checked it against `ct_vhm_skin` yet) found something much bigger than a containment issue: a
+      real ~110 mm mispositioning bug affecting the WHOLE shipped subject. `vhm_pelvic_floor_from_cryo.py`'s
+      output NIfTI affine used X-translation 350 -- the constant `vhf_pelvic_floor_from_cryo.py` (and this
+      script's own torso-frame siblings) use for a 512-voxel, 0.9375 mm/px CT frame with that origin -- but Q83
+      had switched this script to the LEGS-block frame, whose own `legs_total.nii.gz` affine uses X-translation
+      240, and the constant was never re-derived when the switch happened; it was simply carried over along with
+      everything else that ported cleanly. Effect: the whole subject sat displaced ~110 mm to one side.
+      Caught and confirmed two ways: (1) the previously-shipped `external_anal_sphincter` -- a muscle that is
+      anatomically midline by the rule's own construction (a ring around the anal canal) -- had a mean atlas X
+      of +104.3 mm, nowhere near the midline; with the fix it lands at -5.7 mm, immediately beside `vhm_both`'s
+      own sacrum centre (-3.75 mm). (2) `levator_ani_right`/`levator_ani_left`'s OLD atlas X values were +128.2
+      and +87.0 -- both POSITIVE, i.e. both sides of a bilateral muscle sitting on the same side of the body,
+      which is geometrically impossible; corrected values are +18.2 / -23.0, correctly straddling the midline.
+      Fixed by changing the affine's X-translation from 350 to 240 (one line plus a comment recording the
+      evidence) in `scripts/cryo/vhm_pelvic_floor_from_cryo.py`; Y-translation (240) was checked too and found
+      already correct (the unshipped `obturator_internus` sink's atlas Z already fell inside `vhm_both`'s own
+      obturator-internus Z-range under the old code, so Y was never wrong). Reconverted `ct_vhm_pfloor`
+      (bbox now [-69.3,-48.0,-36.8]..[62.3,-23.0,57.7] mm, properly straddling atlas X=0, versus the old
+      [40.7,-48.0,-36.8]..[172.3,-23.0,57.7]); the montage (5 pelvis levels + coronal) still shows the same
+      clean, continuous, correctly-shaped sheets as Q83 -- only the whole-subject placement changed, not the
+      per-level rule logic. Skin-containment (the QA task's original goal): 0.0% of the mesh's 29,816 vertices
+      fall outside `ct_vhm_skin` eroded by 2 mm (0 out of bounds). Render-verified in the viewer: `levator_ani`
+      isolates to the same plausible funnel shapes as Q83's own screenshots, and in context (not isolated) now
+      sits nested correctly among the pelvic bones rather than off to one side. Male viewer re-exported (358
+      structures, unchanged count -- this was a pure position fix, no structures added or removed) and
+      republished at the same artifact, Version 47. Tests 252 pass. Process note: the agent originally assigned
+      this QA task found this bug and made the fix, then stalled for over 2 hours mid-rerun with no further
+      progress or response to a status check; it was stopped (`TaskStop`) and its already-good, well-evidenced
+      fix (verified independently before being trusted) was carried through to shipping rather than discarded,
+      since the diff and the numbers it had already produced were sound on inspection.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in

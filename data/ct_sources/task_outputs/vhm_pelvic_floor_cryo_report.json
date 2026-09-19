@@ -27,7 +27,7 @@
  },
  "geometry_atlas_mm": {
   "levator_ani_right": {
-   "mean_atlas_x": 128.2,
+   "mean_atlas_x": 18.2,
    "mean_atlas_y": -32.1,
    "mean_atlas_z": 23.5,
    "z_ras_range": [
@@ -37,7 +37,7 @@
    "levels": 15
   },
   "coccygeus_right": {
-   "mean_atlas_x": 138.8,
+   "mean_atlas_x": 28.8,
    "mean_atlas_y": -26.5,
    "mean_atlas_z": -1.0,
    "z_ras_range": [
@@ -47,7 +47,7 @@
    "levels": 7
   },
   "bulbospongiosus_right": {
-   "mean_atlas_x": 109.2,
+   "mean_atlas_x": -0.8,
    "mean_atlas_y": -55.6,
    "mean_atlas_z": 54.2,
    "z_ras_range": [
@@ -57,7 +57,7 @@
    "levels": 13
   },
   "ischiocavernosus_right": {
-   "mean_atlas_x": 149.0,
+   "mean_atlas_x": 39.0,
    "mean_atlas_y": -41.9,
    "mean_atlas_z": 50.2,
    "z_ras_range": [
@@ -67,7 +67,7 @@
    "levels": 7
   },
   "deep_transverse_perineal_right": {
-   "mean_atlas_x": 131.4,
+   "mean_atlas_x": 21.4,
    "mean_atlas_y": -42.8,
    "mean_atlas_z": 49.0,
    "z_ras_range": [
@@ -77,7 +77,7 @@
    "levels": 10
   },
   "superficial_transverse_perineal_right": {
-   "mean_atlas_x": 109.9,
+   "mean_atlas_x": -0.1,
    "mean_atlas_y": -63.8,
    "mean_atlas_z": 50.8,
    "z_ras_range": [
@@ -87,7 +87,7 @@
    "levels": 11
   },
   "obturator_internus_right": {
-   "mean_atlas_x": 154.3,
+   "mean_atlas_x": 44.3,
    "mean_atlas_y": -30.9,
    "mean_atlas_z": 6.1,
    "z_ras_range": [
@@ -97,7 +97,7 @@
    "levels": 15
   },
   "perineal_other_right": {
-   "mean_atlas_x": 125.9,
+   "mean_atlas_x": 15.9,
    "mean_atlas_y": -51.2,
    "mean_atlas_z": 24.2,
    "z_ras_range": [
@@ -107,7 +107,7 @@
    "levels": 30
   },
   "levator_ani_left": {
-   "mean_atlas_x": 87.0,
+   "mean_atlas_x": -23.0,
    "mean_atlas_y": -32.1,
    "mean_atlas_z": 24.3,
    "z_ras_range": [
@@ -117,7 +117,7 @@
    "levels": 15
   },
   "coccygeus_left": {
-   "mean_atlas_x": 79.3,
+   "mean_atlas_x": -30.7,
    "mean_atlas_y": -26.6,
    "mean_atlas_z": 2.4,
    "z_ras_range": [
@@ -127,7 +127,7 @@
    "levels": 7
   },
   "bulbospongiosus_left": {
-   "mean_atlas_x": 100.9,
+   "mean_atlas_x": -9.1,
    "mean_atlas_y": -50.5,
    "mean_atlas_z": 55.1,
    "z_ras_range": [
@@ -137,7 +137,7 @@
    "levels": 1
   },
   "ischiocavernosus_left": {
-   "mean_atlas_x": 64.7,
+   "mean_atlas_x": -45.3,
    "mean_atlas_y": -44.8,
    "mean_atlas_z": 49.5,
    "z_ras_range": [
@@ -147,7 +147,7 @@
    "levels": 13
   },
   "deep_transverse_perineal_left": {
-   "mean_atlas_x": 85.1,
+   "mean_atlas_x": -24.9,
    "mean_atlas_y": -42.9,
    "mean_atlas_z": 48.5,
    "z_ras_range": [
@@ -157,7 +157,7 @@
    "levels": 10
   },
   "superficial_transverse_perineal_left": {
-   "mean_atlas_x": 87.4,
+   "mean_atlas_x": -22.6,
    "mean_atlas_y": -58.4,
    "mean_atlas_z": 50.6,
    "z_ras_range": [
@@ -167,7 +167,7 @@
    "levels": 3
   },
   "obturator_internus_left": {
-   "mean_atlas_x": 61.0,
+   "mean_atlas_x": -49.0,
    "mean_atlas_y": -30.7,
    "mean_atlas_z": 6.4,
    "z_ras_range": [
@@ -177,7 +177,7 @@
    "levels": 15
   },
   "perineal_other_left": {
-   "mean_atlas_x": 84.4,
+   "mean_atlas_x": -25.6,
    "mean_atlas_y": -50.0,
    "mean_atlas_z": 24.1,
    "z_ras_range": [
@@ -187,7 +187,7 @@
    "levels": 28
   },
   "external_anal_sphincter": {
-   "mean_atlas_x": 102.8,
+   "mean_atlas_x": -7.2,
    "mean_atlas_y": -42.3,
    "mean_atlas_z": 37.9,
    "z_ras_range": [
@@ -328,34 +328,14 @@
   "prostate": "not a muscle: TotalSegmentator organ label (id 22), carried only as an exclusion + the urogenital-hiatus landmark (see the module docstring)"
  },
  "septum_support": {
-  "coccygeus|obturator_internus": {
-   "ratio": 2.72,
-   "contact_px": 3175,
-   "merge": false
-  },
   "ischiocavernosus|perineal_other": {
    "ratio": 1.72,
    "contact_px": 463,
    "merge": false
   },
-  "perineal_other|superficial_transverse_perineal": {
-   "ratio": 2.16,
-   "contact_px": 315,
-   "merge": false
-  },
   "coccygeus|levator_ani": {
    "ratio": 2.39,
    "contact_px": 579,
-   "merge": false
-  },
-  "levator_ani|obturator_internus": {
-   "ratio": 2.05,
-   "contact_px": 3827,
-   "merge": false
-  },
-  "bulbospongiosus|perineal_other": {
-   "ratio": 3.9,
-   "contact_px": 156,
    "merge": false
   },
   "deep_transverse_perineal|perineal_other": {
@@ -366,6 +346,26 @@
   "bulbospongiosus|superficial_transverse_perineal": {
    "ratio": 1.58,
    "contact_px": 119,
+   "merge": false
+  },
+  "bulbospongiosus|perineal_other": {
+   "ratio": 3.9,
+   "contact_px": 156,
+   "merge": false
+  },
+  "perineal_other|superficial_transverse_perineal": {
+   "ratio": 2.16,
+   "contact_px": 315,
+   "merge": false
+  },
+  "coccygeus|obturator_internus": {
+   "ratio": 2.72,
+   "contact_px": 3175,
+   "merge": false
+  },
+  "levator_ani|obturator_internus": {
+   "ratio": 2.05,
+   "contact_px": 3827,
    "merge": false
   }
  },
