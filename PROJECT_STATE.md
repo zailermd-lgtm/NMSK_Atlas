@@ -11,7 +11,11 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q95 DONE (skin-containment + L/R sign
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q96 SHIPPED (female platysma_r/l from
+her own CT, reversing a prior "not trusted at this resolution" decision on new evidence -- single mesh
+component per side, watertight, plausible thin-sheet shape, 0.0% outside raw skin; female viewer V37, 370
+structures. His own platysma is genuinely absent on CT, 0.01 cm3, so male-side unaffected), Q95 DONE
+(skin-containment + L/R sign
 check on the three newest male subjects, ct_vhm_ggl/ct_vhm_sgl/ct_vhm_pfloor, none swept since Q87 predates
 them -- all clean, 0.0% outside skin, no repeat of Q86's sign bug), Q94 NOT SHIPPED (followed up Q84's
 own diagnosis for the abdominal wall's 3 unshippable structures: made the depth-fraction field independent
@@ -2311,6 +2315,36 @@ tick the item here with a one-line result. Never fabricate; keep the
       `styloglossus_r` +17.9..+23.0 mm, `styloglossus_l` -8.9..-2.1 mm -- correctly straddling the midline
       with sensible small overlap near 0 for paramedian tongue muscles, no repeat of Q86's same-side bug.
       No fix needed. No code, mapping, or viewer change.
+- [x] Q96 (2026-09-19) Female `platysma_r/l` shipped from her own CT, reversing a prior "not trusted at this
+      resolution" decision on new evidence. While surveying the remaining `neck`-region gaps (16
+      missing-on-both at the time), found `platysma_right/left` are labels 8/9 of TotalSegmentator's
+      `headneck_muscles` task (already run on her, `vhf_headneck_muscles_merged.nii.gz`) and were already
+      curated in `mappings/subjects/ct_vhf_neck_volume_mapping.json` -- but mapped to `atlas_id: null` with
+      the note "Platysma not trusted at this resolution." (On the SAME task run on him, labels 8/9 are
+      essentially empty, 0.01 cm3 each -- his platysma genuinely isn't there, so this is a female-only
+      opportunity, not a repeat of Q93's male dead ends.) Re-checked that old call with this session's
+      mesh-topology tools, which did not exist when the original decision was made: extracted labels 8/9 into
+      a standalone test volume and converted it in isolation first, before touching the real subject. Result:
+      2.48/2.09 cm3 (a plausible platysma volume), SINGLE mesh component per side (100%, via the established
+      face-adjacency check), watertight, a broad thin-sheet extent (34x55x25 mm right / 31x40x30 mm left,
+      x/y/z = right/superior/anterior -- not a blob), and 0.0% of vertices outside the RAW (unmargined) skin
+      surface, appropriate for a genuinely subcutaneous muscle. Render QA (isolated and in context) shows an
+      elongated blade-like sheet running from the chest-wall fascia up to the mandible exactly as the entity
+      record's own description says, sitting correctly against the mandible superficial to the deeper neck
+      muscles. On this evidence, reversed the old mapping decision (`atlas_id: null` -> `platysma_r`/`platysma_l`,
+      old note replaced with the new evidence) and reconverted the real `ct_vhf_neck` subject.
+      OPERATIONAL NOTE for whoever next re-exports the female bundle: exporting with `--subject` order
+      matching the bundle.json's own alphabetical structure listing (rather than the canonical order in
+      `scripts/cryo/vhf_rebuild_bundle.sh`) silently zeroed `xfer_vhm2vhf_sep` to 0 triangles, because the
+      exporter's id-dedup logic gives priority to whichever subject is listed EARLIER, and the alphabetical
+      order put the plain `xfer_vhm2vhf` transfer before its own septa-refined replacement -- caught by
+      noticing the "0 triangles kept" export log line, not silently shipped. Re-ran with the rebuild script's
+      actual canonical order and `xfer_vhm2vhf_sep` correctly claimed its 172,454 triangles. ALWAYS use that
+      script's own `--subject` order (or read it fresh from the script) rather than reconstructing one from
+      the bundle's structure list.
+      SHIPPED: female viewer re-exported (370 structures, +2 from 368) and republished at the same URL,
+      Version 37. `scripts/recount_muscle_gaps.py` re-run: on-neither 208 -> 206, neck-region gap 16 -> 14.
+      Tests 252 pass. `docs/MUSCLE_GAPS.md`'s neck section and recount line updated.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
