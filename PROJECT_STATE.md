@@ -11,7 +11,13 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q83 PARTIALLY SHIPPED (male pelvic
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q84 NOT SHIPPED (replaced Q81's noisy
+ring-split depth-fraction rule in `abdominal_wall_from_cryo.py` with two smooth `dskin`-based alternatives;
+confirmed the ring-split hypothesis and got a real mesh-level win for `internal_oblique_l` (76.8% -> 90-94%
+largest-component fraction) plus a large but bar-missing gain for `internal_oblique_r` (43% -> 71-77%), but
+both alternatives regressed the previously-clean `external_oblique_r`/`transversus_abdominis_l` below the
+shipping bar since all 8 layers share one output volume -- not shippable without a bigger per-boundary
+redesign; script reverted to Q81's exact version, no mapping/viewer change), Q83 PARTIALLY SHIPPED (male pelvic
 floor as `ct_vhm_pfloor`, the Q68 follow-up: found his torso CT block does not reach the perineum at all --
 the legs block does -- rebuilt `scripts/cryo/vhf_pelvic_floor_from_cryo.py` as a new
 `vhm_pelvic_floor_from_cryo.py` against the legs-block frame; fixed an anal-centroid seeding bug and
@@ -1707,6 +1713,54 @@ tick the item here with a one-line result. Never fabricate; keep the
       is partial coverage by construction, but a male-specific test file (covering the legs-block Frame,
       BS_MIN_DX=0, and the anal-centroid-seed fix) was NOT written this session -- a reasonable follow-up, not
       done here per this task's own scope-discipline note. Tests 252 pass (unchanged). Female unaffected.
+- [-] Q84 (attempted 2026-09-19, NOT shipped) Followed up on Q81's own conclusion for the last 3 abdominal-wall
+      structures it left unshipped (`internal_oblique_r/l`, `transversus_abdominis_r`, subject `ct_vhm_abw`):
+      replaced the depth-fraction rule itself in `scripts/cryo/abdominal_wall_from_cryo.py` rather than tuning
+      the closing pass further. Confirmed Q81's own hypothesis empirically first: its ring-split approach
+      (splitting the lateral-wall blob's 1-voxel boundary into outer/inner halves via a single per-slice
+      SCALAR threshold -- the median of `dskin` over the whole ring) is provably noisy, because `dskin`
+      (distance-to-skin) is large not only at the true deep surface but also at the ring's superior/inferior/
+      medial edges; the resulting do/di ratio jitters voxel-to-voxel. Tried two smooth replacements, both using
+      `dskin` directly (no ring split): (1) a windowed local min/max of `dskin` restricted to the lateral-wall
+      mask (`ndi.minimum_filter`/`maximum_filter`, size 31, to estimate the wall's own local outer/inner
+      surfaces and normalize depth by local thickness rather than raw distance-to-skin, which is offset by a
+      variable subcutaneous fat layer) -- tuned window size 21/31/41/61/81, gaussian smoothing sigma 1.5/2.0/
+      3.0, and the 0.40/0.75 depth thresholds, converging on size=31/sigma=1.5/unchanged thresholds as the best
+      of that family; (2) per-connected-component 5th/95th percentile of `dskin` (computed once per lateral-
+      wall piece per slice, immune to window-size artifacts) -- also tried 2nd/98th percentiles and exact min/
+      max, converging on 5/95 as best of that family. IMPORTANT METHODOLOGY NOTE for whoever picks this up
+      next: the script's own printed voxel-level `largest_component_fraction` (3x3x3 voxel adjacency) does NOT
+      track the true mesh-topology metric this project ships on -- e.g. the percentile variant looked good at
+      the voxel level (external_right 84.8%) but was 45.4% at the real mesh level once converted and checked
+      with the face-adjacency connected-components graph. Always convert to mesh and re-check before judging a
+      variant; do not trust the script's own printed numbers as a shipping signal. Real mesh-level numbers
+      (face-adjacency graph, largest component's vertex fraction), Q81 baseline -> best of each new variant:
+      `internal_oblique_r` 43.3% -> windowed 76.5% / percentile 71.1% (real, large improvement, still short of
+      the ~85% bar); `internal_oblique_l` 76.8% -> windowed 94.2% / percentile 90.1% (CLEARS the bar, a
+      genuine win for one of the three originally-flagged structures); `transversus_abdominis_r` 72.7% ->
+      windowed 50.8% (worse) / percentile 72.2% (no real change) -- neither variant actually helps this one,
+      contrary to what the voxel-level numbers suggested during tuning. But both variants broke previously-
+      clean, already-shipped-quality structures that share the SAME output volume and are not independently
+      re-shippable: `external_oblique_r` 86.1% -> windowed 71.8% / percentile 45.4% (real regression, crosses
+      below the shipping bar in both), `transversus_abdominis_l` 93.8% -> windowed 63.5% / percentile 77.5%
+      (also crosses below the bar in both). Root cause: all 8 layers are cut from ONE shared per-slice depth
+      field (`frac`) written into ONE output volume/mesh file, so a normalization change that fixes the two
+      deep layers on one side necessarily reshapes the field everywhere else too -- there is no way to ship
+      `internal_oblique_l`'s improved geometry alone while leaving `external_oblique_r`/`transversus_
+      abdominis_l` on the old, still-fine geometry, short of a genuinely bigger redesign (e.g. independent
+      local rules per boundary, or per-side calibration) that is out of scope for this tightly-scoped follow-
+      up. Verdict: NOT SHIPPED -- neither variant clears the bar for a flagged structure without regressing an
+      already-good one, which is a hard requirement here, not just a nice-to-have, precisely because shipping
+      would silently degrade `external_oblique_r`/`transversus_abdominis_l` in the viewer even though their
+      mapping entries would say nothing changed. `mappings/subjects/ct_vhm_abw_volume_mapping.json` untouched,
+      no viewer republish. Script reverted to Q81's exact committed version (`git stash`/diff-verified byte-
+      identical) rather than keeping either new variant: neither is a strict improvement over Q81's ring-split
+      method, both are a different, non-dominating set of trade-offs, and leaving a net-worse rule in the
+      committed script would mislead the next attempt. Next real step for Q78 (per Q81's own note, reaffirmed
+      here): the three deep-layer boundaries likely need genuinely separate treatment (e.g. tracking the
+      aponeurotic planes directly, or fitting the boundary independently per side/level) rather than one
+      global smooth depth field with fixed 40/75 thresholds -- a smooth field that fixes one boundary reliably
+      un-fixes another sharing the same field. Tests 252 pass (unchanged). No viewer change.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
