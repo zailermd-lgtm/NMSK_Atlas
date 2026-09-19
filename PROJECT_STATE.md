@@ -11,7 +11,15 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q100 SHIPPED (her right
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q101 NOT SHIPPED (pursued Q90's
+own "unconfirmed mentalis texture patch" lead properly this time: 54 consecutive native-resolution 0.33mm
+frames, instances 1186-1239, spanning the CT-mandible-anchored chin point, full geometric bone exclusion via
+a native-pixel-to-CT-voxel registration rather than colour; a visually striking paired fan-shaped band did
+show up but a 20-point colour/volume/3D-connectivity threshold sweep found no setting giving both a
+plausible 1-4 cm3 volume and one coherent component -- it merges into one 9-21 cm3 undifferentiated blob or
+fragments into 121-145 noise pieces, never both a real muscle size and a real muscle shape at once; closes
+off this 15-muscle group's one lead, now marked literature-only-for-now like stapedius/tensor_tympani rather
+than pending on more native streaming -- see docs/MUSCLE_GAPS.md and PROJECT_STATE Q101), Q100 SHIPPED (her right
 `extensor_carpi_radialis_compartment`, left merged since Q62 because the marker-watershed septum only ran on
 67% of shared levels: split by a POSITION RULE instead -- distance to the already-split `extensor_digitorum_r`
 from the SAME photograph-derived volume, no CT bone meshes used (this forearm's own documented 5-12 mm
@@ -2540,6 +2548,67 @@ tick the item here with a one-line result. Never fabricate; keep the
       missing-on-both 36 -> 34 (`docs/MUSCLE_GAPS.md` Forearm section updated). Tests 252 pass.
       Labels 1 and 16 (superficial flexors, supinator/anconeus) remain merged/unmapped, per their own
       documented reasons above -- not attempted this round.
+- [-] Q101 (attempted 2026-09-19, NOT shipped) Pursued Q90's own explicit lead -- the "subtle, unconfirmed
+      texture patch in the chin consistent with (but not verified as) mentalis" found by a 3-frame native-
+      resolution spot check -- to a real, thorough, verified answer, per that task's own framing that a
+      rigorous "no" is as valuable as a ship here since it's the first real test of whether native
+      resolution helps ANY facial muscle. Located the mandibular symphysis/chin point precisely from
+      `vhm_craniofacial_structures.nii.gz`'s mandible label (label 1): the near-midline (|x-0.8|<4mm)
+      anterior-projecting part of the bone spans RAS z -211 to -248 (its max anterior extent, y~112-114mm,
+      sits roughly mid-span at z~-238 to -240) -- converting via the already-verified `cryo_idx = -16 -
+      z_ras` mapping (`resample_cryo_to_ct_frame.py`, the same one Q90 used and render-confirmed) and the
+      raw-instance relation `instance = 1001 + zi` (derived from `vhm_stream_crops.py`'s own documented
+      formulas and confirmed exactly against the male's real `cryo_index.json`, whose raw DICOM
+      ImagePositionPatient z equals -instance precisely), gave a target instance range of 1186-1239.
+      Fetched all 54 of those as CONSECUTIVE native-resolution (0.33 mm in-plane, same 1 mm native slice
+      spacing) frames directly from the IDC series with `scripts/cryo/vhm_stream_crops.py crop` (box
+      450,990,660,1380 full-res px, seeded from the existing whole-body `cryo_index.json` so no network
+      listing was needed) -- a real bounded range this time, not Q90's 3 spot-check frames, enough to track
+      a 3D structure through its actual craniocaudal extent as the task asked.
+      Visual finding (real, not dismissed lightly): a bilaterally symmetric, fan-shaped, fibrous-textured
+      DARKER band is clearly visible immediately outside (anterior/inferior to) the mandible across roughly
+      40 consecutive native levels (instances ~1190-1233) -- converging toward the midline with a small pale
+      notch at the top, exactly mentalis's textbook paired/fan-shaped/midline-convergent appearance, and in
+      exactly the right location (superficial to bone, deep to skin). This alone would have been Q90-style
+      "unconfirmed" territory again; this task's job was to actually verify it.
+      Built a full geometric registration (native cryo pixel -> RAS -> CT voxel, composing the same
+      `cryo_idx`/shift(0,-98)/scale 0.99/row-flip used throughout this session's male cryo work) so the
+      mandible bone mask could be excluded from candidate tissue BY GEOMETRY, not by colour -- necessary
+      because this mandible's cortex photographs tan-brown here, not white, so `cryo_classes.py`'s bone
+      threshold (tuned on the trunk's long bones, `v>200, sat<0.30`) misclassifies the ENTIRE bone mass as
+      "muscle" at this location (confirmed directly: applying `classify()` unmodified colours the whole
+      mandible red). Projected the mandible mask into the cryo frame at each level and confirmed the
+      registration is accurate (the projected bone silhouette lines up pixel-for-pixel with the visible pale
+      bone rim in the photographs at every checked level).
+      VERIFICATION, and where it failed: sampled ground-truth colour from the SAME images for calibration --
+      confirmed muscle (tongue/genioglossus, unambiguous) averages r-g=49, v=114 (dark, saturated red);
+      confirmed bone averages r-g=32, v=164 (light, desaturated). The candidate band averages r-g=33, v=132
+      -- essentially bone's hue at an intermediate brightness, NOT a muscle-specific colour signature. A
+      systematic threshold sweep (r-g in {28,30,32,34} x v-cap in {140,150,160,170,180}, 20 combinations,
+      each checked for total volume AND `scipy.ndimage.label` 3D (3x3x3) connectivity across all 54 tracked
+      levels) found NO setting giving both a plausible mentalis volume (1-4 cm3 combined both sides, per
+      Standring) and a single coherent 3D component: r-g>=28-32 (any v-cap) merges into ONE 9-21 cm3 blob
+      spanning the entire skin+fat+bone-adjacent thickness undifferentiated (3-20x too large -- there is no
+      colour valley anywhere between "bone-adjacent" and "skin-adjacent" tissue, it is one continuous
+      gradient); r-g>=34 reaches a more plausible 6-7 cm3 total but fragments into 121-145 disconnected 3D
+      pieces with the two largest capturing only 77-78% of it (noise-like speckle, not one muscle body).
+      CONCLUSION: Q90's texture patch does not hold up under proper multi-slice, CT-registered, quantitative
+      tracking. It is most consistent with ordinary post-mortem subcutaneous staining/vascular variegation
+      continuous with the surrounding fat, not a resolvable mentalis boundary -- a real negative result, not
+      a failure to look hard enough (54 consecutive native levels, full CT-anchored geometry, a 20-point
+      threshold sweep with both volume and 3D-connectivity checks). Zero muscles shipped.
+      IMPLICATION FOR THE REST OF THE FACE-REGION GAP (the actual point of this pilot): mentalis was this
+      15-muscle gap's one concrete lead, and -- per the task's own framing -- one of its LARGER, more
+      distinct members (bigger and better-defined than wafer-thin orbicularis oris or the widely-spread
+      buccinator). If native-resolution colour segmentation cannot isolate mentalis from surrounding fat, it
+      is very unlikely to do better on the group's thinner sheet muscles. `docs/MUSCLE_GAPS.md`'s
+      face-and-ear section now marks the whole 13-muscle remainder (excluding `stapedius`/`tensor_tympani`,
+      already permanently out of scope) literature-only-for-now, the same status as the middle-ear muscles,
+      rather than "needs native cryosections" as a pending route -- a future attempt would need a
+      fundamentally different technique (manual/expert tracing, a different stain or specimen prep), not
+      just finer streaming of the same photographs. No geometry, mapping, or viewer change; both bundles and
+      the 88-entity head gap are unchanged. Recount before and after: identical (433 entities, 202 both, 234
+      at-least-one, 199 neither, 110 distinct missing-on-both, head=88). Tests 252 pass (unchanged).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
