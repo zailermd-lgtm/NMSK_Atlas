@@ -11,7 +11,13 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q88 DONE (built
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q89 DONE (refreshed the muscle-
+completeness recount, stale since 2026-09-16: 433 entities, 202 on BOTH bodies (was 195), 225 on at least one
+(was 214), 208 on neither (was 219) -- most of the gain is his new pelvic floor matching entities her own
+2026-09-16 ship already had. By region, `head` (88 missing-on-both) is now overwhelmingly the largest open
+gap, unattempted all session since it needs a full-resolution head cryosection stream neither body has;
+`docs/MUSCLE_GAPS.md` updated, and the one-off counting snippet is now a committed, reusable tool,
+`scripts/recount_muscle_gaps.py`), Q88 DONE (built
 `scripts/clean_stray_mesh_islands.py`, a general conservative tool for Q87's non-positional finding -- tiny
 TotalSegmentator/photograph mislabeled-voxel islands floating far from a structure's real body, the
 mirror-image problem to the Q76/78/81 fragmentation work and a direct hit on the owner's "complete, continuous
@@ -1938,6 +1944,21 @@ tick the item here with a one-line result. Never fabricate; keep the
       both HTMLs separately, republished: male Version 48, female Version 36. Tests 252 pass (one new rule
       added to `engine/validators.py`'s source-citation exemption list for the two new generated report/scan
       JSON files, the same pattern `anchors.json`/`scene_3d_preview.json` already use).
+- [x] Q89 (2026-09-19) Refreshed the muscle-completeness recount (`docs/MUSCLE_GAPS.md`), stale since
+      2026-09-16 and missing everything shipped since (Q76-Q88). Turned the one-off counting snippet
+      mentioned in the original Q62 entry into a committed, reusable tool, `scripts/recount_muscle_gaps.py`
+      (matches every `data/muscles/**/*.json` entity's `id` against each `build/viewer_*/bundle.json`'s
+      structure `id`s -- no guessing at which bundle fields to read, verified against the live bundles).
+      Result: 433 entities, meshes on BOTH bodies for 202 (was 195), on at least one for 225 (was 214), on
+      NEITHER for 208 (was 219, 116 distinct muscles). Most of the 3-day gain is his new pelvic floor
+      (Q83/Q86) newly matching entities her own 2026-09-16 pelvic-floor ship already had -- a reminder that
+      closing a gap on ONE body can retroactively close a "both bodies" gap it didn't directly touch. By
+      region, missing-on-both is now: head 88 (face/ear/larynx/palate/tongue -- by far the largest remaining
+      block, and untouched all session because it needs a full-resolution HEAD cryosection stream neither
+      body has ever produced, the same kind of stream that did work for the arms/hands), upper_limb 41,
+      trunk 31, lower_limb 30 (mostly the DU-blocked foot), neck 16, wrist_hand 2. This item is pure
+      bookkeeping -- no geometry, mapping, or viewer change; it exists so the next session picks its next
+      target from real numbers instead of a 3-day-stale count. Tests 252 pass (unchanged).
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
