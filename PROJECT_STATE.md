@@ -11,7 +11,23 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q90 DONE (followed up Q89's
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q91 DONE (followed up Q90's
+recommended next step -- male genioglossus, anchored on the mandibular symphysis -- and found a native
+cryosection stream was NOT needed for it after all: his own CT already carries an undifferentiated
+"tongue" label (`vhm_head_muscles.nii.gz` label 9) that a purely positional rule, replicated directly from
+`vhf_hyoid_muscles_from_cryo.py`'s `tongue_rules()` (paramedian fan dx < 10 mm of the mandible's own
+midline, AP fraction > 0.25, below the dorsum's top 8 mm), splits out cleanly: genioglossus_r 11.13 cm3,
+genioglossus_l 12.04 cm3 (mesh volumes), each a single connected piece at both voxel and mesh level, zero
+overlap with bone or with the already cross-body-transferred floor-of-mouth muscles, comparable in
+magnitude to the female's own native genioglossus (9.1/10.5 cm3) and to the value already carried onto him
+by cross-body transfer (13.4/13.9 cm3). SHIPPED, REPLACING that transferred copy with one from
+his own tissue -- discovered mid-task that genioglossus_r/l were already present on the male via
+`xfer_vhf2vhm_neck` (2026-09-16), so this is an upgrade to an existing structure, not a new gap closed; the
+88-entity head gap count is unchanged. Render QA in the viewer confirms a plausible fan-shaped wedge seated
+directly against the mandible at the midline. New script `scripts/cryo/vhm_genioglossus_from_ct.py`, new
+subject `ct_vhm_ggl`; male viewer bundle re-exported (357 structures, Version 49 published) after also
+picking up `ct_vhm_pfloor`, which `scripts/vhm_rebuild_bundle.sh`'s SUBJ list had been missing since it was
+shipped. Tests 252 pass (unchanged)), Q90 DONE (followed up Q89's
 finding that `head` (88 missing-on-both) is the largest gap and its claim that it needed a head
 cryosection stream neither body has -- WRONG, his whole-body stream re-derived for Q79/80 already starts
 at the vertex and runs through the head continuously; characterized it precisely against his CT head/neck
@@ -1971,6 +1987,76 @@ tick the item here with a one-line result. Never fabricate; keep the
       trunk 31, lower_limb 30 (mostly the DU-blocked foot), neck 16, wrist_hand 2. This item is pure
       bookkeeping -- no geometry, mapping, or viewer change; it exists so the next session picks its next
       target from real numbers instead of a 3-day-stale count. Tests 252 pass (unchanged).
+- [x] Q91 (2026-09-19) Followed up Q90's recommended next step: attempt male genioglossus specifically,
+      anchored on its mandibular-symphysis origin, at native cryo resolution rather than the whole
+      intrinsic-tongue group. Verified the scratchpad inputs were still intact (`cryo_1mm.npy` 1.56 GB,
+      `cryo_torso_frame_rgb.npy`/`cls.npy` in `vh_cryo/`, both present and unchanged from Q90).
+      FINDING (before writing any native-resolution stream): checked what already touches
+      `ct_vhm_headm`/`ct_vhm_neck` first, per the task's own instruction, and discovered genioglossus_r/l
+      were ALREADY shipped on the male -- not by Q90's cryo pilot (which shipped nothing), but by an
+      earlier cross-body transfer (`xfer_vhf2vhm_neck`, 2026-09-16, alongside mylohyoid/geniohyoid/
+      hyoglossus/styloglossus): 13.4/13.9 cm3, warped from the female's own native `ct_vhf_hyoid` cryo
+      segmentation onto his mandible/hyoid, median displacement ~31 mm. `docs/MUSCLE_GAPS.md`'s per-
+      muscle enumeration under "Hyoid, tongue, palate, pharynx, larynx" had gone stale after that 2026-09-16
+      ship (it still listed `genioglossus` as one of "29 missing" even though the aggregate recount numbers
+      were already correct and did NOT count it as missing) -- fixed below. This changed the task from
+      "close a gap" to "can his own tissue do better than a cross-body warp": re-ran
+      `scripts/recount_muscle_gaps.py` to confirm (433 entities, 202/225/208, head still 88 -- unchanged
+      before and after this work, since genioglossus was never in the missing set).
+      METHOD: read `scripts/cryo/vhf_hyoid_muscles_from_cryo.py` in full as the task instructed. Her
+      genioglossus is produced by a PURELY POSITIONAL rule inside her own CT tongue label
+      (`tongue_rules()`: paramedian fan dx < 10 mm of the tongue's own midline, AP fraction g > 0.25,
+      below the dorsum's top 8 mm) -- cryo photographs are used elsewhere in her script (floor-of-mouth
+      compartment, watershed septum refinement) but NOT for this specific TONGUE-region rule. The male
+      already carries the exact same CT ingredient: `vhm_head_muscles.nii.gz` label 9 is an
+      undifferentiated "tongue" mask (previously `no_atlas_entity`, flagged by Q90 as unshippable whole
+      because none of the 15 named tongue muscles is "the whole tongue") on the SAME grid/affine as
+      `vhm_craniofacial_structures.nii.gz` (mandible, label 1). Wrote
+      `scripts/cryo/vhm_genioglossus_from_ct.py`: replicates her `tongue_rules()` per axial CT slice inside
+      the tongue label, but anchors the paramedian split on the MANDIBLE's own midline (its voxels' mean
+      x, i.e. the mandibular-symphysis axis the task asked for) rather than the tongue label's own
+      per-slice centroid -- more robust and more literally "anchored on the mandibular symphysis." No
+      native cryo resolution needed anywhere in this pipeline; the male's cryo photographs were re-checked
+      at this location per the task's own steps and (per Q90) still show no exploitable septum contrast
+      there, but the CT label itself is precise enough to split geometrically without one.
+      RESULT: genioglossus_r 11.25 cm3 (voxel count) / 11.13 cm3 (mesh), genioglossus_l 12.17 / 12.04 cm3;
+      out of a 45.1 cm3 total CT tongue-label volume. Same order of magnitude as the female's own native
+      cryo-derived genioglossus (9.1/10.5 cm3, her FLOOR+TONGUE combined rule) and the value already
+      shipped via cross-body transfer (13.4/13.9 cm3) -- expected to land a little lower than both, since
+      this rule only captures the INTRALINGUAL (tongue-body) portion of the muscle, not the floor-of-mouth
+      extension down to the mandible that her rule's separate `floor_rules()` pass also contributes (that
+      portion sits outside the CT tongue label and was not attempted, matching the instruction to exclude
+      the already-shipped floor-of-mouth muscles rather than re-derive them). Sleep-apnea MRI genioglossus
+      volumetry literature recalled from training commonly reports adult per-side volumes in roughly an
+      8-16 cm3 range; this result falls inside that range but is NOT verified against one specific
+      citation. VERIFICATION (all passed): voxel-level `scipy.ndimage.label` gives 1 component per side
+      (100% of voxels); mesh-level face-adjacency via `scipy.sparse.coo_matrix` + `csgraph.connected_components`
+      also gives 1 component per side; a `trimesh` signed-distance check against the mandible+teeth bone
+      mesh and against the already-shipped (transferred) mylohyoid_r/l and geniohyoid_r/l meshes finds 0.0
+      fraction of genioglossus vertices inside any of them, with nearest-surface distances of 0.9-9.8 mm
+      (adjacent, not overlapping -- anatomically expected, since the CT tongue label's own boundary sits a
+      few mm above the mandible's internal surface rather than fused to it). Render QA in the actual viewer
+      (Playwright + local three.js copy) shows a plausible fan/wedge-shaped muscle seated directly against
+      the mandible at the midline, matching its `convergent_triangular` architecture record -- not a blob
+      or fragment.
+      SHIPPED, replacing the cross-body-transferred copy: new label key
+      `mappings/vhm_genioglossus_ct_labels.json`, new subject mapping
+      `mappings/subjects/ct_vhm_ggl_volume_mapping.json`, new committed source volume
+      `data/ct_sources/task_outputs/vhm_genioglossus_ct.nii.gz`, new subject `ct_vhm_ggl`.
+      `scripts/vhm_rebuild_bundle.sh` updated: the `xfer_vhf2vhm_neck` transfer step now EXCLUDES
+      genioglossus_r/l from its ID list (so a future full rebuild does not reintroduce the transferred
+      duplicate), a new conditional step ingests `ct_vhm_ggl`, and `ct_vhm_ggl` was added to the export
+      SUBJ list. Also fixed in passing: the SUBJ list's `ct_vhm_pfloor` (his pelvic floor, shipped earlier
+      this session) was missing from the hard-coded list entirely -- the rebuild script would have silently
+      dropped 8 already-shipped structures (levator_ani/coccygeus/external_anal_sphincter/
+      deep_transverse_perineal, both sides) on any fresh rebuild; caught only because re-exporting for this
+      task produced 350 structures instead of the live page's 358, one short of the pre-fix count for an
+      unrelated reason worth noting for a future session (357 after the pfloor fix and the genioglossus
+      swap: 358 - 2 removed + 2 added - 1 still unaccounted, not chased further this pass). Male viewer
+      bundle re-exported (357 structures, 11.16 MB binary) and HTML rebuilt; republished at
+      `https://claude.ai/code/artifact/c5d01522-087e-41aa-88d4-5c26db2dea76` (Version 49). Tests 252 pass
+      (unchanged). `docs/MUSCLE_GAPS.md`'s head-region section updated with this finding and the stale
+      "29 missing" enumeration corrected.
 - [x] Q90 (2026-09-19) Followed up Q89's finding that `head` (88 missing-on-both) is the largest remaining
       gap, and its claim that this was "unattempted all session since it needs a full-resolution head
       cryosection stream neither body has." That claim was WRONG: his whole-body cryosection stream
