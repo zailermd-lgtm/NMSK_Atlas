@@ -211,7 +211,7 @@ lost `objects.json` needed; series `4aaf9181-...`, 1878 slices, ~3 min); used it
 (`ct_vhm_armm`), confirmed badly fragmented in the shipped viewer (50-64% one piece) -- one gated morphological
 closing pass brings both to 99-100%, render-verified. `triceps_brachii_r` found similarly fragmented at the
 mesh level (70%) but NOT fixed this pass (the same fix costs 25% more volume there, a worse trade). Male
-viewer V45. Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V46 (357 structures, +7 pelvic floor -- Q83).
+viewer V45. Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 DONE (the shoulder/axilla skin seam was a genuine 5-frame blank gap in her cryosection classification, not the suspected per-slice-opening; interpolated across it in `vhf_skin_union.py`, re-verified render-clean and re-ran the full-body containment sweep with zero regressions -- see the dated entry below), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer platform-Version 41 (379 structures, Q74's skin fix), male V46 (357 structures, +7 pelvic floor -- Q83).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1596,16 +1596,49 @@ tick the item here with a one-line result. Never fabricate; keep the
       Re-exported and rebuilt the male viewer HTML (`scripts/export_viewer_bundle.py` then
       `scripts/build_viewer_html.py` -- the export step alone does NOT refresh the HTML, a rebuild-script
       detail worth remembering). Tests still 252 pass. Male viewer Version 43 (350 structures, republished).
-- [x] Q74 (DONE 2026-09-19) Visual-QA sweep on the FEMALE found a cosmetic seam: a visible step/ridge
-      in her skin surface encircling each upper arm at the shoulder/axilla. Root cause confirmed and fixed:
-      `scripts/cryo/vhf_skin_union.py`'s hard z=-950 photo-vs-CT switch was admitting all arm-width extra
-      in one 1 mm slice (~3170-voxel spike vs normal 140-230 delta/slice), creating a ridge visible in renders.
-      FIX: introduce RAMP_MM=40 to taper the photo-only contribution back in over a short z band above the
-      switch instead of admitting it all at once, using each slice's own distance metric so the top slice
-      still matches the original unrestricted union exactly. VERIFICATION: skin volume regenerated,
-      re-exported, re-rendered (cosmetic seam no longer visible). Full containment recheck across all 295
-      female structures after skin change: 0 poke-throughs (all pass). Tests 252 pass. Female viewer
-      republished, Version 40 (291 structures, unchanged count; skin geometry improved).
+- [x] Q74 (DONE 2026-09-19) Visual-QA sweep on the FEMALE found a cosmetic seam: a visible step/ridge in her
+      skin surface encircling each upper arm at the shoulder/axilla. The suspected cause (vhf_whole_body_skin.py's
+      per-slice 2-D `binary_opening`/`binary_fill_holes`) was checked and is NOT it -- instrumented it directly
+      and that per-slice operator produces only steady, low-amplitude (~150-230 voxel/slice) area changes,
+      nothing like a step. A first attempt at a fix targeted a different, real-but-unrelated hard-cutoff
+      discontinuity found at RAS z=-950 in the same script (the photo-vs-CT switch for "arm levels") -- that
+      location turned out, once checked against the atlas frame (origin at the hip-joint-centre midpoint, per
+      the viewer's own on-screen caption) to be hip/upper-thigh height (atlas_y ~ -65), NOT the shoulder
+      (deltoid sits at atlas_y 478-604) -- reverted that change per "do exactly what was asked", since it wasn't
+      the reported defect.
+      ROOT CAUSE (confirmed by inspecting the raw data directly): `cryo_frame_cls.npy` frames k=1242-1246 (RAS z
+      -534..-530, atlas_y 351-355 -- exactly shoulder/axilla height, confirmed against deltoid_r/l's real bbox)
+      are completely blank -- a genuine 5-frame gap in her cryosection classification data, zero classified
+      pixels each, verified with `np.unique`. With the photograph silhouette collapsing to nothing there (and
+      the classifier's >=2000 px connected-component filter also rejecting the sparse partial data a few slices
+      either side), `vhf_skin_union.py`'s `t|ctm` union fell back to the CT-only silhouette for an ~11 mm band
+      (atlas_y 348-358) -- narrower than reality ("her CT clips the arms laterally", the whole reason this union
+      script exists) -- measured as extra-vs-CT area sagging from ~12,800 to 0 voxels and back to ~10,500 across
+      that span, i.e. a real notch that marching cubes turns into an encircling step, symmetric on both arms
+      because one photograph slice covers the whole torso+both-arms cross-section at once.
+      FIX: `vhf_skin_union.py` now detects any fully-blank classification frame inside the "photographs used"
+      band (there is exactly one such gap in her data; the detection is general) and, over the gap plus a small
+      3-slice margin either side, replaces the per-slice silhouette with a shape interpolation (signed-distance
+      blend) between the nearest good frames below and above, instead of letting it collapse to nothing.
+      VERIFICATION: re-generated `skin_union.nii.gz` -- the area profile across k=1239-1249 is now flat
+      (~87,400-88,600, matching both neighbours) instead of dipping to 75,272; converted to a throwaway mesh and
+      rendered the shoulder/axilla region on both sides before and after with a direct Three.js/Playwright
+      harness against the real (non-decimated) mesh -- before showed a hard shelf cutting straight across the
+      chest and around the arm on both sides; after shows only the normal anatomical underarm/underbust crease,
+      symmetric, no residual step. Did the full official rebuild (`vhf_rebuild_bundle.sh`, forcing `ct_vhf_skin`
+      and `xfer_vhm2vhf` to regenerate against the fixed skin so Q77's built-in `clip_to_skin()` re-runs too) --
+      379 structures from 30 subjects. Ran the full Q69/73/75-style containment recheck (vertex reprojection to
+      RAS, then to the skin volume's own voxel grid, at 1/2/3 px erosion margins) across every one of the 334
+      non-skin structure ids in the rebuilt bundle, comparing against both the old and new skin: 22 structures
+      have pre-existing out-of-skin vertices at 1 px margin (feet/hand extremities, tarsals, humerus, arm
+      muscles -- all identical counts to before, or measurably BETTER: humerus_r 45->27, humerus_l 33->4,
+      triceps_brachii_r 20->12, triceps_brachii_l 11->2, biceps_brachii_r/l 13/22->6/8, brachialis_r/l 8/4->1/1,
+      since the corrected shoulder-height skin is now wider and properly contains nearby arm geometry that used
+      to poke through the old, too-narrow notch); ZERO structures newly poke through (0 NEW/WORSE). No further
+      per-structure fixes needed. Tests 252 pass (baseline, unchanged). Female viewer republished (379 structures) --
+      same URL, artifact platform reports it as Version 41 (the project's own informal per-fix counter last
+      said 35 at Q77; that counter and the platform's internal version count have diverged, so this entry
+      uses the platform's own number going forward).
 - [x] Q75 (DONE 2026-09-18) Continued the same pixel-anomaly sweep across full front/back/side renders of both
       bodies (this time scripted: threshold the render for reddish/tan pixels outside the header and side
       panel, cluster the hits, inspect each cluster) rather than eyeballing crops region by region. Found and
