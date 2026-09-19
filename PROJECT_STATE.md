@@ -11,7 +11,15 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q82 NOT SHIPPED (male sciatic nerve
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q83 PARTIALLY SHIPPED (male pelvic
+floor as `ct_vhm_pfloor`, the Q68 follow-up: found his torso CT block does not reach the perineum at all --
+the legs block does -- rebuilt `scripts/cryo/vhf_pelvic_floor_from_cryo.py` as a new
+`vhm_pelvic_floor_from_cryo.py` against the legs-block frame; fixed an anal-centroid seeding bug and
+recalibrated two constants her script's own values had inverted (coccygeus coming out larger than levator
+ani) on his shorter pelvic band; shipped levator ani, coccygeus, external anal sphincter and deep transverse
+perineal (7 structures, 0 bone/organ overlap, correct superior-inferior ordering, montage-verified), left
+bulbospongiosus/ischiocavernosus/superficial transverse perineal as fragments and the external urethral
+sphincter unattempted, same bar as the female script; male viewer Version 46, 357 structures), Q82 NOT SHIPPED (male sciatic nerve
 via `sciatic_from_cryo.py`, now that Q79-81 made his 1 mm cryo frame real: fixed 3 real bugs -- a stale
 legs->torso t_off, a legs-CT/TotalSegmentator orientation mismatch (LPS vs LAS, landmarks were landing ~470 mm
 off), and a seed search that now scans for the first persistently-matching level instead of the raw IT/GT
@@ -40,7 +48,7 @@ lost `objects.json` needed; series `4aaf9181-...`, 1878 slices, ~3 min); used it
 (`ct_vhm_armm`), confirmed badly fragmented in the shipped viewer (50-64% one piece) -- one gated morphological
 closing pass brings both to 99-100%, render-verified. `triceps_brachii_r` found similarly fragmented at the
 mesh level (70%) but NOT fixed this pass (the same fix costs 25% more volume there, a worse trade). Male
-viewer V45. Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V45 (350 structures).
+viewer V45. Q78 FOUND, NOT FIXED (the volume-scale audit's flag on his abdominal obliques turned out real: `internal_oblique_r/l` and `transversus_abdominis_r` are genuinely fragmented into a dozen-plus disconnected islands, largest only 44-49% of the mesh -- confirmed by mesh-topology connected components, not just a volume ratio; blocked on the same lost male-photograph-frame data as Q57/Q68/Q71/Q72, needs a re-stream and re-run of `abdominal_wall_from_cryo.py`, no safe local patch exists), Q77 DONE (a whole-body-both-sides containment sweep found the Q73/Q75-style small poke-throughs also on several `xfer_vhm2vhf` (male-to-female transfer) muscles; fixed PERMANENTLY this time by adding a real `clip_to_skin()` step to `cross_subject_transfer.py` itself -- it already computed an `outside_target_skin_fraction` for the report but never acted on it -- so every future rebuild self-corrects instead of needing a one-off patch), Q76 DONE (fixed a numpy-casting bug that had made `vhf_hyoid_muscles_from_cryo.py` unrunnable; re-shipped mylohyoid/geniohyoid/genioglossus/hyoglossus/styloglossus with improved geometry; sternohyoid/omohyoid volumes now plausible but proved genuinely fragmented into a dozen-plus disconnected islands, still NOT shipped), Q75/Q73 DONE (small `vhm_both` poke-throughs found by pixel-anomaly sweeps, fixed and patched into the committed `vhm_v25` source bundle), Q74 NOT FIXED (a cosmetic skin seam at both her shoulders, low priority), Q72 NOT SHIPPED (his humerus/ulna poke through at the elbow -- a genuine legacy mis-registration, not reliably fixable yet). Female viewer V35 (368 structures), male V46 (357 structures, +7 pelvic floor -- Q83).
 
 No CT data is available yet from the repository owner (they have clinical
 scans but haven't set up Python 3.13/TotalSegmentator on Windows). Pending
@@ -1641,6 +1649,64 @@ tick the item here with a one-line result. Never fabricate; keep the
       infrastructure (Q79/Q80) is confirmed solid for this purpose; Q68 (male pelvic floor) is correspondingly
       more tractable to attempt now too, but is a different problem (prostate/penile-bulb/urethral-sphincter
       rules) and is left as its own queue item, not started here. Tests 252 pass. No viewer change.
+- [x] Q83 (2026-09-18/19) Male pelvic floor, the Q68 follow-up, PARTIALLY SHIPPED 2026-09-19 as `ct_vhm_pfloor`
+      (male viewer Version 46, 357 structures): closely ported `scripts/cryo/vhf_pelvic_floor_from_cryo.py`
+      (Q62) to a new `scripts/cryo/vhm_pelvic_floor_from_cryo.py`. Real finding before any porting could start:
+      his TORSO CT block (`vhm_total.nii.gz`, the file Q68's own note pointed at) does NOT reach the perineum
+      -- its hip label is truncated mid-bone at slice k=0 (5856 voxels, not a taper; her torso-block hip label
+      tapers from 142 voxels at its true caudal tip) because, per this repo's own prior note, "the torso and
+      legs blocks do NOT overlap -- torso z=0 is the legs block's top slice". Switched the whole script to the
+      LEGS block instead (`vhm_ts/legs_total.nii.gz` + a new `cryo_legs_frame_rgb/cls.npy`, the "legs" branch
+      of `resample_cryo_to_ct_frame.py`, run for the first time this session): confirmed empirically (voxel
+      taper at hip's true caudal end, PNG overlays of hip/sacrum/colon contours on the photographs at k=720/
+      750/780/800) that frame index k equals `legs_total.nii.gz`'s own z-array-index directly, no offset, no
+      row/column flip (a candidate flip -- expected from the legs segmentation's own anomalous Y-sign affine
+      -- was tried and is visibly wrong). Prostate label (TotalSegmentator id 22) IS present in the legs block
+      with a plausible 18,384 voxels / 34 mm span (ABSENT, 0 voxels, in the torso block -- one more
+      confirmation); its apex (k=738) lands 1 mm from the bone-only pubic-arch-apex anchor (k=737), an
+      independent cross-check both anchors are right. Two real bugs found and fixed in the port itself, not
+      just recalibration: (1) the anal-canal centroid seed was `None` until the ascending k-loop first reached
+      a level with the colon label -- but his colon label's own lowest level (k=728) sits 20-22 mm ABOVE the
+      band's own floor (k=706), so roughly half the anal/perineal band was silently skipped every run (the
+      female script never hits this because her equivalent gap does not occur before her own band start);
+      fixed by seeding the anal centroid from the lowest labelled level before the loop starts. (2) her
+      LEV_REACH_MM=18 / COCC_SPAN_MM=18 constants, unchanged, inverted the pelvic floor on him: coccygeus came
+      out LARGER than levator_ani (15.5+18.4 vs 2.5+3.2 cm3) because his legs-block pelvic band is only
+      15 mm tall (versus whatever taller span her own frame gave the identical rule), so "within 18 mm of the
+      spine" covered the WHOLE band instead of just its top, and coccygeus's plain posterior/lateral test
+      claimed most of the sling that should have been levator_ani. Recalibrated by direct experiment (18/25/
+      30/40/60 mm and 18/16/12/6/4 mm tried, volumes AND the montage checked at each) to LEV_REACH_MM=45,
+      COCC_SPAN_MM=6 -- both documented in the script as recalibrated, not claimed as her own verified figures.
+      SHIPPED: levator_ani 14.4/16.3 cm3, coccygeus 7.9/8.9 cm3 (correct order after the fix), external anal
+      sphincter 1.1 cm3, deep transverse perineal 1.6/1.6 cm3 -- 7 structures, all with 0 overlap_bone_voxels
+      and 0 overlap_organ_voxels, muscle-class fraction 0.86-0.96, and the ordering check
+      (`levator_above_every_perineal_muscle`) True; montage inspected at 5 pelvis levels (levator/coccygeus/
+      obturator_internus form continuous, correctly-positioned sheets, no bone/organ overlap visible). NOT
+      shipped (fragments under the 1 cm3 / 6-level bar even after the same recalibration attempts):
+      bulbospongiosus (his corpus-spongiosum-bulb equivalent, rule adapted from hers with BS_MIN_DX=0 -- no
+      vaginal-opening exclusion, the muscle runs to the midline raphe -- but the photographs simply do not
+      show enough of it at this level/registration), ischiocavernosus, superficial_transverse_perineal.
+      Obturator internus and perineal_other remain unshipped sinks by design, as in the female script. External
+      urethral sphincter left unattempted (same decision and reasoning as the female script, plus his frame's
+      registration residual is not independently quantified the way her frame.json's 8.9 mm rms is -- if
+      anything a weaker case for attempting it). Literature: no confirmed male levator-ani VOLUME figure found
+      (PubMed searched), so no MAX_RATIO cap applies to it or to any other male structure here; the one
+      confirmed figure used is a THICKNESS, not a volume (Tienza et al. 2015, Int Urol Nephrol, PMID 26049974,
+      doi 10.1007/s11255-015-1019-8: levator ani 5.1 mm, obturator internus 14.6 mm mean thickness, 550 men
+      pre-radical-prostatectomy MRI) -- reported for comparison, not enforced as a cap. Converted with
+      `ingest_volume_geometry.py convert --origin='-6.035,-895.476,4.787' --smooth 1.0` (the established
+      male torso-block origin, cross-checked against `vhm_arm_muscles_v2.py`'s own OX/origin-y/OZ before use).
+      Male viewer re-exported (`export_viewer_bundle.py --subject ct_vhm_foot --subject vhm_both --subject
+      ct_vhm_pfloor ...` -- the full 25-subject list read back from the previous build's own `bundle.json`,
+      not guessed -- then `build_viewer_html.py` separately) and QA'd in a real headless-Chromium render
+      (local three.js copy): levator_ani/coccygeus/deep_transverse_perineal/external_anal_sphincter all
+      isolate to plausible, correctly-attached shapes with the pre-existing atlas entity records (origins,
+      insertions, nerve supply, clinical notes) populated by real mesh instead of anchor-only data. Republished
+      as male viewer Version 46 (357 structures). `tests/test_pelvic_floor.py` only exercises the FEMALE
+      module's rule functions on a synthetic pelvis; since the male script reuses most of them verbatim this
+      is partial coverage by construction, but a male-specific test file (covering the legs-block Frame,
+      BS_MIN_DX=0, and the anal-centroid-seed fix) was NOT written this session -- a reasonable follow-up, not
+      done here per this task's own scope-discipline note. Tests 252 pass (unchanged). Female unaffected.
 - [x] Q31 (DONE 2026-09-14 via Q61 below; owner: "like in male") Calcaneus and talus as their OWN entities (the atlas has only the composite
       `tarsals_r/l`; the DU release ships a separate talus and calcaneus that `mappings/du_vh_overrides.json`
       folds into the composite; heel and ankle injections want the two bones). Needs: two bone records per side in
@@ -1960,10 +2026,12 @@ tick the item here with a one-line result. Never fabricate; keep the
       transverse perineal (0.8/0.4) under what the frame supports and unshipped. Zero overlap with the bone and organ
       labels; 76-100 % of every mask on her muscle class. HIM: needs his 1 mm frame rebuilt plus prostate/penile-bulb
       rules -- new queue item Q68.
-- [ ] Q68 Male pelvic floor: rebuild his 1 mm cryosection frame (stream -> register -> resample, the pieces are in
-      scripts/cryo/stream_vhm_cryosections.py and the whole-body centroid registration of vhm_arm_muscles_v2.py),
-      then run scripts/cryo/vhf_pelvic_floor_from_cryo.py's rules with the male variants: the prostate at the hiatus,
-      a midline penile bulb, a deep-pouch external urethral sphincter.
+- [x] Q68 Male pelvic floor -- PARTIALLY SHIPPED 2026-09-19 as Q83 (see above): `scripts/cryo/vhm_pelvic_floor_from_cryo.py`,
+      subject `ct_vhm_pfloor`, male viewer Version 46. Needed the LEGS block, not the torso block this note
+      assumed (the torso block does not reach the perineum, confirmed this session). Levator ani, coccygeus,
+      external anal sphincter and deep transverse perineal shipped; bulbospongiosus/ischiocavernosus/
+      superficial transverse perineal and the external urethral sphincter not shipped (fragments / not
+      attempted, same bar as the female script).
       Was: Popliteal artery/vein (the dark round lumens in the Q53 distal montages) and the tibial nerve's
       relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
       (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between

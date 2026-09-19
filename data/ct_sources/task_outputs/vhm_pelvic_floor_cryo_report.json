@@ -1,0 +1,506 @@
+{
+ "_README": [
+  "Male pelvic diaphragm and perineal muscles by position rules on his registered 1 mm legs-block cryosection frame (scripts/cryo/vhm_pelvic_floor_from_cryo.py). Rule-based, derived data, ported from scripts/cryo/vhf_pelvic_floor_from_cryo.py.",
+  "He is male: a prostate sits at the urogenital hiatus and the midline structure below the pubic arch is the bulb of the penis / corpus spongiosum, not the vaginal opening."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), MALE colour cryosections (1 mm, resampled onto the legs-block CT grid) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels (legs_total.nii.gz, the legs CT block -- his torso block does not reach the perineum, see the module docstring) as anchors and exclusions. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 62 'True pelvis, pelvic floor and perineum', and Moore KL et al., Clinically Oriented Anatomy, 8th ed., ch. 6 'Pelvis and Perineum'. Derived data (scripts/cryo/vhm_pelvic_floor_from_cryo.py), rule-based, ported from scripts/cryo/vhf_pelvic_floor_from_cryo.py.",
+ "badge": "rule-based",
+ "version": "2026-09-18",
+ "volumes_cm3": {
+  "levator_ani_right": 14.4,
+  "coccygeus_right": 7.9,
+  "bulbospongiosus_right": 0.5,
+  "ischiocavernosus_right": 0.2,
+  "deep_transverse_perineal_right": 1.6,
+  "superficial_transverse_perineal_right": 1.0,
+  "obturator_internus_right": 35.9,
+  "perineal_other_right": 42.5,
+  "levator_ani_left": 16.3,
+  "coccygeus_left": 8.9,
+  "bulbospongiosus_left": 0.0,
+  "ischiocavernosus_left": 0.6,
+  "deep_transverse_perineal_left": 1.6,
+  "superficial_transverse_perineal_left": 0.1,
+  "obturator_internus_left": 36.5,
+  "perineal_other_left": 39.6,
+  "external_anal_sphincter": 1.1
+ },
+ "geometry_atlas_mm": {
+  "levator_ani_right": {
+   "mean_atlas_x": 128.2,
+   "mean_atlas_y": -32.1,
+   "mean_atlas_z": 23.5,
+   "z_ras_range": [
+    -933.0,
+    -919.0
+   ],
+   "levels": 15
+  },
+  "coccygeus_right": {
+   "mean_atlas_x": 138.8,
+   "mean_atlas_y": -26.5,
+   "mean_atlas_z": -1.0,
+   "z_ras_range": [
+    -925.0,
+    -919.0
+   ],
+   "levels": 7
+  },
+  "bulbospongiosus_right": {
+   "mean_atlas_x": 109.2,
+   "mean_atlas_y": -55.6,
+   "mean_atlas_z": 54.2,
+   "z_ras_range": [
+    -960.0,
+    -944.0
+   ],
+   "levels": 13
+  },
+  "ischiocavernosus_right": {
+   "mean_atlas_x": 149.0,
+   "mean_atlas_y": -41.9,
+   "mean_atlas_z": 50.2,
+   "z_ras_range": [
+    -940.0,
+    -934.0
+   ],
+   "levels": 7
+  },
+  "deep_transverse_perineal_right": {
+   "mean_atlas_x": 131.4,
+   "mean_atlas_y": -42.8,
+   "mean_atlas_z": 49.0,
+   "z_ras_range": [
+    -943.0,
+    -934.0
+   ],
+   "levels": 10
+  },
+  "superficial_transverse_perineal_right": {
+   "mean_atlas_x": 109.9,
+   "mean_atlas_y": -63.8,
+   "mean_atlas_z": 50.8,
+   "z_ras_range": [
+    -963.0,
+    -953.0
+   ],
+   "levels": 11
+  },
+  "obturator_internus_right": {
+   "mean_atlas_x": 154.3,
+   "mean_atlas_y": -30.9,
+   "mean_atlas_z": 6.1,
+   "z_ras_range": [
+    -933.0,
+    -919.0
+   ],
+   "levels": 15
+  },
+  "perineal_other_right": {
+   "mean_atlas_x": 125.9,
+   "mean_atlas_y": -51.2,
+   "mean_atlas_z": 24.2,
+   "z_ras_range": [
+    -963.0,
+    -934.0
+   ],
+   "levels": 30
+  },
+  "levator_ani_left": {
+   "mean_atlas_x": 87.0,
+   "mean_atlas_y": -32.1,
+   "mean_atlas_z": 24.3,
+   "z_ras_range": [
+    -933.0,
+    -919.0
+   ],
+   "levels": 15
+  },
+  "coccygeus_left": {
+   "mean_atlas_x": 79.3,
+   "mean_atlas_y": -26.6,
+   "mean_atlas_z": 2.4,
+   "z_ras_range": [
+    -925.0,
+    -919.0
+   ],
+   "levels": 7
+  },
+  "bulbospongiosus_left": {
+   "mean_atlas_x": 100.9,
+   "mean_atlas_y": -50.5,
+   "mean_atlas_z": 55.1,
+   "z_ras_range": [
+    -946.0,
+    -946.0
+   ],
+   "levels": 1
+  },
+  "ischiocavernosus_left": {
+   "mean_atlas_x": 64.7,
+   "mean_atlas_y": -44.8,
+   "mean_atlas_z": 49.5,
+   "z_ras_range": [
+    -946.0,
+    -934.0
+   ],
+   "levels": 13
+  },
+  "deep_transverse_perineal_left": {
+   "mean_atlas_x": 85.1,
+   "mean_atlas_y": -42.9,
+   "mean_atlas_z": 48.5,
+   "z_ras_range": [
+    -943.0,
+    -934.0
+   ],
+   "levels": 10
+  },
+  "superficial_transverse_perineal_left": {
+   "mean_atlas_x": 87.4,
+   "mean_atlas_y": -58.4,
+   "mean_atlas_z": 50.6,
+   "z_ras_range": [
+    -955.0,
+    -953.0
+   ],
+   "levels": 3
+  },
+  "obturator_internus_left": {
+   "mean_atlas_x": 61.0,
+   "mean_atlas_y": -30.7,
+   "mean_atlas_z": 6.4,
+   "z_ras_range": [
+    -933.0,
+    -919.0
+   ],
+   "levels": 15
+  },
+  "perineal_other_left": {
+   "mean_atlas_x": 84.4,
+   "mean_atlas_y": -50.0,
+   "mean_atlas_z": 24.1,
+   "z_ras_range": [
+    -961.0,
+    -934.0
+   ],
+   "levels": 28
+  },
+  "external_anal_sphincter": {
+   "mean_atlas_x": 102.8,
+   "mean_atlas_y": -42.3,
+   "mean_atlas_z": 37.9,
+   "z_ras_range": [
+    -942.0,
+    -934.0
+   ],
+   "levels": 9
+  }
+ },
+ "checks": {
+  "_README": "voxels of each shipped label that fall inside his bone or organ labels (must be 0), the fraction sitting on his cryosection muscle class, and the mean atlas Y (superior) of each structure against the bladder's.",
+  "overlap_bone_voxels": {
+   "superficial_transverse_perineal_right": 0,
+   "perineal_other_right": 0,
+   "perineal_other_left": 0,
+   "bulbospongiosus_right": 0,
+   "superficial_transverse_perineal_left": 0,
+   "bulbospongiosus_left": 0,
+   "ischiocavernosus_left": 0,
+   "deep_transverse_perineal_right": 0,
+   "deep_transverse_perineal_left": 0,
+   "external_anal_sphincter": 0,
+   "ischiocavernosus_right": 0,
+   "levator_ani_right": 0,
+   "obturator_internus_right": 0,
+   "levator_ani_left": 0,
+   "obturator_internus_left": 0,
+   "coccygeus_right": 0,
+   "coccygeus_left": 0
+  },
+  "overlap_organ_voxels": {
+   "superficial_transverse_perineal_right": 0,
+   "perineal_other_right": 0,
+   "perineal_other_left": 0,
+   "bulbospongiosus_right": 0,
+   "superficial_transverse_perineal_left": 0,
+   "bulbospongiosus_left": 0,
+   "ischiocavernosus_left": 0,
+   "deep_transverse_perineal_right": 0,
+   "deep_transverse_perineal_left": 0,
+   "external_anal_sphincter": 0,
+   "ischiocavernosus_right": 0,
+   "levator_ani_right": 0,
+   "obturator_internus_right": 0,
+   "levator_ani_left": 0,
+   "obturator_internus_left": 0,
+   "coccygeus_right": 0,
+   "coccygeus_left": 0
+  },
+  "fraction_on_muscle_class": {
+   "superficial_transverse_perineal_right": 0.687,
+   "perineal_other_right": 0.914,
+   "perineal_other_left": 0.91,
+   "bulbospongiosus_right": 0.671,
+   "superficial_transverse_perineal_left": 0.664,
+   "bulbospongiosus_left": 0.486,
+   "ischiocavernosus_left": 0.94,
+   "deep_transverse_perineal_right": 0.886,
+   "deep_transverse_perineal_left": 0.857,
+   "external_anal_sphincter": 0.907,
+   "ischiocavernosus_right": 0.953,
+   "levator_ani_right": 0.914,
+   "obturator_internus_right": 0.954,
+   "levator_ani_left": 0.918,
+   "obturator_internus_left": 0.955,
+   "coccygeus_right": 0.934,
+   "coccygeus_left": 0.939
+  },
+  "bladder_mean_atlas_y": -25.5,
+  "bladder_z_ras_range": [
+   -923.0,
+   -919.0
+  ],
+  "ordering": {
+   "levator_below_bladder": true,
+   "levator_above_every_perineal_muscle": true,
+   "levator_mean_atlas_y": [
+    -32.1,
+    -32.1
+   ],
+   "perineal_mean_atlas_y": {
+    "bulbospongiosus_right": -55.6,
+    "ischiocavernosus_right": -41.9,
+    "deep_transverse_perineal_right": -42.8,
+    "superficial_transverse_perineal_right": -63.8,
+    "bulbospongiosus_left": -50.5,
+    "ischiocavernosus_left": -44.8,
+    "deep_transverse_perineal_left": -42.9,
+    "superficial_transverse_perineal_left": -58.4,
+    "external_anal_sphincter": -42.3
+   },
+   "prostate_apex_atlas_y": -37.5,
+   "note": "atlas Y is superior (Y = RAS z - (-895.476))."
+  },
+  "inside_the_bony_pelvis": "guaranteed by construction: every level's region is the convex hull of his hip + sacrum labels (pelvic band) or the hull of his hip label and a disc at the anal canal (perineal band), minus the bone, organ (including prostate), gluteal, iliopsoas and femur labels and the subcutaneous band"
+ },
+ "labels": {
+  "1": "levator_ani_right",
+  "2": "coccygeus_right",
+  "3": "bulbospongiosus_right",
+  "4": "ischiocavernosus_right",
+  "5": "deep_transverse_perineal_right",
+  "6": "superficial_transverse_perineal_right",
+  "7": "obturator_internus_right",
+  "8": "perineal_other_right",
+  "9": "levator_ani_left",
+  "10": "coccygeus_left",
+  "11": "bulbospongiosus_left",
+  "12": "ischiocavernosus_left",
+  "13": "deep_transverse_perineal_left",
+  "14": "superficial_transverse_perineal_left",
+  "15": "obturator_internus_left",
+  "16": "perineal_other_left",
+  "17": "external_anal_sphincter"
+ },
+ "merged": {},
+ "merged_always": {
+  "levator_ani": [
+   "pubococcygeus",
+   "puborectalis",
+   "iliococcygeus"
+  ]
+ },
+ "not_shipped": {
+  "obturator_internus": "the obturator internus is not a Q68 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia",
+  "perineal_other": "sink for the rest of the perineal muscle mass -- the crus and body of the corpus cavernosum where not claimed by ischiocavernosus, and the urethral wall, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus",
+  "bulbospongiosus_right": "0.5 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "bulbospongiosus_left": "0.0 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "ischiocavernosus_right": "0.2 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "ischiocavernosus_left": "0.6 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "superficial_transverse_perineal_left": "0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "superficial_transverse_perineal_right": "not shipped because the other side is not: 0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "iliococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "external_urethral_sphincter": "a 3-5 mm collar on the membranous urethra in the deep perineal pouch: below the resolution of a 1 mm frame, same decision and reasoning as the female script (scripts/cryo/vhf_pelvic_floor_from_cryo.py), plus his frame's registration residual is not even independently quantified here (see the module docstring LIMITS) -- if anything a weaker case for attempting it than hers",
+  "internal_anal_sphincter": "smooth muscle inside the colon label; excluded with it",
+  "prostate": "not a muscle: TotalSegmentator organ label (id 22), carried only as an exclusion + the urogenital-hiatus landmark (see the module docstring)"
+ },
+ "septum_support": {
+  "coccygeus|obturator_internus": {
+   "ratio": 2.72,
+   "contact_px": 3175,
+   "merge": false
+  },
+  "ischiocavernosus|perineal_other": {
+   "ratio": 1.72,
+   "contact_px": 463,
+   "merge": false
+  },
+  "perineal_other|superficial_transverse_perineal": {
+   "ratio": 2.16,
+   "contact_px": 315,
+   "merge": false
+  },
+  "coccygeus|levator_ani": {
+   "ratio": 2.39,
+   "contact_px": 579,
+   "merge": false
+  },
+  "levator_ani|obturator_internus": {
+   "ratio": 2.05,
+   "contact_px": 3827,
+   "merge": false
+  },
+  "bulbospongiosus|perineal_other": {
+   "ratio": 3.9,
+   "contact_px": 156,
+   "merge": false
+  },
+  "deep_transverse_perineal|perineal_other": {
+   "ratio": 4.4,
+   "contact_px": 1010,
+   "merge": false
+  },
+  "bulbospongiosus|superficial_transverse_perineal": {
+   "ratio": 1.58,
+   "contact_px": 119,
+   "merge": false
+  }
+ },
+ "merge_ratio_threshold": 1.25,
+ "levels": {
+  "k_range": [
+   708,
+   752
+  ],
+  "z_ras_range": [
+   -963.0,
+   -919.0
+  ],
+  "legs_ct_slice_range": [
+   708,
+   752
+  ],
+  "pubic_arch_apex": {
+   "k": 737,
+   "legs_ct_slice": 737,
+   "z_ras": -934.0
+  },
+  "ischial_spine": {
+   "k": 752,
+   "legs_ct_slice": 752,
+   "z_ras": -919.0
+  },
+  "bladder_neck": {
+   "legs_ct_slice": 748,
+   "z_ras": -923.0
+  },
+  "anal_canal_bottom": {
+   "legs_ct_slice": 728,
+   "z_ras": -943.0
+  },
+  "ischial_tuberosity_bottom": {
+   "legs_ct_slice": 708,
+   "z_ras": -963.0
+  },
+  "prostate_apex": {
+   "legs_ct_slice": 738,
+   "z_ras": -933.0,
+   "delta_from_pubic_arch_apex_mm": 1
+  },
+  "pelvic_band_k": [
+   738,
+   752
+  ],
+  "anal_perineal_band_k": [
+   706,
+   737
+  ]
+ },
+ "rules": {
+  "muscle_brightness_cap": 160,
+  "marker_erode_px": 3,
+  "obturator_internus_band_mm": 18,
+  "obturator_internus_min_dx_mm": 24,
+  "levator_above_ischial_spine_mm": 0,
+  "levator_above_bladder_neck_mm": 14,
+  "levator_reach_from_viscera_mm": 45,
+  "posterior_pad_mm": 14,
+  "coccygeus": {
+   "posterior_of_anal_centre_mm": 8,
+   "min_dx_mm": 10,
+   "from_level": "the ischial spine"
+  },
+  "external_anal_sphincter": {
+   "ring_depth_mm": 10,
+   "max_dx_mm": 32
+  },
+  "perineal": {
+   "hull": "hip label + a 22 mm disc at the anal canal, eroded 3 mm",
+   "max_dx_mm": 46,
+   "ischiocavernosus": {
+    "on_ramus_mm": 10,
+    "min_dx_mm": 14
+   },
+   "bulbospongiosus": {
+    "dx_mm": [
+     0,
+     24
+    ],
+    "anterior_of_anal_centre_mm": 18,
+    "note": "BS_MIN_DX=0 (no vaginal-opening exclusion; runs to the midline raphe)"
+   },
+   "deep_transverse_perineal": {
+    "below_arch_mm": 10,
+    "max_dx_mm": 32,
+    "dy_mm": [
+     -40,
+     -8
+    ]
+   },
+   "superficial_transverse_perineal": {
+    "above_tuberosity_mm": 10,
+    "dy_mm": [
+     -28,
+     -12
+    ],
+    "min_dx_mm": 8
+   }
+  }
+ },
+ "thicknesses_assumed_mm": {
+  "levator_ani": "5 (Gray's 42nd ed.: the levator ani is a 3-5 mm sheet). The rule band is not clipped to it -- the watershed takes the edge from the septa.",
+  "external_anal_sphincter": "10 (Gray's: the sphincter rings the anal canal 8-15 mm deep)",
+  "ischiocavernosus": "10 (the muscle covering the crus on the ischiopubic ramus)",
+  "obturator_internus_band": "18 (the band on the inner surface of the ischium; a sink)"
+ },
+ "literature": {
+  "levator_ani_thickness_male": {
+   "pmid": "26049974",
+   "doi": "10.1007/s11255-015-1019-8",
+   "value": "Tienza et al. 2015, Int Urol Nephrol, PMID 26049974, doi 10.1007/s11255-015-1019-8: mean levator ani muscle thickness 0.51 cm (obturator internus 1.46 cm) on preoperative MRI, 550 men before radical prostatectomy"
+  },
+  "levator_ani_volume_male": "not verified: no confirmed male levator-ani VOLUME figure was found (PubMed searched this session for 'levator ani muscle volume men MRI' and related queries) -- only the Tienza 2015 thickness figure above; no MAX_RATIO volume cap is applied for this reason (see plausibility()).",
+  "external_anal_sphincter_volume": "not verified (same as the female script: no absolute-volume figure was confirmed)",
+  "coccygeus_volume": "not verified",
+  "bulbospongiosus_ischiocavernosus_volume_male": "not verified: PubMed searched this session for 'bulbospongiosus ischiocavernosus muscle volume MRI men' -- no result",
+  "comparison": "no male volume figure is confirmed for any structure here, so no MAX_RATIO cap fires in plausibility(); MIN_LEVELS / MIN_CM3 fragment checks still apply"
+ },
+ "montage": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.png",
+ "output": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz",
+ "labels_file": "/home/user/NMSK_Atlas/mappings/vhm_pelvic_floor_labels.json",
+ "mapping_file": "/home/user/NMSK_Atlas/mappings/subjects/ct_vhm_pfloor_volume_mapping.json",
+ "limits": [
+  "boundaries are position rules + watershed on 1 mm photographs, not traced fascia",
+  "no rms z-registration residual figure exists for this frame the way the female frame.json states one (8.9 mm); this frame's chain (legs CT -> legs cryo frame -> legs-to-torso registration) was checked empirically at 4 pelvis levels this session, not independently quantified",
+  "his coccyx is not labelled either, so the coccygeus is anchored on the ischial spine and a 14 mm posterior pad of the bony hull, same limitation as the female script",
+  "the perineal membrane is not visible at 1 mm: the deep and superficial pouches are separated only by the level of the pubic arch's apex",
+  "the corpus spongiosum bulb of the penis is erectile tissue that photographs as dark as striated muscle; it is held in the perineal_other sink together with the crura of the corpus cavernosum where not claimed by ischiocavernosus, and is not shipped",
+  "the levator ani's parts are not separated; the external urethral sphincter has no male equivalent attempted either (see not_shipped)",
+  "the shipped bulbospongiosus and ischiocavernosus each include the erectile body they cover (the corpus spongiosum bulb, the crus of the penis): no septum separates muscle from erectile tissue at 1 mm",
+  "the pelvic + perineal band together spans only k=708..752 in the legs block's own grid (45 mm): a real limitation of how much of the perineum this registration chain resolves, not present in the female script's much longer single-block frame",
+  "the volume is on the 1 mm RAS-like frame grid used by this script (his legs-block cryo frame resampled onto legs_total.nii.gz's own grid), the grid the masks are computed on"
+ ]
+}
