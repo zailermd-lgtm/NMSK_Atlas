@@ -197,12 +197,12 @@ def cmd_merge(args: argparse.Namespace) -> int:
             distance_threshold=3.0,
         )
 
-        print(f"  Lumbar...")
+        print(f"  Lumbar (OPTIMIZED with 5mm threshold for larger disc bridging)...")
         verts, faces = merge_close_vertices(
             verts, faces,
             lumbar_verts, lumbar_discs,
             manifest,
-            distance_threshold=3.0,
+            distance_threshold=5.0,  # 5mm threshold for lumbar (larger discs need more aggressive merging)
         )
 
         # Write merged mesh
