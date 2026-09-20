@@ -1530,6 +1530,18 @@ tick the item here with a one-line result. Never fabricate; keep the
       STATUS: Rib cage structural connectivity phase achieves practical improvement but not full target.
       Remains shipped with current geometry (Q105 output). Further ≥0.99 pursuit deferred.
 
+- [x] Q62 Step 1c FOLLOW-UP (2026-09-20 14:20-14:35 UTC, autonomous wake): Rebuild attempt for female left 
+      forearm 15/20 muscles. BLOCKER: Bundle rebuild requires label mapping clarification. vhf_left_forearm_muscles 
+      volume contains 16 labels (pronator_teres through extensor_indicis) but the finalized mapping specifies labels 
+      1-20 with atlas_ids set to curated for 15 muscles and null for 5 not_captured. Targeted rebuild showed existing 
+      volume extraction (5 structures) doesn't pick up new 15-muscle mappings. Attempted full RECONVERT=1 rebuild 
+      started but was cancelled after 2+ minutes of re-processing all female subjects. Root cause: label number mapping 
+      between volume labels (16 total) and mapping specification (20 entries, labels 1-20) needs reconciliation. The 
+      5 original structures (extensor_digitorum_l et al.) remain in bundle; 15 new muscles blocked. No structures 
+      shipped; bundle unchanged from Q69 state (379 structures, Version 33). See mapping files 
+      (mappings/subjects/ct_vhf_left_forearm_volume_mapping.json committed with new atlas_ids; build/vh copy 
+      temporarily edited for test but reverted). All tests still pass (252). 
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
