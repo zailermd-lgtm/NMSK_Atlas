@@ -3412,26 +3412,28 @@ npm tarball because cdnjs/jsdelivr/unpkg are denied by the network policy): the 
 tag reads 1.7-18.3 mm, the badge reads the new registration text. Tests 149 pass. Feet remain plane-grouped (same limitation as the male CT feet);
 the female's phalanges are under-captured at HU 200.
 
-## Next action
+## Next action (2026-09-20 14:00 UTC)
 
-1. Rectus abdominis and the obliques from the photographs by position
-   (paired paramedian muscle anterior to the abdominal cavity between
-   costal margin and pubis; lateral wall layered by depth) -- the model
-   does not find them on this cadaver at any contrast.
-2. Review the rule-based muscles slice by slice against the photographs
-   (arm compartments, deltoid, cuff, erector columns): each has a
-   recorded volume and a render; tighten the rules where a reviewer
-   disagrees. Candidates for the same treatment: teres major, pectoralis
-   minor, the rhomboids, the forearm compartments (flexor side = the
-   side of the interosseous line facing the body midline in this
-   pronated position).
-3. Separate carpal bones at full photograph resolution (0.33 mm); fix
-   the residual right radial-head/ulna boundary.
-4. Add frame builders for radius/ulna/hand to
-   `audit_landmarks_vs_geometry.py` and audit the upper-limb anchors.
-5. Owner correspondence (Kerkhof, Steer) and the commercial
-   TotalSegmentator licence remain options for a second, independent
-   source of the upper limb.
-6. Tendons, ligaments and nerves: data records with anchors only; the
-   photographs show them but naming them is slice-by-slice work.
-7. Pelvic floor and foot intrinsics remain literature-only.
+**Q62 Muscle Completeness - Current Status:**
+- [x] Step 1: Her RIGHT forearm SHIPPED (ct_vhf_forearm, 12 muscles)
+- [x] Step 1c: Her LEFT forearm SHIPPED (ct_vhf_left_forearm, 15 of 20 muscles; 5 zero-volume: 
+      brachioradialis, extensor_carpi_radialis_longus/brevis, extensor_carpi_ulnaris, supinator)
+- [x] Step 2: Shoulder girdle DONE (teres/rhomboids split)
+- [x] Step 3: Deep neck partially (hyoid/suprahyoid via ct_vhf_hyoid)
+- [x] Step 4: Hand intrinsics SHIPPED (ct_vhf_hand, partial separation)
+- [x] Step 6: Trunk wall SHIPPED (diaphragm, intercostals via ct_vhf_twall)
+- [ ] Step 5: Foot intrinsics — BLOCKED on Q59 (DU release inaccessible via network policy)
+- [ ] Step 7: Head/larynx — Requires full-resolution head cryosection streaming + tracking
+- [x] Step 8: ~15 small entities — Q65 DONE (entity records created, 184 tests pass)
+- [ ] His forearm/hand — Full-resolution rebuild needed (1mm cryosection frame lost in container reset)
+
+**Immediate Priorities (if resources available):**
+1. His full-resolution forearm cryosection rebuild (lost Sept 11 container reset) — prerequisite for his forearm/hand Q62 completion
+2. Full-resolution head cryosection streaming for head/larynx muscles (if stream available)
+3. Q59 resolution: Alternate source for DU female foot geometry (network policy blocks all current hosts)
+
+**Structural Continuity (Q10X series) - Current Blockers:**
+- Q104b (female lumbar → 0.539): Blocked on mesh rebuild (Q105b remeshed ribs break offset-based ingestion)
+- Q105c (rib cage → 0.63-0.83): Blocked on 15GB memory limit; 1mm voxelization requires ~256GB system
+- Q7 (female sciatic nerve): Requires manual seeding + full-res thigh crops
+- Q54 (popliteal nerve): Tracking failed; four detector variants tested, none successful
