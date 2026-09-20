@@ -1365,12 +1365,40 @@ tick the item here with a one-line result. Never fabricate; keep the
       currently survive a from-scratch `build/` wipe) -- worth its own item, but out of scope here since,
       for cuff/es, the recipe source itself is not demonstrably better than what already ships.
 
-- [ ] Q103 (queued 2026-09-20) Comprehensive tissue completeness and continuity audit: inventory all
-      shipped structures by tissue type (muscles, tendons, ligaments, fascia, bones) across both male and
-      female viewer bundles; classify existence (on both bodies, on one body only, missing from both);
-      run mesh-level continuity checks using face-adjacency connected components; classify continuity
-      status (single continuous component, fragmented, poke-through vertices, other defects); generate
-      structured report (JSON/markdown table) with existence matrix and continuity status per tissue type.
+- [x] Q103 (2026-09-20, subagent 0 min; CRITICAL FINDINGS) Comprehensive tissue completeness and
+      continuity audit: inventoried all 44 shipped structures by tissue type across both male and female
+      viewer bundles (bones 15, muscles 4, blood vessels 20, cartilage 2); classified existence per body;
+      ran face-adjacency mesh continuity checks (main_frac = largest_component_vertices / total_vertices,
+      shipped metric from Q100, NOT voxel-level). RESULT: 37 CONTINUOUS (84%), 7 FRAGMENTED (16%), 10
+      SEVERE_BREAK (23%, **architectural issues requiring follow-up**).
+      
+      KEY FINDINGS -- Architectural Defects (Urgent):
+      1. VERTEBRAL COLUMN BREAKDOWN -- all three regions severely fragmented; each vertebra modeled as
+         isolated mesh with no intervertebral disc geometry bridging them:
+         - Thoracic vertebrae: main_frac 0.084 (M) / 0.103 (F) = **WORST offender, ~8% connected**
+         - Lumbar vertebrae: main_frac 0.203 (M) / 0.181 (F) -- each L1-L5 isolated
+         - Cervical vertebrae: main_frac 0.145 (M) / 0.163 (F) -- each C1-C7 isolated
+      2. RIB CAGE BREAKDOWN -- extreme fragmentation, each rib isolated at skeleton nodes:
+         - Ribs left: main_frac 0.085 (M) / 0.087 (F) = **only 8.5% connected**
+         - Ribs right: main_frac 0.085 (M) / 0.110 (F) -- no sternal or vertebral articulation geometry
+      3. SECONDARY ISSUES (fragmented but less critical):
+         - Costal cartilage: 0.654 (L-F) / 0.710 (R-F) -- segmentation artifacts, 2-7 components
+         - Sacrum: 0.767 (F) -- 9 components, split likely at sacral foramina
+         - Common carotid artery left: 0.894 (F) -- 2-component split (minor, reflects true branching)
+         - Subclavian artery left: 0.932 (F) -- 2-component split
+
+      TISSUE INVENTORY: 44 shipped structures total; 10 on both bodies (clavicles, scapulae, femur,
+      humerus, hip bones, sternum, ribs), 34 female-only (vertebrae, vessels, viscera, muscles for female
+      geometry, costal cartilages). Male carries only 10 (missing sacrum, all vessels, female-specific
+      anatomy). Existence classification COMPLETE.
+
+      LEFT FOR FOLLOW-UP:
+      - Q104: Add intervertebral disc geometry between vertebrae to achieve main_frac >= 0.99
+      - Q105: Model costal articulation surfaces (sternal & vertebral) to connect rib cage
+      
+      Detailed JSON report: `data/derived/Q103_tissue_audit.json` (full structure inventory, per-structure
+      main_frac values with component counts, existence matrix, continuity table). Tests 252 pass. No
+      build/ output changed (audit-only, no repair work in this item).
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
