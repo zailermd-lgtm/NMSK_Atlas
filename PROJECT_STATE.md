@@ -1443,6 +1443,25 @@ tick the item here with a one-line result. Never fabricate; keep the
       between disc-vertebra contact surfaces). Shipped as-is: male all regions 0.977+ (acceptable),
       female cervical/thoracic at target 0.993-0.994, female lumbar improved 3x (0.181→0.539).
 
+- Q104b (2026-09-20 12:50-13:30 UTC, investigation & tool development) Female lumbar disc optimization
+      attempt. FINDINGS: Lumbar region has 8 separate topological components (vs 2-3 for cervical/thoracic),
+      making simple disc bridging insufficient. Discs were positioned at wrong XY coordinates (bounding-box
+      center instead of actual vertebra center, ~154mm shift identified). Created optimization tools:
+      generate_optimized_lumbar_discs.py (50mm radius vs 40mm), fix_lumbar_disc_positioning.py 
+      (XY recentering), replace_lumbar_discs_direct.py, weld_lumbar_vertices_direct.py (5mm threshold).
+      
+      TECHNICAL BARRIERS: Mesh structure contains remeshed ribs from Q105b (cross-structural face 
+      references), causing offset-based ingestion scripts to fail. Export/decimation pipeline broken.
+      Requires complete rebuild from source label volumes to guarantee mesh consistency.
+      
+      RECOMMENDED PATH FORWARD (3 options):
+      1. Source-level rebuild with corrected disc positioning + welding during ingestion (best reliability)
+      2. Multi-disc per level geometry (fan-like) to reach fragmented pieces
+      3. Voxelization-based bridging (like Q105, guaranteed connectivity but memory-intensive)
+      
+      STATUS: Investigation complete, tools committed, blocked on mesh rebuild/redesign. Remain at 
+      0.539 baseline. Does not affect shipped state (cervical/thoracic meet targets).
+
 - [x] Q105 & Q105b (2026-09-20 11:45-12:45 UTC, completed with voxelization) Generate rib articulation 
       surfaces via voxelization + mesh reconstruction. RESULT: 7-8x improvement in continuity but ≥0.99
       target not reached due to memory constraints with larger dilation radii.
