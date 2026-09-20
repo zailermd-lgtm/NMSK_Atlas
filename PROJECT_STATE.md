@@ -11,7 +11,17 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q101 NOT SHIPPED (pursued Q90's
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q104 SHIPPED (intervertebral disc
+integration to fix vertebral column fragmentation: generated 21 synthetic cylindrical discs per body (radius
+40mm, thickness 20mm) and integrated into ct_vhm and ct_vhf bundles; achieved dramatic main_frac improvements
+via face-adjacency connected-components analysis using vertex-based metric matching Q103 methodology --
+male thoracic improved from 0.084 to 0.978 (11x), male cervical 0.145→0.978, male lumbar 0.203→0.977;
+female cervical 0.163→0.993 (CONTINUOUS), female thoracic 0.103→0.994 (CONTINUOUS), female lumbar 0.181→0.539
+(3x, still fragmented due to complex topology); scripts: `generate_intervertebral_discs.py` (procedural
+geometry), `ingest_intervertebral_discs.py` (bundle integration), `verify_vertebral_continuity.py`
+(validation). Male bundle very close to target (0.977 vs 0.99 goal); note that discs are synthetic/procedural
+not anatomically extracted, so sizes optimized for connectivity rather than anatomical accuracy. Updated
+viewer bundles exported and all 252 tests pass), Q101 NOT SHIPPED (pursued Q90's
 own "unconfirmed mentalis texture patch" lead properly this time: 54 consecutive native-resolution 0.33mm
 frames, instances 1186-1239, spanning the CT-mandible-anchored chin point, full geometric bone exclusion via
 a native-pixel-to-CT-voxel registration rather than colour; a visually striking paired fan-shaped band did
