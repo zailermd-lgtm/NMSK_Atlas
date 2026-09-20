@@ -1487,11 +1487,29 @@ tick the item here with a one-line result. Never fabricate; keep the
       - Manifest entries updated for all ribs structures
       - All tests (252) passing; bundles render correctly
       
-      LEFT FOR FOLLOW-UP:
-      - **Q105c** (optional): Re-voxelize at 1mm resolution (doubled memory use) to bridge smaller gaps
-        and achieve main_frac ≥0.95+. Or investigate alternative topologies (e.g., rib bridging geometry
-        instead of voxelization). Current 0.63-0.83 main_frac represents practical trade-off between
-        connectivity improvement and computational feasibility.
+- [ ] Q105c (2026-09-20 12:30-13:30 UTC, attempted, blocked by memory constraints) Refine rib voxelization for
+      ≥0.99 main_frac via finer resolution. BLOCKER: trimesh.voxelized() exhausts all 15GB RAM even on decimated
+      meshes, regardless of voxel resolution (2mm, 1.5mm, 1mm all hit OOM). Attempts:
+      - Tried 1mm + 16 dilation iterations → OOM kill after 2min
+      - Tried 1.5mm + 12 dilation iterations → OOM kill  
+      - Tried 2mm with 20 dilation iterations → OOM kill
+      - Tried decimation (193k→74k verts) then 2mm voxelization → still OOM
+      Root cause: trimesh.voxelized() on rib geometry (200k+ verts, 400k+ faces, ~400mm span) triggers memory
+      exhaustion during internal voxelization algorithm. No viable path forward with current tools/environment.
+      
+      DELIVERABLES: None (analysis only; current 0.63-0.83 main_frac from Q105 stands as best achievable
+      with available resources). Scripts attempted: voxelize_ribs_simple.py, voxelize_ribs_fast.py,
+      post_process_ribs.py, generate_rib_hub_large.py all hit same memory walls.
+      
+      RECOMMENDATIONS FOR FUTURE:
+      - Voxelization approach (Q105 strategy) plateaus at ~0.7 main_frac with 2mm + moderate dilation
+      - To reach ≥0.99: either (a) use external high-memory system (256GB+) for 1mm voxelization,
+        or (b) pivot to geometric bridge generation (non-voxel) that manually connects rib fragments
+      - Current 0.63-0.83 main_frac (35-58 components → mostly one big component) is 7-8x improvement
+        from pre-voxel 0.08-0.23, marking substantive progress but short of target
+      
+      STATUS: Rib cage structural connectivity phase achieves practical improvement but not full target.
+      Remains shipped with current geometry (Q105 output). Further ≥0.99 pursuit deferred.
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
