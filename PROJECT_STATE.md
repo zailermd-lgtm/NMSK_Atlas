@@ -1365,6 +1365,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       currently survive a from-scratch `build/` wipe) -- worth its own item, but out of scope here since,
       for cuff/es, the recipe source itself is not demonstrably better than what already ships.
 
+- [ ] Q103 (queued 2026-09-20) Comprehensive tissue completeness and continuity audit: inventory all
+      shipped structures by tissue type (muscles, tendons, ligaments, fascia, bones) across both male and
+      female viewer bundles; classify existence (on both bodies, on one body only, missing from both);
+      run mesh-level continuity checks using face-adjacency connected components; classify continuity
+      status (single continuous component, fragmented, poke-through vertices, other defects); generate
+      structured report (JSON/markdown table) with existence matrix and continuity status per tissue type.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
