@@ -111,6 +111,7 @@ def voxelize_structure(
     subject: str,
     atlas_id: str,
     voxel_size: float = 2.0,
+    dilation_iterations: int = 8,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Voxelize a rib structure and reconstruct mesh.
 
@@ -118,6 +119,7 @@ def voxelize_structure(
         subject: 'ct_vhm' or 'ct_vhf'
         atlas_id: 'ribs_l' or 'ribs_r'
         voxel_size: resolution in mm (default 2.0)
+        dilation_iterations: morphological dilation iterations (default 8)
 
     Returns:
         - vertices: reconstructed mesh vertices
@@ -178,12 +180,11 @@ def voxelize_structure(
 
     # Apply morphological operations to fill gaps and connect components
     # Use dilation with small radius followed by closing to fill small holes
-    print(f"  Applying morphological operations...")
+    print(f"  Applying morphological operations (dilation iterations={dilation_iterations})...")
     struct = ndimage.generate_binary_structure(3, 26)  # 26-connectivity
 
     # Dilate to bridge nearby components
-    # Use 8 iterations to create ~16mm bridges between rib components
-    dilated = ndimage.binary_dilation(voxel_grid.matrix, structure=struct, iterations=8)
+    dilated = ndimage.binary_dilation(voxel_grid.matrix, structure=struct, iterations=dilation_iterations)
 
     # Reconstruct mesh using marching cubes
     print("  Running marching cubes...")
@@ -207,6 +208,7 @@ def voxelize_structure(
 def cmd_voxelize(args: argparse.Namespace) -> int:
     """Voxelize rib structures for both subjects."""
     voxel_size = getattr(args, 'voxel_size', 2.0)
+    dilation_iterations = getattr(args, 'dilation_iterations', 3)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -216,7 +218,7 @@ def cmd_voxelize(args: argparse.Namespace) -> int:
         results[subject] = {}
         for atlas_id in ["ribs_l", "ribs_r"]:
             try:
-                vertices, faces = voxelize_structure(subject, atlas_id, voxel_size)
+                vertices, faces = voxelize_structure(subject, atlas_id, voxel_size, dilation_iterations)
 
                 # Export as OBJ
                 output_file = OUTPUT_DIR / f"{subject}_{atlas_id}_remeshed.obj"
@@ -275,6 +277,12 @@ def main():
         type=float,
         default=2.0,
         help="Voxel size in mm (default 2.0)",
+    )
+    parser.add_argument(
+        "--dilation-iterations",
+        type=int,
+        default=3,
+        help="Morphological dilation iterations (default 3, each ~2mm bridge)",
     )
 
     args = parser.parse_args()
