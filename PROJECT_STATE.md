@@ -1443,6 +1443,48 @@ tick the item here with a one-line result. Never fabricate; keep the
       between disc-vertebra contact surfaces). Shipped as-is: male all regions 0.977+ (acceptable),
       female cervical/thoracic at target 0.993-0.994, female lumbar improved 3x (0.181→0.539).
 
+- [ ] Q105 (2026-09-20 11:45+ UTC, in progress) Generate rib articulation surfaces (sternal + costovertebral)
+      to bridge 24 isolated rib meshes per body to sternum and thoracic vertebrae.
+      
+      APPROACH:
+      - Generated synthetic hub-based articulation geometry:
+        * Central icosphere hub (~97mm radius) positioned at rib cage center for star-topology connectivity
+        * Sternal hubs per side (cylinders, ~80mm radius) spanning full rib Y-range at sternum location
+        * Costovertebral hubs per side (cylinders, ~70mm radius) at thoracic vertebral center
+      - Merged articulation geometry into ribs_l and ribs_r structures alongside original rib meshes
+      - Bundle sizes increased: ct_vhm 157.7k → 233.6k vertices; ct_vhf 2.11M → 2.36M vertices
+      
+      CONTINUITY ANALYSIS RESULTS:
+      Currently measured main_frac (before mesh union operations):
+      - ct_vhm ribs_l: 0.0817 (FRAGMENTED — target 0.99)
+      - ct_vhm ribs_r: 0.0816 (FRAGMENTED)
+      - ct_vhf ribs_l: 0.1078 (FRAGMENTED)
+      - ct_vhf ribs_r: 0.2320 (FRAGMENTED)
+      
+      TECHNICAL CHALLENGE IDENTIFIED:
+      Synthetic hubs overlap with ribs spatially but do NOT create face-adjacency connectivity because:
+      - Ribs and hubs are separate geometric entities with non-shared vertices
+      - Face-adjacency connectivity requires shared edge topology (two faces sharing 2 vertices)
+      - Spatial overlap alone is insufficient for topological connectivity
+      
+      SOLUTIONS ATTEMPTED & BLOCKED:
+      1. Large hub geometry (size 70-100mm) → helps spatial coverage but no vertex sharing
+      2. Vertex merging at proximity threshold (50mm) → found 0 vertices close enough to merge
+         (hubs positioned too far from rib geometry to create connections)
+      
+      LEFT FOR FOLLOW-UP / NEXT STEPS:
+      1. **Mesh Union (primary recommendation)**: Use boolean geometry/mesh union operations
+         (e.g., Manifold library, OpenVDB) to create actual vertex/edge sharing at hub-rib intersections
+      2. **Explicit Bridging Geometry**: Generate small cylindrical connectors linking each rib endpoint
+         to the central hub, ensuring shared vertices
+      3. **Voxelization Approach**: Convert ribs + hubs to voxel grid, then reconstruct mesh for
+         guaranteed connectivity
+      4. **Vertex Welding**: Identify rib surface vertices inside hub volumes and merge them
+      
+      Current state: Geometric foundations (hub OBJ files + merge scripts) committed; bundles contain
+      hubs merged into ribs structures. Main_frac remains ~0.08 until mesh union operations are applied.
+      This task requires mesh-level topology fixes beyond current script capabilities.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
