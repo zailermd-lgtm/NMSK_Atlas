@@ -1400,6 +1400,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       main_frac values with component counts, existence matrix, continuity table). Tests 252 pass. No
       build/ output changed (audit-only, no repair work in this item).
 
+- [ ] Q104 (queued 2026-09-20 10:30 UTC) Add intervertebral disc geometry to vertebral column: model
+      cylindrical discs between each vertebra pair (12 thoracic T1-T12, 5 lumbar L1-L5, 7 cervical C1-C7),
+      integrate into male and female bundles, re-run face-adjacency continuity checks targeting main_frac
+      ≥0.99 for all three regions (currently 0.084/0.103 thoracic, 0.203/0.181 lumbar, 0.145/0.163 cervical).
+      Verify by render (no poke-throughs, discs visible between vertebra bodies). Target: all vertebral
+      regions shift from SEVERE_BREAK to CONTINUOUS.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
