@@ -1443,49 +1443,50 @@ tick the item here with a one-line result. Never fabricate; keep the
       between disc-vertebra contact surfaces). Shipped as-is: male all regions 0.977+ (acceptable),
       female cervical/thoracic at target 0.993-0.994, female lumbar improved 3x (0.181→0.539).
 
-- [ ] Q105 (2026-09-20 11:45+ UTC, in progress) Generate rib articulation surfaces (sternal + costovertebral)
-      to bridge 24 isolated rib meshes per body to sternum and thoracic vertebrae.
+- [x] Q105 (2026-09-20 11:45-12:30 UTC, completed with remeshing) Generate rib articulation surfaces via
+      voxelization approach: converted rib + hub geometry to 2mm voxel grid, reconstructed mesh via marching
+      cubes. RESULT: MAJOR IMPROVEMENT but not yet ≥0.99 target.
       
-      APPROACH:
-      - Generated synthetic hub-based articulation geometry:
-        * Central icosphere hub (~97mm radius) positioned at rib cage center for star-topology connectivity
-        * Sternal hubs per side (cylinders, ~80mm radius) spanning full rib Y-range at sternum location
-        * Costovertebral hubs per side (cylinders, ~70mm radius) at thoracic vertebral center
-      - Merged articulation geometry into ribs_l and ribs_r structures alongside original rib meshes
-      - Bundle sizes increased: ct_vhm 157.7k → 233.6k vertices; ct_vhf 2.11M → 2.36M vertices
+      PHASE 1 - HUB GEOMETRY (failed):
+      - Generated synthetic hub-based articulation (icosphere + cylinders)
+      - Merged into ribs_l/r: ct_vhm 157.7k → 233.6k verts; ct_vhf 2.11M → 2.36M verts
+      - Main_frac remained ~0.08 (spatial overlap ≠ topological connectivity)
       
-      CONTINUITY ANALYSIS RESULTS:
-      Currently measured main_frac (before mesh union operations):
-      - ct_vhm ribs_l: 0.0817 (FRAGMENTED — target 0.99)
-      - ct_vhm ribs_r: 0.0816 (FRAGMENTED)
-      - ct_vhf ribs_l: 0.1078 (FRAGMENTED)
-      - ct_vhf ribs_r: 0.2320 (FRAGMENTED)
+      PHASE 2 - VOXELIZATION (succeeded, partial):
+      - Converted ribs + hubs to 2mm voxel grid → 193.6k verts, 385k faces per side
+      - Reconstructed via marching cubes (guaranteed mesh union)
+      - **Continuity after voxelization (2mm):**
+        * ct_vhm ribs_l: 0.680 (was 0.082, 8x improvement) — still FRAGMENTED, 58 components
+        * ct_vhm ribs_r: 0.633 (was 0.082, 7x improvement) — 48 components
+        * ct_vhf ribs_l: 0.825 (was 0.108, 7.5x improvement) — 40 components
+        * ct_vhf ribs_r: 0.749 (was 0.232, 3x improvement) — 35 components
+      - Remeshed OBJ files generated: ct_vhm/vhf_ribs_l/r_remeshed.obj (4 files, 2.1 MB total)
       
-      TECHNICAL CHALLENGE IDENTIFIED:
-      Synthetic hubs overlap with ribs spatially but do NOT create face-adjacency connectivity because:
-      - Ribs and hubs are separate geometric entities with non-shared vertices
-      - Face-adjacency connectivity requires shared edge topology (two faces sharing 2 vertices)
-      - Spatial overlap alone is insufficient for topological connectivity
+      ANALYSIS:
+      Voxelization approach is fundamentally sound—it creates actual face-adjacency where spatial overlap
+      did not. However, 2mm resolution leaves ~35-58 disconnected components per rib side, suggesting:
+      (a) Voxel size too coarse to bridge all inter-rib gaps, or
+      (b) Hub geometry positioned at insufficient scale/proximity to ribs for voxel union
+      Vertex welding attempted (2-5mm) but decreased main_frac—components are topologically separate, not
+      spatially isolated.
       
-      SOLUTIONS ATTEMPTED & BLOCKED:
-      1. Large hub geometry (size 70-100mm) → helps spatial coverage but no vertex sharing
-      2. Vertex merging at proximity threshold (50mm) → found 0 vertices close enough to merge
-         (hubs positioned too far from rib geometry to create connections)
+      DELIVERABLES:
+      - 4 remeshed OBJ files (untracked, ready for integration): remeshed_ribs_{l,r}
+      - 8 scripts created (voxelize_ribs_with_hubs.py, ingest_remeshed_ribs.py, etc.)
+      - All Q105 hub generation and integration code committed
       
-      LEFT FOR FOLLOW-UP / NEXT STEPS:
-      1. **Mesh Union (primary recommendation)**: Use boolean geometry/mesh union operations
-         (e.g., Manifold library, OpenVDB) to create actual vertex/edge sharing at hub-rib intersections
-      2. **Explicit Bridging Geometry**: Generate small cylindrical connectors linking each rib endpoint
-         to the central hub, ensuring shared vertices
-      3. **Voxelization Approach**: Convert ribs + hubs to voxel grid, then reconstruct mesh for
-         guaranteed connectivity
-      4. **Vertex Welding**: Identify rib surface vertices inside hub volumes and merge them
-      
-      Current state: Geometric foundations (hub OBJ files + merge scripts) committed; bundles contain
-      hubs merged into ribs structures. Main_frac remains ~0.08 until mesh union operations are applied.
-      This task requires mesh-level topology fixes beyond current script capabilities.
+      LEFT FOR FOLLOW-UP:
+      - **Q105c**: Re-voxelize with 1mm resolution (finer connectivity bridging) or scale/position hubs
+        closer to rib geometry for better voxel union. Expected: main_frac 0.85→0.99+.
+      - Current remeshed meshes (0.63-0.82 main_frac) represent 7-8x improvement over baseline (0.08) but
+        require further refinement to meet 0.99 target. Geometry valid; needs topology optimization.
 
-- [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy, they
+- [ ] Q105c (queued 2026-09-20 12:30 UTC) Refine rib voxelization for ≥0.99 main_frac: re-voxelize at 1mm
+      resolution (vs current 2mm) to better bridge inter-rib component gaps. Alternative: increase hub
+      geometry scale or reposition closer to rib endpoints for tighter voxel union. Target: ribs_l/r
+      main_frac 0.63-0.82 → ≥0.99. Then integrate remeshed meshes into bundles, verify render, commit.
+
+- [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
       distal shin/ankle -- caught by raycasting the rendered mesh at the exact screen pixel showing red
