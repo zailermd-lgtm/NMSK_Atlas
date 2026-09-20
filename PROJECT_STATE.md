@@ -3275,7 +3275,13 @@ tick the item here with a one-line result. Never fabricate; keep the
       Step 6 (trunk) SHIPPED via `ct_vhf_twall` (diaphragm, intercostals).
       His forearm muscle separation SHIPPED as `ct_vhm_forearm` (3 muscles by name: FDS, FDP, APL; eight regions >2x expectation remain unshipped).
       Viewers: female Version 32 (351 structures, 14.89 MB), male Version 39 (350 structures, 15.41 MB).
-      Remaining gaps: her left forearm muscles need marker-watershed refinement; his forearm/hand need full-resolution frame rebuild (his 1 mm cryosection frame lost with container reset); foot intrinsics (Q59 blocked).
+      2026-09-20 15:xx UPDATE: Her left forearm muscles WATERSHED COMPLETE (2026-09-18: vhf_left_forearm_muscles_from_cryo.py, 
+      marker-watershed on fascial lines): 15 of 20 muscles captured (332.4 cm3 total; 5 muscles 0 volume: brachioradialis, 
+      extensor_carpi_radialis_longus/brevis, extensor_carpi_ulnaris, supinator - not separable at crop level). Volume mapping 
+      created (mappings/subjects/ct_vhf_left_forearm_volume_mapping.json). Subject ct_vhf_left_forearm converted to mesh 
+      (build/vh/ct_vhf_left_forearm/). BLOCKER: export_viewer_bundle.py fails on ALL subjects with decimation IndexError 
+      (invalid face indices in manifests). Bundle integration blocked until manifest/geometry issue resolved.
+      Remaining gaps: his forearm/hand need full-resolution frame rebuild (his 1 mm cryosection frame lost with container reset); foot intrinsics (Q59 blocked).
 - [x] Q66 (2026-09-14, 11:00) REGRESSION found by the refreshed scale audit and fixed: since the male chain was
       rerun this morning (vhm_both deleted for the tarsal renaming), `bundle_to_subjects.py` had re-created
       `ct_vhm_armm` from the recovered bundle (v1 compartments: biceps 475, triceps 675/762 cm3 as meshes) and the
