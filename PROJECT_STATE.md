@@ -21,7 +21,11 @@ female cervical 0.163→0.993 (CONTINUOUS), female thoracic 0.103→0.994 (CONTI
 geometry), `ingest_intervertebral_discs.py` (bundle integration), `verify_vertebral_continuity.py`
 (validation). Male bundle very close to target (0.977 vs 0.99 goal); note that discs are synthetic/procedural
 not anatomically extracted, so sizes optimized for connectivity rather than anatomical accuracy. Updated
-viewer bundles exported and all 252 tests pass), Q101 NOT SHIPPED (pursued Q90's
+viewer bundles exported and all 252 tests pass -- CORRECTION (Q107, 2026-09-21): these main_frac numbers were
+computed with a bug present in `ingest_intervertebral_discs.py` (missing `vertex_offset` on new disc faces)
+that has since been fixed; honestly re-measured on the corrected `ct_vhm` geometry the male numbers are
+cervical 0.877, thoracic 0.801, lumbar 0.901, not 0.978/0.978/0.977 -- see Q107's entry and the Structural
+Continuity blockers section for the full trace), Q101 NOT SHIPPED (pursued Q90's
 own "unconfirmed mentalis texture patch" lead properly this time: 54 consecutive native-resolution 0.33mm
 frames, instances 1186-1239, spanning the CT-mandible-anchored chin point, full geometric bone exclusion via
 a native-pixel-to-CT-voxel registration rather than colour; a visually striking paired fan-shaped band did
@@ -1595,6 +1599,82 @@ tick the item here with a one-line result. Never fabricate; keep the
       registration-quality gradient along this segment (good distally, bad proximally) is a real property of
       the Sept 14 run worth checking before trusting ANY proximal-forearm structure from this volume, not just
       the three tried here.
+
+- [x] Q107 (2026-09-21) Fixed the `build/vh/ct_vhm` manifest/offset corruption Q106 found (see the blocker note
+      it left below). ROOT CAUSE CONFIRMED (two distinct bugs, both introduced in the Q104/Q105 session,
+      neither previously caught because the exported bundle never actually got rendered/inspected after):
+      1. `ingest_intervertebral_discs.py` appended each new disc's face indices straight from its OBJ file
+         (0-based, LOCAL to that OBJ) into the shared global face array WITHOUT adding that disc's own
+         `vertex_offset` first. Every one of the 21 discs per body therefore referenced whatever real vertex
+         indices 0-65 happened to belong to (in `ct_vhm`, `lumbar_vertebrae`'s own first 66 vertices) instead of
+         its own geometry -- silently, no crash, because those indices are always in-bounds for *some*
+         structure.
+      2. `ingest_remeshed_ribs.py` had the identical missing-offset bug for the two remeshed rib replacement
+         meshes, AND assumed `ribs_l`/`ribs_r` are always single manifest pieces -- when they are the (12+12)
+         individual-rib pieces from a from-scratch rebuild, it spliced in the FULL remeshed mesh once per piece
+         (24x duplication, confirmed by reproduction: ballooned `ct_vhm` to 5.36M vertices).
+      Reproduced both directly: rebuilt a clean `ct_vhm` from `data/derived/viewer_bundles/vhm_v25` via
+      `bundle_to_subjects.py` (verified 0 offset/face inconsistencies), then ran the *unmodified* ingestion
+      scripts on it and watched each bug reproduce exactly (disc faces landing outside their own vertex range;
+      12x-duplicated rib splice). This also explains why the committed manifest looked self-consistent on
+      offsets alone (sequential, no gaps) while face content was garbage: later re-offset passes recompute
+      clean-looking sequential offsets from already-corrupted face data without validating it.
+      FIX (approach b: patched the two ingestion scripts in place, did not touch geometry-generation):
+      - `ingest_intervertebral_discs.py`: `all_faces.append(faces + vertex_offset)` (was `faces`).
+      - `ingest_remeshed_ribs.py`: skip repeat pieces sharing the `ribs_l`/`ribs_r` atlas_id (splice the
+        remeshed mesh exactly once per side) and `new_faces.append(remeshed_faces + vert_offset)` (was
+        `remeshed_faces`).
+      REBUILT `ct_vhm` end-to-end with the fixed scripts (`bundle_to_subjects.py` -> fixed
+      `ingest_intervertebral_discs.py` -> fixed `ingest_remeshed_ribs.py`): 52 structures, 526,317 vertices,
+      1,048,420 faces, **0** structures with out-of-range face indices (was 50/52). `scripts/export_viewer_bundle.py`
+      and `scripts/build_viewer_html.py` now complete without error on the male subject list from
+      `vhm_rebuild_bundle.sh` (14.2M -> 1.13M triangles after decimation, 14.26 MB HTML) -- this was the
+      `IndexError` in `decimate_to`/`cluster` Q106 hit. `python -m pytest -q`: 252 passed (unchanged).
+      RE-MEASURED CONTINUITY (re-ran the actual Q104/Q105 audit scripts, `verify_vertebral_continuity.py
+      analyze` and `scripts/verify_rib_continuity.py verify`, on the fixed bundle):
+      - Ribs: `ct_vhm` ribs_l 0.6804, ribs_r 0.6326 -- **matches Q105's reported numbers exactly**, no
+        regression (the remeshed geometry's own internal consistency never depended on the missing-offset bug;
+        only its position in the shared bundle did).
+      - Vertebrae+discs: `ct_vhm` cervical 0.877 (was reported 0.978), thoracic 0.801 (was 0.978), lumbar 0.901
+        (was 0.977) -- LOWER than Q104's reported numbers. Traced this honestly rather than declaring it a
+        regression from my work: Q104's ORIGINAL 0.978-style numbers were themselves computed with bug #1 above
+        already present (it's been in `ingest_intervertebral_discs.py` since the Q104 commit, 11f3af6,
+        unchanged until this fix) -- i.e. they measured 21 discs all coincidentally sharing 66 bogus indices
+        with `lumbar_vertebrae`'s own vertices, an accidental "connection" with no anatomical meaning, not real
+        disc-to-vertebra bridging. Separately (found but NOT fixed, out of scope for this item):
+        `verify_vertebral_continuity.py`'s `build_face_adjacency_graph` keys `face_ranges` by atlas_id in a
+        plain dict inside a loop over ALL structures, so when 7 `cervical_vertebrae` pieces (or 12 thoracic, or
+        5 lumbar) share one atlas_id, each overwrites the last -- the script has only ever evaluated ONE
+        representative vertebra piece per region against its discs, both before and after this fix (confirmed:
+        `largest_component_vertices` is bit-for-bit identical pre/post fix -- 2924 for cervical -- because it's
+        the same single untouched vertebra piece both times; only `total_vertices` changed, from the discs'
+        vertex data becoming real instead of a 66-vertex mirage). So neither the old nor the new number is a
+        true whole-column continuity measurement; the honest takeaway is the disc-bridging design (procedural
+        cylinders at bounding-box midpoints, not vertex-welded) achieves real but partial per-joint
+        connectivity (0.80-0.90), well short of both the old *reported* 0.98 and the ≥0.99 target, and a real
+        disc/vertebra vertex-welding pass (Q104b's own recommendation #1) is still the right next step -- now
+        actually unblocked, see below.
+      `ct_vhf` (female): NOT the target of this item, but touched incidentally because both ingestion scripts
+      loop over `["ct_vhm", "ct_vhf"]` in one call. `ingest_intervertebral_discs.py` crashed on `ct_vhf` (a
+      `uint32` OverflowError re-deriving a negative offset shift) BEFORE writing anything to disk -- confirmed
+      byte-identical manifest/vertices.f32 before and after, so `ct_vhf`'s disc data is untouched, still exactly
+      as broken as it already was. `ingest_remeshed_ribs.py` DID complete for `ct_vhf` (its ribs were already a
+      single piece per side) and, as a side effect of the same offset fix, corrected `ct_vhf`'s own ribs_l/r
+      face data too (verified: `ct_vhf` ribs_l 0.8250, ribs_r 0.7488 -- matches Q105's reported numbers, and its
+      manifest/vertices.f32 are otherwise byte-identical to before). Re-running the vertebral audit on `ct_vhf`
+      also surfaced, honestly, that it was ALREADY badly broken independent of anything in this item: 84 of its
+      87 structures have face data outside their own vertex range (was 86/87 before my rib-only fix), i.e. most
+      of `ct_vhf`'s non-rib geometry has the same class of corruption from some earlier, separate session --
+      full diagnosis is out of scope here and left for whoever picks up Q104b.
+      SHIPPED: `scripts/ingest_intervertebral_discs.py`, `scripts/ingest_remeshed_ribs.py` (both fixed in git).
+      NOT SHIPPED / NOT REPUBLISHED: the currently published male viewer (Version 51,
+      https://claude.ai/code/artifact/c5d01522-087e-41aa-88d4-5c26db2dea76) predates all of Q104/Q105/this fix
+      (mtime 2026-09-19) and was never affected by any of this -- it shipped before discs or rib remeshing
+      existed in the pipeline at all. This item only repairs the LOCAL `build/vh/ct_vhm` cache so the next
+      session that needs to re-export the male bundle (Q104b, Q105c) can actually run
+      `export_viewer_bundle.py` without the `IndexError`; there is no behavior change to publish since nothing
+      client-visible ever shipped with the corruption. `build/` is gitignored, so the rebuilt binaries
+      themselves are not part of this commit -- only the two script fixes and this note are.
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
@@ -3508,19 +3588,28 @@ the female's phalanges are under-captured at HU 200.
 3. Q59 resolution: Alternate source for DU female foot geometry (network policy blocks all current hosts)
 
 **Structural Continuity (Q10X series) - Current Blockers:**
-- Q104b (female lumbar → 0.539): Blocked on mesh rebuild (Q105b remeshed ribs break offset-based ingestion)
+- RESOLVED for the male by Q107 (2026-09-21): the `build/vh/ct_vhm` manifest/offset corruption below (found by
+  Q106) was two missing-`vertex_offset` bugs in `ingest_intervertebral_discs.py` and `ingest_remeshed_ribs.py`
+  (the latter also double-splicing remeshed ribs when the old individual-rib pieces weren't consolidated).
+  Both fixed; `ct_vhm` rebuilt clean (0 offset-inconsistent structures, was 50/52); `export_viewer_bundle.py`
+  and `build_viewer_html.py` now complete without error. Ribs main_frac re-verified unchanged (0.6804/0.6326,
+  matches Q105 exactly). Vertebrae+discs main_frac honestly re-measured LOWER than Q104's original report
+  (0.877/0.801/0.901 vs the reported 0.978/0.978/0.977) -- traced to the same missing-offset bug having
+  inflated Q104's own original measurement (see the Q107 entry in the Autonomous Queue above for the full
+  trace, including a separate, unfixed dict-key-collision bug found in `verify_vertebral_continuity.py` itself
+  that means neither the old nor the new number is really a whole-column continuity measurement). 252 tests
+  still pass. See the Q107 queue entry for full detail.
+- Q104b (female lumbar → 0.539): STILL BLOCKED, and now confirmed WORSE than known: re-running the Q104 audit
+  on `ct_vhf` during Q107 found 84 of its 87 structures (not just ribs) have face data outside their own vertex
+  range -- a separate, pre-existing corruption in `ct_vhf` unrelated to Q107's male-only fix (Q107 did not
+  attempt to fix `ct_vhf`; its own disc-ingestion crashed with a `uint32` OverflowError before writing
+  anything, so `ct_vhf`'s disc/vertebra data is untouched and exactly as broken as before). Only its ribs_l/r
+  got an incidental, verified improvement (main_frac 0.8250/0.7488, matching Q105, from the same offset fix
+  running once for both subjects) -- everything else in `ct_vhf` still needs its own from-scratch diagnosis
+  before Q104b's lumbar work can resume. Needs a source-level rebuild of `ct_vhf`, mirroring what Q107 did for
+  `ct_vhm` (`bundle_to_subjects.py` from its own recovered bundle, then re-run disc + rib ingestion with the
+  now-fixed scripts), plus fixing the `uint32` overflow in `ingest_intervertebral_discs.py`'s disc-removal path
+  before it will even complete for `ct_vhf`.
 - Q105c (rib cage → 0.63-0.83): Blocked on 15GB memory limit; 1mm voxelization requires ~256GB system
-- NEW (found by Q106 while checking whether the male viewer needed a republish, 2026-09-21): the LOCAL build
-  cache `build/vh/ct_vhm` (not the live published artifact -- unconfirmed whether Version 39 was ever
-  republished after this) currently fails `scripts/export_viewer_bundle.py` with an `IndexError` in
-  `decimate_to`/`cluster`: its `manifest.json` vertex_offset/face_offset pairs are wrong for a large set of
-  structures (every vertebra group, scapula_l/r, clavicle_l/r, sternum, most intervertebral discs, ribs_l/r --
-  confirmed by checking `(faces - vertex_offset)` against each structure's own `vertex_count`), reproduced
-  identically on a clean `git stash` so it predates and is unrelated to Q106. `ct_vhm_with_articulations.obj`
-  and manifest/vertex/face file mtimes (2026-09-20 12:06-12:53 UTC) place this squarely inside Q105/Q105b's
-  rib-articulation session (`ingest_remeshed_ribs.py`), which touched `build/vh/ct_vhm` directly and appears to
-  have shifted downstream structures' offsets without updating them when it replaced ribs_l/r with a
-  differently-sized remeshed version -- despite that session's own log claiming "bundles render correctly".
-  Blocks ANY full male-bundle re-export (not just Q106's forearm change) until `ct_vhm` is rebuilt cleanly.
 - Q7 (female sciatic nerve): Requires manual seeding + full-res thigh crops
 - Q54 (popliteal nerve): Tracking failed; four detector variants tested, none successful

@@ -185,8 +185,12 @@ def cmd_ingest(args: argparse.Namespace) -> int:
             bbox_max = verts.max(axis=0)
 
             # Add to consolidation
+            # BUG FIX (Q107): faces read from the OBJ file are 0-based LOCAL indices;
+            # they must be shifted by this structure's own vertex_offset before being
+            # appended to the shared global vertex/face arrays, or they silently
+            # reference whatever structure happens to occupy the start of the array.
             all_vertices.append(verts)
-            all_faces.append(faces)
+            all_faces.append(faces + vertex_offset)
 
             # Create structure entry
             struct = {

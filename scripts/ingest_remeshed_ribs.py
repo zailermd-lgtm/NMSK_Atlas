@@ -129,16 +129,33 @@ def cmd_ingest(args: argparse.Namespace) -> int:
         face_offset = 0
 
         new_structures = []
+        replaced_ribs = set()
 
         for struct in manifest["structures"]:
             atlas_id = struct["atlas_id"]
 
             if atlas_id in ["ribs_l", "ribs_r"]:
+                # BUG FIX (Q107): some manifests carry ribs_l/ribs_r as multiple
+                # per-rib pieces sharing the same atlas_id (one entry per individual
+                # rib). The remeshed OBJ is a single consolidated mesh for the whole
+                # side, so it must be spliced in exactly ONCE per side; every
+                # additional old piece with the same atlas_id is dropped (its
+                # geometry is already part of the remeshed replacement), not
+                # replaced again (which previously duplicated the full remeshed
+                # mesh once per old piece and corrupted downstream offsets).
+                if atlas_id in replaced_ribs:
+                    continue
+                replaced_ribs.add(atlas_id)
+
                 # Replace with remeshed version
                 remeshed_verts, remeshed_faces = remeshed_ribs[atlas_id]
 
+                # BUG FIX (Q107): faces read from the remeshed OBJ file are 0-based
+                # LOCAL indices; they must be shifted by vert_offset before being
+                # appended to the shared global array, exactly like every other
+                # structure's faces are.
                 new_verts.append(remeshed_verts)
-                new_faces.append(remeshed_faces)
+                new_faces.append(remeshed_faces + vert_offset)
 
                 # Update manifest entry
                 new_struct = struct.copy()
