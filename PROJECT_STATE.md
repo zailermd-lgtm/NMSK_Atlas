@@ -1542,6 +1542,60 @@ tick the item here with a one-line result. Never fabricate; keep the
       (mappings/subjects/ct_vhf_left_forearm_volume_mapping.json committed with new atlas_ids; build/vh copy 
       temporarily edited for test but reverted). All tests still pass (252). 
 
+- [-] Q106 (2026-09-21, attempted, NOT shipped) His right forearm's 3 merged compartments
+      (`vhm_forearm_muscles_from_cryo.py`, 2026-09-14): `radial_flexor_compartment` (PT/FCR/FPL, 105 cm3),
+      `mobile_wad_compartment` (BR/ECRL/ECRB, 264 cm3), `extensor_digitorum_supinator_anconeus_compartment`
+      (ED/supinator/anconeus, 49 cm3). FIRST: corrected the STALE "1mm cryosection frame lost in container
+      reset" claim in this file's own Next action section -- confirmed false by reading this compartment's own
+      report (ran successfully Sept 14 on 137 levels of REAL full-resolution, 0.33 mm photographs, instances
+      1625-1761) and by re-streaming a fresh sample directly from the public IDC bucket just now
+      (`scripts/cryo/vhm_stream_crops.py crop --levels 1700:1705 --box 400,1216,1100,2048`, 6 levels, 13.9 MB,
+      1s, 99.4% non-black pixels -- real photographs, not placeholders): his whole-body 1 mm stream was never
+      lost, it is re-streamable from series `4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385` any time, and this specific
+      forearm crop was already used once. See the corrected Next action line below.
+      THEN, following Q100's method (a position rule from an already-split, same-photograph-derived reference,
+      not the photograph's own weak line) on all 3 compartments:
+      - `radial_flexor_compartment`: tried distance-to-his-CT-radius-surface, both a nearest-anchor rule (using
+        MARKER_RULES' own mm offsets, PT=9/FCR=14/FPL=4, as anchors) and a 2-threshold sweep (6-22 mm). PT
+        stayed 5-14 cm3 and FCR 68-80 cm3 across the WHOLE sweep -- the same implausible split the original
+        watershed found (7/70 cm3), not fixed by moving the boundary. DECLINED: looks like a wrong region
+        (FCR's own definition absorbing PT/FPL territory), not a boundary-placement problem.
+      - `mobile_wad_compartment`: same nearest-anchor rule (BR=16/ECRL=8/ECRB=3 mm from the radius). BR came
+        out at 191 cm3 (textbook ~20-30 cm3), and per-level accounting (5% f-bins) shows the excess spread
+        through roughly the first 55% of the segment, not concentrated in a few proximal levels a level-cutoff
+        could exclude. DECLINED per this task's own instruction not to force a 3-way split that stays
+        contaminated by brachialis/biceps.
+      - `extensor_digitorum_supinator_anconeus_compartment`: level fraction (MARKER_RULES' own f-windows:
+        anconeus f<=0.12, supinator f<=0.28) + distance to his CT radius/ulna surface (BONE_THR_MM=10, swept
+        6-14 mm for the plateau where the shipped, smoothed (`--smooth 1.0`) MESH -- not just the voxel mask,
+        Q100's own lesson -- stays one face-adjacency component) gave a clean-looking result: ED 36.0 / anconeus
+        4.3 / supinator 8.3 cm3 (right order, each more plausible than the raw watershed's 36.3/1.9/10.4, and
+        anconeus in particular fixes that run's own "too small to be the muscle" flag), mesh 98.7-100% one
+        component each (`scripts/cryo/vhm_split_forearm_extensor_compartment.py`, committed as a documented
+        attempt, --dry-run by default, NOT wired into `vhm_rebuild_bundle.sh`).
+        THE REAL FINDING, and why it is still declined: checked the split against his own CT skin surface
+        (`data/ct_sources/task_outputs/vhm_skin_ct.nii.gz`, the same reference `clip_arm_to_skin.py` already
+        uses for his arm muscles) and found the outside-skin voxel fraction of the WHOLE `vhm_forearm_muscles_
+        cryo.nii.gz` volume -- every label, not just this compartment -- rises smoothly with level fraction f
+        from 0% at f>=0.60 (the segment's distal 60%) to ~22% at f=0 (its most proximal level): a pre-existing
+        registration gradient in the already-shipped (Sept 14) volume (consistent with its own documented LIMIT,
+        translation-only registration per level, no rotation), not something this split introduces. Anconeus
+        (f<=0.12) and supinator (f<=0.28) sit almost entirely in that poorly-registered band by real anatomical
+        position, so in every rule variant tried anconeus came out 100% outside his skin surface and supinator
+        72-82% outside, even after the same 3-voxel erosion-margin clip already used for his arm (0%/0.2%/1.9%
+        outside-skin for his ALREADY-shipped FDS/FDP/APL, by contrast, sitting in the well-registered distal
+        part of the segment -- confirming this is a real, level-dependent effect, not noise). DECLINED: 0%
+        outside skin (this project's own bar, already met by every other structure this subject ships) cannot
+        be honestly satisfied by any split of this compartment; fixing it needs the proximal segment's
+        photograph-to-CT registration re-derived (rotation, not just translation, per level), well outside a
+        forearm-compartment-split task.
+      NOT SHIPPED: no label volume, mapping, or viewer change. `vhm_forearm_merge.json` and
+      `mappings/subjects/ct_vhm_forearm_volume_mapping.json` (label 12 note) updated with the full numbers
+      above for the next session. Tests 252 pass (unchanged). New, reusable finding for a future session: the
+      registration-quality gradient along this segment (good distally, bad proximally) is a real property of
+      the Sept 14 run worth checking before trusting ANY proximal-forearm structure from this volume, not just
+      the three tried here.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
@@ -3437,15 +3491,36 @@ the female's phalanges are under-captured at HU 200.
 - [ ] Step 5: Foot intrinsics — BLOCKED on Q59 (DU release inaccessible via network policy)
 - [ ] Step 7: Head/larynx — Requires full-resolution head cryosection streaming + tracking
 - [x] Step 8: ~15 small entities — Q65 DONE (entity records created, 184 tests pass)
-- [ ] His forearm/hand — Full-resolution rebuild needed (1mm cryosection frame lost in container reset)
+- [x]/[ ] His forearm/hand — NOT lost (Q106, 2026-09-21 corrected this stale line): his full-resolution (0.33 mm)
+      forearm crops already ran successfully once, Sept 14 (`vhm_forearm_muscles_from_cryo.py`, 137 levels,
+      instances 1625-1761; only 3 muscles shipped by name, FDS/FDP/APL, the rest in 3 merged compartments), and
+      his whole-body 1 mm cryosection stream is re-streamable any time from the public IDC bucket
+      (`scripts/cryo/vhm_stream_crops.py crop`, series `4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385`, re-verified live
+      just now). Remaining real gap: the 3 merged compartments (Q106 tried and declined all 3 -- see the Q106
+      entry above for the numbers, including a newly found proximal registration-quality gradient in that
+      volume worth checking before trusting any other structure from it).
 
 **Immediate Priorities (if resources available):**
-1. His full-resolution forearm cryosection rebuild (lost Sept 11 container reset) — prerequisite for his forearm/hand Q62 completion
+1. A future session revisiting his forearm compartments needs the proximal segment's photograph-to-CT
+   registration re-derived (rotation per level, not just translation) before any of Q106's 3 declined
+   compartments becomes shippable — not a re-crop (the crops are fine and re-streamable, confirmed by Q106).
 2. Full-resolution head cryosection streaming for head/larynx muscles (if stream available)
 3. Q59 resolution: Alternate source for DU female foot geometry (network policy blocks all current hosts)
 
 **Structural Continuity (Q10X series) - Current Blockers:**
 - Q104b (female lumbar → 0.539): Blocked on mesh rebuild (Q105b remeshed ribs break offset-based ingestion)
 - Q105c (rib cage → 0.63-0.83): Blocked on 15GB memory limit; 1mm voxelization requires ~256GB system
+- NEW (found by Q106 while checking whether the male viewer needed a republish, 2026-09-21): the LOCAL build
+  cache `build/vh/ct_vhm` (not the live published artifact -- unconfirmed whether Version 39 was ever
+  republished after this) currently fails `scripts/export_viewer_bundle.py` with an `IndexError` in
+  `decimate_to`/`cluster`: its `manifest.json` vertex_offset/face_offset pairs are wrong for a large set of
+  structures (every vertebra group, scapula_l/r, clavicle_l/r, sternum, most intervertebral discs, ribs_l/r --
+  confirmed by checking `(faces - vertex_offset)` against each structure's own `vertex_count`), reproduced
+  identically on a clean `git stash` so it predates and is unrelated to Q106. `ct_vhm_with_articulations.obj`
+  and manifest/vertex/face file mtimes (2026-09-20 12:06-12:53 UTC) place this squarely inside Q105/Q105b's
+  rib-articulation session (`ingest_remeshed_ribs.py`), which touched `build/vh/ct_vhm` directly and appears to
+  have shifted downstream structures' offsets without updating them when it replaced ribs_l/r with a
+  differently-sized remeshed version -- despite that session's own log claiming "bundles render correctly".
+  Blocks ANY full male-bundle re-export (not just Q106's forearm change) until `ct_vhm` is rebuilt cleanly.
 - Q7 (female sciatic nerve): Requires manual seeding + full-res thigh crops
 - Q54 (popliteal nerve): Tracking failed; four detector variants tested, none successful
