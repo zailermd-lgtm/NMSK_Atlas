@@ -5235,7 +5235,7 @@
       "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+xfer_vhm2vhf_sep+xfer_vhm2vhf",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_f/atlas_viewer_female.html",
-      "html_mtime": 1790041851.8799496,
+      "html_mtime": 1790053658.5901976,
       "n_structures_raw": 378,
       "n_groups": 356,
       "cat_mismatches": [],
@@ -9535,13 +9535,13 @@
           ]
         },
         "sciatic_n|none": {
-          "status": "SEVERE_BREAK",
-          "main_frac": 0.3317422434367542,
-          "n_components": 11,
-          "total_vertices": 5028,
-          "largest_component_vertices": 1668,
+          "status": "FRAGMENTED",
+          "main_frac": 0.6119637937819756,
+          "n_components": 6,
+          "total_vertices": 5082,
+          "largest_component_vertices": 3110,
           "n_pieces": 1,
-          "n_faces": 10176,
+          "n_faces": 10200,
           "id": "sciatic_n",
           "side": "none",
           "cat": "nerve",
@@ -10962,8 +10962,8 @@
       "summary": {
         "by_status": {
           "CONTINUOUS": 242,
-          "FRAGMENTED": 96,
-          "SEVERE_BREAK": 18
+          "FRAGMENTED": 97,
+          "SEVERE_BREAK": 17
         },
         "by_category_status": {
           "bone": {
@@ -10990,7 +10990,7 @@
           },
           "nerve": {
             "CONTINUOUS": 4,
-            "SEVERE_BREAK": 1
+            "FRAGMENTED": 1
           },
           "fascia": {
             "CONTINUOUS": 1

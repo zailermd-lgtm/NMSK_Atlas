@@ -96,7 +96,18 @@ def cluster(verts: np.ndarray, faces: np.ndarray, cell: float):
 # thickness the two faces of the sheet merge and the mesh turns into a lace of holes. Those ids are decimated
 # by quadric edge collapse instead (fast_simplification), which keeps a sheet a sheet; clustering stays for
 # everything else so the rest of the page is unchanged.
-SHEET_IDS = {"diaphragm", "external_intercostals_r", "external_intercostals_l"}
+# A thin CORD is the same failure in one fewer dimension: sciatic_n (Q113) is a ~6 mm tube, and even at its
+# own BUDGET_OVERRIDE (12000, already raised once for exactly this), vertex-clustering's grid cell -- sized
+# to hit the triangle budget over the whole ~230 mm length -- exceeds the tube's diameter in places and
+# merges/severs cross-sections that the source mesh has genuinely connected: measured directly (Q113), the
+# shipped bundle's sciatic_n main_frac was 0.332 (11 components) even though the underlying full-resolution
+# mesh it was decimated FROM measured 0.621 (6 components, after also fixing an unrelated over-smoothing
+# defect, see Q113) -- i.e. clustering alone was manufacturing about half of the shipped fragmentation.
+# Quadric edge collapse on that same source mesh at the same triangle budget preserves it: 0.612 (6
+# components), matching the pre-decimation number. Added here rather than given its own set/budget path
+# because the mechanism (clustering cannot represent geometry thinner than its own cell) is identical to
+# the sheet case above, just one dimension down.
+SHEET_IDS = {"diaphragm", "external_intercostals_r", "external_intercostals_l", "sciatic_n"}
 
 
 def decimate_quadric(verts, faces, budget):

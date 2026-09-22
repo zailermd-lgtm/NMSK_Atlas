@@ -11,7 +11,17 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q112 (2026-09-22) ran the
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q113 (2026-09-22) fixed Q112's
+#1 finding, female `sciatic_n` (SEVERE_BREAK, main_frac 0.332, 11 components) -- root cause was two
+rendering defects downstream of the tracking (an over-aggressive isotropic smoothing sigma on an
+anisotropic-voxel volume, and clustering-decimation severing a thin cord the same way it once did for
+thin sheets), NOT the tracking pipeline itself. Fixed both (reconvert with `--smooth 0.0`; route
+`sciatic_n` through the sheet path's quadric decimator in `export_viewer_bundle.py`): main_frac 0.332 ->
+0.612 (11 -> 6 components) on the ACTUAL SHIPPED, decimated bundle, 0% outside skin, volume within -1 to
+-3% of source (no growth/fabrication), diff-confirmed no other structure moved. A small remaining
+right-side seam (~1 mm, y ~ -170 mm) was measured precisely and DECLINED (closing can't bridge it within
+Q102's own 5% growth bound) -- documented for a future session with the real tracking tool. 252 tests
+pass. Full detail in the Q113 queue entry below. Recent: Q112 (2026-09-22) ran the
 project's first-ever CORRECT, full-coverage continuity audit -- every structure in both live viewer bundles
 (356 male / 378 female raw entries, grouped into 321 / 356 (id,side) structures), using the post-Q111
 face-adjacency method and correctly combining multi-piece structures (learned directly from Q111's
@@ -2336,6 +2346,119 @@ tick the item here with a one-line result. Never fabricate; keep the
       No fixes shipped; no `build/` output changed (read-only audit, as instructed). `python -m pytest -q`:
       **252 passed** (unchanged). `df -h /`: 17G available, unaffected (audit output is 322KB).
 
+- [x] Q113 (2026-09-22) Root-cause + fix for Q112's #1 finding: female `sciatic_n`, SEVERE_BREAK,
+      main_frac 0.332, 11 components -- the highest-clinical-priority structure this atlas carries
+      (sciatic nerve blocks/injections). Read Q7/Q53/Q54's full history first, per the brief: Q53
+      tracked this nerve from full-resolution cryosection corridor/fascicle detection (right y -70..
+      -235, left -70..-293, both with documented internal 1 mm gaps filled by <=12-level nearest-mask
+      interpolation) and Q54 spent a full dedicated item failing to extend it through the popliteal
+      fossa (learned classifier did not generalize past the proximal honeycomb texture) -- correctly
+      NOT re-attempted here, per the item's own explicit scope limit.
+      DIAGNOSIS (measured, not assumed): loaded the actual source label volume
+      (`data/ct_sources/task_outputs/vhf_nerves_cryo.nii.gz`, 0.5x0.5x1.0 mm) and the shipped mesh
+      (`build/vh/ct_vhf_nerve`) directly, not just the audit's summary numbers. The raw labelled
+      VOXEL mask itself has only 5 connected components (26-connectivity) -- both legs' nerves are
+      each ALMOST entirely one piece in the actual tracked data. The 11-component number in the
+      shipped bundle comes from two separate RENDERING defects downstream of the tracking, not from
+      an 11-way-scattered tracking gap:
+        1. `ingest_volume_geometry.py convert`'s Gaussian surface-smoothing, `--smooth 1.0` (applied
+           isotropically, in voxel units, to this volume's ANISOTROPIC 0.5x0.5x1.0 mm voxels) was
+           measurably making topology WORSE for a structure this thin (~6 mm diameter): the same
+           voxel mask surfaced with `--smooth 0.0` (raw staircase) gives main_frac 0.621 (6
+           components) vs. 0.332 (13 components, `mask_surface` reproduction of the shipped path) with
+           `--smooth 1.0`. Tested several other smoothing variants (isotropic at 0.5, in-plane-only at
+           (1,1,0)/(0.5,0.5,0)) -- ALL of them fragment worse than no smoothing at all for this
+           structure; smoothing a thin, elongated corridor whose adjacent cross-sections don't
+           perfectly overlap in X/Z (from the track's per-level independent centroid) pushes
+           already-marginal shared-face voxels below the 0.5 iso-threshold instead of bridging them.
+        2. `export_viewer_bundle.py`'s viewer decimation, independently, re-fragmented the (already
+           smooth=0-fixed) full-resolution mesh from 6 components/0.621 back down to 7
+           components/0.326 in the actual shipped bundle -- confirmed by rebuilding the bundle and
+           re-running `scripts/audit_full_continuity_q112.py` on the live HTML, not just the
+           pre-decimation mesh. Root cause: `sciatic_n` already carries a documented
+           `BUDGET_OVERRIDE` (12000 tris, "a 6 mm cord 200 mm long breaks into fragments at the nerve
+           budget's 5 mm cells" -- a known issue from whoever set that override, never actually fully
+           fixed by it) but still uses vertex-CLUSTERING decimation (`decimate_to`), whose grid cell,
+           sized to hit even that raised budget over the ~230 mm combined length, exceeds the cord's
+           own diameter in places and severs cross-sections the source mesh has genuinely connected
+           -- the identical failure mode `export_viewer_bundle.py`'s own code already documents and
+           fixes for thin SHEETS (diaphragm, external_intercostals) via quadric edge-collapse
+           decimation instead (`SHEET_IDS`, routed through `fast_simplification`).
+      FIX (both parts, both small and precisely targeted): (1) reconverted `ct_vhf_nerve` with
+      `--smooth 0.0` (was 1.0) -- `python3 scripts/ingest_volume_geometry.py convert
+      data/ct_sources/task_outputs/vhf_nerves_cryo.nii.gz --labels vhf_nerves --subject ct_vhf_nerve
+      --origin="7.769,-885.229,14.137" --smooth 0.0`, same mapping, same origin, only the smoothing
+      parameter changed. (2) added `"sciatic_n"` to `SHEET_IDS` in `scripts/export_viewer_bundle.py`
+      (one-line change plus an explanatory comment; the set now also covers thin cords, not just
+      sheets, and is documented as such) so it decimates by quadric edge-collapse instead of
+      clustering, at its existing 12000-triangle budget.
+      VERIFIED, on the ACTUAL SHIPPED bundle (not just the intermediate mesh), by rebuilding
+      `build/viewer_f` (`export_viewer_bundle.py` with the exact same `--subject` list and
+      `--budget-scale 0.85` Q108/Q109/Q111's rebuild script uses) and `build_viewer_html.py`, then
+      re-running `scripts/audit_full_continuity_q112.py` on the live HTML:
+        - main_frac 0.3317 -> **0.6120** (SEVERE_BREAK -> FRAGMENTED); n_components 11 -> 6;
+          n_faces 10,176 -> 10,200 (budget-matched, not grown).
+        - Mesh volume: 19.52 cm3 pre-decimation (source label volume itself: 19.72 cm3, so this is
+          -0.99% vs. the true source -- LESS than raw, not fabricated; the smoothing fix simply
+          stopped shrinking a thin structure it was blurring) and 19.20 cm3 in the quadric-decimated
+          form actually shipped (-2.6% vs. source, -1.6% vs. the pre-decimation fixed mesh -- normal
+          decimation loss, not growth).
+        - Skin containment (batched `trimesh.ray.contains_points` against a local crop of
+          `ct_vhf_skin`, the same check this item introduces since no reusable one existed): 0/49212
+          (shipped, pre-fix), 0/65486 (post-smooth-fix, pre-decimation), 0/5082 (final shipped,
+          quadric-decimated) vertices outside skin at every stage -- 0.0000%.
+        - Diff-checked `build/viewer_f/bundle.json`'s 378 structure entries one by one against the
+          pre-Q113 bundle (saved before touching anything): exactly ONE entry differs (`sciatic_n`
+          itself, nv/nf/depth_profile recomputed against its own new mesh); all 377 others
+          byte-identical -- Q108/Q109/Q111's ribs/discs work is intact, confirmed the same way those
+          items confirmed each other's work, not assumed.
+      PER-SIDE breakdown on the final shipped mesh (this atlas ships both legs' nerves under one
+      shared `(id, side=null)` group, so this is the metric that actually answers "is the nerve
+      itself continuous", not the combined number): LEFT 0.946 (3110/3288 vertices) -- essentially
+      ONE PIECE from the gluteal fold to the distal thigh (y -293.5..-82.5), plus an 170-vertex
+      fragment at y -81.6..-70.5 right at the proximal edge of Q53's verified range (already
+      documented there as unreliable, not a new problem). RIGHT 0.484 (868 vs. 820 vertices) --
+      splits almost exactly in half at y ~ -170.5 mm: measured this specific seam directly (per-Y-level
+      voxel counts and blob centroids in the raw label volume) and confirmed it is NOT a missing
+      tracked level (every Y-slice from -160 to -180 has 183-669 mask voxels) but a small LATERAL
+      (X/Z) discontinuity -- the corridor blob at y=-171 (x 120.2-127.2) does not overlap the blob at
+      y=-170 (x 114.7-119.2), a real but small (~1.0 mm / ~2 voxels in X) jump, most likely a seam
+      between two of Q53's separately-tracked runs or a per-level centroid jitter.
+      DECLINED, and NOT force-fixed: closing that one right-side seam. Tried `scipy.ndimage.
+      binary_closing` at Q79/Q102's own gated approach and their 5% volume-conservation bound
+      (structuring element `ones((3,3,3))`, 1-2 iterations, whole-volume and also a directional
+      1-D closing restricted to the length axis with gap widths 1-3 voxels): every variant that
+      touched the seam at all grew the mask 6-20% (already over the bound at the smallest setting
+      tried) while combined main_frac never moved past ~0.62-0.65 -- the closing kernels either did
+      nothing (too small to bridge a 2-voxel lateral jump without also puffing up untouched, already-
+      fine parts of the cord) or bridged it at a cost matching Q102's own "this is filling a real gap
+      of several mm, not a surface crack" decline criterion. A crude windowed/local variant (closing
+      restricted to a narrow Y-slab around the seam) was also tried and produced worse results (more
+      fragments, net voxel loss from boundary artifacts) -- not a viable shortcut either. Per this
+      item's own hard constraint against risking fabricated nerve path, and per the Q54 precedent for
+      declining a partial fix honestly: this ~1 mm right-side seam is left OPEN, documented here with
+      its exact location (right sciatic nerve, y approx -170 to -171 mm, x approx 118-121 mm, z approx
+      -37 to -39 mm) for a future session with the original `vhf_nerve_track.py` corridor/chain tool
+      (a human nudging or re-seeding that one specific montage level), not a blind voxel operation.
+      ALSO DOCUMENTED (a real, pre-existing limitation this item confirmed rather than newly caused):
+      `sciatic_n` bundles BOTH legs' nerves into one shared `(id, side=null)` group by this atlas's own
+      design ("nerve ids are side-agnostic" per `vhf_nerve_volume.py`'s docstring) -- main_frac >= 0.99
+      is mathematically unreachable for this structure as currently modeled; the ceiling, even if both
+      individual nerves were perfectly continuous, is left_total/grand_total = 0.647. This is the same
+      caveat class Q112 already flagged for `optic_n` and the hand/foot bone groups, now confirmed by
+      direct per-side measurement rather than inferred.
+      Male viewer/bundle: untouched (he has no `sciatic_n`; confirmed identical before/after in the
+      audit's male section, byte-for-byte same status counts).
+      SHIPPED: `scripts/export_viewer_bundle.py` (`SHEET_IDS` +`sciatic_n`, with explanatory comment),
+      `build/vh/ct_vhf_nerve/{vertices.f32,faces.u32,manifest.json}` (reconverted, gitignored, not
+      committed), `build/viewer_f/{bundle.json,bundle.bin,atlas_viewer_female.html}` (rebuilt on top of
+      Q108/Q109/Q111's verified build, gitignored, not committed, NOT published -- same Production
+      Deploy permission gate Q108/Q109 already hit, not retried per this item's own instruction),
+      `data/derived/Q112_full_continuity_audit.json` (re-run, only the `sciatic_n` entry and the
+      derived summary counts changed -- diff-checked), this PROJECT_STATE.md entry and the matching
+      note in `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed** (unchanged).
+      `df -h /`: 17G available, unaffected; own scratch intermediates (~44 MB) cleaned up.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
@@ -4251,10 +4374,17 @@ the female's phalanges are under-captured at HU 200.
 - **Q112 (2026-09-22) full-bundle audit -- prioritized punch list for whoever picks this up next**, replacing
   the previously-stale, muscle-blind picture (Q103 only ever covered bones/vessels/cartilage; full numbers
   and methodology in the Q112 queue entry above and `data/derived/Q112_full_continuity_audit.json`):
-  1. **HIGHEST PRIORITY, single structure**: `sciatic_n` (female), SEVERE_BREAK, main_frac 0.332, 11
-     components -- a major nerve trunk with no business being anything but one piece. Investigate first;
-     likely the highest-value single fix in this whole list given its clinical relevance (sciatic nerve
-     blocks/injections are exactly this atlas's stated purpose).
+  1. **RESOLVED (partially) by Q113 (2026-09-22)**: `sciatic_n` (female) was SEVERE_BREAK, main_frac
+     0.332, 11 components. Root cause was two rendering/decimation defects downstream of Q53's tracking,
+     not the tracking data itself (raw voxel mask is only 5 components) -- fixed both (smoothing sigma
+     0.0 instead of 1.0; route through the sheet path's quadric decimator in `export_viewer_bundle.py`
+     instead of vertex-clustering). Now FRAGMENTED, main_frac 0.612, 6 components, on the actual shipped
+     bundle -- verified, not just the intermediate mesh. Per-side: LEFT 0.946 (essentially one piece),
+     RIGHT 0.484 (a real, small ~1 mm lateral seam at y ~ -170 mm, precisely located but declined as
+     unfixable within this project's own closing-growth bound -- see the Q113 entry for the exact
+     location and the closing sweep that was tried). NOTE: 0.99 is unreachable for this structure as
+     modeled (both legs share one id/side=null group, ceiling 0.647) -- treat RIGHT's ~0.48 and the
+     documented right-side seam as the only genuinely open items here, not the combined main_frac.
   2. **Root-cause investigation (new Q113-class item)**: the 8 muscles/vessel that are SEVERE_BREAK in BOTH
      bodies at similar severity (`longus_colli_l/r`, `pectoralis_minor_l/r`, `hyoglossus_r`, `geniohyoid_l`,
      `internal_carotid_a_l`, `longus_capitis_r`, plus `internal_oblique_r`/`transversus_abdominis_r`) --

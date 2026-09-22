@@ -1131,6 +1131,52 @@ nerve; the 1 mm gaps (24 right, 37 left) are filled with the nearest tracked sec
 the chain. Rule-based, badged; the montages that were checked are in the scratchpad record of the
 session (`sciatic_*_zoom.png`), regenerable from the scripts in ~10 minutes per side.
 
+**Q113 (2026-09-22) update -- continuity of the tracked/shipped range, fixed where the defect was
+rendering, diagnosed where it is real:** Q112's full-bundle audit measured this structure at
+main_frac 0.332 (11 components) in the shipped bundle -- SEVERE_BREAK, the worst-ranked finding in
+that audit. Direct measurement (not the Q53/Q54 photograph-tracking pipeline, which was NOT
+re-run) found the fragmentation was mostly two RENDERING defects downstream of the already-tracked
+label volume, not a tracking gap: (1) `ingest_volume_geometry.py convert`'s Gaussian surface-smoothing
+(sigma 1.0 voxels, applied isotropically to this volume's anisotropic 0.5x0.5x1.0 mm voxels) was
+measurably WORSENING topology for this thin (~6 mm) cord -- the raw, unsmoothed voxel mask
+reconstructs at main_frac 0.621 (6 components), smoothing it drove that down to 0.332; fixed by
+reconverting `ct_vhf_nerve` with `--smooth 0.0` (was 1.0). (2) `export_viewer_bundle.py`'s viewer-budget
+decimation was independently re-fragmenting the (now-fixed) full-resolution mesh back down to 0.326 (7
+components) even at `sciatic_n`'s own existing BUDGET_OVERRIDE (12000 tris) -- the vertex-clustering
+decimator's grid cell, sized to hit that budget over the ~230 mm length, exceeds the cord's own
+diameter and severs cross-sections the source mesh has genuinely connected (the same failure mode
+already documented for the diaphragm/intercostal sheets one dimension up). Fixed by routing
+`sciatic_n` through the sheet path's quadric edge-collapse decimator instead (`SHEET_IDS` in
+`scripts/export_viewer_bundle.py`), which preserves topology at the same triangle budget: main_frac
+0.612 (6 components) in the mesh feeding decimation, 0.612 (6 components, 5082 verts/10200 tris) in
+the ACTUAL SHIPPED bundle -- confirmed on the live `build/viewer_f/atlas_viewer_female.html`, not
+just the pre-decimation mesh. Per-side (this atlas ships both legs' nerves under one shared id, so
+0.99 continuity is not attainable for this structure as modeled -- see LIMITATION below): LEFT
+0.946 (3110/3288 vertices, essentially one piece from the gluteal fold to the distal thigh, y -293.5
+to -82.5, plus a small 170-vertex fragment y -81.6..-70.5 right at the proximal edge of the verified
+range, already known and documented above as unreliable); RIGHT 0.484 (868 vs 820 vertices, split
+almost exactly in half at y ~ -170.5) -- a real, small (~1 mm lateral, ~2 voxels in X), but genuine
+seam in the original tracked corridor at that one level (full voxel occupancy on both sides, no
+missing Y-slice; the two levels' blobs simply do not overlap in X/Z), NOT closable by the
+morphological-closing approach used elsewhere in this project (Q79/Q102): closing at Q102's own 5%
+volume-conservation bound, and even well past it (whole-volume 3x3x3 closing up to 2 iterations,
++16.7% mask voxels), never moved the combined main_frac past ~0.65 and did not merge that specific
+seam cleanly -- DECLINED, documented here (right sciatic nerve, y approx -170 to -171 mm) for a
+future session with the original `vhf_nerve_track.py` corridor/chain, not a blind voxel operation.
+Verified: 0% of the shipped mesh's vertices outside her skin surface (both before and after, batched
+`trimesh` containment against a local crop of `ct_vhf_skin`); mesh volume 19.52 cm3 pre-decimation
+(-0.99% vs. the label volume's own 19.72 cm3 -- LESS than the source, not fabricated, the smoothing
+fix simply stopped shrinking a thin structure it was blurring) and 19.20 cm3 in the quadric-decimated
+form actually shipped; diff-checked against the prior (Q108/Q109/Q111) bundle structure-by-structure
+(378 entries): only `sciatic_n`'s own entry changed, all 377 others byte-identical. LIMITATION,
+carried forward from Q112 and confirmed here rather than newly found: `sciatic_n` bundles BOTH legs'
+nerves under one shared `(id, side=null)` group (this atlas's nerve ids are side-agnostic, per this
+section's own opening paragraph) -- main_frac >= 0.99 is mathematically unreachable for this
+structure as currently modeled (the theoretical ceiling, if both individual nerves were perfectly
+continuous, is left_total/grand_total = 0.647), the same caveat class Q112 already documented for
+`optic_n` and the hand/foot bone groups. Full numbers, method and the closing sweep in the Q113
+queue entry, PROJECT_STATE.md.
+
 ### A learned nerve-section scorer, trained on her own verified track (2026-09-14, Q54)
 
 Below the mid-thigh the hand-crafted detector fails for a measured reason: the tibial nerve in the
