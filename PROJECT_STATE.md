@@ -11,7 +11,18 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q116 (2026-09-22) worked Q115's
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q117 (2026-09-22) generalized
+Q62's muscle-only completeness method (`scripts/recount_muscle_gaps.py`) to a new
+`scripts/recount_tissue_gaps.py` covering all 9 entity-record tissue types (bones, muscles, cartilage,
+vascular, ligaments, nerves, fascia, tendons, bursae) against the live published bundles: 1561 entities
+total, 292 (19%) on both bodies, 1219 (78%) on neither. Muscles (46% missing) and bones (29% missing, a
+newly-confirmed bright spot) are the best-covered; **tendons and bursae are at literal 0% coverage** (0 of
+51 tendons, 0 of 45 bursae have ANY mesh on either body, despite both carrying already-written clinical
+injection-approach fields) and nerves/fascia are effectively also at 0% (99%/99% missing). First-ever
+completeness audit for tendons, ligaments, fascia, bursae, nerves and vascular; first full-catalog audit
+for bones and cartilage (Q103 only counted what already shipped). Measurement-only, per this item's own
+mandate -- no gaps filled. Full detail: `data/derived/Q117_full_completeness_audit.json`,
+`docs/TISSUE_COMPLETENESS.md`. Full detail in the Q117 queue entry below. Recent: Q116 (2026-09-22) worked Q115's
 own ranked list of 32 MARGINAL candidates, same smoothing/decimation diagnostic as every Q11X item
 today: attempted all 32, SHIPPED 5, DECLINED 27 (root cause found for every decline, mostly a third,
 marching-cubes-surface-topology failure class Q114 first identified, confirmed here as the dominant
@@ -3111,6 +3122,100 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q117 (2026-09-22) The OTHER half of the mandate ("check for all muscles, tendons, ligaments,
+      fascia, bones to occur in birth modelled") had only ever been done for MUSCLES (Q62's own
+      `scripts/recount_muscle_gaps.py`, tracked in `docs/MUSCLE_GAPS.md`). This item generalizes that
+      EXACT method -- match every entity's own `id` in its `data/<type>/` record against both published
+      viewers' bundle structure ids, both/either/neither classification, `_l`/`_r` base-name collapsing
+      for "distinct missing" counts -- to every other tissue-type directory the data model tracks.
+
+      Read `scripts/recount_muscle_gaps.py` in full first. Checked `ls data/` for the authoritative
+      current list (bursae, cartilage, ct_sources, derived, fascia, ligaments, muscles, nerves, rig,
+      skeleton, tendons, vascular) and inspected a sample file from each to decide inclusion:
+      `ct_sources` (raw CT/cryosection imaging + per-task segmentation outputs, not entity JSON),
+      `rig` (`anchors.json` keyed by `owner_entity`, a derived rig-frame descriptor, not its own
+      entity; `scene_3d_preview.json` likewise) and `derived` (already-derived reports) are NOT
+      per-entity anatomical records and were excluded. The other 7 directories are: muscles (one file
+      per entity, existing method unchanged), tendons/ligaments/fascia/cartilage/bursae (one file per
+      body region, each a JSON list of entity dicts -- a new file shape the muscle script never had to
+      handle), skeleton (bones.json qualifies; joints.json's 60 records are kinematic articulations
+      with no mesh of their own -- confirmed 0/60 ids ever appear in either bundle, EXCLUDED from the
+      "bones" count but measured separately for transparency), nerves (plexus-grouped lists, but
+      `spinal_and_cranial_nerve_roots.json` is a nested myotome/dermatome/cranial-nerve reference table
+      with no `id` field at all on any item -- skipped by the same dict-with-id test that already skips
+      `muscle_index.json`, and independently confirmed by `engine/validators.py`'s own schema-dispatch
+      comment that this exact file is "a reference table, not a nerve_branch entity list"), vascular
+      (tree-grouped lists, `tree_name` field used in place of `region`).
+
+      New script `scripts/recount_tissue_gaps.py` (does not modify or replace
+      `scripts/recount_muscle_gaps.py`, which `docs/MUSCLE_GAPS.md` still uses and which remains the
+      cross-check: run against `--type muscles` alone, it reproduces the exact same 433/202/234/199
+      muscle numbers the original script gives, confirming the generalization is faithful). Extraction
+      handles both file shapes (a whole-file dict with `id`, muscle-style; or a top-level list of dicts
+      each with `id`, every other type) with one shared rule, so index/reference files are silently and
+      correctly excluded everywhere the same way.
+
+      RESULT, measured against the LIVE published bundles (male `build/viewer_m/bundle.json`, 356
+      structures; female `build/viewer_f/bundle.json`, 378 structures -- NOT the pending Q108-Q116
+      rebuilds sitting unpublished in `build/viewer_*/atlas_viewer_*.html`, same live/pending
+      distinction Q112 drew): **1561 entities across 9 types, 292 (19%) on BOTH bodies, 50 (3%) on
+      EITHER only, 1219 (78%) on NEITHER.**
+
+      | Type | Entities | Both | Either | Neither | % missing | Distinct missing |
+      |---|---:|---:|---:|---:|---:|---:|
+      | Bones | 86 | 50 | 11 | 25 | 29% | 15 |
+      | Muscles | 433 | 202 | 32 | 199 | 46% | 110 |
+      | Cartilage | 36 | 10 | 0 | 26 | 72% | 17 |
+      | Vascular | 412 | 20 | 4 | 388 | 94% | 207 |
+      | Ligaments | 91 | 8 | 0 | 83 | 91% | 47 |
+      | Nerves | 303 | 1 | 3 | 299 | 99% | 287 |
+      | Fascia | 104 | 1 | 0 | 103 | 99% | 94 |
+      | **Tendons** | 51 | **0** | 0 | 51 | **100%** | 26 |
+      | **Bursae** | 45 | **0** | 0 | 45 | **100%** | 23 |
+
+      MOST SURPRISING FINDING: **tendons and bursae sit at literal 0% geometry coverage** -- not merely
+      "worse than muscles" but total absence, despite both directories carrying real-source-cited,
+      clinically-detailed records (tendon records include `attachments`/`parts`/`has_synovial_sheath`/
+      `prp_injection_approach`; bursa records include `communicates_with_joint`/`injection_approach`/
+      `clinical_significance`) -- substantial content investment with zero geometry to match. Nerves and
+      fascia are effectively also at 0%: fascia's ONE both-bodies hit is `skin` (the whole-body surface
+      envelope, not a deep fascial sheet); nerves' one is `optic_n`, plus `femoral_n`/`sciatic_n`/
+      `tibial_n` on the female only (`sciatic_n`'s continuity was this same day's own Q113 fix,
+      confirming it is a genuinely modelled structure, just not yet on the male). CONVERSELY: **bones is,
+      unexpectedly, the most complete non-muscle type (71% at-least-one, 58% both)** -- nobody had
+      confirmed this with a full-catalog count before; Q103 (2026-09-20) only inventoried what already
+      shipped (15 bones at the time), never compared against the full 86-entity `bones.json` catalog. And
+      ligaments/cartilage never mix bodies partially (either-count = 0 for both) -- every entity with any
+      mesh has it on BOTH, consistent with these being rule-based structures generated identically for
+      both bodies from shared joint/bone landmarks, unlike muscles/vascular which carry many single-body,
+      subject-specific wins.
+
+      FIRST-EVER vs. REFRESH, checked against PROJECT_STATE and docs for any prior mention (grepped for
+      "tendon", "ligament", "fascia", "bursae", "bone" + gap/completeness context): **first-ever
+      completeness audit for tendons, ligaments, fascia, bursae, nerves and vascular** -- none of these
+      six had ANY prior coverage count, Q62-style or otherwise; bursae is mentioned in PROJECT_STATE only
+      for the category's own creation (2026-09-06/09) and trigger-point work, never a coverage count.
+      **First full-catalog audit for bones and cartilage** (Q103's own inventory-of-shipped-only doesn't
+      count). **Refresh for muscles** (433/202/199, unchanged from the number already live in
+      PROJECT_STATE -- no muscle-affecting work happened in this item).
+
+      MEASUREMENT-ONLY, per this item's own mandate and Q112's own precedent: no gaps filled, no
+      geometry generated, no shipped structure/mapping/build output touched. Prioritized "what's most
+      valuable to fill first" note added to `docs/TISSUE_COMPLETENESS.md`'s own closing section (short
+      version: bursae and tendons first, since both already carry written clinical injection-approach
+      fields and both plausibly admit position/taper rules bridging already-shipped bones/muscles rather
+      than needing a brand-new imaging stream -- NOT attempted or verified this item, a reasoned starting
+      point only). Full per-entity detail (every missing id, by body, by region):
+      `data/derived/Q117_full_completeness_audit.json` (carries its own top-level `source` field per
+      Q115's own documented lesson that `engine/validators.py`'s `validate_source_coverage()` treats a
+      dict-without-`items`-key derived report as itself one "entity" requiring a `source` citation --
+      confirmed clean by running `validate_source_coverage()` directly, zero problems). New docs page
+      `docs/TISSUE_COMPLETENESS.md` (the muscle-only `docs/MUSCLE_GAPS.md` is left untouched, still
+      current, still the tool for muscle-specific recounts). `python -m pytest -q`: **252 passed**, no
+      regressions -- confirmed no production code needed changing for a pure measurement script. `df -h
+      /`: unaffected (28G available); no scratch intermediates left behind (this item wrote no
+      CT/mesh/voxel intermediates at all, only JSON).
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
