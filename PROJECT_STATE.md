@@ -11,7 +11,22 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q110 (2026-09-22) attempted
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q111 (2026-09-22) confirmed the
+`vertebrae_L2` mislabeled fragment Q110 found is a genuine TotalSegmentator source-label artifact (already
+present as a disjoint voxel island in the RAW `vhf_total.nii.gz`, not introduced by this project's own
+pipeline), fixed `compute_region_bbox` to exclude it via largest-connected-component filtering (verified
+no-op for cervical/thoracic), and repositioned the 4 lumbar discs per adjacent-vertebra-pair -- they now sit
+within <1mm of both real neighboring vertebra surfaces instead of 65-70mm outside the column. BIGGER FINDING:
+fixing `verify_vertebral_continuity.py`'s already-documented dict-collision bug shows the SAME under-counting
+hid cervical/thoracic's true state too -- ct_vhf/ct_vhm cervical and thoracic have actually been SEVERE_BREAK
+(main_frac 0.08-0.16) all along, not the reported 0.977-0.994; Q104's headline success was a measurement
+artifact everywhere, not just lumbar. Repositioning provably cannot move main_frac by itself (topology is
+position-independent without shared vertices); tested nearest-vertex welding and edge-aware triangle
+stitching too, both measured to produce ~0 real improvement (lumbar stays 0.1806/0.1805, 16 components) since
+none of the 21 discs anywhere were ever vertex-welded to their vertebrae. NOT shipped to the live build (no
+main_frac improvement, so doesn't clear this item's own bar) -- `build/vh/ct_vhf` and
+`build/viewer_f/atlas_viewer_female.html` remain byte-identical to Q108/Q109/Q110's state; corrected OBJ
+files and scripts committed for a future session. 252 tests pass. Recent: Q110 (2026-09-22) attempted
 Q104b's own recommended "option 3" (voxelization-based bridging, like Q105/Q109's rib fix) on the female
 lumbar column -- DECLINED to ship. The tool works (main_frac 0.181->1.000, 0% outside skin, validated
 end-to-end incl. offset integrity), but even at the smallest dilation that bridges anything useful, real
@@ -2054,6 +2069,131 @@ tick the item here with a one-line result. Never fabricate; keep the
       fully working and validated as described above, not wired into any `*_rebuild_bundle.sh`), this
       PROJECT_STATE.md entry.
 
+- [-] Q111 (2026-09-22, attempted, NOT shipped) Tried the non-voxelization fix Q110 left open: correct the
+      female lumbar disc bbox/centroid inputs (excluding the mislabeled `vertebrae_L2` fragment Q110 found)
+      and regenerate the 4 lumbar discs with real per-vertebra positioning, using `generate_intervertebral_discs.py`
+      like Q104 did but with fixed geometry. RESULT: root cause confirmed and fixed, disc placement now
+      genuinely correct (measured), but this does NOT move main_frac at all -- and a second, bigger finding
+      independent of lumbar surfaced along the way: Q104's headline cervical/thoracic "success" numbers were
+      ALSO a measurement artifact, not just lumbar's.
+      ROOT CAUSE OF THE L2 FRAGMENT, definitively traced (Q110 only located it in the shipped mesh; this item
+      traced it further upstream): loaded `vhf_total.nii.gz` directly (before ANY of this project's own
+      processing -- no marching cubes, no smoothing, no ingestion) and ran 26-connected-component labeling on
+      its own `label==30` (`vertebrae_L2`, per `mappings/totalsegmentator_labels.json`) voxel mask. It ALREADY
+      has 8 disconnected components in the raw file: one dominant body (71628 voxels, 96.7%) and 7 small
+      islands, the largest of which is 502 voxels (0.68% of L2's raw voxel count) at raw-voxel bbox
+      [205-297,256-350,326-381] vs. the dominant body's -- clearly spatially separate. Converting that
+      component's voxel bbox to atlas mm with the exact same affine + femoral-head origin
+      (`--origin '7.769,-885.229,14.137'`, reproduced via `ingest_volume_geometry.py inspect`) that
+      `vhf_total.nii.gz` was actually converted with gives atlas bbox [176.0,108.2,33.7]-[187.2,116.2,43.1] --
+      matching Q110's mesh-level finding (X 175.6-187.3, Y 107.9-116.5, Z 33.8-43.4mm) to within marching-cubes
+      smoothing tolerance, and confirmed sitting entirely inside the real `sacrum` structure's own first bbox
+      fragment ([-61.6,0.8,-115.6]-[194.1,122.7,50.4]). CONCLUSION: this is a genuine TotalSegmentator
+      source-label mislabeling artifact already present in the raw segmentation file this project was given,
+      not something `ingest_volume_geometry.py`'s per-label marching-cubes conversion (which does no
+      cross-structure filtering) introduced. Less concerning than a pipeline bug, but still real: TotalSegmentator
+      likely confused a small chunk of sacral/L5-adjacent tissue for L2 at that boundary.
+      FIX APPLIED to `scripts/generate_intervertebral_discs.py`'s `compute_region_bbox`: when mesh data is
+      available, each manifest fragment is now reduced to its own largest face-adjacency component (reusing
+      Q110's validated `clean_vertebra_piece`/`face_adjacency_components` from `voxelize_lumbar_column.py`,
+      not reimplemented) before folding its bbox into the region bbox -- catches this exact class of bug
+      generically, not just this one fragment. VERIFIED NO-OP for cervical/thoracic on BOTH subjects except a
+      2.25mm shift on `ct_vhm` cervical (not shipped, `ct_vhm` untouched per this item's scope; harmless if
+      ever adopted) -- measured directly: `ct_vhf` cervical/thoracic region-bbox-center shift <=0.0001mm,
+      `ct_vhf` lumbar shifts 68.69mm (matching Q110's ~69mm number exactly), `ct_vhm` lumbar/thoracic 0.0mm.
+      A SECOND, SEPARATE fix was also needed for lumbar specifically (`compute_lumbar_disc_centers`, new):
+      this atlas frame has +Y as the craniocaudal axis (`manifest["frame"]`), and the 5 lumbar vertebrae's own
+      centroids shift up to 147mm in Y level-to-level (measured: L1 (-4.0,273.8) -> L5 (0.2,126.6)) -- a
+      single region-wide XY center (even cleaned of the L2 artifact) still leaves each disc 5-67mm off-axis in
+      Y. Switched lumbar (ONLY -- cervical/thoracic untouched, unaffected, out of scope) to per-adjacent-pair
+      centering: each disc centered on the mean XY of its two neighboring (cleaned) vertebrae's own vertices,
+      reproducing Q110's own validated-but-unshipped `build_corrected_discs` approach from
+      `voxelize_lumbar_column.py`. Regenerated the 4 lumbar OBJ files (`generate_intervertebral_discs.py
+      generate --subject ct_vhf --only-lumbar`, new CLI flags added so cervical/thoracic/ct_vhm files are
+      never touched) at the SAME 40mm radius / 20mm thickness Q104 originally used for every region (the
+      shipped ones were actually 50mm/24mm from Q104b's separate `generate_optimized_lumbar_discs.py` --
+      switched back to Q104's original size for consistency, since size was never the problem). MEASURED
+      RESULT: disc centers now land at (e.g.) L1-L2 (-4.17,248.49,-59.72) vs. the shipped (68.89,209.13,...) --
+      inside the real column's XY footprint (X within [-49,50], Y within [104,313] at every level) instead of
+      65-70mm outside it; nearest-vertebra-surface distance per disc ring now 0.2-0.6mm minimum (was 65-70mm),
+      confirmed by KD-tree query against each disc's own two neighboring (cleaned) vertebrae.
+      MAIN_FRAC, MEASURED HONESTLY (this is the header result): fixed `verify_vertebral_continuity.py`'s
+      already-documented (Q107) atlas_id-dict-collision bug too (trivial, ~10-line fix: `face_ranges` now
+      accumulates a LIST of (start,end) ranges per atlas_id instead of overwriting with `=`, so all 5/7/12
+      fragments per region are actually scored, not just the last one seen) -- committed since it's genuinely
+      small, low-risk (no test references it), and is exactly "a correct measurement method" this item needed
+      anyway. Re-ran it on the CURRENTLY-SHIPPED (unmodified) bundles first, as an honest baseline, and it
+      revealed something bigger than lumbar: **ct_vhf cervical is actually 0.162 (SEVERE_BREAK, was reported
+      0.993), ct_vhf thoracic is actually 0.103 (SEVERE_BREAK, was reported 0.994), ct_vhm cervical 0.142 (was
+      0.978), ct_vhm thoracic 0.082 (was 0.978)** -- the SAME dict-collision bug that hid lumbar's true 0.181
+      behind a false 0.536/0.539 also hid cervical/thoracic's true ~0.10-0.16 behind false 0.977-0.994 numbers,
+      for BOTH subjects. Q104's entire headline "MAJOR SUCCESS... shifted from SEVERE_BREAK to effectively
+      CONTINUOUS" was a measurement artifact everywhere it was measured, not a lumbar-specific shortfall --
+      because NONE of the 21 discs, in any region, were ever vertex-welded to their neighboring vertebrae, and
+      face-adjacency (this atlas's only continuity metric) requires an actual shared mesh edge, which placement
+      alone can never create. (`data/derived/Q104_continuity_ct_vhf.json` and `_ct_vhm.json` now hold this
+      honest baseline; committed.) Then measured lumbar with the REPOSITIONED discs on a byte-for-byte scratch
+      copy of `build/vh/ct_vhf` (never the live one) patched the same way a real ingestion would: **main_frac
+      0.18057 (16 components, largest=23624 vertices = pure `vertebrae_L5` alone) -- IDENTICAL to the shipped
+      state's 0.1806/16**, not a rounding coincidence: repositioning a mesh in 3D space cannot change its
+      face-adjacency graph, which depends only on shared vertex indices, never on where those vertices sit.
+      Proved this isn't a dead end specific to plain repositioning by also prototyping (scratch-only, not
+      shipped) two escalating attempts at real vertex sharing: (1) nearest-neighbor vertex snapping (à la
+      Q104b's `weld_lumbar_vertices_direct.py`, adapted per-level and offset-safe) -- swept thresholds 0-5mm,
+      up to 121 successful vertex merges, **main_frac unchanged at every threshold (still 0.1806/16
+      components)**, because a single shared vertex isn't a shared EDGE; (2) proper edge-aware stitching (new
+      triangles reusing an actual existing edge from each neighboring vertebra's own mesh, excluding the L2
+      mislabeled fragment's edges) -- swept thresholds 1.5-4mm, up to 92 new triangles per sweep, **main_frac
+      moved from 0.1806 to 0.1805** (a 1-in-10,000 DECREASE, from dilution, not a real improvement) because a
+      40mm-radius circular disc only ever nears part of a real, non-circular vertebral-body cross-section, and
+      isolated single-triangle stitches rarely land on two CONSECUTIVE disc-rim vertices sharing the same
+      target edge (the actual requirement for the stitch itself to be internally face-connected to the disc's
+      own triangles). A proper zipper/ladder stitch (walking both boundary loops together) could likely do
+      better, but is a materially bigger structural change than this item's "reasonable non-destructive step"
+      bar (new triangle topology at 8 disc-vertebra seams, unvalidated render risk from possible
+      degenerate/miswound triangles, and it still could not reach the OTHER, disc-independent source of
+      fragmentation below) -- not attempted, left as a diagnosed, open option, same spirit as Q110 declining
+      voxelization rather than forcing a bad trade.
+      REMAINING FRAGMENTATION, DIAGNOSED (per this item's own step 4, since disc work alone provably cannot
+      close it): of the 12 real face-adjacency components across the 5 lumbar vertebra pieces ALONE (matches
+      Q110's own number exactly, re-derived independently here): `vertebrae_L1` is internally split into 2
+      real pieces (its main body + a 46.0%-of-its-own-vertices second watertight shell, almost certainly
+      posterior elements/lamina separated from the vertebral body by a thin bone bridge lost in the original
+      label-to-mesh conversion -- a genuine per-vertebra topology defect, not a disc-placement problem, already
+      flagged as real anatomy by Q110's own `clean_vertebra_piece` and correctly NOT dropped here either);
+      `vertebrae_L2` contributes 6 components (1 main + 5 small noise fragments, including the sacrum-artifact
+      root-caused above); `vertebrae_L3`, `L4`, `L5` are each a single component internally. But even with ZERO
+      internal splits, the 5 pieces would still give a MINIMUM of 5 components, because no two of the 5 lumbar
+      vertebra pieces share so much as one vertex with each other -- they are independently marching-cubed from
+      separate label regions with no vertex-welding step anywhere in this project's ingestion pipeline. This is
+      the actual ceiling on what disc geometry (of any size, position, or count) can ever fix without also
+      performing genuine cross-mesh vertex/edge welding: placement and sizing address 0 of these 12
+      components; only welding (attempted above, found ineffective at the scale tried) or voxelization
+      (already declined by Q110) touch them at all.
+      ANATOMICAL PLAUSIBILITY: PASS on placement (XY now inside the real column footprint at every level,
+      versus 65-70mm outside before; nearest-vertebra distance sub-mm minimum) and PASS on size (40mm
+      radius / 20mm thickness, same as cervical/thoracic and Q104's own original choice, still disclosed as
+      synthetic/oversized relative to a real ~10-15 cm3 disc, unchanged from Q104's original disclosure).
+      SHIPPING DECISION: NOT shipped to the live build. This item's own bar for rebuilding the female bundle
+      (main_frac meaningfully better than 0.181 AND anatomically plausible AND no regression) is a conjunction,
+      and main_frac does not improve at all (0.18057 before and after, to 5 significant figures) -- so per
+      that bar, and to avoid an unnecessary build diff for zero measured connectivity benefit, `build/vh/ct_vhf`
+      and `build/viewer_f/atlas_viewer_female.html` are UNTOUCHED (confirmed: never written to in this item;
+      md5sums match Q108/Q109/Q110's state). The corrected geometry is real and reproducible, though: the 4
+      `data/ct_sources/task_outputs/ct_vhf_intervertebral_disc_l*_l*.obj` files ARE updated (correct position,
+      same size/topology as before) and committed, so a future session that adds real vertex/edge welding
+      (or accepts the bigger zipper-stitch approach declined above) can ingest correctly-placed discs
+      immediately rather than re-deriving their positions.
+      `python -m pytest -q`: **252 passed** (unchanged). `test_source_coverage.py` specifically: 1 passed.
+      Cleaned up all scratch files (scratch build copies, measurement scripts) before finishing; `df -h /`
+      17G available, not tight.
+      SHIPPED to git: `scripts/generate_intervertebral_discs.py` (bbox/centroid fix, per-level lumbar
+      centering, `--subject`/`--only-lumbar` CLI flags), `scripts/verify_vertebral_continuity.py`
+      (dict-collision fix), the 4 corrected lumbar disc OBJ files, `data/derived/Q104_continuity_ct_vhf.json`
+      and `_ct_vhm.json` (honest re-measured baseline for all 3 regions, both subjects), this PROJECT_STATE.md
+      entry. NOT shipped/wired into any rebuild script: `build/vh/ct_vhf`, `build/viewer_f/atlas_viewer_female.html`
+      (untouched, see above).
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
@@ -3985,25 +4125,52 @@ the female's phalanges are under-captured at HU 200.
   in int64 and casting back), and re-ran disc ingestion clean: 0/109 offset-inconsistent (was 84/87). `ct_vhm`
   came back byte-identical (fix is a no-op where data was already correct). 252 tests pass. Full detail,
   including why the remeshed-rib half was declined, in the Q108 queue entry above.
-- Q104b (female lumbar → 0.539): STILL BLOCKED -- and CORRECTED by Q110 (2026-09-22): the 0.536/0.539 numbers
-  were never a real whole-column measurement. `verify_vertebral_continuity.py`'s own atlas_id-dict-collision
-  bug (Q107) means it only ever scores 1 of the 5 `lumbar_vertebrae` pieces against the discs; measured
-  correctly (all 5 pieces, `voxelize_lumbar_column.py`'s validated method), the true main_frac is **0.181**
-  (12 real components) and has been since before Q104's disc work -- the shipped discs contribute ~0% real
-  bridging because they sit 65-70mm outside the column's own XY footprint (a region-bbox-center calculation
-  poisoned by a mislabeled, disjoint fragment inside `vertebrae_L2` that lands inside the real `sacrum`'s own
-  bbox -- likely a TotalSegmentator mislabeling artifact). Q110 then tried Q104b's own recommendation #3
-  (voxelization-based bridging) and found it technically works (main_frac -> 1.0000, 0% outside skin) but
-  DECLINED to ship it: real bone volume grows 2.6x-4.6x over its true volume and fuses all 5 vertebrae into
-  one indistinct blob, a worse anatomical trade than Q105/Q109's rib fix. Female cervical/thoracic, by
-  contrast, are still real and dramatically better (0.962/0.937) since her discs actually exist there (they
-  were never correctly ingested before Q108: 0 discs in the currently-published live viewer, confirmed by
-  inspecting its own bundle JSON) -- unaffected by any of this, cervical/thoracic discs were never mispositioned.
-  RECOMMENDATION for lumbar, updated: option 1 (source-level rebuild with corrected per-level disc positioning,
-  which Q110 prototyped and validated but did not ship since it improves anatomical honesty without moving
-  main_frac at all -- spatial proximity without shared mesh edges still isn't face-adjacency connectivity, per
-  Q104's own original finding) or option 2 (fan-like multi-disc geometry) remain the only untried paths that
-  don't risk the bone-distortion cost Q110 measured for option 3.
+- Q104b (female lumbar → 0.539): STILL BLOCKED -- CORRECTED by Q110 (2026-09-22) and further corrected/
+  root-caused by Q111 (2026-09-22). The 0.536/0.539 numbers were never a real whole-column measurement:
+  `verify_vertebral_continuity.py`'s own atlas_id-dict-collision bug (Q107) meant it only ever scored 1 of
+  the 5 `lumbar_vertebrae` pieces against the discs. Q111 fixed that bug directly (small, ~10-line change,
+  low risk, no test depended on the old behavior) and re-measured EVERY vertebral region on BOTH subjects,
+  which surfaced a bigger finding than lumbar alone: **cervical/thoracic were never real either.**
+  ct_vhf cervical is actually 0.162 (SEVERE_BREAK, was reported 0.993), ct_vhf thoracic 0.103 (was 0.994),
+  ct_vhm cervical 0.142 (was 0.978), ct_vhm thoracic 0.082 (was 0.978) -- the same dict-collision bug that
+  hid lumbar's true 0.181 behind a false 0.536/0.539 also hid cervical/thoracic's true ~0.10-0.16 behind
+  false 0.977-0.994 numbers, for BOTH subjects. (The line below this one, in an earlier version of this
+  file, claimed female cervical/thoracic were "still real and dramatically better" at 0.962/0.937 --
+  that claim is now known to be wrong for the same measurement-bug reason and is corrected here.)
+  Q104's original headline ("shifted from SEVERE_BREAK to effectively CONTINUOUS") was a measurement
+  artifact across every region it was reported for, not a lumbar-specific shortfall, because NONE of the 21
+  discs in either subject were ever vertex-welded to their neighboring vertebrae, and face-adjacency (this
+  atlas's only continuity metric) requires an actual shared mesh edge, which placement or sizing alone can
+  never create -- confirmed directly by Q111: repositioning the lumbar discs correctly (see below) provably
+  left main_frac unchanged to 5 significant figures (0.18057 before and after).
+  Root cause of the lumbar disc mispositioning, traced one level further by Q111: the shipped discs sit
+  65-70mm outside the column's own XY footprint because `compute_region_bbox` folded a mislabeled, disjoint
+  fragment inside `vertebrae_L2` into the region bbox; that fragment is confirmed (by direct inspection of
+  the raw label volume, before any of this project's own processing) to be a genuine TotalSegmentator
+  source-label artifact already present in `vhf_total.nii.gz` itself, not something this project's own
+  ingestion pipeline introduced. Q111 fixed `compute_region_bbox` (largest-connected-component filtering,
+  verified no-op for cervical/thoracic) and switched lumbar disc placement to per-adjacent-vertebra-pair
+  centering (this atlas frame's craniocaudal axis is +Y, and the 5 vertebrae's own centroids shift up to
+  147mm in Y level-to-level, so a single region-wide center was never going to work here even cleaned of the
+  L2 artifact) -- discs now measure within <1mm of both real neighboring vertebra surfaces, versus 65-70mm
+  off-axis before. Q110 separately tried voxelization-based bridging (option 3) and found it technically
+  works (main_frac -> 1.0000, 0% outside skin) but DECLINED to ship it: real bone volume grows 2.6x-4.6x
+  over its true volume and fuses all 5 vertebrae into one indistinct blob, a worse anatomical trade than
+  Q105/Q109's rib fix. Q111 also tried nearest-vertex welding and edge-aware triangle stitching (both
+  scratch-only) to see if real vertex sharing could move main_frac beyond what repositioning alone can do --
+  both measured ~0 real improvement at the thresholds tried (see Q111's own entry for the full sweep).
+  REMAINING FRAGMENTATION, now diagnosed exactly (Q111): of lumbar's 12 real components, `vertebrae_L1` is
+  internally split into 2 real pieces (a genuine per-vertebra topology defect from mesh conversion, not a
+  disc problem); `vertebrae_L2` contributes 6 (1 main + 5 small noise fragments, largest being the L2
+  sacrum-artifact above); `L3`/`L4`/`L5` are each single-piece. But even with zero internal splits, 5
+  independently-marching-cubed vertebra pieces sharing not one vertex with each other would still give a
+  floor of 5 components -- no disc geometry (position, size, or count) can close that without genuine
+  cross-mesh vertex/edge welding, which Q111's own tests show needs a bigger structural approach (a proper
+  zipper/ladder stitch across both boundary loops, not the single-vertex/single-triangle attempts tried) than
+  either item attempted. RECOMMENDATION, updated again: the corrected-position lumbar disc OBJ files (Q111,
+  committed) are ready for a future session that implements real edge-aware zipper stitching, OR pursues
+  option 2 (fan-like multi-disc geometry, still untried) -- either would need to ALSO address cervical/
+  thoracic now that their true state is known, not just lumbar.
 - Remeshed-rib skin-containment defect (found by Q108): RESOLVED by Q109 (2026-09-22) for BOTH subjects.
   Root cause traced (see Q109's queue entry for the full argument): Q105b's own voxelization script had the
   morphological dilation hardcoded at 8 iterations (~16mm bridges) -- Q105b's commit message claiming "3

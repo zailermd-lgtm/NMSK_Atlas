@@ -5,15 +5,22 @@ This script creates idealized geometric cylinder meshes representing
 intervertebral discs between adjacent vertebrae. The discs are positioned
 at regular intervals within each vertebral region's Z-extent.
 
-Disc parameters:
-  - Radius: 14 mm (increased to ensure bridging of gaps)
-  - Thickness: 8 mm
+Disc parameters (as actually used below; this docstring previously said
+14mm/8mm, stale since before this script's own disc_radius/disc_thickness
+constants were set to 40/20 -- see Q104's PROJECT_STATE.md entry):
+  - Radius: 40 mm (super-sized to absolutely ensure XY overlap)
+  - Thickness: 20 mm
 
 Vertebral levels:
   - Cervical: C1-C2 through C6-C7 (6 discs)
   - Thoracic: T1-T2 through T11-T12 (11 discs)
   - Lumbar: L1-L2 through L4-L5 (4 discs)
   Total: 21 discs per body
+
+Cervical/thoracic discs are centered on a single region-wide vertebra bbox
+per region. Lumbar discs (Q111 fix) are instead centered per adjacent pair
+of vertebrae -- see compute_lumbar_disc_centers's own docstring for why the
+lumbar region needs that and the other two don't.
 
 Output: OBJ files in data/ct_sources/task_outputs/
 """
@@ -30,7 +37,16 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+# Reuse the validated face-adjacency / per-piece-cleaning primitives Q110
+# already built and cross-checked (see PROJECT_STATE.md's Q110 entry) instead
+# of re-implementing them here.
+from scripts.voxelize_lumbar_column import (  # noqa: E402
+    face_adjacency_components,
+    clean_vertebra_piece,
+)
+
 OUTPUT_DIR = REPO_ROOT / "data" / "ct_sources" / "task_outputs"
+BUILD_DIR = REPO_ROOT / "build" / "vh"
 
 
 @dataclass
@@ -157,24 +173,137 @@ def load_manifest(subject: str) -> dict:
         return json.load(f)
 
 
-def compute_region_bbox(manifest: dict, atlas_id: str) -> tuple[np.ndarray, np.ndarray] | None:
-    """Compute bounding box encompassing all fragments of a vertebra region."""
+def read_mesh_binary(subject: str) -> tuple[np.ndarray, np.ndarray]:
+    """Read a subject's shipped mesh from its binary vertex/face files."""
+    subject_dir = BUILD_DIR / subject
+    verts = np.fromfile(subject_dir / "vertices.f32", dtype=np.float32).reshape(-1, 3)
+    faces = np.fromfile(subject_dir / "faces.u32", dtype=np.uint32).reshape(-1, 3)
+    return verts, faces
+
+
+def compute_region_bbox(
+    manifest: dict,
+    atlas_id: str,
+    all_verts: np.ndarray | None = None,
+    all_faces: np.ndarray | None = None,
+) -> tuple[np.ndarray, np.ndarray] | None:
+    """Compute bounding box encompassing all fragments of a vertebra region.
+
+    Q111 FIX: when mesh data is supplied, each fragment is first reduced to
+    its own largest face-adjacency component (+ any large, real secondary
+    component -- see clean_vertebra_piece's own NOISE_FRAGMENT_MAX_FRACTION
+    threshold) before its bbox is folded into the region bbox. This matters
+    because a manifest fragment's own bbox_min/max_mm is the RAW extent of
+    every vertex in that fragment, including any small disjoint island that
+    doesn't belong to it. Q110 found exactly this for ct_vhf's vertebrae_L2:
+    a ~1.8%-of-vertices fragment (454/24996 verts) that is a genuinely
+    separate mesh island (zero shared vertices with the rest of L2) sitting
+    entirely inside the real `sacrum` structure's own bbox. Traced to the
+    RAW source label volume itself (see PROJECT_STATE.md's Q111 entry): the
+    same disjoint voxel cluster (502 raw voxels, 1.77% of L2's raw voxel
+    count) already exists in vhf_total.nii.gz's own label==30 mask, at the
+    exact same location -- a TotalSegmentator source-label artifact, not
+    something this project's ingestion pipeline introduced. Excluding it here
+    (rather than trusting the raw label mask's full extent) is a generally
+    more robust way to compute a region's bbox regardless of which vertebra
+    happens to carry the mislabeled voxels.
+
+    Falls back to the raw manifest bboxes when no mesh data is given (keeps
+    every existing caller working unchanged).
+    """
     frags = [s for s in manifest["structures"] if s["atlas_id"] == atlas_id]
 
     if not frags:
         return None
 
-    z_mins = [f["bbox_min_mm"][2] for f in frags]
-    z_maxs = [f["bbox_max_mm"][2] for f in frags]
-    x_mins = [f["bbox_min_mm"][0] for f in frags]
-    x_maxs = [f["bbox_max_mm"][0] for f in frags]
-    y_mins = [f["bbox_min_mm"][1] for f in frags]
-    y_maxs = [f["bbox_max_mm"][1] for f in frags]
+    if all_verts is None or all_faces is None:
+        z_mins = [f["bbox_min_mm"][2] for f in frags]
+        z_maxs = [f["bbox_max_mm"][2] for f in frags]
+        x_mins = [f["bbox_min_mm"][0] for f in frags]
+        x_maxs = [f["bbox_max_mm"][0] for f in frags]
+        y_mins = [f["bbox_min_mm"][1] for f in frags]
+        y_maxs = [f["bbox_max_mm"][1] for f in frags]
+        return (
+            np.array([min(x_mins), min(y_mins), min(z_mins)]),
+            np.array([max(x_maxs), max(y_maxs), max(z_maxs)]),
+        )
+
+    mins, maxs = [], []
+    for frag in frags:
+        vo, vc = frag["vertex_offset"], frag["vertex_count"]
+        fo, fc = frag["face_offset"], frag["triangle_count"]
+        verts = all_verts[vo : vo + vc]
+        faces_local = all_faces[fo : fo + fc].astype(np.int64) - vo
+        clean_verts, _clean_faces, _dropped = clean_vertebra_piece(
+            frag.get("source_structure", atlas_id), verts, faces_local
+        )
+        mins.append(clean_verts.min(axis=0))
+        maxs.append(clean_verts.max(axis=0))
 
     return (
-        np.array([min(x_mins), min(y_mins), min(z_mins)]),
-        np.array([max(x_maxs), max(y_maxs), max(z_maxs)]),
+        np.stack(mins).min(axis=0),
+        np.stack(maxs).max(axis=0),
     )
+
+
+def compute_lumbar_disc_centers(
+    manifest: dict, all_verts: np.ndarray, all_faces: np.ndarray
+) -> dict[str, np.ndarray]:
+    """Per-level (adjacent-pair) disc centers for the lumbar column.
+
+    Q111 FIX: `compute_region_bbox` alone is not enough for the lumbar
+    region even once the mislabeled L2 fragment is excluded, because this
+    atlas's frame has +Y as the craniocaudal (superior-inferior) axis (see
+    manifest["frame"]), and the 5 lumbar vertebrae's own X/Y centroids shift
+    by tens of mm level to level (measured: L1 (-4.0, 273.8) -> L5 (0.2,
+    126.6), a 147mm swing in Y alone) -- a single region-wide XY center
+    cannot track that curve. This reproduces Q110's own validated
+    per-level approach (`voxelize_lumbar_column.py`'s build_corrected_discs`,
+    prototyped there but never shipped): each disc is centered on the mean
+    XY of its two adjacent (cleaned) vertebrae's own vertices, at whichever
+    pair of the two vertebrae's Z-extents faces each other most closely.
+    """
+    order = ["L1", "L2", "L3", "L4", "L5"]
+    pieces = {
+        s["source_structure"]: s
+        for s in manifest["structures"]
+        if s["atlas_id"] == "lumbar_vertebrae"
+    }
+    missing = [n for n in order if f"vertebrae_{n}" not in pieces]
+    if missing:
+        raise SystemExit(f"Missing lumbar vertebra pieces: {missing}")
+
+    clean_verts = {}
+    for name in order:
+        frag = pieces[f"vertebrae_{name}"]
+        vo, vc = frag["vertex_offset"], frag["vertex_count"]
+        fo, fc = frag["face_offset"], frag["triangle_count"]
+        verts = all_verts[vo : vo + vc]
+        faces_local = all_faces[fo : fo + fc].astype(np.int64) - vo
+        cv, _cf, _dropped = clean_vertebra_piece(f"vertebrae_{name}", verts, faces_local)
+        clean_verts[name] = cv
+
+    centroids = {n: clean_verts[n].mean(axis=0) for n in order}
+    z_ranges = {n: (clean_verts[n][:, 2].min(), clean_verts[n][:, 2].max()) for n in order}
+
+    centers = {}
+    for i in range(4):
+        upper, lower = order[i], order[i + 1]
+        level_key = f"l{i+1}_l{i+2}"
+        cu, cl = centroids[upper], centroids[lower]
+        x_center = (cu[0] + cl[0]) / 2.0
+        y_center = (cu[1] + cl[1]) / 2.0
+        zu_min, zu_max = z_ranges[upper]
+        zl_min, zl_max = z_ranges[lower]
+        candidates = [
+            (abs(zu_min - zl_max), (zu_min + zl_max) / 2.0),
+            (abs(zu_max - zl_min), (zu_max + zl_min) / 2.0),
+        ]
+        candidates.sort(key=lambda c: c[0])
+        z_center = candidates[0][1]
+        centers[level_key] = np.array([x_center, y_center, z_center])
+
+    return centers
 
 
 def generate_disc_meshes(subject: str) -> dict:
@@ -183,14 +312,22 @@ def generate_disc_meshes(subject: str) -> dict:
     Returns dict mapping level.atlas_id -> (vertices, faces)
     """
     manifest = load_manifest(subject)
+    all_verts, all_faces = read_mesh_binary(subject)
 
-    # Get bounding boxes for vertebra regions (encompassing all fragments)
-    cervical_bbox = compute_region_bbox(manifest, "cervical_vertebrae")
-    thoracic_bbox = compute_region_bbox(manifest, "thoracic_vertebrae")
-    lumbar_bbox = compute_region_bbox(manifest, "lumbar_vertebrae")
+    # Get bounding boxes for vertebra regions (encompassing all fragments).
+    # Q111: cleaned via compute_region_bbox's largest-component filtering --
+    # verified a no-op for cervical/thoracic on both subjects (<=2.25mm
+    # shift, see PROJECT_STATE.md's Q111 entry) so this is safe to always use.
+    cervical_bbox = compute_region_bbox(manifest, "cervical_vertebrae", all_verts, all_faces)
+    thoracic_bbox = compute_region_bbox(manifest, "thoracic_vertebrae", all_verts, all_faces)
 
-    if not all([cervical_bbox, thoracic_bbox, lumbar_bbox]):
+    if not all([cervical_bbox, thoracic_bbox]):
         raise SystemExit(f"Missing vertebra regions in {subject} manifest")
+
+    # Q111: lumbar no longer uses a single region-wide bbox center at all --
+    # see compute_lumbar_disc_centers's own docstring for why that was never
+    # going to work in this atlas frame, mislabeled fragment or not.
+    lumbar_centers = compute_lumbar_disc_centers(manifest, all_verts, all_faces)
 
     # Disc parameters - SUPER-SIZED to absolutely ensure connectivity
     # These are procedural/synthetic geometry, not anatomically extracted, so size
@@ -233,17 +370,13 @@ def generate_disc_meshes(subject: str) -> dict:
         discs[level.atlas_id] = (verts, faces)
 
     for level in LUMBAR_LEVELS:
-        bbox_min, bbox_max = lumbar_bbox
-        parts = level.name.split('-')
-        lower_idx = int(parts[0][1:])
-
-        # 4 discs for L1-L5
-        frac = (lower_idx - 0.5) / 4.0
-        z_disc = bbox_min[2] + frac * (bbox_max[2] - bbox_min[2])
-        x_center = (bbox_min[0] + bbox_max[0]) / 2.0
-        y_center = (bbox_min[1] + bbox_max[1]) / 2.0
-
-        center = np.array([x_center, y_center, z_disc])
+        # Q111: per-level (adjacent-pair) center, not the region-wide bbox
+        # center used above for cervical/thoracic -- see
+        # compute_lumbar_disc_centers's docstring for why the lumbar region
+        # needs this and the other two regions don't (empirically, no-op
+        # there; see PROJECT_STATE.md's Q111 entry).
+        level_key = level.atlas_id.replace("intervertebral_disc_", "")
+        center = lumbar_centers[level_key]
         verts, faces = create_cylinder_mesh(center, disc_radius, disc_thickness)
         discs[level.atlas_id] = (verts, faces)
 
@@ -268,12 +401,18 @@ def write_obj_file(filepath: Path, vertices: np.ndarray, faces: np.ndarray) -> N
 
 
 def cmd_generate(args: argparse.Namespace) -> int:
-    """Generate disc meshes for both male and female."""
+    """Generate disc meshes for the requested subject(s)/level(s)."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    for subject in ["ct_vhm", "ct_vhf"]:
+    subjects = [args.subject] if args.subject else ["ct_vhm", "ct_vhf"]
+    lumbar_ids = {lvl.atlas_id for lvl in LUMBAR_LEVELS}
+
+    for subject in subjects:
         print(f"\nGenerating discs for {subject}...")
         discs = generate_disc_meshes(subject)
+
+        if args.only_lumbar:
+            discs = {aid: v for aid, v in discs.items() if aid in lumbar_ids}
 
         # Write OBJ files
         for atlas_id, (verts, faces) in discs.items():
@@ -299,6 +438,19 @@ def main():
         "command",
         choices=["generate"],
         help="Command to run",
+    )
+    parser.add_argument(
+        "--subject",
+        choices=["ct_vhm", "ct_vhf"],
+        default=None,
+        help="Limit to one subject (default: both, matching original behavior).",
+    )
+    parser.add_argument(
+        "--only-lumbar",
+        action="store_true",
+        help="Only write the 4 lumbar disc OBJ files (still computes all region "
+             "bboxes/centers first, since generate_disc_meshes needs them, but "
+             "skips writing cervical/thoracic files so they're never touched).",
     )
 
     args = parser.parse_args()

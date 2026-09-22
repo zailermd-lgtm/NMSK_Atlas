@@ -50,23 +50,31 @@ def build_face_adjacency_graph(
     Returns:
         (adjacency_matrix, selected_face_indices, face_to_struct_dict)
     """
-    # Get face ranges for selected structures
-    face_ranges = {}
+    # Get face ranges for selected structures.
+    # BUG FIX (Q111, was open since Q104/Q107/Q110 documented it): several
+    # manifest structures can share one atlas_id -- e.g. lumbar_vertebrae has
+    # 5 (L1-L5), cervical_vertebrae 7, thoracic_vertebrae 12 -- so keying this
+    # dict by atlas_id and assigning with `=` silently overwrote every
+    # fragment but the last one seen. That meant this function only ever
+    # scored ONE vertebra piece per region against its discs; see Q110's
+    # PROJECT_STATE.md entry for the full trace and re-measured numbers.
+    face_ranges: dict[str, list[tuple[int, int]]] = defaultdict(list)
     for struct in manifest["structures"]:
         if struct["atlas_id"] in include_structures:
-            face_ranges[struct["atlas_id"]] = (
+            face_ranges[struct["atlas_id"]].append((
                 struct["face_offset"],
                 struct["face_offset"] + struct["triangle_count"],
-            )
+            ))
 
     # Collect faces to include
     selected_faces = []
     face_to_struct = {}
 
-    for atlas_id, (start, end) in sorted(face_ranges.items()):
-        for i in range(start, end):
-            selected_faces.append(i)
-            face_to_struct[i] = atlas_id
+    for atlas_id, ranges in sorted(face_ranges.items()):
+        for start, end in ranges:
+            for i in range(start, end):
+                selected_faces.append(i)
+                face_to_struct[i] = atlas_id
 
     if not selected_faces:
         raise ValueError(f"No faces found for structures: {include_structures}")
