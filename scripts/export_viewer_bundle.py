@@ -67,7 +67,13 @@ BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000,
                     # too aggressive a reduction for fast_simplification to keep the sheet
                     # joined end to end (measured: main_frac 0.36/0.90 at 8000 vs 0.96/0.94
                     # at 16000, both sides, both bodies -- see PROJECT_STATE Q114).
-                    "external_intercostals_r": 16000, "external_intercostals_l": 16000}
+                    "external_intercostals_r": 16000, "external_intercostals_l": 16000,
+                    # Q115: raw source (vhf_total.nii.gz label 52, split at the vertebral levels) is
+                    # ONE piece, main_frac 1.000, but the default vessel budget (1500) clustered it
+                    # into 2 at every step below ~2000 triangles and joined again at >=2000 -- measured
+                    # directly, not tuned by feel; 2400 keeps a safety margin above that threshold at
+                    # both bodies' budget-scale (0.85 female / 0.9 male).
+                    "descending_thoracic_aorta": 2400}
 QUANTUM_MM = 0.25
 
 # Indices are uint16, which is the whole reason for the budgets above: at
@@ -113,7 +119,17 @@ def cluster(verts: np.ndarray, faces: np.ndarray, cell: float):
 # components), matching the pre-decimation number. Added here rather than given its own set/budget path
 # because the mechanism (clustering cannot represent geometry thinner than its own cell) is identical to
 # the sheet case above, just one dimension down.
-SHEET_IDS = {"diaphragm", "external_intercostals_r", "external_intercostals_l", "sciatic_n"}
+# Q115: extensor_carpi_radialis_longus_r is neither a sheet nor a cord, but a normal-shaped forearm
+# muscle that happened to land at 0.562 main_frac shipped even though its own pre-decimation mesh
+# (either smoothing value) measures 0.95-0.97 -- i.e. clustering, not smoothing or the source, is the
+# destroyer here too. Measured directly: quadric decimation on the SAME (unchanged, smooth=1.0) mesh
+# gives 0.953 (vs clustering's 0.562, which matches the shipped number exactly). Added only this one
+# id, not the other 13 muscles `ct_vhf_forearm` also carries -- they were re-measured with quadric
+# decimation substituted subject-wide and every one of them was flat or slightly WORSE (several
+# dropped from CONTINUOUS 1.0 into the FRAGMENTED band), so the fix is scoped to the one id that
+# actually needed it rather than swapping the whole subject's decimation path.
+SHEET_IDS = {"diaphragm", "external_intercostals_r", "external_intercostals_l", "sciatic_n",
+            "extensor_carpi_radialis_longus_r"}
 
 
 def decimate_quadric(verts, faces, budget):

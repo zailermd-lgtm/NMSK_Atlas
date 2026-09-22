@@ -1177,6 +1177,43 @@ continuous, is left_total/grand_total = 0.647), the same caveat class Q112 alrea
 `optic_n` and the hand/foot bone groups. Full numbers, method and the closing sweep in the Q113
 queue entry, PROJECT_STATE.md.
 
+**Q115 (2026-09-22) update -- same bug class, 3 more structures fixed by the same method, mechanically
+triaged across all remaining fragmented muscle/vessel/nerve structures Q112 flagged.** `popliteal_a_r`
+(the popliteal artery, `ct_vhf_popliteal`) went from shipped main_frac 0.567 to **1.000** on `--smooth
+0.0` alone, no other change -- raw source is already 1 piece. `extensor_hallucis_longus_l` and
+`flexor_digitorum_longus_l` (both transferred-and-refined muscles, `vhf_xfer_lowerlimb_septa.nii.gz`)
+went 0.669 -> 0.992 and 0.825 -> 1.000 the same way; their sibling `extensor_hallucis_longus_r` looked
+identical on paper but measured differently (see below) and was correctly left alone. Rather than
+reconvert `xfer_vhm2vhf_sep`'s other 55 muscles too, a new small subject
+(`ct_vhf_xfersepta_fix`, `mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json`) carries ONLY
+these 2 labels at `--smooth 0.0`, listed before `xfer_vhm2vhf_sep` in `export_viewer_bundle.py`'s
+`--subject` order so it claims just those 2 ids -- the same "new subject supersedes one id" pattern
+this section's own `ct_vhf_nerve` established. `descending_thoracic_aorta` (a split part of `ct_vhf`'s
+own `aorta` label, `vhf_total.nii.gz` #52) went 0.711 -> **1.000**, but NOT from smoothing alone: raw
+source and the pre-decimation mesh were already close to solid at either smoothing value, and the
+actual destroyer was the vessel category's default 1500-triangle budget -- measured directly, 1900
+triangles clustered into 2 pieces and 2000 into 1, so `BUDGET_OVERRIDES["descending_thoracic_aorta"]`
+was raised to 2400 (clears that threshold with margin at both bodies' budget-scale) alongside a new
+`ct_vhf_descaorta` subject (only this one split part, `--smooth 0.0`, listed before `ct_vhf` so it
+supersedes just this id and leaves `ct_vhf`'s ~40 other skeletal structures, including its own
+arch/abdominal aorta parts, untouched). `extensor_carpi_radialis_longus_r` (`ct_vhf_forearm`) went
+0.562 -> **0.953** by adding it to `SHEET_IDS` (quadric decimation) with NO reconversion --
+measured directly, its pre-decimation mesh was already ~0.95-0.97 at either smoothing sigma, so
+vertex-clustering decimation alone (not smoothing) was the sciatic_n-class destroyer here; the other
+13 muscles `ct_vhf_forearm` carries were re-measured with quadric decimation substituted subject-wide
+and every one was flat or worse, so the fix stays scoped to this one id.
+**DECLINED, root cause found but not this bug class:** `deep_transverse_perineal_r` and
+`extensor_hallucis_longus_r` each measure well-connected in their raw voxel mask (0.916, 0.997) but
+their SURFACED mesh is only ~0.55-0.62 at EITHER smoothing value and neither decimation method moves
+it further -- a marching-cubes topology defect at a sub-voxel bridge, the same third failure class
+Q114 found for `geniohyoid_l`/`hyoglossus_r`, confirmed here for two more structures. `optic_n` (male,
+left side only) traces to the female's own `ct_vhf_orbit` shipping perfectly (main_frac 1.000) but the
+`xfer_vhf2vhm` cross-subject transfer's OWN pre-decimation mesh already measuring 0.500/2 components --
+the defect is in the mesh-warp step of `cross_subject_transfer.py` itself, not in smoothing or
+decimation, and fixing it needs work in that script, out of this item's scope. Full triage table (149
+structures measured), classifications and the ranked not-yet-attempted list:
+`data/derived/Q115_triage.json`, `scripts/triage_continuity_q115.py`, PROJECT_STATE.md Q115 entry.
+
 ### A learned nerve-section scorer, trained on her own verified track (2026-09-14, Q54)
 
 Below the mid-thigh the hand-crafted detector fails for a measured reason: the tibial nerve in the

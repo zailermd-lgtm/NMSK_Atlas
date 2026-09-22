@@ -15,6 +15,15 @@ conv(){ # volume labels subject [extra convert args]
   python3 scripts/ingest_volume_geometry.py convert $vol --labels $labels --subject $sub --origin="$O" "$@" 2>&1 | grep -E "wrote|Error|Trace"
   cp build/vh/${sub}_volume_mapping.json mappings/subjects/
 }
+# Q115: descending_thoracic_aorta only, reconverted at --smooth 0.0 (ct_vhf's own aorta split
+# clustered a source that measures ONE piece into 2 below the vessel budget's default 1500 tris --
+# BUDGET_OVERRIDES now also covers this, but the smoothing-vs-source gap was real and worth keeping
+# separately reconverted; see PROJECT_STATE Q115). Listed BEFORE ct_vhf so it wins the one atlas_id
+# it carries; ct_vhf's own arch/abdominal aorta parts are untouched.
+if [ -f mappings/subjects/ct_vhf_descaorta_volume_mapping.json ] && ! grep -q descending_thoracic_aorta build/vh/ct_vhf_descaorta/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhf_descaorta_volume_mapping.json build/vh/
+  python3 scripts/ingest_volume_geometry.py convert $T/vhf_total.nii.gz --labels totalsegmentator --subject ct_vhf_descaorta --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
 conv $T/vhf_total.nii.gz totalsegmentator ct_vhf --smooth 1.0
 conv $T/vhf_craniofacial_structures.nii.gz totalsegmentator_craniofacial_structures ct_vhf_head --smooth 1.0
 conv $T/vhf_head_muscles.nii.gz totalsegmentator_head_muscles ct_vhf_headm --smooth 1.0
@@ -71,7 +80,9 @@ conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb"
+[ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
+SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
@@ -87,6 +98,17 @@ fi
 # label volume in the repo); listed BEFORE xfer_vhm2vhf so the refined muscle wins and the unrefined transfer supplies the rest
 if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
   conv $T/vhf_xfer_lowerlimb_septa.nii.gz vhf_xfer_septa xfer_vhm2vhf_sep --smooth 1.0
+  # Q115: extensor_hallucis_longus_l + flexor_digitorum_longus_l only, reconverted at --smooth 0.0
+  # (raw source is 0.997-1.000 main_frac but xfer_vhm2vhf_sep's own smooth=1.0 conversion shipped
+  # 0.669/0.825 for these two). extensor_hallucis_longus_r was investigated and DECLINED -- its
+  # pre-decimation mesh measures ~0.55 at EITHER smoothing value, a marching-cubes surface defect,
+  # not this bug class -- so it is deliberately excluded from this mapping and still comes from
+  # xfer_vhm2vhf_sep, unchanged. Listed BEFORE xfer_vhm2vhf_sep so it wins only these 2 ids.
+  if [ -f mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json ] && ! grep -q flexor_digitorum_longus_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null; then
+    cp mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json build/vh/
+    python3 scripts/ingest_volume_geometry.py convert $T/vhf_xfer_lowerlimb_septa.nii.gz --labels vhf_xfer_septa --subject ct_vhf_xfersepta_fix --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+  fi
+  [ -f build/vh/ct_vhf_xfersepta_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix"
   [ -f build/vh/xfer_vhm2vhf_sep/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep"
 fi
 [ -f build/vh/xfer_vhm2vhf/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf"

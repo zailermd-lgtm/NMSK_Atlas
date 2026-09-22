@@ -12,7 +12,7 @@
       "subject": "ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_m/atlas_viewer_male.html",
-      "html_mtime": 1790057344.5904074,
+      "html_mtime": 1790061307.8472636,
       "n_structures_raw": 356,
       "n_groups": 321,
       "cat_mismatches": [],
@@ -4904,10 +4904,10 @@
           "status": "CONTINUOUS",
           "main_frac": 1.0,
           "n_components": 1,
-          "total_vertices": 654,
-          "largest_component_vertices": 654,
+          "total_vertices": 742,
+          "largest_component_vertices": 742,
           "n_pieces": 1,
-          "n_faces": 1312,
+          "n_faces": 1492,
           "id": "descending_thoracic_aorta",
           "side": "none",
           "cat": "vessel",
@@ -5231,10 +5231,10 @@
       }
     },
     "female": {
-      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+xfer_vhm2vhf_sep+xfer_vhm2vhf",
+      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_descaorta+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep+xfer_vhm2vhf",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_f/atlas_viewer_female.html",
-      "html_mtime": 1790056211.3343399,
+      "html_mtime": 1790060633.3072233,
       "n_structures_raw": 378,
       "n_groups": 356,
       "cat_mismatches": [],
@@ -5767,6 +5767,22 @@
             "ct_vhf_armb"
           ]
         },
+        "descending_thoracic_aorta|none": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 997,
+          "largest_component_vertices": 997,
+          "n_pieces": 1,
+          "n_faces": 2036,
+          "id": "descending_thoracic_aorta",
+          "side": "none",
+          "cat": "vessel",
+          "name": "Descending thoracic aorta",
+          "subjects": [
+            "ct_vhf_descaorta"
+          ]
+        },
         "sacrum|none": {
           "status": "FRAGMENTED",
           "main_frac": 0.5086752398448663,
@@ -5865,22 +5881,6 @@
           "side": "none",
           "cat": "vessel",
           "name": "Aortic arch (great vessel origins)",
-          "subjects": [
-            "ct_vhf"
-          ]
-        },
-        "descending_thoracic_aorta|none": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7113564668769716,
-          "n_components": 2,
-          "total_vertices": 634,
-          "largest_component_vertices": 451,
-          "n_pieces": 1,
-          "n_faces": 1272,
-          "id": "descending_thoracic_aorta",
-          "side": "none",
-          "cat": "vessel",
-          "name": "Descending thoracic aorta",
           "subjects": [
             "ct_vhf"
           ]
@@ -8415,12 +8415,12 @@
         },
         "extensor_carpi_radialis_longus_r|right": {
           "status": "FRAGMENTED",
-          "main_frac": 0.5620496397117695,
-          "n_components": 4,
-          "total_vertices": 1249,
-          "largest_component_vertices": 702,
+          "main_frac": 0.9529411764705882,
+          "n_components": 3,
+          "total_vertices": 1530,
+          "largest_component_vertices": 1458,
           "n_pieces": 1,
-          "n_faces": 2904,
+          "n_faces": 3060,
           "id": "extensor_carpi_radialis_longus_r",
           "side": "right",
           "cat": "muscle",
@@ -9198,13 +9198,13 @@
           ]
         },
         "popliteal_a_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5670926517571885,
-          "n_components": 2,
-          "total_vertices": 626,
-          "largest_component_vertices": 355,
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 591,
+          "largest_component_vertices": 591,
           "n_pieces": 1,
-          "n_faces": 1244,
+          "n_faces": 1218,
           "id": "popliteal_a_r",
           "side": "right",
           "cat": "vessel",
@@ -9217,10 +9217,10 @@
           "status": "CONTINUOUS",
           "main_frac": 1.0,
           "n_components": 1,
-          "total_vertices": 609,
-          "largest_component_vertices": 609,
+          "total_vertices": 600,
+          "largest_component_vertices": 600,
           "n_pieces": 1,
-          "n_faces": 1218,
+          "n_faces": 1208,
           "id": "popliteal_v_r",
           "side": "right",
           "cat": "vessel",
@@ -9233,8 +9233,8 @@
           "status": "CONTINUOUS",
           "main_frac": 1.0,
           "n_components": 1,
-          "total_vertices": 632,
-          "largest_component_vertices": 632,
+          "total_vertices": 618,
+          "largest_component_vertices": 618,
           "n_pieces": 1,
           "n_faces": 1262,
           "id": "tibial_n",
@@ -9565,6 +9565,38 @@
             "ct_vhf_skin"
           ]
         },
+        "extensor_hallucis_longus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9920823436262867,
+          "n_components": 4,
+          "total_vertices": 1263,
+          "largest_component_vertices": 1253,
+          "n_pieces": 1,
+          "n_faces": 3052,
+          "id": "extensor_hallucis_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor hallucis longus",
+          "subjects": [
+            "ct_vhf_xfersepta_fix"
+          ]
+        },
+        "flexor_digitorum_longus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1138,
+          "largest_component_vertices": 1138,
+          "n_pieces": 1,
+          "n_faces": 2948,
+          "id": "flexor_digitorum_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor digitorum longus",
+          "subjects": [
+            "ct_vhf_xfersepta_fix"
+          ]
+        },
         "adductor_brevis_l|left": {
           "status": "FRAGMENTED",
           "main_frac": 0.9608247422680413,
@@ -9725,22 +9757,6 @@
             "xfer_vhm2vhf_sep"
           ]
         },
-        "extensor_hallucis_longus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6690981432360743,
-          "n_components": 3,
-          "total_vertices": 1508,
-          "largest_component_vertices": 1009,
-          "n_pieces": 1,
-          "n_faces": 3050,
-          "id": "extensor_hallucis_longus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Extensor hallucis longus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
         "extensor_hallucis_longus_r|right": {
           "status": "FRAGMENTED",
           "main_frac": 0.562082777036048,
@@ -9785,22 +9801,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Fibularis (peroneus) longus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "flexor_digitorum_longus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8247422680412371,
-          "n_components": 2,
-          "total_vertices": 1455,
-          "largest_component_vertices": 1200,
-          "n_pieces": 1,
-          "n_faces": 3024,
-          "id": "flexor_digitorum_longus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Flexor digitorum longus",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -10960,8 +10960,8 @@
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 238,
-          "FRAGMENTED": 105,
+          "CONTINUOUS": 242,
+          "FRAGMENTED": 101,
           "SEVERE_BREAK": 13
         },
         "by_category_status": {
@@ -10971,12 +10971,12 @@
             "SEVERE_BREAK": 6
           },
           "vessel": {
-            "CONTINUOUS": 15,
-            "FRAGMENTED": 9
+            "CONTINUOUS": 17,
+            "FRAGMENTED": 7
           },
           "muscle": {
-            "CONTINUOUS": 144,
-            "FRAGMENTED": 80,
+            "CONTINUOUS": 146,
+            "FRAGMENTED": 78,
             "SEVERE_BREAK": 7
           },
           "cartilage": {

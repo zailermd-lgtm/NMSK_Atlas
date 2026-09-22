@@ -1,0 +1,37 @@
+{
+  "_README": [
+    "Q115: reconversion of ONLY 2 labels (11, 15) out of vhf_xfer_lowerlimb_septa.nii.gz's",
+    "57-label full set, at --smooth 0.0 instead of xfer_vhm2vhf_sep's own 1.0. Raw source main_frac",
+    "for these 2 labels measured 0.997-1.000 (1-5 small satellite components) but the shipped",
+    "bundle showed 0.669/0.825 -- smoothing was the destroyer. Label 12",
+    "(extensor_hallucis_longus_r) was investigated too and DECLINED -- measured directly, its",
+    "pre-decimation mesh is 0.55-0.56 main_frac at EITHER smoothing value (a marching-cubes surface",
+    "defect, not a smoothing/decimation artifact, the same failure class Q114 found for",
+    "geniohyoid_l/hyoglossus_r) -- so it is deliberately left OUT of this mapping and continues to",
+    "come from xfer_vhm2vhf_sep unchanged. Carries only these 2 labels so it can be listed before",
+    "xfer_vhm2vhf_sep in export_viewer_bundle.py's --subject order and claim just these 2",
+    "atlas_ids, leaving the other 55 muscles in vhf_xfer_lowerlimb_septa.nii.gz (and their own",
+    "smooth=1.0 conversion) completely untouched."
+  ],
+  "subject": "ct_vhf_xfersepta_fix",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
+  "label_map": "vhf_xfer_septa",
+  "entries": [
+    {
+      "label": 11,
+      "source_structure": "extensor_hallucis_longus_l",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "extensor_hallucis_longus_l",
+      "candidates": []
+    },
+    {
+      "label": 15,
+      "source_structure": "flexor_digitorum_longus_l",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "flexor_digitorum_longus_l",
+      "candidates": []
+    }
+  ]
+}

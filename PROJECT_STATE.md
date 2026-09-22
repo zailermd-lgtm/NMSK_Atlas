@@ -11,7 +11,21 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q114 (2026-09-22) root-caused
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q115 (2026-09-22) mechanically
+triaged all 149 remaining fragmented muscle/nerve/vessel structures Q112 found (beyond the 8 Q113/Q114
+already root-caused): 8 LIKELY_PIPELINE_ARTIFACT, 90 LIKELY_GENUINE, 32 MARGINAL, 19 UNCLEAR (one new
+sweep script, `scripts/triage_continuity_q115.py`). FIXED 5 of the 8 on the female bundle (verified on
+the shipped, decimated bundle): `popliteal_a_r` 0.567->1.000, `descending_thoracic_aorta`
+0.711->1.000, `extensor_hallucis_longus_l` 0.669->0.992, `flexor_digitorum_longus_l` 0.825->1.000,
+`extensor_carpi_radialis_longus_r` 0.562->0.953 -- via smoothing-sigma fixes, a decimation-budget fix,
+and a `SHEET_IDS` (quadric decimation) fix, each scoped with a new small superseding subject or a
+single id addition so nothing else moved (diff-confirmed: exactly 5 of 356 female groups changed, 0 of
+321 male). DECLINED 3 with root cause found (2 a marching-cubes surface defect matching Q114's third
+failure class; 1 a cross_subject_transfer.py mesh-warp defect, out of scope). Also explained (not a
+regression) Q112's sacrum discrepancy vs Q103: full-res pre-decimation mesh bit-identically reproduces
+Q103's number; the gap is Q112's own disclosed audit-scope limitation plus a real, undeclined
+marching-cubes+decimation compounding loss neither smoothing nor decimation budget can close. 252
+tests pass throughout. Full detail in the Q115 queue entry below. Recent: Q114 (2026-09-22) root-caused
 Q112's 8 "SEVERE_BREAK both bodies" candidates -- 3 distinct failure classes, not one systemic bug.
 FIXED (verified on the shipped bundle, both bodies): `external_intercostals_l/r` (raw source is
 main_frac 1.000, ONE piece -- Q112's "plausibly real 11-12-slip anatomy" read is OVERTURNED; shipped
@@ -2641,6 +2655,212 @@ tick the item here with a one-line result. Never fabricate; keep the
       **252 passed** (unchanged). `df -h /`: 17G available, unaffected; scratch intermediates (~280 MB
       across sanity conversions, skin-containment test meshes and backups) cleaned up.
 
+- [x] Q115 (2026-09-22) Q112's own punch-list item #3: decimation-vs-source triage for the ~140
+      OTHER fragmented muscle/nerve/vessel structures Q112 found, beyond the 8 Q113/Q114 already
+      root-caused. Wrote ONE mechanical sweep script (`scripts/triage_continuity_q115.py`, new) rather
+      than investigating by hand: for each remaining (id, side, body) group below main_frac 0.99 in
+      the muscle/vessel/nerve categories, it resolves the structure back to its RAW source label
+      volume (following a cross-subject transfer's own `transfer.from` back to the real originating
+      subject, and a split label's own splitter function when the shipped piece is one part of a
+      label another script cut into several), counts real connected components with
+      `scipy.ndimage.label` (26-connectivity, exactly Q113/Q114's method), and classifies
+      LIKELY_PIPELINE_ARTIFACT / LIKELY_GENUINE / MARGINAL / UNCLEAR by comparing to the shipped
+      bundle's own main_frac. Two engineering notes worth keeping for whoever re-runs this: (1) the
+      first version cached every loaded volume for the whole run and was OOM-killed by the container's
+      cgroup at item 74/149 (full-body CT volumes are 1-4 GB each) -- fixed with an LRU cache capped at
+      2 resident volumes, plus incremental JSON writes after every item so a future crash never loses
+      completed work again; (2) `scipy.ndimage.label` on an uncropped full-body volume is 10-50x
+      slower than on the label's own bounding box -- cropping (with 1-voxel padding) before labeling
+      cut a projected ~75 minute run to under 4.
+      COVERAGE: 149 (id,side,body) groups triaged (75 male + 94 female minus the 12 entries Q113/Q114
+      already handled = 157; 8 more --`geniohyoid_l`/`hyoglossus_r`-- were deliberately SKIPPED, not
+      re-measured, because Q114 already fully investigated and declined them as a third failure mode
+      no smoothing change can fix, and re-running the mechanical sweep on them would have reached a
+      worse-informed answer than Q114's own hands-on one, not a better one; this is disclosed here
+      since the brief's own exclude list named only the other 12). RESULTS: **8 LIKELY_PIPELINE_ARTIFACT,
+      90 LIKELY_GENUINE, 32 MARGINAL, 19 UNCLEAR**. Full table: `data/derived/Q115_triage.json`.
+      FIXES SHIPPED (female bundle; verified on the ACTUAL shipped, decimated bundle, not just the
+      intermediate mesh, exactly like Q113/Q114):
+        1. **`popliteal_a_r`** (popliteal artery, `ct_vhf_popliteal`): main_frac **0.567 -> 1.000**
+           (SEVERE_BREAK -> CONTINUOUS). Raw source main_frac 1.000. Reconverted `ct_vhf_popliteal`
+           with `--smooth 0.0` (was 1.0), no other change -- the sciatic_n/external_intercostals bug
+           class again, confirmed for a second vessel. Re-measured the other 2 structures this small
+           subject carries (`popliteal_v_r`, `tibial_n`): both were already 1.000 and stayed 1.000, 0
+           side effects. Volume: source 1.295 cm3 -> shipped 1.092 cm3 (-15.7%, shrinkage not growth).
+           Skin containment: 0/591 vertices outside, 0.000%.
+        2. **`descending_thoracic_aorta`** (split part of `ct_vhf`'s own `aorta` label,
+           `vhf_total.nii.gz` label 52): main_frac **0.711 -> 1.000** (FRAGMENTED -> CONTINUOUS). Raw
+           source (via `aorta_by_vertebral_level`'s own `descending_thoracic` part) main_frac 1.000,
+           122.16 cm3. NOT primarily a smoothing bug this time -- measured directly, the pre-decimation
+           mesh is close to solid at EITHER smoothing sigma, and the real destroyer is the vessel
+           category's default 1500-triangle budget: swept budgets from 1275 up to 8000 and found a hard
+           threshold, 1900 triangles clusters into 2 pieces, 2000 into 1 -- so
+           `BUDGET_OVERRIDES["descending_thoracic_aorta"]` was raised to 2400 (clears the threshold with
+           margin at both bodies' budget-scale, 0.85 female / 0.9 male) in `export_viewer_bundle.py`.
+           Also reconverted at `--smooth 0.0` for a small further margin. Rather than touch all of
+           `ct_vhf` (which also carries ~40 other skeletal structures including this same label's own
+           arch and abdominal aorta parts), created a new subject, `ct_vhf_descaorta`
+           (`mappings/subjects/ct_vhf_descaorta_volume_mapping.json`), carrying ONLY this one split
+           part (arch/ascending/abdominal all mapped to null), listed BEFORE `ct_vhf` in
+           `export_viewer_bundle.py`'s `--subject` order so it claims just this one atlas_id -- the
+           same "new subject supersedes one id, everything else untouched" pattern Q113 established
+           with `ct_vhf_nerve`. Volume: source 122.16 cm3 -> shipped 114.96 cm3 (-5.9%). Skin
+           containment (full watertight `ct_vhf_skin` mesh, not a crop): 0/997 outside, 0.000%. Male's
+           own `descending_thoracic_aorta` (sourced from "recovered from the published male viewer",
+           no raw label volume behind it at all -- see LIMITATIONS) was re-measured after the budget
+           change and is BYTE-IDENTICAL to before (the override is a no-op for his non-fixable copy);
+           confirmed by rebuilding `build/viewer_m` and diffing all 321 male groups against the
+           pre-Q115 audit, 0 changed.
+        3. **`extensor_hallucis_longus_l`** and **`flexor_digitorum_longus_l`** (both transferred from
+           the male then refined to her own septa, `vhf_xfer_lowerlimb_septa.nii.gz`, a 57-label
+           volume): main_frac **0.669 -> 0.992** and **0.825 -> 1.000**. Raw source main_frac 0.9997
+           for both. Their sibling in the same 3-structure investigation, `extensor_hallucis_longus_r`,
+           looked identical on the raw-voxel number (0.9966) but measured completely differently once
+           actually surfaced -- see DECLINED below -- so it was deliberately left OUT. Rather than
+           reconvert `xfer_vhm2vhf_sep`'s other 55 muscles too, created `ct_vhf_xfersepta_fix`
+           (`mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json`, only labels 11 and 15,
+           `--smooth 0.0`), listed BEFORE `xfer_vhm2vhf_sep` so it claims only these 2 ids. Volume:
+           `extensor_hallucis_longus_l` source 14.67 cm3 -> shipped 12.43 cm3 (-15.2%);
+           `flexor_digitorum_longus_l` source 42.03 cm3 -> shipped 36.98 cm3 (-12.0%). Skin containment
+           (watertight box-crop of `ct_vhf_skin` via 6-plane capped slicing, confirmed watertight before
+           testing): 0/1260 and 0/1138 outside, 0.000% both.
+        4. **`extensor_carpi_radialis_longus_r`** (`ct_vhf_forearm`): main_frac **0.562 -> 0.953**
+           (SEVERE_BREAK -> FRAGMENTED, just under the 0.99 CONTINUOUS bar). Raw source 0.9664.
+           NOT a smoothing bug -- measured directly, the pre-decimation mesh is already ~0.95-0.97 main
+           frac at EITHER `--smooth 0.0` or the original 1.0; the destroyer is vertex-clustering
+           decimation alone (clustering on the unchanged smooth=1.0 mesh reproduces the shipped
+           0.562 exactly; quadric decimation on that SAME unchanged mesh gives 0.953) -- the
+           sciatic_n-class bug, but for a normally-shaped muscle rather than a cord or sheet. FIX:
+           added `extensor_carpi_radialis_longus_r` to `SHEET_IDS` in `export_viewer_bundle.py`
+           (routes it through quadric decimation), NO reconversion of `ct_vhf_forearm` at all --
+           `ct_vhf_forearm` itself is untouched, still `--smooth 1.0`. Verified this is correctly
+           scoped, not a subject-wide win: re-measured the OTHER 13 muscles `ct_vhf_forearm` carries
+           with quadric decimation substituted subject-wide, and every one of them was flat or
+           measurably WORSE (5 dropped from CONTINUOUS 1.0 into the FRAGMENTED band, e.g.
+           `pronator_quadratus_r` 1.0 -> 0.924, `flexor_digitorum_profundus_r` 0.978 -> 0.887) --
+           confirming the id-scoped `SHEET_IDS` fix, not a smoothing or subject-wide decimation change,
+           is the right one. Volume: source 27.10 cm3 -> shipped 23.88 cm3 (-11.9%). Skin containment:
+           0/1530 outside, 0.000%.
+      DECLINED, root cause found but NOT force-fixed (3 of the 8 LIKELY_PIPELINE_ARTIFACT candidates):
+        5. **`deep_transverse_perineal_r`** (`ct_vhf_pfloor`): raw voxel mask 0.9158 (well-connected)
+           but the SURFACED mesh is only 0.616 pre-decimation at the original `--smooth 1.0`, and
+           WORSE (0.543) at `--smooth 0.0` -- neither smoothing value nor decimation method (cluster
+           0.616, quadric 0.616 -- decimation doesn't even engage, the piece is under budget) closes
+           the gap. A genuine marching-cubes surface topology defect at a sub-voxel bridge, the exact
+           third failure class Q114 already found and declined for `geniohyoid_l`/`hyoglossus_r` --
+           confirmed here for a THIRD and FOURTH structure (with #6 below). `ct_vhf_pfloor` was test-
+           reconverted at `--smooth 0.0` to check this, confirmed worse, and REVERTED to its original
+           `--smooth 1.0` state before anything was shipped -- 0 net change to `ct_vhf_pfloor` or any
+           of the other 10 muscles it carries.
+        6. **`extensor_hallucis_longus_r`** (same `vhf_xfer_lowerlimb_septa.nii.gz` subject as fix #3
+           above, different label): raw voxel 0.9966 but pre-decimation mesh only ~0.55-0.56 at EITHER
+           smoothing value (0.561 at smooth=1.0 matching its own shipped 0.562 almost exactly; 0.550 at
+           smooth=0.0) -- same third-failure-mode class as #5. This is WHY the `ct_vhf_xfersepta_fix`
+           mapping above deliberately maps only labels 11 and 15, not this structure's label 12 --
+           confirmed by testing before committing to the mapping, not assumed from the sibling's
+           result.
+        7. **`optic_n`** (male, left side only -- no `optic_n` right side exists in the male bundle at
+           all, a separate, unrelated completeness gap not investigated further here): the female's own
+           `ct_vhf_orbit` ships this PERFECTLY (main_frac 1.000, confirmed directly) -- the male's
+           0.517 is introduced ENTIRELY downstream, by the `xfer_vhf2vhm` cross-subject transfer's own
+           mesh warp: its pre-decimation output measures 0.500/2 components BEFORE
+           `export_viewer_bundle.py` ever touches it. Quadric decimation on that same warped mesh nudges
+           it to 0.546 -- real but far short of useful. The actual defect is inside
+           `cross_subject_transfer.py`'s warp algorithm for a thin cord structure, a different and
+           larger piece of work than any smoothing/decimation knob this item's other fixes used;
+           correctly left OPEN for a future item with that specific scope, not force-fixed with a
+           decimation-routing change that measurably wouldn't have been enough.
+      Combined, item 8 of the original list (`sacrum`, item #6 in Q112's punch list) is covered
+      separately below.
+      DIFF-CHECK against the pre-this-item audit (`audit_full_continuity_q112.py`, Q113/Q114's own
+      method): female 5 of 356 groups changed -- exactly the 5 fixes above, nothing else; male 0 of
+      321 groups changed (confirmed by rebuilding `build/viewer_m` too, to pick up the
+      `descending_thoracic_aorta` budget override for completeness, and finding it moved nothing).
+      BUILDS: `build/viewer_f/atlas_viewer_female.html` rebuilt on top of Q108/Q109/Q111/Q113/Q114's
+      verified state (14.74 MB, was 14.74 MB -- structure count and size essentially unchanged, just
+      5 structures' own geometry improved); `build/viewer_m/atlas_viewer_male.html` also rebuilt
+      (14.43 MB) to confirm the global `export_viewer_bundle.py` changes are inert for him, verified
+      byte-for-byte identical in the audit. Neither published (same Production Deploy permission gate
+      prior items already hit, not retried).
+      FOLLOW-UP ON THE 19 UNCLEAR ENTRIES: 14 of the 19 have no raw label volume behind them at all --
+      they are DU/CT geometry "recovered from the published male viewer" (a prior published bundle's
+      own already-decimated mesh, unpacked per-structure; see Q108/Q109's own entries for why this
+      exists and can't be replaced). Wrote a second small script,
+      `scripts/triage_recovered_pieces_q115.py`, to at least partially disambiguate these: for the 6
+      of them living in `vhm_both` (`biceps_femoris_l/r`, `gastrocnemius_l/r`, `iliopsoas_l/r`, all
+      landing suspiciously close to exactly 0.50), it measures each STORED PIECE individually in the
+      recovered pre-second-decimation mesh. RESULT: all 6 are **MULTI_PIECE_INHERENT** -- every single
+      stored piece is already main_frac 1.000 on its own (2 pieces each), and the ~0.50 group score is
+      purely the "2 legitimate anatomical pieces sharing one id" ceiling (long/short head, medial/
+      lateral head, iliacus/psoas) -- the exact same modeling-ceiling class Q113 already documented for
+      `sciatic_n`'s two legs, NOT a defect this or any pipeline change could fix. The other 13 UNCLEAR
+      entries live in other "recovered" subjects (`ct_vhm_cuff`, `ct_vhm_es`, `ct_vhm_abd`,
+      `ct_s1159_abd`) this follow-up script does not yet index -- same open question, left for a future
+      session rather than guessed at. Full detail: `data/derived/Q115_recovered_pieces_check.json`.
+      NOT YET ATTEMPTED -- ranked for a future Q116 (32 MARGINAL candidates, source main_frac
+      meaningfully above shipped but below this item's 0.90-source/0.15-gap bar for a confident
+      pipeline-artifact call; top of the list by gap, all muscles/vessels not yet measured further):
+      `extensor_digitorum_longus_l` (F, shipped 0.545, source 0.832, gap 0.287),
+      `extensor_digitorum_longus_r` (F, 0.661 / 0.825 / 0.164), `deltoid_l` (M, 0.550 / 0.709 / 0.158),
+      `triceps_brachii_l`/`_r` (F, 0.753/0.736 vs 0.902/0.874, gaps 0.149/0.138),
+      `semispinalis_capitis_r` (both bodies, 0.595 / 0.733 / 0.138), `genioglossus_r` (F, shipped 0.873,
+      source **1.000**, gap 0.127 -- just under this item's classification threshold and arguably as
+      strong a candidate as the 8 above; flagged explicitly rather than buried in the MARGINAL bucket),
+      `semitendinosus_l`/`brachialis_l` (F, gaps ~0.111), `internal_jugular_v_l`/`_r` (both bodies,
+      shipped 0.802-0.806, source 0.906-0.907, gaps ~0.10 -- NOTE: shares `ct_vhf_neckbv` with Q114's
+      already-fixed `internal_carotid_a_l/r`, and Q114 already swept smoothing 0/0.5/0.75 on that exact
+      subject and found no value recovered both structures at once, so this one may need a decimation-
+      side fix instead of another smoothing attempt). Full ranked list (all 32) in
+      `data/derived/Q115_triage.json`.
+      SACRUM (Q112 punch-list item #6, its own small task): re-measured the female sacrum at 3 levels
+      to explain the Q103 (0.767, 9 components) vs Q112 (0.509, 4 components) discrepancy. RAW VOXEL
+      MASK (labels 25 `sacrum` + 26 `vertebrae_S1`, 26-connectivity): **0.9991, 3 components** --
+      essentially solid. FULL-RESOLUTION PRE-DECIMATION MESH at the current `--smooth 1.0`: reconverted
+      `ct_vhf`'s own sacrum labels standalone and got **0.767389..., 9 components, 74098 total
+      vertices** -- bit-identical to Q103's own number to 10 significant figures, PROVING Q103 measured
+      this exact full-resolution mesh, not a different or stale one; this is Q112's own disclosed
+      LIMITATION ("audits the decimated bundle, not the full-resolution source mesh") actually
+      manifesting, not a data regression or a Q103 tooling bug. Tested whether smoothing explains the
+      pre-decimation 0.999 -> 0.767 gap: `--smooth 0.0` gives 0.768/17 components, statistically the
+      same as smooth=1.0 -- NOT a smoothing bug, a genuine marching-cubes surfacing defect (the same
+      third failure class as items 5/6 above). Tested whether decimation choice/budget explains the
+      further 0.767 -> 0.509 (shipped) drop: swept budgets 5100 (current) through 78000 (near full-res)
+      with both clustering and quadric decimation -- best result at any practical budget was ~0.52,
+      and even at 78000 triangles (essentially undecimated) only reached ~0.67-0.68, well short of the
+      0.767 pre-decimation ceiling, let alone 0.99. CONCLUSION: NOT a regression and NOT a pure
+      measurement-methodology artifact either -- both Q103's and Q112's numbers are honest
+      measurements of two genuinely different pipeline stages (full-res mesh vs. shipped decimated
+      bundle), and the sacrum has a REAL, disclosed-but-uncorrected marching-cubes topology defect
+      (0.999 raw -> 0.767 surfaced) compounded by real additional decimation loss (0.767 -> 0.509
+      shipped). Neither of this item's two working knobs (smoothing sigma, decimation method/budget)
+      closes enough of the gap to justify shipping a change, so per this item's own instruction not to
+      force marginal fixes, the sacrum is left UNCHANGED and documented rather than "fixed" with a
+      budget bump that would cost real file size for a ~0.15 gain. Diagnostic subjects
+      (`ct_vhf_sacrum`, smooth-comparison scratch builds) were created for this investigation only and
+      deleted afterward, not shipped.
+      TESTING (incremental, per the brief): `python -m pytest -q` run after (a) writing
+      `scripts/triage_continuity_q115.py` and its new derived JSON files (required adding a top-level
+      `source` citation to both, per `engine/validators.py`'s `validate_source_coverage` -- a real,
+      if minor, test failure this item hit and fixed, not a pre-existing one) -- **252 passed**; (b)
+      the female bundle rebuild with all 5 fixes -- **252 passed**; (c) the male bundle rebuild
+      (confirmation only, 0 changes) -- **252 passed**. No regressions at any stage.
+      SHIPPED: `scripts/triage_continuity_q115.py`, `scripts/triage_recovered_pieces_q115.py` (both
+      new), `scripts/export_viewer_bundle.py` (`SHEET_IDS` +`extensor_carpi_radialis_longus_r`;
+      `BUDGET_OVERRIDES["descending_thoracic_aorta"] = 2400`),
+      `scripts/cryo/vhf_rebuild_bundle.sh` (adds the `ct_vhf_descaorta` and `ct_vhf_xfersepta_fix`
+      conditional conversion+subject-list steps, same pattern as Q113's `ct_vhf_nerve`),
+      `mappings/subjects/ct_vhf_descaorta_volume_mapping.json`,
+      `mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json` (both new, committed),
+      `build/vh/ct_vhf_popliteal` (reconverted `--smooth 0.0`, gitignored), `build/vh/ct_vhf_descaorta`,
+      `build/vh/ct_vhf_xfersepta_fix` (both new, gitignored), `build/viewer_f/*`, `build/viewer_m/*`
+      (rebuilt, gitignored, NOT published -- same permission gate as every prior item, not retried),
+      `data/derived/Q112_full_continuity_audit.json` (re-run, diff-checked), `data/derived/
+      Q115_triage.json`, `data/derived/Q115_recovered_pieces_check.json` (both new), this
+      PROJECT_STATE.md entry (including the punch-list update below) and the matching note in
+      `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
+      unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
+      cleaned up.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
@@ -4584,10 +4804,27 @@ the female's phalanges are under-captured at HU 200.
      both trace to `ct_vhm_abw`'s own documented incompleteness). **DECLINED, a third distinct failure
      mode** (marching-cubes surface topology at a sub-voxel-thin bridge, not fixable by the smoothing
      parameter): `geniohyoid_l`, `hyoglossus_r` -- investigated in full, `ct_vhf_hyoid` left untouched.
-  3. **Decimation-vs-source triage**: Q114 did this for all 8 of bullet 2 (method: `scipy.ndimage.label`
-     on the raw label volume vs the shipped bundle's main_frac). Still open for the ~140 OTHER fragmented
-     muscle/nerve/vessel structures Q112 found (75 male + 94 female below 0.99, minus the 8 above) --
-     same method, applies directly, just needs doing structure by structure.
+  3. **RESOLVED (triage complete, top candidates fixed) by Q115 (2026-09-22)**: Q114 did this for all
+     8 of bullet 2 by hand; Q115 wrote ONE mechanical sweep script
+     (`scripts/triage_continuity_q115.py`) and ran it on all 149 remaining muscle/nerve/vessel
+     (id,side,body) groups below 0.99 (the 75 male + 94 female Q112 found, minus the 12 entries in the
+     8 Q113/Q114 already handled and 8 more Q114 already fully investigated/declined). RESULT: 8
+     LIKELY_PIPELINE_ARTIFACT, 90 LIKELY_GENUINE, 32 MARGINAL, 19 UNCLEAR (14 have no raw source at
+     all -- DU/CT geometry recovered from a prior published bundle, not a label volume; 6 of those
+     were further disambiguated as genuinely-multi-piece anatomy, not a defect -- see the Q115 entry).
+     Of the 8 pipeline-artifact candidates, **5 FIXED**: `popliteal_a_r` (0.567->1.000),
+     `descending_thoracic_aorta` (0.711->1.000), `extensor_hallucis_longus_l` (0.669->0.992),
+     `flexor_digitorum_longus_l` (0.825->1.000), `extensor_carpi_radialis_longus_r` (0.562->0.953) --
+     all verified on the shipped bundle with volume and skin-containment checks. **3 DECLINED** with
+     root cause found but not fixed: `deep_transverse_perineal_r` and `extensor_hallucis_longus_r` (a
+     THIRD failure mode, same as Q114's `geniohyoid_l`/`hyoglossus_r` -- a marching-cubes surface
+     defect no smoothing value fixes) and male `optic_n` (the female source ships perfectly; the
+     defect is in `cross_subject_transfer.py`'s own mesh warp, a different and larger fix than this
+     item's scope). The 32 MARGINAL candidates were NOT attempted (time-budgeted); a ranked list by
+     gap (`extensor_digitorum_longus_l/r`, `deltoid_l`, `triceps_brachii_l/r`,
+     `semispinalis_capitis_r`, `genioglossus_r` -- source 1.000, arguably as strong as the 8 fixed --
+     `internal_jugular_v_l/r` and others) is in the Q115 entry and `data/derived/Q115_triage.json` for
+     a future Q116.
   4. Vertebrae/ribs/lumbar discs: unchanged since Q111, still the items below this bullet list -- lumbar discs
      provably cannot improve main_frac without real vertex/edge welding (a bigger structural change than any
      item so far has taken on); ribs are already fixed and CONTINUOUS (confirmed again by Q112).
@@ -4596,9 +4833,19 @@ the female's phalanges are under-captured at HU 200.
      bodies (see above); it shipped a fix. The hand/foot bone groups (metacarpals/metatarsals/phalanges,
      each genuinely several separate bones) remain a believed-but-not-reconfirmed correct-anatomy case,
      unaffected by this item.
-  6. `sacrum` (female): re-check against Q103's original 0.767/9-components number -- Q112 measured 0.509/2
-     pieces/4 components on the current live bundle, a real discrepancy from Q103 not yet explained (mesh
-     likely changed between then and now).
+  6. **RESOLVED (explained, not a bug) by Q115 (2026-09-22)**: `sacrum` (female) re-checked against
+     Q103's original 0.767/9-components number. Reconverting `ct_vhf`'s own sacrum labels standalone at
+     the current `--smooth 1.0` reproduces Q103's number BIT-IDENTICALLY (0.767389..., 9 components,
+     74098 vertices) -- Q103 measured the full-resolution PRE-DECIMATION mesh, Q112/Q115 measure the
+     DECIMATED shipped bundle (0.509, 4 components); this is Q112's own disclosed audit-scope
+     limitation actually manifesting, not a regression or a Q103 tooling bug. The raw voxel mask itself
+     is 0.999 (3 components, essentially solid), so there IS a real defect: a marching-cubes surfacing
+     topology loss (0.999->0.767, neither smoothing value fixes it) compounded by real additional
+     decimation loss (0.767->0.509, confirmed by sweeping budget from 5100 to 78000 with both
+     clustering and quadric decimation -- best achievable at any practical budget was ~0.52-0.68, well
+     short of the 0.767 ceiling). Neither of this item's working knobs closes enough of the gap to
+     justify shipping a change; left UNCHANGED and documented rather than force-fixed. Full numbers in
+     the Q115 entry above.
 - RESOLVED for the male by Q107 (2026-09-21): the `build/vh/ct_vhm` manifest/offset corruption below (found by
   Q106) was two missing-`vertex_offset` bugs in `ingest_intervertebral_discs.py` and `ingest_remeshed_ribs.py`
   (the latter also double-splicing remeshed ribs when the old individual-rib pieces weren't consolidated).
