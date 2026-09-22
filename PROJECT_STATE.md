@@ -11,7 +11,27 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q128 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q129 (2026-09-22)
+checked item 2's stale-looking premise ("common flexor/extensor origins carry 5 muscles on one
+coordinate because there's no upper-limb geometry") directly, like Q125 disproved the identical
+premise for hand bones. Half right, half wrong: humerus mesh geometry DOES exist for both bodies
+(male `ct_vhm_arm`, female `ct_vhf`) with a working `build_frames()` "long" frame (sphere-fit head
++ long axis) already resolving the shared medial/lateral epicondyle landmarks into the PUBLISHED
+bundle today (verified against the live `build/viewer_m/bundle.json`/`viewer_f/bundle.json`:
+`flexor_digitorum_superficialis_r` origin `[229.0,244.1,-38.2]` male; `flexor_carpi_ulnaris_r`
+`[195.9,309.3,-76.7]` and `extensor_carpi_radialis_brevis_r`/`extensor_digitorum_r`/
+`extensor_digiti_minimi_r`/`extensor_carpi_ulnaris_r` all `[235.9,313.6,-75.8]` female, exact match
+to `place()` on the current bones.json). But splitting the 10 muscles (5 flexor, 5 extensor) into
+individual points is STILL correctly declined -- not for lack of geometry now, but because neither
+this project's own already-authored origin text (all 10 read bare "medial/lateral epicondyle",
+sourced from Gray's, no sub-facet qualifier) nor the mesh itself distinguishes sub-regions: Q123
+already found no bimodal epicondyle separation on this humerus mesh at all (SVD widest-distal-
+spread, both bodies), reconfirmed directly here, and the male mesh's own vertex spacing at the
+epicondyle (2.6-3.1mm median) is coarser than the few-mm separations at stake, while the female's
+finer mesh (0.4mm) is simply a smooth, unmarked surface there with nothing to key sub-points to.
+0 of 10 muscles split, both bodies; nothing changed in `data/`, nothing rebuilt. 252 tests pass,
+unchanged. Full detail in the Q129 queue entry below.
+Recent: Q128 (2026-09-22)
 applied Q127's own re-measurement method to the 4 "metacarpal head" landmarks (`metacarpal_2_r`..
 `metacarpal_5_r`) Q127 found sharing the identical wrong `[0,-65,0]` but left out of scope. Each
 re-measured individually against `build/vh/ct_vhf_mcsplit` (proximal/distal 5%-by-world-Y vertex
@@ -653,8 +673,14 @@ still waiting — unrelated to the CT work above.
    real coordinate-frame bug found in Q125's own `metacarpal_1_r` landmark). See the Q126 queue
    entry for the full per-muscle breakdown.
 2. **Common flexor and extensor origins** on the humerus carry five muscles
-   each on one coordinate. Splitting them means authoring, not measuring, until
-   there is upper-limb geometry.
+   each on one coordinate. **STALE PREMISE, corrected by Q129 (2026-09-22)**:
+   upper-limb geometry already exists (both bodies) and already resolves these
+   landmarks into the published bundle for the muscles that ship as meshes --
+   the "no geometry" reason was wrong. Splitting is still declined, but for the
+   real, checked reason: neither this project's own origin text nor the mesh
+   itself (Q123's finding, reconfirmed) distinguishes any sub-facet on either
+   epicondyle, so splitting would still be authoring an order, not measuring
+   one. See the Q129 queue entry for the full check.
 3. **Flexor hallucis brevis** is refused an anchor: its two heads insert on
    opposite sides of the hallux and the generator emits one anchor per muscle
    end, not per compartment. The refusal is correct; per-compartment anchors
@@ -3479,6 +3505,65 @@ tick the item here with a one-line result. Never fabricate; keep the
       intermediates left on disk -- the analysis scripts lived in the session scratchpad, deleted
       with it). NOT published/deployed (same standing block as every other item today, not
       retried).
+
+- [x] Q129 (2026-09-22) Item 2's premise ("common flexor/extensor origins carry 5 muscles each on
+      one coordinate ... until there is upper-limb geometry") checked directly rather than trusted,
+      per Q125's precedent of the identical "no geometry" premise turning out wrong for hand bones.
+      STEP 1 (does the geometry/sharing claim hold): `data/skeleton/bones.json` has exactly one
+      "medial epicondyle (common flexor origin)" and one "lateral epicondyle (common extensor
+      origin)" landmark per humerus side -- confirmed by reading `data/rig/anchors.json` directly,
+      all 5 flexor-group muscles (`pronator_teres_r`, `flexor_carpi_radialis_r`,
+      `palmaris_longus_r`, `flexor_digitorum_superficialis_r`, `flexor_carpi_ulnaris_r`) resolve to
+      the identical `[-20,-325,5]` local point on `humerus_r`, and all 6 extensor-group muscles
+      (`extensor_carpi_radialis_brevis_r`, `extensor_digitorum_r`, `extensor_digiti_minimi_r`,
+      `extensor_carpi_ulnaris_r`, `anconeus_r`, `supinator_r`) resolve to the identical
+      `[20,-330,5]` -- the sharing claim is TRUE, confirmed rather than assumed.
+      STEP 2 (does the "no geometry" reason hold): FALSE. `build/vh/ct_vhm_arm/manifest.json` (male)
+      and `build/vh/ct_vhf/manifest.json` (female) both carry real per-vertex `humerus_r`/`humerus_l`
+      meshes (male: 2978/2886 verts, recovered-viewer STL; female: 40052/42200 verts,
+      TotalSegmentator CT). `scripts/audit_landmarks_vs_geometry.py:build_frames()` already has a
+      humerus case (sphere-fit head + long axis to the distal end, `fitted="long"`), unlike hand
+      bones which have none at all. Directly confirmed this ALREADY surfaces in the currently
+      PUBLISHED bundles (no rebuild needed, nothing changed): `build/viewer_m/bundle.json`'s
+      `flexor_digitorum_superficialis_r` carries `origin_point_mm: [229.0,244.1,-38.2]`;
+      `build/viewer_f/bundle.json`'s `flexor_carpi_ulnaris_r` carries `[195.9,309.3,-76.7]` and its
+      `extensor_carpi_radialis_brevis_r`/`extensor_digitorum_r`/`extensor_digiti_minimi_r`/
+      `extensor_carpi_ulnaris_r` all carry `[235.9,313.6,-75.8]` -- each an exact match (to the mm)
+      to calling `place()` on the bone's current single shared landmark. The other 6 of the 10
+      muscles (`pronator_teres_r`, `flexor_carpi_radialis_r`, `palmaris_longus_r`, plus male's
+      missing extensor group and female's missing FDS/pronator teres/palmaris longus/FCR/anconeus/
+      supinator) simply are not shipped as muscle-belly meshes in either bundle yet, unrelated to
+      this item -- the anchor point exists and would show the instant any of them ship.
+      STEP 3/4 (can the mesh actually resolve 5 separate points per epicondyle): checked, not
+      assumed, and the answer is no, both bodies. Two independent lines of evidence: (a) Q123
+      already tested exactly this question for the coarser two-epicondyle case, reusing the femur's
+      own working `epicondylar_axis()` SVD-widest-distal-spread method directly on the humerus mesh,
+      and found NO bimodal separation on either body (male fit width varied 8-14mm side-to-side on
+      the same specimen; female 12-14mm/24% -- an artefact of the distal humerus's anteroposterior
+      flattening, not two real lobes); re-read directly this session, not re-run, since nothing
+      about the mesh has changed since. (b) Direct vertex inspection this session (`cKDTree` nearest-
+      neighbour spacing within 20mm of each current landmark): male humerus mesh (whole-bone, budget-
+      decimated to ~2900 verts) has median NN spacing 2.65-3.05mm at the epicondyles -- coarser than
+      or comparable to the "few mm apart" separations real tendon origins would need, on a mesh this
+      decimated the individual vertices are not a reliable proxy for anatomy at that scale. Female's
+      TotalSegmentator mesh is far finer (0.39-0.48mm median spacing) but the ~10-30mm bbox patch
+      around each landmark is a smooth, unmarked surface with no ridge, groove or tubercle to key a
+      sub-point to -- density without a geometric feature does not create one. Cross-checked against
+      the sources actually cited on these 10 muscles' own records (`data/muscles/upper_limb/*.json`,
+      all cite Gray's Anatomy for Students 4th ed. + TA (FICAT 1998) + Holzbaur 2005 for this
+      attachment): all 10 origin texts read a BARE "medial epicondyle" / "lateral epicondyle", or
+      with only a group-name qualifier ("common flexor origin", "common extensor origin") or a
+      second-bone-head qualifier (pronator teres's ulnar head at the coronoid; FCU's ulnar head at
+      the olecranon; supinator's ulnar head at the supinator crest) -- consistent with Gray's own
+      description of a single conjoint tendon, not per-muscle osteological facets, and NOT a case of
+      "medial epicondyle, anterior part" specificity already sitting unused in this project's own
+      data (checked directly, per this item's own instruction, rather than assumed).
+      CONCLUSION: 0 of 10 muscles (5 flexor + 5 extensor/extensor-group) got a new distinct origin
+      point, either body -- declined honestly, matching Q123's and this project's own established
+      bar, for a real and now-directly-checked reason rather than the stale "no geometry" one. Item
+      2 corrected in place (see above) rather than left to mislead the next session. No files in
+      `data/` changed; no bundle rebuild attempted (nothing to rebuild). `python -m pytest -q`:
+      **252 passed**, unchanged.
 
 - [x] Q128 (2026-09-22) Applied Q127's own re-measurement method (mean of proximal-5%-by-world-Y
       vertices = origin, mean of distal-5%-by-world-Y vertices = head, against `build/vh/
