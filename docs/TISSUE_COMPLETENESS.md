@@ -96,12 +96,22 @@ resolve to real, already-anchored 3D coordinates through this project's existing
 -- the Achilles, patellar, pes anserinus, rotator cuff, biceps/triceps and every hand/foot tendon this
 note named or implied are all blocked by one specific, fixable pipeline gap: `scripts/
 audit_landmarks_vs_geometry.py:build_frames()` cannot construct a measured bone frame for `tibia`,
-`tarsals`, `humerus`, `radius`, `ulna`, `scapula`, `clavicle`, `carpals`, `metacarpals`, `phalanges`,
-`hyoid`, `mandible` or `sternum` on this session's geometry (its cartilage-mesh filename lookups predate
-a naming change). See PROJECT_STATE.md's Q118 entry (full accounting of all 51) and its "Open" item 12
-(the `build_frames()` fix that would unblock most of the rest). The 6 shipped are real, measured-length,
-disclosed PROCEDURAL/RULE-BASED connectors (`data/tendons/lower_limb_tendons.json`'s own
-`procedural_geometry` blocks), not segmented tendon imaging -- this project has none.
+`tarsals`, `carpals`, `metacarpals` or `phalanges` on this session's geometry (its cartilage-mesh
+filename lookups predate a naming change). See PROJECT_STATE.md's Q118 entry (full accounting of all 51)
+and its "Open" item 12 (the `build_frames()` fix that would unblock most of the rest). The 6 shipped are
+real, measured-length, disclosed PROCEDURAL/RULE-BASED connectors (`data/tendons/lower_limb_tendons.json`'s
+own `procedural_geometry` blocks), not segmented tendon imaging -- this project has none.
+
+**CORRECTION (Q121, 2026-09-22)**: Q118's own claim that `build_frames()` covers only `femur`/`fibula`/
+`hip_bone`/`patella` (8 bones, r/l) is INCOMPLETE -- true only of the restricted lower-limb subject list
+Q118's own `male_order()`/`female_order()` loaded for its own tendon set, not a limit of `build_frames()`
+itself, which also has non-cartilage-dependent fallback paths for `humerus`, `radius`, `ulna`, `clavicle`,
+`scapula`, `mandible`, `hyoid` and `sternum`. Verified directly against the REAL published (pending)
+bundle geometry: **19 bones resolve on the male, 17 on the female** (missing `radius_l`/`ulna_l` on her --
+her left forearm is documented elsewhere, Q12/Q71/Q97, as incomplete). `tibia`, `tarsals`, `carpals`,
+`metacarpals` and `phalanges` remain genuinely unresolvable (their frame-fitting keys on cartilage-mesh
+filenames this session's fused cartilage naming no longer matches) -- see `data/derived/
+Q121_ligament_feasibility_audit.json` for the full, re-verified bone list and method.
 
 1. **Bursae, clinically first** (45 entities, 0% coverage): the elbow (10) and shoulder (10+6) bursae
    carry documented `injection_approach` fields already written for this atlas's own stated purpose
@@ -124,11 +134,45 @@ disclosed PROCEDURAL/RULE-BASED connectors (`data/tendons/lower_limb_tendons.jso
    ceiling for a SECOND pass, once `build_frames()`'s cartilage-naming gap (Open item 12) is fixed, is
    most of the remaining 45 -- this was not a dead end, it was gated behind one specific, scoped, fixable
    infrastructure gap.
-3. **Ligaments, ranked by region size**: shoulder (19 missing) and pelvis (12 missing) are the largest
-   region blocks; both joints already have shipped bones on both bodies to anchor rule-based ligament
-   bands the way `knee_ligaments.json`'s 8-of-18 already-shipped structures presumably were built (not
-   verified this item -- a next session should read whichever script produced those 8 before assuming the
-   same rule generalizes).
+3. **Ligaments -- investigated in full by Q121 (2026-09-22), 0 of 83 unshipped ligaments qualified.**
+   Checked every one against this project's own landmark/anchor system, same rigor as Q118's tendon
+   investigation, generalized to bone-to-bone attachments (ligaments connect two BONE landmarks, unlike a
+   tendon's muscle-to-bone span). Two independent, real blockers, plus one geometric one found only after
+   actually generating a candidate:
+   - **50/83 blocked by `build_frames()`'s bone-frame gap** (per the correction above: `tibia`, `tarsals`,
+     `carpals`, `metacarpals`, `phalanges`, plus bones this system has never fitted at all --
+     `sacrum`/vertebrae/ribs/`occipital`/`temporal` -- or an attachment to a meniscus, which has no
+     coordinate in this project's data model at all).
+   - **31/83 blocked by a second, independent, previously-undocumented gap**: BOTH attachment bones ARE
+     frame-resolvable (this covers the shoulder and elbow ligaments the note above flagged as promising,
+     plus the hip capsule and knee patellofemoral/popliteofibular ligaments, plus the pubic ligaments), but
+     the ligament's own authored landmark text ("Schottle's point", "intertrochanteric line",
+     "musculotendinous junction", "superior pubic ramus", "annular ligament / supinator crest", ...) does
+     not match, as an exact substring, any landmark name already authored on that bone in
+     `data/skeleton/bones.json`. Not resolved by interpolating between two named landmarks or reusing a
+     differently-named nearby one -- per the hard constraint against approximation, declined.
+   - **2/83 (`transverse_humeral_ligament_r/l`) passed BOTH checks** (greater tubercle -> lesser tubercle,
+     both on the humerus) but FAILED post-generation verification: 70-77% of the generated connector's own
+     vertices (95-100% of the pure straight-line midline, independent of cross-section radius) land INSIDE
+     the humerus's own mesh on both bodies, because the two tubercle landmarks flank a locally convex bone
+     bulge and a straight 3D chord between them cuts inward. The straight-cord method
+     `generate_tendon_connectors.py` uses successfully for muscle-to-bone tendons (whose muscle end is
+     clearly outside the bone) does not safely generalize to a bone-to-bone connector whose two points
+     flank a convex/grooved bone region. Declined rather than shipped half-buried in bone.
+
+   `knee_ligaments.json`'s existing 8-of-18 shipped structures (the 4 cruciate/collateral pairs) are real
+   segmented geometry from the DU release, not a rule this session's method can reproduce for the rest of
+   that file. **The single biggest lever for unlocking more ligaments (and tendons) is fitting
+   `build_frames()`'s transverse/rotational axis** for the bones whose frame currently uses only an origin
+   + long axis with the rotational axis left as "anatomical-position convention, not fitted" (`humerus`,
+   `scapula`, `clavicle`, `mandible`, `hyoid`, `sternum`) -- without that fit, a landmark's position AROUND
+   the bone's circumference (not just along its length) cannot be trusted, which is exactly what broke
+   `transverse_humeral_ligament`. A second, purely-data lever (no code change) is aligning
+   `data/skeleton/bones.json` landmark names with the phrasing ligament records already cite, which alone
+   would unlock the 31 `landmark_text_mismatch` ligaments. See `data/derived/
+   Q121_ligament_feasibility_audit.json` for the full per-ligament table and
+   `scripts/generate_ligament_connectors.py` for the reusable generator (kept for a future session, not
+   deleted, despite shipping nothing this round).
 4. **Vascular and nerves are the largest remaining entity counts** (412 and 303) but are also the
    hardest: most named vessels and nerve branches below the major trunks are sub-CT-resolution and would
    need the same "literature-only, no route" honesty muscles' face/ear group already carries -- a future

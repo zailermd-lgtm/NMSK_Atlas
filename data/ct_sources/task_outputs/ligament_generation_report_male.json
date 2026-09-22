@@ -1,0 +1,11 @@
+{
+  "source": "scripts/generate_ligament_connectors.py, Q121 (2026-09-22)",
+  "transverse_humeral_ligament_r": {
+    "status": "declined",
+    "reason": "generated, but 70% of the connector's own vertices lie INSIDE humerus_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone': 'humerus_r', 'p0_world_mm': [210.45, 552.64, 8.02], 'p1_world_mm': [196.65, 543.54, 16.77], 'gap_mm': 18.71, 'radius_mm': 5.61, 'd_landmark_a_to_bone_mm': 2.12, 'd_landmark_b_to_bone_mm': 7.07, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': 0.7}"
+  },
+  "transverse_humeral_ligament_l": {
+    "status": "declined",
+    "reason": "generated, but 73% of the connector's own vertices lie INSIDE humerus_l's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone': 'humerus_l', 'p0_world_mm': [-195.16, 566.63, 6.95], 'p1_world_mm': [-181.39, 557.8, 16.02], 'gap_mm': 18.71, 'radius_mm': 5.61, 'd_landmark_a_to_bone_mm': 2.4, 'd_landmark_b_to_bone_mm': 8.06, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': 0.733}"
+  }
+}
