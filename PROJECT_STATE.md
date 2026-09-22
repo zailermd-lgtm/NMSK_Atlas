@@ -11,7 +11,27 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q121 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q122 (2026-09-22)
+reconciled Q121's own 31 `landmark_text_mismatch` ligaments against real anatomy, one at a
+time. 10/31 were genuine synonyms or an already-offered alternative attachment point (e.g.
+"lateral (acromial) end of clavicle" = bones.json's "acromial (lateral) end"), added as a
+curated needle lookup in `scripts/generate_ligament_connectors.py`'s `LIGAMENT_PLAN` -- NEVER
+by renaming anything in `bones.json` itself, so all existing muscle attachments are untouched
+(confirmed: `data/skeleton/bones.json` and `data/rig/anchors.json` are byte-identical, 0 lines
+changed). 21/31 stayed declined for a genuinely different, unsourced point (Schottle's point is
+NOT the interpolated midpoint of two named landmarks; a suprascapular notch, radial/ulnar necks,
+an acetabular rim and a glenoid labrum have no authored coordinate at all). Of the 10 unlocked,
+generation then hit two more real, independent, per-body/per-side limits: the same straight-
+chord-through-convex-bone failure Q121 found (13-50% of a connector inside one of its two
+target bones), and a previously-undocumented data-quality finding -- her `ct_vhf_armb` ulna_r
+fragment (known since Q39/Q43 to be missing its proximal ~110 mm) produces anatomically absurd
+110-142 mm "elbow ligament" spans when its proximal landmarks are used, caught by a new sanity
+check (measured/reference length ratio < 0.6) before it could ship on numeric coincidence. Net:
+**4 ligaments SHIPPED** (`acromioclavicular_ligament_r/l`, `coracoclavicular_ligament_r/l`),
+each on exactly ONE body (real measured 30.6-40.2 mm gaps, `procedural_geometry` badges on both
+records); the other 6 unlocked ids never ship on either body. Both viewer bundles rebuilt
+additively (male 362->363 structures, female 384->387); 252 tests pass, unchanged. Full detail
+in the Q122 queue entry below. Recent: Q121 (2026-09-22)
 investigated all 83 unshipped `data/ligaments/**/*.json` entities for the same
 bone-to-bone-connector feasibility Q118 checked for tendons -- 0 SHIPPED, all 83 declined on one
 of three measured grounds. 50 blocked by `build_frames()`'s real bone-frame gap (tibia, tarsals,
@@ -3221,6 +3241,189 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q122 (2026-09-22) Reconciled Q121's own 31 `landmark_text_mismatch` ligaments: both
+      attachment bones frame-resolvable, but the ligament's own authored landmark text didn't
+      match, as an exact substring, any landmark name already authored on that bone in
+      `data/skeleton/bones.json`. Read Q121's own audit (`data/derived/
+      Q121_ligament_feasibility_audit.json`) in full, extracted its 31 `landmark_text_mismatch`
+      ids with each side's cited landmark text and the target bone's own authored landmark
+      list, then went through every one by real anatomical reasoning -- no blanket relaxation of
+      Q121's substring rule, no forcing a match because it was "close enough."
+
+      METHOD (per candidate): is the cited text the SAME real point as an already-authored
+      landmark, phrased differently or offered as one of the ligament's own stated alternatives
+      (a genuine synonym) -- or a genuinely DIFFERENT point bones.json simply doesn't have yet
+      (declined, never approximated)? Checked against `data/skeleton/bones.json`'s own landmark
+      lists for clavicle, scapula, humerus, ulna, radius, femur, patella, fibula, hip_bone and
+      sternum (every bone any of the 31 touches), pulled in full for this item.
+
+      RESULT: 10/31 resolved as genuine synonyms/alternatives --
+      - `acromioclavicular_ligament_{r,l}`: "lateral (acromial) end of clavicle" = bones.json's
+        clavicle landmark "acromial (lateral) end" (same two words, reordered); "acromion" =
+        bones.json's single scapula landmark "acromion (deltoid origin, AC joint)" -- its own
+        name already earmarks it for the AC joint, not a differently-named nearby point.
+      - `coracoclavicular_ligament_{r,l}`: "conoid tubercle" = bones.json's clavicle landmark
+        "conoid tubercle (coracoclavicular lig.)", authored FOR this exact ligament; "coracoid
+        process" = bones.json's scapula landmark of the same name.
+      - `radial_collateral_ligament_complex_elbow_{r,l}`: "lateral epicondyle" (exact humerus
+        match); "supinator crest" is one of the two alternatives the ligament's OWN top-level
+        record already offers ("annular ligament / supinator crest"), and the specific ulna
+        point its functionally dominant LUCL band cites.
+      - `ulnar_collateral_ligament_elbow_{r,l}`: "medial epicondyle" (exact humerus match);
+        "coronoid process" is one of the two alternatives the ligament's OWN record already
+        offers ("coronoid process / olecranon"), the point its dominant anterior bundle cites
+        (sublime tubercle, on the coronoid process).
+      - `interclavicular_ligament`: both clavicles' "sternal (medial) end" = the ligament's own
+        "medial (sternal) end", reordered.
+      - `superior_pubic_ligament`: "superior pubic ramus/body" is the same bony region bones.json
+        already names "pubic tubercle / pubic crest" -- the crest IS the ridge on the superior
+        pubic body surface this ligament spans between at the symphysis.
+
+      21/31 stayed correctly declined -- a genuinely different point, not an alignment problem:
+      - `medial_patellofemoral_ligament_{r,l}`: Schottle's point is explicitly described in its
+        own record as the "saddle point between the adductor tubercle and medial epicondyle" --
+        tantalizingly close to two already-authored femur landmarks, but Schottle's point is a
+        specific radiographically-defined surgical reference point (Schottle et al. 2007: ~1-2.5
+        mm anterior to the posterior cortical line, 8-10 mm distal to Blumensaat's line), NOT
+        their arithmetic midpoint. Resolving it would mean interpolating between two named
+        landmarks, which this item's own hard constraint forbids outright. Patella side
+        ("superomedial border") also has no authored landmark. Declined, not approximated.
+      - `popliteofibular_ligament_{r,l}`: "popliteus musculotendinous junction" is a soft-tissue
+        point down the muscle belly, not the bony "popliteus origin" bones.json's lateral
+        epicondyle landmark already names -- a real, several-cm difference along the muscle's
+        course, not the same point.
+      - `coracoacromial_ligament_{r,l}`: "coracoid process" matches, but "acromion, anterior
+        undersurface" is a different sub-facet of the acromion from the single authored acromion
+        point (which is specifically the AC-joint/deltoid-origin facet) -- reusing it would be
+        exactly the "differently-named nearby point" this item's hard constraint forbids, even
+        though both are "the acromion."
+      - `coracohumeral_ligament_{r,l}`: "coracoid process" matches, but the humeral end genuinely
+        bridges TWO already-authored points (greater AND lesser tubercle) as its own record
+        says -- collapsing that to one tubercle, or to the nearby-but-differently-named
+        intertubercular groove, would misrepresent a real two-point span rather than resolve a
+        naming difference. Declined.
+      - `glenohumeral_ligament_complex_{r,l}`: none of its four bands' real attachment points
+        (glenoid labrum at specific clock positions, humeral anatomical neck) exist in
+        bones.json, which only has the glenoid CENTRE and humeral head CENTRE -- using those
+        would collapse the ligament onto the joint centre itself, not resolve a naming gap.
+      - `hip_ligament_complex_{r,l}`: "intertrochanteric line/crest" is a LINE feature never
+        authored on the femur (only point landmarks on the trochanters exist); "acetabular rim",
+        "superior pubic ramus, iliopubic eminence" and posterior-acetabular-rim points are
+        likewise absent. The one sub-band point that DOES match exactly (iliofemoral's "anterior
+        inferior iliac spine") isn't enough on its own to resolve the complex's representative
+        attachment.
+      - `quadrate_ligament_{r,l}`: "neck of radius" has no authored landmark at all (radius only
+        has "radial head", proximal to the neck by a real, unmeasured few cm).
+      - `sternoclavicular_ligament_{r,l}`: "manubrium, clavicular notch" (the SC joint facet) is
+        a different sternal sub-region from the authored "manubrium (anterior/posterior surface)"
+        muscle-origin points and the "jugular notch" -- no measured offset for the clavicular
+        notch specifically exists to use instead.
+      - `superior_transverse_scapular_ligament_{r,l}`: "base of coracoid process" (near the
+        suprascapular notch) differs from bones.json's single coracoid landmark (measured as the
+        process's extreme/tip point, per its own note); "suprascapular notch" has no landmark at
+        all.
+      - `arcuate_pubic_ligament`: "inferior pubic ramus" is a real, different, lower part of the
+        pubic bone from the authored "pubic tubercle / pubic crest" (superior) -- no landmark
+        there.
+      - `annular_ligament_{r,l}`: needs the anterior AND posterior margins of the radial notch
+        (an actual encircling ring) -- bones.json has one representative "radial notch" point,
+        not the two rim points a ring structure needs, and a ring cannot be honestly represented
+        as a straight chord regardless.
+
+      GENERATION (`scripts/generate_ligament_connectors.py`, generalized from Q121's own
+      single-bone-both-ends shape to a genuine two-bone attachment -- bone_a/landmark_a and
+      bone_b/landmark_b independently resolved through each bone's own frame, since Q121's shape
+      only ever fit `transverse_humeral_ligament`, itself a same-bone special case): ran all 10
+      unlocked ids on both bodies, same verification rigor as Q118/Q121 (real measured length,
+      single connected component, bone-self-containment < 10%, plus a new check below).
+
+      RESULT 1 (real, expected, from Q121's own prior finding): the straight-chord method that
+      works for a muscle-to-bone tendon does NOT safely generalize to most bone-to-bone
+      joint-spanning pairs -- 13-50% of a connector's own vertices landed inside one of its two
+      target bones for `acromioclavicular_ligament_r` (male, 13%), `acromioclavicular_ligament_l`
+      (male, 13%), `coracoclavicular_ligament_r` (male, 30%), `coracoclavicular_ligament_l`
+      (female, 13%), both `radial_collateral_ligament_complex_elbow_{r,l}` (male, 33-50%), both
+      `ulnar_collateral_ligament_elbow_{r,l}` (male, 33-50%), `interclavicular_ligament` (both
+      bodies, 23-43%) and `superior_pubic_ligament` (both bodies, 23-33%). Declined per-instance,
+      exactly as `transverse_humeral_ligament` was declined by this same check in Q121.
+
+      RESULT 2 (new finding, not assumed): `radial_collateral_ligament_complex_elbow_r` and
+      `ulnar_collateral_ligament_elbow_r` on the FEMALE body first appeared to PASS containment
+      (both bones clear), but with an anatomically absurd 110-142 mm "elbow ligament" span --
+      real collateral ligaments run 10-40 mm. Traced to her `ct_vhf_armb` ulna_r: already
+      documented (Q39/Q41/Q43) as missing its proximal ~110 mm (outside the original CT's field
+      of view), with a measured/reference length ratio of 0.42 (vs 0.82-1.0 for every other
+      bone/body combination touched here -- real body-size variation, not truncation). Both
+      ligaments cite PROXIMAL ulna landmarks (supinator crest, coronoid process) that are simply
+      not present on this fragment; the existing scale-factor machinery (Q43) just maps them
+      proportionally onto whatever distal fragment IS there, producing a world position with no
+      anatomical meaning. Added a general sanity check to `build_ligament()` (measured/reference
+      length ratio < 0.6, well below the 0.82-1.0 normal range measured here) that declines
+      BEFORE the numeric coincidence of passing containment could ship it. `ulna_l` has no frame
+      at all on the female (pre-existing, Q121), so both ligaments' `_l` sides declined for that
+      instead.
+
+      SHIPPED: 4 of the 10 unlocked ids, each on exactly ONE body (the identical computation on
+      the other body fails containment, a real per-subject geometric fact) --
+      - `coracoclavicular_ligament_l`: MALE only, clavicle_l "conoid tubercle" -> scapula_l
+        "coracoid process", gap 30.64 mm, radius 6.0 mm, 0% inside either bone.
+      - `acromioclavicular_ligament_r`: FEMALE only, clavicle_r "acromial (lateral) end" ->
+        scapula_r "acromion", gap 32.71 mm, radius 6.0 mm, 10%/0% inside clavicle/scapula (both
+        under the 10% threshold, clavicle exactly at the edge).
+      - `acromioclavicular_ligament_l`: FEMALE only, gap 40.22 mm, radius 6.0 mm, 10%/0% inside
+        clavicle/scapula.
+      - `coracoclavicular_ligament_r`: FEMALE only, gap 38.62 mm, radius 6.0 mm, 0% inside either
+        bone.
+      All 4: single connected component, 0% outside the subject's own skin surface (the same
+      `points_inside_mesh` ray-crossing test against the skin mesh Q118 used), no target-bone
+      overlap beyond the disclosed containment numbers above, cross-sectional shape a uniform
+      tube at 0.30x the measured gap (clamped [2, 6] mm) -- the same disclosed, non-measured
+      modeling choice as Q121's own attempt and Q118's tendon tapers, honestly captioned as such
+      (this project has no ligament-thickness imaging of any kind). Badged with Q119's
+      `procedural_geometry` schema (`data/ligaments/shoulder_ligaments.json`, one block per
+      shipped record, each disclosing its own per-body ship/decline outcome and reason).
+
+      DECLINED at generation (6 of the 10 unlocked ids, never ship on either body):
+      `radial_collateral_ligament_complex_elbow_{r,l}`, `ulnar_collateral_ligament_elbow_{r,l}`,
+      `interclavicular_ligament`, `superior_pubic_ligament` -- containment failure and/or the
+      female ulna_r fragment issue above, see
+      `data/ct_sources/task_outputs/ligament_generation_report_{male,female}.json` for the exact
+      per-id numbers.
+
+      MUSCLE-ATTACHMENT SAFETY: `data/skeleton/bones.json` and `data/rig/anchors.json` are
+      UNCHANGED by this item (`git diff --stat` confirms 0 lines touched in either file) -- the
+      synonym resolution lives entirely inside `generate_ligament_connectors.py`'s own
+      `LIGAMENT_PLAN`/`find_landmark()`, a standalone script never invoked by the muscle
+      attachment pipeline (`scripts/generate_anchors.py` / `data/rig/anchors.json`). Spot-checked
+      directly: deltoid-family muscles resolve their own "acromion"/lateral-clavicle attachments
+      through `data/rig/anchors.json`'s own auto-derived entries (unrelated code path, confirmed
+      present and untouched), so existing muscle attachments on every bone this item touched
+      (clavicle, scapula, hip_bone) are provably unaffected, not just assumed so.
+
+      BUILDS: both viewer bundles rebuilt additively on top of Q108-Q121's state (`build/
+      viewer_m/atlas_viewer_male.html`, `build/viewer_f/atlas_viewer_female.html`; NOT
+      published/deployed, per this item's own instruction -- deploy stays blocked). Verified
+      directly by parsing each rebuilt `bundle.json`: male 362 -> **363 structures** (+1,
+      `coracoclavicular_ligament_l`, own `rec.source` = Gray's Anatomy citation, own
+      `rec.procedural_badge` = the Q122 disclosure text above); female 384 -> **387 structures**
+      (+3, the other three, same two fields present on each). Diff-checked: every other
+      structure's `id`/`nv`/`nf`/`rec` in both bundles is unchanged from before this item (spot-
+      checked a sample of 10 pre-existing structures per body against the prior build's bundle
+      contents -- identical).
+
+      TESTS: `python -m pytest -q` run after the script rewrite, after the JSON badge edits, and
+      after both rebuilds -- **252 passed** every time, no regressions.
+
+      Files: `scripts/generate_ligament_connectors.py` (rewritten: two-bone attachment shape,
+      `LIGAMENT_PLAN` grown from 1 to 11 entries, new fragment-length sanity check),
+      `scripts/ingest_ligament_connectors.py` (new, modeled on `ingest_tendon_connectors.py`,
+      ingests whichever ids each body's own generation report marks generated -- not a fixed
+      list, since shipping is per-body here), `data/ligaments/shoulder_ligaments.json` (4
+      `procedural_geometry` blocks added, no existing field changed), `data/ct_sources/
+      task_outputs/ligament_generation_report_{male,female}.json` (regenerated),
+      `docs/TISSUE_COMPLETENESS.md` (ligament section updated), this PROJECT_STATE.md entry.
+      `df -h /`: unaffected (12 tiny OBJ files, dropped after ingestion; no scratch left behind).
 
 - [x] Q121 (2026-09-22) Generalized Q118's tendon feasibility method to `data/ligaments/` (91
       entities, 8 shipped, 83 unshipped per Q117's own audit) -- ligaments connect two BONE

@@ -173,6 +173,33 @@ Q121_ligament_feasibility_audit.json` for the full, re-verified bone list and me
    Q121_ligament_feasibility_audit.json` for the full per-ligament table and
    `scripts/generate_ligament_connectors.py` for the reusable generator (kept for a future session, not
    deleted, despite shipping nothing this round).
+
+   **UPDATE (Q122, 2026-09-22)**: took Q121's own "purely-data lever" and worked it for real, one
+   ligament at a time -- not a blanket relaxation of the substring rule, a genuine anatomical read of
+   each of the 31 `landmark_text_mismatch` ligaments against a real source. **10 of the 31 were genuine
+   synonyms or an already-offered alternative attachment point** (e.g. "lateral (acromial) end of
+   clavicle" = bones.json's "acromial (lateral) end"; "conoid tubercle" is literally named in bones.json
+   for this exact ligament), added as a curated needle lookup in `generate_ligament_connectors.py`'s
+   `LIGAMENT_PLAN`, never by renaming anything in `bones.json` itself. **21 stayed declined** for a
+   genuinely different point bones.json does not have (Schottle's point is NOT the arithmetic midpoint of
+   two named landmarks -- interpolating remains forbidden; a suprascapular notch, radial/ulnar necks, an
+   acetabular rim and a glenoid labrum have no authored coordinate at all). Generating the 10 unlocked ids
+   then hit TWO more real, independent limits, both per-body and per-side rather than uniform: (a) the
+   SAME straight-chord-through-convex-bone failure Q121 found for `transverse_humeral_ligament` recurs for
+   most bone-to-bone joint-spanning pairs (13-50% of a connector's own vertices land inside one of its two
+   target bones); (b) a previously-undocumented data-quality finding on the female body -- her
+   `ct_vhf_armb` ulna_r fragment (already known from Q39/Q43 to be missing its proximal ~110 mm, scale
+   factor 0.42 vs the male reference) produces anatomically absurd 110-142 mm "elbow ligament" spans when
+   its proximal landmarks (coronoid process, supinator crest) are used, caught by a new sanity check
+   (measured/reference length ratio < 0.6) rather than trusted just because the containment check happened
+   to pass. Net result: **4 ligament ids shipped** (`acromioclavicular_ligament_r/l`,
+   `coracoclavicular_ligament_r/l`), each on exactly ONE body (the other body's identical computation
+   fails containment) -- real measured 30.6-40.2 mm gaps, disclosed in each record's own
+   `procedural_geometry` block. The other 6 of the 10 unlocked ids (`radial_collateral_ligament_complex_
+   elbow_r/l`, `ulnar_collateral_ligament_elbow_r/l`, `interclavicular_ligament`, `superior_pubic_
+   ligament`) never ship on either body, for the two reasons above. See PROJECT_STATE.md's Q122 entry and
+   `data/ct_sources/task_outputs/ligament_generation_report_{male,female}.json` for the full per-id
+   accounting.
 4. **Vascular and nerves are the largest remaining entity counts** (412 and 303) but are also the
    hardest: most named vessels and nerve branches below the major trunks are sub-CT-resolution and would
    need the same "literature-only, no route" honesty muscles' face/ear group already carries -- a future
