@@ -11,7 +11,22 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q125 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q126 (2026-09-22)
+re-routed the 13 thumb/interossei/digiti-minimi muscles' hand-bone anchors Q125 flagged as its
+own follow-up (attachments still resolving to the merged `metacarpals_r` placeholder instead of
+her newly-split individual metacarpals) -- of 26 right+left anchor endpoints across those 13
+muscles, only 4 (right side) ever referenced `metacarpals_r` at all (the rest are on
+`carpals_r`/`phalanges_hand_r`, real anatomy for those muscles, untouched since Q125 didn't split
+carpals/phalanges). Of those 4: 1 fixed (`abductor_pollicis_longus_r` insertion -> the real
+`metacarpal_1_r` base landmark, TA-verified), 3 declined with a specific, evidenced reason each
+(one of them catching a real coordinate-frame bug in Q125's own `metacarpal_1_r` landmark data,
+confirmed by direct measurement against the shipped mesh -- 18 mm off the bone). Confirmed, by
+running the actual code path, that the change is invisible in the exported bundle either way:
+`scripts/audit_landmarks_vs_geometry.py:build_frames()` has no case for ANY hand bone (merged or
+split), so `export_viewer_bundle.py` silently skips every hand-muscle anchor's world-space point,
+before and after this item. No bundle rebuild needed or attempted. 252 tests pass, unchanged.
+Full detail in the Q126 queue entry below.
+Recent: Q125 (2026-09-22)
 split the female's right `metacarpals_r` (5 bones fused as one CT-watershed mask) into 5
 individually named, individually verified bones (`metacarpal_1_r`..`metacarpal_5_r`, thumb
 through little finger) via a marker-controlled watershed on her own torso CT's raw HU values --
@@ -597,6 +612,12 @@ still waiting — unrelated to the CT work above.
    is a multi-hour undertaking not attempted this item. Seven muscles per side still resolve to
    digit III (`metacarpals_r`/`phalanges_hand_r` as a whole) -- re-routing them to the new
    individual metacarpals is a natural, separate follow-up, flagged but not attempted.
+   **FOLLOW-UP DONE by Q126 (2026-09-22)**: of the 13 muscles' 26 anchor endpoints, only 4
+   (right side) actually referenced `metacarpals_r` (the other 22 are correctly on
+   `carpals_r`/`phalanges_hand_r`, real anatomy, not touched by Q125's metacarpal-only split).
+   1 re-routed (`abductor_pollicis_longus_r`), 3 declined with specific reasons (one of them a
+   real coordinate-frame bug found in Q125's own `metacarpal_1_r` landmark). See the Q126 queue
+   entry for the full per-muscle breakdown.
 2. **Common flexor and extensor origins** on the humerus carry five muscles
    each on one coordinate. Splitting them means authoring, not measuring, until
    there is upper-limb geometry.
@@ -3291,6 +3312,133 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q126 (2026-09-22) Q125's own flagged follow-up: 13 thumb/interossei/digiti-minimi muscles
+      (`opponens_pollicis`, `extensor_pollicis_longus/brevis`, `abductor_pollicis_longus/brevis`,
+      `flexor_pollicis_longus/brevis`, `adductor_pollicis`, `dorsal_interossei_hand`,
+      `abductor_digiti_minimi_hand`, `flexor_digiti_minimi_brevis_hand`) still had their hand-bone
+      anchors resolving to the merged `metacarpals_r`/`phalanges_hand_r` placeholder instead of
+      Q125's newly-split individual metacarpals (`metacarpal_1_r`..`metacarpal_5_r`, female right
+      hand only).
+
+      SCOPE CHECK FIRST (before touching anything): read `data/rig/anchors.json`'s all 26
+      endpoints (13 muscles x 2 sides) and each muscle's `attachments` block in
+      `data/muscles/upper_limb/*.json`. Only **4 of the 26** actually reference `metacarpals_r`/
+      `metacarpals_l` at all: `opponens_pollicis_{r,l}` insertion, `abductor_pollicis_longus_{r,l}`
+      insertion, `adductor_pollicis_{r,l}` origin, `dorsal_interossei_hand_{r,l}` origin. The other
+      22 are correctly on `carpals_r/l` (trapezium, scaphoid, pisiform, hamate hook -- real origins
+      for opponens pollicis, APB, FPB, ADM, FDMB) or `phalanges_hand_r/l` (real insertions for
+      EPL, EPB, FPL, FPB, APB, ADM, FDMB, and adductor pollicis' and dorsal interossei's
+      insertions) -- untouched by Q125's split, which only separated the metacarpal shafts, and
+      correctly left alone here: real anatomy for those muscles never touches a metacarpal at all
+      (checked each against Gray's/TA specifically because the task description's own framing
+      assumed ADM/FDMB attach to metacarpal V -- they do not; that muscle is opponens digiti
+      minimi, not one of the 13 in scope). So the real work was on 4 right-side endpoints (left
+      side and the male are Q125's still-merged bodies/sides and were not touched at all -- see
+      DIFF CHECK below).
+
+      PER-ENDPOINT ANATOMICAL CHECK (Gray's Anatomy for Students 4th ed. / Terminologia Anatomica,
+      this project's own standard):
+      - **`abductor_pollicis_longus_r` insertion, "base of 1st metacarpal" -- FIXED.** Real,
+        single-bone attachment (APL inserts on the base of metacarpal I, sometimes with a slip to
+        the trapezium -- a carpal, not a second metacarpal, so still a clean case). `metacarpal_1_r`
+        already carries a "metacarpal base (CMC joint)" landmark at its own frame's origin (local
+        `[0, 0, 0]`, by definition -- that landmark IS the base) that the existing muscle text
+        ("base of 1st metacarpal") matches cleanly and unambiguously under `generate_anchors.py`'s
+        own matcher (only candidate scoring on both "metacarpal" and "base"; no ordinal conflict;
+        no displacement qualifier). Changed `attachments.insertion_bone` from `"metacarpals_r"` to
+        `"metacarpal_1_r"` in `data/muscles/upper_limb/abductor_pollicis_longus_r.json` (one line);
+        regenerated `data/rig/anchors.json` and diffed it against the pre-change version: **exactly
+        one block changed** (`anchor_abductor_pollicis_longus_r_insertion`:
+        `parent_bone_frame` `metacarpals_r` -> `metacarpal_1_r`, `local_position_mm` `[25,-5,10]` ->
+        `[0,0,0]`), nothing else in the 300-anchor file moved.
+      - **`opponens_pollicis_r` insertion, "1st metacarpal (radial border)" -- DECLINED, and a real
+        bug found in the process.** Opponens pollicis genuinely inserts along the whole radial
+        border of metacarpal I's shaft (not just the base), so the conceptually-correct target is
+        `metacarpal_1_r`'s own "opponens pollicis, abductor pollicis brevis, flexor pollicis brevis
+        attachments" landmark (`local [25, -5, 10]`) -- a landmark Q125 itself added, seemingly
+        copied verbatim from the merged `metacarpals_r` bone's pre-existing landmark of the same
+        name/position (that record is untouched, still `[25, -5, 10]` relative to ITS frame's
+        origin, "3rd metacarpal base"). But `metacarpal_1_r` declares its OWN, different frame
+        origin ("1st metacarpal (thumb) base"), and reusing the same offset from a different origin
+        is only valid if it was re-derived for the new frame -- it was not. Checked directly against
+        the real, already-shipped geometry (`build/vh/ct_vhf_mcsplit/{vertices.f32,manifest.json}`,
+        the exact mesh Q125 verified): measured `metacarpal_1_r`'s own base point from its real
+        vertices (top 5% by the bone's long axis, same method this project's own metatarsal-frame
+        code uses) and added the stored `[25,-5,10]` offset -- the resulting point sits at world
+        X=174.7, **18 mm beyond `metacarpal_1_r`'s own measured bounding box** (max X 156.6). This
+        is a real, measured placement error, not a judgement call -- shipping an anchor built on it
+        would be building a "verified" reference on a coordinate proven to be off the bone. Not
+        fixed here (deriving the CORRECT local coordinate needs either a real geometric
+        measurement of exactly where along the radial border the muscle inserts, or a properly
+        re-derived frame transform -- both real authoring work outside a routing fix's scope, and
+        exactly the kind of coordinate this project's "never invent or approximate" standard
+        forbids doing informally). Left `opponens_pollicis_r`'s insertion on the merged
+        `metacarpals_r` placeholder, unchanged. **Flagged as a genuine follow-up**: the
+        `metacarpal_1_r` landmark itself needs a properly re-derived (or freshly measured)
+        position before ANY muscle can safely use it.
+      - **`adductor_pollicis_r` origin -- DECLINED, a schema limit, not an anatomy question.** Real
+        anatomy (already correctly recorded in the muscle's own `origin_landmark` text and its two
+        `functional_compartments`): the oblique head origin is capitate + bases of metacarpals II
+        and III (three different bones, one of them a still-merged carpal); the transverse head
+        origin is the anterior shaft of metacarpal III alone -- genuinely a clean single-bone case
+        in isolation. But `schema/muscle.schema.json`'s `attachments` block carries exactly ONE
+        `origin_bone` for the WHOLE muscle, not one per `functional_compartments` entry (checked
+        the schema directly, since the task asked to verify this before assuming a per-compartment
+        bone reference exists) -- `generate_anchors.py`'s existing per-compartment splitter
+        (`_split_by_compartments`) only re-splits the LANDMARK TEXT against candidates from that one
+        shared bone id, it does not and cannot select a different bone per compartment. Pointing
+        the muscle's `origin_bone` at `metacarpal_3_r` to capture the transverse head correctly
+        would silently misattribute the oblique head's real origin (capitate + 2 metacarpal bases)
+        to metacarpal III alone -- wrong, not an improvement. A correct fix needs either a schema
+        extension (`origin_bone` per compartment) or, even then, a new measured "mid-shaft" landmark
+        on `metacarpal_3_r` (it currently has only base/head, no shaft point) -- both real, scoped
+        follow-ups, not attempted here as out of this item's budget. Left on the merged
+        `metacarpals_r` placeholder, unchanged, both heads.
+      - **`dorsal_interossei_hand_r` origin, "adjacent metacarpal shafts (each with 2 heads,
+        bipennate)" -- DECLINED, a genuine between-bones topology this schema cannot represent as
+        one point.** Real anatomy: each of the 4 dorsal interossei bipennately spans TWO adjacent
+        metacarpals (I/II, II/III, III/IV, IV/V) -- there is no single correct metacarpal to name.
+        This project's own `functional_compartments` mechanism (used elsewhere, e.g. flexor
+        hallucis brevis, adductor magnus, to split ONE muscle's shared text into
+        per-compartment anchors) does NOT apply here: `dorsal_interossei_hand_r` is modelled as one
+        collective entity with a single "Single fiber population" compartment (the 4 real muscles
+        are not separately represented), so there is no per-ray split to key a per-bone answer off
+        of even if the schema supported it. Confirmed no other via-point/multi-attachment mechanism
+        exists in `schema/muscle.schema.json` for a between-bones origin. Left on the merged
+        `metacarpals_r` placeholder, unchanged -- correctly, per this item's own instruction not to
+        approximate a between-bones point as a single-bone one.
+
+      VERIFICATION: ran `scripts/audit_landmarks_vs_geometry.py` against `ct_vhf_mcsplit` (Q125's
+      exact split geometry), `ct_vhf_armb` and `ct_vhf_hand` (the subjects carrying the actual hand
+      bones and the 13 muscles' own bellies) -- all three report **"No bone had both a measurable
+      frame and geometry"** for every hand bone (`carpals_r/l`, `metacarpals_r/l`,
+      `phalanges_hand_r/l`, and the new `metacarpal_1_r`..`_5_r` alike): `build_frames()` has never
+      had a case for any hand bone, merged or split. Confirmed directly by calling
+      `export_viewer_bundle.resolve_anchor_points('ct_vhf_hand')` before and after this item's
+      change: `abductor_pollicis_longus_r` and `opponens_pollicis_r` both resolve to `None`
+      (silently skipped) in BOTH cases -- so this item's fix, and every one of its declines, is
+      currently **invisible in the exported bundle**; nothing in `origin_point_mm`/
+      `insertion_point_mm` changes for any of these 13 muscles either way. This is a purely
+      internal correction to the anchor/data-model layer until a future item adds hand-bone frames
+      to `build_frames()` -- at which point `abductor_pollicis_longus_r`'s corrected anchor will
+      place correctly and this item's 3 declines (rather than a silently-wrong coordinate) is what
+      makes that safe. No bundle rebuild attempted (none needed -- verified, not assumed).
+
+      DIFF CHECK: `git diff --stat -- data/muscles/` shows exactly the one line in
+      `abductor_pollicis_longus_r.json` touched; `data/muscles/upper_limb/abductor_pollicis_longus_l.json`
+      and every male file untouched (confirmed by `git status`, nothing else modified). `git diff --
+      data/rig/anchors.json` shows exactly the one anchor block changed (see above); regenerating
+      from a clean baseline first confirmed the generator is deterministic here (byte-identical
+      re-run before any edit).
+
+      SHIPPED: `data/muscles/upper_limb/abductor_pollicis_longus_r.json` (1 line,
+      `insertion_bone`), `data/rig/anchors.json` (regenerated, 1 anchor block changed of 300), this
+      PROJECT_STATE.md entry (including the Q125 follow-up note update above). No `bones.json`,
+      script, or build/bundle changes. `python -m pytest -q`: **252 passed**, unchanged. `df -h /`:
+      unaffected (no large intermediates created; the only scratch reads were of the
+      already-committed `build/vh/ct_vhf_mcsplit` mesh, nothing written). NOT published/deployed
+      (same standing block as every other item today, not retried).
 
 - [x] Q125 (2026-09-22) Item 1 below ("`phalanges_hand` is 14 bones as one entity ... no hand
       geometry to measure against yet") had a stale premise: hand geometry has existed for a
