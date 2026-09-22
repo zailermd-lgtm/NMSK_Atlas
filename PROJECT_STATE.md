@@ -11,7 +11,22 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q119 (2026-09-22) closed
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q120 (2026-09-22)
+investigated the one bursa pair Q118 flagged as worth revisiting -- `iliopsoas_bursa_{r,l}`,
+the only one of the 45 bursae (data/bursae/hip_thigh_bursae.json) that references a
+now-shipped tendon (`iliopsoas_tendon_{r,l}`) -- and DECLINED both, same rigor as Q118's 45
+declines. The bursa's own record places it between the iliopsoas musculotendinous complex and
+the "anterior hip joint capsule"/"iliopectineal eminence", a real anatomical claim (Standring;
+Ribet et al. 2025) but a position PROXIMAL to and distinct from the lesser-trochanter
+insertion point Q118's tendon connector actually resolved -- confirmed by direct search that
+neither "iliopectineal eminence" nor any hip-joint-capsule landmark exists anywhere in
+`data/skeleton/bones.json`, `data/rig/anchors.json`, or any script/doc in this repo (only an
+unrelated "parietal eminence" cranial landmark matched); no hip-joint-capsule mesh ships
+either. The bursa's own citation also gives no measured dimension (only a communication-rate
+statistic), so even the size would have been invented. No coordinate to build a confident
+position from without guessing an offset -- declined cleanly per this item's own hard
+constraint, not forced. No data, code, or bundle changes; 252 tests still pass (baseline
+re-run only). Full detail in the Q120 queue entry below. Recent: Q119 (2026-09-22) closed
 a transparency gap the orchestrating session found by reading the published viewer's own
 bundle JSON directly: Q104's 21 procedural intervertebral discs and Q118's 6 procedural tendon
 connectors were honestly disclosed in PROJECT_STATE.md/git history but that disclosure never
@@ -3190,6 +3205,121 @@ tick the item here with a one-line result. Never fabricate; keep the
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
 
+- [x] Q120 (2026-09-22) Followed up on Q118's own note that "a bursa referencing one of the 6
+      tendons Q118 DID ship would be worth revisiting." Cross-referenced all 45 bursae in
+      `data/bursae/hip_thigh_bursae.json` against the 6 now-shipped tendon ids
+      (`iliopsoas_tendon_{r,l}`, `adductor_magnus_distal_tendon_{r,l}`, `quadriceps_tendon_
+      {r,l}`) via each bursa's own `adjacent_structures` field: exactly one pair matches --
+      `iliopsoas_bursa_r`/`iliopsoas_bursa_l` (`adjacent_structures` includes
+      `iliopsoas_tendon_{r,l}`). None of the other 44 reference any of the 6 shipped tendons,
+      confirming this item's scope really is at most this one pair, per its own hard
+      constraint not to expand to other bursae.
+
+      READ both full entity records (`data/bursae/hip_thigh_bursae.json` lines 19-36, 97-114)
+      end to end. Key facts: "the largest bursa in the body, present in roughly 98% of
+      individuals; lies between the iliopsoas musculotendinous complex and the anterior hip
+      capsule/iliopectineal eminence" (Gray's 42nd ed.), with the only quantitative figure in
+      the record being a communication-rate statistic from a real CT-arthrography series
+      (Ribet F, Chapuis C, Ropars M, Guillin R (2025) 'Iliopsoas bursa: a morphological study
+      based on CT-arthrography.' Surg Radiol Anat 48(1):7, doi:10.1007/s00276-025-03770-1,
+      178 hips, communication in 25/178 (~14%)) -- no bursa length/width/depth dimension of
+      any kind is reported anywhere in this record. `adjacent_structures` names
+      `iliopsoas_tendon_r`, `iliopsoas_r`, `femur_r`, `"anterior hip joint capsule"`,
+      `"iliopectineal eminence"` (both sides, mirrored).
+
+      FEASIBILITY INVESTIGATION (same rigor as Q118, no generation attempted until this was
+      done). The critical anatomical distinction this item had to get right: the bursa's own
+      text places it where the iliopsoas musculotendinous complex crosses ANTERIOR TO THE HIP
+      JOINT, near the iliopectineal eminence on the pubis -- a site PROXIMAL to and distinct
+      from the lesser trochanter, which is where the tendon actually inserts and where Q118's
+      `iliopsoas_tendon_{r,l}` connector mesh was built (per Q118's own entry: "femur, lesser
+      trochanter... gap 9.1-15.9mm", a short cord spanning only the last few mm before
+      insertion). So the bursa cannot simply be placed "at" the already-shipped tendon mesh's
+      own geometry -- that mesh does not extend to the anatomical site the bursa record
+      describes.
+
+      Checked whether either of the two landmarks the record actually names --
+      "anterior hip joint capsule" or "iliopectineal eminence" -- resolves to a real
+      coordinate anywhere in this project, exactly per this item's own instruction:
+        - `data/skeleton/bones.json`: printed every landmark name on both `hip_bone_r` and
+          `hip_bone_l` (19 landmarks each: acetabulum, ASIS, AIIS, ischial spine, pubic
+          tubercle/crest, obturator foramen, greater sciatic notch, 3 iliac-crest muscle
+          origins, 5 ischial-tuberosity facets, 3 gluteal-surface origins, etc.) -- no
+          "iliopectineal eminence" entry exists on either side. Grepped the WHOLE file for
+          `"name": "*eminence*"` and `"name": "*capsule*"`: the only hit anywhere in the
+          entire 300+ bone/landmark file is "parietal eminence" (an unrelated cranial-bone
+          palpable landmark on the skull) -- zero hip/pelvic eminence or capsule landmark of
+          any kind.
+        - `data/rig/anchors.json`: grepped for `capsule`/`eminence`: zero hits. The only
+          iliopsoas anchors present are `anchor_iliopsoas_{r,l}_insertion` (femur frame,
+          "lesser trochanter"), the same distal point already used by Q118 -- nothing
+          proximal, nothing capsule- or eminence-referenced.
+        - `scripts/` and `docs/`: grepped both trees for `iliopectineal` and hip-related
+          `capsule`: zero hits. No script computes or has ever computed such a coordinate;
+          `docs/GEOMETRY_SOURCES.md`'s and `docs/TISSUE_COMPLETENESS.md`'s bursa-related text
+          describes anatomy, not a positional rule.
+        - No hip-joint-capsule MESH ships either (checked bundle/ct_sources for any
+          "capsule" structure): the existing hip ligament records (`data/ligaments/
+          hip_ligaments.json`) describe the capsule's ligamentous thickenings in TEXT only
+          (e.g. "blends with the medial joint capsule near the lesser trochanter" as prose),
+          never as geometry with a coordinate this project's `build_frames()`/anchor pipeline
+          could consume.
+
+      Considered and rejected two tempting shortcuts, both of which the item's hard
+      constraint rules out as "approximating from a guessed offset":
+        (1) Using the `acetabulum (hip joint)` landmark (the one real, anchored hip_bone
+            landmark, sitting at that bone's own local-frame origin) as a stand-in for the
+            iliopectineal eminence/anterior capsule. The acetabular center and the
+            iliopectineal eminence are different, non-collocated anatomical points (the
+            eminence is an anteromedial rim/pubic-ramus prominence, not the joint center) --
+            substituting one for the other would be inventing an offset, not resolving a real
+            coordinate.
+        (2) Using `hip_articular_cartilage_{r,l}` (an already-shipped mesh) as a proxy for
+            "the capsule." The cartilage lines the joint surface itself; the capsule is a
+            distinct, more superficial fibrous envelope this project has never modeled or
+            measured. Treating the cartilage mesh as the capsule's location would misrepresent
+            what is actually being cited.
+
+      Both of the record's own named anatomical anchors are therefore unmodeled soft-tissue
+      landmarks this project has no coordinate for -- exactly the decline condition this
+      item's own instructions describe as sufficient on its own. Separately (and moot, given
+      the position finding, but checked anyway per step 2's instruction): the record's only
+      citation (Ribet et al. 2025) reports a communication RATE, not a bursa dimension, so even
+      an honest minimal-placeholder SIZE would have had no real reference number behind it --
+      a second, independent reason this item would have needed a disclosed-arbitrary size on
+      top of an already-unresolvable position.
+
+      DECISION: DECLINED both `iliopsoas_bursa_r` and `iliopsoas_bursa_l`. Not a time-budget
+      decline (Q118's `gluteal_tendon_complex` case) -- a genuine infeasibility decline, same
+      class as Q118's `conjoint_tendon`/most of its 45 bursa declines: the position is
+      underdetermined by any real geometry, anchor, or citation this project holds, and
+      forcing a plausible-looking guess (e.g. "offset N mm from the acetabulum toward the
+      tendon") would be exactly the fabricated-coordinate outcome the standing mandate
+      prohibits. A correctly-declined single small structure, per this item's own framing of
+      what a fine outcome looks like here.
+
+      NOT SHIPPED / NOT CHANGED: no entity JSON edited (nothing to badge -- no
+      `procedural_geometry` block was ever added, matching Q118's own pattern of not touching
+      entity JSON for a pure decline), no mesh generated, no script written, no bundle
+      rebuilt (there is no new structure to verify in it), no viewer touched. Re-ran
+      `python -m pytest -q` as a baseline sanity check only (no code/data changed that could
+      affect it): **252 passed**, matching Q119's own count exactly. `git status --short` was
+      clean before and after this investigation (no stray files). `df -h /`: 28G available,
+      unaffected -- no scratch intermediates were created (this item was pure read-only
+      investigation: `grep`/`python -c` searches of already-existing JSON, no file writes).
+      Neither viewer republished or retried (Production Deploy still gated, per every other
+      item today).
+
+      The other 44 bursae remain exactly as Q118 left them: undone, correctly, for lack of
+      any resolvable tendon/bone dependency yet (see the Q118 entry immediately below, whose
+      own bursa paragraph this item's finding narrows from "0 of 45 resolvable" to "0 of 45
+      resolvable, including the 1 pair whose tendon dependency Q118 itself flagged as
+      resolved" -- i.e. having a resolved TENDON dependency did not turn out to be sufficient,
+      because the bursa's own anatomical anchors are a different, still-unresolved pair of
+      landmarks).
+
+      SHIPPED: this PROJECT_STATE.md entry only (no code, data, or build artifact changed).
+
 - [x] Q119 (2026-09-22) Closed a real transparency gap the orchestrating session found by
       reading the PUBLISHED VIEWER's own embedded bundle JSON: Q104's 21 intervertebral discs
       and Q118's 6 tendon connectors are honestly disclosed as PROCEDURAL/RULE-BASED in
@@ -3403,6 +3533,17 @@ tick the item here with a one-line result. Never fabricate; keep the
       an entirely new one. DECLINED IN FULL, exactly per this item's own instruction for this
       exact situation ("if the positional logic is too speculative, decline bursae entirely
       this round").
+
+      UPDATE (Q120, 2026-09-22): revisited specifically the one pair this note flagged as
+      worth checking once a shipped tendon existed -- `iliopsoas_bursa_{r,l}`, whose
+      `adjacent_structures` names the now-shipped `iliopsoas_tendon_{r,l}`. Investigated with
+      the same rigor and STILL DECLINED: the bursa's own record positions it at the "anterior
+      hip joint capsule"/"iliopectineal eminence", proximal to and distinct from the lesser-
+      trochanter point the tendon connector actually resolved, and neither landmark exists
+      anywhere in this project's bone/anchor data or as shipped geometry. Having a resolved
+      TENDON dependency was not, in the end, sufficient -- the bursa's own anchors are a
+      separate, still-unresolved pair. Full investigation in the Q120 queue entry above. The
+      other 44 bursae remain untouched, for the same reasons documented here.
 
       GENERATION (`scripts/generate_tendon_connectors.py`, new). For each of the 6 shipped
       ids x2 sides: muscle endpoint = the real nearest vertex of that body's OWN shipped
