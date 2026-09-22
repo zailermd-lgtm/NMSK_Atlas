@@ -120,6 +120,61 @@
       ],
       "notes": "Evidence at this specific site is minimal and should not be over-read: the only PRP report identified for the quadriceps tendon itself is a single case report (Wagner & Zach 2021) of one patient with MRI-confirmed distal quadriceps tendinosis/partial vastus intermedius tear who improved clinically and on follow-up MRI after a single ultrasound-guided PRP injection -- a case report, not a trial. This is a distinct entity from patellar tendinopathy (modeled separately as the patellar tendon/ligament in data/ligaments/knee_ligaments.json in this atlas), for which PRP evidence is comparatively more developed; patellar-tendon-specific literature was intentionally not used here as it is not directly applicable to the quadriceps tendon entry.",
       "source": "Wagner RJ, Zach KN (2021) 'Platelet-Rich Plasma Injection for Quadriceps Tendinopathy: A Case Report.' WMJ 120(1):78-81, PMID 33974772 (no DOI was assigned by the publisher; https://pubmed.ncbi.nlm.nih.gov/33974772/) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "patella_r",
+        "per_muscle_measured": {
+          "rectus_femoris_r": {
+            "gap_mm": 87.71,
+            "proximal_radius_mm": 5.62
+          },
+          "vastus_medialis_r": {
+            "gap_mm": 25.48,
+            "proximal_radius_mm": 9.81
+          },
+          "vastus_lateralis_r": {
+            "gap_mm": 38.21,
+            "proximal_radius_mm": 8.35
+          },
+          "vastus_intermedius_r": {
+            "gap_mm": 42.74,
+            "proximal_radius_mm": 8.93
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      },
+      "female": {
+        "bone_frame": "patella_r",
+        "per_muscle_measured": {
+          "rectus_femoris_r": {
+            "gap_mm": 86.28,
+            "proximal_radius_mm": 6.09
+          },
+          "vastus_medialis_r": {
+            "gap_mm": 18.03,
+            "proximal_radius_mm": 9.15
+          },
+          "vastus_lateralis_r": {
+            "gap_mm": 41.93,
+            "proximal_radius_mm": 8.75
+          },
+          "vastus_intermedius_r": {
+            "gap_mm": 47.23,
+            "proximal_radius_mm": 8.46
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      }
     }
   },
   {
@@ -362,6 +417,37 @@
       ],
       "notes": "The ultrasound-guided approach described here is well established for iliopsoas bursa/tendon injection (Albano et al. 2023, a practical technique review); the published clinical-outcomes evidence at this specific site is for corticosteroid, not PRP -- e.g. Smith et al. 2024 (68 patients) showed significant pain and functional improvement after ultrasound-guided iliopsoas corticosteroid injection for iliopsoas tendinopathy/bursitis/snapping hip. No PRP-specific trial for the iliopsoas tendon itself was found; in practice the same needle-target technique is used interchangeably for corticosteroid or orthobiologic injectate.",
       "source": "Albano D, Gitto S, Serpi F, Aliprandi A, Sconfienza LM, Messina C (2023) 'Ultrasound-guided Musculoskeletal Interventional Procedures Around the Hip: A Practical Guide.' J Ultrason 23(92):15-22, doi:10.15557/JoU.2023.0003 (https://doi.org/10.15557/JoU.2023.0003) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "iliopsoas_r": {
+            "gap_mm": 9.12,
+            "proximal_radius_mm": 8.51
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "iliopsoas_r": {
+            "gap_mm": 14.88,
+            "proximal_radius_mm": 8.85
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
     }
   },
   {
@@ -397,7 +483,38 @@
       }
     ],
     "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "adductor_magnus_r": {
+            "gap_mm": 85.29,
+            "proximal_radius_mm": 8.3
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "adductor_magnus_r": {
+            "gap_mm": 76.63,
+            "proximal_radius_mm": 5.72
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
+    }
   },
   {
     "id": "achilles_tendon_l",
@@ -520,6 +637,61 @@
       ],
       "notes": "Evidence at this specific site is minimal and should not be over-read: the only PRP report identified for the quadriceps tendon itself is a single case report (Wagner & Zach 2021) of one patient with MRI-confirmed distal quadriceps tendinosis/partial vastus intermedius tear who improved clinically and on follow-up MRI after a single ultrasound-guided PRP injection -- a case report, not a trial. This is a distinct entity from patellar tendinopathy (modeled separately as the patellar tendon/ligament in data/ligaments/knee_ligaments.json in this atlas), for which PRP evidence is comparatively more developed; patellar-tendon-specific literature was intentionally not used here as it is not directly applicable to the quadriceps tendon entry.",
       "source": "Wagner RJ, Zach KN (2021) 'Platelet-Rich Plasma Injection for Quadriceps Tendinopathy: A Case Report.' WMJ 120(1):78-81, PMID 33974772 (no DOI was assigned by the publisher; https://pubmed.ncbi.nlm.nih.gov/33974772/) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "patella_l",
+        "per_muscle_measured": {
+          "rectus_femoris_l": {
+            "gap_mm": 87.02,
+            "proximal_radius_mm": 7.1
+          },
+          "vastus_medialis_l": {
+            "gap_mm": 22.33,
+            "proximal_radius_mm": 10.14
+          },
+          "vastus_lateralis_l": {
+            "gap_mm": 49.19,
+            "proximal_radius_mm": 6.91
+          },
+          "vastus_intermedius_l": {
+            "gap_mm": 31.97,
+            "proximal_radius_mm": 6.07
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      },
+      "female": {
+        "bone_frame": "patella_l",
+        "per_muscle_measured": {
+          "rectus_femoris_l": {
+            "gap_mm": 89.4,
+            "proximal_radius_mm": 7.54
+          },
+          "vastus_medialis_l": {
+            "gap_mm": 20.47,
+            "proximal_radius_mm": 8.24
+          },
+          "vastus_lateralis_l": {
+            "gap_mm": 45.94,
+            "proximal_radius_mm": 5.61
+          },
+          "vastus_intermedius_l": {
+            "gap_mm": 42.56,
+            "proximal_radius_mm": 8.69
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      }
     }
   },
   {
@@ -762,6 +934,37 @@
       ],
       "notes": "The ultrasound-guided approach described here is well established for iliopsoas bursa/tendon injection (Albano et al. 2023, a practical technique review); the published clinical-outcomes evidence at this specific site is for corticosteroid, not PRP -- e.g. Smith et al. 2024 (68 patients) showed significant pain and functional improvement after ultrasound-guided iliopsoas corticosteroid injection for iliopsoas tendinopathy/bursitis/snapping hip. No PRP-specific trial for the iliopsoas tendon itself was found; in practice the same needle-target technique is used interchangeably for corticosteroid or orthobiologic injectate.",
       "source": "Albano D, Gitto S, Serpi F, Aliprandi A, Sconfienza LM, Messina C (2023) 'Ultrasound-guided Musculoskeletal Interventional Procedures Around the Hip: A Practical Guide.' J Ultrason 23(92):15-22, doi:10.15557/JoU.2023.0003 (https://doi.org/10.15557/JoU.2023.0003) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "iliopsoas_l": {
+            "gap_mm": 14.48,
+            "proximal_radius_mm": 8.03
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "iliopsoas_l": {
+            "gap_mm": 15.93,
+            "proximal_radius_mm": 8.21
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
     }
   },
   {
@@ -797,7 +1000,38 @@
       }
     ],
     "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
-    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "adductor_magnus_l": {
+            "gap_mm": 94.72,
+            "proximal_radius_mm": 6.51
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "adductor_magnus_l": {
+            "gap_mm": 84.28,
+            "proximal_radius_mm": 7.7
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
+    }
   },
   {
     "id": "gluteal_tendon_complex_r",

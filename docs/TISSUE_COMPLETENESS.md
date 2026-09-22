@@ -4,12 +4,22 @@
 `id` in its `data/<type>/` record against both published viewers' bundle structure ids -- from muscles
 (the only type this had ever been run for) to every other tissue-type directory the data model tracks.
 Counts regenerate with `scripts/recount_tissue_gaps.py` (all types) or `scripts/recount_muscle_gaps.py`
-(muscles only, unchanged, still the tool `docs/MUSCLE_GAPS.md` itself uses). Measured against the LIVE
-published bundles (`build/viewer_m/bundle.json` male, 356 structures; `build/viewer_f/bundle.json`
-female, 378 structures) -- NOT the pending Q108-Q116 rebuilds sitting unpublished in
+(muscles only, unchanged, still the tool `docs/MUSCLE_GAPS.md` itself uses). Originally measured against
+the LIVE published bundles (`build/viewer_m/bundle.json` male, 356 structures; `build/viewer_f/
+bundle.json` female, 378 structures) -- NOT the pending Q108-Q116 rebuilds sitting unpublished in
 `build/viewer_*/atlas_viewer_*.html`.*
 
-Full per-entity detail (which id is missing, on which body, in which region): `data/derived/Q117_full_completeness_audit.json`.
+*UPDATED 2026-09-22 (Q118): the tendons row below reflects Q118's own additive rebuild on top of
+Q108-Q116's state (`build/viewer_m/bundle.json` male, now 362 structures; `build/viewer_f/bundle.json`
+female, now 384) -- 6 new tendon ids (`iliopsoas_tendon`, `adductor_magnus_distal_tendon`,
+`quadriceps_tendon`, each `_r`/`_l`), all PROCEDURAL/RULE-BASED connector meshes, not segmented imaging
+-- see `data/tendons/lower_limb_tendons.json`'s own `procedural_geometry` blocks on those 6 records and
+PROJECT_STATE.md's Q118 entry for the full disclosure and verification. Still NOT the "LIVE PUBLISHED"
+sense Q117 used the phrase in (Production Deploy remains gated, unchanged since Q108) -- same
+pending-but-real local build state every Q10X/Q11X item today accumulated into. All other rows are
+unchanged from Q117 (this item touched only `data/tendons/`).
+
+Full per-entity detail (which id is missing, on which body, in which region): `data/derived/Q117_full_completeness_audit.json` (tendons row there is now stale by 6 entities; re-run `scripts/recount_tissue_gaps.py --type tendons` for the current numbers, reproduced below).
 
 ## The numbers, by type
 
@@ -22,9 +32,9 @@ Full per-entity detail (which id is missing, on which body, in which region): `d
 | Ligaments | 91 | 8 | 0 | 83 | 91% | 47 |
 | Nerves | 303 | 1 | 3 | 299 | 99% | 287 |
 | Fascia | 104 | 1 | 0 | 103 | 99% | 94 |
-| **Tendons** | **51** | **0** | **0** | **51** | **100%** | **26** |
+| **Tendons** | **51** | **6** (Q118) | **0** | **45** | **88%** | **23** |
 | **Bursae** | **45** | **0** | **0** | **45** | **100%** | **23** |
-| **Total** | **1561** | **292** | **50** | **1219** | **78%** | -- |
+| **Total** | **1561** | **298** (Q117: 292) | **50** | **1213** (Q117: 1219) | **78%** | -- |
 
 `data/skeleton/joints.json` (60 records) is deliberately excluded from the "bones" row and from the
 total: its entries are kinematic articulations (degree-of-freedom ranges, coordinate systems), not mesh
@@ -79,9 +89,19 @@ is implied by its adjoining bones. Measured anyway for transparency in the JSON 
 
 ## What's most valuable to fill first (priority for a future completeness session)
 
-This item is measurement-only (per its own mandate and Q112's precedent) -- no gaps were filled. For
-whoever picks up completeness work next, in the same spirit as Q62's own original prioritized route list
-for muscles:
+Q117 itself was measurement-only. **Q118 (2026-09-22) acted on item 2 below** and found the honest
+ceiling much narrower than hoped: of the "many named tendons" this note originally pointed to, only 6 of
+51 (`iliopsoas_tendon`, `adductor_magnus_distal_tendon`, `quadriceps_tendon`, each `_r`/`_l`) actually
+resolve to real, already-anchored 3D coordinates through this project's existing landmark/anchor system
+-- the Achilles, patellar, pes anserinus, rotator cuff, biceps/triceps and every hand/foot tendon this
+note named or implied are all blocked by one specific, fixable pipeline gap: `scripts/
+audit_landmarks_vs_geometry.py:build_frames()` cannot construct a measured bone frame for `tibia`,
+`tarsals`, `humerus`, `radius`, `ulna`, `scapula`, `clavicle`, `carpals`, `metacarpals`, `phalanges`,
+`hyoid`, `mandible` or `sternum` on this session's geometry (its cartilage-mesh filename lookups predate
+a naming change). See PROJECT_STATE.md's Q118 entry (full accounting of all 51) and its "Open" item 12
+(the `build_frames()` fix that would unblock most of the rest). The 6 shipped are real, measured-length,
+disclosed PROCEDURAL/RULE-BASED connectors (`data/tendons/lower_limb_tendons.json`'s own
+`procedural_geometry` blocks), not segmented tendon imaging -- this project has none.
 
 1. **Bursae, clinically first** (45 entities, 0% coverage): the elbow (10) and shoulder (10+6) bursae
    carry documented `injection_approach` fields already written for this atlas's own stated purpose
@@ -90,13 +110,20 @@ for muscles:
    be recoverable as rule-based structures (a thin shell at a named position relative to two already-
    shipped bones/tendons) rather than needing new CT/cryosection segmentation, similar to how this
    atlas's cartilage/ligament rule-based structures were built -- worth investigating before assuming a
-   new imaging stream is needed.
-2. **Tendons, same reasoning** (51 entities, 0% coverage, `prp_injection_approach` fields already
-   written): many named tendons (Achilles, patellar, biceps, rotator cuff insertions) are the direct
-   continuation of an ALREADY-SHIPPED muscle belly into an ALREADY-SHIPPED bone insertion -- a
-   position/taper rule bridging the two existing meshes is a plausible first attempt, cheaper than a new
-   imaging stream, and should be tried and honestly evaluated (verified geometry or a documented decline)
-   before this group is assumed to need the same multi-week programme muscles took.
+   new imaging stream is needed. **Q118 checked this directly**: every one of the 45 bursa records
+   positions itself relative to a tendon-bone or bone-bone junction that is either one of the 45 tendons
+   Q118 could NOT ship (the large majority), or would need a genuinely new, never-yet-written positional
+   rule -- declined in full this round, not attempted against the 6 tendons Q118 DID ship (their own
+   bursae -- iliopsoas bursa, etc. -- were not in the small set checked). Worth a fresh, focused pass now
+   that iliopsoas/adductor-magnus/quadriceps tendons exist to potentially anchor a bursa to.
+2. **Tendons, same reasoning** (51 entities, ~~0%~~ **now 12%** coverage after Q118 -- see above): many
+   named tendons (Achilles, patellar, biceps, rotator cuff insertions) are the direct continuation of an
+   ALREADY-SHIPPED muscle belly into an ALREADY-SHIPPED bone insertion -- a position/taper rule bridging
+   the two existing meshes is a plausible first attempt, cheaper than a new imaging stream, and Q118 tried
+   and honestly evaluated it (verified geometry AND documented declines, as this note asked for): the
+   ceiling for a SECOND pass, once `build_frames()`'s cartilage-naming gap (Open item 12) is fixed, is
+   most of the remaining 45 -- this was not a dead end, it was gated behind one specific, scoped, fixable
+   infrastructure gap.
 3. **Ligaments, ranked by region size**: shoulder (19 missing) and pelvis (12 missing) are the largest
    region blocks; both joints already have shipped bones on both bodies to anchor rule-based ligament
    bands the way `knee_ligaments.json`'s 8-of-18 already-shipped structures presumably were built (not

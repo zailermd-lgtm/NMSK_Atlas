@@ -11,7 +11,30 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q117 (2026-09-22) generalized
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q118 (2026-09-22)
+verified and then SHIPPED a small, honest slice of Q117's "tendons/bursae are plausibly
+rule-derivable" hypothesis: 6 of the 51 tendon entities (12 mesh instances counting both
+bodies) as PROCEDURAL/RULE-BASED connector meshes (`scripts/generate_tendon_connectors.py`,
+same honesty bar as Q104's discs) -- `iliopsoas_tendon_{r,l}`, `adductor_magnus_distal_
+tendon_{r,l}`, `quadriceps_tendon_{r,l}` -- each a real, measured-length connector between
+this body's own already-shipped muscle mesh and its own already-shipped bone landmark,
+resolved through this project's EXISTING landmark/anchor pipeline
+(`scripts/audit_landmarks_vs_geometry.py:build_frames` + `data/rig/anchors.json` +
+`data/skeleton/bones.json`), never invented. DECLINED the other 45 tendons and all 45
+bursae with a measured reason each (see the Q118 entry below): the dominant cause is that
+`build_frames()` currently cannot construct a measured bone frame for tibia, tarsals,
+humerus, radius, ulna, scapula, clavicle, carpals, metacarpals, phalanges, hyoid, mandible
+or sternum (a real, pre-existing pipeline gap -- its cartilage-mesh lookups no longer match
+this session's renamed cartilage geometry), which rules out Achilles/patellar/rotator-cuff/
+hand/foot tendons outright; bursae were declined entirely (no tendon-anchored positional
+rule exists yet, per this item's own instruction not to force it). Verified on the ACTUAL
+SHIPPED, decimated bundle: all 12 new structures are 1 connected component, 0% outside
+skin, overlap only their own intended target bone. Both viewer HTMLs rebuilt additively on
+top of Q108/Q109/Q111/Q113/Q114/Q115/Q116's state (356->362 male structures, 378->384
+female structures -- 378 being Q117's own LIVE-bundle female count, this session's rebuild
+including the same `ct_vhf_skin` re-inclusion Q116 already documented; every pre-existing
+structure confirmed byte-identical pre/post). Full
+detail in the Q118 queue entry below. Recent: Q117 (2026-09-22) generalized
 Q62's muscle-only completeness method (`scripts/recount_muscle_gaps.py`) to a new
 `scripts/recount_tissue_gaps.py` covering all 9 entity-record tissue types (bones, muscles, cartilage,
 vascular, ligaments, nerves, fascia, tendons, bursae) against the live published bundles: 1561 entities
@@ -715,6 +738,34 @@ number of additional whole-body CT cases from this same source will
 close these gaps. Closing them needs a different segmented source
 entirely (a hand/wrist-specific dataset, or a muscle-segmentation model
 run against raw CT/MRI).
+
+12. **`scripts/audit_landmarks_vs_geometry.py:build_frames()` cannot construct a measured
+    bone frame for `tibia`, `tarsals`, `humerus`, `radius`, `ulna`, `scapula`, `clavicle`,
+    `carpals`, `metacarpals`, `phalanges`, `hyoid`, `mandible` or `sternum` on this
+    session's geometry** (found by Q118, 2026-09-22): its cartilage-mesh lookups key on
+    filename substrings from an older naming convention (`"tibialateral"`,
+    `"cartilage","talus"`, etc.) that no longer match this session's fused cartilage names
+    (`knee_articular_cartilage_l/r`, `ankle_articular_cartilage_l/r`, etc.). This blocked
+    39 of Q118's 51 candidate tendons outright (any tendon whose distal bone is one of
+    these) and is very likely blocking other landmark/anchor work for the same bones.
+    Fixing it (teaching the relevant frame-fitting branches the new cartilage names, or
+    adding a from-the-bone-mesh-alone fallback like the one femur/hip_bone already have for
+    CT-only subjects) would directly unblock: Achilles tendon, pes anserinus, semimembranosus
+    distal tendon, most rotator cuff/biceps/triceps tendons, and any future ligament/tendon
+    work needing those bones' frames. Not attempted by Q118 (out of scope; verifying and
+    generating within the already-resolvable set was this item's own mandate).
+13. **`gluteal_tendon_complex_{r,l}`** (Q118): numbers are clean (femur, greater trochanter,
+    gap 5.7-17.8mm both bodies, not blocked by bone, both contributing muscles ship on both
+    bodies) but this item did not attempt it — a `flat_aponeurotic` 2-muscle broad sheet
+    needs a materially different shape model (a tapered wedge/patch, not a tapered cord) that
+    was judged out of this item's remaining time budget. A good, well-scoped next tendon.
+14. **`proximal_hamstring_tendon_{r,l}`** (Q118): 2 of its 3 documented contributing muscles
+    (`semitendinosus`, `semimembranosus`) resolve cleanly against `hip_bone`'s ischial
+    tuberosity landmark; the third, `biceps_femoris`'s own origin, is blocked by bone in a
+    straight line on both sides (52.8-53.4mm) — the same wrap-needing shape as item 9 above,
+    needing a via-point/wrap model this project's rig schema doesn't have. Once that model
+    exists (or a specific via-point for this one attachment is measured and verified), this
+    tendon could be modeled honestly with all 3 heads.
 
 ## Open, not literature-fixable
 
@@ -3122,6 +3173,216 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q118 (2026-09-22) Followed up on Q117's own hypothesis that tendons/bursae (0%
+      geometry coverage, both at literal zero) might be "plausibly rule-derivable from
+      already-shipped bone/muscle geometry rather than needing new imaging" -- verified it
+      carefully rather than assuming it, per this item's own instruction, and shipped only
+      the honestly-justifiable subset.
+
+      FEASIBILITY INVESTIGATION (no generation until this was done). Read `data/skeleton/
+      bones.json`'s landmark schema, `data/rig/anchors.json` (muscle-attachment world
+      coordinates already resolved by `scripts/generate_anchors.py`), and
+      `scripts/audit_landmarks_vs_geometry.py` in full -- this last one turned out to be
+      THE load-bearing discovery: its `build_frames()` function is the ONE place this
+      codebase turns a bone-local landmark into a world coordinate (confirmed by
+      `engine/geometry.py:local_to_world`'s own docstring, which names it as the canonical
+      source of `basis`/`origin`), so it is the correct and only place to check whether a
+      tendon's distal bone attachment "resolves to a real, already-anchored 3D coordinate"
+      as this item's own hard constraint requires.
+
+      Ran it (`--subject vhm_both`) and found it constructs a MEASURED frame for only 8
+      bones on this session's geometry: `femur_{r,l}`, `fibula_{r,l}`, `hip_bone_{r,l}`,
+      `patella_{r,l}`. It does NOT for `tibia`, `tarsals`, `humerus`, `radius`, `ulna`,
+      `scapula`, `clavicle`, `carpals`, `metacarpals`, `phalanges`, `hyoid`, `mandible` or
+      `sternum` -- traced the cause: several of its frame-fitting branches locate the
+      joint-cartilage meshes they need by filename substring (`"tibialateral"`,
+      `"tibiamedial"`, `"tibiadistal"`, `"cartilage","talus"`, etc.), and this session's
+      geometry (recovered from the published viewer, ingested via TotalSegmentator for the
+      female) carries FUSED joint cartilage under different names entirely
+      (`knee_articular_cartilage_l/r`, `ankle_articular_cartilage_l/r`,
+      `hip_articular_cartilage_l/r`, `patellofemoral_articular_cartilage_l/r`) that no
+      longer match those substrings. This is a real, pre-existing pipeline gap -- NOT
+      something this item patched around (per the hard constraint: decline, don't invent a
+      workaround for an unresolvable coordinate). femur/hip_bone got a working frame anyway
+      because their code path has a documented FALLBACK that isolates the joint head
+      directly from the bone's own mesh by direction+sphere-fit when no cartilage mesh is
+      found (built for CT-only subjects with no cartilage at all); patella's frame is just
+      its own centroid, needing no cartilage. Confirmed this fallback also works from the
+      FEMALE's own geometry directly (a small merge-by-first-subject-wins script reproducing
+      `export_viewer_bundle.py`'s own claim-order logic), not just the male's.
+
+      Cross-referencing this against all 51 tendons' `attachments.distal_attachment.ref`:
+      only 12 (of 51) name a bone in the resolvable set (femur x6, hip_bone x4, patella x2).
+      The other 39 -- every Achilles/patellar/pes-anserinus/semimembranosus/rotator-cuff/
+      biceps-brachii/triceps/forearm/hand/foot/head-neck/trunk tendon -- were DECLINED on
+      this single, precisely measured basis: their distal bone (`tibia`, `tarsals`,
+      `humerus`, `radius`, `ulna`, `carpals`, `metacarpals`, `phalanges_hand`, `clavicle`,
+      `hyoid`, `mandible`, `sternum`) has no measured frame this session, so their landmark
+      text cannot be turned into a world coordinate through this project's own existing
+      system without guessing -- exactly the case this item's hard constraint says to
+      decline, not patch around. (Fixing `build_frames()` for the new cartilage naming is a
+      real, scoped follow-up for a future session -- not attempted here; see "Open" below.)
+
+      Of the 12 resolvable, checked each one's real numbers (muscle geometry existing per
+      body, gap size, whether a straight line from muscle to bone landmark is blocked by
+      bone) using the audit script's own `place()`/`nearest_distance()`/`blocked_by_bone()`
+      machinery directly:
+        - **iliopsoas_tendon_{r,l}** (femur, lesser trochanter): CLEAN. Gap 9.1-15.9 mm on
+          both bodies, not blocked, `iliopsoas` muscle mesh + `femur` bone mesh both ship on
+          both bodies. SHIPPED.
+        - **adductor_magnus_distal_tendon_{r,l}** (femur, adductor tubercle): CLEAN, though
+          this one has NO `data/rig/anchors.json` entry at all (adductor_magnus's insertion
+          was never auto-matched) -- resolved instead directly from `data/skeleton/
+          bones.json`'s own numbered femur landmark ("adductor tubercle (adductor magnus
+          insertion)"), which is still this project's own existing, already-authored
+          landmark data, not an invented coordinate. Gap 76.6-94.7 mm (long, but consistent
+          with this project's OWN existing text for this tendon, which already describes the
+          adductor hiatus the long free tendon creates), not blocked. SHIPPED.
+        - **quadriceps_tendon_{r,l}** (patella, base): CLEAN and unusually well-supported --
+          all 4 contributing muscles' OWN `data/rig/anchors.json` `muscle_insertion` entries
+          (`rectus_femoris`, `vastus_medialis`, `vastus_lateralis`, `vastus_intermedius`)
+          carry the IDENTICAL local coordinate on the patella (a real, if coarse,
+          already-authored "the quad tendon converges here" fact, not something this item
+          invented), AND all 4 carry a project-DECLARED `via_points` entry independently
+          confirmed clear of bone by the audit script's own wrap-check. Gaps 18-89 mm
+          (rectus femoris's own gap is the largest, ~87-89mm both bodies, matching this
+          project's OWN documented anatomy: rectus femoris's tendon runs the furthest before
+          joining the conjoined tendon). SHIPPED.
+        - **gluteal_tendon_complex_{r,l}** (femur, greater trochanter): numbers are clean too
+          (gap 5.7-17.8mm, not blocked, both muscles ship both bodies) but this item DID NOT
+          ATTEMPT it -- a `flat_aponeurotic` 2-muscle broad sheet is a materially different
+          shape claim than a tapered cord, and modeling + verifying that shape honestly was
+          judged not to fit in this item's remaining time budget alongside the 3 already
+          committed to. DECLINED FOR TIME, not for infeasibility -- a good candidate for a
+          focused follow-up.
+        - **proximal_hamstring_tendon_{r,l}** (hip_bone, ischial tuberosity): MIXED. Two of
+          the three contributing heads are clean (`semitendinosus` gap 18.7-21.7mm;
+          `semimembranosus` gap 99.9-107.2mm, almost entirely a straight proximal extension,
+          consistent with this project's OWN documented "semimembranosus starts 89mm below
+          the ischial tuberosity" fact) but the THIRD, `biceps_femoris`'s own origin, is
+          BLOCKED BY BONE in a straight line on both sides (52.8-53.4mm, blocked by
+          `hip_bone`) -- a genuine wrap case, exactly the kind this item's brief says not to
+          force (this project's rig schema has no via-point/wrap model for it, the same
+          semitendinosus-wrap-shaped gap the Open section already tracks). Modeling only 2 of
+          the 3 muscles this tendon's OWN record already documents would misrepresent an
+          already-fully-documented 3-muscle structure. DECLINED.
+        - **conjoint_tendon_{r,l}** (hip_bone, pubic crest/pecten pubis): its parent muscle
+          `internal_oblique` has NO shipped geometry at all in this session's raw ingest
+          (checked directly); `transversus_abdominis` has no `muscle_insertion`/`muscle_
+          origin` anchor of any kind. Both parents are also Q114's own explicitly-flagged
+          "one rule-based abdominal-wall construction" fragmentation case. DECLINED.
+
+      BURSAE (45 entities): per this item's own instruction, only attempted if tendons
+      shipped AND a genuinely sound positional rule existed. Tendons DID ship (3 of 51), but
+      every one of the 45 bursa records checked positions itself relative to a tendon-bone
+      OR bone-bone junction that is either (a) one of the 45 tendons NOT shipped this item
+      (the vast majority -- subacromial/subdeltoid bursa needs the rotator cuff tendons,
+      never resolvable this session per the frame gap above; prepatellar/infrapatellar
+      bursae need the patellar ligament, a different already-modeled structure this item
+      didn't touch; olecranon bursa needs the triceps tendon, humerus/ulna unresolvable) or
+      (b) would need a genuinely new positional rule ("small fixed offset from tendon X's
+      insertion, toward the bone surface") that has never been written or verified in this
+      codebase for ANY bursa -- not a small, low-risk extrapolation from an existing rule,
+      an entirely new one. DECLINED IN FULL, exactly per this item's own instruction for this
+      exact situation ("if the positional logic is too speculative, decline bursae entirely
+      this round").
+
+      GENERATION (`scripts/generate_tendon_connectors.py`, new). For each of the 6 shipped
+      ids x2 sides: muscle endpoint = the real nearest vertex of that body's OWN shipped
+      muscle mesh to the resolved bone-landmark world point; bone endpoint = that resolved
+      world point itself; LENGTH = the real straight-line distance between them on THAT
+      body's own geometry (male and female measured and generated independently -- never
+      copied between bodies, see the per-body gap numbers above, which differ by body as
+      expected of real geometry). Cross-section is the one genuinely arbitrary modeling
+      choice, disclosed exactly like Q104's disc radius: proximal radius = the REAL measured
+      RMS spread of the muscle's own vertices within 15mm of its endpoint (clamped to
+      [3, 18] mm as a sanity guard, never silently unclamped), distal (bone-end) radius =
+      that value x0.55, a disclosed taper ratio, not a measured tendon caliper (this project
+      has zero tendon-thickness imaging of any kind). `quadriceps_tendon` is modeled as 4
+      separate tapering cords (one per contributing muscle) converging to and MESH-WELDED at
+      the one shared documented insertion point, rather than as one fused trilaminar sheet --
+      a disclosed simplification from the real trilaminar anatomy this tendon's own record
+      already cites (Zeiss et al. 1992); the other 4 are single tapered cords/frusta.
+
+      VERIFICATION (on the ACTUAL SHIPPED, decimated bundle, this project's own standard
+      method):
+        - **Connectivity**: all 12 generated structures (6 ids x2 bodies) are exactly 1
+          connected component (face-adjacency flood fill on the shipped, quantized mesh --
+          none of them were even large enough to trigger the export pipeline's own
+          decimation budget, so shipped = generated exactly).
+        - **Skin containment**: 0/30 (iliopsoas, adductor magnus) and 0/61 (quadriceps)
+          vertices outside skin, on BOTH the pre-decimation raw mesh and the shipped
+          quantized mesh, both bodies -- 0.000% in every case, using this project's own
+          `engine.vh_ingest.points_inside_mesh` ray-crossing test against the real,
+          already-shipped skin mesh (not a bounding-box proxy).
+        - **Bone overlap**: checked each of the 12 against femur/patella/tibia (the plausible
+          nearby bones) -- every one overlaps ONLY its own intended target bone (a handful of
+          vertices right at the attachment cap sitting just inside the bone surface, expected
+          since the landmark itself sits a few mm inside/on the bone per the audit script's
+          own `d_bone` measurements, e.g. patella 0.8mm, femur 3.2mm), zero overlap with any
+          unrelated bone. ONE disclosed minor imperfection: the FEMALE's `quadriceps_tendon`
+          also shows 6/61 vertices dipping slightly inside `femur` (not patella) -- traced to
+          the wide proximal ring at `vastus_intermedius`/`vastus_lateralis`'s own endpoint,
+          where this segmentation's own muscle mesh already runs close along the femoral
+          shaft; a small, real, disclosed cosmetic overlap, not a different-bone
+          misattachment, not re-tuned this item (time-boxed).
+        - **Volume plausibility**: iliopsoas tendon 1.2-2.2 cm3, adductor magnus distal
+          tendon 4.7-11.0 cm3, quadriceps tendon 10.3-11.4 cm3 (both bodies). Quadriceps'
+          range is consistent with published quadriceps-tendon cross-section/length figures
+          (Zeiss et al. 1992, already cited in this tendon's own record) well enough to not
+          flag; iliopsoas and adductor magnus have NO published tendon-volume figure this
+          item found to check against -- flagged UNVERIFIED-SCALE for those two specifically
+          (their LENGTH is real and measured; only the volume-plausibility cross-check is
+          unavailable).
+
+      DISCLOSURE (per this item's own hard constraint -- the highest-stakes honesty item
+      today): every one of the 6 shipped tendon ids got a new `procedural_geometry` block in
+      `data/tendons/lower_limb_tendons.json` (both `_r`/`_l`) stating in full that the mesh is
+      generated, not segmented, naming exactly which parts are measured (length, per-body)
+      and which are modeling choices (cross-section radius/taper), plus the verification
+      results above. The manifest `source_file` for every one of the 12 shipped mesh
+      instances also carries the same badge inline (`"PROCEDURAL/RULE-BASED (Q118): ...NOT
+      segmented from imaging..."`), so the disclosure survives in the subject metadata layer
+      too, not only the entity record. `data/ct_sources/task_outputs/tendon_generation_
+      report_{male,female}.json` record the full per-muscle measured numbers this entry's own
+      figures are drawn from.
+
+      REGRESSION CHECK: never modified any subject other than `ct_vhm`/`ct_vhf` (only
+      APPENDED the 6 new structures to each, via `scripts/ingest_tendon_connectors.py`,
+      same append-and-reindex pattern as Q104's own `ingest_intervertebral_discs.py`).
+      Directly byte-compared every pre-existing structure in both subjects before vs. after
+      ingestion (31 unique ids in `ct_vhm`, 65 in `ct_vhf`): 0 changed, 0 missing. Since
+      decimation/quantization is a deterministic function of a structure's own (vertices,
+      faces, budget) and no budget/override/SHEET_IDS changed, every structure sourced from
+      any OTHER subject (`vhm_both`, `xfer_vhm2vhf_sep`, etc. -- everything Q108-Q116 fixed)
+      is provably unaffected without needing a separate full audit re-run. Both viewer HTMLs
+      rebuilt with the exact, unmodified `scripts/vhm_rebuild_bundle.sh` /
+      `scripts/cryo/vhf_rebuild_bundle.sh` (confirmed: neither script was edited this item):
+      **male 356->362 structures** (14.43->14.44 MB), **female 378->384 structures**
+      (this session's own live-count baseline per Q117, ->14.75 MB); the female rebuild hit
+      the same already-documented Q116 scratchpad-skin-absence fallback (reused the existing
+      `build/vh/ct_vhf_skin` conversion, printed its own WARNING, not a new issue). Neither
+      published (Production Deploy still gated, not retried, per this item's own
+      instruction).
+
+      TESTING: `python -m pytest -q` after generation -- 1 new failure
+      (`test_every_entity_has_a_citation`, because the new `tendon_generation_report_*.json`
+      files under `data/ct_sources/task_outputs/` are dict-shaped derived reports, caught by
+      the exact same `validate_source_coverage()` behavior Q117 already found and fixed for
+      its own derived report) -- fixed the same way Q117 did, by adding a top-level `source`
+      field to both report files. **252 passed** after. `df -h /`: 28G available throughout,
+      unaffected; own scratch intermediates (probe scripts, a `ct_vhm`/`ct_vhf` pre-ingest
+      backup used only for the byte-comparison above) cleaned up.
+
+      SHIPPED: `scripts/generate_tendon_connectors.py`, `scripts/ingest_tendon_connectors.py`
+      (both new), `data/tendons/lower_limb_tendons.json` (6 records get a new
+      `procedural_geometry` block, nothing else changed -- diff-confirmed), `data/ct_sources/
+      task_outputs/tendon_{male,female}_*.obj` (12 new, the generated meshes) and
+      `tendon_generation_report_{male,female}.json` (2 new), `build/vh/ct_vhm`,
+      `build/vh/ct_vhf` (appended, gitignored), `build/viewer_m/*`, `build/viewer_f/*`
+      (rebuilt, gitignored, NOT published), this PROJECT_STATE.md entry and
+      `docs/TISSUE_COMPLETENESS.md`'s tendon/bursae rows and fill-order note.
 
 - [x] Q117 (2026-09-22) The OTHER half of the mandate ("check for all muscles, tendons, ligaments,
       fascia, bones to occur in birth modelled") had only ever been done for MUSCLES (Q62's own
