@@ -11,13 +11,17 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q108 (2026-09-22) fixed `ct_vhf`'s
-own corruption (84/87 structures, left by Q107) and the `uint32` OverflowError blocking her disc ingestion;
-gave her real discs for the first time (cervical 0.877->real 0.962, thoracic ->0.937; lumbar stays ~0.536,
-confirmed a genuine separate limitation, not corruption); declined the remeshed-rib improvement for both
-subjects after finding it puts 5-8% of rib vertices outside the skin surface (a newly-found, real defect,
-never shipped, never checked before). Republish to the live female viewer verified-ready but blocked by an
-auto-mode permission gate -- see Q108 entry. Recent: Q104 SHIPPED (intervertebral disc
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q109 (2026-09-22) FIXED the
+remeshed-rib skin-containment defect Q108 found, for BOTH subjects: regenerated `ribs_l`/`ribs_r` at
+`dilation_iterations=4` (was 8) from offset-clean source, measured 0.000% vertices outside skin on all four
+sides (was 5.05-7.46%) AND main_frac 0.9993-1.0000 (was 0.63-0.83) -- both properties improved at once, not a
+trade-off. Both full bundles rebuilt and verified locally (`build/viewer_m/atlas_viewer_male.html`,
+`build/viewer_f/atlas_viewer_female.html`), ready to publish but not published (permission-gated, see Q109
+entry) -- this is the male viewer's first real bundle update since Q106. Recent: Q108 (2026-09-22) fixed
+`ct_vhf`'s own corruption (84/87 structures, left by Q107) and the `uint32` OverflowError blocking her disc
+ingestion; gave her real discs for the first time (cervical 0.877->real 0.962, thoracic ->0.937; lumbar stays
+~0.536, confirmed a genuine separate limitation, not corruption). Republish to the live female viewer
+verified-ready but blocked by an auto-mode permission gate -- see Q108 entry. Recent: Q104 SHIPPED (intervertebral disc
 integration to fix vertebral column fragmentation: generated 21 synthetic cylindrical discs per body (radius
 40mm, thickness 20mm) and integrated into ct_vhm and ct_vhf bundles; achieved dramatic main_frac improvements
 via face-adjacency connected-components analysis using vertex-based metric matching Q103 methodology --
@@ -1782,6 +1786,124 @@ tick the item here with a one-line result. Never fabricate; keep the
       (re-measured numbers). `build/` confirmed still gitignored (`git status` shows no `build/` paths despite
       the large local rebuild). Cleaned up ~232MB of this item's own backup copies from the scratchpad before
       finishing.
+
+- [x] Q109 (2026-09-22) Fixed the remeshed-rib skin-containment defect Q108 found and declined to ship
+      (5.05-7.46% of rib vertices outside the subject's own skin surface), for BOTH subjects, using approach
+      (a) from the brief -- a smaller dilation radius -- after first reading `scripts/voxelize_ribs_with_hubs.py`
+      (Q105/Q105b's own voxelization script) end to end. FOUND, not guessed: the script's morphological
+      dilation was hardcoded at 8 iterations (~16mm bridges) when the currently-committed remeshed OBJs were
+      generated (2026-09-20, commit 6a5992f); Q105b's own later commit message claims "3 iterations" but its
+      diff only made the iteration count configurable with a new *default* of 3 -- it never regenerated the
+      OBJ files, which stayed the original 8-iteration output (confirmed: `git diff 6a5992f c8ab3c0 --
+      data/ct_sources/task_outputs/*.obj` is empty). So the number in Q105's own commit message describing its
+      shipped artifacts was wrong; the artifacts were always the 8-iteration ones.
+      LOCATED the escaping vertices before choosing a fix (per the brief's instruction not to guess): built a
+      skin-containment checker using the project's own already-ingested, same-coordinate-frame skin meshes
+      (`build/vh/ct_vh{m,f}_skin`, voxelized+filled, nearest-voxel lookup at margin 0 -- methodologically
+      identical to `cross_subject_transfer.py`'s `skin_lookup()`, verified by reproducing Q108's numbers on the
+      actual committed OBJs: 6.25/5.05% male, 7.46/6.82% female vs Q108's reported 6.25/5.07% and 7.91/7.21%,
+      same order of magnitude, small residual difference explained by skin-voxelization pitch, 1.5mm here vs
+      whatever the original nii.gz-based check used). The escaping vertices are NOT a uniform all-over
+      expansion: they sit in a mid-height band (roughly the 40th-90th Y-percentile of each rib cage) and are
+      NOT at the most-lateral X extreme, consistent with the brief's own hypothesis of dilation bridging the
+      costal-cartilage/sternal-articulation gaps pushing the anterior rib surface past the skin, not a uniform
+      radius problem everywhere.
+      MEASURED a full dilation sweep (2/3/4/5/6/8 iterations, 2mm voxels, unchanged from Q105) on OFFSET-CLEAN
+      source geometry for all 4 (subject, side) combinations, using a from-scratch-verified vectorized
+      reimplementation of `verify_rib_continuity.py`'s exact face-adjacency main_frac algorithm (scipy
+      `connected_components` on the shared-edge face graph instead of the original's pure-Python BFS; validated
+      to bit-identical output against the original slow function on two test cases before trusting it, since
+      the original is too slow to run 24+ times at these mesh sizes). Source geometry: for `ct_vhm`, the
+      pristine pre-Q105 ribs recovered fresh via `bundle_to_subjects.py` from `data/derived/viewer_bundles/vhm_v25`
+      into a scratch directory (never touching `build/vh/ct_vhm`, which currently holds the Q107-fixed,
+      already-remeshed state) -- confirmed this recovers `ct_vhm`'s true pre-Q105 baseline (main_frac
+      0.0849-0.0850, matching Q105's own reported 0.0816-0.0817 closely). For `ct_vhf`, `build/vh/ct_vhf`'s
+      CURRENT `ribs_l`/`ribs_r` (12+12 pieces) directly -- Q108 already confirmed these are the untouched,
+      never-remeshed, offset-clean raw baseline (reproduced here: main_frac 0.0865/0.1099, exact match).
+      RESULTS (main_frac / % vertices outside skin, all 4 sides):
+        | dilation | ct_vhm ribs_l   | ct_vhm ribs_r   | ct_vhf ribs_l   | ct_vhf ribs_r   |
+        |----------|-----------------|-----------------|-----------------|-----------------|
+        | baseline | 0.0850 / 0.00%  | 0.0849 / 0.00%  | 0.0865 / 0.00%  | 0.1099 / 0.00%  |
+        | 2        | 0.8875 / 0.00%  | 0.7924 / 0.00%  | 0.8684 / 0.00%  | 0.8597 / 0.00%  |
+        | 3        | 0.9538 / 0.00%  | 0.9496 / 0.00%  | 0.9999 / 0.00%  | 0.9281 / 0.00%  |
+        | 4        | 1.0000 / 0.00%  | 0.9993 / 0.00%  | 1.0000 / 0.00%  | 0.9996 / 0.00%  |
+        | 5        | 1.0000 / 0.01%  | 1.0000 / 0.00%  | 1.0000 / 0.00%  | 1.0000 / 0.00%  |
+        | 6        | 1.0000 / 0.37%  | 0.9998 / 0.01%  | 0.9996 / 0.01%  | 0.9997 / 0.00%  |
+        | 8 (orig) | 1.0000 / 1.34%  | 1.0000 / 1.02%  | 1.0000 / 0.07%  | 1.0000 / 0.04%  |
+      The dilation=8 row here (measured on CLEAN source) is itself strong evidence for what actually happened
+      in Q105: on clean input, 8 iterations only pushes 0.04-1.34% of vertices outside skin, nowhere near the
+      5.05-7.46% actually measured on the shipped OBJs. The likely (not certain -- inferred, flagged as such)
+      explanation: by 12:22-12:29 UTC on 2026-09-20 when Q105b's voxelization actually ran, `build/vh/ct_vhm`
+      and `ct_vhf`'s `ribs_l`/`ribs_r` had already been through Q105's own earlier hub-merge steps
+      (`generate_rib_hub.py`/`rebuild_ribs_with_hubs.py`/etc.), and `voxelize_ribs_with_hubs.py`'s
+      `extract_structure_mesh` contains defensive code that SILENTLY CLAMPS any face index found outside a
+      structure's own vertex range to 0 or the last local index rather than failing -- exactly the symptom of
+      the missing-`vertex_offset` class of bug Q107/Q108 later found and fixed elsewhere in this same session
+      (`ingest_intervertebral_discs.py`, `ingest_remeshed_ribs.py`). If the pre-voxelization ribs_l/r data of
+      2026-09-20 carried the same defect, that clamping would have spliced in degenerate/garbage triangles
+      before voxelization ever ran, which dilation would then puff outward asymmetrically -- consistent with
+      the escaping vertices' localized, non-uniform distribution found above. This was not independently
+      reproduced (the historical pre-voxelization build state no longer exists to test directly) so it is
+      reported as the most likely explanation, not a proven one; what IS proven by direct measurement is that
+      today's clean source at 4 iterations gives 0.00% outside skin and main_frac >=0.9993 on all four sides.
+      CHOSE dilation_iterations=4: the smallest value in the sweep with 0.00% outside skin on every one of the
+      4 sides while main_frac is already >=0.9993 (5 also works but starts a tiny 0.01% escape on one side, no
+      accuracy benefit since 4 already effectively saturates connectivity) -- both properties improved
+      simultaneously relative to Q105's original 8-iteration/0.63-0.83/5.05-7.46% output, not a trade-off the
+      brief needed to accept.
+      UPDATED `scripts/voxelize_ribs_with_hubs.py`'s default `dilation_iterations` from 8 (hardcoded in the
+      per-structure function) / 3 (the CLI default Q105b left) to 4 everywhere, with the reasoning above in the
+      docstring/help text, so a future re-run of this script reproduces this fix instead of the original defect.
+      REGENERATED `data/ct_sources/task_outputs/ct_vh{m,f}_ribs_{l,r}_remeshed.obj` (all 4 files) at
+      dilation=4 from the same clean sources used in the sweep, then ran the unmodified
+      `scripts/ingest_remeshed_ribs.py ingest` (its Q107 fix already handles both the single-piece female-style
+      and, had it applied here, multi-piece splice cases correctly; no changes needed to it this item) against
+      `build/vh/ct_vhm` and `build/vh/ct_vhf`.
+      VERIFIED on the actually-INGESTED bundles (not just the standalone OBJs, to catch any ingestion-splice
+      bug): manifest offsets 0/52 (`ct_vhm`) and 0/87 (`ct_vhf`) out-of-range face indices (was already 0/0
+      before this item, per Q107/Q108 -- confirmed still 0 after); `scripts/verify_rib_continuity.py verify`
+      (the project's own official checker, unmodified) reports all four structures CONNECTED, main_frac
+      0.9993-1.0000, matching the sweep exactly; skin-containment re-measured directly on the ingested bundle
+      vertices: 0.000% outside skin, all four sides. `python -m pytest -q`: **252 passed**, no regressions.
+      REBUILT both full bundles end to end and diffed against what's live: `scripts/vhm_rebuild_bundle.sh`
+      (356 structures, 14,938,932 -> 1,134,408 triangles, 14.27 MB `build/viewer_m/atlas_viewer_male.html`) and
+      `scripts/cryo/vhf_rebuild_bundle.sh` (378 structures -- 22 fewer than Q108's 400 only because 12+12
+      individual rib pieces per side consolidated into 1+1, not because anything was dropped; 24,375,322 ->
+      1,150,735 triangles, 14.57 MB `build/viewer_f/atlas_viewer_female.html`). Diffed the new female export
+      structure-by-structure (id, aggregated nv/nf, matching Q108's own technique) against the currently-LIVE
+      published female viewer (read directly, cached locally, no extra fetch): only `ribs_l`/`ribs_r` (expected:
+      consolidated + skin-contained) and the 21 `intervertebral_disc_*` entries (Q108's already-shipped-locally
+      work, unaffected by this item) differ in content; every other id that differs at all (calcaneus_l/r,
+      cuboid_l/r, cuneiform_*, fibula_r, navicular_l/r, talus_l/r, radius_r, soleus_l, popliteus_l/r,
+      tibialis_anterior_r, vastus_lateralis_r, levator_ani_r -- 20 structures, all under ~2% nv/nf) is the EXACT
+      SAME set of tarsal/radius/muscle structures Q108's own diff already found, investigated and declared
+      benign pre-existing local `build/vh/` drift unrelated to any specific work item (spot-checked 0% outside
+      skin, byte-identical `humerus_r`) -- reproduced identically here, not new drift introduced by this item.
+      `ct_vhm`'s non-rib structures were not independently re-diffed against a live snapshot (the live male
+      viewer, c5d01522, predates Q104/Q105/Q107/Q108/this item entirely per Q107's own finding, so a live diff
+      there would show hundreds of expected, unrelated differences and could not isolate this item's own
+      change); instead relied on the same code-level guarantee Q107's own fix depends on --
+      `ingest_remeshed_ribs.py` only ever replaces the `ribs_l`/`ribs_r` manifest entries and copies every other
+      structure's vertex/face data through unchanged (re-numbering offsets only) -- plus the exact vertex-count
+      arithmetic checking out (526,317 - (193,618+245,526 old ribs) + (66,146+66,974 new ribs) = 220,293,
+      matching the ingestion script's own reported output exactly).
+      CONFIRMED before starting that Q106's declined forearm-compartment work made no bundle change: Q106 was
+      analysis-only (found and declined 3 merged compartments, no ingestion or export step run), and Q107/Q108
+      both worked on `ct_vhm` only at the `build/vh/` cache level, never re-exporting or re-publishing the male
+      viewer -- so today's `build/viewer_m/atlas_viewer_male.html` is genuinely the male viewer's first
+      candidate republish since Q104/Q105 first touched it, and the live male viewer (c5d01522) has been
+      unchanged since 2026-09-19 (pre-dating discs, rib remeshing and all three offset fixes).
+      NOT SHIPPED (blocked, not declined, exactly like Q108's female disc-only build): both
+      `build/viewer_m/atlas_viewer_male.html` and `build/viewer_f/atlas_viewer_female.html` are fully rebuilt,
+      verified and ready; **do not attempt to publish them** -- the `Artifact` publish tool is blocked by this
+      environment's "Production Deploy" permission classifier for this session, confirmed by Q108 and
+      reconfirmed by the parent session for this item; the next session (or the user, interactively) can
+      republish both to their existing URLs (male: `c5d01522-...`; female: `0651399d-...`) with no further
+      rebuild once permission allows it.
+      SHIPPED to git: `scripts/voxelize_ribs_with_hubs.py` (dilation default 8/3 -> 4, docstring),
+      `data/ct_sources/task_outputs/ct_vh{m,f}_ribs_{l,r}_remeshed.obj` (all 4 regenerated at dilation=4), this
+      PROJECT_STATE.md entry. `build/` confirmed still gitignored. Cleaned up the scratch pristine-source copy
+      (~5.5MB) before finishing.
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
@@ -3722,21 +3844,32 @@ the female's phalanges are under-captured at HU 200.
   in the currently-published live viewer, confirmed by inspecting its own bundle JSON). Same recommendation as
   before stands for lumbar specifically: per-vertebra disc optimization or mesh-level vertex welding for that
   region (Q104b's own recommendation #1, still not attempted).
-- Remeshed-rib skin-containment defect (NEW, found by Q108, not previously checked): Q105's voxelized/dilated
-  `ribs_l`/`ribs_r` replacement meshes put 7.91%/7.21% of `ct_vhf`'s rib vertices, and 6.25%/5.07% of
-  `ct_vhm`'s, outside the subject's own skin surface (checked with `cross_subject_transfer.py`'s
-  `skin_lookup()`, margin 0; sanity-checked against known-internal bones at 0.00% to rule out a pipeline
-  artifact). Neither subject's remeshed ribs have ever been published, so this was never caught before. Blocks
-  Q105c/Q104b's rib-continuity work from shipping as-is for BOTH subjects until either a smaller dilation
-  radius or a post-remesh clip-to-skin pass pulls the escaping vertices back in; not attempted by Q108 (a
-  bug-fix item, not a geometry-generation one). Until fixed, `ct_vhf`'s ribs ship as the original individual
-  12+12 pieces (main_frac 0.0865/0.1099, matching the live baseline, no change) and `ct_vhm`'s stay
-  unpublished (main_frac 0.6804/0.6326 locally, still not shipped, per Q107).
-- `ct_vhf`'s disc-only republish: verified and ready (`build/viewer_f/atlas_viewer_female.html`) but NOT yet
-  published -- Q108's `Artifact` publish call was refused by the session's own auto-mode permission classifier
-  ("Production Deploy"), a tool-permission gate, not a quality problem. Needs a session (or the user,
-  interactively) with permission to publish to redeploy it to the existing URL
-  (https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e); no further rebuild required.
-- Q105c (rib cage → 0.63-0.83): Blocked on 15GB memory limit; 1mm voxelization requires ~256GB system
+- Remeshed-rib skin-containment defect (found by Q108): RESOLVED by Q109 (2026-09-22) for BOTH subjects.
+  Root cause traced (see Q109's queue entry for the full argument): Q105b's own voxelization script had the
+  morphological dilation hardcoded at 8 iterations (~16mm bridges) -- Q105b's commit message claiming "3
+  iterations" was wrong, it only changed the *default* for future runs, never regenerated the shipped OBJs --
+  and, most likely (inferred from the numbers, not independently reproduced), ran on rib source data that
+  still carried the same missing-`vertex_offset`-class corruption Q107/Q108 later found and fixed elsewhere in
+  this pipeline. A full dilation sweep (2-8 iterations) on today's offset-clean source, measured with the
+  project's own skin-containment method AND `verify_rib_continuity.py`'s own main_frac, found 4 iterations
+  gives 0.000% vertices outside skin on ALL FOUR sides (both subjects, both sides) while main_frac is
+  0.9993-1.0000 -- BETTER than Q105's original 0.63-0.83 on both properties at once, not a trade-off. Updated
+  `scripts/voxelize_ribs_with_hubs.py`'s default to 4, regenerated all 4 remeshed OBJs, re-ingested with the
+  unmodified `scripts/ingest_remeshed_ribs.py`, verified 0 offset-inconsistent structures (both subjects) and
+  252 tests passing. Full detail, including the structure-by-structure diff confirming nothing else moved, in
+  the Q109 queue entry above.
+- Both viewers' ready-to-publish rebuilds (Q109, 2026-09-22): `build/viewer_m/atlas_viewer_male.html` (356
+  structures, with the fixed ribs -- this is the male viewer's FIRST candidate republish since Q104/Q105 first
+  touched it; the live male viewer, `c5d01522-...`, is unchanged since 2026-09-19) and
+  `build/viewer_f/atlas_viewer_female.html` (378 structures, with the fixed ribs AND Q108's 21 discs together)
+  are both fully rebuilt and verified locally but NOT published -- the `Artifact` publish tool is blocked by
+  this environment's "Production Deploy" permission classifier for this session (confirmed by Q108, and
+  reconfirmed for this item). Needs a session (or the user, interactively) with permission to publish, to
+  redeploy both to their existing URLs (male: `https://claude.ai/code/artifact/c5d01522-...`; female:
+  `https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e`); no further rebuild required for
+  either.
+- Q105c (rib cage → 0.63-0.83, blocked on 15GB memory for 1mm voxelization): SUPERSEDED by Q109 -- 4 iterations
+  of 2mm voxel dilation already reaches main_frac 0.9993-1.0000 with 0.000% skin escape, well past the 0.99
+  target Q105c was chasing via a memory-infeasible 1mm re-voxelization. No further rib-continuity work needed.
 - Q7 (female sciatic nerve): Requires manual seeding + full-res thigh crops
 - Q54 (popliteal nerve): Tracking failed; four detector variants tested, none successful

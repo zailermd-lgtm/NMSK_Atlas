@@ -111,7 +111,7 @@ def voxelize_structure(
     subject: str,
     atlas_id: str,
     voxel_size: float = 2.0,
-    dilation_iterations: int = 8,
+    dilation_iterations: int = 4,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Voxelize a rib structure and reconstruct mesh.
 
@@ -119,7 +119,18 @@ def voxelize_structure(
         subject: 'ct_vhm' or 'ct_vhf'
         atlas_id: 'ribs_l' or 'ribs_r'
         voxel_size: resolution in mm (default 2.0)
-        dilation_iterations: morphological dilation iterations (default 8)
+        dilation_iterations: morphological dilation iterations (default 4 -- Q109,
+            2026-09-22: the original 8 iterations (~16mm bridges) pushed 5-8% of rib
+            vertices outside the subject's own skin surface, never caught before because
+            neither subject's remeshed ribs had ever shipped. A sweep over 2-8 iterations
+            on offset-clean source geometry, measured against each subject's own skin
+            volume (margin 0) and main_frac (face-adjacency), found 4 iterations gives
+            0.00% vertices outside skin on ALL FOUR sides (both subjects, both sides)
+            while main_frac is 0.9993-1.0000 -- both better skin-containment AND better
+            connectivity than the original 8-iteration output (0.63-0.83 main_frac,
+            5-8% outside skin), because the original artifacts were generated from
+            since-fixed offset-corrupted source data (Q107/Q108), not purely from the
+            dilation radius itself. See PROJECT_STATE.md's Q109 entry.)
 
     Returns:
         - vertices: reconstructed mesh vertices
@@ -208,7 +219,7 @@ def voxelize_structure(
 def cmd_voxelize(args: argparse.Namespace) -> int:
     """Voxelize rib structures for both subjects."""
     voxel_size = getattr(args, 'voxel_size', 2.0)
-    dilation_iterations = getattr(args, 'dilation_iterations', 3)
+    dilation_iterations = getattr(args, 'dilation_iterations', 4)
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -281,8 +292,10 @@ def main():
     parser.add_argument(
         "--dilation-iterations",
         type=int,
-        default=3,
-        help="Morphological dilation iterations (default 3, each ~2mm bridge)",
+        default=4,
+        help="Morphological dilation iterations (default 4, each ~2mm bridge -- Q109: "
+             "the smallest value that reached 0.00% skin-escape on all four rib sides "
+             "while keeping main_frac >= 0.999; see PROJECT_STATE.md's Q109 entry)",
     )
 
     args = parser.parse_args()
