@@ -49,6 +49,10 @@ PY
 fi
 conv $T/vhf_tarsals_split.nii.gz vhf_tarsals ct_vhf_tarsal --smooth 1.0
 conv $T/vhf_arm_bones_ct.nii.gz vhf_arm_bones ct_vhf_armb --smooth 1.0
+# Q125: her right metacarpals I-V individually split from the merged metacarpals_right CT mask
+# (scripts/vhf_split_metacarpals.py, marker-controlled watershed on her own torso CT raw HU);
+# ct_vhf_armb's own metacarpals_r mapping is nulled out above so this replaces it, not duplicates it
+conv $T/vhf_metacarpals_split.nii.gz vhf_metacarpals_split ct_vhf_mcsplit --smooth 1.0
 conv $T/vhf_deltoid_cryo.nii.gz vhf_deltoid ct_vhf_delt --smooth 1.0
 # shoulder girdle split (Q62): infraspinatus / teres minor / teres major out of the cuff's merged mass (scripts/cryo/split_shoulder_girdle.py); listed BEFORE the cuff so the split wins
 conv $T/vhf_shoulder_split_cryo.nii.gz vhf_shoulder_split ct_vhf_shsp --smooth 1.0
@@ -80,7 +84,7 @@ conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
-SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb"
+SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf_mcsplit"
 [ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
 # Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE
 # ct_vhf_hyoid so it wins just this one atlas_id.

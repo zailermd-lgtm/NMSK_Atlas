@@ -11,7 +11,19 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q124 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q125 (2026-09-22)
+split the female's right `metacarpals_r` (5 bones fused as one CT-watershed mask) into 5
+individually named, individually verified bones (`metacarpal_1_r`..`metacarpal_5_r`, thumb
+through little finger) via a marker-controlled watershed on her own torso CT's raw HU values --
+verified threshold-independent, correct count/position/volume (3.85-7.05 cm3, index/middle
+largest matching the textbook pattern), single connected component each, 0% outside skin.
+Carpals (8 bones) and individual phalanges (14 bones) were investigated with the same technique
+and DECLINED: the carpal block stays one incoherent fused mass at every HU threshold, and
+within-digit joint (PIP/DIP) positions are not threshold-independent -- a real, evidenced
+resolution limit, not a shortcut. Female bundle rebuilt (+4 structures, 391 total); male
+untouched (his hand source is cryosection photographs, documented as worse for bone than CT, and
+was not re-derived -- see the Q125 entry). Full detail in the Q125 queue entry below.
+Recent: Q124 (2026-09-22)
 investigated whether Q118/Q121/Q122's real-bone-connector technique generalizes to
 `data/vascular/`'s 388 unshipped entities (Q117's largest unaudited gap) -- 0 of 388 qualify, a
 structural mismatch one level deeper than Q121's ligament result: vessels carry no
@@ -572,9 +584,19 @@ still waiting — unrelated to the CT work above.
 
 ## Open, in rough priority order
 
-1. **`phalanges_hand` is 14 bones as one entity.** Seven muscles per side
-   resolve to digit III. Needs the grouped entity split — a data-model change,
-   and there is no hand geometry to measure against yet.
+1. **PARTIALLY RESOLVED by Q125 (2026-09-22).** The premise was stale: hand geometry has
+   existed for a while (`ct_vhm_arm`/`ct_vhf_armb`); it was just never checked for per-bone
+   distinction until Q125 did. Female right hand: the 5 **metacarpals are now individually
+   split and verified** (`metacarpal_1_r`..`metacarpal_5_r`). **Carpals (8 bones) and
+   individual phalanges (14 bones) remain merged, DECLINED** -- investigated with this
+   project's own proven watershed technique and found genuinely unresolvable at this CT's
+   0.9375 mm resolution (the carpal block is one incoherent fused mass at every threshold;
+   within-digit joints show no threshold-independent position), not a shortcut. Female's LEFT
+   hand and the male's hand (both sides) still have NO per-bone distinction at all -- his
+   source is cryosection photographs, documented as worse for bone than CT, and re-deriving it
+   is a multi-hour undertaking not attempted this item. Seven muscles per side still resolve to
+   digit III (`metacarpals_r`/`phalanges_hand_r` as a whole) -- re-routing them to the new
+   individual metacarpals is a natural, separate follow-up, flagged but not attempted.
 2. **Common flexor and extensor origins** on the humerus carry five muscles
    each on one coordinate. Splitting them means authoring, not measuring, until
    there is upper-limb geometry.
@@ -3269,6 +3291,121 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q125 (2026-09-22) Item 1 below ("`phalanges_hand` is 14 bones as one entity ... no hand
+      geometry to measure against yet") had a stale premise: hand geometry has existed for a
+      while (`ct_vhm_arm`/`ct_vhf_armb` ship `phalanges_hand_r/l`, `metacarpals_r/l`,
+      `carpals_r/l`), it was just never checked for per-bone distinction. This item did that
+      check, then attempted the split with this project's own proven distance-transform/
+      marker-controlled-watershed technique (femur/tibia/fibula, Q61 tarsals, Q64 forearm).
+
+      SOURCE DATA, per body/side (checked before assuming anything): female right hand ships
+      from `data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz` (labels 3/4/5 =
+      carpals/metacarpals/phalanges), itself a marker-controlled watershed of her OWN torso CT
+      (0.9375x0.9375x1.0 mm) that isolated the whole "hand mass" as ONE region before
+      `vhf_arm_bones_ship.py` cut it into 3 by PLANES along the hand axis ("Rule-based grouping,
+      bones not separated" -- the mapping's own words). Male right+left ship from
+      `vhm_arm_bones_cryo_completed.nii.gz` (1 mm, from cryosection PHOTOGRAPHS, not CT -- the
+      project's own `scripts/cryo/README.md` already documents photographs as worse for bone
+      than CT, color-ambiguous between marrow/cortex and fat), same plane-cut method. Female's
+      LEFT hand has NO shipped geometry at all (confirmed: absent from both the volume mapping
+      and the live bundle) -- Q64's left-forearm work produced only a `build/`-local, never-
+      shipped, never-mapping'd framework (`vhf_left_forearm_segment_phase3.py`'s own docstring:
+      "Next steps: 1. Refine region-growing ... 5. Final output in atlas coordinates", ending
+      "Q64_PHASE3_FRAMEWORK_READY", and its bone classification is literally a per-slice
+      size/rank/z-position heuristic, not a boundary detector). So: real per-bone distinction
+      exists nowhere yet, on either body; the female's right hand (real CT HU, not photograph
+      color) is the only source worth attempting first, per this item's own instruction.
+
+      ATTEMPT (female right hand): the scratchpad copy of her raw torso CT was gone (container
+      reset), so re-downloaded the same IDC series she was originally segmented from
+      (`b9cf8e7a-2505-4137-9ae3-f8d0cf756c13`, 985 DICOM files, 518 MB, `scripts/
+      download_idc_series.py`, already in the repo) and re-stacked just the hand's z-range
+      (-900..-700 mm RAS, 201 slices) to real HU values -- confirmed 0.9375x0.9375x1.0 mm native
+      resolution over the hand (a finer 0.4883 mm region exists in this same series but only
+      over the upper chest, not the hand). Extracted the existing `metacarpals_r`+`carpals_r`+
+      `phalanges_hand_r` voxels (27.4+22.4+11.4 cm3) with their real HU values (matching the
+      mapping's own affine exactly) and ran the project's proven technique:
+      - Global HU thresholding (100-1100, both 26- and 6-connectivity): at NO threshold does the
+        27-bone mass separate into anything resembling 27 (or even 5-8) anatomically-shaped
+        pieces. Component counts/shapes are threshold-dependent and incoherent (e.g. th=400
+        6-connectivity: 9 pieces >=20vox, sizes 20874/4074/3594/2796/1745/1427/99/57/53 -- no
+        stable structure). This differs from the femur/tibia/fibula case (large bones, cm-scale
+        joint gaps, clean separation at multiple thresholds) -- here the joint gaps are at or
+        below the 0.9375 mm in-plane resolution, or the fingers are anatomically touching
+        (cadaver positioning), so there is no scale at which thresholding reveals real joints.
+      - Marker-controlled watershed (29 HU>=650 seed cores, smoothed-HU elevation, basins meet
+        at joint valleys -- the exact femur/tibia/fibula method) on the WHOLE hand mass: gives a
+        plausible-sounding 29 pieces (target 27) by coincidence, but visual inspection (rendered
+        projections) shows pieces that do NOT correspond to real bones -- one piece spans nearly
+        an entire finger's length, cutting where intensity happened to dip locally, not at real
+        joints. Declined as unverifiable; shipping it would be fabricating boundaries.
+      - NARROWER investigation (mid-shaft band only, k=[60,80] of the metacarpal zone's own
+        93 mm depth): exactly 5 components, THRESHOLD-INDEPENDENT (HU 150/200/250/300 all give
+        the same 5, plausible sizes 1184-2657 vox) -- a real, robust signal, unlike the whole-
+        hand attempt. Extended to a marker-controlled watershed restricted to the EXISTING,
+        already-shipped `metacarpals_r` plane-cut mask only (not re-deriving that boundary, only
+        resolving identity within it): 5 single-connected-component pieces, 6 of 31189 zone
+        voxels (0.02%) unassigned. SAME technique extended into the phalanx zone (restricted to
+        metacarpal+phalanx voxels, carpals excluded after they were shown to leak into whichever
+        digit's marker reached them first) gives a visually clean 5-way DIGIT separation
+        (rendered projections: 5 non-overlapping, correctly-fanned rays with visible internal
+        joint-line texture) -- but a per-digit cross-sectional-width-minima scan for the
+        PROXIMAL/MIDDLE/DISTAL phalanx joints inside each ray gave inconsistent, non-repeating
+        minima counts/positions across the 5 digits (1-3 candidate "joints" per digit, not a
+        stable 2 for fingers / 1 for the thumb) -- declined, not confidently verifiable.
+
+      SHIPPED: the 5 individual metacarpals only (`metacarpal_1_r` thumb .. `metacarpal_5_r`
+      little finger), identified by position (thumb: distinctly offset centroid, short/angled
+      ray, confirmed visually; fingers: ordered by centroid distance from the thumb) and
+      cross-checked against real anatomy: volumes 5.40/6.94/7.05/4.18/3.85 cm3 (thumb/index/
+      middle/ring/little) -- index and middle largest/most robust, little smallest, matching the
+      textbook pattern; single connected component each (verified on the raw label volume AND
+      independently on the shipped, decimated mesh via face-adjacency); nearest-skin-surface
+      distance 2.36-10.50 mm minimum across all 5 (comparable to sibling `phalanges_hand_r`'s own
+      1.79 mm baseline), i.e. 0% outside skin; `carpals_r` and `phalanges_hand_r` meshes
+      byte-identical (nv/nf) before/after, confirming no regression. DECLINED and left merged, as
+      before: `carpals_r`/`carpals_l` (8 bones -- the wrist block is one incoherent fused mass at
+      every HU threshold, best sub-piece still an irregular non-bone-shaped blob spanning most
+      of the wrist), `phalanges_hand_r`/`phalanges_hand_l` (14 bones -- within-digit joints not
+      threshold-independent), every structure on the female's LEFT hand (no source geometry at
+      all) and every structure on the male (photograph-based source, documented as worse than
+      CT, and Q64's own attempt at the closest analogous problem with even finer 0.33 mm
+      photographs never got past a "next steps" framework -- re-deriving it would mean
+      re-streaming ~14 GB of cryosections and redoing the registration pipeline, a multi-hour
+      undertaking this item's time budget did not extend to after a real, evidenced result on the
+      better source came back this partial).
+
+      DATA MODEL: added `metacarpal_1_r`..`metacarpal_5_r` to `data/skeleton/bones.json` (TA
+      names `Os metacarpi I-V`, parent `carpals_r`, articulates_with unchanged from
+      `metacarpals_r`'s own since the carpal side isn't individually resolved) plus
+      `metacarpal_1_l`..`metacarpal_5_l` (schema symmetry only, per `validate_symmetry` --
+      explicitly documented in each record's `source` field as carrying NO geometry yet). The
+      existing `metacarpals_r` entity record is untouched (still valid for the male, whose
+      metacarpals remain merged); `mappings/subjects/ct_vhf_armb_volume_mapping.json`'s label 4
+      (`metacarpals_right`) is set to `atlas_id: null` with a note that it is superseded by the
+      new subject, so the merged mesh is no longer shipped for her (verified: `metacarpals_r`
+      absent from her rebuilt bundle). Re-routing the 7 muscles per side that resolve to "digit
+      III" as a stand-in to the newly-individual metacarpals was NOT attempted (flagged as a
+      natural follow-up, per this item's own scope note) -- `generate_anchors.py` resolves those
+      via `attachments.*.ref` pointing at `metacarpals_r`/`phalanges_hand_r`, which still work
+      unchanged; pointing specific muscles at specific new metacarpal ids is a separate,
+      reviewable change.
+
+      SHIPPED: `scripts/vhf_split_metacarpals.py` (new, reproducible given a re-download of the
+      IDC series -- documented in its own docstring), `data/ct_sources/task_outputs/
+      vhf_metacarpals_split.nii.gz` + `_report.json` (new), `mappings/
+      vhf_metacarpals_split_labels.json`, `mappings/subjects/ct_vhf_mcsplit_volume_mapping.json`
+      (new), `mappings/subjects/ct_vhf_armb_volume_mapping.json` (label 4 nulled),
+      `data/skeleton/bones.json` (+10 entity records), `scripts/cryo/vhf_rebuild_bundle.sh`
+      (adds the `ct_vhf_mcsplit` conversion + subject-list step), `build/vh/ct_vhf_mcsplit`
+      (new), `build/vh/ct_vhf_armb` (reconverted, `metacarpals_r` dropped), `build/viewer_f/*`
+      (rebuilt: 391 structures, +4 net, 15.04 MB; male `build/viewer_m/*` untouched -- confirmed
+      by mtime), this PROJECT_STATE.md entry. `python -m pytest -q`: **252 passed** (one new
+      failure surfaced and fixed mid-item: `test_bilateral_entities_have_mirror_counterparts`
+      needed the `_l` schema-symmetry records above). `df -h /`: 28G available; the ~520 MB
+      re-downloaded DICOM series and all segmentation scratch intermediates deleted after use.
+      NOT published/deployed (same standing block as every other item today, not retried).
 
 - [x] Q124 (2026-09-22) Q117's largest unaudited completeness gap (`data/vascular/`, 412 entities,
       94% missing -- only 20/412 on both bodies, 4 either, 388 neither) was flagged as this
