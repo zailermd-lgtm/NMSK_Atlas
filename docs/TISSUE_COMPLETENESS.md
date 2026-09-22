@@ -28,6 +28,13 @@ unchanged in behavior (one bone's decline is now documented in-code, zero logic 
 byte-identical output on every existing bone). See the ligament section (item 3) below for the full
 per-bone accounting and `data/derived/Q123_transverse_axis_investigation.json` for the measured numbers.
 
+*UPDATED 2026-09-22 (Q124): investigated whether Q118/Q121/Q122's bone-connector technique generalizes to
+`data/vascular/`'s 388 unshipped entities (item 4 below). It does not, at all -- 0/388 pass even the
+resolvability check, because the vascular schema/data model has no bone-landmark attachment field of any
+kind (unlike tendons/ligaments' `attachments.*.ref`) and its own purpose-built `path_via_points_mm` course
+field is populated on 0/412 records. No entity JSON, geometry, mapping or viewer bundle changed by this
+item. See item 4 in "What's most valuable to fill first" below and PROJECT_STATE.md's Q124 entry.
+
 Full per-entity detail (which id is missing, on which body, in which region): `data/derived/Q117_full_completeness_audit.json` (tendons row there is now stale by 6 entities; re-run `scripts/recount_tissue_gaps.py --type tendons` for the current numbers, reproduced below).
 
 ## The numbers, by type
@@ -259,6 +266,38 @@ fallback today, confirmed by Q123.
    need the same "literature-only, no route" honesty muscles' face/ear group already carries -- a future
    session should triage which of the 388/299 missing entities have ANY plausible CT/cryosection route at
    all before treating this as a fillable backlog rather than a mostly-permanent literature-only list.
+
+   **UPDATE (Q124, 2026-09-22): investigated the vascular half of this note directly -- generalizing
+   Q118/Q121/Q122's bone-to-bone/muscle-to-bone connector technique to `data/vascular/`'s 388 unshipped
+   entities was the assignment. RESULT: 0 of 388 pass the technique's own feasibility filter, and not
+   narrowly -- the vascular data model has NO mechanism analogous to a tendon/ligament's
+   `attachments.{proximal,distal}_attachment.ref` at all.** Confirmed directly, not assumed:
+   `schema/vessel_branch.schema.json` defines a `path_via_points_mm` field seemingly built for exactly
+   this purpose (a list of `{landmark, bone_frame, position_local_mm}` course points) -- populated on
+   **0 of 412** vessel records, checked by direct scan. `data/rig/anchors.json` (the project's only
+   landmark->world-coordinate resolver) holds 300 entries, **100% `muscle_origin`/`muscle_insertion`, 0
+   vascular** -- there is no anchor type this pipeline has ever produced for a vessel. A full-text keyword
+   scan of all 388 unshipped vessels' `notes` fields against `data/skeleton/bones.json`'s 226 landmark
+   names found real skeletal-passage mentions (`middle_meningeal_a` through the foramen spinosum,
+   `inferior_alveolar_a` through the mandibular foramen, `popliteal_a` through the adductor hiatus) but
+   every one describes a vessel entering/exiting a foramen or fascial plane of a SINGLE bone or
+   compartment, never a course between two independently-named bone landmarks the way a tendon or
+   ligament's own record does -- there is no bone-A-to-bone-B pair to resolve. Applying the "described as
+   short/direct" text filter on its own (before even reaching the resolvability blocker): 153/388 notes
+   carry explicit curving/branching/anastomosing/continuation language (blocked by the item's own filter
+   (a)); 221/388 have no notes at all or notes too sparse to characterize; only 14/388 use words like
+   "short"/"direct" at all, and every one of those 14 is either a lymph node cluster (a point-like nodal
+   group, not a cord-shaped vessel -- `perforator_veins`, `popliteal_lymph_nodes`, `paratracheal_lymph_
+   nodes`, etc.) or a vessel described relative to another VESSEL junction, not a bone landmark
+   (`gonadal_v` "drains directly into the IVC", `common_femoral_v` "the segment between the
+   saphenofemoral junction and the inguinal ligament" -- genuinely short and real, but its proximal end is
+   a vein-to-vein junction with no coordinate in this project's bone-frame system at all). **0 shipped, 0
+   generated, 0 candidates even reached the generation step.** One genuine point of contrast worth
+   recording: vessel diameter (this item's filter (c)) is, unlike tendon cross-section, actually
+   well-documented -- every one of the 412 records already carries a cited `approx_diameter_mm` (Gray's/TA)
+   -- so diameter was never the blocking constraint; the course/attachment resolvability was. Full
+   per-entity breakdown: `data/derived/Q124_vascular_feasibility_investigation.json`. See PROJECT_STATE.md's
+   Q124 entry for the complete method and evidence.
 5. **Bones' remaining 25 gaps** (mostly `cranium_face`, 23 of 25) are individually named facial/cranial
    bones under a composite `cranium` entity that already ships -- likely the cheapest remaining bone gap
    (splitting an existing composite mesh by CT label) rather than needing new segmentation.

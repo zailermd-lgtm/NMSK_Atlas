@@ -11,7 +11,14 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q123 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q124 (2026-09-22)
+investigated whether Q118/Q121/Q122's real-bone-connector technique generalizes to
+`data/vascular/`'s 388 unshipped entities (Q117's largest unaudited gap) -- 0 of 388 qualify, a
+structural mismatch one level deeper than Q121's ligament result: vessels carry no
+attachment-to-bone field at all (unlike tendons/ligaments' `attachments.*.ref`), and the
+schema's own purpose-built `path_via_points_mm` course field is populated on 0 of 412 records.
+No geometry generated, no entity/bundle changed. Full detail in the Q124 queue entry below.
+Recent: Q123 (2026-09-22)
 investigated adding a `build_frames()` transverse axis to the 6 bones Q121 flagged as the
 "single biggest lever" for more tendons/ligaments (`humerus`, `scapula`, `clavicle`,
 `mandible`, `hyoid`, `sternum`) -- 0 of 6 shipped, every candidate either lacked a clean
@@ -3262,6 +3269,128 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q124 (2026-09-22) Q117's largest unaudited completeness gap (`data/vascular/`, 412 entities,
+      94% missing -- only 20/412 on both bodies, 4 either, 388 neither) was flagged as this
+      session's next item specifically because the Q118/Q121/Q122 real-bone-connector technique
+      had never been checked against it, and because vessels are structurally riskier than
+      tendons/ligaments (a real vessel course is far more often curved/branching/soft-tissue-
+      following than a real tendon/ligament span). This item's job was to find the SMALL SUBSET,
+      if any, of the 388 where a straight-or-simple-curve segment between two real,
+      already-resolvable points is genuinely how that segment is described in real anatomy, and
+      decline everything else.
+
+      SAMPLE READ FIRST (per this item's own instruction, before any filtering): read 20+ entity
+      records spanning all 9 `data/vascular/*.json` files (head_neck_arterial, head_neck_venous,
+      lower_limb_arterial, lower_limb_venous, trunk_arterial, trunk_venous, upper_limb_arterial,
+      upper_limb_venous, lymphatic). FIRST FINDING, immediate and load-bearing: vessel records
+      carry NO `origin`/`insertion`/`attachments` field of any kind -- `schema/
+      vessel_branch.schema.json` defines `id`, `name`, `system`, `tree_name`, `parent_id`
+      (tree-topology, not spatial), `level`, `approx_diameter_mm`, `path_via_points_mm` (a course
+      field, see below), `supplies_or_drains`, `anastomoses_with`, `notes` (free text), `source`.
+      This is a fundamentally different shape from `schema/tendon.schema.json`/`ligament.schema.
+      json`'s `attachments.{proximal,distal}_attachment.ref`, which names a specific bone by id
+      and is exactly what Q118/Q121/Q122's technique resolves through `build_frames()`. Vessels
+      have no equivalent field to resolve at all.
+
+      STRUCTURAL FEASIBILITY CHECK (done before any per-entity filtering, since it turned out to
+      gate everything): checked `schema/vessel_branch.schema.json`'s own `path_via_points_mm`
+      field (a list of `{landmark, bone_frame, position_local_mm}` -- clearly designed to let a
+      vessel declare a real course through named bone-relative points, the exact mechanism this
+      item needed). Scanned all 412 records directly: **populated on 0 of 412**. Also checked
+      `data/rig/anchors.json` (the project's ONE landmark-to-world-coordinate resolver, which
+      Q118/Q121/Q122 all used): 300 entries, **100% `muscle_origin`/`muscle_insertion`, 0
+      vascular** -- `scripts/generate_anchors.py` has never produced a vascular anchor of any
+      kind. Together these two facts mean filter (b) of this item's own mandate ("do both start
+      and end points resolve to real coordinates via the existing anchor/frame system") fails for
+      EVERY vascular entity, structurally, before any individual vessel's anatomy is even
+      considered -- there is no bone-to-bone or bone-to-vessel pair recorded anywhere in this
+      project's data model for any of the 412 vessels to resolve.
+
+      TEXT SCREEN OF ALL 388 UNSHIPPED VESSELS (run anyway, for transparency and to characterize
+      what a real course-modeling effort would need, not because it could change the filter (b)
+      verdict above): re-confirmed the count first (`scripts/recount_tissue_gaps.py --type
+      vascular` against the same live `build/viewer_{m,f}/bundle.json` Q117 used: still 412 total,
+      20 both, 4 either, 388 neither -- unchanged, as expected, since no vascular-affecting work
+      happened between Q117 and this item). Keyword-scanned every unshipped vessel's own `notes`
+      field: **153/388 (39%) explicitly use curving/branching/anastomosing/continuation language**
+      ("gives off branches", "anastomoses with", "divides into", "continuation of", "ascends/
+      descends in [fascial sheath]") -- exactly this item's own filter (a) exclusion criteria,
+      confirming Q117's background hypothesis in the data itself. **158/388 (41%) have no course
+      description at all** (empty `notes`). **63/388 (16%) have some description but no strong
+      curvy/direct keyword.** Only **14/388 (4%)** use "short"/"direct"/"straight" language at
+      all, and every one of those 14, checked individually, still fails filter (b): most are
+      LYMPH NODE CLUSTERS (`perforator_veins_{r,l}`, `popliteal_lymph_nodes_{r,l}`,
+      `paratracheal_lymph_nodes_{r,l}`, `lumbar_lymph_nodes_{r,l}`, `perforator_veins_forearm_
+      {r,l}`) -- point-like nodal groups, not cord-shaped vessels, a different geometric problem
+      this technique was never built for -- and the rest are vessels described relative to
+      ANOTHER VESSEL junction, not a bone landmark (`gonadal_v_r` "drains directly into the IVC
+      at an oblique angle"; `common_femoral_v_{r,l}` "the segment between the saphenofemoral
+      junction and the inguinal ligament" -- genuinely a short, real, well-documented segment, but
+      its proximal end is a vein-to-vein junction with no coordinate anywhere in this project's
+      bone-frame system, and only its distal end (inguinal ligament, near the ASIS) is even
+      theoretically bone-resolvable). Separately cross-referenced all 388 notes against
+      `data/skeleton/bones.json`'s 226 catalogued landmark names for any two-bone-landmark
+      mention: found real skeletal-passage language (`middle_meningeal_a` through the foramen
+      spinosum, `inferior_alveolar_a` through the mandibular foramen, `popliteal_a` through the
+      adductor hiatus, `great_saphenous_v` "from the medial malleolus to the saphenofemoral
+      junction") but every one describes entering/exiting a foramen or fascial plane of a SINGLE
+      bone/compartment, or a vessel-to-vessel/vessel-to-fascia relationship -- never a
+      bone-A-to-bone-B pair the way a tendon or ligament's own record states one. Zero of the 388
+      have anything resembling that shape.
+
+      CONCLUSION: **0 of 388 checked passed the strict filter; 0 generated; 0 shipped.** This is
+      a stronger, more structural negative than Q121's 0/83 ligament result -- ligaments at least
+      HAD a bone-attachment field that sometimes resolved (31/83 failed only on a landmark-text
+      naming mismatch, later partly recovered by Q122); vessels have no such field on ANY entity,
+      and the one schema field seemingly built for exactly this course-description purpose
+      (`path_via_points_mm`) has never been populated for a single one of 412 records in this
+      project's history. Generating any vessel geometry via this technique would require either
+      inventing a bone-attachment claim the vessel's own real anatomical description does not
+      make, or fabricating `path_via_points_mm` coordinates from nothing -- both directly
+      forbidden by this item's own hard constraint. Overall assessment: **the straight-chord
+      bone-connector technique does not suit vascular structures at all**, not merely "suits few
+      of them" -- vessels are described, authored and modeled in this project on an entirely
+      different relational axis (tree topology to other vessels, entry/exit through foramina and
+      fascial planes) than tendons/ligaments' bone-to-bone/muscle-to-bone attachment axis, and no
+      amount of per-entity leniency changes that structural fact. One honest point of contrast
+      worth recording for a future session: vessel DIAMETER (this item's own filter (c)) is
+      actually the one part of this investigation that would have been easy -- every one of the
+      412 records already carries a cited `approx_diameter_mm` (Gray's Anatomy for Students 4th
+      ed. / Terminologia Anatomica), unlike tendon cross-section, which Q118 had to disclose as an
+      invented taper ratio. Diameter was never the blocker; course/attachment resolvability was.
+
+      A REAL BUT DIFFERENT FUTURE LEVER, NOT ATTEMPTED HERE: a genuine curved-path/via-points
+      model, populated from a real cited source for a short, carefully-chosen list of vessels
+      whose real anatomy IS commonly described as running close to named landmarks (candidates
+      surfaced by this item's own text screen: `common_femoral_v_{r,l}`'s saphenofemoral-junction-
+      to-inguinal-ligament segment; `popliteal_a_{r,l}`'s adductor-hiatus-to-popliteal-fossa span;
+      the carotid bifurcation region) -- this is materially MORE work than the straight-chord
+      technique this project already has, since it needs a new vessel-junction anchor type
+      `scripts/generate_anchors.py` has never produced (not just a bone-landmark lookup), a
+      genuine curve/via-point renderer this project's connector generator does not have, and a
+      per-vessel decision about whether "close to a landmark" is the same claim as "the landmark
+      IS the vessel's own start/end point." Scoped as a real, non-trivial follow-up for a future
+      session, not attempted or half-built this item.
+
+      TESTING: no production code, entity JSON, geometry, mapping or viewer bundle touched at any
+      point (a pure investigation -- the only new file is the derived report below).
+      `python -m pytest -q`: **252 passed** before and after, unchanged, as expected for a
+      measurement-only item. `df -h /`: 28G available throughout, unaffected; no scratch
+      CT/mesh/voxel intermediates created (only the one JSON report, written directly to `data/
+      derived/`); the one scratchpad probe script used to build it was left in the session
+      scratchpad directory, not the repo. Neither `build/viewer_m/atlas_viewer_male.html` nor
+      `build/viewer_f/atlas_viewer_female.html` needed rebuilding (nothing to add) -- both remain
+      exactly as Q108-Q123 left them, confirmed by NOT touching `scripts/vhm_rebuild_bundle.sh` /
+      `scripts/cryo/vhf_rebuild_bundle.sh` or any subject under `build/vh/` this item. Not
+      published (Production Deploy still gated, not retried, per this item's own instruction).
+
+      SHIPPED: `data/derived/Q124_vascular_feasibility_investigation.json` (new -- full per-entity
+      classification of all 388 unshipped vascular ids, the structural blocker evidence above, and
+      the text-screen counts), this PROJECT_STATE.md entry, `docs/TISSUE_COMPLETENESS.md` (item 4
+      of "What's most valuable to fill first" gets a Q124 update; new preamble note at the top of
+      the file). No `data/vascular/*.json`, schema, script, entity record, mesh, or build output
+      changed -- confirmed nothing needed to be, since 0 candidates reached the generation step.
 
 - [x] Q123 (2026-09-22) Read `build_frames()` completely, bone by bone (per this item's own
       instruction), to produce an accurate current inventory of which bones have a full frame
