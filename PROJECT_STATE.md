@@ -11,7 +11,23 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q129 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q130 (2026-09-22)
+checked item 5's premise ("spine/rib/sternum landmarks have no numeric coordinates, blocked on
+item 1") directly rather than trusted: stale in two ways (sternum already had all 6 landmarks
+numeric since 2026-09-10; item 1 was never really the blocker), true in one (cervical/thoracic/
+lumbar vertebrae and both ribs entities really did have zero). Added 3 numeric landmarks to
+`cervical_vertebrae` (C1 transverse process, C1 posterior tubercle, C2 spinous process), measured
+from each subject's own real mesh via mesh-connectivity components (C1/C2 share no vertex) and
+cross-checked against the raw per-vertebra CT labels -- unblocking 18 new anchors across 10
+muscles, both sides. Found and fixed a real `generate_anchors.py` gap this surfaced: no concept of
+lettered vertebra levels, so the new landmarks first mismatched several muscles whose text
+explicitly excludes C1/C2; added a level parser and a stricter disqualification rule, re-diffed
+clean (18 added, 0 wrong, 0 removed/changed). Ribs investigated and DECLINED: Q109's own
+continuity fix fused all 12 ribs into one mesh component, which defeats the technique that worked
+for vertebrae; not shipped. Thoracic/lumbar vertebrae not attempted (time budget), ranked next.
+Both viewer bundles rebuilt additively and verified by parsing the rebuilt JSON; not published
+(same standing block). 252 tests pass, unchanged. Full detail in the Q130 queue entry below.
+Recent: Q129 (2026-09-22)
 checked item 2's stale-looking premise ("common flexor/extensor origins carry 5 muscles on one
 coordinate because there's no upper-limb geometry") directly, like Q125 disproved the identical
 premise for hand bones. Half right, half wrong: humerus mesh geometry DOES exist for both bodies
@@ -688,8 +704,30 @@ still waiting — unrelated to the CT work above.
 4. **Tibialis anterior and fibularis longus** insertion paths are still blocked
    by bone; closing them needs via points that cannot be measured from the
    geometry available.
-5. Spine, rib and sternum landmarks have no numeric coordinates — to be measured
-   from CT once (1) above is unblocked.
+5. **PARTIALLY RESOLVED by Q130 (2026-09-22).** The premise was stale in two ways: sternum already
+   had all 6 of its landmarks numeric (added 2026-09-10, before today's Q103-Q129 chain even
+   started -- nobody had re-checked this item against it), and item (1)'s hand-bone dependency was
+   never real (spine measurement doesn't need hand geometry; the real unblock was today's
+   Q103-Q129 vertebrae/rib/sternum manifest and continuity work). Genuinely true for cervical/
+   thoracic/lumbar vertebrae and ribs_r/ribs_l, which really did have 0 numeric landmarks. **3
+   added** on `cervical_vertebrae` (transverse process of the atlas C1, posterior tubercle of the
+   atlas C1, spinous process of the axis C2), measured from the real per-subject mesh (mesh-
+   connectivity components -- C1/C2 share no vertex -- cross-checked against the raw per-vertebra
+   CT labels), unblocking 18 new anchor endpoints across 10 muscles (both sides):
+   `obliquus_capitis_inferior`, `obliquus_capitis_superior`, `rectus_capitis_anterior`,
+   `rectus_capitis_lateralis`, `rectus_capitis_posterior_major`, `rectus_capitis_posterior_minor`,
+   `levator_scapulae`, `semispinalis_cervicis` (last two: one representative level within their
+   real multi-level span, a known limitation shared with other multi-level muscles already in this
+   dataset). Found and fixed a real `generate_anchors.py` bug along the way: it had no concept of
+   letter-prefixed vertebra levels (C1-C7/T1-T12/L1-L5), so the new landmarks first matched several
+   muscles whose text explicitly excludes C1/C2 -- fixed with a `_vertebra_levels()` parser and a
+   stricter disqualification rule (an unnumbered text never defaults onto a numbered vertebra
+   landmark). **Ribs: investigated and DECLINED** -- the shipped `ribs_r`/`ribs_l` mesh is
+   deliberately fused into one connected component across all 12 ribs by Q109's own continuity
+   fix, which defeats the same per-bone-component technique that worked for vertebrae; a cruder
+   heuristic measured 75mm+ error against the real rib1 label and was not shipped. **Thoracic/
+   lumbar vertebrae not attempted** (time budget) -- the same technique should generalize, ranked
+   next. See the Q130 queue entry for full numbers.
 6. Extend `named_members` in the landmark audit to ribs and vertebrae, so the
    identity check covers them.
 7. ~~Cross-check generated moment arms against OpenSim's published models.~~
@@ -3504,6 +3542,119 @@ tick the item here with a one-line result. Never fabricate; keep the
       unaffected (only reads of the already-committed `build/vh/ct_vhf_mcsplit` mesh; no scratch
       intermediates left on disk -- the analysis scripts lived in the session scratchpad, deleted
       with it). NOT published/deployed (same standing block as every other item today, not
+      retried).
+
+- [x] Q130 (2026-09-22) Item 5's premise ("spine, rib and sternum landmarks have no numeric
+      coordinates, blocked on item 1") checked directly, per Q125/Q129's precedent of testing a
+      stale-looking premise instead of trusting it.
+      STEP 1 (does the "no coordinates" claim hold): read `data/skeleton/bones.json` for every
+      vertebra/rib/sternum entity. FALSE for sternum: it already carries 6/6 landmarks with real
+      `position_local_mm` values, added 2026-09-10 (measured on TotalSegmentator case s1159) --
+      well before today's Q103-Q129 chain, and unrelated to item 1 (hand bones) in any way. TRUE
+      for `cervical_vertebrae`, `thoracic_vertebrae`, `lumbar_vertebrae`, `ribs_r`, `ribs_l`: 0 of
+      their combined 19 landmarks carry a numeric position.
+      STEP 2 (does the item-1 dependency hold): FALSE. Item 1 is about hand-bone splitting; nothing
+      about measuring a cervical vertebra or a rib needs a metacarpal. The real, separate
+      dependency named in this task -- today's Q103-Q129 chain fixing vertebra/rib/sternum
+      manifest corruption and verifying the geometry -- is what actually matters, and it is
+      resolved: `build/vh/ct_vhm`/`ct_vhf` are both clean (Q107/Q108), and the underlying CT
+      sources (`vhm_total.nii.gz`/`vhf_total.nii.gz`) carry INDIVIDUAL per-vertebra and per-rib
+      TotalSegmentator labels (`mappings/totalsegmentator_labels.json`: `vertebrae_C1`..`L5` ids
+      50-26, `rib_left_1`..`12`/`rib_right_1`..`12` ids 92-115), finer than the atlas's own
+      region-level bone entities.
+      STEP 3 (which muscles actually reference a spine/rib/sternum landmark by name): grepped every
+      `data/muscles/**.json` whose `origin_bone`/`insertion_bone` is one of the 6 entities above --
+      77 files (38 distinct muscles, both sides). Sternum's 8 already resolve (unaffected by this
+      item). Of the rest, most name a MULTI-LEVEL span (e.g. "spinous processes C7-T3"), not a
+      single point the current one-anchor-per-attachment schema could use even with a landmark;
+      the real, single, well-defined candidates were the atlas/axis group (6 muscles referencing
+      "transverse process of the atlas (C1)" / "posterior tubercle of the atlas (C1)" / "spinous
+      process of the axis (C2)" verbatim or near-verbatim) and two rib-1-specific texts
+      (`subclavius` origin "1st rib / costal cartilage (anterior)", `scalenus_anterior` insertion
+      "scalene tubercle on the 1st rib").
+      STEP 4 (measure real coordinates): `cervical_vertebrae` is ONE atlas entity for all 7
+      vertebrae, same as thoracic/lumbar, so there is no atlas_id to key a specific vertebra off
+      directly. Found that the 7 vertebrae are NOT welded to each other in the shipped mesh (unlike
+      ribs -- see below): mesh-connectivity analysis (`scipy.sparse.csgraph.connected_components`
+      on the mesh's own faces) gives 7 real components (female) / 7 real + 1 tiny decimation
+      fragment (male), one per vertebra, because they share no vertex. C1 (topmost by mean Y) and
+      C2 (next) identified by height and CROSS-CHECKED against the raw per-vertebra CT labels using
+      translation-invariant shape (this mesh's own origin differs from the raw scan's by ~900mm, a
+      pure offset, so absolute position can't be compared directly, but span and relative offsets
+      can): C2 candidate's own (X,Y,Z) span (59.5,43.2,50.2)mm here vs (59.1,45.0,49.7)mm from the
+      raw label (male), (54.1,40.9,51.5) vs (55.3,40.0,50.6) (female); C1's tip-minus-tubercle
+      offset (43.2,3.0,28.8) here vs (37.5,2.0,29.1) from the raw label (male), (40.5,3.0,29.4) vs
+      (42.2,6.0,29.1) (female) -- agreement to a few mm on BOTH bodies, confirming the match.
+      Measured on the male mesh, relative to a new frame origin (the C2 dens tip, matching
+      `cervical_vertebrae`'s own documented `local_frame.origin_landmark`): transverse process of
+      the atlas (C1) `[41.0,-9.0,-5.5]` (right side, mirrored for left per the existing sternum-
+      style convention), posterior tubercle of the atlas (C1) `[0.0,-12.0,-34.0]` (midline,
+      symmetrised), spinous process of the axis (C2) `[0.0,-31.0,-39.5]` (midline, symmetrised).
+      Added a matching `cervical_vertebrae` case to `build_frames()`
+      (`scripts/audit_landmarks_vs_geometry.py`) using the same identity-basis, unfitted convention
+      already used for sternum/mandible/hyoid/scapula -- this bone had NEVER had a frame before, so
+      0 anchors had ever resolved from it. `scripts/audit_landmarks_vs_geometry.py --subject
+      ct_vhm`/`ct_vhf`: all 3 new landmarks land 0.4-1.3mm from the bone's own surface on BOTH
+      bodies (measured, not assumed).
+      STEP 5 (regenerate anchors, catch the real bug this surfaced): `python3
+      scripts/generate_anchors.py` first pass added 38 anchors, but a hand check against each
+      muscle's own real attachment range found 20 of them WRONG -- `generate_anchors.py`'s ordinal
+      disqualification (built for numbered rays/ribs) has no concept of letter-prefixed vertebra
+      levels, so "transverse process of the atlas (C1)" was winning matches against
+      `scalenus_anterior`/`longus_capitis` (real range C3-C6, excludes C1), `rhomboid_minor`
+      (C7-T1), `semispinalis_capitis` (C7-T6), `serratus_posterior_superior`/`splenius_capitis`
+      (C7-T3), and fully generic per-level text naming no level at all (`interspinales`,
+      `intertransversarii`) -- all purely on shared words, not on the actual level named. Fixed by
+      adding `_vertebra_levels()` (parses C1-C7/T1-T12/L1-L5/S1-S5 in craniocaudal order, so a
+      cross-region range like "C7-T3" resolves through every level between) and a new
+      disqualification rule in `_match()`, stricter than the existing ray/rib one: a landmark
+      naming a level is refused unless the TEXT's own parsed level set contains it -- including
+      when the text names no level at all, unlike the ray/rib rule (a vertebra-generic text must
+      never silently default onto one numbered vertebra). Re-ran: 18 anchors added, 0 removed, 0
+      changed (diffed `data/rig/anchors.json` before/after by id, by hand) -- `obliquus_capitis_
+      inferior_l/r` (origin+insertion), `obliquus_capitis_superior_l/r`, `rectus_capitis_
+      anterior_l/r`, `rectus_capitis_lateralis_l/r`, `rectus_capitis_posterior_major_l/r`,
+      `rectus_capitis_posterior_minor_l/r` (origin only, all 6), `levator_scapulae_l/r` and
+      `semispinalis_cervicis_l/r` (one real level within their true multi-level span -- an
+      approximation this dataset's one-anchor-per-attachment schema already makes elsewhere, not
+      new to this item). `subclavius`/`scalenus_anterior` did NOT get a rib landmark (see below).
+      One genuine remaining ambiguity, correctly left unresolved rather than guessed:
+      `splenius_cervicis` insertion ties between the C1 transverse-process and posterior-tubercle
+      landmarks (its own text, "C1-C3", legitimately overlaps both) -- refused with an explicit tie
+      message, same as before this item, no anchor written either way.
+      STEP 6 (ribs, investigated and DECLINED): wanted rib1's costovertebral joint / costal
+      cartilage junction (subclavius) and the scalene tubercle (scalenus_anterior). The raw per-rib
+      CT labels make this trivial in principle, but the SHIPPED `ribs_r`/`ribs_l` mesh is
+      deliberately voxel-dilated and re-meshed into ONE fused connected component across all 12
+      ribs by Q109's own continuity fix (main_frac 0.9993-1.0000) -- confirmed directly (mesh-
+      connectivity CC on `ribs_r`: 1 component of ~67000/48500 vertices plus a single ~50/18-vertex
+      noise fragment, both bodies), which defeats the exact per-bone-component technique that
+      worked for vertebrae. A cruder top-15%-by-Y slice heuristic was tried as a fallback and
+      measured against the real `rib_right_1` CT label ground truth: 75mm+ error on the anterior/
+      cartilage point (not a translation-consistent offset, meaning it was mixing vertices from
+      more than one rib) -- not usable, not shipped. Isolating one rib from the fused mesh would
+      need real per-rib segmentation done at BUILD time, before Q109's fusion, not after; out of
+      this item's scope. 0 rib landmarks added, ranked next for a future session with that budget.
+      STEP 7 (thoracic/lumbar vertebrae): not attempted this pass (time budget) -- no muscle text
+      in this dataset names a single well-defined thoracic/lumbar landmark the way the atlas/axis
+      group does (their real attachments are genuinely multi-level spans), so the leverage is lower
+      and the same CC-by-height technique needs re-verifying with more real components to sort
+      (12 thoracic + 5 lumbar vs cervical's 7) -- ranked next alongside ribs.
+      Files changed: `scripts/audit_landmarks_vs_geometry.py` (`_mesh_components_by_height()` +
+      the new `cervical_vertebrae` frame case), `scripts/generate_anchors.py`
+      (`_vertebra_levels()` + the new disqualification rule), `data/skeleton/bones.json` (3 new
+      landmarks on `cervical_vertebrae`), `data/rig/anchors.json` (regenerated: 318 anchors, 18
+      added of the total, 0 removed/changed from before this item). Both viewer bundles rebuilt
+      ADDITIVELY on today's (Q108-Q129) `build/vh/*` state via the existing, unmodified
+      `scripts/vhm_rebuild_bundle.sh`/`scripts/cryo/vhf_rebuild_bundle.sh` (no manifest/mesh
+      changed, so this only re-ran `export_viewer_bundle.py` + `build_viewer_html.py`) and verified
+      by parsing the rebuilt JSON: `build/viewer_m/bundle.json` (363 structures) and
+      `build/viewer_f/bundle.json` (391 structures) both parse, and e.g.
+      `obliquus_capitis_inferior_r`'s `rec.origin_point_mm`/`insertion_point_mm` are now
+      `[7.0,694.8,-17.0]`/`[48.0,716.8,17.0]` (male, previously null) and
+      `[0.7,665.6,-36.8]`/`[41.7,687.6,-2.8]` (female, previously null). `python -m pytest -q`:
+      **252 passed**, unchanged, checked after each step (frame addition, matcher fix,
+      regeneration). NOT published/deployed (same standing block as every other item today, not
       retried).
 
 - [x] Q129 (2026-09-22) Item 2's premise ("common flexor/extensor origins carry 5 muscles each on

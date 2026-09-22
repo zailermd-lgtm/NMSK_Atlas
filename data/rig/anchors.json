@@ -1,5 +1,17 @@
 [
   {
+    "id": "anchor_rectus_capitis_anterior_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_anterior_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      -41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral mass and root of the transverse process of the atlas'; X mirrored for the left side of a midline bone"
+  },
+  {
     "id": "anchor_middle_pharyngeal_constrictor_r_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "middle_pharyngeal_constrictor_r",
@@ -10,6 +22,18 @@
       -5.0
     ],
     "notes": "auto-derived from bone landmark match against 'greater and lesser horns of the hyoid and the stylohyoid lig'"
+  },
+  {
+    "id": "anchor_rectus_capitis_lateralis_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_lateralis_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse process of the atlas (C1)'"
   },
   {
     "id": "anchor_sternohyoid_r_origin",
@@ -36,6 +60,30 @@
     "notes": "auto-derived from bone landmark match against 'hyoid body'"
   },
   {
+    "id": "anchor_rectus_capitis_posterior_major_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_posterior_major_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -31.0,
+      -39.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'spinous process of the axis (C2)'"
+  },
+  {
+    "id": "anchor_rectus_capitis_posterior_minor_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_posterior_minor_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -12.0,
+      -34.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'posterior tubercle of the atlas (C1)'"
+  },
+  {
     "id": "anchor_thyrohyoid_l_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "thyrohyoid_l",
@@ -46,6 +94,18 @@
       -25.0
     ],
     "notes": "auto-derived from bone landmark match against 'lower border of the body and greater horn of the hyoid'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_semispinalis_cervicis_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "semispinalis_cervicis_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -31.0,
+      -39.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'spinous processes C2-C5, spanning about five segments'"
   },
   {
     "id": "anchor_masseter_r_insertion",
@@ -94,6 +154,18 @@
       -58.0
     ],
     "notes": "auto-derived from bone landmark match against 'medial surface of the ramus/angle of mandible'"
+  },
+  {
+    "id": "anchor_obliquus_capitis_superior_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "obliquus_capitis_superior_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse process of the atlas (C1)'"
   },
   {
     "id": "anchor_middle_pharyngeal_constrictor_l_origin",
@@ -276,6 +348,18 @@
     "notes": "auto-derived from bone landmark match against 'manubrium (deep to sternohyoid)'"
   },
   {
+    "id": "anchor_rectus_capitis_posterior_major_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_posterior_major_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -31.0,
+      -39.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'spinous process of the axis (C2)'"
+  },
+  {
     "id": "anchor_sternohyoid_l_origin",
     "anchor_type": "muscle_origin",
     "owner_entity": "sternohyoid_l",
@@ -300,6 +384,30 @@
     "notes": "auto-derived from bone landmark match against 'hyoid body'"
   },
   {
+    "id": "anchor_obliquus_capitis_inferior_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "obliquus_capitis_inferior_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -31.0,
+      -39.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'spinous process of the axis (C2)'"
+  },
+  {
+    "id": "anchor_obliquus_capitis_inferior_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "obliquus_capitis_inferior_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      -41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse process of the atlas (C1)'; X mirrored for the left side of a midline bone"
+  },
+  {
     "id": "anchor_temporalis_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "temporalis_r",
@@ -310,6 +418,30 @@
       -39.0
     ],
     "notes": "auto-derived from bone landmark match against 'coronoid process of mandible (via a fan-shaped tendon)'"
+  },
+  {
+    "id": "anchor_obliquus_capitis_superior_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "obliquus_capitis_superior_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      -41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse process of the atlas (C1)'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_semispinalis_cervicis_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "semispinalis_cervicis_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -31.0,
+      -39.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'spinous processes C2-C5, spanning about five segments'"
   },
   {
     "id": "anchor_stylohyoid_l_insertion",
@@ -336,6 +468,18 @@
     "notes": "auto-derived from bone landmark match against 'angle and ramus of mandible'; X mirrored for the left side of a midline bone"
   },
   {
+    "id": "anchor_rectus_capitis_lateralis_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_lateralis_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      -41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse process of the atlas (C1)'; X mirrored for the left side of a midline bone"
+  },
+  {
     "id": "anchor_temporalis_l_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "temporalis_l",
@@ -346,6 +490,18 @@
       -39.0
     ],
     "notes": "auto-derived from bone landmark match against 'coronoid process of mandible (via a fan-shaped tendon)'; X mirrored for the left side of a midline bone"
+  },
+  {
+    "id": "anchor_rectus_capitis_anterior_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_anterior_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'lateral mass and root of the transverse process of the atlas'"
   },
   {
     "id": "anchor_mylohyoid_r_insertion",
@@ -382,6 +538,42 @@
       -12.0
     ],
     "notes": "auto-derived from bone landmark match against 'digastric fossa of the mandible (anterior belly insertion); '"
+  },
+  {
+    "id": "anchor_obliquus_capitis_inferior_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "obliquus_capitis_inferior_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -31.0,
+      -39.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'spinous process of the axis (C2)'"
+  },
+  {
+    "id": "anchor_obliquus_capitis_inferior_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "obliquus_capitis_inferior_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse process of the atlas (C1)'"
+  },
+  {
+    "id": "anchor_rectus_capitis_posterior_minor_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "rectus_capitis_posterior_minor_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      0.0,
+      -12.0,
+      -34.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'posterior tubercle of the atlas (C1)'"
   },
   {
     "id": "anchor_digastric_l_insertion",
@@ -708,6 +900,18 @@
     "notes": "auto-derived from bone landmark match against 'pubis, ischial spine, tendinous arch of the obturator fascia'"
   },
   {
+    "id": "anchor_levator_scapulae_r_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "levator_scapulae_r",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse processes C1-C4'"
+  },
+  {
     "id": "anchor_subclavius_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "subclavius_r",
@@ -730,6 +934,18 @@
       -45.0
     ],
     "notes": "auto-derived from bone landmark match against 'spine of scapula, acromion, lateral clavicle'"
+  },
+  {
+    "id": "anchor_levator_scapulae_l_origin",
+    "anchor_type": "muscle_origin",
+    "owner_entity": "levator_scapulae_l",
+    "parent_bone_frame": "cervical_vertebrae",
+    "local_position_mm": [
+      -41.0,
+      -9.0,
+      -5.5
+    ],
+    "notes": "auto-derived from bone landmark match against 'transverse processes C1-C4'; X mirrored for the left side of a midline bone"
   },
   {
     "id": "anchor_levator_ani_l_origin",

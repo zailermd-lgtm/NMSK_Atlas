@@ -127,6 +127,40 @@ def find(blocks, *needles):
     return hits[0] if len(hits) == 1 else None
 
 
+def _mesh_components_by_height(verts: np.ndarray, faces: np.ndarray,
+                               min_size: int = 500) -> list:
+    """Splits ONE atlas entity's mesh into its disconnected mesh-connectivity
+    pieces (Q130) -- the same technique `scripts/verify_rib_continuity.py`
+    and `scripts/audit_full_continuity_q112.py` use for a different purpose
+    (measuring fragmentation), reused here to instead PICK OUT a piece: a
+    region entity like `cervical_vertebrae` holds several real, physically
+    separate bones (C1-C7) sharing no vertex, so its pieces ARE the
+    individual vertebrae. Returns each component's own vertex array (not
+    face indices), largest-by-height first, dropping fragments under
+    `min_size` vertices (decimation noise, not a real vertebra/rib).
+
+    This does NOT work for every region entity: `ribs_r`/`ribs_l` come back
+    as ONE component (all 12 ribs), because Q109's continuity fix
+    deliberately voxel-dilated and re-meshed them into a single connected
+    blob to close the real anatomical gaps between adjacent ribs -- the
+    same property that makes their main_frac ~1.0 also destroys the
+    per-rib separation this function depends on. Confirmed empirically
+    (2 components, one of size ~50-18 vertices of decimation noise) before
+    ribs were ruled out as a Q130 target this way.
+    """
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    n = len(verts)
+    i = np.concatenate([faces[:, 0], faces[:, 1], faces[:, 2]])
+    j = np.concatenate([faces[:, 1], faces[:, 2], faces[:, 0]])
+    graph = coo_matrix((np.ones(len(i)), (i, j)), shape=(n, n))
+    ncomp, labels = connected_components(graph, directed=False)
+    sizes = np.bincount(labels, minlength=ncomp)
+    pieces = [verts[labels == c] for c in range(ncomp) if sizes[c] >= min_size]
+    pieces.sort(key=lambda p: -p[:, 1].mean())
+    return pieces
+
+
 def epicondylar_axis(mesh: np.ndarray, origin: np.ndarray,
                      long_axis: np.ndarray, frac: float = 0.18) -> np.ndarray:
     """Mediolateral direction from the widest span of the distal end.
@@ -702,6 +736,49 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                 "the jugular notch, as the superior 2% of the manubrium within "
                 "12 mm of the sternal midline; axes by anatomical-position "
                 "convention, not fitted", "neither")
+
+    # Q130: the atlas (C1) and axis (C2). `cervical_vertebrae` is ONE mesh
+    # entity for all 7 vertebrae (bones.json has no per-level bone, same as
+    # thoracic/lumbar), so there is no atlas_id to key straight off. But
+    # unlike ribs (fused into one blob by Q109's continuity fix -- see
+    # below), the 7 cervical vertebrae are NOT welded to each other in this
+    # mesh: they come back as separate mesh-connectivity components, one
+    # per vertebra, confirmed on both bodies (7 components female, 7 real +
+    # 1 tiny stray fragment male). C1 is the topmost by mean Y (it is
+    # physically the highest vertebra) and C2 the next-topmost; verified
+    # against the raw per-vertebra TotalSegmentator labels (`vertebrae_C1`
+    # id 50, `vertebrae_C2` id 49 in vhm_total.nii.gz/vhf_total.nii.gz,
+    # mappings/totalsegmentator_labels.json) by comparing TRANSLATION-
+    # INVARIANT shape (component span and the tip-minus-tubercle offset
+    # within a component, since this mesh's own origin differs from the
+    # raw scan's): C2 candidate spans (59.5, 43.2, 50.2) mm here vs (59.1,
+    # 45.0, 49.7) mm from the raw C2 label (male), (54.1, 40.9, 51.5) vs
+    # (55.3, 40.0, 50.6) (female); C1's tip-minus-tubercle offset (43.2,
+    # 3.0, 28.8) here vs (37.5, 2.0, 29.1) from the raw label (male), (40.5,
+    # 3.0, 29.4) vs (42.2, 6.0, 29.1) (female) -- all agree to a few mm, not
+    # the ~900 mm this atlas's own translated origin would show if the
+    # match were wrong. Origin is the dens tip (matches bones.json's
+    # documented "C1 (atlas) superior articular facets / dens of C2"): the
+    # most superior point of C2 within 8 mm of the midline. Axes by
+    # anatomical-position convention, not fitted -- like sternum/mandible/
+    # hyoid above, this bone has no long axis this script fits.
+    cervical = by_atlas_id.get("cervical_vertebrae")
+    cervical_faces = faces_by_atlas_id.get("cervical_vertebrae")
+    if cervical is not None and cervical_faces is not None and len(cervical) > 500:
+        comps = _mesh_components_by_height(cervical, cervical_faces, min_size=500)
+        if len(comps) >= 2:
+            c1, c2 = comps[0], comps[1]
+            c2_mid = c2[np.abs(c2[:, 0]) < 8.0]
+            if len(c2_mid) > 5:
+                dens_tip = c2_mid[np.argmax(c2_mid[:, 1])]
+                frames["cervical_vertebrae"] = (
+                    dens_tip, np.eye(3),
+                    "the dens tip: the most superior point of the SECOND-"
+                    "topmost cervical mesh component (by mean Y) within 8 mm "
+                    "of the midline, C1 and C2 identified by height ordering "
+                    "and cross-checked by shape against the raw per-vertebra "
+                    "CT labels (see above); axes by anatomical-position "
+                    "convention, not fitted", "neither")
 
     # Length along the fitted long axis, for the landmark scaling (Q43).
     # Frames whose long axis is the anatomical-position convention (pelvis,

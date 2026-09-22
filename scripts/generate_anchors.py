@@ -103,6 +103,52 @@ def _ordinals(text: str) -> set:
     return found
 
 
+# The vertebral column's own ordinals: C1-C7, T1-T12, L1-L5, S1-S5, in
+# craniocaudal order so a cross-region range ("C7-T3", "T7-L5") resolves to
+# every level in between, not just its two endpoints.
+_VERTEBRA_LEVELS = ([f"c{i}" for i in range(1, 8)] + [f"t{i}" for i in range(1, 13)]
+                    + [f"l{i}" for i in range(1, 6)] + [f"s{i}" for i in range(1, 6)])
+_VERTEBRA_INDEX = {lvl: i for i, lvl in enumerate(_VERTEBRA_LEVELS)}
+_VERTEBRA_RANGE_RE = re.compile(r"\b([ctls])\s?(\d{1,2})\s*(?:-|--|–|to)\s*([ctls])\s?(\d{1,2})\b")
+_VERTEBRA_SINGLE_RE = re.compile(r"\b([ctls])\s?(\d{1,2})\b")
+
+
+def _vertebra_levels(text: str) -> set:
+    """Which vertebra levels ('c1', 't6', 'l3', ...) a piece of text names.
+
+    Q130 added the first numeric landmarks on a bone entity that spans
+    several real, separate vertebrae ('cervical_vertebrae' is one atlas
+    entity for C1-C7). A landmark for one specific level -- 'transverse
+    process of the atlas (C1)' -- shares every other word with muscle text
+    naming a DIFFERENT level's transverse process ('anterior tubercles of
+    transverse processes C3-C6'), so plain token-overlap scoring alone
+    would win the C1 landmark for a muscle that plainly excludes C1. This
+    is the same class of bug _ordinals() exists to prevent for rays/ribs,
+    for a letter-prefixed numbering scheme it does not parse. A level
+    named in a landmark that the text's own set does not contain is
+    disqualifying, exactly like an out-of-range ray or rib -- but stricter
+    in one respect: unlike ray/rib text, where an unnumbered mention is
+    read as the whole group, a bone this coarse-grained's OWN generic
+    per-level text ('superior surface of one spinous process' --
+    interspinales, true at every cervical level, naming none of them)
+    must not silently default onto whichever single level happens to have
+    a number -- so a landmark with a level and text with NONE never match
+    (checked as `mine <= text`, which is false whenever text is empty).
+    """
+    low = text.lower()
+    found = set()
+    for m in _VERTEBRA_RANGE_RE.finditer(low):
+        a, b = f"{m.group(1)}{int(m.group(2))}", f"{m.group(3)}{int(m.group(4))}"
+        if a in _VERTEBRA_INDEX and b in _VERTEBRA_INDEX:
+            lo, hi = sorted((_VERTEBRA_INDEX[a], _VERTEBRA_INDEX[b]))
+            found.update(_VERTEBRA_LEVELS[lo:hi + 1])
+    for m in _VERTEBRA_SINGLE_RE.finditer(low):
+        lvl = f"{m.group(1)}{int(m.group(2))}"
+        if lvl in _VERTEBRA_INDEX:
+            found.add(lvl)
+    return found
+
+
 def _is_displaced(text: str, at: int) -> str | None:
     """A qualifier shortly before the match means 'not here'."""
     window = text[max(0, at - QUALIFIER_WINDOW):at]
@@ -169,6 +215,14 @@ def _match(landmark_text: str, candidates: list):
         # insertion was anchored on the dorsal interossei's landmark this way.
         mine = _ordinals(name)
         if wanted and mine and not (wanted <= mine or mine <= wanted):
+            continue
+        # Vertebra levels (Q130): stricter than the ray/rib check above --
+        # a landmark naming one level must have that level IN the text's
+        # own set, full stop, not just a non-empty overlap. See
+        # _vertebra_levels()'s own docstring for why an unnumbered text
+        # must not default onto a numbered landmark here.
+        mine_v = _vertebra_levels(name)
+        if mine_v and not (mine_v <= _vertebra_levels(text)):
             continue
         # Score by how many of the landmark's tokens the text contains, with
         # the fraction only as a tiebreak. Ordering matters and both orders
