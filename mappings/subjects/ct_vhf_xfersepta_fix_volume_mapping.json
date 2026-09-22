@@ -11,12 +11,38 @@
     "come from xfer_vhm2vhf_sep unchanged. Carries only these 2 labels so it can be listed before",
     "xfer_vhm2vhf_sep in export_viewer_bundle.py's --subject order and claim just these 2",
     "atlas_ids, leaving the other 55 muscles in vhf_xfer_lowerlimb_septa.nii.gz (and their own",
-    "smooth=1.0 conversion) completely untouched."
+    "smooth=1.0 conversion) completely untouched.",
+    "Q116: added 2 more labels from the same subject, same method (measured the pre-decimation",
+    "mesh's own main_frac at smooth=0 vs smooth=1 directly, then the ACTUAL post-decimation result",
+    "on the real generated mesh, not assumed from the raw-voxel gap alone): label 30 (plantaris_l,",
+    "raw voxel main_frac 1.000, pre-decimation mesh 0.998 at smooth=0 vs 0.916 at smooth=1, shipped",
+    "decimated bundle 0.918->0.997); label 9 (extensor_digitorum_longus_l, raw voxel 0.832,",
+    "pre-decimation mesh 0.749 at smooth=0 vs 0.533 at smooth=1, shipped decimated bundle",
+    "0.545->0.739 -- a real, sub-ceiling gain). Label 10 (extensor_digitorum_longus_r) was tested",
+    "the same way and DELIBERATELY EXCLUDED: its pre-decimation mesh at smooth=0 also improves",
+    "(0.776 vs 0.408), but the ACTUAL post-decimation (clustering) result at smooth=0 measured WORSE",
+    "than its current smooth=1.0 shipped value (0.493 vs 0.661) -- a case where smoothing helps the",
+    "pre-decimation mesh but vertex-clustering's grid lands on a worse cell alignment afterward;",
+    "quadric decimation was also tried on it (both smoothing values) and was worse still (0.42-0.50).",
+    "Left unchanged on xfer_vhm2vhf_sep (smooth=1.0, shipped 0.661, its best measured value). Label",
+    "37 (rectus_femoris_r) was also probed and NOT added here: its own gain came from decimation",
+    "method (quadric, at its CURRENT smooth=1.0, no reconversion needed) -- see SHEET_IDS in",
+    "export_viewer_bundle.py instead. Labels 42/56/41/48/8 (semitendinosus_l, vastus_medialis_l,",
+    "semimembranosus_r, tibialis_anterior_l, biceps_femoris_r) showed no lever on either axis and",
+    "are left on xfer_vhm2vhf_sep unchanged, declined in the Q116 queue entry."
   ],
   "subject": "ct_vhf_xfersepta_fix",
   "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
   "label_map": "vhf_xfer_septa",
   "entries": [
+    {
+      "label": 9,
+      "source_structure": "extensor_digitorum_longus_l",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "extensor_digitorum_longus_l",
+      "candidates": []
+    },
     {
       "label": 11,
       "source_structure": "extensor_hallucis_longus_l",
@@ -31,6 +57,14 @@
       "side": "left",
       "status": "curated",
       "atlas_id": "flexor_digitorum_longus_l",
+      "candidates": []
+    },
+    {
+      "label": 30,
+      "source_structure": "plantaris_l",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "plantaris_l",
       "candidates": []
     }
   ]

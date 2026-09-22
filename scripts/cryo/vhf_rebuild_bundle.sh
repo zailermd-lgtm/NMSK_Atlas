@@ -82,6 +82,9 @@ conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --s
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
 SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb"
 [ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
+# Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE
+# ct_vhf_hyoid so it wins just this one atlas_id.
+[ -f build/vh/ct_vhf_hyoid_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_hyoid_fix"
 SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid

@@ -11,7 +11,31 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q115 (2026-09-22) mechanically
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q116 (2026-09-22) worked Q115's
+own ranked list of 32 MARGINAL candidates, same smoothing/decimation diagnostic as every Q11X item
+today: attempted all 32, SHIPPED 5, DECLINED 27 (root cause found for every decline, mostly a third,
+marching-cubes-surface-topology failure class Q114 first identified, confirmed here as the dominant
+failure mode in this harder-to-classify bucket). FIXED (verified on the shipped, decimated bundle):
+female `genioglossus_r` 0.873->**1.000** and male `coccygeus_l` 0.934->**1.000** (both clean smoothing-
+sigma bugs, source and pre-decimation mesh both already 1.000 at `--smooth 0.0`, paired with a
+`SHEET_IDS` addition since quadric decimation preserves that exactly); female `plantaris_l`
+0.918->**0.997** (same smoothing-bug class, no `SHEET_IDS` needed); female `rectus_femoris_r`
+0.690->0.773 and `extensor_digitorum_longus_l` 0.545->0.739 (decimation-method/no-lever-needed and
+smoothing fixes respectively, both genuine but sub-ceiling gains, not full continuity). One disclosed
+side effect: adding `coccygeus_l` to `SHEET_IDS` also re-routes the FEMALE's own separate `coccygeus_l`
+(a different piece, `ct_vhf_pfloor`) through quadric decimation, costing her 0.759->0.745 (no status
+change). `internal_jugular_v_l/_r` (both bodies, the item explicitly flagged for a decimation-side
+fix): investigated in full -- swept budgets 1275-4000 (2.5-3x range) with both clustering and quadric,
+and found the ~0.81 ceiling is already baked into the PRE-decimation mesh (matches shipped almost
+exactly), not a decimation defect at all -- a fourth confirmation of the marching-cubes third failure
+class, DECLINED. A key methodological finding this item surfaced and leaned on throughout: vertex-
+clustering decimation's outcome is highly non-monotonic in the triangle budget (main_frac swung
+0.50-0.98 across a 20% budget range on one test structure) -- several "lucky" budgets would have
+EXCEEDED the structure's own raw-voxel source ceiling, which would have been fabricating continuity,
+not measuring it; those coincidental wins were deliberately not shipped. 252 tests pass throughout,
+no regressions to Q108/Q109/Q111/Q113/Q114/Q115's prior fixes (diff-confirmed: exactly 5 of 356 female
+groups and 1 of 321 male groups changed). Full detail in the Q116 queue entry below. Recent: Q115
+(2026-09-22) mechanically
 triaged all 149 remaining fragmented muscle/nerve/vessel structures Q112 found (beyond the 8 Q113/Q114
 already root-caused): 8 LIKELY_PIPELINE_ARTIFACT, 90 LIKELY_GENUINE, 32 MARGINAL, 19 UNCLEAR (one new
 sweep script, `scripts/triage_continuity_q115.py`). FIXED 5 of the 8 on the female bundle (verified on
@@ -2655,6 +2679,194 @@ tick the item here with a one-line result. Never fabricate; keep the
       **252 passed** (unchanged). `df -h /`: 17G available, unaffected; scratch intermediates (~280 MB
       across sanity conversions, skin-containment test meshes and backups) cleaned up.
 
+- [x] Q116 (2026-09-22) Worked Q115's own ranked list of 32 MARGINAL candidates
+      (`data/derived/Q115_triage.json`) in gap order, same diagnostic every Q11X item today used: load
+      the raw source label volume, measure the PRE-decimation mesh's own main_frac at `--smooth 0.0`
+      vs the current smoothing value directly (not inferred from the raw-voxel gap alone, which Q114/
+      Q115 already showed can mislead -- marching-cubes surfacing loses connectivity a plain voxel
+      count doesn't see), then the ACTUAL post-decimation result (both clustering and quadric) at the
+      real category budget, and only then decide fix vs decline. All 32 attempted; 5 SHIPPED, 27
+      DECLINED, all measured -- none guessed or skipped for time.
+      METHOD NOTE, load-bearing for reading the numbers below: reproducing the real pipeline's
+      vertex-CLUSTERING decimation outside `export_viewer_bundle.py` itself is unreliable -- its
+      `floor(v/cell)` grid is NOT translation-invariant, so a synthetic mesh built from a cropped
+      volume (a different absolute coordinate offset than the real atlas-frame mesh) can give a
+      wildly different post-clustering main_frac for the IDENTICAL geometry. Verified this directly:
+      re-deriving `extensor_digitorum_longus_r`'s mesh from scratch gave cluster main_frac 0.42-0.49
+      where the real pipeline (confirmed by loading the actual `build/vh` vertices and running the
+      real `decimate_to`) gives 0.661. Two consequences that shaped this item's method: (1) every
+      number reported below as "shipped" or used to decide a fix was computed against the REAL
+      `build/vh` mesh (or a real reconversion), never the synthetic probe alone; (2) the synthetic
+      probe's PRE-decimation main_frac and its QUADRIC-decimation result (translation-invariant, no
+      grid-alignment chaos) remained trustworthy throughout and did most of the triage legwork, with
+      real reconversions reserved for candidates that cleared that first screen. A second finding, more
+      serious: clustering's own budget-sensitivity is highly non-monotonic even on the REAL mesh -- a
+      budget sweep on `extensor_digitorum_longus_l` (3060/4500/5500/5800/6000/6200/6500/7000) gave
+      main_frac 0.74/0.45/0.75/**0.98**/0.88/0.74/0.50/0.74 in that order, no trend at all. The 0.98
+      "result" at budget 5800 would have EXCEEDED this structure's own raw-voxel source ceiling
+      (0.832) -- a spurious grid-coincidence weld, not a real fix, and shipping it would be exactly the
+      fabricated-continuity failure this project's standing mandate forbids. No budget-hunting was done
+      for any candidate; every shipped number below is the plain category-default budget (or a
+      documented `SHEET_IDS`/override change with its own measured justification), never a cherry-
+      picked value.
+      SHIPPED (verified on the ACTUAL shipped, decimated bundle; before numbers from
+      `data/derived/Q112_full_continuity_audit.json` pre-this-item, after from the same file
+      re-generated and diff-checked):
+        1. **`plantaris_l`** (F, `xfer_vhm2vhf_sep` label 30): raw voxel main_frac 1.000; pre-decimation
+           mesh 0.998 at `--smooth 0.0` vs 0.916 at the subject's current 1.0 -- the classic sciatic_n-
+           class smoothing bug. FIX: extended the existing `ct_vhf_xfersepta_fix` subject (Q115's own
+           established "reconvert just this one label, superseding subject" pattern) to also carry this
+           label at `--smooth 0.0`. Shipped: **0.918 -> 0.997** (FRAGMENTED -> CONTINUOUS). Volume:
+           source 13.75 cm3 -> shipped (decimated) 12.46 cm3 (-9.3%, normal decimation loss). Skin
+           containment (nearest-point + outward-normal-sign test against a locally-cropped
+           `ct_vhf_skin`, used throughout this item -- see LIMITATIONS): 0/11488 vertices outside,
+           0.000%.
+        2. **`genioglossus_r`** (F only -- the male's own tongue muscle comes from his separate CT-
+           derived `ct_vhm_ggl`, unrelated, confirmed untouched by this fix): raw voxel main_frac
+           1.000; pre-decimation mesh ALSO 1.000/1 component at `--smooth 0.0` vs 0.885/2 components at
+           the current 1.0 -- unlike its own subject-mates `geniohyoid_l`/`hyoglossus_r` (Q114,
+           correctly declined as a third, unfixable failure mode), this one really is a clean smoothing
+           bug, exactly as Q115 itself flagged ("arguably as strong a candidate as the 8 confirmed
+           fixes"). FIX: new small `ct_vhf_hyoid_fix` subject (Q115's established pattern), this one
+           label only, `--smooth 0.0`, plus added to `SHEET_IDS` (quadric decimation preserves the
+           1.000 exactly; plain clustering on the same smooth=0 mesh measured 0.998, negligibly lower
+           but kept the safer method anyway). Shipped: **0.873 -> 1.000** (FRAGMENTED -> CONTINUOUS).
+           Volume: source 9.12 cm3 -> shipped 9.05 cm3 (-0.8%). Skin: 0/5830 outside, 0.000%. Checked
+           the male's own unrelated `genioglossus_r` (`ct_vhm_ggl`, already CONTINUOUS 1.0) survives the
+           global `SHEET_IDS` addition under quadric decimation: confirmed still 1.000, no regression.
+        3. **`coccygeus_l`** (M): raw voxel and pre-decimation mesh both 1.000/1 component at
+           `--smooth 0.0` vs 0.931/2 components at the current 1.0 -- same clean smoothing bug. FIX:
+           new `ct_vhm_pfloor_fix` subject, this one label only, `--smooth 0.0`, added to `SHEET_IDS`
+           (quadric preserves 1.000 exactly; plain clustering on the same mesh re-fragmented it to
+           ~0.87, the identical clustering-severs-a-thin-bridge failure Q113 documented for
+           `sciatic_n`). Shipped: **0.934 -> 1.000** (FRAGMENTED -> CONTINUOUS). Volume: source 8.90
+           cm3 -> shipped 8.79 cm3 (-1.3%). Skin (`ct_vhm_skin`): 0/1601 outside, 0.000%. DISCLOSED SIDE
+           EFFECT: the FEMALE has her own, independently-segmented `coccygeus_l` (`ct_vhf_pfloor`, a
+           different piece of geometry that happens to share this atlas_id) which the global
+           `SHEET_IDS` addition also routes through quadric decimation -- checked directly: **0.759 ->
+           0.745** (FRAGMENTED both before and after, no status change, a real but small cost disclosed
+           rather than hidden, matching Q114's own precedent for `internal_carotid_a`'s `temporal_l`
+           side effect).
+        4. **`rectus_femoris_r`** (F, `xfer_vhm2vhf_sep`): raw voxel main_frac 0.758; pre-decimation
+           mesh already 0.72-0.76 at EITHER smoothing value (no reconversion lever), but plain
+           clustering at the current smoothing shipped only 0.690 while quadric decimation on that SAME
+           unchanged mesh measured 0.770 -- the `extensor_carpi_radialis_longus_r`-class decimation-
+           only bug the brief specifically asked to check for. FIX: added to `SHEET_IDS`, no
+           reconversion. Shipped: **0.690 -> 0.773** (FRAGMENTED, both before and after -- a real,
+           sub-ceiling gain, not full continuity). Volume: source 191.27 cm3 -> shipped 188.35 cm3
+           (-1.5%). Skin: 0/1520 outside, 0.000%. Checked the male's own unrelated `rectus_femoris_r`
+           (`vhm_both`, already CONTINUOUS 1.0): confirmed quadric decimation preserves it at 1.000, no
+           regression from the global `SHEET_IDS` addition.
+        5. **`extensor_digitorum_longus_l`** (F, `xfer_vhm2vhf_sep`): raw voxel main_frac 0.832;
+           pre-decimation mesh 0.749 at `--smooth 0.0` vs 0.533 at the current 1.0 -- a real, sub-
+           ceiling smoothing-bug gain (not the full 0.832, but genuinely better, and importantly NOT
+           exceeding the source's own ceiling -- see the budget-chaos note above for why that
+           distinction mattered here). FIX: added to the same extended `ct_vhf_xfersepta_fix` subject
+           as `plantaris_l` above, `--smooth 0.0`, plain clustering (quadric measured WORSE here, 0.45,
+           tested and rejected -- this id is NOT in `SHEET_IDS`). Shipped: **0.545 -> 0.739**
+           (FRAGMENTED, both before and after). Volume: source 39.66 cm3 -> shipped (decimated) 29.05
+           cm3 (**-26.7%**, flagged: notably steeper than this project's typical 10-16% decimation loss
+           for a `SHEET_IDS`/quadric-routed fix, because this id is NOT quadric-routed -- plain vertex-
+           clustering visibly shrinks a moderately complex muscle silhouette more than edge-collapse
+           does. A higher budget was tested (see the chaos note above) and rejected specifically
+           because the main_frac gains available at other budgets were spurious grid-coincidence, not
+           genuine; shrinkage-not-growth was preserved, so this is disclosed as a real but accepted
+           cost, not silently shipped). Skin: 0/39604 outside, 0.000%. Its sibling
+           `extensor_digitorum_longus_r` was tested the same way and NOT shipped -- see DECLINED below.
+      DECLINED (all 27, root cause measured for every one -- grouped by cause, not a bare list):
+        **Third failure class (marching-cubes surface topology defect at a sub-voxel bridge -- Q114's
+        own term, now confirmed 8 more times in this bucket, the dominant cause here):**
+        `internal_jugular_v_l`/`_r` (both bodies -- the item's own explicitly-flagged decimation-side
+        candidate: swept budgets 1275/1350/1900/2400/3000/4000 with both clustering and quadric on the
+        REAL `ct_vhf_neckbv` mesh and found the ~0.808/0.809 pre-decimation ceiling barely moves at all
+        across that whole range (n_components stays 3 throughout) -- the fragmentation is baked into
+        the pre-decimation mesh itself, exactly as Q114 already found for the carotid's own neighbor
+        `temporal_l`, NOT a decimation defect despite the brief's own reasonable suspicion that it might
+        be); `deltoid_l` (M, smooth=0 measured WORSE, 0.398 vs 0.525 pre-decimation; quadric also worse
+        at both smoothing values); `triceps_brachii_l`/`_r` and `brachialis_l` (F, `ct_vhf_armm`: all
+        three already sit near their own smoothing/decimation ceiling at the current settings, 0.02
+        gap at best from either lever); `supraspinatus_r`/`_l` (F, `ct_vhf_cuff`: no lever clears the
+        current shipped value; a large single synthetic-cluster outlier for `supraspinatus_l`, 0.93,
+        was investigated and rejected as a grid-coincidence artifact exceeding its own 0.848 source
+        ceiling, same class as the extensor_digitorum_longus_l budget chaos above); `infraspinatus_l`
+        (M, `ct_vhm_shsp`: smooth=0 makes the pre-decimation mesh MUCH worse, 955 components vs 39 --
+        a large synthetic-cluster number here was similarly rejected as noise-fleck coincidental
+        welding, not genuine anatomy); `semitendinosus_l`, `vastus_medialis_l`, `semimembranosus_r`,
+        `tibialis_anterior_l`, `biceps_femoris_r` (all F, `xfer_vhm2vhf_sep`: each already within
+        0.02-0.07 of its own measured ceiling at both smoothing values and both decimation methods, no
+        lever); `teres_major_l` (M, `ct_vhm_shsp`, gap only 0.050, no lever); `hyoglossus_l` (both
+        bodies via `ct_vhf_hyoid`, gap 0.06, smoothing makes no material difference); `diaphragm` (F,
+        `ct_vhf_twall` -- already smoothing-fixed by Q114; tested a further `BUDGET_OVERRIDE` bump
+        14000/18000/24000 on top of the existing 12000 and the quadric ceiling plateaus at ~0.75,
+        essentially unchanged from the current 0.743 -- not worth the extra file size for the measured
+        ~0.01 gain, same reasoning Q114 already applied when it chose external_intercostals' budget).
+        **Smoothing is already locked by a higher-priority, already-shipped Q114 fix, and quadric
+        decimation does not recover the residual gap (measured directly, not assumed):**
+        `semispinalis_capitis_r` (both bodies), `semispinalis_cervicis_r` (both bodies),
+        `obliquus_capitis_inferior_l` (both bodies) -- all three share `ct_vhf_dneck`, which Q114
+        already reconverted to `--smooth 0.0` to fix `longus_capitis_r`; reverting that smoothing value
+        would UNDO an already-verified Q114 fix (forbidden by this item's own hard constraint) and was
+        not attempted. At the locked smoothing value, quadric decimation was tested on all three: flat
+        or worse for `semispinalis_capitis_r`/`_cervicis_r`, a marginal +0.02 for
+        `obliquus_capitis_inferior_l` -- not worth adding to `SHEET_IDS` for. A budget sweep
+        (4500/6000/10000) on `semispinalis_capitis_r` surfaced the SAME non-monotonic clustering chaos
+        documented above (0.60/**0.996**/**0.975**/0.60 -- note this ALSO would have exceeded the
+        0.733 source ceiling) and was rejected on the same honesty grounds, not shipped.
+        **`extensor_digitorum_longus_r`** (F, `xfer_vhm2vhf_sep`, sibling of shipped fix #5 above) --
+        tested the identical smoothing fix and it measured WORSE on the actual generated mesh: real
+        clustering at `--smooth 0.0` gave 0.493 vs the current shipped 0.661 (pre-decimation mesh
+        improves, 0.776 vs 0.408, but the clustering step afterward lands on a worse grid alignment);
+        quadric decimation was also worse at both smoothing values (0.30-0.42). Left unchanged on
+        `xfer_vhm2vhf_sep`, its current 0.661 being the best measured value across every combination
+        tried.
+      TESTING (incremental, per the brief): `python -m pytest -q` run after (a) extending
+      `ct_vhf_xfersepta_fix` and reconverting -- **252 passed**; (b) creating `ct_vhf_hyoid_fix` and
+      `ct_vhm_pfloor_fix` and reconverting both -- **252 passed**; (c) the `SHEET_IDS` edit
+      (`rectus_femoris_r`, `genioglossus_r`, `coccygeus_l`) and the female bundle rebuild -- **252
+      passed**; (d) the male bundle rebuild -- **252 passed**. No regressions at any stage.
+      DIFF-CHECK against the pre-this-item audit (`audit_full_continuity_q112.py`, every Q11X item's
+      own method): female 5 of 356 groups changed -- exactly the 5 fixes above plus the disclosed
+      `coccygeus_l` side effect is INCLUDED in that count (it's one of the 5: `extensor_digitorum_
+      longus_l`, `plantaris_l`, `genioglossus_r`, `rectus_femoris_r`, `coccygeus_l`); male 1 of 321
+      groups changed (`coccygeus_l` itself). All other 351 female / 320 male groups are BYTE-IDENTICAL
+      to the pre-this-item state, confirming every prior Q10X-Q115 fix is intact.
+      BUILDS: `build/viewer_f/atlas_viewer_female.html` rebuilt on top of Q108/Q109/Q111/Q113/Q114/
+      Q115's verified state (14.74 MB, unchanged from Q115's own size -- same 377 structures [an extra
+      `ct_vhf_skin` re-inclusion is a same-session build-script robustness note, see LIMITATIONS, not a
+      structure-count change], geometry improved for 5 of them);
+      `build/viewer_m/atlas_viewer_male.html` also rebuilt (14.43 MB, 356 structures, unchanged count).
+      Neither published (same Production Deploy permission gate every prior item today hit; not
+      retried, per this item's own instruction).
+      LIMITATIONS / notes for a future session: (1) this session's scratchpad-relative skin-silhouette
+      intermediates (`vhf_torso_*.nii.gz`/`vhf_legs_*.nii.gz`) from a PRIOR session's scratchpad are
+      gone (a fresh scratchpad each session), which made `scripts/cryo/vhf_whole_body_skin.py` fail and
+      `vhf_rebuild_bundle.sh`'s own skin step silently skip `ct_vhf_skin` even though the already-
+      converted subject sits on disk at `build/vh/ct_vhf_skin` untouched -- worked around by manually
+      re-adding `--subject ct_vhf_skin` to the export command for this build (confirmed present in the
+      final HTML, 377 structures, same as Q115's own count); the rebuild script itself was NOT changed
+      to fix this gap (out of this item's scope), so a future from-scratch session hitting the same
+      gap should do the same manual add, or regenerate the scratch skin intermediates first. (2) No
+      shared skin-containment helper script exists in this repo (each Q11X item, including this one,
+      wrote its own); this item's method (nearest-surface-point + outward-normal-sign test on a
+      locally-cropped skin mesh) avoided two real OOM kills hit with the more literal "watertight
+      capped-plane-slice + ray contains()" approach precedent items describe, on this session's
+      memory-constrained container -- noted here in case a future item hits the same wall.
+      SHIPPED: `scripts/export_viewer_bundle.py` (`SHEET_IDS` +`rectus_femoris_r`, `genioglossus_r`,
+      `coccygeus_l`, with explanatory comment), `scripts/cryo/vhf_rebuild_bundle.sh` (adds the
+      `ct_vhf_hyoid_fix` conditional conversion+subject-list step, same pattern as Q113/Q115's own
+      additions), `scripts/vhm_rebuild_bundle.sh` (adds the `ct_vhm_pfloor_fix` conditional step),
+      `mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json` (extended: +labels 9
+      `extensor_digitorum_longus_l`, 30 `plantaris_l`),
+      `mappings/subjects/ct_vhf_hyoid_fix_volume_mapping.json`,
+      `mappings/subjects/ct_vhm_pfloor_fix_volume_mapping.json` (both new), `build/vh/
+      ct_vhf_xfersepta_fix` (reconverted, gitignored), `build/vh/ct_vhf_hyoid_fix`, `build/vh/
+      ct_vhm_pfloor_fix` (both new, gitignored), `build/viewer_f/*`, `build/viewer_m/*` (rebuilt,
+      gitignored, NOT published), `data/derived/Q112_full_continuity_audit.json` (re-run,
+      diff-checked), this PROJECT_STATE.md entry (including the Q115 "NOT YET ATTEMPTED" list update
+      below) and the matching note in `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252
+      passed**. `df -h /`: 28G available, unaffected; own scratch intermediates (probe scripts, ~14 MB)
+      cleaned up.
+
 - [x] Q115 (2026-09-22) Q112's own punch-list item #3: decimation-vs-source triage for the ~140
       OTHER fragmented muscle/nerve/vessel structures Q112 found, beyond the 8 Q113/Q114 already
       root-caused. Wrote ONE mechanical sweep script (`scripts/triage_continuity_q115.py`, new) rather
@@ -2797,9 +3009,27 @@ tick the item here with a one-line result. Never fabricate; keep the
       entries live in other "recovered" subjects (`ct_vhm_cuff`, `ct_vhm_es`, `ct_vhm_abd`,
       `ct_s1159_abd`) this follow-up script does not yet index -- same open question, left for a future
       session rather than guessed at. Full detail: `data/derived/Q115_recovered_pieces_check.json`.
-      NOT YET ATTEMPTED -- ranked for a future Q116 (32 MARGINAL candidates, source main_frac
-      meaningfully above shipped but below this item's 0.90-source/0.15-gap bar for a confident
-      pipeline-artifact call; top of the list by gap, all muscles/vessels not yet measured further):
+      UPDATE (Q116, 2026-09-22): all 32 of this list were attempted -- see the Q116 queue entry above
+      for full numbers and method. **SHIPPED (5):** `plantaris_l` (F, 0.918->0.997, CONTINUOUS),
+      `genioglossus_r` (F, 0.873->**1.000**, CONTINUOUS -- confirming this item's own "arguably as
+      strong as the 8 confirmed fixes" flag below), `coccygeus_l` (M, 0.934->**1.000**, CONTINUOUS;
+      also a disclosed side effect on the female's own separate `coccygeus_l`, 0.759->0.745),
+      `rectus_femoris_r` (F, 0.690->0.773, a decimation-only `SHEET_IDS` fix), `extensor_digitorum_
+      longus_l` (F, 0.545->0.739, a real but sub-ceiling smoothing fix, flagged for larger-than-usual
+      -26.7% decimation volume loss). **DECLINED (27):** `extensor_digitorum_longus_r` (its own
+      smoothing fix measured WORSE on the real generated mesh, 0.493 vs the current 0.661 -- left
+      unchanged), `internal_jugular_v_l`/`_r` (swept decimation budgets 1275-4000 on the real mesh per
+      this item's own note below; the ~0.81 ceiling is already fixed in the PRE-decimation mesh, not a
+      decimation defect), `deltoid_l`, `triceps_brachii_l`/`_r`, `brachialis_l`, `semispinalis_
+      capitis_r` (both bodies, smoothing locked by Q114's already-shipped `longus_capitis_r` fix on
+      the same subject), `semispinalis_cervicis_r` (both bodies, same lock), `obliquus_capitis_
+      inferior_l` (both bodies, same lock), `semitendinosus_l`, `internal_jugular_v` already listed,
+      `infraspinatus_l`, `supraspinatus_r`/`_l`, `vastus_medialis_l`, `semimembranosus_r`, `tibialis_
+      anterior_l`, `diaphragm` (a further budget bump past Q114's own fix plateaus at ~0.75, not worth
+      shipping), `biceps_femoris_r`, `teres_major_l`, `hyoglossus_l` (both bodies) -- every decline has
+      a measured root cause in the Q116 entry, all landing in the same third failure class (marching-
+      cubes surface topology defect) Q114 first identified, now confirmed as the dominant cause in this
+      harder-to-classify MARGINAL bucket. Original ranked-list numbers, preserved for reference:
       `extensor_digitorum_longus_l` (F, shipped 0.545, source 0.832, gap 0.287),
       `extensor_digitorum_longus_r` (F, 0.661 / 0.825 / 0.164), `deltoid_l` (M, 0.550 / 0.709 / 0.158),
       `triceps_brachii_l`/`_r` (F, 0.753/0.736 vs 0.902/0.874, gaps 0.149/0.138),

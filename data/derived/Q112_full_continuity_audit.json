@@ -9,14 +9,30 @@
   },
   "bodies": {
     "male": {
-      "subject": "ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin",
+      "subject": "ct_vhm_pfloor_fix+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_m/atlas_viewer_male.html",
-      "html_mtime": 1790061307.8472636,
+      "html_mtime": 1790067458.246646,
       "n_structures_raw": 356,
       "n_groups": 321,
       "cat_mismatches": [],
       "structures": {
+        "coccygeus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1601,
+          "largest_component_vertices": 1601,
+          "n_pieces": 1,
+          "n_faces": 3238,
+          "id": "coccygeus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Coccygeus",
+          "subjects": [
+            "ct_vhm_pfloor_fix"
+          ]
+        },
         "metatarsals_l|left": {
           "status": "FRAGMENTED",
           "main_frac": 0.8581052631578947,
@@ -1699,10 +1715,10 @@
           "status": "CONTINUOUS",
           "main_frac": 1.0,
           "n_components": 1,
-          "total_vertices": 1596,
-          "largest_component_vertices": 1596,
+          "total_vertices": 1604,
+          "largest_component_vertices": 1604,
           "n_pieces": 1,
-          "n_faces": 3238,
+          "n_faces": 3240,
           "id": "rectus_femoris_r",
           "side": "right",
           "cat": "muscle",
@@ -4344,10 +4360,10 @@
           "status": "CONTINUOUS",
           "main_frac": 1.0,
           "n_components": 1,
-          "total_vertices": 1608,
-          "largest_component_vertices": 1608,
+          "total_vertices": 1621,
+          "largest_component_vertices": 1621,
           "n_pieces": 1,
-          "n_faces": 3218,
+          "n_faces": 3238,
           "id": "genioglossus_r",
           "side": "right",
           "cat": "muscle",
@@ -4464,22 +4480,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Levator ani",
-          "subjects": [
-            "ct_vhm_pfloor"
-          ]
-        },
-        "coccygeus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9343653250773993,
-          "n_components": 2,
-          "total_vertices": 1615,
-          "largest_component_vertices": 1509,
-          "n_pieces": 1,
-          "n_faces": 3230,
-          "id": "coccygeus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Coccygeus",
           "subjects": [
             "ct_vhm_pfloor"
           ]
@@ -5191,11 +5191,16 @@
       },
       "summary": {
         "by_status": {
-          "FRAGMENTED": 80,
-          "SEVERE_BREAK": 19,
-          "CONTINUOUS": 222
+          "CONTINUOUS": 223,
+          "FRAGMENTED": 79,
+          "SEVERE_BREAK": 19
         },
         "by_category_status": {
+          "muscle": {
+            "CONTINUOUS": 133,
+            "FRAGMENTED": 65,
+            "SEVERE_BREAK": 7
+          },
           "bone": {
             "FRAGMENTED": 4,
             "SEVERE_BREAK": 9,
@@ -5208,11 +5213,6 @@
           },
           "ligament": {
             "CONTINUOUS": 8
-          },
-          "muscle": {
-            "CONTINUOUS": 132,
-            "FRAGMENTED": 66,
-            "SEVERE_BREAK": 7
           },
           "other": {
             "CONTINUOUS": 21
@@ -5231,10 +5231,10 @@
       }
     },
     "female": {
-      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_descaorta+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep+xfer_vhm2vhf",
+      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_descaorta+ct_vhf_hyoid_fix+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep+xfer_vhm2vhf",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_f/atlas_viewer_female.html",
-      "html_mtime": 1790060633.3072233,
+      "html_mtime": 1790067384.9586415,
       "n_structures_raw": 378,
       "n_groups": 356,
       "cat_mismatches": [],
@@ -5781,6 +5781,22 @@
           "name": "Descending thoracic aorta",
           "subjects": [
             "ct_vhf_descaorta"
+          ]
+        },
+        "genioglossus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1520,
+          "largest_component_vertices": 1520,
+          "n_pieces": 1,
+          "n_faces": 3060,
+          "id": "genioglossus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Genioglossus",
+          "subjects": [
+            "ct_vhf_hyoid_fix"
           ]
         },
         "sacrum|none": {
@@ -8925,22 +8941,6 @@
             "ct_vhf_hyoid"
           ]
         },
-        "genioglossus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.873342175066313,
-          "n_components": 2,
-          "total_vertices": 1508,
-          "largest_component_vertices": 1317,
-          "n_pieces": 1,
-          "n_faces": 3014,
-          "id": "genioglossus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Genioglossus",
-          "subjects": [
-            "ct_vhf_hyoid"
-          ]
-        },
         "hyoglossus_r|right": {
           "status": "SEVERE_BREAK",
           "main_frac": 0.4630118890356671,
@@ -9343,12 +9343,12 @@
         },
         "coccygeus_l|left": {
           "status": "FRAGMENTED",
-          "main_frac": 0.758575197889182,
+          "main_frac": 0.7454308093994778,
           "n_components": 2,
-          "total_vertices": 1516,
-          "largest_component_vertices": 1150,
+          "total_vertices": 1532,
+          "largest_component_vertices": 1142,
           "n_pieces": 1,
-          "n_faces": 3026,
+          "n_faces": 3060,
           "id": "coccygeus_l",
           "side": "left",
           "cat": "muscle",
@@ -9565,6 +9565,22 @@
             "ct_vhf_skin"
           ]
         },
+        "extensor_digitorum_longus_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.738929889298893,
+          "n_components": 4,
+          "total_vertices": 1084,
+          "largest_component_vertices": 801,
+          "n_pieces": 1,
+          "n_faces": 2908,
+          "id": "extensor_digitorum_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor digitorum longus",
+          "subjects": [
+            "ct_vhf_xfersepta_fix"
+          ]
+        },
         "extensor_hallucis_longus_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 0.9920823436262867,
@@ -9593,6 +9609,22 @@
           "side": "left",
           "cat": "muscle",
           "name": "Flexor digitorum longus",
+          "subjects": [
+            "ct_vhf_xfersepta_fix"
+          ]
+        },
+        "plantaris_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9969834087481146,
+          "n_components": 2,
+          "total_vertices": 1326,
+          "largest_component_vertices": 1322,
+          "n_pieces": 1,
+          "n_faces": 3034,
+          "id": "plantaris_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Plantaris",
           "subjects": [
             "ct_vhf_xfersepta_fix"
           ]
@@ -9721,22 +9753,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Biceps femoris",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "extensor_digitorum_longus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5447498238195913,
-          "n_components": 4,
-          "total_vertices": 1419,
-          "largest_component_vertices": 773,
-          "n_pieces": 1,
-          "n_faces": 3032,
-          "id": "extensor_digitorum_longus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Extensor digitorum longus",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -10029,22 +10045,6 @@
             "xfer_vhm2vhf_sep"
           ]
         },
-        "plantaris_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9177173191771731,
-          "n_components": 2,
-          "total_vertices": 1507,
-          "largest_component_vertices": 1383,
-          "n_pieces": 1,
-          "n_faces": 3024,
-          "id": "plantaris_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Plantaris",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
         "plantaris_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -10143,12 +10143,12 @@
         },
         "rectus_femoris_r|right": {
           "status": "FRAGMENTED",
-          "main_frac": 0.6896311760612387,
-          "n_components": 3,
-          "total_vertices": 1437,
-          "largest_component_vertices": 991,
+          "main_frac": 0.7730263157894737,
+          "n_components": 2,
+          "total_vertices": 1520,
+          "largest_component_vertices": 1175,
           "n_pieces": 1,
-          "n_faces": 3040,
+          "n_faces": 3058,
           "id": "rectus_femoris_r",
           "side": "right",
           "cat": "muscle",
@@ -10960,8 +10960,8 @@
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 242,
-          "FRAGMENTED": 101,
+          "CONTINUOUS": 244,
+          "FRAGMENTED": 99,
           "SEVERE_BREAK": 13
         },
         "by_category_status": {
@@ -10975,8 +10975,8 @@
             "FRAGMENTED": 7
           },
           "muscle": {
-            "CONTINUOUS": 146,
-            "FRAGMENTED": 78,
+            "CONTINUOUS": 148,
+            "FRAGMENTED": 76,
             "SEVERE_BREAK": 7
           },
           "cartilage": {

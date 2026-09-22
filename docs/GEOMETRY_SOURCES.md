@@ -1214,6 +1214,29 @@ decimation, and fixing it needs work in that script, out of this item's scope. F
 structures measured), classifications and the ranked not-yet-attempted list:
 `data/derived/Q115_triage.json`, `scripts/triage_continuity_q115.py`, PROJECT_STATE.md Q115 entry.
 
+**Q116 (2026-09-22) update -- worked Q115's own ranked 32-candidate MARGINAL list by hand, same
+diagnostic, 5 more fixed.** `plantaris_l` (F) and `extensor_digitorum_longus_l` (F, both
+`xfer_vhm2vhf_sep`, extended into the existing `ct_vhf_xfersepta_fix` subject) went 0.918->0.997 and
+0.545->0.739 on `--smooth 0.0` alone; `genioglossus_r` (F, new `ct_vhf_hyoid_fix` subject) and
+`coccygeus_l` (M, new `ct_vhm_pfloor_fix` subject) went 0.873->**1.000** and 0.934->**1.000** the same
+way, both also added to `SHEET_IDS` since quadric decimation preserves their smooth=0 mesh's perfect
+connectivity exactly. `rectus_femoris_r` (F) went 0.690->0.773 via `SHEET_IDS` alone (quadric
+decimation on the UNCHANGED smoothing, the `extensor_carpi_radialis_longus_r`-class bug). Adding
+`coccygeus_l` to `SHEET_IDS` is global by id, so it also re-routes the female's own independently-
+segmented `coccygeus_l` (`ct_vhf_pfloor`) through quadric decimation -- a small disclosed cost,
+0.759->0.745, no status change. `internal_jugular_v_l/_r` (both bodies) were investigated as the
+item's own flagged decimation-side candidate: a budget sweep (1275-4000) on the REAL mesh showed the
+~0.81 ceiling is already fixed pre-decimation, not a decimation defect. All other 27 MARGINAL
+candidates were measured and declined, mostly landing in the third failure class (marching-cubes
+surface topology defect, no smoothing or decimation lever) this section's own Q114/Q115 entries above
+already established. METHOD NOTE worth keeping: vertex-clustering decimation's outcome is highly
+non-monotonic in the triangle budget on real meshes (one structure swung main_frac 0.45-0.98 across a
+budget sweep with no trend); several of those "lucky" budgets would have exceeded the structure's own
+raw-voxel source ceiling, which would be fabricating continuity rather than measuring it, so no
+budget-hunting was done for any candidate in this item -- every shipped number is the plain
+category-default budget or a `SHEET_IDS`/override change with its own separately measured
+justification. Full detail: PROJECT_STATE.md Q116 entry.
+
 ### A learned nerve-section scorer, trained on her own verified track (2026-09-14, Q54)
 
 Below the mid-thigh the hand-crafted detector fails for a measured reason: the tibial nerve in the

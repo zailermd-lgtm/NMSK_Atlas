@@ -128,8 +128,18 @@ def cluster(verts: np.ndarray, faces: np.ndarray, cell: float):
 # decimation substituted subject-wide and every one of them was flat or slightly WORSE (several
 # dropped from CONTINUOUS 1.0 into the FRAGMENTED band), so the fix is scoped to the one id that
 # actually needed it rather than swapping the whole subject's decimation path.
+# Q116: same clustering-severs-a-thin-bridge bug, 3 more ids, mechanically triaged from Q115's
+# ranked MARGINAL list. `rectus_femoris_r` (xfer_vhm2vhf_sep): its pre-decimation mesh is already
+# 0.72-0.78 main_frac at either smoothing value (no reconversion needed), but vertex-clustering at
+# the current smooth=1.0 shipped only 0.690 -- quadric on that SAME unchanged mesh gives 0.770.
+# `genioglossus_r` and `coccygeus_l`: paired with a smoothing fix (ct_vhf_hyoid_fix /
+# ct_vhm_pfloor_fix, see those mappings) -- their smooth=0 pre-decimation mesh is a clean single
+# component (1.000) and quadric decimation preserves that exactly, while plain clustering on the
+# same smooth=0 mesh (tested) drops a hair to ~0.997 -- added here for the small extra margin at
+# no measured cost, matching this project's established "why not, quadric never loses to clustering
+# for these ids" reasoning.
 SHEET_IDS = {"diaphragm", "external_intercostals_r", "external_intercostals_l", "sciatic_n",
-            "extensor_carpi_radialis_longus_r"}
+            "extensor_carpi_radialis_longus_r", "rectus_femoris_r", "genioglossus_r", "coccygeus_l"}
 
 
 def decimate_quadric(verts, faces, budget):
