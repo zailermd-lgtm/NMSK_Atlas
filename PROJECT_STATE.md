@@ -11,7 +11,28 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q111 (2026-09-22) confirmed the
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q112 (2026-09-22) ran the
+project's first-ever CORRECT, full-coverage continuity audit -- every structure in both live viewer bundles
+(356 male / 378 female raw entries, grouped into 321 / 356 (id,side) structures), using the post-Q111
+face-adjacency method and correctly combining multi-piece structures (learned directly from Q111's
+dict-collision bug, grouped by (id,side) with list-accumulating offsets, not a plain dict). RESULT: male 225
+CONTINUOUS / 73 FRAGMENTED / 23 SEVERE_BREAK; female 242 / 96 / 18. BIGGEST NEW FINDING: MUSCLES, never
+audited before (Q103 only covered bones/vessels/cartilage), are heavily fragmented too -- 70/205 male and
+84/231 female muscle-groups score below 0.99, including single anatomically-continuous muscles that should
+obviously be one piece (longus_colli, pectoralis_minor, hyoglossus, geniohyoid, internal_oblique,
+transversus_abdominis all SEVERE_BREAK in both bodies; biceps_brachii, triceps_brachii, deltoid, trapezius,
+supraspinatus and 30+ others FRAGMENTED). The single most concerning finding: `sciatic_n` (female), a major
+nerve trunk, is SEVERE_BREAK at 0.332 (11 components) -- never previously measured. Several major vessels
+(internal_carotid_a, internal_jugular_v, inferior_vena_cava, descending_thoracic_aorta) are also fragmented.
+Verified this is NOT the Q107/Q108 missing-vertex_offset bug class recurring (0 out-of-range face indices in
+any of 677 audited pieces across both live bundles) -- it's an undiagnosed, likely segmentation-mask or
+decimation-level defect needing its own dedicated investigation; per this item's measurement-only scope, NO
+fixes were attempted. Audited `build/viewer_m/atlas_viewer_male.html` / `build/viewer_f/atlas_viewer_female.html`
+directly (their embedded bundle-json/bundle-b64 payloads) per this item's own brief calling these "the LIVE
+files" -- flagged, not resolved, that PROJECT_STATE's own Q109 entry (same day) describes these exact paths as
+the unpublished ready-to-publish rebuild, distinct from the actually-served claude.ai URLs; see Q112's own
+entry for the full disclosed caveat. 252 tests pass (unchanged, audit-only). Full detail:
+`data/derived/Q112_full_continuity_audit.json`, `scripts/audit_full_continuity_q112.py`. Recent: Q111 (2026-09-22) confirmed the
 `vertebrae_L2` mislabeled fragment Q110 found is a genuine TotalSegmentator source-label artifact (already
 present as a disjoint voxel island in the RAW `vhf_total.nii.gz`, not introduced by this project's own
 pipeline), fixed `compute_region_bbox` to exclude it via largest-connected-component filtering (verified
@@ -2194,6 +2215,127 @@ tick the item here with a one-line result. Never fabricate; keep the
       entry. NOT shipped/wired into any rebuild script: `build/vh/ct_vhf`, `build/viewer_f/atlas_viewer_female.html`
       (untouched, see above).
 
+- [x] Q112 (2026-09-22) Full continuity audit of EVERY shipped structure on both bodies -- Q103's audit
+      redone with the correct measurement method Q111 just fixed, per the user's standing "check for
+      continuity" mandate. Q103 (2026-09-20) only ever covered 44 structures (bones/vessels/cartilage); it
+      never touched MUSCLES, which after Q62's work are now the largest category by far (205/321 male
+      structures, 231/356 female). This item closes that gap.
+      METHOD: wrote `scripts/audit_full_continuity_q112.py` (new, general-purpose, not vertebra-specific).
+      Reverse-engineered the LIVE viewer HTML's own mesh-decode JS (not guessed) to learn the bundle-b64
+      binary layout: per structure, in `structures` array order, a flat Int16Array of quantized positions
+      (nv*3 values) then a Uint16Array of LOCAL (0-based, per-piece) face indices (nf*3 values), back to back,
+      no padding. Read `<script id="bundle-json">` and `<script id="bundle-b64">` directly out of
+      `build/viewer_m/atlas_viewer_male.html` and `build/viewer_f/atlas_viewer_female.html` (verified
+      byte-identical to the sibling `bundle.json`/`bundle.bin` files sitting next to them, confirming both
+      represent one build's output). For multi-piece structures (structures sharing one bundle `id` --
+      `lumbar_vertebrae` x5, `cervical_vertebrae` x7, `thoracic_vertebrae` x12, plus several muscles/cartilage
+      pairs with 2-3 pieces), grouped by **(id, side)** using a list-accumulating `defaultdict(list)`, never a
+      plain dict keyed by id alone -- the exact bug class Q111 found and fixed in
+      `verify_vertebral_continuity.py`. Including `side` in the group key matters and was verified necessary:
+      `optic_n` shares one `id` for two genuinely separate, correctly-single-piece structures (left and right
+      nerve) that must NOT be scored against each other as if fragmented. Combined each group's pieces into
+      one face graph with correct running per-piece vertex offsets (the missing-offset bug class Q107/Q108
+      found and fixed elsewhere -- checked this script doesn't reintroduce it: 0 out-of-range face indices in
+      any of the 677 audited pieces, confirmed directly). Ran a face-adjacency union-find (faces sharing a
+      full edge = 2 vertices) and computed main_frac exactly like `verify_vertebral_continuity.py`:
+      largest connected component's vertex-set size / sum of all components' vertex-set sizes. Same thresholds
+      as Q103/that script: main_frac >=0.99 CONTINUOUS, >=0.50 FRAGMENTED, else SEVERE_BREAK. Runtime: ~10s
+      for both bodies (this audits the DECIMATED viewer-bundle mesh -- what actually ships to the browser --
+      not the 1M+ triangle full-resolution source mesh Q107/Q111 used, so it's far cheaper; see LIMITATIONS).
+      SANITY CHECKS: 0 category-mismatches within any group; ribs_l/r both CONTINUOUS (0.9985-1.0) on both
+      bodies, confirming Q109's rib fix is present in what this item audited; male cervical/thoracic/lumbar
+      (0.144/0.084/0.201) land close to Q111's honest full-res baseline (0.142/0.082/0.1806) -- not identical
+      (different mesh: decimated bundle vs. full-res manifest, and the live bundle still ships the
+      ORIGINAL/uncorrected lumbar discs, not Q111's unshipped corrected ones) but agree on the conclusion
+      (SEVERE_BREAK) in every region, both bodies.
+      RESULTS -- MALE (356 raw structure entries -> 321 (id,side) groups): 225 CONTINUOUS (70.1%), 73
+      FRAGMENTED (22.7%), 23 SEVERE_BREAK (7.2%). By category: bone 55 total (42C/4F/9S), muscle 205
+      (135C/60F/10S), vessel 20 (16C/3F/1S), cartilage 10 (2C/5F/3S), ligament 8 (8C), other 21 (21C), nerve 1
+      (1F), fascia 1 (1C).
+      RESULTS -- FEMALE (378 raw structure entries -> 356 groups): 242 CONTINUOUS (68.0%), 96 FRAGMENTED
+      (27.0%), 18 SEVERE_BREAK (5.1%). By category: bone 56 (39C/11F/6S), vessel 24 (15C/8F/1S), muscle 231
+      (147C/74F/10S), cartilage 10 (7C/3F), other 21 (21C), nerve 5 (4C/1S), fascia 1 (1C), ligament 8 (8C).
+      HEADLINE NEW FINDING: muscles are fragmented at almost the same rate as bones (34% of male, 36% of
+      female muscle-groups below 0.99) and this had NEVER been measured before Q103 didn't look. Confirmed,
+      by direct check, this is NOT the Q107/Q108 missing-vertex_offset bug recurring (0/677 pieces
+      out-of-range) -- it is a distinct, undiagnosed defect class (most likely genuine segmentation-mask
+      topology from TotalSegmentator/the transfer pipeline, or a mesh-decimation artifact introduced by
+      `build_viewer_html.py`'s simplification step; NOT distinguished here, would need per-structure
+      full-resolution comparison, out of this item's scope).
+      TOP NEW FINDINGS (excluding the already-tracked vertebrae/rib situation and the naturally-multi-bone
+      hand/foot groups, which are separate bones by design like pre-fix ribs, not a new class of problem):
+        1. `sciatic_n` (female only): SEVERE_BREAK, main_frac **0.332**, 11 components -- a major nerve trunk
+           that should unambiguously be one continuous cord. The single most concerning finding in this audit.
+        2. `external_intercostals_l`/`_r`: SEVERE_BREAK both bodies (M 0.251/0.254, F 0.166/0.244), 12-56
+           components -- plausibly real anatomy (11-12 separate intercostal slips per side sharing one `id`,
+           same pattern as pre-Q109 ribs) rather than a defect, but never previously measured or disclosed.
+        3. `longus_colli_l`/`_r`: SEVERE_BREAK both bodies (0.312/0.374) -- single neck muscle, should be one
+           piece.
+        4. `pectoralis_minor_l`/`_r`: SEVERE_BREAK both bodies (M 0.423/0.377, F 0.426/0.439).
+        5. `hyoglossus_r`: SEVERE_BREAK both bodies (0.463).
+        6. `geniohyoid_l`: SEVERE_BREAK both bodies (0.482).
+        7. `internal_carotid_a_l`: SEVERE_BREAK both bodies (0.484) -- a vessel; should be a continuous tube.
+        8. `longus_capitis_r`: SEVERE_BREAK both bodies (0.385).
+        9. `internal_oblique_r` (M): SEVERE_BREAK (0.412, 20 components); `transversus_abdominis_r`:
+           SEVERE_BREAK female (0.471, 22 components), FRAGMENTED male (0.716, 19 components).
+        10. `sacrum` (F): FRAGMENTED, main_frac 0.509 (2 stored pieces, 4 components) -- already flagged by
+            Q103 as fragmented, but at a different number (0.767, 9 components) -- the bundle's sacrum mesh
+            has evidently changed since Q103; not investigated further here (measurement-only scope).
+      Items 3-9 are consistent across BOTH bodies -- the same muscles/vessel, same severity band, in male and
+      female independently -- suggesting one systemic, reproducible cause rather than per-body noise, and
+      making this a strong candidate for a focused Q113-class root-cause item.
+      ALSO NOTED (not headline, but real): 30+ unambiguously-single anatomical muscles land in the FRAGMENTED
+      band (0.50-0.99): `biceps_brachii`, `triceps_brachii`, `deltoid`, `trapezius`, `supraspinatus`,
+      `infraspinatus`, `subscapularis`, `rectus_abdominis`, `quadratus_lumborum`, `teres_major`, `rhomboid_
+      major`/`minor`, `serratus_anterior`, `gastrocnemius`, `biceps_femoris`, `iliopsoas`, and others, both
+      bodies -- full list (75 male + 94 female non-bone/cartilage structures below 0.99) is in the JSON.
+      Vessels beyond #7 above also fragmented, none previously measured: `internal_carotid_a_r`,
+      `internal_jugular_v_l`/`_r` (both bodies), `common_carotid_a_l`, `subclavian_a_l`, `inferior_vena_cava`,
+      `descending_thoracic_aorta`, `popliteal_a_r` (female).
+      NOT FIXED: explicitly checked whether any of the above is the already-diagnosed manifest/offset bug
+      class (it would have shown up as out-of-range face indices) -- it is not (0/677 pieces affected), so
+      nothing here met this item's "quick, low-risk, clearly analogous fix" bar. Per this item's own hard
+      constraint (measurement, not another Q104-Q111-style fix round), no repairs were attempted; all of the
+      above is documented for a future queue item instead, same as Q103 originally did for vertebrae/ribs.
+      LIMITATIONS (disclosed, not hidden):
+        - This audits the DECIMATED viewer-bundle mesh (what `build_viewer_html.py` actually ships), not the
+          full-resolution source mesh Q107/Q111 used for the vertebral column -- numbers for vertebrae/discs
+          are close to but not bit-identical to Q111's full-res numbers (see SANITY CHECKS above); both agree
+          on SEVERE_BREAK status everywhere, but the exact digits are bundle-state-dependent, not
+          interchangeable with `verify_vertebral_continuity.py`'s own output.
+        - PROVENANCE AMBIGUITY, flagged not resolved: this item's own brief called
+          `build/viewer_m/atlas_viewer_male.html` / `build/viewer_f/atlas_viewer_female.html` "the LIVE files,
+          i.e. what's actually published right now." PROJECT_STATE's own Q109 entry (same day) describes
+          these exact paths as the "ready-to-publish rebuild... NOT published" (permission-gated), distinct
+          from the actually-served claude.ai URLs (male `c5d01522-...`, female `0651399d-...`) which Q107 said
+          predate all of Q104-Q109's disc/rib work entirely. `build/` is gitignored (confirmed via `git
+          check-ignore`) -- these are local-session build artifacts, not something this item could verify
+          byte-for-byte against the actually-served URLs (no browser/URL-fetch was used for that, and this
+          item's brief explicitly said not to attempt publishing or reconciling the gap). Bottom line for
+          future readers: this audit's numbers are reproducible from whatever a given session's
+          `build/viewer_m/`/`build/viewer_f/` currently hold (this session: 356/378 structures, ribs already
+          fixed per Q109) -- they are NOT independently confirmed identical to what a visitor to the live
+          URLs sees today.
+        - Category taxonomy used is exactly whatever `structures[i]['cat']` holds in the live bundle: bone,
+          muscle, vessel, cartilage, ligament, nerve, fascia, other. No separate "tendon" category exists in
+          the shipped data despite the viewer's own JS color legend defining one for it -- tendons are
+          evidently folded into another category; not investigated further (out of scope).
+        - "Fragmented because it's naturally several separate bones/muscles sharing one `id`" (metacarpals,
+          metatarsals, phalanges, external_intercostals) is reported as the same raw main_frac/n_components as
+          a genuine defect -- distinguishing bug from correct-anatomy-with-a-misleading-metric requires the
+          same per-structure judgment call Q103 applied to ribs/vertebrae, done in this entry's prose above
+          for the clearest cases, not encoded in the JSON itself.
+        - Did not attempt to separate decimation-introduced fragmentation from source-segmentation-mask
+          fragmentation for any muscle/nerve/vessel (would need each structure's own full-resolution source
+          OBJ, most of which live outside `build/vh/` in per-task `data/ct_sources/task_outputs/` directories
+          this script doesn't index) -- flagged as the necessary next step for whoever picks up the muscle
+          punch list above.
+      DELIVERABLES: `scripts/audit_full_continuity_q112.py` (new, committed), `data/derived/
+      Q112_full_continuity_audit.json` (full per-(id,side)-group results, both bodies -- main_frac,
+      n_components, n_pieces, category, side, name, per-piece source subject), this PROJECT_STATE.md entry.
+      No fixes shipped; no `build/` output changed (read-only audit, as instructed). `python -m pytest -q`:
+      **252 passed** (unchanged). `df -h /`: 17G available, unaffected (audit output is 322KB).
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
@@ -4106,6 +4248,36 @@ the female's phalanges are under-captured at HU 200.
 3. Q59 resolution: Alternate source for DU female foot geometry (network policy blocks all current hosts)
 
 **Structural Continuity (Q10X series) - Current Blockers:**
+- **Q112 (2026-09-22) full-bundle audit -- prioritized punch list for whoever picks this up next**, replacing
+  the previously-stale, muscle-blind picture (Q103 only ever covered bones/vessels/cartilage; full numbers
+  and methodology in the Q112 queue entry above and `data/derived/Q112_full_continuity_audit.json`):
+  1. **HIGHEST PRIORITY, single structure**: `sciatic_n` (female), SEVERE_BREAK, main_frac 0.332, 11
+     components -- a major nerve trunk with no business being anything but one piece. Investigate first;
+     likely the highest-value single fix in this whole list given its clinical relevance (sciatic nerve
+     blocks/injections are exactly this atlas's stated purpose).
+  2. **Root-cause investigation (new Q113-class item)**: the 8 muscles/vessel that are SEVERE_BREAK in BOTH
+     bodies at similar severity (`longus_colli_l/r`, `pectoralis_minor_l/r`, `hyoglossus_r`, `geniohyoid_l`,
+     `internal_carotid_a_l`, `longus_capitis_r`, plus `internal_oblique_r`/`transversus_abdominis_r`) --
+     the cross-body consistency suggests one systemic, findable cause (a specific segmentation task's mask
+     quality, or a specific decimation setting), not independent per-structure noise. Start here rather than
+     fixing each muscle individually.
+  3. **Decimation-vs-source triage (needed before any muscle/vessel fix)**: Q112 could not determine whether
+     the ~150 fragmented muscle/nerve/vessel structures (75 male + 94 female below 0.99) are fragmented in
+     their own full-resolution source segmentation, or only after `build_viewer_html.py`'s decimation step --
+     these need different fixes (re-segmentation vs. a decimation-parameter or per-piece-cleaning fix). Pick a
+     handful of the worst offenders, locate their full-res source OBJs under `data/ct_sources/task_outputs/`,
+     and re-run this audit's method on them directly.
+  4. Vertebrae/ribs/lumbar discs: unchanged since Q111, still the items below this bullet list -- lumbar discs
+     provably cannot improve main_frac without real vertex/edge welding (a bigger structural change than any
+     item so far has taken on); ribs are already fixed and CONTINUOUS (confirmed again by Q112).
+  5. Lower priority / likely-real-anatomy, re-confirm before spending effort: `external_intercostals_l/r`
+     (11-12 separate slips per side, same pattern as pre-fix ribs) and the hand/foot bone groups
+     (metacarpals/metatarsals/phalanges, each genuinely several separate bones) -- probably correct anatomy
+     reported honestly by a metric that assumes one structure = one piece, not bugs, but not independently
+     confirmed as intentional here either.
+  6. `sacrum` (female): re-check against Q103's original 0.767/9-components number -- Q112 measured 0.509/2
+     pieces/4 components on the current live bundle, a real discrepancy from Q103 not yet explained (mesh
+     likely changed between then and now).
 - RESOLVED for the male by Q107 (2026-09-21): the `build/vh/ct_vhm` manifest/offset corruption below (found by
   Q106) was two missing-`vertex_offset` bugs in `ingest_intervertebral_discs.py` and `ingest_remeshed_ribs.py`
   (the latter also double-splicing remeshed ribs when the old individual-rib pieces weren't consolidated).
