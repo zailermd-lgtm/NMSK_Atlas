@@ -2845,7 +2845,28 @@ tick the item here with a one-line result. Never fabricate; keep the
       re-adding `--subject ct_vhf_skin` to the export command for this build (confirmed present in the
       final HTML, 377 structures, same as Q115's own count); the rebuild script itself was NOT changed
       to fix this gap (out of this item's scope), so a future from-scratch session hitting the same
-      gap should do the same manual add, or regenerate the scratch skin intermediates first. (2) No
+      gap should do the same manual add, or regenerate the scratch skin intermediates first.
+      FIXED (2026-09-22, autonomous wake, no queue number -- a direct infrastructure fix, not a
+      geometry item): `scripts/cryo/vhf_rebuild_bundle.sh`'s skin step no longer silently drops
+      `ct_vhf_skin` when the scratchpad-only source volume (`skin_ct.nii.gz`/`skin_union.nii.gz`) is
+      missing and regeneration fails. It now falls back to the existing `build/vh/ct_vhf_skin/manifest.json`
+      (a prior successful conversion) and still includes `--subject ct_vhf_skin` in the export, printing a
+      loud `WARNING:` to stderr instead of a passive echo either way (reused-fallback or truly-absent).
+      Also fixed a latent, previously-inert quoting bug this change would otherwise have triggered: the
+      `cross_subject_transfer.py` call passed `--skin-nii $SKIN` unquoted, which is harmless while `$SKIN`
+      is always a real non-empty path but corrupts argument parsing the moment `$SKIN` can be `""` (an
+      unquoted empty variable vanishes in bash, so `--skin-origin="$O"` would shift into `--skin-nii`'s
+      argument slot) -- now built as a conditional `SKIN_ARGS=()` array, `--skin-nii` omitted entirely
+      when there is no source volume to pass (the transfer script already treats a falsy `--skin-nii` as
+      "skip the skin clip", per its own `if a.skin_nii` check). Verified against this session's own
+      scratchpad, which independently reproduced the exact bug condition (skin source volumes absent,
+      `build/vh/ct_vhf_skin/manifest.json` present from a prior run) -- traced the corrected logic by hand
+      (bash snippet, not a full rebuild run, to avoid an unnecessary multi-hour reconversion) and confirmed
+      `SUBJ` correctly gains `--subject ct_vhf_skin` and the transfer command correctly omits `--skin-nii`
+      with no argument-shift. `bash -n` syntax-checked; 252 tests pass (this script isn't exercised by
+      pytest directly, so this only confirms no other regression). Male's `vhm_rebuild_bundle.sh` has no
+      analogous bug (its skin subject is a plain, unconditional list entry, not a dynamically-converted one).
+      (2) No
       shared skin-containment helper script exists in this repo (each Q11X item, including this one,
       wrote its own); this item's method (nearest-surface-point + outward-normal-sign test on a
       locally-cropped skin mesh) avoided two real OOM kills hit with the more literal "watertight

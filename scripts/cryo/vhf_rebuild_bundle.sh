@@ -89,13 +89,30 @@ SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subj
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
-if [ -f $SKIN ]; then conv $SKIN vhm_skin ct_vhf_skin --smooth 1.5 --step 2; SUBJ="$SUBJ --subject ct_vhf_skin"; else echo "skin volume absent: bundle without depth tags"; fi
+if [ -f $SKIN ]; then
+  conv $SKIN vhm_skin ct_vhf_skin --smooth 1.5 --step 2; SUBJ="$SUBJ --subject ct_vhf_skin"
+elif [ -f build/vh/ct_vhf_skin/manifest.json ]; then
+  # Q116 lesson: the scratchpad-only source volume (skin_ct.nii.gz/skin_union.nii.gz) doesn't survive a
+  # container reset and regeneration can itself fail silently if ITS OWN scratchpad inputs are gone too.
+  # A prior successful conversion already sits in build/vh/ct_vhf_skin -- reuse it rather than silently
+  # dropping the skin/depth-tag subject from the bundle. --skin-nii below stays unset in this branch (no
+  # source volume to pass cross_subject_transfer.py), so the m2f transfer's own skin-containment clip is
+  # skipped this run; that transfer step already warns loudly when --skin-nii is absent.
+  echo "WARNING: skin source volume absent, REUSING existing build/vh/ct_vhf_skin (regenerate scripts/cryo/vhf_whole_body_skin.py's inputs to get a fresh conversion)" >&2
+  SUBJ="$SUBJ --subject ct_vhf_skin"; SKIN=""
+else
+  echo "WARNING: skin volume absent and no prior build/vh/ct_vhf_skin exists -- bundle will ship WITHOUT the skin subject or depth tags" >&2
+  SKIN=""
+fi
 # cross-subject transfer: everything the male has and she lacks (lower-limb muscles, ligaments, cartilage, ...) carried onto
 # her bones and inside her measured muscle compartment; badged subject, listed LAST so her own structures always win
 if [ ! -f build/vh/xfer_vhm2vhf/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
+  # $SKIN can be "" (see the skin-volume fallback above) -- pass --skin-nii only when there's a real path,
+  # since an unquoted empty $SKIN would otherwise vanish and shift --skin-origin into its place.
+  SKIN_ARGS=(); [ -n "$SKIN" ] && SKIN_ARGS=(--skin-nii "$SKIN")
   python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html data/derived/viewer_bundles/vhm_v25 \
     --envelope-src data/derived/lean_envelope_vhm.json --envelope-dst data/derived/lean_envelope_vhf.json \
-    --skin-nii $SKIN --skin-origin="$O" -o build/vh/xfer_vhm2vhf --report data/derived/transfer_report_vhm2vhf.json 2>&1 | grep -v Deprec | head -1 | cut -c1-200
+    "${SKIN_ARGS[@]}" --skin-origin="$O" -o build/vh/xfer_vhm2vhf --report data/derived/transfer_report_vhm2vhf.json 2>&1 | grep -v Deprec | head -1 | cut -c1-200
 fi
 # the transferred lower-limb muscles with their boundaries refined to HER septa (scripts/transfer/refine_transfer_to_septa.py,
 # label volume in the repo); listed BEFORE xfer_vhm2vhf so the refined muscle wins and the unrefined transfer supplies the rest
