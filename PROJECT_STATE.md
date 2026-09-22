@@ -11,7 +11,13 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q104 SHIPPED (intervertebral disc
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q108 (2026-09-22) fixed `ct_vhf`'s
+own corruption (84/87 structures, left by Q107) and the `uint32` OverflowError blocking her disc ingestion;
+gave her real discs for the first time (cervical 0.877->real 0.962, thoracic ->0.937; lumbar stays ~0.536,
+confirmed a genuine separate limitation, not corruption); declined the remeshed-rib improvement for both
+subjects after finding it puts 5-8% of rib vertices outside the skin surface (a newly-found, real defect,
+never shipped, never checked before). Republish to the live female viewer verified-ready but blocked by an
+auto-mode permission gate -- see Q108 entry. Recent: Q104 SHIPPED (intervertebral disc
 integration to fix vertebral column fragmentation: generated 21 synthetic cylindrical discs per body (radius
 40mm, thickness 20mm) and integrated into ct_vhm and ct_vhf bundles; achieved dramatic main_frac improvements
 via face-adjacency connected-components analysis using vertex-based metric matching Q103 methodology --
@@ -1675,6 +1681,107 @@ tick the item here with a one-line result. Never fabricate; keep the
       `export_viewer_bundle.py` without the `IndexError`; there is no behavior change to publish since nothing
       client-visible ever shipped with the corruption. `build/` is gitignored, so the rebuilt binaries
       themselves are not part of this commit -- only the two script fixes and this note are.
+
+- [x] Q108 (2026-09-21/22) Fixed `ct_vhf`'s corruption (Q107's leftover, 84/87 structures with face data
+      outside their own vertex range) and the `uint32` OverflowError that blocked her disc ingestion.
+      ROOT CAUSE OF THE OVERFLOW (found, not guessed -- read the actual arithmetic): in
+      `ingest_intervertebral_discs.py`'s disc-removal/rebuild loop, `struct_faces_remapped = struct_faces +
+      (new_vertex_offset - old_vert_start)` adds a Python int shift to a `uint32` numpy array. Reproduced
+      directly against `ct_vhf`'s (pre-fix) manifest: for `ribs_l`/`ribs_r` the shift is -1386 (discs sit
+      BEFORE the ribs in the structures list, unlike `ct_vhm` where they're appended at the tail, so removing
+      them leaves the ribs' running vertex offset short of their old, disc-inclusive one). Under numpy 2.x
+      (this repo's installed version, 2.4.6; NEP 50), adding a negative Python int directly to a `uint32`
+      array raises `OverflowError: Python integer -1386 out of bounds for uint32` instead of the silent
+      wraparound older numpy did -- confirmed with a 3-line repro (`np.array([1],dtype=np.uint32) + (-5)`).
+      FIX: do the arithmetic in a signed int64 buffer, cast back to uint32 only once the result is
+      guaranteed non-negative (`(struct_faces.astype(np.int64) + shift).astype(np.uint32)`).
+      REBUILT `ct_vhf` from source (mirroring Q107's approach, adapted to what actually exists for her: unlike
+      `ct_vhm`, whose true source meshes are gone and had to be recovered from a bundle snapshot
+      (`bundle_to_subjects.py` on `vhm_v25`), `ct_vhf`'s own TotalSegmentator source volume is still in the
+      repo (`data/ct_sources/task_outputs/vhf_total.nii.gz`), so `scripts/cryo/vhf_rebuild_bundle.sh`'s own
+      `conv` step -- `ingest_volume_geometry.py convert` straight from that volume -- IS her equivalent
+      recovery path). Deleted `build/vh/ct_vhf` and reconverted: 88 structures, 2,109,234 vertices,
+      4,218,168 faces, **0** offset-inconsistent (was 84/87). Ran the now-fixed `ingest_intervertebral_discs.py`
+      on both subjects (it always loops `["ct_vhm","ct_vhf"]`): completed without error for the first time
+      ever on `ct_vhf` (109 structures, 2,110,620 vertices, 0 offset-inconsistent); `ct_vhm`'s output came back
+      **byte-identical** to its pre-Q108 state (verified with `cmp` on both `vertices.f32` and `faces.u32`) --
+      confirms the fix is a no-op on data that was already correct, not a behavior change for the male.
+      `export_viewer_bundle.py` and `build_viewer_html.py` both complete without error on the isolated `ct_vhf`
+      subject (257k triangles after decimation). 252 tests pass throughout.
+      DECLINED the remeshed-rib half of Q104b's cleanup, found NOT by assumption but by measurement: ran the
+      project's own skin-containment check (`scripts/transfer/cross_subject_transfer.py`'s `skin_lookup()`,
+      the same one `clip_to_skin()` uses, against `ct_vhf`'s skin volume, margin 0) on the Q105 remeshed
+      `ribs_l`/`ribs_r` OBJs (already sitting in `data/ct_sources/task_outputs/ct_vh{m,f}_ribs_{l,r}_remeshed.obj`
+      since 2026-09-20, untouched by this item) and found **7.91%/7.21%** of her rib vertices sit outside her
+      skin surface -- confirmed not a pipeline artifact by sanity-checking known-fully-internal bones
+      (cranium, humerus_l, femur_l, sternum, clavicle_l, scapula_l: all 0.00% outside) with the identical
+      check. The male's own remeshed ribs show the same class of defect (5.07%/6.25%), so this is a pipeline-
+      wide characteristic of Q105's rib voxelization+dilation (the ~6mm bridging pushes part of the rib
+      surface past a thin overlying skin fold), not something specific to her or introduced by this item --
+      but since NEITHER subject's remeshed ribs have ever been published (the live male and female viewers
+      both predate Q105 entirely), shipping them now would be the FIRST time this defect ever reached a real
+      viewer, for a rib-continuity gain (7-8x) that this project's own 0%-outside-skin bar (Q69/Q77/Q99) does
+      not let through uninspected. DECLINED for both subjects: kept the original individual-rib pieces
+      (12+12, matching what's live) for `ct_vhf` rather than running `ingest_remeshed_ribs.py`; ribs_l/r
+      main_frac accordingly stay at their live baseline, 0.0865/0.1099 (re-measured on the fixed bundle, not
+      assumed) -- no change, no regression, and the rib-remesh skin defect is now a documented, reproducible
+      finding for whoever next reopens Q105c/Q104b (a fix needs either a smaller dilation radius or a
+      post-remesh clip-to-skin pass on the ribs themselves, not attempted here -- out of scope for a bug-fix
+      item, and it also affects `ct_vhm`'s not-yet-shipped remeshed ribs).
+      SHIPPED the disc improvement only: ran `ingest_intervertebral_discs.py` (fixed) with rib-remeshing
+      skipped, giving `ct_vhf` its first-ever real discs (21, all 0% outside skin, verified against the same
+      `skin_lookup()` check) while leaving her ribs exactly as already live. RE-MEASURED continuity
+      (`verify_vertebral_continuity.py analyze`, same face-adjacency/vertex-based method as Q103/Q104/Q107,
+      run on the actual fixed geometry, not carried over from any prior report):
+        * `ct_vhm` (unchanged, re-confirmed): cervical 0.877, thoracic 0.801, lumbar 0.901
+        * `ct_vhf` (real numbers, first honest measurement ever -- her discs were never correctly ingested
+          before this item): cervical **0.962**, thoracic **0.937**, lumbar **0.536**
+      Female lumbar: NOT improved by the corruption fix, exactly as this item's own brief warned it might not
+      be -- 0.536 lands within measurement noise of Q104's original, honestly-reported 0.539 (that number
+      predates bug #1 and was never inflated by it, unlike the male's), confirming Q104b's finding is a real,
+      separate limitation of the disc-bridging geometry in the lumbar region's 8-component topology, not an
+      artifact of the corruption this item fixes. Cervical/thoracic, by contrast, are a genuine, large,
+      newly-real improvement over what currently ships (0.163/0.103, since the live female viewer has ZERO
+      discs at all -- confirmed before starting this item by extracting the live bundle's own JSON and
+      counting "disc" ids).
+      FULL BUNDLE CHECK before deciding to ship: re-ran `scripts/cryo/vhf_rebuild_bundle.sh` in full (idempotent
+      for every other subject; only `ct_vhf` was actually reconverted). Diffed the resulting 400-structure
+      bundle against the live published one (0651399d, read directly via the Artifact tool, 379 structures)
+      structure-by-structure (id, nv, nf, tris_full): the ONLY difference is the 21 added discs -- every one
+      of the other 379 structures matches by id, and re-running the export twice on identical inputs gave
+      zero differences (rules out decimation nondeterminism as an explanation for anything). Found, and did
+      NOT paper over: 28 of those 379 non-disc structures (tarsals, `radius_r`, `ribs_r` piece 5, several
+      `xfer_vhm2vhf`/`xfer_vhm2vhf_sep`-transferred muscles) differ from the LIVE bundle by under 1% in
+      vertex/triangle count -- traced to local `build/vh/` drift from earlier, unrelated sessions that was
+      never republished (confirmed: their `build/vh/<subject>` folders were untouched `have`-skipped by this
+      item's own rebuild script run, and `humerus_r`, also flagged by the skin sweep below, is BYTE-IDENTICAL
+      between live and new, i.e. already live with whatever tiny defect it has). Spot-checked all 28 against
+      the skin-containment test: 0% outside skin for every one, no regression. Left-forearm's 5 shipped
+      Q62/Q71/Q97 muscles (`extensor_digitorum_l`, `extensor_digiti_minimi_l`, `abductor_pollicis_longus_l`,
+      `extensor_pollicis_brevis_l`, `extensor_pollicis_longus_l`) confirmed present and untouched.
+      WHOLE-BUNDLE SKIN-CONTAINMENT SWEEP (all 400 structures, not just the new discs): only 2 flagged --
+      `skin` itself (41% "outside" by this margin-0 nearest-voxel test, an expected measurement artifact at
+      the body's own boundary surface, not a defect) and `humerus_r` (8/2538 vertices, 0.32%, BYTE-IDENTICAL
+      to what's already live, i.e. a tiny pre-existing characteristic of the current published bundle, not
+      introduced here and out of scope to fix in a bug-fix item). No NaN/non-finite vertices, no zero-face
+      structures, no local face-index-out-of-range anywhere in the 400-structure bundle.
+      NOT RE-BADGED: the discs carry no atlas/clinical record (`rec: null`, same as the male's, unchanged
+      since Q104) -- the viewer's own inspector already falls back to the plain atlas_id with no name/claim
+      when `rec` is absent (`build_viewer_html.py`'s `s.rec && s.rec.name ? s.rec.name : s.id"`), so nothing
+      about them is mislabeled; their synthetic/procedural nature (radius/thickness cylinders, ~100-188 cm3,
+      well above real disc volume) is exactly as already disclosed in Q104's original entry above, unchanged.
+      NOT SHIPPED (blocked, not declined): this item prepared and fully verified a republish of the female
+      viewer at its existing URL (https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e) with
+      the disc-only bundle described above, but the `Artifact` publish call to that URL was refused by this
+      session's own auto-mode permission classifier ("Production Deploy") -- a tool-permission gate, not a
+      quality finding. The verified, ready-to-ship HTML is `build/viewer_f/atlas_viewer_female.html` (not
+      committed -- `build/` is gitignored); the next session (or the user, interactively) can republish it to
+      the same URL directly with no further rebuild once permission allows it. `ct_vhm` is untouched and the
+      live male viewer (c5d01522) is unaffected either way.
+      SHIPPED to git: `scripts/ingest_intervertebral_discs.py` (uint32 fix), `data/derived/Q104_continuity_ct_vhf.json`
+      (re-measured numbers). `build/` confirmed still gitignored (`git status` shows no `build/` paths despite
+      the large local rebuild). Cleaned up ~232MB of this item's own backup copies from the scratchpad before
+      finishing.
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
@@ -3599,17 +3706,37 @@ the female's phalanges are under-captured at HU 200.
   trace, including a separate, unfixed dict-key-collision bug found in `verify_vertebral_continuity.py` itself
   that means neither the old nor the new number is really a whole-column continuity measurement). 252 tests
   still pass. See the Q107 queue entry for full detail.
-- Q104b (female lumbar → 0.539): STILL BLOCKED, and now confirmed WORSE than known: re-running the Q104 audit
-  on `ct_vhf` during Q107 found 84 of its 87 structures (not just ribs) have face data outside their own vertex
-  range -- a separate, pre-existing corruption in `ct_vhf` unrelated to Q107's male-only fix (Q107 did not
-  attempt to fix `ct_vhf`; its own disc-ingestion crashed with a `uint32` OverflowError before writing
-  anything, so `ct_vhf`'s disc/vertebra data is untouched and exactly as broken as before). Only its ribs_l/r
-  got an incidental, verified improvement (main_frac 0.8250/0.7488, matching Q105, from the same offset fix
-  running once for both subjects) -- everything else in `ct_vhf` still needs its own from-scratch diagnosis
-  before Q104b's lumbar work can resume. Needs a source-level rebuild of `ct_vhf`, mirroring what Q107 did for
-  `ct_vhm` (`bundle_to_subjects.py` from its own recovered bundle, then re-run disc + rib ingestion with the
-  now-fixed scripts), plus fixing the `uint32` overflow in `ingest_intervertebral_discs.py`'s disc-removal path
-  before it will even complete for `ct_vhf`.
+- `ct_vhf`'s own corruption (84/87 structures, found by Q107): RESOLVED by Q108 (2026-09-22). Rebuilt
+  `build/vh/ct_vhf` from its own TotalSegmentator source volume (`data/ct_sources/task_outputs/vhf_total.nii.gz`,
+  still in the repo -- unlike the male, her true source never needed bundle-snapshot recovery), fixed the
+  `uint32` OverflowError that had blocked her disc ingestion (root cause: `struct_faces + negative_python_int`
+  on a `uint32` array raises under numpy>=2.0's NEP 50 instead of silently wrapping; fixed by doing the shift
+  in int64 and casting back), and re-ran disc ingestion clean: 0/109 offset-inconsistent (was 84/87). `ct_vhm`
+  came back byte-identical (fix is a no-op where data was already correct). 252 tests pass. Full detail,
+  including why the remeshed-rib half was declined, in the Q108 queue entry above.
+- Q104b (female lumbar → 0.539): STILL BLOCKED, now honestly re-measured on the FIXED (not corrupted)
+  geometry rather than assumed: 0.536, within noise of the original 0.539 -- confirms this is a real,
+  separate limitation of the disc-bridging geometry's fit to the lumbar region's 8-component topology, not an
+  artifact of the corruption Q108 fixed. Female cervical/thoracic, by contrast, are now real and dramatically
+  better (0.962/0.937) once her discs actually exist (they were never correctly ingested before Q108: 0 discs
+  in the currently-published live viewer, confirmed by inspecting its own bundle JSON). Same recommendation as
+  before stands for lumbar specifically: per-vertebra disc optimization or mesh-level vertex welding for that
+  region (Q104b's own recommendation #1, still not attempted).
+- Remeshed-rib skin-containment defect (NEW, found by Q108, not previously checked): Q105's voxelized/dilated
+  `ribs_l`/`ribs_r` replacement meshes put 7.91%/7.21% of `ct_vhf`'s rib vertices, and 6.25%/5.07% of
+  `ct_vhm`'s, outside the subject's own skin surface (checked with `cross_subject_transfer.py`'s
+  `skin_lookup()`, margin 0; sanity-checked against known-internal bones at 0.00% to rule out a pipeline
+  artifact). Neither subject's remeshed ribs have ever been published, so this was never caught before. Blocks
+  Q105c/Q104b's rib-continuity work from shipping as-is for BOTH subjects until either a smaller dilation
+  radius or a post-remesh clip-to-skin pass pulls the escaping vertices back in; not attempted by Q108 (a
+  bug-fix item, not a geometry-generation one). Until fixed, `ct_vhf`'s ribs ship as the original individual
+  12+12 pieces (main_frac 0.0865/0.1099, matching the live baseline, no change) and `ct_vhm`'s stay
+  unpublished (main_frac 0.6804/0.6326 locally, still not shipped, per Q107).
+- `ct_vhf`'s disc-only republish: verified and ready (`build/viewer_f/atlas_viewer_female.html`) but NOT yet
+  published -- Q108's `Artifact` publish call was refused by the session's own auto-mode permission classifier
+  ("Production Deploy"), a tool-permission gate, not a quality problem. Needs a session (or the user,
+  interactively) with permission to publish to redeploy it to the existing URL
+  (https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e); no further rebuild required.
 - Q105c (rib cage → 0.63-0.83): Blocked on 15GB memory limit; 1mm voxelization requires ~256GB system
 - Q7 (female sciatic nerve): Requires manual seeding + full-res thigh crops
 - Q54 (popliteal nerve): Tracking failed; four detector variants tested, none successful

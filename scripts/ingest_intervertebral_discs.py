@@ -127,7 +127,20 @@ def cmd_ingest(args: argparse.Namespace) -> int:
             struct_faces = existing_faces[old_face_start:old_face_end]
 
             # Remap face indices
-            struct_faces_remapped = struct_faces + (new_vertex_offset - old_vert_start)
+            # BUG FIX (Q108): struct_faces is uint32. When earlier-removed disc
+            # structures don't sit at the tail of the structures list (they can be
+            # interleaved, e.g. discs generated before ribs get remeshed/re-appended),
+            # the running new_vertex_offset can fall BELOW this structure's original
+            # old_vert_start, making the shift negative. Under numpy>=2.0 (NEP 50),
+            # adding a negative Python int directly to a uint32 array raises
+            # OverflowError ("Python integer -N out of bounds for uint32") instead of
+            # silently wrapping as older numpy did. Do the arithmetic in a signed
+            # 64-bit buffer first, then cast back to uint32 once the result is
+            # guaranteed non-negative (every real index shift here still resolves to
+            # a valid, in-range vertex index -- only the intermediate scalar can be
+            # negative).
+            shift = new_vertex_offset - old_vert_start
+            struct_faces_remapped = (struct_faces.astype(np.int64) + shift).astype(np.uint32)
 
             # Update structure offsets
             struct["vertex_offset"] = new_vertex_offset
