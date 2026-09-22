@@ -11,7 +11,21 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q109 (2026-09-22) FIXED the
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q110 (2026-09-22) attempted
+Q104b's own recommended "option 3" (voxelization-based bridging, like Q105/Q109's rib fix) on the female
+lumbar column -- DECLINED to ship. The tool works (main_frac 0.181->1.000, 0% outside skin, validated
+end-to-end incl. offset integrity), but even at the smallest dilation that bridges anything useful, real
+lumbar bone volume grows 2.6x-4.6x versus its true watertight volume (vs. ribs' comparable ~8x growth over a
+much coarser voxel baseline) AND fuses 5 individually-shaped vertebrae into one indistinct blob with no
+visible inter-vertebral joints -- a materially different, worse kind of anatomical loss than what ribs
+tolerated. ALSO FOUND, independent of the voxelization question: the officially-reported lumbar main_frac
+(0.536/0.539, Q104/Q108) was itself never real -- `verify_vertebral_continuity.py`'s own already-documented
+atlas_id-dict-collision bug (Q107) means it only ever scored ONE of the 5 `lumbar_vertebrae` pieces against
+the discs; the TRUE main_frac (all 5 pieces) has been ~0.181 all along, unchanged by Q104/Q108's disc work,
+because Q108's shipped lumbar discs sit 65-70mm outside the vertebral column's own XY footprint (a
+region-bbox-center calculation poisoned by a mislabeled, disjoint ~1.8%-of-vertices fragment inside
+`vertebrae_L2`, likely a piece of the sacrum). See Q110's full entry below. `build/vh/ct_vhf` and
+`build/viewer_f/atlas_viewer_female.html` are UNTOUCHED (byte-identical to Q108/Q109's state). Recent: Q109 (2026-09-22) FIXED the
 remeshed-rib skin-containment defect Q108 found, for BOTH subjects: regenerated `ribs_l`/`ribs_r` at
 `dilation_iterations=4` (was 8) from offset-clean source, measured 0.000% vertices outside skin on all four
 sides (was 5.05-7.46%) AND main_frac 0.9993-1.0000 (was 0.63-0.83) -- both properties improved at once, not a
@@ -1476,6 +1490,18 @@ tick the item here with a one-line result. Never fabricate; keep the
       STATUS: Investigation complete, tools committed, blocked on mesh rebuild/redesign. Remain at 
       0.539 baseline. Does not affect shipped state (cervical/thoracic meet targets).
 
+      UPDATE (Q110, 2026-09-22): option 3 (voxelization) was actually tried -- it works technically
+      (main_frac -> 1.0000, 0% outside skin) but DECLINED to ship: at the smallest dilation that bridges
+      anything useful, real lumbar bone volume grows 2.6x-4.6x versus its true watertight volume and fuses
+      all 5 vertebrae into one indistinct blob, a worse anatomical trade than Q105/Q109's rib fix tolerated.
+      Also found: the "0.539 baseline" above was itself never real -- `verify_vertebral_continuity.py`'s
+      own atlas_id-dict-collision bug (Q107) means it only ever scored 1 of the 5 `lumbar_vertebrae` pieces;
+      correctly measured across all 5, the true main_frac has been ~0.181 all along (Q104's original
+      pre-disc number), because the shipped discs (bounding-box-poisoned by a mislabeled `vertebrae_L2`
+      fragment, see Q110) sit 65-70mm outside the column's own footprint and bridge nothing. Option 1
+      (source-level rebuild with corrected positioning) and option 2 (fan-like multi-disc geometry) remain
+      untried. See Q110's own entry for full detail, numbers, and the validated (but unshipped) tooling.
+
 - [x] Q105 & Q105b (2026-09-20 11:45-12:45 UTC, completed with voxelization) Generate rib articulation 
       surfaces via voxelization + mesh reconstruction. RESULT: 7-8x improvement in continuity but ≥0.99
       target not reached due to memory constraints with larger dilation radii.
@@ -1904,6 +1930,129 @@ tick the item here with a one-line result. Never fabricate; keep the
       `data/ct_sources/task_outputs/ct_vh{m,f}_ribs_{l,r}_remeshed.obj` (all 4 regenerated at dilation=4), this
       PROJECT_STATE.md entry. `build/` confirmed still gitignored. Cleaned up the scratch pristine-source copy
       (~5.5MB) before finishing.
+
+- [-] Q110 (2026-09-22, attempted, NOT shipped) Applied Q104b's own recommended "option 3" (voxelization-based
+      bridging, exactly Q105/Q109's rib technique -- 2mm voxels, morphological dilation, marching-cubes
+      reconstruction) to the female (`ct_vhf`) lumbar column, per this item's own brief's premise that Q109's
+      rib success meant this was worth actually trying instead of assuming it was too expensive (Q105c's own
+      "1mm/256GB" blocker was about full-body-resolution voxelization, never about a small, targeted region).
+      RESULT: the technique works exactly as well as it did for ribs, technically -- but DECLINED to ship
+      because, measured directly (not assumed), it distorts real lumbar bone far more than it distorted rib
+      bone, for a structural reason specific to this region (see below), not a tooling failure.
+      FIRST, a finding independent of voxelization entirely, and more important than the technique question:
+      re-measured the REAL, whole-column female lumbar main_frac with a from-scratch-validated vectorized
+      face-adjacency implementation (`voxelize_lumbar_column.py`'s `face_adjacency_components`, sanity-checked
+      against known-internal bones and reproducing Q109's own rib numbers exactly, 0.000% outside skin on
+      `ribs_l`/`ribs_r` on the live ingested bundle) that, unlike the OFFICIAL `verify_vertebral_continuity.py`,
+      does not have the already-documented (Q107) atlas_id-dict-collision bug. That bug means the official
+      script's `build_face_adjacency_graph` only ever evaluates ONE of the 5 `lumbar_vertebrae` pieces (whichever
+      is last in manifest order) against the 4 discs, silently dropping the other 4 -- it has NEVER measured
+      the real 5-piece lumbar column, for the female OR (per Q107's own finding) the male. Measured correctly,
+      the female lumbar column's 5 real vertebra pieces alone have 12 face-adjacency components and main_frac
+      **0.181** (not the officially-reported 0.536/0.539) -- exactly matching Q104's own ORIGINAL pre-disc
+      number, because Q108's shipped lumbar discs contribute essentially ZERO real bridging: including them
+      changes main_frac from 0.1809 to 0.1806 (WORSE, from 4 extra isolated components) and adds nothing,
+      confirmed by tracing why: `generate_optimized_lumbar_discs.py`'s (and the original
+      `generate_intervertebral_discs.py`'s) `compute_region_bbox` takes the min/max bbox corner over ALL 5
+      lumbar vertebra pieces to center each disc in XY -- and `vertebrae_L2`'s own mesh contains a
+      completely disjoint, ~1.8%-of-vertices (454/24996) fragment at bbox X 175.6-187.3mm, Y 107.9-116.5mm,
+      Z 33.8-43.4mm (confirmed via face-adjacency: 904 faces, zero shared vertices with the rest of L2 --
+      a genuinely separate mesh island, not a thin isthmus), a location that falls entirely inside the real
+      `sacrum` structure's own bbox and is almost certainly a TotalSegmentator mislabeling artifact (a stray
+      piece of sacrum or similar tissue misclassified as `vertebrae_L2`), not real L2 anatomy. That single
+      outlier drags the combined region bbox's max-X from ~50mm (every other vertebra) to 187mm, shifting
+      every lumbar disc's center from real-column X~0mm to X~69mm -- so all 4 shipped lumbar discs (Q108) sit
+      65-70mm outside the real vertebral column's own XY footprint, floating in space, touching nothing. This
+      confirms Q104b's own diagnosis ("wrong XY coordinates... ~154mm shift identified") was correct and was
+      NEVER actually fixed before Q108 shipped -- Q108's own re-measurement (0.536, "confirmed a genuine
+      separate limitation, not corruption") was itself measuring a bugged-metric artifact, not the disc
+      geometry's real (lack of) effect. `intervertebral_disc_l1_l2` through `l4_l5` remain live, unchanged,
+      cosmetically present but not load-bearing for connectivity -- not touched by this item (see below for
+      why a fix was prototyped but not shipped).
+      THEN, tried the actual voxelization fix. Before voxelizing, cleaned each of the 5 vertebra pieces to
+      keep only face-adjacency components no smaller than 5% of that piece's own vertices (dropping 5 small,
+      measured segmentation-noise fragments from `vertebrae_L2` including the sacrum-artifact above, totaling
+      ~8.5% of its vertices) while explicitly KEEPING large secondary components as real anatomy for
+      voxelization to bridge (found one: 46% of `vertebrae_L1`'s vertices form a second watertight shell,
+      almost certainly its posterior elements/lamina split from the vertebral body by a thin bone bridge lost
+      in the original label-volume-to-mesh conversion -- confirmed this is NOT the kind of thing to silently
+      drop, unlike the L2 sacrum fragment, by its size and its real anatomical plausibility). Regenerated the
+      4 lumbar discs PER LEVEL (not per-region) at the mean XY centroid of each pair of adjacent (cleaned)
+      vertebrae's own vertices -- verified by nearest-neighbor distance that this actually lands the discs
+      within <1mm of both neighboring vertebrae's real surfaces (was 65-70mm off-axis), a genuine fix to
+      Q104b's diagnosed bug, independent of whether voxelization ships.
+      Voxelized the 5 cleaned vertebrae + 4 corrected discs together at 2mm (unchanged from Q105/Q109),
+      dilated 2/3/4/5/6/7/8 iterations (same sweep methodology as Q109), marching-cubes reconstructed, and
+      measured BOTH main_frac (own validated method) and skin-containment (own `skin_lookup`-equivalent
+      checker, voxelize+fill `build/vh/ct_vhf_skin` at 1.5mm pitch, nearest-voxel margin 0 -- sanity-checked:
+      0.00% for femur_l/cranium/sternum/lumbar_vertebrae, and reproduces 0.000% for the live ingested
+      `ribs_l`/`ribs_r`, matching Q109 exactly) on OFFSET-CLEAN geometry, exactly like Q109:
+        | dilation | main_frac (w/ discs) | n_components | outside skin | real-bone volume vs TRUE input |
+        |----------|----------------------|---------------|---------------|----------------------------------|
+        | 2        | 0.8474                | 21            | 0.000%        | 2.58x                            |
+        | 3        | 0.9319                | 10            | 0.000%        | 3.20x                            |
+        | 4        | 0.9824                | 6             | 0.000%        | 3.74x                            |
+        | 5        | 0.9982                | 2             | 0.000%        | 4.20x                            |
+        | 6        | 1.0000                | 1             | 0.000%        | 4.60x                            |
+        | 7        | 1.0000                | 1             | 0.000%        | (not recomputed, same regime)    |
+        | 8        | 1.0000                | 1             | 0.000%        | (not recomputed, same regime)    |
+      (volume column: `vertebrae_L1-L5`'s own 5 watertight input meshes sum to 351.05 cm3 true volume;
+      voxelizing them at 2mm BEFORE any dilation already only captures 210.75 cm3 (60% of true, an
+      unavoidable 2mm-resolution loss on this compact geometry, not a distortion this item introduces); the
+      "vs TRUE input" ratio in the table is post-dilation reconstructed volume / 351.05 cm3, isolated to the
+      vertebrae-only run so the discs' own, already-disclosed-as-oversized synthetic volume doesn't confound
+      the real-bone number). Skin-containment is a clean win at every dilation tested (0.000% throughout,
+      unlike ribs which needed the Q109 fix to get there) -- this item's own brief worried the lumbar spinous
+      processes sitting close to the posterior skin might need a SMALLER dilation than ribs; measured, that
+      concern did not materialize (skin is not the limiting factor here at all).
+      THE REAL FINDING, and why this was declined despite technically working: main_frac and skin-containment
+      both look as good as or better than Q109's rib fix, but the cost is different in kind, not just degree.
+      Ribs are thin, tubular, and were already visually generic (`ribs_l`/`ribs_r` share one atlas_id across
+      12 individual ribs -- there was no "each rib keeps its own distinct look" requirement to lose). Lumbar
+      vertebrae are chunky, individually shaped, and were previously each a correctly-shaped, recognizable
+      L1/L2/L3/L4/L5 bone (even though disconnected from its neighbors). At d=6 (the smallest dilation
+      reaching main_frac=1.0000), real bone volume grows to 4.60x its true input volume -- and even at d=2
+      (the smallest dilation tried at all, main_frac only 0.847, still short of CONTINUOUS), volume is already
+      2.58x true. There is NO dilation in the sweep that both meaningfully improves connectivity and avoids
+      severe volume distortion -- unlike ribs, where Q109 found 4 iterations improved BOTH main_frac AND
+      skin-containment simultaneously with no such trade-off surfaced (a volume-distortion check was not run
+      for ribs by Q105/Q109; this item's own methodology, run for the first time on this project, would need
+      to be applied there too for a fully fair comparison, and is flagged as a gap, not just for lumbar).
+      Beyond the raw number: the reconstructed geometry fuses all 5 vertebrae into ONE indistinct, rounded
+      mass with no visible inter-vertebral joint lines or individual vertebral-body boundaries (confirmed
+      qualitatively from the mesh; the vertebral canal itself does NOT get fully sealed shut by dilation --
+      Euler characteristic stays well below the +2 of a solid ball at every dilation tested, i.e. tunnel-like
+      openings survive -- but individual vertebra shape identity does not). Per this item's own brief: "a
+      main_frac win that meaningfully deforms real bone anatomy is a worse trade than what Q105/Q109 did for
+      ribs" -- this is exactly that case, and is declined on that basis, not on any tooling failure.
+      TOOLING DELIVERED AND VALIDATED (so a future session with a different anatomical-fidelity bar, or a
+      partial/regional approach -- e.g. bridging only WITHIN each vertebra's own internal split, not BETWEEN
+      vertebrae -- can build on working, tested code, not start over): `scripts/voxelize_lumbar_column.py`
+      (cleaning, disc-recentering, voxelize/dilate/reconstruct, all documented above) and
+      `scripts/ingest_remeshed_lumbar.py` (mirrors `ingest_remeshed_ribs.py`'s structure and REUSES both the
+      Q107 vertex_offset fix and the Q108 int64-shift-before-uint32-cast fix -- verified by direct code
+      inspection to be present, not just copied by intent). SCOPED to `ct_vhf` ONLY throughout, per this
+      item's own hard constraint (`ct_vhm` never read from or written to). Validated `ingest_remeshed_lumbar.py`
+      end-to-end on a SCRATCH COPY of `build/vh/ct_vhf` (never the live one): 0/87 offset-inconsistent before,
+      0/79 after (87->79 structures: 5 vertebrae + 4 discs -> 1 consolidated `lumbar_vertebrae`, matching the
+      script's own documented design), re-verified main_frac 1.0/1 component and 0.000% outside skin on the
+      ACTUALLY-INGESTED scratch bundle (not just the standalone OBJ) at dilation=6.
+      NOT SHIPPED: `build/vh/ct_vhf` and `build/viewer_f/atlas_viewer_female.html` are BYTE-IDENTICAL to their
+      Q108/Q109 state (confirmed: manifest still reports 87 structures; viewer HTML md5sum and mtime
+      unchanged) -- this item's scratch-copy testing never touched them. The 4 lumbar disc entries and the
+      disc XY-recentering fix are consequently ALSO not shipped (they were prototyped together with the
+      voxelization step as one pipeline; shipping the recentering alone would fix Q104b's diagnosed bug
+      without moving main_frac at all, since spatial proximity without shared mesh edges still doesn't create
+      face-adjacency connectivity -- Q104's own original finding -- so it was left as a documented,
+      reproducible fix for whoever next revisits this region, not shipped speculatively).
+      `python -m pytest -q`: **252 passed** (unchanged; the live bundle was never modified by this item).
+      Cleaned up all of this item's own intermediate files (9 candidate remeshed OBJs, one .npz, one
+      piece-ranges JSON, ~15MB) from `data/ct_sources/task_outputs/` before finishing -- none were shipped,
+      and one (`ct_vhf_lumbar_column_piece_ranges.json`) had briefly tripped `test_source_coverage.py`'s
+      citation check before cleanup, confirming it should not be committed as-is.
+      SHIPPED to git: `scripts/voxelize_lumbar_column.py`, `scripts/ingest_remeshed_lumbar.py` (both tools,
+      fully working and validated as described above, not wired into any `*_rebuild_bundle.sh`), this
+      PROJECT_STATE.md entry.
 
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
@@ -3836,14 +3985,25 @@ the female's phalanges are under-captured at HU 200.
   in int64 and casting back), and re-ran disc ingestion clean: 0/109 offset-inconsistent (was 84/87). `ct_vhm`
   came back byte-identical (fix is a no-op where data was already correct). 252 tests pass. Full detail,
   including why the remeshed-rib half was declined, in the Q108 queue entry above.
-- Q104b (female lumbar → 0.539): STILL BLOCKED, now honestly re-measured on the FIXED (not corrupted)
-  geometry rather than assumed: 0.536, within noise of the original 0.539 -- confirms this is a real,
-  separate limitation of the disc-bridging geometry's fit to the lumbar region's 8-component topology, not an
-  artifact of the corruption Q108 fixed. Female cervical/thoracic, by contrast, are now real and dramatically
-  better (0.962/0.937) once her discs actually exist (they were never correctly ingested before Q108: 0 discs
-  in the currently-published live viewer, confirmed by inspecting its own bundle JSON). Same recommendation as
-  before stands for lumbar specifically: per-vertebra disc optimization or mesh-level vertex welding for that
-  region (Q104b's own recommendation #1, still not attempted).
+- Q104b (female lumbar → 0.539): STILL BLOCKED -- and CORRECTED by Q110 (2026-09-22): the 0.536/0.539 numbers
+  were never a real whole-column measurement. `verify_vertebral_continuity.py`'s own atlas_id-dict-collision
+  bug (Q107) means it only ever scores 1 of the 5 `lumbar_vertebrae` pieces against the discs; measured
+  correctly (all 5 pieces, `voxelize_lumbar_column.py`'s validated method), the true main_frac is **0.181**
+  (12 real components) and has been since before Q104's disc work -- the shipped discs contribute ~0% real
+  bridging because they sit 65-70mm outside the column's own XY footprint (a region-bbox-center calculation
+  poisoned by a mislabeled, disjoint fragment inside `vertebrae_L2` that lands inside the real `sacrum`'s own
+  bbox -- likely a TotalSegmentator mislabeling artifact). Q110 then tried Q104b's own recommendation #3
+  (voxelization-based bridging) and found it technically works (main_frac -> 1.0000, 0% outside skin) but
+  DECLINED to ship it: real bone volume grows 2.6x-4.6x over its true volume and fuses all 5 vertebrae into
+  one indistinct blob, a worse anatomical trade than Q105/Q109's rib fix. Female cervical/thoracic, by
+  contrast, are still real and dramatically better (0.962/0.937) since her discs actually exist there (they
+  were never correctly ingested before Q108: 0 discs in the currently-published live viewer, confirmed by
+  inspecting its own bundle JSON) -- unaffected by any of this, cervical/thoracic discs were never mispositioned.
+  RECOMMENDATION for lumbar, updated: option 1 (source-level rebuild with corrected per-level disc positioning,
+  which Q110 prototyped and validated but did not ship since it improves anatomical honesty without moving
+  main_frac at all -- spatial proximity without shared mesh edges still isn't face-adjacency connectivity, per
+  Q104's own original finding) or option 2 (fan-like multi-disc geometry) remain the only untried paths that
+  don't risk the bone-distortion cost Q110 measured for option 3.
 - Remeshed-rib skin-containment defect (found by Q108): RESOLVED by Q109 (2026-09-22) for BOTH subjects.
   Root cause traced (see Q109's queue entry for the full argument): Q105b's own voxelization script had the
   morphological dilation hardcoded at 8 iterations (~16mm bridges) -- Q105b's commit message claiming "3
