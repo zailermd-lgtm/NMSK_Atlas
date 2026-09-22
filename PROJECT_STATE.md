@@ -11,7 +11,22 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q113 (2026-09-22) fixed Q112's
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q114 (2026-09-22) root-caused
+Q112's 8 "SEVERE_BREAK both bodies" candidates -- 3 distinct failure classes, not one systemic bug.
+FIXED (verified on the shipped bundle, both bodies): `external_intercostals_l/r` (raw source is
+main_frac 1.000, ONE piece -- Q112's "plausibly real 11-12-slip anatomy" read is OVERTURNED; shipped
+0.166-0.253 -> 0.75-0.97), `internal_carotid_a_l/r` (0.48-0.63 -> 0.69-0.77), `longus_capitis_r`
+(0.385 -> 0.550) -- fixed by reconverting the affected source subjects with `--smooth 0.0` (was 1.0)
+plus, for the intercostals, raising their existing `SHEET_IDS` quadric-decimation budget 8000->16000.
+DECLINED (confirmed genuine source-mask fragmentation, not forced): `longus_colli_l/r`,
+`pectoralis_minor_l/r` both bodies, `internal_oblique_r`(M)/`transversus_abdominis_r`(F) (same root
+cause, both trace to one rule-based abdominal-wall construction). DECLINED (a third failure mode, a
+marching-cubes surface pinch at a sub-voxel bridge, not a smoothing/decimation defect):
+`geniohyoid_l`/`hyoglossus_r`. Also discovered 5 of the 8 exist as real data only on the FEMALE and
+reach the male purely via cross-body transfer, so "both bodies, same severity" was often one finding
+counted twice, not independent confirmation -- regenerated the male transfers against the fixed female
+source so his copies are fixed too. 252 tests pass throughout (checked incrementally). Full detail in
+the Q114 queue entry below. Recent: Q113 (2026-09-22) fixed Q112's
 #1 finding, female `sciatic_n` (SEVERE_BREAK, main_frac 0.332, 11 components) -- root cause was two
 rendering defects downstream of the tracking (an over-aggressive isotropic smoothing sigma on an
 anisotropic-voxel volume, and clustering-decimation severing a thin cord the same way it once did for
@@ -2459,6 +2474,173 @@ tick the item here with a one-line result. Never fabricate; keep the
       note in `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed** (unchanged).
       `df -h /`: 17G available, unaffected; own scratch intermediates (~44 MB) cleaned up.
 
+- [x] Q114 (2026-09-22) Root-cause investigation of Q112's #2 finding: the 8 candidate structures
+      SEVERE_BREAK on both bodies at similar severity (treating `internal_oblique_r`(M)/
+      `transversus_abdominis_r`(F) as 2 separate cases per the brief, so 8 total). Same diagnostic
+      method as Q113: load the RAW source label volume/OBJ, count real connected components
+      (`scipy.ndimage.label`, 26-connectivity) and compare to the shipped bundle's main_frac -- a
+      big gap is the smoothing/decimation bug class Q113 found; a small gap means the source is
+      genuinely fragmented and forcing continuity would be fabrication.
+      FIRST FINDING, before any fix: 5 of these 8 aren't 2 independent per-body segmentations --
+      `longus_colli_l/r`, `longus_capitis_r`, `geniohyoid_l`, `hyoglossus_r` and `internal_carotid_a_l`
+      exist as REAL data only on the FEMALE (`ct_vhf_dneck`/`ct_vhf_hyoid`/`ct_vhf_neckbv`); the male
+      ships the SAME geometry warped onto his skeleton via `xfer_vhf2vhm_neck`/`xfer_vhf2vhm`
+      (confirmed via `data/derived/Q112_full_continuity_audit.json`'s `subjects` field, both bodies).
+      So the "both bodies, same severity" pattern the brief read as a signal of one shared PIPELINE
+      bug is instead, for 5 of 8, literally one piece of geometry counted twice -- fixing the female
+      source and re-running the transfer fixes both at once (no independent male root cause exists to
+      find). `pectoralis_minor_l/r` (both bodies) and `internal_oblique_r`(M) ARE independently
+      segmented per body. `transversus_abdominis_r`(F) is transferred the OTHER way, from the MALE's
+      `ct_vhm_abw` via `xfer_vhm2vhf` -- so it and `internal_oblique_r`(M) share ONE root cause
+      (`ct_vhm_abw`), not two, despite being nominally different muscles as the brief noted.
+      RESULTS PER STRUCTURE (raw source main_frac/n_components -> shipped-before -> shipped-after;
+      FIXED or DECLINED):
+        1. **`external_intercostals_l`/`_r`, BOTH bodies -- FIXED, and Q112's "plausibly real
+           anatomy (11-12 rib slips)" read is OVERTURNED by direct measurement.** Raw voxel mask
+           (`vhf_trunk_wall.nii.gz`/`vhm_trunk_wall.nii.gz`, labels 2/3): **main_frac 1.000, ONE
+           component, BOTH sides, BOTH bodies** -- the actual segmented data is a single continuous
+           sheet, full stop; whatever the true gross anatomy, nothing in this project's own tracked
+           labels supports 11-12 separate islands. This is the sciatic_n bug class, more severely
+           expressed than sciatic_n itself. Already partly mitigated (Q109 put it on `SHEET_IDS` with
+           an 8000-triangle `BUDGET_OVERRIDE`), but that wasn't enough: at `--smooth 1.0` the shipped
+           bundle was still SEVERE_BREAK (F 0.166/0.244, M 0.251/0.253). FIX: (a) reconverted
+           `ct_vhf_twall`/`ct_vhm_twall` with `--smooth 0.0` (measured the raw-staircase full-res mesh
+           first: 0.997-0.998 main_frac, confirming smoothing was the destroyer, not the marching-cubes
+           surfacing); (b) raised `BUDGET_OVERRIDES["external_intercostals_l"/"_r"]` 8000 -> 16000 in
+           `scripts/export_viewer_bundle.py` (measured: at smooth=0 the raw mesh is ~280-330k
+           triangles/side, so 8000 was now an even more aggressive ~40x reduction than when it was set;
+           16000 recovers to 0.94-0.96 and a middle value of 20000 gave no further gain worth the extra
+           0.1 MB). VERIFIED on the actual shipped, decimated bundle: F l 0.166->**0.754**, r
+           0.244->**0.937**; M l 0.251->**0.965**, r 0.253->**0.963** (all SEVERE_BREAK->FRAGMENTED;
+           none quite reach the 0.99 CONTINUOUS bar, but all are now visually one sheet, not a
+           colander). Volume vs raw source: F l 172.4->144.1 cm3 (-16.4%), r 182.2->158.1 (-13.2%); M l
+           306.7->275.2 (-10.3%), r 306.9->274.8 (-10.4%) -- all shrinkage, no growth/fabrication, and
+           in line with a still-steep ~20-25x final compression ratio (normal quadric-decimation loss,
+           not a defect). Skin containment: 0/5825 (F l), 0/5915 (F r), 0/6589 (M l), 0/6577 (M r)
+           vertices outside skin, 0.0000% every case. BONUS (same subject, same `SHEET_IDS`/
+           `BUDGET_OVERRIDE` mechanism, not a separate fix): `diaphragm` improved too, F 0.627->0.743,
+           M 0.691->0.782.
+        2. **`internal_carotid_a_l`/`_r` -- FIXED, both bodies** (female direct + male via
+           regenerated `xfer_vhf2vhm`). Raw voxel (`vhf_headneck_bones_vessels.nii.gz`, labels 9/10):
+           l 2 comp/0.788, r 2 comp/0.682 -- fairly connected already, well above the pre-fix shipped
+           l 0.483/r 0.625 -- smoothing (`--smooth 1.0`) was the dominant destroyer, sciatic_n-class
+           confirmed for a VESSEL exactly as the brief suspected was most likely. FIX: reconverted
+           `ct_vhf_neckbv` with `--smooth 0.0`; tested 0.5 and 0.75 too (0.5 gave a BYTE-IDENTICAL
+           result to 0.0 for every affected label -- sub-voxel sigma has zero effect at this label's
+           voxel scale; 0.75 made the carotid WORSE, l 0.46/r 0.55 -- non-monotonic, no clean dial-in
+           value, matching Q113's own "every smoothing variant tried made it worse" experience).
+           VERIFIED on shipped bundle: F l 0.483->**0.773**, r 0.625->**0.688**; M (regenerated
+           `xfer_vhf2vhm` against the fixed female bundle) l 0.483->**0.773**, r 0.625->**0.688** --
+           identical numbers, since the transfer just warps the same fixed female mesh. Volume: l
+           source 0.53cm3 -> pre-decim 0.497 -> shipped 0.455cm3 (-14.2% vs source); r source 0.27 ->
+           pre-decim 0.244 -> shipped 0.243 (-10.0% vs source, ~0% further loss from decimation). Skin:
+           0/620 (F l), 0/564 (F r), 0/620 (M l), 0/564 (M r) outside, 0.0000% every case. Side effect,
+           same subject: `internal_jugular_v_l`/`_r` dipped slightly (0.838->0.806, 0.824->0.802, both
+           bodies) but stayed FRAGMENTED before and after -- no status change, disclosed not hidden.
+           REGRESSION, disclosed and accepted: `temporal_l` (a tiny 232-vertex skull-base bone
+           fragment sharing this source subject, NOT the primary named skull temporal bone) went
+           CONTINUOUS 1.0 -> FRAGMENTED 0.509 (female only; not in the male transfer's id list, so his
+           `temporal_l`/`_r` are untouched); `temporal_r` was already FRAGMENTED and barely moved
+           (0.5625->0.56). No smoothing value recovered both the vessel and this fragment (see above);
+           chose the vessel fix as the higher-value, higher-confidence, explicitly-flagged-in-the-brief
+           target and accepted the small bone-fragment cost, disclosed here rather than hidden.
+        3. **`longus_capitis_r` -- FIXED, both bodies** (female direct + male via regenerated
+           `xfer_vhf2vhm_neck`). Raw voxel (`vhf_deep_neck_cryo.nii.gz`, label 10): 6 comp/**0.609**,
+           meaningfully above the pre-fix shipped 5 comp/0.385 -- sciatic_n-class confirmed. FIX:
+           reconverted `ct_vhf_dneck` with `--smooth 0.0`. Also tested routing it through `SHEET_IDS`
+           (quadric decimation instead of clustering): 0.559 vs clustering's 0.550, a +0.009 gain not
+           worth adding a bulky neck muscle to a set documented as "sheets and thin cords" for; kept
+           the smoothing-only fix, `SHEET_IDS` unchanged. VERIFIED: F 0.385->**0.550**; M (via
+           regenerated transfer) 0.385->**0.550**. Volume: source 2.44cm3 -> pre-decim 2.372 -> shipped
+           2.269cm3 (-7.0% vs source). Skin: 0/1427 outside, both bodies, 0.0000%. Side effects on the
+           ~15 OTHER muscles `ct_vhf_dneck`/`xfer_vhf2vhm_neck` also carries (same subject, same
+           smoothing parameter, all pre-existing FRAGMENTED or CONTINUOUS, none newly broken to
+           SEVERE_BREAK): improved -- `obliquus_capitis_inferior_r` 0.637->0.797,
+           `rectus_capitis_posterior_minor_r` 0.569->0.629, `rectus_capitis_posterior_major_l`
+           0.621->0.643; regressed slightly, 3 crossing the 0.99 line into FRAGMENTED --
+           `rectus_capitis_posterior_minor_l` 1.0->0.947, `semispinalis_capitis_l` 1.0->0.980,
+           `semispinalis_cervicis_l` 0.995->0.959; also `obliquus_capitis_inferior_l` 0.910->0.858,
+           `semispinalis_capitis_r` 0.645->0.595, `semispinalis_cervicis_r` 0.837->0.785,
+           `rectus_capitis_posterior_major_r` 0.774->0.752, `longus_capitis_l` 0.963->0.944. Net over
+           this one subject's structures: mixed, disclosed in full rather than only reporting the
+           target's own win.
+        4. **`longus_colli_l`/`_r` -- DECLINED, both bodies** (shares `ct_vhf_dneck`/
+           `xfer_vhf2vhm_neck` with #3, so it moved trivially alongside that reconversion, but is NOT
+           why the reconversion was done). Raw voxel: l 6 comp/0.342, r 4 comp/0.366 -- ALREADY
+           severely fragmented in the raw segmentation mask. After #3's reconversion (same subject):
+           l 0.311, r 0.367 -- essentially unchanged from raw. Confirmed genuine SOURCE fragmentation
+           from the rule-based construction (`ct_vhf_dneck`'s own mapping note: "rule-based:
+           position-rule marker relative to her vertebral labels, boundary by the marker watershed on
+           her fascial septa") -- not this item's bug class. Left SEVERE_BREAK, both bodies; fixing
+           would mean re-deriving the marker/watershed boundaries themselves, out of scope.
+        5. **`pectoralis_minor_l`/`_r`, BOTH bodies (4 measurements) -- DECLINED.** Independent
+           per-body rule-based reconstructions (`ct_vhf_pmr`, `ct_vhm_pmr`), each self-documented
+           "Rule-based; over-inclusive". Raw voxel: F_r 6 comp/0.523, F_l 12 comp/0.502, M_r 11
+           comp/0.367, M_l 10 comp/0.469 -- ALL already severely fragmented in the raw label mask (M_r
+           raw 0.367 vs its shipped 0.377 -- decimation/smoothing move it by under 0.01). Genuine
+           source-level fragmentation from the over-inclusive rule-based algorithm; declined for all 4.
+        6. **`internal_oblique_r` (MALE) -- DECLINED.** `ct_vhm_abw`, raw voxel 20 comp/0.527 vs
+           shipped pre-fix 20 comp/0.412 -- IDENTICAL component count source vs shipped, proving
+           decimation/smoothing only reweight here, never add fragments; source is the sole cause. Own
+           mapping note: "lower wall below the iliac crest missing" -- a documented real incompleteness
+           that creates real disconnected islands. Declined; `ct_vhm_abw` untouched.
+        7. **`transversus_abdominis_r` (FEMALE, via `xfer_vhm2vhf` from the MALE's `ct_vhm_abw`) --
+           DECLINED, and confirmed to be the SAME root cause as #6**, not an independent case despite
+           nominally being a different muscle on a different body (per the brief's own framing). Raw
+           voxel of the actual transferred source (`ct_vhm_abw`, label 4): 17 comp/0.540 -- already
+           severely fragmented before it ever reaches the female. Shipped (post-transfer) 22
+           comp/0.471 -- the transfer compounds it slightly, but the dominant cause is #6's own
+           already-declined construction. Declined for the same reason as #6.
+        8. **`geniohyoid_l`, `hyoglossus_r` -- INVESTIGATED IN FULL, DECLINED: a THIRD, distinct
+           failure mode**, different from both the smoothing/decimation bug class (1-3 above) and pure
+           source fragmentation (4-7 above). Raw voxel is very connected -- geniohyoid_l 3 comp/**0.933**,
+           hyoglossus_r 6 comp/0.519 (4 of its 6 components are 1-39-voxel specks; its real shape is
+           closer to 2 pieces) -- this looked like a strong sciatic_n-class candidate, the strongest of
+           the 8 by raw-vs-shipped gap. Tested in full, isolated (`ct_vhf_hyoid` NOT touched in the real
+           build): reconverted with `--smooth 0.0` and measured the PRE-decimation full-resolution mesh
+           directly -- geniohyoid_l came out at 0.478, hyoglossus_r at 0.457 -- barely different from
+           the pre-fix SHIPPED (already-decimated) values of 0.482/0.463! Disabling Gaussian smoothing
+           entirely does not recover the raw mask's connectivity even before any decimation happens --
+           the fragmentation is introduced by marching-cubes SURFACE reconstruction itself. Root cause:
+           a genuinely marginal, sub-voxel-thin bridge in the rule-based marker-watershed boundary that
+           26-connectivity (corner/edge touching) counts as one voxel mask but which marching cubes'
+           surface (needing a shared face, closer to 6-connectivity) legitimately renders as two
+           touching-but-unjoined shells -- the same failure class Q113 flagged for the sciatic nerve's
+           own small right-leg seam, but here it accounts for nearly the WHOLE gap rather than a small
+           residual. Decimated main_frac at smooth=0.0: geniohyoid_l 0.499 (+0.017 over shipped),
+           hyoglossus_r 0.465 (+0.002) -- negligible. DECLINED shipping the `ct_vhf_hyoid` reconversion
+           (not worth touching a live subject plus its downstream `xfer_vhf2vhm_neck` re-transfer for a
+           under-2% gain); both bodies' `geniohyoid_l`/`hyoglossus_r` are UNCHANGED by this item.
+           Flagged for a future item: needs a different surfacing approach (a 6-connected-aware
+           marching-cubes variant, or closing the specific voxel gap pre-surfacing), not a smoothing
+           change.
+      TESTING (incremental, per the brief, not batched): `python -m pytest -q` run after (a) the
+      female dneck+neckbv+twall fix and female bundle rebuild -- **252 passed**; (b) the male
+      twall-only fix and male bundle rebuild -- **252 passed**; (c) the male transfer regeneration
+      (`xfer_vhf2vhm`/`xfer_vhf2vhm_neck`) and second male bundle rebuild -- **252 passed**. No
+      regressions at any stage.
+      DIFF-CHECK against the pre-this-item audit (`audit_full_continuity_q112.py`, exactly Q113's own
+      method): female 24 of 356 groups changed, ALL traced to the 3 touched subjects
+      (`ct_vhf_dneck`/`ct_vhf_neckbv`/`ct_vhf_twall`) and accounted for above; male 21 of 321 groups
+      changed, ALL traced to `ct_vhm_twall` plus the 2 regenerated transfers (mirroring the female
+      fixes exactly, as expected since they warp the same geometry). The other 332 female / 300 male
+      groups are BYTE-IDENTICAL main_frac/n_components to the pre-this-item state, confirming Q113's
+      `sciatic_n` fix and Q108/Q109/Q111's rib/disc work are untouched and intact.
+      BUILDS: both rebuilt ON TOP of Q108/Q109/Q111/Q113's already-verified state --
+      `build/viewer_f/atlas_viewer_female.html` 14.74 MB (was 14.57 MB, well under the 16 MB cap) and
+      `build/viewer_m/atlas_viewer_male.html` 14.43 MB (was 14.27 MB). Neither published (same
+      Production Deploy permission gate Q108/Q109/Q113 already hit; not retried).
+      SHIPPED: `scripts/export_viewer_bundle.py` (`BUDGET_OVERRIDES` external_intercostals 8000 ->
+      16000 + explanatory comment; `SHEET_IDS` unchanged), `build/vh/ct_vhf_dneck`,
+      `build/vh/ct_vhf_neckbv`, `build/vh/ct_vhf_twall`, `build/vh/ct_vhm_twall` (all reconverted
+      `--smooth 0.0`, gitignored, not committed), `build/vh/xfer_vhf2vhm`, `build/vh/xfer_vhf2vhm_neck`
+      (regenerated against the fixed female bundle, gitignored, not committed), `build/viewer_f/*`,
+      `build/viewer_m/*` (rebuilt, gitignored, not committed, not published),
+      `data/derived/Q112_full_continuity_audit.json` (re-run, diff-checked), this PROJECT_STATE.md
+      entry (including an update to Q112's own priority-list bullet below). `python -m pytest -q`:
+      **252 passed** (unchanged). `df -h /`: 17G available, unaffected; scratch intermediates (~280 MB
+      across sanity conversions, skin-containment test meshes and backups) cleaned up.
+
 - [x] Q69 (2026-09-18) Visual QA against the rendered viewer (owner: "check models vs z-anatomy", they
       should look better") found a real geometric defect, not a completeness gap: tibialis_anterior_l/r
       (transferred from the male, refined to her septa, Q48) poked through her own skin surface near the
@@ -4385,26 +4567,35 @@ the female's phalanges are under-captured at HU 200.
      location and the closing sweep that was tried). NOTE: 0.99 is unreachable for this structure as
      modeled (both legs share one id/side=null group, ceiling 0.647) -- treat RIGHT's ~0.48 and the
      documented right-side seam as the only genuinely open items here, not the combined main_frac.
-  2. **Root-cause investigation (new Q113-class item)**: the 8 muscles/vessel that are SEVERE_BREAK in BOTH
-     bodies at similar severity (`longus_colli_l/r`, `pectoralis_minor_l/r`, `hyoglossus_r`, `geniohyoid_l`,
-     `internal_carotid_a_l`, `longus_capitis_r`, plus `internal_oblique_r`/`transversus_abdominis_r`) --
-     the cross-body consistency suggests one systemic, findable cause (a specific segmentation task's mask
-     quality, or a specific decimation setting), not independent per-structure noise. Start here rather than
-     fixing each muscle individually.
-  3. **Decimation-vs-source triage (needed before any muscle/vessel fix)**: Q112 could not determine whether
-     the ~150 fragmented muscle/nerve/vessel structures (75 male + 94 female below 0.99) are fragmented in
-     their own full-resolution source segmentation, or only after `build_viewer_html.py`'s decimation step --
-     these need different fixes (re-segmentation vs. a decimation-parameter or per-piece-cleaning fix). Pick a
-     handful of the worst offenders, locate their full-res source OBJs under `data/ct_sources/task_outputs/`,
-     and re-run this audit's method on them directly.
+  2. **RESOLVED (mostly) by Q114 (2026-09-22)**: root-caused all 8 of these (treating
+     `internal_oblique_r`(M)/`transversus_abdominis_r`(F) as 2 cases, per the item's own brief). NOT one
+     systemic cause -- three distinct failure classes, and the "both bodies, same severity" pattern was
+     largely an illusion: 5 of the 8 (`longus_colli_l/r`, `longus_capitis_r`, `geniohyoid_l`,
+     `hyoglossus_r`, `internal_carotid_a_l`) exist as real data only on the FEMALE and are simply
+     transferred onto the male (`xfer_vhf2vhm`/`xfer_vhf2vhm_neck`), so "both bodies" was one piece of
+     geometry counted twice, not two independent findings. **FIXED**: `external_intercostals_l/r` (both
+     bodies -- raw source is main_frac 1.000, ONE piece; Q112's "plausibly real anatomy" read for this
+     one is OVERTURNED by direct measurement, see below), `internal_carotid_a_l/r` (both bodies),
+     `longus_capitis_r` (both bodies) -- all now FRAGMENTED not SEVERE_BREAK, all verified on the actual
+     shipped bundle with volume and skin-containment checks, full numbers in the Q114 entry above.
+     **DECLINED, confirmed genuine source fragmentation** (raw voxel mask already severely fragmented,
+     not a smoothing/decimation artifact): `longus_colli_l/r`, `pectoralis_minor_l/r` both bodies,
+     `internal_oblique_r`(M), `transversus_abdominis_r`(F) (same root cause as `internal_oblique_r`(M):
+     both trace to `ct_vhm_abw`'s own documented incompleteness). **DECLINED, a third distinct failure
+     mode** (marching-cubes surface topology at a sub-voxel-thin bridge, not fixable by the smoothing
+     parameter): `geniohyoid_l`, `hyoglossus_r` -- investigated in full, `ct_vhf_hyoid` left untouched.
+  3. **Decimation-vs-source triage**: Q114 did this for all 8 of bullet 2 (method: `scipy.ndimage.label`
+     on the raw label volume vs the shipped bundle's main_frac). Still open for the ~140 OTHER fragmented
+     muscle/nerve/vessel structures Q112 found (75 male + 94 female below 0.99, minus the 8 above) --
+     same method, applies directly, just needs doing structure by structure.
   4. Vertebrae/ribs/lumbar discs: unchanged since Q111, still the items below this bullet list -- lumbar discs
      provably cannot improve main_frac without real vertex/edge welding (a bigger structural change than any
      item so far has taken on); ribs are already fixed and CONTINUOUS (confirmed again by Q112).
-  5. Lower priority / likely-real-anatomy, re-confirm before spending effort: `external_intercostals_l/r`
-     (11-12 separate slips per side, same pattern as pre-fix ribs) and the hand/foot bone groups
-     (metacarpals/metatarsals/phalanges, each genuinely several separate bones) -- probably correct anatomy
-     reported honestly by a metric that assumes one structure = one piece, not bugs, but not independently
-     confirmed as intentional here either.
+  5. `external_intercostals_l/r`'s "probably real anatomy (11-12 slips), not a bug" read is WRONG --
+     Q114 measured the raw source voxel mask directly and found ONE connected component per side, both
+     bodies (see above); it shipped a fix. The hand/foot bone groups (metacarpals/metatarsals/phalanges,
+     each genuinely several separate bones) remain a believed-but-not-reconfirmed correct-anatomy case,
+     unaffected by this item.
   6. `sacrum` (female): re-check against Q103's original 0.767/9-components number -- Q112 measured 0.509/2
      pieces/4 components on the current live bundle, a real discrepancy from Q103 not yet explained (mesh
      likely changed between then and now).
