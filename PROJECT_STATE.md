@@ -11,7 +11,17 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q127 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q128 (2026-09-22)
+applied Q127's own re-measurement method to the 4 "metacarpal head" landmarks (`metacarpal_2_r`..
+`metacarpal_5_r`) Q127 found sharing the identical wrong `[0,-65,0]` but left out of scope. Each
+re-measured individually against `build/vh/ct_vhf_mcsplit` (proximal/distal 5%-by-world-Y vertex
+means): `metacarpal_2_r` `[-17,-60,26]`, `_3_r` `[-16,-63,18]`, `_4_r` `[-12,-65,13]`, `_5_r`
+`[-8,-67,9]`, each 1.3-2.0mm from the nearest real vertex and inside its own bounding box; method
+verified by reproducing `metacarpal_1_r`'s already-fixed value first. No anchors reference these
+landmarks (grepped `data/muscles/` and `anchors.json`, zero hits), so nothing to re-route.
+Structural diff confirms only these 4 records changed. 252 tests pass, unchanged. Full detail in
+the Q128 queue entry below.
+Recent: Q127 (2026-09-22)
 fixed the real coordinate-frame bug Q126 found and declined to build on: `metacarpal_1_r`'s
 "opponens pollicis, APB, FPB attachments" landmark had been copied verbatim from the old merged
 `metacarpals_r` bone's own offset (relative to a DIFFERENT frame origin, the 3rd metacarpal's
@@ -3469,6 +3479,23 @@ tick the item here with a one-line result. Never fabricate; keep the
       intermediates left on disk -- the analysis scripts lived in the session scratchpad, deleted
       with it). NOT published/deployed (same standing block as every other item today, not
       retried).
+
+- [x] Q128 (2026-09-22) Applied Q127's own re-measurement method (mean of proximal-5%-by-world-Y
+      vertices = origin, mean of distal-5%-by-world-Y vertices = head, against `build/vh/
+      ct_vhf_mcsplit`, hand bones having no `build_frames()` case so local axes = world axes) to
+      the 4 "metacarpal head" landmarks Q127 flagged but left out of scope: all 4 previously
+      shared the identical, wrong `[0, -65, 0]`. Reproducing the method on `metacarpal_1_r` first
+      recovered its already-fixed `[-25, -59, 14]` to the nearest integer, confirming it. New
+      values, each 1.3-2.0mm from the nearest real mesh vertex and inside that bone's own bounding
+      box: `metacarpal_2_r` `[-17, -60, 26]`, `metacarpal_3_r` `[-16, -63, 18]`, `metacarpal_4_r`
+      `[-12, -65, 13]`, `metacarpal_5_r` `[-8, -67, 9]`. No bone declined -- Y-orientation (base at
+      higher world Y, head at lower) was verified per-bone and holds for all 4.
+      `grep`ed `data/muscles/` and `data/rig/anchors.json`: zero references to
+      `metacarpal_2_r`..`metacarpal_5_r` anywhere, so no anchor re-routing needed (nothing to
+      diff-check there). Confirmed still invisible in the exported bundle: `build_frames()` still
+      has no hand-bone case. Structural (parsed-JSON, not line) diff of `bones.json` confirms only
+      these 4 records' head landmarks changed, nothing else in the ~96 bone records. `python -m
+      pytest -q`: **252 passed**, unchanged. Files: `data/skeleton/bones.json` only.
 
 - [x] Q126 (2026-09-22) Q125's own flagged follow-up: 13 thumb/interossei/digiti-minimi muscles
       (`opponens_pollicis`, `extensor_pollicis_longus/brevis`, `abductor_pollicis_longus/brevis`,
