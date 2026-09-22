@@ -643,6 +643,32 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
     # The menton is the lowest point of the mandibular symphysis in the
     # midline; the mandible's authored frame originates there. Axes are the
     # anatomical-position convention: the bone has no fittable long axis.
+    #
+    # Q123 investigated a fitted alternative: the two TMJ condyles ARE
+    # separately identifiable in this mesh with no cartilage or per-condyle
+    # label needed (the superior 5% of the bone by height splits cleanly
+    # into two point clouds either side of the midline with a genuinely
+    # empty gap between them, no vertices within 30 mm of the midline in
+    # that band; the resulting intercondylar width is stable across a wide
+    # range of band sizes and agrees between the two bodies to within 1 mm:
+    # 99.5 mm male, 100.4 mm female). But the menton-to-condyle-midpoint
+    # line is NOT close to world-vertical -- the condyles sit well
+    # POSTERIOR to the menton, not just superior to it, so that axis tilts
+    # ~33-42 degrees off world Y. The existing hand-authored mandible
+    # landmarks in bones.json were written in plain world-aligned axes
+    # (condylar process at local y=+55, meaning "55 mm above the menton" in
+    # WORLD Y, not "55mm along a menton-to-condyle line"). Fitting that
+    # tilted frame and re-placing the existing landmarks through it was
+    # tested directly with this script: median distance-to-bone-surface
+    # for the mandible's own landmarks went from 4-8 mm (both bodies, the
+    # current convention) to 25-28 mm -- a measured, unambiguous
+    # regression, not a correction, because the fitted axis and the
+    # authored coordinates use two different, incompatible conventions.
+    # DECLINED for this reason (a genuinely different, correctly-measured
+    # transverse-plus-long frame is possible here, but shipping it would
+    # need bones.json's mandible landmarks re-authored in ITS coordinates,
+    # which is out of this item's scope of not touching already-authored
+    # landmark data); a good, scoped follow-up for a future session.
     mandible = by_atlas_id.get("mandible")
     if mandible is not None and len(mandible) > 20:
         midline = mandible[np.abs(mandible[:, 0] - np.median(mandible[:, 0])) < 6.0]

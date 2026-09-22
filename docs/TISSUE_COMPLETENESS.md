@@ -19,6 +19,15 @@ sense Q117 used the phrase in (Production Deploy remains gated, unchanged since 
 pending-but-real local build state every Q10X/Q11X item today accumulated into. All other rows are
 unchanged from Q117 (this item touched only `data/tendons/`).
 
+*UPDATED 2026-09-22 (Q123): investigated adding a `build_frames()` transverse axis for `humerus`/
+`scapula`/`clavicle`/`mandible`/`hyoid`/`sternum` (Q121's own "single biggest lever" note below). 0 of 6
+shipped -- every candidate either had no clean geometric signal or, where it did (mandible's TMJ
+condyles), broke compatibility with this project's already-authored landmark data when tested directly.
+No structure counts, entity JSON or viewer bundle changed by this item; `build_frames()` itself is
+unchanged in behavior (one bone's decline is now documented in-code, zero logic edited, confirmed
+byte-identical output on every existing bone). See the ligament section (item 3) below for the full
+per-bone accounting and `data/derived/Q123_transverse_axis_investigation.json` for the measured numbers.
+
 Full per-entity detail (which id is missing, on which body, in which region): `data/derived/Q117_full_completeness_audit.json` (tendons row there is now stale by 6 entities; re-run `scripts/recount_tissue_gaps.py --type tendons` for the current numbers, reproduced below).
 
 ## The numbers, by type
@@ -107,11 +116,19 @@ own `procedural_geometry` blocks), not segmented tendon imaging -- this project 
 Q118's own `male_order()`/`female_order()` loaded for its own tendon set, not a limit of `build_frames()`
 itself, which also has non-cartilage-dependent fallback paths for `humerus`, `radius`, `ulna`, `clavicle`,
 `scapula`, `mandible`, `hyoid` and `sternum`. Verified directly against the REAL published (pending)
-bundle geometry: **19 bones resolve on the male, 17 on the female** (missing `radius_l`/`ulna_l` on her --
-her left forearm is documented elsewhere, Q12/Q71/Q97, as incomplete). `tibia`, `tarsals`, `carpals`,
-`metacarpals` and `phalanges` remain genuinely unresolvable (their frame-fitting keys on cartilage-mesh
-filenames this session's fused cartilage naming no longer matches) -- see `data/derived/
-Q121_ligament_feasibility_audit.json` for the full, re-verified bone list and method.
+bundle geometry: **19 bones resolve on the male, 19 on the female** (Q121 said 17 for the female, "the
+male set minus radius_l/ulna_l" -- **CORRECTED by Q123 (2026-09-22)**, which re-verified this precisely
+rather than repeating it: both counts are 19, but the SETS differ. The female is missing `radius_l`/
+`ulna_l` (her left forearm is documented elsewhere, Q12/Q71/Q97, as incomplete) but resolves
+`scapula_{l,r}`, which the male does NOT -- his scapula and humerus meshes ship from two different
+subjects, and scapula's own frame code needs both in the same subject's geometry, a data-organization gap
+rather than a `build_frames()` bug; see `data/derived/Q123_transverse_axis_investigation.json`). `tibia`,
+`tarsals`, `carpals`, `metacarpals` and `phalanges` remain genuinely unresolvable (their frame-fitting
+keys on cartilage-mesh filenames this session's fused cartilage naming no longer matches) -- see
+`data/derived/Q121_ligament_feasibility_audit.json` for the full, re-verified bone list and method. Also
+note: the femur's own cartilage-based FULL transverse frame is dead code on every currently-shipped
+subject (same fused-naming cause) -- both bodies actually resolve femur via the CT-only long-axis-only
+fallback today, confirmed by Q123.
 
 1. **Bursae, clinically first** (45 entities, 0% coverage): the elbow (10) and shoulder (10+6) bursae
    carry documented `injection_approach` fields already written for this atlas's own stated purpose
@@ -200,6 +217,43 @@ Q121_ligament_feasibility_audit.json` for the full, re-verified bone list and me
    ligament`) never ship on either body, for the two reasons above. See PROJECT_STATE.md's Q122 entry and
    `data/ct_sources/task_outputs/ligament_generation_report_{male,female}.json` for the full per-id
    accounting.
+
+   **UPDATE (Q123, 2026-09-22)**: took Q121's own "single biggest lever" -- fitting a transverse axis for
+   `humerus`/`scapula`/`clavicle`/`mandible`/`hyoid`/`sternum` -- and investigated all 6 with the same
+   rigor as the femur's own sphere fit, real vertex-derived measurements only. **0 of 6 shipped.** The
+   clearest real signal found was the mandible's own TMJ condyles (two point clusters with a genuinely
+   empty gap between them, intercondylar width agreeing to within 1 mm across both bodies, 99.5/100.4 mm)
+   -- but fitting a frame from them tilts the long axis 33-42 degrees off world-vertical, and this
+   project's existing hand-authored mandible landmarks were written assuming plain world-aligned axes;
+   re-placing them through the fitted frame moved their median distance-to-bone-surface from 4-8 mm to
+   25-28 mm, a measured regression, not a correction -- confirmed directly with `scripts/
+   audit_landmarks_vs_geometry.py` before shipping anything. The humerus's own epicondylar spread (the
+   femur's own method, reused) turned out NOT to separate into two distinguishable epicondyles in this
+   project's current mesh at all (no bimodal signal, and 8-14 mm/24% left-right width disagreement on the
+   SAME specimen, anatomically implausible) -- exactly the "one undifferentiated distal mass" decline this
+   project's own standard anticipates. The clavicle's own curvature gave a real but only moderately
+   dominant direction (SVD ratio ~2:1) that, tested directly, improved some of its own existing landmarks
+   by several mm while worsening others by several mm -- no net, confident benefit. Scapula, hyoid and
+   sternum lacked even a clean geometric signal to build from within this item's time budget (scapula's
+   glenoid-to-acromion candidate is real but under-validated; hyoid's cornu do not separate into two
+   clusters in the current mesh; sternum's clavicular notches do not form a stable two-point signal, only
+   a continuously tapering edge). Also reconciled Q121's own "19 bones male / 17 female" claim while
+   re-verifying `build_frames()` for this item: the counts are both 19, but the SETS differ --
+   `scapula_{l,r}` resolves on the female (her `ct_vhf` subject carries both scapula and humerus meshes
+   together, which the frame needs) but NOT the male (his scapula and humerus ship from two different
+   subjects, so the same-subject dependency never resolves), while `radius_l`/`ulna_l` resolve on the male
+   but not the female (her known-incomplete left forearm). Also confirmed the femur's own celebrated
+   cartilage-based full transverse frame (sphere fit + `epicondylar_axis()`) is DEAD CODE on every
+   currently-shipped subject on both bodies -- this session's fused cartilage naming (`knee_articular_
+   cartilage_*`) never matches the filename substrings that path looks for, so femur always falls back to
+   the CT-only long-axis-only path today, same as tibia never resolving at all. None of this changes any
+   already-working frame or any already-shipped structure -- `build_frames()`'s only edit this item is a
+   documentation comment on the mandible's declined attempt, zero logic changed, confirmed byte-identical
+   output on every existing bone before/after. Consequently 0 previously-declined ligaments or tendons
+   became newly resolvable (the 31 `landmark_text_mismatch` declines are a naming problem unrelated to any
+   transverse axis; `transverse_humeral_ligament_{r,l}` remains declined, since humerus's own transverse
+   axis investigation above did not pass). Full per-bone numbers, methods and the mandible before/after
+   audit in `data/derived/Q123_transverse_axis_investigation.json`; see PROJECT_STATE.md's Q123 entry.
 4. **Vascular and nerves are the largest remaining entity counts** (412 and 303) but are also the
    hardest: most named vessels and nerve branches below the major trunks are sub-CT-resolution and would
    need the same "literature-only, no route" honesty muscles' face/ear group already carries -- a future

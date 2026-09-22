@@ -11,7 +11,28 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q122 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q123 (2026-09-22)
+investigated adding a `build_frames()` transverse axis to the 6 bones Q121 flagged as the
+"single biggest lever" for more tendons/ligaments (`humerus`, `scapula`, `clavicle`,
+`mandible`, `hyoid`, `sternum`) -- 0 of 6 shipped, every candidate either lacked a clean
+geometric signal or (mandible's TMJ condyles, the cleanest signal found: intercondylar width
+agreeing to within 1 mm across both bodies) broke compatibility with this project's own
+already-authored landmark data when tested directly with `scripts/
+audit_landmarks_vs_geometry.py` -- median landmark-to-bone-surface distance went from 4-8 mm to
+25-28 mm, a measured regression caught BEFORE shipping, not after. Also reconciled Q121's own
+"19 bones male / 17 female" claim: both counts are 19, but the SETS differ (the male resolves
+`radius_l`/`ulna_l` that the female (incomplete left forearm) does not; the female resolves
+`scapula_{l,r}` that the male does not, because his scapula and humerus meshes ship from two
+different subjects and `build_frames()`'s scapula fit needs both in the same subject's
+geometry -- a data-organization gap, not a code bug). Also confirmed the femur's own celebrated
+cartilage-based full-transverse frame is dead code on every currently-shipped subject, both
+bodies (this session's fused cartilage naming never matches the filenames that path looks for;
+femur actually resolves today via the CT-only long-axis-only fallback, same as Q118 found for
+the upper body). Zero regressions: `build_frames()`'s only edit is a documentation comment
+(mandible's declined attempt), confirmed byte-identical behavior on every existing bone;
+consequently 0 previously-declined ligaments/tendons became newly resolvable and no entity
+JSON, bundle, or geometry changed. 252 tests pass, unchanged. Full detail in the Q123 queue
+entry below. Recent: Q122 (2026-09-22)
 reconciled Q121's own 31 `landmark_text_mismatch` ligaments against real anatomy, one at a
 time. 10/31 were genuine synonyms or an already-offered alternative attachment point (e.g.
 "lateral (acromial) end of clavicle" = bones.json's "acromial (lateral) end"), added as a
@@ -3241,6 +3262,163 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q123 (2026-09-22) Read `build_frames()` completely, bone by bone (per this item's own
+      instruction), to produce an accurate current inventory of which bones have a full frame
+      (origin+long+transverse), long-axis-only, or origin-only, then investigated whether the 6
+      bones Q121 flagged (`humerus`, `scapula`, `clavicle`, `mandible`, `hyoid`, `sternum`) could
+      get a real, geometry-derived transverse axis using this project's already-shipped mesh
+      data, following the femur/tibia code's own rigor (real vertex-derived measurements, a
+      disclosed fit-quality metric, no guessed offsets).
+
+      INVENTORY, RE-VERIFIED DIRECTLY (not trusting Q121's own summary): wrote a merge script
+      that calls `build_frames()` per subject and merges frames first-subject-wins, in the EXACT
+      subject order `scripts/vhm_rebuild_bundle.sh` / `scripts/cryo/vhf_rebuild_bundle.sh` use --
+      the same thing `scripts/export_viewer_bundle.py:resolve_anchor_points()` does for real, one
+      subject at a time. **Both bodies resolve 19 bones, but NOT the same 19** -- Q121's own
+      claim ("female = male set minus radius_l/ulna_l") is WRONG, found by direct measurement,
+      not assumed: the female resolves `scapula_{l,r}` (her `ct_vhf` subject carries both the
+      scapula AND humerus meshes together, which `build_frames()`'s scapula fit needs in the SAME
+      subject's geometry, since the glenoid is located as the 2% of the scapula nearest the
+      already-fitted humeral head centre) while the male does NOT -- his scapula ships from
+      `ct_vhm` and his humerus from a different subject, `ct_vhm_arm`, so the same-subject
+      dependency never resolves for him in the real pipeline. This is a data/subject-organization
+      gap, not a bug in `build_frames()` itself, and not touched (out of this item's scope).
+      Conversely the male resolves `radius_l`/`ulna_l` that the female (known-incomplete left
+      forearm, Q12/Q71/Q97) does not. Per-bone fitted tags, measured directly: **both** (full
+      origin+long+transverse) -- `hip_bone_{r,l}` only, on both bodies (its cartilage-optional
+      fallback path fits the transverse from the interacetabular line even with no acetabular
+      cartilage present). **long** (origin+long, transverse convention) -- `femur_{r,l}`,
+      `fibula_{r,l}`, `humerus_{r,l}`, `radius_{r,l}`, `ulna_{r,l}`, `clavicle_{r,l}` (radius_l/
+      ulna_l male only). **neither** (origin only) -- `patella_{r,l}`, `scapula_{r,l}` (female
+      only), `mandible`, `hyoid`, `sternum`. **Not resolved at all, either body**: `tibia`,
+      `tarsals`, `metatarsals`, `phalanges_foot`, `carpals`, `metacarpals`, `phalanges_hand`.
+
+      A GENUINE FINDING, FLAGGED CLEARLY PER THIS ITEM'S OWN INSTRUCTION (not a bug fixed, a
+      dead-code fact confirmed): the femur's own celebrated cartilage-based FULL transverse frame
+      (`fit_sphere` on the femoral-head cartilage + `epicondylar_axis()` on the distal condyles --
+      the flagship example this item's own background section describes) turns out to be DEAD
+      CODE on every currently-shipped subject, both bodies. This session's fused cartilage naming
+      (`knee_articular_cartilage_*`, not `*_femurhead`/`*_femurdistal`) never matches the filename
+      substrings that path looks for -- already known as a pipeline gap since Q118, but not
+      previously stated this plainly: femur ALWAYS falls back to the CT-only long-axis-only path
+      today, on BOTH bodies, exactly like tibia never resolving at all. Not touched (per the hard
+      constraint against modifying femur's own working code path without a fix in hand, and Q118
+      already correctly deferred the cartilage-naming fix as future scope).
+
+      SIX-BONE INVESTIGATION (full numbers in `data/derived/Q123_transverse_axis_investigation.
+      json`; 0 shipped):
+        - **humerus**: reused `epicondylar_axis()` (the femur's own SVD-widest-distal-spread
+          method) directly on the raw humerus mesh -- no cartilage or separate epicondyle label
+          needed in principle. DECLINED: left/right widths on the SAME specimen differed by 8-14
+          mm (male, 61.9-69.3 vs 75.8-77.8 mm across a frac sweep) and 12-14 mm/24% (female, 41.8-
+          43.5 vs 52.2-56.0 mm) -- anatomically implausible for a paired bone. A 14-bin histogram
+          of the projected distal band showed NO bimodal separation on either body (no two-lobe/
+          one-valley structure the way the femoral condyles show), meaning the fit is not finding
+          two epicondyles at all -- it is catching the general anteroposterior flattening of the
+          distal humerus (olecranon/coronoid fossae), which for this bone's shape can rival or
+          exceed its true mediolateral spread. This project's current humerus mesh (whole-bone
+          CT/STL label, no separate epicondyle segmentation) does not preserve the epicondyles as
+          identifiable protrusions the way the femoral condyles are preserved -- the exact
+          "ships as one undifferentiated distal mass" decline this item's own instructions
+          anticipated as a valid outcome.
+        - **scapula**: DECLINED FOR TIME/RIGOR, not infeasibility (same class as Q118's
+          `gluteal_tendon_complex` decline). Tried the task's own suggested different
+          construction (glenoid orientation / a paired asymmetric reference, not femur's method):
+          glenoid-to-acromion as a candidate long axis measured close to world-Y (cos 0.945-0.956,
+          female), a real, lower-risk-than-mandible candidate -- but a genuinely validated SECOND
+          point (coracoid process) for a real transverse was only sketched, never cross-body/
+          quantile-stability validated the way mandible's TMJ condyles or femur's sphere fit were,
+          and scapula carries the largest blast radius of the 6 bones (12 anchors x2 sides + 22
+          landmarks). Declined rather than ship an under-validated axis.
+        - **clavicle**: tried a PCA/SVD fit of the whole bone's own curvature (the S-curve),
+          perpendicular to its ALREADY-fitted, already-working long axis -- the lowest-risk kind
+          of change of the 6, since it only adds a transverse without touching the long axis.
+          Singular-value ratio only 1.89-2.00 (both bodies) -- real but only moderately dominant,
+          well short of femur's or mandible's much cleaner separation. Directly re-placed
+          clavicle's own 4 existing hand-authored landmarks through the candidate frame and
+          measured distance to its own mesh, old vs new: a MIXED result, not a clean win --
+          `conoid tubercle`/`acromial end` improved by several mm on 3/4 sides (e.g. male_r conoid
+          tubercle 5.2->0.9 mm) but `deltoid tubercle` WORSENED by 4-6 mm on 3/4 sides (e.g.
+          male_l 2.1->7.5 mm). DECLINED: no net, confident benefit across all of clavicle's own
+          already-working landmarks.
+        - **mandible**: the CLEANEST real signal of the 6. The two TMJ condyles separate into two
+          point clusters with a genuinely EMPTY gap between them (no vertices within 30 mm of the
+          midline in the superior 5% of the bone by height, both bodies) -- no cartilage or
+          per-condyle label needed. Intercondylar width stable across a wide percentile sweep
+          (97.4-99.9 mm male, 98.1-101.1 mm female) and agreeing between the two bodies to within
+          0.9 mm (99.5 vs 100.4 mm) -- the same class of cross-body validation that supports the
+          femur's own sphere fit. Built the full long (menton to condyle midpoint) + transverse
+          (right-minus-left condyle) frame and, per this item's own hard requirement to verify
+          before shipping, ran it directly through `scripts/audit_landmarks_vs_geometry.py` on
+          both bodies' real geometry: median distance-to-bone-surface for the mandible's own 4
+          hand-authored landmarks went from **8.3 mm (male) / 4.2 mm (female) to 25.4 mm / 28.0
+          mm** -- a large, unambiguous regression, not the "corrected" case this item's own
+          instructions anticipated as an acceptable alternative outcome. ROOT CAUSE: the
+          menton-to-condyle-midpoint direction is NOT close to world-vertical -- the condyles sit
+          well POSTERIOR to the menton, not just superior to it (measured Y axis [0.02, 0.84,
+          -0.54] male, [0.05, 0.75, -0.66] female, a 33-42 degree tilt off world Y) -- while
+          `bones.json`'s existing mandible landmarks (condylar process, coronoid process, angle of
+          mandible, digastric fossa) were authored in plain world-aligned axes under the CURRENT
+          origin-only convention. DECLINED TO SHIP despite the real, well-measured geometry,
+          exactly per the hard constraint against changing behavior for a bone whose existing
+          landmarks already work reasonably (8.3/4.2 mm median) without extensive verification --
+          the verification is what caught this. A genuine, scoped follow-up for a future session
+          that budgets time to re-author the 4 mandible landmarks in the new frame's own
+          coordinates alongside the code change, with this same before/after audit repeated.
+        - **hyoid**: DECLINED. No bimodal separation at all -- the mesh's own X range is
+          asymmetric and off-centre (-17.8 to +34.2 mm, male, not straddling world midline
+          symmetrically) and a 16-bin histogram shows a smooth, roughly uniform distribution with
+          no valley, unlike mandible's dramatic empty gap. The greater/lesser cornu are not
+          separately identifiable as distinct lobes in this project's current hyoid mesh (~2000-
+          2200 vertices) -- no real signal to fit an axis to, so none was forced.
+        - **sternum**: DECLINED for a transverse axis. The clavicular-notch width from a naive
+          left/right split SHRINKS monotonically as the band narrows toward the true superior edge
+          (39.7 mm at the 85th percentile down to 34.2 mm at the 93rd, male; 31.6 down to 26.2 mm,
+          female) rather than stabilizing the way mandible's intercondylar width did -- evidence
+          this tracks the manubrium's continuously curving superior border, not two real notch
+          facets. A separate possible improvement (a LONG axis alone, jugular notch to xiphoid
+          tip, both real extremes) was considered but not attempted: it would change sternum's
+          `fitted` tag from `neither` to `long`, activating Q43's along-axis length-scaling
+          behavior for any landmark on this bone -- a distinct functional change needing its own
+          before/after audit, out of this item's transverse-axis scope. Left for a future item.
+
+      LIGAMENT/TENDON RE-ATTEMPT (per this item's own step 5): cross-referenced `data/derived/
+      Q121_ligament_feasibility_audit.json`'s full declined-id list (50 `bone_frame_blocked` + 31
+      `landmark_text_mismatch` + 2 `geometry_verification_failed`) against the 6 bones above.
+      **0 newly resolvable.** All 31 `landmark_text_mismatch` declines are blocked by landmark
+      TEXT not matching `bones.json` -- a naming problem, unrelated to any bone's transverse-axis
+      coverage. The 2 `geometry_verification_failed` declines (`transverse_humeral_ligament_
+      {r,l}`) are the one case genuinely blocked by humerus's missing transverse axis, exactly as
+      Q121 and this item's own background describe -- and remain declined, since the humerus
+      investigation above found no reliable transverse axis achievable from this project's
+      current label data. No Q118 tendon declines needed re-examination beyond what Q121 already
+      covers, since none of the 6 bones gained a working transverse axis this item.
+
+      REGRESSION CHECK: `build_frames()`'s only edit is a documentation comment on the mandible's
+      declined attempt (explaining the investigation and the regression it found) -- `git diff
+      --stat scripts/audit_landmarks_vs_geometry.py` shows 26 insertions, 0 deletions, all inside
+      a comment block; confirmed the mandible code path's OUTPUT is byte-identical before and
+      after (re-ran the audit script on `ct_vhm_head`/`ct_vhf_head`, diffed the printed mandible
+      block against the pre-edit capture -- identical). Femur/hip_bone/tibia/fibula/patella's own
+      code paths were never touched. No entity JSON, `data/rig/anchors.json`, `data/skeleton/
+      bones.json`, `build/vh/ct_vh{m,f}` subject, or viewer bundle changed -- nothing was
+      generated to ingest, since 0 of the 6 bones gained a usable transverse axis and 0
+      previously-declined ligaments/tendons became resolvable. `build/viewer_m/
+      atlas_viewer_male.html` / `build/viewer_f/atlas_viewer_female.html` were NOT rebuilt (there
+      is nothing additive to append), matching the precedent Q121 set for a fully-declined item.
+
+      TESTING: `python -m pytest -q` before and after -- **252 passed** both times, no
+      regressions. `df -h /`: 28G available throughout, unaffected; scratch intermediates (the
+      subject-merge inventory script, per-bone SVD/histogram probes) cleaned up from the
+      scratchpad.
+
+      SHIPPED: `scripts/audit_landmarks_vs_geometry.py` (comment-only, mandible decline
+      documented in place, zero logic changed), `data/derived/
+      Q123_transverse_axis_investigation.json` (new -- full per-bone measured numbers, methods,
+      and the mandible before/after audit), this PROJECT_STATE.md entry, `docs/
+      TISSUE_COMPLETENESS.md` (the Q121 tendon-note's 19/17 claim corrected to the true 19/19-
+      different-sets state, plus a new Q123 update to the ligament section).
 
 - [x] Q122 (2026-09-22) Reconciled Q121's own 31 `landmark_text_mismatch` ligaments: both
       attachment bones frame-resolvable, but the ligament's own authored landmark text didn't
