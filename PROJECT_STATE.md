@@ -11,7 +11,23 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q118 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q119 (2026-09-22) closed
+a transparency gap the orchestrating session found by reading the published viewer's own
+bundle JSON directly: Q104's 21 procedural intervertebral discs and Q118's 6 procedural tendon
+connectors were honestly disclosed in PROJECT_STATE.md/git history but that disclosure never
+reached the exported bundle a clinician's browser loads. Added a `procedural_geometry.badge`
+field (Q118's own naming, now the standing project convention for ANY future procedural/
+synthetic structure) that `scripts/export_viewer_bundle.py` forwards into the bundle as
+`rec.procedural_badge`, and a matching `.tag.warn` chip in `viewer/atlas_viewer.template.html`
+reusing the exact visual pattern already shipped for cross-subject-transferred structures.
+Added the 21 missing disc entity records (`data/cartilage/intervertebral_disc_levels.json` --
+none existed before, at any granularity matching the shipped per-level mesh ids) carrying the
+badge; Q118's 6 tendon records needed no data change, only the plumbing. Verified on the
+ACTUAL rebuilt bundle JSON: both bodies' 27 procedural structures (21 discs + 6 tendons) now
+carry the badge, 0 false positives on any other structure, every other structure's bundle
+record byte-identical pre/post except the added metadata (female 384 structures, male 362,
+both counts unchanged from Q118). 252 tests pass throughout. Full detail in the Q119 queue
+entry below. Recent: Q118 (2026-09-22)
 verified and then SHIPPED a small, honest slice of Q117's "tendons/bursae are plausibly
 rule-derivable" hypothesis: 6 of the 51 tendon entities (12 mesh instances counting both
 bodies) as PROCEDURAL/RULE-BASED connector meshes (`scripts/generate_tendon_connectors.py`,
@@ -3173,6 +3189,106 @@ tick the item here with a one-line result. Never fabricate; keep the
       `docs/GEOMETRY_SOURCES.md`. `python -m pytest -q`: **252 passed**. `df -h /`: 17G available,
       unaffected; scratch intermediates (diagnostic sacrum/smoothing-comparison conversions, ~200 MB)
       cleaned up.
+
+- [x] Q119 (2026-09-22) Closed a real transparency gap the orchestrating session found by
+      reading the PUBLISHED VIEWER's own embedded bundle JSON: Q104's 21 intervertebral discs
+      and Q118's 6 tendon connectors are honestly disclosed as PROCEDURAL/RULE-BASED in
+      PROJECT_STATE.md and git history, and Q118's own tendon entity records already carry a
+      `procedural_geometry` block -- but NONE of that reached the actual exported bundle a
+      clinician's browser loads. Verified directly: `intervertebral_disc_l1_l2` in the live
+      `build/viewer_f/atlas_viewer_female.html` bundle had a bare geometry entry (`cat:
+      "other"`, no `rec` block at all -- no name, no source, nothing), because no entity JSON
+      anywhere in `data/` carries an `id` matching the per-level mesh atlas_ids
+      (`intervertebral_disc_c1_c2` etc.) -- only grouped region entities
+      (`cervical_intervertebral_discs` etc.) exist, describing real anulus/nucleus anatomy but
+      never matched by the exporter's `atlas.get(aid)` lookup. `quadriceps_tendon_r`'s `rec`
+      carried real textbook sources for the TENDON'S EXISTENCE but nothing marking its MESH as
+      a generated connector. Given this atlas's own stated purpose (planning musculoskeletal
+      injections and nerve blocks -- PROJECT_STATE.md's opening section), a clinician clicking
+      either structure in the shipped viewer had no way to know they were looking at generated
+      geometry, not segmented imaging.
+
+      MECHANISM (reused, not invented): the viewer template already renders a `.tag.warn` chip
+      (orange/red, CSS var `--risk`) for cross-subject-transferred structures ("Shown for
+      reference at the same scale, not as part of one continuous cadaver") in
+      `viewer/atlas_viewer.template.html`'s `select()` function, building `#i-tags`. Added a
+      second `.tag.warn` chip to the exact same tag row, driven by a new `r.procedural_badge`
+      field, with the full disclosure text as its `title` (hover tooltip) -- same visual idiom,
+      not a new one, so a clinician learns "orange chip = look closer" once.
+
+      SCHEMA DECIDED: kept Q118's own `procedural_geometry` object as the ONE standing
+      convention (not a new `geometry_badge`/`synthetic` field) -- it was already
+      well-designed (a `badge` string with the full honest text, `generated_by` naming the
+      script/queue item, room for per-subject verification data) and already schema-valid
+      (no `additionalProperties` restriction on any entity schema). `scripts/
+      export_viewer_bundle.py`'s `summarise()` now forwards only `rec["procedural_geometry"]
+      ["badge"]` into the bundle as `rec.procedural_badge` (the rest -- verification numbers,
+      per-body measurements -- stays in the entity record/git history, not bloating the
+      inspector payload). Documented as a standing project convention in a new section of
+      `docs/GEOMETRY_SOURCES.md` ("Procedural/synthetic geometry: the disclosure convention")
+      plus an inline comment on `summarise()` itself, so a FUTURE procedural/synthetic
+      structure (not just today's two cases) is required to use the same field to be
+      automatically disclosed in the viewer, not just in PROJECT_STATE.md/git history.
+
+      RETROACTIVE FIX for Q104's discs: no per-level entity record existed at all, so one had
+      to be added, not just amended (confirmed by grep: no `data/**/*.json` file contains an
+      `id` matching any of the 21 `intervertebral_disc_<a>_<b>` atlas_ids before this item).
+      Added `data/cartilage/intervertebral_disc_levels.json`, 21 new records (6 cervical + 11
+      thoracic + 4 lumbar, matching `generate_intervertebral_discs.py`'s own `CERVICAL_LEVELS`/
+      `THORACIC_LEVELS`/`LUMBAR_LEVELS` exactly), each satisfying `schema/cartilage.schema.json`
+      in full (`parts[]`, `function`, top-level `source` citing the same Gray's/TA/Bogduk
+      citation the grouped region entities already use, for the real anulus/nucleus anatomy
+      each level shares) plus a `procedural_geometry` block whose `badge` states plainly: the
+      MESH is a generated cylinder sized only to guarantee connectivity to the adjacent
+      vertebrae (radius 40 mm / thickness 20 mm, both far larger than a real disc, chosen for
+      `main_frac >= 0.99`, not measured), not the real per-region anatomical text this project
+      already had (which stays exactly where it was, on the grouped entities, untouched).
+      Q118's 6 tendon records needed no entity-JSON change at all -- their `procedural_geometry.
+      badge` was already in the right shape; only the exporter/template plumbing was missing.
+
+      VERIFICATION (parsed the actual rebuilt bundle JSON directly, same method the
+      orchestrating session used, not "should work"): rebuilt both bundles with the exact,
+      unmodified `scripts/vhm_rebuild_bundle.sh` / `scripts/cryo/vhf_rebuild_bundle.sh`
+      (confirmed: neither script edited this item) on top of Q108-Q118's already-verified
+      state. **Female: 384 structures** (unchanged count from Q118's own rebuild; hit the same
+      already-documented Q116 scratchpad-skin-absence fallback, reusing existing
+      `build/vh/ct_vhf_skin`, printed its own WARNING, not a new issue). **Male: 362
+      structures** (unchanged). In both bundles: exactly 27 structures now carry
+      `rec.procedural_badge` -- the 21 disc ids and all 6 tendon ids (`iliopsoas_tendon_{r,l}`,
+      `adductor_magnus_distal_tendon_{r,l}`, `quadriceps_tendon_{r,l}`), zero false positives
+      (scripted scan of every OTHER badged-or-not structure in both bundles: 0 non-disc/
+      non-tendon ids carry the badge; spot-checked `femur_r`, `biceps_brachii_r`,
+      `gluteus_maximus_r`, `skin` by name -- none badged). Full diff of every structure's bundle
+      record, keyed by (atlas_id, subject), pre- vs. post-change: female 361 unique keys (27
+      changed, 0 unexpected, 0 added/removed), male 327 unique keys (27 changed, 0 unexpected,
+      0 added/removed); the geometry-bearing fields (`nv`, `nf`, `cell`, `tris_full`, `subject`,
+      `side`) are byte-identical on every one of the 27 changed structures too -- the only
+      change is the added/updated `rec` block. One incidental, correct side effect on the 21
+      disc structures: their `cat` field changed from the exporter's `"other"` fallback to the
+      correct `"cartilage"` (now that a matching entity record exists at all,
+      `engine/vh_ingest.py`'s own directory-based category lookup finds it) -- a UI color-
+      classification fix, not a geometry or mapping change, and within the same 27-key set
+      already accounted for above.
+
+      TESTING: `python -m pytest -q` before AND after every change -- **252 passed** throughout
+      (schema validation and source-coverage checks both ran clean against the new
+      `intervertebral_disc_levels.json` file on the first attempt: every one of its 21 records
+      required and carries `parts[]`/`function`/`source`, no `additionalProperties` restriction
+      exists on any schema so `procedural_geometry` needed no schema change). `df -h /`: 28G
+      available throughout, unaffected; scratch pre-change bundle-JSON snapshots (used only for
+      the byte-diff above) cleaned up.
+
+      NOT published (Production Deploy still gated, not retried, per this item's own
+      instruction) and no mesh, mapping coordinate or continuity value touched anywhere --
+      confirmed by the geometry-field diff above.
+
+      SHIPPED: `scripts/export_viewer_bundle.py` (`summarise()` gains the `procedural_badge`
+      field, with an inline comment documenting the standing convention),
+      `viewer/atlas_viewer.template.html` (`select()`'s `#i-tags` render gains a second
+      `.tag.warn` chip), `data/cartilage/intervertebral_disc_levels.json` (new, 21 records),
+      `docs/GEOMETRY_SOURCES.md` (new "Procedural/synthetic geometry" convention section),
+      `build/viewer_m/*`, `build/viewer_f/*` (rebuilt, gitignored, NOT published), this
+      PROJECT_STATE.md entry.
 
 - [x] Q118 (2026-09-22) Followed up on Q117's own hypothesis that tendons/bursae (0%
       geometry coverage, both at literal zero) might be "plausibly rule-derivable from

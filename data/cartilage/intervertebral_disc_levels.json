@@ -1,0 +1,569 @@
+[
+  {
+    "id": "intervertebral_disc_c1_c2",
+    "name_ta": "Discus intervertebralis (C1-C2)",
+    "name_common": "C1-C2 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c1_c2_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C1 and C2 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C1-C2 intervertebral disc -- the fibrocartilaginous symphysis joint between the C1 and C2 vertebral bodies. Functionally identical to every other level in its region; see the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_c2_c3",
+    "name_ta": "Discus intervertebralis (C2-C3)",
+    "name_common": "C2-C3 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c2_c3_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C2 and C3 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C2-C3 intervertebral disc -- the fibrocartilaginous symphysis joint between the C2 and C3 vertebral bodies. Functionally identical to every other level in its region; see the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_c3_c4",
+    "name_ta": "Discus intervertebralis (C3-C4)",
+    "name_common": "C3-C4 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c3_c4_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C3 and C4 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C3-C4 intervertebral disc -- the fibrocartilaginous symphysis joint between the C3 and C4 vertebral bodies. Functionally identical to every other level in its region; see the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_c4_c5",
+    "name_ta": "Discus intervertebralis (C4-C5)",
+    "name_common": "C4-C5 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c4_c5_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C4 and C5 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C4-C5 intervertebral disc -- the fibrocartilaginous symphysis joint between the C4 and C5 vertebral bodies. Functionally identical to every other level in its region; see the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_c5_c6",
+    "name_ta": "Discus intervertebralis (C5-C6)",
+    "name_common": "C5-C6 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c5_c6_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C5 and C6 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C5-C6 intervertebral disc -- the fibrocartilaginous symphysis joint between the C5 and C6 vertebral bodies. Functionally identical to every other level in its region; see the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_c6_c7",
+    "name_ta": "Discus intervertebralis (C6-C7)",
+    "name_common": "C6-C7 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c6_c7_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C6 and C7 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C6-C7 intervertebral disc -- the fibrocartilaginous symphysis joint between the C6 and C7 vertebral bodies. Functionally identical to every other level in its region; see the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t1_t2",
+    "name_ta": "Discus intervertebralis (T1-T2)",
+    "name_common": "T1-T2 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t1_t2_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T1 and T2 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T1-T2 intervertebral disc -- the fibrocartilaginous symphysis joint between the T1 and T2 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t2_t3",
+    "name_ta": "Discus intervertebralis (T2-T3)",
+    "name_common": "T2-T3 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t2_t3_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T2 and T3 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T2-T3 intervertebral disc -- the fibrocartilaginous symphysis joint between the T2 and T3 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t3_t4",
+    "name_ta": "Discus intervertebralis (T3-T4)",
+    "name_common": "T3-T4 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t3_t4_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T3 and T4 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T3-T4 intervertebral disc -- the fibrocartilaginous symphysis joint between the T3 and T4 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t4_t5",
+    "name_ta": "Discus intervertebralis (T4-T5)",
+    "name_common": "T4-T5 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t4_t5_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T4 and T5 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T4-T5 intervertebral disc -- the fibrocartilaginous symphysis joint between the T4 and T5 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t5_t6",
+    "name_ta": "Discus intervertebralis (T5-T6)",
+    "name_common": "T5-T6 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t5_t6_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T5 and T6 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T5-T6 intervertebral disc -- the fibrocartilaginous symphysis joint between the T5 and T6 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t6_t7",
+    "name_ta": "Discus intervertebralis (T6-T7)",
+    "name_common": "T6-T7 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t6_t7_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T6 and T7 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T6-T7 intervertebral disc -- the fibrocartilaginous symphysis joint between the T6 and T7 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t7_t8",
+    "name_ta": "Discus intervertebralis (T7-T8)",
+    "name_common": "T7-T8 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t7_t8_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T7 and T8 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T7-T8 intervertebral disc -- the fibrocartilaginous symphysis joint between the T7 and T8 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t8_t9",
+    "name_ta": "Discus intervertebralis (T8-T9)",
+    "name_common": "T8-T9 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t8_t9_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T8 and T9 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T8-T9 intervertebral disc -- the fibrocartilaginous symphysis joint between the T8 and T9 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t9_t10",
+    "name_ta": "Discus intervertebralis (T9-T10)",
+    "name_common": "T9-T10 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t9_t10_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T9 and T10 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T9-T10 intervertebral disc -- the fibrocartilaginous symphysis joint between the T9 and T10 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t10_t11",
+    "name_ta": "Discus intervertebralis (T10-T11)",
+    "name_common": "T10-T11 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t10_t11_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T10 and T11 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T10-T11 intervertebral disc -- the fibrocartilaginous symphysis joint between the T10 and T11 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_t11_t12",
+    "name_ta": "Discus intervertebralis (T11-T12)",
+    "name_common": "T11-T12 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t11_t12_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T11 and T12 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T11-T12 intervertebral disc -- the fibrocartilaginous symphysis joint between the T11 and T12 vertebral bodies. Functionally identical to every other level in its region; see the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_l1_l2",
+    "name_ta": "Discus intervertebralis (L1-L2)",
+    "name_common": "L1-L2 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_l1_l2_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the L1 and L2 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The L1-L2 intervertebral disc -- the fibrocartilaginous symphysis joint between the L1 and L2 vertebral bodies. Functionally identical to every other level in its region; see the grouped lumbar_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_l2_l3",
+    "name_ta": "Discus intervertebralis (L2-L3)",
+    "name_common": "L2-L3 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_l2_l3_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the L2 and L3 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The L2-L3 intervertebral disc -- the fibrocartilaginous symphysis joint between the L2 and L3 vertebral bodies. Functionally identical to every other level in its region; see the grouped lumbar_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_l3_l4",
+    "name_ta": "Discus intervertebralis (L3-L4)",
+    "name_common": "L3-L4 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_l3_l4_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the L3 and L4 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The L3-L4 intervertebral disc -- the fibrocartilaginous symphysis joint between the L3 and L4 vertebral bodies. Functionally identical to every other level in its region; see the grouped lumbar_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_l4_l5",
+    "name_ta": "Discus intervertebralis (L4-L5)",
+    "name_common": "L4-L5 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_l4_l5_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the L4 and L5 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The L4-L5 intervertebral disc -- the fibrocartilaginous symphysis joint between the L4 and L5 vertebral bodies. Functionally identical to every other level in its region; see the grouped lumbar_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q104, 2026-09-20; disclosure field added retroactively by Q119, 2026-09-22): this level's disc MESH is a generated cylinder, NOT segmented from imaging. This project has no intervertebral-disc imaging segmented at the individual-level (only the grouped cervical/thoracic/lumbar region entities in data/cartilage/intervertebral_discs.json carry real per-region anatomical/biomechanical citations; this per-level record exists only to carry the actual shipped mesh's identity and this disclosure). Position is the region's per-level proportional placement along the vertebral column (lumbar levels instead use the adjacent-vertebra-pair midpoint -- see compute_lumbar_disc_centers in the generator). RADIUS (40 mm) and THICKNESS (20 mm) are 'super-sized' purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99 was the acceptance bar), not measured from any disc anatomy -- both substantially exceed a real intervertebral disc's typical size. See scripts/generate_intervertebral_discs.py and PROJECT_STATE.md's Q104 and Q119 entries for the full method.",
+      "generated_by": "scripts/generate_intervertebral_discs.py (Q104, 2026-09-20)",
+      "shape": "cylinder",
+      "radius_mm": 40.0,
+      "thickness_mm": 20.0,
+      "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  }
+]

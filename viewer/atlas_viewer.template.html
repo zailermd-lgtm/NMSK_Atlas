@@ -703,6 +703,9 @@ function select(id){
     (s.subject && s.subject !== PRIMARY_SUBJECT
       ? '<span class="tag warn" title="Shown for reference at the same scale, not as part of one continuous cadaver -- see docs/GEOMETRY_SOURCES.md">' +
         esc(SUBJECT_LABELS[s.subject] || s.subject) + '</span>'
+      : "") +
+    (r.procedural_badge
+      ? '<span class="tag warn" title="' + esc(r.procedural_badge) + '">Procedural geometry — not from imaging</span>'
       : "");
 
   var h = "";
