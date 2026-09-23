@@ -840,6 +840,63 @@ still waiting — unrelated to the CT work above.
       changed, nothing else. 236 → 236 anchors (same count — these were
       already "resolved", just resolved wrong).
 
+    **Q133 (2026-09-23): the design task above ("pass the owning muscle's
+    id in") is DONE, 2 of 3 overrides removed.** `_match()` now takes the
+    owning muscle's own informative name tokens (`_muscle_ref_tokens()`,
+    from `name_common`, generic qualifiers like "minor"/"lateralis"
+    excluded since they collide across unrelated families) and a candidate
+    whose own name already names this muscle (`_self_referencing()`) wins
+    outright, ahead of the raw-token-count ranking. `rhomboid_minor_r/l`
+    insertion and `extensor_carpi_ulnaris_r/l` origin now resolve correctly
+    through `_match()` alone (their correct landmark already passes the
+    ordinary word-overlap gate; self-reference only had to outrank the
+    flawed tiebreak) — verified by removing each override one at a time and
+    reproducing the identical coordinate, then diffing the full anchors.json
+    (all 866 endpoints) to confirm nothing else moved wrong. Both overrides
+    removed. **`vastus_lateralis_r/l` origin keeps its override**: its
+    correct landmark never enters `_match()`'s candidate list at all (fails
+    the word-overlap gate on the site half of its own name), so
+    self-reference — which only ranks candidates already in that list —
+    cannot reach it; loosening the gate to admit self-referencing candidates
+    regardless of overlap position DOES fix it, but a full-corpus diff of
+    that version changed 35 coordinates and added 95 new anchors across
+    unrelated muscles (pronator_teres, deltoid, stylohyoid, teres_major, the
+    hallucis muscles, more) — unverifiable in this pass, so declined; a
+    gate-side fix is still open. Full-corpus diff of the shipped version:
+    324 → 326 anchors, exactly 6 changed/added beyond the 2
+    overrides-made-redundant — all investigated and genuine additional
+    fixes of the *same* bug class, not regressions: `rhomboid_major_r/l`
+    insertion (previously unresolved/displaced — matched "spine of scapula"
+    but its own text says "below" it — now correctly resolves to the
+    "medial (vertebral) border (rhomboids, ...)" landmark, same mechanism as
+    rhomboid_minor); `middle_pharyngeal_constrictor_r/l` origin (was
+    "lesser horn (stylohyoid ligament)", won only because the muscle's own
+    text also happens to mention "stylohyoid ligament" separately — now
+    "greater horn (middle/inferior pharyngeal constrictor, hyoglossus)",
+    which is the landmark bones.json's own curator explicitly assigned this
+    muscle to); `thyrohyoid_r/l` insertion (was "greater horn", whose own
+    parenthetical does NOT list thyrohyoid — now "body (... thyrohyoid)",
+    which does). 252/252 tests pass throughout. Bundle visibility: both
+    fixed muscles ("rhomboid"/"extensor_carpi_ulnaris") produce bit-identical
+    coordinates to before (override vs. general mechanism), so no bundle
+    changes there; `vastus_lateralis` unchanged (override untouched). But
+    `rhomboid_major_r/l`, `middle_pharyngeal_constrictor_r/l` and
+    `thyrohyoid_r/l` DO ship as meshes in both viewer bundles and DO change
+    — verified via `resolve_anchor_points()` before/after for every subject
+    in both `vhm_rebuild_bundle.sh`'s and `vhf_rebuild_bundle.sh`'s subject
+    lists (male: scapula never gets a frame — no subject in the male build
+    carries both humerus+scapula geometry together — so `rhomboid_major`
+    stays without a resolved point there; hyoid resolves in both). Rebuilt
+    both bundles additively on the existing `build/vh/*` subject state (no
+    volumes reconverted; idempotent `conv()` skipped every already-done
+    subject) and confirmed by parsing the rebuilt JSON structure-by-structure:
+    female 368→368 structures, exactly the 6 expected anchor-point diffs (
+    `rhomboid_major_r/l` gain an insertion point, `middle_pharyngeal_
+    constrictor_r/l` and `thyrohyoid_r/l` move); male structure count
+    unchanged too, same 4 hyoid-anchor diffs (no rhomboid diff, per the
+    scapula-frame gap above). Not published (publish tool blocked all day,
+    per the standing note above; not retried).
+
 ## 2026-09-06 session: viewer anchor points + large-scale clinical/anatomical data pass
 
 - **Viewer**: `scripts/export_viewer_bundle.py` now resolves every muscle

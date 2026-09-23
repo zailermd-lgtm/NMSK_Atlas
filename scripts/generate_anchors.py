@@ -158,7 +158,41 @@ def _is_displaced(text: str, at: int) -> str | None:
     return None
 
 
-def _match(landmark_text: str, candidates: list):
+# Anatomical qualifiers paired across many unrelated muscle families
+# (rhomboid MINOR / teres MINOR / pectoralis MINOR; vastus LATERALIS / vastus
+# MEDIALIS; adductor LONGUS / BREVIS / MAGNUS; gluteus MEDIUS ...). A muscle's
+# own name often contains one of these, but it is not a safe way to
+# recognise the muscle: it collides with every other family that reuses the
+# same qualifier for a different muscle at the same or a neighbouring site.
+# The FAMILY word ("rhomboid", "vastus", "extensor") is what actually
+# identifies the muscle; qualifiers are excluded from self-reference matching
+# so a shared qualifier alone can never manufacture a false self-reference.
+_GENERIC_MUSCLE_QUALIFIERS = {
+    "minor", "major", "medius", "minimus", "lateralis", "medialis",
+    "longus", "brevis", "magnus", "profundus", "superficialis",
+    "anterior", "posterior", "superior", "inferior", "internus",
+    "externus", "tertius", "quartus", "quintus",
+}
+
+
+def _muscle_ref_tokens(name_common: str) -> set:
+    """The informative words of a muscle's own display name, for checking
+    whether a candidate landmark's own text names this muscle. Excludes
+    bare anatomical qualifiers (see _GENERIC_MUSCLE_QUALIFIERS) since those
+    are shared across unrelated muscle families and would produce false
+    positives on their own."""
+    return {t for t in _tokens(name_common) if t not in _GENERIC_MUSCLE_QUALIFIERS}
+
+
+def _self_referencing(ref_tokens: set, landmark_tokens: list) -> bool:
+    """True if the landmark's own name text names the owning muscle, via any
+    informative ref token appearing as (or as the stem of, e.g. plural
+    'rhomboids' for 'rhomboid') one of the landmark's own tokens."""
+    return any(lt == rt or lt.startswith(rt) or rt.startswith(lt)
+               for rt in ref_tokens for lt in landmark_tokens)
+
+
+def _match(landmark_text: str, candidates: list, muscle_ref_tokens: set | None = None):
     """Returns (position, skipped_reason). Exactly one is ever non-None.
 
     Picks the MOST SPECIFIC landmark that matches, not the first one found.
@@ -170,6 +204,19 @@ def _match(landmark_text: str, candidates: list):
     onto whichever landmark happened to be listed first. Scoring by how many
     of a landmark's own tokens the text actually contains lets a muscle that
     names its facet find its facet.
+
+    `muscle_ref_tokens`, when given, is the owning muscle's own informative
+    name tokens (see _muscle_ref_tokens()). A candidate whose OWN name
+    explicitly names this muscle is preferred outright, ahead of every
+    other criterion below: `_match()` otherwise has no idea which muscle it
+    is placing an anchor for, and picks between candidates on how much text
+    they share with the attachment description alone -- which loses when an
+    unrelated candidate happens to share more incidental words (the muscle's
+    own text naming a neighbour, or its own bone's descriptive prose
+    colliding with a generic landmark's full name, e.g. "at the root of the
+    spine" coincidentally saturating "spine of scapula (trapezius
+    insertion...)"). A landmark that already names the muscle attaching
+    there removes that guesswork entirely, so it outranks raw token overlap.
     """
     text = landmark_text.lower()
     wanted = _ordinals(text)
@@ -191,6 +238,7 @@ def _match(landmark_text: str, candidates: list):
         if not tokens or not (all(t in text for t in tokens[:2])
                               or all(t in text for t in site_tokens[:2])):
             continue
+        self_ref = bool(muscle_ref_tokens) and _self_referencing(muscle_ref_tokens, tokens)
         # A landmark name has two parts: the SITE ("ischial tuberosity,
         # lateral border") and, in parentheses, WHO attaches there. Only the
         # site describes where the landmark is. The attachment list is a
@@ -234,7 +282,7 @@ def _match(landmark_text: str, candidates: list):
         # gives 4 against 2 and picks the facet.
         site_hits = sum(1 for t in tokens if t in site and t in text)
         other_hits = sum(1 for t in tokens if t not in site and t in text)
-        key = (site_hits, site_hits / max(len(site), 1), other_hits,
+        key = (int(self_ref), site_hits, site_hits / max(len(site), 1), other_hits,
                (site_hits + other_hits) / len(tokens))
         scored.append((key, name, pos, tokens))
     if not scored:
@@ -303,25 +351,39 @@ def _split_by_compartments(text: str, qualifiers: list) -> dict | None:
     return out
 
 
-# `_match()` picks between candidate landmarks without knowing which
-# muscle it is placing. Three cases were found (a full audit against every
-# one of the 238 anchors, cross-checked against the muscle's own text and
-# the real geometry) where that costs the right answer: the correct
-# landmark loses to an unrelated one purely because the loser shares more
-# incidental words, or the correct one's own distinguishing word never
-# appears in ordinary muscle prose. Every general fix attempted for these
-# -- a looser gate, a stricter ordinal check, dropping the length-biased
-# tiebreak -- corrected the target case while silently breaking a
-# different, previously-correct anchor elsewhere in the corpus (verified
-# by diffing the full anchors.json each time, not by re-checking only the
-# target). See PROJECT_STATE.md for exactly what broke and why. Pinning
-# these three pairs directly is safer than shipping a broader rule whose
-# reach was not fully verified.
+# `_match()` used to pick between candidate landmarks without knowing which
+# muscle it was placing (Q133 fixed that: see `muscle_ref_tokens` on
+# `_match()` and `_self_referencing()`). A full audit against every one of
+# the 238 anchors, cross-checked against the muscle's own text and the real
+# geometry, found three cases where that cost the right answer, all
+# originally pinned here as named overrides. The self-reference mechanism
+# now resolves `rhomboid_minor_r/l` insertion and `extensor_carpi_ulnaris_r/l`
+# origin correctly on its own (their correct landmark already passes the
+# ordinary word-overlap gate below; self-reference only had to outrank the
+# flawed tiebreak that previously chose the wrong one) -- verified by
+# temporarily removing each override and confirming `_match()` alone
+# reproduces the same coordinate, then diffing the full corpus to confirm
+# nothing else moved. Both are removed below.
+#
+# `vastus_lateralis_r/l` origin is NOT fixable the same way and keeps its
+# override: its correct landmark, "gluteal tuberosity/linea aspera (...
+# vastus medialis/lateralis ...)", doesn't share its first two tokens with
+# vastus_lateralis's own text ("linea aspera (lateral lip), greater
+# trochanter, intertrochanteric line" -- "linea aspera" is the landmark's
+# 3rd/4th token, not its first two), so it never enters `_match()`'s
+# candidate list at all; self-reference can only rank candidates that are
+# already in that list. Loosening the gate to admit self-referencing
+# candidates regardless of word-overlap position DOES make this one
+# resolve correctly, but a full-corpus diff of that version showed 95 newly
+# resolved anchors and 35 changed coordinates across dozens of unrelated
+# muscles (pronator_teres, deltoid, stylohyoid, teres_major, the hallucis
+# muscles, and more) -- far too broad to verify safe in this pass, and
+# exactly the "corrects the target, silently changes something unverified
+# elsewhere" failure this section already warns about. So the override
+# stays; a real gate-side fix (letting self-reference admit a candidate
+# without granting it blanket priority over everything else the gate
+# protects against) is still open.
 _KNOWN_MISMATCH_OVERRIDES = {
-    ("rhomboid_minor_r", "muscle_insertion"): "vertebral",
-    ("rhomboid_minor_l", "muscle_insertion"): "vertebral",
-    ("extensor_carpi_ulnaris_r", "muscle_origin"): "common extensor origin",
-    ("extensor_carpi_ulnaris_l", "muscle_origin"): "common extensor origin",
     # The original documented case (see ROADMAP.md's landmark-audit section
     # and validate_moment_arms.py): "linea aspera (lateral lip), greater
     # trochanter, intertrochanteric line" scores 3 site-word hits against
@@ -331,7 +393,9 @@ _KNOWN_MISMATCH_OVERRIDES = {
     # primary by design (the obturator internus/lesser trochanter case this
     # function's docstring describes needs exactly that), so no reordering
     # of the existing criteria reaches this one without unreordering that
-    # one.
+    # one. See the comment above for why the self-reference mechanism
+    # (Q133) doesn't reach this one either: its correct landmark never
+    # enters `_match()`'s candidate list to be ranked.
     ("vastus_lateralis_r", "muscle_origin"): "vastus medialis/lateralis",
     ("vastus_lateralis_l", "muscle_origin"): "vastus medialis/lateralis",
 }
@@ -395,6 +459,7 @@ def main():
                 bone_id = att.get(bone_key)
                 landmark_text = att.get(landmark_key, "")
                 candidates = lut.get(bone_id, [])
+                muscle_ref_tokens = _muscle_ref_tokens(m.get("name_common", ""))
 
                 resolved_per_compartment = None
                 if comp_qualifiers:
@@ -403,7 +468,7 @@ def main():
                     if split is not None:
                         resolved_per_compartment = {}
                         for q, comp_id in comp_qualifiers:
-                            p, _skip = _match(split[q], candidates)
+                            p, _skip = _match(split[q], candidates, muscle_ref_tokens)
                             if p is None:
                                 resolved_per_compartment = None
                                 break
@@ -441,7 +506,7 @@ def main():
                     })
                     continue
 
-                pos, skipped = _match(landmark_text, candidates)
+                pos, skipped = _match(landmark_text, candidates, muscle_ref_tokens)
                 if skipped:
                     displaced.append((m["id"], role, skipped))
                 if pos is not None:

@@ -17,9 +17,9 @@
     "owner_entity": "middle_pharyngeal_constrictor_r",
     "parent_bone_frame": "hyoid",
     "local_position_mm": [
-      10.0,
-      5.0,
-      -5.0
+      20.0,
+      0.0,
+      -25.0
     ],
     "notes": "auto-derived from bone landmark match against 'greater and lesser horns of the hyoid and the stylohyoid lig'"
   },
@@ -89,11 +89,11 @@
     "owner_entity": "thyrohyoid_l",
     "parent_bone_frame": "hyoid",
     "local_position_mm": [
-      -20.0,
       0.0,
-      -25.0
+      0.0,
+      0.0
     ],
-    "notes": "auto-derived from bone landmark match against 'lower border of the body and greater horn of the hyoid'; X mirrored for the left side of a midline bone"
+    "notes": "auto-derived from bone landmark match against 'lower border of the body and greater horn of the hyoid'"
   },
   {
     "id": "anchor_semispinalis_cervicis_l_insertion",
@@ -173,9 +173,9 @@
     "owner_entity": "middle_pharyngeal_constrictor_l",
     "parent_bone_frame": "hyoid",
     "local_position_mm": [
-      -10.0,
-      5.0,
-      -5.0
+      -20.0,
+      0.0,
+      -25.0
     ],
     "notes": "auto-derived from bone landmark match against 'greater and lesser horns of the hyoid and the stylohyoid lig'; X mirrored for the left side of a midline bone"
   },
@@ -245,9 +245,9 @@
     "owner_entity": "thyrohyoid_r",
     "parent_bone_frame": "hyoid",
     "local_position_mm": [
-      20.0,
       0.0,
-      -25.0
+      0.0,
+      0.0
     ],
     "notes": "auto-derived from bone landmark match against 'lower border of the body and greater horn of the hyoid'"
   },
@@ -609,7 +609,7 @@
       10.0,
       -65.0
     ],
-    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula, at the root of the spine'"
   },
   {
     "id": "anchor_serratus_anterior_l_insertion",
@@ -813,7 +813,7 @@
       5.0,
       -50.0
     ],
-    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula, at the root of the spine'"
   },
   {
     "id": "anchor_trapezius_l_insertion",
@@ -1068,6 +1068,18 @@
     "notes": "auto-derived from bone landmark match against 'ischial spine'"
   },
   {
+    "id": "anchor_rhomboid_major_l_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "rhomboid_major_l",
+    "parent_bone_frame": "scapula_l",
+    "local_position_mm": [
+      75.0,
+      5.0,
+      -50.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula, below the spine'"
+  },
+  {
     "id": "anchor_serratus_anterior_r_insertion",
     "anchor_type": "muscle_insertion",
     "owner_entity": "serratus_anterior_r",
@@ -1102,6 +1114,18 @@
       30.0
     ],
     "notes": "auto-derived from bone landmark match against 'coracoid process'"
+  },
+  {
+    "id": "anchor_rhomboid_major_r_insertion",
+    "anchor_type": "muscle_insertion",
+    "owner_entity": "rhomboid_major_r",
+    "parent_bone_frame": "scapula_r",
+    "local_position_mm": [
+      -65.0,
+      10.0,
+      -65.0
+    ],
+    "notes": "auto-derived from bone landmark match against 'medial border of scapula, below the spine'"
   },
   {
     "id": "anchor_pronator_teres_r_origin",
@@ -1677,7 +1701,7 @@
       -330,
       5
     ],
-    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
+    "notes": "auto-derived from bone landmark match against 'humeral head: lateral epicondyle; ulnar head: posterior ulna'"
   },
   {
     "id": "anchor_flexor_digiti_minimi_brevis_hand_l_origin",
@@ -1737,7 +1761,7 @@
       -330,
       5
     ],
-    "notes": "manually verified override, not the automatic matcher's own pick -- see PROJECT_STATE.md for why this pair needed one"
+    "notes": "auto-derived from bone landmark match against 'humeral head: lateral epicondyle; ulnar head: posterior ulna'"
   },
   {
     "id": "anchor_extensor_carpi_radialis_brevis_r_origin",
