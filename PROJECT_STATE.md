@@ -11,7 +11,25 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q131 (2026-09-22/23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q132 (2026-09-23)
+generalized the ad hoc per-vertebra identification Q130/Q131 each hand-rolled into the landmark
+audit's own standing `named_members`/`expected_member` mechanism (`scripts/audit_landmarks_vs_geometry.py`),
+so a future landmark/anchor naming one vertebra is checked automatically instead of needing fresh
+one-off code. Reused Q130/Q131's own two identification methods unchanged (`_identify_vertebrae`:
+exact per-record TotalSegmentator label id where the manifest carries one, else mesh-connectivity
+components sorted by height) for `cervical_vertebrae`/`thoracic_vertebrae`/`lumbar_vertebrae`; added
+a vertebra-level branch to `expected_member` that reuses `generate_anchors.py`'s own `_vertebra_levels()`
+parser rather than a new word table. Ribs re-checked (not assumed) and confirmed still unnameable at
+the mesh level: both subjects, both sides come back as exactly 1 mesh-connectivity component
+(48k-67k vertices, no 12-piece split), and even `ct_vhf`'s manifest -- whose per-record TotalSegmentator
+ids gave vertebrae exact identity for free -- holds only ONE combined `structures` record per rib
+side, so the pre-fusion per-rib boundary is gone from the manifest too, not just the mesh; scoped
+`named_members` to vertebrae only rather than invent a third (untested) identification method. Ran
+the generalized check against `ct_vhm`/`ct_vhf`: all 4 real vertebra landmarks/anchors (C1 transverse
+process, C1 posterior tubercle, C2 spinous process, T11 spinous process) land on the member they
+name, on both bodies -- agrees exactly with Q130/Q131's manual verification, no new identity bug
+found. Tooling only, no geometry/data changed. 252 tests pass, unchanged.
+Recent: Q131 (2026-09-22/23)
 applied Q130's exact per-vertebra identification technique to `thoracic_vertebrae` (T1-T12) and
 `lumbar_vertebrae` (L1-L5): both split cleanly into 12/5 real mesh-connectivity components on both
 bodies (confirmed, not assumed), and on `ct_vhf` the identity isn't even shape-inferred -- its
@@ -751,8 +769,15 @@ still waiting — unrelated to the CT work above.
    heuristic measured 75mm+ error against the real rib1 label and was not shipped. **Thoracic/
    lumbar vertebrae not attempted** (time budget) -- the same technique should generalize, ranked
    next. See the Q130 queue entry for full numbers.
-6. Extend `named_members` in the landmark audit to ribs and vertebrae, so the
-   identity check covers them.
+6. ~~Extend `named_members` in the landmark audit to ribs and vertebrae, so the
+   identity check covers them.~~ **Done (partially) by Q132 (2026-09-23)** --
+   `cervical_vertebrae`/`thoracic_vertebrae`/`lumbar_vertebrae` now covered, reusing
+   Q130/Q131's own identification methods unchanged; ribs scoped out, confirmed (not
+   assumed) still unnameable post-Q109-fusion at both the mesh level (1 component per
+   side, both subjects) and the manifest level (only 1 combined `structures` record
+   per rib side even on `ct_vhf`). Generalized check agrees with Q130/Q131's manual
+   results on all 4 real vertebra landmarks/anchors, both bodies. See the Q132 note
+   above for detail.
 7. ~~Cross-check generated moment arms against OpenSim's published models.~~
    **Done** — `scripts/validate_moment_arms.py`, 10/12 computable pairs land
    inside their published range. See ROADMAP.md Stage 6.

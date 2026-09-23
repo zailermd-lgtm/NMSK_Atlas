@@ -79,11 +79,17 @@ import numpy as np
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
+sys.path.insert(0, str(REPO_ROOT / "scripts"))
 
 from engine import vh_ingest as vh  # noqa: E402
 from engine import volume_ingest  # noqa: E402
 from engine.vh_ingest import fit_sphere  # noqa: E402
 from engine.geometry import bone_length_along_axis, local_to_world  # noqa: E402
+# Q132: the vertebra-level parser generate_anchors.py already has and tests
+# (Q130) -- reused here, not reimplemented, so a landmark naming "C1" or
+# "T11" is recognised identically by the audit's identity check and by the
+# anchor generator that placed it.
+from generate_anchors import _vertebra_levels  # noqa: E402
 
 BUILD_DIR = REPO_ROOT / "build" / "vh"
 DATA_DIR = REPO_ROOT / "data"
@@ -337,14 +343,55 @@ _RAY_WORDS = {
     "MT5": ("5th metatarsal", "fifth metatarsal"),
 }
 
+# A vertebra-group's members are keyed by level ("C1", "T11", ...), which is
+# how expected_member (below) tells this kind of group apart from the tarsal/
+# ray ones and switches to _vertebra_levels() instead of a word table.
+_VERTEBRA_KEY_RE = re.compile(r"^[CTLS]\d{1,2}$")
 
-def named_members(blocks, by_atlas_id, faces_by_atlas_id):
+# The three region entities that are ONE atlas/mesh id for several real,
+# separate vertebrae (Q130/Q131): (atlas_id, level prefix, every level it
+# should contain, craniocaudally). build_frames() below uses the identical
+# (atlas_id, prefix, expected) tuples for thoracic/lumbar to find each
+# entity's own origin via the same _identify_vertebrae(); cervical's frame
+# is found by separate, older code that only needs its top two levels.
+_VERTEBRA_GROUPS = (
+    ("cervical_vertebrae", "C", [f"C{i}" for i in range(1, 8)]),
+    ("thoracic_vertebrae", "T", [f"T{i}" for i in range(1, 13)]),
+    ("lumbar_vertebrae", "L", [f"L{i}" for i in range(1, 6)]),
+)
+
+
+def named_members(blocks, by_atlas_id, faces_by_atlas_id, manifest=None):
     """Bone groups whose individual members can be told apart geometrically.
 
     The tarsals arrive as seven separate meshes and the metatarsals fall out
     as five connected components once the forefoot block is split, so for
-    these two entities -- and only these -- a landmark that names one bone
-    can be tested against that bone rather than against the group.
+    these two entities a landmark that names one bone can be tested against
+    that bone rather than against the group.
+
+    Q132 generalises the same idea to the three vertebral-column entities
+    (cervical/thoracic/lumbar_vertebrae) using Q130/Q131's own already-
+    verified per-vertebra identification (`_identify_vertebrae`: an exact
+    per-record TotalSegmentator label id where the manifest carries one,
+    mesh-connectivity components sorted by height otherwise) instead of
+    re-deriving it -- this was ad hoc, one-off code in build_frames() before
+    today; now any future landmark or anchor naming a single vertebra level
+    is checked the same way automatically, on whichever subject is loaded.
+
+    ribs_l/ribs_r are NOT included, checked here rather than assumed: Q109's
+    continuity fix voxel-dilated and re-meshed all 12 ribs per side into one
+    connected blob (confirmed again for this item -- both subjects, both
+    sides come back as exactly 1 mesh-connectivity component of 48k-67k
+    vertices, nothing near the 12-piece count), and the manifest lost the
+    per-rib boundary at the same step (even ct_vhf, whose per-vertebra
+    manifest records give vertebrae their exact identity for free, holds
+    only ONE combined structures record per rib side). Both of Q130/Q131's
+    reused methods fail for the same reason, so rather than invent a third,
+    untested method (e.g. nearest-voxel lookup into the raw
+    vhm_total.nii.gz/vhf_total.nii.gz label volumes, which still carry the
+    12 individual per-rib labels), this item reports ribs honestly as
+    unnameable at the mesh level post-fusion and scopes the identity check
+    down to vertebrae.
     """
     out = {}
     for side, tag in (("r", "right"), ("l", "left")):
@@ -358,6 +405,11 @@ def named_members(blocks, by_atlas_id, faces_by_atlas_id):
         rays = metatarsal_rays(by_atlas_id, faces_by_atlas_id, side)
         if rays:
             out[f"metatarsals_{side}"] = {f"MT{i+1}": r for i, r in enumerate(rays)}
+    for atlas_id, prefix, expected in _VERTEBRA_GROUPS:
+        pieces, _how = _identify_vertebrae(manifest, by_atlas_id, faces_by_atlas_id,
+                                           atlas_id, prefix, expected)
+        if pieces:
+            out[atlas_id] = pieces
     return out
 
 
@@ -369,7 +421,14 @@ def expected_member(name: str, members: dict):
     the whole group and testing it against a single bone would invent a
     failure.
     """
-    words = _RAY_WORDS if next(iter(members)).startswith("MT") else _MEMBER_WORDS
+    sample = next(iter(members))
+    if _VERTEBRA_KEY_RE.match(sample):
+        # Reuse generate_anchors.py's own vertebra-level parser (Q130) so a
+        # landmark saying "C1" or "of T11" is read the same way here as it
+        # is when an anchor is matched to it.
+        hits = {lvl.upper() for lvl in _vertebra_levels(name)} & set(members)
+        return hits.pop() if len(hits) == 1 else None
+    words = _RAY_WORDS if sample.startswith("MT") else _MEMBER_WORDS
     low = name.lower()
     hits = {m for m, terms in words.items()
             if m in members and any(t in low for t in terms)}
@@ -1063,7 +1122,7 @@ def main() -> int:
     # this is the only check here that can see a mirror.
     print("\nis each landmark on the bone it NAMES?")
     all_anchors = json.loads((DATA_DIR / "rig" / "anchors.json").read_text())
-    named = named_members(blocks, by_atlas_id, faces_by_atlas_id)
+    named = named_members(blocks, by_atlas_id, faces_by_atlas_id, manifest)
     identity_bad = []
     for bone_id, members in sorted(named.items()):
         if bone_id not in frames or bone_id not in bones:
