@@ -74,6 +74,10 @@ BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000,
                     # directly, not tuned by feel; 2400 keeps a safety margin above that threshold at
                     # both bodies' budget-scale (0.85 female / 0.9 male).
                     "descending_thoracic_aorta": 2400}
+# Q147: per-SUBJECT budget multiplier (on top of --budget-scale), for a subject whose own
+# structures are all lower-trust generic fills rather than measured imaging -- currently
+# just the two Z-Anatomy forearm/hand/foot per-bone transfers (see their own use just below).
+LOW_BUDGET_SUBJECT_SCALE = {"xfer_zan2vhm_limb": 0.3, "xfer_zan2vhf_limb": 0.3}
 QUANTUM_MM = 0.25
 
 # Indices are uint16, which is the whole reason for the budgets above: at
@@ -527,7 +531,14 @@ def main() -> int:
             # falling back to DEFAULT_BUDGET for e.g. a bone would over-decimate it far
             # below its category's norm, so the manifest itself may say what it is.
             cat = category.get(aid) or s.get("category") or "other"
-            budget = max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale))
+            # Q147: the Z-Anatomy forearm/hand/foot per-bone transfer subjects are lower-
+            # trust generic-shape fills (badged as such), not measured imaging -- keeping
+            # them at the full category budget pushed the male bundle to 16.05MB, over the
+            # 15.5MB target; a lower per-structure budget for just these two subjects (never
+            # any other, including any future one -- see LOW_BUDGET_SUBJECT_SCALE) both fits
+            # the size budget and matches their own lower positional confidence.
+            subj_scale = LOW_BUDGET_SUBJECT_SCALE.get(subject, 1.0)
+            budget = max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale * subj_scale))
             q = decimate_quadric(v, f, budget) if (aid in SHEET_IDS or cat in sheet_categories) else None
             if q is not None:
                 dv, df = q; cell = 0.0
@@ -563,6 +574,15 @@ def main() -> int:
                 # own name/region are all there is to show; never invented here.
                 entry["rec"] = {k: v for k, v in
                                  {"name": s["name"], "region": s.get("region")}.items() if v}
+            if s.get("procedural_badge"):
+                # Q147: a subject's own manifest can carry a per-structure procedural
+                # disclosure directly (e.g. limb_per_bone_transfer.py's Z-Anatomy
+                # forearm/hand/foot transfer, badged with its own measured validation
+                # error) -- applied before --force-badge so a bundle that ALSO passes
+                # --force-badge (Q143-style, whole-bundle Z-Anatomy reference builds)
+                # still gets the whole-bundle text instead. No existing subject's
+                # manifest sets this field, so this is a no-op everywhere else.
+                entry.setdefault("rec", {})["procedural_badge"] = s["procedural_badge"]
             if args.force_badge:
                 # Q144: a structure the manifest itself flags as corrected (a
                 # declarative, cited data/corrections/zanatomy/*.json entry

@@ -68,10 +68,25 @@ fi
 # Q149: the abdominal wall volume was surfaced mirrored (cryo-order voxels, CT-direction affine);
 # mirror it back onto the spine. Idempotent (manifest records mirror_x_fix).
 [ -f build/vh/ct_vhm_abw/manifest.json ] && python3 scripts/mirror_subject_x.py build/vh/ct_vhm_abw --c 100.4 --note "Q149: cryo-order voxels under a CT-direction affine; labels correct, geometry mirrored"
+# Q147: forearm/hand/foot soft tissue (muscles, tendons, ligaments, retinacula) that his own
+# imaging never covered, transferred from Z-Anatomy with a PER-BONE (radius vs ulna kept
+# separate, carpus/tarsus block, never the broad multi-bone spatial blend Q142 used)
+# registration onto his OWN bones (scripts/transfer/limb_per_bone_transfer.py); fills gaps
+# only -- real ct_vhm_forearm/ct_vhm_arm etc. always win, this subject is listed LAST below.
+# Reads the PRIOR build/viewer_m (this script's own previous output) for his bones/skin, the
+# same self-referential pattern already used below for xfer_vhf2vhm/xfer_vhf2vhm_neck.
+# 25.4mm: median centroid error validating this exact method on his own real ct_vhm_forearm
+# muscles (flexor_digitorum_superficialis_r/flexor_digitorum_profundus_r/abductor_pollicis_
+# longus_r), n=3 -- see PROJECT_STATE.md Q147 and data/derived/Q147_validation_male.json.
+if [ ! -f build/vh/xfer_zan2vhm_limb/manifest.json ] && [ -f build/viewer_m/bundle.json ]; then
+  python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2m --male-html build/viewer_m \
+    --badge-error-mm 25.4 -o build/vh/xfer_zan2vhm_limb --report data/derived/transfer_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
+fi
 # Q116: coccygeus_l only, reconverted at --smooth 0.0 (ct_vhm_pfloor_fix); listed BEFORE
 # ct_vhm_pfloor so it wins just this one atlas_id.
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+[ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1
 echo VHM_REBUILD_DONE

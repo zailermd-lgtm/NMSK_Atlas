@@ -152,6 +152,20 @@ if [ ! -f build/vh/xfer_vhm2vhf_rhom/manifest.json ]; then
   python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/viewer_m/atlas_viewer_male.html --female-bundle build/viewer_f \
     --ids rhomboid_minor_l rhomboid_minor_r -o build/vh/xfer_vhm2vhf_rhom --report data/derived/transfer_report_vhm2vhf_rhom.json 2>&1 | tail -1 | cut -c1-140
 fi
+# Q147: forearm/hand/foot soft tissue from Z-Anatomy, PER-BONE registration onto HER own bones
+# (scripts/transfer/limb_per_bone_transfer.py) -- radius vs ulna kept separate, never the broad
+# multi-bone blend the rejected m2f forearm/hand transfer above used (that map distorted limb
+# volumes 2-3x). Fills gaps only, listed LAST. Her LEFT forearm/hand has no bone at all (outside
+# her CT field of view -- same limitation as everywhere else in this file) so those ids are
+# skipped by the script itself, not shipped as ungrounded geometry.
+# 29.1mm: median centroid error validating this exact method on her own real ct_vhf_forearm
+# muscles (n=13; her 5 ct_vhf_left_forearm ids could not be validated the same way, no bone to
+# register onto) -- see PROJECT_STATE.md Q147 and data/derived/Q147_validation_female.json.
+if [ ! -f build/vh/xfer_zan2vhf_limb/manifest.json ]; then
+  python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2f --female-bundle build/viewer_f \
+    --badge-error-mm 29.1 -o build/vh/xfer_zan2vhf_limb --report data/derived/transfer_report_zan2vhf_limb.json 2>&1 | tail -1 | cut -c1-200
+fi
+[ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 0.85 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1
 sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' build/viewer_f/atlas_viewer_female.html

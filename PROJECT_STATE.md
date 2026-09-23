@@ -99,6 +99,111 @@ sweep and stability check: `data/derived/Q145_pin_audit.json`. Correction file:
 forward: landmark (d)'s own bifurcation-point correction (coordinated 3-object warp) is
 still undone, should it ever be revisited.
 
+Recent: Q147 (2026-09-23)
+owner complaint: forearm/hand/foot muscles, tendons, ligaments and retinacula were mostly
+ABSENT on both specimens (bones present: radius/ulna/carpals/metacarpals/phalanges_hand,
+tarsals/metatarsals/phalanges_foot; female's left forearm/hand largely absent -- her CT
+field of view has no bone there at all). Filled from Z-Anatomy with a genuinely PER-BONE
+registration, replacing Q142's broad multi-bone spatial blend for exactly this region (Q142:
+18-83mm centroid error, blamed on forearm pronation/pose differences). New script
+`scripts/transfer/limb_per_bone_transfer.py`, reusing `bone_frames.py`'s `bone_frame`/
+`bone_affine` unchanged and `cross_subject_transfer.py`'s `TRUNCATED`/`side_of` unchanged:
+each missing structure's dominant bone(s) come from the entity registry's own attachment
+fields (origin/insertion/via-point/ligament/fascia bones), restricted to the forearm/hand or
+leg/foot set; radius and ulna are ALWAYS separate candidates (never merged into one
+"forearm" frame -- the actual pronation/pose fix); a 2+-bone structure is blended per-vertex
+by inverse-square distance to each candidate bone's own point cloud (stands in for the
+task's own "proximal->distal weight" on a bone chain).
+
+TWO REAL BUGS FOUND BUILDING THIS, both fixed generically, not by name: (1) `bone_frame`'s
+own "snap each cross-sectional axis to the nearest atlas axis" convention is only a fair
+common reference when the bone's long axis is itself atlas-Y-dominant on BOTH bodies -- the
+male's own real ulna is posed diagonally (his forearm is bent, not hanging straight down),
+so the naive per-bone affine threw soft tissue up to ~700mm from the bone. Fixed with
+`robust_bone_affine`: tries several twists of the coarse fit about the bone's own long axis
+as `trimesh.registration.icp` starting points and keeps the lowest-cost result (the task's
+own suggested alternative method, "fit rigid+uniform-scale (or ICP after coarse landmark
+alignment)"). (2) `bone_frame`'s identity-vs-PCA branch (LONG_RATIO) can fire on ONE body's
+bone and not the other for a borderline (blob-shaped) bone -- the female's own tarsal union
+tripped this (her tarsals: identity branch; Z-Anatomy's: PCA branch), silently mapping her
+tarsus's plain-X axis onto Z-Anatomy's LONG axis (ICP cost ~450mm vs ~30-50mm for every
+other bone) -- fixed by `_consistent_frames`, forcing BOTH bodies to the identity branch
+together whenever either alone would use it. Also switched to ALWAYS uniform-scale (the
+task's own stated method), after non-uniform per-axis scale (cross_subject_transfer.py's own
+default) stretched a thin sheet (`plantar_aponeurosis_r`) 18x in one axis. A THIRD, cruder
+finding: Z-Anatomy's own matched inventory has no single block object for the carpus,
+metacarpus, hand/foot phalanges or tarsus -- each ships as individual named bones (verified:
+none of these 5 ids are keys of `zan_source.load_source()`'s own output) that
+`map_names.py`'s matcher does not confidently score against this project's block ids;
+synthesised as unions of the individual raw Z-Anatomy parts (`synth_source_blocks`) and, for
+the tarsus, of the destination specimen's OWN seven split pieces too (`synth_tarsal_blocks`,
+neither specimen ships a "tarsals_r/l" block either) -- `map_names.py`/
+`zanatomy_name_map.json` both left exactly as Q141 produced them, per that standing rule.
+
+SAFETY: `push_off_bones` (adapted from `apply_corrections.py`'s own bone-avoidance pass, same
+method, against the destination's own bones) pushes any interior vertex to the bone surface
+plus clearance; `clip_to_skin_mesh` (a mesh-containment version of `cross_subject_transfer.
+py`'s own NIfTI-based `clip_to_skin` -- used because a raw skin volume does not necessarily
+survive a container reset, the built skin mesh in the destination bundle always does) pulls
+any vertex outside the specimen's own skin back to just inside it, vectorised (one
+`contains()` call per bisection iteration over every bad vertex at once, not one per vertex,
+~2 orders of magnitude fewer ray-casts). A structure where the per-bone blend put MORE THAN
+HALF its own vertices outside the specimen's skin is NOT shipped (a sign the fit failed for
+that particular structure, usually one far from its driving bone's own centroid) -- disclosed
+in the transfer report rather than force-clipped into a squashed or degenerate shape; this
+project's own standing practice for an automated method that fails on part of its target
+(precedent: `ct_vhm_forearm`'s own unshipped regions).
+
+VALIDATION (required before shipping, NOT a shipping gate -- Q142's "ship nothing" bar does
+not apply here; the owner's own instruction this time is "ship an estimate, badge it, correct
+later"): the identical method run on ids that already have REAL geometry on the target,
+scored against it with `scripts/zanatomy/validate_registration.py`'s own `compare()`
+(centroid distance, volume ratio, 2mm-voxel Dice/IoU), unchanged. Male: `ct_vhm_forearm`'s 3
+muscles (flexor_digitorum_superficialis_r/flexor_digitorum_profundus_r/
+abductor_pollicis_longus_r), median centroid error 25.4mm (`data/derived/
+Q147_validation_male.json`). Female: `ct_vhf_forearm`'s 13 right-side muscles, median 29.1mm
+(`data/derived/Q147_validation_female.json`); her 5 `ct_vhf_left_forearm` ids could not be
+validated the same way -- no bone on that side to register onto at all, the same FOV
+limitation that blocks shipping there too. Dice mostly 0.0-0.5 (comparable to Q142's own
+0.008-0.47 range) -- a generic body's individual muscle shape still does not match a real
+specimen's closely; disclosed via the badge, not gated on.
+
+SHIPPED: new subjects `xfer_zan2vhm_limb` (62 structures: forearm/hand muscles+fascia both
+sides, intrinsic foot muscles+plantar/peroneal fascia both sides) and `xfer_zan2vhf_limb` (23
+structures: mostly her right forearm/hand -- real bone exists there -- plus some right/left
+foot; her left forearm/hand is the disclosed FOV gap above). 19 (male)/38 (female,
+mostly left-side-no-bone) ids skipped, listed with reasons in each subject's own
+`transfer_report_zan2vh{m,f}_limb.json`. Every shipped structure carries a per-structure
+`procedural_badge` ("Transferred from the Z-Anatomy reference model (CC BY-SA 4.0; Z-Anatomy
+/ BodyParts3D) onto this specimen's own bones -- generic shape; validation median error N
+mm") via a new manifest-level `procedural_badge` field `export_viewer_bundle.py` now passes
+through per-structure (small additive change, independent of the existing whole-bundle
+`--force-badge` mechanism, a no-op for every other subject's manifest); attribution kept in
+the subject manifest as usual. Both subjects listed LAST in `scripts/vhm_rebuild_bundle.sh`/
+`scripts/cryo/vhf_rebuild_bundle.sh`'s own subject lists, after every real-imaging subject, so
+real geometry always wins. New `LOW_BUDGET_SUBJECT_SCALE` in `export_viewer_bundle.py` (0.3x
+the category triangle budget, these two subjects only) to fit the size budget -- these are
+lower-trust generic fills, not measured imaging, so a lower budget than real structures suits
+them anyway. Rebuilt: male 425 structures/15.40MB (was 363/before this task), female 414
+structures/15.34MB (was ~363) -- both under the 15.5MB target. Verified with a front+side
+point render of both bundles (matplotlib scatter, `/tmp/.../render_bundle.py`): forearms,
+hands and (mostly) feet visibly filled and attached to the bones on both specimens, female's
+left forearm/hand visibly still bare (correctly, the disclosed FOV gap). 283 tests pass
+(added `tests/test_limb_per_bone_transfer.py`, 11 tests: dominant-bone selection from
+attachments/region-fallback, in-scope filtering, single- and multi-bone blending incl. the
+radius/ulna near-bone-dominance case, push-off, skin-clip incl. the no-skin no-op).
+
+Open issues for a future pass: 19/38 skipped ids (mostly small muscles far from their driving
+bone's own centroid, or -- female only -- her left forearm/hand's fundamental no-bone limit)
+stay unfilled; per-metacarpal/per-tarsal-piece dominant-bone precision (the task's own "each
+metacarpal/metatarsal where split, else the block") was not attempted -- Z-Anatomy has no
+matched per-digit metacarpal/metatarsal source object either, so this used the block
+uniformly; the male's own missing per-metacarpal bone split (he has only the "metacarpals_r/l"
+block, unlike the female's `ct_vhf_mcsplit`) could not be filled from Z-Anatomy for the same
+reason (no matched source) and stays a bone-completeness gap, not a soft-tissue one; dice
+remains low (0.0-0.5) as an inherent property of a generic body registered onto an individual
+specimen, not something this task's method change was expected to fix outright.
+
 Recent: Q144 (2026-09-23)
 the owner's first named correction to the Z-Anatomy reference model -- the radial nerve
 the owner's first named correction to the Z-Anatomy reference model -- the radial nerve
