@@ -738,10 +738,9 @@ still waiting — unrelated to the CT work above.
    itself (Q123's finding, reconfirmed) distinguishes any sub-facet on either
    epicondyle, so splitting would still be authoring an order, not measuring
    one. See the Q129 queue entry for the full check.
-3. **Flexor hallucis brevis** is refused an anchor: its two heads insert on
-   opposite sides of the hallux and the generator emits one anchor per muscle
-   end, not per compartment. The refusal is correct; per-compartment anchors
-   would fix it.
+3. ~~Flexor hallucis brevis is refused an anchor...~~ **Fixed, see item 10 below**
+   (`generate_anchors.py` now emits one anchor per compartment). This entry is
+   a stale duplicate, left as a pointer rather than deleted.
 4. **Tibialis anterior and fibularis longus** insertion paths are still blocked
    by bone; closing them needs via points that cannot be measured from the
    geometry available.
