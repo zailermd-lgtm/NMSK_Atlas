@@ -22,7 +22,120 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 258 tests pass. Recent: Q143 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 264 tests pass. Recent: Q144 (2026-09-23)
+the owner's first named correction to the Z-Anatomy reference model -- the radial nerve
+pathway, per the owner's own stated reason for starting with Z-Anatomy (fastest complete
+models, corrected later with this project's own knowledge). CC BY-SA anatomy layer only
+(`third_party/z-anatomy/NOTICE`); no `clinical`/private content touched.
+
+SIDE FIX (Q143's queued step): `scripts/zanatomy/zan_source.py`'s `load_source()` only
+restricted Z-Anatomy candidates by side when the ATLAS id itself ended `_r`/`_l`. Every
+nerve entity in this project's own registry (`data/nerves/*.json`) carries no side field
+at all (Q142/Q143's "nerve-category data gap"), so for these ids Z-Anatomy's own LEFT and
+RIGHT objects were both accepted and unioned into one mesh -- `radial_n` shipped as one
+14-component fragmented blob. Fixed generically, not just for `radial_n`: an unsided
+`nerve`-category id whose matched candidates span both a `right` and a `left` Z-Anatomy
+object now ships as `<id>_r`/`<id>_l` instead of the bare id (this project's own bilateral
+convention), each built from only its own side's candidates. `radial_n_r`/`radial_n_l` now
+have 6 components each (down from 14) -- the remainder is a real multi-part union
+(trunk + muscular branches), not a side artifact. AUDITED FOR OTHER IDS WITH THE SAME BUG:
+123 sideless matched ids checked; 68 have both-sides-present candidates; 64 are
+`nerve`-category (the exact same bug, includes Q142/Q143's own `sciatic_n`/`femoral_n`
+mentions -- confirmed, not just referenced by name) and got the same generic fix; 5 are
+NOT nerves (`ethmoid`, `external_anal_sphincter`, `procerus`, `interclavicular_ligament`,
+`intertransverse_ligament`) where Z-Anatomy's own left/right split is a mesh-authoring
+artifact of ONE real combined structure and unioning is the CORRECT behaviour -- left
+alone, logged in `data/derived/Q144_radial_nerve_audit.json`. A REAL SECOND BUG found while
+auditing: "Deep branch of radial nerve" (the PIN) scored a confident 0.90 match to
+`radial_n` (the trunk) instead of this project's own dedicated `posterior_interosseous_n`
+entity (substring-scorer artifact: "radial nerve" is a substring of the Z-Anatomy name,
+"posterior interosseous nerve" shares no tokens) -- `posterior_interosseous_n` previously
+shipped with ZERO geometry. Fixed the same way as Q142's three precedents: a small by-name
+override in `zan_source.py`, `map_names.py`/the committed `zanatomy_name_map.json` both
+untouched.
+
+PATHWAY AUDIT (right side measured; left independently re-measured and confirmed to mirror
+EXACTLY -- same numbers both sides): per-Y-bin centreline of each nerve mesh, nearest-vertex
+distance (`scipy.spatial.cKDTree`) to bone/muscle, `trimesh.Trimesh.contains()` point-in-mesh
+containment for the supinator entry/exit. All distances mm, proximal(+)/distal(-) to the
+lateral epicondyle (fit live from this build's own `Humerus.r`/`.l` mesh); Z-Anatomy humerus
+length 317.6mm both sides. Six landmarks measured, real cadaveric citations only (PubMed,
+PMID/DOI given), full table in `data/corrections/zanatomy/radial_n.json`:
+- (a) spiral groove contact 108.9-179.0mm proximal to LE -- Carlan et al. 2007 (PMID
+  17923300) 109-171mm: WITHIN RANGE, not corrected.
+- (b) lateral intermuscular septum piercing ~108.9mm proximal to LE -- Artico et al. 2008
+  (PMID 18795220) 110±23mm / Jain et al. 2018 (PMID 31061584) 113.4±4.1mm: WITHIN RANGE,
+  not corrected.
+- (c) elbow position anterior to humerus, between brachialis/brachioradialis: qualitatively
+  confirmed against those muscles' own meshes (Carlan et al. 2007): WITHIN RANGE, not
+  corrected.
+- (d) bifurcation ~8mm distal to LE, ~1mm distal to this model's own radial head level:
+  textbook-consistent but NO cadaveric mm citation found -- UNSOURCED, not corrected (per
+  task's own explicit instruction, not invented).
+- (e) PIN/supinator (arcade of Frohse): entry measured 27.5mm distal to LE vs. Aggarwal et
+  al. 2026 (PMID 42556533) 42.6mm / Hazani et al. 2008 (PMID 18668182, radial-head-referenced,
+  ~42.3mm on this model's own frame) -- OUTSIDE RANGE, corrected (below). Exit measured
+  81.8mm vs. Aggarwal 85.4mm / Hazani ~81.3mm: WITHIN RANGE, not corrected, kept as a fixed
+  anchor.
+- (f) superficial branch deep to brachioradialis, emerging distally -- Beldner et al. 2005
+  (PMID 16344180) 9cm proximal to the radial styloid: qualitatively consistent (nerve stays
+  within ~6mm of the muscle throughout its forearm course) but the specific deep-to-
+  superficial TRANSITION point can't be told apart from a nearest-vertex-distance proxy
+  (doesn't distinguish anterior/posterior position) -- UNSOURCED BY AVAILABLE PROXY, not
+  corrected.
+
+CORRECTION APPLIED (only the one landmark that measured outside its cited range): new
+declarative file `data/corrections/zanatomy/radial_n.json` + small applier
+`scripts/zanatomy/apply_corrections.py`, wired into `build_zan_reference.py` on the raw
+atlas-frame mesh before the hip-origin subtraction. Method: a bounded, smooth (C1
+cubic-smoothstep) 1-D warp of mesh vertex Y only (no topology change), anchored at 0 shift
+at the (already-correct) bifurcation and supinator-exit points and a negative shift at the
+supinator-entry point, moving `posterior_interosseous_n_r`/`_l`'s entry from 27.5mm to
+~30mm distal to LE. FOUND AND FIXED A REAL BUG WHILE BUILDING THIS: an unguarded Y-shift put
+~11% of the corrected PIN's own vertices inside the Z-Anatomy Radius mesh (it wraps tightly
+around the radial neck) -- added a mandatory bone-avoidance pass
+(`_push_off_bones()`, projects any interior vertex to the bone surface + a small clearance
+along the point-to-surface ray, NOT the face normal, which this mesh has pointing inward,
+also found empirically). PARTIAL CORRECTION, DOCUMENTED HONESTLY: swept the anchor's
+nominal shift from -12mm to -32mm; the achieved (post-bone-avoidance) entry plateaus at
+30-36mm regardless, short of the cited 39-46mm range, because the safety pass re-clips
+anything the warp would place closer to the radius surface at this level in THIS schematic
+body's own geometry -- full alignment would need a lateral (X/Z) path adjustment, out of
+scope for a Y-only correction; not forced past the safety constraint to hit the number.
+Corrected structures carry an extra `procedural_badge` note (Q119 convention, appended to
+the whole-bundle force-badge rather than replacing it -- `export_viewer_bundle.py`'s own
+badge line, one new `if s.get("correction_note")` branch, every other bundle unaffected).
+
+RE-CHECKS (task's own required list): bone penetration 0% (Humerus/Radius/Ulna, both sides,
+post-correction) -- was 10.8% before the bone-avoidance pass was added, a real bug this
+re-check itself caught; connected-components of the corrected PIN mesh unchanged (1 before,
+1 after the warp). A SEPARATE REAL REGRESSION FOUND BY THIS SAME RE-CHECK DISCIPLINE:
+`verify_zan_reference.py`'s own entity-coverage recount matched bundle ids to registry ids
+EXACTLY, so splitting `radial_n` (and the other 63) by side silently undercounted coverage
+(302 -> a wrong 243) even though the geometry was better, not worse -- fixed by matching
+either the bare id or `<id>_r`/`<id>_l`; recount is now 303 (302 + the newly-shipped
+`posterior_interosseous_n`, exactly as expected).
+
+Rebuilt both `build/viewer_zan/atlas_viewer_zanatomy_{msk,nv}.html` (gitignored): msk
+unchanged at 1168 structures/12.26MB (no nerve content); nv now 1402 structures (was 1337,
++65: 64 split ids x up to 2 sides, minus a few single-side-only splits, plus the newly-
+matched `posterior_interosseous_n`)/12.86MB. Matched entities overall 597 -> 662. Both
+still well under the 16MB cap. 264 tests pass (added `tests/test_zanatomy_corrections.py`,
+6 tests: `bump_warp_y` anchors/clamping/monotonicity, `load_corrections` finds the file,
+empty-directory no-op, `apply_correction` no-op for an uncorrected id, file well-formedness
+-- caught one real bug along the way, an off-by-boundary case in `bump_warp_y` itself where
+a y exactly on an interior anchor got neither segment's shift, fixed before shipping).
+Full audit: `data/derived/Q144_radial_nerve_audit.json`.
+
+Open issues for a future correction pass: (d) and (f) above have no citable numeric target
+yet (search harder, or accept a wider literature net, e.g. non-English or older studies);
+the (e) PIN-entry correction is partial (documented gap, not a silent one) and would need
+an X/Z path adjustment (not just Y) to close fully, which needs a genuinely 3-D warp, not
+this bounded 1-D one; the same generic nerve-side-split fix could in principle also be
+re-run against `data/derived/zanatomy_name_map.json` regenerations if Z-Anatomy is ever
+re-extracted at a newer pinned commit.
+
+Recent: Q143 (2026-09-23)
 shipped the "Z-Anatomy reference model" -- a THIRD viewer bundle, a standalone generic body,
 per Q142's own conclusion that registering Z-Anatomy onto either real specimen is too
 inaccurate to ship. Split by system (task's own size escape hatch) into two files, both
@@ -79,14 +192,10 @@ excludes bursae -- so every bursa id fell to the "other"/DEFAULT_BUDGET category
 exercised before since neither specimen bundle ships any bursa geometry yet; switched to
 `map_names.load_full_atlas()`, a strict superset, a no-op for every existing bundle).
 
-**Queued next step (owner's first named correction):** fix the Z-Anatomy radial nerve
-PATHWAY on this reference model -- the owner's own stated reason for starting with Z-Anatomy
-("fastest complete models, with easiest remodeling later") was specifically to then correct
-it with this project's better knowledge, and the radial nerve was the first example given.
-Candidate secondary fix while in there: give `radial_n`/`radial_n_superficial_branch` (and
-any other sideless nerve id Z-Anatomy also doubles up on) a real side field so a future
-loader stops unioning left+right into one fragmented mesh (see the `radial_n` finding above
-and Q142's identical note for `sciatic_n`/`femoral_n`).
+**Queued next step (owner's first named correction) -- DONE, see Q144 above:** fixed the
+Z-Anatomy radial nerve PATHWAY on this reference model, plus the side-union bug flagged
+below for `radial_n`/`radial_n_superficial_branch` and every other affected sideless nerve
+id (64 total, confirmed to include `sciatic_n`/`femoral_n` per Q142's identical note here).
 
 Recent: Q142 (2026-09-23)
 phase 2 of the Z-Anatomy plan (registration + validation gate) -- SHIPPED NOTHING, a valid

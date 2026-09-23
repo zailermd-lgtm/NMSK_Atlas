@@ -134,6 +134,29 @@ _ALLOWED_SYSTEMS = {
 }
 
 
+# Q144 (radial nerve pathway audit): a FOURTH phase-1/2 name-map artifact, found
+# while auditing the radial nerve for the owner's first named correction.
+# "Deep branch of radial nerve" IS the posterior interosseous nerve -- this
+# project's own registry already carries a dedicated `posterior_interosseous_n`
+# entity for it (data/nerves/brachial_plexus.json) -- but map_names.py's generic
+# substring scorer (engine.vh_ingest.similarity(), unchanged and not touched
+# here) happens to score it as a *confident* 0.90 match against `radial_n` (the
+# trunk) instead, because "radial nerve" is a substring of "deep branch of
+# radial nerve" while "posterior interosseous nerve" shares no tokens with it at
+# all. Left uncorrected, this folds the PIN's own mesh into the trunk (worse
+# fragmentation on top of the left+right union bug below) and ships the
+# registry's own `posterior_interosseous_n` id with NO geometry at all -- which
+# would make items (d)/(e) of the pathway audit (bifurcation level, arcade-of-
+# Frohse passage) impossible to check. Fixed the same way Q142's three
+# precedents above were: a small by-name override here, not a change to the
+# reusable matcher (map_names.py, or its committed
+# data/derived/zanatomy_name_map.json output, are both left exactly as Q141
+# produced them).
+_ATLAS_ID_OVERRIDE = {
+    "Deep branch of radial nerve": "posterior_interosseous_n",
+}
+
+
 def load_source(*, inventory_path=DEFAULT_INVENTORY, namemap_path=DEFAULT_NAMEMAP,
                  zan_dir=DEFAULT_ZAN_DIR, min_vertices: int = 1):
     """Return {atlas_id: {'v','f','cat','side','subject','rec'}} -- the same shape
@@ -159,6 +182,7 @@ def load_source(*, inventory_path=DEFAULT_INVENTORY, namemap_path=DEFAULT_NAMEMA
         aid = e.get("atlas_id")
         if not aid or e["status"] not in ("exact", "confident"):
             continue
+        aid = _ATLAS_ID_OVERRIDE.get(strip_suffix(e["zanatomy_name"]), aid)
         cat = id_to_cat.get(aid)
         if cat is None or _is_cross_category_junk(e["zanatomy_name"], cat):
             continue
@@ -174,51 +198,102 @@ def load_source(*, inventory_path=DEFAULT_INVENTORY, namemap_path=DEFAULT_NAMEMA
         groups.setdefault(aid, {}).setdefault(obj_side, []).append(
             (obj["vertex_count"], e["zanatomy_name"], e["status"], e["score"], obj["system"]))
 
+    def _mesh_for_cands(cands):
+        """One (atlas_id[, side]) group's own Z-Anatomy candidates -> concatenated
+        (v, f, parts_used) in that group's own local vertex numbering, or
+        (None, None, []) if nothing on disk survives. Applies the highlight-copy
+        dedup + tiny-orphan-drop policy (module docstring, point 2) -- factored out
+        of the old single per-aid loop so the Q144 side-split below (which needs
+        this run once PER SIDE instead of once per id) reuses it exactly, rather
+        than duplicating the policy a second time."""
+        by_base: dict[str, tuple] = {}
+        for c in cands:
+            base = strip_suffix(c[1])
+            if base not in by_base or c[0] > by_base[base][0]:
+                by_base[base] = c
+        reps = list(by_base.values())
+        max_vc = max(c[0] for c in reps)
+        reps = [c for c in reps if c[0] >= max(30, 0.25 * max_vc)]
+        reps.sort(key=lambda c: (c[2] != "exact", -c[3], -c[0]))
+        vs, fs, voff, parts_used = [], [], 0, []
+        for _, name, status, score, system in reps:
+            path = Path(zan_dir) / system / f"{safe_filename(name)}.npz"
+            if not path.exists():
+                continue
+            d = np.load(path)
+            vs.append(to_atlas_frame(d["vertices_mm"]))
+            fs.append(d["faces"].astype(np.int64) + voff)
+            voff += len(vs[-1])
+            parts_used.append(name)
+        if not vs:
+            return None, None, []
+        return np.concatenate(vs), np.concatenate(fs), parts_used
+
     out = {}
     for aid, by_side in groups.items():
         cat = id_to_cat[aid]
         folder, rec = atlas_records.get(aid, (None, None))
         region = (rec or {}).get("region")
-        vs, fs = [], []
-        voff = 0
-        chosen_side = None
-        parts_used = []
-        for side, cands in by_side.items():
-            # dedup Z-Anatomy's own highlight-copy duplicates (module docstring, point 2):
-            # objects sharing a stripped base name are duplicates of each other -- keep
-            # the largest; objects with DIFFERENT base names are real distinct sub-parts
-            # (e.g. the two heads of extensor carpi ulnaris) and are all kept, unioned.
-            by_base: dict[str, tuple] = {}
-            for c in cands:
-                base = strip_suffix(c[1])
-                if base not in by_base or c[0] > by_base[base][0]:
-                    by_base[base] = c
-            reps = list(by_base.values())
-            # a base-group that is tiny next to the largest base-group here is very
-            # likely one more Z-Anatomy UI marker/highlight copy that just happens not
-            # to share the real object's exact name (extensor_carpi_ulnaris_r's
-            # "Extensor carpi ulnaris.or", 100 vertices, next to its two real 292/411-
-            # vertex heads) -- not a third real anatomical sub-part. Dropped rather than
-            # unioned in.
-            max_vc = max(c[0] for c in reps)
-            reps = [c for c in reps if c[0] >= max(30, 0.25 * max_vc)]
-            reps.sort(key=lambda c: (c[2] != "exact", -c[3], -c[0]))
-            for _, name, status, score, system in reps:
-                safe = safe_filename(name)
-                path = Path(zan_dir) / system / f"{safe}.npz"
-                if not path.exists():
+        wanted_side = _side_of_atlas_id(aid)
+        real_sides = {s for s in by_side if s in ("right", "left")}
+
+        # Q144 (radial nerve pathway audit's own queued side-field fix, generalised):
+        # this project's nerve entities carry no side field at all (`radial_n`,
+        # `sciatic_n`, `femoral_n`, ... -- the "nerve-category data gap" Q142/Q143
+        # both found and left alone), but Z-Anatomy always ships a real object per
+        # side. Unfiltered, `wanted_side` above is None for every one of them, so
+        # nothing in the loop below ever restricts by side and left+right get
+        # unioned into one fragmented mesh under the bare id -- confirmed (see
+        # PROJECT_STATE.md Q144) on 63 sideless nerve ids this way, `radial_n`
+        # included. Restricted to category=="nerve": the same both-sides-present
+        # pattern also turns up on 5 non-nerve ids (ethmoid, procerus,
+        # external_anal_sphincter, interclavicular_ligament,
+        # intertransverse_ligament) where a bilateral geometry legitimately IS one
+        # combined structure (paired halves of one bone/ligament/midline muscle,
+        # not two independent organs) and unioning is the correct behaviour --
+        # left alone here, logged in the Q144 audit report only. A nerve, in
+        # contrast, is never one structure across both sides. Ships each side as
+        # its own `<aid>_r`/`<aid>_l`, this project's own bilateral-structure
+        # convention, instead of the base id -- the base id is never written for
+        # these. A candidate whose OWN side is unresolved (side=None; one case
+        # release-wide, `brachial_cord_posterior`) is dropped rather than guessed
+        # onto either side ("never guess", this loader's standing rule).
+        if wanted_side is None and cat == "nerve" and len(real_sides) > 1:
+            for side, suffix in (("right", "_r"), ("left", "_l")):
+                cands = by_side.get(side)
+                if not cands:
                     continue
-                d = np.load(path)
-                v = to_atlas_frame(d["vertices_mm"])
-                f = d["faces"].astype(np.int64) + voff
-                vs.append(v); fs.append(f); voff += len(v)
-                parts_used.append(name)
+                v, f, parts_used = _mesh_for_cands(cands)
+                if v is None:
+                    continue
+                out[aid + suffix] = {
+                    "v": v.astype(np.float32), "f": f.astype(np.int64), "cat": cat,
+                    "side": side, "subject": "zanatomy", "rec": {"region": region},
+                    "pieces": 1, "zanatomy_parts": parts_used,
+                    # Q144: the real entity record is still filed under the bare
+                    # `aid` (nerve entity records are not split by side in this
+                    # project's own registry, unlike muscles/bones) -- carried
+                    # through so build_zan_reference.py can fall back to its
+                    # name/region for display, the same way it already does for
+                    # an ORPHAN id with no entity record at all.
+                    "base_atlas_id": aid,
+                    "base_name": (rec or {}).get("name_common") or (rec or {}).get("name"),
+                }
+            continue
+
+        vs, fs, voff, parts_used, chosen_side = [], [], 0, [], None
+        for side, cands in by_side.items():
+            v, f, used = _mesh_for_cands(cands)
+            if v is None:
+                continue
+            vs.append(v); fs.append(f + voff); voff += len(v)
+            parts_used.extend(used)
             chosen_side = side if len(by_side) == 1 else None  # None (mixed) once >1 side is combined
         if not vs:
             continue
         v = np.concatenate(vs).astype(np.float32)
         f = np.concatenate(fs).astype(np.int64)
-        out[aid] = {"v": v, "f": f, "cat": cat, "side": chosen_side or _side_of_atlas_id(aid),
+        out[aid] = {"v": v, "f": f, "cat": cat, "side": chosen_side or wanted_side,
                     "subject": "zanatomy", "rec": {"region": region}, "pieces": len(vs),
                     "zanatomy_parts": parts_used}
     return out

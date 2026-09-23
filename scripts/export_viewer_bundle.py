@@ -564,7 +564,17 @@ def main() -> int:
                 entry["rec"] = {k: v for k, v in
                                  {"name": s["name"], "region": s.get("region")}.items() if v}
             if args.force_badge:
-                entry.setdefault("rec", {})["procedural_badge"] = args.force_badge
+                # Q144: a structure the manifest itself flags as corrected (a
+                # declarative, cited data/corrections/zanatomy/*.json entry
+                # applied at bundle-build time -- see
+                # scripts/zanatomy/apply_corrections.py) gets that note appended
+                # to the whole-bundle badge, Q119-style, rather than replacing
+                # it -- every id without a `correction_note` is unaffected, so
+                # every bundle built before this one round-trips unchanged.
+                badge = args.force_badge
+                if s.get("correction_note"):
+                    badge = f"{badge} {s['correction_note']}"
+                entry.setdefault("rec", {})["procedural_badge"] = badge
             index.append(entry)
             kept_tris += len(df)
             kept_here += len(df)

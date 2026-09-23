@@ -133,6 +133,16 @@ def main() -> int:
     male = rt.bundle_ids(REPO / "build/viewer_m/bundle.json")
     female = rt.bundle_ids(REPO / "build/viewer_f/bundle.json")
     zan = ids
+
+    def _zan_covers(eid):
+        # Q144: zan_source.py now splits a sideless nerve entity id (this
+        # project's OWN registry does not split nerves by side, unlike
+        # muscles/bones) into `<id>_r`/`<id>_l` in the shipped bundle, so the
+        # bare registry id can stop appearing in `zan` verbatim even though the
+        # geometry it names is now present (and better organised) than before.
+        # Covered if the bare id OR either side shipped.
+        return eid in zan or f"{eid}_r" in zan or f"{eid}_l" in zan
+
     coverage = {}
     total_entities = 0
     total_zan_fills_gap = 0
@@ -141,13 +151,13 @@ def main() -> int:
         ents = rt.entity_ids(patterns)
         total_entities += len(ents)
         neither_mf = [e for e in ents if e not in male and e not in female]
-        zan_fills_gap = [e for e in neither_mf if e in zan]
+        zan_fills_gap = [e for e in neither_mf if _zan_covers(e)]
         total_zan_fills_gap += len(zan_fills_gap)
         coverage[t] = {
             "total_entities": len(ents),
             "on_male": sum(1 for e in ents if e in male),
             "on_female": sum(1 for e in ents if e in female),
-            "on_zan_reference": sum(1 for e in ents if e in zan),
+            "on_zan_reference": sum(1 for e in ents if _zan_covers(e)),
             "missing_on_both_specimens": len(neither_mf),
             "zan_fills_that_gap": len(zan_fills_gap),
         }

@@ -1,0 +1,95 @@
+{
+  "source": "Q144 (2026-09-23): the owner's first named correction to the Z-Anatomy reference model -- the radial nerve pathway. See PROJECT_STATE.md Q144 and data/derived/Q144_radial_nerve_audit.json for the full measurement method and table. This is the CC BY-SA layer (third_party/z-anatomy/NOTICE): no private/clinical content here.",
+  "entity": "radial_n (Radial nerve) and its terminal branches, per data/nerves/brachial_plexus.json",
+  "reference_frame": "atlas +Y (superior), millimetres, measured as an OFFSET from the lateral epicondyle (positive = proximal, negative = distal), where the lateral epicondyle is fit live from this same Z-Anatomy Humerus.r/.l mesh on every build (the most-lateral vertex, +X on the right / -X on the left, in the distal-most 15mm-by-Y slab) -- never a fixed number, so the correction still applies correctly if the base Z-Anatomy extraction is ever re-run. Z-Anatomy humerus length (both sides): 317.6 mm.",
+  "method": "Centreline = per-Y-bin (nbins=80-150 depending on landmark) vertex centroid of the nerve mesh, sorted superior->inferior, on scripts/zanatomy zan_source.to_atlas_frame() geometry (Z-Anatomy raw FBX -> this project's atlas frame, unchanged). Bone/muscle proximity via scipy.spatial.cKDTree nearest-vertex distance; intramuscular (supinator) entry/exit via trimesh.Trimesh.contains() point-in-mesh containment (watertight check passed) rather than a nearest-vertex threshold, since a threshold is sensitive to an arbitrary cutoff. Side check: right and left Z-Anatomy geometry measured independently and confirmed to mirror exactly (both sides gave identical entry/exit/humerus-length numbers) -- one set of anchors is applied to both radial_n_r and radial_n_l/posterior_interosseous_n_r and _l.",
+  "landmarks": [
+    {
+      "id": "a_spiral_groove_contact",
+      "description": "Radial nerve trunk in direct contact with the posterior humeral shaft (spiral/radial groove) -- proximal and distal extent, distance proximal to the lateral epicondyle.",
+      "measured": {"distal_mm": 108.9, "proximal_mm": 179.0, "extent_mm": 70.1, "note": "nearest-vertex distance to Humerus.r < 5mm"},
+      "cited_range": {"distal_mm": 109, "proximal_mm": 171, "extent_mm": 63, "sd_mm": [15, 17]},
+      "citation": "Carlan D, Pratt J, Patterson JMM, Weiland AJ, Boyer MI, Gelberman RH (2007). The radial nerve in the brachium: an anatomic study in human cadavers. J Hand Surg Am 32(8):1177-82. PMID 17923300, DOI 10.1016/j.jhsa.2006.07.001.",
+      "status": "within_cited_range",
+      "corrected": false
+    },
+    {
+      "id": "b_septum_piercing",
+      "description": "Point the radial nerve leaves the spiral groove / pierces the lateral intermuscular septum into the anterior compartment, distance proximal to the lateral epicondyle.",
+      "measured": {"value_mm": 108.9, "note": "distal boundary of the <5mm bone-contact zone above"},
+      "cited_range": {"low_mm": 87, "high_mm": 133, "center_mm": 110, "note": "pooled from two independent studies' own mean+-SD"},
+      "citation": [
+        "Artico M, Telera S, Tiengo C, Stecco C, Macchi V, Porzionato A, Vigato E, Parenti A, De Caro R (2008). Surgical anatomy of the radial nerve at the elbow. Surg Radiol Anat 31(2):101-6. PMID 18795220, DOI 10.1007/s00276-008-0412-8. (entry into lateral intermuscular septum: 110 +/- 23 mm proximal to lateral epicondyle)",
+        "Jain RK, Champawat VS, Mandlecha P (2018). Danger zone of radial nerve in Indian population -- a cadaveric study. J Clin Orthop Trauma 10(3):531-534. PMID 31061584, DOI 10.1016/j.jcot.2018.02.006. (exit from spiral groove: 113.4 +/- 4.1 mm proximal to lateral epicondyle)"
+      ],
+      "status": "within_cited_range",
+      "corrected": false
+    },
+    {
+      "id": "c_elbow_position",
+      "description": "Trunk position just proximal to the elbow: anterior to the humerus, between brachialis (medial) and brachioradialis (lateral).",
+      "measured": {"note": "at the trunk's most distal centreline point (7.8mm distal to LE): X=233.9mm sits exactly between Brachialis muscle.r's X-range [211.3, 235.7] and Brachioradialis muscle.r's X-range [234.4, 271.1]; Z=-16.6mm is anterior to Humerus.r's own Z-range [-50.0, -19.9] at that level (i.e. entirely anterior to the bone)."},
+      "cited_range": {"qualitative": "anterior to humerus, becomes protected by brachialis, per Carlan et al. 2007 (PMID 17923300)"},
+      "citation": "Carlan et al. 2007, PMID 17923300 (qualitative description only, no numeric target for this specific check).",
+      "status": "within_cited_range_qualitative",
+      "corrected": false
+    },
+    {
+      "id": "d_bifurcation_level",
+      "description": "Level the radial nerve trunk divides into its superficial branch and the posterior interosseous nerve (deep branch), relative to the lateral epicondyle / radiocapitellar joint.",
+      "measured": {"trunk_end_mm_distal_to_LE": 7.8, "PIN_start_mm_distal_to_LE": 8.6, "superficial_branch_start_mm_distal_to_LE": 8.7, "radial_head_mm_distal_to_LE": 7.3},
+      "cited_range": null,
+      "citation": null,
+      "status": "unsourced -- not corrected",
+      "corrected": false,
+      "note": "Measured bifurcation (~8mm distal to LE) sits within ~1.3mm of this same model's own radial head level (7.3mm distal to LE), consistent with the standard teaching that the radial nerve divides at/about the radiocapitellar joint -- but no cadaveric morphometry study giving a specific mm target for this exact landmark was found (searched PubMed for radial nerve bifurcation level vs. lateral epicondyle / radiocapitellar joint). Per task instruction, left unsourced and not corrected rather than invented."
+    },
+    {
+      "id": "e_pin_supinator_entry",
+      "description": "Posterior interosseous nerve entry into supinator (proximal edge of the arcade of Frohse), distance distal to the lateral epicondyle.",
+      "measured": {"value_mm": 27.5, "note": "trimesh point-in-mesh containment test, PIN centreline vs Supinator.r/.l"},
+      "cited_range": {"low_mm": 39, "high_mm": 46, "center_mm": 42.5},
+      "citation": [
+        "Aggarwal N, Maurya R, Tiwari V, Pathak A, Chaudhary P (2026). Surface landmark-based estimation of the posterior interosseous nerve: a cadaveric anatomical study. Hand Surg Rehabil, in press. PMID 42556533, DOI 10.1016/j.hansur.2026.102756. (lateral epicondyle to PIN entry into supinator: 4.26 cm)",
+        "Hazani R, Engineer NJ, Mowlavi A, Neumeister M, Lee WPA, Wilhelmi BJ (2008). Anatomic landmarks for the radial tunnel. Eplasty 8:e37. PMID 18668182. (deep branch of radial nerve enters supinator ~3.5 cm distal to the radial head; this model's own radial head sits 7.3 mm distal to the lateral epicondyle, giving an LE-referenced entry of ~4.23 cm)"
+      ],
+      "status": "outside_cited_range -- partially corrected",
+      "corrected": true,
+      "target_mm": 42.5,
+      "shift_mm": 12.0,
+      "achieved_post_correction_mm": 30.4,
+      "note": "Moved from measured 27.5mm to ~30.4mm distal to LE after this build's own mandatory bone-avoidance safety pass (avoid_penetration_of: Radius, see below) -- an improvement in the right direction, but short of the cited [39, 46]mm range. Iterated the anchor shift from -12mm up to -32mm (see data/derived/Q144_radial_nerve_audit.json's own shift-sweep table) and found the POST-avoidance entry plateaus around 30-36mm regardless: any vertex the Y-only warp would place further distal than that gets pushed back onto the Radius surface (by the bone-avoidance pass, not the warp itself), because in THIS Z-Anatomy body's own schematic geometry the physical gap between the radius and the supinator's superficial head at this level is narrower than the cited cadaveric range implies. Rather than force a larger nominal shift that the bone-avoidance pass would just re-clip to the same plateau (or, worse, disabling that safety pass to hit the number), kept the smaller, safe shift and documented the residual gap honestly: full alignment to the cited range would need a small lateral (X/Z) adjustment of the nerve's path around the radial neck, not just a Y-shift, which is out of scope for this bounded 1-D correction."
+    },
+    {
+      "id": "e_pin_supinator_exit",
+      "description": "Posterior interosseous nerve exit from supinator (distal edge of the superficial part of supinator), distance distal to the lateral epicondyle.",
+      "measured": {"value_mm": 81.8, "note": "same containment test, distal-most contained centreline point"},
+      "cited_range": {"low_mm": 77, "high_mm": 90, "center_mm": 83.4},
+      "citation": [
+        "Aggarwal N, Maurya R, Tiwari V, Pathak A, Chaudhary P (2026). PMID 42556533, DOI 10.1016/j.hansur.2026.102756. (lateral epicondyle to PIN exit from supinator: 8.54 cm)",
+        "Hazani R et al. (2008). PMID 18668182. (PIN exits supinator ~7.4-7.5 cm distal to the radial head -> ~8.1 cm from the lateral epicondyle on this model's own frame)"
+      ],
+      "status": "within_cited_range",
+      "corrected": false,
+      "note": "Kept as a FIXED (zero-shift) anchor for the entry correction's warp, since it already matches the literature (measured 81.8mm vs. cited 77-90mm)."
+    },
+    {
+      "id": "f_superficial_branch_under_brachioradialis",
+      "description": "Superficial branch running deep to brachioradialis for most of the forearm, emerging from under it in the distal forearm.",
+      "measured": {"note": "Nearest-vertex distance from the superficial branch centreline to Brachioradialis.r stays under ~6mm from the elbow to within ~10mm proximal to the radial styloid, i.e. consistently close to/deep to the muscle throughout -- but a nearest-VERTEX distance cannot itself distinguish deep (posterior) from superficial (anterior) position, so the specific emergence transition point could not be independently verified against the cited distance with the available geometry proxy."},
+      "cited_range": {"value_mm": 90, "reference_point": "proximal to the radial styloid, not the lateral epicondyle"},
+      "citation": "Beldner S, Zlotolow DA, Melone CP, Agnes AM, Jones MH (2005). Anatomy of the lateral antebrachial cutaneous and superficial radial nerves in the forearm: a cadaveric and clinical study. J Hand Surg Am 30(6):1226-30. PMID 16344180, DOI 10.1016/j.jhsa.2005.07.004. (SRN deep to brachioradialis until 9 cm proximal to the radial styloid, where it becomes superficial)",
+      "status": "qualitatively consistent -- transition point unsourced by available proxy, not corrected",
+      "corrected": false
+    }
+  ],
+  "correction": {
+    "applies_to_ids": ["posterior_interosseous_n_r", "posterior_interosseous_n_l"],
+    "applies_to_category": "nerve",
+    "method": "Bounded, smooth (C1 cubic-smoothstep) 1-D warp of mesh vertex Y (atlas superior-inferior) only, followed by a mandatory bone-avoidance safety pass (below). No topology change (same vertex/face count and connectivity). Anchors, as (offset_mm_from_lateral_epicondyle, shift_mm), sorted ascending: the PIN's own measured proximal origin at the trunk bifurcation (-8.6, 0 -- item d, already textbook-consistent, left unmoved so the bifurcation level is not disturbed by this correction), the measured supinator entry (-27.5, -12.0 -- item e_pin_supinator_entry; see that landmark's own note -- this is a partial correction, capped by the bone-avoidance pass below, not a full match to the cited range), and the measured supinator exit (-81.8, 0 -- item e_pin_supinator_exit, already within cited range, left unmoved so it stays an anchor rather than drifting). Outside the outermost anchors the shift is clamped to that anchor's own value (0 at both ends), so only the PIN mesh between the bifurcation and the supinator exit is touched.",
+    "anchors_offset_from_LE_mm": [[-8.6, 0.0], [-27.5, -12.0], [-81.8, 0.0]],
+    "avoid_penetration_of": ["Radius"],
+    "avoid_penetration_note": "A pure Y-shift, checked empirically (Q144), put ~11% of the corrected PIN's own vertices inside the Z-Anatomy Radius mesh (the PIN wraps tightly around the radial neck, exactly where a Y-only warp is most likely to clip a bone whose cross-section is not constant along Y) -- scripts/zanatomy/apply_corrections.py's own _push_off_bones() projects any such vertex to the Radius surface plus a 1mm clearance along the point-to-surface ray (NOT the face normal -- checked empirically that this mesh's face normals point inward), after the Y-warp, before shipping. Re-checked post-fix: 0 vertices inside Humerus/Radius/Ulna on either side, for a shift sweep from -12mm to -32mm (see data/derived/Q144_radial_nerve_audit.json) -- the achieved entry level plateaus at ~30-36mm distal to LE across that whole sweep, short of the cited [39,46]mm range, because this safety pass re-clips anything the warp would place closer to the radius surface at this level. Kept the smallest shift tested (-12mm) since a larger nominal shift bought no further real improvement once the safety pass re-clips it.",
+    "procedural_badge_note": "course corrected per Aggarwal et al. 2026 (PMID 42556533) and Hazani et al. 2008 (PMID 18668182): posterior interosseous nerve entry into supinator (arcade of Frohse) moved distally along its own centreline (measured 27.5mm distal to the lateral epicondyle -> ~30mm after this build's own bone-avoidance safety pass) toward the cited ~39-46mm-distal-to-lateral-epicondyle entry range; full alignment was not reached without moving the nerve's X/Z position too, out of scope for this Y-only correction -- see data/corrections/zanatomy/radial_n.json (Q144)."
+  }
+}

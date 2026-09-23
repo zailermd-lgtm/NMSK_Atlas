@@ -87,6 +87,9 @@ from scripts.zanatomy.zan_source import (  # noqa: E402
     DEFAULT_INVENTORY, DEFAULT_NAMEMAP, DEFAULT_ZAN_DIR, load_source,
     safe_filename, to_atlas_frame,
 )
+from scripts.zanatomy.apply_corrections import (  # noqa: E402
+    DEFAULT_CORRECTIONS_DIR, apply_correction, load_corrections,
+)
 
 BUILD_VH = REPO / "build" / "vh"
 
@@ -278,8 +281,16 @@ def main(argv=None) -> int:
     counts_by_cat: Counter = Counter()
     matched_ids_shipped = []
 
+    corrections = load_corrections()
     for aid, rec in matched.items():
-        v = rec["v"].astype(np.float64) - origin
+        raw_v = rec["v"].astype(np.float64)
+        # Q144: any declarative correction (data/corrections/zanatomy/*.json)
+        # applies here, on the RAW atlas-frame mesh before the hip-origin
+        # subtraction below (the same frame `apply_correction` fits the lateral
+        # epicondyle in) -- a no-op (v unchanged, note=None) for every id that
+        # carries no correction, i.e. every bundle before this one is unaffected.
+        raw_v, correction_note = apply_correction(aid, raw_v, DEFAULT_ZAN_DIR, corrections)
+        v = raw_v - origin
         f = rec["f"].astype(np.int64)
         cat = rec["cat"]
         bkey = bundle_of(cat)
@@ -288,14 +299,29 @@ def main(argv=None) -> int:
         foff = sum(len(x) for x in b["faces"])
         b["verts"].append(v)
         b["faces"].append(f)
-        b["structures"].append({
+        structure = {
             "atlas_id": aid, "side": rec.get("side"),
             "vertex_offset": voff, "face_offset": foff,
             "vertex_count": len(v), "triangle_count": len(f),
             "bbox_min_mm": [round(float(x), 2) for x in v.min(axis=0)],
             "bbox_max_mm": [round(float(x), 2) for x in v.max(axis=0)],
             "source_structure": "+".join(rec.get("zanatomy_parts") or []),
-        })
+        }
+        if rec.get("base_atlas_id"):
+            # Q144: a nerve id this build split by side (zan_source.py) has no
+            # entity record of its own under the SUFFIXED id (this project's own
+            # nerve registry is not split by side) -- export_viewer_bundle.py's
+            # own atlas.get(aid) will miss, so give it the same explicit
+            # name/region/category fallback an orphan (no entity record at all)
+            # already gets, sourced from the real (base, unsuffixed) record.
+            structure["category"] = cat
+            structure["region"] = rec["rec"].get("region")
+            side_word = {"_r": "right", "_l": "left"}.get(aid[-2:], "")
+            base_name = rec.get("base_name") or rec["base_atlas_id"]
+            structure["name"] = f"{base_name} ({side_word})" if side_word else base_name
+        if correction_note:
+            structure["correction_note"] = correction_note
+        b["structures"].append(structure)
         counts_by_cat[cat] += 1
         matched_ids_shipped.append(aid)
 
@@ -361,16 +387,25 @@ def main(argv=None) -> int:
         (out_dir / "manifest.json").write_text(json.dumps(manifest))
         print(f"{subject}: {len(b['structures'])} structures, {len(faces):,} triangles -> {out_dir}")
 
+    split_ids = sorted(aid for aid, rec in matched.items() if rec.get("base_atlas_id"))
+    corrected_ids = sorted(
+        s["atlas_id"] for b in buckets.values() for s in b["structures"] if s.get("correction_note"))
     report = {
         "source": (
             "Q143 (2026-09-23): builds the Z-Anatomy reference model bundle -- a standalone, "
             "unregistered generic body, badged everywhere as Z-Anatomy CC BY-SA 4.0, not "
             "registered to either Visible Human specimen (Q142 found registration too "
-            "inaccurate to ship). See scripts/zanatomy/build_zan_reference.py."
+            "inaccurate to ship). Q144 (2026-09-23) added the side-split fix for sideless "
+            "nerve ids (zan_source.py) and the radial-nerve-pathway correction "
+            "(data/corrections/zanatomy/radial_n.json) applied here. See "
+            "scripts/zanatomy/build_zan_reference.py."
         ),
         "origin": origin_report,
         "counts_by_category": dict(counts_by_cat),
         "matched_entities": len(matched),
+        "q144_side_split_ids": split_ids,
+        "q144_side_split_count": len(split_ids),
+        "q144_corrected_ids": corrected_ids,
         "orphan_structures": len(orphans),
         "orphan_dropped_as_ui_highlight_duplicate": dropped_dupe,
         "orphan_dropped_as_zero_face_annotation_curve": zero_face,
