@@ -22,7 +22,74 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 264 tests pass. Recent: Q144 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 268 tests pass. Recent: Q145 (2026-09-23)
+finished Q144's own queued step: the PIN/arcade-of-Frohse entry correction is now a
+bounded 3-D (X/Y/Z) warp, closing the gap Q144's Y-only warp could only partially close,
+and landmark (d) (radial nerve bifurcation level) is now sourced from a newly found
+open-access cadaveric study. First, per this task's own instruction, checked whether
+Q144's "outside cited range" finding was itself a measurement artifact ("the real-geometry
+test is nerve enters supinator mesh at X mm from LE; if the Z-Anatomy supinator itself
+sits where the literature puts entry, the right correction may be none") -- it was NOT: the
+containment-based entry measurement reproduces to <0.1mm on a re-check, the transition is a
+single clean crossing (no measurement noise), and the SAME method applied to the exit
+boundary of the SAME supinator mesh lands within 1mm of both cited studies -- so the method
+isn't biased; this model's own supinator geometry genuinely sits ~15mm too proximal along
+the nerve's actual path (a real Z-Anatomy schematic-geometry gap, confirmed not assumed).
+Root cause of Q144's plateau: the PIN's own centreline runs in 1-5mm clearance of the
+Radius shaft for its whole course through the radial tunnel, so any further Y-only shift
+was immediately re-clipped onto the bone by the mandatory bone-avoidance pass regardless of
+the nominal shift size. FIX: `scripts/zanatomy/apply_corrections.py` gained an additive
+lateral (X/Z) push component (`correction.lateral_push` in the correction file), computed
+LIVE per Y-level from the nerve's own current centreline vs. the named bone's own current
+surface (nearest-surface-point ray, never a baked XYZ vector -- same live-fit rule as the
+lateral epicondyle), magnitude-profiled by the same bump_warp_y() anchor interpolation
+already used for the Y-shift, hard-capped at 8mm, applied before the existing (now
+Radius+Ulna+Humerus, not just Radius) bone-avoidance pass. Fully additive/back-compat: a
+correction file with no `lateral_push` key runs Q144's exact original Y-only path
+unchanged; new helpers `_load_bone_mesh()`, `_centreline_by_y()`, `_bone_repulsion_
+direction()` are the only additions, `bump_warp_y()` itself untouched. Chosen parameters
+(Y-shift -13mm, lateral push 6.5mm away from the Radius) were picked from the CENTRE of a
+wide, stable parameter-space plateau (a coarse-to-fine sweep in `data/derived/
+Q145_pin_audit.json`), not a knife-edge best fit. RESULT (both sides, confirmed mirror-
+exact, verified on the actually-shipped bundle not just in-memory): PIN entry into
+supinator moved from 27.5mm (measured, Q144) -> 30.4mm (Q144's own partial fix) -> 42.55mm
+distal to the lateral epicondyle -- within 0.05mm of Aggarwal et al. 2026's 42.6mm target
+and 0.25mm of Hazani et al. 2008's independently radial-head-converted 42.3mm target (the
+two different reference points kept as SEPARATE fields in the correction file per Q144's
+own lead-review note, never pooled into one merged range); exit unchanged at 81.8mm (still
+within both cited ranges); 0 vertices inside Radius/Ulna/Humerus on either side (was only
+ever Radius that the old warp risked); mesh topology/connectivity unchanged (main_frac 1.0,
+trivially guaranteed since only vertex coordinates move). LANDMARK (d) (bifurcation level):
+Artico et al. 2008 (PMID 18795220) full text confirmed NOT accessible (no PMC record,
+re-checked via PubMed MCP's copyright-status and pubmed_pmc-link tools, not assumed).
+Found and used instead: Qawasmi et al. 2025 (PMID 41053287, PMCID PMC12500735, DOI
+10.1007/s00276-025-03728-3, open access, full text retrieved) -- "the radial nerve
+bifurcated approximately 5 +/- 3mm proximal to the radiocapitellar joint (95% CI 2-8mm)".
+Converted to this model's own LE frame via its live-measured radial head offset (7.3mm
+distal to LE): cited range approx [-0.7, 5.3]mm distal to LE; this model measures 7.8mm
+(trunk end) / 8.6mm (PIN start) -- 2.5-3.3mm outside that range, the same order as the
+cited study's own SD (3mm), i.e. plausibly ordinary cadaveric variation rather than a clear
+miss. NOT corrected: the discrepancy is small/borderline (unlike (e)'s >30% miss), and
+fixing a bifurcation point would mean coordinately moving the distal end of `radial_n` and
+the proximal ends of BOTH `posterior_interosseous_n` and `radial_n_superficial_branch`
+(three independently stored mesh objects) without opening a gap where they meet -- a
+different, riskier problem than warping one nerve's own interior path, and out of this
+task's scope; left open for a future task, documented honestly rather than forced. Tests:
+`tests/test_zanatomy_corrections.py` +4 (268 total, was 264) -- three unit tests plus one
+full `apply_correction()` integration test built entirely on synthetic geometry under
+`tmp_path` (no `build/zanatomy/` needed, keeping the suite fast). Bundle rebuilt: 662
+matched entities, `zan_ref_nv` 1402 structures, entity coverage 303 (all unchanged from
+Q144 -- this task only touched two nerve ids' own geometry, not the matching/coverage
+pipeline), `verify_zan_reference.py` result OK, `build/viewer_zan/
+atlas_viewer_zanatomy_nv.html` 12.86MB (well under the 15MB budget). Full method, parameter
+sweep and stability check: `data/derived/Q145_pin_audit.json`. Correction file:
+`data/corrections/zanatomy/radial_n.json`. CC BY-SA anatomy layer only
+(`third_party/z-anatomy/NOTICE`); no `clinical`/private content touched. Open issue carried
+forward: landmark (d)'s own bifurcation-point correction (coordinated 3-object warp) is
+still undone, should it ever be revisited.
+
+Recent: Q144 (2026-09-23)
+the owner's first named correction to the Z-Anatomy reference model -- the radial nerve
 the owner's first named correction to the Z-Anatomy reference model -- the radial nerve
 pathway, per the owner's own stated reason for starting with Z-Anatomy (fastest complete
 models, corrected later with this project's own knowledge). CC BY-SA anatomy layer only
@@ -142,8 +209,10 @@ branches" -- the value is in the full text, not the abstract; get it before call
 unsourced. Note (e) target 39-46 mm combines Aggarwal c=42.6 mm-from-LE with Hazani's
 ~35 mm-from-radial-head (different reference point) -- keep the two references separate
 in the correction file when (e) is finished.
-**Queued Q145:** finish the PIN entry correction with a bounded 3-D (X/Y/Z) warp +
-bone-avoidance, and resolve (d) from Artico 2008 full text if accessible.
+**Queued Q145: DONE (2026-09-23).** See the Q145 entry above -- PIN entry now a bounded
+3-D (X/Y/Z) warp + bone-avoidance (42.55mm, matching cited targets to <0.3mm); Artico 2008
+full text confirmed inaccessible, (d) re-sourced from Qawasmi et al. 2025 instead (open
+access) but left uncorrected (small/borderline discrepancy, see that entry).
 
 Recent: Q143 (2026-09-23)
 shipped the "Z-Anatomy reference model" -- a THIRD viewer bundle, a standalone generic body,

@@ -1,4 +1,4 @@
-"""Q144: apply declarative, cited corrections to specific Z-Anatomy nerve pathways,
+"""Q144/Q145: apply declarative, cited corrections to specific Z-Anatomy nerve pathways,
 at bundle-build time only -- the raw extraction (build/zanatomy/) is never touched,
 so every correction stays traceable to a small JSON file under
 data/corrections/zanatomy/ plus this one small applier, per the owner's own
@@ -28,6 +28,23 @@ Y-coordinate moves.
 The lateral epicondyle itself is FIT LIVE from this build's own Humerus.r/.l
 mesh (never a fixed number baked into the correction file), so this still
 applies correctly if the base Z-Anatomy extraction is ever regenerated.
+
+Q145 ADDS an optional, ADDITIVE lateral (X/Z) push, `correction.lateral_push`,
+for the one landmark (PIN/arcade-of-Frohse entry) where Q144 found that a
+Y-only warp plateaus well short of its cited target because this Z-Anatomy
+body's own PIN centreline runs in near-contact with the Radius shaft for its
+whole course through the radial tunnel (checked empirically, Q145: 1-5mm
+clearance throughout) -- so any further distal Y-shift is immediately re-clipped
+onto the bone surface by the existing bone-avoidance pass below, regardless of
+how large the nominal shift is. `lateral_push` moves the SAME warped region
+sideways, AWAY from a named bone, before that bone-avoidance pass runs, using a
+direction computed LIVE from the nerve's own current centreline vs. that bone's
+own current surface (never a baked XYZ vector -- same "fit live" rule as the
+lateral epicondyle above), magnitude-profiled by the same bump_warp_y()
+interpolation already used for the Y-shift (0 at the named landmarks' own
+anchors, a bounded plateau in between, hard-clamped to `lateral_push.max_mm`
+as an explicit displacement cap). This is purely additive: a correction file
+with no `lateral_push` key runs exactly Q144's original Y-only path, unchanged.
 """
 from __future__ import annotations
 
@@ -98,6 +115,66 @@ def load_corrections(directory: Path = DEFAULT_CORRECTIONS_DIR) -> dict:
     return out
 
 
+def _load_bone_mesh(zan_dir: Path, side: str, bone: str):
+    """This build's own (side-matched) Skeletal/<bone>.<side>.npz as a trimesh, in
+    this project's atlas frame -- factored out of _push_off_bones() (Q144) so Q145's
+    lateral-push direction field (below) can share the exact same mesh construction
+    rather than a second copy of it. Returns None if that bone has no npz here (e.g.
+    a correction file names a bone this build's own extraction doesn't ship)."""
+    import trimesh  # noqa: E402
+    from scripts.zanatomy.zan_source import safe_filename, to_atlas_frame  # noqa: E402
+
+    path = Path(zan_dir) / "Skeletal" / f"{safe_filename(f'{bone}.{side}')}.npz"
+    if not path.exists():
+        return None
+    d = np.load(path)
+    return trimesh.Trimesh(vertices=to_atlas_frame(d["vertices_mm"]),
+                            faces=d["faces"].astype(np.int64), process=False)
+
+
+def _centreline_by_y(v: np.ndarray, nbins: int = 120) -> np.ndarray:
+    """Per-Y-bin vertex centroid of `v`, sorted superior->inferior (descending Y) --
+    exactly Q144's own pathway-audit centreline construction (see
+    data/derived/Q144_radial_nerve_audit.json's own `method` field), factored out
+    here so Q145's lateral-push warp can derive a bone-repulsion DIRECTION from a
+    nerve's own current shape live, rather than a baked-in vector (this file's
+    existing "fit live" rule -- see lateral_epicondyle_y's own docstring)."""
+    y = v[:, 1]
+    edges = np.linspace(y.max(), y.min(), nbins + 1)
+    out = []
+    for i in range(nbins):
+        m = (y <= edges[i]) & (y > edges[i + 1])
+        if m.any():
+            out.append(v[m].mean(axis=0))
+    return np.array(out)
+
+
+def _bone_repulsion_direction(y_query: np.ndarray, centreline: np.ndarray, mesh) -> np.ndarray:
+    """Unit direction, in the X/Z (atlas horizontal) plane only, from the nearest
+    point on `mesh`'s own surface TOWARDS each centreline sample (i.e. away from
+    that bone) -- computed once per centreline sample (~100-150 points, not once per
+    mesh vertex) and linearly interpolated in Y to every vertex's own (pre-warp) Y.
+    Y itself is untouched here (that axis is bump_warp_y's own job, applied
+    separately/orthogonally in apply_correction(), so a correction file with no
+    `lateral_push` key still runs the exact old Y-only path). Y is used as the
+    interpolation parameter rather than true 3-D arclength: adequate for a segment
+    that runs close to monotonically superior->inferior, which Q144 already
+    established for this same nerve by using Y-binning as its own centreline
+    convention -- a genuinely non-monotonic-in-Y path would need arclength
+    parametrisation instead."""
+    closest, _, _ = mesh.nearest.on_surface(centreline)
+    direction = centreline - closest
+    order = np.argsort(centreline[:, 1])
+    cy = centreline[order, 1]
+    dxz = direction[order][:, (0, 2)]
+    out = np.empty((len(y_query), 2))
+    for k in range(2):
+        out[:, k] = np.interp(y_query, cy, dxz[:, k])
+    norm = np.linalg.norm(out, axis=1, keepdims=True)
+    norm[norm == 0] = 1.0
+    return out / norm
+
+
 def _push_off_bones(points: np.ndarray, zan_dir: Path, side: str, bone_names: list[str],
                      clearance_mm: float = 1.0):
     """A pure Y-shift can move a vertex that used to clear a bone's surface into
@@ -120,17 +197,11 @@ def _push_off_bones(points: np.ndarray, zan_dir: Path, side: str, bone_names: li
     convex bone shaft). Never touches a point already outside every named bone.
     Import is local (trimesh is only needed here, not by every
     apply_correction() caller)."""
-    import trimesh  # noqa: E402
-    from scripts.zanatomy.zan_source import safe_filename, to_atlas_frame  # noqa: E402
-
     out = points.copy()
     for bone in bone_names:
-        path = Path(zan_dir) / "Skeletal" / f"{safe_filename(f'{bone}.{side}')}.npz"
-        if not path.exists():
+        mesh = _load_bone_mesh(zan_dir, side, bone)
+        if mesh is None:
             continue
-        d = np.load(path)
-        mesh = trimesh.Trimesh(vertices=to_atlas_frame(d["vertices_mm"]),
-                                faces=d["faces"].astype(np.int64), process=False)
         inside = mesh.contains(out)
         if not inside.any():
             continue
@@ -169,11 +240,30 @@ def apply_correction(aid: str, v: np.ndarray, zan_dir: Path, corrections: dict):
     humerus_path = Path(zan_dir) / "Skeletal" / f"{safe_filename(f'Humerus.{side}')}.npz"
     humerus_v = to_atlas_frame(np.load(humerus_path)["vertices_mm"])
     le_y = lateral_epicondyle_y(humerus_v, side)
-    anchors_y = [(le_y + off, shift) for off, shift in rec["correction"]["anchors_offset_from_LE_mm"]]
+    corr = rec["correction"]
+    anchors_y = [(le_y + off, shift) for off, shift in corr["anchors_offset_from_LE_mm"]]
     shift = bump_warp_y(v[:, 1], anchors_y)
     out = v.copy()
     out[:, 1] = v[:, 1] + shift
-    avoid = rec["correction"].get("avoid_penetration_of")
+
+    # Q145: optional additive X/Z push, away from a named bone, BEFORE the bone-
+    # avoidance pass below -- see this module's own docstring ("Q145 ADDS...") for
+    # why a Y-only warp alone plateaus for this nerve's own arcade-of-Frohse
+    # correction. Absent entirely for a Y-only correction file (back-compat).
+    lateral = corr.get("lateral_push")
+    if lateral:
+        bone_mesh = _load_bone_mesh(zan_dir, side, lateral["away_from"])
+        if bone_mesh is not None:
+            mag_anchors_y = [(le_y + off, mag) for off, mag in lateral["anchors_offset_from_LE_mm"]]
+            mag = bump_warp_y(v[:, 1], mag_anchors_y)
+            max_mm = lateral["max_mm"]
+            mag = np.clip(mag, -max_mm, max_mm)  # explicit displacement cap, independent of the anchors chosen
+            centreline = _centreline_by_y(v)
+            direction = _bone_repulsion_direction(v[:, 1], centreline, bone_mesh)  # (n, 2) = (X, Z)
+            out[:, 0] = out[:, 0] + mag * direction[:, 0]
+            out[:, 2] = out[:, 2] + mag * direction[:, 1]
+
+    avoid = corr.get("avoid_penetration_of")
     if avoid:
         out = _push_off_bones(out, zan_dir, side, avoid)
-    return out, rec["correction"].get("procedural_badge_note")
+    return out, corr.get("procedural_badge_note")
