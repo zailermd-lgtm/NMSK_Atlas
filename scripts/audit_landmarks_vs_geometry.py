@@ -71,6 +71,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -86,6 +87,12 @@ from engine.geometry import bone_length_along_axis, local_to_world  # noqa: E402
 
 BUILD_DIR = REPO_ROOT / "build" / "vh"
 DATA_DIR = REPO_ROOT / "data"
+
+# Q131: reverse TotalSegmentator label id -> name, used to identify individual
+# thoracic/lumbar vertebrae exactly where a manifest record's own source_file
+# encodes the raw label id (see _vertebra_pieces_exact below).
+_TOTALSEG_ID_TO_NAME = {int(k): v for k, v in json.loads(
+    (REPO_ROOT / "mappings" / "totalsegmentator_labels.json").read_text())["labels"].items()}
 
 
 def load_geometry(subject: str):
@@ -159,6 +166,76 @@ def _mesh_components_by_height(verts: np.ndarray, faces: np.ndarray,
     pieces = [verts[labels == c] for c in range(ncomp) if sizes[c] >= min_size]
     pieces.sort(key=lambda p: -p[:, 1].mean())
     return pieces
+
+
+def _vertebra_pieces_exact(manifest, by_atlas_id: dict, atlas_id: str,
+                           prefix: str, expected: list) -> dict | None:
+    """Q131: identify each individual vertebra EXACTLY, when the manifest's
+    own records make it possible, instead of inferring it from mesh shape.
+
+    `ct_vhf`'s manifest keeps one structure record per raw TotalSegmentator
+    vertebra label -- `source_file` literally ends '#31' for `vertebrae_L1`
+    (id 31) -- because that build ingested straight from `vhf_total.nii.gz`
+    per label. `load_geometry` concatenates same-atlas_id records in the
+    manifest's own order to build `by_atlas_id`, so re-walking the manifest
+    and slicing off each record's own `vertex_count` in that same order
+    recovers exactly which chunk is which vertebra, with no shape inference
+    at all. `ct_vhm` ('recovered from the published male viewer') carries no
+    such id in its source_file, so this returns None there and the caller
+    falls back to `_mesh_components_by_height` (Q130's method).
+    """
+    if manifest is None:
+        return None
+    concatenated = by_atlas_id.get(atlas_id)
+    if concatenated is None:
+        return None
+    recs = [r for r in manifest["structures"] if r["atlas_id"] == atlas_id]
+    offset = 0
+    pieces = {}
+    for r in recs:
+        n = r["vertex_count"]
+        chunk = concatenated[offset:offset + n]
+        offset += n
+        m = re.search(r"#(\d+)$", r["source_file"])
+        if not m:
+            return None
+        name = _TOTALSEG_ID_TO_NAME.get(int(m.group(1)))
+        if not name or not name.startswith(f"vertebrae_{prefix}"):
+            return None
+        pieces[name.replace("vertebrae_", "")] = chunk
+    return pieces if set(pieces) == set(expected) else None
+
+
+def _vertebra_pieces_by_height(by_atlas_id: dict, faces_by_atlas_id: dict,
+                               atlas_id: str, expected: list) -> dict | None:
+    """Fallback for a subject whose manifest does not carry a raw label id
+    (`ct_vhm`): Q130's mesh-connectivity + height-ordering, with a relative
+    size filter added -- `ct_vhf` (not `ct_vhm`) turned out to carry
+    decimation-noise fragments up to ~1500 vertices, well past Q130's flat
+    500-vertex floor, so a fragment far smaller than the real per-vertebra
+    pieces (which are themselves all similar size) is dropped by comparison
+    to the largest piece found rather than by a fixed count."""
+    verts = by_atlas_id.get(atlas_id)
+    faces = faces_by_atlas_id.get(atlas_id)
+    if verts is None or faces is None or len(verts) < 500:
+        return None
+    comps = _mesh_components_by_height(verts, faces, min_size=500)
+    if comps:
+        floor = 0.25 * max(len(c) for c in comps)
+        comps = [c for c in comps if len(c) >= floor]
+    if len(comps) != len(expected):
+        return None
+    return {lvl: comps[i] for i, lvl in enumerate(expected)}
+
+
+def _identify_vertebrae(manifest, by_atlas_id, faces_by_atlas_id, atlas_id, prefix, expected):
+    pieces = _vertebra_pieces_exact(manifest, by_atlas_id, atlas_id, prefix, expected)
+    if pieces is not None:
+        return pieces, "exact per-record TotalSegmentator label id"
+    pieces = _vertebra_pieces_by_height(by_atlas_id, faces_by_atlas_id, atlas_id, expected)
+    if pieces is not None:
+        return pieces, "mesh-connectivity components sorted by height (Q130 method)"
+    return None, None
 
 
 def epicondylar_axis(mesh: np.ndarray, origin: np.ndarray,
@@ -406,7 +483,7 @@ def nearest_distance(points: np.ndarray, cloud: np.ndarray, chunk: int = 256):
     return out
 
 
-def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
+def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
     """Every bone frame this script can MEASURE, as
     {entity_id: (origin, basis, how it was found, which axes are fitted,
                  length along the long axis in mm, or None)}.
@@ -780,6 +857,60 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id):
                     "CT labels (see above); axes by anatomical-position "
                     "convention, not fitted", "neither")
 
+    # Q131: thoracic_vertebrae (T1-T12) and lumbar_vertebrae (L1-L5), the
+    # next two region entities of the same kind as cervical_vertebrae above
+    # (one atlas entity for several real, separate bones). Both come back as
+    # clean per-vertebra mesh-connectivity pieces on both bodies (12 and 5,
+    # matching count -- confirmed, not assumed), and on `ct_vhf` the exact
+    # identity is not even inferred: `_vertebra_pieces_exact` reads it
+    # straight off the manifest's own per-record TotalSegmentator label id.
+    # Origin is each entity's OWN documented origin_landmark: the most
+    # superior point of T1 (thoracic) / L1 (lumbar) within 8 mm of the
+    # midline. `fitted="long"` (unlike cervical's "neither") because the two
+    # subjects' column lengths measured this way are close (thoracic 305.8
+    # vs 306.7 mm, lumbar 184.5 vs 196.8 mm) but not identical, and several
+    # landmarks sit 200+ mm from the origin where even a small ratio error
+    # compounds -- Q43's existing along-axis scaling removes exactly that.
+    #
+    # WHAT DID NOT GENERALISE (measured directly, not assumed): Q130's own
+    # "measure the landmark on the male mesh" convention, applied the same
+    # way here, does NOT reach Q130's 0.4-1.3 mm bar for any of 8 candidate
+    # single-level landmarks tried (T1/T2/T4/T6/T7/T11 transverse or spinous
+    # process, L1 transverse process) -- cross-subject placement error
+    # measured at 12-50 mm, an order of magnitude worse than cervical. Cause
+    # isolated by comparing the SAME conceptual point measured from the
+    # decimated mesh vs. straight from the raw CT label mask on the SAME
+    # subject (ct_vhm): they disagree by up to 44 mm on the male build alone
+    # (`recovered from the published male viewer`, coarse: ~2900 vertices
+    # per vertebra), while the same check on `ct_vhf` (TotalSegmentator-
+    # direct, 10000-24000 vertices per vertebra) agrees with its own CT to
+    # 6-9 mm -- so the male mesh, not genuine anatomy or a frame bug, is
+    # the unreliable side FOR THIS FEATURE SIZE (it was reliable enough for
+    # cervical's much larger transverse-process/tubercle features). Measuring
+    # from `ct_vhf` instead and cross-checking placement against `ct_vhm`'s
+    # own mesh gave 2 candidates within a few mm both ways (see bones.json)
+    # and 6 that did not -- shipped only the 2, left the rest out rather than
+    # ship a landmark known to disagree with its own source by a centimeter
+    # or more.
+    for atlas_id, prefix, expected in (
+        ("thoracic_vertebrae", "T", [f"T{i}" for i in range(1, 13)]),
+        ("lumbar_vertebrae", "L", [f"L{i}" for i in range(1, 6)]),
+    ):
+        pieces, how = _identify_vertebrae(manifest, by_atlas_id, faces_by_atlas_id,
+                                          atlas_id, prefix, expected)
+        if pieces is None:
+            continue
+        top = pieces[expected[0]]
+        top_mid = top[np.abs(top[:, 0]) < 8.0]
+        if len(top_mid) <= 5:
+            continue
+        origin = top_mid[np.argmax(top_mid[:, 1])]
+        frames[atlas_id] = (
+            origin, np.eye(3),
+            f"the superior endplate of {expected[0]}: its most superior point "
+            f"within 8 mm of the midline, {expected[0]} identified via {how}; "
+            "axes by anatomical-position convention, not fitted", "long")
+
     # Length along the fitted long axis, for the landmark scaling (Q43).
     # Frames whose long axis is the anatomical-position convention (pelvis,
     # scapula, sternum ...) get None: a landmark on them stays in millimetres.
@@ -818,7 +949,7 @@ def main() -> int:
     bones = {b["id"]: b for b in json.loads(
         (DATA_DIR / "skeleton" / "bones.json").read_text())}
 
-    frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
+    frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest)
 
     meshes = dict(by_atlas_id)
 

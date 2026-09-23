@@ -11,7 +11,30 @@ well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
 The repository is proprietary and sellable; no CC BY-SA source may enter it.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q130 (2026-09-22)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q131 (2026-09-22/23)
+applied Q130's exact per-vertebra identification technique to `thoracic_vertebrae` (T1-T12) and
+`lumbar_vertebrae` (L1-L5): both split cleanly into 12/5 real mesh-connectivity components on both
+bodies (confirmed, not assumed), and on `ct_vhf` the identity isn't even shape-inferred -- its
+manifest's own per-record TotalSegmentator label id (`source_file` literally ends `#43` for
+`vertebrae_T1`) gives it exactly. Explicitly checked the matcher-bug class Q130 found and fixed for
+C1/C2: `_vertebra_levels()` already parses T1-T12/L1-L5 and cross-region ranges (`C7-T11`,
+`T11-L2`) correctly out of the box -- verified with real muscle text, no bug found this time. Of 8
+candidate single-level landmarks measured (the only real leverage here: every one of the 13
+thoracic/lumbar-referencing muscles names a multi-level SPAN, not a single point like C1/C2 did),
+only 1 met Q130's own 0.4-1.3mm cross-subject bar: T11 spinous process (0.8mm ct_vhm, 0.6mm
+ct_vhf), added to `thoracic_vertebrae`, unblocking 6 new anchors (`serratus_posterior_inferior`,
+`spinalis`, and `latissimus_dorsi`, both sides). The other 7 were measured and DECLINED, a real
+finding: the male mesh disagreed with its own raw CT label by up to 44mm at this feature size
+(coarse ~2900-vertex-per-vertebra decimation) -- so this landmark was measured on `ct_vhf` instead,
+the first departure from Q130's "measure on the male" convention, for a documented reason. While
+verifying the rebuilt bundle (not trusting the anchor count) found and fixed a real, PRE-EXISTING
+bug in `export_viewer_bundle.py`: anchor points were resolved incrementally through the per-subject
+export loop and looked up for a muscle at the moment ITS OWN mesh was emitted, so any muscle whose
+mesh is emitted from a subject listed BEFORE the one holding its bone's frame silently lost that
+anchor -- affected more than today's 2 new muscles. Both bundles rebuilt and re-verified after the
+fix. 252 tests pass (one legitimately updated: `thoracic_vertebrae` is the first vertebral-column
+entity with a fitted long axis). Full detail in the Q131 queue entry below.
+Recent: Q130 (2026-09-22)
 checked item 5's premise ("spine/rib/sternum landmarks have no numeric coordinates, blocked on
 item 1") directly rather than trusted: stale in two ways (sternum already had all 6 landmarks
 numeric since 2026-09-10; item 1 was never really the blocker), true in one (cervical/thoracic/
@@ -3542,6 +3565,159 @@ tick the item here with a one-line result. Never fabricate; keep the
       unaffected (only reads of the already-committed `build/vh/ct_vhf_mcsplit` mesh; no scratch
       intermediates left on disk -- the analysis scripts lived in the session scratchpad, deleted
       with it). NOT published/deployed (same standing block as every other item today, not
+      retried).
+
+- [x] Q131 (2026-09-22/23) Applied Q130's exact method (mesh-connectivity per-vertebra
+      identification, cross-checked against the raw TotalSegmentator per-vertebra CT labels) to
+      `thoracic_vertebrae` (T1-T12) and `lumbar_vertebrae` (L1-L5), the two items Q130 explicitly
+      ranked next.
+      STEP 1 (component-count/identity verification): `thoracic_vertebrae` split into exactly 12
+      real mesh-connectivity components on `ct_vhm` (`scipy.sparse.csgraph.connected_components`,
+      same as Q130) with no noise fragments, and 16 raw components on `ct_vhf` that reduce to
+      exactly 12 after dropping decimation-noise fragments up to ~1500 vertices (a relative filter,
+      size < 25% of the largest component in the set, since Q130's flat 500-vertex floor was tuned
+      to cervical and doesn't generalise -- `ct_vhf`'s noise fragments here are 3x that floor).
+      `lumbar_vertebrae` gave 5 clean components on `ct_vhm` but 6-7 on `ct_vhf` even after the
+      relative filter, traced to one level (`vertebrae_L1`) carrying a real second large mesh
+      island in this build (consistent with `scripts/voxelize_lumbar_column.py`'s own earlier
+      finding that the 5 real lumbar pieces are collectively 12 face-adjacency components, not 5).
+      Solved differently for `ct_vhf`: its manifest keeps ONE structure record per raw
+      TotalSegmentator label id already (`source_file` literally ends `#31` for `vertebrae_L1`,
+      `#43` for `vertebrae_T1`, etc., because that build ingested straight from `vhf_total.nii.gz`
+      per label) -- re-walking the manifest and slicing off each record's own `vertex_count` in
+      its own order recovers exactly which chunk is which vertebra with NO shape inference at all,
+      sidestepping the L1 split issue entirely. `ct_vhm` (`recovered from the published male
+      viewer`) carries no such id, so it still uses Q130's mesh-connectivity-by-height method.
+      Cross-checked against the raw per-vertebra CT labels (`vertebrae_T1`..`T12`,
+      `vertebrae_L1`..`L5`) the same way Q130 did (translation-invariant span comparison, via
+      `engine.volume_ingest.voxels_to_atlas`, which is the actual RAS-to-atlas-frame transform this
+      codebase already uses elsewhere -- my first pass compared raw affine RAS coordinates without
+      it and got nonsense until this was found): span agreement 0.1-2mm at most levels on `ct_vhm`,
+      looser (up to ~40mm) at a few middle-thoracic levels from real CT-label segmentation
+      noise/overlap between adjacent vertebrae, not identification error -- craniocaudal ORDER is
+      unambiguous here anyway (unlike C1/C2, which needed shape disambiguation, T1-T12/L1-L5 have a
+      monotonic size gradient with no confusable pairs). Added `_vertebra_pieces_exact()`,
+      `_vertebra_pieces_by_height()` and `_identify_vertebrae()` to
+      `scripts/audit_landmarks_vs_geometry.py` implementing both methods and the fallback between
+      them, plus a `thoracic_vertebrae`/`lumbar_vertebrae` `build_frames()` case (origin = each
+      entity's own documented origin_landmark: T1's/L1's most superior point within 8mm of
+      midline), generalising `build_frames()`'s signature to also take `manifest` (needed for the
+      exact per-record method; the one other caller, `scripts/export_viewer_bundle.py`, was left on
+      the old 3-arg call, which is safe -- it just always falls back to the height method).
+      STEP 2 (matcher-bug generalisation, explicitly checked, not assumed): `generate_anchors.py`'s
+      `_vertebra_levels()`/`_VERTEBRA_RANGE_RE`/`_VERTEBRA_SINGLE_RE`, which Q130 added for C1/C2,
+      were already written level-generically (`_VERTEBRA_LEVELS` covers C1-C7/T1-T12/L1-L5/S1-S5 in
+      one craniocaudal list) -- verified directly against real muscle text pulled from this
+      session's own candidate set (`'transverse processes C7-T11'` -> `{c7,t1..t11}`,
+      `'spinous processes T11-L2'` -> `{t11,t12,l1,l2}`, `'spinous processes T7-L5'` -> the full
+      T7-L5 span, etc.), all correct, cross-region ranges included. NO bug found this time, unlike
+      Q130's C-only gap.
+      STEP 3 (which muscles have genuine leverage): grepped every `data/muscles/**.json` naming
+      `thoracic_vertebrae`/`lumbar_vertebrae` as `origin_bone`/`insertion_bone` -- 13 muscles, 26
+      files (`latissimus_dorsi`, `levatores_costarum`, `longissimus`, `multifidus`,
+      `quadratus_lumborum`, `rhomboid_major`, `rotatores`, `semispinalis_thoracis`,
+      `serratus_posterior_inferior`, `spinalis`, `transversus_abdominis`, both sides, plus
+      cervical-side `semispinalis_cervicis`/`splenius_cervicis` already resolved by Q130). Unlike
+      the atlas/axis group Q130 found (single, near-verbatim named levels), EVERY ONE of these
+      names a multi-level SPAN (`'spinous processes T2-T5'`, `'transverse processes T1-T12'`,
+      `'spinous processes 2-4 vertebral levels above each origin, sacrum to axis'`...), so the only
+      available leverage is the same approximation Q130 already used for `levator_scapulae`/
+      `semispinalis_cervicis`: one real level standing in for the muscle's true multi-level span.
+      `multifidus` and `rotatores` were checked and EXCLUDED from candidacy on this basis alone,
+      before any measurement: their texts describe a REPEATING structure with no single fixed level
+      (`'transverse process of one vertebra'`; `'2-4 levels above each origin, sacrum to axis'`),
+      the same generic-text case Q130's disqualification rule exists to refuse
+      (`interspinales`/`intertransversarii`) -- picking one level for either would be exactly the
+      silent-default the rule forbids. `psoas major` (in `iliopsoas`) and `iliocostalis` were
+      checked and found NOT ELIGIBLE at all: `iliopsoas`'s `origin_bone` is `hip_bone_r` (psoas
+      major's lumbar attachment is described only in the landmark TEXT, not as its own
+      `origin_bone`) and `iliocostalis`'s origin/insertion bones are `hip_bone_r`/`ribs_r` --
+      neither actually names `thoracic_vertebrae`/`lumbar_vertebrae` as an attachment bone in the
+      schema, so no landmark on either vertebral entity could ever anchor them; a real schema
+      limitation (one `origin_bone` per muscle), not a measurement gap, left for a future item.
+      That left 8 single-level candidates with real textual grounding: T1/T6 transverse process,
+      T1/T2/T4/T7/T11 spinous process, L1 transverse process.
+      STEP 4 (measure and verify, both bodies): extraction: spinous process = mean of the most
+      posterior 2% of a level's own vertices within 8mm of midline; transverse process (right) =
+      mean of the most lateral 2% of a level's own vertices. First pass (measured on `ct_vhm`, per
+      Q130's convention) FAILED badly: cross-subject placement error 12-50mm on every one of the 8
+      candidates, an order of magnitude worse than Q130's 0.4-1.3mm. Isolated the cause rather than
+      assuming it was genuine anatomy: measured the SAME conceptual point straight from the raw CT
+      label mask (voxel resolution, no decimation) instead of the mesh, on `ct_vhm` alone -- it
+      disagreed with the mesh-based value by up to 44mm for the SAME subject, meaning the male
+      build's per-vertebra thoracic mesh (`recovered from the published male viewer`, coarse:
+      ~2900 vertices/vertebra) is measurably unreliable at this feature size, not that cervical's
+      technique fails to generalise. The same single-subject mesh-vs-CT check on `ct_vhf`
+      (TotalSegmentator-direct, 10000-24000 vertices/vertebra) agreed to 6-9mm -- so `ct_vhf`, not
+      `ct_vhm`, is the reliable side here (reversed from Q130's cervical case, where the male mesh
+      was fine). Re-measured all 8 candidates on `ct_vhf` and cross-checked placement against BOTH
+      bodies' own mesh with the real `scripts/audit_landmarks_vs_geometry.py` (not an ad hoc
+      script): only T11 spinous process met Q130's 0.4-1.3mm bar on both bodies (0.8mm `ct_vhm`,
+      0.6mm `ct_vhf`); T1 transverse process came closest of the rest at 4.3mm on `ct_vhm`, still
+      over bar; T2/T4/T6/T7 spinous/transverse and L1 transverse ranged 8-38mm. Shipped ONLY T11's
+      spinous process (`position_local_mm` `[-4.2,-247.1,-60.3]` relative to the frame's T1
+      origin), measured on `ct_vhf` -- the first landmark in this file measured on the female
+      rather than the male, documented in its own `notes` field with the reason. Added
+      `reference_length_mm: 306.74` (the `ct_vhf` thoracic column's own 1st-99th-percentile Y
+      extent from the T1 origin) and `fitted: "long"` to `thoracic_vertebrae`'s frame -- the first
+      vertebral-column entity to need Q43's along-axis scaling at all (cervical's frame is
+      `fitted: "neither"`, fine at C1/C2's <40mm offsets; T11 sits ~250mm from the T1 origin, far
+      enough that the small `ct_vhm`/`ct_vhf` column-length difference, 305.8 vs 306.7mm, would
+      otherwise compound). `tests/test_landmark_scaling.py` had to be updated: it asserted every
+      `reference_length_mm`-carrying bone was a long-bone stem (femur/tibia/.../clavicle), true
+      until now -- added `thoracic_vertebrae` as an explicit exception with the reason, rather than
+      loosening the assertion.
+      STEP 5 (regenerate anchors, diff-check): `python3 scripts/generate_anchors.py`: 318 -> 324,
+      exactly 6 added (`serratus_posterior_inferior_l/r` origin, `spinalis_l/r` origin, and a
+      legitimate bonus match neither planned nor a bug -- `latissimus_dorsi_l/r` origin, since its
+      own text's span (`'spinous processes T7-L5'`) genuinely contains T11), 0 removed, 0 changed
+      (diffed the full anchor records by value, not just by id, same rigor as Q130).
+      STEP 6 (rebuild bundles, and a real bug this surfaced): rebuilding found
+      `spinalis_r`/`spinalis_l` and `latissimus_dorsi_r`/`_l` had NO numeric origin in the rebuilt
+      bundle despite the new anchors existing -- checked rather than trusted, per this item's own
+      standing instruction to verify by parsing the rebuilt JSON. Root cause, in
+      `scripts/export_viewer_bundle.py::main()`: anchor points are resolved per-subject inside the
+      SAME loop that emits each subject's mesh structures, and a muscle's `summarise()` call looks
+      its anchor up in whatever the accumulated dict holds AT THAT POINT in the loop -- so a muscle
+      whose OWN mesh is emitted from a subject listed BEFORE the subject holding its bone's frame
+      silently loses that anchor. `spinalis_r`'s mesh is emitted from `ct_vhm_es`, which
+      `scripts/vhm_rebuild_bundle.sh`'s subject list puts before `ct_vhm` (the subject carrying
+      `thoracic_vertebrae`'s real geometry) -- Q130's cervical anchors happened not to hit this
+      because their consuming muscles (`obliquus_capitis_inferior` etc.) are emitted from
+      `ct_vhm_headm`, listed AFTER `ct_vhm`. A PRE-EXISTING bug, not introduced this session, that
+      would have silently affected any future numeric landmark whose consuming muscle's subject
+      happens to precede its bone's subject. A second bug in the same code compounded it:
+      `anchor_points.setdefault(mid, pts)` kept only the FIRST subject's whole dict for a shared
+      id, so `latissimus_dorsi_r` (insertion resolved from `ct_vhm_arm`, origin from `ct_vhm`)
+      would only ever have shown whichever role resolved first, regardless of the ordering fix.
+      Fixed both: anchors are now resolved for every subject in a pass BEFORE the structure loop,
+      merged with `anchor_points.setdefault(mid, {}).update(pts)` (per-role merge, not
+      whole-dict-first-wins). Verified directly: `spinalis_r`/`spinalis_l` and
+      `latissimus_dorsi_r`/`_l` all carry `origin_point_mm` in the rebuilt `build/viewer_m/
+      bundle.json` after the fix (male: `[-11.9,361.4,-70.3]`/`[-3.5,361.4,-70.3]` for both
+      `spinalis_r` and `latissimus_dorsi_r`/`_l` respectively, matching the shared T11 landmark
+      each is anchored to). `serratus_posterior_inferior_l/r` has no shipped mesh geometry (a
+      breadth-pass muscle, per `docs/ARCHITECTURE.md`), so its anchor exists in `anchors.json` and
+      `resolve_anchor_points()` but has no bundle structure to attach to -- expected, not a bug.
+      Both bundles rebuilt ADDITIVELY on today's `build/vh/*` state via the existing
+      `scripts/vhm_rebuild_bundle.sh`/`scripts/cryo/vhf_rebuild_bundle.sh` (male 363 structures,
+      female 391 -- both unchanged counts, confirming no mesh/manifest changed, only the anchor
+      resolution) and verified by parsing both rebuilt JSONs.
+      Files changed: `scripts/audit_landmarks_vs_geometry.py` (`_vertebra_pieces_exact()`,
+      `_vertebra_pieces_by_height()`, `_identify_vertebrae()`, the new
+      `thoracic_vertebrae`/`lumbar_vertebrae` `build_frames()` case, `build_frames()`'s new
+      optional `manifest` parameter), `scripts/export_viewer_bundle.py` (the anchor-resolution
+      ordering/merge fix), `data/skeleton/bones.json` (1 new landmark + `reference_length_mm` on
+      `thoracic_vertebrae`; `lumbar_vertebrae` unchanged -- its one candidate, L1 transverse
+      process, was declined at 10.6mm), `data/rig/anchors.json` (regenerated: 324 anchors, 6 added,
+      0 removed/changed), `tests/test_landmark_scaling.py` (updated assertion for the new fitted
+      vertebral-column entity). `python -m pytest -q`: **252 passed**, checked after each step
+      (frame addition, anchor regeneration, the test-scaling assertion fix, the bundle-export fix).
+      Declined for a future session: L1 transverse process and the other 6 thoracic single-level
+      candidates (measured, numbers above, left out rather than shipped at that error); psoas
+      major/iliocostalis's schema limitation (single `origin_bone` per muscle prevents anchoring
+      either to a vertebral level at all); ribs remain declined per Q130 (unchanged, not
+      re-attempted). NOT published/deployed (same standing block as every other item today, not
       retried).
 
 - [x] Q130 (2026-09-22) Item 5's premise ("spine, rib and sternum landmarks have no numeric

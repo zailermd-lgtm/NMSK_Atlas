@@ -92,8 +92,15 @@ def test_every_reference_length_in_bones_json_is_on_a_bone_with_a_long_axis():
     with_ref = {b["id"] for b in bones if "reference_length_mm" in b}
     assert with_ref, "no bone carries reference_length_mm"
     stems = ("femur", "tibia", "fibula", "humerus", "radius", "ulna", "clavicle")
+    # thoracic_vertebrae (Q131, 2026-09-22): the first vertebral-column entity
+    # with a fitted long axis (its 12-vertebra column, T1 origin to T12/L1
+    # end) rather than the "neither" convention cervical_vertebrae uses --
+    # needed because its one shipped landmark (T11's spinous process) sits
+    # ~250 mm from the T1 origin, far enough that the small male/female
+    # column-length difference (305.8 vs 306.7 mm) would otherwise compound.
+    exact_ids = ("thoracic_vertebrae",)
     for bid in with_ref:
-        assert bid.startswith(stems), bid
+        assert bid.startswith(stems) or bid in exact_ids, bid
         b = next(x for x in bones if x["id"] == bid)
         assert b["reference_length_mm"] > 100 and "reference_length_note" in b, bid
 

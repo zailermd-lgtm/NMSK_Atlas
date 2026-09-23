@@ -448,7 +448,27 @@ def main() -> int:
     # already fully provided, so this set is only updated once a subject's
     # own structures have all been processed, not structure-by-structure.
     claimed_by_prior_subjects = set()
-    anchor_points = {}
+    # Q131: resolved for EVERY subject before the structure loop below, not
+    # incrementally inside it. `summarise()` (below) looks a muscle's anchor
+    # up in this dict at the moment ITS OWN mesh is emitted, which can be an
+    # earlier subject than the one holding the BONE its anchor is measured
+    # against (found here: `spinalis_r`'s mesh is emitted from `ct_vhm_es`,
+    # which the male rebuild lists before `ct_vhm`, the subject carrying
+    # `thoracic_vertebrae`'s real geometry -- so the origin this item added
+    # was silently missing from every already-published muscle whose bone
+    # is processed after its own mesh, not just the two new ones, and would
+    # have stayed missing had this not been checked by re-parsing the
+    # rebuilt bundle rather than trusting `generate_anchors.py`'s count).
+    # Merging with `update()` per id (not the old `setdefault(mid, pts)`,
+    # which kept only the FIRST subject's dict for a shared id) also fixes a
+    # muscle with its origin and insertion on different bones in different
+    # subjects (`latissimus_dorsi_r`: insertion from `ct_vhm_arm`, origin
+    # from `ct_vhm`) -- previously whichever subject ran first won outright
+    # and the other role never appeared, regardless of processing order.
+    anchor_points: dict = {}
+    for subject in subjects:
+        for mid, pts in resolve_anchor_points(subject).items():
+            anchor_points.setdefault(mid, {}).update(pts)
     frame = None
     attributions = []
     subject_totals = {}
@@ -461,10 +481,6 @@ def main() -> int:
         if manifest.get("attribution"):
             attributions.append(manifest["attribution"])
         source_tris_total += manifest["triangle_count"]
-
-        subj_anchors = resolve_anchor_points(subject)
-        for mid, pts in subj_anchors.items():
-            anchor_points.setdefault(mid, pts)
 
         kept_here = 0
         this_subject_ids = set()
