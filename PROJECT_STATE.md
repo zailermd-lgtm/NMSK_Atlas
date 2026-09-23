@@ -22,14 +22,16 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 288 tests pass. Recent: Q150 (2026-09-23)
-refined Q147's Z-Anatomy forearm transfer to each specimen's own segmented tissue (marker-
-controlled, nearest-transferred-seed partition within the specimen's own muscle-tissue
-volume, Q48-style): male forearm median centroid error 25.4->11.5mm (max 75.3->15.1mm),
-female forearm 29.1->4.1mm (max 91.0->17.4mm), both shipped (`xfer_zan2vh{m,f}_limb_refined`).
-Female hand tried too but did not clear the ship bar (max stayed 42.7mm) and is NOT shipped --
-Q147's hand/foot estimate stands unchanged, its own badge now also discloses its max error.
-See its own entry below for full detail. Before that, Q148 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 289 tests pass. Recent: Q150 (2026-09-23,
+corrected as Q150b after lead review) tried a marker-controlled, nearest-transferred-seed
+refinement of Q147's Z-Anatomy forearm/hand transfer within each specimen's own segmented
+tissue (Q48-style). A first cut's leave-one-out validation LEAKED ground truth (searched for a
+held-out muscle only inside its own already-known true label); the corrected validation
+(neighbouring real labels folded into the open, contested region too, never kept fixed) scores
+median 19-29mm / max 22-52mm across both specimens and both forearm/hand -- over the 15mm
+ship bar throughout, so **nothing new ships**. Q147's own `xfer_zan2vh{m,f}_limb` stands
+unchanged (its badge now also discloses its own max error, 75.3mm male / 91.0mm female). See
+its own entry below for full detail. Before that, Q148 (2026-09-23)
 fixed the intervertebral discs (owner-reported: "structures have moved" in the upper body) --
 every cervical/thoracic disc on BOTH subjects sat at one fixed region-wide X/Y, spread front-
 to-back instead of stacked between vertebrae (lumbar too, on the male, whose OBJ files
@@ -106,18 +108,18 @@ sweep and stability check: `data/derived/Q145_pin_audit.json`. Correction file:
 forward: landmark (d)'s own bifurcation-point correction (coordinated 3-object warp) is
 still undone, should it ever be revisited.
 
-Recent: Q150 (2026-09-23)
-refined Q147's Z-Anatomy forearm transfer to each specimen's OWN segmented tissue -- owner
-wanted the accuracy improved after Q147 shipped an estimate (25.4mm male / 29.1mm female
+Recent: Q150 (2026-09-23) -- CORRECTED (Q150b) after lead review; ships NOTHING new
+tried to refine Q147's Z-Anatomy forearm transfer to each specimen's OWN segmented tissue --
+owner wanted the accuracy improved after Q147 shipped an estimate (25.4mm male / 29.1mm female
 median centroid error, FDP-class outliers 73-91mm). FIRST checked for a systematic bias
 (scripts kept in this session only, not committed): computed the mean real-vs-transferred
 centroid offset over Q147's own validated forearm muscles per specimen and re-scored after
 subtracting it -- median got WORSE (male 25.4->39.7mm, female 29.1->28.0mm), i.e. the error is
 per-muscle/shape, not a uniform translation; no single-offset or joint-bone-registration fix
-applies. METHOD actually used, `scripts/transfer/refine_limb_transfer.py`: the SAME idea as
-Q48's `refine_transfer_to_septa.py` (marker-controlled boundary refinement seeded by the
-transferred shape, real imaging fixed as a hard constraint) but on VOLUMETRIC LABELS instead
-of raw cryosection crops -- the full-resolution crops `scripts/cryo/*forearm*.py`/
+applies. METHOD, `scripts/transfer/refine_limb_transfer.py`: the SAME idea as Q48's
+`refine_transfer_to_septa.py` (marker-controlled boundary refinement seeded by the transferred
+shape, real imaging fixed as a hard constraint) but on VOLUMETRIC LABELS instead of raw
+cryosection crops -- the full-resolution crops `scripts/cryo/*forearm*.py`/
 `vhf_hand_muscles_from_cryo.py` read via `--crops` (SCRATCH/vh_cryo_f, vh_cryo_m_fa, hand) did
 NOT survive the container reset (checked: no SCRATCH/ or `*cryo_frame*` path exists anywhere)
 and cannot be re-fetched (same denied-hosts policy as elsewhere in this project), so this uses
@@ -127,66 +129,69 @@ the CT/muscle-mass volumes those crop-based scripts already produced and committ
 tissue, already reviewed once (each subject's own `*_volume_mapping.json` "candidates" field:
 a compartment the rule-based cryo method could not split, or an individually-named region the
 review REJECTED as unreliable, both reused verbatim). Each open label's own real tissue is
-partitioned among its candidates by NEAREST-TRANSFERRED-SEED competition (scipy
-`distance_transform_edt`, no grayscale texture survives to watershed on, so this is the
+partitioned among its candidates by NEAREST-TRANSFERRED-SEED competition (`partition_region()`,
+scipy `distance_transform_edt`, no grayscale texture survives to watershed on, so this is the
 geometric substitute the task's own stated fallback anticipated), each candidate's claim
 clipped to within 12mm of its own (uneroded) Q147 transferred mesh (Q48's "no growth beyond
-its own transfer" rule) and to at least 15% of Q147's own volume (a claim smaller than that,
-e.g. male `extensor_digitorum_r`'s seed reaching only 0.01 of its compartment's real tissue,
-is a registration failure, not a refinement -- kept as Q147, disclosed, not shipped as a
-sliver). TWO BUGS FOUND BUILDING THIS: (1) a held-out real muscle's own single-candidate label
-was, at first, handed the WHOLE label unconditionally (the genuine-compartment shortcut) --
-this reads the answer back out of its own ground truth and scored a fraudulent ~1mm median;
-fixed by forcing every held-out id through the SAME seed-constrained competition as a real
-compartment (`tests/test_refine_limb_transfer.py::test_holdout_never_uses_the_free_pass_
-shortcut`). (2) the SAME shortcut was, by construction, also applied to every REVIEW-REJECTED
-single-candidate label (male `pronator_quadratus`'s own note: "57 cm3 against 8-12 expected --
-its rule takes the whole distal section", `flexor_carpi_ulnaris`/`extensor_carpi_ulnaris`/
-`extensor_pollicis_brevis`/`extensor_indicis` all similarly flagged oversized rule artefacts)
--- fixed by reading each label's own `status` field (`"review"` vs `"no_atlas_entity"`) and
-only free-passing a genuine, never-rejected compartment
-(`test_review_status_does_not_get_a_free_pass`). VALIDATION (same leave-one-out design as
-Q147/Q48: hold out each real muscle, refine with the others fixed, compare): male forearm
-(n=3, all recovered) median 25.4->11.5mm, max 75.3->15.1mm. Female forearm (n=13 of 14 --
-`extensor_pollicis_longus_r` has no Z-Anatomy source, same as Q147) median 29.1->4.1mm, max
-91.0->17.4mm. Female hand (n=6, ALSO tried, Q147 never validated it) median 33.9->28.5mm, max
-42.7->42.7mm -- only 3 of 6 held-out muscles recovered a claim within 12mm of their own Q147
-seed at all; the other 3 (abductor_digiti_minimi_hand_r/flexor_digiti_minimi_brevis_hand_r/
-opponens_digiti_minimi_r) fall back to their unchanged Q147 placement. SHIP DECISION (per the
-task's own bar, median <15mm AND outliers <30mm): BOTH forearms clear it convincingly and
-ship; the hand does NOT (max 42.7mm, unrecovered muscles) and is NOT shipped -- Q147's hand
-transfer stands unchanged, same as if nothing had been tried. Shipped as new subjects
-`xfer_zan2vhm_limb_refined` (9 structures: brachioradialis_r, extensor_carpi_radialis_
-brevis_r/longus_r, extensor_carpi_ulnaris_r, extensor_pollicis_brevis_r,
-flexor_pollicis_longus_r, pronator_quadratus_r, pronator_teres_r, supinator_r) and
-`xfer_zan2vhf_limb_refined` (4: anconeus_r, flexor_carpi_radialis_r,
-flexor_digitorum_superficialis_r, pronator_teres_r), each listed BEFORE its own
-`xfer_zan2vh{m,f}_limb` so only these ids override Q147's Z-Anatomy shape; everything else
-(hand, foot, the rest of the forearm) is untouched. Every shipped structure's
-`procedural_badge` carries the new median AND max (e.g. male: "validation median error 11.5mm,
-max 15.1mm"); Q147's OWN badge (for everything Q150 did not touch) was ALSO updated to add its
-max error (`--badge-max-error-mm`, new flag on `limb_per_bone_transfer.py`) -- male "median
-25.4mm, max 75.3mm", female "median 29.1mm, max 91.0mm" (the true worst case,
-`extensor_digitorum_r`, not the 73mm FDP-class figure quoted at the start of this task -- FDP
-itself is 72.9mm, disclosed as such, but the honest dataset max is higher). REGENERATING
-Q147's OWN subject hit a self-reference bug in both rebuild scripts: `--male-html
-build/viewer_m`/`--female-bundle build/viewer_f` read the CURRENT (already-built) bundle,
-which already carries Q147's own 62/23 ids as "present", so `default_ids()` silently skips
-all of them and ships 0 -- worked around with a one-off pre-transfer bundle
-(`export_viewer_bundle.py` on the SUBJ list minus that one subject), noted in both scripts for
-next time. Bundles rebuilt (`scripts/vhm_rebuild_bundle.sh` at `--budget-scale 0.86` --
-lowered from 0.9 to fit the new subject under budget, `scripts/cryo/vhf_rebuild_bundle.sh`
-unchanged at 0.85): male 425 structures/30 subjects, 15.04MB; female 414 structures/37
-subjects, 15.44MB (both under the 15.5MB cap). Rendered both (point-render silhouette) --
-forearms populated on both, nothing degenerate. Tests: `tests/test_refine_limb_transfer.py`
-+5 (288 total, was 283), all synthetic geometry under `tmp_path`. Full validation tables:
-`data/derived/Q150_validation_male.json`, `data/derived/Q150_validation_female.json`;
-transfer/refine reports: `data/derived/refine_report_zan2vh{m,f}_limb.json`. CC BY-SA anatomy
-layer only; no `clinical`/private content touched. Open issue: the female hand and both
-specimens' feet still carry Q147's un-refined Z-Anatomy estimate (25-91mm class error) --
-intrinsic hand/foot muscle-mass volumes don't exist for the male at all and only partially
-for the female, so a hand/foot equivalent of this refinement needs new segmentation work, not
-just this method re-run.
+its own transfer" rule) and, at shipping time, to at least 15% of Q147's own volume.
+
+TWO FAIRNESS BUGS FOUND BUILDING THE FIRST CUT, both fixed (before the leak below was caught):
+a held-out real muscle's own single-candidate label was, at first, handed the WHOLE label
+unconditionally (the genuine-compartment free-pass shortcut); fixed by forcing it through the
+same seed-constrained competition as a real compartment. The SAME shortcut was, by
+construction, also applied to every REVIEW-REJECTED single-candidate label (male
+`pronator_quadratus`'s own note: "57 cm3 against 8-12 expected -- its rule takes the whole
+distal section"); fixed by reading each label's own mapping `status` field (`"review"` vs
+`"no_atlas_entity"`) and only free-passing a genuine, never-rejected compartment.
+
+THIRD BUG, the one that mattered, caught by LEAD REVIEW of the shipped commit (8d024c4), not
+found here first: the held-out-id fix above still searched for the held-out muscle ONLY inside
+ITS OWN true label (`region = labelvol == lab_H`, with H the only candidate) -- clipped by
+seed distance, yes, but the SEARCH SPACE was already exactly the true answer, so whenever the
+seed reached anywhere near it the method just handed back (most of) the ground truth it was
+being scored against. This is why the leaked run scored a fraudulent ~1mm male / ~4mm female
+median -- reading the answer back out, not measuring recovery. FIX (`validate_holdout()`,
+`neighbour_region_and_candidates()`): a held-out id's competitive region is now its own true
+label UNION every other real label touching it within 5mm (their OWN true voxels ALSO opened
+into the contested pool, never kept fixed), candidates are the held-out id plus every one of
+those neighbours, ALL seeded only by their own Q147 transferred mesh, never by any ground
+truth. A second, stricter "whole_limb" variant competes over the ENTIRE forearm/hand segment
+against every real+candidate id in it at once. Regression tests added
+(`tests/test_refine_limb_transfer.py::test_neighbour_region_is_never_just_the_held_out_labels_
+own_footprint`, `::test_holdout_never_recovers_via_its_own_isolated_truth`) directly assert the
+region is a strict superset of the held-out label and the candidate list is never `[H]` alone.
+
+HONEST VALIDATION (both variants, same leave-one-out intent as Q147/Q48): male forearm (n=3)
+neighbor median 21.8mm/max 21.8mm, whole_limb median 20.9mm/max 21.8mm (down from Q147's own
+25.4mm median / 75.3mm max, so the method is not worthless -- FDP alone: 75.3->21.8mm -- just
+not accurate enough to ship). Female forearm (n=13 of 14, `extensor_pollicis_longus_r` has no
+Z-Anatomy source) neighbor median 18.9mm/max 25.7mm, whole_limb median 20.6mm/max 32.1mm (down
+from Q147's 29.1mm/91.0mm). Female hand (n=6, Q147 never validated this region at all) neighbor
+median 22.2mm/max 50.9mm, whole_limb median 28.9mm/max 51.5mm. SHIP DECISION (task's own bar,
+median <15mm AND max <30mm): EVERY specimen/region/variant combination fails the median bar --
+**nothing new ships**. Both rebuild scripts' Q150 blocks and the `*_refined` SUBJ entries were
+removed; Q147's `xfer_zan2vh{m,f}_limb` (its badge now also discloses its own max error --
+male "median 25.4mm, max 75.3mm", female "median 29.1mm, max 91.0mm", the true worst case
+`extensor_digitorum_r`, not the ~73mm FDP-class figure quoted at the start of this task -- FDP
+itself is 72.9mm, disclosed as such, but the honest dataset max is higher) stands unchanged as
+both specimens' forearm/hand/foot estimate. REGENERATING Q147's OWN subject (only to add the
+max-error badge) hit a self-reference bug in both rebuild scripts: `--male-html
+build/viewer_m`/`--female-bundle build/viewer_f` read the CURRENT (already-built) bundle, which
+already carries Q147's own 62/23 ids as "present", so `default_ids()` silently skips all of
+them and ships 0 -- worked around with a one-off pre-transfer bundle (`export_viewer_bundle.py`
+on the SUBJ list minus that one subject), noted in both scripts for next time. Bundles rebuilt
+at their ORIGINAL budget-scale (male 0.9, female 0.85, no `_refined` subject to make room for):
+male 15.41MB, female 15.34MB (both under the 15.5MB cap), rendered (point-render silhouette),
+unchanged in appearance from Q147. Tests: `tests/test_refine_limb_transfer.py` net +6 (289
+total, was 283), all synthetic geometry under `tmp_path`. Full validation tables (both
+variants, both specimens): `data/derived/Q150_validation_male.json`, `data/derived/
+Q150_validation_female.json`. CC BY-SA anatomy layer only; no `clinical`/private content
+touched. Open issue, unchanged from Q147: the forearm/hand/foot estimate on both specimens
+still carries Q147's own error (25-91mm class); this task confirmed geometric nearest-seed
+partitioning on the existing muscle-mass volumes (no raw cryo crop texture available) improves
+it meaningfully (roughly halves the worst outliers) but not enough to ship -- closing the gap
+for real needs either the lost full-resolution crops back, or new segmentation work, not a
+better parameter on this same method.
 
 Recent: Q147 (2026-09-23)
 owner complaint: forearm/hand/foot muscles, tendons, ligaments and retinacula were mostly

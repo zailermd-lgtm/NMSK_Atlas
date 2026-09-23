@@ -1,4 +1,4 @@
-"""Q150: refine Q147's Z-Anatomy forearm/hand transfer to each specimen's OWN
+"""Q150/Q150b: refine Q147's Z-Anatomy forearm/hand transfer to each specimen's OWN
 segmented muscle tissue, the same idea as Q48's refine_transfer_to_septa.py but
 on VOLUMETRIC LABELS instead of raw cryosection crops.
 
@@ -17,44 +17,68 @@ vhf_hand_muscles_cryo.nii.gz) -- REAL, non-transferred segmentations of this
 specimen's own tissue, already reviewed once (mappings/*_labels.json's
 "merged_compartments", each subject's own *_volume_mapping.json "candidates").
 
-METHOD. For each of these volumes, every label is either:
+METHOD (shipping). For each of these volumes, every label is either:
   - a GROUND-TRUTH single muscle (the subject's own volume_mapping.json sets
     its atlas_id) -- already shipped as real geometry (ct_vh{m,f}_forearm/
-    ct_vhf_hand); untouched here, a hard constraint on everything else.
+    ct_vhf_hand); untouched here, a hard constraint on everything else (never
+    entered into any competitive region below).
   - an OPEN label (atlas_id null) -- a compartment the cryo rule could not
-    split, or an individually-named region that volume review rejected as
-    unreliable on its own (see each label's own "note") -- with one or more
-    "candidates" (the atlas ids that could be inside it; already curated by
-    that review, reused verbatim here).
+    split ("status": "no_atlas_entity"), or an individually-named region that
+    volume review REJECTED as unreliable on its own ("status": "review" --
+    typically an oversized rule artefact that swallowed a neighbour's belly,
+    see the label's own "note") -- with one or more "candidates" (the atlas
+    ids that could be inside it; already curated by that review, reused
+    verbatim here).
 
 Every open label's own real tissue extent is partitioned among its own
-candidates by NEAREST-TRANSFERRED-SEED competition: each candidate's Q147
-per-bone-transferred mesh (limb_per_bone_transfer.py), voxelised and eroded
-~2mm, seeds a Euclidean-distance Voronoi (scipy distance_transform_edt with
-return_indices -- there is no grayscale texture left to watershed on, so this
-is the geometric substitute the task's own fallback anticipates), restricted
-to the label's own mask, each candidate's final claim additionally clipped to
-within MAX_MOVE_MM of its OWN (uneroded) transferred mask -- Q48's "a muscle
-may not move more than its own transfer" rule, so a badly-placed transfer
-cannot claim tissue nowhere near it. A candidate with a single "candidates"
-entry needs no competition: it gets the whole label region outright (a
-reviewer already decided that whole blob is (most likely) that one muscle,
-just under-confident about the exact volume/name -- see the label's "note").
-A candidate absent from Q147's own transferred output (no Z-Anatomy source
-mesh for its id at all -- checked per volume, logged) is left unassigned, same
-"not shipped" status as Q147 already gave it.
+candidates by `partition_region()`: NEAREST-TRANSFERRED-SEED competition
+(each candidate's Q147 per-bone-transferred mesh, voxelised and eroded ~2mm,
+a Euclidean-distance Voronoi via scipy distance_transform_edt -- there is no
+grayscale texture left to watershed on, so this is the geometric substitute
+the task's own fallback anticipates), each candidate's final claim clipped to
+within MAX_MOVE_MM of its OWN (uneroded) transferred mask (Q48's "a muscle
+may not move more than its own transfer" rule) and, at shipping time, to at
+least MIN_SHIP_VOL_FRACTION of Q147's own volume (a smaller claim means the
+seed barely reached the real tissue -- kept as Q147, disclosed, not shipped
+as a sliver). The ONE exception, never run through partition_region: a
+"no_atlas_entity" label with exactly one candidate is handed the whole blob
+outright -- the reviewer's own considered judgement that this whole blob is
+(at least) all of `candidates` together, not something this script need
+re-derive from a seed. A "review"-status label, even with one candidate,
+gets NO such free pass (see the Q150 fix below) -- it must reach through
+partition_region like everything else.
 
-VALIDATION (leave-one-out, same design as Q147/Q48): --holdout ID [ID ...]
-temporarily reverts each named ID's own GROUND-TRUTH label back to "open,
-candidates=[ID]" (merged into the very same competitive partition above,
-alongside genuine open compartments -- other real single-muscle labels stay
-fixed/excluded, a hard constraint), then reports how well its own recovered
-claim matches its TRUE voxel footprint (centroid distance, volume ratio,
-voxel Dice/IoU -- scripts/zanatomy/validate_registration.compare(), on a mesh
-marching-cubed from each side so the metric is identical to Q147's own).
-Nothing is shipped in this mode.
+VALIDATION (Q150b -- leave-one-out, same design intent as Q147/Q48, FIXED
+after a lead review caught a leak in the first Q150 cut): --holdout ID [ID
+...] scores how well this method could have recovered each named real
+muscle's own shape if it did not already have one, WITHOUT ever using that
+muscle's own true footprint as "the region" to search within (the original
+bug: an id with only one candidate -- itself -- was searched for inside its
+OWN already-known true label, so the answer was read back out of the ground
+truth it was being scored against; every held-out id happened to be exactly
+this single-candidate case, which is why it scored ~1mm). Two variants, both
+built on partition_region() (never a free pass, regardless of candidate
+count):
+  - "neighbor" (--holdout-mode neighbor, the default): the competitive region
+    is the held-out id's own true label UNION every other real label that
+    touches it within NEIGHBOUR_DILATE_MM (both other single ground-truth
+    muscles and other open compartments) -- their OWN true voxels are ALSO
+    thrown into the open, contested pool (not kept fixed), and every
+    candidate (the held-out id plus every neighbour's own candidate(s)) is
+    seeded ONLY by its own Q147 transferred mesh, never its true shape. Only
+    the held-out id's own resulting claim is scored.
+  - "whole_limb" (--holdout-mode whole_limb): the harshest variant -- the
+    competitive region is EVERY labelled voxel in the whole volume (the
+    entire forearm or hand segment), candidates are every real+candidate
+    atlas id this volume's mapping names at all, run ONCE per volume (shared
+    across every held-out id, since the setup is identical), then each
+    held-out id's own claim is scored. Simulates recovering this one
+        muscle's shape with NO boundary information anywhere in the segment,
+    only bone-driven transfer position.
+Both variants are reported; ship/no-ship is decided on these, never on the
+leaked numbers the first Q150 cut produced.
 
-    # validation
+    # validation (neighbor + whole_limb, both reported)
     python3 scripts/transfer/refine_limb_transfer.py --direction zan2m \
         --target build/viewer_m --xfer build/vh/xfer_zan2vhm_limb \
         --volume data/ct_sources/task_outputs/vhm_forearm_muscles_cryo.nii.gz \
@@ -106,6 +130,8 @@ MIN_SHIP_VOL_CM3 = 1.0       # a refined claim smaller than this (or than MIN_SH
                              # kept instead of overwriting it with a sliver (same "disclose, don't
                              # ship broken" practice as Q147's own >50%-outside-skin reject).
 MIN_SHIP_VOL_FRACTION = 0.15
+NEIGHBOUR_DILATE_MM = 5.0    # Q150b: how far a held-out id's own label is grown to find which
+                             # other real labels count as its "anatomical neighbours"
 
 
 def voxel_to_atlas(idx: np.ndarray, affine: np.ndarray, origin: np.ndarray) -> np.ndarray:
@@ -203,102 +229,115 @@ def load_xfer(d: Path):
     return out
 
 
-def process_volume(nii_path: Path, labels_path: Path, mapping_path: Path, origin: np.ndarray,
-                    xfer: dict, holdout: set[str]):
-    """Returns (assignments, notes) where assignments: {atlas_id: bool voxel mask (this volume's
-    own grid)}, and notes: {atlas_id: str} for anything skipped, plus 'held_out_truth':
-    {atlas_id: bool mask} recording each held-out id's ORIGINAL ground-truth footprint (for scoring)."""
-    im = nib.load(str(nii_path)); labelvol = np.asanyarray(im.dataobj).astype(np.int32); affine = im.affine
-    sampling = tuple(float(x) for x in np.abs(np.diag(affine)[:3]))
-    labels = json.loads(Path(labels_path).read_text())["labels"]
-    mapping = json.loads(Path(mapping_path).read_text())
-    entries = mapping["entries"]
+def entry_candidates(e: dict) -> list[str]:
+    """This mapping entry's own atlas id(s): [atlas_id] if it is already ground truth, else its
+    reviewed `candidates` list (empty if it has neither -- e.g. a tendon-only compartment with
+    no plausible muscle at all)."""
+    if e.get("atlas_id"):
+        return [e["atlas_id"]]
+    return list(e.get("candidates") or [])
 
-    open_entries = []   # (label_id, [candidate atlas ids], is_holdout)
-    held_truth = {}
+
+def load_grid(nii_path: Path):
+    im = nib.load(str(nii_path))
+    labelvol = np.asanyarray(im.dataobj).astype(np.int32)
+    affine = im.affine
+    sampling = tuple(float(x) for x in np.abs(np.diag(affine)[:3]))
+    return labelvol, affine, sampling
+
+
+def partition_region(region: np.ndarray, cands: list[str], xfer: dict, affine: np.ndarray,
+                      origin: np.ndarray, sampling: tuple, pad: int = 12) -> dict[str, np.ndarray]:
+    """Constrained nearest-transferred-seed competition for `region` among `cands`: EVERY
+    candidate is seeded ONLY by its own Q147 transferred mesh (voxelised, eroded), never by any
+    ground truth, and its final claim is clipped to MAX_MOVE_MM of that same seed. Returns
+    {atlas_id: bool mask, full `region.shape`} for whichever candidates claimed anything --
+    candidates that never reach `region` at all are simply absent. THIS FUNCTION NEVER TAKES A
+    SHORTCUT for a single candidate -- shared by process_volume's review/no_atlas_entity path
+    and every --holdout validation variant, so a held-out id can never be handed its own region
+    unconditionally (the Q150 leak this was written to close)."""
+    ys, xs, zs = np.where(region)
+    if len(ys) == 0:
+        return {}
+    lo = np.maximum(0, [ys.min() - pad, xs.min() - pad, zs.min() - pad])
+    hi = np.minimum(region.shape, [ys.max() + pad + 1, xs.max() + pad + 1, zs.max() + pad + 1])
+    sl = tuple(slice(int(a), int(b)) for a, b in zip(lo, hi))
+    region_c = region[sl]
+    avail = [c for c in cands if c in xfer]
+    if not avail:
+        return {}
+    raw_masks = {}
+    markers = np.zeros(region_c.shape, np.int32)
+    for i, c in enumerate(avail, start=1):
+        v, f = xfer[c]
+        full_mask = voxelize_mesh(v, f, affine, origin, region.shape)
+        raw_masks[c] = full_mask[sl]
+        seed = ndi.binary_erosion(raw_masks[c], iterations=ERODE_ITERS)
+        if not seed.any():
+            seed = raw_masks[c]
+        markers[seed] = i
+    if not (markers > 0).any():
+        return {}
+    _, (ix, iy, iz) = ndi.distance_transform_edt(markers == 0, return_indices=True, sampling=sampling)
+    nearest = markers[ix, iy, iz]
+    out = {}
+    for i, c in enumerate(avail, start=1):
+        claim = region_c & (nearest == i)
+        if not raw_masks[c].any():
+            continue   # this candidate's own transferred mesh never reached this volume at all
+        dist_c = ndi.distance_transform_edt(~raw_masks[c], sampling=sampling)
+        claim &= dist_c <= MAX_MOVE_MM
+        if not claim.any():
+            continue
+        full = np.zeros(region.shape, bool); full[sl] = claim
+        out[c] = full
+    return out
+
+
+def process_volume(nii_path: Path, labels_path: Path, mapping_path: Path, origin: np.ndarray, xfer: dict):
+    """SHIPPING only (no holdout concept here at all -- see validate_holdout for that). Returns
+    (assignments, notes, labelvol, affine, sampling)."""
+    labelvol, affine, sampling = load_grid(nii_path)
+    entries = json.loads(Path(mapping_path).read_text())["entries"]
+
+    open_entries = []   # (label_id, [candidate atlas ids], free_pass_allowed)
     notes = {}
     for e in entries:
-        lab = e["label"]; aid = e.get("atlas_id")
-        if aid and aid in holdout:
-            held_truth[aid] = (labelvol == lab)
-            # is_holdout=True: even with a single candidate (itself), this must go through the
-            # SAME seed+max-move-constrained path as a real open compartment, never the "hand
-            # over the whole label" shortcut below -- that shortcut is only honest for a label
-            # we are not pretending to be ignorant of. Skipping it here is what makes this a real
-            # leave-one-out test instead of reading the answer back out of its own ground truth.
-            open_entries.append((lab, [aid], True))
-            notes[aid] = "held out for validation: reverted to open, single candidate"
-        elif aid:
-            continue   # ground truth, fixed, excluded from competition (implicit: never in `region`)
-        else:
-            cands = e.get("candidates") or []
-            if cands:
-                # status "no_atlas_entity": a genuine compartment, several muscles the rule truly
-                # could not separate -- the reviewer's own considered judgement that this whole
-                # blob is (at least) all of `candidates` together. status "review": this specific
-                # name's OWN rule-based attempt was reviewed and REJECTED (see the entry's own
-                # "note" -- typically "volume more than twice the adult expectation ... a rule
-                # artefact of the position lines"), i.e. an untrustworthy, usually oversized guess
-                # that swallowed a neighbour's belly -- e.g. male pronator_quadratus's own label is
-                # 57 cm3 against an 8-12 cm3 expectation because "at f > 0.9 only its rule is
-                # active, so the whole distal muscle section falls to it" (its own note, verbatim).
-                # A "review" entry, even with a single candidate, MUST NOT get the free-pass
-                # shortcut below -- it goes through the same seed-constrained path as a holdout.
-                distrust = e.get("status") == "review"
-                open_entries.append((lab, cands, distrust))
+        if e.get("atlas_id"):
+            continue   # ground truth, fixed, excluded from competition (never in any `region`)
+        cands = e.get("candidates") or []
+        if cands:
+            # status "no_atlas_entity": a genuine compartment, several muscles the rule truly
+            # could not separate -- the reviewer's own considered judgement that this whole blob
+            # is (at least) all of `candidates` together. status "review": this specific name's
+            # OWN rule-based attempt was reviewed and REJECTED (see the entry's own "note" --
+            # typically "volume more than twice the adult expectation ... a rule artefact of the
+            # position lines"), i.e. an untrustworthy, usually oversized guess that swallowed a
+            # neighbour's belly -- e.g. male pronator_quadratus's own note: "57 cm3 against 8-12
+            # expected -- its rule takes the whole distal section". A "review" entry, even with a
+            # single candidate, gets NO free pass -- it goes through partition_region like a
+            # multi-candidate compartment.
+            free_pass = e.get("status") == "no_atlas_entity"
+            open_entries.append((e["label"], cands, free_pass))
 
     assignments = {}
-    for lab, cands, is_holdout in open_entries:
+    for lab, cands, free_pass in open_entries:
         region = labelvol == lab
         if not region.any():
             for c in cands:
                 notes.setdefault(c, "label absent in this volume")
             continue
         avail = [c for c in cands if c in xfer]
-        missing = [c for c in cands if c not in xfer]
-        for c in missing:
+        for c in [c for c in cands if c not in xfer]:
             notes[c] = "no Q147 transferred mesh for this id -- left unassigned"
         if not avail:
             continue
-        if len(avail) == 1 and not is_holdout:
-            # a genuinely unlabeled region with only one plausible muscle (the prior review's own
-            # "candidates" list, e.g. palmaris_longus's own compartment) -- that whole blob is
-            # already this candidate's best-known real extent, no seed needed to trust it.
+        if len(avail) == 1 and free_pass:
             assignments[avail[0]] = assignments.get(avail[0], np.zeros_like(region)) | region
             continue
-        # crop to the label's own local bounding box (+ margin) so the EDT/voxelisation below
-        # stay cheap regardless of the full volume's size
-        ys, xs, zs = np.where(region)
-        pad = 12
-        lo = np.maximum(0, [ys.min() - pad, xs.min() - pad, zs.min() - pad])
-        hi = np.minimum(region.shape, [ys.max() + pad + 1, xs.max() + pad + 1, zs.max() + pad + 1])
-        sl = tuple(slice(int(a), int(b)) for a, b in zip(lo, hi))
-        region_c = region[sl]
-        raw_masks = {}
-        markers = np.zeros(region_c.shape, np.int32)
-        for i, c in enumerate(avail, start=1):
-            v, f = xfer[c]
-            full_mask = voxelize_mesh(v, f, affine, origin, region.shape)
-            raw_masks[c] = full_mask[sl]
-            seed = ndi.binary_erosion(raw_masks[c], iterations=ERODE_ITERS)
-            if not seed.any():
-                seed = raw_masks[c]
-            markers[seed] = i
-        if not (markers > 0).any():
-            continue
-        _, (ix, iy, iz) = ndi.distance_transform_edt(markers == 0, return_indices=True, sampling=sampling)
-        nearest = markers[ix, iy, iz]
-        for i, c in enumerate(avail, start=1):
-            claim = region_c & (nearest == i)
-            if not raw_masks[c].any():
-                continue   # this candidate's own transferred mesh never reached this volume at all
-            dist_c = ndi.distance_transform_edt(~raw_masks[c], sampling=sampling)
-            claim &= dist_c <= MAX_MOVE_MM
-            if not claim.any():
-                continue
-            full = np.zeros(region.shape, bool); full[sl] = claim
-            assignments[c] = assignments.get(c, np.zeros_like(region)) | full
-    return assignments, notes, held_truth, labelvol, affine, sampling
+        for c, mask in partition_region(region, cands, xfer, affine, origin, sampling).items():
+            assignments[c] = assignments.get(c, np.zeros_like(region)) | mask
+    return assignments, notes, labelvol, affine, sampling
 
 
 def mesh_from_mask(mask: np.ndarray, affine: np.ndarray, origin: np.ndarray):
@@ -306,6 +345,107 @@ def mesh_from_mask(mask: np.ndarray, affine: np.ndarray, origin: np.ndarray):
     if len(v) == 0:
         return None, None
     return voxel_to_atlas(v, affine, origin), f
+
+
+def neighbour_region_and_candidates(labelvol: np.ndarray, entries: list[dict], lab_h: int,
+                                     sampling: tuple, dilate_mm: float = NEIGHBOUR_DILATE_MM):
+    """Q150b neighbour variant's own region+candidate builder, factored out so a test can check
+    it directly: the held-out label's own true footprint UNION every other real label touching
+    it within `dilate_mm` (their own true voxels included in the OPEN, contested region -- never
+    kept fixed), and the candidate list is the held-out id plus every one of those neighbours'
+    own entry_candidates(). Cropped to a local box first so the distance transform stays cheap."""
+    by_label = {e["label"]: e for e in entries}
+    mask_h = labelvol == lab_h
+    ys, xs, zs = np.where(mask_h)
+    pad_vox = int(np.ceil(dilate_mm / max(min(sampling), 1e-6))) + 2
+    lo = np.maximum(0, [ys.min() - pad_vox, xs.min() - pad_vox, zs.min() - pad_vox])
+    hi = np.minimum(labelvol.shape, [ys.max() + pad_vox + 1, xs.max() + pad_vox + 1, zs.max() + pad_vox + 1])
+    sl = tuple(slice(int(a), int(b)) for a, b in zip(lo, hi))
+    sub = labelvol[sl]
+    submask_h = sub == lab_h
+    dist = ndi.distance_transform_edt(~submask_h, sampling=sampling)
+    near = (dist <= dilate_mm) & (sub > 0) & (sub != lab_h)
+    touching = set(int(x) for x in np.unique(sub[near]))
+    region = labelvol == lab_h
+    cands = set()
+    h_entry = by_label.get(lab_h)
+    if h_entry:
+        cands.update(entry_candidates(h_entry))
+    for nl in touching:
+        region = region | (labelvol == nl)
+        e = by_label.get(nl)
+        if e:
+            cands.update(entry_candidates(e))
+    return region, sorted(cands), touching
+
+
+def score_holdout(h_id: str, claim, target: dict, affine, origin, sampling) -> dict:
+    voxel_cm3 = float(np.prod(sampling)) / 1000.0
+    real = target.get(h_id)
+    if real is None or str(real.get("subject", "")).startswith(("xfer_", "zanatomy", "zan_")):
+        return {"id": h_id, "skipped": "no real mesh on target"}
+    if claim is None or not claim.any():
+        return {"id": h_id, "skipped": "no claim recovered (no seed reached this region)"}
+    cv, cf = mesh_from_mask(claim, affine, origin)
+    if cv is None:
+        return {"id": h_id, "skipped": "empty recovered mesh"}
+    from scripts.zanatomy.validate_registration import compare
+    row = {"id": h_id, "real_subject": real["subject"], "claimed_voxels_cm3": round(int(claim.sum()) * voxel_cm3, 1)}
+    row.update(compare(real["v"].astype(np.float64), real["f"], cv, cf))
+    return row
+
+
+def validate_holdout(nii_path: Path, labels_path: Path, mapping_path: Path, origin: np.ndarray,
+                      xfer: dict, target: dict, holdout_ids: list[str], mode: str):
+    """Q150b: score each of `holdout_ids` WITHOUT ever searching inside its own isolated true
+    label (see module docstring for "neighbor" vs "whole_limb"). Mutates `xfer` in place with
+    any on-demand transfers it needed. Returns (rows, notes)."""
+    labelvol, affine, sampling = load_grid(nii_path)
+    entries = json.loads(Path(mapping_path).read_text())["entries"]
+    id_to_label = {e["atlas_id"]: e["label"] for e in entries if e.get("atlas_id")}
+    notes = {}
+    rows = []
+
+    def ensure_seeds(ids):
+        missing = [i for i in ids if i not in xfer]
+        if missing:
+            xfer.update(compute_ondemand_transfer(target, missing))
+
+    if mode == "whole_limb":
+        all_cands = sorted({c for e in entries for c in entry_candidates(e)})
+        ensure_seeds(all_cands)
+        region_all = labelvol > 0
+        result = partition_region(region_all, all_cands, xfer, affine, origin, sampling)
+        for h_id in holdout_ids:
+            lab_h = id_to_label.get(h_id)
+            if lab_h is None:
+                notes[h_id] = "not a ground-truth id in this volume's mapping"
+                continue
+            rows.append(score_holdout(h_id, result.get(h_id), target, affine, origin, sampling))
+    elif mode == "neighbor":
+        # pre-compute every held-out id's own (region, candidates) FIRST, then call
+        # ensure_seeds() ONCE with the union of everything missing -- compute_ondemand_transfer
+        # reloads the whole Z-Anatomy source and rebuilds every bone map from scratch each call,
+        # so doing that per held-out id (14 held-out muscles on the female forearm) rather than
+        # once was the difference between ~1 minute and ~20+ minutes.
+        per_id = {}
+        all_missing_cands: set[str] = set()
+        for h_id in holdout_ids:
+            lab_h = id_to_label.get(h_id)
+            if lab_h is None:
+                notes[h_id] = "not a ground-truth id in this volume's mapping"
+                continue
+            region, cands, touching = neighbour_region_and_candidates(labelvol, entries, lab_h, sampling)
+            per_id[h_id] = (region, cands, touching)
+            all_missing_cands.update(cands)
+        ensure_seeds(sorted(all_missing_cands))
+        for h_id, (region, cands, touching) in per_id.items():
+            result = partition_region(region, cands, xfer, affine, origin, sampling)
+            notes[h_id] = f"neighbours: {sorted(touching)}, candidates: {cands}"
+            rows.append(score_holdout(h_id, result.get(h_id), target, affine, origin, sampling))
+    else:
+        raise ValueError(f"unknown --holdout-mode {mode!r}")
+    return rows, notes
 
 
 def main():
@@ -318,6 +458,7 @@ def main():
     ap.add_argument("--mapping", action="append", required=True, dest="mappings")
     ap.add_argument("--origin", action="append", required=True, dest="origins")
     ap.add_argument("--holdout", nargs="*", default=[])
+    ap.add_argument("--holdout-mode", choices=["neighbor", "whole_limb", "both"], default="both")
     ap.add_argument("--badge-median-mm", type=float, default=None)
     ap.add_argument("--badge-max-mm", type=float, default=None)
     ap.add_argument("-o", "--out", default=None)
@@ -330,71 +471,52 @@ def main():
     bt, blobt = read_bundle_dir(tp) if tp.is_dir() else read_bundle_html(tp)
     target = meshes_by_id(bt, blobt)
     xfer = load_xfer(a.xfer)
-    holdout = set(a.holdout)
-    missing_seed = [i for i in holdout if i not in xfer]
-    if missing_seed:
-        print(f"computing on-demand Q147 transfer for held-out real ids not in {a.xfer}: {missing_seed}")
-        xfer.update(compute_ondemand_transfer(target, missing_seed))
-
-    all_assign = {}
-    all_notes = {}
-    val_rows = []
-    for vpath, lpath, mpath, ostr in zip(a.volumes, a.labels_list, a.mappings, a.origins):
-        origin = np.array([float(t) for t in ostr.split(",")])
-        assign, notes, held_truth, labelvol, affine, sampling = process_volume(
-            Path(vpath), Path(lpath), Path(mpath), origin, xfer, holdout)
-        all_assign.update(assign)
-        all_notes.update(notes)
-        voxel_cm3 = float(np.prod(sampling)) / 1000.0
-        for aid, truth_mask in held_truth.items():
-            claim = assign.get(aid)
-            real = target.get(aid)
-            if real is None or str(real.get("subject", "")).startswith(("xfer_", "zanatomy", "zan_")):
-                val_rows.append({"id": aid, "skipped": "no real mesh on target"}); continue
-            if claim is None or not claim.any():
-                val_rows.append({"id": aid, "volume": Path(vpath).name,
-                                  "skipped": "no claim recovered (no seed reached this label)"})
-                continue
-            cv, cf = mesh_from_mask(claim, affine, origin)
-            if cv is None:
-                val_rows.append({"id": aid, "volume": Path(vpath).name, "skipped": "empty recovered mesh"})
-                continue
-            from scripts.zanatomy.validate_registration import compare
-            row = {"id": aid, "volume": Path(vpath).name, "real_subject": real["subject"],
-                   "claimed_voxels_cm3": round(int(claim.sum()) * voxel_cm3, 1),
-                   "truth_voxels_cm3": round(int(truth_mask.sum()) * voxel_cm3, 1)}
-            row.update(compare(real["v"].astype(np.float64), real["f"], cv, cf))
-            val_rows.append(row)
-            print(row)
+    holdout = list(a.holdout)
 
     if holdout:
-        rep = {"source": "Q150 validation: scripts/transfer/refine_limb_transfer.py --holdout. Diagnostics only.",
-               "direction": a.direction, "n": len(val_rows), "notes": all_notes, "rows": val_rows}
+        modes = ["neighbor", "whole_limb"] if a.holdout_mode == "both" else [a.holdout_mode]
+        report = {"source": ("Q150b validation: scripts/transfer/refine_limb_transfer.py --holdout. "
+                              "Every candidate (including the held-out id) is seeded ONLY by its own "
+                              "Q147 transferred mesh; a held-out id's own true label is never used as "
+                              "its exclusive search region. Diagnostics only."),
+                  "direction": a.direction, "modes": {}}
+        for mode in modes:
+            all_rows = []
+            all_notes = {}
+            for vpath, lpath, mpath, ostr in zip(a.volumes, a.labels_list, a.mappings, a.origins):
+                origin = np.array([float(t) for t in ostr.split(",")])
+                rows, notes = validate_holdout(Path(vpath), Path(lpath), Path(mpath), origin,
+                                                xfer, target, holdout, mode)
+                for r in rows:
+                    r["volume"] = Path(vpath).name
+                all_rows.extend(rows); all_notes.update(notes)
+                for r in rows:
+                    print(mode, r)
+            dists = [r["centroid_dist_mm"] for r in all_rows if "centroid_dist_mm" in r]
+            summary = {"n": len(all_rows), "n_scored": len(dists), "notes": all_notes, "rows": all_rows}
+            if dists:
+                summary["median_centroid_dist_mm"] = round(float(np.median(dists)), 1)
+                summary["max_centroid_dist_mm"] = round(float(np.max(dists)), 1)
+                print(f"[{mode}] median centroid_dist_mm over {len(dists)}: {summary['median_centroid_dist_mm']}, "
+                      f"max: {summary['max_centroid_dist_mm']}")
+            report["modes"][mode] = summary
         if a.report:
-            Path(a.report).write_text(json.dumps(rep, indent=1))
+            Path(a.report).write_text(json.dumps(report, indent=1))
             print(f"wrote {a.report}")
-        dists = [r["centroid_dist_mm"] for r in val_rows if "centroid_dist_mm" in r]
-        if dists:
-            print(f"median centroid_dist_mm over {len(dists)} structures: {float(np.median(dists)):.1f}, "
-                  f"max: {float(np.max(dists)):.1f}")
         return
 
     # shipping: only the ids actually refined here (open-label candidates); everything else keeps
     # its Q147 shape (this subject is listed BEFORE xfer_zan2vh{m,f}_limb in the rebuild bundle so
     # only these ids override it; every other transferred id -- most of Q147's 62/23 -- is untouched)
     if not a.out:
-        print("no --out: nothing shipped. notes:", json.dumps(all_notes, indent=1)); return
+        print("no --out: nothing shipped."); return
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     verts, faces, structures = [], [], []
     voff = 0
-    origins_by_id = {}
-    for vpath, lpath, mpath, ostr in zip(a.volumes, a.labels_list, a.mappings, a.origins):
-        origins_by_id[Path(vpath).name] = ostr
-    # rerun per-volume to keep affine/origin association for meshing (cheap: same process_volume call)
+    all_notes = {}
     for vpath, lpath, mpath, ostr in zip(a.volumes, a.labels_list, a.mappings, a.origins):
         origin = np.array([float(t) for t in ostr.split(",")])
-        assign, notes, _held, labelvol, affine, sampling = process_volume(
-            Path(vpath), Path(lpath), Path(mpath), origin, xfer, set())
+        assign, notes, labelvol, affine, sampling = process_volume(Path(vpath), Path(lpath), Path(mpath), origin, xfer)
         all_notes.update(notes)
         voxel_cm3 = float(np.prod(sampling)) / 1000.0
         for aid, mask in sorted(assign.items()):

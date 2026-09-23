@@ -170,21 +170,15 @@ if [ ! -f build/vh/xfer_zan2vhf_limb/manifest.json ]; then
   python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2f --female-bundle build/viewer_f \
     --badge-error-mm 29.1 --badge-max-error-mm 91.0 -o build/vh/xfer_zan2vhf_limb --report data/derived/transfer_report_zan2vhf_limb.json 2>&1 | tail -1 | cut -c1-200
 fi
-# Q150: forearm compartment members (superficial_flexor_compartment / supinator_anconeus_
-# compartment) refined to her OWN segmented forearm tissue (scripts/transfer/
-# refine_limb_transfer.py) within Q147's transfer above -- listed BEFORE xfer_zan2vhf_limb so it
-# wins just these ids. Median 4.1mm / max 17.4mm, leave-one-out on ct_vhf_forearm's own 13 real
-# muscles (data/derived/Q150_validation_female.json); her hand (ct_vhf_hand, thenar_compartment +
-# lumbricals) was ALSO tried but half its held-out muscles could not be recovered within 12mm of
-# their own Q147 seed (max 42.7mm, over the 30mm outlier bar) and is NOT shipped -- kept as Q147.
-if [ ! -f build/vh/xfer_zan2vhf_limb_refined/manifest.json ] && [ -f build/vh/xfer_zan2vhf_limb/manifest.json ]; then
-  python3 scripts/transfer/refine_limb_transfer.py --direction zan2f --target build/viewer_f --xfer build/vh/xfer_zan2vhf_limb \
-    --volume $T/vhf_forearm_muscles_cryo.nii.gz --labels mappings/vhf_forearm_muscles_labels.json \
-    --mapping build/vh/ct_vhf_forearm_volume_mapping.json --origin=7.769,-885.229,14.137 \
-    --badge-median-mm 4.1 --badge-max-mm 17.4 -o build/vh/xfer_zan2vhf_limb_refined \
-    --report data/derived/refine_report_zan2vhf_limb.json 2>&1 | tail -1 | cut -c1-200
-fi
-[ -f build/vh/xfer_zan2vhf_limb_refined/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_refined"
+# Q150/Q150b: a forearm-compartment refinement onto her OWN segmented tissue was TRIED
+# (scripts/transfer/refine_limb_transfer.py) but a lead review found the first cut's leave-one-
+# out validation leaked ground truth (a held-out id was searched for inside its OWN already-
+# known true label, scoring a fraudulent ~4mm median); the CORRECTED validation (neighbouring
+# real labels folded into the open competitive region too, a "neighbor" and a stricter
+# "whole_limb" variant -- data/derived/Q150_validation_female.json) measures forearm median
+# 18.9-20.6mm / max 25.7-32.1mm and hand median 22.2-28.9mm / max 50.9-51.5mm, both over the
+# 15mm median bar -- NOT shipped, either region. xfer_zan2vhf_limb above (its badge now also
+# discloses its own max error) stands as this specimen's forearm/hand/foot estimate, unchanged.
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 0.85 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1

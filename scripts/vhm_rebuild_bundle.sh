@@ -88,27 +88,19 @@ if [ ! -f build/vh/xfer_zan2vhm_limb/manifest.json ] && [ -f build/viewer_m/bund
   python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2m --male-html build/viewer_m \
     --badge-error-mm 25.4 --badge-max-error-mm 75.3 -o build/vh/xfer_zan2vhm_limb --report data/derived/transfer_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
 fi
-# Q150: forearm compartment members (radial_flexor_compartment / mobile_wad_compartment /
-# extensor_digitorum_supinator_anconeus_compartment, plus a few individually-named-but-unreliable
-# labels reviewed as their own single candidate) refined to his OWN segmented forearm tissue
-# (scripts/transfer/refine_limb_transfer.py) within Q147's transfer above -- listed BEFORE
-# xfer_zan2vhm_limb so it wins just these ids; everything else (hand, foot, the rest of the
-# forearm) stays Q147's Z-Anatomy estimate, unchanged. Median 11.5mm / max 15.1mm, leave-one-out
-# on ct_vhm_forearm's own 3 real muscles (data/derived/Q150_validation_male.json) -- the female
-# hand region was ALSO tried (data/derived/Q150_validation_female.json) but did not clear the
-# ship bar and is not shipped for either specimen.
-if [ ! -f build/vh/xfer_zan2vhm_limb_refined/manifest.json ] && [ -f build/vh/xfer_zan2vhm_limb/manifest.json ]; then
-  python3 scripts/transfer/refine_limb_transfer.py --direction zan2m --target build/viewer_m --xfer build/vh/xfer_zan2vhm_limb \
-    --volume $T/vhm_forearm_muscles_cryo.nii.gz --labels mappings/vhm_forearm_muscles_labels.json \
-    --mapping build/vh/ct_vhm_forearm_volume_mapping.json --origin=-6.035,-895.476,4.787 \
-    --badge-median-mm 11.5 --badge-max-mm 15.1 -o build/vh/xfer_zan2vhm_limb_refined \
-    --report data/derived/refine_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
-fi
+# Q150/Q150b: a forearm-compartment refinement onto his OWN segmented tissue was TRIED
+# (scripts/transfer/refine_limb_transfer.py) but a lead review found the first cut's leave-one-
+# out validation leaked ground truth (a held-out id was searched for inside its OWN already-
+# known true label, scoring a fraudulent ~1mm median); the CORRECTED validation (neighbouring
+# real labels folded into the open competitive region too, both specimens, both a "neighbor" and
+# a stricter "whole_limb" variant -- data/derived/Q150_validation_male.json) measures median
+# 20.9-21.8mm / max 21.8mm, over the 15mm median bar -- NOT shipped. xfer_zan2vhm_limb above (its
+# badge now also discloses its own max error) stands as this specimen's forearm/hand/foot
+# estimate, unchanged.
 # Q116: coccygeus_l only, reconverted at --smooth 0.0 (ct_vhm_pfloor_fix); listed BEFORE
 # ct_vhm_pfloor so it wins just this one atlas_id.
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
-[ -f build/vh/xfer_zan2vhm_limb_refined/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_refined"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1
