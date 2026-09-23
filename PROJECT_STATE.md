@@ -941,6 +941,44 @@ still waiting — unrelated to the CT work above.
     text description. Not published (publish tool blocked all day, per the
     standing note above; not retried). Committed `3e115bf`, pushed.
 
+    **Q135 (2026-09-23): checked `build_frames()` for other cases needing a
+    second bone split across "recovered from the published" subjects — the
+    same class of gap Q134 fixed for scapula/humerus. Result: nothing else
+    qualifies.** Read the whole function: only two cases reference more
+    than one bone. (1) scapula needs humerus — Q134, already fixed. (2)
+    metatarsals needs a `tarsals_{side}` atlas id purely as a directional
+    reference point (which end of each metatarsal ray is proximal), and
+    phalanges_foot's frame is built from metatarsals', so it inherits the
+    same gap. Checked both bodies via the same manifest/source_kind method
+    as Q134 (not assumed): confirmed no `ct_vhf*` subject carries "recovered
+    from the published" either, so the gate never fires for her, same as
+    Q134 found. Case (2) is NOT the same bug class, though: on `vhm_both`
+    (the recovered-family subject that has metatarsals) the tarsal bones
+    are not missing or in another subject at all — they're right there,
+    just as 6 SEPARATE atlas ids (`calcaneus_r/l`, `talus_r/l`,
+    `cuboid_r/l`, `navicular_r/l`, `cuneiform_{medial,intermediate,lateral}_r/l`).
+    `build_frames()` looks for one combined `tarsals_{side}` blob id, which
+    only exists on subjects where CT segmentation couldn't separate the
+    tarsals (`ct_vhf_legs`, and the transfer outputs `xfer_vhm2vhf`/
+    `xfer_tarsals`, source_kind "cross-subject transfer vhm -> vhf" — a
+    real registration/deformation, correctly NOT matched by
+    `_with_colocated_bones`'s exact-source_kind gate). No sibling subject
+    sharing the male's "recovered from the published" source_kind holds
+    `tarsals_r/l` under that id at all, so there is nothing eligible for
+    `_with_colocated_bones` to merge in; broadening its gate to also accept
+    "cross-subject transfer" would be unsafe (that data went through an
+    actual transform, the opposite of Q134's zero-risk case) and is out of
+    scope here. Confirmed `_with_colocated_bones` is already fully general
+    — no bone names hard-coded, it fills in whatever atlas ids are missing
+    from any sibling of identical source_kind — so it needs no broadening
+    for the one real case (scapula/humerus) it applies to. No code or data
+    changed; no rebuild needed. 252/252 tests pass (unchanged baseline).
+    (Separately noted, out of scope for this item: `metatarsal_rays` could
+    fall back to unioning the 6 individual tarsal ids when the combined
+    blob is absent, which would also unlock the metatarsals_l/phalanges_foot_l
+    frames on `ct_vhm_foot` — a real, independent gap, but a different bug
+    class from the one this item checked for.)
+
 ## 2026-09-06 session: viewer anchor points + large-scale clinical/anatomical data pass
 
 - **Viewer**: `scripts/export_viewer_bundle.py` now resolves every muscle
