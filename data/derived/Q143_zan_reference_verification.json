@@ -1,0 +1,190 @@
+{
+ "source": "Q143 (2026-09-23): verification of the Z-Anatomy reference model bundles (build/viewer_zan_msk, build/viewer_zan_nv) via scripts/zanatomy/verify_zan_reference.py -- badge/clinical/NC-leak/radial-nerve/anatomical-sanity checks plus an entity-coverage recount against both Visible Human specimen bundles, reusing scripts/recount_tissue_gaps.py's own entity_ids()/bundle_ids() unchanged. See PROJECT_STATE.md Q143.",
+ "msk": {
+  "subject_label": "Z-Anatomy reference model (musculoskeletal)",
+  "n_structures": 1168,
+  "by_category": {
+   "cartilage": 43,
+   "ligament": 287,
+   "fascia": 29,
+   "bursa": 12,
+   "muscle": 471,
+   "tendon": 22,
+   "bone": 304
+  },
+  "has_clinical_key": false,
+  "structures_missing_badge": 0
+ },
+ "nv": {
+  "subject_label": "Z-Anatomy reference model (neurovascular / visceral)",
+  "n_structures": 1337,
+  "by_category": {
+   "vessel": 642,
+   "nerve": 426,
+   "lymphatic": 155,
+   "organ": 114
+  },
+  "has_clinical_key": false,
+  "structures_missing_badge": 0
+ },
+ "nc_leak_check": {
+  "hits": [],
+  "ok": true
+ },
+ "radial_nerve_check": {
+  "ids_found": [
+   "bicipitoradial_bursa_l",
+   "bicipitoradial_bursa_r",
+   "brachioradialis_l",
+   "brachioradialis_r",
+   "extensor_carpi_radialis_brevis_l",
+   "extensor_carpi_radialis_brevis_r",
+   "extensor_carpi_radialis_longus_l",
+   "extensor_carpi_radialis_longus_r",
+   "flexor_carpi_radialis_l",
+   "flexor_carpi_radialis_r",
+   "radial_n",
+   "radial_n_superficial_branch",
+   "zan_dorsal_digital_branches_of_radial_nerve_l",
+   "zan_dorsal_digital_branches_of_radial_nerve_r",
+   "zan_palmar_carpal_branch_of_radial_artery_l",
+   "zan_palmar_carpal_branch_of_radial_artery_r",
+   "zan_radial_artery_l",
+   "zan_radial_artery_r",
+   "zan_radial_collateral_artery_l",
+   "zan_radial_collateral_artery_r",
+   "zan_radial_collateral_ligament_l",
+   "zan_radial_collateral_ligament_of_wrist_joint_l",
+   "zan_radial_collateral_ligament_of_wrist_joint_r",
+   "zan_radial_collateral_ligament_r",
+   "zan_radial_veins_l",
+   "zan_radial_veins_r",
+   "zan_tendon_sheath_of_extensors_carpi_radialis_l",
+   "zan_tendon_sheath_of_extensors_carpi_radialis_r"
+  ],
+  "ok": true
+ },
+ "bone_presence_sanity": {
+  "femur_l": "present",
+  "femur_r": "present",
+  "humerus_l": "present",
+  "humerus_r": "present"
+ },
+ "bone_length_sanity": {
+  "femur_l": {
+   "length_mm": 454.4,
+   "expected_range_mm": [
+    400,
+    500
+   ],
+   "ok": true
+  },
+  "femur_r": {
+   "length_mm": 454.4,
+   "expected_range_mm": [
+    400,
+    500
+   ],
+   "ok": true
+  },
+  "humerus_l": {
+   "length_mm": 317.6,
+   "expected_range_mm": [
+    300,
+    340
+   ],
+   "ok": true
+  },
+  "humerus_r": {
+   "length_mm": 317.6,
+   "expected_range_mm": [
+    300,
+    340
+   ],
+   "ok": true
+  }
+ },
+ "muscle_on_bone_sanity": {
+  "vastus_lateralis_r_over_femur_r_y_overlap": true
+ },
+ "entity_coverage_vs_specimens": {
+  "total_entities_in_registry": 1592,
+  "by_type": {
+   "bones": {
+    "total_entities": 96,
+    "on_male": 55,
+    "on_female": 60,
+    "on_zan_reference": 66,
+    "missing_on_both_specimens": 30,
+    "zan_fills_that_gap": 23
+   },
+   "bursae": {
+    "total_entities": 45,
+    "on_male": 0,
+    "on_female": 0,
+    "on_zan_reference": 12,
+    "missing_on_both_specimens": 45,
+    "zan_fills_that_gap": 12
+   },
+   "cartilage": {
+    "total_entities": 57,
+    "on_male": 31,
+    "on_female": 31,
+    "on_zan_reference": 39,
+    "missing_on_both_specimens": 26,
+    "zan_fills_that_gap": 13
+   },
+   "fascia": {
+    "total_entities": 104,
+    "on_male": 1,
+    "on_female": 1,
+    "on_zan_reference": 29,
+    "missing_on_both_specimens": 103,
+    "zan_fills_that_gap": 29
+   },
+   "ligaments": {
+    "total_entities": 91,
+    "on_male": 9,
+    "on_female": 11,
+    "on_zan_reference": 38,
+    "missing_on_both_specimens": 79,
+    "zan_fills_that_gap": 28
+   },
+   "muscles": {
+    "total_entities": 433,
+    "on_male": 205,
+    "on_female": 231,
+    "on_zan_reference": 324,
+    "missing_on_both_specimens": 199,
+    "zan_fills_that_gap": 120
+   },
+   "nerves": {
+    "total_entities": 303,
+    "on_male": 1,
+    "on_female": 4,
+    "on_zan_reference": 63,
+    "missing_on_both_specimens": 299,
+    "zan_fills_that_gap": 59
+   },
+   "tendons": {
+    "total_entities": 51,
+    "on_male": 6,
+    "on_female": 6,
+    "on_zan_reference": 2,
+    "missing_on_both_specimens": 45,
+    "zan_fills_that_gap": 2
+   },
+   "vascular": {
+    "total_entities": 412,
+    "on_male": 20,
+    "on_female": 24,
+    "on_zan_reference": 24,
+    "missing_on_both_specimens": 388,
+    "zan_fills_that_gap": 16
+   }
+  },
+  "total_currently_missing_on_both_specimens_that_zan_supplies": 302
+ },
+ "problems": [],
+ "ok": true
+}

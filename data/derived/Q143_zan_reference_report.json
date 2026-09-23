@@ -1,0 +1,70 @@
+{
+ "source": "Q143 (2026-09-23): builds the Z-Anatomy reference model bundle -- a standalone, unregistered generic body, badged everywhere as Z-Anatomy CC BY-SA 4.0, not registered to either Visible Human specimen (Q142 found registration too inaccurate to ship). See scripts/zanatomy/build_zan_reference.py.",
+ "origin": {
+  "r": {
+   "centre_mm": [
+    83.69,
+    861.31,
+    -4.88
+   ],
+   "radius_mm": 23.23,
+   "rms_mm": 0.364,
+   "n_points": 82
+  },
+  "l": {
+   "centre_mm": [
+    -83.69,
+    861.31,
+    -4.88
+   ],
+   "radius_mm": 23.23,
+   "rms_mm": 0.364,
+   "n_points": 82
+  },
+  "origin_mm": [
+   -0.0,
+   861.31,
+   -4.88
+  ],
+  "mirror_x_check_mm": 0.0,
+  "method": "least-squares sphere fit (engine.vh_ingest.fit_sphere) to each Femur.l/.r mesh's own proximal-most 15mm-by-atlas-Y cap -- a cheap proxy for the femoral head ball (Z-Anatomy ships no separate femoral head cartilage object); see module docstring for the RMS-vs-cap-size measurement that picked 15mm."
+ },
+ "counts_by_category": {
+  "vessel": 642,
+  "cartilage": 43,
+  "ligament": 287,
+  "fascia": 29,
+  "bursa": 12,
+  "muscle": 471,
+  "tendon": 22,
+  "nerve": 426,
+  "bone": 304,
+  "lymphatic": 155,
+  "organ": 114
+ },
+ "matched_entities": 597,
+ "orphan_structures": 1908,
+ "orphan_dropped_as_ui_highlight_duplicate": 105,
+ "orphan_dropped_as_zero_face_annotation_curve": 6,
+ "orphan_example_name_by_category": {
+  "vessel": "(Deep branch of transverse cervical artery)",
+  "ligament": "Anterior ligament of fibular head",
+  "cartilage": "Intervertebral disc C7-T1",
+  "lymphatic": "(Anterior tibial node)",
+  "muscle": "(Abdominal part of pectoralis major muscle)",
+  "tendon": "Calcaneal tendon",
+  "nerve": " Posterior transverse collateral sulcus",
+  "bone": "(Abdominal part of pectoralis major muscle)",
+  "organ": "(Accessory parotid gland)"
+ },
+ "subjects": {
+  "zan_ref_msk": {
+   "structures": 1168,
+   "triangles": 3280298
+  },
+  "zan_ref_nv": {
+   "structures": 1337,
+   "triangles": 4610380
+  }
+ }
+}

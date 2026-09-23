@@ -125,7 +125,13 @@ def load_geometry(subject: str):
         # mesh is split into metatarsals and phalanges. Keying blocks by
         # filename and keeping the first, as this did, silently gave both
         # entities the same partial mesh.
-        blocks.setdefault(rec["source_file"], []).append(chunk)
+        # Q143: a manifest with no per-structure `source_file` (the Z-Anatomy
+        # reference model's own ingestion carries `source_structure` instead) keys
+        # blocks by that or, failing that, the atlas id itself -- this function's
+        # own anchor-resolution caller already treats a bone with no measurable
+        # frame as "skip it, text description only", so a degenerate key here
+        # costs nothing, it just never matches an anchor's `parent_bone_frame`.
+        blocks.setdefault(rec.get("source_file") or rec.get("source_structure") or atlas_id, []).append(chunk)
         by_atlas_id.setdefault(atlas_id, []).append(chunk)
     return (manifest,
             {k: np.vstack(v) for k, v in blocks.items()},

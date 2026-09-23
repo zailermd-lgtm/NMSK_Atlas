@@ -22,10 +22,17 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--bundle", default="build/viewer")
     ap.add_argument("-o", "--out", default="build/viewer/atlas_viewer.html")
+    ap.add_argument("--title", default=None,
+                    help="Q143: replace the page's <title> text (default keeps "
+                         "'NMSK Atlas Viewer') -- for a bundle that is not the main body, "
+                         "e.g. the Z-Anatomy reference model.")
     args = ap.parse_args()
 
     src = REPO_ROOT / args.bundle
     template = (REPO_ROOT / "viewer" / "atlas_viewer.template.html").read_text(encoding="utf-8")
+    if args.title:
+        template = template.replace(
+            "<title>NMSK Atlas Viewer</title>", f"<title>{args.title}</title>", 1)
     payload = (src / "bundle.json").read_text(encoding="utf-8")
     b64 = (src / "bundle.b64").read_text(encoding="utf-8").strip()
 

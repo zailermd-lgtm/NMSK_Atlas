@@ -429,13 +429,43 @@ def main() -> int:
     ap.add_argument("--budget-scale", type=float, default=1.0,
                     help="multiply every triangle budget (categories and overrides) by this; the page must stay "
                          "under the 16 MB artifact cap, so a body with many structures ships at 0.8-0.9")
+    ap.add_argument("--force-badge", default=None,
+                    help="Q143: stamp this exact string onto EVERY structure's rec.procedural_badge, "
+                         "overwriting whatever the real atlas record carries (or none). For a bundle "
+                         "whose every mesh comes from one non-specimen source (e.g. the Z-Anatomy "
+                         "reference model) rather than per-structure Q119 badges.")
+    ap.add_argument("--strip-clinical", action="store_true",
+                    help="Q143: omit the bundle's `clinical` key entirely (trigger points/tests/owner-"
+                         "compiled references) instead of writing it, even if empty -- for a public "
+                         "CC BY-SA layer that must not carry the owner's private clinical blocks.")
+    ap.add_argument("--sheet-categories", default="",
+                    help="Q143: comma-separated categories (e.g. 'nerve,vessel') that always "
+                         "use the SHEET_IDS quadric-collapse path (see that set's own comment) "
+                         "instead of vertex clustering -- for a bundle with thousands of thin "
+                         "cords/sheets where curating SHEET_IDS one id at a time, as the two "
+                         "specimen bundles do after measuring each one, is not practical; "
+                         "quadric never measured worse than clustering for a thin structure in "
+                         "this project (Q113-Q116).")
+    ap.add_argument("--subject-label", default=None,
+                    help="Q143: bundle-level subtitle string the viewer shows verbatim instead of its "
+                         "built-in per-subject-prefix guesswork (see atlas_viewer.template.html's "
+                         "BUNDLE.subject_label check) -- for a subject naming scheme the template's "
+                         "hardcoded Visible Human logic knows nothing about.")
     args = ap.parse_args()
     scale = args.budget_scale
     subjects = args.subject or ["vhm_both"]
+    sheet_categories = {c.strip() for c in args.sheet_categories.split(",") if c.strip()}
 
     atlas = load_atlas_records()
-    from engine import vh_ingest as vh
-    category = {e.entity_id: e.category for e in vh.load_atlas_index()}
+    # Q143: vh.load_atlas_index() alone has no bursa category at all (bursae are not
+    # among the Denver-release tissue directories it was built for -- see
+    # scripts/zanatomy/map_names.py's own module docstring); every bursa id fell
+    # through to "other"/DEFAULT_BUDGET, never exercised before because neither
+    # specimen bundle ships any bursa geometry yet. load_full_atlas() is a strict
+    # superset (same categories plus bursa from data/bursae/*.json), so this is a
+    # no-op for every existing bundle and only changes bursa's own budget.
+    from scripts.zanatomy.map_names import load_full_atlas
+    category = {e.entity_id: e.category for e in load_full_atlas()}
 
     parts, blobs, index = [], [], []
     kept_tris = 0
@@ -492,9 +522,13 @@ def main() -> int:
             v = verts[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]].astype(np.float64)
             f = (faces[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64)
                  - s["vertex_offset"])
-            cat = category.get(aid, "other")
+            # Q143: an id with no entry in this project's own atlas index (a Z-Anatomy
+            # object that matched none of our entities) still needs a real budget --
+            # falling back to DEFAULT_BUDGET for e.g. a bone would over-decimate it far
+            # below its category's norm, so the manifest itself may say what it is.
+            cat = category.get(aid) or s.get("category") or "other"
             budget = max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale))
-            q = decimate_quadric(v, f, budget) if aid in SHEET_IDS else None
+            q = decimate_quadric(v, f, budget) if (aid in SHEET_IDS or cat in sheet_categories) else None
             if q is not None:
                 dv, df = q; cell = 0.0
             else:
@@ -523,6 +557,14 @@ def main() -> int:
             }
             if rec is not None:
                 entry["rec"] = summarise(folder, rec, anchor_points)
+            elif s.get("name"):
+                # Q143: no entity record at all (an ambiguous/unmatched Z-Anatomy
+                # object shipped under its own stable zan_* id) -- the manifest's
+                # own name/region are all there is to show; never invented here.
+                entry["rec"] = {k: v for k, v in
+                                 {"name": s["name"], "region": s.get("region")}.items() if v}
+            if args.force_badge:
+                entry.setdefault("rec", {})["procedural_badge"] = args.force_badge
             index.append(entry)
             kept_tris += len(df)
             kept_here += len(df)
@@ -538,14 +580,14 @@ def main() -> int:
     out_dir = REPO_ROOT / args.out
     out_dir.mkdir(parents=True, exist_ok=True)
     clinical = {}
-    for entry in index:
-        folder, rec = atlas.get(entry["id"], (None, None))
-        if rec is not None and rec.get("clinical"):
-            base = entry["id"][:-2] if entry["id"].endswith(("_r", "_l")) else entry["id"]
-            clinical.setdefault(base, compact_clinical(rec["clinical"]))
+    if not args.strip_clinical:
+        for entry in index:
+            folder, rec = atlas.get(entry["id"], (None, None))
+            if rec is not None and rec.get("clinical"):
+                base = entry["id"][:-2] if entry["id"].endswith(("_r", "_l")) else entry["id"]
+                clinical.setdefault(base, compact_clinical(rec["clinical"]))
     bundle = {
         "subject": "+".join(subjects),
-        "clinical": clinical,
         "frame": frame,
         "quantum_mm": QUANTUM_MM,
         "source_triangles": source_tris_total,
@@ -553,6 +595,10 @@ def main() -> int:
         "attribution": attributions[0] if len(attributions) == 1 else (attributions or None),
         "structures": index,
     }
+    if not args.strip_clinical:
+        bundle["clinical"] = clinical
+    if args.subject_label:
+        bundle["subject_label"] = args.subject_label
     (out_dir / "bundle.json").write_text(json.dumps(bundle, separators=(",", ":")))
     (out_dir / "bundle.bin").write_bytes(blob)
     b64 = base64.b64encode(blob).decode("ascii")

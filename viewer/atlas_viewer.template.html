@@ -1054,7 +1054,11 @@ window.NeedlePath = {
 
 /* ---------- go ---------- */
 document.getElementById("s-subtitle").textContent =
-  SUBJECTS.every(s => s.startsWith("ct_vhf") || s.startsWith("xfer_")) ? "Visible Human female · one body, head to toes (CT of two blocks, registered)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · lower-limb muscles, ligaments and cartilage transferred from the male and badged" : "")
+  /* Q143: a bundle whose subject-name scheme this template's hardcoded Visible-Human
+     guesswork below knows nothing about (e.g. the Z-Anatomy reference model) says its
+     own subtitle verbatim instead of falling through to the wrong guess. */
+  BUNDLE.subject_label ? BUNDLE.subject_label
+  : SUBJECTS.every(s => s.startsWith("ct_vhf") || s.startsWith("xfer_")) ? "Visible Human female · one body, head to toes (CT of two blocks, registered)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · lower-limb muscles, ligaments and cartilage transferred from the male and badged" : "")
   : SUBJECTS.some(s => s.startsWith("ct_vhm") || s === "vhm_both") ? "Visible Human male · skull to fingertips and toes (DU release + his own CT and cryosections; badges name the source of every structure)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · a few head/neck structures transferred from the female and badged" : "")
   : SUBJECTS.length > 1
   ? "Visible Human (pelvis to ankle) + a second real specimen (bone/vessel reference above the hip, not one continuous body)"

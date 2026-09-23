@@ -22,7 +22,73 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 258 tests pass. Recent: Q142 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 258 tests pass. Recent: Q143 (2026-09-23)
+shipped the "Z-Anatomy reference model" -- a THIRD viewer bundle, a standalone generic body,
+per Q142's own conclusion that registering Z-Anatomy onto either real specimen is too
+inaccurate to ship. Split by system (task's own size escape hatch) into two files, both
+under `build/viewer_zan/` (gitignored, not committed): `atlas_viewer_zanatomy_msk.html`
+(1168 structures: 304 bone, 471 muscle, 287 ligament, 43 cartilage, 29 fascia, 22 tendon, 12
+bursa; 12.26 MB) and `atlas_viewer_zanatomy_nv.html` (1337 structures: 642 vessel, 426 nerve,
+155 lymphatic, 114 organ; 12.57 MB) -- both well under the 16 MB cap. New ingestion script
+`scripts/zanatomy/build_zan_reference.py` writes two `build/vh/zan_ref_{msk,nv}` subject
+folders in the exact layout `scripts/export_viewer_bundle.py` already reads, then that
+exporter (three small additive CLI flags: `--force-badge`, `--strip-clinical`,
+`--subject-label`, plus a `--sheet-categories` extension of the existing SHEET_IDS quadric
+path and a manifest-level `category` fallback for ids outside this project's own registry)
+builds the two bundles unchanged otherwise. ORIGIN: midpoint of the two hip joint centres
+(this project's own convention), by least-squares sphere fit (`engine.vh_ingest.fit_sphere`,
+reused) to each Femur.l/.r mesh's own proximal-most 15mm-by-atlas-Y cap -- Z-Anatomy ships no
+separate femoral head cartilage object, so this is a cheap proxy; measured, not assumed: RMS
+0.36mm at 82 points/side, radius 23.2mm, mirrors in X to 0.0mm. STRUCTURES: reused Q142's own
+`zan_source.py` loader unchanged for 597 entities that match this project's own entity ids
+(so their real records' TA name/region attach automatically); a NEW orphan path keeps every
+ambiguous/unmatched/grouped real object too (1908, after dropping 105 of Z-Anatomy's own
+UI-highlight duplicates by the same stripped-base-name rule and 6 zero-face annotation-curve
+objects found along the way -- eyeball equator/meridian/ciliary-body/zonular-fibre curves, an
+oesophagus profile line, a medulla path, all vertices with NO triangles at all) under a stable
+`zan_<slug>[_r|_l]` id with the Z-Anatomy name displayed verbatim, never guessed onto one of
+this project's entities. All 30 CC-BY-NC objects (inner ear, kidney) confirmed absent by name-
+pattern scan of the built bundles. Every structure carries an identical Q119-style
+`procedural_badge` (forced via the new flag, since the real entity records these ids also
+carry -- for muscles etc. -- say nothing about being Z-Anatomy-sourced); neither bundle
+carries a `clinical` key. Radial nerve present (trunk `radial_n` + superficial branch +
+muscular/deep branches folded in by zan_source, plus an orphan `dorsal digital branches`
+piece and the radial artery/veins) -- but its own merged mesh is fragmented (14 components,
+confirmed already fragmented BEFORE decimation, i.e. not a decimation artefact: quadric
+decimation preserves the same 14) because this project's own `radial_n` entity record carries
+no side field (Q142's exact same "nerve-category data gap", out of scope again here), so
+zan_source unions the LEFT AND RIGHT Z-Anatomy nerves into one mesh -- worth fixing alongside
+the queued pathway correction below, not attempted here. Verification script
+`scripts/zanatomy/verify_zan_reference.py` (`data/derived/Q143_zan_reference_verification.
+json`): badge/clinical/NC-leak/radial-nerve checks all pass; femur 454.4mm and humerus
+317.6mm (both bundles, matching Q141's own numbers exactly); vastus_lateralis_r overlaps
+femur_r in Y (muscles sit on bones). Entity-coverage recount (`scripts/recount_tissue_gaps.
+py`'s own method, reused): of 1592 entities in the current registry, 302 that are missing on
+BOTH Visible Human specimens now have a Z-Anatomy reference mesh (full per-type breakdown in
+`data/derived/Q143_zan_reference_report.json` and the verification JSON) -- close to but not
+identical to Q141's raw name-match estimate (which counted a confident/exact NAME match,
+before zan_source's own system/duplicate filtering could drop some of them for having no
+real surviving mesh). Headless screenshot skipped: Chromium (Playwright, `/opt/pw-browsers`)
+loads the page but this sandbox's proxy cannot TLS-fetch the CDN-hosted three.js the template
+needs (`ERR_CERT_AUTHORITY_INVALID`, unrelated to the bundle) -- not quick to fix, task's own
+allowed skip. 258 tests pass (added `data/derived/Q143_zan_reference_verification.json`'s own
+`source` field to clear `test_source_coverage.py`, and fixed a real latent bug found along the
+way: `export_viewer_bundle.py`'s own category lookup never covered `bursa` at all -- read from
+`vh.load_atlas_index()`, which `scripts/zanatomy/map_names.py`'s own docstring already says
+excludes bursae -- so every bursa id fell to the "other"/DEFAULT_BUDGET category; never
+exercised before since neither specimen bundle ships any bursa geometry yet; switched to
+`map_names.load_full_atlas()`, a strict superset, a no-op for every existing bundle).
+
+**Queued next step (owner's first named correction):** fix the Z-Anatomy radial nerve
+PATHWAY on this reference model -- the owner's own stated reason for starting with Z-Anatomy
+("fastest complete models, with easiest remodeling later") was specifically to then correct
+it with this project's better knowledge, and the radial nerve was the first example given.
+Candidate secondary fix while in there: give `radial_n`/`radial_n_superficial_branch` (and
+any other sideless nerve id Z-Anatomy also doubles up on) a real side field so a future
+loader stops unioning left+right into one fragmented mesh (see the `radial_n` finding above
+and Q142's identical note for `sciatic_n`/`femoral_n`).
+
+Recent: Q142 (2026-09-23)
 phase 2 of the Z-Anatomy plan (registration + validation gate) -- SHIPPED NOTHING, a valid
 outcome the plan itself allowed for. Adapted `scripts/transfer/cross_subject_transfer.py`
 (new `--direction zan2f`/`zan2m`, reusing `build_bone_maps`/`blend_transfer`/`clip_to_skin`
