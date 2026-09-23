@@ -169,6 +169,7 @@ button.mini:hover{background:#f2f2f2}
   <header>
     <h1>NMSK Atlas Viewer</h1>
     <div class="sub" id="s-subtitle">Visible Human &middot; pelvis to ankle</div>
+    <div class="sub" id="s-credit" hidden></div>
     <div class="spacer"></div>
     <div class="stat"><b id="s-str">0</b> structures</div>
     <div class="stat"><b id="s-tri">0</b> triangles shown</div>
@@ -1063,6 +1064,15 @@ document.getElementById("s-subtitle").textContent =
   : SUBJECTS.length > 1
   ? "Visible Human (pelvis to ankle) + a second real specimen (bone/vessel reference above the hip, not one continuous body)"
   : "Visible Human · pelvis to ankle";
+/* Third-party model bundles (subject_label set, e.g. Z-Anatomy, CC BY-SA) must show their
+   licence credit on the page itself, not only inside the embedded data. */
+if (BUNDLE.subject_label && BUNDLE.attribution) {
+  const credit = [].concat(BUNDLE.attribution).flat().join(" ");
+  const el = document.getElementById("s-credit");
+  el.textContent = "Credit: " + credit.split(" -- ")[0];
+  el.title = credit;
+  el.hidden = false;
+}
 document.getElementById("s-full").textContent = BUNDLE.source_triangles.toLocaleString();
 renderList();
 resize();
