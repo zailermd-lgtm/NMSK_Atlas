@@ -316,6 +316,13 @@ def ray_ends(ray: np.ndarray, proximal_ref: np.ndarray):
             ray[t > np.quantile(t, 0.9)].mean(axis=0))
 
 
+# The seven tarsal bones, as they're named when a subject's CT segmentation
+# couldn't be joined into one `tarsals_{side}` blob and instead carries each
+# bone as its own atlas id (Q136). build_frames() unions these as a fallback
+# reference point for the metatarsal rays when the combined blob is absent.
+_TARSAL_BONE_IDS = ("calcaneus", "talus", "cuboid", "navicular",
+                     "cuneiform_medial", "cuneiform_intermediate", "cuneiform_lateral")
+
 # Which individual bone each name inside a group entity refers to. The key is
 # the member's own mesh; the values are the words a landmark would use for it.
 # 'sustentaculum tali' is the giveaway case: the name says talus but the shelf
@@ -761,6 +768,16 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
         # is the direction the forefoot actually points.
         rays = metatarsal_rays(by_atlas_id, faces_by_atlas_id, side)
         tarsal_cloud = by_atlas_id.get(f"tarsals_{side}")
+        if tarsal_cloud is None:
+            # No combined blob (Q136): some subjects instead carry the seven
+            # tarsals as separate atlas ids. Their union, same subject and
+            # same coordinate space, is the identical reference point --
+            # purely a fallback, so a subject that already has the combined
+            # blob is completely unaffected.
+            individual = [by_atlas_id[f"{bone}_{side}"] for bone in _TARSAL_BONE_IDS
+                          if f"{bone}_{side}" in by_atlas_id]
+            if len(individual) == len(_TARSAL_BONE_IDS):
+                tarsal_cloud = np.vstack(individual)
         if rays and tarsal_cloud is not None:
             ends = [ray_ends(r, tarsal_cloud.mean(axis=0)) for r in rays]
             base = np.mean([e[0] for e in ends], axis=0)

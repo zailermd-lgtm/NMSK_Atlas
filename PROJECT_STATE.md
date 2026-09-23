@@ -979,6 +979,38 @@ still waiting — unrelated to the CT work above.
     frames on `ct_vhm_foot` — a real, independent gap, but a different bug
     class from the one this item checked for.)
 
+    **Q136 (2026-09-23): implemented that fallback — purely additive,
+    verified, but currently a no-op, for a separate reason found while
+    verifying it.** `build_frames()` now unions the 7 individual tarsal
+    atlas ids (calcaneus/talus/cuboid/navicular/cuneiform_medial/
+    cuneiform_intermediate/cuneiform_lateral — 7, not 6 as Q135's aside
+    miscounted) as the metatarsal reference point whenever `tarsals_{side}`
+    itself isn't in the subject's own `by_atlas_id`; same-subject only, no
+    cross-subject/transform risk. Confirmed purely additive: full-corpus
+    `resolve_anchor_points()` diff across `vhm_rebuild_bundle.sh`'s exact
+    subject list is bit-identical before/after (190 → 190 muscles, zero
+    changed); 252/252 tests pass. **Unlocks no frame anywhere, though**:
+    `metatarsal_rays()` also requires the forefoot mesh to split into
+    EXACTLY 5 connected components, and checked (not assumed) that no
+    subject's current build meets that — `ct_vhm_foot` left forefoot is 2
+    real pieces + 5 decimation-noise fragments (7 total); `ct_vhf_legs`
+    left is 2 real pieces (no split at all); her right is close (5 real
+    pieces ≥500 vertices) but buried under 12 more noise fragments (17
+    total); `vhm_both`'s recovered-bundle mesh is 2 pieces, no noise. So
+    the tarsal-reference gap Q135 flagged was real but never the ONLY
+    thing blocking these frames — a second, deeper, genuinely different
+    bug (the mesh not cleanly separating into five metatarsals, or the
+    exact-5 check itself) sits in front of it on every subject checked.
+    Out of scope to fix here (bigger than this item's budget, and not
+    what Q135 flagged). Female checked, not assumed symmetric: her
+    individual tarsal ids live in a DIFFERENT subject (`ct_vhf_tarsal`)
+    than her metatarsals (`ct_vhf_legs`), so this fallback doesn't apply
+    to her at all — would need a cross-subject merge, the higher-risk case
+    Q135 already declined to broaden `_with_colocated_bones` for. No
+    anchors changed, so no bundle rebuild. Code kept: correct, safe,
+    matches what Q135 specified, ready for whenever the mesh-split issue
+    is separately fixed.
+
 ## 2026-09-06 session: viewer anchor points + large-scale clinical/anatomical data pass
 
 - **Viewer**: `scripts/export_viewer_bundle.py` now resolves every muscle
