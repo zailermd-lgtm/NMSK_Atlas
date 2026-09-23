@@ -22,7 +22,51 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 289 tests pass. Recent: Q150 (2026-09-23,
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 289 tests pass. Recent: Q146 (2026-09-23)
+ran the same audit-and-correct pipeline Q144/Q145 used for the radial nerve against four
+more major nerve landmarks on the Z-Anatomy reference model: ulnar nerve (cubital tunnel
+position, passage between the two FCU heads, Guyon's canal vs the pisiform), median nerve
+(pronator teres passage, carpal tunnel vs wrist-crease bony landmarks), common fibular nerve
+(fibular head/neck relation) and sciatic nerve (piriformis + ischial-tuberosity/greater-
+trochanter line). Same method family throughout: per-Y-bin centreline, bony landmarks fit
+LIVE (medial epicondyle, fibular head tip, ischial tuberosity, greater trochanter --
+generalising apply_corrections.py's own lateral_epicondyle_y() slab-and-extreme-vertex
+convention), nearest-vertex/point-in-mesh-containment proximity, right/left measured
+independently and confirmed to mirror to <0.01mm on every value. All 10 numeric reference
+targets are real cadaveric morphometry found via the PubMed MCP tools (search_articles +
+get_article_metadata), cited by PMID/DOI, numbers taken straight from the cited abstracts.
+RESULT: unlike Q145, **no correction was needed this time** -- of 12 landmarks checked,
+every one came back within its cited range, qualitatively consistent, a small/borderline
+discrepancy of the same order Q144 itself already declined to correct, or genuinely
+unsourced despite a real search. Two landmarks specifically triggered this task's own
+"is this a measurement artifact, not a real gap" check (Q145's own discipline, applied
+here before concluding anything): the ulnar/FCU-heads landmark (both FCU 'head' objects in
+this Z-Anatomy release are the full muscle-belly-plus-tendon-to-pisiform mesh, not just the
+short converging heads segment, so a naive global nearest-vertex minimum lands 87.7mm distal
+to the medial epicondyle -- far past every cited target -- rather than at the true elbow-
+level arcade; re-measured within a physiologically-bounded elbow window instead) and the
+sciatic/IT-GT-line landmark (Wan-Ae-Loh et al. 2019's own S2 point is a calliper measurement
+on the specimen's exposed POSTERIOR surface, a 2-D projection, not a full 3-D nearest-point-
+on-line -- the 3-D method gave an apparently large miss (13.0% vs cited 37.9% along the
+line, 29.85mm perpendicular), but re-projecting onto the atlas X-Y posterior-view plane
+collapsed the perpendicular miss to 0.85mm and moved the crossing to 21.8%, inside the
+cited mean+-2SD band). SHIPPED NO NEW CORRECTION FILES and `scripts/zanatomy/
+apply_corrections.py` is byte-for-byte unchanged from Q145 -- a valid outcome this project
+has taken before (Q142's own "shipped nothing" precedent, explicitly noted in this same
+file). The Z-Anatomy NV bundle was still rebuilt end-to-end to confirm the existing Q144/
+Q145 radial-nerve correction still applies cleanly and nothing regressed: 662 matched
+entities, zan_ref_nv 1402 structures (both exactly unchanged from Q145), verify_zan_
+reference.py RESULT: OK, `build/viewer_zan/atlas_viewer_zanatomy_nv.html` 12.86MB (unchanged
+from Q145, well under the 15MB budget). Full method, per-landmark table and all citations:
+`data/derived/Q146_nerve_landmark_audit.json`. CC BY-SA anatomy layer only (`third_party/
+z-anatomy/NOTICE`); no clinical/private content touched. Open issue carried forward: none of
+the four nerves' landmarks were corrected, so none of this task's own new bony-landmark-
+fitting helpers (medial epicondyle, fibular head tip, ischial tuberosity, greater trochanter)
+were wired into `apply_corrections.py` itself (they live only in this task's own measurement
+script) -- a future task that DOES find a correctable gap on one of these four nerves should
+generalise `apply_corrections.py`'s reference-point system properly at that point, using
+whichever of these landmark-fitting functions it actually needs, rather than before it is
+needed. Before that, Q150 (2026-09-23,
 corrected as Q150b after lead review) tried a marker-controlled, nearest-transferred-seed
 refinement of Q147's Z-Anatomy forearm/hand transfer within each specimen's own segmented
 tissue (Q48-style). A first cut's leave-one-out validation LEAKED ground truth (searched for a
@@ -430,9 +474,16 @@ https://claude.ai/artifact/FC9s1Rq9i8UW8Hup6a7LKU (v1), Z-Anatomy neurovascular
 https://claude.ai/artifact/PXhboi6MeRsUqYjgSq9HAK (v1, includes Q144+Q145 corrections).
 Z-Anatomy pages show the Z-Anatomy + BodyParts3D credit in the header (commit 45c3097).
 Republish from build/viewer_zan/*.html to the same URLs.
-**Queued Q146:** same audit-and-correct pipeline for other major nerve landmarks on the
-Z-Anatomy model (ulnar at cubital tunnel/Guyon, median at pronator/carpal tunnel, common
-fibular at fibular neck, sciatic at piriformis); cited cadaveric morphometry only.
+**Queued Q146: DONE (2026-09-23).** See the Q146 entry above -- audited ulnar (cubital
+tunnel/FCU heads/Guyon's canal), median (pronator teres/carpal tunnel), common fibular
+(fibular neck) and sciatic (piriformis/IT-GT line) against cited cadaveric morphometry;
+all 12 landmarks came back within range, qualitatively consistent, borderline, or
+genuinely unsourced -- no correction met the bar, so no new correction file/geometry
+change shipped this time (`apply_corrections.py` untouched). Bundle rebuilt anyway to
+confirm no regression (12.86MB, unchanged from Q145) but NOT republished to the artifact
+links above per this task's own explicit instruction not to publish artifacts -- a
+future task that needs the live pages refreshed for an unrelated reason can republish
+from the current `build/viewer_zan/*.html` then.
 
 **Q148 (2026-09-23), owner complaint "upper body ... structures have moved" -- intervertebral
 discs fixed on both subjects, plus a misplacement audit.** `grep intervertebral_disc scripts/`
