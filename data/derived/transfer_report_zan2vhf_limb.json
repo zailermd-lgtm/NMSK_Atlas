@@ -1,7 +1,8 @@
 {
- "source": "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: forearm, hand and foot soft tissue (muscles, tendons, ligaments, retinacula) from Z-Anatomy (CC BY-SA 4.0), registered onto this specimen's OWN bones one bone at a time (radius and ulna kept separate to absorb pronation/pose differences; scripts/transfer/limb_per_bone_transfer.py, Q147) -- not the broader multi-bone spatial blend used elsewhere in this project. Shipped only for ids this project has no real-data mesh for on this specimen; real geometry always wins (this subject is listed last). See PROJECT_STATE.md Q147 for the validation table this badge's error figure comes from. Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike). Derived data (scripts/transfer/limb_per_bone_transfer.py).",
+ "source": "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: forearm, hand and foot soft tissue (muscles, tendons, ligaments, retinacula) from Z-Anatomy (CC BY-SA 4.0), registered onto this specimen's OWN bones one bone at a time (radius and ulna kept separate to absorb pronation/pose differences; scripts/transfer/limb_per_bone_transfer.py, Q147) -- not the broader multi-bone spatial blend used elsewhere in this project. Shipped only for ids this project has no real-data mesh for on this specimen; real geometry always wins (this subject is listed last). See PROJECT_STATE.md Q147 for the validation table this badge's error figure comes from (29.1 mm median centroid error, 91.0 mm max). Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike). Derived data (scripts/transfer/limb_per_bone_transfer.py).",
  "direction": "zan2f",
  "badge_error_mm": 29.1,
+ "badge_max_error_mm": 91.0,
  "n": 23,
  "not_transferred": {
   "abductor_digiti_minimi_foot_l": "per-bone transform put 70% of this structure outside the specimen's own skin (driving bones ['tarsals_l']) -- not shipped",
@@ -66,7 +67,7 @@
    "driving_bones": {
     "metatarsals_l": 1.0
    },
-   "bone_penetration_vertices_before_pushoff": 75,
+   "bone_penetration_vertices_before_pushoff": 74,
    "vertices_clipped_to_skin": 49,
    "volume_src_cm3": 6.19,
    "volume_out_cm3": 6.58,
@@ -80,10 +81,10 @@
    "driving_bones": {
     "metatarsals_r": 1.0
    },
-   "bone_penetration_vertices_before_pushoff": 107,
+   "bone_penetration_vertices_before_pushoff": 109,
    "vertices_clipped_to_skin": 17,
    "volume_src_cm3": 6.19,
-   "volume_out_cm3": 10.28,
+   "volume_out_cm3": 10.26,
    "displacement_mm_median": 876.3
   },
   {
@@ -126,7 +127,7 @@
    "bone_penetration_vertices_before_pushoff": 62,
    "vertices_clipped_to_skin": 427,
    "volume_src_cm3": 3.98,
-   "volume_out_cm3": 2.85,
+   "volume_out_cm3": 2.84,
    "displacement_mm_median": 874.5
   },
   {
@@ -229,7 +230,7 @@
    "bone_penetration_vertices_before_pushoff": 0,
    "vertices_clipped_to_skin": 112,
    "volume_src_cm3": 2.25,
-   "volume_out_cm3": 7.51,
+   "volume_out_cm3": 7.39,
    "displacement_mm_median": 718.5
   },
   {
@@ -272,7 +273,7 @@
     "tarsals_r": 0.789,
     "fibula_r": 0.211
    },
-   "bone_penetration_vertices_before_pushoff": 111,
+   "bone_penetration_vertices_before_pushoff": 109,
    "vertices_clipped_to_skin": 109,
    "volume_src_cm3": 2.65,
    "volume_out_cm3": 0.68,
@@ -289,7 +290,7 @@
    "bone_penetration_vertices_before_pushoff": 27,
    "vertices_clipped_to_skin": 116,
    "volume_src_cm3": 56.02,
-   "volume_out_cm3": 900.64,
+   "volume_out_cm3": 900.62,
    "displacement_mm_median": 834.5
   },
   {
@@ -300,10 +301,10 @@
    "driving_bones": {
     "metatarsals_l": 1.0
    },
-   "bone_penetration_vertices_before_pushoff": 94,
+   "bone_penetration_vertices_before_pushoff": 92,
    "vertices_clipped_to_skin": 244,
    "volume_src_cm3": 1.34,
-   "volume_out_cm3": 1.13,
+   "volume_out_cm3": 1.14,
    "displacement_mm_median": 865.6
   },
   {
@@ -342,10 +343,10 @@
    "driving_bones": {
     "tarsals_l": 1.0
    },
-   "bone_penetration_vertices_before_pushoff": 129,
+   "bone_penetration_vertices_before_pushoff": 130,
    "vertices_clipped_to_skin": 61,
    "volume_src_cm3": 4.78,
-   "volume_out_cm3": 7.9,
+   "volume_out_cm3": 7.8,
    "displacement_mm_median": 824.1
   },
   {

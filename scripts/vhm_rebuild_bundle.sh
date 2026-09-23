@@ -75,17 +75,40 @@ fi
 # only -- real ct_vhm_forearm/ct_vhm_arm etc. always win, this subject is listed LAST below.
 # Reads the PRIOR build/viewer_m (this script's own previous output) for his bones/skin, the
 # same self-referential pattern already used below for xfer_vhf2vhm/xfer_vhf2vhm_neck.
-# 25.4mm: median centroid error validating this exact method on his own real ct_vhm_forearm
-# muscles (flexor_digitorum_superficialis_r/flexor_digitorum_profundus_r/abductor_pollicis_
-# longus_r), n=3 -- see PROJECT_STATE.md Q147 and data/derived/Q147_validation_male.json.
+# 25.4mm median / 75.3mm max: centroid error validating this exact method on his own real
+# ct_vhm_forearm muscles (flexor_digitorum_superficialis_r/flexor_digitorum_profundus_r/
+# abductor_pollicis_longus_r), n=3 -- see PROJECT_STATE.md Q147 and data/derived/
+# Q147_validation_male.json. NOTE: this idempotent check only ever fires once, from a state
+# where build/viewer_m does not yet carry xfer_zan2vhm_limb -- re-running it by hand against an
+# ALREADY-built build/viewer_m (e.g. only to change the badge text) silently ships 0 structures,
+# because default_ids() sees every one of them as "already present" and skips them all; Q150 hit
+# this rebuilding the badge with a max-error figure and worked around it with a one-off
+# pre-transfer bundle (export_viewer_bundle.py on the SUBJ list below, minus this subject).
 if [ ! -f build/vh/xfer_zan2vhm_limb/manifest.json ] && [ -f build/viewer_m/bundle.json ]; then
   python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2m --male-html build/viewer_m \
-    --badge-error-mm 25.4 -o build/vh/xfer_zan2vhm_limb --report data/derived/transfer_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
+    --badge-error-mm 25.4 --badge-max-error-mm 75.3 -o build/vh/xfer_zan2vhm_limb --report data/derived/transfer_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
+fi
+# Q150: forearm compartment members (radial_flexor_compartment / mobile_wad_compartment /
+# extensor_digitorum_supinator_anconeus_compartment, plus a few individually-named-but-unreliable
+# labels reviewed as their own single candidate) refined to his OWN segmented forearm tissue
+# (scripts/transfer/refine_limb_transfer.py) within Q147's transfer above -- listed BEFORE
+# xfer_zan2vhm_limb so it wins just these ids; everything else (hand, foot, the rest of the
+# forearm) stays Q147's Z-Anatomy estimate, unchanged. Median 11.5mm / max 15.1mm, leave-one-out
+# on ct_vhm_forearm's own 3 real muscles (data/derived/Q150_validation_male.json) -- the female
+# hand region was ALSO tried (data/derived/Q150_validation_female.json) but did not clear the
+# ship bar and is not shipped for either specimen.
+if [ ! -f build/vh/xfer_zan2vhm_limb_refined/manifest.json ] && [ -f build/vh/xfer_zan2vhm_limb/manifest.json ]; then
+  python3 scripts/transfer/refine_limb_transfer.py --direction zan2m --target build/viewer_m --xfer build/vh/xfer_zan2vhm_limb \
+    --volume $T/vhm_forearm_muscles_cryo.nii.gz --labels mappings/vhm_forearm_muscles_labels.json \
+    --mapping build/vh/ct_vhm_forearm_volume_mapping.json --origin=-6.035,-895.476,4.787 \
+    --badge-median-mm 11.5 --badge-max-mm 15.1 -o build/vh/xfer_zan2vhm_limb_refined \
+    --report data/derived/refine_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
 fi
 # Q116: coccygeus_l only, reconverted at --smooth 0.0 (ct_vhm_pfloor_fix); listed BEFORE
 # ct_vhm_pfloor so it wins just this one atlas_id.
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+[ -f build/vh/xfer_zan2vhm_limb_refined/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_refined"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1

@@ -1,0 +1,146 @@
+{
+ "source": "Q150 leave-one-out validation (same design as Q147/Q48). FOREARM: ct_vhf_forearm's 13 real muscles with a Z-Anatomy source mesh (extensor_pollicis_longus_r excluded, no Z-Anatomy source, same as Q147); all 13 recovered a claim. HAND: ct_vhf_hand's 6 real muscles; only 3 recovered a claim within 12mm of their own Q147 transferred seed inside vhf_hand_muscles_cryo.nii.gz (abductor_digiti_minimi_hand_r/flexor_digiti_minimi_brevis_hand_r/opponens_digiti_minimi_r did not -- their Q147 seed sits >12mm from the real muscle-tissue mask; scored at their UNCHANGED Q147 baseline distance, since that is what would actually ship).",
+ "forearm": {
+  "n": 13,
+  "median_before_mm": 29.1,
+  "median_after_mm": 4.1,
+  "max_before_mm": 91.0,
+  "max_after_mm": 17.4,
+  "rows": [
+   {
+    "id": "flexor_carpi_ulnaris_r",
+    "before_q147_mm": 19.2,
+    "after_q150_mm": 5.0,
+    "recovered": true
+   },
+   {
+    "id": "flexor_digitorum_profundus_r",
+    "before_q147_mm": 72.9,
+    "after_q150_mm": 2.0,
+    "recovered": true
+   },
+   {
+    "id": "flexor_pollicis_longus_r",
+    "before_q147_mm": 24.7,
+    "after_q150_mm": 1.8,
+    "recovered": true
+   },
+   {
+    "id": "pronator_quadratus_r",
+    "before_q147_mm": 10.8,
+    "after_q150_mm": 0.7,
+    "recovered": true
+   },
+   {
+    "id": "brachioradialis_r",
+    "before_q147_mm": 53.5,
+    "after_q150_mm": 10.1,
+    "recovered": true
+   },
+   {
+    "id": "extensor_carpi_radialis_longus_r",
+    "before_q147_mm": 29.1,
+    "after_q150_mm": 6.3,
+    "recovered": true
+   },
+   {
+    "id": "extensor_carpi_radialis_brevis_r",
+    "before_q147_mm": 17.5,
+    "after_q150_mm": 2.4,
+    "recovered": true
+   },
+   {
+    "id": "extensor_digitorum_r",
+    "before_q147_mm": 91.0,
+    "after_q150_mm": 5.5,
+    "recovered": true
+   },
+   {
+    "id": "extensor_digiti_minimi_r",
+    "before_q147_mm": 51.4,
+    "after_q150_mm": 4.1,
+    "recovered": true
+   },
+   {
+    "id": "extensor_carpi_ulnaris_r",
+    "before_q147_mm": 48.5,
+    "after_q150_mm": 17.4,
+    "recovered": true
+   },
+   {
+    "id": "abductor_pollicis_longus_r",
+    "before_q147_mm": 10.6,
+    "after_q150_mm": 0.2,
+    "recovered": true
+   },
+   {
+    "id": "extensor_pollicis_brevis_r",
+    "before_q147_mm": 21.2,
+    "after_q150_mm": 1.9,
+    "recovered": true
+   },
+   {
+    "id": "extensor_indicis_r",
+    "before_q147_mm": 39.5,
+    "after_q150_mm": 14.8,
+    "recovered": true
+   }
+  ],
+  "shipped": true,
+  "shipped_as": "xfer_zan2vhf_limb_refined (Q150), 4 female forearm structures actually shipped: anconeus_r, flexor_carpi_radialis_r, flexor_digitorum_superficialis_r, pronator_teres_r (from superficial_flexor_compartment / supinator_anconeus_compartment). supinator_r's refined claim was too small (<0.15x Q147's own volume) and is kept as Q147, unchanged; palmaris_longus_r has no Q147 seed at all (no Z-Anatomy source). See data/derived/refine_report_zan2vhf_limb.json."
+ },
+ "hand": {
+  "n": 6,
+  "n_recovered": 3,
+  "median_before_mm": 33.9,
+  "median_after_mm": 28.5,
+  "max_before_mm": 42.7,
+  "max_after_mm": 42.7,
+  "rows": [
+   {
+    "id": "adductor_pollicis_r",
+    "before_q147_mm": 34.7,
+    "after_q150_mm": 13.0,
+    "recovered": true
+   },
+   {
+    "id": "abductor_digiti_minimi_hand_r",
+    "before_q147_mm": 42.7,
+    "after_q150_mm": 42.7,
+    "recovered": false
+   },
+   {
+    "id": "flexor_digiti_minimi_brevis_hand_r",
+    "before_q147_mm": 33.9,
+    "after_q150_mm": 33.9,
+    "recovered": false
+   },
+   {
+    "id": "opponens_digiti_minimi_r",
+    "before_q147_mm": 28.5,
+    "after_q150_mm": 28.5,
+    "recovered": false
+   },
+   {
+    "id": "dorsal_interossei_hand_r",
+    "before_q147_mm": 21.0,
+    "after_q150_mm": 12.2,
+    "recovered": true
+   },
+   {
+    "id": "palmar_interossei_r",
+    "before_q147_mm": 27.0,
+    "after_q150_mm": 17.3,
+    "recovered": true
+   }
+  ],
+  "shipped": false,
+  "reason_not_shipped": "half the held-out hand muscles could not be recovered at all within 12mm of their own Q147 seed (max after-refinement error 42.7mm, over the 30mm outlier bar) -- kept as Q147, unchanged, disclosed here rather than shipped on weak evidence."
+ },
+ "combined_forearm_and_hand": {
+  "median_before_mm": 29.1,
+  "median_after_mm": 6.3,
+  "max_before_mm": 91.0,
+  "max_after_mm": 42.7
+ }
+}

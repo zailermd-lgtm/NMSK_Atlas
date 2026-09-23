@@ -509,6 +509,11 @@ def main():
                      help="measured validation median centroid error (mm) to bake into every shipped "
                           "structure's procedural_badge text; omit to leave the badge without a number "
                           "(e.g. for a --validate run, which ships nothing)")
+    ap.add_argument("--badge-max-error-mm", type=float, default=None,
+                     help="Q150: measured validation MAX centroid error (mm, the worst-case FDP-class "
+                          "outlier) to add alongside --badge-error-mm's median -- honesty about the "
+                          "worst case, not just the typical one, matters for a clinician reading the "
+                          "badge. Ignored if --badge-error-mm is not also given.")
     ap.add_argument("-o", "--out", required=True)
     ap.add_argument("--report", default=None)
     a = ap.parse_args()
@@ -627,9 +632,13 @@ def main():
                "displacement_mm_median": round(float(np.median(disp)), 1)}
         report.append(row)
         nv32 = nv.astype(np.float32)
+        err_txt = ""
+        if a.badge_error_mm is not None:
+            err_txt = f"; validation median error {a.badge_error_mm:.1f} mm"
+            if a.badge_max_error_mm is not None:
+                err_txt += f", max {a.badge_max_error_mm:.1f} mm"
         badge = ("Transferred from the Z-Anatomy reference model (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) onto "
-                 "this specimen's own bones -- generic shape" +
-                 (f"; validation median error {a.badge_error_mm:.1f} mm" if a.badge_error_mm is not None else "") + ".")
+                 "this specimen's own bones -- generic shape" + err_txt + ".")
         structures.append({"atlas_id": aid, "source_structure": aid, "side": side,
                             "source_file": f"zanatomy viewer bundle#{aid}",
                             "vertex_offset": voff, "face_offset": sum(len(x) for x in faces),
@@ -655,6 +664,12 @@ def main():
     V = np.concatenate(verts) if verts else np.zeros((0, 3), np.float32)
     Fc = np.concatenate(faces) if faces else np.zeros((0, 3), np.uint32)
     V.astype(np.float32).tofile(out / "vertices.f32"); Fc.astype(np.uint32).tofile(out / "faces.u32")
+    err_note = ""
+    if a.badge_error_mm is not None:
+        err_note = f" ({a.badge_error_mm:.1f} mm median centroid error"
+        if a.badge_max_error_mm is not None:
+            err_note += f", {a.badge_max_error_mm:.1f} mm max"
+        err_note += ")"
     attribution = [
         "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: forearm, hand and foot soft tissue (muscles, tendons, "
         "ligaments, retinacula) from Z-Anatomy (CC BY-SA 4.0), registered onto this specimen's OWN bones one bone "
@@ -662,7 +677,7 @@ def main():
         "limb_per_bone_transfer.py, Q147) -- not the broader multi-bone spatial blend used elsewhere in this "
         "project. Shipped only for ids this project has no real-data mesh for on this specimen; real geometry "
         "always wins (this subject is listed last). See PROJECT_STATE.md Q147 for the validation table this "
-        f"badge's error figure comes from{f' ({a.badge_error_mm:.1f} mm median centroid error)' if a.badge_error_mm is not None else ''}.",
+        f"badge's error figure comes from{err_note}.",
         "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by "
         "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. "
         "Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike).",
@@ -677,7 +692,7 @@ def main():
                 "structures": structures}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1))
     rep = {"source": attribution[0] + " " + attribution[1] + " Derived data (scripts/transfer/limb_per_bone_transfer.py).",
-           "direction": a.direction, "badge_error_mm": a.badge_error_mm, "n": len(report),
+           "direction": a.direction, "badge_error_mm": a.badge_error_mm, "badge_max_error_mm": a.badge_max_error_mm, "n": len(report),
            "not_transferred": skipped, "rows": report}
     rp = Path(a.report) if a.report else out / "transfer_report.json"
     rp.write_text(json.dumps(rep, indent=1))

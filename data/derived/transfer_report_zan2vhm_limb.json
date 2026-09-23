@@ -1,7 +1,8 @@
 {
- "source": "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: forearm, hand and foot soft tissue (muscles, tendons, ligaments, retinacula) from Z-Anatomy (CC BY-SA 4.0), registered onto this specimen's OWN bones one bone at a time (radius and ulna kept separate to absorb pronation/pose differences; scripts/transfer/limb_per_bone_transfer.py, Q147) -- not the broader multi-bone spatial blend used elsewhere in this project. Shipped only for ids this project has no real-data mesh for on this specimen; real geometry always wins (this subject is listed last). See PROJECT_STATE.md Q147 for the validation table this badge's error figure comes from. Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike). Derived data (scripts/transfer/limb_per_bone_transfer.py).",
+ "source": "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: forearm, hand and foot soft tissue (muscles, tendons, ligaments, retinacula) from Z-Anatomy (CC BY-SA 4.0), registered onto this specimen's OWN bones one bone at a time (radius and ulna kept separate to absorb pronation/pose differences; scripts/transfer/limb_per_bone_transfer.py, Q147) -- not the broader multi-bone spatial blend used elsewhere in this project. Shipped only for ids this project has no real-data mesh for on this specimen; real geometry always wins (this subject is listed last). See PROJECT_STATE.md Q147 for the validation table this badge's error figure comes from (25.4 mm median centroid error, 75.3 mm max). Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike). Derived data (scripts/transfer/limb_per_bone_transfer.py).",
  "direction": "zan2m",
  "badge_error_mm": 25.4,
+ "badge_max_error_mm": 75.3,
  "n": 62,
  "not_transferred": {
   "abductor_digiti_minimi_hand_r": "per-bone transform put 58% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'ulna_r', 'radius_r']) -- not shipped",
@@ -21,7 +22,7 @@
   "flexor_pollicis_brevis_r": "per-bone transform put 81% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
   "flexor_retinaculum_r": "per-bone transform put 57% of this structure outside the specimen's own skin (driving bones ['carpals_r']) -- not shipped",
   "opponens_digiti_minimi_l": "per-bone transform put 57% of this structure outside the specimen's own skin (driving bones ['metacarpals_l', 'carpals_l', 'ulna_l']) -- not shipped",
-  "opponens_pollicis_r": "per-bone transform put 68% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+  "opponens_pollicis_r": "per-bone transform put 70% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
   "palmar_aponeurosis_r": "per-bone transform put 92% of this structure outside the specimen's own skin (driving bones ['carpals_r']) -- not shipped"
  },
  "rows": [
@@ -63,10 +64,10 @@
     "ulna_l": 0.205,
     "radius_l": 0.17
    },
-   "bone_penetration_vertices_before_pushoff": 18,
+   "bone_penetration_vertices_before_pushoff": 19,
    "vertices_clipped_to_skin": 91,
    "volume_src_cm3": 2.24,
-   "volume_out_cm3": 4.93,
+   "volume_out_cm3": 4.92,
    "displacement_mm_median": 793.1
   },
   {
@@ -150,10 +151,10 @@
     "radius_l": 0.052,
     "ulna_l": 0.032
    },
-   "bone_penetration_vertices_before_pushoff": 210,
+   "bone_penetration_vertices_before_pushoff": 207,
    "vertices_clipped_to_skin": 137,
    "volume_src_cm3": 4.73,
-   "volume_out_cm3": 6.0,
+   "volume_out_cm3": 6.17,
    "displacement_mm_median": 768.4
   },
   {
@@ -167,7 +168,7 @@
     "ulna_r": 0.032
    },
    "bone_penetration_vertices_before_pushoff": 49,
-   "vertices_clipped_to_skin": 67,
+   "vertices_clipped_to_skin": 65,
    "volume_src_cm3": 4.73,
    "volume_out_cm3": 3.65,
    "displacement_mm_median": 794.7
@@ -238,10 +239,10 @@
     "radius_l": 0.027,
     "ulna_l": 0.019
    },
-   "bone_penetration_vertices_before_pushoff": 58,
+   "bone_penetration_vertices_before_pushoff": 60,
    "vertices_clipped_to_skin": 186,
    "volume_src_cm3": 4.64,
-   "volume_out_cm3": 5.55,
+   "volume_out_cm3": 5.5,
    "displacement_mm_median": 774.1
   },
   {
@@ -255,7 +256,7 @@
     "ulna_r": 0.019
    },
    "bone_penetration_vertices_before_pushoff": 45,
-   "vertices_clipped_to_skin": 137,
+   "vertices_clipped_to_skin": 132,
    "volume_src_cm3": 4.64,
    "volume_out_cm3": 3.31,
    "displacement_mm_median": 795.2
@@ -412,7 +413,7 @@
    "bone_penetration_vertices_before_pushoff": 52,
    "vertices_clipped_to_skin": 1523,
    "volume_src_cm3": 33.06,
-   "volume_out_cm3": 3.39,
+   "volume_out_cm3": 3.4,
    "displacement_mm_median": 762.7
   },
   {
@@ -510,10 +511,10 @@
     "radius_l": 0.412,
     "metacarpals_l": 0.089
    },
-   "bone_penetration_vertices_before_pushoff": 136,
-   "vertices_clipped_to_skin": 212,
+   "bone_penetration_vertices_before_pushoff": 132,
+   "vertices_clipped_to_skin": 211,
    "volume_src_cm3": 24.74,
-   "volume_out_cm3": 18.73,
+   "volume_out_cm3": 18.7,
    "displacement_mm_median": 758.2
   },
   {
@@ -527,10 +528,10 @@
     "carpals_l": 0.117
    },
    "bone_penetration_vertices_before_pushoff": 109,
-   "vertices_clipped_to_skin": 1148,
+   "vertices_clipped_to_skin": 1147,
    "volume_src_cm3": 52.09,
-   "volume_out_cm3": 51.82,
-   "displacement_mm_median": 765.4
+   "volume_out_cm3": 51.81,
+   "displacement_mm_median": 765.5
   },
   {
    "atlas_id": "flexor_digiti_minimi_brevis_foot_l",
@@ -656,10 +657,10 @@
    "driving_bones": {
     "radius_l": 1.0
    },
-   "bone_penetration_vertices_before_pushoff": 492,
+   "bone_penetration_vertices_before_pushoff": 496,
    "vertices_clipped_to_skin": 0,
    "volume_src_cm3": 6.07,
-   "volume_out_cm3": 7.78,
+   "volume_out_cm3": 7.77,
    "displacement_mm_median": 763.4
   },
   {
@@ -717,7 +718,7 @@
     "ulna_r": 0.138
    },
    "bone_penetration_vertices_before_pushoff": 7,
-   "vertices_clipped_to_skin": 150,
+   "vertices_clipped_to_skin": 133,
    "volume_src_cm3": 1.71,
    "volume_out_cm3": 1.94,
    "displacement_mm_median": 797.0
@@ -732,10 +733,10 @@
     "carpals_l": 0.397,
     "radius_l": 0.057
    },
-   "bone_penetration_vertices_before_pushoff": 62,
+   "bone_penetration_vertices_before_pushoff": 75,
    "vertices_clipped_to_skin": 53,
    "volume_src_cm3": 0.98,
-   "volume_out_cm3": 1.41,
+   "volume_out_cm3": 1.32,
    "displacement_mm_median": 765.3
   },
   {
