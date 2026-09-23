@@ -22,7 +22,18 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 268 tests pass. Recent: Q145 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 276 tests pass. Recent: Q148 (2026-09-23)
+fixed the intervertebral discs (owner-reported: "structures have moved" in the upper body) --
+every cervical/thoracic disc on BOTH subjects sat at one fixed region-wide X/Y, spread front-
+to-back instead of stacked between vertebrae (lumbar too, on the male, whose OBJ files
+predated Q111's fix); root cause was `scripts/generate_intervertebral_discs.py` treating Z as
+the craniocaudal axis when this atlas's frame is +Y superior/+Z anterior. Generalized Q111's
+per-level (adjacent-vertebra-pair) placement from lumbar-only to all three regions and fixed
+the cylinder mesh's own axis (was Z, now Y). Also ran a full misplacement audit of both
+viewer bundles (sided-midline, muscle-vs-attachment, outside-skin, block symmetry) --
+`data/derived/Q148_misplacement_audit.json` -- and a regression test
+(`tests/test_intervertebral_discs.py`). See its own entry below for full detail. Before that,
+Q145 (2026-09-23)
 finished Q144's own queued step: the PIN/arcade-of-Frohse entry correction is now a
 bounded 3-D (X/Y/Z) warp, closing the gap Q144's Y-only warp could only partially close,
 and landmark (d) (radial nerve bifurcation level) is now sourced from a newly found
@@ -223,6 +234,68 @@ Republish from build/viewer_zan/*.html to the same URLs.
 **Queued Q146:** same audit-and-correct pipeline for other major nerve landmarks on the
 Z-Anatomy model (ulnar at cubital tunnel/Guyon, median at pronator/carpal tunnel, common
 fibular at fibular neck, sciatic at piriformis); cited cadaveric morphometry only.
+
+**Q148 (2026-09-23), owner complaint "upper body ... structures have moved" -- intervertebral
+discs fixed on both subjects, plus a misplacement audit.** `grep intervertebral_disc scripts/`
+found the generator, `scripts/generate_intervertebral_discs.py`. Measured on the shipped
+`build/vh/ct_vhm` manifest exactly as reported: every cervical disc had centroid y=660.1,
+y-range 620-700mm, spread only in z (-40.6 to +28.1mm); every thoracic disc y=446.6, z -102.7
+to +3.2mm; every lumbar disc ALSO y=206.2 (same bug, not just cervical/thoracic) -- i.e. discs
+laid out front-to-back at one fixed height per region instead of stacked between vertebrae.
+ROOT CAUSE (two compounding bugs, both from treating Z as the craniocaudal axis when this
+atlas's frame is `+X right, +Y superior, +Z anterior`, per every manifest's own `frame`
+field): (1) `create_cylinder_mesh` built the disc's cylinder axis (thickness, meant to
+separate one level from the next) along Z and its radius (meant to be the small left-right/
+front-back footprint) spanning XY -- so every disc's 40mm radius landed in Y, the REAL
+craniocaudal axis, making each disc ~80mm tall regardless of the true ~10-40mm inter-vertebral
+gap; (2) cervical/thoracic centers were a single region-wide bbox X/Y with position varied
+only by fraction along Z (Q111, 2026-09-22, had already fixed this for lumbar alone with true
+per-adjacent-pair placement, but the male's lumbar disc OBJ files on disk were never
+regenerated after that fix -- confirmed by file mtime and value match to the pre-Q111 female
+numbers -- and cervical/thoracic were never touched by Q111 at all, "expose cervical/thoracic
+measurement bug" in that commit's own title). FIX: generalized Q111's per-level approach
+(`compute_region_vertebra_pieces` + `compute_level_disc_centers`, replacing the lumbar-only
+`compute_lumbar_disc_centers`) to all three regions -- vertebra fragments are identified by
+sorting each region's manifest records (7 cervical/12 thoracic/5 lumbar, one per real
+vertebra on both subjects, verified by count) on mean Y descending (needs no name/label id,
+unlike ct_vhf's lumbar-only `source_structure: "vertebrae_L1"` naming, which ct_vhm and every
+cervical/thoracic record on both subjects lack) -- and fixed `create_cylinder_mesh` to put
+the disc's axis on Y, radius on XZ. Regenerated all 21x2 disc OBJs, re-ran
+`ingest_intervertebral_discs.py` into `build/vh/ct_vhm`/`ct_vhf`. VERIFIED: centroids now
+strictly increase in Y from L4-L5 up to C1-C2 on both subjects (e.g. male cervical
+706.9->619.6 across C1-C2..C6-C7, following the actual vertebra spacing, not a fixed value);
+each disc's Y sits between its two adjacent vertebrae's own mean Y (checked structurally, see
+the new regression test); before/after sagittal renders
+(`disc_fix_male.png`/`disc_fix_female.png`, scratchpad) show discs collapsed into 3
+front-to-back blobs before, tracking the spine's real curve after. Disc volume: 99.89 cm³ each
+(identical across all 21 levels x 2 subjects -- expected, it's the same procedural 40mm-
+radius/20mm-thick cylinder at every level, not an anatomical measurement).
+
+Also ran the requested **systematic misplacement audit** of both rebuilt viewer bundles
+(`build/viewer_m/atlas_viewer_male.html`, `build/viewer_f/atlas_viewer_female.html`):
+sided-structure midline check (`_r`/`_l` centroid x vs. a piecewise spine x(y) built from
+every vertebra fragment's own centroid), muscle-centroid-vs-attachment-bone-bbox (>40mm
+outside), outside-skin-bbox, and per-block left/right pair midpoint vs. spine (>15mm).
+Excluded per the lead's instruction (already being fixed/fixed): male `ct_vhm_abw` and female
+`transversus_abdominis_l/_r` -- confirmed both fixes are already live in this build
+(`mirror_x_fix` marker present, `xfer_vhm2vhf_tva` subject present with correct sides).
+RESULT, full detail in `data/derived/Q148_misplacement_audit.json`: sided-midline and
+outside-skin checks came back essentially clean (one female geniohyoid_r finding at -1.2mm
+past the spine line -- noise, not a real swap). The muscle-vs-attachment-bbox check flagged
+13 muscles (gastrocnemius, sternocleidomastoid, biceps/triceps brachii, forearm extensors,
+etc.) but manual review found every one is a normal two-joint/long muscle whose belly
+legitimately sits in the natural gap between its two named attachment bones' bboxes (e.g.
+gastrocnemius: femur bbox and tarsal bbox don't overlap, leaving the whole calf as a "gap"
+the muscle belly properly occupies) -- NOT a placement bug, and noted as a heuristic
+limitation rather than filed as findings needing a fix. Block-symmetry flagged 3 male pairs
+just past the 15mm threshold (gastrocnemius 16.5mm, soleus 15.1mm, phalanges_hand 16.0mm, all
+in the recovered `vhm_both`/`ct_vhm_arm` blocks) -- plausible natural limb-pose asymmetry in
+the source photography rather than a coordinate bug (nothing like the abw's ~100mm mirror);
+queued for a visual check rather than fixed blind. Lead-noted nit carried into the same queue
+file (not fixed here, per the lead's own framing as a queue item): a thin stray strip at the
+male abdominal wall's top slice (y≈345) extends laterally to x≈-240 into the arm.
+Tests: 276 pass (272 + 4 new in `tests/test_intervertebral_discs.py`, parametrized over both
+subjects). Both viewers rebuilt: male 14.49MB, female 15.05MB (budget 15.5MB).
 
 Recent: Q143 (2026-09-23)
 shipped the "Z-Anatomy reference model" -- a THIRD viewer bundle, a standalone generic body,
