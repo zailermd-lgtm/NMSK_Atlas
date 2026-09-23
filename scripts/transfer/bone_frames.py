@@ -9,9 +9,13 @@ extent ratio, rotate out into hers. Nothing is fitted to soft tissue; the
 bones are the only measured correspondence between the two bodies.
 
 Truncated bones (the female humeri, radius and ulna end at the CT field of
-view) get a *similarity* from their proximal part instead: uniform scale
-from the transverse extents, so a missing distal end does not shrink the
-whole arm.
+view) get a *similarity* from whichever end IS present instead: uniform
+scale from the transverse extents, so the missing end does not shrink the
+whole arm. Which end is present is not the same for every truncated bone
+(Q142) -- `clip_top_mm` positive keeps the top (most-superior/proximal)
+slice, negative keeps the bottom (most-inferior/distal) slice; see
+scripts/transfer/cross_subject_transfer.py's TRUNCATED dict for which is
+which and why.
 """
 from __future__ import annotations
 
@@ -23,8 +27,12 @@ LONG_RATIO = 1.6   # ext0/ext1 above this: use principal axes; below: atlas axes
 def bone_frame(v: np.ndarray, clip_top_mm: float | None = None) -> dict:
     v = np.asarray(v, np.float64)
     if clip_top_mm is not None:
-        top = v[:, 1].max()
-        v = v[v[:, 1] >= top - clip_top_mm]
+        if clip_top_mm >= 0:
+            top = v[:, 1].max()
+            v = v[v[:, 1] >= top - clip_top_mm]
+        else:
+            bottom = v[:, 1].min()
+            v = v[v[:, 1] <= bottom - clip_top_mm]  # clip_top_mm negative: keep the bottom |clip_top_mm|
     c = v.mean(axis=0)
     X = v - c
     w, R = np.linalg.eigh(X.T @ X / len(X))

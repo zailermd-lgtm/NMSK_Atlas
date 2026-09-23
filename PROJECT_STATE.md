@@ -22,7 +22,89 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 258 tests pass. Recent: Q141 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 258 tests pass. Recent: Q142 (2026-09-23)
+phase 2 of the Z-Anatomy plan (registration + validation gate) -- SHIPPED NOTHING, a valid
+outcome the plan itself allowed for. Adapted `scripts/transfer/cross_subject_transfer.py`
+(new `--direction zan2f`/`zan2m`, reusing `build_bone_maps`/`blend_transfer`/`clip_to_skin`
+unchanged) to take Z-Anatomy as SOURCE via a new loader, `scripts/zanatomy/zan_source.py`,
+built on Q141's own inventory/name-map with no re-matching. Axis frame verified the same
+way `docs/GEOMETRY_SOURCES.md` verified the Visible Human STL frame -- anatomical tests on
+Z-Anatomy's OWN bones, not assumed: atlas +X(right)=-raw_x (gastrocnemius lateral-medial,
+femur L/R mirror), +Y(superior)=+raw_z (hip-bone-minus-calcaneus, +867.6mm), +Z(anterior)=
+-raw_y (tibialis-anterior-minus-soleus, -53.3mm); scale 1:1mm (femur raw z-extent 454.4mm
+already matches Q141's reported length). Loader also fixed 3 real Q141 name-map artifacts
+found while building it, ALL kept since they measurably improve what gets registered: (1)
+`extensor_carpi_ulnaris_r` had no merged Z-Anatomy object, so a naive largest-vertex pick
+chose its TENDON SHEATH (482 vertices) over its two real heads (411+292) -- fixed by
+excluding cross-tissue name substrings ("tendon sheath"/"bursa"/"fascia"/"ligament of")
+per target category and unioning distinct real sub-parts instead of picking one; (2)
+`Infraspinatus muscle.or` (6728 vertices, muscle-scale bbox) is filed under Z-Anatomy
+system=Skeletal, not Muscular -- a scapula-surface insertion decal, near-zero enclosed
+volume despite the vertex count/bbox -- fixed by restricting each atlas category to its
+plausible Z-Anatomy systems; (3) Z-Anatomy's own ".e*"/".o*" UI-highlight duplicate
+objects sometimes outsize the real object (this project's own `.or`/`.er` naming
+convention isn't itself the tell) -- fixed by dropping any base-name group under 25% of
+the group's own max vertex count. Also found and fixed a REAL PRE-EXISTING bug this
+exposed in `scripts/transfer/bone_frames.py`/`cross_subject_transfer.py`'s `TRUNCATED`
+handling: the female's humerus is missing its DISTAL ~100mm (so proximal-200mm clip is
+right, unchanged), but her radius/ulna are missing their PROXIMAL ~50/110mm (opposite --
+`viewer/atlas_viewer.template.html`'s own `ct_vhf_armb` note), so the blanket "clip to
+top 200mm" compared Z-Anatomy's wide proximal olecranon/head against her narrow distal
+shaft, undersizing any muscle on those bones by roughly (17/35)^3=~0.12x. `TRUNCATED` is
+now a per-bone `{"top","bottom"}` dict; confirmed by grep of `transfer_report_vhm2vhf.json`
+that ZERO currently-shipped structures are driven by `radius_r`/`ulna_r` (her real
+`ct_vhf_forearm` already covers that region), so this is a latent-bug fix with no effect
+on anything already shipped -- never previously exercised.
+
+VALIDATION GATE, run on the female (real geometry check against `build/viewer_f`'s live,
+non-transferred meshes; skin-clip and bulk/envelope correction deliberately left at
+defaults since this is a registration-quality measurement, not a shipping run): 14
+structures across 3 regions Z-Anatomy could match with an exact/confident name AND that
+already have real geometry on her -- her right forearm (FDP/APL/brachioradialis/ECU/ECRB/
+ECRL, driven by humerus_r+radius_r+ulna_r), her rotator cuff (infraspinatus/teres_minor/
+teres_major/supraspinatus/subscapularis, driven by scapula_r+humerus_r), and her erector
+spinae columns (longissimus/iliocostalis/spinalis, driven by vertebral-column bones) --
+sciatic_n and femoral_n were EXCLUDED from the gate (not a registration problem: their own
+entity records carry no `region` field at all, a nerve-category data gap, so
+`REGION_BONES` silently fell back to head/neck bones; not fixed here, out of Q142 scope).
+Metric: centroid distance, signed-volume ratio, and Dice/IoU on a 2mm-voxel grid
+(`scripts/zanatomy/validate_registration.py`, `data/derived/Q142_zanatomy_validation_
+forearm.json` / `..._shoulder_spine.json`). Results (dice, sorted): ECRB 0.008,
+supraspinatus 0.009, ECRL 0.023, subscapularis 0.047, teres_major 0.057, brachioradialis
+0.06, spinalis 0.08, ECU 0.103, APL 0.135, iliocostalis 0.236, longissimus 0.254,
+infraspinatus 0.357, teres_minor 0.393, FDP 0.472 (best of all 14). Median dice 0.09.
+Volume ratios mostly 0.42-0.95 (plausible order of magnitude, systematically undersized,
+consistent with a larger generic body scaled onto her smaller frame) but 2 clear outliers
+(subscapularis 0.05, teres_major 0.13) where the picked Z-Anatomy source object itself
+covers only part of the real muscle. Centroid error 18-83mm on structures 110-540mm long.
+
+ACCEPTANCE BAR, stated from these numbers, not reverse-fit to justify a result: dice >=
+0.5 (at least half the predicted and real volume actually overlap -- below this a
+clinician planning an injection off this geometry would be as likely to be misled as
+helped) AND volume ratio in [0.7, 1.4] AND centroid error <= 15% of the structure's own
+extent. 0 of 14 structures clear dice >= 0.5 alone (FDP's 0.472 is closest and still
+fails); the other two criteria were not even needed to decide. Root causes, not just the
+number: (1) bone-driven piecewise-affine is validated for VH-male<->VH-female transfer
+(two real bodies segmented by the same conventions) but a SCHEMATIC/generic Z-Anatomy
+source's muscle bellies and attachment footprints don't match a real specimen's individual
+anatomy closely enough for a coarse per-bone affine to recover, even once axes/truncation
+are correct; (2) thin/sheet muscles (supraspinatus: volume ratio 0.52 but dice 0.009) are
+inherently dice-fragile even at the right volume; (3) blending across THREE simultaneously
+-truncated bones (the forearm) compounds (1) on top of the bug found and fixed above.
+
+DECISION: shipped nothing -- no `zan_vhf` subject, no bundle rebuild, no entity record or
+`vhf_rebuild_bundle.sh` change, per the plan's own explicit "if registration quality is
+poor everywhere, ship nothing" clause. Completeness recount
+(`scripts/recount_tissue_gaps.py`) unchanged (nothing shipped, so before=after): bones 30,
+bursae 45, cartilage 26, fascia 103, ligaments 79, muscles 199, nerves 299, tendons 45,
+vascular 388 still missing on both bodies. The reusable, now-corrected infrastructure
+(`zan_source.py`, `cross_subject_transfer.py`'s zan2f/zan2m support, the TRUNCATED
+direction fix) stays committed for a future attempt at a different registration method;
+the Z-Anatomy geometry itself (`build/zanatomy/`) is unaffected and still gitignored/
+reproducible. 258 tests pass, unchanged. Full validation tables in the two
+`data/derived/Q142_zanatomy_validation_*.json` files and the two
+`data/derived/transfer_report_zan_validation_*.json` transfer self-reports.
+Recent: Q141 (2026-09-23)
 phase 1 of the Z-Anatomy licensing-scaffold decision above: extracted the pinned Z-Anatomy clone's
 FBX geometry with `bpy` (Blender's Python API, isolated venv `build/.venv-bpy`, not the project's
 main numpy) via `scripts/zanatomy/extract_fbx.py` -- 3572 real objects kept across 7 systems (970

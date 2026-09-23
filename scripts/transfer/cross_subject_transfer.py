@@ -36,10 +36,22 @@ sys.path.insert(0, str(REPO))
 from scripts.transfer.bundle_io import read_bundle_html, read_bundle_dir, meshes_by_id, mesh_volume_cm3, own_only  # noqa: E402
 from scripts.transfer.bone_frames import bone_frame, bone_affine, apply  # noqa: E402
 from scripts.transfer import lean_envelope as le  # noqa: E402
+from scripts.zanatomy import zan_source  # noqa: E402
 
-# bones whose distal end lies outside one of the CT fields of view: mapped by a
-# similarity fitted to the proximal 200 mm, so the missing end does not scale the arm
-TRUNCATED = {"humerus_r", "humerus_l", "radius_r", "ulna_r", "radius_l", "ulna_l"}
+# bones truncated by a CT field of view: mapped by a similarity fitted to whichever
+# 200 mm IS present, so the missing end does not scale the arm. Direction is per bone,
+# not uniform -- checked against docs/GEOMETRY_SOURCES.md's own FOV notes rather than
+# assumed: the female's humerus lacks its DISTAL ~100 mm (elbow view clip), so its
+# proximal 200 mm is used ("top", clip_top_mm's original and only behaviour); her
+# radius/ulna instead lack their PROXIMAL ~50/110 mm (viewer/atlas_viewer.template.html's
+# ct_vhf_armb note), so their DISTAL 200 mm must be used instead ("bottom") -- Q142 found
+# this reversed pair while validating the Z-Anatomy forearm registration (a uniform "top"
+# clip was comparing her distal, narrow radius/ulna shaft against Z-Anatomy's proximal,
+# wide olecranon/head end, undersizing every muscle registered onto them by roughly
+# (17/35)**3 =~ 0.12x). Never previously exercised: no existing m2f/f2m transfer drives a
+# structure through radius_r/ulna_r (her own real ct_vhf_forearm covers that region).
+TRUNCATED = {"humerus_r": "top", "humerus_l": "top",
+             "radius_r": "bottom", "ulna_r": "bottom", "radius_l": "bottom", "ulna_l": "bottom"}
 K_NEAREST = 3
 SOFTEN_MM = 8.0
 MIN_VERTICES = 64      # smaller source pieces are label fragments (the female's 'temporal'/'zygomatic' are 2 mm boxes)
@@ -69,13 +81,17 @@ NOT_TRANSFERABLE = {
     "m2f": {k: "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them"
             for k in ("carpals_l", "metacarpals_l", "phalanges_hand_l", "radius_l", "ulna_l")},
     "f2m": {},
+    "zan2f": {k: "the female's left forearm and hand lie outside her CT field of view; no bone on that side to drive them"
+              for k in ("carpals_l", "metacarpals_l", "phalanges_hand_l", "radius_l", "ulna_l")},
+    "zan2m": {},
 }
 SOURCE_TRUST = {"vhm_both": "manual segmentation of his cryosections (DU release)",
                 "ct_vhm_pmr": "RULE-BASED on the male (position rules on his photographs)",
                 "ct_vhm_armm": "RULE-BASED on the male (compartment rules on his photographs)",
                 "ct_vhm_abw": "RULE-BASED on the male (depth-fraction rules on his photographs)",
                 "ct_vhm_delt": "RULE-BASED on the male", "ct_vhm_cuff": "RULE-BASED on the male",
-                "ct_vhm_es": "RULE-BASED on the male", "ct_vhm_arm": "CT + photograph watershed on the male"}
+                "ct_vhm_es": "RULE-BASED on the male", "ct_vhm_arm": "CT + photograph watershed on the male",
+                "zanatomy": "Z-Anatomy (CC BY-SA 4.0), a GENERIC body model -- not segmented from this specimen"}
 
 
 def side_of(aid, m):
@@ -90,9 +106,10 @@ def build_bone_maps(src, dst):
     for aid, m in src.items():
         if m["cat"] != "bone" or aid not in dst or dst[aid]["cat"] != "bone":
             continue
-        clip = 200.0 if aid in TRUNCATED else None
+        direction = TRUNCATED.get(aid)
+        clip = {"top": 200.0, "bottom": -200.0}.get(direction)
         fs, fd = bone_frame(m["v"], clip), bone_frame(dst[aid]["v"], clip)
-        A, t = bone_affine(fs, fd, uniform=aid in TRUNCATED)
+        A, t = bone_affine(fs, fd, uniform=direction is not None)
         maps[aid] = {"A": A, "t": t, "side": side_of(aid, m), "tree": cKDTree(m["v"]),
                      "det": float(np.linalg.det(A)), "src": fs, "dst": fd}
     return maps
@@ -209,9 +226,16 @@ def clip_to_skin(nv, inside_margined):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--direction", choices=["m2f", "f2m"], required=True)
-    ap.add_argument("--male-html", required=True)
-    ap.add_argument("--female-bundle", default="build/viewer_f")
+    ap.add_argument("--direction", choices=["m2f", "f2m", "zan2f", "zan2m"], required=True,
+                    help="m2f/f2m: one Visible Human body onto the other (as before). zan2f/zan2m: Q142's "
+                         "Z-Anatomy source (data/derived/zanatomy_name_map.json's exact/confident matches, "
+                         "scripts/zanatomy/zan_source.py) onto the female or male Visible Human body.")
+    ap.add_argument("--male-html", help="required for m2f/f2m/zan2m (the male body's own current bundle)")
+    ap.add_argument("--female-bundle", default="build/viewer_f",
+                    help="the female body's own current bundle; used as the target for m2f/f2m/zan2f")
+    ap.add_argument("--zanatomy-dir", default=str(zan_source.DEFAULT_ZAN_DIR))
+    ap.add_argument("--zanatomy-inventory", default=str(zan_source.DEFAULT_INVENTORY))
+    ap.add_argument("--zanatomy-namemap", default=str(zan_source.DEFAULT_NAMEMAP))
     ap.add_argument("--anthro", default="data/derived/subject_anthropometrics.json")
     ap.add_argument("--bulk", type=float, default=None,
                     help="transverse bulk factor for lower-limb muscles (default: the anthropometrics file's "
@@ -226,11 +250,27 @@ def main():
     ap.add_argument("-o", "--out", required=True)
     ap.add_argument("--report", default=None)
     a = ap.parse_args()
+    if a.direction in ("m2f", "f2m", "zan2m") and not a.male_html:
+        ap.error(f"--direction {a.direction} needs --male-html")
 
-    mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp); M = own_only(meshes_by_id(bm, blob))
-    bf, blobf = read_bundle_dir(a.female_bundle); F = own_only(meshes_by_id(bf, blobf))
-    src, dst = (M, F) if a.direction == "m2f" else (F, M)
-    src_name, dst_name = ("vhm", "vhf") if a.direction == "m2f" else ("vhf", "vhm")
+    M = F = {}
+    if a.direction in ("m2f", "f2m", "zan2m"):
+        mp = Path(a.male_html); bm, blob = read_bundle_dir(mp) if mp.is_dir() else read_bundle_html(mp)
+        M = own_only(meshes_by_id(bm, blob))
+    if a.direction in ("m2f", "f2m", "zan2f"):
+        bf, blobf = read_bundle_dir(a.female_bundle); F = own_only(meshes_by_id(bf, blobf))
+    if a.direction == "m2f":
+        src, dst, src_name, dst_name = M, F, "vhm", "vhf"
+    elif a.direction == "f2m":
+        src, dst, src_name, dst_name = F, M, "vhf", "vhm"
+    elif a.direction == "zan2f":
+        src = zan_source.load_source(inventory_path=a.zanatomy_inventory, namemap_path=a.zanatomy_namemap,
+                                      zan_dir=a.zanatomy_dir)
+        dst, src_name, dst_name = F, "zanatomy", "vhf"
+    else:  # zan2m
+        src = zan_source.load_source(inventory_path=a.zanatomy_inventory, namemap_path=a.zanatomy_namemap,
+                                      zan_dir=a.zanatomy_dir)
+        dst, src_name, dst_name = M, "zanatomy", "vhm"
     anthro = json.loads(Path(a.anthro).read_text()) if Path(a.anthro).exists() else {}
     bulk_cfg = anthro.get("muscle_bulk_transverse", {}).get(a.direction, {})
     bulk = {"lower_limb": a.bulk if a.bulk is not None else float(bulk_cfg.get("lower_limb", 1.0)),
@@ -311,27 +351,43 @@ def main():
     Fc = np.concatenate(faces) if faces else np.zeros((0, 3), np.uint32)
     V.astype(np.float32).tofile(out / "vertices.f32"); Fc.astype(np.uint32).tofile(out / "faces.u32")
     subject = out.name
-    attribution = [
-        f"TRANSFERRED, NOT MEASURED ON THIS BODY: geometry from the Visible Human {'male' if a.direction == 'm2f' else 'female'} "
-        f"carried onto the {'female' if a.direction == 'm2f' else 'male'} by bone-driven piecewise affine maps "
-        f"(scripts/transfer/cross_subject_transfer.py); lower-limb muscles "
-        + ("re-placed radially inside this body's measured muscle compartment (lean envelope from her cryosections)"
-           if env_src and env_dst else f"scaled transversely by {bulk['lower_limb']:.2f}")
-        + f"; other muscles scaled by {bulk['default']:.2f}. An estimate of position and size on this body; the "
-        "boundaries between neighbouring muscles are the other donor's.",
-        "Anatomical imagery courtesy of the U.S. National Library of Medicine (Visible Human Project).",
-    ]
-    if a.direction == "m2f":
-        attribution.append(
-            "Lower-extremity musculoskeletal geometry derived from Andreassen TE, Hume DR, Hamilton LD, Walker KE, "
-            "Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible "
-            "Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, used under CC BY 4.0.")
+    is_zan = a.direction.startswith("zan")
+    if is_zan:
+        attribution = [
+            "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: geometry from Z-Anatomy (CC BY-SA 4.0), a generic "
+            "anatomical body model (not this project's own subject), registered onto this specimen's own bones "
+            "by the same bone-driven piecewise affine maps used for the Visible Human male/female cross-subject "
+            "transfer (scripts/transfer/cross_subject_transfer.py, Z-Anatomy source: scripts/zanatomy/zan_source.py). "
+            "An estimate of position and size on this body, not a measurement of it; shipped only where this "
+            "project has no real-data mesh for the structure on this body, and only for regions measured against "
+            "this project's own real geometry first (see PROJECT_STATE.md Q142's validation table).",
+            "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by "
+            "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. "
+            "Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike).",
+        ]
+    else:
+        attribution = [
+            f"TRANSFERRED, NOT MEASURED ON THIS BODY: geometry from the Visible Human {'male' if a.direction == 'm2f' else 'female'} "
+            f"carried onto the {'female' if a.direction == 'm2f' else 'male'} by bone-driven piecewise affine maps "
+            f"(scripts/transfer/cross_subject_transfer.py); lower-limb muscles "
+            + ("re-placed radially inside this body's measured muscle compartment (lean envelope from her cryosections)"
+               if env_src and env_dst else f"scaled transversely by {bulk['lower_limb']:.2f}")
+            + f"; other muscles scaled by {bulk['default']:.2f}. An estimate of position and size on this body; the "
+            "boundaries between neighbouring muscles are the other donor's.",
+            "Anatomical imagery courtesy of the U.S. National Library of Medicine (Visible Human Project).",
+        ]
+        if a.direction == "m2f":
+            attribution.append(
+                "Lower-extremity musculoskeletal geometry derived from Andreassen TE, Hume DR, Hamilton LD, Walker KE, "
+                "Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible "
+                "Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, used under CC BY 4.0.")
     manifest = {"subject": subject, "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
                 "source_volume": None, "source_kind": f"cross-subject transfer {src_name} -> {dst_name}",
                 "vertex_count": int(len(V)), "triangle_count": int(len(Fc)),
                 "bbox_min_mm": [round(float(x), 4) for x in V.min(axis=0)] if len(V) else None,
                 "bbox_max_mm": [round(float(x), 4) for x in V.max(axis=0)] if len(V) else None,
                 "attribution": attribution,
+                "license": "CC-BY-SA-4.0" if is_zan else None,
                 "bone_maps": {b: {"det": round(mp["det"], 3), "side": mp["side"],
                                   "src_extent_mm": [round(float(x), 1) for x in mp["src"]["ext"]],
                                   "dst_extent_mm": [round(float(x), 1) for x in mp["dst"]["ext"]]}
