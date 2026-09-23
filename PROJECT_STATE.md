@@ -135,6 +135,16 @@ this bounded 1-D one; the same generic nerve-side-split fix could in principle a
 re-run against `data/derived/zanatomy_name_map.json` regenerations if Z-Anatomy is ever
 re-extracted at a newer pinned commit.
 
+Lead-agent review of Q144 (2026-09-23): all six PMIDs fetched from PubMed and the quoted
+numbers match the abstracts. Lead for (d): Artico 2008 (PMID 18795220) explicitly measured
+"site of division of the radial nerve into its superficial and posterior interosseous
+branches" -- the value is in the full text, not the abstract; get it before calling (d)
+unsourced. Note (e) target 39-46 mm combines Aggarwal c=42.6 mm-from-LE with Hazani's
+~35 mm-from-radial-head (different reference point) -- keep the two references separate
+in the correction file when (e) is finished.
+**Queued Q145:** finish the PIN entry correction with a bounded 3-D (X/Y/Z) warp +
+bone-avoidance, and resolve (d) from Artico 2008 full text if accessible.
+
 Recent: Q143 (2026-09-23)
 shipped the "Z-Anatomy reference model" -- a THIRD viewer bundle, a standalone generic body,
 per Q142's own conclusion that registering Z-Anatomy onto either real specimen is too
