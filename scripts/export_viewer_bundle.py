@@ -215,7 +215,7 @@ def resolve_anchor_points(subject: str):
         return {}
     from scripts.audit_landmarks_vs_geometry import load_geometry as _load_geom, build_frames, place
     _manifest, blocks, by_atlas_id, faces_by_atlas_id = _load_geom(subject)
-    frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
+    frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id, _manifest)
     # The anchors' along-axis coordinates are millimetres on the MALE bone;
     # `place` stretches them by this subject's measured length over the
     # bone's reference_length_mm (Q43), so the same anchor sits at the same

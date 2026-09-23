@@ -542,6 +542,63 @@ def nearest_distance(points: np.ndarray, cloud: np.ndarray, chunk: int = 256):
     return out
 
 
+def _with_colocated_bones(by_atlas_id: dict, manifest: dict | None) -> dict:
+    """`by_atlas_id`, filled out with bones from OTHER already-converted
+    subjects that are PROVABLY in this subject's own coordinate space --
+    not merely the same body. Registering two independently-segmented
+    scans of the same person is real image-registration work this script
+    does not attempt; this only recognises when that work was never
+    needed in the first place.
+
+    `scripts/transfer/bundle_to_subjects.py` partitions ONE decimated
+    viewer bundle into per-subject folders purely by an entity's own
+    recorded `subject` tag, copying every vertex unchanged -- no
+    transform, no re-origin, nothing fitted. So any two subjects whose
+    manifests carry the IDENTICAL `source_kind` string naming that
+    recovery ("recovered from the published ... viewer (Version N)")
+    came out of that one split and share their world frame down to the
+    bit. That is the male's actual situation: `ct_vhm` holds his scapulae,
+    `ct_vhm_arm` his humeri, both cut from the one 'recovered from the
+    published male viewer (Version 25)' bundle -- confirmed empirically,
+    not just by label, before this was written: their Y-extents overlap
+    exactly where the glenohumeral joint should sit (scapula 444-608 mm,
+    humerus 250-590 mm).
+
+    A `source_kind` of anything else ('labelled volume (NIfTI)', etc.) is
+    NOT treated as colocation: that text recurs across genuinely
+    different, independently-segmented scans (the female's CT, the
+    male's own separately-ingested neck/foot volumes) with no shared
+    frame at all, so this only ever fires for subjects tagged with a
+    specific bundle-recovery provenance, never a generic ingest kind.
+    """
+    kind = (manifest or {}).get("source_kind", "")
+    this_subject = (manifest or {}).get("subject")
+    if not kind.startswith("recovered from the published") or this_subject is None:
+        return by_atlas_id
+    merged = None
+    for d in sorted(BUILD_DIR.iterdir()):
+        if not d.is_dir() or d.name == this_subject:
+            continue
+        mpath = d / "manifest.json"
+        if not mpath.exists():
+            continue
+        try:
+            other = json.loads(mpath.read_text())
+        except Exception:
+            continue
+        if other.get("source_kind") != kind:
+            continue
+        missing = {r["atlas_id"] for r in other["structures"]} - by_atlas_id.keys()
+        if not missing:
+            continue
+        _, _, sib_by_atlas_id, _ = load_geometry(d.name)
+        for aid in missing:
+            if aid in sib_by_atlas_id:
+                merged = merged if merged is not None else dict(by_atlas_id)
+                merged[aid] = sib_by_atlas_id[aid]
+    return merged if merged is not None else by_atlas_id
+
+
 def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
     """Every bone frame this script can MEASURE, as
     {entity_id: (origin, basis, how it was found, which axes are fitted,
@@ -557,6 +614,7 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
     via point is stored in a bone's local coordinates, and putting it in
     the world needs exactly this.
     """
+    by_atlas_id = _with_colocated_bones(by_atlas_id, manifest)
     frames = {}
     for side, tag in (("r", "right"), ("l", "left")):
         head = find(blocks, tag, "cartilage", "femurhead")
