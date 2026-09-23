@@ -909,6 +909,91 @@ still waiting — unrelated to the CT work above.
    mesh of any kind, a different, harder gap than the male's fused-naming
    mismatch -- not attempted. Did NOT publish/deploy (blocked all day per
    standing instruction, not retried).
+
+   **Q139 (2026-09-23): audited the 40, and Q138's own count does not
+   reproduce.** Rebuilt the pre-Q138 `viewer_m` bundle from the parent
+   commit (`4a6bbd8`, same `build/vh` inputs, same unchanged
+   `export_viewer_bundle.py`) and diffed it structure-by-structure against
+   the shipped post-Q138 bundle -- the direct, reproducible way to find
+   what actually changed, since `anchors.json` itself doesn't move for
+   origin/insertion anchors (those are text-matched independent of
+   whether the frame builds; only `muscle_via_point` entries are new
+   there). Real result: **20 muscle ids, 22 origin-or-insertion
+   resolutions** newly appear (not 40) -- `fibularis_longus_{r,l}`,
+   `gastrocnemius_{r,l}`, `gracilis_{r,l}`, `plantaris_{r,l}`,
+   `sartorius_{r,l}`, `semimembranosus_{r,l}`, `semitendinosus_{r,l}`,
+   `soleus_{r,l}` (gains both origin AND insertion), `tibialis_
+   anterior_{r,l}`, `tibialis_posterior_{r,l}` (each of the other 9 gains
+   one endpoint, the one on tibia/tarsals/metatarsals; `tibialis_
+   anterior`'s origin stays unresolved both before and after, exactly as
+   Q138 itself disclosed -- a text-matching gap, not this fix's problem).
+   No other muscle referencing tibia/tarsals/metatarsals (the other 36
+   files matching that bone text, mostly foot intrinsics) changed state
+   either way. Where Q138's "40" came from is not established; flagging
+   the correction rather than guessing.
+
+   **Plausibility, all 22**: every one lands on/near its OWN declared
+   bone (0.4-13.3 mm to the real mesh surface, using the same nearest-
+   surface method and the same per-side tarsal-piece union this project's
+   audit already uses for `tarsals_{r,l}`), cross-checked against every
+   OTHER real bone mesh to rule out a wrong-structure match -- none
+   floats in space, none is nearer a different bone than its own. The
+   13.3/12.5 mm figures (`tibialis_anterior`/`fibularis_longus`
+   insertion, both on `metatarsals_{side}`) are the same range this
+   project's own audit already reports for that landmark generally, not
+   a new outlier. Ran the project's own via-segment `path_through_bone`
+   check (`scripts/audit_landmarks_vs_geometry.py`) on every via-carrying
+   one of the 22: `fibularis_longus`/`soleus`/`plantaris` via->insertion
+   segments are CLEAR both sides (their via and insertion sit close
+   together on the same tarsal cluster, unlike semitendinosus's). Only
+   semitendinosus's via->insertion segment is blocked -- the one issue
+   Q138 already disclosed, independently reproduced here at 9.7 mm (l) /
+   12.3 mm (r) (Q138 reported 12.4 mm, matching within sampling/method
+   noise). The plain origin<->insertion or origin->via chords of
+   `gastrocnemius`/`semimembranosus`/`semitendinosus` also cross a bone
+   in a straight-line sense (femur, mostly) -- but that is the SAME
+   pre-existing, already-documented "muscle bellies carry no tendon, a
+   straight chord to a wrapping insertion can cross the bone it wraps"
+   limitation this project's own audit already lists by name elsewhere
+   (e.g. `gastrocnemius_{r,l}_origin` was already in that list before
+   this item existed) -- not a new defect these 22 introduced, and out
+   of this item's scope (Part A asked about the same check that flagged
+   semitendinosus, i.e. the via-to-insertion segment specifically).
+   **Verdict: 22/22 clean** on placement; 2/22 (semitendinosus
+   insertion, both sides) carry the already-disclosed visual-path issue,
+   confirmed, not new.
+
+   **Semitendinosus fix attempt: DECLINED, honestly.** Measured the
+   penetration directly (25-sample profile along the real via-
+   >insertion line against the real `tibia_{l,r}` mesh) instead of
+   guessing where a second point should go: the line is INSIDE the bone
+   continuously for about 29 of its 39 mm (from the via point itself,
+   which already sits ~4-5 mm inside the real surface, out to ~75% of
+   the way to the insertion), peaking at 9.4 mm (l) / 12.3 mm (r) around
+   its middle, not one narrow spike. Checked `tibia_{l,r}`'s own
+   landmark list in `data/skeleton/bones.json` for anything real between
+   the via point (y=-10) and the insertion (y=-50): there is nothing --
+   the only two named features in that whole span are the two already in
+   use. The bulge is one continuous, smoothly convex part of the same
+   tibial metaphyseal flare the via point is already named for, not a
+   second distinct, independently-nameable structure -- and the
+   measured shape confirms a single extra point would not even fix it
+   (the first ~10 mm past the via point are already 6-9 mm deep before
+   any "second bulge" is reached), so real clearance needs the path to
+   hug the bone's surface for its whole length: wrap-surface geometry,
+   which Q138 already named as explicitly out of scope, not one more
+   landmark. No coordinate invented; nothing changed. This remains a
+   visual-path nicety, not a correctness bug -- the via-to-insertion
+   segment sits on ONE bone frame (tibia), so it correctly contributes
+   zero to the kinematic moment arm regardless of its straight-line
+   shape (Q138's own decomposition), and the viewer does not render
+   tendon paths as polylines today.
+
+   **No data changed.** Measurement-only session: `anchors.json`, every
+   muscle file, `data/skeleton/bones.json` untouched; `build/viewer_m`
+   not rebuilt (nothing to rebuild). 258/258 tests still pass, unchanged.
+   Did NOT publish/deploy (blocked all day per standing instruction, not
+   retried).
 10. ~~Flexor hallucis brevis is refused an anchor... per-compartment
    anchors would fix it.~~ **Fixed** — `generate_anchors.py` now splits a
    muscle's one `attachments` text into one clause per compartment when
