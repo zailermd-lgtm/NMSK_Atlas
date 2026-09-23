@@ -7827,3 +7827,33 @@ the female's phalanges are under-captured at HU 200.
   target Q105c was chasing via a memory-infeasible 1mm re-voxelization. No further rib-continuity work needed.
 - Q7 (female sciatic nerve): Requires manual seeding + full-res thigh crops
 - Q54 (popliteal nerve): Tracking failed; four detector variants tested, none successful
+- Q140 (2026-09-23) muscle completeness (199/433 no mesh, `Q117_full_completeness_audit.json`): investigated
+  whether more TotalSegmentator (TS) tasks on `ct_vhm`/`ct_vhf` could close the gap. TS itself is installable
+  here (pypi 200) and its weights host (`github.com/wasserth/TotalSegmentator/releases/download/...`) is
+  reachable through the proxy (404 on a probe filename, not 403/blocked -- only the plain `.../releases` HTML
+  page 403s); `torch` is NOT currently installed but is pip-installable. Raw VH CT intensity volumes are NOT
+  present locally (only prior tasks' label outputs are, e.g. `data/ct_sources/task_outputs/vh{m,f}_total.nii.gz`,
+  a few MB each) -- would need re-fetch via `scripts/download_idc_series.py` (IDC/storage.googleapis.com, as in
+  Q79/Q125) before any new task could run. **Did not get that far**: enumerated every TS task's full label set
+  (`totalsegmentator/map_to_binary.py`, all ~40 tasks incl. `head_muscles`, `headneck_muscles`,
+  `headneck_bones_vessels`, `abdominal_muscles`, `oculomotor_muscles`, `craniofacial_structures`,
+  `thigh_shoulder_muscles`) against the 110 distinct missing muscle names and found ZERO overlap -- not a
+  licensing exclusion, TS simply has no output class for any of them. The missing set is entirely: facial
+  mimetic muscles (frontalis, orbicularis oculi/oris, buccinator, zygomaticus, nasalis, procerus, mentalis,
+  risorius, levator/depressor labii/anguli oris), ear muscles (auricularis x3, tragicus, antitragicus, helicis,
+  stapedius, tensor tympani), laryngeal/palate/pharynx muscles (vocalis, cricoarytenoids, arytenoids,
+  cricothyroid, thyroarytenoid, levator/tensor veli palatini, palatoglossus, palatopharyngeus, salpingopharyngeus,
+  musculus uvulae, stylopharyngeus), intrinsic tongue muscles beyond genioglossus (TS's `head_muscles` gives one
+  undifferentiated tongue blob, no superior/inferior/transverse/vertical split), intrinsic hand/foot muscles
+  (interossei, lumbricals, opponens, abductor/flexor/adductor pollicis/hallucis/digiti minimi, quadratus
+  plantae), individual forearm muscles (extensor/flexor carpi radialis/ulnaris, digitorum superficialis/
+  profundus, pollicis longus/brevis, pronator teres/quadratus, supinator, brachioradialis, anconeus, palmaris
+  longus/brevis), and short deep trunk/spinal muscles (rotatores, interspinales, intertransversarii, levatores
+  costarum, subcostales, internal/innermost intercostals, transversus thoracis, splenius capitis/cervicis,
+  serratus posterior sup/inf) plus perineum/scrotal (cremaster, dartos, superficial transverse perineal).
+  `thigh_shoulder_muscles` (the one TS muscle task that IS non-commercial-licensed and would've been excluded
+  per Q140's rules anyway) also has no overlap -- its labels (deltoid, supraspinatus, teres major, etc.) are
+  already shipped via the project's own custom pipeline. **Conclusion: no further TotalSegmentator task run is
+  useful for this gap; nothing shipped, nothing declined-for-license (nothing qualified in the first place).**
+  Closing this gap needs a different approach entirely (dedicated small-muscle/high-res segmentation or manual
+  atlas work), out of scope here. Tests: 258 pass, unchanged. No data/code changes.
