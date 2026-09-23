@@ -10,7 +10,15 @@
     "origin_landmark": "ischial tuberosity, inferomedial facet of the upper area (conjoint tendon with biceps femoris long head)",
     "insertion_bone": "tibia_r",
     "insertion_landmark": "pes anserinus (medial proximal tibia, with sartorius and gracilis)",
-    "via_points": []
+    "via_points": [
+      {
+        "structure": "posteromedial tibial condyle -- the tendon curves around it before turning anteriorly to the pes anserinus insertion, ~40mm further distal (Gray's Anatomy for Students, 4th ed.; Herzog W, Read LJ, J Anat 182:213 (1993), on the wrap this project's straight-line moment-arm method omits)",
+        "bone_frame": "tibia_r",
+        "position_local_mm": [-22, -10, -18],
+        "active_over_joint_range": "knee flexion, full range -- the wrap is present near extension and does not disengage in flexion",
+        "notes": "Q138: same real, mesh-verified coordinate already carried on tibia_r's own landmark list as 'posteromedial tibial condyle (semimembranosus insertion)' (data/skeleton/bones.json) -- reused here as semitendinosus's own via point rather than re-measured, because both tendons pass this same bony corner (semimembranosus inserts directly there; semitendinosus's tendon wraps it en route to pes anserinus). Not invented: verified inside tibia_r's own bounding box, 5.3mm from the nearest tibia surface vertex (scripts/audit_landmarks_vs_geometry.py's own distance-to-surface check)."
+      }
+    ]
   },
   "innervation": {
     "nerve": "sciatic_n",

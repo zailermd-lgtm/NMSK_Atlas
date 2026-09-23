@@ -654,6 +654,73 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
                 centre, plaf.mean(axis=0), trans), "centroid of both tibial "
                 "plateau cartilages; long axis toward the plafond, transverse "
                 "axis from lateral-minus-medial plateau", "both")
+        elif f"tibia_{side}" not in frames:
+            # Q138: this release ("recovered from the published male viewer")
+            # does not carry separate tibialateral/tibialmedial/tibiadistal
+            # sub-meshes at all -- it ships ONE fused 'knee_articular_
+            # cartilage_{side}' mesh instead, which is exactly the gap
+            # scripts/generate_tendon_connectors.py's own docstring already
+            # documents (Q118) as the reason build_frames() could not
+            # construct a tibia frame. The femoral-condyle cap and the two
+            # tibial-plateau pads are real, physically separate anatomy with
+            # no shared mesh vertex between them (confirmed here by mesh
+            # connectivity, the same technique Q130 used to pull individual
+            # vertebrae out of a fused CT label) -- they were only ever fused
+            # under one filename, not one mesh. Which piece is which is not
+            # assumed from position: each candidate tibial piece is checked
+            # against the REAL tibia bone mesh by nearest-surface distance
+            # before it is used, exactly the house standard applied to every
+            # other landmark in this file.
+            knee_verts = by_atlas_id.get(f"knee_articular_cartilage_{side}")
+            knee_faces = faces_by_atlas_id.get(f"knee_articular_cartilage_{side}")
+            tibia_mesh = by_atlas_id.get(f"tibia_{side}")
+            femur_mesh = by_atlas_id.get(f"femur_{side}")
+            if (knee_verts is not None and knee_faces is not None
+                    and tibia_mesh is not None and len(knee_verts) >= 150):
+                from scipy.spatial import cKDTree
+                comps = _mesh_components_by_height(knee_verts, knee_faces, min_size=50)
+                tib_pieces = []
+                tibia_tree = cKDTree(tibia_mesh)
+                femur_tree = cKDTree(femur_mesh) if femur_mesh is not None else None
+                for c in comps:
+                    d_tib, _ = tibia_tree.query(c)
+                    if femur_tree is not None:
+                        d_fem, _ = femur_tree.query(c)
+                        if d_fem.mean() < d_tib.mean():
+                            continue  # closer to the femur: the condylar cap, not tibial
+                    tib_pieces.append((c, d_tib.mean()))
+                # Real acceptance check, not an assumption: exactly two
+                # pieces, and both genuinely touching the tibia surface
+                # (a joint-cartilage gap of a few mm, never tens of mm).
+                if len(tib_pieces) == 2 and max(d for _, d in tib_pieces) <= 5.0:
+                    (piece_a, _), (piece_b, _) = tib_pieces
+                    sign = 1.0 if side == "r" else -1.0
+                    # Lateral = farther from the midline, mirrored per side
+                    # exactly like every other left/right convention in this
+                    # file (e.g. the clavicle's medial/lateral split above).
+                    if piece_a[:, 0].mean() * sign >= piece_b[:, 0].mean() * sign:
+                        lat, med = piece_a, piece_b
+                    else:
+                        lat, med = piece_b, piece_a
+                    centre = np.vstack([lat, med]).mean(axis=0)
+                    trans = lat.mean(axis=0) - med.mean(axis=0)
+                    # No distal tibial plafond cartilage in this release
+                    # either, so the long axis target falls back to the
+                    # bone's own distal 2% by height, the same convention
+                    # already used for the radius/ulna/fibula above.
+                    distal = tibia_mesh[tibia_mesh[:, 1] <= np.quantile(tibia_mesh[:, 1], 0.02)]
+                    frames[f"tibia_{side}"] = (centre, orthonormal_frame(
+                        centre, distal.mean(axis=0), trans),
+                        "centroid of the two tibial-plateau cartilage pieces, "
+                        "split by mesh connectivity out of this release's single "
+                        "fused 'knee_articular_cartilage' mesh and confirmed "
+                        "tibial (not femoral) by real nearest-surface distance "
+                        f"(<={max(d for _, d in tib_pieces):.1f} mm to the tibia "
+                        "mesh, both pieces); transverse axis from lateral-minus-"
+                        "medial plateau; long axis toward the distal 2% of the "
+                        "tibia's OWN mesh (no distal tibial plafond cartilage in "
+                        "this release to point it at, unlike the femur/tibial-"
+                        "plateau branch above)", "both")
 
     # Hip: acetabular sphere centre, with the transverse axis taken from the
     # line between the two acetabula -- so it needs both sides present.
@@ -753,6 +820,48 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
                 "the talar trochlea, measured as the centroid of the talar "
                 "articular cartilage; axes by anatomical-position convention, "
                 "not fitted", "neither")
+        elif f"tarsals_{side}" not in frames:
+            # Q138: same fused-cartilage gap as the tibia's knee frame above
+            # -- this release ships one 'ankle_articular_cartilage_{side}'
+            # mesh instead of a separate talar-dome sub-mesh. Split by mesh
+            # connectivity (real: the talar dome and tibial plafond share no
+            # vertex) and identified by which real bone mesh each piece sits
+            # nearer to (talus vs tibia), the same verification standard as
+            # the knee split above.
+            ankle_verts = by_atlas_id.get(f"ankle_articular_cartilage_{side}")
+            ankle_faces = faces_by_atlas_id.get(f"ankle_articular_cartilage_{side}")
+            # This release keeps the seven tarsals as separate atlas ids
+            # (no combined 'tarsals_{side}' blob -- see the Q136 note by the
+            # metatarsal code below), so the talus is looked up directly.
+            tarsal_mesh = by_atlas_id.get(f"tarsals_{side}")
+            if tarsal_mesh is None:
+                tarsal_mesh = by_atlas_id.get(f"talus_{side}")
+            tibia_mesh = by_atlas_id.get(f"tibia_{side}")
+            if (ankle_verts is not None and ankle_faces is not None
+                    and tarsal_mesh is not None and tibia_mesh is not None
+                    and len(ankle_verts) >= 100):
+                comps = _mesh_components_by_height(ankle_verts, ankle_faces, min_size=30)
+                if len(comps) == 2:
+                    from scipy.spatial import cKDTree
+                    tarsal_tree = cKDTree(tarsal_mesh)
+                    tibia_tree = cKDTree(tibia_mesh)
+                    scored = []
+                    for c in comps:
+                        d_tar, _ = tarsal_tree.query(c)
+                        d_tib, _ = tibia_tree.query(c)
+                        scored.append((c, d_tar.mean(), d_tib.mean()))
+                    talar = min(scored, key=lambda t: t[1])
+                    if talar[1] <= 5.0 and talar[1] < talar[2]:
+                        frames[f"tarsals_{side}"] = (
+                            talar[0].mean(axis=0), np.eye(3),
+                            "the talar trochlea, measured as the centroid of "
+                            "the talar-dome piece split by mesh connectivity "
+                            "out of this release's single fused "
+                            "'ankle_articular_cartilage' mesh, confirmed "
+                            f"talar (not tibial) by real nearest-surface "
+                            f"distance ({talar[1]:.1f} mm to the tarsal mesh "
+                            f"vs {talar[2]:.1f} mm to the tibia mesh); axes by "
+                            "anatomical-position convention, not fitted", "neither")
 
         # The metatarsal frame sits on the bases and runs out to the heads.
         # Both ends are measured, so its long axis is fitted -- and since the
@@ -798,6 +907,49 @@ def build_frames(by_atlas_id, blocks, faces_by_atlas_id, manifest=None):
                     prox, orthonormal_frame(prox, tips),
                     "the proximal phalangeal bases; long axis to the toe tips",
                     "long")
+        elif f"metatarsals_{side}" not in frames and tarsal_cloud is not None:
+            # Q138: this session's forefoot mesh does NOT split into all five
+            # metatarsals (metatarsal_rays() needs exactly 5 mesh-connectivity
+            # components and gets 2 here: this release's 2nd-5th metatarsals
+            # are still one fused block, only the 1st is its own component --
+            # real anatomy, not a bug: the four lesser metatarsal bases lock
+            # together at the tarsometatarsal joint far more tightly than the
+            # 1st does against the medial cuneiform, so a coarse mesh keeps
+            # THAT joint gap and loses the others. That one real gap is
+            # exactly the bone tibialis_anterior and fibularis_longus both
+            # insert on ("1st metatarsal base (peroneus longus, tibialis
+            # anterior insertion)" in data/skeleton/bones.json), so it is
+            # used alone rather than declining the whole bone: identified by
+            # being both the SMALLER of the two components and the more
+            # MEDIAL by real vertex position (mirrored per side, same
+            # convention metatarsal_rays() itself uses) -- never assumed from
+            # size alone. This frame is honest about being narrower than the
+            # 5-ray one: its origin is the 1st metatarsal's OWN base, not the
+            # mean of all five, so a landmark naming a DIFFERENT metatarsal
+            # (5th metatarsal base/tuberosity, metatarsal heads as a group)
+            # is not placed through it and stays unresolved, same as before.
+            faces = faces_by_atlas_id.get(f"metatarsals_{side}")
+            verts = by_atlas_id.get(f"metatarsals_{side}")
+            if faces is not None and verts is not None:
+                comp_faces = vh.mesh_components(faces)
+                if len(comp_faces) == 2:
+                    clouds = [verts[np.unique(faces[c])] for c in comp_faces]
+                    sign = 1.0 if side == "r" else -1.0
+                    by_size = sorted(clouds, key=len)
+                    smaller, larger = by_size[0], by_size[1]
+                    more_medial = (smaller[:, 0].mean() * sign
+                                   < larger[:, 0].mean() * sign)
+                    if more_medial:
+                        base, head = ray_ends(smaller, tarsal_cloud.mean(axis=0))
+                        frames[f"metatarsals_{side}"] = (
+                            base, orthonormal_frame(base, head),
+                            "the 1st metatarsal's OWN base (this release's forefoot "
+                            "mesh keeps metatarsals 2-5 fused as one block; only the "
+                            "1st is its own mesh-connectivity component, identified "
+                            "as the smaller AND more medial of the two real pieces); "
+                            "long axis to its own head -- landmarks naming a "
+                            "different metatarsal are not placed through this frame",
+                            "long")
 
 
     # ---- the upper body ------------------------------------------------

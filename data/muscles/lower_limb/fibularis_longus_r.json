@@ -10,7 +10,15 @@
     "origin_landmark": "fibular head, proximal lateral shaft",
     "insertion_bone": "metatarsals_r",
     "insertion_landmark": "1st metatarsal base, medial cuneiform (via a long plantar course)",
-    "via_points": []
+    "via_points": [
+      {
+        "structure": "cuboid tendon groove -- the tendon turns sharply here, from the lateral ankle onto the plantar surface, before its long course across the sole to the 1st metatarsal base/medial cuneiform (Gray's Anatomy for Students, 4th ed.)",
+        "bone_frame": "tarsals_r",
+        "position_local_mm": [11.7, -80.3, 15.0],
+        "active_over_joint_range": "all ankle/subtalar positions -- a fixed fibro-osseous tunnel, not a joint-range-dependent wrap",
+        "notes": "Q138: reuses tarsals_r's own already-authored, mesh-checked landmark 'cuboid (peroneus longus tendon groove)' (data/skeleton/bones.json) -- peroneus longus is fibularis longus's older name, so this is literally this muscle's own named groove, not a borrowed or invented coordinate."
+      }
+    ]
   },
   "innervation": {
     "nerve": "superficial_fibular_n",

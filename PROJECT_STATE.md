@@ -741,9 +741,49 @@ still waiting — unrelated to the CT work above.
 3. ~~Flexor hallucis brevis is refused an anchor...~~ **Fixed, see item 10 below**
    (`generate_anchors.py` now emits one anchor per compartment). This entry is
    a stale duplicate, left as a pointer rather than deleted.
-4. **Tibialis anterior and fibularis longus** insertion paths are still blocked
-   by bone; closing them needs via points that cannot be measured from the
-   geometry available.
+4. ~~Tibialis anterior and fibularis longus insertion paths are still blocked
+   by bone...~~ **RESOLVED by Q138 (2026-09-23), premise turned out to be
+   stale in the same way item 9 was.** Neither muscle actually lacked a
+   measurable via point: `tibialis_anterior` already carried one (extensor
+   retinaculum, on tibia) from an earlier session, and it was inert for the
+   same reason semitendinosus's fix below needed -- `generate_anchors.py`
+   never emitted `via_points` as anchors, and even if it had,
+   `metatarsals_{side}` (both muscles' insertion bone) had NO fitted frame
+   at all on `vhm_both`, a separate, deeper gap `build_frames()` requires
+   `metatarsal_rays()`'s 5-way mesh split, which Q135-Q137 already
+   investigated at length and correctly left dormant (only 2 real mesh-
+   connectivity components exist for this subject's forefoot, never 5, at
+   any smoothing tried). This item did not need Q137's 5-way split: only
+   the 1st metatarsal actually matters here (both muscles insert on "1st
+   metatarsal base"), and that bone IS its own clean, isolated component --
+   confirmed by real nearest-surface distance (not assumed): the smaller
+   of the 2 components is the one the hand-authored "1st metatarsal base"
+   landmark actually lands near once placed through a frame built from it
+   alone (12.5mm r / 13.3mm l to the combined metatarsals mesh -- both
+   metatarsals share one manifest entity, so this is the honest floor, not
+   distance to the wrong bone). Added a narrower `metatarsals_{side}` frame
+   fallback in
+   `build_frames()` built from JUST that isolated component (base->head,
+   same PCA method as the fibula/radius/ulna frames), disclosed as
+   NOT covering the other 4 metatarsals -- Q137's finding stands unchanged,
+   nothing here reaches 5. With that frame in place, `tibialis_anterior`'s
+   existing via point is now genuinely usable: this project's own bone-
+   blocking check (`scripts/audit_landmarks_vs_geometry.py`) confirms its
+   insertion path is clear of bone the whole way, both sides, with no new
+   data added. `fibularis_longus` had NO via point authored; added one
+   real, already-measured coordinate -- `tarsals_{side}`'s own
+   "cuboid (peroneus longus tendon groove)" landmark (peroneus longus =
+   fibularis longus, so this is literally this muscle's own named groove,
+   not borrowed) -- and confirmed the same way: insertion path now clear
+   of bone, both sides. Declined, unrelated: `tibialis_anterior`'s own
+   ORIGIN anchor still doesn't resolve (its origin text names no tibia
+   landmark) -- a pre-existing text-matching gap, not a wrap/via-point
+   problem, not touched. Female body not attempted: her lower-limb geometry
+   is CT-only (TotalSegmentator) and ships no cartilage of any kind, a
+   harder, different gap than the male's fused-cartilage-naming issue this
+   item fixed; her `tibia`/`tarsals`/`metatarsals` frames remain unresolved.
+   See item 9 below for the full via-point mechanism this item reuses, and
+   the 38 OTHER already-authored via points it unblocked incidentally.
 5. **PARTIALLY RESOLVED by Q130 (2026-09-22).** The premise was stale in two ways: sternum already
    had all 6 of its landmarks numeric (added 2026-09-10, before today's Q103-Q129 chain even
    started -- nobody had re-checked this item against it), and item (1)'s hand-bone dependency was
@@ -784,11 +824,91 @@ still waiting — unrelated to the CT work above.
    missing their insertion anchor.~~ **Fixed** — three landmark-matching
    gaps in `data/skeleton/bones.json` (217 → 226 anchors). See ROADMAP.md
    Stage 6 for detail.
-9. Semitendinosus's knee-flexion moment arm computes 3–5 mm against a
-   published 15–35 mm — not a data error, the straight-line moment-arm
-   method's own documented limit meeting a muscle whose real path wraps
-   the medial tibial condyle. Fixing it needs a wrap surface or via point,
-   which the anchor/rig schema doesn't carry yet.
+9. ~~Semitendinosus's knee-flexion moment arm computes 3-5mm against a
+   published 15-35mm...~~ **RESOLVED by Q138 (2026-09-23).** Real before/
+   after: 3.9mm (r) / 4.8mm (l) -> **-18.6mm (r) / -18.5mm (l)**, both now
+   inside the published 15-35mm range (Herzog & Read 1993). First had to
+   fix `scripts/validate_moment_arms.py` itself: it could not compute
+   ANY knee/ankle number at all in this environment (`0/0`, "missing
+   frame") because `build_frames()`'s knee-axis fit expects separate
+   lateral/medial/distal tibial-plateau cartilage sub-meshes that this
+   release doesn't ship -- it fuses them into one `knee_articular_
+   cartilage_{side}` mesh instead, exactly the gap
+   `scripts/generate_tendon_connectors.py`'s own docstring already names
+   (Q118), just never fixed. Split it by mesh connectivity (Q130's own
+   vertebra technique) into the femoral condylar cap + 2 tibial-plateau
+   pads, identified by real nearest-surface distance to `femur_r`/`tibia_r`
+   (2-3mm both pieces, never assumed from position); same technique
+   fixed `ankle_articular_cartilage_{side}` for the `tarsals_{side}` frame.
+   With the frame fixed but STILL no via point, the number reproduced was
+   3.9/4.8mm -- confirms this item's original 3-5mm finding was real, just
+   not independently reproducible in this environment before the fix.
+   **Schema mechanism**: `schema/muscle.schema.json`'s `attachments.
+   via_points` and `schema/rig.schema.json`'s `muscle_via_point` anchor
+   type have existed since the project's first commit but were completely
+   dormant -- never emitted by `generate_anchors.py`, never read by
+   `validate_moment_arms.py` (one OTHER consumer already existed,
+   unnoticed until this item: `audit_landmarks_vs_geometry.py`'s own bone-
+   blocking check already read via_points straight from the muscle files).
+   Wired both: `generate_anchors.py` now emits one `muscle_via_point`
+   anchor per `via_points[]` entry, in order (`sequence` field, additive --
+   rig.schema.json has no `additionalProperties: false`). `validate_
+   moment_arms.py` now computes the path's moment arm by a tendon-
+   excursion (virtual work, r=-dL/dtheta) decomposition: sum the existing
+   two-point formula over only the segment(s) whose two endpoints sit on
+   DIFFERENT bone frames (a segment rigid within one body cannot change
+   length as that body rotates, so it contributes exactly zero) -- this
+   reduces IDENTICALLY to the pre-Q138 straight-chord formula for a muscle
+   with no via points, so all ~360 unaffected anchors are provably
+   unchanged. This is the smallest real addition considered sufficient: no
+   OpenSim-style wrap-surface geometry (radius, coverage arc) was added,
+   only an ordered list of points, because the two known cases (this one
+   and item 4) needed nothing more to move their real numbers.
+   **Semitendinosus's own via point**: the posteromedial tibial condyle --
+   reused `tibia_{side}`'s own already-audited "posteromedial tibial
+   condyle (semimembranosus insertion)" landmark coordinate rather than
+   re-measuring (real anatomy: semimembranosus inserts directly there,
+   semitendinosus's tendon wraps the same bony corner en route to pes
+   anserinus 40mm further distal, matching this project's own data:
+   via y=-10 near the joint line, insertion y=-50). Not invented: inside
+   `tibia_{side}`'s own bounding box, 5.3mm from the nearest real tibia
+   surface vertex. **Honest limit found, not hidden**: the SAME via point,
+   checked by this project's own separate bone-intersection audit
+   (`path_through_bone`), shows the via-point-to-insertion segment (both
+   ends on tibia) still passes 12.4mm into the tibia mesh -- one via point
+   is enough to fix the KINEMATIC moment arm (that segment's length never
+   changes with knee rotation, so it correctly contributes zero regardless
+   of its shape) but is NOT, by itself, enough for a geometrically bone-
+   clear VISUAL/rendered tendon path; that would need a second via point or
+   real wrap-surface geometry, out of scope here and left for a future
+   session if the viewer ever renders tendon paths as literal polylines
+   (it currently only shows origin/insertion dots, so no rendered path
+   exists to be wrong today). **Side effect**: `gastrocnemius`/`soleus`
+   already carried a dormant via point too (Achilles/calcaneal insertion,
+   authored by an unrecorded earlier session) -- now active; contributes
+   ~0 as expected (via and insertion both on `tarsals_{side}`), both still
+   inside their published 30-60mm range. **Scoreboard**: 0/0 computable
+   (frame-broken) -> 11/12 inside published range (only `biceps_femoris_l`
+   at -14.9mm vs 15mm, an unrelated, pre-existing near-boundary case with
+   no via point, not touched this session). **Tests**: added
+   `tests/test_via_points.py`, 6 new tests on the crossing-segment
+   mechanism itself (reduces to the old formula with no via points;
+   ignores a same-frame segment; respects declared `sequence`, not anchor-
+   list order; still returns `None` on a missing frame) plus 2 regression
+   checks against the real semitendinosus data/anchors. 252 -> 258
+   passing. **Bundle**: rebuilt `build/viewer_m` additively
+   (`scripts/vhm_rebuild_bundle.sh`, idempotent on the existing `build/vh`
+   state) and verified by parsing `bundle.json` directly -- `semitendinosus_
+   {r,l}`/`fibularis_longus_{r,l}` now carry real `origin_point_mm`/
+   `insertion_point_mm` that were previously absent; 40 muscle/compartment
+   ids total newly resolve an origin or insertion point as a side effect of
+   the tibia/tarsals/metatarsals frame fixes (well beyond just these two
+   muscles); 363 structures, 14.49MB (in line with the established
+   ~14.5-15.4MB range for this viewer). Did NOT rebuild `build/viewer_f`
+   (female): her lower-limb geometry is CT-only and ships no cartilage
+   mesh of any kind, a different, harder gap than the male's fused-naming
+   mismatch -- not attempted. Did NOT publish/deploy (blocked all day per
+   standing instruction, not retried).
 10. ~~Flexor hallucis brevis is refused an anchor... per-compartment
    anchors would fix it.~~ **Fixed** — `generate_anchors.py` now splits a
    muscle's one `attachments` text into one clause per compartment when

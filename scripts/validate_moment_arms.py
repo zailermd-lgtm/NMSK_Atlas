@@ -33,6 +33,29 @@ than a fit, where no cartilage mesh gives a transverse axis to measure. The
 knee axis is NOT convention -- it is the tibial plateau frame's fitted
 transverse axis (lateral-minus-medial plateau cartilage), the one axis in
 this script that comes from real geometry rather than an assumption.
+
+VIA POINTS (Q138). A muscle can now carry one or more via points between its
+origin and insertion (schema/muscle.schema.json's attachments.via_points,
+emitted as `muscle_via_point` anchors by scripts/generate_anchors.py) -- the
+smallest real fix for a muscle whose real path is not one straight chord, a
+semitendinosus/biceps femoris/semimembranosus tendon flattening against the
+tibial condyle being exactly the case the module docstring above already
+named as unmodelled. This script does not need OpenSim's full wrap-surface
+machinery to use one: by the tendon-excursion (virtual work) principle,
+r = -dL/dtheta, and a path segment whose two endpoints are BOTH rigid to the
+same body has constant length under that body's own joint rotation (the
+distance between two points fixed to one rigid body cannot change), so it
+contributes exactly zero to the moment arm regardless of how many such
+segments a via-point path adds. Only the segment(s) that actually run
+between two DIFFERENT bone frames can change length as the joint rotates,
+and each contributes via the same classic formula as the old two-point case
+-- which is exactly what it reduces to when a muscle has no via points (a
+single segment, origin to insertion, on two different frames, unchanged).
+For semitendinosus this replaces the direct origin-to-insertion chord (which
+cuts straight through where the tendon actually wraps the tibial condyle)
+with the origin-to-via-point segment -- the one segment that actually spans
+the knee -- while the via-point-to-insertion segment (both ends on tibia)
+correctly drops out.
 """
 from __future__ import annotations
 
@@ -70,6 +93,37 @@ def moment_arm(a: np.ndarray, b: np.ndarray, axis_point: np.ndarray, axis_dir: n
     return float(np.cross(a - axis_point, line) @ axis_dir)
 
 
+def path_moment_arm(anchors_by_id: dict, via_points_by_muscle: dict, muscle_id: str,
+                     frames: dict, bones: dict, axis_point: np.ndarray, axis_dir: np.ndarray):
+    """Moment arm of a muscle's full origin -> via point(s) -> insertion path
+    (Q138), by the tendon-excursion decomposition in this module's docstring:
+    sum the classic two-point moment arm over only the segment(s) whose two
+    endpoints sit in DIFFERENT bone frames (a segment within one rigid body
+    cannot change length as that body rotates, so it contributes zero).
+    Returns None exactly where the old origin/insertion-only resolve_anchor
+    calls would have (a missing anchor or an unbuildable frame), and reduces
+    identically to the pre-Q138 straight-chord formula when a muscle has no
+    via points -- one segment, always crossing by construction."""
+    origin_a = anchors_by_id.get((muscle_id, "muscle_origin"))
+    insertion_a = anchors_by_id.get((muscle_id, "muscle_insertion"))
+    if origin_a is None or insertion_a is None:
+        return None
+    path = [origin_a] + via_points_by_muscle.get(muscle_id, []) + [insertion_a]
+    world = []
+    for p in path:
+        frame = frames.get(p["parent_bone_frame"])
+        if frame is None:
+            return None
+        world.append(place(p["local_position_mm"], frame, bones.get(p["parent_bone_frame"])))
+    total = 0.0
+    crossings = 0
+    for i in range(len(path) - 1):
+        if path[i]["parent_bone_frame"] != path[i + 1]["parent_bone_frame"]:
+            total += moment_arm(world[i], world[i + 1], axis_point, axis_dir)
+            crossings += 1
+    return total if crossings else None
+
+
 # (muscle_id, origin-side joint definition function key, published range in mm,
 #  citation, one-line note on the comparison's honesty)
 X_AXIS = np.array([1.0, 0.0, 0.0])  # mediolateral, atlas convention
@@ -79,8 +133,14 @@ def main() -> int:
     import json
     anchors = json.loads((DATA_DIR / "rig" / "anchors.json").read_text())
     anchors_by_id = {}
+    via_points_by_muscle: dict = {}
     for a in anchors:
-        anchors_by_id[(a["owner_entity"], a["anchor_type"])] = a
+        if a["anchor_type"] == "muscle_via_point":
+            via_points_by_muscle.setdefault(a["owner_entity"], []).append(a)
+        else:
+            anchors_by_id[(a["owner_entity"], a["anchor_type"])] = a
+    for lst in via_points_by_muscle.values():
+        lst.sort(key=lambda a: a.get("sequence", 0))
 
     manifest, blocks, by_atlas_id, faces_by_atlas_id = load_geometry("vhm_both")
     frames = build_frames(by_atlas_id, blocks, faces_by_atlas_id)
@@ -129,17 +189,18 @@ def main() -> int:
 
     out_of_range = []
     for muscle_id, joint, axis_point, axis_dir, ref_range, source in cases:
-        a = resolve_anchor(anchors_by_id, muscle_id, "muscle_origin", frames, bones)
-        b = resolve_anchor(anchors_by_id, muscle_id, "muscle_insertion", frames, bones)
-        if a is None or b is None:
+        r = path_moment_arm(anchors_by_id, via_points_by_muscle, muscle_id,
+                             frames, bones, axis_point, axis_dir)
+        if r is None:
             print(f"{muscle_id:<24}{joint:<10}{'(no anchor)':>12}  {source}")
             continue
-        r = moment_arm(a, b, axis_point, axis_dir)
+        via_note = (f"  [via {len(via_points_by_muscle[muscle_id])} pt(s)]"
+                    if via_points_by_muscle.get(muscle_id) else "")
         lo, hi = ref_range
         flag = "" if lo <= abs(r) <= hi else "  <-- OUTSIDE reference range"
         if flag:
             out_of_range.append((muscle_id, joint, r, ref_range))
-        print(f"{muscle_id:<24}{joint:<10}{r:>12.1f}  [{lo}-{hi}] {source}{flag}")
+        print(f"{muscle_id:<24}{joint:<10}{r:>12.1f}  [{lo}-{hi}] {source}{via_note}{flag}")
 
     print(f"\n{len(cases) - len(out_of_range)}/{len(cases)} within their published range "
           f"(straight-line-path, single-pose approximation -- see module docstring).")

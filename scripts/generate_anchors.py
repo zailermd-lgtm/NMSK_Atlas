@@ -520,6 +520,33 @@ def main():
                         "notes": f"auto-derived from bone landmark match against '{landmark_text[:60]}'",
                     })
 
+            # Via points (Q138): unlike origin/insertion, a via point's own
+            # position is given directly and numerically in the muscle's own
+            # attachments (schema/muscle.schema.json), not resolved by
+            # text-matching against a bone's landmark list -- so it needs no
+            # lookup, just emission, one anchor per entry, in path order
+            # (a "sequence" field the rig schema does not restrict, added
+            # purely so a consumer can reconstruct origin -> via... ->
+            # insertion without re-parsing the muscle file). Whole-muscle
+            # only: attachments (and its via_points) is one field shared by
+            # every compartment, the same as origin_bone/insertion_bone,
+            # never split per compartment even when origin/insertion text is.
+            for i, via in enumerate(att.get("via_points", [])):
+                bone_frame = via.get("bone_frame")
+                pos = via.get("position_local_mm")
+                if not bone_frame or pos is None:
+                    continue
+                anchors.append({
+                    "id": f"anchor_{m['id']}_via_{i}",
+                    "anchor_type": "muscle_via_point",
+                    "owner_entity": m["id"],
+                    "parent_bone_frame": bone_frame,
+                    "local_position_mm": pos,
+                    "sequence": i,
+                    "notes": "auto-derived from the muscle's own attachments.via_points"
+                             f"[{i}]" + (f" ('{via['structure'][:60]}')" if via.get("structure") else ""),
+                })
+
     # A midline bone (mandible, sternum, occipital ...) carries ONE landmark
     # for a bilateral feature, authored for the subject's RIGHT (+X). A
     # left-side muscle attaching there must get the mirror image, or both
