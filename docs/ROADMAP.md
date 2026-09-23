@@ -276,6 +276,16 @@ ruled out, for reasons recorded in full in
   correlation against a real ultrasound image, needs true tissue boundaries
   from a real body, not an extruded approximation.
 
+**Update, Q141 (2026-09-23), owner decision.** The CC BY-SA exclusion above
+is no longer a blanket rule. The anatomy MODEL layer (geometry, plus this
+project's own corrections to it) may be CC BY-SA compatible as a fast
+starting point for completeness, progressively replaced by this project's
+own real-data geometry; everything built on top (imaging registration,
+ultrasound, needling, clinical tooling) stays under the owner's private
+licence in separate files. See `third_party/z-anatomy/README.md` and
+`GEOMETRY_SOURCES.md` for the full split and `../PROJECT_STATE.md` Q141 for
+the phase-1 extraction and name-mapping work this enabled.
+
 **Target.** Below 1 mm³ per voxel. The Visible Human Female cryosections are
 0.33 mm isotropic (0.036 mm³); the Male is 0.33 × 0.33 × 1.0 mm
 (0.109 mm³). Both already clear the target, and both come with CT and MRI of

@@ -25,7 +25,7 @@ good the meshes are.
 | **TotalSegmentator v2.0.1** (Wasserthal et al., Univ. Hospital Basel) | clinical CT, 1.5 mm isotropic (this subject) | CC BY 4.0 | **Adopted** — stage 2, upper body/trunk |
 | **SPARC / SCKAN** (NIH Common Fund) | connectivity statements, no geometry | CC BY 4.0 | **Deferred** — wrong domain; see below |
 | **IT'IS Virtual Population** (Yoon-sun, Jeduk) | segmented nerve trajectories | commercial, paid | **Open question** — see below |
-| **Z-Anatomy** / BodyParts3D | ~3.65 M polygons, unstated scale | CC BY-SA 4.0 | **Rejected** — share-alike |
+| **Z-Anatomy** / BodyParts3D | ~3.65 M polygons, unstated scale | CC BY-SA 4.0 | **Adopted, Q141 (2026-09-23), for the anatomy layer only** — see "Update, Q141" below |
 | Parametric generation from atlas data | n/a | ours outright | **Rejected** — insufficient fidelity |
 
 ---
@@ -55,6 +55,52 @@ Two clarifications worth recording, because both are common misconceptions:
   rules it out here.
 
 No Z-Anatomy-derived geometry has ever been committed to this repository.
+
+### Update, Q141 (2026-09-23) — owner decision, layer split
+
+The owner decided directly, on this date, that the blanket rejection above
+no longer holds for the whole repository. Recorded precisely, because it
+replaces the rule stated in `PROJECT_STATE.md` and above:
+
+> The anatomy MODEL layer (geometry, plus this project's own corrections to
+> it, e.g. the radial nerve pathway) MAY be CC BY-SA compatible. Everything
+> built on top — registration to real imaging, ultrasound guidance,
+> needling (blind / US-guided), clinical tooling — stays under the owner's
+> private license and must live in separate files that reference the
+> anatomy, not inside it. This REPLACES the old rule "no CC BY-SA source may
+> enter it". Goal: use Z-Anatomy models as the fast starting point for
+> completeness, then progressively replace/correct them with this project's
+> real-data geometry.
+
+Everything argued above about the `SA` term is still exactly correct and is
+NOT superseded by this decision — it is the reason the split exists:
+
+- **A CC BY-SA derivative must remain CC BY-SA, never plain CC BY, and
+  never proprietary.** Modifying a mesh (retopology, decimation, axis
+  conversion, registration to a different body) does not escape ShareAlike;
+  the result is still Adapted Material under the licence, because the
+  protected expression is the shape.
+- **ShareAlike does not forbid selling** — a proprietary *product* may
+  contain a CC BY-SA *layer*, but that layer itself cannot be made
+  exclusive, and any file carrying it must say so.
+
+What changed is not the legal analysis, but the owner's choice of *where the
+line is drawn*: rather than excluding CC BY-SA everywhere, the anatomy
+geometry itself is allowed to be CC BY-SA (used as a fast-start scaffold,
+progressively replaced by this project's own real-data segmentation, and
+badged wherever it ships), while every clinically load-bearing layer built
+on top of that geometry — the entire reason this project exists commercially
+— is kept in files that carry no ShareAlike obligation because they contain
+no Z-Anatomy-derived expression, only references to entity ids.
+
+See `third_party/z-anatomy/README.md` for the operational rule (what may
+live where) and `third_party/z-anatomy/NOTICE` for the pinned commit, full
+attribution chain (Z-Anatomy → BodyParts3D, CC-BY-SA 2.1 Japan), and the
+two named subcomponents of the release (Inner Ear, Kidney) that carry a
+*different*, non-commercial licence and stay excluded regardless of this
+decision. `scripts/zanatomy/extract_fbx.py` and `scripts/zanatomy/map_names.py`
+are the phase-1 extraction and name-mapping tooling this decision unblocked;
+see `PROJECT_STATE.md` Q141 for what they found and the phase-2 plan.
 
 ## Why parametric generation was rejected
 

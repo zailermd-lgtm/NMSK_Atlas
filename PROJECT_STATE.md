@@ -9,9 +9,44 @@ A 3D atlas of the human musculoskeletal, neural and vascular systems, built to
 plan musculoskeletal injections — PRP, and botulinum toxin for spasticity — as
 well as to serve as a general atlas, an ultrasound and cross-section reference,
 and a comparison against CT and MRI. Target resolution is sub-1 mm³/voxel.
-The repository is proprietary and sellable; no CC BY-SA source may enter it.
+The repository is proprietary and sellable. **Licensing rule (updated Q141,
+2026-09-23, owner decision):** the anatomy MODEL layer (geometry, plus this
+project's own corrections to it) may be CC BY-SA 4.0 compatible. Everything
+built on top of it -- registration to real imaging, ultrasound guidance,
+needling (blind or ultrasound-guided), clinical planning tooling -- stays
+under the owner's private licence and must live in separate files that
+reference the anatomy layer rather than sit inside it. This REPLACES the
+prior blanket rule "no CC BY-SA source may enter it". A CC BY-SA derivative
+must remain CC BY-SA (never plain CC BY, never proprietary) -- see
+`third_party/z-anatomy/README.md` and `docs/GEOMETRY_SOURCES.md` for the
+full reasoning, the exact layer split, and the (separate, non-commercial)
+subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 252 tests pass. Recent: Q132 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 258 tests pass. Recent: Q141 (2026-09-23)
+phase 1 of the Z-Anatomy licensing-scaffold decision above: extracted the pinned Z-Anatomy clone's
+FBX geometry with `bpy` (Blender's Python API, isolated venv `build/.venv-bpy`, not the project's
+main numpy) via `scripts/zanatomy/extract_fbx.py` -- 3572 real objects kept across 7 systems (970
+Skeletal + hundreds more per system were small `.i`/`.j` annotation-pin markers, excluded). Sanity
+checks on the extracted frame all passed: femur 454.4mm, humerus 317.6mm (both L/R exact mirrors),
+whole-skeleton height 1696.3mm, muscles overlap their bones in the same frame, radial nerve present
+(10 objects incl. deep/superficial/muscular branches). `scripts/zanatomy/map_names.py` then mapped
+every kept object to this project's own entity ids across all 9 tissue dirs (bursae added on top of
+`engine/vh_ingest.py`'s existing DU-release matcher, which didn't cover it), reusing that module's
+`normalise`/`similarity`/threshold policy unchanged (min_score .55, margin .08) via a precomputed-
+cache rewrite for speed (12s vs. an unbounded run recomputing normalisation ~5M times). Of the 1219
+entities missing on both bodies per Q117: Z-Anatomy can supply 25/25 bones, 122/199 muscles,
+59/299 nerves, 32/83 ligaments, 30/103 fascia, 17/388 vascular, 14/26 cartilage, 12/45 bursae,
+8/51 tendons (confident/exact matches only; see `data/derived/zanatomy_name_map.json`'s
+`missing_entity_coverage_by_tissue_type`). Two named Z-Anatomy subcomponents (Inner Ear, Kidney)
+are separately CC-BY-NC-licensed per the clone's own credits doc and are flagged/excluded outright,
+independent of the owner's CC-BY-SA decision (`third_party/z-anatomy/NOTICE`). No geometry
+registered to either body and no bundle changed -- extraction + inventory + mapping only, per the
+owner's phase-1 scope. **Phase 2 plan**: register Z-Anatomy geometry to each body with the existing
+bone-driven transfer (`scripts/transfer/cross_subject_transfer.py`, precedent `xfer_vhm2vhf`), ship
+only for entities with no real-data mesh (real data always wins, Z-Anatomy listed last like a
+transfer), badge each via the Q119 procedural_badge mechanism as "Z-Anatomy (CC BY-SA 4.0), generic
+model registered to this body", and verify skin/bone containment per structure before shipping.
+Recent: Q132 (2026-09-23)
 generalized the ad hoc per-vertebra identification Q130/Q131 each hand-rolled into the landmark
 audit's own standing `named_members`/`expected_member` mechanism (`scripts/audit_landmarks_vs_geometry.py`),
 so a future landmark/anchor naming one vertebra is checked automatically instead of needing fresh
