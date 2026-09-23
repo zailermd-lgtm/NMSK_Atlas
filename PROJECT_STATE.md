@@ -1011,6 +1011,57 @@ still waiting — unrelated to the CT work above.
     matches what Q135 specified, ready for whenever the mesh-split issue
     is separately fixed.
 
+    **Q137 (2026-09-23): checked whether Q136's mesh-split gap is the same
+    smoothing/decimation bug class Q113-Q116 fixed elsewhere -- it is NOT.**
+    Ran the Q113 diagnostic (`scipy.ndimage.label` on the RAW, pre-smoothing
+    label volume, before any mesh step) on every subject/side that carries
+    metatarsals from its own CT: female `ct_vhf_legs` (`vhf_lower_limb_bones.nii.gz`,
+    labels 5/11) and male `ct_vhm_foot` (`vhm_foot_bones.nii.gz`, labels 2/5).
+    Raw voxel components (>=50 vox, default 6-connectivity): female right 3,
+    female left 2, male right 2, male left 2 -- never 5. Then, since Q113/
+    Q114 also showed smoothing can occasionally reveal (not just destroy)
+    real sub-voxel separation, swept the FULL pre-decimation mesh's own
+    component count (`vh.mesh_components`, >=500 vertices = real) across
+    `--smooth` 0.0/0.3/0.5/0.7/1.0/1.3/1.5/2.0 for every case: female right
+    tops out at 4 real components (reached at smooth>=1.0, i.e. AT the
+    current shipped value already) and never reaches 5 at any smoothing;
+    male right stays at 2 real components at every smoothing value tried,
+    voxels-identical to raw (no watershed ever ran on his data at all).
+    Root cause is upstream of ingest entirely, in how each label was
+    generated, not fixable by `--smooth`/`SHEET_IDS`: `scripts/vhf_lower_limb_bones.py`
+    (female) runs one whole-leg distance-transform watershed then explicitly
+    RE-UNITES fragments whose common boundary is >=2 mm of real bone
+    (`SADDLE_MM`), which is a genuine, already-tuned decision (needed so the
+    same watershed doesn't over-fragment the tibia/fibula/femur) that also
+    caught some real inter-metatarsal contacts on the way; `scripts/cryo/feet_from_ct.py`
+    (male) has no watershed at all -- confirmed by reading the script, not
+    inferred -- it is HU>=200 threshold + a plane cut along the foot axis,
+    documented in its own label map as "bones not separated." Re-deriving
+    either with a different watershed parameter would need the raw CT
+    (`LEGS_CT.nii.gz`) as input; checked and it is not present in this
+    environment (only the already-derived label volume ships in
+    `data/ct_sources/task_outputs/`), so it isn't rerunnable here even if in
+    scope, which reprocessing a whole source segmentation is not for this
+    item. **Declined all four CT-backed cases** (`ct_vhf_legs_r`,
+    `ct_vhf_legs_l`, `ct_vhm_foot_r` -- not from his own CT anyway, see
+    below --, `ct_vhm_foot_l`) with the real numbers above, per this item's
+    own instruction not to force a fit some cases don't support. Also
+    checked `vhm_both` (male's recovered-published-viewer mesh, which is
+    what actually carries `metatarsals_r` for his right foot): it has no
+    backing label volume at all, just a mesh recovered from the shipped
+    `.html` viewer via `scripts/transfer/bundle_to_subjects.py`, so its 2
+    pieces/side (Q136) is already the finest data that exists, nothing to
+    rerun. **No code changed, no reconversion, no `SHEET_IDS` entry, no
+    bundle rebuild** -- every avenue the established Q113-class fix uses was
+    checked and genuinely doesn't apply, and inventing a looser real-
+    component threshold to manufacture "5" out of a 4-real-component mesh
+    (the closest any case came) would be exactly the "invented structure"
+    this project's standing rule forbids. `metatarsal_rays()` and Q136's
+    tarsal-fallback both stay dormant on every subject, correctly. 252/252
+    tests pass (no code touched, so no regression risk); ran anyway to
+    confirm. No anchors changed, so no `resolve_anchor_points()` diff was
+    needed.
+
 ## 2026-09-06 session: viewer anchor points + large-scale clinical/anatomical data pass
 
 - **Viewer**: `scripts/export_viewer_bundle.py` now resolves every muscle
