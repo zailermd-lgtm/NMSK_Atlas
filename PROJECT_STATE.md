@@ -213,6 +213,16 @@ in the correction file when (e) is finished.
 3-D (X/Y/Z) warp + bone-avoidance (42.55mm, matching cited targets to <0.3mm); Artico 2008
 full text confirmed inaccessible, (d) re-sourced from Qawasmi et al. 2025 instead (open
 access) but left uncorrected (small/borderline discrepancy, see that entry).
+**Published 2026-09-23 (owner granted deploy permission):** male
+https://claude.ai/code/artifact/c5d01522-087e-41aa-88d4-5c26db2dea76 (v52), female
+https://claude.ai/code/artifact/0651399d-2651-4513-9b56-756a84d55e2e (v42), Z-Anatomy MSK
+https://claude.ai/artifact/FC9s1Rq9i8UW8Hup6a7LKU (v1), Z-Anatomy neurovascular
+https://claude.ai/artifact/PXhboi6MeRsUqYjgSq9HAK (v1, includes Q144+Q145 corrections).
+Z-Anatomy pages show the Z-Anatomy + BodyParts3D credit in the header (commit 45c3097).
+Republish from build/viewer_zan/*.html to the same URLs.
+**Queued Q146:** same audit-and-correct pipeline for other major nerve landmarks on the
+Z-Anatomy model (ulnar at cubital tunnel/Guyon, median at pronator/carpal tunnel, common
+fibular at fibular neck, sciatic at piriformis); cited cadaveric morphometry only.
 
 Recent: Q143 (2026-09-23)
 shipped the "Z-Anatomy reference model" -- a THIRD viewer bundle, a standalone generic body,

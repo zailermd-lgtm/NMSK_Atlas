@@ -135,6 +135,16 @@ if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
   [ -f build/vh/ct_vhf_xfersepta_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix"
   [ -f build/vh/xfer_vhm2vhf_sep/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep"
 fi
+# Q149: xfer_vhm2vhf's transversus pair came from the male's MIRRORED abdominal wall (vhm_v25); re-transfer
+# just that pair from the corrected male bundle (build/viewer_m, rebuilt by scripts/vhm_rebuild_bundle.sh first)
+# and list it BEFORE xfer_vhm2vhf so it wins those two ids.
+if [ ! -f build/vh/xfer_vhm2vhf_tva/manifest.json ] && [ -f build/viewer_m/bundle.json ]; then
+  python3 scripts/transfer/cross_subject_transfer.py --direction m2f --male-html build/viewer_m \
+    --ids transversus_abdominis_r transversus_abdominis_l \
+    --envelope-src data/derived/lean_envelope_vhm.json --envelope-dst data/derived/lean_envelope_vhf.json \
+    --skin-origin="$O" -o build/vh/xfer_vhm2vhf_tva --report data/derived/transfer_report_vhm2vhf_tva.json 2>&1 | grep -v Deprec | head -1 | cut -c1-200
+fi
+[ -f build/vh/xfer_vhm2vhf_tva/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_tva"
 [ -f build/vh/xfer_vhm2vhf/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf"
 # his rhomboid minor carried onto her (her own rhomboid mass was unusable, Q62 step 2); the forearm/hand transfer was
 # measured and REJECTED (see docs/GEOMETRY_SOURCES.md): that map distorts limb volumes by 2-3x

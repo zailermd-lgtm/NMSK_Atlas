@@ -65,6 +65,9 @@ if [ -f $T/vhm_styloglossus_ct.nii.gz ] && ! grep -q vhm_styloglossus_ct build/v
   cp mappings/subjects/ct_vhm_sgl_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_sgl
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_styloglossus_ct.nii.gz --labels vhm_styloglossus_ct --subject ct_vhm_sgl --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
+# Q149: the abdominal wall volume was surfaced mirrored (cryo-order voxels, CT-direction affine);
+# mirror it back onto the spine. Idempotent (manifest records mirror_x_fix).
+[ -f build/vh/ct_vhm_abw/manifest.json ] && python3 scripts/mirror_subject_x.py build/vh/ct_vhm_abw --c 100.4 --note "Q149: cryo-order voxels under a CT-direction affine; labels correct, geometry mirrored"
 # Q116: coccygeus_l only, reconverted at --smooth 0.0 (ct_vhm_pfloor_fix); listed BEFORE
 # ct_vhm_pfloor so it wins just this one atlas_id.
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
