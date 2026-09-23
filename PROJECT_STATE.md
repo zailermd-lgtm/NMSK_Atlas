@@ -897,6 +897,50 @@ still waiting — unrelated to the CT work above.
     scapula-frame gap above). Not published (publish tool blocked all day,
     per the standing note above; not retried).
 
+    **Q134 (2026-09-23): the scapula-frame gap above is FIXED, and it was a
+    build/subject-organization gap, not a registration problem.** Read
+    `build_frames()`: it needs the humerus in the SAME `by_atlas_id` dict
+    as the scapula to locate the glenoid, nothing more exotic. Checked
+    which male subjects carry which: scapula_r/l live in `ct_vhm`, humerus_r/l
+    in `ct_vhm_arm` — but both (and 11 more: `ct_vhm_abd`, `ct_vhm_cuff`,
+    `ct_vhm_es`, `ct_vhm_head`, `ct_vhm_headm`, `ct_vhm_neckbv`,
+    `ct_vhm_orbit`, `ct_vhm_pmr`, `vhm_both`, `ct_s1159`, `ct_s1159_abd`)
+    are not separate scans — `bundle_to_subjects.py` partitions ONE
+    decimated bundle ("recovered from the published male viewer (Version
+    25)") into per-subject folders by copying each entity's vertices
+    unchanged, no transform — so they already share one real coordinate
+    frame (confirmed empirically before trusting the label: scapula/humerus
+    Y-extents overlap exactly where the glenohumeral joint should be).
+    Option (a) taken: `_with_colocated_bones()` (new, in
+    `audit_landmarks_vs_geometry.py`) fills a subject's `by_atlas_id` with
+    bones missing from it but present in another subject whose manifest
+    `source_kind` names that exact bundle-recovery string — gated strictly
+    on that specific provenance text, not the generic "labelled volume
+    (NIfTI)" kind shared by genuinely different, unregistered scans (which
+    would need real registration and was never attempted). `build_frames()`
+    calls it; `export_viewer_bundle.py`'s `resolve_anchor_points()` now
+    passes its manifest through so the shipped bundle gets it too (it
+    silently wasn't before this fix). Verified: scapula_r/l frames now fit
+    on `ct_vhm` (glenoid ~23mm from the fitted humeral head centre — a
+    plausible joint gap). Full-corpus check: merged `resolve_anchor_points()`
+    across every subject in both rebuild scripts' exact subject lists and
+    order — female bundle bit-identical (her subjects never carry this
+    source_kind, gate never fires); male: 174 → 190 muscles gain an anchor
+    role, **zero existing values changed or removed** — every diff is a
+    scapula-anchored muscle hitting the identical missing-humerus gap
+    (rhomboid_major/minor and serratus_anterior/trapezius insertion;
+    biceps_brachii heads/coracobrachialis/pectoralis_minor origin;
+    infraspinatus/subscapularis/supraspinatus/teres_major/triceps_brachii
+    gain their scapular origin alongside their already-correct insertion).
+    252/252 tests pass. Male bundle rebuilt additively via
+    `vhm_rebuild_bundle.sh` on the existing `build/vh` state (idempotent,
+    no volumes reconverted): 363 structures (unchanged from Q133), and
+    parsing the rebuilt `build/viewer_m/bundle.json` confirms
+    `rhomboid_major_r/l`/`rhomboid_minor_r/l` now carry `insertion_point_mm`
+    landing on the scapula's medial/vertebral border, matching their own
+    text description. Not published (publish tool blocked all day, per the
+    standing note above; not retried). Committed `3e115bf`, pushed.
+
 ## 2026-09-06 session: viewer anchor points + large-scale clinical/anatomical data pass
 
 - **Viewer**: `scripts/export_viewer_bundle.py` now resolves every muscle
