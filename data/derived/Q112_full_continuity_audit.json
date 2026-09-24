@@ -9,12 +9,12 @@
   },
   "bodies": {
     "male": {
-      "subject": "ct_vhm_pfloor_fix+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin",
+      "subject": "ct_vhm_pfloor_fix+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_m/atlas_viewer_male.html",
-      "html_mtime": 1790067458.246646,
-      "n_structures_raw": 356,
-      "n_groups": 321,
+      "html_mtime": 1790204119.1398385,
+      "n_structures_raw": 425,
+      "n_groups": 390,
       "cat_mismatches": [],
       "structures": {
         "coccygeus_l|left": {
@@ -2868,6 +2868,118 @@
             "ct_vhm"
           ]
         },
+        "adductor_magnus_distal_tendon_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "adductor_magnus_distal_tendon_l",
+          "side": "left",
+          "cat": "tendon",
+          "name": "Adductor magnus distal tendon",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
+        "adductor_magnus_distal_tendon_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "adductor_magnus_distal_tendon_r",
+          "side": "right",
+          "cat": "tendon",
+          "name": "Adductor magnus distal tendon",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
+        "iliopsoas_tendon_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "iliopsoas_tendon_l",
+          "side": "left",
+          "cat": "tendon",
+          "name": "Iliopsoas tendon",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
+        "iliopsoas_tendon_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "iliopsoas_tendon_r",
+          "side": "right",
+          "cat": "tendon",
+          "name": "Iliopsoas tendon",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
+        "quadriceps_tendon_l|left": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.25,
+          "n_components": 4,
+          "total_vertices": 64,
+          "largest_component_vertices": 16,
+          "n_pieces": 1,
+          "n_faces": 112,
+          "id": "quadriceps_tendon_l",
+          "side": "left",
+          "cat": "tendon",
+          "name": "Quadriceps femoris tendon",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
+        "quadriceps_tendon_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.25,
+          "n_components": 4,
+          "total_vertices": 64,
+          "largest_component_vertices": 16,
+          "n_pieces": 1,
+          "n_faces": 112,
+          "id": "quadriceps_tendon_r",
+          "side": "right",
+          "cat": "tendon",
+          "name": "Quadriceps femoris tendon",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
+        "coracoclavicular_ligament_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "coracoclavicular_ligament_l",
+          "side": "left",
+          "cat": "ligament",
+          "name": "Coracoclavicular ligament",
+          "subjects": [
+            "ct_vhm"
+          ]
+        },
         "intervertebral_disc_c1_c2|none": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -2878,8 +2990,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c1_c2",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C1-C2 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2894,8 +3006,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c2_c3",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C2-C3 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2910,8 +3022,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c3_c4",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C3-C4 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2926,8 +3038,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c4_c5",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C4-C5 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2942,8 +3054,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c5_c6",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C5-C6 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2958,8 +3070,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c6_c7",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C6-C7 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2974,8 +3086,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l1_l2",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L1-L2 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -2990,8 +3102,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l2_l3",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L2-L3 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3006,8 +3118,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l3_l4",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L3-L4 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3022,8 +3134,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l4_l5",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L4-L5 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3038,8 +3150,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t10_t11",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T10-T11 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3054,8 +3166,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t11_t12",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T11-T12 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3070,8 +3182,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t1_t2",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T1-T2 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3086,8 +3198,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t2_t3",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T2-T3 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3102,8 +3214,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t3_t4",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T3-T4 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3118,8 +3230,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t4_t5",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T4-T5 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3134,8 +3246,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t5_t6",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T5-T6 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3150,8 +3262,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t6_t7",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T6-T7 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3166,8 +3278,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t7_t8",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T7-T8 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3182,8 +3294,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t8_t9",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T8-T9 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -3198,8 +3310,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t9_t10",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T9-T10 intervertebral disc",
           "subjects": [
             "ct_vhm"
           ]
@@ -4678,12 +4790,12 @@
         },
         "rectus_abdominis_r|right": {
           "status": "FRAGMENTED",
-          "main_frac": 0.9466754443712969,
-          "n_components": 12,
-          "total_vertices": 1519,
-          "largest_component_vertices": 1438,
+          "main_frac": 0.9570592062459337,
+          "n_components": 8,
+          "total_vertices": 1537,
+          "largest_component_vertices": 1471,
           "n_pieces": 1,
-          "n_faces": 3172,
+          "n_faces": 3230,
           "id": "rectus_abdominis_r",
           "side": "right",
           "cat": "muscle",
@@ -4699,7 +4811,7 @@
           "total_vertices": 1276,
           "largest_component_vertices": 1059,
           "n_pieces": 1,
-          "n_faces": 3178,
+          "n_faces": 3172,
           "id": "external_oblique_r",
           "side": "right",
           "cat": "muscle",
@@ -4710,12 +4822,12 @@
         },
         "internal_oblique_r|right": {
           "status": "SEVERE_BREAK",
-          "main_frac": 0.4116809116809117,
+          "main_frac": 0.4251412429378531,
           "n_components": 20,
-          "total_vertices": 1404,
-          "largest_component_vertices": 578,
+          "total_vertices": 1416,
+          "largest_component_vertices": 602,
           "n_pieces": 1,
-          "n_faces": 3214,
+          "n_faces": 3218,
           "id": "internal_oblique_r",
           "side": "right",
           "cat": "muscle",
@@ -4725,13 +4837,13 @@
           ]
         },
         "transversus_abdominis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7163958641063516,
-          "n_components": 19,
-          "total_vertices": 1354,
-          "largest_component_vertices": 970,
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.3653566229985444,
+          "n_components": 17,
+          "total_vertices": 1374,
+          "largest_component_vertices": 502,
           "n_pieces": 1,
-          "n_faces": 3192,
+          "n_faces": 3210,
           "id": "transversus_abdominis_r",
           "side": "right",
           "cat": "muscle",
@@ -4742,12 +4854,12 @@
         },
         "rectus_abdominis_l|left": {
           "status": "FRAGMENTED",
-          "main_frac": 0.9744094488188977,
+          "main_frac": 0.9710335747202107,
           "n_components": 7,
-          "total_vertices": 1524,
-          "largest_component_vertices": 1485,
+          "total_vertices": 1519,
+          "largest_component_vertices": 1475,
           "n_pieces": 1,
-          "n_faces": 3192,
+          "n_faces": 3180,
           "id": "rectus_abdominis_l",
           "side": "left",
           "cat": "muscle",
@@ -4758,12 +4870,12 @@
         },
         "external_oblique_l|left": {
           "status": "FRAGMENTED",
-          "main_frac": 0.9074675324675324,
-          "n_components": 9,
-          "total_vertices": 1232,
-          "largest_component_vertices": 1118,
+          "main_frac": 0.8967173738991193,
+          "n_components": 10,
+          "total_vertices": 1249,
+          "largest_component_vertices": 1120,
           "n_pieces": 1,
-          "n_faces": 3224,
+          "n_faces": 3236,
           "id": "external_oblique_l",
           "side": "left",
           "cat": "muscle",
@@ -4774,12 +4886,12 @@
         },
         "internal_oblique_l|left": {
           "status": "FRAGMENTED",
-          "main_frac": 0.7044534412955465,
-          "n_components": 17,
-          "total_vertices": 1235,
-          "largest_component_vertices": 870,
+          "main_frac": 0.7193396226415094,
+          "n_components": 14,
+          "total_vertices": 1272,
+          "largest_component_vertices": 915,
           "n_pieces": 1,
-          "n_faces": 3144,
+          "n_faces": 3228,
           "id": "internal_oblique_l",
           "side": "left",
           "cat": "muscle",
@@ -4790,12 +4902,12 @@
         },
         "transversus_abdominis_l|left": {
           "status": "FRAGMENTED",
-          "main_frac": 0.9776186213070726,
-          "n_components": 4,
-          "total_vertices": 1117,
-          "largest_component_vertices": 1092,
+          "main_frac": 0.9362657091561939,
+          "n_components": 7,
+          "total_vertices": 1114,
+          "largest_component_vertices": 1043,
           "n_pieces": 1,
-          "n_faces": 3200,
+          "n_faces": 3162,
           "id": "transversus_abdominis_l",
           "side": "left",
           "cat": "muscle",
@@ -5187,19 +5299,1011 @@
           "subjects": [
             "ct_vhm_skin"
           ]
+        },
+        "abductor_digiti_minimi_foot_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 459,
+          "largest_component_vertices": 459,
+          "n_pieces": 1,
+          "n_faces": 972,
+          "id": "abductor_digiti_minimi_foot_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Abductor digiti minimi (foot)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "abductor_digiti_minimi_foot_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 457,
+          "largest_component_vertices": 457,
+          "n_pieces": 1,
+          "n_faces": 970,
+          "id": "abductor_digiti_minimi_foot_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Abductor digiti minimi (foot)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "abductor_digiti_minimi_hand_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 336,
+          "largest_component_vertices": 336,
+          "n_pieces": 1,
+          "n_faces": 672,
+          "id": "abductor_digiti_minimi_hand_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Abductor digiti minimi (hand)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "abductor_hallucis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 424,
+          "largest_component_vertices": 424,
+          "n_pieces": 1,
+          "n_faces": 940,
+          "id": "abductor_hallucis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Abductor hallucis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "abductor_hallucis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 441,
+          "largest_component_vertices": 441,
+          "n_pieces": 1,
+          "n_faces": 972,
+          "id": "abductor_hallucis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Abductor hallucis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "abductor_pollicis_longus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 309,
+          "largest_component_vertices": 309,
+          "n_pieces": 1,
+          "n_faces": 936,
+          "id": "abductor_pollicis_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Abductor pollicis longus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "adductor_hallucis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.7351694915254238,
+          "n_components": 2,
+          "total_vertices": 472,
+          "largest_component_vertices": 347,
+          "n_pieces": 1,
+          "n_faces": 956,
+          "id": "adductor_hallucis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Adductor hallucis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "adductor_hallucis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 482,
+          "largest_component_vertices": 482,
+          "n_pieces": 1,
+          "n_faces": 970,
+          "id": "adductor_hallucis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Adductor hallucis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "adductor_pollicis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 415,
+          "largest_component_vertices": 415,
+          "n_pieces": 1,
+          "n_faces": 930,
+          "id": "adductor_pollicis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Adductor pollicis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "adductor_pollicis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 426,
+          "largest_component_vertices": 426,
+          "n_pieces": 1,
+          "n_faces": 934,
+          "id": "adductor_pollicis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Adductor pollicis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "brachioradialis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 250,
+          "largest_component_vertices": 250,
+          "n_pieces": 1,
+          "n_faces": 970,
+          "id": "brachioradialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Brachioradialis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "brachioradialis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 236,
+          "largest_component_vertices": 236,
+          "n_pieces": 1,
+          "n_faces": 954,
+          "id": "brachioradialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Brachioradialis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "dorsal_interossei_foot_l|left": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.43287037037037035,
+          "n_components": 4,
+          "total_vertices": 432,
+          "largest_component_vertices": 187,
+          "n_pieces": 1,
+          "n_faces": 964,
+          "id": "dorsal_interossei_foot_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Dorsal interossei (foot)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "dorsal_interossei_foot_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.2564705882352941,
+          "n_components": 4,
+          "total_vertices": 425,
+          "largest_component_vertices": 109,
+          "n_pieces": 1,
+          "n_faces": 958,
+          "id": "dorsal_interossei_foot_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Dorsal interossei (foot)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "dorsal_interossei_hand_l|left": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.31521739130434784,
+          "n_components": 4,
+          "total_vertices": 460,
+          "largest_component_vertices": 145,
+          "n_pieces": 1,
+          "n_faces": 948,
+          "id": "dorsal_interossei_hand_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Dorsal interossei (hand)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "dorsal_interossei_hand_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.3404710920770878,
+          "n_components": 4,
+          "total_vertices": 467,
+          "largest_component_vertices": 159,
+          "n_pieces": 1,
+          "n_faces": 962,
+          "id": "dorsal_interossei_hand_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Dorsal interossei (hand)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_carpi_radialis_brevis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9897959183673469,
+          "n_components": 2,
+          "total_vertices": 294,
+          "largest_component_vertices": 291,
+          "n_pieces": 1,
+          "n_faces": 952,
+          "id": "extensor_carpi_radialis_brevis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor carpi radialis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_carpi_radialis_brevis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 187,
+          "largest_component_vertices": 187,
+          "n_pieces": 1,
+          "n_faces": 950,
+          "id": "extensor_carpi_radialis_brevis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor carpi radialis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_carpi_radialis_longus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 232,
+          "largest_component_vertices": 232,
+          "n_pieces": 1,
+          "n_faces": 928,
+          "id": "extensor_carpi_radialis_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor carpi radialis longus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_carpi_radialis_longus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9938775510204082,
+          "n_components": 2,
+          "total_vertices": 490,
+          "largest_component_vertices": 487,
+          "n_pieces": 1,
+          "n_faces": 971,
+          "id": "extensor_carpi_radialis_longus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor carpi radialis longus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_carpi_ulnaris_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9928909952606635,
+          "n_components": 2,
+          "total_vertices": 422,
+          "largest_component_vertices": 419,
+          "n_pieces": 1,
+          "n_faces": 972,
+          "id": "extensor_carpi_ulnaris_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor carpi ulnaris",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_carpi_ulnaris_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5406032482598608,
+          "n_components": 2,
+          "total_vertices": 431,
+          "largest_component_vertices": 233,
+          "n_pieces": 1,
+          "n_faces": 966,
+          "id": "extensor_carpi_ulnaris_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor carpi ulnaris",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_digiti_minimi_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 309,
+          "largest_component_vertices": 309,
+          "n_pieces": 1,
+          "n_faces": 962,
+          "id": "extensor_digiti_minimi_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor digiti minimi",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_digitorum_brevis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 294,
+          "largest_component_vertices": 294,
+          "n_pieces": 1,
+          "n_faces": 942,
+          "id": "extensor_digitorum_brevis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor digitorum brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_digitorum_brevis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 253,
+          "largest_component_vertices": 253,
+          "n_pieces": 1,
+          "n_faces": 930,
+          "id": "extensor_digitorum_brevis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor digitorum brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_digitorum_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8771929824561403,
+          "n_components": 5,
+          "total_vertices": 171,
+          "largest_component_vertices": 150,
+          "n_pieces": 1,
+          "n_faces": 950,
+          "id": "extensor_digitorum_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor digitorum",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_hallucis_brevis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 480,
+          "largest_component_vertices": 480,
+          "n_pieces": 1,
+          "n_faces": 966,
+          "id": "extensor_hallucis_brevis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor hallucis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_hallucis_brevis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 485,
+          "largest_component_vertices": 485,
+          "n_pieces": 1,
+          "n_faces": 972,
+          "id": "extensor_hallucis_brevis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor hallucis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_indicis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 465,
+          "largest_component_vertices": 465,
+          "n_pieces": 1,
+          "n_faces": 968,
+          "id": "extensor_indicis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor indicis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_pollicis_brevis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 477,
+          "largest_component_vertices": 477,
+          "n_pieces": 1,
+          "n_faces": 966,
+          "id": "extensor_pollicis_brevis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor pollicis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_pollicis_brevis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 469,
+          "largest_component_vertices": 469,
+          "n_pieces": 1,
+          "n_faces": 966,
+          "id": "extensor_pollicis_brevis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor pollicis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "extensor_retinaculum_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 186,
+          "largest_component_vertices": 186,
+          "n_pieces": 1,
+          "n_faces": 368,
+          "id": "extensor_retinaculum_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Extensor retinaculum (dorsal carpal ligament)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_carpi_radialis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 394,
+          "largest_component_vertices": 394,
+          "n_pieces": 1,
+          "n_faces": 968,
+          "id": "flexor_carpi_radialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor carpi radialis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_carpi_ulnaris_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9581589958158996,
+          "n_components": 2,
+          "total_vertices": 239,
+          "largest_component_vertices": 229,
+          "n_pieces": 1,
+          "n_faces": 970,
+          "id": "flexor_carpi_ulnaris_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor carpi ulnaris",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_digiti_minimi_brevis_foot_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 230,
+          "largest_component_vertices": 230,
+          "n_pieces": 1,
+          "n_faces": 464,
+          "id": "flexor_digiti_minimi_brevis_foot_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor digiti minimi brevis (foot)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_digiti_minimi_brevis_foot_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 230,
+          "largest_component_vertices": 230,
+          "n_pieces": 1,
+          "n_faces": 464,
+          "id": "flexor_digiti_minimi_brevis_foot_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor digiti minimi brevis (foot)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_digiti_minimi_brevis_hand_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 156,
+          "largest_component_vertices": 156,
+          "n_pieces": 1,
+          "n_faces": 308,
+          "id": "flexor_digiti_minimi_brevis_hand_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor digiti minimi brevis (hand)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_digitorum_brevis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9703264094955489,
+          "n_components": 2,
+          "total_vertices": 337,
+          "largest_component_vertices": 327,
+          "n_pieces": 1,
+          "n_faces": 930,
+          "id": "flexor_digitorum_brevis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor digitorum brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_digitorum_brevis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9498680738786279,
+          "n_components": 4,
+          "total_vertices": 379,
+          "largest_component_vertices": 360,
+          "n_pieces": 1,
+          "n_faces": 960,
+          "id": "flexor_digitorum_brevis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor digitorum brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_digitorum_superficialis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 377,
+          "largest_component_vertices": 377,
+          "n_pieces": 1,
+          "n_faces": 962,
+          "id": "flexor_digitorum_superficialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor digitorum superficialis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_hallucis_brevis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 424,
+          "largest_component_vertices": 424,
+          "n_pieces": 1,
+          "n_faces": 956,
+          "id": "flexor_hallucis_brevis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor hallucis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_hallucis_brevis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 407,
+          "largest_component_vertices": 407,
+          "n_pieces": 1,
+          "n_faces": 954,
+          "id": "flexor_hallucis_brevis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor hallucis brevis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_pollicis_longus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 416,
+          "largest_component_vertices": 416,
+          "n_pieces": 1,
+          "n_faces": 930,
+          "id": "flexor_pollicis_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor pollicis longus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_pollicis_longus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 431,
+          "largest_component_vertices": 431,
+          "n_pieces": 1,
+          "n_faces": 950,
+          "id": "flexor_pollicis_longus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor pollicis longus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "flexor_retinaculum_ankle_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 140,
+          "largest_component_vertices": 140,
+          "n_pieces": 1,
+          "n_faces": 404,
+          "id": "flexor_retinaculum_ankle_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Flexor retinaculum (of the ankle, forms the tarsal tunnel)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "interosseous_membrane_forearm_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 104,
+          "largest_component_vertices": 104,
+          "n_pieces": 1,
+          "n_faces": 400,
+          "id": "interosseous_membrane_forearm_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Interosseous membrane (forearm)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "opponens_digiti_minimi_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.6363636363636364,
+          "n_components": 2,
+          "total_vertices": 330,
+          "largest_component_vertices": 210,
+          "n_pieces": 1,
+          "n_faces": 656,
+          "id": "opponens_digiti_minimi_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Opponens digiti minimi",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "opponens_pollicis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 194,
+          "largest_component_vertices": 194,
+          "n_pieces": 1,
+          "n_faces": 384,
+          "id": "opponens_pollicis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Opponens pollicis",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "palmar_interossei_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 87,
+          "largest_component_vertices": 87,
+          "n_pieces": 1,
+          "n_faces": 174,
+          "id": "palmar_interossei_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Palmar interossei",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "palmar_interossei_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 87,
+          "largest_component_vertices": 87,
+          "n_pieces": 1,
+          "n_faces": 174,
+          "id": "palmar_interossei_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Palmar interossei",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "peroneal_retinaculum_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 152,
+          "largest_component_vertices": 152,
+          "n_pieces": 1,
+          "n_faces": 398,
+          "id": "peroneal_retinaculum_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "(Superior + inferior) fibular (peroneal) retinaculum",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "plantar_aponeurosis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 237,
+          "largest_component_vertices": 237,
+          "n_pieces": 1,
+          "n_faces": 400,
+          "id": "plantar_aponeurosis_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Plantar aponeurosis (fascia)",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "plantar_interossei_l|left": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.4078091106290672,
+          "n_components": 4,
+          "total_vertices": 461,
+          "largest_component_vertices": 188,
+          "n_pieces": 1,
+          "n_faces": 934,
+          "id": "plantar_interossei_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Plantar interossei",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "plantar_interossei_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.379746835443038,
+          "n_components": 4,
+          "total_vertices": 474,
+          "largest_component_vertices": 180,
+          "n_pieces": 1,
+          "n_faces": 950,
+          "id": "plantar_interossei_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Plantar interossei",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "pronator_quadratus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 480,
+          "largest_component_vertices": 480,
+          "n_pieces": 1,
+          "n_faces": 972,
+          "id": "pronator_quadratus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Pronator quadratus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "pronator_quadratus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 480,
+          "largest_component_vertices": 480,
+          "n_pieces": 1,
+          "n_faces": 966,
+          "id": "pronator_quadratus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Pronator quadratus",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "pronator_teres_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.988,
+          "n_components": 2,
+          "total_vertices": 250,
+          "largest_component_vertices": 247,
+          "n_pieces": 1,
+          "n_faces": 964,
+          "id": "pronator_teres_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Pronator teres",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "pronator_teres_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 227,
+          "largest_component_vertices": 227,
+          "n_pieces": 1,
+          "n_faces": 916,
+          "id": "pronator_teres_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Pronator teres",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "quadratus_plantae_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 477,
+          "largest_component_vertices": 477,
+          "n_pieces": 1,
+          "n_faces": 960,
+          "id": "quadratus_plantae_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Quadratus plantae",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "quadratus_plantae_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 478,
+          "largest_component_vertices": 478,
+          "n_pieces": 1,
+          "n_faces": 964,
+          "id": "quadratus_plantae_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Quadratus plantae",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "supinator_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 350,
+          "largest_component_vertices": 350,
+          "n_pieces": 1,
+          "n_faces": 960,
+          "id": "supinator_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Supinator",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
+        },
+        "supinator_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 376,
+          "largest_component_vertices": 376,
+          "n_pieces": 1,
+          "n_faces": 942,
+          "id": "supinator_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Supinator",
+          "subjects": [
+            "xfer_zan2vhm_limb"
+          ]
         }
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 223,
-          "FRAGMENTED": 79,
-          "SEVERE_BREAK": 19
+          "CONTINUOUS": 275,
+          "FRAGMENTED": 87,
+          "SEVERE_BREAK": 28
         },
         "by_category_status": {
           "muscle": {
-            "CONTINUOUS": 133,
-            "FRAGMENTED": 65,
-            "SEVERE_BREAK": 7
+            "CONTINUOUS": 175,
+            "FRAGMENTED": 73,
+            "SEVERE_BREAK": 14
           },
           "bone": {
             "FRAGMENTED": 4,
@@ -5208,14 +6312,15 @@
           },
           "cartilage": {
             "SEVERE_BREAK": 3,
-            "CONTINUOUS": 2,
+            "CONTINUOUS": 23,
             "FRAGMENTED": 5
           },
           "ligament": {
-            "CONTINUOUS": 8
+            "CONTINUOUS": 9
           },
-          "other": {
-            "CONTINUOUS": 21
+          "tendon": {
+            "CONTINUOUS": 4,
+            "SEVERE_BREAK": 2
           },
           "vessel": {
             "FRAGMENTED": 4,
@@ -5225,18 +6330,18 @@
             "FRAGMENTED": 1
           },
           "fascia": {
-            "CONTINUOUS": 1
+            "CONTINUOUS": 6
           }
         }
       }
     },
     "female": {
-      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_descaorta+ct_vhf_hyoid_fix+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep+xfer_vhm2vhf",
+      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_mcsplit+ct_vhf_descaorta+ct_vhf_hyoid_fix+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep+xfer_vhm2vhf_tva+xfer_vhm2vhf+xfer_zan2vhf_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_f/atlas_viewer_female.html",
-      "html_mtime": 1790067384.9586415,
-      "n_structures_raw": 378,
-      "n_groups": 356,
+      "html_mtime": 1790204244.8478458,
+      "n_structures_raw": 414,
+      "n_groups": 392,
       "cat_mismatches": [],
       "structures": {
         "mandible|none": {
@@ -5735,22 +6840,6 @@
             "ct_vhf_armb"
           ]
         },
-        "metacarpals_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5462392108508015,
-          "n_components": 4,
-          "total_vertices": 2433,
-          "largest_component_vertices": 1329,
-          "n_pieces": 1,
-          "n_faces": 5046,
-          "id": "metacarpals_r",
-          "side": "right",
-          "cat": "bone",
-          "name": "Metacarpals (5)",
-          "subjects": [
-            "ct_vhf_armb"
-          ]
-        },
         "phalanges_hand_r|right": {
           "status": "SEVERE_BREAK",
           "main_frac": 0.3136472466081405,
@@ -5765,6 +6854,86 @@
           "name": "Finger/thumb phalanges (14: thumb x2, fingers x3 each)",
           "subjects": [
             "ct_vhf_armb"
+          ]
+        },
+        "metacarpal_1_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9796407185628743,
+          "n_components": 2,
+          "total_vertices": 2505,
+          "largest_component_vertices": 2454,
+          "n_pieces": 1,
+          "n_faces": 5014,
+          "id": "metacarpal_1_r",
+          "side": "right",
+          "cat": "bone",
+          "name": "1st metacarpal (thumb)",
+          "subjects": [
+            "ct_vhf_mcsplit"
+          ]
+        },
+        "metacarpal_2_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9812075169932027,
+          "n_components": 2,
+          "total_vertices": 2501,
+          "largest_component_vertices": 2454,
+          "n_pieces": 1,
+          "n_faces": 5006,
+          "id": "metacarpal_2_r",
+          "side": "right",
+          "cat": "bone",
+          "name": "2nd metacarpal (index finger)",
+          "subjects": [
+            "ct_vhf_mcsplit"
+          ]
+        },
+        "metacarpal_3_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 2504,
+          "largest_component_vertices": 2504,
+          "n_pieces": 1,
+          "n_faces": 5020,
+          "id": "metacarpal_3_r",
+          "side": "right",
+          "cat": "bone",
+          "name": "3rd metacarpal (middle finger)",
+          "subjects": [
+            "ct_vhf_mcsplit"
+          ]
+        },
+        "metacarpal_4_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 2474,
+          "largest_component_vertices": 2474,
+          "n_pieces": 1,
+          "n_faces": 4960,
+          "id": "metacarpal_4_r",
+          "side": "right",
+          "cat": "bone",
+          "name": "4th metacarpal (ring finger)",
+          "subjects": [
+            "ct_vhf_mcsplit"
+          ]
+        },
+        "metacarpal_5_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 2505,
+          "largest_component_vertices": 2505,
+          "n_pieces": 1,
+          "n_faces": 5014,
+          "id": "metacarpal_5_r",
+          "side": "right",
+          "cat": "bone",
+          "name": "5th metacarpal (little finger)",
+          "subjects": [
+            "ct_vhf_mcsplit"
           ]
         },
         "descending_thoracic_aorta|none": {
@@ -6461,6 +7630,150 @@
             "ct_vhf"
           ]
         },
+        "adductor_magnus_distal_tendon_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "adductor_magnus_distal_tendon_l",
+          "side": "left",
+          "cat": "tendon",
+          "name": "Adductor magnus distal tendon",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "adductor_magnus_distal_tendon_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "adductor_magnus_distal_tendon_r",
+          "side": "right",
+          "cat": "tendon",
+          "name": "Adductor magnus distal tendon",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "iliopsoas_tendon_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "iliopsoas_tendon_l",
+          "side": "left",
+          "cat": "tendon",
+          "name": "Iliopsoas tendon",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "iliopsoas_tendon_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "iliopsoas_tendon_r",
+          "side": "right",
+          "cat": "tendon",
+          "name": "Iliopsoas tendon",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "quadriceps_tendon_l|left": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.25,
+          "n_components": 4,
+          "total_vertices": 64,
+          "largest_component_vertices": 16,
+          "n_pieces": 1,
+          "n_faces": 112,
+          "id": "quadriceps_tendon_l",
+          "side": "left",
+          "cat": "tendon",
+          "name": "Quadriceps femoris tendon",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "quadriceps_tendon_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.25,
+          "n_components": 4,
+          "total_vertices": 64,
+          "largest_component_vertices": 16,
+          "n_pieces": 1,
+          "n_faces": 112,
+          "id": "quadriceps_tendon_r",
+          "side": "right",
+          "cat": "tendon",
+          "name": "Quadriceps femoris tendon",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "acromioclavicular_ligament_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "acromioclavicular_ligament_l",
+          "side": "left",
+          "cat": "ligament",
+          "name": "Acromioclavicular ligament",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "acromioclavicular_ligament_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "acromioclavicular_ligament_r",
+          "side": "right",
+          "cat": "ligament",
+          "name": "Acromioclavicular ligament",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
+        "coracoclavicular_ligament_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 30,
+          "largest_component_vertices": 30,
+          "n_pieces": 1,
+          "n_faces": 56,
+          "id": "coracoclavicular_ligament_r",
+          "side": "right",
+          "cat": "ligament",
+          "name": "Coracoclavicular ligament",
+          "subjects": [
+            "ct_vhf"
+          ]
+        },
         "intervertebral_disc_c1_c2|none": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -6471,8 +7784,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c1_c2",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C1-C2 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6487,8 +7800,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c2_c3",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C2-C3 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6503,8 +7816,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c3_c4",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C3-C4 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6519,8 +7832,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c4_c5",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C4-C5 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6535,8 +7848,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c5_c6",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C5-C6 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6551,8 +7864,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_c6_c7",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "C6-C7 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6567,8 +7880,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l1_l2",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L1-L2 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6583,8 +7896,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l2_l3",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L2-L3 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6599,8 +7912,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l3_l4",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L3-L4 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6615,8 +7928,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_l4_l5",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "L4-L5 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6631,8 +7944,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t10_t11",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T10-T11 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6647,8 +7960,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t11_t12",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T11-T12 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6663,8 +7976,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t1_t2",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T1-T2 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6679,8 +7992,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t2_t3",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T2-T3 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6695,8 +8008,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t3_t4",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T3-T4 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6711,8 +8024,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t4_t5",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T4-T5 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6727,8 +8040,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t5_t6",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T5-T6 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6743,8 +8056,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t6_t7",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T6-T7 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6759,8 +8072,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t7_t8",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T7-T8 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6775,8 +8088,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t8_t9",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T8-T9 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -6791,8 +8104,8 @@
           "n_faces": 128,
           "id": "intervertebral_disc_t9_t10",
           "side": "none",
-          "cat": "other",
-          "name": null,
+          "cat": "cartilage",
+          "name": "T9-T10 intervertebral disc",
           "subjects": [
             "ct_vhf"
           ]
@@ -10477,6 +11790,38 @@
             "xfer_vhm2vhf_sep"
           ]
         },
+        "transversus_abdominis_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.37162683114880496,
+          "n_components": 17,
+          "total_vertices": 1297,
+          "largest_component_vertices": 482,
+          "n_pieces": 1,
+          "n_faces": 3054,
+          "id": "transversus_abdominis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Transversus abdominis",
+          "subjects": [
+            "xfer_vhm2vhf_tva"
+          ]
+        },
+        "transversus_abdominis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.938872970391595,
+          "n_components": 7,
+          "total_vertices": 1047,
+          "largest_component_vertices": 983,
+          "n_pieces": 1,
+          "n_faces": 3032,
+          "id": "transversus_abdominis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Transversus abdominis",
+          "subjects": [
+            "xfer_vhm2vhf_tva"
+          ]
+        },
         "ankle_articular_cartilage_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -10925,49 +12270,385 @@
             "xfer_vhm2vhf"
           ]
         },
-        "transversus_abdominis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9106302916274694,
-          "n_components": 15,
-          "total_vertices": 1063,
-          "largest_component_vertices": 968,
+        "abductor_hallucis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 411,
+          "largest_component_vertices": 411,
           "n_pieces": 1,
-          "n_faces": 3046,
-          "id": "transversus_abdominis_l",
+          "n_faces": 916,
+          "id": "abductor_hallucis_l",
           "side": "left",
           "cat": "muscle",
-          "name": "Transversus abdominis",
+          "name": "Abductor hallucis",
           "subjects": [
-            "xfer_vhm2vhf"
+            "xfer_zan2vhf_limb"
           ]
         },
-        "transversus_abdominis_r|right": {
-          "status": "SEVERE_BREAK",
-          "main_frac": 0.47063555913113436,
-          "n_components": 22,
-          "total_vertices": 1243,
-          "largest_component_vertices": 585,
+        "adductor_hallucis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 432,
+          "largest_component_vertices": 432,
           "n_pieces": 1,
-          "n_faces": 3044,
-          "id": "transversus_abdominis_r",
+          "n_faces": 900,
+          "id": "adductor_hallucis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Adductor hallucis",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "adductor_hallucis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.7330316742081447,
+          "n_components": 2,
+          "total_vertices": 442,
+          "largest_component_vertices": 324,
+          "n_pieces": 1,
+          "n_faces": 904,
+          "id": "adductor_hallucis_r",
           "side": "right",
           "cat": "muscle",
-          "name": "Transversus abdominis",
+          "name": "Adductor hallucis",
           "subjects": [
-            "xfer_vhm2vhf"
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "anconeus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 416,
+          "largest_component_vertices": 416,
+          "n_pieces": 1,
+          "n_faces": 918,
+          "id": "anconeus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Anconeus",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "antebrachial_fascia_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 184,
+          "largest_component_vertices": 184,
+          "n_pieces": 1,
+          "n_faces": 377,
+          "id": "antebrachial_fascia_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Antebrachial (deep) fascia of the forearm",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "dorsal_interossei_foot_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.48860759493670886,
+          "n_components": 3,
+          "total_vertices": 395,
+          "largest_component_vertices": 193,
+          "n_pieces": 1,
+          "n_faces": 916,
+          "id": "dorsal_interossei_foot_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Dorsal interossei (foot)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "extensor_retinaculum_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 186,
+          "largest_component_vertices": 186,
+          "n_pieces": 1,
+          "n_faces": 368,
+          "id": "extensor_retinaculum_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Extensor retinaculum (dorsal carpal ligament)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "flexor_carpi_radialis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 310,
+          "largest_component_vertices": 310,
+          "n_pieces": 1,
+          "n_faces": 898,
+          "id": "flexor_carpi_radialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor carpi radialis",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "flexor_digiti_minimi_brevis_foot_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 230,
+          "largest_component_vertices": 230,
+          "n_pieces": 1,
+          "n_faces": 464,
+          "id": "flexor_digiti_minimi_brevis_foot_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Flexor digiti minimi brevis (foot)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "flexor_digiti_minimi_brevis_foot_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 230,
+          "largest_component_vertices": 230,
+          "n_pieces": 1,
+          "n_faces": 464,
+          "id": "flexor_digiti_minimi_brevis_foot_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor digiti minimi brevis (foot)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "flexor_digitorum_superficialis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 370,
+          "largest_component_vertices": 370,
+          "n_pieces": 1,
+          "n_faces": 906,
+          "id": "flexor_digitorum_superficialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor digitorum superficialis",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "flexor_retinaculum_ankle_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 130,
+          "largest_component_vertices": 130,
+          "n_pieces": 1,
+          "n_faces": 380,
+          "id": "flexor_retinaculum_ankle_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Flexor retinaculum (of the ankle, forms the tarsal tunnel)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "flexor_retinaculum_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 138,
+          "largest_component_vertices": 138,
+          "n_pieces": 1,
+          "n_faces": 376,
+          "id": "flexor_retinaculum_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Flexor retinaculum (transverse carpal ligament)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "interosseous_membrane_forearm_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9693877551020408,
+          "n_components": 2,
+          "total_vertices": 98,
+          "largest_component_vertices": 95,
+          "n_pieces": 1,
+          "n_faces": 362,
+          "id": "interosseous_membrane_forearm_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Interosseous membrane (forearm)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "opponens_pollicis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 194,
+          "largest_component_vertices": 194,
+          "n_pieces": 1,
+          "n_faces": 384,
+          "id": "opponens_pollicis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Opponens pollicis",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "peroneal_retinaculum_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 132,
+          "largest_component_vertices": 132,
+          "n_pieces": 1,
+          "n_faces": 370,
+          "id": "peroneal_retinaculum_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "(Superior + inferior) fibular (peroneal) retinaculum",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "plantar_aponeurosis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 218,
+          "largest_component_vertices": 218,
+          "n_pieces": 1,
+          "n_faces": 377,
+          "id": "plantar_aponeurosis_r",
+          "side": "right",
+          "cat": "fascia",
+          "name": "Plantar aponeurosis (fascia)",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "plantar_interossei_l|left": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.39351851851851855,
+          "n_components": 4,
+          "total_vertices": 432,
+          "largest_component_vertices": 170,
+          "n_pieces": 1,
+          "n_faces": 914,
+          "id": "plantar_interossei_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Plantar interossei",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "plantar_interossei_r|right": {
+          "status": "SEVERE_BREAK",
+          "main_frac": 0.36054421768707484,
+          "n_components": 4,
+          "total_vertices": 441,
+          "largest_component_vertices": 159,
+          "n_pieces": 1,
+          "n_faces": 906,
+          "id": "plantar_interossei_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Plantar interossei",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "pronator_teres_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 239,
+          "largest_component_vertices": 239,
+          "n_pieces": 1,
+          "n_faces": 874,
+          "id": "pronator_teres_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Pronator teres",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "quadratus_plantae_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 440,
+          "largest_component_vertices": 440,
+          "n_pieces": 1,
+          "n_faces": 906,
+          "id": "quadratus_plantae_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Quadratus plantae",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "quadratus_plantae_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 445,
+          "largest_component_vertices": 445,
+          "n_pieces": 1,
+          "n_faces": 910,
+          "id": "quadratus_plantae_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Quadratus plantae",
+          "subjects": [
+            "xfer_zan2vhf_limb"
+          ]
+        },
+        "supinator_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 343,
+          "largest_component_vertices": 343,
+          "n_pieces": 1,
+          "n_faces": 884,
+          "id": "supinator_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Supinator",
+          "subjects": [
+            "xfer_zan2vhf_limb"
           ]
         }
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 244,
-          "FRAGMENTED": 99,
-          "SEVERE_BREAK": 13
+          "CONTINUOUS": 272,
+          "FRAGMENTED": 102,
+          "SEVERE_BREAK": 18
         },
         "by_category_status": {
           "bone": {
-            "CONTINUOUS": 38,
-            "FRAGMENTED": 12,
+            "CONTINUOUS": 41,
+            "FRAGMENTED": 13,
             "SEVERE_BREAK": 6
           },
           "vessel": {
@@ -10975,26 +12656,28 @@
             "FRAGMENTED": 7
           },
           "muscle": {
-            "CONTINUOUS": 148,
-            "FRAGMENTED": 76,
-            "SEVERE_BREAK": 7
+            "CONTINUOUS": 160,
+            "FRAGMENTED": 77,
+            "SEVERE_BREAK": 10
           },
           "cartilage": {
             "FRAGMENTED": 3,
-            "CONTINUOUS": 7
+            "CONTINUOUS": 28
           },
-          "other": {
-            "CONTINUOUS": 21
+          "tendon": {
+            "CONTINUOUS": 4,
+            "SEVERE_BREAK": 2
+          },
+          "ligament": {
+            "CONTINUOUS": 11
           },
           "nerve": {
             "CONTINUOUS": 4,
             "FRAGMENTED": 1
           },
           "fascia": {
-            "CONTINUOUS": 1
-          },
-          "ligament": {
-            "CONTINUOUS": 8
+            "CONTINUOUS": 7,
+            "FRAGMENTED": 1
           }
         }
       }

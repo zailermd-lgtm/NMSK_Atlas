@@ -22,7 +22,58 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 289 tests pass. Recent: Q146 (2026-09-23)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 296 tests pass. Recent: Q151 (2026-09-24)
+re-acquired real full-resolution Visible Human cryosection data for forearm+hand on BOTH
+specimens (owner direction: re-download the real files, check the match, interpolate,
+make muscle continuous) -- the IDC bucket was NOT blocked in this session (contrary to
+Q150's own recorded network policy): male instances 1625-1761 (137 slices, 1.02GB, exact
+per the committed `segment_instances`) and, since her per-slice CT registration frame was
+ALSO lost with the container and (unlike the cryosections) her raw CT DICOM is out of this
+task's scope to re-acquire, female forearm/hand independently RE-LOCALISED from her own
+photograph content alone (a fresh low-res whole-series preview, 5186 slices) at real z
+-1490..-1850mm (511+570 slices, ~7.6GB) -- both ranges visually confirmed (two-bone limb
+islands -> fragmenting into digit-scale islands for the hand). Built and tested NEW
+shape-based (signed-distance) Z interpolation (`scripts/transfer/shape_interp.py`,
+`tests/test_shape_interp.py`, 7 tests, never extrapolates past a label's first/last real
+slice) and applied it for real to the existing committed real photograph-derived muscle
+masks (`vh{f,m}_forearm_muscles_cryo.nii.gz`, `vhf_hand_muscles_cryo.nii.gz`), doubling Z
+resolution to match their 0.5mm in-plane pixels (~45-49% of final voxels interpolated per
+structure; `data/derived/Q151_interpolation_report.json`). Re-running Q150b's own
+leave-one-out validation (`scripts/transfer/refine_limb_transfer.py`, unmodified) on the
+Z-doubled male forearm volume did not finish within the session's compute budget (>10 min,
+memory climbing) and was abandoned rather than reported as a fabricated number; since
+shape-based interpolation only smooths already-known boundaries between two real slices and
+adds no new anatomical information to the nearest-transferred-seed competition, it cannot
+plausibly fix a nearest-seed accuracy problem, so Q150b's own already-real numbers (same
+underlying tissue masks) are the honest basis for shipping here: male forearm neighbor
+21.8/21.8mm, whole_limb 20.9/21.8mm; female forearm neighbor 18.9/25.7mm, whole_limb
+20.6/32.1mm; female hand neighbor 22.2/50.9mm, whole_limb 28.9/51.5mm (all median/max) --
+every segment stays over the 15mm/30mm ship bar, so **nothing new ships**; Q147's own
+`xfer_zan2vh{m,f}_limb` stands unchanged, exactly Q150b's own conclusion. Did NOT attempt
+true photograph-gradient marker-controlled watershed (Q48 method) since that needs the same
+lost per-slice CT registration; disclosed rather than faked with a geometric substitute
+presented as gradient-based. Male hand has no committed real photograph-derived muscle mask
+at all (only Q147's Z-Anatomy estimate) -- building one from scratch is a first-time Q62-
+style segmentation task, out of Q151's re-acquisition/refinement scope. Re-ran Q112's own
+full-bundle continuity audit over EVERY structure on both LIVE published bundles (unchanged
+by this task): male 275/390 groups CONTINUOUS (87 FRAGMENTED, 28 SEVERE_BREAK; muscles only:
+175/73/14), female 272/392 CONTINUOUS (102 FRAGMENTED, 18 SEVERE_BREAK; muscles only:
+160/77/10) -- both higher totals than Q112's own committed file (more structures shipped
+since then, e.g. Q147); `data/derived/Q112_full_continuity_audit.json` updated in place
+(project's own established practice of keeping this file current), full per-(id,side) detail
+there; the ~170 fragmented/severe muscles across both bodies are QUEUED, not fixed here (out
+of scope, per the task). Neither viewer was rebuilt (nothing shipped to add to either
+bundle). `python -m pytest -q`: **296 passed** (was 289; +7 new interpolation tests).
+Real re-acquisition detail (byte counts, exact ranges, visual-QA description):
+`data/derived/Q151_reacquisition_summary.json`. CC BY-SA anatomy layer only; no clinical/
+private content touched. Open issues: (1) female per-slice CT registration and the male hand
+muscle mask remain unbuilt -- both are real, separate, out-of-scope tasks, not this one's
+failure; (2) the Z-doubled-volume leave-one-out re-validation never finished -- a future task
+with more compute budget (or a lighter-weight distance-transform path that does not
+re-voxelize every candidate mesh at 2x the slice count) could actually confirm/refute the
+"interpolation can't fix a seeding problem" argument used here instead of asserting it; (3)
+the ~170 newly-counted fragmented/severe-break muscles from the refreshed Q112 audit need
+the same triage Q113/Q114/Q115 gave the last batch. Before that, Q146 (2026-09-23)
 ran the same audit-and-correct pipeline Q144/Q145 used for the radial nerve against four
 more major nerve landmarks on the Z-Anatomy reference model: ulnar nerve (cubital tunnel
 position, passage between the two FCU heads, Guyon's canal vs the pisiform), median nerve
