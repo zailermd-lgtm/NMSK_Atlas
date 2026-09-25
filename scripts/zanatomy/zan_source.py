@@ -159,14 +159,29 @@ _ATLAS_ID_OVERRIDE = {
 
 
 def load_extra_links(path=DEFAULT_EXTRA_LINKS) -> list[dict]:
-    """Q158: curated, rule-tagged Z-Anatomy name -> atlas id links this project's
-    own downstream review found for cases `map_names.py`'s generic matcher
-    correctly declined to guess (grouped many-to-one containment, tissue-category
-    tie-breaks on an ambiguous pair, and a small set of numbered-series regexes --
-    see `scripts/zanatomy/build_q158_links.py`'s own module docstring for exactly
-    which). Kept in their own committed file rather than edited into
-    `map_names.py`'s frozen output, per the same standing rule this module's own
-    docstring states for its `_ATLAS_ID_OVERRIDE`/`_CROSS_CATEGORY_JUNK`/
+    """Q158b: curated, rule-tagged Z-Anatomy name -> PARENT atlas id links this
+    project's own downstream review found for cases `map_names.py`'s generic
+    matcher correctly declined to guess (grouped many-to-one containment,
+    tissue-category tie-breaks on an ambiguous pair, and a small set of
+    numbered-series regexes -- see `scripts/zanatomy/build_q158_links.py`'s own
+    module docstring for exactly which).
+
+    Q158's first cut fed these into `load_source()`'s own per-atlas-id `groups`
+    dict, MERGING each linked Z-Anatomy object's geometry into its parent's
+    mesh (e.g. all 8 carpal bones unioned into one `carpals_l` blob). Lead
+    review (Q158b) reverted that: for an anatomy atlas, merging destroys the
+    ability to select a single named structure (no more picking "scaphoid" on
+    its own once it is fused into a carpal blob). This loader is now READ-ONLY
+    metadata -- `scripts/zanatomy/build_zan_atlas_viewer.py` uses it to attach
+    a `part_of`/`part_of_id` reference (and the parent's own cited facts,
+    clearly labelled as the parent's) onto that Z-Anatomy object's OWN,
+    still-separate orphan mesh, never to combine geometry. `load_source()`
+    itself is back to reading only `map_names.py`'s own exact/confident
+    matches (plus `_ATLAS_ID_OVERRIDE`), unchanged from before Q158.
+
+    Kept in their own committed file rather than edited into `map_names.py`'s
+    frozen output, per the same standing rule this module's own docstring
+    states for its `_ATLAS_ID_OVERRIDE`/`_CROSS_CATEGORY_JUNK`/
     `_ALLOWED_SYSTEMS` tables. Returns `[]` if the file does not exist (this
     loader is optional, unlike the namemap itself)."""
     p = Path(path)
@@ -176,8 +191,7 @@ def load_extra_links(path=DEFAULT_EXTRA_LINKS) -> list[dict]:
 
 
 def load_source(*, inventory_path=DEFAULT_INVENTORY, namemap_path=DEFAULT_NAMEMAP,
-                 zan_dir=DEFAULT_ZAN_DIR, min_vertices: int = 1,
-                 extra_links_path=DEFAULT_EXTRA_LINKS):
+                 zan_dir=DEFAULT_ZAN_DIR, min_vertices: int = 1):
     """Return {atlas_id: {'v','f','cat','side','subject','rec'}} -- the same shape
     scripts/transfer/bundle_io.py's own_only(meshes_by_id(...)) returns for a real
     bundle, so scripts/transfer/cross_subject_transfer.py's build_bone_maps() and
@@ -197,41 +211,25 @@ def load_source(*, inventory_path=DEFAULT_INVENTORY, namemap_path=DEFAULT_NAMEMA
 
     # atlas_id -> side -> [ (vertex_count, zanatomy_name, status, score, system) ]
     groups: dict[str, dict] = {}
-
-    def _add_candidate(aid, name, status, score):
-        """Shared by both the namemap loop below and the Q158 extra-links loop:
-        same category-junk / allowed-system / side-consistency safety net either
-        way, so a curated link is held to exactly the same bar as a namemap one."""
-        cat = id_to_cat.get(aid)
-        if cat is None or _is_cross_category_junk(name, cat):
-            return
-        obj = objs_by_name.get(name)
-        if obj is None or obj["vertex_count"] < min_vertices:
-            return
-        if obj["system"] not in _ALLOWED_SYSTEMS.get(cat, {obj["system"]}):
-            return
-        wanted_side = _side_of_atlas_id(aid)
-        obj_side = obj.get("side")
-        if wanted_side and obj_side and obj_side != wanted_side:
-            return  # e.g. a mismatched-side name-match artifact; never trust it over the id's own side
-        groups.setdefault(aid, {}).setdefault(obj_side, []).append(
-            (obj["vertex_count"], name, status, score, obj["system"]))
-
     for e in namemap["entries"]:
         aid = e.get("atlas_id")
         if not aid or e["status"] not in ("exact", "confident"):
             continue
         aid = _ATLAS_ID_OVERRIDE.get(strip_suffix(e["zanatomy_name"]), aid)
-        _add_candidate(aid, e["zanatomy_name"], e["status"], e["score"])
-
-    # Q158: additional curated links (grouped/ambiguous tissue-category
-    # disambiguation, numbered rib/vertebra/phalanx series) -- see
-    # load_extra_links()'s own docstring. Fed through the exact same
-    # `_add_candidate` safety net as every namemap-derived match, so a bad
-    # curated link (wrong system, wrong side) is dropped here rather than
-    # silently shipped.
-    for link in load_extra_links(extra_links_path):
-        _add_candidate(link["atlas_id"], link["zanatomy_name"], "q158_curated", 1.0)
+        cat = id_to_cat.get(aid)
+        if cat is None or _is_cross_category_junk(e["zanatomy_name"], cat):
+            continue
+        obj = objs_by_name.get(e["zanatomy_name"])
+        if obj is None or obj["vertex_count"] < min_vertices:
+            continue
+        if obj["system"] not in _ALLOWED_SYSTEMS.get(cat, {obj["system"]}):
+            continue
+        wanted_side = _side_of_atlas_id(aid)
+        obj_side = obj.get("side")
+        if wanted_side and obj_side and obj_side != wanted_side:
+            continue  # e.g. a mismatched-side name-match artifact; never trust it over the id's own side
+        groups.setdefault(aid, {}).setdefault(obj_side, []).append(
+            (obj["vertex_count"], e["zanatomy_name"], e["status"], e["score"], obj["system"]))
 
     def _mesh_for_cands(cands):
         """One (atlas_id[, side]) group's own Z-Anatomy candidates -> concatenated

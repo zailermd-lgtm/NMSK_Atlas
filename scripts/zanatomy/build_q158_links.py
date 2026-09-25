@@ -1,10 +1,21 @@
 """Q158: find additional, DETERMINISTIC Z-Anatomy name -> this project's atlas id
-links for the MSK + peripheral-nerve categories (bone, muscle, tendon, ligament,
-bursa, cartilage, fascia, nerve) that `scripts/zanatomy/map_names.py`'s generic
-fuzzy matcher correctly declined to guess (status ambiguous/unmatched/grouped in
-the committed, frozen `data/derived/zanatomy_name_map.json` -- left exactly as
-Q141 produced it, per the standing rule `scripts/zanatomy/zan_source.py` already
-documents; this script never edits that file or map_names.py).
+PARENT links for the MSK + peripheral-nerve categories (bone, muscle, tendon,
+ligament, bursa, cartilage, fascia, nerve) that `scripts/zanatomy/map_names.py`'s
+generic fuzzy matcher correctly declined to guess (status ambiguous/unmatched/
+grouped in the committed, frozen `data/derived/zanatomy_name_map.json` -- left
+exactly as Q141 produced it, per the standing rule `scripts/zanatomy/zan_source.py`
+already documents; this script never edits that file or map_names.py).
+
+Q158b (lead review of Q158's first cut): each link named here is a PARENT
+reference only -- the Z-Anatomy object it names stays its OWN separate,
+individually-selectable mesh under its own id; only its info card gains a
+"part of <parent>" note and the parent's own cited facts, clearly labelled as
+the parent's. Nothing here is ever geometry to concatenate. (Q158's first cut
+fed these atlas ids into `zan_source.load_source()` to MERGE matching Z-Anatomy
+objects into one fused mesh per id -- e.g. all 8 carpal bones unioned into one
+`carpals_l` blob -- which made individual structures like "scaphoid" or "rib 5"
+impossible to select on their own; reverted, see `zan_source.load_extra_links()`'s
+own docstring and PROJECT_STATE.md Q158b.)
 
 Every link written here is DERIVED, not a fuzzy score: either
 
@@ -52,10 +63,12 @@ ambiguous after the tissue filter (e.g. "Collateral metacarpophalangeal
 ligaments", tied between two THUMB-only ligament ids with no generic
 all-digits entity to point at) is left unmatched, not guessed.
 
-Output: data/derived/Q158_new_links.json -- {"links": [...]} consumed by
-`scripts/zanatomy/zan_source.py`'s `load_source()` (see its own
-`load_extra_links()`), plus "excluded_reviewed" for the doubtful ties this
-script's own logic produced but a human spot-check below declined.
+Output: data/derived/Q158_new_links.json -- {"links": [...]} read (read-only
+metadata, never merged) by `scripts/zanatomy/zan_source.py`'s
+`load_extra_links()` and attached by `scripts/zanatomy/build_zan_atlas_viewer.py`
+as a `part_of`/`part_of_id` reference on that Z-Anatomy object's own,
+still-separate orphan mesh, plus "excluded_reviewed" for the doubtful ties
+this script's own logic produced but a human spot-check below declined.
 
 Usage:
     python3 scripts/zanatomy/build_q158_links.py \\
@@ -360,12 +373,16 @@ def main(argv=None) -> int:
 
     out = {
         "source": (
-            "Q158 (2026-09-25): additional deterministic Z-Anatomy name -> atlas id "
-            "links for the MSK + peripheral-nerve categories, layered on top of the "
-            "frozen data/derived/zanatomy_name_map.json (never edited) -- see "
+            "Q158b (2026-09-25, lead review of Q158's first cut): additional "
+            "deterministic Z-Anatomy name -> PARENT atlas id links for the MSK + "
+            "peripheral-nerve categories, layered on top of the frozen "
+            "data/derived/zanatomy_name_map.json (never edited) -- see "
             "scripts/zanatomy/build_q158_links.py's own module docstring for the "
-            "exact rules. Consumed by scripts/zanatomy/zan_source.py's "
-            "load_extra_links()."
+            "exact rules. READ-ONLY metadata: scripts/zanatomy/zan_source.py's "
+            "load_extra_links() reads it, and scripts/zanatomy/build_zan_atlas_"
+            "viewer.py attaches each link as a part_of/part_of_id reference on the "
+            "Z-Anatomy object's own, still-separate orphan mesh -- never merged "
+            "into the parent's geometry (Q158's first cut did that; reverted)."
         ),
         "generated": "2026-09-25",
         "counts_by_rule": dict(counts),

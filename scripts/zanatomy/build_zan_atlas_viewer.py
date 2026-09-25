@@ -82,8 +82,8 @@ sys.path.insert(0, str(REPO))
 
 from scripts.zanatomy.map_names import load_full_atlas  # noqa: E402
 from scripts.zanatomy.zan_source import (  # noqa: E402
-    DEFAULT_INVENTORY, DEFAULT_NAMEMAP, DEFAULT_ZAN_DIR, load_source,
-    safe_filename, to_atlas_frame,
+    DEFAULT_INVENTORY, DEFAULT_NAMEMAP, DEFAULT_ZAN_DIR, load_extra_links,
+    load_source, safe_filename, to_atlas_frame,
 )
 from scripts.zanatomy.build_zan_reference import (  # noqa: E402
     build_orphan_pool, classify_orphan_category, compute_origin,
@@ -204,25 +204,29 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
 
     matched = load_source(inventory_path=inventory_path, namemap_path=namemap_path, zan_dir=zan_dir)
 
-    # Q158: every Z-Anatomy object `matched` actually consumed -- including via
-    # its own Q158 extra-links tier (`zan_source.load_extra_links()`), which
-    # links names whose OWN namemap status is ambiguous/unmatched/grouped, the
-    # exact statuses `build_orphan_pool` below also scoops up by default. Left
-    # unfiltered, a Q158-linked name would ship TWICE: once as real atlas
-    # geometry (correct) and once again as a duplicate, unlinked "geometry only"
-    # orphan under a `zan_<slug>` id (the same mesh, shown twice). Filtering the
-    # namemap copy `build_orphan_pool` sees -- never the committed namemap file
-    # itself -- to drop exactly the names `matched` already placed closes this.
-    consumed_names = {p for rec in matched.values() for p in rec.get("zanatomy_parts", [])}
-    namemap_for_orphans = dict(namemap)
-    namemap_for_orphans["entries"] = [
-        e for e in namemap["entries"] if e["zanatomy_name"] not in consumed_names
-    ]
-    orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap_for_orphans)
+    # Q158b (lead review of Q158's first cut): `matched` is exactly
+    # `map_names.py`'s own exact/confident matches (plus `_ATLAS_ID_OVERRIDE`)
+    # again, untouched by Q158's curated links -- so it can never overlap with
+    # `build_orphan_pool`'s own ambiguous/unmatched/grouped selection below (a
+    # namemap entry has exactly one status), and no double-count filtering is
+    # needed here any more. `build_orphan_pool` runs unfiltered, exactly as
+    # before Q157/Q158 -- see the module docstring for why Q158's links are
+    # metadata-only now (a `part_of` reference on the object's OWN orphan mesh,
+    # attached just below), never a second, merged copy of anything.
+    orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap)
     origin, origin_report = compute_origin(zan_dir)
     corrections = load_corrections(corrections_dir)
     atlas_records = load_atlas_records()
     id_to_cat = {e.entity_id: e.category for e in load_full_atlas()}
+
+    # Q158b: parent links (Z-Anatomy name -> the coarser/parent atlas entity
+    # this project's own registry files it under) -- read-only metadata, never
+    # used to merge geometry (see zan_source.load_extra_links()'s own
+    # docstring). Keyed by the exact raw Z-Anatomy name, which is also what
+    # `build_orphan_pool` stores as that orphan's own `mesh_name`.
+    parent_links_by_zname = {l["zanatomy_name"]: l for l in load_extra_links()}
+    parent_linked_count = 0
+    unresolved_parent_links: list[str] = []
 
     meshes: list[dict] = []
     bin_chunks: list[bytes] = []
@@ -234,8 +238,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     matched_with_record = 0
 
     def emit(mesh_id: str, display_name: str, side_raw, cat: str, v_raw: np.ndarray, f: np.ndarray,
-              rec_override=None, zanatomy_name: str | None = None):
-        nonlocal byte_off, matched_with_record
+              rec_override=None, zanatomy_name: str | None = None, parent_link=None):
+        nonlocal byte_off, matched_with_record, parent_linked_count
         if mesh_id in seen_ids:
             raise ValueError(f"duplicate atlas id emitted twice: {mesh_id}")
         seen_ids.add(mesh_id)
@@ -257,6 +261,18 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         if rec_override is not None:
             folder, real_rec = rec_override
             rec_out = summarise(folder, real_rec, {})
+        elif parent_link is not None:
+            # Q158b: this object stays its OWN separate mesh (never merged into
+            # the parent's geometry) -- it just borrows the parent atlas
+            # entity's own cited facts for display, clearly labelled as the
+            # parent's via `part_of`/`part_of_id`, never presented as this
+            # specific piece's own independently-verified record.
+            parent_id, parent_folder, parent_real_rec = parent_link
+            parent_facts = summarise(parent_folder, parent_real_rec, {})
+            rec_out = dict(parent_facts)
+            rec_out["part_of_id"] = parent_id
+            rec_out["part_of"] = parent_facts.get("name") or parent_id.replace("_", " ")
+            parent_linked_count += 1
         if note:
             rec_out = dict(rec_out)
             rec_out["procedural_badge"] = note
@@ -286,14 +302,39 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
 
     for stable, meta in sorted(orphans.items()):
         v_raw, f = _load_raw_mesh(zan_dir, meta["system"], meta["mesh_name"])
-        emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f, zanatomy_name=meta["name"])
+        parent_link = None
+        link = parent_links_by_zname.get(meta["mesh_name"])
+        if link:
+            parent_pair = atlas_records.get(link["atlas_id"])
+            if parent_pair:
+                parent_link = (link["atlas_id"], parent_pair[0], parent_pair[1])
+            else:
+                unresolved_parent_links.append(meta["mesh_name"])
+        emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
+             zanatomy_name=meta["name"], parent_link=parent_link)
 
-    # sanity this build's own two invariants (also re-checked by
+    # a Q158 link whose own zanatomy_name never turned up as any orphan's
+    # `mesh_name` (build_orphan_pool's own highlight-duplicate dedup picked a
+    # DIFFERENT representative for that name's (system, side, base) group, or
+    # the object was itself dropped as a zero-face annotation curve) -- never
+    # a fatal error, just means that one link finds nothing to attach to.
+    used_link_names = {meta["mesh_name"] for meta in orphans.values()} & set(parent_links_by_zname)
+    unmatched_parent_links = sorted(set(parent_links_by_zname) - used_link_names)
+
+    # sanity this build's own invariants (also re-checked by
     # tests/test_build_zan_atlas_viewer.py against the real, committed output):
     ids = [m["id"] for m in meshes]
     assert len(ids) == len(set(ids)), "exporter produced a duplicate id"
     for m in meshes:
         assert "clinical" not in (m.get("rec") or {}), f"{m['id']} carries a clinical key"
+    # Q158b: never merge -- every shipped mesh's own geometry must come from
+    # exactly the ONE Z-Anatomy object it is named for, so a parent-linked
+    # structure carries no `zanatomy_parts` list of its own (that concept only
+    # exists for `matched`, where several real sub-parts are deliberately
+    # concatenated) and every orphan mesh_name is used by at most one shipped id.
+    mesh_names_seen = Counter(meta["mesh_name"] for meta in orphans.values())
+    dup_mesh_names = [n for n, c in mesh_names_seen.items() if c > 1]
+    assert not dup_mesh_names, f"two shipped structures share one Z-Anatomy source object: {dup_mesh_names}"
 
     manifest = {
         "attribution": ATTRIBUTION,
@@ -306,6 +347,15 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "orphan_structures": len(orphans),
             "orphan_dropped_as_ui_highlight_duplicate": dropped_dupe,
             "orphan_dropped_as_zero_face_annotation_curve": zero_face,
+            # Q158b: reported SEPARATELY from matched_entities, per lead review --
+            # a "direct" link (matched_entities, this project's own entity id IS
+            # the shipped mesh) is a different, stronger claim than a "parent"
+            # link (this Z-Anatomy object stays its own separate, unmatched mesh
+            # and only borrows its parent atlas entity's cited facts for display).
+            "direct_atlas_links": len(matched),
+            "parent_linked_structures": parent_linked_count,
+            "parent_links_with_no_orphan_mesh": unmatched_parent_links,
+            "parent_links_with_no_atlas_record": unresolved_parent_links,
             "corrected_ids": corrected_ids,
         },
         "meshes": meshes,
@@ -365,8 +415,9 @@ def main(argv=None) -> int:
     Path(args.report).write_text(json.dumps(report, indent=1))
 
     print(f"meshes: {manifest['totals']['meshes']}  "
-          f"(matched {manifest['totals']['matched_entities']}, "
-          f"orphan {manifest['totals']['orphan_structures']})")
+          f"(direct-linked {manifest['totals']['direct_atlas_links']}, "
+          f"orphan {manifest['totals']['orphan_structures']} "
+          f"[{manifest['totals']['parent_linked_structures']} parent-linked])")
     print("by layer:", manifest["totals"]["by_layer"])
     print("by category:", manifest["totals"]["by_category"])
     print(f"corrected ids: {manifest['totals']['corrected_ids']}")

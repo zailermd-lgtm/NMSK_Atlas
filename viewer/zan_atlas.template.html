@@ -362,7 +362,7 @@
 
     <h3>Biomechanical data</h3>
     <p>Where a Z-Anatomy structure matches one of this project's own atlas entities, the info panel shows that entity's independently-cited facts — TA name, origin/insertion, innervation, functional-compartment PCSA/fascicle length/pennation/force, documented actions — from this project's own atlas records (<code>data/</code>), never invented here. This is the anatomy layer only: the owner's private clinical layer (trigger points, special tests, referred-pain compilations) is a separate, non&#8209;CC&#8209;BY&#8209;SA part of this project and is <strong>never</strong> included in this file.</p>
-    <p>Structures without an <span class="badge-x">atlas</span> badge in the list are geometry only — a real Z-Anatomy structure with no confident match to one of this project's own entities.</p>
+    <p>A structure badged <span class="badge-x" style="opacity:.65">part of</span> is its own separate mesh — never merged with anything else — that this project's own registry keeps as one coarser entity (a numbered rib, a named carpal bone, one head of a multi-headed muscle); its info panel shows that coarser entity's own cited facts, labelled as the parent's, not independently verified for this specific piece. Structures with neither badge are geometry only — a real Z-Anatomy structure with no match, direct or parent, to one of this project's own entities.</p>
 
     <h3>Still approximate</h3>
     <ul>
@@ -505,8 +505,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     var TOTAL = OBJ.reduce(function (a, o) { return a + o.tris; }, 0);
 
     boot("Linking atlas records…", 0.88); await nf();
-    var matched = 0;
-    OBJ.forEach(function (o) { if (o.atlas) matched++; });
+    var matched = 0, partOf = 0;
+    OBJ.forEach(function (o) { if (o.atlas) { if (o.atlas.part_of_id) partOf++; else matched++; } });
 
     // ================= shaders (with clip plane + isolation box) =================
     var VS = "attribute vec3 aPos;attribute vec3 aNrm;uniform mat4 uMVP;uniform mat3 uN;" +
@@ -827,8 +827,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       items.forEach(function(o){
         var b=document.createElement("button");
         b.className="item"+(o===selected?" sel":"")+(hidden.has(o)?" hid":"");
+        var badge=!o.atlas?'':(o.atlas.part_of_id?'<span class="badge-x" style="opacity:.65">part of</span>':'<span class="badge-x">atlas</span>');
         b.innerHTML='<span class="dot" style="background:var(--t-'+o.layer+')"></span><span class="t">'+
-          o.name+'</span>'+(o.atlas?'<span class="badge-x">atlas</span>':'');
+          o.name+'</span>'+badge;
         b.onclick=function(){ select(o,true); closeSheet(); };
         listEl.appendChild(b);
       });
@@ -854,6 +855,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
          '<button id="a-iso">isolate 3D</button>'+
          '<button id="a-solo">solo layer</button></div>';
       if(a){
+        if(a.part_of) h+='<p class="sub2">Part of: <b>'+esc(a.part_of)+'</b></p>';
         h+='<dl class="facts">';
         if(a.latin) h+='<dt>TA</dt><dd><i>'+esc(a.latin)+'</i></dd>';
         if(a.region) h+='<dt>Region</dt><dd>'+esc(a.region.replace(/_/g," "))+'</dd>';
@@ -875,7 +877,11 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         if(a.supplies&&a.supplies.length) h+='<dl class="facts"><dt>Supplies</dt><dd>'+esc(a.supplies.join(", "))+'</dd></dl>';
         if(a.notes) h+='<p class="sub2">'+esc(a.notes)+'</p>';
         if(a.procedural_badge) h+='<div class="warn">'+esc(a.procedural_badge)+'</div>';
-        h+='<div class="ok-note">Geometry from Z-Anatomy (CC BY-SA 4.0); named facts from this project\'s own cited atlas records.</div>';
+        h+='<div class="ok-note">Geometry from Z-Anatomy (CC BY-SA 4.0); '+
+           (a.part_of
+             ? 'this piece is shown on its own -- the facts above are <b>'+esc(a.part_of)+'</b>\'s own cited atlas record, not independently verified for this specific piece.'
+             : 'named facts from this project\'s own cited atlas records.')+
+           '</div>';
       } else {
         h+='<div class="warn">Geometry only — no matched record in this project\'s own atlas.</div>';
       }
@@ -1022,7 +1028,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }; };
 
     document.getElementById("stat-line").textContent=
-      OBJ.length.toLocaleString()+" meshes · "+TOTAL.toLocaleString()+" tris · "+BATCHES.length+" batches · "+matched+" atlas-linked";
+      OBJ.length.toLocaleString()+" meshes · "+TOTAL.toLocaleString()+" tris · "+BATCHES.length+" batches · "+
+      matched+" atlas-linked · "+partOf+" part-of-linked";
 
     boot("Ready",1); resize(); loop();
     setTimeout(function(){var b=document.getElementById("boot");if(b)b.classList.add("done");},180);

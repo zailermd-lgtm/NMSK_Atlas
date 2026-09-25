@@ -90,3 +90,57 @@ def test_matched_structures_carry_real_atlas_facts(manifest):
     assert rec["origin"] and rec["insertion"]
     assert rec["nerve"] == ["median_n"]
     assert rec["compartments"][0]["pcsa"] == 430
+
+
+def test_no_source_objects_are_merged_into_one_shipped_mesh(manifest):
+    """Q158b (lead review of Q158's first cut): Q158's own "grouped_*"/
+    "numbered_series_*"/"muscle_head_or_part" rules must attach a PARENT link
+    (this object's info card names a coarser atlas entity and borrows its
+    facts) rather than concatenate this object's geometry into the parent's
+    mesh. No two distinct Z-Anatomy source objects may ever collapse into one
+    shipped id: every parent-linked structure ships under its own `zan_`
+    orphan id, and no shipped mesh's own id is a raw multi-part group id
+    (carpals_l/ribs_r/cervical_vertebrae/phalanges_hand_l/... -- Q158's first
+    cut shipped these as fused blobs; Z-Anatomy has no single source object
+    for any of them, so none should ever appear as a mesh id here)."""
+    by_id = {m["id"]: m for m in manifest["meshes"]}
+    ids = list(by_id)
+
+    parent_linked = [m for m in manifest["meshes"] if (m.get("rec") or {}).get("part_of_id")]
+    assert parent_linked, "expected at least the Q158b carpal/rib/vertebra/muscle-head parent links"
+    for m in parent_linked:
+        assert m["id"].startswith("zan_"), (
+            f"{m['id']} carries a part_of link but is not shipped as its own separate "
+            f"orphan mesh -- looks merged into its parent's geometry")
+
+    # these coarse group ids have NO single Z-Anatomy source object of their
+    # own (Q158's first cut only ever populated them by fusing several
+    # distinct real objects together) -- they must never be a mesh id here.
+    never_own_mesh = ["carpals_l", "carpals_r", "ribs_l", "ribs_r",
+                       "cervical_vertebrae", "thoracic_vertebrae", "lumbar_vertebrae",
+                       "phalanges_hand_l", "phalanges_hand_r",
+                       "phalanges_foot_l", "phalanges_foot_r"]
+    for aid in never_own_mesh:
+        assert aid not in ids, f"{aid} is shipped as its own mesh -- looks like fused/merged geometry again"
+
+    # a real single named bone/muscle-head must still be individually
+    # selectable, each carrying its OWN geometry and its parent's facts.
+    scaphoid = by_id.get("zan_scaphoid_bone_l")
+    assert scaphoid is not None, "expected scaphoid to ship as its own selectable structure"
+    assert scaphoid["rec"]["part_of_id"] == "carpals_l"
+
+    rib5 = by_id.get("zan_fifth_rib_r")
+    assert rib5 is not None, "expected a single rib to ship as its own selectable structure"
+    assert rib5["rec"]["part_of_id"] == "ribs_r"
+
+    l3 = by_id.get("zan_vertebra_l3")
+    assert l3 is not None, "expected a single vertebra to ship as its own selectable structure"
+    assert l3["rec"]["part_of_id"] == "lumbar_vertebrae"
+
+    tri_head = by_id.get("zan_long_head_of_triceps_brachii_l")
+    assert tri_head is not None, "expected a muscle head to ship as its own selectable structure"
+    assert tri_head["rec"]["part_of_id"] == "triceps_brachii_l"
+
+    # a fused carpal blob (8 bones unioned, Q158's own first cut) would carry
+    # thousands of vertices; a single decimated carpal bone must not.
+    assert scaphoid["vc"] < 500, "scaphoid's own vertex count looks fused (too large for a single carpal bone)"

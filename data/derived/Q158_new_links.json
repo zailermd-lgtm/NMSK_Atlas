@@ -1,5 +1,5 @@
 {
- "source": "Q158 (2026-09-25): additional deterministic Z-Anatomy name -> atlas id links for the MSK + peripheral-nerve categories, layered on top of the frozen data/derived/zanatomy_name_map.json (never edited) -- see scripts/zanatomy/build_q158_links.py's own module docstring for the exact rules. Consumed by scripts/zanatomy/zan_source.py's load_extra_links().",
+ "source": "Q158b (2026-09-25, lead review of Q158's first cut): additional deterministic Z-Anatomy name -> PARENT atlas id links for the MSK + peripheral-nerve categories, layered on top of the frozen data/derived/zanatomy_name_map.json (never edited) -- see scripts/zanatomy/build_q158_links.py's own module docstring for the exact rules. READ-ONLY metadata: scripts/zanatomy/zan_source.py's load_extra_links() reads it, and scripts/zanatomy/build_zan_atlas_viewer.py attaches each link as a part_of/part_of_id reference on the Z-Anatomy object's own, still-separate orphan mesh -- never merged into the parent's geometry (Q158's first cut did that; reverted).",
  "generated": "2026-09-25",
  "counts_by_rule": {
   "tissue_disambiguated_ambiguous": 31,

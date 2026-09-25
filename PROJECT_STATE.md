@@ -22,7 +22,55 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 350 tests pass. Recent: Q158 (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 351 tests pass. Recent: Q158b (2026-09-25)
+lead review of Q158 (commit `d3611b0`) below: REJECTED before publishing. Q158's own
+many-to-one consolidations (16 individual carpal-bone Z-Anatomy objects merged into one
+`carpals_l`/`carpals_r` mesh, 56 phalanx objects into 4, 24 numbered ribs into 2, 22
+numbered vertebrae into 3) are a regression for an anatomy atlas, not an improvement: the
+viewer could no longer select "scaphoid" on its own, or a single named rib, or L3 --
+exactly the individually-inspectable structures the whole viewer exists for. Fix: NEVER
+merge Z-Anatomy geometry. Reverted `scripts/zanatomy/zan_source.py`'s `load_source()` to
+byte-for-byte its pre-Q158 form (reads only `map_names.py`'s own exact/confident matches
+plus `_ATLAS_ID_OVERRIDE`, exactly as before Q158 existed -- verified with `git diff`).
+`scripts/zanatomy/build_q158_links.py`'s own 4 rule tiers (tissue-word disambiguation,
+muscle-head/part parent extraction, numbered rib/vertebra/phalanx series -- unchanged, all
+still correct per Q158's own spot-check) now produce PARENT links, not merge targets:
+`zan_source.load_extra_links()` is read-only metadata (its own docstring rewritten to say
+so), and `build_zan_atlas_viewer.build()` attaches each link, by the exact raw Z-Anatomy
+name, as a `part_of`/`part_of_id` reference on that SAME Z-Anatomy object's own,
+already-separate orphan mesh (`build_orphan_pool` now runs completely unfiltered again --
+the Q158 double-count workaround is provably a no-op post-revert, since `matched` and
+`build_orphan_pool`'s own ambiguous/unmatched/grouped selection are disjoint by
+construction, one status per namemap entry). `carpals_l`/`ribs_r`/`cervical_vertebrae`/
+`phalanges_hand_l`/etc. never ship as their own mesh at all any more (verified: none of the
+11 group ids from Q158's own merge list appear as a manifest mesh id) -- they exist only as
+atlas RECORDS whose name/facts a parent-linked orphan borrows for display, clearly labelled
+"Part of: <name>" in the info card (`viewer/zan_atlas.template.html`: a new `<p>` line plus
+a rewritten closing note that says the shown facts are the PARENT's own cited record, "not
+independently verified for this specific piece"; the structure list badges these `part of`
+in dimmed text instead of the solid `atlas` badge a direct match gets; the header stat line
+now reads "662 atlas-linked · 173 part-of-linked" instead of one conflated number).
+Rebuilt: back to the full 2,570 meshes (662 direct + 1,908 orphan, 173 of the orphans now
+parent-linked, 0 unresolved either direction per the build's own report) -- structure count
+restored exactly to Q157's own number, since nothing is dropped or fused any more, only
+annotated. 14.58 MB (under the 15 MB cap). Re-screenshotted headless: searching "scaphoid"/
+"fifth rib"/"vertebra l3"/"long head of triceps" each lists that single named structure on
+its own (verified against the live DOM list, not just eyeballed), selecting scaphoid shows
+a 390-tri mesh (a single carpal bone, not a fused 8-bone blob) with "Part of: Carpal bones
+(8, proximal+distal row)" and that record's own TA/region/source facts, zero console
+errors. New test `test_no_source_objects_are_merged_into_one_shipped_mesh`
+(`tests/test_build_zan_atlas_viewer.py`): every parent-linked structure ships under its own
+`zan_` id (never the parent's), the 11 former merge-target ids never appear as a mesh id,
+scaphoid/rib-5/L3/a triceps head are each individually present and correctly parent-linked,
+scaphoid's own vertex count is bone-sized not blob-sized. 351 tests pass (350 + 1 new; the
+net +1 rather than +something since Q158's tests exercised the rule-tier FUNCTIONS
+directly, which are unchanged and still valid -- only how their output is CONSUMED changed).
+Never touched the 30 NC objects or `clinical` (unaffected by this revert either way). Not
+published (owner's standing rule for this build dir).
+
+Recent: Q158 (2026-09-25) -- SUPERSEDED, see Q158b immediately above (kept for history:
+the rule tiers below are still exactly what ships, only the merge-vs-parent-link consumption
+changed)
 raised the Q157 viewer's atlas-linked count (662/2570 -> 708/2455 structures; fewer total
 structures because several genuine many-to-one consolidations collapsed multiple orphan
 fragments into one real entity) WITHOUT touching `map_names.py` or its frozen
