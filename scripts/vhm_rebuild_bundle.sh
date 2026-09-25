@@ -68,6 +68,25 @@ fi
 # Q149: the abdominal wall volume was surfaced mirrored (cryo-order voxels, CT-direction affine);
 # mirror it back onto the spine. Idempotent (manifest records mirror_x_fix).
 [ -f build/vh/ct_vhm_abw/manifest.json ] && python3 scripts/mirror_subject_x.py build/vh/ct_vhm_abw --c 100.4 --note "Q149: cryo-order voxels under a CT-direction affine; labels correct, geometry mirrored"
+# Q153: the 6 male ct_vhm_abw ids (rectus_abdominis_l/r, external_oblique_l/r,
+# internal_oblique_l, transversus_abdominis_l) Q152b left UNRESOLVED, plus the
+# stray top-slice strip on the left obliques (y~340-345, reaching x~-236..-241
+# into the arm -- a rule artefact of the lateral-wall mask touching arm tissue
+# on the top slice). NOT a voxel reconversion: `convert
+# data/ct_sources/task_outputs/vhm_abdominal_wall_cryo.nii.gz --origin=
+# '-6.035,-895.476,4.787'` (every other VHM cryo/CT subject's origin) + this
+# script's own mirror above was tried directly and does NOT reproduce the
+# shipped build/vh/ct_vhm_abw (~21% short on vertex count, mirrored X bbox
+# [-61.6,257.4] vs the shipped [-241.1,208.1] -- Y/Z match exactly, so the repo
+# copy of the source volume is not the exact bytes that built the shipped
+# mesh); per this project's own standing rule (derive_origin: never guess an
+# origin or borrow another subject's constant), no voxel-space fix is
+# attempted. Applied in MESH SPACE only instead (scripts/apply_q153_abw_contfix.py,
+# same drop_mesh_islands mechanism as the Q152b subjects above -- needs no
+# origin, can only remove already-correctly-placed triangles). internal_oblique_r/
+# transversus_abdominis_r are untouched (Q152 already diagnosed both ANATOMICAL).
+# Listed BEFORE ct_vhm_abw below so it wins only these 6 ids.
+[ -f build/vh/ct_vhm_abw/manifest.json ] && [ ! -f build/vh/ct_vhm_abw_contfix/manifest.json ] && python3 scripts/apply_q153_abw_contfix.py 2>&1 | tail -10
 # Q147: forearm/hand/foot soft tissue (muscles, tendons, ligaments, retinacula) that his own
 # imaging never covered, transferred from Z-Anatomy with a PER-BONE (radius vs ulna kept
 # separate, carpus/tarsus block, never the broad multi-bone spatial blend Q142 used)
@@ -125,7 +144,7 @@ SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_v
 # further below) so each wins only the ids it repairs.
 for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh ct_vhm_forearm_contfix_mesh \
          xfer_vhf2vhm_neck_contfix_mesh ct_vhm_shsp_contfix_mesh ct_vhm_neck_contfix_mesh \
-         ct_vhm_twall_contfix_mesh; do
+         ct_vhm_twall_contfix_mesh ct_vhm_abw_contfix; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done

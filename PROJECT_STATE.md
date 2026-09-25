@@ -22,7 +22,93 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q152b (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q153 (2026-09-25)
+picked up Q152b's 6 male UNRESOLVED `ct_vhm_abw` ids (rectus_abdominis_l/r,
+external_oblique_l/r, internal_oblique_l, transversus_abdominis_l) plus the stray
+top-slice strip on the left obliques. FIRST, per the brief's own gate ("verify
+reproduction before touching anything"): tried `ingest_volume_geometry.py convert
+data/ct_sources/task_outputs/vhm_abdominal_wall_cryo.nii.gz --labels
+vhm_abdominal_wall --origin='-6.035,-895.476,4.787'` (the origin every other VHM
+cryo/CT subject uses) followed by `mirror_subject_x.py --c 100.4` (Q149's own
+fix). **This does NOT reproduce build/vh/ct_vhm_abw**: 663,712 verts/1,327,320
+tris vs the shipped 836,703/1,673,650 (~21% short on every one of the 8 labels),
+mirrored X bbox [-61.6, 257.4] vs the shipped [-241.1, 208.1] (319mm extent vs
+449mm) -- Y and Z match the shipped bbox almost exactly (79.976mm / 149.713mm
+both ways), so the origin's Y/Z and the label map are right, but this is a real
+vertex-count and X-extent mismatch, not a translation/mirror difference: the
+repo's persisted copy of the source volume is not the exact bytes that built the
+shipped mesh, confirming (independently, by direct reproduction attempt rather
+than the per-label-origin-spread check Q152b ran) that Q152b was right to decline
+rather than guess. Per this project's own standing rule in `derive_origin()`
+(never guess an origin or borrow another subject's own constant -- "a plausible
+fix is worth less than an honestly-declined one that would risk placing a muscle
+in the wrong place, which is worse than leaving it fragmented"), **no voxel-space
+reconversion or shape_interp.py gap-bridge was attempted**; the brief's assumption
+that Q149's mirror was "the missing piece" for a full voxel reproduction is
+false, disclosed here rather than papered over with a regeneration command that
+would not actually reproduce what ships. Fixed everything that COULD be fixed
+honestly instead, in MESH SPACE, on the already-built/already-shipped
+`build/vh/ct_vhm_abw` mesh (no origin needed at all, can only remove
+already-correctly-placed triangles -- exactly Q152/Q152b's own
+`drop_mesh_islands` mechanism): new `scripts/apply_q153_abw_contfix.py` runs it
+on all 6 ids (all genuinely have droppable islands, 2.5-8.0% of faces each, well
+under the 10% guard) and ships `build/vh/ct_vhm_abw_contfix`, wired into
+`scripts/vhm_rebuild_bundle.sh` listed BEFORE `ct_vhm_abw` (its own real command
+is the Python script above, not a fabricated convert+mirror -- badged
+accordingly). `internal_oblique_r`/`transversus_abdominis_r` are untouched:
+Q152 already diagnosed both ANATOMICAL (declined; raw-voxel component count
+identical to the shipped mesh) and that stands. The owner-flagged stray top-slice
+strip (left obliques, y~340-351, reaching x~-236..-241 into the arm) turned out
+to be split across the 6 ids: most of it was already small enough to be caught by
+the ordinary <2%-of-faces/>15mm island rule, but `external_oblique_l` had one
+4.58%-of-its-own-faces component that the ordinary rule leaves alone (too big to
+be "a stray fleck") -- added one narrow, disclosed override in the same script
+(`drop_top_band_strip`): any non-main component confined ENTIRELY above y=335mm
+(the muscle's own y-range is 79.98-350.98mm, so this is only its topmost ~4%)
+is dropped regardless of face fraction, justified because it is disconnected
+from the main body by a real x-gap (main body ends x=-172.3, this component
+starts x=-191.0, 149.5mm centroid separation) and confined to one slice band at
+the muscle's extreme end -- not consistent with a genuine secondary belly. Only
+this one component on this one id qualified; checked all 6 for others, found
+none. Volume removed, disclosed per id in each structure's own
+`q153_island_drop.top_slice_strip_face_frac` (external_oblique_l 5.46% of its own
+faces incl. the override, internal_oblique_l 3.95%, transversus_abdominis_l
+0.19%, the two right-side/rectus ids 0.00% -- their islands are scattered specks
+elsewhere, not this strip). The 7th UNRESOLVED id (female `transversus_abdominis_l`,
+sourced via `xfer_vhm2vhf_tva`, a live m2f transfer off `build/viewer_m` -- see
+`scripts/cryo/vhf_rebuild_bundle.sh`'s own Q149 comment) is NOT fixed by this
+session: the script invalidates the stale `build/vh/xfer_vhm2vhf_tva` so the next
+female rebuild re-transfers from the now-fixed male bundle and inherits it
+automatically, but the female viewer itself was not rebuilt here (not asked for;
+male-only per this task). **RESULT (re-ran `audit_full_continuity_q112.py`,
+diff-checked): male ALL categories 284/78/28 -> 287/75/28; male MUSCLES
+rectus_abdominis_r 0.9571->0.9974 (FRAGMENTED->CONTINUOUS), rectus_abdominis_l
+0.971->1.0 (->CONTINUOUS), transversus_abdominis_l 0.9363->0.9904
+(->CONTINUOUS), external_oblique_r 0.8299->0.8935 (FRAGMENTED, unchanged),
+external_oblique_l 0.8967->0.9456 (FRAGMENTED, unchanged),
+internal_oblique_l 0.7193->0.8512 (FRAGMENTED, unchanged); female unchanged
+287/87/18 (no female rebuild this session).** Rebuilt male viewer:
+`build/viewer_m/atlas_viewer_male.html` 15.41 MB (425 structures/38 subjects,
++1 subject vs Q152b). Point-rendered (matplotlib) a trunk front view and an
+axial slice at y=220mm and looked: abdominal wall symmetric about the spine,
+rectus/external oblique/internal oblique/transversus layered correctly on both
+sides, right on +x, no stray geometry reaching into the arm any more.
+`python -m pytest -q`: **313 passed** (unchanged -- no new test file; this
+session's script has no shared-code-path risk to existing tests, verified by
+running the full suite unmodified). SHIPPED: `scripts/apply_q153_abw_contfix.py`
+(new), `scripts/vhm_rebuild_bundle.sh` (real `ct_vhm_abw_contfix` regeneration
+step wired in before `ct_vhm_abw`, listed in the contfix-mesh presence-check
+loop), `data/derived/Q112_full_continuity_audit.json` (re-run, diff-checked).
+Open issues: (1) female `transversus_abdominis_l` still needs an actual female
+rebuild (`scripts/cryo/vhf_rebuild_bundle.sh`) to pick up the now-invalidated
+`xfer_vhm2vhf_tva` fix -- not done this session; (2) the repo's persisted
+`data/ct_sources/task_outputs/vhm_abdominal_wall_cryo.nii.gz` still does not
+reproduce the shipped `ct_vhm_abw` mesh under any origin tried so far -- if a
+correct origin/volume is ever found, a real voxel-space reconversion could
+supersede this mesh-space fix and might also resolve `external_oblique_r` (still
+FRAGMENTED, source-level fragmentation not touched here); (3) Q152b's own open
+issues ((1)-(3) below) still stand, untouched this session. Before that, Q152b
+(2026-09-25)
 finished Q152's own resumable sweep on all 64 NOT_YET_DIAGNOSED muscles (mostly male
 shoulder-girdle/trunk/hand, sharing a handful of heavily pre-fragmented source volumes), using
 the exact same tooling and rules (nothing fabricated, gap bridges only <=10mm between real

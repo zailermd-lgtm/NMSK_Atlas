@@ -9,10 +9,10 @@
   },
   "bodies": {
     "male": {
-      "subject": "ct_vhm_pfloor_fix+ct_vhm_armm_contfix_mesh+ct_vhm_armm_contfix+ct_vhm_delt_contfix_mesh+ct_vhm_forearm_contfix_mesh+xfer_vhf2vhm_neck_contfix_mesh+ct_vhm_shsp_contfix_mesh+ct_vhm_neck_contfix_mesh+ct_vhm_twall_contfix_mesh+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
+      "subject": "ct_vhm_pfloor_fix+ct_vhm_armm_contfix_mesh+ct_vhm_armm_contfix+ct_vhm_delt_contfix_mesh+ct_vhm_forearm_contfix_mesh+xfer_vhf2vhm_neck_contfix_mesh+ct_vhm_shsp_contfix_mesh+ct_vhm_neck_contfix_mesh+ct_vhm_twall_contfix_mesh+ct_vhm_abw_contfix+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_m/atlas_viewer_male.html",
-      "html_mtime": 1790306181.224253,
+      "html_mtime": 1790311321.956326,
       "n_structures_raw": 425,
       "n_groups": 390,
       "cat_mismatches": [],
@@ -431,6 +431,102 @@
           "name": "Diaphragm",
           "subjects": [
             "ct_vhm_twall_contfix_mesh"
+          ]
+        },
+        "rectus_abdominis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9973941368078176,
+          "n_components": 2,
+          "total_vertices": 1535,
+          "largest_component_vertices": 1531,
+          "n_pieces": 1,
+          "n_faces": 3196,
+          "id": "rectus_abdominis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Rectus abdominis",
+          "subjects": [
+            "ct_vhm_abw_contfix"
+          ]
+        },
+        "external_oblique_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8935148118494796,
+          "n_components": 4,
+          "total_vertices": 1249,
+          "largest_component_vertices": 1116,
+          "n_pieces": 1,
+          "n_faces": 3188,
+          "id": "external_oblique_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "External oblique",
+          "subjects": [
+            "ct_vhm_abw_contfix"
+          ]
+        },
+        "rectus_abdominis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1529,
+          "largest_component_vertices": 1529,
+          "n_pieces": 1,
+          "n_faces": 3228,
+          "id": "rectus_abdominis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Rectus abdominis",
+          "subjects": [
+            "ct_vhm_abw_contfix"
+          ]
+        },
+        "external_oblique_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9456264775413712,
+          "n_components": 6,
+          "total_vertices": 1269,
+          "largest_component_vertices": 1200,
+          "n_pieces": 1,
+          "n_faces": 3196,
+          "id": "external_oblique_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "External oblique",
+          "subjects": [
+            "ct_vhm_abw_contfix"
+          ]
+        },
+        "internal_oblique_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8511856091578087,
+          "n_components": 5,
+          "total_vertices": 1223,
+          "largest_component_vertices": 1041,
+          "n_pieces": 1,
+          "n_faces": 3210,
+          "id": "internal_oblique_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Internal oblique",
+          "subjects": [
+            "ct_vhm_abw_contfix"
+          ]
+        },
+        "transversus_abdominis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9903930131004367,
+          "n_components": 4,
+          "total_vertices": 1145,
+          "largest_component_vertices": 1134,
+          "n_pieces": 1,
+          "n_faces": 3234,
+          "id": "transversus_abdominis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Transversus abdominis",
+          "subjects": [
+            "ct_vhm_abw_contfix"
           ]
         },
         "metatarsals_l|left": {
@@ -4804,38 +4900,6 @@
             "ct_vhm_abd"
           ]
         },
-        "rectus_abdominis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9570592062459337,
-          "n_components": 8,
-          "total_vertices": 1537,
-          "largest_component_vertices": 1471,
-          "n_pieces": 1,
-          "n_faces": 3230,
-          "id": "rectus_abdominis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Rectus abdominis",
-          "subjects": [
-            "ct_vhm_abw"
-          ]
-        },
-        "external_oblique_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8299373040752351,
-          "n_components": 13,
-          "total_vertices": 1276,
-          "largest_component_vertices": 1059,
-          "n_pieces": 1,
-          "n_faces": 3172,
-          "id": "external_oblique_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "External oblique",
-          "subjects": [
-            "ct_vhm_abw"
-          ]
-        },
         "internal_oblique_r|right": {
           "status": "SEVERE_BREAK",
           "main_frac": 0.4251412429378531,
@@ -4862,70 +4926,6 @@
           "n_faces": 3210,
           "id": "transversus_abdominis_r",
           "side": "right",
-          "cat": "muscle",
-          "name": "Transversus abdominis",
-          "subjects": [
-            "ct_vhm_abw"
-          ]
-        },
-        "rectus_abdominis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9710335747202107,
-          "n_components": 7,
-          "total_vertices": 1519,
-          "largest_component_vertices": 1475,
-          "n_pieces": 1,
-          "n_faces": 3180,
-          "id": "rectus_abdominis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Rectus abdominis",
-          "subjects": [
-            "ct_vhm_abw"
-          ]
-        },
-        "external_oblique_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8967173738991193,
-          "n_components": 10,
-          "total_vertices": 1249,
-          "largest_component_vertices": 1120,
-          "n_pieces": 1,
-          "n_faces": 3236,
-          "id": "external_oblique_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "External oblique",
-          "subjects": [
-            "ct_vhm_abw"
-          ]
-        },
-        "internal_oblique_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7193396226415094,
-          "n_components": 14,
-          "total_vertices": 1272,
-          "largest_component_vertices": 915,
-          "n_pieces": 1,
-          "n_faces": 3228,
-          "id": "internal_oblique_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Internal oblique",
-          "subjects": [
-            "ct_vhm_abw"
-          ]
-        },
-        "transversus_abdominis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9362657091561939,
-          "n_components": 7,
-          "total_vertices": 1114,
-          "largest_component_vertices": 1043,
-          "n_pieces": 1,
-          "n_faces": 3162,
-          "id": "transversus_abdominis_l",
-          "side": "left",
           "cat": "muscle",
           "name": "Transversus abdominis",
           "subjects": [
@@ -6295,14 +6295,14 @@
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 284,
-          "FRAGMENTED": 78,
+          "CONTINUOUS": 287,
+          "FRAGMENTED": 75,
           "SEVERE_BREAK": 28
         },
         "by_category_status": {
           "muscle": {
-            "CONTINUOUS": 184,
-            "FRAGMENTED": 64,
+            "CONTINUOUS": 187,
+            "FRAGMENTED": 61,
             "SEVERE_BREAK": 14
           },
           "bone": {
