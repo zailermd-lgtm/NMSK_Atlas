@@ -92,7 +92,15 @@
     "GAP_BRIDGE female/vastus_lateralis_l: reconverted from xfer_vhm2vhf_sep (smooth=1.0) -> xfer_vhm2vhf_sep_contfix (fixes it for every body listed, via a shared source or a regenerated transfer)",
     "GAP_BRIDGE female/vastus_medialis_l: reconverted from xfer_vhm2vhf_sep (smooth=1.0) -> xfer_vhm2vhf_sep_contfix (fixes it for every body listed, via a shared source or a regenerated transfer)",
     "ct_vhm_armm: derived origin [-6.035, -895.476, 4.787] (spread 0.000mm across labels) -- OK, applying",
-    "GAP_BRIDGE male/biceps_brachii_r: reconverted from ct_vhm_armm (smooth=1.0) -> ct_vhm_armm_contfix (fixes it for every body listed, via a shared source or a regenerated transfer)"
+    "GAP_BRIDGE male/biceps_brachii_r: reconverted from ct_vhm_armm (smooth=1.0) -> ct_vhm_armm_contfix (fixes it for every body listed, via a shared source or a regenerated transfer)",
+    "-- Q152b resumed sweep (2026-09-25), 64 previously NOT_YET_DIAGNOSED ids --",
+    "ISLAND male/infraspinatus_r: dropped 8.51% of faces (82 components) -> ct_vhm_shsp_contfix_mesh",
+    "ISLAND male/teres_major_r: dropped 3.25% of faces (9 components) -> ct_vhm_shsp_contfix_mesh",
+    "ISLAND male/infraspinatus_l: dropped 2.58% of faces (39 components) -> ct_vhm_shsp_contfix_mesh",
+    "ISLAND male/teres_major_l: dropped 1.48% of faces (10 components) -> ct_vhm_shsp_contfix_mesh",
+    "ISLAND male/trapezius_r: dropped 1.78% of faces (5 components) -> ct_vhm_neck_contfix_mesh",
+    "ISLAND male/trapezius_l: dropped 1.88% of faces (4 components) -> ct_vhm_neck_contfix_mesh",
+    "ISLAND male/diaphragm: dropped 3.39% of faces (46 components) -> ct_vhm_twall_contfix_mesh"
   ],
   "island_subjects": {
     "female|ct_vhf_abd_contfix_mesh": true,
@@ -109,7 +117,10 @@
     "female|xfer_vhm2vhf_sep_contfix_mesh": true,
     "male|ct_vhm_armm_contfix_mesh": true,
     "male|ct_vhm_delt_contfix_mesh": true,
-    "male|ct_vhm_forearm_contfix_mesh": true
+    "male|ct_vhm_forearm_contfix_mesh": true,
+    "male|ct_vhm_shsp_contfix_mesh": true,
+    "male|ct_vhm_neck_contfix_mesh": true,
+    "male|ct_vhm_twall_contfix_mesh": true
   },
   "voxel_subjects": [
     "ct_vhf_armm_contfix",

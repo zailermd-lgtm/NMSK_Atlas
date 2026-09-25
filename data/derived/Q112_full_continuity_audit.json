@@ -9,10 +9,10 @@
   },
   "bodies": {
     "male": {
-      "subject": "ct_vhm_pfloor_fix+ct_vhm_armm_contfix_mesh+ct_vhm_armm_contfix+ct_vhm_delt_contfix_mesh+ct_vhm_forearm_contfix_mesh+xfer_vhf2vhm_neck_contfix_mesh+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
+      "subject": "ct_vhm_pfloor_fix+ct_vhm_armm_contfix_mesh+ct_vhm_armm_contfix+ct_vhm_delt_contfix_mesh+ct_vhm_forearm_contfix_mesh+xfer_vhf2vhm_neck_contfix_mesh+ct_vhm_shsp_contfix_mesh+ct_vhm_neck_contfix_mesh+ct_vhm_twall_contfix_mesh+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_m/atlas_viewer_male.html",
-      "html_mtime": 1790303416.1600885,
+      "html_mtime": 1790306181.224253,
       "n_structures_raw": 425,
       "n_groups": 390,
       "cat_mismatches": [],
@@ -319,6 +319,118 @@
           "name": "Obliquus capitis inferior",
           "subjects": [
             "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "infraspinatus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8956204379562044,
+          "n_components": 4,
+          "total_vertices": 1370,
+          "largest_component_vertices": 1227,
+          "n_pieces": 1,
+          "n_faces": 3156,
+          "id": "infraspinatus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Infraspinatus",
+          "subjects": [
+            "ct_vhm_shsp_contfix_mesh"
+          ]
+        },
+        "teres_major_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1565,
+          "largest_component_vertices": 1565,
+          "n_pieces": 1,
+          "n_faces": 3240,
+          "id": "teres_major_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Teres major",
+          "subjects": [
+            "ct_vhm_shsp_contfix_mesh"
+          ]
+        },
+        "infraspinatus_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8924501424501424,
+          "n_components": 3,
+          "total_vertices": 1404,
+          "largest_component_vertices": 1253,
+          "n_pieces": 1,
+          "n_faces": 3212,
+          "id": "infraspinatus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Infraspinatus",
+          "subjects": [
+            "ct_vhm_shsp_contfix_mesh"
+          ]
+        },
+        "teres_major_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9636127355425601,
+          "n_components": 3,
+          "total_vertices": 1539,
+          "largest_component_vertices": 1483,
+          "n_pieces": 1,
+          "n_faces": 3218,
+          "id": "teres_major_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Teres major",
+          "subjects": [
+            "ct_vhm_shsp_contfix_mesh"
+          ]
+        },
+        "trapezius_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5048480930833872,
+          "n_components": 3,
+          "total_vertices": 1547,
+          "largest_component_vertices": 781,
+          "n_pieces": 1,
+          "n_faces": 3234,
+          "id": "trapezius_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Trapezius",
+          "subjects": [
+            "ct_vhm_neck_contfix_mesh"
+          ]
+        },
+        "trapezius_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9980756895445798,
+          "n_components": 2,
+          "total_vertices": 1559,
+          "largest_component_vertices": 1556,
+          "n_pieces": 1,
+          "n_faces": 3240,
+          "id": "trapezius_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Trapezius",
+          "subjects": [
+            "ct_vhm_neck_contfix_mesh"
+          ]
+        },
+        "diaphragm|none": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8160190325138779,
+          "n_components": 7,
+          "total_vertices": 5044,
+          "largest_component_vertices": 4116,
+          "n_pieces": 1,
+          "n_faces": 10798,
+          "id": "diaphragm",
+          "side": "none",
+          "cat": "muscle",
+          "name": "Diaphragm",
+          "subjects": [
+            "ct_vhm_twall_contfix_mesh"
           ]
         },
         "metatarsals_l|left": {
@@ -2415,22 +2527,6 @@
             "ct_vhm_forearm"
           ]
         },
-        "infraspinatus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9660649819494584,
-          "n_components": 10,
-          "total_vertices": 1385,
-          "largest_component_vertices": 1338,
-          "n_pieces": 1,
-          "n_faces": 3196,
-          "id": "infraspinatus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Infraspinatus",
-          "subjects": [
-            "ct_vhm_shsp"
-          ]
-        },
         "teres_minor_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 0.990909090909091,
@@ -2443,22 +2539,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Teres minor",
-          "subjects": [
-            "ct_vhm_shsp"
-          ]
-        },
-        "teres_major_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9692206941715783,
-          "n_components": 5,
-          "total_vertices": 1527,
-          "largest_component_vertices": 1480,
-          "n_pieces": 1,
-          "n_faces": 3144,
-          "id": "teres_major_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Teres major",
           "subjects": [
             "ct_vhm_shsp"
           ]
@@ -2495,22 +2575,6 @@
             "ct_vhm_shsp"
           ]
         },
-        "infraspinatus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8691322901849218,
-          "n_components": 10,
-          "total_vertices": 1406,
-          "largest_component_vertices": 1222,
-          "n_pieces": 1,
-          "n_faces": 3238,
-          "id": "infraspinatus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Infraspinatus",
-          "subjects": [
-            "ct_vhm_shsp"
-          ]
-        },
         "teres_minor_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -2523,22 +2587,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Teres minor",
-          "subjects": [
-            "ct_vhm_shsp"
-          ]
-        },
-        "teres_major_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9406068431245965,
-          "n_components": 7,
-          "total_vertices": 1549,
-          "largest_component_vertices": 1457,
-          "n_pieces": 1,
-          "n_faces": 3230,
-          "id": "teres_major_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Teres major",
           "subjects": [
             "ct_vhm_shsp"
           ]
@@ -3680,38 +3728,6 @@
           "side": "none",
           "cat": "muscle",
           "name": "Constrictor pharyngis inferior",
-          "subjects": [
-            "ct_vhm_neck"
-          ]
-        },
-        "trapezius_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5203947368421052,
-          "n_components": 4,
-          "total_vertices": 1520,
-          "largest_component_vertices": 791,
-          "n_pieces": 1,
-          "n_faces": 3198,
-          "id": "trapezius_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Trapezius",
-          "subjects": [
-            "ct_vhm_neck"
-          ]
-        },
-        "trapezius_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9765013054830287,
-          "n_components": 3,
-          "total_vertices": 1532,
-          "largest_component_vertices": 1496,
-          "n_pieces": 1,
-          "n_faces": 3176,
-          "id": "trapezius_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Trapezius",
           "subjects": [
             "ct_vhm_neck"
           ]
@@ -4914,22 +4930,6 @@
           "name": "Transversus abdominis",
           "subjects": [
             "ct_vhm_abw"
-          ]
-        },
-        "diaphragm|none": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.781540899187958,
-          "n_components": 10,
-          "total_vertices": 5049,
-          "largest_component_vertices": 3946,
-          "n_pieces": 1,
-          "n_faces": 10800,
-          "id": "diaphragm",
-          "side": "none",
-          "cat": "muscle",
-          "name": "Diaphragm",
-          "subjects": [
-            "ct_vhm_twall"
           ]
         },
         "external_intercostals_r|right": {
@@ -6295,14 +6295,14 @@
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 282,
-          "FRAGMENTED": 80,
+          "CONTINUOUS": 284,
+          "FRAGMENTED": 78,
           "SEVERE_BREAK": 28
         },
         "by_category_status": {
           "muscle": {
-            "CONTINUOUS": 182,
-            "FRAGMENTED": 66,
+            "CONTINUOUS": 184,
+            "FRAGMENTED": 64,
             "SEVERE_BREAK": 14
           },
           "bone": {
@@ -6339,7 +6339,7 @@
       "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_mcsplit+ct_vhf_descaorta+ct_vhf_hyoid_fix+ct_vhf_armm_contfix+ct_vhf_armm_contfix_mesh+ct_vhf_delt_contfix+ct_vhf_dneck_contfix+ct_vhf_dneck_contfix_mesh+ct_vhf_forearm_contfix+ct_vhf_forearm_contfix_mesh+ct_vhf_hyoid_contfix+ct_vhf_orbit_contfix+ct_vhf_pfloor_contfix+ct_vhf_abd_contfix_mesh+ct_vhf_cuff_contfix_mesh+ct_vhf_es_contfix_mesh+ct_vhf_hand_contfix_mesh+ct_vhf_left_forearm_contfix_mesh+ct_vhf_shsp_contfix_mesh+ct_vhf_twall_contfix_mesh+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix_contfix+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep_contfix_mesh+xfer_vhm2vhf_sep_contfix+xfer_vhm2vhf_sep+xfer_vhm2vhf_tva+xfer_vhm2vhf+xfer_zan2vhf_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_f/atlas_viewer_female.html",
-      "html_mtime": 1790303309.7280822,
+      "html_mtime": 1790306093.2722476,
       "n_structures_raw": 414,
       "n_groups": 392,
       "cat_mismatches": [],

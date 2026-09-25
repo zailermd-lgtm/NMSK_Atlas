@@ -6,6 +6,7 @@ import pytest
 from scripts.repair_continuity_q152 import (
     bridge_label_in_volume,
     classify_component,
+    diagnose_one,
     drop_mesh_islands,
     find_z_gap,
     mesh_components,
@@ -141,6 +142,56 @@ def test_bridge_respects_a_non_leading_z_axis():
     assert n_added > 0
     assert (bridged[..., 1] == 7).any()
     assert not (bridged[..., 3] == 7).any()
+
+
+# ---------------------------------------------------------------------------
+# diagnose_one's no-raw-source fallback -- Q152b bug fix: a genuine Z-Anatomy
+# per-bone transfer (no raw voxel mask, ever) must never be conflated with a
+# muscle whose raw source volume simply doesn't survive in this container but
+# which IS real, segmented CT/cryo anatomy recovered as a decimated mesh from
+# a published viewer bundle. The original code matched both on the bare
+# substring "viewer bundle" (which resolve_source's own generic message
+# contains in EITHER case) and mislabeled every recovered-bundle muscle as a
+# Z-Anatomy transfer with a fabricated 25mm error figure.
+# ---------------------------------------------------------------------------
+
+def _fake_rec(subjects):
+    return {"id": "fake_muscle_l", "side": "left", "subjects": subjects,
+            "main_frac": 0.5, "status": "FRAGMENTED"}
+
+
+def test_true_zanatomy_transfer_is_out_of_scope(monkeypatch):
+    import scripts.repair_continuity_q152 as m
+
+    def fake_resolve_source(subject, atlas_id, side_norm, depth=0):
+        return {"kind": "unclear",
+                "reason": "no manifest at build/vh/zanatomy/manifest.json",
+                "chased_via": [subject]}
+    monkeypatch.setattr(m.triage, "resolve_source", fake_resolve_source)
+
+    r = diagnose_one("male", _fake_rec(["xfer_zan2vhm_limb"]), None)
+    assert r["cause"] == "OUT_OF_SCOPE_TRANSFER"
+
+
+def test_recovered_published_bundle_is_not_out_of_scope_transfer(monkeypatch):
+    """A muscle recovered from the male's own published viewer bundle (real
+    CT/cryo anatomy, just no surviving raw voxel mask) must get its own
+    honest cause, never the Z-Anatomy-transfer one and its unrelated 25mm
+    error claim."""
+    import scripts.repair_continuity_q152 as m
+
+    def fake_resolve_source(subject, atlas_id, side_norm, depth=0):
+        return {"kind": "unclear",
+                "reason": f"{subject}: non-numeric label suffix "
+                          f"('recovered from the published male viewer (Version 25)#{atlas_id}') "
+                          "-- likely geometry recovered from a published viewer bundle, not a "
+                          "voxel mask; no raw source available to measure"}
+    monkeypatch.setattr(m.triage, "resolve_source", fake_resolve_source)
+
+    r = diagnose_one("male", _fake_rec(["vhm_both"]), None)
+    assert r["cause"] == "NO_RAW_SOURCE_RECOVERED_BUNDLE"
+    assert "per-bone Z-Anatomy reference-mesh transfer" not in r["reason"]
+    assert "25.4mm" not in r["reason"]
 
 
 # ---------------------------------------------------------------------------

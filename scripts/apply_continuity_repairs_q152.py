@@ -117,6 +117,16 @@ def apply_islands(report: dict, audit_subjects: dict, log: list) -> dict:
         if not subjects:
             log.append(f"SKIP island {body}/{atlas_id}: no shipped subject in audit")
             continue
+        # Q152b fix: the diagnosis JSON's own 'side' can be the literal string
+        # "none" (a midline structure, e.g. diaphragm) -- every OTHER manifest
+        # in this build stores that as real JSON null (see e.g. ct_vhf_twall's
+        # own diaphragm entry). Writing the raw string here (as this function
+        # did before) broke resolve_source's own side_norm lookup against a
+        # subject this function itself produces (side_norm=None != "none"),
+        # silently making a later diagnosis pass unable to trace back through
+        # its own output -- exactly what surfaced female diaphragm as
+        # UNRESOLVED. Normalized the same way resolve_source itself does.
+        side_manifest = None if side in (None, "none") else side
         subject = subjects[0]
         try:
             result = diag.drop_mesh_islands(subject, atlas_id, side)
@@ -148,7 +158,7 @@ def apply_islands(report: dict, audit_subjects: dict, log: list) -> dict:
         w = written[wkey]
         pct = result["dropped_face_frac"] * 100
         w["manifest"]["structures"].append({
-            "atlas_id": atlas_id, "side": side,
+            "atlas_id": atlas_id, "side": side_manifest,
             "source_structure": atlas_id,
             "source_file": f"{subject}/manifest.json#mesh-island-drop",
             "vertex_offset": w["voffset"], "face_offset": w["foffset"],
@@ -205,7 +215,15 @@ def apply_voxel_fixes(report: dict, audit_subjects: dict, log: list) -> dict:
             continue
         root_subject = src["resolved_subject"]
         by_id = groups.setdefault(root_subject, {})
-        idkey = (atlas_id, side)
+        # Q152b fix: normalized (side_norm, matching resolve_source's own
+        # convention -- None, never the literal string "none") -- this key's
+        # `side` also flows straight into the new subject's own manifest
+        # entry below, and every other manifest in this build stores a
+        # midline structure's side as real JSON null, not the string "none"
+        # (see the apply_islands fix just above for the same bug and its
+        # effect: female diaphragm's own later resolve_source lookup broke
+        # on exactly this mismatch).
+        idkey = (atlas_id, side_norm)
         if idkey in by_id:
             by_id[idkey][0].append(body)
         else:

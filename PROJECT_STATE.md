@@ -22,7 +22,118 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 311 tests pass. Recent: Q152 (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q152b (2026-09-25)
+finished Q152's own resumable sweep on all 64 NOT_YET_DIAGNOSED muscles (mostly male
+shoulder-girdle/trunk/hand, sharing a handful of heavily pre-fragmented source volumes), using
+the exact same tooling and rules (nothing fabricated, gap bridges only <=10mm between real
+slices, islands dropped only if <2% volume AND >15mm away, `--smooth 0.0` for decimation
+artefacts, genuine multi-belly muscles marked ANATOMICAL). Found and fixed the actual compute-
+budget blocker before resuming: `diagnose_one`'s per-candidate-gap confirmation loop called
+`np.take(mask, zi, axis=z_ax).any()` once per z-slice on the FULL, uncropped source mask -- for
+a volume whose Z axis is the largest-stride axis (routine on this project's cryo/CT sources), a
+single such call measured ~1.5s, and a several-hundred-slice gap (common on these heavily-
+fragmented labels) took minutes to confirm; replaced with one vectorized `mask.any(axis=other_axes)`
+per label (~0.02s total), mathematically identical result, verified against the unchanged 15-test
+suite plus a direct real-data check (`trapezius_r`: 82 components, was unresponsive past 60s,
+diagnosed in 10s after the fix). All 64 diagnosed for real: OUT_OF_SCOPE_TRANSFER 19 (genuine
+Z-Anatomy per-bone-transfer ids, e.g. the hand/foot interossei, adductor_hallucis --
+no raw voxel mask ever existed), NO_RAW_SOURCE_RECOVERED_BUNDLE 19 (a NEW, honestly-distinguished
+cause added this session -- real, segmented CT/cryo anatomy, e.g. male gastrocnemius/iliopsoas/
+biceps_femoris/spinalis/subscapularis/supraspinatus/serratus_anterior/quadratus_lumborum, whose
+only surviving geometry in this container is the DECIMATED mesh recovered from the male's own
+published viewer bundle -- his original source files are not re-downloadable, so there is no raw
+mask left to measure or interpolate), ANATOMICAL 9 (genuine source-level fragmentation or declined
+third-failure-mode cases, reusing Q113/Q114's own verbatim dispositions where applicable),
+UNRESOLVED 7 (male `rectus_abdominis_l/r`, `external_oblique_l/r`, `internal_oblique_l`,
+`transversus_abdominis_l` + female `transversus_abdominis_l` via transfer -- all trace to
+`ct_vhm_abw`, whose own manifest's `source_volume` is a stale scratchpad path from a since-wiped
+session; the persisted repo copy `data/ct_sources/task_outputs/vhm_abdominal_wall_cryo.nii.gz`
+exists but does NOT reproduce the already-built mesh under a simple rigid translation --
+per-label origin estimates spread 256mm, consistent with a compound mirror+origin transform
+(`scripts/mirror_subject_x.py --c 100.4` is applied to this subject post-conversion) not
+investigated further this session; declined rather than guessed, same precedent as Q151's own
+`ct_vhf_left_forearm` skip), MIXED_ISLAND_AND_ANATOMICAL 5 (all 7 of its ids -- `infraspinatus_r/l`,
+`teres_major_r/l`, `trapezius_r/l`, `diaphragm` -- had a droppable island; the ALREADY_RESOLVED-dict
+`PIPELINE_ARTIFACT` 2 are `external_intercostals_l/r`, Q113/Q114's own already-shipped fix, reused
+verbatim, nothing new to apply). FOUND AND FIXED A REAL BUG in passing: `diagnose_one`'s no-raw-
+source fallback matched the bare substring "viewer bundle" to mean "Z-Anatomy transfer, 25.4mm
+median error" -- but `resolve_source`'s own generic message contains that phrase for EVERY
+non-numeric-suffix label, including real CT/cryo muscles merely recovered as a decimated mesh
+from the published bundle; this silently mislabeled e.g. `biceps_femoris_l`/`gastrocnemius_r` as
+Z-Anatomy transfers with a fabricated error figure that has nothing to do with them (never
+triggered in Q152's own first pass since its zanatomy-only ids happened to fall in that pass's
+own NOT_YET_DIAGNOSED remainder instead). Narrowed the match to the real Z-Anatomy signature
+("zanatomy" appearing because `resolve_source` chased a transfer's own 'from' field to that
+literal missing subject folder, or `zan2vh` in the subject name) and added the new
+`NO_RAW_SOURCE_RECOVERED_BUNDLE` cause for the other, real case, each with its own accurate
+reason text; 2 new regression tests lock this in
+(`test_true_zanatomy_transfer_is_out_of_scope`, `test_recovered_published_bundle_is_not_out_of_scope_transfer`).
+ALSO FOUND AND FIXED: `apply_continuity_repairs_q152.py`'s `apply_islands`/`apply_voxel_fixes`
+wrote a midline structure's `side` as the literal string `"none"` into a new contfix subject's
+manifest instead of real JSON null (every OTHER manifest in this build, e.g. `ct_vhf_twall`'s own
+diaphragm entry, stores null) -- broke `resolve_source`'s own side-normalized lookup against a
+subject this script itself produces, which is exactly how female `diaphragm` surfaced as
+UNRESOLVED when re-diagnosed here (its current shipped subject, from Q152's own earlier fix, IS
+`ct_vhf_twall_contfix_mesh`); fixed for future runs (both write sites now normalize the same way
+`resolve_source` does). Applied every fix: 3 new mesh-space island-drop subjects
+(`ct_vhm_shsp_contfix_mesh`: infraspinatus_r/l + teres_major_r/l; `ct_vhm_neck_contfix_mesh`:
+trapezius_r/l; `ct_vhm_twall_contfix_mesh`: diaphragm), wired into `vhm_rebuild_bundle.sh` (listed
+before their own base subjects). No new voxel-space (gap-bridge/decimation) fixes were needed --
+none of the 64's applicable causes required one beyond the already-shipped `external_intercostals`
+fix. **RESULT (re-ran `scripts/audit_full_continuity_q112.py`, diff-checked): male ALL categories
+282/80/28 -> 284/78/28; male MUSCLES 182/66/14 -> 184/64/14 (teres_major_r 0.969->1.000 and
+trapezius_l 0.977->0.998 crossed to CONTINUOUS); female unchanged (287/87/18 all categories,
+175/62/10 muscles -- no female fix shipped this pass).** Honestly disclosed, not hidden: 2 of the
+7 fixed ids got shipped-WORSE despite the underlying fix being real -- `infraspinatus_r` 0.966->
+0.896 and `trapezius_r` 0.520->0.505 (both still FRAGMENTED, unchanged status) -- verified this is
+Q116's own documented vertex-clustering decimation non-monotonicity, not a mistake: their real,
+PRE-decimation (undecimated, already atlas-frame) vertex main_frac genuinely improved
+(infraspinatus_r 0.813->0.891, trapezius_r 0.506->0.516, 82->2 and 5->2 components respectively);
+per this project's own standing rule (Q116: "no budget-hunting"), no attempt was made to tune a
+decimation budget to force a better shipped number for these two. Face-fraction dropped per id,
+all under the 10% guard: infraspinatus_r 8.51% (largest), teres_major_r 3.25%, infraspinatus_l
+2.58%, teres_major_l 1.48%, trapezius_r 1.78%, trapezius_l 1.88%, diaphragm 3.39%. Point-rendered
+(matplotlib 3-D scatter) before/after for all 3 new subjects and looked: same silhouette/position
+in each case, stray flecks visibly gone, main mass unchanged. Rebuilt both viewers:
+`build/viewer_m/atlas_viewer_male.html` 14.70 MB (425 structures/37 subjects, +3 subjects vs.
+before), `build/viewer_f/atlas_viewer_female.html` 14.63 MB (414 structures/56 subjects,
+unchanged -- rebuilt only to re-verify, nothing female shipped). `python -m pytest -q`: **313
+passed** (was 311; +2 new tests in `tests/test_repair_continuity_q152.py` for the
+OUT_OF_SCOPE_TRANSFER/NO_RAW_SOURCE_RECOVERED_BUNDLE distinction). FIXED THE PRE-EXISTING
+REBUILD-SCRIPT GAP Q152 itself flagged: `ct_vhf_hyoid_fix`/`ct_vhm_pfloor_fix` had only a "use it
+if present" check, never a real build step -- added real regeneration commands to both
+`scripts/cryo/vhf_rebuild_bundle.sh` and `scripts/vhm_rebuild_bundle.sh` (same
+`ingest_volume_geometry.py convert --smooth 0.0` pattern as the existing `ct_vhf_xfersepta_fix`
+command, using each subject's own known origin constant -- verified by direct re-derivation
+against the already-built mesh to reproduce it bit-identically, 0.000mm spread). Also hardened
+`ct_vhf_xfersepta_fix`'s own idempotency check, which tested only 1 of its now-4 mapped labels
+(a manifest left over from before Q116 added `plantaris_l` would have been wrongly treated as
+up to date) -- now checks all 3 non-Q152-owned labels. NEW PRE-EXISTING BUG NOTED, NOT FIXED (out
+of scope, one-line flag per this project's own convention): `apply_continuity_repairs_q152.py` is
+not safe to simply re-run wholesale against a PRESERVED (non-wiped) `build/vh` -- for an id already
+fixed in an earlier pass, the live audit's own "current shipped subject" IS that earlier fix's own
+output subject (e.g. `ct_vhf_armm_contfix`), and re-resolving through it makes `apply_voxel_fixes`
+treat that generated subject as if it were a fresh root needing its own origin re-derivation, which
+fails (no `<subject>_volume_mapping.json` was ever written for a generated subject) -- harmless
+(everything just gets skipped, the already-good file is never touched, confirmed no build/vh file
+was altered) but noisy, and a naive overwrite of `data/derived/Q152_apply_log.json` from such a run
+would have silently DROPPED the historical record of every earlier fix (that file's own `log`/
+`island_subjects`/`voxel_subjects` are fully replaced each run, not merged) -- caught before
+committing and manually merged old+new this session; a future session should either make the
+script itself merge-safe or always run it only once per fresh container. SHIPPED:
+`scripts/repair_continuity_q152.py` (z_profile perf fix + OUT_OF_SCOPE_TRANSFER/
+NO_RAW_SOURCE_RECOVERED_BUNDLE fix), `scripts/apply_continuity_repairs_q152.py` (side-
+normalization fix), `tests/test_repair_continuity_q152.py` (17 tests, +2), `scripts/
+vhm_rebuild_bundle.sh` + `scripts/cryo/vhf_rebuild_bundle.sh` (real hyoid_fix/pfloor_fix
+regeneration, hardened xfersepta_fix check, 3 new contfix_mesh subjects wired in),
+`data/derived/Q152_continuity_repair.json` (all 64 ids updated in place, 0 NOT_YET_DIAGNOSED
+remain, diff-checked -- exactly the 64 target keys changed, nothing else), `data/derived/
+Q152_apply_log.json` (merged: old 93 lines + new 7 ISLAND lines, 15+3=18 island subjects, 10
+voxel subjects unchanged), `data/derived/Q112_full_continuity_audit.json` (re-run, diff-checked).
+Open issues: (1) the 7 UNRESOLVED `ct_vhm_abw`-sourced ids need either the compound mirror+origin
+transform worked out or a permanent-limitation writeup; (2) `apply_continuity_repairs_q152.py`'s
+own re-run-on-preserved-build fragility noted above; (3) `ct_vhf_left_forearm`'s skipped gap-bridge
+(Q152's own open issue) still stands, untouched this session. Before that, Q152 (2026-09-25)
 repaired fragmented/severe-break MUSCLES on both specimens (owner direction: muscle tissue
 must be continuous everywhere, via interpolation between real sections, never fabricated
 geometry). Diagnosed all 174 fragmented/severe muscles from Q151's refreshed

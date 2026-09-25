@@ -394,7 +394,24 @@ def diagnose_one(body: str, rec: dict, existing_cls: dict | None) -> dict:
             break
         unclear_reasons.append(s.get("reason", ""))
     if src is None:
-        if any("zanatomy" in r or "viewer bundle" in r for r in unclear_reasons) or \
+        # Q152b bug fix: this used to also match on the bare substring "viewer
+        # bundle", which resolve_source's OWN generic message contains for
+        # EVERY non-numeric-suffix label, not only real Z-Anatomy transfers --
+        # a totally different, unrelated case (a muscle recovered as decimated
+        # mesh-only geometry from the male's own PUBLISHED CT/cryo viewer
+        # bundle, e.g. vhm_both's biceps_femoris_l/gastrocnemius_r/iliopsoas_r)
+        # was silently mislabeled OUT_OF_SCOPE_TRANSFER with this branch's own
+        # hardcoded "Z-Anatomy reference-mesh transfer... 25.4mm error" text --
+        # false for those ids, which are real segmented CT/cryo anatomy with
+        # no error estimate like that at all. Never triggered in the first
+        # 110-id pass (its zanatomy-only ids happened to fall in that pass's
+        # own NOT_YET_DIAGNOSED remainder instead, per PROJECT_STATE Q152),
+        # only surfaced now that this batch actually contains recovered-
+        # bundle ids. Matched narrowly now: "zanatomy" only appears in
+        # resolve_source's reason when it actually chased a transfer's own
+        # 'from' field to that literal subject folder (build/vh/zanatomy/...),
+        # the real signature of a per-bone Z-Anatomy transfer.
+        if any("zanatomy" in r for r in unclear_reasons) or \
            any("zan2vh" in s for s in uniq_subjects):
             return {"cause": "OUT_OF_SCOPE_TRANSFER",
                     "reason": ("Sourced from a per-bone Z-Anatomy reference-mesh transfer "
@@ -407,6 +424,31 @@ def diagnose_one(body: str, rec: dict, existing_cls: dict | None) -> dict:
                                "bar), not a Q152-class defect. Several of these (interossei, "
                                "adductor_hallucis) are also genuinely multi-bellied anatomy on top "
                                "of that -- left untouched either way.")}
+        # The OTHER, distinct non-numeric-suffix case this branch used to
+        # conflate with the one above: real CT/cryo-segmented anatomy whose
+        # only surviving geometry in this container is the DECIMATED mesh
+        # recovered from the male's own published viewer bundle (Version 25)
+        # -- his DU lower-limb/torso source files are not re-downloadable
+        # (see scripts/vhm_rebuild_bundle.sh's own header), so there is no
+        # raw voxel mask left to measure at all, exactly like the zanatomy
+        # case's own missing-mask limitation, but NOT a Z-Anatomy transfer
+        # and NOT carrying its 25.4mm error figure -- a real muscle,
+        # genuinely fragmented in this decimated recovery, with nothing left
+        # to reconvert or interpolate. Named separately so it is never
+        # confused with the transfer case above.
+        if any("published viewer" in r or "published male viewer" in r
+               for r in unclear_reasons):
+            return {"cause": "NO_RAW_SOURCE_RECOVERED_BUNDLE",
+                    "reason": ("Only a decimated mesh recovered from the male's own published "
+                               "viewer bundle (Version 25) survives in this container for this "
+                               "muscle -- his original raw source files are not re-downloadable "
+                               "(see scripts/vhm_rebuild_bundle.sh), so there is no raw voxel mask "
+                               "to run scipy.ndimage.label on, no real Z-slices to interpolate "
+                               "between, and nothing to reconvert with a decimation budget. This is "
+                               "real, genuinely-segmented CT/cryo anatomy (unlike the Z-Anatomy "
+                               "per-bone transfer case), just with its own raw mask permanently "
+                               "unavailable -- a disclosed data-availability limitation, not a "
+                               "Q152-class defect and not fabricated.")}
         return {"cause": "UNRESOLVED", "reason": "no raw source volume resolvable: "
                 + "; ".join(unclear_reasons)}
 
@@ -482,6 +524,21 @@ def diagnose_one(body: str, rec: dict, existing_cls: dict | None) -> dict:
     others = full_info[1:]
 
     z_spacing_mm = spacing[z_ax]
+    # Per-z occupancy of this label, computed ONCE for the whole mask (Q152b):
+    # a per-candidate-gap loop of `np.take(mask, zi, axis=z_ax).any()` calls
+    # was the actual compute-budget blocker behind the male shoulder-girdle/
+    # trunk/hand NOT_YET_DIAGNOSED remainder -- for a volume stored with the
+    # Z axis as the LARGEST-stride axis (e.g. this source's 'LPS' codes,
+    # z_ax=2 with stride 262144 on a 512x512x844 array), a single such take
+    # is a maximally-scattered gather over the whole mask and measured
+    # ~1.5s EACH; a several-hundred-slice gap (routine on these heavily-
+    # fragmented cryo labels) made confirming just one candidate gap take
+    # minutes. `mask.any()` reduced over the other two axes is one
+    # vectorized pass over the whole array (~0.02s total here) and gives the
+    # exact same per-z emptiness answer this loop needs for every candidate
+    # gap at once -- no result changes, only how it's computed.
+    other_axes = tuple(ax for ax in range(mask.ndim) if ax != z_ax)
+    z_profile = mask.any(axis=other_axes)
     bridges, islands, unresolved = [], [], []
     for c in others:
         vol_frac = c["size"] / total
@@ -492,11 +549,8 @@ def diagnose_one(body: str, rec: dict, existing_cls: dict | None) -> dict:
         # in it has zero voxels for this label anywhere in the volume) --
         # find_z_gap only checks the two components' own z-extents are
         # disjoint, not that nothing else of this label sits between them.
-        if has_z_gap:
-            for zi in range(gz_lo, gz_hi + 1):
-                if np.take(mask, zi, axis=z_ax).any():
-                    has_z_gap, gap_mm = False, None
-                    break
+        if has_z_gap and z_profile[gz_lo:gz_hi + 1].any():
+            has_z_gap, gap_mm = False, None
         disposition = classify_component(vol_frac, dist_mm, has_z_gap, gap_mm)
         entry = {"size": c["size"], "vol_frac": round(vol_frac, 4),
                  "centroid_dist_mm": round(dist_mm, 2),

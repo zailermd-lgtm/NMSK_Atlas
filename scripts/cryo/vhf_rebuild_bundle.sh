@@ -87,7 +87,15 @@ conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --s
 SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf_mcsplit"
 [ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
 # Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE
-# ct_vhf_hyoid so it wins just this one atlas_id.
+# ct_vhf_hyoid so it wins just this one atlas_id. Q152b: this had only a "use it if
+# present" check, never a real build step -- on a truly fresh container (build/ wiped)
+# it would silently never be produced at all. Real regeneration, same pattern as
+# ct_vhf_xfersepta_fix below (mapping committed to mappings/subjects/, --origin="$O"
+# verified to reproduce the already-shipped mesh to 0.000mm -- see PROJECT_STATE Q152b).
+if [ -f mappings/subjects/ct_vhf_hyoid_fix_volume_mapping.json ] && ! grep -q genioglossus_r build/vh/ct_vhf_hyoid_fix/manifest.json 2>/dev/null; then
+  cp mappings/subjects/ct_vhf_hyoid_fix_volume_mapping.json build/vh/
+  python3 scripts/ingest_volume_geometry.py convert $T/vhf_hyoid_muscles_cryo.nii.gz --labels vhf_hyoid_muscles --subject ct_vhf_hyoid_fix --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+fi
 [ -f build/vh/ct_vhf_hyoid_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_hyoid_fix"
 # Q152: continuity repair -- shape-interpolation gap bridges and --smooth 0.0 decimation
 # fixes (voxel space, into <subject>_contfix) plus mesh-space stray-island drops
@@ -145,7 +153,13 @@ if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
   # pre-decimation mesh measures ~0.55 at EITHER smoothing value, a marching-cubes surface defect,
   # not this bug class -- so it is deliberately excluded from this mapping and still comes from
   # xfer_vhm2vhf_sep, unchanged. Listed BEFORE xfer_vhm2vhf_sep so it wins only these 2 ids.
-  if [ -f mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json ] && ! grep -q flexor_digitorum_longus_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null; then
+  # Q116 later extended this same subject with plantaris_l (a 3rd smoothing-bug fix, same
+  # class). Q152b: the idempotency check only ever tested ONE of the mapping's labels
+  # (flexor_digitorum_longus_l) -- a manifest left over from before plantaris_l was added
+  # would have this label already and be wrongly treated as up to date, silently shipping
+  # an incomplete subject on a container that only partially rebuilt. Checks every label
+  # the current mapping carries now.
+  if [ -f mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json ] && { ! grep -q extensor_hallucis_longus_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null || ! grep -q flexor_digitorum_longus_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null || ! grep -q plantaris_l build/vh/ct_vhf_xfersepta_fix/manifest.json 2>/dev/null; }; then
     cp mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json build/vh/
     python3 scripts/ingest_volume_geometry.py convert $T/vhf_xfer_lowerlimb_septa.nii.gz --labels vhf_xfer_septa --subject ct_vhf_xfersepta_fix --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
   fi
