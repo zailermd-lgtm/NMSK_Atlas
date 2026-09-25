@@ -89,6 +89,23 @@ SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subj
 # Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE
 # ct_vhf_hyoid so it wins just this one atlas_id.
 [ -f build/vh/ct_vhf_hyoid_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_hyoid_fix"
+# Q152: continuity repair -- shape-interpolation gap bridges and --smooth 0.0 decimation
+# fixes (voxel space, into <subject>_contfix) plus mesh-space stray-island drops
+# (<subject>_contfix_mesh), built from data/derived/Q152_continuity_repair.json by
+# scripts/apply_continuity_repairs_q152.py, which itself reads the base subjects converted
+# above -- so it runs here, after them, not at the top of this script. Regenerated every
+# rebuild (idempotency marker: ct_vhf_dneck_contfix, arbitrary but always produced together
+# with the rest in one run of that script). Every fix subject below is listed BEFORE its own
+# source subject in the SUBJ line that follows, so it wins only the ids it actually repairs;
+# none of these ids overlap each other, so the exact order among them does not matter.
+[ -f build/vh/ct_vhf_dneck_contfix/manifest.json ] || python3 scripts/apply_continuity_repairs_q152.py 2>&1 | tail -30
+for s in ct_vhf_armm_contfix ct_vhf_armm_contfix_mesh ct_vhf_delt_contfix ct_vhf_dneck_contfix \
+         ct_vhf_dneck_contfix_mesh ct_vhf_forearm_contfix ct_vhf_forearm_contfix_mesh \
+         ct_vhf_hyoid_contfix ct_vhf_orbit_contfix ct_vhf_pfloor_contfix ct_vhf_abd_contfix_mesh \
+         ct_vhf_cuff_contfix_mesh ct_vhf_es_contfix_mesh ct_vhf_hand_contfix_mesh \
+         ct_vhf_left_forearm_contfix_mesh ct_vhf_shsp_contfix_mesh ct_vhf_twall_contfix_mesh; do
+  [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
+done
 SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
@@ -132,7 +149,16 @@ if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
     cp mappings/subjects/ct_vhf_xfersepta_fix_volume_mapping.json build/vh/
     python3 scripts/ingest_volume_geometry.py convert $T/vhf_xfer_lowerlimb_septa.nii.gz --labels vhf_xfer_septa --subject ct_vhf_xfersepta_fix --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
   fi
+  # Q152: extensor_digitorum_longus_l's own slice-gap fix (this subject's raw source,
+  # vhf_xfer_lowerlimb_septa.nii.gz, IS ct_vhf_xfersepta_fix's own -- see
+  # apply_continuity_repairs_q152.py) plus the island drops and gap bridges/decimation fix
+  # applied directly to xfer_vhm2vhf_sep's own many transferred leg muscles. Listed BEFORE
+  # their own sources (ct_vhf_xfersepta_fix below, xfer_vhm2vhf_sep further below) so each
+  # wins only the ids it repairs -- NOT after, which would let the unrepaired original win.
+  [ -f build/vh/ct_vhf_xfersepta_fix_contfix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix_contfix"
   [ -f build/vh/ct_vhf_xfersepta_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix"
+  [ -f build/vh/xfer_vhm2vhf_sep_contfix_mesh/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep_contfix_mesh"
+  [ -f build/vh/xfer_vhm2vhf_sep_contfix/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep_contfix"
   [ -f build/vh/xfer_vhm2vhf_sep/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep"
 fi
 # Q149: xfer_vhm2vhf's transversus pair came from the male's MIRRORED abdominal wall (vhm_v25); re-transfer

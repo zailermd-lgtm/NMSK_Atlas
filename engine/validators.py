@@ -121,7 +121,11 @@ def validate_source_coverage() -> List[str]:
                          # Q151_interpolation_report.json <- scripts/transfer/shape_interp.py's own
                          # per-structure interpolation report; citation lives on the muscle-mask
                          # volumes it was derived from, same category as the other generated reports above.
-                         "Q151_interpolation_report.json"):
+                         # Q152_apply_log.json <- scripts/apply_continuity_repairs_q152.py's own
+                         # plain-text run log (which id was bridged/dropped/reconverted into which
+                         # contfix subject); citation lives on the source volumes it reconverted,
+                         # same category as Q112_full_continuity_audit.json handles via 'source'.
+                         "Q151_interpolation_report.json", "Q152_apply_log.json"):
             continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else payload.get("items", [payload])

@@ -9,10 +9,10 @@
   },
   "bodies": {
     "male": {
-      "subject": "ct_vhm_pfloor_fix+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
+      "subject": "ct_vhm_pfloor_fix+ct_vhm_armm_contfix_mesh+ct_vhm_armm_contfix+ct_vhm_delt_contfix_mesh+ct_vhm_forearm_contfix_mesh+xfer_vhf2vhm_neck_contfix_mesh+ct_vhm_foot+vhm_both+ct_vhm_arm+ct_vhm_armm+ct_vhm_forearm+ct_vhm_shsp+ct_vhm_delt+ct_vhm_cuff+ct_vhm_pmr+ct_vhm_es+ct_vhm_head+ct_vhm+ct_vhm_headm+ct_vhm_neck+ct_vhm_neckbv+xfer_vhf2vhm+xfer_vhf2vhm_neck+ct_vhm_ggl+ct_vhm_sgl+ct_vhm_pfloor+ct_vhm_orbit+ct_vhm_abd+ct_vhm_abw+ct_vhm_twall+ct_s1159_abd+ct_s1159+ct_vhm_skin+xfer_zan2vhm_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_m/atlas_viewer_male.html",
-      "html_mtime": 1790204119.1398385,
+      "html_mtime": 1790303416.1600885,
       "n_structures_raw": 425,
       "n_groups": 390,
       "cat_mismatches": [],
@@ -31,6 +31,294 @@
           "name": "Coccygeus",
           "subjects": [
             "ct_vhm_pfloor_fix"
+          ]
+        },
+        "brachialis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.7719173200285103,
+          "n_components": 5,
+          "total_vertices": 1403,
+          "largest_component_vertices": 1083,
+          "n_pieces": 1,
+          "n_faces": 3240,
+          "id": "brachialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Brachialis",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "coracobrachialis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9976359338061466,
+          "n_components": 2,
+          "total_vertices": 1269,
+          "largest_component_vertices": 1266,
+          "n_pieces": 1,
+          "n_faces": 3158,
+          "id": "coracobrachialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Coracobrachialis",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "triceps_brachii_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9477292202227935,
+          "n_components": 4,
+          "total_vertices": 1167,
+          "largest_component_vertices": 1106,
+          "n_pieces": 1,
+          "n_faces": 3160,
+          "id": "triceps_brachii_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Triceps brachii",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "biceps_brachii_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9948805460750854,
+          "n_components": 3,
+          "total_vertices": 1172,
+          "largest_component_vertices": 1166,
+          "n_pieces": 1,
+          "n_faces": 3152,
+          "id": "biceps_brachii_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Biceps brachii",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "brachialis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1349,
+          "largest_component_vertices": 1349,
+          "n_pieces": 1,
+          "n_faces": 3234,
+          "id": "brachialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Brachialis",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "coracobrachialis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9958217270194986,
+          "n_components": 3,
+          "total_vertices": 1436,
+          "largest_component_vertices": 1430,
+          "n_pieces": 1,
+          "n_faces": 3106,
+          "id": "coracobrachialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Coracobrachialis",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "triceps_brachii_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9942434210526315,
+          "n_components": 3,
+          "total_vertices": 1216,
+          "largest_component_vertices": 1209,
+          "n_pieces": 1,
+          "n_faces": 3104,
+          "id": "triceps_brachii_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Triceps brachii",
+          "subjects": [
+            "ct_vhm_armm_contfix_mesh"
+          ]
+        },
+        "biceps_brachii_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9851714550509731,
+          "n_components": 4,
+          "total_vertices": 1079,
+          "largest_component_vertices": 1063,
+          "n_pieces": 1,
+          "n_faces": 3220,
+          "id": "biceps_brachii_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Biceps brachii",
+          "subjects": [
+            "ct_vhm_armm_contfix"
+          ]
+        },
+        "deltoid_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.873015873015873,
+          "n_components": 6,
+          "total_vertices": 1386,
+          "largest_component_vertices": 1210,
+          "n_pieces": 1,
+          "n_faces": 3198,
+          "id": "deltoid_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Deltoid",
+          "subjects": [
+            "ct_vhm_delt_contfix_mesh"
+          ]
+        },
+        "deltoid_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5862068965517241,
+          "n_components": 13,
+          "total_vertices": 1479,
+          "largest_component_vertices": 867,
+          "n_pieces": 1,
+          "n_faces": 3236,
+          "id": "deltoid_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Deltoid",
+          "subjects": [
+            "ct_vhm_delt_contfix_mesh"
+          ]
+        },
+        "flexor_digitorum_superficialis_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9921372408863474,
+          "n_components": 2,
+          "total_vertices": 1399,
+          "largest_component_vertices": 1388,
+          "n_pieces": 1,
+          "n_faces": 3196,
+          "id": "flexor_digitorum_superficialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor digitorum superficialis",
+          "subjects": [
+            "ct_vhm_forearm_contfix_mesh"
+          ]
+        },
+        "semispinalis_capitis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5972342264477096,
+          "n_components": 8,
+          "total_vertices": 1157,
+          "largest_component_vertices": 691,
+          "n_pieces": 1,
+          "n_faces": 2984,
+          "id": "semispinalis_capitis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Semispinalis capitis",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "semispinalis_cervicis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8436724565756824,
+          "n_components": 4,
+          "total_vertices": 1209,
+          "largest_component_vertices": 1020,
+          "n_pieces": 1,
+          "n_faces": 2870,
+          "id": "semispinalis_cervicis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Semispinalis cervicis",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "rectus_capitis_posterior_major_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.76008804108584,
+          "n_components": 2,
+          "total_vertices": 1363,
+          "largest_component_vertices": 1036,
+          "n_pieces": 1,
+          "n_faces": 2984,
+          "id": "rectus_capitis_posterior_major_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Rectus capitis posterior major",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "longus_capitis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5599144079885877,
+          "n_components": 4,
+          "total_vertices": 1402,
+          "largest_component_vertices": 785,
+          "n_pieces": 1,
+          "n_faces": 2844,
+          "id": "longus_capitis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Longus capitis",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "semispinalis_capitis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9866777685262281,
+          "n_components": 2,
+          "total_vertices": 1201,
+          "largest_component_vertices": 1185,
+          "n_pieces": 1,
+          "n_faces": 2986,
+          "id": "semispinalis_capitis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Semispinalis capitis",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "semispinalis_cervicis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9887096774193549,
+          "n_components": 4,
+          "total_vertices": 1240,
+          "largest_component_vertices": 1226,
+          "n_pieces": 1,
+          "n_faces": 2872,
+          "id": "semispinalis_cervicis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Semispinalis cervicis",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
+          ]
+        },
+        "obliquus_capitis_inferior_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8735632183908046,
+          "n_components": 5,
+          "total_vertices": 1392,
+          "largest_component_vertices": 1216,
+          "n_pieces": 1,
+          "n_faces": 2990,
+          "id": "obliquus_capitis_inferior_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Obliquus capitis inferior",
+          "subjects": [
+            "xfer_vhf2vhm_neck_contfix_mesh"
           ]
         },
         "metatarsals_l|left": {
@@ -2095,150 +2383,6 @@
             "ct_vhm_arm"
           ]
         },
-        "biceps_brachii_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9851714550509731,
-          "n_components": 4,
-          "total_vertices": 1079,
-          "largest_component_vertices": 1063,
-          "n_pieces": 1,
-          "n_faces": 3218,
-          "id": "biceps_brachii_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Biceps brachii",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "brachialis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9825757575757575,
-          "n_components": 7,
-          "total_vertices": 1320,
-          "largest_component_vertices": 1297,
-          "n_pieces": 1,
-          "n_faces": 3180,
-          "id": "brachialis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Brachialis",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "coracobrachialis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9877112135176651,
-          "n_components": 5,
-          "total_vertices": 1302,
-          "largest_component_vertices": 1286,
-          "n_pieces": 1,
-          "n_faces": 3214,
-          "id": "coracobrachialis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Coracobrachialis",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "triceps_brachii_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9464131374243734,
-          "n_components": 8,
-          "total_vertices": 1157,
-          "largest_component_vertices": 1095,
-          "n_pieces": 1,
-          "n_faces": 3128,
-          "id": "triceps_brachii_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Triceps brachii",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "biceps_brachii_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9892761394101877,
-          "n_components": 4,
-          "total_vertices": 1119,
-          "largest_component_vertices": 1107,
-          "n_pieces": 1,
-          "n_faces": 3164,
-          "id": "biceps_brachii_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Biceps brachii",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "brachialis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9868725868725868,
-          "n_components": 5,
-          "total_vertices": 1295,
-          "largest_component_vertices": 1278,
-          "n_pieces": 1,
-          "n_faces": 3100,
-          "id": "brachialis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Brachialis",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "coracobrachialis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9896193771626297,
-          "n_components": 5,
-          "total_vertices": 1445,
-          "largest_component_vertices": 1430,
-          "n_pieces": 1,
-          "n_faces": 3116,
-          "id": "coracobrachialis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Coracobrachialis",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "triceps_brachii_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9864433811802232,
-          "n_components": 6,
-          "total_vertices": 1254,
-          "largest_component_vertices": 1237,
-          "n_pieces": 1,
-          "n_faces": 3226,
-          "id": "triceps_brachii_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Triceps brachii",
-          "subjects": [
-            "ct_vhm_armm"
-          ]
-        },
-        "flexor_digitorum_superficialis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9888641425389755,
-          "n_components": 4,
-          "total_vertices": 1347,
-          "largest_component_vertices": 1332,
-          "n_pieces": 1,
-          "n_faces": 3130,
-          "id": "flexor_digitorum_superficialis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Flexor digitorum superficialis",
-          "subjects": [
-            "ct_vhm_forearm"
-          ]
-        },
         "flexor_digitorum_profundus_r|right": {
           "status": "FRAGMENTED",
           "main_frac": 0.9442836468885673,
@@ -2429,38 +2573,6 @@
           "name": "Rhomboid minor",
           "subjects": [
             "ct_vhm_shsp"
-          ]
-        },
-        "deltoid_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8958652373660031,
-          "n_components": 10,
-          "total_vertices": 1306,
-          "largest_component_vertices": 1170,
-          "n_pieces": 1,
-          "n_faces": 3010,
-          "id": "deltoid_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Deltoid",
-          "subjects": [
-            "ct_vhm_delt"
-          ]
-        },
-        "deltoid_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5503122831367107,
-          "n_components": 19,
-          "total_vertices": 1441,
-          "largest_component_vertices": 793,
-          "n_pieces": 1,
-          "n_faces": 3208,
-          "id": "deltoid_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Deltoid",
-          "subjects": [
-            "ct_vhm_delt"
           ]
         },
         "supraspinatus_r|right": {
@@ -3925,13 +4037,13 @@
           ]
         },
         "superior_rectus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9661579296615793,
-          "n_components": 2,
-          "total_vertices": 1507,
-          "largest_component_vertices": 1456,
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1520,
+          "largest_component_vertices": 1520,
           "n_pieces": 1,
-          "n_faces": 3006,
+          "n_faces": 3048,
           "id": "superior_rectus_r",
           "side": "right",
           "cat": "muscle",
@@ -4116,38 +4228,6 @@
             "xfer_vhf2vhm"
           ]
         },
-        "semispinalis_capitis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.595176571920758,
-          "n_components": 9,
-          "total_vertices": 1161,
-          "largest_component_vertices": 691,
-          "n_pieces": 1,
-          "n_faces": 2988,
-          "id": "semispinalis_capitis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Semispinalis capitis",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
-        "semispinalis_cervicis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7846153846153846,
-          "n_components": 12,
-          "total_vertices": 1300,
-          "largest_component_vertices": 1020,
-          "n_pieces": 1,
-          "n_faces": 3026,
-          "id": "semispinalis_cervicis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Semispinalis cervicis",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
         "rectus_capitis_posterior_minor_r|right": {
           "status": "FRAGMENTED",
           "main_frac": 0.6286713286713287,
@@ -4160,22 +4240,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Rectus capitis posterior minor",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
-        "rectus_capitis_posterior_major_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7518142235123367,
-          "n_components": 3,
-          "total_vertices": 1378,
-          "largest_component_vertices": 1036,
-          "n_pieces": 1,
-          "n_faces": 3016,
-          "id": "rectus_capitis_posterior_major_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Rectus capitis posterior major",
           "subjects": [
             "xfer_vhf2vhm_neck"
           ]
@@ -4228,54 +4292,6 @@
             "xfer_vhf2vhm_neck"
           ]
         },
-        "longus_capitis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5501051156271899,
-          "n_components": 6,
-          "total_vertices": 1427,
-          "largest_component_vertices": 785,
-          "n_pieces": 1,
-          "n_faces": 2886,
-          "id": "longus_capitis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Longus capitis",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
-        "semispinalis_capitis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9801488833746899,
-          "n_components": 4,
-          "total_vertices": 1209,
-          "largest_component_vertices": 1185,
-          "n_pieces": 1,
-          "n_faces": 2994,
-          "id": "semispinalis_capitis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Semispinalis capitis",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
-        "semispinalis_cervicis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9585613760750586,
-          "n_components": 8,
-          "total_vertices": 1279,
-          "largest_component_vertices": 1226,
-          "n_pieces": 1,
-          "n_faces": 2938,
-          "id": "semispinalis_cervicis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Semispinalis cervicis",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
         "rectus_capitis_posterior_minor_l|left": {
           "status": "FRAGMENTED",
           "main_frac": 0.9474393530997305,
@@ -4304,22 +4320,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Rectus capitis posterior major",
-          "subjects": [
-            "xfer_vhf2vhm_neck"
-          ]
-        },
-        "obliquus_capitis_inferior_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.858151023288638,
-          "n_components": 6,
-          "total_vertices": 1417,
-          "largest_component_vertices": 1216,
-          "n_pieces": 1,
-          "n_faces": 3044,
-          "id": "obliquus_capitis_inferior_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Obliquus capitis inferior",
           "subjects": [
             "xfer_vhf2vhm_neck"
           ]
@@ -4358,12 +4358,12 @@
         },
         "longus_capitis_l|left": {
           "status": "FRAGMENTED",
-          "main_frac": 0.9443298969072165,
-          "n_components": 3,
-          "total_vertices": 1455,
+          "main_frac": 0.9398084815321477,
+          "n_components": 4,
+          "total_vertices": 1462,
           "largest_component_vertices": 1374,
           "n_pieces": 1,
-          "n_faces": 2934,
+          "n_faces": 2944,
           "id": "longus_capitis_l",
           "side": "left",
           "cat": "muscle",
@@ -6295,14 +6295,14 @@
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 275,
-          "FRAGMENTED": 87,
+          "CONTINUOUS": 282,
+          "FRAGMENTED": 80,
           "SEVERE_BREAK": 28
         },
         "by_category_status": {
           "muscle": {
-            "CONTINUOUS": 175,
-            "FRAGMENTED": 73,
+            "CONTINUOUS": 182,
+            "FRAGMENTED": 66,
             "SEVERE_BREAK": 14
           },
           "bone": {
@@ -6336,10 +6336,10 @@
       }
     },
     "female": {
-      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_mcsplit+ct_vhf_descaorta+ct_vhf_hyoid_fix+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep+xfer_vhm2vhf_tva+xfer_vhm2vhf+xfer_zan2vhf_limb",
+      "subject": "ct_vhf_head+ct_vhf_legs+ct_vhf_tarsal+ct_vhf_armb+ct_vhf_mcsplit+ct_vhf_descaorta+ct_vhf_hyoid_fix+ct_vhf_armm_contfix+ct_vhf_armm_contfix_mesh+ct_vhf_delt_contfix+ct_vhf_dneck_contfix+ct_vhf_dneck_contfix_mesh+ct_vhf_forearm_contfix+ct_vhf_forearm_contfix_mesh+ct_vhf_hyoid_contfix+ct_vhf_orbit_contfix+ct_vhf_pfloor_contfix+ct_vhf_abd_contfix_mesh+ct_vhf_cuff_contfix_mesh+ct_vhf_es_contfix_mesh+ct_vhf_hand_contfix_mesh+ct_vhf_left_forearm_contfix_mesh+ct_vhf_shsp_contfix_mesh+ct_vhf_twall_contfix_mesh+ct_vhf+ct_vhf_headm+ct_vhf_neck+ct_vhf_neckbv+ct_vhf_orbit+ct_vhf_abd+ct_vhf_shsp+ct_vhf_delt+ct_vhf_cuff+ct_vhf_es+ct_vhf_armm+ct_vhf_forearm+ct_vhf_left_forearm+ct_vhf_dneck+ct_vhf_hyoid+ct_vhf_hand+ct_vhf_femoral+ct_vhf_popliteal+ct_vhf_pfloor+ct_vhf_twall+ct_vhf_pmr+xfer_vhm2vhf_rhom+ct_vhf_nerve+ct_vhf_skin+ct_vhf_xfersepta_fix_contfix+ct_vhf_xfersepta_fix+xfer_vhm2vhf_sep_contfix_mesh+xfer_vhm2vhf_sep_contfix+xfer_vhm2vhf_sep+xfer_vhm2vhf_tva+xfer_vhm2vhf+xfer_zan2vhf_limb",
       "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
       "html_path": "build/viewer_f/atlas_viewer_female.html",
-      "html_mtime": 1790204244.8478458,
+      "html_mtime": 1790303309.7280822,
       "n_structures_raw": 414,
       "n_groups": 392,
       "cat_mismatches": [],
@@ -6966,6 +6966,566 @@
           "name": "Genioglossus",
           "subjects": [
             "ct_vhf_hyoid_fix"
+          ]
+        },
+        "biceps_brachii_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.7393986121819583,
+          "n_components": 17,
+          "total_vertices": 1297,
+          "largest_component_vertices": 959,
+          "n_pieces": 1,
+          "n_faces": 2968,
+          "id": "biceps_brachii_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Biceps brachii",
+          "subjects": [
+            "ct_vhf_armm_contfix"
+          ]
+        },
+        "brachialis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.7583454281567489,
+          "n_components": 7,
+          "total_vertices": 1378,
+          "largest_component_vertices": 1045,
+          "n_pieces": 1,
+          "n_faces": 3008,
+          "id": "brachialis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Brachialis",
+          "subjects": [
+            "ct_vhf_armm_contfix"
+          ]
+        },
+        "biceps_brachii_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9269619269619269,
+          "n_components": 15,
+          "total_vertices": 1287,
+          "largest_component_vertices": 1193,
+          "n_pieces": 1,
+          "n_faces": 2950,
+          "id": "biceps_brachii_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Biceps brachii",
+          "subjects": [
+            "ct_vhf_armm_contfix"
+          ]
+        },
+        "triceps_brachii_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.926984126984127,
+          "n_components": 13,
+          "total_vertices": 1260,
+          "largest_component_vertices": 1168,
+          "n_pieces": 1,
+          "n_faces": 2878,
+          "id": "triceps_brachii_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Triceps brachii",
+          "subjects": [
+            "ct_vhf_armm_contfix"
+          ]
+        },
+        "triceps_brachii_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8223583460949464,
+          "n_components": 4,
+          "total_vertices": 1306,
+          "largest_component_vertices": 1074,
+          "n_pieces": 1,
+          "n_faces": 2952,
+          "id": "triceps_brachii_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Triceps brachii",
+          "subjects": [
+            "ct_vhf_armm_contfix_mesh"
+          ]
+        },
+        "brachialis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.677626876340243,
+          "n_components": 5,
+          "total_vertices": 1399,
+          "largest_component_vertices": 948,
+          "n_pieces": 1,
+          "n_faces": 3034,
+          "id": "brachialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Brachialis",
+          "subjects": [
+            "ct_vhf_armm_contfix_mesh"
+          ]
+        },
+        "deltoid_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9796126401630989,
+          "n_components": 4,
+          "total_vertices": 981,
+          "largest_component_vertices": 961,
+          "n_pieces": 1,
+          "n_faces": 3006,
+          "id": "deltoid_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Deltoid",
+          "subjects": [
+            "ct_vhf_delt_contfix"
+          ]
+        },
+        "longus_capitis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9398084815321477,
+          "n_components": 4,
+          "total_vertices": 1462,
+          "largest_component_vertices": 1374,
+          "n_pieces": 1,
+          "n_faces": 2944,
+          "id": "longus_capitis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Longus capitis",
+          "subjects": [
+            "ct_vhf_dneck_contfix"
+          ]
+        },
+        "semispinalis_capitis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.862876254180602,
+          "n_components": 5,
+          "total_vertices": 1196,
+          "largest_component_vertices": 1032,
+          "n_pieces": 1,
+          "n_faces": 3024,
+          "id": "semispinalis_capitis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Semispinalis capitis",
+          "subjects": [
+            "ct_vhf_dneck_contfix_mesh"
+          ]
+        },
+        "semispinalis_cervicis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.850190114068441,
+          "n_components": 6,
+          "total_vertices": 1315,
+          "largest_component_vertices": 1118,
+          "n_pieces": 1,
+          "n_faces": 3060,
+          "id": "semispinalis_cervicis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Semispinalis cervicis",
+          "subjects": [
+            "ct_vhf_dneck_contfix_mesh"
+          ]
+        },
+        "rectus_capitis_posterior_major_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.76008804108584,
+          "n_components": 2,
+          "total_vertices": 1363,
+          "largest_component_vertices": 1036,
+          "n_pieces": 1,
+          "n_faces": 2984,
+          "id": "rectus_capitis_posterior_major_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Rectus capitis posterior major",
+          "subjects": [
+            "ct_vhf_dneck_contfix_mesh"
+          ]
+        },
+        "longus_capitis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5607166556071665,
+          "n_components": 4,
+          "total_vertices": 1507,
+          "largest_component_vertices": 845,
+          "n_pieces": 1,
+          "n_faces": 3050,
+          "id": "longus_capitis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Longus capitis",
+          "subjects": [
+            "ct_vhf_dneck_contfix_mesh"
+          ]
+        },
+        "semispinalis_capitis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9943639291465378,
+          "n_components": 3,
+          "total_vertices": 1242,
+          "largest_component_vertices": 1235,
+          "n_pieces": 1,
+          "n_faces": 3050,
+          "id": "semispinalis_capitis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Semispinalis capitis",
+          "subjects": [
+            "ct_vhf_dneck_contfix_mesh"
+          ]
+        },
+        "semispinalis_cervicis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9961948249619482,
+          "n_components": 2,
+          "total_vertices": 1314,
+          "largest_component_vertices": 1309,
+          "n_pieces": 1,
+          "n_faces": 3032,
+          "id": "semispinalis_cervicis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Semispinalis cervicis",
+          "subjects": [
+            "ct_vhf_dneck_contfix_mesh"
+          ]
+        },
+        "extensor_carpi_radialis_longus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9591298615688859,
+          "n_components": 4,
+          "total_vertices": 1517,
+          "largest_component_vertices": 1455,
+          "n_pieces": 1,
+          "n_faces": 3058,
+          "id": "extensor_carpi_radialis_longus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor carpi radialis longus",
+          "subjects": [
+            "ct_vhf_forearm_contfix"
+          ]
+        },
+        "extensor_pollicis_longus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9761904761904762,
+          "n_components": 7,
+          "total_vertices": 1134,
+          "largest_component_vertices": 1107,
+          "n_pieces": 1,
+          "n_faces": 3004,
+          "id": "extensor_pollicis_longus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor pollicis longus",
+          "subjects": [
+            "ct_vhf_forearm_contfix"
+          ]
+        },
+        "flexor_digitorum_profundus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1349,
+          "largest_component_vertices": 1349,
+          "n_pieces": 1,
+          "n_faces": 3048,
+          "id": "flexor_digitorum_profundus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Flexor digitorum profundus",
+          "subjects": [
+            "ct_vhf_forearm_contfix_mesh"
+          ]
+        },
+        "extensor_carpi_ulnaris_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.597601598934044,
+          "n_components": 2,
+          "total_vertices": 1501,
+          "largest_component_vertices": 897,
+          "n_pieces": 1,
+          "n_faces": 3050,
+          "id": "extensor_carpi_ulnaris_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor carpi ulnaris",
+          "subjects": [
+            "ct_vhf_forearm_contfix_mesh"
+          ]
+        },
+        "styloglossus_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9291187739463601,
+          "n_components": 3,
+          "total_vertices": 1044,
+          "largest_component_vertices": 970,
+          "n_pieces": 1,
+          "n_faces": 2076,
+          "id": "styloglossus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Styloglossus",
+          "subjects": [
+            "ct_vhf_hyoid_contfix"
+          ]
+        },
+        "superior_rectus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1520,
+          "largest_component_vertices": 1520,
+          "n_pieces": 1,
+          "n_faces": 3048,
+          "id": "superior_rectus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Superior rectus",
+          "subjects": [
+            "ct_vhf_orbit_contfix"
+          ]
+        },
+        "deep_transverse_perineal_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5613652868554829,
+          "n_components": 3,
+          "total_vertices": 1377,
+          "largest_component_vertices": 773,
+          "n_pieces": 1,
+          "n_faces": 3000,
+          "id": "deep_transverse_perineal_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Transversus perinei profundus",
+          "subjects": [
+            "ct_vhf_pfloor_contfix"
+          ]
+        },
+        "external_oblique_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1201,
+          "largest_component_vertices": 1201,
+          "n_pieces": 1,
+          "n_faces": 3060,
+          "id": "external_oblique_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "External oblique",
+          "subjects": [
+            "ct_vhf_abd_contfix_mesh"
+          ]
+        },
+        "external_oblique_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9934047815333883,
+          "n_components": 3,
+          "total_vertices": 1213,
+          "largest_component_vertices": 1205,
+          "n_pieces": 1,
+          "n_faces": 3032,
+          "id": "external_oblique_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "External oblique",
+          "subjects": [
+            "ct_vhf_abd_contfix_mesh"
+          ]
+        },
+        "supraspinatus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.6911665542818611,
+          "n_components": 6,
+          "total_vertices": 1483,
+          "largest_component_vertices": 1025,
+          "n_pieces": 1,
+          "n_faces": 3042,
+          "id": "supraspinatus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Supraspinatus",
+          "subjects": [
+            "ct_vhf_cuff_contfix_mesh"
+          ]
+        },
+        "supraspinatus_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8036935704514364,
+          "n_components": 7,
+          "total_vertices": 1462,
+          "largest_component_vertices": 1175,
+          "n_pieces": 1,
+          "n_faces": 3028,
+          "id": "supraspinatus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Supraspinatus",
+          "subjects": [
+            "ct_vhf_cuff_contfix_mesh"
+          ]
+        },
+        "subscapularis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9914089347079038,
+          "n_components": 4,
+          "total_vertices": 1164,
+          "largest_component_vertices": 1154,
+          "n_pieces": 1,
+          "n_faces": 3008,
+          "id": "subscapularis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Subscapularis",
+          "subjects": [
+            "ct_vhf_cuff_contfix_mesh"
+          ]
+        },
+        "spinalis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9333791208791209,
+          "n_components": 2,
+          "total_vertices": 1456,
+          "largest_component_vertices": 1359,
+          "n_pieces": 1,
+          "n_faces": 2984,
+          "id": "spinalis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Spinalis",
+          "subjects": [
+            "ct_vhf_es_contfix_mesh"
+          ]
+        },
+        "spinalis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9638964577656676,
+          "n_components": 3,
+          "total_vertices": 1468,
+          "largest_component_vertices": 1415,
+          "n_pieces": 1,
+          "n_faces": 3052,
+          "id": "spinalis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Spinalis",
+          "subjects": [
+            "ct_vhf_es_contfix_mesh"
+          ]
+        },
+        "dorsal_interossei_hand_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.6269360269360269,
+          "n_components": 2,
+          "total_vertices": 1485,
+          "largest_component_vertices": 931,
+          "n_pieces": 1,
+          "n_faces": 3050,
+          "id": "dorsal_interossei_hand_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Dorsal interossei (hand)",
+          "subjects": [
+            "ct_vhf_hand_contfix_mesh"
+          ]
+        },
+        "palmar_interossei_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9745137491616365,
+          "n_components": 3,
+          "total_vertices": 1491,
+          "largest_component_vertices": 1453,
+          "n_pieces": 1,
+          "n_faces": 3034,
+          "id": "palmar_interossei_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Palmar interossei",
+          "subjects": [
+            "ct_vhf_hand_contfix_mesh"
+          ]
+        },
+        "extensor_digitorum_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1439,
+          "largest_component_vertices": 1439,
+          "n_pieces": 1,
+          "n_faces": 2998,
+          "id": "extensor_digitorum_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Extensor digitorum",
+          "subjects": [
+            "ct_vhf_left_forearm_contfix_mesh"
+          ]
+        },
+        "infraspinatus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9588100686498856,
+          "n_components": 3,
+          "total_vertices": 1311,
+          "largest_component_vertices": 1257,
+          "n_pieces": 1,
+          "n_faces": 3036,
+          "id": "infraspinatus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Infraspinatus",
+          "subjects": [
+            "ct_vhf_shsp_contfix_mesh"
+          ]
+        },
+        "infraspinatus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9938508839354343,
+          "n_components": 2,
+          "total_vertices": 1301,
+          "largest_component_vertices": 1293,
+          "n_pieces": 1,
+          "n_faces": 3006,
+          "id": "infraspinatus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Infraspinatus",
+          "subjects": [
+            "ct_vhf_shsp_contfix_mesh"
+          ]
+        },
+        "teres_minor_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9854469854469855,
+          "n_components": 4,
+          "total_vertices": 1443,
+          "largest_component_vertices": 1422,
+          "n_pieces": 1,
+          "n_faces": 2966,
+          "id": "teres_minor_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Teres minor",
+          "subjects": [
+            "ct_vhf_shsp_contfix_mesh"
+          ]
+        },
+        "diaphragm|none": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.759674582233949,
+          "n_components": 16,
+          "total_vertices": 4548,
+          "largest_component_vertices": 3455,
+          "n_pieces": 1,
+          "n_faces": 10200,
+          "id": "diaphragm",
+          "side": "none",
+          "cat": "muscle",
+          "name": "Diaphragm",
+          "subjects": [
+            "ct_vhf_twall_contfix_mesh"
           ]
         },
         "sacrum|none": {
@@ -8814,22 +9374,6 @@
             "ct_vhf_orbit"
           ]
         },
-        "superior_rectus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9661579296615793,
-          "n_components": 2,
-          "total_vertices": 1507,
-          "largest_component_vertices": 1456,
-          "n_pieces": 1,
-          "n_faces": 3006,
-          "id": "superior_rectus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Superior rectus",
-          "subjects": [
-            "ct_vhf_orbit"
-          ]
-        },
         "medial_rectus_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -9150,38 +9694,6 @@
             "ct_vhf_abd"
           ]
         },
-        "external_oblique_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9864864864864865,
-          "n_components": 3,
-          "total_vertices": 1184,
-          "largest_component_vertices": 1168,
-          "n_pieces": 1,
-          "n_faces": 3024,
-          "id": "external_oblique_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "External oblique",
-          "subjects": [
-            "ct_vhf_abd"
-          ]
-        },
-        "external_oblique_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9639934533551555,
-          "n_components": 6,
-          "total_vertices": 1222,
-          "largest_component_vertices": 1178,
-          "n_pieces": 1,
-          "n_faces": 3036,
-          "id": "external_oblique_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "External oblique",
-          "subjects": [
-            "ct_vhf_abd"
-          ]
-        },
         "internal_oblique_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -9278,22 +9790,6 @@
             "ct_vhf_abd"
           ]
         },
-        "infraspinatus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9684857801691007,
-          "n_components": 6,
-          "total_vertices": 1301,
-          "largest_component_vertices": 1260,
-          "n_pieces": 1,
-          "n_faces": 3030,
-          "id": "infraspinatus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Infraspinatus",
-          "subjects": [
-            "ct_vhf_shsp"
-          ]
-        },
         "teres_minor_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -9326,38 +9822,6 @@
             "ct_vhf_shsp"
           ]
         },
-        "infraspinatus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.96,
-          "n_components": 7,
-          "total_vertices": 1325,
-          "largest_component_vertices": 1272,
-          "n_pieces": 1,
-          "n_faces": 2980,
-          "id": "infraspinatus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Infraspinatus",
-          "subjects": [
-            "ct_vhf_shsp"
-          ]
-        },
-        "teres_minor_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9854469854469855,
-          "n_components": 4,
-          "total_vertices": 1443,
-          "largest_component_vertices": 1422,
-          "n_pieces": 1,
-          "n_faces": 2966,
-          "id": "teres_minor_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Teres minor",
-          "subjects": [
-            "ct_vhf_shsp"
-          ]
-        },
         "teres_major_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 0.9924346629986245,
@@ -9372,22 +9836,6 @@
           "name": "Teres major",
           "subjects": [
             "ct_vhf_shsp"
-          ]
-        },
-        "deltoid_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9619970193740686,
-          "n_components": 6,
-          "total_vertices": 1342,
-          "largest_component_vertices": 1291,
-          "n_pieces": 1,
-          "n_faces": 3058,
-          "id": "deltoid_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Deltoid",
-          "subjects": [
-            "ct_vhf_delt"
           ]
         },
         "deltoid_l|left": {
@@ -9406,22 +9854,6 @@
             "ct_vhf_delt"
           ]
         },
-        "supraspinatus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7243460764587525,
-          "n_components": 5,
-          "total_vertices": 1491,
-          "largest_component_vertices": 1080,
-          "n_pieces": 1,
-          "n_faces": 3050,
-          "id": "supraspinatus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Supraspinatus",
-          "subjects": [
-            "ct_vhf_cuff"
-          ]
-        },
         "subscapularis_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 0.9933110367892977,
@@ -9436,54 +9868,6 @@
           "name": "Subscapularis",
           "subjects": [
             "ct_vhf_cuff"
-          ]
-        },
-        "supraspinatus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7810569663692519,
-          "n_components": 9,
-          "total_vertices": 1457,
-          "largest_component_vertices": 1138,
-          "n_pieces": 1,
-          "n_faces": 3036,
-          "id": "supraspinatus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Supraspinatus",
-          "subjects": [
-            "ct_vhf_cuff"
-          ]
-        },
-        "subscapularis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9776055124892334,
-          "n_components": 5,
-          "total_vertices": 1161,
-          "largest_component_vertices": 1135,
-          "n_pieces": 1,
-          "n_faces": 3056,
-          "id": "subscapularis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Subscapularis",
-          "subjects": [
-            "ct_vhf_cuff"
-          ]
-        },
-        "spinalis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9211590296495957,
-          "n_components": 6,
-          "total_vertices": 1484,
-          "largest_component_vertices": 1367,
-          "n_pieces": 1,
-          "n_faces": 3024,
-          "id": "spinalis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Spinalis",
-          "subjects": [
-            "ct_vhf_es"
           ]
         },
         "longissimus_r|right": {
@@ -9514,22 +9898,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Iliocostalis",
-          "subjects": [
-            "ct_vhf_es"
-          ]
-        },
-        "spinalis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9584468664850136,
-          "n_components": 5,
-          "total_vertices": 1468,
-          "largest_component_vertices": 1407,
-          "n_pieces": 1,
-          "n_faces": 3022,
-          "id": "spinalis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Spinalis",
           "subjects": [
             "ct_vhf_es"
           ]
@@ -9566,102 +9934,6 @@
             "ct_vhf_es"
           ]
         },
-        "biceps_brachii_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6506646971935007,
-          "n_components": 19,
-          "total_vertices": 1354,
-          "largest_component_vertices": 881,
-          "n_pieces": 1,
-          "n_faces": 3046,
-          "id": "biceps_brachii_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Biceps brachii",
-          "subjects": [
-            "ct_vhf_armm"
-          ]
-        },
-        "brachialis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7535816618911175,
-          "n_components": 9,
-          "total_vertices": 1396,
-          "largest_component_vertices": 1052,
-          "n_pieces": 1,
-          "n_faces": 3036,
-          "id": "brachialis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Brachialis",
-          "subjects": [
-            "ct_vhf_armm"
-          ]
-        },
-        "triceps_brachii_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7363984674329502,
-          "n_components": 24,
-          "total_vertices": 1305,
-          "largest_component_vertices": 961,
-          "n_pieces": 1,
-          "n_faces": 2908,
-          "id": "triceps_brachii_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Triceps brachii",
-          "subjects": [
-            "ct_vhf_armm"
-          ]
-        },
-        "biceps_brachii_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6160241874527589,
-          "n_components": 22,
-          "total_vertices": 1323,
-          "largest_component_vertices": 815,
-          "n_pieces": 1,
-          "n_faces": 2998,
-          "id": "biceps_brachii_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Biceps brachii",
-          "subjects": [
-            "ct_vhf_armm"
-          ]
-        },
-        "brachialis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.659156976744186,
-          "n_components": 6,
-          "total_vertices": 1376,
-          "largest_component_vertices": 907,
-          "n_pieces": 1,
-          "n_faces": 2982,
-          "id": "brachialis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Brachialis",
-          "subjects": [
-            "ct_vhf_armm"
-          ]
-        },
-        "triceps_brachii_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7525849335302807,
-          "n_components": 20,
-          "total_vertices": 1354,
-          "largest_component_vertices": 1019,
-          "n_pieces": 1,
-          "n_faces": 3026,
-          "id": "triceps_brachii_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Triceps brachii",
-          "subjects": [
-            "ct_vhf_armm"
-          ]
-        },
         "flexor_carpi_ulnaris_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -9674,22 +9946,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Flexor carpi ulnaris",
-          "subjects": [
-            "ct_vhf_forearm"
-          ]
-        },
-        "flexor_digitorum_profundus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9779086892488954,
-          "n_components": 5,
-          "total_vertices": 1358,
-          "largest_component_vertices": 1328,
-          "n_pieces": 1,
-          "n_faces": 2986,
-          "id": "flexor_digitorum_profundus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Flexor digitorum profundus",
           "subjects": [
             "ct_vhf_forearm"
           ]
@@ -9742,22 +9998,6 @@
             "ct_vhf_forearm"
           ]
         },
-        "extensor_carpi_radialis_longus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9529411764705882,
-          "n_components": 3,
-          "total_vertices": 1530,
-          "largest_component_vertices": 1458,
-          "n_pieces": 1,
-          "n_faces": 3060,
-          "id": "extensor_carpi_radialis_longus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Extensor carpi radialis longus",
-          "subjects": [
-            "ct_vhf_forearm"
-          ]
-        },
         "extensor_carpi_radialis_brevis_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -9806,22 +10046,6 @@
             "ct_vhf_forearm"
           ]
         },
-        "extensor_carpi_ulnaris_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5964095744680851,
-          "n_components": 3,
-          "total_vertices": 1504,
-          "largest_component_vertices": 897,
-          "n_pieces": 1,
-          "n_faces": 3052,
-          "id": "extensor_carpi_ulnaris_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Extensor carpi ulnaris",
-          "subjects": [
-            "ct_vhf_forearm"
-          ]
-        },
         "abductor_pollicis_longus_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 0.9940278699402787,
@@ -9854,22 +10078,6 @@
             "ct_vhf_forearm"
           ]
         },
-        "extensor_pollicis_longus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9786808794137242,
-          "n_components": 5,
-          "total_vertices": 1501,
-          "largest_component_vertices": 1469,
-          "n_pieces": 1,
-          "n_faces": 3050,
-          "id": "extensor_pollicis_longus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Extensor pollicis longus",
-          "subjects": [
-            "ct_vhf_forearm"
-          ]
-        },
         "extensor_indicis_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -9884,22 +10092,6 @@
           "name": "Extensor indicis",
           "subjects": [
             "ct_vhf_forearm"
-          ]
-        },
-        "extensor_digitorum_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.989041095890411,
-          "n_components": 2,
-          "total_vertices": 1460,
-          "largest_component_vertices": 1444,
-          "n_pieces": 1,
-          "n_faces": 3056,
-          "id": "extensor_digitorum_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Extensor digitorum",
-          "subjects": [
-            "ct_vhf_left_forearm"
           ]
         },
         "extensor_digiti_minimi_l|left": {
@@ -9966,38 +10158,6 @@
             "ct_vhf_left_forearm"
           ]
         },
-        "semispinalis_capitis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.595176571920758,
-          "n_components": 9,
-          "total_vertices": 1161,
-          "largest_component_vertices": 691,
-          "n_pieces": 1,
-          "n_faces": 2988,
-          "id": "semispinalis_capitis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Semispinalis capitis",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
-        "semispinalis_cervicis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7846153846153846,
-          "n_components": 12,
-          "total_vertices": 1300,
-          "largest_component_vertices": 1020,
-          "n_pieces": 1,
-          "n_faces": 3026,
-          "id": "semispinalis_cervicis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Semispinalis cervicis",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
         "rectus_capitis_posterior_minor_r|right": {
           "status": "FRAGMENTED",
           "main_frac": 0.6286713286713287,
@@ -10010,22 +10170,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Rectus capitis posterior minor",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
-        "rectus_capitis_posterior_major_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7518142235123367,
-          "n_components": 3,
-          "total_vertices": 1378,
-          "largest_component_vertices": 1036,
-          "n_pieces": 1,
-          "n_faces": 3016,
-          "id": "rectus_capitis_posterior_major_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Rectus capitis posterior major",
           "subjects": [
             "ct_vhf_dneck"
           ]
@@ -10074,54 +10218,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Longus colli",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
-        "longus_capitis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5501051156271899,
-          "n_components": 6,
-          "total_vertices": 1427,
-          "largest_component_vertices": 785,
-          "n_pieces": 1,
-          "n_faces": 2886,
-          "id": "longus_capitis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Longus capitis",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
-        "semispinalis_capitis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9801488833746899,
-          "n_components": 4,
-          "total_vertices": 1209,
-          "largest_component_vertices": 1185,
-          "n_pieces": 1,
-          "n_faces": 2994,
-          "id": "semispinalis_capitis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Semispinalis capitis",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
-        "semispinalis_cervicis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9585613760750586,
-          "n_components": 8,
-          "total_vertices": 1279,
-          "largest_component_vertices": 1226,
-          "n_pieces": 1,
-          "n_faces": 2938,
-          "id": "semispinalis_cervicis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Semispinalis cervicis",
           "subjects": [
             "ct_vhf_dneck"
           ]
@@ -10202,22 +10298,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Longus colli",
-          "subjects": [
-            "ct_vhf_dneck"
-          ]
-        },
-        "longus_capitis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9443298969072165,
-          "n_components": 3,
-          "total_vertices": 1455,
-          "largest_component_vertices": 1374,
-          "n_pieces": 1,
-          "n_faces": 2934,
-          "id": "longus_capitis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Longus capitis",
           "subjects": [
             "ct_vhf_dneck"
           ]
@@ -10350,22 +10430,6 @@
             "ct_vhf_hyoid"
           ]
         },
-        "styloglossus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9291187739463601,
-          "n_components": 3,
-          "total_vertices": 1044,
-          "largest_component_vertices": 970,
-          "n_pieces": 1,
-          "n_faces": 2076,
-          "id": "styloglossus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Styloglossus",
-          "subjects": [
-            "ct_vhf_hyoid"
-          ]
-        },
         "adductor_pollicis_r|right": {
           "status": "FRAGMENTED",
           "main_frac": 0.9704301075268817,
@@ -10426,38 +10490,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Opponens digiti minimi",
-          "subjects": [
-            "ct_vhf_hand"
-          ]
-        },
-        "dorsal_interossei_hand_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6255989048596852,
-          "n_components": 3,
-          "total_vertices": 1461,
-          "largest_component_vertices": 914,
-          "n_pieces": 1,
-          "n_faces": 3026,
-          "id": "dorsal_interossei_hand_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Dorsal interossei (hand)",
-          "subjects": [
-            "ct_vhf_hand"
-          ]
-        },
-        "palmar_interossei_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9706078824315297,
-          "n_components": 4,
-          "total_vertices": 1497,
-          "largest_component_vertices": 1453,
-          "n_pieces": 1,
-          "n_faces": 3042,
-          "id": "palmar_interossei_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Palmar interossei",
           "subjects": [
             "ct_vhf_hand"
           ]
@@ -10622,22 +10654,6 @@
             "ct_vhf_pfloor"
           ]
         },
-        "deep_transverse_perineal_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6158038147138964,
-          "n_components": 2,
-          "total_vertices": 1468,
-          "largest_component_vertices": 904,
-          "n_pieces": 1,
-          "n_faces": 2928,
-          "id": "deep_transverse_perineal_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Transversus perinei profundus",
-          "subjects": [
-            "ct_vhf_pfloor"
-          ]
-        },
         "levator_ani_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -10732,22 +10748,6 @@
           "name": "Sphincter ani externus",
           "subjects": [
             "ct_vhf_pfloor"
-          ]
-        },
-        "diaphragm|none": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.742617893345086,
-          "n_components": 20,
-          "total_vertices": 4538,
-          "largest_component_vertices": 3370,
-          "n_pieces": 1,
-          "n_faces": 10198,
-          "id": "diaphragm",
-          "side": "none",
-          "cat": "muscle",
-          "name": "Diaphragm",
-          "subjects": [
-            "ct_vhf_twall"
           ]
         },
         "external_intercostals_r|right": {
@@ -10879,19 +10879,19 @@
           ]
         },
         "extensor_digitorum_longus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.738929889298893,
-          "n_components": 4,
-          "total_vertices": 1084,
-          "largest_component_vertices": 801,
+          "status": "CONTINUOUS",
+          "main_frac": 0.992626728110599,
+          "n_components": 3,
+          "total_vertices": 1085,
+          "largest_component_vertices": 1077,
           "n_pieces": 1,
-          "n_faces": 2908,
+          "n_faces": 2920,
           "id": "extensor_digitorum_longus_l",
           "side": "left",
           "cat": "muscle",
           "name": "Extensor digitorum longus",
           "subjects": [
-            "ct_vhf_xfersepta_fix"
+            "ct_vhf_xfersepta_fix_contfix"
           ]
         },
         "extensor_hallucis_longus_l|left": {
@@ -10955,7 +10955,327 @@
           "cat": "muscle",
           "name": "Adductor brevis",
           "subjects": [
-            "xfer_vhm2vhf_sep"
+            "xfer_vhm2vhf_sep_contfix_mesh"
+          ]
+        },
+        "obturator_internus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9878048780487805,
+          "n_components": 3,
+          "total_vertices": 1476,
+          "largest_component_vertices": 1458,
+          "n_pieces": 1,
+          "n_faces": 3040,
+          "id": "obturator_internus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Obturator internus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix_mesh"
+          ]
+        },
+        "semimembranosus_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1386,
+          "largest_component_vertices": 1386,
+          "n_pieces": 1,
+          "n_faces": 3016,
+          "id": "semimembranosus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Semimembranosus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix_mesh"
+          ]
+        },
+        "tensor_fasciae_latae_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9979716024340771,
+          "n_components": 2,
+          "total_vertices": 1479,
+          "largest_component_vertices": 1476,
+          "n_pieces": 1,
+          "n_faces": 3022,
+          "id": "tensor_fasciae_latae_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Tensor fasciae latae",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix_mesh"
+          ]
+        },
+        "adductor_longus_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9943422913719944,
+          "n_components": 3,
+          "total_vertices": 1414,
+          "largest_component_vertices": 1406,
+          "n_pieces": 1,
+          "n_faces": 3054,
+          "id": "adductor_longus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Adductor longus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "adductor_magnus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9807407407407407,
+          "n_components": 4,
+          "total_vertices": 1350,
+          "largest_component_vertices": 1324,
+          "n_pieces": 1,
+          "n_faces": 3054,
+          "id": "adductor_magnus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Adductor magnus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "biceps_femoris_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9799307958477509,
+          "n_components": 7,
+          "total_vertices": 1445,
+          "largest_component_vertices": 1416,
+          "n_pieces": 1,
+          "n_faces": 3042,
+          "id": "biceps_femoris_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Biceps femoris",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "biceps_femoris_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9778625954198473,
+          "n_components": 5,
+          "total_vertices": 1310,
+          "largest_component_vertices": 1281,
+          "n_pieces": 1,
+          "n_faces": 2926,
+          "id": "biceps_femoris_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Biceps femoris",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "extensor_digitorum_longus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.660958904109589,
+          "n_components": 13,
+          "total_vertices": 1460,
+          "largest_component_vertices": 965,
+          "n_pieces": 1,
+          "n_faces": 3060,
+          "id": "extensor_digitorum_longus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor digitorum longus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "extensor_hallucis_longus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5598980458793543,
+          "n_components": 9,
+          "total_vertices": 1177,
+          "largest_component_vertices": 659,
+          "n_pieces": 1,
+          "n_faces": 2904,
+          "id": "extensor_hallucis_longus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Extensor hallucis longus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "gastrocnemius_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9786607799852833,
+          "n_components": 7,
+          "total_vertices": 1359,
+          "largest_component_vertices": 1330,
+          "n_pieces": 1,
+          "n_faces": 2906,
+          "id": "gastrocnemius_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Gastrocnemius",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "gracilis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9884643114635905,
+          "n_components": 3,
+          "total_vertices": 1387,
+          "largest_component_vertices": 1371,
+          "n_pieces": 1,
+          "n_faces": 3006,
+          "id": "gracilis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Gracilis",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "gracilis_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.7387580299785867,
+          "n_components": 10,
+          "total_vertices": 1401,
+          "largest_component_vertices": 1035,
+          "n_pieces": 1,
+          "n_faces": 3030,
+          "id": "gracilis_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Gracilis",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "popliteus_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9867724867724867,
+          "n_components": 2,
+          "total_vertices": 1512,
+          "largest_component_vertices": 1492,
+          "n_pieces": 1,
+          "n_faces": 3042,
+          "id": "popliteus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Popliteus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "rectus_femoris_r|right": {
+          "status": "CONTINUOUS",
+          "main_frac": 1.0,
+          "n_components": 1,
+          "total_vertices": 1518,
+          "largest_component_vertices": 1518,
+          "n_pieces": 1,
+          "n_faces": 3058,
+          "id": "rectus_femoris_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Rectus femoris",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "sartorius_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.5443873807776962,
+          "n_components": 3,
+          "total_vertices": 1363,
+          "largest_component_vertices": 742,
+          "n_pieces": 1,
+          "n_faces": 3004,
+          "id": "sartorius_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Sartorius",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "semitendinosus_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.8283898305084746,
+          "n_components": 9,
+          "total_vertices": 1416,
+          "largest_component_vertices": 1173,
+          "n_pieces": 1,
+          "n_faces": 3030,
+          "id": "semitendinosus_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Semitendinosus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "semitendinosus_r|right": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9305654974946314,
+          "n_components": 4,
+          "total_vertices": 1397,
+          "largest_component_vertices": 1300,
+          "n_pieces": 1,
+          "n_faces": 3050,
+          "id": "semitendinosus_r",
+          "side": "right",
+          "cat": "muscle",
+          "name": "Semitendinosus",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "tibialis_anterior_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9477401129943502,
+          "n_components": 3,
+          "total_vertices": 1416,
+          "largest_component_vertices": 1342,
+          "n_pieces": 1,
+          "n_faces": 2954,
+          "id": "tibialis_anterior_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Tibialis anterior",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "vastus_lateralis_l|left": {
+          "status": "FRAGMENTED",
+          "main_frac": 0.9874631268436578,
+          "n_components": 3,
+          "total_vertices": 1356,
+          "largest_component_vertices": 1339,
+          "n_pieces": 1,
+          "n_faces": 3020,
+          "id": "vastus_lateralis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Vastus lateralis",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
+          ]
+        },
+        "vastus_medialis_l|left": {
+          "status": "CONTINUOUS",
+          "main_frac": 0.9978494623655914,
+          "n_components": 2,
+          "total_vertices": 1395,
+          "largest_component_vertices": 1392,
+          "n_pieces": 1,
+          "n_faces": 2990,
+          "id": "vastus_medialis_l",
+          "side": "left",
+          "cat": "muscle",
+          "name": "Vastus medialis",
+          "subjects": [
+            "xfer_vhm2vhf_sep_contfix"
           ]
         },
         "adductor_brevis_r|right": {
@@ -10970,22 +11290,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Adductor brevis",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "adductor_longus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6001415428167021,
-          "n_components": 5,
-          "total_vertices": 1413,
-          "largest_component_vertices": 848,
-          "n_pieces": 1,
-          "n_faces": 2986,
-          "id": "adductor_longus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Adductor longus",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -11018,86 +11322,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Adductor magnus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "adductor_magnus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9709480122324159,
-          "n_components": 3,
-          "total_vertices": 1308,
-          "largest_component_vertices": 1270,
-          "n_pieces": 1,
-          "n_faces": 3046,
-          "id": "adductor_magnus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Adductor magnus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "biceps_femoris_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.983983286908078,
-          "n_components": 6,
-          "total_vertices": 1436,
-          "largest_component_vertices": 1413,
-          "n_pieces": 1,
-          "n_faces": 3040,
-          "id": "biceps_femoris_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Biceps femoris",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "biceps_femoris_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8888042650418888,
-          "n_components": 6,
-          "total_vertices": 1313,
-          "largest_component_vertices": 1167,
-          "n_pieces": 1,
-          "n_faces": 2924,
-          "id": "biceps_femoris_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Biceps femoris",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "extensor_digitorum_longus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.660958904109589,
-          "n_components": 13,
-          "total_vertices": 1460,
-          "largest_component_vertices": 965,
-          "n_pieces": 1,
-          "n_faces": 3060,
-          "id": "extensor_digitorum_longus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Extensor digitorum longus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "extensor_hallucis_longus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.562082777036048,
-          "n_components": 7,
-          "total_vertices": 1498,
-          "largest_component_vertices": 842,
-          "n_pieces": 1,
-          "n_faces": 3050,
-          "id": "extensor_hallucis_longus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Extensor hallucis longus",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -11198,22 +11422,6 @@
             "xfer_vhm2vhf_sep"
           ]
         },
-        "gastrocnemius_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9786607799852833,
-          "n_components": 7,
-          "total_vertices": 1359,
-          "largest_component_vertices": 1330,
-          "n_pieces": 1,
-          "n_faces": 2906,
-          "id": "gastrocnemius_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Gastrocnemius",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
         "gemellus_inferior_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -11226,38 +11434,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Inferior gemellus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "gracilis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9884559884559885,
-          "n_components": 3,
-          "total_vertices": 1386,
-          "largest_component_vertices": 1370,
-          "n_pieces": 1,
-          "n_faces": 2998,
-          "id": "gracilis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Gracilis",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "gracilis_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5909742120343839,
-          "n_components": 11,
-          "total_vertices": 1396,
-          "largest_component_vertices": 825,
-          "n_pieces": 1,
-          "n_faces": 3004,
-          "id": "gracilis_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Gracilis",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -11310,22 +11486,6 @@
             "xfer_vhm2vhf_sep"
           ]
         },
-        "obturator_internus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9878048780487805,
-          "n_components": 3,
-          "total_vertices": 1476,
-          "largest_component_vertices": 1458,
-          "n_pieces": 1,
-          "n_faces": 3040,
-          "id": "obturator_internus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Obturator internus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
         "pectineus_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -11370,22 +11530,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Plantaris",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "popliteus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9867461895294898,
-          "n_components": 2,
-          "total_vertices": 1509,
-          "largest_component_vertices": 1489,
-          "n_pieces": 1,
-          "n_faces": 3036,
-          "id": "popliteus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Popliteus",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -11454,22 +11598,6 @@
             "xfer_vhm2vhf_sep"
           ]
         },
-        "rectus_femoris_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7730263157894737,
-          "n_components": 2,
-          "total_vertices": 1520,
-          "largest_component_vertices": 1175,
-          "n_pieces": 1,
-          "n_faces": 3058,
-          "id": "rectus_femoris_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Rectus femoris",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
         "sartorius_l|left": {
           "status": "CONTINUOUS",
           "main_frac": 1.0,
@@ -11480,22 +11608,6 @@
           "n_faces": 3016,
           "id": "sartorius_l",
           "side": "left",
-          "cat": "muscle",
-          "name": "Sartorius",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "sartorius_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.5443873807776962,
-          "n_components": 3,
-          "total_vertices": 1363,
-          "largest_component_vertices": 742,
-          "n_pieces": 1,
-          "n_faces": 3004,
-          "id": "sartorius_r",
-          "side": "right",
           "cat": "muscle",
           "name": "Sartorius",
           "subjects": [
@@ -11514,54 +11626,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Semimembranosus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "semimembranosus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9279720279720279,
-          "n_components": 11,
-          "total_vertices": 1430,
-          "largest_component_vertices": 1327,
-          "n_pieces": 1,
-          "n_faces": 3050,
-          "id": "semimembranosus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Semimembranosus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "semitendinosus_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.7296918767507002,
-          "n_components": 8,
-          "total_vertices": 1428,
-          "largest_component_vertices": 1042,
-          "n_pieces": 1,
-          "n_faces": 3058,
-          "id": "semitendinosus_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Semitendinosus",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "semitendinosus_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9306647605432452,
-          "n_components": 4,
-          "total_vertices": 1399,
-          "largest_component_vertices": 1302,
-          "n_pieces": 1,
-          "n_faces": 3060,
-          "id": "semitendinosus_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Semitendinosus",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -11610,38 +11674,6 @@
           "side": "left",
           "cat": "muscle",
           "name": "Tensor fasciae latae",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "tensor_fasciae_latae_r|right": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9899799599198397,
-          "n_components": 4,
-          "total_vertices": 1497,
-          "largest_component_vertices": 1482,
-          "n_pieces": 1,
-          "n_faces": 3044,
-          "id": "tensor_fasciae_latae_r",
-          "side": "right",
-          "cat": "muscle",
-          "name": "Tensor fasciae latae",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "tibialis_anterior_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.6710986703988804,
-          "n_components": 4,
-          "total_vertices": 1429,
-          "largest_component_vertices": 959,
-          "n_pieces": 1,
-          "n_faces": 2960,
-          "id": "tibialis_anterior_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Tibialis anterior",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -11726,22 +11758,6 @@
             "xfer_vhm2vhf_sep"
           ]
         },
-        "vastus_lateralis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.9874538745387453,
-          "n_components": 3,
-          "total_vertices": 1355,
-          "largest_component_vertices": 1338,
-          "n_pieces": 1,
-          "n_faces": 3036,
-          "id": "vastus_lateralis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Vastus lateralis",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
         "vastus_lateralis_r|right": {
           "status": "CONTINUOUS",
           "main_frac": 0.9948339483394834,
@@ -11754,22 +11770,6 @@
           "side": "right",
           "cat": "muscle",
           "name": "Vastus lateralis",
-          "subjects": [
-            "xfer_vhm2vhf_sep"
-          ]
-        },
-        "vastus_medialis_l|left": {
-          "status": "FRAGMENTED",
-          "main_frac": 0.8346513299784328,
-          "n_components": 3,
-          "total_vertices": 1391,
-          "largest_component_vertices": 1161,
-          "n_pieces": 1,
-          "n_faces": 2988,
-          "id": "vastus_medialis_l",
-          "side": "left",
-          "cat": "muscle",
-          "name": "Vastus medialis",
           "subjects": [
             "xfer_vhm2vhf_sep"
           ]
@@ -12641,8 +12641,8 @@
       },
       "summary": {
         "by_status": {
-          "CONTINUOUS": 272,
-          "FRAGMENTED": 102,
+          "CONTINUOUS": 287,
+          "FRAGMENTED": 87,
           "SEVERE_BREAK": 18
         },
         "by_category_status": {
@@ -12656,8 +12656,8 @@
             "FRAGMENTED": 7
           },
           "muscle": {
-            "CONTINUOUS": 160,
-            "FRAGMENTED": 77,
+            "CONTINUOUS": 175,
+            "FRAGMENTED": 62,
             "SEVERE_BREAK": 10
           },
           "cartilage": {

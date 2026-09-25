@@ -22,7 +22,112 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 296 tests pass. Recent: Q151b (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 311 tests pass. Recent: Q152 (2026-09-25)
+repaired fragmented/severe-break MUSCLES on both specimens (owner direction: muscle tissue
+must be continuous everywhere, via interpolation between real sections, never fabricated
+geometry). Diagnosed all 174 fragmented/severe muscles from Q151's refreshed
+`data/derived/Q112_full_continuity_audit.json` (male 175/73/14, female 160/77/10) with a new
+mechanical sweep (`scripts/repair_continuity_q152.py`): resolves each id back to its raw source
+label volume (reusing Q115's own `resolve_source`/`load_volume_cached`), measures real connected
+components (`scipy.ndimage.label`+`find_objects`, 26-connectivity), and classifies the cause:
+source is (near-)one piece -> PIPELINE_ARTIFACT (decimation/smoothing); a secondary component
+separated from the main body ONLY by a run of label-EMPTY Z-slices <= 10mm -> GAP_BRIDGE (shape-
+based SDF interpolation between the two nearest real slices, `scripts/transfer/shape_interp.py`,
+reused verbatim, restricted to exactly the approved gap ranges -- never any other, larger gap the
+same label might carry); a component < 2% of the label's volume AND > 15mm from the main body ->
+DROP_ISLAND (stray fleck, not anatomy); anything else -> ANATOMICAL (genuine multi-bellied muscle
+-- interossei, adductor hallucis's two heads -- or a previously fully-investigated, declined,
+non-fixable source defect, e.g. Q114's own pectoralis_minor/longus_colli/geniohyoid_l/hyoglossus_r,
+reused verbatim rather than re-litigated) or OUT_OF_SCOPE_TRANSFER (sourced from a per-bone
+Z-Anatomy reference-mesh transfer, no raw voxel mask to measure at all -- Q147/Q150/Q151's own
+already-disclosed limitation). 110 of 174 fully diagnosed in this session's compute budget (the
+remaining 64, mostly male shoulder-girdle/trunk/hand muscles sharing a handful of very heavily
+pre-fragmented cryo source volumes -- e.g. one female arm-muscle label alone had 140 raw
+components -- would have taken proportionally as long again; **not diagnosed, disclosed as
+NOT_YET_DIAGNOSED in the report rather than guessed, exactly this project's own Q151 precedent for
+an exceeded compute budget**): of the 110, 35 PIPELINE_ARTIFACT (9) + GAP_BRIDGE (26), 52 DROP_ISLAND
+(22) + MIXED_ISLAND_AND_ANATOMICAL (30), 23 ANATOMICAL (includes the OUT_OF_SCOPE_TRANSFER case --
+sourced from a per-bone Z-Anatomy mesh transfer with no raw voxel mask at all -- when a real source
+resolved for the same id through a different listed subject; most zanatomy-only ids, e.g. the
+interossei, fell in the 64 NOT_YET_DIAGNOSED instead and were never classified either way). Applied
+every fix the diagnosis approved
+(`scripts/apply_continuity_repairs_q152.py`): (a) mesh-space island drops, entirely on the
+ALREADY-BUILT atlas-frame mesh (own connected-components pass, `scipy.sparse.csgraph`, dropping
+only a component that INDEPENDENTLY re-qualifies as an island on the real decimated mesh, never
+"everything but the largest piece" -- a MIXED id can have a genuine second belly sitting right
+next to a stray fleck) -- carries zero placement risk since it can only remove already-correct
+triangles, never move any; 45 ids fixed this way (7 island calls did not independently reproduce
+on the built mesh and were left untouched rather than over-dropped, disclosed). (b) voxel-space
+gap-bridge/decimation fixes, needing the original rigid `--origin` back: derived it directly
+(never guessed, never borrowed from another subject) from every OTHER already-correctly-placed
+label the same source volume contributes, by comparing that label's raw-voxel world centroid
+(`vol.voxels_to_atlas`, no origin subtracted) against its own already-built atlas-frame centroid --
+verified essentially exact against the female specimen's own independently-computed origin
+constant (`ingest_volume_geometry.py inspect`'s femoral-head fit) and against the male's own
+known origin constant: spread 0.000mm across every one of 10 source subjects. 30 ids fixed this
+way across those 10 root source subjects (9 female + `ct_vhm_armm`, the male's own arm-muscle
+cryo volume, fixed directly for his own `biceps_brachii_r`). Every OTHER male id needing a voxel
+fix, e.g. `longus_capitis_l`/`superior_rectus_r`, turned out to be TRANSFERRED from a female
+source instead, so fixing her source and regenerating `xfer_vhf2vhm`/`xfer_vhf2vhm_neck` fixed
+both bodies at once, exactly Q113/Q114's own precedent -- never duplicated as an independent male
+fix; 1 skipped (`ct_vhf_left_forearm`: origin could not be
+derived at all -- only 5 of its 20 mapped muscles are ever shipped, none gave a usable estimate --
+declined rather than guessed). Every fix lands in a small new `<source>_contfix`
+(voxel)/`<source>_contfix_mesh` (mesh) subject, listed BEFORE its own source in both
+`scripts/cryo/vhf_rebuild_bundle.sh` and `scripts/vhm_rebuild_bundle.sh` so it wins only the ids it
+repairs (Q116's own single-id `_fix` pattern, extended: a per-source variant since different
+sources need different label maps/origins and no multi-source-into-one-subject merge tool exists
+to invent one for a literal `ct_vhm_contfix`/`ct_vhf_contfix` as the brief's own example named it);
+badged per repair type (gap-bridge badge states the mm bridged and % of volume interpolated).
+**RESULT (re-ran `scripts/audit_full_continuity_q112.py` on the rebuilt bundles, diff-checked):
+muscles only -- male CONTINUOUS 175->182 (+7), FRAGMENTED 73->66 (-7), SEVERE_BREAK unchanged
+14->14; female CONTINUOUS 160->175 (+15), FRAGMENTED 77->62 (-15), SEVERE_BREAK unchanged 10->10.**
+No severe break was created or newly resolved this pass (every SEVERE_BREAK muscle sits in the
+NOT_YET_DIAGNOSED remainder or is a declined/anatomical case). Volumes: island drops shrink by
+their own logged, disclosed face-fraction (0.01%-11.4% of a structure's faces, e.g.
+`triceps_brachii_r` 11.4%, `dorsal_interossei_hand_r` 0.3%); voxel fixes measured directly on 8
+sampled ids, cm3 before->after: `biceps_brachii_r` 251.3->255.0 (+1.5%), `brachialis_r`
+111.7->112.4 (+0.6%), `biceps_brachii_l` 208.5->211.0 (+1.2%), `deltoid_r` 220.2->225.8 (+2.5%),
+`semispinalis_capitis_r` 34.9->34.5 (-1.3%), `longus_capitis_l` 3.50->3.50 (+0.02%) -- all under
+the 10% guard; two PIPELINE_ARTIFACT ids exceed it and are disclosed rather than hidden:
+`extensor_carpi_radialis_longus_r` 24.2->26.8cm3 (+11.0%) and `deep_transverse_perineal_r`
+1.42->1.82cm3 (+28.6%, a small absolute structure where a small cm3 delta is a large percentage) --
+both are `--smooth 0.0` recoveries of volume the ORIGINAL over-aggressive smoothing had eroded
+away (i.e. recovering already-real segmented tissue, not adding new geometry), the exact mechanism
+this task's own brief authorized, same category as Q114/Q116's own precedent of disclosed
+volume changes from this fix class. Point-rendered (matplotlib 3-D scatter) 3 before/after
+examples (`biceps_brachii_r` gap-bridge, `deltoid_r` pipeline-fix, `semispinalis_capitis_r`
+island-drop) and looked: all three keep the same position/silhouette before and after (confirming
+the derived origin), the "after" point clouds read as a single continuous mass at the gap/join
+where "before" showed a visible break or a disconnected fleck. Rebuilt both viewers with the
+fixes: `build/viewer_f/atlas_viewer_female.html` 14.63 MB, `build/viewer_m/atlas_viewer_male.html`
+14.70 MB (both well under the 15.5 MB cap). `python -m pytest -q`: **311 passed** (was 296; +15 new
+tests in `tests/test_repair_continuity_q152.py` for the gap-bridge fill rule -- including that it
+restricts to exactly the approved ranges, never every gap the same label has -- and the
+independent-per-component island-drop rule). PRE-EXISTING BUG NOTED, NOT FIXED (out of scope,
+one-line flag per this project's own convention): Q116's `ct_vhf_hyoid_fix`/`ct_vhm_pfloor_fix`/
+`ct_vhf_xfersepta_fix` (partial) have no actual regeneration command in either rebuild script, only
+a conditional "use it if present" check -- on a truly fresh container (`build/` wiped) they would
+silently not be rebuilt at all; this task's OWN new contfix subjects do NOT have this bug (both
+rebuild scripts call `scripts/apply_continuity_repairs_q152.py` for real, gated only by an
+idempotency marker). SHIPPED: `scripts/repair_continuity_q152.py` (diagnosis),
+`scripts/apply_continuity_repairs_q152.py` (fixes), `tests/test_repair_continuity_q152.py` (15
+tests), `scripts/cryo/vhf_rebuild_bundle.sh` + `scripts/vhm_rebuild_bundle.sh` (wired in the new
+contfix subjects, ordering-bug-fixed after a first pass shipped one in the wrong order),
+`engine/validators.py` (excluded 2 new generated reports from the source-citation check, same
+category as Q151b's own fix), `data/derived/Q112_full_continuity_audit.json` (re-run, diff-checked),
+`data/derived/Q152_continuity_repair.json` (full diagnosis, all 174 ids, including the 64
+NOT_YET_DIAGNOSED, honestly disclosed), `data/derived/Q152_apply_log.json` (per-id apply log),
+`build/vh/*_contfix*` (23 new subjects, gitignored, not committed), `build/viewer_f/*`,
+`build/viewer_m/*` (rebuilt, gitignored, not committed, not published -- same Production Deploy
+permission gate prior tasks hit). Open issues: (1) the 64 NOT_YET_DIAGNOSED muscles (mostly male
+shoulder-girdle/trunk/hand, sharing a few very heavily fragmented source volumes) need the same
+sweep resumed (`scripts/repair_continuity_q152.py --only <ids>`, same method, nothing to redo) with
+more session compute budget; (2) `ct_vhf_left_forearm`'s one skipped gap-bridge
+(`extensor_digiti_minimi_l`) needs its origin recovered some other way (only 5 of 20 mapped
+muscles ever ship, none gave a usable calibration point) or accepted as a permanent limitation;
+(3) the pre-existing Q116 rebuild-script gap noted above, for whoever picks it up. Before that,
+Q151b (2026-09-25)
 did the photograph-driven refinement Q151 itself never ran: new `scripts/transfer/refine_transfer_photo_watershed.py`
 registers each of the male's 137 real re-acquired forearm cryosection photographs (Q151's own
 `SCRATCH/vh_cryo_m_forearm_q151`) directly to his own CT radius/ulna volume

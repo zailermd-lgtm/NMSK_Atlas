@@ -100,6 +100,19 @@ fi
 # Q116: coccygeus_l only, reconverted at --smooth 0.0 (ct_vhm_pfloor_fix); listed BEFORE
 # ct_vhm_pfloor so it wins just this one atlas_id.
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
+# Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
+# deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
+# where ct_vhm_armm itself did -- see apply_continuity_repairs_q152.py). His forearm/hand/foot
+# transfer (xfer_zan2vhm_limb) and shared-with-her ids (via xfer_vhf2vhm/xfer_vhf2vhm_neck) are
+# fixed at the FEMALE source instead (scripts/cryo/vhf_rebuild_bundle.sh) -- those two transfers
+# must be regenerated against her already-fixed bundle for him to inherit the fix (this script's
+# own idempotent check skips regenerating them if already present from before this task; run
+# `rm -rf build/vh/xfer_vhf2vhm build/vh/xfer_vhf2vhm_neck` once before this script to force it).
+[ -f build/vh/ct_vhf_dneck_contfix/manifest.json ] || python3 scripts/apply_continuity_repairs_q152.py 2>&1 | tail -30
+for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh ct_vhm_forearm_contfix_mesh \
+         xfer_vhf2vhm_neck_contfix_mesh; do
+  [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
+done
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
