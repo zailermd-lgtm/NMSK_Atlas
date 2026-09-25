@@ -203,7 +203,22 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     namemap = json.loads(Path(namemap_path).read_text())
 
     matched = load_source(inventory_path=inventory_path, namemap_path=namemap_path, zan_dir=zan_dir)
-    orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap)
+
+    # Q158: every Z-Anatomy object `matched` actually consumed -- including via
+    # its own Q158 extra-links tier (`zan_source.load_extra_links()`), which
+    # links names whose OWN namemap status is ambiguous/unmatched/grouped, the
+    # exact statuses `build_orphan_pool` below also scoops up by default. Left
+    # unfiltered, a Q158-linked name would ship TWICE: once as real atlas
+    # geometry (correct) and once again as a duplicate, unlinked "geometry only"
+    # orphan under a `zan_<slug>` id (the same mesh, shown twice). Filtering the
+    # namemap copy `build_orphan_pool` sees -- never the committed namemap file
+    # itself -- to drop exactly the names `matched` already placed closes this.
+    consumed_names = {p for rec in matched.values() for p in rec.get("zanatomy_parts", [])}
+    namemap_for_orphans = dict(namemap)
+    namemap_for_orphans["entries"] = [
+        e for e in namemap["entries"] if e["zanatomy_name"] not in consumed_names
+    ]
+    orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap_for_orphans)
     origin, origin_report = compute_origin(zan_dir)
     corrections = load_corrections(corrections_dir)
     atlas_records = load_atlas_records()

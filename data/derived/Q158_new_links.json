@@ -1,0 +1,6589 @@
+{
+ "source": "Q158 (2026-09-25): additional deterministic Z-Anatomy name -> atlas id links for the MSK + peripheral-nerve categories, layered on top of the frozen data/derived/zanatomy_name_map.json (never edited) -- see scripts/zanatomy/build_q158_links.py's own module docstring for the exact rules. Consumed by scripts/zanatomy/zan_source.py's load_extra_links().",
+ "generated": "2026-09-25",
+ "counts_by_rule": {
+  "tissue_disambiguated_ambiguous": 31,
+  "muscle_head_or_part": 12,
+  "grouped_tissue_disambiguated": 26,
+  "grouped_unique": 2,
+  "numbered_series_phalanx": 56,
+  "numbered_series_rib": 24,
+  "numbered_series_vertebra": 22
+ },
+ "total_links": 173,
+ "links": [
+  {
+   "zanatomy_name": "Accessory nerve (XI).l",
+   "system": "Nervous",
+   "side": "left",
+   "atlas_id": "accessory_n",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.5
+  },
+  {
+   "zanatomy_name": "Accessory nerve (XI).r",
+   "system": "Nervous",
+   "side": "right",
+   "atlas_id": "accessory_n",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.5
+  },
+  {
+   "zanatomy_name": "Capitate bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Capitate bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Hamate bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Hamate bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Iliacus muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "iliopsoas_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Iliacus muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "iliopsoas_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Iliococcygeus muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "levator_ani_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Iliococcygeus muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "levator_ani_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Lunate bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Lunate bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Pisiform bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Pisiform bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Pubococcygeus muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "levator_ani_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Pubococcygeus muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "levator_ani_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Scaphoid bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Scaphoid bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Trapezium bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Trapezium bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Trapezoid bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Trapezoid bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Triquetrum bone.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "carpals_l",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Triquetrum bone.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "carpals_r",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.1111
+  },
+  {
+   "zanatomy_name": "Vagus nerve (X).l",
+   "system": "Nervous",
+   "side": "left",
+   "atlas_id": "vagus_n_trunk",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.5
+  },
+  {
+   "zanatomy_name": "Vagus nerve (X).r",
+   "system": "Nervous",
+   "side": "right",
+   "atlas_id": "vagus_n_trunk",
+   "rule": "grouped_tissue_disambiguated",
+   "prior_status": "grouped",
+   "prior_score": 0.5
+  },
+  {
+   "zanatomy_name": "Psoas major.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "iliopsoas_l",
+   "rule": "grouped_unique",
+   "prior_status": "grouped",
+   "prior_score": 0.4
+  },
+  {
+   "zanatomy_name": "Psoas major.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "iliopsoas_r",
+   "rule": "grouped_unique",
+   "prior_status": "grouped",
+   "prior_score": 0.4
+  },
+  {
+   "zanatomy_name": "Ary-epiglottic part of oblique arytenoid muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "oblique_arytenoid_l",
+   "rule": "muscle_head_or_part",
+   "prior_status": "unmatched",
+   "prior_score": 0.4
+  },
+  {
+   "zanatomy_name": "Ary-epiglottic part of oblique arytenoid muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "oblique_arytenoid_r",
+   "rule": "muscle_head_or_part",
+   "prior_status": "unmatched",
+   "prior_score": 0.4
+  },
+  {
+   "zanatomy_name": "Humero-ulnar head of flexor digitorum superficialis.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "flexor_digitorum_superficialis_l",
+   "rule": "muscle_head_or_part",
+   "prior_status": "unmatched",
+   "prior_score": 0.5
+  },
+  {
+   "zanatomy_name": "Humero-ulnar head of flexor digitorum superficialis.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "flexor_digitorum_superficialis_r",
+   "rule": "muscle_head_or_part",
+   "prior_status": "unmatched",
+   "prior_score": 0.5
+  },
+  {
+   "zanatomy_name": "Lateral head of triceps brachii.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "triceps_brachii_l",
+   "rule": "muscle_head_or_part",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Lateral head of triceps brachii.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "triceps_brachii_r",
+   "rule": "muscle_head_or_part",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Long head of triceps brachii.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "triceps_brachii_l",
+   "rule": "muscle_head_or_part",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Long head of triceps brachii.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "triceps_brachii_r",
+   "rule": "muscle_head_or_part",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Medial head of triceps brachii.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "triceps_brachii_l",
+   "rule": "muscle_head_or_part",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Medial head of triceps brachii.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "triceps_brachii_r",
+   "rule": "muscle_head_or_part",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Scapular spinal part of deltoid muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "deltoid_l",
+   "rule": "muscle_head_or_part",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Scapular spinal part of deltoid muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "deltoid_r",
+   "rule": "muscle_head_or_part",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fifth finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fifth finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fifth finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fifth finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of first finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of first finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of first finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of first finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fourth finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fourth finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fourth finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of fourth finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of second finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of second finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of second finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of second finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of third finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of third finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Distal phalanx of third finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Distal phalanx of third finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fifth finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fifth finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fifth finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fifth finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fourth finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fourth finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fourth finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of fourth finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of second finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of second finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of second finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of second finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of third finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of third finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of third finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Middle phalanx of third finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2857
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fifth finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fifth finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fifth finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fifth finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of first finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of first finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of first finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of first finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fourth finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fourth finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fourth finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of fourth finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of second finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of second finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of second finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of second finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of third finger of foot.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_foot_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of third finger of foot.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_foot_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.1667
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of third finger of hand.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "phalanges_hand_l",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Proximal phalanx of third finger of hand.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "phalanges_hand_r",
+   "rule": "numbered_series_phalanx",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Eighth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Eighth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Eleventh rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Eleventh rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Fifth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Fifth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "First rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "First rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Fourth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Fourth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Ninth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Ninth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Second rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Second rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Seventh rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Seventh rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Sixth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Sixth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Tenth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Tenth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Third rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Third rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Twelfth rib.l",
+   "system": "Skeletal",
+   "side": "left",
+   "atlas_id": "ribs_l",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Twelfth rib.r",
+   "system": "Skeletal",
+   "side": "right",
+   "atlas_id": "ribs_r",
+   "rule": "numbered_series_rib",
+   "prior_status": "unmatched",
+   "prior_score": null
+  },
+  {
+   "zanatomy_name": "Vertebra C3",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "cervical_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Vertebra C4",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "cervical_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.2
+  },
+  {
+   "zanatomy_name": "Vertebra C5",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "cervical_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra C6",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "cervical_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra C7",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "cervical_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra L1",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "lumbar_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra L2",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "lumbar_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra L3",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "lumbar_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra L4",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "lumbar_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra L5",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "lumbar_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T1",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T10",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T11",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T12",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T2",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T3",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T4",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T5",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T6",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T7",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T8",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "Vertebra T9",
+   "system": "Skeletal",
+   "side": null,
+   "atlas_id": "thoracic_vertebrae",
+   "rule": "numbered_series_vertebra",
+   "prior_status": "unmatched",
+   "prior_score": 0.25
+  },
+  {
+   "zanatomy_name": "(Abdominal part of pectoralis major muscle).l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "pectoralis_major_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "(Abdominal part of pectoralis major muscle).r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "pectoralis_major_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Acromial part of deltoid muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "deltoid_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.8667
+  },
+  {
+   "zanatomy_name": "Acromial part of deltoid muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "deltoid_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.8667
+  },
+  {
+   "zanatomy_name": "Calcaneal tendon.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "achilles_tendon_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Calcaneal tendon.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "achilles_tendon_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Clavicular head of pectoralis major muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "pectoralis_major_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Clavicular head of pectoralis major muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "pectoralis_major_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Clavicular part of deltoid muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "deltoid_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.8667
+  },
+  {
+   "zanatomy_name": "Clavicular part of deltoid muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "deltoid_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.8667
+  },
+  {
+   "zanatomy_name": "Common flexor tendon sheath.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "common_flexor_tendon_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Common flexor tendon sheath.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "common_flexor_tendon_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Iliopsoas fascia.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "iliopsoas_bursa_fascia_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Nerve to mylohyoid muscle.l",
+   "system": "Nervous",
+   "side": "left",
+   "atlas_id": "trigeminal_n_v3_mylohyoid_branch",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Nerve to mylohyoid muscle.r",
+   "system": "Nervous",
+   "side": "right",
+   "atlas_id": "trigeminal_n_v3_mylohyoid_branch",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Palmaris longus muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "palmaris_longus_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 1.0
+  },
+  {
+   "zanatomy_name": "Palmaris longus muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "palmaris_longus_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 1.0
+  },
+  {
+   "zanatomy_name": "Radial collateral ligament.l",
+   "system": "Joints",
+   "side": "left",
+   "atlas_id": "radial_collateral_ligament_complex_elbow_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Radial collateral ligament.r",
+   "system": "Joints",
+   "side": "right",
+   "atlas_id": "radial_collateral_ligament_complex_elbow_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "pectoralis_major_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "pectoralis_major_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "temporalis_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 1.0
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "temporalis_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 1.0
+  },
+  {
+   "zanatomy_name": "Tendon sheath of extensor pollicis longus.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "extensor_pollicis_longus_tendon_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.95
+  },
+  {
+   "zanatomy_name": "Tendon sheath of extensor pollicis longus.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "extensor_pollicis_longus_tendon_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.95
+  },
+  {
+   "zanatomy_name": "Tendon sheath of tibialis posterior muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "tibialis_posterior_tendon_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Tendon sheath of tibialis posterior muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "tibialis_posterior_tendon_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Tibialis posterior muscle.l",
+   "system": "Muscular",
+   "side": "left",
+   "atlas_id": "tibialis_posterior_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 1.0
+  },
+  {
+   "zanatomy_name": "Tibialis posterior muscle.r",
+   "system": "Muscular",
+   "side": "right",
+   "atlas_id": "tibialis_posterior_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 1.0
+  },
+  {
+   "zanatomy_name": "Ulnar collateral ligament.l",
+   "system": "Joints",
+   "side": "left",
+   "atlas_id": "ulnar_collateral_ligament_elbow_l",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  },
+  {
+   "zanatomy_name": "Ulnar collateral ligament.r",
+   "system": "Joints",
+   "side": "right",
+   "atlas_id": "ulnar_collateral_ligament_elbow_r",
+   "rule": "tissue_disambiguated_ambiguous",
+   "prior_status": "ambiguous",
+   "prior_score": 0.9333
+  }
+ ],
+ "excluded_reviewed": [
+  {
+   "zanatomy_name": "Collateral metacarpophalangeal ligaments.l",
+   "system": "Joints",
+   "status": "grouped",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "thumb_mcp_rcl_l",
+     "category": "ligament",
+     "score": 0.4,
+     "matched_name": "Radial collateral ligament of the thumb metacarpophalangeal joint"
+    },
+    {
+     "entity_id": "thumb_mcp_ucl_l",
+     "category": "ligament",
+     "score": 0.4,
+     "matched_name": "Ulnar collateral ligament of the thumb metacarpophalangeal joint"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Collateral metacarpophalangeal ligaments.r",
+   "system": "Joints",
+   "status": "grouped",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "thumb_mcp_rcl_r",
+     "category": "ligament",
+     "score": 0.4,
+     "matched_name": "Radial collateral ligament of the thumb metacarpophalangeal joint"
+    },
+    {
+     "entity_id": "thumb_mcp_ucl_r",
+     "category": "ligament",
+     "score": 0.4,
+     "matched_name": "Ulnar collateral ligament of the thumb metacarpophalangeal joint"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Deep transverse metacarpal ligament.l",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Deep transverse metacarpal ligament.r",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Dorsal metacarpal ligaments.l",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "dorsal_metacarpal_v_l",
+     "category": "vessel",
+     "score": 0.9333,
+     "matched_name": "Dorsal metacarpal veins"
+    },
+    {
+     "entity_id": "dorsal_metacarpal_v_r",
+     "category": "vessel",
+     "score": 0.9333,
+     "matched_name": "Dorsal metacarpal veins"
+    },
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Dorsal metacarpal ligaments.r",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "dorsal_metacarpal_v_l",
+     "category": "vessel",
+     "score": 0.9333,
+     "matched_name": "Dorsal metacarpal veins"
+    },
+    {
+     "entity_id": "dorsal_metacarpal_v_r",
+     "category": "vessel",
+     "score": 0.9333,
+     "matched_name": "Dorsal metacarpal veins"
+    },
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Interosseous metacarpal ligaments.l",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Interosseous metacarpal ligaments.r",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Intervertebral disc C7-T1",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "intervertebral_disc_c6_c7",
+     "category": "cartilage",
+     "score": 0.6,
+     "matched_name": "C6-C7 intervertebral disc"
+    },
+    {
+     "entity_id": "intervertebral_disc_t1_t2",
+     "category": "cartilage",
+     "score": 0.6,
+     "matched_name": "T1-T2 intervertebral disc"
+    },
+    {
+     "entity_id": "intervertebral_disc_c1_c2",
+     "category": "cartilage",
+     "score": 0.3333,
+     "matched_name": "C1-C2 intervertebral disc"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Intervertebral disc T12-L1",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "intervertebral_disc_l1_l2",
+     "category": "cartilage",
+     "score": 0.6,
+     "matched_name": "L1-L2 intervertebral disc"
+    },
+    {
+     "entity_id": "intervertebral_disc_t11_t12",
+     "category": "cartilage",
+     "score": 0.6,
+     "matched_name": "T11-T12 intervertebral disc"
+    },
+    {
+     "entity_id": "intervertebral_disc_c1_c2",
+     "category": "cartilage",
+     "score": 0.3333,
+     "matched_name": "C1-C2 intervertebral disc"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Median cricothyroid ligament",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "cricothyroid_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "cricothyroid"
+    },
+    {
+     "entity_id": "cricothyroid_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "cricothyroid"
+    },
+    {
+     "entity_id": "median_n",
+     "category": "nerve",
+     "score": 0.3333,
+     "matched_name": "median n"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Median thyrohyoid ligament",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "thyrohyoid_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "thyrohyoid"
+    },
+    {
+     "entity_id": "thyrohyoid_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "thyrohyoid"
+    },
+    {
+     "entity_id": "median_n",
+     "category": "nerve",
+     "score": 0.3333,
+     "matched_name": "median n"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Palmar metacarpal ligaments.l",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Palmar metacarpal ligaments.r",
+   "system": "Joints",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Trapezoid ligament.l",
+   "system": "Joints",
+   "status": "grouped",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "carpals_l",
+     "category": "bone",
+     "score": 0.1111,
+     "matched_name": "Ossa carpi (scaphoideum, lunatum, triquetrum, pisiforme, trapezium, trapezoideum, capitatum, hamatum)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Trapezoid ligament.r",
+   "system": "Joints",
+   "status": "grouped",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "carpals_r",
+     "category": "bone",
+     "score": 0.1111,
+     "matched_name": "Ossa carpi (scaphoideum, lunatum, triquetrum, pisiforme, trapezium, trapezoideum, capitatum, hamatum)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor pollicis longus.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_pollicis_longus_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus"
+    },
+    {
+     "entity_id": "extensor_pollicis_longus_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus tendon"
+    },
+    {
+     "entity_id": "abductor_pollicis_longus_l",
+     "category": "muscle",
+     "score": 0.5,
+     "matched_name": "Abductor pollicis longus"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor pollicis longus.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_pollicis_longus_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus"
+    },
+    {
+     "entity_id": "extensor_pollicis_longus_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus tendon"
+    },
+    {
+     "entity_id": "abductor_pollicis_longus_r",
+     "category": "muscle",
+     "score": 0.5,
+     "matched_name": "Abductor pollicis longus"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Iliocostalis colli muscle",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "iliocostalis_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Iliocostalis"
+    },
+    {
+     "entity_id": "iliocostalis_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Iliocostalis"
+    },
+    {
+     "entity_id": "longus_colli_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Longus colli"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Iliopsoas fascia.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'iliopsoas_bursa_fascia_r' but it would never ship: side mismatch: iliopsoas_bursa_fascia_r wants right, object is left",
+   "candidates": [
+    {
+     "entity_id": "iliopsoas_bursa_fascia_r",
+     "category": "fascia",
+     "score": 0.9333,
+     "matched_name": "iliopsoas bursa fascia"
+    },
+    {
+     "entity_id": "iliopsoas_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "iliopsoas"
+    },
+    {
+     "entity_id": "iliopsoas_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Iliopsoas tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Lateral head of triceps brachii.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Lateral head of triceps brachii.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Long head of triceps brachii.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Long head of triceps brachii.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial head of triceps brachii.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial head of triceps brachii.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Subtendinous bursa of triceps brachii muscle.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "subtendinous_olecranon_bursa_l",
+     "category": "bursa",
+     "score": 0.4286,
+     "matched_name": "Subtendinous (deep) olecranon bursa; triceps bursa"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Subtendinous bursa of triceps brachii muscle.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "subtendinous_olecranon_bursa_r",
+     "category": "bursa",
+     "score": 0.4286,
+     "matched_name": "Subtendinous (deep) olecranon bursa; triceps bursa"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Superficial investing cervical fascia.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "superficial_cervical_fascia_r",
+     "category": "fascia",
+     "score": 0.95,
+     "matched_name": "superficial cervical fascia"
+    },
+    {
+     "entity_id": "investing_layer_cervical_fascia_r",
+     "category": "fascia",
+     "score": 0.9333,
+     "matched_name": "Investing (superficial) layer of deep cervical fascia"
+    },
+    {
+     "entity_id": "colles_fascia",
+     "category": "fascia",
+     "score": 0.3333,
+     "matched_name": "Colles' fascia (superficial perineal fascia)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Superficial investing cervical fascia.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "superficial_cervical_fascia_r",
+     "category": "fascia",
+     "score": 0.95,
+     "matched_name": "superficial cervical fascia"
+    },
+    {
+     "entity_id": "investing_layer_cervical_fascia_r",
+     "category": "fascia",
+     "score": 0.9333,
+     "matched_name": "Investing (superficial) layer of deep cervical fascia"
+    },
+    {
+     "entity_id": "colles_fascia",
+     "category": "fascia",
+     "score": 0.3333,
+     "matched_name": "Colles' fascia (superficial perineal fascia)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Superficial transverse metacarpal ligament.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Superficial transverse metacarpal ligament.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Tendon sheath of extensor digitorum and extensor indicis.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_indicis_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Extensor indicis"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.4,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Tendon sheath of extensor digitorum and extensor indicis.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_indicis_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Extensor indicis"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_r",
+     "category": "muscle",
+     "score": 0.4,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Tendon sheath of extensor digitorum longus.l",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_longus_l",
+     "category": "muscle",
+     "score": 0.95,
+     "matched_name": "Extensor digitorum longus"
+    },
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.4,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Tendon sheath of extensor digitorum longus.r",
+   "system": "Muscular",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_longus_r",
+     "category": "muscle",
+     "score": 0.95,
+     "matched_name": "Extensor digitorum longus"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_r",
+     "category": "muscle",
+     "score": 0.4,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Common plantar digital branches of medial plantar nerve",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_plantar_n_digital_branches",
+     "category": "nerve",
+     "score": 0.5714,
+     "matched_name": "medial plantar n digital branches"
+    },
+    {
+     "entity_id": "medial_plantar_n",
+     "category": "nerve",
+     "score": 0.5,
+     "matched_name": "Medial plantar nerve"
+    },
+    {
+     "entity_id": "medial_plantar_n_muscular_branches",
+     "category": "nerve",
+     "score": 0.375,
+     "matched_name": "Medial plantar n. muscular branches"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Common plantar digital branches of medial plantar nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_plantar_n_digital_branches",
+     "category": "nerve",
+     "score": 0.5714,
+     "matched_name": "medial plantar n digital branches"
+    },
+    {
+     "entity_id": "medial_plantar_n",
+     "category": "nerve",
+     "score": 0.5,
+     "matched_name": "Medial plantar nerve"
+    },
+    {
+     "entity_id": "medial_plantar_n_muscular_branches",
+     "category": "nerve",
+     "score": 0.375,
+     "matched_name": "Medial plantar n. muscular branches"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Dorsal branch of ulnar nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "ulnar_n_dorsal_cutaneous_branch",
+     "category": "nerve",
+     "score": 0.96,
+     "matched_name": "Dorsal cutaneous branch of ulnar nerve"
+    },
+    {
+     "entity_id": "ulnar_n",
+     "category": "nerve",
+     "score": 0.9,
+     "matched_name": "Ulnar nerve"
+    },
+    {
+     "entity_id": "ulnar_n_deep_branch",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Deep branch of ulnar nerve"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Dorsal branch of ulnar nerve.r",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "ulnar_n_dorsal_cutaneous_branch",
+     "category": "nerve",
+     "score": 0.96,
+     "matched_name": "Dorsal cutaneous branch of ulnar nerve"
+    },
+    {
+     "entity_id": "ulnar_n",
+     "category": "nerve",
+     "score": 0.9,
+     "matched_name": "Ulnar nerve"
+    },
+    {
+     "entity_id": "ulnar_n_deep_branch",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Deep branch of ulnar nerve"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Femoral branch of genitofemoral nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "femoral_n",
+     "category": "nerve",
+     "score": 0.9,
+     "matched_name": "Femoral nerve"
+    },
+    {
+     "entity_id": "genitofemoral_n",
+     "category": "nerve",
+     "score": 0.9,
+     "matched_name": "Genitofemoral nerve"
+    },
+    {
+     "entity_id": "glossopharyngeal_n_tympanic_branch",
+     "category": "nerve",
+     "score": 0.3333,
+     "matched_name": "Tympanic branch (nerve of Jacobson)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Femoral branch of genitofemoral nerve.r",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "femoral_n",
+     "category": "nerve",
+     "score": 0.9,
+     "matched_name": "Femoral nerve"
+    },
+    {
+     "entity_id": "genitofemoral_n",
+     "category": "nerve",
+     "score": 0.9,
+     "matched_name": "Genitofemoral nerve"
+    },
+    {
+     "entity_id": "glossopharyngeal_n_tympanic_branch",
+     "category": "nerve",
+     "score": 0.3333,
+     "matched_name": "Tympanic branch (nerve of Jacobson)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Lateral antebrachial cutaneous nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "common_fibular_n_lateral_sural_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Lateral sural cutaneous nerve"
+    },
+    {
+     "entity_id": "lateral_femoral_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Lateral femoral cutaneous nerve"
+    },
+    {
+     "entity_id": "sural_n_lateral_dorsal_cutaneous_n",
+     "category": "nerve",
+     "score": 0.5,
+     "matched_name": "Lateral dorsal cutaneous nerve of the foot"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Lateral antebrachial cutaneous nerve.r",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "common_fibular_n_lateral_sural_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Lateral sural cutaneous nerve"
+    },
+    {
+     "entity_id": "lateral_femoral_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Lateral femoral cutaneous nerve"
+    },
+    {
+     "entity_id": "sural_n_lateral_dorsal_cutaneous_n",
+     "category": "nerve",
+     "score": 0.5,
+     "matched_name": "Lateral dorsal cutaneous nerve of the foot"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial antebrachial cutaneous nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_cutaneous_n_arm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of arm"
+    },
+    {
+     "entity_id": "medial_cutaneous_n_forearm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of forearm"
+    },
+    {
+     "entity_id": "tibial_n_medial_sural_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial sural cutaneous nerve"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial antebrachial cutaneous nerve.r",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_cutaneous_n_arm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of arm"
+    },
+    {
+     "entity_id": "medial_cutaneous_n_forearm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of forearm"
+    },
+    {
+     "entity_id": "tibial_n_medial_sural_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial sural cutaneous nerve"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial brachial cutaneous nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_cutaneous_n_arm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of arm"
+    },
+    {
+     "entity_id": "medial_cutaneous_n_forearm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of forearm"
+    },
+    {
+     "entity_id": "tibial_n_medial_sural_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial sural cutaneous nerve"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial brachial cutaneous nerve.r",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_cutaneous_n_arm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of arm"
+    },
+    {
+     "entity_id": "medial_cutaneous_n_forearm",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial cutaneous nerve of forearm"
+    },
+    {
+     "entity_id": "tibial_n_medial_sural_cutaneous_n",
+     "category": "nerve",
+     "score": 0.6,
+     "matched_name": "Medial sural cutaneous nerve"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Proper plantar digital branches of medial plantar nerve.l",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_plantar_n_digital_branches",
+     "category": "nerve",
+     "score": 0.5714,
+     "matched_name": "medial plantar n digital branches"
+    },
+    {
+     "entity_id": "medial_plantar_n",
+     "category": "nerve",
+     "score": 0.5,
+     "matched_name": "Medial plantar nerve"
+    },
+    {
+     "entity_id": "medial_plantar_n_muscular_branches",
+     "category": "nerve",
+     "score": 0.375,
+     "matched_name": "Medial plantar n. muscular branches"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Proper plantar digital branches of medial plantar nerve.r",
+   "system": "Nervous",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "medial_plantar_n_digital_branches",
+     "category": "nerve",
+     "score": 0.5714,
+     "matched_name": "medial plantar n digital branches"
+    },
+    {
+     "entity_id": "medial_plantar_n",
+     "category": "nerve",
+     "score": 0.5,
+     "matched_name": "Medial plantar nerve"
+    },
+    {
+     "entity_id": "medial_plantar_n_muscular_branches",
+     "category": "nerve",
+     "score": 0.375,
+     "matched_name": "Medial plantar n. muscular branches"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "(Abdominal part of pectoralis major muscle).ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "abdominal_aorta",
+     "category": "vessel",
+     "score": 0.2,
+     "matched_name": "Abdominal aorta"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "(Abdominal part of pectoralis major muscle).or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "abdominal_aorta",
+     "category": "vessel",
+     "score": 0.2,
+     "matched_name": "Abdominal aorta"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Acromial part of deltoid muscle.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'deltoid_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "deltoid_l",
+     "category": "muscle",
+     "score": 0.8667,
+     "matched_name": "Deltoid"
+    },
+    {
+     "entity_id": "deltoid_ligament_l",
+     "category": "ligament",
+     "score": 0.8667,
+     "matched_name": "deltoid ligament"
+    },
+    {
+     "entity_id": "deltoid_fascia_r",
+     "category": "fascia",
+     "score": 0.25,
+     "matched_name": "Deltoid fascia"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Acromial part of deltoid muscle.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'deltoid_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "deltoid_ligament_r",
+     "category": "ligament",
+     "score": 0.8667,
+     "matched_name": "deltoid ligament"
+    },
+    {
+     "entity_id": "deltoid_r",
+     "category": "muscle",
+     "score": 0.8667,
+     "matched_name": "Deltoid"
+    },
+    {
+     "entity_id": "deltoid_fascia_r",
+     "category": "fascia",
+     "score": 0.25,
+     "matched_name": "Deltoid fascia"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Arytenoid cartilage.l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "oblique_arytenoid_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "oblique arytenoid"
+    },
+    {
+     "entity_id": "transverse_arytenoid",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "transverse arytenoid"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Arytenoid cartilage.r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "oblique_arytenoid_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "oblique arytenoid"
+    },
+    {
+     "entity_id": "transverse_arytenoid",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "transverse arytenoid"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Clavicular part of deltoid muscle.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'deltoid_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "deltoid_l",
+     "category": "muscle",
+     "score": 0.8667,
+     "matched_name": "Deltoid"
+    },
+    {
+     "entity_id": "deltoid_ligament_l",
+     "category": "ligament",
+     "score": 0.8667,
+     "matched_name": "deltoid ligament"
+    },
+    {
+     "entity_id": "deltoid_fascia_r",
+     "category": "fascia",
+     "score": 0.25,
+     "matched_name": "Deltoid fascia"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Clavicular part of deltoid muscle.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'deltoid_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "deltoid_ligament_r",
+     "category": "ligament",
+     "score": 0.8667,
+     "matched_name": "deltoid ligament"
+    },
+    {
+     "entity_id": "deltoid_r",
+     "category": "muscle",
+     "score": 0.8667,
+     "matched_name": "Deltoid"
+    },
+    {
+     "entity_id": "deltoid_fascia_r",
+     "category": "fascia",
+     "score": 0.25,
+     "matched_name": "Deltoid fascia"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Deltoid muscle.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'deltoid_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "deltoid_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Deltoid"
+    },
+    {
+     "entity_id": "deltoid_ligament_l",
+     "category": "ligament",
+     "score": 1.0,
+     "matched_name": "deltoid ligament"
+    },
+    {
+     "entity_id": "deltoid_fascia_r",
+     "category": "fascia",
+     "score": 0.9,
+     "matched_name": "Deltoid fascia"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Deltoid muscle.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'deltoid_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "deltoid_ligament_r",
+     "category": "ligament",
+     "score": 1.0,
+     "matched_name": "deltoid ligament"
+    },
+    {
+     "entity_id": "deltoid_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Deltoid"
+    },
+    {
+     "entity_id": "deltoid_fascia_r",
+     "category": "fascia",
+     "score": 0.9,
+     "matched_name": "Deltoid fascia"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Dorsal interossei muscles of hand.o4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "dorsal_interossei_hand_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Dorsal interossei (hand)"
+    },
+    {
+     "entity_id": "dorsal_interossei_hand_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Dorsal interossei (hand)"
+    },
+    {
+     "entity_id": "hand_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "hand"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Dorsal interossei muscles of hand.o4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "dorsal_interossei_hand_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Dorsal interossei (hand)"
+    },
+    {
+     "entity_id": "dorsal_interossei_hand_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Dorsal interossei (hand)"
+    },
+    {
+     "entity_id": "hand_l",
+     "category": "bone",
+     "score": 0.8667,
+     "matched_name": "hand"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum longus.e4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_longus_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum longus"
+    },
+    {
+     "entity_id": "extensor_digitorum_longus_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum longus"
+    },
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum longus.e4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_longus_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum longus"
+    },
+    {
+     "entity_id": "extensor_digitorum_longus_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum longus"
+    },
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e5l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e5r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e6l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e6r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e7l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor digitorum.e7r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_digitorum_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor digitorum"
+    },
+    {
+     "entity_id": "extensor_digitorum_brevis_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Extensor digitorum brevis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor pollicis longus.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_pollicis_longus_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus"
+    },
+    {
+     "entity_id": "extensor_pollicis_longus_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus tendon"
+    },
+    {
+     "entity_id": "abductor_pollicis_longus_l",
+     "category": "muscle",
+     "score": 0.5,
+     "matched_name": "Abductor pollicis longus"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor pollicis longus.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_pollicis_longus_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus"
+    },
+    {
+     "entity_id": "extensor_pollicis_longus_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus tendon"
+    },
+    {
+     "entity_id": "abductor_pollicis_longus_r",
+     "category": "muscle",
+     "score": 0.5,
+     "matched_name": "Abductor pollicis longus"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor pollicis longus.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_pollicis_longus_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus"
+    },
+    {
+     "entity_id": "extensor_pollicis_longus_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus tendon"
+    },
+    {
+     "entity_id": "abductor_pollicis_longus_l",
+     "category": "muscle",
+     "score": 0.5,
+     "matched_name": "Abductor pollicis longus"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Extensor pollicis longus.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "extensor_pollicis_longus_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus"
+    },
+    {
+     "entity_id": "extensor_pollicis_longus_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Extensor pollicis longus tendon"
+    },
+    {
+     "entity_id": "abductor_pollicis_longus_r",
+     "category": "muscle",
+     "score": 0.5,
+     "matched_name": "Abductor pollicis longus"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "External abdominal oblique muscle.o4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "external_oblique_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_aponeurosis_r",
+     "category": "fascia",
+     "score": 0.5,
+     "matched_name": "External oblique aponeurosis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "External abdominal oblique muscle.o4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "external_oblique_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_aponeurosis_r",
+     "category": "fascia",
+     "score": 0.5,
+     "matched_name": "External oblique aponeurosis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "External abdominal oblique muscle.o5l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "external_oblique_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_aponeurosis_r",
+     "category": "fascia",
+     "score": 0.5,
+     "matched_name": "External oblique aponeurosis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "External abdominal oblique muscle.o5r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "external_oblique_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "External oblique"
+    },
+    {
+     "entity_id": "external_oblique_aponeurosis_r",
+     "category": "fascia",
+     "score": 0.5,
+     "matched_name": "External oblique aponeurosis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Fifth metacarpal bone.l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Fifth metacarpal bone.r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "First metacarpal bone.l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "First metacarpal bone.r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Fourth metacarpal bone.l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Fourth metacarpal bone.r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Iliacus muscle.ol",
+   "system": "Skeletal",
+   "status": "grouped",
+   "reason": "rule grouped_tissue_disambiguated proposed 'iliopsoas_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "femoral_n_branch_to_iliacus",
+     "category": "nerve",
+     "score": 0.2,
+     "matched_name": "Femoral n. branch to iliacus"
+    },
+    {
+     "entity_id": "iliopsoas_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Iliopsoas (iliacus + psoas major)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Iliacus muscle.or",
+   "system": "Skeletal",
+   "status": "grouped",
+   "reason": "rule grouped_tissue_disambiguated proposed 'iliopsoas_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "femoral_n_branch_to_iliacus",
+     "category": "nerve",
+     "score": 0.2,
+     "matched_name": "Femoral n. branch to iliacus"
+    },
+    {
+     "entity_id": "iliopsoas_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Iliopsoas (iliacus + psoas major)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Iliopsoas muscle.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'iliopsoas_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "iliopsoas_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "iliopsoas"
+    },
+    {
+     "entity_id": "iliopsoas_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Iliopsoas tendon"
+    },
+    {
+     "entity_id": "iliopsoas_bursa_l",
+     "category": "bursa",
+     "score": 0.9,
+     "matched_name": "iliopsoas bursa"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Iliopsoas muscle.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'iliopsoas_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "iliopsoas_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "iliopsoas"
+    },
+    {
+     "entity_id": "iliopsoas_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Iliopsoas tendon"
+    },
+    {
+     "entity_id": "iliopsoas_bursa_r",
+     "category": "bursa",
+     "score": 0.9,
+     "matched_name": "iliopsoas bursa"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Internal abdominal oblique muscle.o4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "internal_oblique_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Internal oblique"
+    },
+    {
+     "entity_id": "internal_oblique_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Internal oblique"
+    },
+    {
+     "entity_id": "internal_oblique_aponeurosis_r",
+     "category": "fascia",
+     "score": 0.5,
+     "matched_name": "Internal oblique aponeurosis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Internal abdominal oblique muscle.o4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "internal_oblique_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Internal oblique"
+    },
+    {
+     "entity_id": "internal_oblique_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Internal oblique"
+    },
+    {
+     "entity_id": "internal_oblique_aponeurosis_r",
+     "category": "fascia",
+     "score": 0.5,
+     "matched_name": "Internal oblique aponeurosis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Lateral head of triceps brachii.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Lateral head of triceps brachii.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e10l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e10r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e5l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e5r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e6l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e6r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e7l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e7r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e8l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e8r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e9l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Levatores longi costarum.e9r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "levatores_costarum_l",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "levatores_costarum_r",
+     "category": "muscle",
+     "score": 0.9333,
+     "matched_name": "Levatores costarum"
+    },
+    {
+     "entity_id": "palmaris_longus_tendon_l",
+     "category": "tendon",
+     "score": 0.1667,
+     "matched_name": "Tendo musculi palmaris longi"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Long head of triceps brachii.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Long head of triceps brachii.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e10l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e10r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e11l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e11r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e12l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e12r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e13l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e13r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e14l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e14r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e15l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e15r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e16l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e16r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e17l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e17r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e18l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e18r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e19l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e19r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e20l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e20r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e21l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e21r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e22l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e22r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e23l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e23r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e24l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e24r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e25l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e25r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e26l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e26r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e5l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e5r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e6l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e6r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e7l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e7r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e8l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e8r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e9l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Longissimus thoracis muscle.e9r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "longissimus_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "longissimus_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Longissimus"
+    },
+    {
+     "entity_id": "semispinalis_thoracis_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Semispinalis thoracis"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial head of triceps brachii.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Medial head of triceps brachii.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Nasal septal cartilage",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "nasal_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "Nasal bone"
+    },
+    {
+     "entity_id": "nasal_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "Nasal bone"
+    },
+    {
+     "entity_id": "nasal_cartilages",
+     "category": "cartilage",
+     "score": 0.3333,
+     "matched_name": "Nasal cartilages"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Pectoralis major muscle.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Pectoralis major muscle.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_r",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Pectoralis major muscle.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Pectoralis major muscle.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_r",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Second metacarpal bone.l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Second metacarpal bone.r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e5l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e5r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e6l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e6r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e7l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e7r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Serratus anterior muscle.e8l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "serratus_anterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "serratus_anterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Serratus anterior"
+    },
+    {
+     "entity_id": "anterior_cruciate_ligament_l",
+     "category": "ligament",
+     "score": 0.3333,
+     "matched_name": "Anterior cruciate ligament (ACL)"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.e1l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.e1r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.e2l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.e2r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_l",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_l",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_l",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Sternocostal head of pectoralis major muscle.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'pectoralis_major_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "pectoralis_major_r",
+     "category": "muscle",
+     "score": 0.9,
+     "matched_name": "Pectoralis major"
+    },
+    {
+     "entity_id": "pectoralis_major_tendon_r",
+     "category": "tendon",
+     "score": 0.9,
+     "matched_name": "Pectoralis major tendon"
+    },
+    {
+     "entity_id": "helicis_major_r",
+     "category": "muscle",
+     "score": 0.2,
+     "matched_name": "Helicis major"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o1l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o1r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o2l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o2r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o3l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o3r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'temporalis_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "temporalis_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o4l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "temporalis_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Temporalis muscle.o4r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "temporalis_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Temporalis"
+    },
+    {
+     "entity_id": "temporalis_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Temporalis tendon"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Third metacarpal bone.l",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_l",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Third metacarpal bone.r",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "metacarpal_1_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 1"
+    },
+    {
+     "entity_id": "metacarpal_2_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 2"
+    },
+    {
+     "entity_id": "metacarpal_3_r",
+     "category": "bone",
+     "score": 0.9,
+     "matched_name": "metacarpal 3"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Thyroid cartilage",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "tissue filter left >1 or 0 candidates -- still ambiguous",
+   "candidates": [
+    {
+     "entity_id": "superior_thyroid_a_l",
+     "category": "vessel",
+     "score": 0.8667,
+     "matched_name": "Superior thyroid artery"
+    },
+    {
+     "entity_id": "superior_thyroid_a_r",
+     "category": "vessel",
+     "score": 0.8667,
+     "matched_name": "Superior thyroid artery"
+    },
+    {
+     "entity_id": "superior_thyroid_v_l",
+     "category": "vessel",
+     "score": 0.8667,
+     "matched_name": "Superior thyroid vein"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Tibialis posterior muscle.ol",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'tibialis_posterior_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "tibialis_posterior_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Tibialis posterior"
+    },
+    {
+     "entity_id": "tibialis_posterior_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "tibialis posterior tendon"
+    },
+    {
+     "entity_id": "auricularis_posterior_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Auricularis posterior"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Tibialis posterior muscle.or",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'tibialis_posterior_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "tibialis_posterior_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Tibialis posterior"
+    },
+    {
+     "entity_id": "tibialis_posterior_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "tibialis posterior tendon"
+    },
+    {
+     "entity_id": "auricularis_posterior_r",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Auricularis posterior"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Triceps brachii muscle.el",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'triceps_brachii_l' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_l",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_l",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_l",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  },
+  {
+   "zanatomy_name": "Triceps brachii muscle.er",
+   "system": "Skeletal",
+   "status": "ambiguous",
+   "reason": "rule tissue_disambiguated_ambiguous proposed 'triceps_brachii_r' but it would never ship: system 'Skeletal' not allowed for category 'muscle'",
+   "candidates": [
+    {
+     "entity_id": "triceps_brachii_r",
+     "category": "muscle",
+     "score": 1.0,
+     "matched_name": "Triceps brachii"
+    },
+    {
+     "entity_id": "triceps_brachii_tendon_r",
+     "category": "tendon",
+     "score": 1.0,
+     "matched_name": "Triceps brachii tendon"
+    },
+    {
+     "entity_id": "biceps_brachii_r",
+     "category": "muscle",
+     "score": 0.3333,
+     "matched_name": "Biceps brachii"
+    }
+   ]
+  }
+ ]
+}

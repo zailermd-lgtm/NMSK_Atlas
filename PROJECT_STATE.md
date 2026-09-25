@@ -22,7 +22,96 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 332 tests pass. Recent: Q157 (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 350 tests pass. Recent: Q158 (2026-09-25)
+raised the Q157 viewer's atlas-linked count (662/2570 -> 708/2455 structures; fewer total
+structures because several genuine many-to-one consolidations collapsed multiple orphan
+fragments into one real entity) WITHOUT touching `map_names.py` or its frozen
+`data/derived/zanatomy_name_map.json` output (Q141/Q142's own standing rule) or `_ATLAS_ID_
+OVERRIDE`-style inline dicts. New `scripts/zanatomy/build_q158_links.py` audits every MSK +
+peripheral-nerve (bone/muscle/tendon/ligament/bursa/cartilage/fascia/nerve; CardioVascular/
+Lymphoid/Visceral out of scope) Z-Anatomy object whose namemap status is ambiguous/unmatched/
+grouped and applies FOUR deterministic, reviewable rules, never a bare fuzzy score: (1)
+`tissue_disambiguated_ambiguous`/`grouped_tissue_disambiguated` -- when the Z-Anatomy name
+itself states its own tissue class ("muscle"/"ligament"/"tendon"/"bone"/"cartilage"/"fascia"/
+"bursa"/"nerve", a local re-implementation of `engine.vh_ingest.tissue_category()` extended
+with bursa/nerve since that module's own version omits both), filters map_names.py's own
+already-computed top candidates (restricted, for "ambiguous", to real contenders within its
+own 0.08 margin of the top score, so a distant low-score noise candidate can't block
+resolution) to the single one whose category matches -- resolves e.g. "Acromial/Clavicular/
+Sternocostal part of deltoid/pectoralis major muscle" -> deltoid/pectoralis_major (ties against
+a same-named ligament/tendon that STOPWORDS-stripping made score identically), "Trapezium/
+Scaphoid/.../Triquetrum bone" -> `carpals_l/r` (map_names.py's own grouping already found the
+containment via carpals' name_ta spelling out all 8 bones; the tissue filter is what correctly
+REJECTS "Trapezoid ligament" grouping into the same bone id on an identical raw score), "Iliacus/
+Psoas major" -> `iliopsoas_l/r`, "Iliococcygeus/Pubococcygeus muscle" -> `levator_ani_l/r`,
+"Accessory/Vagus nerve (XI/X)" -> `accessory_n`/`vagus_n_trunk` (both sideless ids, picked up
+automatically by Q144's existing sideless-nerve side-split). (2) `muscle_head_or_part` -- the
+name is literally "<qualifier> part/head of <parent muscle>[ muscle]" (this project's own "long
+head of biceps" example, generalized): extracts just the parent name and requires an EXACT,
+unambiguous match against a `category=="muscle"`-only cache (map_names.py's own normalise/
+similarity/fast_propose reused verbatim) -- catches heads whose extra qualifier word dilutes the
+token overlap below map_names.py's own min-score entirely (e.g. "Humero-ulnar head of flexor
+digitorum superficialis", "Long/Lateral/Medial head of triceps brachii", "Scapular spinal part of
+deltoid muscle"). (3)/(4) `numbered_series_{rib,vertebra,phalanx}` -- explicit curated regexes for
+three anatomical series this project's own registry keeps as ONE coarse group per side/region
+rather than one id per member ("First".."Twelfth rib" -> `ribs_l/r`; "Vertebra C3".."L5" ->
+`cervical/thoracic/lumbar_vertebrae`; any ordinal-digit phalanx "...of hand/foot" -> `phalanges_
+hand/foot_l/r`, the digit number doesn't matter since there's no per-digit id) -- these never
+reach map_names.py's own "grouped" status because, unlike carpals_l, the group entity's own name
+never lists individual ribs/vertebrae/digits for a containment check to find. Every accepted link
+is re-checked against `zan_source.py`'s OWN real safety net (`_is_cross_category_junk`/
+`_ALLOWED_SYSTEMS`/`_side_of_atlas_id` side-consistency, imported and reused, never
+reimplemented) before being written, specifically to catch cases that scored fine on paper but
+would silently die downstream anyway (e.g. "Iliopsoas fascia.l" tissue-disambiguates to
+`iliopsoas_bursa_fascia_r` -- the atlas has NO left-side entity for this fascia at all -- correctly
+rejected for side mismatch rather than shipped or silently dropped; "Deltoid muscle.el"/
+"Temporalis muscle.el" etc., Z-Anatomy's own small UI-highlight decal duplicates, filed under
+system=Skeletal not Muscular, the same artifact class Q142 already found once). Genuinely
+unresolvable ties are left unmatched, not guessed: "Collateral metacarpophalangeal ligaments"
+(plural, all-digits) ties between two THUMB-only ligament ids with no generic entity to point at,
+stays excluded. 149 (later 165, then 173 after fixing the noise-candidate bug below) links written
+to committed, reviewable `data/derived/Q158_new_links.json` (zanatomy_name -> atlas_id + rule +
+prior namemap status/score), plus 197 excluded with their own reason (162 "still ambiguous after
+tissue filter", 35 "would never ship" per the safety-net re-check) -- both spot-checked (30 random
+accepted links, all correct on manual review) rather than trusted blind. Consumed by a NEW
+`zan_source.load_extra_links()` (default path this same file, optional -- returns `[]` if absent),
+merged into `load_source()`'s existing per-atlas-id `groups` dict through a factored-out
+`_add_candidate()` helper shared with the namemap loop, so a curated link gets EXACTLY the same
+category/system/side safety net as a namemap-derived one, and Z-Anatomy's own real "different sub-
+parts of one structure, concatenate" behavior (Q142, the ECU-heads precedent) naturally unions e.g.
+all 8 carpal-bone objects into one `carpals_l` mesh with no new union logic needed. Found and fixed
+one real bug while building the rule engine itself: the initial ambiguous-tie-break didn't restrict
+to real near-score contenders, so a stray low-score same-category noise candidate (e.g. "Helicis
+major" at 0.2 against a real 0.9 pectoralis-major tie) made the tissue filter see 2 survivors and
+give up -- fixed by restricting to candidates within map_names.py's own 0.08 margin of the top
+score before applying the tissue filter (test `test_ambiguous_low_scoring_noise_candidate_does_
+not_block_resolution`). SIDE EFFECT requiring its own fix: `build_zan_atlas_viewer.build()`'s
+orphan pool (`build_zan_reference.build_orphan_pool()`) selects by namemap STATUS alone, with no
+knowledge of Q158's overrides, so a newly-linked name (still ambiguous/unmatched/grouped in the
+frozen namemap) would otherwise ship TWICE -- once as real atlas geometry, once again as a
+duplicate unlinked `zan_<slug>` orphan; fixed by computing `matched`'s own consumed Z-Anatomy names
+(`zanatomy_parts` on every matched record) and filtering a COPY of the namemap (never the committed
+file) before it reaches `build_orphan_pool`. Rebuilt at the exact Q157 flags (`--budget-scale
+0.22`): 2,455 meshes (was 2,570 -- net structures DROP when several genuine many-to-one
+consolidations turn many single-object orphans into one real entity, e.g. 16 carpal-bone objects ->
+2 `carpals_l/r`, 56 phalanx objects -> 4 `phalanges_{hand,foot}_{l,r}`, 24 rib objects -> 2
+`ribs_l/r`), 1,026,766 tris, 708 atlas-linked (was 662) -- by category: bone 66->77, tendon 2->10,
+ligament 38->42, muscle 324->340, nerve 128->134, fascia 29->30, bursa/cartilage/vessel unchanged
+(0 rules targeted them; vessel out of scope by design). 8.99 MB binary -> 13.39 MB html (under the
+15 MB cap). Re-screenshotted headless (`/opt/pw-browsers/chromium`): stat line reads "2,455 meshes
+. 1,026,766 tris . 15 batches . 708 atlas-linked", renders correctly, zero console errors; spot-
+checked `deltoid_l`/`triceps_brachii_r`/`carpals_l`/`ribs_r`/`cervical_vertebrae`/`phalanges_
+hand_l`/`ulnar_collateral_ligament_elbow_l` in the rebuilt manifest directly, all carry real atlas
+facts (name/origin/insertion or the coarse group's own descriptive name). Never touched the 30 NC
+(inner-ear/kidney) objects or the `clinical` key (both structurally impossible here: NC objects
+never carry a non-`excluded_nc_licensed` status for this script to read, and `summarise()` -- the
+only place `rec` fields come from -- has no `clinical` key in its own output shape at all, same
+guarantee Q157 already established). 18 new unit tests (`tests/test_build_q158_links.py`, fast, no
+build/zanatomy dependency: tissue-word reading, CNS exclusion, all 4 rule tiers including the
+noise-candidate-margin fix and the wrong-tissue-single-candidate rejection). 350 tests pass (332 +
+18 new), no regressions.
+
+Recent: Q157 (2026-09-25)
 built the full-body Z-Anatomy viewer the owner asked for by NAME (an earlier, out-of-repo
 session's viewer he liked) reproducibly IN this repo, fed by this project's own Q141-Q146
 Z-Anatomy pipeline rather than that session's own bundled data. Extracted that August page's
