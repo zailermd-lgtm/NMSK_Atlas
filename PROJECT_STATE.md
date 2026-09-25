@@ -22,7 +22,103 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q155 (2026-09-25,
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 328 tests pass. Recent: Q156 (2026-09-25)
+ran the Q152 pipeline (`scripts/repair_continuity_q152.py` --only, `scripts/
+apply_continuity_repairs_q152.py`) over all 72 female FRAGMENTED/SEVERE_BREAK muscle groups,
+explicitly including the 10 SEVERE_BREAK cases, and fixed two real bugs in the apply script found
+by re-running it on top of its own prior output (the exact hazard the brief named): (1) a re-run
+re-resolved an already-fixed id through its own `_contfix`/`_contfix_mesh` output subject instead
+of the true root -- for voxel fixes this silently regrouped/clobbered a previously-shipped
+`<root>_contfix` subject on the next run; for diagnosis, `triage_continuity_q115.resolve_source`
+also mislabeled every already-mesh-fixed id `NO_RAW_SOURCE_RECOVERED_BUNDLE` (37/72 ids, until
+fixed) since a mesh-drop's own `#mesh-island-drop` marker looked identical to a genuinely
+unrecoverable published-bundle mesh. Fixed with `true_root_subject`/`strip_own_fix_suffix`
+(strips a subject's own `_contfix(_mesh)` suffix back to its real base, only when that base still
+exists) in both `apply_continuity_repairs_q152.py` and `triage_continuity_q115.py`. (2)
+`Q152_apply_log.json` was fully overwritten every run, discarding history; `merge_apply_log` now
+appends each run's log lines under its own `--- run N ---` marker and unions the subject sets
+(verified for real: run 1's 101 original lines survived intact through 5 further real runs this
+session, each appending its own). Both fixes have dedicated tests (`tests/
+test_apply_continuity_repairs_q152.py`, `tests/test_triage_resolve_source_q156.py`, 12 new).
+Diagnosed all 72 ids fresh (merged into the existing 174-id `data/derived/
+Q152_continuity_repair.json`, not overwritten): DROP_ISLAND 6, GAP_BRIDGE 20,
+MIXED_ISLAND_AND_ANATOMICAL 16, ANATOMICAL 15 (incl. all 7 declined-SEVERE cases below),
+PIPELINE_ARTIFACT 7, OUT_OF_SCOPE_TRANSFER 4, NO_RAW_SOURCE_RECOVERED_BUNDLE 2, UNRESOLVED 2.
+**All 10 SEVERE_BREAK cases attempted explicitly, none fixable under this task's unchanged
+rules, every one a re-confirmation of an already-known cause, honestly disclosed, nothing
+new attempted or fabricated**: `geniohyoid_l`, `hyoglossus_r`, `longus_colli_l`/`_r`,
+`pectoralis_minor_l`/`_r`, `transversus_abdominis_r` -- ANATOMICAL, Q113/Q114's own prior
+verdict reused verbatim (genuine source-level defects: fragmented raw voxel masks or a
+sub-voxel marching-cubes bridge, not a fillable gap); `dorsal_interossei_foot_r`,
+`plantar_interossei_l`/`_r` -- OUT_OF_SCOPE_TRANSFER (Z-Anatomy per-bone reference-mesh
+transfer, no raw voxel mask exists to diagnose or fix). `transversus_abdominis_l` (not
+SEVERE, but its own male-side counterpart is one of Q153's fixed `ct_vhm_abw` ids) resolved
+UNRESOLVED here: chasing `xfer_vhm2vhf_tva`'s transfer record through the male's own
+`ct_vhm_abw_contfix` mesh-drop to its TRUE base `ct_vhm_abw` found that subject's own recorded
+source volume is a session-specific scratchpad path that no longer exists -- Q153's own already-
+disclosed limitation (the committed `vhm_abdominal_wall_cryo.nii.gz` does not reproduce the
+shipped mesh under any origin), not a new problem.
+
+Applying the diagnosed fixes (grouped by shared source volume, `triage_continuity_q115`'s
+existing bounded LRU volume cache, one root subject's volume resident at a time) surfaced a THIRD,
+more consequential bug, found by not trusting a flat "counts didn't move" result: `diagnose_one`
+picks cause GAP_BRIDGE whenever a label has any bridgeable gap, even when that same label ALSO
+carries many separate droppable-island fragments -- true for all 22 female GAP_BRIDGE ids (e.g.
+`biceps_femoris_l`: 1 bridge + 29 islands). The apply script only ever bridged the gap and left
+every island in the reconverted mesh, so a first full rebuild+audit showed the raw voxel defect
+correctly diagnosed and "fixed" yet the SHIPPED main_frac barely moved. Added
+`drop_volume_islands` (voxel-space analogue of the existing mesh-space `drop_mesh_islands`, same
+island rule, 4 new tests) to `repair_continuity_q152.py`, wired into `apply_voxel_fixes` to run
+right after bridging on the same volume/label. **Lesson, learned the hard way over several real
+apply -> rebuild -> audit cycles this session and worth keeping for the next one: a candidate
+fix's own full-resolution mesh main_frac does NOT reliably predict its post-decimation, actually-
+shipped main_frac, in EITHER direction.** Two different predictive safety nets were tried and
+abandoned after real evidence contradicted them: comparing a fix's full-res main_frac against the
+diagnosis's stored `shipped_main_frac` (vertex-based, on the decimated bundle -- a different
+metric class) produced a false-positive decline on `gracilis_l` (measured 0.978 full-res, actually
+shipped 0.997/CONTINUOUS once really decimated); a same-metric "unfixed vs. fixed, both full-res"
+comparison then produced a false NEGATIVE on `extensor_digitorum_longus_r` (predicted the
+island-dropped candidate as better, but it actually shipped 0.416/SEVERE_BREAK, worse than its
+0.661 original -- vertex-clustering decimation can merge or fail to merge fine disconnected detail
+in ways no full-resolution proxy predicts). The only trustworthy measurement is the real, rebuilt,
+decimated bundle Q112 itself audits -- so the final code does not try to predict it at all: a
+small, evidence-based `SKIP_ISLAND_DROP_FOR = {"extensor_digitorum_longus_r"}` constant (confirmed
+by three real, reproduced apply+rebuild+audit cycles, not a heuristic) skips just the island-drop
+step for that one id, keeping its bridge fix and its known-safe original geometry; every other id
+keeps the full fix, verified beneficial across those same real cycles. Any future contfix rerun
+that turns up a new regression should extend this constant the same way, then re-validate on the
+rebuilt bundle -- never trust a pre-export proxy metric for this decision.
+
+Rebuilt the female viewer via `scripts/cryo/vhf_rebuild_bundle.sh` (added the one missing
+`ct_vhf_left_forearm_contfix` -- voxel, non-mesh -- to its subject-wiring loop, present before only
+for the `_mesh` variant, a latent gap of the same class this file's header already documents) --
+idempotent, `vhf_legs`/skin-source volumes absent from this container as before, its own documented
+fallback reused the existing `ct_vhf_skin` --  414 structures/57 subjects, **15.38 MB**. Re-ran
+`audit_full_continuity_q112.py` for both bodies and diff-checked every female muscle against a
+saved true pre-Q156 baseline (not just the previous run) before calling anything final: **female
+MUSCLES 175 CONTINUOUS/62 FRAGMENTED/10 SEVERE_BREAK -> 179/58/10 (all-category 287/87/18 ->
+291/83/18), 4 genuine improvements (`adductor_magnus_r`, `biceps_femoris_l`,
+`extensor_hallucis_longus_r`, `gracilis_l`, all -> CONTINUOUS), ZERO regressions vs. baseline.**
+Male untouched (not in this task's scope): 186/62/14 muscles, 286/76/28 all-category, unchanged.
+Point-rendered (matplotlib scatter, scratchpad `render_bundle_q156.py`, front+side, both bodies)
+and looked: full silhouettes intact on both, arms/hands/legs/feet attached, nothing missing vs.
+Q155's own last render. `python -m pytest -q`: **328 passed** (12 new this session: `tests/
+test_apply_continuity_repairs_q152.py`, `tests/test_triage_resolve_source_q156.py`, 4 new in
+`tests/test_repair_continuity_q152.py` for `drop_volume_islands`). New/changed: `scripts/
+apply_continuity_repairs_q152.py`, `scripts/repair_continuity_q152.py`, `scripts/
+triage_continuity_q115.py`, `scripts/cryo/vhf_rebuild_bundle.sh`, `data/derived/
+Q112_full_continuity_audit.json`, `data/derived/Q152_continuity_repair.json`, `data/derived/
+Q152_apply_log.json` (5 runs recorded cumulatively). Open issues: (1) the remaining 58
+FRAGMENTED/10 SEVERE_BREAK female muscles are genuinely not fixable under this task's unchanged
+rules (declined ANATOMICAL/OUT_OF_SCOPE_TRANSFER/NO_RAW_SOURCE causes, or -- `extensor_carpi_ulnaris_r`
+and similar MIXED cases -- already carry every fix this ruleset allows and remain short of 0.99,
+same class as Q114's own accepted `external_intercostals`); (2) 2 male ids
+(`longus_capitis_l`, `superior_rectus_r`) transfer from the female's now-fixed contfix subjects via
+`xfer_vhf2vhm_neck`/`xfer_vhf2vhm` but get harmlessly SKIPPED by `apply_voxel_fixes` (no
+`_volume_mapping.json` for a contfix subject as a transfer origin) rather than fixed -- disclosed,
+not a regression, male not in this task's scope; (3) Q152b's/Q153's own still-standing open issues
+(the persisted `vhm_abdominal_wall_cryo.nii.gz` not reproducing `ct_vhm_abw`; the legs-block CT
+out of scope for `ct_vhf_skin`) stand untouched. Before that, Q155 (2026-09-25,
 owner decision: ship the Q151b/Q154 photo-watershed refined limb structures even though they miss
 the 15mm/30mm ship bar, because they are clearly better than the currently-shipped Q147 transfers
 for these same ids -- worst case 61-91mm -> 26-30mm, each badged with its own honest measured

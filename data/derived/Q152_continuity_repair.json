@@ -7,11 +7,11 @@
   "summary": {
     "DROP_ISLAND": 25,
     "GAP_BRIDGE": 26,
-    "MIXED_ISLAND_AND_ANATOMICAL": 35,
+    "MIXED_ISLAND_AND_ANATOMICAL": 34,
     "ANATOMICAL": 32,
     "PIPELINE_ARTIFACT": 11,
+    "UNRESOLVED": 8,
     "NO_RAW_SOURCE_RECOVERED_BUNDLE": 19,
-    "UNRESOLVED": 7,
     "OUT_OF_SCOPE_TRANSFER": 19
   },
   "results": {
@@ -26,19 +26,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 141795,
-        "zmin": 489,
-        "zmax": 639
+        "zmin": "489",
+        "zmax": "639"
       },
       "other_components": [
         {
           "size": 1886,
-          "zmin": 388,
-          "zmax": 399
+          "zmin": "388",
+          "zmax": "399"
         },
         {
           "size": 3,
-          "zmin": 640,
-          "zmax": 640
+          "zmin": "640",
+          "zmax": "640"
         }
       ],
       "bridges": [],
@@ -217,12 +217,12 @@
       "name": "External oblique"
     },
     "female|biceps_brachii_r|right": {
-      "resolved_subject": "ct_vhf_armm",
+      "resolved_subject": "ct_vhf_armm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
       "label": 1,
       "n_components_source": 140,
       "source_main_frac": 0.6612,
-      "shipped_main_frac": 0.6506646971935007,
+      "shipped_main_frac": 0.7393986121819583,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -934,8 +934,8 @@
           "centroid_dist_mm": 103.22,
           "gap_mm": 9.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "27",
-          "gap_zmax": "35"
+          "gap_zmin": 27,
+          "gap_zmax": 35
         }
       ],
       "islands": [
@@ -1916,12 +1916,12 @@
       "name": "Biceps brachii"
     },
     "female|brachialis_r|right": {
-      "resolved_subject": "ct_vhf_armm",
+      "resolved_subject": "ct_vhf_armm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
       "label": 2,
       "n_components_source": 25,
       "source_main_frac": 0.7989,
-      "shipped_main_frac": 0.7535816618911175,
+      "shipped_main_frac": 0.7583454281567489,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -2058,8 +2058,8 @@
           "centroid_dist_mm": 72.17,
           "gap_mm": 9.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "27",
-          "gap_zmax": "35"
+          "gap_zmin": 27,
+          "gap_zmax": 35
         }
       ],
       "islands": [
@@ -2235,12 +2235,12 @@
       "name": "Brachialis"
     },
     "female|triceps_brachii_r|right": {
-      "resolved_subject": "ct_vhf_armm",
+      "resolved_subject": "ct_vhf_armm_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
       "label": 4,
       "n_components_source": 150,
       "source_main_frac": 0.8375,
-      "shipped_main_frac": 0.7363984674329502,
+      "shipped_main_frac": 0.8223583460949464,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -4051,12 +4051,12 @@
       "name": "Triceps brachii"
     },
     "female|biceps_brachii_l|left": {
-      "resolved_subject": "ct_vhf_armm",
+      "resolved_subject": "ct_vhf_armm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
       "label": 5,
       "n_components_source": 130,
       "source_main_frac": 0.679,
-      "shipped_main_frac": 0.6160241874527589,
+      "shipped_main_frac": 0.9269619269619269,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -4718,8 +4718,8 @@
           "centroid_dist_mm": 106.81,
           "gap_mm": 8.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "28",
-          "gap_zmax": "35"
+          "gap_zmin": 28,
+          "gap_zmax": 35
         }
       ],
       "islands": [
@@ -5630,12 +5630,12 @@
       "name": "Biceps brachii"
     },
     "female|brachialis_l|left": {
-      "resolved_subject": "ct_vhf_armm",
+      "resolved_subject": "ct_vhf_armm_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
       "label": 6,
       "n_components_source": 18,
       "source_main_frac": 0.7689,
-      "shipped_main_frac": 0.659156976744186,
+      "shipped_main_frac": 0.677626876340243,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -5862,12 +5862,12 @@
       "name": "Brachialis"
     },
     "female|triceps_brachii_l|left": {
-      "resolved_subject": "ct_vhf_armm",
+      "resolved_subject": "ct_vhf_armm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz",
       "label": 8,
       "n_components_source": 113,
       "source_main_frac": 0.891,
-      "shipped_main_frac": 0.7525849335302807,
+      "shipped_main_frac": 0.926984126984127,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -6444,8 +6444,8 @@
           "centroid_dist_mm": 115.62,
           "gap_mm": 9.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "27",
-          "gap_zmax": "35"
+          "gap_zmin": 27,
+          "gap_zmax": 35
         }
       ],
       "islands": [
@@ -7236,49 +7236,49 @@
       "name": "Triceps brachii"
     },
     "male|semispinalis_capitis_r|right": {
-      "resolved_subject": "xfer_vhf2vhm_neck",
+      "resolved_subject": "xfer_vhf2vhm_neck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 2,
       "n_components_source": 7,
       "source_main_frac": 0.7329,
-      "shipped_main_frac": 0.595176571920758,
+      "shipped_main_frac": 0.5972342264477096,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 25881,
-        "zmin": 0,
-        "zmax": 75
+        "zmin": "0",
+        "zmax": "75"
       },
       "other_components": [
         {
           "size": 5551,
-          "zmin": 77,
-          "zmax": 105
+          "zmin": "77",
+          "zmax": "105"
         },
         {
           "size": 3403,
-          "zmin": 102,
-          "zmax": 126
+          "zmin": "102",
+          "zmax": "126"
         },
         {
           "size": 416,
-          "zmin": 73,
-          "zmax": 79
+          "zmin": "73",
+          "zmax": "79"
         },
         {
           "size": 45,
-          "zmin": 74,
-          "zmax": 74
+          "zmin": "74",
+          "zmax": "74"
         },
         {
           "size": 15,
-          "zmin": 93,
-          "zmax": 93
+          "zmin": "93",
+          "zmax": "93"
         },
         {
           "size": 2,
-          "zmin": 91,
-          "zmax": 91
+          "zmin": "91",
+          "zmax": "91"
         }
       ],
       "bridges": [],
@@ -7301,14 +7301,14 @@
           "size": 15,
           "vol_frac": 0.0004,
           "centroid_dist_mm": 55.59,
-          "gap_mm": 17.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 51.72,
-          "gap_mm": 15.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         }
       ],
@@ -7317,14 +7317,14 @@
           "size": 5551,
           "vol_frac": 0.1572,
           "centroid_dist_mm": 51.04,
-          "gap_mm": 1.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
           "size": 3403,
           "vol_frac": 0.0964,
           "centroid_dist_mm": 73.35,
-          "gap_mm": 26.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         }
       ],
@@ -7336,69 +7336,69 @@
       "name": "Semispinalis capitis"
     },
     "male|semispinalis_cervicis_r|right": {
-      "resolved_subject": "xfer_vhf2vhm_neck",
+      "resolved_subject": "xfer_vhf2vhm_neck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 3,
       "n_components_source": 11,
       "source_main_frac": 0.8421,
-      "shipped_main_frac": 0.7846153846153846,
+      "shipped_main_frac": 0.8436724565756824,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 12685,
-        "zmin": 11,
-        "zmax": 86
+        "zmin": "11",
+        "zmax": "86"
       },
       "other_components": [
         {
           "size": 1539,
-          "zmin": 0,
-          "zmax": 10
+          "zmin": "0",
+          "zmax": "10"
         },
         {
           "size": 280,
-          "zmin": 19,
-          "zmax": 24
+          "zmin": "19",
+          "zmax": "24"
         },
         {
           "size": 178,
-          "zmin": 82,
-          "zmax": 84
+          "zmin": "82",
+          "zmax": "84"
         },
         {
           "size": 100,
-          "zmin": 82,
-          "zmax": 84
+          "zmin": "82",
+          "zmax": "84"
         },
         {
           "size": 79,
-          "zmin": 7,
-          "zmax": 7
+          "zmin": "7",
+          "zmax": "7"
         },
         {
           "size": 61,
-          "zmin": 33,
-          "zmax": 34
+          "zmin": "33",
+          "zmax": "34"
         },
         {
           "size": 58,
-          "zmin": 14,
-          "zmax": 16
+          "zmin": "14",
+          "zmax": "16"
         },
         {
           "size": 42,
-          "zmin": 31,
-          "zmax": 31
+          "zmin": "31",
+          "zmax": "31"
         },
         {
           "size": 30,
-          "zmin": 1,
-          "zmax": 2
+          "zmin": "1",
+          "zmax": "2"
         },
         {
           "size": 12,
-          "zmin": 37,
-          "zmax": 37
+          "zmin": "37",
+          "zmax": "37"
         }
       ],
       "bridges": [],
@@ -7428,7 +7428,7 @@
           "size": 79,
           "vol_frac": 0.0052,
           "centroid_dist_mm": 57.84,
-          "gap_mm": 3.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -7456,7 +7456,7 @@
           "size": 30,
           "vol_frac": 0.002,
           "centroid_dist_mm": 61.94,
-          "gap_mm": 8.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -7494,19 +7494,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 1241,
-        "zmin": 95,
-        "zmax": 114
+        "zmin": "95",
+        "zmax": "114"
       },
       "other_components": [
         {
           "size": 891,
-          "zmin": 87,
-          "zmax": 96
+          "zmin": "87",
+          "zmax": "96"
         },
         {
           "size": 24,
-          "zmin": 96,
-          "zmax": 96
+          "zmin": "96",
+          "zmax": "96"
         }
       ],
       "bridges": [],
@@ -7536,29 +7536,29 @@
       "name": "Rectus capitis posterior minor"
     },
     "male|rectus_capitis_posterior_major_r|right": {
-      "resolved_subject": "xfer_vhf2vhm_neck",
+      "resolved_subject": "xfer_vhf2vhm_neck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 5,
       "n_components_source": 3,
       "source_main_frac": 0.7864,
-      "shipped_main_frac": 0.7518142235123367,
+      "shipped_main_frac": 0.76008804108584,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 2168,
-        "zmin": 87,
-        "zmax": 106
+        "zmin": "87",
+        "zmax": "106"
       },
       "other_components": [
         {
           "size": 575,
-          "zmin": 104,
-          "zmax": 114
+          "zmin": "104",
+          "zmax": "114"
         },
         {
           "size": 14,
-          "zmin": 102,
-          "zmax": 103
+          "zmin": "102",
+          "zmax": "103"
         }
       ],
       "bridges": [],
@@ -7598,14 +7598,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 5954,
-        "zmin": 79,
-        "zmax": 108
+        "zmin": "79",
+        "zmax": "108"
       },
       "other_components": [
         {
           "size": 1475,
-          "zmin": 67,
-          "zmax": 78
+          "zmin": "67",
+          "zmax": "78"
         }
       ],
       "bridges": [],
@@ -7638,44 +7638,44 @@
       "name": "Longus colli"
     },
     "male|longus_capitis_r|right": {
-      "resolved_subject": "xfer_vhf2vhm_neck",
+      "resolved_subject": "xfer_vhf2vhm_neck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 10,
       "n_components_source": 6,
       "source_main_frac": 0.609,
-      "shipped_main_frac": 0.5501051156271899,
+      "shipped_main_frac": 0.5599144079885877,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 1489,
-        "zmin": 3,
-        "zmax": 39
+        "zmin": "3",
+        "zmax": "39"
       },
       "other_components": [
         {
           "size": 647,
-          "zmin": 61,
-          "zmax": 86
+          "zmin": "61",
+          "zmax": "86"
         },
         {
           "size": 245,
-          "zmin": 46,
-          "zmax": 54
+          "zmin": "46",
+          "zmax": "54"
         },
         {
           "size": 52,
-          "zmin": 97,
-          "zmax": 99
+          "zmin": "97",
+          "zmax": "99"
         },
         {
           "size": 11,
-          "zmin": 88,
-          "zmax": 90
+          "zmin": "88",
+          "zmax": "90"
         },
         {
           "size": 1,
-          "zmin": 43,
-          "zmax": 43
+          "zmin": "43",
+          "zmax": "43"
         }
       ],
       "bridges": [],
@@ -7684,7 +7684,7 @@
           "size": 11,
           "vol_frac": 0.0045,
           "centroid_dist_mm": 71.99,
-          "gap_mm": 48.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -7700,21 +7700,21 @@
           "size": 647,
           "vol_frac": 0.2646,
           "centroid_dist_mm": 54.07,
-          "gap_mm": 21.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
           "size": 245,
           "vol_frac": 0.1002,
           "centroid_dist_mm": 33.46,
-          "gap_mm": 6.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
           "size": 52,
           "vol_frac": 0.0213,
           "centroid_dist_mm": 81.12,
-          "gap_mm": 57.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         }
       ],
@@ -7886,14 +7886,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 2489,
-        "zmin": 87,
-        "zmax": 114
+        "zmin": "87",
+        "zmax": "114"
       },
       "other_components": [
         {
           "size": 24,
-          "zmin": 101,
-          "zmax": 101
+          "zmin": "101",
+          "zmax": "101"
         }
       ],
       "bridges": [],
@@ -7925,19 +7925,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 1737,
-        "zmin": 87,
-        "zmax": 100
+        "zmin": "87",
+        "zmax": "100"
       },
       "other_components": [
         {
           "size": 706,
-          "zmin": 103,
-          "zmax": 114
+          "zmin": "103",
+          "zmax": "114"
         },
         {
           "size": 178,
-          "zmin": 100,
-          "zmax": 102
+          "zmin": "100",
+          "zmax": "102"
         }
       ],
       "bridges": [],
@@ -7947,7 +7947,7 @@
           "size": 706,
           "vol_frac": 0.2694,
           "centroid_dist_mm": 22.31,
-          "gap_mm": 2.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
@@ -7966,34 +7966,34 @@
       "name": "Rectus capitis posterior major"
     },
     "male|obliquus_capitis_inferior_l|left": {
-      "resolved_subject": "xfer_vhf2vhm_neck",
+      "resolved_subject": "xfer_vhf2vhm_neck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 16,
       "n_components_source": 4,
       "source_main_frac": 0.9315,
-      "shipped_main_frac": 0.858151023288638,
+      "shipped_main_frac": 0.8735632183908046,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 7206,
-        "zmin": 67,
-        "zmax": 105
+        "zmin": "67",
+        "zmax": "105"
       },
       "other_components": [
         {
           "size": 362,
-          "zmin": 104,
-          "zmax": 108
+          "zmin": "104",
+          "zmax": "108"
         },
         {
           "size": 94,
-          "zmin": 107,
-          "zmax": 108
+          "zmin": "107",
+          "zmax": "108"
         },
         {
           "size": 74,
-          "zmin": 89,
-          "zmax": 89
+          "zmin": "89",
+          "zmax": "89"
         }
       ],
       "bridges": [],
@@ -8002,7 +8002,7 @@
           "size": 94,
           "vol_frac": 0.0122,
           "centroid_dist_mm": 27.18,
-          "gap_mm": 1.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -8046,19 +8046,19 @@
       "label": 20,
       "n_components_source": 2,
       "source_main_frac": 0.9724,
-      "shipped_main_frac": 0.9443298969072165,
+      "shipped_main_frac": 0.9398084815321477,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 3483,
-        "zmin": 3,
-        "zmax": 88
+        "zmin": "3",
+        "zmax": "88"
       },
       "other_components": [
         {
           "size": 99,
-          "zmin": 97,
-          "zmax": 104
+          "zmin": "97",
+          "zmax": "104"
         }
       ],
       "bridges": [
@@ -8082,49 +8082,49 @@
       "name": "Longus capitis"
     },
     "female|semispinalis_capitis_r|right": {
-      "resolved_subject": "ct_vhf_dneck",
+      "resolved_subject": "ct_vhf_dneck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 2,
       "n_components_source": 7,
       "source_main_frac": 0.7329,
-      "shipped_main_frac": 0.595176571920758,
+      "shipped_main_frac": 0.862876254180602,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 25881,
-        "zmin": 0,
-        "zmax": 75
+        "zmin": "0",
+        "zmax": "75"
       },
       "other_components": [
         {
           "size": 5551,
-          "zmin": 77,
-          "zmax": 105
+          "zmin": "77",
+          "zmax": "105"
         },
         {
           "size": 3403,
-          "zmin": 102,
-          "zmax": 126
+          "zmin": "102",
+          "zmax": "126"
         },
         {
           "size": 416,
-          "zmin": 73,
-          "zmax": 79
+          "zmin": "73",
+          "zmax": "79"
         },
         {
           "size": 45,
-          "zmin": 74,
-          "zmax": 74
+          "zmin": "74",
+          "zmax": "74"
         },
         {
           "size": 15,
-          "zmin": 93,
-          "zmax": 93
+          "zmin": "93",
+          "zmax": "93"
         },
         {
           "size": 2,
-          "zmin": 91,
-          "zmax": 91
+          "zmin": "91",
+          "zmax": "91"
         }
       ],
       "bridges": [],
@@ -8147,14 +8147,14 @@
           "size": 15,
           "vol_frac": 0.0004,
           "centroid_dist_mm": 55.59,
-          "gap_mm": 17.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 51.72,
-          "gap_mm": 15.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         }
       ],
@@ -8163,14 +8163,14 @@
           "size": 5551,
           "vol_frac": 0.1572,
           "centroid_dist_mm": 51.04,
-          "gap_mm": 1.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
           "size": 3403,
           "vol_frac": 0.0964,
           "centroid_dist_mm": 73.35,
-          "gap_mm": 26.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         }
       ],
@@ -8182,69 +8182,69 @@
       "name": "Semispinalis capitis"
     },
     "female|semispinalis_cervicis_r|right": {
-      "resolved_subject": "ct_vhf_dneck",
+      "resolved_subject": "ct_vhf_dneck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 3,
       "n_components_source": 11,
       "source_main_frac": 0.8421,
-      "shipped_main_frac": 0.7846153846153846,
+      "shipped_main_frac": 0.850190114068441,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 12685,
-        "zmin": 11,
-        "zmax": 86
+        "zmin": "11",
+        "zmax": "86"
       },
       "other_components": [
         {
           "size": 1539,
-          "zmin": 0,
-          "zmax": 10
+          "zmin": "0",
+          "zmax": "10"
         },
         {
           "size": 280,
-          "zmin": 19,
-          "zmax": 24
+          "zmin": "19",
+          "zmax": "24"
         },
         {
           "size": 178,
-          "zmin": 82,
-          "zmax": 84
+          "zmin": "82",
+          "zmax": "84"
         },
         {
           "size": 100,
-          "zmin": 82,
-          "zmax": 84
+          "zmin": "82",
+          "zmax": "84"
         },
         {
           "size": 79,
-          "zmin": 7,
-          "zmax": 7
+          "zmin": "7",
+          "zmax": "7"
         },
         {
           "size": 61,
-          "zmin": 33,
-          "zmax": 34
+          "zmin": "33",
+          "zmax": "34"
         },
         {
           "size": 58,
-          "zmin": 14,
-          "zmax": 16
+          "zmin": "14",
+          "zmax": "16"
         },
         {
           "size": 42,
-          "zmin": 31,
-          "zmax": 31
+          "zmin": "31",
+          "zmax": "31"
         },
         {
           "size": 30,
-          "zmin": 1,
-          "zmax": 2
+          "zmin": "1",
+          "zmax": "2"
         },
         {
           "size": 12,
-          "zmin": 37,
-          "zmax": 37
+          "zmin": "37",
+          "zmax": "37"
         }
       ],
       "bridges": [],
@@ -8274,7 +8274,7 @@
           "size": 79,
           "vol_frac": 0.0052,
           "centroid_dist_mm": 57.84,
-          "gap_mm": 3.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -8302,7 +8302,7 @@
           "size": 30,
           "vol_frac": 0.002,
           "centroid_dist_mm": 61.94,
-          "gap_mm": 8.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -8340,19 +8340,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 1241,
-        "zmin": 95,
-        "zmax": 114
+        "zmin": "95",
+        "zmax": "114"
       },
       "other_components": [
         {
           "size": 891,
-          "zmin": 87,
-          "zmax": 96
+          "zmin": "87",
+          "zmax": "96"
         },
         {
           "size": 24,
-          "zmin": 96,
-          "zmax": 96
+          "zmin": "96",
+          "zmax": "96"
         }
       ],
       "bridges": [],
@@ -8382,29 +8382,29 @@
       "name": "Rectus capitis posterior minor"
     },
     "female|rectus_capitis_posterior_major_r|right": {
-      "resolved_subject": "ct_vhf_dneck",
+      "resolved_subject": "ct_vhf_dneck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 5,
       "n_components_source": 3,
       "source_main_frac": 0.7864,
-      "shipped_main_frac": 0.7518142235123367,
+      "shipped_main_frac": 0.76008804108584,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 2168,
-        "zmin": 87,
-        "zmax": 106
+        "zmin": "87",
+        "zmax": "106"
       },
       "other_components": [
         {
           "size": 575,
-          "zmin": 104,
-          "zmax": 114
+          "zmin": "104",
+          "zmax": "114"
         },
         {
           "size": 14,
-          "zmin": 102,
-          "zmax": 103
+          "zmin": "102",
+          "zmax": "103"
         }
       ],
       "bridges": [],
@@ -8444,14 +8444,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 5954,
-        "zmin": 79,
-        "zmax": 108
+        "zmin": "79",
+        "zmax": "108"
       },
       "other_components": [
         {
           "size": 1475,
-          "zmin": 67,
-          "zmax": 78
+          "zmin": "67",
+          "zmax": "78"
         }
       ],
       "bridges": [],
@@ -8484,44 +8484,44 @@
       "name": "Longus colli"
     },
     "female|longus_capitis_r|right": {
-      "resolved_subject": "ct_vhf_dneck",
+      "resolved_subject": "ct_vhf_dneck_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 10,
       "n_components_source": 6,
       "source_main_frac": 0.609,
-      "shipped_main_frac": 0.5501051156271899,
+      "shipped_main_frac": 0.5607166556071665,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 1489,
-        "zmin": 3,
-        "zmax": 39
+        "zmin": "3",
+        "zmax": "39"
       },
       "other_components": [
         {
           "size": 647,
-          "zmin": 61,
-          "zmax": 86
+          "zmin": "61",
+          "zmax": "86"
         },
         {
           "size": 245,
-          "zmin": 46,
-          "zmax": 54
+          "zmin": "46",
+          "zmax": "54"
         },
         {
           "size": 52,
-          "zmin": 97,
-          "zmax": 99
+          "zmin": "97",
+          "zmax": "99"
         },
         {
           "size": 11,
-          "zmin": 88,
-          "zmax": 90
+          "zmin": "88",
+          "zmax": "90"
         },
         {
           "size": 1,
-          "zmin": 43,
-          "zmax": 43
+          "zmin": "43",
+          "zmax": "43"
         }
       ],
       "bridges": [],
@@ -8530,7 +8530,7 @@
           "size": 11,
           "vol_frac": 0.0045,
           "centroid_dist_mm": 71.99,
-          "gap_mm": 48.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -8546,21 +8546,21 @@
           "size": 647,
           "vol_frac": 0.2646,
           "centroid_dist_mm": 54.07,
-          "gap_mm": 21.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
           "size": 245,
           "vol_frac": 0.1002,
           "centroid_dist_mm": 33.46,
-          "gap_mm": 6.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
           "size": 52,
           "vol_frac": 0.0213,
           "centroid_dist_mm": 81.12,
-          "gap_mm": 57.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         }
       ],
@@ -8732,14 +8732,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 2489,
-        "zmin": 87,
-        "zmax": 114
+        "zmin": "87",
+        "zmax": "114"
       },
       "other_components": [
         {
           "size": 24,
-          "zmin": 101,
-          "zmax": 101
+          "zmin": "101",
+          "zmax": "101"
         }
       ],
       "bridges": [],
@@ -8771,19 +8771,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 1737,
-        "zmin": 87,
-        "zmax": 100
+        "zmin": "87",
+        "zmax": "100"
       },
       "other_components": [
         {
           "size": 706,
-          "zmin": 103,
-          "zmax": 114
+          "zmin": "103",
+          "zmax": "114"
         },
         {
           "size": 178,
-          "zmin": 100,
-          "zmax": 102
+          "zmin": "100",
+          "zmax": "102"
         }
       ],
       "bridges": [],
@@ -8793,7 +8793,7 @@
           "size": 706,
           "vol_frac": 0.2694,
           "centroid_dist_mm": 22.31,
-          "gap_mm": 2.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
@@ -8822,24 +8822,24 @@
       "z_axis": 2,
       "main_component": {
         "size": 7206,
-        "zmin": 67,
-        "zmax": 105
+        "zmin": "67",
+        "zmax": "105"
       },
       "other_components": [
         {
           "size": 362,
-          "zmin": 104,
-          "zmax": 108
+          "zmin": "104",
+          "zmax": "108"
         },
         {
           "size": 94,
-          "zmin": 107,
-          "zmax": 108
+          "zmin": "107",
+          "zmax": "108"
         },
         {
           "size": 74,
-          "zmin": 89,
-          "zmax": 89
+          "zmin": "89",
+          "zmax": "89"
         }
       ],
       "bridges": [],
@@ -8848,7 +8848,7 @@
           "size": 94,
           "vol_frac": 0.0122,
           "centroid_dist_mm": 27.18,
-          "gap_mm": 1.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -8887,24 +8887,24 @@
       "name": "Longus colli"
     },
     "female|longus_capitis_l|left": {
-      "resolved_subject": "ct_vhf_dneck",
+      "resolved_subject": "ct_vhf_dneck_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
       "label": 20,
       "n_components_source": 2,
       "source_main_frac": 0.9724,
-      "shipped_main_frac": 0.9443298969072165,
+      "shipped_main_frac": 0.9398084815321477,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 3483,
-        "zmin": 3,
-        "zmax": 88
+        "zmin": "3",
+        "zmax": "88"
       },
       "other_components": [
         {
           "size": 99,
-          "zmin": 97,
-          "zmax": 104
+          "zmin": "97",
+          "zmax": "104"
         }
       ],
       "bridges": [
@@ -8928,27 +8928,27 @@
       "name": "Longus capitis"
     },
     "female|deltoid_r|right": {
-      "resolved_subject": "ct_vhf_delt",
+      "resolved_subject": "ct_vhf_delt_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deltoid_cryo.nii.gz",
       "label": 1,
       "n_components_source": 1,
       "source_main_frac": 1.0,
-      "shipped_main_frac": 0.9619970193740686,
+      "shipped_main_frac": 0.9796126401630989,
       "shipped_status": "FRAGMENTED",
       "cause": "PIPELINE_ARTIFACT",
-      "reason": "Raw source label is a single connected component (main_frac 1.000); shipped mesh main_frac 0.962 -- decimation/clustering severed it.",
+      "reason": "Raw source label is a single connected component (main_frac 1.000); shipped mesh main_frac 0.980 -- decimation/clustering severed it.",
       "body": "female",
       "id": "deltoid_r",
       "side": "right",
       "name": "Deltoid"
     },
     "female|spinalis_r|right": {
-      "resolved_subject": "ct_vhf_es",
+      "resolved_subject": "ct_vhf_es_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_erector_columns.nii.gz",
       "label": 1,
       "n_components_source": 44,
       "source_main_frac": 0.9212,
-      "shipped_main_frac": 0.9211590296495957,
+      "shipped_main_frac": 0.9333791208791209,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -9487,12 +9487,12 @@
       "name": "Spinalis"
     },
     "female|spinalis_l|left": {
-      "resolved_subject": "ct_vhf_es",
+      "resolved_subject": "ct_vhf_es_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_erector_columns.nii.gz",
       "label": 4,
       "n_components_source": 16,
       "source_main_frac": 0.9765,
-      "shipped_main_frac": 0.9584468664850136,
+      "shipped_main_frac": 0.9638964577656676,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -9794,12 +9794,12 @@
       "name": "Flexor digitorum profundus"
     },
     "female|extensor_carpi_radialis_longus_r|right": {
-      "resolved_subject": "ct_vhf_forearm",
+      "resolved_subject": "ct_vhf_forearm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
       "label": 10,
       "n_components_source": 4,
       "source_main_frac": 0.9664,
-      "shipped_main_frac": 0.9529411764705882,
+      "shipped_main_frac": 0.9591298615688859,
       "shipped_status": "FRAGMENTED",
       "cause": "PIPELINE_ARTIFACT",
       "reason": "Q115 triage: source_main_frac 0.9664 vs shipped 0.5620496397117695, gap 0.4044 >= 0.15 with source >= 0.90 -- reused verbatim.",
@@ -9809,12 +9809,12 @@
       "name": "Extensor carpi radialis longus"
     },
     "female|extensor_carpi_ulnaris_r|right": {
-      "resolved_subject": "ct_vhf_forearm",
+      "resolved_subject": "ct_vhf_forearm_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
       "label": 14,
       "n_components_source": 3,
       "source_main_frac": 0.6333,
-      "shipped_main_frac": 0.5964095744680851,
+      "shipped_main_frac": 0.597601598934044,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -9861,15 +9861,15 @@
       "name": "Extensor carpi ulnaris"
     },
     "female|extensor_pollicis_longus_r|right": {
-      "resolved_subject": "ct_vhf_forearm",
+      "resolved_subject": "ct_vhf_forearm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz",
       "label": 19,
       "n_components_source": 1,
       "source_main_frac": 1.0,
-      "shipped_main_frac": 0.9786808794137242,
+      "shipped_main_frac": 0.9761904761904762,
       "shipped_status": "FRAGMENTED",
       "cause": "PIPELINE_ARTIFACT",
-      "reason": "Raw source label is a single connected component (main_frac 1.000); shipped mesh main_frac 0.979 -- decimation/clustering severed it.",
+      "reason": "Raw source label is a single connected component (main_frac 1.000); shipped mesh main_frac 0.976 -- decimation/clustering severed it.",
       "body": "female",
       "id": "extensor_pollicis_longus_r",
       "side": "right",
@@ -9886,29 +9886,29 @@
       "z_axis": 2,
       "main_component": {
         "size": 41212,
-        "zmin": 8,
-        "zmax": 68
+        "zmin": "8",
+        "zmax": "68"
       },
       "other_components": [
         {
           "size": 554,
-          "zmin": 60,
-          "zmax": 68
+          "zmin": "60",
+          "zmax": "68"
         },
         {
           "size": 11,
-          "zmin": 52,
-          "zmax": 53
+          "zmin": "52",
+          "zmax": "53"
         },
         {
           "size": 2,
-          "zmin": 55,
-          "zmax": 55
+          "zmin": "55",
+          "zmax": "55"
         },
         {
           "size": 1,
-          "zmin": 58,
-          "zmax": 58
+          "zmin": "58",
+          "zmax": "58"
         }
       ],
       "bridges": [],
@@ -9951,12 +9951,12 @@
       "name": "Adductor pollicis"
     },
     "female|dorsal_interossei_hand_r|right": {
-      "resolved_subject": "ct_vhf_hand",
+      "resolved_subject": "ct_vhf_hand_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
       "label": 8,
       "n_components_source": 13,
       "source_main_frac": 0.5513,
-      "shipped_main_frac": 0.6255989048596852,
+      "shipped_main_frac": 0.6269360269360269,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -10123,54 +10123,54 @@
       "name": "Dorsal interossei (hand)"
     },
     "female|palmar_interossei_r|right": {
-      "resolved_subject": "ct_vhf_hand",
+      "resolved_subject": "ct_vhf_hand_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz",
       "label": 9,
       "n_components_source": 8,
       "source_main_frac": 0.9832,
-      "shipped_main_frac": 0.9706078824315297,
+      "shipped_main_frac": 0.9745137491616365,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 27173,
-        "zmin": 10,
-        "zmax": 53
+        "zmin": "10",
+        "zmax": "53"
       },
       "other_components": [
         {
           "size": 435,
-          "zmin": 50,
-          "zmax": 57
+          "zmin": "50",
+          "zmax": "57"
         },
         {
           "size": 10,
-          "zmin": 38,
-          "zmax": 38
+          "zmin": "38",
+          "zmax": "38"
         },
         {
           "size": 5,
-          "zmin": 4,
-          "zmax": 4
+          "zmin": "4",
+          "zmax": "4"
         },
         {
           "size": 4,
-          "zmin": 6,
-          "zmax": 6
+          "zmin": "6",
+          "zmax": "6"
         },
         {
           "size": 4,
-          "zmin": 41,
-          "zmax": 41
+          "zmin": "41",
+          "zmax": "41"
         },
         {
           "size": 3,
-          "zmin": 45,
-          "zmax": 45
+          "zmin": "45",
+          "zmax": "45"
         },
         {
           "size": 2,
-          "zmin": 49,
-          "zmax": 49
+          "zmin": "49",
+          "zmax": "49"
         }
       ],
       "bridges": [],
@@ -10193,7 +10193,7 @@
           "size": 5,
           "vol_frac": 0.0002,
           "centroid_dist_mm": 28.17,
-          "gap_mm": 5.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -10244,14 +10244,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 1424,
-        "zmin": 75,
-        "zmax": 83
+        "zmin": "75",
+        "zmax": "83"
       },
       "other_components": [
         {
           "size": 837,
-          "zmin": 84,
-          "zmax": 89
+          "zmin": "84",
+          "zmax": "89"
         }
       ],
       "bridges": [],
@@ -10305,14 +10305,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 4798,
-        "zmin": 75,
-        "zmax": 94
+        "zmin": "75",
+        "zmax": "94"
       },
       "other_components": [
         {
           "size": 583,
-          "zmin": 94,
-          "zmax": 104
+          "zmin": "94",
+          "zmax": "104"
         }
       ],
       "bridges": [],
@@ -10344,14 +10344,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 1424,
-        "zmin": 75,
-        "zmax": 83
+        "zmin": "75",
+        "zmax": "83"
       },
       "other_components": [
         {
           "size": 837,
-          "zmin": 84,
-          "zmax": 89
+          "zmin": "84",
+          "zmax": "89"
         }
       ],
       "bridges": [],
@@ -10405,14 +10405,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 4798,
-        "zmin": 75,
-        "zmax": 94
+        "zmin": "75",
+        "zmax": "94"
       },
       "other_components": [
         {
           "size": 583,
-          "zmin": 94,
-          "zmax": 104
+          "zmin": "94",
+          "zmax": "104"
         }
       ],
       "bridges": [],
@@ -10434,7 +10434,7 @@
       "name": "Hyoglossus"
     },
     "female|styloglossus_l|left": {
-      "resolved_subject": "ct_vhf_hyoid",
+      "resolved_subject": "ct_vhf_hyoid_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz",
       "label": 18,
       "n_components_source": 3,
@@ -10444,19 +10444,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 1326,
-        "zmin": 109,
-        "zmax": 119
+        "zmin": "109",
+        "zmax": "119"
       },
       "other_components": [
         {
           "size": 64,
-          "zmin": 114,
-          "zmax": 118
+          "zmin": "114",
+          "zmax": "118"
         },
         {
           "size": 61,
-          "zmin": 125,
-          "zmax": 126
+          "zmin": "125",
+          "zmax": "126"
         }
       ],
       "bridges": [
@@ -10597,29 +10597,29 @@
       "z_axis": 2,
       "main_component": {
         "size": 46685,
-        "zmin": 82,
-        "zmax": 133
+        "zmin": "82",
+        "zmax": "133"
       },
       "other_components": [
         {
           "size": 2429,
-          "zmin": 76,
-          "zmax": 79
+          "zmin": "76",
+          "zmax": "79"
         },
         {
           "size": 121,
-          "zmin": 136,
-          "zmax": 144
+          "zmin": "136",
+          "zmax": "144"
         },
         {
           "size": 19,
-          "zmin": 146,
-          "zmax": 147
+          "zmin": "146",
+          "zmax": "147"
         },
         {
           "size": 19,
-          "zmin": 149,
-          "zmax": 150
+          "zmin": "149",
+          "zmax": "150"
         }
       ],
       "bridges": [
@@ -10645,14 +10645,14 @@
           "size": 19,
           "vol_frac": 0.0004,
           "centroid_dist_mm": 51.75,
-          "gap_mm": 12.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 19,
           "vol_frac": 0.0004,
           "centroid_dist_mm": 54.25,
-          "gap_mm": 15.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         }
       ],
@@ -10675,14 +10675,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 2008,
-        "zmin": 189,
-        "zmax": 200
+        "zmin": "189",
+        "zmax": "200"
       },
       "other_components": [
         {
           "size": 1,
-          "zmin": 194,
-          "zmax": 194
+          "zmin": "194",
+          "zmax": "194"
         }
       ],
       "bridges": [],
@@ -10744,14 +10744,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 2008,
-        "zmin": 189,
-        "zmax": 200
+        "zmin": "189",
+        "zmax": "200"
       },
       "other_components": [
         {
           "size": 1,
-          "zmin": 194,
-          "zmax": 194
+          "zmin": "194",
+          "zmax": "194"
         }
       ],
       "bridges": [],
@@ -10795,12 +10795,12 @@
       "name": "Pectoralis minor"
     },
     "female|deep_transverse_perineal_r|right": {
-      "resolved_subject": "ct_vhf_pfloor",
+      "resolved_subject": "ct_vhf_pfloor_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz",
       "label": 5,
       "n_components_source": 2,
       "source_main_frac": 0.9158,
-      "shipped_main_frac": 0.6158038147138964,
+      "shipped_main_frac": 0.5613652868554829,
       "shipped_status": "FRAGMENTED",
       "cause": "PIPELINE_ARTIFACT",
       "reason": "Q115 triage: source_main_frac 0.9158 vs shipped 0.6158038147138964, gap 0.3 >= 0.15 with source >= 0.90 -- reused verbatim.",
@@ -10820,14 +10820,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 1839,
-        "zmin": 51,
-        "zmax": 63
+        "zmin": "51",
+        "zmax": "63"
       },
       "other_components": [
         {
           "size": 512,
-          "zmin": 45,
-          "zmax": 53
+          "zmin": "45",
+          "zmax": "53"
         }
       ],
       "bridges": [],
@@ -10859,29 +10859,29 @@
       "z_axis": 2,
       "main_component": {
         "size": 811,
-        "zmin": 16,
-        "zmax": 23
+        "zmin": "16",
+        "zmax": "23"
       },
       "other_components": [
         {
           "size": 177,
-          "zmin": 9,
-          "zmax": 12
+          "zmin": "9",
+          "zmax": "12"
         },
         {
           "size": 149,
-          "zmin": 23,
-          "zmax": 23
+          "zmin": "23",
+          "zmax": "23"
         },
         {
           "size": 93,
-          "zmin": 15,
-          "zmax": 16
+          "zmin": "15",
+          "zmax": "16"
         },
         {
           "size": 11,
-          "zmin": 12,
-          "zmax": 12
+          "zmin": "12",
+          "zmax": "12"
         }
       ],
       "bridges": [],
@@ -10891,7 +10891,7 @@
           "size": 177,
           "vol_frac": 0.1426,
           "centroid_dist_mm": 14.24,
-          "gap_mm": 3.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
@@ -10912,7 +10912,7 @@
           "size": 11,
           "vol_frac": 0.0089,
           "centroid_dist_mm": 10.75,
-          "gap_mm": 3.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         }
       ],
@@ -10924,12 +10924,12 @@
       "name": "Ischiocavernosus"
     },
     "female|supraspinatus_r|right": {
-      "resolved_subject": "ct_vhf_cuff",
+      "resolved_subject": "ct_vhf_cuff_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz",
       "label": 1,
       "n_components_source": 29,
       "source_main_frac": 0.8052,
-      "shipped_main_frac": 0.7243460764587525,
+      "shipped_main_frac": 0.6911665542818611,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -11288,12 +11288,12 @@
       "name": "Supraspinatus"
     },
     "female|supraspinatus_l|left": {
-      "resolved_subject": "ct_vhf_cuff",
+      "resolved_subject": "ct_vhf_cuff_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz",
       "label": 4,
       "n_components_source": 69,
       "source_main_frac": 0.8447,
-      "shipped_main_frac": 0.7810569663692519,
+      "shipped_main_frac": 0.8036935704514364,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -12795,12 +12795,12 @@
       "name": "Subscapularis"
     },
     "female|infraspinatus_r|right": {
-      "resolved_subject": "ct_vhf_shsp",
+      "resolved_subject": "ct_vhf_shsp_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz",
       "label": 1,
       "n_components_source": 156,
       "source_main_frac": 0.9933,
-      "shipped_main_frac": 0.9684857801691007,
+      "shipped_main_frac": 0.9588100686498856,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -17747,7 +17747,7 @@
       "name": "Infraspinatus"
     },
     "female|teres_minor_l|left": {
-      "resolved_subject": "ct_vhf_shsp",
+      "resolved_subject": "ct_vhf_shsp_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz",
       "label": 7,
       "n_components_source": 3,
@@ -17757,19 +17757,19 @@
       "z_axis": 2,
       "main_component": {
         "size": 43702,
-        "zmin": 48,
-        "zmax": 113
+        "zmin": "48",
+        "zmax": "113"
       },
       "other_components": [
         {
           "size": 2,
-          "zmin": 104,
-          "zmax": 104
+          "zmin": "104",
+          "zmax": "104"
         },
         {
           "size": 1,
-          "zmin": 82,
-          "zmax": 82
+          "zmin": "82",
+          "zmax": "82"
         }
       ],
       "bridges": [],
@@ -17799,88 +17799,8 @@
       "name": "Teres minor"
     },
     "female|diaphragm|none": {
-      "resolved_subject": "ct_vhf_twall",
-      "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_trunk_wall.nii.gz",
-      "label": 1,
-      "n_components_source": 6,
-      "source_main_frac": 0.8005,
-      "shipped_main_frac": 0.742617893345086,
-      "shipped_status": "FRAGMENTED",
-      "z_axis": 2,
-      "main_component": {
-        "size": 263841,
-        "zmin": "359",
-        "zmax": "551"
-      },
-      "other_components": [
-        {
-          "size": 34395,
-          "zmin": "301",
-          "zmax": "483"
-        },
-        {
-          "size": 15241,
-          "zmin": "349",
-          "zmax": "468"
-        },
-        {
-          "size": 6618,
-          "zmin": "591",
-          "zmax": "624"
-        },
-        {
-          "size": 6117,
-          "zmin": "546",
-          "zmax": "581"
-        },
-        {
-          "size": 3369,
-          "zmin": "597",
-          "zmax": "621"
-        }
-      ],
-      "bridges": [],
-      "islands": [
-        {
-          "size": 6117,
-          "vol_frac": 0.0186,
-          "centroid_dist_mm": 128.64,
-          "gap_mm": null,
-          "disposition": "DROP_ISLAND"
-        },
-        {
-          "size": 3369,
-          "vol_frac": 0.0102,
-          "centroid_dist_mm": 140.29,
-          "gap_mm": null,
-          "disposition": "DROP_ISLAND"
-        }
-      ],
-      "unresolved_components": [
-        {
-          "size": 34395,
-          "vol_frac": 0.1044,
-          "centroid_dist_mm": 89.73,
-          "gap_mm": null,
-          "disposition": "NOT_Z_ALIGNED"
-        },
-        {
-          "size": 15241,
-          "vol_frac": 0.0462,
-          "centroid_dist_mm": 115.8,
-          "gap_mm": null,
-          "disposition": "NOT_Z_ALIGNED"
-        },
-        {
-          "size": 6618,
-          "vol_frac": 0.0201,
-          "centroid_dist_mm": 133.5,
-          "gap_mm": null,
-          "disposition": "NOT_Z_ALIGNED"
-        }
-      ],
-      "cause": "MIXED_ISLAND_AND_ANATOMICAL",
-      "reason": "2 droppable island(s) plus 3 component(s) not explained by island or gap rules (see unresolved_components).",
+      "cause": "UNRESOLVED",
+      "reason": "no raw source volume resolvable: atlas_id='diaphragm' side=None not found in ct_vhf_twall_contfix_mesh's manifest (1 entries)",
       "body": "female",
       "id": "diaphragm",
       "side": "none",
@@ -18095,7 +18015,7 @@
       "name": "Extensor digitorum longus"
     },
     "female|adductor_brevis_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 1,
       "n_components_source": 2,
@@ -18105,14 +18025,14 @@
       "z_axis": 2,
       "main_component": {
         "size": 119952,
-        "zmin": 620,
-        "zmax": 721
+        "zmin": "620",
+        "zmax": "721"
       },
       "other_components": [
         {
           "size": 1953,
-          "zmin": 602,
-          "zmax": 616
+          "zmin": "602",
+          "zmax": "616"
         }
       ],
       "bridges": [],
@@ -18248,189 +18168,189 @@
       "name": "Adductor longus"
     },
     "female|adductor_magnus_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 6,
       "n_components_source": 35,
       "source_main_frac": 0.5967,
-      "shipped_main_frac": 0.9709480122324159,
+      "shipped_main_frac": 0.9807407407407407,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 407851,
-        "zmin": 443,
-        "zmax": 618
+        "zmin": "443",
+        "zmax": "618"
       },
       "other_components": [
         {
           "size": 272879,
-          "zmin": 620,
-          "zmax": 711
+          "zmin": "620",
+          "zmax": "711"
         },
         {
           "size": 2106,
-          "zmin": 648,
-          "zmax": 657
+          "zmin": "648",
+          "zmax": "657"
         },
         {
           "size": 190,
-          "zmin": 576,
-          "zmax": 585
+          "zmin": "576",
+          "zmax": "585"
         },
         {
           "size": 64,
-          "zmin": 650,
-          "zmax": 651
+          "zmin": "650",
+          "zmax": "651"
         },
         {
           "size": 50,
-          "zmin": 653,
-          "zmax": 654
+          "zmin": "653",
+          "zmax": "654"
         },
         {
           "size": 48,
-          "zmin": 647,
-          "zmax": 649
+          "zmin": "647",
+          "zmax": "649"
         },
         {
           "size": 47,
-          "zmin": 666,
-          "zmax": 668
+          "zmin": "666",
+          "zmax": "668"
         },
         {
           "size": 39,
-          "zmin": 654,
-          "zmax": 654
+          "zmin": "654",
+          "zmax": "654"
         },
         {
           "size": 37,
-          "zmin": 681,
-          "zmax": 683
+          "zmin": "681",
+          "zmax": "683"
         },
         {
           "size": 27,
-          "zmin": 661,
-          "zmax": 662
+          "zmin": "661",
+          "zmax": "662"
         },
         {
           "size": 26,
-          "zmin": 648,
-          "zmax": 648
+          "zmin": "648",
+          "zmax": "648"
         },
         {
           "size": 25,
-          "zmin": 670,
-          "zmax": 670
+          "zmin": "670",
+          "zmax": "670"
         },
         {
           "size": 25,
-          "zmin": 684,
-          "zmax": 684
+          "zmin": "684",
+          "zmax": "684"
         },
         {
           "size": 25,
-          "zmin": 571,
-          "zmax": 571
+          "zmin": "571",
+          "zmax": "571"
         },
         {
           "size": 22,
-          "zmin": 605,
-          "zmax": 606
+          "zmin": "605",
+          "zmax": "606"
         },
         {
           "size": 15,
-          "zmin": 654,
-          "zmax": 654
+          "zmin": "654",
+          "zmax": "654"
         },
         {
           "size": 15,
-          "zmin": 656,
-          "zmax": 657
+          "zmin": "656",
+          "zmax": "657"
         },
         {
           "size": 12,
-          "zmin": 658,
-          "zmax": 659
+          "zmin": "658",
+          "zmax": "659"
         },
         {
           "size": 7,
-          "zmin": 647,
-          "zmax": 647
+          "zmin": "647",
+          "zmax": "647"
         },
         {
           "size": 6,
-          "zmin": 571,
-          "zmax": 572
+          "zmin": "571",
+          "zmax": "572"
         },
         {
           "size": 5,
-          "zmin": 677,
-          "zmax": 677
+          "zmin": "677",
+          "zmax": "677"
         },
         {
           "size": 5,
-          "zmin": 526,
-          "zmax": 527
+          "zmin": "526",
+          "zmax": "527"
         },
         {
           "size": 5,
-          "zmin": 558,
-          "zmax": 558
+          "zmin": "558",
+          "zmax": "558"
         },
         {
           "size": 5,
-          "zmin": 657,
-          "zmax": 657
+          "zmin": "657",
+          "zmax": "657"
         },
         {
           "size": 3,
-          "zmin": 647,
-          "zmax": 647
+          "zmin": "647",
+          "zmax": "647"
         },
         {
           "size": 3,
-          "zmin": 561,
-          "zmax": 561
+          "zmin": "561",
+          "zmax": "561"
         },
         {
           "size": 2,
-          "zmin": 647,
-          "zmax": 647
+          "zmin": "647",
+          "zmax": "647"
         },
         {
           "size": 2,
-          "zmin": 581,
-          "zmax": 582
+          "zmin": "581",
+          "zmax": "582"
         },
         {
           "size": 1,
-          "zmin": 447,
-          "zmax": 447
+          "zmin": "447",
+          "zmax": "447"
         },
         {
           "size": 1,
-          "zmin": 566,
-          "zmax": 566
+          "zmin": "566",
+          "zmax": "566"
         },
         {
           "size": 1,
-          "zmin": 572,
-          "zmax": 572
+          "zmin": "572",
+          "zmax": "572"
         },
         {
           "size": 1,
-          "zmin": 574,
-          "zmax": 574
+          "zmin": "574",
+          "zmax": "574"
         },
         {
           "size": 1,
-          "zmin": 564,
-          "zmax": 564
+          "zmin": "564",
+          "zmax": "564"
         },
         {
           "size": 1,
-          "zmin": 697,
-          "zmax": 697
+          "zmin": "697",
+          "zmax": "697"
         }
       ],
       "bridges": [
@@ -18449,7 +18369,7 @@
           "size": 2106,
           "vol_frac": 0.0031,
           "centroid_dist_mm": 102.29,
-          "gap_mm": 29.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -18463,70 +18383,70 @@
           "size": 64,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 92.93,
-          "gap_mm": 31.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 50,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 93.37,
-          "gap_mm": 34.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 48,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 94.12,
-          "gap_mm": 28.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 47,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 111.29,
-          "gap_mm": 47.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 39,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 93.66,
-          "gap_mm": 35.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 37,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 114.19,
-          "gap_mm": 62.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 27,
           "vol_frac": 0.0,
           "centroid_dist_mm": 104.27,
-          "gap_mm": 42.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 26,
           "vol_frac": 0.0,
           "centroid_dist_mm": 93.76,
-          "gap_mm": 29.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 25,
           "vol_frac": 0.0,
           "centroid_dist_mm": 104.53,
-          "gap_mm": 51.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 25,
           "vol_frac": 0.0,
           "centroid_dist_mm": 116.83,
-          "gap_mm": 65.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -18547,28 +18467,28 @@
           "size": 15,
           "vol_frac": 0.0,
           "centroid_dist_mm": 96.39,
-          "gap_mm": 35.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 15,
           "vol_frac": 0.0,
           "centroid_dist_mm": 100.5,
-          "gap_mm": 37.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 12,
           "vol_frac": 0.0,
           "centroid_dist_mm": 100.2,
-          "gap_mm": 39.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 7,
           "vol_frac": 0.0,
           "centroid_dist_mm": 94.43,
-          "gap_mm": 28.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -18582,7 +18502,7 @@
           "size": 5,
           "vol_frac": 0.0,
           "centroid_dist_mm": 113.43,
-          "gap_mm": 58.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -18603,14 +18523,14 @@
           "size": 5,
           "vol_frac": 0.0,
           "centroid_dist_mm": 101.33,
-          "gap_mm": 38.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 3,
           "vol_frac": 0.0,
           "centroid_dist_mm": 92.34,
-          "gap_mm": 28.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -18624,7 +18544,7 @@
           "size": 2,
           "vol_frac": 0.0,
           "centroid_dist_mm": 91.83,
-          "gap_mm": 28.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -18673,7 +18593,7 @@
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 143.29,
-          "gap_mm": 78.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         }
       ],
@@ -18686,12 +18606,12 @@
       "name": "Adductor magnus"
     },
     "female|biceps_femoris_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 7,
       "n_components_source": 31,
       "source_main_frac": 0.9464,
-      "shipped_main_frac": 0.983983286908078,
+      "shipped_main_frac": 0.9799307958477509,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -18858,8 +18778,8 @@
           "centroid_dist_mm": 147.3,
           "gap_mm": 5.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "617",
-          "gap_zmax": "621"
+          "gap_zmin": 617,
+          "gap_zmax": 621
         }
       ],
       "islands": [
@@ -19076,12 +18996,12 @@
       "name": "Biceps femoris"
     },
     "female|biceps_femoris_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 8,
       "n_components_source": 51,
       "source_main_frac": 0.9415,
-      "shipped_main_frac": 0.8888042650418888,
+      "shipped_main_frac": 0.9778625954198473,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -19348,8 +19268,8 @@
           "centroid_dist_mm": 143.01,
           "gap_mm": 3.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "619",
-          "gap_zmax": "621"
+          "gap_zmin": 619,
+          "gap_zmax": 621
         }
       ],
       "islands": [
@@ -19706,7 +19626,7 @@
       "name": "Biceps femoris"
     },
     "female|extensor_digitorum_longus_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 10,
       "n_components_source": 19,
@@ -19716,99 +19636,99 @@
       "z_axis": 2,
       "main_component": {
         "size": 28569,
-        "zmin": 30,
-        "zmax": 263
+        "zmin": "30",
+        "zmax": "263"
       },
       "other_components": [
         {
           "size": 3724,
-          "zmin": 306,
-          "zmax": 334
+          "zmin": "306",
+          "zmax": "334"
         },
         {
           "size": 1957,
-          "zmin": 267,
-          "zmax": 305
+          "zmin": "267",
+          "zmax": "305"
         },
         {
           "size": 355,
-          "zmin": 15,
-          "zmax": 26
+          "zmin": "15",
+          "zmax": "26"
         },
         {
           "size": 9,
-          "zmin": 46,
-          "zmax": 51
+          "zmin": "46",
+          "zmax": "51"
         },
         {
           "size": 4,
-          "zmin": 295,
-          "zmax": 296
+          "zmin": "295",
+          "zmax": "296"
         },
         {
           "size": 3,
-          "zmin": 294,
-          "zmax": 295
+          "zmin": "294",
+          "zmax": "295"
         },
         {
           "size": 3,
-          "zmin": 295,
-          "zmax": 297
+          "zmin": "295",
+          "zmax": "297"
         },
         {
           "size": 3,
-          "zmin": 156,
-          "zmax": 157
+          "zmin": "156",
+          "zmax": "157"
         },
         {
           "size": 3,
-          "zmin": 25,
-          "zmax": 25
+          "zmin": "25",
+          "zmax": "25"
         },
         {
           "size": 2,
-          "zmin": 270,
-          "zmax": 271
+          "zmin": "270",
+          "zmax": "271"
         },
         {
           "size": 2,
-          "zmin": 297,
-          "zmax": 298
+          "zmin": "297",
+          "zmax": "298"
         },
         {
           "size": 2,
-          "zmin": 274,
-          "zmax": 274
+          "zmin": "274",
+          "zmax": "274"
         },
         {
           "size": 2,
-          "zmin": 283,
-          "zmax": 283
+          "zmin": "283",
+          "zmax": "283"
         },
         {
           "size": 2,
-          "zmin": 325,
-          "zmax": 325
+          "zmin": "325",
+          "zmax": "325"
         },
         {
           "size": 2,
-          "zmin": 81,
-          "zmax": 81
+          "zmin": "81",
+          "zmax": "81"
         },
         {
           "size": 1,
-          "zmin": 318,
-          "zmax": 318
+          "zmin": "318",
+          "zmax": "318"
         },
         {
           "size": 1,
-          "zmin": 319,
-          "zmax": 319
+          "zmin": "319",
+          "zmax": "319"
         },
         {
           "size": 1,
-          "zmin": 91,
-          "zmax": 91
+          "zmin": "91",
+          "zmax": "91"
         }
       ],
       "bridges": [
@@ -19841,63 +19761,63 @@
           "size": 4,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 145.18,
-          "gap_mm": 31.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 3,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 146.1,
-          "gap_mm": 30.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 3,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 147.5,
-          "gap_mm": 31.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 3,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 127.97,
-          "gap_mm": 4.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 122.78,
-          "gap_mm": 6.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 149.33,
-          "gap_mm": 33.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 125.69,
-          "gap_mm": 10.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 134.15,
-          "gap_mm": 19.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 2,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 174.61,
-          "gap_mm": 61.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -19911,14 +19831,14 @@
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 167.38,
-          "gap_mm": 54.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 168.28,
-          "gap_mm": 55.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -19934,7 +19854,7 @@
           "size": 3724,
           "vol_frac": 0.1075,
           "centroid_dist_mm": 169.88,
-          "gap_mm": 42.0,
+          "gap_mm": null,
           "disposition": "NOT_Z_ALIGNED"
         },
         {
@@ -19953,12 +19873,12 @@
       "name": "Extensor digitorum longus"
     },
     "female|extensor_hallucis_longus_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 12,
       "n_components_source": 5,
       "source_main_frac": 0.9966,
-      "shipped_main_frac": 0.562082777036048,
+      "shipped_main_frac": 0.5598980458793543,
       "shipped_status": "FRAGMENTED",
       "cause": "PIPELINE_ARTIFACT",
       "reason": "Q115 triage: source_main_frac 0.9966 vs shipped 0.562082777036048, gap 0.4346 >= 0.15 with source >= 0.90 -- reused verbatim.",
@@ -19968,7 +19888,7 @@
       "name": "Extensor hallucis longus"
     },
     "female|gastrocnemius_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 20,
       "n_components_source": 24,
@@ -20105,8 +20025,8 @@
           "centroid_dist_mm": 83.65,
           "gap_mm": 1.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "266",
-          "gap_zmax": "266"
+          "gap_zmin": 266,
+          "gap_zmax": 266
         }
       ],
       "islands": [
@@ -20274,119 +20194,119 @@
       "name": "Gastrocnemius"
     },
     "female|gracilis_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 22,
       "n_components_source": 21,
       "source_main_frac": 0.738,
-      "shipped_main_frac": 0.9884559884559885,
+      "shipped_main_frac": 0.9884643114635905,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
         "size": 70421,
-        "zmin": 406,
-        "zmax": 617
+        "zmin": "406",
+        "zmax": "617"
       },
       "other_components": [
         {
           "size": 24392,
-          "zmin": 620,
-          "zmax": 685
+          "zmin": "620",
+          "zmax": "685"
         },
         {
           "size": 361,
-          "zmin": 684,
-          "zmax": 691
+          "zmin": "684",
+          "zmax": "691"
         },
         {
           "size": 63,
-          "zmin": 623,
-          "zmax": 624
+          "zmin": "623",
+          "zmax": "624"
         },
         {
           "size": 54,
-          "zmin": 682,
-          "zmax": 684
+          "zmin": "682",
+          "zmax": "684"
         },
         {
           "size": 31,
-          "zmin": 679,
-          "zmax": 681
+          "zmin": "679",
+          "zmax": "681"
         },
         {
           "size": 25,
-          "zmin": 683,
-          "zmax": 683
+          "zmin": "683",
+          "zmax": "683"
         },
         {
           "size": 22,
-          "zmin": 654,
-          "zmax": 654
+          "zmin": "654",
+          "zmax": "654"
         },
         {
           "size": 17,
-          "zmin": 685,
-          "zmax": 686
+          "zmin": "685",
+          "zmax": "686"
         },
         {
           "size": 14,
-          "zmin": 650,
-          "zmax": 652
+          "zmin": "650",
+          "zmax": "652"
         },
         {
           "size": 4,
-          "zmin": 650,
-          "zmax": 651
+          "zmin": "650",
+          "zmax": "651"
         },
         {
           "size": 4,
-          "zmin": 460,
-          "zmax": 462
+          "zmin": "460",
+          "zmax": "462"
         },
         {
           "size": 2,
-          "zmin": 680,
-          "zmax": 681
+          "zmin": "680",
+          "zmax": "681"
         },
         {
           "size": 2,
-          "zmin": 616,
-          "zmax": 617
+          "zmin": "616",
+          "zmax": "617"
         },
         {
           "size": 1,
-          "zmin": 680,
-          "zmax": 680
+          "zmin": "680",
+          "zmax": "680"
         },
         {
           "size": 1,
-          "zmin": 654,
-          "zmax": 654
+          "zmin": "654",
+          "zmax": "654"
         },
         {
           "size": 1,
-          "zmin": 649,
-          "zmax": 649
+          "zmin": "649",
+          "zmax": "649"
         },
         {
           "size": 1,
-          "zmin": 656,
-          "zmax": 656
+          "zmin": "656",
+          "zmax": "656"
         },
         {
           "size": 1,
-          "zmin": 659,
-          "zmax": 659
+          "zmin": "659",
+          "zmax": "659"
         },
         {
           "size": 1,
-          "zmin": 465,
-          "zmax": 465
+          "zmin": "465",
+          "zmax": "465"
         },
         {
           "size": 1,
-          "zmin": 467,
-          "zmax": 467
+          "zmin": "467",
+          "zmax": "467"
         }
       ],
       "bridges": [
@@ -20405,63 +20325,63 @@
           "size": 361,
           "vol_frac": 0.0038,
           "centroid_dist_mm": 145.91,
-          "gap_mm": 66.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 63,
           "vol_frac": 0.0007,
           "centroid_dist_mm": 81.55,
-          "gap_mm": 5.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 54,
           "vol_frac": 0.0006,
           "centroid_dist_mm": 142.24,
-          "gap_mm": 64.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 31,
           "vol_frac": 0.0003,
           "centroid_dist_mm": 143.31,
-          "gap_mm": 61.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 25,
           "vol_frac": 0.0003,
           "centroid_dist_mm": 140.84,
-          "gap_mm": 65.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 22,
           "vol_frac": 0.0002,
           "centroid_dist_mm": 111.84,
-          "gap_mm": 36.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 17,
           "vol_frac": 0.0002,
           "centroid_dist_mm": 146.81,
-          "gap_mm": 67.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 14,
           "vol_frac": 0.0001,
           "centroid_dist_mm": 108.7,
-          "gap_mm": 32.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 4,
           "vol_frac": 0.0,
           "centroid_dist_mm": 108.97,
-          "gap_mm": 32.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -20475,7 +20395,7 @@
           "size": 2,
           "vol_frac": 0.0,
           "centroid_dist_mm": 139.08,
-          "gap_mm": 62.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -20489,35 +20409,35 @@
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 138.54,
-          "gap_mm": 62.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 110.95,
-          "gap_mm": 36.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 105.38,
-          "gap_mm": 31.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 111.29,
-          "gap_mm": 38.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
           "size": 1,
           "vol_frac": 0.0,
           "centroid_dist_mm": 113.83,
-          "gap_mm": 41.0,
+          "gap_mm": null,
           "disposition": "DROP_ISLAND"
         },
         {
@@ -20544,12 +20464,12 @@
       "name": "Gracilis"
     },
     "female|gracilis_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 23,
       "n_components_source": 34,
       "source_main_frac": 0.6236,
-      "shipped_main_frac": 0.5909742120343839,
+      "shipped_main_frac": 0.7387580299785867,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -20731,8 +20651,8 @@
           "centroid_dist_mm": 106.43,
           "gap_mm": 4.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "618",
-          "gap_zmax": "621"
+          "gap_zmin": 618,
+          "gap_zmax": 621
         }
       ],
       "islands": [
@@ -20971,7 +20891,7 @@
       "name": "Gracilis"
     },
     "female|obturator_internus_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 27,
       "n_components_source": 5,
@@ -21046,12 +20966,12 @@
       "name": "Obturator internus"
     },
     "female|popliteus_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 32,
       "n_components_source": 5,
       "source_main_frac": 0.975,
-      "shipped_main_frac": 0.9867461895294898,
+      "shipped_main_frac": 0.9867724867724867,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -21088,8 +21008,8 @@
           "centroid_dist_mm": 56.16,
           "gap_mm": 1.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "266",
-          "gap_zmax": "266"
+          "gap_zmin": 266,
+          "gap_zmax": 266
         }
       ],
       "islands": [
@@ -21214,7 +21134,7 @@
       "name": "Rectus femoris"
     },
     "female|sartorius_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 39,
       "n_components_source": 7,
@@ -21266,8 +21186,8 @@
           "centroid_dist_mm": 225.81,
           "gap_mm": 4.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "618",
-          "gap_zmax": "621"
+          "gap_zmin": 618,
+          "gap_zmax": 621
         }
       ],
       "islands": [
@@ -21655,12 +21575,12 @@
       "name": "Semimembranosus"
     },
     "female|semitendinosus_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 42,
       "n_components_source": 25,
       "source_main_frac": 0.8397,
-      "shipped_main_frac": 0.7296918767507002,
+      "shipped_main_frac": 0.8283898305084746,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -21797,8 +21717,8 @@
           "centroid_dist_mm": 109.26,
           "gap_mm": 4.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "618",
-          "gap_zmax": "621"
+          "gap_zmin": 618,
+          "gap_zmax": 621
         }
       ],
       "islands": [
@@ -21973,12 +21893,12 @@
       "name": "Semitendinosus"
     },
     "female|semitendinosus_r|right": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 43,
       "n_components_source": 29,
       "source_main_frac": 0.782,
-      "shipped_main_frac": 0.9306647605432452,
+      "shipped_main_frac": 0.9305654974946314,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -22135,8 +22055,8 @@
           "centroid_dist_mm": 102.87,
           "gap_mm": 1.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "619",
-          "gap_zmax": "619"
+          "gap_zmin": 619,
+          "gap_zmax": 619
         }
       ],
       "islands": [
@@ -22546,12 +22466,12 @@
       "name": "Tensor fasciae latae"
     },
     "female|tibialis_anterior_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 48,
       "n_components_source": 10,
       "source_main_frac": 0.7302,
-      "shipped_main_frac": 0.6710986703988804,
+      "shipped_main_frac": 0.9477401129943502,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -22613,8 +22533,8 @@
           "centroid_dist_mm": 93.18,
           "gap_mm": 3.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "264",
-          "gap_zmax": "266"
+          "gap_zmin": 264,
+          "gap_zmax": 266
         }
       ],
       "islands": [
@@ -22684,12 +22604,12 @@
       "name": "Tibialis anterior"
     },
     "female|vastus_lateralis_l|left": {
-      "resolved_subject": "xfer_vhm2vhf_sep",
+      "resolved_subject": "xfer_vhm2vhf_sep_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz",
       "label": 54,
       "n_components_source": 8,
       "source_main_frac": 0.5993,
-      "shipped_main_frac": 0.9874538745387453,
+      "shipped_main_frac": 0.9874631268436578,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -22741,8 +22661,8 @@
           "centroid_dist_mm": 122.85,
           "gap_mm": 3.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "617",
-          "gap_zmax": "619"
+          "gap_zmin": 617,
+          "gap_zmax": 619
         }
       ],
       "islands": [
@@ -22852,7 +22772,7 @@
       "name": "Vastus medialis"
     },
     "male|biceps_brachii_r|right": {
-      "resolved_subject": "ct_vhm_armm",
+      "resolved_subject": "ct_vhm_armm_contfix",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
       "label": 1,
       "n_components_source": 357,
@@ -24654,8 +24574,8 @@
           "centroid_dist_mm": 127.84,
           "gap_mm": 1.0,
           "disposition": "GAP_BRIDGE",
-          "gap_zmin": "315",
-          "gap_zmax": "315"
+          "gap_zmin": 315,
+          "gap_zmax": 315
         }
       ],
       "islands": [
@@ -27155,12 +27075,12 @@
       "name": "Biceps brachii"
     },
     "male|brachialis_r|right": {
-      "resolved_subject": "ct_vhm_armm",
+      "resolved_subject": "ct_vhm_armm_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
       "label": 2,
       "n_components_source": 29,
       "source_main_frac": 0.9965,
-      "shipped_main_frac": 0.9825757575757575,
+      "shipped_main_frac": 0.7719173200285103,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -28194,12 +28114,12 @@
       "name": "Coracobrachialis"
     },
     "male|triceps_brachii_r|right": {
-      "resolved_subject": "ct_vhm_armm",
+      "resolved_subject": "ct_vhm_armm_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz",
       "label": 4,
       "n_components_source": 324,
       "source_main_frac": 0.9588,
-      "shipped_main_frac": 0.9464131374243734,
+      "shipped_main_frac": 0.9477292202227935,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -40428,12 +40348,12 @@
       "name": "Triceps brachii"
     },
     "male|deltoid_r|right": {
-      "resolved_subject": "ct_vhm_delt",
+      "resolved_subject": "ct_vhm_delt_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_deltoid_cryo.nii.gz",
       "label": 1,
       "n_components_source": 39,
       "source_main_frac": 0.8262,
-      "shipped_main_frac": 0.8958652373660031,
+      "shipped_main_frac": 0.873015873015873,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -41738,12 +41658,12 @@
       "name": "Iliopsoas (iliacus + psoas major)"
     },
     "male|infraspinatus_r|right": {
-      "resolved_subject": "ct_vhm_shsp",
+      "resolved_subject": "ct_vhm_shsp_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz",
       "label": 1,
       "n_components_source": 199,
       "source_main_frac": 0.9917,
-      "shipped_main_frac": 0.9660649819494584,
+      "shipped_main_frac": 0.8956204379562044,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -51068,12 +50988,12 @@
       "name": "Transversus abdominis"
     },
     "male|diaphragm|none": {
-      "resolved_subject": "ct_vhm_twall",
+      "resolved_subject": "ct_vhm_twall_contfix_mesh",
       "source_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_trunk_wall.nii.gz",
       "label": 1,
       "n_components_source": 6,
       "source_main_frac": 0.7379,
-      "shipped_main_frac": 0.781540899187958,
+      "shipped_main_frac": 0.8160190325138779,
       "shipped_status": "FRAGMENTED",
       "z_axis": 2,
       "main_component": {
@@ -51419,5 +51339,6 @@
       "side": "right",
       "name": "Plantar interossei"
     }
-  }
+  },
+  "note_q156": "Q156: merged a --only re-run over all 72 female FRAGMENTED/SEVERE_BREAK muscle groups (incl. the 10 SEVERE cases explicitly) into the existing 174-id report; every id not in that batch is untouched from Q152/Q152b."
 }

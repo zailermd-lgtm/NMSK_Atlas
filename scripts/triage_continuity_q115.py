@@ -39,6 +39,26 @@ from engine import volume_ingest as vol  # noqa: E402
 BUILD = REPO_ROOT / "build" / "vh"
 AUDIT_JSON = REPO_ROOT / "data" / "derived" / "Q112_full_continuity_audit.json"
 
+# Suffixes scripts/apply_continuity_repairs_q152.py appends when it writes a
+# fix subject (never used by any other subject name in this build). Longest/
+# most-specific first, matching that script's own OWN_OUTPUT_SUFFIXES.
+OWN_FIX_SUFFIXES = ("_contfix_mesh", "_contfix")
+
+
+def strip_own_fix_suffix(subject: str) -> str | None:
+    """The pre-fix base subject name for `subject`, if `subject` is itself a
+    fix apply_continuity_repairs_q152.py produced AND that base subject still
+    exists in this build -- else None. Shared by resolve_source's own
+    mesh-island-drop chase below and by apply_continuity_repairs_q152.py's
+    true_root_subject (Q156): a subject we ourselves produced must never be
+    re-resolved or re-grouped as if it were an independent original source."""
+    for suf in OWN_FIX_SUFFIXES:
+        if subject.endswith(suf):
+            base = subject[: -len(suf)]
+            if base and (BUILD / base / "manifest.json").exists():
+                return base
+    return None
+
 # The 8 structures (12 (id,side) entries) Q113/Q114 already root-caused --
 # excluded here per this item's own brief, regardless of outcome (fixed or
 # declined), so this sweep only covers genuinely untouched ground.
@@ -129,6 +149,26 @@ def resolve_source(subject: str, atlas_id: str, side_norm: str | None, depth: in
         return chased
 
     source_file = rec.get("source_file", "")
+    # Q156: a mesh-space island drop (apply_continuity_repairs_q152.py's
+    # apply_islands) records its own provenance as
+    # '<subject>/manifest.json#mesh-island-drop' -- a deliberately
+    # non-numeric marker, since that fix never re-derives a voxel origin at
+    # all. Without this chase, resolve_source would report every already
+    # mesh-fixed id as an "unclear...recovered from a published viewer
+    # bundle" source (the same generic message a REAL recovered-bundle mesh
+    # gives), permanently hiding its real, still-resolvable raw source volume
+    # from any later diagnosis pass -- exactly the "re-resolve an
+    # already-fixed id through its own prior output" hazard this task's own
+    # apply-side fix (true_root_subject) addresses for grouping; diagnosis
+    # needs the same treatment to see past its own earlier work. Chases to
+    # the base (pre-fix) subject's OWN entry for this same id/side, which
+    # still carries the real source_file this mesh drop was built from.
+    if source_file.endswith("#mesh-island-drop"):
+        base = strip_own_fix_suffix(subject)
+        if base is not None:
+            chased = resolve_source(base, atlas_id, side_norm, depth + 1)
+            chased["chased_via"] = chased.get("chased_via", []) + [subject]
+            return chased
     if "#" not in source_file:
         return {"kind": "unclear",
                 "reason": f"{subject}: unrecognized source_file {source_file!r}"}

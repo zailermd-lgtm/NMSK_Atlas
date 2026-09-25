@@ -107,11 +107,18 @@ fi
 # source subject in the SUBJ line that follows, so it wins only the ids it actually repairs;
 # none of these ids overlap each other, so the exact order among them does not matter.
 [ -f build/vh/ct_vhf_dneck_contfix/manifest.json ] || python3 scripts/apply_continuity_repairs_q152.py 2>&1 | tail -30
+# Q156: added ct_vhf_left_forearm_contfix (voxel-space; only the _mesh variant
+# was listed before -- a latent wiring gap, same class as the Q152b rebuild-
+# script gaps this file's own header already documents. extensor_digiti_minimi_l
+# is a GAP_BRIDGE fix on this root, which apply_continuity_repairs_q152.py
+# writes as the plain (non-mesh) '_contfix' name; without this it would build
+# in build/vh but never reach the exported bundle).
 for s in ct_vhf_armm_contfix ct_vhf_armm_contfix_mesh ct_vhf_delt_contfix ct_vhf_dneck_contfix \
          ct_vhf_dneck_contfix_mesh ct_vhf_forearm_contfix ct_vhf_forearm_contfix_mesh \
          ct_vhf_hyoid_contfix ct_vhf_orbit_contfix ct_vhf_pfloor_contfix ct_vhf_abd_contfix_mesh \
          ct_vhf_cuff_contfix_mesh ct_vhf_es_contfix_mesh ct_vhf_hand_contfix_mesh \
-         ct_vhf_left_forearm_contfix_mesh ct_vhf_shsp_contfix_mesh ct_vhf_twall_contfix_mesh; do
+         ct_vhf_left_forearm_contfix ct_vhf_left_forearm_contfix_mesh ct_vhf_shsp_contfix_mesh \
+         ct_vhf_twall_contfix_mesh; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
 SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"

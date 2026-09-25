@@ -53,8 +53,42 @@ import repair_continuity_q152 as diag  # noqa: E402
 
 AUDIT_JSON = REPO_ROOT / "data" / "derived" / "Q112_full_continuity_audit.json"
 REPORT_JSON = REPO_ROOT / "data" / "derived" / "Q152_continuity_repair.json"
+APPLY_LOG_JSON = REPO_ROOT / "data" / "derived" / "Q152_apply_log.json"
 BUILD = REPO_ROOT / "build" / "vh"
 ORIGIN_SPREAD_LIMIT_MM = 3.0
+
+# Suffixes THIS SCRIPT (and only this script) ever appends to a subject name
+# when it writes a fix (write_subject's own out_subject naming in
+# apply_islands/apply_voxel_fixes). Longest/most-specific first.
+OWN_OUTPUT_SUFFIXES = ("_contfix_mesh", "_contfix")
+
+
+def true_root_subject(subject: str) -> str:
+    """Q156 re-run-hazard fix: once a fix has shipped, the live Q112 audit's
+    own 'subjects' field for a repaired id starts pointing at THIS SCRIPT'S
+    OWN prior output subject (e.g. 'xfer_vhm2vhf_sep_contfix') rather than
+    the original source subject ('xfer_vhm2vhf_sep'). Grouping/deriving a fix
+    against that name directly is wrong in two ways: (1) it is not the
+    subject `derive_origin`/the mapping files know about, so origin
+    derivation fails and the id is silently skipped; (2) worse, if some OTHER
+    id newly needing a fix resolves to the TRUE root ('xfer_vhm2vhf_sep'),
+    apply_voxel_fixes/apply_islands then WRITE a fresh '<root>_contfix'
+    subject containing only the ids grouped under that name THIS run --
+    clobbering the previously-shipped '_contfix' file and silently dropping
+    every id it used to carry that isn't in this run's diagnosis batch.
+    Stripping our own output suffix here (only when the stripped base name
+    actually exists as a real subject in this build -- never for a subject
+    that just happens to end the same way) makes every re-run resolve to the
+    one true root regardless of whether the audit currently points at the
+    original subject or at our own prior fix, so a later run always
+    regenerates the COMPLETE, cumulative set of ids for that root rather than
+    a partial one."""
+    for suf in OWN_OUTPUT_SUFFIXES:
+        if subject.endswith(suf):
+            base = subject[: -len(suf)]
+            if base and (BUILD / base / "manifest.json").exists():
+                return base
+    return subject
 
 BADGE_BRIDGE = ("Slice gaps bridged by shape interpolation between real sections "
                 "({gap_mm:.1f} mm, {pct:.1f}% of volume) -- Q152.")
@@ -62,6 +96,18 @@ BADGE_ISLAND = ("A stray, disconnected fragment ({pct:.1f}% of volume) was dropp
                 "not real anatomy -- Q152 continuity repair.")
 BADGE_PIPELINE = ("Re-surfaced at --smooth 0.0 to recover real continuity the "
                    "original smoothing/decimation pass severed -- Q152.")
+
+# Q156: ids where dropping voxel-space islands (drop_volume_islands, applied
+# together with a GAP_BRIDGE/PIPELINE_ARTIFACT reconversion) was confirmed,
+# via a real apply_continuity_repairs_q152.py -> vhf_rebuild_bundle.sh ->
+# audit_full_continuity_q112.py cycle (not a predicted proxy -- see the
+# in-loop comment where this is used), to REGRESS the shipped, decimated
+# mesh main_frac even though the island test itself is satisfied at the
+# voxel level: dropping real noise flecks shifted the Gaussian pre-smoothing
+# field enough to newly fragment a different, previously-intact part of the
+# same muscle during marching cubes. The bridge/pipeline-artifact fix is
+# still applied for these ids; only the extra island-drop step is skipped.
+SKIP_ISLAND_DROP_FOR = {"extensor_digitorum_longus_r"}
 
 
 def load_audit_subjects():
@@ -127,7 +173,7 @@ def apply_islands(report: dict, audit_subjects: dict, log: list) -> dict:
         # its own output -- exactly what surfaced female diaphragm as
         # UNRESOLVED. Normalized the same way resolve_source itself does.
         side_manifest = None if side in (None, "none") else side
-        subject = subjects[0]
+        subject = true_root_subject(subjects[0])
         try:
             result = diag.drop_mesh_islands(subject, atlas_id, side)
         except (Exception, SystemExit) as exc:
@@ -205,7 +251,14 @@ def apply_voxel_fixes(report: dict, audit_subjects: dict, log: list) -> dict:
         subjects = audit_subjects.get((body, atlas_id, side)) or []
         side_norm = None if side in (None, "none") else side
         src = None
-        for s in dict.fromkeys(subjects):
+        # Q156: resolve through the TRUE root subject, never through our own
+        # prior '_contfix' output (see true_root_subject's docstring) -- a
+        # subject we ourselves produced carries a plain numeric source_file
+        # suffix (never a 'transfer' record), so resolve_source would
+        # otherwise happily resolve it AS a volume source in its own right,
+        # with `resolved_subject` set to our own past output instead of the
+        # real root, corrupting the grouping key apply_voxel_fixes uses next.
+        for s in dict.fromkeys(true_root_subject(s) for s in subjects):
             resolved = triage.resolve_source(s, atlas_id, side_norm)
             if resolved["kind"] == "volume":
                 src = resolved
@@ -270,11 +323,11 @@ def apply_voxel_fixes(report: dict, audit_subjects: dict, log: list) -> dict:
         for (atlas_id, side), (bodies, r, src) in items.items():
             label = src["label"]
             smooth_used = orig_smooth
-            badge = None
-            working_volume = volume
+            base_badge = None
+            bridged_volume = volume
             if r["cause"] == "PIPELINE_ARTIFACT":
                 smooth_used = 0.0
-                badge = BADGE_PIPELINE
+                base_badge = BADGE_PIPELINE
             else:  # GAP_BRIDGE
                 # ALL approved gaps for this label in one call (interpolate_labels_z fills
                 # a label's whole real-slice range at once) but restricted to exactly the
@@ -285,13 +338,66 @@ def apply_voxel_fixes(report: dict, audit_subjects: dict, log: list) -> dict:
                 # its own writer's `default=str` fallback -- normalize either
                 # representation to a real Python int here.
                 approved = [(int(br["gap_zmin"]), int(br["gap_zmax"])) for br in r["bridges"]]
-                working_volume, total_added = diag.bridge_label_in_volume(
-                    working_volume, label, z_ax, spacing[z_ax], approved_ranges=approved)
+                bridged_volume, total_added = diag.bridge_label_in_volume(
+                    bridged_volume, label, z_ax, spacing[z_ax], approved_ranges=approved)
                 voxel_vol_mm3 = np.prod(spacing)
                 added_pct = 100 * total_added * voxel_vol_mm3 / (
-                    (working_volume == label).sum() * voxel_vol_mm3) if (working_volume == label).any() else 0
+                    (bridged_volume == label).sum() * voxel_vol_mm3) if (bridged_volume == label).any() else 0
                 max_gap_mm = max((b["gap_mm"] for b in r["bridges"]), default=0)
-                badge = BADGE_BRIDGE.format(gap_mm=max_gap_mm, pct=added_pct)
+                base_badge = BADGE_BRIDGE.format(gap_mm=max_gap_mm, pct=added_pct)
+
+            # Q156: a GAP_BRIDGE (or PIPELINE_ARTIFACT) id's diagnosis routinely
+            # ALSO carries its own droppable islands (diagnose_one picks
+            # GAP_BRIDGE whenever there is at least one bridgeable gap, even
+            # when the same label has many separate stray specks too -- found
+            # to be the norm, not the exception, for every one of this
+            # session's 22 female GAP_BRIDGE ids). Before this, bridging alone
+            # measurably improved the raw voxel main_frac but left every one
+            # of those islands in the reconverted mesh, so the SHIPPED
+            # main_frac barely moved. Re-tests components fresh on
+            # `bridged_volume` (the SAME exact island rule diagnosis used, not
+            # trusted from its stored aggregate stats) and drops any that
+            # still qualify -- never touches a component that doesn't.
+            #
+            # SAFETY NOTE (Q156, tried and abandoned): a predictive check that
+            # measures a candidate's full-resolution mesh main_frac and
+            # compares it to either the diagnosis's own stored
+            # shipped_main_frac (vertex-based, on the DECIMATED bundle) or a
+            # same-metric 'unfixed' full-res baseline was tried here and
+            # dropped -- across three real, reproduced apply+rebuild+audit
+            # cycles it disagreed with the real, decimated, actually-shipped
+            # main_frac in BOTH directions (declined gracilis_l's genuinely-
+            # good fix as a false positive; separately still shipped
+            # extensor_digitorum_longus_r's genuine regression as a false
+            # negative). Vertex-clustering decimation can merge or fail to
+            # merge fine detail in ways no full-resolution proxy reliably
+            # predicts. The only trustworthy measurement is the real,
+            # decimated, exported bundle Q112 itself audits -- so this file
+            # does not try to predict it; SKIP_ISLAND_DROP_FOR below instead
+            # records the ONE id this session's own real, repeated
+            # apply -> rebuild -> audit cycle confirmed regresses when islands
+            # are dropped, an evidence-based exception, not a heuristic.
+            island_volume, n_island_voxels, dropped = diag.drop_volume_islands(
+                bridged_volume, label, z_ax, spacing)
+            if atlas_id in SKIP_ISLAND_DROP_FOR and dropped:
+                log.append(f"{'/'.join(bodies)}/{atlas_id}: island-drop skipped by explicit "
+                           f"SKIP_ISLAND_DROP_FOR override ({len(dropped)} otherwise-qualifying "
+                           f"island(s) left in place) -- Q156 confirmed via a real "
+                           f"apply+rebuild+audit cycle that dropping them here regresses the "
+                           f"SHIPPED (decimated) mesh main_frac (0.661->0.416), even though the "
+                           f"voxel-level island test itself is satisfied; bridge/pipeline fix "
+                           f"still applied")
+                dropped = []
+                working_volume = bridged_volume
+            else:
+                working_volume = island_volume
+                if dropped:
+                    island_pct = 100 * n_island_voxels * np.prod(spacing) / (
+                        (working_volume == label).sum() * np.prod(spacing) + n_island_voxels * np.prod(spacing))
+                    base_badge = (base_badge or "") + " " + (
+                        f"{len(dropped)} additional stray fragment(s) "
+                        f"({island_pct:.1f}% of volume) dropped -- Q152/Q156.")
+            badge = base_badge
 
             v, f = vol.label_surface(working_volume, label, step=1, smooth=smooth_used)
             if len(v) == 0:
@@ -314,10 +420,11 @@ def apply_voxel_fixes(report: dict, audit_subjects: dict, log: list) -> dict:
             faces_blocks.append((f + voffset).astype(np.uint32))
             voffset += v.shape[0]
             foffset += f.shape[0]
+            island_note = f", also dropped {len(dropped)} island(s)" if dropped else ""
             log.append(f"{r['cause']} {'/'.join(bodies)}/{atlas_id}: reconverted from "
                        f"{root_subject} (smooth={smooth_used}) -> {out_subject} "
                        f"(fixes it for every body listed, via a shared source or a "
-                       f"regenerated transfer)")
+                       f"regenerated transfer{island_note})")
 
         if man["structures"]:
             man["marching_cubes_step"] = 1
@@ -325,6 +432,34 @@ def apply_voxel_fixes(report: dict, audit_subjects: dict, log: list) -> dict:
             written[out_subject] = man
 
     return written
+
+
+def merge_apply_log(existing: dict, log: list[str], islands: dict, voxel: dict) -> dict:
+    """Q156: APPEND this run's own results onto whatever Q152_apply_log.json
+    already held, never overwrite it. Every run of this script fully
+    REGENERATES each '<root>_contfix'/'<root>_contfix_mesh' subject from the
+    complete diagnosis report it's given (by design -- see this module's own
+    docstring and true_root_subject above), so a single run's 'island_subjects'/
+    'voxel_subjects' already restate everything each subject it touched now
+    carries; only the run's own narrative log lines and subject set are
+    genuinely new. The previous behaviour (`out.write_text(json.dumps({...}))`
+    with no read-back first) discarded the history of every earlier run's own
+    log lines and any subject an --only-scoped batch didn't happen to touch --
+    e.g. a run scoped to just the female body would silently erase the record
+    of every previously-applied MALE subject from this same file. Appending
+    keeps that full history while still recording this run's own subject set
+    under its own 'runs' entry."""
+    merged_log = list(existing.get("log", [])) + [
+        f"--- run {len(existing.get('runs', [])) + 1} ---"] + log
+    merged_islands = dict(existing.get("island_subjects", {}))
+    merged_islands.update({f"{b}|{s}": True for b, s in islands})
+    merged_voxel = list(dict.fromkeys(list(existing.get("voxel_subjects", [])) + list(voxel)))
+    runs = list(existing.get("runs", [])) + [{
+        "island_subjects_this_run": [f"{b}|{s}" for b, s in islands],
+        "voxel_subjects_this_run": list(voxel),
+    }]
+    return {"log": merged_log, "island_subjects": merged_islands,
+            "voxel_subjects": merged_voxel, "runs": runs}
 
 
 def main() -> int:
@@ -339,13 +474,16 @@ def main() -> int:
 
     print("\n".join(log))
     print(f"\n{len(islands)} island-drop contfix subject(s), {len(voxel)} voxel-fix contfix subject(s)")
-    out = REPO_ROOT / "data" / "derived" / "Q152_apply_log.json"
-    out.write_text(json.dumps({
-        "log": log,
-        "island_subjects": {f"{b}|{s}": True for b, s in islands},
-        "voxel_subjects": list(voxel),
-    }, indent=2))
-    print(f"Wrote {out}")
+
+    existing: dict = {}
+    if APPLY_LOG_JSON.exists():
+        try:
+            existing = json.loads(APPLY_LOG_JSON.read_text())
+        except json.JSONDecodeError:
+            existing = {}
+    merged = merge_apply_log(existing, log, islands, voxel)
+    APPLY_LOG_JSON.write_text(json.dumps(merged, indent=2))
+    print(f"Wrote {APPLY_LOG_JSON} (appended; {len(merged['runs'])} run(s) recorded cumulatively)")
     return 0
 
 

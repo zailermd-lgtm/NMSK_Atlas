@@ -8,6 +8,7 @@ from scripts.repair_continuity_q152 import (
     classify_component,
     diagnose_one,
     drop_mesh_islands,
+    drop_volume_islands,
     find_z_gap,
     mesh_components,
 )
@@ -142,6 +143,70 @@ def test_bridge_respects_a_non_leading_z_axis():
     assert n_added > 0
     assert (bridged[..., 1] == 7).any()
     assert not (bridged[..., 3] == 7).any()
+
+
+# ---------------------------------------------------------------------------
+# drop_volume_islands -- Q156's voxel-space analogue of drop_mesh_islands:
+# a GAP_BRIDGE id's diagnosis routinely ALSO carries droppable islands on the
+# same label (the norm, not the exception, for this project's cryo-derived
+# limb muscles), and bridging alone left every one of them in the shipped
+# mesh. This runs AFTER bridging, on the same volume/label.
+# ---------------------------------------------------------------------------
+
+def test_drop_volume_islands_drops_only_qualifying_specks():
+    Z, Y, X = 5, 40, 40
+    vol = np.zeros((Z, Y, X), np.int32)
+    for z in range(Z):
+        vol[z][_disc((Y, X), (20, 20), 10)] = 7      # big main body, every slice
+    vol[2][_disc((Y, X), (2, 2), 1)] = 7              # tiny far speck
+    spacing = np.array([1.0, 1.0, 1.0])
+
+    new_vol, n_dropped, dropped = drop_volume_islands(vol, label=7, z_ax=0, spacing=spacing)
+    assert n_dropped > 0
+    assert len(dropped) == 1
+    assert not (new_vol[2][_disc((Y, X), (2, 2), 1)] == 7).any()   # speck gone
+    for z in range(Z):
+        assert (new_vol[z] == 7).sum() >= (_disc((Y, X), (20, 20), 10)).sum() - 1  # main body intact
+
+
+def test_drop_volume_islands_keeps_a_real_second_belly():
+    """Two comparably-sized, comparably-close components must not be
+    dropped -- same precedence rule as drop_mesh_islands."""
+    Z, Y, X = 3, 40, 40
+    vol = np.zeros((Z, Y, X), np.int32)
+    for z in range(Z):
+        vol[z][_disc((Y, X), (12, 20), 8)] = 3
+        vol[z][_disc((Y, X), (28, 20), 8)] = 3   # far enough to be separate components but similar size
+    spacing = np.array([1.0, 1.0, 1.0])
+    new_vol, n_dropped, dropped = drop_volume_islands(vol, label=3, z_ax=0, spacing=spacing)
+    assert n_dropped == 0
+    assert dropped == []
+    assert np.array_equal(new_vol, vol)
+
+
+def test_drop_volume_islands_no_op_on_single_component():
+    Z, Y, X = 3, 20, 20
+    vol = np.zeros((Z, Y, X), np.int32)
+    for z in range(Z):
+        vol[z][_disc((Y, X), (10, 10), 6)] = 4
+    spacing = np.array([1.0, 1.0, 1.0])
+    new_vol, n_dropped, dropped = drop_volume_islands(vol, label=4, z_ax=0, spacing=spacing)
+    assert n_dropped == 0
+    assert new_vol is vol  # never even copies when there's nothing to drop
+
+
+def test_drop_volume_islands_never_touches_another_label():
+    Z, Y, X = 4, 30, 30
+    vol = np.zeros((Z, Y, X), np.int32)
+    for z in range(Z):
+        vol[z][_disc((Y, X), (15, 15), 8)] = 6
+    vol[1][_disc((Y, X), (2, 2), 1)] = 6      # far speck of label 6
+    vol[1][_disc((Y, X), (2, 27), 1)] = 9     # a different label nearby -- must survive
+    spacing = np.array([1.0, 1.0, 1.0])
+    other_before = (vol == 9).sum()
+    new_vol, n_dropped, _dropped = drop_volume_islands(vol, label=6, z_ax=0, spacing=spacing)
+    assert n_dropped > 0
+    assert (new_vol == 9).sum() == other_before
 
 
 # ---------------------------------------------------------------------------

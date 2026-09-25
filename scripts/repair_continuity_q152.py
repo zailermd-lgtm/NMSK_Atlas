@@ -308,6 +308,72 @@ def bridge_label_in_volume(volume: np.ndarray, label: int, z_ax: int,
     return new_volume, int(fillable.sum())
 
 
+def drop_volume_islands(volume: np.ndarray, label: int, z_ax: int, spacing: np.ndarray,
+                         island_max_vol_frac: float = ISLAND_MAX_VOL_FRAC,
+                         island_min_dist_mm: float = ISLAND_MIN_DIST_MM
+                         ) -> tuple[np.ndarray, int, list[dict]]:
+    """Voxel-space analogue of drop_mesh_islands (Q156), meant to run AFTER
+    bridge_label_in_volume on the SAME volume/label: drops any REMAINING
+    connected component of this label that independently qualifies as a
+    stray island by the exact same rule diagnosis used (classify_component's
+    island test: < island_max_vol_frac of the label's own total voxels AND
+    > island_min_dist_mm centroid-to-centroid from the main component) --
+    never a component that fails that test, even a small one, since it could
+    be a genuinely thin part of the same structure.
+
+    Why this exists: diagnose_one's own cause selection picks GAP_BRIDGE
+    whenever there is at least one bridgeable gap, even when the SAME label
+    also carries many separate droppable islands (found to be the common
+    case for this project's cryo-derived limb muscles: a single real
+    slice-gap plus dozens of unrelated segmentation-noise flecks). Before
+    this fix, apply_voxel_fixes only ever bridged the approved gap for a
+    GAP_BRIDGE id and left every one of those islands in the reconverted
+    mesh, which is why bridging alone measurably improved
+    source_main_frac (voxel-level) but left shipped main_frac essentially
+    unchanged after decimation -- every one of Q156's 22 female GAP_BRIDGE
+    ids had this exact shape. Re-testing components fresh here (rather than
+    trusting the diagnosis JSON's own stored island list, which only has
+    aggregate stats, not voxel coordinates) guarantees this uses the exact
+    same live rule and never drops a component the diagnosis didn't also
+    call an island.
+
+    Never touches another label's voxels (only ever clears voxels that are
+    already this exact label) and never extends the label into new territory
+    -- purely a removal, exactly like drop_mesh_islands's own mesh-space
+    guarantee. Returns (new_volume, n_voxels_dropped, dropped_component_info).
+    """
+    from scipy import ndimage
+    mask = volume == label
+    if not mask.any():
+        return volume, 0, []
+    n, comp_arr, crop_lo = component_stats(mask)
+    if n <= 1:
+        return volume, 0, []
+    sizes = sorted(((int((comp_arr == i).sum()), i) for i in range(1, n + 1)), reverse=True)
+    total = sum(s for s, _i in sizes)
+    main_size, main_i = sizes[0]
+    main_centroid = np.array(ndimage.center_of_mass(comp_arr == main_i)) + crop_lo
+
+    new_volume = volume
+    n_dropped = 0
+    dropped_info = []
+    hi = crop_lo + np.array(comp_arr.shape)
+    region = new_volume[crop_lo[0]:hi[0], crop_lo[1]:hi[1], crop_lo[2]:hi[2]]
+    for size, i in sizes[1:]:
+        vol_frac = size / total
+        centroid = np.array(ndimage.center_of_mass(comp_arr == i)) + crop_lo
+        dist_mm = float(np.linalg.norm((centroid - main_centroid) * spacing))
+        if vol_frac < island_max_vol_frac and dist_mm > island_min_dist_mm:
+            if new_volume is volume:
+                new_volume = volume.copy()
+                region = new_volume[crop_lo[0]:hi[0], crop_lo[1]:hi[1], crop_lo[2]:hi[2]]
+            region[comp_arr == i] = 0
+            n_dropped += size
+            dropped_info.append({"size": size, "vol_frac": round(vol_frac, 4),
+                                  "centroid_dist_mm": round(dist_mm, 2)})
+    return new_volume, n_dropped, dropped_info
+
+
 def derive_origin(subject: str) -> tuple[np.ndarray, float]:
     """The rigid translation `ingest_volume_geometry.py convert --origin` needs
     to place a FRESH reconversion of `subject`'s own raw source volume back
