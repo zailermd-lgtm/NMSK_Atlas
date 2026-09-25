@@ -22,7 +22,64 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 328 tests pass. Recent: Q156 (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 332 tests pass. Recent: Q157 (2026-09-25)
+built the full-body Z-Anatomy viewer the owner asked for by NAME (an earlier, out-of-repo
+session's viewer he liked) reproducibly IN this repo, fed by this project's own Q141-Q146
+Z-Anatomy pipeline rather than that session's own bundled data. Extracted that August page's
+HTML/CSS/raw-WebGL JS (never its embedded `__ANATOMY_BIN__`/`__ATLAS__`/`__INNERVATION__` data,
+treated as opaque and discarded) into `viewer/zan_atlas.template.html`, then wrote
+`scripts/zanatomy/build_zan_atlas_viewer.py`, a NEW exporter (adapting the loader was the
+"keep it simple" side of the task's own instruction: three surgical JS edits -- `conv()` made an
+identity function, since this project's own `zan_source.to_atlas_frame()` already converts out of
+Z-Anatomy's raw export frame; the fragile fuzzy-name `BY`/`nk()` muscle-only atlas join deleted in
+favour of each mesh carrying its own precomputed `rec` object; the info-card facts renderer
+transplanted from this project's own richer `summarise()` shape (TA, origin/insertion, nerve,
+per-compartment PCSA/fascicle/pennation/force, notes, targets/supplies) instead of the August
+build's narrower one). The exporter combines `zan_source.load_source()` (matched, corrected via
+`apply_corrections.apply_correction()` -- same Q144/Q145 PIN warp) and `build_zan_reference.
+build_orphan_pool()` (everything else Z-Anatomy ships with no confident/exact match to this
+project's own entities) into ONE bundle -- unlike `build_zan_reference.py`'s own msk/nv split --
+covering every non-excluded system: 662 matched entities + 1908 orphans = 2570 structures (bone
+304, muscle 471, tendon 22, ligament 287, cartilage 43, fascia 29, bursa 12, nerve 491, vessel
+642, organ 114, lymphatic 155; the 30 Inner-Ear/Kidney non-commercial objects excluded exactly as
+Q141 flagged them). A per-mesh binary layout new to this project (local-bbox uint16-quantised
+positions + uint16 indices, offset by the manifest -- the August loader's own format, kept rather
+than reusing `export_viewer_bundle.py`'s global-quantum one, since the loader expects it) replaces
+that script's decimation output; category budgets are its own `BUDGET`/`BUDGET_OVERRIDES` at a new
+`--budget-scale 0.22` (tuned empirically: 0.05->6.31MB, 0.3->18.22MB, 0.22->14.39MB, the shipped
+value -- every category in one page is a smaller per-category budget than either of
+`build_zan_reference.py`'s own two-way split). `summarise()` never emits a `clinical` key at all
+(verified structurally, not just by the renderer skipping it), so this build cannot leak the
+owner's private clinical layer by omission-bug -- there is nothing to omit. Only the two
+`apply_correction()`-warped ids (`posterior_interosseous_n_l`/`_r`) carry a `procedural_badge`
+(the Q144/Q145 citation text) -- deliberately NOT a blanket "generic reference model" badge on
+all 2570 structures the way `build_zan_reference.py`'s own `--force-badge` does, per this task's
+own instruction to keep the badge convention scoped to corrected structures; that whole-body
+provenance lives in the sources modal instead, rewritten with correct joint attribution (Z-Anatomy
+CC BY-SA 4.0 + BodyParts3D CC BY-SA 2.1 Japan, pinned commit `6c7f9016b`, the Q144/Q145 PIN
+correction cited by name/PMID, licence text pointer) and the title "NMSK Atlas — Z-Anatomy
+reference body". The "insertion" layer/preset (Z-Anatomy's own origin/insertion DECAL meshes,
+which this project's pipeline has always dropped as UI-highlight duplicates -- Q142) is repurposed
+to carry TENDONS instead of sitting empty; peripheral nerve vs. brain/cord/special-sense is split
+into the template's separate "nerve"/"cns" layers by a small name-substring check, since neither
+this project's own atlas nor Z-Anatomy's own inventory tags that distinction directly. VERIFIED
+for real, not just parsed: this sandbox COULD reach the Google Fonts CDN the page links (no other
+CDN is used -- the renderer is raw WebGL, no three.js/CDN dependency) and Playwright's own bundled
+Chromium loads `build/viewer_zan_atlas/atlas_viewer_zan_atlas.html` headlessly end to end -- boot
+completes, stat line reads "2,570 meshes . 1,114,052 tris . 17 batches . 662 atlas-linked", the
+x-ray/skeleton/nervous presets and the cut plane all repaint, search+select produces a full,
+correct info card for a real matched entity (`pronator_teres_l`: TA, origin/insertion, nerve
+`median_n`, PCSA 430mm^2) and the correct badge for the corrected PIN, zero console/page errors.
+Screenshots (default pose, x-ray) confirm the render visually. Output 14.39MB (under the 15MB
+cap), `build/viewer_zan_atlas/atlas_viewer_zan_atlas.html` (gitignored build dir, per instruction
+not published as an artifact). 4 new tests (`tests/test_build_zan_atlas_viewer.py`, real pipeline
+run at `--budget-scale 0.02` for speed, skips cleanly if `build/zanatomy` is absent, this repo's
+own established pattern): unique ids, no `clinical` key anywhere, corrected ids carry a citation
+badge and an uncorrected sibling (`radial_n_l`/`_r`) does not, a real matched muscle carries real
+atlas facts. 332 tests pass (328 + 4 new), no regressions. Full report:
+`data/derived/Q157_zan_atlas_report.json`.
+
+Recent: Q156 (2026-09-25)
 ran the Q152 pipeline (`scripts/repair_continuity_q152.py` --only, `scripts/
 apply_continuity_repairs_q152.py`) over all 72 female FRAGMENTED/SEVERE_BREAK muscle groups,
 explicitly including the 10 SEVERE_BREAK cases, and fixed two real bugs in the apply script found
