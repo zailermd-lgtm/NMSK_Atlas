@@ -210,6 +210,48 @@ if [ ! -f build/vh/xfer_zan2vhf_limb/manifest.json ]; then
   python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2f --female-bundle build/viewer_f \
     --badge-error-mm 29.1 --badge-max-error-mm 91.0 -o build/vh/xfer_zan2vhf_limb --report data/derived/transfer_report_zan2vhf_limb.json 2>&1 | tail -1 | cut -c1-200
 fi
+# Q155 (owner decision 2026-09-25): ship the Q154 photograph-gradient watershed refinement of her
+# RIGHT forearm AND RIGHT hand compartments even though both miss the 15mm/30mm ship bar, because
+# both are clearly better than xfer_zan2vhf_limb's own raw Z-Anatomy transfer for these same ids
+# (worst case up to 91.0mm on unrefined ids -> forearm 17.2mm median/30.1mm max, hand 25.0mm
+# median/29.1mm max here) -- each shipped id badged with its own segment's honest leave-one-out
+# number (data/derived/Q154_validation_female_forearm.json / _hand.json). Two separate runs (the
+# hand has no two-bone anchor to register on the way the forearm does -- see
+# refine_transfer_photo_watershed.py's own "f_hand" specimen doc) combined into one subject with
+# q155_merge_into.py. Q112 gate: q155_finalize_photo_ship.py drops any id whose own main_frac <
+# 0.98 from EACH region before the merge, so xfer_zan2vhf_limb (listed below, still carrying every
+# one of these ids) supplies any dropped id unrefined instead -- flexor_digitorum_superficialis_r
+# failed this gate this run (0.93) and stays on Q147; every registered hand candidate (just
+# opponens_pollicis_r -- the other 3 hand mapping candidates have no Q147 mesh for this id at all,
+# see below) passed. Listed BEFORE xfer_zan2vhf_limb so it wins only the ids it actually ships.
+# Needs her own re-acquired forearm/hand cryosection
+# photographs (SCRATCH/vh_cryo_f_forearm_q151, SCRATCH/vh_cryo_f_hand_q151, public-domain source
+# imagery, never committed -- see .gitignore); silently skipped if either scratch dir is absent,
+# same as this file's other real-imaging gates.
+if [ -d SCRATCH/vh_cryo_f_forearm_q151 ] && [ -d SCRATCH/vh_cryo_f_hand_q151 ] \
+   && [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && [ ! -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ]; then
+  rm -rf build/vh/_q155_vhf_hand_photo
+  python3 scripts/transfer/refine_transfer_photo_watershed.py --specimen f \
+    --cryo-dir SCRATCH/vh_cryo_f_forearm_q151 \
+    --volume $T/vhf_forearm_muscles_cryo.nii.gz \
+    --labels mappings/vhf_forearm_muscles_labels.json \
+    --mapping build/vh/ct_vhf_forearm_volume_mapping.json --origin="$O" \
+    --target build/viewer_f --xfer build/vh/xfer_zan2vhf_limb \
+    --out build/vh/xfer_zan2vhf_limb_photo --report data/derived/Q155_ship_female_forearm.json 2>&1 | tail -3
+  python3 scripts/transfer/q155_finalize_photo_ship.py build/vh/xfer_zan2vhf_limb_photo \
+    --median 17.2 --max 30.1 --report data/derived/Q155_finalize_female_forearm.json 2>&1 | tail -6
+  python3 scripts/transfer/refine_transfer_photo_watershed.py --specimen f_hand \
+    --cryo-dir SCRATCH/vh_cryo_f_hand_q151 \
+    --volume $T/vhf_hand_muscles_cryo.nii.gz \
+    --labels mappings/vhf_hand_muscles_labels.json \
+    --mapping build/vh/ct_vhf_hand_volume_mapping.json --origin="$O" \
+    --target build/viewer_f --xfer build/vh/xfer_zan2vhf_limb \
+    --out build/vh/_q155_vhf_hand_photo --report data/derived/Q155_ship_female_hand.json 2>&1 | tail -3
+  python3 scripts/transfer/q155_finalize_photo_ship.py build/vh/_q155_vhf_hand_photo \
+    --median 25.0 --max 29.1 --report data/derived/Q155_finalize_female_hand.json 2>&1 | tail -6
+  python3 scripts/transfer/q155_merge_into.py build/vh/xfer_zan2vhf_limb_photo build/vh/_q155_vhf_hand_photo 2>&1 | tail -3
+  rm -rf build/vh/_q155_vhf_hand_photo
+fi
 # Q150/Q150b: a forearm-compartment refinement onto her OWN segmented tissue was TRIED
 # (scripts/transfer/refine_limb_transfer.py) but a lead review found the first cut's leave-one-
 # out validation leaked ground truth (a held-out id was searched for inside its OWN already-
@@ -219,6 +261,7 @@ fi
 # 18.9-20.6mm / max 25.7-32.1mm and hand median 22.2-28.9mm / max 50.9-51.5mm, both over the
 # 15mm median bar -- NOT shipped, either region. xfer_zan2vhf_limb above (its badge now also
 # discloses its own max error) stands as this specimen's forearm/hand/foot estimate, unchanged.
+[ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 0.85 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1

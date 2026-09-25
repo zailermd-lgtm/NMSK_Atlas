@@ -107,6 +107,30 @@ if [ ! -f build/vh/xfer_zan2vhm_limb/manifest.json ] && [ -f build/viewer_m/bund
   python3 scripts/transfer/limb_per_bone_transfer.py --direction zan2m --male-html build/viewer_m \
     --badge-error-mm 25.4 --badge-max-error-mm 75.3 -o build/vh/xfer_zan2vhm_limb --report data/derived/transfer_report_zan2vhm_limb.json 2>&1 | tail -1 | cut -c1-200
 fi
+# Q155 (owner decision 2026-09-25): ship the Q151b photograph-gradient watershed refinement of
+# his RIGHT forearm compartments even though it misses the 15mm/30mm ship bar, because it is
+# clearly better than xfer_zan2vhm_limb's own raw Z-Anatomy transfer for these same ids (worst
+# case 61.2mm median/91mm-class outliers on unrefined ids -> 19.9mm median/25.8mm max here) --
+# each shipped id badged with this exact honest leave-one-out number (data/derived/
+# Q151b_validation_male.json). Q112 gate: any refined id whose own main_frac < 0.98 is dropped by
+# q155_finalize_photo_ship.py so xfer_zan2vhm_limb (listed below, still carrying every one of
+# these ids) supplies it unrefined instead -- extensor_carpi_radialis_brevis_r/_longus_r and
+# extensor_carpi_ulnaris_r failed this gate this run (0.96/0.76/0.42) and stay on Q147. Listed
+# BEFORE xfer_zan2vhm_limb so it wins only the ids it actually ships. Needs his own re-acquired
+# forearm cryosection photographs (SCRATCH/vh_cryo_m_forearm_q151, public-domain source imagery,
+# never committed -- see .gitignore); silently skipped if that scratch dir is absent, same as
+# this file's other real-imaging gates.
+if [ -d SCRATCH/vh_cryo_m_forearm_q151 ] && [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && [ ! -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ]; then
+  python3 scripts/transfer/refine_transfer_photo_watershed.py --specimen m \
+    --cryo-dir SCRATCH/vh_cryo_m_forearm_q151 \
+    --volume $T/vhm_forearm_muscles_cryo.nii.gz \
+    --labels mappings/vhm_forearm_muscles_labels.json \
+    --mapping build/vh/ct_vhm_forearm_volume_mapping.json --origin='-6.035,-895.476,4.787' \
+    --target build/viewer_m --xfer build/vh/xfer_zan2vhm_limb \
+    --out build/vh/xfer_zan2vhm_limb_photo --report data/derived/Q155_ship_male_forearm.json 2>&1 | tail -3
+  python3 scripts/transfer/q155_finalize_photo_ship.py build/vh/xfer_zan2vhm_limb_photo \
+    --median 19.9 --max 25.8 --report data/derived/Q155_finalize_male_forearm.json 2>&1 | tail -6
+fi
 # Q150/Q150b: a forearm-compartment refinement onto his OWN segmented tissue was TRIED
 # (scripts/transfer/refine_limb_transfer.py) but a lead review found the first cut's leave-one-
 # out validation leaked ground truth (a held-out id was searched for inside its OWN already-
@@ -148,6 +172,7 @@ for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh c
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+[ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 0.9 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html 2>&1 | tail -1

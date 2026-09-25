@@ -22,7 +22,69 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q154 (2026-09-25,
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q155 (2026-09-25,
+owner decision: ship the Q151b/Q154 photo-watershed refined limb structures even though they miss
+the 15mm/30mm ship bar, because they are clearly better than the currently-shipped Q147 transfers
+for these same ids -- worst case 61-91mm -> 26-30mm, each badged with its own honest measured
+error) ran `scripts/transfer/refine_transfer_photo_watershed.py` in SHIPPING mode (no --holdout)
+against the same three real cryosection registrations Q151b/Q154 already validated: male forearm
+(specimen m), female forearm (specimen f), female hand (specimen f_hand). New
+`scripts/transfer/q155_finalize_photo_ship.py` applies this task's own two ship gates to each raw
+shipping-mode output before it goes anywhere near a viewer: (1) Q112's own face-adjacency,
+vertex-based main_frac metric (`scripts/clean_stray_mesh_islands.analyze_piece`, reused verbatim)
+-- any refined id below 0.98 is DROPPED so the id falls through to its Q147 version instead of
+shipping a fragmented mesh; (2) stamps every id that survives with the owner-approved badge text,
+carrying that segment's own leave-one-out median/max (re-read from data/derived/
+Q151b_validation_male.json / Q154_validation_female_{forearm,hand}.json to confirm the exact
+numbers, not retyped from memory). Results: **male forearm** 9 ids had a Q147 mesh to refine, 3
+failed the gate (extensor_carpi_radialis_brevis_r 0.96, extensor_carpi_radialis_longus_r 0.76,
+extensor_carpi_ulnaris_r 0.42 -- all kept at Q147) -- **6 shipped** (brachioradialis_r,
+extensor_pollicis_brevis_r, flexor_pollicis_longus_r, pronator_quadratus_r, pronator_teres_r,
+supinator_r), badge "median 19.9mm, max 25.8mm". **female forearm** 4 ids had a Q147 mesh, 1
+failed (flexor_digitorum_superficialis_r 0.93, kept at Q147) -- **3 shipped** (anconeus_r,
+flexor_carpi_radialis_r, pronator_teres_r), badge "median 17.2mm, max 30.1mm". **female hand**
+only 1 id (opponens_pollicis_r) had a Q147 mesh AND a registered candidate region at all -- it
+passed (main_frac 1.0) -- **1 shipped**, badge "median 25.0mm, max 29.1mm". Every other candidate
+in all three mappings has no Q147 transferred mesh for that id at all (left unassigned by the
+refine script itself, same "no Q147 transferred mesh" note process_volume always gives) -- never
+a real-imaging id, confirmed against each mapping's own `entries[].candidates` before running
+anything. The female forearm and hand runs (two separate `refine_transfer_photo_watershed.py`
+invocations -- the hand has no two-bone anchor the forearm has) are combined into one shipped
+subject with new `scripts/transfer/q155_merge_into.py` (refuses on any atlas_id collision; none
+occurred, the two id sets are disjoint by construction). Shipped as `xfer_zan2vhm_limb_photo` /
+`xfer_zan2vhf_limb_photo`, wired into `scripts/vhm_rebuild_bundle.sh` / `scripts/cryo/
+vhf_rebuild_bundle.sh` with real, idempotent regeneration blocks (gated on the manifest not yet
+existing, same pattern as every other real subject in these files) listed BEFORE their own
+`xfer_zan2vh{m,f}_limb` base transfer so each new subject wins only the ids it actually ships,
+never the ids the Q112 gate dropped. These blocks need the specimens' own re-acquired forearm/
+hand cryosection photographs; Q151/Q154 downloaded these ad hoc (no committed re-download script
+exists for the cropped instance ranges, unlike `download_idc_series.py` for whole-body DICOM) into
+this session's own tool scratchpad, symlinked here into a new gitignored `SCRATCH/` (added to
+`.gitignore`, matching this project's established `SCRATCH/vh_cryo_*` docstring convention) so the
+rebuild scripts' commands are genuine and reproducible THIS session; a from-scratch container
+still needs that data re-acquired first (same standing limitation as Q151/Q154's own blockers) --
+the gate is a plain `[ -d SCRATCH/... ]` check, silently skipped like this file's other
+real-imagery gates when absent. `LOW_BUDGET_SUBJECT_SCALE` in `scripts/export_viewer_bundle.py`
+gained both new subjects at 0.5x (their own full-budget contribution alone pushed the male bundle
+to 15.58MB, over the 15.5MB cap; 0.5x brought it to 15.47MB while still well above the base
+transfer's own 0.3x). Rebuilt both viewers: male 425 structures/39 subjects, **15.47 MB**; female
+414 structures/57 subjects, **15.38 MB** (unchanged structure/subject count from Q154 -- these ids
+already existed via `xfer_zan2vh{m,f}_limb`, only their geometry/badge changed). Point-rendered
+(`render_bundle.py`, front+side scatter, both bodies): full silhouettes intact, forearms and hands
+visibly attached at the elbow/wrist, nothing missing vs. Q154's own last render. `python -m
+pytest -q`: **313 passed** (`q155_finalize_photo_ship.py`'s own report JSON needed a `source` key
+to satisfy `validate_source_coverage`, added rather than adding another filename to that
+validator's generated-artifact exclude list -- simpler, and these files describe their own
+derivation directly). New: `scripts/transfer/q155_finalize_photo_ship.py`, `scripts/transfer/
+q155_merge_into.py`, `data/derived/Q155_{ship,finalize}_{male_forearm,female_forearm,
+female_hand}.json` (6 files, all committed). Open issues: (1) no committed script re-acquires the
+cropped forearm/hand-only cryosection instance ranges from IDC the way `download_idc_series.py`
+does for whole-body DICOM -- a future from-scratch container needs an ad hoc download repeated
+before these two bundle-script blocks can fire again, same standing gap Q151/Q154 already
+disclosed for the underlying photographs themselves; (2) every id this task's gate dropped
+(3 male, 1 female forearm) stays exactly where Q147 left it -- not re-attempted with a different
+method here, per the task's own explicit instruction to keep rather than guess further. Before
+that, Q154 (2026-09-25,
 owner: "re-download the most accurate real files and fit the Z-Anatomy base to them") re-acquired
 the VH FEMALE raw torso CT DICOM (IDC series `b9cf8e7a-2505-4137-9ae3-f8d0cf756c13`, 985 files,
 497 MB, `scripts/download_idc_series.py` -> scratchpad `vh_idc/dcm/`, NOT committed) -- the same

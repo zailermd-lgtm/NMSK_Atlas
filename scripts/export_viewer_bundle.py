@@ -77,7 +77,15 @@ BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000,
 # Q147: per-SUBJECT budget multiplier (on top of --budget-scale), for a subject whose own
 # structures are all lower-trust generic fills rather than measured imaging -- currently
 # just the two Z-Anatomy forearm/hand/foot per-bone transfers (see their own use just below).
-LOW_BUDGET_SUBJECT_SCALE = {"xfer_zan2vhm_limb": 0.3, "xfer_zan2vhf_limb": 0.3}
+
+# Q155: the photo-watershed REFINED forearm/hand ids (real photograph-gradient watershed on this
+# specimen's own cryosections, not the blind Z-Anatomy shape below) are real positional
+# improvements over the two subjects above, but they are few enough (male 6, female 4) that a
+# lower budget still looks correct at this atlas's viewing distance and is worth it to hold the
+# whole bundle under the 15.5MB artifact cap (their own full-budget contribution alone pushed the
+# male bundle to 15.58MB).
+LOW_BUDGET_SUBJECT_SCALE = {"xfer_zan2vhm_limb": 0.3, "xfer_zan2vhf_limb": 0.3,
+                            "xfer_zan2vhm_limb_photo": 0.5, "xfer_zan2vhf_limb_photo": 0.5}
 QUANTUM_MM = 0.25
 
 # Indices are uint16, which is the whole reason for the budgets above: at
