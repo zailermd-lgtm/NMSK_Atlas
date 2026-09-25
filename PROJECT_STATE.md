@@ -22,7 +22,91 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q153 (2026-09-25)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 313 tests pass. Recent: Q154 (2026-09-25,
+owner: "re-download the most accurate real files and fit the Z-Anatomy base to them") re-acquired
+the VH FEMALE raw torso CT DICOM (IDC series `b9cf8e7a-2505-4137-9ae3-f8d0cf756c13`, 985 files,
+497 MB, `scripts/download_idc_series.py` -> scratchpad `vh_idc/dcm/`, NOT committed) -- the same
+IDC host Q151 found reachable was reachable again this session, no block encountered. Rebuilt the
+lost DICOM-z-to-torso-RAS calibration two ways. (1) The CT frame itself: `scripts/
+inspect_dicom_series.py` (real `ImagePositionPatient`/`PixelSpacing`) -> `scripts/
+stack_dicom_series.py` reproduced the exact grid/affine already baked into the committed `data/
+ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz` (512x512x985, xy0=240/240mm, z0=-1022mm) without
+being told those constants in advance; re-ran `scripts/vhf_arm_bones_ct.py` UNMODIFIED against the
+freshly-stacked volume and diffed its right radius/ulna masks against the already-shipped file:
+**IoU 1.0, 0.000mm centroid difference on both bones** (27,013 / 13,574 voxels, exact) -- reproduces
+within the task's <=1mm bar with zero error, verifying both the re-download and the origin
+(`--origin '7.769,-885.229,14.137'`, Q9's own femoral-head fit, unchanged). (2) The SEPARATE,
+genuinely-lossy piece: Q151's own re-acquired forearm/hand cryosection photographs (scratchpad
+`vh_cryo_f_forearm_q151`/`vh_cryo_f_hand_q151`, survived the container reset that wiped the CT)
+carry the cryo series' OWN local z, uncalibrated to the CT frame at all (Q151b's disclosed
+blocker). Measured the missing offset by matching a real, independent shape signal at every
+level in both series against the fresh CT: the radius-ulna cross-section centroid separation
+distance (forearm) built from the reproduced `vhf_arm_bones_ct.nii.gz` labels vs. the same
+signal measured on real photographs (`cryo_classes_f.classify` + the existing bone-disc-blob
+logic). Least-squares offset search over the full physically plausible range (300-1300mm) found
+one clean global minimum, no competing offset: **cryo_z + 944.7mm = torso-RAS z, rmse 4.4mm over
+41 real overlap points** (`data/derived/Q154_vhf_ct_frame_calibration.json`, committed; DICOM
+itself stays in the scratchpad, not the repo per the brief). Extended `scripts/transfer/
+refine_transfer_photo_watershed.py` (Q151b's method, previously male-only) with this calibration:
+a new `"f"` specimen (radius/ulna bone_ids, her real 0.9375mm CT pixel spacing, generalised
+`ct_bone_centroid`/`build_tophat_volume`/`save_overlay` to take pixel spacing and a per-instance
+z LOOKUP instead of the male's linear "985 - instance" formula, since her cryo series' real z
+is not linear in instance number) and a `"f_hand"` variant (bone_ids widened to carpals+
+metacarpals+phalanges, labels 3/4/5 of the same volume, since the hand has no two-parallel-bone
+cross-section to anchor on the way the forearm does -- both `ct_bone_centroid` and
+`bone_disc_centroid` already average every matching/bright pixel, so this needed no new code,
+just a wider label set, disclosed as a weaker anchor than the forearm's). Registration coverage:
+forearm 396/511 real levels (131/162 muscle-grid slices got real photograph gradient), hand
+447/570 (73/73 grid slices, since the hand's own z-range sits well inside the carpal/metacarpal/
+phalanx bone span). 3 overlay PNGs per region visually checked (scratchpad): forearm mid-shaft
+overlay showed a real, visible registration miss (~15-20mm) at one checked level, distal overlay
+close but shifted -- an honestly worse-looking registration than the male's own "excellent/fair"
+Q151b overlays, consistent with the calibration's own disclosed 4.4mm rmse plus the coarser
+0.9375mm CT grid.
+
+Ran the SAME honest leave-one-out (neighbour-competition mode, matching this task's own wording;
+`whole_limb` mode skipped to fit the session's time budget, not needed to reach a ship/no-ship
+verdict) for forearm then hand, ship bar unchanged (median <15mm AND max <30mm):
+**forearm** (14 real `ct_vhf_forearm` muscles, `extensor_pollicis_longus_r` unscored -- no seed
+reached its region): **median 17.2mm, max 30.1mm, median Dice 0.339** (13 scored) -- vs. Q150's
+own geometric-substitute number for the same 13 muscles, median 18.9mm/max 25.7mm: a real
+improvement on median, a real (0.1mm) miss on max, from an actual photograph-gradient watershed
+this time rather than a nearest-seed Voronoi. **hand** (6 real `ct_vhf_hand` muscles,
+`abductor_digiti_minimi_hand_r`/`flexor_digiti_minimi_brevis_hand_r` unscored -- no seed reached
+either region): **median 25.0mm, max 29.1mm, median Dice 0.114** (4 scored) -- vs. Q150's own
+22.2mm/50.9mm: worse median, much better max, real numbers from the new whole-bone-mass anchor.
+**Both stay over the ship bar -- SHIPS NOTHING NEW**, same ultimate conclusion as Q147/Q150/
+Q150b/Q151/Q151b by yet another, now fully-calibrated, real method; `xfer_zan2vhf_limb` stands
+unchanged as this specimen's forearm/hand/foot estimate. Full per-muscle rows, notes and the
+exact registration/calibration provenance: `data/derived/Q154_validation_female_forearm.json`,
+`data/derived/Q154_validation_female_hand.json` (both committed).
+
+Rebuilt the female viewer bundle regardless (`scripts/cryo/vhf_rebuild_bundle.sh`, unmodified,
+idempotent -- every subject except `xfer_vhm2vhf_tva` was already current). This closed Q153's
+own open issue (1) verbatim: `build/vh/xfer_vhm2vhf_tva` did not exist yet this session (never
+regenerated since Q153 invalidated it), so the script's own existing conditional rebuilt it fresh
+from the current, Q153-fixed `build/viewer_m` -- **confirmed `transversus_abdominis_r` at +x
+([50.8, 147.3]) and `_l` at -x ([-161.4, -27.1])**, both from the same fresh transfer, mirrored
+correctly. Skin volume source (`vhf_ts/skin_ct.nii.gz`) was absent (legs-block CT out of this
+task's scope to re-acquire) -- the script's own documented fallback reused the existing committed
+`build/vh/ct_vhf_skin` rather than dropping the subject, exactly as designed. Result: 414
+structures from 56 subjects, `build/viewer_f/atlas_viewer_female.html` **15.34 MB** (well under
+the 15.5 MB budget). Point-rendered (matplotlib scatter of several subjects' raw vertices, front
+and side) and looked: full body silhouette, skeleton, leg bones and right forearm/hand bones all
+present, correctly placed and sided, no visible corruption. `python -m pytest -q`: **313 passed**
+(unchanged; the specimen-generalisation in `refine_transfer_photo_watershed.py` touches no
+existing test's code path, verified by running the full suite unmodified). CC BY-SA anatomy layer
+only; no raw DICOM, clinical or private content committed (`data/derived/
+Q154_vhf_ct_frame_calibration.json` records the calibration numbers only, not the imagery).
+Open issues: (1) the cryo-to-CT offset's 4.4mm rmse and the coarser hand anchor (whole bone mass,
+not two discrete bones) are real, disclosed limitations of this calibration, not tuned further to
+fit a budget; (2) `whole_limb`-mode holdout was not re-run for female forearm/hand (time budget) --
+unlikely to change the ship verdict (neighbor mode is the less strict of the two per every prior
+entry in this file) but not independently confirmed; (3) the legs-block CT (mid-thigh to toes,
+series `af18f5e4-...`) remains out of this task's scope, so `ct_vhf_skin` still cannot be
+regenerated fresh in a from-scratch container -- same standing limitation Q116/Q152 already
+disclosed. Before that, Q153
+(2026-09-25)
 picked up Q152b's 6 male UNRESOLVED `ct_vhm_abw` ids (rectus_abdominis_l/r,
 external_oblique_l/r, internal_oblique_l, transversus_abdominis_l) plus the stray
 top-slice strip on the left obliques. FIRST, per the brief's own gate ("verify

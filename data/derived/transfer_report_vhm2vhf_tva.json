@@ -50,21 +50,21 @@
    "atlas_id": "transversus_abdominis_l",
    "category": "muscle",
    "side": "left",
-   "source_subject": "ct_vhm_abw",
-   "source_trust": "RULE-BASED on the male (depth-fraction rules on his photographs)",
+   "source_subject": "ct_vhm_abw_contfix",
+   "source_trust": "model segmentation of the source CT",
    "region": "trunk",
    "driving_bones": {
-    "ribs_l": 0.668,
-    "hip_bone_l": 0.217,
+    "ribs_l": 0.678,
+    "hip_bone_l": 0.21,
     "lumbar_vertebrae": 0.084,
-    "sacrum": 0.016
+    "sacrum": 0.014
    },
    "bulk_transverse": 1.0,
    "lean_envelope": false,
    "mean_radial_fraction_src": null,
-   "volume_src_cm3": 164.8,
-   "volume_out_cm3": 144.9,
-   "displacement_mm_median": 28.5
+   "volume_src_cm3": 174.0,
+   "volume_out_cm3": 153.2,
+   "displacement_mm_median": 28.6
   }
  ]
 }

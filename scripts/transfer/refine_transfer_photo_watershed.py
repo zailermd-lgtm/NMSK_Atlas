@@ -65,16 +65,38 @@ from skimage.segmentation import watershed
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO)); sys.path.insert(0, str(REPO / "scripts" / "cryo"))
-from cryo_classes import classify  # noqa: E402
+from cryo_classes import classify as classify_m  # noqa: E402
+from cryo_classes_f import classify as classify_f  # noqa: E402
 import scripts.transfer.refine_limb_transfer as RLT  # noqa: E402
 
 PX = 0.33
 BADGE_METHOD = ("Z-Anatomy (CC BY-SA 4.0) shape refined to this specimen's cryosection photographs "
                  "(watershed on tissue boundaries)")
 
+# Q154: female calibration (data/derived/Q154_vhf_ct_frame_calibration.json). Her cryosection
+# series carries its own real per-instance z (cryo_index.json col 3), NOT a linear function of
+# instance number like the male's -- so "z_of_inst" is a per-instance LOOKUP for her (built in
+# main() from the real index), calibrated to the torso-RAS frame by a measured additive offset
+# (944.7mm, rmse 4.4mm over 41 real overlap points, single global minimum over a 300-1300mm
+# search -- see the calibration file), not an exact relation like the male's "985 - instance".
+VHF_CRYO_TO_TORSO_RAS_OFFSET_MM = 944.7
+
 SPECIMENS = {
-    "m": dict(z_of_inst=985.0, bones_aff=(350.0, 240.0, -1113.0), bone_ids=(2, 3),
+    "m": dict(z_of_inst=985.0, bones_aff=(350.0, 240.0, -1113.0), bone_ids=(2, 3), ct_ps=1.0,
+              classify=classify_m,
               bones_path=REPO / "data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz"),
+    "f": dict(bones_aff=(240.0, 240.0, -1022.0), bone_ids=(1, 2), ct_ps=0.9375,
+              classify=classify_f, z_offset=VHF_CRYO_TO_TORSO_RAS_OFFSET_MM,
+              bones_path=REPO / "data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz"),
+    # Q154: the hand has no two-parallel-bone cross-section (radius/ulna) to register on -- her
+    # carpals/metacarpals/phalanges (labels 3/4/5 of the same committed bone volume) are the only
+    # bone mass present at hand z-levels, so this anchors on their COMBINED centroid instead (both
+    # ct_bone_centroid and bone_disc_centroid already just average every matching/bright pixel,
+    # so passing all 3 labels here needs no other code change -- a real, weaker anchor than the
+    # forearm's two-disc one, disclosed as such, not a fabricated single-bone substitute).
+    "f_hand": dict(bones_aff=(240.0, 240.0, -1022.0), bone_ids=(3, 4, 5), ct_ps=0.9375,
+                   classify=classify_f, z_offset=VHF_CRYO_TO_TORSO_RAS_OFFSET_MM,
+                   bones_path=REPO / "data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz"),
 }
 
 
@@ -128,7 +150,7 @@ def bone_disc_centroid(cls, bbox):
     return float(ys.mean()), float(xs.mean())
 
 
-def ct_bone_centroid(bones, bones_aff, bone_ids, z):
+def ct_bone_centroid(bones, bones_aff, bone_ids, z, ps=1.0):
     k = int(round(z - bones_aff[2]))
     if not (0 <= k < bones.shape[2]):
         return None
@@ -137,8 +159,22 @@ def ct_bone_centroid(bones, bones_aff, bone_ids, z):
     if not m.any():
         return None
     ii, jj = np.where(m)
-    x = bones_aff[0] - ii; y = bones_aff[1] - jj
+    x = bones_aff[0] - ii * ps; y = bones_aff[1] - jj * ps
     return float(x.mean()), float(y.mean())
+
+
+def z_of_inst(spec, inst, z_lookup=None):
+    """torso-RAS z for one real photograph instance. Male: exact linear relation ("985 -
+    instance"). Female (Q154): her cryo series' own real per-instance z (not linear in instance
+    number -- see the calibration file) plus the measured cryo->torso-RAS offset."""
+    if "z_of_inst" in spec:
+        return spec["z_of_inst"] - inst
+    return z_lookup[inst] + spec["z_offset"]
+
+
+def build_z_lookup(idx):
+    """{instance: raw cryo-series z} straight from cryo_index.json (col index 2); female only."""
+    return {row[1]: row[2] for row in idx}
 
 
 def register_series(arr, idx, spec):
@@ -147,6 +183,8 @@ def register_series(arr, idx, spec):
     this never actually needs a merge-with-trunk fallback on the male series, checked: 137/137
     clean); pass 2 (unused here, kept only as documented fallback) would predict a crop box by
     polynomial extrapolation for any instance pass 1 missed."""
+    classify = spec.get("classify", classify_m)
+    z_lookup = build_z_lookup(idx) if "z_of_inst" not in spec else None
     order = sorted(range(len(idx)), key=lambda i: idx[i][1])
     insts = [idx[i][1] for i in order]
     bones = np.asanyarray(nib.load(str(spec["bones_path"])).dataobj)
@@ -178,8 +216,8 @@ def register_series(arr, idx, spec):
         pad = 25
         bbox = (max(0, r0 - pad), min(H - 1, r1 + pad), max(0, c0 - pad), min(W - 1, c1 + pad))
         bd = bone_disc_centroid(cls, bbox)
-        z = spec["z_of_inst"] - inst
-        ct = ct_bone_centroid(bones, spec["bones_aff"], spec["bone_ids"], z)
+        z = z_of_inst(spec, inst, z_lookup)
+        ct = ct_bone_centroid(bones, spec["bones_aff"], spec["bone_ids"], z, spec.get("ct_ps", 1.0))
         if bd is None or ct is None:
             continue
         row_b, col_b = bd; xB, yB = ct
@@ -196,12 +234,14 @@ def save_overlay(arr, idx, spec, T, inst, out_path):
     r0p, r1p, c0p, c1p = max(0, r0 - pad), r1 + pad, max(0, c0 - pad), c1 + pad
     crop = img[r0p:r1p, c0p:c1p].copy()
     bones = np.asanyarray(nib.load(str(spec["bones_path"])).dataobj)
-    z = spec["z_of_inst"] - inst
+    z_lookup = build_z_lookup(idx) if "z_of_inst" not in spec else None
+    z = z_of_inst(spec, inst, z_lookup)
+    ps = spec.get("ct_ps", 1.0)
     k = int(round(z - spec["bones_aff"][2]))
     sl = bones[:, :, k]
     m = np.isin(sl, spec["bone_ids"])
     ii, jj = np.where(m)
-    x = spec["bones_aff"][0] - ii; y = spec["bones_aff"][1] - jj
+    x = spec["bones_aff"][0] - ii * ps; y = spec["bones_aff"][1] - jj * ps
     row = t["row_b"] + (y - t["yB"]) / PX; col = t["col_b"] - (x - t["xB"]) / PX
     row = row - r0p; col = col - c0p
     ok = (row >= 0) & (row < crop.shape[0]) & (col >= 0) & (col < crop.shape[1])
@@ -211,6 +251,27 @@ def save_overlay(arr, idx, spec, T, inst, out_path):
 
 
 # --------------------------------------------------------------------------------- gradient volume
+def inst_of_z(spec, wz, idx, tol=0.6):
+    """Inverse of z_of_inst: which real photograph instance shows torso-RAS z `wz`. Male: exact
+    (round(985 - wz)). Female (Q154): her per-instance z is not linear in instance number, so this
+    looks up the real instance whose (raw_z + offset) lands closest to wz, within `tol` mm (her
+    real levels are ~0.33mm apart, so a real match is almost always within tolerance; a genuine
+    gap -- e.g. a level Q151 never re-acquired -- correctly returns None, same as the male's
+    'inst not in T' skip)."""
+    if "z_of_inst" in spec:
+        return int(round(spec["z_of_inst"] - wz))
+    z_sorted = np.array([row[2] + spec["z_offset"] for row in idx])
+    inst_sorted = np.array([row[1] for row in idx])
+    order = np.argsort(z_sorted)
+    z_sorted, inst_sorted = z_sorted[order], inst_sorted[order]
+    j = np.searchsorted(z_sorted, wz)
+    cands = [c for c in (j - 1, j) if 0 <= c < len(z_sorted)]
+    if not cands:
+        return None
+    best = min(cands, key=lambda c: abs(z_sorted[c] - wz))
+    return int(inst_sorted[best]) if abs(z_sorted[best] - wz) <= tol else None
+
+
 def build_tophat_volume(arr, idx, spec, T, labelvol_affine, shape):
     """(shape) float32 volume, this label volume's own grid: white_tophat(value, disk(4)) of the
     photograph at every real level, resampled (nearest) via the per-level registration."""
@@ -224,8 +285,8 @@ def build_tophat_volume(arr, idx, spec, T, labelvol_affine, shape):
     n_ok = 0
     for k in range(nk):
         wz = labelvol_affine[2, 2] * k + labelvol_affine[2, 3]
-        inst = int(round(spec["z_of_inst"] - wz))
-        if inst not in T or inst not in inst_of_j:
+        inst = inst_of_z(spec, wz, idx)
+        if inst is None or inst not in T or inst not in inst_of_j:
             continue
         t = T[inst]
         row = t["row_b"] + (wy - t["yB"]) / PX
@@ -303,7 +364,7 @@ def partition_region_watershed(region, cands, xfer, affine, origin, sampling, pa
 # --------------------------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--specimen", choices=["m"], required=True)
+    ap.add_argument("--specimen", choices=["m", "f", "f_hand"], required=True)
     ap.add_argument("--cryo-dir", required=True)
     ap.add_argument("--volume", required=True)
     ap.add_argument("--labels", required=True)
@@ -389,6 +450,13 @@ def main():
                 print(f"[{mode}] median {summary['median_centroid_dist_mm']}, max {summary['max_centroid_dist_mm']}, "
                       f"median dice {summary['median_dice']}")
             result["modes"][mode] = summary
+        # Q154: the ship badge uses the primary "neighbor" (neighbour-competition) mode's own
+        # measured numbers -- the ship bar this task and Q150/Q150b/Q151b all use -- falling back
+        # to whichever single mode ran if "neighbor" wasn't one of them.
+        primary = result["modes"].get("neighbor") or next(iter(result["modes"].values()), None)
+        if primary and "median_centroid_dist_mm" in primary:
+            result["ship_median_mm"] = primary["median_centroid_dist_mm"]
+            result["ship_max_mm"] = primary["max_centroid_dist_mm"]
 
     if a.report:
         Path(a.report).write_text(json.dumps(result, indent=1, default=str))
