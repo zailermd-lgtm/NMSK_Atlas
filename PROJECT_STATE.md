@@ -22,7 +22,59 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 296 tests pass. Recent: Q151 (2026-09-24)
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 296 tests pass. Recent: Q151b (2026-09-25)
+did the photograph-driven refinement Q151 itself never ran: new `scripts/transfer/refine_transfer_photo_watershed.py`
+registers each of the male's 137 real re-acquired forearm cryosection photographs (Q151's own
+`SCRATCH/vh_cryo_m_forearm_q151`) directly to his own CT radius/ulna volume
+(`vhm_arm_bones_cryo_completed.nii.gz`) by TRANSLATION per level (photographed bone-disc pixel
+centroid <-> CT bone cross-section centroid at that torso-RAS z, `instance = 985 - z` per the
+committed male script's own documented relation) -- no body-CT silhouette step needed (his full
+torso CT is gone; the bone volume alone is enough since it already exists at every level) --
+verified by overlaying the CT bone cross-sections back onto 3 photographs (proximal/mid/distal
+instances 1625/1693/1761, PNGs in scratch): excellent registration at the two checked mid-shaft
+levels, fair (bones close together, more scatter) at the distal (near-wrist) level, consistent
+with the committed script's own higher documented residual there. Built a REAL white-top-hat
+gradient volume (`white_tophat(image.max(-1), disk(4))`, Q48's own septa-ridge detector, computed
+natively per real photograph then resampled) on the exact grid of the existing real
+`vhm_forearm_muscles_cryo.nii.gz` label volume (no Z-interpolation needed -- these 137 real
+levels are already 1 mm apart, matching shape_interp.py's own "only if slice spacing > 1 mm"
+rule) and used it as a drop-in replacement (monkeypatched `refine_limb_transfer.partition_region`,
+that file untouched, its own regression tests still pass unmodified) for Q150b's geometric
+nearest-seed Voronoi -- an actual marker-controlled watershed on this specimen's own real tissue
+boundaries, seeded only by Q147's eroded Z-Anatomy transfers, MAX_MOVE clipped, reusing
+`neighbour_region_and_candidates` verbatim. Honest leave-one-out (same 3 held-out ground-truth
+muscles Q150b used, both `neighbor` and `whole_limb` modes): flexor_digitorum_superficialis_r
+25.8mm/24.0mm, flexor_digitorum_profundus_r 19.9mm/19.9mm, abductor_pollicis_longus_r
+13.9mm/13.9mm (neighbor/whole_limb centroid_dist_mm) -- **median 19.9mm, max 25.8mm (neighbor);
+median 19.9mm, max 24.0mm (whole_limb)**, median Dice 0.199 both modes
+(`data/derived/Q151b_validation_male.json`). A real improvement over Q147's own raw transfer
+(median 21.5mm, max 61.2mm) and on the max over Q150b's geometric substitute (21.8mm neighbor/
+20.9mm whole_limb median, but this run's max is a bit worse: 25.8mm vs Q150b's 21.8mm) --
+still **over the 15mm/30mm ship bar** on median, so **nothing ships**; Q147's own
+`xfer_zan2vhm_limb` stands unchanged for the male forearm, same conclusion as Q150b/Q151 by a
+different, now-real method. Female forearm/hand NOT attempted beyond confirming the blocker is
+real: her freshly re-acquired cryosection photographs carry her OWN raw DICOM
+ImagePositionPatient z (-1490..-1850mm, Q151's own re-localisation) while her CT-derived bone
+geometry (`vhf_arm_bones_ct.nii.gz`) lives in torso-RAS z (radius -759..-584mm, ulna
+-751..-654mm) -- two independent coordinate frames with no surviving calibration between them
+(that calibration was the lost per-slice frame.json/anchors.json, which itself depended on her
+now-also-lost raw whole-body CT DICOM); registering her photographs the way the male's were
+just done (bone-disc-to-CT-bone alignment, every level, no rotation) is IMPOSSIBLE without either
+file, and inventing an offset with no independent check would be exactly the fabricated-number
+failure mode this task warns against, so it was not attempted -- same real blocker Q151 itself
+found, now independently confirmed by directly comparing the two z-ranges rather than just
+citing the prior claim. `python -m pytest -q`: **296 passed** (one pre-existing gap fixed in
+passing: `Q151_interpolation_report.json`, a Q151-committed generated report, was missing from
+`validate_source_coverage`'s generated-artifact exclude list in `engine/validators.py` --
+one-line fix, same category as the other generated reports already excluded there). Neither
+viewer touched (nothing shipped to add). Open issues: (1) female forearm/hand photograph
+registration needs her raw whole-body CT DICOM re-acquired first (out of scope here, same as
+Q151); (2) the male forearm's real Dice (~0.2) is well below Q147's own per-muscle Dice for
+abductor_pollicis_longus_r (0.503) even though centroid error is comparable -- the real
+gradient watershed over-claims volume for compartments whose neighbour set balloons to nearly
+the whole limb (18/18 candidates for 2 of the 3 held-out ids here), worth a tighter MAX_MOVE or
+a per-candidate volume cap in a future pass; (3) male hand still has no real photograph-derived
+muscle mask to refine at all (Q147 estimate only, unchanged). Before that, Q151 (2026-09-24)
 re-acquired real full-resolution Visible Human cryosection data for forearm+hand on BOTH
 specimens (owner direction: re-download the real files, check the match, interpolate,
 make muscle continuous) -- the IDC bucket was NOT blocked in this session (contrary to

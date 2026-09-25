@@ -117,7 +117,11 @@ def validate_source_coverage() -> List[str]:
         #   Q103_tissue_audit.json/md     <- Q103 comprehensive tissue continuity audit reports
         if path.name in ("anchors.json", "scene_3d_preview.json",
                          "stray_mesh_islands_scan.json", "stray_mesh_islands_report.json",
-                         "mapping_decline_audit.json", "Q103_tissue_audit.json", "Q103_tissue_audit.md"):
+                         "mapping_decline_audit.json", "Q103_tissue_audit.json", "Q103_tissue_audit.md",
+                         # Q151_interpolation_report.json <- scripts/transfer/shape_interp.py's own
+                         # per-structure interpolation report; citation lives on the muscle-mask
+                         # volumes it was derived from, same category as the other generated reports above.
+                         "Q151_interpolation_report.json"):
             continue
         payload = _load_json(path)
         entities = payload if isinstance(payload, list) else payload.get("items", [payload])
