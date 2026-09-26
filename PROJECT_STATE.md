@@ -33,16 +33,17 @@ extensor digitorum, fibularis longus, flexor digitorum longus/brevis). Fix, all 
 edge-collapse on seam-welded meshes for EVERY mesh (clustering only as fallback) -- same budget:
 340 -> 32 splits; (2) a continuity guard: if the decimated mesh has more pieces than its source,
 re-decimate at 2x/4x/8x budget -> 0 splits; (3) `--external-bin`: geometry published as sibling
-`atlas_viewer_zan_atlas_NN.bin` files (<=14 MB each, host cap 15 MB/binary file) fetched by the
+base64 `atlas_viewer_zan_atlas_geo_NN.txt` files (11 MB binary / ~14.7 MB text each; the artifact
+host serves no raw .bin type, text cap 16 MB) fetched by the
 loader, so the page is no longer the resolution ceiling; `HIRES_CATEGORY_SCALE` = full MSK
 budgets (muscle/bone/tendon/ligament/cartilage/fascia/bursa 1.0), nerve 0.8, vessel 0.5,
 organ/lymph 0.3. Result: 1.11M -> 2.93M triangles (muscle 17% -> 51% of source, bone 38% ->
 80%, ligament 17% -> 50%, nerve 7% -> 26%), 0/2570 structures split, page 1.57 MB + 26.5 MB
-geometry. Headless Chromium over http: boots, 2,570 meshes, no page errors (only the sandbox's
+geometry (~35 MB as base64 text). Headless Chromium over http: boots, 2,570 meshes, no page errors (only the sandbox's
 font-CDN cert and a local favicon 404). Reports: `data/derived/Q159_decimation_continuity.json`,
 `data/derived/Q159_zan_atlas_report.json`. 2 new tests. Build: `python3
 scripts/zanatomy/build_zan_atlas_viewer.py --external-bin --report data/derived/Q159_zan_atlas_report.json`;
-publish the page WITH both .bin files (Artifact `files`). Earlier: Q158b (2026-09-25)
+publish the page WITH its geo .txt files (Artifact `files`). Earlier: Q158b (2026-09-25)
 lead review of Q158 (commit `d3611b0`) below: REJECTED before publishing. Q158's own
 many-to-one consolidations (16 individual carpal-bone Z-Anatomy objects merged into one
 `carpals_l`/`carpals_r` mesh, 56 phalanx objects into 4, 24 numbered ribs into 2, 22

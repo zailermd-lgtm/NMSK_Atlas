@@ -395,14 +395,16 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
 HIRES_CATEGORY_SCALE = {"muscle": 1.0, "bone": 1.0, "tendon": 1.0, "ligament": 1.0, "cartilage": 1.0,
                         "fascia": 1.0, "bursa": 1.0, "nerve": 0.8, "vessel": 0.5, "organ": 0.3,
                         "lymphatic": 0.3}
-BIN_FILE_MAX = 14_000_000  # the artifact host's per-binary-file cap is 15 MB
+# The artifact host serves no raw .bin type, so geometry ships as base64 .txt (16 MB text-file cap):
+# 11 MB of binary -> ~14.7 MB of base64 per file.
+BIN_FILE_MAX = 11_000_000
 
 
 def split_blob(blob: bytes, stem: str, max_bytes: int = BIN_FILE_MAX):
     """Q159: cut the geometry into sibling files (even-length, so uint16 views stay aligned
     across the loader's concatenation). Returns [(published_path, bytes)]."""
     step = max_bytes - (max_bytes % 2)
-    return [(f"{stem}_{i:02d}.bin", blob[o:o + step]) for i, o in enumerate(range(0, len(blob), step))]
+    return [(f"{stem}_geo_{i:02d}.txt", blob[o:o + step]) for i, o in enumerate(range(0, len(blob), step))]
 
 
 def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> str:
@@ -432,8 +434,8 @@ def main(argv=None) -> int:
     ap.add_argument("--category-scale", action="append", default=[], metavar="CAT=SCALE",
                     help="per-category override of --budget-scale (repeatable), e.g. muscle=1.0")
     ap.add_argument("--external-bin", action="store_true",
-                    help="Q159: write geometry as sibling <out-stem>_NN.bin files (each under the "
-                         "artifact host's 15 MB binary cap) instead of inlining it, so the page is "
+                    help="Q159: write geometry as sibling base64 <out-stem>_geo_NN.txt files (each under the "
+                         "artifact host's 16 MB text-file cap) instead of inlining it, so the page is "
                          "no longer the resolution ceiling; publish them with the page.")
     ap.add_argument("-o", "--out", default="build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
     ap.add_argument("--report", default=str(REPO / "data" / "derived" / "Q157_zan_atlas_report.json"))
@@ -455,8 +457,8 @@ def main(argv=None) -> int:
     if args.external_bin:
         bin_files = []
         for name, chunk in split_blob(blob, out_path.stem):
-            (out_path.parent / name).write_bytes(chunk)
-            bin_files.append({"path": name, "bytes": len(chunk)})
+            (out_path.parent / name).write_text(base64.b64encode(chunk).decode("ascii"), encoding="ascii")
+            bin_files.append({"path": name, "bytes": len(chunk), "enc": "base64"})
     html = render_html(manifest, blob, bin_files)
     out_path.write_text(html, encoding="utf-8")
 

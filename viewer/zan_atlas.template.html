@@ -415,7 +415,12 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         boot("Downloading geometry " + (fi + 1) + "/" + files.length + "…", 0.02 + 0.08 * fi / files.length); await nf();
         var resp = await fetch(files[fi].path);
         if (!resp.ok) throw new Error("geometry file " + files[fi].path + ": HTTP " + resp.status);
-        var buf = new Uint8Array(await resp.arrayBuffer());
+        var buf;
+        if (files[fi].enc === "base64") {
+          var s64 = atob((await resp.text()).trim());
+          buf = new Uint8Array(s64.length);
+          for (var bi = 0; bi < s64.length; bi++) buf[bi] = s64.charCodeAt(bi);
+        } else buf = new Uint8Array(await resp.arrayBuffer());
         if (buf.length !== files[fi].bytes) throw new Error("geometry file " + files[fi].path + " is truncated");
         parts.push(buf); total += buf.length;
       }
