@@ -1,0 +1,99 @@
+{
+ "source": "Q157 (2026-09-25): builds ONE self-contained, full-body Z-Anatomy reference viewer (every non-excluded category in one page) reproducing the owner's preferred August viewer's UI, fed by this project's own Z-Anatomy pipeline (corrections + atlas records included, clinical excluded by construction -- see scripts/zanatomy/build_zan_atlas_viewer.py). ",
+ "origin": {
+  "r": {
+   "centre_mm": [
+    83.69,
+    861.31,
+    -4.88
+   ],
+   "radius_mm": 23.23,
+   "rms_mm": 0.364,
+   "n_points": 82
+  },
+  "l": {
+   "centre_mm": [
+    -83.69,
+    861.31,
+    -4.88
+   ],
+   "radius_mm": 23.23,
+   "rms_mm": 0.364,
+   "n_points": 82
+  },
+  "origin_mm": [
+   -0.0,
+   861.31,
+   -4.88
+  ],
+  "mirror_x_check_mm": 0.0,
+  "method": "least-squares sphere fit (engine.vh_ingest.fit_sphere) to each Femur.l/.r mesh's own proximal-most 15mm-by-atlas-Y cap -- a cheap proxy for the femoral head ball (Z-Anatomy ships no separate femoral head cartilage object); see module docstring for the RMS-vs-cap-size measurement that picked 15mm."
+ },
+ "budget_scale": 0.22,
+ "category_scale": {
+  "muscle": 1.0,
+  "bone": 1.0,
+  "tendon": 1.0,
+  "ligament": 1.0,
+  "cartilage": 1.0,
+  "fascia": 1.0,
+  "bursa": 1.0,
+  "nerve": 0.8,
+  "vessel": 0.5,
+  "organ": 0.3,
+  "lymphatic": 0.3
+ },
+ "decimation": "Q159: quadric edge-collapse on welded meshes, vertex clustering fallback",
+ "bin_files": [
+  {
+   "path": "atlas_viewer_zan_atlas_00.bin",
+   "bytes": 14000000
+  },
+  {
+   "path": "atlas_viewer_zan_atlas_01.bin",
+   "bytes": 12508102
+  }
+ ],
+ "binary_bytes": 26508102,
+ "html_bytes": 1570338,
+ "meshes": 2570,
+ "by_layer": {
+  "vessel": 642,
+  "nerve": 434,
+  "muscle": 471,
+  "cartilage": 43,
+  "joint": 299,
+  "fascia": 29,
+  "bone": 304,
+  "insertion": 22,
+  "cns": 57,
+  "viscera": 114,
+  "lymph": 155
+ },
+ "by_category": {
+  "vessel": 642,
+  "nerve": 491,
+  "muscle": 471,
+  "cartilage": 43,
+  "ligament": 287,
+  "bursa": 12,
+  "fascia": 29,
+  "bone": 304,
+  "tendon": 22,
+  "organ": 114,
+  "lymphatic": 155
+ },
+ "matched_entities": 662,
+ "matched_with_atlas_record": 662,
+ "orphan_structures": 1908,
+ "orphan_dropped_as_ui_highlight_duplicate": 105,
+ "orphan_dropped_as_zero_face_annotation_curve": 6,
+ "direct_atlas_links": 662,
+ "parent_linked_structures": 173,
+ "parent_links_with_no_orphan_mesh": [],
+ "parent_links_with_no_atlas_record": [],
+ "corrected_ids": [
+  "posterior_interosseous_n_l",
+  "posterior_interosseous_n_r"
+ ]
+}

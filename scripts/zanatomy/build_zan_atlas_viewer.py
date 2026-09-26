@@ -183,11 +183,37 @@ def pack_mesh(v: np.ndarray, f: np.ndarray, byte_offset: int):
     return fields, pos_bytes + idx_bytes
 
 
+def weld(v: np.ndarray, f: np.ndarray):
+    """Merge coincident vertices (Z-Anatomy exports split vertices at UV/normal seams), so
+    quadric decimation sees one connected surface instead of seam-separated patches."""
+    u, inv = np.unique(np.round(v, 4), axis=0, return_inverse=True)
+    return u, inv.reshape(-1)[f]
+
+
+def n_pieces(f: np.ndarray, nv: int) -> int:
+    """Connected surface pieces (triangles sharing a vertex)."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    f = np.asarray(f, np.int64)
+    e = np.concatenate([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]])
+    _n, lab = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(nv, nv)),
+                                   directed=False)
+    return len(np.unique(lab[f[:, 0]]))
+
+
 def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float):
+    """Q159: quadric edge-collapse first for EVERY mesh (it never splits a surface), vertex
+    clustering only as a fallback. Measured on the full Q157 build at the same budgets:
+    clustering added components to 340/2570 structures (123 nerves, 79 vessels, 6 muscles
+    split into pieces), quadric to 32 (0 muscles) -- data/derived/Q159_decimation_continuity.json."""
     budget = max(150, int(BUDGET_OVERRIDES.get(mesh_id, BUDGET.get(cat, DEFAULT_BUDGET)) * scale))
-    if mesh_id in SHEET_IDS:
-        q = decimate_quadric(v, f, budget)
-        if q is not None:
+    wv, wf = weld(v, f)
+    src_pieces = n_pieces(wf, len(wv))
+    for attempt in range(4):  # continuity guard: never ship more pieces than the source has
+        q = decimate_quadric(wv, wf, budget * 2 ** attempt)
+        if q is None or not len(q[1]) or len(q[0]) > MAX_VERTS:
+            break
+        if n_pieces(q[1], len(q[0])) <= src_pieces or attempt == 3:
             return q
     dv, df, _cell = decimate_to(v, f, budget)
     if len(df) == 0:
@@ -198,7 +224,7 @@ def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float)
 
 
 def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
-          corrections_dir: Path, budget_scale: float):
+          corrections_dir: Path, budget_scale: float, category_scale: dict | None = None):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -246,7 +272,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
 
         warped, note = apply_correction(mesh_id, v_raw, zan_dir, corrections)
         v = warped - origin
-        dv, df = decimate(v, f, mesh_id, cat, budget_scale)
+        dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale))
 
         fields, packed = pack_mesh(dv, df, byte_off)
         byte_off += len(packed)
@@ -364,13 +390,31 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     return manifest, blob, origin_report
 
 
-def render_html(manifest: dict, blob: bytes) -> str:
+# Q159: the published hi-res build (with --external-bin): full musculoskeletal budgets, then
+# nerves > vessels > organs/lymph, ~2.9M triangles / ~26 MB geometry (vs 1.1M in one 15 MB page).
+HIRES_CATEGORY_SCALE = {"muscle": 1.0, "bone": 1.0, "tendon": 1.0, "ligament": 1.0, "cartilage": 1.0,
+                        "fascia": 1.0, "bursa": 1.0, "nerve": 0.8, "vessel": 0.5, "organ": 0.3,
+                        "lymphatic": 0.3}
+BIN_FILE_MAX = 14_000_000  # the artifact host's per-binary-file cap is 15 MB
+
+
+def split_blob(blob: bytes, stem: str, max_bytes: int = BIN_FILE_MAX):
+    """Q159: cut the geometry into sibling files (even-length, so uint16 views stay aligned
+    across the loader's concatenation). Returns [(published_path, bytes)]."""
+    step = max_bytes - (max_bytes % 2)
+    return [(f"{stem}_{i:02d}.bin", blob[o:o + step]) for i, o in enumerate(range(0, len(blob), step))]
+
+
+def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> str:
+    """Self-contained page (geometry inlined as base64) unless `bin_files` names the sibling
+    binary files the loader should fetch instead ([{path, bytes}], in blob order)."""
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     manifest_json = json.dumps(manifest, separators=(",", ":")).replace("</", "<\\/")
-    b64 = base64.b64encode(blob).decode("ascii")
+    b64 = "" if bin_files else base64.b64encode(blob).decode("ascii")
     if "</script" in b64.lower():
         raise SystemExit("base64 payload contains a script terminator")
     html = template.replace("__MANIFEST_JSON__", manifest_json, 1)
+    html = html.replace("__BIN_FILES_JSON__", json.dumps(bin_files or []), 1)
     html = html.replace("__BIN_B64__", b64, 1)
     return html
 
@@ -385,17 +429,35 @@ def main(argv=None) -> int:
                     help="multiplies every category triangle budget; tuned so the WHOLE body "
                          "(every category in one page, unlike build_zan_reference.py's own "
                          "msk/nv split) stays under the 15 MB page cap -- see PROJECT_STATE.md Q157.")
+    ap.add_argument("--category-scale", action="append", default=[], metavar="CAT=SCALE",
+                    help="per-category override of --budget-scale (repeatable), e.g. muscle=1.0")
+    ap.add_argument("--external-bin", action="store_true",
+                    help="Q159: write geometry as sibling <out-stem>_NN.bin files (each under the "
+                         "artifact host's 15 MB binary cap) instead of inlining it, so the page is "
+                         "no longer the resolution ceiling; publish them with the page.")
     ap.add_argument("-o", "--out", default="build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
     ap.add_argument("--report", default=str(REPO / "data" / "derived" / "Q157_zan_atlas_report.json"))
     args = ap.parse_args(argv)
 
+    category_scale = dict(HIRES_CATEGORY_SCALE) if args.external_bin and not args.category_scale else {}
+    for item in args.category_scale:
+        cat, _, val = item.partition("=")
+        category_scale[cat.strip()] = float(val)
+
     manifest, blob, origin_report = build(
         zan_dir=Path(args.zan_dir), inventory_path=Path(args.inventory), namemap_path=Path(args.namemap),
-        corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale)
+        corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
+        category_scale=category_scale)
 
-    html = render_html(manifest, blob)
     out_path = REPO / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    bin_files = None
+    if args.external_bin:
+        bin_files = []
+        for name, chunk in split_blob(blob, out_path.stem):
+            (out_path.parent / name).write_bytes(chunk)
+            bin_files.append({"path": name, "bytes": len(chunk)})
+    html = render_html(manifest, blob, bin_files)
     out_path.write_text(html, encoding="utf-8")
 
     report = {
@@ -408,6 +470,9 @@ def main(argv=None) -> int:
         ),
         "origin": origin_report,
         "budget_scale": args.budget_scale,
+        "category_scale": category_scale,
+        "decimation": "Q159: quadric edge-collapse on welded meshes, vertex clustering fallback",
+        "bin_files": bin_files or "inline base64",
         "binary_bytes": len(blob),
         "html_bytes": len(html),
         **manifest["totals"],
@@ -423,6 +488,8 @@ def main(argv=None) -> int:
     print(f"corrected ids: {manifest['totals']['corrected_ids']}")
     print(f"binary {len(blob)/1e6:.2f} MB -> html {len(html)/1e6:.2f} MB -> {out_path}")
     print(f"wrote {args.report}")
+    if bin_files:
+        print(f"external geometry: {[(b['path'], round(b['bytes']/1e6, 2)) for b in bin_files]}")
     if len(html) > 15_000_000:
         print(f"WARNING: {len(html)/1e6:.2f} MB exceeds the 15 MB page budget; "
               f"re-run with a smaller --budget-scale", file=sys.stderr)

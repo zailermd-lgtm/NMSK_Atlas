@@ -144,3 +144,38 @@ def test_no_source_objects_are_merged_into_one_shipped_mesh(manifest):
     # a fused carpal blob (8 bones unioned, Q158's own first cut) would carry
     # thousands of vertices; a single decimated carpal bone must not.
     assert scaphoid["vc"] < 500, "scaphoid's own vertex count looks fused (too large for a single carpal bone)"
+
+
+def test_quadric_decimation_keeps_a_thin_tube_in_one_piece():
+    # Q159: vertex clustering split long thin nerves/vessels into beads; quadric must not.
+    import numpy as np
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    from scripts.zanatomy.build_zan_atlas_viewer import decimate
+    n_ring, n_len = 12, 400
+    t = np.linspace(0, 2 * np.pi, n_ring, endpoint=False)
+    z = np.linspace(0, 400.0, n_len)
+    v = np.array([[1.5 * np.cos(a), 1.5 * np.sin(a), zz] for zz in z for a in t])
+    f = []
+    for i in range(n_len - 1):
+        for j in range(n_ring):
+            a, b = i * n_ring + j, i * n_ring + (j + 1) % n_ring
+            f += [[a, b, a + n_ring], [b, b + n_ring, a + n_ring]]
+    f = np.array(f)
+    dv, df = decimate(v, f, "test_tube_n", "nerve", 0.22)
+    assert len(df) < len(f)
+    e = np.concatenate([df[:, [0, 1]], df[:, [1, 2]], df[:, [2, 0]]])
+    ncomp, _ = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(len(dv),) * 2),
+                                    directed=False)
+    assert ncomp == 1
+
+
+def test_external_bin_split_is_even_and_lossless():
+    from scripts.zanatomy.build_zan_atlas_viewer import render_html, split_blob
+    blob = bytes(range(256)) * 1001
+    parts = split_blob(blob, "page", max_bytes=10_001)
+    assert all(len(c) % 2 == 0 for _, c in parts[:-1])
+    assert b"".join(c for _, c in parts) == blob
+    files = [{"path": p, "bytes": len(c)} for p, c in parts]
+    html = render_html({"meshes": []}, blob, files)
+    assert '__ANATOMY_BIN__=""' in html and parts[0][0] in html
