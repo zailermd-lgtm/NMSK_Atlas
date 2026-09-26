@@ -1,0 +1,145 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'abdominal_muscles' task, plus the reviewed mapping onto atlas entities.",
+    "A KEY, not data: it contains no anatomy and no geometry. Entries with atlas_id null are decisions NOT to map, each with its reason."
+  ],
+  "source": "Wasserthal J et al., TotalSegmentator (Radiology: AI 2023, doi:10.1148/ryai.230024); class map transcribed from totalsegmentator/map_to_binary.py, v2.18.0, Apache-2.0. Task listed in the project README under 'Openly available for any usage (Apache-2.0 license)'.",
+  "task": "abdominal_muscles",
+  "version": "v2.18.0",
+  "labels": {
+    "1": "pectoralis_major_right",
+    "2": "pectoralis_major_left",
+    "3": "rectus_abdominis_right",
+    "4": "rectus_abdominis_left",
+    "5": "serratus_anterior_right",
+    "6": "serratus_anterior_left",
+    "7": "latissimus_dorsi_right",
+    "8": "latissimus_dorsi_left",
+    "9": "trapezius_right",
+    "10": "trapezius_left",
+    "11": "external_oblique_right",
+    "12": "external_oblique_left",
+    "13": "internal_oblique_right",
+    "14": "internal_oblique_left",
+    "15": "erector_spinae_right",
+    "16": "erector_spinae_left",
+    "17": "transversospinalis_right",
+    "18": "transversospinalis_left",
+    "19": "psoas_major_right",
+    "20": "psoas_major_left",
+    "21": "quadratus_lumborum_right",
+    "22": "quadratus_lumborum_left"
+  },
+  "atlas": {
+    "pectoralis_major_right": {
+      "atlas_id": "pectoralis_major_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "pectoralis_major_left": {
+      "atlas_id": "pectoralis_major_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "rectus_abdominis_right": {
+      "atlas_id": "rectus_abdominis_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "rectus_abdominis_left": {
+      "atlas_id": "rectus_abdominis_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "serratus_anterior_right": {
+      "atlas_id": "serratus_anterior_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "serratus_anterior_left": {
+      "atlas_id": "serratus_anterior_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "latissimus_dorsi_right": {
+      "atlas_id": "latissimus_dorsi_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "latissimus_dorsi_left": {
+      "atlas_id": "latissimus_dorsi_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "external_oblique_right": {
+      "atlas_id": "external_oblique_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "external_oblique_left": {
+      "atlas_id": "external_oblique_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "internal_oblique_right": {
+      "atlas_id": "internal_oblique_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "internal_oblique_left": {
+      "atlas_id": "internal_oblique_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "quadratus_lumborum_right": {
+      "atlas_id": "quadratus_lumborum_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "quadratus_lumborum_left": {
+      "atlas_id": "quadratus_lumborum_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "trapezius_right": {
+      "atlas_id": "trapezius_r",
+      "relationship": "exact",
+      "note": "This task segments within T4-L4 only, so the mask is the thoracic part of the muscle; the cervical part is absent, not missing."
+    },
+    "trapezius_left": {
+      "atlas_id": "trapezius_l",
+      "relationship": "exact",
+      "note": "This task segments within T4-L4 only, so the mask is the thoracic part of the muscle; the cervical part is absent, not missing."
+    },
+    "erector_spinae_right": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: iliocostalis, longissimus, spinalis."
+    },
+    "erector_spinae_left": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: iliocostalis, longissimus, spinalis."
+    },
+    "transversospinalis_right": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: multifidus, rotatores, semispinalis."
+    },
+    "transversospinalis_left": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: multifidus, rotatores, semispinalis."
+    },
+    "psoas_major_right": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Psoas major alone; the atlas carries iliopsoas as one entity and the total task already maps its iliopsoas mask onto it for the same subject. Not mapped a second time."
+    },
+    "psoas_major_left": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Psoas major alone; the atlas carries iliopsoas as one entity and the total task already maps its iliopsoas mask onto it for the same subject. Not mapped a second time."
+    }
+  }
+}

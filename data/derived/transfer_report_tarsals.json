@@ -1,0 +1,288 @@
+{
+ "source": "Anatomical imagery courtesy of the U.S. National Library of Medicine (Visible Human Project). Lower-extremity musculoskeletal geometry derived from Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, used under CC BY 4.0. Derived data (scripts/transfer/cross_subject_transfer.py).",
+ "direction": "m2f",
+ "bulk_transverse": {
+  "lower_limb": 1.0,
+  "default": 1.0
+ },
+ "fill_correction": {},
+ "fill_detail": {},
+ "n": 14,
+ "not_transferred": {},
+ "rows": [
+  {
+   "atlas_id": "calcaneus_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_r": 0.426,
+    "tibia_r": 0.349,
+    "metatarsals_r": 0.225
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 73.0,
+   "volume_out_cm3": 61.1,
+   "displacement_mm_median": 185.7
+  },
+  {
+   "atlas_id": "talus_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_r": 0.539,
+    "fibula_r": 0.361,
+    "metatarsals_r": 0.101
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 38.6,
+   "volume_out_cm3": 23.8,
+   "displacement_mm_median": 182.3
+  },
+  {
+   "atlas_id": "cuboid_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 0.748,
+    "fibula_r": 0.125,
+    "tibia_r": 0.122,
+    "phalanges_foot_r": 0.005
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 13.7,
+   "volume_out_cm3": 17.7,
+   "displacement_mm_median": 176.8
+  },
+  {
+   "atlas_id": "navicular_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 0.482,
+    "tibia_r": 0.354,
+    "fibula_r": 0.164
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 9.6,
+   "volume_out_cm3": 11.0,
+   "displacement_mm_median": 179.5
+  },
+  {
+   "atlas_id": "cuneiform_medial_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 0.845,
+    "tibia_r": 0.102,
+    "fibula_r": 0.034,
+    "phalanges_foot_r": 0.019
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 9.7,
+   "volume_out_cm3": 13.0,
+   "displacement_mm_median": 172.7
+  },
+  {
+   "atlas_id": "cuneiform_intermediate_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 0.872,
+    "tibia_r": 0.078,
+    "fibula_r": 0.041,
+    "phalanges_foot_r": 0.009
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 3.5,
+   "volume_out_cm3": 4.8,
+   "displacement_mm_median": 173.9
+  },
+  {
+   "atlas_id": "cuneiform_lateral_r",
+   "category": "bone",
+   "side": "right",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_r": 0.843,
+    "tibia_r": 0.087,
+    "fibula_r": 0.058,
+    "phalanges_foot_r": 0.012
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 6.4,
+   "volume_out_cm3": 8.6,
+   "displacement_mm_median": 174.2
+  },
+  {
+   "atlas_id": "calcaneus_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "fibula_l": 0.414,
+    "tibia_l": 0.348,
+    "metatarsals_l": 0.238
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 79.8,
+   "volume_out_cm3": 58.4,
+   "displacement_mm_median": 177.5
+  },
+  {
+   "atlas_id": "talus_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "tibia_l": 0.547,
+    "fibula_l": 0.346,
+    "metatarsals_l": 0.108
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 38.9,
+   "volume_out_cm3": 22.1,
+   "displacement_mm_median": 177.2
+  },
+  {
+   "atlas_id": "cuboid_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 0.762,
+    "tibia_l": 0.117,
+    "fibula_l": 0.112,
+    "phalanges_foot_l": 0.009
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 14.2,
+   "volume_out_cm3": 12.0,
+   "displacement_mm_median": 180.2
+  },
+  {
+   "atlas_id": "navicular_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 0.471,
+    "tibia_l": 0.369,
+    "fibula_l": 0.16
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 10.0,
+   "volume_out_cm3": 8.9,
+   "displacement_mm_median": 181.2
+  },
+  {
+   "atlas_id": "cuneiform_medial_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 0.844,
+    "tibia_l": 0.103,
+    "fibula_l": 0.031,
+    "phalanges_foot_l": 0.022
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 10.0,
+   "volume_out_cm3": 7.3,
+   "displacement_mm_median": 173.2
+  },
+  {
+   "atlas_id": "cuneiform_intermediate_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 0.87,
+    "tibia_l": 0.08,
+    "fibula_l": 0.034,
+    "phalanges_foot_l": 0.016
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 3.7,
+   "volume_out_cm3": 3.3,
+   "displacement_mm_median": 175.5
+  },
+  {
+   "atlas_id": "cuneiform_lateral_l",
+   "category": "bone",
+   "side": "left",
+   "source_subject": "vhm_both",
+   "source_trust": "manual segmentation of his cryosections (DU release)",
+   "region": "lower_limb",
+   "driving_bones": {
+    "metatarsals_l": 0.846,
+    "tibia_l": 0.085,
+    "fibula_l": 0.047,
+    "phalanges_foot_l": 0.022
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 6.7,
+   "volume_out_cm3": 5.6,
+   "displacement_mm_median": 176.0
+  }
+ ]
+}

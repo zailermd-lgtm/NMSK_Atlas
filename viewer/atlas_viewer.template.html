@@ -1,0 +1,1083 @@
+<meta charset="utf-8">
+<title>NMSK Atlas Viewer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --bg:#E8ECEF; --surface:#FFFFFF; --panel:#F3F6F8; --sunk:#DFE5EA;
+  --ink:#0F151A; --ink-2:#33414D; --muted:#5B6874; --line:#CBD3DA; --line-2:#E1E7EB;
+  --accent:#0A6E8E; --accent-ink:#FFFFFF; --accent-soft:#DCEDF4;
+  --risk:#B3400C; --risk-soft:#FBE7DC; --good:#2F7D5B;
+  --bone:#C9BFA6; --muscle:#A93B2D; --cartilage:#7FA9B8; --ligament:#B0A47F; --tendon:#C5B68F;
+  --shadow:0 1px 2px rgba(15,21,26,.06),0 8px 24px rgba(15,21,26,.08);
+  --canvas-top:#DFE6EA; --canvas-bot:#C3CDD4;
+}
+:root:not([data-theme="light"]){ }
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B0F12; --surface:#141A1F; --panel:#10161B; --sunk:#0A0E11;
+    --ink:#E3EAEF; --ink-2:#B7C3CD; --muted:#8896A3; --line:#242D35; --line-2:#1B2228;
+    --accent:#41B0D0; --accent-ink:#04191F; --accent-soft:#0E2C36;
+    --risk:#E8875A; --risk-soft:#2E1A11; --good:#5FBF95;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.5);
+    --canvas-top:#161D23; --canvas-bot:#0A0E11;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B0F12; --surface:#141A1F; --panel:#10161B; --sunk:#0A0E11;
+  --ink:#E3EAEF; --ink-2:#B7C3CD; --muted:#8896A3; --line:#242D35; --line-2:#1B2228;
+  --accent:#41B0D0; --accent-ink:#04191F; --accent-soft:#0E2C36;
+  --risk:#E8875A; --risk-soft:#2E1A11; --good:#5FBF95;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 30px rgba(0,0,0,.5);
+  --canvas-top:#161D23; --canvas-bot:#0A0E11;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:13px; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+.prose{font-family:"Source Serif 4",Georgia,serif}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+/* ---------- shell ---------- */
+#app{display:grid;grid-template-columns:236px minmax(0,1fr) 344px;grid-template-rows:auto minmax(0,1fr);
+     height:100vh;min-height:560px}
+header{grid-column:1/-1;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+  padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+header h1{margin:0;font-size:15px;font-weight:700;letter-spacing:-.01em}
+header .sub{color:var(--muted);font-size:11.5px}
+header .spacer{flex:1 1 auto;min-width:8px}
+.stat{display:flex;gap:5px;align-items:baseline;font-size:11.5px;color:var(--muted);white-space:nowrap}
+.stat b{color:var(--ink);font-weight:600}
+
+aside,#inspector{background:var(--panel);overflow-y:auto;overflow-x:hidden}
+aside{border-right:1px solid var(--line)}
+#inspector{border-left:1px solid var(--line)}
+.sec{padding:12px 14px;border-bottom:1px solid var(--line-2)}
+.sec:last-child{border-bottom:none}
+.eyebrow{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+
+/* ---------- systems ---------- */
+.sys{display:flex;align-items:center;gap:9px;width:100%;padding:5px 6px;border-radius:5px;text-align:left}
+.sys:hover{background:var(--sunk)}
+.sys .sw{width:11px;height:11px;border-radius:2px;flex:none;border:1px solid rgba(0,0,0,.22)}
+.sys .nm{flex:1;text-transform:capitalize}
+.sys .ct{font-size:11px;color:var(--muted)}
+.sys[aria-pressed="false"]{opacity:.4}
+.sys[aria-pressed="false"] .sw{background:transparent!important}
+
+/* ---------- search + list ---------- */
+#q{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:5px;
+   background:var(--surface);color:var(--ink);font:inherit}
+#q::placeholder{color:var(--muted)}
+#list{display:flex;flex-direction:column;gap:1px;margin-top:8px}
+.row{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:4px;text-align:left;width:100%}
+.row:hover{background:var(--sunk)}
+.row[aria-current="true"]{background:var(--accent);color:var(--accent-ink)}
+.row[aria-current="true"] .rc{color:var(--accent-ink);opacity:.75}
+.row .dot{width:7px;height:7px;border-radius:50%;flex:none}
+.row .rn{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}
+.row .rc{font-size:10.5px;color:var(--muted)}
+.hint{color:var(--muted);font-size:11.5px}
+
+/* ---------- canvas ---------- */
+#stage{position:relative;background:linear-gradient(180deg,var(--canvas-top),var(--canvas-bot));min-width:0}
+#stage canvas{display:block;width:100%;height:100%}
+.overlay{position:absolute;pointer-events:none}
+#axes{left:14px;bottom:14px;width:96px;height:96px}
+#frame-note{left:14px;bottom:116px;font-size:10.5px;color:var(--muted);max-width:190px}
+#tools{right:12px;top:12px;display:flex;gap:6px;pointer-events:auto}
+.tool{padding:5px 10px;border:1px solid var(--line);border-radius:5px;background:var(--surface);
+      font-size:11.5px;font-weight:500;box-shadow:var(--shadow)}
+.tool[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+#hover{left:0;top:0;padding:3px 7px;border-radius:4px;background:var(--surface);border:1px solid var(--line);
+       font-size:11.5px;box-shadow:var(--shadow);white-space:nowrap;transform:translate(-50%,-160%)}
+#scalebar{right:12px;bottom:14px;text-align:right;font-size:10.5px;color:var(--muted)}
+#scalebar .bar{height:3px;background:var(--muted);opacity:.6;margin-left:auto;margin-bottom:3px}
+
+/* ---------- inspector ---------- */
+#insp-head{padding:14px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}
+#insp-head h2{margin:0 0 2px;font-size:16px;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+#insp-head .lat{font-style:italic;color:var(--muted);font-size:12px}
+#insp-head .idline{margin-top:7px;font-size:11px;color:var(--muted);word-break:break-all}
+.tagrow{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{padding:2px 7px;border-radius:99px;font-size:10.5px;font-weight:600;border:1px solid var(--line);color:var(--ink-2)}
+.tag.cat{border-color:transparent;color:#1B1B1B}
+.tag.warn{border-color:var(--risk);color:var(--risk);background:var(--risk-soft)}
+.kv{display:grid;grid-template-columns:78px minmax(0,1fr);gap:4px 10px;font-size:12px}
+table.course{border-collapse:collapse;font-size:12px;margin:4px 0}
+table.course th{text-align:left;font-weight:600;color:#666;padding:2px 8px 2px 0}
+table.course td{padding:2px 8px 2px 0;border-top:1px solid #eee}
+button.mini{font:inherit;font-size:11px;padding:1px 6px;border:1px solid #bbb;border-radius:4px;background:#fff;cursor:pointer}
+button.mini:hover{background:#f2f2f2}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;overflow-wrap:anywhere}
+.arch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.cell{background:var(--surface);border:1px solid var(--line-2);border-radius:6px;padding:7px 9px}
+.cell .lb{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.cell .vl{font-size:15px;font-weight:600;margin-top:1px}
+.cell .vl small{font-size:10.5px;font-weight:500;color:var(--muted);margin-left:2px}
+.comp{border:1px solid var(--line);border-radius:7px;background:var(--surface);padding:10px 11px;margin-bottom:9px}
+.comp h4{margin:0 0 3px;font-size:12.5px;font-weight:700}
+.comp .cid{font-size:10.5px;color:var(--muted);word-break:break-all;margin-bottom:7px}
+.note{font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:7px 0 0}
+.cite{font-size:11px;line-height:1.5;color:var(--muted);margin-top:6px}
+
+/* endplate zone drawn to its own scale */
+.zone{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.zone .zt{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);gap:8px}
+.zone .zt span{max-width:47%;line-height:1.35}
+.zone .zt span:last-child{text-align:right}
+.track{position:relative;height:16px;margin:5px 0 3px;background:var(--sunk);border-radius:3px;overflow:hidden}
+.track .band{position:absolute;top:0;bottom:0;background:var(--accent);border-radius:2px}
+.track .tick{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
+.zone .zr{font-size:11px;font-weight:600}
+.zone .zr b{color:var(--accent)}
+.pt{margin-top:9px;border-left:2px solid var(--accent);padding-left:9px}
+.pt .ph{font-size:11.5px;font-weight:600}
+.risk{margin-top:5px;padding:6px 8px;border-radius:5px;background:var(--risk-soft);
+      color:var(--risk);font-size:11px;font-weight:600}
+.risk ul{margin:3px 0 0;padding-left:15px;font-weight:500}
+.empty{padding:26px 16px;color:var(--muted);font-size:12.5px}
+.pill{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);
+      font-size:10.5px;margin:0 3px 3px 0}
+.pt-btn{display:inline-block;padding:1px 6px;border-radius:4px;background:var(--sunk);
+      font-size:10.5px;margin:0 0 3px 6px;border:1px solid var(--accent);color:var(--accent);
+      cursor:pointer;font-family:inherit}
+.pt-btn:hover{background:var(--accent);color:#fff}
+.warn{margin-top:6px;font-size:11px;color:var(--risk)}
+
+/* ---------- needle path ---------- */
+#needle-panel{padding:12px 14px;background:var(--panel);border-bottom:1px solid var(--line)}
+#needle-panel .eyebrow{margin-top:0}
+#needle-panel .np-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
+#needle-panel .np-row h3{margin:0;font-size:13px;font-weight:700}
+#needle-panel .np-status{font-size:11.5px;color:var(--muted);margin:0 0 6px}
+#needle-panel ol{margin:4px 0 0;padding-left:18px;font-size:12px}
+#needle-panel ol li{margin:2px 0}
+#needle-panel ol .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;vertical-align:middle}
+#needle-panel ol .rng{color:var(--muted);margin-left:4px;white-space:nowrap}
+@media (max-width:1080px){
+  #app{grid-template-columns:200px minmax(0,1fr) 300px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div id="app">
+  <header>
+    <h1>NMSK Atlas Viewer</h1>
+    <div class="sub" id="s-subtitle">Visible Human &middot; pelvis to ankle</div>
+    <div class="sub" id="s-credit" hidden></div>
+    <div class="spacer"></div>
+    <div class="stat"><b id="s-str">0</b> structures</div>
+    <div class="stat"><b id="s-tri">0</b> triangles shown</div>
+    <div class="stat"><b id="s-full">0</b> in the source mesh</div>
+  </header>
+
+  <aside>
+    <div class="sec">
+      <p class="eyebrow">Tissue systems</p>
+      <div id="systems"></div>
+    </div>
+    <div class="sec">
+      <p class="eyebrow">Structures</p>
+      <input id="q" type="search" placeholder="Search 130 structures" autocomplete="off">
+      <div id="list"></div>
+    </div>
+  </aside>
+
+  <div id="stage">
+    <div class="overlay" id="tools">
+      <button class="tool" id="t-iso" aria-pressed="false">Isolate</button>
+      <button class="tool" id="t-xray" aria-pressed="false">X-ray</button>
+      <button class="tool" id="t-needle" aria-pressed="false" title="Click an entry point, then a target; the panel reports the path length and every structure the path crosses">Needle path</button>
+      <button class="tool" id="t-reset">Reset view</button>
+    </div>
+    <div class="overlay" id="frame-note">
+      Atlas frame &mdash; origin at the midpoint of the hip joint centres.
+    </div>
+    <svg class="overlay" id="axes" viewBox="-50 -50 100 100" aria-hidden="true"></svg>
+    <div class="overlay" id="scalebar"><div class="bar"></div><span id="scale-txt">100 mm</span></div>
+    <div class="overlay" id="hover" hidden></div>
+  </div>
+
+  <div id="inspector">
+    <div id="insp-head">
+      <h2 id="i-name">Select a structure</h2>
+      <div class="lat" id="i-lat"></div>
+      <div class="idline mono" id="i-id"></div>
+      <div class="tagrow" id="i-tags"></div>
+    </div>
+    <div id="needle-panel" hidden>
+      <div class="np-row"><h3>Needle path</h3><button type="button" class="pt-btn" id="needle-clear">Clear</button></div>
+      <p class="np-status" id="needle-status"></p>
+      <div id="needle-report"></div>
+    </div>
+    <div id="i-body"><div class="empty">Click any structure in the model, or pick one from the list.</div></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="bundle-json" type="application/json">__BUNDLE_JSON__</script>
+<script id="bundle-b64" type="text/plain">__BUNDLE_B64__</script>
+<script>
+(function(){
+"use strict";
+var BUNDLE = JSON.parse(document.getElementById("bundle-json").textContent);
+var B64 = document.getElementById("bundle-b64").textContent.trim();
+
+/* Two different real bodies can appear in one bundle (e.g. Visible Human
+   pelvis-to-ankle plus a second specimen filling in bone/vessel geometry
+   above the hip) -- see docs/GEOMETRY_SOURCES.md's explicit warning against
+   ever presenting that as one continuous skeleton. The primary/first-listed
+   subject is the reference specimen everything is measured against; any
+   other subject is a second real body shown for comparison, not fused into
+   it, so every structure from it is labelled as such in the inspector. */
+var SUBJECTS = BUNDLE.subject.split("+");
+var PRIMARY_SUBJECT = SUBJECTS[0];
+var SUBJECT_LABELS = {
+  xfer_vhm2vhf: "TRANSFERRED from the Visible Human male, not measured on her: his structure carried onto her bones by piecewise affine maps and, for the lower-limb muscles, re-placed inside her muscle compartment as measured on her cryosections; the boundaries between muscles are his. An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
+  xfer_vhm2vhf_sep: "TRANSFERRED from the Visible Human male, not measured on her: his lower-limb muscle carried onto her bones and inside her muscle compartment, with the boundaries between neighbouring bellies then refined to HER intermuscular septa on her cryosections (marker watershed). The muscle set, attachments and rough shape are still his -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
+  xfer_vhf2vhm_neck: "TRANSFERRED from the Visible Human female, not measured on him: her deep-neck, suboccipital and floor-of-mouth muscles (themselves rule-based on her photographs) carried onto his bones by the piecewise affine map. An estimate on top of an estimate -- the volumes follow his larger frame; see docs/GEOMETRY_SOURCES.md",
+  xfer_vhf2vhm: "TRANSFERRED from the Visible Human female, not measured on him: her structure carried onto his bones by piecewise affine maps (digastric, internal carotid/jugular, and the orbit muscles his frozen CT segmented at a fraction of their size). An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
+  ct_vhf_armb: "Visible Human female, CT -- right radius (proximal ~50 mm outside the field of view), ulna (proximal ~110 mm outside) and hand grouped as carpals/metacarpals/phalanges by marker watershed; the left arm lies outside the CT field of view",
+  ct_vhf_legs: "Visible Human female, femur-to-toes CT registered to her torso block by continuity (+-4 mm) -- femur united from both blocks; tibia, fibula, patella by distance-watershed rules; foot bones grouped by planes",
+  ct_vhf: "Visible Human female, fresh-cadaver CT (NLM VHP via IDC, public domain) -- TotalSegmentator total task",
+  ct_vhf_head: "Visible Human female, CT -- craniofacial_structures",
+  ct_vhf_headm: "Visible Human female, CT -- head_muscles",
+  ct_vhf_orbit: "Visible Human female, CT -- oculomotor_muscles",
+  ct_vhf_neck: "Visible Human female, CT -- headneck_muscles",
+  ct_vhf_neckbv: "Visible Human female, CT -- headneck_bones_vessels",
+  ct_vhf_abd: "Visible Human female, CT -- abdominal_muscles",
+  ct_vhf_delt: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- deltoid by the male's superficial-proximity rule adapted to her (depth band relative to the muscle compartment, window scaled to her scapula, lateral wedge below the humeral head); rule-based, still above expectation on the left",
+  ct_vhf_es: "Visible Human female, CT -- erector spinae columns (spinalis, longissimus, iliocostalis) by distance-from-midline rule on her model labels",
+  ct_vhm_forearm: "Visible Human male, colour cryosections at full resolution (0.33 mm) -- right forearm muscles by position rules in the radius-ulna frame (bones tracked in the photographs) with boundaries on the pale fascial lines; rule-based; only flexor digitorum superficialis/profundus and abductor pollicis longus shipped by name, the other regions had volumes far above expectation and stay unshipped",
+  xfer_vhm2vhf_rhom: "TRANSFERRED from the Visible Human male, not measured on her: his rhomboid minor (itself split by rule from his rhomboid label) carried onto her scapula and spine by the piecewise affine map, because her own rhomboid mass could not be split. An estimate; 26.0 and 13.6 cm3",
+  ct_vhf_pfloor: "Visible Human female, CT labels with her 1 mm colour cryosections as the tissue evidence -- pelvic floor and perineum by position rules inside her bony pelvis (levator ani, coccygeus, external anal sphincter, bulbospongiosus, ischiocavernosus, deep transverse perineal); rule-based. The levator comes out 1.35x the published MRI volume because the rule gives a 10-13 mm sheet where Gray's describes 3-5 mm (review); bulbospongiosus and ischiocavernosus include their erectile bodies; superficial transverse perineal is too small for the frame and is unshipped",
+  ct_vhf_popliteal: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) -- the popliteal artery and vein LUMEN and the tibial nerve tracked level by level in the popliteal fossa (artery deepest on the femur, vein between, nerve most superficial: verified on the meshes). Lumens measure under a living vessel (post-mortem contraction and a collapsed vein). The division at the lower border of popliteus is NOT covered: below y -390 mm the walk ran into gastrocnemius",
+  ct_vhf_femoral: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) -- the femoral artery and vein LUMEN and the femoral nerve trunk tracked level by level in the femoral triangle from a landmark seed (nerve lateral, artery, vein medial). Only y +14 to -46 mm: the top of the common femoral vessels is above the crops and the adductor canal could not be confirmed, so it is not shipped. The nerve trunk ends where it divides, 45 mm below the inguinal ligament, and rests on 9 detected levels of 26",
+  ct_vhf_hand: "Visible Human female, colour cryosections at full resolution (0.33 mm) -- right hand intrinsics by compartment rules around her metacarpal shafts (adductor pollicis, the three hypothenar muscles, the dorsal and palmar interossei as groups); rule-based; the thenar group could not be split into abductor/flexor/opponens pollicis and stays unshipped, as do the lumbricals and palmaris brevis; adductor pollicis is above expectation (review)",
+  ct_vhf_hyoid: "Visible Human female, colour cryosections (1 mm frame) registered to her CT -- floor of the mouth and extrinsic tongue muscles by position rules between her mandible, hyoid, styloid and tongue labels (mylohyoid, geniohyoid, genioglossus, hyoglossus, styloglossus); rule-based; her head is flexed, mylohyoid and the left hyoglossus are above expectation (review); the infrahyoid straps came out as fragments and are unshipped",
+  ct_vhf_dneck: "Visible Human female, colour cryosections (1 mm frame) registered to her CT -- deep neck and suboccipital muscles by layer and position rules between her vertebral, trapezius, SCM, scalene and erector labels (semispinalis capitis/cervicis, the four suboccipitals, longus colli/capitis); splenius and the erector sink not shipped; rule-based",
+  ct_vhf_twall: "Visible Human female, CT labels (TotalSegmentator total task) -- diaphragm as a 4 mm sheet on the lung/heart-to-viscera boundary with costal apposition and crura, intercostal sheets between adjacent ribs (one label standing for all three layers); HU-gated to the muscle window; rule-based",
+  ct_vhm_twall: "Visible Human male, CT labels (TotalSegmentator total task, frozen CT) -- diaphragm as a 4 mm sheet on the lung/heart-to-viscera boundary with costal apposition and crura, intercostal sheets between adjacent ribs (one label for all three layers); geometric rule only (his HU overlap), intercostal volume above expectation; rule-based",
+  ct_vhf_forearm: "Visible Human female, colour cryosections at full resolution (0.33 mm) -- right forearm muscles by position rules in the radius-ulna frame (bones tracked in the photographs) with boundaries on the pale fascial lines; rule-based; the superficial flexors, ECRL/ECRB and supinator/anconeus stay merged and unshipped; FCU and brachioradialis volumes above expectation (review)",
+  ct_vhf_armm: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- upper-arm muscles by the male's compartment rules (biceps, brachialis, triceps) with the humerus located in the photograph itself; boundaries rule-based",
+  ct_vhf_shsp: "Visible Human female, colour cryosections registered to her CT -- infraspinatus, teres minor and teres major separated out of the cuff rule's merged posterior mass by scapular-landmark rules (lateral border, inferior angle, glenoid level) and a watershed on her fascial lines; rule-based",
+  ct_vhm_shsp: "Visible Human male, frozen CT -- infraspinatus, teres minor, teres major and the rhomboids major/minor separated out of the cuff and rhomboid rule labels by scapular-landmark rules (no photographs: his 1 mm frame was lost); rule-based",
+  ct_vhf_tarsal: "Visible Human female, CT -- her tarsal label split into talus, calcaneus, cuboid, navicular and the three cuneiforms by the male's separately segmented tarsals (DU release) transferred onto her: outer surfaces hers, the joint surfaces between the bones his shapes placed on her; rule-based",
+  ct_vhf_nerve: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) registered to her CT -- peripheral nerve tracked level by level as a bundle of fascicles between the muscles, from a landmark-rule seed (sciatic: midway between the ischial tuberosity and the greater trochanter); rule-based, each level checked on a montage; ends where the fascicles could no longer be followed",
+  ct_vhf_pmr: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- pectoralis minor by position rules (deep to pectoralis major, on the chest wall); rule-based",
+  ct_vhf_cuff: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- rotator cuff by the male's scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis)",
+  ct_vhm: "Visible Human male, frozen CT (NLM VHP via IDC, public domain) -- TotalSegmentator total task",
+  ct_vhm_neck: "Visible Human male, frozen CT -- TotalSegmentator headneck_muscles",
+  ct_vhm_neckbv: "Visible Human male, frozen CT -- TotalSegmentator headneck_bones_vessels",
+  ct_vhm_abd: "Visible Human male, frozen CT -- TotalSegmentator abdominal_muscles",
+  ct_vhm_head: "Visible Human male, frozen CT -- TotalSegmentator craniofacial_structures",
+  ct_vhm_headm: "Visible Human male, frozen CT -- TotalSegmentator head_muscles",
+  ct_vhm_orbit: "Visible Human male, frozen CT -- TotalSegmentator oculomotor_muscles",
+  ct_vhm_arm: "Visible Human male, frozen CT + colour cryosections -- humerus, radius, ulna to the elbow; hands grouped as carpals/metacarpals/phalanges",
+  ct_vhm_delt: "Visible Human male, colour cryosections -- deltoid by superficial-proximity rules; deep boundary approximate",
+  ct_vhm_cuff: "Visible Human male, colour cryosections -- rotator cuff by scapular-surface rules (supraspinatus, infraspinatus + teres minor, subscapularis)",
+  ct_vhm_es: "Visible Human male, frozen CT -- erector spinae columns (spinalis, longissimus, iliocostalis) by distance-from-midline rule",
+  ct_vhm_skin: "Visible Human male, colour cryosections -- body surface (tissue silhouette)",
+  ct_vhm_abw: "Visible Human male, colour cryosections -- abdominal wall by position and depth-fraction rules (rectus, obliques, transversus); boundaries rule-based",
+  ct_vhm_pmr: "Visible Human male, colour cryosections -- pectoralis minor and rhomboids by position rules (rule-based, over-inclusive pec minor)",
+  ct_vhm_foot: "Visible Human male, frozen CT feet block -- his LEFT metatarsals and toe phalanges, grouped by planes along the foot axis (the DU release files ~22 cm3 of his left metatarsals under phalanges; his own CT puts the volumes level with the right foot)",
+  ct_vhm_armm: "Visible Human male, colour cryosections -- arm muscles by compartment rules (biceps, brachialis, coracobrachialis, triceps) with the humerus located in each photograph and the arm registered to his CT by whole-body centroid (v2, 2026-09-13); boundaries rule-based",
+  vhm_both: "Visible Human (DU lower-extremity release)",
+  ct_s0913: "second specimen -- TotalSegmentator CT case s0913, CC BY 4.0",
+  ct_s1371: "second specimen -- TotalSegmentator CT case s1371, CC BY 4.0",
+  ct_s0913_abd: "second specimen -- s0913 trunk-wall muscles, TotalSegmentator abdominal_muscles task on its own CT",
+  ct_s0913_neckbv: "second specimen -- s0913 neck bones/vessels, TotalSegmentator headneck_bones_vessels task",
+  ct_s1159: "third specimen -- TotalSegmentator CT case s1159 (47 f, vertex to hip), CC BY 4.0; origin fitted on its own femoral heads",
+  ct_s1159_head: "third specimen -- s1159 skull and mandible (craniofacial_structures task)",
+  ct_s1159_headm: "third specimen -- s1159 jaw and tongue-floor muscles (head_muscles task)",
+  ct_s1159_neck: "third specimen -- s1159 neck muscles (headneck_muscles task)",
+  ct_s1159_neckbv: "third specimen -- s1159 hyoid, neck vessels (headneck_bones_vessels task)",
+  ct_s1159_orbit: "third specimen -- s1159 extraocular muscles (oculomotor_muscles task)",
+  ct_s1159_abd: "third specimen -- s1159 trunk-wall muscles (abdominal_muscles task)"
+};
+
+/* ---------- decode ---------- */
+var bin = atob(B64), buf = new ArrayBuffer(bin.length), bytes = new Uint8Array(buf);
+for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+
+var TISSUE = {
+  bone:      {hex:0xC9BFA6, label:"Bone"},
+  muscle:    {hex:0xA93B2D, label:"Muscle"},
+  cartilage: {hex:0x7FA9B8, label:"Cartilage"},
+  ligament:  {hex:0xB0A47F, label:"Ligament"},
+  tendon:    {hex:0xC5B68F, label:"Tendon"},
+  vessel:    {hex:0xB4302A, label:"Vessel"},
+  nerve:     {hex:0xD8B441, label:"Nerve"},
+  other:     {hex:0x8A98A5, label:"Other"}
+};
+function hexCss(h){ return "#" + h.toString(16).padStart(6, "0"); }
+
+/* ---------- scene ---------- */
+var stage = document.getElementById("stage");
+var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+stage.appendChild(renderer.domElement);
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(35, 1, 1, 12000);
+
+var key = new THREE.DirectionalLight(0xffffff, 0.85); key.position.set(0.6, 1, 0.9);
+var fill = new THREE.DirectionalLight(0xffffff, 0.35); fill.position.set(-0.8, 0.2, -0.6);
+scene.add(key, fill, new THREE.AmbientLight(0xffffff, 0.55));
+
+var root = new THREE.Group(); scene.add(root);
+var meshes = [], byId = {};
+var offset = 0, minv = new THREE.Vector3(1e9,1e9,1e9), maxv = new THREE.Vector3(-1e9,-1e9,-1e9);
+
+BUNDLE.structures.forEach(function(s){
+  var nv = s.nv, nf = s.nf;
+  // Both arrays are 16-bit and every block is a multiple of six bytes, so
+  // the running offset stays two-byte aligned without any padding.
+  var pos = new Int16Array(buf, offset, nv * 3); offset += nv * 6;
+  var idx = new Uint16Array(buf, offset, nf * 3); offset += nf * 6;
+  var f32 = new Float32Array(nv * 3), q = BUNDLE.quantum_mm;
+  for (var k = 0; k < nv * 3; k++) f32[k] = pos[k] * q;
+  var g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(f32, 3));
+  g.setIndex(new THREE.BufferAttribute(new Uint16Array(idx), 1));
+  g.computeVertexNormals();
+  g.computeBoundingBox();
+  minv.min(g.boundingBox.min); maxv.max(g.boundingBox.max);
+  var tis = TISSUE[s.cat] || TISSUE.other;
+  var m = new THREE.MeshPhongMaterial({
+    color:tis.hex, shininess:12, specular:0x111111,
+    transparent:true, opacity:1, side:THREE.DoubleSide,
+    flatShading:false, depthWrite:true
+  });
+  var mesh = new THREE.Mesh(g, m);
+  mesh.userData = s;
+  root.add(mesh); meshes.push(mesh); byId[s.id] = mesh;
+});
+
+var centre = minv.clone().add(maxv).multiplyScalar(0.5);
+var span = maxv.clone().sub(minv);
+var radius = span.length() / 2;
+root.position.copy(centre).multiplyScalar(-1);
+
+/* Anchor-point markers: small spheres for a selected muscle's resolved
+   origin/insertion coordinates (data/rig/anchors.json, resolved against
+   real bone geometry -- see resolve_anchor_points() in
+   scripts/export_viewer_bundle.py). Parented under root so they sit in
+   the same raw-mm frame as the mesh vertices and pick up root's
+   recentring for free. Hidden until a point button is clicked. */
+var markerR = Math.max(3, radius * 0.012);
+var markerGeom = new THREE.SphereGeometry(markerR, 16, 16);
+var originMarker = new THREE.Mesh(markerGeom, new THREE.MeshBasicMaterial({color:0xffb703, depthTest:false}));
+var insertionMarker = new THREE.Mesh(markerGeom, new THREE.MeshBasicMaterial({color:0xff3d7f, depthTest:false}));
+originMarker.visible = insertionMarker.visible = false;
+originMarker.renderOrder = insertionMarker.renderOrder = 999;
+root.add(originMarker, insertionMarker);
+function showPoint(kind, x, y, z){
+  var m = kind === "origin" ? originMarker : insertionMarker;
+  m.position.set(x, y, z);
+  m.visible = true;
+  draw();
+}
+
+/* One atlas entity can arrive as SEVERAL meshes: the Denver release ships
+   the two gastrocnemius heads separately where the atlas carries one
+   gastrocnemius, and the forefoot splitter cuts one source mesh into two.
+   The list is a list of anatomy, not of meshes, so it is grouped by atlas
+   id -- and selecting an entity lights every mesh that belongs to it. */
+var groups = {}, order = [];
+meshes.forEach(function(m){
+  var s = m.userData, g = groups[s.id];
+  if (!g){
+    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject, depth_min:s.depth_min, depth_med:s.depth_med, depth_profile:s.depth_profile,
+                        meshes:[], nf:0, tris_full:0, cell:s.cell, parts:0};
+    order.push(g);
+  }
+  g.meshes.push(m); g.nf += s.nf; g.tris_full += s.tris_full; g.parts++;
+  if (!g.depth_profile && s.depth_profile) g.depth_profile = s.depth_profile;
+});
+order.sort(function(a, b){ return a.id < b.id ? -1 : 1; });
+
+/* ---------- orbit ---------- */
+/* Fit the whole body in view rather than guessing a multiple of the bounding
+   sphere: this model is a leg, four times taller than it is wide, so a
+   radius-based distance cropped the pelvis off the top of a wide viewport. */
+function fitDistance(){
+  var vfov = camera.fov * Math.PI / 180;
+  var byHeight = (span.y / 2) / Math.tan(vfov / 2);
+  var hfov = 2 * Math.atan(Math.tan(vfov / 2) * camera.aspect);
+  var byWidth = (Math.max(span.x, span.z) / 2) / Math.tan(hfov / 2);
+  return Math.max(byHeight, byWidth) * 1.12;
+}
+var az = 0.38, el = 0.12, dist = radius * 2.35, target = new THREE.Vector3(0, 0, 0);
+var HOME = {az:az, el:el};
+function place(){
+  var ce = Math.cos(el);
+  camera.position.set(
+    target.x + dist * ce * Math.sin(az),
+    target.y + dist * Math.sin(el),
+    target.z + dist * ce * Math.cos(az));
+  camera.lookAt(target);
+}
+var drag = null;
+renderer.domElement.addEventListener("pointerdown", function(e){
+  drag = {x:e.clientX, y:e.clientY, pan:(e.button === 2 || e.shiftKey), moved:0};
+  renderer.domElement.setPointerCapture(e.pointerId);
+});
+renderer.domElement.addEventListener("pointermove", function(e){
+  var hit = pick(e);
+  var hv = document.getElementById("hover");
+  if (hit && !drag){
+    hv.hidden = false; hv.textContent = hit.userData.rec ? hit.userData.rec.name : hit.userData.id;
+    hv.style.left = (e.clientX - stage.getBoundingClientRect().left) + "px";
+    hv.style.top = (e.clientY - stage.getBoundingClientRect().top) + "px";
+    renderer.domElement.style.cursor = needle.active ? "crosshair" : "pointer";
+  } else { hv.hidden = true; renderer.domElement.style.cursor = drag ? "grabbing" : (needle.active ? "crosshair" : "default"); }
+  if (!drag) return;
+  var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  drag.x = e.clientX; drag.y = e.clientY; drag.moved += Math.abs(dx) + Math.abs(dy);
+  if (drag.pan){
+    var s = dist / 900;
+    var right = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
+    var up = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
+    target.addScaledVector(right, -dx * s).addScaledVector(up, dy * s);
+  } else {
+    az -= dx * 0.0075;
+    el = Math.max(-1.45, Math.min(1.45, el + dy * 0.0075));
+  }
+  place(); draw();
+});
+window.addEventListener("pointerup", function(e){
+  if (drag && drag.moved < 5){
+    if (needle.active) needleClick(e);
+    else { var h = pick(e); select(h ? h.userData.id : null); }
+  }
+  drag = null;
+});
+renderer.domElement.addEventListener("contextmenu", function(e){ e.preventDefault(); });
+renderer.domElement.addEventListener("wheel", function(e){
+  e.preventDefault();
+  dist = Math.max(radius * 0.16, Math.min(radius * 7, dist * (1 + Math.sign(e.deltaY) * 0.11)));
+  place(); draw();
+}, {passive:false});
+
+var ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+/* Nearest visible hit under the pointer (full intersection: object, world
+   point, face). `skip` is a mesh to look through -- the needle tool uses it
+   so the second click reaches the structure beneath the skin the first
+   click landed on. */
+function pickHit(e, skip){
+  var r = renderer.domElement.getBoundingClientRect();
+  ndc.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+  ndc.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+  ray.setFromCamera(ndc, camera);
+  var hits = ray.intersectObjects(meshes.filter(function(m){ return m.visible && m !== skip; }), false);
+  return hits.length ? hits[0] : null;
+}
+function pick(e){
+  var h = pickHit(e, null);
+  return h ? h.object : null;
+}
+
+/* ---------- render ---------- */
+var fitted = false;
+function resize(){
+  var w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / Math.max(h, 1); camera.updateProjectionMatrix();
+  if (!fitted){ dist = fitDistance(); HOME.dist = dist; fitted = true; }
+  place(); draw();
+}
+function draw(){
+  renderer.render(scene, camera);
+  drawAxes(); drawScale();
+}
+function drawAxes(){
+  var svg = document.getElementById("axes");
+  var m = new THREE.Matrix4().copy(camera.matrixWorldInverse);
+  var css = getComputedStyle(document.body);
+  var ink = css.getPropertyValue("--ink-2").trim(), mut = css.getPropertyValue("--muted").trim();
+  var ax = [["+X right", new THREE.Vector3(1,0,0)],
+            ["+Y superior", new THREE.Vector3(0,1,0)],
+            ["+Z anterior", new THREE.Vector3(0,0,1)]];
+  var out = "";
+  ax.forEach(function(a){
+    var v = a[1].clone().applyMatrix4(new THREE.Matrix4().extractRotation(m)).multiplyScalar(28);
+    var x = v.x, y = -v.y;
+    out += '<line x1="0" y1="0" x2="' + x.toFixed(1) + '" y2="' + y.toFixed(1) +
+           '" stroke="' + ink + '" stroke-width="1.6" stroke-linecap="round"/>' +
+           '<text x="' + (x * 1.32).toFixed(1) + '" y="' + (y * 1.32 + 3).toFixed(1) +
+           '" fill="' + mut + '" font-size="9" font-family="JetBrains Mono, monospace" ' +
+           'text-anchor="middle">' + a[0].split(" ")[0] + '</text>';
+  });
+  svg.innerHTML = out;
+}
+function drawScale(){
+  var h = stage.clientHeight || 1;
+  var worldPerPx = (2 * dist * Math.tan(camera.fov * Math.PI / 360)) / h;
+  var target = 110 * worldPerPx;
+  var pow = Math.pow(10, Math.floor(Math.log10(target)));
+  var nice = [1, 2, 5, 10].map(function(n){ return n * pow; })
+    .reduce(function(a, b){ return Math.abs(b - target) < Math.abs(a - target) ? b : a; });
+  document.querySelector("#scalebar .bar").style.width = (nice / worldPerPx).toFixed(0) + "px";
+  document.getElementById("scale-txt").textContent =
+    nice >= 10 ? nice.toFixed(0) + " mm" : nice.toFixed(1) + " mm";
+}
+window.addEventListener("resize", resize);
+
+/* ---------- systems ---------- */
+var counts = {}, on = {};
+BUNDLE.structures.forEach(function(s){ counts[s.cat] = (counts[s.cat] || 0) + 1; });
+var cats = Object.keys(counts).sort();
+var sysBox = document.getElementById("systems");
+cats.forEach(function(c){
+  on[c] = (c === "bone" || c === "muscle");
+  var tis = TISSUE[c] || TISSUE.other;
+  var b = document.createElement("button");
+  b.className = "sys"; b.setAttribute("aria-pressed", String(on[c])); b.dataset.cat = c;
+  b.innerHTML = '<span class="sw" style="background:' + hexCss(tis.hex) + '"></span>' +
+                '<span class="nm">' + tis.label + '</span>' +
+                '<span class="ct mono">' + counts[c] + '</span>';
+  b.addEventListener("click", function(){
+    on[c] = !on[c]; b.setAttribute("aria-pressed", String(on[c])); apply();
+  });
+  sysBox.appendChild(b);
+});
+
+/* ---------- list ---------- */
+var listBox = document.getElementById("list"), qEl = document.getElementById("q");
+qEl.placeholder = "Search " + BUNDLE.structures.length + " structures";
+function renderList(){
+  var q = qEl.value.trim().toLowerCase();
+  var rows = order.filter(function(s){
+    if (!q) return true;
+    var n = (s.rec && s.rec.name ? s.rec.name : "") + " " + s.id;
+    return n.toLowerCase().indexOf(q) >= 0;
+  });
+  listBox.innerHTML = "";
+  if (!rows.length){ listBox.innerHTML = '<p class="hint">Nothing matches that.</p>'; return; }
+  rows.slice(0, 400).forEach(function(s){
+    var tis = TISSUE[s.cat] || TISSUE.other;
+    var b = document.createElement("button");
+    b.className = "row"; b.setAttribute("aria-current", String(s.id === selected));
+    b.innerHTML = '<span class="dot" style="background:' + hexCss(tis.hex) + '"></span>' +
+      '<span class="rn">' + (s.rec && s.rec.name ? s.rec.name : s.id) + '</span>' +
+      '<span class="rc mono">' + (s.side ? s.side.charAt(0).toUpperCase() : "") + '</span>';
+    b.addEventListener("click", function(){
+      // Picking a structure whose system is switched off should show it,
+      // not select something invisible.
+      if (!on[s.cat]){
+        on[s.cat] = true;
+        var btn = sysBox.querySelector('[data-cat="' + s.cat + '"]');
+        if (btn) btn.setAttribute("aria-pressed", "true");
+      }
+      select(s.id); frameOn(s.id);
+    });
+    listBox.appendChild(b);
+  });
+}
+qEl.addEventListener("input", renderList);
+
+/* ---------- visibility ---------- */
+var selected = null, iso = false, xray = false;
+function apply(){
+  var seen = {}, shown = 0, tris = 0;
+  meshes.forEach(function(m){
+    var s = m.userData;
+    var vis = on[s.cat];
+    if (iso && selected) vis = (s.id === selected);
+    m.visible = vis;
+    if (vis){ tris += s.nf; if (!seen[s.id]){ seen[s.id] = 1; shown++; } }
+    var isSel = (s.id === selected);
+    var tis = TISSUE[s.cat] || TISSUE.other;
+    m.material.color.setHex(isSel ? 0x0A6E8E : tis.hex);
+    m.material.emissive.setHex(isSel ? 0x0A2C38 : 0x000000);
+    var base = (s.cat === "muscle" && xray) ? 0.34 : (xray && s.cat !== "bone" ? 0.5 : 1);
+    m.material.opacity = isSel ? 1 : base;
+    m.material.transparent = m.material.opacity < 1;
+    m.material.depthWrite = m.material.opacity > 0.85;
+  });
+  document.getElementById("s-str").textContent = shown;
+  document.getElementById("s-tri").textContent = tris.toLocaleString();
+  needleRefresh();
+  draw();
+}
+document.getElementById("t-iso").addEventListener("click", function(){
+  iso = !iso; this.setAttribute("aria-pressed", String(iso)); apply();
+});
+document.getElementById("t-xray").addEventListener("click", function(){
+  xray = !xray; this.setAttribute("aria-pressed", String(xray)); apply();
+});
+document.getElementById("t-reset").addEventListener("click", function(){
+  az = HOME.az; el = HOME.el; dist = fitDistance(); target.set(0, 0, 0); place(); draw();
+});
+function frameOn(id){
+  var g = groups[id]; if (!g) return;
+  var lo = new THREE.Vector3(1e9, 1e9, 1e9), hi = new THREE.Vector3(-1e9, -1e9, -1e9);
+  g.meshes.forEach(function(m){ lo.min(m.geometry.boundingBox.min); hi.max(m.geometry.boundingBox.max); });
+  target.copy(lo.clone().add(hi).multiplyScalar(0.5).add(root.position));
+  dist = Math.max(hi.clone().sub(lo).length() * 1.9, radius * 0.22);
+  place(); draw();
+}
+
+/* ---------- inspector ---------- */
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+function num(v, unit, dp){
+  if (v == null) return null;
+  return '<span class="mono">' + Number(v).toFixed(dp == null ? 0 : dp) + '</span>' +
+         (unit ? '<small>' + unit + '</small>' : "");
+}
+function pointSuffix(pt, kind){
+  if (!pt) return "";
+  var xyz = pt.map(function(v){ return v.toFixed(1); }).join(", ");
+  return ' <button type="button" class="pt-btn" title="Resolved from real bone geometry -- click to mark in the 3D view" ' +
+    'onclick="showPoint(\'' + kind + '\',' + pt[0] + ',' + pt[1] + ',' + pt[2] + ')">📍 ' + xyz + ' mm</button>';
+}
+function zoneHtml(z){
+  if (!z.range) return "";
+  var lo = Math.max(0, Math.min(100, z.range[0])), hi = Math.max(0, Math.min(100, z.range[1]));
+  var w = Math.max(hi - lo, 0.8);
+  var ticks = "";
+  [25, 50, 75].forEach(function(t){ ticks += '<div class="tick" style="left:' + t + '%"></div>'; });
+  return '<div class="zone">' +
+    '<div class="zt"><span>0% ' + esc(z.from) + '</span><span>' + esc(z.to) + ' 100%</span></div>' +
+    '<div class="track">' + ticks + '<div class="band" style="left:' + lo + '%;width:' + w + '%"></div></div>' +
+    '<div class="zr mono">Endplate zone <b>' + lo + '&ndash;' + hi + '%</b></div>' +
+    (z.method ? '<p class="cite">Method: ' + esc(z.method) + '</p>' : "") +
+    (z.notes ? '<p class="note prose">' + esc(z.notes) + '</p>' : "") +
+    (z.source ? '<p class="cite">' + esc(z.source) + '</p>' : "") +
+    '</div>';
+}
+function pointHtml(p){
+  var d = p.depth_mm != null
+    ? num(p.depth_mm, " mm", 1) + (p.depth_from ? ' from the ' + esc(p.depth_from) : "")
+    : (p.depth_pct != null ? num(p.depth_pct, "% of limb thickness", 1) : "not stated");
+  var risk = "";
+  if (p.risk && p.risk.length){
+    risk = '<div class="risk">Structures at risk<ul>' +
+      p.risk.map(function(r){ return "<li>" + esc(r) + "</li>"; }).join("") + "</ul></div>";
+  }
+  return '<div class="pt">' +
+    '<div class="ph">Injection target' + (p.label ? ": " + esc(p.label) : "") + '</div>' +
+    '<dl class="kv" style="margin:6px 0 0">' +
+      '<dt>Across</dt><dd>' + num(p.transverse[2], "%", 1) + ' from ' + esc(p.transverse[0]) +
+        ' toward ' + esc(p.transverse[1]) + '</dd>' +
+      '<dt>Along</dt><dd>' + num(p.longitudinal[2], "%", 1) + ' from ' + esc(p.longitudinal[0]) +
+        ' toward ' + esc(p.longitudinal[1]) + '</dd>' +
+      '<dt>Depth</dt><dd>' + d + '</dd>' +
+    '</dl>' + risk +
+    (p.path ? '<p class="note prose">' + esc(p.path) + '</p>' : "") +
+    (p.source ? '<p class="cite">' + esc(p.source) + '</p>' : "") +
+    '</div>';
+}
+function select(id){
+  selected = id;
+  originMarker.visible = insertionMarker.visible = false;
+  var s = id ? groups[id] : null;
+  var head = document.getElementById("i-name"), body = document.getElementById("i-body");
+  document.querySelectorAll(".row").forEach(function(r){ r.setAttribute("aria-current", "false"); });
+  renderList();
+  if (!s){
+    head.textContent = "Select a structure";
+    document.getElementById("i-lat").textContent = "";
+    document.getElementById("i-id").textContent = "";
+    document.getElementById("i-tags").innerHTML = "";
+    body.innerHTML = '<div class="empty">Click any structure in the model, or pick one from the list.</div>';
+    apply(); return;
+  }
+  var r = s.rec || {};
+  head.textContent = r.name || s.id;
+  document.getElementById("i-lat").textContent = r.latin || "";
+  document.getElementById("i-id").textContent = s.id;
+  var tis = TISSUE[s.cat] || TISSUE.other;
+  document.getElementById("i-tags").innerHTML =
+    '<span class="tag cat" style="background:' + hexCss(tis.hex) + '">' + tis.label + '</span>' +
+    (s.side ? '<span class="tag">' + esc(s.side) + '</span>' : "") +
+    (r.region ? '<span class="tag">' + esc(r.region).replace(/_/g, " ") + '</span>' : "") +
+    '<span class="tag mono">' + s.nf.toLocaleString() + ' tri</span>' +
+    (s.depth_min !== undefined ? '<span class="tag" title="shallowest / median distance of this structure\'s surface from the body surface, on this body">' + s.depth_min + '\u2013' + s.depth_med + ' mm below skin</span>' : "") +
+    (s.parts > 1 ? '<span class="tag">' + s.parts + ' meshes</span>' : "") +
+    (s.subject && s.subject !== PRIMARY_SUBJECT
+      ? '<span class="tag warn" title="Shown for reference at the same scale, not as part of one continuous cadaver -- see docs/GEOMETRY_SOURCES.md">' +
+        esc(SUBJECT_LABELS[s.subject] || s.subject) + '</span>'
+      : "") +
+    (r.procedural_badge
+      ? '<span class="tag warn" title="' + esc(r.procedural_badge) + '">Procedural geometry — not from imaging</span>'
+      : "");
+
+  var h = "";
+  if (r.origin || r.insertion || r.nerve){
+    h += '<div class="sec"><p class="eyebrow">Attachments and supply</p><dl class="kv">';
+    if (r.origin) h += "<dt>Origin</dt><dd>" + esc(r.origin) +
+      pointSuffix(r.origin_point_mm, "origin") + "</dd>";
+    if (r.insertion) h += "<dt>Insertion</dt><dd>" + esc(r.insertion) +
+      pointSuffix(r.insertion_point_mm, "insertion") + "</dd>";
+    if (r.nerve) h += "<dt>Nerve</dt><dd>" +
+      r.nerve.map(function(n){ return '<span class="pill mono">' + esc(n) + "</span>"; }).join("") + "</dd>";
+    h += "</dl></div>";
+  }
+  (r.compartments || []).forEach(function(c){
+    h += '<div class="sec"><div class="comp">';
+    h += "<h4>" + esc(c.id.split("_").slice(-2).join(" ")) + "</h4>";
+    h += '<div class="cid mono">' + esc(c.id) + "</div>";
+    var cells = "";
+    if (c.pcsa != null) cells += '<div class="cell"><div class="lb">PCSA</div><div class="vl">' +
+      num(c.pcsa, " mm²", 0) + "</div></div>";
+    if (c.fiber_mm != null) cells += '<div class="cell"><div class="lb">Fascicle</div><div class="vl">' +
+      num(c.fiber_mm, " mm", 0) + "</div></div>";
+    if (c.pennation != null) cells += '<div class="cell"><div class="lb">Pennation</div><div class="vl">' +
+      num(c.pennation, "°", 0) + "</div></div>";
+    if (c.force_n != null) cells += '<div class="cell"><div class="lb">Max force</div><div class="vl">' +
+      num(c.force_n, " N", 0) + "</div></div>";
+    if (cells) h += '<div class="arch">' + cells + "</div>";
+    if (c.nerves && c.nerves.length) h += '<dl class="kv" style="margin-top:9px"><dt>Reached by</dt><dd>' +
+      c.nerves.map(function(n){ return '<span class="pill mono">' + esc(n) + "</span>"; }).join("") +
+      "</dd></dl>";
+    if (c.branch) h += '<p class="note prose">' + esc(c.branch) + "</p>";
+    if (c.function) h += '<p class="note prose">' + esc(c.function) + "</p>";
+    if (c.nmj_frac != null){
+      h += '<p class="cite">Endplate band modelled at ' +
+        (c.nmj_frac * 100).toFixed(0) + '% along the fascicle' +
+        (c.nmj_evidence ? " (" + esc(c.nmj_evidence).replace(/_/g, " ") + ")" : "") + ".</p>";
+    }
+    (c.zones || []).forEach(function(z){ h += zoneHtml(z); });
+    (c.points || []).forEach(function(p){ h += pointHtml(p); });
+    h += "</div></div>";
+  });
+  if (r.notes) h += '<div class="sec"><p class="eyebrow">Notes</p><p class="note prose">' +
+    esc(r.notes) + "</p></div>";
+  h += '<div class="sec"><p class="eyebrow">Mesh</p><dl class="kv">' +
+    "<dt>Shown</dt><dd>" + s.nf.toLocaleString() + " triangles</dd>" +
+    "<dt>Source</dt><dd>" + s.tris_full.toLocaleString() + " triangles</dd>" +
+    (s.parts > 1 ? "<dt>Meshes</dt><dd>" + s.parts +
+       " separate meshes in the release for this one atlas entity</dd>" : "") +
+    (s.cell ? "<dt>Cell</dt><dd>" + s.cell.toFixed(2) + " mm clustering grid</dd>" : "") +
+    "</dl><p class=\"cite\">Decimated for viewing only. Every measurement in this atlas is " +
+    "made against the full-resolution mesh, never this copy.</p></div>";
+  if (s.depth_profile && s.depth_profile.length) {
+    /* Q58: the nerve's depth below the skin level by level along its course
+       (every 20 mm of atlas y, the superior axis; y = 0 is the hip-joint
+       midpoint). "show" marks the shallowest point of that level, "needle"
+       lays the needle-path tool from the nearest skin point to it. Geometry
+       on this body only, not a block technique. */
+    h += '<div class="sec"><p class="eyebrow">Depth below skin along the course</p>' +
+      '<table class="course"><thead><tr><th>level (y, mm)</th><th>shallowest</th><th></th></tr></thead><tbody>';
+    s.depth_profile.forEach(function(row, i){
+      h += '<tr><td class="mono">' + row[0].toFixed(0) + '</td><td class="mono">' + row[1].toFixed(1) + ' mm</td>' +
+        '<td><button type="button" class="mini" onclick="courseShow(\'' + esc(id) + '\',' + i + ')">show</button> ' +
+        '<button type="button" class="mini" onclick="courseNeedle(\'' + esc(id) + '\',' + i + ')">needle</button></td></tr>';
+    });
+    h += '</tbody></table><p class="cite">Shallowest surface point of this structure in each 20 mm band, and its distance to the ' +
+      'skin mesh of this body. A measurement, not an approach.</p></div>';
+  }
+  var clin = BUNDLE.clinical && BUNDLE.clinical[id.replace(/_[rl]$/, "")];
+  if (clin && clin.length) {
+    h += '<div class="sec"><p class="eyebrow">Clinical reference (owner\'s compilation)</p>';
+    clin.forEach(function(c){
+      h += '<div class="comp"><h4>' + esc(c.document || "") + '</h4>' +
+           (c.compiled ? '<div class="cid">' + esc(c.compiled) + '</div>' : "");
+      if (c.function_biomechanics) h += '<p class="note prose">' + esc(c.function_biomechanics) + '</p>';
+      if (c.trigger_points && c.trigger_points.length) {
+        h += '<p class="eyebrow" style="margin-top:8px">Trigger points and referred pain</p><ul style="margin:0;padding-left:16px;font-size:12px">';
+        c.trigger_points.forEach(function(t){ h += '<li><b>' + esc(t.location || "") + '</b>' + (t.referred_pain ? ' &rarr; ' + esc(t.referred_pain) : "") + '</li>'; });
+        h += '</ul>';
+      }
+      if (c.pain_referred_into_this_muscle_from && c.pain_referred_into_this_muscle_from.length)
+        h += '<p class="eyebrow" style="margin-top:8px">Pain referred into it from</p><p class="note">' + c.pain_referred_into_this_muscle_from.map(esc).join("; ") + '</p>';
+      if (c.tests && c.tests.length) {
+        h += '<p class="eyebrow" style="margin-top:8px">Tests</p><table style="font-size:11.5px;border-collapse:collapse"><tr><th align="left">test</th><th>Se %</th><th>Sp %</th></tr>';
+        c.tests.forEach(function(t){ h += '<tr><td>' + esc(t.name || "") + '</td><td align="center">' + (t.sensitivity == null ? "&ndash;" : t.sensitivity) +
+                                          '</td><td align="center">' + (t.specificity == null ? "&ndash;" : t.specificity) + '</td></tr>'; });
+        h += '</table>';
+      }
+      if (c.caveat) h += '<p class="cite">' + esc(c.caveat) + '</p>';
+      if (c.sources && c.sources.length) h += '<details><summary class="cite" style="cursor:pointer">' + c.sources.length + ' sources</summary><ul class="cite" style="padding-left:16px">' +
+                                              c.sources.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></details>';
+      h += '</div>';
+    });
+    h += '</div>';
+  }
+  if (r.source) h += '<div class="sec"><p class="eyebrow">Source</p><p class="cite">' +
+    esc(r.source) + "</p></div>";
+  body.innerHTML = h;
+  document.getElementById("inspector").scrollTop = 0;
+  apply();
+}
+
+/* ---------- needle path ---------- */
+/* A straight segment from an ENTRY point (first click, normally on the
+   skin) to a TARGET point (second click). Both are exact ray hits on the
+   decimated viewing meshes, held in root-local coordinates -- i.e. atlas
+   millimetres (+X right, +Y superior, +Z anterior), the same frame the
+   vertices were decoded into with BUNDLE.quantum_mm. The panel reports the
+   length, every visible structure the segment passes through with the
+   depth range (mm from the entry) at which it is inside that mesh, and the
+   target's depth below the skin. Geometry only: a measurement on viewing
+   meshes, not an approach recommendation. */
+var needle = {active:false, entry:null, entryMesh:null, target:null, targetMesh:null};
+var needleGroup = new THREE.Group(); needleGroup.visible = false; root.add(needleGroup);
+var needleR = Math.max(0.6, markerR * 0.3);
+var needleEntryDot = new THREE.Mesh(new THREE.SphereGeometry(needleR * 2.4, 16, 16),
+  new THREE.MeshBasicMaterial({color:0x2F7D5B, depthTest:false}));
+var needleTargetDot = new THREE.Mesh(new THREE.SphereGeometry(needleR * 2.4, 16, 16),
+  new THREE.MeshBasicMaterial({color:0xE8875A, depthTest:false}));
+var needleShaft = new THREE.Mesh(new THREE.CylinderGeometry(needleR, needleR, 1, 12, 1),
+  new THREE.MeshBasicMaterial({color:0xF2C14E, depthTest:false}));
+needleEntryDot.renderOrder = needleTargetDot.renderOrder = needleShaft.renderOrder = 998;
+needleGroup.add(needleEntryDot, needleTargetDot, needleShaft);
+var needleRay = new THREE.Raycaster();
+var NEEDLE_EPS = 0.5;   // mm the cast starts before the entry / after the target, so a hit exactly at either end is not lost
+var NEEDLE_MIN = 0.05;  // mm; shorter intervals are raycast noise on a decimated surface
+
+function isSkinMesh(m){ return /^skin(_|$)/.test(m.userData.id); }
+function meshName(m){ return m.userData.rec && m.userData.rec.name ? m.userData.rec.name : m.userData.id; }
+
+function needleToggle(onOff){
+  needle.active = (onOff == null) ? !needle.active : !!onOff;
+  document.getElementById("t-needle").setAttribute("aria-pressed", String(needle.active));
+  document.getElementById("needle-panel").hidden = !needle.active;
+  if (!needle.active) needleClear();
+  else needleRender();
+  draw();
+}
+function needleClear(){
+  needle.entry = needle.entryMesh = needle.target = needle.targetMesh = null;
+  needleGroup.visible = false;
+  needleRender(); draw();
+}
+/* pt: THREE.Vector3 in atlas mm (root-local); mesh: the mesh it was hit on. */
+function needleAddPoint(pt, mesh){
+  if (!needle.entry || needle.target){          // first click, or a third one: start over
+    needle.entry = pt.clone(); needle.entryMesh = mesh;
+    needle.target = needle.targetMesh = null;
+  } else {
+    needle.target = pt.clone(); needle.targetMesh = mesh;
+  }
+  needleDraw(); needleRender(); draw();
+}
+/* Programmatic entry point: two atlas-mm points, each optionally with the
+   id of the mesh it lies on (a click supplies that itself). */
+function courseShow(id, i){
+  var g = groups[id]; if (!g || !g.depth_profile || !g.depth_profile[i]) return;
+  var r = g.depth_profile[i];
+  showPoint("insertion", r[2], r[3], r[4]);
+  showPoint("origin", r[5], r[6], r[7]);
+}
+function courseNeedle(id, i){
+  var g = groups[id]; if (!g || !g.depth_profile || !g.depth_profile[i]) return;
+  var r = g.depth_profile[i];
+  needleToggle(true);
+  var skinMesh = meshes.filter(isSkinMesh)[0];
+  needleSetPoints([r[5], r[6], r[7]], [r[2], r[3], r[4]], skinMesh ? skinMesh.userData.id : null, id);
+}
+window.courseShow = courseShow; window.courseNeedle = courseNeedle;
+function needleSetPoints(entry, target, entryId, targetId){
+  needleClear();
+  needleAddPoint(new THREE.Vector3(entry[0], entry[1], entry[2]), entryId ? byId[entryId] || null : null);
+  if (target) needleAddPoint(new THREE.Vector3(target[0], target[1], target[2]), targetId ? byId[targetId] || null : null);
+}
+function needleClick(e){
+  // The target click looks through the entry structure, so the skin can
+  // stay on while the structure beneath it is picked.
+  var skip = (needle.entry && !needle.target) ? needle.entryMesh : null;
+  var h = pickHit(e, skip);
+  if (!h) return;
+  needleAddPoint(root.worldToLocal(h.point.clone()), h.object);
+}
+function needleDraw(){
+  if (!needle.entry){ needleGroup.visible = false; return; }
+  needleEntryDot.position.copy(needle.entry);
+  needleTargetDot.visible = needleShaft.visible = !!needle.target;
+  if (needle.target){
+    var d = needle.target.clone().sub(needle.entry), L = d.length();
+    needleTargetDot.position.copy(needle.target);
+    needleShaft.scale.set(1, Math.max(L, 1e-3), 1);
+    needleShaft.position.copy(needle.entry).addScaledVector(d, 0.5);
+    needleShaft.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
+  }
+  needleGroup.visible = true;
+}
+/* Every crossing of the segment A->B with the given meshes: a sorted list
+   of {mesh, t, enter} with t in mm from A. Cast from just before A towards
+   B and from just after B back towards A, so a hit that sits exactly on
+   either endpoint is found, and merge the two casts (a triangle the
+   forward cast slid past can still be caught by the backward one). Whether
+   a hit is an entry into or an exit from the mesh is read off the face
+   normal against the path direction, which does not depend on the mesh
+   being watertight the way a parity count would. */
+function needleHits(A, B, list){
+  var d = B.clone().sub(A), L = d.length(); if (L < 1e-6) return [];
+  d.normalize();
+  var evs = [], ws = new THREE.Vector3(), wd = new THREE.Vector3();
+  function cast(origin, dir, sign, base){
+    root.localToWorld(ws.copy(origin));
+    needleRay.set(ws, wd.copy(dir));   // root has no rotation, so a local direction is a world direction
+    needleRay.near = 0; needleRay.far = L + 2 * NEEDLE_EPS;
+    needleRay.intersectObjects(list, false).forEach(function(h){
+      var t = base + sign * h.distance;
+      var nd = h.face ? h.face.normal.dot(d) : 0;
+      evs.push({mesh:h.object, t:t, enter:nd < 0, flat:Math.abs(nd) < 1e-6});
+    });
+  }
+  cast(A.clone().addScaledVector(d, -NEEDLE_EPS), d, 1, -NEEDLE_EPS);
+  cast(B.clone().addScaledVector(d, NEEDLE_EPS), d.clone().negate(), -1, L + NEEDLE_EPS);
+  evs.sort(function(a, b){ return a.t - b.t; });
+  var out = [];
+  evs.forEach(function(e){
+    var last = out.length ? out[out.length - 1] : null;
+    // the same triangle seen by both casts: keep one
+    if (last && last.mesh === e.mesh && Math.abs(last.t - e.t) < 0.02 && last.enter === e.enter) return;
+    out.push(e);
+  });
+  return {hits:out, L:L};
+}
+/* Depth intervals (mm from the entry) at which the segment is inside each
+   mesh, in order of first entry. */
+function needleCrossings(A, B, list){
+  var r = needleHits(A, B, list); if (!r.hits) return [];
+  var L = r.L, per = new Map();
+  r.hits.forEach(function(e){
+    var s = per.get(e.mesh);
+    if (!s){ s = {mesh:e.mesh, inside:false, start:0, ivs:[]}; per.set(e.mesh, s); }
+    var enter = e.flat ? !s.inside : e.enter;
+    if (enter){ if (!s.inside){ s.inside = true; s.start = Math.max(0, e.t); } }
+    else {
+      var t = Math.min(L, e.t);
+      if (s.inside){ s.ivs.push([s.start, t]); s.inside = false; }
+      else if (t > 0) s.ivs.push([0, t]);                 // exit with no entry: started inside
+    }
+  });
+  var rows = [];
+  per.forEach(function(s){
+    if (s.inside) s.ivs.push([s.start, L]);
+    var ivs = s.ivs.filter(function(iv){ return iv[1] - iv[0] >= NEEDLE_MIN; });
+    if (!ivs.length && s.mesh === needle.targetMesh) ivs = [[L, L]];  // reached at its surface
+    if (!ivs.length) return;
+    ivs.forEach(function(iv){ rows.push({mesh:s.mesh, id:s.mesh.userData.id, name:meshName(s.mesh), from:iv[0], to:iv[1]}); });
+  });
+  rows.sort(function(a, b){ return a.from - b.from || a.to - b.to; });
+  return rows;
+}
+/* Depth of the target below the skin: the path length when the entry sits
+   on the skin, else the distance back from the target to the nearest skin
+   hit along the path. Skin meshes count whether or not they are shown. */
+function needleSkinDepth(A, B){
+  var skins = meshes.filter(isSkinMesh);
+  if (!skins.length) return null;
+  var L = B.clone().sub(A).length();
+  if (needle.entryMesh && isSkinMesh(needle.entryMesh)) return {depth:L, how:"entry on the skin"};
+  var r = needleHits(A, B, skins), best = null;
+  (r.hits || []).forEach(function(e){
+    if (e.t < -NEEDLE_MIN || e.t > L + NEEDLE_MIN) return;
+    var dd = L - Math.max(0, Math.min(L, e.t));
+    if (best == null || dd < best) best = dd;
+  });
+  return best == null ? {depth:null, how:"no skin crossed"} : {depth:best, how:"nearest skin hit on the path"};
+}
+function needleReport(){
+  if (!needle.entry || !needle.target) return null;
+  var vis = meshes.filter(function(m){ return m.visible; });
+  var rows = needleCrossings(needle.entry, needle.target, vis);
+  return {
+    length_mm: needle.target.clone().sub(needle.entry).length(),
+    entry: needle.entry.toArray(), target: needle.target.toArray(),
+    entry_id: needle.entryMesh ? needle.entryMesh.userData.id : null,
+    target_id: needle.targetMesh ? needle.targetMesh.userData.id : null,
+    target_name: needle.targetMesh ? meshName(needle.targetMesh) : null,
+    crossings: rows.map(function(r){ return {id:r.id, name:r.name, from_mm:r.from, to_mm:r.to}; }),
+    skin: needleSkinDepth(needle.entry, needle.target)
+  };
+}
+function mm1(v){ return '<span class="mono">' + Number(v).toFixed(1) + '</span>'; }
+function xyz1(v){ return '<span class="mono">' + v.map(function(c){ return c.toFixed(1); }).join(", ") + '</span> mm'; }
+function needleRender(){
+  var st = document.getElementById("needle-status"), rep = document.getElementById("needle-report");
+  if (!needle.active) return;
+  if (!needle.entry){
+    var skinCat = (meshes.filter(isSkinMesh)[0] || {userData:{}}).userData.cat;
+    st.textContent = "Click the entry point (usually the skin" +
+      (skinCat ? " -- switch the " + (TISSUE[skinCat] || TISSUE.other).label + " system on to show it" : "") + ").";
+    rep.innerHTML = ""; return;
+  }
+  if (!needle.target){
+    st.innerHTML = "Entry on <b>" + esc(needle.entryMesh ? meshName(needle.entryMesh) : "?") + "</b> at " + xyz1(needle.entry.toArray()) +
+      ". Now click the target structure (the click looks through the entry structure; hide anything else in the way).";
+    rep.innerHTML = ""; return;
+  }
+  var R = needleReport();
+  st.innerHTML = "Entry <b>" + esc(needle.entryMesh ? meshName(needle.entryMesh) : "?") + "</b> &rarr; target <b>" +
+    esc(R.target_name || "?") + "</b>. Click again to start a new path; Esc clears.";
+  var h = '<dl class="kv">' +
+    "<dt>Length</dt><dd>" + mm1(R.length_mm) + " mm</dd>" +
+    "<dt>Entry</dt><dd>" + xyz1(R.entry) + "</dd>" +
+    "<dt>Target</dt><dd>" + xyz1(R.target) + "</dd>" +
+    "<dt>Below skin</dt><dd>" + (R.skin
+      ? (R.skin.depth == null ? esc(R.skin.how) : mm1(R.skin.depth) + " mm <span class=\"hint\">(" + esc(R.skin.how) + ")</span>")
+      : '<span class="hint">no skin mesh in this bundle</span>') + "</dd>" +
+    "</dl>";
+  h += '<p class="eyebrow" style="margin-top:9px">Passes through (mm from entry)</p>';
+  if (!R.crossings.length) h += '<p class="hint">No visible structure is crossed.</p>';
+  else {
+    h += "<ol>" + R.crossings.map(function(c){
+      var m = byId[c.id], tis = TISSUE[(m ? m.userData.cat : "other")] || TISSUE.other;
+      var rng = (c.to_mm - c.from_mm < NEEDLE_MIN)
+        ? '<span class="rng mono">' + c.from_mm.toFixed(1) + " (surface reached)</span>"
+        : '<span class="rng mono">' + c.from_mm.toFixed(1) + "&ndash;" + c.to_mm.toFixed(1) + "</span>";
+      return '<li><span class="dot" style="background:' + hexCss(tis.hex) + '"></span>' + esc(c.name) +
+        (c.name !== c.id ? ' <span class="hint mono">' + esc(c.id) + "</span>" : "") + rng + "</li>";
+    }).join("") + "</ol>";
+  }
+  h += '<p class="cite">Straight-line geometry on the decimated viewing meshes, visible structures only; ' +
+       'depths are along the path, not perpendicular to the skin. Not a clinical recommendation.</p>';
+  rep.innerHTML = h;
+}
+function needleRefresh(){ if (needle.active && needle.target) needleRender(); }
+document.getElementById("t-needle").addEventListener("click", function(){ needleToggle(); });
+document.getElementById("needle-clear").addEventListener("click", function(){ needleClear(); });
+window.addEventListener("keydown", function(e){
+  if (e.key === "Escape" && needle.active){ needleClear(); }
+});
+/* Exposed so a test harness (or a console) can drive the tool:
+   NeedlePath.setPoints([x,y,z],[x,y,z],"skin","femur_r"); NeedlePath.report() */
+window.showPoint = showPoint;   // the inline 📍 buttons call it from outside this strict IIFE
+window.NeedlePath = {
+  toggle:needleToggle, clear:needleClear, setPoints:needleSetPoints, report:needleReport,
+  toScreen:function(p){   // atlas mm -> CSS px within the stage, for synthetic clicks
+    var v = root.localToWorld(new THREE.Vector3(p[0], p[1], p[2])).project(camera);
+    var r = renderer.domElement.getBoundingClientRect();
+    return [r.left + (v.x + 1) / 2 * r.width, r.top + (1 - v.y) / 2 * r.height];
+  }
+};
+
+/* ---------- go ---------- */
+document.getElementById("s-subtitle").textContent =
+  /* Q143: a bundle whose subject-name scheme this template's hardcoded Visible-Human
+     guesswork below knows nothing about (e.g. the Z-Anatomy reference model) says its
+     own subtitle verbatim instead of falling through to the wrong guess. */
+  BUNDLE.subject_label ? BUNDLE.subject_label
+  : SUBJECTS.every(s => s.startsWith("ct_vhf") || s.startsWith("xfer_")) ? "Visible Human female · one body, head to toes (CT of two blocks, registered)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · lower-limb muscles, ligaments and cartilage transferred from the male and badged" : "")
+  : SUBJECTS.some(s => s.startsWith("ct_vhm") || s === "vhm_both") ? "Visible Human male · skull to fingertips and toes (DU release + his own CT and cryosections; badges name the source of every structure)" + (SUBJECTS.some(s => s.startsWith("xfer_")) ? " · a few head/neck structures transferred from the female and badged" : "")
+  : SUBJECTS.length > 1
+  ? "Visible Human (pelvis to ankle) + a second real specimen (bone/vessel reference above the hip, not one continuous body)"
+  : "Visible Human · pelvis to ankle";
+/* Third-party model bundles (subject_label set, e.g. Z-Anatomy, CC BY-SA) must show their
+   licence credit on the page itself, not only inside the embedded data. */
+if (BUNDLE.subject_label && BUNDLE.attribution) {
+  const credit = [].concat(BUNDLE.attribution).flat().join(" ");
+  const el = document.getElementById("s-credit");
+  el.textContent = "Credit: " + credit.split(" -- ")[0];
+  el.title = credit;
+  el.hidden = false;
+}
+document.getElementById("s-full").textContent = BUNDLE.source_triangles.toLocaleString();
+renderList();
+resize();
+select(byId["biceps_femoris_r"] ? "biceps_femoris_r" : BUNDLE.structures[0].id);
+new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
+if (window.matchMedia) matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);
+})();
+</script>

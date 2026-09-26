@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/common.schema.json",
+  "title": "Common definitions shared across all NMSK Atlas schemas",
+  "definitions": {
+    "vec3_mm": {
+      "type": "array",
+      "description": "3D point/vector in millimetres, expressed in the GLOBAL anatomical reference frame unless otherwise noted. Global frame: subject in standard anatomical position (upright, palms forward), origin at the midpoint between hip joint centers, +X = subject's anatomical right, +Y = superior, +Z = anterior (right-handed).",
+      "items": { "type": "number" },
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "local_frame": {
+      "type": "object",
+      "description": "A rigid local coordinate frame attached to a bone, defined per ISB (Wu et al. 2002/2005) convention where a standard exists. Used as the parent frame for anchors, fiber fields and skinning so that attachment points move rigidly with the bone.",
+      "properties": {
+        "origin_landmark": { "type": "string", "description": "Named bony landmark used as frame origin (e.g. 'glenohumeral joint center')" },
+        "x_axis_definition": { "type": "string" },
+        "y_axis_definition": { "type": "string" },
+        "z_axis_definition": { "type": "string" },
+        "isb_reference": { "type": "string", "description": "Citation to the ISB standardization paper, if one exists for this segment" }
+      },
+      "required": ["origin_landmark"]
+    },
+    "citation": {
+      "type": "string",
+      "description": "Author(s) Year, Title/Journal — or standard reference name (e.g. 'Gray's Anatomy 41st ed.', 'Terminologia Anatomica'). Every quantitative or topological claim in the atlas must carry one of these."
+    },
+    "resolution_mm": {
+      "type": "number",
+      "const": 1.0,
+      "description": "Target linear sampling resolution for procedurally generated geometry (point clouds / surface samples) derived from this entity's parametric definition."
+    },
+    "side": {
+      "type": "string",
+      "enum": ["left", "right", "midline"]
+    }
+  }
+}

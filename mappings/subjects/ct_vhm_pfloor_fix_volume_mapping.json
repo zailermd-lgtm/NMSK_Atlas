@@ -1,0 +1,28 @@
+{
+  "_README": [
+    "Q116: reconversion of ONLY 1 label (10, coccygeus_l) out of vhm_pelvic_floor_cryo.nii.gz's",
+    "full set, at --smooth 0.0 instead of ct_vhm_pfloor's own 1.0. Measured directly: raw voxel mask",
+    "and the pre-decimation mesh both reach main_frac 1.000 (1 component) at smooth=0, vs 0.931/2",
+    "components at the current smooth=1.0 -- a clean sciatic_n-class smoothing bug. Quadric",
+    "decimation on the smooth=0 mesh preserves it exactly (1.000; plain vertex-clustering on the SAME",
+    "smooth=0 mesh re-fragments it to ~0.87, the same clustering-severs-a-thin-bridge failure Q113",
+    "documented), so this id is ALSO added to SHEET_IDS in export_viewer_bundle.py. Shipped bundle:",
+    "0.934 -> see PROJECT_STATE.md Q116 entry for the actual verified figure. Listed BEFORE",
+    "ct_vhm_pfloor in export_viewer_bundle.py's --subject order so it claims just this one atlas_id,",
+    "leaving the other muscles in vhm_pelvic_floor_cryo.nii.gz (and their own smooth=1.0 conversion)",
+    "completely untouched."
+  ],
+  "subject": "ct_vhm_pfloor_fix",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz",
+  "label_map": "vhm_pelvic_floor",
+  "entries": [
+    {
+      "label": 10,
+      "source_structure": "coccygeus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "coccygeus_l",
+      "candidates": []
+    }
+  ]
+}

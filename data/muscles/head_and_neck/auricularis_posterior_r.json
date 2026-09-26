@@ -1,0 +1,38 @@
+{
+  "id": "auricularis_posterior_r",
+  "name_ta": "Musculus auricularis posterior",
+  "name_common": "Auricularis posterior",
+  "side": "right",
+  "region": "head",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "temporal_r",
+    "origin_landmark": "mastoid part of the temporal bone, above the sternocleidomastoid attachment",
+    "insertion_bone": "temporal_r",
+    "insertion_landmark": "ponticulus on the eminentia conchae of the cranial surface of the auricular cartilage (the schema takes a bone id; the true attachment is cartilage/skin and is named in the landmark text)",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "facial_n_posterior_auricular_branch",
+    "root_levels": "CN VII"
+  },
+  "actions": [
+    "draws the auricle backward (vestigial)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "auricularis_posterior_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "evidence": "no measured architecture recorded: no PCSA, fascicle length or force verified from a source for this muscle (Q65 rule: numbers only where a source gives them)"
+      },
+      "function_note": "Two or three slips behind the ear; the posterior auricular nerve and artery run with it -- a landmark in postauricular approaches.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+      "innervation_branch_ids": [
+        "facial_n_posterior_auricular_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998). Entity added 2026-09-14 (Q65): named in Z-Anatomy's structure list, which was read as a checklist only; no Z-Anatomy data or geometry is used."
+}

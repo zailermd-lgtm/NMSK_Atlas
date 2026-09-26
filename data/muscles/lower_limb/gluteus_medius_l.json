@@ -1,0 +1,169 @@
+{
+  "id": "gluteus_medius_l",
+  "name_ta": "Musculus gluteus medius",
+  "name_common": "Gluteus medius",
+  "side": "left",
+  "region": "lower_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "hip_bone_l",
+    "origin_landmark": "external ilium, between anterior and posterior gluteal lines, below iliac crest",
+    "insertion_bone": "femur_l",
+    "insertion_landmark": "greater trochanter, lateral facet",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "superior_gluteal_n",
+    "root_levels": "L4-S1"
+  },
+  "blood_supply": [
+    "superior_gluteal_a_l"
+  ],
+  "actions": [
+    "abducts hip (prime mover)",
+    "stabilizes pelvis in single-leg stance (prevents contralateral pelvic drop -- Trendelenburg mechanism)",
+    "anterior fibers internally rotate, posterior fibers externally rotate hip"
+  ],
+  "functional_compartments": [
+    {
+      "id": "gluteus_medius_l_anterior",
+      "name": "Anterior segment",
+      "innervation_branch": "superior gluteal n., anterior branch",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 600.0,
+        "max_isometric_force_N": 150.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -20,
+          40,
+          30
+        ],
+        [
+          -30,
+          20,
+          20
+        ],
+        [
+          -35,
+          0,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Assists hip flexion + internal rotation in addition to abduction; documented separately-recruitable EMG compartment.",
+      "source": "Gottschalk F, Kourosh S, Leveau B (1989) J Anat 166:179-189 -- 'The functional anatomy of tensor fasciae latae and gluteus medius and minimus'; explicitly describes gluteus medius's three functionally-graded parts",
+      "innervation_branch_ids": [
+        "superior_gluteal_n"
+      ]
+    },
+    {
+      "id": "gluteus_medius_l_middle",
+      "name": "Middle segment",
+      "innervation_branch": "superior gluteal n., middle branch",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 21,
+        "optimal_fascicle_length_mm": 55,
+        "physiological_cross_section_area_mm2": 900.0,
+        "max_isometric_force_N": 225.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          50,
+          10
+        ],
+        [
+          -15,
+          30,
+          0
+        ],
+        [
+          -20,
+          10,
+          -10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Purest abductor line of pull, largest PCSA segment.",
+      "source": "Gottschalk F, Kourosh S, Leveau B (1989) J Anat 166:179-189 -- 'The functional anatomy of tensor fasciae latae and gluteus medius and minimus'; explicitly describes gluteus medius's three functionally-graded parts",
+      "innervation_branch_ids": [
+        "superior_gluteal_n"
+      ]
+    },
+    {
+      "id": "gluteus_medius_l_posterior",
+      "name": "Posterior segment",
+      "innervation_branch": "superior gluteal n., posterior branch",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 18,
+        "optimal_fascicle_length_mm": 58,
+        "physiological_cross_section_area_mm2": 550.0,
+        "max_isometric_force_N": 137.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          45,
+          -10
+        ],
+        [
+          15,
+          25,
+          -20
+        ],
+        [
+          10,
+          5,
+          -25
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.48,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Assists hip extension + external rotation in addition to abduction.",
+      "source": "Gottschalk F, Kourosh S, Leveau B (1989) J Anat 166:179-189 -- 'The functional anatomy of tensor fasciae latae and gluteus medius and minimus'; explicitly describes gluteus medius's three functionally-graded parts",
+      "innervation_branch_ids": [
+        "superior_gluteal_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Gottschalk F, Kourosh S, Leveau B (1989) J Anat 166:179-189",
+  "trigger_points": [
+    {
+      "location_description": "Posterior fibers, near the posterior third of the iliac crest, overlying the sacroiliac region (MTrP1)",
+      "referred_pain_pattern": "Sensitivity and pain spreading over a large area of the buttock and locally over the sacroiliac joint",
+      "source": "Simons, Travell & Simons Trigger Point Manual (Travell JG, Simons DG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 2: The Lower Extremities, 1st ed., Williams & Wilkins, 1992; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019) -- as cited in backmusclesolutions.com, 'Gluteus Medius Trigger Points' (https://backmusclesolutions.com/blogs/the-ql-blawg/gluteus-medius-trigger-points), describing three MTrP sites (MTrP1 near the iliac crest/SI joint, MTrP2 mid-belly, MTrP3 near the ASIS); corroborated by real cadaveric anatomy: Pinheiro RP, Macaya DAM, Itezerote AM, Saleh SO, Hojaij F, Andrade M, Jacomo AL, Jacomo FEA (2026) 'Anatomical Investigation of the Gluteus Medius Muscle Innervation and Its Topographical Correspondence With Myofascial Trigger Points.' Biomed Res Int 2026:7544057, doi:10.1155/bmri/7544057 (https://doi.org/10.1155/bmri/7544057) -- retrieved via PubMed"
+    },
+    {
+      "location_description": "Middle fibers, immediately below the mid-point of the iliac crest (MTrP2)",
+      "referred_pain_pattern": "Pain radiating laterally over the posterolateral hip and into the upper lateral thigh",
+      "source": "Simons, Travell & Simons Trigger Point Manual (Travell JG, Simons DG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 2: The Lower Extremities, 1st ed., Williams & Wilkins, 1992; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019) -- as cited in backmusclesolutions.com, 'Gluteus Medius Trigger Points' (https://backmusclesolutions.com/blogs/the-ql-blawg/gluteus-medius-trigger-points), describing three MTrP sites (MTrP1 near the iliac crest/SI joint, MTrP2 mid-belly, MTrP3 near the ASIS); corroborated by real cadaveric anatomy: Pinheiro RP, Macaya DAM, Itezerote AM, Saleh SO, Hojaij F, Andrade M, Jacomo AL, Jacomo FEA (2026) 'Anatomical Investigation of the Gluteus Medius Muscle Innervation and Its Topographical Correspondence With Myofascial Trigger Points.' Biomed Res Int 2026:7544057, doi:10.1155/bmri/7544057 (https://doi.org/10.1155/bmri/7544057) -- retrieved via PubMed"
+    },
+    {
+      "location_description": "Anterior fibers, below the iliac crest close to the anterior superior iliac spine (MTrP3)",
+      "referred_pain_pattern": "Pain radiating along the iliac crest into the lower lumbar and sacral region, contributing to low back pain",
+      "activation_perpetuating_factors": "Weight-bearing activities -- walking, running, climbing stairs, carrying a load -- and prolonged single-leg stance",
+      "notes": "Along with quadratus lumborum, an active trigger point here is among the most prevalent findings in patients with chronic non-specific low back pain",
+      "source": "Simons, Travell & Simons Trigger Point Manual (Travell JG, Simons DG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 2: The Lower Extremities, 1st ed., Williams & Wilkins, 1992; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019) -- as cited in backmusclesolutions.com, 'Gluteus Medius Trigger Points' (https://backmusclesolutions.com/blogs/the-ql-blawg/gluteus-medius-trigger-points), describing three MTrP sites (MTrP1 near the iliac crest/SI joint, MTrP2 mid-belly, MTrP3 near the ASIS); corroborated by real cadaveric anatomy: Pinheiro RP, Macaya DAM, Itezerote AM, Saleh SO, Hojaij F, Andrade M, Jacomo AL, Jacomo FEA (2026) 'Anatomical Investigation of the Gluteus Medius Muscle Innervation and Its Topographical Correspondence With Myofascial Trigger Points.' Biomed Res Int 2026:7544057, doi:10.1155/bmri/7544057 (https://doi.org/10.1155/bmri/7544057) -- retrieved via PubMed"
+    }
+  ]
+}

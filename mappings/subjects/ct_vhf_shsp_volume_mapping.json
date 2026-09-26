@@ -1,0 +1,112 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhf_shsp",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz",
+ "label_map": "vhf_shoulder_split",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "infraspinatus_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "infraspinatus_r",
+   "relationship": "exact",
+   "note": "233.2 cm3; rule-based split (see _README).",
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "teres_minor_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "teres_minor_r",
+   "relationship": "exact",
+   "note": "45.8 cm3; rule-based split (see _README).",
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "teres_major_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "teres_major_r",
+   "relationship": "exact",
+   "note": "77.1 cm3; rule-based split (see _README).",
+   "candidates": []
+  },
+  {
+   "label": 4,
+   "source_structure": "rhomboid_major_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "22.8 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data.",
+   "candidates": []
+  },
+  {
+   "label": 5,
+   "source_structure": "rhomboid_minor_right",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "39.7 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data.",
+   "candidates": []
+  },
+  {
+   "label": 6,
+   "source_structure": "infraspinatus_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "infraspinatus_l",
+   "relationship": "exact",
+   "note": "215.8 cm3; rule-based split (see _README).",
+   "candidates": []
+  },
+  {
+   "label": 7,
+   "source_structure": "teres_minor_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "teres_minor_l",
+   "relationship": "exact",
+   "note": "43.7 cm3; rule-based split (see _README).",
+   "candidates": []
+  },
+  {
+   "label": 8,
+   "source_structure": "teres_major_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "teres_major_l",
+   "relationship": "exact",
+   "note": "73.9 cm3; rule-based split (see _README).",
+   "candidates": []
+  },
+  {
+   "label": 9,
+   "source_structure": "rhomboid_major_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "17.9 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data.",
+   "candidates": []
+  },
+  {
+   "label": 10,
+   "source_structure": "rhomboid_minor_left",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "26.4 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data.",
+   "candidates": []
+  }
+ ]
+}

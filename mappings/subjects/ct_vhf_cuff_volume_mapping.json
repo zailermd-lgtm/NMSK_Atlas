@@ -1,0 +1,72 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_cuff",
+  "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz",
+  "label_map": "vhf_rotator_cuff",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "supraspinatus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "supraspinatus_r",
+      "relationship": "exact",
+      "note": "Supraspinous fossa by level and glenoid rule; over-inclusive at the tendon.",
+      "candidates": []
+    },
+    {
+      "label": 2,
+      "source_structure": "infraspinatus_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "infraspinatus_r",
+      "relationship": "exact",
+      "note": "Dorsal scapular surface below the spine level; teres minor merged in.",
+      "candidates": []
+    },
+    {
+      "label": 3,
+      "source_structure": "subscapularis_right",
+      "side": "right",
+      "status": "curated",
+      "atlas_id": "subscapularis_r",
+      "relationship": "exact",
+      "note": "Ventral scapular surface, more than 8 mm from the ribs.",
+      "candidates": []
+    },
+    {
+      "label": 4,
+      "source_structure": "supraspinatus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "supraspinatus_l",
+      "relationship": "exact",
+      "note": "Supraspinous fossa by level and glenoid rule; over-inclusive at the tendon.",
+      "candidates": []
+    },
+    {
+      "label": 5,
+      "source_structure": "infraspinatus_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "infraspinatus_l",
+      "relationship": "exact",
+      "note": "Dorsal scapular surface below the spine level; teres minor merged in.",
+      "candidates": []
+    },
+    {
+      "label": 6,
+      "source_structure": "subscapularis_left",
+      "side": "left",
+      "status": "curated",
+      "atlas_id": "subscapularis_l",
+      "relationship": "exact",
+      "note": "Ventral scapular surface, more than 8 mm from the ribs.",
+      "candidates": []
+    }
+  ]
+}

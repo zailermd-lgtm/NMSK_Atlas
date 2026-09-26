@@ -1,0 +1,1061 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>NMSK Atlas — Z-Anatomy reference body</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@500;600&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --ground:#e9edf0; --panel:#fff; --panel-2:#f1f4f7;
+    --ink:#16202a; --ink-dim:#5c6a77;
+    --line:rgba(22,32,42,.13); --line-strong:rgba(22,32,42,.30);
+    --accent:#1d7c99;
+    --t-bone:#cbbb99; --t-cartilage:#8fb8c4; --t-joint:#4f8f9c;
+    --t-insertion:#a8703c; --t-muscle:#b2483d; --t-fascia:#c9b98e;
+    --t-nerve:#d9c33f; --t-cns:#8f7fc0; --t-vessel:#a83550;
+    --t-lymph:#7b9c5a; --t-viscera:#9d6f8f;
+    --shadow:0 10px 34px rgba(22,32,42,.15);
+    --f-display:"Spectral",ui-serif,Georgia,serif;
+    --f-body:"Public Sans",ui-sans-serif,system-ui,sans-serif;
+    --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --safe-t:env(safe-area-inset-top,0px);
+    --safe-b:env(safe-area-inset-bottom,0px);
+    --safe-l:env(safe-area-inset-left,0px);
+    --safe-r:env(safe-area-inset-right,0px);
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --ground:#0c1216; --panel:#141c23; --panel-2:#1a232b;
+    --ink:#e3eaee; --ink-dim:#8b9aa6;
+    --line:rgba(227,234,238,.11); --line-strong:rgba(227,234,238,.26);
+    --accent:#5cbad8;
+    --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#63aab8;
+    --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
+    --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
+    --t-lymph:#95bb6e; --t-viscera:#b988a8;
+    --shadow:0 12px 40px rgba(0,0,0,.55);
+  }}
+  :root[data-theme="dark"]{
+    --ground:#0c1216; --panel:#141c23; --panel-2:#1a232b;
+    --ink:#e3eaee; --ink-dim:#8b9aa6;
+    --line:rgba(227,234,238,.11); --line-strong:rgba(227,234,238,.26);
+    --accent:#5cbad8;
+    --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#63aab8;
+    --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
+    --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
+    --t-lymph:#95bb6e; --t-viscera:#b988a8;
+    --shadow:0 12px 40px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0;height:100%;overflow:hidden;overscroll-behavior:none;
+    background:var(--ground);color:var(--ink);font-family:var(--f-body);
+    -webkit-font-smoothing:antialiased}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  button{font:inherit;color:inherit;cursor:pointer}
+  #view{position:fixed;inset:0;display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+
+  /* ---------- boot overlay ---------- */
+  #boot{position:fixed;inset:0;z-index:60;background:var(--ground);
+    display:flex;align-items:center;justify-content:center;
+    transition:opacity .35s ease,visibility .35s}
+  #boot.done{opacity:0;visibility:hidden;pointer-events:none}
+  .boot-inner{text-align:center;padding:1.5rem;max-width:340px}
+  .boot-inner h2{font-family:var(--f-display);font-weight:600;font-size:1.3rem;margin:0 0 .5rem}
+  .boot-inner p{font-size:.85rem;color:var(--ink-dim);line-height:1.55;margin:0}
+  #boot-status{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-dim);margin-top:.9rem}
+  .bar{height:3px;background:var(--panel-2);border-radius:2px;overflow:hidden;margin-top:.6rem}
+  #boot-bar{height:100%;width:0;background:var(--accent);transition:width .25s ease}
+
+  /* ---------- header ---------- */
+  #brand{position:fixed;top:calc(.75rem + var(--safe-t));left:calc(.9rem + var(--safe-l));
+    z-index:20;pointer-events:none;display:flex;flex-direction:column;gap:.1rem}
+  #brand h1{margin:0;font-family:var(--f-display);font-weight:600;font-size:1.2rem;line-height:1.1}
+  #stat-line{font-family:var(--f-mono);font-size:.6rem;color:var(--ink-dim)}
+
+  .pill{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.04em;
+    background:color-mix(in srgb,var(--panel) 92%,transparent);
+    border:1px solid var(--line-strong);border-radius:8px;padding:.42rem .62rem;
+    backdrop-filter:blur(10px)}
+  .pill:hover,.pill.on{border-color:var(--accent);color:var(--accent)}
+  .pill.on{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+
+  #topright{position:fixed;top:calc(.7rem + var(--safe-t));right:calc(.9rem + var(--safe-r));
+    z-index:25;display:flex;gap:.35rem}
+
+  /* ---------- side rail (desktop) ---------- */
+  #rail{position:fixed;top:calc(4.6rem + var(--safe-t));left:calc(.9rem + var(--safe-l));z-index:22;
+    width:272px;max-height:calc(100% - 6.6rem - var(--safe-t) - var(--safe-b));
+    background:color-mix(in srgb,var(--panel) 94%,transparent);
+    backdrop-filter:blur(14px) saturate(1.2);
+    border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+    display:flex;flex-direction:column;overflow:hidden}
+  .rail-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:.8rem;
+    display:flex;flex-direction:column;gap:.9rem}
+  .lbl{font-family:var(--f-mono);font-size:.6rem;letter-spacing:.13em;text-transform:uppercase;
+    color:var(--ink-dim);margin:0 0 .4rem}
+
+  .layer-row{display:flex;flex-direction:column;gap:.1rem;margin-bottom:.35rem}
+  .layer-head{display:flex;align-items:center;gap:.3rem}
+  .layer{display:flex;align-items:center;gap:.5rem;flex:1;min-width:0;padding:.3rem .4rem;
+    margin-left:-.4rem;background:none;border:0;border-radius:6px;font-size:.82rem;text-align:left}
+  .layer:hover{background:var(--panel-2)}
+  .solo{flex:0 0 auto;font-family:var(--f-mono);font-size:.56rem;letter-spacing:.06em;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:5px;
+    padding:.2rem .34rem;color:var(--ink-dim)}
+  .solo:hover{border-color:var(--accent);color:var(--accent)}
+  .solo.on{border-color:var(--accent);color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 18%,transparent)}
+  .chip{width:10px;height:10px;border-radius:2px;flex:0 0 auto}
+  .layer.off .chip{opacity:.2}
+  .layer.off .nm{color:var(--ink-dim);text-decoration:line-through}
+  .nm{flex:1}
+  .ct{font-family:var(--f-mono);font-size:.7rem;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+  .layer-row input[type=range]{width:100%;accent-color:var(--accent);height:18px;margin:0}
+
+  #sides,#presets,#clip-axis,#clip-acts,#box-acts{display:flex;gap:.28rem;flex-wrap:wrap}
+  #sides button,#presets button,#clip-axis button,#clip-acts button,#box-acts button{
+    flex:1;min-width:60px;font-family:var(--f-mono);font-size:.64rem;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:.42rem .2rem}
+  #sides button.on,#presets button:hover,#clip-axis button:hover,
+  #clip-acts button:hover,#box-acts button:hover{border-color:var(--accent);color:var(--accent)}
+  #clip-axis button.on,#clip-acts button.on,#box-acts button.on{
+    border-color:var(--accent);color:var(--accent);
+    background:color-mix(in srgb,var(--accent) 16%,transparent)}
+
+  /* clip / isolate sliders */
+  .tool-row{display:flex;align-items:center;gap:.5rem;margin:.42rem 0 .1rem}
+  .tool-row span{font-family:var(--f-mono);font-size:.58rem;color:var(--ink-dim);
+    letter-spacing:.06em;flex:0 0 auto;width:34px}
+  .tool-row input[type=range]{flex:1;min-width:0;accent-color:var(--accent);height:18px;margin:0}
+
+  /* per-structure actions inside the info card */
+  .act{display:flex;gap:.28rem;flex-wrap:wrap;margin:.55rem 0 .1rem}
+  .act button{flex:1;min-width:66px;font-family:var(--f-mono);font-size:.62rem;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:.4rem .2rem}
+  .act button:hover{border-color:var(--accent);color:var(--accent)}
+
+  #search{width:100%;padding:.5rem .55rem;border-radius:7px;border:1px solid var(--line-strong);
+    background:var(--panel-2);color:var(--ink);font-family:var(--f-body);font-size:16px}
+  #list{display:flex;flex-direction:column;max-height:200px;overflow-y:auto;
+    -webkit-overflow-scrolling:touch;margin-top:.4rem}
+  .item{display:flex;align-items:center;gap:.45rem;width:100%;padding:.36rem .4rem;
+    margin-left:-.4rem;background:none;border:0;border-radius:6px;font-size:.78rem;text-align:left}
+  .item:hover{background:var(--panel-2)}
+  .item.sel{background:color-mix(in srgb,var(--accent) 17%,transparent)}
+  .item.hid .t{opacity:.42;text-decoration:line-through}
+  .item .dot{width:7px;height:7px;border-radius:50%;flex:0 0 auto}
+  .item .t{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .agree{font-family:var(--f-mono);font-size:.58rem;padding:.04rem .3rem;border-radius:3px;
+    background:color-mix(in srgb,var(--t-cartilage) 40%,transparent)}
+  .badge-x{font-family:var(--f-mono);font-size:.55rem;padding:.05rem .28rem;border-radius:3px;
+    background:color-mix(in srgb,var(--t-cartilage) 32%,transparent)}
+  .none{font-size:.78rem;color:var(--ink-dim);margin:.4rem 0}
+
+  /* ---------- info card ---------- */
+  #info{position:fixed;right:calc(.9rem + var(--safe-r));bottom:calc(.9rem + var(--safe-b));
+    z-index:24;width:310px;max-height:58%;
+    background:color-mix(in srgb,var(--panel) 96%,transparent);
+    backdrop-filter:blur(14px) saturate(1.2);
+    border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
+    padding:.85rem;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  #info.hidden{display:none}
+  .info-close{position:absolute;top:.45rem;right:.5rem;background:none;border:0;
+    font-size:1.35rem;line-height:1;color:var(--ink-dim);padding:.1rem .3rem}
+  #info .kind{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+    padding:.13rem .4rem;border-radius:4px;border:1px solid currentColor;display:inline-block;margin-bottom:.4rem}
+  #info h2{margin:0 0 .12rem;font-family:var(--f-display);font-weight:600;font-size:1.06rem;
+    line-height:1.24;text-wrap:balance;padding-right:1.4rem}
+  #info .sub2{font-family:var(--f-mono);font-size:.66rem;color:var(--ink-dim);margin:0 0 .5rem}
+  .facts{display:grid;grid-template-columns:auto 1fr;gap:.26rem .6rem;font-size:.77rem;margin:.45rem 0 0}
+  .facts dt{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-dim);padding-top:.06rem}
+  .facts dd{margin:0}
+  .facts dd ul{margin:0;padding-left:.9rem}
+  .warn,.ok-note{margin-top:.6rem;padding:.45rem .55rem;border-radius:7px;font-size:.735rem;line-height:1.45}
+  .warn{background:color-mix(in srgb,var(--t-joint) 15%,transparent);border-left:2px solid var(--t-joint)}
+  .ok-note{background:color-mix(in srgb,var(--t-cartilage) 15%,transparent);border-left:2px solid var(--t-cartilage)}
+
+  /* ---------- bottom controls ---------- */
+  #foot{position:fixed;left:calc(.9rem + var(--safe-l));bottom:calc(.9rem + var(--safe-b));
+    z-index:22;display:flex;gap:.32rem;flex-wrap:wrap;max-width:min(300px,60vw)}
+
+  /* ---------- modal ---------- */
+  #modal{position:fixed;inset:0;z-index:50;display:none;
+    background:color-mix(in srgb,var(--ground) 82%,transparent);backdrop-filter:blur(5px);
+    padding:calc(1.5rem + var(--safe-t)) 1rem calc(1.5rem + var(--safe-b));overflow-y:auto}
+  #modal.open{display:block}
+  #modal .sheet{max-width:660px;margin:0 auto;background:var(--panel);border:1px solid var(--line);
+    border-radius:13px;box-shadow:var(--shadow);padding:1.4rem 1.4rem}
+  #modal h2{font-family:var(--f-display);font-weight:600;margin:0 0 .8rem;font-size:1.25rem}
+  #modal h3{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-dim);margin:1.2rem 0 .4rem}
+  #modal p,#modal li{font-size:.85rem;line-height:1.6;margin:0 0 .5rem}
+  #modal ul{padding-left:1.05rem;margin:0 0 .5rem}
+  #modal code{font-family:var(--f-mono);font-size:.83em;background:var(--panel-2);padding:.08em .3em;border-radius:3px}
+  #modal a{color:var(--accent)}
+  #modal .close{float:right;background:none;border:1px solid var(--line-strong);border-radius:6px;
+    padding:.25rem .6rem;font-family:var(--f-mono);font-size:.7rem}
+  .licence{margin-top:1rem;padding:.7rem .8rem;border-radius:8px;
+    background:color-mix(in srgb,var(--t-joint) 14%,transparent);border-left:3px solid var(--t-joint)}
+
+  #btn-panel{display:none}
+
+  /* ---------- tablet ---------- */
+  @media (max-width:1100px){
+    #rail{width:246px}
+    #info{width:286px}
+  }
+
+  /* ---------- phone: rail becomes a bottom sheet, canvas always visible ---------- */
+  @media (max-width:900px){
+    #btn-panel{display:block}
+    #brand h1{font-size:1.02rem}
+    #stat-line{display:none}
+    #rail{top:auto;left:0;right:0;bottom:0;width:auto;border-radius:14px 14px 0 0;
+      max-height:min(66vh,520px);
+      transform:translateY(calc(100% + 4px));
+      transition:transform .28s cubic-bezier(.32,.72,0,1);
+      padding-bottom:var(--safe-b)}
+    #rail.open{transform:translateY(0)}
+    #rail::before{content:"";position:absolute;top:.45rem;left:50%;transform:translateX(-50%);
+      width:34px;height:4px;border-radius:2px;background:var(--line-strong)}
+    .rail-body{padding:1.1rem .9rem .9rem}
+    #list{max-height:150px}
+    #info{left:.7rem;right:.7rem;width:auto;bottom:auto;
+      top:calc(3.5rem + var(--safe-t));max-height:38vh}
+    #foot{bottom:calc(.75rem + var(--safe-b));left:.7rem;max-width:calc(100% - 1.4rem)}
+    .pill{padding:.5rem .6rem;font-size:.68rem}
+    .item{padding:.45rem .4rem;font-size:.82rem}
+    #sides button,#presets button{padding:.55rem .2rem;font-size:.68rem}
+  }
+  @media (max-width:900px) and (orientation:landscape){
+    #rail{max-height:82vh}
+    #info{max-height:60vh;width:270px;left:auto;right:.7rem}
+  }
+</style>
+
+<canvas id="view"></canvas>
+
+<div id="boot">
+  <div class="boot-inner">
+    <h2>NMSK Atlas — Z-Anatomy</h2>
+    <p>Loading the full anatomical model.</p>
+    <div class="bar"><div id="boot-bar"></div></div>
+    <div id="boot-status">Starting…</div>
+  </div>
+</div>
+
+<div id="brand">
+  <h1>NMSK Atlas — Z-Anatomy</h1>
+  <span id="stat-line"></span>
+</div>
+
+<div id="topright">
+  <button class="pill" id="btn-panel">layers</button>
+  <button class="pill" id="about-btn">sources</button>
+</div>
+
+<aside id="rail">
+  <div class="rail-body">
+    <div>
+      <p class="lbl">Tissue layers &amp; opacity</p>
+      <div id="layers"></div>
+    </div>
+    <div>
+      <p class="lbl">Side</p>
+      <div id="sides">
+        <button data-side="both" class="on">both</button>
+        <button data-side="r">right</button>
+        <button data-side="l">left</button>
+      </div>
+    </div>
+    <div>
+      <p class="lbl">Presets</p>
+      <div id="presets">
+        <button id="btn-solid">all</button>
+        <button id="btn-xray">x-ray</button>
+        <button id="btn-bones">skeleton</button>
+        <button id="btn-neuro">nervous</button>
+        <button id="btn-vasc">vessels</button>
+        <button id="btn-organs">organs</button>
+        <button id="btn-insert">insertions</button>
+      </div>
+    </div>
+    <div>
+      <p class="lbl">Cut plane</p>
+      <div id="clip-axis">
+        <button data-axis="0" class="on">sagittal</button>
+        <button data-axis="1">axial</button>
+        <button data-axis="2">coronal</button>
+      </div>
+      <div class="tool-row"><span>depth</span>
+        <input id="clip-pos" type="range" min="0" max="100" value="50" aria-label="Cut plane depth"></div>
+      <div id="clip-acts">
+        <button id="clip-on">cut on</button>
+        <button id="clip-flip">flip side</button>
+      </div>
+    </div>
+    <div>
+      <p class="lbl">Isolate a 3D region</p>
+      <div class="tool-row"><span>size</span>
+        <input id="box-size" type="range" min="0" max="100" value="24" aria-label="Isolation region size"></div>
+      <div id="box-acts">
+        <button id="box-clear">clear isolation</button>
+      </div>
+      <p class="none" style="margin:.35rem 0 0;font-size:.7rem">
+        Select a structure, then press <strong>isolate 3D</strong> in its card — or key <strong>i</strong>.
+      </p>
+    </div>
+    <div>
+      <p class="lbl">Structures</p>
+      <input id="search" type="search" autocomplete="off" autocorrect="off" autocapitalize="off">
+      <div id="list"></div>
+    </div>
+  </div>
+</aside>
+
+<div id="info" class="hidden"></div>
+
+<div id="foot">
+  <button class="pill" data-view="front">front</button>
+  <button class="pill" data-view="side">side</button>
+  <button class="pill" data-view="back">back</button>
+  <button class="pill" id="btn-pan" title="Drag to move the model (or hold Shift / use two fingers)">move</button>
+  <button class="pill on" id="btn-spin">spin</button>
+  <button class="pill" id="btn-reset">reset</button>
+</div>
+
+<div id="modal">
+  <div class="sheet">
+    <button class="close" id="modal-close">close</button>
+    <h2>Sources &amp; licence</h2>
+
+    <h3>Controls</h3>
+    <ul>
+      <li><strong>Rotate</strong> — drag with the left mouse button, or one finger.</li>
+      <li><strong>Move (pan)</strong> — drag with the middle or right button, hold <code>Shift</code> while dragging, drag with <strong>two fingers</strong>, or press <strong>move</strong> to make plain dragging pan.</li>
+      <li><strong>Zoom</strong> — scroll wheel, or pinch. <code>Shift</code>+wheel pans vertically.</li>
+      <li><strong>Cut plane</strong> — pick sagittal / axial / coronal, set the depth, press <strong>cut on</strong>, <strong>flip side</strong> to keep the other half.</li>
+      <li><strong>Isolate a 3D region</strong> — select a structure, press <strong>isolate 3D</strong> (or key <code>i</code>); everything outside the box around it disappears. The <em>size</em> slider grows or shrinks the box; <strong>clear isolation</strong> ends it.</li>
+      <li><strong>Hide / fade one structure</strong> — select it, then <strong>hide</strong> or <strong>fade</strong> in its card, or keys <code>h</code> and <code>f</code>.</li>
+      <li><strong>Solo a layer</strong> — the small <em>solo</em> button beside any tissue layer shows that layer alone. Press again to restore.</li>
+      <li><code>Esc</code> clears the selection; <code>r</code> resets the camera.</li>
+    </ul>
+    <p>Deep structures — brain and spinal cord, nerves, vessels, viscera, cartilage — sit inside bone and muscle, so at full opacity they are hidden behind the surface. Use a preset (<strong>nervous</strong>, <strong>vessels</strong>, <strong>organs</strong>, <strong>x-ray</strong>), a layer <em>solo</em>, or the cut plane to reach them.</p>
+
+    <h3>Geometry</h3>
+    <p>All 3D meshes come from <strong>Z-Anatomy</strong> (<a href="https://github.com/LluisV/Z-Anatomy" target="_blank" rel="noopener">github.com/LluisV/Z-Anatomy</a>), itself a derivative of <strong>BodyParts3D</strong> (The Database Center for Life Science, Japan). Both credits are required together, verbatim, per the release's own licence file:</p>
+    <p style="margin:.3em 0;font-style:italic">&ldquo;BodyParts3D — The Database Center for Life Science — CC-BY-SA 2.1 Japan&rdquo;<br>&ldquo;Z-Anatomy — The open source atlas of anatomy — CC-BY-SA 4.0&rdquo;</p>
+    <p>Pinned clone commit <code>6c7f9016bd5899ac8edafd31b9900c151df42ed6</code>. Extracted, matched to this project's own atlas ids, corrected, and decimated for one self-contained page by this project's own pipeline (<code>scripts/zanatomy/extract_fbx.py</code>, <code>map_names.py</code>, <code>zan_source.py</code>, <code>build_zan_atlas_viewer.py</code>) — see <code>third_party/z-anatomy/NOTICE</code> and <code>docs/GEOMETRY_SOURCES.md</code>.</p>
+
+    <div class="licence">
+      <p style="margin:0"><strong>Licence: CC BY-SA 4.0</strong> (Z-Anatomy) and <strong>CC BY-SA 2.1 Japan</strong> (BodyParts3D) — <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/4.0</a> / <a href="https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en" target="_blank" rel="noopener">creativecommons.org/licenses/by-sa/2.1/jp</a>. Share-alike is viral: any redistribution of this geometry, or a dataset derived from it, must carry the same licence and this attribution. Full legal text: <code>third_party/z-anatomy/LICENSE</code>.</p>
+    </div>
+    <p>Two named subcomponents of the Z-Anatomy release (Anatomy of the Inner Ear, Kidney) carry a separate, non-commercial licence and are excluded from this build entirely, independent of the CC BY-SA material above — see <code>third_party/z-anatomy/NOTICE</code>.</p>
+
+    <h3>Corrections applied</h3>
+    <p>Where this project's own audit of a Z-Anatomy pathway found a real, cited discrepancy against the literature, the geometry is warped by a small, bounded, declarative correction — never a hand-edit of the mesh. A corrected structure carries a badge in its info card; the correction itself is fully described and cited under <code>data/corrections/zanatomy/</code>:</p>
+    <ul>
+      <li><strong>Posterior interosseous nerve</strong> (both sides) — arcade-of-Frohse entry point moved from the measured 27.5&nbsp;mm to 42.55&nbsp;mm distal to the lateral epicondyle, per Aggarwal et al. 2026 (PMID 42556533) and Hazani et al. 2008 (PMID 18668182). See <code>data/corrections/zanatomy/radial_n.json</code> and PROJECT_STATE.md Q144/Q145.</li>
+    </ul>
+
+    <h3>Biomechanical data</h3>
+    <p>Where a Z-Anatomy structure matches one of this project's own atlas entities, the info panel shows that entity's independently-cited facts — TA name, origin/insertion, innervation, functional-compartment PCSA/fascicle length/pennation/force, documented actions — from this project's own atlas records (<code>data/</code>), never invented here. This is the anatomy layer only: the owner's private clinical layer (trigger points, special tests, referred-pain compilations) is a separate, non&#8209;CC&#8209;BY&#8209;SA part of this project and is <strong>never</strong> included in this file.</p>
+    <p>A structure badged <span class="badge-x" style="opacity:.65">part of</span> is its own separate mesh — never merged with anything else — that this project's own registry keeps as one coarser entity (a numbered rib, a named carpal bone, one head of a multi-headed muscle); its info panel shows that coarser entity's own cited facts, labelled as the parent's, not independently verified for this specific piece. Structures with neither badge are geometry only — a real Z-Anatomy structure with no match, direct or parent, to one of this project's own entities.</p>
+
+    <h3>Still approximate</h3>
+    <ul>
+      <li><strong>Pose</strong> is Z-Anatomy's own neutral stance, not driven by this atlas's own joint ROM data.</li>
+      <li><strong>Decimation</strong> softens fine surface detail (small foramina, sharp crests) to keep this one page under 15&nbsp;MB.</li>
+      <li><strong>Name matching</strong> between the two datasets is scored, not exact — a few real correspondences are missed, and a few low-confidence ones are deliberately left unmatched (see <code>scripts/zanatomy/map_names.py</code>).</li>
+      <li><strong>Generic body</strong>: this is Z-Anatomy's own internally-consistent model, not registered to either of this project's own Visible Human specimens — that registration was tried and found too inaccurate to ship (PROJECT_STATE.md Q142/Q143).</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+window.__ANATOMY_BIN__="__BIN_B64__";
+window.__ANATOMY_BIN_FILES__=__BIN_FILES_JSON__;
+window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
+
+
+(function () {
+  "use strict";
+  var statusEl = document.getElementById("boot-status");
+  var barEl = document.getElementById("boot-bar");
+  function boot(m, p) {
+    if (statusEl) statusEl.textContent = m;
+    if (barEl && p != null) barEl.style.width = (p * 100).toFixed(0) + "%";
+  }
+  function nf() { return new Promise(function (r) { requestAnimationFrame(function () { setTimeout(r, 0); }); }); }
+  function fail(m) {
+    var b = document.getElementById("boot");
+    if (b) { b.innerHTML = '<div class="boot-inner"><h2>Cannot render</h2><p>' + m + '</p></div>'; b.classList.remove("done"); }
+  }
+
+  var canvas = document.getElementById("view");
+  var gl = null;
+  try {
+    var o0 = { antialias: false, alpha: false, depth: true, powerPreference: "high-performance" };
+    gl = canvas.getContext("webgl", o0) || canvas.getContext("experimental-webgl", o0);
+  } catch (e) {}
+  if (!gl) { fail("This browser reports no WebGL support."); return; }
+
+  main().catch(function (e) { fail("Startup error: " + (e && e.message ? e.message : e)); });
+
+  async function main() {
+    boot("Decoding geometry…", 0.05); await nf();
+
+    var BIN, files = window.__ANATOMY_BIN_FILES__;
+    if (files && files.length) {
+      // Q159: geometry published as sibling binary files (more resolution than one page can carry)
+      var parts = [], total = 0;
+      for (var fi = 0; fi < files.length; fi++) {
+        boot("Downloading geometry " + (fi + 1) + "/" + files.length + "…", 0.02 + 0.08 * fi / files.length); await nf();
+        var resp = await fetch(files[fi].path);
+        if (!resp.ok) throw new Error("geometry file " + files[fi].path + ": HTTP " + resp.status);
+        var buf;
+        if (files[fi].enc === "base64") {
+          var s64 = atob((await resp.text()).trim());
+          buf = new Uint8Array(s64.length);
+          for (var bi = 0; bi < s64.length; bi++) buf[bi] = s64.charCodeAt(bi);
+        } else buf = new Uint8Array(await resp.arrayBuffer());
+        if (buf.length !== files[fi].bytes) throw new Error("geometry file " + files[fi].path + " is truncated");
+        parts.push(buf); total += buf.length;
+      }
+      BIN = new Uint8Array(total);
+      for (var pi = 0, off = 0; pi < parts.length; pi++) { BIN.set(parts[pi], off); off += parts[pi].length; }
+    } else {
+      var bs = atob(window.__ANATOMY_BIN__);
+      BIN = new Uint8Array(bs.length);
+      for (var i = 0; i < bs.length; i++) BIN[i] = bs.charCodeAt(i);
+    }
+    window.__ANATOMY_BIN__ = null;
+    var MAN = window.__ANATOMY_MANIFEST__;
+
+    boot("Converting coordinates…", 0.12); await nf();
+    function conv(x, y, z, out, o) { out[o] = x; out[o + 1] = y; out[o + 2] = z; }
+
+    // ".l/.r" belly · ".ol/.or" origin marker · ".el/.er" enthesis marker
+    var SIDE_RE = /\.(o|e)?(l|r)$/i;
+    function baseName(n) { return n.replace(SIDE_RE, "").trim(); }
+    function sideOf(n) { var m = n.match(SIDE_RE); return m ? m[2].toLowerCase() : "m"; }
+    function markerOf(n) { var m = n.match(SIDE_RE); return (!m || !m[1]) ? null : (m[1].toLowerCase() === "o" ? "origin" : "insertion"); }
+
+    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","nerve","cns","vessel","lymph","viscera"];
+    var perLayer = {}; LK.forEach(function (k) { perLayer[k] = []; });
+    var OBJ = [], bbMin = [1e9,1e9,1e9], bbMax = [-1e9,-1e9,-1e9];
+    var recs = MAN.meshes;
+
+    for (var mi = 0; mi < recs.length; mi++) {
+      var rec = recs[mi], vc = rec.vc, ic = rec.ic;
+      var qv = new Uint16Array(BIN.buffer, BIN.byteOffset + rec.vo, vc * 3);
+      var idx = new Uint16Array(BIN.buffer, BIN.byteOffset + rec.io, ic * 3);
+      var pos = new Float32Array(vc * 3), mn = rec.min, sp = rec.span;
+      var lo = [1e9,1e9,1e9], hi = [-1e9,-1e9,-1e9];
+      for (var v = 0; v < vc; v++) {
+        conv(mn[0]+(qv[v*3]/65535)*sp[0], mn[1]+(qv[v*3+1]/65535)*sp[1], mn[2]+(qv[v*3+2]/65535)*sp[2], pos, v*3);
+        for (var k = 0; k < 3; k++) {
+          var val = pos[v*3+k];
+          if (val < lo[k]) lo[k] = val;
+          if (val > hi[k]) hi[k] = val;
+        }
+      }
+      for (var k2 = 0; k2 < 3; k2++) {
+        if (lo[k2] < bbMin[k2]) bbMin[k2] = lo[k2];
+        if (hi[k2] > bbMax[k2]) bbMax[k2] = hi[k2];
+      }
+      var nrm = new Float32Array(vc * 3);
+      for (var t = 0; t < ic; t++) {
+        var a = idx[t*3], b = idx[t*3+1], c = idx[t*3+2];
+        var ax = pos[a*3], ay = pos[a*3+1], az = pos[a*3+2];
+        var e1x = pos[b*3]-ax, e1y = pos[b*3+1]-ay, e1z = pos[b*3+2]-az;
+        var e2x = pos[c*3]-ax, e2y = pos[c*3+1]-ay, e2z = pos[c*3+2]-az;
+        var nx = e1y*e2z-e1z*e2y, ny = e1z*e2x-e1x*e2z, nz = e1x*e2y-e1y*e2x;
+        nrm[a*3]+=nx; nrm[a*3+1]+=ny; nrm[a*3+2]+=nz;
+        nrm[b*3]+=nx; nrm[b*3+1]+=ny; nrm[b*3+2]+=nz;
+        nrm[c*3]+=nx; nrm[c*3+1]+=ny; nrm[c*3+2]+=nz;
+      }
+      for (var q = 0; q < vc; q++) {
+        var L = Math.hypot(nrm[q*3], nrm[q*3+1], nrm[q*3+2]) || 1;
+        nrm[q*3]/=L; nrm[q*3+1]/=L; nrm[q*3+2]/=L;
+      }
+      var ctr = [(lo[0]+hi[0])/2, (lo[1]+hi[1])/2, (lo[2]+hi[2])/2];
+      var rad = Math.hypot(hi[0]-lo[0], hi[1]-lo[1], hi[2]-lo[2]) / 2;
+      var layer = rec.sys || "bone";
+      var ob = { name: rec.name, id: rec.id, base: rec.name, side: rec.side || sideOf(rec.name), marker: null,
+                 layer: layer, center: ctr, bmin: lo, bmax: hi, radius: rad, tris: ic,
+                 pos: pos, nrm: nrm, idx: idx, vc: vc, atlas: rec.rec || null };
+      OBJ.push(ob);
+      (perLayer[layer] || (perLayer[layer] = [])).push(ob);
+      if ((mi & 127) === 0) { boot("Building meshes… " + mi + "/" + recs.length, 0.12 + 0.55*mi/recs.length); await nf(); }
+    }
+
+    boot("Uploading to GPU…", 0.72); await nf();
+
+    var CAP = 65000, BATCHES = [];
+    function bucket() { return { pc: [], nc: [], ic2: [], objs: [], vU: 0, iU: 0 }; }
+    function flush(layer, cur) {
+      if (!cur || !cur.objs.length) return;
+      var pos = new Float32Array(cur.vU*3), nrm = new Float32Array(cur.vU*3), off = 0;
+      for (var a = 0; a < cur.pc.length; a++) { pos.set(cur.pc[a], off); nrm.set(cur.nc[a], off); off += cur.pc[a].length; }
+      var idx = new Uint16Array(cur.iU), io = 0;
+      for (var b = 0; b < cur.ic2.length; b++) { idx.set(cur.ic2[b], io); io += cur.ic2[b].length; }
+      var pb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, pb); gl.bufferData(gl.ARRAY_BUFFER, pos, gl.STATIC_DRAW);
+      var nb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, nb); gl.bufferData(gl.ARRAY_BUFFER, nrm, gl.STATIC_DRAW);
+      var ib = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ib); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, idx, gl.STATIC_DRAW);
+      var B = { layer: layer, pb: pb, nb: nb, ib: ib, count: idx.length, objs: cur.objs };
+      BATCHES.push(B); cur.objs.forEach(function (e) { e.batch = B; });
+    }
+    LK.forEach(function (layer) {
+      var cur = bucket();
+      (perLayer[layer] || []).forEach(function (o) {
+        if (cur.vU + o.vc > CAP && cur.objs.length) { flush(layer, cur); cur = bucket(); }
+        var base = cur.vU;
+        cur.pc.push(o.pos); cur.nc.push(o.nrm);
+        var sh = new Uint16Array(o.idx.length);
+        for (var z = 0; z < o.idx.length; z++) sh[z] = o.idx[z] + base;
+        cur.ic2.push(sh);
+        o.iStart = cur.iU; o.iCount = o.idx.length;
+        cur.objs.push(o);
+        cur.vU += o.vc; cur.iU += o.idx.length;
+      });
+      flush(layer, cur);
+    });
+    OBJ.forEach(function (o) { o.pos = null; o.nrm = null; o.idx = null; });
+    var TOTAL = OBJ.reduce(function (a, o) { return a + o.tris; }, 0);
+
+    boot("Linking atlas records…", 0.88); await nf();
+    var matched = 0, partOf = 0;
+    OBJ.forEach(function (o) { if (o.atlas) { if (o.atlas.part_of_id) partOf++; else matched++; } });
+
+    // ================= shaders (with clip plane + isolation box) =================
+    var VS = "attribute vec3 aPos;attribute vec3 aNrm;uniform mat4 uMVP;uniform mat3 uN;" +
+             "varying vec3 vN;varying vec3 vP;" +
+             "void main(){vN=uN*aNrm;vP=aPos;gl_Position=uMVP*vec4(aPos,1.0);}";
+    var FS = "precision mediump float;varying vec3 vN;varying vec3 vP;" +
+      "uniform vec3 uColor;uniform float uAlpha;uniform float uHL;" +
+      "uniform vec4 uClip;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
+      "void main(){" +
+      " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
+      " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
+      " vec3 n=normalize(vN);" +
+      " float d=max(dot(n,normalize(vec3(0.45,0.72,0.55))),0.0);" +
+      " float f=max(dot(n,normalize(vec3(-0.55,0.05,-0.5))),0.0)*0.32;" +
+      " float rim=pow(1.0-abs(n.z),2.5)*0.26;" +
+      " vec3 c=uColor*(0.34+d*0.74+f)+rim*uColor;" +
+      " c=mix(c,vec3(0.35,0.80,0.96),uHL*0.6);" +
+      " gl_FragColor=vec4(c,uAlpha);}";
+    function sh(t, s) {
+      var o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o);
+      if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o));
+      return o;
+    }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS));
+    gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+    gl.bindAttribLocation(prog, 0, "aPos"); gl.bindAttribLocation(prog, 1, "aNrm");
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
+    gl.useProgram(prog);
+    var U = {};
+    ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
+      U[n] = gl.getUniformLocation(prog, n);
+    });
+
+    function mMul(a,b){var o=new Float32Array(16);for(var i=0;i<4;i++)for(var j=0;j<4;j++){var s=0;for(var k=0;k<4;k++)s+=a[k*4+j]*b[i*4+k];o[i*4+j]=s;}return o;}
+    function mP(f0,as,n,f){var t=1/Math.tan(f0/2),o=new Float32Array(16);o[0]=t/as;o[5]=t;o[10]=(f+n)/(n-f);o[11]=-1;o[14]=2*f*n/(n-f);return o;}
+    function mL(e,c,u){
+      var z=[e[0]-c[0],e[1]-c[1],e[2]-c[2]];var zl=Math.hypot(z[0],z[1],z[2])||1;z=[z[0]/zl,z[1]/zl,z[2]/zl];
+      var x=[u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]];var xl=Math.hypot(x[0],x[1],x[2])||1;x=[x[0]/xl,x[1]/xl,x[2]/xl];
+      var y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];
+      return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,
+        -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]),-(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]),-(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]),1]);
+    }
+
+    var ctrAll = [(bbMin[0]+bbMax[0])/2,(bbMin[1]+bbMax[1])/2,(bbMin[2]+bbMax[2])/2];
+    var HGT = bbMax[1]-bbMin[1];
+    var DEF = { az:0.45, el:0.05, dist:HGT*1.3, tgt:ctrAll.slice() };
+    var cam = { az:DEF.az, el:DEF.el, dist:DEF.dist, tgt:DEF.tgt.slice() };
+
+    var on = {}; LK.forEach(function (k) { on[k] = true; });
+    var alphaFor = {}; LK.forEach(function (k) { alphaFor[k] = 1; });
+    var sideFilter = "both", selected = null, hovered = null;
+    var hidden = new Set(), faded = new Set(), soloLayer = null;
+    var clip = { on:false, axis:0, t:0.5, flip:false };
+    var box = { on:false, min:[0,0,0], max:[0,0,0] };
+    var COL = {};
+
+    function readColors() {
+      var cs = getComputedStyle(document.documentElement);
+      LK.forEach(function (k) {
+        var h = (cs.getPropertyValue("--t-"+k)||"#888").trim().replace("#","");
+        if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
+        COL[k] = [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255, parseInt(h.slice(4,6),16)/255];
+      });
+      var g = cs.getPropertyValue("--ground").trim().replace("#","");
+      if (g.length === 3) g = g[0]+g[0]+g[1]+g[1]+g[2]+g[2];
+      COL.bg = [parseInt(g.slice(0,2),16)/255, parseInt(g.slice(2,4),16)/255, parseInt(g.slice(4,6),16)/255];
+    }
+    readColors();
+
+    function sideOK(o) {
+      return sideFilter === "both" || o.side === "m" ||
+             (sideFilter === "r" ? o.side !== "l" : o.side !== "r");
+    }
+    function vis(o) {
+      if (!on[o.layer] || alphaFor[o.layer] <= 0.01) return false;
+      if (hidden.has(o)) return false;
+      if (soloLayer && o.layer !== soloLayer) return false;
+      if (!passClip(o) || !passBox(o)) return false;
+      return sideOK(o);
+    }
+
+    // The shader does the pixel-exact cut with discard; these AABB tests throw
+    // away whole meshes that lie entirely in the discarded region, so a deep cut
+    // costs proportionally less to draw instead of rasterising the whole body.
+    // Kept in lock-step with the fragment shader's plane and box tests.
+    function clipPlanePos() {
+      var a = clip.axis;
+      return bbMin[a] + (bbMax[a] - bbMin[a]) * clip.t;
+    }
+    function passClip(o) {
+      if (!clip.on) return true;
+      var a = clip.axis, pos = clipPlanePos();
+      return clip.flip ? (o.bmax[a] >= pos) : (o.bmin[a] <= pos);
+    }
+    function passBox(o) {
+      if (!box.on) return true;
+      return !(o.bmax[0] < box.min[0] || o.bmax[1] < box.min[1] || o.bmax[2] < box.min[2] ||
+               o.bmin[0] > box.max[0] || o.bmin[1] > box.max[1] || o.bmin[2] > box.max[2]);
+    }
+
+    var W=0,H=0,dpr=1,need=true,spinning=true;
+    function calcDpr() {
+      var a = window.innerWidth*window.innerHeight;
+      return Math.min(a > 800000 ? 1.5 : 2, window.devicePixelRatio || 1);
+    }
+    function resize() {
+      dpr = calcDpr();
+      var r = canvas.getBoundingClientRect();
+      W = canvas.width = Math.max(1, Math.round(r.width*dpr));
+      H = canvas.height = Math.max(1, Math.round(r.height*dpr));
+      gl.viewport(0,0,W,H); need = true;
+    }
+    window.addEventListener("resize", resize);
+    window.addEventListener("orientationchange", function(){ setTimeout(resize,250); });
+
+    var lastMVP=null, lastEye=null, lastRight=null, lastUp=null;
+    function draw() {
+      gl.clearColor(COL.bg[0],COL.bg[1],COL.bg[2],1);
+      gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+      gl.enable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK);
+
+      var ce=Math.cos(cam.el), se=Math.sin(cam.el);
+      var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)];
+      var view=mL(eye,cam.tgt,[0,1,0]);
+      var mvp=mMul(mP(0.85,W/H,HGT*0.02,HGT*14),view);
+      lastMVP=mvp; lastEye=eye;
+      lastRight=[view[0],view[4],view[8]]; lastUp=[view[1],view[5],view[9]];
+      gl.uniformMatrix4fv(U.uMVP,false,mvp);
+      gl.uniformMatrix3fv(U.uN,false,new Float32Array([view[0],view[1],view[2],view[4],view[5],view[6],view[8],view[9],view[10]]));
+
+      // clip plane
+      if (clip.on) {
+        var nrm=[0,0,0]; nrm[clip.axis]=clip.flip?-1:1;
+        var lo=bbMin[clip.axis], hi=bbMax[clip.axis];
+        var pos=lo+(hi-lo)*clip.t;
+        gl.uniform4f(U.uClip,nrm[0],nrm[1],nrm[2], -(nrm[clip.axis]*pos));
+        gl.uniform1f(U.uClipOn,1);
+      } else gl.uniform1f(U.uClipOn,0);
+      if (box.on) {
+        gl.uniform3f(U.uBoxMin,box.min[0],box.min[1],box.min[2]);
+        gl.uniform3f(U.uBoxMax,box.max[0],box.max[1],box.max[2]);
+        gl.uniform1f(U.uBoxOn,1);
+      } else gl.uniform1f(U.uBoxOn,0);
+
+      gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
+      function bind(B) {
+        gl.bindBuffer(gl.ARRAY_BUFFER,B.pb); gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
+        gl.bindBuffer(gl.ARRAY_BUFFER,B.nb); gl.vertexAttribPointer(1,3,gl.FLOAT,false,0,0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,B.ib);
+      }
+      // draw contiguous runs of objects passing `test`
+      function runs(B, test) {
+        var s=-1,c=0;
+        for (var i=0;i<B.objs.length;i++) {
+          var e=B.objs[i], ok=test(e);
+          if (ok) { if (s<0){s=e.iStart;c=0;} c+=e.iCount; }
+          if ((!ok||i===B.objs.length-1) && s>=0) { gl.drawElements(gl.TRIANGLES,c,gl.UNSIGNED_SHORT,s*2); s=-1;c=0; }
+        }
+      }
+      function paint(B, alpha, test, hl) {
+        var c=COL[B.layer]||[0.6,0.6,0.6];
+        gl.uniform3f(U.uColor,c[0],c[1],c[2]);
+        gl.uniform1f(U.uAlpha,alpha);
+        gl.uniform1f(U.uHL,hl||0);
+        bind(B); runs(B,test);
+      }
+      var opa=[],tra=[];
+      BATCHES.forEach(function (B) {
+        if (!on[B.layer]||alphaFor[B.layer]<=0.01) return;
+        if (soloLayer && B.layer!==soloLayer) return;
+        (alphaFor[B.layer]>=0.999?opa:tra).push(B);
+      });
+      function solid(e){ return vis(e) && !faded.has(e); }
+      function isFaded(e){ return vis(e) && faded.has(e); }
+
+      gl.disable(gl.BLEND); gl.depthMask(true);
+      opa.forEach(function(B){ paint(B,1,solid); });
+
+      gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+      tra.forEach(function(B){ paint(B,alphaFor[B.layer],solid); });
+      BATCHES.forEach(function(B){
+        if (!on[B.layer]) return;
+        if (soloLayer && B.layer!==soloLayer) return;
+        paint(B, Math.min(0.18, alphaFor[B.layer]), isFaded);
+      });
+      gl.depthMask(true); gl.disable(gl.BLEND);
+
+      var hi2 = selected || hovered;
+      if (hi2 && hi2.batch && vis(hi2)) {
+        var cc=COL[hi2.layer]||[0.6,0.6,0.6];
+        gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]);
+        gl.uniform1f(U.uAlpha,1); gl.uniform1f(U.uHL,selected===hi2?1:0.6);
+        bind(hi2.batch);
+        gl.drawElements(gl.TRIANGLES,hi2.iCount,gl.UNSIGNED_SHORT,hi2.iStart*2);
+      }
+    }
+    function loop(){ if(spinning){cam.az+=0.0022;need=true;} if(need){draw();need=false;} requestAnimationFrame(loop); }
+
+    function proj(p){
+      var m=lastMVP; if(!m) return null;
+      var x=m[0]*p[0]+m[4]*p[1]+m[8]*p[2]+m[12];
+      var y=m[1]*p[0]+m[5]*p[1]+m[9]*p[2]+m[13];
+      var w=m[3]*p[0]+m[7]*p[1]+m[11]*p[2]+m[15];
+      if(w<=0) return null;
+      return {x:(x/w*0.5+0.5)*W, y:(1-(y/w*0.5+0.5))*H, w:w};
+    }
+    function pick(mx,my){
+      var best=null,bw=Infinity;
+      for(var i=0;i<OBJ.length;i++){
+        // vis() already applies the same clip-plane and isolation-box AABB tests
+        var o=OBJ[i]; if(!vis(o)) continue;
+        var s=proj(o.center); if(!s) continue;
+        var r=(o.radius/s.w)*H*0.5;
+        if(Math.hypot(s.x-mx,s.y-my)<Math.max(r*0.8,8*dpr) && s.w<bw){bw=s.w;best=o;}
+      }
+      return best;
+    }
+
+    // ================= UI =================
+    var LAYERS=[
+      {k:"bone",label:"Bones"},{k:"cartilage",label:"Cartilage & discs"},
+      {k:"joint",label:"Joints & ligaments"},{k:"insertion",label:"Tendons"},
+      {k:"muscle",label:"Muscles"},{k:"fascia",label:"Fascia & bursae"},
+      {k:"nerve",label:"Nerve structures"},{k:"cns",label:"Brain, cord & senses"},
+      {k:"vessel",label:"Cardiovascular"},{k:"lymph",label:"Lymphoid"},{k:"viscera",label:"Viscera"}
+    ];
+    var counts={}; OBJ.forEach(function(o){counts[o.layer]=(counts[o.layer]||0)+1;});
+    var sliders={}, layerBtns={}, soloBtns={};
+    var layersEl=document.getElementById("layers");
+    LAYERS.forEach(function(L){
+      if(!counts[L.k]) return;
+      var row=document.createElement("div"); row.className="layer-row";
+      row.innerHTML='<div class="layer-head">'+
+        '<button class="layer" aria-pressed="true"><span class="chip" style="background:var(--t-'+L.k+')"></span>'+
+        '<span class="nm">'+L.label+'</span><span class="ct">'+counts[L.k]+'</span></button>'+
+        '<button class="solo" title="Show only this layer">solo</button></div>'+
+        '<input type="range" min="0" max="100" value="100" aria-label="'+L.label+' opacity">';
+      var btn=row.querySelector(".layer"), sl=row.querySelector("input"), so=row.querySelector(".solo");
+      sliders[L.k]=sl; layerBtns[L.k]=btn; soloBtns[L.k]=so;
+      btn.onclick=function(){ on[L.k]=!on[L.k]; sync(); need=true; };
+      so.onclick=function(){ soloLayer=(soloLayer===L.k)?null:L.k; sync(); need=true; };
+      sl.oninput=function(){ alphaFor[L.k]=sl.value/100; need=true; };
+      layersEl.appendChild(row);
+    });
+    function sync(){
+      LK.forEach(function(k){
+        var b=layerBtns[k]; if(b){ b.classList.toggle("off",!on[k]); b.setAttribute("aria-pressed",String(on[k])); }
+        var s=soloBtns[k]; if(s) s.classList.toggle("on", soloLayer===k);
+        var sl=sliders[k]; if(sl) sl.value=Math.round(alphaFor[k]*100);
+      });
+    }
+    function setA(k,v){ alphaFor[k]=v; }
+
+    document.querySelectorAll("#sides button").forEach(function(b){
+      b.onclick=function(){
+        document.querySelectorAll("#sides button").forEach(function(x){x.classList.remove("on");});
+        b.classList.add("on"); sideFilter=b.dataset.side; need=true;
+      };
+    });
+    function preset(map){
+      soloLayer=null;
+      LK.forEach(function(k){ on[k]=true; setA(k, map[k]!==undefined?map[k]:0); });
+      sync(); need=true;
+    }
+    var P={
+      "btn-solid":function(){ var m={}; LK.forEach(function(k){m[k]=1;}); preset(m); },
+      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25}); },
+      "btn-bones":function(){ preset({bone:1,cartilage:1,joint:1}); },
+      "btn-neuro":function(){ preset({nerve:1,cns:1,bone:.10}); },
+      "btn-vasc":function(){ preset({vessel:1,lymph:.7,bone:.10}); },
+      "btn-organs":function(){ preset({viscera:1,vessel:.6,bone:.08}); },
+      "btn-insert":function(){ preset({insertion:1,bone:1}); }
+    };
+    Object.keys(P).forEach(function(id){ var e=document.getElementById(id); if(e) e.onclick=P[id]; });
+
+    // ---- clipping ----
+    var clipOn=document.getElementById("clip-on"), clipPos=document.getElementById("clip-pos"),
+        clipFlip=document.getElementById("clip-flip");
+    if(clipOn){
+      clipOn.onclick=function(){ clip.on=!clip.on; clipOn.classList.toggle("on",clip.on); need=true; };
+      clipPos.oninput=function(){ clip.t=clipPos.value/100; if(clip.on) need=true; };
+      clipFlip.onclick=function(){ clip.flip=!clip.flip; clipFlip.classList.toggle("on",clip.flip); need=true; };
+      document.querySelectorAll("#clip-axis button").forEach(function(b){
+        b.onclick=function(){
+          document.querySelectorAll("#clip-axis button").forEach(function(x){x.classList.remove("on");});
+          b.classList.add("on"); clip.axis=+b.dataset.axis; need=true;
+        };
+      });
+    }
+    // ---- 3D isolation box ----
+    var boxSize=document.getElementById("box-size");
+    function isolateAround(o, mult){
+      var m=mult||1;
+      var pad=Math.max(18, o.radius*0.35)*m;
+      box.min=[o.bmin[0]-pad,o.bmin[1]-pad,o.bmin[2]-pad];
+      box.max=[o.bmax[0]+pad,o.bmax[1]+pad,o.bmax[2]+pad];
+      box.on=true; box.src=o;
+      var bb=document.getElementById("box-clear"); if(bb) bb.classList.add("on");
+      need=true;
+    }
+    if(boxSize) boxSize.oninput=function(){
+      if(box.src) isolateAround(box.src, 0.3+ (boxSize.value/100)*3);
+    };
+    var boxClear=document.getElementById("box-clear");
+    if(boxClear) boxClear.onclick=function(){ box.on=false; box.src=null; boxClear.classList.remove("on"); need=true; };
+
+    // ---- structure list ----
+    var listEl=document.getElementById("list"), searchEl=document.getElementById("search");
+    searchEl.placeholder="Search "+OBJ.length+" structures…";
+    function renderList(){
+      var q=searchEl.value.trim().toLowerCase();
+      var items=OBJ.filter(function(o){return !q||o.name.toLowerCase().indexOf(q)>=0;});
+      items.sort(function(a,b){return a.name.localeCompare(b.name);});
+      items=items.slice(0,260);
+      listEl.innerHTML="";
+      items.forEach(function(o){
+        var b=document.createElement("button");
+        b.className="item"+(o===selected?" sel":"")+(hidden.has(o)?" hid":"");
+        var badge=!o.atlas?'':(o.atlas.part_of_id?'<span class="badge-x" style="opacity:.65">part of</span>':'<span class="badge-x">atlas</span>');
+        b.innerHTML='<span class="dot" style="background:var(--t-'+o.layer+')"></span><span class="t">'+
+          o.name+'</span>'+badge;
+        b.onclick=function(){ select(o,true); closeSheet(); };
+        listEl.appendChild(b);
+      });
+      if(!items.length) listEl.innerHTML='<p class="none">No match.</p>';
+    }
+    searchEl.oninput=renderList; renderList();
+
+    var infoEl=document.getElementById("info");
+    function esc(s){return String(s).replace(/[&<>"]/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c];});}
+    function select(o,focus){
+      selected=o;
+      if(!o){ infoEl.className="hidden"; renderList(); need=true; return; }
+      if(focus){ cam.tgt=o.center.slice(); cam.dist=Math.max(70,o.radius*5.5); stopSpin(); }
+      var a=o.atlas;
+      var h='<button class="info-close" id="ic" aria-label="Close">&times;</button>';
+      h+='<span class="kind" style="color:var(--t-'+o.layer+')">'+o.layer+'</span>';
+      h+='<h2>'+esc(o.name)+'</h2>';
+      h+='<p class="sub2">'+o.tris.toLocaleString()+' tris · '+(o.side==="r"?"right":o.side==="l"?"left":"midline")+
+         (o.marker?' · '+o.marker+' footprint':'')+'</p>';
+      h+='<div class="act">'+
+         '<button id="a-hide">'+(hidden.has(o)?"unhide":"hide")+'</button>'+
+         '<button id="a-fade">'+(faded.has(o)?"unfade":"fade")+'</button>'+
+         '<button id="a-iso">isolate 3D</button>'+
+         '<button id="a-solo">solo layer</button></div>';
+      if(a){
+        if(a.part_of) h+='<p class="sub2">Part of: <b>'+esc(a.part_of)+'</b></p>';
+        h+='<dl class="facts">';
+        if(a.latin) h+='<dt>TA</dt><dd><i>'+esc(a.latin)+'</i></dd>';
+        if(a.region) h+='<dt>Region</dt><dd>'+esc(a.region.replace(/_/g," "))+'</dd>';
+        if(a.origin) h+='<dt>Origin</dt><dd>'+esc(a.origin)+'</dd>';
+        if(a.insertion) h+='<dt>Insertion</dt><dd>'+esc(a.insertion)+'</dd>';
+        if(a.nerve&&a.nerve.length) h+='<dt>Nerve</dt><dd>'+esc(a.nerve.join(", ").replace(/_/g," "))+'</dd>';
+        if(a.source) h+='<dt>Source</dt><dd>'+esc(a.source)+'</dd>';
+        h+='</dl>';
+        (a.compartments||[]).forEach(function(c){
+          var cells=[];
+          if(c.pcsa!=null) cells.push('PCSA '+c.pcsa+' mm\u00b2');
+          if(c.fiber_mm!=null) cells.push('fascicle '+c.fiber_mm+' mm');
+          if(c.pennation!=null) cells.push('pennation '+c.pennation+'\u00b0');
+          if(c.force_n!=null) cells.push('max force '+c.force_n+' N');
+          if(cells.length) h+='<p class="sub2">'+esc(cells.join(' \u00b7 '))+'</p>';
+          if(c.function) h+='<p class="sub2">'+esc(c.function)+'</p>';
+        });
+        if(a.targets&&a.targets.length) h+='<dl class="facts"><dt>Targets</dt><dd>'+esc(a.targets.join(", "))+'</dd></dl>';
+        if(a.supplies&&a.supplies.length) h+='<dl class="facts"><dt>Supplies</dt><dd>'+esc(a.supplies.join(", "))+'</dd></dl>';
+        if(a.notes) h+='<p class="sub2">'+esc(a.notes)+'</p>';
+        if(a.procedural_badge) h+='<div class="warn">'+esc(a.procedural_badge)+'</div>';
+        h+='<div class="ok-note">Geometry from Z-Anatomy (CC BY-SA 4.0); '+
+           (a.part_of
+             ? 'this piece is shown on its own -- the facts above are <b>'+esc(a.part_of)+'</b>\'s own cited atlas record, not independently verified for this specific piece.'
+             : 'named facts from this project\'s own cited atlas records.')+
+           '</div>';
+      } else {
+        h+='<div class="warn">Geometry only — no matched record in this project\'s own atlas.</div>';
+      }
+      infoEl.className=""; infoEl.innerHTML=h;
+      document.getElementById("ic").onclick=function(){select(null);};
+      document.getElementById("a-hide").onclick=function(){
+        if(hidden.has(o)) hidden.delete(o); else { hidden.add(o); faded.delete(o); }
+        select(o,false); renderList(); need=true;
+      };
+      document.getElementById("a-fade").onclick=function(){
+        if(faded.has(o)) faded.delete(o); else { faded.add(o); hidden.delete(o); }
+        select(o,false); need=true;
+      };
+      document.getElementById("a-iso").onclick=function(){ isolateAround(o,1); };
+      document.getElementById("a-solo").onclick=function(){ soloLayer=(soloLayer===o.layer)?null:o.layer; sync(); need=true; };
+      renderList(); need=true;
+    }
+
+    // ================= input: orbit / PAN / zoom =================
+    var ptrs=new Map(), lastD=0, lastMid=null, moved=0, downT=0, panMode=false;
+    function stopSpin(){ if(spinning){spinning=false;var b=document.getElementById("btn-spin");if(b)b.classList.remove("on");} }
+    function panBy(dx,dy){
+      // move the camera target in the view plane; scale with distance so it feels 1:1
+      var s=cam.dist*0.0016;
+      cam.tgt[0]-= (lastRight[0]*dx - lastUp[0]*dy)*s;
+      cam.tgt[1]-= (lastRight[1]*dx - lastUp[1]*dy)*s;
+      cam.tgt[2]-= (lastRight[2]*dx - lastUp[2]*dy)*s;
+      need=true;
+    }
+    canvas.addEventListener("contextmenu",function(e){e.preventDefault();});
+    canvas.addEventListener("pointerdown",function(e){
+      canvas.setPointerCapture(e.pointerId);
+      ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(ptrs.size===1){ moved=0; downT=Date.now(); stopSpin();
+        panMode = (e.button===1||e.button===2||e.shiftKey||panToggle); }
+      if(ptrs.size===2){
+        var p=Array.from(ptrs.values());
+        lastD=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
+        lastMid={x:(p[0].x+p[1].x)/2,y:(p[0].y+p[1].y)/2};
+      }
+    });
+    canvas.addEventListener("pointermove",function(e){
+      if(!ptrs.has(e.pointerId)){
+        if(window.matchMedia("(hover:hover)").matches){
+          var r0=canvas.getBoundingClientRect();
+          var h0=pick((e.clientX-r0.left)*dpr,(e.clientY-r0.top)*dpr);
+          if(h0!==hovered){hovered=h0;need=true;}
+          canvas.style.cursor=h0?"pointer":(panToggle?"move":"grab");
+        }
+        return;
+      }
+      var pv=ptrs.get(e.pointerId);
+      ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+      if(ptrs.size===1){
+        var dx=e.clientX-pv.x, dy=e.clientY-pv.y;
+        moved+=Math.abs(dx)+Math.abs(dy);
+        if(panMode) panBy(dx,dy);
+        else { cam.az-=dx*0.0065; cam.el=Math.max(-1.45,Math.min(1.45,cam.el+dy*0.0065)); need=true; }
+      } else if(ptrs.size===2){
+        var p=Array.from(ptrs.values());
+        var d=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y);
+        var mid={x:(p[0].x+p[1].x)/2,y:(p[0].y+p[1].y)/2};
+        if(lastD>0) cam.dist=Math.max(HGT*0.02,Math.min(HGT*4,cam.dist*(lastD/Math.max(1,d))));
+        if(lastMid) panBy(mid.x-lastMid.x, mid.y-lastMid.y);   // two-finger drag = pan
+        lastD=d; lastMid=mid; moved+=40; need=true;
+      }
+    });
+    function up(e){
+      if(ptrs.has(e.pointerId)){
+        if(ptrs.size===1&&moved<10&&Date.now()-downT<500&&!panMode){
+          var r=canvas.getBoundingClientRect();
+          select(pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr),false);
+        }
+        ptrs.delete(e.pointerId);
+      }
+      if(ptrs.size<2){lastD=0;lastMid=null;}
+      if(ptrs.size===0) panMode=false;
+    }
+    canvas.addEventListener("pointerup",up); canvas.addEventListener("pointercancel",up);
+    canvas.addEventListener("wheel",function(e){
+      e.preventDefault();
+      if(e.shiftKey) panBy(-e.deltaX||0, -e.deltaY);
+      else cam.dist=Math.max(HGT*0.02,Math.min(HGT*4,cam.dist*(1+e.deltaY*0.0012)));
+      need=true; stopSpin();
+    },{passive:false});
+
+    var panToggle=false;
+    var pb2=document.getElementById("btn-pan");
+    if(pb2) pb2.onclick=function(){ panToggle=!panToggle; pb2.classList.toggle("on",panToggle);
+      canvas.style.cursor=panToggle?"move":"grab"; };
+
+    document.querySelectorAll("[data-view]").forEach(function(b){
+      b.onclick=function(){
+        var v=b.dataset.view;
+        if(v==="front"){cam.az=0;cam.el=0;} else if(v==="back"){cam.az=Math.PI;cam.el=0;}
+        else if(v==="side"){cam.az=Math.PI/2;cam.el=0;} else {cam.az=0;cam.el=1.3;}
+        stopSpin(); need=true;
+      };
+    });
+    document.getElementById("btn-spin").onclick=function(){ spinning=!spinning; this.classList.toggle("on",spinning); need=true; };
+    function resetAll(){
+      cam={az:DEF.az,el:DEF.el,dist:DEF.dist,tgt:DEF.tgt.slice()};
+      hidden.clear(); faded.clear(); soloLayer=null; box.on=false; box.src=null;
+      clip.on=false; clip.flip=false;
+      if(clipOn) clipOn.classList.remove("on");
+      if(clipFlip) clipFlip.classList.remove("on");
+      if(boxClear) boxClear.classList.remove("on");
+      LK.forEach(function(k){on[k]=true;alphaFor[k]=1;});
+      sync(); select(null); renderList(); need=true;
+    }
+    document.getElementById("btn-reset").onclick=resetAll;
+
+    var rail=document.getElementById("rail"); var sheetOpen=false;
+    function closeSheet(){ if(window.innerWidth<=900&&sheetOpen){sheetOpen=false;rail.classList.remove("open");} }
+    var sb=document.getElementById("btn-panel");
+    if(sb) sb.onclick=function(){ sheetOpen=!sheetOpen; rail.classList.toggle("open",sheetOpen); };
+
+    var modal=document.getElementById("modal");
+    document.getElementById("about-btn").onclick=function(){modal.classList.add("open");};
+    document.getElementById("modal-close").onclick=function(){modal.classList.remove("open");};
+    modal.addEventListener("click",function(e){if(e.target===modal)modal.classList.remove("open");});
+    window.addEventListener("keydown",function(e){
+      var t=e.target; if(t&&(t.tagName==="INPUT"||t.tagName==="TEXTAREA")) return;
+      if(e.key==="Escape"){
+        if(modal.classList.contains("open")) modal.classList.remove("open");
+        else if(selected){ select(null); }
+        return;
+      }
+      if(e.key==="h"&&selected){ if(hidden.has(selected))hidden.delete(selected); else hidden.add(selected); select(selected,false); need=true; }
+      if(e.key==="f"&&selected){ if(faded.has(selected))faded.delete(selected); else faded.add(selected); select(selected,false); need=true; }
+      if(e.key==="i"&&selected){ isolateAround(selected, boxSize?0.3+(boxSize.value/100)*3:1); }
+      if(e.key==="r"){ resetAll(); }
+    });
+
+    var mq=window.matchMedia("(prefers-color-scheme: dark)");
+    if(mq.addEventListener) mq.addEventListener("change",function(){readColors();need=true;});
+
+    // read-only view of interaction state, for testing and debugging
+    window.__viewerState=function(){ return {
+      cam:{az:cam.az,el:cam.el,dist:cam.dist,tgt:cam.tgt.slice()},
+      clip:{on:clip.on,axis:clip.axis,t:clip.t,flip:clip.flip},
+      box:{on:box.on,min:box.min.slice(),max:box.max.slice()},
+      hidden:hidden.size, faded:faded.size, solo:soloLayer, side:sideFilter
+    }; };
+
+    document.getElementById("stat-line").textContent=
+      OBJ.length.toLocaleString()+" meshes · "+TOTAL.toLocaleString()+" tris · "+BATCHES.length+" batches · "+
+      matched+" atlas-linked · "+partOf+" part-of-linked";
+
+    boot("Ready",1); resize(); loop();
+    setTimeout(function(){var b=document.getElementById("boot");if(b)b.classList.add("done");},180);
+  }
+})();
+
+</script>

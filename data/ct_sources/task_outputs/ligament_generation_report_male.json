@@ -1,0 +1,74 @@
+{
+  "source": "scripts/generate_ligament_connectors.py, Q121+Q122 (2026-09-22)",
+  "transverse_humeral_ligament_r": {
+    "status": "declined",
+    "reason": "generated, but 70% of the connector's own vertices lie INSIDE humerus_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'humerus_r', 'bone_b': 'humerus_r', 'p0_world_mm': [210.45, 552.64, 8.02], 'p1_world_mm': [196.65, 543.54, 16.77], 'gap_mm': 18.71, 'radius_mm': 5.61, 'd_landmark_a_to_bone_mm': 2.12, 'd_landmark_b_to_bone_mm': 7.07, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'humerus_r': 0.7}}"
+  },
+  "transverse_humeral_ligament_l": {
+    "status": "declined",
+    "reason": "generated, but 73% of the connector's own vertices lie INSIDE humerus_l's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'humerus_l', 'bone_b': 'humerus_l', 'p0_world_mm': [-195.16, 566.63, 6.95], 'p1_world_mm': [-181.39, 557.8, 16.02], 'gap_mm': 18.71, 'radius_mm': 5.61, 'd_landmark_a_to_bone_mm': 2.4, 'd_landmark_b_to_bone_mm': 8.06, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'humerus_l': 0.733}}"
+  },
+  "acromioclavicular_ligament_r": {
+    "status": "declined",
+    "reason": "generated, but 13% of the connector's own vertices lie INSIDE clavicle_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'clavicle_r', 'bone_b': 'scapula_r', 'p0_world_mm': [156.92, 614.72, 6.0], 'p1_world_mm': [183.82, 612.06, -8.37], 'gap_mm': 30.61, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 2.07, 'd_landmark_b_to_bone_mm': 4.84, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'clavicle_r': 0.133, 'scapula_r': 0.1}}"
+  },
+  "acromioclavicular_ligament_l": {
+    "status": "declined",
+    "reason": "generated, but 13% of the connector's own vertices lie INSIDE scapula_l's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'clavicle_l', 'bone_b': 'scapula_l', 'p0_world_mm': [-150.12, 614.88, 12.12], 'p1_world_mm': [-163.09, 621.59, -13.79], 'gap_mm': 29.74, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 5.31, 'd_landmark_b_to_bone_mm': 3.15, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'clavicle_l': 0.0, 'scapula_l': 0.133}}"
+  },
+  "coracoclavicular_ligament_r": {
+    "status": "declined",
+    "reason": "generated, but 30% of the connector's own vertices lie INSIDE scapula_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'clavicle_r', 'bone_b': 'scapula_r', 'p0_world_mm': [135.4, 605.5, 15.2], 'p1_world_mm': [143.82, 567.06, 21.63], 'gap_mm': 39.87, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 5.21, 'd_landmark_b_to_bone_mm': 3.6, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'clavicle_r': 0.0, 'scapula_r': 0.3}}"
+  },
+  "coracoclavicular_ligament_l": {
+    "status": "generated",
+    "bone_a": "clavicle_l",
+    "bone_b": "scapula_l",
+    "p0_world_mm": [
+      -127.85,
+      606.77,
+      20.57
+    ],
+    "p1_world_mm": [
+      -133.09,
+      576.59,
+      21.21
+    ],
+    "gap_mm": 30.64,
+    "radius_mm": 6.0,
+    "d_landmark_a_to_bone_mm": 13.88,
+    "d_landmark_b_to_bone_mm": 1.62,
+    "n_components": 1,
+    "n_vertices": 30,
+    "n_faces": 56,
+    "frac_vertices_inside_own_bone": {
+      "clavicle_l": 0.0,
+      "scapula_l": 0.0
+    },
+    "obj_path": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/ligament_male_coracoclavicular_ligament_l.obj"
+  },
+  "radial_collateral_ligament_complex_elbow_r": {
+    "status": "declined",
+    "reason": "generated, but 33% of the connector's own vertices lie INSIDE ulna_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'humerus_r', 'bone_b': 'ulna_r', 'p0_world_mm': [269.22, 246.58, -37.82], 'p1_world_mm': [253.34, 237.35, -25.39], 'gap_mm': 22.18, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 8.6, 'd_landmark_b_to_bone_mm': 1.67, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'humerus_r': 0.0, 'ulna_r': 0.333}}"
+  },
+  "radial_collateral_ligament_complex_elbow_l": {
+    "status": "declined",
+    "reason": "generated, but 50% of the connector's own vertices lie INSIDE ulna_l's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'humerus_l', 'bone_b': 'ulna_l', 'p0_world_mm': [-255.34, 259.33, -27.33], 'p1_world_mm': [-239.39, 232.82, -19.5], 'gap_mm': 31.92, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 11.27, 'd_landmark_b_to_bone_mm': 6.4, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'humerus_l': 0.0, 'ulna_l': 0.5}}"
+  },
+  "ulnar_collateral_ligament_elbow_r": {
+    "status": "declined",
+    "reason": "generated, but 50% of the connector's own vertices lie INSIDE humerus_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'humerus_r', 'bone_b': 'ulna_r', 'p0_world_mm': [228.99, 244.06, -38.2], 'p1_world_mm': [255.57, 271.35, -33.4], 'gap_mm': 38.4, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 6.68, 'd_landmark_b_to_bone_mm': 10.59, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'humerus_r': 0.5, 'ulna_r': 0.0}}"
+  },
+  "ulnar_collateral_ligament_elbow_l": {
+    "status": "declined",
+    "reason": "generated, but 33% of the connector's own vertices lie INSIDE humerus_l's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'humerus_l', 'bone_b': 'ulna_l', 'p0_world_mm': [-215.12, 256.62, -27.63], 'p1_world_mm': [-236.62, 264.64, -25.33], 'gap_mm': 23.06, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 10.2, 'd_landmark_b_to_bone_mm': 2.9, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'humerus_l': 0.333, 'ulna_l': 0.133}}"
+  },
+  "interclavicular_ligament": {
+    "status": "declined",
+    "reason": "generated, but 37% of the connector's own vertices lie INSIDE clavicle_l's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'clavicle_r', 'bone_b': 'clavicle_l', 'p0_world_mm': [26.91, 549.03, 44.0], 'p1_world_mm': [-17.59, 552.98, 47.72], 'gap_mm': 44.82, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 1.4, 'd_landmark_b_to_bone_mm': 2.21, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'clavicle_r': 0.233, 'clavicle_l': 0.367}}"
+  },
+  "superior_pubic_ligament": {
+    "status": "declined",
+    "reason": "generated, but 33% of the connector's own vertices lie INSIDE hip_bone_r's own mesh (straight-chord-in-convex-bone failure, verified by ray-crossing containment) -- the straight-cord method that works for a muscle-to-bone tendon does not safely generalize to this bone-to-bone attachment pair; declined rather than shipped half-buried in bone. meta={'bone_a': 'hip_bone_r', 'bone_b': 'hip_bone_l', 'p0_world_mm': [29.21, -19.5, 30.58], 'p1_world_mm': [-31.45, -20.33, 28.46], 'gap_mm': 60.71, 'radius_mm': 6.0, 'd_landmark_a_to_bone_mm': 1.09, 'd_landmark_b_to_bone_mm': 1.77, 'n_components': 1, 'n_vertices': 30, 'n_faces': 56, 'frac_vertices_inside_own_bone': {'hip_bone_r': 0.333, 'hip_bone_l': 0.233}}"
+  }
+}

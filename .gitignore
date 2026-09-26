@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+*.npy
+_flagship_part*.json
+
+# Visible Human ingest working directory: reports, hand-edited mappings, and
+# converted geometry. The geometry is CC BY 4.0 third-party material and the
+# source dataset is ~355 GB -- neither belongs in git.
+build/
+
+# Q155: re-acquired raw cryosection photograph working dirs (cryo_1mm.npy/cryo_index.json),
+# referenced by scripts/vhm_rebuild_bundle.sh / scripts/cryo/vhf_rebuild_bundle.sh's photo-
+# watershed regeneration steps. Public-domain source imagery, never committed (same policy as
+# build/ and the DICOM in data/ct_sources -- see PROJECT_STATE.md Q151/Q154).
+SCRATCH/

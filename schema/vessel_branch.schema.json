@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/vessel_branch.schema.json",
+  "title": "VesselBranch",
+  "description": "One node in an arterial or venous tree graph, same structural pattern as NerveBranch. Arterial trees root at the heart (aorta); venous trees are stored root-at-heart too (direction of blood flow is 'leafward to root'), so both use identical parent/child topology and engine/vascular_tree.py graph checks.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "system": { "type": "string", "enum": ["arterial", "venous", "lymphatic"] },
+    "tree_name": { "type": "string", "description": "e.g. 'upper_limb_arterial', 'lower_limb_venous'" },
+    "parent_id": { "type": ["string", "null"] },
+    "level": { "type": "string" },
+    "approx_diameter_mm": { "type": "number", "description": "typical adult lumen diameter, where documented; governs whether this vessel is individually modeled (>=1mm, per the atlas resolution target) or aggregated into a capillary-bed region below the resolution limit" },
+    "path_via_points_mm": {
+      "type": "array",
+      "items": { "type": "object", "properties": { "landmark": { "type": "string" }, "bone_frame": { "type": "string" }, "position_local_mm": { "$ref": "common.schema.json#/definitions/vec3_mm" } } }
+    },
+    "supplies_or_drains": { "type": "array", "items": { "type": "string" }, "description": "muscle/bone/skin/organ region ids" },
+    "anastomoses_with": { "type": "array", "items": { "type": "string" }, "description": "other vessel ids this connects to directly (e.g. genicular anastomosis, palmar arches) — makes the graph not strictly a tree at these points, handled explicitly as extra edges" },
+    "notes": { "type": "string" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name", "system", "tree_name", "level", "source"]
+}

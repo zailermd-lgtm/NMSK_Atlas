@@ -1,0 +1,102 @@
+{
+  "id": "coracobrachialis_r",
+  "name_ta": "Coracobrachialis",
+  "name_common": "Coracobrachialis",
+  "side": "right",
+  "region": "upper_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "scapula_r",
+    "origin_landmark": "coracoid process",
+    "insertion_bone": "humerus_r",
+    "insertion_landmark": "medial mid-shaft of humerus",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "musculocutaneous_n",
+    "root_levels": "C5-C7"
+  },
+  "actions": [
+    "flexes and adducts humerus"
+  ],
+  "functional_compartments": [
+    {
+      "id": "coracobrachialis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 130,
+        "physiological_cross_section_area_mm2": 60,
+        "max_isometric_force_N": 13.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          25,
+          20,
+          15
+        ],
+        [
+          10,
+          -120,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Pierced by the musculocutaneous nerve itself -- a classic anatomical landmark relationship.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "innervation_branch_ids": [
+        "musculocutaneous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "trigger_points": [
+    {
+      "location_description": "Point in the proximal belly, palpated through the anterior axillary fold against the humeral head with the arm slightly abducted.",
+      "referred_pain_pattern": "Anterior deltoid pain, then a projection down the posterior arm, dorsal forearm and dorsum of the hand (often described as skipping segments).",
+      "activation_perpetuating_factors": "Pain reaching behind the back and combing hair (combined extension-abduction stretch); difficulty with sustained front-carry.",
+      "notes": "Typically appears as a 'second-layer' source, after other anterior-shoulder muscles' trigger points have been treated.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "Flexion and adduction of the arm (returning the abducted arm to the side, forward-and-inward reach); stabilises the humeral head anteriorly at low abduction as part of the conjoint mass; postural holding of loads carried in front.",
+      "adjacent_structures": "Adjacent bursae: Coracobrachial (subcoracoid-region) bursa between the muscle/conjoint tendon and subscapularis–capsule beneath the coracoid. Adjacent structures — mutual influence: Musculocutaneous nerve within/through it — hypertrophy or heavy eccentric load can irritate it (lateral-forearm paraesthesiae, biceps/brachialis weakness); coracoid impingement region medial to the tendon; short head of biceps fused proximally.",
+      "trigger_points": [
+        {
+          "location": "TrP in the proximal belly, palpated through the anterior axillary fold against the humeral head with the arm slightly abducted.",
+          "referred_pain": "Anterior deltoid pain, then a projection down the posterior arm, dorsal forearm and dorsum of the hand (often described as skipping segments); typically appears after other anterior-shoulder muscles’ TrPs are treated — a “second-layer” source.",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into its felt zone: anterior deltoid convergence (infraspinatus, biceps, scaleni, pectorals)",
+        "posterior-arm projection overlaps triceps long head, teres major and subscapularis patterns",
+        "C6–C7 territory dorsal-hand overlap."
+      ],
+      "movement_restrictions_aggravators": "Pain reaching behind the back and combing hair (combined extension–abduction stretch); difficulty with sustained front-carry.",
+      "notes": "After successful anterior-shoulder TrP treatment, recurrent anterior pain with dorsal-hand referral → re-examine coracobrachialis before blaming the biceps.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Flatow EL, Bigliani LU, April EW. An anatomic study of the musculocutaneous nerve and its relationship to the coracoid process. Clin Orthop Relat Res. 1989;(244):166–171.",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    }
+  ]
+}

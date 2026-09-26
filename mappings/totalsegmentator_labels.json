@@ -1,0 +1,552 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'total' task.",
+    "",
+    "This file is a KEY, not data. It says what integer 43 means in a volume",
+    "someone else produced; it contains no anatomy of its own and no geometry.",
+    "It is transcribed from the class map in TotalSegmentator's own source",
+    "(Apache-2.0), which is the only place the numbering is defined.",
+    "",
+    "WHAT THE ATLAS CAN AND CANNOT TAKE FROM A SCAN LABELLED THIS WAY.",
+    "Bones: clavicula, scapula, humerus, ribs, sternum, vertebrae, sacrum,",
+    "hip and femur -- which is most of what has no geometry in this atlas at",
+    "all, and where the landmark coordinates have never been measured.",
+    "Muscles: only gluteus maximus/medius/minimus, iliopsoas and autochthon.",
+    "There is no deltoid, no biceps, no forearm compartment. A CT cannot",
+    "separate them reliably, so an upper-limb MUSCLE still has nothing to be",
+    "checked against and this file does not pretend otherwise.",
+    "",
+    "THE 'atlas' SECTION.",
+    "Structure name -> the atlas entity it belongs to, for the cases the name",
+    "matcher cannot settle. Without it 63 of the 90 musculoskeletal and",
+    "vascular structures in this release map to nothing: the matcher scores",
+    "'rib_left_7' against an atlas that carries one 'ribs_l' entity and gets",
+    "0.17, and 'vertebrae_T8' against 'thoracic_vertebrae' and gets 0.33.",
+    "",
+    "Entries with atlas_id null are decisions NOT to map, each with its reason.",
+    "Two kinds appear, and they are opposites worth keeping straight: the ribs",
+    "and vertebrae are cases where the RELEASE is finer than the atlas, which a",
+    "part_of mapping handles; autochthon is a case where the ATLAS is finer",
+    "than the release, which no mapping can handle because the information is",
+    "not in the mask.",
+    "",
+    "A third kind is 'split': one label holds SEVERAL atlas entities, and the",
+    "atlas is finer in a way that IS measurable from the scan. 'splitter'",
+    "names the routine in engine/volume_ingest.py that makes the cut and",
+    "'split_parts' maps each part it returns to an entity, or to null for a",
+    "part the atlas has no entity for and which is deliberately not ingested.",
+    "The cuts are measured from the scan's own vertebrae and midline, never",
+    "from a fixed millimetre value.",
+    "",
+    "LICENCE. The TotalSegmentator CODE is Apache-2.0, which is what this",
+    "transcription comes from. The DATASET of 1228 segmented CTs is a",
+    "separate work under its own licence, which must be read at its Zenodo",
+    "record before any geometry derived from it ships in a product."
+  ],
+  "source": "Wasserthal J et al., 'TotalSegmentator: Robust Segmentation of 104 Anatomic Structures in CT Images', Radiology: Artificial Intelligence 5(5):e230024 (2023), doi:10.1148/ryai.230024. Class map transcribed from the project source, Apache-2.0.",
+  "task": "total",
+  "version": "v2",
+  "labels": {
+    "1": "spleen",
+    "2": "kidney_right",
+    "3": "kidney_left",
+    "4": "gallbladder",
+    "5": "liver",
+    "6": "stomach",
+    "7": "pancreas",
+    "8": "adrenal_gland_right",
+    "9": "adrenal_gland_left",
+    "10": "lung_upper_lobe_left",
+    "11": "lung_lower_lobe_left",
+    "12": "lung_upper_lobe_right",
+    "13": "lung_middle_lobe_right",
+    "14": "lung_lower_lobe_right",
+    "15": "esophagus",
+    "16": "trachea",
+    "17": "thyroid_gland",
+    "18": "small_bowel",
+    "19": "duodenum",
+    "20": "colon",
+    "21": "urinary_bladder",
+    "22": "prostate",
+    "23": "kidney_cyst_left",
+    "24": "kidney_cyst_right",
+    "25": "sacrum",
+    "26": "vertebrae_S1",
+    "27": "vertebrae_L5",
+    "28": "vertebrae_L4",
+    "29": "vertebrae_L3",
+    "30": "vertebrae_L2",
+    "31": "vertebrae_L1",
+    "32": "vertebrae_T12",
+    "33": "vertebrae_T11",
+    "34": "vertebrae_T10",
+    "35": "vertebrae_T9",
+    "36": "vertebrae_T8",
+    "37": "vertebrae_T7",
+    "38": "vertebrae_T6",
+    "39": "vertebrae_T5",
+    "40": "vertebrae_T4",
+    "41": "vertebrae_T3",
+    "42": "vertebrae_T2",
+    "43": "vertebrae_T1",
+    "44": "vertebrae_C7",
+    "45": "vertebrae_C6",
+    "46": "vertebrae_C5",
+    "47": "vertebrae_C4",
+    "48": "vertebrae_C3",
+    "49": "vertebrae_C2",
+    "50": "vertebrae_C1",
+    "51": "heart",
+    "52": "aorta",
+    "53": "pulmonary_vein",
+    "54": "brachiocephalic_trunk",
+    "55": "subclavian_artery_right",
+    "56": "subclavian_artery_left",
+    "57": "common_carotid_artery_right",
+    "58": "common_carotid_artery_left",
+    "59": "brachiocephalic_vein_left",
+    "60": "brachiocephalic_vein_right",
+    "61": "atrial_appendage_left",
+    "62": "superior_vena_cava",
+    "63": "inferior_vena_cava",
+    "64": "portal_vein_and_splenic_vein",
+    "65": "iliac_artery_left",
+    "66": "iliac_artery_right",
+    "67": "iliac_vena_left",
+    "68": "iliac_vena_right",
+    "69": "humerus_left",
+    "70": "humerus_right",
+    "71": "scapula_left",
+    "72": "scapula_right",
+    "73": "clavicula_left",
+    "74": "clavicula_right",
+    "75": "femur_left",
+    "76": "femur_right",
+    "77": "hip_left",
+    "78": "hip_right",
+    "79": "spinal_cord",
+    "80": "gluteus_maximus_left",
+    "81": "gluteus_maximus_right",
+    "82": "gluteus_medius_left",
+    "83": "gluteus_medius_right",
+    "84": "gluteus_minimus_left",
+    "85": "gluteus_minimus_right",
+    "86": "autochthon_left",
+    "87": "autochthon_right",
+    "88": "iliopsoas_left",
+    "89": "iliopsoas_right",
+    "90": "brain",
+    "91": "skull",
+    "92": "rib_left_1",
+    "93": "rib_left_2",
+    "94": "rib_left_3",
+    "95": "rib_left_4",
+    "96": "rib_left_5",
+    "97": "rib_left_6",
+    "98": "rib_left_7",
+    "99": "rib_left_8",
+    "100": "rib_left_9",
+    "101": "rib_left_10",
+    "102": "rib_left_11",
+    "103": "rib_left_12",
+    "104": "rib_right_1",
+    "105": "rib_right_2",
+    "106": "rib_right_3",
+    "107": "rib_right_4",
+    "108": "rib_right_5",
+    "109": "rib_right_6",
+    "110": "rib_right_7",
+    "111": "rib_right_8",
+    "112": "rib_right_9",
+    "113": "rib_right_10",
+    "114": "rib_right_11",
+    "115": "rib_right_12",
+    "116": "sternum",
+    "117": "costal_cartilages"
+  },
+  "atlas": {
+    "aorta": {
+      "atlas_id": null,
+      "relationship": "split",
+      "splitter": "aorta_by_vertebral_level",
+      "split_parts": {
+        "arch": "aortic_arch_and_great_vessels",
+        "ascending": null,
+        "descending_thoracic": "descending_thoracic_aorta",
+        "abdominal": "abdominal_aorta"
+      },
+      "note": "One label spans the whole vessel; the atlas carries the arch, the descending thoracic aorta and the abdominal aorta as separate entities, so mapping to any one would be wrong for most of its length. Cut at two levels measured from the vertebrae this release labels: the arch ends at the lower border of T4 (the T4/T5 disc) and the aortic hiatus is at T12 (the T12/L1 disc). Between the cuts the posterior column is the descending aorta and the anterior one the ascending aorta, which the atlas has no entity for (null: deliberately not ingested)."
+    },
+    "autochthon_left": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over the whole paraspinal mass. The atlas carries iliocostalis, longissimus and spinalis separately, so here the ATLAS is finer than CT can resolve -- the opposite of the rib and vertebra cases, and not something a mapping can fix."
+    },
+    "autochthon_right": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over the whole paraspinal mass. The atlas carries iliocostalis, longissimus and spinalis separately, so here the ATLAS is finer than CT can resolve."
+    },
+    "brachiocephalic_trunk": {
+      "atlas_id": "brachiocephalic_trunk_r",
+      "relationship": "exact",
+      "note": "Unsided in the release and correctly so: it exists only on the right. The atlas ids it _r, which is the one place a side suffix means 'this side only' rather than 'one of a pair'."
+    },
+    "brachiocephalic_vein_left": {
+      "atlas_id": "brachiocephalic_v_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "brachiocephalic_vein_right": {
+      "atlas_id": "brachiocephalic_v_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "common_carotid_artery_left": {
+      "atlas_id": "common_carotid_a_l",
+      "relationship": "exact",
+      "note": "Structure at risk on any anterior neck approach."
+    },
+    "common_carotid_artery_right": {
+      "atlas_id": "common_carotid_a_r",
+      "relationship": "exact",
+      "note": "Structure at risk on any anterior neck approach."
+    },
+    "costal_cartilages": {
+      "atlas_id": null,
+      "relationship": "split",
+      "splitter": "midline",
+      "split_parts": {
+        "right": "costal_cartilage_r",
+        "left": "costal_cartilage_l"
+      },
+      "note": "One label spans both sides; the atlas carries costal_cartilage_r and costal_cartilage_l. Cut at the subject's own midline, measured from the sternum label (or the thoracic vertebral bodies when there is no sternum), not at the scanner's X=0."
+    },
+    "hip_left": {
+      "atlas_id": "hip_bone_l",
+      "relationship": "exact",
+      "note": "The release's 'hip' is the innominate bone, which the atlas calls the hip bone. Name similarity alone does not reach it."
+    },
+    "hip_right": {
+      "atlas_id": "hip_bone_r",
+      "relationship": "exact",
+      "note": "The release's 'hip' is the innominate bone, which the atlas calls the hip bone. Name similarity alone does not reach it."
+    },
+    "iliac_artery_left": {
+      "atlas_id": "common_iliac_a_l",
+      "relationship": "exact",
+      "note": "The release's 'iliac_artery' is the common iliac, before it divides."
+    },
+    "iliac_artery_right": {
+      "atlas_id": "common_iliac_a_r",
+      "relationship": "exact",
+      "note": "The release's 'iliac_artery' is the common iliac, before it divides."
+    },
+    "iliac_vena_left": {
+      "atlas_id": "common_iliac_v_l",
+      "relationship": "exact",
+      "note": "The release's 'iliac_vena' is the common iliac vein."
+    },
+    "iliac_vena_right": {
+      "atlas_id": "common_iliac_v_r",
+      "relationship": "exact",
+      "note": "The release's 'iliac_vena' is the common iliac vein."
+    },
+    "iliopsoas_left": {
+      "atlas_id": "iliopsoas_l",
+      "relationship": "exact",
+      "note": "Flagged ambiguous by the matcher because the atlas also carries iliopsoas_tendon and iliopsoas_bursa_fascia, which score alike. The CT label is the muscle belly."
+    },
+    "iliopsoas_right": {
+      "atlas_id": "iliopsoas_r",
+      "relationship": "exact",
+      "note": "Flagged ambiguous by the matcher because the atlas also carries iliopsoas_tendon and iliopsoas_bursa_fascia, which score alike. The CT label is the muscle belly."
+    },
+    "inferior_vena_cava": {
+      "atlas_id": "inferior_vena_cava",
+      "relationship": "exact",
+      "note": ""
+    },
+    "portal_vein_and_splenic_vein": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Visceral portal circulation, which this atlas does not carry."
+    },
+    "pulmonary_vein": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Visceral. This atlas is musculoskeletal and neurovascular and carries no pulmonary circulation."
+    },
+    "rib_left_1": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_10": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_11": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_12": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_2": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_3": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_4": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_5": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_6": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_7": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_8": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_left_9": {
+      "atlas_id": "ribs_l",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_1": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_10": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_11": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_12": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_2": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_3": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_4": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_5": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_6": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_7": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_8": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "rib_right_9": {
+      "atlas_id": "ribs_r",
+      "relationship": "part_of",
+      "note": "The atlas carries the twelve ribs of one side as a single entity. The release ships each rib separately, so this is a real many-to-one, not a failed match."
+    },
+    "skull": {
+      "atlas_id": "cranium",
+      "relationship": "part_of",
+      "note": "One mask over the whole skull minus the mandible; received by the composite 'cranium' (added 2026-09-10), the same way 'ribs_l' receives twelve rib masks. The individual cranial and facial bone entries remain the anatomical record; CT at 1.5 mm cannot separate them along their sutures."
+    },
+    "spinal_cord": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "The atlas models nerve roots and branches, not the cord itself. No entity to receive it."
+    },
+    "subclavian_artery_left": {
+      "atlas_id": "subclavian_a_l",
+      "relationship": "exact",
+      "note": "Structure at risk on supraclavicular and interscalene approaches."
+    },
+    "subclavian_artery_right": {
+      "atlas_id": "subclavian_a_r",
+      "relationship": "exact",
+      "note": "Structure at risk on supraclavicular and interscalene approaches."
+    },
+    "superior_vena_cava": {
+      "atlas_id": "superior_vena_cava",
+      "relationship": "exact",
+      "note": ""
+    },
+    "vertebrae_C1": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_C2": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_C3": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_C4": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_C5": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_C6": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_C7": {
+      "atlas_id": "cervical_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the cervical spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_L1": {
+      "atlas_id": "lumbar_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the lumbar spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_L2": {
+      "atlas_id": "lumbar_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the lumbar spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_L3": {
+      "atlas_id": "lumbar_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the lumbar spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_L4": {
+      "atlas_id": "lumbar_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the lumbar spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_L5": {
+      "atlas_id": "lumbar_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the lumbar spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_S1": {
+      "atlas_id": "sacrum",
+      "relationship": "part_of",
+      "note": "S1 is the first sacral segment, part of the sacrum, which the atlas carries as one bone. The release labels it separately because it segments it as a vertebra."
+    },
+    "vertebrae_T1": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T10": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T11": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T12": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T2": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T3": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T4": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T5": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T6": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T7": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T8": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    },
+    "vertebrae_T9": {
+      "atlas_id": "thoracic_vertebrae",
+      "relationship": "part_of",
+      "note": "The atlas carries the thoracic spine as one entity; the release ships each vertebra."
+    }
+  }
+}

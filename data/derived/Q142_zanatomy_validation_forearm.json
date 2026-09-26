@@ -1,0 +1,74 @@
+{
+ "source": "Q142 (2026-09-23) validation gate: centroid distance, signed-volume ratio and 2 mm-voxel Dice/IoU between a scripts/transfer/cross_subject_transfer.py --direction zan2f/zan2m registration of Z-Anatomy (CC BY-SA 4.0) geometry and this project's own real (non-transferred) mesh for the same atlas_id, via scripts/zanatomy/validate_registration.py. Diagnostics only -- read-only, no bundle/entity record touched. See PROJECT_STATE.md's Q142 entry for the acceptance bar and shipping decision this table was measured against.",
+ "target": "build/viewer_f",
+ "registered": "build/vh/zan_vhf_val",
+ "pitch_mm": 2.0,
+ "rows": [
+  {
+   "id": "abductor_pollicis_longus_r",
+   "real_subject": "ct_vhf_forearm",
+   "centroid_dist_mm": 18.0,
+   "real_vol_cm3": 7.3,
+   "zan_vol_cm3": 14.1,
+   "vol_ratio_zan_over_real": 1.922,
+   "dice": 0.135,
+   "iou": 0.072,
+   "real_extent_mm": 110.5
+  },
+  {
+   "id": "brachioradialis_r",
+   "real_subject": "ct_vhf_forearm",
+   "centroid_dist_mm": 24.5,
+   "real_vol_cm3": 42.5,
+   "zan_vol_cm3": 21.4,
+   "vol_ratio_zan_over_real": 0.505,
+   "dice": 0.06,
+   "iou": 0.031,
+   "real_extent_mm": 112.8
+  },
+  {
+   "id": "extensor_carpi_radialis_brevis_r",
+   "real_subject": "ct_vhf_forearm",
+   "centroid_dist_mm": 26.8,
+   "real_vol_cm3": 15.1,
+   "zan_vol_cm3": 14.4,
+   "vol_ratio_zan_over_real": 0.952,
+   "dice": 0.008,
+   "iou": 0.004,
+   "real_extent_mm": 128.2
+  },
+  {
+   "id": "extensor_carpi_radialis_longus_r",
+   "real_subject": "ct_vhf_forearm",
+   "centroid_dist_mm": 18.8,
+   "real_vol_cm3": 23.9,
+   "zan_vol_cm3": 10.0,
+   "vol_ratio_zan_over_real": 0.419,
+   "dice": 0.023,
+   "iou": 0.012,
+   "real_extent_mm": 152.4
+  },
+  {
+   "id": "extensor_carpi_ulnaris_r",
+   "real_subject": "ct_vhf_forearm",
+   "centroid_dist_mm": 58.6,
+   "real_vol_cm3": 11.7,
+   "zan_vol_cm3": 9.6,
+   "vol_ratio_zan_over_real": 0.815,
+   "dice": 0.103,
+   "iou": 0.054,
+   "real_extent_mm": 142.2
+  },
+  {
+   "id": "flexor_digitorum_profundus_r",
+   "real_subject": "ct_vhf_forearm",
+   "centroid_dist_mm": 83.3,
+   "real_vol_cm3": 28.9,
+   "zan_vol_cm3": 21.3,
+   "vol_ratio_zan_over_real": 0.738,
+   "dice": 0.472,
+   "iou": 0.309,
+   "real_extent_mm": 172.7
+  }
+ ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "splenius_capitis_l",
+  "name_ta": "Splenius capitis",
+  "name_common": "Splenius capitis",
+  "side": "left",
+  "region": "neck",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "cervical_vertebrae",
+    "origin_landmark": "lower half of the nuchal ligament and spinous processes C7-T3",
+    "insertion_bone": "temporal_l",
+    "insertion_landmark": "mastoid process and the lateral third of the superior nuchal line",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "dorsal_ramus_lateral_branches",
+    "root_levels": "C3-C4 dorsal rami (lateral branches)"
+  },
+  "actions": [
+    "extends the head and neck bilaterally",
+    "rotates and laterally flexes the head to the same side"
+  ],
+  "functional_compartments": [
+    {
+      "id": "splenius_capitis_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 190,
+        "max_isometric_force_N": 42.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -6,
+          -22,
+          -40
+        ],
+        [
+          -26,
+          12,
+          -18
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Wraps the deeper neck muscles like a bandage -- splenion, a bandage. Unlike sternocleidomastoid it rotates the head to the SAME side, so the two are tested against each other.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            50,
+            50
+          ],
+          "reference_line_from": "origin (nuchal ligament and spinous processes C7-T3)",
+          "reference_line_to": "insertion (mastoid process and superior nuchal line)",
+          "method": "high-density surface EMG innervation-zone mapping",
+          "notes": "Located at half muscle length.",
+          "source": "Delnooz CCS, Veugen LC, Pasman JW, Lapatki BG, van Dijk JP, van de Warrenburg BPC. 'The clinical utility of botulinum toxin injections targeted at the motor endplate zone in cervical dystonia.' Eur J Neurol 21(12):1486 (2014), doi:10.1111/ene.12517 -- high-density surface EMG in 18 cervical dystonia patients"
+        }
+      ],
+      "injection_target_points": [
+        {
+          "label": "centre of the region of highest muscle spindle abundance",
+          "transverse_line_from": "external occipital protuberance",
+          "transverse_line_to": "mastoid process",
+          "transverse_percent": 42.42,
+          "longitudinal_line_from": "external occipital protuberance",
+          "longitudinal_line_to": "third thoracic spinous process",
+          "longitudinal_percent": 17.33,
+          "depth_percent_of_limb_thickness": 26.3,
+          "depth_measured_from": "posterior neck",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "Depth is given as a percentage of the line from the projection point on the back of the neck through the target to the front, so unlike the deep cervical targets it scales with the patient. The atlas already carries a separate endplate zone for this muscle at half muscle length from high-density surface EMG (Delnooz et al. 2014); that zone and this point come from different methods and different reference lines and are kept side by side rather than reconciled.",
+          "source": "He X, Wen S, Liu X, Li Y, Yang S, 'Optimal target localization for botulinum toxin A in treating splenius muscles dystonia based on the distribution of intramuscular nerves and spindles', Anat Sci Int 101(1):44-53 (2025), doi:10.1007/s12565-025-00831-8 -- 24 adults, modified Sihler's staining with muscle-spindle histology and CT localisation"
+        }
+      ],
+      "innervation_branch_ids": [
+        "dorsal_ramus_lateral_branches"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "trigger_points": [
+    {
+      "location_description": "Mid-belly at about C2-C3, palpable in the triangle between sternocleidomastoid and trapezius above C4.",
+      "referred_pain_pattern": "The vertex -- 'pain on the top of the head', ipsilateral.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ]
+}

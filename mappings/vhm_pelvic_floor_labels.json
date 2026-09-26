@@ -1,0 +1,138 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human MALE pelvic floor and perineum volume (scripts/cryo/vhm_pelvic_floor_from_cryo.py), plus the mapping onto atlas entities. A KEY, not data. rule-based: markers by position rules relative to his bone and organ labels (including the prostate), boundaries by marker watershed on the pale septa of his cryosection photographs; compartments are muscles the photographs do not separate (mapped to null)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), MALE colour cryosections (1 mm, resampled onto the legs-block CT grid) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels (legs_total.nii.gz, the legs CT block -- his torso block does not reach the perineum, see the module docstring) as anchors and exclusions. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 62 'True pelvis, pelvic floor and perineum', and Moore KL et al., Clinically Oriented Anatomy, 8th ed., ch. 6 'Pelvis and Perineum'. Derived data (scripts/cryo/vhm_pelvic_floor_from_cryo.py), rule-based, ported from scripts/cryo/vhf_pelvic_floor_from_cryo.py.",
+ "task": "vhm_pelvic_floor",
+ "version": "2026-09-18",
+ "badge": "rule-based",
+ "labels": {
+  "1": "levator_ani_right",
+  "2": "coccygeus_right",
+  "3": "bulbospongiosus_right",
+  "4": "ischiocavernosus_right",
+  "5": "deep_transverse_perineal_right",
+  "6": "superficial_transverse_perineal_right",
+  "7": "obturator_internus_right",
+  "8": "perineal_other_right",
+  "9": "levator_ani_left",
+  "10": "coccygeus_left",
+  "11": "bulbospongiosus_left",
+  "12": "ischiocavernosus_left",
+  "13": "deep_transverse_perineal_left",
+  "14": "superficial_transverse_perineal_left",
+  "15": "obturator_internus_left",
+  "16": "perineal_other_left",
+  "17": "external_anal_sphincter"
+ },
+ "merged_compartments": {
+  "levator_ani": [
+   "pubococcygeus",
+   "puborectalis",
+   "iliococcygeus"
+  ]
+ },
+ "not_shipped": {
+  "obturator_internus": "the obturator internus is not a Q68 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia",
+  "perineal_other": "sink for the rest of the perineal muscle mass -- the crus and body of the corpus cavernosum where not claimed by ischiocavernosus, and the urethral wall, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus",
+  "bulbospongiosus_right": "0.5 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "bulbospongiosus_left": "0.0 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "ischiocavernosus_right": "0.2 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "ischiocavernosus_left": "0.6 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "superficial_transverse_perineal_left": "0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "superficial_transverse_perineal_right": "not shipped because the other side is not: 0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "iliococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "external_urethral_sphincter": "a 3-5 mm collar on the membranous urethra in the deep perineal pouch: below the resolution of a 1 mm frame, same decision and reasoning as the female script (scripts/cryo/vhf_pelvic_floor_from_cryo.py), plus his frame's registration residual is not even independently quantified here (see the module docstring LIMITS) -- if anything a weaker case for attempting it than hers",
+  "internal_anal_sphincter": "smooth muscle inside the colon label; excluded with it",
+  "prostate": "not a muscle: TotalSegmentator organ label (id 22), carried only as an exclusion + the urogenital-hiatus landmark (see the module docstring)"
+ },
+ "atlas": {
+  "levator_ani_right": {
+   "atlas_id": "levator_ani_r",
+   "relationship": "exact",
+   "note": "14.4 cm3; rule-based: the pelvic muscle funnel medial to the obturator internus band, between the pubic arch's apex and 0 mm above the ischial spine; pubococcygeus, puborectalis and iliococcygeus are NOT separated (no septum between them at 1 mm)."
+  },
+  "coccygeus_right": {
+   "atlas_id": "coccygeus_r",
+   "relationship": "exact",
+   "note": "7.9 cm3; rule-based: the sheet posterior to the anal canal from the ischial spine down 6 mm towards the coccyx. His coccyx is NOT labelled either, so the posterior anchor is a 14 mm pad of the bony hull, same limitation as the female script."
+  },
+  "bulbospongiosus_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.5 cm3; NOT shipped by name, mapped to null: 0.5 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle."
+  },
+  "ischiocavernosus_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.2 cm3; NOT shipped by name, mapped to null: 0.2 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle."
+  },
+  "deep_transverse_perineal_right": {
+   "atlas_id": "deep_transverse_perineal_r",
+   "relationship": "exact",
+   "note": "1.6 cm3; rule-based: position-rule marker relative to his bone and organ labels, boundary by the marker watershed on the pale septa of his cryosection photographs."
+  },
+  "superficial_transverse_perineal_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "1.0 cm3; NOT shipped by name, mapped to null: not shipped because the other side is not: 0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle."
+  },
+  "obturator_internus_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "35.9 cm3; NOT shipped: the obturator internus is not a Q68 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia."
+  },
+  "perineal_other_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "42.5 cm3; NOT shipped: sink for the rest of the perineal muscle mass -- the crus and body of the corpus cavernosum where not claimed by ischiocavernosus, and the urethral wall, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus."
+  },
+  "levator_ani_left": {
+   "atlas_id": "levator_ani_l",
+   "relationship": "exact",
+   "note": "16.3 cm3; rule-based: the pelvic muscle funnel medial to the obturator internus band, between the pubic arch's apex and 0 mm above the ischial spine; pubococcygeus, puborectalis and iliococcygeus are NOT separated (no septum between them at 1 mm)."
+  },
+  "coccygeus_left": {
+   "atlas_id": "coccygeus_l",
+   "relationship": "exact",
+   "note": "8.9 cm3; rule-based: the sheet posterior to the anal canal from the ischial spine down 6 mm towards the coccyx. His coccyx is NOT labelled either, so the posterior anchor is a 14 mm pad of the bony hull, same limitation as the female script."
+  },
+  "bulbospongiosus_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.0 cm3; NOT shipped by name, mapped to null: 0.0 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle."
+  },
+  "ischiocavernosus_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.6 cm3; NOT shipped by name, mapped to null: 0.6 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle."
+  },
+  "deep_transverse_perineal_left": {
+   "atlas_id": "deep_transverse_perineal_l",
+   "relationship": "exact",
+   "note": "1.6 cm3; rule-based: position-rule marker relative to his bone and organ labels, boundary by the marker watershed on the pale septa of his cryosection photographs."
+  },
+  "superficial_transverse_perineal_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "0.1 cm3; NOT shipped by name, mapped to null: 0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle."
+  },
+  "obturator_internus_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "36.5 cm3; NOT shipped: the obturator internus is not a Q68 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia."
+  },
+  "perineal_other_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "39.6 cm3; NOT shipped: sink for the rest of the perineal muscle mass -- the crus and body of the corpus cavernosum where not claimed by ischiocavernosus, and the urethral wall, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus."
+  },
+  "external_anal_sphincter": {
+   "atlas_id": "external_anal_sphincter",
+   "relationship": "exact",
+   "note": "1.1 cm3; rule-based: the midline ring within 10 mm of the anal canal (the colon label's caudal end) below the levator; the internal sphincter and the anal wall are inside the colon label and are excluded with it, so the ring is the striated sphincter plus whatever intersphincteric tissue the label leaves outside itself."
+  }
+ }
+}

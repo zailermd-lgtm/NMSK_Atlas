@@ -1,0 +1,254 @@
+{
+ "id": "pectoralis_major_r",
+ "name_ta": "Musculus pectoralis major",
+ "name_common": "Pectoralis major",
+ "side": "right",
+ "region": "upper_limb",
+ "overall_architecture_type": "convergent_triangular",
+ "attachments": {
+  "origin_bone": "clavicle_r",
+  "origin_landmark": "clavicular head: medial 2/3 of clavicle; sternocostal head: sternum + costal cartilages 1-6 (sternum); abdominal head: anterior rectus sheath (hip_bone_r region approximation)",
+  "insertion_bone": "humerus_r",
+  "insertion_landmark": "lateral lip of intertubercular groove (fibers spiral so clavicular head inserts most inferior, abdominal head most superior)",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "lateral_pectoral_n",
+   "medial_pectoral_n"
+  ],
+  "root_levels": "C5-T1",
+  "was_packed_as": "lateral_and_medial_pectoral_nerves"
+ },
+ "blood_supply": [
+  "thoracoacromial_a_r_pectoral_branch",
+  "internal_thoracic_a_r_perforating_branches"
+ ],
+ "actions": [
+  "adducts and internally rotates humerus",
+  "flexes humerus (clavicular head)",
+  "extends flexed humerus back to neutral (sternocostal/abdominal heads)"
+ ],
+ "functional_compartments": [
+  {
+   "id": "pectoralis_major_r_clavicular",
+   "name": "Clavicular head",
+   "innervation_branch": "lateral pectoral n. (C5-C6 fibers)",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 150,
+    "physiological_cross_section_area_mm2": 600.0,
+    "max_isometric_force_N": 150.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     -75,
+     -5,
+     5
+    ],
+    [
+     -150,
+     -10,
+     -8
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.1,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Flexion-dominant; independently active during shoulder flexion tasks vs. the sternocostal head (documented EMG dissociation).",
+   "source": "Brown JM et al. -- pectoralis major regional EMG partitioning studies (analogous methodology to Wickham/Brown deltoid work); Gray's Anatomy for Students 4th ed. ch.7",
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      60,
+      60
+     ],
+     "reference_line_from": "origin (medial clavicle)",
+     "reference_line_to": "insertion (lateral lip of the bicipital groove)",
+     "method": "intramuscular neural arborization mapping",
+     "notes": "Li et al. 2021, a single densest point rather than a range.",
+     "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+    }
+   ],
+   "innervation_branch_ids": [
+    "lateral_pectoral_n"
+   ]
+  },
+  {
+   "id": "pectoralis_major_r_sternocostal",
+   "name": "Sternocostal head (largest)",
+   "innervation_branch": "lateral + medial pectoral nn. (C7-C8 fibers)",
+   "fiber_architecture": {
+    "architecture_type": "convergent_triangular",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 160,
+    "physiological_cross_section_area_mm2": 1400.0,
+    "max_isometric_force_N": 350.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     0,
+     0,
+     0
+    ],
+    [
+     10,
+     -30,
+     -10
+    ],
+    [
+     15,
+     -80,
+     -15
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band, fanning fibers -- for where this band lies along the muscle, see motor_endplate_zones",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.1,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Adduction-dominant; largest PCSA compartment.",
+   "source": "Gray's Anatomy for Students 4th ed. ch.7",
+   "motor_endplate_zones": [
+    {
+     "zone_percent_range": [
+      55,
+      55
+     ],
+     "reference_line_from": "origin (sternum and costal cartilages)",
+     "reference_line_to": "insertion (lateral lip of the bicipital groove)",
+     "method": "intramuscular neural arborization mapping",
+     "notes": "Li et al. 2021. The abdominal part is NOT mapped by this source and carries no zone; it is not given the average of the two heads that are.",
+     "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+    }
+   ],
+   "innervation_branch_ids": [
+    "lateral_pectoral_n",
+    "medial_pectoral_n"
+   ]
+  },
+  {
+   "id": "pectoralis_major_r_abdominal",
+   "name": "Abdominal head (smallest, most inferior origin, most superior insertion -- inserts deep to the other two)",
+   "innervation_branch": "medial pectoral n. (T1 fibers)",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 140,
+    "physiological_cross_section_area_mm2": 300.0,
+    "max_isometric_force_N": 75.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     10,
+     -120,
+     -20
+    ],
+    [
+     15,
+     -140,
+     -25
+    ],
+    [
+     20,
+     -150,
+     -20
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.1,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Extension-dominant (opposes clavicular head from a flexed position); documented separate innervation (medial pectoral n.) from the clavicular head (lateral pectoral n.).",
+   "source": "Gray's Anatomy for Students 4th ed. ch.7",
+   "innervation_branch_ids": [
+    "medial_pectoral_n"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Transducer angled 45 degrees toward the axilla on the anterior thoracic wall, about 2-3 cm distal to the lateral third of the clavicle. Injection at the points of maximum thickness of each head.",
+  "depth_layer": "Superficial to the rib cortex and intercostal muscles; pectoralis minor lies deeper.",
+  "structures_at_risk": [
+   "pleura (pneumothorax)"
+  ],
+  "notes": "The most frequently injected muscle in the adducted, internally rotated shoulder pattern, usually with pectoralis minor, latissimus dorsi, subscapularis and teres major. The clavicular head flexes the humerus and the sternocostal head extends it from flexion, so the two heads are functionally opposed and are targeted separately. For hemiplegic shoulder pain, injection here was more effective than a subscapular nerve block at medium term.",
+  "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Clavicular-head points, in the clavicular part of the muscle",
+   "referred_pain_pattern": "Anterior deltoid/shoulder.",
+   "activation_perpetuating_factors": "Limited horizontal abduction/end-range external rotation in abduction (doorway stretch); rounded shoulders; pain pressing or carrying in front.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  },
+  {
+   "location_description": "Sternal-section points along the lateral free border in the axillary fold, pincer-palpated; parasternal points are also described.",
+   "referred_pain_pattern": "Anterior chest and breast with radiation down the medial arm and ulnar forearm to digits 4-5 -- an angina-like pattern (left side) that must never be assumed musculoskeletal before cardiac exclusion.",
+   "activation_perpetuating_factors": "Limited horizontal abduction/end-range external rotation in abduction (doorway stretch); rounded shoulders; pain pressing or carrying in front.",
+   "notes": "Bilateral chest-wall trigger points do not exclude acute coronary syndrome; conversely, persistent 'atypical chest pain' after a full cardiac work-up deserves a pectoral trigger-point exam.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  },
+  {
+   "location_description": "Costal/abdominal-margin points, in the lower (abdominal) part of the muscle",
+   "referred_pain_pattern": "Breast tenderness/nipple hypersensitivity.",
+   "activation_perpetuating_factors": "Limited horizontal abduction/end-range external rotation in abduction (doorway stretch); rounded shoulders; pain pressing or carrying in front.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  },
+  {
+   "location_description": "Right-sided intercostal point between ribs 5-6 (Travell's anecdotal description)",
+   "referred_pain_pattern": "Not separately characterised as a referred-pain zone in the source; Travell associated this point with supraventricular arrhythmia.",
+   "notes": "Anecdotal-level evidence only, never independently replicated -- flagged as such in this atlas's source document's verification appendix. Described by Travell for the right side only.",
+   "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+  }
+ ],
+ "clinical": [
+  {
+   "document": "shoulder_muscles_reference_v1.html",
+   "compiled": "31/08/2026",
+   "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+   "function_biomechanics": "Powerful adduction and internal rotation; clavicular head flexes the extended arm and horizontally adducts; sternocostal head extends the flexed arm toward the trunk, depresses the girdle and drives pressing, climbing and throwing power; abdominal part aids forced expiration/cough posturing; whole muscle is the engine of bench-press/hug patterns. Chronic shortening drags the girdle into protraction–internal rotation, coupling with pectoralis minor to feed impingement kinematics.",
+   "adjacent_structures": "Adjacent bursae: No constant named bursa (an inconstant subtendinous plane near the biceps groove). Adjacent structures — mutual influence: Long head of biceps runs under its insertion (tendon tears expose it); cephalic vein at its lateral border; its rupture (eccentric bench press) drops the axillary fold; Poland syndrome = congenital absence; the muscle covers cardiac apex — the referral overlap with angina is bidirectional and clinically critical.",
+   "trigger_points": [
+    {
+     "location": "Multiple by section: clavicular-head points; sternal-section points along the lateral free border (axillary fold, pincer-palpated); parasternal points; costal/abdominal-margin points. Travell also described a right-sided intercostal point between ribs 5–6 associated with supraventricular arrhythmia — anecdotal-level evidence, flagged as such.",
+     "referred_pain": "Clavicular section → anterior deltoid/shoulder. Sternal section → anterior chest and breast with radiation down the medial arm and ulnar forearm to digits 4–5 — an angina-like pattern (left side) that must never be assumed musculoskeletal before cardiac exclusion. Costal/abdominal points → breast tenderness/nipple hypersensitivity.",
+     "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+    }
+   ],
+   "pain_referred_into_this_muscle_from": [
+    "Into the pectoral region: pectoralis minor, scaleni, subclavius, sternalis, sternocleidomastoid (sternal head), intercostals",
+    "cardiac ischaemia refers to the left chest/medial arm",
+    "cervical discs (Cloward) project parasternally",
+    "gallbladder disease can reach the right chest",
+    "oesophageal pain is retrosternal."
+   ],
+   "movement_restrictions_aggravators": "Limited horizontal abduction/end-range ER-in-abduction (doorway), rounded shoulders; pain pressing or carrying in front.",
+   "notes": "Bilateral chest-wall TrPs do not exclude ACS; conversely, persistent “atypical chest pain” after full cardiac work-up deserves a pectoral TrP exam — both errors are common.",
+   "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+   "sources": [
+    "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+    "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+    "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+    "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+    "Cloward RB. Cervical diskography. A contribution to the etiology and mechanism of neck, shoulder and arm pain. Ann Surg. 1959;150(6):1052–1064.",
+    "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+    "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+    "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+   ]
+  }
+ ]
+}

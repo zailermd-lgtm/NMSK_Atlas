@@ -1,0 +1,42 @@
+{
+ "_README": [
+  "Label id -> structure for the Visible Human MALE right forearm muscle volume (vhm_forearm_muscles_from_cryo.py). A KEY, not data. rule-based: see the script docstring for the rule; compartments are muscles the photographs do not separate (mapped to null)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections at full resolution (0.33 mm) and frozen CT via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhm_forearm_muscles_from_cryo.py), rule-based.",
+ "task": "vhm_forearm_muscles",
+ "version": "2026-09-14",
+ "badge": "rule-based",
+ "labels": {
+  "1": "radial_flexor_compartment",
+  "3": "palmaris_longus",
+  "4": "flexor_carpi_ulnaris",
+  "5": "flexor_digitorum_superficialis",
+  "6": "flexor_digitorum_profundus",
+  "8": "pronator_quadratus",
+  "9": "mobile_wad_compartment",
+  "12": "extensor_digitorum_supinator_anconeus_compartment",
+  "13": "extensor_digiti_minimi",
+  "14": "extensor_carpi_ulnaris",
+  "17": "abductor_pollicis_longus",
+  "18": "extensor_pollicis_brevis",
+  "19": "extensor_pollicis_longus",
+  "20": "extensor_indicis"
+ },
+ "merged_compartments": {
+  "radial_flexor_compartment": [
+   "pronator_teres",
+   "flexor_carpi_radialis",
+   "flexor_pollicis_longus"
+  ],
+  "mobile_wad_compartment": [
+   "brachioradialis",
+   "extensor_carpi_radialis_longus",
+   "extensor_carpi_radialis_brevis"
+  ],
+  "extensor_digitorum_supinator_anconeus_compartment": [
+   "extensor_digitorum",
+   "supinator",
+   "anconeus"
+  ]
+ }
+}

@@ -1,0 +1,261 @@
+{
+  "id": "extensor_carpi_radialis_brevis_r",
+  "name_ta": "Extensor carpi radialis brevis",
+  "name_common": "Extensor carpi radialis brevis",
+  "side": "right",
+  "region": "upper_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "humerus_r",
+    "origin_landmark": "lateral epicondyle (common extensor origin)",
+    "insertion_bone": "metacarpals_r",
+    "insertion_landmark": "base of 3rd metacarpal",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "posterior_interosseous_n",
+    "root_levels": "C7-C8"
+  },
+  "actions": [
+    "extends and radially deviates wrist"
+  ],
+  "functional_compartments": [
+    {
+      "id": "extensor_carpi_radialis_brevis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 8,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 190,
+        "max_isometric_force_N": 42.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          20,
+          -330,
+          5
+        ],
+        [
+          10,
+          -245,
+          -8
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Origin site (lateral epicondyle, common extensor origin) is the classic anatomical site of 'tennis elbow' (lateral epicondylitis), most often affecting this muscle's tendon specifically.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            0,
+            67
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "cadaveric dissection -- posterior-interosseous/radial-nerve motor branch entry point (motor point) location, not a Sihler's-stain arborization density map",
+          "notes": "Of 30 dissected limbs, 56.5% had the (often bifid) motor branch enter within the proximal third of the muscle body and the remaining 43.5% within the combined proximal-and-middle thirds; none were found in the distal third. In 15/30 limbs the two sub-branch entry points were >3 cm apart, so a single narrow endplate band should not be assumed -- this muscle's motor points are more spread out than most other wrist extensors. Motor point (nerve entry) approximates but is not identical to the site of densest intramuscular arborization.",
+          "source": "Caetano EB, Vieira LA, Sabongi Neto JJ, Caetano MBF, Picin CP, Silva Junior LCN, 'Anatomical Study of the Motor Branches of the Radial Nerve in the Forearm', Rev Bras Ortop (Sao Paulo) 55(6):764-770 (2020), doi:10.1055/s-0040-1713403 (https://doi.org/10.1055/s-0040-1713403) -- 30 limbs from 15 adult cadavers -- retrieved via PubMed"
+        }
+      ],
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Probe placed longitudinally (long axis) over the extensor mass on the dorsolateral forearm, muscle belly first localized by palpation just distal to the lateral epicondyle while the patient performs resisted wrist extension/radial deviation to bring ECRB into relief from the adjacent ECRL and EDC.",
+    "depth_layer": "Superficial-to-intermediate extensor compartment, deep to ECRL and radial to EDC at the level of the proximal forearm.",
+    "identification_cues": "Contracts with resisted wrist extension combined with radial deviation; lies just ulnar/deep to ECRL and radial to EDC -- the trio is best differentiated dynamically rather than by shape alone.",
+    "notes": "One of four muscles injected under ultrasound guidance (10-30 U incobotulinumtoxinA/muscle) in a clinical series treating chronic lateral epicondylitis; injections were placed at the muscle's motor end plate region under long-axis probe view. This is a pain/overuse-treatment context rather than post-stroke spasticity, but the sonographic localization technique is the same.",
+    "source": "Galvan Ruiz A, Vergara Diaz G, Rendon Fernandez B, Echevarria Ruiz de Vargas C, 'Effects of Ultrasound-Guided Administration of Botulinum Toxin (IncobotulinumtoxinA) in Patients with Lateral Epicondylitis', Toxins 11(1):46 (2019), doi:10.3390/toxins11010046 (https://doi.org/10.3390/toxins11010046) -- retrieved via PubMed"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Belly about 5-7 cm distal to the lateral epicondyle, ulnar and deep to extensor carpi radialis longus.",
+      "referred_pain_pattern": "Dorsum of the hand and wrist, centred over the 2nd-3rd metacarpal bases and spreading across the back of the hand; less pain at the lateral epicondyle than ECRL. Weak, painful grip and dropping objects are typical.",
+      "activation_perpetuating_factors": "Gripping with a pronated forearm, mouse use, wringing, racquet sports, weightlifting; associated with extensor carpi radialis longus, brachioradialis, supinator and extensor digitorum trigger points.",
+      "notes": "Active ECRB trigger points reproduced the patient's pain in 13 of 20 patients with lateral epicondylalgia (Fernandez-Carnero et al. 2007) -- the highest rate among the muscles tested in that study. Non-myofascial differential: lateral epicondyle tendinosis, radial tunnel syndrome, C7 radiculopathy, dorsal wrist ganglion, Kienbock's disease, scapholunate injury, carpal boss, terminal posterior interosseous nerve neuritis.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 34; Donnelly et al. (2019) 3rd ed., ch. 34 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "ECRB produces pure wrist extension without deviation and, with ECRL, is the wrist stabiliser during power grip and finger extension; forceful grip with the wrist in slight extension and the elbow extended (backhand, lifting with the palm down) loads its origin maximally. Its elbow moment is negligible. Cadaver dynamic studies show that as the elbow extends the undersurface of the ECRB origin rubs against the lateral edge of the capitellum while ECRL compresses it against bone, an anatomical explanation for the degenerative (non-inflammatory) tendinosis of lateral epicondylalgia, in which ECRB is the principal tendon involved, with ED in a proportion of cases.",
+      "adjacent_structures": "Adjacent bursae: An inconstant radiohumeral (subtendinous) bursa lies between the common extensor origin and the radiohumeral joint/capsule; subcutaneous lateral epicondylar bursa is also inconstant. Adjacent structures and relations: Lateral capsule and lateral ulnar collateral ligament (capsular tears accompany chronic tendinosis), capitellum (contact and abrasion with its lateral edge during extension), radial head, PIN and radial tunnel (the tendinous medial edge of ECRB is one of the five compression sites), supinator deep.",
+      "trigger_points": [
+        {
+          "location": "Upper third of the muscle belly, deep to ECRL, about 5–7 cm distal to the epicondyle.",
+          "referred_pain": "dorsum of the hand and wrist (central, over the 2nd–3rd metacarpal bases), with spill toward the lateral epicondyle and dorsal forearm.",
+          "notes": "Symptoms / mimics: Dorsal wrist pain and weakness on gripping, \"tennis elbow\"; misdiagnosed as dorsal wrist ganglion, carpal boss or extensor tendinopathy. In lateral epicondylalgia patients ECRB TrPs reproduced the presenting pain in 65% (Fernández-Carnero 2007); active TrPs are also found on the asymptomatic side. Entrapment: Its tendinous edge participates in radial tunnel compression of the PIN; TrPs are not the described mechanism. Associated TrPs: ECRL, extensor digitorum, supinator, brachioradialis, triceps.",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 34."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "ECRL (dorsal-radial)",
+        "ECU (dorsal-ulnar)",
+        "extensor digitorum and extensor indicis (dorsal hand)",
+        "coracobrachialis (dorsum of hand, skipping the elbow)",
+        "scalenes",
+        "C7 radiculopathy",
+        "intersection syndrome",
+        "dorsal wrist impingement."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO this territory (dorsal wrist/hand) from elsewhere",
+      "notes": "Nirschl's \"angiofibroblastic hyperplasia\" describes the ECRB origin pathology; open, percutaneous and arthroscopic releases target this footprint and must respect the lateral ulnar collateral ligament (posterior to a line through the radial head equator). Radial tunnel syndrome coexists in a minority of refractory cases.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: extensor carpi radialis brevis; lateral epicondyle.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 34.",
+        "Bunata RE, Brown DS, Capelo R. J Bone Joint Surg Am 2007;89(9):1955–1963.",
+        "Cohen MS, Romeo AA, Hennigan SP, Gordon M. Lateral epicondylitis: anatomic relationships of the extensor tendon origins and implications for arthroscopic treatment. J Shoulder Elbow Surg 2008;17(6):954–960.",
+        "Nirschl RP, Pettrone FA. Tennis elbow: the surgical treatment of lateral epicondylitis. J Bone Joint Surg Am 1979;61(6A):832–839.",
+        "Fernández-Carnero J, et al. Clin J Pain 2007;23(4):353–360; and Fernández-Carnero J, et al. Bilateral myofascial trigger points in the forearm muscles in patients with chronic unilateral lateral epicondylalgia. Clin J Pain 2008;24(9):802–807.",
+        "Ozkan M, et al. J Shoulder Elbow Surg 1999;8(6):617–620 (ECRB branch anatomy).",
+        "Karanasios S, Korakakis V, Moutzouri M, Drakonaki E, Koci K, Pantazopoulou V, et al. Diagnostic accuracy of examination tests for lateral elbow tendinopathy (LET): a systematic review. J Hand Ther. 2022;35(4):541–551.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260.",
+        "Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353–360.",
+        "Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br. 1972;54(3):499–508."
+      ],
+      "tests": [
+        {
+          "name": "Cozen's test",
+          "performance": "Elbow stabilised, forearm pronated, fist clenched; resisted wrist extension with radial deviation",
+          "positive_finding": "Pain at the lateral epicondyle",
+          "structures_loaded": "ECRB, ECRL, ED origins",
+          "sensitivity": 91,
+          "specificity": null,
+          "accuracy": "Sensitivity 91% in a single small study; specificity not established (Karanasios 2022 review)",
+          "source": "Karanasios S, Korakakis V, Moutzouri M, Drakonaki E, Koci K, Pantazopoulou V, et al. Diagnostic accuracy of examination tests for lateral elbow tendinopathy (LET): a systematic review. J Hand Ther. 2022;35(4):541–551."
+        },
+        {
+          "name": "Mill's test",
+          "performance": "Passive stretch: elbow extended, forearm pronated, wrist fully flexed",
+          "positive_finding": "Lateral epicondylar pain",
+          "structures_loaded": "Common extensor origin (stretch)",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No adequate accuracy data (Zwerus 2018)",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Maudsley's test",
+          "performance": "Resisted extension of the middle finger, elbow extended",
+          "positive_finding": "Lateral epicondylar pain",
+          "structures_loaded": "ED (middle finger), ECRB; also loads the radial tunnel",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No adequate accuracy data; also positive in radial tunnel syndrome",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Grip-strength difference / pain-free grip",
+          "performance": "Dynamometry with the elbow extended vs flexed; a 5–10% drop with extension is the criterion",
+          "positive_finding": "Reduced grip with the elbow extended",
+          "structures_loaded": "Wrist extensors as grip stabilisers",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Sensitivity 78–83%, specificity 80–90% (Karanasios 2022 review)",
+          "source": "Karanasios S, Korakakis V, Moutzouri M, Drakonaki E, Koci K, Pantazopoulou V, et al. Diagnostic accuracy of examination tests for lateral elbow tendinopathy (LET): a systematic review. J Hand Ther. 2022;35(4):541–551."
+        },
+        {
+          "name": "Chair and coffee-cup tests",
+          "performance": "Lifting a chair or a full cup with a pronated grip",
+          "positive_finding": "Lateral pain",
+          "structures_loaded": "Wrist extensors under load",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Descriptive only; no accuracy data",
+          "source": "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+        },
+        {
+          "name": "Trigger-point examination",
+          "performance": "Palpation of taut bands in brachioradialis, ECRL, ECRB, ED and supinator",
+          "positive_finding": "Reproduction of the presenting lateral elbow pain",
+          "structures_loaded": "The listed muscles",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Referred pain reproduced the presenting pain in 50–70% of patients with lateral epicondylalgia (Fernández-Carnero 2007)",
+          "source": "Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353–360."
+        },
+        {
+          "name": "Resisted supination; resisted middle-finger extension (elbow extended)",
+          "performance": "Loading of supinator / ECRB over the nerve",
+          "positive_finding": "Deep ache 3–5 cm distal to the lateral epicondyle",
+          "structures_loaded": "Supinator, ECRB, PIN",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Descriptive (Roles & Maudsley 1972); no validated accuracy",
+          "source": "Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br. 1972;54(3):499–508."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    },
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Prime wrist extensor: extension moment arm about 16 mm, the largest of the wrist extensors, with PCSA about 2.5 cm² (as large as ECU) [8, 12]. The central insertion on the 3rd metacarpal makes it the most direct extensor, yet its radial-deviation moment arm (about 15 mm) is not negligible [12]. Minor: Radial deviation; negligible elbow action [1, 6]. Grip synergy: ECRB is the principal wrist stabilizer during finger flexion; the resulting eccentric and static loading of its origin during gripping explains its central role in lateral epicondylalgia [5, 32]. Carpal stability: Together with ECRL it is most efficient as a scapholunate stabilizer in forearm pronation [16]. Importance: Standard recipient in radial-nerve palsy (PT to ECRB) and spastic wrist rebalancing (FCU or ECU to ECRB), because its central line of pull restores balanced extension [4, 12].",
+      "adjacent_structures": "Bursae / sheaths: 2nd compartment sheath; the insertional bursa described under ECRL [grade C]. Coupled structures: Capitellum and radiocapitellar joint at the origin, posterior interosseous nerve in the radial tunnel, common extensor origin (EDC), 3rd carpometacarpal joint at the insertion [30, 31, 33].",
+      "trigger_points": [
+        {
+          "location": "Belly about 5–7 cm distal to the lateral epicondyle, ulnar and deep to ECRL [2, 3].",
+          "referred_pain": "Dorsum of the hand and wrist, centred over the 2nd–3rd metacarpal bases and spreading across the back of the hand; less pain at the lateral epicondyle than ECRL. Weak, painful grip and dropping objects are typical [2, 3].",
+          "activation_perpetuating_factors": "Gripping with a pronated forearm, mouse use, wringing, racquet sports, weightlifting; associated with ECRL, brachioradialis, supinator and EDC trigger points [3, 34].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Extensor digitorum (dorsal forearm to the fingers)",
+        "extensor indicis (radial dorsum)",
+        "coracobrachialis (dorsum of hand)",
+        "triceps long head (dorsal forearm)",
+        "latissimus dorsi and serratus posterior superior (ulnar dorsum)",
+        "scalenes",
+        "subscapularis (band)",
+        "first dorsal interosseous [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into ECRB territory (dorsal wrist and hand)",
+      "non_myofascial_differential": "Lateral epicondyle tendinosis, radial tunnel syndrome, C7 radiculopathy, dorsal wrist ganglion, Kienböck's disease, scapholunate injury, carpal boss, terminal PIN neuritis.",
+      "notes": "Lateral epicondylalgia is a degenerative tendinosis (angiofibroblastic hyperplasia) of the ECRB origin extending into the adjacent EDC; the deep surface of the ECRB origin is the usual lesion site and its contact with the capitellum in extension–pronation is a proposed mechanical factor [30, 32]. Active ECRB trigger points reproducing the patient's pain were found in 13 of 20 patients with lateral epicondylalgia [34]. Radial tunnel syndrome involves compression of the posterior interosseous nerve by the fibrous medial edge of ECRB, the arcade of Frohse, the radial recurrent vessels and fibrous bands anterior to the radiocapitellar joint [33]. ECRB also participates in intersection syndrome and carpal boss.",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50–51 [1].",
+        "Simons, Travell & Simons 1999, 2e, ch. 34 [2]; Donnelly et al. 2019, 3e, ch. 34 [3].",
+        "Bunata, Brown & Capelo 2007, JBJS Am 89:1955–1963 [30]; Cohen et al. 2008, J Shoulder Elbow Surg 17:954–960 [31]; Kraushaar & Nirschl 1999, JBJS Am 81:259–278 [32].",
+        "Roles & Maudsley 1972, JBJS Br 54:499–508 [33].",
+        "Abrams et al. 1997 [28]; Branovacki et al. 1998, J Hand Surg Br 23:167–169 [29].",
+        "Lieber et al. 1990 [8]; Loren et al. 1996 [10]; Fridén & Lieber 2024 [12]; Esplugas et al. 2023 [16].",
+        "Fernández-Carnero et al. 2007 [34]; Green's 8e [4]; Neumann 2017 [5]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[6] Kendall FP, McCreary EK, Provance PG, Rodgers MM, Romani WA. Muscles: Testing and Function with Posture and Pain. 5th ed. Lippincott Williams & Wilkins; 2005.",
+        "[8] Lieber RL, Fazeli BM, Botte MJ. Architecture of selected wrist flexor and extensor muscles. J Hand Surg Am. 1990;15(2):244-250. PMID 2324452.",
+        "[10] Loren GJ, Shoemaker SD, Burkholder TJ, Jacobson MD, Fridén J, Lieber RL. Human wrist motors: biomechanical design and application to tendon transfers. J Biomech. 1996;29(3):331-342. PMID 8850639.",
+        "[12] Fridén J, Lieber RL. Wrist extensor pathomechanics: implications for tendon and nerve transfer. J Hand Surg Eur Vol. 2024;49(8):1047-1050. PMID 38190974.",
+        "[16] Esplugas M, Lluch A, Salva-Coll G, Fernandez-Noguera N, Puig de la Bellacasa I, Llusa-Perez M, Garcia-Elias M. Influence of forearm rotation on the kinetic stabilizing efficiency of the muscles that control the scapholunate joint. Clinical application in proprioceptive and neuromuscular rehabilitation programs. J Hand Ther. 2023 (online; article S0894-1130(23)00137-0).",
+        "[28] Abrams RA, Ziets RJ, Lieber RL, Botte MJ. Anatomy of the radial nerve motor branches in the forearm. J Hand Surg Am. 1997;22(2):232-237. PMID 9195420.",
+        "[29] Branovacki G, Hanson M, Cash R, Gonzalez M. The innervation pattern of the radial nerve at the elbow and in the forearm. J Hand Surg Br. 1998;23(2):167-169.",
+        "[30] Bunata RE, Brown DS, Capelo R. Anatomic factors related to the cause of tennis elbow. J Bone Joint Surg Am. 2007;89(9):1955-1963.",
+        "[31] Cohen MS, Romeo AA, Hennigan SP, Gordon M. Lateral epicondylitis: anatomic relationships of the extensor tendon origins and implications for arthroscopic treatment. J Shoulder Elbow Surg. 2008;17(6):954-960.",
+        "[32] Kraushaar BS, Nirschl RP. Tendinosis of the elbow (tennis elbow). Clinical features and findings of histological, immunohistochemical, and electron microscopy studies. J Bone Joint Surg Am. 1999;81(2):259-278.",
+        "[33] Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br. 1972;54(3):499-508.",
+        "[34] Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353-360. PMID 17449997."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+ "_README": [
+  "Label id -> structure for the Visible Human FEMALE right hand intrinsic muscle volume (vhf_hand_muscles_from_cryo.py). A KEY, not data. rule-based: see the script docstring for the rule; compartments are muscles the photographs do not separate (mapped to null)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) and CT via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_hand_muscles_from_cryo.py), rule-based.",
+ "task": "vhf_hand_muscles",
+ "version": "2026-09-16",
+ "badge": "rule-based",
+ "labels": {
+  "1": "thenar_compartment",
+  "4": "adductor_pollicis",
+  "5": "abductor_digiti_minimi_hand",
+  "6": "flexor_digiti_minimi_brevis_hand",
+  "7": "opponens_digiti_minimi",
+  "8": "dorsal_interossei_hand",
+  "9": "palmar_interossei",
+  "10": "palmar_flexor_tendon_compartment"
+ },
+ "merged_compartments": {
+  "thenar_compartment": [
+   "abductor_pollicis_brevis",
+   "flexor_pollicis_brevis",
+   "opponens_pollicis"
+  ]
+ }
+}

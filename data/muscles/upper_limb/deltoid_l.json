@@ -1,0 +1,373 @@
+{
+  "id": "deltoid_l",
+  "name_ta": "Musculus deltoideus",
+  "name_common": "Deltoid",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "clavicle_l",
+    "origin_landmark": "lateral third, anterior border (clavicular part); acromion (acromial part, scapula_l); spine of scapula (spinal part, scapula_l)",
+    "insertion_bone": "humerus_l",
+    "insertion_landmark": "deltoid tuberosity",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "axillary_n",
+    "root_levels": "C5-C6"
+  },
+  "blood_supply": [
+    "posterior_circumflex_humeral_a_l",
+    "thoracoacromial_a_l_deltoid_branch"
+  ],
+  "actions": [
+    "abducts humerus (all parts, prime mover past ~15deg)",
+    "flexes and internally rotates humerus (anterior/clavicular part)",
+    "extends and externally rotates humerus (posterior/spinal part)",
+    "horizontal adduction/abduction"
+  ],
+  "functional_compartments": [
+    {
+      "id": "deltoid_l_anterior_1",
+      "name": "Anterior (clavicular) segment 1 (most medial)",
+      "innervation_branch": "axillary n., anterior branch, proximal fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 12,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 300.0,
+        "max_isometric_force_N": 75.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          110,
+          5,
+          10
+        ],
+        [
+          95,
+          0,
+          15
+        ],
+        [
+          100,
+          -10,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band, anterior clavicular fibers",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Flexion + internal rotation dominant; documented as an independently-recruitable EMG compartment.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17; Brown JM et al. (2007) J Electromyogr Kinesiol 17:57-73",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    },
+    {
+      "id": "deltoid_l_anterior_2",
+      "name": "Anterior (clavicular) segment 2",
+      "innervation_branch": "axillary n., anterior branch, mid fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 14,
+        "optimal_fascicle_length_mm": 95,
+        "physiological_cross_section_area_mm2": 320.0,
+        "max_isometric_force_N": 80.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          100,
+          -10,
+          20
+        ],
+        [
+          85,
+          -15,
+          20
+        ],
+        [
+          90,
+          -25,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Flexion-dominant.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    },
+    {
+      "id": "deltoid_l_anterior_3",
+      "name": "Anterior (clavicular) segment 3 (most lateral, borders acromial part)",
+      "innervation_branch": "axillary n., anterior branch, distal fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 16,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 280.0,
+        "max_isometric_force_N": 70.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          90,
+          -25,
+          20
+        ],
+        [
+          70,
+          -25,
+          15
+        ],
+        [
+          75,
+          -35,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Transitional flexion/abduction fibers.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    },
+    {
+      "id": "deltoid_l_middle_1",
+      "name": "Middle (acromial) segment 1 -- multipennate about anterior intramuscular septum",
+      "innervation_branch": "axillary n., posterior branch, anterior acromial fascicle",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 21,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 550.0,
+        "max_isometric_force_N": 137.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -5,
+          45,
+          -5
+        ],
+        [
+          -15,
+          35,
+          -5
+        ],
+        [
+          -10,
+          25,
+          0
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "endplates cluster along the central intramuscular tendon, offset from geometric mid-fascicle due to pennation",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Pure abduction; the classic multipennate 'central tendon' architecture concentrates PCSA for high abduction torque at the cost of shorter fibers/excursion.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17; Gray's Anatomy for Students 4th ed. ch.7 (describes middle deltoid as multipennate around 4 fibrous septa)",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    },
+    {
+      "id": "deltoid_l_middle_2",
+      "name": "Middle (acromial) segment 2 (central)",
+      "innervation_branch": "axillary n., posterior branch, central acromial fascicle",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 23,
+        "optimal_fascicle_length_mm": 58,
+        "physiological_cross_section_area_mm2": 600.0,
+        "max_isometric_force_N": 150.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          25,
+          0
+        ],
+        [
+          -5,
+          15,
+          -5
+        ],
+        [
+          0,
+          20,
+          0
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Pure abduction; largest PCSA segment.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    },
+    {
+      "id": "deltoid_l_middle_3",
+      "name": "Middle (acromial) segment 3 (posterior multipennate)",
+      "innervation_branch": "axillary n., posterior branch, posterior acromial fascicle",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 22,
+        "optimal_fascicle_length_mm": 60,
+        "physiological_cross_section_area_mm2": 520.0,
+        "max_isometric_force_N": 130.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          0,
+          20,
+          0
+        ],
+        [
+          10,
+          15,
+          -10
+        ],
+        [
+          5,
+          25,
+          -15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Pure abduction.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    },
+    {
+      "id": "deltoid_l_posterior",
+      "name": "Posterior (spinal) segment",
+      "innervation_branch": "axillary n., posterior branch, spinal fascicle",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 18,
+        "optimal_fascicle_length_mm": 110,
+        "physiological_cross_section_area_mm2": 400.0,
+        "max_isometric_force_N": 100.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          40,
+          80,
+          -40
+        ],
+        [
+          30,
+          70,
+          -45
+        ],
+        [
+          35,
+          60,
+          -40
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band, posterior spinal fibers",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Extension + external rotation dominant; longest, least-pennate deltoid fibers.",
+      "source": "Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model; Wickham JB, Brown JM (1998) Eur J Appl Physiol 78:6-17; Brown JM et al. (2007) J Electromyogr Kinesiol 17:57-73 (documented ~7-segment neuromuscular partitioning of human deltoid)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Three separate placements, one per part. Anterior (clavicular): transverse on the anterior proximal arm about 2-3 cm distal to the clavicle. Middle (acromial): transverse on the anterolateral proximal arm about 2-3 cm distal to the acromion. Posterior (spinal): transverse on the posterior proximal arm about 2 cm distal to the scapular spine.",
+    "depth_layer": "Superficial to the humeral cortex throughout. Anteriorly the long head of biceps tendon lies deep to it in the bicipital groove; posteriorly infraspinatus lies alongside.",
+    "notes": "NO motor_endplate_zones are recorded for any part of the deltoid, and this is a gap in the literature rather than in extraction: the source states plainly that data on optimal injection sites for the three parts are insufficient and that further study is needed. All three parts are injected when adduction between 15 and 90 degrees is resisted; the posterior part alone for the abducted, extended shoulder, where it is the single most frequently injected muscle (about 76% of cases), ahead of the long head of triceps and latissimus dorsi.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Anterior belly point, in the anterior (clavicular) part of the muscle",
+      "referred_pain_pattern": "Referral stays local/regional to the anterior-middle deltoid region; pain is motion-linked (sharp on reaching) rather than a resting ache; does not travel to the forearm/hand.",
+      "activation_perpetuating_factors": "Pain-limited abduction/flexion at specific arcs; difficulty lifting the arm to horizontal; rarely restricts sleep alone.",
+      "notes": "Usually a satellite trigger point, frequently secondary to infraspinatus (which refers into the anterior deltoid) or to supraspinatus/scaleni referral. Latent anterior-deltoid trigger points found in about 38% of chronic shoulder-pain patients.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    },
+    {
+      "location_description": "Posterior belly point, in the posterior (scapular-spine) part of the muscle",
+      "referred_pain_pattern": "Referral stays local/regional to the posterior deltoid and adjacent arm; pain is motion-linked rather than a resting ache; does not travel to the forearm/hand.",
+      "activation_perpetuating_factors": "Pain-limited abduction/flexion at specific arcs; difficulty lifting the arm to horizontal; rarely restricts sleep alone.",
+      "notes": "Usually a satellite trigger point, frequently secondary to referral from posterior-shoulder muscles (teres minor/major, subscapularis) converging on the deltoid.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "Largest, strongest shoulder muscle. Middle fibres: prime abductor; anterior: flexion, horizontal adduction, internal rotation; posterior: extension, horizontal abduction, external rotation. At low abduction angles its line of pull is mainly superior shear — the inferior cuff (infraspinatus/teres minor/subscapularis) must counter it (coronal-plane force couple); with cuff failure the deltoid alone produces superior migration and pseudoparalysis. Shares elevation torque about equally with supraspinatus across the functional planes. Sole reliance of reverse arthroplasty (medialised centre of rotation lengthens its moment arm).",
+      "adjacent_structures": "Adjacent bursae: Subacromial–subdeltoid bursa deep to it (its inflammation = “deltoid” pain); occasional subcutaneous acromial bursa over the acromion. Adjacent structures — mutual influence: Axillary nerve (anterior branch intramuscular) — injured in dislocation, fracture, injection, arthroplasty; coracoacromial arch and bursa deep to it; AC joint at the anterolateral origin; deltoid detachment/atrophy is disastrous for elevation.",
+      "trigger_points": [
+        {
+          "location": "Common but usually satellite TrPs: anterior points in the anterior belly, posterior points along the posterior belly; frequently secondary to infraspinatus (which refers into the anterior deltoid) or to supraspinatus/scaleni referral. Latent deltoid TrPs found in ~38% (anterior part) of chronic shoulder-pain patients.",
+          "referred_pain": "Referral stays local/regional: anterior TrPs → anterior–middle deltoid region; posterior TrPs → posterior deltoid and adjacent arm; pain is motion-linked (sharp on reaching) rather than resting ache; it does not travel to forearm/hand.",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "The deltoid region is the great convergence zone: supraspinatus and infraspinatus (anterior deltoid), subscapularis, teres minor/major (posterior deltoid), pectoralis major clavicular head and subclavius, biceps, coracobrachialis, scaleni",
+        "subacromial-space irritation projects to the lateral deltoid ± forearm",
+        "glenohumeral-joint and C5 root pain are felt here",
+        "ACJ pain reaches the anterolateral deltoid."
+      ],
+      "movement_restrictions_aggravators": "Pain-limited abduction/flexion at specific arcs; difficulty lifting the arm to horizontal; rarely restricts sleep alone.",
+      "notes": "“Deltoid pain” is usually somewhere else’s pain — clear the cuff, subacromial space, ACJ and C5 before treating the deltoid itself; check axillary sensory patch and ER lag to separate neuropathy.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Howell SM, Imobersteg AM, Seger DH, Marone PJ. Clarification of the role of the supraspinatus muscle in shoulder function. J Bone Joint Surg Am. 1986;68(3):398–404. PMID 3949834. [retrieved 31/08/2026]",
+        "Cahill BR, Palmer RE. Quadrilateral space syndrome. J Hand Surg Am. 1983;8(1):65–69. doi:10.1016/s0363-5023(83)80056-2. PMID 6827057. [retrieved 31/08/2026]",
+        "Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [retrieved 31/08/2026]",
+        "Gerber C, Galantay RV, Hersche O. The pattern of pain produced by irritation of the acromioclavicular joint and the subacromial space. J Shoulder Elbow Surg. 1998;7(4):352–355. doi:10.1016/s1058-2746(98)90022-2. PMID 9752643. [retrieved 31/08/2026]",
+        "Burkhart SS. Fluoroscopic comparison of kinematic patterns in massive rotator cuff tears. A suspension bridge model. Clin Orthop Relat Res. 1992;(284):144–152.",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    }
+  ]
+}

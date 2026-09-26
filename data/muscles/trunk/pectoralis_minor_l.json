@@ -1,0 +1,128 @@
+{
+  "id": "pectoralis_minor_l",
+  "name_ta": "Pectoralis minor",
+  "name_common": "Pectoralis minor",
+  "side": "left",
+  "region": "trunk",
+  "overall_architecture_type": "convergent_triangular",
+  "attachments": {
+    "origin_bone": "ribs_l",
+    "origin_landmark": "ribs 3-5 (anterior surfaces)",
+    "insertion_bone": "scapula_l",
+    "insertion_landmark": "coracoid process",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "medial_pectoral_n",
+    "root_levels": "C8-T1"
+  },
+  "actions": [
+    "depresses/protracts the scapula, elevates ribs 3-5 (accessory inspiration when the scapula is fixed)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "pectoralis_minor_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "convergent_triangular",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 80,
+        "physiological_cross_section_area_mm2": 180,
+        "max_isometric_force_N": 40.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -40,
+          220,
+          40
+        ],
+        [
+          -10,
+          20,
+          20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Deep to pectoralis major; the axillary artery and brachial plexus cords pass directly behind it. More precisely, the cords' names (lateral/medial/posterior) are defined by their position relative to the axillary artery's 2nd part -- which is itself the segment of the artery running directly posterior to this muscle, so 'relative to pectoralis minor' is the standard shorthand for a relationship that is technically defined one step removed, via the artery (adjusted for precision after adversarial fact-check, see docs/VERIFICATION.md).",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            75,
+            75
+          ],
+          "reference_line_from": "origin (ribs 3-5)",
+          "reference_line_to": "insertion (coracoid process of the scapula)",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Three-quarters of muscle length. The needle path crosses toward the chest wall and the underlying brachial plexus, which is why the source treats ultrasound as mandatory here.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "medial_pectoral_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transducer angled 45 degrees toward the axilla on the anterior thoracic wall, along the midclavicular line, about 5-6 cm distal to the clavicle.",
+    "depth_layer": "Deep to pectoralis major, superficial to the rib cortex and intercostal muscles.",
+    "structures_at_risk": [
+      "pleura (pneumothorax)",
+      "brachial plexus and axillary vessels (the underlying neurovascular bundle)"
+    ],
+    "notes": "Also injected for pectoralis minor syndrome, where the overactive muscle compresses the distal brachial plexus branches beneath it -- the same bundle that is the hazard of the injection.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Trigger points in the belly under pectoralis major, at the level of the 3rd-4th rib; palpate through relaxed pectoralis major or via the axilla",
+      "referred_pain_pattern": "Anterior deltoid and pre-cordial/pectoral region, extending down the ulnar side of the arm and forearm to digits 3-5 -- a cardiac-pain and C8/ulnar mimic; true nerve entrapment adds neurogenic paraesthesiae, distinguishing it from pure referral.",
+      "activation_perpetuating_factors": "Restricted end-range elevation and horizontal abduction (doorway stretch reproduces); rounded-shoulder posture; symptoms with backpack straps/hands-overhead sleep.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "Draws the scapula forward and downward, tipping it anteriorly and rotating it internally/downward; stabilises the scapula against upward-rotation forces; accessory inspiration with the scapula fixed. A short resting pectoralis minor reproduces the impingement-type kinematics: persisting anterior tilt and greater internal rotation of the scapula during elevation — a key modifiable driver of subacromial symptoms and a first-line stretch/manual target.",
+      "adjacent_structures": "Adjacent bursae: No constant named bursa; the subcoracoid bursa lies just lateral to its insertion. Adjacent structures — mutual influence: Compresses the plexus/axillary vessels beneath its tendon in hyperabduction — pectoralis minor syndrome, alone or with neurogenic TOS: anterior chest/axillary tenderness with arm pain/paraesthesiae; a simple tenotomy relieved ≥90% when PMS occurred alone in a 100-operation series. Coracoid transfer (Latarjet) detaches it; tight PM loads the ACJ and subacromial outlet; it shields (and blocks access to) level-II nodes.",
+      "trigger_points": [
+        {
+          "location": "TrPs in the belly under pectoralis major at the 3rd–4th rib level; palpate through relaxed pec major or via the axilla.",
+          "referred_pain": "Anterior deltoid and pre-cordial/pectoral region, extending down the ulnar side of the arm and forearm to digits 3–5 — a cardiac-pain and C8/ulnar mimic; entrapment adds true neurogenic paraesthesiae, distinguishing it from pure referral.",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into the anterior chest/coracoid zone: pectoralis major (clavicular/sternal), scaleni, subclavius, sternalis",
+        "cervical discogenic pain (C6–C7) can project pre-cordially",
+        "cardiac ischaemia and its territory overlap — always risk-stratify first."
+      ],
+      "movement_restrictions_aggravators": "Restricted end-range elevation and horizontal abduction (doorway stretch reproduces), rounded-shoulder posture, symptoms with backpack straps/hands-overhead sleep.",
+      "notes": "Measure resting PM length/posture in every impingement; in “TOS”, block-test the pectoralis minor separately — a large subgroup is PM-only and curable with far smaller surgery.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Gerber C, Terrier F, Ganz R. The role of the coracoid process in the chronic impingement syndrome. J Bone Joint Surg Br. 1985;67(5):703–708.",
+        "Ludewig PM, Reynolds JF. The association of scapular kinematics and glenohumeral joint pathologies. J Orthop Sports Phys Ther. 2009;39(2):90–104.",
+        "Kibler WB, Sciascia A. Current concepts: scapular dyskinesis. Br J Sports Med. 2010;44(5):300–305.",
+        "Borstad JD, Ludewig PM. The effect of long versus short pectoralis minor resting length on scapular kinematics in healthy individuals. J Orthop Sports Phys Ther. 2005;35(4):227–238. doi:10.2519/jospt.2005.35.4.227. PMID 15901124. [retrieved 31/08/2026]",
+        "Sanders RJ, Rao NM. The forgotten pectoralis minor syndrome: 100 operations for pectoralis minor syndrome alone or accompanied by neurogenic thoracic outlet syndrome. Ann Vasc Surg. 2010;24(6):701–708. doi:10.1016/j.avsg.2010.02.022. PMID 20471786. [retrieved 31/08/2026]",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    }
+  ]
+}

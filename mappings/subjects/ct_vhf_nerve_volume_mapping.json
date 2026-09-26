@@ -1,0 +1,22 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhf_nerve",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_nerves_cryo.nii.gz",
+ "label_map": "vhf_nerves",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "sciatic_n",
+   "side": null,
+   "status": "curated",
+   "atlas_id": "sciatic_n",
+   "relationship": "part_of",
+   "note": "Tracked through her full-resolution cryosections from a landmark-rule seed (both sides in one label; nerve ids are side-agnostic).",
+   "candidates": []
+  }
+ ]
+}

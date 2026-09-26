@@ -1,0 +1,156 @@
+{
+  "id": "flexor_pollicis_longus_l",
+  "name_ta": "Flexor pollicis longus",
+  "name_common": "Flexor pollicis longus",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "unipennate",
+  "attachments": {
+    "origin_bone": "radius_l",
+    "origin_landmark": "anterior radius, interosseous membrane",
+    "insertion_bone": "phalanges_hand_l",
+    "insertion_landmark": "distal phalanx of thumb",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "anterior_interosseous_n",
+    "root_levels": "C8-T1"
+  },
+  "actions": [
+    "flexes thumb IP joint"
+  ],
+  "functional_compartments": [
+    {
+      "id": "flexor_pollicis_longus_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 45,
+        "physiological_cross_section_area_mm2": 160,
+        "max_isometric_force_N": 36.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          -100,
+          10
+        ],
+        [
+          -5,
+          -260,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "The only long flexor of the thumb; innervated by the anterior interosseous nerve (a pure motor branch of median n., classically tested via the 'OK sign' pinch).",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            41.87,
+            68.37
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology",
+          "notes": "Nerve-dense region of about 3.32 cm2, supplied by the anterior interosseous nerve. Highest spindle abundance in its LOWER third, at 63.67% of muscle length -- distinctly distal to mid-belly.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "injection_target_points": [
+        {
+          "label": "main",
+          "transverse_line_from": "medial epicondyle of the humerus",
+          "transverse_line_to": "lateral epicondyle of the humerus",
+          "transverse_percent": 53.47,
+          "longitudinal_line_from": "medial epicondyle of the humerus",
+          "longitudinal_line_to": "ulnar styloid process",
+          "longitudinal_percent": 64.12,
+          "depth_percent_of_limb_thickness": 41.28,
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "SURFACE NOT ESTABLISHED. The source places all but one of its eleven projection points on the anterior forearm and one on the posterior forearm, but the label identifying the exception was lost in full-text extraction, so `depth_measured_from` is omitted here rather than guessed. The three percentages are unaffected; confirm the surface against the paper's CT localisation figure before planning a needle path from the depth figure.",
+          "source": "Zhou J, Jia F, Chen P, Zhou G, Wang M, Wu J, Yang S, 'Localisation of the centre of the highest region of muscle spindle abundance of anterior forearm muscles', J Anat 244(5):803-814 (2023), doi:10.1111/joa.14000 -- 24 adult cadavers, modified Sihler's staining with muscle-spindle histology and spiral CT localisation"
+        }
+      ],
+      "innervation_branch_ids": [
+        "anterior_interosseous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the volar forearm, radial side of the distal third, medial to the radial cortex.",
+    "depth_layer": "Deep layer of the anterior compartment.",
+    "identification_cues": "Distinctive 'shark fin' shape.",
+    "structures_at_risk": [
+      "radial artery",
+      "median nerve"
+    ],
+    "notes": "The narrowest safety margin in the distal upper limb: the radial artery and median nerve are often less than 1 cm from the target, so ultrasound guidance is not optional here. Injected for the thumb-in-hand deformity, which can otherwise cause palmar ulceration.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Belly in the distal half of the radial volar forearm, deep to flexor carpi radialis and brachioradialis, palpated against the radius.",
+      "referred_pain_pattern": "Palmar aspect of the thumb to the tip of the distal phalanx.",
+      "activation_perpetuating_factors": "Forceful or sustained pinch (pliers, writing, gaming, needlework), thumb flexion under load.",
+      "notes": "Non-myofascial differential: trigger thumb, basal-joint arthritis, FCR tendinopathy, De Quervain's disease (dorsoradial), anterior interosseous nerve palsy, C6 radiculopathy.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 38; Donnelly et al. (2019) 3rd ed., ch. 38 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Flexion of the thumb IP joint (its sole flexor), then MCP and carpometacarpal flexion–adduction; principal contributor to tip and key pinch force [1, 5]. At the wrist: Weak wrist flexion with slight radial deviation [1, 6]. Coupling: The Linburg–Comstock interconnection couples FPL to the index FDP, causing distal forearm pain and loss of independent thumb flexion when the index finger is held extended [45]. Importance: Pinch and precision handling; restored after loss by brachioradialis or ECRL transfer [4].",
+      "adjacent_structures": "Bursae / sheaths: Radial bursa, which communicates with the ulnar bursa at the wrist in a proportion of hands; thumb pulleys A1, oblique, A2 [1, 4]. Relations: Anterior interosseous nerve and artery between FPL and FDP; the tendon lies directly on the volar rim of the distal radius at the watershed line, where prominent volar plates abrade it [46]. Coupled structures: Anterior interosseous nerve, median nerve in the carpal tunnel, volar rim of the distal radius, thumb pulleys [1, 4, 46].",
+      "trigger_points": [
+        {
+          "location": "Belly in the distal half of the radial volar forearm, deep to FCR and brachioradialis, palpated against the radius [2, 3].",
+          "referred_pain": "Palmar aspect of the thumb to the tip of the distal phalanx [2, 3].",
+          "activation_perpetuating_factors": "Forceful or sustained pinch (pliers, writing, gaming, needlework), thumb flexion under load [2, 3].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Opponens pollicis (palmar thumb and radial volar wrist)",
+        "adductor pollicis (thenar and base of thumb)",
+        "brachialis (base of thumb)",
+        "supinator (dorsal thumb)",
+        "brachioradialis (thumb web)",
+        "scalenes (thumb and index)",
+        "infraspinatus (radial hand)",
+        "subclavius",
+        "first dorsal interosseous [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into FPL territory (palmar thumb, radial volar wrist)",
+      "non_myofascial_differential": "Trigger thumb, basal-joint arthritis, FCR tendinopathy, De Quervain's disease (dorsoradial), AIN palsy, C6 radiculopathy.",
+      "notes": "Attritional rupture over prominent volar locking plates (graded by plate position relative to the watershed line) [46]; anterior interosseous nerve palsy (Kiloh–Nevin) [43]; trigger thumb at the A1 pulley; FPL tenosynovitis; Volkmann's contracture; carpal tunnel syndrome [4].",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50–51 [1].",
+        "Simons, Travell & Simons 1999, 2e, ch. 38 [2]; Donnelly et al. 2019, 3e, ch. 38 [3].",
+        "Soong et al. 2011, JBJS Am 93:328–335 [46]; Kiloh & Nevin 1952 [43]; Linburg & Comstock 1979 [45].",
+        "Green's 8e [4]; Neumann 2017 [5]; Kendall et al. 2005 [6]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[6] Kendall FP, McCreary EK, Provance PG, Rodgers MM, Romani WA. Muscles: Testing and Function with Posture and Pain. 5th ed. Lippincott Williams & Wilkins; 2005.",
+        "[43] Kiloh LG, Nevin S. Isolated neuritis of the anterior interosseous nerve. Br Med J. 1952;1(4763):850-851.",
+        "[45] Linburg RM, Comstock BE. Anomalous tendon slips from the flexor pollicis longus to the flexor digitorum profundus. J Hand Surg Am. 1979;4(1):79-83.",
+        "[46] Soong M, Earp BE, Bishop G, Leung A, Blazar P. Volar locking plate implant prominence and flexor tendon rupture. J Bone Joint Surg Am. 2011;93(4):328-335."
+      ]
+    }
+  ]
+}

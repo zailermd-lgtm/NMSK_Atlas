@@ -1,0 +1,180 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only."
+ ],
+ "subject": "ct_vhm_forearm",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_forearm_muscles_cryo.nii.gz",
+ "label_map": "vhm_forearm_muscles",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "radial_flexor_compartment",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "rule-based; compartment holding pronator_teres, flexor_carpi_radialis, flexor_pollicis_longus (104.7 cm3), not split: PT/FPL split followed a pale line at 63 % of 27 shared levels and FCR/FPL at 66 % of 35; PT's region (7 cm3) is far too small for the muscle and FCR's (70 cm3) far too large, i.e. the line between them is not the PT/FCR/FPL septum. Kept together (105 cm3).",
+   "candidates": [
+    "pronator_teres_r",
+    "flexor_carpi_radialis_r",
+    "flexor_pollicis_longus_r"
+   ]
+  },
+  {
+   "label": 3,
+   "source_structure": "palmaris_longus",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 35.4 cm3. REVIEW: 35 cm3 is several times a palmaris longus; the region likely holds part of the FCR/FDS belly. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 35 cm3 against 5-10 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "palmaris_longus_r"
+   ]
+  },
+  {
+   "label": 4,
+   "source_structure": "flexor_carpi_ulnaris",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 139.2 cm3. REVIEW: volume outside 5-80 cm3, the region may hold a neighbour's belly. REVIEW: 139.2 cm3 is more than 2x off the expected 25-35 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 139 cm3 against 25-35 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "flexor_carpi_ulnaris_r"
+   ]
+  },
+  {
+   "label": 5,
+   "source_structure": "flexor_digitorum_superficialis",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "flexor_digitorum_superficialis_r",
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 54.1 cm3.",
+   "candidates": []
+  },
+  {
+   "label": 6,
+   "source_structure": "flexor_digitorum_profundus",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "flexor_digitorum_profundus_r",
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 57.9 cm3.",
+   "candidates": []
+  },
+  {
+   "label": 8,
+   "source_structure": "pronator_quadratus",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 57.0 cm3. REVIEW: 57 cm3 is several times a pronator quadratus; at f > 0.9 only its rule is active, so the whole distal muscle section (FDP/FDS/FPL bellies included) falls to it. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 57 cm3 against 8-12 expected (its rule takes the whole distal section); a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "pronator_quadratus_r"
+   ]
+  },
+  {
+   "label": 9,
+   "source_structure": "mobile_wad_compartment",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "rule-based; compartment holding brachioradialis, extensor_carpi_radialis_longus, extensor_carpi_radialis_brevis (264.0 cm3), not split: BR/ECRL on a pale line at 68 % of 65 shared levels, ECRL/ECRB at 68 % of 62: the weakest extensor boundaries. The BR region (163 cm3) also holds the brachialis and biceps at the elbow levels (the position rules have no marker for them), so the compartment (264 cm3) is the anterolateral mass, not the three muscles alone.",
+   "candidates": [
+    "brachioradialis_r",
+    "extensor_carpi_radialis_longus_r",
+    "extensor_carpi_radialis_brevis_r"
+   ]
+  },
+  {
+   "label": 12,
+   "source_structure": "extensor_digitorum_supinator_anconeus_compartment",
+   "side": "right",
+   "status": "no_atlas_entity",
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "rule-based; compartment holding extensor_digitorum, supinator, anconeus (48.6 cm3), not split: Anconeus/supinator on a pale line at only 44 % of 16 shared levels and ED/anconeus at 44 % of 9; the anconeus region (1.9 cm3) is too small to be the muscle, so ED, whose other boundaries hold (72-100 %), is kept with the two proximal muscles (49 cm3) rather than shipped with a border that does not run on a septum. Q106 (2026-09-21) tried a Q100-style position-rule split (level fraction + distance to CT radius/ulna, scripts/cryo/vhm_split_forearm_extensor_compartment.py, kept as a documented dry-run/attempt, not applied): mesh connectivity and relative volumes came out good (ED 36.0/anconeus 4.3/supinator 8.3 cm3, 98.7-100% one mesh component each) -- but checking the split against his own CT skin surface (data/ct_sources/task_outputs/vhm_skin_ct.nii.gz, the same check clip_arm_to_skin.py already uses for his arm muscles) found the ENTIRE compartment's outside-skin fraction rises smoothly from 0% at the segment's distal 60% to ~22% at its most proximal level -- a pre-existing registration gradient in the whole (already-shipped, 2026-09-14) volume, not something this split introduces or could fix by moving the boundary. Anconeus and supinator sit almost entirely in that poorly-registered proximal band by real anatomical position (f<=0.12 and f<=0.28), so ANY split puts anconeus's region 100% outside his skin surface and supinator's 72-82% outside, even after the same erosion-margin clip used for the arm. DECLINED: 0% outside skin cannot be honestly met without re-deriving the proximal segment's photograph-to-CT registration, out of scope here.",
+   "candidates": [
+    "extensor_digitorum_r",
+    "supinator_r",
+    "anconeus_r"
+   ]
+  },
+  {
+   "label": 13,
+   "source_structure": "extensor_digiti_minimi",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 19.7 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 20 cm3 against 3-6 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "extensor_digiti_minimi_r"
+   ]
+  },
+  {
+   "label": 14,
+   "source_structure": "extensor_carpi_ulnaris",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 39.3 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 39 cm3 against 10-15 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "extensor_carpi_ulnaris_r"
+   ]
+  },
+  {
+   "label": 17,
+   "source_structure": "abductor_pollicis_longus",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "abductor_pollicis_longus_r",
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 13.0 cm3.",
+   "candidates": []
+  },
+  {
+   "label": 18,
+   "source_structure": "extensor_pollicis_brevis",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 8.2 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 8 cm3 against 2-4 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "extensor_pollicis_brevis_r"
+   ]
+  },
+  {
+   "label": 19,
+   "source_structure": "extensor_pollicis_longus",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 13.5 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 13.5 cm3 against 4-7 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "extensor_pollicis_longus_r"
+   ]
+  },
+  {
+   "label": 20,
+   "source_structure": "extensor_indicis",
+   "side": "right",
+   "status": "review",
+   "atlas_id": null,
+   "relationship": "exact",
+   "note": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 16.2 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 16 cm3 against 3-6 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+   "candidates": [
+    "extensor_indicis_r"
+   ]
+  }
+ ]
+}

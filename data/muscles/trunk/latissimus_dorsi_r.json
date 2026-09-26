@@ -1,0 +1,152 @@
+{
+  "id": "latissimus_dorsi_r",
+  "name_ta": "Latissimus dorsi",
+  "name_common": "Latissimus dorsi",
+  "side": "right",
+  "region": "trunk",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "thoracic_vertebrae",
+    "origin_landmark": "spinous processes T7-L5 (via the thoracolumbar fascia), iliac crest, ribs 9-12, and (inconstantly -- present in roughly two-thirds of individuals, and argued by some studies to be a gliding relationship rather than a true fibrous attachment) the inferior angle of scapula",
+    "insertion_bone": "humerus_r",
+    "insertion_landmark": "intertubercular (bicipital) groove of humerus",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "thoracodorsal_n",
+    "root_levels": "C6-C8"
+  },
+  "actions": [
+    "extends, adducts, internally rotates the humerus"
+  ],
+  "functional_compartments": [
+    {
+      "id": "latissimus_dorsi_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 8,
+        "optimal_fascicle_length_mm": 250,
+        "physiological_cross_section_area_mm2": 500,
+        "max_isometric_force_N": 112.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -100,
+          100,
+          -60
+        ],
+        [
+          10,
+          -140,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Broadest muscle in the body by surface area, with fibers converging from an enormous fan-shaped origin down to a single narrow tendon at the humerus -- fully spanning the posterior trunk and functionally linking the arm to the pelvis via the thoracolumbar fascia (the same continuity documented in data/fascia/trunk_fascia.json's posterior TLF layer).",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            60
+          ],
+          "reference_line_from": "the line from the T5 spinous process to the midpoint of the iliac crest (the muscle's vertebral origin border)",
+          "reference_line_to": "the medial aspect of the surgical neck of the humerus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Middle third of the muscle's width. The source also divides the muscle across its width into equal medial, middle and lateral thirds. That is a second, transverse axis which this atlas's single latissimus dorsi compartment does not represent, so the width band is carried in the note rather than the geometry.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            40,
+            60
+          ],
+          "reference_line_from": "the line from the T5 spinous process to the midpoint of the iliac crest (the muscle's vertebral origin border)",
+          "reference_line_to": "the medial aspect of the surgical neck of the humerus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Medial and lateral thirds of the muscle's width. The source also divides the muscle across its width into equal medial, middle and lateral thirds. That is a second, transverse axis which this atlas's single latissimus dorsi compartment does not represent, so the width band is carried in the note rather than the geometry.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        },
+        {
+          "zone_percent_range": [
+            70,
+            90
+          ],
+          "reference_line_from": "the line from the T5 spinous process to the midpoint of the iliac crest (the muscle's vertebral origin border)",
+          "reference_line_to": "the medial aspect of the surgical neck of the humerus",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "A second, more proximal band running across all three width thirds. Because latissimus dorsi is large, the source's point is that several injection sites are needed and that missing these zones forces higher doses -- which raises the risk of antibody formation and loss of effect. The source also divides the muscle across its width into equal medial, middle and lateral thirds. That is a second, transverse axis which this atlas's single latissimus dorsi compartment does not represent, so the width band is carried in the note rather than the geometry.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "thoracodorsal_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the posterior trunk about 9 cm distal to the inferior angle of the scapula to identify it. For injection, about 7 cm distal to the inferior angle of the scapula, along the interscapulovertebral line at the T7-L5 levels.",
+    "depth_layer": "Superficial to the rib cortex and the intercostal muscles.",
+    "structures_at_risk": [
+      "pleura (pneumothorax)"
+    ],
+    "notes": "A large muscle needing several injection sites. The source's argument for targeting the arborization zones is dose: missing them forces higher doses to gain range of motion, which raises the risk of antibody formation and loss of long-term effect. Usually injected with teres major for the adducted, extended, internally rotated shoulder.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part II -- Proximal Upper Limb Muscles', Toxins 17(6):276 (2025), doi:10.3390/toxins17060276 -- review synthesis of the intramuscular neural arborization literature it cites (Yi, Li, Yang, Moon and others)"
+  },
+  "trigger_points": [
+    {
+      "location_description": "TrP1, in the axillary portion of the posterior fold at mid-scapular level (pincer grip)",
+      "referred_pain_pattern": "A constant dull ache at the inferior angle of the scapula and surrounding mid-thoracic back, unaffected by position or ordinary movement (a classic 'nothing changes it' mid-back pain), extending to the posterior shoulder and down the medial arm/forearm to the ulnar hand and digits 4-5.",
+      "activation_perpetuating_factors": "Blocked terminal overhead reach (wall-slide gap); pain hanging/pulling; grip-and-pull sports flare it.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    },
+    {
+      "location_description": "TrP2, lower, in the lateral fibres over the lower ribs",
+      "referred_pain_pattern": "Anterior shoulder and lateral trunk above the iliac crest.",
+      "activation_perpetuating_factors": "Blocked terminal overhead reach (wall-slide gap); pain hanging/pulling; grip-and-pull sports flare it.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "Extension, adduction and internal rotation of the humerus — the climbing/pull-up/swimming engine; depresses the girdle (crutch walking, wheelchair push-off); through the thoracolumbar fascia it extends/stabilises the lumbar spine and compresses the SI region; accessory respiratory action in forced expiration (cough) and deep inspiration. Tightness limits terminal flexion-abduction and drives compensatory lumbar extension in overhead work.",
+      "adjacent_structures": "Adjacent bursae: Bursa between latissimus and teres major tendons; subtendinous bursa between the tendon complex and the humerus; an inconstant bursa at the inferior scapular angle beneath it (snapping inferior angle). Adjacent structures — mutual influence: Thoracodorsal nerve/vessels on its deep surface (axillary surgery); the inferior scapular angle rides on it (dyskinesis when tight); radial nerve passes anterior to the tendon toward the triangular interval; harvest weakens adduction little but alters scapular rhythm.",
+      "trigger_points": [
+        {
+          "location": "TrP1 in the axillary portion of the posterior fold at mid-scapular level (pincer grip); TrP2 lower, in the lateral fibres over the lower ribs.",
+          "referred_pain": "TrP1: a constant dull ache at the inferior angle of the scapula and surrounding mid-thoracic back, unaffected by position or ordinary movement (a classic “nothing changes it” mid-back pain), extending to the posterior shoulder and down the medial arm/forearm to the ulnar hand and digits 4–5. TrP2: anterior shoulder and lateral trunk above the iliac crest.",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into the mid-back/inferior-angle zone: serratus anterior, serratus posterior superior/inferior, lower trapezius, iliocostalis",
+        "thoracic facet/costovertebral pain",
+        "visceral mimics (biliary → right infrascapular, gastric/pancreatic → mid-back)",
+        "into the posterior fold: teres major and subscapularis."
+      ],
+      "movement_restrictions_aggravators": "Blocked terminal overhead reach (wall-slide gap), pain hanging/pulling; grip-and-pull sports flare it.",
+      "notes": "Persistent one-spot mid-back ache with a mobile spine: pincer the posterior axillary fold before ordering thoracic MRI — and still keep visceral referral in mind on the right.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Williams GR Jr, Shakil M, Klimkiewicz J, Iannotti JP. Anatomy of the scapulothoracic articulation. Clin Orthop Relat Res. 1999;(359):237–246. doi:10.1097/00003086-199902000-00027. PMID 10078149. [retrieved 31/08/2026]",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    }
+  ]
+}

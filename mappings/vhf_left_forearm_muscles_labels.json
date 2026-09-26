@@ -1,0 +1,32 @@
+{
+ "_README": [
+  "Label id -> structure for the Visible Human FEMALE LEFT forearm muscle volume (vhf_left_forearm_muscles_from_cryo.py). A KEY, not data. rule-based: see the script docstring for the rule; compartments are muscles the photographs do not separate (mapped to null)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) via the NCI Imaging Data Commons; the bone tracker is seeded directly in the photographs (a dual-peak detector on the pale/bone distance transform), not from a CT section -- her CT does not cover the left arm. Derived data (scripts/cryo/vhf_left_forearm_muscles_from_cryo.py), rule-based.",
+ "task": "vhf_left_forearm_muscles",
+ "version": "2026-09-18",
+ "badge": "rule-based",
+ "labels": {
+  "1": "pronator_teres",
+  "2": "flexor_carpi_radialis",
+  "3": "palmaris_longus",
+  "4": "flexor_carpi_ulnaris",
+  "5": "flexor_digitorum_superficialis",
+  "6": "flexor_digitorum_profundus",
+  "7": "flexor_pollicis_longus",
+  "8": "pronator_quadratus",
+  "9": "brachioradialis",
+  "10": "extensor_carpi_radialis_longus",
+  "11": "extensor_carpi_radialis_brevis",
+  "12": "extensor_digitorum",
+  "13": "extensor_digiti_minimi",
+  "14": "extensor_carpi_ulnaris",
+  "15": "anconeus",
+  "16": "supinator",
+  "17": "abductor_pollicis_longus",
+  "18": "extensor_pollicis_brevis",
+  "19": "extensor_pollicis_longus",
+  "20": "extensor_indicis"
+ },
+ "merged_compartments": {}
+}
