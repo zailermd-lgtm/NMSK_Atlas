@@ -80,7 +80,7 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
-from scripts.zanatomy.map_names import load_full_atlas  # noqa: E402
+from scripts.zanatomy.map_names import load_full_atlas, strip_suffix  # noqa: E402
 from scripts.zanatomy.zan_source import (  # noqa: E402
     DEFAULT_INVENTORY, DEFAULT_NAMEMAP, DEFAULT_ZAN_DIR, load_extra_links,
     load_source, safe_filename, to_atlas_frame,
@@ -113,7 +113,7 @@ ATTRIBUTION = (
 # build_zan_reference.classify_orphan_category) still needs an entry here.
 CAT_TO_LAYER = {
     "bone": "bone", "cartilage": "cartilage",
-    "ligament": "joint", "bursa": "joint",
+    "ligament": "joint", "bursa": "bursa",
     "muscle": "muscle", "tendon": "insertion", "fascia": "fascia",
     "vessel": "vessel", "organ": "viscera", "lymphatic": "lymph",
 }
@@ -135,7 +135,40 @@ CNS_NAME_HINTS = (
 )
 
 
+BURSA_HINTS = ("bursa", "tendon sheath", "synovial sheath", "vagina tendinis")
+LIGAMENT_HINTS = ("retinacul", "ligament", "interosseous membrane", "joint capsule", "articular capsule")
+BRAIN_SURFACE_HINTS = ("gyrus", "gyri", "sulcus", "lobule", "occipital pole", "temporal pole",
+                       "frontal pole", "temporal plane", "nucleus of", "horn of spinal")
+FASCIA_RE = __import__("re").compile(
+    r"\bfascia\b|\bseptum\b|aponeuros|iliotibial tract|linea alba|\bgalea\b|epicranial aponeurosis")
+VEIN_HINTS = (" vein", "vein ", "veins", "vena ", "venous", "sinus")
+
+
+def is_vein(name: str, mesh_id: str) -> bool:
+    """Q161: veins draw blue. Name hints, plus this atlas's own `_v` id convention
+    (e.g. brachiocephalic_v_r). Dural venous sinuses count as veins."""
+    low = " " + name.lower() + " "
+    return any(h in low for h in VEIN_HINTS) or mesh_id.endswith("_v") or "_v_" in mesh_id
+
+
 def classify_layer(cat: str, zanatomy_name: str) -> str:
+    low = zanatomy_name.lower()
+    # Q161: owner asked for bursae in their own colour, and ligaments/retinacula together in
+    # an off-white layer distinct from cartilage -- Z-Anatomy files many bursae and all
+    # retinacula under its Muscular system, so name hints decide before the category does.
+    if cat not in ("vessel", "nerve", "bone") and any(h in low for h in BURSA_HINTS):
+        return "bursa"
+    if cat not in ("vessel", "nerve", "bone", "cartilage") and any(h in low for h in LIGAMENT_HINTS):
+        return "joint"
+    # fascial sheets filed as "muscle" (atlas category or Z-Anatomy's Muscular system) drew as
+    # opaque muscle-coloured shells over the real muscles; whole-word so "Tensor fasciae latae"
+    # stays a muscle
+    if cat in ("muscle", "fascia", "tendon", "ligament") and FASCIA_RE.search(low):
+        return "fascia"
+    if cat == "nerve" and "lacrimal" in low:
+        return "viscera"
+    if cat == "nerve" and any(h in low for h in BRAIN_SURFACE_HINTS):
+        return "cns"
     if cat == "nerve":
         low = zanatomy_name.lower()
         if any(h in low for h in CNS_NAME_HINTS):
@@ -237,6 +270,62 @@ def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float)
     return dv, df
 
 
+DECAL_SUFFIXES = ("ol", "or", "el", "er")  # Z-Anatomy origin/insertion highlight decals
+
+
+def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dict) -> dict:
+    """Q161: every Z-Anatomy object the name map matched (exact/confident) but that
+    load_source() then rejected -- wrong-system or wrong-side candidate, tiny sub-part
+    of a multi-part id, a cross-category name filter hit -- was shipped by NOBODY:
+    build_orphan_pool() only takes ambiguous/unmatched/grouped entries. That silently
+    dropped e.g. the medial/lateral patellar retinacula, lumbricals of the hand, dorsal
+    fascia of the hand. Ship each such object as its own mesh (largest copy per
+    system/side/base name, decals skipped, never a second copy of anything shipped)."""
+    objs_by_name = {o["name"]: o for o in inventory["objects"]}
+    consumed = set()
+    for rec in matched.values():
+        consumed.update(rec.get("zanatomy_parts") or [])
+    consumed.update(meta["mesh_name"] for meta in orphans.values())
+    consumed_keys = set()
+    for name in consumed:
+        o = objs_by_name.get(name)
+        if o:
+            consumed_keys.add((o.get("side"), strip_suffix(name)))
+    muscular_bases = {strip_suffix(o["name"]) for o in inventory["objects"] if o["system"] == "Muscular"}
+    groups: dict = {}
+    for e in namemap["entries"]:
+        if e["status"] not in ("exact", "confident") or e["zanatomy_name"] in consumed:
+            continue
+        o = objs_by_name.get(e["zanatomy_name"])
+        if o is None or o["face_count"] == 0 or o.get("suffix") in DECAL_SUFFIXES:
+            continue
+        base = strip_suffix(e["zanatomy_name"])
+        if (o.get("side"), base) in consumed_keys:
+            continue  # a UI-highlight / other-system copy of something already shipped
+        if o["system"] == "Skeletal" and (base in muscular_bases or not any(
+                w in base.lower() for w in ("cartilage", "sinus", "bone"))):
+            continue  # a muscle's attachment footprint drawn on the bone, not the muscle
+        key = (o["system"], o.get("side"), base)
+        groups.setdefault(key, []).append((o, e.get("atlas_id")))
+    used = set(orphans)
+    out = {}
+    for (system, side, base), cands in sorted(groups.items(), key=lambda kv: str(kv[0])):
+        o, aid = max(cands, key=lambda c: c[0]["vertex_count"])
+        slug = "".join(ch if ch.isalnum() else "_" for ch in base.lower()).strip("_")
+        while "__" in slug:
+            slug = slug.replace("__", "_")
+        stable = "zan_" + slug + {"right": "_r", "left": "_l"}.get(side, "")
+        n = 2
+        while stable in used:
+            stable = f"zan_{slug}{ {'right': '_r', 'left': '_l'}.get(side, '') }_{n}".replace(" ", "")
+            n += 1
+        used.add(stable)
+        cat = "cartilage" if "cartilage" in base.lower() else classify_orphan_category(base, system)
+        out[stable] = {"name": base, "system": system, "side": side, "atlas_id": aid,
+                       "category": cat, "mesh_name": o["name"]}
+    return out
+
+
 def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           corrections_dir: Path, budget_scale: float, category_scale: dict | None = None):
     inventory = json.loads(Path(inventory_path).read_text())
@@ -254,6 +343,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # metadata-only now (a `part_of` reference on the object's OWN orphan mesh,
     # attached just below), never a second, merged copy of anything.
     orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap)
+    rescued = rescue_unshipped(inventory, namemap, matched, orphans)
     origin, origin_report = compute_origin(zan_dir)
     corrections = load_corrections(corrections_dir)
     atlas_records = load_atlas_records()
@@ -297,6 +387,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         counts_by_category[cat] += 1
 
         entry = {"name": display_name, "id": mesh_id, "side": side_code(side_raw), "sys": layer, **fields}
+        if layer == "vessel" and is_vein(zanatomy_name or display_name, mesh_id):
+            entry["vt"] = "v"
         rec_out = {}
         if rec_override is not None:
             folder, real_rec = rec_override
@@ -353,6 +445,17 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
              zanatomy_name=meta["name"], parent_link=parent_link)
 
+    # Q161: matched-but-rejected objects (see rescue_unshipped) -- own geometry, own id,
+    # linked to the atlas entity the name map matched them to (as "part of").
+    for stable, meta in sorted(rescued.items()):
+        if stable in seen_ids:
+            continue
+        v_raw, f = _load_raw_mesh(zan_dir, meta["system"], meta["mesh_name"])
+        parent_pair = atlas_records.get(meta["atlas_id"]) if meta["atlas_id"] else None
+        parent_link = (meta["atlas_id"], parent_pair[0], parent_pair[1]) if parent_pair else None
+        emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
+             zanatomy_name=meta["name"], parent_link=parent_link)
+
     # a Q158 link whose own zanatomy_name never turned up as any orphan's
     # `mesh_name` (build_orphan_pool's own highlight-duplicate dedup picked a
     # DIFFERENT representative for that name's (system, side, base) group, or
@@ -385,6 +488,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "matched_entities": len(matched),
             "matched_with_atlas_record": matched_with_record,
             "orphan_structures": len(orphans),
+            "rescued_matched_but_unshipped": sorted(rescued),
             "orphan_dropped_as_ui_highlight_duplicate": dropped_dupe,
             "orphan_dropped_as_zero_face_annotation_curve": zero_face,
             # Q158b: reported SEPARATELY from matched_entities, per lead review --

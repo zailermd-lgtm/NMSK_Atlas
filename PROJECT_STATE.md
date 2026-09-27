@@ -22,7 +22,30 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 355 tests pass. Recent: Q160 (2026-09-27, owner:
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 358 tests pass (Z-Anatomy-pipeline subset
+re-run: 65/65). Recent: Q161 (2026-09-27, owner: "where is TFL? teres minor? extensor hood? veins
+bluish; ligaments/retinacula whitish, distinct from cartilage; review the knee; colour for bursae;
+liver through abdominal wall") -- main Z-Anatomy viewer v5, 2,773 meshes (was 2,570).
+(1) MISSING STRUCTURES, root cause: `zan_source._is_cross_category_junk` used bare substrings, so
+"Tensor fasciae latae" failed the muscle filter on "fascia" -> now whole-word. Worse, ANY name-map
+exact/confident object that `load_source()` then rejected (wrong system/side, sub-part under the 25%
+size rule, junk filter) was shipped by nobody (`build_orphan_pool` only takes ambiguous/unmatched/
+grouped). New `rescue_unshipped()` ships each as its own mesh (largest copy per system/side/name,
+Z-Anatomy attachment decals and skeletal footprint copies of muscles skipped, never a second copy
+of anything shipped): 201 structures incl. medial/lateral patellar retinacula, lumbricals of hand,
+interosseous membranes, ligament of head of femur, ~40 bursae and ~30 tendon sheaths, and the whole
+LEFT set of limb fascia/septa/retinacula (wrong-side name matches), which is why fascia had shown on
+one side only. Teres minor was present. Extensor hood (dorsal digital expansion): NOT in the
+Z-Anatomy release at all (no object by any name) -- needs another source. Patellar ligament: no
+separate body in Z-Anatomy; its geometry is the distal end of the "Rectus femoris muscle" mesh (bbox
+to z 370 = tibial tuberosity), only its attachment decals exist separately. Knee otherwise: ACL, PCL,
+MCL, LCL, menisci, meniscopatellar ligaments, retinacula, infrapatellar fat pad, 7 bursae.
+(2) COLOURS/LAYERS: veins blue (`vt:"v"` per mesh from name/id hints, 224 veins, drawn in colour
+runs); ligaments + retinacula + interosseous membranes one ivory layer (#ece6d3) vs bluish
+cartilage; new "Bursae & tendon sheaths" layer (lavender, 60% default); fascia/septa/aponeuroses
+routed by whole-word name to the fascia layer (15% default) -- they had drawn as opaque
+muscle-coloured shells. (3) Liver through abdominal wall: not reproducible after Q160 (it was the
+inside-out wall); front/side renders show an intact wall. Earlier: Q160 (2026-09-27, owner:
 "picking gives a different name; vessels cross muscles in odd places; parallel limb muscles show
 gaps") -- main Z-Anatomy viewer v4. Three causes, all measured (`data/derived/Q160_render_pick_audit.json`):
 (1) picking chose the structure whose bounding-sphere CENTRE was nearest, not what is drawn under

@@ -115,8 +115,11 @@ _CROSS_CATEGORY_JUNK = {
 
 
 def _is_cross_category_junk(name: str, cat: str) -> bool:
+    # Q161: whole-word match -- a bare substring test threw away "Tensor fasciae latae"
+    # (a muscle) as a "fascia" sheet, so the TFL never reached any viewer.
     low = name.lower()
-    return any(bad in low for bad in _CROSS_CATEGORY_JUNK.get(cat, ()))
+    return any(re.search(r"(?<![a-z])" + re.escape(bad.strip()) + r"(?![a-z])", low)
+               for bad in _CROSS_CATEGORY_JUNK.get(cat, ()))
 
 
 # a THIRD phase-1 artifact found while building this loader, worse than the two in the

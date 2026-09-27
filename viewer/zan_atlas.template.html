@@ -11,7 +11,7 @@
     --ink:#16202a; --ink-dim:#5c6a77;
     --line:rgba(22,32,42,.13); --line-strong:rgba(22,32,42,.30);
     --accent:#1d7c99;
-    --t-bone:#cbbb99; --t-cartilage:#8fb8c4; --t-joint:#4f8f9c;
+    --t-bone:#cbbb99; --t-cartilage:#8fb8c4; --t-joint:#d9d1bb; --t-bursa:#a98cd0; --t-vein:#3a5fae;
     --t-insertion:#a8703c; --t-muscle:#b2483d; --t-fascia:#c9b98e;
     --t-nerve:#d9c33f; --t-cns:#8f7fc0; --t-vessel:#a83550;
     --t-lymph:#7b9c5a; --t-viscera:#9d6f8f;
@@ -29,7 +29,7 @@
     --ink:#e3eaee; --ink-dim:#8b9aa6;
     --line:rgba(227,234,238,.11); --line-strong:rgba(227,234,238,.26);
     --accent:#5cbad8;
-    --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#63aab8;
+    --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#ece6d3; --t-bursa:#bfa4e3; --t-vein:#5b82d6;
     --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
     --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
     --t-lymph:#95bb6e; --t-viscera:#b988a8;
@@ -40,7 +40,7 @@
     --ink:#e3eaee; --ink-dim:#8b9aa6;
     --line:rgba(227,234,238,.11); --line-strong:rgba(227,234,238,.26);
     --accent:#5cbad8;
-    --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#63aab8;
+    --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#ece6d3; --t-bursa:#bfa4e3; --t-vein:#5b82d6;
     --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
     --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
     --t-lymph:#95bb6e; --t-viscera:#b988a8;
@@ -443,7 +443,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function sideOf(n) { var m = n.match(SIDE_RE); return m ? m[2].toLowerCase() : "m"; }
     function markerOf(n) { var m = n.match(SIDE_RE); return (!m || !m[1]) ? null : (m[1].toLowerCase() === "o" ? "origin" : "insertion"); }
 
-    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","nerve","cns","vessel","lymph","viscera"];
+    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","bursa","nerve","cns","vessel","lymph","viscera"];
     var perLayer = {}; LK.forEach(function (k) { perLayer[k] = []; });
     var OBJ = [], bbMin = [1e9,1e9,1e9], bbMax = [-1e9,-1e9,-1e9];
     var recs = MAN.meshes;
@@ -486,7 +486,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var layer = rec.sys || "bone";
       var ob = { name: rec.name, id: rec.id, base: rec.name, side: rec.side || sideOf(rec.name), marker: null,
                  layer: layer, center: ctr, bmin: lo, bmax: hi, radius: rad, tris: ic,
-                 pos: pos, nrm: nrm, idx: idx, vc: vc, atlas: rec.rec || null };
+                 pos: pos, nrm: nrm, idx: idx, vc: vc, atlas: rec.rec || null, vt: rec.vt || null };
       OBJ.push(ob);
       (perLayer[layer] || (perLayer[layer] = [])).push(ob);
       if ((mi & 127) === 0) { boot("Building meshes… " + mi + "/" + recs.length, 0.12 + 0.55*mi/recs.length); await nf(); }
@@ -494,6 +494,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
     boot("Uploading to GPU…", 0.72); await nf();
 
+    // Q161: keep veins contiguous so each batch draws them in one run with the vein colour
+    if (perLayer.vessel) perLayer.vessel.sort(function (a, b) { return (a.vt === "v") - (b.vt === "v"); });
     var CAP = 65000, BATCHES = [];
     function bucket() { return { pc: [], nc: [], ic2: [], objs: [], vU: 0, iU: 0 }; }
     function flush(layer, cur) {
@@ -584,6 +586,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // Q160: fascia sheets wrap the muscles; opaque by default they hide the muscle layer
     // (they were only invisible before because their inside-out winding was back-face culled)
     alphaFor.fascia = 0.15;
+    alphaFor.bursa = 0.6;   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
     var clip = { on:false, axis:0, t:0.5, flip:false };
@@ -597,12 +600,16 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         if (h.length === 3) h = h[0]+h[0]+h[1]+h[1]+h[2]+h[2];
         COL[k] = [parseInt(h.slice(0,2),16)/255, parseInt(h.slice(2,4),16)/255, parseInt(h.slice(4,6),16)/255];
       });
+      var vh = (cs.getPropertyValue("--t-vein")||"#3f63b5").trim().replace("#","");
+      COL.vein = [parseInt(vh.slice(0,2),16)/255, parseInt(vh.slice(2,4),16)/255, parseInt(vh.slice(4,6),16)/255];
       var g = cs.getPropertyValue("--ground").trim().replace("#","");
       if (g.length === 3) g = g[0]+g[0]+g[1]+g[1]+g[2]+g[2];
       COL.bg = [parseInt(g.slice(0,2),16)/255, parseInt(g.slice(2,4),16)/255, parseInt(g.slice(4,6),16)/255];
     }
     readColors();
 
+    // Q161: veins drawn blue within the cardiovascular layer
+    function colOf(o) { return (o.vt === "v" && COL.vein) ? COL.vein : (COL[o.layer] || [0.6,0.6,0.6]); }
     function sideOK(o) {
       return sideFilter === "both" || o.side === "m" ||
              (sideFilter === "r" ? o.side !== "l" : o.side !== "r");
@@ -689,16 +696,19 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       }
       // draw contiguous runs of objects passing `test`
       function runs(B, test) {
-        var s=-1,c=0;
+        var s=-1,c=0,cc=null;
+        function fl(){ if(s>=0){ gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]); gl.drawElements(gl.TRIANGLES,c,gl.UNSIGNED_SHORT,s*2); } s=-1;c=0;cc=null; }
         for (var i=0;i<B.objs.length;i++) {
-          var e=B.objs[i], ok=test(e);
-          if (ok) { if (s<0){s=e.iStart;c=0;} c+=e.iCount; }
-          if ((!ok||i===B.objs.length-1) && s>=0) { gl.drawElements(gl.TRIANGLES,c,gl.UNSIGNED_SHORT,s*2); s=-1;c=0; }
+          var e=B.objs[i];
+          if (!test(e)) { fl(); continue; }
+          var col=colOf(e);
+          if (s>=0 && col!==cc) fl();
+          if (s<0) { s=e.iStart; cc=col; }
+          c+=e.iCount;
         }
+        fl();
       }
       function paint(B, alpha, test, hl) {
-        var c=COL[B.layer]||[0.6,0.6,0.6];
-        gl.uniform3f(U.uColor,c[0],c[1],c[2]);
         gl.uniform1f(U.uAlpha,alpha);
         gl.uniform1f(U.uHL,hl||0);
         bind(B); runs(B,test);
@@ -726,7 +736,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
       var hi2 = selected || hovered;
       if (hi2 && hi2.batch && vis(hi2)) {
-        var cc=COL[hi2.layer]||[0.6,0.6,0.6];
+        var cc=colOf(hi2);
         gl.uniform3f(U.uColor,cc[0],cc[1],cc[2]);
         gl.uniform1f(U.uAlpha,1); gl.uniform1f(U.uHL,selected===hi2?1:0.6);
         bind(hi2.batch);
@@ -845,8 +855,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // ================= UI =================
     var LAYERS=[
       {k:"bone",label:"Bones"},{k:"cartilage",label:"Cartilage & discs"},
-      {k:"joint",label:"Joints & ligaments"},{k:"insertion",label:"Tendons"},
-      {k:"muscle",label:"Muscles"},{k:"fascia",label:"Fascia & bursae"},
+      {k:"joint",label:"Ligaments, retinacula & joints"},{k:"insertion",label:"Tendons"},
+      {k:"muscle",label:"Muscles"},{k:"fascia",label:"Fascia, septa & aponeuroses"},
+      {k:"bursa",label:"Bursae & tendon sheaths"},
       {k:"nerve",label:"Nerve structures"},{k:"cns",label:"Brain, cord & senses"},
       {k:"vessel",label:"Cardiovascular"},{k:"lymph",label:"Lymphoid"},{k:"viscera",label:"Viscera"}
     ];
@@ -890,8 +901,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     var P={
       "btn-solid":function(){ var m={}; LK.forEach(function(k){m[k]=1;}); preset(m); },
-      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25}); },
-      "btn-bones":function(){ preset({bone:1,cartilage:1,joint:1}); },
+      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,bursa:.5,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25}); },
+      "btn-bones":function(){ preset({bone:1,cartilage:1,joint:1,bursa:.8}); },
       "btn-neuro":function(){ preset({nerve:1,cns:1,bone:.10}); },
       "btn-vasc":function(){ preset({vessel:1,lymph:.7,bone:.10}); },
       "btn-organs":function(){ preset({viscera:1,vessel:.6,bone:.08}); },

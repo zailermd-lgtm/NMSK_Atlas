@@ -202,3 +202,31 @@ def test_viewer_template_picks_by_pixel_and_draws_two_sided():
     assert "readPixels" in t and "renderIds" in t      # Q160 ID-buffer picking
     assert "o.radius/s.w" not in t                      # old bounding-sphere picking gone
     assert "gl_FrontFacing" in t and "gl.enable(gl.CULL_FACE)" not in t
+
+
+def test_layer_rules_for_fascia_bursa_ligament_and_veins():
+    # Q161: owner-requested colouring; "Tensor fasciae latae" must stay a muscle
+    from scripts.zanatomy.build_zan_atlas_viewer import classify_layer, is_vein
+    assert classify_layer("muscle", "Tensor fasciae latae.l") == "muscle"
+    assert classify_layer("muscle", "Fascia lata.r") == "fascia"
+    assert classify_layer("muscle", "Suprapatellar bursa.l") == "bursa"
+    assert classify_layer("muscle", "Tendon sheath of tibialis anterior.l") == "bursa"
+    assert classify_layer("fascia", "Flexor retinaculum of wrist.l") == "joint"
+    assert is_vein("Great saphenous vein", "zan_great_saphenous_vein_l")
+    assert is_vein("Brachiocephalic vein", "brachiocephalic_v_r")
+    assert not is_vein("Femoral artery", "zan_femoral_artery_l")
+
+
+def test_junk_filter_is_whole_word():
+    from scripts.zanatomy.zan_source import _is_cross_category_junk
+    assert not _is_cross_category_junk("Tensor fasciae latae.l", "muscle")
+    assert _is_cross_category_junk("Deep fascia of leg.l", "muscle")
+
+
+def test_matched_but_rejected_objects_are_still_shipped(manifest):
+    # Q161: TFL (junk-filter victim) and the patellar retinacula / lumbricals (rejected
+    # sub-parts of multi-part ids) used to vanish from every viewer
+    ids = {m["id"] for m in manifest["meshes"]}
+    for need in ("tensor_fasciae_latae_l", "zan_medial_patellar_retinaculum_l",
+                 "zan_lumbrical_muscles_of_hand_r"):
+        assert need in ids, need
