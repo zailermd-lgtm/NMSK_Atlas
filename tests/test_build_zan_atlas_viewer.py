@@ -179,3 +179,26 @@ def test_external_bin_split_is_even_and_lossless():
     files = [{"path": p, "bytes": len(c)} for p, c in parts]
     html = render_html({"meshes": []}, blob, files)
     assert '__ANATOMY_BIN__=""' in html and parts[0][0] in html
+
+
+def test_inside_out_mesh_is_turned_outward():
+    # Q160: an inside-out closed mesh (negative signed volume) must come out outward-facing.
+    import numpy as np
+    import trimesh
+    from scripts.zanatomy.build_zan_atlas_viewer import orient_outward
+    box = trimesh.creation.box(extents=(10.0, 20.0, 30.0))
+    v, f = np.asarray(box.vertices), np.asarray(box.faces)[:, ::-1]  # flip every triangle
+    def signed_volume(v, f):
+        a, b, c = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
+        return np.einsum("ij,ij->i", a, np.cross(b, c)).sum() / 6
+    assert signed_volume(v, f) < 0
+    ov, of = orient_outward(v, f)
+    assert abs(signed_volume(ov, of) - 6000.0) < 1e-6
+
+
+def test_viewer_template_picks_by_pixel_and_draws_two_sided():
+    from scripts.zanatomy.build_zan_atlas_viewer import TEMPLATE_PATH
+    t = TEMPLATE_PATH.read_text(encoding="utf-8")
+    assert "readPixels" in t and "renderIds" in t      # Q160 ID-buffer picking
+    assert "o.radius/s.w" not in t                      # old bounding-sphere picking gone
+    assert "gl_FrontFacing" in t and "gl.enable(gl.CULL_FACE)" not in t

@@ -22,7 +22,23 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 353 tests pass. Recent: Q159 (2026-09-26,
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 355 tests pass. Recent: Q160 (2026-09-27, owner:
+"picking gives a different name; vessels cross muscles in odd places; parallel limb muscles show
+gaps") -- main Z-Anatomy viewer v4. Three causes, all measured (`data/derived/Q160_render_pick_audit.json`):
+(1) picking chose the structure whose bounding-sphere CENTRE was nearest, not what is drawn under
+the pointer -> replaced by an offscreen ID-colour render (same camera/cut plane/isolation box; layers
+under 35% opacity are clicked through, with a fallback pass). (2) 1,046/1,930 source meshes were
+inside-out (557/826 right-side, mirrored copies in the Z-Anatomy file); the viewer derives normals
+from winding and back-face culled, so inside-out muscles showed their far inner wall -> muscles
+looked thin with gaps and deeper vessels showed "through" them. Fix: `orient_outward()` (trimesh
+fix_normals, per body) in the exporter + two-sided lighting (gl_FrontFacing, no culling) in the
+viewer. (3) Side effect: the fascia sheets (also culled before) now render, so the fascia layer
+defaults to 15% opacity. Residual, NOT changed (source geometry): median gap between neighbouring
+limb muscles is 2.8 mm in the Z-Anatomy source itself (2.9 in the viewer); ~26% of vessels/nerves
+have >20% of vertices within muscles by a nearest-normal test, symmetric L/R, mostly anatomically
+intramuscular courses (thoracodorsal a., descending LCFA, posterior interosseous a.) plus some true
+source overlaps (e.g. external iliac a./psoas) -- a gap-closing or vessel-rerouting correction
+would reshape source meshes and needs owner approval. Earlier: Q159 (2026-09-26,
 owner: "improve resolution +- continuity, especially where resolution is too low") -- main
 Z-Anatomy viewer (`HdYCRuvGP8ESbggoRWCNBF`). Audit of the shipped Q157/Q158b page (every
 mesh vs its own welded Z-Anatomy source, face connectivity): vertex-clustering decimation at

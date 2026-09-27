@@ -540,7 +540,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       "void main(){" +
       " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
       " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
-      " vec3 n=normalize(vN);" +
+      " vec3 n=normalize(vN); if(!gl_FrontFacing) n=-n;" +
       " float d=max(dot(n,normalize(vec3(0.45,0.72,0.55))),0.0);" +
       " float f=max(dot(n,normalize(vec3(-0.55,0.05,-0.5))),0.0)*0.32;" +
       " float rim=pow(1.0-abs(n.z),2.5)*0.26;" +
@@ -581,6 +581,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
     var on = {}; LK.forEach(function (k) { on[k] = true; });
     var alphaFor = {}; LK.forEach(function (k) { alphaFor[k] = 1; });
+    // Q160: fascia sheets wrap the muscles; opaque by default they hide the muscle layer
+    // (they were only invisible before because their inside-out winding was back-face culled)
+    alphaFor.fascia = 0.15;
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
     var clip = { on:false, axis:0, t:0.5, flip:false };
@@ -647,10 +650,13 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     window.addEventListener("orientationchange", function(){ setTimeout(resize,250); });
 
     var lastMVP=null, lastEye=null, lastRight=null, lastUp=null;
+    var drawCount = 0;
     function draw() {
+      drawCount++;
       gl.clearColor(COL.bg[0],COL.bg[1],COL.bg[2],1);
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
-      gl.enable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE); gl.cullFace(gl.BACK);
+      // Q160: two-sided (no culling) -- open Z-Anatomy tubes and sheets have no "outside"
+      gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE);
 
       var ce=Math.cos(cam.el), se=Math.sin(cam.el);
       var eye=[cam.tgt[0]+cam.dist*ce*Math.sin(cam.az), cam.tgt[1]+cam.dist*se, cam.tgt[2]+cam.dist*ce*Math.cos(cam.az)];
@@ -737,16 +743,103 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       if(w<=0) return null;
       return {x:(x/w*0.5+0.5)*W, y:(1-(y/w*0.5+0.5))*H, w:w};
     }
-    function pick(mx,my){
-      var best=null,bw=Infinity;
-      for(var i=0;i<OBJ.length;i++){
-        // vis() already applies the same clip-plane and isolation-box AABB tests
-        var o=OBJ[i]; if(!vis(o)) continue;
-        var s=proj(o.center); if(!s) continue;
-        var r=(o.radius/s.w)*H*0.5;
-        if(Math.hypot(s.x-mx,s.y-my)<Math.max(r*0.8,8*dpr) && s.w<bw){bw=s.w;best=o;}
-      }
-      return best;
+    // Q160: pixel-exact picking. Each visible structure is drawn into an offscreen buffer
+    // in its own ID colour (same camera, clip plane and isolation box as the screen), and
+    // the pixel under the pointer names the structure actually shown there. (The earlier
+    // bounding-sphere test named whichever structure's CENTRE was nearest, so long vessels
+    // and large muscles were reported where a different structure was visible.)
+    var PFS = "precision mediump float;varying vec3 vN;varying vec3 vP;uniform vec3 uId;" +
+      "uniform vec4 uClip;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
+      "void main(){" +
+      " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
+      " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
+      " gl_FragColor=vec4(uId,1.0);}";
+    var pprog = gl.createProgram();
+    gl.attachShader(pprog, sh(gl.VERTEX_SHADER, VS));
+    gl.attachShader(pprog, sh(gl.FRAGMENT_SHADER, PFS));
+    gl.bindAttribLocation(pprog, 0, "aPos"); gl.bindAttribLocation(pprog, 1, "aNrm");
+    gl.linkProgram(pprog);
+    var PU = {};
+    ["uMVP","uN","uId","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
+      PU[n] = gl.getUniformLocation(pprog, n);
+    });
+    OBJ.forEach(function (o, i) { o.pid = i + 1; });
+    var pfb = null, ptex = null, pdep = null, pW = 0, pH = 0, pickKey = null;
+    function pickTarget() {
+      if (pfb && pW === W && pH === H) return;
+      if (pfb) { gl.deleteFramebuffer(pfb); gl.deleteTexture(ptex); gl.deleteRenderbuffer(pdep); }
+      pW = W; pH = H;
+      ptex = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, ptex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, W, H, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      pdep = gl.createRenderbuffer(); gl.bindRenderbuffer(gl.RENDERBUFFER, pdep);
+      gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, W, H);
+      pfb = gl.createFramebuffer(); gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, ptex, 0);
+      gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, pdep);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      pickKey = null;
+    }
+    // Structures a click should land on: visible, not faded, and in a layer drawn at
+    // least 35% opaque (an x-ray-thin muscle layer lets the click through to what is behind).
+    function pickable(o, all) {
+      return vis(o) && (all || (!faded.has(o) && alphaFor[o.layer] >= 0.35));
+    }
+    function renderIds(all) {
+      pickTarget();
+      gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
+      gl.viewport(0, 0, W, H);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+      gl.enable(gl.DEPTH_TEST); gl.disable(gl.BLEND); gl.depthMask(true);
+      gl.disable(gl.CULL_FACE);
+      gl.useProgram(pprog);
+      gl.uniformMatrix4fv(PU.uMVP, false, lastMVP);
+      gl.uniformMatrix3fv(PU.uN, false, new Float32Array([1,0,0,0,1,0,0,0,1]));
+      if (clip.on) {
+        var nrm = [0,0,0]; nrm[clip.axis] = clip.flip ? -1 : 1;
+        gl.uniform4f(PU.uClip, nrm[0], nrm[1], nrm[2], -(nrm[clip.axis] * clipPlanePos()));
+        gl.uniform1f(PU.uClipOn, 1);
+      } else gl.uniform1f(PU.uClipOn, 0);
+      if (box.on) {
+        gl.uniform3f(PU.uBoxMin, box.min[0], box.min[1], box.min[2]);
+        gl.uniform3f(PU.uBoxMax, box.max[0], box.max[1], box.max[2]);
+        gl.uniform1f(PU.uBoxOn, 1);
+      } else gl.uniform1f(PU.uBoxOn, 0);
+      gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
+      BATCHES.forEach(function (B) {
+        gl.bindBuffer(gl.ARRAY_BUFFER, B.pb); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, B.nb); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.ib);
+        B.objs.forEach(function (o) {
+          if (!pickable(o, all)) return;
+          gl.uniform3f(PU.uId, (o.pid & 255) / 255, ((o.pid >> 8) & 255) / 255, ((o.pid >> 16) & 255) / 255);
+          gl.drawElements(gl.TRIANGLES, o.iCount, gl.UNSIGNED_SHORT, o.iStart * 2);
+        });
+      });
+      gl.useProgram(prog);
+    }
+    var pxBuf = new Uint8Array(4);
+    function readId(mx, my) {
+      var x = Math.max(0, Math.min(W - 1, Math.round(mx))), y = Math.max(0, Math.min(H - 1, H - 1 - Math.round(my)));
+      gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pxBuf);
+      var id = pxBuf[0] | (pxBuf[1] << 8) | (pxBuf[2] << 16);
+      return id > 0 && id <= OBJ.length ? OBJ[id - 1] : null;
+    }
+    function pick(mx, my) {
+      if (!lastMVP) return null;
+      var key = drawCount;  // the ID image is reused until the next screen redraw
+      if (pickKey !== key) { renderIds(false); pickKey = key; }
+      else gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
+      var hit = readId(mx, my);
+      var thin = faded.size > 0 || LK.some(function (k) { return on[k] && alphaFor[k] > 0.01 && alphaFor[k] < 0.35; });
+      if (!hit && thin) { renderIds(true); pickKey = null; hit = readId(mx, my); }
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.viewport(0, 0, W, H);
+      return hit;
     }
 
     // ================= UI =================
@@ -767,7 +860,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         '<button class="layer" aria-pressed="true"><span class="chip" style="background:var(--t-'+L.k+')"></span>'+
         '<span class="nm">'+L.label+'</span><span class="ct">'+counts[L.k]+'</span></button>'+
         '<button class="solo" title="Show only this layer">solo</button></div>'+
-        '<input type="range" min="0" max="100" value="100" aria-label="'+L.label+' opacity">';
+        '<input type="range" min="0" max="100" value="'+Math.round(alphaFor[L.k]*100)+'" aria-label="'+L.label+' opacity">';
       var btn=row.querySelector(".layer"), sl=row.querySelector("input"), so=row.querySelector(".solo");
       sliders[L.k]=sl; layerBtns[L.k]=btn; soloBtns[L.k]=so;
       btn.onclick=function(){ on[L.k]=!on[L.k]; sync(); need=true; };

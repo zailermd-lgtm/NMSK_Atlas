@@ -190,6 +190,20 @@ def weld(v: np.ndarray, f: np.ndarray):
     return u, inv.reshape(-1)[f]
 
 
+def orient_outward(v: np.ndarray, f: np.ndarray):
+    """Q160: make every piece's triangle winding consistent and, where the piece is closed,
+    outward-facing. Measured on the Q159 build: 1,046 of 1,930 bone/muscle/tendon/nerve/vessel
+    source meshes had a negative signed volume (inside-out), 557/826 of them on the right side
+    (mirrored copies in the Z-Anatomy file). The viewer derives normals from the winding, so an
+    inside-out muscle was drawn as its own far inner wall: muscles looked thin with gaps between
+    them and deeper vessels showed through. After this: 461/471 muscles, 300/304 bones outward;
+    the rest are open sheets/tubes the viewer's two-sided lighting handles."""
+    import trimesh
+    tm = trimesh.Trimesh(v, f, process=False)
+    trimesh.repair.fix_normals(tm, multibody=True)
+    return np.asarray(tm.vertices, np.float64), np.asarray(tm.faces, np.int64)
+
+
 def n_pieces(f: np.ndarray, nv: int) -> int:
     """Connected surface pieces (triangles sharing a vertex)."""
     from scipy.sparse import coo_matrix
@@ -207,7 +221,7 @@ def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float)
     clustering added components to 340/2570 structures (123 nerves, 79 vessels, 6 muscles
     split into pieces), quadric to 32 (0 muscles) -- data/derived/Q159_decimation_continuity.json."""
     budget = max(150, int(BUDGET_OVERRIDES.get(mesh_id, BUDGET.get(cat, DEFAULT_BUDGET)) * scale))
-    wv, wf = weld(v, f)
+    wv, wf = orient_outward(*weld(v, f))
     src_pieces = n_pieces(wf, len(wv))
     for attempt in range(4):  # continuity guard: never ship more pieces than the source has
         q = decimate_quadric(wv, wf, budget * 2 ** attempt)
@@ -215,7 +229,7 @@ def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float)
             break
         if n_pieces(q[1], len(q[0])) <= src_pieces or attempt == 3:
             return q
-    dv, df, _cell = decimate_to(v, f, budget)
+    dv, df, _cell = decimate_to(wv, wf, budget)
     if len(df) == 0:
         dv, df = v, f
     if len(dv) > MAX_VERTS:
