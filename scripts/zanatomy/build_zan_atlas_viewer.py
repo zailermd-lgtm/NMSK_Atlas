@@ -81,6 +81,7 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 
 from scripts.zanatomy.map_names import load_full_atlas, strip_suffix  # noqa: E402
+from scripts.zanatomy import muscle_gap_closure as gap_closure  # noqa: E402
 from scripts.zanatomy.zan_source import (  # noqa: E402
     DEFAULT_INVENTORY, DEFAULT_NAMEMAP, DEFAULT_ZAN_DIR, load_extra_links,
     load_source, safe_filename, to_atlas_frame,
@@ -248,13 +249,13 @@ def n_pieces(f: np.ndarray, nv: int) -> int:
     return len(np.unique(lab[f[:, 0]]))
 
 
-def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float):
+def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float, prepped: bool = False):
     """Q159: quadric edge-collapse first for EVERY mesh (it never splits a surface), vertex
     clustering only as a fallback. Measured on the full Q157 build at the same budgets:
     clustering added components to 340/2570 structures (123 nerves, 79 vessels, 6 muscles
     split into pieces), quadric to 32 (0 muscles) -- data/derived/Q159_decimation_continuity.json."""
     budget = max(150, int(BUDGET_OVERRIDES.get(mesh_id, BUDGET.get(cat, DEFAULT_BUDGET)) * scale))
-    wv, wf = orient_outward(*weld(v, f))
+    wv, wf = (v, f) if prepped else orient_outward(*weld(v, f))
     src_pieces = n_pieces(wf, len(wv))
     for attempt in range(4):  # continuity guard: never ship more pieces than the source has
         q = decimate_quadric(wv, wf, budget * 2 ** attempt)
@@ -326,8 +327,109 @@ def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dic
     return out
 
 
+# Q162: left-side Z-Anatomy objects the contralateral (mirror) audit found broken, replaced by the
+# mirror image (x -> -x about the measured mirror plane x = 0) of their right-side counterpart.
+# Measured on the source (scratch audit of 823 L/R pairs, 2026-09-28): the left iliopsoas fascia lies
+# a median 17.2 mm from the left psoas major (right side: 2.8 mm) -- displaced ~16 mm medially and
+# ~10 mm up; the left iliopectineal arch is a 23-vertex stub (right: 142); the left zonular fibres
+# span 0.3 mm (right: a 15 mm ring of 97 fibres).
+CONTRA_REPAIRS = {
+    "zan_iliopsoas_fascia_l": ("zan_iliopsoas_fascia_r", "left source object displaced ~19 mm off the psoas"),
+    "zan_iliopectineal_arch_l": ("zan_iliopectineal_arch_r", "left source object is a 23-vertex stub"),
+    "zan_zonular_fibres_l": ("zan_zonular_fibres_r", "left source object is a 0.3 mm stub"),
+}
+
+
+LAST_REPORTS: dict = {}
+
+
+def _mirror_pairs(pending: list[dict]):
+    by_id = {p["mesh_id"]: p for p in pending}
+    return [(by_id[k], by_id[k[:-2] + "_r"]) for k in sorted(by_id)
+            if k.endswith("_l") and k[:-2] + "_r" in by_id]
+
+
+def repair_contralateral(pending: list[dict]) -> dict:
+    """Mirror audit of every L/R pair (chamfer of left vs mirrored right, pieces, volume), then the
+    CONTRA_REPAIRS replacements, each measured and badged."""
+    from scipy.spatial import cKDTree
+    flagged, repaired, missing = [], [], []
+    pairs = _mirror_pairs(pending)
+    for L, R in pairs:
+        rv = R["v"] * np.array([-1.0, 1.0, 1.0])
+        dl, _ = cKDTree(rv).query(L["v"])
+        dr, _ = cKDTree(L["v"]).query(rv)
+        ch = float((dl.mean() + dr.mean()) / 2)
+        pl, pr = n_pieces(L["f"], len(L["v"])), n_pieces(R["f"], len(R["v"]))
+        if ch > 2.0 or pl != pr:
+            flagged.append({"id": L["mesh_id"][:-2], "cat": L["cat"], "chamfer_mm": round(ch, 2),
+                            "pieces_l": pl, "pieces_r": pr, "verts_l": len(L["v"]), "verts_r": len(R["v"])})
+    by_id = {p["mesh_id"]: p for p in pending}
+    for tgt, (src, why) in CONTRA_REPAIRS.items():
+        if tgt not in by_id or src not in by_id:
+            missing.append(tgt)
+            continue
+        T, S = by_id[tgt], by_id[src]
+        mv = S["v"] * np.array([-1.0, 1.0, 1.0])
+        d, _ = cKDTree(mv).query(T["v"])
+        T["v"], T["f"] = mv.copy(), S["f"][:, ::-1].copy()
+        T["notes"].append(
+            f"Q162 contralateral repair: {why}; replaced by the mirror image of the right-side Z-Anatomy "
+            f"object (mirror plane x = 0, measured on 111 bone pairs); the replaced geometry differed by "
+            f"a median {float(np.median(d)):.1f} mm.")
+        repaired.append({"id": tgt, "from": src, "reason": why, "median_change_mm": round(float(np.median(d)), 1)})
+    return {"pairs_audited": len(pairs), "flagged": flagged, "repaired": repaired, "repair_targets_missing": missing}
+
+
+def close_muscle_gaps(pending: list[dict]) -> dict:
+    """Q162: gap closure over every muscle-layer mesh (see muscle_gap_closure.py for the rule and
+    its citations); tendons are closed onto, everything else is an obstacle."""
+    movable, tendons, obstacles = {}, {}, {}
+    for p in pending:
+        layer = classify_layer(p["cat"], p["zanatomy_name"] or p["display_name"])
+        key = p["mesh_id"]
+        if p["cat"] == "muscle" and layer == "muscle":
+            movable[key] = (p["v"], p["f"])
+        elif p["cat"] == "tendon" and layer == "insertion":
+            tendons[key] = (p["v"], p["f"])
+        else:
+            obstacles[key] = (p["v"], p["f"])
+
+    def summary(a):
+        g = np.concatenate([x["gaps"] for x in a.values()]) if a else np.zeros(0)
+        nv = sum(x["n"] for x in a.values())
+        return {"vertices": nv, "median_gap_mm": round(float(np.median(g)), 2) if len(g) else None,
+                "frac_vertices_gap_gt_1_25mm": round(float((g > 1.25).sum() / nv), 4),
+                "frac_vertices_inside_other_muscle": round(float(sum(x["inside"] for x in a.values()) / nv), 4)}
+
+    before = summary(gap_closure.audit(movable, tendons, obstacles))
+    out = gap_closure.close_gaps(movable, tendons, obstacles, log=print)
+    after_meshes = {k: (out[k][0], movable[k][1]) for k in movable}
+    after = summary(gap_closure.audit(after_meshes, tendons, obstacles))
+    by_id = {p["mesh_id"]: p for p in pending}
+    changed = 0
+    per_mesh = {}
+    for k, (v_new, st) in out.items():
+        per_mesh[k] = st
+        if st["moved_frac"] < 0.01 and st["shift_max_mm"] < 0.2:
+            continue
+        changed += 1
+        by_id[k]["v"] = v_new
+        by_id[k]["notes"].append(
+            f"Q162 gap closure: surface moved outward along its normals toward neighbouring muscles, "
+            f"down to a {gap_closure.TARGET_GAP_MM:.1f} mm interface ({gap_closure.CITATIONS}); never toward "
+            f"bone, nerves, vessels or fascia. {st['moved_frac']:.0%} of vertices moved, median "
+            f"{st['shift_median_mm']} mm, max {st['shift_max_mm']} mm; volume {st['volume_cm3_before']} -> "
+            f"{st['volume_cm3_after']} cm3. Z-Anatomy source geometry otherwise unchanged.")
+    return {"rule": "muscle_gap_closure.py", "target_gap_mm": gap_closure.TARGET_GAP_MM,
+            "max_shift_mm": gap_closure.MAX_SHIFT_MM, "citations": gap_closure.CITATIONS,
+            "movable_muscles": len(movable), "changed_muscles": changed,
+            "before": before, "after": after, "per_mesh": per_mesh}
+
+
 def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
-          corrections_dir: Path, budget_scale: float, category_scale: dict | None = None):
+          corrections_dir: Path, budget_scale: float, category_scale: dict | None = None,
+          close_gaps: bool = True):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -367,16 +469,26 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     corrected_ids: list[str] = []
     matched_with_record = 0
 
+    pending: list[dict] = []
+
     def emit(mesh_id: str, display_name: str, side_raw, cat: str, v_raw: np.ndarray, f: np.ndarray,
               rec_override=None, zanatomy_name: str | None = None, parent_link=None):
-        nonlocal byte_off, matched_with_record, parent_linked_count
+        """Q162: collect first (corrected, origin-shifted, welded, outward-oriented), so the
+        whole-body steps below (contralateral repair, muscle gap closure) see every structure."""
         if mesh_id in seen_ids:
             raise ValueError(f"duplicate atlas id emitted twice: {mesh_id}")
         seen_ids.add(mesh_id)
-
         warped, note = apply_correction(mesh_id, v_raw, zan_dir, corrections)
-        v = warped - origin
-        dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale))
+        v, fw = orient_outward(*weld(warped - origin, f))
+        pending.append(dict(mesh_id=mesh_id, display_name=display_name, side_raw=side_raw, cat=cat, v=v, f=fw,
+                            rec_override=rec_override, zanatomy_name=zanatomy_name, parent_link=parent_link,
+                            notes=[note] if note else []))
+
+    def finish(mesh_id: str, display_name: str, side_raw, cat: str, v: np.ndarray, f: np.ndarray,
+               rec_override=None, zanatomy_name: str | None = None, parent_link=None, notes=()):
+        nonlocal byte_off, matched_with_record, parent_linked_count
+        note = " ".join(notes)
+        dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale), prepped=True)
 
         fields, packed = pack_mesh(dv, df, byte_off)
         byte_off += len(packed)
@@ -456,6 +568,16 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
              zanatomy_name=meta["name"], parent_link=parent_link)
 
+    # Q162 (owner: "look on the contralateral side and other accurate models and medical articles"):
+    # (1) replace the few left-side source objects the mirror audit found broken by the mirrored
+    # right side; (2) close the artificial gaps between neighbouring muscles to a cited 1 mm interface.
+    contra_report = repair_contralateral(pending)
+    gap_report = close_muscle_gaps(pending) if close_gaps else {"skipped": True}
+    LAST_REPORTS["contralateral"] = contra_report
+    LAST_REPORTS["gap_closure"] = gap_report
+    for item in pending:
+        finish(**item)
+
     # a Q158 link whose own zanatomy_name never turned up as any orphan's
     # `mesh_name` (build_orphan_pool's own highlight-duplicate dedup picked a
     # DIFFERENT representative for that name's (system, side, base) group, or
@@ -501,6 +623,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "parent_links_with_no_orphan_mesh": unmatched_parent_links,
             "parent_links_with_no_atlas_record": unresolved_parent_links,
             "corrected_ids": corrected_ids,
+            "contralateral_repairs": contra_report,
+            "muscle_gap_closure": {k: v for k, v in gap_report.items() if k != "per_mesh"},
         },
         "meshes": meshes,
     }
@@ -555,6 +679,8 @@ def main(argv=None) -> int:
                     help="Q159: write geometry as sibling base64 <out-stem>_geo_NN.txt files (each under the "
                          "artifact host's 16 MB text-file cap) instead of inlining it, so the page is "
                          "no longer the resolution ceiling; publish them with the page.")
+    ap.add_argument("--no-gap-closure", action="store_true", help="skip the Q162 muscle gap closure")
+    ap.add_argument("--q162-report", default=str(REPO / "data" / "derived" / "Q162_gap_closure_contralateral.json"))
     ap.add_argument("-o", "--out", default="build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
     ap.add_argument("--report", default=str(REPO / "data" / "derived" / "Q157_zan_atlas_report.json"))
     args = ap.parse_args(argv)
@@ -567,7 +693,8 @@ def main(argv=None) -> int:
     manifest, blob, origin_report = build(
         zan_dir=Path(args.zan_dir), inventory_path=Path(args.inventory), namemap_path=Path(args.namemap),
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
-        category_scale=category_scale)
+        category_scale=category_scale, close_gaps=not args.no_gap_closure)
+    Path(args.q162_report).write_text(json.dumps(LAST_REPORTS, indent=1, default=float))
 
     out_path = REPO / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)

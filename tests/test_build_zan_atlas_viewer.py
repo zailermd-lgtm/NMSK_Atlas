@@ -28,6 +28,7 @@ Three checks, all read off ONE real build (module-scoped fixture, so the
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -46,7 +47,7 @@ def manifest():
     man, _blob, _origin = build(
         zan_dir=Path(DEFAULT_ZAN_DIR), inventory_path=Path(DEFAULT_INVENTORY),
         namemap_path=Path(DEFAULT_NAMEMAP), corrections_dir=Path(DEFAULT_CORRECTIONS_DIR),
-        budget_scale=0.02,
+        budget_scale=0.02, close_gaps=False,  # Q162 closure: unit-tested below + committed report
     )
     return man
 
@@ -230,3 +231,56 @@ def test_matched_but_rejected_objects_are_still_shipped(manifest):
     for need in ("tensor_fasciae_latae_l", "zan_medial_patellar_retinaculum_l",
                  "zan_lumbrical_muscles_of_hand_r"):
         assert need in ids, need
+
+
+def _box(center, size, sub=4):
+    import trimesh
+    m = trimesh.creation.box(extents=size)
+    for _ in range(sub):
+        m = m.subdivide()
+    return np.asarray(m.vertices) + np.asarray(center, float), np.asarray(m.faces, np.int64)
+
+
+def test_gap_between_parallel_muscles_closes_to_the_cited_interface():
+    # Q162: two slabs 3 mm apart -> both move toward each other, gap ~1 mm, never overlapping
+    from scripts.zanatomy import muscle_gap_closure as G
+    a = _box((-11.5, 0, 0), (20, 40, 40))   # faces at x = -1.5
+    b = _box((11.5, 0, 0), (20, 40, 40))    # faces at x = +1.5
+    out = G.close_gaps({"a": a, "b": b}, {}, {})
+    va, vb = out["a"][0], out["b"][0]
+    mid = lambda v: v[(np.abs(v[:, 1]) < 10) & (np.abs(v[:, 2]) < 10)]  # centre of the contact face
+    gap = mid(vb)[:, 0].min() - mid(va)[:, 0].max()
+    assert 0.8 <= gap <= 1.4, gap
+    assert out["a"][1]["volume_cm3_after"] > out["a"][1]["volume_cm3_before"]
+    audit = G.audit({"a": (va, a[1]), "b": (vb, b[1])})
+    assert audit["a"]["inside"] == 0 and audit["b"]["inside"] == 0
+
+
+def test_gap_closure_never_moves_toward_a_nerve_or_vessel():
+    # a 'nerve' plate in the 3 mm gap is an obstacle: the muscles stop 0.5 mm short of it
+    from scripts.zanatomy import muscle_gap_closure as G
+    a = _box((-11.5, 0, 0), (20, 40, 40))
+    b = _box((11.5, 0, 0), (20, 40, 40))
+    nerve = _box((0, 0, 0), (0.4, 60, 60), sub=3)       # faces at x = +-0.2
+    out = G.close_gaps({"a": a, "b": b}, {}, {"n": nerve})
+    assert out["a"][0][:, 0].max() <= -0.2 - G.OBSTACLE_MARGIN_MM + 1e-6
+    assert out["b"][0][:, 0].min() >= 0.2 + G.OBSTACLE_MARGIN_MM - 1e-6
+
+
+def test_contralateral_repairs_are_badged(manifest):
+    # Q162: the broken left-side objects the mirror audit found are replaced by the mirrored right side
+    by_id = {m["id"]: m for m in manifest["meshes"]}
+    rep = manifest["totals"]["contralateral_repairs"]
+    assert rep["pairs_audited"] > 500 and not rep["repair_targets_missing"]
+    for r in rep["repaired"]:
+        badge = (by_id[r["id"]].get("rec") or {}).get("procedural_badge", "")
+        assert "contralateral repair" in badge, r["id"]
+
+
+def test_committed_gap_closure_report_shows_closure_without_new_overlap():
+    import json
+    rep = json.loads((REPO_ROOT / "data" / "derived" / "Q162_gap_closure_contralateral.json").read_text())
+    g = rep["gap_closure"]
+    assert g["changed_muscles"] > 100
+    assert g["after"]["frac_vertices_gap_gt_1_25mm"] < 0.7 * g["before"]["frac_vertices_gap_gt_1_25mm"]
+    assert g["after"]["frac_vertices_inside_other_muscle"] <= g["before"]["frac_vertices_inside_other_muscle"] + 0.002
