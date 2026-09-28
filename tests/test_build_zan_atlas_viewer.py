@@ -69,9 +69,11 @@ def test_no_structure_carries_a_clinical_key(manifest):
 def test_corrected_structures_carry_a_citation_badge(manifest):
     corrected_ids = manifest["totals"]["corrected_ids"]
     assert corrected_ids, "expected at least the Q144/Q145 posterior interosseous nerve correction"
-    assert set(corrected_ids) == {"posterior_interosseous_n_l", "posterior_interosseous_n_r"}
+    # Q162: plus the contralateral mirror repairs (gap closure is off in this fixture)
+    repaired = {r["id"] for r in manifest["totals"]["contralateral_repairs"]["repaired"]}
+    assert set(corrected_ids) == {"posterior_interosseous_n_l", "posterior_interosseous_n_r"} | repaired
     by_id = {m["id"]: m for m in manifest["meshes"]}
-    for aid in corrected_ids:
+    for aid in ("posterior_interosseous_n_l", "posterior_interosseous_n_r"):
         badge = (by_id[aid].get("rec") or {}).get("procedural_badge")
         assert badge, f"{aid} is listed as corrected but carries no badge"
         assert "PMID" in badge and "arcade of Frohse" in badge

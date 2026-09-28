@@ -22,8 +22,34 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 358 tests pass (Z-Anatomy-pipeline subset
-re-run: 65/65). Recent: Q161 (2026-09-27, owner: "where is TFL? teres minor? extensor hood? veins
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 362 tests (Z-Anatomy viewer + corrections subset
+re-run: 26/26). Recent: Q162 (2026-09-28, owner: "look on the contralateral side and other accurate
+models and medical articles to solve this [the gaps between parallel limb muscles] or any other
+problem similar") -- main Z-Anatomy viewer v6. (1) LITERATURE (PubMed): limb deep fascia ~1 mm
+(Stecco 2008 doi:10.1016/j.jbmt.2008.04.041), fascia lata 944 um + epimysium 48 um (Stecco 2009
+doi:10.1007/s00276-008-0395-5), thigh deep fascia 0.56-1.11 mm histology / 1.64 mm US (Pirri 2021
+doi:10.1111/joa.13360) -> a muscle-to-muscle interface is taken as 1.0 mm. (2) GAP CLOSURE
+(`scripts/zanatomy/muscle_gap_closure.py`, run by the exporter after it collects the whole body):
+per vertex, a ray along the outward normal (Embree via `embreex` when installed, trimesh/rtree
+otherwise); if the first hit is another muscle entered from outside, move 35%/pass of this side's
+half of (gap - 1 mm) (all of it toward a fixed tendon), 6 passes re-measured, max 3 mm total, smoothed
+over the mesh; never toward bone/nerve/vessel/fascia/ligament/bursa/organ (stop 0.5 mm short) or its
+own surface; then an overlap guard halves the shift of both surfaces wherever a vertex newly ended up
+inside a neighbour (6 rounds, last reverts fully). Result, 412 muscle-layer meshes (Z-Anatomy
+non-belly objects such as eyelid tarsi, tendinous ring, trochlea, digital sheaths excluded), 410 moved
+and badged with their own shift + volume: muscle surface with the next muscle 1.25-7 mm ahead 13.9% ->
+8.0% of vertices, median facing gap 1.15 -> 0.87 mm, vertices inside another muscle 10.1% -> 9.6%
+(no new overlap). Limb diagnostics (cached-mesh run): remaining open spaces are mostly ones a nerve,
+vessel, fascia or bone sits in (~9% of limb surface, kept on purpose) and gaps the overlap guard
+could not close without collision; gaps 7-25 mm halved (5.8 -> 2.8%). Visual change is modest
+(mid-thigh axial cut before/after). (3) CONTRALATERAL AUDIT of all 1,114 L/R pairs (right mirrored
+about x = 0, measured on bone pairs): the source is mirror-symmetric except true anatomical
+asymmetries (vagus, brachiocephalic/common iliac/ascending lumbar veins, suprarenal a./gland,
+ureter) and three broken LEFT objects, now replaced by the mirrored right side and badged: iliopsoas
+fascia (displaced ~19 mm off the psoas), iliopectineal arch (23-vertex stub), zonular fibres (0.3 mm
+stub). Report: `data/derived/Q162_gap_closure_contralateral.json`. Other accurate models: the
+TotalSegmentator CT labels (~1.5 mm voxels) cannot resolve a 1 mm fascia, so they were not used as a
+gap reference. Earlier: Q161 (2026-09-27, owner: "where is TFL? teres minor? extensor hood? veins
 bluish; ligaments/retinacula whitish, distinct from cartilage; review the knee; colour for bursae;
 liver through abdominal wall") -- main Z-Anatomy viewer v5, 2,773 meshes (was 2,570).
 (1) MISSING STRUCTURES, root cause: `zan_source._is_cross_category_junk` used bare substrings, so

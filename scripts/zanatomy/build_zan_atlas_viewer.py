@@ -381,6 +381,12 @@ def repair_contralateral(pending: list[dict]) -> dict:
     return {"pairs_audited": len(pairs), "flagged": flagged, "repaired": repaired, "repair_targets_missing": missing}
 
 
+# objects Z-Anatomy files under its Muscular system that are not muscle bellies (eyelid tarsal
+# plates, the orbit's tendinous ring and trochlea, digital fibrous sheaths, the iliopectineal arch,
+# zonular fibres): obstacles for the gap closure, never moved themselves
+NOT_MUSCLE_HINTS = ("tarsus", "tendinous ring", "trochlea", "fibrous sheath", "iliopectineal arch", "zonular")
+
+
 def close_muscle_gaps(pending: list[dict]) -> dict:
     """Q162: gap closure over every muscle-layer mesh (see muscle_gap_closure.py for the rule and
     its citations); tendons are closed onto, everything else is an obstacle."""
@@ -388,7 +394,8 @@ def close_muscle_gaps(pending: list[dict]) -> dict:
     for p in pending:
         layer = classify_layer(p["cat"], p["zanatomy_name"] or p["display_name"])
         key = p["mesh_id"]
-        if p["cat"] == "muscle" and layer == "muscle":
+        low = (p["zanatomy_name"] or p["display_name"]).lower()
+        if p["cat"] == "muscle" and layer == "muscle" and not any(h in low for h in NOT_MUSCLE_HINTS):
             movable[key] = (p["v"], p["f"])
         elif p["cat"] == "tendon" and layer == "insertion":
             tendons[key] = (p["v"], p["f"])

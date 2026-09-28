@@ -11,3 +11,4 @@ trimesh>=4.0
 shapely>=2.0
 rtree>=1.0
 fast-simplification>=0.1   # quadric decimation of thin sheets for the viewer bundle (scripts/export_viewer_bundle.py)
+embreex>=4.4          # optional: fast ray casting for the Q162 muscle gap closure (falls back to trimesh/rtree)
