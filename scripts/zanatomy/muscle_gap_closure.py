@@ -29,6 +29,8 @@ gets a procedural badge with its own measured shift and volume change.
 """
 from __future__ import annotations
 
+import gc
+
 import numpy as np
 from scipy.sparse import coo_matrix, diags
 from scipy.spatial import cKDTree
@@ -37,7 +39,8 @@ TARGET_GAP_MM = 1.0
 MAX_SHIFT_MM = 3.0
 SEARCH_MM = 2 * MAX_SHIFT_MM + TARGET_GAP_MM
 OBSTACLE_MARGIN_MM = 0.5
-N_PASSES = 4
+N_PASSES = 6
+STEP = 0.7            # fraction of this side's half of the excess gap moved per pass (re-measured each pass)
 DILATE_ITERS = 1
 SMOOTH_ITERS = 4
 REVERT_ITERS = 6
@@ -129,8 +132,8 @@ def _probe(scene, i, p, n):
     other_m = hit & (kd == MOVABLE) & (own != i)
     ten = hit & (kd == TENDON)
     inside = hit & ~ent & (own != i)                     # exiting another structure: already inside it
-    want[other_m & ent] = (t[other_m & ent] - TARGET_GAP_MM) / 2
-    want[ten & ent] = t[ten & ent] - TARGET_GAP_MM
+    want[other_m & ent] = STEP * (t[other_m & ent] - TARGET_GAP_MM) / 2
+    want[ten & ent] = STEP * (t[ten & ent] - TARGET_GAP_MM)
     room[other_m] = np.maximum(0, (t[other_m] - TARGET_GAP_MM) / 2)
     room[ten] = np.maximum(0, t[ten] - TARGET_GAP_MM)
     ob = hit & (kd == OBSTACLE)                          # never toward bone/NV/fascia/ligament
@@ -189,6 +192,8 @@ def close_gaps(movable: dict, fixed_neighbours: dict, obstacles: dict, log=None)
                 w = 0.5 * w + 0.5 * (avg[k] @ w)
             # smoothing may spread a little shift into neighbouring free surface, never beyond the room
             shift[k] = (np.clip(np.minimum(w, room), 0, MAX_SHIFT_MM - total[k]), n)
+        del scene
+        gc.collect()
         for k in ids:
             s, n = shift[k]
             V[k] = V[k] + s[:, None] * n
@@ -256,6 +261,8 @@ def _inside_flags(ids, V, F, fixed):
         t, own, kd, ent = scene.first_hit(V[k], vertex_normals(V[k], F[k]))
         res[k] = np.isfinite(t) & (kd == MOVABLE) & (own != i) & ~ent
         owners[k] = own
+    del scene
+    gc.collect()
     return res, owners
 
 
