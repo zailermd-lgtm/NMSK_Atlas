@@ -81,3 +81,52 @@ def test_scorer_features_and_augmentation_shapes():
     # a rotation of a patch gives the same pooled energy features (rotation-invariant parts)
     F2 = sc.features(np.rot90(X, 1, axes=(1, 2)))
     assert np.allclose(F[:, 147:151], F2[:, 147:151], atol=1e-4)
+
+
+def _crops_m(tmp_path, ap_row):
+    """His crops (vhm_stream_leg_crops.py) carry their own in-plane mapping and AP sense."""
+    ys = [-150, -151]
+    levels = {str(y): {"zi": 1030 - i, "dcm": "x", "RS": 4.0, "CS": -96.0, "windows": {"right": [60, 660, 36, 636]}} for i, y in enumerate(ys)}
+    b = {"body": "vhm", "y_atlas": ys, "levels": levels, "origin": [-6.035, -895.476, 4.787], "H": 405, "sc": 0.99,
+         "X0": 242.72, "Y0": 239.0475, "ap_row": ap_row, "CB": 0.0}
+    json.dump(b, open(tmp_path / f"m{ap_row}_bbox.json", "w"))
+    a = np.lib.format.open_memmap(tmp_path / f"m{ap_row}_right.npy", mode="w+", dtype=np.uint8, shape=(2, 600, 600, 3)); a.flush()
+    return nt.Crops(str(tmp_path / f"m{ap_row}"), "right")
+
+
+def test_male_crop_mapping_explicit_ap_sense(tmp_path):
+    c = _crops_m(tmp_path, -1)
+    for x, z in ((110.0, -50.0), (20.0, 40.0)):
+        pr, pc = c.atlas_to_px(-150, x, z); x2, z2 = c.px_to_atlas(-150, pr, pc)
+        assert abs(x2 - x) < 1e-6 and abs(z2 - z) < 1e-6
+    # his photographs: posterior (more negative atlas z) is the TOP (spine at the top), his right the low-column side
+    pr_post, _ = c.atlas_to_px(-150, 110.0, -60.0); pr_ant, _ = c.atlas_to_px(-150, 110.0, 0.0)
+    _, pc_lat = c.atlas_to_px(-150, 140.0, -30.0); _, pc_med = c.atlas_to_px(-150, 60.0, -30.0)
+    assert pr_post < pr_ant and pc_lat < pc_med
+    flipped = _crops_m(tmp_path, 1)                               # the parameter really is used
+    assert flipped.atlas_to_px(-150, 110.0, -60.0)[0] > flipped.atlas_to_px(-150, 110.0, 0.0)[0]
+
+
+def test_male_level_mapping_matches_his_instance_convention():
+    from scripts.cryo import vhm_stream_leg_crops as ms
+    idx = [[f"o{i}", 1001 + i, -1001.0 - i] for i in range(1878)]
+    origin = [float(t) for t in ms.ORIGIN.split(",")]
+    for y in (-40, -150, -400):
+        L = ms.level(y, idx, origin)
+        assert idx[L["zi"]][1] == round(1880.476 - y)                # vhm_arm_muscles_v2.py: atlas y = 1880.476 - instance
+    assert ms.level(2000, idx, origin) is None
+
+
+def test_q57_male_sciatic_outputs():
+    p = REPO / "data/derived/Q57_vhm_sciatic.json"; v = REPO / "data/ct_sources/task_outputs/vhm_nerves_cryo_report.json"
+    if not (p.exists() and v.exists()):
+        pytest.skip("Q57 outputs absent")
+    d = json.load(open(p)); r = json.load(open(v))
+    assert d["source"] and "male cryosections" in r["source"] and "female" not in r["source"]
+    assert set(r["tracks"]) == {"sciatic_n:right", "sciatic_n:left"}
+    for side in ("right", "left"):
+        s = d["verification"][side]
+        assert s["posterior_to_adductor_magnus_centroid_frac"] == 1.0 and s["anterior_deep_to_biceps_femoris_centroid_frac"] == 1.0
+        assert s["posterior_to_femur_centroid_frac"] == 1.0 and 25 < s["dist_to_femur_mm"]["median"] < 60
+    assert d["verification"]["outside_skin_frac_sampled"] == 0.0
+    assert d["frame"]["photo_frame_ap_sense"].startswith("row 0 ANTERIOR")

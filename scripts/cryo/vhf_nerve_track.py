@@ -47,6 +47,9 @@ NERVES = {
 }
 SOURCE = ("U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full "
           "resolution (0.33 mm) via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_nerve_track.py).")
+SOURCE_M = ("U.S. National Library of Medicine, The Visible Human Project (public domain), male cryosections at full "
+            "resolution (0.33 mm) via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhm_stream_leg_crops.py + "
+            "scripts/cryo/vhf_nerve_track.py).")
 
 
 class Crops:
@@ -55,6 +58,9 @@ class Crops:
         self.a = np.load(f"{prefix}_{side}.npy", mmap_mode="r"); self.ys = self.b["y_atlas"]
         self.ox, self.oy, self.oz = self.b["origin"]; self.H = self.b["H"]; self.sc = self.b["sc"]
         self.j_of = {y: j for j, y in enumerate(self.ys)}
+        # in-plane frame mapping, explicit per body (her defaults; his crops, vhm_stream_leg_crops.py, store their own):
+        # frame col c = X0 - RASx, frame row r = Y0 + ap_row * RASy (ap_row -1: row 0 anterior), photo col offset CB
+        self.X0 = self.b.get("X0", 350.0); self.Y0 = self.b.get("Y0", 240.0); self.ap = self.b.get("ap_row", -1); self.CB = self.b.get("CB", 110.0)
 
     def level(self, y):
         L = self.b["levels"][str(int(y))]; w = L["windows"][self.side]
@@ -67,14 +73,14 @@ class Crops:
     def atlas_to_px(self, y, x, z):
         """atlas (x, z) at level y -> full-res (row, col) in this level's crop."""
         L, w = self.level(y)
-        c = 350.0 - (np.asarray(x) + self.ox); r = 240.0 - (np.asarray(z) + self.oz)
-        pr = ((self.H - 1) - (r - L["RS"]) / self.sc) * 3 - w[0]; pc = ((c - 110 - L["CS"]) / self.sc) * 3 - w[2]
+        c = self.X0 - (np.asarray(x) + self.ox); r = self.Y0 + self.ap * (np.asarray(z) + self.oz)
+        pr = ((self.H - 1) - (r - L["RS"]) / self.sc) * 3 - w[0]; pc = ((c - self.CB - L["CS"]) / self.sc) * 3 - w[2]
         return pr, pc
 
     def px_to_atlas(self, y, pr, pc):
         L, w = self.level(y)
-        r = (self.H - 1 - (np.asarray(pr) + w[0]) / 3) * self.sc + L["RS"]; c = (np.asarray(pc) + w[2]) / 3 * self.sc + 110 + L["CS"]
-        return 350.0 - c - self.ox, 240.0 - r - self.oz
+        r = (self.H - 1 - (np.asarray(pr) + w[0]) / 3) * self.sc + L["RS"]; c = (np.asarray(pc) + w[2]) / 3 * self.sc + self.CB + L["CS"]
+        return self.X0 - c - self.ox, (r - self.Y0) / self.ap - self.oz
 
 
 def section_masks(meshes, names, side, y, crops, shape):
@@ -289,9 +295,9 @@ def viterbi(ys, per, seed, jump_mm=8.0, gap_cost=6.0, seed_radius=25.0, lam=8.0)
     return chain[::-1]
 
 
-def track(crops, meshes, side, spec, seed, y_end, lab_store=None, log=print, scorer=None):
+def track(crops, meshes, side, spec, seed, y_end, lab_store=None, log=print, scorer=None, lam=None):
     ys, per = collect(crops, meshes, side, spec, seed["y"], y_end, lab_store, log, scorer=scorer)
-    chain = viterbi(ys, per, seed, lam=15.0 if scorer is not None else 8.0)
+    chain = viterbi(ys, per, seed, lam=lam if lam is not None else (15.0 if scorer is not None else 8.0))
     rows = []
     for y, x, z, idx in chain:
         c = per[y][idx] if idx is not None else None
@@ -326,6 +332,8 @@ def main():
     ap.add_argument("--y-end", type=float, default=-440, help="last level; above the seed = track upward")
     ap.add_argument("--seed", default=None, help="x,y,z atlas mm (overrides the rule)")
     ap.add_argument("--out", required=True); ap.add_argument("--montage", default=None); ap.add_argument("--every", type=int, default=20)
+    ap.add_argument("--lam", type=float, default=None, help="texture weight of the chain cost (default 8, 15 with --scorer; 0 = the "
+                    "pure-jump chain that shipped Q53 at 679caa9 -- used for him, whose finer fascicles score ~0 on honeycomb_score)")
     ap.add_argument("--scorer", default=None, help="learned patch scorer (vhf_nerve_scorer.py train) -> candidates scored, corridor scanned")
     a = ap.parse_args()
     crops = Crops(a.crops, a.side); bf, blob = read_bundle_dir(a.bundle); meshes = meshes_by_id(bf, blob)
@@ -339,11 +347,11 @@ def main():
     if a.scorer:
         from scripts.cryo import vhf_nerve_scorer as sc
         scorer = sc.load(a.scorer)
-    rows, lost = track(crops, meshes, a.side, spec, seed, a.y_end, lab_store, scorer=scorer); lab_store.flush()
+    rows, lost = track(crops, meshes, a.side, spec, seed, a.y_end, lab_store, scorer=scorer, lam=a.lam); lab_store.flush()
     found = [r for r in rows if not r["gap"]]
     span = (found[0]["y"] - found[-1]["y"]) if found else 0
     print(f"{len(found)} levels with a blob of {len(rows)} ({span:.0f} mm span), lost at {lost}")
-    json.dump({"source": SOURCE, "nerve": a.nerve, "side": a.side, "seed": seed, "lost_at": lost, "span_mm": span, "rows": rows}, open(a.out, "w"), indent=1)
+    json.dump({"source": SOURCE_M if crops.b.get("body") == "vhm" else SOURCE, "nerve": a.nerve, "side": a.side, "seed": seed, "lost_at": lost, "span_mm": span, "rows": rows}, open(a.out, "w"), indent=1)
     if a.montage and rows:
         montage(crops, rows, a.montage, every=a.every); print("montage", a.montage)
 

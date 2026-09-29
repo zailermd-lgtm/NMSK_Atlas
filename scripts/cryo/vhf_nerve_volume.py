@@ -75,9 +75,11 @@ def main():
     ap.add_argument("--out", required=True); ap.add_argument("--labels-out", required=True); ap.add_argument("--mapping-out", required=True)
     ap.add_argument("--subject", default="ct_vhf_nerve"); ap.add_argument("--max-gap", type=int, default=12)
     a = ap.parse_args()
-    groups = {}; seeds = {}
+    groups = {}; seeds = {}; srcs = set()
     for t in a.track:
-        aid, side, rows, d = load_rows(t); groups.setdefault((aid, side), []).extend(rows); seeds.setdefault((aid, side), d["seed"])
+        aid, side, rows, d = load_rows(t); groups.setdefault((aid, side), []).extend(rows); seeds.setdefault((aid, side), d["seed"]); srcs.add(d.get("source", SOURCE))
+    src = next(iter(srcs)) if len(srcs) == 1 else SOURCE     # the tracks' own source (his crops say "male")
+    who = ("the male's", "his") if "male cryo" in src and "female" not in src else ("the female's", "her")
     ids = sorted({aid for aid, _ in groups}); lab_of = {aid: i + 1 for i, aid in enumerate(ids)}
     pts = []; info = {}
     for (aid, side), rows in groups.items():
@@ -101,18 +103,18 @@ def main():
     aff = np.diag([VOX, VOX, 1.0, 1.0]); aff[:3, 3] = lo
     nib.save(nib.Nifti1Image(vol, aff), a.out)
     vols = {aid: round(float((vol == l).sum() * VOX * VOX * 1.0) / 1000, 2) for aid, l in lab_of.items()}
-    Path(a.labels_out).write_text(json.dumps({"_README": ["Label id -> nerve tracked in the female's full-resolution cryosections "
+    Path(a.labels_out).write_text(json.dumps({"_README": [f"Label id -> nerve tracked in {who[0]} full-resolution cryosections "
                                                            "(scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py). A KEY, not data."],
-                                              "source": SOURCE, "labels": {str(l): aid for aid, l in lab_of.items()}}, indent=1))
+                                              "source": src, "labels": {str(l): aid for aid, l in lab_of.items()}}, indent=1))
     entries = [{"label": l, "source_structure": aid, "side": None, "status": "curated", "atlas_id": aid, "relationship": "part_of",
-                "note": "Tracked through her full-resolution cryosections from a landmark-rule seed (both sides in one label; nerve ids are side-agnostic).",
+                "note": f"Tracked through {who[1]} full-resolution cryosections from a landmark-rule seed (both sides in one label; nerve ids are side-agnostic).",
                 "candidates": []} for aid, l in lab_of.items()]
     Path(a.mapping_out).write_text(json.dumps({"_README": ["Review every entry before running convert.",
                                                             "Set 'atlas_id' to the correct entity, or null to skip the label.",
                                                             "'status' is advisory; convert reads 'atlas_id' only."],
                                                "subject": a.subject, "source_volume": str(Path(a.out).resolve()),
                                                "label_map": Path(a.labels_out).stem.replace("_labels", ""), "entries": entries}, indent=1))
-    rep = {"source": SOURCE, "voxel_mm": [VOX, VOX, 1.0], "volume_cm3": vols, "tracks": info}
+    rep = {"source": src, "voxel_mm": [VOX, VOX, 1.0], "volume_cm3": vols, "tracks": info}
     Path(a.out.replace(".nii.gz", "_report.json")).write_text(json.dumps(rep, indent=1))
     print(json.dumps(rep, indent=1))
 

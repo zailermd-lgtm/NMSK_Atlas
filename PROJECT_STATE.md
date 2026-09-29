@@ -9061,7 +9061,11 @@ tick the item here with a one-line result. Never fabricate; keep the
       relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
       (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between
       biceps and triceps; the arm crops on disk are elbow-to-fingertips only).
-- [ ] Q57 Male sciatic nerve by the same tracker: his cryosections at full resolution need a registered
+- [ ] Q57 BLOCKED 2026-09-29 (tracked + verified, NOT shipped -- owner decision): right -91..-216, left -89..-222 (3 pieces)
+      verified at the cross-hair on per-level montages, all posterior to adductor magnus/deep to biceps, but 61% of the
+      nerve-mesh vertices fall inside his vhm_both adductor_magnus mesh (median 3.0 mm, max 6.6 mm deep): that mesh's
+      posterior surface runs through the photographed fat plane the nerve lies in. Details: data/derived/Q57_vhm_sciatic.json
+      and the Q57 entry at the end of this file. Was: Male sciatic nerve by the same tracker: his cryosections at full resolution need a registered
       frame (his 1 mm frame was lost with the container reset; `stream_cryosections.py --start/--stop` and
       the whole-body centroid registration of `vhm_arm_muscles_v2.py` are the pieces) -- do after Q54 so
       the detector is final.
@@ -9708,3 +9712,30 @@ the female's phalanges are under-captured at HU 200.
   spine-to-femoral-head offset (12 mm below the head centres) carried to him (k~777), cited and badged as rule-based.
   Meanwhile the shipped male pelvic floor (ct_vhm_pfloor + ct_vhm_pfloor_fix) stays AP-mirrored in viewer v62 --
   owner decision pending: badge as misplaced, hide, or accept the offset rule.
+- Q57 BLOCKED (2026-09-29; not shipped, bundle/viewer untouched). Male sciatic by the Q53 tracker on 0.33 mm crops of his
+  posterior thighs (new `scripts/cryo/vhm_stream_leg_crops.py`, y -30..-470 both sides, 28 s; atlas-box crops with the
+  in-plane mapping stored per body: X0/Y0/ap_row/CB, read by `vhf_nerve_track.Crops`, her defaults unchanged).
+  FRAME FINDING: his photo legs frame (`cryo_legs_frame_*`) has row 0 ANTERIOR (ap_row -1, like hers), OPPOSITE to
+  legs_total.nii.gz's grid: legs_total labels only land on the photographed bone/muscle when row-flipped (scratch
+  q57/ts_overlay.png). So `vhm_pelvic_floor_from_cryo.py`'s no-flip label zoom is AP-mirrored against its own photographs
+  -- relevant to Q171/Q172 (not touched). Attempt 1 (HEAD tracker, lam 8): all gaps (his fascicles score 0-0.34 on Q54's
+  honeycomb_score). Attempt 2 (`--lam 0`, new flag = the pure-jump chain that shipped Q53 at 679caa9): chains of 247/274
+  blobs; per-level montage check verifies right -91..-216 (126 levels), left -89..-108, -116..-121, -139..-151, -172..-222
+  (84 levels). Label volume `data/ct_sources/task_outputs/vhm_nerves_cryo.nii.gz` (14.2 cm3), labels/mapping
+  (`mappings/vhm_nerves_labels.json`, `mappings/subjects/ct_vhm_sciatic_volume_mapping.json`) kept for review, NOT wired
+  into vhm_rebuild_bundle.sh. Checks: posterior to adductor magnus / deep to biceps / posterior to femur on 100% of levels,
+  median 1.7/2.5 mm from adductor magnus, 40 mm from the femur, 0% outside skin; band 10-12 x 7-8 mm, 51/64 mm2 (hers
+  26/34); ~32% of the ~390-400 mm GSF-to-popliteal-apex course. BLOCKER: 21,750/35,820 vertices inside his vhm_both
+  adductor_magnus meshes (median 3.0, max 6.6 mm deep) + 1,556 inside biceps/semitendinosus (max 4.0 mm) -- the AM mesh
+  surface cuts the photographed fat plane (q57/am_overlay.png). Options: ship with the overlap disclosed (as Q53 did on her
+  transferred meshes), or correct the AM posterior surface first. Ship = `cp mappings/subjects/ct_vhm_sciatic_volume_mapping.json
+  build/vh/ && ingest_volume_geometry.py convert ... --labels vhm_nerves --subject ct_vhm_sciatic --origin='-6.035,-895.476,4.787'
+  --smooth 0.0` + a subject note + one --subject line. Tests: 3 new in tests/test_nerve_track.py.
+- Main-session decision on Q57 (2026-09-29): NOT shipped yet. The nerve is right on the photographs but 61% of its
+  vertices sit inside his adductor magnus mesh, whose posterior surface crosses the visible fat plane. Fix that surface
+  first (Q173), then ship Q57 with the one convert command above.
+- NEXT (Q173): correct his adductor magnus posterior surface to the photographed fat plane (scratch q57/am_overlay.png
+  shows the error, median 3.0 / max 6.6 mm), same marker-watershed approach as Q48; then ship Q57.
+- Q172 addendum from Q57: his photo legs frame has row 0 ANTERIOR (like hers), opposite to legs_total's grid, so
+  vhm_pelvic_floor_from_cryo.py also overlays its CT labels on the photographs mirrored. Any Q172 retry must flip the
+  labels onto the photo grid too, not only the output affine.
