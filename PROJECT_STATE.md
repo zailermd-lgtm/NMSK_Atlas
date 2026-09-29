@@ -9639,3 +9639,39 @@ the female's phalanges are under-captured at HU 200.
 - Open: the organ layer starts hidden (only bone/muscle on by default); volume windows for rectum/sigmoid are derived
   from lengths x lumen, not a published per-segment volume norm; the rectum's lower end is wherever TS stops the colon
   label (not checked against her external anal sphincter in ct_vhf_pfloor). Not rendered in Chromium this round.
+
+## Q170 (2026-09-29) -- his own pelvic viscera in the VH male viewer + the rectum/anal-sphincter check (both bodies)
+- `scripts/vhf_pelvic_viscera.py` generalised (`--body vhf|vhm`, default vhf; her subject + label volume re-run
+  byte-identical). Male: `--body vhm --origin='-6.035,-895.476,4.787'` (his torso-block constant) -> label volume
+  `task_outputs/vhm_pelvic_viscera.nii.gz` (1 bladder, 2 rectum, 3 sigmoid, 4 prostate), subject `build/vh/ct_vhm_pelvis`,
+  `data/derived/Q170_vhm_pelvic_viscera.json`. Same meshing (mask_surface step 1 smooth 1.0, voxels_to_atlas).
+- Finding: vhm_total stops at atlas Y +32.5 (above his symphysis; 0.5 cm3 "bladder", no prostate). Below it the
+  script uses vhm_legs_total's pelvis slab, placed by the fixed Stage-2 offset legs->torso (+2.72,-0.89,-693.0) mm
+  RAS (the offset his origin was derived through; seam labels confirm it: hip Dice 0.97 torso k0 vs legs k808, best
+  in-plane fit within 0.5 voxel; the Q70 refit (4.72,2.11,-698) fits worse at the pelvis). Nearest-voxel residual 0.09 mm.
+- Numbers: bladder 36.3 cm3 (1 piece; two detached bladder-labelled bits 0.52/0.46 cm3 = 1.4/1.3 %, 6/35 mm away,
+  dropped and listed); prostate 16.2 cm3 (Berry 1984: 20+-6 g, window 8-32); rectum 44.1 cm3 / 113.5 mm; pelvic
+  sigmoid 81.8 cm3 / 138.7 mm; 0.20 cm3 mesh speck (pinched neck) dropped from the rectum; a detached 2.0 cm3 presacral
+  colon piece (1.6 %) dropped and listed. All 1 component, inside his pelvic box, 0 vertices inside his CT bone
+  surface (his vhm_both bone meshes are not watertight, so the check samples the CT hip/sacrum labels' smoothed field).
+  His colon label above the inlet is 1936 cm3 vs Pritchard's 561 mL sum of means (not shipped; flag).
+- Rule change (male only in effect): his pelvic colon crosses the inlet twice (a right-sided sigmoid limb, joined to
+  the left one within 40 mm above the brim). A second lumen path branches from the first at 113.5 mm from the anal end
+  (before the take-off at 149 mm), with equal lumen width -> the label cannot say which limb continues the rectum, so
+  the rectum ends at min(take-off, first branch point) and both limbs + the extra crossing seed the sigmoid.
+  Rectum end at 64 % of his sacral height (~S3-S4).
+- Anal check (`--anal-check`, measured only, no trim/extend): HER rectum runs 24 mm down inside her external anal
+  sphincter's height and ends flush with its lower edge (0.0 mm), 0.3 mm from its surface, 0 interpenetrating vertices,
+  7.8 mm off its axis -> the TS colon label includes her anal canal (no overlap). HIS rectum ends at Y -47.2, the
+  sphincter's lower edge level (-0.1 mm), but his `external_anal_sphincter` mesh (ct_vhm_pfloor) sits 85 mm ANTERIOR of
+  his anal canal, behind the symphysis. Mirroring vhm_pelvic_floor_cryo front-back puts its EAS centroid within 7 mm of
+  his anal end -> ct_vhm_pfloor looks AP-flipped (Q83's affine Y sign vs legs_total's +Y). NOT fixed here (open).
+- Wiring: vhm_rebuild_bundle.sh runs the script when the subject is missing (or RECONVERT), lists ct_vhm_pelvis LAST,
+  new `VHM_OUT` (default build/viewer_m): `VHM_OUT=build/viewer_m_hr bash scripts/vhm_rebuild_bundle.sh`. No transfer
+  step ran; build/vh, build/viewer_m, build/viewer_f_hr unchanged (md5). build/viewer_m_hr: 429 structures (+4, the 425
+  others byte-identical in geometry and metadata, same order), 2,038,621 tris (+14,998), page 1.17 MB, geo
+  14.67 + 9.66 MB. Template: ct_vhm_pelvis subject label. Test: tests/test_vhm_pelvic_viscera.py.
+- Rendered in Chromium (main session): male page loads, no errors, bladder/prostate/rectum/sigmoid listed. Male viewer republished.
+- NEXT (Q171): ct_vhm_pfloor looks front-to-back flipped (its external anal sphincter sits 85 mm anterior of his anal canal;
+  flipping vhm_pelvic_floor_cryo AP puts it within 7 mm). Re-check the Y sign of Q83's volume affine against
+  vhm_legs_total, rebuild ct_vhm_pfloor, re-run `vhf_pelvic_viscera.py --body vhm --anal-check`. Organ layer starts hidden.

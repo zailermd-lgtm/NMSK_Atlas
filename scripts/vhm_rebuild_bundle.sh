@@ -151,6 +151,13 @@ if [ -f mappings/subjects/ct_vhm_pfloor_fix_volume_mapping.json ] && ! grep -q c
   cp mappings/subjects/ct_vhm_pfloor_fix_volume_mapping.json build/vh/
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_pelvic_floor_cryo.nii.gz --labels vhm_pelvic_floor --subject ct_vhm_pfloor_fix --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
+# Q170: his own pelvic viscera (urinary bladder, rectum, pelvic sigmoid, prostate) -- vhm_total above the torso block's
+# lower edge and vhm_legs_total's pelvis slab below it, placed by the fixed Stage-2 block offset; colon cut at his
+# pelvic inlet and split at the sigmoid take-off / first branch point. Same mask_surface(smooth 1.0) + his origin as
+# convert; written by the script itself (ids have no entity in data/, category 'organ' carried per structure)
+if [ ! -f build/vh/ct_vhm_pelvis/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
+  python3 scripts/vhf_pelvic_viscera.py --body vhm --origin='-6.035,-895.476,4.787' 2>&1 | tail -5
+fi
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 # Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
 # deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
@@ -174,6 +181,10 @@ done
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
-python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_m --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
-python3 scripts/build_viewer_html.py --bundle build/viewer_m -o build/viewer_m/atlas_viewer_male.html --external-bin 2>&1 | tail -1
+[ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
+# Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
+# steps above still read build/viewer_m as their input bundle, unchanged
+OUT=${VHM_OUT:-build/viewer_m}; mkdir -p "$OUT"
+python3 scripts/export_viewer_bundle.py $SUBJ -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/build_viewer_html.py --bundle $OUT -o $OUT/atlas_viewer_male.html --external-bin 2>&1 | tail -1
 echo VHM_REBUILD_DONE

@@ -73,3 +73,9 @@ than the male's). `vhf_pecminor_rhomboids_cryo`: position rules (`scripts/cryo/v
 sigmoid colon (3), cut from `vhf_total` labels 21 and 20 by `scripts/vhf_pelvic_viscera.py` (colon caudal to her
 pelvic inlet plane, split at the sigmoid take-off along a lumen-seeking centreline); same grid and affine as
 `vhf_total`. Meshed by the same script into `build/vh/ct_vhf_pelvis`; report `data/derived/Q169_vhf_pelvic_viscera.json`.
+
+`vhm_pelvic_viscera` (Q170, 2026-09-29): his own urinary bladder (1), rectum (2), pelvic sigmoid (3) and prostate (4)
+by the same script (`--body vhm`), from `vhm_total` above the torso block's lower edge and `vhm_legs_total`'s pelvis
+slab below it (the torso block stops above his symphysis), joined by the fixed Stage-2 offset legs->torso
+(+2.72, -0.89, -693.0) mm RAS. Grid: the torso block's affine extended 268 slices downward. Meshed into
+`build/vh/ct_vhm_pelvis`; report `data/derived/Q170_vhm_pelvic_viscera.json`.

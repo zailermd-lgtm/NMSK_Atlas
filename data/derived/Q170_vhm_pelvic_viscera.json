@@ -1,0 +1,744 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), MALE frozen CT via the NCI Imaging Data Commons (torso series 5d409385-d3e7-48a9-ae50-150b39e834da, legs series 145c2668-7d2f-4d7e-b1c7-2cf2462bef60); TotalSegmentator v2 `total` task labels (data/ct_sources/task_outputs/vhm_total.nii.gz and, below his torso block, vhm_legs_total.nii.gz: 21 urinary_bladder, 20 colon, 22 prostate). References: Berry 1984 doi:10.1016/s0022-5347(17)49698-4; Blanker 2001 doi:10.1016/s0090-4295(01)00988-8; D'Souza 2019 doi:10.1097/SLA.0000000000003251; Michael & Rabi 2015 doi:10.7860/JCDR/2015/13850.6364; Alatise 2013 doi:10.1007/s00276-012-1037-5; Pritchard 2014 doi:10.1111/nmo.12243.",
+ "task": "Q170",
+ "subject": "ct_vhm_pelvis",
+ "script": "scripts/vhf_pelvic_viscera.py",
+ "label_volume": "data/ct_sources/task_outputs/vhm_pelvic_viscera.nii.gz",
+ "origin_atlas_mm": [
+  -6.035,
+  -895.476,
+  4.787
+ ],
+ "cut_rules": {
+  "pelvic_inlet_plane": "through his sacral promontory and the upper border of his pubic symphysis, containing the left-right axis; colon caudal to it = rectum + pelvic sigmoid",
+  "rectum_sigmoid": "sigmoid take-off: first local height maximum along a lumen-seeking centreline from the anal end (after 60 mm, then >= 5 mm descent); marker watershed on -distance"
+ },
+ "landmarks_atlas_mm": {
+  "sacral_promontory": [
+   4.2,
+   108.5,
+   -9.5
+  ],
+  "symphysis_upper_border": [
+   5.1,
+   -10.5,
+   44.9
+  ],
+  "inlet_normal": [
+   -0.0,
+   0.4156,
+   0.9095
+  ],
+  "inlet_angle_to_horizontal_deg": 65.4,
+  "obstetric_conjugate_mm": 130.8,
+  "sacral_apex_y_mm": -20.5,
+  "take_off_fraction_of_sacral_height_from_promontory": 0.519,
+  "rectum_upper_end_fraction_of_sacral_height_from_promontory": 0.635
+ },
+ "colon": {
+  "anal_end_atlas_mm": [
+   -0.5,
+   -47.5,
+   -47.9
+  ],
+  "inlet_crossing_atlas_mm": [
+   4.2,
+   19.5,
+   30.8
+  ],
+  "centreline_length_mm": 252.2,
+  "take_off_atlas_mm": [
+   -23.0,
+   41.5,
+   -29.2
+  ],
+  "rectum_length_mm": 113.5,
+  "sigmoid_pelvic_length_mm": 138.7,
+  "centreline_atlas_mm": [
+   [
+    -0.5,
+    -47.5,
+    -47.9
+   ],
+   [
+    -0.5,
+    -43.5,
+    -47.9
+   ],
+   [
+    0.4,
+    -39.5,
+    -47.0
+   ],
+   [
+    0.4,
+    -35.5,
+    -47.0
+   ],
+   [
+    0.4,
+    -31.5,
+    -47.0
+   ],
+   [
+    0.4,
+    -27.5,
+    -47.0
+   ],
+   [
+    -0.5,
+    -23.5,
+    -47.0
+   ],
+   [
+    -0.5,
+    -19.5,
+    -47.0
+   ],
+   [
+    -0.5,
+    -15.5,
+    -47.0
+   ],
+   [
+    -1.5,
+    -11.5,
+    -47.9
+   ],
+   [
+    -1.5,
+    -7.5,
+    -47.9
+   ],
+   [
+    -1.5,
+    -3.5,
+    -49.8
+   ],
+   [
+    -3.3,
+    0.5,
+    -51.7
+   ],
+   [
+    -5.2,
+    4.5,
+    -53.5
+   ],
+   [
+    -7.1,
+    8.5,
+    -56.3
+   ],
+   [
+    -7.1,
+    12.5,
+    -58.2
+   ],
+   [
+    -7.1,
+    16.5,
+    -58.2
+   ],
+   [
+    -6.2,
+    20.5,
+    -60.1
+   ],
+   [
+    -2.4,
+    24.5,
+    -60.1
+   ],
+   [
+    1.3,
+    28.5,
+    -58.2
+   ],
+   [
+    3.2,
+    28.5,
+    -54.5
+   ],
+   [
+    4.2,
+    27.5,
+    -50.7
+   ],
+   [
+    4.2,
+    26.5,
+    -47.0
+   ],
+   [
+    4.2,
+    26.5,
+    -43.2
+   ],
+   [
+    3.2,
+    26.5,
+    -39.5
+   ],
+   [
+    2.3,
+    26.5,
+    -35.7
+   ],
+   [
+    -0.5,
+    30.5,
+    -32.0
+   ],
+   [
+    -2.4,
+    34.5,
+    -32.0
+   ],
+   [
+    -6.2,
+    38.5,
+    -32.0
+   ],
+   [
+    -9.9,
+    39.5,
+    -32.0
+   ],
+   [
+    -13.7,
+    40.5,
+    -32.0
+   ],
+   [
+    -17.4,
+    40.5,
+    -32.0
+   ],
+   [
+    -21.2,
+    41.5,
+    -31.0
+   ],
+   [
+    -24.9,
+    41.5,
+    -27.3
+   ],
+   [
+    -28.7,
+    41.5,
+    -23.5
+   ],
+   [
+    -32.4,
+    41.5,
+    -19.8
+   ],
+   [
+    -34.3,
+    40.5,
+    -16.0
+   ],
+   [
+    -35.2,
+    39.5,
+    -12.3
+   ],
+   [
+    -37.1,
+    37.5,
+    -8.5
+   ],
+   [
+    -37.1,
+    34.5,
+    -4.8
+   ],
+   [
+    -37.1,
+    32.5,
+    -1.0
+   ],
+   [
+    -37.1,
+    29.5,
+    2.7
+   ],
+   [
+    -37.1,
+    27.5,
+    6.5
+   ],
+   [
+    -35.2,
+    24.5,
+    10.2
+   ],
+   [
+    -32.4,
+    22.5,
+    14.0
+   ],
+   [
+    -28.7,
+    21.5,
+    17.7
+   ],
+   [
+    -24.9,
+    19.5,
+    20.5
+   ],
+   [
+    -21.2,
+    19.5,
+    21.5
+   ],
+   [
+    -17.4,
+    19.5,
+    22.4
+   ],
+   [
+    -13.7,
+    19.5,
+    24.3
+   ],
+   [
+    -9.9,
+    19.5,
+    25.2
+   ],
+   [
+    -6.2,
+    19.5,
+    26.2
+   ],
+   [
+    -2.4,
+    19.5,
+    28.0
+   ],
+   [
+    1.3,
+    19.5,
+    29.9
+   ]
+  ],
+  "extra_inlet_crossings_seeded_as_sigmoid": [
+   {
+    "voxels": 2268,
+    "centroid_atlas_mm": [
+     22.8,
+     34.1,
+     22.9
+    ],
+    "second_path_length_mm": 198.2,
+    "branch_point_atlas_mm": [
+     2.3,
+     26.5,
+     -35.7
+    ],
+    "branch_point_mm_from_anal_end": 113.5
+   }
+  ],
+  "take_off_mm_from_anal_end": 149.3,
+  "rectum_upper_end": {
+   "rule": "first branch point of the label (before the take-off: beyond it the label cannot say which limb continues the rectum)",
+   "atlas_mm": [
+    2.3,
+    26.5,
+    -35.7
+   ]
+  },
+  "pelvic_colon_specks_dropped_cm3": [],
+  "speck_rule": "pieces < 1% of the structure dropped",
+  "whole_colon_label_cm3": 2061.8,
+  "pelvic_colon_cm3": 125.9,
+  "colon_above_inlet_cm3": 1935.9,
+  "above_inlet_vs_reference_sum_of_means_ml": 561.0,
+  "reference_basis": "fasting MRI in 75 healthy volunteers: ascending 203+-75, transverse 198+-79, descending 160+-86 mL (Pritchard et al. 2014, Neurogastroenterol Motil 26:124, doi:10.1111/nmo.12243); her colon above the inlet is compared with the sum of those means.",
+  "non_speck_pieces_dropped": [
+   {
+    "cm3": 2.01,
+    "centroid_atlas_mm": [
+     -12.3,
+     18.7,
+     -84.1
+    ],
+    "gap_to_kept_mm": 6.9
+   }
+  ]
+ },
+ "structures": {
+  "urinary_bladder": {
+   "label": 1,
+   "voxel_volume_cm3": 36.28,
+   "voxel_components": 1,
+   "triangles": 28204,
+   "mesh_volume_cm3": 35.74,
+   "mesh_components": 1,
+   "watertight": true,
+   "bbox_min_mm": [
+    -30.06,
+    -27.2,
+    -10.8
+   ],
+   "bbox_max_mm": [
+    31.78,
+    17.97,
+    44.28
+   ],
+   "reference_volume_cm3": [
+    5.0,
+    600.0
+   ],
+   "volume_in_reference_range": true,
+   "reference_basis": "wall plus contents; same plausibility window as hers: lower bound a near-empty bladder, upper bound near the top of adult functional bladder capacity (largest single voided volume on 3-day frequency-volume charts in 1688 community men: Blanker et al. 2001, Urology 57:1093, doi:10.1016/s0090-4295(01)00988-8). A post-mortem bladder is expected near the low end.",
+   "specks_dropped_cm3": [
+    0.001
+   ],
+   "non_speck_pieces_dropped": [
+    {
+     "cm3": 0.525,
+     "centroid_atlas_mm": [
+      1.2,
+      5.8,
+      -13.4
+     ],
+     "gap_to_kept_mm": 6.1
+    },
+    {
+     "cm3": 0.461,
+     "centroid_atlas_mm": [
+      -28.6,
+      33.6,
+      62.6
+     ],
+     "gap_to_kept_mm": 35.2
+    }
+   ],
+   "position": {
+    "margin_to_pelvic_box_mm": {
+     "right(+X)": 105.0,
+     "left(-X)": 113.4,
+     "superior(+Y, iliac crests)": 130.8,
+     "inferior(-Y, ischial tuberosities)": 39.3,
+     "anterior(+Z, pubis)": 15.7,
+     "posterior(-Z, sacrum)": 100.4
+    },
+    "inside_pelvic_box": true,
+    "fraction_of_vertices_below_inlet": 0.9264,
+    "max_height_above_inlet_mm": 7.9,
+    "min_surface_distance_to_hip_bone_l_mm": 2.9,
+    "sampled_vertices_inside_hip_bone_l": null,
+    "min_surface_distance_to_hip_bone_r_mm": 8.1,
+    "sampled_vertices_inside_hip_bone_r": null,
+    "min_surface_distance_to_sacrum_mm": 67.6,
+    "sampled_vertices_inside_sacrum": null,
+    "vertices_inside_ct_bone_surface_hip_sacrum": 0
+   }
+  },
+  "rectum": {
+   "label": 2,
+   "voxel_volume_cm3": 44.15,
+   "voxel_components": 1,
+   "triangles": 35400,
+   "mesh_volume_cm3": 42.99,
+   "mesh_components": 1,
+   "watertight": true,
+   "bbox_min_mm": [
+    -26.24,
+    -47.15,
+    -84.93
+   ],
+   "bbox_max_mm": [
+    23.38,
+    76.64,
+    -21.03
+   ],
+   "reference_volume_cm3": [
+    40.0,
+    400.0
+   ],
+   "volume_in_reference_range": true,
+   "reference_basis": "length: rectum ~12-15 cm from the anorectal junction to the rectosigmoid (Gray's Anatomy, 42nd ed.), upper end = sigmoid take-off (D'Souza et al. 2019, Ann Surg 270:955, doi:10.1097/SLA.0000000000003251); volume window derived from that length and a 2.5-5.5 cm lumen (NOT a published volume range -- no per-segment rectal volume norm was found).",
+   "mesh_specks_dropped_cm3": [
+    0.202
+   ],
+   "centreline_length_mm": 113.5,
+   "reference_length_mm": [
+    100.0,
+    180.0
+   ],
+   "length_in_reference_range": true,
+   "position": {
+    "margin_to_pelvic_box_mm": {
+     "right(+X)": 113.4,
+     "left(-X)": 117.3,
+     "superior(+Y, iliac crests)": 72.1,
+     "inferior(-Y, ischial tuberosities)": 19.3,
+     "anterior(+Z, pubis)": 81.0,
+     "posterior(-Z, sacrum)": 26.3
+    },
+    "inside_pelvic_box": true,
+    "fraction_of_vertices_below_inlet": 1.0,
+    "max_height_above_inlet_mm": 0.0,
+    "min_surface_distance_to_hip_bone_l_mm": 25.7,
+    "sampled_vertices_inside_hip_bone_l": null,
+    "min_surface_distance_to_hip_bone_r_mm": 25.6,
+    "sampled_vertices_inside_hip_bone_r": null,
+    "min_surface_distance_to_sacrum_mm": 6.2,
+    "sampled_vertices_inside_sacrum": null,
+    "vertices_inside_ct_bone_surface_hip_sacrum": 0
+   }
+  },
+  "sigmoid_colon": {
+   "label": 3,
+   "voxel_volume_cm3": 81.77,
+   "voxel_components": 1,
+   "triangles": 52656,
+   "mesh_volume_cm3": 80.74,
+   "mesh_components": 1,
+   "watertight": true,
+   "bbox_min_mm": [
+    -48.81,
+    4.98,
+    -45.89
+   ],
+   "bbox_max_mm": [
+    36.5,
+    70.88,
+    37.02
+   ],
+   "reference_volume_cm3": [
+    15.0,
+    300.0
+   ],
+   "volume_in_reference_range": true,
+   "reference_basis": "length of the sigmoid measured from the pelvic brim: 15.2 +- 4.4 cm (Michael & Rabi 2015, J Clin Diagn Res 9:AC04, doi:10.7860/JCDR/2015/13850.6364); window = mean -2 SD .. whole-sigmoid length (Alatise et al. 2013, Surg Radiol Anat 35:249, doi:10.1007/s00276-012-1037-5, 30.5-67.8 cm whole sigmoid). Volume window is a plausibility bound for the pelvic part only.",
+   "centreline_length_mm": 138.7,
+   "reference_length_mm": [
+    60.0,
+    280.0
+   ],
+   "length_in_reference_range": true,
+   "position": {
+    "margin_to_pelvic_box_mm": {
+     "right(+X)": 100.2,
+     "left(-X)": 94.7,
+     "superior(+Y, iliac crests)": 77.9,
+     "inferior(-Y, ischial tuberosities)": 71.5,
+     "anterior(+Z, pubis)": 23.0,
+     "posterior(-Z, sacrum)": 65.4
+    },
+    "inside_pelvic_box": true,
+    "fraction_of_vertices_below_inlet": 0.9748,
+    "max_height_above_inlet_mm": 0.2,
+    "min_surface_distance_to_hip_bone_l_mm": 8.6,
+    "sampled_vertices_inside_hip_bone_l": null,
+    "min_surface_distance_to_hip_bone_r_mm": 17.7,
+    "sampled_vertices_inside_hip_bone_r": null,
+    "min_surface_distance_to_sacrum_mm": 15.5,
+    "sampled_vertices_inside_sacrum": null,
+    "vertices_inside_ct_bone_surface_hip_sacrum": 0
+   }
+  },
+  "prostate": {
+   "label": 4,
+   "voxel_volume_cm3": 16.16,
+   "voxel_components": 1,
+   "triangles": 10744,
+   "mesh_volume_cm3": 15.9,
+   "mesh_components": 1,
+   "watertight": true,
+   "bbox_min_mm": [
+    -17.82,
+    -36.78,
+    -35.26
+   ],
+   "bbox_max_mm": [
+    22.43,
+    -3.11,
+    -8.07
+   ],
+   "reference_volume_cm3": [
+    8.0,
+    32.0
+   ],
+   "volume_in_reference_range": true,
+   "reference_basis": "normal adult prostate 20 +- 6 g from age 21-30, essentially constant after unless BPH develops (Berry et al. 1984, J Urol 132:474, doi:10.1016/s0022-5347(17)49698-4; >1000 autopsy prostates); window = mean +- 2 SD, grams read as cm3 (tissue density ~1). He was 38.",
+   "specks_dropped_cm3": [],
+   "position": {
+    "margin_to_pelvic_box_mm": {
+     "right(+X)": 114.3,
+     "left(-X)": 125.7,
+     "superior(+Y, iliac crests)": 151.9,
+     "inferior(-Y, ischial tuberosities)": 29.7,
+     "anterior(+Z, pubis)": 68.1,
+     "posterior(-Z, sacrum)": 76.0
+    },
+    "inside_pelvic_box": true,
+    "fraction_of_vertices_below_inlet": 1.0,
+    "max_height_above_inlet_mm": 0.0,
+    "min_surface_distance_to_hip_bone_l_mm": 26.0,
+    "sampled_vertices_inside_hip_bone_l": null,
+    "min_surface_distance_to_hip_bone_r_mm": 20.6,
+    "sampled_vertices_inside_hip_bone_r": null,
+    "min_surface_distance_to_sacrum_mm": 67.6,
+    "sampled_vertices_inside_sacrum": null,
+    "vertices_inside_ct_bone_surface_hip_sacrum": 0
+   }
+  }
+ },
+ "volume_assembly": {
+  "blocks": {
+   "torso": "data/ct_sources/task_outputs/vhm_total.nii.gz",
+   "legs": "data/ct_sources/task_outputs/vhm_legs_total.nii.gz"
+  },
+  "legs_to_torso_ras_mm": [
+   2.72,
+   -0.89,
+   -693.0
+  ],
+  "legs_to_torso_basis": "docs/GEOMETRY_SOURCES.md, Stage 2 (VH male): the torso block's bottom slice is the legs block's top slice (image correlation 0.945); in-plane part by phase correlation; the same offset carries his femoral-head origin to every ct_vhm torso subject",
+  "legs_slices_used": [
+   540,
+   807
+  ],
+  "grid_slices_added_below_torso": 268,
+  "in_plane_nearest_voxel_residual_mm": 0.093,
+  "torso_block_lowest_atlas_y_mm": 32.48
+ },
+ "origin_basis": "his femoral-head origin, the constant scripts/vhm_rebuild_bundle.sh passes every torso-block ct_vhm subject (docs/GEOMETRY_SOURCES.md Stage 2)",
+ "check_png": "scratchpad (not committed)",
+ "anal_canal_check": {
+  "question": "does the rectum (the TotalSegmentator colon label's anal end) reach the body's own external anal sphincter / pelvic floor meshes, stop well above them, or run through them? Measured only.",
+  "sign": "gap > 0: the rectum's lowest point lies ABOVE that level; < 0: below it (atlas +Y superior)",
+  "vhf": {
+   "pelvic_floor_subjects": [
+    "ct_vhf_pfloor"
+   ],
+   "rectum_lowest_point_atlas_mm": [
+    -0.3,
+    -62.3,
+    -40.4
+   ],
+   "rectum_lowest_5mm_cap_centroid_atlas_mm": [
+    -1.3,
+    -59.7,
+    -39.9
+   ],
+   "external_anal_sphincter_y_range_mm": [
+    -62.3,
+    -38.3
+   ],
+   "external_anal_sphincter_centroid_atlas_mm": [
+    1.6,
+    -49.7,
+    -32.7
+   ],
+   "external_anal_sphincter_radius_about_its_axis_mm": [
+    0.4,
+    22.7,
+    39.0
+   ],
+   "external_anal_sphincter_watertight": true,
+   "gap_rectum_lowest_to_sphincter_top_mm": -24.0,
+   "gap_rectum_lowest_to_sphincter_bottom_mm": -0.0,
+   "rectum_vertices_within_sphincter_height": 5337,
+   "min_distance_rectum_to_sphincter_mm": 0.3,
+   "distance_rectum_lowest_point_to_sphincter_mm": 6.6,
+   "horizontal_offset_rectum_cap_to_sphincter_axis_mm": 7.8,
+   "rectum_vertices_inside_sphincter": 0,
+   "sphincter_vertices_inside_rectum": 0,
+   "levator_ani_y_range_mm": [
+    -38.3,
+    1.7
+   ],
+   "gap_rectum_lowest_to_levator_lowest_mm": -24.0,
+   "min_distance_rectum_to_levator_ani_mm": 0.4
+  },
+  "vhm": {
+   "pelvic_floor_subjects": [
+    "ct_vhm_pfloor_fix",
+    "ct_vhm_pfloor"
+   ],
+   "rectum_lowest_point_atlas_mm": [
+    -0.5,
+    -47.2,
+    -47.9
+   ],
+   "rectum_lowest_5mm_cap_centroid_atlas_mm": [
+    0.0,
+    -44.6,
+    -47.2
+   ],
+   "external_anal_sphincter_y_range_mm": [
+    -47.0,
+    -38.0
+   ],
+   "external_anal_sphincter_centroid_atlas_mm": [
+    -5.7,
+    -42.2,
+    37.5
+   ],
+   "external_anal_sphincter_radius_about_its_axis_mm": [
+    2.9,
+    10.5,
+    17.6
+   ],
+   "external_anal_sphincter_watertight": true,
+   "gap_rectum_lowest_to_sphincter_top_mm": -9.1,
+   "gap_rectum_lowest_to_sphincter_bottom_mm": -0.1,
+   "rectum_vertices_within_sphincter_height": 483,
+   "min_distance_rectum_to_sphincter_mm": 69.5,
+   "distance_rectum_lowest_point_to_sphincter_mm": 77.4,
+   "horizontal_offset_rectum_cap_to_sphincter_axis_mm": 84.8,
+   "rectum_vertices_inside_sphincter": 0,
+   "sphincter_vertices_inside_rectum": 0,
+   "levator_ani_y_range_mm": [
+    -38.0,
+    -23.0
+   ],
+   "gap_rectum_lowest_to_levator_lowest_mm": -9.1,
+   "min_distance_rectum_to_levator_ani_mm": 23.5
+  }
+ },
+ "bundle_audit": {
+  "bundle": "build/viewer_m_hr/bundle.json",
+  "structures": {
+   "urinary_bladder": {
+    "cat": "organ",
+    "subject": "ct_vhm_pelvis",
+    "triangles": 3750,
+    "pieces": 1,
+    "name": "Urinary bladder"
+   },
+   "rectum": {
+    "cat": "organ",
+    "subject": "ct_vhm_pelvis",
+    "triangles": 3748,
+    "pieces": 1,
+    "name": "Rectum"
+   },
+   "sigmoid_colon": {
+    "cat": "organ",
+    "subject": "ct_vhm_pelvis",
+    "triangles": 3750,
+    "pieces": 1,
+    "name": "Sigmoid colon (pelvic part, below the pelvic inlet)"
+   },
+   "prostate": {
+    "cat": "organ",
+    "subject": "ct_vhm_pelvis",
+    "triangles": 3750,
+    "pieces": 1,
+    "name": "Prostate"
+   }
+  },
+  "bundle_triangles": 2038621,
+  "bundle_structures": 429
+ }
+}
