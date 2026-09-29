@@ -46,26 +46,26 @@
  "decimation": "Q159: quadric edge-collapse on welded meshes, vertex clustering fallback",
  "bin_files": [
   {
-   "path": "atlas_viewer_zan_atlas_geo_00.txt",
+   "path": "atlas_viewer_zan_female_geo_00.txt",
    "bytes": 11000000,
    "enc": "base64"
   },
   {
-   "path": "atlas_viewer_zan_atlas_geo_01.txt",
+   "path": "atlas_viewer_zan_female_geo_01.txt",
    "bytes": 11000000,
    "enc": "base64"
   },
   {
-   "path": "atlas_viewer_zan_atlas_geo_02.txt",
-   "bytes": 6339380,
+   "path": "atlas_viewer_zan_female_geo_02.txt",
+   "bytes": 6372716,
    "enc": "base64"
   }
  ],
- "binary_bytes": 28339380,
- "html_bytes": 2012774,
- "meshes": 2773,
+ "binary_bytes": 28372716,
+ "html_bytes": 2860596,
+ "meshes": 2748,
  "by_layer": {
-  "vessel": 661,
+  "vessel": 651,
   "nerve": 337,
   "muscle": 424,
   "cartilage": 53,
@@ -75,11 +75,11 @@
   "bone": 306,
   "insertion": 4,
   "cns": 203,
-  "viscera": 124,
+  "viscera": 109,
   "lymph": 163
  },
  "by_category": {
-  "vessel": 661,
+  "vessel": 651,
   "nerve": 550,
   "muscle": 547,
   "cartilage": 53,
@@ -88,11 +88,11 @@
   "fascia": 29,
   "bone": 306,
   "tendon": 40,
-  "organ": 114,
+  "organ": 99,
   "lymphatic": 164
  },
  "matched_entities": 664,
- "matched_with_atlas_record": 664,
+ "matched_with_atlas_record": 662,
  "orphan_structures": 1908,
  "rescued_matched_but_unshipped": [
   "zan_accessory_nucleus_of_oculomotor_nerve_l",
@@ -881,15 +881,58 @@
   "changed_muscles": 410,
   "before": {
    "vertices": 915194,
-   "median_gap_mm": 1.15,
-   "frac_vertices_gap_gt_1_25mm": 0.1386,
-   "frac_vertices_inside_other_muscle": 0.1007
+   "median_gap_mm": 1.03,
+   "frac_vertices_gap_gt_1_25mm": 0.126,
+   "frac_vertices_inside_other_muscle": 0.1065
   },
   "after": {
    "vertices": 915194,
-   "median_gap_mm": 0.87,
-   "frac_vertices_gap_gt_1_25mm": 0.0801,
-   "frac_vertices_inside_other_muscle": 0.0962
+   "median_gap_mm": 0.84,
+   "frac_vertices_gap_gt_1_25mm": 0.082,
+   "frac_vertices_inside_other_muscle": 0.1017
+  }
+ },
+ "fit_to_vhf": {
+  "rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)",
+  "fits": "data/derived/Q168_zan_to_vhf.json",
+  "male_only_dropped": [
+   "gonadal_a_l",
+   "gonadal_a_r",
+   "zan_corpus_cavernosum_of_penis",
+   "zan_corpus_spongiosum_of_penis",
+   "zan_deep_artery_of_penis_l",
+   "zan_deep_artery_of_penis_r",
+   "zan_deep_dorsal_vein_of_penis",
+   "zan_dorsal_artery_of_penis_l",
+   "zan_dorsal_artery_of_penis_r",
+   "zan_ductus_deferens_l",
+   "zan_ductus_deferens_r",
+   "zan_ejaculatory_duct_l",
+   "zan_ejaculatory_duct_r",
+   "zan_epididymis_l",
+   "zan_epididymis_r",
+   "zan_glans_penis",
+   "zan_left_testicular_vein",
+   "zan_prostate",
+   "zan_right_testicular_vein",
+   "zan_seminal_gland_l",
+   "zan_seminal_gland_r",
+   "zan_superficial_dorsal_veins_of_penis",
+   "zan_testis_l",
+   "zan_testis_r",
+   "zan_urethra"
+  ],
+  "structures": 2748,
+  "measured_on_her_mesh": 187,
+  "female_pelvic_organs": {
+   "uterus_ovary_tube_vagina": "none found -- no label for the uterus, ovaries, uterine tubes or vagina exists in any of her volumes (vhf_total.nii.gz is TotalSegmentator 'total', which has no such class; vhf_pelvic_floor_cryo.nii.gz puts the vaginal and urethral walls in an unshipped 'perineal_other' sink). Nothing invented.",
+   "labels_present_not_meshed": {
+    "source": "data/ct_sources/task_outputs/vhf_total.nii.gz (TotalSegmentator v2 'total' on her CT)",
+    "urinary_bladder": 21,
+    "colon_incl_rectum": 20,
+    "prostate_label_22": "absent (she is female)"
+   },
+   "meshed_subjects": "none (no build/vh/ct_vhf_* subject carries a pelvic organ)"
   }
  }
 }

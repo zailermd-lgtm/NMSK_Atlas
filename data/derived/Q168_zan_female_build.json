@@ -1,0 +1,3403 @@
+{
+ "source": "Q162 (2026-09-28): measured by scripts/zanatomy/build_zan_atlas_viewer.py on the Z-Anatomy source meshes (contralateral mirror audit; ray-cast muscle gap closure, scripts/zanatomy/muscle_gap_closure.py). Interface target from Stecco et al. 2008 doi:10.1016/j.jbmt.2008.04.041, Stecco et al. 2009 doi:10.1007/s00276-008-0395-5, Pirri et al. 2021 doi:10.1111/joa.13360. Q168 female variant: every structure first moved onto the VH female's skeleton (scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame.",
+ "fit_to_vhf": {
+  "rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)",
+  "fits": "data/derived/Q168_zan_to_vhf.json",
+  "male_only_dropped": [
+   "gonadal_a_l",
+   "gonadal_a_r",
+   "zan_corpus_cavernosum_of_penis",
+   "zan_corpus_spongiosum_of_penis",
+   "zan_deep_artery_of_penis_l",
+   "zan_deep_artery_of_penis_r",
+   "zan_deep_dorsal_vein_of_penis",
+   "zan_dorsal_artery_of_penis_l",
+   "zan_dorsal_artery_of_penis_r",
+   "zan_ductus_deferens_l",
+   "zan_ductus_deferens_r",
+   "zan_ejaculatory_duct_l",
+   "zan_ejaculatory_duct_r",
+   "zan_epididymis_l",
+   "zan_epididymis_r",
+   "zan_glans_penis",
+   "zan_left_testicular_vein",
+   "zan_prostate",
+   "zan_right_testicular_vein",
+   "zan_seminal_gland_l",
+   "zan_seminal_gland_r",
+   "zan_superficial_dorsal_veins_of_penis",
+   "zan_testis_l",
+   "zan_testis_r",
+   "zan_urethra"
+  ],
+  "structures": 2748,
+  "measured_on_her_mesh": 187,
+  "region_errors": {
+   "head_neck": {
+    "n": 54,
+    "centroid_mm": {
+     "median": 10.1,
+     "max": 61.4
+    },
+    "surface_mm": {
+     "median": 3.8,
+     "max": 26.6
+    },
+    "her_to_zan_mm": {
+     "median": 4.4,
+     "max": 27.2
+    },
+    "raw_centroid_mm": {
+     "median": 12.9,
+     "max": 64.1
+    },
+    "raw_surface_mm": {
+     "median": 5.8,
+     "max": 31.2
+    },
+    "raw_her_to_zan_mm": {
+     "median": 5.6,
+     "max": 23.3
+    }
+   },
+   "trunk": {
+    "n": 76,
+    "centroid_mm": {
+     "median": 25.8,
+     "max": 123.7
+    },
+    "surface_mm": {
+     "median": 10.6,
+     "max": 27.7
+    },
+    "her_to_zan_mm": {
+     "median": 11.3,
+     "max": 28.7
+    },
+    "raw_centroid_mm": {
+     "median": 32.8,
+     "max": 110.9
+    },
+    "raw_surface_mm": {
+     "median": 18.6,
+     "max": 68.4
+    },
+    "raw_her_to_zan_mm": {
+     "median": 17.4,
+     "max": 71.9
+    }
+   },
+   "upper_limb": {
+    "n": 6,
+    "centroid_mm": {
+     "median": 18.8,
+     "max": 34.0
+    },
+    "surface_mm": {
+     "median": 11.7,
+     "max": 19.8
+    },
+    "her_to_zan_mm": {
+     "median": 13.5,
+     "max": 23.1
+    },
+    "raw_centroid_mm": {
+     "median": 83.5,
+     "max": 93.2
+    },
+    "raw_surface_mm": {
+     "median": 19.0,
+     "max": 28.5
+    },
+    "raw_her_to_zan_mm": {
+     "median": 18.8,
+     "max": 28.4
+    }
+   },
+   "forearm_hand": {
+    "n": 21,
+    "centroid_mm": {
+     "median": 38.1,
+     "max": 349.7
+    },
+    "surface_mm": {
+     "median": 6.3,
+     "max": 27.0
+    },
+    "her_to_zan_mm": {
+     "median": 5.9,
+     "max": 36.9
+    },
+    "raw_centroid_mm": {
+     "median": 149.2,
+     "max": 416.9
+    },
+    "raw_surface_mm": {
+     "median": 72.1,
+     "max": 171.5
+    },
+    "raw_her_to_zan_mm": {
+     "median": 69.5,
+     "max": 169.9
+    }
+   },
+   "lower_limb": {
+    "n": 10,
+    "centroid_mm": {
+     "median": 14.6,
+     "max": 117.7
+    },
+    "surface_mm": {
+     "median": 2.3,
+     "max": 5.3
+    },
+    "her_to_zan_mm": {
+     "median": 2.7,
+     "max": 4.7
+    },
+    "raw_centroid_mm": {
+     "median": 44.7,
+     "max": 160.7
+    },
+    "raw_surface_mm": {
+     "median": 20.0,
+     "max": 38.1
+    },
+    "raw_her_to_zan_mm": {
+     "median": 20.6,
+     "max": 38.0
+    }
+   },
+   "foot": {
+    "n": 16,
+    "centroid_mm": {
+     "median": 3.6,
+     "max": 147.2
+    },
+    "surface_mm": {
+     "median": 1.6,
+     "max": 5.9
+    },
+    "her_to_zan_mm": {
+     "median": 1.6,
+     "max": 5.5
+    },
+    "raw_centroid_mm": {
+     "median": 56.0,
+     "max": 170.0
+    },
+    "raw_surface_mm": {
+     "median": 39.2,
+     "max": 47.0
+    },
+    "raw_her_to_zan_mm": {
+     "median": 40.8,
+     "max": 53.2
+    }
+   },
+   "whole_body": {
+    "n": 183,
+    "centroid_mm": {
+     "median": 17.3,
+     "max": 349.7
+    },
+    "surface_mm": {
+     "median": 6.1,
+     "max": 27.7
+    },
+    "her_to_zan_mm": {
+     "median": 5.9,
+     "max": 36.9
+    },
+    "raw_centroid_mm": {
+     "median": 32.3,
+     "max": 416.9
+    },
+    "raw_surface_mm": {
+     "median": 15.0,
+     "max": 171.5
+    },
+    "raw_her_to_zan_mm": {
+     "median": 16.3,
+     "max": 169.9
+    }
+   },
+   "whole_body_soft_tissue": {
+    "n": 147,
+    "centroid_mm": {
+     "median": 20.3,
+     "max": 349.7
+    },
+    "surface_mm": {
+     "median": 7.6,
+     "max": 27.7
+    },
+    "her_to_zan_mm": {
+     "median": 7.9,
+     "max": 36.9
+    },
+    "raw_centroid_mm": {
+     "median": 25.8,
+     "max": 416.9
+    },
+    "raw_surface_mm": {
+     "median": 11.8,
+     "max": 171.5
+    },
+    "raw_her_to_zan_mm": {
+     "median": 10.9,
+     "max": 169.9
+    }
+   },
+   "whole_body_bones": {
+    "n": 36,
+    "centroid_mm": {
+     "median": 4.4,
+     "max": 79.3
+    },
+    "surface_mm": {
+     "median": 1.9,
+     "max": 3.3
+    },
+    "her_to_zan_mm": {
+     "median": 1.9,
+     "max": 3.8
+    },
+    "raw_centroid_mm": {
+     "median": 47.8,
+     "max": 112.2
+    },
+    "raw_surface_mm": {
+     "median": 29.2,
+     "max": 60.8
+    },
+    "raw_her_to_zan_mm": {
+     "median": 28.9,
+     "max": 54.9
+    }
+   },
+   "whole_body_her_mesh_complete": {
+    "n": 131,
+    "centroid_mm": {
+     "median": 15.3,
+     "max": 123.7
+    },
+    "surface_mm": {
+     "median": 5.4,
+     "max": 27.0
+    },
+    "her_to_zan_mm": {
+     "median": 5.9,
+     "max": 36.9
+    },
+    "raw_centroid_mm": {
+     "median": 28.9,
+     "max": 195.8
+    },
+    "raw_surface_mm": {
+     "median": 13.4,
+     "max": 171.5
+    },
+    "raw_her_to_zan_mm": {
+     "median": 16.5,
+     "max": 169.9
+    }
+   },
+   "proxy_fit_targets_not_independent": {
+    "n": 4,
+    "centroid_mm": {
+     "median": 36.7,
+     "max": 98.5
+    },
+    "surface_mm": {
+     "median": 6.8,
+     "max": 21.0
+    },
+    "her_to_zan_mm": {
+     "median": 6.6,
+     "max": 18.8
+    },
+    "raw_centroid_mm": {
+     "median": 195.0,
+     "max": 248.8
+    },
+    "raw_surface_mm": {
+     "median": 87.3,
+     "max": 147.8
+    },
+    "raw_her_to_zan_mm": {
+     "median": 83.1,
+     "max": 143.9
+    }
+   }
+  },
+  "female_pelvic_organs": {
+   "uterus_ovary_tube_vagina": "none found -- no label for the uterus, ovaries, uterine tubes or vagina exists in any of her volumes (vhf_total.nii.gz is TotalSegmentator 'total', which has no such class; vhf_pelvic_floor_cryo.nii.gz puts the vaginal and urethral walls in an unshipped 'perineal_other' sink). Nothing invented.",
+   "labels_present_not_meshed": {
+    "source": "data/ct_sources/task_outputs/vhf_total.nii.gz (TotalSegmentator v2 'total' on her CT)",
+    "urinary_bladder": 21,
+    "colon_incl_rectum": 20,
+    "prostate_label_22": "absent (she is female)"
+   },
+   "meshed_subjects": "none (no build/vh/ct_vhf_* subject carries a pelvic organ)"
+  }
+ },
+ "contralateral": {
+  "pairs_audited": 1114,
+  "flagged": [
+   {
+    "id": "ascending_lumbar_v",
+    "cat": "vessel",
+    "chamfer_mm": 17.61,
+    "pieces_l": 1,
+    "pieces_r": 4,
+    "verts_l": 1015,
+    "verts_r": 1760
+   },
+   {
+    "id": "brachiocephalic_v",
+    "cat": "vessel",
+    "chamfer_mm": 9.72,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 189,
+    "verts_r": 130
+   },
+   {
+    "id": "sacrospinous_ligament",
+    "cat": "ligament",
+    "chamfer_mm": 2.16,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 142,
+    "verts_r": 142
+   },
+   {
+    "id": "zan_common_iliac_artery",
+    "cat": "vessel",
+    "chamfer_mm": 4.96,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 71,
+    "verts_r": 130
+   },
+   {
+    "id": "zan_common_iliac_vein",
+    "cat": "vessel",
+    "chamfer_mm": 6.02,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 130,
+    "verts_r": 71
+   },
+   {
+    "id": "zan_iliopsoas_fascia",
+    "cat": "muscle",
+    "chamfer_mm": 19.18,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 874,
+    "verts_r": 874
+   },
+   {
+    "id": "zan_inferior_suprarenal_artery",
+    "cat": "vessel",
+    "chamfer_mm": 14.97,
+    "pieces_l": 5,
+    "pieces_r": 4,
+    "verts_l": 1062,
+    "verts_r": 867
+   },
+   {
+    "id": "zan_infra_auricular_nodes",
+    "cat": "lymphatic",
+    "chamfer_mm": 2.31,
+    "pieces_l": 2,
+    "pieces_r": 2,
+    "verts_l": 172,
+    "verts_r": 172
+   },
+   {
+    "id": "zan_suprarenal_gland",
+    "cat": "organ",
+    "chamfer_mm": 15.46,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 2000,
+    "verts_r": 1149
+   },
+   {
+    "id": "zan_ulnocapitate_ligament",
+    "cat": "ligament",
+    "chamfer_mm": 2.97,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 66,
+    "verts_r": 66
+   },
+   {
+    "id": "zan_ulnolunate_ligament",
+    "cat": "ligament",
+    "chamfer_mm": 2.11,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 54,
+    "verts_r": 54
+   },
+   {
+    "id": "zan_ureter",
+    "cat": "organ",
+    "chamfer_mm": 4.67,
+    "pieces_l": 1,
+    "pieces_r": 1,
+    "verts_l": 1452,
+    "verts_r": 1596
+   },
+   {
+    "id": "zan_vagus_nerve_x",
+    "cat": "nerve",
+    "chamfer_mm": 63.85,
+    "pieces_l": 7,
+    "pieces_r": 21,
+    "verts_l": 7284,
+    "verts_r": 23004
+   },
+   {
+    "id": "zan_zonular_fibres",
+    "cat": "nerve",
+    "chamfer_mm": 5.93,
+    "pieces_l": 1,
+    "pieces_r": 97,
+    "verts_l": 354,
+    "verts_r": 34338
+   }
+  ],
+  "repaired": [
+   {
+    "id": "zan_iliopsoas_fascia_l",
+    "from": "zan_iliopsoas_fascia_r",
+    "reason": "left source object displaced ~19 mm off the psoas",
+    "median_change_mm": 18.4
+   },
+   {
+    "id": "zan_iliopectineal_arch_l",
+    "from": "zan_iliopectineal_arch_r",
+    "reason": "left source object is a 23-vertex stub",
+    "median_change_mm": 0.5
+   },
+   {
+    "id": "zan_zonular_fibres_l",
+    "from": "zan_zonular_fibres_r",
+    "reason": "left source object is a 0.3 mm stub",
+    "median_change_mm": 5.5
+   }
+  ],
+  "repair_targets_missing": []
+ },
+ "gap_closure": {
+  "rule": "muscle_gap_closure.py",
+  "target_gap_mm": 1.0,
+  "max_shift_mm": 3.0,
+  "citations": "deep fascia of the limbs ~1 mm, epimysium 48 um (Stecco et al. 2008, doi:10.1016/j.jbmt.2008.04.041; doi:10.1007/s00276-008-0395-5; Pirri et al. 2021, doi:10.1111/joa.13360)",
+  "movable_muscles": 412,
+  "changed_muscles": 410,
+  "before": {
+   "vertices": 915194,
+   "median_gap_mm": 1.03,
+   "frac_vertices_gap_gt_1_25mm": 0.126,
+   "frac_vertices_inside_other_muscle": 0.1065
+  },
+  "after": {
+   "vertices": 915194,
+   "median_gap_mm": 0.84,
+   "frac_vertices_gap_gt_1_25mm": 0.082,
+   "frac_vertices_inside_other_muscle": 0.1017
+  },
+  "per_mesh": {
+   "abductor_digiti_minimi_foot_l": {
+    "moved_frac": 0.252,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.51,
+    "volume_cm3_after": 6.09
+   },
+   "abductor_digiti_minimi_foot_r": {
+    "moved_frac": 0.333,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 7.01,
+    "volume_cm3_after": 8.13
+   },
+   "abductor_digiti_minimi_hand_l": {
+    "moved_frac": 0.214,
+    "shift_median_mm": 1.2,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.81,
+    "volume_cm3_after": 2.34
+   },
+   "abductor_digiti_minimi_hand_r": {
+    "moved_frac": 0.131,
+    "shift_median_mm": 0.17,
+    "shift_max_mm": 0.88,
+    "volume_cm3_before": 0.37,
+    "volume_cm3_after": 0.42
+   },
+   "abductor_hallucis_l": {
+    "moved_frac": 0.192,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 9.22,
+    "volume_cm3_after": 9.92
+   },
+   "abductor_hallucis_r": {
+    "moved_frac": 0.28,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 9.78,
+    "volume_cm3_after": 10.95
+   },
+   "abductor_pollicis_brevis_l": {
+    "moved_frac": 0.16,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 2.9,
+    "volume_cm3_before": 1.7,
+    "volume_cm3_after": 1.78
+   },
+   "abductor_pollicis_brevis_r": {
+    "moved_frac": 0.141,
+    "shift_median_mm": 0.17,
+    "shift_max_mm": 2.37,
+    "volume_cm3_before": 1.92,
+    "volume_cm3_after": 1.98
+   },
+   "abductor_pollicis_longus_l": {
+    "moved_frac": 0.352,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 14.52,
+    "volume_cm3_after": 15.84
+   },
+   "abductor_pollicis_longus_r": {
+    "moved_frac": 0.432,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 18.13,
+    "volume_cm3_after": 20.11
+   },
+   "adductor_brevis_l": {
+    "moved_frac": 0.553,
+    "shift_median_mm": 0.58,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 44.36,
+    "volume_cm3_after": 51.7
+   },
+   "adductor_brevis_r": {
+    "moved_frac": 0.596,
+    "shift_median_mm": 0.62,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 48.8,
+    "volume_cm3_after": 57.25
+   },
+   "adductor_hallucis_l": {
+    "moved_frac": 0.581,
+    "shift_median_mm": 0.47,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.09,
+    "volume_cm3_after": 6.52
+   },
+   "adductor_hallucis_r": {
+    "moved_frac": 0.576,
+    "shift_median_mm": 0.61,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.11,
+    "volume_cm3_after": 8.21
+   },
+   "adductor_longus_l": {
+    "moved_frac": 0.472,
+    "shift_median_mm": 0.72,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 114.22,
+    "volume_cm3_after": 126.87
+   },
+   "adductor_longus_r": {
+    "moved_frac": 0.544,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 122.52,
+    "volume_cm3_after": 137.22
+   },
+   "adductor_magnus_l": {
+    "moved_frac": 0.618,
+    "shift_median_mm": 0.89,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 383.36,
+    "volume_cm3_after": 420.25
+   },
+   "adductor_magnus_r": {
+    "moved_frac": 0.654,
+    "shift_median_mm": 0.82,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 400.31,
+    "volume_cm3_after": 439.52
+   },
+   "adductor_pollicis_l": {
+    "moved_frac": 0.511,
+    "shift_median_mm": 0.49,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.83,
+    "volume_cm3_after": 5.35
+   },
+   "adductor_pollicis_r": {
+    "moved_frac": 0.507,
+    "shift_median_mm": 0.59,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.76,
+    "volume_cm3_after": 8.48
+   },
+   "anconeus_l": {
+    "moved_frac": 0.266,
+    "shift_median_mm": 0.83,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 7.1,
+    "volume_cm3_after": 8.75
+   },
+   "anconeus_r": {
+    "moved_frac": 0.387,
+    "shift_median_mm": 0.57,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 8.38,
+    "volume_cm3_after": 10.43
+   },
+   "biceps_brachii_l": {
+    "moved_frac": 0.257,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 167.63,
+    "volume_cm3_after": 173.19
+   },
+   "biceps_brachii_r": {
+    "moved_frac": 0.268,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 161.26,
+    "volume_cm3_after": 167.31
+   },
+   "biceps_femoris_l": {
+    "moved_frac": 0.336,
+    "shift_median_mm": 0.7,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 357.12,
+    "volume_cm3_after": 378.62
+   },
+   "biceps_femoris_r": {
+    "moved_frac": 0.356,
+    "shift_median_mm": 0.58,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 362.37,
+    "volume_cm3_after": 384.29
+   },
+   "brachialis_l": {
+    "moved_frac": 0.227,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 2.84,
+    "volume_cm3_before": 58.7,
+    "volume_cm3_after": 60.76
+   },
+   "brachialis_r": {
+    "moved_frac": 0.23,
+    "shift_median_mm": 0.23,
+    "shift_max_mm": 2.97,
+    "volume_cm3_before": 55.58,
+    "volume_cm3_after": 57.58
+   },
+   "brachioradialis_l": {
+    "moved_frac": 0.256,
+    "shift_median_mm": 0.72,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 59.69,
+    "volume_cm3_after": 64.29
+   },
+   "brachioradialis_r": {
+    "moved_frac": 0.271,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 39.47,
+    "volume_cm3_after": 42.89
+   },
+   "coccygeus_l": {
+    "moved_frac": 0.344,
+    "shift_median_mm": 0.58,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 6.71,
+    "volume_cm3_after": 9.01
+   },
+   "coccygeus_r": {
+    "moved_frac": 0.355,
+    "shift_median_mm": 0.67,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 6.66,
+    "volume_cm3_after": 8.99
+   },
+   "coracobrachialis_l": {
+    "moved_frac": 0.364,
+    "shift_median_mm": 1.18,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 19.74,
+    "volume_cm3_after": 23.36
+   },
+   "coracobrachialis_r": {
+    "moved_frac": 0.38,
+    "shift_median_mm": 0.81,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 22.86,
+    "volume_cm3_after": 25.63
+   },
+   "cricothyroid_l": {
+    "moved_frac": 0.078,
+    "shift_median_mm": 0.14,
+    "shift_max_mm": 2.82,
+    "volume_cm3_before": 0.11,
+    "volume_cm3_after": 0.12
+   },
+   "cricothyroid_r": {
+    "moved_frac": 0.07,
+    "shift_median_mm": 0.15,
+    "shift_max_mm": 2.95,
+    "volume_cm3_before": 0.11,
+    "volume_cm3_after": 0.12
+   },
+   "depressor_anguli_oris_l": {
+    "moved_frac": 0.151,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.32,
+    "volume_cm3_after": 1.5
+   },
+   "depressor_anguli_oris_r": {
+    "moved_frac": 0.161,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.32,
+    "volume_cm3_after": 1.49
+   },
+   "depressor_labii_inferioris_l": {
+    "moved_frac": 0.074,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 1.41,
+    "volume_cm3_after": 1.44
+   },
+   "depressor_labii_inferioris_r": {
+    "moved_frac": 0.074,
+    "shift_median_mm": 0.19,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 1.39,
+    "volume_cm3_after": 1.43
+   },
+   "depressor_septi_nasi_l": {
+    "moved_frac": 0.036,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 0.29,
+    "volume_cm3_before": 0.17,
+    "volume_cm3_after": 0.17
+   },
+   "depressor_septi_nasi_r": {
+    "moved_frac": 0.036,
+    "shift_median_mm": 0.24,
+    "shift_max_mm": 0.29,
+    "volume_cm3_before": 0.17,
+    "volume_cm3_after": 0.17
+   },
+   "diaphragm": {
+    "moved_frac": 0.129,
+    "shift_median_mm": 0.46,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 406.78,
+    "volume_cm3_after": 430.68
+   },
+   "digastric_l": {
+    "moved_frac": 0.383,
+    "shift_median_mm": 0.71,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.03,
+    "volume_cm3_after": 4.25
+   },
+   "digastric_r": {
+    "moved_frac": 0.402,
+    "shift_median_mm": 0.69,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 2.49,
+    "volume_cm3_after": 3.58
+   },
+   "dorsal_interossei_foot_l": {
+    "moved_frac": 0.499,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.27,
+    "volume_cm3_after": 4.49
+   },
+   "dorsal_interossei_foot_r": {
+    "moved_frac": 0.473,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 4.08,
+    "volume_cm3_after": 5.62
+   },
+   "dorsal_interossei_hand_l": {
+    "moved_frac": 0.39,
+    "shift_median_mm": 0.95,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.75,
+    "volume_cm3_after": 5.36
+   },
+   "dorsal_interossei_hand_r": {
+    "moved_frac": 0.503,
+    "shift_median_mm": 0.56,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.59,
+    "volume_cm3_after": 6.76
+   },
+   "extensor_carpi_radialis_brevis_l": {
+    "moved_frac": 0.25,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 2.2,
+    "volume_cm3_before": 18.29,
+    "volume_cm3_after": 19.23
+   },
+   "extensor_carpi_radialis_brevis_r": {
+    "moved_frac": 0.309,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 2.7,
+    "volume_cm3_before": 18.47,
+    "volume_cm3_after": 19.81
+   },
+   "extensor_carpi_radialis_longus_l": {
+    "moved_frac": 0.249,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 22.71,
+    "volume_cm3_after": 24.05
+   },
+   "extensor_carpi_radialis_longus_r": {
+    "moved_frac": 0.272,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 16.37,
+    "volume_cm3_after": 17.85
+   },
+   "extensor_carpi_ulnaris_l": {
+    "moved_frac": 0.388,
+    "shift_median_mm": 0.87,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 13.58,
+    "volume_cm3_after": 18.54
+   },
+   "extensor_carpi_ulnaris_r": {
+    "moved_frac": 0.418,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 13.87,
+    "volume_cm3_after": 19.12
+   },
+   "extensor_digiti_minimi_l": {
+    "moved_frac": 0.396,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 6.22,
+    "volume_cm3_after": 7.83
+   },
+   "extensor_digiti_minimi_r": {
+    "moved_frac": 0.367,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 7.03,
+    "volume_cm3_after": 8.66
+   },
+   "extensor_digitorum_brevis_l": {
+    "moved_frac": 0.249,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 9.39,
+    "volume_cm3_after": 10.47
+   },
+   "extensor_digitorum_brevis_r": {
+    "moved_frac": 0.35,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.18,
+    "volume_cm3_after": 12.55
+   },
+   "extensor_digitorum_l": {
+    "moved_frac": 0.129,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 27.39,
+    "volume_cm3_after": 28.56
+   },
+   "extensor_digitorum_longus_l": {
+    "moved_frac": 0.176,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 30.03,
+    "volume_cm3_after": 32.54
+   },
+   "extensor_digitorum_longus_r": {
+    "moved_frac": 0.32,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 30.7,
+    "volume_cm3_after": 25.23
+   },
+   "extensor_digitorum_r": {
+    "moved_frac": 0.185,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 2.95,
+    "volume_cm3_before": 33.89,
+    "volume_cm3_after": 36.64
+   },
+   "extensor_hallucis_brevis_l": {
+    "moved_frac": 0.193,
+    "shift_median_mm": 0.24,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.15,
+    "volume_cm3_after": 4.42
+   },
+   "extensor_hallucis_brevis_r": {
+    "moved_frac": 0.217,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 2.6,
+    "volume_cm3_before": 5.12,
+    "volume_cm3_after": 5.53
+   },
+   "extensor_hallucis_longus_l": {
+    "moved_frac": 0.186,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 2.67,
+    "volume_cm3_before": 7.11,
+    "volume_cm3_after": 7.72
+   },
+   "extensor_hallucis_longus_r": {
+    "moved_frac": 0.187,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 2.94,
+    "volume_cm3_before": 7.63,
+    "volume_cm3_after": 8.27
+   },
+   "extensor_indicis_l": {
+    "moved_frac": 0.344,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 2.85,
+    "volume_cm3_before": 2.79,
+    "volume_cm3_after": 3.45
+   },
+   "extensor_indicis_r": {
+    "moved_frac": 0.476,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.48,
+    "volume_cm3_after": 4.44
+   },
+   "extensor_pollicis_brevis_l": {
+    "moved_frac": 0.337,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.25,
+    "volume_cm3_after": 4.05
+   },
+   "extensor_pollicis_brevis_r": {
+    "moved_frac": 0.381,
+    "shift_median_mm": 0.53,
+    "shift_max_mm": 2.95,
+    "volume_cm3_before": 5.3,
+    "volume_cm3_after": 7.04
+   },
+   "external_anal_sphincter": {
+    "moved_frac": 0.553,
+    "shift_median_mm": 0.52,
+    "shift_max_mm": 2.94,
+    "volume_cm3_before": 2.35,
+    "volume_cm3_after": 3.65
+   },
+   "external_oblique_l": {
+    "moved_frac": 0.257,
+    "shift_median_mm": 0.57,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 244.77,
+    "volume_cm3_after": 274.8
+   },
+   "external_oblique_r": {
+    "moved_frac": 0.219,
+    "shift_median_mm": 0.38,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 233.74,
+    "volume_cm3_after": 254.58
+   },
+   "fibularis_brevis_l": {
+    "moved_frac": 0.196,
+    "shift_median_mm": 0.22,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 14.11,
+    "volume_cm3_after": 15.05
+   },
+   "fibularis_brevis_r": {
+    "moved_frac": 0.266,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 15.68,
+    "volume_cm3_after": 17.14
+   },
+   "fibularis_longus_l": {
+    "moved_frac": 0.091,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 2.43,
+    "volume_cm3_before": 49.83,
+    "volume_cm3_after": 50.2
+   },
+   "fibularis_longus_r": {
+    "moved_frac": 0.15,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 2.94,
+    "volume_cm3_before": 54.7,
+    "volume_cm3_after": 56.09
+   },
+   "fibularis_tertius_l": {
+    "moved_frac": 0.153,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 1.8,
+    "volume_cm3_before": 1.21,
+    "volume_cm3_after": 1.41
+   },
+   "fibularis_tertius_r": {
+    "moved_frac": 0.299,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 1.82,
+    "volume_cm3_before": 1.36,
+    "volume_cm3_after": 1.74
+   },
+   "flexor_carpi_radialis_l": {
+    "moved_frac": 0.164,
+    "shift_median_mm": 0.37,
+    "shift_max_mm": 2.88,
+    "volume_cm3_before": 18.58,
+    "volume_cm3_after": 20.22
+   },
+   "flexor_carpi_radialis_r": {
+    "moved_frac": 0.137,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 2.33,
+    "volume_cm3_before": 7.38,
+    "volume_cm3_after": 8.12
+   },
+   "flexor_carpi_ulnaris_l": {
+    "moved_frac": 0.289,
+    "shift_median_mm": 0.7,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 41.1,
+    "volume_cm3_after": 49.0
+   },
+   "flexor_carpi_ulnaris_r": {
+    "moved_frac": 0.329,
+    "shift_median_mm": 0.46,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 32.27,
+    "volume_cm3_after": 38.74
+   },
+   "flexor_digiti_minimi_brevis_foot_l": {
+    "moved_frac": 0.278,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 2.89,
+    "volume_cm3_before": 1.25,
+    "volume_cm3_after": 1.58
+   },
+   "flexor_digiti_minimi_brevis_foot_r": {
+    "moved_frac": 0.409,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 2.97,
+    "volume_cm3_before": 1.7,
+    "volume_cm3_after": 2.31
+   },
+   "flexor_digiti_minimi_brevis_hand_l": {
+    "moved_frac": 0.321,
+    "shift_median_mm": 0.23,
+    "shift_max_mm": 1.26,
+    "volume_cm3_before": 0.64,
+    "volume_cm3_after": 0.7
+   },
+   "flexor_digiti_minimi_brevis_hand_r": {
+    "moved_frac": 0.077,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 0.97,
+    "volume_cm3_before": 0.1,
+    "volume_cm3_after": 0.11
+   },
+   "flexor_digitorum_brevis_l": {
+    "moved_frac": 0.261,
+    "shift_median_mm": 0.59,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 15.62,
+    "volume_cm3_after": 17.52
+   },
+   "flexor_digitorum_brevis_r": {
+    "moved_frac": 0.361,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 19.51,
+    "volume_cm3_after": 22.96
+   },
+   "flexor_digitorum_longus_l": {
+    "moved_frac": 0.218,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 40.9,
+    "volume_cm3_after": 43.38
+   },
+   "flexor_digitorum_longus_r": {
+    "moved_frac": 0.28,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 44.8,
+    "volume_cm3_after": 49.3
+   },
+   "flexor_digitorum_profundus_l": {
+    "moved_frac": 0.248,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 49.23,
+    "volume_cm3_after": 52.43
+   },
+   "flexor_digitorum_profundus_r": {
+    "moved_frac": 0.214,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 28.63,
+    "volume_cm3_after": 31.91
+   },
+   "flexor_digitorum_superficialis_l": {
+    "moved_frac": 0.33,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 15.72,
+    "volume_cm3_after": 17.1
+   },
+   "flexor_digitorum_superficialis_r": {
+    "moved_frac": 0.361,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 7.38,
+    "volume_cm3_after": 8.5
+   },
+   "flexor_hallucis_brevis_l": {
+    "moved_frac": 0.181,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 2.72,
+    "volume_cm3_before": 6.13,
+    "volume_cm3_after": 6.49
+   },
+   "flexor_hallucis_brevis_r": {
+    "moved_frac": 0.359,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 2.81,
+    "volume_cm3_before": 8.2,
+    "volume_cm3_after": 9.18
+   },
+   "flexor_hallucis_longus_l": {
+    "moved_frac": 0.243,
+    "shift_median_mm": 0.38,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 46.59,
+    "volume_cm3_after": 50.25
+   },
+   "flexor_hallucis_longus_r": {
+    "moved_frac": 0.34,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 51.67,
+    "volume_cm3_after": 57.64
+   },
+   "flexor_pollicis_brevis_l": {
+    "moved_frac": 0.221,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 2.34,
+    "volume_cm3_before": 2.62,
+    "volume_cm3_after": 3.11
+   },
+   "flexor_pollicis_brevis_r": {
+    "moved_frac": 0.237,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 2.82,
+    "volume_cm3_before": 3.01,
+    "volume_cm3_after": 3.67
+   },
+   "flexor_pollicis_longus_l": {
+    "moved_frac": 0.342,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.91,
+    "volume_cm3_after": 5.91
+   },
+   "flexor_pollicis_longus_r": {
+    "moved_frac": 0.33,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.15,
+    "volume_cm3_after": 5.35
+   },
+   "frontalis_l": {
+    "moved_frac": 0.008,
+    "shift_median_mm": 0.11,
+    "shift_max_mm": 0.25,
+    "volume_cm3_before": 7.43,
+    "volume_cm3_after": 7.43
+   },
+   "frontalis_r": {
+    "moved_frac": 0.016,
+    "shift_median_mm": 0.13,
+    "shift_max_mm": 1.11,
+    "volume_cm3_before": 7.43,
+    "volume_cm3_after": 7.46
+   },
+   "gastrocnemius_l": {
+    "moved_frac": 0.343,
+    "shift_median_mm": 0.66,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 453.01,
+    "volume_cm3_after": 473.46
+   },
+   "gastrocnemius_r": {
+    "moved_frac": 0.399,
+    "shift_median_mm": 0.61,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 494.68,
+    "volume_cm3_after": 518.65
+   },
+   "gemellus_inferior_l": {
+    "moved_frac": 0.239,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 2.01,
+    "volume_cm3_before": 4.55,
+    "volume_cm3_after": 5.14
+   },
+   "gemellus_inferior_r": {
+    "moved_frac": 0.235,
+    "shift_median_mm": 0.23,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 4.41,
+    "volume_cm3_after": 5.1
+   },
+   "gemellus_superior_l": {
+    "moved_frac": 0.162,
+    "shift_median_mm": 0.14,
+    "shift_max_mm": 0.81,
+    "volume_cm3_before": 5.29,
+    "volume_cm3_after": 5.4
+   },
+   "gemellus_superior_r": {
+    "moved_frac": 0.23,
+    "shift_median_mm": 0.17,
+    "shift_max_mm": 0.77,
+    "volume_cm3_before": 5.13,
+    "volume_cm3_after": 5.34
+   },
+   "genioglossus_l": {
+    "moved_frac": 0.346,
+    "shift_median_mm": 0.52,
+    "shift_max_mm": 2.39,
+    "volume_cm3_before": 8.13,
+    "volume_cm3_after": 9.15
+   },
+   "genioglossus_r": {
+    "moved_frac": 0.339,
+    "shift_median_mm": 0.64,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 7.9,
+    "volume_cm3_after": 8.97
+   },
+   "geniohyoid_l": {
+    "moved_frac": 0.172,
+    "shift_median_mm": 0.19,
+    "shift_max_mm": 1.11,
+    "volume_cm3_before": 0.72,
+    "volume_cm3_after": 0.8
+   },
+   "geniohyoid_r": {
+    "moved_frac": 0.266,
+    "shift_median_mm": 0.18,
+    "shift_max_mm": 0.89,
+    "volume_cm3_before": 0.66,
+    "volume_cm3_after": 0.73
+   },
+   "gluteus_maximus_l": {
+    "moved_frac": 0.313,
+    "shift_median_mm": 0.89,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 498.33,
+    "volume_cm3_after": 522.92
+   },
+   "gluteus_maximus_r": {
+    "moved_frac": 0.364,
+    "shift_median_mm": 0.73,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 480.97,
+    "volume_cm3_after": 505.47
+   },
+   "gluteus_medius_l": {
+    "moved_frac": 0.373,
+    "shift_median_mm": 0.85,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 244.12,
+    "volume_cm3_after": 257.68
+   },
+   "gluteus_medius_r": {
+    "moved_frac": 0.443,
+    "shift_median_mm": 0.89,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 248.74,
+    "volume_cm3_after": 265.33
+   },
+   "gluteus_minimus_l": {
+    "moved_frac": 0.363,
+    "shift_median_mm": 0.75,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 133.85,
+    "volume_cm3_after": 144.7
+   },
+   "gluteus_minimus_r": {
+    "moved_frac": 0.337,
+    "shift_median_mm": 0.75,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 138.39,
+    "volume_cm3_after": 148.6
+   },
+   "gracilis_l": {
+    "moved_frac": 0.345,
+    "shift_median_mm": 0.75,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 104.08,
+    "volume_cm3_after": 112.22
+   },
+   "gracilis_r": {
+    "moved_frac": 0.424,
+    "shift_median_mm": 0.77,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 108.74,
+    "volume_cm3_after": 120.69
+   },
+   "hyoglossus_l": {
+    "moved_frac": 0.402,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.66,
+    "volume_cm3_after": 0.96
+   },
+   "hyoglossus_r": {
+    "moved_frac": 0.382,
+    "shift_median_mm": 0.34,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 0.63,
+    "volume_cm3_after": 0.84
+   },
+   "iliocostalis_l": {
+    "moved_frac": 0.423,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 104.71,
+    "volume_cm3_after": 122.41
+   },
+   "iliocostalis_r": {
+    "moved_frac": 0.387,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 107.06,
+    "volume_cm3_after": 122.49
+   },
+   "inferior_oblique_l": {
+    "moved_frac": 0.163,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 2.64,
+    "volume_cm3_before": 0.28,
+    "volume_cm3_after": 0.31
+   },
+   "inferior_oblique_r": {
+    "moved_frac": 0.151,
+    "shift_median_mm": 0.19,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 0.28,
+    "volume_cm3_after": 0.31
+   },
+   "inferior_pharyngeal_constrictor_l": {
+    "moved_frac": 0.174,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 2.23,
+    "volume_cm3_before": 3.05,
+    "volume_cm3_after": 3.16
+   },
+   "inferior_pharyngeal_constrictor_r": {
+    "moved_frac": 0.158,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 1.91,
+    "volume_cm3_before": 3.0,
+    "volume_cm3_after": 3.09
+   },
+   "inferior_rectus_l": {
+    "moved_frac": 0.261,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.54,
+    "volume_cm3_after": 0.67
+   },
+   "inferior_rectus_r": {
+    "moved_frac": 0.267,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 2.8,
+    "volume_cm3_before": 0.54,
+    "volume_cm3_after": 0.63
+   },
+   "infraspinatus_l": {
+    "moved_frac": 0.575,
+    "shift_median_mm": 0.77,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 89.79,
+    "volume_cm3_after": 100.72
+   },
+   "infraspinatus_r": {
+    "moved_frac": 0.671,
+    "shift_median_mm": 0.92,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 93.73,
+    "volume_cm3_after": 108.33
+   },
+   "internal_oblique_l": {
+    "moved_frac": 0.299,
+    "shift_median_mm": 0.56,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 191.1,
+    "volume_cm3_after": 224.13
+   },
+   "internal_oblique_r": {
+    "moved_frac": 0.341,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 213.71,
+    "volume_cm3_after": 167.74
+   },
+   "interspinales_l": {
+    "moved_frac": 0.361,
+    "shift_median_mm": 0.18,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 1.96,
+    "volume_cm3_after": 2.27
+   },
+   "interspinales_r": {
+    "moved_frac": 0.361,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 1.96,
+    "volume_cm3_after": 2.3
+   },
+   "lateral_pterygoid_l": {
+    "moved_frac": 0.211,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 0.96,
+    "volume_cm3_before": 1.64,
+    "volume_cm3_after": 1.79
+   },
+   "lateral_pterygoid_r": {
+    "moved_frac": 0.183,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 1.14,
+    "volume_cm3_before": 1.61,
+    "volume_cm3_after": 1.75
+   },
+   "lateral_rectus_l": {
+    "moved_frac": 0.156,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.44,
+    "volume_cm3_after": 0.54
+   },
+   "lateral_rectus_r": {
+    "moved_frac": 0.177,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 1.91,
+    "volume_cm3_before": 0.43,
+    "volume_cm3_after": 0.52
+   },
+   "latissimus_dorsi_l": {
+    "moved_frac": 0.393,
+    "shift_median_mm": 0.83,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 399.9,
+    "volume_cm3_after": 473.98
+   },
+   "latissimus_dorsi_r": {
+    "moved_frac": 0.375,
+    "shift_median_mm": 0.62,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 360.38,
+    "volume_cm3_after": 415.9
+   },
+   "levator_anguli_oris_l": {
+    "moved_frac": 0.145,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 2.44,
+    "volume_cm3_before": 0.18,
+    "volume_cm3_after": 0.2
+   },
+   "levator_anguli_oris_r": {
+    "moved_frac": 0.139,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 2.44,
+    "volume_cm3_before": 0.18,
+    "volume_cm3_after": 0.2
+   },
+   "levator_ani_l": {
+    "moved_frac": 0.154,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 1.96,
+    "volume_cm3_before": 0.85,
+    "volume_cm3_after": 0.97
+   },
+   "levator_ani_r": {
+    "moved_frac": 0.175,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 2.22,
+    "volume_cm3_before": 0.91,
+    "volume_cm3_after": 1.03
+   },
+   "levator_labii_superioris_l": {
+    "moved_frac": 0.129,
+    "shift_median_mm": 0.18,
+    "shift_max_mm": 0.51,
+    "volume_cm3_before": 0.34,
+    "volume_cm3_after": 0.35
+   },
+   "levator_labii_superioris_r": {
+    "moved_frac": 0.132,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 0.5,
+    "volume_cm3_before": 0.34,
+    "volume_cm3_after": 0.35
+   },
+   "levator_palpebrae_superioris_l": {
+    "moved_frac": 0.226,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.66,
+    "volume_cm3_after": 0.93
+   },
+   "levator_palpebrae_superioris_r": {
+    "moved_frac": 0.227,
+    "shift_median_mm": 0.38,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.66,
+    "volume_cm3_after": 0.91
+   },
+   "levator_scapulae_l": {
+    "moved_frac": 0.422,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 11.47,
+    "volume_cm3_after": 13.54
+   },
+   "levator_scapulae_r": {
+    "moved_frac": 0.515,
+    "shift_median_mm": 0.5,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.83,
+    "volume_cm3_after": 14.69
+   },
+   "levatores_costarum_l": {
+    "moved_frac": 0.503,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 20.13,
+    "volume_cm3_after": 30.24
+   },
+   "levatores_costarum_r": {
+    "moved_frac": 0.467,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 18.1,
+    "volume_cm3_after": 25.86
+   },
+   "longissimus_l": {
+    "moved_frac": 0.546,
+    "shift_median_mm": 0.64,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 138.25,
+    "volume_cm3_after": 166.68
+   },
+   "longissimus_r": {
+    "moved_frac": 0.562,
+    "shift_median_mm": 0.62,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 127.28,
+    "volume_cm3_after": 155.3
+   },
+   "longus_capitis_l": {
+    "moved_frac": 0.467,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.43,
+    "volume_cm3_after": 6.15
+   },
+   "longus_capitis_r": {
+    "moved_frac": 0.505,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 4.2,
+    "volume_cm3_after": 5.78
+   },
+   "longus_colli_l": {
+    "moved_frac": 0.197,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 2.49,
+    "volume_cm3_before": 10.96,
+    "volume_cm3_after": 11.92
+   },
+   "longus_colli_r": {
+    "moved_frac": 0.227,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.66,
+    "volume_cm3_after": 3.58
+   },
+   "masseter_l": {
+    "moved_frac": 0.202,
+    "shift_median_mm": 0.86,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.19,
+    "volume_cm3_after": 13.74
+   },
+   "masseter_r": {
+    "moved_frac": 0.153,
+    "shift_median_mm": 0.5,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 10.58,
+    "volume_cm3_after": 11.82
+   },
+   "medial_pterygoid_l": {
+    "moved_frac": 0.402,
+    "shift_median_mm": 0.5,
+    "shift_max_mm": 2.68,
+    "volume_cm3_before": 3.35,
+    "volume_cm3_after": 3.99
+   },
+   "medial_pterygoid_r": {
+    "moved_frac": 0.426,
+    "shift_median_mm": 0.56,
+    "shift_max_mm": 2.97,
+    "volume_cm3_before": 3.29,
+    "volume_cm3_after": 4.04
+   },
+   "medial_rectus_l": {
+    "moved_frac": 0.283,
+    "shift_median_mm": 0.66,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.38,
+    "volume_cm3_after": 0.64
+   },
+   "medial_rectus_r": {
+    "moved_frac": 0.288,
+    "shift_median_mm": 0.64,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 0.38,
+    "volume_cm3_after": 0.57
+   },
+   "mentalis_l": {
+    "moved_frac": 0.071,
+    "shift_median_mm": 0.15,
+    "shift_max_mm": 0.23,
+    "volume_cm3_before": 0.2,
+    "volume_cm3_after": 0.2
+   },
+   "mentalis_r": {
+    "moved_frac": 0.071,
+    "shift_median_mm": 0.14,
+    "shift_max_mm": 0.23,
+    "volume_cm3_before": 0.2,
+    "volume_cm3_after": 0.2
+   },
+   "middle_pharyngeal_constrictor_l": {
+    "moved_frac": 0.217,
+    "shift_median_mm": 0.15,
+    "shift_max_mm": 2.39,
+    "volume_cm3_before": 1.97,
+    "volume_cm3_after": 2.08
+   },
+   "middle_pharyngeal_constrictor_r": {
+    "moved_frac": 0.174,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 1.93,
+    "volume_cm3_before": 1.92,
+    "volume_cm3_after": 2.01
+   },
+   "multifidus_l": {
+    "moved_frac": 0.598,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 14.06,
+    "volume_cm3_after": 22.47
+   },
+   "multifidus_r": {
+    "moved_frac": 0.554,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 12.75,
+    "volume_cm3_after": 20.25
+   },
+   "mylohyoid_l": {
+    "moved_frac": 0.323,
+    "shift_median_mm": 0.34,
+    "shift_max_mm": 2.55,
+    "volume_cm3_before": 2.41,
+    "volume_cm3_after": 3.08
+   },
+   "mylohyoid_r": {
+    "moved_frac": 0.358,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 2.19,
+    "volume_cm3_before": 2.26,
+    "volume_cm3_after": 2.88
+   },
+   "nasalis_l": {
+    "moved_frac": 0.026,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 0.97,
+    "volume_cm3_before": 0.39,
+    "volume_cm3_after": 0.4
+   },
+   "nasalis_r": {
+    "moved_frac": 0.028,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 0.97,
+    "volume_cm3_before": 0.39,
+    "volume_cm3_after": 0.4
+   },
+   "obliquus_capitis_inferior_l": {
+    "moved_frac": 0.566,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 2.36,
+    "volume_cm3_before": 2.25,
+    "volume_cm3_after": 2.7
+   },
+   "obliquus_capitis_inferior_r": {
+    "moved_frac": 0.551,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 2.26,
+    "volume_cm3_after": 2.62
+   },
+   "obliquus_capitis_superior_l": {
+    "moved_frac": 0.388,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.12,
+    "volume_cm3_after": 1.65
+   },
+   "obliquus_capitis_superior_r": {
+    "moved_frac": 0.468,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.04,
+    "volume_cm3_after": 1.59
+   },
+   "obturator_externus_l": {
+    "moved_frac": 0.541,
+    "shift_median_mm": 0.65,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 20.16,
+    "volume_cm3_after": 23.56
+   },
+   "obturator_externus_r": {
+    "moved_frac": 0.54,
+    "shift_median_mm": 0.75,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 21.44,
+    "volume_cm3_after": 25.64
+   },
+   "obturator_internus_l": {
+    "moved_frac": 0.331,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 19.44,
+    "volume_cm3_after": 22.91
+   },
+   "obturator_internus_r": {
+    "moved_frac": 0.315,
+    "shift_median_mm": 0.68,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 20.03,
+    "volume_cm3_after": 23.69
+   },
+   "omohyoid_l": {
+    "moved_frac": 0.628,
+    "shift_median_mm": 0.64,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.68,
+    "volume_cm3_after": 9.16
+   },
+   "omohyoid_r": {
+    "moved_frac": 0.639,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.73,
+    "volume_cm3_after": 7.27
+   },
+   "opponens_digiti_minimi_l": {
+    "moved_frac": 0.252,
+    "shift_median_mm": 0.34,
+    "shift_max_mm": 2.23,
+    "volume_cm3_before": 1.38,
+    "volume_cm3_after": 1.55
+   },
+   "opponens_digiti_minimi_r": {
+    "moved_frac": 0.164,
+    "shift_median_mm": 0.24,
+    "shift_max_mm": 1.8,
+    "volume_cm3_before": 0.71,
+    "volume_cm3_after": 0.8
+   },
+   "opponens_pollicis_l": {
+    "moved_frac": 0.376,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 1.83,
+    "volume_cm3_before": 0.79,
+    "volume_cm3_after": 0.97
+   },
+   "opponens_pollicis_r": {
+    "moved_frac": 0.505,
+    "shift_median_mm": 0.47,
+    "shift_max_mm": 2.05,
+    "volume_cm3_before": 1.19,
+    "volume_cm3_after": 1.66
+   },
+   "orbicularis_oculi_l": {
+    "moved_frac": 0.166,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 2.65,
+    "volume_cm3_before": 4.37,
+    "volume_cm3_after": 4.68
+   },
+   "orbicularis_oculi_r": {
+    "moved_frac": 0.134,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 2.03,
+    "volume_cm3_before": 4.37,
+    "volume_cm3_after": 4.55
+   },
+   "orbicularis_oris_l": {
+    "moved_frac": 0.076,
+    "shift_median_mm": 0.15,
+    "shift_max_mm": 2.48,
+    "volume_cm3_before": 3.72,
+    "volume_cm3_after": 3.82
+   },
+   "orbicularis_oris_r": {
+    "moved_frac": 0.03,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 2.65,
+    "volume_cm3_before": 3.7,
+    "volume_cm3_after": 3.75
+   },
+   "palatopharyngeus_l": {
+    "moved_frac": 0.169,
+    "shift_median_mm": 0.2,
+    "shift_max_mm": 2.93,
+    "volume_cm3_before": 2.63,
+    "volume_cm3_after": 2.81
+   },
+   "palatopharyngeus_r": {
+    "moved_frac": 0.159,
+    "shift_median_mm": 0.22,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 2.52,
+    "volume_cm3_after": 2.69
+   },
+   "palmar_interossei_l": {
+    "moved_frac": 0.425,
+    "shift_median_mm": 0.53,
+    "shift_max_mm": 2.86,
+    "volume_cm3_before": 0.21,
+    "volume_cm3_after": 0.43
+   },
+   "palmar_interossei_r": {
+    "moved_frac": 0.023,
+    "shift_median_mm": 0.22,
+    "shift_max_mm": 0.38,
+    "volume_cm3_before": 0.01,
+    "volume_cm3_after": 0.01
+   },
+   "pectineus_l": {
+    "moved_frac": 0.337,
+    "shift_median_mm": 0.61,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 57.63,
+    "volume_cm3_after": 63.54
+   },
+   "pectineus_r": {
+    "moved_frac": 0.347,
+    "shift_median_mm": 0.68,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 63.67,
+    "volume_cm3_after": 71.11
+   },
+   "pectoralis_minor_l": {
+    "moved_frac": 0.231,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 32.13,
+    "volume_cm3_after": 34.01
+   },
+   "pectoralis_minor_r": {
+    "moved_frac": 0.289,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 36.59,
+    "volume_cm3_after": 38.39
+   },
+   "piriformis_l": {
+    "moved_frac": 0.008,
+    "shift_median_mm": 1.28,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 42.2,
+    "volume_cm3_after": 42.28
+   },
+   "piriformis_r": {
+    "moved_frac": 0.008,
+    "shift_median_mm": 1.28,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 42.12,
+    "volume_cm3_after": 42.2
+   },
+   "plantar_interossei_l": {
+    "moved_frac": 0.663,
+    "shift_median_mm": 1.16,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.01,
+    "volume_cm3_after": 3.45
+   },
+   "plantar_interossei_r": {
+    "moved_frac": 0.703,
+    "shift_median_mm": 1.15,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.5,
+    "volume_cm3_after": 4.69
+   },
+   "plantaris_l": {
+    "moved_frac": 0.314,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 26.21,
+    "volume_cm3_after": 30.46
+   },
+   "plantaris_r": {
+    "moved_frac": 0.359,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 27.42,
+    "volume_cm3_after": 32.44
+   },
+   "platysma_l": {
+    "moved_frac": 0.283,
+    "shift_median_mm": 0.51,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 30.88,
+    "volume_cm3_after": 39.11
+   },
+   "platysma_r": {
+    "moved_frac": 0.23,
+    "shift_median_mm": 0.48,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 29.69,
+    "volume_cm3_after": 35.78
+   },
+   "popliteus_l": {
+    "moved_frac": 0.539,
+    "shift_median_mm": 0.58,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 19.73,
+    "volume_cm3_after": 23.71
+   },
+   "popliteus_r": {
+    "moved_frac": 0.565,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 20.55,
+    "volume_cm3_after": 24.77
+   },
+   "procerus": {
+    "moved_frac": 0.051,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 1.29,
+    "volume_cm3_before": 0.71,
+    "volume_cm3_after": 0.72
+   },
+   "pronator_quadratus_l": {
+    "moved_frac": 0.258,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 2.81,
+    "volume_cm3_before": 5.86,
+    "volume_cm3_after": 6.37
+   },
+   "pronator_quadratus_r": {
+    "moved_frac": 0.303,
+    "shift_median_mm": 0.34,
+    "shift_max_mm": 2.9,
+    "volume_cm3_before": 3.89,
+    "volume_cm3_after": 6.11
+   },
+   "pronator_teres_l": {
+    "moved_frac": 0.43,
+    "shift_median_mm": 0.37,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 13.69,
+    "volume_cm3_after": 16.32
+   },
+   "pronator_teres_r": {
+    "moved_frac": 0.361,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 8.83,
+    "volume_cm3_after": 10.14
+   },
+   "pyramidalis_l": {
+    "moved_frac": 0.215,
+    "shift_median_mm": 0.19,
+    "shift_max_mm": 1.89,
+    "volume_cm3_before": 2.71,
+    "volume_cm3_after": 2.94
+   },
+   "pyramidalis_r": {
+    "moved_frac": 0.164,
+    "shift_median_mm": 0.22,
+    "shift_max_mm": 1.88,
+    "volume_cm3_before": 2.86,
+    "volume_cm3_after": 3.05
+   },
+   "quadratus_femoris_l": {
+    "moved_frac": 0.484,
+    "shift_median_mm": 0.78,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.3,
+    "volume_cm3_after": 14.45
+   },
+   "quadratus_femoris_r": {
+    "moved_frac": 0.462,
+    "shift_median_mm": 0.7,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 10.67,
+    "volume_cm3_after": 13.52
+   },
+   "quadratus_lumborum_l": {
+    "moved_frac": 0.326,
+    "shift_median_mm": 0.71,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 115.42,
+    "volume_cm3_after": 121.13
+   },
+   "quadratus_lumborum_r": {
+    "moved_frac": 0.436,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 125.11,
+    "volume_cm3_after": 130.48
+   },
+   "quadratus_plantae_l": {
+    "moved_frac": 0.212,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 1.46,
+    "volume_cm3_before": 5.67,
+    "volume_cm3_after": 5.97
+   },
+   "quadratus_plantae_r": {
+    "moved_frac": 0.254,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 1.71,
+    "volume_cm3_before": 6.8,
+    "volume_cm3_after": 7.34
+   },
+   "rectus_abdominis_l": {
+    "moved_frac": 0.162,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 214.59,
+    "volume_cm3_after": 219.33
+   },
+   "rectus_abdominis_r": {
+    "moved_frac": 0.146,
+    "shift_median_mm": 0.24,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 240.26,
+    "volume_cm3_after": 244.11
+   },
+   "rectus_capitis_anterior_l": {
+    "moved_frac": 0.63,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.64,
+    "volume_cm3_after": 0.96
+   },
+   "rectus_capitis_anterior_r": {
+    "moved_frac": 0.45,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 2.12,
+    "volume_cm3_before": 0.61,
+    "volume_cm3_after": 0.73
+   },
+   "rectus_capitis_lateralis_l": {
+    "moved_frac": 0.725,
+    "shift_median_mm": 0.96,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.53,
+    "volume_cm3_after": 1.42
+   },
+   "rectus_capitis_lateralis_r": {
+    "moved_frac": 0.588,
+    "shift_median_mm": 0.63,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 0.49,
+    "volume_cm3_after": 0.96
+   },
+   "rectus_capitis_posterior_major_l": {
+    "moved_frac": 0.439,
+    "shift_median_mm": 0.4,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 3.97,
+    "volume_cm3_after": 4.79
+   },
+   "rectus_capitis_posterior_major_r": {
+    "moved_frac": 0.449,
+    "shift_median_mm": 0.38,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.59,
+    "volume_cm3_after": 4.32
+   },
+   "rectus_capitis_posterior_minor_l": {
+    "moved_frac": 0.393,
+    "shift_median_mm": 0.23,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 1.23,
+    "volume_cm3_after": 1.39
+   },
+   "rectus_capitis_posterior_minor_r": {
+    "moved_frac": 0.35,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 1.14,
+    "volume_cm3_before": 1.22,
+    "volume_cm3_after": 1.35
+   },
+   "rectus_femoris_l": {
+    "moved_frac": 0.359,
+    "shift_median_mm": 0.66,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 275.06,
+    "volume_cm3_after": 291.63
+   },
+   "rectus_femoris_r": {
+    "moved_frac": 0.424,
+    "shift_median_mm": 0.52,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 283.47,
+    "volume_cm3_after": 302.9
+   },
+   "rhomboid_major_l": {
+    "moved_frac": 0.535,
+    "shift_median_mm": 1.85,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 21.32,
+    "volume_cm3_after": 42.74
+   },
+   "rhomboid_major_r": {
+    "moved_frac": 0.564,
+    "shift_median_mm": 1.57,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 20.43,
+    "volume_cm3_after": 39.93
+   },
+   "rhomboid_minor_l": {
+    "moved_frac": 0.491,
+    "shift_median_mm": 0.64,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.73,
+    "volume_cm3_after": 7.26
+   },
+   "rhomboid_minor_r": {
+    "moved_frac": 0.478,
+    "shift_median_mm": 0.66,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.08,
+    "volume_cm3_after": 7.74
+   },
+   "risorius_l": {
+    "moved_frac": 0.095,
+    "shift_median_mm": 0.17,
+    "shift_max_mm": 1.56,
+    "volume_cm3_before": 1.02,
+    "volume_cm3_after": 1.07
+   },
+   "risorius_r": {
+    "moved_frac": 0.098,
+    "shift_median_mm": 0.16,
+    "shift_max_mm": 2.51,
+    "volume_cm3_before": 0.97,
+    "volume_cm3_after": 1.03
+   },
+   "rotatores_l": {
+    "moved_frac": 0.458,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 34.92,
+    "volume_cm3_after": 43.97
+   },
+   "rotatores_r": {
+    "moved_frac": 0.455,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 34.86,
+    "volume_cm3_after": 44.15
+   },
+   "sartorius_l": {
+    "moved_frac": 0.366,
+    "shift_median_mm": 0.57,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 60.95,
+    "volume_cm3_after": 72.15
+   },
+   "sartorius_r": {
+    "moved_frac": 0.405,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 63.64,
+    "volume_cm3_after": 75.59
+   },
+   "scalenus_anterior_l": {
+    "moved_frac": 0.576,
+    "shift_median_mm": 0.75,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 3.03,
+    "volume_cm3_after": 4.79
+   },
+   "scalenus_anterior_r": {
+    "moved_frac": 0.409,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 3.05,
+    "volume_cm3_after": 2.42
+   },
+   "scalenus_medius_l": {
+    "moved_frac": 0.614,
+    "shift_median_mm": 0.78,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.5,
+    "volume_cm3_after": 10.14
+   },
+   "scalenus_medius_r": {
+    "moved_frac": 0.499,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.61,
+    "volume_cm3_after": 8.91
+   },
+   "scalenus_posterior_l": {
+    "moved_frac": 0.598,
+    "shift_median_mm": 0.69,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.42,
+    "volume_cm3_after": 3.73
+   },
+   "scalenus_posterior_r": {
+    "moved_frac": 0.594,
+    "shift_median_mm": 0.69,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 2.61,
+    "volume_cm3_after": 4.11
+   },
+   "semimembranosus_l": {
+    "moved_frac": 0.362,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 264.54,
+    "volume_cm3_after": 279.69
+   },
+   "semimembranosus_r": {
+    "moved_frac": 0.477,
+    "shift_median_mm": 0.5,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 270.83,
+    "volume_cm3_after": 288.65
+   },
+   "semispinalis_thoracis_l": {
+    "moved_frac": 0.515,
+    "shift_median_mm": 0.4,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.06,
+    "volume_cm3_after": 16.38
+   },
+   "semispinalis_thoracis_r": {
+    "moved_frac": 0.52,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.04,
+    "volume_cm3_after": 16.39
+   },
+   "semitendinosus_l": {
+    "moved_frac": 0.291,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 104.14,
+    "volume_cm3_after": 109.21
+   },
+   "semitendinosus_r": {
+    "moved_frac": 0.388,
+    "shift_median_mm": 0.4,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 104.71,
+    "volume_cm3_after": 111.57
+   },
+   "serratus_anterior_l": {
+    "moved_frac": 0.459,
+    "shift_median_mm": 0.63,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 169.13,
+    "volume_cm3_after": 205.72
+   },
+   "serratus_anterior_r": {
+    "moved_frac": 0.398,
+    "shift_median_mm": 0.42,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 186.29,
+    "volume_cm3_after": 211.75
+   },
+   "serratus_posterior_inferior_l": {
+    "moved_frac": 0.398,
+    "shift_median_mm": 0.52,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 69.47,
+    "volume_cm3_after": 78.52
+   },
+   "serratus_posterior_inferior_r": {
+    "moved_frac": 0.342,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 60.01,
+    "volume_cm3_after": 65.98
+   },
+   "serratus_posterior_superior_l": {
+    "moved_frac": 0.415,
+    "shift_median_mm": 0.46,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 23.15,
+    "volume_cm3_after": 29.29
+   },
+   "serratus_posterior_superior_r": {
+    "moved_frac": 0.421,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 27.78,
+    "volume_cm3_after": 34.47
+   },
+   "soleus_l": {
+    "moved_frac": 0.344,
+    "shift_median_mm": 0.47,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 285.03,
+    "volume_cm3_after": 298.21
+   },
+   "soleus_r": {
+    "moved_frac": 0.347,
+    "shift_median_mm": 0.51,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 317.37,
+    "volume_cm3_after": 332.91
+   },
+   "spinalis_l": {
+    "moved_frac": 0.503,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 14.27,
+    "volume_cm3_after": 19.96
+   },
+   "spinalis_r": {
+    "moved_frac": 0.488,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 13.84,
+    "volume_cm3_after": 19.67
+   },
+   "splenius_capitis_l": {
+    "moved_frac": 0.353,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 2.84,
+    "volume_cm3_before": 29.73,
+    "volume_cm3_after": 33.68
+   },
+   "splenius_capitis_r": {
+    "moved_frac": 0.388,
+    "shift_median_mm": 0.34,
+    "shift_max_mm": 2.76,
+    "volume_cm3_before": 29.54,
+    "volume_cm3_after": 33.35
+   },
+   "sternocleidomastoid_l": {
+    "moved_frac": 0.314,
+    "shift_median_mm": 0.81,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 35.17,
+    "volume_cm3_after": 40.73
+   },
+   "sternocleidomastoid_r": {
+    "moved_frac": 0.36,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 32.84,
+    "volume_cm3_after": 37.89
+   },
+   "sternohyoid_l": {
+    "moved_frac": 0.412,
+    "shift_median_mm": 0.62,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.75,
+    "volume_cm3_after": 4.64
+   },
+   "sternohyoid_r": {
+    "moved_frac": 0.504,
+    "shift_median_mm": 0.62,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.68,
+    "volume_cm3_after": 5.39
+   },
+   "sternothyroid_l": {
+    "moved_frac": 0.247,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 1.5,
+    "volume_cm3_before": 2.62,
+    "volume_cm3_after": 2.93
+   },
+   "sternothyroid_r": {
+    "moved_frac": 0.216,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 2.52,
+    "volume_cm3_before": 2.58,
+    "volume_cm3_after": 2.83
+   },
+   "stylohyoid_l": {
+    "moved_frac": 0.352,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 2.82,
+    "volume_cm3_before": 0.87,
+    "volume_cm3_after": 1.54
+   },
+   "stylohyoid_r": {
+    "moved_frac": 0.401,
+    "shift_median_mm": 0.68,
+    "shift_max_mm": 2.85,
+    "volume_cm3_before": 0.77,
+    "volume_cm3_after": 1.51
+   },
+   "stylopharyngeus_l": {
+    "moved_frac": 0.307,
+    "shift_median_mm": 0.53,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.86,
+    "volume_cm3_after": 1.84
+   },
+   "stylopharyngeus_r": {
+    "moved_frac": 0.288,
+    "shift_median_mm": 0.62,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.8,
+    "volume_cm3_after": 1.68
+   },
+   "subclavius_l": {
+    "moved_frac": 0.217,
+    "shift_median_mm": 0.94,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 7.49,
+    "volume_cm3_after": 8.92
+   },
+   "subclavius_r": {
+    "moved_frac": 0.31,
+    "shift_median_mm": 0.53,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 7.13,
+    "volume_cm3_after": 8.6
+   },
+   "subscapularis_l": {
+    "moved_frac": 0.458,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 64.68,
+    "volume_cm3_after": 71.67
+   },
+   "subscapularis_r": {
+    "moved_frac": 0.464,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 83.91,
+    "volume_cm3_after": 92.79
+   },
+   "superior_oblique_l": {
+    "moved_frac": 0.19,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.44,
+    "volume_cm3_after": 0.7
+   },
+   "superior_oblique_r": {
+    "moved_frac": 0.185,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 1.85,
+    "volume_cm3_before": 0.44,
+    "volume_cm3_after": 0.54
+   },
+   "superior_pharyngeal_constrictor_l": {
+    "moved_frac": 0.306,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 2.92,
+    "volume_cm3_before": 4.55,
+    "volume_cm3_after": 5.2
+   },
+   "superior_pharyngeal_constrictor_r": {
+    "moved_frac": 0.323,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 4.3,
+    "volume_cm3_after": 5.07
+   },
+   "superior_rectus_l": {
+    "moved_frac": 0.435,
+    "shift_median_mm": 0.48,
+    "shift_max_mm": 2.82,
+    "volume_cm3_before": 0.42,
+    "volume_cm3_after": 0.69
+   },
+   "superior_rectus_r": {
+    "moved_frac": 0.441,
+    "shift_median_mm": 0.49,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.42,
+    "volume_cm3_after": 0.72
+   },
+   "supinator_l": {
+    "moved_frac": 0.338,
+    "shift_median_mm": 0.67,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 10.68,
+    "volume_cm3_after": 13.29
+   },
+   "supinator_r": {
+    "moved_frac": 0.552,
+    "shift_median_mm": 0.86,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 9.5,
+    "volume_cm3_after": 14.59
+   },
+   "supraspinatus_l": {
+    "moved_frac": 0.411,
+    "shift_median_mm": 1.1,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 20.0,
+    "volume_cm3_after": 26.78
+   },
+   "supraspinatus_r": {
+    "moved_frac": 0.409,
+    "shift_median_mm": 1.01,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 24.41,
+    "volume_cm3_after": 31.46
+   },
+   "tensor_fasciae_latae_l": {
+    "moved_frac": 0.479,
+    "shift_median_mm": 1.43,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 62.01,
+    "volume_cm3_after": 69.81
+   },
+   "tensor_fasciae_latae_r": {
+    "moved_frac": 0.578,
+    "shift_median_mm": 1.26,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 67.77,
+    "volume_cm3_after": 77.17
+   },
+   "teres_major_l": {
+    "moved_frac": 0.738,
+    "shift_median_mm": 1.69,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 19.84,
+    "volume_cm3_after": 34.13
+   },
+   "teres_major_r": {
+    "moved_frac": 0.698,
+    "shift_median_mm": 1.13,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 14.56,
+    "volume_cm3_after": 21.34
+   },
+   "teres_minor_l": {
+    "moved_frac": 0.64,
+    "shift_median_mm": 0.8,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 29.93,
+    "volume_cm3_after": 38.47
+   },
+   "teres_minor_r": {
+    "moved_frac": 0.716,
+    "shift_median_mm": 0.73,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 31.4,
+    "volume_cm3_after": 40.19
+   },
+   "thyrohyoid_l": {
+    "moved_frac": 0.375,
+    "shift_median_mm": 0.65,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.6,
+    "volume_cm3_after": 1.15
+   },
+   "thyrohyoid_r": {
+    "moved_frac": 0.366,
+    "shift_median_mm": 0.58,
+    "shift_max_mm": 2.99,
+    "volume_cm3_before": 0.58,
+    "volume_cm3_after": 1.02
+   },
+   "tibialis_anterior_l": {
+    "moved_frac": 0.089,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 86.74,
+    "volume_cm3_after": 88.1
+   },
+   "tibialis_anterior_r": {
+    "moved_frac": 0.117,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 85.19,
+    "volume_cm3_after": 86.64
+   },
+   "transverse_arytenoid": {
+    "moved_frac": 0.137,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.09,
+    "volume_cm3_after": 0.13
+   },
+   "transversus_abdominis_l": {
+    "moved_frac": 0.199,
+    "shift_median_mm": 0.38,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 304.91,
+    "volume_cm3_after": 331.48
+   },
+   "transversus_abdominis_r": {
+    "moved_frac": 0.155,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 320.11,
+    "volume_cm3_after": 336.9
+   },
+   "transversus_thoracis_l": {
+    "moved_frac": 0.209,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 3.74,
+    "volume_cm3_after": 4.46
+   },
+   "transversus_thoracis_r": {
+    "moved_frac": 0.127,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.97,
+    "volume_cm3_after": 3.77
+   },
+   "trapezius_l": {
+    "moved_frac": 0.292,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 224.4,
+    "volume_cm3_after": 267.49
+   },
+   "trapezius_r": {
+    "moved_frac": 0.367,
+    "shift_median_mm": 0.44,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 220.46,
+    "volume_cm3_after": 263.61
+   },
+   "vastus_intermedius_l": {
+    "moved_frac": 0.353,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 207.46,
+    "volume_cm3_after": 215.91
+   },
+   "vastus_intermedius_r": {
+    "moved_frac": 0.353,
+    "shift_median_mm": 0.48,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 212.84,
+    "volume_cm3_after": 221.72
+   },
+   "vastus_lateralis_l": {
+    "moved_frac": 0.13,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 373.89,
+    "volume_cm3_after": 377.11
+   },
+   "vastus_lateralis_r": {
+    "moved_frac": 0.182,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 384.16,
+    "volume_cm3_after": 388.47
+   },
+   "vastus_medialis_l": {
+    "moved_frac": 0.384,
+    "shift_median_mm": 0.43,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 241.55,
+    "volume_cm3_after": 249.92
+   },
+   "vastus_medialis_r": {
+    "moved_frac": 0.401,
+    "shift_median_mm": 0.35,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 246.96,
+    "volume_cm3_after": 254.87
+   },
+   "zygomaticus_major_l": {
+    "moved_frac": 0.305,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 1.89,
+    "volume_cm3_before": 0.71,
+    "volume_cm3_after": 0.99
+   },
+   "zygomaticus_major_r": {
+    "moved_frac": 0.29,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 1.97,
+    "volume_cm3_before": 0.71,
+    "volume_cm3_after": 0.95
+   },
+   "zygomaticus_minor_l": {
+    "moved_frac": 0.358,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.27,
+    "volume_cm3_after": 0.41
+   },
+   "zygomaticus_minor_r": {
+    "moved_frac": 0.358,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 1.28,
+    "volume_cm3_before": 0.27,
+    "volume_cm3_after": 0.35
+   },
+   "zan_abdominal_part_of_pectoralis_major_muscle_l": {
+    "moved_frac": 0.29,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 2.97,
+    "volume_cm3_before": 21.37,
+    "volume_cm3_after": 23.34
+   },
+   "zan_abdominal_part_of_pectoralis_major_muscle_r": {
+    "moved_frac": 0.234,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 1.99,
+    "volume_cm3_before": 30.53,
+    "volume_cm3_after": 33.51
+   },
+   "zan_acromial_part_of_deltoid_muscle_l": {
+    "moved_frac": 0.251,
+    "shift_median_mm": 0.88,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 79.77,
+    "volume_cm3_after": 84.9
+   },
+   "zan_acromial_part_of_deltoid_muscle_r": {
+    "moved_frac": 0.289,
+    "shift_median_mm": 0.69,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 77.72,
+    "volume_cm3_after": 82.86
+   },
+   "zan_adductor_minimus_l": {
+    "moved_frac": 0.689,
+    "shift_median_mm": 0.71,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 12.03,
+    "volume_cm3_after": 17.91
+   },
+   "zan_adductor_minimus_r": {
+    "moved_frac": 0.685,
+    "shift_median_mm": 0.78,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 12.36,
+    "volume_cm3_after": 19.05
+   },
+   "zan_ary_epiglottic_part_of_oblique_arytenoid_muscle_l": {
+    "moved_frac": 0.092,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 2.4,
+    "volume_cm3_before": 0.03,
+    "volume_cm3_after": 0.03
+   },
+   "zan_ary_epiglottic_part_of_oblique_arytenoid_muscle_r": {
+    "moved_frac": 0.082,
+    "shift_median_mm": 0.24,
+    "shift_max_mm": 2.08,
+    "volume_cm3_before": 0.03,
+    "volume_cm3_after": 0.03
+   },
+   "zan_bucinator_l": {
+    "moved_frac": 0.493,
+    "shift_median_mm": 1.48,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.0,
+    "volume_cm3_after": 3.18
+   },
+   "zan_bucinator_r": {
+    "moved_frac": 0.518,
+    "shift_median_mm": 1.7,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.04,
+    "volume_cm3_after": 3.46
+   },
+   "zan_clavicular_head_of_pectoralis_major_muscle_l": {
+    "moved_frac": 0.289,
+    "shift_median_mm": 0.48,
+    "shift_max_mm": 2.72,
+    "volume_cm3_before": 70.18,
+    "volume_cm3_after": 73.92
+   },
+   "zan_clavicular_head_of_pectoralis_major_muscle_r": {
+    "moved_frac": 0.332,
+    "shift_median_mm": 0.56,
+    "shift_max_mm": 2.66,
+    "volume_cm3_before": 62.16,
+    "volume_cm3_after": 66.47
+   },
+   "zan_clavicular_part_of_deltoid_muscle_l": {
+    "moved_frac": 0.359,
+    "shift_median_mm": 0.66,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 48.99,
+    "volume_cm3_after": 53.84
+   },
+   "zan_clavicular_part_of_deltoid_muscle_r": {
+    "moved_frac": 0.421,
+    "shift_median_mm": 0.46,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 48.71,
+    "volume_cm3_after": 53.55
+   },
+   "zan_corrugator_supercilii_l": {
+    "moved_frac": 0.262,
+    "shift_median_mm": 0.69,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.18,
+    "volume_cm3_after": 0.21
+   },
+   "zan_corrugator_supercilii_r": {
+    "moved_frac": 0.262,
+    "shift_median_mm": 0.4,
+    "shift_max_mm": 2.03,
+    "volume_cm3_before": 0.18,
+    "volume_cm3_after": 0.21
+   },
+   "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_l": {
+    "moved_frac": 0.456,
+    "shift_median_mm": 0.46,
+    "shift_max_mm": 2.35,
+    "volume_cm3_before": 6.38,
+    "volume_cm3_after": 7.89
+   },
+   "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_r": {
+    "moved_frac": 0.442,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 2.78,
+    "volume_cm3_before": 5.98,
+    "volume_cm3_after": 7.58
+   },
+   "zan_extensor_pollicis_longus_l": {
+    "moved_frac": 0.309,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 2.85,
+    "volume_cm3_before": 4.51,
+    "volume_cm3_after": 5.63
+   },
+   "zan_extensor_pollicis_longus_r": {
+    "moved_frac": 0.387,
+    "shift_median_mm": 0.45,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 5.55,
+    "volume_cm3_after": 6.97
+   },
+   "zan_external_intercostal_muscles_l": {
+    "moved_frac": 0.405,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 61.74,
+    "volume_cm3_after": 83.52
+   },
+   "zan_external_intercostal_muscles_r": {
+    "moved_frac": 0.379,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 44.95,
+    "volume_cm3_after": 70.85
+   },
+   "zan_external_part_of_thyro_arytenoid_muscle_l": {
+    "moved_frac": 0.255,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.14,
+    "volume_cm3_after": 0.25
+   },
+   "zan_external_part_of_thyro_arytenoid_muscle_r": {
+    "moved_frac": 0.098,
+    "shift_median_mm": 0.93,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 0.14,
+    "volume_cm3_after": 0.25
+   },
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l": {
+    "moved_frac": 0.299,
+    "shift_median_mm": 0.65,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 39.74,
+    "volume_cm3_after": 45.26
+   },
+   "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_r": {
+    "moved_frac": 0.246,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 19.42,
+    "volume_cm3_after": 22.61
+   },
+   "zan_iliacus_muscle_l": {
+    "moved_frac": 0.425,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 146.06,
+    "volume_cm3_after": 162.28
+   },
+   "zan_iliacus_muscle_r": {
+    "moved_frac": 0.413,
+    "shift_median_mm": 0.54,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 152.15,
+    "volume_cm3_after": 166.61
+   },
+   "zan_iliococcygeus_muscle_l": {
+    "moved_frac": 0.441,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 11.58,
+    "volume_cm3_after": 15.75
+   },
+   "zan_iliococcygeus_muscle_r": {
+    "moved_frac": 0.445,
+    "shift_median_mm": 0.5,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 11.96,
+    "volume_cm3_after": 16.24
+   },
+   "zan_iliocostalis_colli_muscle": {
+    "moved_frac": 0.538,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 2.96,
+    "volume_cm3_before": 7.48,
+    "volume_cm3_after": 8.89
+   },
+   "zan_innermost_intercostal_muscles_l": {
+    "moved_frac": 0.265,
+    "shift_median_mm": 0.32,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 48.51,
+    "volume_cm3_after": 59.46
+   },
+   "zan_innermost_intercostal_muscles_r": {
+    "moved_frac": 0.212,
+    "shift_median_mm": 0.25,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 50.27,
+    "volume_cm3_after": 58.69
+   },
+   "zan_internal_intercostal_muscles_l": {
+    "moved_frac": 0.29,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 46.35,
+    "volume_cm3_after": 60.23
+   },
+   "zan_internal_intercostal_muscles_r": {
+    "moved_frac": 0.245,
+    "shift_median_mm": 0.29,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 55.29,
+    "volume_cm3_after": 68.33
+   },
+   "zan_lateral_crico_arytenoid_muscle_l": {
+    "moved_frac": 0.133,
+    "shift_median_mm": 0.11,
+    "shift_max_mm": 0.41,
+    "volume_cm3_before": 0.04,
+    "volume_cm3_after": 0.04
+   },
+   "zan_lateral_crico_arytenoid_muscle_r": {
+    "moved_frac": 0.104,
+    "shift_median_mm": 0.11,
+    "shift_max_mm": 0.39,
+    "volume_cm3_before": 0.03,
+    "volume_cm3_after": 0.04
+   },
+   "zan_lateral_head_of_triceps_brachii_l": {
+    "moved_frac": 0.297,
+    "shift_median_mm": 0.65,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 110.58,
+    "volume_cm3_after": 116.67
+   },
+   "zan_lateral_head_of_triceps_brachii_r": {
+    "moved_frac": 0.369,
+    "shift_median_mm": 0.52,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 109.88,
+    "volume_cm3_after": 116.75
+   },
+   "zan_levator_nasolabialis_l": {
+    "moved_frac": 0.08,
+    "shift_median_mm": 0.07,
+    "shift_max_mm": 0.13,
+    "volume_cm3_before": 0.08,
+    "volume_cm3_after": 0.09
+   },
+   "zan_levator_nasolabialis_r": {
+    "moved_frac": 0.114,
+    "shift_median_mm": 0.08,
+    "shift_max_mm": 0.72,
+    "volume_cm3_before": 0.08,
+    "volume_cm3_after": 0.09
+   },
+   "zan_long_head_of_triceps_brachii_l": {
+    "moved_frac": 0.368,
+    "shift_median_mm": 0.82,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 109.75,
+    "volume_cm3_after": 119.66
+   },
+   "zan_long_head_of_triceps_brachii_r": {
+    "moved_frac": 0.428,
+    "shift_median_mm": 0.78,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 125.61,
+    "volume_cm3_after": 137.41
+   },
+   "zan_lumbrical_muscles_of_foot_l": {
+    "moved_frac": 0.338,
+    "shift_median_mm": 0.14,
+    "shift_max_mm": 2.42,
+    "volume_cm3_before": 0.95,
+    "volume_cm3_after": 1.04
+   },
+   "zan_lumbrical_muscles_of_foot_r": {
+    "moved_frac": 0.449,
+    "shift_median_mm": 0.14,
+    "shift_max_mm": 1.88,
+    "volume_cm3_before": 1.21,
+    "volume_cm3_after": 1.51
+   },
+   "zan_medial_head_of_triceps_brachii_l": {
+    "moved_frac": 0.207,
+    "shift_median_mm": 0.55,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 56.01,
+    "volume_cm3_after": 59.05
+   },
+   "zan_medial_head_of_triceps_brachii_r": {
+    "moved_frac": 0.315,
+    "shift_median_mm": 0.47,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 61.61,
+    "volume_cm3_after": 65.92
+   },
+   "zan_occipitalis_muscle_l": {
+    "moved_frac": 0.0,
+    "shift_median_mm": 0.0,
+    "shift_max_mm": 0.0,
+    "volume_cm3_before": 2.57,
+    "volume_cm3_after": 2.57
+   },
+   "zan_occipitalis_muscle_r": {
+    "moved_frac": 0.0,
+    "shift_median_mm": 0.0,
+    "shift_max_mm": 0.0,
+    "volume_cm3_before": 2.57,
+    "volume_cm3_after": 2.57
+   },
+   "zan_palmaris_longus_muscle_l": {
+    "moved_frac": 0.308,
+    "shift_median_mm": 0.7,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 11.96,
+    "volume_cm3_after": 14.94
+   },
+   "zan_palmaris_longus_muscle_r": {
+    "moved_frac": 0.319,
+    "shift_median_mm": 0.47,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 6.75,
+    "volume_cm3_after": 9.1
+   },
+   "zan_posterior_crico_arytenoid_muscle_l": {
+    "moved_frac": 0.076,
+    "shift_median_mm": 0.24,
+    "shift_max_mm": 1.15,
+    "volume_cm3_before": 0.16,
+    "volume_cm3_after": 0.16
+   },
+   "zan_posterior_crico_arytenoid_muscle_r": {
+    "moved_frac": 0.07,
+    "shift_median_mm": 0.19,
+    "shift_max_mm": 1.17,
+    "volume_cm3_before": 0.16,
+    "volume_cm3_after": 0.16
+   },
+   "zan_psoas_major_l": {
+    "moved_frac": 0.305,
+    "shift_median_mm": 0.36,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 221.12,
+    "volume_cm3_after": 229.63
+   },
+   "zan_psoas_major_r": {
+    "moved_frac": 0.334,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 241.45,
+    "volume_cm3_after": 251.3
+   },
+   "zan_pubo_analis_muscle_l": {
+    "moved_frac": 0.242,
+    "shift_median_mm": 0.39,
+    "shift_max_mm": 2.9,
+    "volume_cm3_before": 8.53,
+    "volume_cm3_after": 9.68
+   },
+   "zan_pubo_analis_muscle_r": {
+    "moved_frac": 0.216,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 2.32,
+    "volume_cm3_before": 8.81,
+    "volume_cm3_after": 9.76
+   },
+   "zan_pubococcygeus_muscle_l": {
+    "moved_frac": 0.164,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 1.98,
+    "volume_cm3_before": 9.98,
+    "volume_cm3_after": 10.47
+   },
+   "zan_pubococcygeus_muscle_r": {
+    "moved_frac": 0.169,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 1.79,
+    "volume_cm3_before": 10.25,
+    "volume_cm3_after": 10.83
+   },
+   "zan_scapular_spinal_part_of_deltoid_muscle_l": {
+    "moved_frac": 0.387,
+    "shift_median_mm": 1.08,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 171.78,
+    "volume_cm3_after": 186.13
+   },
+   "zan_scapular_spinal_part_of_deltoid_muscle_r": {
+    "moved_frac": 0.414,
+    "shift_median_mm": 1.11,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 169.84,
+    "volume_cm3_after": 184.83
+   },
+   "zan_semispinalis_colli_muscle_l": {
+    "moved_frac": 0.576,
+    "shift_median_mm": 0.4,
+    "shift_max_mm": 2.7,
+    "volume_cm3_before": 6.76,
+    "volume_cm3_after": 9.17
+   },
+   "zan_semispinalis_colli_muscle_r": {
+    "moved_frac": 0.556,
+    "shift_median_mm": 0.41,
+    "shift_max_mm": 2.63,
+    "volume_cm3_before": 6.69,
+    "volume_cm3_after": 9.01
+   },
+   "zan_splenius_colli_muscle_l": {
+    "moved_frac": 0.366,
+    "shift_median_mm": 0.22,
+    "shift_max_mm": 2.5,
+    "volume_cm3_before": 11.16,
+    "volume_cm3_after": 12.7
+   },
+   "zan_splenius_colli_muscle_r": {
+    "moved_frac": 0.351,
+    "shift_median_mm": 0.23,
+    "shift_max_mm": 2.85,
+    "volume_cm3_before": 10.87,
+    "volume_cm3_after": 12.44
+   },
+   "zan_sternocostal_head_of_pectoralis_major_muscle_l": {
+    "moved_frac": 0.228,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 269.37,
+    "volume_cm3_after": 275.79
+   },
+   "zan_sternocostal_head_of_pectoralis_major_muscle_r": {
+    "moved_frac": 0.181,
+    "shift_median_mm": 0.22,
+    "shift_max_mm": 2.35,
+    "volume_cm3_before": 331.39,
+    "volume_cm3_after": 336.49
+   },
+   "zan_temporalis_muscle_l": {
+    "moved_frac": 0.08,
+    "shift_median_mm": 1.16,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 17.51,
+    "volume_cm3_after": 19.57
+   },
+   "zan_temporalis_muscle_r": {
+    "moved_frac": 0.089,
+    "shift_median_mm": 0.86,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 17.36,
+    "volume_cm3_after": 19.2
+   },
+   "zan_temporoparietalis_muscle_l": {
+    "moved_frac": 0.002,
+    "shift_median_mm": 0.1,
+    "shift_max_mm": 0.25,
+    "volume_cm3_before": 18.46,
+    "volume_cm3_after": 18.46
+   },
+   "zan_temporoparietalis_muscle_r": {
+    "moved_frac": 0.004,
+    "shift_median_mm": 0.1,
+    "shift_max_mm": 0.25,
+    "volume_cm3_before": 18.46,
+    "volume_cm3_after": 18.47
+   },
+   "zan_thyro_epiglottic_part_of_thyro_arytenoid_muscle_l": {
+    "moved_frac": 0.121,
+    "shift_median_mm": 0.31,
+    "shift_max_mm": 2.24,
+    "volume_cm3_before": 0.19,
+    "volume_cm3_after": 0.27
+   },
+   "zan_thyro_epiglottic_part_of_thyro_arytenoid_muscle_r": {
+    "moved_frac": 0.118,
+    "shift_median_mm": 0.33,
+    "shift_max_mm": 2.74,
+    "volume_cm3_before": 0.19,
+    "volume_cm3_after": 0.27
+   },
+   "zan_tibialis_posterior_muscle_l": {
+    "moved_frac": 0.228,
+    "shift_median_mm": 0.28,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 53.01,
+    "volume_cm3_after": 55.84
+   },
+   "zan_tibialis_posterior_muscle_r": {
+    "moved_frac": 0.25,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 55.73,
+    "volume_cm3_after": 59.41
+   },
+   "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_l": {
+    "moved_frac": 0.488,
+    "shift_median_mm": 0.85,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.15,
+    "volume_cm3_after": 4.44
+   },
+   "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_r": {
+    "moved_frac": 0.498,
+    "shift_median_mm": 0.66,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 2.21,
+    "volume_cm3_after": 4.57
+   },
+   "zan_iliocostalis_colli_muscle_r": {
+    "moved_frac": 0.583,
+    "shift_median_mm": 0.38,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 8.71,
+    "volume_cm3_after": 10.74
+   },
+   "zan_longissimus_capitis_muscle_l": {
+    "moved_frac": 0.392,
+    "shift_median_mm": 0.23,
+    "shift_max_mm": 2.34,
+    "volume_cm3_before": 4.48,
+    "volume_cm3_after": 5.17
+   },
+   "zan_longissimus_capitis_muscle_r": {
+    "moved_frac": 0.376,
+    "shift_median_mm": 0.27,
+    "shift_max_mm": 2.94,
+    "volume_cm3_before": 4.3,
+    "volume_cm3_after": 4.99
+   },
+   "zan_longissimus_colli_muscle_l": {
+    "moved_frac": 0.369,
+    "shift_median_mm": 0.17,
+    "shift_max_mm": 2.17,
+    "volume_cm3_before": 5.24,
+    "volume_cm3_after": 5.68
+   },
+   "zan_longissimus_colli_muscle_r": {
+    "moved_frac": 0.285,
+    "shift_median_mm": 0.14,
+    "shift_max_mm": 1.35,
+    "volume_cm3_before": 4.97,
+    "volume_cm3_after": 5.23
+   },
+   "zan_lumbrical_muscles_of_hand_l": {
+    "moved_frac": 0.331,
+    "shift_median_mm": 0.46,
+    "shift_max_mm": 2.98,
+    "volume_cm3_before": 2.12,
+    "volume_cm3_after": 3.45
+   },
+   "zan_lumbrical_muscles_of_hand_r": {
+    "moved_frac": 0.276,
+    "shift_median_mm": 0.3,
+    "shift_max_mm": 3.0,
+    "volume_cm3_before": 1.78,
+    "volume_cm3_after": 2.79
+   },
+   "zan_spinalis_colli_muscle_l": {
+    "moved_frac": 0.477,
+    "shift_median_mm": 0.21,
+    "shift_max_mm": 1.98,
+    "volume_cm3_before": 1.5,
+    "volume_cm3_after": 1.72
+   },
+   "zan_spinalis_colli_muscle_r": {
+    "moved_frac": 0.466,
+    "shift_median_mm": 0.26,
+    "shift_max_mm": 2.65,
+    "volume_cm3_before": 1.57,
+    "volume_cm3_after": 1.8
+   }
+  }
+ }
+}

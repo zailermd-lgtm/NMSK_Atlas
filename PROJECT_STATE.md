@@ -22,7 +22,8 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 365 tests pass. Owner direction 2026-09-29: "Keep the
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 407 tests pass. Hub (4 viewers): viewer/atlas_hub.html,
+artifact LyQVpCZcYWXQT5Ek8M984T. Owner direction 2026-09-29: "Keep the
 zanatomy reference, while progressing with the reconstructed models" -- the Z-Anatomy viewer
 (`HdYCRuvGP8ESbggoRWCNBF`, v6) stays as the reference; work returns to the two Visible Human specimen
 viewers. Recent: Q167 (2026-09-29, owner: "make an option to fit also smartphone screen") -- specimen
@@ -9602,5 +9603,13 @@ the female's phalanges are under-captured at HU 200.
   worse: her->Z-Anatomy median 8.4 vs 6.2 mm; kept as --joint-anchors).
 - Female pelvic organs: NONE found for uterus/ovaries/tubes/vagina (no label in any of her volumes). Her
   vhf_total.nii.gz does hold urinary_bladder (21) and colon incl. rectum (20), not meshed.
-- NEXT: main session integrates the callable into the Z-Anatomy build (drop MALE_ONLY_IDS; badge per structure
-  from per_structure_centroid_mm or its region's median); optionally mesh her bladder/rectum from vhf_total.
+- SHIPPED (2026-09-29, owner: 4 portions, 'Z-Anatomy female: fit it to her skeleton'): `build_zan_atlas_viewer.py
+  --external-bin --target-body vhf` -> build/viewer_zan_female/ (2748 structures, 25 male-only dropped, 3.14 M tris,
+  28.4 MB geometry in 3 files). Order: contralateral repair -> Q168 fit -> Q162 gap closure IN HER FRAME (410
+  muscles; gap>1.25 mm 12.6% -> 8.2%, inside-other 10.65% -> 10.17%) -> decimate. Every structure's card carries
+  its fit badge: measured centroid/surface error on her own CT mesh (187 structures) or its region's median/max,
+  labelled an estimate; her left forearm/hand says it cannot be checked. Reports Q168_zan_female_build.json /
+  Q168_zan_female_report.json. Stat line fix (template): a record holding only a badge no longer counts as an
+  atlas link (male 706 -> 664, female 662). Hub page viewer/atlas_hub.html links all four viewers.
+  Screens: posture follows hers (arms lower, hands at the hips); chest wall visibly rumpled (trunk ~10 mm).
+- Open: mesh her bladder/rectum from vhf_total (labels 21/20) so the female variant has pelvic viscera of her own.
