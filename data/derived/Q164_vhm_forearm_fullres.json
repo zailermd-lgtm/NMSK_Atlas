@@ -1,0 +1,766 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): male cryosection photographs at full resolution (0.33 mm, IDC series 4aaf9181-fb6a-4a4c-bf49-d1eb9ed4a385, instances 1625-1761) and his CT radius/ulna labels (data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz) for registration. Derived data (scripts/cryo/vhm_forearm_muscles_fullres.py): rule-based segmentation (position-rule markers, 3-D marker watershed on the pale fascial septa), not traced by an anatomist.",
+ "badge": "rule-based",
+ "script": "scripts/cryo/vhm_forearm_muscles_fullres.py",
+ "subject": "ct_vhm_forearm_v2",
+ "levels": [
+  1575,
+  1819
+ ],
+ "scale": 1.15,
+ "compactness": 0.05,
+ "forearm_axis": {
+  "centre_ras": [
+   207.2,
+   28.6,
+   -704.2
+  ],
+  "unit": [
+   -0.448,
+   0.632,
+   -0.632
+  ],
+  "angle_from_slice_normal_deg": 50.8
+ },
+ "segment": {
+  "u_mm": [
+   -89.0,
+   143.0
+  ],
+  "rule": "radial head .. distal radius of his CT radius label along the axis"
+ },
+ "registration": {
+  "method": "per-photograph translation laying the photographed radius/ulna on his CT sections, median over 21 reliable levels",
+  "reliable_levels": [
+   1655,
+   1743
+  ],
+  "n_reliable": 75,
+  "rotation_residual_deg_median": 0.43029128438541964,
+  "bone_boundary_to_ct_vhm_arm_mesh": {
+   "all": {
+    "n_points": 59913,
+    "median_mm": 1.16,
+    "p90_mm": 36.43
+   },
+   "fit_levels": {
+    "n_points": 23481,
+    "median_mm": 0.55,
+    "p90_mm": 1.25
+   },
+   "other_levels": {
+    "n_points": 36432,
+    "median_mm": 7.87,
+    "p90_mm": 60.11
+   },
+   "per_bone_median_mm": {
+    "radius": 1.05,
+    "ulna": 1.29
+   }
+  }
+ },
+ "orientation": {
+  "flexor_side_rule": "side of the bone line with more muscle (whole sections)",
+  "skin_rule_votes_plus_minus": [
+   2,
+   149
+  ],
+  "flexor_over_extensor_muscle_area": 2.32,
+  "thumb_metacarpal": {
+   "z": -866.0,
+   "n_components": 4,
+   "thumb_offset_mm_along_flexor_normal": 10.4
+  }
+ },
+ "expectations": {
+  "rule": "V = PCSA x optimal fascicle length / cos(pennation), data/muscles/upper_limb/<id>_r.json, size-normalised to his total",
+  "normalisation_citation": "Holzbaur KR, Murray WM, Gold GE, Delp SL. Upper limb muscle volumes in adult subjects. J Biomech 2007;40(4):742-749. doi:10.1016/j.jbiomech.2006.11.011 (PubMed 17241636; abstract: muscle-volume distribution highly conserved, three-fold variation in totals 1427-4426 cm3)",
+  "his_total_cm3": 1005.1,
+  "architecture_total_cm3": 242.5
+ },
+ "gate": "0.5 <= volume/expected <= 2.0 and main 26-connected component >= 0.98 of the volume left after dropping islands < 1 %",
+ "muscles": {
+  "pronator_teres": {
+   "label": 1,
+   "volume_cm3": 56.6,
+   "expected_cm3": 90.5,
+   "ratio": 0.63,
+   "architecture_volume_cm3": 21.83,
+   "raw_ratio": 2.59,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 9,
+   "septum_supported_fraction": 0.28,
+   "ship": true,
+   "reason": "0.63x the expectation, main component 1.000"
+  },
+  "flexor_carpi_radialis": {
+   "label": 2,
+   "volume_cm3": 125.1,
+   "expected_cm3": 37.7,
+   "ratio": 3.32,
+   "architecture_volume_cm3": 9.09,
+   "raw_ratio": 13.76,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 18,
+   "septum_supported_fraction": 0.36,
+   "ship": false,
+   "reason": "volume 125.1 cm3 is 3.32x the expectation 37.7 cm3 (gate 0.5-2.0x)"
+  },
+  "palmaris_longus": {
+   "label": 3,
+   "volume_cm3": 93.3,
+   "expected_cm3": 7.5,
+   "ratio": 12.51,
+   "architecture_volume_cm3": 1.8,
+   "raw_ratio": 51.83,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 10,
+   "septum_supported_fraction": 0.24,
+   "ship": false,
+   "reason": "volume 93.3 cm3 is 12.51x the expectation 7.5 cm3 (gate 0.5-2.0x)"
+  },
+  "flexor_carpi_ulnaris": {
+   "label": 4,
+   "volume_cm3": 122.9,
+   "expected_cm3": 69.9,
+   "ratio": 1.76,
+   "architecture_volume_cm3": 16.87,
+   "raw_ratio": 7.29,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 7,
+   "septum_supported_fraction": 0.21,
+   "ship": true,
+   "reason": "1.76x the expectation, main component 1.000"
+  },
+  "flexor_digitorum_superficialis": {
+   "label": 5,
+   "volume_cm3": 67.7,
+   "expected_cm3": 119.7,
+   "ratio": 0.57,
+   "architecture_volume_cm3": 28.89,
+   "raw_ratio": 2.34,
+   "expectation_source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (describes FDS as arising via humeroulnar and radial heads giving 4 tendons, with variable independence",
+   "main_component_fraction": 1.0,
+   "components_26": 4,
+   "septum_supported_fraction": 0.29,
+   "ship": true,
+   "reason": "0.57x the expectation, main component 1.000"
+  },
+  "flexor_digitorum_profundus": {
+   "label": 6,
+   "volume_cm3": 58.5,
+   "expected_cm3": 168.1,
+   "ratio": 0.35,
+   "architecture_volume_cm3": 40.57,
+   "raw_ratio": 1.44,
+   "expectation_source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) (index portion of FDP typically has a separate muscle belly); von Schroeder HP, Botte MJ (1993) J Hand Surg; Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); von Schroeder HP, Botte MJ (1993) J Hand Surg",
+   "main_component_fraction": 1.0,
+   "components_26": 9,
+   "septum_supported_fraction": 0.31,
+   "ship": false,
+   "reason": "volume 58.5 cm3 is 0.35x the expectation 168.1 cm3 (gate 0.5-2.0x)"
+  },
+  "flexor_pollicis_longus": {
+   "label": 7,
+   "volume_cm3": 83.2,
+   "expected_cm3": 30.3,
+   "ratio": 2.75,
+   "architecture_volume_cm3": 7.31,
+   "raw_ratio": 11.38,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 10,
+   "septum_supported_fraction": 0.33,
+   "ship": false,
+   "reason": "volume 83.2 cm3 is 2.75x the expectation 30.3 cm3 (gate 0.5-2.0x)"
+  },
+  "pronator_quadratus": {
+   "label": 8,
+   "volume_cm3": 10.3,
+   "expected_cm3": 9.3,
+   "ratio": 1.1,
+   "architecture_volume_cm3": 2.25,
+   "raw_ratio": 4.58,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 1,
+   "septum_supported_fraction": 0.83,
+   "ship": true,
+   "reason": "1.10x the expectation, main component 1.000"
+  },
+  "brachioradialis": {
+   "label": 9,
+   "volume_cm3": 102.1,
+   "expected_cm3": 99.5,
+   "ratio": 1.03,
+   "architecture_volume_cm3": 24.0,
+   "raw_ratio": 4.25,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 17,
+   "septum_supported_fraction": 0.42,
+   "ship": true,
+   "reason": "1.03x the expectation, main component 1.000"
+  },
+  "extensor_carpi_radialis_longus": {
+   "label": 10,
+   "volume_cm3": 58.0,
+   "expected_cm3": 65.3,
+   "ratio": 0.89,
+   "architecture_volume_cm3": 15.75,
+   "raw_ratio": 3.68,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 8,
+   "septum_supported_fraction": 0.2,
+   "ship": true,
+   "reason": "0.89x the expectation, main component 1.000"
+  },
+  "extensor_carpi_radialis_brevis": {
+   "label": 11,
+   "volume_cm3": 64.5,
+   "expected_cm3": 47.7,
+   "ratio": 1.35,
+   "architecture_volume_cm3": 11.51,
+   "raw_ratio": 5.6,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 6,
+   "septum_supported_fraction": 0.29,
+   "ship": true,
+   "reason": "1.35x the expectation, main component 1.000"
+  },
+  "extensor_digitorum": {
+   "label": 12,
+   "volume_cm3": 34.6,
+   "expected_cm3": 89.8,
+   "ratio": 0.39,
+   "architecture_volume_cm3": 21.68,
+   "raw_ratio": 1.6,
+   "expectation_source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+   "main_component_fraction": 1.0,
+   "components_26": 4,
+   "septum_supported_fraction": 0.31,
+   "ship": false,
+   "reason": "volume 34.6 cm3 is 0.39x the expectation 89.8 cm3 (gate 0.5-2.0x)"
+  },
+  "extensor_digiti_minimi": {
+   "label": 13,
+   "volume_cm3": 21.3,
+   "expected_cm3": 5.0,
+   "ratio": 4.28,
+   "architecture_volume_cm3": 1.2,
+   "raw_ratio": 17.75,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 5,
+   "septum_supported_fraction": 0.35,
+   "ship": false,
+   "reason": "volume 21.3 cm3 is 4.28x the expectation 5.0 cm3 (gate 0.5-2.0x)"
+  },
+  "extensor_carpi_ulnaris": {
+   "label": 14,
+   "volume_cm3": 40.2,
+   "expected_cm3": 50.5,
+   "ratio": 0.8,
+   "architecture_volume_cm3": 12.19,
+   "raw_ratio": 3.3,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 2,
+   "septum_supported_fraction": 0.22,
+   "ship": true,
+   "reason": "0.80x the expectation, main component 1.000"
+  },
+  "anconeus": {
+   "label": 15,
+   "volume_cm3": 6.0,
+   "expected_cm3": 24.9,
+   "ratio": 0.24,
+   "architecture_volume_cm3": 6.0,
+   "raw_ratio": 1.0,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 3,
+   "septum_supported_fraction": 0.27,
+   "ship": false,
+   "reason": "volume 6.0 cm3 is 0.24x the expectation 24.9 cm3 (gate 0.5-2.0x)"
+  },
+  "supinator": {
+   "label": 16,
+   "volume_cm3": 13.4,
+   "expected_cm3": 39.5,
+   "ratio": 0.34,
+   "architecture_volume_cm3": 9.52,
+   "raw_ratio": 1.41,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 1,
+   "septum_supported_fraction": 0.48,
+   "ship": false,
+   "reason": "volume 13.4 cm3 is 0.34x the expectation 39.5 cm3 (gate 0.5-2.0x)"
+  },
+  "abductor_pollicis_longus": {
+   "label": 17,
+   "volume_cm3": 14.5,
+   "expected_cm3": 23.6,
+   "ratio": 0.61,
+   "architecture_volume_cm3": 5.69,
+   "raw_ratio": 2.55,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 7,
+   "septum_supported_fraction": 0.39,
+   "ship": true,
+   "reason": "0.61x the expectation, main component 1.000"
+  },
+  "extensor_pollicis_brevis": {
+   "label": 18,
+   "volume_cm3": 10.0,
+   "expected_cm3": 6.7,
+   "ratio": 1.49,
+   "architecture_volume_cm3": 1.62,
+   "raw_ratio": 6.17,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 2,
+   "septum_supported_fraction": 0.59,
+   "ship": true,
+   "reason": "1.49x the expectation, main component 1.000"
+  },
+  "extensor_pollicis_longus": {
+   "label": 19,
+   "volume_cm3": 15.0,
+   "expected_cm3": 14.7,
+   "ratio": 1.02,
+   "architecture_volume_cm3": 3.55,
+   "raw_ratio": 4.23,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 5,
+   "septum_supported_fraction": 0.32,
+   "ship": true,
+   "reason": "1.02x the expectation, main component 1.000"
+  },
+  "extensor_indicis": {
+   "label": 20,
+   "volume_cm3": 7.9,
+   "expected_cm3": 5.0,
+   "ratio": 1.58,
+   "architecture_volume_cm3": 1.21,
+   "raw_ratio": 6.53,
+   "expectation_source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840",
+   "main_component_fraction": 1.0,
+   "components_26": 4,
+   "septum_supported_fraction": 0.58,
+   "ship": true,
+   "reason": "1.58x the expectation, main component 1.000"
+  }
+ },
+ "boundary_support": {
+  "abductor_pollicis_longus|extensor_carpi_radialis_brevis": {
+   "levels": 83,
+   "median_ridge_ratio": 1.12,
+   "frac_levels_ratio_ge_1.8": 0.1
+  },
+  "abductor_pollicis_longus|extensor_carpi_radialis_longus": {
+   "levels": 6,
+   "median_ridge_ratio": 0.47,
+   "frac_levels_ratio_ge_1.8": 0.0
+  },
+  "abductor_pollicis_longus|extensor_digiti_minimi": {
+   "levels": 6,
+   "median_ridge_ratio": 1.17,
+   "frac_levels_ratio_ge_1.8": 0.33
+  },
+  "abductor_pollicis_longus|extensor_digitorum": {
+   "levels": 99,
+   "median_ridge_ratio": 1.51,
+   "frac_levels_ratio_ge_1.8": 0.39
+  },
+  "abductor_pollicis_longus|extensor_indicis": {
+   "levels": 27,
+   "median_ridge_ratio": 2.13,
+   "frac_levels_ratio_ge_1.8": 0.78
+  },
+  "abductor_pollicis_longus|extensor_pollicis_brevis": {
+   "levels": 82,
+   "median_ridge_ratio": 1.96,
+   "frac_levels_ratio_ge_1.8": 0.52
+  },
+  "abductor_pollicis_longus|extensor_pollicis_longus": {
+   "levels": 125,
+   "median_ridge_ratio": 1.56,
+   "frac_levels_ratio_ge_1.8": 0.37
+  },
+  "abductor_pollicis_longus|flexor_digitorum_profundus": {
+   "levels": 31,
+   "median_ridge_ratio": 1.91,
+   "frac_levels_ratio_ge_1.8": 0.55
+  },
+  "abductor_pollicis_longus|flexor_pollicis_longus": {
+   "levels": 90,
+   "median_ridge_ratio": 1.45,
+   "frac_levels_ratio_ge_1.8": 0.43
+  },
+  "abductor_pollicis_longus|supinator": {
+   "levels": 15,
+   "median_ridge_ratio": 1.05,
+   "frac_levels_ratio_ge_1.8": 0.33
+  },
+  "anconeus|extensor_carpi_radialis_brevis": {
+   "levels": 47,
+   "median_ridge_ratio": 1.13,
+   "frac_levels_ratio_ge_1.8": 0.11
+  },
+  "anconeus|extensor_carpi_radialis_longus": {
+   "levels": 11,
+   "median_ridge_ratio": 1.75,
+   "frac_levels_ratio_ge_1.8": 0.45
+  },
+  "anconeus|extensor_carpi_ulnaris": {
+   "levels": 14,
+   "median_ridge_ratio": 2.15,
+   "frac_levels_ratio_ge_1.8": 0.71
+  },
+  "anconeus|extensor_digiti_minimi": {
+   "levels": 7,
+   "median_ridge_ratio": 2.94,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "anconeus|extensor_digitorum": {
+   "levels": 51,
+   "median_ridge_ratio": 1.2,
+   "frac_levels_ratio_ge_1.8": 0.18
+  },
+  "anconeus|pronator_teres": {
+   "levels": 6,
+   "median_ridge_ratio": 1.36,
+   "frac_levels_ratio_ge_1.8": 0.33
+  },
+  "anconeus|supinator": {
+   "levels": 52,
+   "median_ridge_ratio": 1.4,
+   "frac_levels_ratio_ge_1.8": 0.23
+  },
+  "brachioradialis|extensor_carpi_radialis_brevis": {
+   "levels": 53,
+   "median_ridge_ratio": 2.18,
+   "frac_levels_ratio_ge_1.8": 0.57
+  },
+  "brachioradialis|extensor_carpi_radialis_longus": {
+   "levels": 145,
+   "median_ridge_ratio": 1.06,
+   "frac_levels_ratio_ge_1.8": 0.07
+  },
+  "brachioradialis|extensor_pollicis_brevis": {
+   "levels": 9,
+   "median_ridge_ratio": 3.02,
+   "frac_levels_ratio_ge_1.8": 0.89
+  },
+  "brachioradialis|flexor_carpi_radialis": {
+   "levels": 149,
+   "median_ridge_ratio": 2.57,
+   "frac_levels_ratio_ge_1.8": 0.69
+  },
+  "brachioradialis|flexor_digitorum_profundus": {
+   "levels": 29,
+   "median_ridge_ratio": 1.83,
+   "frac_levels_ratio_ge_1.8": 0.52
+  },
+  "brachioradialis|flexor_pollicis_longus": {
+   "levels": 69,
+   "median_ridge_ratio": 0.91,
+   "frac_levels_ratio_ge_1.8": 0.04
+  },
+  "brachioradialis|pronator_teres": {
+   "levels": 122,
+   "median_ridge_ratio": 2.25,
+   "frac_levels_ratio_ge_1.8": 0.61
+  },
+  "extensor_carpi_radialis_brevis|extensor_carpi_radialis_longus": {
+   "levels": 145,
+   "median_ridge_ratio": 1.24,
+   "frac_levels_ratio_ge_1.8": 0.25
+  },
+  "extensor_carpi_radialis_brevis|extensor_digitorum": {
+   "levels": 159,
+   "median_ridge_ratio": 1.51,
+   "frac_levels_ratio_ge_1.8": 0.36
+  },
+  "extensor_carpi_radialis_brevis|extensor_pollicis_brevis": {
+   "levels": 57,
+   "median_ridge_ratio": 1.74,
+   "frac_levels_ratio_ge_1.8": 0.44
+  },
+  "extensor_carpi_radialis_brevis|flexor_digitorum_profundus": {
+   "levels": 16,
+   "median_ridge_ratio": 0.46,
+   "frac_levels_ratio_ge_1.8": 0.0
+  },
+  "extensor_carpi_radialis_brevis|pronator_teres": {
+   "levels": 12,
+   "median_ridge_ratio": 0.66,
+   "frac_levels_ratio_ge_1.8": 0.0
+  },
+  "extensor_carpi_radialis_brevis|supinator": {
+   "levels": 28,
+   "median_ridge_ratio": 1.43,
+   "frac_levels_ratio_ge_1.8": 0.36
+  },
+  "extensor_carpi_radialis_longus|extensor_digitorum": {
+   "levels": 10,
+   "median_ridge_ratio": 2.76,
+   "frac_levels_ratio_ge_1.8": 0.9
+  },
+  "extensor_carpi_radialis_longus|flexor_digitorum_profundus": {
+   "levels": 50,
+   "median_ridge_ratio": 1.02,
+   "frac_levels_ratio_ge_1.8": 0.16
+  },
+  "extensor_carpi_radialis_longus|pronator_teres": {
+   "levels": 47,
+   "median_ridge_ratio": 0.93,
+   "frac_levels_ratio_ge_1.8": 0.28
+  },
+  "extensor_carpi_ulnaris|extensor_digiti_minimi": {
+   "levels": 156,
+   "median_ridge_ratio": 1.69,
+   "frac_levels_ratio_ge_1.8": 0.41
+  },
+  "extensor_carpi_ulnaris|extensor_digitorum": {
+   "levels": 16,
+   "median_ridge_ratio": 0.95,
+   "frac_levels_ratio_ge_1.8": 0.0
+  },
+  "extensor_carpi_ulnaris|extensor_indicis": {
+   "levels": 79,
+   "median_ridge_ratio": 1.28,
+   "frac_levels_ratio_ge_1.8": 0.24
+  },
+  "extensor_carpi_ulnaris|extensor_pollicis_longus": {
+   "levels": 77,
+   "median_ridge_ratio": 1.16,
+   "frac_levels_ratio_ge_1.8": 0.13
+  },
+  "extensor_carpi_ulnaris|flexor_carpi_ulnaris": {
+   "levels": 146,
+   "median_ridge_ratio": 0.58,
+   "frac_levels_ratio_ge_1.8": 0.04
+  },
+  "extensor_carpi_ulnaris|supinator": {
+   "levels": 76,
+   "median_ridge_ratio": 1.31,
+   "frac_levels_ratio_ge_1.8": 0.22
+  },
+  "extensor_digiti_minimi|extensor_digitorum": {
+   "levels": 158,
+   "median_ridge_ratio": 1.15,
+   "frac_levels_ratio_ge_1.8": 0.11
+  },
+  "extensor_digiti_minimi|extensor_pollicis_longus": {
+   "levels": 77,
+   "median_ridge_ratio": 1.67,
+   "frac_levels_ratio_ge_1.8": 0.47
+  },
+  "extensor_digiti_minimi|supinator": {
+   "levels": 55,
+   "median_ridge_ratio": 2.36,
+   "frac_levels_ratio_ge_1.8": 0.64
+  },
+  "extensor_digitorum|extensor_pollicis_brevis": {
+   "levels": 9,
+   "median_ridge_ratio": 2.69,
+   "frac_levels_ratio_ge_1.8": 0.56
+  },
+  "extensor_digitorum|extensor_pollicis_longus": {
+   "levels": 62,
+   "median_ridge_ratio": 1.12,
+   "frac_levels_ratio_ge_1.8": 0.1
+  },
+  "extensor_digitorum|supinator": {
+   "levels": 60,
+   "median_ridge_ratio": 4.64,
+   "frac_levels_ratio_ge_1.8": 0.83
+  },
+  "extensor_indicis|extensor_pollicis_brevis": {
+   "levels": 23,
+   "median_ridge_ratio": 2.32,
+   "frac_levels_ratio_ge_1.8": 0.65
+  },
+  "extensor_indicis|extensor_pollicis_longus": {
+   "levels": 83,
+   "median_ridge_ratio": 1.57,
+   "frac_levels_ratio_ge_1.8": 0.41
+  },
+  "extensor_indicis|flexor_digitorum_profundus": {
+   "levels": 48,
+   "median_ridge_ratio": 5.5,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "extensor_indicis|flexor_pollicis_longus": {
+   "levels": 6,
+   "median_ridge_ratio": 3.62,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "extensor_indicis|pronator_quadratus": {
+   "levels": 29,
+   "median_ridge_ratio": 7.17,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "extensor_pollicis_brevis|extensor_pollicis_longus": {
+   "levels": 18,
+   "median_ridge_ratio": 2.92,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "extensor_pollicis_brevis|flexor_pollicis_longus": {
+   "levels": 6,
+   "median_ridge_ratio": 2.97,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "extensor_pollicis_longus|flexor_digitorum_profundus": {
+   "levels": 52,
+   "median_ridge_ratio": 1.01,
+   "frac_levels_ratio_ge_1.8": 0.19
+  },
+  "extensor_pollicis_longus|flexor_pollicis_longus": {
+   "levels": 23,
+   "median_ridge_ratio": 1.17,
+   "frac_levels_ratio_ge_1.8": 0.09
+  },
+  "extensor_pollicis_longus|pronator_quadratus": {
+   "levels": 10,
+   "median_ridge_ratio": 7.93,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "extensor_pollicis_longus|supinator": {
+   "levels": 10,
+   "median_ridge_ratio": 0.92,
+   "frac_levels_ratio_ge_1.8": 0.1
+  },
+  "flexor_carpi_radialis|flexor_digitorum_profundus": {
+   "levels": 21,
+   "median_ridge_ratio": 1.7,
+   "frac_levels_ratio_ge_1.8": 0.38
+  },
+  "flexor_carpi_radialis|flexor_digitorum_superficialis": {
+   "levels": 151,
+   "median_ridge_ratio": 1.35,
+   "frac_levels_ratio_ge_1.8": 0.39
+  },
+  "flexor_carpi_radialis|flexor_pollicis_longus": {
+   "levels": 99,
+   "median_ridge_ratio": 2.66,
+   "frac_levels_ratio_ge_1.8": 0.7
+  },
+  "flexor_carpi_radialis|palmaris_longus": {
+   "levels": 158,
+   "median_ridge_ratio": 0.96,
+   "frac_levels_ratio_ge_1.8": 0.06
+  },
+  "flexor_carpi_radialis|pronator_teres": {
+   "levels": 122,
+   "median_ridge_ratio": 1.28,
+   "frac_levels_ratio_ge_1.8": 0.05
+  },
+  "flexor_carpi_ulnaris|flexor_digitorum_profundus": {
+   "levels": 188,
+   "median_ridge_ratio": 1.19,
+   "frac_levels_ratio_ge_1.8": 0.27
+  },
+  "flexor_carpi_ulnaris|flexor_digitorum_superficialis": {
+   "levels": 187,
+   "median_ridge_ratio": 1.49,
+   "frac_levels_ratio_ge_1.8": 0.23
+  },
+  "flexor_carpi_ulnaris|flexor_pollicis_longus": {
+   "levels": 70,
+   "median_ridge_ratio": 1.56,
+   "frac_levels_ratio_ge_1.8": 0.41
+  },
+  "flexor_carpi_ulnaris|palmaris_longus": {
+   "levels": 146,
+   "median_ridge_ratio": 1.29,
+   "frac_levels_ratio_ge_1.8": 0.16
+  },
+  "flexor_digitorum_profundus|flexor_digitorum_superficialis": {
+   "levels": 184,
+   "median_ridge_ratio": 1.37,
+   "frac_levels_ratio_ge_1.8": 0.18
+  },
+  "flexor_digitorum_profundus|flexor_pollicis_longus": {
+   "levels": 203,
+   "median_ridge_ratio": 1.36,
+   "frac_levels_ratio_ge_1.8": 0.18
+  },
+  "flexor_digitorum_profundus|palmaris_longus": {
+   "levels": 17,
+   "median_ridge_ratio": 0.96,
+   "frac_levels_ratio_ge_1.8": 0.06
+  },
+  "flexor_digitorum_profundus|pronator_quadratus": {
+   "levels": 34,
+   "median_ridge_ratio": 3.32,
+   "frac_levels_ratio_ge_1.8": 0.82
+  },
+  "flexor_digitorum_profundus|pronator_teres": {
+   "levels": 74,
+   "median_ridge_ratio": 1.66,
+   "frac_levels_ratio_ge_1.8": 0.32
+  },
+  "flexor_digitorum_profundus|supinator": {
+   "levels": 19,
+   "median_ridge_ratio": 3.56,
+   "frac_levels_ratio_ge_1.8": 1.0
+  },
+  "flexor_digitorum_superficialis|flexor_pollicis_longus": {
+   "levels": 132,
+   "median_ridge_ratio": 1.16,
+   "frac_levels_ratio_ge_1.8": 0.2
+  },
+  "flexor_digitorum_superficialis|palmaris_longus": {
+   "levels": 154,
+   "median_ridge_ratio": 1.82,
+   "frac_levels_ratio_ge_1.8": 0.53
+  },
+  "flexor_digitorum_superficialis|pronator_teres": {
+   "levels": 51,
+   "median_ridge_ratio": 0.73,
+   "frac_levels_ratio_ge_1.8": 0.12
+  },
+  "flexor_pollicis_longus|pronator_quadratus": {
+   "levels": 47,
+   "median_ridge_ratio": 3.38,
+   "frac_levels_ratio_ge_1.8": 0.7
+  },
+  "flexor_pollicis_longus|pronator_teres": {
+   "levels": 67,
+   "median_ridge_ratio": 1.52,
+   "frac_levels_ratio_ge_1.8": 0.21
+  },
+  "flexor_pollicis_longus|supinator": {
+   "levels": 24,
+   "median_ridge_ratio": 2.16,
+   "frac_levels_ratio_ge_1.8": 0.54
+  }
+ },
+ "montage": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q164_m_forearm/work/vhm_forearm_fullres_montage.png",
+ "shipped": [
+  "pronator_teres_r",
+  "flexor_carpi_ulnaris_r",
+  "flexor_digitorum_superficialis_r",
+  "pronator_quadratus_r",
+  "brachioradialis_r",
+  "extensor_carpi_radialis_longus_r",
+  "extensor_carpi_radialis_brevis_r",
+  "extensor_carpi_ulnaris_r",
+  "abductor_pollicis_longus_r",
+  "extensor_pollicis_brevis_r",
+  "extensor_pollicis_longus_r",
+  "extensor_indicis_r"
+ ]
+}

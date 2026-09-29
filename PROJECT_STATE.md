@@ -9505,3 +9505,21 @@ the female's phalanges are under-captured at HU 200.
   useful for this gap; nothing shipped, nothing declined-for-license (nothing qualified in the first place).**
   Closing this gap needs a different approach entirely (dedicated small-muscle/high-res segmentation or manual
   atlas work), out of scope here. Tests: 258 pass, unchanged. No data/code changes.
+
+## Q164 (queue Q62 "his forearm"): male right forearm v2 from his full-res photographs -- built, NOT wired
+- Script scripts/cryo/vhm_forearm_muscles_fullres.py (tests/test_vhm_forearm_fullres.py); photographs 1625-1761
+  (SCRATCH/vh_cryo_m_forearm_q151) + 1575-1624/1762-1819 streamed to SCRATCH/q164_m_forearm/ext (box 150,1150,50,900).
+- Forearm is 53 deg oblique to the slices: stacked in torso RAS, resliced perpendicular to his CT radius+ulna axis;
+  registration = per-photo translation onto his CT radius/ulna (median 0.55 mm fit levels, 1.16 mm all tracked).
+- Seeds: superficial RING angles (rule parameters) + her deep MARKER_RULES x1.15; 3-D compact watershed (c 0.05).
+- Gate vs size-normalised repo architecture volumes (Holzbaur 2005 PCSA x Lf; normalisation per Holzbaur 2007):
+  12/20 pass; BUT boundaries sit on pale septa at only 20-83 % (median ~0.3) of slices -- mostly rule lines.
+  Report data/derived/Q164_vhm_forearm_fullres.json; subject build/vh/ct_vhm_forearm_v2; mapping
+  mappings/subjects/ct_vhm_forearm_v2_volume_mapping.json.
+- DECISION 2026-09-29 (main session): NOT SHIPPED. The montage shows pie-slice wedges filling the whole
+  cross-section inside the skin (fat, vessels, tendons counted as muscle): his measured total 1005 cm3 vs
+  242.5 cm3 from the repo's architecture records, so the per-muscle gate only passed after normalising the
+  expectations to that inflated total (circular), and boundaries follow the rule lines, not visible septa
+  (median ~0.3 of slices). The current male forearm (ct_vhm_forearm FDS/FDP/APL + the Q155 photo-refined
+  transfers) stays. What would make v2 shippable: a tissue-class mask first (muscle vs fat vs tendon by
+  colour, as the female Q151 classifier), so volumes are absolute, then septum-following boundaries.
