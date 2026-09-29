@@ -158,6 +158,19 @@ fi
 if [ ! -f build/vh/ct_vhm_pelvis/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
   python3 scripts/vhf_pelvic_viscera.py --body vhm --origin='-6.035,-895.476,4.787' 2>&1 | tail -5
 fi
+# Q173: his adductor magnus (posterior surface) and biceps femoris long head / semitendinosus (anterior surfaces)
+# snapped inward onto the fat plane photographed in his 0.33 mm cryosections, from the stored per-vertex moves (no
+# photographs needed here; `measure` needs the re-streamed crops) -> ct_vhm_thigh_snap, listed BEFORE vhm_both so it wins
+# only these six ids. Same run: his Q57 sciatic nerve translated by the measured photograph-to-atlas registration
+# (vhm_nerves_cryo_reg.nii.gz) and surfaced as ct_vhm_sciatic (listed last; id unique), then badged from the report.
+if [ -f $T/vhm_thigh_snap_q173.npz ] && { [ ! -f build/vh/ct_vhm_thigh_snap/manifest.json ] || [ -n "${RECONVERT:-}" ]; }; then
+  python3 scripts/cryo/vhm_thigh_fat_plane_snap.py apply 2>&1 | tail -1
+fi
+if [ -f $T/vhm_nerves_cryo_reg.nii.gz ] && { ! grep -q vhm_nerves_cryo_reg build/vh/ct_vhm_sciatic/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
+  cp mappings/subjects/ct_vhm_sciatic_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_sciatic
+  python3 scripts/ingest_volume_geometry.py convert $T/vhm_nerves_cryo_reg.nii.gz --labels vhm_nerves --subject ct_vhm_sciatic --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+  python3 scripts/cryo/vhm_thigh_fat_plane_snap.py badge-nerve >/dev/null
+fi
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 # Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
 # deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
@@ -178,10 +191,12 @@ for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh c
          ct_vhm_twall_contfix_mesh ct_vhm_abw_contfix; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
+[ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173, before vhm_both
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 [ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
+[ -f build/vh/ct_vhm_sciatic/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_sciatic"   # Q57 + Q173 registration (id unique; listed last)
 # Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
 # steps above still read build/viewer_m as their input bundle, unchanged
 OUT=${VHM_OUT:-build/viewer_m}; mkdir -p "$OUT"

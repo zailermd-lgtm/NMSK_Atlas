@@ -9061,7 +9061,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       relation to them; then the brachial artery + median/ulnar/radial nerves in new UPPER-ARM crops
       (stream y +?..: her arm levels, box around the humerus; corridor = medial bicipital groove between
       biceps and triceps; the arm crops on disk are elbow-to-fingertips only).
-- [ ] Q57 BLOCKED 2026-09-29 (tracked + verified, NOT shipped -- owner decision): right -91..-216, left -89..-222 (3 pieces)
+- [x] Q57 SHIPPED 2026-09-29 via Q173 (registered to his femur/thigh muscles, see Q173 at the end; was: BLOCKED, tracked + verified, NOT shipped -- owner decision): right -91..-216, left -89..-222 (3 pieces)
       verified at the cross-hair on per-level montages, all posterior to adductor magnus/deep to biceps, but 61% of the
       nerve-mesh vertices fall inside his vhm_both adductor_magnus mesh (median 3.0 mm, max 6.6 mm deep): that mesh's
       posterior surface runs through the photographed fat plane the nerve lies in. Details: data/derived/Q57_vhm_sciatic.json
@@ -9739,3 +9739,46 @@ the female's phalanges are under-captured at HU 200.
 - Q172 addendum from Q57: his photo legs frame has row 0 ANTERIOR (like hers), opposite to legs_total's grid, so
   vhm_pelvic_floor_from_cryo.py also overlays its CT labels on the photographs mirrored. Any Q172 retry must flip the
   labels onto the photo grid too, not only the output affine.
+
+## Q173 (2026-09-29) -- his thigh muscles onto the photographed fat plane + Q57 sciatic SHIPPED (male hi-res viewer)
+- Supplier: his adductor_magnus_r/l, biceps_femoris_r/l (2 pieces: long head from the tuberosity + short head),
+  semitendinosus_r/l all come from `vhm_both` = the DU lower-extremity release (Andreassen 2023: manual segmentation of
+  HIS cryosections), decimated copy recovered from his published viewer v25 (AM ~3.6k tris, ~7.5 mm edges).
+- MAIN FINDING (registration, not the muscle): the Q57 crop mapping (legs_total grid flipped + fixed legs->torso offset)
+  sits ~2.3 mm off his atlas meshes. IoU of ALL his vhm_both thigh-muscle sections vs photographed muscle peaks at a
+  constant per-side shift on every level (right 7.2 rows / 0 cols, left 7.0 / -7.2 crop px of 0.33 mm), and his femur
+  (bone blob, independent) gives the same (6.7/0.0, 6.3/-8.6); median IoU muscle 0.81->0.83 / 0.78->0.82, femur 0.83->0.88 / 0.72->0.93 (R/L). The nerve was tracked
+  with that mapping, so it sat 2.35 mm too ANTERIOR (left also 2.4 mm medial) = most of Q57's 3.0 mm median "inside AM".
+- Fix = new `scripts/cryo/vhm_thigh_fat_plane_snap.py` (measure | apply | verify | badge-nerve; tests/test_vhm_thigh_snap.py):
+  (1) nerve volume translated by the measured shift -> `task_outputs/vhm_nerves_cryo_reg.nii.gz` (AP 2.35 mm exact in the
+  affine, left x 2.5 mm = 5 voxels; converted mesh = Q57 mesh translated exactly); (2) photographs sampled THROUGH the
+  registration; AM posterior (n_z<-0.2) / BF long head + ST anterior (n_z>0.2) surfaces of the once-subdivided mesh moved
+  INWARD to the first >=1.65 mm run of photographed muscle (strict colour rule: v<115, g<0.62r -- the nerve's fascicles
+  v~130, g/r~0.7 are not muscle), cap 8 mm and 45% local thickness, median + 3 Laplacian, fold guard. Moves stored in
+  `task_outputs/vhm_thigh_snap_q173.npz`; `apply` rebuilds `build/vh/ct_vhm_thigh_snap` byte-identically without photos.
+- Control: every surface of his DU thigh muscles is ~1 mm "fat" at the strict rule (anterior/side faces mean d 0.8-1.6 mm)
+  -> AM's posterior face is only ~0.3 mm worse than its own other faces once registered; the snap is modest.
+- Numbers (volume cm3 before->after, move median/max mm, on-photographed-muscle fraction before->after, photographed muscle
+  cut away cm3): AM_r 1137.7->1104.9 (-2.9%) 0.93/4.73 0.897->0.918 6.1; AM_l 1055.7->1021.9 (-3.2%) 0.96/5.31 0.892->0.916
+  8.4; BF_r 499.1->489.7 (-1.9%) 0.72/3.07 0.802->0.810 3.7; BF_l 449.0->443.9 (-1.1%) 0.43/3.76; ST_r 297.9->286.9 (-3.7%)
+  0.60/5.64 0.794->0.811; ST_l 260.5->254.4 (-2.3%) 0.37/4.71. No new overlap with femur/neighbours (surface samples,
+  old vs new bundle: all changes <= 0.1 % of surface, no depth increase > 0.5 mm).
+- Nerve vertices > 1 mm inside (of 35,820): Q57 as-was vs old meshes AM_r 9203 / AM_l 8914 / BF_r 609 / ST_r 128 (18,854,
+  53%) -> registered + snapped AM_r 1645 / AM_l 1610 / BF_r 997 / BF_l 506 / ST_r 29 (4,787, 13.4%); AM median depth
+  3.1 -> 0.75 mm, max 6.6 -> 3.0 mm; BF_r max 5.1 mm at y -123..-138 (its MEDIAL face beside a pale septum, not snapped:
+  anterior-only rule). Target "~0 beyond 1 mm" NOT met: the residual is the traced outline itself -- 22-26% of the Q57 label
+  voxels lie on photographed muscle (1.8/3.5% > 1 mm, max 2.6 mm); 1374 of AM_r's 1603 residual vertices sit on muscle.
+- Shipped: `VHM_OUT=build/viewer_m_hr bash scripts/vhm_rebuild_bundle.sh` (wired: apply step + nerve convert --smooth 0.0 +
+  badge-nerve; ct_vhm_thigh_snap listed before vhm_both, ct_vhm_sciatic last). 430 structures (+sciatic_n), 2,101,161 tris
+  (+62,540: the six ids 3.6-7.2k -> 9.0-12.6k tris at the hi-res budget, nerve 30,000); page 1.17 MB, geo 14.67 + 10.41 MB.
+  Only the six ids changed geometry (hashes); 393 others identical in geometry and metadata; order: the six now earlier.
+  Badges: each muscle says which surface moved, median/max, volume change, registration; sciatic_n says Q57 + registration,
+  right 126 / left 84 levels (~a third; gluteal and distal thirds missing) and the residual overlap. Template labels for
+  both subjects. Chromium headless: no page errors, sciatic_n present. build/viewer_f_hr untouched (md5).
+- Report data/derived/Q173_vhm_adductor_magnus.json; montage session scratch q173/montage_{right,left}.png; old bundle copy
+  q173/old_bundle.{json,bin}. Crops deleted; vh_cryo/ + vhm_ts/ kept.
+- Open: (a) the registration offset applies to anything else placed through `vhm_stream_leg_crops.py`'s mapping (only Q57
+  so far) and probably to the 1 mm legs frame used by vhm_pelvic_floor_from_cryo.py (Q171/Q172) -- check before any Q172
+  retry; (b) the nerve's own outline could be clipped to photographed non-muscle (would remove the residual) -- not done,
+  it edits Q57's traced result; (c) the template renders every procedural_badge as "Procedural geometry -- not from
+  imaging", which reads wrong for photograph-derived corrections (Q155 has the same). Not published.

@@ -277,6 +277,8 @@ var SUBJECTS = BUNDLE.subject.split("+");
 var PRIMARY_SUBJECT = SUBJECTS[0];
 var SUBJECT_LABELS = {
   ct_vhm_pelvis: "Visible Human male, CT labels (TotalSegmentator total task; his torso block above its lower edge, his legs block's pelvis slab below it, joined by the fixed block offset) -- his own urinary bladder, prostate, rectum and the pelvic part of the sigmoid colon: the colon label cut at his pelvic inlet (sacral promontory to upper pubic symphysis) and split where the rectum ends (sigmoid take-off, or the first point where the label branches into two loops, whichever comes first) traced along the bowel lumen; measured, not transferred",
+  ct_vhm_thigh_snap: "Visible Human (DU lower-extremity release: manual segmentation of his cryosections) -- this surface moved inward onto the fat plane photographed in his own 0.33 mm cryosections (posterior surface of the adductor magnus, anterior surface of the biceps femoris long head and semitendinosus), bounded and measured; the rest of the mesh unchanged",
+  ct_vhm_sciatic: "Visible Human male, colour cryosections at FULL resolution (0.33 mm) -- sciatic nerve tracked level by level as a bundle of fascicles between the muscles, from a landmark-rule seed; rule-based, each level checked on a montage; placed with the photograph-to-atlas registration measured on his own femur and thigh muscles; covers about a third of its course",
   ct_vhf_pelvis: "Visible Human female, CT labels (TotalSegmentator total task) -- her own urinary bladder, rectum and the pelvic part of the sigmoid colon: the colon label cut at her pelvic inlet (sacral promontory to upper pubic symphysis) and split at the sigmoid take-off traced along the bowel lumen; measured, not transferred",
   xfer_vhm2vhf: "TRANSFERRED from the Visible Human male, not measured on her: his structure carried onto her bones by piecewise affine maps and, for the lower-limb muscles, re-placed inside her muscle compartment as measured on her cryosections; the boundaries between muscles are his. An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
   xfer_vhm2vhf_sep: "TRANSFERRED from the Visible Human male, not measured on her: his lower-limb muscle carried onto her bones and inside her muscle compartment, with the boundaries between neighbouring bellies then refined to HER intermuscular septa on her cryosections (marker watershed). The muscle set, attachments and rough shape are still his -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
@@ -771,7 +773,8 @@ function select(id){
         esc(SUBJECT_LABELS[s.subject] || s.subject) + '</span>'
       : "") +
     (r.procedural_badge
-      ? '<span class="tag warn" title="' + esc(r.procedural_badge) + '">Procedural geometry — not from imaging</span>'
+      ? '<span class="tag warn" title="' + esc(r.procedural_badge) + '">Adjusted geometry — see note</span>' +
+        '<div class="warn" style="flex-basis:100%">' + esc(r.procedural_badge) + '</div>'
       : "");
 
   var h = "";
