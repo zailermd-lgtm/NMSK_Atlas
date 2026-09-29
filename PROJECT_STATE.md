@@ -9575,3 +9575,32 @@ the female's phalanges are under-captured at HU 200.
   are partly pale and partly dark lines, and no rule labels are reliable enough to name septum-enclosed bellies.
   Open route (needs the owner): one hand-placed seed per muscle on ~5 levels (a click-to-seed page over the
   resliced photographs), flooded inside the Q166 septum mask; alternative: add a dark-ridge term to the septum map.
+
+## Q168: Z-Anatomy whole body fitted onto the VH FEMALE's own skeleton (module only; not yet in any build)
+- Script scripts/transfer/zan_to_vhf_whole_body.py (tests/test_zan_to_vhf_whole_body.py, 10 pass; full suite 404 pass).
+  Report data/derived/Q168_zan_to_vhf.json (per-bone fits, region errors with/without transfer, per-structure
+  table, region_of_structure for all 2748 ids, excluded male ids). API: `load_zan_to_vhf()` -> callable
+  `(mesh_id, cat, v_build_frame) -> v_her_frame` (2.4 s standalone; pass `zan_meshes=` to skip the bone reload);
+  `MALE_ONLY_IDS` (25: testis/epididymis/ductus/ejaculatory duct/seminal gland x2, prostate, male urethra,
+  penis parts + penile vessels, testicular a./v.); `FEMALE_PELVIC_ORGANS`.
+- Method: 54 her-bone units (composites for skull, spine blocks, rib sides, carpus, digits, metatarsus) fitted by
+  best of {Q147 build_bone_maps, centroid start} + trimmed symmetric ICP (Umeyama). Body scale 0.932. Long bones
+  scaled by her own length ratio; FOV-cut bones (radius_r 0.81, ulna_r 0.45 of expected length) rigid at body scale
+  with her->Z-Anatomy pairs only (src->dst let the cut end slide); free scale outside +-25 % of body scale ->
+  clamped (carpals_r, hand/foot phalanges, cuneiform_int_l). Spine/rib/digit pieces refined per piece; digits,
+  carpus and ribs by a joint-anchored chain (anchor gap median 30.5 -> 2.5 mm). Her left radius/ulna/hand have
+  no CT: carried by a proxy fit to her own 5 left-forearm extensors (not independent validation).
+  Soft tissue: inverse-square blend of bone similarities, tapered to 0 at 40 mm past the nearest bone; limb gate
+  (upper vs lower limb; trunk never takes forearm/hand bones) per spatial cluster (Z-Anatomy's
+  opponens_digiti_minimi_r holds hand AND foot pieces).
+- Result (183 of her own non-generated meshes; median/max; transfer vs raw): centroid 17.3/350 vs 32.3/417 mm;
+  symmetric surface 6.1/27.7 vs 15.0/171.5; her->Z-Anatomy 5.9/36.9 vs 16.3/169.9. Bones: surface 1.9 vs 29.2.
+  Worst region trunk (surface 10.6). Centroid max is driven by her FOV-cut/partial meshes. Tear (touching
+  vertices of different structures) max 22.9 mm (joint gaps: scapula/clavicle, SI joint), p99 5.0; edge
+  stretch p99.9 3.7x. Full transform of 2748 meshes / 4.16 M vertices: 69 s.
+- Tried and rejected: anchoring the FOV-cut radius/ulna at the elbow to the humerus fit (her forearm muscles
+  worse: her->Z-Anatomy median 8.4 vs 6.2 mm; kept as --joint-anchors).
+- Female pelvic organs: NONE found for uterus/ovaries/tubes/vagina (no label in any of her volumes). Her
+  vhf_total.nii.gz does hold urinary_bladder (21) and colon incl. rectum (20), not meshed.
+- NEXT: main session integrates the callable into the Z-Anatomy build (drop MALE_ONLY_IDS; badge per structure
+  from per_structure_centroid_mm or its region's median); optionally mesh her bladder/rectum from vhf_total.

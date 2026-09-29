@@ -4,14 +4,16 @@ Visible Human FEMALE's OWN skeleton, one bone at a time, with every structure's 
 METHOD.
   1. BONES. Every Z-Anatomy bone is paired with her own CT bone by atlas id (`UNITS`: composites --
      cranium, each vertebral block, each rib cage side, carpus, hand/foot phalanges, metatarsus -- use
-     the same composite on both sides). Each pair gets a similarity (rotation + uniform scale +
-     translation): Q147's own per-bone fit (`limb_per_bone_transfer.build_bone_maps`: bone_frame box
-     + twist candidates + rigid ICP, incl. the TRUNCATED clip of her FOV-cut humeri/radius/ulna) and a
-     centroid-only start are both refined by a trimmed, symmetric ICP (Umeyama); the one with the
-     lower median surface residual is kept. Pieces of the spine/rib/hand/foot composites are then
-     refined one piece at a time (rigid ICP against the part of her composite they already sit on,
-     guarded against jumping to a neighbouring vertebra/rib). Z-Anatomy bones she has no CT for
-     (coccyx, ossicles, teeth, xiphoid, sinuses) follow a named unit (`FOLLOWERS`).
+     the same composite on both sides). Each pair gets a similarity: the best (median surface residual)
+     of Q147's own per-bone fit (`limb_per_bone_transfer.build_bone_maps`) and a centroid start, each
+     refined by trimmed symmetric ICP (Umeyama). Her body scale = median of her reference bones; long
+     bones are scaled by her own length ratio (`LENGTH_SCALED`); a bone MEASURED shorter than CUT_RATIO
+     of its expected length (FOV-cut) is fitted rigidly at body scale with her->Z-Anatomy pairs only;
+     a free scale outside +-SCALE_TOL of body scale is clamped. Spine/rib/digit pieces are refined
+     one piece at a time, then digits, carpus and ribs by a joint-anchored chain (`CHAINS`). Her left
+     radius/ulna/hand have no CT: a proxy fit to her own left forearm extensors carries them
+     (`PROXY_UNITS`). Z-Anatomy bones she has no CT for (coccyx, ossicles, teeth, xiphoid, sinuses)
+     follow a named unit (`FOLLOWERS`).
   2. EVERYTHING ELSE is carried by a smooth blend of the nearby bones' similarities: inverse-square
      distance to each bone's Z-Anatomy surface (Q147's SOFTEN_MM), tapered to exactly zero at
      `BLEND_CUTOFF_MM` beyond the nearest bone, so the field is continuous in space (no top-k
@@ -57,7 +59,13 @@ PIECE_MAX_ROT_DEG = 20.0
 SCALE_TOL = 0.25           # free per-bone scale allowed within +-25 % of her body scale
 CUT_RATIO = 0.85           # her bone shorter than this x (Z-Anatomy x body scale): FOV-cut, fitted as a part
 # a FOV-cut bone keeps its joint where the neighbouring fitted bone puts it
-JOINT_PARENT = {"radius_r": "humerus_r", "ulna_r": "humerus_r", "radius_l": "humerus_l", "ulna_l": "humerus_l"}
+# (measured Q168: anchoring her FOV-cut radius/ulna to the humerus fit made her own forearm muscles WORSE,
+# her->Z-Anatomy median 8.4 vs 6.2 mm -- so it is off by default; --joint-anchors turns it on)
+JOINT_PARENT_OPTION = {"radius_r": "humerus_r", "ulna_r": "humerus_r", "radius_l": "humerus_l", "ulna_l": "humerus_l"}
+JOINT_PARENT: dict = {}
+# long bones: scale = her long-axis length / Z-Anatomy's (symmetric ICP with a free scale can trade
+# length for thickness: her humerus_r came out 7 % too long that way), then rigid ICP at that scale
+LENGTH_SCALED = {f"{b}_{s}" for b in ("humerus", "femur", "tibia", "fibula", "clavicle") for s in "rl"}
 
 # ---------------------------------------------------------------- pairing (her id -> Z-Anatomy ids)
 _ORD = ("first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
@@ -535,12 +543,16 @@ def fit_units(zan: dict, her: dict, units: dict = UNITS, log=print) -> dict:
         anchors = None
         if cut and unit in JOINT_PARENT and fits.get(JOINT_PARENT[unit], {}).get("status") == "fitted":
             anchors = joint_anchors(zan, pieces[0], JOINT_PARENT[unit], fits)
-        fr = fit_pair(src_v, src_f, her[unit]["v"], unit, fixed_scale=bs if cut else None, partial=cut,
-                      anchors=anchors, log=log)
+        fixed = bs if cut else None
+        if unit in LENGTH_SCALED and not cut and len(pieces) == 1:
+            fixed = long_extent(her[unit]["v"]) / long_extent(src_v)
+        fr = fit_pair(src_v, src_f, her[unit]["v"], unit, fixed_scale=fixed, partial=cut, anchors=anchors, log=log)
         fr["her_length_ratio"] = round(float(ratio), 3)
+        if fixed is not None and not cut:
+            fr["length_scaled"] = True
         if anchors is not None:
             fr["joint_anchor"] = JOINT_PARENT[unit]
-        if bs is not None and not cut and abs(fr["scale"] / bs - 1) > SCALE_TOL:
+        if bs is not None and not cut and fixed is None and abs(fr["scale"] / bs - 1) > SCALE_TOL:
             free = {"scale": round(fr["scale"], 3), "residual_mm": round(fr["residual_mm"], 2)}
             fr = {**fit_pair(src_v, src_f, her[unit]["v"], unit, fixed_scale=bs, log=log),
                   "scale_clamped": True, "free_fit": free}
@@ -551,7 +563,7 @@ def fit_units(zan: dict, her: dict, units: dict = UNITS, log=print) -> dict:
         if unit in REFINE_PIECES and len(pieces) > 1:
             fr["piece_fits"] = refine_pieces(zan, pieces, fr["A"], fr["t"], her[unit]["v"], log=log)
     chain_rep = refine_chains(zan, fits, her, log=log)
-    moved = [c for c, r in chain_rep.items() if r["start"] != "current"]
+    moved = [c for c, r in chain_rep.items() if r["start"] != "unchanged"]
     log(f"  chain refinement: {len(moved)}/{len(chain_rep)} pieces re-fitted; median anchor gap "
         f"{np.median([r['anchor_gap_before_mm'] for r in chain_rep.values()]):.1f} -> "
         f"{np.median([r['anchor_gap_after_mm'] for r in chain_rep.values()]):.1f} mm, median residual "
@@ -619,10 +631,10 @@ def build_chains() -> list[tuple[str, list[str], str]]:
         mc = {k: f"zan_{o}_metacarpal_bone_{s}" for k, o in enumerate(_ORD[:5], 1)}
         cb = {c: f"zan_{c}_bone_{s}" for c in CARPALS}
         # carpus: distal row from its own (well-fitted, individually labelled) metacarpals, then the
-        # proximal row from the radius and the distal row
+        # proximal row from the distal row (her FOV-cut radius is not a reliable wrist anchor)
         for c, par in (("trapezium", [mc[1], mc[2]]), ("trapezoid", [mc[2]]), ("capitate", [mc[3]]),
-                       ("hamate", [mc[4], mc[5]]), ("scaphoid", [f"radius_{s}", cb["trapezium"], cb["capitate"]]),
-                       ("lunate", [f"radius_{s}", cb["capitate"]]), ("triquetrum", [cb["hamate"], cb["lunate"]]),
+                       ("hamate", [mc[4], mc[5]]), ("scaphoid", [cb["trapezium"], cb["capitate"]]),
+                       ("lunate", [cb["capitate"]]), ("triquetrum", [cb["hamate"], cb["lunate"]]),
                        ("pisiform", [cb["triquetrum"]])):
             out.append((cb[c], par, f"carpals_{s}"))
         for k, o in enumerate(_ORD[:5], 1):
@@ -707,7 +719,7 @@ def refine_chains(zan: dict, fits: dict, her: dict, chains=CHAINS, log=print) ->
             for ang in CHAIN_ANGLES:
                 Rk = _rot(ax, ang)
                 inits[f"parent_{ax_name}{ang:+.0f}"] = (Rk @ Ap, Rk @ (tp - c0) + c0)
-        best_k, best = "current", (cur, score(*cur))
+        best_k, best = "unchanged", (cur, score(*cur))
         for k, (A0, t0) in inits.items():
             placed = apply_sim(A0, t0, pts)
             idx = np.unique(np.concatenate([np.asarray(i, int) for i in htree.query_ball_point(
@@ -723,7 +735,7 @@ def refine_chains(zan: dict, fits: dict, her: dict, chains=CHAINS, log=print) ->
         rec = {"parents": [p for p, _ in par_tf], "start": best_k,
                "residual_before_mm": round(s_cur[1], 2), "anchor_gap_before_mm": round(s_cur[2], 2),
                "residual_after_mm": round(best[1][1], 2), "anchor_gap_after_mm": round(best[1][2], 2)}
-        if best_k != "current":
+        if best_k != "unchanged":
             (A1, t1) = best[0]
             fr.setdefault("piece_fits", {})[child] = {**fr.get("piece_fits", {}).get(child, {}),
                                                      "A": A1, "t": t1, "refined": True, "chain": rec}
@@ -732,12 +744,14 @@ def refine_chains(zan: dict, fits: dict, her: dict, chains=CHAINS, log=print) ->
 
 
 # ---------------------------------------------------------------- the transform
-def spatial_clusters(v: np.ndarray, link_mm: float = 25.0, n_sub: int = 3000):
+def spatial_clusters(v: np.ndarray, link_mm: float = 25.0, n_sub: int = 1500):
     """Label each vertex by the connected cluster (points linked within link_mm) it belongs to,
     computed on a subsample. Returns (labels, n_clusters)."""
     from scipy.sparse import coo_matrix
     from scipy.sparse.csgraph import connected_components
     v = np.asarray(v, np.float64)
+    if len(v) == 0 or np.linalg.norm(np.ptp(v, axis=0)) < 4 * link_mm:   # too small to span two limbs
+        return np.zeros(len(v), int), 1
     sub = _sub(v, n_sub, 19)
     pairs = cKDTree(sub).query_pairs(link_mm, output_type="ndarray")
     pairs = pairs.reshape(-1, 2)
@@ -1038,8 +1052,8 @@ def main(argv=None) -> int:
     ap.add_argument("--report", default=str(DEFAULT_REPORT))
     ap.add_argument("--png", default=None, help="quick-check render (default: no render)")
     ap.add_argument("--items-cache", default=None, help="pickle of collect_zan() output (speeds reruns)")
-    ap.add_argument("--no-joint-anchors", action="store_true",
-                    help="fit FOV-cut radius/ulna without the elbow anchor (comparison run)")
+    ap.add_argument("--joint-anchors", action="store_true",
+                    help="anchor FOV-cut radius/ulna at the elbow to the humerus fit (comparison run; worse)")
     a = ap.parse_args(argv)
     t0 = time.time()
     if a.items_cache and Path(a.items_cache).exists():
@@ -1054,8 +1068,8 @@ def main(argv=None) -> int:
     her = load_her_meshes()
     print(f"her own meshes: {len(her)}")
     zan = {it["mesh_id"]: it for it in items}
-    if a.no_joint_anchors:
-        JOINT_PARENT.clear()
+    if a.joint_anchors:
+        JOINT_PARENT.update(JOINT_PARENT_OPTION)
     fits = fit_units(zan, her)
     xf = ZanToVhf(fits, {k: zan[k]["v"] for k in zan})
     keep = [it for it in items if it["mesh_id"] not in MALE_ONLY_IDS]
@@ -1063,7 +1077,9 @@ def main(argv=None) -> int:
     out_v = {it["mesh_id"]: xf(it["mesh_id"], it["cat"], it["v"]) for it in keep}
     t_xf = time.time() - t1
     print(f"transformed {len(out_v)} meshes ({sum(len(v) for v in out_v.values())} vertices) in {t_xf:.1f} s")
-    rows = validate(keep, her, xf, region_tree(zan))
+    rtree = region_tree(zan)
+    rows = validate(keep, her, xf, rtree)
+    region_all = {it["mesh_id"]: structure_region(np.asarray(it["v"]), rtree) for it in keep}
     summ = summarise_rows(rows)
     cont = continuity(keep, out_v)
     png = render_check(her, out_v, keep, Path(a.png)) if a.png else None
@@ -1092,6 +1108,11 @@ def main(argv=None) -> int:
         "female_pelvic_organs": FEMALE_PELVIC_ORGANS,
         "png": png,
         "per_structure_centroid_mm": {k: round(r["centroid_mm"], 1) for k, r in sorted(rows.items())},
+        "badge_note": "per_structure_centroid_mm is measured (her own mesh exists; centroid distance is inflated "
+                      "where her mesh is FOV-cut -- see per_structure.her_extent_ratio < 0.7 and her_to_zan_mm); "
+                      "every other structure: use its region_of_structure's region_errors median/max "
+                      "(estimate, not measured on that structure)",
+        "region_of_structure": dict(sorted(region_all.items())),
         "per_structure": {k: {kk: (round(vv, 1) if isinstance(vv, float) else vv) for kk, vv in r.items()}
                           for k, r in sorted(rows.items())},
         "bone_fits": fits_to_json(fits),
