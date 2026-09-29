@@ -95,3 +95,47 @@ def test_thin_sheets_are_decimated_by_quadric_collapse_not_clustering():
     out = trimesh.Trimesh(v, f, process=False)
     assert len(f) < len(slab.faces) and out.is_watertight, (len(f), out.is_watertight)   # a cube collapses less than a real sheet; the closed surface is the point
     assert abs(out.volume - slab.volume) / slab.volume < 0.05
+
+
+def test_geometry_can_ship_as_sibling_files(template):
+    # Q163: over the single-page cap the geometry is fetched from sibling base64 text files
+    assert "__BUNDLE_BIN_FILES__" in template and "function __atlasMain(B64IN)" in template
+    assert "fetch(f.path)" in template
+
+
+def test_external_geometry_chunks_concatenate_to_valid_base64(tmp_path):
+    import base64, json, subprocess, sys
+    repo = TEMPLATE.parent.parent
+    sys.path.insert(0, str(repo / "scripts"))
+    from build_viewer_html import BIN_CHUNK
+    assert BIN_CHUNK % 3 == 0 and BIN_CHUNK % 2 == 0
+    bundle = tmp_path / "b"
+    bundle.mkdir()
+    raw = bytes(range(256)) * 90_000  # 23 MB -> 3 chunks
+    (bundle / "bundle.b64").write_text(base64.b64encode(raw).decode())
+    (bundle / "bundle.json").write_text(json.dumps({"subject": "x"}))
+    out = tmp_path / "page.html"
+    subprocess.run([sys.executable, str(repo / "scripts" / "build_viewer_html.py"), "--bundle", str(bundle),
+                    "-o", str(out), "--external-bin"], check=True, capture_output=True)
+    parts = sorted(tmp_path.glob("page_geo_*.txt"))
+    assert len(parts) == 3
+    assert base64.b64decode("".join(p.read_text().strip() for p in parts)) == raw
+    html = out.read_text()
+    assert "page_geo_00.txt" in html and "__BUNDLE_B64__" not in html
+
+
+def test_hires_decimation_never_splits_a_thin_tube():
+    import numpy as np, sys
+    sys.path.insert(0, str(TEMPLATE.parent.parent / "scripts"))
+    from export_viewer_bundle import decimate_guarded, n_pieces
+    n_ring, n_len = 24, 400
+    t = np.linspace(0, 2 * np.pi, n_ring, endpoint=False)
+    v = np.array([[1.5 * np.cos(a), 1.5 * np.sin(a), z] for z in np.linspace(0, 400, n_len) for a in t])
+    f = []
+    for i in range(n_len - 1):
+        for j in range(n_ring):
+            a, b = i * n_ring + j, i * n_ring + (j + 1) % n_ring
+            f += [[a, b, a + n_ring], [b, b + n_ring, a + n_ring]]
+    f = np.array(f)
+    q = decimate_guarded(v, f, 600)
+    assert q is not None and n_pieces(q[1], len(q[0])) == 1 and len(q[1]) < len(f)

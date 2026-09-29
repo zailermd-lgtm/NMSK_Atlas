@@ -270,7 +270,7 @@ fi
 # discloses its own max error) stands as this specimen's forearm/hand/foot estimate, unchanged.
 [ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
-python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 0.85 2>&1 | grep -E "structures from|->|Error|Trace"
-python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html 2>&1 | tail -1
+python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html --external-bin 2>&1 | tail -1
 sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' build/viewer_f/atlas_viewer_female.html
 echo VHF_REBUILD_DONE

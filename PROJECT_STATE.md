@@ -22,8 +22,25 @@ must remain CC BY-SA (never plain CC BY, never proprietary) -- see
 full reasoning, the exact layer split, and the (separate, non-commercial)
 subcomponents of the Z-Anatomy release that stay excluded regardless.
 
-Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 362 tests (Z-Anatomy viewer + corrections subset
-re-run: 26/26). Recent: Q162 (2026-09-28, owner: "look on the contralateral side and other accurate
+Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 365 tests pass. Owner direction 2026-09-29: "Keep the
+zanatomy reference, while progressing with the reconstructed models" -- the Z-Anatomy viewer
+(`HdYCRuvGP8ESbggoRWCNBF`, v6) stays as the reference; work returns to the two Visible Human specimen
+viewers. Recent: Q163 (2026-09-29) -- specimen viewers off the single-page cap. Both pages sat at
+15.4-15.5 MB of a 15.5 MB budget (every new subject meant trimming others). (1) `build_viewer_html.py
+--external-bin`: geometry as sibling base64 `<stem>_geo_NN.txt` files (11 MB binary each, a multiple of
+3 bytes so their texts concatenate into one base64 string), fetched before the viewer starts (template
+main body is now `__atlasMain(B64IN)`; inline mode unchanged). (2) `export_viewer_bundle.py --hires`:
+quadric collapse for every structure with the Q159 continuity guard (retry 2x/4x/8x budget if more
+pieces than the source), clustering only as fallback; the photo-refined limb subjects back at full
+budget (their 0.5x was only for the cap); `--budget-scale 2.5`. Same subjects, same order, same ids.
+Female 1.21M -> 3.25M triangles (29.2 MB in 3 files, page 1.1 MB), structures with more pieces than
+their source 4 -> 0; male 1.21M -> 2.02M (18.1 MB in 2 files), 7 -> 1 (`ribs_r`, a composite).
+Rendered in Chromium (three.js routed to a local r128 copy): both bodies complete, fewer holes in the
+trunk wall. Male caveat, measured: build/vh has moved on since his Sep-25 page (Q156's apply cycles
+regenerated `xfer_vhf2vhm_neck_contfix_mesh` and `ct_vhm_armm_contfix`), so 4 right deep-neck muscles
+now come from `xfer_vhf2vhm_neck` (continuity equal or better: semispinalis capitis r 2 -> 1 piece) and
+biceps_brachii_r shows 15 pieces (main 97.7%) where clustering had merged the source's islands into 3.
+Both rebuild scripts now export with `--hires` and build with `--external-bin`. Earlier: Q162 (2026-09-28, owner: "look on the contralateral side and other accurate
 models and medical articles to solve this [the gaps between parallel limb muscles] or any other
 problem similar") -- main Z-Anatomy viewer v6. (1) LITERATURE (PubMed): limb deep fascia ~1 mm
 (Stecco 2008 doi:10.1016/j.jbmt.2008.04.041), fascia lata 944 um + epimysium 48 um (Stecco 2009

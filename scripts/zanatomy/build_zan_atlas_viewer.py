@@ -341,6 +341,11 @@ CONTRA_REPAIRS = {
 
 
 LAST_REPORTS: dict = {}
+Q162_REPORT_SOURCE = ("Q162 (2026-09-28): measured by scripts/zanatomy/build_zan_atlas_viewer.py on the Z-Anatomy "
+                      "source meshes (contralateral mirror audit; ray-cast muscle gap closure, "
+                      "scripts/zanatomy/muscle_gap_closure.py). Interface target from Stecco et al. 2008 "
+                      "doi:10.1016/j.jbmt.2008.04.041, Stecco et al. 2009 doi:10.1007/s00276-008-0395-5, "
+                      "Pirri et al. 2021 doi:10.1111/joa.13360.")
 
 
 def _mirror_pairs(pending: list[dict]):
@@ -701,7 +706,7 @@ def main(argv=None) -> int:
         zan_dir=Path(args.zan_dir), inventory_path=Path(args.inventory), namemap_path=Path(args.namemap),
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
         category_scale=category_scale, close_gaps=not args.no_gap_closure)
-    Path(args.q162_report).write_text(json.dumps(LAST_REPORTS, indent=1, default=float))
+    Path(args.q162_report).write_text(json.dumps({"source": Q162_REPORT_SOURCE, **LAST_REPORTS}, indent=1, default=float))
 
     out_path = REPO / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)

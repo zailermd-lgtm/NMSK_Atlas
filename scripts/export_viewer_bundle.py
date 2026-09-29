@@ -167,6 +167,33 @@ def decimate_quadric(verts, faces, budget):
     return v.astype(np.float64), f.astype(np.int64)
 
 
+def n_pieces(faces, nv):
+    """Connected surface pieces (triangles sharing a vertex)."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    faces = np.asarray(faces, np.int64)
+    e = np.concatenate([faces[:, [0, 1]], faces[:, [1, 2]], faces[:, [2, 0]]])
+    _n, lab = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(nv, nv)),
+                                   directed=False)
+    return len(np.unique(lab[faces[:, 0]]))
+
+
+def decimate_guarded(verts, faces, budget):
+    """Q163 (--hires): quadric collapse at the budget; if that leaves more pieces than the source has,
+    retry at 2x/4x/8x the budget (the Z-Anatomy viewer's Q159 continuity guard). None when the
+    library is missing or no attempt fits the uint16 index limit (caller falls back to clustering)."""
+    if len(faces) <= budget:
+        return verts, faces
+    src = n_pieces(faces, len(verts))
+    for attempt in range(4):
+        q = decimate_quadric(verts, faces, budget * 2 ** attempt)
+        if q is None or len(q[0]) > MAX_VERTS:
+            return None
+        if n_pieces(q[1], len(q[0])) <= src or attempt == 3:
+            return q
+    return None
+
+
 def decimate_to(verts, faces, budget):
     """Fit the cell size to a triangle budget by bisection on the grid."""
     if len(faces) <= budget:
@@ -463,6 +490,12 @@ def main() -> int:
                          "built-in per-subject-prefix guesswork (see atlas_viewer.template.html's "
                          "BUNDLE.subject_label check) -- for a subject naming scheme the template's "
                          "hardcoded Visible Human logic knows nothing about.")
+    ap.add_argument("--hires", action="store_true",
+                    help="Q163: for a page whose geometry ships as separate files (build_viewer_html.py "
+                         "--external-bin), so the single-page cap no longer applies: quadric collapse for "
+                         "EVERY structure with a continuity guard (never more pieces than the source; "
+                         "vertex clustering only as a fallback), and LOW_BUDGET_SUBJECT_SCALE only for the "
+                         "generic Z-Anatomy fills (the photo-refined subjects were cut only for the cap).")
     args = ap.parse_args()
     scale = args.budget_scale
     subjects = args.subject or ["vhm_both"]
@@ -546,8 +579,13 @@ def main() -> int:
             # any other, including any future one -- see LOW_BUDGET_SUBJECT_SCALE) both fits
             # the size budget and matches their own lower positional confidence.
             subj_scale = LOW_BUDGET_SUBJECT_SCALE.get(subject, 1.0)
+            if args.hires and subject.endswith("_photo"):
+                subj_scale = 1.0
             budget = max(200, int(BUDGET_OVERRIDES.get(aid, BUDGET.get(cat, DEFAULT_BUDGET)) * scale * subj_scale))
-            q = decimate_quadric(v, f, budget) if (aid in SHEET_IDS or cat in sheet_categories) else None
+            if args.hires:
+                q = decimate_guarded(v, f, budget)
+            else:
+                q = decimate_quadric(v, f, budget) if (aid in SHEET_IDS or cat in sheet_categories) else None
             if q is not None:
                 dv, df = q; cell = 0.0
             else:

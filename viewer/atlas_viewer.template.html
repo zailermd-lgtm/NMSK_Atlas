@@ -223,10 +223,14 @@ button.mini:hover{background:#f2f2f2}
 <script id="bundle-json" type="application/json">__BUNDLE_JSON__</script>
 <script id="bundle-b64" type="text/plain">__BUNDLE_B64__</script>
 <script>
-(function(){
+/* Q163: geometry either inline (bundle-b64) or, for pages over the single-file size cap, in sibling
+   base64 text files listed here and fetched before the viewer starts (chunk sizes are multiples of
+   3 bytes, so the chunks' base64 texts concatenate into one valid base64 string). */
+var BIN_FILES = __BUNDLE_BIN_FILES__;
+function __atlasMain(B64IN){
 "use strict";
 var BUNDLE = JSON.parse(document.getElementById("bundle-json").textContent);
-var B64 = document.getElementById("bundle-b64").textContent.trim();
+var B64 = B64IN || document.getElementById("bundle-b64").textContent.trim();
 
 /* Two different real bodies can appear in one bundle (e.g. Visible Human
    pelvis-to-ankle plus a second specimen filling in bone/vessel geometry
@@ -1079,5 +1083,11 @@ resize();
 select(byId["biceps_femoris_r"] ? "biceps_femoris_r" : BUNDLE.structures[0].id);
 new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 if (window.matchMedia) matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);
-})();
+}
+if (!BIN_FILES.length) __atlasMain(null);
+else Promise.all(BIN_FILES.map(function(f){
+  return fetch(f.path).then(function(r){ if (!r.ok) throw new Error(f.path + ": HTTP " + r.status); return r.text(); });
+})).then(function(parts){ __atlasMain(parts.map(function(t){ return t.trim(); }).join("")); })
+  .catch(function(e){ document.body.insertAdjacentHTML("afterbegin",
+    '<p style="padding:12px;color:#b3261e">Could not load the geometry files: ' + String(e.message || e) + '</p>'); });
 </script>
