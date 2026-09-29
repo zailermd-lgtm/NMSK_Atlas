@@ -276,6 +276,7 @@ var B64 = B64IN || document.getElementById("bundle-b64").textContent.trim();
 var SUBJECTS = BUNDLE.subject.split("+");
 var PRIMARY_SUBJECT = SUBJECTS[0];
 var SUBJECT_LABELS = {
+  ct_vhf_pelvis: "Visible Human female, CT labels (TotalSegmentator total task) -- her own urinary bladder, rectum and the pelvic part of the sigmoid colon: the colon label cut at her pelvic inlet (sacral promontory to upper pubic symphysis) and split at the sigmoid take-off traced along the bowel lumen; measured, not transferred",
   xfer_vhm2vhf: "TRANSFERRED from the Visible Human male, not measured on her: his structure carried onto her bones by piecewise affine maps and, for the lower-limb muscles, re-placed inside her muscle compartment as measured on her cryosections; the boundaries between muscles are his. An estimate -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
   xfer_vhm2vhf_sep: "TRANSFERRED from the Visible Human male, not measured on her: his lower-limb muscle carried onto her bones and inside her muscle compartment, with the boundaries between neighbouring bellies then refined to HER intermuscular septa on her cryosections (marker watershed). The muscle set, attachments and rough shape are still his -- see docs/GEOMETRY_SOURCES.md 'Cross-subject transfer'",
   xfer_vhf2vhm_neck: "TRANSFERRED from the Visible Human female, not measured on him: her deep-neck, suboccipital and floor-of-mouth muscles (themselves rule-based on her photographs) carried onto his bones by the piecewise affine map. An estimate on top of an estimate -- the volumes follow his larger frame; see docs/GEOMETRY_SOURCES.md",
@@ -351,6 +352,7 @@ var TISSUE = {
   tendon:    {hex:0xC5B68F, label:"Tendon"},
   vessel:    {hex:0xB4302A, label:"Vessel"},
   nerve:     {hex:0xD8B441, label:"Nerve"},
+  organ:     {hex:0xC98A6B, label:"Organ"},
   other:     {hex:0x8A98A5, label:"Other"}
 };
 function hexCss(h){ return "#" + h.toString(16).padStart(6, "0"); }

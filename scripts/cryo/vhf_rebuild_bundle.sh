@@ -82,6 +82,12 @@ conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 1.0
 # Q62: her pelvic floor and perineum from the CT labels with the 1 mm photographs as tissue evidence (rule-based)
 conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
+# Q169: her own pelvic viscera from vhf_total (21 urinary_bladder; 20 colon cut at her pelvic inlet and split into
+# rectum / pelvic sigmoid at the sigmoid take-off) -- same mask_surface(smooth 1.0) + origin as convert, but written by
+# the script itself because these ids have no entity in data/ (category 'organ' carried per structure in the manifest)
+if [ ! -f build/vh/ct_vhf_pelvis/manifest.json ] || [ -n "${RECONVERT:-}" ]; then
+  python3 scripts/vhf_pelvic_viscera.py --origin="$O" 2>&1 | tail -4
+fi
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
 [ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
 SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf_mcsplit"
@@ -122,6 +128,7 @@ for s in ct_vhf_armm_contfix ct_vhf_armm_contfix_mesh ct_vhf_delt_contfix ct_vhf
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
 SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
+[ -f build/vh/ct_vhf_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_pelvis"   # Q169 pelvic viscera (ids unique to this subject)
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
@@ -270,7 +277,10 @@ fi
 # discloses its own max error) stands as this specimen's forearm/hand/foot estimate, unchanged.
 [ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
-python3 scripts/export_viewer_bundle.py $SUBJ -o build/viewer_f --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
-python3 scripts/build_viewer_html.py --bundle build/viewer_f -o build/viewer_f/atlas_viewer_female.html --external-bin 2>&1 | tail -1
-sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' build/viewer_f/atlas_viewer_female.html
+# Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer
+# steps above still read build/viewer_f as their input bundle, unchanged
+OUT=${VHF_OUT:-build/viewer_f}; mkdir -p "$OUT"
+python3 scripts/export_viewer_bundle.py $SUBJ -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/build_viewer_html.py --bundle $OUT -o $OUT/atlas_viewer_female.html --external-bin 2>&1 | tail -1
+sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' $OUT/atlas_viewer_female.html
 echo VHF_REBUILD_DONE

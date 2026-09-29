@@ -68,3 +68,8 @@ photographs involved. `vhf_arm_muscles_cryo`: the male's compartment rules aroun
 classified with `scripts/cryo/cryo_classes_f.py` (female thresholds: her frozen muscle is darker and browner
 than the male's). `vhf_pecminor_rhomboids_cryo`: position rules (`scripts/cryo/vhf_pecminor_rhomboids.py`, key
 `mappings/vhf_pecminor_rhomboids_labels.json`); only pectoralis minor is mapped. Rule-based; volumes in the report JSONs.
+
+`vhf_pelvic_viscera` (Q169, 2026-09-29): her own urinary bladder (1), rectum (2) and the pelvic part of the
+sigmoid colon (3), cut from `vhf_total` labels 21 and 20 by `scripts/vhf_pelvic_viscera.py` (colon caudal to her
+pelvic inlet plane, split at the sigmoid take-off along a lumen-seeking centreline); same grid and affine as
+`vhf_total`. Meshed by the same script into `build/vh/ct_vhf_pelvis`; report `data/derived/Q169_vhf_pelvic_viscera.json`.

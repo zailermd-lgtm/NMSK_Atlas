@@ -9613,3 +9613,29 @@ the female's phalanges are under-captured at HU 200.
   atlas link (male 706 -> 664, female 662). Hub page viewer/atlas_hub.html links all four viewers.
   Screens: posture follows hers (arms lower, hands at the hips); chest wall visibly rumpled (trunk ~10 mm).
 - Open: mesh her bladder/rectum from vhf_total (labels 21/20) so the female variant has pelvic viscera of her own.
+
+## Q169 (2026-09-29) -- her own pelvic viscera in the VH female viewer (closes Q168's open item)
+- Source: data/ct_sources/task_outputs/vhf_total.nii.gz (TS v2 total) labels 21 urinary_bladder, 20 colon. New
+  `scripts/vhf_pelvic_viscera.py --origin=$O` writes label volume `task_outputs/vhf_pelvic_viscera.nii.gz` (1/2/3),
+  subject `build/vh/ct_vhf_pelvis` and `data/derived/Q169_vhf_pelvic_viscera.json` (`--audit-bundle` adds the shipped
+  piece counts). Surfacing = convert's own path (mask_surface step 1 smooth 1.0, voxels_to_atlas, same origin);
+  written by the script because `convert` refuses ids with no entity in data/ (no viscera category). Each manifest
+  structure carries category 'organ' + name/region, which the exporter already reads (Q143 path).
+- Cut rules (measured on her): colon caudal to the pelvic inlet plane (her S1 promontory [4.4,106.2,-39.4] to upper
+  symphysis [-5.0,-15.8,38.4], inlet 57.5 deg, conjugate 145 mm) = one piece 209.8 cm3 (0.25 cm3 speck dropped).
+  Rectum/sigmoid at the sigmoid take-off (D'Souza 2019 Delphi): first height maximum along a lumen-seeking centreline
+  (cost 1/(d+0.5)^2 -- the label merges touching loops; a plain geodesic short-cut through the contact and gave a
+  2-piece sigmoid) + marker watershed on -distance. Take-off at 52% of her sacral height (~S3).
+- Numbers: bladder 44.8 cm3 (near-empty, window 5-600); rectum 147.4 cm3, 153.6 mm (Gray's 12-15 cm); sigmoid
+  pelvic part 62.3 cm3, 125.5 mm (Michael & Rabi 2015: 15.2+-4.4 cm from the brim); colon above inlet 583.5 vs
+  Pritchard 2014 sum of means 561 mL. 1 component each (voxel, raw mesh, shipped mesh). All inside the pelvic box,
+  0 vertices inside any bone; bladder 1.0 mm from pubis, 70% of it below the (oblique) inlet plane (max 21.6 mm
+  above); rectum 1.5 mm from sacrum, anal end 3 mm above the ischial tuberosity level.
+- Wiring: vhf_rebuild_bundle.sh runs the script when the subject is missing (or RECONVERT) and lists
+  `--subject ct_vhf_pelvis` after ct_vhf_pmr/xfer_vhm2vhf_rhom; new `VHF_OUT` (default build/viewer_f) for the export
+  lines -- run as `VHF_OUT=build/viewer_f_hr bash scripts/cryo/vhf_rebuild_bundle.sh`. Template: TISSUE gains
+  `organ` ("Organ" layer, #C98A6B) and a ct_vhf_pelvis subject label. build/viewer_f_hr: 417 structures (+3),
+  3,261,437 tris (+11,248), page 1.12 MB, geo 14.67+14.67+9.73 MB. Test: tests/test_vhf_pelvic_viscera.py.
+- Open: the organ layer starts hidden (only bone/muscle on by default); volume windows for rectum/sigmoid are derived
+  from lengths x lumen, not a published per-segment volume norm; the rectum's lower end is wherever TS stops the colon
+  label (not checked against her external anal sphincter in ct_vhf_pfloor). Not rendered in Chromium this round.
