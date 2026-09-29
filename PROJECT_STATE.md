@@ -9523,3 +9523,26 @@ the female's phalanges are under-captured at HU 200.
   (median ~0.3 of slices). The current male forearm (ct_vhm_forearm FDS/FDP/APL + the Q155 photo-refined
   transfers) stays. What would make v2 shippable: a tissue-class mask first (muscle vs fat vs tendon by
   colour, as the female Q151 classifier), so volumes are absolute, then septum-following boundaries.
+
+## Q165: male right forearm v3 (tissue class first, septum-following watershed) -- built, NOT wired
+- Script scripts/cryo/vhm_forearm_muscles_v3.py (tests/test_vhm_forearm_v3.py, 10 pass; full suite 383 pass). Reuses
+  Q164's isl.pkl/track.pkl/frame.npz (SCRATCH/q164_m_forearm/work); photograph RGB resliced NEAREST into Q164's frame
+  (cache SCRATCH/q165_m_forearm/rgb_frame.npy); class 3 agrees 100 % with Q164's muscle mask.
+- Tissue (male cryo_classes rule; female cryo_classes_f only lowers unclassified 4.0 -> 1.7 %): segment u -89..143 mm
+  muscle 975.9 / fat 178.3 / pale 35.6 / bone 127.6 / other 45.7 cm3; muscle vs fat brightness overlap 0 (Fisher 10.5);
+  muscle = 0.84 of the non-bone section at mid-forearm. So Q164's 1005 cm3 was NOT mainly fat: his forearm is ~84 % muscle.
+- Septum metric: Q164's brightness top-hat (1.8x) lies within 1 px of 68 % of belly-interior pixels (useless); v3 uses
+  paleness g/r minus its local median (>= 0.10): chance 0.21 (all muscle px) / 0.09 (belly interior). Watershed
+  elevation 0.2 x edge distance + 0.8 x paleness ridge, Q164 seeds every 16 mm moved to the basin.
+- Expectation factor 2.698 = his (biceps 375.3 ct_vhm_armm_contfix + brachialis 162.9 + triceps 450.6
+  ct_vhm_armm_contfix_mesh) / architecture (129.6 + 63.2 + 173.7); no per-muscle published table offline.
+  Forearm expected total 654 cm3 vs measured muscle 976 (1.49x).
+- Gate passes 6: FDP, PQ, ECRB, ED, ECU, supinator -> build/vh/ct_vhm_forearm_v3 (converted + stamped). PT/BR/ECRL/
+  anconeus out of range. All-boundary septum medians 0.38-0.80, but CONTACT (muscle-muscle) boundaries only 0.21-0.53
+  on a septum: inter-muscle lines are still largely rule-driven. Ship set moved between 4 and 6 over 6 parameter
+  variants (w 0.5-0.95, stride 8-24); PQ/ECRB/ECU/ED stable. Report data/derived/Q165_vhm_forearm_v3.json.
+- DECISION 2026-09-29 (main session, after the montage): NOT SHIPPED. The photographs show clear pale septa;
+  the label lines cut across them (contact-on-septum 0.21-0.53) and the ship set is parameter-fragile (4-6).
+  Q164's fat diagnosis was wrong (his forearm is ~84 % muscle; tissue masking removes ~3 %). NEXT (Q166):
+  boundaries BY CONSTRUCTION from the septa -- regions of muscle enclosed by the photographed pale lines,
+  linked across slices, then named by overlap with these rule labels; gate contact-on-septum >= 0.7.
