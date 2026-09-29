@@ -286,3 +286,40 @@ def test_committed_gap_closure_report_shows_closure_without_new_overlap():
     assert g["changed_muscles"] > 100
     assert g["after"]["frac_vertices_gap_gt_1_25mm"] < 0.7 * g["before"]["frac_vertices_gap_gt_1_25mm"]
     assert g["after"]["frac_vertices_inside_other_muscle"] <= g["before"]["frac_vertices_inside_other_muscle"] + 0.002
+
+
+# ---------------------------------------------------------------- Q168 female variant
+def test_fit_badge_uses_the_measured_error_or_says_it_is_a_region_estimate():
+    from scripts.zanatomy.build_zan_atlas_viewer import fit_badge
+    rep = {"per_structure": {"biceps_brachii_r": {
+               "her_subject": "ct_vhf_armm_contfix", "centroid_mm": 17.5, "surface_mm": 17.4,
+               "raw_centroid_mm": 53.4, "raw_surface_mm": 15.3, "her_extent_ratio": 0.5, "fit_target": False}},
+           "region_of_structure": {"deltoid_r": "upper_limb"},
+           "region_errors": {"upper_limb": {"n": 6, "surface_mm": {"median": 11.7, "max": 20.0}},
+                             "whole_body": {"n": 183, "surface_mm": {"median": 6.1, "max": 28.0}}}}
+    measured = fit_badge("biceps_brachii_r", rep, False)
+    assert "Measured on her own CT mesh" in measured and "17.4" in measured and "cut off by the scan" in measured
+    est = fit_badge("deltoid_r", rep, False)
+    assert "Not measured" in est and "11.7" in est and "upper/limb" in est
+    assert "cannot be checked" in fit_badge("unknown_l", rep, True)
+    assert "6.1" in fit_badge("unknown_l", rep, True)  # falls back to the whole-body error
+
+
+def test_female_wording_replaces_each_template_anchor_once():
+    from scripts.zanatomy.build_zan_atlas_viewer import TEMPLATE_PATH, apply_vhf_wording
+    html = apply_vhf_wording(TEMPLATE_PATH.read_text(encoding="utf-8"))
+    assert "<title>NMSK Atlas — Z-Anatomy female</title>" in html
+    assert "Fitted to a real body (Q168)" in html
+
+
+def test_committed_female_build_report_drops_male_only_and_badges_every_structure():
+    import json
+    from scripts.transfer.zan_to_vhf_whole_body import MALE_ONLY_IDS
+    path = REPO_ROOT / "data" / "derived" / "Q168_zan_female_report.json"
+    if not path.exists():
+        pytest.skip("female variant not built")
+    rep = json.loads(path.read_text())
+    fit = rep["fit_to_vhf"]
+    assert set(fit["male_only_dropped"]) <= MALE_ONLY_IDS and len(fit["male_only_dropped"]) >= 20
+    assert fit["structures"] == rep["meshes"]
+    assert fit["measured_on_her_mesh"] >= 150

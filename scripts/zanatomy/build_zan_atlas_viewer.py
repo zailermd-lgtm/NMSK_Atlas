@@ -392,6 +392,59 @@ def repair_contralateral(pending: list[dict]) -> dict:
 NOT_MUSCLE_HINTS = ("tarsus", "tendinous ring", "trochlea", "fibrous sheath", "iliopectineal arch", "zonular")
 
 
+def _fmt_mm(x) -> str:
+    return f"{x:.1f}" if isinstance(x, (int, float)) else "n/a"
+
+
+def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool) -> str:
+    """Q168: one structure's badge text -- its own measured error where her CT mesh exists,
+    otherwise its region's median/max, labelled as an estimate."""
+    head = ("Q168: Z-Anatomy geometry fitted onto the Visible Human female's own skeleton "
+            "(per-bone similarity fits, soft tissue blended from the nearest bones). ")
+    ps = rep["per_structure"].get(mesh_id)
+    if ps is not None:
+        txt = (f"Measured on her own CT mesh ({ps['her_subject']}): centroid {_fmt_mm(ps['centroid_mm'])} mm, "
+               f"surface {_fmt_mm(ps['surface_mm'])} mm (before fitting {_fmt_mm(ps['raw_centroid_mm'])} / "
+               f"{_fmt_mm(ps['raw_surface_mm'])} mm).")
+        if (ps.get("her_extent_ratio") or 1.0) < 0.7:
+            txt += " Her mesh is cut off by the scan field, so the centroid error is overstated."
+        if ps.get("fit_target"):
+            txt += " This muscle was used to place her left forearm, so it is not an independent check."
+        return head + txt
+    region = rep["region_of_structure"].get(mesh_id, "whole_body")
+    re_ = rep["region_errors"].get(region) or rep["region_errors"]["whole_body"]
+    s = re_["surface_mm"]
+    txt = (f"Not measured on this structure (she has no mesh of it). Estimate from her {region.replace('_', '/')} "
+           f"region: surface error median {_fmt_mm(s['median'])} mm, max {_fmt_mm(s['max'])} mm "
+           f"(n={re_['n']}).")
+    if left_forearm_proxy:
+        txt += (" Her left forearm and hand have no CT bones; they are placed from her own left forearm "
+                "extensor muscles, so this placement cannot be checked.")
+    return head + txt
+
+
+def fit_to_vhf(pending: list[dict]) -> dict:
+    """Q168 (owner: 'Z-Anatomy female -- fit it to her skeleton'): drop the male-only objects, move
+    every structure into the VH female's frame with the committed per-bone fits, badge each one."""
+    from scripts.transfer import zan_to_vhf_whole_body as Q168  # lazy: that module imports this one
+    rep = json.loads(Q168.DEFAULT_REPORT.read_text())
+    dropped = [p["mesh_id"] for p in pending if p["mesh_id"] in Q168.MALE_ONLY_IDS]
+    pending[:] = [p for p in pending if p["mesh_id"] not in Q168.MALE_ONLY_IDS]
+    xf = Q168.load_zan_to_vhf(zan_meshes={p["mesh_id"]: p["v"] for p in pending})
+    proxy_ids = set(Q168.PROXY_FOLLOWERS)
+    measured = 0
+    for p in pending:
+        p["v"] = np.asarray(xf(p["mesh_id"], p["cat"], p["v"]), dtype=np.float64)
+        region = rep["region_of_structure"].get(p["mesh_id"], "whole_body")
+        left_proxy = p["mesh_id"] in proxy_ids or (region == "forearm_hand" and side_code(p["side_raw"]) == "l")
+        p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy)
+        measured += p["mesh_id"] in rep["per_structure"]
+    return {"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)", "fits": str(Q168.DEFAULT_REPORT.relative_to(REPO)),
+            "male_only_dropped": sorted(dropped), "structures": len(pending),
+            "measured_on_her_mesh": measured, "region_errors": rep["region_errors"],
+            "female_pelvic_organs": rep["female_pelvic_organs"]}
+
+
 def close_muscle_gaps(pending: list[dict]) -> dict:
     """Q162: gap closure over every muscle-layer mesh (see muscle_gap_closure.py for the rule and
     its citations); tendons are closed onto, everything else is an obstacle."""
@@ -441,7 +494,7 @@ def close_muscle_gaps(pending: list[dict]) -> dict:
 
 def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           corrections_dir: Path, budget_scale: float, category_scale: dict | None = None,
-          close_gaps: bool = True):
+          close_gaps: bool = True, target_body: str | None = None):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -497,7 +550,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                             notes=[note] if note else []))
 
     def finish(mesh_id: str, display_name: str, side_raw, cat: str, v: np.ndarray, f: np.ndarray,
-               rec_override=None, zanatomy_name: str | None = None, parent_link=None, notes=()):
+               rec_override=None, zanatomy_name: str | None = None, parent_link=None, notes=(),
+               fit_note: str | None = None):
         nonlocal byte_off, matched_with_record, parent_linked_count
         note = " ".join(notes)
         dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale), prepped=True)
@@ -530,9 +584,10 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             rec_out["part_of"] = parent_facts.get("name") or parent_id.replace("_", " ")
             parent_linked_count += 1
         if note:
-            rec_out = dict(rec_out)
-            rec_out["procedural_badge"] = note
             corrected_ids.append(mesh_id)
+        if note or fit_note:
+            rec_out = dict(rec_out)
+            rec_out["procedural_badge"] = " ".join(x for x in (fit_note, note) if x)
         if rec_out:
             entry["rec"] = rec_out
         if rec_override is not None:
@@ -584,6 +639,13 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # (1) replace the few left-side source objects the mirror audit found broken by the mirrored
     # right side; (2) close the artificial gaps between neighbouring muscles to a cited 1 mm interface.
     contra_report = repair_contralateral(pending)
+    # Q168: the female variant is moved onto her skeleton BEFORE gap closure, so the 1 mm interface
+    # is restored in her frame (the per-bone fits stretch neighbouring muscles differently).
+    LAST_REPORTS.pop("fit_to_vhf", None)
+    if target_body == "vhf":
+        LAST_REPORTS["fit_to_vhf"] = fit_to_vhf(pending)
+    elif target_body is not None:
+        raise ValueError(f"unknown target body {target_body!r}")
     gap_report = close_muscle_gaps(pending) if close_gaps else {"skipped": True}
     LAST_REPORTS["contralateral"] = contra_report
     LAST_REPORTS["gap_closure"] = gap_report
@@ -637,7 +699,10 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "corrected_ids": corrected_ids,
             "contralateral_repairs": contra_report,
             "muscle_gap_closure": {k: v for k, v in gap_report.items() if k != "per_mesh"},
+            **({"fit_to_vhf": {k: v for k, v in LAST_REPORTS["fit_to_vhf"].items() if k != "region_errors"}}
+               if target_body == "vhf" else {}),
         },
+        **({"variant": "vhf"} if target_body == "vhf" else {}),
         "meshes": meshes,
     }
     blob = b"".join(bin_chunks)
@@ -661,6 +726,29 @@ def split_blob(blob: bytes, stem: str, max_bytes: int = BIN_FILE_MAX):
     return [(f"{stem}_geo_{i:02d}.txt", blob[o:o + step]) for i, o in enumerate(range(0, len(blob), step))]
 
 
+# Q168 female variant: page wording only (the template itself stays the reference viewer's).
+VHF_WORDING = [
+    ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Z-Anatomy female</title>"),
+    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Z-Anatomy female</h1>"),
+    ("    <div class=\"licence\">",
+     "    <p><strong>Fitted to a real body (Q168).</strong> In this female variant every Z-Anatomy structure has been "
+     "moved onto the skeleton of the Visible Human female (U.S. National Library of Medicine), bone by bone; soft "
+     "tissue follows the nearest bones. Male-only structures are removed. No female reproductive organs are shown: "
+     "Z-Anatomy's reproductive organs are male and her own scans carry no uterus or ovary label, so nothing was "
+     "invented. Every structure's card states its fit error, measured against her own CT mesh where one exists "
+     "and otherwise estimated from its body region. Fits and errors: <code>data/derived/Q168_zan_to_vhf.json</code>.</p>\n"
+     "    <div class=\"licence\">"),
+]
+
+
+def apply_vhf_wording(template: str) -> str:
+    for old, new in VHF_WORDING:
+        if template.count(old) != 1:
+            raise SystemExit(f"female wording: template anchor not found once: {old[:50]!r}")
+        template = template.replace(old, new, 1)
+    return template
+
+
 def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> str:
     """Self-contained page (geometry inlined as base64) unless `bin_files` names the sibling
     binary files the loader should fetch instead ([{path, bytes}], in blob order)."""
@@ -669,6 +757,8 @@ def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> s
     b64 = "" if bin_files else base64.b64encode(blob).decode("ascii")
     if "</script" in b64.lower():
         raise SystemExit("base64 payload contains a script terminator")
+    if manifest.get("variant") == "vhf":
+        template = apply_vhf_wording(template)
     html = template.replace("__MANIFEST_JSON__", manifest_json, 1)
     html = html.replace("__BIN_FILES_JSON__", json.dumps(bin_files or []), 1)
     html = html.replace("__BIN_B64__", b64, 1)
@@ -692,10 +782,23 @@ def main(argv=None) -> int:
                          "artifact host's 16 MB text-file cap) instead of inlining it, so the page is "
                          "no longer the resolution ceiling; publish them with the page.")
     ap.add_argument("--no-gap-closure", action="store_true", help="skip the Q162 muscle gap closure")
-    ap.add_argument("--q162-report", default=str(REPO / "data" / "derived" / "Q162_gap_closure_contralateral.json"))
-    ap.add_argument("-o", "--out", default="build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
-    ap.add_argument("--report", default=str(REPO / "data" / "derived" / "Q157_zan_atlas_report.json"))
+    ap.add_argument("--target-body", choices=["vhf"], default=None,
+                    help="Q168: fit the whole model onto the VH female's skeleton (female variant)")
+    ap.add_argument("--q162-report", default=None,
+                    help="default data/derived/Q162_gap_closure_contralateral.json (Q168_zan_female_build.json with --target-body vhf)")
+    ap.add_argument("-o", "--out", default=None,
+                    help="default build/viewer_zan_atlas/atlas_viewer_zan_atlas.html (build/viewer_zan_female/"
+                         "atlas_viewer_zan_female.html with --target-body vhf)")
+    ap.add_argument("--report", default=None,
+                    help="default data/derived/Q157_zan_atlas_report.json (Q168_zan_female_report.json with --target-body vhf)")
     args = ap.parse_args(argv)
+    derived = REPO / "data" / "derived"
+    female = args.target_body == "vhf"
+    args.q162_report = args.q162_report or str(derived / ("Q168_zan_female_build.json" if female
+                                                         else "Q162_gap_closure_contralateral.json"))
+    args.report = args.report or str(derived / ("Q168_zan_female_report.json" if female else "Q157_zan_atlas_report.json"))
+    args.out = args.out or ("build/viewer_zan_female/atlas_viewer_zan_female.html" if female
+                            else "build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
 
     category_scale = dict(HIRES_CATEGORY_SCALE) if args.external_bin and not args.category_scale else {}
     for item in args.category_scale:
@@ -705,8 +808,10 @@ def main(argv=None) -> int:
     manifest, blob, origin_report = build(
         zan_dir=Path(args.zan_dir), inventory_path=Path(args.inventory), namemap_path=Path(args.namemap),
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
-        category_scale=category_scale, close_gaps=not args.no_gap_closure)
-    Path(args.q162_report).write_text(json.dumps({"source": Q162_REPORT_SOURCE, **LAST_REPORTS}, indent=1, default=float))
+        category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body)
+    src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
+                                "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
+    Path(args.q162_report).write_text(json.dumps({"source": src, **LAST_REPORTS}, indent=1, default=float))
 
     out_path = REPO / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
