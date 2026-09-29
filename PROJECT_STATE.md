@@ -9672,6 +9672,30 @@ the female's phalanges are under-captured at HU 200.
   others byte-identical in geometry and metadata, same order), 2,038,621 tris (+14,998), page 1.17 MB, geo
   14.67 + 9.66 MB. Template: ct_vhm_pelvis subject label. Test: tests/test_vhm_pelvic_viscera.py.
 - Rendered in Chromium (main session): male page loads, no errors, bladder/prostate/rectum/sigmoid listed. Male viewer republished.
-- NEXT (Q171): ct_vhm_pfloor looks front-to-back flipped (its external anal sphincter sits 85 mm anterior of his anal canal;
-  flipping vhm_pelvic_floor_cryo AP puts it within 7 mm). Re-check the Y sign of Q83's volume affine against
-  vhm_legs_total, rebuild ct_vhm_pfloor, re-run `vhf_pelvic_viscera.py --body vhm --anal-check`. Organ layer starts hidden.
+- Q171 result: affine AP flip CONFIRMED (10,178 label voxels in his bones -> 0 when mirrored; her control 0 -> 16,967), but the builder's AP rules are inverted too, so NOT fixed/shipped -- see Q171.
+
+## Q171 (2026-09-29) -- ct_vhm_pfloor front-to-back check: affine flip confirmed, NOT fixed (the rules are flipped too)
+- Cause: his pelvic-floor frame is vhm_legs_total's own grid (row r ~ j), whose affine is +Y (y = -239.0625 + 0.9375 j,
+  LAS); `vhm_pelvic_floor_from_cryo.py` writes y = 240 - r (the torso/female -Y convention). Her builder's y = 240 - r
+  matches vhf_total (-Y): correct.
+- Evidence (voxel level, each label volume put back into its own CT label grid; the builder guarantees 0 bone/organ
+  voxels): HIM stored 10,178 bone + 377 organ voxels of 208,731 -> AP-mirrored 0 + 0; EAS centroid to his anal end
+  85.1 -> 6.5 mm, levator ani 75 -> 29-30 mm. HER stored 0 + 0 -> mirrored 16,967 + 27,823 (control). Mesh level:
+  affine-only reconversion = exact mirror of the shipped meshes (Z' = -8.6365 - Z, 2.5e-6 mm, faces identical; the
+  shipped meshes reconvert byte-identically, smooth 1.0 / 0.0); anal check then: rectum cap 5.9 mm off the EAS axis,
+  runs 9.1 mm up inside it, 0 interpenetrating vertices; levator ani 0.1 mm from rectum and prostate.
+- Why stopped (brief's rule): the builder's AP rules were ported from her frame (+row = posterior) but in his frame
+  +row = ANTERIOR (dy = row - anal row). So "coccygeus" (dy >= +8), the 14 mm "posterior" pad, the ischial-spine level
+  (anterior hip half used; k_spine 752 as built, 738 = window edge with the posterior half), ischiocavernosus/
+  bulbospongiosus/deep+superficial transverse perineal dy bands are all on the wrong side. With the affine fixed,
+  "coccygeus" lies 39-41 mm ANTERIOR of the anal end beside the prostate (55-63 mm from the coccyx) and the deep
+  transverse perineal 9 mm POSTERIOR of it. EAS (ring) and obturator internus are AP-symmetric.
+- Nothing shipped; all trial changes reverted (build/vh, bundle, volume, report, Q170 json byte-identical to before;
+  build/viewer_m_hr and build/viewer_f_hr untouched). Evidence: `data/derived/Q171_vhm_pfloor_orientation.json`.
+  Trial patch (volume_affine() + `--reaffine`) and before/after PNG in the session scratchpad q171/ only.
+- Other: the frame lacks the Stage-2 in-plane part (+2.72, -0.89 mm) Q170 uses (EAS offset would be ~3.0 vs 5.9 mm);
+  a det -1 affine gives inward-wound faces (as ct_vhm_foot/vhm_both; viewer is DoubleSide); vhm_both's coccyx tip
+  (Y -5.8) sits ~12 mm above legs_total's sacrum end (Y -17.8) -- not investigated.
+- NEXT (Q172): re-acquire his legs cryo frame (resample_cryo_to_ct_frame.py 'legs' + re-stream) and legs_total, fix the
+  affine Y row AND flip the AP sense of every dy/"posterior" rule for the legs frame, re-run the builder, reconvert
+  ct_vhm_pfloor + ct_vhm_pfloor_fix, re-run `vhf_pelvic_viscera.py --anal-check`, rebuild viewer_m_hr.
