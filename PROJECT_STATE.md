@@ -9696,6 +9696,15 @@ the female's phalanges are under-captured at HU 200.
 - Other: the frame lacks the Stage-2 in-plane part (+2.72, -0.89 mm) Q170 uses (EAS offset would be ~3.0 vs 5.9 mm);
   a det -1 affine gives inward-wound faces (as ct_vhm_foot/vhm_both; viewer is DoubleSide); vhm_both's coccyx tip
   (Y -5.8) sits ~12 mm above legs_total's sacrum end (Y -17.8) -- not investigated.
-- NEXT (Q172): re-acquire his legs cryo frame (resample_cryo_to_ct_frame.py 'legs' + re-stream) and legs_total, fix the
-  affine Y row AND flip the AP sense of every dy/"posterior" rule for the legs frame, re-run the builder, reconvert
-  ct_vhm_pfloor + ct_vhm_pfloor_fix, re-run `vhf_pelvic_viscera.py --anal-check`, rebuild viewer_m_hr.
+- Q172 BLOCKED (2026-09-29, two attempts, stopped per the two-retry rule). Inputs re-acquired OK (1878 slices from IDC;
+  unchanged builder reproduces the shipped volume md5-exact; kept in scratchpad vh_cryo/ + vhm_ts/, ~2.8 GB, lost on
+  container reset). The AP fix itself checks out (patch scratchpad q172/q172_builder_fix.diff: POST_ROW_SIGN=-1, +Y
+  row, +2.72/-0.89 mm offset): 0 bone/organ voxels, sphincter 6.5 mm from his anal end, perineals 13-32 mm anterior.
+  BLOCKER = the ischial-spine level that bounds the pelvic band: (1) per-slice medial gap on his real posterior hip half
+  is flat 49-53 mm, no minimum -> window edge k738 -> levator/coccygeus/obturator collapse to fragments (the shipped
+  k752 came from the wrong, anterior half: a fluke); (2) 3D rule 'most medial posterior hip voxel between femoral-head
+  level and tuberosity' fails HER control by 42 mm (picks the ischiopubic ramus; interspinous 30-40 mm, implausible).
+  Options: a posterior-border search above the obturator foramen with its own female control; or her builder's
+  spine-to-femoral-head offset (12 mm below the head centres) carried to him (k~777), cited and badged as rule-based.
+  Meanwhile the shipped male pelvic floor (ct_vhm_pfloor + ct_vhm_pfloor_fix) stays AP-mirrored in viewer v62 --
+  owner decision pending: badge as misplaced, hide, or accept the offset rule.
