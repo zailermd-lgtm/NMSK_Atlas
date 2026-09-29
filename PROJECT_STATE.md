@@ -9546,3 +9546,26 @@ the female's phalanges are under-captured at HU 200.
   Q164's fat diagnosis was wrong (his forearm is ~84 % muscle; tissue masking removes ~3 %). NEXT (Q166):
   boundaries BY CONSTRUCTION from the septa -- regions of muscle enclosed by the photographed pale lines,
   linked across slices, then named by overlap with these rule labels; gate contact-on-septum >= 0.7.
+
+## Q166: male right forearm v4 (boundaries from his photographed septa by construction) -- STOPPED, nothing shipped
+- Script scripts/cryo/vhm_forearm_muscles_v4.py (tests/test_vhm_forearm_v4.py, 10 pass; full suite 393 pass). Reuses Q164
+  frame.npz + Q165 rgb_frame.npy, tissue classes, paleness residual; names from vhm_forearm_muscles_v3.nii.gz sampled per frame voxel.
+- Per slice: watershed of the paleness residual (h-minima, smoothed 0.5 mm in-plane, 1.5 slices axially) inside the muscle class,
+  basins merged weakest-first while < 50 % of the pooled shared boundary is within 1 px / 1 slice of a pale pixel (>= 0.10);
+  surviving 1-px lines + non-muscle = septum mask; regions = components >= 4 mm2. Linked by mutual-best overlap (>= 0.5 of
+  the smaller, one-to-one) + one-slice gaps; named by majority rule label, purity < 0.6 unnamed. Expectation factor 2.698 (as Q165).
+- Result (pale 0.10): 17 regions/slice (p10-p90 9-46; largest 0.29 of the section), but 1394 3-D bellies (349 >= 0.1 cm3,
+  median span 6 of 233 slices); 194 unnamed (656 cm3, big impure bellies spanning several rule muscles), named only 280 cm3.
+  Contact-on-septum now 0.52-0.90 (Q165 0.21-0.53), but main component / volume fail: 0 muscles pass at all of 0.08/0.10/0.12
+  (FPL passes 0.10+0.12, PQ 0.08 only, EI 0.12 only). Variants tried (IoU tracking, no axial smoothing, support 0.4, a 3-D
+  watershed that merged into 2 bellies of 512/371 cm3, plain closing: 3 regions/slice) all in the report's tuning_tried.
+- Report data/derived/Q166_vhm_forearm_v4.json (verdict STOPPED); no volume/labels/mapping/subject written; montage in
+  SCRATCH/q166_m_forearm. The current male forearm (ct_vhm_forearm + Q155 transfers) stays.
+- NEXT (if pursued): the pale ridge alone does not close; at mid-forearm many septa are DARK lines. Options: add a darkness
+  ridge term, or a human-in-the-loop seed per belly on ~5 levels (then flood inside the septum mask), or accept v3-style
+  rule names only where a named belly is pure AND continuous (few muscles).
+- Q164-Q166 CONCLUSION (main session, 2026-09-29): three automatic routes for his right forearm, none shippable;
+  the male forearm stays as before (ct_vhm_forearm + Q155 photo-refined transfers). The septa in his photographs
+  are partly pale and partly dark lines, and no rule labels are reliable enough to name septum-enclosed bellies.
+  Open route (needs the owner): one hand-placed seed per muscle on ~5 levels (a click-to-seed page over the
+  resliced photographs), flooded inside the Q166 septum mask; alternative: add a dark-ridge term to the septum map.
