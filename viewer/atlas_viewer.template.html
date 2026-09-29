@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NMSK Atlas Viewer</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
 <style>
@@ -162,6 +163,34 @@ button.mini:hover{background:#f2f2f2}
 @media (max-width:1080px){
   #app{grid-template-columns:200px minmax(0,1fr) 300px}
 }
+/* ---------- phone layout (Q167): auto under 760 px wide, or forced by the header toggle ---------- */
+#stage canvas{touch-action:none}
+.layout-btn{padding:3px 9px;border:1px solid var(--line);border-radius:5px;background:var(--surface);font-size:11px;font-weight:600}
+.mob-bar{display:none}
+#app.phone{grid-template-columns:minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto;height:100vh;height:100dvh;min-height:0}
+#app.phone header{padding:6px 10px calc(6px) 10px;gap:6px 10px;padding-top:calc(6px + env(safe-area-inset-top,0px))}
+#app.phone header h1{font-size:13px}
+#app.phone header .sub,#app.phone .stat.opt{display:none}
+#app.phone #stage{grid-column:1}
+#app.phone aside,#app.phone #inspector{position:fixed;left:0;right:0;bottom:calc(52px + env(safe-area-inset-bottom,0px));
+  max-height:62vh;max-height:62dvh;z-index:30;border:none;border-top:1px solid var(--line);border-radius:12px 12px 0 0;
+  box-shadow:0 -8px 28px rgba(15,21,26,.22);transform:translateY(120%);visibility:hidden}
+#app.phone.anim aside,#app.phone.anim #inspector{transition:transform .22s,visibility .22s}
+#app.phone aside.open,#app.phone #inspector.open{transform:none;visibility:visible}
+#app.phone .mob-bar{display:flex;grid-column:1;gap:6px;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px));
+  background:var(--surface);border-top:1px solid var(--line);z-index:31}
+.mob-bar button{flex:1;min-height:40px;padding:8px 4px;border:1px solid var(--line);border-radius:7px;font-size:12.5px;font-weight:600;background:var(--panel)}
+.mob-bar button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+#app.phone #tools{left:8px;right:8px;top:8px;flex-wrap:wrap;justify-content:flex-end}
+#app.phone .tool{padding:8px 10px;font-size:12px}
+#app.phone #frame-note{display:none}
+#app.phone #axes{width:64px;height:64px;left:8px;bottom:8px}
+#app.phone #scalebar{right:8px;bottom:8px}
+#app.phone #hover{display:none}
+#app.phone .row{padding:8px 6px}
+#app.phone .row .rn{font-size:13.5px}
+#app.phone #q{font-size:16px;padding:9px 10px}
+#app.phone #insp-head{position:static}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -172,8 +201,9 @@ button.mini:hover{background:#f2f2f2}
     <div class="sub" id="s-credit" hidden></div>
     <div class="spacer"></div>
     <div class="stat"><b id="s-str">0</b> structures</div>
-    <div class="stat"><b id="s-tri">0</b> triangles shown</div>
-    <div class="stat"><b id="s-full">0</b> in the source mesh</div>
+    <div class="stat opt"><b id="s-tri">0</b> triangles shown</div>
+    <div class="stat opt"><b id="s-full">0</b> in the source mesh</div>
+    <button type="button" class="layout-btn" id="t-layout" title="Switch between the phone and desktop layouts">Phone layout</button>
   </header>
 
   <aside>
@@ -217,6 +247,10 @@ button.mini:hover{background:#f2f2f2}
     </div>
     <div id="i-body"><div class="empty">Click any structure in the model, or pick one from the list.</div></div>
   </div>
+  <nav class="mob-bar" aria-label="Panels">
+    <button type="button" id="m-list" aria-pressed="false">Structures &amp; layers</button>
+    <button type="button" id="m-info" aria-pressed="false">Details</button>
+  </nav>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -427,11 +461,31 @@ function place(){
   camera.lookAt(target);
 }
 var drag = null;
+/* Q167: two fingers pinch to zoom and drag to pan; one finger still rotates and taps select */
+var touchPts = new Map(), pinch = null;
+function pinchState(){
+  var p = Array.from(touchPts.values());
+  return {d: Math.max(1, Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y)), x:(p[0].x + p[1].x) / 2, y:(p[0].y + p[1].y) / 2};
+}
 renderer.domElement.addEventListener("pointerdown", function(e){
+  touchPts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  try { renderer.domElement.setPointerCapture(e.pointerId); } catch (err){}
+  if (touchPts.size === 2){ drag = null; pinch = pinchState(); return; }
   drag = {x:e.clientX, y:e.clientY, pan:(e.button === 2 || e.shiftKey), moved:0};
-  renderer.domElement.setPointerCapture(e.pointerId);
 });
+function endTouch(e){ touchPts.delete(e.pointerId); if (touchPts.size < 2) pinch = null; }
+renderer.domElement.addEventListener("pointercancel", function(e){ endTouch(e); drag = null; });
 renderer.domElement.addEventListener("pointermove", function(e){
+  if (touchPts.has(e.pointerId)) touchPts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  if (pinch && touchPts.size >= 2){
+    var now = pinchState();
+    dist = Math.max(radius * 0.16, Math.min(radius * 7, dist * pinch.d / now.d));
+    var s2 = dist / 900;
+    var right2 = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 0);
+    var up2 = new THREE.Vector3().setFromMatrixColumn(camera.matrix, 1);
+    target.addScaledVector(right2, -(now.x - pinch.x) * s2).addScaledVector(up2, (now.y - pinch.y) * s2);
+    pinch = now; place(); draw(); return;
+  }
   var hit = pick(e);
   var hv = document.getElementById("hover");
   if (hit && !drag){
@@ -455,6 +509,9 @@ renderer.domElement.addEventListener("pointermove", function(e){
   place(); draw();
 });
 window.addEventListener("pointerup", function(e){
+  var wasPinch = touchPts.size >= 2 || pinch;
+  endTouch(e);
+  if (wasPinch){ drag = null; return; }
   if (drag && drag.moved < 5){
     if (needle.active) needleClick(e);
     else { var h = pick(e); select(h ? h.userData.id : null); }
@@ -680,6 +737,7 @@ function pointHtml(p){
 }
 function select(id){
   selected = id;
+  if (id && layoutReady && app.classList.contains("phone")) openSheet("info");
   originMarker.visible = insertionMarker.visible = false;
   var s = id ? groups[id] : null;
   var head = document.getElementById("i-name"), body = document.getElementById("i-body");
@@ -1078,9 +1136,37 @@ if (BUNDLE.subject_label && BUNDLE.attribution) {
   el.hidden = false;
 }
 document.getElementById("s-full").textContent = BUNDLE.source_triangles.toLocaleString();
+/* ---------- Q167 phone layout ---------- */
+var app = document.getElementById("app"), asideEl = document.querySelector("aside"), inspEl = document.getElementById("inspector");
+var mList = document.getElementById("m-list"), mInfo = document.getElementById("m-info");
+function layoutPref(){ try { return localStorage.getItem("nmsk-layout") || "auto"; } catch (err){ return "auto"; } }
+function openSheet(which){
+  var list = which === "list", info = which === "info";
+  asideEl.classList.toggle("open", list); inspEl.classList.toggle("open", info);
+  mList.setAttribute("aria-pressed", String(list)); mInfo.setAttribute("aria-pressed", String(info));
+}
+function applyLayout(){
+  var pref = layoutPref();
+  var phone = pref === "phone" || (pref === "auto" && window.innerWidth < 760);
+  app.classList.toggle("phone", phone);
+  document.getElementById("t-layout").textContent = phone ? "Desktop layout" : "Phone layout";
+  if (!phone) openSheet(null);
+  resize();
+}
+document.getElementById("t-layout").addEventListener("click", function(){
+  var phone = app.classList.contains("phone");
+  try { localStorage.setItem("nmsk-layout", phone ? "desktop" : "phone"); } catch (err){}
+  applyLayout();
+});
+mList.addEventListener("click", function(){ openSheet(asideEl.classList.contains("open") ? null : "list"); });
+mInfo.addEventListener("click", function(){ openSheet(inspEl.classList.contains("open") ? null : "info"); });
+window.addEventListener("resize", function(){ if (layoutPref() === "auto") applyLayout(); });
+var layoutReady = false;
 renderList();
-resize();
+applyLayout();
 select(byId["biceps_femoris_r"] ? "biceps_femoris_r" : BUNDLE.structures[0].id);
+layoutReady = true;
+setTimeout(function(){ app.classList.add("anim"); }, 400);  /* no slide on the first layout switch */
 new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 if (window.matchMedia) matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);
 }

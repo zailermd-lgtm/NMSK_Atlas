@@ -139,3 +139,12 @@ def test_hires_decimation_never_splits_a_thin_tube():
     f = np.array(f)
     q = decimate_guarded(v, f, 600)
     assert q is not None and n_pieces(q[1], len(q[0])) == 1 and len(q[1]) < len(f)
+
+
+def test_phone_layout_option(template):
+    # Q167: phones get a full-screen model with bottom-sheet panels (auto under 760 px or by the
+    # header toggle), a real mobile viewport, and two-finger pinch/pan
+    assert 'name="viewport"' in template
+    for needle in ('id="t-layout"', 'id="m-list"', 'id="m-info"', "#app.phone", "function applyLayout(",
+                   "function openSheet(", "nmsk-layout", "touch-action:none", "function pinchState("):
+        assert needle in template, needle

@@ -25,7 +25,13 @@ subcomponents of the Z-Anatomy release that stay excluded regardless.
 Branch: `claude/3d-human-anatomy-atlas-e0kbxe`. 365 tests pass. Owner direction 2026-09-29: "Keep the
 zanatomy reference, while progressing with the reconstructed models" -- the Z-Anatomy viewer
 (`HdYCRuvGP8ESbggoRWCNBF`, v6) stays as the reference; work returns to the two Visible Human specimen
-viewers. Recent: Q163 (2026-09-29) -- specimen viewers off the single-page cap. Both pages sat at
+viewers. Recent: Q167 (2026-09-29, owner: "make an option to fit also smartphone screen") -- specimen
+viewer template: a real mobile viewport tag (before, phones laid the page out 980 px wide and shrank all three
+columns), a phone layout (auto under 760 px, or the header "Phone layout"/"Desktop layout" toggle, remembered in
+localStorage): full-screen model, the structure list and the inspector as bottom sheets ("Structures & layers",
+"Details"), tapping a structure opens its details; two-finger pinch zoom and pan. Tested in Chromium at 390x844
+(touch): no horizontal scroll, sheets open/close, tap selects, pinch zooms; desktop unchanged. The Z-Anatomy
+viewer already fits phones (its own <900 px rules). Q163 (2026-09-29) -- specimen viewers off the single-page cap. Both pages sat at
 15.4-15.5 MB of a 15.5 MB budget (every new subject meant trimming others). (1) `build_viewer_html.py
 --external-bin`: geometry as sibling base64 `<stem>_geo_NN.txt` files (11 MB binary each, a multiple of
 3 bytes so their texts concatenate into one base64 string), fetched before the viewer starts (template
