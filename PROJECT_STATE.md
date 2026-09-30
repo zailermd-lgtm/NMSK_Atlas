@@ -9937,3 +9937,39 @@ the female's phalanges are under-captured at HU 200.
   sciatic section there is ~2x its neighbours (148 vs ~73 mm2) and holds 278 of the 578 residual vertices. Fix option:
   replace those levels by interpolating the clipped sections from -135 and -142 (badge as interpolated). Biceps femoris
   long head now ~36k tris/side in the bundle (+76k total); cap its budget if page size matters.
+- Q178 DONE (2026-09-30): y -136..-141 confirmed unusable by rule (pooled crops); sciatic (right) + both femoral veins interpolated there (sciatic section 134/148/148/38/36/88 -> 72/70/68/69/76/84 mm2), bundle vertices > 1 mm in muscle sciatic 578->338, femoral_v_l 6->2, femoral_v_r 2->0; see Q178 below.
+
+## Q178 (2026-09-30) -- his tracked outlines on his unusable photographs (y -136..-141) interpolated (male hi-res viewer)
+- New `scripts/cryo/vhm_dark_slice_interp.py` (photos | interp | verify | badge; tests/test_vhm_dark_slice_interp.py, 6 tests, output checks
+  skip when absent). Report data/derived/Q178_vhm_sciatic_interp.json (top-level "source").
+- Crops: vhm_stream_leg_crops.py --ap-row -1, y -120..-160, the Q176 boxes (sci right=80,145,-85,-25 left=-135,-60,-85,-30; fem
+  right=30,100,-10,80 left=-110,-35,-25,75; femR = fem + Q173 register), ~7 s, deleted after; vh_cryo/ + vhm_ts/ kept.
+- UNUSABLE rule (per level vs median of y -120..-133 above / -147..-160 below the darkest level; unusable if |V/ref-1| > 0.10 or
+  |G/R - ref| > 0.04 or photographed-muscle fraction < 0.85 x ref; span = contiguous run through the darkest level), decided on the
+  four crops pooled: -136..-141. Pooled V_rel / G/R diff / muscle ratio: -135 +0.02/+0.004/1.02 (good); -136 +0.09/+0.075/0.80 (cast);
+  -137 -0.45/+0.77/0.00; -138 -0.43/+0.52/0.00 (black); -139 -0.32/+0.29/0.35; -140 -0.17/+0.12/0.53; -141 -0.08/+0.044/0.80;
+  -142 -0.06/+0.020/0.89 (good). Per crop: sci-left, fem-right, fem-left give -136..-141 too; sci-RIGHT alone stays flagged to -144
+  (G/R +0.074/+0.059/+0.043, muscle x0.70/0.82/0.89 at -142/-143/-144, a fading cast) -- kept as traced there (the Q176 clip acted
+  normally, 16-19 % -> 0-1 % on muscle; the look montage shows the outline on the nerve).
+- Interpolation: centroid-aligned signed-distance blend between the bound levels -135 and -142 (each bound's SDF shifted to the linearly
+  interpolated centroid), largest 4-connected piece; only that label/side at the span levels changes, other labels never overwritten;
+  every other level asserted byte-identical to the Q176 *_clip volume. Sciatic in its ORIGINAL grid then write_nerve (translation;
+  registered volume identical off-span, asserted). New volumes (originals kept): vhm_nerves_cryo_clip_interp, vhm_nerves_cryo_reg_clip_interp,
+  vhm_femoral_cryo_clip_interp (.nii.gz). Femoral arteries end y -17/-33 and popliteal/tibial are at y -380..-455: not in the span.
+- Section series y -135 | -136..-141 | -142 (mm2, before -> after): sciatic_n right 73 | 134/148/148/38/36/88 -> 72/70/68/69/76/84 | 90;
+  femoral_v_l 34 | 34/34/34/51/52/62 -> 35/37/38/43/45/47 | 50; femoral_v_r 47 | 47/54/54/72/73/63 -> 49/51/52/54/56/58 | 60.
+  LEFT sciatic kept as traced: its Q57 piece starts at -139 inside the span with no traced level at -135 (22.5/81.5/78.5 vs 80.5 at -142).
+  3-D components unchanged (sciatic right 1/1, fv_l 2/3, fv_r 2/2 at 26/6-conn); mesh pieces unchanged (subject + bundle: 8, 3, 2); 0 in bone.
+- Vertices > 1 mm inside any muscle mesh (bundle / full-res subject, before -> after; at y -141.5..-135.5 in brackets):
+  sciatic_n 578 -> 338 (295 -> 46) / 1093 -> 571 (541 -> 76); femoral_v_l 6 -> 2 (5 -> 1) / 72 -> 20 (69 -> 20); femoral_v_r 2 -> 0 / 0 -> 0.
+- Shipped: mappings ct_vhm_{sciatic,femoral} source_volume -> *_interp; vhm_rebuild_bundle.sh prefers *_interp (reconverts when the
+  manifest names another) and runs `vhm_dark_slice_interp.py badge` after badge-q177 (appends a "Q178 RULE-BASED ... INTERPOLATED, not
+  traced" sentence with the levels, bounds, old/new section series and overlap numbers; Q176/Q177 sentences kept). `VHM_OUT=build/viewer_m_hr
+  bash scripts/vhm_rebuild_bundle.sh`: 402 ids / 437 entries, 2,214,085 tris; geometry + metadata changed ONLY sciatic_n, femoral_v_l,
+  femoral_v_r (hashes); order unchanged; top-level source_triangles only. Chromium headless: no page errors (one cert console error,
+  external resource), 3 ids badged Q178. viewer_f_hr untouched (md5). Montage scratch q178/montage_{sciatic,femoral}.png (looked at:
+  interpolated outlines sit on the nerve band / dark vein lumen visible at -136, -140, -141); old bundle q178/old_bundle{.json,/},
+  old subjects q178/old_subjects/. Not committed, not published.
+- Open: the Q177 sentence in the three badges still says the span "could not be clipped" (historical; the Q178 sentence follows it);
+  left sciatic -139..-141 traced on dark photographs (kept, continuous); semitendinosus_r lateral face; femoral_v_r gap and popliteal
+  arteries (Q174).

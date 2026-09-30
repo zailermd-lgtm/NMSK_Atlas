@@ -175,6 +175,7 @@ fi
 # Q176: the tracked outlines (sciatic; femoral/popliteal veins + tibial nerve) clipped to his photographed non-muscle
 # (scripts/cryo/vhm_tracked_clip.py) -> *_clip.nii.gz, used when present (originals kept); badges get the Q176 numbers.
 SCI=$T/vhm_nerves_cryo_reg.nii.gz; [ -f $T/vhm_nerves_cryo_reg_clip.nii.gz ] && SCI=$T/vhm_nerves_cryo_reg_clip.nii.gz
+[ -f $T/vhm_nerves_cryo_reg_clip_interp.nii.gz ] && SCI=$T/vhm_nerves_cryo_reg_clip_interp.nii.gz   # Q178: unusable photographs y -136..-141 interpolated
 if [ -f $SCI ] && { ! grep -q "/$(basename $SCI)" build/vh/ct_vhm_sciatic/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
   cp mappings/subjects/ct_vhm_sciatic_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_sciatic
   python3 scripts/ingest_volume_geometry.py convert $SCI --labels vhm_nerves --subject ct_vhm_sciatic --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
@@ -186,6 +187,7 @@ fi
 Q174_NEW=""
 for s in femoral popliteal; do
   V=$T/vhm_${s}_cryo.nii.gz; [ -f $T/vhm_${s}_cryo_clip.nii.gz ] && V=$T/vhm_${s}_cryo_clip.nii.gz   # Q176
+  [ -f $T/vhm_${s}_cryo_clip_interp.nii.gz ] && V=$T/vhm_${s}_cryo_clip_interp.nii.gz   # Q178 (femoral veins only)
   if [ -f $V ] && { ! grep -q "/$(basename $V)" build/vh/ct_vhm_$s/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
     cp mappings/subjects/ct_vhm_${s}_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_$s
     python3 scripts/ingest_volume_geometry.py convert $V --labels vhm_$s --subject ct_vhm_$s --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
@@ -198,6 +200,10 @@ done
 # Q177: the sciatic_n / femoral_v residual-overlap sentence from the Q177 report (after the Q176 badge; idempotent)
 [ -f data/derived/Q177_vhm_thigh_faces.json ] && [ -f build/vh/ct_vhm_sciatic/manifest.json ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && \
   python3 scripts/cryo/vhm_thigh_fat_plane_snap.py badge-q177
+# Q178: the levels on his unusable photographs (y -136..-141) interpolated between the traced, clipped levels
+# (scripts/cryo/vhm_dark_slice_interp.py); RULE-BASED sentence appended after the Q177 one (idempotent)
+[ -f data/derived/Q178_vhm_sciatic_interp.json ] && [ -f build/vh/ct_vhm_sciatic/manifest.json ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && \
+  python3 scripts/cryo/vhm_dark_slice_interp.py badge
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 # Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
 # deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
