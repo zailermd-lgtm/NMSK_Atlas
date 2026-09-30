@@ -171,6 +171,18 @@ if [ -f $T/vhm_nerves_cryo_reg.nii.gz ] && { ! grep -q vhm_nerves_cryo_reg build
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_nerves_cryo_reg.nii.gz --labels vhm_nerves --subject ct_vhm_sciatic --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
   python3 scripts/cryo/vhm_thigh_fat_plane_snap.py badge-nerve >/dev/null
 fi
+# Q174: his femoral (artery + vein) and popliteal (vein + left tibial nerve) bundles, tracked in his 0.33 mm cryosections
+# through the Q173 registration (scripts/cryo/vhm_femoral_popliteal_track.py); label volumes committed, so no photographs
+# are needed here. Surfaced as ct_vhm_femoral / ct_vhm_popliteal (ids unique; listed last), then badged from the report.
+Q174_NEW=""
+for s in femoral popliteal; do
+  if [ -f $T/vhm_${s}_cryo.nii.gz ] && { [ ! -f build/vh/ct_vhm_$s/manifest.json ] || [ -n "${RECONVERT:-}" ]; }; then
+    cp mappings/subjects/ct_vhm_${s}_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_$s
+    python3 scripts/ingest_volume_geometry.py convert $T/vhm_${s}_cryo.nii.gz --labels vhm_$s --subject ct_vhm_$s --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+    Q174_NEW=1
+  fi
+done
+[ -n "$Q174_NEW" ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && [ -f build/vh/ct_vhm_popliteal/manifest.json ] && python3 scripts/cryo/vhm_femoral_popliteal_track.py badge >/dev/null
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 # Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
 # deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
@@ -197,6 +209,7 @@ for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp 
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 [ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
 [ -f build/vh/ct_vhm_sciatic/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_sciatic"   # Q57 + Q173 registration (id unique; listed last)
+for s in ct_vhm_femoral ct_vhm_popliteal; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done   # Q174 (ids unique; listed last)
 # Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
 # steps above still read build/viewer_m as their input bundle, unchanged
 OUT=${VHM_OUT:-build/viewer_m}; mkdir -p "$OUT"

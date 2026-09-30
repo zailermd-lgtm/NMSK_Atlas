@@ -1,0 +1,43 @@
+{
+ "_README": [
+  "Review every entry before running convert.",
+  "Set 'atlas_id' to the correct entity, or null to skip the label.",
+  "'status' is advisory; convert reads 'atlas_id' only.",
+  "Q174 (male). NOT shipped (see the report's 'nulled'): popliteal_a_r: No arterial lumen tracks in his popliteal fossa. His arteries are EMPTY (post-mortem) -- u...; popliteal_a_l: Same as the right: the pair rule's deep clotted lumen held 7 levels (y -398..-406) and can...; tibial_n (right): The fascicle-texture walk behind his right popliteal vein held 7 levels (y -399..-409), un...; femoral_a (adductor canal, both sides): Below the origin of the profunda his femoral artery is empty and contracted: no dark or ge..."
+ ],
+ "subject": "ct_vhm_popliteal",
+ "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_popliteal_cryo.nii.gz",
+ "label_map": "vhm_popliteal",
+ "entries": [
+  {
+   "label": 1,
+   "source_structure": "popliteal_v_l",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "popliteal_v_l",
+   "relationship": "part_of",
+   "note": "Clotted LUMEN of his popliteal vein, seeded behind the popliteal surface of his femur (her Q56 pair rule; the deep member did not track as an artery and is not shipped). Atlas y -395..-446 (46 detected levels, 6 bridged); median diameter 6.6 mm. Placed with the Q173 photograph-to-atlas registration. Report: data/derived/Q174_vhm_femoral_popliteal.json.",
+   "candidates": []
+  },
+  {
+   "label": 2,
+   "source_structure": "popliteal_v_r",
+   "side": "right",
+   "status": "curated",
+   "atlas_id": "popliteal_v_r",
+   "relationship": "part_of",
+   "note": "Clotted LUMEN of his popliteal vein, seeded behind the popliteal surface of his femur (her Q56 pair rule; the deep member did not track as an artery and is not shipped). Atlas y -380..-455 (70 detected levels, 6 bridged); median diameter 6.2 mm. Placed with the Q173 photograph-to-atlas registration. Report: data/derived/Q174_vhm_femoral_popliteal.json.",
+   "candidates": []
+  },
+  {
+   "label": 3,
+   "source_structure": "tibial_n",
+   "side": "left",
+   "status": "curated",
+   "atlas_id": "tibial_n",
+   "relationship": "part_of",
+   "note": "LEFT tibial nerve in the popliteal fossa (side-agnostic id; left side only), fascicle texture posterior to his popliteal vein. Atlas y -393..-429 (33 detected levels, 4 bridged); median diameter 7.1 mm. Placed with the Q173 photograph-to-atlas registration. Report: data/derived/Q174_vhm_femoral_popliteal.json.",
+   "candidates": []
+  }
+ ]
+}

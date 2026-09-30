@@ -9782,3 +9782,43 @@ the female's phalanges are under-captured at HU 200.
   retry; (b) the nerve's own outline could be clipped to photographed non-muscle (would remove the residual) -- not done,
   it edits Q57's traced result; (c) the template renders every procedural_badge as "Procedural geometry -- not from
   imaging", which reads wrong for photograph-derived corrections (Q155 has the same). Not published.
+
+## Q174 (2026-09-30) -- his femoral + popliteal neurovascular bundles (male counterpart of Q55/Q56), male hi-res viewer
+- New `scripts/cryo/vhm_femoral_popliteal_track.py` (register | femoral | popliteal | verify | badge; tests/test_vhm_femoral_popliteal.py,
+  6 tests, output checks skip when absent). Crops: `vhm_stream_leg_crops.py` boxes right=0,170,-70,120 (y +70..-420) and
+  right=50,225,-145,45 (y -280..-580), mirrored left, ap_row -1; ~60 s; deleted after use (vh_cryo/, vhm_ts/ kept).
+  `register` folds the Q173 per-side shift into the crop mapping (new optional `X0_by_side`/`Y0_by_side` in `vhf_nerve_track.Crops`,
+  backward compatible). Re-check on these crops: femur gives the Q173 shift (R 6.4/0.0, L 6.2/-8.5 px); anterior muscles alone
+  ~3-4 px AP (IoU 0.30, not trusted) -> anterior vessels may sit up to ~1 mm too posterior.
+- FINDING (his photographs): his ARTERIES are EMPTY -- under the inguinal ligament the femoral artery is a thick ring whose lumen
+  holds BLUE embedding gelatine; lower down (canal, fossa) it is contracted with no dark lumen. His VEINS hold black clot (red 20-48).
+  Her detectors (adaptive threshold, aspect <= 2.5) fail on him: attempt 1 (her trackers unchanged, right side) = femoral a/v
+  good to y -46 then ragged; popliteal artery ragged fat patches. Attempt 2 = the new script: fixed core red < 55, blue and black
+  cores labelled separately, overlap-linked walk up+down, rim rule (annulus red >= 25 above the lumen: rejects dark patches in his
+  left iliopsoas), her Q55/Q56 seed rules + a canal re-seed (largest clotted lumen within 15 mm of sartorius at mid-thigh) + his
+  artery seed (first gel-filled lumen lateral of the tracked vein).
+- SHIPPED (subjects ct_vhm_femoral / ct_vhm_popliteal; spans verified on per-level montages, scratch q174/final_*.png):
+  femoral_a_r y 35..-17 (53 lv, lumen median 6.7 mm), femoral_a_l 11..-33 (38 lv + 7 bridged, 4.5 mm) -- common femoral only,
+  down to about the profunda origin; femoral_v_r 35..-35 + -98..-225 (2 pieces, 193 lv, 9.2 mm), femoral_v_l 35..-280 (282 lv,
+  7.8 mm); popliteal_v_r -380..-455 (70 lv, 6.2 mm), popliteal_v_l -395..-446 (46 lv, 6.6 mm); tibial_n LEFT -393..-429 (33 lv,
+  7.1 mm, ~39 mm2). Published: CFA men 9.8 mm outer (Sandgren 1999) -> gel lumen of an empty artery under-measures; veins
+  collapsed (Gray's/Moore 8-13 mm); tibial nerve CSA 20-40 mm2 (Cartwright 2008).
+- Checks: 0 vertices inside any bone (femur/tibia/fibula/patella/hip) for all 7. Artery lateral of vein on 51/51 (R) and 38/38 (L)
+  levels (6.3 / 9.0 mm). Canal vein 6-10 mm deep to sartorius (sartorius 15-25 mm anterior), 0.5-1.4 mm from adductor longus,
+  2.6-5.7 mm from vastus medialis, ~45-54 mm medial of the femur centre. Fossa: vein 7-10 mm behind the femur's posterior cortex;
+  tibial nerve posterior of the vein on 29/29 levels (median 19 mm). Muscle overlap: femoral_v_r/l 31 %/26 % of vertices inside
+  muscle meshes, mostly his DU adductor longus (3297/4061 beyond 1 mm, max 2.8/3.2 mm) -- NOT fixed; popliteal veins 4-7 %
+  (plantaris/gastrocnemius, max 2.0 mm); arteries/tibial ~0.
+- NULLED (reasons in the report + mapping _README): popliteal_a_r/l (no arterial lumen; the deep clotted lumen of her pair rule
+  held 3/7 levels and may be a paired vein), right tibial_n (7 levels), femoral artery in the adductor canal (no lumen).
+- Tibial vs Q57 sciatic: not joined -- sciatic ends y -222, tibial starts y -393 (170 mm gap), 18.5 mm lateral of the sciatic end.
+- Wired: vhm_rebuild_bundle.sh Q174 block (convert --smooth 1.0 + badge) and the two subjects listed last. Rebuilt
+  `VHM_OUT=build/viewer_m_hr`: 437 structures (+7 ids: femoral_a_r/l, femoral_v_r/l, popliteal_v_r/l, tibial_n; 3750 tris each);
+  the 430 others identical in geometry hash and metadata. Chromium headless: no page errors, 7 ids present with badges.
+  build/viewer_f_hr untouched (md5). Report data/derived/Q174_vhm_femoral_popliteal.json; old bundle scratch q174/old_bundle.*.
+- Open: (a) adductor-longus overlap of the canal vein (mesh surface vs photographed plane, cf. Q173); (b) popliteal artery would need
+  a contracted-artery (solid ring) detector; (c) sciatic division/tibial gap. Not committed, not published.
+- NEXT (Q175): his femoral veins sit 26-31% inside his adductor longus mesh (max ~3 mm; decimated DU surface, as in Q173)
+  -> extend scripts/cryo/vhm_thigh_fat_plane_snap.py to adductor longus' anterior/medial face on the femoral-triangle and
+  adductor-canal levels, then re-measure. Also open: right femoral vein gap y -36..-97; popliteal arteries (empty, no
+  lumen) and his right tibial nerve (7 levels) nulled.
