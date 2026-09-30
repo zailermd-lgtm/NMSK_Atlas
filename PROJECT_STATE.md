@@ -10141,3 +10141,34 @@ the female's phalanges are under-captured at HU 200.
   contact boundaries follow photographed septa no better than Q165 (0.20-0.51 vs 0.21-0.53), 38/63 seeds low confidence.
   Claude's 80 seed decisions are loaded into the click page's db (`seeds`, by:"claude") for owner review/correction;
   re-run scripts/cryo/vhm_forearm_seeded_q180.py from the page's seeds, then Q180_SHIP=1 in vhm_rebuild_bundle.sh.
+
+## Q181 (2026-09-30) -- her Q48 thigh boundaries re-fitted on the femur-registered photographs (owner option (a2)) -- STOPPED after attempt 2, nothing shipped
+- State: build/viewer_f_hr byte-identical to pre-Q181 (all 7 files md5; the rebuilt html only matched after re-rendering with
+  the Q173-era template ea0c715 -- the shared template changed in Q175/Q177, so a fresh rebuild of her page now differs in html
+  only). vhf_rebuild_bundle.sh and mappings restored to 4889bf2 (the WIP commits 9a0719e/902b1dd captured the wiring + 3 q181
+  mappings -- the working tree removes them). viewer_m_hr untouched (md5). build/vh has no *_q181 subject (moved to scratch).
+- Did: scripts/cryo/vhf_thigh_refit_q181.py (photos | refit | measure | apply | rebadge | badge-tracked | verify),
+  tests/test_vhf_thigh_refit_q181.py (6 pass, 3 skip when not wired). Crops re-streamed with the Q179 commands (identical windows)
+  + Q179's registered bbox. Refit on the Q48 volume's own 1 mm grid, y +34..-406 (Q179a field, ramped): markers = Q48 labels moved
+  by the lost-frame offset, Q48's constants/classifier (cryo_classes_f class 3), bone + her CT muscles/tendons 3 mm bands held,
+  bone never region, Q48's broken levels (y -129..-134 L, -130..-132 R) blended, unusable photos (-127..-132) blended; >10 %
+  volume -> muscle held at its Q48 voxels (auto rounds); meshes = convert-equivalent (reproduces shipped Q48 meshes to 3e-5 mm)
+  with Q152's bridges/island drops re-applied; apply byte-reproducible (tested twice).
+- Rule trial (her value<100 rule as the refit class): 18/41 muscles > 10 % smaller -> used Q48's classifier. Attempt 1: sciatic
+  stayed in the muscles (her nerve is Q48 class 3): 50,970 -> 36,761 full-res vertices > 1 mm. Attempt 2 (+ her traced
+  sciatic/femoral/popliteal sections kept out of the region): sciatic 50,970 -> 2,078 (max 13.4 -> 5.4; bundle 11,639 -> 794),
+  popliteal_a/v 1,959/1,555 -> 8/0, femoral_n 1,987 -> 1,649 (her CT iliopsoas), 0 in bone; 27 muscles re-fitted (volumes
+  -6.1..+8.1 %, bone vertices per bone <= +1.1 %, surface moves p95 2-11 mm / max 33 mm), Q177 snap stored for 7.
+- WHY STOPPED: (1) 14 muscles held by the 10 % rule (both vasti medialis/intermedius, VL_r, RF_l, sartorius_l, gracilis_l,
+  pectineus both, OI_r, QF_l, gemellus_inf_l, plantaris_l): they regrow 10-18 % on registered photos (Q48 shaped them in the lost
+  frame) -> the anterior compartment stays ~10 mm off (montages) next to re-fitted neighbours; (2) pectineus_r (+10.3 %, held)
+  keeps the femoral vessels inside: 830/1,821 -> 1,307/2,719 (0/0 if pectineus_r were re-fitted); (3) tibial_n (as traced)
+  638 -> 1,647 bundle vertices inside the re-fitted biceps femoris_r; (4) 10 Q112 continuity regressions (rectus_femoris_r
+  1.00 -> 0.77, TFL_r 0.996 -> 0.955, AL_r 1.00 -> 0.96); (5) her-rule muscle share 12 up / 13 down.
+- Owner decision: (i) relax/redefine the 10 % rule (e.g. against the male transfer Q48 started from) and re-run; (ii) ship
+  attempt 2 with the held compartment disclosed after fixing RF_r and deciding tibial_n; (iii) keep as shipped.
+- Also: shipped ct_vhf_nerve/ct_vhf_popliteal are --smooth 0.0 (0.0 reproduces them byte for byte, 1.0 does not), ct_vhf_femoral
+  1.0; the rebuild lines still say 1.0 (left with the restore). Kept: task_outputs vhf_xfer_lowerlimb_septa_q181.nii.gz,
+  vhf_thigh_refit_q181.json (+ _snap.npz), data/derived/Q181_vhf_thigh_refit.json ("decision"). Scratch q181/: montage_*.png,
+  zoom_*.png, dbg*.png, page.png, old_bundle.*, new_bundle/, built_candidates/, attempt1/, crops/ jsons (npy deleted).
+  Not committed by this agent, not published.

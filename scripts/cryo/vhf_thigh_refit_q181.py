@@ -2,6 +2,15 @@
 femur-registered reconstruction (Q179), with every surface that touches bone or her own CT muscles held where it is; then her
 photo-tracked outlines (Q179 registered + clipped + interpolated candidates) and a bounded Q177 face snap where they still enter.
 
+STATUS (2026-09-30): STOPPED after attempt 2, NOT wired (vhf_rebuild_bundle.sh, mappings and build/viewer_f_hr are pre-Q181; the
+viewer rebuilt from the restored script is byte-identical). The candidate volume / store / snap moves stay in task_outputs; see
+data/derived/Q181_vhf_thigh_refit.json "decision". Attempt 1 (Q48's own classifier): the sciatic stayed inside the adductor magnus /
+biceps (her nerve is Q48 class 3). Attempt 2 (+ traced nerve / vessel sections kept out of the region): sciatic 50,970 -> 2,078
+full-res vertices > 1 mm in muscle, popliteal 1,959/1,555 -> 8/0, but 14 muscles held by the 10 % volume rule (the anterior
+compartment stays in the lost frame; pectineus_r at +10.3 % keeps the femoral vessels inside it: 830/1,821 -> 1,307/2,719),
+tibial_n (kept as traced) 638 -> 1,647 bundle vertices inside biceps femoris_r, and 10 continuity regressions (rectus femoris_r
+main_frac 1.00 -> 0.77).
+
 Why: Q48 (scripts/transfer/refine_transfer_to_septa.py) put the male's lower-limb muscles on her CT bones and moved the boundaries
 between neighbouring bellies onto the septa photographed in her 1 mm frame -- a frame that was lost and, re-registered to her CT
 femur (Q179), turns out to sit 2-14 mm off (vhf_tracked_reg_q179.json). Translating whole muscles (Q179a) drove the bone-held
@@ -578,8 +587,9 @@ def do_measure(a):
 
 BADGE = ("Boundaries with its neighbouring muscles re-fitted (Q181) on her cryosections as re-registered to her CT femur: its Q48 septa "
          "had been fitted in her lost 1 mm photograph frame, which sits {off} off her CT; the Q48 step (marker watershed on the "
-         "photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset, while every surface within 3 mm of "
-         "her bones or her CT muscles was held where it was. Volume {v0:.1f} -> {v1:.1f} cm3; section on her photographed muscle "
+         "photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and "
+         "popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT "
+         "muscles was held where it was. Volume {v0:.1f} -> {v1:.1f} cm3; section on her photographed muscle "
          "{s0:.0%} -> {s1:.0%}; mesh vertices > 1 mm inside bone {b0} -> {b1}; surface moved up to {mx:.1f} mm (95 % within {p95:.1f} mm).")
 BADGE_SNAP = (" Then its {face} face, where her tracked {what} still entered it, moved inward onto the fat plane photographed in her "
               "0.33 mm cryosections (Q177 rule, her muscle colour; median {med:.2f} / max {mx:.2f} mm, volume {dv:+.1f} %); {n1} of its "
@@ -609,6 +619,12 @@ def make_badges(rows, snap, st):
             b += " Continuity (Q152 rule, re-applied): " + "; ".join(r["q152_note"]) + "."
         out[aid] = b
     return out
+
+
+def do_rebadge(a):
+    """re-stamp the store's badges from the stored measure report (badge text changes only; no geometry)."""
+    st = json.loads(STORE.read_text()); r = json.loads(REPORT.read_text())["measure_fullres"]
+    st["badges"] = make_badges(r["muscles"], r["snap"], st); STORE.write_text(json.dumps(st, indent=1)); print(len(st["badges"]), "badges")
 
 
 # ------------------------------------------------------------------------------------------------ apply (rebuild)
@@ -662,10 +678,15 @@ BADGE_TRACKED = ("Placed (Q181) on her photographs as re-registered to her CT fe
 def do_badge_tracked(a):
     reg = json.loads(Q.REG_JSON.read_text()); rep = json.loads(REPORT.read_text()) if REPORT.exists() else {}
     tr = rep.get("verify_fullres", {}).get("tracked", {}) or rep.get("measure_fullres", {}).get("tracked_in_muscle_fullres", {})
+    st = json.loads(STORE.read_text()) if STORE.exists() else {"held": []}
+
     def num(aid):
         r = tr.get(aid, {}); b = (r.get("before") or {}).get("beyond_1mm_any", "?")
-        a_ = (r.get("final") or r.get("after_snap") or r.get("after_refit") or {}).get("beyond_1mm_any", "?")
-        return b, a_
+        fin = r.get("final") or r.get("after_snap") or r.get("after_refit") or {}; a_ = fin.get("beyond_1mm_any", "?")
+        rest = sorted(((k, v["beyond_1mm"]) for k, v in fin.get("per_mesh", {}).items() if v["beyond_1mm"]), key=lambda kv: -kv[1])[:3]
+        why = [f"{k} {n}" + (" -- kept in its Q48 place: its re-fit changed its volume by more than 10 %" if k in st["held"] else
+                             " -- her CT muscle, not moved" if k.startswith(("iliopsoas", "gluteus")) else "") for k, n in rest]
+        return b, (f"{a_} ({'; '.join(why)})" if why else a_)
     med = lambda s: np.median([np.hypot(*v["atlas_dx_dz_mm"]) for y, v in reg["sides"][s].items() if -386 <= int(y) <= 14])
     txt = {}
     b, a_ = num("sciatic_n")
@@ -754,10 +775,11 @@ def main():
     p = sub.add_parser("measure"); p.add_argument("--crops", required=True); p.add_argument("--old-subjects", default=None)
     p.add_argument("--no-snap", action="store_true"); p.add_argument("--extra", nargs="*")
     p = sub.add_parser("apply"); p.add_argument("--if-stale", action="store_true"); p.add_argument("--origin", default=None)
+    sub.add_parser("rebadge")
     sub.add_parser("badge-tracked")
     p = sub.add_parser("verify"); p.add_argument("--old-bundle", required=True); p.add_argument("--bundle", default=None)
     a = ap.parse_args()
-    {"photos": do_photos, "refit": do_refit, "measure": do_measure, "apply": do_apply, "badge-tracked": do_badge_tracked, "verify": do_verify}[a.cmd](a)
+    {"rebadge": do_rebadge, "photos": do_photos, "refit": do_refit, "measure": do_measure, "apply": do_apply, "badge-tracked": do_badge_tracked, "verify": do_verify}[a.cmd](a)
 
 
 if __name__ == "__main__":
