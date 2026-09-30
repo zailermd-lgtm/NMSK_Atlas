@@ -33,7 +33,8 @@ Q179 offset was measured on (y +14..-386, faded over 20 mm beyond: Q179a's field
           tibia, fibula, hip bone, sacrum) or of her CT muscles / tendons (glutei, iliopsoas, quadriceps and adductor magnus tendons,
           pelvic floor) keeps its base label, so those surfaces stay where they are; photograph-less voxels keep the base label;
   unusable photographs (Q179: y -127..-131 R, -127..-132 L) take the multi-label blend of the nearest re-fitted levels.
-A muscle whose volume changes > 10 % is held (its base voxels fixed, excluded from the watershed) and the refit re-run (--hold).
+A muscle whose volume changes > 10 % is held and the refit re-run (--auto-hold): it keeps exactly its base voxels, its re-fitted
+territory beyond them stays empty (so no neighbour grows into it) and the voxels it keeps are taken from whichever neighbour had them.
 Meshes: label_surface as convert (smooth 1.0; 0.0 for the Q115 ids), Q152's approved gap bridges / island drops re-applied to the
 ids Q152 fixed; only ids that change are written (subject listed before every Q48 subject in vhf_rebuild_bundle.sh).
 """
@@ -204,6 +205,22 @@ def do_photos(a):
     print("photos done")
 
 
+# ------------------------------------------------------------------------------------------------ traced structures as obstacles
+TRACED_VOLS = (("vhf_nerves_cryo_q179.nii.gz", (1,)), ("vhf_femoral_bundle_cryo_q179.nii.gz", (1, 2, 3)), ("vhf_popliteal_cryo_q179.nii.gz", (1, 2)))
+
+
+def traced_mask(A, shape):
+    """her photo-traced nerves / vessels as shipped by Q181 (the Q179 registered + clipped + interpolated candidates; tibial_n, kept as
+    traced in the lost frame, is not included) on the Q48 1 mm grid: a voxel is traced when any 0.5 mm traced voxel centre falls in it."""
+    out = np.zeros(shape, bool)
+    for fn, labs in TRACED_VOLS:
+        img = nib.load(str(T / fn)); V = np.asarray(img.dataobj); ii, jj, kk = np.nonzero(np.isin(V, labs))
+        ras = img.affine @ np.c_[ii, jj, kk, np.ones(len(ii))].T; inv = np.linalg.inv(A)
+        g = np.rint((inv @ ras)[:3]).astype(int); ok = ((g >= 0) & (g < np.array(shape)[:, None])).all(0)
+        out[g[0, ok], g[1, ok], g[2, ok]] = True
+    return out
+
+
 # ------------------------------------------------------------------------------------------------ refit
 def field_at(field, y):
     fs = field; yy = np.asarray(fs["y"], float)
@@ -232,15 +249,16 @@ def runs(ks):
     return out
 
 
-def refit_level(L0s, Ls, rgb_th, mus, B, C, move_px, held):
+def refit_level(L0s, Ls, rgb_th, mus, B, C, move_px, held, Tk=None):
     """one level, one side: Q48's marker watershed on the registered photograph + the held bands (see the module doc)."""
     th, known = rgb_th; musc = mus == 2
     F = ndi.binary_dilation(B | C, iterations=HOLD_PX)
     hold_l = np.isin(L0s, list(held)) if held else np.zeros_like(F)
-    Lm = np.where(np.isin(Ls, list(held)), 0, Ls) if held else Ls
-    union = Lm > 0
+    Lm = Ls; union = Lm > 0
     region = (ndi.binary_fill_holes(ndi.binary_closing(musc, iterations=2)) & ndi.binary_dilation(union, iterations=DILATE_PX)
-              & ~ndi.binary_dilation(C, iterations=2) & ~B & known & ~hold_l)
+              & ~ndi.binary_dilation(C, iterations=2) & ~B & known)
+    if Tk is not None:                  # attempt 2: her traced nerve / vessel sections are not muscle region (Q48's class 3 takes her nerve)
+        region &= ~Tk
     res = np.zeros_like(L0s)
     if region.any() and move_px > 0:
         from skimage.segmentation import watershed
@@ -255,7 +273,13 @@ def refit_level(L0s, Ls, rgb_th, mus, B, C, move_px, held):
         res[keep] = Lm[keep]
     else:
         res = L0s.copy()
-    res[~known] = L0s[~known]; res[F] = L0s[F]; res[hold_l] = L0s[hold_l]
+    if held:          # a held muscle keeps exactly its base voxels; its re-fitted territory beyond them is left empty (no neighbour grows in)
+        res[np.isin(res, list(held))] = 0; res[hold_l] = L0s[hold_l]
+    res[~known] = L0s[~known]; res[F] = L0s[F]
+    if Tk is not None:
+        res[Tk & ~hold_l] = 0
+    if held:
+        res[np.isin(res, list(held)) & ~hold_l] = 0
     return res
 
 
@@ -264,6 +288,7 @@ def refit_once(a, hold_ids):
     field, full = FF.build_field(); skip = {s: set(v) for s, v in Q.unusable(a.crops).items()}
     held = {ids[h] for h in hold_ids}
     bones, ct = held_meshes(); out = L.copy(); base_all = L.copy(); lv = {}
+    TR = traced_mask(A, L.shape) if a.traced else None
     for side, (i0, i1) in SIDE_I.items():
         meta = json.loads((W / f"p1_{side}.json").read_text()); tk = {k: t for t, k in enumerate(meta["ks"])}
         rgb = np.load(W / f"p1_{side}_rgb.npy", mmap_mode="r"); mus = np.load(W / f"p1_{side}_mus.npy", mmap_mode="r")
@@ -291,7 +316,8 @@ def refit_once(a, hold_ids):
             mk = np.asarray(mus[t])
             if a.rule == "q48":            # Q48's own tissue classes (cryo_classes_f: muscle = class 3) on the registered 1 mm photograph
                 mk = np.where(mk > 0, 1 + (classify_f(np.asarray(rgb[t])) == 3), 0).astype(np.uint8)
-            res = refit_level(L0s, Ls, (np.asarray(th[t]), np.asarray(mus[t]) > 0), mk, Bk, Ck, int(round(MAX_MOVE_PX * w)), held)
+            res = refit_level(L0s, Ls, (np.asarray(th[t]), np.asarray(mus[t]) > 0), mk, Bk, Ck, int(round(MAX_MOVE_PX * w)), held,
+                              None if TR is None else TR[i0:i1, :, k])
             res_of[k] = (res, Bk, Ck)
             lv[f"{side}:{k}"] = {"y": round(y, 3), "shift_vox": [di, dj], "weight": round(w, 3), "changed_vox": int((res != L0s).sum())}
         for r0, r1 in runs(unus):
@@ -305,8 +331,11 @@ def refit_once(a, hold_ids):
                 Bk = raster([tm for _, tm in bones], A, y, (700, L.shape[1]))[i0:i1]; Ck = raster([tm for _, tm in ct], A, y, (700, L.shape[1]))[i0:i1]
                 res = blend_labels(res_of[ka][0], res_of[kb][0], (k - ka) / (kb - ka))
                 F = ndi.binary_dilation(Bk | Ck, iterations=HOLD_PX); res[F] = L0s[F]
+                h = np.isin(L0s, list(held)) if held else np.zeros(res.shape, bool)
                 if held:
-                    h = np.isin(L0s, list(held)); res[np.isin(res, list(held))] = 0; res[h] = L0s[h]
+                    res[np.isin(res, list(held)) & ~h] = 0; res[h] = L0s[h]
+                if TR is not None:
+                    res[TR[i0:i1, :, k] & ~h] = 0
                 res_of[k] = (res, Bk, Ck); lv[f"{side}:{k}"].update(status="interpolated", between=[ka, kb], changed_vox=int((res != L0s).sum()))
         for k, (res, _, _) in res_of.items():
             s_ = out[i0:i1, :, k]; other = (s_ > 0) & ~np.isin(s_, sl)
@@ -339,7 +368,7 @@ def do_refit(a):
         st.update({"source": SOURCE, "_README": "Q181 store: the refit label volume (OUT_VOL) and its inputs' hashes; ship_ids / snap / badges "
                    "are written by measure and read by apply.", "q48_vol_md5": md5(Q48_VOL), "out_vol_md5": md5(OUT_VOL),
                    "reg_json_md5": md5(Q.REG_JSON), "field_full_weight_levels": full, "held": sorted(hold), "hold_rounds": rounds,
-                   "muscle_rule": a.rule, "params": {"erode": ERODE_PX, "dilate": DILATE_PX, "max_move": MAX_MOVE_PX, "hold_band_mm": HOLD_PX,
+                   "muscle_rule": a.rule, "traced_excluded": bool(a.traced), "params": {"erode": ERODE_PX, "dilate": DILATE_PX, "max_move": MAX_MOVE_PX, "hold_band_mm": HOLD_PX,
                                                      "bone_words": BONE_WORDS, "max_dvol_pct": MAX_DVOL_PCT},
                    "voxels_before_after": {aid: [before[aid], after[aid]] for aid in before}, "changed_ids": changed, "levels": lv})
         STORE.write_text(json.dumps(st, indent=1))
@@ -494,7 +523,7 @@ def do_measure(a):
         P_all = {aid: trn[aid][0] for aid in SNAP_TRACKED}
         q48_in_range = sorted(aid for aid in ids if aid in M1 and M1[aid]["v"][:, 1].max() > -420)
         for mid in q48_in_range:
-            if mid in hold:
+            if mid in hold or mid in st["held"]:
                 continue
             v, f = (new[mid][0], new[mid][1]) if mid in moved else FF.cat(W[mid][1])
             tm = trimesh.Trimesh(v, f, process=False); ent = []
@@ -684,6 +713,11 @@ def do_verify(a):
            "metadata_changed": sorted(i for i in new_ids & old_ids if meta[i] != ometa.get(i)),
            "structures": [len(ob["structures"]), len(bf["structures"])], "triangles": [ob.get("triangles"), bf.get("triangles")],
            "hashes": {i: [h(O[i]), h(B[i])] for i in sorted(intended) if i in O and i in B}}
+    import audit_full_continuity_q112 as AU        # Q112's continuity metric (face-adjacency components, vertex main_frac)
+    mf = lambda m: round(AU.analyze_group([(None, np.asarray(m["f"], np.int64), len(m["v"]))])["main_frac"], 4)
+    out["continuity_main_frac"] = {i: [mf(O[i]), mf(B[i])] for i in sorted(intended) if i in O and i in B}
+    out["continuity_regressions"] = sorted(i for i, (a0, a1) in out["continuity_main_frac"].items()
+                                           if (a0 >= AU.CONTINUOUS_THRESHOLD > a1) or a1 < a0 - 0.02)
     Mo = {k: v for k, v in O.items() if any(w in k for w in Q.MUSCLE_WORDS)}; Mn = {k: v for k, v in B.items() if any(w in k for w in Q.MUSCLE_WORDS)}
     tb = {}
     for aid in Q.TRACKED:
@@ -698,9 +732,7 @@ def do_verify(a):
     trn = tracked_new(); tro = {}
     for sub in set(TRACK_OLD.values()):
         tro.update(Q.subject_meshes(VH / sub))
-    W = FF.winners(); nm = Q.subject_meshes(VH / OUT_SUBJ)
     bj = str(REPO / "build/viewer_f_hr/bundle.json"); M1 = FF.all_muscles(bj)        # the rebuilt bundle names the winning subjects
-    M0 = FF.all_muscles(str(a.old_bundle)) if Path(a.old_bundle).name == "bundle.json" else None
     full = {}
     for aid in SNAP_TRACKED:
         r1 = overlap(trn[aid][0], M1, Q.MUSCLE_WORDS); b1 = overlap(trn[aid][0], B, Q.BONES, exact=True)
@@ -716,6 +748,7 @@ def main():
     p = sub.add_parser("photos"); p.add_argument("--crops", required=True); p.add_argument("--work", required=True)
     p = sub.add_parser("refit"); p.add_argument("--crops", required=True); p.add_argument("--work", required=True); p.add_argument("--hold", nargs="*")
     p.add_argument("--auto-hold", action="store_true")
+    p.add_argument("--traced", action="store_true", help="attempt 2: the traced nerve / vessel sections are excluded from the muscle region")
     p.add_argument("--rule", choices=["q48", "her"], default="q48", help="muscle class for the region / keep (Q48 used cryo_classes_f)")
     p.add_argument("--out", default=None, help="write the volume here instead of OUT_VOL (trial runs; store not touched)")
     p = sub.add_parser("measure"); p.add_argument("--crops", required=True); p.add_argument("--old-subjects", default=None)
