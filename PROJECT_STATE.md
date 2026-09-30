@@ -4073,7 +4073,7 @@ tick the item here with a one-line result. Never fabricate; keep the
       - Manifest entries updated for all ribs structures
       - All tests (252) passing; bundles render correctly
       
-- [ ] Q105c (2026-09-20 12:30-13:30 UTC, attempted, blocked by memory constraints) Refine rib voxelization for
+- [x] Q105c CLOSED 2026-09-30 (de-scoped, not done): ribs stay as 12+12 separate pieces as they ship. A single connected rib mesh (main_frac>=0.99) is not the anatomy (ribs are separate bones joined by cartilage/joints), and Q108 measured the voxel-bridged remesh at 5-8 % of rib vertices outside the skin. Reopen only as a costal-cartilage item from a real source. Original note: (2026-09-20 12:30-13:30 UTC, attempted, blocked by memory constraints) Refine rib voxelization for
       ≥0.99 main_frac via finer resolution. BLOCKER: trimesh.voxelized() exhausts all 15GB RAM even on decimated
       meshes, regardless of voxel resolution (2mm, 1.5mm, 1mm all hit OOM). Attempts:
       - Tried 1mm + 16 dilation iterations → OOM kill after 2min
