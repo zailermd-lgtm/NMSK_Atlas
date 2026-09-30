@@ -10033,3 +10033,35 @@ the female's phalanges are under-captured at HU 200.
   `<L#>__<atlas_id>` = {section, muscle, status placed|absent, x, y (image px), by, t}; per-section notes in `notes`.
 - NEXT: when the owner has clicked, read `seeds` with ArtifactData, map px -> Q164 frame via mapping.json, flood each seed
   inside the Q166 septum mask on its plane, track between planes, verify, ship ct_vhm_forearm_seeded (badged).
+
+## Q179a (2026-09-30) -- her Q48 thigh muscles moved with her tracked outlines' lost frame (owner option (a)) -- STOPPED, nothing shipped
+- Did: `scripts/cryo/vhf_frame_fix_q179a.py` (shift | apply | measure | badge-tracked | verify; tests/test_vhf_frame_fix_q179a.py, 5 pass +
+  1 skip). The Q48 set = every id the rebuild takes from xfer_vhm2vhf_sep / _contfix / _contfix_mesh / ct_vhf_xfersepta_fix(_contfix):
+  41 of 57 ids reach y +34..-406 (thigh, hip rotators, TFL, gastrocnemius/plantaris/popliteus tops); leg-only ids untouched. Field =
+  vhf_tracked_reg_q179.json "sides" per level/side, full weight y +14..-386, linear to 0 over 20 mm beyond (stored in
+  task_outputs/vhf_q48_frame_fix_q179a.json; apply is byte-reproducible, tested). Shift median 2.2-13.0 mm by muscle (left ~11-13, right
+  ~3-5), max 14.0; volume change <= 0.002 %; no tear; max edge stretch 1.38x (vastus medialis_r, 0.54 mm), from the reconstructed frame's
+  own 0.67 mm/mm wobble at right y -318 (ramps <= 0.61 mm/mm).
+- Crops re-streamed to scratch q179a/crops (Q179 commands, identical bbox; Q179's saved registration.json/photo_stats.json/bbox reused).
+- Numbers (full-res, before -> after): tracked vertices > 1 mm inside muscle: sciatic 50,970 -> 50,132 (max 13.4 -> 13.6; AM_l 27,634),
+  femoral_a 830 -> 809, femoral_v 1,821 -> 1,866, femoral_n 1,987 -> 1,649 (iliopsoas, her CT, not moved), popliteal_a 1,959 -> 1,236,
+  popliteal_v 1,555 -> 810 -- muscles and outlines move together, so only the Q179 clip/interp changes them. Muscle section on her
+  photographed muscle (her rule): 23 up / 13 down of 41, median 0.52 -> 0.58 (gracilis_l 0.20 -> 0.55, AL_l 0.39 -> 0.67; ST_l 0.78 ->
+  0.66, VL_l 0.69 -> 0.60). Muscle vertices > 1 mm inside bone: femur_l 27,040 -> 30,825, femur_r 26,232 -> 25,962, hip_bone_l 9,409 ->
+  9,545, hip_bone_r 11,498 -> 10,166; 19 muscle/bone pairs worse (VM_l femur 4,982 -> 9,122, VI_l 11,476 -> 14,036 max 16.3 mm, VL_r 4,114
+  -> 5,849, pectineus_l hip 661 -> 1,906, AB_l/r hip 456 -> 1,195 / 417 -> 713). Q177 snap (AM_l only before the stop): -0.8 % volume,
+  sciatic 27,634 -> 25,191, max 13.6 -> 13.2 (caps bind).
+- WHY STOPPED: "bones must not get worse" fails, and the translation does not reduce the overlap it was for. Reading: Q48 muscles were
+  transferred onto her CT bones and only their belly-to-belly boundaries were refined on the photographs, so bone-anchored surfaces
+  (vasti on the femur, adductor/obturator origins) were already in the CT frame; a full translation pushes them into bone while the
+  photograph-refined ones (gracilis, AL, sartorius) improve. Options: (b) or (c) of Q179, or re-fit Q48 boundaries on the registered
+  photographs (a new refinement, not a translation).
+- tibial_n: registered+clipped outline is off muscle but on the femur-registered montage it lies at the medial border of biceps femoris,
+  not on the speckled tibial nerve beside the popliteal vessels (looks like another nerve, possibly the common fibular) -> would be kept as
+  shipped in any case (q179a/tibial_reg.png).
+- State: build/viewer_f_hr, build/viewer_m_hr unchanged (md5); build/vh ct_vhf_nerve/femoral/popliteal restored from scratch copies;
+  vhf_rebuild_bundle.sh + ct_vhf_nerve/femoral mappings back to pre-Q179a; ct_vhf_popliteal_q179 mapping deleted. The WIP commit e031597
+  captured the intermediate wiring -- the working tree reverts it. Kept: script, store json, tests, data/derived/Q179a_vhf_frame_fix.json.
+  Scratch q179a/: montage_{left,right}.png, tibial_{zoom,reg}.png, measure1.log/_parsed.json, old_bundle.json/.bin, old_subjects/,
+  crops/ bbox+registration jsons only (npy deleted; re-stream ~35 s/side). Also noticed: shipped ct_vhf_nerve/ct_vhf_popliteal are --smooth 0.0 but the rebuild lines say 1.0
+  (only matters on a fresh build). Not committed, not published.

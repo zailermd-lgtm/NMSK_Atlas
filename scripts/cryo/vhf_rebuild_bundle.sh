@@ -76,19 +76,9 @@ conv $T/vhf_hyoid_muscles_cryo.nii.gz vhf_hyoid_muscles ct_vhf_hyoid --smooth 1.
 # Q62 step 4: her right hand intrinsics from the full-resolution crops (rule-based; the thenar group stays merged and unshipped)
 conv $T/vhf_hand_muscles_cryo.nii.gz vhf_hand_muscles ct_vhf_hand --smooth 1.0
 # Q55: the femoral artery, vein and nerve trunk tracked in her full-resolution anterior-thigh crops (triangle only)
-# Q179a: *_q179.nii.gz = the outlines moved by her photographs' reconstructed lost-frame offset (vhf_tracked_q179.py regvol), vein and
-# nerve clipped to her photographed non-muscle (clip), unusable photographs interpolated (interp); used when present (originals kept)
-FEMV=$T/vhf_femoral_bundle_cryo.nii.gz; [ -f $T/vhf_femoral_bundle_cryo_q179.nii.gz ] && FEMV=$T/vhf_femoral_bundle_cryo_q179.nii.gz
-grep -q "/$(basename $FEMV)\"" build/vh/ct_vhf_femoral/manifest.json 2>/dev/null || rm -rf build/vh/ct_vhf_femoral
-conv $FEMV vhf_femoral_bundle ct_vhf_femoral --smooth 1.0
-# Q56: the popliteal artery, vein and the tibial nerve in her popliteal fossa, same tracker (shipped at --smooth 0.0 since Q113)
-conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 0.0
-# Q179a: her popliteal artery + vein moved with the reconstructed frame (vein clipped) -> ct_vhf_popliteal_q179, listed BEFORE
-# ct_vhf_popliteal so it wins those two; its mapping skips label 3: the tibial nerve stays as traced (moving it does not put it on
-# her photographed nerve)
-if [ -f $T/vhf_popliteal_cryo_q179.nii.gz ] && [ -f mappings/subjects/ct_vhf_popliteal_q179_volume_mapping.json ]; then
-  conv $T/vhf_popliteal_cryo_q179.nii.gz vhf_popliteal ct_vhf_popliteal_q179 --smooth 0.0
-fi
+conv $T/vhf_femoral_bundle_cryo.nii.gz vhf_femoral_bundle ct_vhf_femoral --smooth 1.0
+# Q56: the popliteal artery, vein and the tibial nerve in her popliteal fossa, same tracker
+conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 1.0
 # Q62: her pelvic floor and perineum from the CT labels with the 1 mm photographs as tissue evidence (rule-based)
 conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
@@ -99,13 +89,7 @@ if [ ! -f build/vh/ct_vhf_pelvis/manifest.json ] || [ -n "${RECONVERT:-}" ]; the
   python3 scripts/vhf_pelvic_viscera.py --origin="$O" 2>&1 | tail -4
 fi
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
-# Q179a: the sciatic moved per level with her reconstructed lost frame, clipped, unusable photographs y -127..-132 interpolated
-# (vhf_nerves_cryo_q179.nii.gz, used when present); shipped at --smooth 0.0 (Q112/Q113 smoothing fix)
-NRV=$T/vhf_nerves_cryo.nii.gz; [ -f $T/vhf_nerves_cryo_q179.nii.gz ] && NRV=$T/vhf_nerves_cryo_q179.nii.gz
-grep -q "/$(basename $NRV)\"" build/vh/ct_vhf_nerve/manifest.json 2>/dev/null || rm -rf build/vh/ct_vhf_nerve
-[ -f $NRV ] && conv $NRV vhf_nerves ct_vhf_nerve --smooth 0.0
-# Q179a: badges on the moved tracked structures (and the tibial nerve kept as traced); idempotent
-[ -f $T/vhf_q48_frame_fix_q179a.json ] && python3 scripts/cryo/vhf_frame_fix_q179a.py badge-tracked 2>&1 | tail -1
+[ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
 SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf_mcsplit"
 [ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
 # Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE
@@ -143,7 +127,7 @@ for s in ct_vhf_armm_contfix ct_vhf_armm_contfix_mesh ct_vhf_delt_contfix ct_vhf
          ct_vhf_twall_contfix_mesh; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
-SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal_q179 --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
+SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_pelvis"   # Q169 pelvic viscera (ids unique to this subject)
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
@@ -199,13 +183,6 @@ if [ -f $T/vhf_xfer_lowerlimb_septa.nii.gz ]; then
   # applied directly to xfer_vhm2vhf_sep's own many transferred leg muscles. Listed BEFORE
   # their own sources (ct_vhf_xfersepta_fix below, xfer_vhm2vhf_sep further below) so each
   # wins only the ids it repairs -- NOT after, which would let the unrepaired original win.
-  # Q179a: her Q48 thigh muscles translated per level with the SAME reconstructed lost-frame offset as her tracked outlines
-  # (field + ids stored in vhf_q48_frame_fix_q179a.json, face-snap moves in vhf_q48_snap_q179a.npz; `apply` rebuilds
-  # xfer_vhm2vhf_sep_q179a byte-identically from the Q48 subjects below, no photographs); listed BEFORE them so it wins its ids
-  if [ -f $T/vhf_q48_frame_fix_q179a.json ]; then
-    python3 scripts/cryo/vhf_frame_fix_q179a.py apply --if-stale 2>&1 | grep -v Deprec | tail -2
-    [ -f build/vh/xfer_vhm2vhf_sep_q179a/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep_q179a"
-  fi
   [ -f build/vh/ct_vhf_xfersepta_fix_contfix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix_contfix"
   [ -f build/vh/ct_vhf_xfersepta_fix/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix"
   [ -f build/vh/xfer_vhm2vhf_sep_contfix_mesh/manifest.json ] && SUBJ="$SUBJ --subject xfer_vhm2vhf_sep_contfix_mesh"

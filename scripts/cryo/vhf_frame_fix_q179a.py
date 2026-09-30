@@ -16,6 +16,11 @@ then (optionally) a bounded Q177-style face snap where tracked structures still 
     python3 scripts/cryo/vhf_frame_fix_q179a.py verify --crops DIR --old-bundle OLD.json   # after the rebuild
 
 No photographs are needed for shift / apply / badge-tracked (the rebuild runs only those).
+
+STATUS (2026-09-30): STOPPED after attempt 1, NOT wired (vhf_rebuild_bundle.sh and the mappings are unchanged). The full translation
+drives the bone-anchored Q48 surfaces into her CT bones (femur_l 27,040 -> 30,825 muscle vertices > 1 mm inside; vastus intermedius_l
+max 11.8 -> 16.3 mm) and leaves the tracked-in-muscle overlap as it was (sciatic 50,970 -> 50,132 full-res), see
+data/derived/Q179a_vhf_frame_fix.json. `measure` is slow (the photo cache holds 600 of the 922 levels and lumen_mask is recomputed).
 """
 from __future__ import annotations
 
