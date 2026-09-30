@@ -2,7 +2,7 @@
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): her colour cryosections at full resolution (0.33 mm, NCI Imaging Data Commons) re-streamed by scripts/cryo/vhm_stream_leg_crops.py --body vhf and registered to her CT femur (Q179); her CT bones and CT muscles (VH female CT, TotalSegmentator labels); her thigh muscles = the male's (DU lower-extremity release, Andreassen TE et al., Sci Data 10:34 (2023), CC BY 4.0) transferred onto her and refined to her septa (Q48); her tracked outlines Q53/Q55/Q56 (Q179 candidates). Derived data (scripts/cryo/vhf_thigh_refit_q181.py).",
  "_README": "Q181b store: the refit label volume (OUT_VOL) and its inputs' hashes; ship_ids / snap / badges are written by measure and read by apply.",
  "q48_vol_md5": "83ffcf4245bf164f5a8a7c61531b151d",
- "out_vol_md5": "0db677647d634710d24a152804a7674e",
+ "out_vol_md5": "b1f16caf05e76289ce0a6f7152367f55",
  "reg_json_md5": "e4d2326560f025de41fb46589ccff4cd",
  "field_full_weight_levels": [
   -386,
@@ -27,7 +27,7 @@
  "hold_reasons": {
   "gemellus_inferior_l": "round 0: volume -24.4 % vs Q48 (mesh -27.9 %) and +24.6 % vs the transfer; main piece 0.677 < 0.980 (Q48 1.000)",
   "gracilis_l": "round 0: volume +14.3 % vs Q48 (mesh +14.4 %) and +20.1 % vs the transfer",
-  "gracilis_r": "round 0: main piece 0.629 < 0.645 (Q48 0.645)",
+  "gracilis_r": "round 0: main piece 0.641 < 0.645 (Q48 0.645)",
   "obturator_internus_r": "round 0: volume +12.9 % vs Q48 (mesh +12.9 %) and +29.9 % vs the transfer",
   "pectineus_r": "round 0: volume +10.3 % vs Q48 (mesh +10.1 %) and +37.4 % vs the transfer",
   "plantaris_l": "round 0: volume +13.4 % vs Q48 (mesh +13.5 %) and +40.5 % vs the transfer",
@@ -94,45 +94,45 @@
      ]
     },
     "gracilis_r": {
-     "vox_pct_vs_q48": -5.32,
-     "mesh_pct_vs_q48": -2.7,
-     "vox_pct_vs_xfer": -37.32,
-     "mesh_pct_vs_xfer": -25.96,
+     "vox_pct_vs_q48": -6.23,
+     "mesh_pct_vs_q48": -3.41,
+     "vox_pct_vs_xfer": -37.92,
+     "mesh_pct_vs_xfer": -26.51,
      "voxels_q48_xfer_new": [
       75407,
       113900,
-      71393
+      70709
      ],
      "mesh_cm3_q48_xfer_new": [
       68.92,
       90.58,
-      67.06
+      66.57
      ],
      "main_frac_q48_new": [
       0.6449,
-      0.6295
+      0.6409
      ],
      "passes": [
       "within 10 % of Q48"
      ],
      "fail": [
-      "main piece 0.629 < 0.645 (Q48 0.645)"
+      "main piece 0.641 < 0.645 (Q48 0.645)"
      ]
     },
     "obturator_internus_r": {
-     "vox_pct_vs_q48": 12.93,
-     "mesh_pct_vs_q48": 12.89,
-     "vox_pct_vs_xfer": 29.91,
-     "mesh_pct_vs_xfer": 42.89,
+     "vox_pct_vs_q48": 12.91,
+     "mesh_pct_vs_q48": 12.88,
+     "vox_pct_vs_xfer": 29.89,
+     "mesh_pct_vs_xfer": 42.88,
      "voxels_q48_xfer_new": [
       150930,
       131200,
-      170447
+      170421
      ],
      "mesh_cm3_q48_xfer_new": [
       149.91,
       118.44,
-      169.24
+      169.22
      ],
      "main_frac_q48_new": [
       1.0,
@@ -452,19 +452,19 @@
    "fail": []
   },
   "adductor_brevis_r": {
-   "vox_pct_vs_q48": -1.19,
-   "mesh_pct_vs_q48": -1.74,
-   "vox_pct_vs_xfer": -4.63,
-   "mesh_pct_vs_xfer": -2.64,
+   "vox_pct_vs_q48": -1.38,
+   "mesh_pct_vs_q48": -1.85,
+   "vox_pct_vs_xfer": -4.82,
+   "mesh_pct_vs_xfer": -2.75,
    "voxels_q48_xfer_new": [
     144294,
     149500,
-    142580
+    142301
    ],
    "mesh_cm3_q48_xfer_new": [
     141.81,
     143.12,
-    139.34
+    139.18
    ],
    "main_frac_q48_new": [
     0.9995,
@@ -527,19 +527,19 @@
    "fail": []
   },
   "adductor_magnus_l": {
-   "vox_pct_vs_q48": -1.06,
-   "mesh_pct_vs_q48": -1.34,
-   "vox_pct_vs_xfer": -8.83,
-   "mesh_pct_vs_xfer": -7.03,
+   "vox_pct_vs_q48": -1.02,
+   "mesh_pct_vs_q48": -1.32,
+   "vox_pct_vs_xfer": -8.8,
+   "mesh_pct_vs_xfer": -7.01,
    "voxels_q48_xfer_new": [
     630154,
     683900,
-    623498
+    623700
    ],
    "mesh_cm3_q48_xfer_new": [
     625.84,
     664.13,
-    617.44
+    617.59
    ],
    "main_frac_q48_new": [
     0.5187,
@@ -552,19 +552,19 @@
    "fail": []
   },
   "adductor_magnus_r": {
-   "vox_pct_vs_q48": -4.01,
-   "mesh_pct_vs_q48": -4.44,
-   "vox_pct_vs_xfer": -19.69,
-   "mesh_pct_vs_xfer": -18.67,
+   "vox_pct_vs_q48": -4.06,
+   "mesh_pct_vs_q48": -4.47,
+   "vox_pct_vs_xfer": -19.73,
+   "mesh_pct_vs_xfer": -18.7,
    "voxels_q48_xfer_new": [
     683552,
     817000,
-    656136
+    655789
    ],
    "mesh_cm3_q48_xfer_new": [
     680.05,
     799.0,
-    649.85
+    649.62
    ],
    "main_frac_q48_new": [
     0.9975,
@@ -1599,7 +1599,7 @@
   ],
   "adductor_brevis_r": [
    144294,
-   142580
+   142301
   ],
   "adductor_longus_l": [
    132892,
@@ -1611,11 +1611,11 @@
   ],
   "adductor_magnus_l": [
    630154,
-   623498
+   623700
   ],
   "adductor_magnus_r": [
    683552,
-   656136
+   655789
   ],
   "biceps_femoris_l": [
    262861,
@@ -9909,10 +9909,9 @@
     "n": 27,
     "voxels": 359,
     "to": {
-     "background": 19,
-     "adductor_brevis_r": 249,
+     "background": 66,
      "adductor_longus_l": 1,
-     "adductor_magnus_l": 41,
+     "adductor_magnus_l": 243,
      "obturator_externus_l": 1,
      "pectineus_l": 1,
      "vastus_medialis_l": 47
@@ -9953,11 +9952,9 @@
     "n": 101,
     "voxels": 762,
     "to": {
-     "background": 202,
+     "background": 579,
      "adductor_brevis_l": 6,
-     "adductor_brevis_r": 30,
      "adductor_longus_l": 7,
-     "adductor_magnus_r": 347,
      "biceps_femoris_l": 22,
      "obturator_externus_l": 6,
      "semimembranosus_l": 12,
@@ -10224,5 +10221,85 @@
     }
    }
   }
+ },
+ "ship_ids": [
+  "adductor_brevis_l",
+  "adductor_brevis_r",
+  "adductor_longus_l",
+  "adductor_longus_r",
+  "adductor_magnus_l",
+  "adductor_magnus_r",
+  "biceps_femoris_l",
+  "fibularis_longus_l",
+  "fibularis_longus_r",
+  "flexor_digitorum_longus_l",
+  "flexor_digitorum_longus_r",
+  "flexor_hallucis_longus_l",
+  "flexor_hallucis_longus_r",
+  "gastrocnemius_l",
+  "gastrocnemius_r",
+  "obturator_externus_l",
+  "obturator_externus_r",
+  "obturator_internus_l",
+  "pectineus_l",
+  "plantaris_r",
+  "popliteus_l",
+  "popliteus_r",
+  "quadratus_femoris_r",
+  "rectus_femoris_r",
+  "sartorius_r",
+  "semimembranosus_l",
+  "semitendinosus_l",
+  "soleus_l",
+  "soleus_r",
+  "tensor_fasciae_latae_l",
+  "tensor_fasciae_latae_r",
+  "tibialis_anterior_l",
+  "tibialis_posterior_l",
+  "vastus_intermedius_r",
+  "vastus_lateralis_l",
+  "vastus_lateralis_r",
+  "vastus_medialis_l"
+ ],
+ "hold_ids": [],
+ "snap_npz_md5": "a1e0ec09da1bf525ee07a480774aef7a",
+ "badges": {
+  "adductor_brevis_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 119.6 -> 117.8 cm3 (the male transfer Q48 started from: 115.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 96.1% -> 100.0% of its surface; section on her photographed muscle 66% -> 75%; mesh vertices > 1 mm inside bone 968 -> 957; surface moved up to 18.5 mm (95 % within 11.3 mm). Continuity: detached surface pieces < 2% (12 vertices) dropped (Q181b rule).",
+  "adductor_brevis_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 141.8 -> 139.2 cm3 (the male transfer Q48 started from: 143.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 69% -> 68%; mesh vertices > 1 mm inside bone 493 -> 456; surface moved up to 9.8 mm (95 % within 4.5 mm). Continuity: detached surface pieces < 2% (412 vertices) dropped (Q181b rule).",
+  "adductor_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 132.3 -> 135.8 cm3 (the male transfer Q48 started from: 115.5 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 39% -> 66%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 24.1 mm (95 % within 11.7 mm). Continuity: detached surface pieces < 2% (100 vertices) dropped (Q181b rule).",
+  "adductor_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 150.4 -> 147.6 cm3 (the male transfer Q48 started from: 150.3 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 52% -> 53%; mesh vertices > 1 mm inside bone 17 -> 0; surface moved up to 25.5 mm (95 % within 5.2 mm). Continuity: detached surface pieces < 2% (524 vertices) dropped (Q181b rule).",
+  "adductor_magnus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 625.8 -> 617.6 cm3 (the male transfer Q48 started from: 664.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 51.9% -> 100.0% of its surface; section on her photographed muscle 73% -> 70%; mesh vertices > 1 mm inside bone 1894 -> 1911; surface moved up to 26.2 mm (95 % within 11.0 mm). Then its posterolateral face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.52 / max 5.55 mm, volume -0.8 %); 1019 of its vertices remain > 1 mm inside it (was 1178). Continuity: detached surface pieces < 2% (1342 vertices) dropped (Q181b rule).",
+  "adductor_magnus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 680.0 -> 649.6 cm3 (the male transfer Q48 started from: 799.0 cm3; kept because within 10 % of Q48); main piece 99.8% -> 100.0% of its surface; section on her photographed muscle 70% -> 68%; mesh vertices > 1 mm inside bone 2541 -> 2647; surface moved up to 17.1 mm (95 % within 5.2 mm). Then its posterior face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.60 / max 5.43 mm, volume -0.9 %); 146 of its vertices remain > 1 mm inside it (was 213). Continuity: detached surface pieces < 2% (532 vertices) dropped (Q181b rule).",
+  "biceps_femoris_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 259.2 -> 257.2 cm3 (the male transfer Q48 started from: 243.2 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.3% -> 100.0% of its surface; section on her photographed muscle 67% -> 70%; mesh vertices > 1 mm inside bone 895 -> 884; surface moved up to 36.0 mm (95 % within 10.6 mm). Then its medial face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.57 / max 5.30 mm, volume -1.1 %); 162 of its vertices remain > 1 mm inside it (was 202). Continuity: detached surface pieces < 2% (942 vertices) dropped (Q181b rule).",
+  "fibularis_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 72.6 -> 72.6 cm3 (the male transfer Q48 started from: 72.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 77.7% -> 77.7% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 2582 -> 2582; surface moved up to 0.3 mm (95 % within 0.0 mm).",
+  "fibularis_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 100.5 -> 100.5 cm3 (the male transfer Q48 started from: 89.0 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 81.4% -> 81.4% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 1912 -> 1912; surface moved up to 0.2 mm (95 % within 0.0 mm).",
+  "flexor_digitorum_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 41.7 -> 41.7 cm3 (the male transfer Q48 started from: 20.5 cm3; kept because within 10 % of Q48); main piece 99.7% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 4471 -> 4471; surface moved up to 8.5 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (92 vertices) dropped (Q181b rule).",
+  "flexor_digitorum_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 18.9 -> 18.9 cm3 (the male transfer Q48 started from: 18.5 cm3; kept because within 10 % of Q48); main piece 77.4% -> 77.5% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 4364 -> 4364; surface moved up to 0.5 mm (95 % within 0.0 mm).",
+  "flexor_hallucis_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 92.2 -> 92.2 cm3 (the male transfer Q48 started from: 86.3 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.9% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 2612 -> 2612; surface moved up to 5.2 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (50 vertices) dropped (Q181b rule).",
+  "flexor_hallucis_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 88.0 -> 88.0 cm3 (the male transfer Q48 started from: 94.5 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.9% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 3222 -> 3222; surface moved up to 4.5 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (18 vertices) dropped (Q181b rule).",
+  "gastrocnemius_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 370.6 -> 374.0 cm3 (the male transfer Q48 started from: 387.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.8% -> 100.0% of its surface; section on her photographed muscle 58% -> 59%; mesh vertices > 1 mm inside bone 1808 -> 1709; surface moved up to 10.8 mm (95 % within 4.0 mm). Continuity: detached surface pieces < 2% (442 vertices) dropped (Q181b rule).",
+  "gastrocnemius_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 363.0 -> 359.1 cm3 (the male transfer Q48 started from: 381.2 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.0% -> 100.0% of its surface; section on her photographed muscle 60% -> 60%; mesh vertices > 1 mm inside bone 1407 -> 1367; surface moved up to 11.6 mm (95 % within 2.4 mm). Continuity: slice gaps bridged (1 mm max, 0.1 % of volume, Q152 rule); detached surface pieces < 2% (362 vertices) dropped (Q181b rule).",
+  "obturator_externus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 113.8 -> 112.0 cm3 (the male transfer Q48 started from: 91.9 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 36% -> 33%; mesh vertices > 1 mm inside bone 5191 -> 5192; surface moved up to 15.6 mm (95 % within 6.4 mm). Continuity: detached surface pieces < 2% (124 vertices) dropped (Q181b rule).",
+  "obturator_externus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 104.2 -> 104.6 cm3 (the male transfer Q48 started from: 84.3 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 42% -> 42%; mesh vertices > 1 mm inside bone 4602 -> 4603; surface moved up to 9.3 mm (95 % within 3.0 mm).",
+  "obturator_internus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 140.8 -> 151.6 cm3 (the male transfer Q48 started from: 110.0 cm3; kept because within 10 % of Q48); main piece 99.4% -> 100.0% of its surface; section on her photographed muscle 19% -> 19%; mesh vertices > 1 mm inside bone 357 -> 356; surface moved up to 16.1 mm (95 % within 7.1 mm). Continuity: detached surface pieces < 2% (242 vertices) dropped (Q181b rule).",
+  "pectineus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 109.6 -> 98.1 cm3 (the male transfer Q48 started from: 88.3 cm3; kept because within 15 % of the transfer); main piece 99.8% -> 100.0% of its surface; section on her photographed muscle 37% -> 51%; mesh vertices > 1 mm inside bone 669 -> 699; surface moved up to 18.9 mm (95 % within 10.0 mm).",
+  "plantaris_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 13.6 -> 13.3 cm3 (the male transfer Q48 started from: 10.4 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 51% -> 45%; mesh vertices > 1 mm inside bone 445 -> 445; surface moved up to 9.8 mm (95 % within 4.3 mm). Then its anteromedial face, where her tracked popliteal artery still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.86 / max 3.36 mm, volume -2.3 %); 1 of its vertices remain > 1 mm inside it (was 2). Continuity: detached surface pieces < 2% (82 vertices) dropped (Q181b rule).",
+  "popliteus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 18.6 -> 18.5 cm3 (the male transfer Q48 started from: 16.4 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 98.9% -> 100.0% of its surface; section on her photographed muscle 18% -> 18%; mesh vertices > 1 mm inside bone 1846 -> 1849; surface moved up to 14.3 mm (95 % within 0.0 mm). Continuity: slice gaps bridged (1 mm max, 0.1 % of volume, Q152 rule); detached surface pieces < 2% (103 vertices) dropped (Q181b rule).",
+  "popliteus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 17.9 -> 17.8 cm3 (the male transfer Q48 started from: 16.5 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.5% -> 100.0% of its surface; section on her photographed muscle 24% -> 24%; mesh vertices > 1 mm inside bone 1294 -> 1293; surface moved up to 6.6 mm (95 % within 0.0 mm).",
+  "quadratus_femoris_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 54.4 -> 57.9 cm3 (the male transfer Q48 started from: 39.7 cm3; kept because within 10 % of Q48); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 33% -> 32%; mesh vertices > 1 mm inside bone 2997 -> 2997; surface moved up to 6.4 mm (95 % within 2.7 mm).",
+  "rectus_femoris_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 189.8 -> 191.5 cm3 (the male transfer Q48 started from: 155.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 57% -> 63%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 13.0 mm (95 % within 5.2 mm). Continuity: detached surface pieces < 2% (236 vertices) dropped (Q181b rule).",
+  "sartorius_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 145.8 -> 156.1 cm3 (the male transfer Q48 started from: 134.2 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 54.3% -> 55.3% of its surface; section on her photographed muscle 36% -> 38%; mesh vertices > 1 mm inside bone 61 -> 61; surface moved up to 11.3 mm (95 % within 5.9 mm). Continuity: slice gaps bridged (4 mm max, 0.1 % of volume, Q152 rule); detached surface pieces < 2% (592 vertices) dropped (Q181b rule).",
+  "semimembranosus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 303.5 -> 305.2 cm3 (the male transfer Q48 started from: 283.0 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 57% -> 69%; mesh vertices > 1 mm inside bone 343 -> 342; surface moved up to 16.9 mm (95 % within 10.7 mm). Then its anterolateral face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 1.64 / max 6.25 mm, volume -0.4 %); 262 of its vertices remain > 1 mm inside it (was 327). Continuity: detached surface pieces < 2% (6 vertices) dropped (Q181b rule).",
+  "semitendinosus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 153.6 -> 147.0 cm3 (the male transfer Q48 started from: 173.7 cm3; kept because within 10 % of Q48); main piece 85.7% -> 95.5% of its surface; section on her photographed muscle 78% -> 71%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 39.9 mm (95 % within 12.1 mm). Continuity: detached surface pieces < 2% (504 vertices) dropped (Q181b rule).",
+  "soleus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 361.0 -> 360.8 cm3 (the male transfer Q48 started from: 365.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 17% -> 24%; mesh vertices > 1 mm inside bone 1784 -> 1751; surface moved up to 9.7 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (332 vertices) dropped (Q181b rule).",
+  "soleus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 424.3 -> 424.4 cm3 (the male transfer Q48 started from: 400.6 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 17% -> 17%; mesh vertices > 1 mm inside bone 2649 -> 2645; surface moved up to 2.8 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (10 vertices) dropped (Q181b rule).",
+  "tensor_fasciae_latae_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 68.5 -> 65.0 cm3 (the male transfer Q48 started from: 94.9 cm3; kept because within 10 % of Q48); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 55% -> 60%; mesh vertices > 1 mm inside bone 43 -> 43; surface moved up to 14.9 mm (95 % within 10.9 mm). Continuity: detached surface pieces < 2% (174 vertices) dropped (Q181b rule).",
+  "tensor_fasciae_latae_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 82.3 -> 86.8 cm3 (the male transfer Q48 started from: 99.8 cm3; kept because within 10 % of Q48); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 46% -> 54%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 10.9 mm (95 % within 4.8 mm). Continuity: detached surface pieces < 2% (26 vertices) dropped (Q181b rule).",
+  "tibialis_anterior_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 123.8 -> 123.8 cm3 (the male transfer Q48 started from: 107.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 95.1% -> 95.1% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 4340 -> 4340; surface moved up to 0.5 mm (95 % within 0.0 mm). Continuity: slice gaps bridged (3 mm max, 0.8 % of volume, Q152 rule); 8 stray fragment(s) (0.0 % of volume) dropped (Q152 rule).",
+  "tibialis_posterior_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 80.3 -> 80.3 cm3 (the male transfer Q48 started from: 71.7 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 3189 -> 3189; surface moved up to 0.5 mm (95 % within 0.0 mm).",
+  "vastus_intermedius_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 390.5 -> 331.9 cm3 (the male transfer Q48 started from: 341.7 cm3; kept because within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 65% -> 60%; mesh vertices > 1 mm inside bone 11243 -> 10882; surface moved up to 12.0 mm (95 % within 6.0 mm). Continuity: detached surface pieces < 2% (232 vertices) dropped (Q181b rule).",
+  "vastus_lateralis_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 320.7 -> 322.3 cm3 (the male transfer Q48 started from: 333.0 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 98.9% -> 100.0% of its surface; section on her photographed muscle 69% -> 61%; mesh vertices > 1 mm inside bone 6157 -> 6153; surface moved up to 17.0 mm (95 % within 10.1 mm). Continuity: detached surface pieces < 2% (94 vertices) dropped (Q181b rule).",
+  "vastus_lateralis_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 489.8 -> 483.5 cm3 (the male transfer Q48 started from: 464.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 55% -> 70%; mesh vertices > 1 mm inside bone 4114 -> 4110; surface moved up to 27.8 mm (95 % within 6.2 mm). Continuity: detached surface pieces < 2% (398 vertices) dropped (Q181b rule).",
+  "vastus_medialis_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 292.4 -> 234.7 cm3 (the male transfer Q48 started from: 226.0 cm3; kept because within 15 % of the transfer); main piece 99.9% -> 100.0% of its surface; section on her photographed muscle 57% -> 60%; mesh vertices > 1 mm inside bone 4982 -> 5034; surface moved up to 19.6 mm (95 % within 8.9 mm). Continuity: detached surface pieces < 2% (126 vertices) dropped (Q181b rule)."
  }
 }

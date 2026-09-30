@@ -10172,3 +10172,25 @@ the female's phalanges are under-captured at HU 200.
   vhf_thigh_refit_q181.json (+ _snap.npz), data/derived/Q181_vhf_thigh_refit.json ("decision"). Scratch q181/: montage_*.png,
   zoom_*.png, dbg*.png, page.png, old_bundle.*, new_bundle/, built_candidates/, attempt1/, crops/ jsons (npy deleted).
   Not committed by this agent, not published.
+
+## Q181b (2026-09-30) -- Q181 re-run with the owner's option (i) gate (vs the transfer Q48 started from) -- STOPPED, nothing shipped
+- State: build/viewer_f_hr + viewer_m_hr md5-identical to before; build/vh has no *_q181* subject; mappings untouched.
+  vhf_rebuild_bundle.sh differs from d2424e8 only by ct_vhf_popliteal / ct_vhf_nerve --smooth 0.0 (what ships). Not committed.
+- Did (scripts/cryo/vhf_thigh_refit_q181.py, WIP e117be2 + this run): gate = voxels within 15 % of Q48's transfer volume
+  (vhf_xfer_lowerlimb_septa_report.json transferred_cm3) OR voxels+mesh within 10 % of Q48; main piece >= min(Q48, 0.98);
+  voxel pieces < 2 % -> same-leg non-held neighbour / background (fixed this run: pieces had gone to the other leg's adductors at
+  the pubic midline); mesh pieces < 2 % dropped; collapsed sections re-blended; tibial_n (as shipped) kept out of the region;
+  badge-tracked writes an "uncertain identity, may be the common fibular nerve" badge on tibial_n when still covered (unused).
+  Outputs: task_outputs vhf_xfer_lowerlimb_septa_q181b.nii.gz, vhf_thigh_refit_q181b.json (+_snap.npz),
+  data/derived/Q181b_vhf_thigh_refit.json ("decision"). Tests 11 pass / 3 skip. Montages: scratch q181b/montage_{right,left}.png.
+- Result: 37 ids pass (bone per bone no worse than +2 %; RF_r one piece). Of Q181's 14 held, 4 pass (VM_l, VI_r, VL_r,
+  pectineus_l); 10 still held; 4 newly held (gracilis_r, ST_r continuity; BF_r, SM_r volume -10..-12 % vs Q48, -22 % vs transfer).
+- WHY STOPPED: traced structures regress vs shipped inside held muscles: femoral_a/v_r 830/1,821 -> 1,307/2,719 (pectineus_r,
+  +37 % vs transfer, held), popliteal_v_r 1,555 -> 2,167 (SM_r held); sciatic 50,970 -> 6,336 (Q181 att.2 2,078; BF_r/ST_r held);
+  tibial_n 1,246 -> 307 (all in held BF_r). Owner options: ship with those 3 traced ids left at their shipped places; or allow
+  pectineus_r / SM_r / BF_r / ST_r a wider band; or keep as shipped.
+- Main-session decision after Q181b (2026-09-30): STOP this line (two attempts, per the two-retry rule); her shipped thigh
+  stays as is. Root cause: Q48 volumes were fitted on the misplaced photos, so any single volume gate either holds the
+  front-thigh / hamstring muscles in the old frame (then they cover the registered vessels/nerves) or lets them grow
+  20-40 %. Next real route: rebuild her thigh muscles from scratch on the femur-registered photographs (not a refit of Q48),
+  or wait for the DU female lower-limb release (Q59), which would replace Q48 outright.

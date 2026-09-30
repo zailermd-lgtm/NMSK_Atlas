@@ -385,7 +385,8 @@ def refit_once(a, hold_ids):
     for aid, l in ids.items():
         if l in held or np.array_equal(L == l, out == l):
             continue
-        mv = drop_pieces(out, l, held)
+        opp = {ll for k_, ll in ids.items() if k_[-2:] != aid[-2:]}   # never the other leg's muscle (they meet at her pubic midline)
+        mv = drop_pieces(out, l, held | opp)
         if mv:
             inv = {v: k for k, v in ids.items()}
             pieces[aid] = {"n": len(mv), "voxels": int(sum(n for n, _ in mv)),
@@ -433,7 +434,7 @@ def fill_notches(res_of, sl, held, TR, i0, i1):
 
 def drop_pieces(out, lab, held):
     """Q181b: 6-connected pieces of `lab` smaller than MIN_PIECE_FRAC of its volume -> the face-neighbouring label they touch most
-    (never a held one), else background. In place; returns [(voxels, new_label)]."""
+    (never one in `held` -- held muscles and the other leg's), else background. In place; returns [(voxels, new_label)]."""
     obj = ndi.find_objects((out == lab).astype(np.uint8))
     if not obj or obj[0] is None:
         return []
@@ -887,13 +888,25 @@ def do_badge_tracked(a):
             clip = ("; arteries are not clipped (their wall photographs as muscle)" if aid.endswith("_a_r") else
                     "; then clipped to her photographed non-muscle (Q176 rule, her calibrated muscle colour)")
             txt[aid] = BADGE_TRACKED.format(how=f"one translation for the {g} group, {np.hypot(dx, dz):.1f} mm", clip=clip, interp="", b=b, a=a_)
+    # Q181b: tibial_n ships as traced (ct_vhf_popliteal); its outline likely follows another nerve. Badged when a muscle still covers it.
+    b, a_ = num("tibial_n")
+    n_tib = a_ if isinstance(a_, int) else (int(a_.split()[0]) if str(a_)[:1].isdigit() else 0)
+    if n_tib > 0:
+        txt["tibial_n"] = ("Uncertain identity: this outline was traced in her popliteal fossa (Q56) in her lost 1 mm photograph frame and is "
+                           "shown where it was traced; re-registered to her CT femur it follows a different path from her sciatic nerve's "
+                           "tibial division and may be the common fibular nerve (Q179a / Q181). Her re-fitted thigh muscles (Q181b) were kept "
+                           "off it like her other traced structures; it still overlaps her muscles by " + (a_.replace(" (", " vertices > 1 mm "
+                           "inside a muscle mesh at full resolution (", 1) if isinstance(a_, str) and " (" in a_ else f"{a_} vertices > 1 mm inside a "
+                           "muscle mesh at full resolution") + f"; {b} before the re-fit.")
     done = []
-    for sub in sorted({s for s, _ in TRACK_NEW.values()}):
+    for sub in sorted({s for s, _ in TRACK_NEW.values()} | {"ct_vhf_popliteal"}):
         p = VH / sub / "manifest.json"
         if not p.exists():
             continue
         m = json.loads(p.read_text()); ch = False
         for s in m["structures"]:
+            if sub == "ct_vhf_popliteal" and s["atlas_id"] != "tibial_n":
+                continue
             t = txt.get(s["atlas_id"])
             if t and s.get("procedural_badge") != t:
                 s["procedural_badge"] = t; ch = True; done.append(s["atlas_id"])
