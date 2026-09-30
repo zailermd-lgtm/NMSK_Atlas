@@ -6,70 +6,105 @@
  "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), MALE colour cryosections (1 mm, resampled onto the legs-block CT grid) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels (legs_total.nii.gz, the legs CT block -- his torso block does not reach the perineum, see the module docstring) as anchors and exclusions. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 62 'True pelvis, pelvic floor and perineum', and Moore KL et al., Clinically Oriented Anatomy, 8th ed., ch. 6 'Pelvis and Perineum'. Derived data (scripts/cryo/vhm_pelvic_floor_from_cryo.py), rule-based, ported from scripts/cryo/vhf_pelvic_floor_from_cryo.py.",
  "badge": "rule-based",
  "version": "2026-09-18",
+ "frame_orientation": {
+  "affine": [
+   [
+    -1.0,
+    0.0,
+    0.0,
+    242.72
+   ],
+   [
+    0.0,
+    -1.0,
+    0.0,
+    239.11
+   ],
+   [
+    0.0,
+    0.0,
+    1.0,
+    -963.0
+   ],
+   [
+    0.0,
+    0.0,
+    0.0,
+    1.0
+   ]
+  ],
+  "label_row_flip": true,
+  "post_row_sign": 1,
+  "legs_to_torso_xy_mm": [
+   2.72,
+   -0.89
+  ],
+  "note": "Q172d: legs_total's labels row-flipped onto the photographs (row 0 anterior, +row posterior, as hers); affine x = 242.72 - c, y = 239.11 - r. Before: labels unflipped against the photographs, y = 240 - r (PROJECT_STATE Q171/Q172)."
+ },
  "volumes_cm3": {
-  "levator_ani_right": 14.4,
-  "coccygeus_right": 7.9,
-  "bulbospongiosus_right": 0.5,
-  "ischiocavernosus_right": 0.2,
-  "deep_transverse_perineal_right": 1.6,
+  "levator_ani_right": 44.2,
+  "coccygeus_right": 2.5,
+  "bulbospongiosus_right": 4.9,
+  "ischiocavernosus_right": 7.5,
+  "deep_transverse_perineal_right": 6.0,
   "superficial_transverse_perineal_right": 1.0,
-  "obturator_internus_right": 35.9,
-  "perineal_other_right": 42.5,
-  "levator_ani_left": 16.3,
-  "coccygeus_left": 8.9,
-  "bulbospongiosus_left": 0.0,
-  "ischiocavernosus_left": 0.6,
-  "deep_transverse_perineal_left": 1.6,
-  "superficial_transverse_perineal_left": 0.1,
-  "obturator_internus_left": 36.5,
-  "perineal_other_left": 39.6,
-  "external_anal_sphincter": 1.1
+  "obturator_internus_right": 69.3,
+  "perineal_other_right": 15.2,
+  "levator_ani_left": 47.1,
+  "coccygeus_left": 4.2,
+  "bulbospongiosus_left": 5.4,
+  "ischiocavernosus_left": 6.4,
+  "deep_transverse_perineal_left": 6.4,
+  "superficial_transverse_perineal_left": 0.7,
+  "obturator_internus_left": 78.1,
+  "perineal_other_left": 10.2,
+  "external_anal_sphincter": 3.5
  },
  "geometry_atlas_mm": {
   "levator_ani_right": {
-   "mean_atlas_x": 18.2,
-   "mean_atlas_y": -32.1,
-   "mean_atlas_z": 23.5,
+   "mean_atlas_x": 23.4,
+   "mean_atlas_y": -19.5,
+   "mean_atlas_z": -33.1,
    "z_ras_range": [
     -933.0,
-    -919.0
+    -894.0
    ],
-   "levels": 15
+   "levels": 40
   },
   "coccygeus_right": {
-   "mean_atlas_x": 28.8,
-   "mean_atlas_y": -26.5,
-   "mean_atlas_z": -1.0,
+   "mean_atlas_x": 30.9,
+   "mean_atlas_y": -0.9,
+   "mean_atlas_z": -72.7,
    "z_ras_range": [
-    -925.0,
-    -919.0
+    -900.0,
+    -894.0
    ],
    "levels": 7
   },
   "bulbospongiosus_right": {
-   "mean_atlas_x": -0.8,
-   "mean_atlas_y": -55.6,
-   "mean_atlas_z": 54.2,
+   "mean_atlas_x": 7.5,
+   "mean_atlas_y": -53.8,
+   "mean_atlas_z": -16.5,
    "z_ras_range": [
     -960.0,
     -944.0
    ],
-   "levels": 13
+   "levels": 17
   },
   "ischiocavernosus_right": {
-   "mean_atlas_x": 39.0,
-   "mean_atlas_y": -41.9,
-   "mean_atlas_z": 50.2,
+   "mean_atlas_x": 26.9,
+   "mean_atlas_y": -48.5,
+   "mean_atlas_z": -21.4,
    "z_ras_range": [
-    -940.0,
+    -957.0,
     -934.0
    ],
-   "levels": 7
+   "levels": 24
   },
   "deep_transverse_perineal_right": {
-   "mean_atlas_x": 21.4,
-   "mean_atlas_y": -42.8,
-   "mean_atlas_z": 49.0,
+   "mean_atlas_x": 12.9,
+   "mean_atlas_y": -42.6,
+   "mean_atlas_z": -22.8,
    "z_ras_range": [
     -943.0,
     -934.0
@@ -77,29 +112,29 @@
    "levels": 10
   },
   "superficial_transverse_perineal_right": {
-   "mean_atlas_x": -0.1,
-   "mean_atlas_y": -63.8,
-   "mean_atlas_z": 50.8,
+   "mean_atlas_x": 6.4,
+   "mean_atlas_y": -60.8,
+   "mean_atlas_z": -31.1,
    "z_ras_range": [
     -963.0,
     -953.0
    ],
-   "levels": 11
+   "levels": 10
   },
   "obturator_internus_right": {
-   "mean_atlas_x": 44.3,
-   "mean_atlas_y": -30.9,
-   "mean_atlas_z": 6.1,
+   "mean_atlas_x": 46.7,
+   "mean_atlas_y": -18.4,
+   "mean_atlas_z": -26.7,
    "z_ras_range": [
     -933.0,
-    -919.0
+    -894.0
    ],
-   "levels": 15
+   "levels": 40
   },
   "perineal_other_right": {
-   "mean_atlas_x": 15.9,
-   "mean_atlas_y": -51.2,
-   "mean_atlas_z": 24.2,
+   "mean_atlas_x": 8.9,
+   "mean_atlas_y": -52.7,
+   "mean_atlas_z": -40.7,
    "z_ras_range": [
     -963.0,
     -934.0
@@ -107,49 +142,49 @@
    "levels": 30
   },
   "levator_ani_left": {
-   "mean_atlas_x": -23.0,
-   "mean_atlas_y": -32.1,
-   "mean_atlas_z": 24.3,
+   "mean_atlas_x": -20.3,
+   "mean_atlas_y": -18.9,
+   "mean_atlas_z": -32.0,
    "z_ras_range": [
     -933.0,
-    -919.0
+    -894.0
    ],
-   "levels": 15
+   "levels": 40
   },
   "coccygeus_left": {
-   "mean_atlas_x": -30.7,
-   "mean_atlas_y": -26.6,
-   "mean_atlas_z": 2.4,
+   "mean_atlas_x": -22.5,
+   "mean_atlas_y": -1.5,
+   "mean_atlas_z": -84.4,
    "z_ras_range": [
-    -925.0,
-    -919.0
+    -900.0,
+    -894.0
    ],
    "levels": 7
   },
   "bulbospongiosus_left": {
-   "mean_atlas_x": -9.1,
-   "mean_atlas_y": -50.5,
-   "mean_atlas_z": 55.1,
+   "mean_atlas_x": -10.4,
+   "mean_atlas_y": -54.0,
+   "mean_atlas_z": -17.4,
    "z_ras_range": [
-    -946.0,
-    -946.0
+    -959.0,
+    -944.0
    ],
-   "levels": 1
+   "levels": 16
   },
   "ischiocavernosus_left": {
-   "mean_atlas_x": -45.3,
-   "mean_atlas_y": -44.8,
-   "mean_atlas_z": 49.5,
+   "mean_atlas_x": -26.9,
+   "mean_atlas_y": -48.0,
+   "mean_atlas_z": -21.5,
    "z_ras_range": [
-    -946.0,
+    -958.0,
     -934.0
    ],
-   "levels": 13
+   "levels": 25
   },
   "deep_transverse_perineal_left": {
-   "mean_atlas_x": -24.9,
-   "mean_atlas_y": -42.9,
-   "mean_atlas_z": 48.5,
+   "mean_atlas_x": -13.5,
+   "mean_atlas_y": -42.4,
+   "mean_atlas_z": -22.4,
    "z_ras_range": [
     -943.0,
     -934.0
@@ -157,44 +192,44 @@
    "levels": 10
   },
   "superficial_transverse_perineal_left": {
-   "mean_atlas_x": -22.6,
-   "mean_atlas_y": -58.4,
-   "mean_atlas_z": 50.6,
+   "mean_atlas_x": -18.4,
+   "mean_atlas_y": -59.6,
+   "mean_atlas_z": -33.3,
    "z_ras_range": [
-    -955.0,
+    -958.0,
     -953.0
    ],
-   "levels": 3
+   "levels": 6
   },
   "obturator_internus_left": {
-   "mean_atlas_x": -49.0,
-   "mean_atlas_y": -30.7,
-   "mean_atlas_z": 6.4,
+   "mean_atlas_x": -46.6,
+   "mean_atlas_y": -19.2,
+   "mean_atlas_z": -31.8,
    "z_ras_range": [
     -933.0,
-    -919.0
+    -894.0
    ],
-   "levels": 15
+   "levels": 40
   },
   "perineal_other_left": {
-   "mean_atlas_x": -25.6,
-   "mean_atlas_y": -50.0,
-   "mean_atlas_z": 24.1,
+   "mean_atlas_x": -20.7,
+   "mean_atlas_y": -48.9,
+   "mean_atlas_z": -36.5,
    "z_ras_range": [
-    -961.0,
+    -959.0,
     -934.0
    ],
-   "levels": 28
+   "levels": 26
   },
   "external_anal_sphincter": {
-   "mean_atlas_x": -7.2,
-   "mean_atlas_y": -42.3,
-   "mean_atlas_z": 37.9,
+   "mean_atlas_x": 0.8,
+   "mean_atlas_y": -42.9,
+   "mean_atlas_z": -48.0,
    "z_ras_range": [
-    -942.0,
+    -943.0,
     -934.0
    ],
-   "levels": 9
+   "levels": 10
   }
  },
  "checks": {
@@ -202,15 +237,15 @@
   "overlap_bone_voxels": {
    "superficial_transverse_perineal_right": 0,
    "perineal_other_right": 0,
-   "perineal_other_left": 0,
    "bulbospongiosus_right": 0,
-   "superficial_transverse_perineal_left": 0,
    "bulbospongiosus_left": 0,
+   "perineal_other_left": 0,
    "ischiocavernosus_left": 0,
+   "superficial_transverse_perineal_left": 0,
+   "ischiocavernosus_right": 0,
    "deep_transverse_perineal_right": 0,
    "deep_transverse_perineal_left": 0,
    "external_anal_sphincter": 0,
-   "ischiocavernosus_right": 0,
    "levator_ani_right": 0,
    "obturator_internus_right": 0,
    "levator_ani_left": 0,
@@ -221,16 +256,16 @@
   "overlap_organ_voxels": {
    "superficial_transverse_perineal_right": 0,
    "perineal_other_right": 0,
-   "perineal_other_left": 0,
    "bulbospongiosus_right": 0,
-   "superficial_transverse_perineal_left": 0,
    "bulbospongiosus_left": 0,
+   "perineal_other_left": 0,
    "ischiocavernosus_left": 0,
+   "superficial_transverse_perineal_left": 0,
+   "ischiocavernosus_right": 0,
    "deep_transverse_perineal_right": 0,
    "deep_transverse_perineal_left": 0,
    "external_anal_sphincter": 0,
-   "ischiocavernosus_right": 0,
-   "levator_ani_right": 0,
+   "levator_ani_right": 17,
    "obturator_internus_right": 0,
    "levator_ani_left": 0,
    "obturator_internus_left": 0,
@@ -238,46 +273,46 @@
    "coccygeus_left": 0
   },
   "fraction_on_muscle_class": {
-   "superficial_transverse_perineal_right": 0.687,
-   "perineal_other_right": 0.914,
-   "perineal_other_left": 0.91,
-   "bulbospongiosus_right": 0.671,
-   "superficial_transverse_perineal_left": 0.664,
-   "bulbospongiosus_left": 0.486,
-   "ischiocavernosus_left": 0.94,
-   "deep_transverse_perineal_right": 0.886,
-   "deep_transverse_perineal_left": 0.857,
-   "external_anal_sphincter": 0.907,
-   "ischiocavernosus_right": 0.953,
-   "levator_ani_right": 0.914,
-   "obturator_internus_right": 0.954,
-   "levator_ani_left": 0.918,
-   "obturator_internus_left": 0.955,
-   "coccygeus_right": 0.934,
-   "coccygeus_left": 0.939
+   "superficial_transverse_perineal_right": 0.913,
+   "perineal_other_right": 0.95,
+   "bulbospongiosus_right": 0.912,
+   "bulbospongiosus_left": 0.938,
+   "perineal_other_left": 0.959,
+   "ischiocavernosus_left": 0.971,
+   "superficial_transverse_perineal_left": 0.938,
+   "ischiocavernosus_right": 0.95,
+   "deep_transverse_perineal_right": 0.95,
+   "deep_transverse_perineal_left": 0.947,
+   "external_anal_sphincter": 0.945,
+   "levator_ani_right": 0.909,
+   "obturator_internus_right": 0.934,
+   "levator_ani_left": 0.936,
+   "obturator_internus_left": 0.939,
+   "coccygeus_right": 0.863,
+   "coccygeus_left": 0.882
   },
-  "bladder_mean_atlas_y": -25.5,
+  "bladder_mean_atlas_y": -13.0,
   "bladder_z_ras_range": [
    -923.0,
-   -919.0
+   -894.0
   ],
   "ordering": {
    "levator_below_bladder": true,
    "levator_above_every_perineal_muscle": true,
    "levator_mean_atlas_y": [
-    -32.1,
-    -32.1
+    -19.5,
+    -18.9
    ],
    "perineal_mean_atlas_y": {
-    "bulbospongiosus_right": -55.6,
-    "ischiocavernosus_right": -41.9,
-    "deep_transverse_perineal_right": -42.8,
-    "superficial_transverse_perineal_right": -63.8,
-    "bulbospongiosus_left": -50.5,
-    "ischiocavernosus_left": -44.8,
-    "deep_transverse_perineal_left": -42.9,
-    "superficial_transverse_perineal_left": -58.4,
-    "external_anal_sphincter": -42.3
+    "bulbospongiosus_right": -53.8,
+    "ischiocavernosus_right": -48.5,
+    "deep_transverse_perineal_right": -42.6,
+    "superficial_transverse_perineal_right": -60.8,
+    "bulbospongiosus_left": -54.0,
+    "ischiocavernosus_left": -48.0,
+    "deep_transverse_perineal_left": -42.4,
+    "superficial_transverse_perineal_left": -59.6,
+    "external_anal_sphincter": -42.9
    },
    "prostate_apex_atlas_y": -37.5,
    "note": "atlas Y is superior (Y = RAS z - (-895.476))."
@@ -314,12 +349,8 @@
  "not_shipped": {
   "obturator_internus": "the obturator internus is not a Q68 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia",
   "perineal_other": "sink for the rest of the perineal muscle mass -- the crus and body of the corpus cavernosum where not claimed by ischiocavernosus, and the urethral wall, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus",
-  "bulbospongiosus_right": "0.5 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
-  "bulbospongiosus_left": "0.0 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
-  "ischiocavernosus_right": "0.2 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
-  "ischiocavernosus_left": "0.6 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
-  "superficial_transverse_perineal_left": "0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
-  "superficial_transverse_perineal_right": "not shipped because the other side is not: 0.1 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "superficial_transverse_perineal_left": "0.7 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
+  "superficial_transverse_perineal_right": "not shipped because the other side is not: 0.7 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
   "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
   "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
   "iliococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
@@ -328,44 +359,54 @@
   "prostate": "not a muscle: TotalSegmentator organ label (id 22), carried only as an exclusion + the urogenital-hiatus landmark (see the module docstring)"
  },
  "septum_support": {
-  "ischiocavernosus|perineal_other": {
-   "ratio": 1.72,
-   "contact_px": 463,
-   "merge": false
-  },
-  "coccygeus|levator_ani": {
-   "ratio": 2.39,
-   "contact_px": 579,
-   "merge": false
-  },
   "deep_transverse_perineal|perineal_other": {
-   "ratio": 4.4,
-   "contact_px": 1010,
-   "merge": false
-  },
-  "bulbospongiosus|superficial_transverse_perineal": {
-   "ratio": 1.58,
-   "contact_px": 119,
-   "merge": false
-  },
-  "bulbospongiosus|perineal_other": {
-   "ratio": 3.9,
-   "contact_px": 156,
-   "merge": false
-  },
-  "perineal_other|superficial_transverse_perineal": {
-   "ratio": 2.16,
-   "contact_px": 315,
+   "ratio": 3.2,
+   "contact_px": 1055,
    "merge": false
   },
   "coccygeus|obturator_internus": {
-   "ratio": 2.72,
-   "contact_px": 3175,
+   "ratio": 6.28,
+   "contact_px": 72,
    "merge": false
   },
   "levator_ani|obturator_internus": {
-   "ratio": 2.05,
-   "contact_px": 3827,
+   "ratio": 1.56,
+   "contact_px": 11343,
+   "merge": false
+  },
+  "bulbospongiosus|ischiocavernosus": {
+   "ratio": 2.72,
+   "contact_px": 1072,
+   "merge": false
+  },
+  "ischiocavernosus|perineal_other": {
+   "ratio": 2.45,
+   "contact_px": 1334,
+   "merge": false
+  },
+  "ischiocavernosus|superficial_transverse_perineal": {
+   "ratio": 1.29,
+   "contact_px": 193,
+   "merge": false
+  },
+  "perineal_other|superficial_transverse_perineal": {
+   "ratio": 3.93,
+   "contact_px": 269,
+   "merge": false
+  },
+  "deep_transverse_perineal|ischiocavernosus": {
+   "ratio": 2.38,
+   "contact_px": 1249,
+   "merge": false
+  },
+  "bulbospongiosus|perineal_other": {
+   "ratio": 2.04,
+   "contact_px": 774,
+   "merge": false
+  },
+  "bulbospongiosus|superficial_transverse_perineal": {
+   "ratio": 3.36,
+   "contact_px": 295,
    "merge": false
   }
  },
@@ -373,15 +414,15 @@
  "levels": {
   "k_range": [
    708,
-   752
+   777
   ],
   "z_ras_range": [
    -963.0,
-   -919.0
+   -894.0
   ],
   "legs_ct_slice_range": [
    708,
-   752
+   777
   ],
   "pubic_arch_apex": {
    "k": 737,
@@ -389,9 +430,38 @@
    "z_ras": -934.0
   },
   "ischial_spine": {
-   "k": 752,
-   "legs_ct_slice": 752,
-   "z_ras": -919.0
+   "k": 777,
+   "legs_ct_slice": 777,
+   "z_ras": -894.0,
+   "rule": {
+    "method": "her builder's spine level carried by proportion of the femoral-head-centre to ischial-tuberosity height (owner decision Q172 option (d)); rule-based",
+    "female": {
+     "builder_spine_z": -884.0,
+     "femoral_head_centre_z_mean": -885.31,
+     "ischial_tuberosity_z": -950.0,
+     "spine_below_head_mm": -1.31,
+     "fraction_of_head_to_tuberosity": -0.0203
+    },
+    "male": {
+     "femoral_head_centre_z": {
+      "right": -202.5,
+      "left": -202.95
+     },
+     "femoral_head_radius_mm": {
+      "right": 25.59,
+      "left": 25.36
+     },
+     "femoral_head_centre_z_mean": -202.73,
+     "ischial_tuberosity_z": -270.0,
+     "head_to_tuberosity_mm": 67.27,
+     "spine_z_by_fraction": -201.36,
+     "spine_z_by_mm": -201.42,
+     "kk_spine_used": 777,
+     "kk_spine_by_mm": 777,
+     "kk_spine_per_slice_minimum_not_used": 738
+    },
+    "z_note": "legs_total's own RAS z (frame z = this - 693.0, the Stage-2 block offset)"
+   }
   },
   "bladder_neck": {
    "legs_ct_slice": 748,
@@ -412,7 +482,7 @@
   },
   "pelvic_band_k": [
    738,
-   752
+   777
   ],
   "anal_perineal_band_k": [
    706,
@@ -500,7 +570,8 @@
   "the corpus spongiosum bulb of the penis is erectile tissue that photographs as dark as striated muscle; it is held in the perineal_other sink together with the crura of the corpus cavernosum where not claimed by ischiocavernosus, and is not shipped",
   "the levator ani's parts are not separated; the external urethral sphincter has no male equivalent attempted either (see not_shipped)",
   "the shipped bulbospongiosus and ischiocavernosus each include the erectile body they cover (the corpus spongiosum bulb, the crus of the penis): no septum separates muscle from erectile tissue at 1 mm",
-  "the pelvic + perineal band together spans only k=708..752 in the legs block's own grid (45 mm): a real limitation of how much of the perineum this registration chain resolves, not present in the female script's much longer single-block frame",
+  "the pelvic + perineal band spans k=706..777 in the legs block's own grid; its top (the ischial spine, k=777) is NOT found on his own hip label but carried from the female builder by proportion of the femoral-head-to-tuberosity height (rule-based; levels.ischial_spine.rule)",
+  "legs_total's labels sit a few mm off his photographs after the row flip (session scratch q172d/reg1mm.json: bone-edge contrast, right side ~3 mm anterior-posterior / ~5 mm medial-lateral, left <= 1-2 mm), so exclusions and anchors carry that misfit; not corrected here",
   "the volume is on the 1 mm RAS-like frame grid used by this script (his legs-block cryo frame resampled onto legs_total.nii.gz's own grid), the grid the masks are computed on"
  ]
 }

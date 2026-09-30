@@ -127,7 +127,80 @@ LEGS_TOTAL = SCRATCH + "vhm_ts/legs_total.nii.gz"
 TASK_DIR = REPO / "data/ct_sources/task_outputs"
 OFF, CT_W, FRAME_W = 0, 512, 480      # legs frame: OFF=0, same 480/512 zoom as the torso frame (verified, see docstring)
 Z0 = -1671.0    # corrected-RAS z at frame k=0; frame k == legs_total.nii.gz's own z-array-index, verified this session
+# Q172d (fixes Q171; Q57 addendum). His photo legs frame has row 0 ANTERIOR (like hers), OPPOSITE to legs_total's own
+# grid (LAS, +Y per row): legs_total's labels land on the photographed bone/muscle only when ROW-FLIPPED (session
+# scratch q57/ts_overlay.png and q172d/reg_diag.png: femur, ischium, gluteus maximus, rectum). Before Q172d the labels
+# were laid on unflipped, i.e. every anchor, exclusion and anterior/posterior rule was evaluated on the MIRRORED
+# anatomy against the real photographs (Q171's 10,178 label voxels in his bones). Now the labels are flipped onto the
+# photographs, so the whole frame has the female sense (+row = POSTERIOR, POST_ROW_SIGN = +1: dy = row - anal row
+# is > 0 posterior, as in the female script) and the output affine follows the flip exactly: with scipy's
+# corner-aligned 512->480 zoom, flipped row r <-> legs_total j = (479 - r) * 511/479, so y = -239.0625 + 0.9375 j =
+# 240 - 1.00013 r (x likewise 240 - 1.00013 c), plus the in-plane part of the fixed Stage-2 legs->torso block offset
+# (+2.72, -0.89) mm that Q170's pelvic viscera (scripts/vhf_pelvic_viscera.py) and vhm_stream_leg_crops.py use (its
+# z part, -693.0, is already in Z0). q172/q172_builder_fix.diff's POST_ROW_SIGN = -1 / +Y affine was the same fix
+# for the UNflipped label grid; it would have left the photographs mirrored against the labels.
+LABEL_ROW_FLIP = True
+POST_ROW_SIGN = +1
+X_FRAME0, Y_FRAME0 = 240.0, 240.0                # legs_total RAS of frame pixel (0, 0) once the labels are row-flipped
+LEGS_TO_TORSO_XY_MM = (2.72, -0.89)
+# Q172d ischial-spine level (owner decision, option (d)): his own hip label gives no usable spine (Q172: the posterior
+# hip half's medial gap is flat 49-53 mm with no minimum; a 3-D rule failed her control by 42 mm), so the level is
+# carried from HER builder by proportion. Measured on her data (session scratch q172d/heads.py, heads.json): her
+# builder's spine level z -884.0 (vhf_pelvic_floor_cryo_report.json levels.ischial_spine), her femoral-head centres
+# z -885.94 / -884.68 (sphere fit to her vhf_total femur labels, r 24.0 mm, rms 0.7 mm; mean -885.31), her ischial
+# tuberosity (caudal end of her hip label) z -950.0: the spine sits 1.31 mm ABOVE her head centres = -0.0202 of her
+# head-centre-to-tuberosity height (64.69 mm). Applied to his own head centres and tuberosity (femoral_head_z()).
+FEMALE_SPINE_FRACTION = (-885.31 - (-884.0)) / (-885.31 - (-950.0))     # (head - spine) / (head - tuberosity)
+FEMALE_SPINE_BELOW_HEAD_MM = -885.31 - (-884.0)
+
+
+def volume_affine(z_first):
+    """RAS affine of the output label volume (array axes: column c, row r, level k) in the torso-corrected frame:
+    x = 240 + 2.72 - c, y = 240 - 0.89 - r, z = z_first + k (Q172d, see LABEL_ROW_FLIP)."""
+    return np.array([[-1, 0, 0, X_FRAME0 + LEGS_TO_TORSO_XY_MM[0]],
+                     [0, -1, 0, Y_FRAME0 + LEGS_TO_TORSO_XY_MM[1]],
+                     [0, 0, 1, z_first], [0, 0, 0, 1]], float)
+
+
+def label_rows(jj):
+    """legs_total j index -> frame row (zoomed 512->480 and, since Q172d, row-flipped onto the photographs)."""
+    r = FRAME_W / CT_W * np.asarray(jj)
+    return (FRAME_W - 1) - r if LABEL_ROW_FLIP else r
+
+
+def femoral_head_z(lab, aff, fid):
+    """z (RAS) of a femoral head's centre: least-squares sphere through the femur label's surface voxels within 30 mm
+    (height and horizontal) of its apex, refit 5x dropping residuals above max(2 mm, 80th percentile)."""
+    from scipy import ndimage as ndi
+    m = lab == fid
+    idx = np.argwhere(m & ~ndi.binary_erosion(m))
+    P = (aff @ np.c_[idx, np.ones(len(idx))].T)[:3].T
+    top = P[P[:, 2].argmax()]
+    Q = P[(P[:, 2] >= top[2] - 30) & (np.hypot(P[:, 0] - top[0], P[:, 1] - top[1]) <= 30)]
+
+    def fit(Q):
+        x = np.linalg.lstsq(np.c_[2 * Q, np.ones(len(Q))], (Q ** 2).sum(1), rcond=None)[0]
+        return x[:3], float(np.sqrt(x[3] + x[:3] @ x[:3]))
+    for _ in range(5):
+        c, r = fit(Q)
+        res = np.abs(np.linalg.norm(Q - c, axis=1) - r)
+        Q = Q[res <= max(2.0, np.percentile(res, 80))]
+    c, r = fit(Q)
+    return float(c[2]), r
+
+
+def spine_k_by_female_proportion(head_z, tub_z, z_of_k0, fraction=FEMALE_SPINE_FRACTION):
+    """His ischial-spine level (frame/legs-CT k) from his femoral-head-centre z and ischial-tuberosity z by her
+    proportion: spine = head - fraction * (head - tuberosity)."""
+    return int(round(head_z - fraction * (head_z - tub_z) - z_of_k0))
 BADGE = "rule-based"
+# Q172d viewer badge (manifest procedural_badge, stamped by --stamp-badges after convert)
+BADGE_Q172D = ("RULE-BASED (Q172): position rules + watershed on his own 1 mm cryosection photographs, bounded by his "
+               "CT bone/organ labels; {v} cm3. The ischial-spine level that bounds the pelvic band is NOT found on his "
+               "own bones: it is carried from the female by proportion (her builder's spine level is {fmm:.1f} mm {fdir} "
+               "her femoral-head centres = {frac:.3f} of her head-to-ischial-tuberosity height; applied to his own "
+               "femoral heads (z {femoral_head_centre_z_mean}) and tuberosity (z {ischial_tuberosity_z}), his legs-CT "
+               "slice {kk_spine_used}). Front-to-back orientation corrected in Q172 (was mirrored).")
 VERSION = "2026-09-18"
 SOURCE = ("U.S. National Library of Medicine, The Visible Human Project (public domain), MALE colour "
           "cryosections (1 mm, resampled onto the legs-block CT grid) and CT via the NCI Imaging Data "
@@ -409,6 +482,7 @@ class Frame:
         self.n, self.H, self.W = self.cls.shape
         im = nib.load(str(legs_total_path))
         self.tot = np.asarray(im.dataobj)
+        self.aff = im.affine
         self.z0 = Z0
 
     def ct(self, k):
@@ -416,6 +490,8 @@ class Frame:
         f = np.zeros((self.H, self.W), np.int32)
         if 0 <= k < self.tot.shape[2]:
             f[:, :] = ndi.zoom(self.tot[:, :, k], FRAME_W / CT_W, order=0).T
+            if LABEL_ROW_FLIP:
+                f = f[::-1]                      # Q172d: onto the photographs (row 0 anterior)
         return f
 
     def k_of_ct(self, kk):
@@ -480,25 +556,47 @@ def anchors(fr, log=print):
             continue
         ii, jj = np.where(h)
         cc = FRAME_W / CT_W * ii
-        rr = FRAME_W / CT_W * jj
+        rr = label_rows(jj)
         mid = cc.mean()
         R, L = cc[cc < mid], cc[cc >= mid]
         gaps[kk] = (L.min() - R.max()) if len(R) and len(L) else float("inf")
         col = tot[:, :, kk] == COLON
-        arow = (FRAME_W / CT_W * np.where(col)[1]).mean() if col.any() else None
+        arow = label_rows(np.where(col)[1]).mean() if col.any() else None
         if arow is not None:
-            post = rr > arow - 6
+            post = POST_ROW_SIGN * (rr - arow) > -6      # the posterior hip part (Q172d: frame AP sense)
             if post.any():
                 cp = cc[post]
                 Rp, Lp = cp[cp < mid], cp[cp >= mid]
                 if len(Rp) and len(Lp):
                     medial[kk] = min(mid - Rp.max(), Lp.min() - mid)
     kk_arch = arch_apex_k(gaps, zhip[0], k_hi_search)
-    kk_spine = spine_k(medial, max(zhip[0], k_hi_search - 10), min(zhip[1], k_hi_search + 25))
+    kk_spine_slice = spine_k(medial, max(zhip[0], k_hi_search - 10), min(zhip[1], k_hi_search + 25))
+    # Q172d: the per-slice minimum above is reported only (flat 49-53 mm on his posterior hip half, no minimum);
+    # the level USED is her proportion carried onto his own femoral heads and tuberosity
+    zk = fr.aff[2, 3] + fr.aff[2, 2] * np.arange(tot.shape[2])
+    heads = {side: femoral_head_z(tot, fr.aff, fid) for side, fid in (("right", 76), ("left", 75))}
+    head_z = float(np.mean([h[0] for h in heads.values()]))
+    tub_z = float(zk[zhip[0]])
+    kk_spine = spine_k_by_female_proportion(head_z, tub_z, fr.aff[2, 3])
+    spine_rule = {"method": "her builder's spine level carried by proportion of the femoral-head-centre to "
+                            "ischial-tuberosity height (owner decision Q172 option (d)); rule-based",
+                  "female": {"builder_spine_z": -884.0, "femoral_head_centre_z_mean": -885.31,
+                             "ischial_tuberosity_z": -950.0, "spine_below_head_mm": round(FEMALE_SPINE_BELOW_HEAD_MM, 2),
+                             "fraction_of_head_to_tuberosity": round(FEMALE_SPINE_FRACTION, 4)},
+                  "male": {"femoral_head_centre_z": {s: round(h[0], 2) for s, h in heads.items()},
+                           "femoral_head_radius_mm": {s: round(h[1], 2) for s, h in heads.items()},
+                           "femoral_head_centre_z_mean": round(head_z, 2), "ischial_tuberosity_z": tub_z,
+                           "head_to_tuberosity_mm": round(head_z - tub_z, 2),
+                           "spine_z_by_fraction": round(head_z - FEMALE_SPINE_FRACTION * (head_z - tub_z), 2),
+                           "spine_z_by_mm": round(head_z - FEMALE_SPINE_BELOW_HEAD_MM, 2),
+                           "kk_spine_used": kk_spine,
+                           "kk_spine_by_mm": int(round(head_z - FEMALE_SPINE_BELOW_HEAD_MM - fr.aff[2, 3])),
+                           "kk_spine_per_slice_minimum_not_used": kk_spine_slice},
+                  "z_note": "legs_total's own RAS z (frame z = this - 693.0, the Stage-2 block offset)"}
     a = {"kk_hip_bot": zhip[0], "kk_hip_top": zhip[1], "kk_bladder_bot": zbl[0] if zbl else None,
          "kk_bladder_top": zbl[1] if zbl else None, "kk_anal_bot": zcol[0], "kk_arch": kk_arch,
          "kk_spine": kk_spine, "kk_prostate_apex": zpro[0] if zpro else None,
-         "kk_prostate_top": zpro[1] if zpro else None}
+         "kk_prostate_top": zpro[1] if zpro else None, "spine_rule": spine_rule}
     log(f"anchors (legs-block slices, == frame k) {a}")
     if zpro and kk_arch is not None:
         log(f"cross-check: prostate apex k={zpro[0]} vs bone-based pubic arch apex k={kk_arch} "
@@ -557,10 +655,10 @@ def run(a, log=print):
         th = white_tophat(np.asarray(fr.rgb[k]).max(-1).astype(np.float32), sk_disk(4))
         lvl = np.zeros((H, W), np.uint8)
         dxm = xx - mid
-        dy = yy - arow
+        dy = POST_ROW_SIGN * (yy - arow)                 # > 0 posterior of the anal centre (Q172d)
         if k > k_arch:                                   # ---- the pelvic band
             hull = hull_of(M["hip"] | M["sac"], H, W)
-            pad = ndi.binary_dilation(hull, iterations=POST_PAD_MM) & (yy > arow)
+            pad = ndi.binary_dilation(hull, iterations=POST_PAD_MM) & (dy > 0)
             region = (hull | pad) & M["muscle"]
             region = drop_crumbs(region)
             rules_all, regs = {}, {}
@@ -746,7 +844,9 @@ def main(argv=None):
     # own construction -- landing at mean atlas x=-5.7 with 240 (right next to vhm_both's sacrum center -3.75)
     # versus +104.3 with the old 350. Y translation (240, unchanged) was checked too and is fine: the (unshipped)
     # obturator_internus atlas Z already fell inside vhm_both's own obturator_internus z-range under the old code.
-    aff = np.array([[-1, 0, 0, 240], [0, -1, 0, 240], [0, 0, 1, fr.z0 + ka], [0, 0, 0, 1]], float)
+    # Q172d: Q86's x = 240 - c and y = 240 - r were right for the PHOTO grid; the labels were the part laid on
+    # unflipped (fixed in Frame.ct / label_rows); the in-plane Stage-2 offset is added -- see volume_affine().
+    aff = volume_affine(fr.z0 + ka)
     nib.save(nib.Nifti1Image(np.ascontiguousarray(vol.transpose(2, 1, 0)), aff), a.out)
     vols = {nm: round(float((vol == lid).sum()) / 1000, 1) for lid, (nm, *_) in labels.items()}
     nlev = {nm: int((vol == lid).any(axis=(1, 2)).sum()) for lid, (nm, *_) in labels.items()}
@@ -757,9 +857,9 @@ def main(argv=None):
         kk, rr, cc = np.where(vol == lid)
         if len(kk) == 0:
             continue
-        geom[nm] = {"mean_atlas_x": round(float((240 - cc).mean()) - ORIGIN[0], 1),
+        geom[nm] = {"mean_atlas_x": round(float((aff[0, 3] - cc).mean()) - ORIGIN[0], 1),
                     "mean_atlas_y": round(float((fr.z0 + ka + kk).mean()) - ORIGIN[1], 1),
-                    "mean_atlas_z": round(float((240 - rr).mean()) - ORIGIN[2], 1),
+                    "mean_atlas_z": round(float((aff[1, 3] - rr).mean()) - ORIGIN[2], 1),
                     "z_ras_range": [float(fr.z0 + ka + kk.min()), float(fr.z0 + ka + kk.max())],
                     "levels": nlev[nm]}
     print("volumes cm3", vols, flush=True)
@@ -867,7 +967,8 @@ def main(argv=None):
                     f"septum between them (boundary / inside top-hat {'; '.join(pairs)} < {MERGE_RATIO}); "
                     f"not split, mapped to null.")
         if base == "coccygeus":
-            return (f"{v} cm3; {BADGE}: the sheet posterior to the anal canal from the ischial spine down "
+            return (f"{v} cm3; {BADGE}: the sheet posterior to the anal canal from the ischial spine (level "
+                    f"carried from the female by proportion, see levels.ischial_spine.rule) down "
                     f"{COCC_SPAN_MM} mm towards the coccyx. His coccyx is NOT labelled either, so the "
                     f"posterior anchor is a {POST_PAD_MM} mm pad of the bony hull, same limitation as the "
                     f"female script.")
@@ -902,10 +1003,16 @@ def main(argv=None):
         if atlas is None:
             cands = [m + sfx for m in (CANDIDATES.get(base if len(members) == 1 else nm) or
                                        (members if len(members) > 1 else []))]
-        entries.append({"label": lid, "source_structure": nm, "side": side, "status": "curated",
-                        "atlas_id": (atlas + sfx) if atlas else None,
-                        "relationship": "exact" if atlas else "no_usable_label",
-                        "note": note_for(lid), "candidates": cands})
+        e = {"label": lid, "source_structure": nm, "side": side, "status": "curated",
+             "atlas_id": (atlas + sfx) if atlas else None,
+             "relationship": "exact" if atlas else "no_usable_label",
+             "note": note_for(lid), "candidates": cands}
+        if atlas:
+            e["procedural_badge"] = BADGE_Q172D.format(v=vols[nm], **lv["spine_rule"]["male"],
+                                                       frac=abs(lv["spine_rule"]["female"]["fraction_of_head_to_tuberosity"]),
+                                                       fmm=abs(lv["spine_rule"]["female"]["spine_below_head_mm"]),
+                                                       fdir="below" if lv["spine_rule"]["female"]["spine_below_head_mm"] > 0 else "above")
+        entries.append(e)
     not_shipped = {**{k: v for k, v in SINKS.items()}, **nulled,
                    "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
                    "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
@@ -943,7 +1050,7 @@ def main(argv=None):
               "pubic_arch_apex": {"k": lv["k_arch"], "legs_ct_slice": lv["kk_arch"],
                                   "z_ras": float(fr.z0 + lv["k_arch"])},
               "ischial_spine": {"k": lv["k_spine"], "legs_ct_slice": lv["kk_spine"],
-                                "z_ras": float(fr.z0 + lv["k_spine"])},
+                                "z_ras": float(fr.z0 + lv["k_spine"]), "rule": lv["spine_rule"]},
               "bladder_neck": ({"legs_ct_slice": lv["kk_bladder_bot"],
                                 "z_ras": float(lv["kk_bladder_bot"] + fr.z0)} if lv.get("kk_bladder_bot") is not None else None),
               "anal_canal_bottom": {"legs_ct_slice": lv["kk_anal_bot"], "z_ras": float(lv["kk_anal_bot"] + fr.z0)},
@@ -961,6 +1068,12 @@ def main(argv=None):
                     "He is male: a prostate sits at the urogenital hiatus and the midline structure below "
                     "the pubic arch is the bulb of the penis / corpus spongiosum, not the vaginal opening."],
         "source": SOURCE, "badge": BADGE, "version": VERSION,
+        "frame_orientation": {"affine": aff.tolist(), "label_row_flip": LABEL_ROW_FLIP, "post_row_sign": POST_ROW_SIGN,
+                              "legs_to_torso_xy_mm": list(LEGS_TO_TORSO_XY_MM),
+                              "note": "Q172d: legs_total's labels row-flipped onto the photographs (row 0 anterior, "
+                                      "+row posterior, as hers); affine x = 242.72 - c, y = 239.11 - r. Before: "
+                                      "labels unflipped against the photographs, y = 240 - r (PROJECT_STATE "
+                                      "Q171/Q172)."},
         "volumes_cm3": vols, "geometry_atlas_mm": geom, "checks": checks,
         "labels": {str(l): labels[l][0] for l in sorted(labels)},
         "merged": {nm: {"members": members,
@@ -1032,9 +1145,12 @@ def main(argv=None):
             "the shipped bulbospongiosus and ischiocavernosus each include the erectile body they cover (the "
             "corpus spongiosum bulb, the crus of the penis): no septum separates muscle from erectile tissue "
             "at 1 mm",
-            "the pelvic + perineal band together spans only k=708..752 in the legs block's own grid (45 mm): "
-            "a real limitation of how much of the perineum this registration chain resolves, not present in "
-            "the female script's much longer single-block frame",
+            f"the pelvic + perineal band spans k={lv['k_lo']}..{lv['k_hi']} in the legs block's own grid; its top "
+            f"(the ischial spine, k={lv['k_spine']}) is NOT found on his own hip label but carried from the female "
+            f"builder by proportion of the femoral-head-to-tuberosity height (rule-based; levels.ischial_spine.rule)",
+            "legs_total's labels sit a few mm off his photographs after the row flip (session scratch q172d/"
+            "reg1mm.json: bone-edge contrast, right side ~3 mm anterior-posterior / ~5 mm medial-lateral, left <= 1-2 "
+            "mm), so exclusions and anchors carry that misfit; not corrected here",
             "the volume is on the 1 mm RAS-like frame grid used by this script (his legs-block cryo frame "
             "resampled onto legs_total.nii.gz's own grid), the grid the masks are computed on"],
     }
