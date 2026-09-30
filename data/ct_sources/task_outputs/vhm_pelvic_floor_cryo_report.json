@@ -41,30 +41,44 @@
   ],
   "note": "Q172d: legs_total's labels row-flipped onto the photographs (row 0 anterior, +row posterior, as hers); affine x = 242.72 - c, y = 239.11 - r. Before: labels unflipped against the photographs, y = 240 - r (PROJECT_STATE Q171/Q172)."
  },
+ "islands_moved_to_sink_voxels": {
+  "levator_ani_right": [
+   250
+  ],
+  "superficial_transverse_perineal_right": [
+   110,
+   16
+  ],
+  "levator_ani_left": [
+   5097,
+   1660,
+   29
+  ]
+ },
  "volumes_cm3": {
-  "levator_ani_right": 44.2,
+  "levator_ani_right": 44.0,
   "coccygeus_right": 2.5,
   "bulbospongiosus_right": 4.9,
   "ischiocavernosus_right": 7.5,
   "deep_transverse_perineal_right": 6.0,
-  "superficial_transverse_perineal_right": 1.0,
-  "obturator_internus_right": 69.3,
-  "perineal_other_right": 15.2,
-  "levator_ani_left": 47.1,
+  "superficial_transverse_perineal_right": 0.9,
+  "obturator_internus_right": 69.5,
+  "perineal_other_right": 15.3,
+  "levator_ani_left": 40.3,
   "coccygeus_left": 4.2,
   "bulbospongiosus_left": 5.4,
   "ischiocavernosus_left": 6.4,
   "deep_transverse_perineal_left": 6.4,
   "superficial_transverse_perineal_left": 0.7,
-  "obturator_internus_left": 78.1,
+  "obturator_internus_left": 84.9,
   "perineal_other_left": 10.2,
   "external_anal_sphincter": 3.5
  },
  "geometry_atlas_mm": {
   "levator_ani_right": {
-   "mean_atlas_x": 23.4,
-   "mean_atlas_y": -19.5,
-   "mean_atlas_z": -33.1,
+   "mean_atlas_x": 23.5,
+   "mean_atlas_y": -19.6,
+   "mean_atlas_z": -33.2,
    "z_ras_range": [
     -933.0,
     -894.0
@@ -112,19 +126,19 @@
    "levels": 10
   },
   "superficial_transverse_perineal_right": {
-   "mean_atlas_x": 6.4,
-   "mean_atlas_y": -60.8,
-   "mean_atlas_z": -31.1,
+   "mean_atlas_x": 5.0,
+   "mean_atlas_y": -60.7,
+   "mean_atlas_z": -32.1,
    "z_ras_range": [
-    -963.0,
+    -961.0,
     -953.0
    ],
-   "levels": 10
+   "levels": 9
   },
   "obturator_internus_right": {
-   "mean_atlas_x": 46.7,
+   "mean_atlas_x": 46.5,
    "mean_atlas_y": -18.4,
-   "mean_atlas_z": -26.7,
+   "mean_atlas_z": -26.6,
    "z_ras_range": [
     -933.0,
     -894.0
@@ -133,8 +147,8 @@
   },
   "perineal_other_right": {
    "mean_atlas_x": 8.9,
-   "mean_atlas_y": -52.7,
-   "mean_atlas_z": -40.7,
+   "mean_atlas_y": -52.8,
+   "mean_atlas_z": -40.5,
    "z_ras_range": [
     -963.0,
     -934.0
@@ -142,9 +156,9 @@
    "levels": 30
   },
   "levator_ani_left": {
-   "mean_atlas_x": -20.3,
-   "mean_atlas_y": -18.9,
-   "mean_atlas_z": -32.0,
+   "mean_atlas_x": -20.0,
+   "mean_atlas_y": -19.2,
+   "mean_atlas_z": -23.5,
    "z_ras_range": [
     -933.0,
     -894.0
@@ -202,9 +216,9 @@
    "levels": 6
   },
   "obturator_internus_left": {
-   "mean_atlas_x": -46.6,
-   "mean_atlas_y": -19.2,
-   "mean_atlas_z": -31.8,
+   "mean_atlas_x": -44.7,
+   "mean_atlas_y": -19.0,
+   "mean_atlas_z": -35.9,
    "z_ras_range": [
     -933.0,
     -894.0
@@ -235,8 +249,8 @@
  "checks": {
   "_README": "voxels of each shipped label that fall inside his bone or organ labels (must be 0), the fraction sitting on his cryosection muscle class, and the mean atlas Y (superior) of each structure against the bladder's.",
   "overlap_bone_voxels": {
-   "superficial_transverse_perineal_right": 0,
    "perineal_other_right": 0,
+   "superficial_transverse_perineal_right": 0,
    "bulbospongiosus_right": 0,
    "bulbospongiosus_left": 0,
    "perineal_other_left": 0,
@@ -254,8 +268,8 @@
    "coccygeus_left": 0
   },
   "overlap_organ_voxels": {
-   "superficial_transverse_perineal_right": 0,
    "perineal_other_right": 0,
+   "superficial_transverse_perineal_right": 0,
    "bulbospongiosus_right": 0,
    "bulbospongiosus_left": 0,
    "perineal_other_left": 0,
@@ -265,7 +279,7 @@
    "deep_transverse_perineal_right": 0,
    "deep_transverse_perineal_left": 0,
    "external_anal_sphincter": 0,
-   "levator_ani_right": 17,
+   "levator_ani_right": 0,
    "obturator_internus_right": 0,
    "levator_ani_left": 0,
    "obturator_internus_left": 0,
@@ -273,8 +287,8 @@
    "coccygeus_left": 0
   },
   "fraction_on_muscle_class": {
-   "superficial_transverse_perineal_right": 0.913,
    "perineal_other_right": 0.95,
+   "superficial_transverse_perineal_right": 0.905,
    "bulbospongiosus_right": 0.912,
    "bulbospongiosus_left": 0.938,
    "perineal_other_left": 0.959,
@@ -286,8 +300,8 @@
    "external_anal_sphincter": 0.945,
    "levator_ani_right": 0.909,
    "obturator_internus_right": 0.934,
-   "levator_ani_left": 0.936,
-   "obturator_internus_left": 0.939,
+   "levator_ani_left": 0.939,
+   "obturator_internus_left": 0.938,
    "coccygeus_right": 0.863,
    "coccygeus_left": 0.882
   },
@@ -300,14 +314,14 @@
    "levator_below_bladder": true,
    "levator_above_every_perineal_muscle": true,
    "levator_mean_atlas_y": [
-    -19.5,
-    -18.9
+    -19.6,
+    -19.2
    ],
    "perineal_mean_atlas_y": {
     "bulbospongiosus_right": -53.8,
     "ischiocavernosus_right": -48.5,
     "deep_transverse_perineal_right": -42.6,
-    "superficial_transverse_perineal_right": -60.8,
+    "superficial_transverse_perineal_right": -60.7,
     "bulbospongiosus_left": -54.0,
     "ischiocavernosus_left": -48.0,
     "deep_transverse_perineal_left": -42.4,
@@ -349,8 +363,8 @@
  "not_shipped": {
   "obturator_internus": "the obturator internus is not a Q68 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia",
   "perineal_other": "sink for the rest of the perineal muscle mass -- the crus and body of the corpus cavernosum where not claimed by ischiocavernosus, and the urethral wall, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus",
+  "superficial_transverse_perineal_right": "0.9 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
   "superficial_transverse_perineal_left": "0.7 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
-  "superficial_transverse_perineal_right": "not shipped because the other side is not: 0.7 cm3 on this side, under the 1.0 cm3 a 1 mm frame supports as a named muscle",
   "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
   "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
   "iliococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
@@ -359,34 +373,9 @@
   "prostate": "not a muscle: TotalSegmentator organ label (id 22), carried only as an exclusion + the urogenital-hiatus landmark (see the module docstring)"
  },
  "septum_support": {
-  "deep_transverse_perineal|perineal_other": {
-   "ratio": 3.2,
-   "contact_px": 1055,
-   "merge": false
-  },
-  "coccygeus|obturator_internus": {
-   "ratio": 6.28,
-   "contact_px": 72,
-   "merge": false
-  },
-  "levator_ani|obturator_internus": {
-   "ratio": 1.56,
-   "contact_px": 11343,
-   "merge": false
-  },
-  "bulbospongiosus|ischiocavernosus": {
-   "ratio": 2.72,
-   "contact_px": 1072,
-   "merge": false
-  },
-  "ischiocavernosus|perineal_other": {
-   "ratio": 2.45,
-   "contact_px": 1334,
-   "merge": false
-  },
-  "ischiocavernosus|superficial_transverse_perineal": {
-   "ratio": 1.29,
-   "contact_px": 193,
+  "bulbospongiosus|perineal_other": {
+   "ratio": 2.04,
+   "contact_px": 774,
    "merge": false
   },
   "perineal_other|superficial_transverse_perineal": {
@@ -394,19 +383,44 @@
    "contact_px": 269,
    "merge": false
   },
+  "bulbospongiosus|superficial_transverse_perineal": {
+   "ratio": 3.36,
+   "contact_px": 295,
+   "merge": false
+  },
+  "ischiocavernosus|superficial_transverse_perineal": {
+   "ratio": 1.29,
+   "contact_px": 193,
+   "merge": false
+  },
   "deep_transverse_perineal|ischiocavernosus": {
    "ratio": 2.38,
    "contact_px": 1249,
    "merge": false
   },
-  "bulbospongiosus|perineal_other": {
-   "ratio": 2.04,
-   "contact_px": 774,
+  "coccygeus|obturator_internus": {
+   "ratio": 6.28,
+   "contact_px": 72,
    "merge": false
   },
-  "bulbospongiosus|superficial_transverse_perineal": {
-   "ratio": 3.36,
-   "contact_px": 295,
+  "bulbospongiosus|ischiocavernosus": {
+   "ratio": 2.72,
+   "contact_px": 1072,
+   "merge": false
+  },
+  "deep_transverse_perineal|perineal_other": {
+   "ratio": 3.2,
+   "contact_px": 1055,
+   "merge": false
+  },
+  "levator_ani|obturator_internus": {
+   "ratio": 1.56,
+   "contact_px": 11343,
+   "merge": false
+  },
+  "ischiocavernosus|perineal_other": {
+   "ratio": 2.45,
+   "contact_px": 1334,
    "merge": false
   }
  },

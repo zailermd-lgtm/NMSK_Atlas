@@ -9700,6 +9700,7 @@ the female's phalanges are under-captured at HU 200.
 - Other: the frame lacks the Stage-2 in-plane part (+2.72, -0.89 mm) Q170 uses (EAS offset would be ~3.0 vs 5.9 mm);
   a det -1 affine gives inward-wound faces (as ct_vhm_foot/vhm_both; viewer is DoubleSide); vhm_both's coccyx tip
   (Y -5.8) sits ~12 mm above legs_total's sacrum end (Y -17.8) -- not investigated.
+- Q172 RESULT (2026-09-30): DONE via option (d) -- labels flipped onto his photos, spine level by her proportion (legs slice 777), 11 ids shipped in viewer_m_hr, 0 bone/organ voxels; see the Q172 entry at the end.
 - Q172 BLOCKED (2026-09-29, two attempts, stopped per the two-retry rule). Inputs re-acquired OK (1878 slices from IDC;
   unchanged builder reproduces the shipped volume md5-exact; kept in scratchpad vh_cryo/ + vhm_ts/, ~2.8 GB, lost on
   container reset). The AP fix itself checks out (patch scratchpad q172/q172_builder_fix.diff: POST_ROW_SIGN=-1, +Y
@@ -9736,6 +9737,7 @@ the female's phalanges are under-captured at HU 200.
   first (Q173), then ship Q57 with the one convert command above.
 - NEXT (Q173): correct his adductor magnus posterior surface to the photographed fat plane (scratch q57/am_overlay.png
   shows the error, median 3.0 / max 6.6 mm), same marker-watershed approach as Q48; then ship Q57.
+- (Q172 addendum APPLIED 2026-09-30: labels row-flipped in the builder -- see Q172 at the end.)
 - Q172 addendum from Q57: his photo legs frame has row 0 ANTERIOR (like hers), opposite to legs_total's grid, so
   vhm_pelvic_floor_from_cryo.py also overlays its CT labels on the photographs mirrored. Any Q172 retry must flip the
   labels onto the photo grid too, not only the output affine.
@@ -10065,3 +10067,37 @@ the female's phalanges are under-captured at HU 200.
   Scratch q179a/: montage_{left,right}.png, tibial_{zoom,reg}.png, measure1.log/_parsed.json, old_bundle.json/.bin, old_subjects/,
   crops/ bbox+registration jsons only (npy deleted; re-stream ~35 s/side). Also noticed: shipped ct_vhf_nerve/ct_vhf_popliteal are --smooth 0.0 but the rebuild lines say 1.0
   (only matters on a fresh build). Not committed, not published.
+
+## Q172 (2026-09-30) -- his pelvic floor rebuilt the right way round (option (d), owner-approved), male hi-res viewer
+- Builder `scripts/cryo/vhm_pelvic_floor_from_cryo.py` (male only): (1) legs_total labels ROW-FLIPPED onto the photo grid (Q57
+  finding confirmed: femur/ischium/gluteus/rectum coincide only flipped, scratch q172d/reg_diag.png), so the frame has her sense
+  (+row posterior, POST_ROW_SIGN +1) -- the unapplied q172 diff's -1/+Y was the fix for the UNflipped grid and would have left the
+  photos mirrored; (2) affine x = 242.72 - c, y = 239.11 - r (Q86's 240 - r was right for the photo grid) + Stage-2 (+2.72, -0.89);
+  (3) ischial-spine level by HER proportion: sphere-fitted femoral heads (her -885.3, r 24 mm, rms 0.7; his -202.7, r 25.5) --
+  her builder's spine (-884.0) is 1.31 mm ABOVE her head centres (not ~12 mm below: that figure came from spine3d's hip-label
+  'acetabulum centre', ~14 mm too high) = 0.020 of her head-to-tuberosity height (64.7 mm); his 67.3 mm -> legs slice 777 by
+  fraction and by mm (= Q172's k~777); pelvic band now k738-777 (40 levels, hers 40); (4) label voxels re-excluded after the hole
+  fill (17 prostate-apex voxels had been re-admitted); (5) each named muscle keeps its largest 6-connected piece, cut-off pieces
+  to the side's sink (left levator 6.8 cm3, right 0.25); (6) `--stamp-badges` writes the RULE-BASED (Q172) badge (cites the
+  proportion) onto both manifests, wired into vhm_rebuild_bundle.sh; levator_ani_r added to ct_vhm_pfloor_fix (--smooth 0.0; 3
+  surface pieces at 1.0, 1 at 0.0). Her 18/18 levator/coccygeus constants tried: fragmented (6+2 / 4 pieces) -> kept 45/6.
+- Registration (Q173 open item a): measured on his femur+hip in the 1 mm frame (bone-edge contrast): photos vs atlas meshes right
+  (-1,0), left (-1,-3) px = ~1 mm anterior (Q173 direction, < half its 2.35 mm, one voxel) + left 3 mm medial -> NOT applied (left-only,
+  would tear midline structures). Also: labels vs photos right (-3,-5), left (0,-1) px (frame-calibration scale/rotation misfit) -- open.
+- Numbers (cm3 before -> after): levator_ani R/L 14.4/16.3 -> 44.0/40.3; coccygeus 7.9/8.9 -> 2.5/4.2 (7 levels); deep transverse
+  perineal 1.6/1.6 -> 6.0/6.4; EAS 1.1 -> 3.5; NEW bulbospongiosus 4.9/5.4, ischiocavernosus 7.5/6.4; superficial transverse
+  perineal 0.9/0.7 (not shipped, as before). No confirmed male volume ranges (PubMed; female levator 19.8-46.6 bilateral for context).
+  Bone/organ voxels: 10,139/406 -> 0/0 in the frame (1 organ voxel on the native 0.94 mm grid = resampling). Anal check: EAS axis
+  0.7 mm from the rectum's anal cap, rectum runs 9.1 mm up inside it, 0 interpenetration. Coccygeus 10.6/12.1 mm from the hip label's
+  spine point, 2.2 (L)/14.3 (R) mm from the coccyx, 27-37 mm behind the anal end. Levator 0.8-0.9 mm from rectum, 0.1-0.4 from
+  prostate, 17.6-17.9 mm below the bladder centroid, 3.8 (L)/13.6 (R) mm behind the prostate. IC 6.8-7.0 mm (median) from his hip
+  bone; BS 7-11 mm off the midline, 30 mm in front of the anal end; DTP 24 mm in front. All 11 ids one piece (bundle main area
+  fraction >= 0.999; old EAS 0.68).
+- Bundle: `VHM_OUT=build/viewer_m_hr bash scripts/vhm_rebuild_bundle.sh`: 402 -> 406 ids (+bulbospongiosus_r/l, ischiocavernosus_r/l),
+  only the 7 old pelvic-floor ids changed geometry/metadata (hashes), levator_ani_r now first in order; 2,214,085 -> 2,249,013 tris;
+  html 1.20 MB, geo 14.67 + 12.18 MB, bundle.bin 20.1 MB. Chromium headless: 0 page errors. Female outputs + viewer_f_hr md5 unchanged.
+- Report data/derived/Q172_vhm_pfloor_rebuild.json; tests tests/test_vhm_pelvic_floor_q172.py (10; EAS around the anal end and
+  coccygeus behind it for both bodies) + related: 107 passed. Scratch q172d/ (old_bundle.json/.bin, montage_final.png, heads.json,
+  reg1mm.json, meshcheck.json). Not committed, not published.
+- Open: label-vs-photo misfit on his right; left levator's posterior pieces unattributed (asymmetry); EAS only where the colon label
+  exists (k728-737).

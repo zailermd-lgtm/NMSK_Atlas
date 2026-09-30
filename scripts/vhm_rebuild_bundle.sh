@@ -147,10 +147,13 @@ fi
 # constant (used throughout this script, e.g. ct_vhm_shsp/ct_vhm_forearm/ct_vhm_neck
 # above) verified to reproduce the already-shipped mesh to 0.000mm -- see PROJECT_STATE
 # Q152b.
-if [ -f mappings/subjects/ct_vhm_pfloor_fix_volume_mapping.json ] && ! grep -q coccygeus_l build/vh/ct_vhm_pfloor_fix/manifest.json 2>/dev/null; then
+# Q172d: levator_ani_r joins it (one voxel piece, split by smooth=1.0); the grep keys on it so a pre-Q172 fix subject is
+# reconverted; afterwards the builder stamps its Q172 rule-based badges onto both pelvic-floor manifests (idempotent).
+if [ -f mappings/subjects/ct_vhm_pfloor_fix_volume_mapping.json ] && ! grep -q levator_ani_r build/vh/ct_vhm_pfloor_fix/manifest.json 2>/dev/null; then
   cp mappings/subjects/ct_vhm_pfloor_fix_volume_mapping.json build/vh/
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_pelvic_floor_cryo.nii.gz --labels vhm_pelvic_floor --subject ct_vhm_pfloor_fix --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
+[ -f build/vh/ct_vhm_pfloor/manifest.json ] && python3 scripts/cryo/vhm_pelvic_floor_from_cryo.py --stamp-badges 2>&1 | tail -1
 # Q170: his own pelvic viscera (urinary bladder, rectum, pelvic sigmoid, prostate) -- vhm_total above the torso block's
 # lower edge and vhm_legs_total's pelvis slab below it, placed by the fixed Stage-2 block offset; colon cut at his
 # pelvic inlet and split at the sigmoid take-off / first branch point. Same mask_surface(smooth 1.0) + his origin as

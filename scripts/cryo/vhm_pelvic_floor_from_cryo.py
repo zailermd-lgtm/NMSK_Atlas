@@ -35,6 +35,8 @@ Q68's note pointed at) is therefore NOT the source this script uses; it uses the
     candidate row-flip (to compensate for the legs segmentation's own affine having an anomalous Y sign
     versus the torso convention) was tried and is VISIBLY WRONG -- it displaces the sacrum/hip contours off
     the bone entirely. Frame k is used as the level index throughout this script.
+    CORRECTED Q172 (2026-09-30): that in-plane claim was wrong -- the photographs have row 0 ANTERIOR and the labels
+    land on them only ROW-FLIPPED (Q57/Q172 overlays); the builder now flips them (LABEL_ROW_FLIP). The z claim stands.
   - `legs_total.nii.gz`'s own TotalSegmentator `total` labels are the anchors and exclusions, same numeric
     ids as the female script (they are TotalSegmentator ids, body- and block-independent): hip_left/right
     (77/78) and sacrum (25) the bony pelvis, urinary_bladder (21) the bladder, colon (20) the rectum/anal
@@ -713,6 +715,35 @@ def run(a, log=print):
     return fr, out, ids, merges, groups, lv, mids
 
 
+def drop_islands(vol, labels, ka, k_arch):
+    """Q172d: every named (shippable) muscle keeps only its largest 3-D piece (6-connected); a piece cut off from
+    it by the per-level watershed is NOT attributed to it -- its voxels go to that side's sink (obturator_internus in
+    the pelvic band above the pubic arch's apex, perineal_other below it), not to a neighbour. Returns
+    {structure: [voxels moved per dropped piece]}. In place on `vol` (axes k, row, col)."""
+    from scipy import ndimage as ndi
+    sink = {}
+    for lid, (nm, base, _m, side) in labels.items():
+        if base in SINKS:
+            sink[(base, side)] = lid
+    moved = {}
+    for lid, (nm, base, members, side) in labels.items():
+        if base in SINKS or side == "midline" or len(members) > 1:
+            continue
+        lab, n = ndi.label(vol == lid)                   # 6-connected: the topology marching cubes keeps
+        if n < 2:
+            continue
+        sz = np.bincount(lab.ravel())[1:]
+        keep = int(sz.argmax()) + 1
+        drop = (lab > 0) & (lab != keep)
+        kk = np.arange(vol.shape[0])[:, None, None] + ka
+        pel = drop & (kk > k_arch)
+        per = drop & (kk <= k_arch)
+        vol[pel] = sink[("obturator_internus", side)]
+        vol[per] = sink[("perineal_other", side)]
+        moved[nm] = sorted((int(x) for i, x in enumerate(sz) if i + 1 != keep), reverse=True)
+    return moved
+
+
 def relabel(ids, groups):
     """Final label table: right block, left block, then the midline structures. Unchanged from the female script."""
     final, taken = [], set()
@@ -819,6 +850,26 @@ def montage(fr, vol, labels, ks, path, ka, cor_row, cor_cols, crop):
     Image.fromarray(full).save(path)
 
 
+def stamp_badges(mapping_path, subjects=("ct_vhm_pfloor", "ct_vhm_pfloor_fix")):
+    """Q172d: copy the mapping's per-entry procedural_badge onto the converted manifests (the field
+    export_viewer_bundle.py carries into the bundle as rec.procedural_badge)."""
+    bad = {e["atlas_id"]: e["procedural_badge"] for e in json.load(open(mapping_path))["entries"]
+           if e.get("atlas_id") and e.get("procedural_badge")}
+    n = 0
+    for s in subjects:
+        p = REPO / "build/vh" / s / "manifest.json"
+        if not p.exists():
+            continue
+        m = json.load(open(p))
+        for st in m["structures"]:
+            if st["atlas_id"] in bad and st.get("procedural_badge") != bad[st["atlas_id"]]:
+                st["procedural_badge"] = bad[st["atlas_id"]]
+                n += 1
+        json.dump(m, open(p, "w"), indent=2)
+    print(f"stamped {n} procedural badges")
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--frame-dir", default=FRAME_DIR)
@@ -826,7 +877,12 @@ def main(argv=None):
     ap.add_argument("--out", default=str(TASK_DIR / "vhm_pelvic_floor_cryo.nii.gz"))
     ap.add_argument("--labels-out", default=str(REPO / "mappings/vhm_pelvic_floor_labels.json"))
     ap.add_argument("--mapping-out", default=str(REPO / "mappings/subjects/ct_vhm_pfloor_volume_mapping.json"))
+    ap.add_argument("--stamp-badges", action="store_true",
+                    help="Q172d: only write each mapping entry's procedural_badge onto the converted "
+                         "build/vh/ct_vhm_pfloor(_fix)/manifest.json structures (idempotent), then exit")
     a = ap.parse_args(argv)
+    if a.stamp_badges:
+        return stamp_badges(a.mapping_out)
     import nibabel as nib
     fr, out, ids, merges, groups, lv, mids = run(a)
     final, labels, lut_r, lut_l = relabel(ids, groups)
@@ -838,6 +894,7 @@ def main(argv=None):
         mid = mids.get(k, mids[max(mids)])
         left = np.arange(fr.W)[None, :] > mid
         vol[k - ka] = np.where(left, lut_l[out[k]], lut_r[out[k]])
+    islands = drop_islands(vol, labels, ka, lv["k_arch"])
     # X TRANSLATION: 240, NOT 350 (the female/torso-frame scripts' own constant, which this script had ported
     # unchanged along with everything else torso-frame-related -- Q86 found this was never re-derived for the
     # LEGS-block frame this script actually uses). 240 matches legs_total.nii.gz's OWN affine x-translation
@@ -866,6 +923,7 @@ def main(argv=None):
                     "z_ras_range": [float(fr.z0 + ka + kk.min()), float(fr.z0 + ka + kk.max())],
                     "levels": nlev[nm]}
     print("volumes cm3", vols, flush=True)
+    print("islands moved to sink (voxels)", islands, flush=True)
     # ---- numeric checks: overlap with his bone / organ labels, and the fraction sitting on the muscle class
     over_bone = {}
     over_organ = {}
@@ -1015,6 +1073,14 @@ def main(argv=None):
                                                        frac=abs(lv["spine_rule"]["female"]["fraction_of_head_to_tuberosity"]),
                                                        fmm=abs(lv["spine_rule"]["female"]["spine_below_head_mm"]),
                                                        fdir="below" if lv["spine_rule"]["female"]["spine_below_head_mm"] > 0 else "above")
+            if islands.get(nm):
+                e["procedural_badge"] += (f" {round(sum(islands[nm]) / 1000, 1)} cm3 in {len(islands[nm])} piece(s) cut off "
+                                          f"from the main sheet was left unattributed.")
+            if nm.startswith("levator_ani"):
+                e["procedural_badge"] += (" SIZE CAVEAT: both sides together are ~1.8x the published adult (female) "
+                                          "levator range of 19.8-46.6 cm3 (no male volume norm found); the region "
+                                          "likely includes perirectal/periprostatic fat, so treat its bulk as an "
+                                          "overestimate.")
         entries.append(e)
     not_shipped = {**{k: v for k, v in SINKS.items()}, **nulled,
                    "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
@@ -1077,6 +1143,7 @@ def main(argv=None):
                                       "+row posterior, as hers); affine x = 242.72 - c, y = 239.11 - r. Before: "
                                       "labels unflipped against the photographs, y = 240 - r (PROJECT_STATE "
                                       "Q171/Q172)."},
+        "islands_moved_to_sink_voxels": islands,
         "volumes_cm3": vols, "geometry_atlas_mm": geom, "checks": checks,
         "labels": {str(l): labels[l][0] for l in sorted(labels)},
         "merged": {nm: {"members": members,
