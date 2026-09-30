@@ -520,6 +520,9 @@ def level_masks(fr, k):
     excl = (ndi.binary_dilation(bone, iterations=2) | ndi.binary_dilation(organ, iterations=1)
             | np.isin(t, GLUT) | np.isin(t, PSOAS) | (dskin <= SKIN_MM) | ~tissue)
     muscle = fill_small_holes(muscle & ~excl)
+    # Q172d: the hole fill re-admitted his prostate apex where its small label section sits enclosed in the levator
+    # (17 voxels); the labels themselves are never muscle
+    muscle &= ~(bone | organ)
     d_bone = ndi.distance_transform_edt(~(hip | sac))
     visc = (t == COLON) | (t == BLADDER)
     d_visc = ndi.distance_transform_edt(~visc) if visc.any() else np.full(muscle.shape, 1e3)
