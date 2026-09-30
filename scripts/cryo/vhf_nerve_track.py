@@ -66,6 +66,8 @@ class Crops:
 
     def level(self, y):
         L = self.b["levels"][str(int(y))]; w = L["windows"][self.side]
+        if "RS_by_side" in L:        # Q179: her per-level, per-side registration (vhm_stream_leg_crops.py --body vhf)
+            L = dict(L, RS=L["RS_by_side"][self.side], CS=L["CS_by_side"][self.side])
         return L, w
 
     def image(self, y):
