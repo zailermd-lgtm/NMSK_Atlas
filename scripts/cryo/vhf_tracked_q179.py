@@ -7,7 +7,16 @@ artery / vein + tibial nerve) brought to the standard reached on the male in Q17
         --box right=0,200,-140,80 --ap-row -1 --rs-cs=-2,-108 --margin 20 --z-offset="0:-20,-375:-14" --out SCRATCH/q179/crops/R
     python3 scripts/cryo/vhm_stream_leg_crops.py --body vhf ... --box left=-200,0,-140,80 --z-offset="0:-18.5,-375:-17" --out SCRATCH/q179/crops/L
     python3 scripts/cryo/vhf_tracked_q179.py register --crops SCRATCH/q179/crops      # femur registration -> RS/CS_by_side in the bbox json
+    python3 scripts/cryo/vhf_tracked_q179.py offsets --crops SCRATCH/q179/crops       # the lost frame reconstructed -> vhf_tracked_reg_q179.json
+    python3 scripts/cryo/vhf_tracked_q179.py regvol                                   # outlines translated -> *_reg_q179.nii.gz
+    python3 scripts/cryo/vhf_tracked_q179.py photos --crops SCRATCH/q179/crops        # Q178 per-slice statistics -> unusable levels
+    python3 scripts/cryo/vhf_tracked_q179.py clip --crops SCRATCH/q179/crops          # Q176 clip, her rule -> *_reg_clip_q179.nii.gz
+    python3 scripts/cryo/vhf_tracked_q179.py interp --crops SCRATCH/q179/crops        # Q178 interpolation -> *_q179.nii.gz
     python3 scripts/cryo/vhf_tracked_q179.py audit --crops SCRATCH/q179/crops         # no changes: overlap, photo share, shift, slices
+
+STATUS (2026-09-30): STOPPED after the audit, nothing wired or shipped. The *_q179 volumes are CANDIDATES: her Q48 thigh
+muscles carry the same lost-frame error as the outlines, so registering only the outlines leaves 8-13 mm of muscle mesh over
+them and a bounded Q177 face snap does not absorb it (data/derived/Q179_vhf_tracked_audit.json "decision").
 
 REGISTRATION (her femur, Q173 method adapted): her CT femur (+ patella, + hip bone above y -30) sectioned per 1 mm level,
 contour sampled every 0.5 mm; photograph edge map = colour Sobel magnitude on the 1 mm-binned crop, locally normalised

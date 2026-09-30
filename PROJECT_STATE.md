@@ -9973,3 +9973,52 @@ the female's phalanges are under-captured at HU 200.
 - Open: the Q177 sentence in the three badges still says the span "could not be clipped" (historical; the Q178 sentence follows it);
   left sciatic -139..-141 traced on dark photographs (kept, continuous); semitendinosus_r lateral face; femoral_v_r gap and popliteal
   arteries (Q174).
+
+## Q179 (2026-09-30) -- AUDIT of her photo-tracked thigh/knee structures (Q53 sciatic, Q55 femoral, Q56 popliteal) -- STOPPED, nothing shipped
+- Status: step 1 (audit) done; step 2 NOT clean -> stopped for an owner decision. build/viewer_f_hr, build/vh/ct_vhf_{nerve,femoral,popliteal}
+  and mappings/subjects/* unchanged (md5 / diff checked; the mapping source_volume edits were reverted in the working tree). NOTE: a
+  "Q179 WIP" commit 585b80f (not made by the Q179 agent) captured an intermediate state incl. the mapping edits -> the working tree
+  restores the pre-Q179 mappings; review before any commit. viewer_m_hr untouched (md5).
+- HER FRAME IS LOST: vhf_stream_crops.py needs SCRATCH/vh_cryo_f/{frame.json,anchors.json}, gone with a container reset. Rebuilt a
+  mapping: `vhm_stream_leg_crops.py --body vhf` (new, body-aware; --body vhm output byte-identical, checked on a 3-level stream) =
+  her old frame's in-plane form + Q154 cryo-z calibration + a per-side z offset measured on her femur/hip/patella contours
+  (right -20 mm at y 0 -> -14 at -375, left -18.5 -> -17; sharp peaks at the knee, broad at the hip), wider crops (margin 20 mm);
+  `vhf_nerve_track.Crops` reads optional per-level RS_by_side/CS_by_side (absent in all older bbox files).
+- Femur registration (`vhf_tracked_q179.py register`: CT femur contour on the photo edge map, +-20 mm, peak ratio >= 1.08, outliers
+  > 3 mm dropped, median 21 / mean 9): used 318/441 (R) and 306/437 (L) levels, residual median 0.15/0.21 mm, p90 0.59/0.67 mm;
+  shift drifts with y (R -6/+10 mm at the hip -> -1.7/+6 at -200 -> ~0/+1.3 at the knee; L similar). Rotation search 0 to -2 deg (ignored).
+- MAIN FINDING (registration): her tracked outlines are displaced from her femur-registered photographs. Reconstructed the lost frame
+  (one shift per level for the whole photograph, as her anchors were) from both legs' traced outlines on their photographed features
+  (Q53 fascicle blobs / Q55-Q56 lumina; `offsets`): left and right agree within ~0.5-3 mm -> translations needed: sciatic R ~4-7 mm,
+  L ~8-14 mm (median 8.75, max 13.9); femoral group (right) 2.5 mm; popliteal group (right) 5.3 mm (constant per vessel group; a per-level
+  window at a group's ends jumped 5-16 mm in attempt 1). Share on photographed muscle (her rule), as placed -> registered: sciatic R
+  37 -> 5 %, L 74 -> 15 %; femoral_n 44 -> 16 %; tibial_n 85 -> 25 %; lumen share femoral_a 60 -> 95 %, femoral_v 82 -> 88 %, popliteal_v
+  5 -> 42 %. popliteal_a stays ~10 % lumen (its contracted lumen is not detected; wall photographs as muscle -> 54 % "muscle").
+- Her colour calibration (registered outline cores vs muscle / fat interiors): muscle value p1-p99 45-94 (g/r up to 0.77: his strict
+  g < 0.62 r keeps only 52 % of her muscle), nerve value median 140 (p5 85), clot red median 41 (p75 53), fat value > 181.
+  Her rule: red > blue + 8, value < 100, red >= 50 (muscle 95.6 %, nerve 8.6 %, clot 29 % -> clot/lumen excluded by her Q55/Q56 lumen
+  detector, `lumen_mask`).
+- Unusable photographs (Q178 statistics per side, running reference, "unusable" = blank or > 2x a threshold + contiguous flags):
+  y -127..-131 (R) / -127..-132 (L): photos 2930-2932 are BLANK in the source, -128/-129 blue-gel spill, -131/-132 frost. Q53 sciatic
+  sections there are ~2x their neighbours (R 31 vs 14, L 60 vs 31-35 mm2). Marginal single flags (knee G/R +0.05) kept.
+- Overlap as shipped (bundle, vertices > 1 mm inside any muscle mesh / max mm): sciatic 11,639/14,949 (13.3; AM_l 6,317, AM_r 2,460,
+  BF_l 1,149, BF_r 852), femoral_a 464 (7.2, pectineus), femoral_v 671 (6.6, pectineus), femoral_n 1,277 (8.0, iliopsoas), popliteal_a 708
+  (5.4, semimembranosus/gastrocnemius), popliteal_v 675 (5.3), tibial 638 (5.0). 0-9 vertices in bone.
+- Candidates computed, NOT shipped (data/ct_sources/task_outputs/vhf_*_reg_q179 / _reg_clip_q179 / _q179.nii.gz + vhf_tracked_reg_q179.json):
+  registered; Q176 clip with her rule (sciatic R 5.1 -> 1.3 %, L 15 -> 4.7 %, femoral_n 16 -> 0.8 %, femoral_v 6.5 -> 1.2 %, popliteal_v
+  22 -> 7.6 %, tibial 25 -> 8.6 % on muscle; volume -4/-11/-15/-6/-16/-18 %, diameters -3..-9 %, components unchanged); Q178 interpolation of
+  the sciatic over the unusable levels (R 31 -> 13-14.5 mm2, L 60 -> 31-34).
+- WHY STOPPED: her Q48 thigh muscles carry the same frame error (they were refined to photographed septa in the lost frame): the union of
+  her thigh-muscle sections fits her photographed muscle best when shifted by 50-100 % of the outline translation (L up to ~10 mm).
+  Registered outlines vs her full-res muscles: sciatic 32,019/46,907 vertices > 1 mm (max 13.3; BF_l 15,595, AM_r 8,811), femoral a/v in
+  pectineus 1,307/2,719 (max 9.6/9.2, worse than shipped). Q177 bounded face snap DRY RUN (her rule, cap 8 mm / 45 %, fold guard) on the
+  10 entered muscles: volumes -0.1..-1.4 % but overlap barely moves (BF_l 15,595 -> 13,103, max 13.3 -> 10.5; AM_r 8,811 -> 7,310;
+  pectineus_r 4,026 -> 3,853). Decision needed: (a) translate her Q48 thigh muscles per level too (touches Q48 geometry), (b) ship the
+  registered outlines with the larger disclosed overlap, or (c) keep the lost frame for both and clip in it.
+- Also looked wrong: Q56 tibial_n tracks something ~12 mm lateral of the photographed tibial nerve (inside/at a muscle, both as placed and
+  registered; the speckled nerve lies ~8 mm posterior of the popliteal vessels) -- a tracking error, not registration. Left femoral /
+  popliteal bundles were never tracked (Q55/Q56 right only).
+- Files: scripts/cryo/vhf_tracked_q179.py (register | offsets | regvol | photos | clip | interp | audit), scripts/cryo/vhm_stream_leg_crops.py
+  (--body vhf), scripts/cryo/vhf_nerve_track.py (Crops per-side RS/CS), tests/test_vhf_tracked_q179.py (8 pass), data/derived/Q179_vhf_tracked_audit.json.
+  Scratch q179/: montage_sciatic_left.png, zp2/zp3 (popliteal), look1.png (femur registration), unusable.png, snap_dry.json, old_bundle.json,
+  registration.json, photo_stats.json. Crops deleted (re-stream ~35 s per side); vh_cryo/, vhm_ts/ kept. Not committed, not published.
