@@ -277,6 +277,15 @@ fi
 # 18.9-20.6mm / max 25.7-32.1mm and hand median 22.2-28.9mm / max 50.9-51.5mm, both over the
 # 15mm median bar -- NOT shipped, either region. xfer_zan2vhf_limb above (its badge now also
 # discloses its own max error) stands as this specimen's forearm/hand/foot estimate, unchanged.
+# Q62 step 5: foot intrinsic muscles she had no mesh for (12 ids), Z-Anatomy carried by the Q168 per-bone fits onto her
+# own foot bones, bounded push-off-bone + pull inside her skin, per-muscle badges (scripts/transfer/
+# zan_to_vhf_foot_intrinsics.py; report data/derived/Q62s5_vhf_foot_intrinsics.json). Needs the Z-Anatomy source
+# (build/zanatomy), her built subjects and her current bundle (subject order). Ids unique to this subject.
+if [ ! -f build/vh/xfer_zan2vhf_foot/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+   && [ -f build/viewer_f_hr/bundle.json ]; then
+  python3 scripts/transfer/zan_to_vhf_foot_intrinsics.py 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhf_foot/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_foot"
 [ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
 # Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer

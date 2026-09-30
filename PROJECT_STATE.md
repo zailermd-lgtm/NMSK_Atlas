@@ -9299,7 +9299,8 @@ the female's phalanges are under-captured at HU 200.
 - [x] Step 3: Deep neck partially (hyoid/suprahyoid via ct_vhf_hyoid)
 - [x] Step 4: Hand intrinsics SHIPPED (ct_vhf_hand, partial separation)
 - [x] Step 6: Trunk wall SHIPPED (diaphragm, intercostals via ct_vhf_twall)
-- [ ] Step 5: Foot intrinsics — BLOCKED on Q59 (DU release inaccessible via network policy)
+- [x] Step 5: Foot intrinsics — SHIPPED 2026-09-30 by the new route (Q59 still blocked): 12 Z-Anatomy foot muscles fitted onto
+      her own foot bones (Q168), subject xfer_zan2vhf_foot, badged as transferred; FHB_r + lumbricals_r held -- see "## Q62 step 5"
 - [ ] Step 7: Head/larynx — Requires full-resolution head cryosection streaming + tracking
 - [x] Step 8: ~15 small entities — Q65 DONE (entity records created, 184 tests pass)
 - [x]/[ ] His forearm/hand — NOT lost (Q106, 2026-09-21 corrected this stale line): his full-resolution (0.33 mm)
@@ -10194,3 +10195,40 @@ the female's phalanges are under-captured at HU 200.
   front-thigh / hamstring muscles in the old frame (then they cover the registered vessels/nerves) or lets them grow
   20-40 %. Next real route: rebuild her thigh muscles from scratch on the femur-registered photographs (not a refit of Q48),
   or wait for the DU female lower-limb release (Q59), which would replace Q48 outright.
+
+## Q62 step 5 (2026-09-30) -- her foot intrinsics TRANSFERRED from Z-Anatomy onto her own foot bones (Q168 route) -- SHIPPED
+- Route: replaces the blocked DU release (Q59). `scripts/transfer/zan_to_vhf_foot_intrinsics.py` (tests/test_zan_to_vhf_foot_intrinsics.py,
+  4 pass) -> subject `build/vh/xfer_zan2vhf_foot` (xfer_ prefix on purpose: Q168's validation never counts it as her own mesh; no
+  volume exists, so no mappings/subjects file -- the atlas_id -> Z-Anatomy object table is ZAN_ID in the script), report
+  data/derived/Q62s5_vhf_foot_intrinsics.json (every gate number per muscle). Wired in vhf_rebuild_bundle.sh before xfer_zan2vhf_limb_photo.
+- Scope: 24 ids (12 muscles x 2); 10 already had a mesh in her bundle (xfer_zan2vhf_limb, Q147: AbH_l, QP r/l, AdH r/l, FDMB r/l, PI r/l,
+  DI_r) -> skipped; 14 built. All Z-Anatomy objects CC BY-SA (NC objects are only inner ear/kidney; collect_zan excludes them).
+  Foot lumbricals are unmatched in the name map -> taken from the orphan pool (zan_lumbrical_muscles_of_foot_<s>); FHB = medial+lateral
+  heads, AdH = oblique+transverse (name-map merge).
+- Gates (measured): (4) bone fit: weighted median residual of the Z-Anatomy bone pieces each muscle rides on 1.25-2.14 mm (all <= 3 mm;
+  per-muscle worst piece 2.9-9.7 mm = her left 5th-toe phalanges; phalanges composite 2.6/3.4 mm, her phalanges under-captured at HU 200).
+  (bone) inside her CT foot bones before fix 3-40 % (Z-Anatomy itself draws these muscles 0.5-21 % into its OWN bones at attachments;
+  depth median ~1 mm, max 5.5 mm) -> bounded push-out (vertices <= 3 mm deep to surface + 1 mm; deeper stay and count) -> after 0-4.5 %;
+  FHB_r 7.6 % after -> DROPPED. (1) skin: 0-27 % outside before (EHB_r 27 %, EDB 13-16 %; max 4.0 mm out) -> nearest-skin-point + 0.5 mm
+  pull (new `pull_inside_skin`; clip_to_skin_mesh's ray-to-centroid bisection collapsed EDB vertices 58-82 mm, rejected) -> 0.0 % outside
+  for all shipped; fix moves max 3.3-7.0 mm. (3) overlap (vertices inside other same-side foot muscles incl. the 10 existing):
+  2.1-9.3 % shipped; lumbricals_r 20.8 % (inside the OLD Q147 adductor_hallucis_r) -> HELD (gate 10 %).
+- SHIPPED 12: ADM_foot r/l, AbH_r, DI_foot_l, EDB r/l, EHB r/l, FDB r/l, FHB_l, lumbricals_l. Volumes (voxel fill, cm3; Z-Anatomy source
+  in brackets): ADM 9.3 r / 6.5 l (6.2), AbH_r 11.5 (11.7), DI_l 4.6 (5.6), EDB 11.8 / 10.4 (12.6), EHB 5.1 / 4.5 (5.8), FDB 23.6 / 19.1
+  (19.4), FHB_l 7.9 (9.7), lumbricals_l 1.2 (1.9). Right foot runs larger (ADM_r +50 %, FDB_r +22 % vs source): her Q168 fit is
+  asymmetric (fitted Z-Anatomy heel-to-MT-head 191.5 r vs 182.6 l mm; her own bones 195.9 / 194.9; metatarsal scale 1.045 vs 0.911).
+  Published: per-muscle adult MRI volumes exist (Kusagawa 2022 J Foot Ankle Res 15:22, doi:10.1186/s13047-022-00532-9) but their tables
+  could not be read (PubMed full text omits tables; PMC/publisher blocked) -> no per-muscle comparison. Group level: her plantar set per
+  foot (new + existing, 8-9 of 10 muscles) 77.2 r / 76.0 l cm3 vs 113.3 cm3 plantar contractile (Chang 2012 Clin Biomech 27:500,
+  doi:10.1016/j.clinbiomech.2011.11.007); all intrinsics 94.1 / 90.9 vs 168 +- 42 cm3 (Andersen 2004 Diabetes Care 27:2382,
+  doi:10.2337/diacare.27.10.2382) -- low but she is a small 59-year-old woman and Z-Anatomy is one generic body.
+- (5) Cryosections: none usable locally for her feet (only scratch vh_cryo_f_idx 170x101 thumbnails ~4 mm/px, not registered; her
+  registered photos cover the thigh only, Q179/Q181). Not re-streamed. Montage: scratch q62s5/montage_foot.png (plantar/dorsal/medial,
+  both feet); viewer screenshots q62s5/viewer_fdb.png, diag.png.
+- Bundle (VHF_OUT=build/viewer_f_hr): 417 -> 429 structures (+12, nothing else changed: same nf/subject for every old id), 3,261,437 ->
+  3,284,580 tris (source 31,532,737 -> 31,555,880); new subject 12 structures / 11,580 v / 23,143 tris (shipped at full res). Headless
+  Chromium (swiftshader, local three.js routed): loads, no page errors, "Search 429 structures", FDB_l card shows the Q62s5 badge.
+  build/viewer_m_hr md5-identical. Rebuild reused build/vh/ct_vhf_skin (skin source volume absent -- pre-existing fallback).
+- Known issue / next: the 10 existing Q147 foot muscles sit 8-15 mm (centroid) from where the Q168 fit puts the same objects (sym.
+  surface 6-17 mm); re-transferring them with this script (drop SKIP_EXISTING) would make the foot consistent and likely free
+  lumbricals_r. FHB_r needs a better first-metatarsal/medial-cuneiform fit to pass. Not published (main session publishes).
