@@ -10101,3 +10101,43 @@ the female's phalanges are under-captured at HU 200.
   reg1mm.json, meshcheck.json). Not committed, not published.
 - Open: label-vs-photo misfit on his right; left levator's posterior pieces unattributed (asymmetry); EAS only where the colon label
   exists (k728-737).
+
+## Q180 result (2026-09-30) -- his right forearm flooded from Claude-placed seeds; 4 ids replaced in build/viewer_m_hr
+- Seeds placed by Claude from the five section JPEGs (plain + g/r paleness zooms + Q166 overlay; slice strips to follow bellies),
+  NOT an anatomist: 63 placed (61 primary + 2 extra FDS bellies at L4/L5), 19 absent (tendon/edge/not separable); confidence
+  2 high / 23 medium / 38 low; 43/63 agree with the Q165 rule label at the seed or its 2 mm majority (the rule is pie slices, so
+  disagreement is not an error signal). Files data/derived/Q180_forearm_seeds.json (px + frame ijk + atlas mm, reason per seed)
+  and data/derived/Q180_forearm_seeds_page.json (page store shape, collection seeds, 80 docs = 61 placed + 19 absent, NOT uploaded -- main session).
+  Known doubts: FCR seeded at L4/L5 against the textbook (belly continuous from L3, median nerve at its deep-medial corner);
+  BR/ECRL at L1 split without a visible septum; posterior L4 is one mass (7 low seeds by position).
+- Script scripts/cryo/vhm_forearm_seeded_q180.py (prep | views | seeds | flood | ship | --stamp); tests
+  tests/test_vhm_forearm_seeded_q180.py (7 pass, output tests skip when absent). Flood: per plane a marker watershed inside the
+  Q165 muscle class minus Q166 lines, then 3-D marker watershed through the Q164 frame (0.8 paleness ridge + 0.2 edge, lines = 1),
+  plane labels as markers; stop at the next plane marked absent; beyond L5 max(last plane, rule extent) + 10 mm (7.0 cm3 cut).
+  Attempt 1 (plain watershed): seeds on slightly pale spots starved (L3 FCR 8 mm2), jitter min Dice 0.34, pass FDS+FDP only.
+  Attempt 2 (compactness 0.005, seed settles to lowest elevation within 1 mm) = shipped. Two attempts used.
+- Numbers (attempt 2; ref = architecture volume x 2.70 his upper-arm factor -- Holzbaur 2007 table not accessible, no PMC):
+  all 19 one piece (main 1.000), 0 voxels on CT radius/ulna or photographed bone; boundary on pale septum/non-muscle median
+  0.26-0.91 (chance 0.21), contact-on-septum 0.20-0.51 (Q165 0.21-0.53: not better at contacts). Pass: FDS 90.3 cm3 (1.16x,
+  jitter 0.91), FDP 108.6 (0.99x, 0.90), ED 56.2 (0.96x, 0.96), ECU 38.1 (1.16x, 0.96), supinator 14.0 (0.55x, 0.99), EPB 7.4
+  (1.70x, 0.82). Fail: FCR 115 (4.7x), PL 23 (4.8x), FCU 107 (2.4x), FPL 51 (2.6x), PQ 13 (2.2x), ECRB 94 (3.0x), EDM 19 (5.9x),
+  EPL 21 (2.2x), EI 13 (4.0x), APL jitter 0.70; PT/BR/ECRL out of range (arise above the radial-head plane).
+  Measured muscle 969.5 cm3 vs reference total ~654 (Q165: 1.49x), so the 2x gate is tight for big muscles.
+- Shipped: subject build/vh/ct_vhm_forearm_seeded (convert with his origin -6.035,-895.476,4.787, smooth 1.0; badges stamped,
+  "seeded by Claude from the photographs, not by an anatomist; owner review pending" + method, jitter Dice, septum share, volume vs
+  ref); label volume data/ct_sources/task_outputs/vhm_forearm_muscles_seeded.nii.gz, key mappings/vhm_forearm_muscles_seeded_labels.json,
+  mapping mappings/subjects/ct_vhm_forearm_seeded_volume_mapping.json (atlas_id only for the 6 passing), report
+  data/derived/Q180_vhm_forearm_seeded.json. Wired in scripts/vhm_rebuild_bundle.sh after ct_vhm_forearm (its FDS/FDP/APL keep
+  winning; seeded FDS/FDP agree with them at 6-7 mm median surface distance) and before xfer_zan2vhm_limb_photo/_limb.
+  Rebuild VHM_OUT=build/viewer_m_hr: 441 -> 441 ids, ONLY extensor_digitorum_r, extensor_carpi_ulnaris_r (were xfer_zan2vhm_limb),
+  supinator_r, extensor_pollicis_brevis_r (were xfer_zan2vhm_limb_photo) changed (geometry + metadata hashes); 2,249,013 ->
+  2,262,897 tris. Chromium headless: 0 page errors (1 console cert error for an external resource). Old bundle: scratch
+  q180/old_bundle.json/.bin, diff q180/bundle_diff.txt; montage q180/montage_seeded.png (attempt 1: montage_seeded_attempt1.png).
+- WATCH: the Z-Anatomy ED/ECU/EPB meshes carried their tendons to the hand (56/35/31 % of their vertices outside the segment);
+  the seeded ones are fleshy belly between the radial-head and distal-radius planes only, so those tendons are no longer shown.
+  ED sits 33 mm (median surface) from the transferred ED (transfer error itself ~25 mm). Not committed, not published.
+- Q180 main-session decision (2026-09-30): HELD, not shipped. build/viewer_m_hr rebuilt without it (bundle.bin identical to
+  pre-Q180). Reasons: the seeded bellies drop the tendons the transferred ED/ECU/EPB meshes carry (visible regression),
+  contact boundaries follow photographed septa no better than Q165 (0.20-0.51 vs 0.21-0.53), 38/63 seeds low confidence.
+  Claude's 80 seed decisions are loaded into the click page's db (`seeds`, by:"claude") for owner review/correction;
+  re-run scripts/cryo/vhm_forearm_seeded_q180.py from the page's seeds, then Q180_SHIP=1 in vhm_rebuild_bundle.sh.

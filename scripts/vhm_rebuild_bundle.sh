@@ -39,6 +39,16 @@ if [ -f $T/vhm_forearm_muscles_cryo.nii.gz ] && ! grep -q vhm_forearm_muscles bu
   cp mappings/subjects/ct_vhm_forearm_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_forearm
   python3 scripts/ingest_volume_geometry.py convert $T/vhm_forearm_muscles_cryo.nii.gz --labels vhm_forearm_muscles --subject ct_vhm_forearm --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
+# Q180: his right forearm muscles flooded from one seed per visible belly on 5 photograph sections (seeds placed by Claude,
+# NOT an anatomist; owner review pending; scripts/cryo/vhm_forearm_seeded_q180.py). Only muscles passing its gate carry an
+# atlas_id (main piece >= 0.95, seed-jitter Dice >= 0.8, volume 0.5-2x reference); badges stamped by --stamp. Listed after
+# ct_vhm_forearm (its FDS/FDP/APL keep winning) and BEFORE xfer_zan2vhm_limb_photo / xfer_zan2vhm_limb, so it replaces
+# only the Z-Anatomy-transferred ids it ships.
+if [ -f $T/vhm_forearm_muscles_seeded.nii.gz ] && [ ! -f build/vh/ct_vhm_forearm_seeded/manifest.json ]; then
+  cp mappings/subjects/ct_vhm_forearm_seeded_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_forearm_seeded
+  python3 scripts/ingest_volume_geometry.py convert $T/vhm_forearm_muscles_seeded.nii.gz --labels vhm_forearm_muscles_seeded --subject ct_vhm_forearm_seeded --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+  python3 scripts/cryo/vhm_forearm_seeded_q180.py --stamp build/vh/ct_vhm_forearm_seeded
+fi
 # Q62 step 6: diaphragm + intercostal sheets from his total-task labels (scripts/trunk_wall_from_ct.py --body m; geometric rule only, his frozen HU overlap)
 if [ -f $T/vhm_trunk_wall.nii.gz ] && ! grep -q vhm_trunk_wall build/vh/ct_vhm_twall/manifest.json 2>/dev/null; then
   cp mappings/subjects/ct_vhm_twall_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_twall
@@ -229,6 +239,10 @@ for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh c
 done
 [ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173 + Q175 + Q177, before vhm_both
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+# Q180 HELD (main session 2026-09-30): not shipped by default -- the seeded bellies drop the tendons the transferred
+# meshes carry, contact boundaries follow septa no better than Q165 (0.20-0.51), and 38/63 seeds are low confidence.
+# Set Q180_SHIP=1 to include it once the owner has reviewed/corrected the seeds on the click page.
+[ -n "${Q180_SHIP:-}" ] && [ -f build/vh/ct_vhm_forearm_seeded/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_forearm_seeded"   # Q180
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 [ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
