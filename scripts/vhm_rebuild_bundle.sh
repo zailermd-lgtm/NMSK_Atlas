@@ -165,8 +165,11 @@ fi
 # (vhm_nerves_cryo_reg.nii.gz) and surfaced as ct_vhm_sciatic (listed last; id unique), then badged from the report.
 # Q175: his adductor longus (anterolateral face, under the femoral vessels) snapped the same way from
 # vhm_thigh_snap_q175.npz; `apply` appends it to ct_vhm_thigh_snap after the six Q173 ids (their bytes unchanged).
+# Q177: the faces his sciatic nerve (biceps femoris long head, adductor magnus: snapped again on the Q173 mesh) and femoral
+# veins (pectineus, vastus medialis: appended) still entered, from vhm_thigh_snap_q177.npz (same apply).
 if [ -f $T/vhm_thigh_snap_q173.npz ] && { [ ! -f build/vh/ct_vhm_thigh_snap/manifest.json ] || [ -n "${RECONVERT:-}" ] || \
-     { [ -f $T/vhm_thigh_snap_q175.npz ] && ! grep -q adductor_longus build/vh/ct_vhm_thigh_snap/manifest.json; }; }; then
+     { [ -f $T/vhm_thigh_snap_q175.npz ] && ! grep -q adductor_longus build/vh/ct_vhm_thigh_snap/manifest.json; } || \
+     { [ -f $T/vhm_thigh_snap_q177.npz ] && ! grep -q Q177 build/vh/ct_vhm_thigh_snap/manifest.json; }; }; then
   python3 scripts/cryo/vhm_thigh_fat_plane_snap.py apply 2>&1 | tail -1
 fi
 # Q176: the tracked outlines (sciatic; femoral/popliteal veins + tibial nerve) clipped to his photographed non-muscle
@@ -192,6 +195,9 @@ done
 [ -n "$Q174_NEW" ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && [ -f build/vh/ct_vhm_popliteal/manifest.json ] && python3 scripts/cryo/vhm_femoral_popliteal_track.py badge >/dev/null
 [ -f data/derived/Q176_vhm_tracked_clip.json ] && [ -f build/vh/ct_vhm_sciatic/manifest.json ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && \
   [ -f build/vh/ct_vhm_popliteal/manifest.json ] && python3 scripts/cryo/vhm_tracked_clip.py badge   # Q176 (idempotent)
+# Q177: the sciatic_n / femoral_v residual-overlap sentence from the Q177 report (after the Q176 badge; idempotent)
+[ -f data/derived/Q177_vhm_thigh_faces.json ] && [ -f build/vh/ct_vhm_sciatic/manifest.json ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && \
+  python3 scripts/cryo/vhm_thigh_fat_plane_snap.py badge-q177
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 # Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
 # deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
@@ -212,7 +218,7 @@ for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh c
          ct_vhm_twall_contfix_mesh ct_vhm_abw_contfix; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
-[ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173 + Q175, before vhm_both
+[ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173 + Q175 + Q177, before vhm_both
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"

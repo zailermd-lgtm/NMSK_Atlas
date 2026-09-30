@@ -9886,6 +9886,54 @@ the female's phalanges are under-captured at HU 200.
   q176/old_bundle{.json,/}, old subjects q176/old_subjects/. Not committed, not published.
 - Open: femoral_v Q174 badge text still quotes the pre-clip lumen median (the Q176 sentence gives the new one); sciatic residual needs
   biceps femoris' medial face snapped (Q173 anterior-only rule); Q174 open items (right femoral vein gap, popliteal arteries) unchanged.
-- NEXT (Q177): the sciatic residual (820 viewer vertices >1 mm inside muscle, max 5.0 mm) is now the MUSCLE meshes reaching
-  over the nerve (right biceps femoris medial face, which Q173's anterior-only snap never touched; adductor magnus). Extend
-  the Q173 snap to biceps femoris' medial face on the sciatic levels; also the femoral veins vs pectineus/vastus medialis.
+- Q177 DONE (2026-09-30): entered faces (BF anteromedial, AM posterior, pectineus anterolateral, VM posteromedial) snapped; bundle vertices > 1 mm in muscle sciatic 820->578 (278 of them on his dark slices y -136..-141), femoral_v_l 19->6, femoral_v_r 2->2; see Q177 below.
+
+## Q177 (2026-09-30) -- the muscle faces his sciatic nerve / femoral veins still entered, onto the photographed fat plane (male hi-res viewer)
+- MEASURED entry faces (outward normal of the muscle face closest to each tracked vertex > 0.5 mm inside, mean axial direction):
+  biceps femoris long head ANTEROMEDIAL (113/118 deg from lateral toward anterior; NOT a medial face -- the nerve lies against the
+  face Q173 already snapped, the snap just had not followed it), adductor magnus POSTERIOR (284/279), pectineus ANTEROLATERAL (58/55),
+  vastus medialis POSTEROMEDIAL (217/203). Semitendinosus_r lateral face: 11 bundle vertices, max 1.7 mm -- not snapped (not asked).
+- FINDING: his photographs at y -137/-138 are black / colour-cast (-136..-141 unusable: muscle-class IoU vs the level 4 mm away < 0.5);
+  the Q176 clip could not act there, so the traced sciatic section is 148 mm2 at y -136..-138 vs ~73 around -> 278 of the 578 residual
+  bundle vertices (and ~330 of BF_r's / ~240 of AM_r's full-res residual) sit at those levels. Not fixable from those photographs.
+- Registration re-check on these crops (crop px, rows/cols; Q173 used R 7.2/0.0, L 7.0/-7.2): femur R 6/0, L 6/-8 (femoral crops),
+  L 7/-8 (sciatic crops; right femur truncated by that crop's edge). Per-muscle boundary-contrast fits scatter +-2-5 px in cols in
+  different directions (BF_r 7.5/2.5, AM_r 7.5/0, BF_l 8/-9.5, AM_l 6.5/-4.5, pect 6/2 & 7/-8, VM 6/-4 both) -> <= ~1 mm could be
+  registration, inconsistent in sign; Q173 registration kept.
+- Code: `scripts/cryo/vhm_thigh_fat_plane_snap.py` measure-q177 | verify-q177 | badge-q177 (Photo got optional `skip` levels; snap() got
+  optional `prefix_known`; defaults unchanged, Q173/Q175 bytes unchanged). Rule: faces within 60 deg of the measured entry direction,
+  levels where the tracked structure is inside / within 2 mm of the muscle (+-2 mm), Q175 muscle rule (strict + red >= 55), cap 8 mm
+  and 45 % thickness, median + 3 Laplacian + fold guard. BF/AM re-snapped on their shipped Q173 mesh subdivided once more (~1.9 mm
+  edges); pectineus/VM from vhm_both subdivided once (as Q175). Moves `data/ct_sources/task_outputs/vhm_thigh_snap_q177.npz`; `apply`
+  rebuilds ct_vhm_thigh_snap byte-identically (BF/AM in place, pectineus/VM appended after AL; ST + AL bytes unchanged, md5-checked).
+- Attempt 1 (Q173 mesh as is, all samples known, the whole tracked span): BF_r full-res 737->595, pectineus_r -6.8 % = STOP; attempt 2
+  (the rule above) shipped. Crops: vhm_stream_leg_crops.py --ap-row -1, sci y -80..-230 right=10,175,-115,20 left=-175,-10,-115,20;
+  fem y 20..-250 right=15,140,-25,85 left=-140,-15,-25,85 (~35 s, 374 MB), deleted after; vh_cryo/ + vhm_ts/ kept.
+- Numbers (vol cm3 %, move median/max mm, section on photographed muscle before->after, photographed muscle cut away cm3, tracked
+  vertices > 1 mm inside: full-res subject / shipped bundle, before->after, max mm):
+  BF_r 489.7->488.9 (-0.2 %) 0.25/4.79 0.835->0.838 0.35, 737->492 / 370->252 (4.98->4.60); BF_l 443.9->443.2 (-0.2 %) 0.20/2.59
+  0.841->0.843 0.54, 316->200 / 156->92; AM_r 1104.9->1102.4 (-0.2 %) 0.21/3.42 0.937->0.940 0.52, 363->316 / 194->161;
+  AM_l 1021.9->1019.3 (-0.3 %) 0.22/2.83 0.937->0.940 1.58, 110->47 / 89->62; pect_r 98.4->95.3 (-3.2 %) 1.65/4.91 0.721->0.770 0.72,
+  0->0 / 0->0 (inside 35->1); pect_l 104.5->100.7 (-3.6 %) 0.78/2.39 0.916->0.937 1.39, 156->0 / 13->0 (1.93->0); VM_r 725.8->720.2
+  (-0.8 %) 0.64/2.00 0.931->0.952 1.20, inside 78->1; VM_l 740.4->733.5 (-0.9 %) 0.62/1.90 0.931->0.953 1.63, inside 60->3.
+  Totals (bundle, any muscle mesh): sciatic_n 820->578 of 14,965 (max 4.98->4.60; 278 on the dark slices), femoral_v_l 19->6 (5 on
+  the dark slices, adductor longus), femoral_v_r 2->2 (adductor longus, dark slices).
+- Neighbours (old vs new bundle; femur, every thigh muscle, femoral_a/v, popliteal_v, sciatic_n, tibial_n within reach): no new overlap
+  for any of the 8 (Q175 rule). Montages scratch q177/montage_{sciatic,femoral}.png (looked at: pectineus/VM now sit on the vein's
+  photographed edge; BF follows the nerve groove only partly -- the remaining off-slice residual is where the BF surface crosses the
+  nerve in a narrow groove the smoothing does not follow, and a few upward tongues of the traced nerve outline into BF).
+- Shipped: vhm_rebuild_bundle.sh (thigh_snap apply re-runs when the q177 npz exists and the manifest lacks Q177; badge-q177 after the
+  Q176 badge). `VHM_OUT=build/viewer_m_hr bash scripts/vhm_rebuild_bundle.sh`: 437 entries (402 ids), 2,214,085 tris (+75,784: BF long
+  head 9k -> 36k each at the hi-res budget from the ~57k-tri subject; pect/VM 3.5k -> 9k); geometry changed ONLY the 8 ids (hashes);
+  metadata also sciatic_n, femoral_v_l/r (badges); order: pectineus/VM earlier. Q173 bytes: ST unchanged, BF/AM deliberately
+  re-snapped; Q175 AL unchanged. Badges: BF/AM keep the Q173 sentence + a Q177 sentence; pect/VM new; sciatic_n/femoral_v Q176 "The
+  rest is the muscle meshes..." sentence replaced by the Q177 residual numbers. Template label for ct_vhm_thigh_snap names the new faces.
+  Chromium headless: no page errors (one cert console error, external resource), 11 ids (13 entries) badged. viewer_f_hr untouched (md5).
+- Report data/derived/Q177_vhm_thigh_faces.json; tests tests/test_vhm_thigh_faces_q177.py (15, skip when absent); old bundle scratch
+  q177/old_bundle.{json,bin}, old subjects q177/old_subjects/. Not committed, not published.
+- Open: the dark slices y -136..-141 (sciatic + femoral vein outlines unclipped there; would need a per-slice colour normalisation or
+  interpolation from the neighbouring levels); semitendinosus_r lateral face (11 vertices); femoral_v_r gap and popliteal arteries (Q174).
+- Open after Q177: his photographs at y -136..-141 are unusable (slices -137/-138 near-black, colour cast nearby); the
+  sciatic section there is ~2x its neighbours (148 vs ~73 mm2) and holds 278 of the 578 residual vertices. Fix option:
+  replace those levels by interpolating the clipped sections from -135 and -142 (badge as interpolated). Biceps femoris
+  long head now ~36k tris/side in the bundle (+76k total); cap its budget if page size matters.
