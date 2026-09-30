@@ -10022,3 +10022,14 @@ the female's phalanges are under-captured at HU 200.
   (--body vhf), scripts/cryo/vhf_nerve_track.py (Crops per-side RS/CS), tests/test_vhf_tracked_q179.py (8 pass), data/derived/Q179_vhf_tracked_audit.json.
   Scratch q179/: montage_sciatic_left.png, zp2/zp3 (popliteal), look1.png (femur registration), unusable.png, snap_dry.json, old_bundle.json,
   registration.json, photo_stats.json. Crops deleted (re-stream ~35 s per side); vh_cryo/, vhm_ts/ kept. Not committed, not published.
+
+## Q180: male forearm click-to-seed page (owner route 1, approved 2026-09-30 "Continue")
+- Sections: scripts/cryo/vhm_forearm_seed_sections.py -> scratchpad q180/ (5 planes perpendicular to the Q164 forearm
+  axis at 15/32/50/68/85% of radius length, 0.2 mm/px, anterior up, radial left, viewed from distal; mapping.json holds
+  pixel <-> Q164 frame <-> atlas transforms; bone-centroid self-check <=1.1 mm except L1 radius 3.95 mm, where his CT
+  radius label is broken and partly carries the ulna label). Test tests/test_vhm_forearm_seed_sections.py.
+- Page: viewer/forearm_seeds.template.html (sections JSON with embedded JPEGs replaces __SECTIONS__), published
+  https://claude.ai/artifact/GEwrFJvieujBKcUDxHaJyo with db+user. Seeds land in db collection `seeds`, doc id
+  `<L#>__<atlas_id>` = {section, muscle, status placed|absent, x, y (image px), by, t}; per-section notes in `notes`.
+- NEXT: when the owner has clicked, read `seeds` with ArtifactData, map px -> Q164 frame via mapping.json, flood each seed
+  inside the Q166 septum mask on its plane, track between planes, verify, ship ct_vhm_forearm_seeded (badged).
