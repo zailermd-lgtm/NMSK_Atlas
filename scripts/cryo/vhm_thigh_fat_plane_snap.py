@@ -8,6 +8,10 @@ snapped onto the fat plane photographed in his 0.33 mm cryosections; his Q57 sci
     python3 scripts/cryo/vhm_thigh_fat_plane_snap.py apply
     # after the rebuild: overlap numbers on the built subjects and the shipped bundle -> the report
     python3 scripts/cryo/vhm_thigh_fat_plane_snap.py verify --bundle build/viewer_m_hr [--crops SCRATCH/q173/thigh]
+    # Q175, his adductor longus (crops: vhm_stream_leg_crops.py --box right=0,170,-60,100 --box left=-170,0,-60,100
+    #          --ap-row -1 --y-top 40 --y-bot -285 --out SCRATCH/q175/al):
+    python3 scripts/cryo/vhm_thigh_fat_plane_snap.py measure-al --crops SCRATCH/q175/al
+    python3 scripts/cryo/vhm_thigh_fat_plane_snap.py verify-al --bundle build/viewer_m_hr --old-bundle SCRATCH/q175/old_bundle
 
 Where his thigh muscles come from: build/vh/vhm_both, the decimated copy (recovered from his published viewer v25) of
 the DU lower-extremity release (Andreassen et al. 2023, Sci Data 10:34: manual segmentation of HIS cryosections).
@@ -28,6 +32,15 @@ the DU lower-extremity release (Andreassen et al. 2023, Sci Data 10:34: manual s
    thickness; 1-ring median + 3 Laplacian passes (other vertices fixed at 0); a fold guard shrinks any move that
    would flip a face. Muscle class = his colour rule (scripts/cryo/cryo_classes.py) made strict (value < 115,
    g < 0.62 r): the nerve's fascicles (value ~130, g/r ~0.7) are not muscle.
+3. Q175 ADDUCTOR LONGUS. His Q174 femoral veins sat 14-21 % inside his (DU, decimated) adductor longus, against its
+   ANTEROLATERAL face (the face under the femoral vessels: normals of the entered faces 30-90 deg from lateral toward
+   anterior). Same snap, candidate vertices n . (0.5 lateral, 0, 0.87 anterior) > 0.5 (within 60 deg of the anterolateral
+   direction) at the vein's levels (y +40..-285). (Attempt 1, > 0.2 as Q173, took the whole lateral-to-anteromedial half:
+   left volume -6.3 % > the 5 % stop, with the same vein result.)
+   photographs through the Q173 per-side registration (re-checked on these crops: the femur gives the Q173 shift);
+   muscle additionally needs red >= 55, because his veins' black clot (red 20-48) passes the strict rule (his adductor
+   longus: red 1st percentile 50-59, median 66-78). Moves in task_outputs/vhm_thigh_snap_q175.npz; `apply` adds them to
+   ct_vhm_thigh_snap after the six Q173 ids (whose bytes do not change).
 """
 from __future__ import annotations
 
@@ -78,23 +91,52 @@ BADGE_NERVE = ("Traced in his own 0.33 mm cryosections (Q57), placed with the pe
                "the gluteal and distal thirds are missing. Residual overlap: {res}. The traced outline runs up to ~2.6 mm "
                "past the photographed nerve into muscle in places (22-26% of its voxels lie on photographed muscle).")
 
+# Q175: his adductor longus, anterolateral face (under the femoral vessels), at the femoral vein's levels
+STORE_Q175 = T / "vhm_thigh_snap_q175.npz"
+REPORT_Q175 = REPO / "data/derived/Q175_vhm_adductor_longus.json"
+SPEC_Q175 = (("adductor_longus_r", "right"), ("adductor_longus_l", "left"))
+TAG = {aid: "Q175" for aid, _ in SPEC_Q175}
+Y_RANGE_Q175 = (-285.0, 40.0)
+MIN_RED_Q175 = 55.0
+NZ_Q175 = 0.5
+NEIGH_Q175 = ["femur", "pectineus", "adductor_brevis", "adductor_magnus", "sartorius", "vastus_medialis", "gracilis", "iliopsoas",
+              "femoral_a", "femoral_v", "popliteal_v", "sciatic_n"]
+SOURCE_Q175 = ("U.S. National Library of Medicine, The Visible Human Project (public domain): his colour cryosections at full "
+               "resolution (0.33 mm, NCI Imaging Data Commons) re-streamed by scripts/cryo/vhm_stream_leg_crops.py; his adductor "
+               "longus from build/vh/vhm_both = the DU lower-extremity release (Andreassen TE et al., Sci Data 10:34 (2023), "
+               "doi:10.1038/s41597-022-01905-2, CC BY 4.0) as recovered from his published viewer v25; his femoral veins from Q174 "
+               "(data/ct_sources/task_outputs/vhm_femoral_cryo.nii.gz, scripts/cryo/vhm_femoral_popliteal_track.py); photograph-to-"
+               "atlas registration from Q173 (data/ct_sources/task_outputs/vhm_thigh_snap_q173.npz).")
+BADGE_AL = ("Anterolateral surface (the face under the femoral vessels) moved onto the fat plane photographed in his own 0.33 mm "
+            "cryosections (Q175): inward only, median {med:.1f} mm, max {mx:.1f} mm (cap 8 mm), {pct:.0f}% of that surface's vertices "
+            "moved; volume {v0:.0f} -> {v1:.0f} cm3 ({dv:+.1f}%). The rest of the mesh is his DU segmentation unchanged. Photographs "
+            "sampled through the Q173 per-side registration (re-checked on his femur); the femoral vein's clot is not counted as muscle.")
+
+
+def facing_q175(side):
+    sg = 1.0 if side == "right" else -1.0                               # his right leg is atlas +x; lateral = away from 0
+    return (0.5 * sg, 0.0, float(np.sqrt(0.75)))
+
 
 # ----------------------------------------------------------------------------------------------- photographs
-def classes(im):
-    """0 gel, 1 other tissue, 2 fat, 3 muscle (strict), 4 pale, 5 bone-white -- his colour rule, strict muscle."""
+def classes(im, min_red=None):
+    """0 gel, 1 other tissue, 2 fat, 3 muscle (strict), 4 pale, 5 bone-white -- his colour rule, strict muscle.
+    min_red (Q175): muscle also needs red >= min_red -- his femoral veins' black clot (red 20-48) passes the strict rule."""
     im = im.astype(np.float32); r, g, b = im[..., 0], im[..., 1], im[..., 2]; v = im.max(-1); mn = im.min(-1)
     sat = (v - mn) / (v + 1e-3); tissue = r > b + 8
     white = tissue & (v > 200) & (sat < 0.30)
     fat = tissue & (v > 140) & (sat >= 0.30) & (g > 0.72 * r) & ~white
     muscle = tissue & (r > g + 12) & (v < 115) & (g < 0.62 * r) & ~fat
+    if min_red is not None:
+        muscle &= r >= min_red
     pale = tissue & (v > 150) & (sat < 0.30) & ~white
     out = np.zeros(im.shape[:2], np.uint8); out[tissue] = 1; out[fat] = 2; out[muscle] = 3; out[pale] = 4; out[white] = 5
     return out
 
 
 class Photo:
-    def __init__(self, prefix, side, reg=(0.0, 0.0)):
-        self.c = Crops(prefix, side); self.cache = {}; self.reg = reg
+    def __init__(self, prefix, side, reg=(0.0, 0.0), min_red=None):
+        self.c = Crops(prefix, side); self.cache = {}; self.reg = reg; self.min_red = min_red
 
     def cls(self, y):
         y = int(y)
@@ -103,7 +145,7 @@ class Photo:
         if y not in self.cache:
             if len(self.cache) > 60:
                 self.cache.pop(next(iter(self.cache)))
-            self.cache[y] = classes(self.c.image(y))
+            self.cache[y] = classes(self.c.image(y), self.min_red)
         return self.cache[y]
 
     def to_px(self, y, x, z):
@@ -185,9 +227,15 @@ def run_start(mask, i0, R):
     return np.where(ok.any(1), ok.argmax(1), -1)
 
 
-def snap(v, f, photo, facing, nz_min=0.2, MAX=8.0, R_muscle=5, R_fat=2, t_cross=2.5, thick_frac=0.45, smooth_iter=3):
+def snap(v, f, photo, facing, nz_min=0.2, MAX=8.0, R_muscle=5, R_fat=2, t_cross=2.5, thick_frac=0.45, smooth_iter=3, y_range=None):
+    """facing: +-1 = anterior/posterior (atlas z, Q173) or a 3-vector (Q175: anterolateral); y_range = (lo, hi) limits the
+    candidate vertices to those levels."""
     n = outward_normals(v, f); tm = trimesh.Trimesh(v, f, process=False)
-    cand = np.nonzero(facing * n[:, 2] > nz_min)[0]
+    fv = np.array([0.0, 0.0, float(facing)]) if np.ndim(facing) == 0 else np.asarray(facing, float)
+    ok = n @ fv > nz_min
+    if y_range is not None:
+        ok &= (v[:, 1] >= y_range[0]) & (v[:, 1] <= y_range[1])
+    cand = np.nonzero(ok)[0]
     Ts = np.arange(-3.0, MAX + 2.0 + 1e-6, PX); i0 = int(np.argmin(np.abs(Ts)))
     c = photo.sample((v[cand, None, :] - Ts[None, :, None] * n[cand, None, :]).reshape(-1, 3)).reshape(len(cand), len(Ts))
     known = (c != 255).all(1); mus = c == 3
@@ -299,7 +347,7 @@ def write_subject(pieces_out, badges, note):
     for aid, pieces in pieces_out.items():
         for s, v, f in pieces:
             e = {"atlas_id": aid, "source_structure": s["source_structure"], "side": s.get("side"),
-                 "source_file": f"vhm_both#{aid} (DU release, recovered v25) + Q173 fat-plane snap",
+                 "source_file": f"vhm_both#{aid} (DU release, recovered v25) + {TAG.get(aid, 'Q173')} fat-plane snap",
                  "vertex_offset": vo, "face_offset": fo, "vertex_count": int(len(v)), "triangle_count": int(len(f)),
                  "bbox_min_mm": [round(float(x), 4) for x in v.min(0)], "bbox_max_mm": [round(float(x), 4) for x in v.max(0)],
                  "procedural_badge": badges[aid]}
@@ -316,10 +364,10 @@ def write_subject(pieces_out, badges, note):
     return d
 
 
-def build_pieces(D_store):
+def build_pieces(D_store, spec=SPEC):
     """vhm_both pieces -> snapped pieces from the stored per-vertex inward moves (keys '<aid>#<piece>')."""
     m, V, F = load_subject(SRC); out = {}; before = {}
-    for aid, side, facing, piece in SPEC:
+    for aid, *_ in spec:
         out[aid] = []; before[aid] = []
         for i, (s, v, f) in enumerate(pieces_of(m, V, F, aid)):
             key = f"{aid}#{i}"
@@ -362,9 +410,9 @@ def badges_for(stats):
     return b
 
 
-def photo_overlap(prefix, reg, meshes_before, meshes_after, side, levels):
+def photo_overlap(prefix, reg, meshes_before, meshes_after, side, levels, min_red=None):
     """section area on photographed muscle / total, and photographed muscle removed (cm3), every 2 mm."""
-    ph = Photo(prefix, side, reg); a0 = a1 = m0 = m1 = lost = 0
+    ph = Photo(prefix, side, reg, min_red); a0 = a1 = m0 = m1 = lost = 0
     for y in levels:
         k = ph.cls(y)
         if k is None:
@@ -425,7 +473,11 @@ def load_store():
 
 def apply(a):
     reg, D_store = load_store(); after, _ = build_pieces(D_store)
-    rep = json.loads(REPORT.read_text()); write_subject(after, rep["badges"], "Q173: see data/derived/Q173_vhm_adductor_magnus.json")
+    rep = json.loads(REPORT.read_text()); badges = dict(rep["badges"]); note = "Q173: see data/derived/Q173_vhm_adductor_magnus.json"
+    if STORE_Q175.exists() and REPORT_Q175.exists():                      # Q175 adductor longus, after the six Q173 ids
+        after.update(build_pieces(load_store_q175()[1], SPEC_Q175)[0]); badges.update(json.loads(REPORT_Q175.read_text())["badges"])
+        note += "; Q175 (adductor longus): data/derived/Q175_vhm_adductor_longus.json"
+    write_subject(after, badges, note)
     if not NERVE_OUT.exists() or a.force_nerve:
         print("nerve", write_nerve(reg))
     print("wrote build/vh/" + OUT_SUBJ)
@@ -523,6 +575,123 @@ def badge_nerve(a):
     print(badge)
 
 
+# ----------------------------------------------------------------------------------------------- Q175 adductor longus
+def load_store_q175():
+    z = np.load(STORE_Q175); reg = {s: tuple(r) for s, r in json.loads(str(z["reg"])).items()}
+    return reg, {k.replace("__", "#"): z[k] for k in z.files if k not in ("reg", "params")}
+
+
+def cat_pieces(pcs):
+    v = np.concatenate([p[1] for p in pcs]); o = np.cumsum([0] + [len(p[1]) for p in pcs])
+    return v, np.concatenate([p[2] + o[j] for j, p in enumerate(pcs)])
+
+
+def measure_al(a):
+    m, V, F = load_subject(SRC); reg = load_store()[0]; D_store = {}; stats = {}
+    params = {"facing": f"n . (0.5 lateral, 0, 0.866 anterior) > {NZ_Q175}", "y_range": list(Y_RANGE_Q175), "min_red": MIN_RED_Q175,
+              "max_move_mm": 8.0, "muscle_run_mm": 5 * PX, "fat_run_mm": 2 * PX, "cross_window_mm": 2.5, "thickness_cap": 0.45,
+              "smoothing": "1-ring median + 3 Laplacian passes (others fixed at 0) + fold guard", "subdivision": "midpoint x1"}
+    for aid, side in SPEC_Q175:
+        ph = Photo(a.crops, side, reg[side], MIN_RED_Q175); allD = []; ns = 0
+        for i, (s, v, f) in enumerate(pieces_of(m, V, F, aid)):
+            v2, f2 = trimesh.remesh.subdivide(v, f); D, info = snap(v2, f2, ph, facing_q175(side), nz_min=NZ_Q175, y_range=Y_RANGE_Q175)
+            D_store[f"{aid}#{i}"] = np.round(D, 3); allD.append(D); stats.setdefault(aid, {})[f"piece{i}_snap"] = info; ns += info["surface_vertices"]
+        stats[aid]["move"] = surface_move_stats(np.concatenate(allD), ns); print(aid, stats[aid]["move"], flush=True)
+    after, before = build_pieces(D_store, SPEC_Q175)
+    fm, fV, fF = load_subject(REPO / "build/vh/ct_vhm_femoral"); fv = by_id(fm, fV, fF)
+    ok = True
+    for aid, side in SPEC_Q175:
+        sfx = "_r" if side == "right" else "_l"; vb, fb = cat_pieces(before[aid]); va, fa = cat_pieces(after[aid])
+        v0 = vol_cm3(vb, fb); v1 = vol_cm3(va, fa); dv = 100 * (v1 - v0) / v0; ok &= abs(dv) <= 5.0
+        stats[aid]["volume_cm3"] = [round(v0, 1), round(v1, 1)]; stats[aid]["volume_change_pct"] = round(dv, 2)
+        lo = max(int(Y_RANGE_Q175[0]), int(np.ceil(vb[:, 1].min()))); hi = min(int(Y_RANGE_Q175[1]), int(np.floor(vb[:, 1].max())))
+        stats[aid]["photo"] = photo_overlap(a.crops, reg[side], [(vb, fb)], [(va, fa)], side, list(range(hi, lo - 1, -2)), MIN_RED_Q175)
+        P = fv["femoral_v" + sfx][0]
+        stats[aid]["femoral_vein_full_res"] = {"vs_old_mesh": nerve_stats(P, vb, fb), "vs_new_mesh": nerve_stats(P, va, fa)}
+        print(aid, stats[aid]["volume_cm3"], stats[aid]["photo"], stats[aid]["femoral_vein_full_res"], flush=True)
+    rep = json.loads(REPORT_Q175.read_text()) if REPORT_Q175.exists() else {}
+    rep.update({"source": SOURCE_Q175, "task": "Q175", "subject": OUT_SUBJ, "method": __doc__.split("3. Q175")[1].strip(),
+                "supplier": {"subject": "vhm_both", "what": "DU lower-extremity release (Andreassen 2023): manual segmentation of his "
+                             "cryosections; decimated copy recovered from his published viewer v25 (adductor longus ~3.5k triangles)"},
+                "registration": {"used_px": {s: list(r) for s, r in reg.items()}, "from": str(STORE.relative_to(REPO))},
+                "params": params, "structures": stats, "status": "ok" if ok else "STOPPED: volume change > 5 %"})
+    if a.regcheck:
+        rep["registration"]["recheck_on_these_crops"] = json.loads(Path(a.regcheck).read_text())
+    if not ok:
+        REPORT_Q175.write_text(json.dumps(rep, indent=1)); print("STOP: volume change > 5 %; nothing stored"); return
+    np.savez_compressed(STORE_Q175, reg=json.dumps({s: list(r) for s, r in reg.items()}), params=json.dumps(params),
+                        **{k.replace("#", "__"): v for k, v in D_store.items()})
+    rep["badges"] = {aid: BADGE_AL.format(med=st["move"]["median_mm"], mx=st["move"]["max_mm"],
+                                          pct=100 * st["move"]["moved_vertices"] / max(st["move"]["surface_vertices"], 1),
+                                          v0=st["volume_cm3"][0], v1=st["volume_cm3"][1], dv=st["volume_change_pct"])
+                     for aid, st in ((aid, stats[aid]) for aid, _ in SPEC_Q175)}
+    rep["stored_moves"] = str(STORE_Q175.relative_to(REPO))
+    REPORT_Q175.write_text(json.dumps(rep, indent=1)); print("wrote", REPORT_Q175)
+    apply(argparse.Namespace(force_nerve=False))
+
+
+def new_overlap(nb):
+    """neighbours whose overlap with the changed mesh got worse beyond the bundle's re-decimation noise (<= 0.25 mm here):
+    more of their vertices > 1 mm inside it, or a deeper max (either way) by > 0.5 mm."""
+    return [k for k, r in nb.items() if r["its_vertices_inside_al_beyond_1mm_old_new"][1] > r["its_vertices_inside_al_beyond_1mm_old_new"][0]
+            or r["its_vertices_inside_al_max_depth_old_new_mm"][1] > r["its_vertices_inside_al_max_depth_old_new_mm"][0] + 0.5
+            or r["al_surface_inside_max_depth_old_new_mm"][1] > r["al_surface_inside_max_depth_old_new_mm"][0] + 0.5]
+
+
+def verify_al(a):
+    """After the rebuild: the femoral veins vs adductor longus old/new (full-res subject meshes and the shipped bundle), and
+    the changed mesh vs its neighbours (surface samples inside them; their vertices inside it), old bundle vs new."""
+    from scripts.transfer.bundle_io import read_bundle_dir, meshes_by_id
+    rep = json.loads(REPORT_Q175.read_text()); after, before = build_pieces(load_store_q175()[1], SPEC_Q175)
+    B = meshes_by_id(*read_bundle_dir(a.bundle))
+    ob = json.loads(Path(a.old_bundle + ".json").read_text()); O = meshes_by_id(ob, Path(a.old_bundle + ".bin").read_bytes())
+    out = {}
+    for aid, side in SPEC_Q175:
+        sfx = "_r" if side == "right" else "_l"; vid = "femoral_v" + sfx
+        o = {"femoral_vein_bundle_vs_old_bundle_mesh": nerve_stats(O[vid]["v"], O[aid]["v"], O[aid]["f"]),
+             "femoral_vein_bundle_vs_new_bundle_mesh": nerve_stats(B[vid]["v"], B[aid]["v"], B[aid]["f"])}
+        tm0 = trimesh.Trimesh(O[aid]["v"], O[aid]["f"], process=False); tm1 = trimesh.Trimesh(B[aid]["v"], B[aid]["f"], process=False)
+        p0 = trimesh.sample.sample_surface(tm0, 20000, seed=0)[0]; p1 = trimesh.sample.sample_surface(tm1, 20000, seed=0)[0]
+        nb = {}
+        for other in NEIGH_Q175:
+            oid = other + sfx if other + sfx in B else other
+            if oid not in B or oid not in O:
+                continue
+            c0, d0 = inside_depth(p0, O[oid]["v"], O[oid]["f"]); c1, d1 = inside_depth(p1, B[oid]["v"], B[oid]["f"])
+            k0, e0 = inside_depth(O[oid]["v"], O[aid]["v"], O[aid]["f"]); k1, e1 = inside_depth(B[oid]["v"], B[aid]["v"], B[aid]["f"])
+            nb[oid] = {"al_surface_inside_frac_old_new": [round(float(c0.mean()), 4), round(float(c1.mean()), 4)],
+                       "al_surface_inside_max_depth_old_new_mm": [round(float(d0.max()), 2), round(float(d1.max()), 2)],
+                       "its_vertices_inside_al_old_new": [int(k0.sum()), int(k1.sum())],
+                       "its_vertices_inside_al_beyond_1mm_old_new": [int((e0 > 1).sum()), int((e1 > 1).sum())],
+                       "its_vertices_inside_al_max_depth_old_new_mm": [round(float(e0.max()), 2), round(float(e1.max()), 2)]}
+        o["neighbours_old_vs_new_bundle"] = nb
+        o["new_overlap"] = new_overlap(nb)
+        out[aid] = o; print(aid, json.dumps(o)[:600], flush=True)
+    if a.crops:                                   # is the residual the vein's own outline? (its vertices on photographed muscle)
+        reg = load_store()[0]; fm, fV, fF = load_subject(REPO / "build/vh/ct_vhm_femoral"); fv = by_id(fm, fV, fF)
+        for aid, side in SPEC_Q175:
+            sfx = "_r" if side == "right" else "_l"; P = fv["femoral_v" + sfx][0]; va, fa = cat_pieces(after[aid])
+            c, d = inside_depth(P, va, fa); ph = Photo(a.crops, side, reg[side], MIN_RED_Q175)
+            e = np.zeros(len(P)); ys = np.rint(P[:, 1]).astype(int)
+            for y in np.unique(ys):
+                k = ph.cls(y)
+                if k is None:
+                    continue
+                s_ = ys == y; E = ndi.distance_transform_edt(k == 3) * PX; pr, pc = ph.to_px(y, P[s_, 0], P[s_, 2])
+                pr = np.clip(np.rint(pr).astype(int), 0, k.shape[0] - 1); pc = np.clip(np.rint(pc).astype(int), 0, k.shape[1] - 1)
+                e[s_] = E[pr, pc]
+            r = d > 1
+            out[aid]["femoral_vein_outline_vs_photographs"] = {
+                "vein_vertices": int(len(P)), "on_photographed_muscle_frac": round(float((e > 0).mean()), 4),
+                "beyond_1mm_into_photographed_muscle_frac": round(float((e > 1).mean()), 4), "max_into_photographed_muscle_mm": round(float(e.max()), 2),
+                "residual_beyond_1mm_inside_new_al": int(r.sum()), "of_those_on_photographed_muscle": int((r & (e > 0)).sum()),
+                "of_those_median_depth_into_photographed_muscle_mm": round(float(np.median(e[r])), 2) if r.any() else 0.0}
+            print(aid, out[aid]["femoral_vein_outline_vs_photographs"], flush=True)
+    rep["verify"] = {"bundle": a.bundle, "per_structure": out,
+                     "inside_test": "trimesh contains; depth = distance to the containing mesh's surface"}
+    REPORT_Q175.write_text(json.dumps(rep, indent=1)); print("wrote", REPORT_Q175)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -531,7 +700,12 @@ def main():
     p = sub.add_parser("verify"); p.add_argument("--bundle", default="build/viewer_m_hr"); p.add_argument("--crops")
     p.add_argument("--old-bundle", help="prefix of the pre-Q173 bundle copy (<prefix>.json + <prefix>.bin)")
     sub.add_parser("badge-nerve")
-    a = ap.parse_args(); {"measure": measure, "apply": apply, "verify": verify, "badge-nerve": badge_nerve}[a.cmd](a)
+    p = sub.add_parser("measure-al"); p.add_argument("--crops", required=True)
+    p.add_argument("--regcheck", help="JSON of the registration re-check on the same crops (femur / adductor longus / all thigh fits)")
+    p = sub.add_parser("verify-al"); p.add_argument("--bundle", default="build/viewer_m_hr"); p.add_argument("--old-bundle", required=True)
+    p.add_argument("--crops", help="the measure-al crops: also measure the vein outline against the photographed muscle")
+    a = ap.parse_args(); {"measure": measure, "apply": apply, "verify": verify, "badge-nerve": badge_nerve,
+                          "measure-al": measure_al, "verify-al": verify_al}[a.cmd](a)
 
 
 if __name__ == "__main__":

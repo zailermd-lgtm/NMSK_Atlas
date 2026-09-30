@@ -9818,7 +9818,43 @@ the female's phalanges are under-captured at HU 200.
   build/viewer_f_hr untouched (md5). Report data/derived/Q174_vhm_femoral_popliteal.json; old bundle scratch q174/old_bundle.*.
 - Open: (a) adductor-longus overlap of the canal vein (mesh surface vs photographed plane, cf. Q173); (b) popliteal artery would need
   a contracted-artery (solid ring) detector; (c) sciatic division/tibial gap. Not committed, not published.
-- NEXT (Q175): his femoral veins sit 26-31% inside his adductor longus mesh (max ~3 mm; decimated DU surface, as in Q173)
-  -> extend scripts/cryo/vhm_thigh_fat_plane_snap.py to adductor longus' anterior/medial face on the femoral-triangle and
-  adductor-canal levels, then re-measure. Also open: right femoral vein gap y -36..-97; popliteal arteries (empty, no
-  lumen) and his right tibial nerve (7 levels) nulled.
+- Q175 DONE (2026-09-30): his adductor longus anterolateral face snapped to the photographed fat plane (vol -2.7/-4.1 %); femoral-vein vertices > 1 mm inside it 3296->1444 (R) / 4061->939 (L), residual = the vein outline itself; see Q175 below. Still open: right femoral vein gap y -36..-97; popliteal arteries and right tibial nerve nulled.
+
+## Q175 (2026-09-30) -- his adductor longus onto the photographed fat plane under the femoral vessels (male hi-res viewer)
+- Where the veins enter: his Q174 femoral veins lie against adductor longus' ANTEROLATERAL face (face normals 30-90 deg from
+  lateral toward anterior on every entered face), not a medial face -> that is the face snapped. Supplier unchanged: vhm_both (DU).
+- Crops: `vhm_stream_leg_crops.py --box right=0,170,-60,100 --box left=-170,0,-60,100 --ap-row -1 --y-top 40 --y-bot -285`
+  (326 levels, ~25 s, 490 MB), deleted after use; vh_cryo/ + vhm_ts/ kept.
+- Registration re-check on these crops (crop px 0.33 mm, rows/cols): femur R 6.4/0.0, L 6.2/-8.3 = the Q173 shift again
+  (used 7.2/0.0, 7.0/-7.2). All thigh muscles in this anterior crop fit at ~4 rows (their anterior faces are ~1 mm "fat",
+  Q173's control). Adductor longus alone: IoU vs all photographed muscle is meaningless (0.07); a boundary-contrast fit
+  peaks R 9.0/2.0, L 8.0/-8.0 -> at most ~0.6 mm (R) / 0.3 mm (L) of the overlap could be registration. Registration kept.
+- Clot: his veins' black clot (red 20-48) passes Q173's strict muscle rule (41 % / 22 % of the vein core) -> Q175 muscle also
+  needs red >= 55 (adductor longus interior red 1st pct 50-59, median 66-78). New optional `min_red` in classes()/Photo.
+- Code: `scripts/cryo/vhm_thigh_fat_plane_snap.py` measure-al | verify-al (snap() now takes a facing vector + y range);
+  moves in `data/ct_sources/task_outputs/vhm_thigh_snap_q175.npz`; `apply` appends adductor_longus_r/l to ct_vhm_thigh_snap
+  after the six Q173 ids (their bytes unchanged, md5-checked; apply rebuilds the whole subject byte-identically).
+- Attempt 1 (n . anterolateral > 0.2, Q173's threshold): R -4.5 %, L -6.3 % volume -> STOP rule (> 5 %). Attempt 2 (> 0.5,
+  within 60 deg of the entered face) shipped; the vein numbers were the same in both.
+- Numbers (vol cm3, move median/max mm, on-photographed-muscle before->after, photographed muscle cut away):
+  AL_r 282.4->274.7 (-2.7 %) 0.52/3.39 0.854->0.872 1.9 cm3; AL_l 242.4->232.4 (-4.1 %) 0.85/2.68 0.876->0.902 2.8 cm3.
+- Femoral vein vertices > 1 mm inside adductor longus (full-res Q174 subject meshes): R 3296->1444 of 24,166 (max 2.83->2.03 mm),
+  L 4061->939 of 34,064 (3.19->2.19 mm); shipped bundle meshes R 224->107 / L 171->36 of ~1,880 (max 2.87->1.95 / 3.26->2.27).
+  Residual = the vein's traced outline: 98 % (R) / 92 % (L) of those vertices lie on photographed muscle (median 1.2 mm into
+  it); the AL face now sits on the photographed lumen edge (scratch q175/zoom_final.png). Not clipped (would edit Q174).
+- Neighbours (old vs new bundle): no new overlap with femur, pectineus, adductor brevis/magnus, sartorius, vastus medialis,
+  gracilis, iliopsoas, femoral_a/v, popliteal_v, sciatic_n (rule: no more vertices > 1 mm inside, no depth increase > 0.5 mm;
+  AM_r/AM_l/gracilis_r gained 1-3 vertices <= 0.23 mm deep = the bundle's re-decimation of AL 14k -> 9k tris).
+- Shipped: wired in vhm_rebuild_bundle.sh (thigh_snap apply also re-runs when the q175 npz exists and the manifest lacks AL);
+  `VHM_OUT=build/viewer_m_hr bash scripts/vhm_rebuild_bundle.sh`: 437 structures, 2,138,303 tris (+10,892: AL 3.5k -> 9k
+  each); only adductor_longus_r/l changed (geometry hashes + metadata: subject, badge, depth); 400 others identical; order:
+  AL now earlier. viewer/atlas_viewer.template.html ct_vhm_thigh_snap label now names the adductor longus face. femoral_v
+  badges state no overlap numbers -> unchanged. Chromium headless: no page errors, both AL ids badged. viewer_f_hr untouched (md5).
+- Report data/derived/Q175_vhm_adductor_longus.json; tests tests/test_vhm_adductor_longus_snap.py (8, skip when absent);
+  montages scratch q175/montage_final_{right,left}.png; old bundle scratch q175/old_bundle.{json,bin}. Not committed/published.
+- Open: the femoral veins also sit in his pectineus / vastus medialis meshes (bundle: R 50/94, L 91/88 vertices) -- not
+  addressed; clipping the Q174 vein outline to its photographed lumen would remove the AL residual.
+- NEXT (Q176): tracked outlines run 1-2 mm past the photographed lumen/fascicle edge into muscle (Q57 sciatic, Q174 femoral
+  veins; Q173/Q175 residuals are this). Clip each tracked label to photographed non-muscle (the Q175 strict + red>=55 rule)
+  with a bounded erosion, re-measure overlap. Also: femoral veins inside pectineus / vastus medialis meshes (R 50/94, L
+  91/88 bundle vertices) not yet addressed.

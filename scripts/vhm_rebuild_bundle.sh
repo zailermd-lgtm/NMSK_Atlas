@@ -163,7 +163,10 @@ fi
 # photographs needed here; `measure` needs the re-streamed crops) -> ct_vhm_thigh_snap, listed BEFORE vhm_both so it wins
 # only these six ids. Same run: his Q57 sciatic nerve translated by the measured photograph-to-atlas registration
 # (vhm_nerves_cryo_reg.nii.gz) and surfaced as ct_vhm_sciatic (listed last; id unique), then badged from the report.
-if [ -f $T/vhm_thigh_snap_q173.npz ] && { [ ! -f build/vh/ct_vhm_thigh_snap/manifest.json ] || [ -n "${RECONVERT:-}" ]; }; then
+# Q175: his adductor longus (anterolateral face, under the femoral vessels) snapped the same way from
+# vhm_thigh_snap_q175.npz; `apply` appends it to ct_vhm_thigh_snap after the six Q173 ids (their bytes unchanged).
+if [ -f $T/vhm_thigh_snap_q173.npz ] && { [ ! -f build/vh/ct_vhm_thigh_snap/manifest.json ] || [ -n "${RECONVERT:-}" ] || \
+     { [ -f $T/vhm_thigh_snap_q175.npz ] && ! grep -q adductor_longus build/vh/ct_vhm_thigh_snap/manifest.json; }; }; then
   python3 scripts/cryo/vhm_thigh_fat_plane_snap.py apply 2>&1 | tail -1
 fi
 if [ -f $T/vhm_nerves_cryo_reg.nii.gz ] && { ! grep -q vhm_nerves_cryo_reg build/vh/ct_vhm_sciatic/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
@@ -203,7 +206,7 @@ for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh c
          ct_vhm_twall_contfix_mesh ct_vhm_abw_contfix; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
-[ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173, before vhm_both
+[ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173 + Q175, before vhm_both
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
