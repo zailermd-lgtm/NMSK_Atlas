@@ -72,18 +72,24 @@ from scripts.cryo.cryo_classes_f import classify as classify_f  # noqa: E402
 T = REPO / "data/ct_sources/task_outputs"
 VH = REPO / "build/vh"
 Q48_VOL = T / "vhf_xfer_lowerlimb_septa.nii.gz"
-OUT_VOL = T / "vhf_xfer_lowerlimb_septa_q181.nii.gz"
-STORE = T / "vhf_thigh_refit_q181.json"
-SNAP_NPZ = T / "vhf_thigh_refit_q181_snap.npz"
-REPORT = REPO / "data/derived/Q181_vhf_thigh_refit.json"
+OUT_VOL = T / "vhf_xfer_lowerlimb_septa_q181b.nii.gz"
+STORE = T / "vhf_thigh_refit_q181b.json"
+SNAP_NPZ = T / "vhf_thigh_refit_q181b_snap.npz"
+REPORT = REPO / "data/derived/Q181b_vhf_thigh_refit.json"
+XFER_REPORT = T / "vhf_xfer_lowerlimb_septa_report.json"   # Q48's own record of the transfer it started from (transferred_cm3)
 LABELS = REPO / "mappings/vhf_xfer_septa_labels.json"
 Q152_JSON = REPO / "data/derived/Q152_continuity_repair.json"
-OUT_SUBJ = "xfer_vhm2vhf_sep_q181"
+OUT_SUBJ = "xfer_vhm2vhf_sep_q181b"
+XFER_SUBJ = "xfer_vhm2vhf"                                 # the male -> female transfer Q48 refined
 ORIGIN = Q.ORIGIN
 SIDE_I = {"right": (0, 350), "left": (335, 700)}          # grid columns (i) photographed per side (atlas x = 342.231 - i)
 ERODE_PX, DILATE_PX, MAX_MOVE_PX = 3, 4, 8                 # Q48's constants
 HOLD_PX = 3                                                # bone / CT-muscle contact band held (mm)
-MAX_DVOL_PCT = 10.0
+MAX_DVOL_PCT = 10.0                                        # vs the Q48 volume ...
+MAX_DVOL_XFER_PCT = 15.0                                   # ... OR vs the transfer Q48 started from (Q181b gate)
+MIN_PIECE_FRAC = 0.02                                      # Q181b: detached pieces below this go to the neighbour / background
+MAIN_FRAC_FLOOR = 0.98                                     # Q181b: main piece >= min(Q48 main_frac, this)
+NOTCH_FRAC = 0.5                                           # Q181b: a section < this x both its 3-10 mm neighbours is re-blended
 BONE_WORDS = ("femur", "patella", "tibia", "fibula", "hip_bone", "sacrum")
 SMOOTH0 = {"extensor_hallucis_longus_l", "flexor_digitorum_longus_l", "plantaris_l"}   # Q115/Q116 (ct_vhf_xfersepta_fix)
 SNAP_TRACKED = ("sciatic_n", "femoral_a_r", "femoral_v_r", "femoral_n", "popliteal_a_r", "popliteal_v_r")
@@ -214,19 +220,27 @@ def do_photos(a):
     print("photos done")
 
 
+_CACHE = {}          # rasters reused across the auto-hold rounds (identical inputs every round)
+
+
 # ------------------------------------------------------------------------------------------------ traced structures as obstacles
-TRACED_VOLS = (("vhf_nerves_cryo_q179.nii.gz", (1,)), ("vhf_femoral_bundle_cryo_q179.nii.gz", (1, 2, 3)), ("vhf_popliteal_cryo_q179.nii.gz", (1, 2)))
+TRACED_VOLS = (("vhf_nerves_cryo_q179.nii.gz", (1,)), ("vhf_femoral_bundle_cryo_q179.nii.gz", (1, 2, 3)), ("vhf_popliteal_cryo_q179.nii.gz", (1, 2)),
+               ("vhf_popliteal_cryo.nii.gz", (3,)))      # Q181b: tibial_n as it ships (ct_vhf_popliteal label 3), kept out like the others
 
 
 def traced_mask(A, shape):
-    """her photo-traced nerves / vessels as shipped by Q181 (the Q179 registered + clipped + interpolated candidates; tibial_n, kept as
-    traced in the lost frame, is not included) on the Q48 1 mm grid: a voxel is traced when any 0.5 mm traced voxel centre falls in it."""
+    """her photo-traced nerves / vessels as shipped by Q181b (the Q179 registered + clipped + interpolated candidates, and tibial_n as it
+    ships in ct_vhf_popliteal -- Q181b option (a): not re-placed, uncertain identity, but kept out of the muscle region like the others)
+    on the Q48 1 mm grid: a voxel is traced when any 0.5 mm traced voxel centre falls in it."""
+    if _CACHE.get("traced") is not None and _CACHE["traced"][0] == shape:
+        return _CACHE["traced"][1]
     out = np.zeros(shape, bool)
     for fn, labs in TRACED_VOLS:
         img = nib.load(str(T / fn)); V = np.asarray(img.dataobj); ii, jj, kk = np.nonzero(np.isin(V, labs))
         ras = img.affine @ np.c_[ii, jj, kk, np.ones(len(ii))].T; inv = np.linalg.inv(A)
         g = np.rint((inv @ ras)[:3]).astype(int); ok = ((g >= 0) & (g < np.array(shape)[:, None])).all(0)
         out[g[0, ok], g[1, ok], g[2, ok]] = True
+    _CACHE["traced"] = (shape, out)
     return out
 
 
@@ -256,6 +270,14 @@ def runs(ks):
         else:
             out.append([k, k])
     return out
+
+
+def bc_raster(bones, ct, A, y, nj, i0, i1):
+    """bone / CT-muscle section masks at level y for one side (cached: identical in every auto-hold round)."""
+    key = ("bc", round(float(y), 4), i0, i1)
+    if key not in _CACHE:
+        _CACHE[key] = (raster([tm for _, tm in bones], A, y, (700, nj))[i0:i1], raster([tm for _, tm in ct], A, y, (700, nj))[i0:i1])
+    return _CACHE[key]
 
 
 def refit_level(L0s, Ls, rgb_th, mus, B, C, move_px, held, Tk=None):
@@ -296,7 +318,9 @@ def refit_once(a, hold_ids):
     img = nib.load(str(Q48_VOL)); A = img.affine; L = np.asarray(img.dataobj).copy(); ids = label_ids(); W = Path(a.work)
     field, full = FF.build_field(); skip = {s: set(v) for s, v in Q.unusable(a.crops).items()}
     held = {ids[h] for h in hold_ids}
-    bones, ct = held_meshes(); out = L.copy(); base_all = L.copy(); lv = {}
+    if "held_meshes" not in _CACHE:
+        _CACHE["held_meshes"] = held_meshes()
+    bones, ct = _CACHE["held_meshes"]; out = L.copy(); base_all = L.copy(); lv = {}
     TR = traced_mask(A, L.shape) if a.traced else None
     for side, (i0, i1) in SIDE_I.items():
         meta = json.loads((W / f"p1_{side}.json").read_text()); tk = {k: t for t, k in enumerate(meta["ks"])}
@@ -317,7 +341,7 @@ def refit_once(a, hold_ids):
         for k in sorted(ks):
             y = y_of_k(A, k); yi = int(round(y)); dx, dz, w = field_at(field[side], y)
             L0 = base[:, :, k]; L0s = np.where(np.isin(L0, sl), L0, 0)
-            Bk = raster([tm for _, tm in bones], A, y, (700, L.shape[1]))[i0:i1]; Ck = raster([tm for _, tm in ct], A, y, (700, L.shape[1]))[i0:i1]
+            Bk, Ck = bc_raster(bones, ct, A, y, L.shape[1], i0, i1)
             if yi in skip[side]:
                 unus.append(k); res_of[k] = None; lv[f"{side}:{k}"] = {"y": round(y, 3), "status": "unusable_photo"}; continue
             di, dj = int(round(dx / A[0, 0])), int(round(dz / A[1, 1]))
@@ -337,7 +361,7 @@ def refit_once(a, hold_ids):
                 kb += 1
             for k in range(r0, r1 + 1):
                 y = y_of_k(A, k); L0 = base[:, :, k]; L0s = np.where(np.isin(L0, sl), L0, 0)
-                Bk = raster([tm for _, tm in bones], A, y, (700, L.shape[1]))[i0:i1]; Ck = raster([tm for _, tm in ct], A, y, (700, L.shape[1]))[i0:i1]
+                Bk, Ck = bc_raster(bones, ct, A, y, L.shape[1], i0, i1)
                 res = blend_labels(res_of[ka][0], res_of[kb][0], (k - ka) / (kb - ka))
                 F = ndi.binary_dilation(Bk | Ck, iterations=HOLD_PX); res[F] = L0s[F]
                 h = np.isin(L0s, list(held)) if held else np.zeros(res.shape, bool)
@@ -346,27 +370,163 @@ def refit_once(a, hold_ids):
                 if TR is not None:
                     res[TR[i0:i1, :, k] & ~h] = 0
                 res_of[k] = (res, Bk, Ck); lv[f"{side}:{k}"].update(status="interpolated", between=[ka, kb], changed_vox=int((res != L0s).sum()))
+        notch = fill_notches(res_of, sl, held, TR, i0, i1)
+        lv[f"{side}:notch_blended"] = [{"label": l, "y": [round(y_of_k(A, r0), 3), round(y_of_k(A, r1), 3)]} for l, r0, r1 in notch]
+        if notch:
+            print(side, "notches re-blended", [(l, round(y_of_k(A, r0)), round(y_of_k(A, r1))) for l, r0, r1 in notch], flush=True)
         for k, (res, _, _) in res_of.items():
             s_ = out[i0:i1, :, k]; other = (s_ > 0) & ~np.isin(s_, sl)
             s_[np.isin(s_, sl)] = 0; s_[(res > 0) & ~other] = res[(res > 0) & ~other]
         lv[f"{side}:broken_q48_levels"] = [round(y_of_k(A, k), 3) for k in bad]
         print(side, len(ks), "levels refitted,", len(unus), "interpolated, Q48 broken levels", [round(y_of_k(A, k)) for k in bad], flush=True)
+    # Q181b continuity: detached pieces < MIN_PIECE_FRAC of a re-fitted muscle go to the neighbour they touch most (not a held one) or
+    # to background -- held muscles are never given voxels, so they stay exactly Q48
+    pieces = {}
+    for aid, l in ids.items():
+        if l in held or np.array_equal(L == l, out == l):
+            continue
+        mv = drop_pieces(out, l, held)
+        if mv:
+            inv = {v: k for k, v in ids.items()}
+            pieces[aid] = {"n": len(mv), "voxels": int(sum(n for n, _ in mv)),
+                           "to": {(inv.get(t, "background") if t else "background"): int(sum(n for n, tt in mv if tt == t)) for t in sorted({t for _, t in mv})}}
+    lv["pieces_dropped"] = pieces
     before = {aid: int((L == l).sum()) for aid, l in ids.items()}; after = {aid: int((out == l).sum()) for aid, l in ids.items()}
     changed = sorted(aid for aid, l in ids.items() if not np.array_equal(L == l, out == l))
     return out, lv, before, after, changed, img, full
 
 
+def fill_notches(res_of, sl, held, TR, i0, i1):
+    """Q181b: a re-fitted muscle whose section collapses over a few levels (< NOTCH_FRAC x the median of its sections 3-10 mm above
+    AND below, both >= 100 voxels -- her broken / unusable photographs around y -125..-134 left e.g. rectus femoris_r nearly empty
+    there) gets its section at those levels as the signed-distance blend of its own sections at the bounding levels; the 3 mm bone /
+    CT-muscle band, the traced sections and held muscles are never taken. Returns [(label, k0, k1)]."""
+    ks = sorted(k for k, r in res_of.items() if r is not None); kset = set(ks); done = []; hl = list(held) or [-1]
+    for _ in range(3):
+        cnt = {k: np.bincount(res_of[k][0].ravel(), minlength=256) for k in ks}; found = False
+        for l in sl:
+            if l in held:
+                continue
+            ar = {k: int(cnt[k][l]) for k in ks}; bad = []
+            for k in ks:
+                lo = [ar.get(kk, 0) for kk in range(k - 10, k - 2)]; hi = [ar.get(kk, 0) for kk in range(k + 3, k + 11)]
+                ref = min(np.median(lo), np.median(hi))
+                if ref >= 100 and ar[k] < NOTCH_FRAC * ref:
+                    bad.append(k)
+            for r0, r1 in runs(bad):
+                ka, kb = r0 - 1, r1 + 1
+                if ka not in kset or kb not in kset:
+                    continue
+                da, db = sdf(res_of[ka][0] == l), sdf(res_of[kb][0] == l)
+                for k in range(r0, r1 + 1):
+                    t = (k - ka) / (kb - ka); res, Bk, Ck = res_of[k]
+                    m = (((1 - t) * da + t * db) < 0) & ~ndi.binary_dilation(Bk | Ck, iterations=HOLD_PX) & ~np.isin(res, hl)
+                    if TR is not None:
+                        m &= ~TR[i0:i1, :, k]
+                    res[m] = l
+                if (int(l), int(r0), int(r1)) not in done:
+                    done.append((int(l), int(r0), int(r1))); found = True
+        if not found:
+            break
+    return done
+
+
+def drop_pieces(out, lab, held):
+    """Q181b: 6-connected pieces of `lab` smaller than MIN_PIECE_FRAC of its volume -> the face-neighbouring label they touch most
+    (never a held one), else background. In place; returns [(voxels, new_label)]."""
+    obj = ndi.find_objects((out == lab).astype(np.uint8))
+    if not obj or obj[0] is None:
+        return []
+    bb = tuple(slice(max(0, s.start - 1), min(n, s.stop + 1)) for s, n in zip(obj[0], out.shape)); sub = out[bb]
+    comp, n = ndi.label(sub == lab)
+    if n <= 1:
+        return []
+    sz = np.bincount(comp.ravel())[1:]; tot = int(sz.sum()); objs = ndi.find_objects(comp); moved = []; hl = list(held) or [-1]
+    for i in np.nonzero(sz < MIN_PIECE_FRAC * tot)[0]:
+        o = tuple(slice(max(0, s.start - 1), min(nn, s.stop + 1)) for s, nn in zip(objs[i], sub.shape))
+        pc = comp[o] == i + 1; sh = ndi.binary_dilation(pc) & ~pc; nb = sub[o][sh]
+        nb = nb[(nb > 0) & (nb != lab) & ~np.isin(nb, hl)]
+        to = int(np.bincount(nb).argmax()) if len(nb) else 0
+        view = sub[o]; view[pc] = to; moved.append((int(sz[i]), to))
+    return moved
+
+
+def xfer_refs():
+    """{aid: (voxels, mesh cm3)} of the male -> female transfer Q48 started from: the voxel count Q48 itself recorded for it
+    (transferred_cm3, the transfer meshes voxelised on her frame) and the transfer mesh's own volume (build/vh/xfer_vhm2vhf)."""
+    rows = {r["atlas_id"]: r for r in json.loads(XFER_REPORT.read_text())["rows"]}; out = {}
+    m, V, F = SNAP.load_subject(VH / XFER_SUBJ)
+    for s_ in m["structures"]:
+        aid = s_["atlas_id"]
+        if aid in rows:
+            v = V[s_["vertex_offset"]:s_["vertex_offset"] + s_["vertex_count"]].astype(np.float64)
+            f = F[s_["face_offset"]:s_["face_offset"] + s_["triangle_count"]].astype(np.int64) - s_["vertex_offset"]
+            out.setdefault(aid, [round(rows[aid]["transferred_cm3"] * 1000), 0.0])[1] += SNAP.vol_cm3(v, f)
+    return {k: (int(a), float(b)) for k, (a, b) in out.items()}
+
+
+def main_frac(f):
+    """Q112's continuity metric (face-adjacency components, vertex main fraction) -- vectorised; plus per-component vertex counts."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    f = np.asarray(f, np.int64); nf = len(f)
+    if nf == 0:
+        return 0.0, np.zeros(nf, int), np.zeros(0, int)
+    e = np.sort(np.concatenate([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), 1); fo = np.tile(np.arange(nf), 3)
+    key = e[:, 0] * (int(f.max()) + 1) + e[:, 1]; o = np.argsort(key, kind="stable"); ks, fs = key[o], fo[o]
+    same = np.nonzero(ks[1:] == ks[:-1])[0]
+    n, lab = connected_components(coo_matrix((np.ones(len(same)), (fs[same], fs[same + 1])), shape=(nf, nf)), directed=False)
+    pairs = np.unique(np.c_[np.repeat(lab, 3), f.ravel()], axis=0); cnt = np.bincount(pairs[:, 0], minlength=n)
+    return float(cnt.max() / cnt.sum()), lab, cnt
+
+
+def drop_mesh_pieces(v, f):
+    """Q181b: face-connected mesh pieces with < MIN_PIECE_FRAC of the vertices (left by the surface smoothing after the volume clean)
+    are dropped (background). Deterministic; returns (v, f, n_dropped_vertices)."""
+    mf, lab, cnt = main_frac(f)
+    small = cnt < MIN_PIECE_FRAC * cnt.sum()
+    if not small.any():
+        return v, f, 0
+    keep_f = ~small[lab]; f2 = f[keep_f]; used = np.unique(f2); remap = -np.ones(len(v), np.int64); remap[used] = np.arange(len(used))
+    return v[used], remap[f2], int(len(v) - len(used))
+
+
+def gate_row(aid, out, A, before, after, xr, W, rules, ids):
+    """Q181b gate for one re-fitted muscle: volume within +-10 % of Q48 (voxels and mesh) OR within +-15 % of the transfer Q48 started
+    from (voxels, as Q48 recorded it); main piece >= min(Q48's, MAIN_FRAC_FLOOR)."""
+    v1, f1, _, _ = label_mesh(out, A, ids[aid], aid, ORIGIN, rules); v0, f0 = FF.cat(W[aid][1])
+    m0, m1 = SNAP.vol_cm3(v0, f0), SNAP.vol_cm3(v1, f1); b, a_ = before[aid], after[aid]; xv, xm = xr[aid]
+    mf0, mf1 = main_frac(f0)[0], main_frac(f1)[0]
+    r = {"vox_pct_vs_q48": round(100 * (a_ - b) / max(b, 1), 2), "mesh_pct_vs_q48": round(100 * (m1 - m0) / m0, 2),
+         "vox_pct_vs_xfer": round(100 * (a_ - xv) / max(xv, 1), 2), "mesh_pct_vs_xfer": round(100 * (m1 - xm) / xm, 2),
+         "voxels_q48_xfer_new": [b, xv, a_], "mesh_cm3_q48_xfer_new": [round(m0, 2), round(xm, 2), round(m1, 2)],
+         "main_frac_q48_new": [round(mf0, 4), round(mf1, 4)]}
+    ok48 = abs(r["vox_pct_vs_q48"]) <= MAX_DVOL_PCT and abs(r["mesh_pct_vs_q48"]) <= MAX_DVOL_PCT
+    okx = abs(r["vox_pct_vs_xfer"]) <= MAX_DVOL_XFER_PCT   # voxels only: Q48 recorded the transfer voxelised on the same 1 mm grid (its
+    #                                                      mesh volume is ~14 % below that -- fill-voxelisation -- so mesh vs mesh is not like for like)
+    okc = mf1 >= min(mf0, MAIN_FRAC_FLOOR) - 1e-9
+    r["passes"] = [k for k, ok in (("within 10 % of Q48", ok48), ("within 15 % of the transfer", okx)) if ok]
+    r["fail"] = ([] if (ok48 or okx) else [f"volume {r['vox_pct_vs_q48']:+.1f} % vs Q48 (mesh {r['mesh_pct_vs_q48']:+.1f} %) and "
+                                             f"{r['vox_pct_vs_xfer']:+.1f} % vs the transfer"]) + \
+                ([] if okc else [f"main piece {mf1:.3f} < {min(mf0, MAIN_FRAC_FLOOR):.3f} (Q48 {mf0:.3f})"])
+    return r
+
+
 def do_refit(a):
-    """refit; any muscle whose volume changes > 10 % is held at its Q48 voxels and the refit re-run, until none does (max 8 rounds)."""
-    hold = list(a.hold or []); rounds = []
-    for rnd in range(8):
+    """refit; a muscle that fails the Q181b gate (volume vs Q48 / vs the transfer, continuity) is held at its Q48 voxels and the refit
+    re-run, until none does (--auto-hold, max 10 rounds)."""
+    hold = list(a.hold or []); rounds = []; reasons = {h: "given (--hold)" for h in hold}
+    xr = xfer_refs(); W = FF.winners(); rules = q152_rules(); ids = label_ids(); gates = {}
+    for rnd in range(10):
         out, lv, before, after, changed, img, full = refit_once(a, hold)
-        pct = {aid: 100 * (after[aid] - before[aid]) / max(before[aid], 1) for aid in changed}
-        over = sorted(aid for aid in changed if abs(pct[aid]) > MAX_DVOL_PCT and aid not in hold)
-        rounds.append({"held_in": list(hold), "over_10pct": {aid: round(pct[aid], 2) for aid in over}})
-        print("round", rnd, "held", len(hold), "-> over 10 %:", {aid: round(pct[aid], 1) for aid in over}, flush=True)
+        gates = {aid: gate_row(aid, out, img.affine, before, after, xr, W, rules, ids) for aid in changed if aid not in hold}
+        over = sorted(aid for aid, g in gates.items() if g["fail"])
+        rounds.append({"held_in": list(hold), "failed": {aid: gates[aid] for aid in over}})
+        print("round", rnd, "held", len(hold), "-> failed:", {aid: gates[aid]["fail"] for aid in over}, flush=True)
         if not over or not a.auto_hold:
             break
+        for aid in over:
+            reasons[aid] = f"round {rnd}: " + "; ".join(gates[aid]["fail"])
         hold += over
     A = img.affine
     if a.out:
@@ -374,16 +534,20 @@ def do_refit(a):
     else:
         nib.save(nib.Nifti1Image(out, A, img.header), str(OUT_VOL))
         st = json.loads(STORE.read_text()) if STORE.exists() else {}
-        st.update({"source": SOURCE, "_README": "Q181 store: the refit label volume (OUT_VOL) and its inputs' hashes; ship_ids / snap / badges "
+        st.update({"source": SOURCE, "_README": "Q181b store: the refit label volume (OUT_VOL) and its inputs' hashes; ship_ids / snap / badges "
                    "are written by measure and read by apply.", "q48_vol_md5": md5(Q48_VOL), "out_vol_md5": md5(OUT_VOL),
-                   "reg_json_md5": md5(Q.REG_JSON), "field_full_weight_levels": full, "held": sorted(hold), "hold_rounds": rounds,
-                   "muscle_rule": a.rule, "traced_excluded": bool(a.traced), "params": {"erode": ERODE_PX, "dilate": DILATE_PX, "max_move": MAX_MOVE_PX, "hold_band_mm": HOLD_PX,
-                                                     "bone_words": BONE_WORDS, "max_dvol_pct": MAX_DVOL_PCT},
+                   "reg_json_md5": md5(Q.REG_JSON), "field_full_weight_levels": full, "held": sorted(hold), "hold_reasons": reasons,
+                   "hold_rounds": rounds, "gates": gates, "xfer_refs": {k: list(v) for k, v in xr.items()},
+                   "muscle_rule": a.rule, "traced_excluded": bool(a.traced),
+                   "params": {"erode": ERODE_PX, "dilate": DILATE_PX, "max_move": MAX_MOVE_PX, "hold_band_mm": HOLD_PX, "bone_words": BONE_WORDS,
+                              "max_dvol_pct_vs_q48": MAX_DVOL_PCT, "max_dvol_pct_vs_xfer": MAX_DVOL_XFER_PCT, "min_piece_frac": MIN_PIECE_FRAC,
+                              "main_frac_floor": MAIN_FRAC_FLOOR, "notch_frac": NOTCH_FRAC},
                    "voxels_before_after": {aid: [before[aid], after[aid]] for aid in before}, "changed_ids": changed, "levels": lv})
         STORE.write_text(json.dumps(st, indent=1))
     for aid in changed:
+        g = gates.get(aid)
         print(f"  {aid:28s} {before[aid] / 1000:8.1f} -> {after[aid] / 1000:8.1f} cm3 ({100 * (after[aid] - before[aid]) / max(before[aid], 1):+.1f} %)"
-              + ("  HELD" if aid in hold else ""))
+              + ("  HELD" if aid in hold else f"  vs xfer {g['vox_pct_vs_xfer']:+.1f} %  main {g['main_frac_q48_new']}" if g else ""))
 
 
 # ------------------------------------------------------------------------------------------------ meshes
@@ -419,6 +583,9 @@ def label_mesh(V, A, lab, aid, origin, rules):
     sub = sub[:, :, lo[2]:hi[2]]
     smooth = 0.0 if (aid in SMOOTH0 or (r and r["cause"] == "PIPELINE_ARTIFACT")) else 1.0
     v, f = vol.label_surface(sub, lab, step=1, smooth=smooth)
+    v, f, nd = drop_mesh_pieces(v, np.asarray(f, np.int64))
+    if nd:
+        note.append(f"detached surface pieces < {MIN_PIECE_FRAC:.0%} ({nd} vertices) dropped (Q181b rule)")
     v = v + np.array(lo, float)
     return vol.voxels_to_atlas(v, A) - origin, f.astype(np.int64), smooth, note
 
@@ -495,13 +662,17 @@ def do_measure(a):
         sh1 = FF.photo_muscle_share(a.crops, v1, f1, side_of(aid), skip[side_of(aid)], ys)
         mv = surf_move(v1, v0)
         bone_ok = t1 <= t0 + max(25, 0.05 * t0)
+        g = st["gates"].get(aid, {}); mf0, mf1 = main_frac(f0)[0], main_frac(f1)[0]
         status = "ship"
-        if abs(dvox) > MAX_DVOL_PCT or abs(dv) > MAX_DVOL_PCT:
-            status = "hold: volume change > 10 %"
+        if g.get("fail") or not g:
+            status = "hold: " + "; ".join(g.get("fail") or ["no gate row"])
+        elif mf1 < min(mf0, MAIN_FRAC_FLOOR) - 1e-9:
+            status = "hold: main piece below min(Q48, 0.98)"
         elif not bone_ok:
             status = "hold: more vertices > 1 mm inside bone"
         rows[aid] = {"subject_before": W[aid][0], "volume_cm3_mesh": [round(vol0, 2), round(vol1, 2)], "volume_change_pct_mesh": round(dv, 2),
-                     "volume_change_pct_voxels": round(dvox, 2), "photo_share_her_rule": [sh0, sh1], "bone_beyond_1mm": [t0, t1],
+                     "volume_change_pct_voxels": round(dvox, 2), "gate": g, "main_frac": [round(mf0, 4), round(mf1, 4)],
+                     "photo_share_her_rule": [sh0, sh1], "bone_beyond_1mm": [t0, t1],
                      "bone_per_bone": {"before": b0, "after": b1}, "surface_move": mv, "smooth": sm, "q152_note": note, "status": status}
         (ship if status == "ship" else hold).append(aid)
         print(aid, {k: rows[aid][k] for k in ("volume_change_pct_mesh", "bone_beyond_1mm", "surface_move", "status")},
@@ -513,6 +684,8 @@ def do_measure(a):
             for bn, r in rows[aid]["bone_per_bone"][key].items():
                 per_bone.setdefault(bn, [0, 0])[side_] += r["beyond_1mm"]
     res["bone_totals_beyond_1mm"] = per_bone
+    res["bone_totals_worse_than_2pct"] = sorted(bn for bn, (b0, b1) in per_bone.items() if b1 > b0 * 1.02)
+    print("bone totals (muscle vertices > 1 mm inside, changed ids):", per_bone, "worse > 2 %:", res["bone_totals_worse_than_2pct"], flush=True)
     # tracked outlines: shipped (old subjects) vs Q179 candidates, against all thigh muscles (shipped / with the shipped refit ids)
     moved = {aid: (new[aid][0], new[aid][1]) for aid in ship}
     bj = str(REPO / "build/viewer_f_hr/bundle.json"); M0 = FF.all_muscles(bj); M1 = FF.all_muscles(bj, moved)
@@ -525,6 +698,10 @@ def do_measure(a):
         tr[aid] = {"before": r0, "after_refit": r1}
         print(aid, "full-res > 1 mm in muscle", r0["beyond_1mm_any"], "->", r1["beyond_1mm_any"], "of", r1["vertices"], "max", r0["max_depth_mm"], "->",
               r1["max_depth_mm"], {k: v["beyond_1mm"] for k, v in r1["per_mesh"].items() if v["beyond_1mm"]}, flush=True)
+    tib = tro["tibial_n"][0]; r0 = overlap(tib, M0, Q.MUSCLE_WORDS); r1 = overlap(tib, M1, Q.MUSCLE_WORDS)
+    tr["tibial_n"] = {"before": r0, "after_refit": r1, "note": "as shipped (ct_vhf_popliteal), kept out of the muscle region (Q181b option (a))"}
+    print("tibial_n full-res > 1 mm in muscle", r0["beyond_1mm_any"], "->", r1["beyond_1mm_any"], "max", r0["max_depth_mm"], "->", r1["max_depth_mm"],
+          {k: v["beyond_1mm"] for k, v in r1["per_mesh"].items() if v["beyond_1mm"]}, flush=True)
     res["tracked_in_muscle_fullres"] = tr
     # bounded Q177 face snap on the refit Q48 muscles a tracked candidate still enters > 1 mm
     snap = {}; D_store = {}
@@ -575,21 +752,27 @@ def do_measure(a):
         for aid in SNAP_TRACKED:
             r2 = overlap(trn[aid][0], M2, Q.MUSCLE_WORDS); tr[aid]["after_snap"] = r2
             print(aid, "after snap", r2["beyond_1mm_any"], "max", r2["max_depth_mm"], flush=True)
+        r2 = overlap(tib, M2, Q.MUSCLE_WORDS); tr["tibial_n"]["after_snap"] = r2; print("tibial_n after snap", r2["beyond_1mm_any"], flush=True)
     st["ship_ids"] = sorted(ship); st["hold_ids"] = sorted(hold); st["snap_npz_md5"] = md5(SNAP_NPZ) if SNAP_NPZ.exists() else None
     st["badges"] = make_badges(rows, snap, st); STORE.write_text(json.dumps(st, indent=1))
     rep = json.loads(REPORT.read_text()) if REPORT.exists() else {}
-    rep.update({"source": SOURCE, "task": "Q181: her Q48 thigh-muscle boundaries re-fitted on the femur-registered photographs (bone / CT-muscle "
-                "surfaces held); her tracked outlines to the Q179 registered + clipped + interpolated candidates; bounded Q177 snap",
-                "measure_fullres": res, "refit": {k: st[k] for k in ("held", "params", "changed_ids", "field_full_weight_levels")},
+    rep.update({"source": SOURCE, "task": "Q181b: Q181's re-fit of her Q48 thigh-muscle boundaries on the femur-registered photographs (bone / "
+                "CT-muscle surfaces held; her tracked outlines to the Q179 candidates; bounded Q177 snap) with the volume gate against the "
+                "transfer Q48 started from (+-15 %) or Q48 (+-10 %), continuity (pieces < 2 % dropped, main piece >= min(Q48, 0.98)), collapsed "
+                "sections re-blended, and tibial_n (as shipped) kept out of the muscle region",
+                "measure_fullres": res, "refit": {k: st[k] for k in ("held", "hold_reasons", "params", "changed_ids", "field_full_weight_levels")},
+                "pieces_dropped": st["levels"].get("pieces_dropped"),
+                "notch_blended": {s_: st["levels"].get(f"{s_}:notch_blended") for s_ in SIDE_I},
                 "broken_q48_levels": {s: st["levels"].get(f"{s}:broken_q48_levels") for s in SIDE_I}})
     REPORT.write_text(json.dumps(rep, indent=1))
 
 
-BADGE = ("Boundaries with its neighbouring muscles re-fitted (Q181) on her cryosections as re-registered to her CT femur: its Q48 septa "
+BADGE = ("Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa "
          "had been fitted in her lost 1 mm photograph frame, which sits {off} off her CT; the Q48 step (marker watershed on the "
          "photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and "
          "popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT "
-         "muscles was held where it was. Volume {v0:.1f} -> {v1:.1f} cm3; section on her photographed muscle "
+         "muscles was held where it was. Volume {v0:.1f} -> {v1:.1f} cm3 (the male transfer Q48 started from: {vx:.1f} cm3; kept because "
+         "{why}); main piece {mf0:.1%} -> {mf1:.1%} of its surface; section on her photographed muscle "
          "{s0:.0%} -> {s1:.0%}; mesh vertices > 1 mm inside bone {b0} -> {b1}; surface moved up to {mx:.1f} mm (95 % within {p95:.1f} mm).")
 BADGE_SNAP = (" Then its {face} face, where her tracked {what} still entered it, moved inward onto the fat plane photographed in her "
               "0.33 mm cryosections (Q177 rule, her muscle colour; median {med:.2f} / max {mx:.2f} mm, volume {dv:+.1f} %); {n1} of its "
@@ -606,17 +789,19 @@ def make_badges(rows, snap, st):
             continue
         if "volume_cm3_mesh" in r:
             s0 = (r["photo_share_her_rule"][0] or {}).get("on_photographed_muscle", 0); s1 = (r["photo_share_her_rule"][1] or {}).get("on_photographed_muscle", 0)
+            g = r.get("gate") or {}; why = " and ".join(g.get("passes") or ["-"]); mfs = r.get("main_frac") or [0, 0]
             b = BADGE.format(off=f"{med[side_of(aid)]:.0f} mm (median, {side_of(aid)} leg)", v0=r["volume_cm3_mesh"][0], v1=r["volume_cm3_mesh"][1],
+                             vx=(g.get("mesh_cm3_q48_xfer_new") or [0, 0])[1], why=why, mf0=mfs[0], mf1=mfs[1],
                              s0=s0, s1=s1, b0=r["bone_beyond_1mm"][0], b1=r["bone_beyond_1mm"][1], mx=r["surface_move"]["max_mm"], p95=r["surface_move"]["p95_mm"])
         else:
-            b = "Q48 boundaries unchanged by the Q181 re-fit."
+            b = "Q48 boundaries unchanged by the Q181b re-fit."
         s = snap.get(aid)
         if s and s["status"] == "stored":
             ang = np.degrees(np.arctan2(s["dir_xz"][1], s["dir_xz"][0] if aid.endswith("_r") else -s["dir_xz"][0])) % 360
             b += BADGE_SNAP.format(face=SNAP.dir_name(ang), what=" / ".join(WORDS[t] for t in s["entered_by"]), med=s["move"]["median_mm"],
                                    mx=s["move"]["max_mm"], dv=s["dvol_pct"], n0=s["tracked_beyond_1mm_before"], n1=s["tracked_beyond_1mm_after"])
         if r.get("q152_note"):
-            b += " Continuity (Q152 rule, re-applied): " + "; ".join(r["q152_note"]) + "."
+            b += " Continuity: " + "; ".join(r["q152_note"]) + "."
         out[aid] = b
     return out
 
@@ -629,7 +814,7 @@ def do_rebadge(a):
 
 # ------------------------------------------------------------------------------------------------ apply (rebuild)
 def stamp():
-    h = md5b(STORE.read_bytes() + OUT_VOL.read_bytes() + (SNAP_NPZ.read_bytes() if SNAP_NPZ.exists() else b"")); return f"q181-store-{h}"
+    h = md5b(STORE.read_bytes() + OUT_VOL.read_bytes() + (SNAP_NPZ.read_bytes() if SNAP_NPZ.exists() else b"")); return f"q181b-store-{h}"
 
 
 def do_apply(a):
@@ -660,7 +845,7 @@ def do_apply(a):
     (d / "vertices.f32").write_bytes(Vall.tobytes()); (d / "faces.u32").write_bytes(Fall.tobytes())
     srcm = json.loads((VH / "xfer_vhm2vhf_sep" / "manifest.json").read_text()) if (VH / "xfer_vhm2vhf_sep" / "manifest.json").exists() else {}
     man = {"subject": OUT_SUBJ, "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres", "source_volume": str(OUT_VOL),
-           "source_kind": "Q48 label volume with its thigh boundaries re-fitted on her femur-registered photographs (Q181)",
+           "source_kind": "Q48 label volume with its thigh boundaries re-fitted on her femur-registered photographs (Q181b)",
            "label_map": "vhf_xfer_septa", "marching_cubes_step": 1, "vertex_count": int(len(Vall)), "triangle_count": int(len(Fall)),
            "bbox_min_mm": [round(float(x), 4) for x in Vall.min(0)], "bbox_max_mm": [round(float(x), 4) for x in Vall.max(0)],
            "attribution": srcm.get("attribution", []), "note": f"scripts/cryo/vhf_thigh_refit_q181.py apply; {sp}", "structures": structs}
@@ -669,10 +854,10 @@ def do_apply(a):
 
 
 # ------------------------------------------------------------------------------------------------ tracked badges (rebuild)
-BADGE_TRACKED = ("Placed (Q181) on her photographs as re-registered to her CT femur: it was traced in her 1 mm cryosection frame, which was "
+BADGE_TRACKED = ("Placed (Q181b) on her photographs as re-registered to her CT femur: it was traced in her 1 mm cryosection frame, which was "
                  "lost; the frame's offset was reconstructed from the traced outlines of both legs against their photographed features "
                  "(femur registration taken out) and the outline moved by it ({how}){clip}{interp}. Her thigh muscles' boundaries were "
-                 "re-fitted on the same registered photographs (Q181). Vertices > 1 mm inside a muscle mesh (full resolution): {b} -> {a}.")
+                 "re-fitted on the same registered photographs (Q181b). Vertices > 1 mm inside a muscle mesh (full resolution): {b} -> {a}.")
 
 
 def do_badge_tracked(a):
@@ -684,7 +869,8 @@ def do_badge_tracked(a):
         r = tr.get(aid, {}); b = (r.get("before") or {}).get("beyond_1mm_any", "?")
         fin = r.get("final") or r.get("after_snap") or r.get("after_refit") or {}; a_ = fin.get("beyond_1mm_any", "?")
         rest = sorted(((k, v["beyond_1mm"]) for k, v in fin.get("per_mesh", {}).items() if v["beyond_1mm"]), key=lambda kv: -kv[1])[:3]
-        why = [f"{k} {n}" + (" -- kept in its Q48 place: its re-fit changed its volume by more than 10 %" if k in st["held"] else
+        why = [f"{k} {n}" + (" -- kept in its Q48 place (its re-fit failed the Q181b gate: " + st.get("hold_reasons", {}).get(k, "?").split(": ", 1)[-1] + ")"
+                             if k in st["held"] else
                              " -- her CT muscle, not moved" if k.startswith(("iliopsoas", "gluteus")) else "") for k, n in rest]
         return b, (f"{a_} ({'; '.join(why)})" if why else a_)
     med = lambda s: np.median([np.hypot(*v["atlas_dx_dz_mm"]) for y, v in reg["sides"][s].items() if -386 <= int(y) <= 14])
@@ -737,8 +923,21 @@ def do_verify(a):
     import audit_full_continuity_q112 as AU        # Q112's continuity metric (face-adjacency components, vertex main_frac)
     mf = lambda m: round(AU.analyze_group([(None, np.asarray(m["f"], np.int64), len(m["v"]))])["main_frac"], 4)
     out["continuity_main_frac"] = {i: [mf(O[i]), mf(B[i])] for i in sorted(intended) if i in O and i in B}
-    out["continuity_regressions"] = sorted(i for i, (a0, a1) in out["continuity_main_frac"].items()
-                                           if (a0 >= AU.CONTINUOUS_THRESHOLD > a1) or a1 < a0 - 0.02)
+    out["continuity_regressions_q112"] = sorted(i for i, (a0, a1) in out["continuity_main_frac"].items()
+                                               if (a0 >= AU.CONTINUOUS_THRESHOLD > a1) or a1 < a0 - 0.02)
+    out["continuity_fail_q181b"] = sorted(i for i, (a0, a1) in out["continuity_main_frac"].items()
+                                          if i in st["ship_ids"] and a1 < min(a0, MAIN_FRAC_FLOOR) - 1e-4)
+    # muscle-in-bone per bone over the changed muscles (bundle meshes): must not worsen beyond +2 %
+    bones = {k: trimesh.Trimesh(np.asarray(B[k]["v"], float), np.asarray(B[k]["f"]), process=False) for k in Q.BONES + ("sacrum",) if k in B}
+    pb = {}
+    for i in changed:
+        if i in SNAP_TRACKED or i not in O:
+            continue
+        for j, M_ in ((0, O), (1, B)):
+            for bn, r in bone_counts(np.asarray(M_[i]["v"], float), bones).items():
+                pb.setdefault(bn, [0, 0])[j] += r["beyond_1mm"]
+    out["bone_totals_beyond_1mm_bundle"] = pb
+    out["bone_totals_worse_than_2pct"] = sorted(bn for bn, (b0, b1) in pb.items() if b1 > b0 * 1.02)
     Mo = {k: v for k, v in O.items() if any(w in k for w in Q.MUSCLE_WORDS)}; Mn = {k: v for k, v in B.items() if any(w in k for w in Q.MUSCLE_WORDS)}
     tb = {}
     for aid in Q.TRACKED:

@@ -78,7 +78,9 @@ conv $T/vhf_hand_muscles_cryo.nii.gz vhf_hand_muscles ct_vhf_hand --smooth 1.0
 # Q55: the femoral artery, vein and nerve trunk tracked in her full-resolution anterior-thigh crops (triangle only)
 conv $T/vhf_femoral_bundle_cryo.nii.gz vhf_femoral_bundle ct_vhf_femoral --smooth 1.0
 # Q56: the popliteal artery, vein and the tibial nerve in her popliteal fossa, same tracker
-conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 1.0
+# Q181b: --smooth 0.0 is what ships (Q179a/Q181: a 0.0 conversion reproduces the shipped build/vh/ct_vhf_popliteal and
+# ct_vhf_nerve byte for byte, 1.0 does not; ct_vhf_femoral ships at 1.0)
+conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 0.0
 # Q62: her pelvic floor and perineum from the CT labels with the 1 mm photographs as tissue evidence (rule-based)
 conv $T/vhf_pelvic_floor_cryo.nii.gz vhf_pelvic_floor ct_vhf_pfloor --smooth 1.0
 conv $T/vhf_pecminor_rhomboids_cryo.nii.gz vhf_pecminor_rhomboids ct_vhf_pmr --smooth 1.0
@@ -89,7 +91,7 @@ if [ ! -f build/vh/ct_vhf_pelvis/manifest.json ] || [ -n "${RECONVERT:-}" ]; the
   python3 scripts/vhf_pelvic_viscera.py --origin="$O" 2>&1 | tail -4
 fi
 # nerves tracked through her FULL-RESOLUTION cryosections (scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py; 0.5 mm label volume in the repo)
-[ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 1.0
+[ -f $T/vhf_nerves_cryo.nii.gz ] && conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 0.0
 SUBJ="--subject ct_vhf_head --subject ct_vhf_legs --subject ct_vhf_tarsal --subject ct_vhf_armb --subject ct_vhf_mcsplit"
 [ -f build/vh/ct_vhf_descaorta/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_descaorta"
 # Q116: genioglossus_r only, reconverted at --smooth 0.0 (ct_vhf_hyoid_fix); listed BEFORE

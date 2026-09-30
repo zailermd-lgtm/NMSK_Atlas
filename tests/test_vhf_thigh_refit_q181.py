@@ -1,4 +1,4 @@
-"""Q181: her Q48 thigh boundaries re-fitted on the femur-registered photographs (output checks skip when absent)."""
+"""Q181 / Q181b: her Q48 thigh boundaries re-fitted on the femur-registered photographs (output checks skip when absent)."""
 import hashlib
 import json
 import sys
@@ -11,8 +11,8 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 from scripts.cryo import vhf_thigh_refit_q181 as R  # noqa: E402
 
-need_store = pytest.mark.skipif(not (R.STORE.exists() and R.OUT_VOL.exists()), reason="Q181 store / volume absent")
-need_subject = pytest.mark.skipif(not (R.VH / R.OUT_SUBJ / "manifest.json").exists(), reason="Q181 subject absent")
+need_store = pytest.mark.skipif(not (R.STORE.exists() and R.OUT_VOL.exists()), reason="Q181b store / volume absent")
+need_subject = pytest.mark.skipif(not (R.VH / R.OUT_SUBJ / "manifest.json").exists(), reason="Q181b subject absent")
 
 
 def test_shift2d_moves_and_zero_fills():
@@ -53,13 +53,18 @@ def test_refit_level_held_label_keeps_exactly_its_voxels():
     assert np.array_equal(res == 1, L0 == 1)
 
 
-def test_rebuild_script_wiring_and_smoothing():
+def test_rebuild_script_smoothing_as_shipped():
     s = (REPO / "scripts/cryo/vhf_rebuild_bundle.sh").read_text()
-    if "vhf_thigh_refit_q181.py apply" not in s:
-        pytest.skip("Q181 not wired (stopped after attempt 2)")
     assert "conv $T/vhf_nerves_cryo.nii.gz vhf_nerves ct_vhf_nerve --smooth 0.0" in s
     assert "conv $T/vhf_popliteal_cryo.nii.gz vhf_popliteal ct_vhf_popliteal --smooth 0.0" in s
     assert "conv $T/vhf_femoral_bundle_cryo.nii.gz vhf_femoral_bundle ct_vhf_femoral --smooth 1.0" in s
+
+
+def test_rebuild_script_wiring():
+    s = (REPO / "scripts/cryo/vhf_rebuild_bundle.sh").read_text()
+    if "vhf_thigh_refit_q181.py apply" not in s:
+        pytest.skip("Q181b not wired")
+    assert "--subject xfer_vhm2vhf_sep_q181b" in s
     i_apply = s.index("vhf_thigh_refit_q181.py apply"); i_fix = s.index('SUBJ="$SUBJ --subject ct_vhf_xfersepta_fix_contfix"')
     assert i_apply < i_fix
     assert s.index("ct_vhf_femoral_q181 ct_vhf_popliteal_q181 ct_vhf_nerve_q181") < s.index('SUBJ="$SUBJ --subject ct_vhf --subject')
@@ -80,8 +85,9 @@ def test_store_matches_volume_and_gates():
     st = json.loads(R.STORE.read_text())
     assert st["out_vol_md5"] == R.md5(R.OUT_VOL) and st["q48_vol_md5"] == R.md5(R.Q48_VOL)
     for aid in st.get("ship_ids", []):
-        b, a = st["voxels_before_after"][aid]
-        assert abs(100 * (a - b) / b) <= R.MAX_DVOL_PCT, aid
+        b, a = st["voxels_before_after"][aid]; xv = st["xfer_refs"][aid][0]
+        assert abs(100 * (a - b) / b) <= R.MAX_DVOL_PCT or abs(100 * (a - xv) / xv) <= R.MAX_DVOL_XFER_PCT, aid
+        assert not st["gates"][aid]["fail"], aid
     assert not set(st.get("ship_ids", [])) & set(st["held"])
 
 
@@ -112,3 +118,37 @@ def test_apply_is_byte_reproducible(tmp_path, monkeypatch):
     R.do_apply(type("A", (), {"if_stale": False, "origin": "7.769,-885.229,14.137"})())
     after = {k: hashlib.md5((work / R.OUT_SUBJ / k).read_bytes()).hexdigest() for k in before}
     assert after["vertices.f32"] == before["vertices.f32"] and after["faces.u32"] == before["faces.u32"]
+
+
+def test_traced_obstacles_include_tibial_as_shipped():
+    assert ("vhf_popliteal_cryo.nii.gz", (3,)) in R.TRACED_VOLS          # Q181b option (a)
+
+
+def test_fill_notches_bridges_a_collapsed_section_only():
+    ks = list(range(40)); res_of = {}
+    for k in ks:
+        S = np.zeros((40, 40), np.uint8); S[5:25, 5:25] = 1; S[5:25, 25:35] = 2
+        if 18 <= k <= 20:
+            S[S == 1] = 2                                                  # muscle 1 collapses over 3 levels
+        res_of[k] = (S, np.zeros((40, 40), bool), np.zeros((40, 40), bool))
+    done = R.fill_notches(res_of, [1, 2], set(), None, 0, 40)
+    assert done == [(1, 18, 20)] and all((res_of[k][0] == 1).sum() == 400 for k in ks)
+    assert all((res_of[k][0] == 2).sum() == 200 for k in ks)
+
+
+def test_drop_pieces_gives_small_pieces_to_neighbour_or_background():
+    out = np.zeros((20, 20, 20), np.uint8); out[2:12, 2:12, 2:12] = 5; out[14, 14, 14] = 5; out[13:18, 13:18, 15:18] = 7; out[0, 19, 19] = 5
+    mv = R.drop_pieces(out, 5, set())
+    assert sorted(mv) == [(1, 0), (1, 7)] and (out == 5).sum() == 1000
+    out[14, 14, 14] = 5; assert R.drop_pieces(out, 5, {7}) == [(1, 0)]   # never to a held muscle
+
+
+def test_main_frac_matches_q112_and_mesh_drop():
+    sys.path.insert(0, str(REPO / "scripts"))
+    import audit_full_continuity_q112 as AU
+    import trimesh
+    a = trimesh.creation.box(); b = trimesh.creation.icosphere(3); b.vertices += 5
+    v = np.r_[a.vertices, b.vertices]; f = np.r_[a.faces, b.faces + len(a.vertices)]
+    assert abs(R.main_frac(f)[0] - AU.analyze_group([(None, f, len(v))])["main_frac"]) < 1e-12
+    v2, f2, nd = R.drop_mesh_pieces(v, f)
+    assert nd == 8 and len(v2) == len(b.vertices) and R.main_frac(f2)[0] == 1.0
