@@ -61,6 +61,8 @@ class Crops:
         # in-plane frame mapping, explicit per body (her defaults; his crops, vhm_stream_leg_crops.py, store their own):
         # frame col c = X0 - RASx, frame row r = Y0 + ap_row * RASy (ap_row -1: row 0 anterior), photo col offset CB
         self.X0 = self.b.get("X0", 350.0); self.Y0 = self.b.get("Y0", 240.0); self.ap = self.b.get("ap_row", -1); self.CB = self.b.get("CB", 110.0)
+        # optional per-side registration (Q174: his Q173 photograph-to-atlas shift folded into X0/Y0 per leg)
+        self.X0 = self.b.get("X0_by_side", {}).get(side, self.X0); self.Y0 = self.b.get("Y0_by_side", {}).get(side, self.Y0)
 
     def level(self, y):
         L = self.b["levels"][str(int(y))]; w = L["windows"][self.side]
