@@ -9854,7 +9854,38 @@ the female's phalanges are under-captured at HU 200.
   montages scratch q175/montage_final_{right,left}.png; old bundle scratch q175/old_bundle.{json,bin}. Not committed/published.
 - Open: the femoral veins also sit in his pectineus / vastus medialis meshes (bundle: R 50/94, L 91/88 vertices) -- not
   addressed; clipping the Q174 vein outline to its photographed lumen would remove the AL residual.
-- NEXT (Q176): tracked outlines run 1-2 mm past the photographed lumen/fascicle edge into muscle (Q57 sciatic, Q174 femoral
-  veins; Q173/Q175 residuals are this). Clip each tracked label to photographed non-muscle (the Q175 strict + red>=55 rule)
-  with a bounded erosion, re-measure overlap. Also: femoral veins inside pectineus / vastus medialis meshes (R 50/94, L
-  91/88 bundle vertices) not yet addressed.
+- Q176 DONE (2026-09-30): tracked outlines clipped to photographed non-muscle (bounded 2 mm peel); section on photographed muscle sciatic 27->3 %, femoral veins 12/20->1/0 %; bundle vertices > 1 mm in muscle sciatic 2357->820, femoral_v 84/132->19/2; see Q176 below.
+
+## Q176 (2026-09-30) -- his tracked outlines clipped to his photographed non-muscle (male hi-res viewer)
+- New `scripts/cryo/vhm_tracked_clip.py` (clip | verify | badge; tests/test_vhm_tracked_clip.py, 13 tests, output checks skip when absent).
+  `vhm_thigh_fat_plane_snap.write_nerve` got optional src/dst (defaults unchanged; reproduces vhm_nerves_cryo_reg.nii.gz bit-exactly).
+- Crops (vhm_stream_leg_crops.py, --ap-row -1, ~45 s total, deleted after; vh_cryo/ + vhm_ts/ kept): sci y -85..-226 right=80,145,-85,-25
+  left=-135,-60,-85,-30; fem y 40..-285 right=30,100,-10,80 left=-110,-35,-25,75; pop y -375..-460 right=105,165,-75,0 left=-145,-95,-95,-20.
+  fem/pop read through `vhm_femoral_popliteal_track.py register` (Q173 shift, as tracked); the sciatic is clipped in its ORIGINAL volume on
+  the raw Q57 mapping (as traced) and then moved by the identical Q173 step -> vhm_nerves_cryo_reg_clip.nii.gz.
+- Rule per label/side/level on the volumes' 0.5 mm grid: muscle = Q175 (strict + red >= 55), 3x3 crop-px majority, 2x2 sub-samples per voxel;
+  remove muscle voxels with depth <= 2 mm connected to the edge, never the core (depth > min(2 mm, half the max depth)); rim specks <= 1 mm2
+  cut off by the peel go with it; any other split keeps the ORIGINAL level. Femoral ARTERIES not clipped (wall = smooth muscle; overlap ~0).
+  Attempt 1 (no speck rule) left 24 sciatic + 175 femoral-vein levels unclipped for 1-2 voxel specks; attempt 2 shipped.
+- Numbers (volume cm3 %, mean section mm2, median area-eq. diameter mm, levels changed/kept-split, on photographed muscle, bundle vertices
+  > 1 mm in any muscle mesh (max mm)): sciatic_n 14.17->10.65 (-24.8 %), 67.5->50.7, 8.2->7.15 (Q57 band 7.4-7.9 thick x 10-12 wide),
+  205/2 of 210, 27->2.6 %, 2357->820 of 14,965 (5.0->5.0); femoral_v_l 21.17->18.73 (-11.5 %), 67.0->59.3, 8.2->7.5 (published 8-11), 283/1
+  of 316, 12->0.9 %, 84->19 (2.8->1.9); femoral_v_r 14.49->11.55 (-20.3 %), 72.8->58.0, 9.4->8.1, 192/0 of 199, 20->0.3 %, 132->2 (1.95->1.0);
+  popliteal_v_l -8.7 %, 6.8->6.4 (7-11), 10->1.4 %, 31->7; popliteal_v_r -5.5 %, 6.4->6.3, 5.5->0.1 %, 19->1; tibial_n -0.6 %, 7.2->7.2, 0->0.
+  Stop rule (diameter drop > 20 %, component rise, bone) not hit. 3-D components unchanged (26/6-conn), subject + bundle mesh pieces
+  unchanged, 0 vertices in bone. Full-res subject meshes > 1 mm in muscle: sciatic 4841->1545, femoral_v_l 1554->228, femoral_v_r 1708->0.
+- Residual: sciatic's remaining vertices sit in biceps femoris (right medial face beside a pale septum, not snapped by Q173) and adductor
+  magnus meshes -- the nerve itself is now 97 % on photographed non-muscle, so that is the muscle meshes reaching over the nerve;
+  femoral_v_l 19 in pectineus / adductor longus / magnus (max 1.9 mm). Montages scratch q176/montage_{sciatic,femoral,popliteal}.png.
+- Shipped: mappings/subjects/ct_vhm_{sciatic,femoral,popliteal}_volume_mapping.json source_volume -> *_clip; vhm_rebuild_bundle.sh uses
+  the *_clip volume when present (reconverts when the manifest names another) and runs `vhm_tracked_clip.py badge` after the Q173/Q174
+  badges. `VHM_OUT=build/viewer_m_hr bash scripts/vhm_rebuild_bundle.sh`: 437 entries, 2,138,301 tris (-2); only sciatic_n, femoral_v_l/r,
+  popliteal_v_l/r, tibial_n changed (geometry hashes + metadata); order unchanged; femoral_a_l/r identical. Badges append the Q176 method +
+  numbers (sciatic's Q173 "Residual overlap" sentence replaced). Chromium headless: no page errors (one cert console error on an external
+  resource), 6 ids badged. viewer_f_hr untouched (md5). Report data/derived/Q176_vhm_tracked_clip.json; old bundle scratch
+  q176/old_bundle{.json,/}, old subjects q176/old_subjects/. Not committed, not published.
+- Open: femoral_v Q174 badge text still quotes the pre-clip lumen median (the Q176 sentence gives the new one); sciatic residual needs
+  biceps femoris' medial face snapped (Q173 anterior-only rule); Q174 open items (right femoral vein gap, popliteal arteries) unchanged.
+- NEXT (Q177): the sciatic residual (820 viewer vertices >1 mm inside muscle, max 5.0 mm) is now the MUSCLE meshes reaching
+  over the nerve (right biceps femoris medial face, which Q173's anterior-only snap never touched; adductor magnus). Extend
+  the Q173 snap to biceps femoris' medial face on the sciatic levels; also the femoral veins vs pectineus/vastus medialis.

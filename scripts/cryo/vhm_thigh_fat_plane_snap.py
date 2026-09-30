@@ -380,9 +380,9 @@ def build_pieces(D_store, spec=SPEC):
     return out, before
 
 
-def write_nerve(reg):
+def write_nerve(reg, src=NERVE_IN, dst=NERVE_OUT):
     import nibabel as nib
-    img = nib.load(str(NERVE_IN)); L = np.asarray(img.dataobj).copy(); A = img.affine.copy()
+    img = nib.load(str(src)); L = np.asarray(img.dataobj).copy(); A = img.affine.copy()
     vox = np.abs(np.diag(A)[:3]); assert A[0, 0] > 0 and A[1, 1] > 0, "expects a +x +y RAS grid (vhf_nerve_volume.py)"
     sR = reg_atlas_shift(reg["right"]); sL = reg_atlas_shift(reg["left"])
     # atlas (x, z) = RAS (x, y) - origin; the AP shift is common to both sides -> exact, in the affine;
@@ -394,7 +394,7 @@ def write_nerve(reg):
     L2[off_r:off_r + nx][~left] = L[~left]
     sub = L2[off_l:off_l + nx]; sub[left] = np.maximum(sub[left], L[left])
     A[0, 3] += -off_r * vox[0] + sR[0]; A[1, 3] += ap
-    nib.save(nib.Nifti1Image(L2, A), str(NERVE_OUT))
+    nib.save(nib.Nifti1Image(L2, A), str(dst))
     return {"ap_shift_mm_atlas_z": round(float(ap), 3), "right_x_shift_mm": round(float(sR[0]), 3),
             "left_x_shift_mm_applied": round(float(sR[0] + dx_vox * vox[0]), 3), "left_x_shift_mm_measured": round(float(sL[0]), 3),
             "voxels_in": int((L > 0).sum()), "voxels_out": int((L2 > 0).sum())}

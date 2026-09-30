@@ -169,9 +169,12 @@ if [ -f $T/vhm_thigh_snap_q173.npz ] && { [ ! -f build/vh/ct_vhm_thigh_snap/mani
      { [ -f $T/vhm_thigh_snap_q175.npz ] && ! grep -q adductor_longus build/vh/ct_vhm_thigh_snap/manifest.json; }; }; then
   python3 scripts/cryo/vhm_thigh_fat_plane_snap.py apply 2>&1 | tail -1
 fi
-if [ -f $T/vhm_nerves_cryo_reg.nii.gz ] && { ! grep -q vhm_nerves_cryo_reg build/vh/ct_vhm_sciatic/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
+# Q176: the tracked outlines (sciatic; femoral/popliteal veins + tibial nerve) clipped to his photographed non-muscle
+# (scripts/cryo/vhm_tracked_clip.py) -> *_clip.nii.gz, used when present (originals kept); badges get the Q176 numbers.
+SCI=$T/vhm_nerves_cryo_reg.nii.gz; [ -f $T/vhm_nerves_cryo_reg_clip.nii.gz ] && SCI=$T/vhm_nerves_cryo_reg_clip.nii.gz
+if [ -f $SCI ] && { ! grep -q "/$(basename $SCI)" build/vh/ct_vhm_sciatic/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
   cp mappings/subjects/ct_vhm_sciatic_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_sciatic
-  python3 scripts/ingest_volume_geometry.py convert $T/vhm_nerves_cryo_reg.nii.gz --labels vhm_nerves --subject ct_vhm_sciatic --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+  python3 scripts/ingest_volume_geometry.py convert $SCI --labels vhm_nerves --subject ct_vhm_sciatic --origin='-6.035,-895.476,4.787' --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
   python3 scripts/cryo/vhm_thigh_fat_plane_snap.py badge-nerve >/dev/null
 fi
 # Q174: his femoral (artery + vein) and popliteal (vein + left tibial nerve) bundles, tracked in his 0.33 mm cryosections
@@ -179,13 +182,16 @@ fi
 # are needed here. Surfaced as ct_vhm_femoral / ct_vhm_popliteal (ids unique; listed last), then badged from the report.
 Q174_NEW=""
 for s in femoral popliteal; do
-  if [ -f $T/vhm_${s}_cryo.nii.gz ] && { [ ! -f build/vh/ct_vhm_$s/manifest.json ] || [ -n "${RECONVERT:-}" ]; }; then
+  V=$T/vhm_${s}_cryo.nii.gz; [ -f $T/vhm_${s}_cryo_clip.nii.gz ] && V=$T/vhm_${s}_cryo_clip.nii.gz   # Q176
+  if [ -f $V ] && { ! grep -q "/$(basename $V)" build/vh/ct_vhm_$s/manifest.json 2>/dev/null || [ -n "${RECONVERT:-}" ]; }; then
     cp mappings/subjects/ct_vhm_${s}_volume_mapping.json build/vh/; rm -rf build/vh/ct_vhm_$s
-    python3 scripts/ingest_volume_geometry.py convert $T/vhm_${s}_cryo.nii.gz --labels vhm_$s --subject ct_vhm_$s --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
+    python3 scripts/ingest_volume_geometry.py convert $V --labels vhm_$s --subject ct_vhm_$s --origin='-6.035,-895.476,4.787' --smooth 1.0 2>&1 | grep -E "wrote|Error|Trace"
     Q174_NEW=1
   fi
 done
 [ -n "$Q174_NEW" ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && [ -f build/vh/ct_vhm_popliteal/manifest.json ] && python3 scripts/cryo/vhm_femoral_popliteal_track.py badge >/dev/null
+[ -f data/derived/Q176_vhm_tracked_clip.json ] && [ -f build/vh/ct_vhm_sciatic/manifest.json ] && [ -f build/vh/ct_vhm_femoral/manifest.json ] && \
+  [ -f build/vh/ct_vhm_popliteal/manifest.json ] && python3 scripts/cryo/vhm_tracked_clip.py badge   # Q176 (idempotent)
 SUBJ=""; [ -f build/vh/ct_vhm_pfloor_fix/manifest.json ] && SUBJ="--subject ct_vhm_pfloor_fix"
 # Q152: continuity repair on his OWN subjects (mesh-space island drops; his own arm/forearm/
 # deltoid raw sources are one-piece so nothing of his needed a voxel-space gap bridge except
