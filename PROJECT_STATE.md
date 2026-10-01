@@ -10777,3 +10777,7 @@ the female's phalanges are under-captured at HU 200.
 - Wiring: vhf_rebuild_bundle.sh builds (needs the restacked CT) / converts ct_vhf_tam, stamps it, lists it only when stamped.
   Not published.
 - NEXT: her T12/L1 TS labels (38 mm median gap); his C7/T1 + both C6/C7 width (uncinate / transverse bars); republish when decided.
+- Main session (2026-10-01): Q185f2 + Q185c2 published -- male v78 (464 / 2.25 M), female v61 (457 / 3.39 M), hub v15.
+- [ ] Q185k (new): her vertebra labels around T12/L1 look wrong (38 mm gap -> her T12/L1 disc held at 13 mm height);
+  check her T12 / L1 TotalSegmentator labels against her CT and the cryosection-derived spine before trusting
+  anything placed relative to them.
