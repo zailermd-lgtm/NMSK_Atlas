@@ -142,8 +142,8 @@
   "ct_vhm:intervertebral_disc_*"
  ],
  "skin_fov_cut_x": [
-  -233.4444122314453,
-  246.5556182861328
+  null,
+  null
  ],
  "structures": {
   "brachialis_r": {
@@ -1548,13 +1548,6 @@
   }
  },
  "skin_pull": {
-  "supinator_r": {
-   "subject": "xfer_zan2vhm_limb_photo",
-   "outside_before": 0.4076,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.4076,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
   "abductor_digiti_minimi_hand_l": {
    "subject": "xfer_zan2vhm_limb",
    "cat": "muscle",
@@ -1610,13 +1603,6 @@
      "flipped_faces_left": 0
     }
    ]
-  },
-  "brachioradialis_l": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0276,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.0276,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
   "dorsal_interossei_foot_l": {
    "subject": "xfer_zan2vhm_limb",
@@ -1730,55 +1716,6 @@
     }
    ]
   },
-  "extensor_carpi_radialis_brevis_l": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.3147,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.3147,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "extensor_carpi_radialis_brevis_r": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0394,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.0394,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "extensor_carpi_radialis_longus_l": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.3565,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.3565,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "extensor_carpi_radialis_longus_r": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0641,
-   "outside_pullable": 0.0075,
-   "outside_beyond_fov_cut": 0.0565,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "extensor_carpi_ulnaris_l": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.2504,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.2504,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "extensor_carpi_ulnaris_r": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0356,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.0356,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "extensor_digiti_minimi_r": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0213,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.0213,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
   "extensor_digitorum_brevis_l": {
    "subject": "xfer_zan2vhm_limb",
    "cat": "muscle",
@@ -1838,26 +1775,26 @@
   "extensor_digitorum_r": {
    "subject": "xfer_zan2vhm_limb",
    "cat": "muscle",
-   "outside_before": 0.0281,
-   "outside_pullable": 0.0216,
-   "outside_beyond_fov_cut": 0.0066,
-   "n_beyond_fov_cut": 21,
-   "outside_after": 0.0081,
+   "outside_before": 0.0162,
+   "outside_pullable": 0.0162,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0016,
    "outside_pullable_after": 0.0016,
    "in_bone_before": 0.0078,
    "in_bone_after": 0.0078,
-   "volume_change": 0.0468,
-   "moved": 709,
+   "volume_change": -0.0015,
+   "moved": 500,
    "max_move_mm": 2.2,
    "shipped": true,
    "hidden_default": false,
    "held_reason": null,
-   "badge": "Q185 skin pull-in: 709 vertices pulled inside his own skin (to 1 mm below it, max 2.2 mm); outside skin 2.8 % -> 0.8 %; 21 vertices at / beyond his skin's CT field-of-view cut left as they are.",
+   "badge": "Q185 skin pull-in: 500 vertices pulled inside his own skin (to 1 mm below it, max 2.2 mm); outside skin 1.6 % -> 0.2 %.",
    "records": [
     {
-     "moved": 709,
+     "moved": 500,
      "n_too_deep": 0,
-     "backed_off": 54,
+     "backed_off": 52,
      "reverted": 24,
      "flipped_faces_left": 0
     }
@@ -2002,13 +1939,6 @@
      "flipped_faces_left": 0
     }
    ]
-  },
-  "interosseous_membrane_forearm_r": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0181,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.0181,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
   "opponens_digiti_minimi_r": {
    "subject": "xfer_zan2vhm_limb",
@@ -2177,20 +2107,6 @@
      "flipped_faces_left": 0
     }
    ]
-  },
-  "pronator_teres_l": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.0983,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.0983,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
-  },
-  "supinator_l": {
-   "subject": "xfer_zan2vhm_limb",
-   "outside_before": 0.1189,
-   "outside_pullable": 0.0,
-   "outside_beyond_fov_cut": 0.1189,
-   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   }
  },
  "orbit_reseat": {

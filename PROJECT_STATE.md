@@ -10847,7 +10847,7 @@ the female's phalanges are under-captured at HU 200.
 - Images (scratch q185k/): q185k_her_midsagittal_labels.png (TS vs relabel outlines + CT profile), q185k_her_coronal_mip_ribs.png,
   q185a_his_cryo_local_check.png. Not published.
 - QUEUE (new):
-  - [ ] Q185a2 his arm skin from his OWN cryosection photographs (local: scratch vh_cryo 1001-2878 + vh_cryo_m_forearm_q151; no
+  - [x] Q185a2 (2026-10-01: built + shipped in viewer_m_hr, see ## Q185a2) his arm skin from his OWN cryosection photographs (local: scratch vh_cryo 1001-2878 + vh_cryo_m_forearm_q151; no
     re-streaming needed unless a finer arm crop is wanted): body/air boundary beyond x = -233 / +247 in the registered photo
     frame, fused to ct_vhm_skin at the caps; gate: his ct_vhm_arm bones 0 % outside skin, skin_unknown_frac -> 0.
   - [ ] Q185k2 her L1/L1B disc: an atlas entity for a supernumerary lumbar disc (built + passing, not shipped) -- or decide to
@@ -10858,7 +10858,7 @@ the female's phalanges are under-captured at HU 200.
   the extra body "L1B" (between L1 and L2), which keeps existing ids but is not standard numbering (the extra is
   conventionally the lowest: her shipped L2..L5 would be L3..L6, L5/S1 -> L6/S1). Decide with the owner whether to
   add L6 entities and renumber, or keep L1B with a clear badge; until then her lumbar labels L2-L5 are off by one.
-- [ ] Q185a2 (new): his arm cryosection photographs ARE local (scratch vh_cryo, vh_cryo_m_forearm_q151, both arms in
+- [x] Q185a2 (new; 2026-10-01 done, see ## Q185a2): his arm cryosection photographs ARE local (scratch vh_cryo, vh_cryo_m_forearm_q151, both arms in
   frame) -- build his skin beyond the CT FOV (x < -233 / x > +247 mm: lateral upper arms, elbows, proximal forearms)
   from them, registered as in Q151/Q180, and merge with the CT skin at the cut planes.
 
@@ -11048,3 +11048,54 @@ of the classification table (e.g. brain parts as "other organ").
   published Z-Anatomy male v8 and female v2 ANATOMY ONLY (no clinical files) -- whether to ship the private needle
   files next to the CC BY-SA Z-Anatomy pages and the male own viewer awaits the owner (male own publish was denied by
   the permission classifier). Hub v17.
+
+## Q185a2 (2026-10-01) -- his arm skin beyond the CT field of view, from his OWN cryosection photographs (viewer_m_hr)
+- Script scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py (segment | merge | gates | stamp | montage); test
+  tests/test_vhm_arm_skin_q185a2.py (4: split+zip of a cut ball is watertight/consistent, translation round trip +
+  reliability rule, sweep skin_unknown intervals, built-report gate). Source: SCRATCH/vh_cryo/cryo_1mm.npy (symlink to the
+  scratch 1 mm set, instances 1230-1800; both arms in frame). The full-res vh_cryo_m_forearm_q151 (1625-1761) was not needed.
+- Body/air rule: r > b + 15 and max(RGB) > 40 (cryo_classes' tissue test, floor 60 -> 40: the dark skin line where an arm
+  lies against the black mould wall dropped out at 60), open 2, close 2, fill holes; only the pieces holding that arm's
+  photographed bones. Checked on 1290/1360/1400/1500/1560/1600/1660/1700/1730. The arm never leaves the photograph; right
+  1466-1551 and left 1506-1598 it lies against the block edge (outline complete, flattened by the mould).
+- Registration = Q151/Q164 rule (no new method): per photo and arm, translation only at 0.99 mm/px onto
+  vhm_arm_bones_cryo_completed (humerus/radius/ulna) centroids, per-bone disc match, reliable = >= 2 bones with pair
+  distances within 3 mm of the CT (or the only bone), median filter over 21 reliable levels. Reliable 345/450 (right),
+  385/463 (left); residual median 0.3 mm, p95 2.6 / 3.8 mm. Scale check: isolated trunk at 1600 photo 333.6 x 290.1 mm vs
+  CT 334.0 x 291.2. The translation has real framing jumps (block edge moves at 1395 / 1420) plus 2-5 mm per-level steps.
+- Mask committed: data/ct_sources/task_outputs/vhm_arm_skin_cryo_q185a2.nii.gz (torso RAS 1 mm); registration
+  data/derived/Q185a2_arm_skin_registration_vhm.json; report data/derived/Q185a2_arm_skin_vhm.json.
+- Merge: CT skin cut at a wall 20 mm inside each FOV plane; only the beyond-wall piece touching the cap is replaced (other
+  pieces, e.g. hands, welded back). Local 1 mm grid: CT signed distance + w x (photo SDF - CT SDF), w = 1 at <= 2 mm inside
+  the plane, 0 at >= 12 mm, and only over the cap's y range (+3, fading 11 mm beyond); correction smoothed sigma (1, 3, 1)
+  (softens per-level ledges), CT base 0.7; marching cubes step 2; zipped to the CT loop at the wall (1 loop per side).
+  First tries: occupancy blending made flat shelves where the outlines disagree (fold test 98.5 %) -> SDF blend; a
+  15-45 mm-deep blend was based on a mis-measured "eroded CT rim" (the arm photo pieces merged with the trunk had polluted
+  the band check; restricted to the cap's y / z range the rim agrees) -> back to 2-12 mm.
+- Gates: watertight; fold/self-crossing proxy (0.3 mm off each face >= 0.2 mm2, ray parity) 99.98 / 99.98 % (CT region
+  baseline 100 / 99.98). Join strip gap median 0.14 / 0.46, max 1.18 / 1.21 mm (left / right). Photo vs CT outline in the
+  blend band 2-12 mm: signed median 0.0 / -2.0 mm, |offset| median 2.0 / 2.2, p95 of levels 9.7 / 10.1 mm (spread over the
+  10 mm blend, no step); band volume photo vs CT 395 vs 382 / 435 vs 421 cm3 (area ratio 1.03 / 1.01); 15-45 mm deeper:
+  signed -1.6..+2.2 mm, area 0.98-1.02. Skin 103,344 -> 105,400 cm3. Enclosure (bundle arm records): bone 6 records 99.94 %
+  inside (beyond the planes 99.65 %: 11 humerus_l vertices <= 1.1 mm out, posterior distal humerus y 277-284, thin skin
+  over the olecranon fossa / registration +-1-2 mm), was 82.4 % in the CT skin; muscle 30 records 99.99 % (beyond 100 %);
+  fascia 100 %. fov_skin_open = [] (nothing left open).
+- Sweep: placement_sweep_q185.py reads the skin manifest (skin_unknown_spec / skin_unknown): "skin unknown" only in
+  `fov_skin_open` intervals (no key = whole cut, Q185a). His 43 arm records (data/derived/Q185a2_sweep_vhm_arms.json, 41
+  swept) vs Q185a: skin-unknown 21 records -> 0; outside-skin flags 8 -> 1 (extensor_indicis_r 17.1 %, hand, inside the
+  FOV, unchanged); all flags 12 -> 7 (rest are in-bone: brachialis_r, coracobrachialis_r, ECU_r, EDM_r, IO membrane_r,
+  pronator_teres_l). humerus_l/r outside 1.8 / 2.0 % -> 0.4 / 0.0 %.
+- Wiring: vhm_rebuild_bundle.sh after the Q185a stamp: segment if the mask is absent and SCRATCH/vh_cryo exists; merge
+  (CT-only kept as build/vh/ct_vhm_skin/*.ctonly.*, always the input) + stamp (badge: CT skin + cryosection arm skin,
+  method, measured offsets / gap, enclosure, open parts).
+- Rebuild VHM_OUT=build/viewer_m_hr: 464 structures / 429 ids (unchanged), "triangles 22,734,504 -> 2,245,504" (was
+  22,693,324 -> 2,245,504). Per record: 385 identical, geometry 2 (skin; extensor_digitorum_r: the Q185 skin pull-in now
+  sees no FOV cut, 500 vertices pulled, outside 1.6 -> 0.2 %), entry-only 42 (arm records' depth_med / depth_min below the
+  skin). Changed geo file: atlas_viewer_male_geo_01.txt (+ bundle.*, html); geo_00 identical. Q185_bone_carve_vhm.json
+  updated by the rebuild. build/viewer_f_hr md5 unchanged. Headless Chromium (q184/probe.py): 0 page errors desktop +
+  phone, "Search 464 structures", visible at load 338 (unchanged). stage_clinical_files.py build/viewer_m_hr re-run.
+- Tests: tests/test_vhm_arm_skin_q185a2.py + test_placement_sweep_q185.py + test_vhf_vertebra_relabel_q185k.py: 9 passed.
+- Montage (scratch q185a2/): q185a2_arms_before_after.png (anterior + lateral, both arms, before/after, red = arm vertices
+  outside skin 3852 / 2571 -> 0 / 14), q185a2_axial_levels.png (instances 1360 / 1560 / 1660). Not published.
+- Visible residue: a faint ring where the blend meets the CT skin and faint horizontal ledges at registration jumps.
+- NEXT: republish his viewer when decided (male own publish awaits the owner).

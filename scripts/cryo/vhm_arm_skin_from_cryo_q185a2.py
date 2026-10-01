@@ -22,8 +22,8 @@ fixed photograph scale (here 0.99 mm/px; Q164 0.33 mm/px at full resolution), ph
 CT/cryo-completed arm bones at the same z (data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz: humerus 1/5,
 radius 2/6, ulna 3/7 right/left; x = 350 - i, y = 240 - j, z = -1113 + k). Photo bones = the bright (fat / pale / white:
 classes 2, 4, 5) discs inside the arm (refine_transfer_photo_watershed.bone_disc_centroid's classes), matched per CT bone
-to the nearest disc of comparable area; reliable levels = every bone matched and (>= 2 bones) the photographed bone-to-bone
-distances within 3 mm of the CT's; median-filtered over 21 reliable levels and interpolated between them
+to the nearest disc of comparable area; reliable levels = >= 2 bones matched with the photographed bone-to-bone distances
+within 3 mm of the CT's (or the only bone of the section); median-filtered over 21 reliable levels and interpolated between them
 (vhm_forearm_muscles_fullres.smooth_translation's rule).
 
 OVERLAP (measured, `gates`): photo vs CT outline per level, in bands inside the FOV plane over the cap's y / z range:
