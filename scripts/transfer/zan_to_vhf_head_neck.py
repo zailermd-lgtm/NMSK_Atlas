@@ -23,8 +23,11 @@ objects carried by the Q168 per-bone fits (`zan_to_vhf_whole_body.load_zan_to_vh
            interdigitate in the source itself): > MAX_OVERLAP -> held.
 Only ids with NO mesh in her bundle (Q62 step 7 coverage list, NOT_MAPPED gives why the rest are not built).
 Output subject xfer_zan2vhf_head (xfer_: never counted as her own mesh), report data/derived/Q62s7_vhf_head_neck.json.
+Q62 step 7b: `--target vhm` runs the same gates on the VH MALE (Q168 fits onto HIS skeleton,
+data/derived/Q168_zan_to_vhm.json; his CT labels/HU) -> xfer_zan2vhm_head, data/derived/Q62s7b_vhm_head_neck.json;
+platysma r/l is added for him (he has no platysma; she does). Texts say "his" for him; her output is unchanged.
 
-    python3 scripts/transfer/zan_to_vhf_head_neck.py [--out build/vh/xfer_zan2vhf_head] [--dry]
+    python3 scripts/transfer/zan_to_vhf_head_neck.py [--target vhm] [--out build/vh/xfer_zan2vhf_head] [--dry]
 """
 from __future__ import annotations
 
@@ -60,6 +63,55 @@ MIN_VOL_KEPT = 0.75          # ... or the fixes leave less than this share of th
 LOCAL_MM = 15.0
 AIR_HU = -400
 LARYNX_MAX_ROT_DEG, LARYNX_SCALE_TOL = 20.0, 0.25
+# Q62 step 7b: his frozen CT (IDC 5d409385, mixed 0.94/0.78/0.53 mm FOV blocks) resampled onto his vhm_total grid
+# (`--stack-ct DICOM_DIR` writes it); without it the airway = labels only
+CT_HU_VHM = CT_HU.parent / "vhm_torso_0937.nii.gz"
+TARGETS = {
+    "vhf": {"subject": SUBJECT, "report": REPORT, "bundle": Z.FEMALE_BUNDLE_JSON, "q168": Z.DEFAULT_REPORT,
+            "prefix": "vhf", "ct": CT_HU, "origin": ORIGIN, "air_z_min": 700, "extra": {}, "step": "7"},
+    # his origin: vhm_rebuild_bundle.sh's torso-block origin (ct_vhm_neck, ct_vhm_abw); air_z_min: first slice above
+    # his lung labels (vhm_total 10-14 end at slice 551)
+    "vhm": {"subject": "xfer_zan2vhm_head", "report": REPO / "data" / "derived" / "Q62s7b_vhm_head_neck.json",
+            "bundle": Z.MALE_BUNDLE_JSON, "q168": Z.MALE_REPORT, "prefix": "vhm", "ct": CT_HU_VHM,
+            "origin": "-6.035,-895.476,4.787", "air_z_min": 552,
+            "extra": {"facial_expression": ["platysma_r", "platysma_l"]}, "step": "7b",
+            # his bundle's skull/mandible/spine/girdle/ribs are the meshes recovered from his published viewer
+            # (decimated, NOT watertight: cranium 5.6 k vertices in 1405 pieces) -> containment is unreliable. The
+            # gates and the local carrier error use the same bones re-meshed from his CT labels instead (TotalSegmentator
+            # craniofacial_structures / total; bundle -> label surface 0.24-0.35 mm median, i.e. the same bone).
+            # The Q168 fit itself stays on the bundle meshes. Hyoid: his bundle mesh is watertight, kept.
+            "ct_bones": {"cranium": ("craniofacial_structures", [3]), "mandible": ("craniofacial_structures", [1]),
+                         "cervical_vertebrae": ("total", list(range(44, 51))),
+                         "thoracic_vertebrae": ("total", list(range(32, 44))), "sternum": ("total", [116]),
+                         "clavicle_r": ("total", [74]), "clavicle_l": ("total", [73]),
+                         "scapula_r": ("total", [72]), "scapula_l": ("total", [71]),
+                         "ribs_r": ("total", list(range(104, 116))), "ribs_l": ("total", list(range(92, 104)))}},
+}
+
+
+def ct_bone_meshes(target: str, origin: np.ndarray) -> dict:
+    """{atlas id: trimesh} re-meshed from the target's own CT labels (TARGETS[target]['ct_bones']; empty for her)"""
+    import nibabel as nib
+    from scripts.vhf_pelvic_viscera import mesh_mask
+    cfg = TARGETS[target]; out, cache = {}, {}
+    for aid, (task, labs) in cfg.get("ct_bones", {}).items():
+        if task not in cache:
+            img = nib.load(TASK / f"{cfg['prefix']}_{task}.nii.gz"); cache[task] = (img.affine, np.asarray(img.dataobj))
+        A, arr = cache[task]
+        v, f = mesh_mask(np.isin(arr, labs), A, origin, smooth=1.0)
+        out[aid] = trimesh.Trimesh(v, f, process=False)
+    return out
+
+
+def pron(text, target: str = "vhf"):
+    """her -> his for the male run (identity for her, so her subject/report text never changes)"""
+    if target == "vhf" or text is None:
+        return text
+    for a, b in ((r"segmented from her\b", "segmented from him"), (r"\bher\b", "his"), (r"\bHER\b", "HIS"), (r"\bshe\b", "he"), (r"VH female", "VH male"),
+                 (r"Q62 step 7:", "Q62 step 7b:"), (r"zanatomy -> vhf", "zanatomy -> vhm"),
+                 (r"zan_to_vhf_whole_body\)", "zan_to_vhf_whole_body --target vhm)")):
+        text = re.sub(a, b, text)
+    return text
 
 _S = "rl"
 GROUPS = {
@@ -130,8 +182,13 @@ PUBLISHED_NOTE = ("Other facial muscle volumes: Volk 2014 Table 1 (not readable 
                   "deep-neck: none found. Z-Anatomy meshes are generic and partly include aponeurosis.")
 
 
-def targets() -> list[str]:
-    return [a for ids in GROUPS.values() for a in ids]
+def groups_for(target: str = "vhf") -> dict:
+    extra = TARGETS[target]["extra"]
+    return {g: ids + extra.get(g, []) for g, ids in GROUPS.items()}
+
+
+def targets(target: str = "vhf") -> list[str]:
+    return [a for ids in groups_for(target).values() for a in ids]
 
 
 def zan_parts(aid: str) -> list[str]:
@@ -173,20 +230,21 @@ def airway_mask(hb: np.ndarray, tot: np.ndarray, ct: np.ndarray | None, z_min: i
     return m
 
 
-def her_label_meshes(origin: np.ndarray):
-    """her CT thyroid + cricoid cartilage surfaces and the airway / organ lookups"""
+def her_label_meshes(origin: np.ndarray, target: str = "vhf"):
+    """her (his) CT thyroid + cricoid cartilage surfaces and the airway / organ lookups"""
     import nibabel as nib
     from scripts.vhf_pelvic_viscera import mesh_mask
-    hbi = nib.load(TASK / "vhf_headneck_bones_vessels.nii.gz"); hb = np.asarray(hbi.dataobj)
-    toti = nib.load(TASK / "vhf_total.nii.gz"); tot = np.asarray(toti.dataobj)
-    hmi = nib.load(TASK / "vhf_head_muscles.nii.gz"); hm = np.asarray(hmi.dataobj)
-    ct = np.asarray(nib.load(CT_HU).dataobj) if CT_HU.exists() else None
+    cfg = TARGETS[target]; px = cfg["prefix"]
+    hbi = nib.load(TASK / f"{px}_headneck_bones_vessels.nii.gz"); hb = np.asarray(hbi.dataobj)
+    toti = nib.load(TASK / f"{px}_total.nii.gz"); tot = np.asarray(toti.dataobj)
+    hmi = nib.load(TASK / f"{px}_head_muscles.nii.gz"); hm = np.asarray(hmi.dataobj)
+    ct = np.asarray(nib.load(cfg["ct"]).dataobj) if Path(cfg["ct"]).exists() else None
     cart = {}
     for name, lab in (("thyroid_cartilage", 2), ("cricoid_cartilage", 4)):
         v, f = mesh_mask(hb == lab, hbi.affine, origin, smooth=1.0)
         t = trimesh.Trimesh(v, f, process=True); t.fix_normals()
         cart[name] = t
-    air = airway_mask(hb, tot, ct)
+    air = airway_mask(hb, tot, ct, z_min=cfg["air_z_min"])
     looks = {"airway": MaskLookup(air, toti.affine, origin),
              "tongue": MaskLookup(hm == 9, hmi.affine, origin),
              "oesophagus": MaskLookup(tot == 15, toti.affine, origin),
@@ -212,11 +270,21 @@ def larynx_refit(xf, items: dict, cart: dict) -> dict:
     A, t = Z.trimmed_icp(sv, hv, np.eye(3), np.zeros(3), scale=True, corr="sym")
     s = Z.sim_scale(A); rot = Z.rot_angle_deg(A / s)
     ok = abs(s - 1) <= LARYNX_SCALE_TOL and rot <= LARYNX_MAX_ROT_DEG
+    extra = {}
+    if not ok and rot <= LARYNX_MAX_ROT_DEG:
+        # Q62 step 7b: the similarity broke only the SCALE guard (his CT cartilage labels are 1.7-1.9x Z-Anatomy's
+        # volume: TotalSegmentator cartilage is blobby) -> rigid refit at the carried scale, same rotation guard
+        # (never reached for her: her similarity was accepted)
+        Ar, tr = Z.trimmed_icp(sv, hv, np.eye(3), np.zeros(3), scale=False, corr="sym")
+        rr = Z.rot_angle_deg(Ar)
+        extra = {"mode": "rigid (similarity rejected: scale %.3f)" % s, "rigid_rot_deg": round(float(rr), 1)}
+        if rr <= LARYNX_MAX_ROT_DEG:
+            A, t, ok = Ar, tr, True
     if not ok:
         A, t = np.eye(3), np.zeros(3)
     after = sym(Z.apply_sim(A, t, sv))
     return {"A": A, "t": t, "accepted": bool(ok), "scale": round(float(s), 3), "rot_deg": round(float(rot), 1),
-            "before": before, "after": after}
+            "before": before, "after": after, **extra}
 
 
 def local_carrier_error(xf, v_src: np.ndarray, her_tree: cKDTree, refit=None) -> dict:
@@ -242,28 +310,68 @@ def local_carrier_error(xf, v_src: np.ndarray, her_tree: cKDTree, refit=None) ->
             "p90_mm": round(float(np.percentile(d, 90)), 2), "d": d}
 
 
+def stack_ct(dcm_dir: Path, ref_path: Path, out_path: Path) -> int:
+    """Resample a mixed-FOV axial DICOM series (HFS, identity orientation) onto a reference NIfTI's grid (nearest
+    slice in z, bilinear in-plane; outside a slice's FOV = -1024 HU). Q62 step 7b: his frozen CT 5d409385 onto
+    vhm_total (the TotalSegmentator outputs' grid); checked: his trachea label reads -913 HU median."""
+    import nibabel as nib
+    import pydicom
+    from scipy.ndimage import map_coordinates
+    ref = nib.load(ref_path); A, sh = ref.affine, ref.shape
+    sl = {}
+    for f in sorted(Path(dcm_dir).glob("*.dcm")):
+        d = pydicom.dcmread(f)
+        sl[float(d.ImagePositionPatient[2])] = (
+            d.pixel_array.astype(np.float32) * float(d.RescaleSlope) + float(d.RescaleIntercept),
+            [float(x) for x in d.ImagePositionPatient[:2]], [float(x) for x in d.PixelSpacing])
+    out = np.full(sh, -1024, np.int16)
+    ii, jj = np.meshgrid(np.arange(sh[0]), np.arange(sh[1]), indexing="ij")
+    x_lps, y_lps = -(A[0, 0] * ii + A[0, 3]), -(A[1, 1] * jj + A[1, 3])
+    zs = np.array(sorted(sl))
+    for k in range(sh[2]):
+        img, ipp, ps = sl[zs[np.argmin(abs(zs - (A[2, 2] * k + A[2, 3])))]]
+        out[:, :, k] = np.rint(map_coordinates(img, [(y_lps - ipp[1]) / ps[0], (x_lps - ipp[0]) / ps[1]],
+                                               order=1, cval=-1024)).astype(np.int16)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    nib.save(nib.Nifti1Image(out, A), str(out_path))
+    print(f"{out_path}: {sh}, {len(sl)} slices")
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", default=str(REPO / "build" / "vh" / SUBJECT))
-    ap.add_argument("--report", default=str(REPORT))
+    ap.add_argument("--target", choices=sorted(TARGETS), default="vhf", help="vhf (her) or vhm (him, Q62 step 7b)")
+    ap.add_argument("--out", default=None, help="default build/vh/xfer_zan2vhf_head / xfer_zan2vhm_head")
+    ap.add_argument("--report", default=None)
     ap.add_argument("--dry", action="store_true", help="measure and report only; write no subject")
+    ap.add_argument("--stack-ct", default=None, metavar="DICOM_DIR",
+                    help="vhm only: resample his IDC frozen-CT series onto vhm_total's grid -> CT_HU_VHM, then exit")
     a = ap.parse_args(argv)
-    O = np.array([float(x) for x in ORIGIN.split(",")])
+    T = a.target; cfg = TARGETS[T]; SUBJ = cfg["subject"]
+    if a.stack_ct:
+        return stack_ct(Path(a.stack_ct), TASK / f"{cfg['prefix']}_total.nii.gz", Path(cfg["ct"]))
+    a.out = a.out or str(REPO / "build" / "vh" / SUBJ)
+    a.report = a.report or str(cfg["report"])
+    O = np.array([float(x) for x in cfg["origin"].split(",")])
+    GROUPS_T = groups_for(T)
+    GROUP_OF_T = {x: g for g, ids in GROUPS_T.items() for x in ids}
+    published = PUBLISHED if T == "vhf" else {k: v for k, v in PUBLISHED.items() if v.get("value_cm3")}
 
-    tg = targets()
-    rep168 = json.loads(Path(Z.DEFAULT_REPORT).read_text())
+    tg = targets(T)
+    rep168 = json.loads(Path(cfg["q168"]).read_text())
     fits = Z.fits_from_json(rep168["bone_fits"])
     need = {p for fr in fits.values() if fr.get("status") == "fitted" for p in fr["pieces"]}
     zids = {z for t in tg for z in zan_parts(t)} | set(LARYNX_CARTILAGES)
     items = {it["mesh_id"]: it for it in Z.collect_zan(ids=zids | need)}
-    xf = Z.load_zan_to_vhf(zan_meshes=items)
-    bundle = json.loads(Path(Z.FEMALE_BUNDLE_JSON).read_text())
-    order = [s for s in bundle["subject"].split("+") if s != SUBJECT]
-    her_all = Z.load_her_meshes(order=order)
-    own_ids = {e["id"] for e in bundle["structures"] if e["subject"] != SUBJECT}
+    xf = Z.load_zan_to_vhf(zan_meshes=items, report_path=cfg["q168"])
+    bundle = json.loads(Path(cfg["bundle"]).read_text())
+    order = [s for s in bundle["subject"].split("+") if s != SUBJ]
+    her_all = Z.load_her_meshes(order=order, bundle_json=cfg["bundle"])
+    own_ids = {e["id"] for e in bundle["structures"] if e["subject"] != SUBJ}
     skin = her_all["skin"]; skin_mesh = trimesh.Trimesh(skin["v"], skin["f"], process=False)
-    cart, looks, label_info = her_label_meshes(O)
+    cart, looks, label_info = her_label_meshes(O, T)
     bones = {b: trimesh.Trimesh(her_all[b]["v"], her_all[b]["f"], process=False) for b in HER_BONES if b in her_all}
+    bones.update(ct_bone_meshes(T, O))
     bones.update(cart)
     her_bone_pts = np.vstack([Z.sample_surface(m.vertices, m.faces, 20000, seed=1) for b, m in bones.items()
                               if b not in cart])
@@ -277,16 +385,17 @@ def main(argv=None) -> int:
                    "before_median_mm": round(float(np.median(lx["before"])), 2),
                    "after_median_mm": round(float(np.median(lx["after"])), 2),
                    "before_p90_mm": round(float(np.percentile(lx["before"], 90)), 2),
-                   "after_p90_mm": round(float(np.percentile(lx["after"], 90)), 2)}
+                   "after_p90_mm": round(float(np.percentile(lx["after"], 90)), 2),
+                   **{k: lx[k] for k in ("mode", "rigid_rot_deg") if k in lx}}
     # Z-Anatomy cartilage points (source frame) for the larynx group's local carrier error
     cart_src = np.vstack([items[c]["v"] for c in LARYNX_CARTILAGES])
     cart_dst = Z.apply_sim(lx["A"], lx["t"], np.vstack([xf(c, "bone", items[c]["v"]) for c in LARYNX_CARTILAGES]))
 
-    rows, out_mesh, src_mesh, dropped, pooled = {}, {}, {}, {}, {g: [] for g in GROUPS}
+    rows, out_mesh, src_mesh, dropped, pooled = {}, {}, {}, {}, {g: [] for g in GROUPS_T}
     for aid in tg:
-        g = GROUP_OF[aid]; side = aid[-1] if aid[-2:] in ("_r", "_l") else ""
+        g = GROUP_OF_T[aid]; side = aid[-1] if aid[-2:] in ("_r", "_l") else ""
         if aid in own_ids:
-            dropped[aid] = "already in her bundle"; continue
+            dropped[aid] = pron("already in her bundle", T); continue
         parts = [z for z in zan_parts(aid) if z in items]
         if not parts:
             dropped[aid] = f"no Z-Anatomy object {zan_parts(aid)}"; continue
@@ -312,10 +421,10 @@ def main(argv=None) -> int:
             d = cart_tree.query(cn)[0] if len(cn) else np.zeros(0)
             loc = {"n": int(len(d)), "median_mm": round(float(np.median(d)), 2) if len(d) else None,
                    "p90_mm": round(float(np.percentile(d, 90)), 2) if len(d) else None, "d": d,
-                   "against": "her CT thyroid + cricoid cartilage + hyoid"}
+                   "against": pron("her CT thyroid + cricoid cartilage + hyoid", T)}
         else:
             loc = local_carrier_error(xf, v_src, her_bone_tree)
-            loc["against"] = "her CT bones"
+            loc["against"] = pron("her CT bones", T)
         pooled[g].append(loc.pop("d"))
         nv2, n_push, n_deep = FT.bounded_push_off_bones(nv, near_bones)
         in_bone_p = np.zeros(len(nv2), bool)
@@ -364,7 +473,7 @@ def main(argv=None) -> int:
         elif org["airway"] > MAX_IN_AIRWAY:
             why = f"{org['airway']:.1%} of vertices inside her air lumen (> {MAX_IN_AIRWAY:.0%})"
         if why:
-            row["dropped"] = why; dropped[aid] = why
+            why = pron(why, T); row["dropped"] = why; dropped[aid] = why
         else:
             out_mesh[aid] = (nv3, f); src_mesh[aid] = (v_src, f)
         rows[aid] = row
@@ -378,7 +487,7 @@ def main(argv=None) -> int:
                             "p90_mm": round(float(np.percentile(d, 90)), 2) if len(d) else None,
                             "held": bool(med is None or med > MAX_CARRIER_MM)}
         if group_carrier[g]["held"]:
-            for aid in GROUPS[g]:
+            for aid in GROUPS_T[g]:
                 if aid in out_mesh:
                     why = f"group {g}: carrier median {med} mm > {MAX_CARRIER_MM} mm"
                     rows[aid]["dropped"] = why; dropped[aid] = why; del out_mesh[aid]
@@ -419,9 +528,9 @@ def main(argv=None) -> int:
         r = rows[aid]
         if r["overlap_frac_total"] > MAX_OVERLAP:
             top = next(iter(r["overlap_her_structures"] or r["overlap_new_muscles"]))
-            why = (f"{r['overlap_frac_total']:.1%} of vertices inside other muscles/organs (> {MAX_OVERLAP:.0%}; "
-                   f"her structures {r['overlap_her_total']:.1%}, new muscles {r['overlap_new_total']:.1%} vs "
-                   f"{r['overlap_new_total_source']:.1%} in Z-Anatomy itself; mostly {top})")
+            why = pron(f"{r['overlap_frac_total']:.1%} of vertices inside other muscles/organs (> {MAX_OVERLAP:.0%}; "
+                       f"her structures {r['overlap_her_total']:.1%}, new muscles {r['overlap_new_total']:.1%} vs "
+                       f"{r['overlap_new_total_source']:.1%} in Z-Anatomy itself; mostly {top})", T)
             r["dropped"] = why; dropped[aid] = why; del out_mesh[aid]
 
     for aid in out_mesh:
@@ -434,7 +543,8 @@ def main(argv=None) -> int:
                       f"median (p90 {loc['p90_mm']:.1f} mm). Volume {r['volume_cm3']:.2f} cm3; {r['pushed_off_bone']} "
                       f"vertices pushed off her bones, {r['clipped_to_skin']} pulled inside her skin."
                       + (f" Partial: {r['partial']}." if r["partial"] else ""))
-        pub = PUBLISHED.get(re.sub(r"_[rl]$", "", aid), {}).get("value_cm3")
+        r["badge"] = pron(r["badge"], T)
+        pub = published.get(re.sub(r"_[rl]$", "", aid), {}).get("value_cm3")
         if pub and r["volume_cm3"] > 1.5 * pub:
             r["badge"] += (f" SIZE CAVEAT: {r['volume_cm3'] / pub:.1f}x the published adult MRI volume ({pub:.2f} cm3, "
                            "Volk 2014); the generic Z-Anatomy sheet is thicker than a real one, so treat its bulk as an "
@@ -442,18 +552,20 @@ def main(argv=None) -> int:
 
     shipped = sorted(out_mesh)
     by_group = {g: {"shipped": [a for a in ids if a in out_mesh], "held": {a: dropped[a] for a in ids if a in dropped}}
-                for g, ids in GROUPS.items()}
+                for g, ids in GROUPS_T.items()}
     summary = {"shipped": shipped, "n_shipped": len(shipped), "dropped": dropped, "by_group": by_group,
                "group_carrier": group_carrier, "larynx_refit": larynx_info, "her_labels": label_info,
-               "not_mapped": NOT_MAPPED}
-    doc = {"source": "Q62 step 7 (scripts/transfer/zan_to_vhf_head_neck.py): Z-Anatomy head/neck/larynx muscles "
-                     "(CC BY-SA 4.0) carried onto the VH female's own skull/mandible/hyoid/spine (Q168 per-bone fits, "
-                     "data/derived/Q168_zan_to_vhf.json) and her CT laryngeal cartilages.",
+               "not_mapped": NOT_MAPPED,
+               **({"bones_from_ct_labels": {k: list(v) for k, v in cfg["ct_bones"].items()}} if cfg.get("ct_bones") else {})}
+    doc = {"source": pron("Q62 step 7 (scripts/transfer/zan_to_vhf_head_neck.py): Z-Anatomy head/neck/larynx muscles "
+                          "(CC BY-SA 4.0) carried onto the VH female's own skull/mandible/hyoid/spine (Q168 per-bone fits, "
+                          f"{Path(cfg['q168']).relative_to(REPO)}) and her CT laryngeal cartilages.", T)
+                     .replace("Q62 step 7b (", "Q62 step 7b (--target vhm; "),
            "gates": {"max_inside_bone_frac": MAX_INSIDE_BONE, "max_outside_skin_preclip_frac": MAX_OUTSIDE_SKIN_PRECLIP,
                      "max_carrier_mm": MAX_CARRIER_MM, "max_overlap_frac": MAX_OVERLAP, "max_in_airway_frac": MAX_IN_AIRWAY,
                      "max_skin_moved_frac": MAX_SKIN_MOVED, "min_volume_kept": MIN_VOL_KEPT,
                      "push_bound_mm": FT.PUSH_BOUND_MM, "local_mm": LOCAL_MM},
-           "summary": summary, "published_volumes": PUBLISHED, "published_note": PUBLISHED_NOTE, "rows": rows}
+           "summary": summary, "published_volumes": published, "published_note": PUBLISHED_NOTE, "rows": rows}
     Path(a.report).write_text(json.dumps(doc, indent=1))
     print(f"report {a.report}: shipped {len(shipped)}, held {len(dropped)}")
     if a.dry or not shipped:
@@ -471,8 +583,8 @@ def main(argv=None) -> int:
                         "bbox_min_mm": [round(float(x), 4) for x in v32.min(0)],
                         "bbox_max_mm": [round(float(x), 4) for x in v32.max(0)],
                         "procedural_badge": rows[aid]["badge"],
-                        "transfer": {"from": "zanatomy", "method": "Q168 per-bone fit (zan_to_vhf_whole_body)"
-                                     + (" + larynx refit onto her CT cartilages" if rows[aid]["group"] == "larynx" else ""),
+                        "transfer": {"from": "zanatomy", "method": pron("Q168 per-bone fit (zan_to_vhf_whole_body)", T)
+                                     + (pron(" + larynx refit onto her CT cartilages", T) if rows[aid]["group"] == "larynx" else ""),
                                      "rides_on": rows[aid]["rides_on"]["bones"][:3]}})
         verts.append(v32); faces.append((f + voff).astype(np.uint32)); voff += len(v32); foff += len(f)
     V = np.concatenate(verts); F = np.concatenate(faces)
@@ -487,8 +599,11 @@ def main(argv=None) -> int:
         "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by "
         "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. "
         "Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike)."]
+    attribution = [pron(x, T) for x in attribution]
+    if T == "vhm":
+        attribution[0] = attribution[0].replace("Q62s7_vhf_head_neck.json", "Q62s7b_vhm_head_neck.json")
     man = {"subject": out.name, "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
-           "source_volume": None, "source_kind": "cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)",
+           "source_volume": None, "source_kind": pron("cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)", T),
            "vertex_count": int(len(V)), "triangle_count": int(len(F)),
            "bbox_min_mm": [round(float(x), 4) for x in V.min(0)], "bbox_max_mm": [round(float(x), 4) for x in V.max(0)],
            "attribution": attribution, "license": "CC-BY-SA-4.0", "structures": structs}

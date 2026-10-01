@@ -1,0 +1,5346 @@
+{
+ "source": "Q62 step 7 (scripts/transfer/zan_to_vhf_head_neck.py): Z-Anatomy head/neck/larynx muscles (CC BY-SA 4.0) carried onto the VH male's own skull/mandible/hyoid/spine (Q168 per-bone fits, data/derived/Q168_zan_to_vhm.json) and his CT laryngeal cartilages.",
+ "gates": {
+  "max_inside_bone_frac": 0.05,
+  "max_outside_skin_preclip_frac": 0.5,
+  "max_carrier_mm": 3.0,
+  "max_overlap_frac": 0.1,
+  "max_in_airway_frac": 0.05,
+  "max_skin_moved_frac": 0.25,
+  "min_volume_kept": 0.75,
+  "push_bound_mm": 3.0,
+  "local_mm": 15.0
+ },
+ "summary": {
+  "shipped": [
+   "depressor_labii_inferioris_l",
+   "depressor_labii_inferioris_r",
+   "depressor_septi_nasi_l",
+   "depressor_septi_nasi_r",
+   "lateral_cricoarytenoid_l",
+   "lateral_cricoarytenoid_r",
+   "levator_anguli_oris_l",
+   "levator_anguli_oris_r",
+   "oblique_arytenoid_l",
+   "orbicularis_oris_l",
+   "orbicularis_oris_r",
+   "rectus_capitis_anterior_l",
+   "rectus_capitis_anterior_r",
+   "rectus_capitis_lateralis_l",
+   "rectus_capitis_lateralis_r",
+   "stylohyoid_r",
+   "thyroarytenoid_l",
+   "transverse_arytenoid",
+   "zygomaticus_major_r",
+   "zygomaticus_minor_r"
+  ],
+  "n_shipped": 20,
+  "dropped": {
+   "depressor_anguli_oris_r": "22.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 56.9% before)",
+   "depressor_anguli_oris_l": "10.0% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 49.2% before)",
+   "frontalis_r": "26.4% of vertices inside his air lumen (> 5%)",
+   "frontalis_l": "19.4% of vertices inside his air lumen (> 5%)",
+   "levator_labii_superioris_r": "19.5% of vertices inside his air lumen (> 5%)",
+   "levator_labii_superioris_l": "14.3% of vertices inside his air lumen (> 5%)",
+   "mentalis_r": "the fixes leave 54% of its transferred volume (< 75%)",
+   "mentalis_l": "the fixes leave 66% of its transferred volume (< 75%)",
+   "nasalis_r": "11.4% of vertices inside his air lumen (> 5%)",
+   "nasalis_l": "6.8% of vertices inside his air lumen (> 5%)",
+   "orbicularis_oculi_r": "14.8% of vertices inside his air lumen (> 5%)",
+   "orbicularis_oculi_l": "5.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 32.8% before)",
+   "zygomaticus_major_l": "6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 15.4% before)",
+   "zygomaticus_minor_l": "5.5% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.8% before)",
+   "procerus": "6.4% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 46.2% before)",
+   "superior_pharyngeal_constrictor_r": "already in his bundle",
+   "superior_pharyngeal_constrictor_l": "already in his bundle",
+   "palatopharyngeus_l": "6.4% of vertices inside his air lumen (> 5%)",
+   "stylopharyngeus_r": "6.9% of vertices inside his air lumen (> 5%)",
+   "omohyoid_r": "bone around it fits his CT at 4.06 mm median (> 3.0 mm)",
+   "omohyoid_l": "bone around it fits his CT at 4.16 mm median (> 3.0 mm)",
+   "sternohyoid_r": "6.5% of vertices inside his air lumen (> 5%)",
+   "sternohyoid_l": "7.6% of vertices inside his air lumen (> 5%)",
+   "cricothyroid_r": "18.6% of vertices inside his air lumen (> 5%)",
+   "cricothyroid_l": "17.1% of vertices inside his air lumen (> 5%)",
+   "thyroarytenoid_r": "5.5% of vertices inside his air lumen (> 5%)",
+   "oblique_arytenoid_r": "25.7% of vertices inside his air lumen (> 5%)",
+   "splenius_capitis_r": "6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.1% before)",
+   "splenius_capitis_l": "7.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.6% before)",
+   "risorius_r": "25.0% of vertices inside other muscles/organs (> 10%; his structures 25.0%, new muscles 26.4% vs 26.7% in Z-Anatomy itself; mostly masseter_r)",
+   "risorius_l": "49.7% of vertices inside other muscles/organs (> 10%; his structures 49.7%, new muscles 21.6% vs 21.6% in Z-Anatomy itself; mostly masseter_l)",
+   "platysma_r": "16.9% of vertices inside other muscles/organs (> 10%; his structures 16.9%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_r)",
+   "platysma_l": "21.4% of vertices inside other muscles/organs (> 10%; his structures 21.4%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_l)",
+   "palatopharyngeus_r": "24.2% of vertices inside other muscles/organs (> 10%; his structures 24.2%, new muscles 0.1% vs 0.4% in Z-Anatomy itself; mostly longus_colli_r)",
+   "stylopharyngeus_l": "21.9% of vertices inside other muscles/organs (> 10%; his structures 21.9%, new muscles 3.1% vs 3.8% in Z-Anatomy itself; mostly longus_capitis_l)",
+   "stylohyoid_l": "25.2% of vertices inside other muscles/organs (> 10%; his structures 25.2%, new muscles 4.6% vs 4.6% in Z-Anatomy itself; mostly geniohyoid_l)",
+   "posterior_cricoarytenoid_r": "23.0% of vertices inside other muscles/organs (> 10%; his structures 23.0%, new muscles 1.0% vs 1.0% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_r)",
+   "posterior_cricoarytenoid_l": "36.1% of vertices inside other muscles/organs (> 10%; his structures 36.1%, new muscles 1.0% vs 1.0% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_l)",
+   "splenius_cervicis_r": "56.2% of vertices inside other muscles/organs (> 10%; his structures 56.1%, new muscles 2.2% vs 2.1% in Z-Anatomy itself; mostly multifidus_r)",
+   "splenius_cervicis_l": "60.5% of vertices inside other muscles/organs (> 10%; his structures 60.5%, new muscles 2.1% vs 2.1% in Z-Anatomy itself; mostly multifidus_l)"
+  },
+  "by_group": {
+   "facial_expression": {
+    "shipped": [
+     "depressor_labii_inferioris_r",
+     "depressor_labii_inferioris_l",
+     "depressor_septi_nasi_r",
+     "depressor_septi_nasi_l",
+     "levator_anguli_oris_r",
+     "levator_anguli_oris_l",
+     "orbicularis_oris_r",
+     "orbicularis_oris_l",
+     "zygomaticus_major_r",
+     "zygomaticus_minor_r"
+    ],
+    "held": {
+     "depressor_anguli_oris_r": "22.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 56.9% before)",
+     "depressor_anguli_oris_l": "10.0% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 49.2% before)",
+     "frontalis_r": "26.4% of vertices inside his air lumen (> 5%)",
+     "frontalis_l": "19.4% of vertices inside his air lumen (> 5%)",
+     "levator_labii_superioris_r": "19.5% of vertices inside his air lumen (> 5%)",
+     "levator_labii_superioris_l": "14.3% of vertices inside his air lumen (> 5%)",
+     "mentalis_r": "the fixes leave 54% of its transferred volume (< 75%)",
+     "mentalis_l": "the fixes leave 66% of its transferred volume (< 75%)",
+     "nasalis_r": "11.4% of vertices inside his air lumen (> 5%)",
+     "nasalis_l": "6.8% of vertices inside his air lumen (> 5%)",
+     "orbicularis_oculi_r": "14.8% of vertices inside his air lumen (> 5%)",
+     "orbicularis_oculi_l": "5.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 32.8% before)",
+     "risorius_r": "25.0% of vertices inside other muscles/organs (> 10%; his structures 25.0%, new muscles 26.4% vs 26.7% in Z-Anatomy itself; mostly masseter_r)",
+     "risorius_l": "49.7% of vertices inside other muscles/organs (> 10%; his structures 49.7%, new muscles 21.6% vs 21.6% in Z-Anatomy itself; mostly masseter_l)",
+     "zygomaticus_major_l": "6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 15.4% before)",
+     "zygomaticus_minor_l": "5.5% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.8% before)",
+     "procerus": "6.4% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 46.2% before)",
+     "platysma_r": "16.9% of vertices inside other muscles/organs (> 10%; his structures 16.9%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_r)",
+     "platysma_l": "21.4% of vertices inside other muscles/organs (> 10%; his structures 21.4%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_l)"
+    }
+   },
+   "pharynx_palate": {
+    "shipped": [],
+    "held": {
+     "superior_pharyngeal_constrictor_r": "already in his bundle",
+     "superior_pharyngeal_constrictor_l": "already in his bundle",
+     "palatopharyngeus_r": "24.2% of vertices inside other muscles/organs (> 10%; his structures 24.2%, new muscles 0.1% vs 0.4% in Z-Anatomy itself; mostly longus_colli_r)",
+     "palatopharyngeus_l": "6.4% of vertices inside his air lumen (> 5%)",
+     "stylopharyngeus_r": "6.9% of vertices inside his air lumen (> 5%)",
+     "stylopharyngeus_l": "21.9% of vertices inside other muscles/organs (> 10%; his structures 21.9%, new muscles 3.1% vs 3.8% in Z-Anatomy itself; mostly longus_capitis_l)"
+    }
+   },
+   "hyoid_strap": {
+    "shipped": [
+     "stylohyoid_r"
+    ],
+    "held": {
+     "stylohyoid_l": "25.2% of vertices inside other muscles/organs (> 10%; his structures 25.2%, new muscles 4.6% vs 4.6% in Z-Anatomy itself; mostly geniohyoid_l)",
+     "omohyoid_r": "bone around it fits his CT at 4.06 mm median (> 3.0 mm)",
+     "omohyoid_l": "bone around it fits his CT at 4.16 mm median (> 3.0 mm)",
+     "sternohyoid_r": "6.5% of vertices inside his air lumen (> 5%)",
+     "sternohyoid_l": "7.6% of vertices inside his air lumen (> 5%)"
+    }
+   },
+   "larynx": {
+    "shipped": [
+     "lateral_cricoarytenoid_r",
+     "lateral_cricoarytenoid_l",
+     "thyroarytenoid_l",
+     "oblique_arytenoid_l",
+     "transverse_arytenoid"
+    ],
+    "held": {
+     "cricothyroid_r": "18.6% of vertices inside his air lumen (> 5%)",
+     "cricothyroid_l": "17.1% of vertices inside his air lumen (> 5%)",
+     "posterior_cricoarytenoid_r": "23.0% of vertices inside other muscles/organs (> 10%; his structures 23.0%, new muscles 1.0% vs 1.0% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_r)",
+     "posterior_cricoarytenoid_l": "36.1% of vertices inside other muscles/organs (> 10%; his structures 36.1%, new muscles 1.0% vs 1.0% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_l)",
+     "thyroarytenoid_r": "5.5% of vertices inside his air lumen (> 5%)",
+     "oblique_arytenoid_r": "25.7% of vertices inside his air lumen (> 5%)"
+    }
+   },
+   "deep_neck": {
+    "shipped": [
+     "rectus_capitis_anterior_r",
+     "rectus_capitis_anterior_l",
+     "rectus_capitis_lateralis_r",
+     "rectus_capitis_lateralis_l"
+    ],
+    "held": {
+     "splenius_capitis_r": "6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.1% before)",
+     "splenius_capitis_l": "7.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.6% before)",
+     "splenius_cervicis_r": "56.2% of vertices inside other muscles/organs (> 10%; his structures 56.1%, new muscles 2.2% vs 2.1% in Z-Anatomy itself; mostly multifidus_r)",
+     "splenius_cervicis_l": "60.5% of vertices inside other muscles/organs (> 10%; his structures 60.5%, new muscles 2.1% vs 2.1% in Z-Anatomy itself; mostly multifidus_l)"
+    }
+   }
+  },
+  "group_carrier": {
+   "facial_expression": {
+    "median_mm": 1.71,
+    "p90_mm": 3.84,
+    "held": false
+   },
+   "pharynx_palate": {
+    "median_mm": 1.45,
+    "p90_mm": 4.79,
+    "held": false
+   },
+   "hyoid_strap": {
+    "median_mm": 2.3,
+    "p90_mm": 11.91,
+    "held": false
+   },
+   "larynx": {
+    "median_mm": 1.28,
+    "p90_mm": 3.9,
+    "held": false
+   },
+   "deep_neck": {
+    "median_mm": 2.12,
+    "p90_mm": 6.39,
+    "held": false
+   }
+  },
+  "larynx_refit": {
+   "accepted": true,
+   "scale": 1.255,
+   "rot_deg": 16.5,
+   "before_median_mm": 7.42,
+   "after_median_mm": 2.05,
+   "before_p90_mm": 15.05,
+   "after_p90_mm": 6.32,
+   "mode": "rigid (similarity rejected: scale 1.255)",
+   "rigid_rot_deg": 10.2
+  },
+  "her_labels": {
+   "airway_voxels": 176010,
+   "airway_cm3": 154.7,
+   "airway_ct_air_used": true,
+   "cartilage_cm3": {
+    "thyroid_cartilage": 8.1,
+    "cricoid_cartilage": 3.78
+   }
+  },
+  "not_mapped": {
+   "antitragicus_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "auricularis_anterior_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "auricularis_posterior_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "auricularis_superior_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "buccinator_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "helicis_major_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "helicis_minor_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "levator_veli_palatini_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "obliquus_auriculae_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "palatoglossus_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "salpingopharyngeus_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "stapedius_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "tensor_tympani_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "tensor_veli_palatini_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "tragicus_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "transversus_auriculae_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "vocalis_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "antitragicus_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "auricularis_anterior_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "auricularis_posterior_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "auricularis_superior_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "buccinator_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "helicis_major_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "helicis_minor_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "levator_veli_palatini_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "obliquus_auriculae_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "palatoglossus_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "salpingopharyngeus_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "stapedius_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "tensor_tympani_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "tensor_veli_palatini_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "tragicus_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "transversus_auriculae_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "vocalis_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source)",
+   "musculus_uvulae": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source) ('Uvula of palate' is the organ, not the muscle)",
+   "depressor_supercilii_r": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source) (Z-Anatomy has corrugator supercilii, a different muscle)",
+   "depressor_supercilii_l": "no CC BY-SA Z-Anatomy object of this name (inventory searched by name; not in the shipped source) (Z-Anatomy has corrugator supercilii, a different muscle)",
+   "occipitofrontalis_r": "Z-Anatomy splits it: frontal belly ships as frontalis_<s>; the occipital belly (zan_occipitalis_muscle_<s>) alone is not the whole entity -- not built rather than mislabelled",
+   "occipitofrontalis_l": "Z-Anatomy splits it: frontal belly ships as frontalis_<s>; the occipital belly (zan_occipitalis_muscle_<s>) alone is not the whole entity -- not built rather than mislabelled",
+   "inferior_longitudinal_tongue_r": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles",
+   "transverse_tongue_r": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles",
+   "vertical_tongue_r": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles",
+   "inferior_longitudinal_tongue_l": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles",
+   "transverse_tongue_l": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles",
+   "vertical_tongue_l": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles",
+   "superior_longitudinal_tongue": "Z-Anatomy has one 'Tongue' organ object, no separate intrinsic tongue muscles"
+  },
+  "bones_from_ct_labels": {
+   "cranium": [
+    "craniofacial_structures",
+    [
+     3
+    ]
+   ],
+   "mandible": [
+    "craniofacial_structures",
+    [
+     1
+    ]
+   ],
+   "cervical_vertebrae": [
+    "total",
+    [
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50
+    ]
+   ],
+   "thoracic_vertebrae": [
+    "total",
+    [
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43
+    ]
+   ],
+   "sternum": [
+    "total",
+    [
+     116
+    ]
+   ],
+   "clavicle_r": [
+    "total",
+    [
+     74
+    ]
+   ],
+   "clavicle_l": [
+    "total",
+    [
+     73
+    ]
+   ],
+   "scapula_r": [
+    "total",
+    [
+     72
+    ]
+   ],
+   "scapula_l": [
+    "total",
+    [
+     71
+    ]
+   ],
+   "ribs_r": [
+    "total",
+    [
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   ],
+   "ribs_l": [
+    "total",
+    [
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103
+    ]
+   ]
+  }
+ },
+ "published_volumes": {
+  "orbicularis_oculi": {
+   "value_cm3": 2.992,
+   "what": "MRI (3T, 1 mm) mean of both sides, healthy adults n=10, 23-43 y",
+   "ref": "Volk GF et al. Plast Reconstr Surg Glob Open 2014;2(6):e173. doi:10.1097/GOX.0000000000000128 (value from the text; its Table 1 could not be read)"
+  },
+  "procerus": {
+   "value_cm3": 0.0808,
+   "what": "MRI mean (identified in 4/10)",
+   "ref": "Volk 2014, as above"
+  }
+ },
+ "published_note": "Other facial muscle volumes: Volk 2014 Table 1 (not readable here). Intrinsic laryngeal muscle volumes: Chen T et al. J Voice 2012;26(5):555-62 (doi:10.1016/j.jvoice.2011.03.012, micro-MRI of one 68-year-old woman's larynx) report them, but only the abstract was readable -- no value. Pharyngeal / strap / deep-neck: none found. Z-Anatomy meshes are generic and partly include aponeurosis.",
+ "rows": {
+  "depressor_anguli_oris_r": {
+   "atlas_id": "depressor_anguli_oris_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Depressor anguli oris.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "depressor_anguli_oris_r"
+   ],
+   "partial": null,
+   "vertices": 299,
+   "triangles": 594,
+   "inside_bone_frac_before": 0.5686,
+   "inside_bone_by_bone": {
+    "mandible": 170
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 104,
+   "inside_bone_deeper_than_bound": 66,
+   "inside_bone_frac_after_push": 0.2207,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 0.91,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.09,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1621,
+    "median_mm": 1.27,
+    "p90_mm": 2.99,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 3.65,
+    "max": 3.98
+   },
+   "inside_bone_frac_after": 0.2207,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 12.9,
+    "median": 15.1
+   },
+   "volume_zanatomy_cm3": 1.49,
+   "volume_transferred_before_fix_cm3": 1.98,
+   "volume_cm3": 1.71,
+   "volume_ratio_vs_zanatomy": 1.142,
+   "volume_kept_after_fix": 0.863,
+   "dropped": "22.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 56.9% before)"
+  },
+  "depressor_anguli_oris_l": {
+   "atlas_id": "depressor_anguli_oris_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Depressor anguli oris.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "depressor_anguli_oris_l"
+   ],
+   "partial": null,
+   "vertices": 299,
+   "triangles": 594,
+   "inside_bone_frac_before": 0.4916,
+   "inside_bone_by_bone": {
+    "mandible": 147
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 117,
+   "inside_bone_deeper_than_bound": 30,
+   "inside_bone_frac_after_push": 0.1003,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 0.913,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.087,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1598,
+    "median_mm": 1.4,
+    "p90_mm": 3.43,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 3.81,
+    "max": 3.97
+   },
+   "inside_bone_frac_after": 0.1003,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 12.8,
+    "median": 15.0
+   },
+   "volume_zanatomy_cm3": 1.49,
+   "volume_transferred_before_fix_cm3": 1.98,
+   "volume_cm3": 1.72,
+   "volume_ratio_vs_zanatomy": 1.151,
+   "volume_kept_after_fix": 0.87,
+   "dropped": "10.0% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 49.2% before)"
+  },
+  "depressor_labii_inferioris_r": {
+   "atlas_id": "depressor_labii_inferioris_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Depressor labii inferioris.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "depressor_labii_inferioris_r"
+   ],
+   "partial": null,
+   "vertices": 418,
+   "triangles": 832,
+   "inside_bone_frac_before": 0.122,
+   "inside_bone_by_bone": {
+    "mandible": 51
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 51,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 1.0,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 1.98
+   },
+   "carrier_local": {
+    "n": 1760,
+    "median_mm": 1.21,
+    "p90_mm": 2.9,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.62,
+    "max": 3.72
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 11.9,
+    "median": 14.7
+   },
+   "volume_zanatomy_cm3": 1.53,
+   "volume_transferred_before_fix_cm3": 2.04,
+   "volume_cm3": 1.91,
+   "volume_ratio_vs_zanatomy": 1.252,
+   "volume_kept_after_fix": 0.934,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_r": 0.445,
+    "platysma_r": 0.0909,
+    "zygomaticus_major_r": 0.0024
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_r": 0.4713,
+    "platysma_r": 0.0407,
+    "zygomaticus_major_r": 0.0024
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.5383,
+   "overlap_new_total_source": 0.5144,
+   "overlap_frac_total": 0.0239,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.2 mm median (p90 2.9 mm). Volume 1.91 cm3; 51 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "depressor_labii_inferioris_l": {
+   "atlas_id": "depressor_labii_inferioris_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Depressor labii inferioris.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "depressor_labii_inferioris_l"
+   ],
+   "partial": null,
+   "vertices": 418,
+   "triangles": 832,
+   "inside_bone_frac_before": 0.1196,
+   "inside_bone_by_bone": {
+    "mandible": 50
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 50,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 1.0,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 1.98
+   },
+   "carrier_local": {
+    "n": 1763,
+    "median_mm": 1.32,
+    "p90_mm": 3.33,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.8,
+    "max": 2.88
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 12.1,
+    "median": 15.0
+   },
+   "volume_zanatomy_cm3": 1.53,
+   "volume_transferred_before_fix_cm3": 2.07,
+   "volume_cm3": 1.94,
+   "volume_ratio_vs_zanatomy": 1.271,
+   "volume_kept_after_fix": 0.936,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_l": 0.4187,
+    "platysma_l": 0.0789
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_l": 0.4713,
+    "platysma_l": 0.0407
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.4976,
+   "overlap_new_total_source": 0.512,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.3 mm median (p90 3.3 mm). Volume 1.94 cm3; 50 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "depressor_septi_nasi_r": {
+   "atlas_id": "depressor_septi_nasi_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Depressor septi nasi.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "depressor_septi_nasi_r"
+   ],
+   "partial": null,
+   "vertices": 140,
+   "triangles": 276,
+   "inside_bone_frac_before": 0.0857,
+   "inside_bone_by_bone": {
+    "cranium": 12
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 12,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_r",
+      "share": 0.907,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.093,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 195,
+    "median_mm": 2.53,
+    "p90_mm": 5.27,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.23,
+    "max": 2.12
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 11.4,
+    "median": 14.5
+   },
+   "volume_zanatomy_cm3": 0.34,
+   "volume_transferred_before_fix_cm3": 0.32,
+   "volume_cm3": 0.32,
+   "volume_ratio_vs_zanatomy": 0.924,
+   "volume_kept_after_fix": 0.99,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_r": 0.5643
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_r": 0.5786
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.5643,
+   "overlap_new_total_source": 0.5786,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.5 mm median (p90 5.3 mm). Volume 0.32 cm3; 12 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "depressor_septi_nasi_l": {
+   "atlas_id": "depressor_septi_nasi_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Depressor septi nasi.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "depressor_septi_nasi_l"
+   ],
+   "partial": null,
+   "vertices": 140,
+   "triangles": 276,
+   "inside_bone_frac_before": 0.0214,
+   "inside_bone_by_bone": {
+    "cranium": 3
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 3,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_l",
+      "share": 0.871,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.129,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 189,
+    "median_mm": 2.55,
+    "p90_mm": 5.29,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 1.34
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 10.1,
+    "median": 14.5
+   },
+   "volume_zanatomy_cm3": 0.34,
+   "volume_transferred_before_fix_cm3": 0.32,
+   "volume_cm3": 0.31,
+   "volume_ratio_vs_zanatomy": 0.92,
+   "volume_kept_after_fix": 0.984,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_l": 0.5857
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_l": 0.5786
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.5857,
+   "overlap_new_total_source": 0.5786,
+   "overlap_frac_total": 0.0071,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.5 mm median (p90 5.3 mm). Volume 0.31 cm3; 3 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "frontalis_r": {
+   "atlas_id": "frontalis_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Frontalis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "frontalis_r"
+   ],
+   "partial": null,
+   "vertices": 2933,
+   "triangles": 5874,
+   "inside_bone_frac_before": 0.4374,
+   "inside_bone_by_bone": {
+    "cranium": 1283
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 1211,
+   "inside_bone_deeper_than_bound": 72,
+   "inside_bone_frac_after_push": 0.0245,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "frontal",
+      "share": 0.966,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "nasal_r",
+      "share": 0.016,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.016,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "parietal_r",
+      "share": 0.001,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_r",
+      "share": 0.001,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 425,
+    "median_mm": 2.42,
+    "p90_mm": 4.23,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.56,
+    "max": 3.97
+   },
+   "inside_bone_frac_after": 0.0245,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.2642,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.2642,
+   "depth_under_skin_mm": {
+    "min": 6.0,
+    "median": 9.0
+   },
+   "volume_zanatomy_cm3": 12.0,
+   "volume_transferred_before_fix_cm3": 10.95,
+   "volume_cm3": 9.18,
+   "volume_ratio_vs_zanatomy": 0.765,
+   "volume_kept_after_fix": 0.838,
+   "dropped": "26.4% of vertices inside his air lumen (> 5%)"
+  },
+  "frontalis_l": {
+   "atlas_id": "frontalis_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Frontalis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "frontalis_l"
+   ],
+   "partial": null,
+   "vertices": 2933,
+   "triangles": 5874,
+   "inside_bone_frac_before": 0.3287,
+   "inside_bone_by_bone": {
+    "cranium": 964
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 904,
+   "inside_bone_deeper_than_bound": 60,
+   "inside_bone_frac_after_push": 0.0205,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "frontal",
+      "share": 0.954,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "nasal_l",
+      "share": 0.018,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_l",
+      "share": 0.017,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.007,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "parietal_l",
+      "share": 0.004,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 408,
+    "median_mm": 2.28,
+    "p90_mm": 3.87,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.71,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0205,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1943,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1943,
+   "depth_under_skin_mm": {
+    "min": 4.1,
+    "median": 8.1
+   },
+   "volume_zanatomy_cm3": 12.0,
+   "volume_transferred_before_fix_cm3": 10.96,
+   "volume_cm3": 11.12,
+   "volume_ratio_vs_zanatomy": 0.927,
+   "volume_kept_after_fix": 1.015,
+   "dropped": "19.4% of vertices inside his air lumen (> 5%)"
+  },
+  "levator_anguli_oris_r": {
+   "atlas_id": "levator_anguli_oris_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Levator anguli oris.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "levator_anguli_oris_r"
+   ],
+   "partial": null,
+   "vertices": 165,
+   "triangles": 330,
+   "inside_bone_frac_before": 0.0667,
+   "inside_bone_by_bone": {
+    "cranium": 11
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 11,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_r",
+      "share": 1.0,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 311,
+    "median_mm": 2.18,
+    "p90_mm": 3.91,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.11,
+    "max": 1.52
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 10.5,
+    "median": 12.5
+   },
+   "volume_zanatomy_cm3": 0.43,
+   "volume_transferred_before_fix_cm3": 0.41,
+   "volume_cm3": 0.41,
+   "volume_ratio_vs_zanatomy": 0.963,
+   "volume_kept_after_fix": 1.017,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_r": 0.2788,
+    "zygomaticus_minor_r": 0.0242
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_r": 0.2788,
+    "zygomaticus_minor_r": 0.0242
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.303,
+   "overlap_new_total_source": 0.303,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.2 mm median (p90 3.9 mm). Volume 0.41 cm3; 11 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "levator_anguli_oris_l": {
+   "atlas_id": "levator_anguli_oris_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Levator anguli oris.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "levator_anguli_oris_l"
+   ],
+   "partial": null,
+   "vertices": 165,
+   "triangles": 330,
+   "inside_bone_frac_before": 0.0424,
+   "inside_bone_by_bone": {
+    "cranium": 7
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 7,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_l",
+      "share": 1.0,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 306,
+    "median_mm": 2.21,
+    "p90_mm": 4.55,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 1.29
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 8.9,
+    "median": 11.6
+   },
+   "volume_zanatomy_cm3": 0.43,
+   "volume_transferred_before_fix_cm3": 0.41,
+   "volume_cm3": 0.41,
+   "volume_ratio_vs_zanatomy": 0.96,
+   "volume_kept_after_fix": 1.01,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_l": 0.2848
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_l": 0.2788
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.2848,
+   "overlap_new_total_source": 0.2788,
+   "overlap_frac_total": 0.006,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.2 mm median (p90 4.5 mm). Volume 0.41 cm3; 7 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "levator_labii_superioris_r": {
+   "atlas_id": "levator_labii_superioris_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Levator labii superioris.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "levator_labii_superioris_r"
+   ],
+   "partial": null,
+   "vertices": 272,
+   "triangles": 540,
+   "inside_bone_frac_before": 0.2022,
+   "inside_bone_by_bone": {
+    "cranium": 55
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 55,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_r",
+      "share": 0.79,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_r",
+      "share": 0.21,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 578,
+    "median_mm": 2.42,
+    "p90_mm": 4.56,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.16,
+    "max": 2.69
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1949,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1949,
+   "depth_under_skin_mm": {
+    "min": 9.6,
+    "median": 13.8
+   },
+   "volume_zanatomy_cm3": 0.7,
+   "volume_transferred_before_fix_cm3": 0.65,
+   "volume_cm3": 0.66,
+   "volume_ratio_vs_zanatomy": 0.937,
+   "volume_kept_after_fix": 1.017,
+   "dropped": "19.5% of vertices inside his air lumen (> 5%)"
+  },
+  "levator_labii_superioris_l": {
+   "atlas_id": "levator_labii_superioris_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Levator labii superioris.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "levator_labii_superioris_l"
+   ],
+   "partial": null,
+   "vertices": 272,
+   "triangles": 540,
+   "inside_bone_frac_before": 0.25,
+   "inside_bone_by_bone": {
+    "cranium": 68
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 68,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_l",
+      "share": 0.776,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_l",
+      "share": 0.224,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 583,
+    "median_mm": 2.33,
+    "p90_mm": 4.21,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.09,
+    "max": 2.87
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1434,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1434,
+   "depth_under_skin_mm": {
+    "min": 8.7,
+    "median": 13.1
+   },
+   "volume_zanatomy_cm3": 0.7,
+   "volume_transferred_before_fix_cm3": 0.65,
+   "volume_cm3": 0.65,
+   "volume_ratio_vs_zanatomy": 0.932,
+   "volume_kept_after_fix": 1.006,
+   "dropped": "14.3% of vertices inside his air lumen (> 5%)"
+  },
+  "mentalis_r": {
+   "atlas_id": "mentalis_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Mentalis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "mentalis_r"
+   ],
+   "partial": null,
+   "vertices": 85,
+   "triangles": 166,
+   "inside_bone_frac_before": 0.5882,
+   "inside_bone_by_bone": {
+    "mandible": 50
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 50,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 1.0,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 1.98
+   },
+   "carrier_local": {
+    "n": 1141,
+    "median_mm": 0.98,
+    "p90_mm": 2.88,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.2,
+    "max": 2.65
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 14.5,
+    "median": 16.8
+   },
+   "volume_zanatomy_cm3": 0.24,
+   "volume_transferred_before_fix_cm3": 0.3,
+   "volume_cm3": 0.16,
+   "volume_ratio_vs_zanatomy": 0.67,
+   "volume_kept_after_fix": 0.544,
+   "dropped": "the fixes leave 54% of its transferred volume (< 75%)"
+  },
+  "mentalis_l": {
+   "atlas_id": "mentalis_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Mentalis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "mentalis_l"
+   ],
+   "partial": null,
+   "vertices": 85,
+   "triangles": 166,
+   "inside_bone_frac_before": 0.4118,
+   "inside_bone_by_bone": {
+    "mandible": 35
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 35,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 1.0,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 1.98
+   },
+   "carrier_local": {
+    "n": 1185,
+    "median_mm": 1.03,
+    "p90_mm": 2.81,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.3,
+    "max": 2.55
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 14.2,
+    "median": 15.9
+   },
+   "volume_zanatomy_cm3": 0.24,
+   "volume_transferred_before_fix_cm3": 0.3,
+   "volume_cm3": 0.2,
+   "volume_ratio_vs_zanatomy": 0.829,
+   "volume_kept_after_fix": 0.665,
+   "dropped": "the fixes leave 66% of its transferred volume (< 75%)"
+  },
+  "nasalis_r": {
+   "atlas_id": "nasalis_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Nasalis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "nasalis_r"
+   ],
+   "partial": null,
+   "vertices": 352,
+   "triangles": 704,
+   "inside_bone_frac_before": 0.3949,
+   "inside_bone_by_bone": {
+    "cranium": 139
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 139,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "nasal_r",
+      "share": 0.602,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.301,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "lacrimal_r",
+      "share": 0.097,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 825,
+    "median_mm": 2.45,
+    "p90_mm": 4.57,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.23,
+    "max": 2.91
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1136,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1136,
+   "depth_under_skin_mm": {
+    "min": 8.8,
+    "median": 11.7
+   },
+   "volume_zanatomy_cm3": 0.87,
+   "volume_transferred_before_fix_cm3": 0.8,
+   "volume_cm3": 0.71,
+   "volume_ratio_vs_zanatomy": 0.819,
+   "volume_kept_after_fix": 0.888,
+   "dropped": "11.4% of vertices inside his air lumen (> 5%)"
+  },
+  "nasalis_l": {
+   "atlas_id": "nasalis_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Nasalis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "nasalis_l"
+   ],
+   "partial": null,
+   "vertices": 352,
+   "triangles": 704,
+   "inside_bone_frac_before": 0.4261,
+   "inside_bone_by_bone": {
+    "cranium": 150
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 150,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "nasal_l",
+      "share": 0.557,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.366,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "lacrimal_l",
+      "share": 0.043,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "nasal_r",
+      "share": 0.034,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 832,
+    "median_mm": 2.28,
+    "p90_mm": 3.93,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.62,
+    "max": 3.76
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0682,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0682,
+   "depth_under_skin_mm": {
+    "min": 5.9,
+    "median": 11.3
+   },
+   "volume_zanatomy_cm3": 0.87,
+   "volume_transferred_before_fix_cm3": 0.79,
+   "volume_cm3": 0.91,
+   "volume_ratio_vs_zanatomy": 1.051,
+   "volume_kept_after_fix": 1.146,
+   "dropped": "6.8% of vertices inside his air lumen (> 5%)"
+  },
+  "orbicularis_oculi_r": {
+   "atlas_id": "orbicularis_oculi_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Orbital part of orbicularis oculi.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "orbicularis_oculi_r"
+   ],
+   "partial": null,
+   "vertices": 1610,
+   "triangles": 3220,
+   "inside_bone_frac_before": 0.2938,
+   "inside_bone_by_bone": {
+    "cranium": 473
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 411,
+   "inside_bone_deeper_than_bound": 62,
+   "inside_bone_frac_after_push": 0.0385,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zygomatic_r",
+      "share": 0.402,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "frontal",
+      "share": 0.289,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.206,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "lacrimal_r",
+      "share": 0.104,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1096,
+    "median_mm": 2.56,
+    "p90_mm": 4.93,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.73,
+    "max": 3.95
+   },
+   "inside_bone_frac_after": 0.0385,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1484,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1484,
+   "depth_under_skin_mm": {
+    "min": 5.1,
+    "median": 14.7
+   },
+   "volume_zanatomy_cm3": 6.82,
+   "volume_transferred_before_fix_cm3": 6.24,
+   "volume_cm3": 6.46,
+   "volume_ratio_vs_zanatomy": 0.946,
+   "volume_kept_after_fix": 1.035,
+   "dropped": "14.8% of vertices inside his air lumen (> 5%)"
+  },
+  "orbicularis_oculi_l": {
+   "atlas_id": "orbicularis_oculi_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Orbital part of orbicularis oculi.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "orbicularis_oculi_l"
+   ],
+   "partial": null,
+   "vertices": 1610,
+   "triangles": 3220,
+   "inside_bone_frac_before": 0.328,
+   "inside_bone_by_bone": {
+    "cranium": 528
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 446,
+   "inside_bone_deeper_than_bound": 82,
+   "inside_bone_frac_after_push": 0.0509,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zygomatic_l",
+      "share": 0.461,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "frontal",
+      "share": 0.235,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.194,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "lacrimal_l",
+      "share": 0.11,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1099,
+    "median_mm": 2.32,
+    "p90_mm": 4.05,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.87,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0509,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1267,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1267,
+   "depth_under_skin_mm": {
+    "min": 5.8,
+    "median": 14.1
+   },
+   "volume_zanatomy_cm3": 6.82,
+   "volume_transferred_before_fix_cm3": 6.23,
+   "volume_cm3": 6.58,
+   "volume_ratio_vs_zanatomy": 0.965,
+   "volume_kept_after_fix": 1.056,
+   "dropped": "5.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 32.8% before)"
+  },
+  "orbicularis_oris_r": {
+   "atlas_id": "orbicularis_oris_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Orbicularis oris muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "orbicularis_oris_r"
+   ],
+   "partial": null,
+   "vertices": 940,
+   "triangles": 1880,
+   "inside_bone_frac_before": 0.034,
+   "inside_bone_by_bone": {
+    "cranium": 2,
+    "mandible": 30
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 32,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_r",
+      "share": 0.583,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "mandible",
+      "share": 0.401,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.016,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1425,
+    "median_mm": 1.27,
+    "p90_mm": 3.15,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 2.1
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 8.1,
+    "median": 13.6
+   },
+   "volume_zanatomy_cm3": 4.2,
+   "volume_transferred_before_fix_cm3": 5.41,
+   "volume_cm3": 5.34,
+   "volume_ratio_vs_zanatomy": 1.271,
+   "volume_kept_after_fix": 0.988,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "depressor_septi_nasi_r": 0.0511,
+    "depressor_labii_inferioris_r": 0.0319,
+    "risorius_r": 0.0085,
+    "zygomaticus_major_r": 0.0074,
+    "levator_anguli_oris_r": 0.0053
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "depressor_septi_nasi_r": 0.0521,
+    "depressor_labii_inferioris_r": 0.0255,
+    "risorius_r": 0.0096,
+    "zygomaticus_major_r": 0.0074,
+    "levator_anguli_oris_r": 0.0053
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.1042,
+   "overlap_new_total_source": 0.0999,
+   "overlap_frac_total": 0.0043,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.3 mm median (p90 3.1 mm). Volume 5.34 cm3; 32 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "orbicularis_oris_l": {
+   "atlas_id": "orbicularis_oris_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Orbicularis oris muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "orbicularis_oris_l"
+   ],
+   "partial": null,
+   "vertices": 940,
+   "triangles": 1880,
+   "inside_bone_frac_before": 0.0585,
+   "inside_bone_by_bone": {
+    "mandible": 55
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 55,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_l",
+      "share": 0.546,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "mandible",
+      "share": 0.398,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.056,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1429,
+    "median_mm": 1.32,
+    "p90_mm": 3.35,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.08,
+    "max": 2.04
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 7.6,
+    "median": 13.6
+   },
+   "volume_zanatomy_cm3": 4.2,
+   "volume_transferred_before_fix_cm3": 5.44,
+   "volume_cm3": 5.27,
+   "volume_ratio_vs_zanatomy": 1.254,
+   "volume_kept_after_fix": 0.969,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "depressor_labii_inferioris_l": 0.0532,
+    "depressor_septi_nasi_l": 0.0532,
+    "risorius_l": 0.0096,
+    "levator_anguli_oris_l": 0.0053,
+    "orbicularis_oris_r": 0.0011
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "depressor_septi_nasi_l": 0.0521,
+    "depressor_labii_inferioris_l": 0.0255,
+    "risorius_l": 0.0096,
+    "levator_anguli_oris_l": 0.0053
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.1224,
+   "overlap_new_total_source": 0.0925,
+   "overlap_frac_total": 0.0299,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.3 mm median (p90 3.4 mm). Volume 5.27 cm3; 55 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "risorius_r": {
+   "atlas_id": "risorius_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Risorius muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "risorius_r"
+   ],
+   "partial": null,
+   "vertices": 296,
+   "triangles": 592,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 0.845,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.155,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 729,
+    "median_mm": 1.41,
+    "p90_mm": 3.24,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0068,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0068,
+   "depth_under_skin_mm": {
+    "min": 15.6,
+    "median": 18.7
+   },
+   "volume_zanatomy_cm3": 1.08,
+   "volume_transferred_before_fix_cm3": 1.55,
+   "volume_cm3": 1.55,
+   "volume_ratio_vs_zanatomy": 1.435,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {
+    "masseter_r": 0.25
+   },
+   "overlap_new_muscles": {
+    "platysma_r": 0.1385,
+    "orbicularis_oris_r": 0.0777,
+    "zygomaticus_major_r": 0.0473
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "platysma_r": 0.1385,
+    "orbicularis_oris_r": 0.0777,
+    "zygomaticus_major_r": 0.0507
+   },
+   "overlap_her_total": 0.25,
+   "overlap_new_total": 0.2635,
+   "overlap_new_total_source": 0.2669,
+   "overlap_frac_total": 0.25,
+   "dropped": "25.0% of vertices inside other muscles/organs (> 10%; his structures 25.0%, new muscles 26.4% vs 26.7% in Z-Anatomy itself; mostly masseter_r)"
+  },
+  "risorius_l": {
+   "atlas_id": "risorius_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Risorius muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "risorius_l"
+   ],
+   "partial": null,
+   "vertices": 296,
+   "triangles": 592,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "mandible",
+      "share": 0.851,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "maxilla_l",
+      "share": 0.149,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 677,
+    "median_mm": 1.51,
+    "p90_mm": 3.54,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0101,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0101,
+   "depth_under_skin_mm": {
+    "min": 16.4,
+    "median": 20.4
+   },
+   "volume_zanatomy_cm3": 1.08,
+   "volume_transferred_before_fix_cm3": 1.63,
+   "volume_cm3": 1.63,
+   "volume_ratio_vs_zanatomy": 1.514,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {
+    "masseter_l": 0.4966
+   },
+   "overlap_new_muscles": {
+    "platysma_l": 0.1385,
+    "orbicularis_oris_l": 0.0777
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "platysma_l": 0.1385,
+    "orbicularis_oris_l": 0.0777
+   },
+   "overlap_her_total": 0.4966,
+   "overlap_new_total": 0.2162,
+   "overlap_new_total_source": 0.2162,
+   "overlap_frac_total": 0.4966,
+   "dropped": "49.7% of vertices inside other muscles/organs (> 10%; his structures 49.7%, new muscles 21.6% vs 21.6% in Z-Anatomy itself; mostly masseter_l)"
+  },
+  "zygomaticus_major_r": {
+   "atlas_id": "zygomaticus_major_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Zygomaticus major muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "zygomaticus_major_r"
+   ],
+   "partial": null,
+   "vertices": 397,
+   "triangles": 798,
+   "inside_bone_frac_before": 0.1411,
+   "inside_bone_by_bone": {
+    "cranium": 56
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 42,
+   "inside_bone_deeper_than_bound": 14,
+   "inside_bone_frac_after_push": 0.0353,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_r",
+      "share": 0.592,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_r",
+      "share": 0.277,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "mandible",
+      "share": 0.131,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 691,
+    "median_mm": 2.23,
+    "p90_mm": 4.97,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 3.35,
+    "max": 3.98
+   },
+   "inside_bone_frac_after": 0.0353,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 14.3,
+    "median": 18.7
+   },
+   "volume_zanatomy_cm3": 1.28,
+   "volume_transferred_before_fix_cm3": 1.36,
+   "volume_cm3": 1.48,
+   "volume_ratio_vs_zanatomy": 1.156,
+   "volume_kept_after_fix": 1.084,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_r": 0.2821,
+    "risorius_r": 0.0353,
+    "depressor_labii_inferioris_r": 0.0327
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_r": 0.2846,
+    "depressor_labii_inferioris_r": 0.0403,
+    "risorius_r": 0.0302
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.3501,
+   "overlap_new_total_source": 0.3551,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.2 mm median (p90 5.0 mm). Volume 1.48 cm3; 42 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "zygomaticus_major_l": {
+   "atlas_id": "zygomaticus_major_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Zygomaticus major muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "zygomaticus_major_l"
+   ],
+   "partial": null,
+   "vertices": 397,
+   "triangles": 798,
+   "inside_bone_frac_before": 0.1537,
+   "inside_bone_by_bone": {
+    "cranium": 61
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 34,
+   "inside_bone_deeper_than_bound": 27,
+   "inside_bone_frac_after_push": 0.068,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_l",
+      "share": 0.599,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_l",
+      "share": 0.275,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "mandible",
+      "share": 0.126,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 652,
+    "median_mm": 2.14,
+    "p90_mm": 4.28,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 3.06,
+    "max": 3.96
+   },
+   "inside_bone_frac_after": 0.068,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 12.9,
+    "median": 17.4
+   },
+   "volume_zanatomy_cm3": 1.28,
+   "volume_transferred_before_fix_cm3": 1.37,
+   "volume_cm3": 1.4,
+   "volume_ratio_vs_zanatomy": 1.093,
+   "volume_kept_after_fix": 1.018,
+   "dropped": "6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 15.4% before)"
+  },
+  "zygomaticus_minor_r": {
+   "atlas_id": "zygomaticus_minor_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Zygomaticus minor muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "zygomaticus_minor_r"
+   ],
+   "partial": null,
+   "vertices": 218,
+   "triangles": 432,
+   "inside_bone_frac_before": 0.1193,
+   "inside_bone_by_bone": {
+    "cranium": 26
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 16,
+   "inside_bone_deeper_than_bound": 10,
+   "inside_bone_frac_after_push": 0.0459,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_r",
+      "share": 0.651,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_r",
+      "share": 0.349,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 449,
+    "median_mm": 2.53,
+    "p90_mm": 4.55,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.56,
+    "max": 3.88
+   },
+   "inside_bone_frac_after": 0.0459,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0092,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0092,
+   "depth_under_skin_mm": {
+    "min": 9.3,
+    "median": 12.5
+   },
+   "volume_zanatomy_cm3": 0.57,
+   "volume_transferred_before_fix_cm3": 0.54,
+   "volume_cm3": 0.55,
+   "volume_ratio_vs_zanatomy": 0.961,
+   "volume_kept_after_fix": 1.021,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "orbicularis_oris_r": 0.1697
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "orbicularis_oris_r": 0.1743
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.1697,
+   "overlap_new_total_source": 0.1743,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.5 mm median (p90 4.5 mm). Volume 0.55 cm3; 16 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "zygomaticus_minor_l": {
+   "atlas_id": "zygomaticus_minor_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Zygomaticus minor muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "zygomaticus_minor_l"
+   ],
+   "partial": null,
+   "vertices": 218,
+   "triangles": 432,
+   "inside_bone_frac_before": 0.1284,
+   "inside_bone_by_bone": {
+    "cranium": 28
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 16,
+   "inside_bone_deeper_than_bound": 12,
+   "inside_bone_frac_after_push": 0.055,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "maxilla_l",
+      "share": 0.656,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zygomatic_l",
+      "share": 0.344,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 447,
+    "median_mm": 2.39,
+    "p90_mm": 4.45,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.72,
+    "max": 3.36
+   },
+   "inside_bone_frac_after": 0.055,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 8.0,
+    "median": 12.5
+   },
+   "volume_zanatomy_cm3": 0.57,
+   "volume_transferred_before_fix_cm3": 0.53,
+   "volume_cm3": 0.53,
+   "volume_ratio_vs_zanatomy": 0.93,
+   "volume_kept_after_fix": 1.001,
+   "dropped": "5.5% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.8% before)"
+  },
+  "procerus": {
+   "atlas_id": "procerus",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Procerus muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "procerus"
+   ],
+   "partial": null,
+   "vertices": 546,
+   "triangles": 1092,
+   "inside_bone_frac_before": 0.4615,
+   "inside_bone_by_bone": {
+    "cranium": 252
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 217,
+   "inside_bone_deeper_than_bound": 35,
+   "inside_bone_frac_after_push": 0.0641,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "frontal",
+      "share": 0.703,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "nasal_r",
+      "share": 0.139,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "nasal_l",
+      "share": 0.137,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "maxilla_r",
+      "share": 0.02,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 3.67,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 461,
+    "median_mm": 2.26,
+    "p90_mm": 3.64,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 3.13,
+    "max": 3.89
+   },
+   "inside_bone_frac_after": 0.0641,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.5366,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.5366,
+   "depth_under_skin_mm": {
+    "min": 6.9,
+    "median": 15.4
+   },
+   "volume_zanatomy_cm3": 1.42,
+   "volume_transferred_before_fix_cm3": 1.33,
+   "volume_cm3": 1.45,
+   "volume_ratio_vs_zanatomy": 1.021,
+   "volume_kept_after_fix": 1.091,
+   "dropped": "6.4% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 46.2% before)"
+  },
+  "platysma_r": {
+   "atlas_id": "platysma_r",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Platysma.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "platysma_r"
+   ],
+   "partial": null,
+   "vertices": 3276,
+   "triangles": 6548,
+   "inside_bone_frac_before": 0.1612,
+   "inside_bone_by_bone": {
+    "mandible": 180,
+    "sternum": 24,
+    "clavicle_r": 323,
+    "cricoid_cartilage": 1
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 380,
+   "inside_bone_deeper_than_bound": 148,
+   "inside_bone_frac_after_push": 0.0452,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "clavicle_r",
+      "share": 0.382,
+      "fit_residual_mm": 1.9492
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.234,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "mandible",
+      "share": 0.196,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "zan_first_rib_r",
+      "share": 0.111,
+      "fit_residual_mm": 2.46
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.031,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "clavicle_l",
+      "share": 0.014,
+      "fit_residual_mm": 1.8401
+     }
+    ],
+    "weighted_median_fit_mm": 1.95,
+    "max_fit_mm": 3.74
+   },
+   "carrier_local": {
+    "n": 3620,
+    "median_mm": 1.41,
+    "p90_mm": 4.19,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.67,
+    "max": 3.98
+   },
+   "inside_bone_frac_after": 0.0452,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0018,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0079
+   },
+   "inside_airway_frac": 0.0018,
+   "depth_under_skin_mm": {
+    "min": 7.9,
+    "median": 22.0
+   },
+   "volume_zanatomy_cm3": 44.38,
+   "volume_transferred_before_fix_cm3": 47.68,
+   "volume_cm3": 48.88,
+   "volume_ratio_vs_zanatomy": 1.102,
+   "volume_kept_after_fix": 1.025,
+   "overlap_her_structures": {
+    "sternocleidomastoid_r": 0.044,
+    "mylohyoid_r": 0.0403,
+    "masseter_r": 0.0226,
+    "sternothyroid_r": 0.0211,
+    "scalenus_anterior_r": 0.0147,
+    "her_thyroid_gland_label": 0.0079,
+    "scalenus_medius_r": 0.0073,
+    "digastric_r": 0.0046,
+    "medial_pterygoid_r": 0.0027,
+    "hyoglossus_r": 0.0024,
+    "geniohyoid_r": 0.0012
+   },
+   "overlap_new_muscles": {
+    "platysma_l": 0.0272,
+    "depressor_labii_inferioris_r": 0.0027,
+    "risorius_r": 0.0015
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "platysma_l": 0.0281,
+    "depressor_labii_inferioris_r": 0.0027,
+    "risorius_r": 0.0015
+   },
+   "overlap_her_total": 0.1688,
+   "overlap_new_total": 0.0314,
+   "overlap_new_total_source": 0.0323,
+   "overlap_frac_total": 0.1688,
+   "dropped": "16.9% of vertices inside other muscles/organs (> 10%; his structures 16.9%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_r)"
+  },
+  "platysma_l": {
+   "atlas_id": "platysma_l",
+   "group": "facial_expression",
+   "zanatomy_objects": [
+    "Platysma.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "platysma_l"
+   ],
+   "partial": null,
+   "vertices": 3276,
+   "triangles": 6548,
+   "inside_bone_frac_before": 0.1636,
+   "inside_bone_by_bone": {
+    "mandible": 203,
+    "sternum": 27,
+    "clavicle_l": 304,
+    "cricoid_cartilage": 2
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 385,
+   "inside_bone_deeper_than_bound": 151,
+   "inside_bone_frac_after_push": 0.0461,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "clavicle_l",
+      "share": 0.381,
+      "fit_residual_mm": 1.8401
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.236,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "mandible",
+      "share": 0.194,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "zan_first_rib_l",
+      "share": 0.111,
+      "fit_residual_mm": 3.15
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.031,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "clavicle_r",
+      "share": 0.014,
+      "fit_residual_mm": 1.9492
+     }
+    ],
+    "weighted_median_fit_mm": 1.84,
+    "max_fit_mm": 3.93
+   },
+   "carrier_local": {
+    "n": 3589,
+    "median_mm": 1.59,
+    "p90_mm": 4.7,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.62,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0461,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0018,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0018,
+   "depth_under_skin_mm": {
+    "min": 4.5,
+    "median": 19.3
+   },
+   "volume_zanatomy_cm3": 44.38,
+   "volume_transferred_before_fix_cm3": 49.15,
+   "volume_cm3": 51.08,
+   "volume_ratio_vs_zanatomy": 1.151,
+   "volume_kept_after_fix": 1.039,
+   "overlap_her_structures": {
+    "sternocleidomastoid_l": 0.0766,
+    "masseter_l": 0.0284,
+    "mylohyoid_l": 0.0269,
+    "scalenus_medius_l": 0.0183,
+    "sternothyroid_l": 0.0177,
+    "mylohyoid_r": 0.0128,
+    "scalenus_anterior_l": 0.0116,
+    "hyoglossus_l": 0.0095,
+    "medial_pterygoid_l": 0.0046,
+    "trapezius_l": 0.0024,
+    "geniohyoid_r": 0.0018,
+    "scalenus_posterior_l": 0.0012,
+    "rhomboid_minor_l": 0.0009,
+    "digastric_l": 0.0009,
+    "geniohyoid_l": 0.0006
+   },
+   "overlap_new_muscles": {
+    "platysma_r": 0.0263,
+    "depressor_labii_inferioris_l": 0.0031,
+    "risorius_l": 0.0015
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "platysma_r": 0.0281,
+    "depressor_labii_inferioris_l": 0.0027,
+    "risorius_l": 0.0015
+   },
+   "overlap_her_total": 0.2142,
+   "overlap_new_total": 0.0309,
+   "overlap_new_total_source": 0.0323,
+   "overlap_frac_total": 0.2142,
+   "dropped": "21.4% of vertices inside other muscles/organs (> 10%; his structures 21.4%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_l)"
+  },
+  "palatopharyngeus_r": {
+   "atlas_id": "palatopharyngeus_r",
+   "group": "pharynx_palate",
+   "zanatomy_objects": [
+    "Palatopharyngeus muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "palatopharyngeus_r"
+   ],
+   "partial": null,
+   "vertices": 7642,
+   "triangles": 15282,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_atlas_c1",
+      "share": 0.258,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.207,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.203,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.12,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.101,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.067,
+      "fit_residual_mm": 1.23
+     }
+    ],
+    "weighted_median_fit_mm": 1.18,
+    "max_fit_mm": 1.76
+   },
+   "carrier_local": {
+    "n": 949,
+    "median_mm": 1.44,
+    "p90_mm": 4.83,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0327,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0327,
+   "depth_under_skin_mm": {
+    "min": 36.4,
+    "median": 50.6
+   },
+   "volume_zanatomy_cm3": 3.58,
+   "volume_transferred_before_fix_cm3": 3.85,
+   "volume_cm3": 3.85,
+   "volume_ratio_vs_zanatomy": 1.073,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {
+    "longus_colli_r": 0.1233,
+    "inferior_pharyngeal_constrictor_r": 0.067,
+    "middle_pharyngeal_constrictor_r": 0.039,
+    "longus_capitis_r": 0.0126
+   },
+   "overlap_new_muscles": {
+    "lateral_cricoarytenoid_r": 0.0005
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "lateral_cricoarytenoid_r": 0.0042
+   },
+   "overlap_her_total": 0.2419,
+   "overlap_new_total": 0.0005,
+   "overlap_new_total_source": 0.0042,
+   "overlap_frac_total": 0.2419,
+   "dropped": "24.2% of vertices inside other muscles/organs (> 10%; his structures 24.2%, new muscles 0.1% vs 0.4% in Z-Anatomy itself; mostly longus_colli_r)"
+  },
+  "palatopharyngeus_l": {
+   "atlas_id": "palatopharyngeus_l",
+   "group": "pharynx_palate",
+   "zanatomy_objects": [
+    "Palatopharyngeus muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "palatopharyngeus_l"
+   ],
+   "partial": null,
+   "vertices": 7642,
+   "triangles": 15282,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_atlas_c1",
+      "share": 0.258,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.205,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.203,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.122,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.101,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.067,
+      "fit_residual_mm": 1.23
+     }
+    ],
+    "weighted_median_fit_mm": 1.18,
+    "max_fit_mm": 1.76
+   },
+   "carrier_local": {
+    "n": 946,
+    "median_mm": 1.31,
+    "p90_mm": 2.55,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.064,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.064,
+   "depth_under_skin_mm": {
+    "min": 32.7,
+    "median": 46.5
+   },
+   "volume_zanatomy_cm3": 3.58,
+   "volume_transferred_before_fix_cm3": 4.17,
+   "volume_cm3": 4.17,
+   "volume_ratio_vs_zanatomy": 1.165,
+   "volume_kept_after_fix": 1.0,
+   "dropped": "6.4% of vertices inside his air lumen (> 5%)"
+  },
+  "stylopharyngeus_r": {
+   "atlas_id": "stylopharyngeus_r",
+   "group": "pharynx_palate",
+   "zanatomy_objects": [
+    "Stylopharyngeus muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "stylopharyngeus_r"
+   ],
+   "partial": null,
+   "vertices": 4740,
+   "triangles": 9478,
+   "inside_bone_frac_before": 0.0112,
+   "inside_bone_by_bone": {
+    "cranium": 53
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 53,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.566,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "mandible",
+      "share": 0.299,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "temporal_r",
+      "share": 0.121,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.014,
+      "fit_residual_mm": 1.23
+     }
+    ],
+    "weighted_median_fit_mm": 1.03,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 419,
+    "median_mm": 2.42,
+    "p90_mm": 6.72,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 2.49
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0692,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0692,
+   "depth_under_skin_mm": {
+    "min": 36.7,
+    "median": 50.2
+   },
+   "volume_zanatomy_cm3": 1.62,
+   "volume_transferred_before_fix_cm3": 1.71,
+   "volume_cm3": 1.71,
+   "volume_ratio_vs_zanatomy": 1.055,
+   "volume_kept_after_fix": 0.999,
+   "dropped": "6.9% of vertices inside his air lumen (> 5%)"
+  },
+  "stylopharyngeus_l": {
+   "atlas_id": "stylopharyngeus_l",
+   "group": "pharynx_palate",
+   "zanatomy_objects": [
+    "Stylopharyngeus muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "stylopharyngeus_l"
+   ],
+   "partial": null,
+   "vertices": 4740,
+   "triangles": 9478,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.57,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "mandible",
+      "share": 0.299,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "temporal_l",
+      "share": 0.12,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.011,
+      "fit_residual_mm": 1.23
+     }
+    ],
+    "weighted_median_fit_mm": 1.03,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 434,
+    "median_mm": 1.54,
+    "p90_mm": 5.1,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0084,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0084,
+   "depth_under_skin_mm": {
+    "min": 30.2,
+    "median": 47.5
+   },
+   "volume_zanatomy_cm3": 1.62,
+   "volume_transferred_before_fix_cm3": 1.6,
+   "volume_cm3": 1.6,
+   "volume_ratio_vs_zanatomy": 0.987,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {
+    "longus_capitis_l": 0.1848,
+    "hyoglossus_l": 0.0338,
+    "longus_colli_l": 0.0008
+   },
+   "overlap_new_muscles": {
+    "stylohyoid_l": 0.0314
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "stylohyoid_l": 0.0382
+   },
+   "overlap_her_total": 0.2194,
+   "overlap_new_total": 0.0314,
+   "overlap_new_total_source": 0.0382,
+   "overlap_frac_total": 0.2194,
+   "dropped": "21.9% of vertices inside other muscles/organs (> 10%; his structures 21.9%, new muscles 3.1% vs 3.8% in Z-Anatomy itself; mostly longus_capitis_l)"
+  },
+  "stylohyoid_r": {
+   "atlas_id": "stylohyoid_r",
+   "group": "hyoid_strap",
+   "zanatomy_objects": [
+    "Stylohyoid muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "stylohyoid_r"
+   ],
+   "partial": null,
+   "vertices": 349,
+   "triangles": 694,
+   "inside_bone_frac_before": 0.1719,
+   "inside_bone_by_bone": {
+    "cranium": 21,
+    "hyoid": 39
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 60,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.481,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "temporal_r",
+      "share": 0.264,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "mandible",
+      "share": 0.255,
+      "fit_residual_mm": 1.983
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 622,
+    "median_mm": 1.52,
+    "p90_mm": 5.66,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.22,
+    "max": 2.76
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 30.2,
+    "median": 39.8
+   },
+   "volume_zanatomy_cm3": 1.3,
+   "volume_transferred_before_fix_cm3": 1.77,
+   "volume_cm3": 1.8,
+   "volume_ratio_vs_zanatomy": 1.379,
+   "volume_kept_after_fix": 1.019,
+   "overlap_her_structures": {
+    "hyoglossus_r": 0.0487
+   },
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0.0487,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.0487,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.5 mm median (p90 5.7 mm). Volume 1.80 cm3; 60 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "stylohyoid_l": {
+   "atlas_id": "stylohyoid_l",
+   "group": "hyoid_strap",
+   "zanatomy_objects": [
+    "Stylohyoid muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "stylohyoid_l"
+   ],
+   "partial": null,
+   "vertices": 349,
+   "triangles": 694,
+   "inside_bone_frac_before": 0.0688,
+   "inside_bone_by_bone": {
+    "cranium": 8,
+    "hyoid": 16
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 24,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.481,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "mandible",
+      "share": 0.255,
+      "fit_residual_mm": 1.983
+     },
+     {
+      "piece": "temporal_l",
+      "share": 0.232,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "occipital",
+      "share": 0.032,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.98,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 623,
+    "median_mm": 1.74,
+    "p90_mm": 5.05,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.18,
+    "max": 1.6
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 30.3,
+    "median": 37.6
+   },
+   "volume_zanatomy_cm3": 1.3,
+   "volume_transferred_before_fix_cm3": 1.48,
+   "volume_cm3": 1.48,
+   "volume_ratio_vs_zanatomy": 1.132,
+   "volume_kept_after_fix": 0.998,
+   "overlap_her_structures": {
+    "geniohyoid_l": 0.2292,
+    "hyoglossus_l": 0.0229
+   },
+   "overlap_new_muscles": {
+    "stylopharyngeus_l": 0.0458
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "stylopharyngeus_l": 0.0458
+   },
+   "overlap_her_total": 0.2521,
+   "overlap_new_total": 0.0458,
+   "overlap_new_total_source": 0.0458,
+   "overlap_frac_total": 0.2521,
+   "dropped": "25.2% of vertices inside other muscles/organs (> 10%; his structures 25.2%, new muscles 4.6% vs 4.6% in Z-Anatomy itself; mostly geniohyoid_l)"
+  },
+  "omohyoid_r": {
+   "atlas_id": "omohyoid_r",
+   "group": "hyoid_strap",
+   "zanatomy_objects": [
+    "Omohyoid muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "omohyoid_r"
+   ],
+   "partial": null,
+   "vertices": 1355,
+   "triangles": 2706,
+   "inside_bone_frac_before": 0.0443,
+   "inside_bone_by_bone": {
+    "hyoid": 36,
+    "thyroid_cartilage": 24
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 60,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_rib_r",
+      "share": 0.243,
+      "fit_residual_mm": 2.46
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.168,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.156,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "scapula_r",
+      "share": 0.151,
+      "fit_residual_mm": 2.5977
+     },
+     {
+      "piece": "zan_second_rib_r",
+      "share": 0.106,
+      "fit_residual_mm": 3.74
+     },
+     {
+      "piece": "clavicle_r",
+      "share": 0.098,
+      "fit_residual_mm": 1.9492
+     }
+    ],
+    "weighted_median_fit_mm": 2.46,
+    "max_fit_mm": 3.74
+   },
+   "carrier_local": {
+    "n": 816,
+    "median_mm": 4.06,
+    "p90_mm": 14.76,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 2.98
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0716
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 17.3,
+    "median": 31.9
+   },
+   "volume_zanatomy_cm3": 6.16,
+   "volume_transferred_before_fix_cm3": 9.39,
+   "volume_cm3": 9.33,
+   "volume_ratio_vs_zanatomy": 1.515,
+   "volume_kept_after_fix": 0.993,
+   "dropped": "bone around it fits his CT at 4.06 mm median (> 3.0 mm)"
+  },
+  "omohyoid_l": {
+   "atlas_id": "omohyoid_l",
+   "group": "hyoid_strap",
+   "zanatomy_objects": [
+    "Omohyoid muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "omohyoid_l"
+   ],
+   "partial": null,
+   "vertices": 1355,
+   "triangles": 2706,
+   "inside_bone_frac_before": 0.0509,
+   "inside_bone_by_bone": {
+    "hyoid": 12,
+    "ribs_l": 16,
+    "thyroid_cartilage": 41
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 69,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_first_rib_l",
+      "share": 0.242,
+      "fit_residual_mm": 3.15
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.168,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.157,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "scapula_l",
+      "share": 0.155,
+      "fit_residual_mm": 2.6401
+     },
+     {
+      "piece": "zan_second_rib_l",
+      "share": 0.11,
+      "fit_residual_mm": 3.93
+     },
+     {
+      "piece": "clavicle_l",
+      "share": 0.094,
+      "fit_residual_mm": 1.8401
+     }
+    ],
+    "weighted_median_fit_mm": 2.64,
+    "max_fit_mm": 4.49
+   },
+   "carrier_local": {
+    "n": 820,
+    "median_mm": 4.16,
+    "p90_mm": 14.34,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.0,
+    "max": 3.4
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0037
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 14.5,
+    "median": 33.2
+   },
+   "volume_zanatomy_cm3": 6.16,
+   "volume_transferred_before_fix_cm3": 10.43,
+   "volume_cm3": 10.29,
+   "volume_ratio_vs_zanatomy": 1.672,
+   "volume_kept_after_fix": 0.987,
+   "dropped": "bone around it fits his CT at 4.16 mm median (> 3.0 mm)"
+  },
+  "sternohyoid_r": {
+   "atlas_id": "sternohyoid_r",
+   "group": "hyoid_strap",
+   "zanatomy_objects": [
+    "Sternohyoid muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "sternohyoid_r"
+   ],
+   "partial": null,
+   "vertices": 697,
+   "triangles": 1394,
+   "inside_bone_frac_before": 0.1621,
+   "inside_bone_by_bone": {
+    "hyoid": 38,
+    "thyroid_cartilage": 69,
+    "cricoid_cartilage": 6
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 113,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "clavicle_r",
+      "share": 0.512,
+      "fit_residual_mm": 1.9492
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.29,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.126,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "sternum",
+      "share": 0.057,
+      "fit_residual_mm": 2.3032
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.014,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.95,
+    "max_fit_mm": 2.3
+   },
+   "carrier_local": {
+    "n": 685,
+    "median_mm": 2.33,
+    "p90_mm": 11.44,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.24,
+    "max": 3.19
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0646,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0201
+   },
+   "inside_airway_frac": 0.0646,
+   "depth_under_skin_mm": {
+    "min": 16.3,
+    "median": 38.3
+   },
+   "volume_zanatomy_cm3": 5.34,
+   "volume_transferred_before_fix_cm3": 6.26,
+   "volume_cm3": 6.59,
+   "volume_ratio_vs_zanatomy": 1.234,
+   "volume_kept_after_fix": 1.052,
+   "dropped": "6.5% of vertices inside his air lumen (> 5%)"
+  },
+  "sternohyoid_l": {
+   "atlas_id": "sternohyoid_l",
+   "group": "hyoid_strap",
+   "zanatomy_objects": [
+    "Sternohyoid muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "sternohyoid_l"
+   ],
+   "partial": null,
+   "vertices": 697,
+   "triangles": 1394,
+   "inside_bone_frac_before": 0.1406,
+   "inside_bone_by_bone": {
+    "hyoid": 17,
+    "thyroid_cartilage": 77,
+    "cricoid_cartilage": 4
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 98,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "clavicle_l",
+      "share": 0.506,
+      "fit_residual_mm": 1.8401
+     },
+     {
+      "piece": "hyoid",
+      "share": 0.29,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.126,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "sternum",
+      "share": 0.063,
+      "fit_residual_mm": 2.3032
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.014,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.84,
+    "max_fit_mm": 2.3
+   },
+   "carrier_local": {
+    "n": 714,
+    "median_mm": 2.65,
+    "p90_mm": 11.31,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.01,
+    "max": 2.98
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.076,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.033
+   },
+   "inside_airway_frac": 0.076,
+   "depth_under_skin_mm": {
+    "min": 16.8,
+    "median": 34.0
+   },
+   "volume_zanatomy_cm3": 5.34,
+   "volume_transferred_before_fix_cm3": 6.45,
+   "volume_cm3": 6.86,
+   "volume_ratio_vs_zanatomy": 1.286,
+   "volume_kept_after_fix": 1.064,
+   "dropped": "7.6% of vertices inside his air lumen (> 5%)"
+  },
+  "cricothyroid_r": {
+   "atlas_id": "cricothyroid_r",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Oblique part of cricothyroid muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "cricothyroid_r"
+   ],
+   "partial": null,
+   "vertices": 1624,
+   "triangles": 3240,
+   "inside_bone_frac_before": 0.6059,
+   "inside_bone_by_bone": {
+    "cricoid_cartilage": 984
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 984,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.52,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.48,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.38,
+    "max_fit_mm": 1.38
+   },
+   "carrier_local": {
+    "n": 1824,
+    "median_mm": 1.46,
+    "p90_mm": 4.4,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.72,
+    "max": 3.37
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.186,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.186,
+   "depth_under_skin_mm": {
+    "min": 15.2,
+    "median": 26.7
+   },
+   "volume_zanatomy_cm3": 0.24,
+   "volume_transferred_before_fix_cm3": 0.29,
+   "volume_cm3": 0.39,
+   "volume_ratio_vs_zanatomy": 1.652,
+   "volume_kept_after_fix": 1.336,
+   "dropped": "18.6% of vertices inside his air lumen (> 5%)"
+  },
+  "cricothyroid_l": {
+   "atlas_id": "cricothyroid_l",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Oblique part of cricothyroid muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "cricothyroid_l"
+   ],
+   "partial": null,
+   "vertices": 1624,
+   "triangles": 3240,
+   "inside_bone_frac_before": 0.3738,
+   "inside_bone_by_bone": {
+    "cricoid_cartilage": 607
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 607,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.52,
+      "fit_residual_mm": 1.38
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.48,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.38,
+    "max_fit_mm": 1.38
+   },
+   "carrier_local": {
+    "n": 1815,
+    "median_mm": 1.32,
+    "p90_mm": 4.17,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.33,
+    "max": 3.43
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.1712,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.1712,
+   "depth_under_skin_mm": {
+    "min": 16.5,
+    "median": 27.7
+   },
+   "volume_zanatomy_cm3": 0.24,
+   "volume_transferred_before_fix_cm3": 0.29,
+   "volume_cm3": 0.41,
+   "volume_ratio_vs_zanatomy": 1.743,
+   "volume_kept_after_fix": 1.423,
+   "dropped": "17.1% of vertices inside his air lumen (> 5%)"
+  },
+  "lateral_cricoarytenoid_r": {
+   "atlas_id": "lateral_cricoarytenoid_r",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Lateral crico-arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_lateral_crico_arytenoid_muscle_r"
+   ],
+   "partial": null,
+   "vertices": 815,
+   "triangles": 1623,
+   "inside_bone_frac_before": 0.1509,
+   "inside_bone_by_bone": {
+    "cricoid_cartilage": 123
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 123,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 1.0,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.17,
+    "max_fit_mm": 1.17
+   },
+   "carrier_local": {
+    "n": 1252,
+    "median_mm": 1.6,
+    "p90_mm": 4.48,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.0,
+    "max": 2.94
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 29.3,
+    "median": 37.4
+   },
+   "volume_zanatomy_cm3": 0.08,
+   "volume_transferred_before_fix_cm3": 0.1,
+   "volume_cm3": 0.11,
+   "volume_ratio_vs_zanatomy": 1.381,
+   "volume_kept_after_fix": 1.095,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "posterior_cricoarytenoid_r": 0.0123,
+    "palatopharyngeus_r": 0.0061
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "palatopharyngeus_r": 0.4773,
+    "posterior_cricoarytenoid_r": 0.0123
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.0184,
+   "overlap_new_total_source": 0.4896,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own CT thyroid + cricoid cartilages (Z-Anatomy larynx refitted onto them) (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.6 mm median (p90 4.5 mm). Volume 0.11 cm3; 123 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "lateral_cricoarytenoid_l": {
+   "atlas_id": "lateral_cricoarytenoid_l",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Lateral crico-arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_lateral_crico_arytenoid_muscle_l"
+   ],
+   "partial": null,
+   "vertices": 815,
+   "triangles": 1623,
+   "inside_bone_frac_before": 0.0859,
+   "inside_bone_by_bone": {
+    "cricoid_cartilage": 70
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 70,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 1.0,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.17,
+    "max_fit_mm": 1.17
+   },
+   "carrier_local": {
+    "n": 1243,
+    "median_mm": 1.08,
+    "p90_mm": 3.34,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.83,
+    "max": 2.98
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 29.3,
+    "median": 38.0
+   },
+   "volume_zanatomy_cm3": 0.08,
+   "volume_transferred_before_fix_cm3": 0.09,
+   "volume_cm3": 0.1,
+   "volume_ratio_vs_zanatomy": 1.255,
+   "volume_kept_after_fix": 1.042,
+   "overlap_her_structures": {
+    "inferior_pharyngeal_constrictor_l": 0.011
+   },
+   "overlap_new_muscles": {
+    "posterior_cricoarytenoid_l": 0.0123
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "posterior_cricoarytenoid_l": 0.0123
+   },
+   "overlap_her_total": 0.011,
+   "overlap_new_total": 0.0123,
+   "overlap_new_total_source": 0.0123,
+   "overlap_frac_total": 0.011,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own CT thyroid + cricoid cartilages (Z-Anatomy larynx refitted onto them) (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.1 mm median (p90 3.3 mm). Volume 0.10 cm3; 70 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "posterior_cricoarytenoid_r": {
+   "atlas_id": "posterior_cricoarytenoid_r",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Posterior crico-arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_posterior_crico_arytenoid_muscle_r"
+   ],
+   "partial": null,
+   "vertices": 908,
+   "triangles": 1812,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.857,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.143,
+      "fit_residual_mm": 1.38
+     }
+    ],
+    "weighted_median_fit_mm": 1.17,
+    "max_fit_mm": 1.38
+   },
+   "carrier_local": {
+    "n": 967,
+    "median_mm": 1.52,
+    "p90_mm": 3.23,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 39.4,
+    "median": 43.9
+   },
+   "volume_zanatomy_cm3": 0.25,
+   "volume_transferred_before_fix_cm3": 0.32,
+   "volume_cm3": 0.32,
+   "volume_ratio_vs_zanatomy": 1.29,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {
+    "inferior_pharyngeal_constrictor_r": 0.2302
+   },
+   "overlap_new_muscles": {
+    "lateral_cricoarytenoid_r": 0.0099
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "lateral_cricoarytenoid_r": 0.0099
+   },
+   "overlap_her_total": 0.2302,
+   "overlap_new_total": 0.0099,
+   "overlap_new_total_source": 0.0099,
+   "overlap_frac_total": 0.2302,
+   "dropped": "23.0% of vertices inside other muscles/organs (> 10%; his structures 23.0%, new muscles 1.0% vs 1.0% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_r)"
+  },
+  "posterior_cricoarytenoid_l": {
+   "atlas_id": "posterior_cricoarytenoid_l",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Posterior crico-arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_posterior_crico_arytenoid_muscle_l"
+   ],
+   "partial": null,
+   "vertices": 908,
+   "triangles": 1812,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.857,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "zan_vertebra_c6",
+      "share": 0.143,
+      "fit_residual_mm": 1.38
+     }
+    ],
+    "weighted_median_fit_mm": 1.17,
+    "max_fit_mm": 1.38
+   },
+   "carrier_local": {
+    "n": 959,
+    "median_mm": 1.01,
+    "p90_mm": 2.63,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 40.4,
+    "median": 44.4
+   },
+   "volume_zanatomy_cm3": 0.25,
+   "volume_transferred_before_fix_cm3": 0.3,
+   "volume_cm3": 0.3,
+   "volume_ratio_vs_zanatomy": 1.221,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {
+    "inferior_pharyngeal_constrictor_l": 0.3535,
+    "longus_colli_l": 0.0077
+   },
+   "overlap_new_muscles": {
+    "lateral_cricoarytenoid_l": 0.0099
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "lateral_cricoarytenoid_l": 0.0099
+   },
+   "overlap_her_total": 0.3612,
+   "overlap_new_total": 0.0099,
+   "overlap_new_total_source": 0.0099,
+   "overlap_frac_total": 0.3612,
+   "dropped": "36.1% of vertices inside other muscles/organs (> 10%; his structures 36.1%, new muscles 1.0% vs 1.0% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_l)"
+  },
+  "thyroarytenoid_r": {
+   "atlas_id": "thyroarytenoid_r",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "External part of thyro-arytenoid muscle",
+    "Thyro-epiglottic part of thyro-arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_external_part_of_thyro_arytenoid_muscle_r",
+    "zan_thyro_epiglottic_part_of_thyro_arytenoid_muscle_r"
+   ],
+   "partial": "external + thyro-epiglottic parts; vocalis (internal part) not in Z-Anatomy",
+   "vertices": 2677,
+   "triangles": 5346,
+   "inside_bone_frac_before": 0.0657,
+   "inside_bone_by_bone": {
+    "thyroid_cartilage": 176
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 176,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.52,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.329,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.151,
+      "fit_residual_mm": 1.18
+     }
+    ],
+    "weighted_median_fit_mm": 1.03,
+    "max_fit_mm": 1.18
+   },
+   "carrier_local": {
+    "n": 1890,
+    "median_mm": 1.47,
+    "p90_mm": 4.42,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.37,
+    "max": 2.73
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0549,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0549,
+   "depth_under_skin_mm": {
+    "min": 13.0,
+    "median": 31.5
+   },
+   "volume_zanatomy_cm3": 0.62,
+   "volume_transferred_before_fix_cm3": 0.61,
+   "volume_cm3": 0.63,
+   "volume_ratio_vs_zanatomy": 1.017,
+   "volume_kept_after_fix": 1.029,
+   "dropped": "5.5% of vertices inside his air lumen (> 5%)"
+  },
+  "thyroarytenoid_l": {
+   "atlas_id": "thyroarytenoid_l",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "External part of thyro-arytenoid muscle",
+    "Thyro-epiglottic part of thyro-arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_external_part_of_thyro_arytenoid_muscle_l",
+    "zan_thyro_epiglottic_part_of_thyro_arytenoid_muscle_l"
+   ],
+   "partial": "external + thyro-epiglottic parts; vocalis (internal part) not in Z-Anatomy",
+   "vertices": 2677,
+   "triangles": 5346,
+   "inside_bone_frac_before": 0.0773,
+   "inside_bone_by_bone": {
+    "thyroid_cartilage": 205,
+    "cricoid_cartilage": 2
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 207,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.52,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.329,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.151,
+      "fit_residual_mm": 1.18
+     }
+    ],
+    "weighted_median_fit_mm": 1.03,
+    "max_fit_mm": 1.18
+   },
+   "carrier_local": {
+    "n": 1882,
+    "median_mm": 1.13,
+    "p90_mm": 4.14,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.58,
+    "max": 3.04
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 12.6,
+    "median": 30.8
+   },
+   "volume_zanatomy_cm3": 0.62,
+   "volume_transferred_before_fix_cm3": 0.62,
+   "volume_cm3": 0.66,
+   "volume_ratio_vs_zanatomy": 1.063,
+   "volume_kept_after_fix": 1.06,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "oblique_arytenoid_l": 0.0295,
+    "transverse_arytenoid": 0.003
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "oblique_arytenoid_l": 0.0329
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.0325,
+   "overlap_new_total_source": 0.0329,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own CT thyroid + cricoid cartilages (Z-Anatomy larynx refitted onto them) (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.1 mm median (p90 4.1 mm). Volume 0.66 cm3; 207 vertices pushed off his bones, 0 pulled inside his skin. Partial: external + thyro-epiglottic parts; vocalis (internal part) not in Z-Anatomy."
+  },
+  "oblique_arytenoid_r": {
+   "atlas_id": "oblique_arytenoid_r",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Ary-epiglottic part of oblique arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_ary_epiglottic_part_of_oblique_arytenoid_muscle_r"
+   ],
+   "partial": "aryepiglottic part only (Z-Anatomy has no separate oblique belly)",
+   "vertices": 513,
+   "triangles": 1022,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.536,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.376,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.088,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.03,
+    "max_fit_mm": 1.18
+   },
+   "carrier_local": {
+    "n": 725,
+    "median_mm": 1.21,
+    "p90_mm": 4.82,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.2573,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.2573,
+   "depth_under_skin_mm": {
+    "min": 33.4,
+    "median": 36.6
+   },
+   "volume_zanatomy_cm3": 0.08,
+   "volume_transferred_before_fix_cm3": 0.08,
+   "volume_cm3": 0.08,
+   "volume_ratio_vs_zanatomy": 0.911,
+   "volume_kept_after_fix": 1.0,
+   "dropped": "25.7% of vertices inside his air lumen (> 5%)"
+  },
+  "oblique_arytenoid_l": {
+   "atlas_id": "oblique_arytenoid_l",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Ary-epiglottic part of oblique arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_ary_epiglottic_part_of_oblique_arytenoid_muscle_l"
+   ],
+   "partial": "aryepiglottic part only (Z-Anatomy has no separate oblique belly)",
+   "vertices": 513,
+   "triangles": 1022,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hyoid",
+      "share": 0.536,
+      "fit_residual_mm": 1.0299
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.376,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.088,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.03,
+    "max_fit_mm": 1.18
+   },
+   "carrier_local": {
+    "n": 716,
+    "median_mm": 0.95,
+    "p90_mm": 2.76,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0019,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0019,
+   "depth_under_skin_mm": {
+    "min": 31.4,
+    "median": 35.1
+   },
+   "volume_zanatomy_cm3": 0.08,
+   "volume_transferred_before_fix_cm3": 0.08,
+   "volume_cm3": 0.08,
+   "volume_ratio_vs_zanatomy": 0.944,
+   "volume_kept_after_fix": 1.0,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "thyroarytenoid_l": 0.0253
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "thyroarytenoid_l": 0.0253
+   },
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.0253,
+   "overlap_new_total_source": 0.0253,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own CT thyroid + cricoid cartilages (Z-Anatomy larynx refitted onto them) (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 0.9 mm median (p90 2.8 mm). Volume 0.08 cm3; 0 vertices pushed off his bones, 0 pulled inside his skin. Partial: aryepiglottic part only (Z-Anatomy has no separate oblique belly)."
+  },
+  "transverse_arytenoid": {
+   "atlas_id": "transverse_arytenoid",
+   "group": "larynx",
+   "zanatomy_objects": [
+    "Transverse arytenoid muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "transverse_arytenoid"
+   ],
+   "partial": null,
+   "vertices": 913,
+   "triangles": 1822,
+   "inside_bone_frac_before": 0.1774,
+   "inside_bone_by_bone": {
+    "cricoid_cartilage": 162
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 162,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 1.0,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.17,
+    "max_fit_mm": 1.17
+   },
+   "carrier_local": {
+    "n": 1730,
+    "median_mm": 1.25,
+    "p90_mm": 2.99,
+    "against": "his CT thyroid + cricoid cartilage + hyoid"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.8,
+    "max": 2.85
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 34.6,
+    "median": 36.7
+   },
+   "volume_zanatomy_cm3": 0.15,
+   "volume_transferred_before_fix_cm3": 0.19,
+   "volume_cm3": 0.17,
+   "volume_ratio_vs_zanatomy": 1.141,
+   "volume_kept_after_fix": 0.904,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {
+    "thyroarytenoid_l": 0.012
+   },
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0,
+   "overlap_new_total": 0.012,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.012,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own CT thyroid + cricoid cartilages (Z-Anatomy larynx refitted onto them) (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.2 mm median (p90 3.0 mm). Volume 0.17 cm3; 162 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "rectus_capitis_anterior_r": {
+   "atlas_id": "rectus_capitis_anterior_r",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Rectus anterior capitis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "rectus_capitis_anterior_r"
+   ],
+   "partial": null,
+   "vertices": 200,
+   "triangles": 396,
+   "inside_bone_frac_before": 0.135,
+   "inside_bone_by_bone": {
+    "cranium": 27
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 27,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_atlas_c1",
+      "share": 0.53,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "occipital",
+      "share": 0.47,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.76,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 421,
+    "median_mm": 1.75,
+    "p90_mm": 3.81,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.76,
+    "max": 2.34
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 46.2,
+    "median": 60.3
+   },
+   "volume_zanatomy_cm3": 0.84,
+   "volume_transferred_before_fix_cm3": 0.83,
+   "volume_cm3": 0.77,
+   "volume_ratio_vs_zanatomy": 0.921,
+   "volume_kept_after_fix": 0.93,
+   "overlap_her_structures": {
+    "longus_colli_r": 0.09
+   },
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0.09,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.09,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.8 mm median (p90 3.8 mm). Volume 0.77 cm3; 27 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "rectus_capitis_anterior_l": {
+   "atlas_id": "rectus_capitis_anterior_l",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Rectus anterior capitis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "rectus_capitis_anterior_l"
+   ],
+   "partial": null,
+   "vertices": 200,
+   "triangles": 396,
+   "inside_bone_frac_before": 0.16,
+   "inside_bone_by_bone": {
+    "cranium": 30,
+    "cervical_vertebrae": 2
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 32,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_atlas_c1",
+      "share": 0.51,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "occipital",
+      "share": 0.49,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.76,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 423,
+    "median_mm": 1.5,
+    "p90_mm": 3.29,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.8,
+    "max": 2.21
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 49.0,
+    "median": 62.5
+   },
+   "volume_zanatomy_cm3": 0.84,
+   "volume_transferred_before_fix_cm3": 0.79,
+   "volume_cm3": 0.73,
+   "volume_ratio_vs_zanatomy": 0.867,
+   "volume_kept_after_fix": 0.916,
+   "overlap_her_structures": {
+    "longus_capitis_l": 0.045,
+    "longus_colli_l": 0.02
+   },
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0.065,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.065,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 1.5 mm median (p90 3.3 mm). Volume 0.73 cm3; 32 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "rectus_capitis_lateralis_r": {
+   "atlas_id": "rectus_capitis_lateralis_r",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Rectus lateralis capitis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "rectus_capitis_lateralis_r"
+   ],
+   "partial": null,
+   "vertices": 182,
+   "triangles": 360,
+   "inside_bone_frac_before": 0.1374,
+   "inside_bone_by_bone": {
+    "cranium": 25
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 25,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_atlas_c1",
+      "share": 0.571,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "occipital",
+      "share": 0.341,
+      "fit_residual_mm": 3.6714
+     },
+     {
+      "piece": "temporal_r",
+      "share": 0.088,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.76,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 316,
+    "median_mm": 2.81,
+    "p90_mm": 7.19,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.79,
+    "max": 3.1
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 33.7,
+    "median": 39.1
+   },
+   "volume_zanatomy_cm3": 0.71,
+   "volume_transferred_before_fix_cm3": 0.64,
+   "volume_cm3": 0.61,
+   "volume_ratio_vs_zanatomy": 0.858,
+   "volume_kept_after_fix": 0.962,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.8 mm median (p90 7.2 mm). Volume 0.61 cm3; 25 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "rectus_capitis_lateralis_l": {
+   "atlas_id": "rectus_capitis_lateralis_l",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Rectus lateralis capitis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "rectus_capitis_lateralis_l"
+   ],
+   "partial": null,
+   "vertices": 182,
+   "triangles": 360,
+   "inside_bone_frac_before": 0.2088,
+   "inside_bone_by_bone": {
+    "cranium": 38
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 38,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_atlas_c1",
+      "share": 0.555,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "occipital",
+      "share": 0.445,
+      "fit_residual_mm": 3.6714
+     }
+    ],
+    "weighted_median_fit_mm": 1.76,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 312,
+    "median_mm": 2.23,
+    "p90_mm": 5.26,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.86,
+    "max": 3.12
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 33.7,
+    "median": 37.8
+   },
+   "volume_zanatomy_cm3": 0.71,
+   "volume_transferred_before_fix_cm3": 0.61,
+   "volume_cm3": 0.55,
+   "volume_ratio_vs_zanatomy": 0.776,
+   "volume_kept_after_fix": 0.903,
+   "overlap_her_structures": {},
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.0,
+   "badge": "Q62 step 7b: TRANSFERRED, not segmented from him. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto his own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (he has no mesh of it); the bone surface within 15 mm of it fits his CT at 2.2 mm median (p90 5.3 mm). Volume 0.55 cm3; 38 vertices pushed off his bones, 0 pulled inside his skin."
+  },
+  "splenius_capitis_r": {
+   "atlas_id": "splenius_capitis_r",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Splenius capitis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "splenius_capitis_r"
+   ],
+   "partial": null,
+   "vertices": 2629,
+   "triangles": 5262,
+   "inside_bone_frac_before": 0.1213,
+   "inside_bone_by_bone": {
+    "cranium": 217,
+    "cervical_vertebrae": 18,
+    "thoracic_vertebrae": 84
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 140,
+   "inside_bone_deeper_than_bound": 179,
+   "inside_bone_frac_after_push": 0.0681,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.109,
+      "fit_residual_mm": 1.13
+     },
+     {
+      "piece": "zan_vertebra_c7",
+      "share": 0.107,
+      "fit_residual_mm": 1.74
+     },
+     {
+      "piece": "zan_vertebra_t1",
+      "share": 0.099,
+      "fit_residual_mm": 1.59
+     },
+     {
+      "piece": "zan_vertebra_t3",
+      "share": 0.093,
+      "fit_residual_mm": 1.16
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.086,
+      "fit_residual_mm": 1.23
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.082,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.23,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1754,
+    "median_mm": 3.04,
+    "p90_mm": 8.46,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.15,
+    "max": 3.98
+   },
+   "inside_bone_frac_after": 0.0681,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0114,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0114,
+   "depth_under_skin_mm": {
+    "min": 16.8,
+    "median": 44.5
+   },
+   "volume_zanatomy_cm3": 35.03,
+   "volume_transferred_before_fix_cm3": 40.47,
+   "volume_cm3": 40.4,
+   "volume_ratio_vs_zanatomy": 1.153,
+   "volume_kept_after_fix": 0.998,
+   "dropped": "6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.1% before)"
+  },
+  "splenius_capitis_l": {
+   "atlas_id": "splenius_capitis_l",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Splenius capitis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "splenius_capitis_l"
+   ],
+   "partial": null,
+   "vertices": 2629,
+   "triangles": 5262,
+   "inside_bone_frac_before": 0.1263,
+   "inside_bone_by_bone": {
+    "cranium": 255,
+    "thoracic_vertebrae": 77
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 145,
+   "inside_bone_deeper_than_bound": 187,
+   "inside_bone_frac_after_push": 0.0711,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.112,
+      "fit_residual_mm": 1.13
+     },
+     {
+      "piece": "zan_vertebra_c7",
+      "share": 0.106,
+      "fit_residual_mm": 1.74
+     },
+     {
+      "piece": "zan_vertebra_t1",
+      "share": 0.1,
+      "fit_residual_mm": 1.59
+     },
+     {
+      "piece": "zan_vertebra_t3",
+      "share": 0.091,
+      "fit_residual_mm": 1.16
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.086,
+      "fit_residual_mm": 1.23
+     },
+     {
+      "piece": "zan_vertebra_c5",
+      "share": 0.082,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.23,
+    "max_fit_mm": 3.67
+   },
+   "carrier_local": {
+    "n": 1731,
+    "median_mm": 2.81,
+    "p90_mm": 8.4,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.38,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0711,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0415,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0415,
+   "depth_under_skin_mm": {
+    "min": 11.2,
+    "median": 44.5
+   },
+   "volume_zanatomy_cm3": 35.03,
+   "volume_transferred_before_fix_cm3": 38.16,
+   "volume_cm3": 38.27,
+   "volume_ratio_vs_zanatomy": 1.093,
+   "volume_kept_after_fix": 1.003,
+   "dropped": "7.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.6% before)"
+  },
+  "splenius_cervicis_r": {
+   "atlas_id": "splenius_cervicis_r",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Splenius colli muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_splenius_colli_muscle_r"
+   ],
+   "partial": null,
+   "vertices": 2158,
+   "triangles": 4314,
+   "inside_bone_frac_before": 0.0482,
+   "inside_bone_by_bone": {
+    "thoracic_vertebrae": 101,
+    "ribs_r": 3
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 104,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t5",
+      "share": 0.24,
+      "fit_residual_mm": 1.44
+     },
+     {
+      "piece": "zan_vertebra_t4",
+      "share": 0.209,
+      "fit_residual_mm": 1.33
+     },
+     {
+      "piece": "zan_vertebra_t3",
+      "share": 0.203,
+      "fit_residual_mm": 1.16
+     },
+     {
+      "piece": "zan_vertebra_t6",
+      "share": 0.096,
+      "fit_residual_mm": 1.31
+     },
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.067,
+      "fit_residual_mm": 1.13
+     },
+     {
+      "piece": "zan_vertebra_c3",
+      "share": 0.04,
+      "fit_residual_mm": 1.21
+     }
+    ],
+    "weighted_median_fit_mm": 1.33,
+    "max_fit_mm": 3.72
+   },
+   "carrier_local": {
+    "n": 2158,
+    "median_mm": 1.85,
+    "p90_mm": 4.28,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 3.16
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 31.9,
+    "median": 43.2
+   },
+   "volume_zanatomy_cm3": 18.5,
+   "volume_transferred_before_fix_cm3": 18.38,
+   "volume_cm3": 18.21,
+   "volume_ratio_vs_zanatomy": 0.984,
+   "volume_kept_after_fix": 0.991,
+   "overlap_her_structures": {
+    "multifidus_r": 0.3299,
+    "longissimus_r": 0.1942,
+    "spinalis_r": 0.0352,
+    "external_intercostals_r": 0.0014
+   },
+   "overlap_new_muscles": {
+    "splenius_cervicis_l": 0.0222
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "splenius_cervicis_l": 0.0209
+   },
+   "overlap_her_total": 0.5607,
+   "overlap_new_total": 0.0222,
+   "overlap_new_total_source": 0.0209,
+   "overlap_frac_total": 0.562,
+   "dropped": "56.2% of vertices inside other muscles/organs (> 10%; his structures 56.1%, new muscles 2.2% vs 2.1% in Z-Anatomy itself; mostly multifidus_r)"
+  },
+  "splenius_cervicis_l": {
+   "atlas_id": "splenius_cervicis_l",
+   "group": "deep_neck",
+   "zanatomy_objects": [
+    "Splenius colli muscle"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_splenius_colli_muscle_l"
+   ],
+   "partial": null,
+   "vertices": 2158,
+   "triangles": 4314,
+   "inside_bone_frac_before": 0.0607,
+   "inside_bone_by_bone": {
+    "cervical_vertebrae": 2,
+    "thoracic_vertebrae": 129
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 131,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t5",
+      "share": 0.241,
+      "fit_residual_mm": 1.44
+     },
+     {
+      "piece": "zan_vertebra_t4",
+      "share": 0.212,
+      "fit_residual_mm": 1.33
+     },
+     {
+      "piece": "zan_vertebra_t3",
+      "share": 0.199,
+      "fit_residual_mm": 1.16
+     },
+     {
+      "piece": "zan_vertebra_t6",
+      "share": 0.095,
+      "fit_residual_mm": 1.31
+     },
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.068,
+      "fit_residual_mm": 1.13
+     },
+     {
+      "piece": "zan_vertebra_c3",
+      "share": 0.038,
+      "fit_residual_mm": 1.21
+     }
+    ],
+    "weighted_median_fit_mm": 1.33,
+    "max_fit_mm": 4.49
+   },
+   "carrier_local": {
+    "n": 2234,
+    "median_mm": 1.84,
+    "p90_mm": 4.43,
+    "against": "his CT bones"
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.25,
+    "max": 3.47
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "airway": 0.0,
+    "tongue": 0.0,
+    "oesophagus": 0.0,
+    "thyroid_gland": 0.0
+   },
+   "inside_airway_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 32.0,
+    "median": 43.8
+   },
+   "volume_zanatomy_cm3": 18.5,
+   "volume_transferred_before_fix_cm3": 18.22,
+   "volume_cm3": 18.27,
+   "volume_ratio_vs_zanatomy": 0.987,
+   "volume_kept_after_fix": 1.003,
+   "overlap_her_structures": {
+    "multifidus_l": 0.3165,
+    "longissimus_l": 0.1895,
+    "spinalis_l": 0.0899,
+    "multifidus_r": 0.007,
+    "obliquus_capitis_inferior_l": 0.0023
+   },
+   "overlap_new_muscles": {
+    "splenius_cervicis_r": 0.0209
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "splenius_cervicis_r": 0.0209
+   },
+   "overlap_her_total": 0.6052,
+   "overlap_new_total": 0.0209,
+   "overlap_new_total_source": 0.0209,
+   "overlap_frac_total": 0.6052,
+   "dropped": "60.5% of vertices inside other muscles/organs (> 10%; his structures 60.5%, new muscles 2.1% vs 2.1% in Z-Anatomy itself; mostly multifidus_l)"
+  }
+ }
+}

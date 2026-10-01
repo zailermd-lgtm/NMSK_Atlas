@@ -48,6 +48,12 @@ sys.path.insert(0, str(REPO))
 
 DEFAULT_REPORT = REPO / "data" / "derived" / "Q168_zan_to_vhf.json"
 FEMALE_BUNDLE_JSON = REPO / "build" / "viewer_f_hr" / "bundle.json"
+# Q62 step 7b: the same per-bone fit onto the VH MALE's own skeleton (--target vhm); "her" in this module then
+# reads "his". His radius/ulna/hand have CT, so the forearm proxy finds none of its (own, non-xfer) muscles and
+# stays unpaired by itself; male-only Z-Anatomy organs are kept for him.
+MALE_BUNDLE_JSON = REPO / "build" / "viewer_m_hr" / "bundle.json"
+MALE_REPORT = REPO / "data" / "derived" / "Q168_zan_to_vhm.json"
+TARGETS = {"vhf": (FEMALE_BUNDLE_JSON, DEFAULT_REPORT), "vhm": (MALE_BUNDLE_JSON, MALE_REPORT)}
 VH_DIR = REPO / "build" / "vh"
 
 SOFTEN_MM = 8.0            # Q147 / cross_subject_transfer
@@ -359,7 +365,8 @@ def sim_scale(A: np.ndarray) -> float:
 # ---------------------------------------------------------------- data loading
 def her_subject_order(bundle_json: Path = FEMALE_BUNDLE_JSON) -> list[str]:
     b = json.loads(Path(bundle_json).read_text())
-    return [s for s in b["subject"].split("+") if not s.startswith(("xfer_", "zanatomy", "zan_"))]
+    # ct_s1159*: a different (TotalSegmentator sample) body placed into the male viewer -- never his own
+    return [s for s in b["subject"].split("+") if not s.startswith(("xfer_", "zanatomy", "zan_", "ct_s1159"))]
 
 
 def load_her_meshes(order: list[str] | None = None, vh_dir: Path = VH_DIR, bundle_json: Path = FEMALE_BUNDLE_JSON):
@@ -1049,12 +1056,16 @@ SOURCE = ("Q168 (2026-09-29): derived by scripts/transfer/zan_to_vhf_whole_body.
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--report", default=str(DEFAULT_REPORT))
+    ap.add_argument("--target", choices=sorted(TARGETS), default="vhf",
+                    help="whose own skeleton: vhf (her, default) or vhm (him; Q62 step 7b)")
+    ap.add_argument("--report", default=None, help="default: Q168_zan_to_vhf.json / Q168_zan_to_vhm.json")
     ap.add_argument("--png", default=None, help="quick-check render (default: no render)")
     ap.add_argument("--items-cache", default=None, help="pickle of collect_zan() output (speeds reruns)")
     ap.add_argument("--joint-anchors", action="store_true",
                     help="anchor FOV-cut radius/ulna at the elbow to the humerus fit (comparison run; worse)")
     a = ap.parse_args(argv)
+    bundle_json, default_report = TARGETS[a.target]
+    a.report = a.report or str(default_report)
     t0 = time.time()
     if a.items_cache and Path(a.items_cache).exists():
         import pickle
@@ -1065,14 +1076,14 @@ def main(argv=None) -> int:
             import pickle
             Path(a.items_cache).write_bytes(pickle.dumps(items, protocol=4))
     print(f"collected {len(items)} Z-Anatomy meshes ({time.time() - t0:.0f} s)")
-    her = load_her_meshes()
-    print(f"her own meshes: {len(her)}")
+    her = load_her_meshes(bundle_json=bundle_json)
+    print(f"{a.target} own meshes: {len(her)}")
     zan = {it["mesh_id"]: it for it in items}
     if a.joint_anchors:
         JOINT_PARENT.update(JOINT_PARENT_OPTION)
     fits = fit_units(zan, her)
     xf = ZanToVhf(fits, {k: zan[k]["v"] for k in zan})
-    keep = [it for it in items if it["mesh_id"] not in MALE_ONLY_IDS]
+    keep = [it for it in items if a.target == "vhm" or it["mesh_id"] not in MALE_ONLY_IDS]
     t1 = time.time()
     out_v = {it["mesh_id"]: xf(it["mesh_id"], it["cat"], it["v"]) for it in keep}
     t_xf = time.time() - t1
@@ -1093,7 +1104,8 @@ def main(argv=None) -> int:
                    "piece_guard": {"max_move_mm": PIECE_MAX_MOVE_MM, "max_rot_deg": PIECE_MAX_ROT_DEG},
                    "limb_gate": "upper-limb structures never take lower-limb bones and vice versa; trunk "
                                 "structures never take radius/ulna/hand bones"},
-        "her_subjects": her_subject_order(),
+        "target": a.target, "target_bundle": str(Path(bundle_json).relative_to(REPO)),
+        "her_subjects": her_subject_order(bundle_json),
         "bone_fit_summary": {"units_fitted": len(fitted), "residual_median_mm": round(float(np.median(res)), 2),
                              "residual_max_mm": round(float(res.max()), 2),
                              "over_5mm": sorted(u for u, fr in fitted.items() if fr["residual_mm"] > 5)},
@@ -1104,8 +1116,8 @@ def main(argv=None) -> int:
         "continuity": cont,
         "runtime_s": {"transform_all": round(t_xf, 1), "meshes": len(out_v),
                       "vertices": int(sum(len(v) for v in out_v.values()))},
-        "male_only_excluded": MALE_ONLY,
-        "female_pelvic_organs": FEMALE_PELVIC_ORGANS,
+        "male_only_excluded": MALE_ONLY if a.target == "vhf" else {},
+        "female_pelvic_organs": FEMALE_PELVIC_ORGANS if a.target == "vhf" else None,
         "png": png,
         "per_structure_centroid_mm": {k: round(r["centroid_mm"], 1) for k, r in sorted(rows.items())},
         "badge_note": "per_structure_centroid_mm is measured (her own mesh exists; centroid distance is inflated "

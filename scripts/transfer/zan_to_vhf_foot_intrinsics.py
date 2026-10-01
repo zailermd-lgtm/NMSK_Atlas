@@ -19,11 +19,15 @@ Only ids with NO mesh in her bundle yet are built (SKIP_EXISTING). Non-commercia
 (xfer_ prefix: never counted as her own mesh by Q168's validation), report data/derived/Q62s5_vhf_foot_intrinsics.json.
 
     python3 scripts/transfer/zan_to_vhf_foot_intrinsics.py [--out build/vh/xfer_zan2vhf_foot] [--dry]
+Q62 step 7b: `--target vhm` = the same on the VH MALE (Q168 fits onto his skeleton, data/derived/Q168_zan_to_vhm.json):
+only the ids his bundle lacks (lumbricals_foot r/l), overlap against his existing foot intrinsics (xfer_zan2vhm_limb)
+-> xfer_zan2vhm_foot, data/derived/Q62s7b_vhm_foot_lumbricals.json. Her output is unchanged.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -77,8 +81,33 @@ PLANTAR = {"abductor_hallucis", "flexor_digitorum_brevis", "abductor_digiti_mini
            "plantar_interossei", "dorsal_interossei_foot"}
 
 
-def targets() -> list[str]:
-    return [a for a in ZAN_ID if a not in SKIP_EXISTING]
+TARGETS = {"vhf": {"subject": SUBJECT, "report": REPORT, "bundle": Z.FEMALE_BUNDLE_JSON, "q168": Z.DEFAULT_REPORT},
+           "vhm": {"subject": "xfer_zan2vhm_foot", "report": REPO / "data" / "derived" / "Q62s7b_vhm_foot_lumbricals.json",
+                   "bundle": Z.MALE_BUNDLE_JSON, "q168": Z.MALE_REPORT}}
+
+
+def his(text, target: str = "vhf"):
+    """her -> his for the male run (identity for her)"""
+    if target == "vhf":
+        return text
+    for a, b in ((r"segmented from her\b", "segmented from him"), (r"\bher\b", "his"), (r"\bshe\b", "he"), (r"Q62 step 5", "Q62 step 7b"),
+                 (r"zanatomy -> vhf", "zanatomy -> vhm"), (r"VH female", "VH male")):
+        text = re.sub(a, b, text)
+    return text
+
+
+def skip_existing(target: str = "vhf") -> set:
+    """ids already meshed in the target's bundle (hers: the fixed Q147 list; his: read from his bundle)"""
+    if target == "vhf":
+        return SKIP_EXISTING
+    b = json.loads(Path(TARGETS[target]["bundle"]).read_text())
+    have = {e["id"] for e in b["structures"] if e["subject"] != TARGETS[target]["subject"]}
+    return {a for a in ZAN_ID if a in have}
+
+
+def targets(target: str = "vhf") -> list[str]:
+    skip = skip_existing(target)
+    return [a for a in ZAN_ID if a not in skip]
 
 
 def piece_residual(fits: dict, piece: str) -> float | None:
@@ -177,22 +206,33 @@ def voxel_volume_cm3(v: np.ndarray, f: np.ndarray, pitch: float = 0.5) -> float:
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--out", default=str(REPO / "build" / "vh" / SUBJECT))
-    ap.add_argument("--report", default=str(REPORT))
+    ap.add_argument("--target", choices=sorted(TARGETS), default="vhf", help="vhf (her) or vhm (him, Q62 step 7b)")
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--report", default=None)
     ap.add_argument("--dry", action="store_true", help="measure and report only; write no subject")
     a = ap.parse_args(argv)
+    T = a.target; cfg = TARGETS[T]
+    a.out = a.out or str(REPO / "build" / "vh" / cfg["subject"])
+    a.report = a.report or str(cfg["report"])
+    SKIP = skip_existing(T)
 
-    tg = targets()
-    rep168 = json.loads(Path(Z.DEFAULT_REPORT).read_text())
+    tg = targets(T)
+    rep168 = json.loads(Path(cfg["q168"]).read_text())
     fits = Z.fits_from_json(rep168["bone_fits"])
     need = {p for fr in fits.values() if fr.get("status") == "fitted" for p in fr["pieces"]}
     items = {it["mesh_id"]: it for it in Z.collect_zan(ids={ZAN_ID[t] for t in tg} | need)}
-    xf = Z.load_zan_to_vhf(zan_meshes=items)
-    her = Z.load_her_meshes()
+    xf = Z.load_zan_to_vhf(zan_meshes=items, report_path=cfg["q168"])
+    her = Z.load_her_meshes(bundle_json=cfg["bundle"])
     skin = her["skin"]; skin_mesh = trimesh.Trimesh(skin["v"], skin["f"], process=False)
     bones = {s: {b: trimesh.Trimesh(her[f"{b}_{s}"]["v"], her[f"{b}_{s}"]["f"], process=False)
                  for b in FOOT_BONES if f"{b}_{s}" in her} for s in "rl"}
-    existing = Z.load_her_meshes(order=["xfer_zan2vhf_limb"])
+    if T == "vhf":
+        existing = Z.load_her_meshes(order=["xfer_zan2vhf_limb"])
+    else:   # his existing foot intrinsics, from whichever subject his bundle takes them
+        bj = json.loads(Path(cfg["bundle"]).read_text())
+        existing = Z.load_her_meshes(order=[x for x in bj["subject"].split("+") if x != cfg["subject"]],
+                                     bundle_json=cfg["bundle"])
+        existing = {k: m for k, m in existing.items() if k in SKIP}
 
     rows, out_mesh, dropped = {}, {}, {}
     for aid in tg:
@@ -231,7 +271,7 @@ def main(argv=None) -> int:
         elif ride["weighted_median_fit_mm"] > MAX_BONE_FIT_MM:
             why = f"foot bones it rides on fit her CT at {ride['weighted_median_fit_mm']} mm (> {MAX_BONE_FIT_MM} mm)"
         if why:
-            row["dropped"] = why; dropped[aid] = why; rows[aid] = row; continue
+            why = his(why, T); row["dropped"] = why; dropped[aid] = why; rows[aid] = row; continue
         nv3, n_clip = pull_inside_skin(nv2, skin_mesh)
         in_bone2 = np.zeros(len(nv3), bool)
         for m in bones[side].values():
@@ -250,7 +290,7 @@ def main(argv=None) -> int:
     # gate 3: muscle-to-muscle overlap (vertices of A inside B), same side, new + her existing foot intrinsics
     pool = {k: (v[0], v[1]) for k, v in out_mesh.items()}
     for k in ZAN_ID:
-        if k in SKIP_EXISTING and k in existing:
+        if k in SKIP and k in existing:
             pool[k] = (existing[k]["v"], existing[k]["f"])
     tm = {k: trimesh.Trimesh(v, f, process=False) for k, (v, f) in pool.items()}
     for aid in out_mesh:
@@ -267,15 +307,15 @@ def main(argv=None) -> int:
         if rows[aid]["overlap_frac_total"] > MAX_OVERLAP:
             why = (f"{rows[aid]['overlap_frac_total']:.1%} of vertices inside other foot muscles (> {MAX_OVERLAP:.0%}; "
                    f"mostly {next(iter(rows[aid]['overlap_frac_inside_other']))})")
-            rows[aid]["dropped"] = why; dropped[aid] = why; del out_mesh[aid]
+            why = his(why, T); rows[aid]["dropped"] = why; dropped[aid] = why; del out_mesh[aid]
     # per-foot volume totals (this subject + her existing xfer_zan2vhf_limb foot intrinsics)
     totals = {}
     for s in "rl":
         new = sum(rows[a]["volume_cm3"] for a in out_mesh if a[-1] == s)
-        old = sum(voxel_volume_cm3(existing[k]["v"], existing[k]["f"]) for k in SKIP_EXISTING
+        old = sum(voxel_volume_cm3(existing[k]["v"], existing[k]["f"]) for k in SKIP
                   if k[-1] == s and k in existing)
         pl = sum(rows[a]["volume_cm3"] for a in out_mesh if a[-1] == s and a[:-2] in PLANTAR) + sum(
-            voxel_volume_cm3(existing[k]["v"], existing[k]["f"]) for k in SKIP_EXISTING
+            voxel_volume_cm3(existing[k]["v"], existing[k]["f"]) for k in SKIP
             if k[-1] == s and k in existing and k[:-2] in PLANTAR)
         totals[s] = {"new_cm3": round(new, 1), "existing_cm3": round(old, 1), "all_cm3": round(new + old, 1),
                      "plantar_cm3": round(pl, 1)}
@@ -290,17 +330,20 @@ def main(argv=None) -> int:
                       f"{rd['weighted_median_fit_mm']:.1f} mm median surface residual (worst of them {rd['max_fit_mm']:.1f} mm). "
                       f"Volume {r['volume_cm3']:.1f} cm3; {r['pushed_off_bone']} vertices pushed off her bones, "
                       f"{r['clipped_to_skin']} clipped to her skin.")
+        r["badge"] = his(r["badge"], T)
 
     shipped = sorted(out_mesh)
-    summary = {"shipped": shipped, "dropped": dropped, "skipped_existing": sorted(SKIP_EXISTING),
+    summary = {"shipped": shipped, "dropped": dropped, "skipped_existing": sorted(SKIP),
                "n_shipped": len(shipped), "volume_totals_per_foot": totals}
     doc = {"source": "Q62 step 5 (scripts/transfer/zan_to_vhf_foot_intrinsics.py): Z-Anatomy foot intrinsic muscles "
                      "(CC BY-SA 4.0) carried onto the VH female's own foot bones by the Q168 per-bone fits "
                      "(data/derived/Q168_zan_to_vhf.json).",
+           **({"target": "vhm", "q168_report": str(Path(cfg["q168"]).relative_to(REPO))} if T == "vhm" else {}),
            "gates": {"max_inside_bone_frac": MAX_INSIDE_BONE, "max_outside_skin_preclip_frac": MAX_OUTSIDE_SKIN_PRECLIP,
                      "max_bone_fit_mm": MAX_BONE_FIT_MM,
                      "max_overlap_frac": MAX_OVERLAP, "push_bound_mm": PUSH_BOUND_MM},
            "summary": summary, "published_volumes": PUBLISHED, "published_note": PUBLISHED_NOTE, "rows": rows}
+    doc["source"] = his(doc["source"], T).replace("Q168_zan_to_vhf.json", Path(cfg["q168"]).name)
     Path(a.report).write_text(json.dumps(doc, indent=1))
     print(f"report {a.report}: shipped {len(shipped)}, dropped {sorted(dropped)}")
     if a.dry or not shipped:
@@ -317,7 +360,7 @@ def main(argv=None) -> int:
                         "bbox_min_mm": [round(float(x), 4) for x in v32.min(0)],
                         "bbox_max_mm": [round(float(x), 4) for x in v32.max(0)],
                         "procedural_badge": rows[aid]["badge"],
-                        "transfer": {"from": "zanatomy", "method": "Q168 per-bone fit (zan_to_vhf_whole_body)",
+                        "transfer": {"from": "zanatomy", "method": "Q168 per-bone fit (zan_to_vhf_whole_body" + (" --target vhm" if T == "vhm" else "") + ")",
                                      "rides_on": rows[aid]["rides_on"]["bones"][:3]}})
         verts.append(v32); faces.append((f + voff).astype(np.uint32)); voff += len(v32); foff += len(f)
     V = np.concatenate(verts); F = np.concatenate(faces)
@@ -331,8 +374,10 @@ def main(argv=None) -> int:
         "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by "
         "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. "
         "Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike)."]
+    attribution = [his(x, T).replace("Q62s5_vhf_foot_intrinsics.json", Path(a.report).name) if T == "vhm" else x
+                   for x in attribution]
     man = {"subject": out.name, "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
-           "source_volume": None, "source_kind": "cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)",
+           "source_volume": None, "source_kind": his("cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)", T),
            "vertex_count": int(len(V)), "triangle_count": int(len(F)),
            "bbox_min_mm": [round(float(x), 4) for x in V.min(0)], "bbox_max_mm": [round(float(x), 4) for x in V.max(0)],
            "attribution": attribution, "license": "CC-BY-SA-4.0", "structures": structs}

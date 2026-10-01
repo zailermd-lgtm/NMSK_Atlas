@@ -248,6 +248,17 @@ for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp 
 [ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
 [ -f build/vh/ct_vhm_sciatic/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_sciatic"   # Q57 + Q173 registration (id unique; listed last)
 for s in ct_vhm_femoral ct_vhm_popliteal; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done   # Q174 (ids unique; listed last)
+# Q62 step 7b: head / neck / larynx muscles (+ foot lumbricals) he had no mesh for, Z-Anatomy carried by the Q168
+# per-bone fits onto HIS skeleton (data/derived/Q168_zan_to_vhm.json, `zan_to_vhf_whole_body.py --target vhm`; larynx
+# refitted onto his CT thyroid + cricoid cartilages), same gates as her Q62 steps 5/7 (zan_to_vhf_head_neck.py /
+# zan_to_vhf_foot_intrinsics.py --target vhm; reports data/derived/Q62s7b_vhm_*.json). Ids unique; listed last.
+if [ -d build/zanatomy ] && [ -f build/vh/ct_vhm_skin/manifest.json ] && [ -f build/viewer_m_hr/bundle.json ]; then
+  [ -f build/vh/xfer_zan2vhm_head/manifest.json ] || python3 scripts/transfer/zan_to_vhf_head_neck.py --target vhm 2>&1 | grep -v Deprec | tail -2
+  # foot lumbricals r/l: both HELD 2026-10-01 (12.6/18.8 % inside his adductor hallucis) -> no subject; rerun only
+  # when its report is absent (delete data/derived/Q62s7b_vhm_foot_lumbricals.json to retry)
+  [ -f build/vh/xfer_zan2vhm_foot/manifest.json ] || [ -f data/derived/Q62s7b_vhm_foot_lumbricals.json ] || python3 scripts/transfer/zan_to_vhf_foot_intrinsics.py --target vhm 2>&1 | grep -v Deprec | tail -2
+fi
+for s in xfer_zan2vhm_head xfer_zan2vhm_foot; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done
 # Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
 # steps above still read build/viewer_m as their input bundle, unchanged
 OUT=${VHM_OUT:-build/viewer_m}; mkdir -p "$OUT"

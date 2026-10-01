@@ -10286,3 +10286,45 @@ the female's phalanges are under-captured at HU 200.
 
 
 - Main session after Q62 step 7 (2026-10-01): added a SIZE CAVEAT to badges whose volume is >1.5x a published value (orbicularis_oculi_r 2.2x, procerus 15.8x vs Volk 2014) in zan_to_vhf_head_neck.py; regenerated subject + bundle (455 structures, 3.32 M tris), head tests 3 pass; female viewer republished v55, hub v10.
+## Q62 step 7b (2026-10-01) -- HIS head / neck / larynx muscles TRANSFERRED from Z-Anatomy (Q168 route onto HIS skeleton) -- SHIPPED 20, HELD 40 (+ lumbricals_foot r/l HELD)
+- Route: no zan2vhm whole-body fit existed (xfer_zan2vhm_limb is the Q147 limb-only route), so the scripts were PARAMETERISED, not
+  copied: `zan_to_vhf_whole_body.py --target vhm` (Q168 per-bone fit onto his own bundle bones; report data/derived/Q168_zan_to_vhm.json:
+  52 units, residual median 1.92 mm, >5 mm: ribs r/l 6.7, phalanges_hand r/l 5.5-5.6; cranium 3.67 / mandible 1.98 / hyoid 1.03 /
+  C-spine 1.62 mm; body scale 1.058; forearm proxy auto-unpaired (his radius/ulna have CT); ct_s1159* now excluded as "own"),
+  `zan_to_vhf_head_neck.py --target vhm` -> subject `build/vh/xfer_zan2vhm_head`, report data/derived/Q62s7b_vhm_head_neck.json,
+  `zan_to_vhf_foot_intrinsics.py --target vhm` -> report data/derived/Q62s7b_vhm_foot_lumbricals.json (no subject). Female paths are
+  identity (pron()/his() only rewrite text for vhm): her head + foot re-run to scratch gave byte-identical vertices/faces/manifests
+  (only the subject name from --out) and identical reports except one HELD row's contains() jitter (splenius_cervicis_r 6.26 vs 6.21 %).
+- His-specific inputs: platysma r/l added to his targets (he lacks it; 60 targets, SPC already his). His CT HU re-acquired (IDC
+  5d409385, 444 MB, deleted after) and resampled onto vhm_total's grid by `--stack-ct DICOM_DIR` -> scratch vh_idc/nii/vhm_torso_0937.nii.gz
+  (trachea label reads -913 HU median); airway = larynx_air + trachea + CT < -400 HU above his lungs (slices >= 552): 154.7 cm3.
+  His bundle skull/mandible/spine/girdle/ribs are recovered decimated meshes (cranium 5.6 k v, 1405 pieces, NOT watertight ->
+  contains() unreliable: nasalis_l read 4.8 vs 6.5 % on the same vertices) -> bone gates + local carrier error use the same bones
+  re-meshed from his CT labels (`ct_bones`: craniofacial 3/1, total 32-50, 71-74, 92-116; bundle->label 0.24-0.35 mm median).
+  Larynx: Q168 carries Z thyroid+cricoid 7.42 mm (p90 15.1) from his CT cartilages; the similarity refit wanted scale 1.255 (> 1.25
+  guard; his TS cartilage labels are 8.1/3.78 cm3 = 1.7-1.9x Z-Anatomy's) -> new fallback in larynx_refit: rigid refit, same
+  rotation guard (10.2 deg) -> 2.05 mm (p90 6.32); never reached for her (her similarity was accepted).
+- Carriers (local, pooled): facial 1.71 (p90 3.84), pharynx 1.45, strap 2.30 (p90 11.9), larynx 1.28 (p90 3.90), deep neck 2.12 mm ->
+  no group held; omohyoid r/l held at 4.06/4.16 mm local.
+- Gates (shipped): skin 0.0 % outside before and after (facial sheets 11.6-18.7 mm median under his skin, same caveat as hers); bone
+  0-20.9 % before -> push (<=3 mm) -> max 4.6 %; air max 0.9 %; overlap (his muscles/organs + excess over Z-Anatomy) max 9.0 %; fix
+  move max 4.0 mm.
+- SHIPPED 20: facial 10 (DLI r/l, depressor septi nasi r/l, LAO r/l, orbicularis oris r/l, zyg. major_r, zyg. minor_r); larynx 5 (LCA
+  r/l, thyroarytenoid_l, oblique arytenoid_l, transverse arytenoid); strap 1 (stylohyoid_r); deep neck 4 (RCA r/l, RC lateralis r/l).
+  HELD 40: facial 19 (frontalis, LLS, nasalis, orbicularis oculi_r in sinus/nasal air 6.8-26 %; DAO, zyg. major_l/minor_l, procerus,
+  orbicularis oculi_l 5.1-22 % still in bone; mentalis volume kept 54/66 %; risorius 25/50 % in his masseter; platysma 17/21 % in
+  his SCM); pharynx all 4 built (palatopharyngeus/stylopharyngeus in his longus colli/capitis or air) + SPC r/l already his; strap 5;
+  larynx 6 (cricothyroid 17-19 % air, PCA 23-36 % in his inferior constrictor, TA_r 5.5 % / OA_r 25.7 % air); deep neck 4 (splenius
+  capitis 6.8-7.1 % bone, splenius cervicis 56-60 % in his multifidus). Foot lumbricals r/l: carrier 1.30/1.11 mm, bone 0/1.9 %, skin
+  0 %, but 18.8/12.6 % inside his adductor hallucis (xfer_zan2vhm_limb) -> HELD (her lumbricals_r held the same way).
+- Volumes (cm3, Z-Anatomy source in brackets): shipped total 23.5 (20.3); orbicularis oris 5.34/5.27 (4.20), DLI 1.91/1.94 (1.53),
+  stylohyoid_r 1.80 (1.30), zyg. major_r 1.48 (1.28), TA_l 0.66 (0.62). SIZE CAVEAT: none triggered (the only published values, Volk
+  2014 orbicularis oculi/procerus, are for held muscles; her_own cryo comparisons dropped for him).
+- Bundle (VHM_OUT=build/viewer_m_hr): 441 -> 461 structure records (406 -> 426 ids; +20, all xfer_zan2vhm_head; every old record
+  identical id/subject/nf/nv), 2,249,013 -> 2,270,521 tris (source 21,174,308 -> 21,195,816); subject 20 / 10,787 v / 21,508 tris (full
+  res). Headless Chromium (swiftshader): "Search 461 structures", no page errors, Cricoarytenoideus lateralis card shows the Q62 step
+  7b badge. build/viewer_f_hr md5-identical. Tests: test_zan_to_vhm_head_neck.py (new, 3), head/foot/whole-body (17) pass. Wired in
+  vhm_rebuild_bundle.sh (last; foot reruns only if its report is absent). Montage scratch q62s7b/montage_head.png, viewer_lca.png.
+  Not published; hub card not updated.
+- Next: his facial holds are mostly sinus/nasal AIR (his CT shows the air; hers was similar) and bone at the thin-sheet attachments;
+  a facial refit against his CT soft tissue would be needed.
