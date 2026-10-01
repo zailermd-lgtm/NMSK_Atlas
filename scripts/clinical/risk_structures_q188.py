@@ -163,9 +163,11 @@ def calibre_radius(pos: np.ndarray, idx: np.ndarray, n_rays: int = 300) -> tuple
 
 
 # ---------------------------------------------------------------- main
-def build(viewer: str, table: dict | None = None) -> dict:
+def build(viewer: str, table: dict | None = None, source: Path | None = None) -> dict:
     table = table or load_risk_table()
-    cfg = VIEWERS[viewer]
+    cfg = dict(VIEWERS[viewer])
+    if source:                                   # another build of the same viewer (bundle dir or Z-Anatomy page)
+        cfg["dir" if cfg["kind"] == "bundle" else "html"] = Path(source)
     structs, frame = load_bundle(cfg["dir"]) if cfg["kind"] == "bundle" else load_zan(cfg["html"])
     halo = {k for k, v in table["classes"].items() if v.get("halo")}
     groups: dict[str, dict] = {}
@@ -200,12 +202,13 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--viewer", default="all", choices=["all", *VIEWERS])
     ap.add_argument("--out-dir", default=str(REPO / "clinical" / "data"))
+    ap.add_argument("--source", help="single viewer only: its bundle dir or Z-Anatomy page, instead of the default build")
     a = ap.parse_args(argv)
     out = Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     table = load_risk_table()
     for v in (VIEWERS if a.viewer == "all" else [a.viewer]):
-        doc = build(v, table)
+        doc = build(v, table, Path(a.source) if a.source and a.viewer != "all" else None)
         p = out / f"risk_{v}.json"
         p.write_text(json.dumps(doc, indent=0, separators=(",", ":")) + "\n", encoding="utf-8")
         meth = {}

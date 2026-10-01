@@ -10895,3 +10895,101 @@ published geometry: own bundles' JSON from the HTML + bundle.bin; Z-Anatomy mani
   the coverage file). Renders: scratchpad q187/q187_<viewer>_r.png (biceps, deltoid, gastrocnemius, TA, FCR, BF).
 - [ ] Next: UI agent wires the json; owner to review the sector rule for single-mesh multi-head muscles (triceps,
   gastrocnemius, soleus, deltoid in own bodies) and decide whether review-sourced (Diaconu) points stay.
+
+## Q188
+
+Q188 (2026-10-01, owner requests 2-6: needle penetration in the Z-Anatomy viewers too; a 3-D needle
+whose in-tissue part is "a bit less visible"; deep targets through a cutout or by direction + length;
+motor points as targets; risk halos + safer pathways). A PRIVATE clinical needle add-on shared by all
+four viewers. Not published (no artifact touched).
+
+**Licensing layout.** Private (owner's clinical layer, `clinical/LICENSE_PRIVATE.md`, not CC BY-SA, not for
+redistribution; it references the anatomy layer and contains no geometry): `clinical/needle_tool.js`,
+`clinical/data/risk_{vhm,vhf,zan_m,zan_f}.json`, `clinical/data/motor_points.json` (Q187 agent),
+`scripts/clinical/risk_structures_q188.py`, `scripts/clinical/stage_clinical_files.py`,
+`tests/fixtures/q188_motor_points_fixture.json` (synthetic, labelled FIXTURE, never shipped). Anatomy layer
+(CC BY-SA where Z-Anatomy-derived) keeps only a generic hook: `viewer/atlas_viewer.template.html` and
+`viewer/zan_atlas.template.html` load `<script src="clinical_needle_tool.js">` if present and hand
+`window.NMSKClinical.attach()` an anatomy API (list/visible/geometry/pick/ray/view/toScreen/cut/setCut/focus/
+redraw/setOpacityOverride/categoryOn/setCategoryOn/setClickHandler/onChange/catColor + three.js scene objects,
+or for the raw-WebGL Z-Anatomy page `webgl.onAfterDraw`/`drawStructure`). Without the file both pages are
+plain atlases (verified: no needle button, 0 page errors). The old in-template needle tool (Q58) moved into the
+add-on unchanged in behaviour; the "needle" button of the nerve course table only appears with the add-on.
+General anatomy viewing added to the templates: a Cut plane (specimen viewers: new Cut tool -- sagittal/axial/
+coronal/facing-me, movable, flip; Z-Anatomy: its existing cut gained "facing me"); picking ignores the removed half.
+Z-Anatomy page keeps its quantised geometry in memory only when the add-on is present (CPU picking/rays).
+
+**Features (clinical/needle_tool.js).** (1) 3-D needle: lit Phong steel shaft with an oblique bevel at the tip,
+a tapered hub at the shaft start (hub sits `needle length - path length` outside the entry, at the entry in
+direction mode), real geometry in the perspective scene (nearer = larger: measured 6.2 px vs 4.2 px radius for
+the tip 160 mm vs entry 243 mm from the eye), the part beyond the entry drawn depth-tested plus a 30 % see-through
+pass (no depth test) so it stays findable. (2) Modes: entry -> target (old behaviour; regression on the old
+harness cases, vhm 3 + vhf 5: identical crossings/depths, length diff 7e-15 mm); entry + direction + length
+(direction = inward skin normal tilted by tilt/azimuth degrees, or "use view axis"; length slider 5-200 mm;
+the tip is the target and the report says what it lands in); target first (click a cut face -- a click whose
+ray meets the cut plane before any surface and inside a structure picks the point ON the face; or a motor
+point), then entry / "Shortest entry" / safer pathways. Plus "Zoom to target", "Cut through target" (view-facing
+cut through the target). (3) Motor points: `clinical_motor_points.json` (schema nmsk.motor_points.v1, keyed by
+viewer); "Emphasize motor points" = glowing magenta cores (depth-tested + see-through) and translucent
+uncertainty spheres (radius = uncertainty_mm), muscles at 35 % opacity, hover tooltip (muscle, nerve, citation,
+badge); text search over muscle/structure/nerve names or a click on a marker makes it the needle target. No
+file / no points for the viewer -> "no motor-point data loaded"; nothing is invented. (4) Risk halos + safer
+pathways (below). (5) Persistent disclaimer at the top of the panel.
+
+**Risk classes** (table `RISK_TABLE` in the add-on, strict JSON between markers, parsed by the Python script so
+both agree; first rule wins on the viewer category + optional Z-Anatomy vein flag + regex on "name id"):
+artery (vessel default, incl. heart), vein (vt=v, vein/vena/_v_/jugular/azygos/portal/sinus/plexus, thoracic
+duct), nerve (nerve system; cns spinal cord/cauda/roots/dura), pleura/lung/airway (lung/pleura/bronch/trachea in
+viscera/organ), other organ (remaining viscera/organ and brain/eye), bone (not haloed; blocks a straight
+path). Counts: vhm 33, vhf 31, zan_m 1325, zan_f 1300 risk structures. **Calibre**
+(`risk_structures_q188.py`): shape-diameter function -- <=300 vertices per structure cast a ray along the inward
+normal (outward side from the signed volume) to the opposite wall; radius = median/2, capped at half the smallest
+bbox extent; fallback |2V/A| then bbox. Measurements only, no geometry, in the risk files (4 KB / 186 KB).
+
+**Halo formula** (heuristic planning margin, exposed and editable in the panel):
+`r = clamp( m_type * ( b0 * clamp((r_cal/3)^p, 0.5, 3) + k * L ), 2, 50 ) mm`, b0 = 4, p = 0.5, k = 0.035
+(~ lateral miss of a 2 degree aiming error per mm of insertion), m: artery 1.0, pleura/lung 1.0, nerve 0.9,
+organ 0.8, vein 0.6; L = current trajectory length, else the needle length. Halo = the structure's own viewing
+mesh re-drawn inflated along its vertex normals by r (sign from the mesh's signed volume), translucent, colour by
+class (artery red, vein blue, nerve yellow, pleura/lung cyan, other organ purple; legend in the panel), clipped by
+the cut. Halo mode switches vessel/nerve/organ systems on and makes every other system 50-95 % transparent (slider).
+
+**Safer pathways.** For the target: 720 Fibonacci-sphere directions; per direction the entry is the first skin
+crossing (specimen viewers) or the outermost model surface (Z-Anatomy has no skin) within the needle length;
+entries with body again within 30 mm outside the entry are "obstructed". Per path: clearance to every risk
+structure from its surface vertices thinned to one per 2.5 mm voxel in a uniform point grid (8 mm cells, capsule
+query), minus half the spacing; bone crossing by a triangle grid (10 mm cells, Amanatides-Woo). Colour: green =
+outside every halo, amber = inside a halo but clear, red = touches (<= 0.75 mm) a risk structure / crosses bone /
+obstructed. Cost = 0.004 L + sum w*exp(-margin/6) (+ penalties) ranks the best 3, drawn faintly; clicking an entry
+dot, a faint line or "use" adopts it. The target's own structure is not scored. The region (surfaces, bone, risk
+samples) is built once per target and reused. Timing (compute only, headless swiftshader box, real motor points): vhm 51-69 ms,
+vhf 85-184 ms, zan_m 155-209 ms, zan_f 160-215 ms; largest = Z-Anatomy female sciatic target, 211,925 triangles,
+14,202 risk samples from 105 structures: region 157 ms + 720 paths 58 ms.
+
+**Stage / publish.** `python3 scripts/clinical/stage_clinical_files.py --all` (or a build dir) copies, next to
+each page, `clinical_needle_tool.js` (<- clinical/needle_tool.js), `clinical_risk.json` (<-
+clinical/data/risk_<viewer>.json) and `clinical_motor_points.json` (<- clinical/data/motor_points.json, skipped
+and any stale copy removed if absent); `--remove` restores an anatomy-only build. Dirs: build/viewer_m_hr (vhm),
+build/viewer_f_hr (vhf), build/viewer_zan_atlas (zan_m), build/viewer_zan_female (zan_f). Publish = add those
+three files to the artifact `files` with the page and its geo .txt files. Specimen page HTML rebuilt with
+build_viewer_html.py --external-bin (geometry files byte-identical, md5 checked). Z-Anatomy: verification builds
+with the unchanged build command into build/viewer_zan_atlas_q188 and build/viewer_zan_female_q188 (`-o`, reports to
+scratch; `--viewer zan_m|zan_f` when staging there). The main session does the final Z-Anatomy build into the real
+dirs (it picks up the template hook). NOTE: two early Q188 runs of that build (16:2x-17:0x) wrote the real
+build/viewer_zan_atlas, build/viewer_zan_female and data/derived/Q157_zan_atlas_report.json /
+Q162_gap_closure_contralateral.json / Q168_zan_female_{build,report}.json with the then-current (Q186 WIP) script;
+those dirs need the main session's final rebuild. `risk_structures_q188.py --viewer zan_m --source <page>` regenerates
+a risk file from another build.
+
+**Verification** (Chromium + swiftshader, scratchpad q188/): all four viewers 0 page errors with and without the
+add-on files; modes a/b/c, motor points (Q187's real file: search -> target, hover tooltip, marker click; and the fixture), halos and safer pathways on a sciatic target and a forearm
+motor point; phone width (390 px) usable. Tests: `tests/test_clinical_q188.py` (classification JS==Python,
+halo formula properties, path colours, calibre of a known tube, staging, templates carry only a generic hook);
+`tests/test_viewer_template.py` needle tests now check the add-on.
+
+**Open issues.** Halo is a mesh inflation, so open tubes bulge at their ends and inverted/open meshes rely
+on the signed-volume sign; Z-Anatomy has no skin or fat, so its entries/depths are on the outermost model surface
+(real depth greater) and an entry beyond an air gap (e.g. between the thighs) is not detected; calibres come from
+decimated viewing meshes (Z-Anatomy nerves are thin: radial nerve 0.3 mm radius); the halo formula and weights are
+the owner-tunable heuristic, not validated; safer-path scoring ignores tissue planes and fascia; needs owner review
+of the classification table (e.g. brain parts as "other organ").

@@ -983,14 +983,6 @@
 "rays_hit":298
 },
 {
-"id":"superior_phrenic_a_r",
-"name":"Superior phrenic artery (right)",
-"class":"vein",
-"r_mm":0.6,
-"r_method":"sdf",
-"rays_hit":297
-},
-{
 "id":"superior_sagittal_sinus",
 "name":"Superior sagittal sinus",
 "class":"vein",
@@ -2394,7 +2386,7 @@
 "id":"zan_central_canal",
 "name":"Central canal",
 "class":"nerve",
-"r_mm":0.87,
+"r_mm":0.19,
 "r_method":"sdf",
 "rays_hit":288
 },
@@ -2791,20 +2783,20 @@
 "rays_hit":286
 },
 {
-"id":"zan_common_plantar_digital_branches_of_medial_plantar_nerve",
-"name":"Common plantar digital branches of medial plantar nerve",
-"class":"nerve",
-"r_mm":0.5,
-"r_method":"sdf",
-"rays_hit":286
-},
-{
 "id":"zan_common_plantar_digital_branches_of_medial_plantar_nerve_l",
 "name":"Common plantar digital branches of medial plantar nerve",
 "class":"nerve",
 "r_mm":0.5,
 "r_method":"sdf",
 "rays_hit":285
+},
+{
+"id":"zan_common_plantar_digital_branches_of_medial_plantar_nerve_r",
+"name":"Common plantar digital branches of medial plantar nerve",
+"class":"nerve",
+"r_mm":0.5,
+"r_method":"sdf",
+"rays_hit":286
 },
 {
 "id":"zan_communicating_branch_of_median_nerve_with_ulnar_nerve_l",
@@ -3095,7 +3087,7 @@
 "rays_hit":298
 },
 {
-"id":"zan_descending_branch_of_lateral_circumflex_femoral_artery",
+"id":"zan_descending_branch_of_lateral_circumflex_femoral_artery_l",
 "name":"Descending branch of lateral circumflex femoral artery",
 "class":"artery",
 "r_mm":0.9,
@@ -3103,7 +3095,7 @@
 "rays_hit":297
 },
 {
-"id":"zan_descending_branch_of_lateral_circumflex_femoral_artery_l",
+"id":"zan_descending_branch_of_lateral_circumflex_femoral_artery_r",
 "name":"Descending branch of lateral circumflex femoral artery",
 "class":"artery",
 "r_mm":0.9,
@@ -8549,6 +8541,14 @@
 "r_mm":5.76,
 "r_method":"sdf",
 "rays_hit":141
+},
+{
+"id":"zan_right_superior_phrenic_vein_r",
+"name":"Right superior phrenic vein",
+"class":"vein",
+"r_mm":0.6,
+"r_method":"sdf",
+"rays_hit":297
 },
 {
 "id":"zan_right_superior_pulmonary_vein",
