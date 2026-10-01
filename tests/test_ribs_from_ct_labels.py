@@ -35,7 +35,7 @@ def test_merge_records_one_piece_per_side_contiguous_only():
 def test_rebuild_scripts_list_rib_subject_before_the_body_subject():
     m = (REPO / "scripts" / "vhm_rebuild_bundle.sh").read_text()
     f = (REPO / "scripts" / "cryo" / "vhf_rebuild_bundle.sh").read_text()
-    assert re.search(r"ct_vhm_ribs ct_vhm ", m) and "ribs_from_ct_labels.py build --body vhm" in m
+    assert re.search(r"ct_vhm_ribs (ct_vhm_ccart )?ct_vhm ", m) and "ribs_from_ct_labels.py build --body vhm" in m
     assert "--subject ct_vhf_ribs --subject ct_vhf " in f and "ribs_from_ct_labels.py build --body vhf" in f
 
 

@@ -241,7 +241,12 @@ done
 # Q182: his ribs_l / ribs_r re-surfaced from his own TS rib labels (scripts/ribs_from_ct_labels.py; no dilation, one
 # piece per side) replace the Q105/Q109 dilated voxel remesh ct_vhm carries (12-13 mm outside the labels). Listed before ct_vhm.
 [ -f build/vh/ct_vhm_ribs/manifest.json ] || python3 scripts/ribs_from_ct_labels.py build --body vhm | tail -1
-for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm_ribs ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+# Q183: his costal_cartilage_r / _l from HIS OWN TS label 117 (split at his sternum midline; same convert as Q182) replace
+# the ct_s1159 ones (another person's CT, 12-62 mm off his ribs). Listed before ct_s1159. The ct_s1159* records left (vessels,
+# quadratus lumborum: no usable source of his own) get a measured NOT-HIS-GEOMETRY badge from data/derived/Q183_vhm_foreign_audit.json.
+[ -f build/vh/ct_vhm_ccart/manifest.json ] || python3 scripts/costal_cartilage_from_ct_labels.py build | tail -1
+[ -f data/derived/Q183_vhm_foreign_audit.json ] && python3 scripts/costal_cartilage_from_ct_labels.py stamp
+for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm_ribs ct_vhm_ccart ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 # Q180 HELD (main session 2026-09-30): not shipped by default -- the seeded bellies drop the tendons the transferred
 # meshes carry, contact boundaries follow septa no better than Q165 (0.20-0.51), and 38/63 seeds are low confidence.
 # Set Q180_SHIP=1 to include it once the owner has reviewed/corrected the seeds on the click page.

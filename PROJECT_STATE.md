@@ -10430,3 +10430,36 @@ the female's phalanges are under-captured at HU 200.
 - Next: the held rib-borne muscles need the CT erector / external-intercostal meshes carved (overlap), and a pleura/lung
   margin for the innermost layer; costal cartilages are still absent from both bodies.
 - Main session (2026-10-01): Q182 published -- male v71 (463 / 2.17 M), female v56 (456 / 3.32 M), hub v12. Note: ribs now stop at the costal cartilages (not segmented) -- costal cartilage from a real source is a new queue item.
+
+## Q183 (2026-10-01) -- his costal cartilages rebuilt from HIS OWN CT label 117 -- SHIPPED (build/viewer_m_hr; not published)
+- WHAT ct_s1159 IS: TotalSegmentator dataset case s1159 (47 y FEMALE, contrast polytrauma CT, vertex to hip), chosen
+  2026-09-10 as the filler body of the early male viewer and placed in his frame by its OWN femoral-head origin fit (not
+  registered to him). His costal cartilages came from it because `mappings/subjects/ct_vhm_volume_mapping.json` nulled
+  his label 117 with the copy-pasted vessel note ("frozen, no contrast") -- wrong for cartilage; note corrected.
+- FIX: `scripts/costal_cartilage_from_ct_labels.py build` -> build/vh/ct_vhm_ccart: Q182 convert path on vhm_total label 117
+  (no dilation, --smooth 1.0, origin -6.035,-895.476,4.787), `midline` splitter at X=-5.8 mm from his sternum label
+  (94,793 / 92,174 voxels R/L), side set on the records. Listed after ct_vhm_ribs, before ct_vhm (and ct_s1159).
+- GATES (shipped meshes, data/derived/Q183_vhm_cartilage_audit.json; before = Q183_vhm_cartilage_audit_before.json):
+  R / L: rib 1-10 label -> cartilage contact 10/10 ribs at 0.0 mm (before 0/10, 10-52 mm); cartilage vertices within 3 mm of
+  his ribs 7.5 / 8.7 % (before 0 %; hers 6.4 / 5.8 %), min 0.0 / 0.1 mm (before 29.0 / 11.8, median 61.6 / 56.3); sternum min
+  0.0 / 0.1 mm (before 35.4 / 35.5); outside skin 0 %; in lung 0 % (label surface 0 %; before 6.1 / 1.4 %); mesh -> own label
+  median 0.22 mm, p90 0.47 (before 43-44 mm); volume 79.1 / 76.6 cm3 vs label 83.3 / 81.0 (0.95 / 0.95; before 35.6 / 40.6).
+  Hers (Q183_vhf_cartilage_audit.json, unchanged): 61.6 / 62.2 cm3, extent LR/SI/AP 130/286/63 mm vs his 128/311/103 (his
+  rib cage is 201 mm deep vs her 150 mm) -- consistent with a larger male. All gates pass.
+- AUDIT of the other non-own records (only ct_s1159 / ct_s1159_abd exist besides xfer_*; data/derived/Q183_vhm_foreign_audit.json):
+  16 vessels + quadratus_lumborum_r/l. All 0 % outside skin, but clearly mislocated: abdominal_aorta 50.9 % inside his
+  vertebral labels and 59 mm from his own aorta fragment; IVC 21.9 % in bone; subclavian a r/l 72 / 57 % in lung, 36-42 mm
+  from his labels; aortic arch / descending aorta 24 / 21 % in lung; common carotid r 49 % in lung; brachiocephalic v 36-37 mm
+  off; iliac vessels 11-26 mm off (2-24 % in bone); QL r/l 23 / 30 mm from his rib 12, 6-7 % in bone. NO real source on his
+  own data (vessels: no-contrast fragments; QL: his abdominal-muscle task failed asymmetrically) -> NOT removed; each record
+  carries a measured "Q183: NOT HIS GEOMETRY ... Queued to replace" procedural_badge (`... stamp`, wired in the rebuild).
+- QUEUE (new): Q183b replace his 16 s1159 vessels + QL -- needs a source of his own (e.g. tracing in his cryosection
+  photographs, or a Z-Anatomy per-bone transfer onto his skeleton with gates like Q62s9).
+- Bundle build/viewer_m_hr: 463 structures, 2,170,724 tris (was 2,167,110). Only costal_cartilage_r/l geometry differs
+  (2,998 + 2,998 tris, was 1,182 + 1,200); the other 18 s1159 records differ only in rec.procedural_badge; every other record
+  byte-identical (decoded per-id compare). Geo files changed: atlas_viewer_male_geo_00.txt, _geo_01.txt + HTML.
+  build/viewer_f_hr untouched (md5). Headless Chromium (swiftshader): loads, no page errors, "Search 463 structures".
+- Tests: tests/test_costal_cartilage_from_ct_labels.py (3) + tests/test_ribs_from_ct_labels.py (regex now allows
+  ct_vhm_ccart between ct_vhm_ribs and ct_vhm) + test_deep_neck.py: 15 pass. Montage (scratch q183/montage_q183_chest.png):
+  anterior + right lateral, his before / after / hers.
+- Next: publish male viewer (main session); Q183b.
