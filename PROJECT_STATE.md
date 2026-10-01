@@ -10532,3 +10532,4 @@ the female's phalanges are under-captured at HU 200.
   note, hides/re-shows via the inspector button; phone 390x844 renders (canvas 390x754, phone layout).
 - Test tests/test_hidden_default_q184.py (5) + test_vessels_ql_q183b + test_viewer_template: 19 pass. Not published.
 - Next: republish the male (and female, template only) viewer when the main session decides.
+- Main session (2026-10-01): Q184 published -- male v74, female v57 (template only).
