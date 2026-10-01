@@ -72,10 +72,18 @@ import numpy as np
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 # system label -> FBX filename under <zanatomy-root>/Resources/Models/FBX/
-# "Regions of human body100.fbx" and "References100.fbx" are deliberately excluded:
-# they are diagram overlays (axillary lines, movement-direction arrows, cross-section
-# planes -- confirmed by inspection, e.g. "Abduction", "Cross Section X") rather than
-# tissue geometry, and map to none of this project's data/ tissue directories.
+# "References100.fbx" is deliberately excluded: diagram overlays (axillary lines,
+# movement-direction arrows, cross-section planes -- confirmed by inspection, e.g.
+# "Abduction", "Cross Section X"), not tissue.
+# Q186 correction: "Regions of human body100.fbx" was excluded on the same grounds until
+# 2026-10-01, wrongly -- it is Z-Anatomy's SKIN: 301 mesh objects, 242 of them region
+# surface patches on "Skin-*" materials (face, scalp, trunk, limbs, perineum) plus nails
+# and hair, and only 44 helper markers (.j pins, 4-vertex cross-section planes, both
+# dropped by the pin-marker rule below). It is extracted as the "Integument" system into
+# its OWN inventory (data/derived/zanatomy_integument_inventory.json) so the frozen
+# 7-system inventory/name map every other pipeline reads stays unchanged:
+#     build/.venv-bpy/bin/python3 scripts/zanatomy/extract_fbx.py --systems Integument \
+#         --inventory data/derived/zanatomy_integument_inventory.json
 SYSTEMS = {
     "Muscular": "MuscularSystem100.fbx",
     "Nervous": "NervousSystem100.fbx",
@@ -84,7 +92,9 @@ SYSTEMS = {
     "Joints": "Joints100.fbx",
     "Visceral": "VisceralSystem100.fbx",
     "Lymphoid": "LymphoidOrgans100.fbx",
+    "Integument": "Regions of human body100.fbx",
 }
+DEFAULT_SYSTEMS = sorted(set(SYSTEMS) - {"Integument"})  # the frozen Q141 inventory's systems
 
 EXPECTED_COMMIT = "6c7f9016bd5899ac8edafd31b9900c151df42ed6"
 
@@ -198,7 +208,7 @@ def main(argv=None):
     ap.add_argument("--min-vertices", type=int, default=12,
                      help="objects with fewer vertices than this are annotation pin "
                           "markers (see module docstring), excluded from the kept set")
-    ap.add_argument("--systems", nargs="+", choices=sorted(SYSTEMS), default=sorted(SYSTEMS))
+    ap.add_argument("--systems", nargs="+", choices=sorted(SYSTEMS), default=DEFAULT_SYSTEMS)
     ap.add_argument("--no-write-meshes", action="store_true",
                      help="build the inventory/sanity report only, skip writing .npz files")
     args = ap.parse_args(argv)
@@ -378,8 +388,6 @@ def main(argv=None):
         ),
         "min_vertices_kept": args.min_vertices,
         "excluded_non_tissue_systems": {
-            "Regions of human body100.fbx": "diagram overlay geometry (axillary lines, "
-                "movement-direction arrows) -- not tissue, maps to no data/ tissue directory",
             "References100.fbx": "reference planes/lines/cross-sections for the interactive "
                 "app's own UI -- not tissue",
         },

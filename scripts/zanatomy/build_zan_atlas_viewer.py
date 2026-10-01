@@ -119,6 +119,42 @@ CAT_TO_LAYER = {
     "vessel": "vessel", "organ": "viscera", "lymphatic": "lymph",
 }
 
+# Q186 (owner: "zanatomy models being missing few things as penile skin, face skin, etc."): the
+# Z-Anatomy SKIN is "Regions of human body100.fbx" -- region surface patches (face, scalp, trunk,
+# limbs, perineum incl. the penile/scrotal skin inside "Urogenital region"), nails and hair. Q141's
+# extractor had dropped the whole file as a "diagram overlay"; it is now extracted as the Integument
+# system into its own inventory (see scripts/zanatomy/extract_fbx.py). The template has no skin layer
+# yet: until it lists one (k:"skin"), skin draws in the fascia layer (translucent, tan, 15 % default).
+DEFAULT_INTEG_INVENTORY = REPO / "data" / "derived" / "zanatomy_integument_inventory.json"
+SKIN_LAYER = "skin" if 'k:"skin"' in TEMPLATE_PATH.read_text(encoding="utf-8") else "fascia"
+CAT_TO_LAYER["skin"] = SKIN_LAYER
+# hair is extracted and inventoried but not shipped by default: the template colours by layer, so it
+# would draw as a lumpy skin-coloured cap over the scalp patches (--with-hair ships it)
+HAIR_NAMES = ("Hairs of head", "Hairs of eyebrow", "Eyelashes", "Pubic hairs")
+# male external genitalia skin (penis + scrotum are part of the Urogenital region patches) and the
+# pubic hair wrapped round the penile root: never on the female variant (Z-Anatomy has no vulva)
+MALE_ONLY_SKIN = frozenset({"zan_skin_urogenital_region_l", "zan_skin_urogenital_region_r",
+                            "zan_skin_pubic_hairs"})
+
+
+def skin_pool(integ_inventory: dict, with_hair: bool = False) -> dict:
+    """{zan_skin_<slug>[_r|_l]: meta} for every extracted Integument object (one object -> one id)."""
+    out = {}
+    for o in integ_inventory["objects"]:
+        base = strip_suffix(o["name"])
+        if base in HAIR_NAMES and not with_hair:
+            continue
+        slug = "".join(ch if ch.isalnum() else "_" for ch in base.lower()).strip("_")
+        while "__" in slug:
+            slug = slug.replace("__", "_")
+        sid = "zan_skin_" + slug + {"right": "_r", "left": "_l"}.get(o.get("side"), "")
+        if sid in out:
+            raise ValueError(f"two Integument objects map to {sid}")
+        is_region = not any(k in base for k in ("Nail", "Perionyx")) and base not in HAIR_NAMES
+        out[sid] = {"name": f"{base} (skin)" if is_region else base, "system": "Integument",
+                    "side": o.get("side"), "category": "skin", "mesh_name": o["name"]}
+    return out
+
 # A "nerve"-category object (this project's own category, or
 # build_zan_reference.classify_orphan_category's Nervous-system default) is
 # further split into the template's own "nerve" (peripheral) vs. "cns" (brain,
@@ -166,6 +202,8 @@ def classify_layer(cat: str, zanatomy_name: str) -> str:
     # stays a muscle
     if cat in ("muscle", "fascia", "tendon", "ligament") and FASCIA_RE.search(low):
         return "fascia"
+    if cat == "skin":
+        return SKIN_LAYER
     if cat == "nerve" and "lacrimal" in low:
         return "viscera"
     if cat == "nerve" and any(h in low for h in BRAIN_SURFACE_HINTS):
@@ -423,13 +461,59 @@ def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool) -> str:
     return head + txt
 
 
+def load_her_skin():
+    """Her own CT body-surface mesh (atlas id `skin`, first of her subjects carrying it), or None."""
+    from scripts.transfer import zan_to_vhf_whole_body as Q168
+    try:
+        order = Q168.her_subject_order()
+    except (OSError, ValueError, KeyError):
+        return None
+    for sub in order:
+        mf = Q168.VH_DIR / sub / "manifest.json"
+        if not mf.exists():
+            continue
+        st = [s for s in json.loads(mf.read_text())["structures"] if s["atlas_id"] == "skin"]
+        if not st:
+            continue
+        V = np.fromfile(Q168.VH_DIR / sub / "vertices.f32", dtype="<f4").reshape(-1, 3)
+        return sub, np.vstack([V[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]] for s in st]).astype(np.float64)
+    return None
+
+
+def skin_vs_her_skin(pending: list[dict]) -> dict:
+    """Q186: each fitted Z-Anatomy skin patch vs HER OWN CT skin surface (nearest-vertex distance), so
+    the badge states how far the generic male skin sits from her real body surface. Her CT skin is cut
+    by the scan field in places, so the median (not the max) is the meaningful figure."""
+    from scipy.spatial import cKDTree
+    skin = [p for p in pending if p["cat"] == "skin"]
+    her = load_her_skin() if skin else None
+    if her is None:
+        for p in skin:
+            p["fit_note"] += " Not compared with her own skin (her CT skin mesh is not available in this build)."
+        return {"compared": False}
+    sub, hv = her
+    tree = cKDTree(hv)
+    allv = []
+    for p in skin:
+        d = tree.query(p["v"])[0]
+        allv.append(d)
+        p["fit_note"] += (f" Skin: compared with her own CT skin surface ({sub}), this patch lies a median "
+                          f"{np.median(d):.1f} mm (90th percentile {np.percentile(d, 90):.1f} mm) from it; the "
+                          f"shape is Z-Anatomy's male body, so breasts, fat and contour are not hers.")
+    d = np.concatenate(allv)
+    return {"compared": True, "her_subject": sub, "patches": len(skin),
+            "median_mm": round(float(np.median(d)), 1), "p90_mm": round(float(np.percentile(d, 90)), 1),
+            "frac_within_10mm": round(float((d <= 10).mean()), 3)}
+
+
 def fit_to_vhf(pending: list[dict]) -> dict:
     """Q168 (owner: 'Z-Anatomy female -- fit it to her skeleton'): drop the male-only objects, move
     every structure into the VH female's frame with the committed per-bone fits, badge each one."""
     from scripts.transfer import zan_to_vhf_whole_body as Q168  # lazy: that module imports this one
     rep = json.loads(Q168.DEFAULT_REPORT.read_text())
-    dropped = [p["mesh_id"] for p in pending if p["mesh_id"] in Q168.MALE_ONLY_IDS]
-    pending[:] = [p for p in pending if p["mesh_id"] not in Q168.MALE_ONLY_IDS]
+    male = Q168.MALE_ONLY_IDS | MALE_ONLY_SKIN
+    dropped = [p["mesh_id"] for p in pending if p["mesh_id"] in male]
+    pending[:] = [p for p in pending if p["mesh_id"] not in male]
     xf = Q168.load_zan_to_vhf(zan_meshes={p["mesh_id"]: p["v"] for p in pending})
     proxy_ids = set(Q168.PROXY_FOLLOWERS)
     measured = 0
@@ -439,7 +523,8 @@ def fit_to_vhf(pending: list[dict]) -> dict:
         left_proxy = p["mesh_id"] in proxy_ids or (region == "forearm_hand" and side_code(p["side_raw"]) == "l")
         p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy)
         measured += p["mesh_id"] in rep["per_structure"]
-    return {"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)", "fits": str(Q168.DEFAULT_REPORT.relative_to(REPO)),
+    skin_fit = skin_vs_her_skin(pending)
+    return {"skin_vs_her_ct_skin": skin_fit,"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)", "fits": str(Q168.DEFAULT_REPORT.relative_to(REPO)),
             "male_only_dropped": sorted(dropped), "structures": len(pending),
             "measured_on_her_mesh": measured, "region_errors": rep["region_errors"],
             "female_pelvic_organs": rep["female_pelvic_organs"]}
@@ -450,6 +535,8 @@ def close_muscle_gaps(pending: list[dict]) -> dict:
     its citations); tendons are closed onto, everything else is an obstacle."""
     movable, tendons, obstacles = {}, {}, {}
     for p in pending:
+        if p["cat"] == "skin":
+            continue  # Q186: outside every muscle; leaving it out keeps the Q162 closure unchanged
         layer = classify_layer(p["cat"], p["zanatomy_name"] or p["display_name"])
         key = p["mesh_id"]
         low = (p["zanatomy_name"] or p["display_name"]).lower()
@@ -494,7 +581,8 @@ def close_muscle_gaps(pending: list[dict]) -> dict:
 
 def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           corrections_dir: Path, budget_scale: float, category_scale: dict | None = None,
-          close_gaps: bool = True, target_body: str | None = None):
+          close_gaps: bool = True, target_body: str | None = None,
+          integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -511,6 +599,11 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # attached just below), never a second, merged copy of anything.
     orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap)
     rescued = rescue_unshipped(inventory, namemap, matched, orphans)
+    skins = (skin_pool(json.loads(Path(integ_inventory_path).read_text()), with_hair)
+             if integ_inventory_path and Path(integ_inventory_path).exists() else {})
+    # Q186: which Z-Anatomy source object(s) each shipped id is made of (route: matched = this
+    # project's own atlas id, several sub-parts possibly concatenated; orphan; rescued; skin)
+    provenance: dict = {}
     origin, origin_report = compute_origin(zan_dir)
     corrections = load_corrections(corrections_dir)
     atlas_records = load_atlas_records()
@@ -554,7 +647,10 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                fit_note: str | None = None):
         nonlocal byte_off, matched_with_record, parent_linked_count
         note = " ".join(notes)
-        dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale), prepped=True)
+        if cat == "skin":
+            dv, df = v, f  # Q186: patches tile one surface; decimating each alone would open the seams
+        else:
+            dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale), prepped=True)
 
         fields, packed = pack_mesh(dv, df, byte_off)
         byte_off += len(packed)
@@ -608,6 +704,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             display_name = (real_rec or {}).get("name_common") or (real_rec or {}).get("name") \
                 or aid.replace("_", " ")
         zanatomy_names = rec.get("zanatomy_parts") or []
+        provenance[aid] = {"route": "matched", "sources": list(zanatomy_names)}
         emit(aid, display_name, rec.get("side"), cat, rec["v"].astype(np.float64), rec["f"].astype(np.int64),
              rec_override=rec_override, zanatomy_name=zanatomy_names[0] if zanatomy_names else display_name)
 
@@ -621,6 +718,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                 parent_link = (link["atlas_id"], parent_pair[0], parent_pair[1])
             else:
                 unresolved_parent_links.append(meta["mesh_name"])
+        provenance[stable] = {"route": "orphan", "sources": [meta["mesh_name"]]}
         emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
              zanatomy_name=meta["name"], parent_link=parent_link)
 
@@ -632,8 +730,15 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         v_raw, f = _load_raw_mesh(zan_dir, meta["system"], meta["mesh_name"])
         parent_pair = atlas_records.get(meta["atlas_id"]) if meta["atlas_id"] else None
         parent_link = (meta["atlas_id"], parent_pair[0], parent_pair[1]) if parent_pair else None
+        provenance[stable] = {"route": "rescued", "sources": [meta["mesh_name"]]}
         emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
              zanatomy_name=meta["name"], parent_link=parent_link)
+
+    # Q186: the skin (Integument system), one shipped id per source object
+    for sid, meta in sorted(skins.items()):
+        v_raw, f = _load_raw_mesh(zan_dir, meta["system"], meta["mesh_name"])
+        provenance[sid] = {"route": "skin", "sources": [meta["mesh_name"]]}
+        emit(sid, meta["name"], meta["side"], meta["category"], v_raw, f, zanatomy_name=meta["name"])
 
     # Q162 (owner: "look on the contralateral side and other accurate models and medical articles"):
     # (1) replace the few left-side source objects the mirror audit found broken by the mirrored
@@ -697,6 +802,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "parent_links_with_no_orphan_mesh": unmatched_parent_links,
             "parent_links_with_no_atlas_record": unresolved_parent_links,
             "corrected_ids": corrected_ids,
+            "skin_structures": len([m for m in meshes if m["id"] in skins]),
+            "skin_layer": SKIN_LAYER,
             "contralateral_repairs": contra_report,
             "muscle_gap_closure": {k: v for k, v in gap_report.items() if k != "per_mesh"},
             **({"fit_to_vhf": {k: v for k, v in LAST_REPORTS["fit_to_vhf"].items() if k != "region_errors"}}
@@ -706,6 +813,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         "meshes": meshes,
     }
     blob = b"".join(bin_chunks)
+    shipped = {m["id"] for m in meshes}
+    LAST_REPORTS["provenance"] = {k: v for k, v in sorted(provenance.items()) if k in shipped}
     return manifest, blob, origin_report
 
 
@@ -782,6 +891,9 @@ def main(argv=None) -> int:
                          "artifact host's 16 MB text-file cap) instead of inlining it, so the page is "
                          "no longer the resolution ceiling; publish them with the page.")
     ap.add_argument("--no-gap-closure", action="store_true", help="skip the Q162 muscle gap closure")
+    ap.add_argument("--integ-inventory", default=str(DEFAULT_INTEG_INVENTORY),
+                    help="Q186: Integument (skin) inventory; '' to build without skin")
+    ap.add_argument("--with-hair", action="store_true", help="Q186: also ship the Z-Anatomy hair objects")
     ap.add_argument("--target-body", choices=["vhf"], default=None,
                     help="Q168: fit the whole model onto the VH female's skeleton (female variant)")
     ap.add_argument("--q162-report", default=None,
@@ -808,10 +920,12 @@ def main(argv=None) -> int:
     manifest, blob, origin_report = build(
         zan_dir=Path(args.zan_dir), inventory_path=Path(args.inventory), namemap_path=Path(args.namemap),
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
-        category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body)
+        category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body,
+        integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair)
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
-    Path(args.q162_report).write_text(json.dumps({"source": src, **LAST_REPORTS}, indent=1, default=float))
+    Path(args.q162_report).write_text(json.dumps(
+        {"source": src, **{k: v for k, v in LAST_REPORTS.items() if k != "provenance"}}, indent=1, default=float))
 
     out_path = REPO / args.out
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -840,6 +954,7 @@ def main(argv=None) -> int:
         "binary_bytes": len(blob),
         "html_bytes": len(html),
         **manifest["totals"],
+        "provenance": LAST_REPORTS.get("provenance", {}),
     }
     Path(args.report).write_text(json.dumps(report, indent=1))
 

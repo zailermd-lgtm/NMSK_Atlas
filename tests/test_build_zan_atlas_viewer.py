@@ -315,11 +315,12 @@ def test_female_wording_replaces_each_template_anchor_once():
 def test_committed_female_build_report_drops_male_only_and_badges_every_structure():
     import json
     from scripts.transfer.zan_to_vhf_whole_body import MALE_ONLY_IDS
+    from scripts.zanatomy.build_zan_atlas_viewer import MALE_ONLY_SKIN  # Q186: penile/scrotal skin, pubic hair
     path = REPO_ROOT / "data" / "derived" / "Q168_zan_female_report.json"
     if not path.exists():
         pytest.skip("female variant not built")
     rep = json.loads(path.read_text())
     fit = rep["fit_to_vhf"]
-    assert set(fit["male_only_dropped"]) <= MALE_ONLY_IDS and len(fit["male_only_dropped"]) >= 20
+    assert set(fit["male_only_dropped"]) <= MALE_ONLY_IDS | MALE_ONLY_SKIN and len(fit["male_only_dropped"]) >= 20
     assert fit["structures"] == rep["meshes"]
     assert fit["measured_on_her_mesh"] >= 150

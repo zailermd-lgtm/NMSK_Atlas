@@ -288,9 +288,10 @@
         <button data-axis="0" class="on">sagittal</button>
         <button data-axis="1">axial</button>
         <button data-axis="2">coronal</button>
+        <button data-axis="v" title="A plane facing the current view, through the centre of the screen">facing me</button>
       </div>
       <div class="tool-row"><span>depth</span>
-        <input id="clip-pos" type="range" min="0" max="100" value="50" aria-label="Cut plane depth"></div>
+        <input id="clip-pos" type="range" min="0" max="100" value="50" step="0.1" aria-label="Cut plane depth"></div>
       <div id="clip-acts">
         <button id="clip-on">cut on</button>
         <button id="clip-flip">flip side</button>
@@ -374,6 +375,9 @@
   </div>
 </div>
 
+<!-- Q188: optional add-on, published as a separate file next to this page (absent in an anatomy-only build;
+     the viewer then runs unchanged). It reaches the anatomy only through the generic API object built below. -->
+<script src="clinical_needle_tool.js"></script>
 <script>
 window.__ANATOMY_BIN__="__BIN_B64__";
 window.__ANATOMY_BIN_FILES__=__BIN_FILES_JSON__;
@@ -433,6 +437,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     window.__ANATOMY_BIN__ = null;
     var MAN = window.__ANATOMY_MANIFEST__;
+    // Q188: kept (quantised, ~as large as the download) only when the optional add-on is loaded
+    var ADDON_BIN = window.NMSKClinical ? BIN : null;
 
     boot("Converting coordinates…", 0.12); await nf();
     function conv(x, y, z, out, o) { out[o] = x; out[o + 1] = y; out[o + 2] = z; }
@@ -594,7 +600,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     alphaFor.bursa = 0.6;   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
-    var clip = { on:false, axis:0, t:0.5, flip:false };
+    var clip = { on:false, axis:0, t:0.5, flip:false, vn:null, vc:null };
     var box = { on:false, min:[0,0,0], max:[0,0,0] };
     var COL = {};
 
@@ -631,15 +637,29 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // away whole meshes that lie entirely in the discarded region, so a deep cut
     // costs proportionally less to draw instead of rasterising the whole body.
     // Kept in lock-step with the fragment shader's plane and box tests.
-    function clipPlanePos() {
-      var a = clip.axis;
-      return bbMin[a] + (bbMax[a] - bbMin[a]) * clip.t;
+    // Q188: the plane as (n, w) with fragments discarded where dot(p, n) + w > 0 -- an atlas axis
+    // (the cut keeps coordinates below the slider position) or a plane facing the viewer ("v":
+    // vn points toward the removed, viewer-side half, vc is the screen centre when it was set).
+    function clipPlane() {
+      var n = [0,0,0], w;
+      if (clip.axis === "v") {
+        n = clip.vn.slice();
+        var off = (clip.t - 0.5) * HGT * 0.5;
+        w = -(n[0]*(clip.vc[0]-n[0]*off) + n[1]*(clip.vc[1]-n[1]*off) + n[2]*(clip.vc[2]-n[2]*off));
+      } else {
+        var a = clip.axis; n[a] = 1; w = -(bbMin[a] + (bbMax[a] - bbMin[a]) * clip.t);
+      }
+      return clip.flip ? [-n[0], -n[1], -n[2], -w] : [n[0], n[1], n[2], w];
     }
     function passClip(o) {
       if (!clip.on) return true;
-      var a = clip.axis, pos = clipPlanePos();
-      return clip.flip ? (o.bmax[a] >= pos) : (o.bmin[a] <= pos);
+      var P = clipPlane(), m = P[3];
+      for (var k = 0; k < 3; k++) m += P[k] * (P[k] > 0 ? o.bmin[k] : o.bmax[k]);
+      return m <= 0;
     }
+    // Q188 add-on hook state (inert without the add-on)
+    var addonDraw = [], addonClick = null, addonOpacity = null;
+    function layerAlpha(k) { var v = addonOpacity ? addonOpacity(k) : null; return v == null ? alphaFor[k] : Math.min(alphaFor[k], v); }
     function passBox(o) {
       if (!box.on) return true;
       return !(o.bmax[0] < box.min[0] || o.bmax[1] < box.min[1] || o.bmax[2] < box.min[2] ||
@@ -681,10 +701,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
       // clip plane
       if (clip.on) {
-        var nrm=[0,0,0]; nrm[clip.axis]=clip.flip?-1:1;
-        var lo=bbMin[clip.axis], hi=bbMax[clip.axis];
-        var pos=lo+(hi-lo)*clip.t;
-        gl.uniform4f(U.uClip,nrm[0],nrm[1],nrm[2], -(nrm[clip.axis]*pos));
+        var cp=clipPlane();
+        gl.uniform4f(U.uClip,cp[0],cp[1],cp[2],cp[3]);
         gl.uniform1f(U.uClipOn,1);
       } else gl.uniform1f(U.uClipOn,0);
       if (box.on) {
@@ -720,9 +738,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       }
       var opa=[],tra=[];
       BATCHES.forEach(function (B) {
-        if (!on[B.layer]||alphaFor[B.layer]<=0.01) return;
+        if (!on[B.layer]||layerAlpha(B.layer)<=0.01) return;
         if (soloLayer && B.layer!==soloLayer) return;
-        (alphaFor[B.layer]>=0.999?opa:tra).push(B);
+        (layerAlpha(B.layer)>=0.999?opa:tra).push(B);
       });
       function solid(e){ return vis(e) && !faded.has(e); }
       function isFaded(e){ return vis(e) && faded.has(e); }
@@ -731,7 +749,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       opa.forEach(function(B){ paint(B,1,solid); });
 
       gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
-      tra.forEach(function(B){ paint(B,alphaFor[B.layer],solid); });
+      tra.forEach(function(B){ paint(B,layerAlpha(B.layer),solid); });
       BATCHES.forEach(function(B){
         if (!on[B.layer]) return;
         if (soloLayer && B.layer!==soloLayer) return;
@@ -746,6 +764,12 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.uniform1f(U.uAlpha,1); gl.uniform1f(U.uHL,selected===hi2?1:0.6);
         bind(hi2.batch);
         gl.drawElements(gl.TRIANGLES,hi2.iCount,gl.UNSIGNED_SHORT,hi2.iStart*2);
+      }
+      if (addonDraw.length) {
+        var ctx={gl:gl, mvp:mvp, eye:eye, W:W, H:H, clip:clip.on?clipPlane():null};
+        addonDraw.forEach(function(f){ try { f(ctx); } catch (err) { console.error(err); } });
+        gl.useProgram(prog); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
+        gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
       }
     }
     function loop(){ if(spinning){cam.az+=0.0022;need=true;} if(need){draw();need=false;} requestAnimationFrame(loop); }
@@ -815,8 +839,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       gl.uniformMatrix4fv(PU.uMVP, false, lastMVP);
       gl.uniformMatrix3fv(PU.uN, false, new Float32Array([1,0,0,0,1,0,0,0,1]));
       if (clip.on) {
-        var nrm = [0,0,0]; nrm[clip.axis] = clip.flip ? -1 : 1;
-        gl.uniform4f(PU.uClip, nrm[0], nrm[1], nrm[2], -(nrm[clip.axis] * clipPlanePos()));
+        var cp = clipPlane();
+        gl.uniform4f(PU.uClip, cp[0], cp[1], cp[2], cp[3]);
         gl.uniform1f(PU.uClipOn, 1);
       } else gl.uniform1f(PU.uClipOn, 0);
       if (box.on) {
@@ -925,9 +949,16 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       document.querySelectorAll("#clip-axis button").forEach(function(b){
         b.onclick=function(){
           document.querySelectorAll("#clip-axis button").forEach(function(x){x.classList.remove("on");});
-          b.classList.add("on"); clip.axis=+b.dataset.axis; need=true;
+          b.classList.add("on");
+          if(b.dataset.axis==="v"){ clipFaceView(); clip.t=0.5; clipPos.value=50; } else clip.axis=+b.dataset.axis;
+          need=true;
         };
       });
+    }
+    function clipFaceView(){
+      var ce=Math.cos(cam.el), se=Math.sin(cam.el);
+      clip.axis="v"; clip.vn=[ce*Math.sin(cam.az), se, ce*Math.cos(cam.az)];   // toward the viewer
+      clip.vc=cam.tgt.slice();
     }
     // ---- 3D isolation box ----
     var boxSize=document.getElementById("box-size");
@@ -1084,7 +1115,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       if(ptrs.has(e.pointerId)){
         if(ptrs.size===1&&moved<10&&Date.now()-downT<500&&!panMode){
           var r=canvas.getBoundingClientRect();
-          select(pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr),false);
+          if(!(addonClick&&addonClick(e))) select(pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr),false);
         }
         ptrs.delete(e.pointerId);
       }
@@ -1157,6 +1188,80 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       box:{on:box.on,min:box.min.slice(),max:box.max.slice()},
       hidden:hidden.size, faded:faded.size, solo:soloLayer, side:sideFilter
     }; };
+
+    // ================= Q188 add-on hook =================
+    // Generic, anatomy-only API for an optional add-on loaded from a separate file
+    // (window.NMSKClinical). No add-on logic lives here; without the file nothing below runs.
+    // Coordinates: this model's own millimetre frame (the manifest's vertex frame).
+    function anatomyApi(){
+      var recs=OBJ.map(function(o,i){ return {i:i,id:o.id||o.name,name:o.name,cat:o.layer,vt:o.vt||null,
+        side:o.side==="m"?null:o.side,bmin:o.bmin.slice(),bmax:o.bmax.slice()}; });
+      function fwd(){ var e=lastEye||[0,0,0],t=cam.tgt,d=[t[0]-e[0],t[1]-e[1],t[2]-e[2]],l=Math.hypot(d[0],d[1],d[2])||1; return [d[0]/l,d[1]/l,d[2]/l]; }
+      function sync2(){
+        if(clipOn) clipOn.classList.toggle("on",clip.on);
+        if(clipFlip) clipFlip.classList.toggle("on",clip.flip);
+        document.querySelectorAll("#clip-axis button").forEach(function(x){ x.classList.toggle("on", String(x.dataset.axis)===String(clip.axis)); });
+      }
+      return {
+        version:1, kind:"webgl", units:"mm", frame:"Z-Anatomy model frame (mm, +Y superior)",
+        viewerGuess: (MAN.totals&&MAN.totals.fit_to_vhf)?"zan_f":"zan_m",
+        canvas:canvas, stage:document.body, toolbar:document.getElementById("topright"), panelHost:null, panelBefore:null,
+        list:function(){ return recs; },
+        visible:function(i){ var o=OBJ[i]; return vis(o)&&!faded.has(o); },
+        geometry:function(i){
+          if(!ADDON_BIN) return null;
+          var rec=MAN.meshes[i], vc=rec.vc, mn=rec.min, sp=rec.span;
+          var qv=new Uint16Array(ADDON_BIN.buffer, ADDON_BIN.byteOffset+rec.vo, vc*3), pos=new Float32Array(vc*3);
+          for(var v=0;v<vc*3;v+=3){ pos[v]=mn[0]+qv[v]/65535*sp[0]; pos[v+1]=mn[1]+qv[v+1]/65535*sp[1]; pos[v+2]=mn[2]+qv[v+2]/65535*sp[2]; }
+          return {pos:pos, idx:new Uint16Array(ADDON_BIN.buffer, ADDON_BIN.byteOffset+rec.io, rec.ic*3)};
+        },
+        pick:function(e,opt){
+          var r=canvas.getBoundingClientRect(), sk=(opt&&opt.skip!=null)?OBJ[opt.skip]:null, add=sk&&!hidden.has(sk);
+          if(add){ hidden.add(sk); pickKey=null; }
+          var o=pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr);
+          if(add){ hidden.delete(sk); pickKey=null; }
+          return o?{i:o.pid-1,point:null}:null;
+        },
+        ray:function(e){
+          var r=canvas.getBoundingClientRect(), x=((e.clientX-r.left)/r.width)*2-1, y=1-((e.clientY-r.top)/r.height)*2;
+          var th=Math.tan(0.85/2), as=r.width/Math.max(1,r.height), f=fwd(), R=lastRight, Up=lastUp;
+          var d=[f[0]+x*th*as*R[0]+y*th*Up[0], f[1]+x*th*as*R[1]+y*th*Up[1], f[2]+x*th*as*R[2]+y*th*Up[2]], l=Math.hypot(d[0],d[1],d[2]);
+          return {o:lastEye.slice(), d:[d[0]/l,d[1]/l,d[2]/l]};
+        },
+        view:function(){ var r=canvas.getBoundingClientRect(); return {eye:lastEye.slice(),target:cam.tgt.slice(),dir:fwd(),w:r.width,h:r.height}; },
+        toScreen:function(p){ var s=proj(p); if(!s) return null; var r=canvas.getBoundingClientRect(); return [r.left+s.x/dpr, r.top+s.y/dpr]; },
+        cut:function(){ if(!clip.on) return null; var P=clipPlane(); return [-P[0],-P[1],-P[2],-P[3]]; },
+        setCut:function(spec){
+          if(!spec){ clip.on=false; sync2(); need=true; return; }
+          var n=spec.normal, l=Math.hypot(n[0],n[1],n[2])||1;
+          clip.axis="v"; clip.vn=[-n[0]/l,-n[1]/l,-n[2]/l]; clip.vc=spec.point.slice(); clip.t=0.5; clip.flip=false; clip.on=true;
+          if(clipPos) clipPos.value=50;
+          sync2(); need=true;
+        },
+        redraw:function(){ need=true; }, refresh:function(){ need=true; },
+        setOpacityOverride:function(fn){ addonOpacity=fn?function(k){ return fn(k,null); }:null; need=true; },
+        categoryOn:function(k){ return !!on[k]; },
+        setCategoryOn:function(k,v){ if(!(k in on)) return; on[k]=!!v; if(v&&alphaFor[k]<=0.01) alphaFor[k]=1; sync(); need=true; },
+        setClickHandler:function(fn){ addonClick=fn||null; },
+        onChange:function(){},
+        catColor:function(k){ var c=(k==="vein"?COL.vein:COL[k])||[0.6,0.6,0.6]; return "rgb("+c.map(function(x){return Math.round(x*255);}).join(",")+")"; },
+        showPanel:function(){}, stopMotion:stopSpin,
+        three:null,
+        webgl:{gl:gl,
+          onAfterDraw:function(fn){ addonDraw.push(fn); },
+          drawStructure:function(i){
+            var o=OBJ[i], B=o.batch; if(!B) return;
+            gl.bindBuffer(gl.ARRAY_BUFFER,B.pb); gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
+            gl.bindBuffer(gl.ARRAY_BUFFER,B.nb); gl.vertexAttribPointer(1,3,gl.FLOAT,false,0,0);
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,B.ib);
+            gl.drawElements(gl.TRIANGLES,o.iCount,gl.UNSIGNED_SHORT,o.iStart*2);
+          }}
+      };
+    }
+    if (window.NMSKClinical && typeof window.NMSKClinical.attach === "function") {
+      try { window.NMSKClinical.attach(anatomyApi()); }
+      catch (err) { console.error("optional add-on failed to start; anatomy viewer unaffected:", err); }
+    }
 
     document.getElementById("stat-line").textContent=
       OBJ.length.toLocaleString()+" meshes · "+TOTAL.toLocaleString()+" tris · "+BATCHES.length+" batches · "+
