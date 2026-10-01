@@ -10533,3 +10533,65 @@ the female's phalanges are under-captured at HU 200.
 - Test tests/test_hidden_default_q184.py (5) + test_vessels_ql_q183b + test_viewer_template: 19 pass. Not published.
 - Next: republish the male (and female, template only) viewer when the main session decides.
 - Main session (2026-10-01): Q184 published -- male v74, female v57 (template only).
+
+## Q185 (2026-10-01) -- placement sweep of EVERY structure in both own-model bundles vs that body's own CT labels -- AUDIT ONLY
+- Script `scripts/placement_sweep_q185.py sweep|finalize|montage`; report data/derived/Q185_placement_sweep.json (all rows,
+  `flagged_ranked`, `group` + `likely_cause` per flagged row, `groups`). Geometry: full-res build/vh/<subject> record when its
+  bbox matches the shipped one within 3 mm (847 / 848), else the decoded bundle mesh; <= 60 k vertices (fixed-seed subsample).
+  Per row: outside skin (own ct_v?_skin mesh, embree parity); > 1 mm inside bone = TS `total` bone labels (in FOV) OR own bone
+  meshes (non-xfer; bones TS does not label + femur/hip, which leave his FOV; nearest-vertex pseudo-normal side test);
+  > 1 mm in lung (TS 10-14); > 1 mm in a TS organ (18 labels); own label = mesh->label-surface median where the same id has a
+  curated TS-task label of that body (total / headneck_muscles_merged / abdominal_muscles (his: hybrid run) / head_muscles /
+  oculomotor / craniofacial / headneck_bones_vessels + ribs, his costal cartilage 117; his nulled vessel labels as kind
+  "fragment", not flagged), restricted to vertices inside that volume's FOV. Depth = EDT minus half a voxel (Q183b convention).
+  Flags: skin > 1 %, bone > 5 %, lung > 5 %, organ > 5 % (added), curated own-label median > 5 mm.
+  EXCLUDED: in-bone -- every cat=bone record, optic_n (optic canal), internal_carotid_a_l/r (carotid canal), internal_jugular_v_l/r
+  (jugular foramen; raw value kept); in-lung -- ids matching lung|bronch|pleura|trachea|pulmonary (none present); in-organ --
+  own organ (bladder 21, rectum/sigmoid 20, prostate 22/21), heart for aorta / SVC / IVC, liver for IVC, brain for optic_n, skin.
+  Skipped (hidden_default, listed in the report): his 13 Q184 ct_s1159* records (aorta x3, subclavian r/l, CCA l, BCV l, IVC,
+  common iliac a/v r/l, QL r); hers none. Limits: his legs/feet and her lower legs are outside the TS FOV (own bone meshes only,
+  no lung/organ/own-label check there); discs (66 verts) and Q118 tendons (30 verts) are coarse meshes, % is per vertex.
+- RESULT: his 415 swept, 97 flagged; hers 433 swept, 91 flagged. Groups (his / her count, worst numbers):
+  Q185a 7/0 his skin cut flat at the torso-CT FOV x = -233 / +247 mm -> his ulna / humerus / radius 8-27 % "outside skin"
+    (up to 30 mm; humerus vs own label 0.7-0.8 mm, so the BONE is right, the skin is not), ECRL/ECRB l 31-36 % (all beyond the cut).
+  Q185b 34/14 Z-Anatomy limb transfers (xfer_zan2v?_limb/_photo/_foot): his supinator_r skin 41 % + bone 8 %, ECU_l skin 25 % +
+    bone 25 %, plantar/palmar interossei 26-28 % skin, pronator teres l bone 14 %; her plantar interossei l 31 %, dorsal interossei
+    foot r 21 %, flexor retinaculum r 18 %, plantar aponeurosis r 15 % outside skin.
+  Q185c 14/11 procedural disc cylinders (Q104): ~80 mm wide (montage), thoracic T1-T10 discs 15-44 % (his) / 17-26 % (hers) in
+    lung, 6-21 % in oesophagus / liver / heart; his L2-L5 discs 9-17 % in vertebrae.
+  Q185d 7/12 articular cartilage / knee ligaments: hers (xfer_vhm2vhf) hip cartilage l/r 86 / 82 % inside bone, ankle 33-36 %,
+    PCL l 32 %, patellofemoral 20-23 %, knee 16 %; his own vhm_both cartilage / ACL / TCL 6-12 % (borderline).
+  Q185e 0/25 her male->female muscle transfers (xfer_vhm2vhf_sep*, xfer_vhm2vhf, ct_vhf_xfersepta_fix) in her bones: FDL r 31 %,
+    quadratus femoris 16-21 %, popliteus 16-21 %, obturator externus 17-19 %, vastus intermedius 13-15 %, tibialis posterior 10-13 %.
+  Q185f 2/2 abdominal wall in organs: her xfer_vhm2vhf_tva transversus abdominis r 46 % in liver, l 24 % in stomach; his ct_vhm_abw
+    TA r 11 % liver, ct_vhm_abw_contfix rectus abdominis l 8 % stomach.
+  Q185g 8/0 his orbit (xfer_vhf2vhm): 6 extraocular muscles r + inferior rectus l + optic_n 5.6-9.7 mm from HIS own TS oculomotor
+    labels (which exist: vhm_oculomotor_muscles).
+  Q185h 4/3 Z-Anatomy head transfer: rectus capitis lateralis 35-43 % (his) / 11-14 % (hers), anterior 11-20 % inside the skull.
+  Q185i 13/16 own cryo/CT muscles not carved against bone: her FPL r 32 % (radius), palmar interossei r 27 %, teres minor 16 %,
+    pronator quadratus 13 %, infraspinatus / teres major / triceps 6-9 %; his coracobrachialis l/r 26 / 18 % (humerus label),
+    vhm_both iliopsoas 9-14 % (hip bone), brachialis r 9 %, gluteus minimus l 8.0 mm off his TS label.
+  Q185j 4/6 Q118 procedural tendons end inside bone: adductor magnus distal 50-57 %, iliopsoas 13-50 %, quadriceps 7-10 %.
+  NOT defects ("ref"): lateral pterygoid 7-20 % / temporalis 5-6 % in the TS skull label while 0.3-0.5 mm from their own
+    head_muscles label (label-vs-label overlap).
+- Montage (scratch q185/montage_vhm.png, montage_vhf.png): worst flagged per group, anterior + lateral, vertices coloured
+  ok / outside skin / bone / lung / organ, own label surface, bundle bones + skin as context.
+- Test tests/test_placement_sweep_q185.py (3: atlas<->voxel round trip, depth lookup centre/surface/outside/FOV, flag rules).
+- Nothing changed in build/ or the bundles. Rerun: `sweep` (~50 min, peak ~6 GB), `finalize` (regroup only), `montage`.
+- QUEUE (new; none started):
+  - [ ] Q185a his skin: rebuild the arm segments beyond the torso-CT FOV cut (x = -233 / +247) from his cryosection / arm-bone frame,
+    so his own arm bones and forearm muscles sit inside it; gate: his ct_vhm_arm bones 0 % outside skin.
+  - [ ] Q185b Z-Anatomy limb transfers (his 34, her 14 hand / foot / forearm records): clip to skin and carve against own bones, or
+    re-fit per bone; gate skin <= 1 %, bone <= 5 %.
+  - [ ] Q185c procedural intervertebral discs (his 14, her 11): refit each cylinder to the adjacent vertebral endplates from the TS
+    vertebra labels (radius / centre / height); gate 0 % > 1 mm in lung / organs, <= 5 % in vertebrae.
+  - [ ] Q185d her xfer_vhm2vhf articular cartilages + cruciates (hip 82-86 % in bone): shell them on HER bone surfaces (or drop);
+    re-check his vhm_both cartilage 6-12 %.
+  - [ ] Q185e her male->female leg/hip/forearm muscle transfers (25): carve against her bone labels / meshes; gate bone <= 5 %.
+  - [ ] Q185f transversus abdominis (her xfer_vhm2vhf_tva 24-46 % in liver/stomach; his ct_vhm_abw 11 %) + his rectus abdominis l:
+    carve against the TS organ labels / peritoneal boundary.
+  - [ ] Q185g his orbit: replace the 8 xfer_vhf2vhm orbit records with his own vhm_oculomotor_muscles labels (Q183-style own-label
+    build, gates vs own label <= 1 mm).
+  - [ ] Q185h rectus capitis anterior / lateralis transfers (7): carve against the skull label (occipital condyle / jugular process).
+  - [ ] Q185i own cryo/CT muscles overlapping bone (his 13, her 16): subtract the bone labels / own bone meshes (+ re-check volumes).
+  - [ ] Q185j Q118 procedural tendon connectors: stop the end cap at the bone surface instead of inside it.
