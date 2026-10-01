@@ -14,7 +14,7 @@
     --t-bone:#cbbb99; --t-cartilage:#8fb8c4; --t-joint:#d9d1bb; --t-bursa:#a98cd0; --t-vein:#3a5fae;
     --t-insertion:#a8703c; --t-muscle:#b2483d; --t-fascia:#c9b98e;
     --t-nerve:#d9c33f; --t-cns:#8f7fc0; --t-vessel:#a83550;
-    --t-lymph:#7b9c5a; --t-viscera:#9d6f8f;
+    --t-lymph:#7b9c5a; --t-viscera:#9d6f8f; --t-skin:#c99f78;
     --shadow:0 10px 34px rgba(22,32,42,.15);
     --f-display:"Spectral",ui-serif,Georgia,serif;
     --f-body:"Public Sans",ui-sans-serif,system-ui,sans-serif;
@@ -32,7 +32,7 @@
     --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#ece6d3; --t-bursa:#bfa4e3; --t-vein:#5b82d6;
     --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
     --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
-    --t-lymph:#95bb6e; --t-viscera:#b988a8;
+    --t-lymph:#95bb6e; --t-viscera:#b988a8; --t-skin:#dcb38e;
     --shadow:0 12px 40px rgba(0,0,0,.55);
   }}
   :root[data-theme="dark"]{
@@ -43,7 +43,7 @@
     --t-bone:#e0d4b4; --t-cartilage:#a3ccd8; --t-joint:#ece6d3; --t-bursa:#bfa4e3; --t-vein:#5b82d6;
     --t-insertion:#d69a5c; --t-muscle:#c9584a; --t-fascia:#ddcda0;
     --t-nerve:#f0dc63; --t-cns:#a596d6; --t-vessel:#cc4463;
-    --t-lymph:#95bb6e; --t-viscera:#b988a8;
+    --t-lymph:#95bb6e; --t-viscera:#b988a8; --t-skin:#dcb38e;
     --shadow:0 12px 40px rgba(0,0,0,.55);
   }
 
@@ -449,7 +449,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function sideOf(n) { var m = n.match(SIDE_RE); return m ? m[2].toLowerCase() : "m"; }
     function markerOf(n) { var m = n.match(SIDE_RE); return (!m || !m[1]) ? null : (m[1].toLowerCase() === "o" ? "origin" : "insertion"); }
 
-    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","bursa","nerve","cns","vessel","lymph","viscera"];
+    var LK = ["bone","cartilage","joint","insertion","muscle","fascia","bursa","nerve","cns","vessel","lymph","viscera","skin"];
     var perLayer = {}; LK.forEach(function (k) { perLayer[k] = []; });
     var OBJ = [], bbMin = [1e9,1e9,1e9], bbMax = [-1e9,-1e9,-1e9];
     var recs = MAN.meshes;
@@ -597,7 +597,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // Q160: fascia sheets wrap the muscles; opaque by default they hide the muscle layer
     // (they were only invisible before because their inside-out winding was back-face culled)
     alphaFor.fascia = 0.15;
-    alphaFor.bursa = 0.6;   // Q161: synovial sacs read as sacs, not solid blobs on the joint
+    alphaFor.bursa = 0.6;
+    alphaFor.skin = 0.3;    // Q186: skin (Regions of human body) shown as a translucent envelope by default   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
     var clip = { on:false, axis:0, t:0.5, flip:false, vn:null, vc:null };
@@ -888,7 +889,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       {k:"muscle",label:"Muscles"},{k:"fascia",label:"Fascia, septa & aponeuroses"},
       {k:"bursa",label:"Bursae & tendon sheaths"},
       {k:"nerve",label:"Nerve structures"},{k:"cns",label:"Brain, cord & senses"},
-      {k:"vessel",label:"Cardiovascular"},{k:"lymph",label:"Lymphoid"},{k:"viscera",label:"Viscera"}
+      {k:"vessel",label:"Cardiovascular"},{k:"lymph",label:"Lymphoid"},{k:"viscera",label:"Viscera"},
+      {k:"skin",label:"Skin & body regions"}
     ];
     var counts={}; OBJ.forEach(function(o){counts[o.layer]=(counts[o.layer]||0)+1;});
     var sliders={}, layerBtns={}, soloBtns={};
@@ -930,7 +932,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     }
     var P={
       "btn-solid":function(){ var m={}; LK.forEach(function(k){m[k]=1;}); preset(m); },
-      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,bursa:.5,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25}); },
+      "btn-xray":function(){ preset({bone:1,cartilage:.85,joint:.5,insertion:.9,muscle:.22,fascia:.15,bursa:.5,nerve:1,cns:.9,vessel:.8,lymph:.2,viscera:.25,skin:.06}); },
       "btn-bones":function(){ preset({bone:1,cartilage:1,joint:1,bursa:.8}); },
       "btn-neuro":function(){ preset({nerve:1,cns:1,bone:.10}); },
       "btn-vasc":function(){ preset({vessel:1,lymph:.7,bone:.10}); },
@@ -1152,6 +1154,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       if(clipFlip) clipFlip.classList.remove("on");
       if(boxClear) boxClear.classList.remove("on");
       LK.forEach(function(k){on[k]=true;alphaFor[k]=1;});
+      alphaFor.skin=0.3;
       sync(); select(null); renderList(); need=true;
     }
     document.getElementById("btn-reset").onclick=resetAll;
