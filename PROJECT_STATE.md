@@ -10993,3 +10993,7 @@ on the signed-volume sign; Z-Anatomy has no skin or fat, so its entries/depths a
 decimated viewing meshes (Z-Anatomy nerves are thin: radial nerve 0.3 mm radius); the halo formula and weights are
 the owner-tunable heuristic, not validated; safer-path scoring ignores tissue planes and fascia; needs owner review
 of the classification table (e.g. brain parts as "other organ").
+- Main session (2026-10-01 ~17:45): Q188 + Q187 published on the FEMALE own viewer v63 (page + geo + clinical_needle_tool.js,
+  clinical_motor_points.json, clinical_risk.json as separate private files). MALE own viewer publish (same file set) was
+  DENIED by the session's permission classifier ("Out-of-Place Publication") -- not retried; waiting for the owner.
+  Z-Anatomy viewers: waiting for Q186's final build, then stage (scripts/clinical/stage_clinical_files.py --all) + publish.
