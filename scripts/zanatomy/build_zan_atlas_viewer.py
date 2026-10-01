@@ -658,13 +658,29 @@ def fit_to_vhf(pending: list[dict]) -> dict:
     new_region = {p["mesh_id"]: Q168.structure_region(p["v"], rtree) for p in new_ids}
     proxy_ids = set(Q168.PROXY_FOLLOWERS)
     measured = 0
+    seam_before = {}  # Q186: skin vertices shared by two patches -> their copies, to measure tearing
+    for i, p in enumerate(pending):
+        if p["cat"] == "skin":
+            for j, key in enumerate(map(tuple, np.round(p["v"], 2))):
+                seam_before.setdefault(key, []).append((i, j))
     for p in pending:
+        if p["cat"] == "skin":
+            # Q186: one limb class per skin patch (patches ARE body regions); per-cluster classes flung
+            # her left thumb's nail fold ~290 mm away (it sits against the thigh in the source pose)
+            p["v"] = np.asarray(xf.blend(p["v"], xf.limb_class(p["v"])), dtype=np.float64)
+            continue
         p["v"] = np.asarray(xf(p["mesh_id"], p["cat"], p["v"]), dtype=np.float64)
         region = rep["region_of_structure"].get(p["mesh_id"]) or new_region.get(p["mesh_id"], "whole_body")
         left_proxy = p["mesh_id"] in proxy_ids or (region == "forearm_hand" and side_code(p["side_raw"]) == "l")
         p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy, region)
         measured += p["mesh_id"] in rep["per_structure"]
     skin_fit = skin_vs_her_skin(pending)
+    tears = [max(np.linalg.norm(pending[a][ "v"][b] - pending[c]["v"][d]) for (a, b) in cp for (c, d) in cp)
+             for cp in seam_before.values() if len({a for a, _ in cp}) > 1]
+    if tears:
+        t = np.asarray(tears)
+        skin_fit["seam_tear_mm"] = {"shared_vertices": len(t), "median": round(float(np.median(t)), 2),
+                                    "p99": round(float(np.percentile(t, 99)), 2), "max": round(float(t.max()), 2)}
     return {"skin_vs_her_ct_skin": skin_fit,"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)", "fits": str(Q168.DEFAULT_REPORT.relative_to(REPO)),
             "male_only_dropped": sorted(dropped), "structures": len(pending),
             "measured_on_her_mesh": measured, "region_errors": rep["region_errors"],
