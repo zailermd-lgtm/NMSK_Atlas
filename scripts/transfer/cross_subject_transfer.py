@@ -243,6 +243,9 @@ def main():
                          "upper-limb muscles use ['default'] (1.0 unless the file says otherwise).")
     ap.add_argument("--ids", nargs="*", help="restrict to these atlas ids (default: every id the target lacks)")
     ap.add_argument("--exclude", nargs="*", default=[])
+    ap.add_argument("--default-region", default=None,
+                    help="region (REGION_BONES key) for structures whose record has none; default: head/neck bones (Q183b: "
+                         "'trunk' for the great vessels, else the iliac vessels were driven by ribs and sternum)")
     ap.add_argument("--skin-nii"); ap.add_argument("--skin-origin")
     ap.add_argument("--envelope-src"); ap.add_argument("--envelope-dst",
                     help="lean-envelope tables (scripts/transfer/build_envelopes.py); with both given, lower-limb "
@@ -298,7 +301,7 @@ def main():
             skipped[aid] = f"degenerate on the source body ({len(v)} vertices, {mesh_volume_cm3(v, f):.2f} cm3): a fragment, not a structure"
             continue
         side = side_of(aid, m)
-        region = (m.get("rec") or {}).get("region")
+        region = (m.get("rec") or {}).get("region") or a.default_region
         nv, used = blend_transfer(v, maps, side, region)
         factor = bulk[BULK_GROUP.get(region, "default")] if m["cat"] == "muscle" else 1.0
         if factor != 1.0:
