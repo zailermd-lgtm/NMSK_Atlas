@@ -10853,3 +10853,11 @@ the female's phalanges are under-captured at HU 200.
   - [ ] Q185k2 her L1/L1B disc: an atlas entity for a supernumerary lumbar disc (built + passing, not shipped) -- or decide to
     leave the gap; consider whether her lumbar numbering should be rib-anchored throughout (L1B = L2, ... TS L5 = L6).
 - NEXT: republish both when decided (hers changed, his badge only); Q185a2.
+- Main session (2026-10-01): Q185k/Q185a published -- female v62 (459 / 3.41 M), male v79 (HTML only), hub v16.
+- [ ] Q185k2 (new): naming of her extra lumbar vertebra. Counting from the rib-bearing T12 she has L1..L6; Q185k named
+  the extra body "L1B" (between L1 and L2), which keeps existing ids but is not standard numbering (the extra is
+  conventionally the lowest: her shipped L2..L5 would be L3..L6, L5/S1 -> L6/S1). Decide with the owner whether to
+  add L6 entities and renumber, or keep L1B with a clear badge; until then her lumbar labels L2-L5 are off by one.
+- [ ] Q185a2 (new): his arm cryosection photographs ARE local (scratch vh_cryo, vh_cryo_m_forearm_q151, both arms in
+  frame) -- build his skin beyond the CT FOV (x < -233 / x > +247 mm: lateral upper arms, elbows, proximal forearms)
+  from them, registered as in Q151/Q180, and merge with the CT skin at the cut planes.
