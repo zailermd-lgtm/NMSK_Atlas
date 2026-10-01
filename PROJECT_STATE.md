@@ -11099,3 +11099,4 @@ of the classification table (e.g. brain parts as "other organ").
   outside skin 3852 / 2571 -> 0 / 14), q185a2_axial_levels.png (instances 1360 / 1560 / 1660). Not published.
 - Visible residue: a faint ring where the blend meets the CT skin and faint horizontal ledges at registration jumps.
 - NEXT: republish his viewer when decided (male own publish awaits the owner).
+- Main session (2026-10-01 ~20:00): Q185a2 published -- male viewer v80 (anatomy only: page + geo_01; NO clinical files, owner decision pending); hub unchanged (464 structures, ~2.25 M tris).
