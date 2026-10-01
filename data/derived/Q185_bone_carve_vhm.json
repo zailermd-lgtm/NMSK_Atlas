@@ -23,8 +23,11 @@
   "         nearest outside vertex to the bone surface + 0.5 mm (= the part inside bone is cut at the surface)",
   "  shell  (cartilage): sits ON bone -- projected out (displacement diffused to the neighbours, thickness kept) only when",
   "         the median move <= 3 mm; otherwise held + hidden by default (no new cartilage is invented)",
-  "Every mode: fold guard (faces next to moved vertices must not flip; offenders are backed off, then reverted) after a",
-  "small Laplacian relax of the moved vertices only. GATE: ship only if <= 5 % of vertices remain > 1 mm inside bone",
+  "Exit direction = the SDF gradient (label SDF Gaussian-smoothed by one voxel; mesh: towards the closest surface point)",
+  "averaged over the moved patch's mesh neighbours, so a patch moves coherently; the rim just below surface + 0.5 mm follows.",
+  "Every mode: fold guard -- faces next to moved vertices must not flip or collapse: the move of a folded face's vertices is",
+  "first relaxed (local Laplacian of the displacement, moved vertices only), what still folds is backed off (half, quarter)",
+  "and finally reverted; the shipped mesh has 0 flipped faces. A second pass runs from the first result when the gate fails. GATE: ship only if <= 5 % of vertices remain > 1 mm inside bone",
   "and (push / shell) the enclosed volume changed by <= 25 %; else the original is kept, hidden_default set when it is",
   "> 20 % inside bone, and the badge gives its numbers. Report: data/derived/Q185_bone_carve_<body>.json."
  ],
@@ -567,10 +570,10 @@
    "mode": "trim",
    "nv": 442,
    "in_bone_before": 0.0769,
-   "in_bone_after": 0.0724,
-   "volume_change": -0.0071,
+   "in_bone_after": 0.086,
+   "volume_change": -0.0182,
    "moved": 140,
-   "max_move_mm": 10.23,
+   "max_move_mm": 8.57,
    "records": [
     {
      "mode": "trim",
@@ -583,19 +586,19 @@
      "reverted": 0,
      "flipped_faces_left": 0,
      "moved": 132,
-     "max_move_mm": 10.23,
+     "max_move_mm": 11.18,
      "pass2": {
-      "moved": 55,
-      "backed_off": 84,
-      "reverted": 64,
+      "moved": 81,
+      "backed_off": 53,
+      "reverted": 38,
       "flipped_faces_left": 0
      }
     }
    ],
    "shipped": false,
    "hidden_default": false,
-   "held_reason": "7.2 % still > 1 mm inside",
-   "badge": "Q185 bone carve HELD: 7.7 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (7.2 % still > 1 mm inside), so the unmodified mesh is shown."
+   "held_reason": "8.6 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 7.7 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (8.6 % still > 1 mm inside), so the unmodified mesh is shown."
   },
   "tibial_collateral_ligament_r": {
    "subject": "vhm_both",
@@ -604,7 +607,7 @@
    "nv": 401,
    "in_bone_before": 0.0848,
    "in_bone_after": 0.0574,
-   "volume_change": -0.0381,
+   "volume_change": -0.0386,
    "moved": 87,
    "max_move_mm": 4.11,
    "records": [
@@ -855,10 +858,10 @@
    "mode": "trim",
    "nv": 30,
    "in_bone_before": 0.5,
-   "in_bone_after": 0.3333,
-   "volume_change": -0.4912,
+   "in_bone_after": 0.3,
+   "volume_change": -0.4905,
    "moved": 17,
-   "max_move_mm": 13.93,
+   "max_move_mm": 13.94,
    "records": [
     {
      "mode": "trim",
@@ -882,8 +885,8 @@
    ],
    "shipped": false,
    "hidden_default": true,
-   "held_reason": "33.3 % still > 1 mm inside",
-   "badge": "Q185 bone carve HELD: 50.0 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (33.3 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+   "held_reason": "30.0 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 50.0 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (30.0 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
   },
   "iliopsoas_tendon_r": {
    "subject": "ct_vhm",
@@ -892,9 +895,9 @@
    "nv": 30,
    "in_bone_before": 0.3333,
    "in_bone_after": 0.0,
-   "volume_change": -0.2219,
+   "volume_change": -0.2229,
    "moved": 11,
-   "max_move_mm": 3.71,
+   "max_move_mm": 3.74,
    "records": [
     {
      "mode": "trim",
@@ -907,7 +910,7 @@
      "reverted": 0,
      "flipped_faces_left": 0,
      "moved": 11,
-     "max_move_mm": 3.71
+     "max_move_mm": 3.74
     }
    ],
    "shipped": true,

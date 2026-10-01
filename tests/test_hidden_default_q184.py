@@ -34,8 +34,15 @@ def test_exporter_and_template_carry_the_flag():
 
 
 # + Q185c: discs whose endplate rebuild was held keep the Q104 cylinder, hidden by default
-@pytest.mark.parametrize("d,want", [("viewer_m_hr", sorted(ROUTE_D + ["intervertebral_disc_c6_c7"])),
-                                    ("viewer_f_hr", ["intervertebral_disc_c6_c7", "intervertebral_disc_t3_t4"])])
+# + Q185 d/e/h/i/j (scripts/bone_carve_q185.py): carve HELD and > 20 % inside the body's own bone -> hidden by default
+Q185_BONE_M = ["coracobrachialis_l", "iliopsoas_tendon_l", "rectus_capitis_lateralis_l", "rectus_capitis_lateralis_r"]
+Q185_BONE_F = ["ankle_articular_cartilage_l", "ankle_articular_cartilage_r", "flexor_digitorum_longus_r",
+               "flexor_pollicis_longus_r", "hip_articular_cartilage_l", "hip_articular_cartilage_r", "palmar_interossei_r",
+               "popliteus_l", "posterior_cruciate_ligament_l", "quadratus_femoris_r", "rectus_capitis_anterior_l"]
+
+
+@pytest.mark.parametrize("d,want", [("viewer_m_hr", sorted(ROUTE_D + ["intervertebral_disc_c6_c7"] + Q185_BONE_M)),
+                                    ("viewer_f_hr", sorted(["intervertebral_disc_c6_c7", "intervertebral_disc_t3_t4"] + Q185_BONE_F))])
 def test_built_bundles(d, want):
     b = REPO / "build" / d / "bundle.json"
     if not b.exists():

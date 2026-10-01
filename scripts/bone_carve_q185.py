@@ -611,7 +611,7 @@ def montage(out: Path, n: int = 6) -> Path:
                 a.set_title(f"{'his' if body == 'vhm' else 'her'} {aid} -- {tag} ({vn})\n> 1 mm in bone {100 * pct:.1f} %",
                             fontsize=7)
     fig.suptitle("Q185 bone carve: orange = vertex > 1 mm inside own bone, green = ok, grey = bone surface", fontsize=10)
-    fig.tight_layout(); out.mkdir(parents=True, exist_ok=True); f = out / "montage_worst6_before_after.png"
+    fig.tight_layout(rect=(0, 0, 1, 0.985)); out.mkdir(parents=True, exist_ok=True); f = out / "montage_worst6_before_after.png"
     fig.savefig(f, dpi=110); plt.close(fig)
     print(f"montage {f} ({len(rows)} structures)")
     return f

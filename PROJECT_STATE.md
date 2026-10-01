@@ -10585,16 +10585,16 @@ the female's phalanges are under-captured at HU 200.
     re-fit per bone; gate skin <= 1 %, bone <= 5 %.
   - [x] Q185c (2026-10-01: rebuilt from own endplates, his 19 / her 18 shipped, 1 / 2 held; sweep flags 14 / 11 -> 0 / 1 (her held T3/T4); see ## Q185c) procedural intervertebral discs (his 14, her 11): refit each cylinder to the adjacent vertebral endplates from the TS
     vertebra labels (radius / centre / height); gate 0 % > 1 mm in lung / organs, <= 5 % in vertebrae.
-  - [ ] Q185d her xfer_vhm2vhf articular cartilages + cruciates (hip 82-86 % in bone): shell them on HER bone surfaces (or drop);
+  - [~] Q185d (2026-10-01 Q185 d/e/h/i/j bone carve: his 7 -> 2 flagged, her 12 -> 3 + 5 hidden; REMAINS: her hip/ankle cartilage need a real rebuild on her bone surfaces, cruciates/TCL held) her xfer_vhm2vhf articular cartilages + cruciates (hip 82-86 % in bone): shell them on HER bone surfaces (or drop);
     re-check his vhm_both cartilage 6-12 %.
-  - [ ] Q185e her male->female leg/hip/forearm muscle transfers (25): carve against her bone labels / meshes; gate bone <= 5 %.
+  - [~] Q185e (2026-10-01 bone carve: 25 -> 11 flagged + 3 hidden, 12 fixed; REMAINS: deep (> 4 mm) overlaps -- obturator externus, quadratus femoris, vasti, FDL l, TA l; 2 left are organ-only) her male->female leg/hip/forearm muscle transfers (25): carve against her bone labels / meshes; gate bone <= 5 %.
   - [ ] Q185f transversus abdominis (her xfer_vhm2vhf_tva 24-46 % in liver/stomach; his ct_vhm_abw 11 %) + his rectus abdominis l:
     carve against the TS organ labels / peritoneal boundary.
   - [ ] Q185g his orbit: replace the 8 xfer_vhf2vhm orbit records with his own vhm_oculomotor_muscles labels (Q183-style own-label
     build, gates vs own label <= 1 mm).
-  - [ ] Q185h rectus capitis anterior / lateralis transfers (7): carve against the skull label (occipital condyle / jugular process).
-  - [ ] Q185i own cryo/CT muscles overlapping bone (his 13, her 16): subtract the bone labels / own bone meshes (+ re-check volumes).
-  - [ ] Q185j Q118 procedural tendon connectors: stop the end cap at the bone surface instead of inside it.
+  - [x] Q185h (2026-10-01 bone carve: his 4 -> 0 flagged [2 fixed, 2 hidden], her 3 -> 0 [2 fixed, 1 hidden]) rectus capitis anterior / lateralis transfers (7): carve against the skull label (occipital condyle / jugular process).
+  - [~] Q185i (2026-10-01 bone carve: his 13 -> 3 [9 fixed, 1 hidden; gluteus min l is own-label only], her 16 -> 11 [3 fixed, 2 hidden]; REMAINS: her shoulder/hand/forearm muscles fold across thin bone edges -> needs a voxel subtraction) own cryo/CT muscles overlapping bone (his 13, her 16): subtract the bone labels / own bone meshes (+ re-check volumes).
+  - [~] Q185j (2026-10-01 bone carve trim: his 4 -> 0 [3 trimmed, 1 hidden], her 6 -> 3 [3 trimmed]; REMAINS her iliopsoas l / quadriceps l/r) Q118 procedural tendon connectors: stop the end cap at the bone surface instead of inside it.
 
 ## Q185c (2026-10-01) -- intervertebral discs rebuilt from each body's OWN adjacent vertebral endplates (both bundles)
 - Script `scripts/discs_from_vertebrae_q185c.py build --body vhm|vhf` -> subjects build/vh/ct_vhm_discs / ct_vhf_discs +
@@ -10638,3 +10638,44 @@ the female's phalanges are under-captured at HU 200.
   (uncinate width) need a level-specific look before the cylinders can go.
 
 - Main session (2026-10-01): Q185c -- held-disc Q104 cylinders now hidden_default (his C6/C7; her C6/C7, T3/T4); Q184 test updated; published male v75 (462 / 2.24 M), female v58 (455 / 3.37 M), hub v14.
+
+## Q185 d/e/h/i/j (2026-10-01) -- generic bone carve: soft structures inside their OWN body's bone (both bundles)
+- Script `scripts/bone_carve_q185.py --body vhm|vhf $SUBJ $EXCL` (wired into both rebuild scripts right before export, same
+  --subject/--exclude list -> exactly the shipped records); `montage` -> scratch q185bone/montage_worst6_before_after.png.
+  Works IN PLACE on build/vh/<subject> (original kept as vertices.preq185.f32 + q185_carve_state.json; every run restores
+  first -> idempotent, verified: 2nd rebuild gave identical results; a subject rebuilt by its own script is detected by sha).
+  Reports data/derived/Q185_bone_carve_<body>.json (per structure: mode, in-bone before/after, volume, moves, fold guard).
+- Bone = the Q185 sweep's reference: TS `total` bone labels (SDF = EDT in - EDT out, Gaussian 1 voxel) OR own bone meshes
+  (exact closest point near the surface). Candidates: muscle/vessel/nerve/tendon/ligament/cartilage with > 5 % of vertices
+  > 1 mm inside bone by the sweep's own measure. Excluded: bones, optic n / ICA / IJV (canals), lateral pterygoid + temporalis
+  (label overlap), discs (Q185c), Q185b subjects (xfer_zan2v?_limb*, xfer_zan2vhf_foot), hidden_default records.
+  Modes: push (muscle/vessel/nerve: > 0.5 mm and <= 4 mm deep -> surface + 0.5 mm along the mesh-smoothed exit direction; rim
+  just below +0.5 follows; deeper stay), trim (tendon/ligament: slide along the PCA axis to the first point outside),
+  shell (cartilage: lifted with thickness kept, only if median move <= 3 mm). Fold guard: folded faces' moves relaxed
+  (local Laplacian of the displacement), then backed off / reverted -> 0 flipped faces shipped; 2nd pass if gate fails.
+  GATE ship: <= 5 % still > 1 mm in bone, |volume| <= 25 % (not for trims). Else original kept; hidden_default if > 20 % in bone.
+  Badge appended: "Q185 bone carve: N vertices moved out of her/his own bone (max X mm); in-bone A % -> B %" (HELD variant
+  gives its numbers and reason).
+- RESULT (sweep re-run, `--only` the targets, data/derived/Q185dehij_sweep_after.json; hidden ones not swept):
+  his  d 7 -> 2 (5 fixed, 2 held: ACL r, TCL r), h 4 -> 0 (2 fixed, RCL l/r hidden), i 13 -> 3 (9 fixed; coracobrachialis
+  r + brachialis r held, coracobrachialis l hidden; gluteus min l is own-label only), j 4 -> 0 (3 trimmed, iliopsoas tendon l
+  hidden). Total 28 -> 5 flagged + 4 hidden; 19 shipped / 8 held.
+  her  d 12 -> 3 (4 fixed; hip l/r [median move 5.4/5.8 mm], ankle l/r [vol -73 %], PCL l hidden; knee r, patellofemoral r,
+  ACL l held), e 25 -> 11 (12 fixed, FDL r / popliteus l / QF r hidden; 2 of the 11 are organ-only obturator internus), h 3 -> 0
+  (2 fixed, RCA l hidden), i 16 -> 11 (3 fixed, FPL r + palmar interossei r hidden), j 6 -> 3 (3 trimmed; iliopsoas l,
+  quadriceps l/r held). Total 62 -> 28 + 11 hidden; 24 shipped / 37 held. No new flags anywhere.
+  Why held: deep (> 4 mm) overlap, or the in-bone patch straddles a thin bone edge (scapula border, tibia crest, metacarpals)
+  so the exit directions split and the fold guard reverts it -- these need a voxel subtraction / refit, not a bounded snap.
+- Rebuilt both: his 462 structures, "triangles 22,584,126 -> 2,239,506"; hers 455, "32,496,516 -> 3,372,099" (totals
+  unchanged: same budgets). Per record vs the pre-carve bundles: his 421 identical, 19 geometry changed (= shipped), 8 held
+  + 5 others entry-only: gracilis/sartorius/semimembranosus/semitendinosus/soleus r anchor points moved <= 0.3 mm (his tibia
+  frame is the centroid of the tibial plateau cartilage, which was carved). Hers 394 identical, 24 geometry, 37 entry-only
+  (badge/hidden). Changed files: every geo file (his _geo_00/01, hers _geo_00/01/02: offsets shift), bundle.*, html.
+  hidden_default: his 13 Q184 + C6/C7 + 4 = 18; hers 2 discs + 11 = 13 (tests/test_hidden_default_q184.py updated).
+- Headless Chromium (q184/probe.py, swiftshader, three routed): 0 page errors both; "Search 462 / 455 structures"; visible at
+  load his 342 -> 339, hers 346 -> 340; each new hidden id shows after a list pick with the note + Show/Hide; phone renders.
+- Test tests/test_bone_carve_q185.py (5: push to surface, bounded depth, tendon trim keeps radius, shell refusal, fold guard);
+  with Q184/Q185/Q185c/template suites 26 pass. Not published. (her rebuild log shows the known vhf_whole_body_skin traceback:
+  scratch vh_idc legs nii absent -> existing ct_vhf_skin reused, as before.)
+- NEXT: held deep overlaps (her e/i, his coracobrachialis/brachialis) -> voxel boolean (muscle label minus bone) + remesh;
+  her hip/ankle cartilage -> build on HER femoral head / acetabulum / talus from her bone surfaces; republish when decided.

@@ -471,8 +471,8 @@
    "mode": "trim",
    "nv": 30,
    "in_bone_before": 0.5,
-   "in_bone_after": 0.0667,
-   "volume_change": -0.3921,
+   "in_bone_after": 0.0,
+   "volume_change": -0.4257,
    "moved": 15,
    "max_move_mm": 36.87,
    "records": [
@@ -490,10 +490,9 @@
      "max_move_mm": 36.87
     }
    ],
-   "shipped": false,
-   "hidden_default": true,
-   "held_reason": "6.7 % still > 1 mm inside",
-   "badge": "Q185 bone carve HELD: 50.0 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.7 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 15 vertices moved out of her own bone (max 36.9 mm); in-bone 50.0 % -> 0.0 % (trimmed at the bone surface)."
   },
   "iliopsoas_tendon_l": {
    "subject": "ct_vhf",
@@ -502,9 +501,9 @@
    "nv": 30,
    "in_bone_before": 0.1333,
    "in_bone_after": 0.1,
-   "volume_change": 0.0269,
+   "volume_change": 0.0337,
    "moved": 5,
-   "max_move_mm": 1.93,
+   "max_move_mm": 2.78,
    "records": [
     {
      "mode": "trim",
@@ -517,7 +516,7 @@
      "reverted": 0,
      "flipped_faces_left": 0,
      "moved": 5,
-     "max_move_mm": 1.93
+     "max_move_mm": 2.78
     }
    ],
    "shipped": false,
@@ -532,7 +531,7 @@
    "nv": 30,
    "in_bone_before": 0.3333,
    "in_bone_after": 0.0,
-   "volume_change": -0.3808,
+   "volume_change": -0.3779,
    "moved": 14,
    "max_move_mm": 15.89,
    "records": [
@@ -561,9 +560,9 @@
    "nv": 61,
    "in_bone_before": 0.0984,
    "in_bone_after": 0.0656,
-   "volume_change": -0.0899,
+   "volume_change": -0.1239,
    "moved": 7,
-   "max_move_mm": 26.14,
+   "max_move_mm": 34.86,
    "records": [
     {
      "mode": "trim",
@@ -576,7 +575,7 @@
      "reverted": 0,
      "flipped_faces_left": 0,
      "moved": 7,
-     "max_move_mm": 14.87,
+     "max_move_mm": 15.99,
      "pass2": {
       "moved": 7,
       "backed_off": 0,
@@ -2168,8 +2167,8 @@
  },
  "summary": {
   "candidates": 61,
-  "shipped": 23,
-  "held": 38,
-  "hidden": 12
+  "shipped": 24,
+  "held": 37,
+  "hidden": 11
  }
 }
