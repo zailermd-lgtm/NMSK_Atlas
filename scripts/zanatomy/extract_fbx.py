@@ -157,7 +157,9 @@ def nc_flag(base_name: str) -> str | None:
 
 
 def safe_filename(name: str) -> str:
-    return re.sub(r"[^A-Za-z0-9_.-]+", "_", name).strip("_") or "unnamed"
+    # Q186: a prime is kept as "_prime" -- "Central canal'" used to collapse onto "Central canal"'s file
+    # (the later object overwrote the earlier one, so both ids shipped the same 300-vertex mesh)
+    return re.sub(r"[^A-Za-z0-9_.-]+", "_", name.replace("'", "_prime_")).strip("_") or "unnamed"
 
 
 def extract_object(obj) -> dict:

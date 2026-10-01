@@ -1238,6 +1238,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
           if(clipPos) clipPos.value=50;
           sync2(); need=true;
         },
+        focus:function(p,d){ cam.tgt=p.slice(); if(d) cam.dist=d; stopSpin(); need=true; },
         redraw:function(){ need=true; }, refresh:function(){ need=true; },
         setOpacityOverride:function(fn){ addonOpacity=fn?function(k){ return fn(k,null); }:null; need=true; },
         categoryOn:function(k){ return !!on[k]; },

@@ -494,6 +494,9 @@ var CSS = [
 ".ncl.ncl-float{position:fixed;top:calc(3.3rem + env(safe-area-inset-top,0px));right:.9rem;width:340px;max-height:calc(100vh - 8rem);",
 "  overflow-y:auto;z-index:26;border:1px solid var(--ncl-line);border-radius:12px;box-shadow:0 10px 34px rgba(22,32,42,.18)}",
 "@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:52vh}}",
+".ncl.ncl-stage{position:absolute;left:12px;top:12px;width:330px;max-height:calc(100% - 150px);overflow-y:auto;z-index:5;",
+"  border:1px solid var(--ncl-line);border-radius:10px;box-shadow:0 8px 26px rgba(15,21,26,.16)}",
+"@media (max-width:760px){.ncl.ncl-stage{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:46%}}",
 ".ncl h3{margin:0;font-size:13px;font-weight:700}",
 ".ncl-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}.ncl-head h3{flex:1}",
 ".ncl button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--ncl-line);background:var(--ncl-sunk);border-radius:5px;padding:2px 8px;font-size:11px}",
@@ -615,15 +618,19 @@ TP.rayNearest = function (i, o, d, cut) {
 TP.insideMesh = function (i, p) {   // parity of crossings along a fixed skew direction
   return this.rayAll(i, p, [0.57735, 0.57736, 0.57734], 1e-5, 1e9).length % 2 === 1;
 };
+/* the smallest visible structure containing p; the skin (a closed body shell
+   here) only as a fallback, returned as -1: "inside the body, between the
+   modelled structures" */
 TP.containing = function (p, skip) {
   var self = this, best = null, bv = Infinity;
   this.recs.forEach(function (r) {
-    if (r.i === skip || !self.api.visible(r.i)) return;
+    if (r.i === skip || !self.api.visible(r.i) || self.skin.indexOf(r.i) >= 0) return;
     if (p[0] < r.bmin[0] || p[1] < r.bmin[1] || p[2] < r.bmin[2] || p[0] > r.bmax[0] || p[1] > r.bmax[1] || p[2] > r.bmax[2]) return;
     var vol = (r.bmax[0] - r.bmin[0]) * (r.bmax[1] - r.bmin[1]) * (r.bmax[2] - r.bmin[2]);
     if (vol >= bv) return;
     if (self.insideMesh(r.i, p)) { best = r.i; bv = vol; }
   });
+  if (best == null && this.skin.some(function (i) { return i !== skip && self.insideMesh(i, p); })) return -1;
   return best;
 };
 /* The point under the pointer: the nearest visible surface (never in the half
@@ -643,7 +650,7 @@ TP.pickPoint = function (e, skip) {
       var tp = -(dot(cn, R.o) + cut[3]) / den;
       if (tp > 0 && (!res || tp < res.t - 0.05)) {
         var P = addS(R.o, R.d, tp), inside = this.containing(P, skip);
-        if (inside != null) res = {i: inside, p: P, n: cn, t: tp, onCut: true};
+        if (inside != null) res = {i: inside >= 0 ? inside : null, p: P, n: cn, t: tp, onCut: true};
       }
     }
   }
@@ -651,7 +658,7 @@ TP.pickPoint = function (e, skip) {
   if (res) res.ray = R.d;
   return res;
 };
-TP.name = function (i) { return i == null ? "?" : this.recs[i].name; };
+TP.name = function (i) { return i == null ? "(no modelled structure)" : this.recs[i].name; };
 
 /* ---------- needle path report (ported from the template's Q58 tool) ---------- */
 TP.needleHits = function (A, B, list) {
@@ -748,7 +755,7 @@ TP.buildUI = function () {
   api.toolbar.insertBefore(btn, api.toolbar.lastElementChild);
   this.btn = btn;
   var el = document.createElement("div");
-  el.className = "ncl" + (api.panelHost ? "" : " ncl-float"); el.id = "needle-panel"; el.hidden = true;
+  el.className = "ncl " + (api.panelHost ? "ncl-stage" : "ncl-float"); el.id = "needle-panel"; el.hidden = true;
   var legend = HALO_CLASSES.map(function (k) { return '<span><span class="dot" style="background:' + CLASSES[k].color + '"></span>' + esc(CLASSES[k].label) + "</span>"; }).join("");
   var mults = HALO_CLASSES.map(function (k) {
     return "<span>" + esc(CLASSES[k].label.split(" (")[0].split(" /")[0]) + '</span><input type="number" step="0.05" min="0" max="3" data-mult="' + k + '" value="' + self.P.mult[k] + '"><span></span>';
@@ -771,6 +778,7 @@ TP.buildUI = function () {
     '<div class="ncl-row"><span>Needle length</span><input type="range" id="ncl-len" min="5" max="200" step="1" value="' + this.len + '">' +
     '<input type="number" id="ncl-lenn" min="5" max="200" step="1" value="' + this.len + '"> mm</div>' +
     '<div class="ncl-row"><button type="button" id="ncl-shortest" title="Shortest straight path from the target to the skin (or the outermost model surface)">Shortest entry</button>' +
+    '<button type="button" id="ncl-zoom" title="Centre the view on the target (or the entry)">Zoom to target</button>' +
     '<button type="button" id="ncl-cuthere" title="A cut plane facing you through the target (or the screen centre) to expose deep tissue; click the cut face to pick a deep target">Cut through target</button></div>' +
     '<div id="needle-report"></div>' +
     '<details id="ncl-mp" open><summary>Motor points</summary>' +
@@ -810,6 +818,10 @@ TP.buildUI = function () {
   $("ncl-len").oninput = function () { setLen(this.value); };
   $("ncl-lenn").onchange = function () { setLen(this.value); };
   $("ncl-shortest").onclick = function () { self.shortestEntry(); };
+  $("ncl-zoom").onclick = function () {
+    var p = self.target ? self.target.p : (self.entry ? self.entry.p : null);
+    if (p && api.focus) api.focus(p, Math.max(160, (self.entry && self.target ? dist(self.entry.p, self.target.p) : self.len) * 3.2));
+  };
   $("ncl-cuthere").onclick = function () {
     var v = api.view(); api.setCut({normal: v.dir, point: self.target ? self.target.p : v.target}); self.update();
   };
@@ -988,3 +1000,451 @@ TP.riskLine = function (ev) {
   }).join("") + "</ol>";
   return h;
 };
+
+/* ---------- data files (published next to the page) ---------- */
+TP.loadData = function () {
+  var self = this;
+  function get(url) {
+    return fetch(url, {cache: "no-cache"}).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+  }
+  Promise.all([get("clinical_risk.json"), get("clinical_motor_points.json")]).then(function (res) {
+    var risk = res[0], mp = res[1];
+    if (risk && risk.schema === "nmsk.clinical_risk.v1") {
+      self.risk.data = risk;
+      (risk.structures || []).forEach(function (s) { if (s.r_mm > 0) self.risk.rcal[s.id] = s.r_mm; });
+    }
+    self.viewerKey = (risk && risk.viewer) || self.api.viewerGuess;
+    if (mp && mp.schema === "nmsk.motor_points.v1" && mp.viewers) {
+      self.mp.data = mp;
+      var v = mp.viewers[self.viewerKey];
+      self.mp.points = v && v.points ? v.points.filter(function (p) { return p.pos && p.pos.length === 3; }) : [];
+      self.mp.msg = self.mp.points.length
+        ? self.mp.points.length + " motor points for this body (" + esc(self.viewerKey) + ")" + (mp.licence ? " -- " + esc(mp.licence) : "")
+        : "no motor-point data loaded for this body (" + esc(self.viewerKey) + ")";
+    } else self.mp.msg = "no motor-point data loaded";
+    self.renderMp(); self.renderRiskMsg(); self.renderFormula();
+  });
+};
+TP.renderRiskMsg = function () {
+  var d = this.risk.data, n = this.cls.filter(function (c) { return c && CLASSES[c].halo; }).length;
+  this.$("ncl-risk-msg").innerHTML = n + " risk structures in this model (classification table in the add-on). " +
+    (d ? "Calibre from clinical_risk.json (" + esc(d.viewer) + ", " + esc(d.generated || "") + ")."
+       : '<span class="warn">clinical_risk.json not loaded: calibre approximated from bounding boxes.</span>');
+};
+TP.rCal = function (i) {
+  var r = this.risk.rcal[this.recs[i].id];
+  if (r) return r;
+  var R = this.recs[i], ext = Math.min(R.bmax[0] - R.bmin[0], R.bmax[1] - R.bmin[1], R.bmax[2] - R.bmin[2]);
+  return clamp(ext / 2, 0.5, 15);
+};
+
+/* ---------- motor points ---------- */
+TP.renderMp = function () {
+  this.$("ncl-mp-msg").innerHTML = this.mp.msg;
+  var none = !this.mp.points.length;
+  this.$("ncl-mp-on").disabled = none; this.$("ncl-mp-q").disabled = none;
+  this.renderSearch();
+};
+TP.renderSearch = function () {
+  var q = this.$("ncl-mp-q").value.trim().toLowerCase(), box = this.$("ncl-mp-res"), self = this;
+  box.innerHTML = "";
+  if (!q || !this.mp.points.length) return;
+  var hits = this.mp.points.filter(function (p) {
+    return ((p.muscle_name || "") + " " + (p.structure_id || "") + " " + (p.atlas_id || "") + " " + (p.nerve || "")).toLowerCase().indexOf(q) >= 0;
+  }).slice(0, 40);
+  if (!hits.length) { box.innerHTML = '<p class="ncl-status">No motor point matches.</p>'; return; }
+  hits.forEach(function (p) {
+    var b = document.createElement("button"); b.type = "button";
+    b.innerHTML = esc(p.muscle_name) + (p.side ? " (" + esc(p.side) + ")" : "") + ' <span class="ncl-status">' + esc(p.kind || "") +
+      (p.depth_from_skin_mm != null ? " &middot; " + Number(p.depth_from_skin_mm).toFixed(0) + " mm deep" : "") + "</span>";
+    b.onclick = function () { self.useMotorPoint(p); };
+    box.appendChild(b);
+  });
+};
+TP.mpStructure = function (p) {
+  var ids = this.byId[p.structure_id] || this.byId[p.atlas_id] || [], self = this;
+  var inBox = ids.filter(function (i) { var r = self.recs[i]; return p.pos.every(function (c, k) { return c >= r.bmin[k] - 2 && c <= r.bmax[k] + 2; }); });
+  return (inBox.length ? inBox : ids).length ? (inBox.length ? inBox : ids)[0] : null;
+};
+TP.useMotorPoint = function (p) {
+  this.mp.sel = p;
+  this.target = {p: p.pos.slice(), i: this.mpStructure(p), n: null, mp: p};
+  if (this.mode === "dir") this.setMode("tfirst", true);
+  if (this.mode === "tfirst") this.entry = null;
+  if (this.mode === "two" && !this.entry) this.setMode("tfirst", true);
+  this.risk.safer = null;
+  ["sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(this.ov.remove, this.ov);
+  this.$("ncl-safer-out").innerHTML = "";
+  this.renderMpInfo(p);
+  this.update();
+};
+TP.renderMpInfo = function (p) {
+  var s = p.source || {};
+  this.$("ncl-mp-info").innerHTML = '<dl style="margin-top:8px">' +
+    "<dt>Motor point</dt><dd><b>" + esc(p.muscle_name) + "</b>" + (p.side ? " (" + esc(p.side) + ")" : "") + (p.kind ? " &middot; " + esc(p.kind) : "") + "</dd>" +
+    "<dt>Nerve</dt><dd>" + esc(p.nerve || "--") + "</dd>" +
+    "<dt>Depth</dt><dd>" + (p.depth_from_skin_mm != null ? f1(p.depth_from_skin_mm) + " mm from the skin" : "--") +
+    (p.projection_mm != null ? "; projection " + esc(JSON.stringify(p.projection_mm)) : "") + "</dd>" +
+    "<dt>Uncertainty</dt><dd>" + (p.uncertainty_mm != null ? f1(p.uncertainty_mm) + " mm (sphere radius)" : "--") + "</dd>" +
+    "<dt>Source</dt><dd>" + esc(s.citation || "--") + (s.doi ? " doi:" + esc(s.doi) : "") + (s.pmid ? " PMID " + esc(s.pmid) : "") +
+    (s.rule ? '<br><span class="ncl-status">' + esc(s.rule) + "</span>" : "") + "</dd>" +
+    (p.badge ? "<dt>Badge</dt><dd>" + esc(p.badge) + "</dd>" : "") + "</dl>";
+};
+TP.emphasize = function (on) {
+  this.mp.on = !!on && this.mp.points.length > 0;
+  this.$("ncl-mp-on").setAttribute("aria-pressed", String(this.mp.on));
+  ["mp-core", "mp-core-x", "mp-unc", "mp-unc-x"].forEach(this.ov.remove, this.ov);
+  if (this.mp.on) {
+    var pts = this.mp.points;
+    var cores = chunked(pts, function (g, p) { addSphere(g, p.pos, 1.8, 10, 6); });
+    var unc = chunked(pts, function (g, p) { addSphere(g, p.pos, Math.max(2, +p.uncertainty_mm || 5), 14, 9); });
+    this.ov.set("mp-core", cores, {color: MP_COLOUR, pass: "opaque", emis: 0.6});
+    this.ov.set("mp-core-x", cores, {color: MP_COLOUR, pass: "xray", alpha: 0.55, emis: 0.7});
+    this.ov.set("mp-unc", unc, {color: MP_COLOUR, pass: "trans", alpha: 0.14, emis: 0.5});
+    this.ov.set("mp-unc-x", unc, {color: MP_COLOUR, pass: "xray", alpha: 0.06, emis: 0.5});
+  }
+  this.applyOverride();
+};
+TP.markerAt = function (e) {
+  var best = null, bd = 14, api = this.api;
+  this.mp.points.forEach(function (p) {
+    var s = api.toScreen(p.pos); if (!s) return;
+    var d = Math.hypot(s[0] - e.clientX, s[1] - e.clientY); if (d < bd) { bd = d; best = p; }
+  });
+  return best;
+};
+TP.onHover = function (e) {
+  var p = this.mp.on ? this.markerAt(e) : null, tip = this.tip;
+  if (!p) { tip.hidden = true; return; }
+  var s = p.source || {};
+  tip.innerHTML = "<b>" + esc(p.muscle_name) + "</b>" + (p.side ? " (" + esc(p.side) + ")" : "") + " motor point" + (p.kind ? " &middot; " + esc(p.kind) : "") +
+    "<br>Nerve: " + esc(p.nerve || "--") + (p.uncertainty_mm != null ? "<br>&plusmn; " + Number(p.uncertainty_mm).toFixed(0) + " mm" : "") +
+    "<br><span style='opacity:.75'>" + esc(s.citation || "") + "</span>" + (p.badge ? "<br><i>" + esc(p.badge) + "</i>" : "") +
+    "<br><span style='opacity:.75'>click: make it the needle target</span>";
+  tip.style.left = Math.min(window.innerWidth - 290, e.clientX + 14) + "px"; tip.style.top = (e.clientY + 12) + "px"; tip.hidden = false;
+};
+
+/* ---------- tissue opacity while emphasising / showing halos ---------- */
+/* tissue systems that stay opaque (and are switched on) in halo mode: those
+   holding vessels, nerves and organs; every other system gets the slider's
+   transparency (brain/cord and lymph layers too -- they are haloed, not hidden). */
+var RISK_SYSTEMS = ["vessel", "nerve", "organ", "viscera"];
+TP.riskCats = function () {
+  var s = {}, self = this;
+  this.recs.forEach(function (r) { if (RISK_SYSTEMS.indexOf(r.cat) >= 0) s[r.cat] = 1; });
+  return s;
+};
+TP.applyOverride = function () {
+  var self = this, risk = this.risk.on ? this.riskCats() : null, alpha = 1 - this.risk.transp, mpOn = this.mp.on;
+  if (!risk && !mpOn) { this.api.setOpacityOverride(null); return; }
+  this.api.setOpacityOverride(function (cat) {
+    var v = null;
+    if (risk && !risk[cat]) v = alpha;
+    if (mpOn && cat === "muscle") v = Math.min(v == null ? 1 : v, 0.35);
+    return v;
+  });
+};
+
+/* ---------- risk halos ---------- */
+TP.currentL = function () {
+  if (this.entry && this.target) return dist(this.entry.p, this.target.p);
+  return this.len;
+};
+TP.halos = function (on) {
+  var api = this.api, self = this;
+  this.risk.on = !!on;
+  this.$("ncl-halo").setAttribute("aria-pressed", String(this.risk.on));
+  if (this.risk.on) {
+    var cats = this.riskCats();
+    this.risk.saved = {};
+    Object.keys(cats).forEach(function (c) { self.risk.saved[c] = api.categoryOn(c); api.setCategoryOn(c, true); });
+  } else if (this.risk.saved) {
+    Object.keys(this.risk.saved).forEach(function (c) { api.setCategoryOn(c, self.risk.saved[c]); });
+    this.risk.saved = null;
+  }
+  this.applyOverride();
+  this.refreshHalos();
+  if (this.risk.on && this.entry && this.target) this.evalCurrent();
+  this.render(); api.redraw();
+};
+TP.refreshHalos = function () {
+  if (!this.risk.on) { this.ov.setHalos([]); this.$("ncl-halo-list").innerHTML = ""; this.api.redraw(); return; }
+  var self = this, L = this.currentL(), focus = this.target ? this.target.p : (this.entry ? this.entry.p : null);
+  var reach = this.len + 60, list = [], rows = [];
+  this.recs.forEach(function (r, i) {
+    var c = self.cls[i]; if (!c || !CLASSES[c].halo || !self.api.visible(i)) return;
+    var dmin = 0;
+    if (focus) {
+      for (var k = 0; k < 3; k++) { var dk = Math.max(r.bmin[k] - focus[k], 0, focus[k] - r.bmax[k]); dmin += dk * dk; }
+      dmin = Math.sqrt(dmin); if (dmin > reach) return;
+    }
+    var rc = self.rCal(i), h = haloRadius(c, rc, L, self.P);
+    list.push({i: i, r: h * self.orientSign(i), color: CLASSES[c].color, alpha: 0.22});
+    rows.push({i: i, cls: c, rc: rc, h: h, d: dmin});
+  });
+  this.ov.setHalos(list);
+  rows.sort(function (a, b) { return a.d - b.d; });
+  this.$("ncl-halo-list").innerHTML = '<p class="ncl-status" style="margin-top:6px">' + list.length + " halos at L = " + L.toFixed(0) + " mm" +
+    (focus ? " (within " + reach.toFixed(0) + " mm of the " + (this.target ? "target" : "entry") + ")" : " (whole model -- set a target to narrow)") + ". Nearest:</p>" +
+    "<ol>" + rows.slice(0, 8).map(function (r) {
+      return '<li><span class="dot" style="background:' + CLASSES[r.cls].color + '"></span>' + esc(self.name(r.i)) +
+        ' <span class="rng mono">r<sub>cal</sub> ' + r.rc.toFixed(1) + " &rarr; halo " + r.h.toFixed(1) + " mm</span></li>";
+    }).join("") + "</ol>";
+  this.api.redraw();
+};
+
+/* ---------- the region around a target: surfaces, bone, risk samples ---------- */
+/* Built once per target and reach (the expensive step), then reused by every
+   path query: a triangle grid of the skin (or, in a model without skin, of
+   every structure: the outermost surface), a triangle grid of bone, and the
+   risk structures' surface vertices thinned to one per 2.5 mm voxel. */
+TP.region = function (T, reach) {
+  var R0 = this.risk.region, tgtId = this.target && this.target.i != null ? this.recs[this.target.i].id : null;
+  if (R0 && R0.reach === reach && dist(R0.T, T) < 1e-6 && R0.P === JSON.stringify(this.P) && R0.tgtId === tgtId) return R0;
+  var t0 = performance.now(), self = this, H = reach + HUB_CLEAR_MM + 8;
+  var bmin = [T[0] - H, T[1] - H, T[2] - H], bmax = [T[0] + H, T[1] + H, T[2] + H];
+  function gather(idxs) {
+    var tris = [], owner = [];
+    idxs.forEach(function (i) {
+      var r = self.recs[i]; if (!boxOverlap(r.bmin, r.bmax, bmin, bmax)) return;
+      var g = self.geom(i); if (!g) return;
+      var P = g.pos, I = g.idx;
+      for (var f = 0; f < I.length; f += 3) {
+        var a = I[f] * 3, b = I[f + 1] * 3, c = I[f + 2] * 3, ok = true;
+        for (var k = 0; k < 3 && ok; k++) {
+          var mn = Math.min(P[a + k], P[b + k], P[c + k]), mx = Math.max(P[a + k], P[b + k], P[c + k]);
+          if (mx < bmin[k] || mn > bmax[k]) ok = false;
+        }
+        if (!ok) continue;
+        tris.push(P[a], P[a + 1], P[a + 2], P[b], P[b + 1], P[b + 2], P[c], P[c + 1], P[c + 2]); owner.push(i);
+      }
+    });
+    return new TriGrid(new Float32Array(tris), new Int32Array(owner), bmin, bmax, 10);
+  }
+  var all = this.recs.map(function (r) { return r.i; });
+  var useSkin = this.skin.length > 0;
+  var surf = gather(useSkin ? this.skin : all);
+  var bone = gather(all.filter(function (i) { return self.cls[i] === "bone"; }));
+  // the target's own structure (the thing being injected) is excluded from the risk check
+  var pts = [], own = [], sIdx = [], seen = new Set();
+  all.forEach(function (i) {
+    var c = self.cls[i]; if (!c || !CLASSES[c].halo || self.recs[i].id === tgtId) return;
+    var r = self.recs[i]; if (!boxOverlap(r.bmin, r.bmax, bmin, bmax)) return;
+    var g = self.geom(i); if (!g) return;
+    var P = g.pos, I = g.idx, si = sIdx.length, before = pts.length;
+    seen.clear();
+    function addPt(x, y, z) {
+      if (x < bmin[0] || y < bmin[1] || z < bmin[2] || x > bmax[0] || y > bmax[1] || z > bmax[2]) return;
+      var key = Math.floor((x - bmin[0]) / SPACING) * 1e8 + Math.floor((y - bmin[1]) / SPACING) * 1e4 + Math.floor((z - bmin[2]) / SPACING);
+      if (seen.has(key)) return; seen.add(key); pts.push(x, y, z); own.push(si);
+    }
+    for (var v = 0; v < P.length; v += 3) addPt(P[v], P[v + 1], P[v + 2]);
+    for (var f = 0; f < I.length; f += 3) {       // fill big triangles with their centroids
+      var a = I[f] * 3, b = I[f + 1] * 3, cc = I[f + 2] * 3;
+      var e = Math.max(Math.hypot(P[a] - P[b], P[a + 1] - P[b + 1], P[a + 2] - P[b + 2]), Math.hypot(P[a] - P[cc], P[a + 1] - P[cc + 1], P[a + 2] - P[cc + 2]));
+      if (e > 2 * SPACING) addPt((P[a] + P[b] + P[cc]) / 3, (P[a + 1] + P[b + 1] + P[cc + 1]) / 3, (P[a + 2] + P[b + 2] + P[cc + 2]) / 3);
+    }
+    if (pts.length > before) sIdx.push({i: i, cls: c, rCal: self.rCal(i)});
+  });
+  var grid = new PointGrid(new Float32Array(pts), new Int32Array(own), bmin, bmax, 8);
+  var reg = {T: T.slice(), reach: reach, P: JSON.stringify(this.P), tgtId: tgtId, surf: surf, useSkin: useSkin, bone: bone, grid: grid, structs: sIdx,
+             nTris: surf.ntris + bone.ntris, nPts: pts.length / 3, ms: performance.now() - t0, minD: new Float32Array(sIdx.length)};
+  this.risk.region = reg;
+  return reg;
+};
+/* the entry for direction u from target T: {E, L, entryI, ok, why} */
+TP.entryFor = function (reg, T, u, reach) {
+  if (reg.useSkin) {
+    var hs = reg.surf.ray(T, u, 0.2, reach + HUB_CLEAR_MM);
+    if (!hs.length) return {ok: false, why: "no skin within reach"};
+    var t1 = hs[0].t; if (t1 > reach) return {ok: false, why: "longer than the needle"};
+    var again = hs.some(function (h) { return h.t > t1 + 0.5 && h.t <= t1 + HUB_CLEAR_MM; });
+    return {ok: true, E: addS(T, u, t1), L: t1, entryI: reg.surf.owner[hs[0].tri], obstructed: again};
+  }
+  var ho = reg.surf.ray(T, u, 0.2, reach + HUB_CLEAR_MM);
+  if (!ho.length) return {ok: false, why: "no surface"};
+  var last = ho[ho.length - 1];
+  if (last.t > reach) return {ok: false, why: "longer than the needle"};
+  return {ok: true, E: addS(T, u, last.t), L: last.t, entryI: reg.surf.owner[last.tri], obstructed: false};
+};
+/* risk evaluation of the straight path E -> T */
+TP.evalPath = function (reg, E, T, L, obstructed) {
+  var P = this.P, maxM = 0;
+  HALO_CLASSES.forEach(function (c) { maxM = Math.max(maxM, P.mult[c] || 0); });
+  var R = clamp(maxM * (P.b0 * P.fMax + P.k * L), P.rMin, P.rMax) + 8;
+  var minD = reg.minD, owner = reg.grid.owner, touched = [];
+  reg.grid.capsule(E, T, R, function (p, d) {
+    var s = owner[p];
+    if (minD[s] === 0) touched.push(s);
+    if (minD[s] === 0 || d < minD[s] - 1e-9) minD[s] = d + 1e-9;
+  });
+  var items = [];
+  touched.forEach(function (s) {
+    var st = reg.structs[s];
+    items.push({ref: st.i, cls: st.cls, rCal: st.rCal, clear: Math.max(0, minD[s] - SPACING / 2)});
+    minD[s] = 0;
+  });
+  var u = norm(sub(E, T));
+  var boneHit = reg.bone.ntris ? reg.bone.ray(T, u, 2, Math.max(2, L - 0.5)) : [];
+  var blocked = boneHit.length > 0 || !!obstructed;
+  var sc = scorePath(items, L, blocked, P);
+  items.sort(function (a, b) { return (a.clear - haloRadius(a.cls, a.rCal, L, P)) - (b.clear - haloRadius(b.cls, b.rCal, L, P)); });
+  return {colour: sc.colour, cost: sc.cost, minMargin: sc.minMargin, blocked: blocked, bone: boneHit.length > 0, obstructed: !!obstructed,
+          close: items.slice(0, 6).map(function (it) { return {ref: it.ref, cls: it.cls, clear: it.clear, halo: haloRadius(it.cls, it.rCal, L, P)}; })};
+};
+TP.evalCurrent = function () {
+  var self = this; if (!this.entry || !this.target) return;
+  this.risk.pathEval = {pending: true};
+  setTimeout(function () {
+    if (!self.entry || !self.target) return;
+    var T = self.target.p, E = self.entry.p, L = dist(E, T);
+    var reg = self.region(T, Math.max(self.len, L + 1));
+    self.risk.pathEval = self.evalPath(reg, E, T, L, false);
+    self.render();
+  }, 0);
+};
+
+/* ---------- safer pathways ---------- */
+TP.runSafer = function (opts) {
+  var self = this, out = this.$("ncl-safer-out");
+  if (!this.target) { out.innerHTML = '<p class="warn">Set a target first (target-first mode, a cut face, or a motor point).</p>'; return Promise.resolve(null); }
+  if (!this.risk.on) this.halos(true);
+  opts = opts || {};
+  var N = opts.n || 720, T = this.target.p.slice(), reach = this.len, dirs = fibonacciSphere(N), t0 = performance.now();
+  out.innerHTML = '<p class="ncl-status">Building the region around the target...</p>';
+  var token = (this.saferToken = (this.saferToken || 0) + 1);
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      t0 = performance.now();   // compute time only (not the wait for queued frames before this task runs)
+      var reg = self.region(T, reach), tReg = performance.now() - t0, res = [], k = 0, tEval = 0;
+      function chunk() {
+        if (token !== self.saferToken) return resolve(null);
+        var c0 = performance.now(), stop = Math.min(N, k + 60);
+        for (; k < stop; k++) {
+          var u = [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], en = self.entryFor(reg, T, u, reach);
+          if (!en.ok) continue;
+          var ev = self.evalPath(reg, en.E, T, en.L, en.obstructed);
+          res.push({u: u, E: en.E, L: en.L, entryI: en.entryI, colour: ev.colour, cost: ev.cost, ev: ev});
+        }
+        tEval += performance.now() - c0;     // compute only; the browser draws between chunks
+        if (k < N) { out.innerHTML = '<p class="ncl-status">Evaluating approaches ' + k + "/" + N + "...</p>"; return setTimeout(chunk, 0); }
+        res.sort(function (a, b) { return a.cost - b.cost; });
+        var greens = res.filter(function (r) { return r.colour === "green"; }), ambers = res.filter(function (r) { return r.colour === "amber"; });
+        var best = (greens.length ? greens : ambers).slice(0, 3);
+        self.risk.safer = {res: res, best: best, N: N, ms: tReg + tEval, msRegion: tReg, msEval: tEval, reg: reg};
+        self.drawSafer(); self.renderSafer();
+        resolve(self.saferSummary());
+      }
+      chunk();
+    }, 0);
+  });
+};
+TP.saferSummary = function () {
+  var s = this.risk.safer; if (!s) return null;
+  var c = {green: 0, amber: 0, red: 0};
+  s.res.forEach(function (r) { c[r.colour]++; });
+  return {directions: s.N, reachable: s.res.length, green: c.green, amber: c.amber, red: c.red, ms_total: Math.round(s.ms),
+          ms_region: Math.round(s.msRegion), ms_eval: Math.round(s.msEval), region_triangles: s.reg.nTris, risk_samples: s.reg.nPts,
+          risk_structures: s.reg.structs.length,
+          best: s.best.map(function (b) { return {colour: b.colour, length_mm: +b.L.toFixed(1), entry: b.E.map(function (x) { return +x.toFixed(1); }),
+                                                  min_margin_mm: isFinite(b.ev.minMargin) ? +b.ev.minMargin.toFixed(1) : null}; })};
+};
+TP.drawSafer = function () {
+  var s = this.risk.safer, ov = this.ov, self = this;
+  ["sp-g", "sp-a", "sp-r", "sp-best", "sp-best-x"].forEach(ov.remove, ov);
+  if (!s) return;
+  ["green", "amber", "red"].forEach(function (c) {
+    var pts = s.res.filter(function (r) { return r.colour === c; });
+    ov.set("sp-" + c[0], chunked(pts, function (g, r) { addSphere(g, r.E, c === "red" ? 1.1 : 1.5, 8, 5); }), {color: COLOUR[c], pass: "opaque", emis: 0.35});
+  });
+  var g = new Geo(), T = this.target.p;
+  s.best.forEach(function (b) { addTube(g, b.E, T, 0.4 * self.rDisp + 0.15, 0.4 * self.rDisp + 0.15, 10, {}); });
+  ov.set("sp-best", g, {color: "#7BE0A6", pass: "trans", alpha: 0.5, emis: 0.3});
+  ov.set("sp-best-x", g, {color: "#7BE0A6", pass: "xray", alpha: 0.18, emis: 0.3});
+  this.api.redraw();
+};
+TP.renderSafer = function () {
+  var S = this.saferSummary(), out = this.$("ncl-safer-out"), self = this; if (!S) return;
+  var h = '<p style="margin:8px 0 2px"><b>' + S.reachable + "</b> of " + S.directions + " sampled directions reach the " + (this.skin.length ? "skin" : "outermost surface") +
+    " within " + this.len + ' mm: <span class="pill-g">' + S.green + ' green</span>, <span class="pill-a">' + S.amber + ' amber</span>, <span class="pill-r">' + S.red +
+    ' red</span>. <span class="ncl-status">' + S.ms_total + " ms (region " + S.ms_region + " ms: " + S.region_triangles.toLocaleString() + " triangles, " +
+    S.risk_samples.toLocaleString() + " risk samples from " + S.risk_structures + " structures; paths " + S.ms_eval + " ms)</span></p>";
+  if (!S.best.length) h += '<p class="warn">No approach within the needle length clears the risk structures' + (S.reachable ? "" : " (none reaches the skin)") + ".</p>";
+  else h += "<ol>" + this.risk.safer.best.map(function (b, k) {
+    var w = b.ev.close[0];
+    return '<li><button type="button" data-best="' + k + '">use</button> <span class="pill-' + b.colour[0] + '">' + b.colour + "</span> " + b.L.toFixed(0) + " mm" +
+      (w ? ' <span class="ncl-status">closest: ' + esc(self.name(w.ref)) + " " + w.clear.toFixed(1) + "/" + w.halo.toFixed(1) + " mm</span>" : "") + "</li>";
+  }).join("") + "</ol>";
+  h += '<p class="cite">Green: outside every halo; amber: inside a halo but clear of the structure; red: touches a risk structure, crosses bone, or the body ' +
+       "lies within " + HUB_CLEAR_MM + " mm outside the entry. Click an entry dot or a faint best path in the model to adopt it. The target's own structure is not scored. Heuristic.</p>";
+  out.innerHTML = h;
+  out.querySelectorAll("[data-best]").forEach(function (b) { b.onclick = function () { self.adopt(self.risk.safer.best[+b.dataset.best]); }; });
+};
+TP.saferAt = function (e) {
+  var s = this.risk.safer, api = this.api, best = null, bd = 11;
+  s.res.forEach(function (r) {
+    var p = api.toScreen(r.E); if (!p) return;
+    var d = Math.hypot(p[0] - e.clientX, p[1] - e.clientY); if (d < bd) { bd = d; best = r; }
+  });
+  if (best) return best;
+  var T = api.toScreen(this.target.p);
+  if (T) s.best.forEach(function (r) {   // the faint best lines themselves
+    var A = api.toScreen(r.E); if (!A) return;
+    var dx = T[0] - A[0], dy = T[1] - A[1], l2 = dx * dx + dy * dy || 1, t = clamp(((e.clientX - A[0]) * dx + (e.clientY - A[1]) * dy) / l2, 0, 1);
+    var d = Math.hypot(A[0] + t * dx - e.clientX, A[1] + t * dy - e.clientY); if (d < bd - 4) { bd = d + 4; best = r; }
+  });
+  return best;
+};
+TP.adopt = function (r) {
+  this.entry = {p: r.E.slice(), i: r.entryI, n: mul(r.u, -1)};
+  if (this.mode === "dir") this.setMode("tfirst", true);
+  this.update();
+};
+TP.shortestEntry = function () {
+  var self = this; if (!this.target) { this.$("needle-status").textContent = "Set a target first."; return; }
+  setTimeout(function () {
+    var T = self.target.p, reg = self.region(T, self.len), dirs = fibonacciSphere(1200), best = null;
+    for (var k = 0; k < 1200; k++) {
+      var en = self.entryFor(reg, T, [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]], self.len);
+      if (en.ok && !en.obstructed && (!best || en.L < best.L)) best = {E: en.E, L: en.L, entryI: en.entryI, u: [dirs[3 * k], dirs[3 * k + 1], dirs[3 * k + 2]]};
+    }
+    if (!best) { self.$("needle-status").innerHTML = '<span class="warn">No skin within the ' + self.len + " mm needle length.</span>"; return; }
+    self.adopt(best);
+  }, 0);
+};
+
+/* ---------- facade for the host page and for test harnesses ---------- */
+TP.setPath = function (entry, target, entryId, targetId) {
+  if (!this.active) this.toggle(true);
+  if (this.mode === "dir") this.setMode("two", true);
+  var self = this;
+  function idx(id, p) {
+    var ids = id ? self.byId[id] || [] : [];
+    if (ids.length > 1 && p) {
+      var inb = ids.filter(function (i) { var r = self.recs[i]; return p.every(function (c, k) { return c >= r.bmin[k] - 1 && c <= r.bmax[k] + 1; }); });
+      if (inb.length) return inb[0];
+    }
+    return ids.length ? ids[0] : null;
+  }
+  this.entry = {p: entry.slice(), i: idx(entryId, entry), n: null};
+  this.target = target ? {p: target.slice(), i: idx(targetId, target), n: null} : null;
+  this.update();
+};
+
+global.NMSKClinical = {
+  version: 1,
+  pure: PURE,
+  attach: function (api) {
+    var tool = new Tool(api);
+    global.NMSKClinicalTool = tool;
+    global.NeedlePath = {        // compatible with the pre-Q188 in-template tool's harness API
+      toggle: function (on) { tool.toggle(on); }, clear: function () { tool.clear(); },
+      setPoints: function (e, t, eid, tid) { tool.setPath(e, t, eid, tid); },
+      report: function () { return tool.report(); },
+      toScreen: function (p) { return api.toScreen(p); }
+    };
+    return {cursor: function () { return tool.cursor(); },
+            setPath: function (e, t, eid, tid) { tool.setPath(e, t, eid, tid); }};
+  }
+};
+})(typeof window !== "undefined" ? window : globalThis);

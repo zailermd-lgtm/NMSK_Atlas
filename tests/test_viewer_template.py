@@ -17,18 +17,22 @@ def test_bundle_placeholders_present(template):
 
 
 def test_needle_path_controls(template):
-    for needle in ('id="t-needle"', 'id="needle-panel"', 'id="needle-clear"',
-                   'id="needle-status"', 'id="needle-report"'):
-        assert needle in template
+    """Q188: the needle tool moved to the private add-on clinical/needle_tool.js; the
+    template keeps a generic hook and the general Cut tool."""
+    assert '<script src="clinical_needle_tool.js"></script>' in template
+    for el in ('id="t-cut"', 'id="cut-panel"', 'id="cut-pos"', 'id="cut-flip"'):
+        assert el in template, el
+    mod = (TEMPLATE.parent.parent / "clinical" / "needle_tool.js").read_text(encoding="utf-8")
+    for needle in ('"t-needle"', '"needle-panel"', '"needle-clear"', '"needle-status"', '"needle-report"'):
+        assert needle in mod, needle
 
 
 def test_needle_path_functions(template):
-    for fn in ("needleToggle", "needleClear", "needleAddPoint", "needleSetPoints",
-               "needleClick", "needleHits", "needleCrossings", "needleSkinDepth",
-               "needleReport", "needleRender", "pickHit"):
-        assert f"function {fn}(" in template, fn
-    assert "window.NeedlePath" in template
-    assert 'e.key === "Escape"' in template
+    mod = (TEMPLATE.parent.parent / "clinical" / "needle_tool.js").read_text(encoding="utf-8")
+    for fn in ("needleHits", "crossings", "skinDepth", "report", "render", "pickPoint", "setPath", "toggle", "clear"):
+        assert f"TP.{fn} = function" in mod, fn
+    assert "global.NeedlePath" in mod and 'e.key === "Escape"' in mod
+    assert "function pickHit(" in template
 
 
 def test_needle_path_documented():

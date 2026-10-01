@@ -78,7 +78,7 @@ def safe_filename(name: str) -> str:
     """Exactly scripts/zanatomy/extract_fbx.py's own safe_filename() (duplicated here
     rather than imported: that module requires bpy and is not importable by the
     project's main numpy 2.x interpreter -- see its own module docstring)."""
-    return _SAFE_RE.sub("_", name).strip("_") or "unnamed"
+    return _SAFE_RE.sub("_", name.replace("'", "_prime_")).strip("_") or "unnamed"
 
 
 def to_atlas_frame(v: np.ndarray) -> np.ndarray:

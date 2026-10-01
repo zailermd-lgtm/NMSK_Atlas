@@ -71,7 +71,10 @@ def test_corrected_structures_carry_a_citation_badge(manifest):
     assert corrected_ids, "expected at least the Q144/Q145 posterior interosseous nerve correction"
     # Q162: plus the contralateral mirror repairs (gap closure is off in this fixture)
     repaired = {r["id"] for r in manifest["totals"]["contralateral_repairs"]["repaired"]}
-    assert set(corrected_ids) == {"posterior_interosseous_n_l", "posterior_interosseous_n_r"} | repaired
+    # Q186: plus the orphans whose side was inferred/swapped from their position (badged with the reason)
+    q186 = manifest["totals"]["q186_fixes"]
+    resided = {x["now"] for k in ("side_inferred", "side_swapped") for x in q186[k]}
+    assert set(corrected_ids) == {"posterior_interosseous_n_l", "posterior_interosseous_n_r"} | repaired | resided
     by_id = {m["id"]: m for m in manifest["meshes"]}
     for aid in ("posterior_interosseous_n_l", "posterior_interosseous_n_r"):
         badge = (by_id[aid].get("rec") or {}).get("procedural_badge")

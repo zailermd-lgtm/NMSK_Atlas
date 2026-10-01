@@ -88,36 +88,33 @@ the viewing copies get coarser.
 
 ## Needle path
 
-The **Needle path** button in the tool bar turns the two clicks after it
-into a straight-line measurement. The first click on any structure sets
-the entry point (the exact hit on that surface -- normally the skin, so
-switch its system on first); the second sets the target. The target click
-looks through the entry structure, so the skin can stay on while you pick
-what lies beneath it; hide any other system in the way. The path is drawn
-as a thin rod with a green entry bead and an orange target bead, and the
-panel above the inspector reports:
+Since Q188 the needle tool is NOT part of the viewer page: it is the owner's PRIVATE
+add-on `clinical/needle_tool.js` (licence: `clinical/LICENSE_PRIVATE.md`), published as a
+separate file `clinical_needle_tool.js` next to each viewer page by
+`scripts/clinical/stage_clinical_files.py`, together with `clinical_risk.json` and
+`clinical_motor_points.json`. The page keeps only a generic hook (a script tag that loads the
+file if present, and an anatomy API object: meshes, structure records, picking, visibility,
+opacity, camera). Without the file the page is an anatomy-only atlas and shows no needle button.
+The page itself keeps a general **Cut** tool (sagittal / axial / coronal / facing-me plane,
+movable, flip side); picking ignores the removed half.
 
-- the path length in mm and both points in atlas mm (+X subject's right,
-  +Y superior, +Z anterior; origin at the midpoint of the hip joint centres);
-- every visible structure the segment passes through, in order from the
-  entry, with the depth range along the path (mm from the entry) at which
-  the segment is inside that mesh -- e.g. `skin 0.0-38.6, rectus_femoris_r
-  20.6-26.8, vastus_intermedius_r 29.1-38.6, femur_r 38.6 (surface
-  reached)`. It is found by casting the segment against each shown mesh
-  from both ends and pairing the entry and exit hits (an entry is a face
-  whose normal points against the path); the skin here is the whole body
-  silhouette, so it spans the path from a skin entry, and unmodelled
-  tissue (subcutaneous fat) appears as a gap;
-- the depth of the target below the skin: the path length when the entry
-  is on the skin, otherwise the distance from the target back to the
-  nearest skin crossing along the path, skin hidden or not.
+With the add-on present, the **Needle** button opens its panel. The original measurement is kept:
+the first click on any structure sets the entry point (normally the skin, so switch its system on
+first); the second sets the target, looking through the entry structure. The panel reports:
 
-A third click starts a new path; **Clear** or Esc removes it; switching
-the tool off removes the drawing. Everything is measured on the decimated
-viewing meshes the page carries, not on the full-resolution atlas meshes,
-and along the path rather than perpendicular to the skin. It is a
-geometric measurement for orientation, not a clinical recommendation of
-an approach, angle or depth.
+- the path length in mm and both points in the viewer's frame (atlas mm for the specimen viewers:
+  +X subject's right, +Y superior, +Z anterior);
+- every visible structure the segment passes through, in order from the entry, with the depth
+  range along the path (mm from the entry) at which the segment is inside that mesh -- found by
+  casting the segment against each shown mesh from both ends and pairing the entry and exit hits
+  (an entry is a face whose normal points against the path);
+- the depth of the target below the skin (Z-Anatomy has no skin: the outermost model surface).
+
+Further modes (entry + direction + length; target first on a cut face or a motor point), the 3-D
+needle, motor points, risk halos and safer pathways are documented in PROJECT_STATE.md "## Q188".
+Everything is measured on the decimated viewing meshes, along the path rather than perpendicular
+to the skin. It is a planning / education aid, not a clinical recommendation of an approach,
+angle or depth.
 
 
 ## Clinical reference panel

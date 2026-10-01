@@ -37,7 +37,7 @@ TEMPLATE_LAYERS = {"bone", "cartilage", "joint", "insertion", "muscle", "fascia"
                    "vessel", "lymph", "viscera"}
 
 _SUFFIX_RE = re.compile(r"\.([A-Za-z0-9]+)$")
-DECAL_SUFFIXES = {"ol", "or", "el", "er"}
+DECAL_RE = re.compile(r"^[oe]\d*[lr]$")  # .ol/.or/.el/.er/.o1l/.e2r/...: origin/insertion decals
 HAIR_NAMES = ("Hairs of head", "Hairs of eyebrow", "Eyelashes", "Pubic hairs")
 
 REASONS = {
@@ -54,11 +54,15 @@ REASONS = {
     "zero_face_curve": "wireframe curve with vertices but no triangles -- not a surface",
     "hair_not_shipped": "hair: extracted, not shipped by default (the template colours by layer, so hair would "
                         "draw as a skin-coloured cap); --with-hair ships it",
-    "origin_insertion_decal": "Z-Anatomy origin/insertion highlight decal (.ol/.or/.el/.er) of a structure "
-                              "that ships",
+    "origin_insertion_decal": "Z-Anatomy origin/insertion attachment decal (.ol/.el/.o1l/.e2r/...): a "
+                              "footprint patch on the bone (Skeletal system) or a highlight copy (Muscular) -- "
+                              "not a tissue body (decals of group names such as 'Patellar ligament', 'Common extensor "
+                              "tendon' or 'Erector spinae' mark structures Z-Anatomy has no separate body for)",
     "ui_highlight_duplicate": "smaller copy of a structure that ships (same system, side and name)",
     "copy_in_other_system": "same structure (same side and name) already ships from another Z-Anatomy system",
     "muscle_footprint_on_bone": "a muscle's attachment footprint drawn on the bone (Skeletal system copy)",
+    "unplaced_prototype": "an unplaced prototype in the source (Z-Anatomy's 'Lymph node': a 2 mm sphere at the "
+                          "scene origin, ~0.9 m below the pelvis) -- dropped by the build (Q186)",
     "male_only_not_on_female": "male-only structure, removed from the female-fitted variant",
     "not_shipped_unexplained": "not shipped and no rule explains it -- a build defect to fix",
 }
@@ -84,7 +88,8 @@ def side_of(name: str) -> str | None:
 
 # ------------------------------------------------------------------ per-object accounting (pure)
 def classify_objects(source_objects: list[dict], inventory: dict, namemap: dict,
-                     provenance: dict, shipped_ids: set, dropped_ids: set | None = None) -> list[dict]:
+                     provenance: dict, shipped_ids: set, dropped_ids: set | None = None,
+                     build_drops: dict | None = None) -> list[dict]:
     """source_objects: [{name, file, system, type, vertex_count?, face_count?}] (every object of every FBX);
     inventory: {name: inventory record} of the EXTRACTED objects (main + Integument, keyed by name;
     a name extracted twice from different files is keyed by (system, name) instead);
@@ -92,6 +97,7 @@ def classify_objects(source_objects: list[dict], inventory: dict, namemap: dict,
     dropped_ids: ids the variant removed on purpose (female: male-only).
     Returns one row per source object: {file, system, name, type, status, reason, mesh_id?, merged_with?}."""
     dropped_ids = dropped_ids or set()
+    build_drops = build_drops or {}  # source name -> reason code the build itself recorded
     nm_status = {e["zanatomy_name"]: e["status"] for e in namemap.get("entries", [])}
     src_to_id: dict = {}      # source object name -> the id it is part of
     id_sources: dict = {}
@@ -145,14 +151,17 @@ def classify_objects(source_objects: list[dict], inventory: dict, namemap: dict,
                 row["reason"] = "shipped_merged" if others else "shipped"
                 if others:
                     row["merged_with"] = others
+            elif o["name"] in build_drops:
+                row["reason"] = build_drops[o["name"]]
             elif mid is not None and mid in dropped_ids:
                 row["mesh_id"] = mid
                 row["reason"] = "male_only_not_on_female"
             else:
                 side, base = rec.get("side"), strip_suffix(o["name"])
-                if (rec["system"], side, base) in shipped_keys:
-                    row["reason"] = ("origin_insertion_decal" if suffix_of(o["name"]) in DECAL_SUFFIXES
-                                     else "ui_highlight_duplicate")
+                if DECAL_RE.match(suffix_of(o["name"]) or ""):
+                    row["reason"] = "origin_insertion_decal"
+                elif (rec["system"], side, base) in shipped_keys:
+                    row["reason"] = "ui_highlight_duplicate"
                 elif (side, base) in shipped_side_base:
                     row["reason"] = "copy_in_other_system"
                     row["ships_from"] = shipped_side_base[(side, base)]
@@ -213,10 +222,10 @@ def defects(man: dict, meshes: dict, isolated_mm: float = 20.0) -> dict:
         low = m["name"].lower()
         if any(re.search(r"\b" + w + r"\b", low) for w in SIDE_WORDS.get(m.get("side"), ())):
             out["label_side_word_contradicts_side"].append({"id": mid, "name": m["name"], "side": m.get("side")})
-    for mid in recs:
+    for mid in recs:  # id naming only (a side may ship under an atlas id, its twin under a zan_ id)
         for a, b in (("_l", "_r"), ("_r", "_l")):
             if mid.endswith(a) and mid[:-2] + b not in recs:
-                out["missing_counterpart"].append({"id": mid, "missing": mid[:-2] + b})
+                out["id_without_same_named_twin"].append({"id": mid, "missing": mid[:-2] + b})
     # side vs position: atlas frame +X = subject's right
     for mid, (v, f) in meshes.items():
         sd = recs[mid].get("side")
@@ -241,6 +250,8 @@ def defects(man: dict, meshes: dict, isolated_mm: float = 20.0) -> dict:
         d, j = tree.query(s, k=min(96, len(P)))
         other = L[j] != i
         dm = np.where(other, d, np.inf).min()
+        if not np.isfinite(dm):  # every near neighbour was its own vertex: measure against the rest
+            dm = cKDTree(P[L != i]).query(s)[0].min()
         if dm > isolated_mm:
             out["isolated_from_every_other_structure"].append({"id": mid, "nearest_other_mm": round(float(dm), 1)
                                                                if np.isfinite(dm) else None})
@@ -253,7 +264,7 @@ def defects(man: dict, meshes: dict, isolated_mm: float = 20.0) -> dict:
         for a_i in range(len(grp)):
             for b_i in range(a_i + 1, len(grp)):
                 A, B = meshes[grp[a_i]][0], meshes[grp[b_i]][0]
-                d = cKDTree(B).query(A)[0].mean()
+                d = max(cKDTree(B).query(A)[0].mean(), cKDTree(A).query(B)[0].mean())  # both ways
                 if d < 0.5:
                     out["duplicate_geometry"].append({"ids": [grp[a_i], grp[b_i]], "mean_dist_mm": round(float(d), 2)})
     # two ids sharing one label (name + side) -> indistinguishable in the list
@@ -302,7 +313,9 @@ def main(argv=None) -> int:
         if dropped:  # the female report's provenance lists only what shipped; take the male-only sources
             male_prov = json.loads(VIEWERS["male"][1].read_text()).get("provenance", {})
             prov_all.update({k: male_prov[k] for k in dropped if k in male_prov})
-        per_viewer[vname] = classify_objects(src["objects"], inventory, namemap, prov_all, shipped, dropped)
+        fx = rep.get("q186_fixes") or {}
+        drops = {x["source"]: "unplaced_prototype" for x in fx.get("unplaced_prototype_dropped", [])}
+        per_viewer[vname] = classify_objects(src["objects"], inventory, namemap, prov_all, shipped, dropped, drops)
         totals[vname] = {"structures": len(man["meshes"]), "by_layer": dict(Counter(m["sys"] for m in man["meshes"])),
                          "triangles": int(sum(m["ic"] for m in man["meshes"])),
                          "skin_structures": sum(1 for m in man["meshes"] if m["id"].startswith("zan_skin_")),
@@ -310,6 +323,23 @@ def main(argv=None) -> int:
         if not a.no_defects:
             defect_rep[vname] = defects(man, meshes)
         del meshes
+
+    # left/right counterpart by SOURCE object: a shipped .l/.r object whose twin (same system and name,
+    # other side) exists in the source but ships in neither form
+    twin_missing = {}
+    for v in ("male", "female"):
+        shipped_names = {(r["system"], r["name"]) for r in per_viewer[v] if r["status"] == "in_viewer"}
+        miss = []
+        for (sysn, n) in sorted(shipped_names):
+            sfx = suffix_of(n)
+            if sfx not in ("l", "r"):
+                continue
+            twin = n[:-1] + ("r" if sfx == "l" else "l")
+            trow = next((r for r in per_viewer[v] if r["system"] == sysn and r["name"] == twin), None)
+            if trow is not None and trow["status"] != "in_viewer":
+                miss.append({"shipped": n, "twin": twin, "twin_reason": trow["reason"]})
+        twin_missing[v] = miss
+        defect_rep.setdefault(v, {})["source_twin_not_shipped"] = miss
 
     rows = []
     for i, o in enumerate(src["objects"]):

@@ -57,13 +57,13 @@
   },
   {
    "path": "atlas_viewer_zan_atlas_geo_02.txt",
-   "bytes": 7376240,
+   "bytes": 6378248,
    "enc": "base64"
   }
  ],
- "binary_bytes": 29376240,
- "html_bytes": 2071867,
- "meshes": 3023,
+ "binary_bytes": 28378248,
+ "html_bytes": 2054863,
+ "meshes": 2966,
  "by_layer": {
   "vessel": 661,
   "nerve": 337,
@@ -72,11 +72,11 @@
   "joint": 325,
   "bursa": 114,
   "fascia": 309,
-  "bone": 306,
+  "bone": 250,
   "insertion": 4,
   "cns": 203,
   "viscera": 124,
-  "lymph": 163
+  "lymph": 162
  },
  "by_category": {
   "vessel": 661,
@@ -86,15 +86,15 @@
   "ligament": 297,
   "bursa": 12,
   "fascia": 29,
-  "bone": 306,
+  "bone": 250,
   "tendon": 40,
   "organ": 114,
-  "lymphatic": 164,
+  "lymphatic": 163,
   "skin": 250
  },
- "matched_entities": 664,
- "matched_with_atlas_record": 664,
- "orphan_structures": 1908,
+ "matched_entities": 663,
+ "matched_with_atlas_record": 663,
+ "orphan_structures": 1852,
  "rescued_matched_but_unshipped": [
   "zan_accessory_nucleus_of_oculomotor_nerve_l",
   "zan_accessory_nucleus_of_oculomotor_nerve_r",
@@ -300,8 +300,8 @@
  ],
  "orphan_dropped_as_ui_highlight_duplicate": 105,
  "orphan_dropped_as_zero_face_annotation_curve": 6,
- "direct_atlas_links": 664,
- "parent_linked_structures": 374,
+ "direct_atlas_links": 663,
+ "parent_linked_structures": 344,
  "parent_links_with_no_orphan_mesh": [],
  "parent_links_with_no_atlas_record": [],
  "corrected_ids": [
@@ -647,8 +647,10 @@
   "zan_clavicular_head_of_pectoralis_major_muscle_r",
   "zan_clavicular_part_of_deltoid_muscle_l",
   "zan_clavicular_part_of_deltoid_muscle_r",
+  "zan_common_plantar_digital_branches_of_medial_plantar_nerve_r",
   "zan_corrugator_supercilii_l",
   "zan_corrugator_supercilii_r",
+  "zan_descending_branch_of_lateral_circumflex_femoral_artery_r",
   "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_l",
   "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_r",
   "zan_extensor_pollicis_longus_l",
@@ -663,17 +665,20 @@
   "zan_iliacus_muscle_r",
   "zan_iliococcygeus_muscle_l",
   "zan_iliococcygeus_muscle_r",
-  "zan_iliocostalis_colli_muscle",
+  "zan_iliocostalis_colli_muscle_l",
   "zan_iliopectineal_arch_l",
   "zan_iliopsoas_fascia_l",
   "zan_innermost_intercostal_muscles_l",
   "zan_innermost_intercostal_muscles_r",
   "zan_internal_intercostal_muscles_l",
   "zan_internal_intercostal_muscles_r",
+  "zan_intra_articular_ligament_of_head_of_rib_l",
   "zan_lateral_crico_arytenoid_muscle_l",
   "zan_lateral_crico_arytenoid_muscle_r",
   "zan_lateral_head_of_triceps_brachii_l",
   "zan_lateral_head_of_triceps_brachii_r",
+  "zan_lateral_temporomandibular_ligament_l",
+  "zan_lateral_temporomandibular_ligament_r",
   "zan_levator_nasolabialis_l",
   "zan_levator_nasolabialis_r",
   "zan_long_head_of_triceps_brachii_l",
@@ -722,9 +727,289 @@
   "zan_spinalis_colli_muscle_r"
  ],
  "skin_structures": 250,
+ "q186_fixes": {
+  "vessel_name_map_errors_split": [
+   {
+    "was": "superior_phrenic_a_r",
+    "now": "zan_right_superior_phrenic_vein_r",
+    "source": "Right superior phrenic vein"
+   }
+  ],
+  "decal_dropped": [
+   {
+    "id": "zan_abdominal_part_of_pectoralis_major_muscle_l_2",
+    "source": "(Abdominal part of pectoralis major muscle).ol"
+   },
+   {
+    "id": "zan_abdominal_part_of_pectoralis_major_muscle_r_2",
+    "source": "(Abdominal part of pectoralis major muscle).or"
+   },
+   {
+    "id": "zan_acromial_part_of_deltoid_muscle_l_2",
+    "source": "Acromial part of deltoid muscle.ol"
+   },
+   {
+    "id": "zan_acromial_part_of_deltoid_muscle_r_2",
+    "source": "Acromial part of deltoid muscle.or"
+   },
+   {
+    "id": "zan_bucinator_l_2",
+    "source": "Bucinator.ol"
+   },
+   {
+    "id": "zan_bucinator_r_2",
+    "source": "Bucinator.or"
+   },
+   {
+    "id": "zan_clavicular_part_of_deltoid_muscle_l_2",
+    "source": "Clavicular part of deltoid muscle.ol"
+   },
+   {
+    "id": "zan_clavicular_part_of_deltoid_muscle_r_2",
+    "source": "Clavicular part of deltoid muscle.or"
+   },
+   {
+    "id": "zan_deltoid_muscle_l",
+    "source": "Deltoid muscle.el"
+   },
+   {
+    "id": "zan_deltoid_muscle_r",
+    "source": "Deltoid muscle.er"
+   },
+   {
+    "id": "zan_dorsal_interossei_muscles_of_hand",
+    "source": "Dorsal interossei muscles of hand.o4l"
+   },
+   {
+    "id": "zan_extensor_digitorum",
+    "source": "Extensor digitorum.e7l"
+   },
+   {
+    "id": "zan_extensor_digitorum_longus",
+    "source": "Extensor digitorum longus.e4l"
+   },
+   {
+    "id": "zan_extensor_pollicis_longus_l_2",
+    "source": "Extensor pollicis longus.ol"
+   },
+   {
+    "id": "zan_extensor_pollicis_longus_r_2",
+    "source": "Extensor pollicis longus.or"
+   },
+   {
+    "id": "zan_external_abdominal_oblique_muscle",
+    "source": "External abdominal oblique muscle.o5l"
+   },
+   {
+    "id": "zan_iliacus_muscle_l_2",
+    "source": "Iliacus muscle.ol"
+   },
+   {
+    "id": "zan_iliacus_muscle_r_2",
+    "source": "Iliacus muscle.or"
+   },
+   {
+    "id": "zan_iliopsoas_muscle_l",
+    "source": "Iliopsoas muscle.el"
+   },
+   {
+    "id": "zan_iliopsoas_muscle_r",
+    "source": "Iliopsoas muscle.er"
+   },
+   {
+    "id": "zan_internal_abdominal_oblique_muscle",
+    "source": "Internal abdominal oblique muscle.o4l"
+   },
+   {
+    "id": "zan_lateral_head_of_triceps_brachii_l_2",
+    "source": "Lateral head of triceps brachii.ol"
+   },
+   {
+    "id": "zan_lateral_head_of_triceps_brachii_r_2",
+    "source": "Lateral head of triceps brachii.or"
+   },
+   {
+    "id": "zan_levator_nasolabialis_l_2",
+    "source": "Levator nasolabialis.ol"
+   },
+   {
+    "id": "zan_levator_nasolabialis_r_2",
+    "source": "Levator nasolabialis.or"
+   },
+   {
+    "id": "zan_levatores_longi_costarum",
+    "source": "Levatores longi costarum.e7l"
+   },
+   {
+    "id": "zan_long_head_of_triceps_brachii_l_2",
+    "source": "Long head of triceps brachii.ol"
+   },
+   {
+    "id": "zan_long_head_of_triceps_brachii_r_2",
+    "source": "Long head of triceps brachii.or"
+   },
+   {
+    "id": "zan_long_plantar_ligament",
+    "source": "Long plantar ligament.o4l"
+   },
+   {
+    "id": "zan_long_plantar_ligament_l_2",
+    "source": "Long plantar ligament.ol"
+   },
+   {
+    "id": "zan_long_plantar_ligament_r_2",
+    "source": "Long plantar ligament.or"
+   },
+   {
+    "id": "zan_longissimus_thoracis_muscle",
+    "source": "Longissimus thoracis muscle.e6l"
+   },
+   {
+    "id": "zan_medial_head_of_triceps_brachii_l_2",
+    "source": "Medial head of triceps brachii.ol"
+   },
+   {
+    "id": "zan_medial_head_of_triceps_brachii_r_2",
+    "source": "Medial head of triceps brachii.or"
+   },
+   {
+    "id": "zan_occipitalis_muscle_l_2",
+    "source": "Occipitalis muscle.ol"
+   },
+   {
+    "id": "zan_occipitalis_muscle_r_2",
+    "source": "Occipitalis muscle.or"
+   },
+   {
+    "id": "zan_pectoralis_major_muscle_l",
+    "source": "Pectoralis major muscle.ol"
+   },
+   {
+    "id": "zan_pectoralis_major_muscle_r",
+    "source": "Pectoralis major muscle.or"
+   },
+   {
+    "id": "zan_scapular_spinal_part_of_deltoid_muscle_l_2",
+    "source": "Scapular spinal part of deltoid muscle.ol"
+   },
+   {
+    "id": "zan_scapular_spinal_part_of_deltoid_muscle_r_2",
+    "source": "Scapular spinal part of deltoid muscle.or"
+   },
+   {
+    "id": "zan_serratus_anterior_muscle",
+    "source": "Serratus anterior muscle.e6l"
+   },
+   {
+    "id": "zan_splenius_colli_muscle_l_2",
+    "source": "Splenius colli muscle.e1l"
+   },
+   {
+    "id": "zan_splenius_colli_muscle_r_2",
+    "source": "Splenius colli muscle.e1r"
+   },
+   {
+    "id": "zan_sternocostal_head_of_pectoralis_major_muscle_l_2",
+    "source": "Sternocostal head of pectoralis major muscle.el"
+   },
+   {
+    "id": "zan_sternocostal_head_of_pectoralis_major_muscle_r_2",
+    "source": "Sternocostal head of pectoralis major muscle.er"
+   },
+   {
+    "id": "zan_temporalis_muscle",
+    "source": "Temporalis muscle.o4l"
+   },
+   {
+    "id": "zan_temporalis_muscle_l_2",
+    "source": "Temporalis muscle.o2l"
+   },
+   {
+    "id": "zan_temporalis_muscle_r_2",
+    "source": "Temporalis muscle.o2r"
+   },
+   {
+    "id": "zan_tibialis_posterior_muscle_l_2",
+    "source": "Tibialis posterior muscle.ol"
+   },
+   {
+    "id": "zan_tibialis_posterior_muscle_r_2",
+    "source": "Tibialis posterior muscle.or"
+   },
+   {
+    "id": "zan_triceps_brachii_muscle_l",
+    "source": "Triceps brachii muscle.el"
+   },
+   {
+    "id": "zan_triceps_brachii_muscle_r",
+    "source": "Triceps brachii muscle.er"
+   },
+   {
+    "id": "zan_triceps_surae_muscle_l",
+    "source": "Triceps surae muscle.el"
+   },
+   {
+    "id": "zan_triceps_surae_muscle_r",
+    "source": "Triceps surae muscle.er"
+   },
+   {
+    "id": "zan_trochanteric_insertion_l",
+    "source": "Trochanteric insertion.el"
+   },
+   {
+    "id": "zan_trochanteric_insertion_r",
+    "source": "Trochanteric insertion.er"
+   }
+  ],
+  "unplaced_prototype_dropped": [
+   {
+    "id": "zan_lymph_node",
+    "source": "Lymph node"
+   }
+  ],
+  "duplicate_dropped": [],
+  "side_inferred": [
+   {
+    "was": "zan_common_plantar_digital_branches_of_medial_plantar_nerve",
+    "now": "zan_common_plantar_digital_branches_of_medial_plantar_nerve_r",
+    "source": "Common plantar digital branches of medial plantar nerve",
+    "side": "right"
+   },
+   {
+    "was": "zan_descending_branch_of_lateral_circumflex_femoral_artery",
+    "now": "zan_descending_branch_of_lateral_circumflex_femoral_artery_r",
+    "source": "Descending branch of lateral circumflex femoral artery",
+    "side": "right"
+   },
+   {
+    "was": "zan_iliocostalis_colli_muscle",
+    "now": "zan_iliocostalis_colli_muscle_l",
+    "source": "Iliocostalis colli muscle",
+    "side": "left"
+   },
+   {
+    "was": "zan_intra_articular_ligament_of_head_of_rib",
+    "now": "zan_intra_articular_ligament_of_head_of_rib_l",
+    "source": "Intra-articular ligament of head of rib",
+    "side": "left"
+   }
+  ],
+  "side_swapped": [
+   {
+    "was": "zan_lateral_temporomandibular_ligament_l",
+    "now": "zan_lateral_temporomandibular_ligament_r",
+    "source": "Lateral temporomandibular ligament.l"
+   },
+   {
+    "was": "zan_lateral_temporomandibular_ligament_r",
+    "now": "zan_lateral_temporomandibular_ligament_l",
+    "source": "Lateral temporomandibular ligament.r"
+   }
+  ]
+ },
  "skin_layer": "fascia",
  "contralateral_repairs": {
-  "pairs_audited": 1239,
+  "pairs_audited": 1237,
   "flagged": [
    {
     "id": "ascending_lumbar_v",
@@ -885,14 +1170,14 @@
   "before": {
    "vertices": 915194,
    "median_gap_mm": 1.15,
-   "frac_vertices_gap_gt_1_25mm": 0.1386,
-   "frac_vertices_inside_other_muscle": 0.1007
+   "frac_vertices_gap_gt_1_25mm": 0.1388,
+   "frac_vertices_inside_other_muscle": 0.1011
   },
   "after": {
    "vertices": 915194,
    "median_gap_mm": 0.87,
-   "frac_vertices_gap_gt_1_25mm": 0.0801,
-   "frac_vertices_inside_other_muscle": 0.0962
+   "frac_vertices_gap_gt_1_25mm": 0.0803,
+   "frac_vertices_inside_other_muscle": 0.0966
   }
  },
  "provenance": {
@@ -4482,12 +4767,6 @@
     "Superior pharyngeal constrictor.r"
    ]
   },
-  "superior_phrenic_a_r": {
-   "route": "matched",
-   "sources": [
-    "Right superior phrenic vein"
-   ]
-  },
   "superior_pubic_ligament": {
    "route": "matched",
    "sources": [
@@ -4964,22 +5243,10 @@
     "(Abdominal part of pectoralis major muscle).l"
    ]
   },
-  "zan_abdominal_part_of_pectoralis_major_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "(Abdominal part of pectoralis major muscle).ol"
-   ]
-  },
   "zan_abdominal_part_of_pectoralis_major_muscle_r": {
    "route": "orphan",
    "sources": [
     "(Abdominal part of pectoralis major muscle).r"
-   ]
-  },
-  "zan_abdominal_part_of_pectoralis_major_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "(Abdominal part of pectoralis major muscle).or"
    ]
   },
   "zan_accessory_branch_of_middle_meningeal_artery_l": {
@@ -5042,22 +5309,10 @@
     "Acromial part of deltoid muscle.l"
    ]
   },
-  "zan_acromial_part_of_deltoid_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Acromial part of deltoid muscle.ol"
-   ]
-  },
   "zan_acromial_part_of_deltoid_muscle_r": {
    "route": "orphan",
    "sources": [
     "Acromial part of deltoid muscle.r"
-   ]
-  },
-  "zan_acromial_part_of_deltoid_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Acromial part of deltoid muscle.or"
    ]
   },
   "zan_adductor_minimus_l": {
@@ -6212,12 +6467,6 @@
     "Bucinator.l"
    ]
   },
-  "zan_bucinator_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Bucinator.ol"
-   ]
-  },
   "zan_bucinator_node_l": {
    "route": "orphan",
    "sources": [
@@ -6234,12 +6483,6 @@
    "route": "orphan",
    "sources": [
     "Bucinator.r"
-   ]
-  },
-  "zan_bucinator_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Bucinator.or"
    ]
   },
   "zan_bursa_of_piriformis_muscle_l": {
@@ -6596,22 +6839,10 @@
     "Clavicular part of deltoid muscle.l"
    ]
   },
-  "zan_clavicular_part_of_deltoid_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Clavicular part of deltoid muscle.ol"
-   ]
-  },
   "zan_clavicular_part_of_deltoid_muscle_r": {
    "route": "orphan",
    "sources": [
     "Clavicular part of deltoid muscle.r"
-   ]
-  },
-  "zan_clavicular_part_of_deltoid_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Clavicular part of deltoid muscle.or"
    ]
   },
   "zan_clavipectoral_fascia_l": {
@@ -6818,16 +7049,16 @@
     "Common plantar digital branches of lateral plantar nerve.r"
    ]
   },
-  "zan_common_plantar_digital_branches_of_medial_plantar_nerve": {
-   "route": "orphan",
-   "sources": [
-    "Common plantar digital branches of medial plantar nerve"
-   ]
-  },
   "zan_common_plantar_digital_branches_of_medial_plantar_nerve_l": {
    "route": "orphan",
    "sources": [
     "Common plantar digital branches of medial plantar nerve.l"
+   ]
+  },
+  "zan_common_plantar_digital_branches_of_medial_plantar_nerve_r": {
+   "route": "orphan",
+   "sources": [
+    "Common plantar digital branches of medial plantar nerve"
    ]
   },
   "zan_common_tendinous_ring_l": {
@@ -7322,28 +7553,16 @@
     "Deltoid fascia.l"
    ]
   },
-  "zan_deltoid_muscle_l": {
-   "route": "orphan",
-   "sources": [
-    "Deltoid muscle.el"
-   ]
-  },
-  "zan_deltoid_muscle_r": {
-   "route": "orphan",
-   "sources": [
-    "Deltoid muscle.er"
-   ]
-  },
-  "zan_descending_branch_of_lateral_circumflex_femoral_artery": {
-   "route": "orphan",
-   "sources": [
-    "Descending branch of lateral circumflex femoral artery"
-   ]
-  },
   "zan_descending_branch_of_lateral_circumflex_femoral_artery_l": {
    "route": "orphan",
    "sources": [
     "Descending branch of lateral circumflex femoral artery.l"
+   ]
+  },
+  "zan_descending_branch_of_lateral_circumflex_femoral_artery_r": {
+   "route": "orphan",
+   "sources": [
+    "Descending branch of lateral circumflex femoral artery"
    ]
   },
   "zan_descending_branch_of_left_colic_artery": {
@@ -7718,12 +7937,6 @@
     "Dorsal intercuneiform ligaments.r"
    ]
   },
-  "zan_dorsal_interossei_muscles_of_hand": {
-   "route": "orphan",
-   "sources": [
-    "Dorsal interossei muscles of hand.o4l"
-   ]
-  },
   "zan_dorsal_metacarpal_arteries_l": {
    "route": "orphan",
    "sources": [
@@ -7964,28 +8177,10 @@
     "Epiglottis"
    ]
   },
-  "zan_extensor_digitorum": {
-   "route": "orphan",
-   "sources": [
-    "Extensor digitorum.e7l"
-   ]
-  },
-  "zan_extensor_digitorum_longus": {
-   "route": "orphan",
-   "sources": [
-    "Extensor digitorum longus.e4l"
-   ]
-  },
   "zan_extensor_pollicis_longus_l": {
    "route": "orphan",
    "sources": [
     "Extensor pollicis longus.l"
-   ]
-  },
-  "zan_extensor_pollicis_longus_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Extensor pollicis longus.ol"
    ]
   },
   "zan_extensor_pollicis_longus_r": {
@@ -7994,22 +8189,10 @@
     "Extensor pollicis longus.r"
    ]
   },
-  "zan_extensor_pollicis_longus_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Extensor pollicis longus.or"
-   ]
-  },
   "zan_extensor_retinaculum_of_wrist_l": {
    "route": "rescued",
    "sources": [
     "Extensor retinaculum of wrist.l"
-   ]
-  },
-  "zan_external_abdominal_oblique_muscle": {
-   "route": "orphan",
-   "sources": [
-    "External abdominal oblique muscle.o5l"
    ]
   },
   "zan_external_carotid_artery_l": {
@@ -8654,22 +8837,10 @@
     "Iliacus muscle.l"
    ]
   },
-  "zan_iliacus_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Iliacus muscle.ol"
-   ]
-  },
   "zan_iliacus_muscle_r": {
    "route": "orphan",
    "sources": [
     "Iliacus muscle.r"
-   ]
-  },
-  "zan_iliacus_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Iliacus muscle.or"
    ]
   },
   "zan_ilio_inguinal_nerve_l": {
@@ -8696,7 +8867,7 @@
     "Iliococcygeus muscle.r"
    ]
   },
-  "zan_iliocostalis_colli_muscle": {
+  "zan_iliocostalis_colli_muscle_l": {
    "route": "orphan",
    "sources": [
     "Iliocostalis colli muscle"
@@ -8754,18 +8925,6 @@
    "route": "orphan",
    "sources": [
     "Iliopsoas fascia.r"
-   ]
-  },
-  "zan_iliopsoas_muscle_l": {
-   "route": "orphan",
-   "sources": [
-    "Iliopsoas muscle.el"
-   ]
-  },
-  "zan_iliopsoas_muscle_r": {
-   "route": "orphan",
-   "sources": [
-    "Iliopsoas muscle.er"
    ]
   },
   "zan_iliotibial_tract_l": {
@@ -9506,12 +9665,6 @@
     "Intermuscular gluteal bursae.r"
    ]
   },
-  "zan_internal_abdominal_oblique_muscle": {
-   "route": "orphan",
-   "sources": [
-    "Internal abdominal oblique muscle.o4l"
-   ]
-  },
   "zan_internal_carotid_artery_l": {
    "route": "orphan",
    "sources": [
@@ -9728,7 +9881,7 @@
     "Intervertebral disc T12-L1"
    ]
   },
-  "zan_intra_articular_ligament_of_head_of_rib": {
+  "zan_intra_articular_ligament_of_head_of_rib_l": {
    "route": "orphan",
    "sources": [
     "Intra-articular ligament of head of rib"
@@ -10076,22 +10229,10 @@
     "Lateral head of triceps brachii.l"
    ]
   },
-  "zan_lateral_head_of_triceps_brachii_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Lateral head of triceps brachii.ol"
-   ]
-  },
   "zan_lateral_head_of_triceps_brachii_r": {
    "route": "orphan",
    "sources": [
     "Lateral head of triceps brachii.r"
-   ]
-  },
-  "zan_lateral_head_of_triceps_brachii_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Lateral head of triceps brachii.or"
    ]
   },
   "zan_lateral_intermediate_substance": {
@@ -10319,13 +10460,13 @@
   "zan_lateral_temporomandibular_ligament_l": {
    "route": "orphan",
    "sources": [
-    "Lateral temporomandibular ligament.l"
+    "Lateral temporomandibular ligament.r"
    ]
   },
   "zan_lateral_temporomandibular_ligament_r": {
    "route": "orphan",
    "sources": [
-    "Lateral temporomandibular ligament.r"
+    "Lateral temporomandibular ligament.l"
    ]
   },
   "zan_lateral_thoracic_artery_l": {
@@ -10574,28 +10715,10 @@
     "Levator nasolabialis.l"
    ]
   },
-  "zan_levator_nasolabialis_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Levator nasolabialis.ol"
-   ]
-  },
   "zan_levator_nasolabialis_r": {
    "route": "orphan",
    "sources": [
     "Levator nasolabialis.r"
-   ]
-  },
-  "zan_levator_nasolabialis_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Levator nasolabialis.or"
-   ]
-  },
-  "zan_levatores_longi_costarum": {
-   "route": "orphan",
-   "sources": [
-    "Levatores longi costarum.e7l"
    ]
   },
   "zan_ligament_of_head_of_femur_l": {
@@ -10664,28 +10787,10 @@
     "Long head of triceps brachii.l"
    ]
   },
-  "zan_long_head_of_triceps_brachii_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Long head of triceps brachii.ol"
-   ]
-  },
   "zan_long_head_of_triceps_brachii_r": {
    "route": "orphan",
    "sources": [
     "Long head of triceps brachii.r"
-   ]
-  },
-  "zan_long_head_of_triceps_brachii_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Long head of triceps brachii.or"
-   ]
-  },
-  "zan_long_plantar_ligament": {
-   "route": "orphan",
-   "sources": [
-    "Long plantar ligament.o4l"
    ]
   },
   "zan_long_plantar_ligament_l": {
@@ -10694,22 +10799,10 @@
     "Long plantar ligament.l"
    ]
   },
-  "zan_long_plantar_ligament_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Long plantar ligament.ol"
-   ]
-  },
   "zan_long_plantar_ligament_r": {
    "route": "orphan",
    "sources": [
     "Long plantar ligament.r"
-   ]
-  },
-  "zan_long_plantar_ligament_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Long plantar ligament.or"
    ]
   },
   "zan_long_posterior_ciliary_arteries_l": {
@@ -10746,12 +10839,6 @@
    "route": "rescued",
    "sources": [
     "Longissimus colli muscle.r"
-   ]
-  },
-  "zan_longissimus_thoracis_muscle": {
-   "route": "orphan",
-   "sources": [
-    "Longissimus thoracis muscle.e6l"
    ]
   },
   "zan_lower_canine_l": {
@@ -10920,12 +11007,6 @@
    "route": "orphan",
    "sources": [
     "Lunate sulcus.r"
-   ]
-  },
-  "zan_lymph_node": {
-   "route": "orphan",
-   "sources": [
-    "Lymph node"
    ]
   },
   "zan_major_alar_cartilage_l": {
@@ -11144,22 +11225,10 @@
     "Medial head of triceps brachii.l"
    ]
   },
-  "zan_medial_head_of_triceps_brachii_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Medial head of triceps brachii.ol"
-   ]
-  },
   "zan_medial_head_of_triceps_brachii_r": {
    "route": "orphan",
    "sources": [
     "Medial head of triceps brachii.r"
-   ]
-  },
-  "zan_medial_head_of_triceps_brachii_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Medial head of triceps brachii.or"
    ]
   },
   "zan_medial_intermuscular_septum_of_arm_l": {
@@ -12200,22 +12269,10 @@
     "Occipitalis muscle.l"
    ]
   },
-  "zan_occipitalis_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Occipitalis muscle.ol"
-   ]
-  },
   "zan_occipitalis_muscle_r": {
    "route": "orphan",
    "sources": [
     "Occipitalis muscle.r"
-   ]
-  },
-  "zan_occipitalis_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Occipitalis muscle.or"
    ]
   },
   "zan_occipitotemporal_sulcus_lateral_part_l": {
@@ -12702,18 +12759,6 @@
    "route": "rescued",
    "sources": [
     "Pectoral fascia.l"
-   ]
-  },
-  "zan_pectoralis_major_muscle_l": {
-   "route": "orphan",
-   "sources": [
-    "Pectoralis major muscle.ol"
-   ]
-  },
-  "zan_pectoralis_major_muscle_r": {
-   "route": "orphan",
-   "sources": [
-    "Pectoralis major muscle.or"
    ]
   },
   "zan_peduncle_of_flocculus_l": {
@@ -14396,6 +14441,12 @@
     "Right superior lobar bronchus"
    ]
   },
+  "zan_right_superior_phrenic_vein_r": {
+   "route": "orphan",
+   "sources": [
+    "Right superior phrenic vein"
+   ]
+  },
   "zan_right_superior_pulmonary_vein": {
    "route": "orphan",
    "sources": [
@@ -14468,22 +14519,10 @@
     "Scapular spinal part of deltoid muscle.l"
    ]
   },
-  "zan_scapular_spinal_part_of_deltoid_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Scapular spinal part of deltoid muscle.ol"
-   ]
-  },
   "zan_scapular_spinal_part_of_deltoid_muscle_r": {
    "route": "orphan",
    "sources": [
     "Scapular spinal part of deltoid muscle.r"
-   ]
-  },
-  "zan_scapular_spinal_part_of_deltoid_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Scapular spinal part of deltoid muscle.or"
    ]
   },
   "zan_sciatic_bursa_of_gluteus_maximus_muscle_l": {
@@ -14658,12 +14697,6 @@
    "route": "orphan",
    "sources": [
     "Septum pellucidum"
-   ]
-  },
-  "zan_serratus_anterior_muscle": {
-   "route": "orphan",
-   "sources": [
-    "Serratus anterior muscle.e6l"
    ]
   },
   "zan_sesamoid_bones_of_foot_l": {
@@ -16370,22 +16403,10 @@
     "Splenius colli muscle.l"
    ]
   },
-  "zan_splenius_colli_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Splenius colli muscle.e1l"
-   ]
-  },
   "zan_splenius_colli_muscle_r": {
    "route": "orphan",
    "sources": [
     "Splenius colli muscle.r"
-   ]
-  },
-  "zan_splenius_colli_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Splenius colli muscle.e1r"
    ]
   },
   "zan_sternocostal_head_of_pectoralis_major_muscle_l": {
@@ -16394,22 +16415,10 @@
     "Sternocostal head of pectoralis major muscle.l"
    ]
   },
-  "zan_sternocostal_head_of_pectoralis_major_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Sternocostal head of pectoralis major muscle.el"
-   ]
-  },
   "zan_sternocostal_head_of_pectoralis_major_muscle_r": {
    "route": "orphan",
    "sources": [
     "Sternocostal head of pectoralis major muscle.r"
-   ]
-  },
-  "zan_sternocostal_head_of_pectoralis_major_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Sternocostal head of pectoralis major muscle.er"
    ]
   },
   "zan_stomach": {
@@ -17822,34 +17831,16 @@
     "Temporal pole.r"
    ]
   },
-  "zan_temporalis_muscle": {
-   "route": "orphan",
-   "sources": [
-    "Temporalis muscle.o4l"
-   ]
-  },
   "zan_temporalis_muscle_l": {
    "route": "orphan",
    "sources": [
     "Temporalis muscle.l"
    ]
   },
-  "zan_temporalis_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Temporalis muscle.o2l"
-   ]
-  },
   "zan_temporalis_muscle_r": {
    "route": "orphan",
    "sources": [
     "Temporalis muscle.r"
-   ]
-  },
-  "zan_temporalis_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Temporalis muscle.o2r"
    ]
   },
   "zan_temporo_occipital_branch_l": {
@@ -18224,22 +18215,10 @@
     "Tibialis posterior muscle.l"
    ]
   },
-  "zan_tibialis_posterior_muscle_l_2": {
-   "route": "orphan",
-   "sources": [
-    "Tibialis posterior muscle.ol"
-   ]
-  },
   "zan_tibialis_posterior_muscle_r": {
    "route": "orphan",
    "sources": [
     "Tibialis posterior muscle.r"
-   ]
-  },
-  "zan_tibialis_posterior_muscle_r_2": {
-   "route": "orphan",
-   "sources": [
-    "Tibialis posterior muscle.or"
    ]
   },
   "zan_tibiocalcaneal_ligament_l": {
@@ -18458,30 +18437,6 @@
     "Triangular part of inferior frontal gyrus.r"
    ]
   },
-  "zan_triceps_brachii_muscle_l": {
-   "route": "orphan",
-   "sources": [
-    "Triceps brachii muscle.el"
-   ]
-  },
-  "zan_triceps_brachii_muscle_r": {
-   "route": "orphan",
-   "sources": [
-    "Triceps brachii muscle.er"
-   ]
-  },
-  "zan_triceps_surae_muscle_l": {
-   "route": "orphan",
-   "sources": [
-    "Triceps surae muscle.el"
-   ]
-  },
-  "zan_triceps_surae_muscle_r": {
-   "route": "orphan",
-   "sources": [
-    "Triceps surae muscle.er"
-   ]
-  },
   "zan_trigeminal_nerve_v_l": {
    "route": "orphan",
    "sources": [
@@ -18564,18 +18519,6 @@
    "route": "rescued",
    "sources": [
     "Trochanteric bursa of gluteus minimus muscle.r"
-   ]
-  },
-  "zan_trochanteric_insertion_l": {
-   "route": "orphan",
-   "sources": [
-    "Trochanteric insertion.el"
-   ]
-  },
-  "zan_trochanteric_insertion_r": {
-   "route": "orphan",
-   "sources": [
-    "Trochanteric insertion.er"
    ]
   },
   "zan_trochlea_of_superior_oblique_muscle_l": {

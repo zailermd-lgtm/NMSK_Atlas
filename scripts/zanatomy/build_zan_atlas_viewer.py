@@ -276,6 +276,20 @@ def orient_outward(v: np.ndarray, f: np.ndarray):
     return np.asarray(tm.vertices, np.float64), np.asarray(tm.faces, np.int64)
 
 
+def outward_if_closed(v: np.ndarray, f: np.ndarray) -> np.ndarray:
+    """Q186: the audit found 6-9 CLOSED shipped meshes (liver, lung lobes, gyri) still inside-out after
+    orient_outward + decimation; flip a closed mesh whose signed volume is negative."""
+    f = np.asarray(f, np.int64)
+    if not len(f):
+        return f
+    e = np.sort(np.concatenate([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1)
+    _, c = np.unique(e, axis=0, return_counts=True)
+    if not (c == 2).all():
+        return f
+    a, b, cc = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
+    return f[:, ::-1].copy() if np.einsum("ij,ij->i", a, np.cross(b, cc)).sum() < 0 else f
+
+
 def n_pieces(f: np.ndarray, nv: int) -> int:
     """Connected surface pieces (triangles sharing a vertex)."""
     from scipy.sparse import coo_matrix
@@ -310,6 +324,124 @@ def decimate(v: np.ndarray, f: np.ndarray, mesh_id: str, cat: str, scale: float,
 
 
 DECAL_SUFFIXES = ("ol", "or", "el", "er")  # Z-Anatomy origin/insertion highlight decals
+# Q186: the full decal family (.ol/.el/.o1l/.e2r/... -- attachment footprints on the bone and highlight copies)
+DECAL_RE = __import__("re").compile(r"\.[oe]\d*[lr]$")
+_VEIN_WORD = __import__("re").compile(r"\bveins?\b", __import__("re").I)
+_ARTERY_WORD = __import__("re").compile(r"\barter", __import__("re").I)
+
+
+def _is_artery_id(aid: str) -> bool:
+    return bool(__import__("re").search(r"(_a|_aa)(_[lr])?$|_a_", aid))
+
+
+def _is_vein_id(aid: str) -> bool:
+    return bool(__import__("re").search(r"_v(_[lr])?$|_v_", aid))
+
+
+def _slug(base: str) -> str:
+    slug = "".join(ch if ch.isalnum() else "_" for ch in base.lower()).strip("_")
+    while "__" in slug:
+        slug = slug.replace("__", "_")
+    return slug
+
+
+def split_vessel_mismatches(matched: dict, orphans: dict) -> list[dict]:
+    """Q186: a matched artery id built only from objects Z-Anatomy names as veins (or the reverse) is a
+    name-map error (measured: `superior_phrenic_a_r` <- "Right superior phrenic vein"). Ship the object
+    as its own orphan under its own Z-Anatomy name instead, with no atlas link."""
+    moved = []
+    for aid in sorted(matched):
+        parts = matched[aid].get("zanatomy_parts") or []
+        if not parts:
+            continue
+        wrong = ((_is_artery_id(aid) and all(_VEIN_WORD.search(n) for n in parts)) or
+                 (_is_vein_id(aid) and all(_ARTERY_WORD.search(n) and not _VEIN_WORD.search(n) for n in parts)))
+        if not wrong or len(parts) != 1:
+            continue
+        rec = matched.pop(aid)
+        name = parts[0]
+        base = strip_suffix(name)
+        side = rec.get("side") if rec.get("side") in ("left", "right") else None
+        stable = "zan_" + _slug(base) + {"right": "_r", "left": "_l"}.get(side, "")
+        while stable in orphans:
+            stable += "_b"
+        orphans[stable] = {"name": base, "system": "CardioVascular", "side": side, "category": "vessel",
+                           "mesh_name": name}
+        moved.append({"was": aid, "now": stable, "source": name})
+    return moved
+
+
+def curate_orphans(orphans: dict, inventory: dict) -> tuple[dict, dict]:
+    """Q186 build defects found by scripts/zanatomy/zan_inventory_audit.py, fixed here (one rule each):
+    (a) an orphan whose only source is an origin/insertion DECAL (e.g. "Temporalis muscle.o2l", a bone
+        footprint) shipped as a second "Temporalis muscle" -- decals never ship (same rule as everywhere);
+    (b) an unplaced prototype (Z-Anatomy's "Lymph node", a 2 mm sphere at the scene origin, 0.9 m below
+        the pelvis) is dropped;
+    (c) exact duplicates (same system, vertex/face counts and bbox) ship once (a guard: none in this release);
+    (d) a left/right object Z-Anatomy left unsuffixed (e.g. "Iliocostalis colli muscle" = the left one,
+        next to "Iliocostalis colli muscle.r") gets its side from its position and a _l/_r id;
+    (e) a pair whose .l/.r labels are swapped in the source (both lie wholly on the other side; measured:
+        "Lateral temporomandibular ligament") is swapped back.
+    Raw Z-Anatomy x: +x is the subject's LEFT (zan_source.to_atlas_frame)."""
+    objs = {o["name"]: o for o in inventory["objects"]}
+    fixes: dict = {"decal_dropped": [], "unplaced_prototype_dropped": [], "duplicate_dropped": [],
+                   "side_inferred": [], "side_swapped": []}
+    out = {}
+    seen_geo = {}
+    for sid in sorted(orphans):
+        meta = orphans[sid]
+        o = objs.get(meta["mesh_name"])
+        if DECAL_RE.search(meta["mesh_name"]):
+            fixes["decal_dropped"].append({"id": sid, "source": meta["mesh_name"]})
+            continue
+        if o is not None:
+            lo, hi = np.asarray(o["bbox_min_mm"]), np.asarray(o["bbox_max_mm"])
+            if np.linalg.norm((lo + hi) / 2) < 5.0 and (hi - lo).max() < 5.0:
+                fixes["unplaced_prototype_dropped"].append({"id": sid, "source": meta["mesh_name"]})
+                continue
+            key = (o["system"], o["vertex_count"], o["face_count"], tuple(o["bbox_min_mm"]), tuple(o["bbox_max_mm"]))
+            if key in seen_geo:
+                fixes["duplicate_dropped"].append({"id": sid, "source": meta["mesh_name"], "same_as": seen_geo[key]})
+                continue
+            seen_geo[key] = sid
+        out[sid] = meta
+
+    def geo_side(o):
+        lo, hi = o["bbox_min_mm"][0], o["bbox_max_mm"][0]
+        return "left" if lo > 5.0 else ("right" if hi < -5.0 else None)
+
+    by_base: dict = {}
+    for o in inventory["objects"]:
+        if o.get("side") in ("left", "right") and not DECAL_RE.search(o["name"]):
+            by_base.setdefault((o["system"], strip_suffix(o["name"])), {})[o["side"]] = o
+    final = {}
+    for sid in sorted(out):
+        meta = out[sid]
+        o = objs.get(meta["mesh_name"])
+        if o is None:
+            final[sid] = meta
+            continue
+        gs, pair = geo_side(o), by_base.get((o["system"], strip_suffix(meta["mesh_name"])), {})
+        other = {"left": "right", "right": "left"}
+        if meta["side"] is None and gs and other[gs] in pair and gs not in pair:
+            new = "zan_" + _slug(meta["name"]) + {"left": "_l", "right": "_r"}[gs]
+            if new not in out and new not in final:
+                fixes["side_inferred"].append({"was": sid, "now": new, "source": meta["mesh_name"], "side": gs})
+                final[new] = dict(meta, side=gs, note=(f"Q186: Z-Anatomy names this object without a side "
+                                                       f"suffix; it lies wholly on the {gs} and its "
+                                                       f"{other[gs]} counterpart is suffixed, so it ships as {gs}."))
+                continue
+        if meta["side"] in ("left", "right") and gs and gs != meta["side"]:
+            twin = pair.get(other[meta["side"]])
+            if twin is not None and geo_side(twin) == meta["side"]:
+                new = sid[:-2] + {"left": "_l", "right": "_r"}[gs]
+                fixes["side_swapped"].append({"was": sid, "now": new, "source": meta["mesh_name"]})
+                final[new] = dict(meta, side=gs, note=(f"Q186: the Z-Anatomy source labels this object "
+                                                       f"'{meta['side']}' but it lies wholly on the {gs} (as its "
+                                                       f"twin lies on the other side): labels swapped back."))
+                continue
+        final[sid] = meta
+    return final, fixes
 
 
 def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dict) -> dict:
@@ -336,7 +468,7 @@ def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dic
         if e["status"] not in ("exact", "confident") or e["zanatomy_name"] in consumed:
             continue
         o = objs_by_name.get(e["zanatomy_name"])
-        if o is None or o["face_count"] == 0 or o.get("suffix") in DECAL_SUFFIXES:
+        if o is None or o["face_count"] == 0 or DECAL_RE.search(e["zanatomy_name"]):
             continue
         base = strip_suffix(e["zanatomy_name"])
         if (o.get("side"), base) in consumed_keys:
@@ -345,7 +477,11 @@ def rescue_unshipped(inventory: dict, namemap: dict, matched: dict, orphans: dic
                 w in base.lower() for w in ("cartilage", "sinus", "bone"))):
             continue  # a muscle's attachment footprint drawn on the bone, not the muscle
         key = (o["system"], o.get("side"), base)
-        groups.setdefault(key, []).append((o, e.get("atlas_id")))
+        aid = e.get("atlas_id")
+        if aid and aid[-2:] in ("_l", "_r") and o.get("side") in ("left", "right") and \
+                aid[-2:] != {"left": "_l", "right": "_r"}[o["side"]]:
+            aid = None  # Q186: a left object name-matched to a RIGHT atlas id must not claim "part of" it
+        groups.setdefault(key, []).append((o, aid))
     used = set(orphans)
     out = {}
     for (system, side, base), cands in sorted(groups.items(), key=lambda kv: str(kv[0])):
@@ -434,7 +570,7 @@ def _fmt_mm(x) -> str:
     return f"{x:.1f}" if isinstance(x, (int, float)) else "n/a"
 
 
-def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool) -> str:
+def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool, region: str | None = None) -> str:
     """Q168: one structure's badge text -- its own measured error where her CT mesh exists,
     otherwise its region's median/max, labelled as an estimate."""
     head = ("Q168: Z-Anatomy geometry fitted onto the Visible Human female's own skeleton "
@@ -449,7 +585,7 @@ def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool) -> str:
         if ps.get("fit_target"):
             txt += " This muscle was used to place her left forearm, so it is not an independent check."
         return head + txt
-    region = rep["region_of_structure"].get(mesh_id, "whole_body")
+    region = rep["region_of_structure"].get(mesh_id) or region or "whole_body"
     re_ = rep["region_errors"].get(region) or rep["region_errors"]["whole_body"]
     s = re_["surface_mm"]
     txt = (f"Not measured on this structure (she has no mesh of it). Estimate from her {region.replace('_', '/')} "
@@ -515,13 +651,18 @@ def fit_to_vhf(pending: list[dict]) -> dict:
     dropped = [p["mesh_id"] for p in pending if p["mesh_id"] in male]
     pending[:] = [p for p in pending if p["mesh_id"] not in male]
     xf = Q168.load_zan_to_vhf(zan_meshes={p["mesh_id"]: p["v"] for p in pending})
+    # Q186: ids Q168's report does not list (skin, renamed orphans) get their region the way Q168 assigned
+    # every other structure's (nearest Z-Anatomy bones, in the source frame, before the fit)
+    new_ids = [p for p in pending if p["mesh_id"] not in rep["region_of_structure"]]
+    rtree = Q168.region_tree({p["mesh_id"]: p for p in pending}) if new_ids else None
+    new_region = {p["mesh_id"]: Q168.structure_region(p["v"], rtree) for p in new_ids}
     proxy_ids = set(Q168.PROXY_FOLLOWERS)
     measured = 0
     for p in pending:
         p["v"] = np.asarray(xf(p["mesh_id"], p["cat"], p["v"]), dtype=np.float64)
-        region = rep["region_of_structure"].get(p["mesh_id"], "whole_body")
+        region = rep["region_of_structure"].get(p["mesh_id"]) or new_region.get(p["mesh_id"], "whole_body")
         left_proxy = p["mesh_id"] in proxy_ids or (region == "forearm_hand" and side_code(p["side_raw"]) == "l")
-        p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy)
+        p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy, region)
         measured += p["mesh_id"] in rep["per_structure"]
     skin_fit = skin_vs_her_skin(pending)
     return {"skin_vs_her_ct_skin": skin_fit,"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)", "fits": str(Q168.DEFAULT_REPORT.relative_to(REPO)),
@@ -598,7 +739,13 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # metadata-only now (a `part_of` reference on the object's OWN orphan mesh,
     # attached just below), never a second, merged copy of anything.
     orphans, dropped_dupe, zero_face = build_orphan_pool(inventory, namemap)
+    # Q186: build defects found by the inventory audit (see curate_orphans / split_vessel_mismatches)
+    q186_fixes = {"vessel_name_map_errors_split": split_vessel_mismatches(matched, orphans)}
+    orphans, orphan_fixes = curate_orphans(orphans, inventory)
+    q186_fixes.update(orphan_fixes)
     rescued = rescue_unshipped(inventory, namemap, matched, orphans)
+    for sid in [k for k, m in rescued.items() if DECAL_RE.search(m["mesh_name"])]:
+        q186_fixes["decal_dropped"].append({"id": sid, "source": rescued.pop(sid)["mesh_name"]})
     skins = (skin_pool(json.loads(Path(integ_inventory_path).read_text()), with_hair)
              if integ_inventory_path and Path(integ_inventory_path).exists() else {})
     # Q186: which Z-Anatomy source object(s) each shipped id is made of (route: matched = this
@@ -651,6 +798,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             dv, df = v, f  # Q186: patches tile one surface; decimating each alone would open the seams
         else:
             dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale), prepped=True)
+        df = outward_if_closed(dv, df)
 
         fields, packed = pack_mesh(dv, df, byte_off)
         byte_off += len(packed)
@@ -721,6 +869,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         provenance[stable] = {"route": "orphan", "sources": [meta["mesh_name"]]}
         emit(stable, meta["name"], meta["side"], meta["category"], v_raw, f,
              zanatomy_name=meta["name"], parent_link=parent_link)
+        if meta.get("note"):
+            pending[-1]["notes"].append(meta["note"])
 
     # Q161: matched-but-rejected objects (see rescue_unshipped) -- own geometry, own id,
     # linked to the atlas entity the name map matched them to (as "part of").
@@ -803,6 +953,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "parent_links_with_no_atlas_record": unresolved_parent_links,
             "corrected_ids": corrected_ids,
             "skin_structures": len([m for m in meshes if m["id"] in skins]),
+            "q186_fixes": q186_fixes,
             "skin_layer": SKIN_LAYER,
             "contralateral_repairs": contra_report,
             "muscle_gap_closure": {k: v for k, v in gap_report.items() if k != "per_mesh"},

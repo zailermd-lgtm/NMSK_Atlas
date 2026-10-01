@@ -7,8 +7,8 @@
  "extraction_route": "bpy (Blender's Python API), NOT a hand-rolled binary-FBX reader: `pip install bpy==5.0.1` installed cleanly for this Python 3.11 (cp311 wheel) into build/.venv-bpy/, isolated from the project's main venv because bpy pins numpy<2.0 and the project runs numpy 2.x. bpy.ops.import_scene.fbx resolves the FBX node tree, geometry, transforms (Lcl Translation/Rotation/Scaling, PreRotation), Model->Model parenting and GlobalSettings unit scale/axis convention into each object's matrix_world; vertices are read via matrix_world @ local_co, faces via mesh.loop_triangles (already triangulated), and metres are converted to millimetres by *1000.",
  "min_vertices_kept": 12,
  "excluded_non_tissue_systems": {
-  "Regions of human body100.fbx": "diagram overlay geometry (axillary lines, movement-direction arrows) -- not tissue, maps to no data/ tissue directory",
-  "References100.fbx": "reference planes/lines/cross-sections for the interactive app's own UI -- not tissue"
+  "References100.fbx": "reference planes/lines/cross-sections for the interactive app's own UI -- not tissue",
+  "Regions of human body100.fbx (Q186 correction)": "NOT a diagram overlay: it is Z-Anatomy's skin (region surface patches, nails, hair). Extracted separately as the Integument system into data/derived/zanatomy_integument_inventory.json (2026-10-01) so this frozen 7-system inventory and the name map built from it stay unchanged."
  },
  "nc_licensed_name_patterns": [
   "\\bkidney\\b",

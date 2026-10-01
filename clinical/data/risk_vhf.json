@@ -1,0 +1,265 @@
+{
+"schema":"nmsk.clinical_risk.v1",
+"viewer":"vhf",
+"generated":"2026-10-01",
+"licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
+"frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
+"method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
+"table_version":1,
+"counts":{
+"artery":14,
+"vein":10,
+"nerve":4,
+"organ":3
+},
+"structures":[
+{
+"id":"abdominal_aorta",
+"name":"Abdominal aorta",
+"class":"artery",
+"r_mm":7.7,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"aortic_arch_and_great_vessels",
+"name":"Aortic arch (great vessel origins)",
+"class":"artery",
+"r_mm":11.17,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brachiocephalic_trunk_r",
+"name":"Brachiocephalic trunk",
+"class":"artery",
+"r_mm":5.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brachiocephalic_v_l",
+"name":"Brachiocephalic (innominate) vein, left",
+"class":"vein",
+"r_mm":6.45,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brachiocephalic_v_r",
+"name":"Brachiocephalic (innominate) vein, right",
+"class":"vein",
+"r_mm":8.33,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_carotid_a_l",
+"name":"Common carotid artery",
+"class":"artery",
+"r_mm":4.55,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_carotid_a_r",
+"name":"Common carotid artery",
+"class":"artery",
+"r_mm":4.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_a_l",
+"name":"Common iliac artery (left)",
+"class":"artery",
+"r_mm":3.74,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_a_r",
+"name":"Common iliac artery (right)",
+"class":"artery",
+"r_mm":3.58,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_v_l",
+"name":"Common iliac vein (left)",
+"class":"vein",
+"r_mm":5.8,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"common_iliac_v_r",
+"name":"Common iliac vein (right)",
+"class":"vein",
+"r_mm":5.83,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"descending_thoracic_aorta",
+"name":"Descending thoracic aorta",
+"class":"artery",
+"r_mm":11.45,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_a_r",
+"name":"Femoral artery",
+"class":"artery",
+"r_mm":2.44,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_n",
+"name":"Femoral nerve",
+"class":"nerve",
+"r_mm":2.68,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"femoral_v_r",
+"name":"Femoral vein",
+"class":"vein",
+"r_mm":3.51,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"inferior_vena_cava",
+"name":"Inferior vena cava",
+"class":"vein",
+"r_mm":7.5,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_carotid_a_l",
+"name":"Internal carotid artery",
+"class":"artery",
+"r_mm":1.85,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_carotid_a_r",
+"name":"Internal carotid artery",
+"class":"artery",
+"r_mm":1.52,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_jugular_v_l",
+"name":"Internal jugular vein",
+"class":"vein",
+"r_mm":4.51,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"internal_jugular_v_r",
+"name":"Internal jugular vein",
+"class":"vein",
+"r_mm":5.97,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"optic_n",
+"name":"Optic nerve (CN II)",
+"class":"nerve",
+"r_mm":2.3,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"popliteal_a_r",
+"name":"Popliteal artery",
+"class":"artery",
+"r_mm":2.0,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
+"id":"popliteal_v_r",
+"name":"Popliteal vein",
+"class":"vein",
+"r_mm":2.38,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"rectum",
+"name":"Rectum",
+"class":"organ",
+"r_mm":22.3,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"sciatic_n",
+"name":"Sciatic nerve",
+"class":"nerve",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"sigmoid_colon",
+"name":"Sigmoid colon (pelvic part, below the pelvic inlet)",
+"class":"organ",
+"r_mm":13.25,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"subclavian_a_l",
+"name":"Subclavian artery",
+"class":"artery",
+"r_mm":4.44,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"subclavian_a_r",
+"name":"Subclavian artery",
+"class":"artery",
+"r_mm":4.82,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"superior_vena_cava",
+"name":"Superior vena cava",
+"class":"vein",
+"r_mm":9.1,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"tibial_n",
+"name":"Tibial nerve",
+"class":"nerve",
+"r_mm":2.24,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"urinary_bladder",
+"name":"Urinary bladder",
+"class":"organ",
+"r_mm":12.07,
+"r_method":"sdf",
+"rays_hit":300
+}
+]
+}

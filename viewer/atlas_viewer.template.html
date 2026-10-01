@@ -953,12 +953,19 @@ document.getElementById("cut-flip").addEventListener("click", function(){
    root-local atlas millimetres (the frame the vertices were decoded into). */
 var addon = null, addonClick = null, opacityOverride = null, changeHooks = [];
 function addonCursor(){ return addon && addon.cursor ? addon.cursor() : null; }
+function courseShow(id, i){
+  var g = groups[id]; if (!g || !g.depth_profile || !g.depth_profile[i]) return;
+  var r = g.depth_profile[i];
+  showPoint("insertion", r[2], r[3], r[4]);
+  showPoint("origin", r[5], r[6], r[7]);
+}
 function courseNeedle(id, i){
   var g = groups[id]; if (!addon || !addon.setPath || !g || !g.depth_profile || !g.depth_profile[i]) return;
   var r = g.depth_profile[i], skin = meshes.filter(function(m){ return /^skin(_|$)/.test(m.userData.id); })[0];
   addon.setPath([r[5], r[6], r[7]], [r[2], r[3], r[4]], skin ? skin.userData.id : null, id);
 }
 window.courseShow = courseShow; window.courseNeedle = courseNeedle;
+window.showPoint = showPoint;   // the inline 📍 buttons call it from outside this strict IIFE
 function anatomyApi(){
   var v3 = function(p){ return new THREE.Vector3(p[0], p[1], p[2]); };
   var recs = meshes.map(function(m, i){
@@ -974,7 +981,7 @@ function anatomyApi(){
     version:1, kind:"three", units:"mm", frame:BUNDLE.frame || "atlas mm",
     viewerGuess: SUBJECTS.every(function(s){ return s.startsWith("ct_vhf") || s.startsWith("xfer_"); }) ? "vhf" : "vhm",
     canvas:renderer.domElement, stage:stage, toolbar:document.getElementById("tools"),
-    panelHost:document.getElementById("inspector"), panelBefore:document.getElementById("i-body"),
+    panelHost:stage, panelBefore:null,
     list:function(){ return recs; },
     visible:function(i){ return !!meshes[i].visible; },
     geometry:function(i){ var g = meshes[i].geometry; return {pos:g.attributes.position.array, idx:g.index.array}; },
@@ -1006,6 +1013,7 @@ function anatomyApi(){
       document.querySelectorAll("#cut-axis button").forEach(function(x){ x.setAttribute("aria-pressed", String(x.dataset.axis === "view")); });
       if (!cut.on) document.getElementById("t-cut").click(); else cutUpdate();
     },
+    focus:function(p, d){ target.set(p[0], p[1], p[2]).add(root.position); if (d) dist = d; place(); draw(); },
     redraw:draw, refresh:apply,
     setOpacityOverride:function(fn){ opacityOverride = fn || null; apply(); },
     categoryOn:function(c){ return !!on[c]; },
@@ -1017,7 +1025,7 @@ function anatomyApi(){
     setClickHandler:function(fn){ addonClick = fn || null; },
     onChange:function(fn){ changeHooks.push(fn); },
     catColor:function(c){ return hexCss((TISSUE[c] || TISSUE.other).hex); },
-    showPanel:function(){ if (app.classList.contains("phone")) openSheet("info"); },
+    showPanel:function(){ if (app.classList.contains("phone")) openSheet(null); },   // phone: close the sheets so the stage panel shows
     stopMotion:function(){},
     three:{THREE:THREE, scene:scene, root:root, camera:camera, renderer:renderer,
            mesh:function(i){ return meshes[i]; }, clippingPlanes:function(){ return cut.on ? cutPlanes : null; }},
