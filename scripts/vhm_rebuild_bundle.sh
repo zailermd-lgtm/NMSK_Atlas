@@ -238,7 +238,10 @@ for s in ct_vhm_armm_contfix_mesh ct_vhm_armm_contfix ct_vhm_delt_contfix_mesh c
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
 [ -f build/vh/ct_vhm_thigh_snap/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_thigh_snap"   # Q173 + Q175 + Q177, before vhm_both
-for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
+# Q182: his ribs_l / ribs_r re-surfaced from his own TS rib labels (scripts/ribs_from_ct_labels.py; no dilation, one
+# piece per side) replace the Q105/Q109 dilated voxel remesh ct_vhm carries (12-13 mm outside the labels). Listed before ct_vhm.
+[ -f build/vh/ct_vhm_ribs/manifest.json ] || python3 scripts/ribs_from_ct_labels.py build --body vhm | tail -1
+for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm_ribs ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 # Q180 HELD (main session 2026-09-30): not shipped by default -- the seeded bellies drop the tendons the transferred
 # meshes carry, contact boundaries follow septa no better than Q165 (0.20-0.51), and 38/63 seeds are low confidence.
 # Set Q180_SHIP=1 to include it once the owner has reviewed/corrected the seeds on the click page.

@@ -10376,3 +10376,33 @@ the female's phalanges are under-captured at HU 200.
 - Next: (1) rebuild the bundle ribs from the CT rib labels without the dilation (or refit Q168 ribs onto the labels) -- that is
   what blocks the whole rib-borne set on both bodies; (2) deep back / leg need the existing CT compartment meshes (TS multifidus,
   fibularis longus, EDL) carved before any Z-Anatomy subdivision can pass the 10 % overlap gate.
+
+## Q182 (2026-10-01) -- ribs_l / ribs_r of BOTH own-model bundles rebuilt from the CT rib labels -- SHIPPED
+- AUDIT (`scripts/ribs_from_ct_labels.py audit`, report data/derived/Q182_ribs_audit.json; signed distance from the TS
+  `total` rib label's own distance field, + = outside the label). Shipped meshes were the Q105/Q109 2 mm-voxel, 4-dilation
+  remesh with hubs: his = ct_vhm (recovered from vhm_v25, ribs_r 120 k tris after the Q163 guard), hers = build/vh/ct_vhf
+  after `ingest_remeshed_ribs.py` (NOT reproduced by vhf_rebuild_bundle.sh -- a from-scratch rebuild would have shipped 12
+  label pieces). NOT a thicker rib: an open blocky envelope bridging the ribs (montage_before_vertices.png), every vertex
+  outside the label. Mesh->label median / p90 / signed median (mm): vhm L 12.80/14.62/+12.80, R 11.96/14.11/+11.96;
+  vhf L 12.57/14.58/+12.57, R 12.57/14.76/+12.57; 100 % of vertices outside the label (>= 99.99 % by > 2 mm), label->mesh
+  median 12.1-13.1 mm. Volume not measurable (open; divergence 4.5-5.9x, voxel fill 0.4x the label 212/218/149/149 cm3).
+  0 % outside skin (all four), but 20-29 % of vertices inside the lung labels (label surface itself 0.06-0.34 %), and
+  13-14 % of hers inside her pectoralis major / latissimus / serratus anterior / scapula meshes.
+- FIX: `ribs_from_ct_labels.py build --body vhm|vhf` -> build/vh/ct_v{m,f}_ribs: ingest_volume_geometry.py convert of
+  {vhm,vhf}_total.nii.gz labels 92-103 -> ribs_l, 104-115 -> ribs_r (no dilation, --smooth 1.0, same origins as the
+  rebuild scripts), then the 12 per-rib records of a side merged into ONE record (same ids, one piece per side, as before).
+  Listed right before ct_vhm / ct_vhf in vhm_rebuild_bundle.sh / cryo/vhf_rebuild_bundle.sh (built when absent).
+  Costal cartilages not included (no atlas entity; Q105c) -> the ribs no longer touch the sternum in the viewer.
+- GATES (shipped, decimated meshes): mesh->label median 0.20-0.22 mm, p90 0.45-0.47, signed -0.12..-0.14, 0 % > 2 mm out;
+  outside skin 0.0 % (all four); volume / label voxels 0.93 / 0.93 (his L/R), 0.90 / 0.91 (hers; her ribs_l not watertight
+  after quadric decimation, divergence volume) -- marching cubes on the 1-voxel-smoothed mask is 5-8 % under the voxel count
+  before decimation; in lung 0.08-0.40 % (= label surface); other bundle meshes (watertight, contains): total 0.5-2.0 % vs
+  0.8-14.5 % before, the only ids higher than before are thoracic intervertebral discs (+0.1-0.2 pp each, rib heads);
+  intercostal labels (trunk_wall volume, same grid): 0 voxels shared with the rib label, 0 % of vertices > 1 mm inside
+  (boundary contact 7-29 % = label surface 5-28 %); diaphragm 0-0.5 % (was 1.1-1.2 %). All four pass.
+- Bundles rebuilt: build/viewer_m_hr 461 structures, 2,165,522 tris (was 2,270,521); build/viewer_f_hr 455, 3,319,751 (was
+  3,319,752). Only ribs_l / ribs_r differ (decoded per-id entry + geometry hash compare; bundle-level subject /
+  attribution / triangle totals change). Geo files changed: male geo_00, geo_01; female geo_00..02 (byte stream shift) +
+  both HTMLs. Headless Chromium (swiftshader, three.js routed): both load, no page errors, "Search 461/455 structures".
+- Test tests/test_ribs_from_ct_labels.py (3). Montages (scratch q182/): montage_before.png, montage_before_vertices.png,
+  montage_after.png. Not published.

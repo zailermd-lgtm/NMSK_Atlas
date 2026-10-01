@@ -129,7 +129,10 @@ for s in ct_vhf_armm_contfix ct_vhf_armm_contfix_mesh ct_vhf_delt_contfix ct_vhf
          ct_vhf_twall_contfix_mesh; do
   [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"
 done
-SUBJ="$SUBJ --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
+# Q182: her ribs_l / ribs_r re-surfaced from her own TS rib labels (scripts/ribs_from_ct_labels.py; no dilation, one
+# piece per side) replace the Q109 dilated voxel remesh build/vh/ct_vhf carries (12-13 mm outside the labels). Before ct_vhf.
+[ -f build/vh/ct_vhf_ribs/manifest.json ] || python3 scripts/ribs_from_ct_labels.py build --body vhf | tail -1
+SUBJ="$SUBJ --subject ct_vhf_ribs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_pelvis"   # Q169 pelvic viscera (ids unique to this subject)
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
