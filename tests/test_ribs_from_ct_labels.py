@@ -37,3 +37,14 @@ def test_rebuild_scripts_list_rib_subject_before_the_body_subject():
     f = (REPO / "scripts" / "cryo" / "vhf_rebuild_bundle.sh").read_text()
     assert re.search(r"ct_vhm_ribs ct_vhm ", m) and "ribs_from_ct_labels.py build --body vhm" in m
     assert "--subject ct_vhf_ribs --subject ct_vhf " in f and "ribs_from_ct_labels.py build --body vhf" in f
+
+
+def test_trunk_transfer_rides_the_rib_refit_and_report_differs_only_in_ribs():
+    import json
+    for t, p in (("vhm", "scripts/vhm_rebuild_bundle.sh"), ("vhf", "scripts/cryo/vhf_rebuild_bundle.sh")):
+        assert f"zan_to_vh_trunk_leg.py --target {t} --q168 data/derived/Q182_q168_ribrefit_{t}.json" in (REPO / p).read_text()
+        old = json.loads((REPO / "data" / "derived" / f"Q168_zan_to_{t}.json").read_text())["bone_fits"]
+        new = json.loads((REPO / "data" / "derived" / f"Q182_q168_ribrefit_{t}.json").read_text())["bone_fits"]
+        assert set(old) == set(new)
+        assert {u for u in old if json.dumps(old[u], sort_keys=True) != json.dumps(new[u], sort_keys=True)} == {"ribs_l", "ribs_r"}
+        assert all(new[r]["residual_mm"] < old[r]["residual_mm"] for r in ("ribs_l", "ribs_r"))

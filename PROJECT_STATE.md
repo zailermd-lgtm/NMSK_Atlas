@@ -10406,3 +10406,26 @@ the female's phalanges are under-captured at HU 200.
   both HTMLs. Headless Chromium (swiftshader, three.js routed): both load, no page errors, "Search 461/455 structures".
 - Test tests/test_ribs_from_ct_labels.py (3). Montages (scratch q182/): montage_before.png, montage_before_vertices.png,
   montage_after.png. Not published.
+- PART 2 (same day) -- rib-borne muscles retried on the corrected ribs. Q168 fit re-run onto the rebuilt bundles
+  (`zan_to_vhf_whole_body.py --target v? --report data/derived/Q182_q168_ribrefit_v?.json`; only the ribs_l/ribs_r fits
+  differ from Q168's report). Rib fit residual her 7.50 / 6.69 -> 5.13 / 4.79 mm (scale 0.93 -> 0.89 / 0.84), his
+  6.76 / 6.71 -> 5.25 / 4.84 mm; her trunk-region surface median 10.6 -> 9.5 mm but max 27.7 -> 36.5 (his 9.3 -> 9.3,
+  max 27.7 -> 29.6) -> NOT verified as an improvement, so Q168's own report and the Q168 female Z-Anatomy viewer are
+  UNCHANGED; the refit feeds only the Q62 step 9 transfer (new `--q168` arg of zan_to_vh_trunk_leg.py, default unchanged).
+- Q62s9 rerun (same gates; reports data/derived/Q62s9_v?_trunk_leg.json overwritten with the refit run): rib-borne carriers
+  fall from 4.4-12.8 mm to 1.7-3.5 mm on both bodies (group carriers now pass: posterior wall 2.82 / 2.64, chest wall
+  2.25 / 2.12 mm). SHIPPED: subclavius_r (her; carrier 1.71 mm, bone 12.9 -> 3.0 %, skin 0 %, lung 0 %, overlap 8.6 %,
+  move max 3.9 mm, 4.51 cm3 = 94 % kept), subclavius_r / _l (his; carrier 2.17 / 1.81, bone 0.8 / 0 %, skin 0, lung 0,
+  overlap 1.5 / 2.8 %, 6.56 / 6.22 cm3; Z-Anatomy source 3.28 cm3, no published value). Still HELD: levatores costarum,
+  serratus posterior sup/inf, internal intercostals -- 38-75 % inside the existing CT longissimus / iliocostalis /
+  subscapularis / external-intercostal meshes (her levatores_l / serratus_post_sup_l also carrier 3.11 / 3.47 > 3.0; his
+  levatores_r 5.4 % bone); innermost intercostals, transversus thoracis, internal_intercostals_l 6-25 % in lung; her
+  subclavius_l 19.4 % in pectoralis minor. Deep back / pyramidalis / leg verdicts as in Q62 step 9.
+- Wired: both rebuild scripts regenerate Q182_q168_ribrefit_v?.json when absent and pass it to the trunk step. Bundles:
+  build/viewer_m_hr 463 structures, 2,167,110 tris; build/viewer_f_hr 456, 3,320,545 tris (vs the part-1 bundles only the
+  subclavius ids added + clinical `subclavius` block; every other structure byte-identical). All geo files + both HTMLs
+  changed. Headless: both load, no page errors, "Search 463 / 456 structures". Tests: tests/test_ribs_from_ct_labels.py
+  (4) + tests/test_zan_to_vh_trunk_leg.py (3) pass. (vhf rebuild prints a pre-existing traceback from
+  vhf_whole_body_skin.py -- its scratch legs CT is gone -- and falls back to the existing ct_vhf_skin, unchanged.)
+- Next: the held rib-borne muscles need the CT erector / external-intercostal meshes carved (overlap), and a pleura/lung
+  margin for the innermost layer; costal cartilages are still absent from both bodies.

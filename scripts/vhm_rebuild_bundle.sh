@@ -264,11 +264,15 @@ fi
 for s in xfer_zan2vhm_head xfer_zan2vhm_foot; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done
 # Q62 step 9: trunk + small lower-limb muscles he had no mesh for, same route onto HIS skeleton
 # (scripts/transfer/zan_to_vh_trunk_leg.py --target vhm; data/derived/Q62s9_vhm_trunk_leg.json). Ids unique; listed last.
-# 2026-10-01: nothing passed on either body (all held: carrier/overlap/lung) -> no subject; reruns only when its
+# 2026-10-01: nothing passed on either body (all held: carrier/overlap/lung). Q182 (ribs from the CT labels + rib refit):
+# subclavius passes (her _r, his _r/_l), the rest still held (overlap/lung) -> subject written; reruns only when its
 # report is absent (delete data/derived/Q62s9_vhm_trunk_leg.json to retry).
 if [ ! -f build/vh/xfer_zan2vhm_trunk/manifest.json ] && [ ! -f data/derived/Q62s9_vhm_trunk_leg.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhm_skin/manifest.json ] \
    && [ -f build/viewer_m_hr/bundle.json ]; then
-  python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhm 2>&1 | grep -v Deprec | tail -2
+  # Q182: carried by the Q168 fit REFITTED onto the label-derived ribs (only ribs_l/ribs_r fits differ from Q168's report;
+  # the Q168 Z-Anatomy viewer keeps its own report). Regenerated from this bundle when absent.
+  [ -f data/derived/Q182_q168_ribrefit_vhm.json ] || python3 scripts/transfer/zan_to_vhf_whole_body.py --target vhm --report data/derived/Q182_q168_ribrefit_vhm.json | tail -1
+  python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhm --q168 data/derived/Q182_q168_ribrefit_vhm.json 2>&1 | grep -v Deprec | tail -2
 fi
 [ -f build/vh/xfer_zan2vhm_trunk/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_trunk"
 # Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
