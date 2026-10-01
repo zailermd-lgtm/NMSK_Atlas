@@ -259,6 +259,14 @@ fi
 [ -f data/derived/Q183b_vessels_ql.json ] && python3 scripts/vessels_ql_q183b.py stamp
 # Q185a: badge his skin with its CT field-of-view cut (x = -233 / +247 mm; arms beyond it have no skin) -- no skin is made up
 [ -f build/vh/ct_vhm_skin/manifest.json ] && [ -f data/derived/Q185a_skin_fov_vhm.json ] && python3 scripts/vhm_skin_fov_q185a.py stamp
+# Q185a2: his arm skin beyond those planes from his OWN cryosection photographs (registered photo body mask, committed in
+# task_outputs; re-made only if absent and the 1 mm photographs are in SCRATCH/vh_cryo), merged into ct_vhm_skin in place
+# (CT-only original kept as *.ctonly.*, every run starts from it) and badged -- overrides the Q185a badge
+[ -f data/ct_sources/task_outputs/vhm_arm_skin_cryo_q185a2.nii.gz ] || { [ -f SCRATCH/vh_cryo/cryo_1mm.npy ] && python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py segment | tail -1; }
+if [ -f build/vh/ct_vhm_skin/manifest.json ] && [ -f data/ct_sources/task_outputs/vhm_arm_skin_cryo_q185a2.nii.gz ]; then
+  python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py merge 2>&1 | grep -E "Q185a2|Error|Trace"
+  python3 scripts/cryo/vhm_arm_skin_from_cryo_q185a2.py stamp
+fi
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm_ribs ct_vhm_ccart ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_vhm_vessels ct_vhm_qlh xfer_vhf2vhm_vessels ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 # Q180 HELD (main session 2026-09-30): not shipped by default -- the seeded bellies drop the tendons the transferred
 # meshes carry, contact boundaries follow septa no better than Q165 (0.20-0.51), and 38/63 seeds are low confidence.

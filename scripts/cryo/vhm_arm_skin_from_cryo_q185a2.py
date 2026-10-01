@@ -11,9 +11,11 @@ atlas y 164..588: lateral upper arms, elbows, proximal forearms; Q185a). His cry
 4aaf9181-..., 3x downsampled to 0.99 mm/px, every 1 mm level, both arms in frame; torso RAS z = 985 - instance) show the
 whole cross-section against the blue frozen block.
 
-BODY / AIR RULE: cryo_classes.classify tissue (r > b + 15 and max(RGB) > 60; the gelatin is blue, the specimen red /
-cream / white), opened 2 px, holes filled per photograph (= scripts/cryo/skin_from_cryo.py's rule); only the connected
-pieces that hold that arm's photographed bones are kept (drops the paper level labels / grey card).
+BODY / AIR RULE: red over blue, r > b + 15 and max(RGB) > 40 (cryo_classes' tissue test with the brightness floor lowered
+from 60: the gelatin is blue / cyan, the outside-block background ~(13, 15, 12), the specimen red / cream / white; at 60
+the dark skin line where an arm lies against the black mould wall dropped out), opened 2 px, closed 2 px, holes filled
+per photograph (scripts/cryo/skin_from_cryo.py's rule + the closing); only the connected pieces that hold that arm's
+photographed bones are kept (drops the paper level labels / grey card).
 
 REGISTRATION (no new method): the Q151 / Q164 male-arm registration -- per photograph and per arm, TRANSLATION ONLY at the
 fixed photograph scale (here 0.99 mm/px; Q164 0.33 mm/px at full resolution), photographed bone cross-sections laid on his
@@ -24,10 +26,16 @@ to the nearest disc of comparable area; reliable levels = every bone matched and
 distances within 3 mm of the CT's; median-filtered over 21 reliable levels and interpolated between them
 (vhm_forearm_muscles_fullres.smooth_translation's rule).
 
-SURFACE: per side, a 1 mm grid beyond (and 25 mm inside) the FOV plane; occupancy = his CT skin inside (the existing
-mesh, ray parity) inside the FOV, the registered photograph mask beyond it, linear blend over the 7 mm band inside the
-plane (plane + 1 .. + 8 mm); Gaussian sigma 1 voxel, marching cubes (step 2 = the CT skin's own ~2 mm edges). The CT skin
-is cut at a wall plane 15 mm inside the FOV plane (where the grid is still pure CT) and the photo-derived part is zipped
+OVERLAP (measured, `gates`): photo vs CT outline per level, in bands inside the FOV plane over the cap's y / z range:
+signed median within +-2.2 mm, |offset| median 2-3.5 mm in every band 1..45 mm (no extra erosion of the CT rim), i.e. the
+frozen-block arm and the CT arm differ by a few mm level by level (posture / registration), not systematically.
+SURFACE: per side, a 1 mm grid beyond (and 30 mm inside) the FOV plane; occupancy = the registered photograph mask up to
+2 mm inside the plane, his CT skin inside (the existing mesh, ray parity) from 12 mm inside, linear blend of the two
+SIGNED DISTANCE fields between (the outline morphs, no shelf where they disagree), and only
+over the cap's own y range (+3 mm, fading to pure CT 11 mm beyond it);
+the photo correction smoothed sigma 1 voxel in-plane / 3 across levels (softens registration ledges), the CT
+base sigma 0.7, marching cubes (step 2 = the CT skin's own ~2 mm edges). The CT skin
+is cut at a wall plane 20 mm inside the FOV plane (where the grid is pure CT) and the photo-derived part is zipped
 onto it there (exact plane slices, loops matched, one triangle strip), so the skin stays one closed surface.
 The CT-only skin is kept as build/vh/ct_vhm_skin/{vertices,faces}.ctonly.* and `merge` always starts from it.
 """
@@ -48,7 +56,8 @@ sys.path.insert(0, str(REPO)); sys.path.insert(0, str(REPO / "scripts" / "cryo")
 PX = 0.99                                       # mm per pixel of the 3x-downsampled photographs
 ORIGIN = np.array([-6.035, -895.476, 4.787])    # atlas = (x, z, y)_RAS - ORIGIN (every ct_vhm_* subject)
 Z_OF_INST = 985.0                               # torso RAS z = 985 - instance
-INST_RANGE = (1270, 1740)                       # photographs used (caps at atlas y 164..588 = instances 1293..1717, +-20)
+INST_RANGE = (1230, 1800)                       # photographs used (caps at atlas y 164..588 = instances 1293..1717; the arm piece cut
+                                                # off at the wall spans atlas y ~95..630 = instances 1250..1785)
 BONES = REPO / "data/ct_sources/task_outputs/vhm_arm_bones_cryo_completed.nii.gz"
 BONES_AFF = (350.0, 240.0, -1113.0)
 SIDE_BONES = {"right": {"humerus": 1, "radius": 2, "ulna": 3}, "left": {"humerus": 5, "radius": 6, "ulna": 7}}
@@ -59,8 +68,8 @@ SKIN = REPO / "build/vh/ct_vhm_skin"
 INIT = (338.0, -159.96)                         # skin_from_cryo.py's whole-series affine: x = 338 - 0.99 c, y = -159.96 + 0.99 r
 # mask grid (torso RAS, 1 mm): x -350..350, y -200..200, z of the instances
 GX = np.arange(-350, 351, dtype=float); GY = np.arange(-200, 201, dtype=float)
-WALL_MM, BLEND = 15.0, (1.0, 8.0)               # wall inside the FOV plane; photo weight 1 at <= 1 mm inside, 0 at >= 8 mm
-GRID_IN_MM = 25.0                               # how far inside the plane the local grid reaches
+WALL_MM, BLEND = 20.0, (2.0, 12.0)              # wall inside the FOV plane; photo weight 1 at <= 2 mm inside, 0 at >= 12 mm
+GRID_IN_MM = 30.0                               # how far inside the plane the local grid reaches
 
 
 def fov_planes_atlas() -> tuple[float, float]:
@@ -70,9 +79,16 @@ def fov_planes_atlas() -> tuple[float, float]:
 
 
 # ------------------------------------------------------------------------------------------------ photographs
-def body_mask(cls: np.ndarray) -> np.ndarray:
+def body_mask(cls: np.ndarray, im: np.ndarray | None = None) -> np.ndarray:
+    """specimen vs frozen block: red over blue (r > b + 15) and max(RGB) > 40 (classify's > 60 drops the dark skin line
+    where the arm lies against the black mould wall; the gel is blue / cyan, the outside-block background ~(13, 15, 12):
+    neither has r > b + 15), opened 2 px, closed 2 px, holes filled"""
     from scipy import ndimage as ndi
-    return ndi.binary_fill_holes(ndi.binary_opening(cls > 0, iterations=2))
+    t = cls > 0
+    if im is not None:
+        im = im.astype(np.int16); t = (im[..., 0] > im[..., 2] + 15) & (im.max(-1) > 40)
+    t = ndi.binary_closing(ndi.binary_opening(t, iterations=2), iterations=2)
+    return ndi.binary_fill_holes(t)
 
 
 def ct_bones_at(bones: np.ndarray, z: float, side: str, min_px: int = 30) -> dict:
@@ -155,7 +171,7 @@ def register(vol, bones, insts, log=print):
 
     def level(inst):
         if inst not in cache:
-            cls = classify(np.asarray(vol[inst - 1001])); body = body_mask(cls)
+            im = np.asarray(vol[inst - 1001]); cls = classify(im); body = body_mask(cls, im)
             cache[inst] = (cls, body, photo_discs(cls, body)[1])
         return cache[inst]
     out = {}
@@ -205,11 +221,12 @@ def cmd_segment(a) -> int:
     Z = len(insts); M = np.zeros((len(GX), len(GY), Z), np.uint8)
     xx, yy = np.meshgrid(GX, GY, indexing="ij")
     side_x = {"right": xx > 150, "left": xx < -150}
+    edge_touch = {"right": [], "left": []}
     for zi, inst in enumerate(insts):
         if inst in cache:
             cls, body, _ = cache[inst]
         else:
-            cls = classify(np.asarray(vol[inst - 1001])); body = body_mask(cls)
+            im = np.asarray(vol[inst - 1001]); cls = classify(im); body = body_mask(cls, im)
         lab, n = ndi.label(body)
         for side in ("right", "left"):
             t = T[side][inst]
@@ -222,6 +239,8 @@ def cmd_segment(a) -> int:
             if not keep:   # no CT bone at this level for this side: keep pieces reaching the side's half of the grid
                 continue
             piece = np.isin(lab, list(keep))
+            if piece[:, :2].any() or piece[:, -2:].any() or piece[:2].any() or piece[-2:].any():
+                edge_touch[side].append(inst)        # the arm leaves the photograph here: its outline is not complete
             r, c = to_px(xx, yy, t)
             v = ndi.map_coordinates(piece.astype(np.float32), [r, c], order=1, mode="constant", cval=0.0) >= 0.5
             M[:, :, zi][v & side_x[side]] = 1
@@ -239,7 +258,7 @@ def cmd_segment(a) -> int:
                            "residual_mm_p95": round(float(np.percentile(resid[s], 95)), 2),
                            "translation_range_X0": [round(float(ts[:, 0].min()), 1), round(float(ts[:, 0].max()), 1)],
                            "translation_range_Y0": [round(float(ts[:, 1].min()), 1), round(float(ts[:, 1].max()), 1)],
-                           "levels": rows}
+                           "photo_edge_levels": edge_touch[s], "levels": rows}
     REG.write_text(json.dumps(rep, indent=1))
     print(f"wrote {MASK.relative_to(REPO)} ({int(M.sum())} voxels) and {REG.relative_to(REPO)}")
     for s in raw:
@@ -263,58 +282,87 @@ def mask_volume():
     img = nib.load(str(MASK)); return np.asanyarray(img.dataobj), img.affine
 
 
-def side_grid(side: str, planes: tuple, mask, maff):
-    """atlas-mm grid of one side: x from GRID_IN_MM inside the plane outward to the mask's extent, every photo level"""
+def side_grid(side: str, planes: tuple, mask, maff, box=None, grid_in=None):
+    """atlas-mm grid of one side: x from GRID_IN_MM inside the plane outward to the mask's extent; levels / z limited to
+    box = ((y0, y1), (z0, z1)) atlas mm when given. Returns ax, ay, az, plane, sx, level indices"""
     lo, hi = planes
     sx = -1.0 if side == "left" else 1.0
     plane = lo if side == "left" else hi
-    xin = plane - sx * GRID_IN_MM
-    # outward extent of the photo mask on this side (+ 6 mm)
-    ras_x = GX
+    xin = plane - sx * (grid_in or GRID_IN_MM)
     cols = np.nonzero(mask.any(axis=(1, 2)))[0]
-    xs = ras_x[cols] - ORIGIN[0]
+    xs = GX[cols] - ORIGIN[0]
     xs = xs[xs < 0] if side == "left" else xs[xs > 0]
     xout = (xs.min() - 6) if side == "left" else (xs.max() + 6)
     ax = np.arange(min(xin, xout), max(xin, xout) + 0.5, 1.0)
-    nz = mask.shape[2]
-    ras_z = maff[2, 3] + maff[2, 2] * np.arange(nz)
+    ras_z = maff[2, 3] + maff[2, 2] * np.arange(mask.shape[2])
     ay = ras_z - ORIGIN[1]                         # atlas y (superior), decreasing with index
     az = GY - ORIGIN[2]                           # atlas z (anterior) = RAS y - 4.787
-    return ax, ay, az, plane, sx
+    ks = np.arange(len(ay)); js = np.arange(len(az))
+    if box is not None:
+        (y0, y1), (z0, z1) = box
+        ks = np.nonzero((ay >= y0) & (ay <= y1))[0]; js = np.nonzero((az >= z0) & (az <= z1))[0]
+        if ay[ks].max() < y1 - 1.0 or ay[ks].min() > y0 + 1.0:
+            raise SystemExit(f"Q185a2: photo mask levels {ay.min():.0f}..{ay.max():.0f} do not cover atlas y {y0:.0f}..{y1:.0f}")
+    return ax, ay[ks], az[js], plane, sx, ks, js
 
 
-def occupancy(side, planes, skin_mesh, mask, maff, log=print):
-    ax, ay, az, plane, sx = side_grid(side, planes, mask, maff)
-    # photo mask resampled to atlas x (RAS x = ax + ORIGIN[0]); exact 1 mm shift (ORIGIN x not integer -> linear)
+def cap_y_range(V, plane, tol=0.5):
+    """atlas-y extent of the flat FOV cap of the CT skin on that plane"""
+    c = V[np.abs(V[:, 0] - plane) < tol]
+    return float(c[:, 1].min()), float(c[:, 1].max())
+
+
+def occupancy(side, planes, skin_mesh, mask, maff, log=print, ct_everywhere=False, box=None, cap_y=None, grid_in=None):
+    """photo weight w = w_x (1 at <= BLEND[0] inside the plane, 0 at >= BLEND[1]) x w_y (1 over the cap's y range + 3 mm,
+    0 from 11 mm beyond it); occupancy = w * photo + (1 - w) * CT inside"""
+    ax, ay, az, plane, sx, ks, js = side_grid(side, planes, mask, maff, box, grid_in)
     from scipy import ndimage as ndi
     gi = (ax + ORIGIN[0] - GX[0])
-    sub = mask.astype(np.float32)
-    P = np.stack([ndi.map_coordinates(sub[:, :, k], np.meshgrid(gi, np.arange(len(GY)), indexing="ij"), order=1)
-                  for k in range(mask.shape[2])], 1)        # (nx, nz_levels, ny) -> axes (ax, ay, az)
-    # CT skin inside, only where the photo weight < 1
+    P = np.stack([ndi.map_coordinates(mask[:, js, k].astype(np.float32), np.meshgrid(gi, np.arange(len(js)), indexing="ij"),
+                                      order=1) for k in ks], 1)          # axes (ax, ay, az)
     d_in = sx * (plane - ax)                       # mm inside the FOV plane (> 0 inside)
-    w = np.clip((BLEND[1] - d_in) / (BLEND[1] - BLEND[0]), 0, 1)
+    wx = np.clip((BLEND[1] - d_in) / (BLEND[1] - BLEND[0]), 0, 1)
+    if cap_y is None:
+        wy = np.ones(len(ay))
+    else:
+        dy = np.maximum(cap_y[0] - ay, ay - cap_y[1])            # mm outside the cap's y range
+        wy = np.clip((11.0 - dy) / 8.0, 0, 1)
+    W = wx[:, None] * wy[None, :]                                 # (ax, ay)
     C = np.zeros_like(P)
-    need = np.nonzero(w < 1)[0]
+    need = np.argwhere((W < 1) | ct_everywhere)
     if len(need):
-        XX, YY, ZZ = np.meshgrid(ax[need], ay, az, indexing="ij")
-        pts = np.stack([XX.ravel(), YY.ravel(), ZZ.ravel()], 1)
-        # only points near the CT skin's bbox can be inside
+        pts = np.stack([np.repeat(ax[need[:, 0]], len(az)), np.repeat(ay[need[:, 1]], len(az)), np.tile(az, len(need))], 1)
         inside = np.zeros(len(pts), bool)
         bb0, bb1 = skin_mesh.bounds
         cand = np.all((pts >= bb0) & (pts <= bb1), 1)
         inside[cand] = skin_mesh.contains(pts[cand])
-        C[need] = inside.reshape(len(need), len(ay), len(az))
-    F = w[:, None, None] * P + (1 - w[:, None, None]) * C
-    log(f"{side}: grid {F.shape}, photo voxels {int((P > 0.5).sum())}, CT voxels {int((C > 0.5).sum())}")
+        C[need[:, 0], need[:, 1]] = inside.reshape(len(need), len(az))
+    # blend SIGNED DISTANCES (mm, > 0 inside), not occupancies: the surface then morphs from the CT outline to the photo
+    # outline across the band instead of forming a flat shelf where the two masks disagree
+    base = sdf(C > 0.5)
+    F = (base, W[:, :, None] * (sdf(P > 0.5) - base))       # surface() smooths the photo correction more than the CT base
+    log(f"{side}: grid {base.shape}, photo voxels {int((P > 0.5).sum())}, CT voxels {int((C > 0.5).sum())}")
     return F, ax, ay, az, plane, sx, P, C
 
 
-def surface(F, ax, ay, az, sigma=1.0, step=2):
+def sdf(m: np.ndarray, cap: float = 15.0) -> np.ndarray:
+    """signed distance (1 mm grid, > 0 inside), clipped to +-cap"""
+    from scipy import ndimage as ndi
+    if not m.any():
+        return np.full(m.shape, -cap, np.float32)
+    d = ndi.distance_transform_edt(m) - ndi.distance_transform_edt(~m) + 0.5 * np.where(m, -1, 1)
+    return np.clip(d, -cap, cap).astype(np.float32)
+
+
+def surface(F, ax, ay, az, sigma=(1.0, 3.0, 1.0), sigma_base=0.7, step=2):
+    """F = (CT signed distance, weighted photo correction). The correction is smoothed with sigma (x, level, z) voxels --
+    3 along the levels softens the 2-5 mm per-level registration jumps (ledges) --, the CT base only lightly, so the
+    surface at the wall (correction 0) stays on the CT skin"""
     from scipy import ndimage as ndi
     from skimage.measure import marching_cubes
-    G = ndi.gaussian_filter(np.pad(F, 2), sigma)
-    v, f, _, _ = marching_cubes(G, 0.5, step_size=step, allow_degenerate=False)
+    base, corr = F
+    G = ndi.gaussian_filter(np.pad(base, 2, constant_values=-15.0), sigma_base) + ndi.gaussian_filter(np.pad(corr, 2), sigma)
+    v, f, _, _ = marching_cubes(G, 0.0, step_size=step, allow_degenerate=False)
     v = v - 2
     out = np.stack([np.interp(v[:, 0], np.arange(len(ax)), ax), np.interp(v[:, 1], np.arange(len(ay)), ay),
                     np.interp(v[:, 2], np.arange(len(az)), az)], 1)
@@ -332,8 +380,18 @@ def slice_keep(v, f, x0, keep_ge: bool):
     m = trimesh.Trimesh(v, f, process=False)
     n = np.array([1.0, 0, 0]) if keep_ge else np.array([-1.0, 0, 0])
     s = trimesh.intersections.slice_mesh_plane(m, n, [x0, 0, 0], cap=False)
-    s.merge_vertices(digits_vertex=6)
-    return np.asarray(s.vertices, float), np.asarray(s.faces, np.int64)
+    V, F = np.asarray(s.vertices, float), np.asarray(s.faces, np.int64)
+    # weld only the new on-plane vertices (one per crossing edge per triangle); the rest of the mesh is left as it was
+    on = np.nonzero(np.abs(V[:, 0] - x0) < 1e-6)[0]
+    key = {}
+    remap = np.arange(len(V))
+    for i in on:
+        k = (round(V[i, 1], 5), round(V[i, 2], 5))
+        remap[i] = key.setdefault(k, i)
+    F = remap[F]
+    F = F[(F[:, 0] != F[:, 1]) & (F[:, 1] != F[:, 2]) & (F[:, 0] != F[:, 2])]
+    used = np.unique(F); new = -np.ones(len(V), np.int64); new[used] = np.arange(len(used))
+    return V[used], new[F]
 
 
 def boundary_loops(v, f, x0, tol=1e-4):
@@ -383,6 +441,65 @@ def zipper(A, B, va, vb):
     return tris
 
 
+def weld_plane(V, F, x0):
+    """merge coincident on-plane vertices (x = x0) of a mesh assembled from slices; nothing else is touched"""
+    on = np.nonzero(np.abs(V[:, 0] - x0) < 1e-6)[0]
+    key, remap = {}, np.arange(len(V))
+    for i in on:
+        remap[i] = key.setdefault((round(V[i, 1], 4), round(V[i, 2], 4)), i)
+    F = remap[F]
+    F = F[(F[:, 0] != F[:, 1]) & (F[:, 1] != F[:, 2]) & (F[:, 0] != F[:, 2])]
+    used = np.unique(F); new = -np.ones(len(V), np.int64); new[used] = np.arange(len(used))
+    return V[used], new[F]
+
+
+def split_ct_at_wall(V, F, xw, plane, ct_keep_ge: bool, cap_tol=1.0):
+    """CT skin cut at the wall: (CT with the arm piece beyond the wall removed -- every other piece beyond the wall, e.g. a
+    hand or a leg, welded back on --, the removed arm pieces). The arm piece = the beyond-wall component touching the cap."""
+    import trimesh
+    Vi, Fi = slice_keep(V, F, xw, keep_ge=ct_keep_ge)
+    Vo, Fo = slice_keep(V, F, xw, keep_ge=not ct_keep_ge)
+    comps = trimesh.Trimesh(Vo, Fo, process=False).split(only_watertight=False)
+    arm = [c for c in comps if (np.abs(c.vertices[:, 0] - plane) < cap_tol).sum() > 50]
+    rest = [c for c in comps if not any(c is a for a in arm)]
+    Vs, Fs, off = [Vi], [Fi], len(Vi)
+    for c in rest:
+        Vs.append(np.asarray(c.vertices)); Fs.append(np.asarray(c.faces) + off); off += len(c.vertices)
+    Vk, Fk = weld_plane(np.concatenate(Vs), np.concatenate(Fs), xw)
+    return Vk, Fk, arm
+
+
+def join_at_wall(V, F, vn, fn, xw, ct_keep_ge: bool):
+    """(V, F): the CT skin with the arm piece beyond the wall removed (open loops on the wall); (vn, fn): the closed
+    photo-derived surface of the local grid. Keep its part beyond the wall that reaches the wall, zip each CT loop to the
+    nearest photo loop: one closed surface"""
+    import trimesh
+    from scipy.spatial import cKDTree
+    vp, fp = slice_keep(vn, fn, xw, keep_ge=not ct_keep_ge)
+    comps = trimesh.Trimesh(vp, fp, process=False).split(only_watertight=False)
+    keep = [c for c in comps if (np.abs(c.vertices[:, 0] - xw) < 1e-6).sum() >= 3]
+    vs, fs, o = [], [], 0
+    for c in keep:
+        vs.append(np.asarray(c.vertices)); fs.append(np.asarray(c.faces) + o); o += len(c.vertices)
+    vp, fp = np.concatenate(vs), np.concatenate(fs)
+    la, oa = boundary_loops(V, F, xw); lb, ob = boundary_loops(vp, fp, xw)
+    if len(la) != len(lb):
+        raise SystemExit(f"Q185a2 join: {len(la)} CT loops vs {len(lb)} photo loops at x = {xw:.1f}")
+    ca = [V[l][:, 1:].mean(0) for l in la]; cb = [vp[l][:, 1:].mean(0) for l in lb]
+    tris, gaps = [], []
+    for ia, l in enumerate(la):
+        jb = int(np.argmin([np.linalg.norm(c - ca[ia]) for c in cb]))
+        tris += zipper(l, lb[jb], V, vp)
+        gaps += list(cKDTree(vp[lb[jb]][:, 1:]).query(V[l][:, 1:])[0])
+    off = len(V)
+    T = np.array([[t if t >= 0 else off + (-t - 1) for t in tri] for tri in tris], np.int64)
+    st = {"loops_ct": len(la), "loops_photo": len(lb), "open_edges_ct": oa, "open_edges_photo": ob, "zip_triangles": len(T),
+          "wall_gap_mm_median": round(float(np.median(gaps)), 2) if gaps else None,
+          "wall_gap_mm_max": round(float(np.max(gaps)), 2) if gaps else None,
+          "photo_part_vertices": len(vp), "photo_part_triangles": len(fp)}
+    return np.concatenate([V, vp]), np.concatenate([F, fp + off, T]), st
+
+
 def merge(log=print):
     import trimesh
     V0, F0 = ct_skin()
@@ -391,39 +508,19 @@ def merge(log=print):
     mask, maff = mask_volume()
     V, F = V0, F0; info = {"fov_planes_atlas_mm": [round(lo, 2), round(hi, 2)], "sides": {}}
     for side in ("left", "right"):
-        Fo, ax, ay, az, plane, sx, P, C = occupancy(side, (lo, hi), skin_mesh, mask, maff, log)
-        vn, fn = surface(Fo, ax, ay, az)
-        fn = oriented_outward(vn, fn) if side else fn
+        plane = lo if side == "left" else hi; sx = -1.0 if side == "left" else 1.0
         xw = plane - sx * WALL_MM
-        # photo part: outward of the wall; CT part: inward of it
-        vp, fp = slice_keep(vn, fn, xw, keep_ge=(side == "right"))
-        V, F = slice_keep(V, F, xw, keep_ge=(side == "left"))
-        la, oa = boundary_loops(V, F, xw); lb, ob = boundary_loops(vp, fp, xw)
-        ca = [V[l][:, 1:].mean(0) for l in la]; cb = [vp[l][:, 1:].mean(0) for l in lb]
-        used, tris_all = set(), []
-        for ia, l in enumerate(la):
-            if not cb:
-                break
-            jb = int(np.argmin([np.linalg.norm(c - ca[ia]) for c in cb]))
-            used.add(jb); tris_all += zipper(l, lb[jb], V, vp)
-        off = len(V)
-        T = np.array([[t if t >= 0 else off + (-t - 1) for t in tri] for tri in tris_all], np.int64)
-        V = np.concatenate([V, vp]); F = np.concatenate([F, fp + off, T])
-        # seam step: per CT-loop vertex, distance to the matched photo loop (in the wall plane)
-        steps = []
-        for ia, l in enumerate(la):
-            jb = int(np.argmin([np.linalg.norm(c - ca[ia]) for c in cb])) if cb else None
-            if jb is not None:
-                from scipy.spatial import cKDTree
-                steps += list(cKDTree(vp[lb[jb]][:, 1:]).query(V[l][:, 1:])[0])
-        info["sides"][side] = {"wall_x_mm": round(xw, 2), "loops_ct": len(la), "loops_photo": len(lb),
-                               "open_edges_ct": oa, "open_edges_photo": ob, "zip_triangles": len(T),
-                               "wall_gap_mm_median": round(float(np.median(steps)), 2) if steps else None,
-                               "wall_gap_mm_max": round(float(np.max(steps)), 2) if steps else None,
-                               "photo_part_vertices": len(vp), "photo_part_triangles": len(fp)}
+        cap = cap_y_range(V0, plane)
+        V, F, arm = split_ct_at_wall(V, F, xw, plane, ct_keep_ge=(side == "left"))
+        av = np.concatenate([np.asarray(c.vertices) for c in arm])
+        box = ((float(av[:, 1].min()) - 8, float(av[:, 1].max()) + 8), (float(av[:, 2].min()) - 25, float(av[:, 2].max()) + 25))
+        Fo, ax, ay, az, plane, sx, P, C = occupancy(side, (lo, hi), skin_mesh, mask, maff, log, box=box, cap_y=cap)
+        vn, fn = surface(Fo, ax, ay, az)
+        V, F, st = join_at_wall(V, F, vn, oriented_outward(vn, fn), xw, ct_keep_ge=(side == "left"))
+        info["sides"][side] = {"wall_x_mm": round(xw, 2), "cap_y_mm": [round(cap[0], 1), round(cap[1], 1)],
+                               "grid_y_mm": [round(box[0][0], 1), round(box[0][1], 1)], "ct_arm_pieces_replaced": len(arm), **st}
         log(f"{side}: {info['sides'][side]}")
     m = trimesh.Trimesh(V, F, process=False)
-    m.merge_vertices(digits_vertex=5)
     m.remove_unreferenced_vertices()
     info["watertight"] = bool(m.is_watertight); info["vertices"] = len(m.vertices); info["triangles"] = len(m.faces)
     info["volume_cm3_ct"] = round(float(skin_mesh.volume) / 1e3, 1); info["volume_cm3_merged"] = round(float(m.volume) / 1e3, 1)
@@ -463,6 +560,269 @@ def cmd_merge(a) -> int:
           f"volume {info['volume_cm3_ct']} -> {info['volume_cm3_merged']} cm3")
     return 0
 
+# ------------------------------------------------------------------------------------------------ gates
+def load_skin_mesh(ct_only: bool):
+    import trimesh
+    if ct_only:
+        V, F = ct_skin()
+    else:
+        V = np.fromfile(SKIN / "vertices.f32", np.float32).reshape(-1, 3).astype(np.float64)
+        F = np.fromfile(SKIN / "faces.u32", np.uint32).reshape(-1, 3).astype(np.int64)
+    return trimesh.Trimesh(V, F, process=False)
+
+
+def arm_records(bundle: Path, planes, wall=WALL_MM):
+    """bundle records (bone / muscle / fascia) with vertices in the arm region beyond a wall plane"""
+    from scripts.transfer.bundle_io import read_bundle_dir, meshes_by_id
+    M = meshes_by_id(*read_bundle_dir(str(bundle))); out = {}
+    for aid, r in M.items():
+        if aid == "skin" or r.get("cat") not in ("bone", "muscle", "fascia"):
+            continue
+        v = np.asarray(r["v"], float)
+        arm = ((v[:, 0] <= planes[0] + wall) | (v[:, 0] >= planes[1] - wall)) & (v[:, 1] > 120) & (v[:, 1] < 640)
+        if arm.sum() >= 20:
+            out[aid] = (r["cat"], v)
+    return out
+
+
+BANDS = ((1.0, 8.0), (2.0, 12.0), (8.0, 15.0), (15.0, 30.0), (30.0, 45.0))
+
+
+def overlap_agreement(planes, skin_ct, mask, maff, bands=BANDS):
+    """photo outline vs CT skin in bands inside the FOV plane, per level: signed boundary offset (photo outside CT > 0)"""
+    from scipy import ndimage as ndi
+    res = {}
+    for side in ("left", "right"):
+        pl = planes[0] if side == "left" else planes[1]
+        V0 = np.asarray(skin_ct.vertices); cy = cap_y_range(V0, pl); cz = V0[np.abs(V0[:, 0] - pl) < 0.5][:, 2]
+        box = (cy, (float(cz.min()) - 30, float(cz.max()) + 30))
+        F, ax, ay, az, plane, sx, P, C = occupancy(side, planes, skin_ct, mask, maff, log=lambda *a: None, ct_everywhere=True,
+                                                   box=box, grid_in=47.0)
+        d_in = sx * (plane - ax); res[side] = {}
+        for band in bands:
+            cols = (d_in >= band[0]) & (d_in <= band[1]); rows = []
+            for k in range(len(ay)):
+                p = P[cols, k] > 0.5; c = C[cols, k] > 0.5
+                if c.sum() < 30 or p.sum() < 30:
+                    continue
+                pb = p & ~ndi.binary_erosion(p, border_value=1); cb = c & ~ndi.binary_erosion(c, border_value=1)
+                pb[0] = pb[-1] = False; cb[0] = cb[-1] = False          # not the band's own x walls
+                if not pb.any() or not cb.any():
+                    continue
+                dist = ndi.distance_transform_edt(~cb)[pb]; sgn = np.where(c[pb], -1.0, 1.0)
+                rows.append((float(ay[k]), float(np.median(sgn * dist)), float(np.median(dist)), float(p.sum()), float(c.sum())))
+            R = np.array(rows)
+            res[side][f"{band[0]:.0f}-{band[1]:.0f}mm"] = {
+                "levels": len(R), "signed_offset_mm_median": round(float(np.median(R[:, 1])), 2),
+                "abs_offset_mm_median": round(float(np.median(R[:, 2])), 2),
+                "abs_offset_mm_p95_of_levels": round(float(np.percentile(R[:, 2], 95)), 2),
+                "volume_cm3_photo": round(float(R[:, 3].sum()) / 1e3, 1), "volume_cm3_ct": round(float(R[:, 4].sum()) / 1e3, 1),
+                "area_ratio_median": round(float(np.median(R[:, 3] / R[:, 4])), 3)}
+    return res
+
+
+def fold_check(m, region, min_area=0.2):
+    """self-intersection / fold proxy on the new part: centroids of faces >= min_area mm2 moved 0.3 mm against / along the
+    face normal must test inside / outside (ray parity); a fold or self-crossing breaks that. Slivers (< min_area, from the
+    exact plane slices at the wall) have no reliable normal and are only counted."""
+    ok = region[m.area_faces[region] >= min_area]
+    fc = m.triangles_center[ok]; fn = m.face_normals[ok]
+    rng = np.random.default_rng(0); sel = rng.choice(len(fc), min(20000, len(fc)), replace=False)
+    ins = m.contains(fc[sel] - 0.3 * fn[sel]); outs = ~m.contains(fc[sel] + 0.3 * fn[sel])
+    return {"faces_tested": int(len(sel)), "inside_ok_frac": round(float(ins.mean()), 4), "outside_ok_frac": round(float(outs.mean()), 4),
+            "sliver_faces_lt_0p2mm2": int(len(region) - len(ok)), "region_faces": int(len(region))}
+
+
+def cmd_gates(a) -> int:
+    from scipy import ndimage as ndi  # noqa: F401
+    skin_ct = load_skin_mesh(True); skin_new = load_skin_mesh(False)
+    lo, hi = float(skin_ct.vertices[:, 0].min()), float(skin_ct.vertices[:, 0].max())
+    mask, maff = mask_volume()
+    rep = json.loads(REPORT.read_text()) if REPORT.exists() else {}
+    rep["_README"] = (__doc__ or "").strip().splitlines()
+    rep["registration"] = {s: {k: v for k, v in d.items() if k != "levels"}
+                           for s, d in json.loads(REG.read_text())["sides"].items()}
+    ov = overlap_agreement((lo, hi), skin_ct, mask, maff); rep["overlap_photo_vs_ct"] = ov
+    bk = f"{BLEND[0]:.0f}-{BLEND[1]:.0f}mm"
+    rep["seam_step_mm"] = {"blend_band": bk,
+                           "blend_band_signed_offset_mm": max((ov[s][bk]["signed_offset_mm_median"] for s in ov), key=abs),
+                           "blend_band_abs_offset_mm_median": max(ov[s][bk]["abs_offset_mm_median"] for s in ov),
+                           "blend_band_abs_offset_mm_p95": max(ov[s][bk]["abs_offset_mm_p95_of_levels"] for s in ov),
+                           "rim_1_8mm_signed_offset_mm": max((ov[s]["1-8mm"]["signed_offset_mm_median"] for s in ov), key=abs),
+                           "zip_strip_gap_median": max((rep.get("merge", {}).get("sides", {}).get(s, {}).get("wall_gap_mm_median") or 0) for s in ("left", "right")),
+                           "zip_strip_gap_max": max((rep.get("merge", {}).get("sides", {}).get(s, {}).get("wall_gap_mm_max") or 0) for s in ("left", "right"))}
+    # enclosure
+    recs = arm_records(Path(a.bundle), (lo, hi)); enc = {}
+    for aid, (cat, v) in sorted(recs.items()):
+        beyond = (v[:, 0] <= lo + 1) | (v[:, 0] >= hi - 1)
+        i_new = skin_new.contains(v); i_old = skin_ct.contains(v)
+        enc[aid] = {"cat": cat, "n": int(len(v)), "beyond_fov": int(beyond.sum()),
+                    "inside_new_frac": round(float(i_new.mean()), 4), "inside_ct_skin_frac": round(float(i_old.mean()), 4),
+                    "beyond_inside_new_frac": round(float(i_new[beyond].mean()), 4) if beyond.any() else None,
+                    "outside_new_max_mm": round(float(skin_new.nearest.signed_distance(v[~i_new]).__neg__().max()), 1) if (~i_new).any() else 0.0}
+    rep["enclosure"] = enc
+    for cat in ("bone", "muscle", "fascia"):
+        sub = [r for r in enc.values() if r["cat"] == cat]
+        if sub:
+            n = sum(r["n"] for r in sub); nb = sum(r["beyond_fov"] for r in sub)
+            rep.setdefault("enclosure_summary", {})[cat] = {
+                "records": len(sub), "vertices": n,
+                "inside_new_frac": round(sum(r["inside_new_frac"] * r["n"] for r in sub) / n, 4),
+                "inside_ct_skin_frac": round(sum(r["inside_ct_skin_frac"] * r["n"] for r in sub) / n, 4),
+                "beyond_fov_vertices": nb,
+                "beyond_inside_new_frac": round(sum((r["beyond_inside_new_frac"] or 0) * r["beyond_fov"] for r in sub) / max(nb, 1), 4)}
+    # continuity / folds / volume
+    region = np.nonzero((skin_new.triangles_center[:, 0] <= lo + WALL_MM + 1) | (skin_new.triangles_center[:, 0] >= hi - WALL_MM - 1))[0]
+    rep["folds"] = fold_check(skin_new, region)
+    rep["watertight"] = bool(skin_new.is_watertight)
+    rep["volume_cm3"] = {"ct_skin": round(float(skin_ct.volume) / 1e3, 1), "merged": round(float(skin_new.volume) / 1e3, 1)}
+    # coverage: photo levels exist for every cap level; open = levels whose arm left the photograph (none expected)
+    R = json.loads(REG.read_text())["sides"]
+    open_ = [{"side": "lo" if s == "left" else "hi", "y_mm": [round(1880.476 - i - 0.5, 1), round(1880.476 - i + 0.5, 1)]}
+             for s in R for i in R[s]["photo_edge_levels"]]
+    rep["fov_skin_open"] = open_
+    REPORT.write_text(json.dumps(rep, indent=1))
+    print(json.dumps({k: rep[k] for k in ("seam_step_mm", "enclosure_summary", "folds", "watertight", "volume_cm3")}, indent=1))
+    for s, d in ov.items():
+        print(s, d)
+    return 0
+
+
+def badge_text(rep: dict) -> str:
+    st = rep["seam_step_mm"]; es = rep.get("enclosure_summary", {})
+    lo, hi = rep["merge"]["fov_planes_atlas_mm"]
+    enc = "; ".join(f"{k} {100 * v['inside_new_frac']:.1f} % of vertices inside (beyond the planes {100 * v['beyond_inside_new_frac']:.1f} %)"
+                    for k, v in es.items())
+    op = rep.get("fov_skin_open") or []
+    return (f"CT SKIN + CRYOSECTION ARM SKIN (Q185a2): surfaced from his CT inside its field of view; beyond x = {lo:.0f} / "
+            f"+{hi:.0f} mm (lateral upper arms, elbows, proximal forearms) the surface comes from HIS OWN cryosection photographs "
+            "(Visible Human male, 1 mm levels, body/gelatin colour rule), each photograph registered per arm by translation onto "
+            "his arm bones (the Q151/Q164 bone-centroid registration, median-filtered over 21 levels), stacked into a 1 mm grid, "
+            f"blended into the CT skin from {BLEND[0]:.0f} to {BLEND[1]:.0f} mm inside the cut and zipped onto it {WALL_MM:.0f} mm inside (one closed surface). "
+            f"Photo vs CT outline in the blend band: signed median {st['blend_band_signed_offset_mm']:+.1f} mm (per-level |offset| median "
+            f"{st['blend_band_abs_offset_mm_median']:.1f}, p95 {st['blend_band_abs_offset_mm_p95']:.1f} mm); join strip gap max {st['zip_strip_gap_max']:.1f} mm. "
+            f"Arm records: {enc}. " + ("Still open: " + ", ".join(f"{o['side']} y {o['y_mm']}" for o in op) + "." if op else
+                                        "No part of the cut is left open."))
+
+
+def cmd_stamp(a) -> int:
+    if not REPORT.exists() or not (SKIN / "vertices.ctonly.f32").exists():
+        print("Q185a2: nothing to stamp"); return 0
+    rep = json.loads(REPORT.read_text())
+    if "seam_step_mm" not in rep or "merge" not in rep:
+        print("Q185a2: run gates before stamp"); return 0
+    m = json.loads((SKIN / "manifest.json").read_text())
+    for s in m["structures"]:
+        if s["atlas_id"] == "skin":
+            s["procedural_badge"] = badge_text(rep)
+            s["fov_skin_open"] = rep.get("fov_skin_open", [])
+            s["source_note_q185a2"] = ("CT skin + cryosection-derived arm skin beyond the CT field-of-view planes; "
+                                       "data/derived/Q185a2_arm_skin_vhm.json")
+    (SKIN / "manifest.json").write_text(json.dumps(m, indent=2))
+    print("stamped ct_vhm_skin (Q185a2)")
+    return 0
+
+
+# ------------------------------------------------------------------------------------------------ montage
+def _render(m, view: str, box, outside_pts=None, px=1.0):
+    """orthographic splat render of a mesh inside an atlas box; view: 'ant' (from the front), 'lat_l' / 'lat_r'"""
+    import trimesh
+    lo_, hi_ = box
+    sel = np.all((m.triangles_center >= lo_) & (m.triangles_center <= hi_), 1)
+    sub = trimesh.Trimesh(m.vertices, m.faces[sel], process=False)
+    pts, fi = trimesh.sample.sample_surface(sub, int(sub.area / (0.35 * px) ** 2 / 1.0) + 1, seed=0)
+    n = sub.face_normals[fi]
+    if view == "ant":
+        u, w, d, dn = -pts[:, 0], pts[:, 1], pts[:, 2], n[:, 2]       # viewer at +Z (anterior); his right on the image left
+    elif view == "lat_l":
+        u, w, d, dn = pts[:, 2], pts[:, 1], -pts[:, 0], -n[:, 0]     # viewer at -X (his left side)
+    else:
+        u, w, d, dn = -pts[:, 2], pts[:, 1], pts[:, 0], n[:, 0]
+    u0, w0 = u.min(), w.max(); W = int((u.max() - u0) / px) + 2; H = int((w0 - w.min()) / px) + 2
+    iu = ((u - u0) / px).astype(int); iw = ((w0 - w) / px).astype(int)
+    zb = np.full((H, W), -1e9); sh = np.zeros((H, W))
+    order = np.argsort(d)
+    zb[iw[order], iu[order]] = d[order]; sh[iw[order], iu[order]] = np.clip(dn[order], 0, 1)
+    img = np.where(zb > -1e9, 60 + 180 * sh, 255).astype(np.uint8)
+    rgb = np.stack([img] * 3, -1)
+    if outside_pts is not None and len(outside_pts):
+        P = outside_pts
+        if view == "ant":
+            ou, ow = -P[:, 0], P[:, 1]
+        elif view == "lat_l":
+            ou, ow = P[:, 2], P[:, 1]
+        else:
+            ou, ow = -P[:, 2], P[:, 1]
+        a = ((ou - u0) / px).astype(int); b = ((w0 - ow) / px).astype(int)
+        ok = (a >= 0) & (a < W) & (b >= 0) & (b < H); rgb[b[ok], a[ok]] = [220, 30, 30]
+    return rgb, (u0, w0)
+
+
+def cmd_montage(a) -> int:
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    out = Path(a.out or "."); out.mkdir(parents=True, exist_ok=True)
+    skin_ct = load_skin_mesh(True); skin_new = load_skin_mesh(False)
+    lo, hi = float(skin_ct.vertices[:, 0].min()), float(skin_ct.vertices[:, 0].max())
+    recs = arm_records(Path(a.bundle), (lo, hi))
+    allv = np.concatenate([v for c, v in recs.values()])
+    o_ct = allv[~skin_ct.contains(allv)]; o_new = allv[~skin_new.contains(allv)]
+    fig, axs = plt.subplots(2, 4, figsize=(22, 13))
+    boxes = {"left": (np.array([-330, 100, -200.0]), np.array([lo + 70, 650, 250.0])),
+             "right": (np.array([hi - 70, 100, -200.0]), np.array([330, 650, 250.0]))}
+    for r, (nm, m, o) in enumerate((("before: CT skin (FOV cut)", skin_ct, o_ct), ("after: CT + cryosection arm skin", skin_new, o_new))):
+        c = 0
+        for side in ("right", "left"):
+            for view in ("ant", "lat_l" if side == "left" else "lat_r"):
+                b0, b1 = boxes[side]
+                oo = o[np.all((o >= b0) & (o <= b1), 1)]
+                img, (u0, w0) = _render(m, view, (b0, b1), oo)
+                ax = axs[r, c]; ax.imshow(img); ax.set_axis_off()
+                ax.set_title(f"{nm}\n{side} arm, {'anterior' if view == 'ant' else 'lateral'} (red: arm bone/muscle vertices outside skin, {len(oo)})", fontsize=9)
+                if view == "ant":
+                    xp = (-(lo if side == "left" else hi) - u0) / 1.0
+                    ax.axvline(xp, color="orange", ls="--", lw=0.8)
+                c += 1
+    plt.tight_layout(); plt.savefig(out / "q185a2_arms_before_after.png", dpi=80); plt.close()
+    # axial levels: photograph with the registered photo outline, the CT skin section and the merged section
+    from cryo_classes import classify
+    vol = np.load(Path(a.cryo) / "cryo_1mm.npy", mmap_mode="r")
+    R = json.loads(REG.read_text())["sides"]
+    fig, axs = plt.subplots(3, 2, figsize=(14, 18))
+    for r, inst in enumerate((1360, 1560, 1660)):
+        ay_ = 1880.476 - inst
+        im = np.asarray(vol[inst - 1001]); body = body_mask(classify(im), im)
+        for c, side in enumerate(("right", "left")):
+            T = R[side]["levels"].get(str(inst), {}).get("T")
+            ax = axs[r, c]
+            if T is None:
+                ax.set_axis_off(); continue
+            plane = hi if side == "right" else lo
+
+            def px_of(P):
+                x = P[:, 0] + ORIGIN[0]; y = P[:, 2] + ORIGIN[2]
+                return (y - T[1]) / PX, (T[0] - x) / PX
+            ax.imshow(im); ax.contour(body, [0.5], colors="lime", linewidths=0.8)
+            for m, col, lab in ((skin_ct, "cyan", "CT skin"), (skin_new, "red", "merged skin")):
+                s = m.section(plane_origin=[0, ay_, 0], plane_normal=[0, 1, 0])
+                if s is None:
+                    continue
+                for e in s.entities:
+                    rr, cc = px_of(s.vertices[e.points]); ax.plot(cc, rr, "-", color=col, lw=0.9 if col == "red" else 1.6, label=lab)
+                    lab = None
+            xp = (T[0] - (plane + ORIGIN[0])) / PX; ax.axvline(xp, color="orange", ls="--", lw=0.8)
+            rr, cc = px_of(np.array([[plane, ay_, 0.0]]))
+            ax.set_xlim(cc[0] - 110, cc[0] + 90) if side == "right" else ax.set_xlim(cc[0] - 90, cc[0] + 110)
+            ax.set_ylim(330, 0)
+            ax.set_title(f"instance {inst} (atlas y {ay_:.0f}), his {side} arm", fontsize=9)
+            ax.legend(loc="lower left", fontsize=7)
+    fig.suptitle("lime = photo body outline (registered), cyan = CT skin (flat FOV cap), red = merged skin, orange = FOV plane",
+                 fontsize=10)
+    plt.tight_layout(rect=(0, 0, 1, 0.98)); plt.savefig(out / "q185a2_axial_levels.png", dpi=80); plt.close()
+    print("wrote", out / "q185a2_arms_before_after.png", out / "q185a2_axial_levels.png")
+    return 0
+
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
@@ -470,7 +830,7 @@ def main(argv=None) -> int:
     ap.add_argument("--cryo", default=str(REPO / "SCRATCH" / "vh_cryo")); ap.add_argument("--out", default=None)
     ap.add_argument("--bundle", default=str(REPO / "build" / "viewer_m_hr"))
     a = ap.parse_args(argv)
-    return {"segment": cmd_segment, "merge": cmd_merge}[a.cmd](a)
+    return {"segment": cmd_segment, "merge": cmd_merge, "gates": cmd_gates, "stamp": cmd_stamp, "montage": cmd_montage}[a.cmd](a)
 
 
 if __name__ == "__main__":

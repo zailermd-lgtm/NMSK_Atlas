@@ -9,6 +9,8 @@ shipped one within BBOX_TOL_MM, else the decoded bundle mesh; at most MAX_PTS ve
                         flat at his torso-CT field of view (FOV_CUT_MM, the skin's own x extent -/+ 1 mm); vertices beyond
                         those planes are "skin unknown" (skin_unknown_frac, status 5), NOT outside skin -- there is no skin
                         surface there to be outside of. outside_skin_frac_incl_fov keeps the pre-Q185a number.
+                        Q185a2: his arm skin beyond the planes is rebuilt from his cryosection photographs; "skin
+                        unknown" now applies only to the skin manifest's `fov_skin_open` intervals (skin_unknown_spec).
   in_bone_gt1mm_frac    vertices > 1 mm inside bone: TS `total` bone labels (BONE, inside the CT field of view) OR the
                         body's own bone meshes for bones TS does not label / that leave the FOV (MESH_BONES)
   in_lung_gt1mm_frac    > 1 mm inside the TS lung lobes (10-14)
@@ -112,6 +114,30 @@ FOV_CUT_BODIES = {"vhm"}   # Q185a: his skin ends at the torso-CT FOV (x = -233 
 def fov_cut(skin_v: np.ndarray, margin: float = 1.0) -> tuple[float, float]:
     """(lo, hi) atlas-x planes of a skin cut flat at the CT field of view: its own x extent, `margin` mm inside"""
     return float(skin_v[:, 0].min()) + margin, float(skin_v[:, 0].max()) - margin
+
+
+def skin_unknown_spec(body: str, skin_v: np.ndarray):
+    """((lo, hi) planes, open) for a FOV-cut skin. The skin manifest's `fov_cut_mm` gives the planes (else its own x
+    extent, Q185a); Q185a2 added `fov_skin_open` = the atlas-y intervals beyond each plane ("lo" / "hi") where the skin is
+    STILL missing after his arm skin was rebuilt from his cryosection photographs (empty = none). No key = the whole cut
+    is unknown (Q185a)."""
+    s = json.loads((REPO / "build" / "vh" / f"ct_{body}_skin" / "manifest.json").read_text())["structures"][0]
+    planes = tuple(s["fov_cut_mm"]) if "fov_cut_mm" in s else fov_cut(skin_v)
+    return planes, s.get("fov_skin_open")
+
+
+def skin_unknown(p: np.ndarray, spec) -> np.ndarray:
+    """vertices where no skin exists to be outside of (beyond the FOV planes, only in the still-open intervals)"""
+    if not spec:
+        return np.zeros(len(p), bool)
+    (lo, hi), op = spec
+    if op is None:
+        return (p[:, 0] <= lo) | (p[:, 0] >= hi)
+    u = np.zeros(len(p), bool)
+    for o in op:
+        side = p[:, 0] <= lo if o["side"] == "lo" else p[:, 0] >= hi
+        u |= side & (p[:, 1] >= o["y_mm"][0]) & (p[:, 1] <= o["y_mm"][1])
+    return u
 
 
 def flags_of(r: dict) -> list[str]:
@@ -230,7 +256,7 @@ class Body:
             org[sl] = np.where(d > 0, d, org[sl])
         self.organ = (org, np.zeros(3, int)); self.tot = tot
         self.skin = load_skin(body); self.skin_tree = cKDTree(self.skin.vertices)
-        self.fov_cut = fov_cut(self.skin.vertices) if body in FOV_CUT_BODIES else None
+        self.fov_cut = skin_unknown_spec(body, self.skin.vertices) if body in FOV_CUT_BODIES else None
         self.labels = own_label_index(body); self.vol_cache = {}
         self.mesh_bones = []
 
@@ -303,7 +329,7 @@ def measure(B: Body, aid: str, entry: dict, v: np.ndarray) -> dict:
         r["outside_skin_frac"] = None
     else:
         out = ~B.skin.contains(p)
-        unk = ((p[:, 0] <= B.fov_cut[0]) | (p[:, 0] >= B.fov_cut[1])) if B.fov_cut else np.zeros(len(p), bool)
+        unk = skin_unknown(p, B.fov_cut)
         if unk.any():
             r["skin_unknown_frac"] = round(float(unk.mean()), 4)
             r["outside_skin_frac_incl_fov"] = round(float(out.mean()), 4)
@@ -526,7 +552,7 @@ def finalize(rep: dict) -> None:
         S = rep[body]["structures"]
         cut = None
         if body == "vhm":
-            cut = fov_cut(load_skin(body).vertices)
+            cut = skin_unknown_spec(body, load_skin(body).vertices)
         for aid, r in S.items():
             if aid in BONE_EXCLUDE_IDS and r.get("in_bone_gt1mm_frac") is not None:
                 r["in_bone_gt1mm_frac_raw"] = r["in_bone_gt1mm_frac"]; r["in_bone_gt1mm_frac"] = None; r["bone_excluded"] = True
@@ -534,7 +560,7 @@ def finalize(rep: dict) -> None:
             f = SCRATCH / f"pts_{body}_{aid}.npz"
             if cut and "outside_skin_frac" in r["flags"] and f.exists():
                 z = np.load(f); P, st = z["pts"], z["status"]; o = st == 1
-                beyond = o & ((P[:, 0] <= cut[0]) | (P[:, 0] >= cut[1]))
+                beyond = o & skin_unknown(P, cut)
                 r["outside_skin_beyond_fov_cut_frac"] = round(float(beyond.sum() / max(o.sum(), 1)), 3)
                 r["outside_skin_frac_excl_fov_cut"] = round(float((o & ~beyond).mean()), 4)
         fl = {k: r for k, r in S.items() if r["flags"]}
