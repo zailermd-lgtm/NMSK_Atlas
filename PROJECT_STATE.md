@@ -10464,3 +10464,46 @@ the female's phalanges are under-captured at HU 200.
   anterior + right lateral, his before / after / hers.
 - Next: publish male viewer (main session); Q183b.
 - Main session (2026-10-01): Q183 published -- male viewer v72 (463 structures, 2.17 M tris; hub unchanged).
+
+## Q183b (2026-10-01) -- his 16 ct_s1159 vessels + quadratus lumborum r/l: route per structure -- 5 REPLACED, 13 KEPT (badged)
+- Script `scripts/vessels_ql_q183b.py` (own / own-build / transfer / audit / decide / stamp); report
+  data/derived/Q183b_vessels_ql.json (own-label screen, per-route gates, junctions, shipped-mesh audit). Gates: 0 % outside skin;
+  vertices > 1 mm inside his bone / lung labels <= 2 % (raw voxel-hit fractions reported beside: they count surface contact);
+  largest mesh component >= 0.95; position vs HIS own label fragment where it has >= 100 voxels (median <= 5 mm, >= 50 % within
+  5 mm); calibre = local thickness, vs her own label 0.6-1.8x and, where checked, published mean +- 3 SD (Hager 2002
+  doi:10.1067/mtc.2002.122310 arch 27.7 +- 3.7; Wolak 2008 doi:10.1016/j.jcmg.2007.11.005 descending 24 +- 3; Krejza 2006
+  doi:10.1161/01.STR.0000206440.48756.f7 CCA men 6.52 +- 0.98 mm; none checked for the veins / iliacs / subclavians -- Horejs
+  1988 has aorto-iliac CT norms but not in its abstract); junction to a replaced partner <= 3 mm; QL: touches his rib 12, hip
+  bone, iliopsoas and autochthon <= 3 mm, volume 0.8-1.6x her own (published QL volume: none found in the abstracts checked).
+- (a) HIS OWN CT LABEL -- 3: superior_vena_cava (17.1 cm3 vs her 18.7, calibre 18.4 mm vs her 15.5, 1 piece, bone/lung 0 %, own
+  label 2.7 mm), brachiocephalic_v_r (6.5 cm3 vs 6.9, 12.0 mm, 1 piece, lung voxel contact 3.0 % / > 1 mm 0 %, reaches his SVC
+  0.0 mm) -> subject ct_vhm_vessels (vhm_total 62, 60); quadratus_lumborum_l from his HYBRID-CT abdominal_muscles label 22 ->
+  ct_vhm_qlh: 47.2 cm3 (her 41.5 -> 1.14x), largest piece 0.978, bone voxel 1.4 % / > 1 mm 0.02 %, touches rib 12 0.5, hip 0.4,
+  iliopsoas 0.0, autochthon 0.0 mm (s1159 was 30.2 / 0.1 / 11.5 / 0.0), label overlap with his TS autochthon 3.5 %, iliopsoas 1.3 %.
+  Screened out: aorta (his label 21 cm3 vs her 184, 2 pieces 0.55), BCT (0.0 cm3), subclavians (1.6 / 1.9 vs 7.9 / 9.1), CCA r
+  (0.2 vs 3.0), CCA l (4 pieces, 20 mm gap), IVC (2 pieces, 26.5 mm gap), iliacs (0.18-0.37x hers or 3-4 pieces), QL r (hybrid
+  22.4 cm3 = 0.52x hers; L/R 2.17); brachiocephalic_v_l passed the screen but stops 24.9 mm short of his SVC (her label 0.9 mm).
+- (b) his cryosection photographs: not local (only thigh crops were streamed, Q179-Q181, deleted) -> not used.
+- (c) TRANSFERRED (her ct_vhf labels, build/viewer_f_hr, cross_subject_transfer.py f2m with new `--default-region trunk` --
+  without it records with no region were driven by head/neck bones and the iliac vessels by ribs + sternum; default unchanged so
+  every earlier transfer is unaffected) -- 2 -> xfer_vhf2vhm_vessels: brachiocephalic_trunk_r (calibre 12.4 mm vs her 10.0,
+  his 36-voxel fragment 1.0 mm, bone/lung/skin 0 %, carried bones 2.0 mm off his), common_carotid_a_r (8.0 mm, within Krejza
+  3 SD; his fragment 1.2 mm, 100 % within 5 mm; reaches the BCT 0.7 mm; bones 1.8 mm). Both badged TRANSFERRED with these numbers;
+  the BCT does not meet the kept s1159 arch (51.4 mm apart -- the arch is the misplaced one, his own arch fragment lies 25.7 mm from it).
+  Failed (c): arch / descending aorta / subclavians / BCV r / SVC 12-43 % > 1 mm inside his lung; abdominal aorta + iliac arteries
+  + IVC + QL 12-39 mm from his own labels (abdominal aorta sits 35-40 mm left-lateral of his L1 where his label is anterior);
+  descending aorta / CCA l / subclavian l / IVC 0.71-0.91 largest piece; CCA l 9.7 mm > Krejza 3 SD; BCV l 6.3 mm short of his SVC.
+- (d) KEPT, ct_s1159 + badge with a Q183b sentence naming the failed checks of (a) and (c) -- 13: aortic arch, descending and
+  abdominal aorta, subclavian r/l, CCA l, BCV l, IVC, common iliac a r/l, common iliac v r/l, QL r. NOT hidden: the viewer has
+  no per-structure default-hidden flag (visibility is per tissue system, `apply()` in the template).
+- Wired: vhm_rebuild_bundle.sh builds ct_vhm_vessels / ct_vhm_qlh (`own-build`) and xfer_vhf2vhm_vessels (`transfer`, male input
+  build/viewer_m_hr else vhm_v25; needs build/viewer_f_hr) when absent, stamps after Q183's stamp, lists the three subjects
+  before ct_s1159_abd / ct_s1159. Template: SUBJECT_LABELS for the three subjects (female HTML not rebuilt).
+- Bundle build/viewer_m_hr: 463 structures, 2,185,082 tris (was 2,170,724). Decoded per-id compare vs the rebuilt Q183 bundle:
+  geometry differs only for the 5 replaced ids; the other 13 differ only in rec.procedural_badge; every other record
+  byte-identical. Geo files changed: atlas_viewer_male_geo_01.txt + HTML (geo_00 identical). build/viewer_f_hr untouched.
+  Headless Chromium (swiftshader, three.js routed): loads, no page errors, "Search 463 structures".
+- Test tests/test_vessels_ql_q183b.py (3) + test_costal_cartilage + test_ribs: 10 pass. Montage (scratch q183b/montage_q183b.png):
+  before / after, anterior + left lateral, with skeleton. Not published.
+- Next: the 13 kept records need his own vessels traced (no-contrast CT: his photographs, re-stream) or a soft-tissue-aware
+  transfer (mediastinum / lung boundary); QL r from his photographs.
