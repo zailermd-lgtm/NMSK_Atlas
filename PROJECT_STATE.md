@@ -10509,6 +10509,26 @@ the female's phalanges are under-captured at HU 200.
   transfer (mediastinum / lung boundary); QL r from his photographs.
 - Main session (2026-10-01): Q183b -- added a caveat badge to his quadratus_lumborum_l (source hybrid label failed the
   L/R screen, 2.17x); male viewer republished v73 (463 / 2.19 M), hub v13.
-- [ ] Q184 (new): viewer per-structure "hidden by default" flag (template + bundle field), then set it on the 13 kept
+- [x] Q184 (new): viewer per-structure "hidden by default" flag (template + bundle field), then set it on the 13 kept
   ct_s1159 records in his bundle (aorta, subclavians, IVC, iliacs, QL_r ...) so misplaced foreign geometry is off unless
   the user turns it on; badge stays. Gate: toggle works headless, counts unchanged.
+  -> DONE (see ## Q184): `hidden_default` manifest->bundle->viewer; 13 route-d records start hidden, list pick / inspector
+  Show reveals them; every other id's visibility unchanged; her bundle.json byte-identical.
+
+## Q184 (2026-10-01) -- per-structure "hidden by default" flag; his 13 kept ct_s1159* vessel / QL_r records start hidden
+- scripts/export_viewer_bundle.py: manifest `hidden_default: true` -> bundle entry `hidden_default: true` (absent otherwise,
+  so unflagged bundles are unchanged). scripts/vessels_ql_q183b.py `stamp`: sets it on every route-d record in ct_s1159 /
+  ct_s1159_abd (13: aortic arch, descending + abdominal aorta, subclavian r/l, CCA l, BCV l, IVC, common iliac a/v r/l,
+  QL r); kept_note now ends "Kept, badged and hidden by default (Q184): pick it in the structure list to show it."
+- viewer/atlas_viewer.template.html: `apply()` visible = system on AND (not hidden_default OR hdShown[id]); picking the
+  structure in the list sets hdShown (and switches its system on, as before); inspector shows a "Hidden by default -- see
+  note" warn tag + Show/Hide button. The system toggle alone does not reveal flagged ids (that is the point).
+- Rebuilt: build/viewer_m_hr 463 structures / 2,185,082 tris (unchanged); changed files: atlas_viewer_male.html,
+  bundle.json (13 entries: +hidden_default, badge tail text); geo_00/01, bundle.bin/b64 byte-identical.
+  build/viewer_f_hr 456 / 3,320,545 (unchanged): only atlas_viewer_female.html (template); bundle.json identical.
+- Headless Chromium (swiftshader, three routed; scratch q184/probe.py injects a test hook into the served HTML): no page
+  errors either sex; his visible ids at load 343 -> 342 (only QL r removed; vessels are off by default anyway), with all
+  systems on 428 -> 415 (exactly the 13); hers identical (346 / 433); each of the 13 shows after a list pick, carries the
+  note, hides/re-shows via the inspector button; phone 390x844 renders (canvas 390x754, phone layout).
+- Test tests/test_hidden_default_q184.py (5) + test_vessels_ql_q183b + test_viewer_template: 19 pass. Not published.
+- Next: republish the male (and female, template only) viewer when the main session decides.

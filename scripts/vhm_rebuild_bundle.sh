@@ -249,7 +249,7 @@ done
 # Q183b: the 18 ct_s1159* vessel / QL records, route per structure in data/derived/Q183b_vessels_ql.json
 # (scripts/vessels_ql_q183b.py): (a) his own labels that passed -> ct_vhm_vessels (SVC, brachiocephalic veins) and
 # ct_vhm_qlh (QL left, his hybrid-CT label); (c) her own vessels carried by the bone-driven transfer -> xfer_vhf2vhm_vessels
-# (brachiocephalic trunk, right CCA); (d) the rest stay ct_s1159 with a Q183b note appended to the badge (stamp, after Q183's).
+# (brachiocephalic trunk, right CCA); (d) the rest stay ct_s1159 with a Q183b note appended to the badge + hidden_default (Q184) (stamp, after Q183's).
 { [ -f build/vh/ct_vhm_vessels/manifest.json ] && [ -f build/vh/ct_vhm_qlh/manifest.json ]; } || python3 scripts/vessels_ql_q183b.py own-build | tail -2
 if [ ! -f build/vh/xfer_vhf2vhm_vessels/manifest.json ]; then
   [ -f build/viewer_f_hr/bundle.json ] || { echo "female hi-res bundle absent: run scripts/cryo/vhf_rebuild_bundle.sh first"; exit 1; }

@@ -629,6 +629,10 @@ def main() -> int:
                 # still gets the whole-bundle text instead. No existing subject's
                 # manifest sets this field, so this is a no-op everywhere else.
                 entry.setdefault("rec", {})["procedural_badge"] = s["procedural_badge"]
+            if s.get("hidden_default"):
+                # Q184: manifest flag -> bundle entry; the viewer starts this structure hidden (absent = shown,
+                # so every bundle without the flag round-trips unchanged).
+                entry["hidden_default"] = True
             if args.force_badge:
                 # Q144: a structure the manifest itself flags as corrected (a
                 # declarative, cited data/corrections/zanatomy/*.json entry

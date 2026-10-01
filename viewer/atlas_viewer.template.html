@@ -438,7 +438,7 @@ var groups = {}, order = [];
 meshes.forEach(function(m){
   var s = m.userData, g = groups[s.id];
   if (!g){
-    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject, depth_min:s.depth_min, depth_med:s.depth_med, depth_profile:s.depth_profile,
+    g = groups[s.id] = {id:s.id, cat:s.cat, side:s.side, rec:s.rec, subject:s.subject, hidden_default:s.hidden_default, depth_min:s.depth_min, depth_med:s.depth_med, depth_profile:s.depth_profile,
                         meshes:[], nf:0, tris_full:0, cell:s.cell, parts:0};
     order.push(g);
   }
@@ -643,6 +643,7 @@ function renderList(){
         var btn = sysBox.querySelector('[data-cat="' + s.cat + '"]');
         if (btn) btn.setAttribute("aria-pressed", "true");
       }
+      if (s.hidden_default) hdShown[s.id] = true;   // Q184: picking a hidden-by-default structure shows it
       select(s.id); frameOn(s.id);
     });
     listBox.appendChild(b);
@@ -652,11 +653,14 @@ qEl.addEventListener("input", renderList);
 
 /* ---------- visibility ---------- */
 var selected = null, iso = false, xray = false;
+/* Q184: a bundle entry with hidden_default:true (e.g. geometry kept from another specimen that failed placement
+   checks) starts hidden even when its system is on; picking it in the list or the inspector's Show button reveals it. */
+var hdShown = {};
 function apply(){
   var seen = {}, shown = 0, tris = 0;
   meshes.forEach(function(m){
     var s = m.userData;
-    var vis = on[s.cat];
+    var vis = on[s.cat] && (!s.hidden_default || !!hdShown[s.id]);
     if (iso && selected) vis = (s.id === selected);
     m.visible = vis;
     if (vis){ tris += s.nf; if (!seen[s.id]){ seen[s.id] = 1; shown++; } }
@@ -778,7 +782,15 @@ function select(id){
     (r.procedural_badge
       ? '<span class="tag warn" title="' + esc(r.procedural_badge) + '">Adjusted geometry — see note</span>' +
         '<div class="warn" style="flex-basis:100%">' + esc(r.procedural_badge) + '</div>'
+      : "") +
+    (s.hidden_default
+      ? '<span class="tag warn" title="Off when the viewer opens; the note says why">Hidden by default — see note</span>' +
+        '<button type="button" class="tag" id="hd-toggle">' + (hdShown[s.id] ? "Hide" : "Show") + '</button>'
       : "");
+  var hdBtn = document.getElementById("hd-toggle");
+  if (hdBtn) hdBtn.addEventListener("click", function(){
+    hdShown[s.id] = !hdShown[s.id]; this.textContent = hdShown[s.id] ? "Hide" : "Show"; apply();
+  });
 
   var h = "";
   if (r.origin || r.insertion || r.nerve){

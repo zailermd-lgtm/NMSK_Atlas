@@ -403,7 +403,7 @@ def kept_note(e: dict) -> str:
     return (" Q183b: still not replaced -- his own CT label " + (why("a") if "a" in e else "failed the label screen (" + ", ".join(
         x for x in ("continuous", "volume_ok", "calibre_ok") if not e["a_label_screen"].get(x, True)) + ")")
             + "; his cryosection photographs are not available locally; her own structure carried by the bone-driven transfer "
-            + why("c") + ". Kept, badged (the viewer has no per-structure hidden-by-default flag; visibility is per tissue system).")
+            + why("c") + ". Kept, badged and hidden by default (Q184): pick it in the structure list to show it.")
 
 
 def stamp(report: Path = REPORT) -> int:
@@ -435,8 +435,11 @@ def stamp(report: Path = REPORT) -> int:
         m = json.loads(mf.read_text())
         for s in m["structures"]:
             e = rep.get(s["atlas_id"])
-            if e and e["route"] == "d" and "Q183b" not in s.get("procedural_badge", ""):
-                s["procedural_badge"] = s.get("procedural_badge", "") + kept_note(e); n += 1
+            if e and e["route"] == "d":
+                s["hidden_default"] = True     # Q184: misplaced foreign geometry starts hidden in the viewer
+                if "Q183b" not in s.get("procedural_badge", ""):
+                    s["procedural_badge"] = s.get("procedural_badge", "") + kept_note(e)
+                n += 1
         mf.write_text(json.dumps(m, indent=2))
     print(f"stamped {n} Q183b records")
     return 0
