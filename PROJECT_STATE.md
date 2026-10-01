@@ -10679,3 +10679,4 @@ the female's phalanges are under-captured at HU 200.
   scratch vh_idc legs nii absent -> existing ct_vhf_skin reused, as before.)
 - NEXT: held deep overlaps (her e/i, his coracobrachialis/brachialis) -> voxel boolean (muscle label minus bone) + remesh;
   her hip/ankle cartilage -> build on HER femoral head / acetabulum / talus from her bone surfaces; republish when decided.
+- Main session (2026-10-01): Q185 d/e/h/i/j published -- male v76, female v59 (counts unchanged; hidden_default his 18 / hers 13).
