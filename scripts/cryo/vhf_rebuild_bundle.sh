@@ -321,6 +321,10 @@ fi
 # Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer
 # steps above still read build/viewer_f as their input bundle, unchanged
 OUT=${VHF_OUT:-build/viewer_f}; mkdir -p "$OUT"
+# Q185 d/e/h/i/j: soft structures inside this body's OWN bone (TS bone labels + own bone meshes) carved out in place
+# on the exact records the exporter ships (same --subject / --exclude list); bounded (<= 4 mm push, tendons trimmed at
+# the bone, cartilage only if <= 3 mm median), fold-guarded, gated; originals kept as vertices.preq185.f32 (idempotent).
+python3 scripts/bone_carve_q185.py --body vhf $SUBJ ${EXCL[@]+"${EXCL[@]}"} 2>&1 | grep -E "Q185 bone carve|Error|Trace"
 python3 scripts/export_viewer_bundle.py $SUBJ ${EXCL[@]+"${EXCL[@]}"} -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle $OUT -o $OUT/atlas_viewer_female.html --external-bin 2>&1 | tail -1
 sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' $OUT/atlas_viewer_female.html
