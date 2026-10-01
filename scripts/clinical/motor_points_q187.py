@@ -41,6 +41,7 @@ REPO = Path(__file__).resolve().parents[2]
 OUT_JSON = REPO / "clinical" / "data" / "motor_points.json"
 OUT_COVERAGE = REPO / "data" / "derived" / "Q187_motor_points_coverage.json"
 FAIL_MM = 5.0
+UNC_FLOOR_MM = 5.0  # source SDs below this ignore the error of finding the landmark on a mesh
 
 VIEWERS = {
     "vhm": {"kind": "own", "html": REPO / "build/viewer_m_hr/atlas_viewer_male.html",
@@ -169,7 +170,7 @@ RULES = [
     R("piriformis", "yi2021pir", "innervation_zone", "level", "Largest arborization between one-fifth and two-fifths (20-40%) of the lateral sacral border -> greater trochanter distance.", A="sacrum_lat_border", B="femur_GT", f=(20, 40)),
     R("iliopsoas", "vancampenhout2010", "innervation_zone", "level", "Motor endplate zone between 30% and 70% of the distance from T12 to where psoas passes under the inguinal ligament (T12 body centre and mid-inguinal point measured here).", A="T12_body", B="mid_inguinal", f=(30, 70), parts={"zan": "zan_psoas_major_{s}"}, nerve="lumbar plexus branches"),
     # ---------------- shoulder girdle / arm
-    *[R("deltoid", "yi2023delt", "innervation_zone", "level", f"Greatest arborization of the {b} belly between {lo_t} and {hi_t} of the distance from the marginal line of the muscle origin to the line joining the anterior and posterior upper edges of the axilla (axillary line taken here at the lowest level of pectoralis major / latissimus dorsi within 25 mm of the humerus).",
+    *[R("deltoid", "yi2023delt", "innervation_zone", "level", f"Greatest arborization of the {b} belly between {lo_t} and {hi_t} of the distance from the marginal line of the muscle origin to the line joining the anterior and posterior upper edges of the axilla (axillary line taken here at the mean lowest level of pectoralis major and latissimus dorsi within 40 mm of the humerus (either alone if the other is absent)).",
         A="deltoid_top", B="axillary_level", f=(lo, hi), label=f"{b} belly", sel=[("ant", *band)], parts={"zan": f"zan_{zp}_part_of_deltoid_muscle_{{s}}"}, nerve="axillary nerve")
       for b, lo, hi, lo_t, hi_t, band, zp in [("anterior", 100 / 3, 200 / 3, "1/3", "2/3", (2 / 3, 1.0), "clavicular"),
                                               ("middle", 200 / 3, 100, "2/3", "the axillary line", (1 / 3, 2 / 3), "acromial"),
@@ -585,18 +586,20 @@ class Body:
 
     def lm_axillary_level(self, s):
         hum = cKDTree(self.bone("humerus", s))
-        levels = []
+        levels, why = [], []
         for group in (("pectoralis_major_{s}", "zan_clavicular_head_of_pectoralis_major_muscle_{s}", "zan_sternocostal_head_of_pectoralis_major_muscle_{s}", "zan_abdominal_part_of_pectoralis_major_muscle_{s}"),
                       ("latissimus_dorsi_{s}",)):
             vs = [self.m[g.format(s=s)]["v"] for g in group if g.format(s=s) in self.m]
             if not vs:
-                raise LandmarkMissing(group[0].format(s=s))
+                why.append(group[0].format(s=s)); continue
             v = np.vstack(vs)
             d, _ = hum.query(v)
-            near = v[d < 25]
+            near = v[d < 40]
             if len(near) == 0:
-                raise LandmarkMissing(f"{group[0].format(s=s)} near humerus")
+                why.append(f"{group[0].format(s=s)} within 40 mm of the humerus"); continue
             levels.append(near[:, 1].min())
+        if not levels:
+            raise LandmarkMissing("axillary fold level: " + "; ".join(why))
         top = self.lm("deltoid_top", s)
         return np.array([top[0], float(np.mean(levels)), top[2]])
 
@@ -693,6 +696,25 @@ def along_line(V, F, P, u):
     return G[np.argmin(dg)], float(dg.min())
 
 
+_NB = np.vstack([np.eye(3), -np.eye(3)])
+
+
+def deepen(p, V, F, margin=1.0, reach=4.0):
+    """Keep p if p and its six +/-margin neighbours are all inside; else the nearest such point within
+    `reach` mm (a placed point must not sit on the muscle surface). Returns (point, distance moved)."""
+    if inside(p + np.vstack([[0, 0, 0], margin * _NB]), V, F).all():
+        return p, 0.0
+    g = np.arange(-reach, reach + 0.01, 1.0)
+    G = p + np.stack(np.meshgrid(g, g, g, indexing="ij"), -1).reshape(-1, 3)
+    G = G[np.linalg.norm(G - p, axis=1) <= reach]
+    G = G[np.argsort(np.linalg.norm(G - p, axis=1))]
+    ins = inside(G, V, F)
+    for q in G[ins]:
+        if inside(q + margin * _NB, V, F).all():
+            return q, float(np.linalg.norm(q - p))
+    return None, 0.0
+
+
 def skin_depth(body, p):
     if body.skin is None:
         return None
@@ -701,8 +723,10 @@ def skin_depth(body, p):
     faces = np.flatnonzero(np.isin(F, i).any(axis=1))
     if len(faces) == 0:
         return round(float(d[0]), 1)
-    best = min(_pt_tri(p, V[F[k, 0]], V[F[k, 1]], V[F[k, 2]]) for k in faces)
-    return round(float(min(best, d[0])), 1)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        ds = [_pt_tri(p, V[F[k, 0]], V[F[k, 1]], V[F[k, 2]]) for k in faces]
+    best = np.nanmin(ds + [d[0]])  # degenerate (zero-area) skin triangles give NaN and are ignored
+    return round(float(best), 1)
 
 
 def _pt_tri(p, a, b, c):
@@ -772,6 +796,12 @@ def place(body, rule, s):
                 p0 = A + c_mm * n; unc = 0.5 * (b - a); basis = f"range {a:g}-{b:g} mm"
             pos, miss = section(V, F, p0, n, sel, s)
             proj = miss
+            if pos is None and 0 < miss <= FAIL_MM:
+                # the plane just misses the muscle's end: take the nearest level that cuts it
+                d = (V - p0) @ n
+                shift = d[np.argmin(np.abs(d))]
+                pos, _ = section(V, F, p0 + (shift + np.sign(shift) * 2.0) * n, n, sel, s)
+                proj = abs(shift) + 2.0
             line_len = L
         else:
             if typ == "pec":
@@ -813,8 +843,14 @@ def place(body, rule, s):
         return None, f"landmark not measurable on this body: {e}"
     if pos is None:
         return None, f"FAILED: rule plane/line misses {sid} by {proj:.1f} mm"
+    pos, moved = deepen(pos, V, F)
+    if pos is None:
+        return None, f"FAILED: no point at least 1 mm inside {sid} near the rule plane/line"
+    proj += moved
     if proj > FAIL_MM:
         return None, f"FAILED: nearest point inside {sid} is {proj:.1f} mm from the rule plane/line (> {FAIL_MM} mm)"
+    if unc < UNC_FLOOR_MM:
+        unc = UNC_FLOOR_MM; basis += f"; floored at {UNC_FLOOR_MM:g} mm for landmark identification on the mesh"
     return dict(structure_id=sid, pos=pos, projection_mm=round(float(proj), 1), uncertainty_mm=round(float(unc), 1),
                 basis=basis, line_len=round(line_len, 1), is_part=is_part), None
 
@@ -862,14 +898,15 @@ def run_one(key):
     for p in pts:
         by.setdefault(p["atlas_id"], []).append(p["kind"])
     cov = {
-        "label": VIEWERS[key]["label"], "points": len(pts), "muscles_with_points": len(by),
+        "label": VIEWERS[key]["label"], "points": len(pts), "muscle_sides_with_points": len(by),
+        "muscles_with_points": sorted({k[:-2] for k in by}),
         "per_muscle": {k: len(v) for k, v in sorted(by.items())},
         "reference_line_lengths_mm": {p["id"]: p.pop("_line_len") for p in pts},
         "failed": failed, "not_placed": skipped,
         "uncertainty_mm_range": [min((p["uncertainty_mm"] for p in pts), default=None), max((p["uncertainty_mm"] for p in pts), default=None)],
         "depth_from_skin": "nearest distance to this body's skin mesh" if body.skin is not None else "null: this viewer has no skin mesh",
     }
-    print(f"{key}: {len(pts)} points, {len(by)} muscles, {len(failed)} failed, {len(skipped)} not placed", flush=True)
+    print(f"{key}: {len(pts)} points, {len({k[:-2] for k in by})} muscles ({len(by)} muscle-sides), {len(failed)} failed, {len(skipped)} not placed", flush=True)
     return key, {"frame": FRAME, "points": pts}, cov
 
 

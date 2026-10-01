@@ -10861,3 +10861,37 @@ the female's phalanges are under-captured at HU 200.
 - [ ] Q185a2 (new): his arm cryosection photographs ARE local (scratch vh_cryo, vh_cryo_m_forearm_q151, both arms in
   frame) -- build his skin beyond the CT FOV (x < -233 / x > +247 mm: lateral upper arms, elbows, proximal forearms)
   from them, registered as in Q151/Q180, and merge with the CT skin at the cut planes.
+
+## Q187
+
+Q187 (2026-10-01, owner: "an option to emphasize the motor nerve endpoints within muscles" / "define the motor
+endpoints of specific muscle as the target to needle insertion") -- DATA only (the viewer UI is a parallel agent's).
+PRIVATE clinical layer, never inside an anatomy bundle: `clinical/data/motor_points.json` (schema
+`nmsk.motor_points.v1`, viewers vhm / vhf / zan_m = build/viewer_zan_atlas / zan_f = build/viewer_zan_female),
+`clinical/LICENSE_PRIVATE.md`, rebuild `python3 scripts/clinical/motor_points_q187.py --jobs 4` (~20 min, reads the
+published geometry: own bundles' JSON from the HTML + bundle.bin; Z-Anatomy manifest + geo_NN.txt), test
+`tests/test_motor_points_q187.py` (schema, DOI+PMID on every point, every point inside its muscle mesh), coverage
+`data/derived/Q187_motor_points_coverage.json` (per viewer: muscles, failed + not-placed with reasons, line lengths).
+- Sources: 41 real studies, each verified on PubMed (DOI+PMID) -- Sihler / dissection / motor-point studies (Kwon 2009
+  adductors, An 2010 + Rha 2016 hamstrings, Yi KH et al. 2016-2026 TA, gastrocnemius, soleus, VM, VL, sartorius,
+  deltoid, triceps, trapezius, rhomboids, teres major, piriformis; Lee JH et al. biceps/brachialis, TP, fibularis, SCM;
+  Zhou 2024 forearm flexors and Li 2021 pectorals (3-D CT-projected surface coordinates); Huang 2024 tibial-nerve
+  entries; Park 2007, Amirali 2007, Oddy 2006, Choi 2023 TFL, Page 2019, Van Campenhout 2010, Caetano 2020, Xie 2012,
+  Wang 2024, Kwon 2020, Lee 2022/2023) plus three Diaconu 2025 Toxins reviews only where no primary rule was found
+  (rectus femoris, FDL, FHL, brachioradialis). Botter 2011 / Behringer 2014 (EMS motor-point atlases) could not be
+  used: full text not reachable (egress blocked) and the abstracts give no numbers.
+- Method: landmarks measured on each body's own bones (muscle-mesh ends only where the source's line is origin ->
+  insertion); "level" rules -> cross-section of the muscle at that level (centroid, or the named head/third sector
+  when the body has one mesh for a multi-head muscle); 2-D surface rules -> mid-muscle on the needle line; points
+  pushed >= 1 mm inside the mesh; >5 mm from the rule = FAILED (listed, not forced). Uncertainty = the source's
+  range half-width or SD on this body's line length (floor 5 mm for landmark finding); single-value rules +/-5%.
+- Result: vhm 162 points / 50 muscles, vhf 154 / 51, zan_m 185 / 55, zan_f 188 / 56 (58 muscles in all; ~1/3 motor
+  points, 2/3 innervation-zone centres); failed 19 / 10 / 17 / 14 (mostly Zhou forearm points -- pronated forearms --
+  and Li pectoralis minor), uncertainty 5-105 mm (median ~17 mm; wide published zones give the large values).
+  Depth from skin only in own bodies (Z-Anatomy has no skin: null).
+- Not placed: SCM in own bodies (their SCM meshes stop 25-34 mm short of the skull, so the mastoid cannot be
+  identified); deltoid etc. where a mesh is missing; no usable rule: latissimus dorsi (T5 not separable), gluteus
+  maximus/medius, obturator internus, subscapularis, EHL, longus colli/capitis, adductor pollicis, FHB (reasons in
+  the coverage file). Renders: scratchpad q187/q187_<viewer>_r.png (biceps, deltoid, gastrocnemius, TA, FCR, BF).
+- [ ] Next: UI agent wires the json; owner to review the sector rule for single-mesh multi-head muscles (triceps,
+  gastrocnemius, soleus, deltoid in own bodies) and decide whether review-sourced (Diaconu) points stay.
