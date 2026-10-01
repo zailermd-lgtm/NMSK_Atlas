@@ -259,6 +259,13 @@ if [ -d build/zanatomy ] && [ -f build/vh/ct_vhm_skin/manifest.json ] && [ -f bu
   [ -f build/vh/xfer_zan2vhm_foot/manifest.json ] || [ -f data/derived/Q62s7b_vhm_foot_lumbricals.json ] || python3 scripts/transfer/zan_to_vhf_foot_intrinsics.py --target vhm 2>&1 | grep -v Deprec | tail -2
 fi
 for s in xfer_zan2vhm_head xfer_zan2vhm_foot; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done
+# Q62 step 9: trunk + small lower-limb muscles he had no mesh for, same route onto HIS skeleton
+# (scripts/transfer/zan_to_vh_trunk_leg.py --target vhm; data/derived/Q62s9_vhm_trunk_leg.json). Ids unique; listed last.
+if [ ! -f build/vh/xfer_zan2vhm_trunk/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhm_skin/manifest.json ] \
+   && [ -f build/viewer_m_hr/bundle.json ]; then
+  python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhm 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhm_trunk/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_trunk"
 # Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
 # steps above still read build/viewer_m as their input bundle, unchanged
 OUT=${VHM_OUT:-build/viewer_m}; mkdir -p "$OUT"

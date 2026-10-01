@@ -295,6 +295,14 @@ if [ ! -f build/vh/xfer_zan2vhf_head/manifest.json ] && [ -d build/zanatomy ] &&
   python3 scripts/transfer/zan_to_vhf_head_neck.py 2>&1 | grep -v Deprec | tail -2
 fi
 [ -f build/vh/xfer_zan2vhf_head/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_head"
+# Q62 step 9: trunk + small lower-limb muscles she had no mesh for (deep back, serratus posterior, chest wall,
+# pyramidalis, fibularis brevis/tertius), Z-Anatomy carried by the Q168 per-bone fits onto her spine/ribs/girdle/pelvis/
+# leg bones, same gates + a lung gate (scripts/transfer/zan_to_vh_trunk_leg.py; data/derived/Q62s9_vhf_trunk_leg.json).
+if [ ! -f build/vh/xfer_zan2vhf_trunk/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+   && [ -f build/viewer_f_hr/bundle.json ]; then
+  python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhf 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhf_trunk/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_trunk"
 [ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
 # Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer

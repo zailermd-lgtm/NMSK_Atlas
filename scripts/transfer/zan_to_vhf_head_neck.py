@@ -89,12 +89,13 @@ TARGETS = {
 }
 
 
-def ct_bone_meshes(target: str, origin: np.ndarray) -> dict:
-    """{atlas id: trimesh} re-meshed from the target's own CT labels (TARGETS[target]['ct_bones']; empty for her)"""
+def ct_bone_meshes(target: str, origin: np.ndarray, spec: dict | None = None) -> dict:
+    """{atlas id: trimesh} re-meshed from the target's own CT labels (`spec` {id: (task, labels)}, default
+    TARGETS[target]['ct_bones']; empty for her)"""
     import nibabel as nib
     from scripts.vhf_pelvic_viscera import mesh_mask
     cfg = TARGETS[target]; out, cache = {}, {}
-    for aid, (task, labs) in cfg.get("ct_bones", {}).items():
+    for aid, (task, labs) in (cfg.get("ct_bones", {}) if spec is None else spec).items():
         if task not in cache:
             img = nib.load(TASK / f"{cfg['prefix']}_{task}.nii.gz"); cache[task] = (img.affine, np.asarray(img.dataobj))
         A, arr = cache[task]
@@ -287,13 +288,14 @@ def larynx_refit(xf, items: dict, cart: dict) -> dict:
             "before": before, "after": after, **extra}
 
 
-def local_carrier_error(xf, v_src: np.ndarray, her_tree: cKDTree, refit=None) -> dict:
-    """Z-Anatomy axial bone surface within LOCAL_MM of the muscle (source frame), carried by its own piece fit,
-    -> distance to her bone surface. The bone-fit error measured where this muscle attaches/lies."""
+def local_carrier_error(xf, v_src: np.ndarray, her_tree: cKDTree, refit=None, groups: tuple = ("axial",)) -> dict:
+    """Z-Anatomy bone surface (units of Q168 unit_group in `groups`) within LOCAL_MM of the muscle (source frame),
+    carried by its own piece fit, -> distance to her bone surface. The bone-fit error measured where this muscle
+    attaches/lies."""
     mt = cKDTree(Z._sub(v_src, 3000, 5))
     d_all = []
     for name, pts in zip(xf.unit_names, xf.unit_pts):
-        if Z.unit_group(name.split("/")[0]) != "axial":
+        if Z.unit_group(name.split("/")[0]) not in groups:
             continue
         near = pts[mt.query(pts, distance_upper_bound=LOCAL_MM)[0] < np.inf]
         if not len(near):
