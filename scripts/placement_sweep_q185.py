@@ -355,9 +355,11 @@ def badge_kind(rec: dict | None) -> str:
     return m.group(1) if m else b[:60]
 
 
-def sweep(body: str) -> dict:
+def sweep(body: str, only: str | None = None) -> dict:
     import gc
     pieces = bundle_pieces(body); fr = FullRes(); B = Body(body); B.set_mesh_bones(pieces, fr)
+    if only:   # Q185c: re-sweep a subset (bone meshes above are still built from the whole bundle)
+        pieces = {k: v for k, v in pieces.items() if re.search(only, k)}
     rows, hidden = {}, []
     for i, (aid, pc) in enumerate(pieces.items()):
         e = pc["entries"][0]
@@ -530,11 +532,12 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("cmd", choices=["sweep", "finalize", "montage"])
     ap.add_argument("--body", choices=["vhm", "vhf", "both"], default="both"); ap.add_argument("--report", default=str(REPORT))
     ap.add_argument("--out", default=str(SCRATCH)); ap.add_argument("--n", type=int, default=8)
+    ap.add_argument("--only", default=None, help="sweep only ids matching this regex (use with a separate --report)")
     a = ap.parse_args(argv); rep_p = Path(a.report)
     rep = json.loads(rep_p.read_text()) if rep_p.exists() else {}
     if a.cmd == "sweep":
         for body in (["vhm", "vhf"] if a.body == "both" else [a.body]):
-            rep[body] = sweep(body)
+            rep[body] = sweep(body, a.only)
         a.cmd = "finalize"
     if a.cmd == "finalize":
         finalize(rep)

@@ -429,7 +429,7 @@ def montage(out: Path) -> int:
                 a.set_xlim(np.median(sp[:, ia]) - 90, np.median(sp[:, ia]) + 90)
         del V
     fig.suptitle("Q185c intervertebral discs: grey = TS vertebrae, blue = lung, red = Q104 cylinder / held, green = Q185c endplate fill")
-    fig.tight_layout(); p = out / "montage_spine_before_after.png"; fig.savefig(p, dpi=70); print("wrote", p)
+    fig.tight_layout(rect=(0, 0, 1, 0.98)); p = out / "montage_spine_before_after.png"; fig.savefig(p, dpi=70); print("wrote", p)
     return 0
 
 

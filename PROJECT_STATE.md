@@ -10583,7 +10583,7 @@ the female's phalanges are under-captured at HU 200.
     so his own arm bones and forearm muscles sit inside it; gate: his ct_vhm_arm bones 0 % outside skin.
   - [ ] Q185b Z-Anatomy limb transfers (his 34, her 14 hand / foot / forearm records): clip to skin and carve against own bones, or
     re-fit per bone; gate skin <= 1 %, bone <= 5 %.
-  - [ ] Q185c procedural intervertebral discs (his 14, her 11): refit each cylinder to the adjacent vertebral endplates from the TS
+  - [x] Q185c (2026-10-01: rebuilt from own endplates, his 19 / her 18 shipped, 1 / 2 held; sweep flags 14 / 11 -> 0 / 1 (her held T3/T4); see ## Q185c) procedural intervertebral discs (his 14, her 11): refit each cylinder to the adjacent vertebral endplates from the TS
     vertebra labels (radius / centre / height); gate 0 % > 1 mm in lung / organs, <= 5 % in vertebrae.
   - [ ] Q185d her xfer_vhm2vhf articular cartilages + cruciates (hip 82-86 % in bone): shell them on HER bone surfaces (or drop);
     re-check his vhm_both cartilage 6-12 %.
@@ -10595,3 +10595,45 @@ the female's phalanges are under-captured at HU 200.
   - [ ] Q185h rectus capitis anterior / lateralis transfers (7): carve against the skull label (occipital condyle / jugular process).
   - [ ] Q185i own cryo/CT muscles overlapping bone (his 13, her 16): subtract the bone labels / own bone meshes (+ re-check volumes).
   - [ ] Q185j Q118 procedural tendon connectors: stop the end cap at the bone surface instead of inside it.
+
+## Q185c (2026-10-01) -- intervertebral discs rebuilt from each body's OWN adjacent vertebral endplates (both bundles)
+- Script `scripts/discs_from_vertebrae_q185c.py build --body vhm|vhf` -> subjects build/vh/ct_vhm_discs / ct_vhf_discs +
+  data/derived/Q185c_discs_<body>.json (per level: method, sizes, gates, refs); `montage` -> scratch q185c/montage_spine_before_after.png.
+  RULE per adjacent pair (TS `total` vertebrae_C2 49 ... S1 26 of that body's CT): local axis = upper minus lower BODY centroid;
+  BODY = vertebra voxels anterior to the vertebral canal's anterior border + 1 mm (canal = largest hole of the vertebra projected
+  along the axis; spinal-cord label fallback, never needed: all levels "foramen"), largest piece; both bodies resampled on a
+  0.5 mm grid; per column h_L / h_U = facing endplate heights; endplate outline = columns within 3 mm of the central endplate
+  height, opened by a disk of 0.15 x equivalent diameter (cuts transverse-process / costal bars); fill h_L < z < h_U with the
+  signed-distance interpolation of the two outlines; drop columns whose gap > median + max(4 mm, 0.75 median); keep only
+  CT-unlabelled voxels; marching cubes. Sizes: width / depth = chords through the footprint centre (Panjabi convention),
+  height = median of columns >= 3 mm from the rim; extents also recorded.
+- Gates: 0 % > 1 mm in lung, <= 2 % > 1 mm in TS bone, min distance <= 1 mm to each body, 0 % outside own skin, size within
+  published band +-25 % (height lower edge -37 %: Kunkel 2011's radiographic-vs-anatomical shortfall; a CT-label gap is a
+  radiographic-type measurement). Bands: cervical w 15-24 / d 14-19 / h 4-7, thoracic 25-46 / 16-34 / 4.5-7.2, lumbar
+  40-52 / 32-38 / 8-14 mm (Panjabi 1991 cervical + thoracic, 1992 lumbar, Spine; Kunkel 2011 J Anat; Gilad & Nissan 1986
+  Spine; Pfirrmann 2006 J Orthop Res; DOIs in the report).
+- RESULT his: 19 new (C2/C3 ... L4/L5), held C6/C7 (width 30.5 > 30.0 mm). Ranges: cervical w 19.5-27 d 18-18.5 h 3-4 mm
+  (1.0-1.1 cm3), thoracic w 28.5-43.5 d 21.5-37 h 3-6 (1.6-8.0 cm3), lumbar w 48-53.5 d 39.5-43.5 h 8.5-12 (13.5-18.9 cm3).
+  Hers: 18 new, held C6/C7 (width 31.5) and T3/T4 (central height 2.0 mm < 2.8). Cervical w 22.5-30 d 16-16.5 h 3-4,
+  thoracic w 25-40.5 d 19.5-31 h 3-5, lumbar w 50-57.5 d 37.5-39 h 8.5-9. Every new disc: 0 % lung, 0 % bone, endplate distance
+  0.0 / 0.0 mm, 0 % outside skin. Thoracic heights (3-6 mm) sit at / below the low edge of Kunkel's 4.5-7.2 mm: the TS labels
+  leave a thin gap. Held levels keep their Q104 mesh, carried in the new subject with a "HELD in Q185c" badge + Q185 numbers.
+- C1/C2: Q104 shipped intervertebral_disc_c1_c2 although no disc exists there (atlanto-axial joints) -> no longer shipped (its
+  entity record in data/cartilage stays). C7/T1, T12/L1, L5/S1 have NO atlas id (Q104 never made them; the gaps are visible in
+  the montage) -> built + measured only (his T12/L1, L5/S1 pass, C7/T1 width-held; her C7/T1 pass, T12/L1 h 13 mm and L5/S1
+  depth 8.5 mm fail) -- shipping them needs 3 new entity records (queue Q185c2).
+- Export: new `--exclude SUBJECT:GLOB` in export_viewer_bundle.py; both rebuild scripts add ct_v?_discs (listed after the
+  pelvis subject) with `--exclude 'ct_v?:intervertebral_disc_*'` -- the old ct_vhm/ct_vhf binaries are untouched.
+- Rebuilt both (`VHM_OUT=build/viewer_m_hr`, `VHF_OUT=build/viewer_f_hr`): his 463 -> 462 records (427 ids), 2,185,082 ->
+  2,239,506 tris; hers 456 -> 455 (432 ids), 3,320,545 -> 3,372,099 tris (discs 2,688 -> ~55 k tris each). Only change:
+  c1_c2 gone + 20 disc records now from ct_v?_discs; every other record identical (nv/nf/cell/rec/depth), hidden_default
+  13 / 0 unchanged. Geo files changed: his _geo_01 (00 identical by byte offset), hers _geo_01 + _geo_02. Headless Chromium
+  (swiftshader, three.js routed): both load, 0 page errors, "Search 462 / 455 structures", T6-T7 card shows the Q185c badge.
+- Q185 sweep re-run on the discs only (`placement_sweep_q185.py sweep --only '^intervertebral_disc_'`, new flag; report
+  data/derived/Q185c_sweep_discs_after.json): his flagged 14 -> 0 (max lung 44 -> 0 %, bone 17 -> 0 %, organ 21 -> 1.5 %
+  [held C6/C7]); hers 11 -> 1 (the held T3/T4 cylinder, 25.8 % lung); new discs 0 / 0 / 0 % lung / bone / organ.
+- Test tests/test_discs_from_vertebrae_q185c.py (2: gap fill between two synthetic bodies; canal border / frame / levels / size check).
+  Relevant suites: 135 passed + schema validation.
+- NEXT: Q185c2 add entity records for C7/T1, T12/L1, L5/S1 and ship the passing ones; her T3/T4 (2.0 mm gap) and both C6/C7
+  (uncinate width) need a level-specific look before the cylinders can go.
+
