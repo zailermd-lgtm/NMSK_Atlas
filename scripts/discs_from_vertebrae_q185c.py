@@ -329,7 +329,7 @@ def held_badge(body: str, q185: dict | None, why: list) -> str:
     return (f"PROCEDURAL/RULE-BASED (Q104 cylinder, HELD in Q185c: the endplate rebuild failed {', '.join(why)}). "
             f"Q185 sweep of this mesh: {round(100 * (q.get('in_lung_gt1mm_frac') or 0), 1)} % in lung, "
             f"{round(100 * (q.get('in_bone_gt1mm_frac') or 0), 1)} % in bone, {round(100 * (q.get('in_organ_gt1mm_frac') or 0), 1)} % "
-            "in organs; ~80 mm wide, not fitted to the vertebrae.")
+            "in organs; ~80 mm wide, not fitted to the vertebrae. Hidden by default.")
 
 
 def old_record(body: str, a: str):
@@ -368,7 +368,8 @@ def build(body: str) -> int:
                             "face_offset": nf, "vertex_count": int(len(v)), "triangle_count": int(len(f)),
                             "bbox_min_mm": [round(float(x), 4) for x in v.min(0)],
                             "bbox_max_mm": [round(float(x), 4) for x in v.max(0)], "tris_full_at_source": int(len(f)),
-                            "procedural_badge": bd, "geometry_source": src})
+                            "procedural_badge": bd, "geometry_source": src,
+                            **({"hidden_default": True} if src.startswith("Q104") else {})})   # held ~80 mm cylinders start hidden (Q184 flag)
             verts.append(v); faces.append(np.asarray(f, np.int64) + nv); nv += len(v); nf += len(f)
         rows[a] = r
         print(f"{body} {u}/{l}: {r['status']} {r.get('gate_fails', r.get('reason', ''))} "

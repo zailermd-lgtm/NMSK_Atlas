@@ -10637,3 +10637,4 @@ the female's phalanges are under-captured at HU 200.
 - NEXT: Q185c2 add entity records for C7/T1, T12/L1, L5/S1 and ship the passing ones; her T3/T4 (2.0 mm gap) and both C6/C7
   (uncinate width) need a level-specific look before the cylinders can go.
 
+- Main session (2026-10-01): Q185c -- held-disc Q104 cylinders now hidden_default (his C6/C7; her C6/C7, T3/T4); Q184 test updated; published male v75 (462 / 2.24 M), female v58 (455 / 3.37 M), hub v14.

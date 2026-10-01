@@ -33,7 +33,9 @@ def test_exporter_and_template_carry_the_flag():
     assert "if (s.hidden_default) hdShown[s.id] = true;" in t and "Hidden by default — see note" in t
 
 
-@pytest.mark.parametrize("d,want", [("viewer_m_hr", ROUTE_D), ("viewer_f_hr", [])])
+# + Q185c: discs whose endplate rebuild was held keep the Q104 cylinder, hidden by default
+@pytest.mark.parametrize("d,want", [("viewer_m_hr", sorted(ROUTE_D + ["intervertebral_disc_c6_c7"])),
+                                    ("viewer_f_hr", ["intervertebral_disc_c6_c7", "intervertebral_disc_t3_t4"])])
 def test_built_bundles(d, want):
     b = REPO / "build" / d / "bundle.json"
     if not b.exists():
