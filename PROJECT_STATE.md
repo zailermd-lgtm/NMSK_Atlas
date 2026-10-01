@@ -11043,3 +11043,8 @@ of the classification table (e.g. brain parts as "other organ").
   Tests: tests/test_zan_inventory_audit.py (3) + test_build_zan_atlas_viewer.py updated (22 pass). Not published.
 - [ ] Q186a: template skin layer (above), then publish both Z-Anatomy viewers.
 - [ ] Q186b: female perineal/breast skin needs a real female source (none in Z-Anatomy; her CT skin could serve).
+- Main session (2026-10-01 ~18:00): Q186 integrated -- zan template gains a "skin" layer (30 % default, x-ray 6 %);
+  final rebuild of both Z-Anatomy viewers (2,966 / 2,939 structures, 0 page errors headless, skin layer listed);
+  published Z-Anatomy male v8 and female v2 ANATOMY ONLY (no clinical files) -- whether to ship the private needle
+  files next to the CC BY-SA Z-Anatomy pages and the male own viewer awaits the owner (male own publish was denied by
+  the permission classifier). Hub v17.
