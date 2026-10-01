@@ -10429,3 +10429,4 @@ the female's phalanges are under-captured at HU 200.
   vhf_whole_body_skin.py -- its scratch legs CT is gone -- and falls back to the existing ct_vhf_skin, unchanged.)
 - Next: the held rib-borne muscles need the CT erector / external-intercostal meshes carved (overlap), and a pleura/lung
   margin for the innermost layer; costal cartilages are still absent from both bodies.
+- Main session (2026-10-01): Q182 published -- male v71 (463 / 2.17 M), female v56 (456 / 3.32 M), hub v12. Note: ribs now stop at the costal cartilages (not segmented) -- costal cartilage from a real source is a new queue item.
