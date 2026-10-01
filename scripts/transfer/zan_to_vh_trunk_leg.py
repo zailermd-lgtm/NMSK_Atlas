@@ -237,8 +237,12 @@ def main(argv=None) -> int:
     ap.add_argument("--dry", action="store_true", help="measure and report only; write no subject")
     ap.add_argument("--candidates", default=None, metavar="DIR",
                     help="also write every built row (shipped AND held, after the fixes) as a subject here, for inspection")
+    ap.add_argument("--q168", default=None, help="Q168 bone-fit report to carry with (default: the target's Q168 report; "
+                                                 "Q182 passes a refit onto the label-derived ribs)")
     a = ap.parse_args(argv)
-    T = a.target; cfg = TARGETS[T]; SUBJ = cfg["subject"]
+    T = a.target; cfg = dict(TARGETS[T]); SUBJ = cfg["subject"]
+    if a.q168:
+        cfg["q168"] = Path(a.q168).resolve()
     a.out = a.out or str(REPO / "build" / "vh" / SUBJ)
     a.report = a.report or str(cfg["report"])
     O = np.array([float(x) for x in cfg["origin"].split(",")])
