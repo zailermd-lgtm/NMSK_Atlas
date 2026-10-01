@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -433,6 +434,11 @@ def main(argv=None) -> int:
                       f"median (p90 {loc['p90_mm']:.1f} mm). Volume {r['volume_cm3']:.2f} cm3; {r['pushed_off_bone']} "
                       f"vertices pushed off her bones, {r['clipped_to_skin']} pulled inside her skin."
                       + (f" Partial: {r['partial']}." if r["partial"] else ""))
+        pub = PUBLISHED.get(re.sub(r"_[rl]$", "", aid), {}).get("value_cm3")
+        if pub and r["volume_cm3"] > 1.5 * pub:
+            r["badge"] += (f" SIZE CAVEAT: {r['volume_cm3'] / pub:.1f}x the published adult MRI volume ({pub:.2f} cm3, "
+                           "Volk 2014); the generic Z-Anatomy sheet is thicker than a real one, so treat its bulk as an "
+                           "overestimate.")
 
     shipped = sorted(out_mesh)
     by_group = {g: {"shipped": [a for a in ids if a in out_mesh], "held": {a: dropped[a] for a in ids if a in dropped}}

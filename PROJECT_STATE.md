@@ -10284,3 +10284,5 @@ the female's phalanges are under-captured at HU 200.
 - Next: pharynx/strap holds are conflicts with HER own CT-labelled muscles (pterygoids, hyoglossus, inferior constrictor, multifidus)
   -- a joint refit against those labels (not just bones) would be needed; omohyoid needs its scapular/clavicular carrier checked.
 
+
+- Main session after Q62 step 7 (2026-10-01): added a SIZE CAVEAT to badges whose volume is >1.5x a published value (orbicularis_oculi_r 2.2x, procerus 15.8x vs Volk 2014) in zan_to_vhf_head_neck.py; regenerated subject + bundle (455 structures, 3.32 M tris), head tests 3 pass; female viewer republished v55, hub v10.

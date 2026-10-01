@@ -53,7 +53,7 @@
    "mentalis_l": "the fixes leave 60% of its transferred volume (< 75%)",
    "orbicularis_oculi_l": "5.8% of vertices inside her air lumen (> 5%)",
    "risorius_l": "bone around it fits her CT at 3.36 mm median (> 3.0 mm)",
-   "omohyoid_r": "21.3% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 33.7% before)",
+   "omohyoid_r": "28.4% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 38.2% before)",
    "omohyoid_l": "32.0% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 41.8% before)",
    "sternohyoid_r": "6.9% of vertices inside her air lumen (> 5%)",
    "cricothyroid_r": "10.3% of vertices inside her air lumen (> 5%)",
@@ -127,7 +127,7 @@
     "held": {
      "stylohyoid_r": "22.6% of vertices inside other muscles/organs (> 10%; her structures 22.6%, new muscles 4.0% vs 4.6% in Z-Anatomy itself; mostly hyoglossus_r)",
      "stylohyoid_l": "12.9% of vertices inside other muscles/organs (> 10%; her structures 12.9%, new muscles 3.4% vs 4.6% in Z-Anatomy itself; mostly geniohyoid_l)",
-     "omohyoid_r": "21.3% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 33.7% before)",
+     "omohyoid_r": "28.4% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 38.2% before)",
      "omohyoid_l": "32.0% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 41.8% before)",
      "sternohyoid_r": "6.9% of vertices inside her air lumen (> 5%)"
     }
@@ -1648,7 +1648,7 @@
    "overlap_new_total": 0.0037,
    "overlap_new_total_source": 0.0081,
    "overlap_frac_total": 0.0136,
-   "badge": "Q62 step 7: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto her own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the bone surface within 15 mm of it fits her CT at 2.1 mm median (p90 3.1 mm). Volume 6.73 cm3; 501 vertices pushed off her bones, 0 pulled inside her skin."
+   "badge": "Q62 step 7: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto her own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the bone surface within 15 mm of it fits her CT at 2.1 mm median (p90 3.1 mm). Volume 6.73 cm3; 501 vertices pushed off her bones, 0 pulled inside her skin. SIZE CAVEAT: 2.2x the published adult MRI volume (2.99 cm3, Volk 2014); the generic Z-Anatomy sheet is thicker than a real one, so treat its bulk as an overestimate."
   },
   "orbicularis_oculi_l": {
    "atlas_id": "orbicularis_oculi_l",
@@ -2525,7 +2525,7 @@
    "overlap_new_total": 0.0367,
    "overlap_new_total_source": 0.055,
    "overlap_frac_total": 0.0,
-   "badge": "Q62 step 7: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto her own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the bone surface within 15 mm of it fits her CT at 2.2 mm median (p90 3.4 mm). Volume 1.28 cm3; 341 vertices pushed off her bones, 0 pulled inside her skin."
+   "badge": "Q62 step 7: TRANSFERRED, not segmented from her. Z-Anatomy geometry (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) fitted onto her own skull/mandible/hyoid/spine bones (Q168 per-bone fits). Not measured on this muscle (she has no mesh of it); the bone surface within 15 mm of it fits her CT at 2.2 mm median (p90 3.4 mm). Volume 1.28 cm3; 341 vertices pushed off her bones, 0 pulled inside her skin. SIZE CAVEAT: 15.8x the published adult MRI volume (0.08 cm3, Volk 2014); the generic Z-Anatomy sheet is thicker than a real one, so treat its bulk as an overestimate."
   },
   "superior_pharyngeal_constrictor_r": {
    "atlas_id": "superior_pharyngeal_constrictor_r",
@@ -3376,9 +3376,9 @@
    "partial": null,
    "vertices": 1355,
    "triangles": 2706,
-   "inside_bone_frac_before": 0.3365,
+   "inside_bone_frac_before": 0.3815,
    "inside_bone_by_bone": {
-    "ribs_r": 454,
+    "ribs_r": 515,
     "thyroid_cartilage": 2
    },
    "outside_skin_frac_before": 0.0,
@@ -3387,8 +3387,8 @@
     "max": 0.0
    },
    "pushed_off_bone": 132,
-   "inside_bone_deeper_than_bound": 322,
-   "inside_bone_frac_after_push": 0.2133,
+   "inside_bone_deeper_than_bound": 385,
+   "inside_bone_frac_after_push": 0.2841,
    "rides_on": {
     "bones": [
      {
@@ -3437,7 +3437,7 @@
     "p95": 2.47,
     "max": 3.98
    },
-   "inside_bone_frac_after": 0.2797,
+   "inside_bone_frac_after": 0.2841,
    "outside_skin_frac_after": 0.0,
    "inside_label_frac": {
     "airway": 0.0,
@@ -3455,7 +3455,7 @@
    "volume_cm3": 6.45,
    "volume_ratio_vs_zanatomy": 1.048,
    "volume_kept_after_fix": 1.019,
-   "dropped": "21.3% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 33.7% before)"
+   "dropped": "28.4% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 38.2% before)"
   },
   "omohyoid_l": {
    "atlas_id": "omohyoid_l",
@@ -5188,20 +5188,20 @@
    "partial": null,
    "vertices": 2158,
    "triangles": 4314,
-   "inside_bone_frac_before": 0.0612,
+   "inside_bone_frac_before": 0.0621,
    "inside_bone_by_bone": {
     "cervical_vertebrae": 14,
     "thoracic_vertebrae": 109,
-    "ribs_r": 9
+    "ribs_r": 11
    },
    "outside_skin_frac_before": 0.0,
    "outside_skin_depth_mm": {
     "p95": 0.0,
     "max": 0.0
    },
-   "pushed_off_bone": 132,
-   "inside_bone_deeper_than_bound": 13,
-   "inside_bone_frac_after_push": 0.0028,
+   "pushed_off_bone": 131,
+   "inside_bone_deeper_than_bound": 4,
+   "inside_bone_frac_after_push": 0.006,
    "rides_on": {
     "bones": [
      {
@@ -5247,10 +5247,10 @@
    "clipped_to_skin": 0,
    "skin_moved_frac": 0.0,
    "fix_move_mm": {
-    "p95": 1.34,
+    "p95": 1.31,
     "max": 4.73
    },
-   "inside_bone_frac_after": 0.0046,
+   "inside_bone_frac_after": 0.0028,
    "outside_skin_frac_after": 0.0,
    "inside_label_frac": {
     "airway": 0.0,
@@ -5266,7 +5266,7 @@
    "volume_zanatomy_cm3": 18.5,
    "volume_transferred_before_fix_cm3": 14.56,
    "volume_cm3": 14.57,
-   "volume_ratio_vs_zanatomy": 0.788,
+   "volume_ratio_vs_zanatomy": 0.787,
    "volume_kept_after_fix": 1.001,
    "overlap_her_structures": {
     "multifidus_r": 0.2915,
