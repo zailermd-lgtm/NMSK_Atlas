@@ -668,8 +668,8 @@ def fit_to_vhf(pending: list[dict]) -> dict:
             # Q186: one limb class per skin patch (patches ARE body regions); per-cluster classes flung
             # her left thumb's nail fold ~290 mm away (it sits against the thigh in the source pose)
             p["v"] = np.asarray(xf.blend(p["v"], xf.limb_class(p["v"])), dtype=np.float64)
-            continue
-        p["v"] = np.asarray(xf(p["mesh_id"], p["cat"], p["v"]), dtype=np.float64)
+        else:
+            p["v"] = np.asarray(xf(p["mesh_id"], p["cat"], p["v"]), dtype=np.float64)
         region = rep["region_of_structure"].get(p["mesh_id"]) or new_region.get(p["mesh_id"], "whole_body")
         left_proxy = p["mesh_id"] in proxy_ids or (region == "forearm_hand" and side_code(p["side_raw"]) == "l")
         p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy, region)
