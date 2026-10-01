@@ -261,7 +261,9 @@ fi
 for s in xfer_zan2vhm_head xfer_zan2vhm_foot; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done
 # Q62 step 9: trunk + small lower-limb muscles he had no mesh for, same route onto HIS skeleton
 # (scripts/transfer/zan_to_vh_trunk_leg.py --target vhm; data/derived/Q62s9_vhm_trunk_leg.json). Ids unique; listed last.
-if [ ! -f build/vh/xfer_zan2vhm_trunk/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhm_skin/manifest.json ] \
+# 2026-10-01: nothing passed on either body (all held: carrier/overlap/lung) -> no subject; reruns only when its
+# report is absent (delete data/derived/Q62s9_vhm_trunk_leg.json to retry).
+if [ ! -f build/vh/xfer_zan2vhm_trunk/manifest.json ] && [ ! -f data/derived/Q62s9_vhm_trunk_leg.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhm_skin/manifest.json ] \
    && [ -f build/viewer_m_hr/bundle.json ]; then
   python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhm 2>&1 | grep -v Deprec | tail -2
 fi

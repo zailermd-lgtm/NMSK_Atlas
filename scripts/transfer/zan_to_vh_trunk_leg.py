@@ -55,12 +55,14 @@ MIN_VOL_KEPT = HN.MIN_VOL_KEPT
 LOCAL_MM = HN.LOCAL_MM
 _S = "rl"
 
-# shared region table: group -> bases (ids = <base>_<side>), the Q168 unit groups that carry/measure it, bone set
+# shared region table: group -> bases (ids = <base>_<side>), the Q168 unit groups that carry/measure it, bone set.
+# Groups follow the bones that carry them (the pooled carrier gate): spine-borne transversospinal/segmental muscles
+# vs the rib-borne posterior wall (levatores costarum insert on the ribs, like the serratus posterior muscles).
 REGIONS = {
-    "deep_back": {"bases": ["interspinales", "intertransversarii", "rotatores", "semispinalis_thoracis",
-                            "levatores_costarum"], "units": "axial", "bones": "trunk"},
-    "posterior_thoracic_wall": {"bases": ["serratus_posterior_superior", "serratus_posterior_inferior"],
-                                "units": "axial", "bones": "trunk"},
+    "deep_back": {"bases": ["interspinales", "intertransversarii", "rotatores", "semispinalis_thoracis"],
+                  "units": "axial", "bones": "trunk"},
+    "posterior_thoracic_wall": {"bases": ["levatores_costarum", "serratus_posterior_superior",
+                                          "serratus_posterior_inferior"], "units": "axial", "bones": "trunk"},
     "chest_wall": {"bases": ["internal_intercostals", "innermost_intercostals", "transversus_thoracis",
                              "subclavius"], "units": "axial", "bones": "trunk"},
     "abdominal_wall": {"bases": ["pyramidalis"], "units": "axial", "bones": "trunk"},
@@ -191,12 +193,50 @@ def volume_cm3(v: np.ndarray, f: np.ndarray) -> tuple[float, str]:
     return float(ndi.binary_fill_holes(g).sum() * pitch ** 3 / 1000.0), f"open mesh: voxel fill at {pitch} mm"
 
 
+def write_subject(out: Path, ids: list, meshes: dict, rows: dict, T: str, report_name: str) -> None:
+    """build/vh subject (vertices.f32 / faces.u32 / manifest.json); a held row's badge is its HELD reason"""
+    out.mkdir(parents=True, exist_ok=True)
+    verts, faces, structs, voff, foff = [], [], [], 0, 0
+    for aid in ids:
+        v, f = meshes[aid]; v32 = v.astype(np.float32)
+        structs.append({"atlas_id": aid, "source_structure": "+".join(rows[aid]["zanatomy_mesh_ids"]),
+                        "side": "right" if aid.endswith("_r") else "left",
+                        "source_file": "zanatomy#" + "+".join(rows[aid]["zanatomy_objects"]),
+                        "vertex_offset": voff, "face_offset": foff, "vertex_count": int(len(v32)),
+                        "triangle_count": int(len(f)), "bbox_min_mm": [round(float(x), 4) for x in v32.min(0)],
+                        "bbox_max_mm": [round(float(x), 4) for x in v32.max(0)],
+                        "procedural_badge": rows[aid].get("badge") or f"HELD (not shipped): {rows[aid]['dropped']}",
+                        "transfer": {"from": "zanatomy", "method": f"Q168 per-bone fit (zan_to_vhf_whole_body --target {T})",
+                                     "rides_on": rows[aid]["rides_on"]["bones"][:3]}})
+        verts.append(v32); faces.append((f + voff).astype(np.uint32)); voff += len(v32); foff += len(f)
+    V = np.concatenate(verts); F = np.concatenate(faces)
+    V.tofile(out / "vertices.f32"); F.tofile(out / "faces.u32")
+    attribution = [pron(
+        "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: trunk and small lower-limb muscles from Z-Anatomy (CC BY-SA "
+        "4.0), fitted onto this specimen's OWN spine, ribs, sternum, shoulder girdle, pelvis and leg bones one bone at a "
+        "time (Q168 per-bone similarity fits); pushed off her bones and pulled inside her skin "
+        "(scripts/transfer/zan_to_vh_trunk_leg.py, Q62 step 9). Only ids she had no mesh for. Per-muscle badge gives "
+        f"the measured fit error of the bone around it; data/derived/{report_name} has every gate number.", T),
+        "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by "
+        "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. "
+        "Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike)."]
+    man = {"subject": out.name, "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
+           "source_volume": None, "source_kind": f"cross-subject transfer zanatomy -> {T} (Q168 per-bone fit)",
+           "vertex_count": int(len(V)), "triangle_count": int(len(F)),
+           "bbox_min_mm": [round(float(x), 4) for x in V.min(0)], "bbox_max_mm": [round(float(x), 4) for x in V.max(0)],
+           "attribution": attribution, "license": "CC-BY-SA-4.0", "structures": structs}
+    (out / "manifest.json").write_text(json.dumps(man, indent=1))
+    print(f"{out.name}: {len(structs)} structures, {len(V)} vertices, {len(F)} triangles")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--target", choices=sorted(TARGETS), required=True)
     ap.add_argument("--out", default=None)
     ap.add_argument("--report", default=None)
     ap.add_argument("--dry", action="store_true", help="measure and report only; write no subject")
+    ap.add_argument("--candidates", default=None, metavar="DIR",
+                    help="also write every built row (shipped AND held, after the fixes) as a subject here, for inspection")
     a = ap.parse_args(argv)
     T = a.target; cfg = TARGETS[T]; SUBJ = cfg["subject"]
     a.out = a.out or str(REPO / "build" / "vh" / SUBJ)
@@ -223,7 +263,7 @@ def main(argv=None) -> int:
              for k, bs in bone_sets.items()}
 
     t0 = time.time(); print(f"setup done, {len(tg)} targets", flush=True)
-    rows, out_mesh, src_mesh, dropped = {}, {}, {}, {}
+    rows, out_mesh, src_mesh, dropped, cand_mesh = {}, {}, {}, {}, {}
     pooled = {g: [] for g in REGIONS}
     for aid in tg:
         g = GROUP_OF[aid]; reg = REGIONS[g]; side = aid[-1]
@@ -295,7 +335,8 @@ def main(argv=None) -> int:
             why = f"{lab['lung']:.1%} of vertices inside her lung (> {MAX_IN_LUNG:.0%})"
         print(f"  {aid}: bone {in_bone.mean():.3f}->{in_bone_p.mean():.3f} skin_out {frac_out:.3f} carrier "
               f"{loc['median_mm']} lung {lab['lung']:.3f} vol {vol_out:.2f}/{vol_x:.2f} ({time.time() - t0:.0f} s)"
-              + (f" HELD: {why}" if why else ""), flush=True)
+              + (f" HELD: {pron(why, T)}" if why else ""), flush=True)
+        cand_mesh[aid] = (nv3, f)
         if why:
             row["dropped"] = dropped[aid] = pron(why, T)
         else:
@@ -370,41 +411,11 @@ def main(argv=None) -> int:
            "published_volumes": PUBLISHED, "published_note": PUBLISHED_NOTE, "rows": rows}
     Path(a.report).write_text(json.dumps(doc, indent=1))
     print(f"report {a.report}: shipped {len(shipped)}, held {len(dropped)}, not built {len(skipped)}")
+    if a.candidates:   # every built row (shipped or held), post-fix, for inspection/montage only -- never bundled
+        write_subject(Path(a.candidates), [x for x in tg if x in cand_mesh], cand_mesh, rows, T, Path(a.report).name)
     if a.dry or not shipped:
         return 0
-
-    out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    verts, faces, structs, voff, foff = [], [], [], 0, 0
-    for aid in shipped:
-        v, f = out_mesh[aid]; v32 = v.astype(np.float32)
-        structs.append({"atlas_id": aid, "source_structure": "+".join(rows[aid]["zanatomy_mesh_ids"]),
-                        "side": "right" if aid.endswith("_r") else "left",
-                        "source_file": "zanatomy#" + "+".join(rows[aid]["zanatomy_objects"]),
-                        "vertex_offset": voff, "face_offset": foff, "vertex_count": int(len(v32)),
-                        "triangle_count": int(len(f)), "bbox_min_mm": [round(float(x), 4) for x in v32.min(0)],
-                        "bbox_max_mm": [round(float(x), 4) for x in v32.max(0)],
-                        "procedural_badge": rows[aid]["badge"],
-                        "transfer": {"from": "zanatomy", "method": f"Q168 per-bone fit (zan_to_vhf_whole_body --target {T})",
-                                     "rides_on": rows[aid]["rides_on"]["bones"][:3]}})
-        verts.append(v32); faces.append((f + voff).astype(np.uint32)); voff += len(v32); foff += len(f)
-    V = np.concatenate(verts); F = np.concatenate(faces)
-    V.tofile(out / "vertices.f32"); F.tofile(out / "faces.u32")
-    attribution = [pron(
-        "GENERIC MODEL, NOT SEGMENTED FROM THIS SPECIMEN: trunk and small lower-limb muscles from Z-Anatomy (CC BY-SA "
-        "4.0), fitted onto this specimen's OWN spine, ribs, sternum, shoulder girdle, pelvis and leg bones one bone at a "
-        "time (Q168 per-bone similarity fits); pushed off her bones and pulled inside her skin "
-        "(scripts/transfer/zan_to_vh_trunk_leg.py, Q62 step 9). Only ids she had no mesh for. Per-muscle badge gives "
-        f"the measured fit error of the bone around it; data/derived/{Path(a.report).name} has every gate number.", T),
-        "Z-Anatomy: models by the Z-Anatomy project (BodyParts3D upstream credited in its own LICENSE), app by "
-        "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. "
-        "Licensed CC BY-SA 4.0; this registered derivative remains CC BY-SA 4.0 (ShareAlike)."]
-    man = {"subject": out.name, "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
-           "source_volume": None, "source_kind": f"cross-subject transfer zanatomy -> {T} (Q168 per-bone fit)",
-           "vertex_count": int(len(V)), "triangle_count": int(len(F)),
-           "bbox_min_mm": [round(float(x), 4) for x in V.min(0)], "bbox_max_mm": [round(float(x), 4) for x in V.max(0)],
-           "attribution": attribution, "license": "CC-BY-SA-4.0", "structures": structs}
-    (out / "manifest.json").write_text(json.dumps(man, indent=1))
-    print(f"{out.name}: {len(structs)} structures, {len(V)} vertices, {len(F)} triangles")
+    write_subject(Path(a.out), shipped, out_mesh, rows, T, Path(a.report).name)
     return 0
 
 

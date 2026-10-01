@@ -1,0 +1,3059 @@
+{
+ "source": "Q62 step 9 (scripts/transfer/zan_to_vh_trunk_leg.py --target vhf): Z-Anatomy trunk and small lower-limb muscles (CC BY-SA 4.0) carried onto the VH female's own skeleton (Q168 per-bone fits, data/derived/Q168_zan_to_vhf.json).",
+ "gates": {
+  "max_inside_bone_frac": 0.05,
+  "max_outside_skin_preclip_frac": 0.5,
+  "max_carrier_mm": 3.0,
+  "max_overlap_frac": 0.1,
+  "max_in_lung_frac": 0.05,
+  "max_skin_moved_frac": 0.25,
+  "min_volume_kept": 0.75,
+  "push_bound_mm": 3.0,
+  "local_mm": 15.0
+ },
+ "summary": {
+  "targets": [
+   "interspinales_r",
+   "interspinales_l",
+   "intertransversarii_r",
+   "intertransversarii_l",
+   "rotatores_r",
+   "rotatores_l",
+   "semispinalis_thoracis_r",
+   "semispinalis_thoracis_l",
+   "levatores_costarum_r",
+   "levatores_costarum_l",
+   "serratus_posterior_superior_r",
+   "serratus_posterior_superior_l",
+   "serratus_posterior_inferior_r",
+   "serratus_posterior_inferior_l",
+   "internal_intercostals_r",
+   "internal_intercostals_l",
+   "innermost_intercostals_r",
+   "innermost_intercostals_l",
+   "transversus_thoracis_r",
+   "transversus_thoracis_l",
+   "subclavius_r",
+   "subclavius_l",
+   "pyramidalis_r",
+   "pyramidalis_l",
+   "fibularis_brevis_r",
+   "fibularis_brevis_l",
+   "fibularis_tertius_r",
+   "fibularis_tertius_l"
+  ],
+  "shipped": [],
+  "n_shipped": 0,
+  "dropped": {
+   "interspinales_r": "bone around it fits her CT at 3.23 mm median (> 3.0 mm)",
+   "interspinales_l": "bone around it fits her CT at 3.22 mm median (> 3.0 mm)",
+   "intertransversarii_r": "11.5% of vertices still inside her bone after the bounded push-out (> 5%; 29.1% before)",
+   "intertransversarii_l": "9.3% of vertices still inside her bone after the bounded push-out (> 5%; 26.5% before)",
+   "levatores_costarum_r": "bone around it fits her CT at 6.56 mm median (> 3.0 mm)",
+   "levatores_costarum_l": "bone around it fits her CT at 6.48 mm median (> 3.0 mm)",
+   "serratus_posterior_superior_r": "bone around it fits her CT at 7.06 mm median (> 3.0 mm)",
+   "serratus_posterior_superior_l": "bone around it fits her CT at 6.59 mm median (> 3.0 mm)",
+   "serratus_posterior_inferior_r": "bone around it fits her CT at 9.07 mm median (> 3.0 mm)",
+   "serratus_posterior_inferior_l": "bone around it fits her CT at 6.01 mm median (> 3.0 mm)",
+   "internal_intercostals_r": "bone around it fits her CT at 10.5 mm median (> 3.0 mm)",
+   "internal_intercostals_l": "bone around it fits her CT at 10.24 mm median (> 3.0 mm)",
+   "innermost_intercostals_r": "bone around it fits her CT at 12.82 mm median (> 3.0 mm)",
+   "innermost_intercostals_l": "bone around it fits her CT at 12.35 mm median (> 3.0 mm)",
+   "transversus_thoracis_l": "11.7% of vertices inside her lung (> 5%)",
+   "subclavius_r": "5.3% of vertices still inside her bone after the bounded push-out (> 5%; 16.6% before)",
+   "subclavius_l": "21.7% of vertices inside her lung (> 5%)",
+   "pyramidalis_r": "bone around it fits her CT at 7.33 mm median (> 3.0 mm)",
+   "pyramidalis_l": "bone around it fits her CT at 7.57 mm median (> 3.0 mm)",
+   "fibularis_tertius_r": "the fixes leave 75% of its transferred volume (< 75%)",
+   "transversus_thoracis_r": "group chest_wall: carrier median 10.52 mm > 3.0 mm",
+   "rotatores_r": "65.7% of vertices inside other muscles/organs (> 10%; her structures 65.5%, new muscles 2.8% vs 2.6% in Z-Anatomy itself; mostly multifidus_r)",
+   "rotatores_l": "65.9% of vertices inside other muscles/organs (> 10%; her structures 65.6%, new muscles 2.9% vs 2.6% in Z-Anatomy itself; mostly multifidus_l)",
+   "semispinalis_thoracis_r": "75.2% of vertices inside other muscles/organs (> 10%; her structures 74.4%, new muscles 5.9% vs 5.1% in Z-Anatomy itself; mostly multifidus_r)",
+   "semispinalis_thoracis_l": "73.3% of vertices inside other muscles/organs (> 10%; her structures 72.8%, new muscles 5.7% vs 5.1% in Z-Anatomy itself; mostly multifidus_l)",
+   "fibularis_brevis_r": "72.0% of vertices inside other muscles/organs (> 10%; her structures 72.0%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_r)",
+   "fibularis_brevis_l": "70.6% of vertices inside other muscles/organs (> 10%; her structures 70.6%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_l)",
+   "fibularis_tertius_l": "39.8% of vertices inside other muscles/organs (> 10%; her structures 39.8%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly extensor_digitorum_longus_l)"
+  },
+  "by_group": {
+   "deep_back": {
+    "shipped": [],
+    "held": {
+     "interspinales_r": "bone around it fits her CT at 3.23 mm median (> 3.0 mm)",
+     "interspinales_l": "bone around it fits her CT at 3.22 mm median (> 3.0 mm)",
+     "intertransversarii_r": "11.5% of vertices still inside her bone after the bounded push-out (> 5%; 29.1% before)",
+     "intertransversarii_l": "9.3% of vertices still inside her bone after the bounded push-out (> 5%; 26.5% before)",
+     "rotatores_r": "65.7% of vertices inside other muscles/organs (> 10%; her structures 65.5%, new muscles 2.8% vs 2.6% in Z-Anatomy itself; mostly multifidus_r)",
+     "rotatores_l": "65.9% of vertices inside other muscles/organs (> 10%; her structures 65.6%, new muscles 2.9% vs 2.6% in Z-Anatomy itself; mostly multifidus_l)",
+     "semispinalis_thoracis_r": "75.2% of vertices inside other muscles/organs (> 10%; her structures 74.4%, new muscles 5.9% vs 5.1% in Z-Anatomy itself; mostly multifidus_r)",
+     "semispinalis_thoracis_l": "73.3% of vertices inside other muscles/organs (> 10%; her structures 72.8%, new muscles 5.7% vs 5.1% in Z-Anatomy itself; mostly multifidus_l)"
+    }
+   },
+   "posterior_thoracic_wall": {
+    "shipped": [],
+    "held": {
+     "levatores_costarum_r": "bone around it fits her CT at 6.56 mm median (> 3.0 mm)",
+     "levatores_costarum_l": "bone around it fits her CT at 6.48 mm median (> 3.0 mm)",
+     "serratus_posterior_superior_r": "bone around it fits her CT at 7.06 mm median (> 3.0 mm)",
+     "serratus_posterior_superior_l": "bone around it fits her CT at 6.59 mm median (> 3.0 mm)",
+     "serratus_posterior_inferior_r": "bone around it fits her CT at 9.07 mm median (> 3.0 mm)",
+     "serratus_posterior_inferior_l": "bone around it fits her CT at 6.01 mm median (> 3.0 mm)"
+    }
+   },
+   "chest_wall": {
+    "shipped": [],
+    "held": {
+     "internal_intercostals_r": "bone around it fits her CT at 10.5 mm median (> 3.0 mm)",
+     "internal_intercostals_l": "bone around it fits her CT at 10.24 mm median (> 3.0 mm)",
+     "innermost_intercostals_r": "bone around it fits her CT at 12.82 mm median (> 3.0 mm)",
+     "innermost_intercostals_l": "bone around it fits her CT at 12.35 mm median (> 3.0 mm)",
+     "transversus_thoracis_r": "group chest_wall: carrier median 10.52 mm > 3.0 mm",
+     "transversus_thoracis_l": "11.7% of vertices inside her lung (> 5%)",
+     "subclavius_r": "5.3% of vertices still inside her bone after the bounded push-out (> 5%; 16.6% before)",
+     "subclavius_l": "21.7% of vertices inside her lung (> 5%)"
+    }
+   },
+   "abdominal_wall": {
+    "shipped": [],
+    "held": {
+     "pyramidalis_r": "bone around it fits her CT at 7.33 mm median (> 3.0 mm)",
+     "pyramidalis_l": "bone around it fits her CT at 7.57 mm median (> 3.0 mm)"
+    }
+   },
+   "leg": {
+    "shipped": [],
+    "held": {
+     "fibularis_brevis_r": "72.0% of vertices inside other muscles/organs (> 10%; her structures 72.0%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_r)",
+     "fibularis_brevis_l": "70.6% of vertices inside other muscles/organs (> 10%; her structures 70.6%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_l)",
+     "fibularis_tertius_r": "the fixes leave 75% of its transferred volume (< 75%)",
+     "fibularis_tertius_l": "39.8% of vertices inside other muscles/organs (> 10%; her structures 39.8%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly extensor_digitorum_longus_l)"
+    }
+   }
+  },
+  "group_carrier": {
+   "deep_back": {
+    "median_mm": 2.86,
+    "p90_mm": 7.05,
+    "held": false
+   },
+   "posterior_thoracic_wall": {
+    "median_mm": 6.66,
+    "p90_mm": 15.24,
+    "held": true
+   },
+   "chest_wall": {
+    "median_mm": 10.52,
+    "p90_mm": 19.97,
+    "held": true
+   },
+   "abdominal_wall": {
+    "median_mm": 7.45,
+    "p90_mm": 10.97,
+    "held": true
+   },
+   "leg": {
+    "median_mm": 1.18,
+    "p90_mm": 3.56,
+    "held": false
+   }
+  },
+  "not_built": {
+   "subcostales_r": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name) ('Subcostal artery/vein' are vessels)",
+   "subcostales_l": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name) ('Subcostal artery/vein' are vessels)",
+   "superficial_transverse_perineal_r": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "superficial_transverse_perineal_l": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "articularis_genus_r": "Z-Anatomy has only its attachment-area markers on the femur ('Articularis genus muscle.o<s>', Skeletal system), no muscle object",
+   "articularis_genus_l": "Z-Anatomy has only its attachment-area markers on the femur ('Articularis genus muscle.o<s>', Skeletal system), no muscle object",
+   "cremaster_l": "male-only structure: never built on the female",
+   "cremaster_r": "male-only structure: never built on the female",
+   "dartos": "male-only structure: never built on the female"
+  },
+  "trunk_bones_from_ct_labels": {
+   "spine": [
+    "total",
+    [
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50
+    ]
+   ],
+   "ribs_r": [
+    "total",
+    [
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   ],
+   "ribs_l": [
+    "total",
+    [
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103
+    ]
+   ],
+   "sternum": [
+    "total",
+    [
+     116
+    ]
+   ],
+   "clavicle_r": [
+    "total",
+    [
+     74
+    ]
+   ],
+   "clavicle_l": [
+    "total",
+    [
+     73
+    ]
+   ],
+   "scapula_r": [
+    "total",
+    [
+     72
+    ]
+   ],
+   "scapula_l": [
+    "total",
+    [
+     71
+    ]
+   ],
+   "hip_bone_r": [
+    "total",
+    [
+     78
+    ]
+   ],
+   "hip_bone_l": [
+    "total",
+    [
+     77
+    ]
+   ]
+  }
+ },
+ "published_volumes": {},
+ "published_note": "No per-muscle adult volume could be read for any of these muscles (PubMed searched 2026-10-01). Fibularis brevis: Jeng CL et al. Foot Ankle Int 2012;33(5):394-9 (doi:10.3113/FAI.2012.0394, 3T MRI, n=10) measured it but the abstract gives no value; Ward SR et al. Clin Orthop Relat Res 2009;467(4):1074-82 (doi:10.1007/s11999-008-0594-8, cadaver masses) -- PMC full text came back empty; Handsfield GG et al. J Biomech 2014;47(3):631-8 (doi:10.1016/j.jbiomech.2013.12.002) pools the peroneals. Fibularis tertius, subclavius, pyramidalis, serratus posterior, transversus thoracis, intercostals and the deep back muscles: none found. Rows compare with the Z-Anatomy source only, so no SIZE CAVEAT can trigger.",
+ "rows": {
+  "interspinales_r": {
+   "atlas_id": "interspinales_r",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Interspinales lumborum muscles.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "interspinales_r"
+   ],
+   "partial": null,
+   "vertices": 628,
+   "triangles": 1204,
+   "inside_bone_frac_before": 0.2213,
+   "inside_bone_by_bone": {
+    "spine": 0.2213
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 135,
+   "inside_bone_deeper_than_bound": 4,
+   "inside_bone_frac_after_push": 0.0064,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.094,
+      "fit_residual_mm": 1.31
+     },
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.092,
+      "fit_residual_mm": 2.26
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.089,
+      "fit_residual_mm": 1.95
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.076,
+      "fit_residual_mm": 0.97
+     },
+     {
+      "piece": "zan_vertebra_t12",
+      "share": 0.076,
+      "fit_residual_mm": 2.52
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.07,
+      "fit_residual_mm": 0.91
+     }
+    ],
+    "weighted_median_fit_mm": 1.4,
+    "max_fit_mm": 2.52
+   },
+   "carrier_local": {
+    "n": 2076,
+    "median_mm": 3.23,
+    "p90_mm": 9.05
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.48,
+    "max": 3.98
+   },
+   "inside_bone_frac_after": 0.0064,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 19.0,
+    "median": 43.7
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 2.04,
+   "volume_transferred_before_fix_cm3": 1.96,
+   "volume_cm3": 1.76,
+   "volume_ratio_vs_zanatomy": 0.865,
+   "volume_kept_after_fix": 0.902,
+   "dropped": "bone around it fits her CT at 3.23 mm median (> 3.0 mm)"
+  },
+  "interspinales_l": {
+   "atlas_id": "interspinales_l",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Interspinales lumborum muscles.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "interspinales_l"
+   ],
+   "partial": null,
+   "vertices": 628,
+   "triangles": 1204,
+   "inside_bone_frac_before": 0.25,
+   "inside_bone_by_bone": {
+    "spine": 0.25
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 154,
+   "inside_bone_deeper_than_bound": 3,
+   "inside_bone_frac_after_push": 0.0048,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.092,
+      "fit_residual_mm": 2.26
+     },
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.092,
+      "fit_residual_mm": 1.31
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.089,
+      "fit_residual_mm": 1.95
+     },
+     {
+      "piece": "zan_axis_c2",
+      "share": 0.076,
+      "fit_residual_mm": 0.97
+     },
+     {
+      "piece": "zan_vertebra_t12",
+      "share": 0.076,
+      "fit_residual_mm": 2.52
+     },
+     {
+      "piece": "zan_vertebra_c4",
+      "share": 0.072,
+      "fit_residual_mm": 0.91
+     }
+    ],
+    "weighted_median_fit_mm": 1.4,
+    "max_fit_mm": 2.52
+   },
+   "carrier_local": {
+    "n": 2075,
+    "median_mm": 3.22,
+    "p90_mm": 9.05
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.89,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0048,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 19.0,
+    "median": 43.2
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 2.04,
+   "volume_transferred_before_fix_cm3": 1.96,
+   "volume_cm3": 1.81,
+   "volume_ratio_vs_zanatomy": 0.888,
+   "volume_kept_after_fix": 0.922,
+   "dropped": "bone around it fits her CT at 3.22 mm median (> 3.0 mm)"
+  },
+  "intertransversarii_r": {
+   "atlas_id": "intertransversarii_r",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Dorsal parts of lateral intertransversarii lumborum muscles",
+    "Ventral parts of lateral intertransversarii lumborum muscles"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_r",
+    "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_r"
+   ],
+   "partial": "lateral lumbar intertransversarii only (dorsal + ventral parts); Z-Anatomy has no cervical, thoracic or medial lumbar intertransversarii",
+   "vertices": 868,
+   "triangles": 1716,
+   "inside_bone_frac_before": 0.2915,
+   "inside_bone_by_bone": {
+    "spine": 0.2915
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 153,
+   "inside_bone_deeper_than_bound": 100,
+   "inside_bone_frac_after_push": 0.1152,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_l4",
+      "share": 0.26,
+      "fit_residual_mm": 1.69
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.218,
+      "fit_residual_mm": 1.95
+     },
+     {
+      "piece": "zan_vertebra_l3",
+      "share": 0.209,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.158,
+      "fit_residual_mm": 2.26
+     },
+     {
+      "piece": "zan_vertebra_l5",
+      "share": 0.121,
+      "fit_residual_mm": 1.74
+     },
+     {
+      "piece": "zan_vertebra_t12",
+      "share": 0.025,
+      "fit_residual_mm": 2.52
+     }
+    ],
+    "weighted_median_fit_mm": 1.76,
+    "max_fit_mm": 3.78
+   },
+   "carrier_local": {
+    "n": 2553,
+    "median_mm": 3.15,
+    "p90_mm": 7.99
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.94,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.1152,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 46.9,
+    "median": 69.5
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 8.19,
+   "volume_transferred_before_fix_cm3": 8.19,
+   "volume_cm3": 8.34,
+   "volume_ratio_vs_zanatomy": 1.019,
+   "volume_kept_after_fix": 1.018,
+   "dropped": "11.5% of vertices still inside her bone after the bounded push-out (> 5%; 29.1% before)"
+  },
+  "intertransversarii_l": {
+   "atlas_id": "intertransversarii_l",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Dorsal parts of lateral intertransversarii lumborum muscles",
+    "Ventral parts of lateral intertransversarii lumborum muscles"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_dorsal_parts_of_lateral_intertransversarii_lumborum_muscles_l",
+    "zan_ventral_parts_of_lateral_intertransversarii_lumborum_muscles_l"
+   ],
+   "partial": "lateral lumbar intertransversarii only (dorsal + ventral parts); Z-Anatomy has no cervical, thoracic or medial lumbar intertransversarii",
+   "vertices": 868,
+   "triangles": 1716,
+   "inside_bone_frac_before": 0.265,
+   "inside_bone_by_bone": {
+    "spine": 0.265
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 149,
+   "inside_bone_deeper_than_bound": 81,
+   "inside_bone_frac_after_push": 0.0933,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_l4",
+      "share": 0.26,
+      "fit_residual_mm": 1.69
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.218,
+      "fit_residual_mm": 1.95
+     },
+     {
+      "piece": "zan_vertebra_l3",
+      "share": 0.209,
+      "fit_residual_mm": 1.76
+     },
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.158,
+      "fit_residual_mm": 2.26
+     },
+     {
+      "piece": "zan_vertebra_l5",
+      "share": 0.121,
+      "fit_residual_mm": 1.74
+     },
+     {
+      "piece": "zan_vertebra_t12",
+      "share": 0.024,
+      "fit_residual_mm": 2.52
+     }
+    ],
+    "weighted_median_fit_mm": 1.76,
+    "max_fit_mm": 3.8
+   },
+   "carrier_local": {
+    "n": 2544,
+    "median_mm": 3.11,
+    "p90_mm": 7.69
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.96,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0933,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 46.6,
+    "median": 65.2
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 8.19,
+   "volume_transferred_before_fix_cm3": 8.52,
+   "volume_cm3": 8.42,
+   "volume_ratio_vs_zanatomy": 1.029,
+   "volume_kept_after_fix": 0.988,
+   "dropped": "9.3% of vertices still inside her bone after the bounded push-out (> 5%; 26.5% before)"
+  },
+  "rotatores_r": {
+   "atlas_id": "rotatores_r",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Rotatores.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "rotatores_r"
+   ],
+   "partial": null,
+   "vertices": 3254,
+   "triangles": 6518,
+   "inside_bone_frac_before": 0.1908,
+   "inside_bone_by_bone": {
+    "spine": 0.1908
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 513,
+   "inside_bone_deeper_than_bound": 108,
+   "inside_bone_frac_after_push": 0.0338,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "sacrum",
+      "share": 0.093,
+      "fit_residual_mm": 1.9164
+     },
+     {
+      "piece": "zan_vertebra_t4",
+      "share": 0.066,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_t7",
+      "share": 0.062,
+      "fit_residual_mm": 1.07
+     },
+     {
+      "piece": "zan_vertebra_t6",
+      "share": 0.059,
+      "fit_residual_mm": 1.08
+     },
+     {
+      "piece": "zan_vertebra_t9",
+      "share": 0.053,
+      "fit_residual_mm": 1.17
+     },
+     {
+      "piece": "zan_vertebra_c7",
+      "share": 0.053,
+      "fit_residual_mm": 1.47
+     }
+    ],
+    "weighted_median_fit_mm": 1.4,
+    "max_fit_mm": 2.52
+   },
+   "carrier_local": {
+    "n": 9995,
+    "median_mm": 2.72,
+    "p90_mm": 5.77
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.63,
+    "max": 6.47
+   },
+   "inside_bone_frac_after": 0.0338,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 15.6,
+    "median": 42.9
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 40.57,
+   "volume_transferred_before_fix_cm3": 34.86,
+   "volume_cm3": 32.31,
+   "volume_ratio_vs_zanatomy": 0.796,
+   "volume_kept_after_fix": 0.927,
+   "overlap_her_structures": {
+    "multifidus_r": 0.4388,
+    "spinalis_r": 0.1162,
+    "longissimus_r": 0.0685,
+    "semispinalis_cervicis_r": 0.0249,
+    "semispinalis_capitis_r": 0.0058,
+    "diaphragm": 0.0003
+   },
+   "overlap_new_muscles": {
+    "semispinalis_thoracis_r": 0.0277,
+    "semispinalis_thoracis_l": 0.0006
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "semispinalis_thoracis_r": 0.0252,
+    "semispinalis_thoracis_l": 0.0006
+   },
+   "overlap_her_total": 0.6545,
+   "overlap_new_total": 0.0283,
+   "overlap_new_total_source": 0.0258,
+   "overlap_frac_total": 0.657,
+   "dropped": "65.7% of vertices inside other muscles/organs (> 10%; her structures 65.5%, new muscles 2.8% vs 2.6% in Z-Anatomy itself; mostly multifidus_r)"
+  },
+  "rotatores_l": {
+   "atlas_id": "rotatores_l",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Rotatores.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "rotatores_l"
+   ],
+   "partial": null,
+   "vertices": 3254,
+   "triangles": 6518,
+   "inside_bone_frac_before": 0.189,
+   "inside_bone_by_bone": {
+    "spine": 0.189
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 507,
+   "inside_bone_deeper_than_bound": 108,
+   "inside_bone_frac_after_push": 0.0332,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "sacrum",
+      "share": 0.093,
+      "fit_residual_mm": 1.9164
+     },
+     {
+      "piece": "zan_vertebra_t4",
+      "share": 0.065,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_t6",
+      "share": 0.061,
+      "fit_residual_mm": 1.08
+     },
+     {
+      "piece": "zan_vertebra_t7",
+      "share": 0.058,
+      "fit_residual_mm": 1.07
+     },
+     {
+      "piece": "zan_vertebra_c7",
+      "share": 0.056,
+      "fit_residual_mm": 1.47
+     },
+     {
+      "piece": "zan_vertebra_t9",
+      "share": 0.052,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.4,
+    "max_fit_mm": 2.52
+   },
+   "carrier_local": {
+    "n": 10098,
+    "median_mm": 2.76,
+    "p90_mm": 6.37
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.61,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0332,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 16.8,
+    "median": 43.8
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 40.57,
+   "volume_transferred_before_fix_cm3": 34.92,
+   "volume_cm3": 32.98,
+   "volume_ratio_vs_zanatomy": 0.813,
+   "volume_kept_after_fix": 0.944,
+   "overlap_her_structures": {
+    "multifidus_l": 0.4247,
+    "spinalis_l": 0.1644,
+    "semispinalis_cervicis_l": 0.0356,
+    "longissimus_l": 0.0298,
+    "subscapularis_l": 0.0015
+   },
+   "overlap_new_muscles": {
+    "semispinalis_thoracis_l": 0.0286,
+    "semispinalis_thoracis_r": 0.0006
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "semispinalis_thoracis_l": 0.0252,
+    "semispinalis_thoracis_r": 0.0006
+   },
+   "overlap_her_total": 0.656,
+   "overlap_new_total": 0.0292,
+   "overlap_new_total_source": 0.0258,
+   "overlap_frac_total": 0.6594,
+   "dropped": "65.9% of vertices inside other muscles/organs (> 10%; her structures 65.6%, new muscles 2.9% vs 2.6% in Z-Anatomy itself; mostly multifidus_l)"
+  },
+  "semispinalis_thoracis_r": {
+   "atlas_id": "semispinalis_thoracis_r",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Semispinalis thoracis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "semispinalis_thoracis_r"
+   ],
+   "partial": null,
+   "vertices": 2475,
+   "triangles": 4972,
+   "inside_bone_frac_before": 0.1733,
+   "inside_bone_by_bone": {
+    "spine": 0.1733
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 388,
+   "inside_bone_deeper_than_bound": 41,
+   "inside_bone_frac_after_push": 0.0166,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t6",
+      "share": 0.187,
+      "fit_residual_mm": 1.08
+     },
+     {
+      "piece": "zan_vertebra_t7",
+      "share": 0.128,
+      "fit_residual_mm": 1.07
+     },
+     {
+      "piece": "zan_vertebra_t5",
+      "share": 0.112,
+      "fit_residual_mm": 1.1
+     },
+     {
+      "piece": "zan_vertebra_t4",
+      "share": 0.103,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_t8",
+      "share": 0.093,
+      "fit_residual_mm": 1.23
+     },
+     {
+      "piece": "zan_vertebra_t9",
+      "share": 0.074,
+      "fit_residual_mm": 1.17
+     }
+    ],
+    "weighted_median_fit_mm": 1.17,
+    "max_fit_mm": 5.68
+   },
+   "carrier_local": {
+    "n": 2544,
+    "median_mm": 2.84,
+    "p90_mm": 7.23
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.43,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0166,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 25.4,
+    "median": 39.9
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 16.3,
+   "volume_transferred_before_fix_cm3": 11.04,
+   "volume_cm3": 10.8,
+   "volume_ratio_vs_zanatomy": 0.662,
+   "volume_kept_after_fix": 0.978,
+   "overlap_her_structures": {
+    "multifidus_r": 0.4784,
+    "longissimus_r": 0.1859,
+    "spinalis_r": 0.0792
+   },
+   "overlap_new_muscles": {
+    "rotatores_r": 0.0574,
+    "semispinalis_thoracis_l": 0.0016
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "rotatores_r": 0.0493,
+    "semispinalis_thoracis_l": 0.0016
+   },
+   "overlap_her_total": 0.7435,
+   "overlap_new_total": 0.059,
+   "overlap_new_total_source": 0.0509,
+   "overlap_frac_total": 0.7516,
+   "dropped": "75.2% of vertices inside other muscles/organs (> 10%; her structures 74.4%, new muscles 5.9% vs 5.1% in Z-Anatomy itself; mostly multifidus_r)"
+  },
+  "semispinalis_thoracis_l": {
+   "atlas_id": "semispinalis_thoracis_l",
+   "group": "deep_back",
+   "zanatomy_objects": [
+    "Semispinalis thoracis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "semispinalis_thoracis_l"
+   ],
+   "partial": null,
+   "vertices": 2475,
+   "triangles": 4972,
+   "inside_bone_frac_before": 0.1717,
+   "inside_bone_by_bone": {
+    "spine": 0.1717
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 364,
+   "inside_bone_deeper_than_bound": 61,
+   "inside_bone_frac_after_push": 0.0246,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_vertebra_t6",
+      "share": 0.193,
+      "fit_residual_mm": 1.08
+     },
+     {
+      "piece": "zan_vertebra_t7",
+      "share": 0.119,
+      "fit_residual_mm": 1.07
+     },
+     {
+      "piece": "zan_vertebra_t5",
+      "share": 0.114,
+      "fit_residual_mm": 1.1
+     },
+     {
+      "piece": "zan_vertebra_t4",
+      "share": 0.1,
+      "fit_residual_mm": 1.18
+     },
+     {
+      "piece": "zan_vertebra_t8",
+      "share": 0.096,
+      "fit_residual_mm": 1.23
+     },
+     {
+      "piece": "zan_vertebra_t3",
+      "share": 0.075,
+      "fit_residual_mm": 0.98
+     }
+    ],
+    "weighted_median_fit_mm": 1.1,
+    "max_fit_mm": 4.97
+   },
+   "carrier_local": {
+    "n": 2628,
+    "median_mm": 2.88,
+    "p90_mm": 7.61
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.51,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0246,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 24.1,
+    "median": 36.9
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 16.3,
+   "volume_transferred_before_fix_cm3": 11.06,
+   "volume_cm3": 10.8,
+   "volume_ratio_vs_zanatomy": 0.663,
+   "volume_kept_after_fix": 0.977,
+   "overlap_her_structures": {
+    "multifidus_l": 0.484,
+    "spinalis_l": 0.141,
+    "longissimus_l": 0.101,
+    "diaphragm": 0.0016
+   },
+   "overlap_new_muscles": {
+    "rotatores_l": 0.0554,
+    "semispinalis_thoracis_r": 0.0012
+   },
+   "overlap_new_muscles_in_zanatomy_source": {
+    "rotatores_l": 0.0493,
+    "semispinalis_thoracis_r": 0.0016
+   },
+   "overlap_her_total": 0.7276,
+   "overlap_new_total": 0.0566,
+   "overlap_new_total_source": 0.0509,
+   "overlap_frac_total": 0.7333,
+   "dropped": "73.3% of vertices inside other muscles/organs (> 10%; her structures 72.8%, new muscles 5.7% vs 5.1% in Z-Anatomy itself; mostly multifidus_l)"
+  },
+  "levatores_costarum_r": {
+   "atlas_id": "levatores_costarum_r",
+   "group": "posterior_thoracic_wall",
+   "zanatomy_objects": [
+    "Levatores longi costarum.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "levatores_costarum_r"
+   ],
+   "partial": null,
+   "vertices": 4353,
+   "triangles": 8617,
+   "inside_bone_frac_before": 0.0795,
+   "inside_bone_by_bone": {
+    "spine": 0.0103,
+    "ribs_r": 0.0691
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 335,
+   "inside_bone_deeper_than_bound": 11,
+   "inside_bone_frac_after_push": 0.0025,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_eighth_rib_r",
+      "share": 0.094,
+      "fit_residual_mm": 5.36
+     },
+     {
+      "piece": "zan_eleventh_rib_r",
+      "share": 0.089,
+      "fit_residual_mm": 3.5
+     },
+     {
+      "piece": "zan_third_rib_r",
+      "share": 0.077,
+      "fit_residual_mm": 4.58
+     },
+     {
+      "piece": "zan_seventh_rib_r",
+      "share": 0.077,
+      "fit_residual_mm": 5.68
+     },
+     {
+      "piece": "zan_sixth_rib_r",
+      "share": 0.075,
+      "fit_residual_mm": 5.87
+     },
+     {
+      "piece": "zan_ninth_rib_r",
+      "share": 0.073,
+      "fit_residual_mm": 4.29
+     }
+    ],
+    "weighted_median_fit_mm": 4.29,
+    "max_fit_mm": 5.96
+   },
+   "carrier_local": {
+    "n": 3113,
+    "median_mm": 6.56,
+    "p90_mm": 13.32
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.5,
+    "max": 3.89
+   },
+   "inside_bone_frac_after": 0.0025,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0356,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.213,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.213,
+   "depth_under_skin_mm": {
+    "min": 31.2,
+    "median": 43.0
+   },
+   "volume_method": "open mesh: voxel fill at 0.5 mm",
+   "volume_zanatomy_cm3": 20.15,
+   "volume_transferred_before_fix_cm3": 19.58,
+   "volume_cm3": 20.44,
+   "volume_ratio_vs_zanatomy": 1.014,
+   "volume_kept_after_fix": 1.044,
+   "dropped": "bone around it fits her CT at 6.56 mm median (> 3.0 mm)"
+  },
+  "levatores_costarum_l": {
+   "atlas_id": "levatores_costarum_l",
+   "group": "posterior_thoracic_wall",
+   "zanatomy_objects": [
+    "Levatores longi costarum.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "levatores_costarum_l"
+   ],
+   "partial": null,
+   "vertices": 4353,
+   "triangles": 8617,
+   "inside_bone_frac_before": 0.0976,
+   "inside_bone_by_bone": {
+    "spine": 0.0087,
+    "ribs_l": 0.0889
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 404,
+   "inside_bone_deeper_than_bound": 21,
+   "inside_bone_frac_after_push": 0.0048,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_eighth_rib_l",
+      "share": 0.095,
+      "fit_residual_mm": 5.96
+     },
+     {
+      "piece": "zan_eleventh_rib_l",
+      "share": 0.09,
+      "fit_residual_mm": 4.02
+     },
+     {
+      "piece": "zan_third_rib_l",
+      "share": 0.077,
+      "fit_residual_mm": 3.89
+     },
+     {
+      "piece": "zan_seventh_rib_l",
+      "share": 0.077,
+      "fit_residual_mm": 4.97
+     },
+     {
+      "piece": "zan_sixth_rib_l",
+      "share": 0.075,
+      "fit_residual_mm": 6.19
+     },
+     {
+      "piece": "zan_ninth_rib_l",
+      "share": 0.074,
+      "fit_residual_mm": 4.11
+     }
+    ],
+    "weighted_median_fit_mm": 4.02,
+    "max_fit_mm": 6.19
+   },
+   "carrier_local": {
+    "n": 3325,
+    "median_mm": 6.48,
+    "p90_mm": 12.46
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.05,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0048,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0368,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.2306,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.2306,
+   "depth_under_skin_mm": {
+    "min": 28.5,
+    "median": 41.3
+   },
+   "volume_method": "open mesh: voxel fill at 0.5 mm",
+   "volume_zanatomy_cm3": 21.14,
+   "volume_transferred_before_fix_cm3": 17.91,
+   "volume_cm3": 20.9,
+   "volume_ratio_vs_zanatomy": 0.989,
+   "volume_kept_after_fix": 1.167,
+   "dropped": "bone around it fits her CT at 6.48 mm median (> 3.0 mm)"
+  },
+  "serratus_posterior_superior_r": {
+   "atlas_id": "serratus_posterior_superior_r",
+   "group": "posterior_thoracic_wall",
+   "zanatomy_objects": [
+    "Serratus posterior superior muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "serratus_posterior_superior_r"
+   ],
+   "partial": null,
+   "vertices": 2759,
+   "triangles": 5518,
+   "inside_bone_frac_before": 0.0678,
+   "inside_bone_by_bone": {
+    "spine": 0.0076,
+    "ribs_r": 0.0602
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 184,
+   "inside_bone_deeper_than_bound": 3,
+   "inside_bone_frac_after_push": 0.0011,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "scapula_r",
+      "share": 0.146,
+      "fit_residual_mm": 1.9475
+     },
+     {
+      "piece": "zan_fourth_rib_r",
+      "share": 0.129,
+      "fit_residual_mm": 5.96
+     },
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.127,
+      "fit_residual_mm": 1.31
+     },
+     {
+      "piece": "zan_third_rib_r",
+      "share": 0.125,
+      "fit_residual_mm": 4.58
+     },
+     {
+      "piece": "zan_vertebra_t1",
+      "share": 0.108,
+      "fit_residual_mm": 1.4
+     },
+     {
+      "piece": "zan_vertebra_c7",
+      "share": 0.107,
+      "fit_residual_mm": 1.47
+     }
+    ],
+    "weighted_median_fit_mm": 1.95,
+    "max_fit_mm": 5.96
+   },
+   "carrier_local": {
+    "n": 1710,
+    "median_mm": 7.06,
+    "p90_mm": 18.31
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.46,
+    "max": 3.93
+   },
+   "inside_bone_frac_after": 0.0011,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.1504,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.1504,
+   "depth_under_skin_mm": {
+    "min": 37.1,
+    "median": 63.0
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 21.88,
+   "volume_transferred_before_fix_cm3": 27.78,
+   "volume_cm3": 27.62,
+   "volume_ratio_vs_zanatomy": 1.263,
+   "volume_kept_after_fix": 0.994,
+   "dropped": "bone around it fits her CT at 7.06 mm median (> 3.0 mm)"
+  },
+  "serratus_posterior_superior_l": {
+   "atlas_id": "serratus_posterior_superior_l",
+   "group": "posterior_thoracic_wall",
+   "zanatomy_objects": [
+    "Serratus posterior superior muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "serratus_posterior_superior_l"
+   ],
+   "partial": null,
+   "vertices": 2759,
+   "triangles": 5518,
+   "inside_bone_frac_before": 0.05,
+   "inside_bone_by_bone": {
+    "spine": 0.0069,
+    "ribs_l": 0.0431
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 138,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "scapula_l",
+      "share": 0.148,
+      "fit_residual_mm": 2.2252
+     },
+     {
+      "piece": "zan_fourth_rib_l",
+      "share": 0.129,
+      "fit_residual_mm": 3.93
+     },
+     {
+      "piece": "zan_third_rib_l",
+      "share": 0.127,
+      "fit_residual_mm": 3.89
+     },
+     {
+      "piece": "zan_vertebra_t2",
+      "share": 0.124,
+      "fit_residual_mm": 1.31
+     },
+     {
+      "piece": "zan_vertebra_t1",
+      "share": 0.111,
+      "fit_residual_mm": 1.4
+     },
+     {
+      "piece": "zan_vertebra_c7",
+      "share": 0.106,
+      "fit_residual_mm": 1.47
+     }
+    ],
+    "weighted_median_fit_mm": 2.23,
+    "max_fit_mm": 5.45
+   },
+   "carrier_local": {
+    "n": 1667,
+    "median_mm": 6.59,
+    "p90_mm": 16.22
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.1,
+    "max": 3.48
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.116,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.116,
+   "depth_under_skin_mm": {
+    "min": 37.0,
+    "median": 56.3
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 21.88,
+   "volume_transferred_before_fix_cm3": 23.15,
+   "volume_cm3": 23.36,
+   "volume_ratio_vs_zanatomy": 1.068,
+   "volume_kept_after_fix": 1.009,
+   "dropped": "bone around it fits her CT at 6.59 mm median (> 3.0 mm)"
+  },
+  "serratus_posterior_inferior_r": {
+   "atlas_id": "serratus_posterior_inferior_r",
+   "group": "posterior_thoracic_wall",
+   "zanatomy_objects": [
+    "Serratus posterior inferior muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "serratus_posterior_inferior_r"
+   ],
+   "partial": null,
+   "vertices": 4471,
+   "triangles": 8958,
+   "inside_bone_frac_before": 0.085,
+   "inside_bone_by_bone": {
+    "spine": 0.0702,
+    "ribs_r": 0.0148
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 345,
+   "inside_bone_deeper_than_bound": 35,
+   "inside_bone_frac_after_push": 0.0078,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_twelfth_rib_r",
+      "share": 0.222,
+      "fit_residual_mm": 3.78
+     },
+     {
+      "piece": "zan_eleventh_rib_r",
+      "share": 0.182,
+      "fit_residual_mm": 3.5
+     },
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.127,
+      "fit_residual_mm": 2.26
+     },
+     {
+      "piece": "zan_tenth_rib_r",
+      "share": 0.118,
+      "fit_residual_mm": 3.37
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.108,
+      "fit_residual_mm": 1.95
+     },
+     {
+      "piece": "zan_vertebra_t12",
+      "share": 0.097,
+      "fit_residual_mm": 2.52
+     }
+    ],
+    "weighted_median_fit_mm": 3.37,
+    "max_fit_mm": 4.29
+   },
+   "carrier_local": {
+    "n": 1091,
+    "median_mm": 9.07,
+    "p90_mm": 17.24
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.93,
+    "max": 3.97
+   },
+   "inside_bone_frac_after": 0.0078,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.1856,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 6.9,
+    "median": 25.5
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 65.44,
+   "volume_transferred_before_fix_cm3": 60.01,
+   "volume_cm3": 60.09,
+   "volume_ratio_vs_zanatomy": 0.918,
+   "volume_kept_after_fix": 1.001,
+   "dropped": "bone around it fits her CT at 9.07 mm median (> 3.0 mm)"
+  },
+  "serratus_posterior_inferior_l": {
+   "atlas_id": "serratus_posterior_inferior_l",
+   "group": "posterior_thoracic_wall",
+   "zanatomy_objects": [
+    "Serratus posterior inferior muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "serratus_posterior_inferior_l"
+   ],
+   "partial": null,
+   "vertices": 4471,
+   "triangles": 8958,
+   "inside_bone_frac_before": 0.0919,
+   "inside_bone_by_bone": {
+    "spine": 0.0606,
+    "ribs_l": 0.0313
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 382,
+   "inside_bone_deeper_than_bound": 29,
+   "inside_bone_frac_after_push": 0.0065,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_twelfth_rib_l",
+      "share": 0.223,
+      "fit_residual_mm": 3.8
+     },
+     {
+      "piece": "zan_eleventh_rib_l",
+      "share": 0.183,
+      "fit_residual_mm": 4.02
+     },
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.127,
+      "fit_residual_mm": 2.26
+     },
+     {
+      "piece": "zan_tenth_rib_l",
+      "share": 0.117,
+      "fit_residual_mm": 4.45
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.108,
+      "fit_residual_mm": 1.95
+     },
+     {
+      "piece": "zan_vertebra_t12",
+      "share": 0.097,
+      "fit_residual_mm": 2.52
+     }
+    ],
+    "weighted_median_fit_mm": 3.8,
+    "max_fit_mm": 4.45
+   },
+   "carrier_local": {
+    "n": 1048,
+    "median_mm": 6.01,
+    "p90_mm": 15.1
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.9,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0065,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.096,
+    "kidneys": 0.0,
+    "stomach": 0.0195,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0083,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0083,
+   "depth_under_skin_mm": {
+    "min": 12.3,
+    "median": 27.3
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 65.44,
+   "volume_transferred_before_fix_cm3": 69.47,
+   "volume_cm3": 69.72,
+   "volume_ratio_vs_zanatomy": 1.065,
+   "volume_kept_after_fix": 1.004,
+   "dropped": "bone around it fits her CT at 6.01 mm median (> 3.0 mm)"
+  },
+  "internal_intercostals_r": {
+   "atlas_id": "internal_intercostals_r",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Internal intercostal muscles"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_internal_intercostal_muscles_r"
+   ],
+   "partial": null,
+   "vertices": 20049,
+   "triangles": 40183,
+   "inside_bone_frac_before": 0.0313,
+   "inside_bone_by_bone": {
+    "ribs_r": 0.0127,
+    "sternum": 0.0186
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 462,
+   "inside_bone_deeper_than_bound": 165,
+   "inside_bone_frac_after_push": 0.0082,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_sixth_rib_r",
+      "share": 0.133,
+      "fit_residual_mm": 5.87
+     },
+     {
+      "piece": "zan_seventh_rib_r",
+      "share": 0.127,
+      "fit_residual_mm": 5.68
+     },
+     {
+      "piece": "zan_fifth_rib_r",
+      "share": 0.126,
+      "fit_residual_mm": 5.36
+     },
+     {
+      "piece": "zan_eighth_rib_r",
+      "share": 0.105,
+      "fit_residual_mm": 5.36
+     },
+     {
+      "piece": "zan_ninth_rib_r",
+      "share": 0.105,
+      "fit_residual_mm": 4.29
+     },
+     {
+      "piece": "zan_fourth_rib_r",
+      "share": 0.105,
+      "fit_residual_mm": 5.96
+     }
+    ],
+    "weighted_median_fit_mm": 5.36,
+    "max_fit_mm": 5.96
+   },
+   "carrier_local": {
+    "n": 5972,
+    "median_mm": 10.5,
+    "p90_mm": 19.6
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0082,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.3393,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.242,
+    "costal_cartilage": 0.064
+   },
+   "inside_lung_frac": 0.242,
+   "depth_under_skin_mm": {
+    "min": 11.7,
+    "median": 50.6
+   },
+   "volume_method": "open mesh: voxel fill at 0.5 mm",
+   "volume_zanatomy_cm3": 62.49,
+   "volume_transferred_before_fix_cm3": 85.8,
+   "volume_cm3": 85.31,
+   "volume_ratio_vs_zanatomy": 1.365,
+   "volume_kept_after_fix": 0.994,
+   "dropped": "bone around it fits her CT at 10.5 mm median (> 3.0 mm)"
+  },
+  "internal_intercostals_l": {
+   "atlas_id": "internal_intercostals_l",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Internal intercostal muscles"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_internal_intercostal_muscles_l"
+   ],
+   "partial": null,
+   "vertices": 20049,
+   "triangles": 40183,
+   "inside_bone_frac_before": 0.0057,
+   "inside_bone_by_bone": {
+    "ribs_l": 0.0055,
+    "sternum": 0.0002
+   },
+   "outside_skin_frac_before": 0.0023,
+   "outside_skin_depth_mm": {
+    "p95": 3.4,
+    "max": 3.65
+   },
+   "pushed_off_bone": 108,
+   "inside_bone_deeper_than_bound": 6,
+   "inside_bone_frac_after_push": 0.0003,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_sixth_rib_l",
+      "share": 0.132,
+      "fit_residual_mm": 6.19
+     },
+     {
+      "piece": "zan_seventh_rib_l",
+      "share": 0.128,
+      "fit_residual_mm": 4.97
+     },
+     {
+      "piece": "zan_fifth_rib_l",
+      "share": 0.126,
+      "fit_residual_mm": 5.45
+     },
+     {
+      "piece": "zan_fourth_rib_l",
+      "share": 0.105,
+      "fit_residual_mm": 3.93
+     },
+     {
+      "piece": "zan_eighth_rib_l",
+      "share": 0.105,
+      "fit_residual_mm": 5.96
+     },
+     {
+      "piece": "zan_ninth_rib_l",
+      "share": 0.105,
+      "fit_residual_mm": 4.11
+     }
+    ],
+    "weighted_median_fit_mm": 4.45,
+    "max_fit_mm": 6.19
+   },
+   "carrier_local": {
+    "n": 5742,
+    "median_mm": 10.24,
+    "p90_mm": 19.47
+   },
+   "clipped_to_skin": 47,
+   "skin_moved_frac": 0.0023,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 4.15
+   },
+   "inside_bone_frac_after": 0.0003,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0066,
+    "liver": 0.0,
+    "spleen": 0.1217,
+    "kidneys": 0.0,
+    "stomach": 0.0549,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.3516,
+    "costal_cartilage": 0.0308
+   },
+   "inside_lung_frac": 0.3516,
+   "depth_under_skin_mm": {
+    "min": 0.2,
+    "median": 50.4
+   },
+   "volume_method": "open mesh: voxel fill at 0.5 mm",
+   "volume_zanatomy_cm3": 58.2,
+   "volume_transferred_before_fix_cm3": 64.97,
+   "volume_cm3": 63.51,
+   "volume_ratio_vs_zanatomy": 1.091,
+   "volume_kept_after_fix": 0.978,
+   "dropped": "bone around it fits her CT at 10.24 mm median (> 3.0 mm)"
+  },
+  "innermost_intercostals_r": {
+   "atlas_id": "innermost_intercostals_r",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Innermost intercostal muscles"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_innermost_intercostal_muscles_r"
+   ],
+   "partial": null,
+   "vertices": 19091,
+   "triangles": 38254,
+   "inside_bone_frac_before": 0.014,
+   "inside_bone_by_bone": {
+    "ribs_r": 0.014
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 267,
+   "inside_bone_deeper_than_bound": 1,
+   "inside_bone_frac_after_push": 0.0001,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_seventh_rib_r",
+      "share": 0.148,
+      "fit_residual_mm": 5.68
+     },
+     {
+      "piece": "zan_sixth_rib_r",
+      "share": 0.146,
+      "fit_residual_mm": 5.87
+     },
+     {
+      "piece": "zan_eighth_rib_r",
+      "share": 0.144,
+      "fit_residual_mm": 5.36
+     },
+     {
+      "piece": "zan_ninth_rib_r",
+      "share": 0.115,
+      "fit_residual_mm": 4.29
+     },
+     {
+      "piece": "zan_fifth_rib_r",
+      "share": 0.113,
+      "fit_residual_mm": 5.36
+     },
+     {
+      "piece": "zan_fourth_rib_r",
+      "share": 0.103,
+      "fit_residual_mm": 5.96
+     }
+    ],
+    "weighted_median_fit_mm": 5.36,
+    "max_fit_mm": 5.96
+   },
+   "carrier_local": {
+    "n": 4412,
+    "median_mm": 12.82,
+    "p90_mm": 21.05
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 3.83
+   },
+   "inside_bone_frac_after": 0.0001,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.3969,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.3301,
+    "costal_cartilage": 0.0416
+   },
+   "inside_lung_frac": 0.3301,
+   "depth_under_skin_mm": {
+    "min": 15.7,
+    "median": 57.7
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 71.69,
+   "volume_transferred_before_fix_cm3": 50.27,
+   "volume_cm3": 50.25,
+   "volume_ratio_vs_zanatomy": 0.701,
+   "volume_kept_after_fix": 1.0,
+   "dropped": "bone around it fits her CT at 12.82 mm median (> 3.0 mm)"
+  },
+  "innermost_intercostals_l": {
+   "atlas_id": "innermost_intercostals_l",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Innermost intercostal muscles"
+   ],
+   "zanatomy_mesh_ids": [
+    "zan_innermost_intercostal_muscles_l"
+   ],
+   "partial": null,
+   "vertices": 19091,
+   "triangles": 38254,
+   "inside_bone_frac_before": 0.0045,
+   "inside_bone_by_bone": {
+    "ribs_l": 0.0045
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 78,
+   "inside_bone_deeper_than_bound": 8,
+   "inside_bone_frac_after_push": 0.0004,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_seventh_rib_l",
+      "share": 0.148,
+      "fit_residual_mm": 4.97
+     },
+     {
+      "piece": "zan_sixth_rib_l",
+      "share": 0.146,
+      "fit_residual_mm": 6.19
+     },
+     {
+      "piece": "zan_eighth_rib_l",
+      "share": 0.144,
+      "fit_residual_mm": 5.96
+     },
+     {
+      "piece": "zan_ninth_rib_l",
+      "share": 0.115,
+      "fit_residual_mm": 4.11
+     },
+     {
+      "piece": "zan_fifth_rib_l",
+      "share": 0.111,
+      "fit_residual_mm": 5.45
+     },
+     {
+      "piece": "zan_fourth_rib_l",
+      "share": 0.104,
+      "fit_residual_mm": 3.93
+     }
+    ],
+    "weighted_median_fit_mm": 4.97,
+    "max_fit_mm": 6.19
+   },
+   "carrier_local": {
+    "n": 4149,
+    "median_mm": 12.35,
+    "p90_mm": 24.34
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 3.96
+   },
+   "inside_bone_frac_after": 0.0004,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0253,
+    "liver": 0.0001,
+    "spleen": 0.0738,
+    "kidneys": 0.0,
+    "stomach": 0.1076,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.4349,
+    "costal_cartilage": 0.0161
+   },
+   "inside_lung_frac": 0.4349,
+   "depth_under_skin_mm": {
+    "min": 9.5,
+    "median": 59.5
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 71.69,
+   "volume_transferred_before_fix_cm3": 48.51,
+   "volume_cm3": 48.71,
+   "volume_ratio_vs_zanatomy": 0.679,
+   "volume_kept_after_fix": 1.004,
+   "dropped": "bone around it fits her CT at 12.35 mm median (> 3.0 mm)"
+  },
+  "transversus_thoracis_r": {
+   "atlas_id": "transversus_thoracis_r",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Transversus thoracis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "transversus_thoracis_r"
+   ],
+   "partial": null,
+   "vertices": 820,
+   "triangles": 1670,
+   "inside_bone_frac_before": 0.122,
+   "inside_bone_by_bone": {
+    "sternum": 0.122
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 100,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "sternum",
+      "share": 0.637,
+      "fit_residual_mm": 1.6821
+     },
+     {
+      "piece": "zan_fifth_rib_r",
+      "share": 0.091,
+      "fit_residual_mm": 5.36
+     },
+     {
+      "piece": "zan_second_rib_r",
+      "share": 0.08,
+      "fit_residual_mm": 4.09
+     },
+     {
+      "piece": "zan_third_rib_r",
+      "share": 0.078,
+      "fit_residual_mm": 4.58
+     },
+     {
+      "piece": "zan_fourth_rib_r",
+      "share": 0.06,
+      "fit_residual_mm": 5.96
+     },
+     {
+      "piece": "zan_sixth_rib_r",
+      "share": 0.054,
+      "fit_residual_mm": 5.87
+     }
+    ],
+    "weighted_median_fit_mm": 1.68,
+    "max_fit_mm": 5.96
+   },
+   "carrier_local": {
+    "n": 1284,
+    "median_mm": 2.27,
+    "p90_mm": 15.82
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.74,
+    "max": 3.48
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0561,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.039,
+    "costal_cartilage": 0.1988
+   },
+   "inside_lung_frac": 0.039,
+   "depth_under_skin_mm": {
+    "min": 31.0,
+    "median": 44.0
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 11.16,
+   "volume_transferred_before_fix_cm3": 2.97,
+   "volume_cm3": 2.99,
+   "volume_ratio_vs_zanatomy": 0.268,
+   "volume_kept_after_fix": 1.005,
+   "dropped": "group chest_wall: carrier median 10.52 mm > 3.0 mm"
+  },
+  "transversus_thoracis_l": {
+   "atlas_id": "transversus_thoracis_l",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Transversus thoracis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "transversus_thoracis_l"
+   ],
+   "partial": null,
+   "vertices": 820,
+   "triangles": 1670,
+   "inside_bone_frac_before": 0.0524,
+   "inside_bone_by_bone": {
+    "sternum": 0.0524
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 43,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "sternum",
+      "share": 0.637,
+      "fit_residual_mm": 1.6821
+     },
+     {
+      "piece": "zan_fifth_rib_l",
+      "share": 0.091,
+      "fit_residual_mm": 5.45
+     },
+     {
+      "piece": "zan_second_rib_l",
+      "share": 0.08,
+      "fit_residual_mm": 3.22
+     },
+     {
+      "piece": "zan_third_rib_l",
+      "share": 0.078,
+      "fit_residual_mm": 3.89
+     },
+     {
+      "piece": "zan_fourth_rib_l",
+      "share": 0.06,
+      "fit_residual_mm": 3.93
+     },
+     {
+      "piece": "zan_sixth_rib_l",
+      "share": 0.054,
+      "fit_residual_mm": 6.19
+     }
+    ],
+    "weighted_median_fit_mm": 1.68,
+    "max_fit_mm": 6.19
+   },
+   "carrier_local": {
+    "n": 1287,
+    "median_mm": 2.73,
+    "p90_mm": 23.15
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.02,
+    "max": 3.42
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.1171,
+    "costal_cartilage": 0.1012
+   },
+   "inside_lung_frac": 0.1171,
+   "depth_under_skin_mm": {
+    "min": 14.1,
+    "median": 41.9
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 11.16,
+   "volume_transferred_before_fix_cm3": 3.74,
+   "volume_cm3": 3.72,
+   "volume_ratio_vs_zanatomy": 0.334,
+   "volume_kept_after_fix": 0.995,
+   "dropped": "11.7% of vertices inside her lung (> 5%)"
+  },
+  "subclavius_r": {
+   "atlas_id": "subclavius_r",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Subclavius muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "subclavius_r"
+   ],
+   "partial": null,
+   "vertices": 397,
+   "triangles": 794,
+   "inside_bone_frac_before": 0.1662,
+   "inside_bone_by_bone": {
+    "ribs_r": 0.073,
+    "sternum": 0.0907,
+    "clavicle_r": 0.0025
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 45,
+   "inside_bone_deeper_than_bound": 21,
+   "inside_bone_frac_after_push": 0.0529,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "clavicle_r",
+      "share": 0.476,
+      "fit_residual_mm": 1.3246
+     },
+     {
+      "piece": "zan_first_rib_r",
+      "share": 0.267,
+      "fit_residual_mm": 3.01
+     },
+     {
+      "piece": "sternum",
+      "share": 0.194,
+      "fit_residual_mm": 1.6821
+     },
+     {
+      "piece": "zan_second_rib_r",
+      "share": 0.063,
+      "fit_residual_mm": 4.09
+     }
+    ],
+    "weighted_median_fit_mm": 1.68,
+    "max_fit_mm": 4.09
+   },
+   "carrier_local": {
+    "n": 909,
+    "median_mm": 4.03,
+    "p90_mm": 16.07
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.21,
+    "max": 3.99
+   },
+   "inside_bone_frac_after": 0.0529,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.2469,
+    "costal_cartilage": 0.1033
+   },
+   "inside_lung_frac": 0.2469,
+   "depth_under_skin_mm": {
+    "min": 35.8,
+    "median": 45.6
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 3.28,
+   "volume_transferred_before_fix_cm3": 7.13,
+   "volume_cm3": 7.11,
+   "volume_ratio_vs_zanatomy": 2.171,
+   "volume_kept_after_fix": 0.998,
+   "dropped": "5.3% of vertices still inside her bone after the bounded push-out (> 5%; 16.6% before)"
+  },
+  "subclavius_l": {
+   "atlas_id": "subclavius_l",
+   "group": "chest_wall",
+   "zanatomy_objects": [
+    "Subclavius muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "subclavius_l"
+   ],
+   "partial": null,
+   "vertices": 397,
+   "triangles": 794,
+   "inside_bone_frac_before": 0.1033,
+   "inside_bone_by_bone": {
+    "ribs_l": 0.0403,
+    "sternum": 0.0579,
+    "clavicle_l": 0.005
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 41,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "clavicle_l",
+      "share": 0.481,
+      "fit_residual_mm": 1.2295
+     },
+     {
+      "piece": "zan_first_rib_l",
+      "share": 0.267,
+      "fit_residual_mm": 2.9
+     },
+     {
+      "piece": "sternum",
+      "share": 0.186,
+      "fit_residual_mm": 1.6821
+     },
+     {
+      "piece": "zan_second_rib_l",
+      "share": 0.065,
+      "fit_residual_mm": 3.22
+     }
+    ],
+    "weighted_median_fit_mm": 1.68,
+    "max_fit_mm": 3.22
+   },
+   "carrier_local": {
+    "n": 866,
+    "median_mm": 2.81,
+    "p90_mm": 16.05
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 1.83,
+    "max": 3.2
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.2166,
+    "costal_cartilage": 0.1411
+   },
+   "inside_lung_frac": 0.2166,
+   "depth_under_skin_mm": {
+    "min": 32.4,
+    "median": 39.9
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 3.28,
+   "volume_transferred_before_fix_cm3": 7.49,
+   "volume_cm3": 7.49,
+   "volume_ratio_vs_zanatomy": 2.286,
+   "volume_kept_after_fix": 1.0,
+   "dropped": "21.7% of vertices inside her lung (> 5%)"
+  },
+  "pyramidalis_r": {
+   "atlas_id": "pyramidalis_r",
+   "group": "abdominal_wall",
+   "zanatomy_objects": [
+    "Pyramidalis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "pyramidalis_r"
+   ],
+   "partial": null,
+   "vertices": 554,
+   "triangles": 1112,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hip_bone_r",
+      "share": 1.0,
+      "fit_residual_mm": 2.2557
+     }
+    ],
+    "weighted_median_fit_mm": 2.26,
+    "max_fit_mm": 2.26
+   },
+   "carrier_local": {
+    "n": 85,
+    "median_mm": 7.33,
+    "p90_mm": 10.74
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 42.8,
+    "median": 46.3
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 2.16,
+   "volume_transferred_before_fix_cm3": 2.86,
+   "volume_cm3": 2.86,
+   "volume_ratio_vs_zanatomy": 1.325,
+   "volume_kept_after_fix": 1.0,
+   "dropped": "bone around it fits her CT at 7.33 mm median (> 3.0 mm)"
+  },
+  "pyramidalis_l": {
+   "atlas_id": "pyramidalis_l",
+   "group": "abdominal_wall",
+   "zanatomy_objects": [
+    "Pyramidalis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "pyramidalis_l"
+   ],
+   "partial": null,
+   "vertices": 554,
+   "triangles": 1112,
+   "inside_bone_frac_before": 0.0,
+   "inside_bone_by_bone": {},
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 0,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "hip_bone_l",
+      "share": 1.0,
+      "fit_residual_mm": 2.1679
+     }
+    ],
+    "weighted_median_fit_mm": 2.17,
+    "max_fit_mm": 2.17
+   },
+   "carrier_local": {
+    "n": 85,
+    "median_mm": 7.57,
+    "p90_mm": 11.35
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 42.7,
+    "median": 46.4
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 2.16,
+   "volume_transferred_before_fix_cm3": 2.71,
+   "volume_cm3": 2.71,
+   "volume_ratio_vs_zanatomy": 1.257,
+   "volume_kept_after_fix": 1.0,
+   "dropped": "bone around it fits her CT at 7.57 mm median (> 3.0 mm)"
+  },
+  "fibularis_brevis_r": {
+   "atlas_id": "fibularis_brevis_r",
+   "group": "leg",
+   "zanatomy_objects": [
+    "Fibularis brevis muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "fibularis_brevis_r"
+   ],
+   "partial": null,
+   "vertices": 1723,
+   "triangles": 3446,
+   "inside_bone_frac_before": 0.1579,
+   "inside_bone_by_bone": {
+    "fibula_r": 0.1074,
+    "calcaneus_r": 0.0116,
+    "cuboid_r": 0.0389
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 273,
+   "inside_bone_deeper_than_bound": 2,
+   "inside_bone_frac_after_push": 0.0041,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "fibula_r",
+      "share": 0.757,
+      "fit_residual_mm": 1.5253
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_r",
+      "share": 0.081,
+      "fit_residual_mm": 2.13
+     },
+     {
+      "piece": "calcaneus_r",
+      "share": 0.08,
+      "fit_residual_mm": 2.0956
+     },
+     {
+      "piece": "talus_r",
+      "share": 0.034,
+      "fit_residual_mm": 1.2851
+     },
+     {
+      "piece": "cuboid_r",
+      "share": 0.031,
+      "fit_residual_mm": 1.6968
+     },
+     {
+      "piece": "tibia_r",
+      "share": 0.016,
+      "fit_residual_mm": 2.1555
+     }
+    ],
+    "weighted_median_fit_mm": 1.53,
+    "max_fit_mm": 2.16
+   },
+   "carrier_local": {
+    "n": 809,
+    "median_mm": 1.26,
+    "p90_mm": 4.3
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.01,
+    "max": 3.47
+   },
+   "inside_bone_frac_after": 0.0041,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 4.1,
+    "median": 12.6
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 17.35,
+   "volume_transferred_before_fix_cm3": 15.68,
+   "volume_cm3": 14.93,
+   "volume_ratio_vs_zanatomy": 0.86,
+   "volume_kept_after_fix": 0.952,
+   "overlap_her_structures": {
+    "fibularis_longus_r": 0.4684,
+    "flexor_hallucis_longus_r": 0.1521,
+    "soleus_r": 0.0975,
+    "abductor_digiti_minimi_foot_r": 0.0017,
+    "extensor_digitorum_longus_r": 0.0006
+   },
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0.7203,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.7203,
+   "dropped": "72.0% of vertices inside other muscles/organs (> 10%; her structures 72.0%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_r)"
+  },
+  "fibularis_brevis_l": {
+   "atlas_id": "fibularis_brevis_l",
+   "group": "leg",
+   "zanatomy_objects": [
+    "Fibularis brevis muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "fibularis_brevis_l"
+   ],
+   "partial": null,
+   "vertices": 1723,
+   "triangles": 3446,
+   "inside_bone_frac_before": 0.2229,
+   "inside_bone_by_bone": {
+    "fibula_l": 0.1329,
+    "calcaneus_l": 0.0383,
+    "cuboid_l": 0.0517
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 401,
+   "inside_bone_deeper_than_bound": 3,
+   "inside_bone_frac_after_push": 0.0366,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "fibula_l",
+      "share": 0.757,
+      "fit_residual_mm": 1.3544
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_l",
+      "share": 0.081,
+      "fit_residual_mm": 1.46
+     },
+     {
+      "piece": "calcaneus_l",
+      "share": 0.08,
+      "fit_residual_mm": 2.1093
+     },
+     {
+      "piece": "talus_l",
+      "share": 0.034,
+      "fit_residual_mm": 1.283
+     },
+     {
+      "piece": "cuboid_l",
+      "share": 0.031,
+      "fit_residual_mm": 1.9828
+     },
+     {
+      "piece": "tibia_l",
+      "share": 0.016,
+      "fit_residual_mm": 1.9082
+     }
+    ],
+    "weighted_median_fit_mm": 1.35,
+    "max_fit_mm": 2.11
+   },
+   "carrier_local": {
+    "n": 809,
+    "median_mm": 1.26,
+    "p90_mm": 3.34
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.62,
+    "max": 3.97
+   },
+   "inside_bone_frac_after": 0.0366,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 2.4,
+    "median": 13.1
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 17.35,
+   "volume_transferred_before_fix_cm3": 14.11,
+   "volume_cm3": 12.94,
+   "volume_ratio_vs_zanatomy": 0.746,
+   "volume_kept_after_fix": 0.917,
+   "overlap_her_structures": {
+    "fibularis_longus_l": 0.2809,
+    "soleus_l": 0.2351,
+    "flexor_hallucis_longus_l": 0.1892,
+    "abductor_digiti_minimi_foot_l": 0.0006
+   },
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0.7058,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.7058,
+   "dropped": "70.6% of vertices inside other muscles/organs (> 10%; her structures 70.6%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_l)"
+  },
+  "fibularis_tertius_r": {
+   "atlas_id": "fibularis_tertius_r",
+   "group": "leg",
+   "zanatomy_objects": [
+    "Fibularis tertius muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "fibularis_tertius_r"
+   ],
+   "partial": null,
+   "vertices": 294,
+   "triangles": 586,
+   "inside_bone_frac_before": 0.0136,
+   "inside_bone_by_bone": {
+    "tibia_r": 0.0136
+   },
+   "outside_skin_frac_before": 0.1735,
+   "outside_skin_depth_mm": {
+    "p95": 3.27,
+    "max": 3.63
+   },
+   "pushed_off_bone": 4,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "tibia_r",
+      "share": 0.272,
+      "fit_residual_mm": 2.1555
+     },
+     {
+      "piece": "fibula_r",
+      "share": 0.262,
+      "fit_residual_mm": 1.5253
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_r",
+      "share": 0.252,
+      "fit_residual_mm": 2.13
+     },
+     {
+      "piece": "cuboid_r",
+      "share": 0.102,
+      "fit_residual_mm": 1.6968
+     },
+     {
+      "piece": "cuneiform_lateral_r",
+      "share": 0.082,
+      "fit_residual_mm": 0.8222
+     },
+     {
+      "piece": "navicular_r",
+      "share": 0.024,
+      "fit_residual_mm": 1.3822
+     }
+    ],
+    "weighted_median_fit_mm": 2.13,
+    "max_fit_mm": 2.16
+   },
+   "carrier_local": {
+    "n": 626,
+    "median_mm": 1.11,
+    "p90_mm": 3.51
+   },
+   "clipped_to_skin": 51,
+   "skin_moved_frac": 0.1735,
+   "fix_move_mm": {
+    "p95": 2.63,
+    "max": 4.13
+   },
+   "inside_bone_frac_after": 0.0,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 0.1,
+    "median": 7.1
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 1.28,
+   "volume_transferred_before_fix_cm3": 1.36,
+   "volume_cm3": 1.02,
+   "volume_ratio_vs_zanatomy": 0.799,
+   "volume_kept_after_fix": 0.749,
+   "dropped": "the fixes leave 75% of its transferred volume (< 75%)"
+  },
+  "fibularis_tertius_l": {
+   "atlas_id": "fibularis_tertius_l",
+   "group": "leg",
+   "zanatomy_objects": [
+    "Fibularis tertius muscle.l"
+   ],
+   "zanatomy_mesh_ids": [
+    "fibularis_tertius_l"
+   ],
+   "partial": null,
+   "vertices": 294,
+   "triangles": 586,
+   "inside_bone_frac_before": 0.1565,
+   "inside_bone_by_bone": {
+    "tibia_l": 0.0102,
+    "cuboid_l": 0.051,
+    "metatarsals_l": 0.0952
+   },
+   "outside_skin_frac_before": 0.1429,
+   "outside_skin_depth_mm": {
+    "p95": 2.99,
+    "max": 3.46
+   },
+   "pushed_off_bone": 49,
+   "inside_bone_deeper_than_bound": 0,
+   "inside_bone_frac_after_push": 0.0034,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "tibia_l",
+      "share": 0.272,
+      "fit_residual_mm": 1.9082
+     },
+     {
+      "piece": "fibula_l",
+      "share": 0.262,
+      "fit_residual_mm": 1.3544
+     },
+     {
+      "piece": "zan_fifth_metatarsal_bone_l",
+      "share": 0.252,
+      "fit_residual_mm": 1.46
+     },
+     {
+      "piece": "cuboid_l",
+      "share": 0.102,
+      "fit_residual_mm": 1.9828
+     },
+     {
+      "piece": "cuneiform_lateral_l",
+      "share": 0.082,
+      "fit_residual_mm": 0.97
+     },
+     {
+      "piece": "navicular_l",
+      "share": 0.024,
+      "fit_residual_mm": 1.2086
+     }
+    ],
+    "weighted_median_fit_mm": 1.46,
+    "max_fit_mm": 1.98
+   },
+   "carrier_local": {
+    "n": 626,
+    "median_mm": 1.04,
+    "p90_mm": 3.01
+   },
+   "clipped_to_skin": 42,
+   "skin_moved_frac": 0.1429,
+   "fix_move_mm": {
+    "p95": 2.62,
+    "max": 3.96
+   },
+   "inside_bone_frac_after": 0.0034,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 0.1,
+    "median": 6.8
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 1.28,
+   "volume_transferred_before_fix_cm3": 1.21,
+   "volume_cm3": 0.96,
+   "volume_ratio_vs_zanatomy": 0.751,
+   "volume_kept_after_fix": 0.794,
+   "overlap_her_structures": {
+    "extensor_digitorum_longus_l": 0.1973,
+    "fibularis_longus_l": 0.1429,
+    "extensor_digitorum_brevis_l": 0.0544,
+    "quadratus_plantae_l": 0.0034
+   },
+   "overlap_new_muscles": {},
+   "overlap_new_muscles_in_zanatomy_source": {},
+   "overlap_her_total": 0.398,
+   "overlap_new_total": 0,
+   "overlap_new_total_source": 0,
+   "overlap_frac_total": 0.398,
+   "dropped": "39.8% of vertices inside other muscles/organs (> 10%; her structures 39.8%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly extensor_digitorum_longus_l)"
+  }
+ }
+}

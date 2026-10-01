@@ -298,7 +298,9 @@ fi
 # Q62 step 9: trunk + small lower-limb muscles she had no mesh for (deep back, serratus posterior, chest wall,
 # pyramidalis, fibularis brevis/tertius), Z-Anatomy carried by the Q168 per-bone fits onto her spine/ribs/girdle/pelvis/
 # leg bones, same gates + a lung gate (scripts/transfer/zan_to_vh_trunk_leg.py; data/derived/Q62s9_vhf_trunk_leg.json).
-if [ ! -f build/vh/xfer_zan2vhf_trunk/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+# 2026-10-01: nothing passed on either body (all held: carrier/overlap/lung) -> no subject; reruns only when its
+# report is absent (delete data/derived/Q62s9_vhf_trunk_leg.json to retry).
+if [ ! -f build/vh/xfer_zan2vhf_trunk/manifest.json ] && [ ! -f data/derived/Q62s9_vhf_trunk_leg.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
    && [ -f build/viewer_f_hr/bundle.json ]; then
   python3 scripts/transfer/zan_to_vh_trunk_leg.py --target vhf 2>&1 | grep -v Deprec | tail -2
 fi

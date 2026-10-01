@@ -10329,3 +10329,50 @@ the female's phalanges are under-captured at HU 200.
 - Next: his facial holds are mostly sinus/nasal AIR (his CT shows the air; hers was similar) and bone at the thin-sheet attachments;
   a facial refit against his CT soft tissue would be needed.
 - Main session (2026-10-01): male viewer republished v70 with Q62 step 7b (461 structures, 2.27 M tris); hub v11.
+## Q62 step 9 (2026-10-01) -- TRUNK + small LOWER-LIMB muscle gaps on BOTH bodies (Z-Anatomy, Q168 route) -- NOTHING SHIPPED: 28 HELD per body, 9 not buildable
+- Script `scripts/transfer/zan_to_vh_trunk_leg.py --target vhf|vhm` (shared REGIONS table; reuses foot/head helpers: rides_on,
+  bounded_push_off_bones, pull_inside_skin, ct_bone_meshes, local_carrier_error -- the last two gained default-preserving
+  `spec` / `groups` args, nothing else in zan_to_vhf_head_neck.py changed; step 5/7/7b/Q168 tests pass). Reports
+  data/derived/Q62s9_vhf_trunk_leg.json / Q62s9_vhm_trunk_leg.json (every gate number per muscle). Test
+  tests/test_zan_to_vh_trunk_leg.py (3). Wired in vhf_rebuild_bundle.sh (after xfer_zan2vhf_head) and vhm_rebuild_bundle.sh
+  (last) as xfer_zan2v{f,m}_trunk; runs only when neither subject nor report exists (nothing shipped -> no subject).
+- Scope (data/muscles/{trunk,lower_limb} ids missing from build/viewer_{m,f}_hr; hers = his + FHB_r/lumbricals_r, held in
+  step 5, not retried): BUILT 14 x 2 per body: interspinales (colli+thoracis+lumborum), intertransversarii (PARTIAL: Z-Anatomy
+  has only lateral lumbar dorsal+ventral parts), rotatores, semispinalis thoracis, levatores costarum (longi+breves),
+  serratus posterior sup/inf, internal + innermost intercostals (orphan pool), transversus thoracis, subclavius,
+  pyramidalis, fibularis brevis, fibularis tertius. NOT BUILDABLE (no CC BY-SA Z-Anatomy object): cremaster r/l, dartos,
+  subcostales r/l, superficial transverse perineal r/l, articularis genus r/l (only femoral attachment markers). dartos /
+  cremaster never targeted on her (male-only). lumbricals_foot skipped (held in 7b).
+- Bones for the gates: trunk = spine / ribs / sternum / clavicles / scapulae / hips RE-MESHED from each body's own TS `total`
+  labels; leg = bundle femur..foot bones (contains() probe 1 mm in 96-100 %, 3 mm out 0-7 %). FINDING: the bundle ribs_r/l of
+  BOTH bodies (Q105/Q109 dilated voxel remesh + hubs) sit 12.8 mm median from the CT rib labels (bboxes agree within 2 mm, i.e.
+  ~12 mm fat, not shifted), and Q168 fitted the Z-Anatomy ribs to those -> the carried ribs lie 10-16 mm (local median) from
+  the real CT ribs. A per-rib similarity refit onto the labels (scratch diag) reaches 1.7-3.6 mm median but needs 11-32 mm moves
+  and up to 52 deg rotations (lower ribs) -- heavy deformation of the intercostal sheets, so NOT applied (task rule).
+- Gates (both bodies): skin 0-17 % outside before (fibularis tertius at the ankle), 0.0 % after; bone 0-29 % before -> <=3 mm push
+  -> 0-11.5 %; fix move max 0-6.7 mm; lung (TS total 10-14; no pleura label) 18-61 % for the intercostals; volume kept
+  75-117 %. Pooled carrier (groups follow the carrying bones; levatores costarum moved from deep_back to the rib-borne posterior
+  wall after the first dry run, where it lifted deep_back's pool to 3.06 mm -- outcome unchanged, all deep-back muscles fail
+  overlap anyway): her deep_back 2.86 / posterior wall 6.66 / chest wall 10.52 / abdominal wall 7.45 / leg 1.18 mm; his 2.74 /
+  5.46 / 9.59 / 78.3 (his torso-block hip labels miss the pubis; his bundle hips are recovered decimated meshes) / 1.07 mm.
+- HELD (her / him): deep back -- interspinales 3.22-3.23 mm carrier (both); intertransversarii 9.3-11.5 % still in bone (her) /
+  48-51 % inside his longissimus + iliopsoas; rotatores 66-72 % and semispinalis thoracis 69-75 % inside the existing CT
+  multifidus/spinalis/longissimus (TS multifidus is the whole transversospinal mass) on both. Posterior wall -- levatores
+  costarum + serratus posterior sup/inf: rib carrier 6.0-9.1 / 4.4-9.2 mm (+ 12-23 % in her lung). Chest wall -- intercostals
+  carrier 10.2-12.8 / 9.5-11.6 mm, 24-44 / 18-61 % in lung; transversus thoracis_r held by the group (own carrier 2.27 / 1.90 mm),
+  _l 11.7 / 6.2 % in lung; subclavius her 5.3 % bone (r) / 21.7 % lung (l), his by the group (own 2.6-2.7 mm). Pyramidalis --
+  carrier 7.3-7.6 / 77-79 mm. Leg -- carrier 0.94-1.46 mm (fine) but fibularis brevis 63-72 % inside the existing fibularis
+  longus / FHL / soleus meshes (lateral-compartment blobs: hers xfer_vhm2vhf_sep), fibularis tertius 40-57 % inside EDL (+ her
+  _r keeps 74.9 % volume < 75 %).
+- Volumes (cm3, after fixes; Z-Anatomy source in brackets; closed meshes exact, open meshes 0.5 mm surface-sample voxel fill):
+  e.g. rotatores 32.3-33.0 / 42.6-43.8 (40.6), semispinalis thoracis 10.8 / 13.2-13.8 (16.3), fibularis brevis 12.9-14.9 /
+  20.5-21.0 (17.4), fibularis tertius 1.0 / 1.7-2.0 (1.3), subclavius 7.1-7.5 / 4.8-5.2 (3.3). Published: none readable
+  (PubMed: Jeng 2012 doi:10.3113/FAI.2012.0394 abstract has no value; Ward 2009 doi:10.1007/s11999-008-0594-8 PMC text empty;
+  Handsfield 2014 doi:10.1016/j.jbiomech.2013.12.002 pools the peroneals) -> no SIZE CAVEAT possible (none shipped anyway).
+- Bundles NOT rebuilt (nothing passed): build/viewer_f_hr (455 structures, 3,319,752 tris) and build/viewer_m_hr (461,
+  2,270,521 tris) byte-identical, no geo file changed; headless check not needed. Montages (held candidates after the fixes,
+  `--candidates` output; posterior trunk / anterior chest wall inner view / lower abdomen-perineum / right leg lateral):
+  scratch q62s9/montage_vhf.png, montage_vhm.png. Not published.
+- Next: (1) rebuild the bundle ribs from the CT rib labels without the dilation (or refit Q168 ribs onto the labels) -- that is
+  what blocks the whole rib-borne set on both bodies; (2) deep back / leg need the existing CT compartment meshes (TS multifidus,
+  fibularis longus, EDL) carved before any Z-Anatomy subdivision can pass the 10 % overlap gate.
