@@ -10725,3 +10725,7 @@ the female's phalanges are under-captured at HU 200.
 - NEXT: Q185a (his arm skin beyond the FOV cut) clears 9 of his remaining b flags; residual 1-5 % pokes + deep forearm/organ
   overlaps need a refit (not a bounded snap); republish when decided.
 
+- Main session (2026-10-01): Q185 b/f/g published -- male v77, female v60 (counts unchanged; hidden his 19 / hers 15).
+- [ ] Q185f2 (new): her transversus_abdominis_l/r are now HIDDEN (46 % / 33 % inside her own liver after the bounded push) --
+  rebuild them from her own abdominal-wall label or cryosections (route as Q183b: own label > photos > transfer) so the
+  muscle is visible again; his transversus_abdominis_r / rectus_abdominis_l stay badged (8-11 % in organ).
