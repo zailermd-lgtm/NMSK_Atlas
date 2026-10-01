@@ -10997,3 +10997,49 @@ of the classification table (e.g. brain parts as "other organ").
   clinical_motor_points.json, clinical_risk.json as separate private files). MALE own viewer publish (same file set) was
   DENIED by the session's permission classifier ("Out-of-Place Publication") -- not retried; waiting for the owner.
   Z-Anatomy viewers: waiting for Q186's final build, then stage (scripts/clinical/stage_clinical_files.py --all) + publish.
+
+## Q186 (2026-10-01) -- Z-Anatomy viewers: full source inventory + the SKIN (owner: "zanatomy models being missing few things as penile skin, face skin, etc. review and verify all details")
+- ROOT CAUSE (ours): the Z-Anatomy skin is `Regions of human body100.fbx` (301 meshes: region surface patches on "Skin-*"
+  materials -- face, scalp, ears, neck, trunk, limbs, hands/feet, perineum incl. the penile + scrotal skin inside
+  "Urogenital region" -- plus nails and hair). Q141's `extract_fbx.py` had excluded the whole file as a "diagram overlay",
+  so neither viewer had any skin; what looked like skin with a missing face/penis was the deep-fascia envelope. Licence:
+  plain CC BY-SA (no NC credit applies to it). Face skin and penile/scrotal skin EXIST in the source and now ship.
+- Extraction: `extract_fbx.py --systems Integument --inventory data/derived/zanatomy_integument_inventory.json` (256 kept,
+  45 pins/planes); the frozen 7-system inventory/name map are unchanged (re-extraction verified identical objects).
+- Build (`build_zan_atlas_viewer.py`): skin pool (one `zan_skin_<region>[_l|_r]` id per object, full resolution so patch
+  seams stay closed, layer "fascia" until the template gets a skin layer -- the build switches to `sys:"skin"` automatically
+  once the template lists `k:"skin"`), excluded from the Q162 gap closure. Hair (6 objects) extracted, NOT shipped by
+  default (`--with-hair`; would draw as a skin-coloured cap). Female: Q168 fit applied, ONE limb class per patch (per-cluster
+  flung her left thumb nail fold ~290 mm), seam tear after fit max 0.01 mm over 4,439 shared vertices; region-estimate badge +
+  measured distance to HER OWN CT skin (ct_vhf_skin): median 8.8 mm, p90 34.1 mm, 54 % within 10 mm (male body contour, no
+  breasts). Male-only on her: + Urogenital region l/r (penile/scrotal + urogenital-triangle skin; Z-Anatomy has no vulva or
+  female perineal skin) -> her perineum shows an opening from pubis to anal region. Nothing invented.
+- Other build defects found by the audit and FIXED: (1) 56 origin/insertion DECALS (bone footprints, ".o2l/.el/...") shipped as
+  fake second structures ("Temporalis muscle" x2, "Deltoid muscle", ...) -> dropped; (2) "Central canal'" and "Central canal"
+  shared one npz file (safe_filename collapsed the prime) -> both ids shipped the 300-vertex copy; safe_filename now keeps
+  "_prime" (extract_fbx + zan_source), real 1,632-vertex canal ships; (3) `superior_phrenic_a_r` was built from "Right superior
+  phrenic vein" (name-map error) -> ships as `zan_right_superior_phrenic_vein`, no artery link; (4) 30 left fascia/retinacula
+  rescued with a "part of <RIGHT entity>" link (and ilio-inguinal nerve "part of inguinal ligament") -> wrong-side links dropped;
+  (5) 4 unsuffixed objects lying wholly on one side get _l/_r (iliocostalis colli, intra-articular lig. of rib head, common
+  plantar digital br. of medial plantar n., descending br. of LCFA); (6) lateral TMJ ligament .l/.r swapped in the source ->
+  swapped back (badged); (7) "Lymph node" prototype (2 mm sphere at the scene origin) dropped; (8) closed meshes still
+  inside-out after decimation flipped (6 male / 9 female).
+- New counts: male 2,966 structures (was 2,773: +250 skin, -56 decals, -1 prototype), 3.14 M tris; female 2,939 (was 2,748;
+  248 skin). Gap closure unchanged in substance (male >1.25 mm 8.01 -> 8.03 %). Every one of the 7,013 source objects
+  (9 FBX, meshes + group nodes) accounted for in `data/derived/Q186_zan_inventory.json` (`scripts/zanatomy/list_fbx_objects.py`
+  + `scripts/zanatomy/zan_inventory_audit.py`): male shipped 2,882 + 198 merged into multi-part atlas ids; group nodes 1,651;
+  pins 1,400; decals 705; placeholders 80 (8-vertex boxes, 4-vertex planes, empty meshes -- e.g. 57 small carpal/tarsal
+  ligaments are boxes in the source); reference diagrams 54; NC 30 (Kidney CC BY-NC: kidney/renal names; Inner Ear CC BY-NC-SA:
+  cochlea/vestibular/semicircular/labyrinth/endolymphatic, incl. cochlear/vestibular nerve items held conservatively); hair 6;
+  zero-face curves 6; prototype 1; female + 27 male-only. Unexplained: 0. Source-twin check: no shipped .l/.r whose twin is dropped.
+- Remaining (source, listed not fixed): right vagus object reaches 21 mm left of midline (Q162: source asymmetry); 2 pairs of
+  near-coincident source surfaces (tectospinal/medial vestibulospinal tract, retina/posterior segment of eyeball); patellar
+  ligament, common extensor/flexor tendon, erector spinae exist only as decals; no extensor hood. Her chest skin folds where
+  the Q168 trunk fit folds (same as her muscles).
+- Template change NOT made (other agents own it): add `"skin"` to LK + LAYERS ({k:"skin",label:"Skin"}), `--t-skin` colour,
+  default alpha ~0.25 and a "skin" preset; the build then emits sys:"skin" on its own.
+- Renders (scratch q186/): before_{male,female}_*.png (fascia solo: no skin), after_{male,female}_{front,back,side,inferior}.png,
+  src_skin_*.png, pelvis_{male,female}_*.png, after_*_skin_*_holes.png (open edges only at ear and nail rims).
+  Tests: tests/test_zan_inventory_audit.py (3) + test_build_zan_atlas_viewer.py updated (22 pass). Not published.
+- [ ] Q186a: template skin layer (above), then publish both Z-Anatomy viewers.
+- [ ] Q186b: female perineal/breast skin needs a real female source (none in Z-Anatomy; her CT skin could serve).

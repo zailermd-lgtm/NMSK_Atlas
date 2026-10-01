@@ -7,7 +7,13 @@
    "patches": 248,
    "median_mm": 8.8,
    "p90_mm": 34.1,
-   "frac_within_10mm": 0.54
+   "frac_within_10mm": 0.54,
+   "seam_tear_mm": {
+    "shared_vertices": 4439,
+    "median": 0.0,
+    "p99": 0.0,
+    "max": 0.01
+   }
   },
   "rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)",
   "fits": "data/derived/Q168_zan_to_vhf.json",
