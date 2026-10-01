@@ -496,6 +496,8 @@ var CSS = [
 "@media (max-width:900px){.ncl.ncl-float{left:.6rem;right:.6rem;width:auto;top:auto;bottom:calc(3.9rem + env(safe-area-inset-bottom,0px));max-height:52vh}}",
 ".ncl.ncl-stage{position:absolute;left:12px;top:12px;width:330px;max-height:calc(100% - 150px);overflow-y:auto;z-index:5;",
 "  border:1px solid var(--ncl-line);border-radius:10px;box-shadow:0 8px 26px rgba(15,21,26,.16)}",
+/* a clip-path keeps Chromium from leaving the scrolled-out panel content as a hole over the WebGL canvas */
+".ncl.ncl-stage,.ncl.ncl-float{clip-path:inset(0 round 10px)}",
 "@media (max-width:760px){.ncl.ncl-stage{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:46%}}",
 ".ncl h3{margin:0;font-size:13px;font-weight:700}",
 ".ncl-head{display:flex;align-items:center;gap:6px;margin-bottom:6px}.ncl-head h3{flex:1}",
@@ -1084,7 +1086,7 @@ TP.renderMpInfo = function (p) {
     "<dt>Motor point</dt><dd><b>" + esc(p.muscle_name) + "</b>" + (p.side ? " (" + esc(p.side) + ")" : "") + (p.kind ? " &middot; " + esc(p.kind) : "") + "</dd>" +
     "<dt>Nerve</dt><dd>" + esc(p.nerve || "--") + "</dd>" +
     "<dt>Depth</dt><dd>" + (p.depth_from_skin_mm != null ? f1(p.depth_from_skin_mm) + " mm from the skin" : "--") +
-    (p.projection_mm != null ? "; projection " + esc(JSON.stringify(p.projection_mm)) : "") + "</dd>" +
+    (p.projection_mm != null ? "; projection " + (typeof p.projection_mm === "number" ? f1(p.projection_mm) + " mm" : esc(JSON.stringify(p.projection_mm))) : "") + "</dd>" +
     "<dt>Uncertainty</dt><dd>" + (p.uncertainty_mm != null ? f1(p.uncertainty_mm) + " mm (sphere radius)" : "--") + "</dd>" +
     "<dt>Source</dt><dd>" + esc(s.citation || "--") + (s.doi ? " doi:" + esc(s.doi) : "") + (s.pmid ? " PMID " + esc(s.pmid) : "") +
     (s.rule ? '<br><span class="ncl-status">' + esc(s.rule) + "</span>" : "") + "</dd>" +
