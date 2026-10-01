@@ -134,6 +134,10 @@ done
 [ -f build/vh/ct_vhf_ribs/manifest.json ] || python3 scripts/ribs_from_ct_labels.py build --body vhf | tail -1
 SUBJ="$SUBJ --subject ct_vhf_ribs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_pelvis"   # Q169 pelvic viscera (ids unique to this subject)
+# Q185c: intervertebral discs filled between her own adjacent vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py;
+# held levels carry the Q104 mesh re-badged). The Q104 cylinders in ct_vhf are dropped at export, C1/C2 (no disc there) included.
+[ -f build/vh/ct_vhf_discs/manifest.json ] || python3 scripts/discs_from_vertebrae_q185c.py build --body vhf | tail -1
+EXCL=(); [ -f build/vh/ct_vhf_discs/manifest.json ] && { SUBJ="$SUBJ --subject ct_vhf_discs"; EXCL=(--exclude 'ct_vhf:intervertebral_disc_*'); }
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available
@@ -317,7 +321,7 @@ fi
 # Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer
 # steps above still read build/viewer_f as their input bundle, unchanged
 OUT=${VHF_OUT:-build/viewer_f}; mkdir -p "$OUT"
-python3 scripts/export_viewer_bundle.py $SUBJ -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/export_viewer_bundle.py $SUBJ ${EXCL[@]+"${EXCL[@]}"} -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle $OUT -o $OUT/atlas_viewer_female.html --external-bin 2>&1 | tail -1
 sed -i 's/<title>NMSK Atlas Viewer<\/title>/<title>NMSK Atlas Viewer (VH female)<\/title>/' $OUT/atlas_viewer_female.html
 echo VHF_REBUILD_DONE

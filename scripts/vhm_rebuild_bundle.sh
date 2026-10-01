@@ -265,6 +265,10 @@ for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp 
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 [ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
+# Q185c: intervertebral discs filled between his own adjacent vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py;
+# held levels carry the Q104 mesh re-badged). The Q104 cylinders in ct_vhm are dropped at export, C1/C2 (no disc there) included.
+[ -f build/vh/ct_vhm_discs/manifest.json ] || python3 scripts/discs_from_vertebrae_q185c.py build --body vhm | tail -1
+EXCL=(); [ -f build/vh/ct_vhm_discs/manifest.json ] && { SUBJ="$SUBJ --subject ct_vhm_discs"; EXCL=(--exclude 'ct_vhm:intervertebral_disc_*'); }
 [ -f build/vh/ct_vhm_sciatic/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_sciatic"   # Q57 + Q173 registration (id unique; listed last)
 for s in ct_vhm_femoral ct_vhm_popliteal; do [ -f build/vh/$s/manifest.json ] && SUBJ="$SUBJ --subject $s"; done   # Q174 (ids unique; listed last)
 # Q62 step 7b: head / neck / larynx muscles (+ foot lumbricals) he had no mesh for, Z-Anatomy carried by the Q168
@@ -294,6 +298,6 @@ fi
 # Q170: output dir overridable (the hi-res page lives in build/viewer_m_hr: VHM_OUT=build/viewer_m_hr); the transfer
 # steps above still read build/viewer_m as their input bundle, unchanged
 OUT=${VHM_OUT:-build/viewer_m}; mkdir -p "$OUT"
-python3 scripts/export_viewer_bundle.py $SUBJ -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
+python3 scripts/export_viewer_bundle.py $SUBJ ${EXCL[@]+"${EXCL[@]}"} -o $OUT --budget-scale 2.5 --hires 2>&1 | grep -E "structures from|->|Error|Trace"
 python3 scripts/build_viewer_html.py --bundle $OUT -o $OUT/atlas_viewer_male.html --external-bin 2>&1 | tail -1
 echo VHM_REBUILD_DONE

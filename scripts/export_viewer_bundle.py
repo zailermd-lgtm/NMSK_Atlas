@@ -496,6 +496,10 @@ def main() -> int:
                          "EVERY structure with a continuity guard (never more pieces than the source; "
                          "vertex clustering only as a fallback), and LOW_BUDGET_SUBJECT_SCALE only for the "
                          "generic Z-Anatomy fills (the photo-refined subjects were cut only for the cap).")
+    ap.add_argument("--exclude", action="append", default=[], metavar="SUBJECT:GLOB",
+                    help="Q185c: drop the records of SUBJECT whose atlas_id matches GLOB (fnmatch), e.g. "
+                         "'ct_vhm:intervertebral_disc_*' -- retires superseded records at export without editing "
+                         "that subject's stored geometry. Repeatable.")
     args = ap.parse_args()
     scale = args.budget_scale
     subjects = args.subject or ["vhm_both"]
@@ -523,6 +527,13 @@ def main() -> int:
     # already fully provided, so this set is only updated once a subject's
     # own structures have all been processed, not structure-by-structure.
     claimed_by_prior_subjects = set()
+    excl = [e.split(":", 1) for e in args.exclude]
+    if any(len(e) != 2 for e in excl):
+        raise SystemExit("--exclude takes SUBJECT:GLOB")
+
+    def excluded(subject: str, aid: str) -> bool:
+        import fnmatch
+        return any(subject == es and fnmatch.fnmatchcase(aid, eg) for es, eg in excl)
     # Q131: resolved for EVERY subject before the structure loop below, not
     # incrementally inside it. `summarise()` (below) looks a muscle's anchor
     # up in this dict at the moment ITS OWN mesh is emitted, which can be an
@@ -561,7 +572,7 @@ def main() -> int:
         this_subject_ids = set()
         for s in manifest["structures"]:
             aid = s["atlas_id"]
-            if aid in claimed_by_prior_subjects:
+            if aid in claimed_by_prior_subjects or excluded(subject, aid):
                 continue
             this_subject_ids.add(aid)
             v = verts[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]].astype(np.float64)
