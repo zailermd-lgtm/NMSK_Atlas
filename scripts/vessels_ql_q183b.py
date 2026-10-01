@@ -417,6 +417,17 @@ def stamp(report: Path = REPORT) -> int:
                 s["procedural_badge"] = badge(s["atlas_id"], e["c"]["measured"],
                                               {k: v for k, v in e.items() if k.startswith("gap_to_kept_ct_s1159_")}); n += 1
         mf.write_text(json.dumps(m, indent=2))
+    qmf = REPO / "build" / "vh" / "ct_vhm_qlh" / "manifest.json"      # own CT label, but its source label failed the L/R screen
+    if qmf.exists():
+        m = json.loads(qmf.read_text())
+        for s in m["structures"]:
+            if s["atlas_id"] == "quadratus_lumborum_l":
+                s["procedural_badge"] = (
+                    "Q183b: his own hybrid-CT TotalSegmentator label (abdominal_muscles), not hand-checked. CAVEAT: in that label "
+                    "his left QL is 2.17x his right (his plain-CT label gives 15.2 cm3, 9 pieces), so the right side is not "
+                    "shipped from it; this left mesh is 47.2 cm3 (1.14x hers), follows the label at 1.9 mm median and touches "
+                    "his rib 12, hip, iliopsoas and erector spinae within 0.5 mm. No published QL volume found."); n += 1
+        qmf.write_text(json.dumps(m, indent=2))
     for sub in ("ct_s1159", "ct_s1159_abd"):      # run after costal_cartilage_from_ct_labels.py stamp, which rewrites the Q183 badge
         mf = REPO / "build" / "vh" / sub / "manifest.json"
         if not mf.exists():

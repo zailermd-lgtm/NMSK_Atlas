@@ -10507,3 +10507,8 @@ the female's phalanges are under-captured at HU 200.
   before / after, anterior + left lateral, with skeleton. Not published.
 - Next: the 13 kept records need his own vessels traced (no-contrast CT: his photographs, re-stream) or a soft-tissue-aware
   transfer (mediastinum / lung boundary); QL r from his photographs.
+- Main session (2026-10-01): Q183b -- added a caveat badge to his quadratus_lumborum_l (source hybrid label failed the
+  L/R screen, 2.17x); male viewer republished v73 (463 / 2.19 M), hub v13.
+- [ ] Q184 (new): viewer per-structure "hidden by default" flag (template + bundle field), then set it on the 13 kept
+  ct_s1159 records in his bundle (aorta, subclavians, IVC, iliacs, QL_r ...) so misplaced foreign geometry is off unless
+  the user turns it on; badge stays. Gate: toggle works headless, counts unchanged.
