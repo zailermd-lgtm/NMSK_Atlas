@@ -10463,3 +10463,4 @@ the female's phalanges are under-captured at HU 200.
   ct_vhm_ccart between ct_vhm_ribs and ct_vhm) + test_deep_neck.py: 15 pass. Montage (scratch q183/montage_q183_chest.png):
   anterior + right lateral, his before / after / hers.
 - Next: publish male viewer (main session); Q183b.
+- Main session (2026-10-01): Q183 published -- male viewer v72 (463 structures, 2.17 M tris; hub unchanged).
