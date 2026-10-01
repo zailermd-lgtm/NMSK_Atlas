@@ -75,6 +75,7 @@ REF_SOURCES = [
     "Pfirrmann CWA et al. Effect of aging and degeneration on disc volume and shape. J Orthop Res 2006;24(5):1086-94. "
     "doi:10.1002/jor.20113 (lumbar disc height / volume)",
 ]
+Q185C2 = {"intervertebral_disc_c7_t1", "intervertebral_disc_t12_l1", "intervertebral_disc_l5_s1"}   # entities added Q185c2
 GATES = {"lung_gt1mm_frac": 0.0, "bone_gt1mm_frac": 0.02, "endplate_min_mm": 1.0, "outside_skin_frac": 0.0}
 PRONOUN = {"vhm": "his", "vhf": "her"}
 
@@ -268,7 +269,9 @@ def build_level(V: Vol, u: str, l: str, skin) -> dict:
     cols = D.sum(2) * GRID
     loc_pts = np.argwhere(D) * GRID
     ext_w = float(np.ptp(loc_pts[:, 1]) + GRID); ext_d = float(np.ptp(loc_pts[:, 0]) + GRID)
-    fp0 = cols > 0; ccx, ccy = np.argwhere(fp0).mean(0).round().astype(int)
+    # Q185c2: chords on the hole-filled outline -- a pinhole column (dropped gap / labelled voxel) on the centre line
+    # cut her L5/S1 depth chord to 8.5 mm of a 40.5 mm endplate; the mesh itself is unchanged
+    fp0 = ndi.binary_fill_holes(cols > 0); ccx, ccy = np.argwhere(fp0).mean(0).round().astype(int)
     # morphometric convention (Panjabi): width = transverse chord at mid-depth, depth = mid-sagittal chord, both
     # through the footprint centroid
     width = float(run_len(fp0[ccx, :], ccy) * GRID); depth = float(run_len(fp0[:, ccy], ccx) * GRID)
@@ -334,7 +337,9 @@ def held_badge(body: str, q185: dict | None, why: list) -> str:
 
 def old_record(body: str, a: str):
     d = REPO / "build" / "vh" / f"ct_{body}"; m = json.loads((d / "manifest.json").read_text())
-    s = next(x for x in m["structures"] if x["atlas_id"] == a)
+    s = next((x for x in m["structures"] if x["atlas_id"] == a), None)
+    if s is None:                       # Q185c2: entity added later, no Q104 cylinder exists -> nothing to carry
+        return None, None
     V = np.fromfile(d / "vertices.f32", np.float32).reshape(-1, 3); Fc = np.fromfile(d / "faces.u32", np.uint32).reshape(-1, 3)
     return (V[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]],
             Fc[s["face_offset"]:s["face_offset"] + s["triangle_count"]].astype(np.int64) - s["vertex_offset"])
@@ -354,7 +359,9 @@ def build(body: str) -> int:
         v, f = r.pop("verts", None), r.pop("faces", None)
         r["atlas_id"] = a; r["has_atlas_entity"] = a in ids
         r["shipped"] = "new" if (r["status"] == "pass" and a in ids) else ("old_q104_held" if a in ids else "not_shipped_no_entity")
-        if a in ids and r["status"] != "pass":
+        if a in ids and r["status"] != "pass" and old_record(body, a)[0] is None:
+            v = None; r["shipped"] = "held_not_shipped"          # Q185c2 ids: no Q104 mesh to fall back on
+        elif a in ids and r["status"] != "pass":
             v, f = old_record(body, a); bd = held_badge(body, q185.get(a), r.get("gate_fails") or [r.get("reason", "?")])
             src = "Q104 geometry carried from ct_" + body
         elif a in ids:
@@ -408,11 +415,12 @@ def montage(out: Path) -> int:
         V = Vol(body)
         spine = np.concatenate([V.points(VERT[k])[1] for k in ORDER if V.objs[VERT[k] - 1] is not None])
         lung = V.atlas(np.argwhere(np.isin(V.v[::3, ::3, ::3], LUNG)) * 3)
-        old = [old_record(body, a) for a in sorted(shipped_ids())]
+        old = [o for o in (old_record(body, a) for a in sorted(shipped_ids())) if o[0] is not None]   # Q185c2 ids: none
         d = REPO / "build" / "vh" / subject(body); m = json.loads((d / "manifest.json").read_text())
         Vn = np.fromfile(d / "vertices.f32", np.float32).reshape(-1, 3)
         new = [Vn[s["vertex_offset"]:s["vertex_offset"] + s["vertex_count"]] for s in m["structures"]]
-        held = [s["geometry_source"].startswith("Q104") for s in m["structures"]]
+        held = [("Q104" if s["geometry_source"].startswith("Q104") else "Q185c2" if s["atlas_id"] in Q185C2 else "")
+                for s in m["structures"]]
         rng = np.random.default_rng(0); sp = spine[rng.choice(len(spine), min(len(spine), 60000), replace=False)]
         for col, (title, discs, hl) in enumerate((("before (Q104)", [o[0] for o in old], [True] * len(old)),
                                                     ("after (Q185c)", new, held))):
@@ -425,11 +433,12 @@ def montage(out: Path) -> int:
                 a.scatter(lung[sel, ia], lung[sel, ib], s=0.3, c="#9ecae1", alpha=0.3, lw=0)
                 a.scatter(sp[:, ia], sp[:, ib], s=0.2, c="0.55", alpha=0.4, lw=0)
                 for dv, h in zip(discs, hl):
-                    a.scatter(dv[:, ia], dv[:, ib], s=1.0 if not h else 3, c="#d62728" if h else "#2ca02c", lw=0)
+                    c = {"": "#2ca02c", "Q185c2": "#9467bd"}.get(h, "#d62728") if h is not True else "#d62728"
+                    a.scatter(dv[:, ia], dv[:, ib], s=1.0 if h != "Q104" and h is not True else 3, c=c, lw=0)
                 a.set_aspect("equal"); a.set_title(f"{body} {title}: {lab}", fontsize=10)
                 a.set_xlim(np.median(sp[:, ia]) - 90, np.median(sp[:, ia]) + 90)
         del V
-    fig.suptitle("Q185c intervertebral discs: grey = TS vertebrae, blue = lung, red = Q104 cylinder / held, green = Q185c endplate fill")
+    fig.suptitle("Q185c intervertebral discs: grey = TS vertebrae, blue = lung, red = Q104 cylinder / held, green = Q185c endplate fill, purple = Q185c2 new ids (C7/T1, T12/L1, L5/S1)")
     fig.tight_layout(rect=(0, 0, 1, 0.98)); p = out / "montage_spine_before_after.png"; fig.savefig(p, dpi=70); print("wrote", p)
     return 0
 

@@ -71,6 +71,11 @@ conv $T/vhf_left_forearm_muscles_cryo.nii.gz vhf_left_forearm_muscles ct_vhf_lef
 conv $T/vhf_deep_neck_cryo.nii.gz vhf_deep_neck ct_vhf_dneck --smooth 1.0
 # Q62 step 6: diaphragm + intercostal sheets from her total-task labels (rule-based, 4 mm sheet)
 conv $T/vhf_trunk_wall.nii.gz vhf_trunk_wall ct_vhf_twall --smooth 1.0
+# Q185f2: her transversus abdominis r/l from her own CT (muscle band deep to her TS internal-oblique label; needs the
+# restacked torso CT for a fresh build), stamped only when data/derived/Q185f2_transversus_vhf.json passes its gates
+[ -f $T/vhf_transversus_q185f2.nii.gz ] || python3 scripts/transversus_from_ct_q185f2.py build | tail -1
+conv $T/vhf_transversus_q185f2.nii.gz vhf_transversus ct_vhf_tam --smooth 1.0
+[ -f build/vh/ct_vhf_tam/manifest.json ] && { grep -q Q185f2 build/vh/ct_vhf_tam/manifest.json || python3 scripts/transversus_from_ct_q185f2.py stamp | tail -1; }
 # Q62 step 7a: suprahyoid + extrinsic tongue muscles from her 1 mm frame (rule-based; the straps are fragments and unshipped)
 conv $T/vhf_hyoid_muscles_cryo.nii.gz vhf_hyoid_muscles ct_vhf_hyoid --smooth 1.0
 # Q62 step 4: her right hand intrinsics from the full-resolution crops (rule-based; the thenar group stays merged and unshipped)
@@ -138,6 +143,8 @@ SUBJ="$SUBJ --subject ct_vhf_ribs --subject ct_vhf --subject ct_vhf_headm --subj
 # held levels carry the Q104 mesh re-badged). The Q104 cylinders in ct_vhf are dropped at export, C1/C2 (no disc there) included.
 [ -f build/vh/ct_vhf_discs/manifest.json ] || python3 scripts/discs_from_vertebrae_q185c.py build --body vhf | tail -1
 EXCL=(); [ -f build/vh/ct_vhf_discs/manifest.json ] && { SUBJ="$SUBJ --subject ct_vhf_discs"; EXCL=(--exclude 'ct_vhf:intervertebral_disc_*'); }
+# Q185f2: stamped (= gates passed) own-CT transversus wins those 2 ids over xfer_vhm2vhf_tva / xfer_vhm2vhf (listed later)
+grep -q Q185f2 build/vh/ct_vhf_tam/manifest.json 2>/dev/null && SUBJ="$SUBJ --subject ct_vhf_tam"
 [ -f build/vh/ct_vhf_nerve/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_nerve"   # ct_vhf_legs precedes ct_vhf so its united femur (both blocks) wins over the torso stub
 [ -f $S/vhf_ts/skin_ct.nii.gz ] || python3 scripts/cryo/vhf_whole_body_skin.py   # torso + legs silhouettes on one grid
 SKIN=$S/vhf_ts/skin_ct.nii.gz; [ -f $S/vhf_ts/skin_union.nii.gz ] && SKIN=$S/vhf_ts/skin_union.nii.gz   # CT silhouette united with the photograph silhouette (arms) when available

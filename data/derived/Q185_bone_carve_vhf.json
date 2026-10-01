@@ -134,6 +134,7 @@
   "xfer_vhm2vhf_rhom",
   "ct_vhf_pelvis",
   "ct_vhf_discs",
+  "ct_vhf_tam",
   "ct_vhf_nerve",
   "ct_vhf_skin",
   "ct_vhf_xfersepta_fix_contfix",
@@ -2262,52 +2263,7 @@
    "in_bone_frac": 0.0589
   }
  },
- "organ_push": {
-  "transversus_abdominis_r": {
-   "subject": "xfer_vhm2vhf_tva",
-   "organs": "liver/colon/gallbladder",
-   "in_organ_before": 0.4671,
-   "in_organ_after": 0.3268,
-   "volume_change": 0.0041,
-   "moved": 312,
-   "max_move_mm": 7.38,
-   "shipped": false,
-   "hidden_default": true,
-   "held_reason": "32.7 % still flagged",
-   "badge": "Q185 organ push HELD: 46.7 % of this mesh lies > 1 mm inside her own liver/colon/gallbladder label; the bounded push (<= 4 mm) did not fix it (32.7 % still > 1 mm inside), so the mesh is shown without it -- hidden by default.",
-   "records": [
-    {
-     "moved": 312,
-     "n_too_deep": 442,
-     "backed_off": 0,
-     "reverted": 0,
-     "flipped_faces_left": 0
-    }
-   ]
-  },
-  "transversus_abdominis_l": {
-   "subject": "xfer_vhm2vhf_tva",
-   "organs": "stomach/colon/liver",
-   "in_organ_before": 0.2432,
-   "in_organ_after": 0.1645,
-   "volume_change": -0.0226,
-   "moved": 139,
-   "max_move_mm": 10.0,
-   "shipped": false,
-   "hidden_default": true,
-   "held_reason": "16.4 % still flagged",
-   "badge": "Q185 organ push HELD: 24.3 % of this mesh lies > 1 mm inside her own stomach/colon/liver label; the bounded push (<= 4 mm) did not fix it (16.4 % still > 1 mm inside), so the mesh is shown without it -- hidden by default.",
-   "records": [
-    {
-     "moved": 139,
-     "n_too_deep": 185,
-     "backed_off": 0,
-     "reverted": 0,
-     "flipped_faces_left": 0
-    }
-   ]
-  }
- },
+ "organ_push": {},
  "skin_pull": {
   "abductor_hallucis_l": {
    "subject": "xfer_zan2vhf_limb",
@@ -2654,10 +2610,10 @@
   "hidden": 11
  },
  "summary_organ": {
-  "candidates": 2,
+  "candidates": 0,
   "shipped": 0,
-  "held": 2,
-  "hidden": 2
+  "held": 0,
+  "hidden": 0
  },
  "summary_skin": {
   "candidates": 12,

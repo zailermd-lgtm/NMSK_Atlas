@@ -10634,7 +10634,7 @@ the female's phalanges are under-captured at HU 200.
   [held C6/C7]); hers 11 -> 1 (the held T3/T4 cylinder, 25.8 % lung); new discs 0 / 0 / 0 % lung / bone / organ.
 - Test tests/test_discs_from_vertebrae_q185c.py (2: gap fill between two synthetic bodies; canal border / frame / levels / size check).
   Relevant suites: 135 passed + schema validation.
-- NEXT: Q185c2 add entity records for C7/T1, T12/L1, L5/S1 and ship the passing ones; her T3/T4 (2.0 mm gap) and both C6/C7
+- NEXT: [x] Q185c2 (done, see "## Q185f2 + Q185c2": his T12/L1 + L5/S1, her C7/T1 + L5/S1 shipped) add entity records for C7/T1, T12/L1, L5/S1 and ship the passing ones; her T3/T4 (2.0 mm gap) and both C6/C7
   (uncinate width) need a level-specific look before the cylinders can go.
 
 - Main session (2026-10-01): Q185c -- held-disc Q104 cylinders now hidden_default (his C6/C7; her C6/C7, T3/T4); Q184 test updated; published male v75 (462 / 2.24 M), female v58 (455 / 3.37 M), hub v14.
@@ -10726,6 +10726,54 @@ the female's phalanges are under-captured at HU 200.
   overlaps need a refit (not a bounded snap); republish when decided.
 
 - Main session (2026-10-01): Q185 b/f/g published -- male v77, female v60 (counts unchanged; hidden his 19 / hers 15).
-- [ ] Q185f2 (new): her transversus_abdominis_l/r are now HIDDEN (46 % / 33 % inside her own liver after the bounded push) --
+- [x] Q185f2 (done, see "## Q185f2 + Q185c2"): her transversus_abdominis_l/r are now HIDDEN (46 % / 33 % inside her own liver after the bounded push) --
   rebuild them from her own abdominal-wall label or cryosections (route as Q183b: own label > photos > transfer) so the
   muscle is visible again; his transversus_abdominis_r / rectus_abdominis_l stay badged (8-11 % in organ).
+
+## Q185f2 + Q185c2 (2026-10-01) -- her transversus abdominis from her own CT; 3 new disc entities (both bundles)
+- Q185f2 route (Q183b order). (a) her own CT label: TS `abdominal_muscles` (mappings/totalsegmentator_abdominal_muscles_labels.json,
+  labels 1-22) has NO transversus class -- but her restacked torso CT is local (scratch vh_idc/nii/vhf_torso_0937.nii.gz, same
+  grid as vhf_total) and shows an UNLABELLED muscle-density band directly DEEP to her TS internal-oblique label (0-1 / 1-2 / 2-3 mm:
+  87 / 77 / 58 % of voxels in -30..150 HU, fat beyond 3-4 mm; superficial side falls off within 1-2 mm = partial volume).
+  New `scripts/transversus_from_ct_q185f2.py` (build / gate / stamp / montage): TA = voxels <= 6 mm deep to that side's IO
+  label (deeper = closer to the per-slice wall-ring centre than the nearest IO voxel), outside every total / abdominal_muscles
+  label, 3x3x3-median HU in -30..150, 26-connected components reaching the 1.5 mm layer, >= 1 cm3 -> task_outputs/
+  vhf_transversus_q185f2.nii.gz (1 r, 2 l), key mappings/vhf_transversus_labels.json, subject ct_vhf_tam (convert --smooth 1.0),
+  badge stamped only if the gates pass. (b) her abdominal cryosection photographs are not local -> not used. (c) his TA by the
+  bone-driven transfer = what shipped (xfer_vhm2vhf_tva), measured beside: r/l 45.9 / 23.9 % > 1 mm in her organs, 2.1 / 6.7 %
+  inside her EO, 56.5 / 153.2 cm3 -> fails.
+- Gates (report data/derived/Q185f2_transversus_vhf.json): <= 5 % > 1 mm in her organs, <= 5 % lung, <= 2 % bone, 0 % outside
+  skin, <= 5 % inside her IO mesh, <= 1 % inside her EO, >= 90 % deeper (farther from her skin) than the nearest IO vertex.
+  RESULT (a) r / l: organs 0.0 / 0.0 %, lung 0 / 0, bone 0.0 / 0.0, skin 0 / 0, inside IO 0.01 / 0.01 %, inside EO 0 / 0,
+  deeper than IO 96.2 / 93.2 %, largest piece 0.99 / 0.97, 42.2 / 40.1 cm3 = 0.63 / 0.56 x her IO (67.5 / 71.9), 0.30 / 0.26 x
+  her EO (142.7 / 155.2). Published TA volume: none found (Rankin 2006 doi:10.1002/mus.20589 ultrasound thickness order
+  RA > IO > EO > TA; Izumoto 2019 doi:10.1371/journal.pone.0214752 and Sanchis-Moysi 2013 doi:10.1080/14763141.2012.725087 give
+  obliques + TA together). SHIPPED both, hidden_default cleared (ct_vhf_tam listed before xfer_vhm2vhf_tva; Q185f organ push
+  now has 0 candidates on her). Caveat in the badge: CT shows a 2-4 mm layer; aponeurosis / part beyond her IO label not modelled.
+- Q185c2: 3 entity records added to data/cartilage/intervertebral_disc_levels.json (intervertebral_disc_c7_t1 / _t12_l1 /
+  _l5_s1, same fields + citations as the Q104 levels, procedural_geometry = Q185c endplate fill), inserted in level order.
+  discs_from_vertebrae_q185c.py: a held level with an entity but no Q104 mesh is now "held_not_shipped" (was a StopIteration);
+  width / depth chords measured on the HOLE-FILLED footprint (her L5/S1 depth chord crossed a pinhole column: 8.5 mm of a
+  40.5 mm endplate; the mesh is unchanged) -- changes measured chords only, no status flip, mesh bytes identical for every
+  earlier disc; badge numbers updated on his T2/T3 (depth 21.5 -> 23.5) and her C4/C5 (w 22.5 -> 25.5), T4/T5 (d 19.5 -> 24.0).
+  Sacrum: L5/S1 uses TS vertebrae_S1 (label 26) as the lower endplate -- present in both (hers 55.8 k voxels), endplate
+  distance 0.0 / 0.0 mm.
+  SHIPPED: his T12/L1 (w 48.5 d 38.0 h 7.0 mm, 10.6 cm3), L5/S1 (w 55.0 d 38.5 h 9.0, 13.8 cm3); her C7/T1 (w 29.0 d 16.5
+  h 3.5, 1.2 cm3), L5/S1 (w 62.0 d 39.5 h 6.5, 11.1 cm3); all 0 % lung / bone / outside skin. HELD (not shipped, no cylinder
+  to fall back on): his C7/T1 (width 30.5 > 30.0, like C6/C7), her T12/L1 (height 13.0 > 9.0; median endplate gap 38 mm --
+  her TS T12/L1 labels look wrong at the junction, needs a look).
+- Rebuilt both: his 462 -> 464 structures (427 -> 429 ids), "triangles 22,693,324 -> 2,245,504" (was 2,239,506); hers 455 -> 457
+  (432 -> 434 ids), "triangles 32,756,718 -> 3,389,653" (was 3,372,099). Per record vs the pre-change bundles: his 426
+  identical, +2 discs, 1 entry-only (T2/T3 badge); hers 428 identical, +2 discs, 2 geometry (TA l/r), 2 entry-only (C4/C5,
+  T4/T5 badges). hidden_default his 19 -> 19, hers 15 -> 13 (-TA l/r); tests/test_hidden_default_q184.py updated. Changed geo
+  files: his _geo_01 (00 identical), hers _geo_02 (00 / 01 identical); bundle.* + html both.
+- Q185 sweep on the changed records (`--only`, data/derived/Q185f2c2_sweep_after.json): his 3, hers 6 swept, 0 flagged
+  (TA l/r 0 % skin / bone / lung / organ).
+- Headless Chromium (q184/probe.py, swiftshader, three.js routed): 0 page errors both, "Search 464 / 457 structures", visible at
+  load his 338 (unchanged), hers 338 -> 340 (+TA l/r); new discs visible with all systems on; phone renders.
+- Tests: new tests/test_transversus_from_ct_q185f2.py (3: deep band only on the deep side / free / muscle, no band across a fat
+  gap, new disc ids in level order); with Q184 hidden, Q185c discs, intervertebral discs, Q185 sweep + carve, schema: 26 passed.
+- Montages (scratch q185f2c2/): montage_abdominal_wall_before_after.png, montage_spine_before_after.png (purple = Q185c2 discs).
+- Wiring: vhf_rebuild_bundle.sh builds (needs the restacked CT) / converts ct_vhf_tam, stamps it, lists it only when stamped.
+  Not published.
+- NEXT: her T12/L1 TS labels (38 mm median gap); his C7/T1 + both C6/C7 width (uncinate / transverse bars); republish when decided.

@@ -162,6 +162,30 @@
     }
   },
   {
+    "id": "intervertebral_disc_c7_t1",
+    "name_ta": "Discus intervertebralis (C7-T1)",
+    "name_common": "C7-T1 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_c7_t1_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the C7 and T1 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The C7-T1 intervertebral disc -- the fibrocartilaginous symphysis joint between the C7 and T1 vertebral bodies (cervicothoracic junction; the C7 body lacks uncinate processes on its inferior surface). See the grouped cervical_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "RULE-BASED (Q185c2, 2026-10-01): entity record added so the Q185c endplate fill can ship at this level (Q104 never made this id, so no cylinder ever existed here). The MESH is filled between that body's OWN adjacent TotalSegmentator vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py) and shipped only where it passes the Q185c gates; the per-body badge on the mesh gives its measured width / depth / height and gate numbers (data/derived/Q185c_discs_<body>.json).",
+      "generated_by": "scripts/discs_from_vertebrae_q185c.py (Q185c, 2026-10-01; entity Q185c2)",
+      "shape": "endplate_fill"
+    }
+  },
+  {
     "id": "intervertebral_disc_t1_t2",
     "name_ta": "Discus intervertebralis (T1-T2)",
     "name_common": "T1-T2 intervertebral disc",
@@ -459,6 +483,30 @@
     }
   },
   {
+    "id": "intervertebral_disc_t12_l1",
+    "name_ta": "Discus intervertebralis (T12-L1)",
+    "name_common": "T12-L1 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_t12_l1_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the T12 and L1 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The T12-L1 intervertebral disc -- the fibrocartilaginous symphysis joint between the T12 and L1 vertebral bodies (thoracolumbar junction). See the grouped thoracic_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "RULE-BASED (Q185c2, 2026-10-01): entity record added so the Q185c endplate fill can ship at this level (Q104 never made this id, so no cylinder ever existed here). The MESH is filled between that body's OWN adjacent TotalSegmentator vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py) and shipped only where it passes the Q185c gates; the per-body badge on the mesh gives its measured width / depth / height and gate numbers (data/derived/Q185c_discs_<body>.json).",
+      "generated_by": "scripts/discs_from_vertebrae_q185c.py (Q185c, 2026-10-01; entity Q185c2)",
+      "shape": "endplate_fill"
+    }
+  },
+  {
     "id": "intervertebral_disc_l1_l2",
     "name_ta": "Discus intervertebralis (L1-L2)",
     "name_common": "L1-L2 intervertebral disc",
@@ -564,6 +612,30 @@
       "radius_mm": 40.0,
       "thickness_mm": 20.0,
       "sizing_rationale": "super-sized purely to guarantee mesh connectivity to both neighboring vertebrae (main_frac >= 0.99); not a measured disc dimension"
+    }
+  },
+  {
+    "id": "intervertebral_disc_l5_s1",
+    "name_ta": "Discus intervertebralis (L5-S1)",
+    "name_common": "L5-S1 intervertebral disc",
+    "side": "midline",
+    "region": "spine",
+    "cartilage_type": "fibrocartilage",
+    "parts": [
+      {
+        "id": "intervertebral_disc_l5_s1_disc_mesh",
+        "name": "Disc mesh (anulus fibrosus + nucleus pulposus, not modeled as separate parts at this per-level granularity)",
+        "attachment_or_location": "between the L5 and S1 vertebral bodies",
+        "function_note": "See the grouped region entity (data/cartilage/intervertebral_discs.json) for the real anulus fibrosus / nucleus pulposus anatomy and biomechanics this level's disc has; this record exists at per-motion-segment granularity because that is how the mesh geometry is generated and shipped (one mesh per level), not because the anatomy is separately sourced at this granularity.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics."
+      }
+    ],
+    "function": "The L5-S1 intervertebral disc -- the fibrocartilaginous symphysis joint between the L5 and S1 vertebral bodies (lumbosacral disc, between L5 and the base of the sacrum -- the S1 superior endplate). See the grouped lumbar_intervertebral_discs entity for the shared anatomical description.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Bogduk N. Clinical and Radiological Anatomy of the Lumbar Spine, 5th ed. Churchill Livingstone/Elsevier, 2012 -- intervertebral disc anulus fibrosus/nucleus pulposus structure and biomechanics.",
+    "procedural_geometry": {
+      "badge": "RULE-BASED (Q185c2, 2026-10-01): entity record added so the Q185c endplate fill can ship at this level (Q104 never made this id, so no cylinder ever existed here). The MESH is filled between that body's OWN adjacent TotalSegmentator vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py) and shipped only where it passes the Q185c gates; the per-body badge on the mesh gives its measured width / depth / height and gate numbers (data/derived/Q185c_discs_<body>.json).",
+      "generated_by": "scripts/discs_from_vertebrae_q185c.py (Q185c, 2026-10-01; entity Q185c2)",
+      "shape": "endplate_fill"
     }
   }
 ]
