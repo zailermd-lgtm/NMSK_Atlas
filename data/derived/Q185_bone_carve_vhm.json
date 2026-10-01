@@ -29,9 +29,48 @@
   "first relaxed (local Laplacian of the displacement, moved vertices only), what still folds is backed off (half, quarter)",
   "and finally reverted; the shipped mesh has 0 flipped faces. A second pass runs from the first result when the gate fails. GATE: ship only if <= 5 % of vertices remain > 1 mm inside bone",
   "and (push / shell) the enclosed volume changed by <= 25 %; else the original is kept, hidden_default set when it is",
-  "> 20 % inside bone, and the badge gives its numbers. Report: data/derived/Q185_bone_carve_<body>.json."
+  "> 20 % inside bone, and the badge gives its numbers. Report: data/derived/Q185_bone_carve_<body>.json.",
+  "",
+  "Q185 b/f: the same bounded move, two more references (stages run in this order on one record: bone -> organ -> skin):",
+  "  organ push   (Q185f) abdominal-wall muscles (ORGAN_PUSH_RE) with > 5 % of vertices > 1 mm inside that body's own TS",
+  "               organ labels (the sweep's ORGANS): pushed out exactly like the bone push (<= 4 mm, surface + 0.5 mm).",
+  "  skin pull-in (Q185b) every soft record with > 1 % of its vertices outside that body's own skin mesh (ct_v?_skin, the",
+  "               sweep's embree-parity reference): vertices <= 4 mm outside move along the SDF gradient (towards the",
+  "               closest skin point) to skin surface - 1 mm; further out stay. His skin is cut flat at the torso-CT",
+  "               field-of-view edge (Q185a, x = -233 / +247 mm): outside vertices within 4 mm of / beyond such a cut are",
+  "               NOT pulled (the skin there is wrong, not the muscle) and are counted in the badge + report.",
+  "  Same fold guard / relax / second pass and hold rules: ship only if <= 5 % still outside (beyond-FOV vertices not",
+  "  counted) / in organ, |volume| <= 25 %, and (skin) no new in-bone flag; else the stage's input is kept, hidden_default",
+  "  only if > 20 % outside skin / in organ. Bone exclusion of the Q185b subjects is lifted (their bone carve is part of",
+  "  Q185b; fascia pushes like muscle). Report sections \"organ_push\" / \"skin_pull\"."
  ],
  "params": {
+  "offset": 0.5,
+  "inside_tol": 0.5,
+  "max_depth": 4.0,
+  "shell_median_max": 3.0,
+  "flag_mm": 1.0,
+  "flag_frac": 0.05,
+  "gate_frac": 0.05,
+  "band": 0.5,
+  "smooth_rounds": 0,
+  "gate_vol": 0.25,
+  "hide_frac": 0.2
+ },
+ "params_skin": {
+  "offset": 1.0,
+  "inside_tol": 0.0,
+  "max_depth": 4.0,
+  "shell_median_max": 3.0,
+  "flag_mm": 1.0,
+  "flag_frac": 0.05,
+  "gate_frac": 0.05,
+  "band": 1.5,
+  "smooth_rounds": 0,
+  "gate_vol": 0.25,
+  "hide_frac": 0.2
+ },
+ "params_organ": {
   "offset": 0.5,
   "inside_tol": 0.5,
   "max_depth": 4.0,
@@ -101,6 +140,10 @@
  ],
  "excludes": [
   "ct_vhm:intervertebral_disc_*"
+ ],
+ "skin_fov_cut_x": [
+  -233.4444122314453,
+  246.5556182861328
  ],
  "structures": {
   "brachialis_r": {
@@ -917,6 +960,354 @@
    "hidden_default": false,
    "badge": "Q185 bone carve: 11 vertices moved out of his own bone (max 3.7 mm); in-bone 33.3 % -> 0.0 % (trimmed at the bone surface)."
   },
+  "extensor_pollicis_brevis_r": {
+   "subject": "xfer_zan2vhm_limb_photo",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 14676,
+   "in_bone_before": 0.1049,
+   "in_bone_after": 0.0176,
+   "volume_change": -0.0946,
+   "moved": 2487,
+   "max_move_mm": 2.66,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 1622,
+     "depth_max_mm": 1.96,
+     "n_rim": 1115,
+     "n_too_deep": 0,
+     "untangled": 400,
+     "backed_off": 433,
+     "reverted": 200,
+     "flipped_faces_left": 0,
+     "moved": 2487,
+     "max_move_mm": 2.66
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 2487 vertices moved out of his own bone (max 2.7 mm); in-bone 10.5 % -> 1.8 %."
+  },
+  "flexor_pollicis_longus_r": {
+   "subject": "xfer_zan2vhm_limb_photo",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 31404,
+   "in_bone_before": 0.0816,
+   "in_bone_after": 0.0269,
+   "volume_change": -0.0387,
+   "moved": 4281,
+   "max_move_mm": 2.65,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 2617,
+     "depth_max_mm": 3.41,
+     "n_rim": 2674,
+     "n_too_deep": 0,
+     "untangled": 1218,
+     "backed_off": 1727,
+     "reverted": 866,
+     "flipped_faces_left": 0,
+     "moved": 4281,
+     "max_move_mm": 2.65
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 4281 vertices moved out of his own bone (max 2.6 mm); in-bone 8.2 % -> 2.7 %."
+  },
+  "supinator_r": {
+   "subject": "xfer_zan2vhm_limb_photo",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 16362,
+   "in_bone_before": 0.0752,
+   "in_bone_after": 0.0182,
+   "volume_change": -0.0414,
+   "moved": 2047,
+   "max_move_mm": 2.38,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 1213,
+     "depth_max_mm": 1.88,
+     "n_rim": 1081,
+     "n_too_deep": 0,
+     "untangled": 558,
+     "backed_off": 532,
+     "reverted": 184,
+     "flipped_faces_left": 0,
+     "moved": 2047,
+     "max_move_mm": 2.38
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 2047 vertices moved out of his own bone (max 2.4 mm); in-bone 7.5 % -> 1.8 %."
+  },
+  "adductor_pollicis_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 736,
+   "in_bone_before": 0.0639,
+   "in_bone_after": 0.0272,
+   "volume_change": -0.0212,
+   "moved": 55,
+   "max_move_mm": 1.66,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 50,
+     "depth_max_mm": 1.15,
+     "n_rim": 6,
+     "n_too_deep": 0,
+     "untangled": 12,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 55,
+     "max_move_mm": 1.66
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 55 vertices moved out of his own bone (max 1.7 mm); in-bone 6.4 % -> 2.7 %."
+  },
+  "extensor_carpi_ulnaris_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 703,
+   "in_bone_before": 0.2461,
+   "in_bone_after": 0.1778,
+   "volume_change": 0.0012,
+   "moved": 129,
+   "max_move_mm": 4.45,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 176,
+     "depth_max_mm": 8.73,
+     "n_rim": 26,
+     "n_too_deep": 73,
+     "untangled": 117,
+     "backed_off": 10,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 129,
+     "max_move_mm": 4.45,
+     "pass2": {
+      "moved": 97,
+      "backed_off": 16,
+      "reverted": 2,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "17.8 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 24.6 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (17.8 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "extensor_carpi_ulnaris_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 703,
+   "in_bone_before": 0.175,
+   "in_bone_after": 0.1679,
+   "volume_change": 0.0065,
+   "moved": 57,
+   "max_move_mm": 3.3,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 123,
+     "depth_max_mm": 8.78,
+     "n_rim": 10,
+     "n_too_deep": 43,
+     "untangled": 88,
+     "backed_off": 66,
+     "reverted": 33,
+     "flipped_faces_left": 0,
+     "moved": 57,
+     "max_move_mm": 3.3
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "16.8 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 17.5 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (16.8 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "extensor_digiti_minimi_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 1078,
+   "in_bone_before": 0.179,
+   "in_bone_after": 0.1475,
+   "volume_change": -0.1246,
+   "moved": 154,
+   "max_move_mm": 3.95,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 197,
+     "depth_max_mm": 4.11,
+     "n_rim": 28,
+     "n_too_deep": 2,
+     "untangled": 217,
+     "backed_off": 191,
+     "reverted": 95,
+     "flipped_faces_left": 0,
+     "moved": 126,
+     "max_move_mm": 2.8,
+     "pass2": {
+      "moved": 125,
+      "backed_off": 176,
+      "reverted": 84,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "14.7 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 17.9 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (14.7 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "interosseous_membrane_forearm_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "fascia",
+   "mode": "push",
+   "nv": 1385,
+   "in_bone_before": 0.0765,
+   "in_bone_after": 0.0671,
+   "volume_change": 0.0241,
+   "moved": 79,
+   "max_move_mm": 1.33,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 96,
+     "depth_max_mm": 5.44,
+     "n_rim": 23,
+     "n_too_deep": 18,
+     "untangled": 96,
+     "backed_off": 86,
+     "reverted": 30,
+     "flipped_faces_left": 0,
+     "moved": 70,
+     "max_move_mm": 1.19,
+     "pass2": {
+      "moved": 66,
+      "backed_off": 64,
+      "reverted": 25,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.7 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 7.7 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.7 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "opponens_pollicis_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 194,
+   "in_bone_before": 0.0567,
+   "in_bone_after": 0.0155,
+   "volume_change": 0.0675,
+   "moved": 13,
+   "max_move_mm": 1.62,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 13,
+     "depth_max_mm": 1.12,
+     "n_rim": 0,
+     "n_too_deep": 0,
+     "untangled": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 13,
+     "max_move_mm": 1.62
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 13 vertices moved out of his own bone (max 1.6 mm); in-bone 5.7 % -> 1.5 %."
+  },
+  "pronator_teres_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 1832,
+   "in_bone_before": 0.1425,
+   "in_bone_after": 0.1114,
+   "volume_change": -0.0151,
+   "moved": 153,
+   "max_move_mm": 4.58,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 262,
+     "depth_max_mm": 5.8,
+     "n_rim": 7,
+     "n_too_deep": 103,
+     "untangled": 152,
+     "backed_off": 68,
+     "reverted": 44,
+     "flipped_faces_left": 0,
+     "moved": 122,
+     "max_move_mm": 4.58,
+     "pass2": {
+      "moved": 112,
+      "backed_off": 28,
+      "reverted": 13,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "11.1 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 14.2 % of this mesh lies > 1 mm inside his own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (11.1 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "supinator_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 1379,
+   "in_bone_before": 0.074,
+   "in_bone_after": 0.0486,
+   "volume_change": -0.025,
+   "moved": 131,
+   "max_move_mm": 1.61,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 99,
+     "depth_max_mm": 2.07,
+     "n_rim": 55,
+     "n_too_deep": 0,
+     "untangled": 121,
+     "backed_off": 39,
+     "reverted": 17,
+     "flipped_faces_left": 0,
+     "moved": 131,
+     "max_move_mm": 1.61
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 131 vertices moved out of his own bone (max 1.6 mm); in-bone 7.4 % -> 4.9 %."
+  },
   "rectus_capitis_anterior_l": {
    "subject": "xfer_zan2vhm_head",
    "cat": "muscle",
@@ -1108,62 +1499,1228 @@
    "subject": "ct_s1159",
    "reason": "hidden_default",
    "in_bone_frac": 0.2141
+  }
+ },
+ "organ_push": {
+  "rectus_abdominis_l": {
+   "subject": "ct_vhm_abw_contfix",
+   "organs": "stomach/colon",
+   "in_organ_before": 0.084,
+   "in_organ_after": 0.0748,
+   "volume_change": 0.0049,
+   "moved": 1958,
+   "max_move_mm": 5.37,
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "7.5 % still flagged",
+   "badge": "Q185 organ push HELD: 8.4 % of this mesh lies > 1 mm inside his own stomach/colon label; the bounded push (<= 4 mm) did not fix it (7.5 % still > 1 mm inside), so the mesh is shown without it.",
+   "records": [
+    {
+     "moved": 1462,
+     "n_too_deep": 4253,
+     "backed_off": 2976,
+     "reverted": 1607,
+     "flipped_faces_left": 0
+    }
+   ]
   },
-  "extensor_pollicis_brevis_r": {
-   "subject": "xfer_zan2vhm_limb_photo",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.1049
-  },
-  "flexor_pollicis_longus_r": {
-   "subject": "xfer_zan2vhm_limb_photo",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.0816
-  },
+  "transversus_abdominis_r": {
+   "subject": "ct_vhm_abw",
+   "organs": "liver/colon/kidney_right",
+   "in_organ_before": 0.1103,
+   "in_organ_after": 0.0813,
+   "volume_change": -0.0251,
+   "moved": 5795,
+   "max_move_mm": 6.64,
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "8.1 % still flagged",
+   "badge": "Q185 organ push HELD: 11.0 % of this mesh lies > 1 mm inside his own liver/colon/kidney_right label; the bounded push (<= 4 mm) did not fix it (8.1 % still > 1 mm inside), so the mesh is shown without it.",
+   "records": [
+    {
+     "moved": 4741,
+     "n_too_deep": 4255,
+     "backed_off": 6193,
+     "reverted": 3214,
+     "flipped_faces_left": 0
+    }
+   ]
+  }
+ },
+ "skin_pull": {
   "supinator_r": {
    "subject": "xfer_zan2vhm_limb_photo",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.0752
+   "outside_before": 0.4076,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.4076,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
-  "adductor_pollicis_l": {
+  "abductor_digiti_minimi_hand_l": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.0639
+   "cat": "muscle",
+   "outside_before": 0.0119,
+   "outside_pullable": 0.0119,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.003,
+   "in_bone_after": 0.003,
+   "volume_change": -0.0097,
+   "moved": 97,
+   "max_move_mm": 1.66,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 97 vertices pulled inside his own skin (to 1 mm below it, max 1.7 mm); outside skin 1.2 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 97,
+     "n_too_deep": 0,
+     "backed_off": 12,
+     "reverted": 3,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "adductor_hallucis_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0441,
+   "outside_pullable": 0.0441,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.011,
+   "outside_pullable_after": 0.011,
+   "in_bone_before": 0.0016,
+   "in_bone_after": 0.0016,
+   "volume_change": -0.0072,
+   "moved": 31,
+   "max_move_mm": 2.81,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 31 vertices pulled inside his own skin (to 1 mm below it, max 2.8 mm); outside skin 4.4 % -> 1.1 %.",
+   "records": [
+    {
+     "moved": 31,
+     "n_too_deep": 0,
+     "backed_off": 12,
+     "reverted": 5,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "brachioradialis_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "outside_before": 0.0276,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.0276,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
+  },
+  "dorsal_interossei_foot_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0544,
+   "outside_pullable": 0.0544,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0021,
+   "outside_pullable_after": 0.0021,
+   "in_bone_before": 0.0092,
+   "in_bone_after": 0.0092,
+   "volume_change": -0.0255,
+   "moved": 229,
+   "max_move_mm": 2.27,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 229 vertices pulled inside his own skin (to 1 mm below it, max 2.3 mm); outside skin 5.4 % -> 0.2 %.",
+   "records": [
+    {
+     "moved": 229,
+     "n_too_deep": 0,
+     "backed_off": 29,
+     "reverted": 10,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "dorsal_interossei_foot_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0749,
+   "outside_pullable": 0.0749,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0031,
+   "in_bone_after": 0.0031,
+   "volume_change": -0.0219,
+   "moved": 102,
+   "max_move_mm": 3.41,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 102 vertices pulled inside his own skin (to 1 mm below it, max 3.4 mm); outside skin 7.5 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 102,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "dorsal_interossei_hand_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.1058,
+   "outside_pullable": 0.1058,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0014,
+   "outside_pullable_after": 0.0014,
+   "in_bone_before": 0.0058,
+   "in_bone_after": 0.0058,
+   "volume_change": -0.0377,
+   "moved": 171,
+   "max_move_mm": 2.93,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 171 vertices pulled inside his own skin (to 1 mm below it, max 2.9 mm); outside skin 10.6 % -> 0.1 %.",
+   "records": [
+    {
+     "moved": 171,
+     "n_too_deep": 0,
+     "backed_off": 6,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "dorsal_interossei_hand_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0333,
+   "outside_pullable": 0.0333,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0014,
+   "outside_pullable_after": 0.0014,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0229,
+   "moved": 65,
+   "max_move_mm": 2.27,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 65 vertices pulled inside his own skin (to 1 mm below it, max 2.3 mm); outside skin 3.3 % -> 0.1 %.",
+   "records": [
+    {
+     "moved": 65,
+     "n_too_deep": 0,
+     "backed_off": 1,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "extensor_carpi_radialis_brevis_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "outside_before": 0.3147,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.3147,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
+  },
+  "extensor_carpi_radialis_brevis_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "outside_before": 0.0394,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.0394,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
+  },
+  "extensor_carpi_radialis_longus_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "outside_before": 0.3565,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.3565,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
+  },
+  "extensor_carpi_radialis_longus_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "outside_before": 0.0641,
+   "outside_pullable": 0.0075,
+   "outside_beyond_fov_cut": 0.0565,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
   "extensor_carpi_ulnaris_l": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.2461
+   "outside_before": 0.2504,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.2504,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
   "extensor_carpi_ulnaris_r": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.175
+   "outside_before": 0.0356,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.0356,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
   "extensor_digiti_minimi_r": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.179
+   "outside_before": 0.0213,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.0213,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
-  "opponens_pollicis_l": {
+  "extensor_digitorum_brevis_l": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.0567
+   "cat": "muscle",
+   "outside_before": 0.0357,
+   "outside_pullable": 0.0357,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0019,
+   "outside_pullable_after": 0.0019,
+   "in_bone_before": 0.0025,
+   "in_bone_after": 0.0025,
+   "volume_change": -0.1468,
+   "moved": 450,
+   "max_move_mm": 1.81,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 450 vertices pulled inside his own skin (to 1 mm below it, max 1.8 mm); outside skin 3.6 % -> 0.2 %.",
+   "records": [
+    {
+     "moved": 450,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "extensor_digitorum_brevis_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.1234,
+   "outside_pullable": 0.1234,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0056,
+   "outside_pullable_after": 0.0056,
+   "in_bone_before": 0.0006,
+   "in_bone_after": 0.0006,
+   "volume_change": -0.2133,
+   "moved": 694,
+   "max_move_mm": 2.4,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 694 vertices pulled inside his own skin (to 1 mm below it, max 2.4 mm); outside skin 12.3 % -> 0.6 %.",
+   "records": [
+    {
+     "moved": 694,
+     "n_too_deep": 0,
+     "backed_off": 50,
+     "reverted": 11,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "extensor_digitorum_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0281,
+   "outside_pullable": 0.0216,
+   "outside_beyond_fov_cut": 0.0066,
+   "n_beyond_fov_cut": 21,
+   "outside_after": 0.0081,
+   "outside_pullable_after": 0.0016,
+   "in_bone_before": 0.0078,
+   "in_bone_after": 0.0078,
+   "volume_change": 0.0468,
+   "moved": 709,
+   "max_move_mm": 2.2,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 709 vertices pulled inside his own skin (to 1 mm below it, max 2.2 mm); outside skin 2.8 % -> 0.8 %; 21 vertices at / beyond his skin's CT field-of-view cut left as they are.",
+   "records": [
+    {
+     "moved": 709,
+     "n_too_deep": 0,
+     "backed_off": 54,
+     "reverted": 24,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "extensor_indicis_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.171,
+   "outside_pullable": 0.171,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0541,
+   "outside_pullable_after": 0.0541,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.036,
+   "moved": 155,
+   "max_move_mm": 5.13,
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.4 % still flagged",
+   "badge": "Q185 skin pull-in HELD: 17.1 % of this mesh lies outside his own skin; the bounded pull-in (<= 4 mm) did not fix it (5.4 % still outside), so the mesh is shown without it.",
+   "records": [
+    {
+     "moved": 151,
+     "n_too_deep": 5,
+     "backed_off": 13,
+     "reverted": 4,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "flexor_digiti_minimi_brevis_foot_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.1435,
+   "outside_pullable": 0.1435,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0043,
+   "in_bone_after": 0.0043,
+   "volume_change": -0.0143,
+   "moved": 57,
+   "max_move_mm": 2.8,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 57 vertices pulled inside his own skin (to 1 mm below it, max 2.8 mm); outside skin 14.3 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 57,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "flexor_digiti_minimi_brevis_hand_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0192,
+   "outside_pullable": 0.0192,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0252,
+   "moved": 37,
+   "max_move_mm": 1.92,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 37 vertices pulled inside his own skin (to 1 mm below it, max 1.9 mm); outside skin 1.9 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 37,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "flexor_digitorum_brevis_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0578,
+   "outside_pullable": 0.0578,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0335,
+   "outside_pullable_after": 0.0335,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0029,
+   "moved": 205,
+   "max_move_mm": 2.76,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 205 vertices pulled inside his own skin (to 1 mm below it, max 2.8 mm); outside skin 5.8 % -> 3.4 %.",
+   "records": [
+    {
+     "moved": 205,
+     "n_too_deep": 0,
+     "backed_off": 124,
+     "reverted": 69,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "flexor_digitorum_brevis_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0776,
+   "outside_pullable": 0.0776,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0149,
+   "outside_pullable_after": 0.0149,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.001,
+   "moved": 374,
+   "max_move_mm": 1.75,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 374 vertices pulled inside his own skin (to 1 mm below it, max 1.7 mm); outside skin 7.8 % -> 1.5 %.",
+   "records": [
+    {
+     "moved": 374,
+     "n_too_deep": 0,
+     "backed_off": 124,
+     "reverted": 66,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "interosseous_membrane_forearm_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "outside_before": 0.0181,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.0181,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
+  },
+  "opponens_digiti_minimi_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.0606,
+   "outside_pullable": 0.0606,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0061,
+   "outside_pullable_after": 0.0061,
+   "in_bone_before": 0.003,
+   "in_bone_after": 0.003,
+   "volume_change": -0.0274,
+   "moved": 36,
+   "max_move_mm": 2.4,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 36 vertices pulled inside his own skin (to 1 mm below it, max 2.4 mm); outside skin 6.1 % -> 0.6 %.",
+   "records": [
+    {
+     "moved": 36,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "palmar_interossei_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.069,
+   "outside_pullable": 0.069,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0115,
+   "outside_pullable_after": 0.0115,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.1429,
+   "moved": 13,
+   "max_move_mm": 1.73,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 13 vertices pulled inside his own skin (to 1 mm below it, max 1.7 mm); outside skin 6.9 % -> 1.1 %.",
+   "records": [
+    {
+     "moved": 13,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "palmar_interossei_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.2644,
+   "outside_pullable": 0.2644,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0313,
+   "moved": 26,
+   "max_move_mm": 2.36,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 26 vertices pulled inside his own skin (to 1 mm below it, max 2.4 mm); outside skin 26.4 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 12,
+     "n_too_deep": 0,
+     "backed_off": 24,
+     "reverted": 14,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "peroneal_retinaculum_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "fascia",
+   "outside_before": 0.0488,
+   "outside_pullable": 0.0488,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.2315,
+   "moved": 150,
+   "max_move_mm": 1.88,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 150 vertices pulled inside his own skin (to 1 mm below it, max 1.9 mm); outside skin 4.9 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 150,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "plantar_interossei_l": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.2775,
+   "outside_pullable": 0.2775,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0447,
+   "outside_pullable_after": 0.0447,
+   "in_bone_before": 0.0064,
+   "in_bone_after": 0.0064,
+   "volume_change": -0.0759,
+   "moved": 183,
+   "max_move_mm": 5.47,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 183 vertices pulled inside his own skin (to 1 mm below it, max 5.5 mm); outside skin 27.8 % -> 4.5 %.",
+   "records": [
+    {
+     "moved": 144,
+     "n_too_deep": 0,
+     "backed_off": 97,
+     "reverted": 58,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "plantar_interossei_r": {
+   "subject": "xfer_zan2vhm_limb",
+   "cat": "muscle",
+   "outside_before": 0.1356,
+   "outside_pullable": 0.1356,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0287,
+   "outside_pullable_after": 0.0287,
+   "in_bone_before": 0.008,
+   "in_bone_after": 0.008,
+   "volume_change": -0.0094,
+   "moved": 75,
+   "max_move_mm": 3.44,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 75 vertices pulled inside his own skin (to 1 mm below it, max 3.4 mm); outside skin 13.6 % -> 2.9 %.",
+   "records": [
+    {
+     "moved": 75,
+     "n_too_deep": 0,
+     "backed_off": 27,
+     "reverted": 17,
+     "flipped_faces_left": 0
+    }
+   ]
   },
   "pronator_teres_l": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.1425
+   "outside_before": 0.0983,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.0983,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
   },
   "supinator_l": {
    "subject": "xfer_zan2vhm_limb",
-   "reason": "Q185b subject (own queue item)",
-   "in_bone_frac": 0.074
+   "outside_before": 0.1189,
+   "outside_pullable": 0.0,
+   "outside_beyond_fov_cut": 0.1189,
+   "skipped": "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"
+  }
+ },
+ "orbit_reseat": {
+  "_offset_r": {
+   "t_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "norm_mm": 11.12,
+   "residual_mm": [
+    3.8,
+    5.5,
+    5.4,
+    6.7,
+    1.2,
+    3.9
+   ]
+  },
+  "_offset_l": {
+   "t_mm": [
+    -2.86,
+    5.72,
+    2.73
+   ],
+   "norm_mm": 6.95,
+   "residual_mm": [
+    11.4,
+    9.0,
+    2.8,
+    1.8
+   ]
+  },
+  "superior_rectus_l": {
+   "side": "left",
+   "offset_mm": [
+    -2.86,
+    5.72,
+    2.73
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.333,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": null,
+    "gates": true,
+    "was_flagged": false
+   },
+   "reseated": {
+    "vol_cm3": 0.333,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": null,
+    "gates": true
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 7.0 mm (x -2.9, y +5.7, z +2.7) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his left orbit (no usable own label for this muscle: moved with its orbit).",
+   "shipped": true
+  },
+  "superior_rectus_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.379,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": null,
+    "gates": true,
+    "was_flagged": false
+   },
+   "reseated": {
+    "vol_cm3": 0.379,
+    "outside_skin": 0.0,
+    "in_bone": 0.0033,
+    "in_orbit": 1.0,
+    "label_median_mm": null,
+    "gates": true
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit (no usable own label for this muscle: moved with its orbit).",
+   "shipped": true
+  },
+  "inferior_oblique_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.869,
+    "outside_skin": 0.0,
+    "in_bone": 0.0238,
+    "in_orbit": 0.168,
+    "label_median_mm": 7.29,
+    "gates": false,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.869,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 0.977,
+    "label_median_mm": 3.08,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.102,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.22,
+    "gates": true,
+    "largest_component_frac": 0.949,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit; mesh -> own label median 7.3 -> 3.1 mm; his own label build (0.10 cm3, 95 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "inferior_rectus_l": {
+   "side": "left",
+   "offset_mm": [
+    -2.86,
+    5.72,
+    2.73
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.702,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 0.493,
+    "label_median_mm": 5.62,
+    "gates": false,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.702,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 3.75,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.077,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.24,
+    "gates": true,
+    "largest_component_frac": 0.834,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 7.0 mm (x -2.9, y +5.7, z +2.7) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his left orbit; mesh -> own label median 5.6 -> 3.8 mm; his own label build (0.08 cm3, 83 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "inferior_rectus_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.845,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 0.089,
+    "label_median_mm": 9.7,
+    "gates": false,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.845,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 1.81,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.361,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.26,
+    "gates": true,
+    "largest_component_frac": 1.0,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit; mesh -> own label median 9.7 -> 1.8 mm; his own label build (0.36 cm3, 100 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "lateral_rectus_l": {
+   "side": "left",
+   "offset_mm": [
+    -2.86,
+    5.72,
+    2.73
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.783,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 0.963,
+    "label_median_mm": 3.76,
+    "gates": true,
+    "was_flagged": false
+   },
+   "reseated": {
+    "vol_cm3": 0.783,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 3.54,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.172,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.21,
+    "gates": true,
+    "largest_component_frac": 0.661,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 7.0 mm (x -2.9, y +5.7, z +2.7) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his left orbit; mesh -> own label median 3.8 -> 3.5 mm; his own label build (0.17 cm3, 66 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "lateral_rectus_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.717,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 0.934,
+    "label_median_mm": 8.71,
+    "gates": true,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.717,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 1.99,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.351,
+    "outside_skin": 0.0,
+    "in_bone": 0.0096,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.23,
+    "gates": true,
+    "largest_component_frac": 1.0,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit; mesh -> own label median 8.7 -> 2.0 mm; his own label build (0.35 cm3, 100 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "levator_palpebrae_superioris_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.867,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 7.77,
+    "gates": true,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.867,
+    "outside_skin": 0.0,
+    "in_bone": 0.0086,
+    "in_orbit": 1.0,
+    "label_median_mm": 1.2,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.372,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.28,
+    "gates": true,
+    "largest_component_frac": 0.813,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit; mesh -> own label median 7.8 -> 1.2 mm; his own label build (0.37 cm3, 81 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "levator_palpebrae_superioris_l": {
+   "side": "left",
+   "offset_mm": [
+    -2.86,
+    5.72,
+    2.73
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.806,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 3.87,
+    "gates": true,
+    "was_flagged": false
+   },
+   "reseated": {
+    "vol_cm3": 0.806,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 1.02,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 1.048,
+    "outside_skin": 0.0,
+    "in_bone": 0.0022,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.47,
+    "gates": true,
+    "largest_component_frac": 0.909,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 7.0 mm (x -2.9, y +5.7, z +2.7) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his left orbit; mesh -> own label median 3.9 -> 1.0 mm; his own label build (1.05 cm3, 91 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "medial_rectus_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.84,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 0.048,
+    "label_median_mm": 9.03,
+    "gates": false,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.84,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 1.59,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.362,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.24,
+    "gates": true,
+    "largest_component_frac": 0.867,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit; mesh -> own label median 9.0 -> 1.6 mm; his own label build (0.36 cm3, 87 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "optic_n": {
+   "side": "both",
+   "offset_mm": [
+    1.5,
+    7.05,
+    -0.82
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.954,
+    "outside_skin": 0.0,
+    "in_bone": null,
+    "in_orbit": null,
+    "label_median_mm": 6.6,
+    "gates": true,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.954,
+    "outside_skin": 0.0,
+    "in_bone": null,
+    "in_orbit": null,
+    "label_median_mm": 2.74,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.335,
+    "outside_skin": 0.0,
+    "in_bone": null,
+    "in_orbit": null,
+    "label_median_mm": 0.25,
+    "gates": true,
+    "largest_component_frac": 0.482,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 7.3 mm (x +1.5, y +7.0, z -0.8) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his both orbits; mesh -> own label median 6.6 -> 2.7 mm; his own label build (0.34 cm3, 48 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "superior_oblique_l": {
+   "side": "left",
+   "offset_mm": [
+    -2.86,
+    5.72,
+    2.73
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.404,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 4.48,
+    "gates": true,
+    "was_flagged": false
+   },
+   "reseated": {
+    "vol_cm3": 0.404,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 2.43,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.164,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.23,
+    "gates": true,
+    "largest_component_frac": 0.518,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 7.0 mm (x -2.9, y +5.7, z +2.7) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his left orbit; mesh -> own label median 4.5 -> 2.4 mm; his own label build (0.16 cm3, 52 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
+  },
+  "superior_oblique_r": {
+   "side": "right",
+   "offset_mm": [
+    5.86,
+    8.38,
+    -4.37
+   ],
+   "as_shipped": {
+    "vol_cm3": 0.435,
+    "outside_skin": 0.0,
+    "in_bone": 0.0347,
+    "in_orbit": 0.152,
+    "label_median_mm": 7.77,
+    "gates": false,
+    "was_flagged": true
+   },
+   "reseated": {
+    "vol_cm3": 0.435,
+    "outside_skin": 0.0,
+    "in_bone": 0.0033,
+    "in_orbit": 1.0,
+    "label_median_mm": 1.51,
+    "gates": true
+   },
+   "own_label_build": {
+    "vol_cm3": 0.175,
+    "outside_skin": 0.0,
+    "in_bone": 0.0,
+    "in_orbit": 1.0,
+    "label_median_mm": 0.23,
+    "gates": true,
+    "largest_component_frac": 0.678,
+    "anatomy": false
+   },
+   "pick": "reseated",
+   "badge": "Q185 orbit re-seat: moved 11.1 mm (x +5.9, y +8.4, z -4.4) onto his own TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in his right orbit; mesh -> own label median 7.8 -> 1.5 mm; his own label build (0.17 cm3, 68 % in one piece) is a fragment of the frozen-CT segmentation, so the transferred shape is kept.",
+   "shipped": true
   }
  },
  "summary": {
-  "candidates": 27,
+  "candidates": 38,
+  "shipped": 25,
+  "held": 13,
+  "hidden": 5
+ },
+ "summary_organ": {
+  "candidates": 2,
+  "shipped": 0,
+  "held": 2,
+  "hidden": 0
+ },
+ "summary_skin": {
+  "candidates": 20,
   "shipped": 19,
-  "held": 8,
-  "hidden": 4
+  "held": 1,
+  "hidden": 0
+ },
+ "summary_orbit": {
+  "candidates": 13,
+  "shipped": 13,
+  "held": 0,
+  "hidden": 0
  }
 }

@@ -10581,16 +10581,16 @@ the female's phalanges are under-captured at HU 200.
 - QUEUE (new; none started):
   - [ ] Q185a his skin: rebuild the arm segments beyond the torso-CT FOV cut (x = -233 / +247) from his cryosection / arm-bone frame,
     so his own arm bones and forearm muscles sit inside it; gate: his ct_vhm_arm bones 0 % outside skin.
-  - [ ] Q185b Z-Anatomy limb transfers (his 34, her 14 hand / foot / forearm records): clip to skin and carve against own bones, or
+  - [~] Q185b (2026-10-01 Q185 b/f/g: skin pull-in + bone carve; his 34 -> 16 flagged + 1 hidden, her 14 -> 4; REMAINS: his 9 forearm records are outside only beyond his skin's FOV cut = Q185a, 6+3 shipped with 1-5 % residual, extensor indicis r / her flexor retinaculum r held, his ECU/EDM r / pronator teres l / IO membrane deep in bone) Z-Anatomy limb transfers (his 34, her 14 hand / foot / forearm records): clip to skin and carve against own bones, or
     re-fit per bone; gate skin <= 1 %, bone <= 5 %.
   - [x] Q185c (2026-10-01: rebuilt from own endplates, his 19 / her 18 shipped, 1 / 2 held; sweep flags 14 / 11 -> 0 / 1 (her held T3/T4); see ## Q185c) procedural intervertebral discs (his 14, her 11): refit each cylinder to the adjacent vertebral endplates from the TS
     vertebra labels (radius / centre / height); gate 0 % > 1 mm in lung / organs, <= 5 % in vertebrae.
   - [~] Q185d (2026-10-01 Q185 d/e/h/i/j bone carve: his 7 -> 2 flagged, her 12 -> 3 + 5 hidden; REMAINS: her hip/ankle cartilage need a real rebuild on her bone surfaces, cruciates/TCL held) her xfer_vhm2vhf articular cartilages + cruciates (hip 82-86 % in bone): shell them on HER bone surfaces (or drop);
     re-check his vhm_both cartilage 6-12 %.
   - [~] Q185e (2026-10-01 bone carve: 25 -> 11 flagged + 3 hidden, 12 fixed; REMAINS: deep (> 4 mm) overlaps -- obturator externus, quadratus femoris, vasti, FDL l, TA l; 2 left are organ-only) her male->female leg/hip/forearm muscle transfers (25): carve against her bone labels / meshes; gate bone <= 5 %.
-  - [ ] Q185f transversus abdominis (her xfer_vhm2vhf_tva 24-46 % in liver/stomach; his ct_vhm_abw 11 %) + his rectus abdominis l:
+  - [~] Q185f (2026-10-01 bounded organ push: all 4 HELD -- overlap deeper than 4 mm; her TA l/r hidden by default, his TA r / RA l 8-11 % badged; REMAINS: refit against the peritoneal boundary) transversus abdominis (her xfer_vhm2vhf_tva 24-46 % in liver/stomach; his ct_vhm_abw 11 %) + his rectus abdominis l:
     carve against the TS organ labels / peritoneal boundary.
-  - [ ] Q185g his orbit: replace the 8 xfer_vhf2vhm orbit records with his own vhm_oculomotor_muscles labels (Q183-style own-label
+  - [x] Q185g (2026-10-01: per-orbit rigid re-seat of the transfer onto his own labels, 8 -> 0 flagged; his own label build compared and rejected as fragments; see ## Q185 b/f/g) his orbit: replace the 8 xfer_vhf2vhm orbit records with his own vhm_oculomotor_muscles labels (Q183-style own-label
     build, gates vs own label <= 1 mm).
   - [x] Q185h (2026-10-01 bone carve: his 4 -> 0 flagged [2 fixed, 2 hidden], her 3 -> 0 [2 fixed, 1 hidden]) rectus capitis anterior / lateralis transfers (7): carve against the skull label (occipital condyle / jugular process).
   - [~] Q185i (2026-10-01 bone carve: his 13 -> 3 [9 fixed, 1 hidden; gluteus min l is own-label only], her 16 -> 11 [3 fixed, 2 hidden]; REMAINS: her shoulder/hand/forearm muscles fold across thin bone edges -> needs a voxel subtraction) own cryo/CT muscles overlapping bone (his 13, her 16): subtract the bone labels / own bone meshes (+ re-check volumes).
@@ -10680,3 +10680,48 @@ the female's phalanges are under-captured at HU 200.
 - NEXT: held deep overlaps (her e/i, his coracobrachialis/brachialis) -> voxel boolean (muscle label minus bone) + remesh;
   her hip/ankle cartilage -> build on HER femoral head / acetabulum / talus from her bone surfaces; republish when decided.
 - Main session (2026-10-01): Q185 d/e/h/i/j published -- male v76, female v59 (counts unchanged; hidden_default his 18 / hers 13).
+
+## Q185 b/f/g (2026-10-01) -- skin pull-in, organ push, his orbit re-seat (both bundles)
+- Same script, extended (not forked): `scripts/bone_carve_q185.py` now runs per record bone carve -> organ push -> skin
+  pull-in, then (his) orbit re-seat; same in-place backup/restore (badge restore strips any Q185 tag), same rebuild wiring.
+  Report sections in data/derived/Q185_bone_carve_<body>.json: `organ_push`, `skin_pull`, `orbit_reseat`; montage
+  `python3 scripts/bone_carve_q185.py montage_bfg` -> scratch q185bfg/montage_worst_before_after.png.
+- b skin pull-in: reference = own ct_v?_skin mesh (the sweep's). Checked first: every own hand/foot bone is 0 % outside
+  that skin in both bodies, so the 1-3 mm pokes are the Z-Anatomy muscles, not the skin -- EXCEPT his skin's flat caps at
+  the torso-CT FOV (x = -233.4 / +246.6, auto-detected: > 1000 vertices on the plane): outside vertices within 4 mm of /
+  beyond a cut are never pulled (8,708 vertices, 13 records; 12 records -- supinator l/r, ECRL/ECRB l/r, ECU l/r, EDM r,
+  brachioradialis l, pronator teres l, IO membrane r -- are outside ONLY there, skipped, = Q185a). Vertices <= 4 mm outside ->
+  1 mm under the skin along the closest-point direction (P_SKIN), fold guard / 2nd pass; gate <= 5 % pullable still outside,
+  |vol| <= 25 %, no new in-bone flag; hidden only if > 20 % outside. Bone exclusion of the Q185b subjects lifted (fascia = push).
+  his: skin 19 shipped / 1 held (extensor indicis r 17 -> 5.4 %), bone 6 shipped (supinator r/l, EPB r, FPL r, add. pollicis l,
+  opponens pollicis l) / 5 held (ECU l hidden 24.6 %; ECU r, EDM r, pronator teres l, IO membrane r: > 4 mm deep).
+  her: skin 11 shipped / 1 held (flexor retinaculum r 17.8 -> 5.3 %), bone 2 shipped (FHB l, opponens pollicis r).
+- f organ push (abdominal wall only, ORGAN_PUSH_RE; TS organ labels = sweep ORGANS): all 4 HELD (bounded 4 mm cannot clear
+  it): his TA r 11.0 -> 8.1 %, RA l 8.4 -> 7.5 % (badged, shown); her TA r 46.7 -> 32.7 %, TA l 24.3 -> 16.4 % -> hidden_default.
+- g orbit: his label volume exists (vhm_oculomotor_muscles.nii.gz). Rebuilt via the normal convert path
+  (ingest_volume_geometry.py convert, scratch q185bfg/ct_vhm_orbit_rebuilt): identical to shipped ct_vhm_orbit (37,276 tris),
+  0.2 mm from the labels -- so the label frame/origin is right. The 6-10 mm offset is the TRANSFER: xfer_vhf2vhm moves her
+  orbit with one cranium-wide affine (driving bone cranium 0.92), which lands his right orbit 11.1 mm off (label - transfer
+  = x +5.9, y +8.4, z -4.4: the muscles sat inferior/medial/anterior, 4 of 6 right muscles < 17 % inside his orbit cone) and
+  the left 7.0 mm (x -2.9, y +5.7, z +2.7). Not a volume frame shift, not a wrong source. Fix: per-orbit rigid translation
+  (label-volume-weighted centroid offset), all 13 transferred orbit records of a side moved as one block (incl. unflagged
+  superior recti, lateral rectus l, superior oblique l, levator l -- consistent with his own medial rectus l / inferior oblique
+  l). Candidates per record vs gates (0 % outside skin, <= 2 % in bone, >= 90 % inside the side's label hull + 3 mm) and
+  anatomy (own build >= 0.5 x volume and >= 95 % in one piece): own label builds are 0.08-0.37 cm3 = 11-49 % of the muscle
+  (levator l 1.05 cm3 but 91 % largest piece, Q99) -> rejected as fragments; re-seated passes everywhere: label median
+  5.6-9.7 -> 1.2-3.8 mm, in-orbit 0.05-0.49 -> 0.98-1.0. 13 re-seated, badge "Q185 orbit re-seat: moved ...".
+- Sweep re-run on all b/f/g + touched ids (`--only`, data/derived/Q185bfg_sweep_after_<body>.json; hidden not swept):
+  his b 34 -> 16 + 1 hidden (9 of the 16 = FOV-cut only, 6 shipped with 1.1-4.5 % residual, extensor indicis held),
+  f 2 -> 2 (held), g 8 -> 0; her b 14 -> 4 (3 shipped with 3.3-4.5 % residual, flexor retinaculum r held), f 2 -> 0 + 2 hidden.
+  No new flags on any swept record.
+- Rebuilt both: his 462 structures, "triangles 22,584,126 -> 2,239,506"; hers 455, "32,496,516 -> 3,372,099" (unchanged).
+  Per record vs the pre-change bundles: his 381 identical, 38 geometry (25 b + 13 orbit), 8 entry-only (held badges / hidden);
+  hers 416 identical, 13 geometry, 3 entry-only. Changed files: his _geo_01, hers _geo_02, bundle.*, html (geo_00 both, her
+  geo_01 unchanged). hidden_default his 18 -> 19 (+ECU l), hers 13 -> 15 (+TA l/r); tests/test_hidden_default_q184.py updated.
+- Headless Chromium (q184/probe.py): 0 page errors both, "Search 462 / 455 structures", visible at load his 339 -> 338,
+  hers 340 -> 338; new hidden ids show after a list pick with the note + Show/Hide; phone renders.
+- Tests: tests/test_bone_carve_q185.py +3 (skin pull to 1 mm under / bounded, FOV-cut vertices not pulled, orbit hull gate);
+  with Q184 hidden + Q185 sweep suites 16 pass. Not published. (her rebuild log: the known vhf_whole_body_skin traceback.)
+- NEXT: Q185a (his arm skin beyond the FOV cut) clears 9 of his remaining b flags; residual 1-5 % pokes + deep forearm/organ
+  overlaps need a refit (not a bounded snap); republish when decided.
+

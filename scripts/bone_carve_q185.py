@@ -28,6 +28,19 @@ first relaxed (local Laplacian of the displacement, moved vertices only), what s
 and finally reverted; the shipped mesh has 0 flipped faces. A second pass runs from the first result when the gate fails. GATE: ship only if <= 5 % of vertices remain > 1 mm inside bone
 and (push / shell) the enclosed volume changed by <= 25 %; else the original is kept, hidden_default set when it is
 > 20 % inside bone, and the badge gives its numbers. Report: data/derived/Q185_bone_carve_<body>.json.
+
+Q185 b/f: the same bounded move, two more references (stages run in this order on one record: bone -> organ -> skin):
+  organ push   (Q185f) abdominal-wall muscles (ORGAN_PUSH_RE) with > 5 % of vertices > 1 mm inside that body's own TS
+               organ labels (the sweep's ORGANS): pushed out exactly like the bone push (<= 4 mm, surface + 0.5 mm).
+  skin pull-in (Q185b) every soft record with > 1 % of its vertices outside that body's own skin mesh (ct_v?_skin, the
+               sweep's embree-parity reference): vertices <= 4 mm outside move along the SDF gradient (towards the
+               closest skin point) to skin surface - 1 mm; further out stay. His skin is cut flat at the torso-CT
+               field-of-view edge (Q185a, x = -233 / +247 mm): outside vertices within 4 mm of / beyond such a cut are
+               NOT pulled (the skin there is wrong, not the muscle) and are counted in the badge + report.
+  Same fold guard / relax / second pass and hold rules: ship only if <= 5 % still outside (beyond-FOV vertices not
+  counted) / in organ, |volume| <= 25 %, and (skin) no new in-bone flag; else the stage's input is kept, hidden_default
+  only if > 20 % outside skin / in organ. Bone exclusion of the Q185b subjects is lifted (their bone carve is part of
+  Q185b; fascia pushes like muscle). Report sections "organ_push" / "skin_pull".
 """
 from __future__ import annotations
 
@@ -52,14 +65,24 @@ from scripts.costal_cartilage_from_ct_labels import BONE  # noqa: E402
 
 VH = REPO / "build" / "vh"
 SCRATCH = Path("/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q185bone")
-MODE = {"muscle": "push", "vessel": "push", "nerve": "push", "tendon": "trim", "ligament": "trim", "cartilage": "shell"}
+MODE = {"muscle": "push", "vessel": "push", "nerve": "push", "fascia": "push", "tendon": "trim", "ligament": "trim",
+        "cartilage": "shell"}
 P = {"offset": 0.5, "inside_tol": 0.5, "max_depth": 4.0, "shell_median_max": 3.0, "flag_mm": 1.0, "flag_frac": 0.05,
      "gate_frac": 0.05, "band": 0.5, "smooth_rounds": 0, "gate_vol": 0.25, "hide_frac": 0.20}
 # not handled here (stated in the report): label-overlap false positives (Q185 "ref"), Q185b limb transfers (skin +
 # bone refit, own queue item), Q185c discs (rebuilt from the endplates)
 EXCLUDE_ID_RE = re.compile(r"^(lateral_pterygoid|temporalis)_[lr]$|^intervertebral_disc_")
-EXCLUDE_SUBJECT_RE = re.compile(r"^(xfer_zan2vh[mf]_limb|xfer_zan2vhf_foot)")
+# Q185b/f: skin pull-in (surface - 1 mm, <= 4 mm outside) and organ push (abdominal wall only; others stay in their queue)
+P_SKIN = dict(P, offset=1.0, inside_tol=0.0, band=1.5)
+P_ORGAN = dict(P)
+ORGAN_PUSH_RE = re.compile(r"^(transversus_abdominis|rectus_abdominis|internal_oblique|external_oblique)_[lr]$")
+SKIN_FLAG = 0.01
+SKIN_CUT_MIN_VERTS = 1000          # a flat x = const cap of the skin mesh (his torso-CT field-of-view edge)
 TAG = "Q185 bone carve"
+TAG_ORGAN = "Q185 organ push"
+TAG_SKIN = "Q185 skin pull-in"
+TAGS = (TAG, TAG_ORGAN, TAG_SKIN)
+SCRATCH_BFG = SCRATCH.parent / "q185bfg"
 STATE = "q185_carve_state.json"
 BACKUP = "vertices.preq185.f32"
 
@@ -279,12 +302,12 @@ def carve(v, f, field, mode: str, p: dict = P) -> tuple[np.ndarray, dict]:
 
 # ---------------------------------------------------------------- the body's own bone
 class BoneField:
-    def __init__(self, body: str, bones: list):
+    def __init__(self, body: str, bones: list, labels=BONE):
         import trimesh
         from scipy.spatial import cKDTree
         self.body = body; self.O = np.array([float(x) for x in ORIGIN[body].split(",")])
         tot, self.A, self.sp = _nii(TASK / f"{body}_total.nii.gz"); self.shape = tot.shape
-        self.mask = np.isin(tot, BONE); del tot
+        self.mask = np.isin(tot, labels); del tot          # BONE, or the sweep's ORGANS for the organ push
         self.depth = depth_map(self.mask, self.sp)          # the sweep's B.bone (same numbers)
         self.mesh = []
         for aid, v, f in bones:
@@ -387,6 +410,70 @@ class BoneField:
         return field
 
 
+# ---------------------------------------------------------------- the body's own skin (Q185b)
+class SkinField:
+    """that body's own skin mesh (ct_v?_skin -- the Q185 sweep's outside-skin reference, embree ray parity).
+    field: signed distance OUTSIDE the skin (> 0 outside), exit direction = towards the closest skin point. Flat x = const
+    caps of the mesh (his torso-CT field-of-view edge, Q185a) are detected; outside vertices within max_depth of / beyond
+    such a cut are `beyond` -- never pulled (the skin is wrong there, not the structure)"""
+    def __init__(self, body: str):
+        from scripts.ribs_from_ct_labels import load_skin
+        self.skin = load_skin(body)
+        v = np.asarray(self.skin.vertices, np.float64); f = np.asarray(self.skin.faces, np.int64)
+        sgn = 1.0 if float(np.einsum("ij,ij->i", v[f[:, 0]], np.cross(v[f[:, 1]], v[f[:, 2]])).sum()) >= 0 else -1.0
+        fn = face_normals(v, f) * sgn; self.fn = fn / np.maximum(np.linalg.norm(fn, axis=1), 1e-12)[:, None]
+        self.v, self.f, self.fc = v, f, v[f].mean(1)
+        lo, hi = float(v[:, 0].min()), float(v[:, 0].max())
+        self.cut_lo = lo if (np.abs(v[:, 0] - lo) < 0.5).sum() > SKIN_CUT_MIN_VERTS else None
+        self.cut_hi = hi if (np.abs(v[:, 0] - hi) < 0.5).sum() > SKIN_CUT_MIN_VERTS else None
+
+    def outside(self, pts) -> np.ndarray:
+        return ~self.skin.contains(np.asarray(pts, np.float64))
+
+    def beyond(self, pts, tol: float = P_SKIN["max_depth"]) -> np.ndarray:
+        x = np.asarray(pts)[:, 0]; b = np.zeros(len(x), bool)
+        if self.cut_lo is not None:
+            b |= x <= self.cut_lo + tol
+        if self.cut_hi is not None:
+            b |= x >= self.cut_hi - tol
+        return b
+
+    def frac(self, v):
+        """(outside, outside and pullable [not beyond a FOV cut], outside beyond a cut) fractions -- sweep subsample"""
+        rng = np.random.default_rng(185)
+        p = v if len(v) <= MAX_PTS else v[rng.choice(len(v), MAX_PTS, replace=False)]
+        out = self.outside(p); bey = self.beyond(p)
+        return float(out.mean()), float((out & ~bey).mean()), float((out & bey).mean())
+
+    def context(self, lo, hi, margin=8.0, n=15000):
+        sel = np.all((self.v >= lo - margin) & (self.v <= hi + margin), 1); P_ = self.v[sel]
+        if len(P_) > n:
+            P_ = P_[np.random.default_rng(0).choice(len(P_), n, replace=False)]
+        return P_.astype(np.float32)
+
+    def local(self, lo, hi, margin=20.0):
+        import trimesh
+        sel = np.all((self.fc >= lo - margin) & (self.fc <= hi + margin), 1)
+        if not sel.any():
+            def none(pts):
+                return np.full(len(pts), -1e3), np.zeros((len(pts), 3))
+            return none
+        fi = np.flatnonzero(sel); u, inv = np.unique(self.f[fi], return_inverse=True)
+        sub = trimesh.Trimesh(self.v[u], inv.reshape(-1, 3), process=False)
+
+        def field(pts):
+            pts = np.asarray(pts, np.float64)
+            out = self.outside(pts)
+            cp, dist, tri = trimesh.proximity.closest_point(sub, pts)
+            d = np.where(out, dist, -dist)
+            g = np.where(out[:, None], cp - pts, pts - cp)
+            z = dist < 1e-6; g[z] = -self.fn[fi[tri[z]]]
+            n = np.linalg.norm(g, axis=1); n[n < 1e-9] = 1; g = g / n[:, None]
+            d[self.beyond(pts) & (d > -P_SKIN["band"])] = -1e3   # FOV cut: not pulled, not rim
+            return d, g
+        return field
+
+
 # ---------------------------------------------------------------- subjects (exporter's claim order)
 def _sha(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -408,8 +495,9 @@ def restore(sub: str) -> None:
         if o is None:
             continue
         b = r.get("procedural_badge", "")
-        if TAG in b:
-            b = b[:b.index(TAG)].rstrip()
+        at = [b.index(t) for t in TAGS if t in b]
+        if at:
+            b = b[:min(at)].rstrip()
             if b and b != o.get("base_badge_from_entity"):
                 r["procedural_badge"] = b
             else:
@@ -451,10 +539,53 @@ def frac_in(B: BoneField, v: np.ndarray) -> float:
     return float((B.sweep_depth(p) > P["flag_mm"]).mean())
 
 
+def stage(geo, cur, fld_of, frac, mode, p, extra_ok=None):
+    """one bounded move (bone carve / organ push / skin pull-in) of one structure's records, starting from `cur` (the
+    previous stage's output); fld_of(k) -> field for record k; frac(v_all) -> the gated fraction. Second pass from the
+    first result when the gate fails. Returns (new vertex arrays, stats)"""
+    v_in = np.concatenate(cur); a0 = frac(v_in)
+    new, infos = [], []
+    for k, ((_, f), v) in enumerate(zip(geo, cur)):
+        x, info = carve(v, f, fld_of(k), mode, p); new.append(x); infos.append(info)
+    v1_all = np.concatenate(new); b1 = frac(v1_all)
+    if b1 > p["gate_frac"] and mode != "shell" and not any(i.get("refused") for i in infos):
+        # second pass from the first result: the fold guard backs off vertices whose neighbours had not moved yet;
+        # still the same rule (only vertices <= max_depth inside move)
+        new2, inf2 = [], []
+        for k, ((_, f), x) in enumerate(zip(geo, new)):
+            x2, i2 = carve(x, f, fld_of(k), mode, p); new2.append(x2); inf2.append(i2)
+        v2_all = np.concatenate(new2); b2 = frac(v2_all)
+        if b2 < b1:
+            new, v1_all, b1 = new2, v2_all, b2
+            for i, j in zip(infos, inf2):
+                i["pass2"] = {k: j[k] for k in ("moved", "backed_off", "reverted", "flipped_faces_left") if k in j}
+                i["flipped_faces_left"] = j.get("flipped_faces_left", 0)
+    vol0 = sum(volume(v, g[1]) for v, g in zip(cur, geo)); vol1 = sum(volume(x, g[1]) for x, g in zip(new, geo))
+    dvol = (vol1 - vol0) / vol0 if vol0 > 0 else 0.0
+    mv = np.linalg.norm(v1_all - v_in, axis=1); n_moved = int((mv > 1e-6).sum())
+    refused = [i.get("refused") for i in infos if i.get("refused")]
+    extra = extra_ok(v1_all) if extra_ok else None
+    ok = (not refused and n_moved > 0 and b1 <= p["gate_frac"]
+          and (mode == "trim" or abs(dvol) <= p["gate_vol"])
+          and all(i.get("flipped_faces_left", 0) == 0 for i in infos) and not extra)
+    reason = (refused[0] if refused else f"{100 * b1:.1f} % still flagged" if b1 > p["gate_frac"] else
+              f"volume {100 * dvol:+.0f} %" if abs(dvol) > p["gate_vol"] else extra if extra else "fold guard")
+    return new, {"before": a0, "after": b1, "dvol": dvol, "moved": n_moved, "max_move": float(mv.max()) if len(mv) else 0.0,
+                 "infos": infos, "ok": bool(ok), "reason": None if ok else reason, "v_in": v_in, "v_out": v1_all}
+
+
+def _save(kind, body, aid, geo, st, m0, m1, ctx):
+    SCRATCH_BFG.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(SCRATCH_BFG / f"{kind}_{body}_{aid}.npz", v0=st["v_in"].astype(np.float32),
+                        v1=st["v_out"].astype(np.float32), m0=m0, m1=m1, ctx=ctx,
+                        f=np.concatenate([g[1] + o for g, o in zip(geo, np.cumsum([0] + [len(g[0]) for g in geo]))]).astype(np.int32))
+
+
 def run(body: str, subjects: list, excludes: list, report: Path, dry: bool = False, only: str | None = None) -> int:
     import gc
     from scripts.zanatomy.map_names import load_full_atlas
     from scripts.export_viewer_bundle import load_atlas_records
+    from scripts.placement_sweep_q185 import ORGANS, label_at
     if not dry:
         for sub in subjects:
             restore(sub)
@@ -472,77 +603,138 @@ def run(body: str, subjects: list, excludes: list, report: Path, dry: bool = Fal
             v, f = record(sub, s); vs.append(v); fs.append(f + n); n += len(v)
         bones.append((aid, np.concatenate(vs), np.concatenate(fs)))
     B = BoneField(body, bones); del bones; gc.collect()
-    print(f"{body}: bone = TS total labels + {len(B.mesh)} own bone meshes", flush=True)
-    rows, skipped = {}, {}
+    K = SkinField(body)
+    print(f"{body}: bone = TS total labels + {len(B.mesh)} own bone meshes; skin FOV cuts x = {K.cut_lo} / {K.cut_hi}", flush=True)
+    OF = tot = None
+    rows, skipped, rows_o, rows_s = {}, {}, {}, {}
     writes: dict = {}
+    pct = lambda x: f"{100 * x:.1f} %"   # noqa: E731
     for aid, (sub, recs) in cl.items():
         c = cat.get(aid) or recs[0].get("category")
-        if c not in MODE or (only and not re.search(only, aid)):
+        if c == "bone" or aid == "skin" or (only and not re.search(only, aid)):
             continue
-        why = ("Q185 exclusion (bone canal)" if aid in BONE_EXCLUDE_IDS else
-               "label-overlap false positive / Q185c disc" if EXCLUDE_ID_RE.search(aid) else
-               "Q185b subject (own queue item)" if EXCLUDE_SUBJECT_RE.search(sub) else
-               "hidden_default" if any(s.get("hidden_default") for s in recs) else None)
+        hidden = any(s.get("hidden_default") for s in recs)
         geo = [record(sub, s) for s in recs]
         v_all = np.concatenate([g[0] for g in geo])
-        a0 = frac_in(B, v_all)
-        if a0 <= P["flag_frac"]:
-            continue
-        if why:
-            skipped[aid] = {"subject": sub, "reason": why, "in_bone_frac": round(a0, 4)}; continue
-        mode = MODE[c]; new, infos = [], []
-        for v, f in geo:
-            fld = B.local(v.min(0), v.max(0)); fld.audit = B.sweep_depth
-            v1, info = carve(v, f, fld, mode); new.append(v1); infos.append(info)
-        v1_all = np.concatenate(new); b1 = frac_in(B, v1_all)
-        if b1 > P["gate_frac"] and mode != "shell" and not any(i.get("refused") for i in infos):
-            # second pass from the first result: the fold guard backs off vertices whose neighbours had not moved yet;
-            # still the same rule (only vertices <= max_depth inside move)
-            new2, inf2 = [], []
-            for (v, f), x in zip(geo, new):
-                fld = B.local(v.min(0), v.max(0)); fld.audit = B.sweep_depth
-                x2, i2 = carve(x, f, fld, mode); new2.append(x2); inf2.append(i2)
-            v2_all = np.concatenate(new2); b2 = frac_in(B, v2_all)
-            if b2 < b1:
-                new, v1_all, b1 = new2, v2_all, b2
-                for i, j in zip(infos, inf2):
-                    i["pass2"] = {k: j[k] for k in ("moved", "backed_off", "reverted", "flipped_faces_left") if k in j}
-                    i["flipped_faces_left"] = j.get("flipped_faces_left", 0)
-        vol0 = sum(volume(v, f) for v, f in geo); vol1 = sum(volume(x, g[1]) for x, g in zip(new, geo))
-        dvol = (vol1 - vol0) / vol0 if vol0 > 0 else 0.0
-        mv = np.linalg.norm(v1_all - v_all, axis=1); n_moved = int((mv > 1e-6).sum())
-        refused = [i.get("refused") for i in infos if i.get("refused")]
-        ok = (not refused and n_moved > 0 and b1 <= P["gate_frac"]
-              and (mode == "trim" or abs(dvol) <= P["gate_vol"])
-              and all(i.get("flipped_faces_left", 0) == 0 for i in infos))
-        row = {"subject": sub, "cat": c, "mode": mode, "nv": int(len(v_all)), "in_bone_before": round(a0, 4),
-               "in_bone_after": round(b1, 4), "volume_change": round(dvol, 4), "moved": n_moved,
-               "max_move_mm": round(float(mv.max()), 2), "records": infos, "shipped": bool(ok)}
-        pct = lambda x: f"{100 * x:.1f} %"   # noqa: E731
-        if ok:
-            badge = (f"{TAG}: {n_moved} vertices moved out of {her} own bone (max {mv.max():.1f} mm); "
-                     f"in-bone {pct(a0)} -> {pct(b1)}" + (" (trimmed at the bone surface)." if mode == "trim" else "."))
-            row["hidden_default"] = False
-        else:
-            reason = refused[0] if refused else (f"{pct(b1)} still > 1 mm inside" if b1 > P["gate_frac"] else
-                                                 f"volume {100 * dvol:+.0f} %" if abs(dvol) > P["gate_vol"] else "fold guard")
-            hide = a0 > P["hide_frac"]
-            badge = (f"{TAG} HELD: {pct(a0)} of this mesh lies > 1 mm inside {her} own bone; the bounded carve "
-                     f"(<= {P['max_depth']:.0f} mm push / cartilage <= {P['shell_median_max']:.0f} mm median) did not fix it "
-                     f"({reason}), so the unmodified mesh is shown" + (" -- hidden by default." if hide else "."))
-            row["hidden_default"] = hide; row["held_reason"] = reason
-        row["badge"] = badge; rows[aid] = row
-        SCRATCH.mkdir(parents=True, exist_ok=True)
-        np.savez_compressed(SCRATCH / f"carve_{body}_{aid}.npz", v0=v_all.astype(np.float32), v1=v1_all.astype(np.float32),
-                            f=np.concatenate([g[1] + o for g, o in zip(geo, np.cumsum([0] + [len(g[0]) for g in geo]))]).astype(np.int32),
-                            d0=B.sweep_depth(v_all).astype(np.float32), d1=B.sweep_depth(v1_all).astype(np.float32),
-                            bone=B.context(v_all.min(0), v_all.max(0)))
-        w = writes.setdefault(sub, {})
-        w[aid] = (row, [(s, x) for s, x in zip(recs, new)] if ok else [(s, None) for s in recs])
-        print(f"  {aid} [{sub}] {mode}: in-bone {pct(a0)} -> {pct(b1)}, moved {n_moved}, max {mv.max():.1f} mm, "
-              f"vol {100 * dvol:+.1f} % -> {'SHIP' if ok else 'HELD' + (' hidden' if row['hidden_default'] else '')}"
-              f" | {[{k: i[k] for k in ('backed_off', 'reverted', 'n_too_deep', 'n_no_exit', 'median_move_mm', 'refused') if k in i} for i in infos]}", flush=True)
-        del geo, new, v_all, v1_all; gc.collect()
+        cur = [g[0] for g in geo]; badges = []; hide = False; shipped_any = False
+        # ---- stage 1: bone (Q185 d/e/h/i/j; + the Q185b subjects)
+        a0 = frac_in(B, v_all) if c in MODE else 0.0
+        if a0 > P["flag_frac"]:
+            why = ("Q185 exclusion (bone canal)" if aid in BONE_EXCLUDE_IDS else
+                   "label-overlap false positive / Q185c disc" if EXCLUDE_ID_RE.search(aid) else
+                   "hidden_default" if hidden else None)
+            if why:
+                skipped[aid] = {"subject": sub, "reason": why, "in_bone_frac": round(a0, 4)}
+            else:
+                mode = MODE[c]
+
+                def fld_b(k, geo=geo):
+                    fl = B.local(geo[k][0].min(0), geo[k][0].max(0)); fl.audit = B.sweep_depth
+                    return fl
+                new, st = stage(geo, cur, fld_b, lambda x: frac_in(B, x), mode, P)
+                b1, dvol, n_moved, mx, ok = st["after"], st["dvol"], st["moved"], st["max_move"], st["ok"]
+                row = {"subject": sub, "cat": c, "mode": mode, "nv": int(len(v_all)), "in_bone_before": round(a0, 4),
+                       "in_bone_after": round(b1, 4), "volume_change": round(dvol, 4), "moved": n_moved,
+                       "max_move_mm": round(mx, 2), "records": st["infos"], "shipped": bool(ok)}
+                if ok:
+                    badge = (f"{TAG}: {n_moved} vertices moved out of {her} own bone (max {mx:.1f} mm); "
+                             f"in-bone {pct(a0)} -> {pct(b1)}" + (" (trimmed at the bone surface)." if mode == "trim" else "."))
+                    row["hidden_default"] = False
+                else:
+                    reason = st["reason"].replace("% still flagged", "% still > 1 mm inside")
+                    h = a0 > P["hide_frac"]
+                    badge = (f"{TAG} HELD: {pct(a0)} of this mesh lies > 1 mm inside {her} own bone; the bounded carve "
+                             f"(<= {P['max_depth']:.0f} mm push / cartilage <= {P['shell_median_max']:.0f} mm median) did not fix it "
+                             f"({reason}), so the unmodified mesh is shown" + (" -- hidden by default." if h else "."))
+                    row["hidden_default"] = h; row["held_reason"] = reason; hide |= h
+                row["badge"] = badge; rows[aid] = row; badges.append(badge)
+                SCRATCH.mkdir(parents=True, exist_ok=True)
+                np.savez_compressed(SCRATCH / f"carve_{body}_{aid}.npz", v0=v_all.astype(np.float32), v1=st["v_out"].astype(np.float32),
+                                    f=np.concatenate([g[1] + o for g, o in zip(geo, np.cumsum([0] + [len(g[0]) for g in geo]))]).astype(np.int32),
+                                    d0=B.sweep_depth(v_all).astype(np.float32), d1=B.sweep_depth(st["v_out"]).astype(np.float32),
+                                    bone=B.context(v_all.min(0), v_all.max(0)))
+                print(f"  {aid} [{sub}] {mode}: in-bone {pct(a0)} -> {pct(b1)}, moved {n_moved}, max {mx:.1f} mm, "
+                      f"vol {100 * dvol:+.1f} % -> {'SHIP' if ok else 'HELD' + (' hidden' if row['hidden_default'] else '')}"
+                      f" | {[{k: i[k] for k in ('backed_off', 'reverted', 'n_too_deep', 'n_no_exit', 'median_move_mm', 'refused') if k in i} for i in st['infos']]}", flush=True)
+                if ok:
+                    cur = new; shipped_any = True
+        # ---- stage 2: organ push (Q185f; abdominal wall only)
+        if c == "muscle" and ORGAN_PUSH_RE.search(aid) and not hidden:
+            if OF is None:
+                OF = BoneField(body, [], labels=list(ORGANS)); tot = _nii(TASK / f"{body}_total.nii.gz")[0]
+            v_cur = np.concatenate(cur); o0 = frac_in(OF, v_cur)
+            if o0 > P["flag_frac"]:
+                def fld_o(k, geo=geo):
+                    fl = OF.local(geo[k][0].min(0), geo[k][0].max(0)); fl.audit = OF.sweep_depth
+                    return fl
+                new, st = stage(geo, cur, fld_o, lambda x: frac_in(OF, x), "push", P_ORGAN,
+                                extra_ok=lambda x: (f"in-bone {pct(frac_in(B, x))}" if frac_in(B, x) > max(P["gate_frac"], frac_in(B, v_cur)) else None))
+                dep = OF.sweep_depth(v_cur) > P["flag_mm"]
+                labs = label_at(tot, OF.A, OF.O, v_cur[dep]); u, cnt = np.unique(labs[labs > 0], return_counts=True)
+                organs = "/".join(ORGANS[int(x)] for x, _ in sorted(zip(u, cnt), key=lambda t: -t[1])[:3] if int(x) in ORGANS) or "organ"
+                ok = st["ok"]; h = (not ok) and o0 > P["hide_frac"]
+                if ok:
+                    badge = (f"{TAG_ORGAN}: {st['moved']} vertices moved out of {her} own {organs} label (max {st['max_move']:.1f} mm); "
+                             f"in-organ {pct(o0)} -> {pct(st['after'])}.")
+                    cur = new; shipped_any = True
+                else:
+                    badge = (f"{TAG_ORGAN} HELD: {pct(o0)} of this mesh lies > 1 mm inside {her} own {organs} label; the bounded "
+                             f"push (<= {P_ORGAN['max_depth']:.0f} mm) did not fix it ({st['reason'].replace('% still flagged', '% still > 1 mm inside')}), "
+                             f"so the mesh is shown without it" + (" -- hidden by default." if h else "."))
+                hide |= h; badges.append(badge)
+                rows_o[aid] = {"subject": sub, "organs": organs, "in_organ_before": round(o0, 4), "in_organ_after": round(st["after"], 4),
+                               "volume_change": round(st["dvol"], 4), "moved": st["moved"], "max_move_mm": round(st["max_move"], 2),
+                               "shipped": ok, "hidden_default": h, "held_reason": st["reason"], "badge": badge,
+                               "records": [{k: i[k] for k in ("moved", "n_too_deep", "backed_off", "reverted", "flipped_faces_left") if k in i} for i in st["infos"]]}
+                _save("organ", body, aid, geo, st, OF.sweep_depth(st["v_in"]) > 1, OF.sweep_depth(st["v_out"]) > 1,
+                      OF.context(v_cur.min(0), v_cur.max(0)))
+                print(f"  {aid} [{sub}] organ push ({organs}): {pct(o0)} -> {pct(st['after'])}, moved {st['moved']}, "
+                      f"vol {100 * st['dvol']:+.1f} % -> {'SHIP' if ok else 'HELD' + (' hidden' if h else '')} {st['reason'] or ''}", flush=True)
+        # ---- stage 3: skin pull-in (Q185b; every soft record)
+        v_cur = np.concatenate(cur); s_all, s_mov, s_bey = K.frac(v_cur)
+        if s_all > SKIN_FLAG:
+            if hidden or s_mov <= SKIN_FLAG:
+                rows_s[aid] = {"subject": sub, "outside_before": round(s_all, 4), "outside_pullable": round(s_mov, 4),
+                               "outside_beyond_fov_cut": round(s_bey, 4),
+                               "skipped": "hidden_default" if hidden else "outside part lies at / beyond the skin's CT field-of-view cut (Q185a)"}
+            else:
+                n_bey = int((K.outside(v_cur) & K.beyond(v_cur)).sum())
+
+                def fld_s(k, geo=geo):
+                    return K.local(geo[k][0].min(0), geo[k][0].max(0))
+                bone_in = frac_in(B, v_cur)
+                new, st = stage(geo, cur, fld_s, lambda x: K.frac(x)[1], "push", P_SKIN,
+                                extra_ok=lambda x: (f"in-bone {pct(frac_in(B, x))}" if frac_in(B, x) > max(P["gate_frac"], bone_in) else None))
+                ok = st["ok"]; h = (not ok) and s_mov > P_SKIN["hide_frac"]
+                s1_all, s1_mov, _ = K.frac(st["v_out"])
+                fov = (f"; {n_bey} vertices at / beyond {her} skin's CT field-of-view cut left as they are" if n_bey else "")
+                if ok:
+                    badge = (f"{TAG_SKIN}: {st['moved']} vertices pulled inside {her} own skin (to 1 mm below it, max "
+                             f"{st['max_move']:.1f} mm); outside skin {pct(s_all)} -> {pct(s1_all)}{fov}.")
+                    cur = new; shipped_any = True
+                else:
+                    badge = (f"{TAG_SKIN} HELD: {pct(s_all)} of this mesh lies outside {her} own skin; the bounded pull-in "
+                             f"(<= {P_SKIN['max_depth']:.0f} mm) did not fix it ({st['reason'].replace('% still flagged', '% still outside')}), "
+                             f"so the mesh is shown without it{fov}" + (" -- hidden by default." if h else "."))
+                hide |= h; badges.append(badge)
+                rows_s[aid] = {"subject": sub, "cat": c, "outside_before": round(s_all, 4), "outside_pullable": round(s_mov, 4),
+                               "outside_beyond_fov_cut": round(s_bey, 4), "n_beyond_fov_cut": n_bey,
+                               "outside_after": round(s1_all, 4), "outside_pullable_after": round(s1_mov, 4),
+                               "in_bone_before": round(bone_in, 4), "in_bone_after": round(frac_in(B, st["v_out"]), 4),
+                               "volume_change": round(st["dvol"], 4), "moved": st["moved"], "max_move_mm": round(st["max_move"], 2),
+                               "shipped": ok, "hidden_default": h, "held_reason": st["reason"], "badge": badge,
+                               "records": [{k: i[k] for k in ("moved", "n_too_deep", "backed_off", "reverted", "flipped_faces_left") if k in i} for i in st["infos"]]}
+                _save("skin", body, aid, geo, st, K.outside(st["v_in"]), K.outside(st["v_out"]),
+                      K.context(v_cur.min(0), v_cur.max(0)))
+                print(f"  {aid} [{sub}] skin pull-in: {pct(s_all)} (pullable {pct(s_mov)}, beyond FOV cut {n_bey} v) -> "
+                      f"{pct(s1_all)}, moved {st['moved']}, max {st['max_move']:.1f} mm, vol {100 * st['dvol']:+.1f} % -> "
+                      f"{'SHIP' if ok else 'HELD' + (' hidden' if h else '')} {st['reason'] or ''}", flush=True)
+        if badges:
+            writes.setdefault(sub, {})[aid] = ({"badge": " ".join(badges), "hidden_default": hide},
+                                               [(s, x if shipped_any else None) for s, x in zip(recs, cur)])
+        del geo, cur, v_all; gc.collect()
+    if body == "vhm":
+        orbit_reseat(cl, B, K, writes, her)
     for sub, items in ({} if dry else writes).items():
         d = VH / sub; vf = d / "vertices.f32"
         m = json.loads((d / "manifest.json").read_text()); orig = {}
@@ -569,15 +761,147 @@ def run(body: str, subjects: list, excludes: list, report: Path, dry: bool = Fal
             V.tofile(vf)
         (d / "manifest.json").write_text(json.dumps(m, indent=2))
         (d / STATE).write_text(json.dumps({"carved_sha": _sha(vf), "manifest_orig": orig}, indent=1))
-    rep = {"_README": __doc__.strip().splitlines(), "params": P, "body": body, "subjects": subjects, "excludes": excludes,
-           "structures": rows, "skipped_flagged": skipped,
-           "summary": {"candidates": len(rows), "shipped": sum(r["shipped"] for r in rows.values()),
-                       "held": sum(not r["shipped"] for r in rows.values()),
-                       "hidden": sum(bool(r["hidden_default"]) for r in rows.values())}}
+    summ = lambda rr: {"candidates": len(rr), "shipped": sum(bool(r.get("shipped")) for r in rr.values()),   # noqa: E731
+                       "held": sum(r.get("shipped") is False for r in rr.values()),
+                       "hidden": sum(bool(r.get("hidden_default")) for r in rr.values())}
+    rep = {"_README": __doc__.strip().splitlines(), "params": P, "params_skin": P_SKIN, "params_organ": P_ORGAN, "body": body,
+           "subjects": subjects, "excludes": excludes, "skin_fov_cut_x": [K.cut_lo, K.cut_hi],
+           "structures": rows, "skipped_flagged": skipped, "organ_push": rows_o, "skin_pull": rows_s,
+           "orbit_reseat": ORBIT_ROWS if body == "vhm" else {},
+           "summary": summ(rows), "summary_organ": summ(rows_o), "summary_skin": summ({k: v for k, v in rows_s.items() if "skipped" not in v}),
+           "summary_orbit": summ({k: v for k, v in ORBIT_ROWS.items() if not k.startswith("_")}) if body == "vhm" else {}}
     if not dry:
         report.write_text(json.dumps(rep, indent=1))
-    print(f"{body}: Q185 bone carve {rep['summary']} (skipped {len(skipped)}) -> {report.relative_to(REPO)}")
+    print(f"{body}: Q185 bone carve {rep['summary']} (skipped {len(skipped)}); organ push {rep['summary_organ']}; "
+          f"skin pull-in {rep['summary_skin']}" + (f"; orbit reseat {rep['summary_orbit']}" if body == "vhm" else "")
+          + f" -> {report.relative_to(REPO)}")
     return 0
+
+
+# ---------------------------------------------------------------- Q185g: his transferred orbit vs his own oculomotor labels
+ORBIT_SUBJECT = "xfer_vhf2vhm"
+ORBIT_OWN_SUBJECT = "ct_vhm_orbit"          # his own label build (ingest_volume_geometry.py convert; rebuilt identically)
+ORBIT_VOL = "vhm_oculomotor_muscles.nii.gz"
+ORBIT_MAP = REPO / "mappings" / "subjects" / "ct_vhm_orbit_volume_mapping.json"
+ORBIT_SIDE = {"r": [2, 3, 4, 5, 6, 8, 9, 16, 19], "l": [7, 10, 11, 12, 13, 14, 15, 17, 18]}   # TS oculomotor labels per orbit
+ORBIT_RE = re.compile(r"^(superior|inferior|medial|lateral)_(rectus|oblique)_[lr]$|^levator_palpebrae_superioris_[lr]$|^optic_n$")
+# gates: 0 % outside skin, <= 2 % > 1 mm in bone (optic n: canal, n/a), >= 90 % inside that orbit (convex hull of the
+# side's own labels incl. the globe, + 3 mm: the fragmentary labels under-fill the cone by about one belly radius);
+# anatomy: a label build under half the transferred volume, or in pieces (largest component < 95 % of its vertices),
+# is a fragment of the frozen-CT segmentation (Q47 / Q99), not the muscle
+P_ORBIT = {"skin_max": 0.0, "bone_max": 0.02, "in_orbit_tol_mm": 3.0, "in_orbit_min": 0.90, "own_vol_min_ratio": 0.5,
+           "own_main_component_min": 0.95}
+TAG_ORBIT = "Q185 orbit re-seat"
+TAGS = TAGS + (TAG_ORBIT,)
+ORBIT_ROWS: dict = {}
+
+
+def in_hull(H, v, tol) -> float:
+    return float((np.max(v @ H.equations[:, :3].T + H.equations[:, 3], 1) <= tol).mean()) if len(v) else 0.0
+
+
+def orbit_reseat(cl: dict, B: BoneField, K: SkinField, writes: dict, her: str) -> None:
+    """Q185g: the f2m transfer carries her orbit on ONE cranium-wide affine bone map, which lands his orbits several mm
+    off; his own TS oculomotor labels say where they are. Per orbit: rigid offset = label-volume-weighted mean of
+    (own label centroid - transferred centroid); every transferred orbit record of that side is moved by it and
+    compared with his own label build. Ship the candidate closest to his label among those passing the gates and the
+    anatomy check; else keep the shipped record (badged when it was flagged)."""
+    from scipy import ndimage as ndi
+    from scipy.spatial import ConvexHull, cKDTree
+    from engine.volume_ingest import voxels_to_atlas
+    ORBIT_ROWS.clear()
+    ids = [a for a, (sub, _) in cl.items() if sub == ORBIT_SUBJECT and ORBIT_RE.search(a)]
+    if not ids:
+        return
+    if not (TASK / ORBIT_VOL).exists():
+        ORBIT_ROWS["_note"] = f"{ORBIT_VOL} absent locally: nothing re-seated"; return
+    V, A, sp = _nii(TASK / ORBIT_VOL); O = B.O; vox = float(np.prod(sp))
+    lab: dict = {}
+    for e in json.loads(ORBIT_MAP.read_text())["entries"]:
+        if e.get("atlas_id"):
+            lab.setdefault(e["atlas_id"], []).append(e["label"])
+
+    def surf(labs):
+        m = np.isin(V, labs); s = np.argwhere(m & ~ndi.binary_erosion(m))
+        return voxels_to_atlas(s.astype(float), A) - O, int(m.sum()) * vox / 1000
+    hull = {k: ConvexHull(surf(v)[0]) for k, v in ORBIT_SIDE.items()}
+    geo = {a: [record(ORBIT_SUBJECT, s) for s in cl[a][1]] for a in ids}
+    om = json.loads((VH / ORBIT_OWN_SUBJECT / "manifest.json").read_text())["structures"] if (VH / ORBIT_OWN_SUBJECT).exists() else []
+    T = {}
+    for side in "rl":
+        w, dd = [], []
+        for a in ids:
+            if a.endswith("_" + side) and a in lab:
+                S, vl = surf(lab[a])
+                if vl > 0:
+                    idx = np.argwhere(np.isin(V, lab[a])); c = voxels_to_atlas(idx.mean(0, keepdims=True).astype(float), A)[0] - O
+                    dd.append(c - np.concatenate([g[0] for g in geo[a]]).mean(0)); w.append(vl)
+        T[side] = (np.array(dd) * np.array(w)[:, None]).sum(0) / sum(w) if w else np.zeros(3)
+        ORBIT_ROWS[f"_offset_{side}"] = {"t_mm": np.round(T[side], 2).tolist(), "norm_mm": round(float(np.linalg.norm(T[side])), 2),
+                                         "residual_mm": np.round(np.linalg.norm(np.array(dd) - T[side], axis=1), 1).tolist() if dd else []}
+    T["n"] = (T["r"] + T["l"]) / 2                 # optic n: one record over both orbits + chiasm
+    word = {"r": "right", "l": "left", "n": "both"}
+    for a in ids:
+        side = "n" if a == "optic_n" else a[-1]
+        v0 = np.concatenate([g[0] for g in geo[a]]); f0 = np.concatenate([g[1] + o for g, o in zip(geo[a], np.cumsum([0] + [len(g[0]) for g in geo[a]]))])
+        own = [record(ORBIT_OWN_SUBJECT, s) for s in om if s["atlas_id"] == a]
+        cands = {"as_shipped": (v0, f0), "reseated": (v0 + T[side], f0)}
+        if own:
+            cands["own_label_build"] = (np.concatenate([g[0] for g in own]),
+                                        np.concatenate([g[1] + o for g, o in zip(own, np.cumsum([0] + [len(g[0]) for g in own]))]))
+        S = cKDTree(surf(lab[a])[0]) if a in lab else None
+        row = {"side": word[side], "offset_mm": np.round(T[side], 2).tolist()}
+        for k, (v, f) in cands.items():
+            r = {"vol_cm3": round(volume(v, f) / 1000, 3), "outside_skin": round(K.frac(v)[0], 4),
+                 "in_bone": None if a in BONE_EXCLUDE_IDS else round(frac_in(B, v), 4),
+                 "in_orbit": None if side == "n" else round(in_hull(hull[side], v, P_ORBIT["in_orbit_tol_mm"]), 3),
+                 "label_median_mm": round(float(np.median(S.query(v)[0])), 2) if S is not None else None}
+            r["gates"] = bool(r["outside_skin"] <= P_ORBIT["skin_max"] and (r["in_bone"] is None or r["in_bone"] <= P_ORBIT["bone_max"])
+                              and (r["in_orbit"] is None or r["in_orbit"] >= P_ORBIT["in_orbit_min"]))
+            row[k] = r
+        vt = row["as_shipped"]["vol_cm3"]
+        if "own_label_build" in row:
+            from scipy.sparse.csgraph import connected_components
+            ov, of = cands["own_label_build"]
+            _, cc = connected_components(adjacency(len(ov), of), directed=False)
+            big = float(np.bincount(cc).max() / len(ov)); row["own_label_build"]["largest_component_frac"] = round(big, 3)
+            row["own_label_build"]["anatomy"] = bool(row["own_label_build"]["vol_cm3"] >= P_ORBIT["own_vol_min_ratio"] * vt
+                                                     and big >= P_ORBIT["own_main_component_min"])
+        ok = [k for k in ("reseated", "own_label_build", "as_shipped") if k in row and row[k]["gates"]
+              and row[k].get("anatomy", True)]
+        lm = lambda k: row[k]["label_median_mm"] if row[k]["label_median_mm"] is not None else 0.0   # noqa: E731
+        pick = min(ok, key=lambda k: (lm(k), k != "reseated")) if ok else "as_shipped"
+        if pick == "own_label_build":   # would need an export exclude of the transfer -- not the case on his data (stated)
+            row["note"] = "own label build preferred: ship it by excluding this id from xfer_vhf2vhm"; pick = "as_shipped"
+        row["pick"] = pick; row["as_shipped"]["was_flagged"] = bool(lm("as_shipped") > 5.0)
+        if pick == "reseated":
+            t = T[side]; own_txt = (f"; his own label build ({row['own_label_build']['vol_cm3']:.2f} cm3, "
+                                    f"{100 * row['own_label_build']['largest_component_frac']:.0f} % in one piece) is a fragment of the "
+                                    f"frozen-CT segmentation, so the transferred shape is kept"
+                                    if "own_label_build" in row and not row["own_label_build"]["anatomy"] else "")
+            lab_txt = (f"; mesh -> own label median {row['as_shipped']['label_median_mm']:.1f} -> {row['reseated']['label_median_mm']:.1f} mm"
+                       if S is not None else " (no usable own label for this muscle: moved with its orbit)")
+            badge = (f"{TAG_ORBIT}: moved {np.linalg.norm(t):.1f} mm (x {t[0]:+.1f}, y {t[1]:+.1f}, z {t[2]:+.1f}) onto {her} own "
+                     f"TotalSegmentator oculomotor labels -- the per-orbit offset of this transfer's cranium-wide bone map in "
+                     f"{her} {word[side]} orbit{'s' if side == 'n' else ''}{lab_txt}{own_txt}.")
+            if a in writes.get(ORBIT_SUBJECT, {}):
+                row["note"] = "already moved by an earlier stage: not re-seated"; row["pick"] = "as_shipped"
+            else:
+                x = v0 + T[side]; o = 0; lst = []
+                for s, g in zip(cl[a][1], geo[a]):
+                    lst.append((s, x[o:o + len(g[0])])); o += len(g[0])
+                writes.setdefault(ORBIT_SUBJECT, {})[a] = ({"badge": badge, "hidden_default": False}, lst)
+                row["badge"] = badge
+        row["shipped"] = row["pick"] == "reseated"
+        ORBIT_ROWS[a] = row
+        SCRATCH_BFG.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(SCRATCH_BFG / f"orbit_vhm_{a}.npz", v0=v0.astype(np.float32), v1=(v0 + T[side]).astype(np.float32),
+                            own=cands["own_label_build"][0].astype(np.float32) if own else np.zeros((0, 3), np.float32),
+                            label=(surf(lab[a])[0] if a in lab else np.zeros((0, 3))).astype(np.float32),
+                            ctx=np.concatenate([surf(ORBIT_SIDE["r"])[0], surf(ORBIT_SIDE["l"])[0]])[::7].astype(np.float32))
+        print(f"  {a} [{ORBIT_SUBJECT}] orbit: shipped med {row['as_shipped']['label_median_mm']} in-orbit {row['as_shipped']['in_orbit']} | "
+              f"reseated med {row['reseated']['label_median_mm']} in-orbit {row['reseated']['in_orbit']} bone {row['reseated']['in_bone']} "
+              f"gates {row['reseated']['gates']} | own {row.get('own_label_build', {}).get('vol_cm3')} cm3 vs {vt} -> {row['pick']}", flush=True)
 
 
 def montage(out: Path, n: int = 6) -> Path:
@@ -617,7 +941,60 @@ def montage(out: Path, n: int = 6) -> Path:
     return f
 
 
+def montage_bfg(out: Path = SCRATCH_BFG, n_skin: int = 4) -> Path:
+    """Q185 b/f/g worst cases, before | after (two views each): skin pull-in (red = outside own skin, grey = skin),
+    organ push (purple = > 1 mm in own organ label, grey = organ surface), orbit re-seat (black = own label surface)"""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    rows = []
+    for body in ("vhm", "vhf"):
+        rp = REPO / "data" / "derived" / f"Q185_bone_carve_{body}.json"
+        if not rp.exists():
+            continue
+        R_ = json.loads(rp.read_text())
+        sk = sorted(((r["outside_before"], a, r) for a, r in R_.get("skin_pull", {}).items() if "skipped" not in r), key=lambda x: -x[0])
+        rows += [("skin", body, a, r) for _, a, r in sk[:n_skin // 2]]
+        rows += [("organ", body, a, r) for a, r in sorted(R_.get("organ_push", {}).items(), key=lambda x: -x[1]["in_organ_before"])[:1]]
+        orb = [(a, r) for a, r in R_.get("orbit_reseat", {}).items() if not a.startswith("_") and r["as_shipped"].get("label_median_mm")]
+        rows += [("orbit", body, a, r) for a, r in sorted(orb, key=lambda x: -x[1]["as_shipped"]["label_median_mm"])[:2]]
+    fig, ax = plt.subplots(len(rows), 4, figsize=(16, 3.6 * len(rows)))
+    ax = np.atleast_2d(ax)
+    for i, (kind, body, aid, r) in enumerate(rows):
+        z = np.load(SCRATCH_BFG / f"{kind}_{body}_{aid}.npz"); c = z["v0"].mean(0); who = "his" if body == "vhm" else "her"
+        if kind == "orbit":
+            m0 = m1 = None; ctx = z["label"]; col, bad = "#1f77b4", "#d62728"
+            t0 = f"shipped, label med {r['as_shipped']['label_median_mm']} mm, in orbit {r['as_shipped']['in_orbit']}"
+            t1 = (f"re-seated{'' if r['shipped'] else ' (NOT shipped)'}, label med {r['reseated']['label_median_mm']} mm, "
+                  f"in orbit {r['reseated']['in_orbit']}")
+        else:
+            m0, m1, ctx = z["m0"], z["m1"], z["ctx"]; col, bad = "#2ca02c", ("#d62728" if kind == "skin" else "#9467bd")
+            k0, k1 = (("outside_before", "outside_after") if kind == "skin" else ("in_organ_before", "in_organ_after"))
+            t0 = f"before: {kind} flag {100 * r[k0]:.1f} %"
+            t1 = f"{'after' if r['shipped'] else 'attempt (HELD)'}: {100 * r[k1]:.1f} %"
+        for j, (V, M, tag) in enumerate(((z["v0"], m0, t0), (z["v1"], m1, t1))):
+            for k, (u, w, vn) in enumerate(((0, 1, "x-y"), (2, 1, "z-y"))):
+                a = ax[i, 2 * j + k]
+                a.scatter(ctx[:, u] - c[u], ctx[:, w] - c[w], s=0.4, c="#999999" if kind != "orbit" else "#000000", lw=0)
+                if kind == "orbit" and len(z["own"]):
+                    a.scatter(z["own"][:, u] - c[u], z["own"][:, w] - c[w], s=0.6, c="#ff7f0e", lw=0)
+                M_ = np.zeros(len(V), bool) if M is None else M.astype(bool)
+                a.scatter(V[~M_, u] - c[u], V[~M_, w] - c[w], s=1.2, c=col, lw=0)
+                a.scatter(V[M_, u] - c[u], V[M_, w] - c[w], s=2.5, c=bad, lw=0)
+                lim = np.abs(z["v0"] - c).max() * 1.2 + (12 if kind == "orbit" else 3)
+                a.set_xlim(-lim, lim); a.set_ylim(-lim, lim); a.set_aspect("equal"); a.tick_params(labelsize=6)
+                a.set_title(f"{who} {aid} [{kind}] ({vn})\n{tag}", fontsize=7)
+    fig.suptitle("Q185 b/f/g: skin pull-in (red = outside own skin) / organ push (purple = in own organ) / orbit re-seat "
+                 "(black = his own TS label surface, orange = his own label build)", fontsize=9)
+    fig.tight_layout(rect=(0, 0, 1, 0.985)); out.mkdir(parents=True, exist_ok=True); f = out / "montage_worst_before_after.png"
+    fig.savefig(f, dpi=100); plt.close(fig)
+    print(f"montage {f} ({len(rows)} rows)")
+    return f
+
+
 def main(argv=None) -> int:
+    if argv is None and sys.argv[1:2] == ["montage_bfg"]:
+        montage_bfg(); return 0
     if argv is None and sys.argv[1:2] == ["montage"]:
         montage(SCRATCH); return 0
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
