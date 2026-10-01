@@ -5,7 +5,10 @@
 
 Per structure (shipped bundle record; geometry = the full-res build/vh/<subject> record when its bbox matches the
 shipped one within BBOX_TOL_MM, else the decoded bundle mesh; at most MAX_PTS vertices, fixed-seed subsample):
-  outside_skin_frac     vertices outside the body's own skin mesh (ct_v?_skin, embree ray parity)
+  outside_skin_frac     vertices outside the body's own skin mesh (ct_v?_skin, embree ray parity). Q185a: HIS skin is cut
+                        flat at his torso-CT field of view (FOV_CUT_MM, the skin's own x extent -/+ 1 mm); vertices beyond
+                        those planes are "skin unknown" (skin_unknown_frac, status 5), NOT outside skin -- there is no skin
+                        surface there to be outside of. outside_skin_frac_incl_fov keeps the pre-Q185a number.
   in_bone_gt1mm_frac    vertices > 1 mm inside bone: TS `total` bone labels (BONE, inside the CT field of view) OR the
                         body's own bone meshes for bones TS does not label / that leave the FOV (MESH_BONES)
   in_lung_gt1mm_frac    > 1 mm inside the TS lung lobes (10-14)
@@ -101,6 +104,14 @@ def label_at(vol: np.ndarray, A, O, pts) -> np.ndarray:
     out = np.zeros(len(pts), vol.dtype)
     out[ok] = vol[tuple(iv[ok].T)]
     return out
+
+
+FOV_CUT_BODIES = {"vhm"}   # Q185a: his skin ends at the torso-CT FOV (x = -233 / +247 mm); hers is not cut there
+
+
+def fov_cut(skin_v: np.ndarray, margin: float = 1.0) -> tuple[float, float]:
+    """(lo, hi) atlas-x planes of a skin cut flat at the CT field of view: its own x extent, `margin` mm inside"""
+    return float(skin_v[:, 0].min()) + margin, float(skin_v[:, 0].max()) - margin
 
 
 def flags_of(r: dict) -> list[str]:
@@ -219,6 +230,7 @@ class Body:
             org[sl] = np.where(d > 0, d, org[sl])
         self.organ = (org, np.zeros(3, int)); self.tot = tot
         self.skin = load_skin(body); self.skin_tree = cKDTree(self.skin.vertices)
+        self.fov_cut = fov_cut(self.skin.vertices) if body in FOV_CUT_BODIES else None
         self.labels = own_label_index(body); self.vol_cache = {}
         self.mesh_bones = []
 
@@ -290,7 +302,12 @@ def measure(B: Body, aid: str, entry: dict, v: np.ndarray) -> dict:
     if aid == "skin":
         r["outside_skin_frac"] = None
     else:
-        out = ~B.skin.contains(p); st[out] = 1
+        out = ~B.skin.contains(p)
+        unk = ((p[:, 0] <= B.fov_cut[0]) | (p[:, 0] >= B.fov_cut[1])) if B.fov_cut else np.zeros(len(p), bool)
+        if unk.any():
+            r["skin_unknown_frac"] = round(float(unk.mean()), 4)
+            r["outside_skin_frac_incl_fov"] = round(float(out.mean()), 4)
+        out &= ~unk; st[out] = 1
         r["outside_skin_frac"] = round(float(out.mean()), 4)
         r["outside_skin_max_mm"] = round(float(B.skin_tree.query(p[out])[0].max()), 1) if out.any() else 0.0
     # bone
@@ -343,6 +360,8 @@ def measure(B: Body, aid: str, entry: dict, v: np.ndarray) -> dict:
                           "label_to_mesh_median_mm": round(float(np.median(d2)), 2)}
         r["_label_pts"] = s
         break
+    if aid != "skin" and unk.any():
+        st[unk & (st == 0)] = 5
     r["_pts"], r["_status"] = p, st
     return r
 
@@ -394,7 +413,7 @@ def score(r: dict) -> float:
 
 
 STATUS = [("ok", "#2ca02c"), ("outside skin", "#d62728"), ("in bone > 1 mm", "#ff7f0e"), ("in lung > 1 mm", "#1f77b4"),
-          ("in organ > 1 mm", "#9467bd")]
+          ("in organ > 1 mm", "#9467bd"), ("skin unknown (beyond his CT FOV)", "#bdbdbd")]
 
 
 def montage(rep: dict, out: Path, n: int) -> int:
@@ -507,7 +526,7 @@ def finalize(rep: dict) -> None:
         S = rep[body]["structures"]
         cut = None
         if body == "vhm":
-            sk = load_skin(body).vertices; cut = (float(sk[:, 0].min()) + 1.0, float(sk[:, 0].max()) - 1.0)
+            cut = fov_cut(load_skin(body).vertices)
         for aid, r in S.items():
             if aid in BONE_EXCLUDE_IDS and r.get("in_bone_gt1mm_frac") is not None:
                 r["in_bone_gt1mm_frac_raw"] = r["in_bone_gt1mm_frac"]; r["in_bone_gt1mm_frac"] = None; r["bone_excluded"] = True

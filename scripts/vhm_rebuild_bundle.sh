@@ -257,6 +257,8 @@ if [ ! -f build/vh/xfer_vhf2vhm_vessels/manifest.json ]; then
   python3 scripts/vessels_ql_q183b.py transfer --male-bundle $MB | tail -2
 fi
 [ -f data/derived/Q183b_vessels_ql.json ] && python3 scripts/vessels_ql_q183b.py stamp
+# Q185a: badge his skin with its CT field-of-view cut (x = -233 / +247 mm; arms beyond it have no skin) -- no skin is made up
+[ -f build/vh/ct_vhm_skin/manifest.json ] && [ -f data/derived/Q185a_skin_fov_vhm.json ] && python3 scripts/vhm_skin_fov_q185a.py stamp
 for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp ct_vhm_delt ct_vhm_cuff ct_vhm_pmr ct_vhm_es ct_vhm_head ct_vhm_ribs ct_vhm_ccart ct_vhm ct_vhm_headm ct_vhm_neck ct_vhm_neckbv xfer_vhf2vhm xfer_vhf2vhm_neck ct_vhm_ggl ct_vhm_sgl ct_vhm_pfloor ct_vhm_orbit ct_vhm_abd ct_vhm_abw ct_vhm_twall ct_vhm_vessels ct_vhm_qlh xfer_vhf2vhm_vessels ct_s1159_abd ct_s1159 ct_vhm_skin; do SUBJ="$SUBJ --subject $s"; done
 # Q180 HELD (main session 2026-09-30): not shipped by default -- the seeded bellies drop the tendons the transferred
 # meshes carry, contact boundaries follow septa no better than Q165 (0.20-0.51), and 38/63 seeds are low confidence.

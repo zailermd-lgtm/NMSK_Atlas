@@ -474,70 +474,6 @@
    "held_reason": "7.9 % still > 1 mm inside",
    "badge": "Q185 bone carve HELD: 15.7 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (7.9 % still > 1 mm inside), so the unmodified mesh is shown."
   },
-  "adductor_magnus_distal_tendon_l": {
-   "subject": "ct_vhf",
-   "cat": "tendon",
-   "mode": "trim",
-   "nv": 30,
-   "in_bone_before": 0.5667,
-   "in_bone_after": 0.0,
-   "volume_change": -0.3191,
-   "moved": 19,
-   "max_move_mm": 48.54,
-   "records": [
-    {
-     "mode": "trim",
-     "n_in_tol": 17,
-     "depth_max_mm": 9.01,
-     "n_rim": 2,
-     "n_no_exit": 3,
-     "untangled": 0,
-     "backed_off": 0,
-     "reverted": 0,
-     "flipped_faces_left": 0,
-     "moved": 16,
-     "max_move_mm": 47.42,
-     "pass2": {
-      "moved": 3,
-      "backed_off": 0,
-      "reverted": 0,
-      "flipped_faces_left": 0
-     }
-    }
-   ],
-   "shipped": true,
-   "hidden_default": false,
-   "badge": "Q185 bone carve: 19 vertices moved out of her own bone (max 48.5 mm); in-bone 56.7 % -> 0.0 % (trimmed at the bone surface)."
-  },
-  "adductor_magnus_distal_tendon_r": {
-   "subject": "ct_vhf",
-   "cat": "tendon",
-   "mode": "trim",
-   "nv": 30,
-   "in_bone_before": 0.5,
-   "in_bone_after": 0.0,
-   "volume_change": -0.4257,
-   "moved": 15,
-   "max_move_mm": 36.87,
-   "records": [
-    {
-     "mode": "trim",
-     "n_in_tol": 15,
-     "depth_max_mm": 7.94,
-     "n_rim": 0,
-     "n_no_exit": 0,
-     "untangled": 0,
-     "backed_off": 0,
-     "reverted": 0,
-     "flipped_faces_left": 0,
-     "moved": 15,
-     "max_move_mm": 36.87
-    }
-   ],
-   "shipped": true,
-   "hidden_default": false,
-   "badge": "Q185 bone carve: 15 vertices moved out of her own bone (max 36.9 mm); in-bone 50.0 % -> 0.0 % (trimmed at the bone surface)."
-  },
   "iliopsoas_tendon_l": {
    "subject": "ct_vhf",
    "cat": "tendon",
@@ -567,35 +503,6 @@
    "hidden_default": false,
    "held_reason": "10.0 % still > 1 mm inside",
    "badge": "Q185 bone carve HELD: 13.3 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (10.0 % still > 1 mm inside), so the unmodified mesh is shown."
-  },
-  "iliopsoas_tendon_r": {
-   "subject": "ct_vhf",
-   "cat": "tendon",
-   "mode": "trim",
-   "nv": 30,
-   "in_bone_before": 0.3333,
-   "in_bone_after": 0.0,
-   "volume_change": -0.3779,
-   "moved": 14,
-   "max_move_mm": 15.89,
-   "records": [
-    {
-     "mode": "trim",
-     "n_in_tol": 12,
-     "depth_max_mm": 3.13,
-     "n_rim": 2,
-     "n_no_exit": 0,
-     "untangled": 0,
-     "backed_off": 0,
-     "reverted": 0,
-     "flipped_faces_left": 0,
-     "moved": 14,
-     "max_move_mm": 15.89
-    }
-   ],
-   "shipped": true,
-   "hidden_default": false,
-   "badge": "Q185 bone carve: 14 vertices moved out of her own bone (max 15.9 mm); in-bone 33.3 % -> 0.0 % (trimmed at the bone surface)."
   },
   "quadriceps_tendon_l": {
    "subject": "ct_vhf",
@@ -2604,8 +2511,8 @@
  },
  "orbit_reseat": {},
  "summary": {
-  "candidates": 63,
-  "shipped": 26,
+  "candidates": 60,
+  "shipped": 23,
   "held": 37,
   "hidden": 11
  },

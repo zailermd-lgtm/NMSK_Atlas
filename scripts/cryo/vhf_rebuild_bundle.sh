@@ -20,11 +20,15 @@ conv(){ # volume labels subject [extra convert args]
 # BUDGET_OVERRIDES now also covers this, but the smoothing-vs-source gap was real and worth keeping
 # separately reconverted; see PROJECT_STATE Q115). Listed BEFORE ct_vhf so it wins the one atlas_id
 # it carries; ct_vhf's own arch/abdominal aorta parts are untouched.
+# Q185k: her TS label 31 held TWO vertebral bodies (6 rib-free presacral vertebrae); the documented relabel splits them
+# (L1 + L1B, label 118) into vhf_total_q185k.nii.gz (not in git; made from vhf_total here). ct_vhf, ct_vhf_descaorta (the
+# aorta cut at the T12/L1 level) and the Q185c discs read it; every other consumer still reads TS's vhf_total.
+[ -f $T/vhf_total_q185k.nii.gz ] || python3 scripts/vhf_vertebra_relabel_q185k.py relabel
 if [ -f mappings/subjects/ct_vhf_descaorta_volume_mapping.json ] && ! grep -q descending_thoracic_aorta build/vh/ct_vhf_descaorta/manifest.json 2>/dev/null; then
   cp mappings/subjects/ct_vhf_descaorta_volume_mapping.json build/vh/
-  python3 scripts/ingest_volume_geometry.py convert $T/vhf_total.nii.gz --labels totalsegmentator --subject ct_vhf_descaorta --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
+  python3 scripts/ingest_volume_geometry.py convert $T/vhf_total_q185k.nii.gz --labels totalsegmentator --subject ct_vhf_descaorta --origin="$O" --smooth 0.0 2>&1 | grep -E "wrote|Error|Trace"
 fi
-conv $T/vhf_total.nii.gz totalsegmentator ct_vhf --smooth 1.0
+conv $T/vhf_total_q185k.nii.gz totalsegmentator ct_vhf --smooth 1.0
 conv $T/vhf_craniofacial_structures.nii.gz totalsegmentator_craniofacial_structures ct_vhf_head --smooth 1.0
 conv $T/vhf_head_muscles.nii.gz totalsegmentator_head_muscles ct_vhf_headm --smooth 1.0
 conv $T/vhf_oculomotor_muscles.nii.gz totalsegmentator_oculomotor_muscles ct_vhf_orbit --smooth 1.0

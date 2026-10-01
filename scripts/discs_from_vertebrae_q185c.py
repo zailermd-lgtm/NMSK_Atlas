@@ -42,6 +42,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 from scripts.ribs_from_ct_labels import LUNG, ORIGIN, TASK, load_skin, to_vox  # noqa: E402
 from scripts.costal_cartilage_from_ct_labels import BONE  # noqa: E402
+from scripts.vhf_vertebra_relabel_q185k import L1B, total_volume  # noqa: E402
 
 SCRATCH = Path("/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/q185c")
 VERT = {"C1": 50, "C2": 49, "C3": 48, "C4": 47, "C5": 46, "C6": 45, "C7": 44, "T1": 43, "T2": 42, "T3": 41, "T4": 40,
@@ -49,6 +50,13 @@ VERT = {"C1": 50, "C2": 49, "C3": 48, "C4": 47, "C5": 46, "C6": 45, "C7": 44, "T
         "L4": 28, "L5": 27, "S1": 26}
 ORDER = list(VERT)
 PAIRS = [(ORDER[i], ORDER[i + 1]) for i in range(1, len(ORDER) - 1)]          # C2/C3 ... L5/S1 (no C1/C2 disc)
+# Q185k: her spine has 6 rib-free presacral vertebrae; TS named the upper two both L1, the relabel split them into L1 (31,
+# below the rib-12-bearing T12) and L1B (118). Her pairs: ... T12/L1, L1/L1B (no atlas entity: reported, not shipped),
+# L1B/L2 (= her intervertebral_disc_l1_l2, the disc above her sacrum-anchored L2), L2/L3 ...
+VERT["L1B"] = L1B
+ORDER_BODY = {"vhm": ORDER, "vhf": ORDER[:ORDER.index("L1") + 1] + ["L1B"] + ORDER[ORDER.index("L2"):]}
+PAIRS_BODY = {b: [(o[i], o[i + 1]) for i in range(1, len(o) - 1)] for b, o in ORDER_BODY.items()}
+AID_ALIAS = {("vhf", "L1B", "L2"): "intervertebral_disc_l1_l2"}
 CORD = 79
 GRID = 0.5
 # published adult reference bands (width = LR, depth = AP of the endplate; height = disc height)
@@ -80,8 +88,8 @@ GATES = {"lung_gt1mm_frac": 0.0, "bone_gt1mm_frac": 0.02, "endplate_min_mm": 1.0
 PRONOUN = {"vhm": "his", "vhf": "her"}
 
 
-def aid(u: str, l: str) -> str:
-    return f"intervertebral_disc_{u.lower()}_{l.lower()}"
+def aid(u: str, l: str, body: str = "vhm") -> str:
+    return AID_ALIAS.get((body, u, l), f"intervertebral_disc_{u.lower()}_{l.lower()}")
 
 
 def region(u: str) -> str:
@@ -199,7 +207,7 @@ class Vol:
     def __init__(self, body: str):
         import nibabel as nib
         from scipy import ndimage as ndi
-        img = nib.load(TASK / f"{body}_total.nii.gz"); self.A = img.affine
+        img = nib.load(total_volume(body)); self.A = img.affine                # hers: Q185k-corrected labels
         self.v = np.asarray(img.dataobj).astype(np.uint8); self.sp = np.sqrt((self.A[:3, :3] ** 2).sum(0))
         self.O = np.array([float(x) for x in ORIGIN[body].split(",")]); self.objs = ndi.find_objects(self.v)
 
@@ -324,7 +332,14 @@ def badge(body: str, u: str, l: str, r: dict) -> str:
             f"vertebral-body endplates (TotalSegmentator labels of {p} own CT; body = the vertebra anterior to the canal), "
             f"filled per slice along the local spine axis by interpolating the two endplate outlines. Measured: "
             f"{r['width_mm']} mm wide x {r['depth_mm']} mm deep (chords through its centre), {r['height_median_mm']} mm high (median of the central columns), "
-            f"{r['volume_cm3']} cm3. CT does not show disc tissue: shape follows the bone, not a disc segmentation.")
+            f"{r['volume_cm3']} cm3. CT does not show disc tissue: shape follows the bone, not a disc segmentation."
+            + (Q185K_NOTE if body == "vhf" and {u, l} & {"L1", "L1B"} else ""))
+
+
+Q185K_NOTE = (" VARIANT (Q185k): her spine has 6 rib-free presacral vertebrae (7 C + 12 T + 6 L; rib 12 on T12, none below); "
+              "TotalSegmentator named the first two both L1, the Q185k relabel (scripts/vhf_vertebra_relabel_q185k.py) split "
+              "them -- L1 = the one under T12, L1B = the extra one; L2-L5 keep the sacrum-anchored numbering, so her "
+              "'L1/L2' disc is the one between L1B and L2 and her L1/L1B disc has no atlas entity (not shown).")
 
 
 def held_badge(body: str, q185: dict | None, why: list) -> str:
@@ -351,8 +366,8 @@ def build(body: str) -> int:
     q185p = REPO / "data" / "derived" / "Q185_placement_sweep.json"
     q185 = json.loads(q185p.read_text())[body]["structures"] if q185p.exists() else {}
     rows, verts, faces, structs = {}, [], [], []; nv = nf = 0
-    for u, l in PAIRS:
-        a = aid(u, l); r = build_level(V, u, l, skin); gc.collect()
+    for u, l in PAIRS_BODY[body]:
+        a = aid(u, l, body); r = build_level(V, u, l, skin); gc.collect()
         if r["status"] == "built":
             r["size_vs_published"] = ref_check(u, r["width_mm"], r["depth_mm"], r["height_median_mm"])
             r["gate_fails"] = gate(r); r["status"] = "pass" if not r["gate_fails"] else "held"
@@ -387,7 +402,7 @@ def build(body: str) -> int:
     Va = np.concatenate(verts).astype(np.float32); Fa = np.concatenate(faces).astype(np.uint32)
     Va.tofile(out / "vertices.f32"); Fa.tofile(out / "faces.u32")
     man = {"subject": subject(body), "frame": "atlas: +X right, +Y superior, +Z anterior, millimetres",
-           "source_volume": str((TASK / f"{body}_total.nii.gz").relative_to(REPO)), "source_kind": "rule_based_from_ct_labels",
+           "source_volume": str(total_volume(body).relative_to(REPO)), "source_kind": "rule_based_from_ct_labels",
            "vertex_count": int(len(Va)), "triangle_count": int(len(Fa)),
            "bbox_min_mm": [round(float(x), 4) for x in Va.min(0)], "bbox_max_mm": [round(float(x), 4) for x in Va.max(0)],
            "attribution": ["Q185c: intervertebral discs filled between this body's own TotalSegmentator vertebral-body "

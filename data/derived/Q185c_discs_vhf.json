@@ -1188,7 +1188,7 @@
    "upper_endplate_min_mm": 0.0,
    "lower_endplate_min_mm": 0.0,
    "outside_skin_frac": 0.0,
-   "n_vertices": 13584,
+   "n_vertices": 13578,
    "size_vs_published": {
     "width": {
      "mm": 40.5,
@@ -1221,43 +1221,43 @@
    "shipped": "new"
   },
   "intervertebral_disc_t12_l1": {
-   "status": "held",
+   "status": "pass",
    "body_method": [
     "foramen",
     "foramen"
    ],
-   "volume_cm3": 17.13,
-   "mesh_volume_cm3": 16.73,
-   "height_median_mm": 13.0,
-   "height_centre_mm": 13.0,
-   "height_rim_mm": 15.5,
-   "width_mm": 44.0,
-   "depth_mm": 34.0,
-   "extent_width_mm": 45.0,
-   "extent_depth_mm": 35.0,
+   "volume_cm3": 6.07,
+   "mesh_volume_cm3": 5.96,
+   "height_median_mm": 6.0,
+   "height_centre_mm": 6.0,
+   "height_rim_mm": 4.0,
+   "width_mm": 41.5,
+   "depth_mm": 32.5,
+   "extent_width_mm": 44.5,
+   "extent_depth_mm": 33.5,
    "axis": [
-    0.009,
-    0.989,
-    -0.145
+    0.013,
+    0.995,
+    -0.103
    ],
    "centre_mm": [
-    -5.2,
-    292.1,
-    -47.4
+    -5.1,
+    308.3,
+    -50.3
    ],
-   "median_gap_mm": 38.0,
-   "footprint_up_mm2": 1066.5,
-   "footprint_lo_mm2": 1278.0,
+   "median_gap_mm": 6.5,
+   "footprint_up_mm2": 1063.5,
+   "footprint_lo_mm2": 1152.0,
    "lung_gt1mm_frac": 0.0,
    "bone_gt1mm_frac": 0.0,
    "other_label_gt1mm_frac": 0.0,
    "upper_endplate_min_mm": 0.0,
    "lower_endplate_min_mm": 0.0,
    "outside_skin_frac": 0.0,
-   "n_vertices": 46945,
+   "n_vertices": 14680,
    "size_vs_published": {
     "width": {
-     "mm": 44.0,
+     "mm": 41.5,
      "ref": [
       25.0,
       46.0
@@ -1265,7 +1265,7 @@
      "ok": true
     },
     "depth": {
-     "mm": 34.0,
+     "mm": 32.5,
      "ref": [
       16.0,
       34.0
@@ -1273,20 +1273,84 @@
      "ok": true
     },
     "height": {
-     "mm": 13.0,
+     "mm": 6.0,
      "ref": [
       4.5,
       7.2
      ],
-     "ok": false
+     "ok": true
     }
    },
-   "gate_fails": [
-    "size_height"
-   ],
+   "gate_fails": [],
    "atlas_id": "intervertebral_disc_t12_l1",
    "has_atlas_entity": true,
-   "shipped": "held_not_shipped"
+   "shipped": "new"
+  },
+  "intervertebral_disc_l1_l1b": {
+   "status": "pass",
+   "body_method": [
+    "foramen",
+    "foramen"
+   ],
+   "volume_cm3": 8.5,
+   "mesh_volume_cm3": 8.39,
+   "height_median_mm": 7.0,
+   "height_centre_mm": 7.0,
+   "height_rim_mm": 6.0,
+   "width_mm": 45.0,
+   "depth_mm": 34.5,
+   "extent_width_mm": 45.5,
+   "extent_depth_mm": 35.5,
+   "axis": [
+    0.004,
+    0.982,
+    -0.187
+   ],
+   "centre_mm": [
+    -5.4,
+    276.9,
+    -45.9
+   ],
+   "median_gap_mm": 7.5,
+   "footprint_up_mm2": 1211.0,
+   "footprint_lo_mm2": 1300.0,
+   "lung_gt1mm_frac": 0.0,
+   "bone_gt1mm_frac": 0.0,
+   "other_label_gt1mm_frac": 0.0,
+   "upper_endplate_min_mm": 0.0,
+   "lower_endplate_min_mm": 0.0,
+   "outside_skin_frac": 0.0,
+   "n_vertices": 18144,
+   "size_vs_published": {
+    "width": {
+     "mm": 45.0,
+     "ref": [
+      40.0,
+      52.0
+     ],
+     "ok": true
+    },
+    "depth": {
+     "mm": 34.5,
+     "ref": [
+      32.0,
+      38.0
+     ],
+     "ok": true
+    },
+    "height": {
+     "mm": 7.0,
+     "ref": [
+      8.0,
+      14.0
+     ],
+     "ok": true
+    }
+   },
+   "gate_fails": [],
+   "atlas_id": "intervertebral_disc_l1_l1b",
+   "has_atlas_entity": false,
+   "shipped": "not_shipped_no_entity"
   },
   "intervertebral_disc_l1_l2": {
    "status": "pass",
@@ -1294,38 +1358,38 @@
     "foramen",
     "foramen"
    ],
-   "volume_cm3": 14.18,
-   "mesh_volume_cm3": 14.04,
+   "volume_cm3": 14.27,
+   "mesh_volume_cm3": 14.12,
    "height_median_mm": 9.0,
    "height_centre_mm": 9.0,
    "height_rim_mm": 6.0,
-   "width_mm": 50.0,
+   "width_mm": 51.0,
    "depth_mm": 39.0,
-   "extent_width_mm": 50.5,
+   "extent_width_mm": 51.0,
    "extent_depth_mm": 42.0,
    "axis": [
     0.008,
-    0.986,
-    -0.168
+    0.987,
+    -0.163
    ],
    "centre_mm": [
     -5.6,
     243.7,
-    -40.0
+    -39.9
    ],
    "median_gap_mm": 9.5,
-   "footprint_up_mm2": 1659.75,
-   "footprint_lo_mm2": 1619.0,
+   "footprint_up_mm2": 1670.25,
+   "footprint_lo_mm2": 1617.5,
    "lung_gt1mm_frac": 0.0,
    "bone_gt1mm_frac": 0.0,
    "other_label_gt1mm_frac": 0.0,
    "upper_endplate_min_mm": 0.0,
    "lower_endplate_min_mm": 0.0,
    "outside_skin_frac": 0.0,
-   "n_vertices": 24844,
+   "n_vertices": 25048,
    "size_vs_published": {
     "width": {
-     "mm": 50.0,
+     "mm": 51.0,
      "ref": [
       40.0,
       52.0
@@ -1360,8 +1424,8 @@
     "foramen",
     "foramen"
    ],
-   "volume_cm3": 14.32,
-   "mesh_volume_cm3": 14.2,
+   "volume_cm3": 14.34,
+   "mesh_volume_cm3": 14.22,
    "height_median_mm": 9.0,
    "height_centre_mm": 9.0,
    "height_rim_mm": 7.0,
@@ -1381,14 +1445,14 @@
    ],
    "median_gap_mm": 9.5,
    "footprint_up_mm2": 1694.0,
-   "footprint_lo_mm2": 1589.5,
+   "footprint_lo_mm2": 1595.0,
    "lung_gt1mm_frac": 0.0,
    "bone_gt1mm_frac": 0.0,
    "other_label_gt1mm_frac": 0.0,
    "upper_endplate_min_mm": 0.0,
    "lower_endplate_min_mm": 0.0,
    "outside_skin_frac": 0.0,
-   "n_vertices": 25419,
+   "n_vertices": 25450,
    "size_vs_published": {
     "width": {
      "mm": 53.0,
