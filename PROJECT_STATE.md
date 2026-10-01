@@ -10328,3 +10328,4 @@ the female's phalanges are under-captured at HU 200.
   Not published; hub card not updated.
 - Next: his facial holds are mostly sinus/nasal AIR (his CT shows the air; hers was similar) and bone at the thin-sheet attachments;
   a facial refit against his CT soft tissue would be needed.
+- Main session (2026-10-01): male viewer republished v70 with Q62 step 7b (461 structures, 2.27 M tris); hub v11.
