@@ -1,6 +1,6 @@
 """Q185k: her (VHF) TotalSegmentator vertebra labels at the thoracolumbar junction -- documented relabel + audit.
 
-    python3 scripts/vhf_vertebra_relabel_q185k.py relabel     # -> data/ct_sources/task_outputs/vhf_total_q185k.nii.gz (not in git)
+    python3 scripts/vhf_vertebra_relabel_q185k.py relabel     # -> data/ct_sources/task_outputs/vhf_total_q185k.nii.gz (committed; deterministic)
     python3 scripts/vhf_vertebra_relabel_q185k.py audit       # CT profile + body heights (both bodies) + figures (scratch q185k/)
     python3 scripts/vhf_vertebra_relabel_q185k.py reconvert   # build/vh/ct_vhf: its label records from the corrected volume
 

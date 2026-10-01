@@ -10579,7 +10579,7 @@ the female's phalanges are under-captured at HU 200.
 - Test tests/test_placement_sweep_q185.py (3: atlas<->voxel round trip, depth lookup centre/surface/outside/FOV, flag rules).
 - Nothing changed in build/ or the bundles. Rerun: `sweep` (~50 min, peak ~6 GB), `finalize` (regroup only), `montage`.
 - QUEUE (new; none started):
-  - [ ] Q185a his skin: rebuild the arm segments beyond the torso-CT FOV cut (x = -233 / +247) from his cryosection / arm-bone frame,
+  - [~] Q185a (2026-10-01 Q185k + Q185a: skin BADGED with the FOV cut, sweep counts beyond-cut vertices as "skin unknown" -- his 9 records change status; the arm skin itself is NOT rebuilt = Q185a2) his skin: rebuild the arm segments beyond the torso-CT FOV cut (x = -233 / +247) from his cryosection / arm-bone frame,
     so his own arm bones and forearm muscles sit inside it; gate: his ct_vhm_arm bones 0 % outside skin.
   - [~] Q185b (2026-10-01 Q185 b/f/g: skin pull-in + bone carve; his 34 -> 16 flagged + 1 hidden, her 14 -> 4; REMAINS: his 9 forearm records are outside only beyond his skin's FOV cut = Q185a, 6+3 shipped with 1-5 % residual, extensor indicis r / her flexor retinaculum r held, his ECU/EDM r / pronator teres l / IO membrane deep in bone) Z-Anatomy limb transfers (his 34, her 14 hand / foot / forearm records): clip to skin and carve against own bones, or
     re-fit per bone; gate skin <= 1 %, bone <= 5 %.
@@ -10778,6 +10778,78 @@ the female's phalanges are under-captured at HU 200.
   Not published.
 - NEXT: her T12/L1 TS labels (38 mm median gap); his C7/T1 + both C6/C7 width (uncinate / transverse bars); republish when decided.
 - Main session (2026-10-01): Q185f2 + Q185c2 published -- male v78 (464 / 2.25 M), female v61 (457 / 3.39 M), hub v15.
-- [ ] Q185k (new): her vertebra labels around T12/L1 look wrong (38 mm gap -> her T12/L1 disc held at 13 mm height);
+- [x] Q185k (2026-10-01: her TS label 31 held TWO vertebral bodies -- 6 rib-free presacral vertebrae; split into L1 + L1B by a documented relabel, T12/L1 disc now ships at 6.0 mm; see ## Q185k + Q185a): her vertebra labels around T12/L1 look wrong (38 mm gap -> her T12/L1 disc held at 13 mm height);
   check her T12 / L1 TotalSegmentator labels against her CT and the cryosection-derived spine before trusting
   anything placed relative to them.
+
+## Q185k + Q185a (2026-10-01) -- her T12/L1 labels (two bodies under "L1"); his skin FOV cut badged, not rebuilt
+- Q185k FINDING (her CT, scratch vh_idc/nii/vhf_torso_0937.nii.gz vs data/ct_sources/task_outputs/vhf_total.nii.gz): TS label 31
+  (vertebrae_L1) covers TWO vertebral bodies with a disc space between them -- 6-connected pieces 52,648 + 60,029 voxels,
+  z -610..-572 and -657..-608 mm (112,727 voxels = 2.2x her T12's 50,026). Bodies counted on the mid-sagittal CT from T10 to
+  L3: 7 (T10, T11, T12, L1, L1B, L2, L3), labels name 6. Not a missing level above: C1-C7 + T1-T12 one body each, ribs 1-12
+  bilateral (rib 12 medial ends z -563 / -571 = on TS T12, ribs 1 on T1), no rib below T12, TS L2-L5 + S1 one body each.
+  => she has 6 rib-free presacral vertebrae (7 C + 12 T + 6 L = 25 mobile), a numerical variant TS's 5-lumbar model cannot
+  name, so it doubled "L1". Tins & Balain 2016 (whole-spine MRI, 418 patients, doi:10.1007/s13244-016-0468-7): +1 mobile
+  vertebra in 18 (4.3 %, 6 of them women). Junction strays: T12 piece 2 (2,062 vox, z -620..-608) = L1's inferior articular
+  processes; L2 pieces (1,314 + 238 + 221 + 120 + 30 vox) = L1B's spinous / superior articular processes; L2 piece at x ~195
+  mm (502 + 2 vox, 209 mm off the column) = not vertebra. The old T12/L1 "disc" (13 mm, 38 mm median gap) was T12 -> the
+  LOWER body (the body cut keeps the largest piece), with L1 in between.
+- Body heights (central, r <= 6 mm, Q185c body cut; data/derived/Q185k_vertebrae_vhf.json): hers T10 21.6, T11 24.0, T12 25.4,
+  L1 26.2, L1B 27.1, L2 27.0, L3 27.7 mm; his T10 24.6, T11 27.0, T12 28.8, L1 30.5, L2 30.1, L3 30.2 (hers ~0.9x his at each
+  level; the merged "L1" would be ~60 mm). Published adult range: Panjabi 1991 thoracic (doi:10.1097/00007632-199108000-00006)
+  / 1992 lumbar (doi:10.1097/00007632-199203000-00010) body heights ~20-25 mm lower thoracic, ~25-28 mm lumbar (recalled from
+  their tables, abstracts carry no numbers -- not re-checked here); each of her two bodies is a normal single vertebra.
+- FIX (label level, reproducible): new scripts/vhf_vertebra_relabel_q185k.py `relabel` -> task_outputs/vhf_total_q185k.nii.gz
+  (committed; TS's vhf_total untouched): label 31 -> its two largest 6-connected pieces, UPPER keeps 31 = L1 (first rib-free
+  vertebra under the rib-12 T12, so T12/L1 is anchored to the last rib), LOWER -> 118 = L1B; small 30/31/32 pieces at the
+  junction go to whichever of L1 / L1B they touch most (26-contact), pieces > 60 mm off the column axis -> 0. L2-L5 / S1 keep
+  TS's sacrum-anchored numbering (every lumbar disc id below unchanged). `audit` = figures + heights + CT profile;
+  `reconvert` = build/vh/ct_vhf's T12 / L1 / L1B / L2 / aorta records re-surfaced from the corrected volume, every other record
+  (Q109 remeshed ribs, Q104 cylinders, Q118/Q122 connectors) kept; it first undoes the Q185 carve (bone_carve_q185.restore) so
+  the rebuild's carve re-runs from uncarved originals (carve report identical to before). Wiring: ct_vhf mapping entry label
+  118 (vertebrae_L1b -> lumbar_vertebrae, one more part of the one lumbar entity); vhf_rebuild_bundle.sh makes the volume if
+  absent and converts ct_vhf + ct_vhf_descaorta from it; costal_cartilage_from_ct_labels.BONE += 118; discs_from_vertebrae_q185c
+  reads total_volume(body) and, for her, pairs ... T12/L1, L1/L1B (no atlas entity: built, passes, NOT shipped), L1B/L2 (= her
+  intervertebral_disc_l1_l2); badges of her T12/L1, L1/L2 note the variant. Placement sweep unchanged for her (still reads TS
+  vhf_total; L1B is label 31 there -- same bone mask).
+- RESULT discs (her): T12/L1 PASS w 41.5 d 32.5 h 6.0 mm (gap 6.5; was held at h 13.0 / gap 38), 6.1 cm3, 0 % lung / bone /
+  outside skin -> SHIPPED; L1/L1B pass (w 45.0 d 34.5 h 7.0, 8.5 cm3) not shipped (no entity); L1/L2 (= L1B/L2) w 50 -> 51;
+  T11/T12, L2/L3 re-measured (strays moved), all pass.
+- Positioned relative to those labels: (a) the aorta split (engine disc_level = midpoint of T12 / L1 centroids): her
+  descending / abdominal aorta cut moved UP 10.0 mm (atlas y 297.7 -> 307.7 = RAS z -587.5, inside the old merged L1, -> -577.5,
+  her T12/L1 disc); (b) her thoracic_vertebrae frame (build_frames) lost the 26 mm fragment -> spinalis l/r + latissimus dorsi
+  l/r origin_point_mm moved +26.1 mm (entry-only); (c) NOT rebuilt, read raw TS vhf_total: cryo/vhf_erector_columns.py (L2
+  label level), trunk_wall_from_ct.py (T12-L3 levels), voxelize_lumbar_column.py / ingest_remeshed_lumbar.py (not shipped),
+  audit_landmarks_vs_geometry.py; the sweep (same bone mask either way).
+- Rebuilt hers: 457 -> 459 structures (434 -> 435 ids), "triangles 32,781,132 -> 3,407,651" (was 32,756,718 -> 3,389,653).
+  Per record vs the pre-change bundle: 423 identical, +1 id (T12/L1 disc), +1 lumbar_vertebrae part (L1B), geometry 7
+  (lumbar_vertebrae, thoracic_vertebrae, abdominal_aorta, descending_thoracic_aorta, discs T11/T12, L1/L2, L2/L3), entry-only 4
+  (spinalis l/r, latissimus l/r: origin point). hidden_default 13 -> 13. Changed geo files: hers _geo_00, _01, _02; bundle.* + html.
+  Q185 sweep of those 12 records (data/derived/Q185k_sweep_after.json): 0 flagged (own-label median 0.44-0.47 mm).
+- Q185a: his cryosection photographs ARE local (correction of the queue premise): scratch vh_cryo/cryo_1mm.npy (slices
+  1001-2878, 405 x 682 px whole cross-sections, both arms in frame; + _classes) and vh_cryo_m_forearm_q151 (slices 1625-1761
+  full-res 1216 x 2048) -- q185k/q185a_his_cryo_local_check.png. No skin was made from them here (not asked; = Q185a2).
+  (1) badge: new scripts/vhm_skin_fov_q185a.py `measure` (from a sweep report -> data/derived/Q185a_skin_fov_vhm.json: skin x
+  extent -233.4 / +246.6, planes 1 mm inside, caps at atlas y 164..588 = lateral upper arms, elbows, proximal forearms; 19
+  records reach past: 12 muscle, 6 bone, 1 fascia) and `stamp` (procedural_badge + fov_cut_mm on build/vh/ct_vhm_skin; wired
+  in vhm_rebuild_bundle.sh before export). (2) placement_sweep_q185.py: FOV_CUT_BODIES = {vhm}; vertices beyond the planes are
+  "skin unknown" (skin_unknown_frac, status 5, grey in montages), outside_skin_frac excludes them, outside_skin_frac_incl_fov
+  keeps the old number. Full his sweep with the rule (data/derived/Q185a_sweep_vhm.json, 410 swept): 27 flagged vs 34 under
+  the old rule -- 9 records change status: radius_r, ulna_r, ulna_l, supinator_r, ECRB_l, ECRL_l, supinator_l -> clean;
+  interosseous_membrane_forearm_r, pronator_teres_l lose the skin flag, keep bone.
+- Rebuilt his: 464 -> 464, "triangles 22,693,324 -> 2,245,504" (unchanged); 428 identical, entry-only 1 (skin badge); geo files
+  identical (bundle.* + html only).
+- Headless Chromium (q184/probe.py, swiftshader, three.js routed): 0 page errors both, "Search 459 / 464 structures", visible
+  at load hers 340 / his 338 (unchanged); her T12/L1 disc shows via the list; phone renders.
+- Tests: new tests/test_vhf_vertebra_relabel_q185k.py (split + fragment routing + far stray; FOV planes);
+  test_intervertebral_discs.py ignores her L1B piece for the legacy Q104 5-lumbar cylinder check; with bone carve, Q185c discs,
+  hidden Q184, Q185 sweep, schema, Q185f2: 28 passed.
+- Images (scratch q185k/): q185k_her_midsagittal_labels.png (TS vs relabel outlines + CT profile), q185k_her_coronal_mip_ribs.png,
+  q185a_his_cryo_local_check.png. Not published.
+- QUEUE (new):
+  - [ ] Q185a2 his arm skin from his OWN cryosection photographs (local: scratch vh_cryo 1001-2878 + vh_cryo_m_forearm_q151; no
+    re-streaming needed unless a finer arm crop is wanted): body/air boundary beyond x = -233 / +247 in the registered photo
+    frame, fused to ct_vhm_skin at the caps; gate: his ct_vhm_arm bones 0 % outside skin, skin_unknown_frac -> 0.
+  - [ ] Q185k2 her L1/L1B disc: an atlas entity for a supernumerary lumbar disc (built + passing, not shipped) -- or decide to
+    leave the gap; consider whether her lumbar numbering should be rib-anchored throughout (L1B = L2, ... TS L5 = L6).
+- NEXT: republish both when decided (hers changed, his badge only); Q185a2.

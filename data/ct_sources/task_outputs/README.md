@@ -48,6 +48,11 @@ mid-thigh, stacked by `scripts/stack_dicom_series.py`; head tasks on the
 `ct_vhf_*` with her own femoral-head origin and shipped as a SECOND viewer
 bundle (`scripts/cryo/vhf_ingest.sh`).
 
+`vhf_total_q185k` (2026-10-01): NOT a TotalSegmentator output -- `vhf_total` with her label 31 (vertebrae_L1),
+which held two vertebral bodies (she has 6 rib-free presacral vertebrae), split into L1 (31) and L1B (118) plus the
+junction's stray T12 / L2 pieces reassigned (`scripts/vhf_vertebra_relabel_q185k.py`, report
+`data/derived/Q185k_vertebrae_vhf.json`). Read by ct_vhf, ct_vhf_descaorta and the Q185c discs.
+
 `vhf_arm_bones_ct` (2026-09-12): her right radius, ulna and hand from the torso CT by the male's marker
 watershed (`scripts/vhf_arm_bones_ct.py` + `vhf_arm_bones_ship.py`, key `mappings/vhf_arm_bones_labels.json`);
 clipped by the field of view, left arm absent.

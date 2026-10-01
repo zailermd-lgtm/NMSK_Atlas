@@ -81,6 +81,8 @@ def test_disc_centroids_strictly_increase_in_y_bottom_to_top(subject):
 @pytest.mark.parametrize("subject", ["ct_vhm", "ct_vhf"])
 def test_each_disc_lies_between_its_two_adjacent_vertebrae(subject):
     manifest, verts, faces = _load_subject(subject)
+    # Q185k: her supernumerary lumbar vertebra (L1B, a 6th lumbar piece) postdates these Q104 5-lumbar cylinders
+    manifest = {**manifest, "structures": [s for s in manifest["structures"] if s["source_structure"] != "vertebrae_L1b"]}
     problems = []
     for atlas_id, levels in REGIONS:
         pieces = compute_region_vertebra_pieces(manifest, verts, faces, atlas_id)
