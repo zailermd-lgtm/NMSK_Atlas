@@ -9301,7 +9301,9 @@ the female's phalanges are under-captured at HU 200.
 - [x] Step 6: Trunk wall SHIPPED (diaphragm, intercostals via ct_vhf_twall)
 - [x] Step 5: Foot intrinsics — SHIPPED 2026-09-30 by the new route (Q59 still blocked): 12 Z-Anatomy foot muscles fitted onto
       her own foot bones (Q168), subject xfer_zan2vhf_foot, badged as transferred; FHB_r + lumbricals_r held -- see "## Q62 step 5"
-- [ ] Step 7: Head/larynx — Requires full-resolution head cryosection streaming + tracking
+- [x] Step 7: Head/larynx — SHIPPED 2026-10-01 by the Q168 transfer route (no cryo streaming): 26 Z-Anatomy head/neck/larynx
+      muscles on her own skull/mandible/hyoid/spine + her CT cartilages, subject xfer_zan2vhf_head; 32 held, 46 have no Z-Anatomy
+      object -- see "## Q62 step 7"
 - [x] Step 8: ~15 small entities — Q65 DONE (entity records created, 184 tests pass)
 - [x]/[ ] His forearm/hand — NOT lost (Q106, 2026-09-21 corrected this stale line): his full-resolution (0.33 mm)
       forearm crops already ran successfully once, Sept 14 (`vhm_forearm_muscles_from_cryo.py`, 137 levels,
@@ -10232,3 +10234,53 @@ the female's phalanges are under-captured at HU 200.
 - Known issue / next: the 10 existing Q147 foot muscles sit 8-15 mm (centroid) from where the Q168 fit puts the same objects (sym.
   surface 6-17 mm); re-transferring them with this script (drop SKIP_EXISTING) would make the foot consistent and likely free
   lumbricals_r. FHB_r needs a better first-metatarsal/medial-cuneiform fit to pass. Not published (main session publishes).
+## Q62 step 7 (2026-10-01) -- her head / neck / larynx muscles TRANSFERRED from Z-Anatomy (Q168 route) -- SHIPPED 26, HELD 32
+- Coverage (data/muscles/head_and_neck, 172 ids): her bundle lacked 104, his (build/viewer_m_hr) lacks 104 (same set, except he has
+  superior_pharyngeal_constrictor r/l and lacks platysma r/l; 56 of his are covered by the Z-Anatomy objects used here; male NOT changed).
+  Of her 104: 58 have a CC BY-SA Z-Anatomy object -> built; 46 not (NOT_MAPPED in the script): auricular + intrinsic ear muscles,
+  buccinator, levator/tensor veli palatini, palatoglossus, salpingopharyngeus, stapedius, tensor tympani, vocalis, musculus uvulae,
+  depressor supercilii (no object of that name in the Z-Anatomy inventory), 7 intrinsic tongue ids (Z-Anatomy has one 'Tongue'
+  organ), occipitofrontalis (Z splits it: frontal belly = frontalis; occipital belly alone not built rather than mislabelled).
+- Script `scripts/transfer/zan_to_vhf_head_neck.py` (reuses zan_to_vhf_foot_intrinsics' push/skin/volume helpers; its rides_on
+  gained a `groups` arg) -> subject `build/vh/xfer_zan2vhf_head`, report data/derived/Q62s7_vhf_head_neck.json, test
+  tests/test_zan_to_vhf_head_neck.py (3 pass; foot tests 4 pass). Wired in vhf_rebuild_bundle.sh after xfer_zan2vhf_foot.
+  Orphan-pool parts: thyroarytenoid = external + thyro-epiglottic parts (vocalis absent), oblique arytenoid = aryepiglottic part only,
+  splenius cervicis = 'Splenius colli', LCA/PCA by name; badges say "Partial" where so.
+- Carriers (measured): Q168 units cranium 2.77 / mandible 1.69 / hyoid 0.89 / C-spine 0.84-1.47 mm. LOCAL error = Z-Anatomy bone
+  surface within 15 mm of each muscle, carried by its piece fit, vs her CT bone: group pooled medians facial 2.34 (p90 4.61), pharynx
+  1.44, strap 1.41, deep neck 1.91 (p90 7.13), larynx 1.07 mm -> no group held; per muscle >3 mm held (depressor septi nasi r/l,
+  risorius_l). Larynx: Z thyroid+cricoid via Q168 vs HER CT cartilage labels (headneck_bones_vessels 2/4) 3.05 mm median (p90 6.49)
+  -> one similarity refit onto hers (scale 1.066, 7.6 deg) 1.56 (p90 3.86); the refit carries the larynx group.
+- Gates (shipped): bone (cranium/mandible/hyoid/spine/sternum/clavicles/scapulae/ribs + her thyroid/cricoid cartilage meshes) 0-62 %
+  before (procerus 62 %, frontalis/orbicularis oculi ~30-45 % -- thin sheets drawn on the bone) -> bounded push (<=3 mm) -> max 1.35 %;
+  skin 0.0 % outside before AND after for all 58: her CT soft tissue is thick (her own platysma 14 mm, masseter 24 mm median under her
+  skin), so the bone-carried facial sheets sit 6-18 mm (median) under her skin, NOT at it -- the honest caveat for the face;
+  air lumen (larynx_air + trachea labels + CT < -400 HU inside her outline above the lungs: 65 cm3; includes nasal cavity, sinuses,
+  mastoid cells; her cadaver pharynx is collapsed on CT) max 3.9 %; overlap with her muscles/tongue/oesophagus/thyroid-gland labels
+  max 8.0 % (new-vs-new overlap counted only above Z-Anatomy's own: facial muscles interdigitate 30-58 % at the modiolus in the source
+  itself); fix move max 4.0 mm. Thin-sheet rule: held if the fixes keep < 75 % of the transferred volume (frontalis r/l 56/69 %,
+  mentalis 60 %, DAO_r 74.5 %) or the skin pull drags > 25 % (none).
+- SHIPPED 26: facial 15 (DAO_l, DLI r/l, LAO r/l, nasalis r/l, orbicularis oculi_r, orbicularis oris r/l, zyg. major r/l, zyg. minor
+  r/l, procerus); larynx 7 (LCA r/l, thyroarytenoid r/l, oblique arytenoid r/l, transverse arytenoid); strap 1 (sternohyoid_l); deep
+  neck 3 (RCA_l, RC lateralis r/l). HELD 32: facial 12 (above + LLS r/l and orbicularis oculi_l in sinus/nasal air 5.5-10.7 %, risorius_r
+  70 % inside her masseter); pharynx ALL 6 (sup. constrictor 24-25 % inside her pterygoids, palatopharyngeus 26 % in her inferior
+  constrictor/hyoglossus, stylopharyngeus 17 %); strap 5 (stylohyoid 13-23 % in her hyoglossus/geniohyoid, omohyoid 21-32 % still in
+  her clavicle/scapula after push, sternohyoid_r 6.9 % in larynx/trachea air); larynx 4 (cricothyroid 8.8-10.3 % in her airway, PCA
+  r/l 108-121 % inside her inferior constrictor + held palatopharyngeus); deep neck 5 (RCA_r 16 % in her longus colli, splenius capitis
+  6-7 % still in bone, splenius cervicis 60 % in her multifidus/longissimus). Several pairs ship one side only.
+- Volumes (voxel fill, cm3; Z-Anatomy source in brackets): shipped total 37.3 (36.8). Orbicularis oris 4.87 / 4.86 (4.20), orbicularis
+  oculi_r 6.73 (6.82), DLI 2.01 / 1.96 (1.53), zyg. major 1.22 / 1.23 (1.28), procerus 1.28 (1.42), sternohyoid_l 4.22 (5.34),
+  thyroarytenoid 0.73 / 0.77 (0.62), LCA 0.11, transverse arytenoid 0.18. Published: Volk 2014 MRI (Plast Reconstr Surg Glob Open
+  2:e173, doi:10.1097/GOX.0000000000000128): orbicularis oculi 2.99 cm3 mean, procerus 0.081 -> ours 2.2x and 16x (Z-Anatomy's generic
+  geometry incl. palpebral part/aponeurosis; their Table 1 for the others not readable). Laryngeal: Chen 2012 J Voice 26:555
+  (doi:10.1016/j.jvoice.2011.03.012) has volumes but only the abstract was readable -> none. Her own (held) cryo labels for comparison:
+  splenius cap+cerv compartment 79.0 r / 68.1 l vs Z capitis+cervicis 34.4+14.6 = 49 (held anyway). Others: none found.
+- Bundle (VHF_OUT=build/viewer_f_hr): 429 -> 455 structure records (+26, all subject xfer_zan2vhf_head; no old id changed nf/nv/
+  subject), 3,284,580 -> 3,319,752 tris (source 31,555,880 -> 31,591,052); subject 26 structures / 17,619 v / 35,172 tris (full res).
+  Headless Chromium (swiftshader, three.js + fonts routed): loads, no page errors, "Search 455 structures", thyroarytenoid card shows
+  the Q62 step 7 badge. build/viewer_m_hr md5-identical. Montage scratch q62s7/montage_head.png (anterior, lateral, posterior-oblique,
+  mid-sagittal, larynx zoom); viewer_ta_r.png. viewer/atlas_hub.html card (429 / 3.28 M) NOT updated -- it describes the published
+  artifact; update with the next publish (455 / 3.32 M). Not published.
+- Next: pharynx/strap holds are conflicts with HER own CT-labelled muscles (pterygoids, hyoglossus, inferior constrictor, multifidus)
+  -- a joint refit against those labels (not just bones) would be needed; omohyoid needs its scapular/clavicular carrier checked.
+

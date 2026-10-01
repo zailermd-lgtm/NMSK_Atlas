@@ -286,6 +286,15 @@ if [ ! -f build/vh/xfer_zan2vhf_foot/manifest.json ] && [ -d build/zanatomy ] &&
   python3 scripts/transfer/zan_to_vhf_foot_intrinsics.py 2>&1 | grep -v Deprec | tail -2
 fi
 [ -f build/vh/xfer_zan2vhf_foot/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_foot"
+# Q62 step 7: head / neck / larynx muscles she had no mesh for, Z-Anatomy carried by the Q168 per-bone fits onto her
+# skull/mandible/hyoid/spine (larynx: refitted onto her CT thyroid + cricoid cartilages), bounded push-off-bone, skin,
+# air-lumen and overlap gates, per-muscle badges (scripts/transfer/zan_to_vhf_head_neck.py; report
+# data/derived/Q62s7_vhf_head_neck.json). Ids unique to this subject.
+if [ ! -f build/vh/xfer_zan2vhf_head/manifest.json ] && [ -d build/zanatomy ] && [ -f build/vh/ct_vhf_skin/manifest.json ] \
+   && [ -f build/viewer_f_hr/bundle.json ]; then
+  python3 scripts/transfer/zan_to_vhf_head_neck.py 2>&1 | grep -v Deprec | tail -2
+fi
+[ -f build/vh/xfer_zan2vhf_head/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_head"
 [ -f build/vh/xfer_zan2vhf_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb_photo"
 [ -f build/vh/xfer_zan2vhf_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhf_limb"
 # Q169: output dir overridable (the hi-res page lives in build/viewer_f_hr: VHF_OUT=build/viewer_f_hr); the transfer

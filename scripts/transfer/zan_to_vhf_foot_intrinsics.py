@@ -96,9 +96,11 @@ def piece_residual(fits: dict, piece: str) -> float | None:
     return None
 
 
-def rides_on(xf, fits: dict, v_src: np.ndarray, side: str) -> dict:
-    """Which of the Z-Anatomy foot bone pieces this muscle's (source-frame) vertices lie nearest, and their fit."""
-    names = [n for n in xf.unit_names if Z.unit_group(n.split("/")[0]) == f"lower_{side}"]
+def rides_on(xf, fits: dict, v_src: np.ndarray, side: str, groups: tuple | None = None) -> dict:
+    """Which of the Z-Anatomy foot bone pieces this muscle's (source-frame) vertices lie nearest, and their fit.
+    `groups` (Q168 unit_group names, e.g. ("axial",)) widens it beyond the foot (default: lower_<side>)."""
+    groups = groups or (f"lower_{side}",)
+    names = [n for n in xf.unit_names if Z.unit_group(n.split("/")[0]) in groups]
     idx = [xf.unit_names.index(n) for n in names]
     pts = np.vstack([xf.unit_pts[i] for i in idx]); lab = np.concatenate([np.full(len(xf.unit_pts[i]), k)
                                                                            for k, i in enumerate(idx)])
