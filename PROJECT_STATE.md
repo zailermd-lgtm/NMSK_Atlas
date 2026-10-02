@@ -11100,3 +11100,4 @@ of the classification table (e.g. brain parts as "other organ").
 - Visible residue: a faint ring where the blend meets the CT skin and faint horizontal ledges at registration jumps.
 - NEXT: republish his viewer when decided (male own publish awaits the owner).
 - Main session (2026-10-01 ~20:00): Q185a2 published -- male viewer v80 (anatomy only: page + geo_01; NO clinical files, owner decision pending); hub unchanged (464 structures, ~2.25 M tris).
+- Owner 2026-10-02: 'yes, publish needle insertion for all 4 models' + 'only report when unfinished, last word UNFINISHED'. Published needle module + motor points + risk files: male v81, female v64, Z-Anatomy male v9, Z-Anatomy female v3. Open owner decisions: lumbar L1-L6 vs L1B; motor-point review-only sources + multi-head sector rule; forearm seeds (80) review.
