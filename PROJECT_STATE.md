@@ -11042,7 +11042,29 @@ of the classification table (e.g. brain parts as "other organ").
   src_skin_*.png, pelvis_{male,female}_*.png, after_*_skin_*_holes.png (open edges only at ear and nail rims).
   Tests: tests/test_zan_inventory_audit.py (3) + test_build_zan_atlas_viewer.py updated (22 pass). Not published.
 - [ ] Q186a: template skin layer (above), then publish both Z-Anatomy viewers.
-- [ ] Q186b: female perineal/breast skin needs a real female source (none in Z-Anatomy; her CT skin could serve).
+- [x] Q186b (2026-10-03): NOT SHIPPED -- her CT skin (build/vh/ct_vhf_skin) is available but cannot be joined cleanly to the Q168-fitted
+  Z-Anatomy skin: chest seam offset median 29 mm (p90 51, max 69; only 21 % of the seam within a 15 mm blend bound), perineal opening
+  seam offset median 52 mm (36-87) over a 19 mm inscribed radius. Details + numbers: see "Q186b result" below. No viewer rebuilt/published.
+- Q186b result (2026-10-03; `scripts/zanatomy/her_skin_transfer_q186b.py` -> `data/derived/Q186b_her_skin_transfer.json`, test
+  `tests/test_her_skin_transfer_q186b.py` (3 pass); builds went to build/viewer_zan_female_q186b* scratch dirs only, build/viewer_zan_* untouched):
+  * Skin construction: each Z-Anatomy region patch is a CLOSED thin shell (~2.1 mm), patches abut/overlap with only 88 shared vertices at
+    the chest (no welded seam to preserve); the male-only urogenital patches are dropped for her, leaving a 2,291 mm2 opening
+    (x -38..38, z 15..67 mm) under the pubis; her CT skin is one watertight (2 comps, genus>0) body surface of 615k vertices.
+  * Chest footprint = mammary+inframammary+pectoral+presternal l/r, 56,222 mm2: fitted outer surface vs her skin = median 19 mm
+    (her vertices -> fitted patches p90 42, max 53 mm; fitted vertices -> her skin p90 33, max 59 mm); radial gap her minus fitted median
+    21 mm (p90 45, max 67; min -10); volume between the two outer surfaces 1,118 mL (the 8 fitted shells hold 129 mL).
+    The mismatch is NOT local to the breast: her whole trunk skin lies 20-50 mm outside the fitted skin (abdomen ~50 mm; sagittal
+    slices in scratch q186b/q186b_side.png), the Q168 trunk fit is globally compressed.
+  * Seam: neighbouring Z-Anatomy skin is 29 mm (median) inside her surface at the chest rim (p90 51, max 69); 15 % of the rim within 10 mm,
+    21 % within 15 mm. A fold-guarded ramp (<= 30 deg, W = 1.5*offset/tan 30) would displace 96 % of her patch (4 % left pure, inscribed
+    radius 78 mm), i.e. the "transferred" skin would mostly be fabricated blend; a smaller bound leaves a 30-60 mm cliff (a hole in the
+    skin surface). Perineum: her skin under the pubis is 52 mm (36-87) below the opening's rim (fitted crotch sits that much higher)
+    and the opening is only 19 mm in inscribed radius -- 0 % of the rim within 25 mm, no ramp fits.
+  * Gate (bound 15 mm, slope 30 deg, >= 90 % of the seam within bound, >= 25 % of the patch un-displaced) fails for both regions ->
+    nothing shipped, viewers unchanged (female Z-Anatomy v2 still shows the male-shaped chest and the pubis-to-anus opening).
+  * To make it shippable: first fix the global trunk/pelvis fit (Q168: skin patches fitted to HER torso outline, e.g. skin-to-skin
+    offset field from her CT skin for ALL trunk patches), then the breast/perineum swap becomes a ~10 mm seam. Replace-whole-trunk-skin
+    with her CT surface (one honestly badged object) is the other option; both exceed Q186b's "chest + perineum only" scope.
 - Main session (2026-10-01 ~18:00): Q186 integrated -- zan template gains a "skin" layer (30 % default, x-ray 6 %);
   final rebuild of both Z-Anatomy viewers (2,966 / 2,939 structures, 0 page errors headless, skin layer listed);
   published Z-Anatomy male v8 and female v2 ANATOMY ONLY (no clinical files) -- whether to ship the private needle
