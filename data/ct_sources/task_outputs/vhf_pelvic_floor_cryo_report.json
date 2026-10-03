@@ -1,0 +1,520 @@
+{
+ "_README": [
+  "Female pelvic diaphragm and perineal muscles by position rules on her registered 1 mm cryosection frame (scripts/cryo/vhf_pelvic_floor_from_cryo.py). Rule-based, derived data.",
+  "She is female: there is no prostate label and the urogenital hiatus carries the urethra and the vagina."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), FEMALE colour cryosections (1 mm registered frame) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels (vhf_total.nii.gz) as anchors and exclusions. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 62 'True pelvis, pelvic floor and perineum', and Moore KL et al., Clinically Oriented Anatomy, 8th ed., ch. 6 'Pelvis and Perineum'. Derived data (scripts/cryo/vhf_pelvic_floor_from_cryo.py), rule-based.",
+ "badge": "rule-based",
+ "version": "2026-09-16",
+ "volumes_cm3": {
+  "levator_ani_right": 36.3,
+  "coccygeus_right": 4.0,
+  "bulbospongiosus_right": 2.7,
+  "ischiocavernosus_right": 2.7,
+  "deep_transverse_perineal_right": 1.9,
+  "superficial_transverse_perineal_right": 0.8,
+  "obturator_internus_right": 63.6,
+  "perineal_other_right": 2.5,
+  "levator_ani_left": 26.4,
+  "coccygeus_left": 2.4,
+  "bulbospongiosus_left": 2.9,
+  "ischiocavernosus_left": 1.2,
+  "deep_transverse_perineal_left": 1.4,
+  "superficial_transverse_perineal_left": 0.4,
+  "obturator_internus_left": 70.5,
+  "perineal_other_left": 1.9,
+  "external_anal_sphincter": 19.6
+ },
+ "geometry_atlas_mm": {
+  "levator_ani_right": {
+   "mean_atlas_x": 20.8,
+   "mean_atlas_y": -17.6,
+   "mean_atlas_z": -19.9,
+   "z_ras_range": [
+    -923.0,
+    -884.0
+   ],
+   "levels": 40
+  },
+  "coccygeus_right": {
+   "mean_atlas_x": 23.9,
+   "mean_atlas_y": -7.0,
+   "mean_atlas_z": -57.5,
+   "z_ras_range": [
+    -902.0,
+    -884.0
+   ],
+   "levels": 19
+  },
+  "bulbospongiosus_right": {
+   "mean_atlas_x": 15.6,
+   "mean_atlas_y": -55.0,
+   "mean_atlas_z": -9.9,
+   "z_ras_range": [
+    -947.0,
+    -934.0
+   ],
+   "levels": 14
+  },
+  "ischiocavernosus_right": {
+   "mean_atlas_x": 24.0,
+   "mean_atlas_y": -45.9,
+   "mean_atlas_z": -7.4,
+   "z_ras_range": [
+    -940.0,
+    -924.0
+   ],
+   "levels": 17
+  },
+  "deep_transverse_perineal_right": {
+   "mean_atlas_x": 14.4,
+   "mean_atlas_y": -43.3,
+   "mean_atlas_z": -5.5,
+   "z_ras_range": [
+    -933.0,
+    -924.0
+   ],
+   "levels": 10
+  },
+  "superficial_transverse_perineal_right": {
+   "mean_atlas_x": 17.6,
+   "mean_atlas_y": -58.7,
+   "mean_atlas_z": -22.9,
+   "z_ras_range": [
+    -947.0,
+    -940.0
+   ],
+   "levels": 8
+  },
+  "obturator_internus_right": {
+   "mean_atlas_x": 56.5,
+   "mean_atlas_y": -20.3,
+   "mean_atlas_z": -19.6,
+   "z_ras_range": [
+    -923.0,
+    -884.0
+   ],
+   "levels": 40
+  },
+  "perineal_other_right": {
+   "mean_atlas_x": 17.7,
+   "mean_atlas_y": -50.5,
+   "mean_atlas_z": -12.9,
+   "z_ras_range": [
+    -947.0,
+    -924.0
+   ],
+   "levels": 24
+  },
+  "levator_ani_left": {
+   "mean_atlas_x": -20.3,
+   "mean_atlas_y": -16.0,
+   "mean_atlas_z": -12.2,
+   "z_ras_range": [
+    -923.0,
+    -884.0
+   ],
+   "levels": 40
+  },
+  "coccygeus_left": {
+   "mean_atlas_x": -33.7,
+   "mean_atlas_y": -5.7,
+   "mean_atlas_z": -58.7,
+   "z_ras_range": [
+    -902.0,
+    -884.0
+   ],
+   "levels": 19
+  },
+  "bulbospongiosus_left": {
+   "mean_atlas_x": -9.6,
+   "mean_atlas_y": -55.5,
+   "mean_atlas_z": -10.0,
+   "z_ras_range": [
+    -947.0,
+    -934.0
+   ],
+   "levels": 14
+  },
+  "ischiocavernosus_left": {
+   "mean_atlas_x": -31.6,
+   "mean_atlas_y": -43.7,
+   "mean_atlas_z": -8.9,
+   "z_ras_range": [
+    -938.0,
+    -924.0
+   ],
+   "levels": 13
+  },
+  "deep_transverse_perineal_left": {
+   "mean_atlas_x": -13.7,
+   "mean_atlas_y": -43.2,
+   "mean_atlas_z": -1.0,
+   "z_ras_range": [
+    -933.0,
+    -924.0
+   ],
+   "levels": 10
+  },
+  "superficial_transverse_perineal_left": {
+   "mean_atlas_x": -13.3,
+   "mean_atlas_y": -58.9,
+   "mean_atlas_z": -23.6,
+   "z_ras_range": [
+    -947.0,
+    -940.0
+   ],
+   "levels": 8
+  },
+  "obturator_internus_left": {
+   "mean_atlas_x": -53.9,
+   "mean_atlas_y": -18.9,
+   "mean_atlas_z": -20.9,
+   "z_ras_range": [
+    -923.0,
+    -884.0
+   ],
+   "levels": 40
+  },
+  "perineal_other_left": {
+   "mean_atlas_x": -11.2,
+   "mean_atlas_y": -50.4,
+   "mean_atlas_z": -11.5,
+   "z_ras_range": [
+    -947.0,
+    -924.0
+   ],
+   "levels": 24
+  },
+  "external_anal_sphincter": {
+   "mean_atlas_x": 2.8,
+   "mean_atlas_y": -48.8,
+   "mean_atlas_z": -32.8,
+   "z_ras_range": [
+    -947.0,
+    -924.0
+   ],
+   "levels": 24
+  }
+ },
+ "checks": {
+  "_README": "voxels of each shipped label that fall inside her bone or organ labels (must be 0), the fraction sitting on her cryosection muscle class, and the mean atlas Y (superior) of each structure against the bladder's.",
+  "overlap_bone_voxels": {
+   "bulbospongiosus_right": 0,
+   "superficial_transverse_perineal_right": 0,
+   "perineal_other_right": 0,
+   "bulbospongiosus_left": 0,
+   "superficial_transverse_perineal_left": 0,
+   "perineal_other_left": 0,
+   "external_anal_sphincter": 0,
+   "ischiocavernosus_right": 0,
+   "ischiocavernosus_left": 0,
+   "deep_transverse_perineal_right": 0,
+   "deep_transverse_perineal_left": 0,
+   "levator_ani_right": 0,
+   "obturator_internus_right": 0,
+   "levator_ani_left": 0,
+   "obturator_internus_left": 0,
+   "coccygeus_right": 0,
+   "coccygeus_left": 0
+  },
+  "overlap_organ_voxels": {
+   "bulbospongiosus_right": 0,
+   "superficial_transverse_perineal_right": 0,
+   "perineal_other_right": 0,
+   "bulbospongiosus_left": 0,
+   "superficial_transverse_perineal_left": 0,
+   "perineal_other_left": 0,
+   "external_anal_sphincter": 0,
+   "ischiocavernosus_right": 0,
+   "ischiocavernosus_left": 0,
+   "deep_transverse_perineal_right": 0,
+   "deep_transverse_perineal_left": 0,
+   "levator_ani_right": 0,
+   "obturator_internus_right": 0,
+   "levator_ani_left": 0,
+   "obturator_internus_left": 0,
+   "coccygeus_right": 0,
+   "coccygeus_left": 0
+  },
+  "fraction_on_muscle_class": {
+   "bulbospongiosus_right": 0.885,
+   "superficial_transverse_perineal_right": 0.933,
+   "perineal_other_right": 0.92,
+   "bulbospongiosus_left": 0.877,
+   "superficial_transverse_perineal_left": 0.762,
+   "perineal_other_left": 0.896,
+   "external_anal_sphincter": 0.964,
+   "ischiocavernosus_right": 0.951,
+   "ischiocavernosus_left": 0.923,
+   "deep_transverse_perineal_right": 0.996,
+   "deep_transverse_perineal_left": 0.979,
+   "levator_ani_right": 0.879,
+   "obturator_internus_right": 0.914,
+   "levator_ani_left": 0.861,
+   "obturator_internus_left": 0.94,
+   "coccygeus_right": 0.916,
+   "coccygeus_left": 0.907
+  },
+  "bladder_mean_atlas_y": -9.8,
+  "bladder_z_ras_range": [
+   -906.0,
+   -884.0
+  ],
+  "ordering": {
+   "levator_below_bladder": true,
+   "levator_above_every_perineal_muscle": true,
+   "levator_mean_atlas_y": [
+    -17.6,
+    -16.0
+   ],
+   "perineal_mean_atlas_y": {
+    "bulbospongiosus_right": -55.0,
+    "ischiocavernosus_right": -45.9,
+    "deep_transverse_perineal_right": -43.3,
+    "superficial_transverse_perineal_right": -58.7,
+    "bulbospongiosus_left": -55.5,
+    "ischiocavernosus_left": -43.7,
+    "deep_transverse_perineal_left": -43.2,
+    "superficial_transverse_perineal_left": -58.9,
+    "external_anal_sphincter": -48.8
+   },
+   "note": "atlas Y is superior (Y = RAS z - (-885.229)); the coccygeus sits at the top of the band, beside the bladder body rather than below it, which is where it belongs -- it runs from the ischial spine to the coccyx."
+  },
+  "inside_the_bony_pelvis": "guaranteed by construction: every level's region is the convex hull of her hip + sacrum labels (pelvic band) or the hull of her hip label and a disc at the anal canal (perineal band), minus the bone, organ, gluteal, iliopsoas and femur labels and the subcutaneous band"
+ },
+ "labels": {
+  "1": "levator_ani_right",
+  "2": "coccygeus_right",
+  "3": "bulbospongiosus_right",
+  "4": "ischiocavernosus_right",
+  "5": "deep_transverse_perineal_right",
+  "6": "superficial_transverse_perineal_right",
+  "7": "obturator_internus_right",
+  "8": "perineal_other_right",
+  "9": "levator_ani_left",
+  "10": "coccygeus_left",
+  "11": "bulbospongiosus_left",
+  "12": "ischiocavernosus_left",
+  "13": "deep_transverse_perineal_left",
+  "14": "superficial_transverse_perineal_left",
+  "15": "obturator_internus_left",
+  "16": "perineal_other_left",
+  "17": "external_anal_sphincter"
+ },
+ "merged": {},
+ "merged_always": {
+  "levator_ani": [
+   "pubococcygeus",
+   "puborectalis",
+   "iliococcygeus"
+  ]
+ },
+ "not_shipped": {
+  "obturator_internus": "the obturator internus is not a Q62 target; it is carried as a sink so that the muscle lying on the inner surface of the ischium is not attributed to the levator ani, which arises from the tendinous arch on its fascia",
+  "perineal_other": "sink for the rest of the perineal muscle mass -- the vaginal and urethral walls and the erectile tissue of the vestibular bulb and the crus of the clitoris, which photograph as dark as striated muscle at 1 mm; it keeps that tissue out of the bulbospongiosus and the ischiocavernosus",
+  "superficial_transverse_perineal_right": "0.8 cm3 on this side, under the 1.0 cm3 a 1 mm frame with an 8.9 mm rms z residual supports as a named muscle",
+  "superficial_transverse_perineal_left": "0.4 cm3 on this side, under the 1.0 cm3 a 1 mm frame with an 8.9 mm rms z residual supports as a named muscle",
+  "pubococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "puborectalis": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "iliococcygeus": "carried inside levator_ani: no septum between the levator's parts at 1 mm",
+  "external_urethral_sphincter": "a 3-5 mm collar on the membranous urethra: below the resolution of a 1 mm frame with an 8.9 mm rms z residual, and no label anchors the urethra",
+  "pubovaginalis": "not separable from the medial levator ani in these photographs",
+  "internal_anal_sphincter": "smooth muscle inside the colon label; excluded with it"
+ },
+ "septum_support": {
+  "coccygeus|obturator_internus": {
+   "ratio": 2.57,
+   "contact_px": 69,
+   "merge": false
+  },
+  "levator_ani|obturator_internus": {
+   "ratio": 2.1,
+   "contact_px": 3402,
+   "merge": false
+  },
+  "bulbospongiosus|superficial_transverse_perineal": {
+   "ratio": 1.97,
+   "contact_px": 297,
+   "merge": false
+  },
+  "deep_transverse_perineal|perineal_other": {
+   "ratio": 3.38,
+   "contact_px": 337,
+   "merge": false
+  },
+  "perineal_other|superficial_transverse_perineal": {
+   "ratio": 1.41,
+   "contact_px": 134,
+   "merge": false
+  },
+  "bulbospongiosus|perineal_other": {
+   "ratio": 1.99,
+   "contact_px": 732,
+   "merge": false
+  },
+  "deep_transverse_perineal|ischiocavernosus": {
+   "ratio": 2.62,
+   "contact_px": 457,
+   "merge": false
+  },
+  "bulbospongiosus|ischiocavernosus": {
+   "ratio": 2.3,
+   "contact_px": 237,
+   "merge": false
+  },
+  "coccygeus|levator_ani": {
+   "ratio": 1.38,
+   "contact_px": 431,
+   "merge": false
+  },
+  "ischiocavernosus|perineal_other": {
+   "ratio": 2.78,
+   "contact_px": 77,
+   "merge": false
+  }
+ },
+ "merge_ratio_threshold": 1.25,
+ "levels": {
+  "k_range": [
+   829,
+   892
+  ],
+  "z_ras_range": [
+   -947.0,
+   -884.0
+  ],
+  "ct_slice_range": [
+   75,
+   138
+  ],
+  "pubic_arch_apex": {
+   "k": 852,
+   "ct_slice": 98,
+   "z_ras": -924.0
+  },
+  "ischial_spine": {
+   "k": 892,
+   "ct_slice": 138,
+   "z_ras": -884.0
+  },
+  "bladder_neck": {
+   "ct_slice": 116,
+   "z_ras": -906.0
+  },
+  "anal_canal_bottom": {
+   "ct_slice": 75,
+   "z_ras": -947.0
+  },
+  "ischial_tuberosity_bottom": {
+   "ct_slice": 72,
+   "z_ras": -950.0
+  },
+  "pelvic_band_k": [
+   853,
+   892
+  ],
+  "anal_perineal_band_k": [
+   824,
+   852
+  ]
+ },
+ "rules": {
+  "muscle_brightness_cap": 160,
+  "marker_erode_px": 3,
+  "obturator_internus_band_mm": 18,
+  "obturator_internus_min_dx_mm": 24,
+  "levator_above_ischial_spine_mm": 0,
+  "levator_above_bladder_neck_mm": 14,
+  "levator_reach_from_viscera_mm": 18,
+  "posterior_pad_mm": 14,
+  "coccygeus": {
+   "posterior_of_anal_centre_mm": 8,
+   "min_dx_mm": 10,
+   "from_level": "the ischial spine"
+  },
+  "external_anal_sphincter": {
+   "ring_depth_mm": 10,
+   "max_dx_mm": 32
+  },
+  "perineal": {
+   "hull": "hip label + a 22 mm disc at the anal canal, eroded 3 mm",
+   "max_dx_mm": 46,
+   "ischiocavernosus": {
+    "on_ramus_mm": 10,
+    "min_dx_mm": 14
+   },
+   "bulbospongiosus": {
+    "dx_mm": [
+     3,
+     24
+    ],
+    "anterior_of_anal_centre_mm": 18
+   },
+   "deep_transverse_perineal": {
+    "below_arch_mm": 10,
+    "max_dx_mm": 32,
+    "dy_mm": [
+     -40,
+     -8
+    ]
+   },
+   "superficial_transverse_perineal": {
+    "above_tuberosity_mm": 10,
+    "dy_mm": [
+     -28,
+     -12
+    ],
+    "min_dx_mm": 8
+   }
+  }
+ },
+ "thicknesses_assumed_mm": {
+  "levator_ani": "5 (Gray's 42nd ed.: the levator ani is a 3-5 mm sheet). The rule band is not clipped to it -- the watershed takes the edge from the septa; the number is the expectation the result is read against.",
+  "external_anal_sphincter": "10 (Gray's: the sphincter rings the anal canal 8-15 mm deep)",
+  "ischiocavernosus": "10 (the muscle covering the crus on the ischiopubic ramus)",
+  "obturator_internus_band": "18 (the band on the inner surface of the ischium; a sink)"
+ },
+ "literature": {
+  "levator_ani_volume_female": {
+   "pmid": "10701604",
+   "doi": "10.2214/ajr.174.3.1740657",
+   "value": "mean levator ani volume 46.6 ml on 3D MRI models of 10 healthy nulliparous women (Fielding 2000, AJR)"
+  },
+  "levator_ani_volume_female_2": {
+   "pmid": "16325611",
+   "doi": "10.1016/j.ajog.2005.06.060",
+   "value": "levator ani volume 26.8 cm3 (African-American) vs 19.8 cm3 (white American) nulliparous women on 3D MRI (Hoyte 2005, Am J Obstet Gynecol)"
+  },
+  "levator_ani_volume_female_3": {
+   "pmid": "25030729",
+   "doi": null,
+   "value": "levator ani volume 34 +/- 6 cm3 in 25 young nulliparous women on 3D MRI (Liu 2014, Zhonghua Fu Chan Ke Za Zhi)"
+  },
+  "levator_hiatus": {
+   "pmid": "15883982",
+   "doi": "10.1002/uog.1899",
+   "value": "pubovisceral muscle diameter 0.4-1.1 cm (mean 0.73 cm), levator hiatus 3.75 x 4.5 cm at rest, 52 nulligravid women, 3D ultrasound (Dietz 2005)"
+  },
+  "external_anal_sphincter_volume": "not verified: the endoanal 3D-ultrasound / MRI abstract retrieved (West 2005, PMID 15666154, doi 10.1007/s00384-004-0693-2) reports only that EAS volume correlates poorly between methods, with no absolute value",
+  "coccygeus_volume": "not verified",
+  "perineal_muscle_volumes": "not verified: no per-muscle volumetric figure for bulbospongiosus, ischiocavernosus or the transverse perineal muscles was confirmed from an abstract",
+  "comparison": "the shipped levator ani is compared against 19.8-46.6 cm3 bilateral; anything above 2.0 x 46.6 cm3 is nulled"
+ },
+ "montage": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.png",
+ "output": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz",
+ "labels_file": "/home/user/NMSK_Atlas/mappings/vhf_pelvic_floor_labels.json",
+ "mapping_file": "/home/user/NMSK_Atlas/mappings/subjects/ct_vhf_pfloor_volume_mapping.json",
+ "limits": [
+  "boundaries are position rules + watershed on 1 mm photographs, not traced fascia",
+  "the frame's z registration residual is 8.9 mm rms, of the order of the craniocaudal extent of the perineal muscles themselves",
+  "her coccyx is not labelled (the sacrum label stops 22 mm above the bladder neck), so the coccygeus is anchored on the ischial spine and a 14 mm posterior pad of the bony hull",
+  "the perineal membrane is not visible at 1 mm: the deep and superficial pouches are separated only by the level of the pubic arch's apex",
+  "the vestibular bulb and the crus of the clitoris are erectile tissue that photographs as dark as striated muscle; they are held in the perineal_other sink, which is not shipped",
+  "the levator ani's parts are not separated; the external urethral sphincter and pubovaginalis are not attempted",
+  "the shipped bulbospongiosus and ischiocavernosus each include the erectile body they cover (the vestibular bulb, the crus of the clitoris): no septum separates muscle from erectile tissue at 1 mm",
+  "the external anal sphincter band reaches up to the pubic arch's apex, where its deep part and the puborectalis are one mass: the top few levels of the ring are shared with the levator ani's territory",
+  "the levator ani mask is 62.7 cm3 bilateral against a verified 19.8-46.6 cm3 on MRI in nulliparous women: it is a 10-13 mm thick sheet where Gray's gives 3-5 mm, because no fascial plane separates it from the pararectal and inner obturator muscle everywhere in these photographs",
+  "the volume is on the 1 mm RAS frame grid (her torso CT frame resampled to 1 mm), the grid the masks are computed on, as vhf_deep_neck_cryo.nii.gz"
+ ]
+}

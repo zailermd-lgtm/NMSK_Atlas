@@ -1,0 +1,22 @@
+{
+  "_README": [
+    "Review every entry before running convert.",
+    "Set 'atlas_id' to the correct entity, or null to skip the label.",
+    "'status' is advisory; convert reads 'atlas_id' only."
+  ],
+  "subject": "ct_vhf_skin",
+  "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhf_ts/skin_ct.nii.gz",
+  "label_map": "vhm_skin",
+  "entries": [
+    {
+      "label": 1,
+      "source_structure": "body_surface",
+      "side": null,
+      "status": "curated",
+      "atlas_id": "skin",
+      "relationship": "exact",
+      "note": "Whole-body silhouette at 1 mm; the two in-plane shifts of the CT blocks differ by 2-4 mm and the torso block's is used throughout.",
+      "candidates": []
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "id": "splenius_cervicis_r",
+  "name_ta": "Splenius cervicis",
+  "name_common": "Splenius cervicis",
+  "side": "right",
+  "region": "neck",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "thoracic_vertebrae",
+    "origin_landmark": "spinous processes T3-T6",
+    "insertion_bone": "cervical_vertebrae",
+    "insertion_landmark": "posterior tubercles of the transverse processes C1-C3",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "dorsal_ramus_lateral_branches",
+    "root_levels": "C5-C7 dorsal rami (lateral branches)"
+  },
+  "actions": [
+    "extends the neck",
+    "rotates and laterally flexes the neck to the same side"
+  ],
+  "functional_compartments": [
+    {
+      "id": "splenius_cervicis_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 80,
+        "physiological_cross_section_area_mm2": 130,
+        "max_isometric_force_N": 29.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          6,
+          -34,
+          -34
+        ],
+        [
+          22,
+          -6,
+          -20
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+      "injection_target_points": [
+        {
+          "label": "centre of the region of highest muscle spindle abundance",
+          "transverse_line_from": "external occipital protuberance",
+          "transverse_line_to": "mastoid process",
+          "transverse_percent": 60.44,
+          "longitudinal_line_from": "external occipital protuberance",
+          "longitudinal_line_to": "third thoracic spinous process",
+          "longitudinal_percent": 40.59,
+          "depth_percent_of_limb_thickness": 32.6,
+          "depth_measured_from": "posterior neck",
+          "method": "modified Sihler's stain intramuscular nerve-dense region, with muscle-spindle abundance histology, localised by spiral CT with barium sulphate labelling",
+          "notes": "Deeper and further from the occiput than splenius capitis, on both reference lines.",
+          "source": "He X, Wen S, Liu X, Li Y, Yang S, 'Optimal target localization for botulinum toxin A in treating splenius muscles dystonia based on the distribution of intramuscular nerves and spindles', Anat Sci Int 101(1):44-53 (2025), doi:10.1007/s12565-025-00831-8 -- 24 adults, modified Sihler's staining with muscle-spindle histology and CT localisation"
+        }
+      ],
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            30,
+            70
+          ],
+          "reference_line_from": "spinous processes T3-T6 (origin)",
+          "reference_line_to": "posterior tubercles of the transverse processes C1-C3 (insertion)",
+          "method": "modified Sihler's staining, intramuscular nerve arborization mapping",
+          "notes": "Nerve pathways ran vertically from the insertion toward the origin, with motor entry concentrated over the middle 40% of muscle length. Muscle is also implicated in chronic tension-type headache. A later cadaveric CT-localization study on an independent sample narrowed the densest sub-zone further, to roughly 56-64% of muscle length -- see this muscle's injection_target_points entry for that more precise point.",
+          "source": "Kwon HJ, Yang HM, Won SY, 'Intramuscular innervation patterns of the splenius capitis and splenius cervicis and their clinical implications for botulinum toxin injections', Clin Anat 33(8):1138-1143 (2020), doi:10.1002/ca.23553 -- 10 splenius cervicis specimens from cadaveric dissection, modified Sihler's staining. Retrieved via PubMed."
+        }
+      ],
+      "innervation_branch_ids": [
+        "dorsal_ramus_lateral_branches"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Terminologia Anatomica (FICAT 1998)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "High-frequency linear probe (5-18 MHz) over the posterior triangle of the neck at the level of the C4-C5 spinous processes; scan laterally to identify the levator scapulae muscle belly, then look immediately deep to it.",
+    "depth_layer": "Deep to levator scapulae; at the C4-C5 level splenius cervicis is the most superficial component of the common lateral muscle mass (shared with longissimus cervicis, and with splenius capitis more cranially).",
+    "identification_cues": "Dynamic lateral scanning shows the muscle's downward, backward and inward fiber orientation, helping distinguish it from the adjacent longissimus cervicis. The chosen landmark was validated by placing a metal clip under ultrasound guidance and confirming its position by cadaveric dissection.",
+    "structures_at_risk": [
+      "levator scapulae (deliberately transfixed en route to the target)"
+    ],
+    "notes": "Injection is carried out anteroposteriorly, transfixing levator scapulae, aiming for the craniocaudal space bounded by the horizontal lines through the C4 and C5 spinous processes. Landmark defined on 2 fixed cadavers plus MRI/ultrasound correlation in a healthy volunteer, then validated on a fresh cadaver.",
+    "source": "Brumpt E, Aubry S, Vuillier F, Tatu L, 'Anatomo-sonographic identification of the longissimus capitis and splenius cervicis muscles: principles for possible application to ultrasound-guided botulinum toxin injections in cervical dystonia', Surg Radiol Anat 43(6):909-915 (2021), doi:10.1007/s00276-020-02646-w -- 2 fixed cadavers + 1 fresh cadaver, ultrasound/MRI correlation with cadaveric dissection validation. Retrieved via PubMed."
+  },
+  "trigger_points": [
+    {
+      "location_description": "Upper trigger point at about C3-C4, near the insertion.",
+      "referred_pain_pattern": "Diffuse pain 'through the head to the back of the eye', sometimes with ipsilateral blurred vision.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    },
+    {
+      "location_description": "Lower trigger point at the angle of the neck near C7-T1, in the same zone as levator scapulae.",
+      "referred_pain_pattern": "The angle of the neck and up to the base of the skull, down to the shoulder.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded head and neck muscle reference document (Simons DG, Travell JG, Simons LS, Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol 1, 2nd ed., Williams & Wilkins, 1999; Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ]
+}

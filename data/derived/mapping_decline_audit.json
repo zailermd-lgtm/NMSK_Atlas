@@ -1,0 +1,591 @@
+{
+  "_README": [
+    "Q97 systematic audit of every mappings/subjects/*_volume_mapping.json entry with atlas_id: null and a note",
+    "expressing qualitative doubt (\"not trusted\", \"fragment\", \"review\", etc.) rather than an already-",
+    "established hard quantitative fact, following up on Q96's platysma reversal. A future pass can resume",
+    "from this file rather than re-running the full grep sweep -- see PROJECT_STATE Q97 for the narrative."
+  ],
+  "search_method": "grepped every mappings/subjects/*_volume_mapping.json for atlas_id:null entries, then filtered notes for qualitative-doubt language (not trusted, fragment, review, questionable, uncertain, unreliable, revisit, small, low-confidence, etc.) with no specific number already pinning down the verdict. 64 keyword hits found; almost all of them turned out to already cite a specific measured number (a voxel/cm3 count, a component-analysis result, a stated expected range) that already settles the question -- these are NOT candidates by this audit's own bar, just verbose settled notes. Only ct_vhf_left_forearm's 20 review-pending entries (Q71, dated one day before this audit) were genuinely still-open judgment calls; of those, 5 were verified and shipped, the other 15 checked and confirmed still correctly declined.",
+  "candidates_checked": 64,
+  "shipped": 5,
+  "checked_still_declined": 15,
+  "not_a_candidate_already_settled": 44,
+  "entries": [
+    {
+      "subject_file": "ct_vhf_forearm_volume_mapping.json",
+      "label": 16,
+      "source_structure": "supinator_anconeus_compartment",
+      "side": "right",
+      "doubt_expressed": "rule-based; compartment holding supinator, anconeus (8.3 cm3), not split: Supinator (7.6 cm3) and anconeus (0.7 cm3) at the proximal end: the anconeus region is far too small to be the muscle, and the supinator wraps the radius where its border with the mobile wad is the position rule line, not a septum.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhf_hyoid_volume_mapping.json",
+      "label": 1,
+      "source_structure": "sternohyoid_right",
+      "side": "right",
+      "doubt_expressed": "2.7 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 24 disconnected islands, largest one only 26% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhf_hyoid_volume_mapping.json",
+      "label": 2,
+      "source_structure": "omohyoid_right",
+      "side": "right",
+      "doubt_expressed": "3.8 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 13 disconnected islands, largest one only 40% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhf_hyoid_volume_mapping.json",
+      "label": 12,
+      "source_structure": "sternohyoid_left",
+      "side": "left",
+      "doubt_expressed": "2.7 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 23 disconnected islands, largest one only 20% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhf_hyoid_volume_mapping.json",
+      "label": 13,
+      "source_structure": "omohyoid_left",
+      "side": "left",
+      "doubt_expressed": "3.5 cm3 (was ~1.0/0.9 before a numpy-casting bug fix in floor_rules() -- unrelated code path, fixed 2026-09-18 -- happened to also re-run the whole script); the TOTAL volume is now inside the expected range, but connected-component analysis on the label volume shows it is NOT one piece: 15 disconnected islands, largest one only 39% of the total -- confirmed on the volume BEFORE the fix too (9-13 islands, 31-48% largest), so this is a pre-existing property of the strap_compartment/strap_rules segmentation, not a regression. A plausible total volume made of a dozen disconnected blobs is not a continuous strap muscle; still NOT SHIPPED. Kept in the label volume for review.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 1,
+      "source_structure": "pronator_teres",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 16.9 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 2,
+      "source_structure": "flexor_carpi_radialis",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 39.6 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 3,
+      "source_structure": "palmaris_longus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 43.6 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 4,
+      "source_structure": "flexor_carpi_ulnaris",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.4 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 5,
+      "source_structure": "flexor_digitorum_superficialis",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 50.6 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 6,
+      "source_structure": "flexor_digitorum_profundus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 75.9 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 7,
+      "source_structure": "flexor_pollicis_longus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 40.0 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 8,
+      "source_structure": "pronator_quadratus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 1.6 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 9,
+      "source_structure": "brachioradialis",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.0 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 10,
+      "source_structure": "extensor_carpi_radialis_longus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.0 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 11,
+      "source_structure": "extensor_carpi_radialis_brevis",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.0 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 12,
+      "source_structure": "extensor_digitorum",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 23.9 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "SHIPPED",
+      "q97_evidence": "Isolated test conversion + real reconvert: watertight, near-single mesh component (90.6-100% largest by face-adjacency), 0.0% of vertices outside her raw skin surface, volume within ~5-30% of her already-shipped right-side twin, render QA confirms correct dorsal forearm extensor-group shape/position (deep-compartment outcropping muscles converging toward the wrist). See PROJECT_STATE Q97 and the updated note in ct_vhf_left_forearm_volume_mapping.json."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 13,
+      "source_structure": "extensor_digiti_minimi",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 12.3 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "SHIPPED",
+      "q97_evidence": "Isolated test conversion + real reconvert: watertight, near-single mesh component (90.6-100% largest by face-adjacency), 0.0% of vertices outside her raw skin surface, volume within ~5-30% of her already-shipped right-side twin, render QA confirms correct dorsal forearm extensor-group shape/position (deep-compartment outcropping muscles converging toward the wrist). See PROJECT_STATE Q97 and the updated note in ct_vhf_left_forearm_volume_mapping.json."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 14,
+      "source_structure": "extensor_carpi_ulnaris",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.0 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 15,
+      "source_structure": "anconeus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.1 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 16,
+      "source_structure": "supinator",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 0.0 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 17,
+      "source_structure": "abductor_pollicis_longus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 9.3 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "SHIPPED",
+      "q97_evidence": "Isolated test conversion + real reconvert: watertight, near-single mesh component (90.6-100% largest by face-adjacency), 0.0% of vertices outside her raw skin surface, volume within ~5-30% of her already-shipped right-side twin, render QA confirms correct dorsal forearm extensor-group shape/position (deep-compartment outcropping muscles converging toward the wrist). See PROJECT_STATE Q97 and the updated note in ct_vhf_left_forearm_volume_mapping.json."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 18,
+      "source_structure": "extensor_pollicis_brevis",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 5.4 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "SHIPPED",
+      "q97_evidence": "Isolated test conversion + real reconvert: watertight, near-single mesh component (90.6-100% largest by face-adjacency), 0.0% of vertices outside her raw skin surface, volume within ~5-30% of her already-shipped right-side twin, render QA confirms correct dorsal forearm extensor-group shape/position (deep-compartment outcropping muscles converging toward the wrist). See PROJECT_STATE Q97 and the updated note in ct_vhf_left_forearm_volume_mapping.json."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 19,
+      "source_structure": "extensor_pollicis_longus",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 8.5 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "SHIPPED",
+      "q97_evidence": "Isolated test conversion + real reconvert: watertight, near-single mesh component (90.6-100% largest by face-adjacency), 0.0% of vertices outside her raw skin surface, volume within ~5-30% of her already-shipped right-side twin, render QA confirms correct dorsal forearm extensor-group shape/position (deep-compartment outcropping muscles converging toward the wrist). See PROJECT_STATE Q97 and the updated note in ct_vhf_left_forearm_volume_mapping.json."
+    },
+    {
+      "subject_file": "ct_vhf_left_forearm_volume_mapping.json",
+      "label": 20,
+      "source_structure": "extensor_indicis",
+      "side": "left",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on her fascial septa; 4.3 cm3. NOT yet confirmed against a textbook volume range -- review before setting atlas_id.",
+      "q97_verdict": "CHECKED_STILL_DECLINED",
+      "q97_evidence": "Isolated test conversion checked: either ~0.0-0.1 cm3 (compartment never seeded on the left side) or a gross bilateral mismatch against her already-shipped right-side twin (2-10x off, consistent with the known Q71 root cause -- the left-forearm bone tracker absorbs/loses neighbouring muscle territory). The Q71 root-cause finding (proximal-only track, absorbed-neighbour volumes for flexors, unseeded lateral compartment) is itself already a hard, specific, quantitative fact, not a soft pre-toolkit doubt -- original decline confirmed correct, left unshipped."
+    },
+    {
+      "subject_file": "ct_vhm_abd_volume_mapping.json",
+      "label": 11,
+      "source_structure": "external_oblique_right",
+      "side": "right",
+      "doubt_expressed": "Hybrid CT (soft tissue from the photographs). 29 vs 181 cm3 left/right on the hybrid CT: unreliable.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_abd_volume_mapping.json",
+      "label": 12,
+      "source_structure": "external_oblique_left",
+      "side": "left",
+      "doubt_expressed": "Hybrid CT (soft tissue from the photographs). 29 vs 181 cm3 left/right: unreliable.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_abd_volume_mapping.json",
+      "label": 13,
+      "source_structure": "internal_oblique_right",
+      "side": "right",
+      "doubt_expressed": "Hybrid CT (soft tissue from the photographs). 17 vs 88 cm3 left/right: unreliable.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_abd_volume_mapping.json",
+      "label": 14,
+      "source_structure": "internal_oblique_left",
+      "side": "left",
+      "doubt_expressed": "Hybrid CT (soft tissue from the photographs). 17 vs 88 cm3 left/right: unreliable.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_abd_volume_mapping.json",
+      "label": 21,
+      "source_structure": "quadratus_lumborum_right",
+      "side": "right",
+      "doubt_expressed": "Hybrid CT (soft tissue from the photographs). 22 vs 49 cm3 left/right: unreliable.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_abd_volume_mapping.json",
+      "label": 22,
+      "source_structure": "quadratus_lumborum_left",
+      "side": "left",
+      "doubt_expressed": "Hybrid CT (soft tissue from the photographs). 22 vs 49 cm3 left/right: unreliable.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 1,
+      "source_structure": "radial_flexor_compartment",
+      "side": "right",
+      "doubt_expressed": "rule-based; compartment holding pronator_teres, flexor_carpi_radialis, flexor_pollicis_longus (104.7 cm3), not split: PT/FPL split followed a pale line at 63 % of 27 shared levels and FCR/FPL at 66 % of 35; PT's region (7 cm3) is far too small for the muscle and FCR's (70 cm3) far too large, i.e. the line between them is not the PT/FCR/FPL septum. Kept together (105 cm3).",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 3,
+      "source_structure": "palmaris_longus",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 35.4 cm3. REVIEW: 35 cm3 is several times a palmaris longus; the region likely holds part of the FCR/FDS belly. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 35 cm3 against 5-10 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 4,
+      "source_structure": "flexor_carpi_ulnaris",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 139.2 cm3. REVIEW: volume outside 5-80 cm3, the region may hold a neighbour's belly. REVIEW: 139.2 cm3 is more than 2x off the expected 25-35 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 139 cm3 against 25-35 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 8,
+      "source_structure": "pronator_quadratus",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 57.0 cm3. REVIEW: 57 cm3 is several times a pronator quadratus; at f > 0.9 only its rule is active, so the whole distal muscle section (FDP/FDS/FPL bellies included) falls to it. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 57 cm3 against 8-12 expected (its rule takes the whole distal section); a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 12,
+      "source_structure": "extensor_digitorum_supinator_anconeus_compartment",
+      "side": "right",
+      "doubt_expressed": "rule-based; compartment holding extensor_digitorum, supinator, anconeus (48.6 cm3), not split: Anconeus/supinator on a pale line at only 44 % of 16 shared levels and ED/anconeus at 44 % of 9; the anconeus region (1.9 cm3) is too small to be the muscle, so ED, whose other boundaries hold (72-100 %), is kept with the two proximal muscles (49 cm3) rather than shipped with a border that does not run on a septum.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 13,
+      "source_structure": "extensor_digiti_minimi",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 19.7 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 20 cm3 against 3-6 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 14,
+      "source_structure": "extensor_carpi_ulnaris",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 39.3 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 39 cm3 against 10-15 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 18,
+      "source_structure": "extensor_pollicis_brevis",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 8.2 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 8 cm3 against 2-4 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 19,
+      "source_structure": "extensor_pollicis_longus",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 13.5 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 13.5 cm3 against 4-7 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_forearm_volume_mapping.json",
+      "label": 20,
+      "source_structure": "extensor_indicis",
+      "side": "right",
+      "doubt_expressed": "rule-based: position-rule marker in the radius-ulna frame, boundary by the marker watershed on his fascial septa; 16.2 cm3. NOT SHIPPED (main session 2026-09-14): volume more than twice the adult expectation, 16 cm3 against 3-6 expected; a rule artefact of the position lines, kept in the label volume for review, not shown under this name.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_neckbv_volume_mapping.json",
+      "label": 7,
+      "source_structure": "styloid_process_right",
+      "side": "right",
+      "doubt_expressed": "0.1 cm3 fragment on this scan (frozen, 0.94 mm grid); too small to be the process. Not ingested.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_neckbv_volume_mapping.json",
+      "label": 8,
+      "source_structure": "styloid_process_left",
+      "side": "left",
+      "doubt_expressed": "0.1 cm3 fragment on this scan (frozen, 0.94 mm grid); too small to be the process. Not ingested.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_neckbv_volume_mapping.json",
+      "label": 9,
+      "source_structure": "internal_carotid_artery_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel label is a fragment (<0.5 cm3). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_neckbv_volume_mapping.json",
+      "label": 10,
+      "source_structure": "internal_carotid_artery_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel label is a fragment (<0.5 cm3). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_neckbv_volume_mapping.json",
+      "label": 11,
+      "source_structure": "internal_jugular_vein_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel label is a fragment (<0.5 cm3). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_neckbv_volume_mapping.json",
+      "label": 12,
+      "source_structure": "internal_jugular_vein_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel label is a fragment (<0.5 cm3). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_orbit_volume_mapping.json",
+      "label": 6,
+      "source_structure": "superior_rectus_muscle_right",
+      "side": "right",
+      "doubt_expressed": "0.01/0.08 cm3 on the frozen scan: a fragment, not the muscle. Not ingested.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_orbit_volume_mapping.json",
+      "label": 15,
+      "source_structure": "superior_rectus_muscle_left",
+      "side": "left",
+      "doubt_expressed": "0.01/0.08 cm3 on the frozen scan: a fragment, not the muscle. Not ingested.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 52,
+      "source_structure": "aorta",
+      "side": null,
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 54,
+      "source_structure": "brachiocephalic_trunk",
+      "side": null,
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 55,
+      "source_structure": "subclavian_artery_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 56,
+      "source_structure": "subclavian_artery_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 57,
+      "source_structure": "common_carotid_artery_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 58,
+      "source_structure": "common_carotid_artery_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 59,
+      "source_structure": "brachiocephalic_vein_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 60,
+      "source_structure": "brachiocephalic_vein_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 62,
+      "source_structure": "superior_vena_cava",
+      "side": null,
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 63,
+      "source_structure": "inferior_vena_cava",
+      "side": null,
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 65,
+      "source_structure": "iliac_artery_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 66,
+      "source_structure": "iliac_artery_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 67,
+      "source_structure": "iliac_vena_left",
+      "side": "left",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 68,
+      "source_structure": "iliac_vena_right",
+      "side": "right",
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    },
+    {
+      "subject_file": "ct_vhm_volume_mapping.json",
+      "label": 117,
+      "source_structure": "costal_cartilages",
+      "side": null,
+      "doubt_expressed": "Frozen cadaver, no contrast: the vessel labels are fragments (aorta 21 cm3 here against 164 cm3 on the contrast case s1159). Not ingested from this subject.",
+      "q97_verdict": "NOT_A_CANDIDATE",
+      "q97_evidence": "Note already states a specific, already-established quantitative fact (a measured fragment/voxel size, a component-analysis result, a specific volume outside a stated expected range, or a specific L/R mismatch) rather than an informal pre-toolkit doubt -- does not meet this audit's candidate bar (contrast with Q96's platysma, which had no number attached at all). Not re-verified this session; left as-is."
+    }
+  ]
+}

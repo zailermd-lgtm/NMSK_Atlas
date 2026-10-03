@@ -1,0 +1,727 @@
+{
+ "_README": [
+  "Female deep neck and suboccipital muscles by position rules on her registered 1 mm cryosection frame (scripts/cryo/vhf_deep_neck_from_cryo.py). Rule-based, derived data."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female colour cryosections (1 mm frame) and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total`, `headneck_muscles`, `headneck_bones_vessels` labels as anchors. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., ch. 43 'Neck' and ch. 44 'Back', and Moore KL et al., Clinically Oriented Anatomy, 8th ed. Derived data (scripts/cryo/vhf_deep_neck_from_cryo.py), rule-based.",
+ "badge": "rule-based",
+ "version": "2026-09-14",
+ "volumes_cm3": {
+  "splenius_right": 79.0,
+  "semispinalis_capitis_right": 35.3,
+  "semispinalis_cervicis_right": 15.1,
+  "rectus_capitis_posterior_minor_right": 2.2,
+  "rectus_capitis_posterior_major_right": 2.8,
+  "obliquus_capitis_inferior_right": 7.4,
+  "obliquus_capitis_superior_right": 0.5,
+  "erector_cervical_right": 42.7,
+  "longus_colli_right": 3.8,
+  "longus_capitis_right": 2.4,
+  "splenius_left": 68.1,
+  "semispinalis_capitis_left": 41.4,
+  "semispinalis_cervicis_left": 15.9,
+  "rectus_capitis_posterior_minor_left": 2.5,
+  "rectus_capitis_posterior_major_left": 2.6,
+  "obliquus_capitis_inferior_left": 7.7,
+  "obliquus_capitis_superior_left": 0.3,
+  "erector_cervical_left": 41.0,
+  "longus_colli_left": 2.6,
+  "longus_capitis_left": 3.6
+ },
+ "labels": {
+  "1": "splenius_right",
+  "2": "semispinalis_capitis_right",
+  "3": "semispinalis_cervicis_right",
+  "4": "rectus_capitis_posterior_minor_right",
+  "5": "rectus_capitis_posterior_major_right",
+  "6": "obliquus_capitis_inferior_right",
+  "7": "obliquus_capitis_superior_right",
+  "8": "erector_cervical_right",
+  "9": "longus_colli_right",
+  "10": "longus_capitis_right",
+  "11": "splenius_left",
+  "12": "semispinalis_capitis_left",
+  "13": "semispinalis_cervicis_left",
+  "14": "rectus_capitis_posterior_minor_left",
+  "15": "rectus_capitis_posterior_major_left",
+  "16": "obliquus_capitis_inferior_left",
+  "17": "obliquus_capitis_superior_left",
+  "18": "erector_cervical_left",
+  "19": "longus_colli_left",
+  "20": "longus_capitis_left"
+ },
+ "merged": {
+  "splenius": {
+   "members": [
+    "splenius"
+   ],
+   "why": "79.0 cm3; compartment: splenius capitis + splenius cervicis, one sheet in these photographs (no septum between the capitis and its inferolateral cervicis part at 1 mm); mapped to null, candidates listed."
+  }
+ },
+ "not_shipped": {
+  "rectus_capitis_anterior": "~1 cm3 under the C1 lateral mass: no CT label anchors it and the frame's z residual (8.9 mm rms) exceeds its size",
+  "rectus_capitis_lateralis": "same as rectus capitis anterior",
+  "semispinalis_thoracis": "its T1-T6 territory is inside the erector columns' spinalis / transversospinalis labels; thin and largely tendinous at 1 mm",
+  "splenius_cervicis": "not separable from splenius capitis (one sheet); carried in the splenius compartment",
+  "erector_cervical": "sink for the longissimus / iliocostalis cervicis-capitis lateral of the semispinalis capitis (erector column, not a target; keeps erector muscle out of the semispinalis)"
+ },
+ "septum_support": {
+  "obliquus_capitis_superior|rectus_capitis_posterior_major": {
+   "ratio": 1.7,
+   "contact_px": 20,
+   "merge": false
+  },
+  "obliquus_capitis_inferior|semispinalis_cervicis": {
+   "ratio": 2.75,
+   "contact_px": 365,
+   "merge": false
+  },
+  "rectus_capitis_posterior_minor|splenius": {
+   "ratio": 2.54,
+   "contact_px": 175,
+   "merge": false
+  },
+  "rectus_capitis_posterior_major|semispinalis_capitis": {
+   "ratio": 4.38,
+   "contact_px": 947,
+   "merge": false
+  },
+  "obliquus_capitis_inferior|splenius": {
+   "ratio": 4.37,
+   "contact_px": 307,
+   "merge": false
+  },
+  "erector_cervical|semispinalis_capitis": {
+   "ratio": 2.21,
+   "contact_px": 2726,
+   "merge": false
+  },
+  "longus_capitis|longus_colli": {
+   "ratio": 1.95,
+   "contact_px": 258,
+   "merge": false
+  },
+  "rectus_capitis_posterior_major|splenius": {
+   "ratio": 4.1,
+   "contact_px": 27,
+   "merge": false
+  },
+  "erector_cervical|semispinalis_cervicis": {
+   "ratio": 1.74,
+   "contact_px": 1740,
+   "merge": false
+  },
+  "obliquus_capitis_superior|semispinalis_capitis": {
+   "ratio": 1.54,
+   "contact_px": 58,
+   "merge": false
+  },
+  "semispinalis_cervicis|splenius": {
+   "ratio": 2.75,
+   "contact_px": 184,
+   "merge": false
+  },
+  "erector_cervical|obliquus_capitis_inferior": {
+   "ratio": 3.11,
+   "contact_px": 2025,
+   "merge": false
+  },
+  "obliquus_capitis_inferior|rectus_capitis_posterior_major": {
+   "ratio": 3.75,
+   "contact_px": 515,
+   "merge": false
+  },
+  "erector_cervical|splenius": {
+   "ratio": 2.56,
+   "contact_px": 8562,
+   "merge": false
+  },
+  "semispinalis_capitis|semispinalis_cervicis": {
+   "ratio": 2.84,
+   "contact_px": 6370,
+   "merge": false
+  },
+  "semispinalis_capitis|splenius": {
+   "ratio": 2.62,
+   "contact_px": 15699,
+   "merge": false
+  },
+  "obliquus_capitis_superior|splenius": {
+   "ratio": 6.92,
+   "contact_px": 33,
+   "merge": false
+  },
+  "erector_cervical|rectus_capitis_posterior_major": {
+   "ratio": 0.91,
+   "contact_px": 40,
+   "merge": true
+  },
+  "rectus_capitis_posterior_minor|semispinalis_capitis": {
+   "ratio": 3.53,
+   "contact_px": 722,
+   "merge": false
+  },
+  "erector_cervical|obliquus_capitis_superior": {
+   "ratio": 2.21,
+   "contact_px": 251,
+   "merge": false
+  },
+  "rectus_capitis_posterior_major|rectus_capitis_posterior_minor": {
+   "ratio": 8.93,
+   "contact_px": 452,
+   "merge": false
+  },
+  "obliquus_capitis_inferior|semispinalis_capitis": {
+   "ratio": 3.04,
+   "contact_px": 630,
+   "merge": false
+  }
+ },
+ "merge_ratio_threshold": 1.25,
+ "levels": {
+  "k_range": [
+   1481,
+   1624
+  ],
+  "z_ras_range": [
+   -295.0,
+   -152.0
+  ],
+  "ct_slice_range": [
+   727,
+   870
+  ],
+  "T1_body_top_k": 1481,
+  "C6_body_bottom_k": 1483,
+  "C2_body_bottom_k": 1547,
+  "C1_top_k": 1589,
+  "foramen_magnum_posterior_rim_k": 1585,
+  "bands_by_k": {
+   "1481": "A",
+   "1482": "A",
+   "1483": "A",
+   "1484": "A",
+   "1485": "A",
+   "1486": "A",
+   "1487": "A",
+   "1488": "A",
+   "1489": "A",
+   "1490": "A",
+   "1491": "A",
+   "1492": "A",
+   "1493": "A",
+   "1494": "A",
+   "1495": "A",
+   "1496": "A",
+   "1497": "A",
+   "1498": "A",
+   "1499": "A",
+   "1500": "A",
+   "1501": "A",
+   "1502": "A",
+   "1503": "A",
+   "1504": "A",
+   "1505": "A",
+   "1506": "A",
+   "1507": "A",
+   "1508": "A",
+   "1509": "A",
+   "1510": "A",
+   "1511": "A",
+   "1512": "A",
+   "1513": "A",
+   "1514": "A",
+   "1515": "A",
+   "1516": "A",
+   "1517": "A",
+   "1518": "A",
+   "1519": "A",
+   "1520": "A",
+   "1521": "A",
+   "1522": "A",
+   "1523": "A",
+   "1524": "A",
+   "1525": "A",
+   "1526": "A",
+   "1527": "A",
+   "1528": "A",
+   "1529": "A",
+   "1530": "A",
+   "1531": "A",
+   "1532": "A",
+   "1533": "A",
+   "1534": "A",
+   "1535": "A",
+   "1536": "A",
+   "1537": "A",
+   "1538": "A",
+   "1539": "A",
+   "1540": "A",
+   "1541": "A",
+   "1542": "A",
+   "1543": "A",
+   "1544": "A",
+   "1545": "A",
+   "1546": "A",
+   "1547": "A",
+   "1548": "B",
+   "1549": "B",
+   "1550": "B",
+   "1551": "B",
+   "1552": "B",
+   "1553": "B",
+   "1554": "B",
+   "1555": "B",
+   "1556": "B",
+   "1557": "B",
+   "1558": "B",
+   "1559": "B",
+   "1560": "B",
+   "1561": "B",
+   "1562": "B",
+   "1563": "B",
+   "1564": "B",
+   "1565": "B",
+   "1566": "B",
+   "1567": "B",
+   "1568": "C",
+   "1569": "C",
+   "1570": "C",
+   "1571": "C",
+   "1572": "C",
+   "1573": "C",
+   "1574": "C",
+   "1575": "C",
+   "1576": "C",
+   "1577": "C",
+   "1578": "C",
+   "1579": "C",
+   "1580": "C",
+   "1581": "C",
+   "1582": "C",
+   "1583": "C",
+   "1584": "C",
+   "1585": "C",
+   "1586": "C",
+   "1587": "C",
+   "1588": "C",
+   "1589": "C",
+   "1590": "E",
+   "1591": "E",
+   "1592": "E",
+   "1593": "E",
+   "1594": "E",
+   "1595": "E",
+   "1596": "E_high",
+   "1597": "E_high",
+   "1598": "E_high",
+   "1599": "E_high",
+   "1600": "E_high",
+   "1601": "E_high",
+   "1602": "E_high",
+   "1603": "E_high",
+   "1604": "E_high",
+   "1605": "E_high",
+   "1606": "E_high",
+   "1607": "E_high"
+  },
+  "band_extent_k": {
+   "E": [
+    1590,
+    1595
+   ],
+   "B": [
+    1548,
+    1567
+   ],
+   "E_high": [
+    1596,
+    1607
+   ],
+   "C": [
+    1568,
+    1589
+   ],
+   "A": [
+    1481,
+    1547
+   ]
+  }
+ },
+ "rules": {
+  "box_rules_dx0_dx1_f0_f1": {
+   "A": {
+    "semispinalis_cervicis": [
+     [
+      0,
+      20,
+      0.0,
+      0.28
+     ]
+    ],
+    "semispinalis_capitis": [
+     [
+      0,
+      26,
+      0.28,
+      0.75
+     ]
+    ],
+    "splenius": [
+     [
+      0,
+      26,
+      0.75,
+      1.01
+     ],
+     [
+      26,
+      60,
+      0.55,
+      1.01
+     ]
+    ],
+    "erector_cervical": [
+     [
+      20,
+      60,
+      0.0,
+      0.28
+     ],
+     [
+      26,
+      60,
+      0.28,
+      0.55
+     ]
+    ]
+   },
+   "B": {
+    "semispinalis_cervicis": [
+     [
+      0,
+      16,
+      0.0,
+      0.28
+     ]
+    ],
+    "obliquus_capitis_inferior": [
+     [
+      16,
+      30,
+      0.0,
+      0.28
+     ]
+    ],
+    "semispinalis_capitis": [
+     [
+      0,
+      26,
+      0.28,
+      0.75
+     ]
+    ],
+    "splenius": [
+     [
+      0,
+      26,
+      0.75,
+      1.01
+     ],
+     [
+      26,
+      60,
+      0.55,
+      1.01
+     ]
+    ],
+    "erector_cervical": [
+     [
+      30,
+      60,
+      0.0,
+      0.55
+     ],
+     [
+      26,
+      30,
+      0.28,
+      0.55
+     ]
+    ]
+   },
+   "C": {
+    "rectus_capitis_posterior_minor": [
+     [
+      0,
+      10,
+      0.0,
+      0.3
+     ]
+    ],
+    "rectus_capitis_posterior_major": [
+     [
+      10,
+      20,
+      0.0,
+      0.3
+     ]
+    ],
+    "obliquus_capitis_inferior": [
+     [
+      20,
+      32,
+      0.0,
+      0.3
+     ]
+    ],
+    "semispinalis_capitis": [
+     [
+      0,
+      26,
+      0.3,
+      0.75
+     ]
+    ],
+    "splenius": [
+     [
+      0,
+      26,
+      0.75,
+      1.01
+     ],
+     [
+      26,
+      60,
+      0.55,
+      1.01
+     ]
+    ],
+    "erector_cervical": [
+     [
+      32,
+      60,
+      0.0,
+      0.55
+     ],
+     [
+      26,
+      32,
+      0.3,
+      0.55
+     ]
+    ]
+   },
+   "D": {
+    "rectus_capitis_posterior_minor": [
+     [
+      0,
+      10,
+      0.0,
+      0.3
+     ]
+    ],
+    "rectus_capitis_posterior_major": [
+     [
+      10,
+      20,
+      0.0,
+      0.3
+     ]
+    ],
+    "obliquus_capitis_superior": [
+     [
+      20,
+      32,
+      0.0,
+      0.3
+     ]
+    ],
+    "semispinalis_capitis": [
+     [
+      0,
+      26,
+      0.3,
+      0.75
+     ]
+    ],
+    "splenius": [
+     [
+      0,
+      26,
+      0.75,
+      1.01
+     ],
+     [
+      26,
+      60,
+      0.55,
+      1.01
+     ]
+    ],
+    "erector_cervical": [
+     [
+      32,
+      60,
+      0.0,
+      0.55
+     ],
+     [
+      26,
+      32,
+      0.3,
+      0.55
+     ]
+    ]
+   },
+   "E": {
+    "rectus_capitis_posterior_minor": [
+     [
+      0,
+      10,
+      0.0,
+      0.3
+     ]
+    ],
+    "rectus_capitis_posterior_major": [
+     [
+      10,
+      20,
+      0.0,
+      0.3
+     ]
+    ],
+    "obliquus_capitis_superior": [
+     [
+      20,
+      32,
+      0.0,
+      0.3
+     ]
+    ],
+    "semispinalis_capitis": [
+     [
+      0,
+      26,
+      0.3,
+      0.75
+     ]
+    ],
+    "splenius": [
+     [
+      0,
+      26,
+      0.75,
+      1.01
+     ],
+     [
+      26,
+      60,
+      0.55,
+      1.01
+     ]
+    ],
+    "erector_cervical": [
+     [
+      32,
+      60,
+      0.0,
+      0.55
+     ],
+     [
+      26,
+      32,
+      0.3,
+      0.55
+     ]
+    ]
+   },
+   "E_high": {
+    "semispinalis_capitis": [
+     [
+      0,
+      26,
+      0.0,
+      0.65
+     ]
+    ],
+    "splenius": [
+     [
+      0,
+      26,
+      0.65,
+      1.01
+     ],
+     [
+      26,
+      60,
+      0.5,
+      1.01
+     ]
+    ],
+    "erector_cervical": [
+     [
+      26,
+      60,
+      0.0,
+      0.5
+     ]
+    ]
+   }
+  },
+  "marker_erode_px": 3,
+  "lateral_limit_mm": [
+   55,
+   38
+  ],
+  "no_trapezius_skin_mm": 10,
+  "suboccipitals_above_rim_mm": 10,
+  "prevertebral": "longus colli: dx <= 0.75 x the anterior body half-width; longus capitis lateral of that above the C6 body's lower end"
+ },
+ "erector_overlap_cm3": {
+  "spinalis_right": 2.6,
+  "longissimus_right": 6.2,
+  "spinalis_left": 6.4,
+  "longissimus_left": 6.6
+ },
+ "erector_overlap_note": "voxels of vhf_erector_columns.nii.gz (autochthon-derived, reaching C5) above the T1 body top that this volume claims as semispinalis / longissimus; vhf_erector_columns.nii.gz is unchanged -- clip it at the T1 body top when the ES subject is rebuilt.",
+ "literature": {
+  "note": "MRI cross-sectional areas, not volumes; compared as mean CSA = volume / craniocaudal extent of the label.",
+  "deep_extensors_C3_C6": {
+   "pmid": "21431426",
+   "doi": "10.1007/s00586-011-1774-x",
+   "value": "multifidus + semispinalis cervicis + semispinalis capitis + splenius capitis CSA 1397-1600 mm2 at C3/4-C5/6 (asymptomatic adults, Okada 2011, Eur Spine J)"
+  },
+  "cervical_extensors_female": {
+   "pmid": "16302247",
+   "doi": "10.1002/ca.20252",
+   "value": "relative CSA of rectus capitis posterior minor/major, multifidus, semispinalis cervicis/capitis, splenius capitis in 42 asymptomatic women (Elliott 2007, Clin Anat); level and side differences, no absolute values in the abstract"
+  },
+  "rectus_capitis_posterior_minor": {
+   "pmid": "18174844",
+   "doi": "10.1097/PHM.0b013e3181619766",
+   "value": "CSA 56-97 mm2 per side (women with tension-type headache, Fernandez-de-las-Penas 2008)"
+  },
+  "longus": {
+   "pmid": "37562443",
+   "doi": "10.14245/ns.2346302.151",
+   "value": "longus capitis + colli CSA measured together on axial T2 (Lin 2023, Neurospine); no absolute value in the abstract"
+  },
+  "cadaver_morphometry": {
+   "pmid": "9654620",
+   "doi": "10.1097/00007632-199806150-00005",
+   "value": "muscle mass, fascicle length and PCSA of 14 neck muscles in 10 cadavers (Kamibayashi & Richmond 1998, Spine); PCSA 0.3-15.3 cm2 across muscles, per-muscle masses not in the abstract"
+  },
+  "volumes": "not compared: no per-muscle volumetric value verified from an abstract"
+ },
+ "montage": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.png",
+ "output": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz",
+ "labels_file": "/home/user/NMSK_Atlas/mappings/vhf_deep_neck_labels.json",
+ "mapping_file": "/home/user/NMSK_Atlas/mappings/subjects/ct_vhf_dneck_volume_mapping.json",
+ "limits": [
+  "boundaries are rules + watershed on 1 mm photographs, not traced fascia",
+  "z registration residual 8.9 mm rms",
+  "splenius truncated at the T1 body top (its T1-T6 origin lies under the rhomboid / erector labels)",
+  "semispinalis cervicis truncated at the T1 body top (origin from T1-T6 transverse processes inside the erector columns)",
+  "the trapezius label is thin / absent at C1-C2: the 10 mm under the skin stands in for it there"
+ ]
+}

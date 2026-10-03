@@ -1,0 +1,70 @@
+{
+ "source": "Anatomical imagery courtesy of the U.S. National Library of Medicine (Visible Human Project). Lower-extremity musculoskeletal geometry derived from Andreassen TE, Hume DR, Hamilton LD, Walker KE, Higinbotham SE, Shelburne KB, 'Three Dimensional Lower Extremity Musculoskeletal Geometry of the Visible Human Female and Male', Scientific Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, used under CC BY 4.0. Derived data (scripts/transfer/cross_subject_transfer.py).",
+ "direction": "m2f",
+ "bulk_transverse": {
+  "lower_limb": 1.0,
+  "default": 1.0
+ },
+ "fill_correction": {},
+ "fill_detail": {
+  "thigh_45pct_femur": {
+   "y": -187.1,
+   "measured_muscle_cm2": 219.1,
+   "transferred_cm2": 0
+  },
+  "thigh_70pct_femur": {
+   "y": -291.1,
+   "measured_muscle_cm2": 141.3,
+   "transferred_cm2": 0
+  },
+  "calf_mid_tibia": {
+   "y": -566.9,
+   "measured_muscle_cm2": 72.8,
+   "transferred_cm2": 0
+  }
+ },
+ "n": 2,
+ "not_transferred": {},
+ "rows": [
+  {
+   "atlas_id": "transversus_abdominis_r",
+   "category": "muscle",
+   "side": "right",
+   "source_subject": "ct_vhm_abw",
+   "source_trust": "RULE-BASED on the male (depth-fraction rules on his photographs)",
+   "region": "trunk",
+   "driving_bones": {
+    "ribs_r": 0.576,
+    "hip_bone_r": 0.299,
+    "lumbar_vertebrae": 0.085,
+    "sacrum": 0.019
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 68.9,
+   "volume_out_cm3": 56.5,
+   "displacement_mm_median": 28.3
+  },
+  {
+   "atlas_id": "transversus_abdominis_l",
+   "category": "muscle",
+   "side": "left",
+   "source_subject": "ct_vhm_abw_contfix",
+   "source_trust": "model segmentation of the source CT",
+   "region": "trunk",
+   "driving_bones": {
+    "ribs_l": 0.678,
+    "hip_bone_l": 0.21,
+    "lumbar_vertebrae": 0.084,
+    "sacrum": 0.014
+   },
+   "bulk_transverse": 1.0,
+   "lean_envelope": false,
+   "mean_radial_fraction_src": null,
+   "volume_src_cm3": 174.0,
+   "volume_out_cm3": 153.2,
+   "displacement_mm_median": 28.6
+  }
+ ]
+}

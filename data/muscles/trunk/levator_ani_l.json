@@ -1,0 +1,170 @@
+{
+ "id": "levator_ani_l",
+ "name_ta": "Levator ani (pubococcygeus, puborectalis, iliococcygeus)",
+ "name_common": "Levator ani",
+ "side": "left",
+ "region": "trunk",
+ "overall_architecture_type": "convergent_triangular",
+ "attachments": {
+  "origin_bone": "hip_bone_l",
+  "origin_landmark": "pubis, ischial spine, tendinous arch of the obturator fascia",
+  "insertion_bone": "coccyx",
+  "insertion_landmark": "coccyx, anococcygeal ligament, perineal body (puborectalis forms a U-shaped sling around the anorectal junction rather than a bony insertion)",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "sacral_root_S3",
+   "sacral_root_S4",
+   "pudendal_n"
+  ],
+  "root_levels": "S2-S4 (pudendal nerve + direct sacral branches, 'nerve to levator ani')",
+  "was_packed_as": "pudendal_n_and_direct_sacral_branches"
+ },
+ "actions": [
+  "supports pelvic viscera",
+  "puborectalis maintains the anorectal angle (continence)",
+  "elevates the pelvic floor/coccyx"
+ ],
+ "functional_compartments": [
+  {
+   "id": "levator_ani_l_puborectalis",
+   "name": "Puborectalis",
+   "innervation_branch": "direct sacral branches S3-S4",
+   "fiber_architecture": {
+    "architecture_type": "convergent_triangular",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 90,
+    "physiological_cross_section_area_mm2": 300,
+    "max_isometric_force_N": 67.5
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -20,
+     -20,
+     -20
+    ],
+    [
+     0,
+     -40,
+     -40
+    ],
+    [
+     20,
+     -20,
+     -20
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "U-shaped sling passing posterior to the anorectal junction (no posterior bony attachment); tonic contraction maintains the anorectal angle central to fecal continence -- the most functionally distinct of the muscle's three parts.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)",
+   "innervation_branch_ids": [
+    "sacral_root_S3",
+    "sacral_root_S4"
+   ]
+  },
+  {
+   "id": "levator_ani_l_pubococcygeus",
+   "name": "Pubococcygeus",
+   "innervation_branch": "pudendal n., perineal branch",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 80,
+    "physiological_cross_section_area_mm2": 250,
+    "max_isometric_force_N": 56.2
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     -15,
+     -20,
+     -25
+    ],
+    [
+     -5,
+     -30,
+     -35
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Main sheet-like part, pubis to coccyx/anococcygeal raphe; the part most often assessed clinically for pelvic floor strength.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)",
+   "innervation_branch_ids": [
+    "pudendal_n"
+   ]
+  },
+  {
+   "id": "levator_ani_l_iliococcygeus",
+   "name": "Iliococcygeus",
+   "innervation_branch": "pudendal n., perineal branch",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 70,
+    "physiological_cross_section_area_mm2": 150,
+    "max_isometric_force_N": 33.8
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     10,
+     -25,
+     -35
+    ],
+    [
+     15,
+     -30,
+     -40
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Thinnest, most posterolateral part, arising from the tendinous arch (rather than the pubis directly) and often largely aponeurotic.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)",
+   "innervation_branch_ids": [
+    "pudendal_n"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell) -- standard traditional 3-part division (puborectalis/pubococcygeus/iliococcygeus); Kearney R, Sawhney R, DeLancey JOL (2004) Obstet Gynecol 104(1):168-173 -- origin-insertion analysis of levator ani (note: that paper's own conclusion favors a finer 5-way subdivision -- puboperineal/pubovaginal/puboanal/puborectal/iliococcygeal -- rather than this traditional 3-part scheme; the 3-part model is used here as the standard simplified teaching division per Gray's/Kenhub/TeachMeAnatomy, corrected from an earlier draft's over-attribution to Kearney/DeLancey specifically, caught by adversarial fact-check, see docs/VERIFICATION.md)",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Two clinically described approaches, neither routinely ultrasound-guided: (1) digitally-guided transperineal -- the needle enters the skin 3-4 cm lateral to the anus, lateral to the outer border of the external anal sphincter, and is advanced toward the mid-rectum while the operator's other index finger, placed in the rectum, hooks and retracts the muscle and palpates the advancing needle tip near (not through) the rectal mucosa before injecting; (2) transvaginal submucosal -- injections placed submucosally into the lateral vaginal wall over puborectalis/pubococcygeus (often alongside bulbospongiosus) at the levels judged most tender on digital palpation.",
+  "depth_layer": "Pelvic floor, deep to the perianal skin (transperineal route) or vaginal mucosa (transvaginal route); puborectalis and pubococcygeus are palpated directly per rectum or per vagina to confirm hypertonicity before injection.",
+  "identification_cues": "Digital palpation of a tender, hypertonic muscle band on rectal or vaginal examination is both the diagnostic sign of levator ani syndrome and the guide for needle placement; there is no consistent ultrasound landmark used across the published technique, in contrast to most other muscles in this atlas.",
+  "structures_at_risk": [
+   "rectal mucosa, immediately medial to the transperineal needle path -- the finger-in-rectum technique exists specifically to avoid perforating it",
+   "anal canal and external anal sphincter, superficial/medial to the puborectalis injection points",
+   "pudendal neurovascular bundle, running in the ischioanal fossa lateral to the injection sites"
+  ],
+  "notes": "Botulinum toxin for levator ani syndrome/chronic pelvic pain has genuine but mixed evidence: uncontrolled series report good-to-partial response in roughly half to two-thirds of patients (e.g. 40 U/side digitally-guided, up to 8 repeat treatments), while most randomized placebo-controlled trials (e.g. 80 U onabotulinumtoxinA into paired puborectalis/pubococcygeus, Abbott et al. 2006) show no significant difference from saline on primary pain outcomes despite some positive secondary/exploratory measures -- a genuinely unresolved evidence base recorded here rather than presented as settled.",
+  "source": "Ooijevaar RE et al. (2019) Tech Coloproctol 23(3):239-244, doi:10.1007/s10151-019-01945-8 -- digitally-guided transperineal technique and dosing, 113 patients (PubMed); Desai SA, Shah B, Kroumpouzos G (2024) Int J Womens Dermatol 10(4):e186, doi:10.1097/JW9.0000000000000186 -- transvaginal submucosal technique for vaginismus targeting bulbospongiosus/pubococcygeus/puborectalis (PubMed); Karp BI, Stratton P (2025) Toxicon 258:108336, doi:10.1016/j.toxicon.2025.108336 -- review summarizing RCT evidence (including Abbott et al. 2006) as equivocal despite positive uncontrolled series (PubMed)"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Trigger points palpated bilaterally within the levator ani (puborectalis/pubococcygeus) by intravaginal or intrarectal digital examination.",
+   "referred_pain_pattern": "In men with chronic prostatitis/chronic pelvic pain syndrome, palpation of puborectalis/pubococcygeus trigger points reproduced penile pain in more than 75% of cases; more broadly, levator ani trigger points are associated with perineal and rectal pain, pain with sitting, and dyspareunia.",
+   "activation_perpetuating_factors": "Chronic pelvic floor guarding/overactivity, prior pelvic surgery or childbirth, and chronic pain-related bracing of the pelvic floor.",
+   "notes": "Levator ani trigger point injection (bupivacaine/lidocaine/triamcinolone via a pudendal needle guide) achieved a 72% overall success rate and complete pain relief in a third of women with chronic pelvic pain and palpable levator ani trigger points in a prospective series.",
+   "source": "Anderson RU, Sawyer T, Wise D, Morey A, Nathanson BH (2009) \"Painful myofascial trigger points and pain sites in men with chronic prostatitis/chronic pelvic pain syndrome.\" J Urol 182(6):2753-2758, doi:10.1016/j.juro.2009.08.033, PMID 19837420 (PubMed); Langford CF, Udvari Nagy S, Ghoniem GM (2007) \"Levator ani trigger point injections: An underutilized treatment for chronic pelvic pain.\" Neurourol Urodyn 26(1):59-62, doi:10.1002/nau.20393, PMID 17195176 (PubMed)."
+  },
+  {
+   "location_description": "Levator ani trigger points identified by digital palpation and correlated with transvaginal ultrasound findings.",
+   "referred_pain_pattern": "Levator ani trigger-point pain intensity correlates with ipsilateral low back pain, buttock pain, groin pain, and lower abdominal pain; the muscle is described as particularly susceptible to myofascial pain within the pelvic floor.",
+   "notes": "From a 2025 ultrasound correlation study of pelvic floor myofascial pain (70 women); findings are exploratory/correlational rather than a classic Travell & Simons essential/spillover map, but represent real, current peer-reviewed evidence specific to this muscle.",
+   "source": "\"Ultrasonographic identification of pelvic floor myofascial trigger points and their correlation with clinical symptoms in patients with pelvic floor myofascial pain.\" Quant Imaging Med Surg (2025), doi:10.21037/qims-2025-1-2515, PMID 42582432, PMC13457711 (PubMed)."
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "_README": [
+  "Q154: rebuild of the female VH torso-CT DICOM-to-atlas-frame calibration, lost with an earlier container reset.",
+  "Two independent pieces, kept separate: (1) the CT DICOM series -> torso-RAS frame (exact, re-derived from the raw DICOM header geometry, verified to 0.000mm against the already-shipped data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz); (2) the cryosection-series-z -> torso-RAS offset (a real, measured calibration, not exact -- see rmse_mm)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female 'Normal' CT via the NCI Imaging Data Commons.",
+ "ct_series_uuid": "b9cf8e7a-2505-4137-9ae3-f8d0cf756c13",
+ "ct_frame": {
+  "method": "scripts/inspect_dicom_series.py (real DICOM ImagePositionPatient/PixelSpacing) -> scripts/stack_dicom_series.py (physical-coordinate stack, LPS->RAS).",
+  "grid": {"nx": 512, "ny": 512, "nz": 985, "ps_xy_mm": 0.9375, "ps_z_mm": 1.0},
+  "affine_RAS": [[-0.9375, 0, 0, 240.0], [0, -0.9375, 0, 240.0], [0, 0, 1.0, -1022.0], [0, 0, 0, 1]],
+  "note": "affine[0,3]=240.0, affine[1,3]=240.0, affine[2,3]=-1022.0 (torso-RAS z at voxel k=0) -- read directly from the freshly re-downloaded DICOM headers, reproducing the exact same 3 constants baked into the already-shipped data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz's own affine without being told them in advance.",
+  "atlas_origin_arg": "7.769,-885.229,14.137",
+  "atlas_origin_source": "docs/GEOMETRY_SOURCES.md (Q9, femoral-head sphere fit, unchanged by this task)."
+ },
+ "verification": {
+  "method": "Re-ran scripts/vhf_arm_bones_ct.py unmodified against the freshly re-stacked CT (same scratchpad paths the script already expects) and compared its right radius/ulna masks voxel-for-voxel against the already-committed data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz.",
+  "radius_r": {"iou": 1.0, "centroid_diff_mm": [0.0, 0.0, 0.0], "n_voxels": 27013},
+  "ulna_r": {"iou": 1.0, "centroid_diff_mm": [0.0, 0.0, 0.0], "n_voxels": 13574},
+  "result": "EXACT reproduction (IoU 1.0, 0.000mm centroid difference on both bones) -- well inside the ≤1mm bar."
+ },
+ "cryo_forearm_hand_frame": {
+  "method": "Q151's re-acquired forearm/hand cryosection photographs (scratchpad vh_cryo_f_forearm_q151/vh_cryo_f_hand_q151) carry a real per-instance z in the cryo series' OWN local coordinate (cryo_index.json col 3; NOT the torso-CT frame). Calibrated the offset between that coordinate and torso-RAS z by matching a real, independent shape signal at every level in both series: the radius-ulna cross-section centroid-to-centroid separation distance. CT profile: scripts/vhf_arm_bones_ct.py's own reproduced radius_r/ulna_r masks, per-z-slice centroid separation (data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz labels 1/2). Photograph profile: cryo_classes_f.classify + the same clean_candidate/bone-disc-blob logic scripts/transfer/refine_transfer_photo_watershed.py uses for the male, per real photograph (every 4th of the 511 forearm levels, cropped to the photo-left half where the subject's own right forearm always falls). Fit: least-squares grid search of a pure additive offset (both series are 1:1 mm scale, same proximal->distal sign convention, confirmed by inspection) over cryo_z + OFFSET vs torso-RAS z, minimizing RMSE between the two separation-distance profiles.",
+  "offset_mm": 944.7,
+  "formula": "torso_RAS_z = cryo_series_z + 944.7",
+  "rmse_mm": 4.4,
+  "n_overlap_points": 41,
+  "overlap_ct_z_range": [-749.0, -658.0],
+  "search_range_tried_mm": [300, 1300],
+  "note": "Single, clean global minimum over the full plausible search range (no other competing offset within 50mm error at any other 50mm-spaced probe point) -- not a fit forced to a local optimum. This is a real, imperfect calibration (4.4mm rmse on a photograph-derived blob centroid signal), unlike the CT frame above which is exact; used only for the forearm/hand photograph registration in Q154 step 3, disclosed at that precision."
+ }
+}

@@ -1,0 +1,1366 @@
+[
+  {
+    "id": "achilles_tendon_r",
+    "name_ta": "Tendo calcaneus",
+    "name_common": "Achilles (calcaneal) tendon",
+    "side": "right",
+    "region": "ankle",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "gastrocnemius_r",
+      "soleus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gastrocnemius_r",
+        "landmark": "gastrocnemius + soleus muscle bellies (triceps surae, representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tarsals_r",
+        "landmark": "calcaneal tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "achilles_r_gastrocnemius",
+        "name": "Gastrocnemius contribution",
+        "function_note": "Forms the more superficial/posterior fibers proximally; as the combined tendon spirals distally these fibers rotate to occupy a more lateral position by the calcaneal insertion.",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "gastrocnemius_r",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling laterally"
+      },
+      {
+        "id": "achilles_r_soleus",
+        "name": "Soleus contribution",
+        "function_note": "Forms the deeper/anterior fibers proximally, rotating to occupy a more medial position distally. The combined spiral twist is a documented structural feature; its mid-portion is a relatively watershed, hypovascular, injury-prone zone, confirmed by the cited source. The specific claims that the twist peaks at ~90 degrees in the mid-portion and that it primarily serves elastic energy storage come from later biomechanics studies, not from the tendon-anatomy paper cited here (softened after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "soleus_r",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling medially"
+      }
+    ],
+    "function": "The strongest and thickest tendon in the human body (Doral et al.'s own phrasing; 'largest' is a less precise overstatement of this) -- the conjoined distal tendon of gastrocnemius and soleus (the triceps surae), with a documented spiral fiber arrangement rather than a simple straight bundle of parallel fibers.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- describes the tendon's spiral (twisted) fiber arrangement, with gastrocnemius fibers rotating posterolaterally and soleus fibers running more anteromedially as they descend toward the calcaneal insertion.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear high-frequency transducer in the sagittal (longitudinal) plane over the posterior ankle/heel, patient prone with the foot hanging off the table end and the ankle in slight dorsiflexion to place the tendon on stretch; a transverse sweep confirms the fusiform mid-portion thickening.",
+      "target_zone": "The watershed zone, approximately 2-6 cm proximal to the calcaneal insertion -- the relatively hypovascular mid-portion of the tendon where mid-portion Achilles tendinosis concentrates and where PRP/needling trials have targeted their injections.",
+      "depth_layer": "Superficial to the tendon is subcutaneous tissue and the Achilles paratenon; deep to it lies Kager's fat pad and the deep posterior compartment (flexor hallucis longus).",
+      "identification_cues": "Sonographic tendinosis appears as fusiform hypoechoic thickening with loss of the normal fibrillar echotexture; Doppler often shows neovascularity within the hypoechoic mid-portion, the usual target of intratendinous needling/injection.",
+      "structures_at_risk": [
+        "Sural nerve (runs posterolateral to the tendon)",
+        "Small saphenous vein"
+      ],
+      "notes": "This is one of the most heavily trialed PRP/tendinopathy injection targets in existence, but the evidence is honestly negative: multiple recent systematic reviews and meta-analyses of RCTs (Barreto et al. 2024, Clin Orthop Relat Res; Ling et al. 2024, Orthop J Sports Med; an umbrella review by Pallikkara Kuttyadan et al. 2025, Cureus) found no significant benefit of PRP over placebo/control for VISA-A or VAS pain scores at any follow-up in chronic mid-portion Achilles tendinopathy, and PRP injections in the foot/ankle carry a significantly higher rate of post-injection pain than comparator injections (Fucaloro et al. 2025, Arthroscopy). The transducer placement and watershed-zone targeting described here are accurate and are the technique actually used across these trials; the clinical benefit of PRP specifically (versus placebo) at this site is not established by the current randomized evidence.",
+      "source": "Barreto ESR, Antunes Junior CR, Silva IC, Alencar VB, Faleiro TB, Kraychete DC (2024) 'Is Platelet-rich Plasma Effective in Treating Achilles Tendinopathy? A Meta-analysis of Randomized Clinical Trials.' Clin Orthop Relat Res 483(5):779-790, doi:10.1097/CORR.0000000000003349 (https://doi.org/10.1097/CORR.0000000000003349) -- retrieved via PubMed"
+    },
+    "has_synovial_sheath": false
+  },
+  {
+    "id": "quadriceps_tendon_r",
+    "name_ta": "Tendo musculi quadricipitis femoris",
+    "name_common": "Quadriceps femoris tendon",
+    "side": "right",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "rectus_femoris_r",
+      "vastus_medialis_r",
+      "vastus_lateralis_r",
+      "vastus_intermedius_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "rectus_femoris_r",
+        "landmark": "quadriceps femoris muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "patella_r",
+        "landmark": "base and lateral/medial margins of patella"
+      }
+    },
+    "parts": [
+      {
+        "id": "quad_tendon_r_superficial",
+        "name": "Superficial layer (rectus femoris)",
+        "function_note": "The most anterior layer, continuous with the rectus femoris tendon proper.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "rectus_femoris_r",
+        "attachment_or_location": "anterior patellar base"
+      },
+      {
+        "id": "quad_tendon_r_middle",
+        "name": "Middle layer (vastus medialis + vastus lateralis)",
+        "function_note": "Sandwiched between the superficial and deep layers, contributed by the two vasti muscles.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_medialis_r",
+        "attachment_or_location": "medial/lateral patellar margins"
+      },
+      {
+        "id": "quad_tendon_r_deep",
+        "name": "Deep layer (vastus intermedius)",
+        "function_note": "The most posterior layer, directly applied to the anterior femur/suprapatellar bursa proximally.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_intermedius_r",
+        "attachment_or_location": "posterior patellar base"
+      }
+    ],
+    "function": "A trilaminar (not homogeneous) tendon documented on MRI, formed by the four quadriceps components converging above the patella before continuing distally, past the patella (itself the largest sesamoid bone in the body embedded within this tendon-ligament continuum), as the patellar ligament (data/ligaments/knee_ligaments.json).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the anterior distal thigh/suprapatellar region with the knee in slight flexion, centered on the distal quadriceps tendon just proximal to its patellar insertion.",
+      "target_zone": "The distal quadriceps tendon, particularly the deep (vastus intermedius) fibers near the patellar insertion -- the site of quadriceps tendinosis and partial-thickness tearing described in the available case-report literature.",
+      "depth_layer": "Superficial to the tendon is subcutaneous fat; deep to it is the suprapatellar fat pad/recess and the anterior femoral cortex/trochlea.",
+      "identification_cues": "Sonographic tendinosis shows focal hypoechoic thickening or a hypoechoic cleft (partial tear) within the deep fibers near the patellar insertion, with loss of the normal fibrillar pattern; resisted knee extension can reproduce pain at the probe location.",
+      "structures_at_risk": [
+        "Suprapatellar recess/joint space (immediately deep to the tendon)",
+        "Superior medial and lateral genicular vessels at the tendon margins"
+      ],
+      "notes": "Evidence at this specific site is minimal and should not be over-read: the only PRP report identified for the quadriceps tendon itself is a single case report (Wagner & Zach 2021) of one patient with MRI-confirmed distal quadriceps tendinosis/partial vastus intermedius tear who improved clinically and on follow-up MRI after a single ultrasound-guided PRP injection -- a case report, not a trial. This is a distinct entity from patellar tendinopathy (modeled separately as the patellar tendon/ligament in data/ligaments/knee_ligaments.json in this atlas), for which PRP evidence is comparatively more developed; patellar-tendon-specific literature was intentionally not used here as it is not directly applicable to the quadriceps tendon entry.",
+      "source": "Wagner RJ, Zach KN (2021) 'Platelet-Rich Plasma Injection for Quadriceps Tendinopathy: A Case Report.' WMJ 120(1):78-81, PMID 33974772 (no DOI was assigned by the publisher; https://pubmed.ncbi.nlm.nih.gov/33974772/) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "patella_r",
+        "per_muscle_measured": {
+          "rectus_femoris_r": {
+            "gap_mm": 87.71,
+            "proximal_radius_mm": 5.62
+          },
+          "vastus_medialis_r": {
+            "gap_mm": 25.48,
+            "proximal_radius_mm": 9.81
+          },
+          "vastus_lateralis_r": {
+            "gap_mm": 38.21,
+            "proximal_radius_mm": 8.35
+          },
+          "vastus_intermedius_r": {
+            "gap_mm": 42.74,
+            "proximal_radius_mm": 8.93
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      },
+      "female": {
+        "bone_frame": "patella_r",
+        "per_muscle_measured": {
+          "rectus_femoris_r": {
+            "gap_mm": 86.28,
+            "proximal_radius_mm": 6.09
+          },
+          "vastus_medialis_r": {
+            "gap_mm": 18.03,
+            "proximal_radius_mm": 9.15
+          },
+          "vastus_lateralis_r": {
+            "gap_mm": 41.93,
+            "proximal_radius_mm": 8.75
+          },
+          "vastus_intermedius_r": {
+            "gap_mm": 47.23,
+            "proximal_radius_mm": 8.46
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      }
+    }
+  },
+  {
+    "id": "pes_anserinus_r",
+    "name_ta": "Pes anserinus",
+    "name_common": "Pes anserinus (conjoined tendon)",
+    "side": "right",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "sartorius_r",
+      "gracilis_r",
+      "semitendinosus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "sartorius_r",
+        "landmark": "sartorius, gracilis, semitendinosus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_r",
+        "landmark": "medial proximal tibia, anteromedial to the tibial collateral ligament"
+      }
+    },
+    "parts": [
+      {
+        "id": "pes_anserinus_r_sartorius",
+        "name": "Sartorius contribution",
+        "function_note": "The most superficial and most anterior of the three, matching sartorius's role as the body's longest muscle inserting furthest anteriorly of the three.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "sartorius_r",
+        "attachment_or_location": "anteromedial proximal tibia"
+      },
+      {
+        "id": "pes_anserinus_r_gracilis",
+        "name": "Gracilis contribution",
+        "function_note": "The middle of the three tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "gracilis_r",
+        "attachment_or_location": "proximal tibia, between sartorius and semitendinosus"
+      },
+      {
+        "id": "pes_anserinus_r_semitendinosus",
+        "name": "Semitendinosus contribution",
+        "function_note": "The most posterior and inferior of the three, and (unlike sartorius/gracilis, both hip muscles primarily) semitendinosus is also a hamstring, giving pes anserinus a mixed hip-adductor/hip-flexor/knee-flexor functional origin despite its single shared distal insertion.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "semitendinosus_r",
+        "attachment_or_location": "posteromedial proximal tibia"
+      }
+    ],
+    "function": "Named for its 'goose foot' fanned appearance -- three anatomically and functionally unrelated muscles (from three different compartments/nerve supplies: sartorius by femoral n., gracilis by obturator n., semitendinosus by tibial division of sciatic n.) converging onto one shared tibial insertion, separated from the underlying tibial collateral ligament by the anserine bursa (a common site of pes anserine bursitis).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the anteromedial proximal tibia, roughly 4-6 cm distal to the joint line, centered on the conjoined insertion of sartorius, gracilis, and semitendinosus onto the anteromedial tibia.",
+      "target_zone": "The conjoined pes anserinus tendon insertion / anserine bursa complex on the anteromedial proximal tibia -- the site of pes anserinus tendinobursitis (PATB) syndrome, frequently seen with coexisting medial knee osteoarthritis.",
+      "depth_layer": "Superficial to the conjoined tendon is subcutaneous fat; deep to it is the anserine bursa and the tibial attachment of the superficial tibial (medial) collateral ligament.",
+      "identification_cues": "Sonographic tendinobursitis shows a hypoechoic/anechoic distended bursa deep to the conjoined tendon, with tendon thickening and loss of fibrillar pattern in true tendinopathy; direct probe pressure at this site reproduces the patient's point tenderness.",
+      "structures_at_risk": [
+        "Superficial tibial (medial) collateral ligament, immediately deep to the bursa/tendon",
+        "Saphenous nerve and its infrapatellar branch, which variably cross nearby superficially"
+      ],
+      "notes": "A prospective, randomized, single-blinded trial (Karabas et al. 2021) of ultrasound-guided leukocyte-rich PRP injection for pes anserinus tendinobursitis in 60 patients found significant improvement in VAS pain, WOMAC, and 6-minute-walk-test scores at 4 and 12 weeks with both single-dose and two-dose LR-PRP regimens -- real PRP-specific evidence at this site, though the trial compared PRP dosing regimens against each other rather than against a placebo/saline control arm. An older ultrasound-correlation study (Yoon et al. 2005) supports the same anatomic target for corticosteroid injection.",
+      "source": "Karabas C, Talay Calis H, Topaloglu US, Karakukcu C (2021) 'Effects of ultrasound guided leukocyte-rich platelet-rich plasma (LR-PRP) injection in patients with pes anserinus tendinobursitis.' Transfus Apher Sci 60(3):103048, doi:10.1016/j.transci.2020.103048 (https://doi.org/10.1016/j.transci.2020.103048) -- retrieved via PubMed"
+    }
+  },
+  {
+    "id": "proximal_hamstring_tendon_r",
+    "name_ta": "Origo communis musculorum ischiocruralium",
+    "name_common": "Proximal hamstring (conjoint) tendon",
+    "side": "right",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "semitendinosus_r",
+      "semimembranosus_r",
+      "biceps_femoris_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semitendinosus_r",
+        "landmark": "semitendinosus, semimembranosus, biceps femoris (long head) muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "hip_bone_r",
+        "landmark": "ischial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "proximal_hamstring_r_st_sm",
+        "name": "Semitendinosus + semimembranosus conjoint head",
+        "function_note": "Semitendinosus and the long head of biceps femoris share a common proximal tendon at the superomedial ischial tuberosity in most individuals, while semimembranosus has its own separate, more lateral/deep attachment -- a documented three-muscle arrangement more nuanced than a simple 'all three share one tendon' model.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "semitendinosus_r",
+        "attachment_or_location": "superomedial ischial tuberosity"
+      },
+      {
+        "id": "proximal_hamstring_r_bf",
+        "name": "Biceps femoris (long head) contribution",
+        "function_note": "Shares the conjoint tendon with semitendinosus at the superomedial tuberosity (per van der Made et al.'s anatomic description); the short head of biceps femoris, by contrast, does not attach here at all -- it originates separately from the linea aspera of the femur, not the pelvis.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "biceps_femoris_r",
+        "attachment_or_location": "superomedial ischial tuberosity, conjoint with semitendinosus"
+      }
+    ],
+    "function": "The proximal hamstring origin, a frequent site of avulsion injury in sprinting/kicking athletes; anatomically more complex than a single shared tendon for all three muscles -- semimembranosus attaches somewhat separately from the semitendinosus/biceps femoris conjoint tendon.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the ischial tuberosity with the patient prone and the hip flexed (or in a decubitus 'figure-4' position) to place the tendon on stretch, centered on the conjoined origin of semimembranosus and the long head of biceps femoris/semitendinosus.",
+      "target_zone": "The proximal hamstring tendon origin at the ischial tuberosity -- the site of high (proximal) hamstring tendinopathy, distinguished from the far more common musculotendinous hamstring strain located more distally in the muscle belly.",
+      "depth_layer": "The tendon origin lies deep to the gluteus maximus muscle belly; the sciatic nerve runs immediately lateral/deep to the conjoined origin and is the principal structure at risk.",
+      "identification_cues": "Sonographic tendinosis shows hypoechoic thickening and fibrillar disruption at the ischial enthesis, sometimes with cortical irregularity of the tuberosity; passive hip flexion with the knee extended reproduces pain at the probe location.",
+      "structures_at_risk": [
+        "Sciatic nerve, immediately lateral/deep to the tendon origin",
+        "Posterior femoral cutaneous nerve",
+        "Inferior gluteal artery branches"
+      ],
+      "notes": "Evidence specific to chronic proximal hamstring tendinopathy (as opposed to acute hamstring muscle strain, where PRP evidence is more robust) is limited and mixed: a retrospective case series of 22 patients (Auriemma et al. 2020) using ultrasound-guided leukocyte-rich PRP reported significant pain/VISA-H improvement, but a separate prospective pilot cohort of 29 patients (Levy et al. 2018) found no statistically significant VISA-H improvement at 8 weeks. A 2026 systematic review of RCTs on extra-articular hip PRP (Kuhns et al., Arthroscopy) found a favorable pooled treatment effect for hamstring pathology, but this pooled mostly acute muscle-injury trials with only one small (17-patient) chronic tendinopathy RCT, so high-quality RCT-level evidence for chronic proximal hamstring tendinopathy specifically remains sparse.",
+      "source": "Auriemma MJ, Tenforde AS, Harris A, McInnis KC (2020) 'Platelet-rich plasma for treatment of chronic proximal hamstring tendinopathy.' Regen Med 15(4):1509-1518, doi:10.2217/rme-2019-0105 (https://doi.org/10.2217/rme-2019-0105) -- retrieved via PubMed"
+    }
+  },
+  {
+    "id": "semimembranosus_distal_tendon_r",
+    "name_ta": "Tendo distalis musculi semimembranosi",
+    "name_common": "Semimembranosus distal tendon",
+    "side": "right",
+    "region": "knee",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "semimembranosus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semimembranosus_r",
+        "landmark": "semimembranosus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_r",
+        "landmark": "posteromedial tibia (direct arm) + multiple fibrous expansions"
+      }
+    },
+    "parts": [
+      {
+        "id": "semimembranosus_r_direct",
+        "name": "Direct arm",
+        "function_note": "The primary insertion, onto the posteromedial tibia just below the joint line.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "posteromedial tibia"
+      },
+      {
+        "id": "semimembranosus_r_anterior_arm",
+        "name": "Anterior arm",
+        "function_note": "Blends with the deep fibers of the tibial collateral ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "deep to the tibial collateral ligament"
+      },
+      {
+        "id": "semimembranosus_r_oblique_popliteal",
+        "name": "Oblique popliteal ligament expansion",
+        "function_note": "A fibrous expansion reinforcing the posterior knee capsule as the oblique popliteal ligament -- meaning semimembranosus makes an active, dynamic tensioning contribution to a structure otherwise classified as a passive capsular ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "posterior knee capsule"
+      },
+      {
+        "id": "semimembranosus_r_popliteus_fascia",
+        "name": "Popliteus fascia expansion",
+        "function_note": "A further expansion blending with the fascia overlying popliteus.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_r",
+        "attachment_or_location": "popliteus muscle fascia"
+      }
+    ],
+    "function": "One of the most structurally complex distal tendon insertions in the body -- rather than one simple bone attachment, semimembranosus fans into several distinct fibrous expansions (this dataset models 4 of the more consistently documented ones; some sources describe up to 5), giving it an outsized dynamic stabilizing role for the posteromedial knee corner beyond simple knee flexion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the posteromedial knee, following the semimembranosus tendon distally from the femoral condyle level toward its multiple distal insertional slips (posteromedial tibial condyle, oblique popliteal ligament, popliteus fascia).",
+      "target_zone": "The distal semimembranosus tendon near its posteromedial tibial insertional slips -- the site of distal semimembranosus tendinopathy, a less common entity than proximal (ischial) hamstring tendinopathy and distinct from, though anatomically adjacent to, pes anserinus tendinobursitis.",
+      "depth_layer": "The tendon lies deep to the medial head of gastrocnemius and semitendinosus, superficial to the posteromedial joint capsule and the superficial tibial (medial) collateral ligament.",
+      "identification_cues": "Sonographic tendinosis shows hypoechoic thickening with loss of fibrillar pattern at the distal insertional slips; care is needed to differentiate this deeper, more posterior tendon from the more superficial, more anterior pes anserinus conjoined tendon.",
+      "structures_at_risk": [
+        "Superficial tibial (medial) collateral ligament",
+        "Saphenous nerve and its infrapatellar branch"
+      ],
+      "notes": "Evidence at this specific site is minimal: the only report identified is a single case report (Senchyshak 2026) of a patient with chronic distal semimembranosus tendinopathy (in the setting of prolonged alendronate/bisphosphonate use) who improved after a course of ultrasound-guided leukocyte-poor PRP combined with physical therapy and acupuncture, having already failed dextrose prolotherapy. This is a single case report with a confounded, multi-modal treatment course, not a trial, and should not be read as established efficacy.",
+      "source": "Senchyshak MN (2026) 'Platelet-Rich Plasma for Treating Painful Distal Semimembranosus Tendinopathy in a Patient With Prolonged Alendronate Use.' Pain Med Case Rep 10(3):293-297, PMID 42263294 (no DOI was assigned by the publisher; https://pubmed.ncbi.nlm.nih.gov/42263294/) -- retrieved via PubMed"
+    }
+  },
+  {
+    "id": "iliopsoas_tendon_r",
+    "name_ta": "Tendo musculi iliopsoatis",
+    "name_common": "Iliopsoas tendon",
+    "side": "right",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "iliopsoas_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "iliopsoas_r",
+        "landmark": "psoas major + iliacus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_r",
+        "landmark": "lesser trochanter"
+      }
+    },
+    "parts": [
+      {
+        "id": "iliopsoas_tendon_r_main",
+        "name": "Iliopsoas tendon",
+        "function_note": "Psoas major (via the lumbar plexus/vertebrae) and iliacus (via the iliac fossa) converge onto one shared distal tendon at the lesser trochanter -- a snapping/catching sensation of this tendon over the iliopectineal eminence or femoral head is a recognized cause of 'internal' snapping hip syndrome.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "iliopsoas_r",
+        "attachment_or_location": "lesser trochanter of femur"
+      }
+    ],
+    "function": "The shared distal tendon of psoas major and iliacus, two muscles with entirely separate proximal origins (vertebral column vs. iliac fossa) that functionally act as one combined hip flexor via this single conjoined insertion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear or curvilinear transducer over the anterior hip at the level of the iliopectineal eminence, in an axial/oblique plane parallel to the inguinal ligament, tracking the iliopsoas tendon medial to the femoral neurovascular bundle down toward the lesser trochanter for a more distal approach.",
+      "target_zone": "The iliopsoas tendon/bursa complex, most commonly at the iliopectineal eminence (the proximal, most accessible site) or, for a more distal target, at the lesser trochanteric insertion -- the site of iliopsoas tendinopathy/bursitis and of internal snapping hip (coxa saltans interna), where the tendon rides over the eminence or femoral head.",
+      "depth_layer": "The tendon lies deep to the femoral neurovascular bundle at the level of the eminence (the needle path stays lateral to the vessels/nerve) and superficial to the anterior hip capsule/labrum.",
+      "identification_cues": "Bursal distension appears as an anechoic/hypoechoic collection deep to the tendon; dynamic scanning during active hip flexion from an externally-rotated, abducted starting position can directly visualize the snapping of the tendon over the eminence or femoral head.",
+      "structures_at_risk": [
+        "Femoral nerve, artery, and vein, immediately medial/lateral to the needle path depending on approach level",
+        "Lateral femoral cutaneous nerve, more lateral, at risk with a distal lesser-trochanter approach",
+        "Anterior hip joint capsule and labrum"
+      ],
+      "notes": "The ultrasound-guided approach described here is well established for iliopsoas bursa/tendon injection (Albano et al. 2023, a practical technique review); the published clinical-outcomes evidence at this specific site is for corticosteroid, not PRP -- e.g. Smith et al. 2024 (68 patients) showed significant pain and functional improvement after ultrasound-guided iliopsoas corticosteroid injection for iliopsoas tendinopathy/bursitis/snapping hip. No PRP-specific trial for the iliopsoas tendon itself was found; in practice the same needle-target technique is used interchangeably for corticosteroid or orthobiologic injectate.",
+      "source": "Albano D, Gitto S, Serpi F, Aliprandi A, Sconfienza LM, Messina C (2023) 'Ultrasound-guided Musculoskeletal Interventional Procedures Around the Hip: A Practical Guide.' J Ultrason 23(92):15-22, doi:10.15557/JoU.2023.0003 (https://doi.org/10.15557/JoU.2023.0003) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "iliopsoas_r": {
+            "gap_mm": 9.12,
+            "proximal_radius_mm": 8.51
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "iliopsoas_r": {
+            "gap_mm": 14.88,
+            "proximal_radius_mm": 8.85
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
+    }
+  },
+  {
+    "id": "adductor_magnus_distal_tendon_r",
+    "name_ta": "Tendo distalis musculi adductoris magni",
+    "name_common": "Adductor magnus distal tendon",
+    "side": "right",
+    "region": "thigh",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "adductor_magnus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "adductor_magnus_r",
+        "landmark": "adductor magnus muscle belly (adductor part)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_r",
+        "landmark": "adductor tubercle (medial femoral epicondyle)"
+      }
+    },
+    "parts": [
+      {
+        "id": "add_magnus_tendon_r_main",
+        "name": "Adductor magnus distal tendon",
+        "function_note": "The adductor part's tendon inserts on the adductor tubercle, leaving a gap in the muscle's distal attachment -- the adductor hiatus -- through which the femoral vessels pass from the anterior thigh (adductor/subsartorial canal) into the popliteal fossa, becoming the popliteal vessels; a key anatomical landmark for vascular surgical access to the distal femoral/popliteal arteries.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "adductor_magnus_r",
+        "attachment_or_location": "adductor tubercle of femur"
+      }
+    ],
+    "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "adductor_magnus_r": {
+            "gap_mm": 85.29,
+            "proximal_radius_mm": 8.3
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_r",
+        "per_muscle_measured": {
+          "adductor_magnus_r": {
+            "gap_mm": 76.63,
+            "proximal_radius_mm": 5.72
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
+    }
+  },
+  {
+    "id": "achilles_tendon_l",
+    "name_ta": "Tendo calcaneus",
+    "name_common": "Achilles (calcaneal) tendon",
+    "side": "left",
+    "region": "ankle",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "gastrocnemius_l",
+      "soleus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gastrocnemius_l",
+        "landmark": "gastrocnemius + soleus muscle bellies (triceps surae, representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tarsals_l",
+        "landmark": "calcaneal tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "achilles_l_gastrocnemius",
+        "name": "Gastrocnemius contribution",
+        "function_note": "Forms the more superficial/posterior fibers proximally; as the combined tendon spirals distally these fibers rotate to occupy a more lateral position by the calcaneal insertion.",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "gastrocnemius_l",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling laterally"
+      },
+      {
+        "id": "achilles_l_soleus",
+        "name": "Soleus contribution",
+        "function_note": "Forms the deeper/anterior fibers proximally, rotating to occupy a more medial position distally. The combined spiral twist is a documented structural feature; its mid-portion is a relatively watershed, hypovascular, injury-prone zone, confirmed by the cited source. The specific claims that the twist peaks at ~90 degrees in the mid-portion and that it primarily serves elastic energy storage come from later biomechanics studies, not from the tendon-anatomy paper cited here (softened after adversarial fact-check, see docs/VERIFICATION.md).",
+        "source": "Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- confirms the tendon's spiralized gastrocnemius/soleus fiber arrangement (producing a mechanical advantage) and its hypovascular mid-portion where most pathology occurs; the specific rotation directions, the claim that twist is greatest at the mid-portion, and the elastic-energy-storage mechanism are documented in separate, more recent tendon-biomechanics literature (e.g. Handsfield et al., Front Bioeng Biotechnol 2021) rather than in this 2010 paper itself (attribution narrowed after adversarial fact-check, see docs/VERIFICATION.md).",
+        "parent_muscle": "soleus_l",
+        "attachment_or_location": "posterior calcaneal tuberosity, spiraling medially"
+      }
+    ],
+    "function": "The strongest and thickest tendon in the human body (Doral et al.'s own phrasing; 'largest' is a less precise overstatement of this) -- the conjoined distal tendon of gastrocnemius and soleus (the triceps surae), with a documented spiral fiber arrangement rather than a simple straight bundle of parallel fibers.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Doral MN, Alam M, Bozkurt M, Turhan E, Atay OA, Donmez G, Maffulli N (2010) 'Functional anatomy of the Achilles tendon.' Knee Surg Sports Traumatol Arthrosc 18(5):638-643 -- describes the tendon's spiral (twisted) fiber arrangement, with gastrocnemius fibers rotating posterolaterally and soleus fibers running more anteromedially as they descend toward the calcaneal insertion.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear high-frequency transducer in the sagittal (longitudinal) plane over the posterior ankle/heel, patient prone with the foot hanging off the table end and the ankle in slight dorsiflexion to place the tendon on stretch; a transverse sweep confirms the fusiform mid-portion thickening.",
+      "target_zone": "The watershed zone, approximately 2-6 cm proximal to the calcaneal insertion -- the relatively hypovascular mid-portion of the tendon where mid-portion Achilles tendinosis concentrates and where PRP/needling trials have targeted their injections.",
+      "depth_layer": "Superficial to the tendon is subcutaneous tissue and the Achilles paratenon; deep to it lies Kager's fat pad and the deep posterior compartment (flexor hallucis longus).",
+      "identification_cues": "Sonographic tendinosis appears as fusiform hypoechoic thickening with loss of the normal fibrillar echotexture; Doppler often shows neovascularity within the hypoechoic mid-portion, the usual target of intratendinous needling/injection.",
+      "structures_at_risk": [
+        "Sural nerve (runs posterolateral to the tendon)",
+        "Small saphenous vein"
+      ],
+      "notes": "This is one of the most heavily trialed PRP/tendinopathy injection targets in existence, but the evidence is honestly negative: multiple recent systematic reviews and meta-analyses of RCTs (Barreto et al. 2024, Clin Orthop Relat Res; Ling et al. 2024, Orthop J Sports Med; an umbrella review by Pallikkara Kuttyadan et al. 2025, Cureus) found no significant benefit of PRP over placebo/control for VISA-A or VAS pain scores at any follow-up in chronic mid-portion Achilles tendinopathy, and PRP injections in the foot/ankle carry a significantly higher rate of post-injection pain than comparator injections (Fucaloro et al. 2025, Arthroscopy). The transducer placement and watershed-zone targeting described here are accurate and are the technique actually used across these trials; the clinical benefit of PRP specifically (versus placebo) at this site is not established by the current randomized evidence.",
+      "source": "Barreto ESR, Antunes Junior CR, Silva IC, Alencar VB, Faleiro TB, Kraychete DC (2024) 'Is Platelet-rich Plasma Effective in Treating Achilles Tendinopathy? A Meta-analysis of Randomized Clinical Trials.' Clin Orthop Relat Res 483(5):779-790, doi:10.1097/CORR.0000000000003349 (https://doi.org/10.1097/CORR.0000000000003349) -- retrieved via PubMed"
+    },
+    "has_synovial_sheath": false
+  },
+  {
+    "id": "quadriceps_tendon_l",
+    "name_ta": "Tendo musculi quadricipitis femoris",
+    "name_common": "Quadriceps femoris tendon",
+    "side": "left",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "rectus_femoris_l",
+      "vastus_medialis_l",
+      "vastus_lateralis_l",
+      "vastus_intermedius_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "rectus_femoris_l",
+        "landmark": "quadriceps femoris muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "patella_l",
+        "landmark": "base and lateral/medial margins of patella"
+      }
+    },
+    "parts": [
+      {
+        "id": "quad_tendon_l_superficial",
+        "name": "Superficial layer (rectus femoris)",
+        "function_note": "The most anterior layer, continuous with the rectus femoris tendon proper.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "rectus_femoris_l",
+        "attachment_or_location": "anterior patellar base"
+      },
+      {
+        "id": "quad_tendon_l_middle",
+        "name": "Middle layer (vastus medialis + vastus lateralis)",
+        "function_note": "Sandwiched between the superficial and deep layers, contributed by the two vasti muscles.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_medialis_l",
+        "attachment_or_location": "medial/lateral patellar margins"
+      },
+      {
+        "id": "quad_tendon_l_deep",
+        "name": "Deep layer (vastus intermedius)",
+        "function_note": "The most posterior layer, directly applied to the anterior femur/suprapatellar bursa proximally.",
+        "source": "Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+        "parent_muscle": "vastus_intermedius_l",
+        "attachment_or_location": "posterior patellar base"
+      }
+    ],
+    "function": "A trilaminar (not homogeneous) tendon documented on MRI, formed by the four quadriceps components converging above the patella before continuing distally, past the patella (itself the largest sesamoid bone in the body embedded within this tendon-ligament continuum), as the patellar ligament (data/ligaments/knee_ligaments.json).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Zeiss J, Saddemi SR, Ebraheim NA (1992) 'MR imaging of the quadriceps tendon: normal layered configuration and its importance in cases of tendon rupture.' AJR Am J Roentgenol 159(5):1031-1034 -- MRI-confirmed 3-layer configuration (superficial rectus femoris, middle vasti, deep vastus intermedius).",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the anterior distal thigh/suprapatellar region with the knee in slight flexion, centered on the distal quadriceps tendon just proximal to its patellar insertion.",
+      "target_zone": "The distal quadriceps tendon, particularly the deep (vastus intermedius) fibers near the patellar insertion -- the site of quadriceps tendinosis and partial-thickness tearing described in the available case-report literature.",
+      "depth_layer": "Superficial to the tendon is subcutaneous fat; deep to it is the suprapatellar fat pad/recess and the anterior femoral cortex/trochlea.",
+      "identification_cues": "Sonographic tendinosis shows focal hypoechoic thickening or a hypoechoic cleft (partial tear) within the deep fibers near the patellar insertion, with loss of the normal fibrillar pattern; resisted knee extension can reproduce pain at the probe location.",
+      "structures_at_risk": [
+        "Suprapatellar recess/joint space (immediately deep to the tendon)",
+        "Superior medial and lateral genicular vessels at the tendon margins"
+      ],
+      "notes": "Evidence at this specific site is minimal and should not be over-read: the only PRP report identified for the quadriceps tendon itself is a single case report (Wagner & Zach 2021) of one patient with MRI-confirmed distal quadriceps tendinosis/partial vastus intermedius tear who improved clinically and on follow-up MRI after a single ultrasound-guided PRP injection -- a case report, not a trial. This is a distinct entity from patellar tendinopathy (modeled separately as the patellar tendon/ligament in data/ligaments/knee_ligaments.json in this atlas), for which PRP evidence is comparatively more developed; patellar-tendon-specific literature was intentionally not used here as it is not directly applicable to the quadriceps tendon entry.",
+      "source": "Wagner RJ, Zach KN (2021) 'Platelet-Rich Plasma Injection for Quadriceps Tendinopathy: A Case Report.' WMJ 120(1):78-81, PMID 33974772 (no DOI was assigned by the publisher; https://pubmed.ncbi.nlm.nih.gov/33974772/) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "patella_l",
+        "per_muscle_measured": {
+          "rectus_femoris_l": {
+            "gap_mm": 87.02,
+            "proximal_radius_mm": 7.1
+          },
+          "vastus_medialis_l": {
+            "gap_mm": 22.33,
+            "proximal_radius_mm": 10.14
+          },
+          "vastus_lateralis_l": {
+            "gap_mm": 49.19,
+            "proximal_radius_mm": 6.91
+          },
+          "vastus_intermedius_l": {
+            "gap_mm": 31.97,
+            "proximal_radius_mm": 6.07
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      },
+      "female": {
+        "bone_frame": "patella_l",
+        "per_muscle_measured": {
+          "rectus_femoris_l": {
+            "gap_mm": 89.4,
+            "proximal_radius_mm": 7.54
+          },
+          "vastus_medialis_l": {
+            "gap_mm": 20.47,
+            "proximal_radius_mm": 8.24
+          },
+          "vastus_lateralis_l": {
+            "gap_mm": 45.94,
+            "proximal_radius_mm": 5.61
+          },
+          "vastus_intermedius_l": {
+            "gap_mm": 42.56,
+            "proximal_radius_mm": 8.69
+          }
+        },
+        "n_vertices": 61,
+        "n_faces": 112
+      }
+    }
+  },
+  {
+    "id": "pes_anserinus_l",
+    "name_ta": "Pes anserinus",
+    "name_common": "Pes anserinus (conjoined tendon)",
+    "side": "left",
+    "region": "knee",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "sartorius_l",
+      "gracilis_l",
+      "semitendinosus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "sartorius_l",
+        "landmark": "sartorius, gracilis, semitendinosus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_l",
+        "landmark": "medial proximal tibia, anteromedial to the tibial collateral ligament"
+      }
+    },
+    "parts": [
+      {
+        "id": "pes_anserinus_l_sartorius",
+        "name": "Sartorius contribution",
+        "function_note": "The most superficial and most anterior of the three, matching sartorius's role as the body's longest muscle inserting furthest anteriorly of the three.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "sartorius_l",
+        "attachment_or_location": "anteromedial proximal tibia"
+      },
+      {
+        "id": "pes_anserinus_l_gracilis",
+        "name": "Gracilis contribution",
+        "function_note": "The middle of the three tendons.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "gracilis_l",
+        "attachment_or_location": "proximal tibia, between sartorius and semitendinosus"
+      },
+      {
+        "id": "pes_anserinus_l_semitendinosus",
+        "name": "Semitendinosus contribution",
+        "function_note": "The most posterior and inferior of the three, and (unlike sartorius/gracilis, both hip muscles primarily) semitendinosus is also a hamstring, giving pes anserinus a mixed hip-adductor/hip-flexor/knee-flexor functional origin despite its single shared distal insertion.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "semitendinosus_l",
+        "attachment_or_location": "posteromedial proximal tibia"
+      }
+    ],
+    "function": "Named for its 'goose foot' fanned appearance -- three anatomically and functionally unrelated muscles (from three different compartments/nerve supplies: sartorius by femoral n., gracilis by obturator n., semitendinosus by tibial division of sciatic n.) converging onto one shared tibial insertion, separated from the underlying tibial collateral ligament by the anserine bursa (a common site of pes anserine bursitis).",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the anteromedial proximal tibia, roughly 4-6 cm distal to the joint line, centered on the conjoined insertion of sartorius, gracilis, and semitendinosus onto the anteromedial tibia.",
+      "target_zone": "The conjoined pes anserinus tendon insertion / anserine bursa complex on the anteromedial proximal tibia -- the site of pes anserinus tendinobursitis (PATB) syndrome, frequently seen with coexisting medial knee osteoarthritis.",
+      "depth_layer": "Superficial to the conjoined tendon is subcutaneous fat; deep to it is the anserine bursa and the tibial attachment of the superficial tibial (medial) collateral ligament.",
+      "identification_cues": "Sonographic tendinobursitis shows a hypoechoic/anechoic distended bursa deep to the conjoined tendon, with tendon thickening and loss of fibrillar pattern in true tendinopathy; direct probe pressure at this site reproduces the patient's point tenderness.",
+      "structures_at_risk": [
+        "Superficial tibial (medial) collateral ligament, immediately deep to the bursa/tendon",
+        "Saphenous nerve and its infrapatellar branch, which variably cross nearby superficially"
+      ],
+      "notes": "A prospective, randomized, single-blinded trial (Karabas et al. 2021) of ultrasound-guided leukocyte-rich PRP injection for pes anserinus tendinobursitis in 60 patients found significant improvement in VAS pain, WOMAC, and 6-minute-walk-test scores at 4 and 12 weeks with both single-dose and two-dose LR-PRP regimens -- real PRP-specific evidence at this site, though the trial compared PRP dosing regimens against each other rather than against a placebo/saline control arm. An older ultrasound-correlation study (Yoon et al. 2005) supports the same anatomic target for corticosteroid injection.",
+      "source": "Karabas C, Talay Calis H, Topaloglu US, Karakukcu C (2021) 'Effects of ultrasound guided leukocyte-rich platelet-rich plasma (LR-PRP) injection in patients with pes anserinus tendinobursitis.' Transfus Apher Sci 60(3):103048, doi:10.1016/j.transci.2020.103048 (https://doi.org/10.1016/j.transci.2020.103048) -- retrieved via PubMed"
+    }
+  },
+  {
+    "id": "proximal_hamstring_tendon_l",
+    "name_ta": "Origo communis musculorum ischiocruralium",
+    "name_common": "Proximal hamstring (conjoint) tendon",
+    "side": "left",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "semitendinosus_l",
+      "semimembranosus_l",
+      "biceps_femoris_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semitendinosus_l",
+        "landmark": "semitendinosus, semimembranosus, biceps femoris (long head) muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "hip_bone_l",
+        "landmark": "ischial tuberosity"
+      }
+    },
+    "parts": [
+      {
+        "id": "proximal_hamstring_l_st_sm",
+        "name": "Semitendinosus + semimembranosus conjoint head",
+        "function_note": "Semitendinosus and the long head of biceps femoris share a common proximal tendon at the superomedial ischial tuberosity in most individuals, while semimembranosus has its own separate, more lateral/deep attachment -- a documented three-muscle arrangement more nuanced than a simple 'all three share one tendon' model.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "semitendinosus_l",
+        "attachment_or_location": "superomedial ischial tuberosity"
+      },
+      {
+        "id": "proximal_hamstring_l_bf",
+        "name": "Biceps femoris (long head) contribution",
+        "function_note": "Shares the conjoint tendon with semitendinosus at the superomedial tuberosity (per van der Made et al.'s anatomic description); the short head of biceps femoris, by contrast, does not attach here at all -- it originates separately from the linea aspera of the femur, not the pelvis.",
+        "source": "van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+        "parent_muscle": "biceps_femoris_l",
+        "attachment_or_location": "superomedial ischial tuberosity, conjoint with semitendinosus"
+      }
+    ],
+    "function": "The proximal hamstring origin, a frequent site of avulsion injury in sprinting/kicking athletes; anatomically more complex than a single shared tendon for all three muscles -- semimembranosus attaches somewhat separately from the semitendinosus/biceps femoris conjoint tendon.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); van der Made AD, Wieldraaijer T, Kerkhoffs GM, Kleipool RP, Engebretsen L, van Dijk CN, Golano P (2015) 'The hamstring muscle complex.' Knee Surg Sports Traumatol Arthrosc 23(7):2115-2122 -- confirmed real and on-topic (a 56-specimen dissection study), and its abstract directly documents proximal tendon overlap patterns, a twist in the proximal semimembranosus tendon, and a semitendinosus raphe (present in 96% of specimens); the specific conjoint-semitendinosus/biceps-femoris-vs-separate-semimembranosus attachment pattern is well corroborated by other standard sources (Gray's/StatPearls-level anatomy) but could not be confirmed from this paper's abstract alone (full text was not reachable) -- attribution qualified after adversarial fact-check, see docs/VERIFICATION.md.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the ischial tuberosity with the patient prone and the hip flexed (or in a decubitus 'figure-4' position) to place the tendon on stretch, centered on the conjoined origin of semimembranosus and the long head of biceps femoris/semitendinosus.",
+      "target_zone": "The proximal hamstring tendon origin at the ischial tuberosity -- the site of high (proximal) hamstring tendinopathy, distinguished from the far more common musculotendinous hamstring strain located more distally in the muscle belly.",
+      "depth_layer": "The tendon origin lies deep to the gluteus maximus muscle belly; the sciatic nerve runs immediately lateral/deep to the conjoined origin and is the principal structure at risk.",
+      "identification_cues": "Sonographic tendinosis shows hypoechoic thickening and fibrillar disruption at the ischial enthesis, sometimes with cortical irregularity of the tuberosity; passive hip flexion with the knee extended reproduces pain at the probe location.",
+      "structures_at_risk": [
+        "Sciatic nerve, immediately lateral/deep to the tendon origin",
+        "Posterior femoral cutaneous nerve",
+        "Inferior gluteal artery branches"
+      ],
+      "notes": "Evidence specific to chronic proximal hamstring tendinopathy (as opposed to acute hamstring muscle strain, where PRP evidence is more robust) is limited and mixed: a retrospective case series of 22 patients (Auriemma et al. 2020) using ultrasound-guided leukocyte-rich PRP reported significant pain/VISA-H improvement, but a separate prospective pilot cohort of 29 patients (Levy et al. 2018) found no statistically significant VISA-H improvement at 8 weeks. A 2026 systematic review of RCTs on extra-articular hip PRP (Kuhns et al., Arthroscopy) found a favorable pooled treatment effect for hamstring pathology, but this pooled mostly acute muscle-injury trials with only one small (17-patient) chronic tendinopathy RCT, so high-quality RCT-level evidence for chronic proximal hamstring tendinopathy specifically remains sparse.",
+      "source": "Auriemma MJ, Tenforde AS, Harris A, McInnis KC (2020) 'Platelet-rich plasma for treatment of chronic proximal hamstring tendinopathy.' Regen Med 15(4):1509-1518, doi:10.2217/rme-2019-0105 (https://doi.org/10.2217/rme-2019-0105) -- retrieved via PubMed"
+    }
+  },
+  {
+    "id": "semimembranosus_distal_tendon_l",
+    "name_ta": "Tendo distalis musculi semimembranosi",
+    "name_common": "Semimembranosus distal tendon",
+    "side": "left",
+    "region": "knee",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "semimembranosus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "semimembranosus_l",
+        "landmark": "semimembranosus muscle belly"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tibia_l",
+        "landmark": "posteromedial tibia (direct arm) + multiple fibrous expansions"
+      }
+    },
+    "parts": [
+      {
+        "id": "semimembranosus_l_direct",
+        "name": "Direct arm",
+        "function_note": "The primary insertion, onto the posteromedial tibia just below the joint line.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "posteromedial tibia"
+      },
+      {
+        "id": "semimembranosus_l_anterior_arm",
+        "name": "Anterior arm",
+        "function_note": "Blends with the deep fibers of the tibial collateral ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "deep to the tibial collateral ligament"
+      },
+      {
+        "id": "semimembranosus_l_oblique_popliteal",
+        "name": "Oblique popliteal ligament expansion",
+        "function_note": "A fibrous expansion reinforcing the posterior knee capsule as the oblique popliteal ligament -- meaning semimembranosus makes an active, dynamic tensioning contribution to a structure otherwise classified as a passive capsular ligament.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "posterior knee capsule"
+      },
+      {
+        "id": "semimembranosus_l_popliteus_fascia",
+        "name": "Popliteus fascia expansion",
+        "function_note": "A further expansion blending with the fascia overlying popliteus.",
+        "source": "LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+        "parent_muscle": "semimembranosus_l",
+        "attachment_or_location": "popliteus muscle fascia"
+      }
+    ],
+    "function": "One of the most structurally complex distal tendon insertions in the body -- rather than one simple bone attachment, semimembranosus fans into several distinct fibrous expansions (this dataset models 4 of the more consistently documented ones; some sources describe up to 5), giving it an outsized dynamic stabilizing role for the posteromedial knee corner beyond simple knee flexion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); LaPrade RF, Morgan PM, Wentorf FA, Johansen S, Engebretsen L (2007) 'The anatomy of the posterior aspect of the knee.' J Bone Joint Surg Am 89(4):758-764 -- the correct source (corrected from an earlier draft's citation of a different, same-year LaPrade paper on the knee's MEDIAL part, JBJS Am 89(9):2000-2010, which does not describe semimembranosus's distal expansions -- caught by adversarial fact-check, see docs/VERIFICATION.md). This paper's abstract states verbatim that the semimembranosus tendon has 8 attachments distal to the main common tendon, with the main components being a lateral expansion to the oblique popliteal ligament, a direct arm to the tibia, an anterior arm, and a distal tibial expansion forming a posterior fascial layer over popliteus -- matching the 4 parts modeled here.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer in the longitudinal plane over the posteromedial knee, following the semimembranosus tendon distally from the femoral condyle level toward its multiple distal insertional slips (posteromedial tibial condyle, oblique popliteal ligament, popliteus fascia).",
+      "target_zone": "The distal semimembranosus tendon near its posteromedial tibial insertional slips -- the site of distal semimembranosus tendinopathy, a less common entity than proximal (ischial) hamstring tendinopathy and distinct from, though anatomically adjacent to, pes anserinus tendinobursitis.",
+      "depth_layer": "The tendon lies deep to the medial head of gastrocnemius and semitendinosus, superficial to the posteromedial joint capsule and the superficial tibial (medial) collateral ligament.",
+      "identification_cues": "Sonographic tendinosis shows hypoechoic thickening with loss of fibrillar pattern at the distal insertional slips; care is needed to differentiate this deeper, more posterior tendon from the more superficial, more anterior pes anserinus conjoined tendon.",
+      "structures_at_risk": [
+        "Superficial tibial (medial) collateral ligament",
+        "Saphenous nerve and its infrapatellar branch"
+      ],
+      "notes": "Evidence at this specific site is minimal: the only report identified is a single case report (Senchyshak 2026) of a patient with chronic distal semimembranosus tendinopathy (in the setting of prolonged alendronate/bisphosphonate use) who improved after a course of ultrasound-guided leukocyte-poor PRP combined with physical therapy and acupuncture, having already failed dextrose prolotherapy. This is a single case report with a confounded, multi-modal treatment course, not a trial, and should not be read as established efficacy.",
+      "source": "Senchyshak MN (2026) 'Platelet-Rich Plasma for Treating Painful Distal Semimembranosus Tendinopathy in a Patient With Prolonged Alendronate Use.' Pain Med Case Rep 10(3):293-297, PMID 42263294 (no DOI was assigned by the publisher; https://pubmed.ncbi.nlm.nih.gov/42263294/) -- retrieved via PubMed"
+    }
+  },
+  {
+    "id": "iliopsoas_tendon_l",
+    "name_ta": "Tendo musculi iliopsoatis",
+    "name_common": "Iliopsoas tendon",
+    "side": "left",
+    "region": "hip",
+    "tendon_type": "conjoined_multi_muscle",
+    "parent_muscles": [
+      "iliopsoas_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "iliopsoas_l",
+        "landmark": "psoas major + iliacus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_l",
+        "landmark": "lesser trochanter"
+      }
+    },
+    "parts": [
+      {
+        "id": "iliopsoas_tendon_l_main",
+        "name": "Iliopsoas tendon",
+        "function_note": "Psoas major (via the lumbar plexus/vertebrae) and iliacus (via the iliac fossa) converge onto one shared distal tendon at the lesser trochanter -- a snapping/catching sensation of this tendon over the iliopectineal eminence or femoral head is a recognized cause of 'internal' snapping hip syndrome.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "iliopsoas_l",
+        "attachment_or_location": "lesser trochanter of femur"
+      }
+    ],
+    "function": "The shared distal tendon of psoas major and iliacus, two muscles with entirely separate proximal origins (vertebral column vs. iliac fossa) that functionally act as one combined hip flexor via this single conjoined insertion.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear or curvilinear transducer over the anterior hip at the level of the iliopectineal eminence, in an axial/oblique plane parallel to the inguinal ligament, tracking the iliopsoas tendon medial to the femoral neurovascular bundle down toward the lesser trochanter for a more distal approach.",
+      "target_zone": "The iliopsoas tendon/bursa complex, most commonly at the iliopectineal eminence (the proximal, most accessible site) or, for a more distal target, at the lesser trochanteric insertion -- the site of iliopsoas tendinopathy/bursitis and of internal snapping hip (coxa saltans interna), where the tendon rides over the eminence or femoral head.",
+      "depth_layer": "The tendon lies deep to the femoral neurovascular bundle at the level of the eminence (the needle path stays lateral to the vessels/nerve) and superficial to the anterior hip capsule/labrum.",
+      "identification_cues": "Bursal distension appears as an anechoic/hypoechoic collection deep to the tendon; dynamic scanning during active hip flexion from an externally-rotated, abducted starting position can directly visualize the snapping of the tendon over the eminence or femoral head.",
+      "structures_at_risk": [
+        "Femoral nerve, artery, and vein, immediately medial/lateral to the needle path depending on approach level",
+        "Lateral femoral cutaneous nerve, more lateral, at risk with a distal lesser-trochanter approach",
+        "Anterior hip joint capsule and labrum"
+      ],
+      "notes": "The ultrasound-guided approach described here is well established for iliopsoas bursa/tendon injection (Albano et al. 2023, a practical technique review); the published clinical-outcomes evidence at this specific site is for corticosteroid, not PRP -- e.g. Smith et al. 2024 (68 patients) showed significant pain and functional improvement after ultrasound-guided iliopsoas corticosteroid injection for iliopsoas tendinopathy/bursitis/snapping hip. No PRP-specific trial for the iliopsoas tendon itself was found; in practice the same needle-target technique is used interchangeably for corticosteroid or orthobiologic injectate.",
+      "source": "Albano D, Gitto S, Serpi F, Aliprandi A, Sconfienza LM, Messina C (2023) 'Ultrasound-guided Musculoskeletal Interventional Procedures Around the Hip: A Practical Guide.' J Ultrason 23(92):15-22, doi:10.15557/JoU.2023.0003 (https://doi.org/10.15557/JoU.2023.0003) -- retrieved via PubMed"
+    },
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "iliopsoas_l": {
+            "gap_mm": 14.48,
+            "proximal_radius_mm": 8.03
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "iliopsoas_l": {
+            "gap_mm": 15.93,
+            "proximal_radius_mm": 8.21
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
+    }
+  },
+  {
+    "id": "adductor_magnus_distal_tendon_l",
+    "name_ta": "Tendo distalis musculi adductoris magni",
+    "name_common": "Adductor magnus distal tendon",
+    "side": "left",
+    "region": "thigh",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "adductor_magnus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "adductor_magnus_l",
+        "landmark": "adductor magnus muscle belly (adductor part)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_l",
+        "landmark": "adductor tubercle (medial femoral epicondyle)"
+      }
+    },
+    "parts": [
+      {
+        "id": "add_magnus_tendon_l_main",
+        "name": "Adductor magnus distal tendon",
+        "function_note": "The adductor part's tendon inserts on the adductor tubercle, leaving a gap in the muscle's distal attachment -- the adductor hiatus -- through which the femoral vessels pass from the anterior thigh (adductor/subsartorial canal) into the popliteal fossa, becoming the popliteal vessels; a key anatomical landmark for vascular surgical access to the distal femoral/popliteal arteries.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+        "parent_muscle": "adductor_magnus_l",
+        "attachment_or_location": "adductor tubercle of femur"
+      }
+    ],
+    "function": "The distal tendon of adductor magnus's adductor part, notable less for its own structure than for the vascular hiatus its insertion pattern creates.",
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+    "procedural_geometry": {
+      "badge": "PROCEDURAL/RULE-BASED (Q118): this tendon's mesh is a generated connector, NOT segmented from imaging. This project has zero tendon imaging of any kind. The connector bridges this body's own already-shipped muscle mesh (nearest vertex to the bone landmark below) to this body's own already-shipped bone mesh (the landmark's real world position, resolved through data/rig/anchors.json + data/skeleton/bones.json + scripts/audit_landmarks_vs_geometry.py's own bone-frame construction -- the same pipeline this project already uses for muscle attachments). LENGTH is the real measured distance between those two points on each body's own geometry (not copied between bodies, not invented). Cross-sectional RADIUS is a modeling choice, not a measured tendon caliper (this project has no tendon thickness imaging): the proximal end is set to the real measured spread of the muscle's own vertices near its endpoint, clamped to [3, 18] mm; the distal (bone) end is that value x0.55, a disclosed taper ratio, not measured. See scripts/generate_tendon_connectors.py and PROJECT_STATE.md's Q118 entry for the full method and the 45 other tendons this was NOT attempted for, and why.",
+      "generated_by": "scripts/generate_tendon_connectors.py (Q118, 2026-09-22)",
+      "verification": {
+        "single_connected_component": true,
+        "outside_skin_surface_pct": 0.0,
+        "overlaps_only_its_own_target_bone": true
+      },
+      "male": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "adductor_magnus_l": {
+            "gap_mm": 94.72,
+            "proximal_radius_mm": 6.51
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      },
+      "female": {
+        "bone_frame": "femur_l",
+        "per_muscle_measured": {
+          "adductor_magnus_l": {
+            "gap_mm": 84.28,
+            "proximal_radius_mm": 7.7
+          }
+        },
+        "n_vertices": 30,
+        "n_faces": 56
+      }
+    }
+  },
+  {
+    "id": "gluteal_tendon_complex_r",
+    "name_ta": "Tendines musculorum glutei medii et minimi",
+    "name_common": "Gluteal (gluteus medius/minimus) tendon complex",
+    "side": "right",
+    "region": "hip",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "gluteus_medius_r",
+      "gluteus_minimus_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gluteus_medius_r",
+        "landmark": "gluteus medius and gluteus minimus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_r",
+        "landmark": "greater trochanter, lateral facet (gluteus medius) and anterior facet (gluteus minimus)"
+      }
+    },
+    "parts": [
+      {
+        "id": "gluteal_tendon_r_medius",
+        "name": "Gluteus medius tendon",
+        "function_note": "Inserts on the lateral facet of the greater trochanter; this footprint, together with the gluteus minimus tendon immediately anterior to it, forms the hip's functional equivalent of the shoulder's rotator cuff (data/tendons/upper_limb_tendons.json's rotator_cuff_tendon_complex) -- degenerative tearing here is now understood as the primary lesion in most 'greater trochanteric pain syndrome' (GTPS), previously attributed mainly to trochanteric bursitis.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_medius_r",
+        "attachment_or_location": "greater trochanter, lateral facet"
+      },
+      {
+        "id": "gluteal_tendon_r_minimus",
+        "name": "Gluteus minimus tendon",
+        "function_note": "Inserts on the anterior facet of the greater trochanter, deep and anterior to the gluteus medius tendon; involved less often than gluteus medius in GTPS tendinopathy/tearing but frequently affected concurrently.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_minimus_r",
+        "attachment_or_location": "greater trochanter, anterior facet"
+      }
+    ],
+    "function": "The combined distal tendons of gluteus medius and gluteus minimus, which together abduct and internally rotate the hip and, functioning as a dynamic stabilizer, resist pelvic drop (Trendelenburg sign) during single-leg stance -- the hip's structural and functional analogue of the shoulder's rotator cuff.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer over the lateral hip directly above the greater trochanter, in both long-axis (parallel to the femoral shaft, tracking the gluteus medius tendon down to its lateral-facet footprint) and short-axis planes, with the patient side-lying and the hip slightly internally rotated to bring the tendon footprint into view.",
+      "target_zone": "The gluteus medius tendon footprint on the lateral facet of the greater trochanter (the most common site of tendinosis/partial tearing in GTPS) and, when involved, the gluteus minimus tendon on the anterior facet just anterior to it; the adjacent trochanteric bursa is frequently injected concurrently since bursal and tendon pathology commonly coexist.",
+      "depth_layer": "The iliotibial band and tensor fasciae latae lie superficial to the tendon footprint; the trochanteric bursa lies between the tendon and the overlying fascia; the femoral cortex of the greater trochanter lies immediately deep to the tendon insertion.",
+      "identification_cues": "Focal hypoechoic thickening or a discrete anechoic cleft (partial tear) at the tendon footprint, cortical irregularity of the greater trochanter, and peritendinous/bursal fluid; dynamic internal/external rotation can help distinguish tendon from adjacent iliotibial band.",
+      "structures_at_risk": [
+        "Superior gluteal nerve and vessels, proximal to the injection field",
+        "Sciatic nerve, posterior and deep to the trochanter -- outside the usual lateral approach but relevant if the needle is angled too far posteriorly"
+      ],
+      "notes": "Evidence is genuinely mixed, and this atlas records that honestly rather than presenting PRP as settled for GTPS. The best single trial -- Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025), a double-blinded RCT of 79 patients with ultrasound-guided injection into the trochanteric bursa and gluteus medius tendon -- found NO significant difference between leukocyte-rich PRP and placebo at any timepoint up to 12 months, concluding 'we do not support the routine use of PRP for the treatment of this condition.' Against this, a 2026 systematic review/meta-analysis of 5 GTPS RCTs (Kuhns BD et al., Arthroscopy, doi:10.1002/arj.70024) found a significant pooled treatment effect favoring PRP on the modified Harris Hip Score, and a separate systematic review of 4 GTPS RCTs (Mahajan U et al. 2024, Cureus, doi:10.7759/cureus.74690) found 2 of 4 trials positive and 2 negative, attributing much of the disagreement to unstandardized PRP preparation protocols (platelet concentration varied over two orders of magnitude across studies) and inconsistent injection-site targeting (gluteal tendon vs. bursa vs. both). Report this as real but unsettled evidence, not a confident indication.",
+      "source": "Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025) 'Efficacy of Platelet-Rich Plasma Versus Placebo for the Treatment of Greater Trochanteric Pain Syndrome: A Double-Blinded Randomized Controlled Trial.' J Bone Joint Surg Am 107(5):444-451, doi:10.2106/JBJS.24.00763 (https://doi.org/10.2106/JBJS.24.00763) -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Donati D et al. (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 -- confirms GTPS as primarily gluteus medius/minimus tendinopathy rather than isolated bursitis"
+  },
+  {
+    "id": "gluteal_tendon_complex_l",
+    "name_ta": "Tendines musculorum glutei medii et minimi",
+    "name_common": "Gluteal (gluteus medius/minimus) tendon complex",
+    "side": "left",
+    "region": "hip",
+    "tendon_type": "flat_aponeurotic",
+    "parent_muscles": [
+      "gluteus_medius_l",
+      "gluteus_minimus_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "gluteus_medius_l",
+        "landmark": "gluteus medius and gluteus minimus muscle bellies (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "femur_l",
+        "landmark": "greater trochanter, lateral facet (gluteus medius) and anterior facet (gluteus minimus)"
+      }
+    },
+    "parts": [
+      {
+        "id": "gluteal_tendon_l_medius",
+        "name": "Gluteus medius tendon",
+        "function_note": "Inserts on the lateral facet of the greater trochanter; this footprint, together with the gluteus minimus tendon immediately anterior to it, forms the hip's functional equivalent of the shoulder's rotator cuff (data/tendons/upper_limb_tendons.json's rotator_cuff_tendon_complex) -- degenerative tearing here is now understood as the primary lesion in most 'greater trochanteric pain syndrome' (GTPS), previously attributed mainly to trochanteric bursitis.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_medius_l",
+        "attachment_or_location": "greater trochanter, lateral facet"
+      },
+      {
+        "id": "gluteal_tendon_l_minimus",
+        "name": "Gluteus minimus tendon",
+        "function_note": "Inserts on the anterior facet of the greater trochanter, deep and anterior to the gluteus medius tendon; involved less often than gluteus medius in GTPS tendinopathy/tearing but frequently affected concurrently.",
+        "source": "Donati D, Tedeschi R, Garnum PE, Vita F, Tarallo L, Faldini C, Catani F (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 (https://doi.org/10.1007/s12306-025-00924-7) -- retrieved via PubMed",
+        "parent_muscle": "gluteus_minimus_l",
+        "attachment_or_location": "greater trochanter, anterior facet"
+      }
+    ],
+    "function": "The combined distal tendons of gluteus medius and gluteus minimus, which together abduct and internally rotate the hip and, functioning as a dynamic stabilizer, resist pelvic drop (Trendelenburg sign) during single-leg stance -- the hip's structural and functional analogue of the shoulder's rotator cuff.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer over the lateral hip directly above the greater trochanter, in both long-axis (parallel to the femoral shaft, tracking the gluteus medius tendon down to its lateral-facet footprint) and short-axis planes, with the patient side-lying and the hip slightly internally rotated to bring the tendon footprint into view.",
+      "target_zone": "The gluteus medius tendon footprint on the lateral facet of the greater trochanter (the most common site of tendinosis/partial tearing in GTPS) and, when involved, the gluteus minimus tendon on the anterior facet just anterior to it; the adjacent trochanteric bursa is frequently injected concurrently since bursal and tendon pathology commonly coexist.",
+      "depth_layer": "The iliotibial band and tensor fasciae latae lie superficial to the tendon footprint; the trochanteric bursa lies between the tendon and the overlying fascia; the femoral cortex of the greater trochanter lies immediately deep to the tendon insertion.",
+      "identification_cues": "Focal hypoechoic thickening or a discrete anechoic cleft (partial tear) at the tendon footprint, cortical irregularity of the greater trochanter, and peritendinous/bursal fluid; dynamic internal/external rotation can help distinguish tendon from adjacent iliotibial band.",
+      "structures_at_risk": [
+        "Superior gluteal nerve and vessels, proximal to the injection field",
+        "Sciatic nerve, posterior and deep to the trochanter -- outside the usual lateral approach but relevant if the needle is angled too far posteriorly"
+      ],
+      "notes": "Evidence is genuinely mixed, and this atlas records that honestly rather than presenting PRP as settled for GTPS. The best single trial -- Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025), a double-blinded RCT of 79 patients with ultrasound-guided injection into the trochanteric bursa and gluteus medius tendon -- found NO significant difference between leukocyte-rich PRP and placebo at any timepoint up to 12 months, concluding 'we do not support the routine use of PRP for the treatment of this condition.' Against this, a 2026 systematic review/meta-analysis of 5 GTPS RCTs (Kuhns BD et al., Arthroscopy, doi:10.1002/arj.70024) found a significant pooled treatment effect favoring PRP on the modified Harris Hip Score, and a separate systematic review of 4 GTPS RCTs (Mahajan U et al. 2024, Cureus, doi:10.7759/cureus.74690) found 2 of 4 trials positive and 2 negative, attributing much of the disagreement to unstandardized PRP preparation protocols (platelet concentration varied over two orders of magnitude across studies) and inconsistent injection-site targeting (gluteal tendon vs. bursa vs. both). Report this as real but unsettled evidence, not a confident indication.",
+      "source": "Atchia I, Ali M, Oderuth E, Holleyman R, Malviya A (2025) 'Efficacy of Platelet-Rich Plasma Versus Placebo for the Treatment of Greater Trochanteric Pain Syndrome: A Double-Blinded Randomized Controlled Trial.' J Bone Joint Surg Am 107(5):444-451, doi:10.2106/JBJS.24.00763 (https://doi.org/10.2106/JBJS.24.00763) -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Donati D et al. (2025) 'A narrative review on greater trochanteric pain syndrome: diagnostic imaging and non-surgical treatments.' Musculoskelet Surg 110(2):163-172, doi:10.1007/s12306-025-00924-7 -- confirms GTPS as primarily gluteus medius/minimus tendinopathy rather than isolated bursitis"
+  },
+  {
+    "id": "tibialis_posterior_tendon_r",
+    "name_ta": "Tendo musculi tibialis posterioris",
+    "name_common": "Tibialis posterior (posterior tibial) tendon",
+    "side": "right",
+    "region": "ankle_foot",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "tibialis_posterior_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "tibialis_posterior_r",
+        "landmark": "tibialis posterior muscle belly, deep posterior compartment of the leg"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tarsals_r",
+        "landmark": "navicular tuberosity, with additional slips to the cuneiforms, cuboid, and bases of metatarsals 2-4"
+      }
+    },
+    "has_synovial_sheath": true,
+    "retinaculum_or_pulley_refs": [
+      "flexor_retinaculum_ankle_r"
+    ],
+    "parts": [
+      {
+        "id": "tibialis_posterior_tendon_r_main",
+        "name": "Tibialis posterior tendon",
+        "function_note": "Passes behind the medial malleolus within the tarsal tunnel, deep to the flexor retinaculum and anterior-most of its four tendon/neurovascular contents, then curves sharply around the malleolus before fanning onto the navicular and adjacent midfoot bones. This acute turn, immediately proximal to and around the navicular insertion, is a relatively hypovascular watershed zone and the site of most degenerative tearing in posterior tibial tendon dysfunction (PTTD) -- now the leading cause of adult-acquired flatfoot deformity (progressive collapsing foot deformity, PCFD): as the tendon elongates and fails, the spring ligament sling it dynamically reinforces (data/ligaments/foot_ligaments.json's spring_ligament_r) attenuates and the medial longitudinal arch collapses, with the hindfoot drifting into valgus and forefoot abduction producing the clinical 'too many toes' sign.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+        "parent_muscle": "tibialis_posterior_r",
+        "attachment_or_location": "navicular tuberosity, cuneiforms, cuboid, and metatarsal 2-4 bases"
+      }
+    ],
+    "function": "The single most important dynamic support of the medial longitudinal arch, inverting and plantarflexing the hindfoot and helping lock the transverse tarsal joint into a rigid lever for push-off, working with the passive spring ligament sling it directly reinforces. Its degeneration (PTTD) is the leading cause of adult-acquired flatfoot deformity.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer placed just posterior and inferior to the medial malleolus, in long axis parallel to the tendon as it curves from the leg around the malleolus toward the navicular, then rotated to short axis to confirm tendon roundness and sheath distension; the ankle is held in slight plantarflexion and inversion to relax the tendon.",
+      "target_zone": "The intrasheath tendon at and just proximal to its hypovascular watershed zone around the navicular insertion -- the site of maximal tendinosis/tearing in PTTD -- with injectate placed within the tendon sheath rather than into tendon substance.",
+      "depth_layer": "The tendon and its sheath lie deep to the flexor retinaculum, which forms the roof of the tarsal tunnel, and superficial to the deltoid ligament and the medial talus/navicular; the tibial nerve and posterior tibial artery/vein run immediately posterior to the tendon within the same tunnel.",
+      "identification_cues": "Sheath distension (anechoic/hypoechoic fluid), hypoechoic tendinosis or a hypoechoic cleft/tear, tendon thickening or, in more advanced disease, attenuation/thinning, and loss of the normal fibrillar echotexture; resisted inversion helps confirm tendon identity.",
+      "structures_at_risk": [
+        "Tibial nerve and posterior tibial artery/vein, immediately posterior to the tendon in the tarsal tunnel",
+        "Flexor digitorum longus tendon, immediately posterior/deep within the same tunnel",
+        "Deltoid ligament, deep to the tendon at the level of the medial malleolus"
+      ],
+      "notes": "The published literature at this specific site is corticosteroid, not PRP, and is reported here honestly as such. Spencer et al. (2023) reviewed 38 ultrasound-guided corticosteroid injections into the posterior tibial tendon sheath for PTTD: no ruptures occurred, but efficacy was highly variable (47% of injections gave 'good or better' pain relief). A separate retrospective series (Merritt et al. 2026, 27 patients) similarly found modest, often short-lived benefit (median relief duration 1.5 months) with a 41% minor side-effect rate. Because this tendon is the primary dynamic support of the arch, many foot and ankle clinicians are more cautious about corticosteroid injection here than at other tendon sheaths given the functional consequences if rupture were to occur -- a caution this atlas records rather than presenting the injection as risk-free. No PRP-specific clinical trial for the tibialis posterior tendon was identified; the same sonographic target/technique is used when an orthobiologic injectate is chosen instead.",
+      "source": "Spencer M, Hall M, Schafer A, Geaney LE (2023) 'Clinical outcomes of posterior tibial tendon sheath ultrasound-guided corticosteroid injections.' Australas J Ultrasound Med 26(3):169-174, doi:10.1002/ajum.12330 (https://doi.org/10.1002/ajum.12330) -- retrieved via PubMed; Merritt CH, Bidwell RA, Gonzalez T, Bakaes Y, Jackson JB (2026) 'A Retrospective Comparative Analysis on the Outcomes and Complications of Ultrasound Guided Corticosteroid Injection Around the Posterior Tibial Tendon.' J Surg Orthop Adv 35(1):19-21 -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "fibularis_tendon_complex_r",
+    "name_ta": "Tendines musculorum fibularium longi et brevis",
+    "name_common": "Fibularis (peroneus) longus and brevis tendon complex",
+    "side": "right",
+    "region": "ankle_foot",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "fibularis_longus_r",
+      "fibularis_brevis_r"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "fibularis_longus_r",
+        "landmark": "fibularis longus and brevis muscle bellies, lateral compartment of the leg (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "metatarsals_r",
+        "landmark": "fibularis brevis: 5th metatarsal tuberosity; fibularis longus: 1st metatarsal base and medial cuneiform, via a long plantar course"
+      }
+    },
+    "has_synovial_sheath": true,
+    "retinaculum_or_pulley_refs": [
+      "peroneal_retinaculum_r"
+    ],
+    "parts": [
+      {
+        "id": "fibularis_tendon_r_brevis",
+        "name": "Fibularis brevis tendon",
+        "function_note": "Runs anterior and deep to the fibularis longus tendon behind and below the lateral malleolus, sharing with it one common synovial sheath and the fibro-osseous tunnel formed by the superior fibular (peroneal) retinaculum over the fibula's retromalleolar groove. This crowded shared tunnel is the anatomic basis of two distinct clinical entities, both commonly misdiagnosed as a simple lateral ankle sprain: peroneal tendon subluxation/dislocation, in which failure of the superior retinaculum (and its fibrocartilaginous ridge) lets one or both tendons snap anteriorly over the fibula, and longitudinal 'split' tearing of fibularis brevis, where it is compressed between fibularis longus and the bony groove.",
+        "source": "Nishimura A, Fujikawa Y, Senga Y, Nakazora S, Konno C, Sudo A (2024) 'Recurrent peroneal tendon dislocation-the current concept of management.' Ann Jt 9:40, doi:10.21037/aoj-24-10 (https://doi.org/10.21037/aoj-24-10) -- retrieved via PubMed",
+        "parent_muscle": "fibularis_brevis_r",
+        "attachment_or_location": "5th metatarsal tuberosity"
+      },
+      {
+        "id": "fibularis_tendon_r_longus",
+        "name": "Fibularis longus tendon",
+        "function_note": "Continues past the lateral malleolus and the fibularis brevis tendon to curve beneath the cuboid -- within a groove converted to a canal by the long plantar ligament (data/ligaments/foot_ligaments.json's long_plantar_ligament_r) -- then crosses the sole obliquely to the first ray, functionally mirroring tibialis anterior's line of pull so the two form a stirrup stabilizing the medial forefoot. An os peroneum (accessory sesamoid) is a common normal variant embedded in the tendon at the cuboid groove, and can fracture or become symptomatic independently of the tendon itself.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+        "parent_muscle": "fibularis_longus_r",
+        "attachment_or_location": "1st metatarsal base and medial cuneiform, via the cuboid groove"
+      }
+    ],
+    "function": "The two fibularis (peroneus) tendons run together behind the lateral malleolus within one shared synovial sheath and fibro-osseous tunnel before diverging distally -- fibularis brevis to the 5th metatarsal base, fibularis longus continuing under the sole to the first ray. Together they evert and weakly plantarflex the ankle and form its primary dynamic restraint against inversion; their shared tunnel is a well-documented site of both peroneal tendon subluxation/dislocation and peroneal tendon tears, distinct clinical entities from simple lateral ankle sprain.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer placed posterior to the lateral malleolus in short axis to identify both tendons side by side within their common sheath (fibularis longus superficial/posterior, brevis deep/anterior against the fibula), then rotated to long axis along each tendon; dynamic scanning through active eversion/circumduction can reproduce subluxation if present.",
+      "target_zone": "The shared peroneal tendon sheath at the retromalleolar groove, or more distally at the tip of the lateral malleolus (the fibularis brevis split-tear zone) or the cuboid groove (fibularis longus, including a symptomatic os peroneum) -- injectate is placed within the common tendon sheath.",
+      "depth_layer": "The tendons and their shared sheath lie deep to the superior fibular retinaculum immediately posterior to the fibula, superficial to the calcaneofibular ligament and the lateral calcaneal wall; the sural nerve runs superficial and slightly posterior to the tendon sheath at this level.",
+      "identification_cues": "Sheath fluid/distension, tendon flattening or splitting (a 'boomerang'-shaped cross-section of fibularis brevis is characteristic of a split tear), hypoechoic tendinosis, and, on dynamic testing, anterior subluxation of one or both tendons over the fibular rim when the retinaculum is incompetent.",
+      "structures_at_risk": [
+        "Sural nerve, superficial to the tendon sheath posterior to the fibula",
+        "Small saphenous vein, running with the sural nerve in the same region"
+      ],
+      "notes": "The literature at this shared-tunnel site is corticosteroid, not PRP, and is reported honestly as such. A systematic review of tendon-sheath corticosteroid injections (Cushman et al. 2021) found the peroneal tendon sheath among the sites with documented short-term pain improvement, though from low-quality, uncontrolled studies. A 2025 review of heel/ankle pain (Morancie et al.) separately flags corticosteroid injection into the peroneal sheath itself as a recognized risk factor for subsequent peroneal tendon injury, alongside fluoroquinolone use -- a caution specific to this tendon complex that this atlas records rather than presenting the injection as risk-free. No PRP-specific clinical trial for the peroneal tendon sheath was identified; the same sonographic target/technique transfers to an orthobiologic injectate.",
+      "source": "Cushman DM, Carefoot A, Lisenby S, Caragea M, Fogg B, Conger A (2021) 'A Systematic Review of the Efficacy of Corticosteroid Injections of Tendon Sheaths, Excluding Stenosing Tenosynovitis of the Wrist and Hand.' Am J Phys Med Rehabil 100(7):683-688, doi:10.1097/PHM.0000000000001609 (https://doi.org/10.1097/PHM.0000000000001609) -- retrieved via PubMed; Morancie NA, Irvin L, Rayala BZ (2025) 'Heel Pain: Diagnosis and Management.' Am Fam Physician 112(6):648-656 -- PMID 41533410 -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Nishimura A, Fujikawa Y, Senga Y, Nakazora S, Konno C, Sudo A (2024) 'Recurrent peroneal tendon dislocation-the current concept of management.' Ann Jt 9:40, doi:10.21037/aoj-24-10 -- retrieved via PubMed -- confirms the shared retromalleolar tunnel/retinaculum anatomy and its role in peroneal tendon subluxation/dislocation and tears."
+  },
+  {
+    "id": "tibialis_posterior_tendon_l",
+    "name_ta": "Tendo musculi tibialis posterioris",
+    "name_common": "Tibialis posterior (posterior tibial) tendon",
+    "side": "left",
+    "region": "ankle_foot",
+    "tendon_type": "simple_cord",
+    "parent_muscles": [
+      "tibialis_posterior_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "tibialis_posterior_l",
+        "landmark": "tibialis posterior muscle belly, deep posterior compartment of the leg"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "tarsals_l",
+        "landmark": "navicular tuberosity, with additional slips to the cuneiforms, cuboid, and bases of metatarsals 2-4"
+      }
+    },
+    "has_synovial_sheath": true,
+    "parts": [
+      {
+        "id": "tibialis_posterior_tendon_l_main",
+        "name": "Tibialis posterior tendon",
+        "function_note": "Passes behind the medial malleolus within the tarsal tunnel, deep to the flexor retinaculum and anterior-most of its four tendon/neurovascular contents, then curves sharply around the malleolus before fanning onto the navicular and adjacent midfoot bones. This acute turn, immediately proximal to and around the navicular insertion, is a relatively hypovascular watershed zone and the site of most degenerative tearing in posterior tibial tendon dysfunction (PTTD) -- now the leading cause of adult-acquired flatfoot deformity (progressive collapsing foot deformity, PCFD): as the tendon elongates and fails, the spring ligament sling it dynamically reinforces (data/ligaments/foot_ligaments.json's spring_ligament_l) attenuates and the medial longitudinal arch collapses, with the hindfoot drifting into valgus and forefoot abduction producing the clinical 'too many toes' sign.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+        "parent_muscle": "tibialis_posterior_l",
+        "attachment_or_location": "navicular tuberosity, cuneiforms, cuboid, and metatarsal 2-4 bases"
+      }
+    ],
+    "function": "The single most important dynamic support of the medial longitudinal arch, inverting and plantarflexing the hindfoot and helping lock the transverse tarsal joint into a rigid lever for push-off, working with the passive spring ligament sling it directly reinforces. Its degeneration (PTTD) is the leading cause of adult-acquired flatfoot deformity.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer placed just posterior and inferior to the medial malleolus, in long axis parallel to the tendon as it curves from the leg around the malleolus toward the navicular, then rotated to short axis to confirm tendon roundness and sheath distension; the ankle is held in slight plantarflexion and inversion to relax the tendon.",
+      "target_zone": "The intrasheath tendon at and just proximal to its hypovascular watershed zone around the navicular insertion -- the site of maximal tendinosis/tearing in PTTD -- with injectate placed within the tendon sheath rather than into tendon substance.",
+      "depth_layer": "The tendon and its sheath lie deep to the flexor retinaculum, which forms the roof of the tarsal tunnel, and superficial to the deltoid ligament and the medial talus/navicular; the tibial nerve and posterior tibial artery/vein run immediately posterior to the tendon within the same tunnel.",
+      "identification_cues": "Sheath distension (anechoic/hypoechoic fluid), hypoechoic tendinosis or a hypoechoic cleft/tear, tendon thickening or, in more advanced disease, attenuation/thinning, and loss of the normal fibrillar echotexture; resisted inversion helps confirm tendon identity.",
+      "structures_at_risk": [
+        "Tibial nerve and posterior tibial artery/vein, immediately posterior to the tendon in the tarsal tunnel",
+        "Flexor digitorum longus tendon, immediately posterior/deep within the same tunnel",
+        "Deltoid ligament, deep to the tendon at the level of the medial malleolus"
+      ],
+      "notes": "The published literature at this specific site is corticosteroid, not PRP, and is reported here honestly as such. Spencer et al. (2023) reviewed 38 ultrasound-guided corticosteroid injections into the posterior tibial tendon sheath for PTTD: no ruptures occurred, but efficacy was highly variable (47% of injections gave 'good or better' pain relief). A separate retrospective series (Merritt et al. 2026, 27 patients) similarly found modest, often short-lived benefit (median relief duration 1.5 months) with a 41% minor side-effect rate. Because this tendon is the primary dynamic support of the arch, many foot and ankle clinicians are more cautious about corticosteroid injection here than at other tendon sheaths given the functional consequences if rupture were to occur -- a caution this atlas records rather than presenting the injection as risk-free. No PRP-specific clinical trial for the tibialis posterior tendon was identified; the same sonographic target/technique is used when an orthobiologic injectate is chosen instead.",
+      "source": "Spencer M, Hall M, Schafer A, Geaney LE (2023) 'Clinical outcomes of posterior tibial tendon sheath ultrasound-guided corticosteroid injections.' Australas J Ultrasound Med 26(3):169-174, doi:10.1002/ajum.12330 (https://doi.org/10.1002/ajum.12330) -- retrieved via PubMed; Merritt CH, Bidwell RA, Gonzalez T, Bakaes Y, Jackson JB (2026) 'A Retrospective Comparative Analysis on the Outcomes and Complications of Ultrasound Guided Corticosteroid Injection Around the Posterior Tibial Tendon.' J Surg Orthop Adv 35(1):19-21 -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)"
+  },
+  {
+    "id": "fibularis_tendon_complex_l",
+    "name_ta": "Tendines musculorum fibularium longi et brevis",
+    "name_common": "Fibularis (peroneus) longus and brevis tendon complex",
+    "side": "left",
+    "region": "ankle_foot",
+    "tendon_type": "fibrous_sheath_pulley_system",
+    "parent_muscles": [
+      "fibularis_longus_l",
+      "fibularis_brevis_l"
+    ],
+    "attachments": {
+      "proximal_attachment": {
+        "type": "muscle",
+        "ref": "fibularis_longus_l",
+        "landmark": "fibularis longus and brevis muscle bellies, lateral compartment of the leg (representative)"
+      },
+      "distal_attachment": {
+        "type": "bone",
+        "ref": "metatarsals_l",
+        "landmark": "fibularis brevis: 5th metatarsal tuberosity; fibularis longus: 1st metatarsal base and medial cuneiform, via a long plantar course"
+      }
+    },
+    "has_synovial_sheath": true,
+    "parts": [
+      {
+        "id": "fibularis_tendon_l_brevis",
+        "name": "Fibularis brevis tendon",
+        "function_note": "Runs anterior and deep to the fibularis longus tendon behind and below the lateral malleolus, sharing with it one common synovial sheath and the fibro-osseous tunnel formed by the superior fibular (peroneal) retinaculum over the fibula's retromalleolar groove. This crowded shared tunnel is the anatomic basis of two distinct clinical entities, both commonly misdiagnosed as a simple lateral ankle sprain: peroneal tendon subluxation/dislocation, in which failure of the superior retinaculum (and its fibrocartilaginous ridge) lets one or both tendons snap anteriorly over the fibula, and longitudinal 'split' tearing of fibularis brevis, where it is compressed between fibularis longus and the bony groove.",
+        "source": "Nishimura A, Fujikawa Y, Senga Y, Nakazora S, Konno C, Sudo A (2024) 'Recurrent peroneal tendon dislocation-the current concept of management.' Ann Jt 9:40, doi:10.21037/aoj-24-10 (https://doi.org/10.21037/aoj-24-10) -- retrieved via PubMed",
+        "parent_muscle": "fibularis_brevis_l",
+        "attachment_or_location": "5th metatarsal tuberosity"
+      },
+      {
+        "id": "fibularis_tendon_l_longus",
+        "name": "Fibularis longus tendon",
+        "function_note": "Continues past the lateral malleolus and the fibularis brevis tendon to curve beneath the cuboid -- within a groove converted to a canal by the long plantar ligament (data/ligaments/foot_ligaments.json's long_plantar_ligament_l) -- then crosses the sole obliquely to the first ray, functionally mirroring tibialis anterior's line of pull so the two form a stirrup stabilizing the medial forefoot. An os peroneum (accessory sesamoid) is a common normal variant embedded in the tendon at the cuboid groove, and can fracture or become symptomatic independently of the tendon itself.",
+        "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+        "parent_muscle": "fibularis_longus_l",
+        "attachment_or_location": "1st metatarsal base and medial cuneiform, via the cuboid groove"
+      }
+    ],
+    "function": "The two fibularis (peroneus) tendons run together behind the lateral malleolus within one shared synovial sheath and fibro-osseous tunnel before diverging distally -- fibularis brevis to the 5th metatarsal base, fibularis longus continuing under the sole to the first ray. Together they evert and weakly plantarflex the ankle and form its primary dynamic restraint against inversion; their shared tunnel is a well-documented site of both peroneal tendon subluxation/dislocation and peroneal tendon tears, distinct clinical entities from simple lateral ankle sprain.",
+    "prp_injection_approach": {
+      "transducer_placement": "Linear transducer placed posterior to the lateral malleolus in short axis to identify both tendons side by side within their common sheath (fibularis longus superficial/posterior, brevis deep/anterior against the fibula), then rotated to long axis along each tendon; dynamic scanning through active eversion/circumduction can reproduce subluxation if present.",
+      "target_zone": "The shared peroneal tendon sheath at the retromalleolar groove, or more distally at the tip of the lateral malleolus (the fibularis brevis split-tear zone) or the cuboid groove (fibularis longus, including a symptomatic os peroneum) -- injectate is placed within the common tendon sheath.",
+      "depth_layer": "The tendons and their shared sheath lie deep to the superior fibular retinaculum immediately posterior to the fibula, superficial to the calcaneofibular ligament and the lateral calcaneal wall; the sural nerve runs superficial and slightly posterior to the tendon sheath at this level.",
+      "identification_cues": "Sheath fluid/distension, tendon flattening or splitting (a 'boomerang'-shaped cross-section of fibularis brevis is characteristic of a split tear), hypoechoic tendinosis, and, on dynamic testing, anterior subluxation of one or both tendons over the fibular rim when the retinaculum is incompetent.",
+      "structures_at_risk": [
+        "Sural nerve, superficial to the tendon sheath posterior to the fibula",
+        "Small saphenous vein, running with the sural nerve in the same region"
+      ],
+      "notes": "The literature at this shared-tunnel site is corticosteroid, not PRP, and is reported honestly as such. A systematic review of tendon-sheath corticosteroid injections (Cushman et al. 2021) found the peroneal tendon sheath among the sites with documented short-term pain improvement, though from low-quality, uncontrolled studies. A 2025 review of heel/ankle pain (Morancie et al.) separately flags corticosteroid injection into the peroneal sheath itself as a recognized risk factor for subsequent peroneal tendon injury, alongside fluoroquinolone use -- a caution specific to this tendon complex that this atlas records rather than presenting the injection as risk-free. No PRP-specific clinical trial for the peroneal tendon sheath was identified; the same sonographic target/technique transfers to an orthobiologic injectate.",
+      "source": "Cushman DM, Carefoot A, Lisenby S, Caragea M, Fogg B, Conger A (2021) 'A Systematic Review of the Efficacy of Corticosteroid Injections of Tendon Sheaths, Excluding Stenosing Tenosynovitis of the Wrist and Hand.' Am J Phys Med Rehabil 100(7):683-688, doi:10.1097/PHM.0000000000001609 (https://doi.org/10.1097/PHM.0000000000001609) -- retrieved via PubMed; Morancie NA, Irvin L, Rayala BZ (2025) 'Heel Pain: Diagnosis and Management.' Am Fam Physician 112(6):648-656 -- PMID 41533410 -- retrieved via PubMed"
+    },
+    "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Nishimura A, Fujikawa Y, Senga Y, Nakazora S, Konno C, Sudo A (2024) 'Recurrent peroneal tendon dislocation-the current concept of management.' Ann Jt 9:40, doi:10.21037/aoj-24-10 -- retrieved via PubMed -- confirms the shared retromalleolar tunnel/retinaculum anatomy and its role in peroneal tendon subluxation/dislocation and tears."
+  }
+]

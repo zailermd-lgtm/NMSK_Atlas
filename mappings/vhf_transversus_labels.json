@@ -1,0 +1,25 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE transversus abdominis volume (scripts/transversus_from_ct_q185f2.py, Q185f2), plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based on her own CT: the unlabelled muscle-density (-30..150 HU, 3x3x3 median) band within 6 mm DEEP to her TotalSegmentator internal-oblique label, outside every total / abdominal_muscles label; components reaching the 1.5 mm layer, >= 1 cm3. TS has no transversus class. Badge it."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female fresh-cadaver 'Normal' CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` + `abdominal_muscles` labels. Rule from Standring S (ed.), Gray's Anatomy, 42nd ed., 'Anterior abdominal wall' (TA lies immediately deep to IO).",
+ "task": "vhf_transversus",
+ "version": "2026-10-01",
+ "labels": {
+  "1": "transversus_right",
+  "2": "transversus_left"
+ },
+ "atlas": {
+  "transversus_right": {
+   "atlas_id": "transversus_abdominis_r",
+   "relationship": "exact",
+   "note": "Rule-based (muscle-density band deep to her own IO label); Q185f2."
+  },
+  "transversus_left": {
+   "atlas_id": "transversus_abdominis_l",
+   "relationship": "exact",
+   "note": "Rule-based (muscle-density band deep to her own IO label); Q185f2."
+  }
+ }
+}

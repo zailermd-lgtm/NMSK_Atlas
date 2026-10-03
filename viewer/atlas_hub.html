@@ -1,0 +1,135 @@
+<title>NMSK Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;700&family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a 2x2 matrix, rows = model source (reference vs specimen), columns = sex; stacks to one column on phones */
+:root {
+  --bg: #eef1f4;
+  --panel: #ffffff;
+  --ink: #17202b;
+  --muted: #5a6675;
+  --rule: #d3d9e1;
+  --accent: #2f4fa3;
+  --live: #1f7a4d;
+  --live-bg: #e2f2ea;
+  --wait: #8a5a00;
+  --wait-bg: #fbf0d9;
+  --f-display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --panel: #19212b; --ink: #e6ebf1; --muted: #9aa6b4; --rule: #2c3643;
+    --accent: #8fa8ee; --live: #6fd3a0; --live-bg: #16322a; --wait: #f0c26a; --wait-bg: #3a2e14;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --panel: #19212b; --ink: #e6ebf1; --muted: #9aa6b4; --rule: #2c3643;
+  --accent: #8fa8ee; --live: #6fd3a0; --live-bg: #16322a; --wait: #f0c26a; --wait-bg: #3a2e14;
+  color-scheme: dark;
+}
+body { background: var(--bg); color: var(--ink); font: 16px/1.5 var(--f-body); }
+.wrap { max-width: 980px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 56px; display: grid; gap: 28px; }
+header { display: grid; gap: 6px; }
+h1 { font: 700 2.4rem/1.05 var(--f-display); letter-spacing: 0.01em; margin: 0; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 62ch; }
+.matrix { display: grid; grid-template-columns: 9rem 1fr 1fr; gap: 12px; align-items: stretch; }
+.colhead, .rowhead { font: 500 0.78rem/1.2 var(--f-data); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.colhead { padding: 0 4px 2px; align-self: end; }
+.rowhead { padding-top: 18px; display: grid; gap: 4px; align-content: start; }
+.rowhead b { font: 700 1.05rem/1.2 var(--f-display); text-transform: none; letter-spacing: 0.01em; color: var(--ink); }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 18px 16px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 10px; min-width: 0; }
+.card h2 { margin: 0; font: 700 1.35rem/1.15 var(--f-display); text-wrap: balance; }
+.chip { justify-self: start; font: 500 0.72rem/1 var(--f-data); letter-spacing: 0.06em; text-transform: uppercase; padding: 5px 8px; border-radius: 3px; }
+.chip.live { color: var(--live); background: var(--live-bg); }
+.chip.wait { color: var(--wait); background: var(--wait-bg); }
+.card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; font: 400 0.82rem/1.45 var(--f-data); font-variant-numeric: tabular-nums; border-top: 1px solid var(--rule); padding-top: 10px; }
+dt { color: var(--muted); }
+dd { margin: 0; }
+.open { justify-self: start; display: inline-flex; align-items: center; gap: 6px; font: 600 0.95rem/1 var(--f-body); color: var(--panel); background: var(--accent); text-decoration: none; padding: 10px 14px; border-radius: 4px; }
+.open:hover { filter: brightness(1.08); }
+.open:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.pending { font: 400 0.85rem/1.3 var(--f-data); color: var(--muted); padding: 10px 0 2px; }
+footer { border-top: 1px solid var(--rule); padding-top: 14px; display: grid; gap: 6px; font-size: 0.85rem; color: var(--muted); max-width: 80ch; }
+footer code { font: 0.8rem var(--f-data); color: var(--ink); }
+@media (max-width: 760px) {
+  h1 { font-size: 1.9rem; }
+  .matrix { grid-template-columns: 1fr; }
+  .colhead { display: none; }
+  .rowhead { padding-top: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>NMSK Atlas</h1>
+    <p class="lede">Four whole-body viewers. The Z-Anatomy row is the textbook reference model. The specimen row is rebuilt from the Visible Human cryosection and CT data, one real body each. Every viewer opens in its own tab and works on a phone.</p>
+  </header>
+
+  <section class="matrix" aria-label="Viewers by model and sex">
+    <div></div>
+    <div class="colhead">Male</div>
+    <div class="colhead">Female</div>
+
+    <div class="rowhead">Reference<b>Z-Anatomy</b></div>
+
+    <article class="card">
+      <h2>Z-Anatomy male</h2>
+      <span class="chip live">Live · v8 · skin</span>
+      <p>The generic reference body, with parallel limb muscles closed to a 1 mm fascial interface and broken left-side objects replaced by their mirrored right side.</p>
+      <dl>
+        <dt>Structures</dt><dd>2,966</dd>
+        <dt>Muscles adjusted</dt><dd>410, badged</dd>
+        <dt>Source</dt><dd>Z-Anatomy / BodyParts3D</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/HdYCRuvGP8ESbggoRWCNBF" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <article class="card">
+      <h2>Z-Anatomy female</h2>
+      <span class="chip live">Live · fitted</span>
+      <p>The same reference model fitted onto the Visible Human female's own skeleton, bone by bone. Each structure's card gives its fit error, measured on her own scan where possible. Male-only organs are left out.</p>
+      <dl>
+        <dt>Structures</dt><dd>2,939</dd>
+        <dt>Surface error</dt><dd>6.1 mm median (15.0 unfitted)</dd>
+        <dt>Bones</dt><dd>1.9 mm median</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/1GEpFSCZexGZ1GnM1pXxuP" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <div class="rowhead">Specimen<b>Own model</b></div>
+
+    <article class="card">
+      <h2>Own model male</h2>
+      <span class="chip live">Live · high resolution</span>
+      <p>Segmented from the Visible Human male. Structures that were transferred or rule-based show their measured errors in the inspector.</p>
+      <dl>
+        <dt>Structures</dt><dd>464</dd>
+        <dt>Triangles</dt><dd>2.25 M</dd>
+        <dt>Source</dt><dd>Visible Human male (NLM)</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/RRkf5ELjmk6E8iHdgfbTtq" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+
+    <article class="card">
+      <h2>Own model female</h2>
+      <span class="chip live">Live · high resolution</span>
+      <p>Segmented from the Visible Human female, with photo-refined structures kept at full detail and her own bladder and rectum. Transferred structures show their measured errors.</p>
+      <dl>
+        <dt>Structures</dt><dd>459</dd>
+        <dt>Triangles</dt><dd>3.41 M</dd>
+        <dt>Source</dt><dd>Visible Human female (NLM)</dd>
+      </dl>
+      <a class="open" href="https://claude.ai/artifact/1nFD1WUQ7jyovz9vx9pn77" target="_blank" rel="noopener">Open viewer ↗</a>
+    </article>
+  </section>
+
+  <footer>
+    <div>All four share one atlas frame: <code>+X right · +Y superior · +Z anterior</code>, millimetres, origin at the midpoint of the two hip-joint centres. The same point has the same coordinates in every viewer.</div>
+    <div>Anatomy model layer: CC BY-SA 4.0, from Z-Anatomy and BodyParts3D. Specimen images: Visible Human Project, U.S. National Library of Medicine.</div>
+  </footer>
+</div>

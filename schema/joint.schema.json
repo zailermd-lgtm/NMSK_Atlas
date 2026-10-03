@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/joint.schema.json",
+  "title": "Joint",
+  "description": "A kinematic joint connecting two bones in the rig hierarchy. Degrees of freedom + ROM limits are used by engine/rig.py to clamp forward-kinematics so posed configurations stay within human anatomical bounds, including combined/rotational end-of-range poses.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name_ta": { "type": "string" },
+    "parent_bone": { "type": "string", "description": "bone id, proximal/fixed side" },
+    "child_bone": { "type": "string", "description": "bone id, distal/moving side" },
+    "joint_type": { "type": "string", "enum": ["hinge", "pivot", "saddle", "condyloid", "ball_and_socket", "plane_gliding", "compound"] },
+    "coordinate_system_standard": { "type": "string", "description": "e.g. 'ISB Wu et al. 2005 shoulder JCS'; 'none - custom' if no ISB standard exists" },
+    "center_definition": { "type": "string", "description": "how the joint center / rotation axis is anatomically defined" },
+    "degrees_of_freedom": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "axis_name": { "type": "string", "description": "e.g. flexion-extension, abduction-adduction, internal-external rotation, pronation-supination, radial-ulnar deviation" },
+          "axis_local_direction": { "type": "string" },
+          "min_deg": { "type": "number" },
+          "max_deg": { "type": "number" },
+          "neutral_is_zero": { "type": "boolean", "default": true },
+          "rom_source": { "$ref": "common.schema.json#/definitions/citation" }
+        },
+        "required": ["axis_name", "min_deg", "max_deg", "rom_source"]
+      }
+    },
+    "coupled_motion_notes": { "type": "string", "description": "documented non-independence between axes, e.g. scapulohumeral rhythm, tibial screw-home mechanism" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "parent_bone", "child_bone", "joint_type", "degrees_of_freedom", "source"]
+}

@@ -1,0 +1,200 @@
+{
+  "id": "supinator_l",
+  "name_ta": "Supinator",
+  "name_common": "Supinator",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "humerus_l",
+    "origin_landmark": "lateral epicondyle, supinator crest of ulna",
+    "insertion_bone": "radius_l",
+    "insertion_landmark": "proximal lateral radius",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "posterior_interosseous_n",
+    "root_levels": "C6-C7 (mainly C6)"
+  },
+  "actions": [
+    "supinates forearm"
+  ],
+  "functional_compartments": [
+    {
+      "id": "supinator_l_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "multipennate",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 40,
+        "physiological_cross_section_area_mm2": 230,
+        "max_isometric_force_N": 51.8
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -335,
+          -5
+        ],
+        [
+          -15,
+          -190,
+          15
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "The posterior interosseous nerve (radial n.'s deep terminal branch) passes through this muscle's substance, within a fibrous arch (the arcade of Frohse) -- a recognized posterior-interosseous-nerve entrapment site.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            0,
+            67
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "cadaveric dissection -- posterior-interosseous-nerve motor branch entry point (motor point) location, not a Sihler's-stain arborization density map",
+          "notes": "Of 30 dissected limbs, motor branches (2-5 per limb, all from the PIN, at least one to each of the superficial and deep heads) entered within the proximal third in 20%, within the combined proximal-and-middle thirds in 63.5%, and were spread across the full length of the muscle body in the remaining 16.5%. This is the most diffusely innervated of the muscles surveyed in this study (average 3.4 +/- 0.9 motor points) -- a single tight endplate band should not be assumed; the proximal two-thirds is the best general target but a meaningful minority of specimens had entry points reaching the distal muscle as well.",
+          "source": "Caetano EB, Vieira LA, Sabongi Neto JJ, Caetano MBF, Picin CP, Silva Junior LCN, 'Anatomical Study of the Motor Branches of the Radial Nerve in the Forearm', Rev Bras Ortop (Sao Paulo) 55(6):764-770 (2020), doi:10.1055/s-0040-1713403 (https://doi.org/10.1055/s-0040-1713403) -- 30 limbs from 15 adult cadavers -- retrieved via PubMed"
+        }
+      ],
+      "innervation_branch_ids": [
+        "posterior_interosseous_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "trigger_points": [
+    {
+      "location_description": "Anterior belly, palpated in the cubital fossa just lateral to the biceps tendon and distal to the elbow crease, pressing the muscle against the proximal radius with the forearm supported and supinated.",
+      "referred_pain_pattern": "Lateral epicondyle as the essential zone, frequently the dorsal web and base of the thumb, sometimes the dorsal forearm and posterior elbow. Travell and Simons regard the supinator as the most frequently overlooked myofascial source of \"tennis elbow\" pain; a taut supinator may simultaneously entrap the posterior interosseous nerve, adding extensor weakness and dorsal wrist dysesthesia.",
+      "activation_perpetuating_factors": "Forceful or repetitive supination-pronation under load (stiff doorknobs and screwdrivers, faulty tennis backhand, carrying a briefcase with the elbow extended, leash-pulling dogs).",
+      "notes": "Non-myofascial differential: lateral epicondyle tendinosis, radial tunnel and posterior interosseous nerve syndromes, radiocapitellar chondral disease, posterolateral plica or instability, C6 radiculopathy.",
+      "source": "Simons, Travell & Simons (1999) Trigger Point Manual, 2nd ed., Vol. 1, ch. 36; Donnelly et al. (2019) 3rd ed., ch. 36, pp. 352-359 -- as cited in this atlas's uploaded wrist muscle reference."
+    }
+  ],
+  "clinical": [
+    {
+      "document": "elbow_muscles_reference_v2.html",
+      "compiled": "04/09/2026 (v2; v1 31/08/2026)",
+      "compiled_by": "repository owner (physician); elbow_muscles_reference_v2.html, compiled 04/09/2026 (v2; v1 31/08/2026). Strength data come from the Mayo elbow series (An et al. 1981; Askew et al. 1987), from MRI/cadaver architecture studies (Murray et al. 2000; Kawakami et al. 1994) and from Neumann (2017). Values are population means; individual variation is large.",
+      "function_biomechanics": "Supinator has a supination moment arm that changes little with elbow angle, so it is the prime mover for slow, unresisted supination in every elbow position and for supination with the elbow extended, when biceps is at a mechanical disadvantage; biceps is recruited for fast or resisted supination with the elbow flexed. Isometric supination torque exceeds pronation torque (pronation ~86% of supination in Askew's series), largely because of biceps. The superficial layer, together with the ECRB origin, overlies the lateral ligament complex and shares its stabilising role against varus and posterolateral rotatory loads. Repetitive pronation–supination (screwdriver use, racquet sports) loads the muscle and narrows the radial tunnel.",
+      "adjacent_structures": "Adjacent bursae: Interosseous cubital bursa; bicipitoradial bursa (both anterior); an enlarged bursa can compress the PIN. Adjacent structures and relations: Radial head and neck (fracture fixation approaches pass through or around it; pronation carries the PIN away from the anterior neck), annular ligament, lateral ulnar collateral ligament, biceps tendon, PIN.",
+      "trigger_points": [
+        {
+          "location": "Proximal part of the muscle, reached from the anterior aspect just lateral to the biceps tendon and distal to the radial head, with the forearm supinated to move brachioradialis aside.",
+          "referred_pain": "lateral epicondyle and lateral elbow (the strongest pattern), spilling to the antecubital region, and to the dorsal web space of the thumb and dorsum of the hand near the thumb base.",
+          "notes": "Symptoms / mimics: Travell & Simons considered supinator TrPs the most common myofascial cause of \"tennis elbow\"; pain on carrying a briefcase, handshaking, tennis backhand; thumb-web ache mistaken for superficial radial neuropathy or first-CMC disease. Entrapment: Taut supinator bands compress the deep branch of the radial nerve at the arcade of Frohse or within the tunnel: radial tunnel syndrome (deep ache 3–5 cm distal to the lateral epicondyle, no objective motor loss; Roles & Maudsley's \"resistant tennis elbow\") or posterior interosseous nerve palsy (finger and thumb extension weakness, wrist extension with radial drift, no sensory loss). Compression of the superficial branch is not a feature. Associated TrPs: Brachioradialis, ECRL, ECRB, extensor digitorum, biceps (agonist), triceps medial head and anconeus.",
+          "source": "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 36, Supinator."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "brachioradialis, ECRL/ECRB, extensor digitorum, triceps TrP2, anconeus, supraspinatus, scalenes",
+        "common extensor tendinosis, radiocapitellar pathology, C6 radiculopathy."
+      ],
+      "pain_referred_into_territory": "Pain referred INTO this territory from elsewhere",
+      "notes": "Radial tunnel syndrome coexists with or masquerades as lateral epicondylitis in a minority of refractory cases; the compression sites are the fibrous bands anterior to the radiocapitellar joint, the leash of Henry, the tendinous medial edge of ECRB, the arcade of Frohse and the distal edge of supinator. In the posterior (Thompson) approach the nerve is protected by full pronation.",
+      "caveat": "Clinical reference for professional use; anatomical variation is frequent and trigger-point patterns describe typical, not universal, presentations. Referred pain is presented in both directions: pain that each muscle's TrPs refer to other regions, and pain that other muscles (shoulder, chest, back) and non-muscular sources refer into the elbow region. Where Travell & Simons did not map a muscle separately (extensor digiti minimi, pronator quadratus) this is stated rather than filled in.",
+      "sources": [
+        "Gray's Anatomy, 42nd ed., 2021: supinator; deep branch of the radial nerve.",
+        "Travell & Simons, vol. 1, 2nd ed., 1999: ch. 36, Supinator.",
+        "Neumann, 3rd ed., 2017: ch. 6 (supination mechanics).",
+        "Debouck C, Rooze M. The arcade of Fröhse: an anatomic study. Surg Radiol Anat 1995;17(3):245–252.",
+        "Ozturk A, Kutlu C, Taskara N, Kale AC, Bayraktar B, Cecen A. Anatomic and morphometric study of the arcade of Frohse in cadavers. Surg Radiol Anat 2005;27(3):171–175.",
+        "Ozkan M, Bacakoglu AK, Gul O, Ekin A, Magden O. Anatomic study of posterior interosseous nerve in the arcade of Frohse. J Shoulder Elbow Surg 1999;8(6):617–620.",
+        "Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br 1972;54(3):499–508.",
+        "Askew LJ, et al. Clin Orthop Relat Res 1987;(222):261–266.",
+        "Spinner RJ, et al. J Hand Surg Br 1993;18(6):753–756.",
+        "Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353–360.",
+        "Loh YC, Lam WL, Stanley JK, Soames RW. A new clinical test for radial tunnel syndrome: the Rule-of-Nine test. J Orthop Surg (Hong Kong). 2004;12(1):83–86.",
+        "Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br. 1972;54(3):499–508.",
+        "Zwerus EL, Somford MP, Maissan F, Heisen J, Eygendaal D, van den Bekerom MPJ. Physical examination of the elbow, what is the evidence? A systematic literature review. Br J Sports Med. 2018;52(19):1253–1260."
+      ],
+      "tests": [
+        {
+          "name": "Trigger-point examination",
+          "performance": "Palpation of taut bands in brachioradialis, ECRL, ECRB, ED and supinator",
+          "positive_finding": "Reproduction of the presenting lateral elbow pain",
+          "structures_loaded": "The listed muscles",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Referred pain reproduced the presenting pain in 50–70% of patients with lateral epicondylalgia (Fernández-Carnero 2007)",
+          "source": "Fernández-Carnero J, Fernández-de-las-Peñas C, de la Llave-Rincón AI, Ge HY, Arendt-Nielsen L. Prevalence of and referred pain from myofascial trigger points in the forearm muscles in patients with lateral epicondylalgia. Clin J Pain. 2007;23(4):353–360."
+        },
+        {
+          "name": "Rule-of-nine",
+          "performance": "A 3×3 grid over the proximal volar forearm; each cell pressed",
+          "positive_finding": "Tenderness confined to the lateral (radial-nerve) column",
+          "structures_loaded": "PIN over supinator",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Cadaveric localisation study only; no clinical accuracy data (Loh 2004)",
+          "source": "Loh YC, Lam WL, Stanley JK, Soames RW. A new clinical test for radial tunnel syndrome: the Rule-of-Nine test. J Orthop Surg (Hong Kong). 2004;12(1):83–86."
+        },
+        {
+          "name": "Resisted supination; resisted middle-finger extension (elbow extended)",
+          "performance": "Loading of supinator / ECRB over the nerve",
+          "positive_finding": "Deep ache 3–5 cm distal to the lateral epicondyle",
+          "structures_loaded": "Supinator, ECRB, PIN",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "Descriptive (Roles & Maudsley 1972); no validated accuracy",
+          "source": "Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br. 1972;54(3):499–508."
+        }
+      ],
+      "tests_caveat": "Values are taken from the cited primary studies. Most series are small and reference standards differ (surgery, arthroscopy, electrodiagnostics), so treat the numbers as indicative. The systematic review of Zwerus et al. (2018) found 24 described elbow tests, only 14 with any accuracy data, and concluded that no single test can rule an elbow diagnosis in or out on its own. Where no accuracy data exist, this is stated rather than estimated."
+    },
+    {
+      "document": "wrist_muscles_reference_v2.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); wrist_muscles_reference_v2.html, compiled 31/08/2026. Sources. Gray's Anatomy 42nd ed. (2021) for attachments, innervation (root values as given by Gray's) and vascular supply; Travell, Simons & Simons' Trigger Point Manual, 2nd ed. (1999, Vol. 1) and 3rd ed. (2019) for trigger-point (TrP) locations and referred-pain patterns; Green's Operative Hand Surgery 8th ed. (2022) [4], Neumann (2017) [5], Kendall (2005) [6] and Kapandji (2019) [7] for kinesiology, Netter (2023) [54] for topographic cross-checking; and peer-reviewed primary literature for biomechanics, variants and clinical entities. Bracketed numbers point to the master list in Appendix B; every profile ends with its own reference list. Claims that could not be tied to a verified source are labelled [clinical reasoning] or [UNVERIFIED]. Appendix A grades the match between each key claim and its source.",
+      "function_biomechanics": "Major: Forearm supination in any elbow position; in slow, unresisted supination it acts essentially alone, with biceps recruited as resistance, speed or elbow flexion increase [5] [grade B]. Wrist: No wrist crossing; by supinating the radius it restores the extension moment arm of ECU (about 1 mm in pronation, 7–8 mm in supination) and shifts the balance of the wrist extensors [12]. Importance: Splitting the superficial layer along the PIN is the decompression in PIN and radial tunnel syndromes; full supination carries the PIN away from the anterior (Henry) exposure of the proximal radius, and the posterior (Thompson) approach passes through the muscle with the nerve identified [4, 33].",
+      "adjacent_structures": "Bursae / sheaths: None of its own; the bicipitoradial bursa lies against its anterior border at the biceps insertion [1]. Coupled structures: Posterior interosseous nerve (arcade, canal and distal margin), annular ligament and radial collateral ligament, radiocapitellar joint, common extensor origin above it [1, 33, 56].",
+      "trigger_points": [
+        {
+          "location": "Anterior belly, palpated in the cubital fossa just lateral to the biceps tendon and distal to the elbow crease, pressing the muscle against the proximal radius with the forearm supported and supinated (chapter 36) [2, 3].",
+          "referred_pain": "Lateral epicondyle as the essential zone, frequently the dorsal web and base of the thumb, sometimes the dorsal forearm and posterior elbow. Travell and Simons regard the supinator as the most frequently overlooked myofascial source of \"tennis elbow\" pain; a taut supinator may simultaneously entrap the PIN, adding extensor weakness and dorsal wrist dysesthesia [2, 3].",
+          "activation_perpetuating_factors": "Forceful or repetitive supination–pronation under load (stiff doorknobs and screwdrivers, faulty tennis backhand, carrying a briefcase with the elbow extended, leash-pulling dogs) [2, 3].",
+          "source": "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.; [3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "ECRL",
+        "ECRB",
+        "EDC",
+        "brachioradialis",
+        "triceps (lateral border of the medial head) and anconeus",
+        "brachialis",
+        "scalenes",
+        "infraspinatus",
+        "subclavius [2, 3]."
+      ],
+      "pain_referred_into_territory": "Pain referred into supinator territory (lateral epicondyle, dorsal thumb)",
+      "non_myofascial_differential": "Lateral epicondyle tendinosis, radial tunnel and PIN syndromes, radiocapitellar chondral disease, posterolateral plica or instability, C6 radiculopathy.",
+      "notes": "The arcade of Frohse is the commonest entrapment site of the posterior interosseous nerve; PIN syndrome gives painless or painful weakness of finger and thumb extension with radial wrist drift (ECU loss), while radial tunnel syndrome is the pain-predominant form presenting as \"resistant tennis elbow\" [33, 56]. Compression can also occur at the distal supinator margin, the leash of Henry and the ECRB edge [33]. Space-occupying lesions (lipoma, ganglion) and rheumatoid synovitis are structural causes [4].",
+      "caveat": "Referred-pain maps from Travell and Simons are clinical consensus drawings, not experimentally derived; the APL and pronator quadratus maps (Hwang et al.) are experimental hypertonic-saline studies in healthy volunteers. Grade C items (Appendix A rows 23, 44–46, 48): TrP distances, muscle-level arterial detail, the ECRL/ECRB insertional bursa, the grip-strength claim for PL agenesis, and the extrapolated EDM/EPB/EPL referral statements. All are labelled in the text. Referred-pain conventions. \"TrP referral\" is the essential (dark) zone described by Travell and Simons unless \"spillover\" is stated. TrP locations in centimetres are approximations read from the Manual's figures and should be confirmed by palpation of the taut band. Quantitative biomechanical values are cadaveric means and vary with forearm rotation and wrist angle.",
+      "references_as_listed": [
+        "Standring 2021, Gray's Anatomy 42e, ch. 50 [1].",
+        "Simons, Travell & Simons 1999, 2e, ch. 36 [2]; Donnelly et al. 2019, 3e, ch. 36, pp. 352–359 [3].",
+        "Spinner 1968, JBJS Br 50-B:809–812 [56]; Roles & Maudsley 1972 [33]; Abrams et al. 1997 [28].",
+        "Fridén & Lieber 2024 [12]; Green's 8e [4]; Neumann 2017 [5]."
+      ],
+      "sources": [
+        "[1] Standring S, ed. Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021. Ch. 50 (Elbow and forearm), ch. 51 (Wrist and hand). [43rd ed., Elsevier 2026: ch. 53–54.]",
+        "[2] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. Vol. 1, Upper Half of Body. 2nd ed. Williams & Wilkins; 1999. Ch. 20 scalenes; 22 infraspinatus; 24 latissimus dorsi; 25 teres major; 26 subscapularis; 29 coracobrachialis; 31 brachialis; 32 triceps and anconeus; 34 hand extensors and brachioradialis; 35 finger extensors; 36 supinator; 37 palmaris longus; 38 hand and finger flexors; 39 adductor and opponens pollicis; 40 interossei; 42 pectoralis major and subclavius; 43 pectoralis minor; 46 serratus anterior; 47 serratus posterior superior and inferior.",
+        "[3] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL, eds. Travell, Simons & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Section 3 (Upper back, shoulder and arm pain); Section 4 (Forearm, wrist and hand pain): ch. 34 pp. 329–342; ch. 35 pp. 343–351; ch. 36 pp. 352–359; ch. 37 pp. 360–365; ch. 38 pp. 366–377; ch. 39 adductor and opponens pollicis.",
+        "[4] Wolfe SW, Pederson WC, Kozin SH, Cohen MS, eds. Green's Operative Hand Surgery. 8th ed. Elsevier; 2022.",
+        "[5] Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 7 (Wrist), ch. 8 (Hand).",
+        "[12] Fridén J, Lieber RL. Wrist extensor pathomechanics: implications for tendon and nerve transfer. J Hand Surg Eur Vol. 2024;49(8):1047-1050. PMID 38190974.",
+        "[28] Abrams RA, Ziets RJ, Lieber RL, Botte MJ. Anatomy of the radial nerve motor branches in the forearm. J Hand Surg Am. 1997;22(2):232-237. PMID 9195420.",
+        "[33] Roles NC, Maudsley RH. Radial tunnel syndrome: resistant tennis elbow as a nerve entrapment. J Bone Joint Surg Br. 1972;54(3):499-508.",
+        "[56] Spinner M. The arcade of Frohse and its relationship to posterior interosseous nerve paralysis. J Bone Joint Surg Br. 1968;50-B(4):809-812."
+      ]
+    }
+  ]
+}

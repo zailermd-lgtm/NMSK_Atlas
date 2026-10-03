@@ -1,0 +1,136 @@
+{
+ "id": "internal_oblique_r",
+ "name_ta": "Internal oblique",
+ "name_common": "Internal oblique",
+ "side": "right",
+ "region": "trunk",
+ "overall_architecture_type": "parallel_strap",
+ "attachments": {
+  "origin_bone": "hip_bone_r",
+  "origin_landmark": "iliac crest (anterior two-thirds, intermediate line), thoracolumbar fascia, lateral inguinal ligament",
+  "insertion_bone": "ribs_r",
+  "insertion_landmark": "costal cartilages 10-12 and linea alba via the aponeurosis; lowest fibers form the conjoint tendon with transversus abdominis",
+  "via_points": []
+ },
+ "innervation": {
+  "nerve": [
+   "subcostal_n_abdominal_wall_muscular",
+   "thoracoabdominal_n_t10_abdominal_wall_muscular",
+   "thoracoabdominal_n_t11_abdominal_wall_muscular",
+   "thoracoabdominal_n_t7_abdominal_wall_muscular",
+   "thoracoabdominal_n_t8_abdominal_wall_muscular",
+   "thoracoabdominal_n_t9_abdominal_wall_muscular",
+   "iliohypogastric_n",
+   "ilioinguinal_n"
+  ],
+  "root_levels": "T7-T12, L1",
+  "was_packed_as": "intercostal_and_iliohypogastric_ilioinguinal"
+ },
+ "actions": [
+  "flexes trunk (bilateral)",
+  "laterally flexes and ipsilaterally rotates trunk (unilateral)",
+  "lowest fibers (with cremaster) support the inguinal canal"
+ ],
+ "functional_compartments": [
+  {
+   "id": "internal_oblique_r_main",
+   "name": "Main part",
+   "innervation_branch": "thoracoabdominal nerves T7-T12",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 130,
+    "physiological_cross_section_area_mm2": 1000,
+    "max_isometric_force_N": 225.0
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     30,
+     60,
+     20
+    ],
+    [
+     80,
+     150,
+     30
+    ],
+    [
+     110,
+     260,
+     20
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Fibers fan superomedially, roughly perpendicular to external oblique's overlying fibers -- the classic teaching contrast in fiber direction between the two oblique layers.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "innervation_branch_ids": [
+    "subcostal_n_abdominal_wall_muscular",
+    "thoracoabdominal_n_t10_abdominal_wall_muscular",
+    "thoracoabdominal_n_t11_abdominal_wall_muscular",
+    "thoracoabdominal_n_t7_abdominal_wall_muscular",
+    "thoracoabdominal_n_t8_abdominal_wall_muscular",
+    "thoracoabdominal_n_t9_abdominal_wall_muscular"
+   ]
+  },
+  {
+   "id": "internal_oblique_r_inferior_conjoint",
+   "name": "Inferior part (conjoint-tendon fibers)",
+   "innervation_branch": "iliohypogastric_n and ilioinguinal_n, L1",
+   "fiber_architecture": {
+    "architecture_type": "parallel_strap",
+    "pennation_deg": 0,
+    "optimal_fascicle_length_mm": 70,
+    "physiological_cross_section_area_mm2": 150,
+    "max_isometric_force_N": 33.8
+   },
+   "fiber_field_seed_region_local_mm": [
+    [
+     20,
+     20,
+     15
+    ],
+    [
+     10,
+     -10,
+     5
+    ]
+   ],
+   "neuromuscular_junction_zone": {
+    "location_description": "mid-belly endplate band",
+    "position_fraction_along_fascicle": 0.5,
+    "band_width_fraction": 0.12,
+    "evidence": "modelling_default"
+   },
+   "function_note": "Lowest, most transversely-oriented fibers, innervated by L1 rather than the thoracoabdominal nerves proper -- documented separately because they blend with transversus abdominis to form the conjoint (inguinal falx) tendon reinforcing the inguinal canal's posterior wall.",
+   "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+   "innervation_branch_ids": [
+    "iliohypogastric_n",
+    "ilioinguinal_n"
+   ]
+  }
+ ],
+ "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998)",
+ "ultrasound_injection_approach": {
+  "transducer_placement": "Same window as external oblique -- transverse, mid-axillary line, between costal margin and iliac crest -- reading the middle of the three-layer sandwich.",
+  "depth_layer": "Middle of the three flat lateral wall muscles, between external oblique and transversus abdominis.",
+  "identification_cues": "Fibers run perpendicular to external oblique's (superomedially); the transversus abdominis plane (TAP), the fascial plane targeted by TAP block local anaesthetic, is immediately deep to this muscle.",
+  "structures_at_risk": [
+   "intercostal/subcostal neurovascular bundle in the TAP, immediately deep to this muscle"
+  ],
+  "notes": "Injected as part of the same lateral-wall preoperative botulinum toxin protocol as external oblique and transversus abdominis. Volumetric CT follow-up shows all three lateral wall muscles elongate, with obliques additionally losing volume (unlike transversus abdominis, which also gains volume).",
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Moore KL, Dalley AF, Agur AMR, Clinically Oriented Anatomy, 8th ed.; Quevedo-Cruz D et al., Hernia 30:75 (2026), doi:10.1007/s10029-025-03558-7 -- ultrasound-guided botulinum toxin prehabilitation technique for complex ventral hernia (PubMed); Zamkowski M et al., Pol Przegl Chir 97(6):1 (2025), doi:10.5604/01.3001.0055.3078 -- volumetric muscle elongation by layer after lateral wall injection (PubMed)"
+ },
+ "trigger_points": [
+  {
+   "location_description": "Trigger points in the internal oblique, palpated similarly to the overlying external oblique but at a deeper layer of the anterolateral abdominal wall.",
+   "referred_pain_pattern": "A pattern of lower abdominal, groin and low-back pain that can mimic a hip flexor strain, inguinal hernia, or intercostal neuralgia, worsened by coughing, sneezing, or trunk rotation.",
+   "notes": "Reported with less location/referral specificity in the secondary literature than the overlying external oblique or rectus abdominis -- treat this pattern as a general clinical description rather than a precisely mapped essential/spillover zone; the abdominal oblique muscles as a group (internal and external) are implicated together in the chronic abdominal wall pain literature cited below.",
+   "source": "Simons, Travell & Simons Trigger Point Manual (2nd ed. 1999, Vol 1), abdominal oblique muscles chapter, as reflected in secondary clinical compilations (Morningside Acupuncture NYC internal oblique trigger point reference); abdominal oblique muscle trigger points in chronic abdominal wall pain corroborated by Rajkannan P, Vijayaraghavan R (2018) J Bodyw Mov Ther 23(1):94-98, doi:10.1016/j.jbmt.2018.01.004, PMID 30691770 (PubMed)."
+  }
+ ]
+}

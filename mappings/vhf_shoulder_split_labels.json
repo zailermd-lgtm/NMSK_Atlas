@@ -1,0 +1,73 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE shoulder-girdle split volume (scripts/cryo/split_shoulder_girdle.py), plus the mapping onto atlas entities. A KEY, not data.",
+  "Rule-based: the merged 'infraspinatus' of the rotator-cuff run (plus the subscapularis-labelled voxels lateral of the lateral border) assigned to infraspinatus / teres minor / teres major by markers from the scapula's lateral border and inferior-angle third, boundaries by marker watershed on her photographs' fascial lines; the rhomboid mass cut at the line T1 spinous process -> spine root. Boundaries are rules, not traced fascia; badge it 'rule-based'. This subject must be listed BEFORE the cuff subject (its teres major voxels are still inside the cuff subject's subscapularis label)."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female colour cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 scapula / humerus / vertebra labels as anchors. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., 'Shoulder girdle and arm'. Derived data (scripts/cryo/split_shoulder_girdle.py).",
+ "task": "vhf_shoulder_split",
+ "version": "2026-09-14",
+ "labels": {
+  "1": "infraspinatus_right",
+  "2": "teres_minor_right",
+  "3": "teres_major_right",
+  "4": "rhomboid_major_right",
+  "5": "rhomboid_minor_right",
+  "6": "infraspinatus_left",
+  "7": "teres_minor_left",
+  "8": "teres_major_left",
+  "9": "rhomboid_major_left",
+  "10": "rhomboid_minor_left"
+ },
+ "atlas": {
+  "infraspinatus_right": {
+   "atlas_id": "infraspinatus_r",
+   "relationship": "exact",
+   "note": "233.2 cm3; rule-based split (see _README)."
+  },
+  "teres_minor_right": {
+   "atlas_id": "teres_minor_r",
+   "relationship": "exact",
+   "note": "45.8 cm3; rule-based split (see _README)."
+  },
+  "teres_major_right": {
+   "atlas_id": "teres_major_r",
+   "relationship": "exact",
+   "note": "77.1 cm3; rule-based split (see _README)."
+  },
+  "rhomboid_major_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "22.8 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data."
+  },
+  "rhomboid_minor_right": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "39.7 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data."
+  },
+  "infraspinatus_left": {
+   "atlas_id": "infraspinatus_l",
+   "relationship": "exact",
+   "note": "215.8 cm3; rule-based split (see _README)."
+  },
+  "teres_minor_left": {
+   "atlas_id": "teres_minor_l",
+   "relationship": "exact",
+   "note": "43.7 cm3; rule-based split (see _README)."
+  },
+  "teres_major_left": {
+   "atlas_id": "teres_major_l",
+   "relationship": "exact",
+   "note": "73.9 cm3; rule-based split (see _README)."
+  },
+  "rhomboid_major_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "17.9 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data."
+  },
+  "rhomboid_minor_left": {
+   "atlas_id": null,
+   "relationship": "no_usable_label",
+   "note": "26.4 cm3; NOT shipped: her rhomboid mass is 62 / 44 cm3 of paraspinal patches (vhf_pecminor_rhomboids maps it to null) and the spine-root cut leaves rhomboid minor larger than major; the split is not supported by her data."
+  }
+ }
+}

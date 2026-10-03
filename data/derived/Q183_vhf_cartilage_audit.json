@@ -1,0 +1,141 @@
+{
+ "cmd": "audit",
+ "body": "vhf",
+ "bundle": "build/viewer_f_hr",
+ "gates": {
+  "rib_end_touch_min": 8,
+  "sternum_min_mm": 1.0,
+  "outside_skin_frac": 0.0,
+  "volume_ratio": [
+   0.85,
+   1.1
+  ]
+ },
+ "cartilage": {
+  "midline": [
+   "midline at X=2.2 mm from the sternum; 74588 voxels right, 75464 left"
+  ],
+  "costal_cartilage_r": {
+   "subject": "ct_vhf",
+   "nv": 1507,
+   "nf": 2998,
+   "pieces": 1,
+   "watertight": true,
+   "to_ribs_mm": {
+    "min": 0.2,
+    "median": 30.7,
+    "frac_within_3mm": 0.064
+   },
+   "rib_1_10_anterior_end_to_cartilage_mm": [
+    1.9,
+    6.3,
+    4.9,
+    4.4,
+    5.5,
+    7.9,
+    5.0,
+    23.5,
+    4.2,
+    2.9
+   ],
+   "rib_1_10_label_to_cartilage_min_mm": [
+    0.0,
+    0.7,
+    0.0,
+    0.0,
+    0.0,
+    0.2,
+    0.0,
+    16.4,
+    0.0,
+    0.0
+   ],
+   "rib_ends_touched": 9,
+   "to_sternum_mm": {
+    "min": 0.0,
+    "median": 41.5,
+    "frac_within_3mm": 0.046
+   },
+   "to_own_label_mm": {
+    "median_abs": 0.21,
+    "p90_abs": 0.46,
+    "frac_outside_gt2mm": 0.0
+   },
+   "volume_cm3": {
+    "mesh": 61.6,
+    "label_side_voxels": 65.6,
+    "ratio": 0.939
+   },
+   "extent_mm_lr_si_ap": [
+    129.8,
+    286.0,
+    63.2
+   ],
+   "outside_skin_frac": 0.0,
+   "in_lung_frac": 0.0,
+   "label_surface_in_lung_frac": 0.0,
+   "gates_pass": true
+  },
+  "costal_cartilage_l": {
+   "subject": "ct_vhf",
+   "nv": 1508,
+   "nf": 3000,
+   "pieces": 1,
+   "watertight": false,
+   "to_ribs_mm": {
+    "min": 0.2,
+    "median": 31.3,
+    "frac_within_3mm": 0.058
+   },
+   "rib_1_10_anterior_end_to_cartilage_mm": [
+    2.6,
+    6.4,
+    13.0,
+    13.7,
+    4.9,
+    5.1,
+    5.4,
+    6.5,
+    19.9,
+    6.3
+   ],
+   "rib_1_10_label_to_cartilage_min_mm": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.5
+   ],
+   "rib_ends_touched": 10,
+   "to_sternum_mm": {
+    "min": 0.1,
+    "median": 46.6,
+    "frac_within_3mm": 0.054
+   },
+   "to_own_label_mm": {
+    "median_abs": 0.21,
+    "p90_abs": 0.46,
+    "frac_outside_gt2mm": 0.0
+   },
+   "volume_cm3": {
+    "mesh": 62.2,
+    "label_side_voxels": 66.3,
+    "ratio": 0.937
+   },
+   "extent_mm_lr_si_ap": [
+    123.8,
+    288.5,
+    69.2
+   ],
+   "outside_skin_frac": 0.0,
+   "in_lung_frac": 0.0,
+   "label_surface_in_lung_frac": 0.0,
+   "gates_pass": true
+  }
+ }
+}

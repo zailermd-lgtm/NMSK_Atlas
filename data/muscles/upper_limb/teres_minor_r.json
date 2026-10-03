@@ -1,0 +1,114 @@
+{
+  "id": "teres_minor_r",
+  "name_ta": "Musculus teres minor",
+  "name_common": "Teres minor",
+  "side": "right",
+  "region": "upper_limb",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "scapula_r",
+    "origin_landmark": "lateral border of scapula, upper 2/3",
+    "insertion_bone": "humerus_r",
+    "insertion_landmark": "greater tubercle, inferior facet",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "axillary_n",
+    "root_levels": "C5-C6"
+  },
+  "blood_supply": [
+    "circumflex_scapular_a_r"
+  ],
+  "actions": [
+    "externally rotates humerus",
+    "weakly adducts humerus",
+    "stabilizes humeral head in glenoid (rotator cuff)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "teres_minor_r_main",
+      "name": "Single homogeneous fiber population (no documented sub-compartmentalization)",
+      "innervation_branch": "axillary n., posterior branch",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 8,
+        "optimal_fascicle_length_mm": 100,
+        "physiological_cross_section_area_mm2": 450.0,
+        "max_isometric_force_N": 112.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -100,
+          -60,
+          -40
+        ],
+        [
+          -90,
+          -80,
+          -35
+        ],
+        [
+          -95,
+          -100,
+          -40
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.1,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Smallest, most laterally-placed rotator cuff muscle; unlike its cuff neighbors, no independently-innervated sub-compartments have been documented.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "innervation_branch_ids": [
+        "axillary_n"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "trigger_points": [
+    {
+      "location_description": "Point in the belly along the axillary (lateral) border of the scapula, just caudal-lateral to the infraspinatus trigger points",
+      "referred_pain_pattern": "Sharply localised deep pain at the posterior deltoid region near its insertion (a ‘silver-dollar’-sized area); may be accompanied by paraesthesia of the 4th-5th fingers (ulnar-mimic) without objective deficit.",
+      "activation_perpetuating_factors": "Pain reaching backwards/up behind the back; end-range internal-rotation stretch; usually little frank weakness unless axillary neuropathy is also present.",
+      "notes": "Typically found together with infraspinatus trigger points rather than alone. The finger-paraesthesia association is a clinical observation only, without controlled data -- flagged as such in this atlas's source document's verification appendix.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "External rotation, most effective with the arm abducted/elevated (posterior cuff force couple with subscapularis); compresses and depresses the head; resists antero-superior translation; ~10% of cuff moment. Often hypertrophies and becomes the last functioning external rotator in massive posterosuperior cuff tears (its integrity predicts function after reverse arthroplasty and tendon transfers).",
+      "adjacent_structures": "Adjacent bursae: No named constant bursa; the subdeltoid extension of the subacromial bursa lies superficial to its tendon. Adjacent structures — mutual influence: Forms the superior border of the quadrangular space (axillary n. + posterior circumflex humeral a.) and of the triangular space (circumflex scapular a.): fibrous bands/hypertrophy here cause quadrilateral space syndrome — posterior shoulder pain and point tenderness, worse in abduction–external rotation, with possible teres minor±deltoid denervation. Deltoid covers it; posterior capsule adherent.",
+      "trigger_points": [
+        {
+          "location": "TrP in the belly along the axillary border, just caudal-lateral to infraspinatus points; typically found with infraspinatus TrPs rather than alone.",
+          "referred_pain": "Sharply localised deep pain at the posterior deltoid region near its insertion (“silver-dollar” area); may be accompanied by paraesthesia of the 4th–5th fingers (ulnar-mimic) without objective deficit — evidence is clinical-observational.",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into its territory (posterior deltoid area): subscapularis (main mimic), teres major, latissimus, supraspinatus rarely, triceps long head, posterior deltoid TrPs, levator scapulae",
+        "quadrilateral-space syndrome and posterior labral/capsular pathology",
+        "C5–C6 facet referral."
+      ],
+      "movement_restrictions_aggravators": "Pain reaching backwards/up behind the back; end-range internal rotation stretch pain; usually little frank weakness unless axillary neuropathy.",
+      "notes": "Posterior point tenderness + AER provocation → think quadrilateral space (Cahill); atrophy visible on sagittal MRI as a fatty teres minor with intact infraspinatus suggests axillary-branch lesion.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Keating JF, Waterworth P, Shaw-Dunn J, Crossan J. The relative strengths of the rotator cuff muscles. A cadaver study. J Bone Joint Surg Br. 1993;75(1):137–140. doi:10.1302/0301-620X.75B1.8421011. PMID 8421011. [retrieved 31/08/2026]",
+        "Cahill BR, Palmer RE. Quadrilateral space syndrome. J Hand Surg Am. 1983;8(1):65–69. doi:10.1016/s0363-5023(83)80056-2. PMID 6827057. [retrieved 31/08/2026]",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+ "source": "Q159 (2026-09-26): per-structure face-connectivity (vertex-shared components) of each Z-Anatomy source mesh (welded) vs its decimated viewer mesh; split = decimated mesh has MORE components than its source.",
+ "runs": {
+  "q157_clustering_scale0.22": {
+   "by_category": {
+    "vessel": {
+     "n": 642,
+     "src_tris": 1498697,
+     "viewer_tris": 196136,
+     "split": 141
+    },
+    "nerve": {
+     "n": 491,
+     "src_tris": 2279910,
+     "viewer_tris": 150895,
+     "split": 177
+    },
+    "muscle": {
+     "n": 471,
+     "src_tris": 1963838,
+     "viewer_tris": 337896,
+     "split": 12
+    },
+    "cartilage": {
+     "n": 43,
+     "src_tris": 150692,
+     "viewer_tris": 11012,
+     "split": 0
+    },
+    "ligament": {
+     "n": 287,
+     "src_tris": 239603,
+     "viewer_tris": 41352,
+     "split": 3
+    },
+    "bursa": {
+     "n": 12,
+     "src_tris": 18240,
+     "viewer_tris": 3828,
+     "split": 0
+    },
+    "fascia": {
+     "n": 29,
+     "src_tris": 128264,
+     "viewer_tris": 8948,
+     "split": 0
+    },
+    "bone": {
+     "n": 304,
+     "src_tris": 734615,
+     "viewer_tris": 277985,
+     "split": 0
+    },
+    "tendon": {
+     "n": 22,
+     "src_tris": 45046,
+     "viewer_tris": 4215,
+     "split": 1
+    },
+    "organ": {
+     "n": 114,
+     "src_tris": 696539,
+     "viewer_tris": 35913,
+     "split": 6
+    },
+    "lymphatic": {
+     "n": 155,
+     "src_tris": 122306,
+     "viewer_tris": 45872,
+     "split": 0
+    }
+   },
+   "total_viewer_tris": 1114052,
+   "total_split": 340,
+   "split_ids": null
+  },
+  "quadric_scale0.22": {
+   "by_category": {
+    "vessel": {
+     "n": 642,
+     "src_tris": 1498697,
+     "viewer_tris": 211668,
+     "split": 18
+    },
+    "nerve": {
+     "n": 491,
+     "src_tris": 2279910,
+     "viewer_tris": 284901,
+     "split": 13
+    },
+    "muscle": {
+     "n": 471,
+     "src_tris": 1963838,
+     "viewer_tris": 342513,
+     "split": 0
+    },
+    "cartilage": {
+     "n": 43,
+     "src_tris": 150692,
+     "viewer_tris": 11323,
+     "split": 0
+    },
+    "ligament": {
+     "n": 287,
+     "src_tris": 239603,
+     "viewer_tris": 43350,
+     "split": 1
+    },
+    "bursa": {
+     "n": 12,
+     "src_tris": 18240,
+     "viewer_tris": 3952,
+     "split": 0
+    },
+    "fascia": {
+     "n": 29,
+     "src_tris": 128264,
+     "viewer_tris": 9087,
+     "split": 0
+    },
+    "bone": {
+     "n": 304,
+     "src_tris": 734615,
+     "viewer_tris": 279927,
+     "split": 0
+    },
+    "tendon": {
+     "n": 22,
+     "src_tris": 45046,
+     "viewer_tris": 4339,
+     "split": 0
+    },
+    "organ": {
+     "n": 114,
+     "src_tris": 696539,
+     "viewer_tris": 39655,
+     "split": 0
+    },
+    "lymphatic": {
+     "n": 155,
+     "src_tris": 122306,
+     "viewer_tris": 46988,
+     "split": 0
+    }
+   },
+   "total_viewer_tris": 1277703,
+   "total_split": 32,
+   "split_ids": null
+  },
+  "q159_hires_quadric": {
+   "by_category": {
+    "vessel": {
+     "n": 642,
+     "src_tris": 1498697,
+     "viewer_tris": 419867,
+     "split": 7
+    },
+    "nerve": {
+     "n": 491,
+     "src_tris": 2279910,
+     "viewer_tris": 583275,
+     "split": 5
+    },
+    "muscle": {
+     "n": 471,
+     "src_tris": 1963838,
+     "viewer_tris": 993139,
+     "split": 0
+    },
+    "cartilage": {
+     "n": 43,
+     "src_tris": 150692,
+     "viewer_tris": 46965,
+     "split": 0
+    },
+    "ligament": {
+     "n": 287,
+     "src_tris": 239603,
+     "viewer_tris": 120576,
+     "split": 0
+    },
+    "bursa": {
+     "n": 12,
+     "src_tris": 18240,
+     "viewer_tris": 15352,
+     "split": 0
+    },
+    "fascia": {
+     "n": 29,
+     "src_tris": 128264,
+     "viewer_tris": 28099,
+     "split": 0
+    },
+    "bone": {
+     "n": 304,
+     "src_tris": 734615,
+     "viewer_tris": 585252,
+     "split": 0
+    },
+    "tendon": {
+     "n": 22,
+     "src_tris": 45046,
+     "viewer_tris": 15677,
+     "split": 0
+    },
+    "organ": {
+     "n": 114,
+     "src_tris": 696539,
+     "viewer_tris": 51409,
+     "split": 0
+    },
+    "lymphatic": {
+     "n": 155,
+     "src_tris": 122306,
+     "viewer_tris": 60210,
+     "split": 0
+    }
+   },
+   "total_viewer_tris": 2919821,
+   "total_split": 12,
+   "split_ids": [
+    "lateral_femoral_cutaneous_n_l",
+    "lateral_femoral_cutaneous_n_r",
+    "zan_anterior_spinocerebellar_tract",
+    "zan_dorsal_digital_arteries_of_hand_l",
+    "zan_dorsal_digital_arteries_of_hand_r",
+    "zan_dorsal_digital_veins_of_hand_l",
+    "zan_dorsal_digital_veins_of_hand_r",
+    "zan_left_testicular_vein",
+    "zan_posterior_spinocerebellar_tract",
+    "zan_right_superior_intercostal_vein",
+    "zan_right_testicular_vein",
+    "zan_rubrospinal_tract"
+   ],
+   "note": "before the continuity guard"
+  },
+  "q159_shipped_quadric_with_guard": {
+   "by_category": {
+    "vessel": {
+     "n": 642,
+     "src_tris": 1498697,
+     "viewer_tris": 428494,
+     "split": 0
+    },
+    "nerve": {
+     "n": 491,
+     "src_tris": 2279910,
+     "viewer_tris": 589157,
+     "split": 0
+    },
+    "muscle": {
+     "n": 471,
+     "src_tris": 1963838,
+     "viewer_tris": 993139,
+     "split": 0
+    },
+    "cartilage": {
+     "n": 43,
+     "src_tris": 150692,
+     "viewer_tris": 46965,
+     "split": 0
+    },
+    "ligament": {
+     "n": 287,
+     "src_tris": 239603,
+     "viewer_tris": 120576,
+     "split": 0
+    },
+    "bursa": {
+     "n": 12,
+     "src_tris": 18240,
+     "viewer_tris": 15352,
+     "split": 0
+    },
+    "fascia": {
+     "n": 29,
+     "src_tris": 128264,
+     "viewer_tris": 28099,
+     "split": 0
+    },
+    "bone": {
+     "n": 304,
+     "src_tris": 734615,
+     "viewer_tris": 585252,
+     "split": 0
+    },
+    "tendon": {
+     "n": 22,
+     "src_tris": 45046,
+     "viewer_tris": 15677,
+     "split": 0
+    },
+    "organ": {
+     "n": 114,
+     "src_tris": 696539,
+     "viewer_tris": 51409,
+     "split": 0
+    },
+    "lymphatic": {
+     "n": 155,
+     "src_tris": 122306,
+     "viewer_tris": 60210,
+     "split": 0
+    }
+   },
+   "total_viewer_tris": 2934330,
+   "total_split": 0,
+   "split_ids": []
+  }
+ }
+}

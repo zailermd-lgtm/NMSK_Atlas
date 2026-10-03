@@ -1,0 +1,176 @@
+{
+ "_README": [
+  "Q185f2: her transversus abdominis r/l from HER OWN CT -- the muscle-density layer deep to her own TotalSegmentator",
+  "internal-oblique label (the female bundle had shipped HIS cryosection TA carried across, 24-46 % inside her organs).",
+  "",
+  "    python3 scripts/transversus_from_ct_q185f2.py build    # -> task_outputs/vhf_transversus_q185f2.nii.gz + label key + subject mapping",
+  "    (vhf_rebuild_bundle.sh converts it: ct_vhf_tam, --smooth 1.0)",
+  "    python3 scripts/transversus_from_ct_q185f2.py gate     # gates the converted meshes (+ route c numbers) -> data/derived/Q185f2_transversus_vhf.json",
+  "    python3 scripts/transversus_from_ct_q185f2.py stamp    # badge (+ shipped flag) into build/vh/ct_vhf_tam/manifest.json",
+  "    python3 scripts/transversus_from_ct_q185f2.py montage  # scratch q185f2c2/montage_abdominal_wall_before_after.png",
+  "",
+  "Route (Q183b order): (a) her own CT label -- TS `abdominal_muscles` has NO transversus class (mappings/",
+  "totalsegmentator_abdominal_muscles_labels.json: rectus, external / internal oblique, QL, psoas, ... ), but its wall labels",
+  "plus her own CT (the restacked torso series, scratch vh_idc/nii/vhf_torso_0937.nii.gz, same 0.9375 x 0.9375 x 1 mm grid)",
+  "show an UNLABELLED muscle-density band directly deep to the internal-oblique label (0-1 / 1-2 / 2-3 mm: 87 / 77 / 58 % of",
+  "voxels in -30..150 HU, fat beyond 3-4 mm; the superficial side falls off within 1-2 mm = partial volume). TA lies",
+  "immediately deep to IO (Gray's Anatomy 42nd ed., 'Anterior abdominal wall'), so that band is taken as TA:",
+  "  TA(side) = voxels 0 < d <= SHELL_MM from that side's IO label, on the deep side (in-slice distance to the wall-ring",
+  "  centre smaller than that of the nearest IO voxel), NOT in any `total` / `abdominal_muscles` label (organs, bone, other",
+  "  muscles), CT 3x3x3-median in MUSCLE_HU, then only 26-connected components reaching the d <= SEED_MM layer and >= MIN_CC_ML.",
+  "(b) her cryosection photographs of the abdomen are not local -> not used. (c) his TA carried by the bone-driven transfer =",
+  "what shipped until now (xfer_vhm2vhf_tva) -- measured beside it in the report.",
+  "Gates (Q185f2): <= 5 % of vertices > 1 mm inside her organ labels (sweep ORGANS) and <= 5 % in lung, <= 2 % > 1 mm in bone,",
+  "0 % outside her skin, layer order: <= 5 % inside her IO mesh, <= 1 % inside her EO mesh, >= 90 % of vertices deeper",
+  "(farther from her skin) than the nearest IO vertex. Volume reported vs her IO / EO; no published TA volume was found",
+  "(Rankin 2006 Muscle Nerve doi:10.1002/mus.20589: ultrasound thickness order RA > IO > EO > TA, TA the thinnest layer;",
+  "Izumoto 2019 PLoS One doi:10.1371/journal.pone.0214752 and Sanchis-Moysi 2013 doi:10.1080/14763141.2012.725087 give only",
+  "the obliques + TA together)."
+ ],
+ "build": {
+  "right": {
+   "voxels": 53662,
+   "volume_cm3": 47.2,
+   "io_label_cm3": 68.8,
+   "components": 1,
+   "largest_frac": 1.0
+  },
+  "left": {
+   "voxels": 51174,
+   "volume_cm3": 45.0,
+   "io_label_cm3": 73.1,
+   "components": 1,
+   "largest_frac": 1.0
+  }
+ },
+ "rule": {
+  "shell_mm": 6.0,
+  "seed_mm": 1.5,
+  "min_component_cm3": 1.0,
+  "muscle_hu": [
+   -30,
+   150
+  ]
+ },
+ "gates": {
+  "in_organ_gt1mm_frac": 0.05,
+  "in_lung_gt1mm_frac": 0.05,
+  "in_bone_gt1mm_frac": 0.02,
+  "outside_skin_frac": 0.0,
+  "inside_io_frac": 0.05,
+  "inside_eo_frac": 0.01,
+  "deeper_than_io_frac": 0.9
+ },
+ "structures": {
+  "transversus_abdominis_r": {
+   "a_own_ct": {
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "in_organ_gt1mm_frac": 0.0,
+    "in_organ_top": null,
+    "inside_io_frac": 0.0001,
+    "inside_eo_frac": 0.0,
+    "deeper_than_io_frac": 0.9617,
+    "to_io_median_mm": 2.14,
+    "volume_cm3": 42.2,
+    "watertight": true,
+    "largest_piece_frac": 0.986,
+    "pieces": 22,
+    "triangles": 96454,
+    "io_volume_cm3": 67.5,
+    "eo_volume_cm3": 142.7,
+    "vs_io": 0.63,
+    "vs_eo": 0.3,
+    "fails": [],
+    "pass": true
+   },
+   "c_transfer_shipped": {
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0007,
+    "in_lung_gt1mm_frac": 0.0,
+    "in_organ_gt1mm_frac": 0.4591,
+    "in_organ_top": {
+     "liver": 395,
+     "colon": 222,
+     "kidney_right": 6
+    },
+    "inside_io_frac": 0.0029,
+    "inside_eo_frac": 0.0212,
+    "deeper_than_io_frac": 0.9386,
+    "to_io_median_mm": 28.94,
+    "volume_cm3": 56.5,
+    "watertight": false,
+    "largest_piece_frac": 0.119,
+    "pieces": 539,
+    "triangles": 3210,
+    "io_volume_cm3": 67.5,
+    "eo_volume_cm3": 142.7,
+    "vs_io": 0.84,
+    "vs_eo": 0.4,
+    "fails": [
+     "in_organ_gt1mm_frac",
+     "inside_eo_frac"
+    ],
+    "pass": false
+   }
+  },
+  "transversus_abdominis_l": {
+   "a_own_ct": {
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "in_lung_gt1mm_frac": 0.0,
+    "in_organ_gt1mm_frac": 0.0,
+    "in_organ_top": null,
+    "inside_io_frac": 0.0001,
+    "inside_eo_frac": 0.0,
+    "deeper_than_io_frac": 0.9323,
+    "to_io_median_mm": 1.88,
+    "volume_cm3": 40.1,
+    "watertight": true,
+    "largest_piece_frac": 0.971,
+    "pieces": 16,
+    "triangles": 90960,
+    "io_volume_cm3": 71.9,
+    "eo_volume_cm3": 155.2,
+    "vs_io": 0.56,
+    "vs_eo": 0.26,
+    "fails": [],
+    "pass": true
+   },
+   "c_transfer_shipped": {
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0044,
+    "in_lung_gt1mm_frac": 0.0,
+    "in_organ_gt1mm_frac": 0.2388,
+    "in_organ_top": {
+     "stomach": 182,
+     "colon": 63,
+     "liver": 25
+    },
+    "inside_io_frac": 0.007,
+    "inside_eo_frac": 0.0674,
+    "deeper_than_io_frac": 0.7638,
+    "to_io_median_mm": 33.84,
+    "volume_cm3": 153.2,
+    "watertight": false,
+    "largest_piece_frac": 0.09,
+    "pieces": 902,
+    "triangles": 3234,
+    "io_volume_cm3": 71.9,
+    "eo_volume_cm3": 155.2,
+    "vs_io": 2.13,
+    "vs_eo": 0.99,
+    "fails": [
+     "in_organ_gt1mm_frac",
+     "inside_eo_frac",
+     "deeper_than_io_frac"
+    ],
+    "pass": false
+   }
+  }
+ },
+ "route_b": "her abdominal cryosection photographs are not local (only QC PNGs of limb/neck/pelvic tasks) -> not used",
+ "route_a_label_check": "TS abdominal_muscles v2.18.0 has no transversus class (labels 1-22); TA derived from her IO label + her CT",
+ "published_volume": "none found: Rankin 2006 (doi:10.1002/mus.20589) gives ultrasound thickness order RA > IO > EO > TA only; Izumoto 2019 (doi:10.1371/journal.pone.0214752), Sanchis-Moysi 2013 (doi:10.1080/14763141.2012.725087) report the lateral wall (obliques + TA) together"
+}

@@ -1,0 +1,1126 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): his colour cryosections at full resolution (0.33 mm, NCI Imaging Data Commons) re-streamed by scripts/cryo/vhm_stream_leg_crops.py; his thigh muscles from build/vh/vhm_both = the DU lower-extremity release (Andreassen TE et al., Sci Data 10:34 (2023), doi:10.1038/s41597-022-01905-2, CC BY 4.0) as recovered from his published viewer v25; his sciatic nerve from Q57 (data/ct_sources/task_outputs/vhm_nerves_cryo.nii.gz, scripts/cryo/vhf_nerve_track.py + vhf_nerve_volume.py).",
+ "subject": "ct_vhm_thigh_snap",
+ "origin_atlas_mm": [
+  -6.035,
+  -895.476,
+  4.787
+ ],
+ "method": "thigh muscles come from: build/vh/vhm_both, the decimated copy (recovered from his published viewer v25) of\nthe DU lower-extremity release (Andreassen et al. 2023, Sci Data 10:34: manual segmentation of HIS cryosections).\n\n1. REGISTRATION (the main finding). The Q57 crop mapping (legs_total grid flipped + the fixed legs->torso block offset)\n   does not put his atlas meshes on the photographs: rasterised sections of ALL his vhm_both thigh muscles match the\n   photographed muscle class best (IoU) with the photograph shifted by a constant per side at every level, and his\n   femur section (an independent check, bone vs bone) gives the same shift. The nerve was tracked with that mapping,\n   so it sat ~2.3 mm ANTERIOR of where his meshes put the same tissue -- most of Q57's 3.0 mm median \"inside the\n   adductor magnus\". This script measures the per-side shift (crop pixels, 0.33 mm) and (a) samples the photographs\n   through it and (b) writes the nerve label volume translated by it (vhm_nerves_cryo_reg.nii.gz).\n2. SNAP (bounded, posterior/anterior surface only). Meshes are midpoint-subdivided once (~3.8 mm edges). For every\n   vertex whose outward normal faces the fat plane (adductor magnus n_z < -0.2; biceps long head / semitendinosus\n   n_z > +0.2), the photograph class is read along the inward normal (0.33 mm steps). Vertex on non-muscle ->\n   moved in to the first run of >= 1.65 mm photographed muscle; vertex in muscle with muscle outside it and a\n   >= 0.66 mm non-muscle run within 2.5 mm inward (it crossed the plane into the neighbour) -> moved past that run.\n   Moves only INWARD (the muscle can only shrink, so no new overlap), capped at 8 mm and at 45 % of the local\n   thickness; 1-ring median + 3 Laplacian passes (other vertices fixed at 0); a fold guard shrinks any move that\n   would flip a face. Muscle class = his colour rule (scripts/cryo/cryo_classes.py) made strict (value < 115,\n   g < 0.62 r): the nerve's fascicles (value ~130, g/r ~0.7) are not muscle.",
+ "supplier": {
+  "subject": "vhm_both",
+  "what": "DU lower-extremity release (Andreassen 2023): manual segmentation of his cryosections; decimated copy recovered from his published viewer v25 (adductor magnus ~3.6k triangles, ~7.5 mm edges)"
+ },
+ "registration": {
+  "crop_px_mm": 0.33,
+  "fit": {
+   "right": {
+    "shift_px_rows_cols": [
+     7.23,
+     0.03
+    ],
+    "muscle_levels": 18,
+    "muscle_iqr_rows": [
+     6.93,
+     7.7
+    ],
+    "muscle_iqr_cols": [
+     -0.31,
+     0.41
+    ],
+    "muscle_iou_median_at_zero_vs_fit": [
+     0.81,
+     0.829
+    ],
+    "femur_shift_px_median": [
+     6.66,
+     0.02
+    ],
+    "femur_levels": 9,
+    "femur_iou_median_at_zero_vs_fit": [
+     0.827,
+     0.883
+    ],
+    "per_level_muscle": [
+     [
+      -60,
+      6.57,
+      1.89,
+      0.639,
+      0.625
+     ],
+     [
+      -80,
+      7.15,
+      0.36,
+      0.776,
+      0.759
+     ],
+     [
+      -100,
+      8.38,
+      0.41,
+      0.818,
+      0.798
+     ],
+     [
+      -120,
+      8.24,
+      -0.31,
+      0.84,
+      0.822
+     ],
+     [
+      -140,
+      7.42,
+      -0.88,
+      0.618,
+      0.61
+     ],
+     [
+      -160,
+      7.03,
+      -1.28,
+      0.896,
+      0.879
+     ],
+     [
+      -180,
+      7.3,
+      -0.14,
+      0.891,
+      0.873
+     ],
+     [
+      -200,
+      7.13,
+      0.37,
+      0.877,
+      0.863
+     ],
+     [
+      -220,
+      6.99,
+      -0.45,
+      0.887,
+      0.87
+     ],
+     [
+      -240,
+      6.76,
+      0.54,
+      0.845,
+      0.829
+     ],
+     [
+      -260,
+      6.92,
+      -0.05,
+      0.861,
+      0.843
+     ],
+     [
+      -280,
+      6.64,
+      -0.19,
+      0.85,
+      0.834
+     ],
+     [
+      -300,
+      7.56,
+      0.12,
+      0.842,
+      0.821
+     ],
+     [
+      -320,
+      7.94,
+      -0.3,
+      0.802,
+      0.784
+     ],
+     [
+      -340,
+      7.43,
+      0.56,
+      0.757,
+      0.733
+     ],
+     [
+      -360,
+      6.24,
+      0.41,
+      0.71,
+      0.687
+     ],
+     [
+      -380,
+      7.75,
+      -0.37,
+      0.6,
+      0.57
+     ],
+     [
+      -400,
+      9.08,
+      0.84,
+      0.623,
+      0.574
+     ]
+    ],
+    "per_level_femur": [
+     [
+      -140,
+      5.63,
+      -0.07,
+      0.874,
+      0.83
+     ],
+     [
+      -160,
+      6.06,
+      -0.13,
+      0.907,
+      0.855
+     ],
+     [
+      -180,
+      6.94,
+      0.41,
+      0.883,
+      0.82
+     ],
+     [
+      -200,
+      6.75,
+      0.02,
+      0.91,
+      0.833
+     ],
+     [
+      -220,
+      6.82,
+      -0.01,
+      0.875,
+      0.795
+     ],
+     [
+      -240,
+      6.66,
+      0.46,
+      0.874,
+      0.804
+     ],
+     [
+      -260,
+      6.75,
+      -0.02,
+      0.895,
+      0.827
+     ],
+     [
+      -280,
+      6.05,
+      0.57,
+      0.888,
+      0.827
+     ],
+     [
+      -300,
+      6.41,
+      0.61,
+      0.836,
+      0.769
+     ]
+    ]
+   },
+   "left": {
+    "shift_px_rows_cols": [
+     7.01,
+     -7.17
+    ],
+    "muscle_levels": 18,
+    "muscle_iqr_rows": [
+     6.8,
+     7.26
+    ],
+    "muscle_iqr_cols": [
+     -7.5,
+     -6.95
+    ],
+    "muscle_iou_median_at_zero_vs_fit": [
+     0.776,
+     0.821
+    ],
+    "femur_shift_px_median": [
+     6.26,
+     -8.6
+    ],
+    "femur_levels": 9,
+    "femur_iou_median_at_zero_vs_fit": [
+     0.722,
+     0.931
+    ],
+    "per_level_muscle": [
+     [
+      -60,
+      6.19,
+      -8.76,
+      0.664,
+      0.63
+     ],
+     [
+      -80,
+      6.92,
+      -7.29,
+      0.765,
+      0.726
+     ],
+     [
+      -100,
+      7.34,
+      -6.85,
+      0.81,
+      0.773
+     ],
+     [
+      -120,
+      6.38,
+      -7.91,
+      0.836,
+      0.793
+     ],
+     [
+      -140,
+      6.59,
+      -5.98,
+      0.679,
+      0.658
+     ],
+     [
+      -160,
+      6.91,
+      -7.76,
+      0.897,
+      0.86
+     ],
+     [
+      -180,
+      7.68,
+      -7.11,
+      0.899,
+      0.862
+     ],
+     [
+      -200,
+      7.1,
+      -7.23,
+      0.891,
+      0.853
+     ],
+     [
+      -220,
+      6.79,
+      -6.95,
+      0.883,
+      0.844
+     ],
+     [
+      -240,
+      6.64,
+      -7.11,
+      0.874,
+      0.834
+     ],
+     [
+      -260,
+      6.9,
+      -7.52,
+      0.863,
+      0.813
+     ],
+     [
+      -280,
+      6.8,
+      -6.63,
+      0.837,
+      0.788
+     ],
+     [
+      -300,
+      7.12,
+      -6.88,
+      0.831,
+      0.78
+     ],
+     [
+      -320,
+      7.27,
+      -7.35,
+      0.787,
+      0.729
+     ],
+     [
+      -340,
+      7.23,
+      -7.46,
+      0.727,
+      0.665
+     ],
+     [
+      -360,
+      7.1,
+      -6.96,
+      0.67,
+      0.603
+     ],
+     [
+      -380,
+      8.41,
+      -7.11,
+      0.604,
+      0.523
+     ],
+     [
+      -400,
+      9.44,
+      -7.6,
+      0.621,
+      0.519
+     ]
+    ],
+    "per_level_femur": [
+     [
+      -160,
+      5.77,
+      -8.38,
+      0.903,
+      0.714
+     ],
+     [
+      -180,
+      6.75,
+      -8.48,
+      0.925,
+      0.715
+     ],
+     [
+      -200,
+      7.07,
+      -8.14,
+      0.942,
+      0.722
+     ],
+     [
+      -220,
+      6.29,
+      -8.6,
+      0.94,
+      0.733
+     ],
+     [
+      -240,
+      6.37,
+      -8.15,
+      0.828,
+      0.692
+     ],
+     [
+      -260,
+      6.18,
+      -8.64,
+      0.931,
+      0.734
+     ],
+     [
+      -280,
+      6.1,
+      -8.72,
+      0.933,
+      0.739
+     ],
+     [
+      -300,
+      6.2,
+      -8.82,
+      0.935,
+      0.751
+     ],
+     [
+      -320,
+      6.26,
+      -9.74,
+      0.835,
+      0.682
+     ]
+    ]
+   }
+  },
+  "used_px": {
+   "right": [
+    7.23,
+    0.03
+   ],
+   "left": [
+    7.01,
+    -7.17
+   ]
+  },
+  "nerve_volume": {
+   "ap_shift_mm_atlas_z": -2.35,
+   "right_x_shift_mm": 0.01,
+   "left_x_shift_mm_applied": -2.49,
+   "left_x_shift_mm_measured": -2.366,
+   "voxels_in": 56660,
+   "voxels_out": 56660
+  }
+ },
+ "params": {
+  "nz_min": 0.2,
+  "max_move_mm": 8.0,
+  "muscle_run_mm": 1.6500000000000001,
+  "fat_run_mm": 0.66,
+  "cross_window_mm": 2.5,
+  "thickness_cap": 0.45,
+  "smoothing": "1-ring median + 3 Laplacian passes (others fixed at 0) + fold guard",
+  "subdivision": "midpoint x1"
+ },
+ "structures": {
+  "adductor_magnus_r": {
+   "piece0_snap": {
+    "surface_vertices": 3270,
+    "on_non_muscle_moved_in": 2270,
+    "on_non_muscle_no_muscle_within_cap": 69,
+    "crossed_into_neighbour": 77,
+    "over_cap_left": 13,
+    "fold_guard_updates": 7
+   },
+   "move": {
+    "moved_vertices": 2874,
+    "surface_vertices": 3270,
+    "median_mm": 0.93,
+    "p95_mm": 3.04,
+    "max_mm": 4.73
+   },
+   "volume_cm3": [
+    1137.7,
+    1104.9
+   ],
+   "volume_change_pct": -2.88,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.8966,
+    "on_photographed_muscle_frac_after": 0.9181,
+    "non_muscle_inside_cm3_before": 118.14,
+    "non_muscle_inside_cm3_after": 90.86,
+    "photographed_muscle_cut_away_cm3": 6.14,
+    "levels_every_mm": 2
+   }
+  },
+  "adductor_magnus_l": {
+   "piece0_snap": {
+    "surface_vertices": 3172,
+    "on_non_muscle_moved_in": 2312,
+    "on_non_muscle_no_muscle_within_cap": 49,
+    "crossed_into_neighbour": 98,
+    "over_cap_left": 13,
+    "fold_guard_updates": 215
+   },
+   "move": {
+    "moved_vertices": 2882,
+    "surface_vertices": 3172,
+    "median_mm": 0.96,
+    "p95_mm": 3.25,
+    "max_mm": 5.31
+   },
+   "volume_cm3": [
+    1055.7,
+    1021.9
+   ],
+   "volume_change_pct": -3.2,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.8924,
+    "on_photographed_muscle_frac_after": 0.9161,
+    "non_muscle_inside_cm3_before": 114.25,
+    "non_muscle_inside_cm3_after": 86.13,
+    "photographed_muscle_cut_away_cm3": 8.36,
+    "levels_every_mm": 2
+   }
+  },
+  "biceps_femoris_r": {
+   "piece0_snap": {
+    "surface_vertices": 2618,
+    "on_non_muscle_moved_in": 2074,
+    "on_non_muscle_no_muscle_within_cap": 18,
+    "crossed_into_neighbour": 32,
+    "over_cap_left": 3,
+    "fold_guard_updates": 30
+   },
+   "move": {
+    "moved_vertices": 2423,
+    "surface_vertices": 2618,
+    "median_mm": 0.72,
+    "p95_mm": 1.63,
+    "max_mm": 3.07
+   },
+   "volume_cm3": [
+    499.1,
+    489.7
+   ],
+   "volume_change_pct": -1.9,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.802,
+    "on_photographed_muscle_frac_after": 0.8104,
+    "non_muscle_inside_cm3_before": 99.92,
+    "non_muscle_inside_cm3_after": 93.85,
+    "photographed_muscle_cut_away_cm3": 3.68,
+    "levels_every_mm": 2
+   }
+  },
+  "biceps_femoris_l": {
+   "piece0_snap": {
+    "surface_vertices": 2974,
+    "on_non_muscle_moved_in": 1400,
+    "on_non_muscle_no_muscle_within_cap": 8,
+    "crossed_into_neighbour": 36,
+    "over_cap_left": 2,
+    "fold_guard_updates": 41
+   },
+   "move": {
+    "moved_vertices": 1897,
+    "surface_vertices": 2974,
+    "median_mm": 0.43,
+    "p95_mm": 1.42,
+    "max_mm": 3.76
+   },
+   "volume_cm3": [
+    449.0,
+    443.9
+   ],
+   "volume_change_pct": -1.12,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.824,
+    "on_photographed_muscle_frac_after": 0.8287,
+    "non_muscle_inside_cm3_before": 80.08,
+    "non_muscle_inside_cm3_after": 77.06,
+    "photographed_muscle_cut_away_cm3": 2.23,
+    "levels_every_mm": 2
+   }
+  },
+  "semitendinosus_r": {
+   "piece0_snap": {
+    "surface_vertices": 3398,
+    "on_non_muscle_moved_in": 2198,
+    "on_non_muscle_no_muscle_within_cap": 53,
+    "crossed_into_neighbour": 116,
+    "over_cap_left": 2,
+    "fold_guard_updates": 60
+   },
+   "move": {
+    "moved_vertices": 2766,
+    "surface_vertices": 3398,
+    "median_mm": 0.6,
+    "p95_mm": 2.53,
+    "max_mm": 5.64
+   },
+   "volume_cm3": [
+    297.9,
+    286.9
+   ],
+   "volume_change_pct": -3.71,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.7935,
+    "on_photographed_muscle_frac_after": 0.8114,
+    "non_muscle_inside_cm3_before": 62.26,
+    "non_muscle_inside_cm3_after": 54.79,
+    "photographed_muscle_cut_away_cm3": 3.67,
+    "levels_every_mm": 2
+   }
+  },
+  "semitendinosus_l": {
+   "piece0_snap": {
+    "surface_vertices": 3200,
+    "on_non_muscle_moved_in": 1637,
+    "on_non_muscle_no_muscle_within_cap": 39,
+    "crossed_into_neighbour": 58,
+    "over_cap_left": 8,
+    "fold_guard_updates": 64
+   },
+   "move": {
+    "moved_vertices": 2221,
+    "surface_vertices": 3200,
+    "median_mm": 0.37,
+    "p95_mm": 2.49,
+    "max_mm": 4.71
+   },
+   "volume_cm3": [
+    260.5,
+    254.4
+   ],
+   "volume_change_pct": -2.33,
+   "photo": {
+    "on_photographed_muscle_frac_before": 0.8276,
+    "on_photographed_muscle_frac_after": 0.8385,
+    "non_muscle_inside_cm3_before": 45.49,
+    "non_muscle_inside_cm3_after": 41.64,
+    "photographed_muscle_cut_away_cm3": 2.27,
+    "levels_every_mm": 2
+   }
+  }
+ },
+ "badges": {
+  "adductor_magnus_r": "Posterior surface moved onto the fat plane photographed in his own 0.33 mm cryosections (Q173): inward only, median 0.9 mm, max 4.7 mm (cap 8 mm), 88% of that surface's vertices moved; volume 1138 -> 1105 cm3 (-2.9%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through a measured per-side registration (femur + all thigh muscles agree), not the raw crop mapping.",
+  "adductor_magnus_l": "Posterior surface moved onto the fat plane photographed in his own 0.33 mm cryosections (Q173): inward only, median 1.0 mm, max 5.3 mm (cap 8 mm), 91% of that surface's vertices moved; volume 1056 -> 1022 cm3 (-3.2%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through a measured per-side registration (femur + all thigh muscles agree), not the raw crop mapping.",
+  "biceps_femoris_r": "Anterior (long head) surface moved onto the fat plane photographed in his own 0.33 mm cryosections (Q173): inward only, median 0.7 mm, max 3.1 mm (cap 8 mm), 93% of that surface's vertices moved; volume 499 -> 490 cm3 (-1.9%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through a measured per-side registration (femur + all thigh muscles agree), not the raw crop mapping.",
+  "biceps_femoris_l": "Anterior (long head) surface moved onto the fat plane photographed in his own 0.33 mm cryosections (Q173): inward only, median 0.4 mm, max 3.8 mm (cap 8 mm), 64% of that surface's vertices moved; volume 449 -> 444 cm3 (-1.1%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through a measured per-side registration (femur + all thigh muscles agree), not the raw crop mapping.",
+  "semitendinosus_r": "Anterior surface moved onto the fat plane photographed in his own 0.33 mm cryosections (Q173): inward only, median 0.6 mm, max 5.6 mm (cap 8 mm), 81% of that surface's vertices moved; volume 298 -> 287 cm3 (-3.7%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through a measured per-side registration (femur + all thigh muscles agree), not the raw crop mapping.",
+  "semitendinosus_l": "Anterior surface moved onto the fat plane photographed in his own 0.33 mm cryosections (Q173): inward only, median 0.4 mm, max 4.7 mm (cap 8 mm), 69% of that surface's vertices moved; volume 260 -> 254 cm3 (-2.3%). The rest of the mesh is his DU segmentation unchanged. Photographs sampled through a measured per-side registration (femur + all thigh muscles agree), not the raw crop mapping."
+ },
+ "stored_moves": "data/ct_sources/task_outputs/vhm_thigh_snap_q173.npz",
+ "nerve_volume": "data/ct_sources/task_outputs/vhm_nerves_cryo_reg.nii.gz",
+ "verify": {
+  "bundle": "build/viewer_m_hr",
+  "per_structure": {
+   "adductor_magnus_r": {
+    "q57_nerve_as_shipped_before_q173_vs_old_mesh": {
+     "vertices_inside": 11012,
+     "of": 19378,
+     "beyond_1mm": 9203,
+     "median_depth_mm": 3.1,
+     "max_depth_mm": 6.03
+    },
+    "registered_nerve_vs_old_mesh": {
+     "vertices_inside": 7119,
+     "of": 19378,
+     "beyond_1mm": 5198,
+     "median_depth_mm": 1.61,
+     "max_depth_mm": 3.74
+    },
+    "registered_nerve_vs_new_mesh": {
+     "vertices_inside": 5327,
+     "of": 19378,
+     "beyond_1mm": 1642,
+     "median_depth_mm": 0.75,
+     "max_depth_mm": 2.86
+    },
+    "registered_nerve_vs_shipped_bundle_mesh": {
+     "vertices_inside": 5322,
+     "of": 19378,
+     "beyond_1mm": 1653,
+     "median_depth_mm": 0.75,
+     "max_depth_mm": 2.84
+    },
+    "surface_inside_neighbour_old_vs_new_bundle": {
+     "adductor_longus_r": {
+      "frac_old": 0.0087,
+      "frac_new": 0.0088,
+      "max_depth_old_mm": 0.5,
+      "max_depth_new_mm": 0.34
+     },
+     "adductor_brevis_r": {
+      "frac_old": 0.03,
+      "frac_new": 0.0282,
+      "max_depth_old_mm": 0.65,
+      "max_depth_new_mm": 0.77
+     },
+     "biceps_femoris_r": {
+      "frac_old": 0.001,
+      "frac_new": 0.001,
+      "max_depth_old_mm": 0.21,
+      "max_depth_new_mm": 0.21
+     },
+     "semimembranosus_r": {
+      "frac_old": 0.0033,
+      "frac_new": 0.0006,
+      "max_depth_old_mm": 0.21,
+      "max_depth_new_mm": 0.14
+     },
+     "semitendinosus_r": {
+      "frac_old": 0.0031,
+      "frac_new": 0.0,
+      "max_depth_old_mm": 0.35,
+      "max_depth_new_mm": 0.0
+     },
+     "gracilis_r": {
+      "frac_old": 0.0034,
+      "frac_new": 0.0037,
+      "max_depth_old_mm": 0.17,
+      "max_depth_new_mm": 0.15
+     },
+     "vastus_medialis_r": {
+      "frac_old": 0.0012,
+      "frac_new": 0.001,
+      "max_depth_old_mm": 0.17,
+      "max_depth_new_mm": 0.17
+     }
+    }
+   },
+   "adductor_magnus_l": {
+    "q57_nerve_as_shipped_before_q173_vs_old_mesh": {
+     "vertices_inside": 10740,
+     "of": 16442,
+     "beyond_1mm": 8914,
+     "median_depth_mm": 2.96,
+     "max_depth_mm": 6.64
+    },
+    "registered_nerve_vs_old_mesh": {
+     "vertices_inside": 5732,
+     "of": 16442,
+     "beyond_1mm": 3958,
+     "median_depth_mm": 1.46,
+     "max_depth_mm": 4.16
+    },
+    "registered_nerve_vs_new_mesh": {
+     "vertices_inside": 4174,
+     "of": 16442,
+     "beyond_1mm": 1610,
+     "median_depth_mm": 0.83,
+     "max_depth_mm": 3.04
+    },
+    "registered_nerve_vs_shipped_bundle_mesh": {
+     "vertices_inside": 4217,
+     "of": 16442,
+     "beyond_1mm": 1634,
+     "median_depth_mm": 0.83,
+     "max_depth_mm": 2.96
+    },
+    "surface_inside_neighbour_old_vs_new_bundle": {
+     "adductor_longus_l": {
+      "frac_old": 0.0104,
+      "frac_new": 0.0107,
+      "max_depth_old_mm": 0.35,
+      "max_depth_new_mm": 0.34
+     },
+     "adductor_brevis_l": {
+      "frac_old": 0.0196,
+      "frac_new": 0.0175,
+      "max_depth_old_mm": 0.58,
+      "max_depth_new_mm": 0.54
+     },
+     "biceps_femoris_l": {
+      "frac_old": 0.0037,
+      "frac_new": 0.0042,
+      "max_depth_old_mm": 0.16,
+      "max_depth_new_mm": 0.19
+     },
+     "semimembranosus_l": {
+      "frac_old": 0.0034,
+      "frac_new": 0.0001,
+      "max_depth_old_mm": 0.33,
+      "max_depth_new_mm": 0.01
+     },
+     "semitendinosus_l": {
+      "frac_old": 0.0027,
+      "frac_new": 0.0,
+      "max_depth_old_mm": 0.44,
+      "max_depth_new_mm": 0.0
+     },
+     "gracilis_l": {
+      "frac_old": 0.0004,
+      "frac_new": 0.0006,
+      "max_depth_old_mm": 0.05,
+      "max_depth_new_mm": 0.06
+     },
+     "vastus_medialis_l": {
+      "frac_old": 0.0001,
+      "frac_new": 0.0,
+      "max_depth_old_mm": 0.05,
+      "max_depth_new_mm": 0.0
+     }
+    }
+   },
+   "biceps_femoris_r": {
+    "q57_nerve_as_shipped_before_q173_vs_old_mesh": {
+     "vertices_inside": 1160,
+     "of": 19378,
+     "beyond_1mm": 609,
+     "median_depth_mm": 1.1,
+     "max_depth_mm": 4.0
+    },
+    "registered_nerve_vs_old_mesh": {
+     "vertices_inside": 5556,
+     "of": 19378,
+     "beyond_1mm": 3577,
+     "median_depth_mm": 1.27,
+     "max_depth_mm": 6.29
+    },
+    "registered_nerve_vs_new_mesh": {
+     "vertices_inside": 4087,
+     "of": 19378,
+     "beyond_1mm": 997,
+     "median_depth_mm": 0.53,
+     "max_depth_mm": 5.06
+    },
+    "registered_nerve_vs_shipped_bundle_mesh": {
+     "vertices_inside": 4063,
+     "of": 19378,
+     "beyond_1mm": 1010,
+     "median_depth_mm": 0.54,
+     "max_depth_mm": 5.05
+    },
+    "surface_inside_neighbour_old_vs_new_bundle": {
+     "femur_r": {
+      "frac_old": 0.0001,
+      "frac_new": 0.0,
+      "max_depth_old_mm": 0.02,
+      "max_depth_new_mm": 0.0
+     },
+     "adductor_magnus_r": {
+      "frac_old": 0.0011,
+      "frac_new": 0.0015,
+      "max_depth_old_mm": 0.22,
+      "max_depth_new_mm": 0.23
+     },
+     "semitendinosus_r": {
+      "frac_old": 0.0077,
+      "frac_new": 0.0063,
+      "max_depth_old_mm": 0.27,
+      "max_depth_new_mm": 0.3
+     },
+     "vastus_intermedius_r": {
+      "frac_old": 0.0061,
+      "frac_new": 0.0066,
+      "max_depth_old_mm": 0.24,
+      "max_depth_new_mm": 0.18
+     },
+     "gluteus_maximus_r": {
+      "frac_old": 0.0001,
+      "frac_new": 0.0002,
+      "max_depth_old_mm": 0.02,
+      "max_depth_new_mm": 0.07
+     }
+    }
+   },
+   "biceps_femoris_l": {
+    "q57_nerve_as_shipped_before_q173_vs_old_mesh": {
+     "vertices_inside": 61,
+     "of": 16442,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.33,
+     "max_depth_mm": 0.99
+    },
+    "registered_nerve_vs_old_mesh": {
+     "vertices_inside": 3030,
+     "of": 16442,
+     "beyond_1mm": 1199,
+     "median_depth_mm": 0.81,
+     "max_depth_mm": 3.86
+    },
+    "registered_nerve_vs_new_mesh": {
+     "vertices_inside": 2322,
+     "of": 16442,
+     "beyond_1mm": 506,
+     "median_depth_mm": 0.49,
+     "max_depth_mm": 3.49
+    },
+    "registered_nerve_vs_shipped_bundle_mesh": {
+     "vertices_inside": 2324,
+     "of": 16442,
+     "beyond_1mm": 515,
+     "median_depth_mm": 0.5,
+     "max_depth_mm": 3.56
+    },
+    "surface_inside_neighbour_old_vs_new_bundle": {
+     "adductor_magnus_l": {
+      "frac_old": 0.0037,
+      "frac_new": 0.0043,
+      "max_depth_old_mm": 0.21,
+      "max_depth_new_mm": 0.17
+     },
+     "semitendinosus_l": {
+      "frac_old": 0.0045,
+      "frac_new": 0.005,
+      "max_depth_old_mm": 0.2,
+      "max_depth_new_mm": 0.14
+     },
+     "vastus_intermedius_l": {
+      "frac_old": 0.0003,
+      "frac_new": 0.001,
+      "max_depth_old_mm": 0.02,
+      "max_depth_new_mm": 0.04
+     }
+    }
+   },
+   "semitendinosus_r": {
+    "q57_nerve_as_shipped_before_q173_vs_old_mesh": {
+     "vertices_inside": 306,
+     "of": 19378,
+     "beyond_1mm": 128,
+     "median_depth_mm": 0.88,
+     "max_depth_mm": 2.18
+    },
+    "registered_nerve_vs_old_mesh": {
+     "vertices_inside": 905,
+     "of": 19378,
+     "beyond_1mm": 441,
+     "median_depth_mm": 0.96,
+     "max_depth_mm": 3.83
+    },
+    "registered_nerve_vs_new_mesh": {
+     "vertices_inside": 200,
+     "of": 19378,
+     "beyond_1mm": 29,
+     "median_depth_mm": 0.38,
+     "max_depth_mm": 1.78
+    },
+    "registered_nerve_vs_shipped_bundle_mesh": {
+     "vertices_inside": 192,
+     "of": 19378,
+     "beyond_1mm": 29,
+     "median_depth_mm": 0.37,
+     "max_depth_mm": 1.75
+    },
+    "surface_inside_neighbour_old_vs_new_bundle": {
+     "adductor_magnus_r": {
+      "frac_old": 0.0056,
+      "frac_new": 0.0,
+      "max_depth_old_mm": 0.37,
+      "max_depth_new_mm": 0.0
+     },
+     "biceps_femoris_r": {
+      "frac_old": 0.0124,
+      "frac_new": 0.0123,
+      "max_depth_old_mm": 0.24,
+      "max_depth_new_mm": 0.36
+     },
+     "semimembranosus_r": {
+      "frac_old": 0.0163,
+      "frac_new": 0.0051,
+      "max_depth_old_mm": 0.3,
+      "max_depth_new_mm": 0.18
+     }
+    }
+   },
+   "semitendinosus_l": {
+    "q57_nerve_as_shipped_before_q173_vs_old_mesh": {
+     "vertices_inside": 27,
+     "of": 16442,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.2,
+     "max_depth_mm": 0.56
+    },
+    "registered_nerve_vs_old_mesh": {
+     "vertices_inside": 160,
+     "of": 16442,
+     "beyond_1mm": 26,
+     "median_depth_mm": 0.56,
+     "max_depth_mm": 1.72
+    },
+    "registered_nerve_vs_new_mesh": {
+     "vertices_inside": 26,
+     "of": 16442,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.14,
+     "max_depth_mm": 0.59
+    },
+    "registered_nerve_vs_shipped_bundle_mesh": {
+     "vertices_inside": 29,
+     "of": 16442,
+     "beyond_1mm": 0,
+     "median_depth_mm": 0.17,
+     "max_depth_mm": 0.64
+    },
+    "surface_inside_neighbour_old_vs_new_bundle": {
+     "adductor_magnus_l": {
+      "frac_old": 0.0056,
+      "frac_new": 0.0,
+      "max_depth_old_mm": 0.45,
+      "max_depth_new_mm": 0.0
+     },
+     "biceps_femoris_l": {
+      "frac_old": 0.0095,
+      "frac_new": 0.0088,
+      "max_depth_old_mm": 0.17,
+      "max_depth_new_mm": 0.16
+     },
+     "semimembranosus_l": {
+      "frac_old": 0.0129,
+      "frac_new": 0.006,
+      "max_depth_old_mm": 0.47,
+      "max_depth_new_mm": 0.42
+     }
+    }
+   }
+  },
+  "nerve_vertices": 35820,
+  "nerve_outside_skin_frac_sampled": 0.0,
+  "inside_test": "trimesh contains (agreed 100% with a generalized winding-number test on 5000 nerve vertices vs adductor_magnus_r)",
+  "q57_nerve_label_vs_photographed_muscle": {
+   "right": {
+    "voxels": 33056,
+    "on_photographed_muscle_frac": 0.223,
+    "beyond_1mm_into_muscle_frac": 0.0179,
+    "max_into_muscle_mm": 2.58
+   },
+   "left": {
+    "voxels": 23604,
+    "on_photographed_muscle_frac": 0.262,
+    "beyond_1mm_into_muscle_frac": 0.0352,
+    "max_into_muscle_mm": 2.33
+   }
+  }
+ },
+ "nerve_badge": "Traced in his own 0.33 mm cryosections (Q57), placed with the per-side photograph-to-atlas registration measured on his femur and thigh muscles (Q173: 2.4 mm posterior, left also 2.5 mm lateral). Covers about a third of its course: right 126 / left 84 verified levels (right y -91..-216, left four runs y -89..-222); the gluteal and distal thirds are missing. Residual overlap: 13.4% of its surface vertices lie more than 1 mm inside the adductor magnus / biceps femoris / semitendinosus (adductor magnus alone 9.1%), max 5.1 mm. The traced outline runs up to ~2.6 mm past the photographed nerve into muscle in places (22-26% of its voxels lie on photographed muscle).",
+ "ship": {
+  "bundle": "build/viewer_m_hr",
+  "structures_before_after": [
+   429,
+   430
+  ],
+  "triangles_before_after": [
+   2038621,
+   2101161
+  ],
+  "ids_geometry_changed": [
+   "adductor_magnus_r",
+   "adductor_magnus_l",
+   "biceps_femoris_r",
+   "biceps_femoris_l",
+   "semitendinosus_r",
+   "semitendinosus_l"
+  ],
+  "ids_added": [
+   "sciatic_n"
+  ],
+  "other_ids": "geometry hash and metadata identical (393 ids); the six changed ids now come earlier in the structure order (ct_vhm_thigh_snap is listed before vhm_both)",
+  "triangles_per_id_before_after": {
+   "adductor_magnus_r": [
+    3568,
+    9000
+   ],
+   "adductor_magnus_l": [
+    3580,
+    9000
+   ],
+   "biceps_femoris_r": [
+    7160,
+    12576
+   ],
+   "biceps_femoris_l": [
+    7082,
+    12502
+   ],
+   "semitendinosus_r": [
+    3576,
+    9000
+   ],
+   "semitendinosus_l": [
+    3572,
+    9000
+   ],
+   "sciatic_n": [
+    0,
+    30000
+   ]
+  },
+  "files_bytes": {
+   "atlas_viewer_male.html": 1172256,
+   "atlas_viewer_male_geo_00.txt": 14666664,
+   "atlas_viewer_male_geo_01.txt": 10408224,
+   "bundle.json": 1096731,
+   "bundle.bin": 18806166
+  },
+  "chromium": "page loads headless (Chromium, swiftshader): no page errors (one console error = blocked Google Fonts request); sciatic_n in the bundle (subject ct_vhm_sciatic, 30,000 tris, badged) and the structure list",
+  "montage": "session scratchpad q173/montage_right.png, montage_left.png (before: Q57 mapping + old meshes; after: registered + snapped)"
+ }
+}

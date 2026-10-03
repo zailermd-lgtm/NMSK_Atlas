@@ -1,0 +1,123 @@
+{
+  "id": "abductor_digiti_minimi_hand_r",
+  "name_ta": "Abductor digiti minimi (hand)",
+  "name_common": "Abductor digiti minimi (hand)",
+  "side": "right",
+  "region": "upper_limb",
+  "overall_architecture_type": "parallel_strap",
+  "attachments": {
+    "origin_bone": "carpals_r",
+    "origin_landmark": "pisiform",
+    "insertion_bone": "phalanges_hand_r",
+    "insertion_landmark": "proximal phalanx digit 5",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "ulnar_n_deep_branch",
+    "root_levels": "C8-T1"
+  },
+  "actions": [
+    "abducts little finger (hypothenar muscle)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "abductor_digiti_minimi_hand_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "parallel_strap",
+        "pennation_deg": 0,
+        "optimal_fascicle_length_mm": 35,
+        "physiological_cross_section_area_mm2": 40,
+        "max_isometric_force_N": 9.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -10,
+          12
+        ],
+        [
+          -5,
+          5,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Most superficial and ulnar of the 3 hypothenar muscles; the hand's structural mirror of abductor pollicis brevis on the thenar side.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            33,
+            67
+          ],
+          "reference_line_from": "origin",
+          "reference_line_to": "insertion",
+          "method": "modified Sihler's stain intramuscular nerve mapping",
+          "notes": "Major branches densely distributed in the middle part of each of the muscle's two compartments. The source states this in words rather than as a measured percentage -- it is a hand-surgery paper, not an injection-targeting one -- so the range is that wording read as thirds of muscle length, and nothing narrower is claimed.",
+          "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+        }
+      ],
+      "innervation_branch_ids": [
+        "ulnar_n_deep_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "relative_muscle_spindle_abundance": {
+    "value": 0.4,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 1.64 +/- 0.20 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "COMPARTMENTED, and this atlas does not yet model it. Two independent ulnar branches supply an ulnar and a radial territory separated by real connective tissue septa, with the ulnar compartment about one third of the muscle and the radial about two thirds. They are recorded here as a note rather than as new functional_compartments, because a compartment in this atlas carries fibre architecture and an origin footprint and the source supplies neither -- the same reason the deep cervical compartments are notes. Lowest spindle abundance of the hypothenar group, which the authors read as a strength rather than a fine-control role.",
+  "trigger_points": [
+    {
+      "location_description": "Flat palpation against the 5th metacarpal.",
+      "referred_pain_pattern": "Refers along the ulnar aspect of the little finger (both dorsal and volar surfaces).",
+      "activation_perpetuating_factors": "Sustained D5 abduction-pressure -- anchoring the hand on a mouse/keyboard edge, string instruments, carrying bags on flexed fingers, crutch or cane grip.",
+      "notes": "Stretch into passive adduction-extension.",
+      "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1, Ch. 40, pp. 786-793 -- as cited in this atlas's uploaded hand intrinsic muscle reference document"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "hand_intrinsic_muscles_reference_v1.html",
+      "compiled": "03/09/2026",
+      "compiled_by": "repository owner (physician); hand_intrinsic_muscles_reference_v1.html, compiled 03/09/2026. Source hierarchy used. (1) Peer-reviewed anatomical and biomechanical studies (bibliographic data and abstracts retrieved via PubMed/NCBI, 01–03/09/2026; DOIs linked in the reference list); (2) reference textbooks — Standring (Gray's Anatomy, 42nd ed., 2021), Kapandji (2007), Green's Operative Hand Surgery (8th ed., 2022), Brand & Hollister (1999); (3) Simons, Travell & Simons, The Trigger Point Manual Vol. 1, 2nd ed. (1999) and 3rd ed. (2019) for trigger-point (TrP) referral patterns; (4) StatPearls/NCBI Bookshelf for cross-checking. No item below relies on blogs or unattributed aggregators; where secondary TrP summaries were used to confirm Travell & Simons figures, they are graded accordingly in the verification table.",
+      "function_biomechanics": "Abducts D5 at the MCP — spreading the grasp for large or flat objects and anchoring the ulnar border in power grip; flexes the MCP and, via the expansion, assists IP extension. It is the largest hypothenar muscle, the standard ulnar-CMAP recording site, and the donor of the Huber opponensplasty (transfer to the APB insertion in thumb hypoplasia / low median palsy) [1][3][35]. It also participates in the \"cupping\" that ODM drives. Standardised intrinsic dynamometry (e.g., Rotterdam Intrinsic Hand Myometer) tests it directly in ulnar-palsy follow-up [36].",
+      "adjacent_structures": "Relations · closed sacs: Most superficial muscle of the ulnar border (partly covered proximally by palmaris brevis and the hypothenar fascia); neighbours the pisotriquetral joint capsule and pisiform \"sesamoid\" proximally, the D5 MCP capsule distally; the ulnar bursa/D5 flexor sheath run just radial to it [1][34].",
+      "trigger_points": [
+        {
+          "referred_pain": "40, pp. 786–793). ADM TrPs refer along the ulnar aspect of the little finger (dorsal and volar) [24].",
+          "notes": "Trigger points & referred pain (Travell & Simons Ch",
+          "activation_perpetuating_factors": "sustained D5 abduction-pressure — anchoring the hand on a mouse/keyboard edge, string instruments, carrying bags on flexed fingers, crutch/cane grip. Flat-palpate against MC5; stretch into passive adduction-extension.",
+          "source": "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793)."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Myofascial from the trunk and arm dominate here: pectoralis major (sternal fibres) and minor, latissimus dorsi, serratus anterior and serratus posterior superior, triceps (medial-head TrPs), FCU, FDS/FDP of D4–5, ECU [24].",
+        "Non-myofascial: C8 radiculopathy, ulnar neuropathy — elbow vs. Guyon (dorsal-ulnar sensation spared in Guyon lesions), TFCC injury, pisotriquetral arthrosis, hypothenar hammer syndrome (ulnar-artery injury from using the palm as a hammer — vascular signs), Raynaud [5][29][35].",
+        "Hand-dominant pain with a clean hand exam should send the examination to the neck and shoulder girdle."
+      ],
+      "pain_referred_into_territory": "Pain referred TO this area (ulnar hand/D5)",
+      "caveat": "Most myofascial hand pain is imported: shoulder-girdle, arm and forearm TrPs project distally far more often than intrinsic TrPs project proximally. Patterns below are the prototype maps of Simons, Travell & Simons (Vol. 1, 2nd ed., 1999; 3rd ed., 2019) — screening guides, not fingerprints; individual spread is wide [24][25]. Non-myofascial mimics are listed per zone for the same working position [5][29][31][35]. TrP → = habitual referred-pain direction of that muscle's trigger points (Simons, Travell & Simons 1999/2019); patterns are prototypes — individual variation is wide.",
+      "sources": [
+        "[1] Standring S (ed). Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021 — Wrist and hand: intrinsic muscles, fascial spaces, vessels and nerves.",
+        "[2] Gray H. Anatomy of the Human Body. 20th ed. Philadelphia: Lea & Febiger; 1918 — §1F \"The Muscles and Fasciæ of the Hand\" (opponens digiti quinti relations, p. 464). Public domain.",
+        "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing; updated 26/07/2025. NCBI Bookshelf NBK539810.",
+        "[5] Aleksenko D, Varacallo MA. Guyon Canal Syndrome. In: StatPearls [Internet]. StatPearls Publishing; 2025 update. PMID 28613717.",
+        "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793).",
+        "[29] Gross MS, Gelberman RH. The anatomy of the distal ulnar tunnel. Clin Orthop Relat Res. 1985;(196):238-247.",
+        "[34] Petchprapa CN / Radsource MRI Web Clinic. Palmar bursae and flexor tendon sheaths of the wrist and hand. radsource.us (accessed 03/09/2026).",
+        "[35] Wolfe SW, Pederson WC, Kozin SH, Cohen MS (eds). Green's Operative Hand Surgery. 8th ed. Elsevier; 2022 — intrinsic muscle disorders, compartment syndrome, nerve palsy chapters.",
+        "[36] Schreuders TA, et al. Measurement of intrinsic muscle strength of the hand (Rotterdam Intrinsic Hand Myometer). J Hand Ther. 2006;19(4):393-401. PMID 17056399."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "id": "adductor_pollicis_l",
+  "name_ta": "Musculus adductor pollicis",
+  "name_common": "Adductor pollicis",
+  "side": "left",
+  "region": "upper_limb",
+  "overall_architecture_type": "multipennate",
+  "attachments": {
+    "origin_bone": "metacarpals_l",
+    "origin_landmark": "oblique head: capitate + bases of 2nd/3rd metacarpals (carpals_l/metacarpals_l); transverse head: anterior shaft of 3rd metacarpal",
+    "insertion_bone": "phalanges_hand_l",
+    "insertion_landmark": "proximal phalanx of thumb (ulnar side) + ulnar sesamoid, via adductor aponeurosis into the extensor expansion",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "ulnar_n_deep_branch",
+    "root_levels": "C8-T1"
+  },
+  "blood_supply": [
+    "deep_palmar_arch_l_princeps_pollicis_branch"
+  ],
+  "actions": [
+    "adducts thumb CMC/MCP toward the palm (key/lateral pinch prime mover)"
+  ],
+  "functional_compartments": [
+    {
+      "id": "adductor_pollicis_l_oblique",
+      "name": "Oblique head",
+      "innervation_branch": "ulnar n., deep branch, proximal twig",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 20,
+        "optimal_fascicle_length_mm": 30,
+        "physiological_cross_section_area_mm2": 150.0,
+        "max_isometric_force_N": 37.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          0,
+          -15,
+          10
+        ],
+        [
+          -5,
+          -25,
+          10
+        ],
+        [
+          -10,
+          -30,
+          8
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "central tendon endplate band",
+        "position_fraction_along_fascicle": 0.45,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "More proximal/oblique pull, contributes to thumb flexion component of adduction.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "relative_muscle_spindle_abundance": {
+        "value": 0.39,
+        "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+        "notes": "Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+        "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+      },
+      "innervation_branch_ids": [
+        "ulnar_n_deep_branch"
+      ]
+    },
+    {
+      "id": "adductor_pollicis_l_transverse",
+      "name": "Transverse head",
+      "innervation_branch": "ulnar n., deep branch, distal twig",
+      "fiber_architecture": {
+        "architecture_type": "convergent_triangular",
+        "pennation_deg": 15,
+        "optimal_fascicle_length_mm": 25,
+        "physiological_cross_section_area_mm2": 180.0,
+        "max_isometric_force_N": 45.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          0,
+          -65,
+          0
+        ],
+        [
+          -10,
+          -65,
+          5
+        ],
+        [
+          -20,
+          -65,
+          3
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "converging fan endplate band near the insertion tendon",
+        "position_fraction_along_fascicle": 0.55,
+        "band_width_fraction": 0.15,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Purely transverse pull, the more powerful pure-adduction compartment; architecturally distinct fan-shaped origin from the 3rd metacarpal shaft.",
+      "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell)",
+      "relative_muscle_spindle_abundance": {
+        "value": 0.34,
+        "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+        "notes": "Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+        "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+      },
+      "innervation_branch_ids": [
+        "ulnar_n_deep_branch"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity musculoskeletal model",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Transverse on the palm at the midpoint of the second and third metacarpals.",
+    "depth_layer": "Superficial to the second and third metacarpal cortices.",
+    "identification_cues": "Triangular. The transverse and oblique heads can be targeted separately.",
+    "notes": "Its spasticity resists thumb abduction and directly degrades grasp and pinch.",
+    "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity: Part I -- Distal Upper Limb Muscles', Toxins 17(3):107 (2025), doi:10.3390/toxins17030107"
+  },
+  "relative_muscle_spindle_abundance": {
+    "value": 0.52,
+    "method": "actual spindle count divided by the count predicted from muscle mass, by Banks' allometric correction",
+    "notes": "Extramuscular nerve trunk length 0.72 +/- 0.19 cm. Comparable across muscles of different size because it is normalised by predicted count rather than by mass.",
+    "source": "Xie P, Jiang Y, Zhang X, Yang S, 'The Study of Intramuscular Nerve Distribution Patterns and Relative Spindle Abundance of the Thenar and Hypothenar Muscles in Human Hand', PLoS One 7(12):e51538 (2012), doi:10.1371/journal.pone.0051538 -- 40 hands from 20 adult cadavers, modified Sihler's stain with haematoxylin-eosin spindle counts"
+  },
+  "notes": "Both heads are supplied by the deep branch of the ulnar nerve, and the source counts them as separate nerve compartments. The oblique head's branch is the thicker of the two, its intramuscular arborisation is denser, and its spindle abundance is higher (0.39 against 0.34), so the source treats the oblique head as the functionally dominant one for pinch and joint stability. Where a single injection must be chosen, that is the head the anatomy points to.",
+  "trigger_points": [
+    {
+      "location_description": "Pincer palpation of the first web space from both sides, between the oblique and transverse heads.",
+      "referred_pain_pattern": "Aching pain along the outer (radial) side of the thumb and the base of the thumb distal to the wrist crease, with spillover into the thenar eminence, first web and dorso-palmar thumb -- the pattern most often mislabelled 'arthritis of the thumb'.",
+      "activation_perpetuating_factors": "Strong sustained pinch and twisting (weeding, pruning shears, jar lids, chopsticks, smartphone 'texting thumb', surgical needle-holders); trigger points commonly persist after healed hand fractures.",
+      "notes": "Needle from the dorsal web with the thumb abducted, staying distal to the radial artery's passage between the two heads of the first dorsal interosseous. Trigger-point pain lacks the crepitant grind and instability of CMC/UCL disease and reproduces on web-pincer compression.",
+      "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 1, Ch. 39 -- as cited in this atlas's uploaded hand intrinsic muscle reference document"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "hand_intrinsic_muscles_reference_v1.html",
+      "compiled": "03/09/2026",
+      "compiled_by": "repository owner (physician); hand_intrinsic_muscles_reference_v1.html, compiled 03/09/2026. Source hierarchy used. (1) Peer-reviewed anatomical and biomechanical studies (bibliographic data and abstracts retrieved via PubMed/NCBI, 01–03/09/2026; DOIs linked in the reference list); (2) reference textbooks — Standring (Gray's Anatomy, 42nd ed., 2021), Kapandji (2007), Green's Operative Hand Surgery (8th ed., 2022), Brand & Hollister (1999); (3) Simons, Travell & Simons, The Trigger Point Manual Vol. 1, 2nd ed. (1999) and 3rd ed. (2019) for trigger-point (TrP) referral patterns; (4) StatPearls/NCBI Bookshelf for cross-checking. No item below relies on blogs or unattributed aggregators; where secondary TrP summaries were used to confirm Travell & Simons figures, they are graded accordingly in the verification table.",
+      "function_biomechanics": "The power source of key (lateral) pinch and the closing phase of opposition: adducts the 1st metacarpal, flexes the MCP with FPB, and stabilises the thumb column against the index (couple with DI-1). PCSA is in the extrinsic-muscle range — with DI-1 the strongest intrinsic by far [6]. An ulnar block drops key pinch ~77% and grip ~38% [7]; the clinical faces of that loss are Froment (FPL substitution) and Jeanne (MCP hyperextension) [31]. Structures influenced: ulnar sesamoid and MCP volar plate (pinch loading), UCL via the adductor aponeurosis (a torn ligament flipped superficial to it cannot heal — operate) [28], and the deep neurovascular plane between its heads (massage/needling landmark) [1].",
+      "adjacent_structures": "Relations · fascia · spaces: Deep to the flexor tendons and lumbricals; its palmar fascia forms the dorsal wall of the thenar space (thenar-space infections collect on it); it fills the first web with DI-1 and occupies its own osteofascial adductor compartment (decompress separately in hand compartment syndrome) [1][4][32][35].",
+      "trigger_points": [
+        {
+          "referred_pain": "39). Aching pain along the outer (radial) side of the thumb and the base of the thumb distal to the wrist crease, with spillover into the thenar eminence, first web and dorso-palmar thumb — the pattern most often mislabelled \"arthritis of the thumb\"; TrPs commonly persist after healed hand fractures [24][25].",
+          "notes": "Trigger points & referred pain (Travell & Simons Ch",
+          "activation_perpetuating_factors": "strong sustained pinch and twisting (weeding, pruning shears, jar lids, chopsticks, smartphone \"texting thumb\", surgical needle-holders). Palpate by pincer grip of the first web from both sides; needle from the dorsal web with the thumb abducted, staying distal to the radial-artery passage between the DI-1 heads.",
+          "source": "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793).; [25] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons' Myofascial Pain and Dysfunction. 3rd ed. Philadelphia: Wolters Kluwer; 2019."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Opponens pollicis, FPL, brachialis (base-of-thumb specialist), supinator and brachioradialis (dorsal web), ECRL, scalenes, subclavius, infraspinatus, DI-1 [24]; C6, radial sensory neuritis, CMC-1 arthrosis, UCL/gamekeeper injury, sesamoid pathology [35].",
+        "TrP pain lacks the crepitant grind and instability of CMC/UCL disease and reproduces on web-pincer compression."
+      ],
+      "pain_referred_into_territory": "Pain referred TO this area",
+      "caveat": "Most myofascial hand pain is imported: shoulder-girdle, arm and forearm TrPs project distally far more often than intrinsic TrPs project proximally. Patterns below are the prototype maps of Simons, Travell & Simons (Vol. 1, 2nd ed., 1999; 3rd ed., 2019) — screening guides, not fingerprints; individual spread is wide [24][25]. Non-myofascial mimics are listed per zone for the same working position [5][29][31][35]. TrP → = habitual referred-pain direction of that muscle's trigger points (Simons, Travell & Simons 1999/2019); patterns are prototypes — individual variation is wide.",
+      "sources": [
+        "[1] Standring S (ed). Gray's Anatomy: The Anatomical Basis of Clinical Practice. 42nd ed. Elsevier; 2021 — Wrist and hand: intrinsic muscles, fascial spaces, vessels and nerves.",
+        "[2] Gray H. Anatomy of the Human Body. 20th ed. Philadelphia: Lea & Febiger; 1918 — §1F \"The Muscles and Fasciæ of the Hand\" (opponens digiti quinti relations, p. 464). Public domain.",
+        "[3] Launico MV, Varacallo MA. Anatomy, Shoulder and Upper Limb: Hand Intrinsic Muscles. In: StatPearls [Internet]. StatPearls Publishing; updated 26/07/2025. NCBI Bookshelf NBK539810.",
+        "[4] Hand Compartments. In: StatPearls [Internet]. StatPearls Publishing; 2025 update. NCBI Bookshelf NBK532942.",
+        "[6] Jacobson MD, Raab R, Fazeli BM, Abrams RA, Botte MJ, Lieber RL. Architectural design of the human intrinsic hand muscles. J Hand Surg Am. 1992;17(5):804-809. doi:10.1016/0363-5023(92)90446-V",
+        "[7] Kozin SH, Porter S, Clark P, Thoder JJ. The contribution of the intrinsic muscles to grip and pinch strength. J Hand Surg Am. 1999;24(1):64-72. doi:10.1053/jhsu.1999.jhsu24a0064",
+        "[15] Henkel-Kopleck A, Schmidt HM. [The first palmar interosseous muscle of Henle]. Handchir Mikrochir Plast Chir. 2000;32(4):223-230. doi:10.1055/s-2000-10932",
+        "[16] Diogo R, Richmond BG, Wood B. Evolution and homologies of primate and modern human hand and forearm muscles, with notes on thumb movements and tool use. J Hum Evol. 2012;63(1):64-78. doi:10.1016/j.jhevol.2012.04.001",
+        "[24] Simons DG, Travell JG, Simons LS. Travell & Simons' Myofascial Pain and Dysfunction: The Trigger Point Manual, Vol. 1: Upper Half of Body. 2nd ed. Baltimore: Williams & Wilkins; 1999 — Ch. 39 (adductor & opponens pollicis), Ch. 40 (interossei, lumbricals, abductor digiti minimi; pp. 786-793).",
+        "[25] Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons' Myofascial Pain and Dysfunction. 3rd ed. Philadelphia: Wolters Kluwer; 2019.",
+        "[28] Stener B. Displacement of the ruptured ulnar collateral ligament of the metacarpo-phalangeal joint of the thumb: a clinical and anatomical study. J Bone Joint Surg Br. 1962;44-B:869-879.",
+        "[31] Goldman SB, Brininger TL, Schrader JW, Koceja DM. A review of clinical tests and signs for the assessment of ulnar neuropathy. J Hand Ther. 2009;22(3):209-219. PMID 19188042.",
+        "[32] Picasso R, et al. Ultrasound of the palmar aspect of the hand: normal anatomy and clinical applications of intrinsic-muscle imaging. J Ultrason. 2023;23(94). PMC10508329.",
+        "[33] Tan RES, Lahiri A. Vascular anatomy of the hand in relation to flaps. Hand Clin. 2020;36(1):1-8. PMID 31757342.",
+        "[35] Wolfe SW, Pederson WC, Kozin SH, Cohen MS (eds). Green's Operative Hand Surgery. 8th ed. Elsevier; 2022 — intrinsic muscle disorders, compartment syndrome, nerve palsy chapters."
+      ],
+      "tests": [
+        {
+          "name": "Froment sign",
+          "muscle_basis": "AdP (+ 1st dorsal interosseous) weakness → FPL substitution",
+          "positive_finding": "Thumb IP flexes during key pinch; ulnar palsy [31]",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No sensitivity/specificity given in the source document.",
+          "source": "[31] Goldman SB, Brininger TL, Schrader JW, Koceja DM. A review of clinical tests and signs for the assessment of ulnar neuropathy. J Hand Ther. 2009;22(3):209-219. PMID 19188042."
+        },
+        {
+          "name": "Jeanne sign",
+          "muscle_basis": "AdP + deep head FPB loss",
+          "positive_finding": "Thumb MCP hyperextension in pinch; ulnar palsy [31]",
+          "sensitivity": null,
+          "specificity": null,
+          "accuracy": "No sensitivity/specificity given in the source document.",
+          "source": "[31] Goldman SB, Brininger TL, Schrader JW, Koceja DM. A review of clinical tests and signs for the assessment of ulnar neuropathy. J Hand Ther. 2009;22(3):209-219. PMID 19188042."
+        }
+      ]
+    }
+  ]
+}

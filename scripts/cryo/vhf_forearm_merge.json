@@ -1,0 +1,15 @@
+{
+ "_README": "Muscles of the female right forearm the cryosection photographs do not separate (vhf_forearm_muscles_from_cryo.py): each compartment is the union of its members' watershed regions and is mapped to null. Decided from the run's report (boundary_support ridge ratios, per-muscle volumes vs textbook ranges), 2026-09-14.",
+ "superficial_flexor_compartment": {
+  "members": ["pronator_teres", "flexor_carpi_radialis", "palmaris_longus", "flexor_digitorum_superficialis"],
+  "note": "PT, FCR, PL and FDS from the common flexor origin: the watershed regions had volumes the muscles cannot have (PL 41 cm3, FCR 29, PT 6, FDS 29), i.e. the pale lines it followed are not the PT/FCR/PL/FDS septa; their sum (105 cm3) fits the four together."
+ },
+ "extensor_carpi_radialis_compartment": {
+  "members": ["extensor_carpi_radialis_longus", "extensor_carpi_radialis_brevis"],
+  "note": "ECRL and ECRB: their split followed a pale line at only 67% of the 73 shared levels (median ridge ratio 2.06), the weakest within-compartment boundary; kept together (43 cm3, textbook ECRL 20 + ECRB 15)."
+ },
+ "supinator_anconeus_compartment": {
+  "members": ["supinator", "anconeus"],
+  "note": "Supinator (7.6 cm3) and anconeus (0.7 cm3) at the proximal end: the anconeus region is far too small to be the muscle, and the supinator wraps the radius where its border with the mobile wad is the position rule line, not a septum."
+ }
+}

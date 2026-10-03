@@ -1,0 +1,2625 @@
+{
+ "_README": [
+  "Q185 d/e/h/i/j: generic bone-carve post-process -- soft structures sitting inside their OWN body's bone.",
+  "",
+  "    python3 scripts/bone_carve_q185.py --body vhm|vhf --subject S1 --subject S2 ... [--exclude SUBJECT:GLOB ...]",
+  "",
+  "Run by both rebuild scripts right before export_viewer_bundle.py with the SAME --subject / --exclude list, so the",
+  "records it looks at are exactly the ones the exporter ships (first subject providing an id wins). Works on the",
+  "build/vh/<subject> records IN PLACE: the untouched file is kept as vertices.preq185.f32 and every run starts from it",
+  "(idempotent; a subject rebuilt by its own script is detected by checksum and becomes the new original).",
+  "",
+  "Bone = that body's own bone, the same reference the Q185 sweep uses (scripts/placement_sweep_q185.py): TotalSegmentator",
+  "`total` bone labels inside the CT field of view OR the body's own bone meshes for bones TS does not label / that leave",
+  "the FOV (femur, hip). Signed distance: label part = EDT inside minus EDT outside (voxel-face surface, trilinear), mesh",
+  "part = exact closest point on the bone surface, side by the sweep's nearest-vertex pseudo-normal test.",
+  "",
+  "Candidates: every shipped muscle / tendon / ligament / cartilage / vessel / nerve record with > 5 % of its vertices",
+  "> 1 mm inside bone (the Q185 flag), minus EXCLUDED (bones, canal passengers, label-overlap false positives, other",
+  "queue items, hidden_default records). Per mode (MODE):",
+  "  push   (muscle, vessel, nerve): vertices > 0.5 mm inside and <= 4 mm deep move along the SDF gradient to the bone",
+  "         surface + 0.5 mm; deeper ones stay (bounded, like the project's earlier snaps)",
+  "  trim   (tendon, ligament): an insertion ends at the bone -- every in-bone vertex slides along the mesh path towards its",
+  "         nearest outside vertex to the bone surface + 0.5 mm (= the part inside bone is cut at the surface)",
+  "  shell  (cartilage): sits ON bone -- projected out (displacement diffused to the neighbours, thickness kept) only when",
+  "         the median move <= 3 mm; otherwise held + hidden by default (no new cartilage is invented)",
+  "Exit direction = the SDF gradient (label SDF Gaussian-smoothed by one voxel; mesh: towards the closest surface point)",
+  "averaged over the moved patch's mesh neighbours, so a patch moves coherently; the rim just below surface + 0.5 mm follows.",
+  "Every mode: fold guard -- faces next to moved vertices must not flip or collapse: the move of a folded face's vertices is",
+  "first relaxed (local Laplacian of the displacement, moved vertices only), what still folds is backed off (half, quarter)",
+  "and finally reverted; the shipped mesh has 0 flipped faces. A second pass runs from the first result when the gate fails. GATE: ship only if <= 5 % of vertices remain > 1 mm inside bone",
+  "and (push / shell) the enclosed volume changed by <= 25 %; else the original is kept, hidden_default set when it is",
+  "> 20 % inside bone, and the badge gives its numbers. Report: data/derived/Q185_bone_carve_<body>.json.",
+  "",
+  "Q185 b/f: the same bounded move, two more references (stages run in this order on one record: bone -> organ -> skin):",
+  "  organ push   (Q185f) abdominal-wall muscles (ORGAN_PUSH_RE) with > 5 % of vertices > 1 mm inside that body's own TS",
+  "               organ labels (the sweep's ORGANS): pushed out exactly like the bone push (<= 4 mm, surface + 0.5 mm).",
+  "  skin pull-in (Q185b) every soft record with > 1 % of its vertices outside that body's own skin mesh (ct_v?_skin, the",
+  "               sweep's embree-parity reference): vertices <= 4 mm outside move along the SDF gradient (towards the",
+  "               closest skin point) to skin surface - 1 mm; further out stay. His skin is cut flat at the torso-CT",
+  "               field-of-view edge (Q185a, x = -233 / +247 mm): outside vertices within 4 mm of / beyond such a cut are",
+  "               NOT pulled (the skin there is wrong, not the muscle) and are counted in the badge + report.",
+  "  Same fold guard / relax / second pass and hold rules: ship only if <= 5 % still outside (beyond-FOV vertices not",
+  "  counted) / in organ, |volume| <= 25 %, and (skin) no new in-bone flag; else the stage's input is kept, hidden_default",
+  "  only if > 20 % outside skin / in organ. Bone exclusion of the Q185b subjects is lifted (their bone carve is part of",
+  "  Q185b; fascia pushes like muscle). Report sections \"organ_push\" / \"skin_pull\"."
+ ],
+ "params": {
+  "offset": 0.5,
+  "inside_tol": 0.5,
+  "max_depth": 4.0,
+  "shell_median_max": 3.0,
+  "flag_mm": 1.0,
+  "flag_frac": 0.05,
+  "gate_frac": 0.05,
+  "band": 0.5,
+  "smooth_rounds": 0,
+  "gate_vol": 0.25,
+  "hide_frac": 0.2
+ },
+ "params_skin": {
+  "offset": 1.0,
+  "inside_tol": 0.0,
+  "max_depth": 4.0,
+  "shell_median_max": 3.0,
+  "flag_mm": 1.0,
+  "flag_frac": 0.05,
+  "gate_frac": 0.05,
+  "band": 1.5,
+  "smooth_rounds": 0,
+  "gate_vol": 0.25,
+  "hide_frac": 0.2
+ },
+ "params_organ": {
+  "offset": 0.5,
+  "inside_tol": 0.5,
+  "max_depth": 4.0,
+  "shell_median_max": 3.0,
+  "flag_mm": 1.0,
+  "flag_frac": 0.05,
+  "gate_frac": 0.05,
+  "band": 0.5,
+  "smooth_rounds": 0,
+  "gate_vol": 0.25,
+  "hide_frac": 0.2
+ },
+ "body": "vhf",
+ "subjects": [
+  "ct_vhf_head",
+  "ct_vhf_legs",
+  "ct_vhf_tarsal",
+  "ct_vhf_armb",
+  "ct_vhf_mcsplit",
+  "ct_vhf_descaorta",
+  "ct_vhf_hyoid_fix",
+  "ct_vhf_armm_contfix",
+  "ct_vhf_armm_contfix_mesh",
+  "ct_vhf_delt_contfix",
+  "ct_vhf_dneck_contfix",
+  "ct_vhf_dneck_contfix_mesh",
+  "ct_vhf_forearm_contfix",
+  "ct_vhf_forearm_contfix_mesh",
+  "ct_vhf_hyoid_contfix",
+  "ct_vhf_orbit_contfix",
+  "ct_vhf_pfloor_contfix",
+  "ct_vhf_abd_contfix_mesh",
+  "ct_vhf_cuff_contfix_mesh",
+  "ct_vhf_es_contfix_mesh",
+  "ct_vhf_hand_contfix_mesh",
+  "ct_vhf_left_forearm_contfix_mesh",
+  "ct_vhf_shsp_contfix_mesh",
+  "ct_vhf_twall_contfix_mesh",
+  "ct_vhf_ribs",
+  "ct_vhf",
+  "ct_vhf_headm",
+  "ct_vhf_neck",
+  "ct_vhf_neckbv",
+  "ct_vhf_orbit",
+  "ct_vhf_abd",
+  "ct_vhf_shsp",
+  "ct_vhf_delt",
+  "ct_vhf_cuff",
+  "ct_vhf_es",
+  "ct_vhf_armm",
+  "ct_vhf_forearm",
+  "ct_vhf_left_forearm",
+  "ct_vhf_dneck",
+  "ct_vhf_hyoid",
+  "ct_vhf_hand",
+  "ct_vhf_femoral",
+  "ct_vhf_popliteal",
+  "ct_vhf_pfloor",
+  "ct_vhf_twall",
+  "ct_vhf_pmr",
+  "xfer_vhm2vhf_rhom",
+  "ct_vhf_pelvis",
+  "ct_vhf_discs",
+  "ct_vhf_tam",
+  "ct_vhf_nerve",
+  "ct_vhf_skin",
+  "ct_vhf_xfersepta_fix_contfix",
+  "ct_vhf_xfersepta_fix",
+  "xfer_vhm2vhf_sep_contfix_mesh",
+  "xfer_vhm2vhf_sep_contfix",
+  "xfer_vhm2vhf_sep",
+  "xfer_vhm2vhf_tva",
+  "xfer_vhm2vhf",
+  "xfer_zan2vhf_foot",
+  "xfer_zan2vhf_head",
+  "xfer_zan2vhf_trunk",
+  "xfer_zan2vhf_limb_photo",
+  "xfer_zan2vhf_limb"
+ ],
+ "excludes": [
+  "ct_vhf:intervertebral_disc_*"
+ ],
+ "skin_fov_cut_x": [
+  null,
+  null
+ ],
+ "structures": {
+  "brachialis_r": {
+   "subject": "ct_vhf_armm_contfix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 40477,
+   "in_bone_before": 0.0777,
+   "in_bone_after": 0.0609,
+   "volume_change": 0.0114,
+   "moved": 1743,
+   "max_move_mm": 7.12,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3523,
+     "depth_max_mm": 7.75,
+     "n_rim": 755,
+     "n_too_deep": 1269,
+     "untangled": 2096,
+     "backed_off": 2689,
+     "reverted": 1625,
+     "flipped_faces_left": 0,
+     "moved": 1343,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 894,
+      "backed_off": 2058,
+      "reverted": 1285,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.1 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 7.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.1 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "triceps_brachii_l": {
+   "subject": "ct_vhf_armm_contfix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 91583,
+   "in_bone_before": 0.0775,
+   "in_bone_after": 0.0537,
+   "volume_change": 0.0042,
+   "moved": 6089,
+   "max_move_mm": 6.35,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 8136,
+     "depth_max_mm": 9.32,
+     "n_rim": 2769,
+     "n_too_deep": 2338,
+     "untangled": 5471,
+     "backed_off": 6730,
+     "reverted": 3589,
+     "flipped_faces_left": 0,
+     "moved": 4841,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 3077,
+      "backed_off": 4762,
+      "reverted": 2484,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.4 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 7.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.4 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "triceps_brachii_r": {
+   "subject": "ct_vhf_armm_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 90090,
+   "in_bone_before": 0.0617,
+   "in_bone_after": 0.0447,
+   "volume_change": -0.0015,
+   "moved": 4760,
+   "max_move_mm": 7.97,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 6558,
+     "depth_max_mm": 7.74,
+     "n_rim": 2313,
+     "n_too_deep": 1652,
+     "untangled": 5028,
+     "backed_off": 6100,
+     "reverted": 3483,
+     "flipped_faces_left": 0,
+     "moved": 3631,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 2510,
+      "backed_off": 4386,
+      "reverted": 2508,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 4760 vertices moved out of her own bone (max 8.0 mm); in-bone 6.2 % -> 4.5 %."
+  },
+  "flexor_digitorum_profundus_r": {
+   "subject": "ct_vhf_forearm_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 59633,
+   "in_bone_before": 0.082,
+   "in_bone_after": 0.0727,
+   "volume_change": 0.0018,
+   "moved": 3012,
+   "max_move_mm": 5.4,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5709,
+     "depth_max_mm": 5.5,
+     "n_rim": 2134,
+     "n_too_deep": 626,
+     "untangled": 5551,
+     "backed_off": 8593,
+     "reverted": 4876,
+     "flipped_faces_left": 0,
+     "moved": 2205,
+     "max_move_mm": 4.45,
+     "pass2": {
+      "moved": 1678,
+      "backed_off": 7937,
+      "reverted": 4283,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "7.3 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 8.2 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (7.3 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "supraspinatus_r": {
+   "subject": "ct_vhf_cuff_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 20708,
+   "in_bone_before": 0.0565,
+   "in_bone_after": 0.038,
+   "volume_change": 0.0093,
+   "moved": 1319,
+   "max_move_mm": 4.58,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 1477,
+     "depth_max_mm": 6.13,
+     "n_rim": 766,
+     "n_too_deep": 87,
+     "untangled": 1590,
+     "backed_off": 1554,
+     "reverted": 795,
+     "flipped_faces_left": 0,
+     "moved": 1319,
+     "max_move_mm": 4.58
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 1319 vertices moved out of her own bone (max 4.6 mm); in-bone 5.7 % -> 3.8 %."
+  },
+  "palmar_interossei_r": {
+   "subject": "ct_vhf_hand_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 14459,
+   "in_bone_before": 0.2703,
+   "in_bone_after": 0.1998,
+   "volume_change": 0.0939,
+   "moved": 4428,
+   "max_move_mm": 6.31,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 4976,
+     "depth_max_mm": 4.52,
+     "n_rim": 2752,
+     "n_too_deep": 84,
+     "untangled": 5233,
+     "backed_off": 8025,
+     "reverted": 3887,
+     "flipped_faces_left": 0,
+     "moved": 3620,
+     "max_move_mm": 4.12,
+     "pass2": {
+      "moved": 2143,
+      "backed_off": 6803,
+      "reverted": 3329,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "20.0 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 27.0 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (20.0 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "infraspinatus_r": {
+   "subject": "ct_vhf_shsp_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 77853,
+   "in_bone_before": 0.0867,
+   "in_bone_after": 0.0513,
+   "volume_change": 0.0097,
+   "moved": 10717,
+   "max_move_mm": 8.04,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 8868,
+     "depth_max_mm": 6.85,
+     "n_rim": 5644,
+     "n_too_deep": 345,
+     "untangled": 8960,
+     "backed_off": 9479,
+     "reverted": 4579,
+     "flipped_faces_left": 0,
+     "moved": 9323,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 4997,
+      "backed_off": 7217,
+      "reverted": 3515,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.1 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 8.7 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.1 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "infraspinatus_l": {
+   "subject": "ct_vhf_shsp_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 69308,
+   "in_bone_before": 0.0888,
+   "in_bone_after": 0.0531,
+   "volume_change": 0.0116,
+   "moved": 10328,
+   "max_move_mm": 8.43,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 8387,
+     "depth_max_mm": 6.61,
+     "n_rim": 5434,
+     "n_too_deep": 274,
+     "untangled": 8908,
+     "backed_off": 9140,
+     "reverted": 4682,
+     "flipped_faces_left": 0,
+     "moved": 8636,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 5145,
+      "backed_off": 6597,
+      "reverted": 3310,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.3 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 8.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.3 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "teres_minor_l": {
+   "subject": "ct_vhf_shsp_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 17670,
+   "in_bone_before": 0.1569,
+   "in_bone_after": 0.0787,
+   "volume_change": 0.0176,
+   "moved": 4404,
+   "max_move_mm": 7.28,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3750,
+     "depth_max_mm": 6.89,
+     "n_rim": 1721,
+     "n_too_deep": 185,
+     "untangled": 3598,
+     "backed_off": 2981,
+     "reverted": 1542,
+     "flipped_faces_left": 0,
+     "moved": 3673,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 2338,
+      "backed_off": 1845,
+      "reverted": 946,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "7.9 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 15.7 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (7.9 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "adductor_magnus_distal_tendon_l": {
+   "subject": "ct_vhf",
+   "cat": "tendon",
+   "mode": "trim",
+   "nv": 30,
+   "in_bone_before": 0.5667,
+   "in_bone_after": 0.0,
+   "volume_change": -0.3191,
+   "moved": 19,
+   "max_move_mm": 48.54,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 17,
+     "depth_max_mm": 9.01,
+     "n_rim": 2,
+     "n_no_exit": 3,
+     "untangled": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 16,
+     "max_move_mm": 47.42,
+     "pass2": {
+      "moved": 3,
+      "backed_off": 0,
+      "reverted": 0,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 19 vertices moved out of her own bone (max 48.5 mm); in-bone 56.7 % -> 0.0 % (trimmed at the bone surface)."
+  },
+  "adductor_magnus_distal_tendon_r": {
+   "subject": "ct_vhf",
+   "cat": "tendon",
+   "mode": "trim",
+   "nv": 30,
+   "in_bone_before": 0.5,
+   "in_bone_after": 0.0,
+   "volume_change": -0.4257,
+   "moved": 15,
+   "max_move_mm": 36.87,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 15,
+     "depth_max_mm": 7.94,
+     "n_rim": 0,
+     "n_no_exit": 0,
+     "untangled": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 15,
+     "max_move_mm": 36.87
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 15 vertices moved out of her own bone (max 36.9 mm); in-bone 50.0 % -> 0.0 % (trimmed at the bone surface)."
+  },
+  "iliopsoas_tendon_l": {
+   "subject": "ct_vhf",
+   "cat": "tendon",
+   "mode": "trim",
+   "nv": 30,
+   "in_bone_before": 0.1333,
+   "in_bone_after": 0.1,
+   "volume_change": 0.0337,
+   "moved": 5,
+   "max_move_mm": 2.78,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 6,
+     "depth_max_mm": 1.4,
+     "n_rim": 4,
+     "n_no_exit": 5,
+     "untangled": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 5,
+     "max_move_mm": 2.78
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "10.0 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 13.3 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (10.0 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "iliopsoas_tendon_r": {
+   "subject": "ct_vhf",
+   "cat": "tendon",
+   "mode": "trim",
+   "nv": 30,
+   "in_bone_before": 0.3333,
+   "in_bone_after": 0.0,
+   "volume_change": -0.3779,
+   "moved": 14,
+   "max_move_mm": 15.89,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 12,
+     "depth_max_mm": 3.13,
+     "n_rim": 2,
+     "n_no_exit": 0,
+     "untangled": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 14,
+     "max_move_mm": 15.89
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 14 vertices moved out of her own bone (max 15.9 mm); in-bone 33.3 % -> 0.0 % (trimmed at the bone surface)."
+  },
+  "quadriceps_tendon_l": {
+   "subject": "ct_vhf",
+   "cat": "tendon",
+   "mode": "trim",
+   "nv": 61,
+   "in_bone_before": 0.0984,
+   "in_bone_after": 0.0656,
+   "volume_change": -0.1239,
+   "moved": 7,
+   "max_move_mm": 34.86,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 6,
+     "depth_max_mm": 3.73,
+     "n_rim": 1,
+     "n_no_exit": 0,
+     "untangled": 7,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 7,
+     "max_move_mm": 15.99,
+     "pass2": {
+      "moved": 7,
+      "backed_off": 0,
+      "reverted": 0,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.6 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 9.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.6 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "quadriceps_tendon_r": {
+   "subject": "ct_vhf",
+   "cat": "tendon",
+   "mode": "trim",
+   "nv": 61,
+   "in_bone_before": 0.0656,
+   "in_bone_after": 0.0656,
+   "volume_change": 0.0426,
+   "moved": 4,
+   "max_move_mm": 8.31,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 4,
+     "depth_max_mm": 4.07,
+     "n_rim": 3,
+     "n_no_exit": 3,
+     "untangled": 4,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 4,
+     "max_move_mm": 8.31
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.6 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 6.6 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.6 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "teres_minor_r": {
+   "subject": "ct_vhf_shsp",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 19691,
+   "in_bone_before": 0.1597,
+   "in_bone_after": 0.1004,
+   "volume_change": 0.0331,
+   "moved": 3785,
+   "max_move_mm": 7.5,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3830,
+     "depth_max_mm": 7.1,
+     "n_rim": 1552,
+     "n_too_deep": 148,
+     "untangled": 4027,
+     "backed_off": 3864,
+     "reverted": 1969,
+     "flipped_faces_left": 0,
+     "moved": 3182,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 2148,
+      "backed_off": 3175,
+      "reverted": 1624,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "10.0 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 16.0 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (10.0 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "teres_major_r": {
+   "subject": "ct_vhf_shsp",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 26301,
+   "in_bone_before": 0.0839,
+   "in_bone_after": 0.059,
+   "volume_change": 0.0044,
+   "moved": 2659,
+   "max_move_mm": 7.26,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 2746,
+     "depth_max_mm": 3.51,
+     "n_rim": 1418,
+     "n_too_deep": 0,
+     "untangled": 3159,
+     "backed_off": 3636,
+     "reverted": 1828,
+     "flipped_faces_left": 0,
+     "moved": 2266,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 1462,
+      "backed_off": 3109,
+      "reverted": 1627,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.9 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 8.4 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.9 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "teres_major_l": {
+   "subject": "ct_vhf_shsp",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 27395,
+   "in_bone_before": 0.0896,
+   "in_bone_after": 0.0414,
+   "volume_change": 0.0248,
+   "moved": 4208,
+   "max_move_mm": 6.52,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3238,
+     "depth_max_mm": 3.2,
+     "n_rim": 1905,
+     "n_too_deep": 0,
+     "untangled": 3779,
+     "backed_off": 3345,
+     "reverted": 1506,
+     "flipped_faces_left": 0,
+     "moved": 3559,
+     "max_move_mm": 4.17,
+     "pass2": {
+      "moved": 2512,
+      "backed_off": 2243,
+      "reverted": 1004,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 4208 vertices moved out of her own bone (max 6.5 mm); in-bone 9.0 % -> 4.1 %."
+  },
+  "flexor_pollicis_longus_r": {
+   "subject": "ct_vhf_forearm",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 28472,
+   "in_bone_before": 0.3193,
+   "in_bone_after": 0.2258,
+   "volume_change": 0.1733,
+   "moved": 7808,
+   "max_move_mm": 5.24,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 10768,
+     "depth_max_mm": 5.89,
+     "n_rim": 3820,
+     "n_too_deep": 1189,
+     "untangled": 6982,
+     "backed_off": 11254,
+     "reverted": 7102,
+     "flipped_faces_left": 0,
+     "moved": 6125,
+     "max_move_mm": 4.49,
+     "pass2": {
+      "moved": 2704,
+      "backed_off": 9633,
+      "reverted": 5566,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "22.6 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 31.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (22.6 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "pronator_quadratus_r": {
+   "subject": "ct_vhf_forearm",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 24768,
+   "in_bone_before": 0.1277,
+   "in_bone_after": 0.1077,
+   "volume_change": -0.0125,
+   "moved": 2873,
+   "max_move_mm": 4.5,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3858,
+     "depth_max_mm": 5.46,
+     "n_rim": 2081,
+     "n_too_deep": 421,
+     "untangled": 4022,
+     "backed_off": 5624,
+     "reverted": 3121,
+     "flipped_faces_left": 0,
+     "moved": 2304,
+     "max_move_mm": 3.02,
+     "pass2": {
+      "moved": 1498,
+      "backed_off": 4952,
+      "reverted": 2696,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "10.8 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 12.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (10.8 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "adductor_pollicis_r": {
+   "subject": "ct_vhf_hand",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 19332,
+   "in_bone_before": 0.0975,
+   "in_bone_after": 0.0762,
+   "volume_change": 0.0043,
+   "moved": 1783,
+   "max_move_mm": 4.08,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 2286,
+     "depth_max_mm": 4.44,
+     "n_rim": 1082,
+     "n_too_deep": 54,
+     "untangled": 2394,
+     "backed_off": 3807,
+     "reverted": 1824,
+     "flipped_faces_left": 0,
+     "moved": 1431,
+     "max_move_mm": 3.88,
+     "pass2": {
+      "moved": 1006,
+      "backed_off": 3227,
+      "reverted": 1599,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "7.6 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 9.7 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (7.6 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "abductor_digiti_minimi_hand_r": {
+   "subject": "ct_vhf_hand",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 11910,
+   "in_bone_before": 0.082,
+   "in_bone_after": 0.0627,
+   "volume_change": 0.0241,
+   "moved": 1536,
+   "max_move_mm": 4.57,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 1354,
+     "depth_max_mm": 3.78,
+     "n_rim": 1051,
+     "n_too_deep": 0,
+     "untangled": 1729,
+     "backed_off": 2197,
+     "reverted": 1122,
+     "flipped_faces_left": 0,
+     "moved": 1236,
+     "max_move_mm": 4.57,
+     "pass2": {
+      "moved": 769,
+      "backed_off": 1867,
+      "reverted": 897,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.3 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 8.2 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.3 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "extensor_hallucis_longus_l": {
+   "subject": "ct_vhf_xfersepta_fix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 16857,
+   "in_bone_before": 0.1293,
+   "in_bone_after": 0.042,
+   "volume_change": 0.0056,
+   "moved": 3412,
+   "max_move_mm": 6.06,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 2591,
+     "depth_max_mm": 5.75,
+     "n_rim": 1069,
+     "n_too_deep": 117,
+     "untangled": 2789,
+     "backed_off": 626,
+     "reverted": 450,
+     "flipped_faces_left": 0,
+     "moved": 3048,
+     "max_move_mm": 4.79,
+     "pass2": {
+      "moved": 1767,
+      "backed_off": 295,
+      "reverted": 107,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 3412 vertices moved out of her own bone (max 6.1 mm); in-bone 12.9 % -> 4.2 %."
+  },
+  "flexor_digitorum_longus_l": {
+   "subject": "ct_vhf_xfersepta_fix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 30132,
+   "in_bone_before": 0.1555,
+   "in_bone_after": 0.0512,
+   "volume_change": 0.0605,
+   "moved": 7616,
+   "max_move_mm": 5.92,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5679,
+     "depth_max_mm": 4.72,
+     "n_rim": 2664,
+     "n_too_deep": 123,
+     "untangled": 5516,
+     "backed_off": 1788,
+     "reverted": 1381,
+     "flipped_faces_left": 0,
+     "moved": 6723,
+     "max_move_mm": 4.67,
+     "pass2": {
+      "moved": 3463,
+      "backed_off": 819,
+      "reverted": 507,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.1 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 15.6 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.1 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "obturator_internus_r": {
+   "subject": "xfer_vhm2vhf_sep_contfix_mesh",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 39812,
+   "in_bone_before": 0.0947,
+   "in_bone_after": 0.0353,
+   "volume_change": -0.0359,
+   "moved": 3562,
+   "max_move_mm": 4.88,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 4167,
+     "depth_max_mm": 5.22,
+     "n_rim": 844,
+     "n_too_deep": 428,
+     "untangled": 1208,
+     "backed_off": 1729,
+     "reverted": 979,
+     "flipped_faces_left": 0,
+     "moved": 3562,
+     "max_move_mm": 4.88
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 3562 vertices moved out of her own bone (max 4.9 mm); in-bone 9.5 % -> 3.5 %."
+  },
+  "popliteus_l": {
+   "subject": "xfer_vhm2vhf_sep_contfix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 9155,
+   "in_bone_before": 0.2119,
+   "in_bone_after": 0.0847,
+   "volume_change": 0.0549,
+   "moved": 3252,
+   "max_move_mm": 5.26,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 2414,
+     "depth_max_mm": 4.12,
+     "n_rim": 1157,
+     "n_too_deep": 4,
+     "untangled": 2815,
+     "backed_off": 1793,
+     "reverted": 860,
+     "flipped_faces_left": 0,
+     "moved": 2660,
+     "max_move_mm": 3.55,
+     "pass2": {
+      "moved": 2150,
+      "backed_off": 914,
+      "reverted": 315,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "8.5 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 21.2 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (8.5 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "tibialis_anterior_l": {
+   "subject": "xfer_vhm2vhf_sep_contfix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 35066,
+   "in_bone_before": 0.1295,
+   "in_bone_after": 0.0591,
+   "volume_change": 0.0213,
+   "moved": 6521,
+   "max_move_mm": 7.8,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5401,
+     "depth_max_mm": 5.86,
+     "n_rim": 2335,
+     "n_too_deep": 111,
+     "untangled": 5874,
+     "backed_off": 3596,
+     "reverted": 1831,
+     "flipped_faces_left": 0,
+     "moved": 5680,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 4216,
+      "backed_off": 2444,
+      "reverted": 1167,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.9 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 12.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.9 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "vastus_lateralis_l": {
+   "subject": "xfer_vhm2vhf_sep_contfix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 89320,
+   "in_bone_before": 0.0693,
+   "in_bone_after": 0.0607,
+   "volume_change": -0.001,
+   "moved": 2043,
+   "max_move_mm": 5.26,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 6603,
+     "depth_max_mm": 16.13,
+     "n_rim": 755,
+     "n_too_deep": 4211,
+     "untangled": 2451,
+     "backed_off": 2936,
+     "reverted": 1678,
+     "flipped_faces_left": 0,
+     "moved": 1429,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 1180,
+      "backed_off": 2002,
+      "reverted": 1172,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.1 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 6.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.1 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "vastus_medialis_l": {
+   "subject": "xfer_vhm2vhf_sep_contfix",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 70828,
+   "in_bone_before": 0.0725,
+   "in_bone_after": 0.0435,
+   "volume_change": -0.0004,
+   "moved": 5459,
+   "max_move_mm": 5.37,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 6008,
+     "depth_max_mm": 8.17,
+     "n_rim": 1989,
+     "n_too_deep": 520,
+     "untangled": 6326,
+     "backed_off": 5761,
+     "reverted": 2989,
+     "flipped_faces_left": 0,
+     "moved": 4361,
+     "max_move_mm": 4.65,
+     "pass2": {
+      "moved": 3677,
+      "backed_off": 4262,
+      "reverted": 2152,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 5459 vertices moved out of her own bone (max 5.4 mm); in-bone 7.2 % -> 4.3 %."
+  },
+  "fibularis_longus_l": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 34074,
+   "in_bone_before": 0.0824,
+   "in_bone_after": 0.0445,
+   "volume_change": -0.0054,
+   "moved": 5336,
+   "max_move_mm": 5.0,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3764,
+     "depth_max_mm": 5.99,
+     "n_rim": 2406,
+     "n_too_deep": 62,
+     "untangled": 5201,
+     "backed_off": 1764,
+     "reverted": 647,
+     "flipped_faces_left": 0,
+     "moved": 5336,
+     "max_move_mm": 5.0
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 5336 vertices moved out of her own bone (max 5.0 mm); in-bone 8.2 % -> 4.4 %."
+  },
+  "fibularis_longus_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 41732,
+   "in_bone_before": 0.0511,
+   "in_bone_after": 0.0227,
+   "volume_change": -0.0051,
+   "moved": 4189,
+   "max_move_mm": 2.82,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3025,
+     "depth_max_mm": 2.78,
+     "n_rim": 1719,
+     "n_too_deep": 0,
+     "untangled": 3722,
+     "backed_off": 1440,
+     "reverted": 486,
+     "flipped_faces_left": 0,
+     "moved": 4189,
+     "max_move_mm": 2.82
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 4189 vertices moved out of her own bone (max 2.8 mm); in-bone 5.1 % -> 2.3 %."
+  },
+  "flexor_digitorum_longus_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 14426,
+   "in_bone_before": 0.3148,
+   "in_bone_after": 0.148,
+   "volume_change": 0.1734,
+   "moved": 5907,
+   "max_move_mm": 6.64,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5332,
+     "depth_max_mm": 4.82,
+     "n_rim": 1622,
+     "n_too_deep": 109,
+     "untangled": 5330,
+     "backed_off": 4304,
+     "reverted": 2200,
+     "flipped_faces_left": 0,
+     "moved": 4571,
+     "max_move_mm": 4.43,
+     "pass2": {
+      "moved": 3856,
+      "backed_off": 2436,
+      "reverted": 983,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "14.8 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 31.5 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (14.8 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "flexor_hallucis_longus_l": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 34064,
+   "in_bone_before": 0.0813,
+   "in_bone_after": 0.0492,
+   "volume_change": 0.001,
+   "moved": 4302,
+   "max_move_mm": 5.0,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3537,
+     "depth_max_mm": 6.4,
+     "n_rim": 1793,
+     "n_too_deep": 81,
+     "untangled": 4675,
+     "backed_off": 2186,
+     "reverted": 858,
+     "flipped_faces_left": 0,
+     "moved": 4302,
+     "max_move_mm": 5.0
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 4302 vertices moved out of her own bone (max 5.0 mm); in-bone 8.1 % -> 4.9 %."
+  },
+  "flexor_hallucis_longus_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 30916,
+   "in_bone_before": 0.1131,
+   "in_bone_after": 0.0454,
+   "volume_change": -0.0048,
+   "moved": 5626,
+   "max_move_mm": 4.91,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 4536,
+     "depth_max_mm": 5.73,
+     "n_rim": 1898,
+     "n_too_deep": 108,
+     "untangled": 5239,
+     "backed_off": 3080,
+     "reverted": 1141,
+     "flipped_faces_left": 0,
+     "moved": 5119,
+     "max_move_mm": 4.41,
+     "pass2": {
+      "moved": 3923,
+      "backed_off": 2074,
+      "reverted": 793,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 5626 vertices moved out of her own bone (max 4.9 mm); in-bone 11.3 % -> 4.5 %."
+  },
+  "obturator_externus_l": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 27924,
+   "in_bone_before": 0.1896,
+   "in_bone_after": 0.1281,
+   "volume_change": 0.004,
+   "moved": 3652,
+   "max_move_mm": 6.92,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5723,
+     "depth_max_mm": 10.46,
+     "n_rim": 1178,
+     "n_too_deep": 2408,
+     "untangled": 2359,
+     "backed_off": 2535,
+     "reverted": 1515,
+     "flipped_faces_left": 0,
+     "moved": 2912,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 1495,
+      "backed_off": 1632,
+      "reverted": 850,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "12.8 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 19.0 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (12.8 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "obturator_externus_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 27564,
+   "in_bone_before": 0.1712,
+   "in_bone_after": 0.1162,
+   "volume_change": -0.0113,
+   "moved": 3273,
+   "max_move_mm": 5.96,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5154,
+     "depth_max_mm": 10.3,
+     "n_rim": 1186,
+     "n_too_deep": 1994,
+     "untangled": 2166,
+     "backed_off": 2793,
+     "reverted": 1639,
+     "flipped_faces_left": 0,
+     "moved": 2638,
+     "max_move_mm": 4.77,
+     "pass2": {
+      "moved": 1226,
+      "backed_off": 1816,
+      "reverted": 1059,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "11.6 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 17.1 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (11.6 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "plantaris_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 7894,
+   "in_bone_before": 0.0584,
+   "in_bone_after": 0.031,
+   "volume_change": -0.0277,
+   "moved": 415,
+   "max_move_mm": 3.78,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 522,
+     "depth_max_mm": 4.32,
+     "n_rim": 195,
+     "n_too_deep": 5,
+     "untangled": 377,
+     "backed_off": 641,
+     "reverted": 289,
+     "flipped_faces_left": 0,
+     "moved": 415,
+     "max_move_mm": 3.78
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 415 vertices moved out of her own bone (max 3.8 mm); in-bone 5.8 % -> 3.1 %."
+  },
+  "popliteus_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 8630,
+   "in_bone_before": 0.1619,
+   "in_bone_after": 0.044,
+   "volume_change": 0.0551,
+   "moved": 3083,
+   "max_move_mm": 3.77,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 1896,
+     "depth_max_mm": 3.66,
+     "n_rim": 1410,
+     "n_too_deep": 0,
+     "untangled": 2024,
+     "backed_off": 934,
+     "reverted": 360,
+     "flipped_faces_left": 0,
+     "moved": 2871,
+     "max_move_mm": 3.57,
+     "pass2": {
+      "moved": 1510,
+      "backed_off": 623,
+      "reverted": 224,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 3083 vertices moved out of her own bone (max 3.8 mm); in-bone 16.2 % -> 4.4 %."
+  },
+  "quadratus_femoris_l": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 13258,
+   "in_bone_before": 0.1592,
+   "in_bone_after": 0.1211,
+   "volume_change": -0.005,
+   "moved": 1460,
+   "max_move_mm": 4.85,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 2327,
+     "depth_max_mm": 10.46,
+     "n_rim": 599,
+     "n_too_deep": 980,
+     "untangled": 1263,
+     "backed_off": 1379,
+     "reverted": 740,
+     "flipped_faces_left": 0,
+     "moved": 1165,
+     "max_move_mm": 4.47,
+     "pass2": {
+      "moved": 744,
+      "backed_off": 1062,
+      "reverted": 521,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "12.1 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 15.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (12.1 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "quadratus_femoris_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 14354,
+   "in_bone_before": 0.2128,
+   "in_bone_after": 0.1797,
+   "volume_change": -0.0056,
+   "moved": 1308,
+   "max_move_mm": 5.19,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 3239,
+     "depth_max_mm": 11.01,
+     "n_rim": 455,
+     "n_too_deep": 1718,
+     "untangled": 1757,
+     "backed_off": 1885,
+     "reverted": 1006,
+     "flipped_faces_left": 0,
+     "moved": 949,
+     "max_move_mm": 4.49,
+     "pass2": {
+      "moved": 889,
+      "backed_off": 1483,
+      "reverted": 747,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "18.0 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 21.3 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (18.0 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "tibialis_posterior_l": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 34042,
+   "in_bone_before": 0.1001,
+   "in_bone_after": 0.0332,
+   "volume_change": -0.0131,
+   "moved": 6301,
+   "max_move_mm": 5.57,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 4404,
+     "depth_max_mm": 3.37,
+     "n_rim": 2314,
+     "n_too_deep": 0,
+     "untangled": 4911,
+     "backed_off": 2288,
+     "reverted": 961,
+     "flipped_faces_left": 0,
+     "moved": 5647,
+     "max_move_mm": 3.75,
+     "pass2": {
+      "moved": 3842,
+      "backed_off": 1311,
+      "reverted": 444,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 6301 vertices moved out of her own bone (max 5.6 mm); in-bone 10.0 % -> 3.3 %."
+  },
+  "tibialis_posterior_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 35538,
+   "in_bone_before": 0.1342,
+   "in_bone_after": 0.0429,
+   "volume_change": -0.0095,
+   "moved": 7874,
+   "max_move_mm": 5.03,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 5937,
+     "depth_max_mm": 4.29,
+     "n_rim": 2668,
+     "n_too_deep": 4,
+     "untangled": 5910,
+     "backed_off": 3336,
+     "reverted": 1412,
+     "flipped_faces_left": 0,
+     "moved": 7069,
+     "max_move_mm": 3.81,
+     "pass2": {
+      "moved": 4413,
+      "backed_off": 1936,
+      "reverted": 797,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 7874 vertices moved out of her own bone (max 5.0 mm); in-bone 13.4 % -> 4.3 %."
+  },
+  "vastus_intermedius_l": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 79580,
+   "in_bone_before": 0.1475,
+   "in_bone_after": 0.1053,
+   "volume_change": 0.0067,
+   "moved": 8256,
+   "max_move_mm": 6.66,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 12955,
+     "depth_max_mm": 11.74,
+     "n_rim": 2837,
+     "n_too_deep": 3940,
+     "untangled": 9112,
+     "backed_off": 9508,
+     "reverted": 5368,
+     "flipped_faces_left": 0,
+     "moved": 6313,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 5075,
+      "backed_off": 6833,
+      "reverted": 3784,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "10.5 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 14.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (10.5 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "vastus_intermedius_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 89576,
+   "in_bone_before": 0.1297,
+   "in_bone_after": 0.0925,
+   "volume_change": 0.0001,
+   "moved": 7984,
+   "max_move_mm": 5.54,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 12645,
+     "depth_max_mm": 11.46,
+     "n_rim": 2512,
+     "n_too_deep": 4014,
+     "untangled": 8140,
+     "backed_off": 8456,
+     "reverted": 4941,
+     "flipped_faces_left": 0,
+     "moved": 6089,
+     "max_move_mm": 5.0,
+     "pass2": {
+      "moved": 4486,
+      "backed_off": 5998,
+      "reverted": 3381,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "9.2 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 13.0 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (9.2 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "vastus_medialis_r": {
+   "subject": "xfer_vhm2vhf_sep",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 62470,
+   "in_bone_before": 0.098,
+   "in_bone_after": 0.062,
+   "volume_change": 0.0035,
+   "moved": 6815,
+   "max_move_mm": 4.91,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 7156,
+     "depth_max_mm": 9.33,
+     "n_rim": 2570,
+     "n_too_deep": 729,
+     "untangled": 7561,
+     "backed_off": 6457,
+     "reverted": 3393,
+     "flipped_faces_left": 0,
+     "moved": 5482,
+     "max_move_mm": 3.82,
+     "pass2": {
+      "moved": 4404,
+      "backed_off": 4760,
+      "reverted": 2409,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "6.2 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 9.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.2 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "ankle_articular_cartilage_l": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 907,
+   "in_bone_before": 0.3627,
+   "in_bone_after": 0.0066,
+   "volume_change": -0.365,
+   "moved": 892,
+   "max_move_mm": 5.65,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 444,
+     "depth_max_mm": 5.15,
+     "median_move_mm": 1.98,
+     "untangled": 254,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 892,
+     "max_move_mm": 5.65
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "volume -36 %",
+   "badge": "Q185 bone carve HELD: 36.3 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (volume -36 %), so the unmodified mesh is shown -- hidden by default."
+  },
+  "ankle_articular_cartilage_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 896,
+   "in_bone_before": 0.3281,
+   "in_bone_after": 0.0067,
+   "volume_change": -0.3471,
+   "moved": 815,
+   "max_move_mm": 4.98,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 403,
+     "depth_max_mm": 4.79,
+     "median_move_mm": 1.88,
+     "untangled": 259,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 815,
+     "max_move_mm": 4.98
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "volume -35 %",
+   "badge": "Q185 bone carve HELD: 32.8 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (volume -35 %), so the unmodified mesh is shown -- hidden by default."
+  },
+  "anterior_cruciate_ligament_l": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "ligament",
+   "mode": "trim",
+   "nv": 448,
+   "in_bone_before": 0.125,
+   "in_bone_after": 0.058,
+   "volume_change": -0.0496,
+   "moved": 95,
+   "max_move_mm": 6.79,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 83,
+     "depth_max_mm": 3.98,
+     "n_rim": 48,
+     "n_no_exit": 0,
+     "untangled": 123,
+     "backed_off": 58,
+     "reverted": 43,
+     "flipped_faces_left": 0,
+     "moved": 88,
+     "max_move_mm": 3.76,
+     "pass2": {
+      "moved": 66,
+      "backed_off": 65,
+      "reverted": 36,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.8 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 12.5 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (5.8 % still > 1 mm inside), so the unmodified mesh is shown."
+  },
+  "anterior_cruciate_ligament_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "ligament",
+   "mode": "trim",
+   "nv": 442,
+   "in_bone_before": 0.0882,
+   "in_bone_after": 0.0452,
+   "volume_change": -0.0292,
+   "moved": 94,
+   "max_move_mm": 5.34,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 57,
+     "depth_max_mm": 2.97,
+     "n_rim": 37,
+     "n_no_exit": 0,
+     "untangled": 69,
+     "backed_off": 4,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 94,
+     "max_move_mm": 5.34
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 94 vertices moved out of her own bone (max 5.3 mm); in-bone 8.8 % -> 4.5 % (trimmed at the bone surface)."
+  },
+  "coracobrachialis_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 1713,
+   "in_bone_before": 0.0584,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0723,
+   "moved": 236,
+   "max_move_mm": 4.16,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 144,
+     "depth_max_mm": 2.92,
+     "n_rim": 101,
+     "n_too_deep": 0,
+     "untangled": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 236,
+     "max_move_mm": 4.16
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 236 vertices moved out of her own bone (max 4.2 mm); in-bone 5.8 % -> 0.0 %."
+  },
+  "hip_articular_cartilage_l": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 931,
+   "in_bone_before": 0.8647,
+   "in_bone_after": 0.8647,
+   "volume_change": 0.0,
+   "moved": 0,
+   "max_move_mm": 0.0,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 837,
+     "depth_max_mm": 17.9,
+     "median_move_mm": 5.37,
+     "moved": 0,
+     "refused": "median move > 3.0 mm"
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "median move > 3.0 mm",
+   "badge": "Q185 bone carve HELD: 86.5 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (median move > 3.0 mm), so the unmodified mesh is shown -- hidden by default."
+  },
+  "hip_articular_cartilage_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 879,
+   "in_bone_before": 0.8191,
+   "in_bone_after": 0.8191,
+   "volume_change": 0.0,
+   "moved": 0,
+   "max_move_mm": 0.0,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 765,
+     "depth_max_mm": 18.23,
+     "median_move_mm": 5.71,
+     "moved": 0,
+     "refused": "median move > 3.0 mm"
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "median move > 3.0 mm",
+   "badge": "Q185 bone carve HELD: 81.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (median move > 3.0 mm), so the unmodified mesh is shown -- hidden by default."
+  },
+  "knee_articular_cartilage_l": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 1582,
+   "in_bone_before": 0.158,
+   "in_bone_after": 0.0025,
+   "volume_change": -0.2224,
+   "moved": 819,
+   "max_move_mm": 5.08,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 331,
+     "depth_max_mm": 4.58,
+     "median_move_mm": 1.96,
+     "untangled": 86,
+     "backed_off": 6,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 819,
+     "max_move_mm": 5.08
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 819 vertices moved out of her own bone (max 5.1 mm); in-bone 15.8 % -> 0.3 %."
+  },
+  "knee_articular_cartilage_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 1594,
+   "in_bone_before": 0.1593,
+   "in_bone_after": 0.0138,
+   "volume_change": -0.2899,
+   "moved": 885,
+   "max_move_mm": 4.86,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 346,
+     "depth_max_mm": 4.36,
+     "median_move_mm": 1.98,
+     "untangled": 139,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 885,
+     "max_move_mm": 4.86
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "volume -29 %",
+   "badge": "Q185 bone carve HELD: 15.9 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (volume -29 %), so the unmodified mesh is shown."
+  },
+  "patellofemoral_articular_cartilage_l": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 569,
+   "in_bone_before": 0.2337,
+   "in_bone_after": 0.0158,
+   "volume_change": -0.1599,
+   "moved": 329,
+   "max_move_mm": 5.47,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 174,
+     "depth_max_mm": 4.02,
+     "median_move_mm": 2.06,
+     "untangled": 45,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 329,
+     "max_move_mm": 5.47
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 329 vertices moved out of her own bone (max 5.5 mm); in-bone 23.4 % -> 1.6 %."
+  },
+  "patellofemoral_articular_cartilage_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "cartilage",
+   "mode": "shell",
+   "nv": 573,
+   "in_bone_before": 0.1955,
+   "in_bone_after": 0.0017,
+   "volume_change": -0.2518,
+   "moved": 312,
+   "max_move_mm": 4.29,
+   "records": [
+    {
+     "mode": "shell",
+     "n_in_tol": 143,
+     "depth_max_mm": 3.61,
+     "median_move_mm": 2.18,
+     "untangled": 21,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 312,
+     "max_move_mm": 4.29
+    }
+   ],
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "volume -25 %",
+   "badge": "Q185 bone carve HELD: 19.5 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (volume -25 %), so the unmodified mesh is shown."
+  },
+  "posterior_cruciate_ligament_l": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "ligament",
+   "mode": "trim",
+   "nv": 440,
+   "in_bone_before": 0.3227,
+   "in_bone_after": 0.25,
+   "volume_change": 0.0171,
+   "moved": 132,
+   "max_move_mm": 7.16,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 163,
+     "depth_max_mm": 5.03,
+     "n_rim": 55,
+     "n_no_exit": 0,
+     "untangled": 212,
+     "backed_off": 194,
+     "reverted": 142,
+     "flipped_faces_left": 0,
+     "moved": 76,
+     "max_move_mm": 4.28,
+     "pass2": {
+      "moved": 107,
+      "backed_off": 163,
+      "reverted": 92,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "25.0 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 32.3 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (25.0 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "posterior_cruciate_ligament_r": {
+   "subject": "xfer_vhm2vhf",
+   "cat": "ligament",
+   "mode": "trim",
+   "nv": 445,
+   "in_bone_before": 0.1011,
+   "in_bone_after": 0.009,
+   "volume_change": -0.0752,
+   "moved": 106,
+   "max_move_mm": 4.88,
+   "records": [
+    {
+     "mode": "trim",
+     "n_in_tol": 56,
+     "depth_max_mm": 2.3,
+     "n_rim": 50,
+     "n_no_exit": 0,
+     "untangled": 89,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 106,
+     "max_move_mm": 4.88
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 106 vertices moved out of her own bone (max 4.9 mm); in-bone 10.1 % -> 0.9 % (trimmed at the bone surface)."
+  },
+  "flexor_hallucis_brevis_l": {
+   "subject": "xfer_zan2vhf_foot",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 740,
+   "in_bone_before": 0.0973,
+   "in_bone_after": 0.0419,
+   "volume_change": -0.0151,
+   "moved": 169,
+   "max_move_mm": 4.75,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 99,
+     "depth_max_mm": 4.43,
+     "n_rim": 84,
+     "n_too_deep": 3,
+     "untangled": 142,
+     "backed_off": 17,
+     "reverted": 3,
+     "flipped_faces_left": 0,
+     "moved": 169,
+     "max_move_mm": 4.75
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 169 vertices moved out of her own bone (max 4.7 mm); in-bone 9.7 % -> 4.2 %."
+  },
+  "rectus_capitis_anterior_l": {
+   "subject": "xfer_zan2vhf_head",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 200,
+   "in_bone_before": 0.205,
+   "in_bone_after": 0.065,
+   "volume_change": -0.2996,
+   "moved": 62,
+   "max_move_mm": 4.87,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 45,
+     "depth_max_mm": 3.79,
+     "n_rim": 22,
+     "n_too_deep": 0,
+     "untangled": 58,
+     "backed_off": 24,
+     "reverted": 8,
+     "flipped_faces_left": 0,
+     "moved": 58,
+     "max_move_mm": 3.94,
+     "pass2": {
+      "moved": 38,
+      "backed_off": 20,
+      "reverted": 6,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": false,
+   "hidden_default": true,
+   "held_reason": "6.5 % still > 1 mm inside",
+   "badge": "Q185 bone carve HELD: 20.5 % of this mesh lies > 1 mm inside her own bone; the bounded carve (<= 4 mm push / cartilage <= 3 mm median) did not fix it (6.5 % still > 1 mm inside), so the unmodified mesh is shown -- hidden by default."
+  },
+  "rectus_capitis_lateralis_l": {
+   "subject": "xfer_zan2vhf_head",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 182,
+   "in_bone_before": 0.1099,
+   "in_bone_after": 0.011,
+   "volume_change": -0.1092,
+   "moved": 53,
+   "max_move_mm": 2.15,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 34,
+     "depth_max_mm": 2.61,
+     "n_rim": 19,
+     "n_too_deep": 0,
+     "untangled": 37,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 53,
+     "max_move_mm": 2.15
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 53 vertices moved out of her own bone (max 2.2 mm); in-bone 11.0 % -> 1.1 %."
+  },
+  "rectus_capitis_lateralis_r": {
+   "subject": "xfer_zan2vhf_head",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 182,
+   "in_bone_before": 0.1429,
+   "in_bone_after": 0.022,
+   "volume_change": -0.1504,
+   "moved": 58,
+   "max_move_mm": 2.67,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 41,
+     "depth_max_mm": 2.66,
+     "n_rim": 17,
+     "n_too_deep": 0,
+     "untangled": 58,
+     "backed_off": 6,
+     "reverted": 0,
+     "flipped_faces_left": 0,
+     "moved": 58,
+     "max_move_mm": 2.67
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 58 vertices moved out of her own bone (max 2.7 mm); in-bone 14.3 % -> 2.2 %."
+  },
+  "opponens_pollicis_r": {
+   "subject": "xfer_zan2vhf_limb_photo",
+   "cat": "muscle",
+   "mode": "push",
+   "nv": 14248,
+   "in_bone_before": 0.0664,
+   "in_bone_after": 0.043,
+   "volume_change": 0.0141,
+   "moved": 1866,
+   "max_move_mm": 3.26,
+   "records": [
+    {
+     "mode": "push",
+     "n_in_tol": 1342,
+     "depth_max_mm": 3.82,
+     "n_rim": 1220,
+     "n_too_deep": 0,
+     "untangled": 1555,
+     "backed_off": 1559,
+     "reverted": 901,
+     "flipped_faces_left": 0,
+     "moved": 1614,
+     "max_move_mm": 2.76,
+     "pass2": {
+      "moved": 854,
+      "backed_off": 1290,
+      "reverted": 722,
+      "flipped_faces_left": 0
+     }
+    }
+   ],
+   "shipped": true,
+   "hidden_default": false,
+   "badge": "Q185 bone carve: 1866 vertices moved out of her own bone (max 3.3 mm); in-bone 6.6 % -> 4.3 %."
+  }
+ },
+ "skipped_flagged": {
+  "lateral_pterygoid_r": {
+   "subject": "ct_vhf_headm",
+   "reason": "label-overlap false positive / Q185c disc",
+   "in_bone_frac": 0.1172
+  },
+  "lateral_pterygoid_l": {
+   "subject": "ct_vhf_headm",
+   "reason": "label-overlap false positive / Q185c disc",
+   "in_bone_frac": 0.0658
+  },
+  "internal_carotid_a_r": {
+   "subject": "ct_vhf_neckbv",
+   "reason": "Q185 exclusion (bone canal)",
+   "in_bone_frac": 0.0674
+  },
+  "internal_carotid_a_l": {
+   "subject": "ct_vhf_neckbv",
+   "reason": "Q185 exclusion (bone canal)",
+   "in_bone_frac": 0.0589
+  }
+ },
+ "organ_push": {},
+ "skin_pull": {
+  "abductor_hallucis_l": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.0853,
+   "outside_pullable": 0.0853,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0071,
+   "in_bone_after": 0.0071,
+   "volume_change": -0.0524,
+   "moved": 433,
+   "max_move_mm": 3.49,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 433 vertices pulled inside her own skin (to 1 mm below it, max 3.5 mm); outside skin 8.5 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 433,
+     "n_too_deep": 0,
+     "backed_off": 44,
+     "reverted": 13,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "adductor_hallucis_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.0205,
+   "outside_pullable": 0.0205,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0142,
+   "in_bone_after": 0.0142,
+   "volume_change": -0.0054,
+   "moved": 51,
+   "max_move_mm": 3.62,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 51 vertices pulled inside her own skin (to 1 mm below it, max 3.6 mm); outside skin 2.0 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 51,
+     "n_too_deep": 0,
+     "backed_off": 3,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "antebrachial_fascia_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "fascia",
+   "outside_before": 0.0123,
+   "outside_pullable": 0.0123,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0004,
+   "outside_pullable_after": 0.0004,
+   "in_bone_before": 0.0053,
+   "in_bone_after": 0.0053,
+   "volume_change": 0.0113,
+   "moved": 146,
+   "max_move_mm": 6.0,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 146 vertices pulled inside her own skin (to 1 mm below it, max 6.0 mm); outside skin 1.2 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 146,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "dorsal_interossei_foot_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.2051,
+   "outside_pullable": 0.2051,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0051,
+   "outside_pullable_after": 0.0051,
+   "in_bone_before": 0.001,
+   "in_bone_after": 0.001,
+   "volume_change": -0.1163,
+   "moved": 353,
+   "max_move_mm": 3.61,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 353 vertices pulled inside her own skin (to 1 mm below it, max 3.6 mm); outside skin 20.5 % -> 0.5 %.",
+   "records": [
+    {
+     "moved": 353,
+     "n_too_deep": 0,
+     "backed_off": 4,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "flexor_retinaculum_ankle_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "fascia",
+   "outside_before": 0.0743,
+   "outside_pullable": 0.0743,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0496,
+   "moved": 83,
+   "max_move_mm": 2.22,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 83 vertices pulled inside her own skin (to 1 mm below it, max 2.2 mm); outside skin 7.4 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 83,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "flexor_retinaculum_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "fascia",
+   "outside_before": 0.178,
+   "outside_pullable": 0.178,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.053,
+   "outside_pullable_after": 0.053,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.056,
+   "moved": 110,
+   "max_move_mm": 11.45,
+   "shipped": false,
+   "hidden_default": false,
+   "held_reason": "5.3 % still flagged",
+   "badge": "Q185 skin pull-in HELD: 17.8 % of this mesh lies outside her own skin; the bounded pull-in (<= 4 mm) did not fix it (5.3 % still outside), so the mesh is shown without it.",
+   "records": [
+    {
+     "moved": 110,
+     "n_too_deep": 8,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "peroneal_retinaculum_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "fascia",
+   "outside_before": 0.0976,
+   "outside_pullable": 0.0976,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0091,
+   "in_bone_after": 0.0091,
+   "volume_change": -0.1195,
+   "moved": 116,
+   "max_move_mm": 1.71,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 116 vertices pulled inside her own skin (to 1 mm below it, max 1.7 mm); outside skin 9.8 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 116,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "plantar_aponeurosis_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "fascia",
+   "outside_before": 0.1542,
+   "outside_pullable": 0.1542,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0333,
+   "outside_pullable_after": 0.0333,
+   "in_bone_before": 0.0083,
+   "in_bone_after": 0.0083,
+   "volume_change": -0.0158,
+   "moved": 92,
+   "max_move_mm": 3.28,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 92 vertices pulled inside her own skin (to 1 mm below it, max 3.3 mm); outside skin 15.4 % -> 3.3 %.",
+   "records": [
+    {
+     "moved": 72,
+     "n_too_deep": 0,
+     "backed_off": 43,
+     "reverted": 25,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "plantar_interossei_l": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.3062,
+   "outside_pullable": 0.3062,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0351,
+   "outside_pullable_after": 0.0351,
+   "in_bone_before": 0.0032,
+   "in_bone_after": 0.0032,
+   "volume_change": -0.0973,
+   "moved": 259,
+   "max_move_mm": 2.72,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 259 vertices pulled inside her own skin (to 1 mm below it, max 2.7 mm); outside skin 30.6 % -> 3.5 %.",
+   "records": [
+    {
+     "moved": 259,
+     "n_too_deep": 0,
+     "backed_off": 55,
+     "reverted": 25,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "plantar_interossei_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.1563,
+   "outside_pullable": 0.1563,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0447,
+   "outside_pullable_after": 0.0447,
+   "in_bone_before": 0.0,
+   "in_bone_after": 0.0,
+   "volume_change": -0.0674,
+   "moved": 170,
+   "max_move_mm": 3.19,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 170 vertices pulled inside her own skin (to 1 mm below it, max 3.2 mm); outside skin 15.6 % -> 4.5 %.",
+   "records": [
+    {
+     "moved": 170,
+     "n_too_deep": 0,
+     "backed_off": 71,
+     "reverted": 36,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "quadratus_plantae_l": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.0254,
+   "outside_pullable": 0.0254,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.022,
+   "in_bone_after": 0.022,
+   "volume_change": -0.0067,
+   "moved": 32,
+   "max_move_mm": 1.56,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 32 vertices pulled inside her own skin (to 1 mm below it, max 1.6 mm); outside skin 2.5 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 32,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  },
+  "quadratus_plantae_r": {
+   "subject": "xfer_zan2vhf_limb",
+   "cat": "muscle",
+   "outside_before": 0.0119,
+   "outside_pullable": 0.0119,
+   "outside_beyond_fov_cut": 0.0,
+   "n_beyond_fov_cut": 0,
+   "outside_after": 0.0,
+   "outside_pullable_after": 0.0,
+   "in_bone_before": 0.0373,
+   "in_bone_after": 0.0373,
+   "volume_change": -0.0054,
+   "moved": 36,
+   "max_move_mm": 1.87,
+   "shipped": true,
+   "hidden_default": false,
+   "held_reason": null,
+   "badge": "Q185 skin pull-in: 36 vertices pulled inside her own skin (to 1 mm below it, max 1.9 mm); outside skin 1.2 % -> 0.0 %.",
+   "records": [
+    {
+     "moved": 36,
+     "n_too_deep": 0,
+     "backed_off": 0,
+     "reverted": 0,
+     "flipped_faces_left": 0
+    }
+   ]
+  }
+ },
+ "orbit_reseat": {},
+ "summary": {
+  "candidates": 63,
+  "shipped": 26,
+  "held": 37,
+  "hidden": 11
+ },
+ "summary_organ": {
+  "candidates": 0,
+  "shipped": 0,
+  "held": 0,
+  "hidden": 0
+ },
+ "summary_skin": {
+  "candidates": 12,
+  "shipped": 11,
+  "held": 1,
+  "hidden": 0
+ },
+ "summary_orbit": {}
+}
