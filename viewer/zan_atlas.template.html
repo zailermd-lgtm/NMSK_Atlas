@@ -160,12 +160,16 @@
     border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);
     padding:.85rem;overflow-y:auto;-webkit-overflow-scrolling:touch}
   #info.hidden{display:none}
+  #info.min .info-more{display:none}
+  #info.min{max-height:none;padding-bottom:.6rem}
+  .info-min{position:absolute;top:.45rem;right:2.1rem;background:none;border:0;
+    font-size:1.35rem;line-height:1;color:var(--ink-dim);padding:.1rem .3rem}
   .info-close{position:absolute;top:.45rem;right:.5rem;background:none;border:0;
     font-size:1.35rem;line-height:1;color:var(--ink-dim);padding:.1rem .3rem}
   #info .kind{font-family:var(--f-mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
     padding:.13rem .4rem;border-radius:4px;border:1px solid currentColor;display:inline-block;margin-bottom:.4rem}
   #info h2{margin:0 0 .12rem;font-family:var(--f-display);font-weight:600;font-size:1.06rem;
-    line-height:1.24;text-wrap:balance;padding-right:1.4rem}
+    line-height:1.24;text-wrap:balance;padding-right:3.2rem}
   #info .sub2{font-family:var(--f-mono);font-size:.66rem;color:var(--ink-dim);margin:0 0 .5rem}
   .facts{display:grid;grid-template-columns:auto 1fr;gap:.26rem .6rem;font-size:.77rem;margin:.45rem 0 0}
   .facts dt{font-family:var(--f-mono);font-size:.63rem;letter-spacing:.05em;text-transform:uppercase;
@@ -1002,13 +1006,16 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     searchEl.oninput=renderList; renderList();
 
     var infoEl=document.getElementById("info");
+    var infoMin=false;
+    try{ var _im=localStorage.getItem("zan_info_min"); infoMin=_im===null?(window.innerWidth<=900):_im==="1"; }catch(e){ infoMin=window.innerWidth<=900; }
     function esc(s){return String(s).replace(/[&<>"]/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c];});}
     function select(o,focus){
       selected=o;
       if(!o){ infoEl.className="hidden"; renderList(); need=true; return; }
       if(focus){ cam.tgt=o.center.slice(); cam.dist=Math.max(70,o.radius*5.5); stopSpin(); }
       var a=o.atlas;
-      var h='<button class="info-close" id="ic" aria-label="Close">&times;</button>';
+      var h='<button class="info-min" id="im" aria-label="Minimize or expand details" title="Minimize / expand">'+(infoMin?'+':'&minus;')+'</button>';
+      h+='<button class="info-close" id="ic" aria-label="Close">&times;</button>';
       h+='<span class="kind" style="color:var(--t-'+o.layer+')">'+o.layer+'</span>';
       h+='<h2>'+esc(o.name)+'</h2>';
       h+='<p class="sub2">'+o.tris.toLocaleString()+' tris · '+(o.side==="r"?"right":o.side==="l"?"left":"midline")+
@@ -1018,6 +1025,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
          '<button id="a-fade">'+(faded.has(o)?"unfade":"fade")+'</button>'+
          '<button id="a-iso">isolate 3D</button>'+
          '<button id="a-solo">solo layer</button></div>';
+      h+='<div class="info-more">';
       if(a){
         if(a.part_of) h+='<p class="sub2">Part of: <b>'+esc(a.part_of)+'</b></p>';
         h+='<dl class="facts">';
@@ -1049,7 +1057,12 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       } else {
         h+='<div class="warn">Geometry only — no matched record in this project\'s own atlas.</div>';
       }
-      infoEl.className=""; infoEl.innerHTML=h;
+      h+='</div>';
+      infoEl.className=infoMin?"min":""; infoEl.innerHTML=h;
+      document.getElementById("im").onclick=function(){
+        infoMin=!infoMin; try{ localStorage.setItem("zan_info_min",infoMin?"1":"0"); }catch(e){}
+        infoEl.className=infoMin?"min":""; this.innerHTML=infoMin?"+":"&minus;";
+      };
       document.getElementById("ic").onclick=function(){select(null);};
       document.getElementById("a-hide").onclick=function(){
         if(hidden.has(o)) hidden.delete(o); else { hidden.add(o); faded.delete(o); }
