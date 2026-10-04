@@ -48,8 +48,9 @@ VOLUME_RATIO = (0.65, 1.5)               # per closed structure: volume after / 
 BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_zan_to_vhf.json)
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
-RBF_SMOOTH = 6000.0
+RBF_SMOOTH = 3000.0
 BASE_SMOOTH = 300.0                  # bone-only field: bones reproduced to ~1 mm median, fewer conflicts than the exact interpolant
+CHART_SMOOTH_CELLS = 1.5             # Gaussian smoothing (5 mm x 2 deg cells) of the outline offsets
 SKIN_INSET_MM = 1.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
 CLAMP_MARGIN_MM, CLAMP_MAX_MM = 0.5, 30.0
 CLAMP_SMOOTH_ITERS = 4
@@ -244,6 +245,35 @@ def her_outline_chart(skin_mesh, axis, ys, ths):
     return R, nh, trusted
 
 
+def inpaint_theta(grid: np.ndarray, ths: np.ndarray, max_gap_deg: float = 130.0):
+    """fill the NaN cells of grid[y, theta] by periodic linear interpolation along theta (her lateral outline is hidden by
+    her arms: there the skin follows the offsets measured in front and behind); rows with < 8 usable cells take the
+    nearest filled row.  Returns (filled grid, fraction of cells that were interpolated)"""
+    out = grid.copy()
+    step = np.degrees(ths[1] - ths[0])
+    n = len(ths)
+    for i in range(len(out)):
+        ok = ~np.isnan(out[i])
+        if ok.sum() < 8:
+            continue
+        idx = np.flatnonzero(ok)
+        gaps = np.diff(np.r_[idx, idx[0] + n]) * step
+        x = np.arange(n)
+        filled = np.interp(x, np.r_[idx - n, idx, idx + n], np.r_[out[i, idx], out[i, idx], out[i, idx]])
+        # do not bridge gaps wider than max_gap_deg
+        big = np.zeros(n, bool)
+        for a_, g_ in zip(idx, gaps):
+            if g_ > max_gap_deg:
+                big[(np.arange(a_ + 1, a_ + int(g_ / step)) % n)] = True
+        out[i] = np.where(ok, out[i], np.where(big, np.nan, filled))
+    rows = np.flatnonzero((~np.isnan(out)).sum(1) >= 8)
+    for i in np.flatnonzero((~np.isnan(out)).sum(1) < 8):
+        if len(rows):
+            out[i] = out[rows[np.argmin(np.abs(rows - i))]]
+    frac = float((np.isnan(grid) & ~np.isnan(out)).mean())
+    return out, frac
+
+
 def bilinear(grid, ys, ths, y, th):
     """grid[y, theta] sampled at (y, theta) with theta wrapping; nan-propagating"""
     fy = np.clip((y - ys[0]) / (ys[1] - ys[0]), 0, len(ys) - 1.000001)
@@ -288,6 +318,32 @@ def rbf(src: np.ndarray, dst: np.ndarray, smoothing: float):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         return RBFInterpolator(src, dst - src, kernel=RBF_KERNEL, smoothing=smoothing, degree=1)
+
+
+class ChartCorrection:
+    """radial shift Delta(y, theta) (mm, outward positive) around her trunk axis, bilinear in the chart; call -> displacement"""
+
+    def __init__(self, delta: np.ndarray, ys: np.ndarray, ths: np.ndarray, axis):
+        self.delta, self.ys, self.ths, self.axis = delta, ys, ths, axis
+
+    def __call__(self, p: np.ndarray) -> np.ndarray:
+        xc, zc = self.axis(p[:, 1])
+        th = np.arctan2(p[:, 0] - xc, p[:, 2] - zc)
+        d = bilinear(self.delta, self.ys, self.ths, p[:, 1], th)
+        out = np.zeros_like(p)
+        out[:, 0], out[:, 2] = d * np.sin(th), d * np.cos(th)
+        return out
+
+
+class Composite:
+    """p -> base displacement + chart correction evaluated at the base-moved point (displacement from the raw point)"""
+
+    def __init__(self, base, corr):
+        self.base, self.corr = base, corr
+
+    def __call__(self, p: np.ndarray) -> np.ndarray:
+        b = self.base(p)
+        return b + self.corr(p + b)
 
 
 class GridField:
@@ -423,6 +479,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     Rz = ndi.gaussian_filter(Rz, sigma=(2.0, 2.0), mode=("nearest", "wrap"))
     Rz_max = ndi.maximum_filter(Rz, size=(3, 5), mode=("nearest", "wrap"))     # outer envelope
     delta_grid = np.where(trusted, R - Rz_max, np.nan)
+    delta_grid, interp_frac = inpaint_theta(delta_grid, ths)     # her hidden lateral outline: interpolate the neighbouring offsets
     d = bilinear(delta_grid, ys, ths, allS[:, 1], th)
     trust_v = ~np.isnan(d)
     # cap the single-vertex shift (bounded displacement): |delta| <= 90 mm
@@ -439,25 +496,29 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
                            "anchors_used": int(len(first)),
                            "outline_shift_mm": {"median": round(float(np.median(d[use])), 1), "p10": round(float(np.percentile(d[use], 10)), 1),
                                                 "p90": round(float(np.percentile(d[use], 90)), 1)},
-                           "trusted_cell_fraction": round(float(trusted.mean()), 3)}
+                           "trusted_cell_fraction": round(float(trusted.mean()), 3), "interpolated_cell_fraction": round(float(interp_frac), 3)}
     log(f"  trunk skin: {len(sk_ids)} patches, {use.sum()} of {len(raw_all)} vertices carry her outline, shift {rep['skin_anchors']['outline_shift_mm']}")
 
-    # 3. final field, fold-guarded: raise the smoothing until the Jacobian determinant stays >= 0.25
-    A_src, A_dst = np.vstack([bs, sk_src]), np.vstack([bd, sk_dst])
+    # 3. final field = bone-only field + radial outline correction in her trunk chart (no 3-D interpolant over the
+    #    skin anchors: those conflicted with the bone anchors in the lateral band and folded; the chart shift is a smooth
+    #    function of (height, angle) only, so it cannot fold while |grad| < 1)
+    dg = np.nan_to_num(delta_grid, nan=0.0)
+    dg = ndi.gaussian_filter(dg, sigma=(CHART_SMOOTH_CELLS, CHART_SMOOTH_CELLS), mode=("nearest", "wrap")) - SKIN_INSET_MM
+    dg = np.clip(dg, -90.0, 90.0)
+    corr = ChartCorrection(dg, ys, ths, axis)
+    direct_base = base
+    field = Composite(direct_base, corr)
     grid_pts = _jac_grid(pending, raw, axis)
-    sm = smoothing
-    for attempt in range(3):
-        field = rbf(A_src, A_dst, sm)
-        jac = jacobian_stats(field, grid_pts)
-        rep["jacobian"] = {**jac, "smoothing": sm, "attempt": attempt}
-        log(f"  field smoothing {sm}: Jacobian {jac}")
-        if jac["min"] >= 0.25 or attempt == 2:
-            break
-        sm *= 2.5
-    rep["rbf"]["final_smoothing"] = sm
+    jac = jacobian_stats(field, grid_pts)
+    rep["jacobian"] = {**jac}
+    log(f"  field (bone TPS + chart correction): Jacobian {jac}")
+    slope = np.hypot(np.gradient(dg, 5.0, axis=0), np.gradient(dg, np.degrees(ths[1] - ths[0]) * np.pi / 180 * 150.0, axis=1))
+    rep["chart_correction"] = {"smooth_cells": CHART_SMOOTH_CELLS, "inset_mm": SKIN_INSET_MM, "max_slope": round(float(slope.max()), 2),
+                               "p99_slope": round(float(np.percentile(slope, 99)), 2)}
     rep["layer_rule"] = {"skin_share_d0_mm": LAMBDA_D0_MM, "skin_share_d1_mm": LAMBDA_D1_MM}
-    rep["bone_anchor_residual_final_mm"] = _res(field, bs, bd)
+    rep["bone_anchor_residual_final_mm"] = _res(direct_base, bs, bd)
     rep["skin_anchor_residual_mm"] = _res(field, sk_src, sk_dst)
+    A_src, A_dst = np.vstack([bs, sk_src]), np.vstack([bd, sk_dst])
 
     # 4. apply to every non-bone vertex with the position weight
     moved, stat = 0, {}
@@ -473,7 +534,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
         if (w > 1e-3).any():
             todo.append((p, w))
     pts_all = np.vstack([raw[p["mesh_id"]][w > 1e-3] for p, w in todo])
-    direct_field, direct_base = field, base
+    direct_field = field
     field, base = GridField(direct_field, pts_all), GridField(direct_base, pts_all)
     chk = pts_all[np.random.default_rng(0).choice(len(pts_all), 3000, replace=False)]
     err = np.linalg.norm(field(chk) - direct_field(chk), axis=1)
@@ -611,7 +672,9 @@ def mesh_flip_stats(pending: list[dict], raw: dict, before: dict) -> dict:
     """fold-over of the moved structures against their raw source: Q168 position (`before`) vs the refit; skin by faces,
     muscles per structure (median / p90)"""
     out = {}
-    for name, sel in (("skin", lambda p: p["cat"] == "skin"), ("muscle", lambda p: p["cat"] == "muscle")):
+    trunk_sk = set(trunk_skin_ids(pending))
+    for name, sel in (("skin_all_patches", lambda p: p["cat"] == "skin"), ("skin_trunk_patches", lambda p: p["mesh_id"] in trunk_sk),
+                      ("muscle", lambda p: p["cat"] == "muscle")):
         ps = [p for p in pending if sel(p) and p["mesh_id"] in before]
         fb = np.array([_flip_frac(raw[p["mesh_id"]], before[p["mesh_id"]], p["f"]) for p in ps])
         fa = np.array([_flip_frac(raw[p["mesh_id"]], p["v"], p["f"]) for p in ps])
