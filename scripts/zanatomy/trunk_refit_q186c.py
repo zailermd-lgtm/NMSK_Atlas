@@ -323,13 +323,16 @@ def rbf(src: np.ndarray, dst: np.ndarray, smoothing: float):
 class ChartCorrection:
     """radial shift Delta(y, theta) (mm, outward positive) around her trunk axis, bilinear in the chart; call -> displacement"""
 
-    def __init__(self, delta: np.ndarray, ys: np.ndarray, ths: np.ndarray, axis):
-        self.delta, self.ys, self.ths, self.axis = delta, ys, ths, axis
+    def __init__(self, delta: np.ndarray, ys: np.ndarray, ths: np.ndarray, axis, rref: np.ndarray):
+        self.delta, self.ys, self.ths, self.axis, self.rref = delta, ys, ths, axis, rref
 
     def __call__(self, p: np.ndarray) -> np.ndarray:
         xc, zc = self.axis(p[:, 1])
         th = np.arctan2(p[:, 0] - xc, p[:, 2] - zc)
         d = bilinear(self.delta, self.ys, self.ths, p[:, 1], th)
+        r = np.hypot(p[:, 0] - xc, p[:, 2] - zc)
+        # the chart is singular on the axis: the shift fades out inside 35-75 % of the local outer radius
+        d = d * smoothstep((r / bilinear(self.rref, self.ys, self.ths, p[:, 1], th) - 0.35) / 0.4)
         out = np.zeros_like(p)
         out[:, 0], out[:, 2] = d * np.sin(th), d * np.cos(th)
         return out
@@ -505,7 +508,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     dg = np.nan_to_num(delta_grid, nan=0.0)
     dg = ndi.gaussian_filter(dg, sigma=(CHART_SMOOTH_CELLS, CHART_SMOOTH_CELLS), mode=("nearest", "wrap")) - SKIN_INSET_MM
     dg = np.clip(dg, -90.0, 90.0)
-    corr = ChartCorrection(dg, ys, ths, axis)
+    corr = ChartCorrection(dg, ys, ths, axis, Rz_max)
     direct_base = base
     field = Composite(direct_base, corr)
     grid_pts = _jac_grid(pending, raw, axis)
