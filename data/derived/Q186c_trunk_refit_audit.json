@@ -1,0 +1,826 @@
+{
+ "before": {
+  "skin_gap_her_minus_fitted_mm_all_angles": {
+   "p10": 3.4,
+   "median": 28.2,
+   "p90": 69.2,
+   "p98": 120.3
+  },
+  "skin_gap_her_minus_fitted_mm_front_back_sectors": {
+   "p10": -0.2,
+   "median": 21.8,
+   "p90": 44.8,
+   "p98": 66.6
+  },
+  "skin_patches": {
+   "n": 52,
+   "outside_her_skin_frac": 0.0738
+  },
+  "soft_trunk_by_layer": {
+   "vessel": {
+    "structures": 257,
+    "outside_skin_frac": 0.0065,
+    "in_bone_frac": 0.0243,
+    "in_lung_frac": 0.136,
+    "in_organ_frac": 0.2498
+   },
+   "cartilage": {
+    "structures": 34,
+    "outside_skin_frac": 0.0046,
+    "in_bone_frac": 0.2302,
+    "in_lung_frac": 0.0188,
+    "in_organ_frac": 0.0383
+   },
+   "joint": {
+    "structures": 75,
+    "outside_skin_frac": 0.0005,
+    "in_bone_frac": 0.2501,
+    "in_lung_frac": 0.0217,
+    "in_organ_frac": 0.0117
+   },
+   "fascia": {
+    "structures": 19,
+    "outside_skin_frac": 0.0107,
+    "in_bone_frac": 0.0233,
+    "in_lung_frac": 0.0244,
+    "in_organ_frac": 0.0893
+   },
+   "nerve": {
+    "structures": 101,
+    "outside_skin_frac": 0.0001,
+    "in_bone_frac": 0.0321,
+    "in_lung_frac": 0.0426,
+    "in_organ_frac": 0.452
+   },
+   "muscle": {
+    "structures": 131,
+    "outside_skin_frac": 0.001,
+    "in_bone_frac": 0.0669,
+    "in_lung_frac": 0.0461,
+    "in_organ_frac": 0.0756
+   },
+   "viscera": {
+    "structures": 70,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0043,
+    "in_lung_frac": 0.1495,
+    "in_organ_frac": 0.405
+   },
+   "lymph": {
+    "structures": 103,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0122,
+    "in_lung_frac": 0.0211,
+    "in_organ_frac": 0.169
+   },
+   "cns": {
+    "structures": 6,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.015,
+    "in_lung_frac": 0.0,
+    "in_organ_frac": 0.7851
+   },
+   "bursa": {
+    "structures": 10,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.2544,
+    "in_lung_frac": 0.0,
+    "in_organ_frac": 0.0
+   }
+  },
+  "ribs_vs_her_ct_label_mm": {
+   "n": 24,
+   "Z_to_label_median": 16.1,
+   "label_to_Z_median": 15.0
+  },
+  "vertebrae_vs_her_ct_label_mm": {
+   "n": 17,
+   "Z_to_label_median": 1.8,
+   "label_to_Z_median": 3.7
+  },
+  "per_bone_vs_her_label_mm": {
+   "zan_first_rib_l": [
+    14.5,
+    15.5
+   ],
+   "zan_second_rib_l": [
+    14.1,
+    14.9
+   ],
+   "zan_third_rib_l": [
+    13.6,
+    14.2
+   ],
+   "zan_fourth_rib_l": [
+    17.3,
+    16.3
+   ],
+   "zan_fifth_rib_l": [
+    18.4,
+    16.3
+   ],
+   "zan_sixth_rib_l": [
+    22.6,
+    21.4
+   ],
+   "zan_seventh_rib_l": [
+    17.1,
+    15.0
+   ],
+   "zan_eighth_rib_l": [
+    19.4,
+    16.8
+   ],
+   "zan_ninth_rib_l": [
+    15.4,
+    12.8
+   ],
+   "zan_tenth_rib_l": [
+    14.4,
+    13.8
+   ],
+   "zan_eleventh_rib_l": [
+    15.6,
+    12.5
+   ],
+   "zan_twelfth_rib_l": [
+    14.0,
+    9.1
+   ],
+   "zan_first_rib_r": [
+    14.9,
+    16.7
+   ],
+   "zan_second_rib_r": [
+    14.2,
+    14.8
+   ],
+   "zan_third_rib_r": [
+    19.9,
+    20.5
+   ],
+   "zan_fourth_rib_r": [
+    18.0,
+    17.2
+   ],
+   "zan_fifth_rib_r": [
+    17.0,
+    14.9
+   ],
+   "zan_sixth_rib_r": [
+    26.5,
+    44.0
+   ],
+   "zan_seventh_rib_r": [
+    17.9,
+    16.7
+   ],
+   "zan_eighth_rib_r": [
+    16.7,
+    14.9
+   ],
+   "zan_ninth_rib_r": [
+    16.7,
+    14.2
+   ],
+   "zan_tenth_rib_r": [
+    14.7,
+    13.6
+   ],
+   "zan_eleventh_rib_r": [
+    13.1,
+    11.5
+   ],
+   "zan_twelfth_rib_r": [
+    15.4,
+    18.2
+   ],
+   "zan_vertebra_t1": [
+    1.8,
+    4.0
+   ],
+   "zan_vertebra_t2": [
+    1.2,
+    2.6
+   ],
+   "zan_vertebra_t3": [
+    0.9,
+    2.4
+   ],
+   "zan_vertebra_t4": [
+    1.2,
+    2.5
+   ],
+   "zan_vertebra_t5": [
+    1.1,
+    2.4
+   ],
+   "zan_vertebra_t6": [
+    1.0,
+    2.5
+   ],
+   "zan_vertebra_t7": [
+    1.2,
+    2.3
+   ],
+   "zan_vertebra_t8": [
+    1.5,
+    3.1
+   ],
+   "zan_vertebra_t9": [
+    1.5,
+    2.4
+   ],
+   "zan_vertebra_t10": [
+    2.6,
+    3.7
+   ],
+   "zan_vertebra_t11": [
+    3.0,
+    5.0
+   ],
+   "zan_vertebra_t12": [
+    2.1,
+    4.7
+   ],
+   "zan_vertebra_l1": [
+    2.6,
+    7.0
+   ],
+   "zan_vertebra_l2": [
+    4.3,
+    9.0
+   ],
+   "zan_vertebra_l3": [
+    7.2,
+    10.5
+   ],
+   "zan_vertebra_l4": [
+    9.9,
+    13.3
+   ],
+   "zan_vertebra_l5": [
+    13.0,
+    14.2
+   ]
+  },
+  "rib_cage_bands": {
+   "240": {
+    "her_width": 265,
+    "Z_width": 245,
+    "her_depth": 112,
+    "Z_depth": 118
+   },
+   "280": {
+    "her_width": 272,
+    "Z_width": 244,
+    "her_depth": 141,
+    "Z_depth": 174
+   },
+   "320": {
+    "her_width": 274,
+    "Z_width": 241,
+    "her_depth": 146,
+    "Z_depth": 185
+   },
+   "360": {
+    "her_width": 269,
+    "Z_width": 262,
+    "her_depth": 149,
+    "Z_depth": 181
+   },
+   "400": {
+    "her_width": 265,
+    "Z_width": 253,
+    "her_depth": 157,
+    "Z_depth": 176
+   },
+   "440": {
+    "her_width": 263,
+    "Z_width": 228,
+    "her_depth": 152,
+    "Z_depth": 162
+   },
+   "480": {
+    "her_width": 254,
+    "Z_width": 217,
+    "her_depth": 148,
+    "Z_depth": 161
+   },
+   "520": {
+    "her_width": 235,
+    "Z_width": 186,
+    "her_depth": 120,
+    "Z_depth": 89
+   },
+   "560": {
+    "her_width": 164,
+    "Z_width": 94,
+    "her_depth": 48,
+    "Z_depth": 26
+   }
+  },
+  "trunk_muscles_vs_her_own_mesh_mm": {
+   "n": 56,
+   "her_mesh_to_Z_median": 12.1,
+   "Z_to_her_mesh_median": 13.3
+  },
+  "trunk_muscles_her_mesh_to_Z_mm": {
+   "coccygeus_l": 14.4,
+   "coccygeus_r": 21.5,
+   "diaphragm": 12.5,
+   "external_anal_sphincter": 19.1,
+   "external_oblique_l": 20.6,
+   "external_oblique_r": 17.1,
+   "gluteus_maximus_l": 9.9,
+   "gluteus_maximus_r": 11.0,
+   "gluteus_medius_l": 7.2,
+   "gluteus_medius_r": 7.3,
+   "gluteus_minimus_l": 8.2,
+   "gluteus_minimus_r": 6.6,
+   "iliocostalis_l": 7.8,
+   "iliocostalis_r": 9.5,
+   "infraspinatus_l": 13.7,
+   "infraspinatus_r": 13.5,
+   "internal_oblique_l": 22.5,
+   "internal_oblique_r": 21.4,
+   "latissimus_dorsi_l": 10.4,
+   "latissimus_dorsi_r": 10.0,
+   "levator_ani_l": 26.1,
+   "levator_ani_r": 28.8,
+   "levator_scapulae_l": 10.0,
+   "levator_scapulae_r": 8.6,
+   "longissimus_l": 8.7,
+   "longissimus_r": 9.2,
+   "multifidus_l": 11.1,
+   "multifidus_r": 11.2,
+   "pectoralis_minor_l": 22.2,
+   "pectoralis_minor_r": 24.3,
+   "platysma_l": 12.0,
+   "platysma_r": 12.0,
+   "quadratus_lumborum_l": 9.6,
+   "quadratus_lumborum_r": 12.4,
+   "rectus_abdominis_l": 22.0,
+   "rectus_abdominis_r": 20.6,
+   "scalenus_posterior_l": 9.4,
+   "scalenus_posterior_r": 7.1,
+   "serratus_anterior_l": 10.5,
+   "serratus_anterior_r": 9.2,
+   "spinalis_l": 13.2,
+   "spinalis_r": 12.9,
+   "sternocleidomastoid_l": 11.5,
+   "sternocleidomastoid_r": 12.1,
+   "sternothyroid_l": 13.1,
+   "sternothyroid_r": 13.5,
+   "subscapularis_l": 17.1,
+   "subscapularis_r": 15.8,
+   "supraspinatus_l": 18.3,
+   "supraspinatus_r": 15.6,
+   "teres_major_l": 23.5,
+   "teres_major_r": 20.6,
+   "teres_minor_l": 8.1,
+   "teres_minor_r": 6.7,
+   "trapezius_l": 7.6,
+   "trapezius_r": 7.2
+  }
+ },
+ "after": {
+  "skin_gap_her_minus_fitted_mm_all_angles": {
+   "p10": 1.9,
+   "median": 7.8,
+   "p90": 56.0,
+   "p98": 105.1
+  },
+  "skin_gap_her_minus_fitted_mm_front_back_sectors": {
+   "p10": 1.2,
+   "median": 5.9,
+   "p90": 18.6,
+   "p98": 48.3
+  },
+  "skin_patches": {
+   "n": 52,
+   "outside_her_skin_frac": 0.0352
+  },
+  "soft_trunk_by_layer": {
+   "vessel": {
+    "structures": 257,
+    "outside_skin_frac": 0.0049,
+    "in_bone_frac": 0.0352,
+    "in_lung_frac": 0.1513,
+    "in_organ_frac": 0.1639
+   },
+   "cartilage": {
+    "structures": 34,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.1889,
+    "in_lung_frac": 0.0,
+    "in_organ_frac": 0.0041
+   },
+   "joint": {
+    "structures": 75,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.178,
+    "in_lung_frac": 0.0023,
+    "in_organ_frac": 0.0029
+   },
+   "fascia": {
+    "structures": 19,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0223,
+    "in_lung_frac": 0.0046,
+    "in_organ_frac": 0.0558
+   },
+   "nerve": {
+    "structures": 101,
+    "outside_skin_frac": 0.0005,
+    "in_bone_frac": 0.0275,
+    "in_lung_frac": 0.0022,
+    "in_organ_frac": 0.5133
+   },
+   "muscle": {
+    "structures": 131,
+    "outside_skin_frac": 0.0003,
+    "in_bone_frac": 0.0685,
+    "in_lung_frac": 0.0052,
+    "in_organ_frac": 0.0284
+   },
+   "viscera": {
+    "structures": 70,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0079,
+    "in_lung_frac": 0.2307,
+    "in_organ_frac": 0.2702
+   },
+   "lymph": {
+    "structures": 103,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.025,
+    "in_lung_frac": 0.018,
+    "in_organ_frac": 0.1401
+   },
+   "cns": {
+    "structures": 6,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.0153,
+    "in_lung_frac": 0.0,
+    "in_organ_frac": 0.8554
+   },
+   "bursa": {
+    "structures": 10,
+    "outside_skin_frac": 0.0,
+    "in_bone_frac": 0.2121,
+    "in_lung_frac": 0.0,
+    "in_organ_frac": 0.0
+   }
+  },
+  "ribs_vs_her_ct_label_mm": {
+   "n": 24,
+   "Z_to_label_median": 2.2,
+   "label_to_Z_median": 1.9
+  },
+  "vertebrae_vs_her_ct_label_mm": {
+   "n": 17,
+   "Z_to_label_median": 1.0,
+   "label_to_Z_median": 2.3
+  },
+  "per_bone_vs_her_label_mm": {
+   "zan_first_rib_l": [
+    0.9,
+    1.7
+   ],
+   "zan_second_rib_l": [
+    1.6,
+    1.9
+   ],
+   "zan_third_rib_l": [
+    1.9,
+    2.1
+   ],
+   "zan_fourth_rib_l": [
+    3.5,
+    2.3
+   ],
+   "zan_fifth_rib_l": [
+    4.8,
+    2.4
+   ],
+   "zan_sixth_rib_l": [
+    5.2,
+    2.7
+   ],
+   "zan_seventh_rib_l": [
+    5.8,
+    2.6
+   ],
+   "zan_eighth_rib_l": [
+    5.3,
+    2.9
+   ],
+   "zan_ninth_rib_l": [
+    3.6,
+    2.5
+   ],
+   "zan_tenth_rib_l": [
+    1.7,
+    1.6
+   ],
+   "zan_eleventh_rib_l": [
+    1.5,
+    1.6
+   ],
+   "zan_twelfth_rib_l": [
+    3.3,
+    1.9
+   ],
+   "zan_first_rib_r": [
+    0.8,
+    1.8
+   ],
+   "zan_second_rib_r": [
+    1.8,
+    1.9
+   ],
+   "zan_third_rib_r": [
+    1.9,
+    1.8
+   ],
+   "zan_fourth_rib_r": [
+    2.4,
+    2.0
+   ],
+   "zan_fifth_rib_r": [
+    3.6,
+    2.1
+   ],
+   "zan_sixth_rib_r": [
+    2.3,
+    1.7
+   ],
+   "zan_seventh_rib_r": [
+    2.9,
+    2.5
+   ],
+   "zan_eighth_rib_r": [
+    2.1,
+    1.8
+   ],
+   "zan_ninth_rib_r": [
+    2.1,
+    1.8
+   ],
+   "zan_tenth_rib_r": [
+    1.8,
+    1.8
+   ],
+   "zan_eleventh_rib_r": [
+    1.4,
+    1.6
+   ],
+   "zan_twelfth_rib_r": [
+    2.4,
+    1.9
+   ],
+   "zan_vertebra_t1": [
+    0.9,
+    2.2
+   ],
+   "zan_vertebra_t2": [
+    1.0,
+    2.1
+   ],
+   "zan_vertebra_t3": [
+    0.9,
+    2.4
+   ],
+   "zan_vertebra_t4": [
+    1.1,
+    2.2
+   ],
+   "zan_vertebra_t5": [
+    1.0,
+    2.2
+   ],
+   "zan_vertebra_t6": [
+    1.0,
+    2.5
+   ],
+   "zan_vertebra_t7": [
+    1.0,
+    2.2
+   ],
+   "zan_vertebra_t8": [
+    1.0,
+    2.5
+   ],
+   "zan_vertebra_t9": [
+    0.9,
+    1.8
+   ],
+   "zan_vertebra_t10": [
+    1.0,
+    2.1
+   ],
+   "zan_vertebra_t11": [
+    1.0,
+    2.7
+   ],
+   "zan_vertebra_t12": [
+    1.1,
+    2.7
+   ],
+   "zan_vertebra_l1": [
+    2.6,
+    7.0
+   ],
+   "zan_vertebra_l2": [
+    1.1,
+    3.0
+   ],
+   "zan_vertebra_l3": [
+    1.1,
+    2.8
+   ],
+   "zan_vertebra_l4": [
+    1.0,
+    2.3
+   ],
+   "zan_vertebra_l5": [
+    1.1,
+    2.3
+   ]
+  },
+  "rib_cage_bands": {
+   "240": {
+    "her_width": 265,
+    "Z_width": 267,
+    "her_depth": 112,
+    "Z_depth": 113
+   },
+   "280": {
+    "her_width": 272,
+    "Z_width": 275,
+    "her_depth": 141,
+    "Z_depth": 156
+   },
+   "320": {
+    "her_width": 274,
+    "Z_width": 274,
+    "her_depth": 146,
+    "Z_depth": 160
+   },
+   "360": {
+    "her_width": 269,
+    "Z_width": 269,
+    "her_depth": 149,
+    "Z_depth": 164
+   },
+   "400": {
+    "her_width": 265,
+    "Z_width": 270,
+    "her_depth": 157,
+    "Z_depth": 158
+   },
+   "440": {
+    "her_width": 263,
+    "Z_width": 270,
+    "her_depth": 152,
+    "Z_depth": 155
+   },
+   "480": {
+    "her_width": 254,
+    "Z_width": 255,
+    "her_depth": 148,
+    "Z_depth": 151
+   },
+   "520": {
+    "her_width": 235,
+    "Z_width": 231,
+    "her_depth": 120,
+    "Z_depth": 114
+   },
+   "560": {
+    "her_width": 164,
+    "Z_width": 175,
+    "her_depth": 48,
+    "Z_depth": 49
+   }
+  },
+  "trunk_muscles_vs_her_own_mesh_mm": {
+   "n": 56,
+   "her_mesh_to_Z_median": 10.4,
+   "Z_to_her_mesh_median": 11.4
+  },
+  "trunk_muscles_her_mesh_to_Z_mm": {
+   "coccygeus_l": 17.5,
+   "coccygeus_r": 22.5,
+   "diaphragm": 5.5,
+   "external_anal_sphincter": 27.5,
+   "external_oblique_l": 10.5,
+   "external_oblique_r": 10.0,
+   "gluteus_maximus_l": 10.3,
+   "gluteus_maximus_r": 11.1,
+   "gluteus_medius_l": 7.3,
+   "gluteus_medius_r": 8.1,
+   "gluteus_minimus_l": 8.3,
+   "gluteus_minimus_r": 6.8,
+   "iliocostalis_l": 7.2,
+   "iliocostalis_r": 8.6,
+   "infraspinatus_l": 10.3,
+   "infraspinatus_r": 12.2,
+   "internal_oblique_l": 16.0,
+   "internal_oblique_r": 13.9,
+   "latissimus_dorsi_l": 6.8,
+   "latissimus_dorsi_r": 6.9,
+   "levator_ani_l": 23.6,
+   "levator_ani_r": 27.2,
+   "levator_scapulae_l": 10.1,
+   "levator_scapulae_r": 8.7,
+   "longissimus_l": 8.5,
+   "longissimus_r": 8.7,
+   "multifidus_l": 9.3,
+   "multifidus_r": 9.3,
+   "pectoralis_minor_l": 11.9,
+   "pectoralis_minor_r": 18.1,
+   "platysma_l": 11.9,
+   "platysma_r": 11.9,
+   "quadratus_lumborum_l": 8.6,
+   "quadratus_lumborum_r": 8.6,
+   "rectus_abdominis_l": 20.5,
+   "rectus_abdominis_r": 16.6,
+   "scalenus_posterior_l": 3.0,
+   "scalenus_posterior_r": 2.2,
+   "serratus_anterior_l": 4.2,
+   "serratus_anterior_r": 4.3,
+   "spinalis_l": 13.0,
+   "spinalis_r": 14.4,
+   "sternocleidomastoid_l": 10.5,
+   "sternocleidomastoid_r": 11.2,
+   "sternothyroid_l": 12.2,
+   "sternothyroid_r": 12.4,
+   "subscapularis_l": 19.7,
+   "subscapularis_r": 17.6,
+   "supraspinatus_l": 14.6,
+   "supraspinatus_r": 12.3,
+   "teres_major_l": 20.7,
+   "teres_major_r": 18.1,
+   "teres_minor_l": 4.8,
+   "teres_minor_r": 5.3,
+   "trapezius_l": 8.1,
+   "trapezius_r": 7.9
+  }
+ },
+ "trunk_skin_patches": [
+  "zan_skin_deltopectoral_triangle_l",
+  "zan_skin_deltopectoral_triangle_r",
+  "zan_skin_epigastric_region_l",
+  "zan_skin_epigastric_region_r",
+  "zan_skin_femoral_triangle_l",
+  "zan_skin_femoral_triangle_r",
+  "zan_skin_gluteal_region_l",
+  "zan_skin_gluteal_region_r",
+  "zan_skin_greater_supraclavicular_fossa_l",
+  "zan_skin_greater_supraclavicular_fossa_r",
+  "zan_skin_hip_region_l",
+  "zan_skin_hip_region_r",
+  "zan_skin_hypochondriac_region_l",
+  "zan_skin_hypochondriac_region_r",
+  "zan_skin_hypogastric_region_l",
+  "zan_skin_hypogastric_region_r",
+  "zan_skin_infraclavicular_fossa_l",
+  "zan_skin_infraclavicular_fossa_r",
+  "zan_skin_inframammary_region_l",
+  "zan_skin_inframammary_region_r",
+  "zan_skin_infrascapular_region_l",
+  "zan_skin_infrascapular_region_r",
+  "zan_skin_inguinal_region_l",
+  "zan_skin_inguinal_region_r",
+  "zan_skin_interscapular_region_l",
+  "zan_skin_interscapular_region_r",
+  "zan_skin_lateral_region_of_abdomen_l",
+  "zan_skin_lateral_region_of_abdomen_r",
+  "zan_skin_lateral_region_of_thorax_l",
+  "zan_skin_lateral_region_of_thorax_r",
+  "zan_skin_lesser_supraclavicular_fossa_l",
+  "zan_skin_lesser_supraclavicular_fossa_r",
+  "zan_skin_lumbar_region_l",
+  "zan_skin_lumbar_region_r",
+  "zan_skin_mammary_region_l",
+  "zan_skin_mammary_region_r",
+  "zan_skin_pectoral_region_l",
+  "zan_skin_pectoral_region_r",
+  "zan_skin_presternal_region_l",
+  "zan_skin_presternal_region_r",
+  "zan_skin_sacral_region_l",
+  "zan_skin_sacral_region_r",
+  "zan_skin_scapular_region_l",
+  "zan_skin_scapular_region_r",
+  "zan_skin_triangle_of_auscultation_l",
+  "zan_skin_triangle_of_auscultation_r",
+  "zan_skin_umbilical_region_l",
+  "zan_skin_umbilical_region_r",
+  "zan_skin_umbilicus_l",
+  "zan_skin_umbilicus_r",
+  "zan_skin_vertebral_region_l",
+  "zan_skin_vertebral_region_r"
+ ]
+}

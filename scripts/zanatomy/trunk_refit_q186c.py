@@ -39,12 +39,14 @@ RIB_LABEL0 = {"l": 92, "r": 104}          # TotalSegmentator total: rib_left_1 =
 RIB_SCALE_BOUNDS = (0.85, 1.20)
 RIB_SHIFT_MAX_MM = 45.0
 SUPPORT_MM = 5.0
+VOLUME_RATIO = (0.65, 1.5)               # per closed structure: volume after / (Z-Anatomy source volume x BODY_SCALE^3)
+BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_zan_to_vhf.json)
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
 RBF_SMOOTH = 30.0
 RBF_KERNEL = "cubic"
 OUT_JSON = REPO / "data" / "derived" / "Q186c_trunk_refit.json"
-SKIN_ANTERIOR_DEG, SKIN_POSTERIOR_DEG = 62.0, 122.0   # trusted sectors of her outline: |theta| < 62 (front), > 122 (back)
+SKIN_ANTERIOR_DEG, SKIN_POSTERIOR_DEG, SKIN_POSTERIOR_LOW_DEG = 62.0, 122.0, 100.0   # trusted sectors of her outline: |theta| < 62 (front), > 122 (back)
 
 
 # ----------------------------------------------------------------------------------- her labels
@@ -175,7 +177,9 @@ def her_outline_chart(skin_mesh, axis, ys, ths):
     first[~np.isfinite(first)] = np.nan
     R, nh = first.reshape(Y.shape), nh.reshape(Y.shape)
     adeg = np.abs(np.degrees(Th))
-    sector = (adeg < SKIN_ANTERIOR_DEG) | (adeg > SKIN_POSTERIOR_DEG)
+    # below the lower ribs (y < 190) her arms/hands hang in front of / beside the hips, never behind them: posterior sector from 100 deg
+    post = np.where(Y < 190.0, SKIN_POSTERIOR_LOW_DEG, np.where(Y < 230.0, SKIN_POSTERIOR_LOW_DEG + (SKIN_POSTERIOR_DEG - SKIN_POSTERIOR_LOW_DEG) * (Y - 190.0) / 40.0, SKIN_POSTERIOR_DEG))
+    sector = (adeg < SKIN_ANTERIOR_DEG) | (adeg > post)
     multi = ndi.binary_dilation(nh != 1, structure=np.ones((5, 5), bool), iterations=2)
     trusted = sector & ~multi & ~np.isnan(R)
     return R, nh, trusted
@@ -206,6 +210,16 @@ def trunk_weight(q: np.ndarray, axis) -> np.ndarray:
     wr = smoothstep((215.0 - rho) / 50.0)
     wy = np.minimum(smoothstep((q[:, 1] + 170.0) / 60.0), smoothstep((640.0 - q[:, 1]) / 80.0))
     return wr * wy
+
+
+LAMBDA_D0_MM, LAMBDA_D1_MM = 15.0, 60.0   # skin-outline share of the field: 0 within 15 mm of a trunk bone, 1 beyond 60 mm
+
+
+def skin_share(d_bone: np.ndarray) -> np.ndarray:
+    """share (0..1) of the skin-outline anchors in the field a non-skin vertex follows: tissue lying on a bone stays
+    with the bone-only field (it conforms to her ribs/pelvis/spine and keeps its thickness, e.g. gluteus medius, serratus),
+    tissue far from every bone (the abdominal wall, the fat-covered chest wall) follows her outline."""
+    return smoothstep((d_bone - LAMBDA_D0_MM) / (LAMBDA_D1_MM - LAMBDA_D0_MM))
 
 
 def rbf(src: np.ndarray, dst: np.ndarray, smoothing: float):
@@ -339,11 +353,15 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
             break
         sm *= 4
     rep["rbf"]["final_smoothing"] = sm
+    rep["layer_rule"] = {"skin_share_d0_mm": LAMBDA_D0_MM, "skin_share_d1_mm": LAMBDA_D1_MM}
     rep["bone_anchor_residual_final_mm"] = _res(field, bs, bd)
     rep["skin_anchor_residual_mm"] = _res(field, sk_src, sk_dst)
 
     # 4. apply to every non-bone vertex with the position weight
     moved, stat = 0, {}
+    vol_ratios, guarded = [], {}
+    tb = [p["v"] for p in pending if p["cat"] == "bone" and any(t in p["mesh_id"] for t in TRUNK_BONE_RE)]
+    bone_tree = cKDTree(np.vstack([b[::3] for b in tb]))
     regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
     for p in pending:
         if p["cat"] == "bone":
@@ -355,19 +373,57 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
         sel = w > 1e-3
         if not sel.any():
             continue
-        f_new = apply_rbf(field, raw[p["mesh_id"]][sel])
-        new = q.copy()
-        new[sel] = q[sel] + w[sel, None] * (f_new - q[sel])
+        r_sel = raw[p["mesh_id"]][sel]
+        f_full = apply_rbf(field, r_sel)
+        if p["cat"] == "skin":
+            cands = [(1.0, f_full)]
+        else:
+            f_base = apply_rbf(base, r_sel)
+            lam = skin_share(bone_tree.query(q[sel])[0])
+            cands = [(g, f_base + g * lam[:, None] * (f_full - f_base)) for g in (1.0, 0.5, 0.0)]
+        closed = _closed(p["f"]) and _vol(raw[p["mesh_id"]], p["f"]) > 1000.0
+        ref = BODY_SCALE ** 3 * _vol(raw[p["mesh_id"]], p["f"]) if closed else None
+        best = None
+        for gain, f_new in cands:   # volume guard: closed structures keep 0.65-1.5 x the Z-Anatomy volume at her body scale
+            new = q.copy()
+            new[sel] = q[sel] + w[sel, None] * (f_new - q[sel])
+            ratio = _vol(new, p["f"]) / ref if closed else None
+            dev = abs(np.log(ratio)) if closed else 0.0
+            if best is None or dev < best[0] - 1e-9:
+                best = (dev, gain, new, ratio)
+            if not closed or VOLUME_RATIO[0] <= ratio <= VOLUME_RATIO[1]:
+                best = (dev, gain, new, ratio)
+                break
+        _, gain, new, ratio = best
+        if closed:
+            vol_ratios.append(ratio)
+            if gain < 1.0:
+                guarded[p["mesh_id"]] = {"skin_gain": gain, "volume_ratio_vs_source": round(float(ratio), 2)}
         stat[p["mesh_id"]] = {"w_mean": float(w.mean()), "shift_med": float(np.median(np.linalg.norm(new - q, axis=1)[sel])),
                               "shift_max": float(np.linalg.norm(new - q, axis=1).max())}
         p["v"] = new
         moved += 1
     rep["structures_moved"] = moved
+    vr = np.asarray(vol_ratios)
+    rep["volume_guard"] = {"bounds": list(VOLUME_RATIO), "closed_structures": int(len(vr)),
+                           "ratio_median": round(float(np.median(vr)), 3), "ratio_p10": round(float(np.percentile(vr, 10)), 3),
+                           "ratio_p90": round(float(np.percentile(vr, 90)), 3), "ratio_max": round(float(vr.max()), 3),
+                           "structures_with_reduced_skin_share": guarded}
     rep["shift_vs_q168_mm"] = {"median_of_structure_medians": round(float(np.median([s["shift_med"] for s in stat.values()])), 1),
                                "max": round(float(max(s["shift_max"] for s in stat.values())), 1)}
     rep["_per_structure_shift"] = stat
     rep["_field"], rep["_grid"], rep["_anchors"], rep["_axis"], rep["_base"] = field, grid_pts, (A_src, A_dst), axis, base
     return rep
+
+
+def _vol(v: np.ndarray, f: np.ndarray) -> float:
+    a, b, c = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
+    return abs(float(np.einsum("ij,ij->i", a, np.cross(b, c)).sum())) / 6.0
+
+
+def _closed(f: np.ndarray) -> bool:
+    e = np.sort(np.vstack([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1)
+    return bool((np.unique(e, axis=0, return_counts=True)[1] == 2).all())
 
 
 def _res(f, src, dst) -> dict:
