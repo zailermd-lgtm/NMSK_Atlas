@@ -199,12 +199,12 @@ def smoothstep(x):
 
 def trunk_weight(q: np.ndarray, axis) -> np.ndarray:
     """position-only weight of the refit at her-frame points q: 1 within 165 mm (horizontal) of her trunk axis and
-    -110..600 mm in y, fading to 0 by 215 mm / 170 mm below / 660 mm above.  Continuous in position -> neighbouring
+    -110..560 mm in y, fading to 0 by 215 mm / 170 mm below / 640 mm above.  Continuous in position -> neighbouring
     patches and muscles never tear."""
     xc, zc = axis(q[:, 1])
     rho = np.hypot(q[:, 0] - xc, q[:, 2] - zc)
     wr = smoothstep((215.0 - rho) / 50.0)
-    wy = np.minimum(smoothstep((q[:, 1] + 170.0) / 60.0), smoothstep((660.0 - q[:, 1]) / 60.0))
+    wy = np.minimum(smoothstep((q[:, 1] + 170.0) / 60.0), smoothstep((640.0 - q[:, 1]) / 80.0))
     return wr * wy
 
 
@@ -233,8 +233,9 @@ def jacobian_stats(f, pts: np.ndarray, h: float = 4.0) -> dict:
 
 
 SKIN_LIMB = ("arm", "forearm", "wrist", "hand", "digits", "palm", "nail", "perionyx", "thigh", "radial", "bicipital",
-             "border_of_forearm", "deltoid_region", "foveola", "sternocleido", "supraclavicular", "muscular_triangle",
-             "anal", "gluteal_fold", "femoral_triangle")
+             "border_of_forearm", "deltoid_region", "foveola", "sternocleido", "muscular_triangle", "anal", "gluteal_fold")
+SKIN_HAND = ("forearm", "wrist", "hand", "digits", "palm", "nail", "perionyx", "radial_foveola")   # never moved by the field
+FIELD_SKIP_REGIONS = ("forearm_hand", "foot")                                                      # Q168 regions never moved
 
 
 def trunk_skin_ids(pending: list[dict]) -> list[str]:
@@ -244,7 +245,8 @@ def trunk_skin_ids(pending: list[dict]) -> list[str]:
         if p["cat"] != "skin":
             continue
         c = p["v"].mean(0)
-        if -30 < c[1] < 600 and abs(c[0]) < 160 and not any(s in p["mesh_id"] for s in SKIN_LIMB):
+        if (-30 < c[1] < 600 and (abs(c[0]) < 160 or "hip_region" in p["mesh_id"])
+                and not any(s in p["mesh_id"] for s in SKIN_LIMB)):
             out.append(p["mesh_id"])
     return out
 
@@ -342,8 +344,11 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
 
     # 4. apply to every non-bone vertex with the position weight
     moved, stat = 0, {}
+    regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
     for p in pending:
         if p["cat"] == "bone":
+            continue
+        if regions.get(p["mesh_id"]) in FIELD_SKIP_REGIONS or (p["cat"] == "skin" and any(s in p["mesh_id"] for s in SKIN_HAND)):
             continue
         q = p["v"]
         w = trunk_weight(q, axis)
