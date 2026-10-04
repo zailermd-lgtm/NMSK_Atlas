@@ -1,0 +1,4256 @@
+{
+ "task": "Q189 model separation audit",
+ "classes": {
+  "measured": "own CT / cryosection segmentation of that body (incl. the DU manual segmentation of the male's cryosections)",
+  "rule_based": "derived by rule from that body's own data; subject description says rule / badge starts RULE-BASED",
+  "transferred": "carried from the OTHER Visible Human body (xfer_vhm2vhf*, xfer_vhf2vhm*, ct_vhf_xfersepta_fix)",
+  "filled_zan": "Z-Anatomy geometry fitted onto this body (xfer_zan2vhm_*, xfer_zan2vhf_*), badge states the error",
+  "other_specimen": "ct_s1159*: another person's CT (TotalSegmentator case s1159), hidden by default, badged NOT HIS/HER GEOMETRY"
+ },
+ "rule": "viewer/atlas_viewer.template.html classifySource(); subject base name = name without _contfix_mesh/_contfix/_fix",
+ "own_male": {
+  "body": "male",
+  "dir": "/home/user/NMSK_Atlas/build/viewer_m_hr_q189",
+  "entries": 464,
+  "ids": 429,
+  "triangles_shipped": 2245504,
+  "by_class": {
+   "measured": {
+    "entries": 234,
+    "ids": 199,
+    "volume_cm3": 138555.8,
+    "hidden_by_default_entries": 2
+   },
+   "rule_based": {
+    "entries": 90,
+    "ids": 90,
+    "volume_cm3": 8639.3,
+    "hidden_by_default_entries": 1
+   },
+   "transferred": {
+    "entries": 43,
+    "ids": 43,
+    "volume_cm3": 211.7,
+    "hidden_by_default_entries": 0
+   },
+   "filled_zan": {
+    "entries": 84,
+    "ids": 84,
+    "volume_cm3": 1813.8,
+    "hidden_by_default_entries": 3
+   },
+   "other_specimen": {
+    "entries": 13,
+    "ids": 13,
+    "volume_cm3": 339.2,
+    "hidden_by_default_entries": 13
+   }
+  },
+  "by_class_excl_skin_volume_cm3": {
+   "measured": 33180.2,
+   "rule_based": 8639.3,
+   "transferred": 211.7,
+   "filled_zan": 1813.8,
+   "other_specimen": 339.2
+  },
+  "visible_default_by_class": {
+   "measured": 197,
+   "rule_based": 89,
+   "transferred": 43,
+   "filled_zan": 81,
+   "other_specimen": 0
+  },
+  "by_system": {
+   "bone": {
+    "entries": {
+     "measured": 76
+    },
+    "volume_cm3": {
+     "measured": 6781.0
+    }
+   },
+   "cartilage": {
+    "entries": {
+     "measured": 19,
+     "rule_based": 21
+    },
+    "volume_cm3": {
+     "measured": 297.9,
+     "rule_based": 128.1
+    }
+   },
+   "fascia": {
+    "entries": {
+     "measured": 1,
+     "filled_zan": 5
+    },
+    "volume_cm3": {
+     "measured": 105375.5,
+     "filled_zan": 1167.2
+    }
+   },
+   "ligament": {
+    "entries": {
+     "measured": 9
+    },
+    "volume_cm3": {
+     "measured": 21.0
+    }
+   },
+   "muscle": {
+    "entries": {
+     "rule_based": 61,
+     "transferred": 36,
+     "measured": 117,
+     "other_specimen": 1,
+     "filled_zan": 79
+    },
+    "volume_cm3": {
+     "rule_based": 8464.3,
+     "transferred": 182.9,
+     "measured": 25844.2,
+     "other_specimen": 31.3,
+     "filled_zan": 646.6
+    }
+   },
+   "nerve": {
+    "entries": {
+     "transferred": 1,
+     "rule_based": 2
+    },
+    "volume_cm3": {
+     "transferred": 1.0,
+     "rule_based": 11.7
+    }
+   },
+   "organ": {
+    "entries": {
+     "measured": 4
+    },
+    "volume_cm3": {
+     "measured": 175.1
+    }
+   },
+   "tendon": {
+    "entries": {
+     "measured": 6
+    },
+    "volume_cm3": {
+     "measured": 37.3
+    }
+   },
+   "vessel": {
+    "entries": {
+     "transferred": 6,
+     "measured": 2,
+     "other_specimen": 12,
+     "rule_based": 6
+    },
+    "volume_cm3": {
+     "transferred": 27.8,
+     "measured": 23.6,
+     "other_specimen": 307.9,
+     "rule_based": 35.3
+    }
+   }
+  },
+  "by_region": {
+   "foot": {
+    "entries": {
+     "measured": 22,
+     "filled_zan": 25
+    },
+    "volume_cm3": {
+     "measured": 597.5,
+     "filled_zan": 1349.4
+    }
+   },
+   "forearm_hand": {
+    "entries": {
+     "rule_based": 3,
+     "measured": 4,
+     "filled_zan": 37
+    },
+    "volume_cm3": {
+     "rule_based": 104.0,
+     "measured": 177.0,
+     "filled_zan": 435.8
+    }
+   },
+   "head_neck": {
+    "entries": {
+     "transferred": 36,
+     "measured": 26,
+     "rule_based": 8,
+     "filled_zan": 20
+    },
+    "volume_cm3": {
+     "transferred": 182.9,
+     "measured": 1032.4,
+     "rule_based": 29.2,
+     "filled_zan": 15.9
+    }
+   },
+   "lower_limb": {
+    "entries": {
+     "measured": 88
+    },
+    "volume_cm3": {
+     "measured": 20459.3
+    }
+   },
+   "trunk": {
+    "entries": {
+     "rule_based": 61,
+     "measured": 82,
+     "transferred": 1,
+     "other_specimen": 6,
+     "filled_zan": 2
+    },
+    "volume_cm3": {
+     "rule_based": 5979.2,
+     "measured": 9896.1,
+     "transferred": 2.9,
+     "other_specimen": 272.2,
+     "filled_zan": 12.8
+    }
+   },
+   "unassigned": {
+    "entries": {
+     "transferred": 6,
+     "other_specimen": 7,
+     "rule_based": 8
+    },
+    "volume_cm3": {
+     "transferred": 25.9,
+     "other_specimen": 66.9,
+     "rule_based": 47.0
+    }
+   },
+   "upper_limb": {
+    "entries": {
+     "rule_based": 10,
+     "measured": 11
+    },
+    "volume_cm3": {
+     "rule_based": 2479.9,
+     "measured": 1017.8
+    }
+   },
+   "whole_body": {
+    "entries": {
+     "measured": 1
+    },
+    "volume_cm3": {
+     "measured": 105375.5
+    }
+   }
+  },
+  "subjects": {
+   "ct_vhm_pfloor_fix": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 2,
+    "volume_cm3": 47.8,
+    "ids": [
+     "coccygeus_l",
+     "levator_ani_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 11,
+    "mapping_notes_total": 11
+   },
+   "ct_vhm_armm_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 7,
+    "volume_cm3": 1699.8,
+    "ids": [
+     "biceps_brachii_l",
+     "brachialis_l",
+     "brachialis_r",
+     "coracobrachialis_l",
+     "coracobrachialis_r",
+     "triceps_brachii_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 4,
+    "mapping_notes_total": 8
+   },
+   "ct_vhm_armm_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 369.9,
+    "ids": [
+     "biceps_brachii_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_arm_muscles_cryo_v2.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 4,
+    "mapping_notes_total": 8
+   },
+   "ct_vhm_delt_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 410.1,
+    "ids": [
+     "deltoid_l",
+     "deltoid_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_deltoid_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "ct_vhm_forearm_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 47.4,
+    "ids": [
+     "flexor_digitorum_superficialis_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 3,
+    "mapping_notes_total": 3
+   },
+   "xfer_vhf2vhm_neck_contfix_mesh": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 3,
+    "volume_cm3": 63.5,
+    "ids": [
+     "obliquus_capitis_inferior_l",
+     "semispinalis_capitis_l",
+     "semispinalis_cervicis_l"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_shsp_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 4,
+    "volume_cm3": 637.6,
+    "ids": [
+     "infraspinatus_l",
+     "infraspinatus_r",
+     "teres_major_l",
+     "teres_major_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 10,
+    "mapping_notes_total": 10
+   },
+   "ct_vhm_neck_contfix_mesh": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 536.2,
+    "ids": [
+     "trapezius_l",
+     "trapezius_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_headneck_muscles_merged.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 16
+   },
+   "ct_vhm_twall_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 324.5,
+    "ids": [
+     "diaphragm"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_trunk_wall.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 3,
+    "mapping_notes_total": 3
+   },
+   "ct_vhm_abw_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 6,
+    "volume_cm3": 1394.1,
+    "ids": [
+     "external_oblique_l",
+     "external_oblique_r",
+     "internal_oblique_l",
+     "rectus_abdominis_l",
+     "rectus_abdominis_r",
+     "transversus_abdominis_l"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject (Q153, same mechanism as Q152/Q152b's own *_contfix_mesh subjects -- see this script's own docstring for why voxel-space work was not attempted for ct_vhm_abw)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 8,
+    "mapping_notes_total": 8
+   },
+   "ct_vhm_thigh_snap": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 14,
+    "volume_cm3": 5751.4,
+    "ids": [
+     "adductor_longus_l",
+     "adductor_longus_r",
+     "adductor_magnus_l",
+     "adductor_magnus_r",
+     "biceps_femoris_l",
+     "biceps_femoris_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "vhm_both meshes, posterior/anterior thigh surfaces snapped to his photographed fat plane (Q173)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_foot": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 50.8,
+    "ids": [
+     "metatarsals_l",
+     "phalanges_foot_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_foot_bones.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 2
+   },
+   "vhm_both": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 114,
+    "volume_cm3": 20884.9,
+    "ids": [
+     "adductor_brevis_l",
+     "adductor_brevis_r",
+     "ankle_articular_cartilage_l",
+     "ankle_articular_cartilage_r",
+     "anterior_cruciate_ligament_l",
+     "anterior_cruciate_ligament_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_arm": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 12,
+    "volume_cm3": 810.8,
+    "ids": [
+     "carpals_l",
+     "carpals_r",
+     "humerus_l",
+     "humerus_r",
+     "metacarpals_l",
+     "metacarpals_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 12
+   },
+   "ct_vhm_forearm": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 56.6,
+    "ids": [
+     "abductor_pollicis_longus_r",
+     "flexor_digitorum_profundus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 3,
+    "mapping_notes_total": 3
+   },
+   "ct_vhm_shsp": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 6,
+    "volume_cm3": 352.0,
+    "ids": [
+     "rhomboid_major_l",
+     "rhomboid_major_r",
+     "rhomboid_minor_l",
+     "rhomboid_minor_r",
+     "teres_minor_l",
+     "teres_minor_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 10,
+    "mapping_notes_total": 10
+   },
+   "ct_vhm_cuff": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 4,
+    "volume_cm3": 675.5,
+    "ids": [
+     "subscapularis_l",
+     "subscapularis_r",
+     "supraspinatus_l",
+     "supraspinatus_r"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 6
+   },
+   "ct_vhm_pmr": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 100.2,
+    "ids": [
+     "pectoralis_minor_l",
+     "pectoralis_minor_r"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 4
+   },
+   "ct_vhm_es": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 6,
+    "volume_cm3": 1497.0,
+    "ids": [
+     "iliocostalis_l",
+     "iliocostalis_r",
+     "longissimus_l",
+     "longissimus_r",
+     "spinalis_l",
+     "spinalis_r"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhm_head": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 667.1,
+    "ids": [
+     "cranium",
+     "mandible"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 2
+   },
+   "ct_vhm_ribs": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 400.2,
+    "ids": [
+     "ribs_l",
+     "ribs_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_total.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 24
+   },
+   "ct_vhm_ccart": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 155.7,
+    "ids": [
+     "costal_cartilage_l",
+     "costal_cartilage_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_total.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 36,
+    "volume_cm3": 1322.7,
+    "ids": [
+     "adductor_magnus_distal_tendon_l",
+     "adductor_magnus_distal_tendon_r",
+     "cervical_vertebrae",
+     "clavicle_l",
+     "clavicle_r",
+     "coracoclavicular_ligament_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 68
+   },
+   "ct_vhm_headm": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 8,
+    "volume_cm3": 228.0,
+    "ids": [
+     "lateral_pterygoid_l",
+     "lateral_pterygoid_r",
+     "masseter_l",
+     "masseter_r",
+     "medial_pterygoid_l",
+     "medial_pterygoid_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 8
+   },
+   "ct_vhm_neck": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 20,
+    "volume_cm3": 236.6,
+    "ids": [
+     "inferior_pharyngeal_constrictor_l",
+     "inferior_pharyngeal_constrictor_r",
+     "levator_scapulae_l",
+     "levator_scapulae_r",
+     "middle_pharyngeal_constrictor_l",
+     "middle_pharyngeal_constrictor_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_headneck_muscles_merged.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 16
+   },
+   "ct_vhm_neckbv": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 1,
+    "volume_cm3": 1.5,
+    "ids": [
+     "hyoid"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 1
+   },
+   "xfer_vhf2vhm": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 19,
+    "volume_cm3": 34.7,
+    "ids": [
+     "digastric_l",
+     "digastric_r",
+     "inferior_oblique_r",
+     "inferior_rectus_l",
+     "inferior_rectus_r",
+     "internal_carotid_a_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer vhf -> vhm",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_vhf2vhm_neck": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 19,
+    "volume_cm3": 107.4,
+    "ids": [
+     "geniohyoid_l",
+     "geniohyoid_r",
+     "hyoglossus_l",
+     "hyoglossus_r",
+     "longus_capitis_l",
+     "longus_capitis_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer vhf -> vhm",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_ggl": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 23.3,
+    "ids": [
+     "genioglossus_l",
+     "genioglossus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_genioglossus_ct.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "ct_vhm_sgl": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 2.0,
+    "ids": [
+     "styloglossus_l",
+     "styloglossus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_styloglossus_ct.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "ct_vhm_pfloor": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 9,
+    "volume_cm3": 77.9,
+    "ids": [
+     "bulbospongiosus_l",
+     "bulbospongiosus_r",
+     "coccygeus_r",
+     "deep_transverse_perineal_l",
+     "deep_transverse_perineal_r",
+     "external_anal_sphincter",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_pelvic_floor_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 11,
+    "mapping_notes_total": 11
+   },
+   "ct_vhm_orbit": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 1.1,
+    "ids": [
+     "inferior_oblique_l",
+     "medial_rectus_l"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 14
+   },
+   "ct_vhm_abd": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 8,
+    "volume_cm3": 1787.1,
+    "ids": [
+     "latissimus_dorsi_l",
+     "latissimus_dorsi_r",
+     "multifidus_l",
+     "multifidus_r",
+     "pectoralis_major_l",
+     "pectoralis_major_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 8
+   },
+   "ct_vhm_abw": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 162.4,
+    "ids": [
+     "internal_oblique_r",
+     "transversus_abdominis_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/abdominal_wall_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 8,
+    "mapping_notes_total": 8
+   },
+   "ct_vhm_twall": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 586.2,
+    "ids": [
+     "external_intercostals_l",
+     "external_intercostals_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_trunk_wall.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 3,
+    "mapping_notes_total": 3
+   },
+   "ct_vhm_vessels": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 23.6,
+    "ids": [
+     "brachiocephalic_v_r",
+     "superior_vena_cava"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_total.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 2
+   },
+   "ct_vhm_qlh": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 1,
+    "volume_cm3": 47.2,
+    "ids": [
+     "quadratus_lumborum_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_hybrid_abdominal_muscles.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 1
+   },
+   "xfer_vhf2vhm_vessels": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 2,
+    "volume_cm3": 6.1,
+    "ids": [
+     "brachiocephalic_trunk_r",
+     "common_carotid_a_r"
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer vhf -> vhm",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_s1159_abd": {
+    "class": "other_specimen",
+    "why": "subject ct_s1159* (another person's CT)",
+    "entries": 1,
+    "volume_cm3": 31.3,
+    "ids": [
+     "quadratus_lumborum_r"
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 14
+   },
+   "ct_s1159": {
+    "class": "other_specimen",
+    "why": "subject ct_s1159* (another person's CT)",
+    "entries": 12,
+    "volume_cm3": 307.9,
+    "ids": [
+     "abdominal_aorta",
+     "aortic_arch_and_great_vessels",
+     "brachiocephalic_v_l",
+     "common_carotid_a_l",
+     "common_iliac_a_l",
+     "common_iliac_a_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "recovered from the published male viewer (Version 25)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 81
+   },
+   "ct_vhm_skin": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 1,
+    "volume_cm3": 105375.5,
+    "ids": [
+     "skin"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhm_ts/skin_ct.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 1
+   },
+   "xfer_zan2vhm_limb_photo": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 6,
+    "volume_cm3": 160.6,
+    "ids": [
+     "brachioradialis_r",
+     "extensor_pollicis_brevis_r",
+     "flexor_pollicis_longus_r",
+     "pronator_quadratus_r",
+     "pronator_teres_r",
+     "supinator_r"
+    ],
+    "manifest": {
+     "source_kind": "Q151b photograph-gradient watershed refinement of Q147 zanatomy transfer",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhm_limb": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 56,
+    "volume_cm3": 1624.5,
+    "ids": [
+     "abductor_digiti_minimi_foot_l",
+     "abductor_digiti_minimi_foot_r",
+     "abductor_digiti_minimi_hand_l",
+     "abductor_hallucis_l",
+     "abductor_hallucis_r",
+     "abductor_pollicis_longus_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhm",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_pelvis": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 4,
+    "volume_cm3": 175.1,
+    "ids": [
+     "prostate",
+     "rectum",
+     "sigmoid_colon",
+     "urinary_bladder"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "data/ct_sources/task_outputs/vhm_pelvic_viscera.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_discs": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 22,
+    "volume_cm3": 227.8,
+    "ids": [
+     "intervertebral_disc_c2_c3",
+     "intervertebral_disc_c3_c4",
+     "intervertebral_disc_c4_c5",
+     "intervertebral_disc_c5_c6",
+     "intervertebral_disc_c6_c7",
+     "intervertebral_disc_l1_l2",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "rule_based_from_ct_labels",
+     "source_volume": "data/ct_sources/task_outputs/vhm_total.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhm_sciatic": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 10.4,
+    "ids": [
+     "sciatic_n"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_nerves_cryo_reg_clip_interp.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 1,
+    "mapping_notes_total": 1
+   },
+   "ct_vhm_femoral": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 4,
+    "volume_cm3": 31.7,
+    "ids": [
+     "femoral_a_l",
+     "femoral_a_r",
+     "femoral_v_l",
+     "femoral_v_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_femoral_cryo_clip_interp.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 4
+   },
+   "ct_vhm_popliteal": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 3,
+    "volume_cm3": 4.9,
+    "ids": [
+     "popliteal_v_l",
+     "popliteal_v_r",
+     "tibial_n"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_popliteal_cryo_clip.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 3
+   },
+   "xfer_zan2vhm_head": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 20,
+    "volume_cm3": 15.9,
+    "ids": [
+     "depressor_labii_inferioris_l",
+     "depressor_labii_inferioris_r",
+     "depressor_septi_nasi_l",
+     "depressor_septi_nasi_r",
+     "lateral_cricoarytenoid_l",
+     "lateral_cricoarytenoid_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhm (Q168 per-bone fit)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhm_trunk": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 2,
+    "volume_cm3": 12.7,
+    "ids": [
+     "subclavius_l",
+     "subclavius_r"
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhm (Q168 per-bone fit)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   }
+  },
+  "mislabel_checks": {
+   "measured_with_zan_or_transfer_marker": [],
+   "zan_without_zan_badge": [],
+   "transfer_without_transfer_badge": [],
+   "class_vs_manifest_disagreements": [],
+   "class_vs_mapping_notes_disagreements": []
+  }
+ },
+ "zan_male": {
+  "viewer": "build/viewer_zan_atlas",
+  "label": "Z-Anatomy male (reference)",
+  "meshes": 2966,
+  "matched_to_project_atlas_id": 663,
+  "orphan_zan_ids": 2303,
+  "volume_cm3_total": 116059.8,
+  "by_layer": {
+   "vessel": 661,
+   "nerve": 337,
+   "muscle": 424,
+   "cartilage": 53,
+   "joint": 325,
+   "bursa": 114,
+   "fascia": 59,
+   "bone": 250,
+   "insertion": 4,
+   "cns": 203,
+   "viscera": 124,
+   "lymph": 162,
+   "skin": 250
+  },
+  "fitted_onto_her_skeleton_badged": 0,
+  "fitted_with_error_stated": 0,
+  "bbox_identical_to_own_mesh_of_same_id": [],
+  "badge_mentions_specimen_geometry": [],
+  "badges_citing_her_ct_only_for_error_or_anchor": 0,
+  "bbox_identical_to_female_own_mesh_of_same_id": []
+ },
+ "gaps_male": {
+  "zan_structures_excl_skin": 2716,
+  "counterpart_by_atlas_id_by_own_class": {
+   "filled_zan": 80,
+   "rule_based": 66,
+   "measured": 159,
+   "transferred": 33
+  },
+  "counterpart_by_linked_record_or_name_by_own_class": {
+   "filled_zan": 14,
+   "transferred": 7,
+   "rule_based": 36,
+   "measured": 185
+  },
+  "without_counterpart": 2136,
+  "without_counterpart_volume_cm3": 85360.7,
+  "by_region_and_z_layer": {
+   "foot": {
+    "bone": {
+     "n": 12,
+     "volume_cm3": 84.5,
+     "examples": [
+      "Fifth metatarsal bone",
+      "Fifth metatarsal bone",
+      "First metatarsal bone",
+      "First metatarsal bone",
+      "Fourth metatarsal bone",
+      "Fourth metatarsal bone"
+     ]
+    },
+    "bursa": {
+     "n": 6,
+     "volume_cm3": 10.1,
+     "examples": [
+      "Subcutaneous calcaneal (Achilles/pre-Achilles) bursa",
+      "Subcutaneous calcaneal (Achilles/pre-Achilles) bursa",
+      "Subtendinous calcaneal bursa",
+      "Subtendinous calcaneal bursa",
+      "Tendon sheath of tibialis posterior muscle",
+      "Tendon sheath of tibialis posterior muscle"
+     ]
+    },
+    "fascia": {
+     "n": 1,
+     "volume_cm3": 1294.0,
+     "examples": [
+      "Plantar aponeurosis"
+     ]
+    },
+    "joint": {
+     "n": 79,
+     "volume_cm3": 781.9,
+     "examples": [
+      "Anterior talocalcaneal ligament",
+      "Anterior talocalcaneal ligament",
+      "Articular capsule of interphalangeal joint of great toe",
+      "Articular capsule of interphalangeal joint of great toe",
+      "Articular capsules of distal interphalangeal joints of foot",
+      "Articular capsules of distal interphalangeal joints of foot"
+     ]
+    },
+    "muscle": {
+     "n": 2,
+     "volume_cm3": 3.2,
+     "examples": [
+      "Lumbrical muscles of foot",
+      "Lumbrical muscles of foot"
+     ]
+    },
+    "nerve": {
+     "n": 23,
+     "volume_cm3": 4.3,
+     "examples": [
+      "Lateral plantar nerve (left)",
+      "Lateral plantar nerve (right)",
+      "Medial plantar nerve (left)",
+      "Medial plantar nerve (right)",
+      "Intermediate dorsal cutaneous nerve of the foot (left)",
+      "Intermediate dorsal cutaneous nerve of the foot (right)"
+     ]
+    },
+    "vessel": {
+     "n": 50,
+     "volume_cm3": 24.7,
+     "examples": [
+      "Arcuate artery",
+      "Arcuate artery",
+      "Calcaneal branches of fibular artery",
+      "Calcaneal branches of fibular artery",
+      "Calcaneal branches of posterior tibial artery",
+      "Calcaneal branches of posterior tibial artery"
+     ]
+    }
+   },
+   "forearm_hand": {
+    "bone": {
+     "n": 10,
+     "volume_cm3": 50.8,
+     "examples": [
+      "Fifth metacarpal bone",
+      "Fifth metacarpal bone",
+      "First metacarpal bone",
+      "First metacarpal bone",
+      "Fourth metacarpal bone",
+      "Fourth metacarpal bone"
+     ]
+    },
+    "bursa": {
+     "n": 18,
+     "volume_cm3": 81.9,
+     "examples": [
+      "Bicipitoradial (cubital) bursa",
+      "Bicipitoradial (cubital) bursa",
+      "Common flexor tendon sheath",
+      "Common flexor tendon sheath",
+      "Subtendinous bursa of triceps brachii muscle",
+      "Subtendinous bursa of triceps brachii muscle"
+     ]
+    },
+    "fascia": {
+     "n": 6,
+     "volume_cm3": 1792.9,
+     "examples": [
+      "Antebrachial (deep) fascia of the forearm",
+      "Palmar aponeurosis",
+      "Antebrachial fascia",
+      "Dorsal fascia of hand",
+      "Dorsal fascia of hand",
+      "Palmar aponeurosis"
+     ]
+    },
+    "joint": {
+     "n": 69,
+     "volume_cm3": 77.7,
+     "examples": [
+      "Annular ligament of radius",
+      "Annular ligament of radius",
+      "Articular capsule of radiocarpal joint",
+      "Articular capsule of radiocarpal joint",
+      "Articular capsules of distal interphalangeal joints",
+      "Articular capsules of distal interphalangeal joints"
+     ]
+    },
+    "lymph": {
+     "n": 2,
+     "volume_cm3": 0.1,
+     "examples": [
+      "Cubital nodes",
+      "Cubital nodes"
+     ]
+    },
+    "muscle": {
+     "n": 22,
+     "volume_cm3": 305.6,
+     "examples": [
+      "Abductor pollicis brevis",
+      "Abductor pollicis brevis",
+      "Anconeus",
+      "Anconeus",
+      "Extensor digiti minimi",
+      "Extensor digitorum"
+     ]
+    },
+    "nerve": {
+     "n": 44,
+     "volume_cm3": 11.1,
+     "examples": [
+      "Anterior interosseous nerve (left)",
+      "Anterior interosseous nerve (right)",
+      "Median nerve, lateral root (left)",
+      "Median nerve, lateral root (right)",
+      "Posterior interosseous nerve (deep branch of radial n.) (left)",
+      "Posterior interosseous nerve (deep branch of radial n.) (right)"
+     ]
+    },
+    "vessel": {
+     "n": 49,
+     "volume_cm3": 27.3,
+     "examples": [
+      "Cephalic vein",
+      "Common interosseous artery",
+      "Common interosseous artery",
+      "Common palmar digital arteries",
+      "Common palmar digital arteries",
+      "Deep palmar arch"
+     ]
+    }
+   },
+   "head_neck": {
+    "bone": {
+     "n": 70,
+     "volume_cm3": 575.8,
+     "examples": [
+      "Ethmoid bone",
+      "Frontal bone",
+      "Incus (ear ossicle)",
+      "Incus (ear ossicle)",
+      "Inferior nasal concha",
+      "Inferior nasal concha"
+     ]
+    },
+    "cartilage": {
+     "n": 1,
+     "volume_cm3": 1.2,
+     "examples": [
+      "Intervertebral disc C7-T1"
+     ]
+    },
+    "cns": {
+     "n": 196,
+     "volume_cm3": 807.4,
+     "examples": [
+      "Optic nerve (CN II) (right)",
+      "Angular gyrus",
+      "Angular gyrus",
+      "Anterior chamber of eyeball",
+      "Anterior chamber of eyeball",
+      "Anterior quadrangular lobule"
+     ]
+    },
+    "fascia": {
+     "n": 8,
+     "volume_cm3": 6567.4,
+     "examples": [
+      "Epicranial aponeurosis",
+      "Epicranial aponeurosis",
+      "Masseteric fascia",
+      "Masseteric fascia",
+      "Superficial investing cervical fascia",
+      "Superficial investing cervical fascia"
+     ]
+    },
+    "insertion": {
+     "n": 2,
+     "volume_cm3": 0.1,
+     "examples": [
+      "Intermediate tendon of digastric",
+      "Intermediate tendon of digastric"
+     ]
+    },
+    "joint": {
+     "n": 23,
+     "volume_cm3": 4.0,
+     "examples": [
+      "Nuchal ligament (ligamentum nuchae)",
+      "Articular capsule of temporomandibular joint",
+      "Articular capsule of temporomandibular joint",
+      "Articular disc of temporomandibular joint",
+      "Articular disc of temporomandibular joint",
+      "Cricopharyngeal ligament"
+     ]
+    },
+    "lymph": {
+     "n": 39,
+     "volume_cm3": 1.6,
+     "examples": [
+      "Anterior inferior jugular nodes",
+      "Anterior inferior jugular nodes",
+      "Bucinator node",
+      "Bucinator node",
+      "Intraglandular parotid nodes",
+      "Intraglandular parotid nodes"
+     ]
+    },
+    "muscle": {
+     "n": 53,
+     "volume_cm3": 191.0,
+     "examples": [
+      "Cricothyroideus",
+      "Cricothyroideus",
+      "Depressor anguli oris",
+      "Depressor anguli oris",
+      "Frontalis",
+      "Frontalis"
+     ]
+    },
+    "nerve": {
+     "n": 134,
+     "volume_cm3": 675.9,
+     "examples": [
+      "Abducens nerve (left)",
+      "Abducens nerve (right)",
+      "Chorda tympani (left)",
+      "Chorda tympani (right)",
+      "Glossopharyngeal nerve (left)",
+      "Glossopharyngeal nerve (right)"
+     ]
+    },
+    "vessel": {
+     "n": 207,
+     "volume_cm3": 94.8,
+     "examples": [
+      "Straight sinus",
+      "Superior sagittal sinus",
+      "Accessory branch of middle meningeal artery",
+      "Accessory branch of middle meningeal artery",
+      "Angular artery",
+      "Angular artery"
+     ]
+    },
+    "viscera": {
+     "n": 39,
+     "volume_cm3": 130.8,
+     "examples": [
+      "(Accessory parotid gland)",
+      "(Accessory parotid gland)",
+      "Adenohypophysis",
+      "Epiglottis",
+      "Gingiva",
+      "Inferior parathyroid gland"
+     ]
+    }
+   },
+   "lower_limb": {
+    "bursa": {
+     "n": 38,
+     "volume_cm3": 43.0,
+     "examples": [
+      "Anserine bursa (pes anserine bursa)",
+      "Anserine bursa (pes anserine bursa)",
+      "Iliopsoas bursa (iliopectineal bursa)",
+      "Iliopsoas bursa (iliopectineal bursa)",
+      "Common tendon sheath of fibularis muscles",
+      "Common tendon sheath of fibularis muscles"
+     ]
+    },
+    "cartilage": {
+     "n": 5,
+     "volume_cm3": 10.6,
+     "examples": [
+      "Acetabular labrum",
+      "Lateral meniscus",
+      "Lateral meniscus",
+      "Medial meniscus",
+      "Medial meniscus"
+     ]
+    },
+    "fascia": {
+     "n": 17,
+     "volume_cm3": 15178.7,
+     "examples": [
+      "Anterior intermuscular septum of the leg",
+      "Crural (deep) fascia of the leg",
+      "Fascia lata",
+      "Iliotibial (IT) tract/band",
+      "Lateral intermuscular septum of the arm",
+      "Medial intermuscular septum of the arm"
+     ]
+    },
+    "insertion": {
+     "n": 2,
+     "volume_cm3": 47.4,
+     "examples": [
+      "Calcaneal tendon",
+      "Calcaneal tendon"
+     ]
+    },
+    "joint": {
+     "n": 51,
+     "volume_cm3": 53.1,
+     "examples": [
+      "Popliteofibular ligament",
+      "Popliteofibular ligament",
+      "Transverse ligament of the knee (transverse geniculate ligament)",
+      "Transverse ligament of the knee (transverse geniculate ligament)",
+      "Anterior ligament of fibular head",
+      "Anterior ligament of fibular head"
+     ]
+    },
+    "lymph": {
+     "n": 10,
+     "volume_cm3": 0.1,
+     "examples": [
+      "(Anterior tibial node)",
+      "(Anterior tibial node)",
+      "Deep popliteal nodes",
+      "Deep popliteal nodes",
+      "(Fibular node)",
+      "(Fibular node)"
+     ]
+    },
+    "muscle": {
+     "n": 6,
+     "volume_cm3": 78.4,
+     "examples": [
+      "Fibularis (peroneus) brevis",
+      "Fibularis (peroneus) brevis",
+      "Fibularis (peroneus) tertius",
+      "Fibularis (peroneus) tertius",
+      "(Adductor minimus)",
+      "(Adductor minimus)"
+     ]
+    },
+    "nerve": {
+     "n": 19,
+     "volume_cm3": 5.9,
+     "examples": [
+      "Common fibular (peroneal) nerve (left)",
+      "Common fibular (peroneal) nerve (right)",
+      "Deep fibular (peroneal) nerve (left)",
+      "Deep fibular (peroneal) nerve (right)",
+      "Anterior cutaneous branches of the femoral nerve (left)",
+      "Anterior cutaneous branches of the femoral nerve (right)"
+     ]
+    },
+    "vessel": {
+     "n": 49,
+     "volume_cm3": 177.1,
+     "examples": [
+      "Anterior tibial artery",
+      "Anterior tibial artery",
+      "Anterior tibial veins",
+      "Anterior tibial veins",
+      "Deep femoral artery",
+      "Deep femoral artery"
+     ]
+    }
+   },
+   "trunk": {
+    "bone": {
+     "n": 1,
+     "volume_cm3": 2.7,
+     "examples": [
+      "Xiphoid process"
+     ]
+    },
+    "bursa": {
+     "n": 2,
+     "volume_cm3": 6.9,
+     "examples": [
+      "Subcutaneous acromial bursa",
+      "Subcutaneous acromial bursa"
+     ]
+    },
+    "cartilage": {
+     "n": 6,
+     "volume_cm3": 13.6,
+     "examples": [
+      "Acetabular labrum",
+      "Glenoid labrum",
+      "Glenoid labrum",
+      "Interpubic fibrocartilaginous disc",
+      "Triradiate cartilage",
+      "Triradiate cartilage"
+     ]
+    },
+    "cns": {
+     "n": 6,
+     "volume_cm3": 26.9,
+     "examples": [
+      "Anterior horn of spinal cord",
+      "Anterior spinocerebellar tract",
+      "Cauda equina",
+      "Posterior spinocerebellar tract",
+      "White matter of spinal cord",
+      "Posterior horn of spinal cord"
+     ]
+    },
+    "fascia": {
+     "n": 17,
+     "volume_cm3": 24941.9,
+     "examples": [
+      "Thoracolumbar fascia, anterior layer (quadratus lumborum fascia)",
+      "Clavipectoral fascia",
+      "Diaphragmatic fascia (phrenicopleural/phrenicoperitoneal)",
+      "Linea alba",
+      "Thoracolumbar fascia, middle layer",
+      "Pectoral fascia"
+     ]
+    },
+    "joint": {
+     "n": 74,
+     "volume_cm3": 77.8,
+     "examples": [
+      "Acromioclavicular ligament",
+      "Acromioclavicular ligament",
+      "Anterior longitudinal ligament (ALL)",
+      "Arcuate (inferior) pubic ligament",
+      "Iliolumbar ligament",
+      "Iliolumbar ligament"
+     ]
+    },
+    "lymph": {
+     "n": 103,
+     "volume_cm3": 124.7,
+     "examples": [
+      "Anterior axillary nodes",
+      "Anterior axillary nodes",
+      "Apical axillary nodes",
+      "Apical axillary nodes",
+      "Appendicular nodes",
+      "Brachiocephalic nodes"
+     ]
+    },
+    "muscle": {
+     "n": 39,
+     "volume_cm3": 1232.2,
+     "examples": [
+      "Interspinales",
+      "Interspinales",
+      "Levatores costarum",
+      "Levatores costarum",
+      "Omohyoid",
+      "Omohyoid"
+     ]
+    },
+    "nerve": {
+     "n": 99,
+     "volume_cm3": 67.7,
+     "examples": [
+      "Posterior cord (left)",
+      "Posterior cord (right)",
+      "Inferior trunk, anterior division (left)",
+      "Inferior trunk, anterior division (right)",
+      "Inferior trunk, posterior division (left)",
+      "Inferior trunk, posterior division (right)"
+     ]
+    },
+    "vessel": {
+     "n": 264,
+     "volume_cm3": 1209.8,
+     "examples": [
+      "Abdominal aorta",
+      "Aortic arch (great vessel origins)",
+      "Ascending lumbar vein (left)",
+      "Ascending lumbar vein (right)",
+      "Azygos vein",
+      "Brachiocephalic (innominate) vein, left"
+     ]
+    },
+    "viscera": {
+     "n": 82,
+     "volume_cm3": 21365.4,
+     "examples": [
+      "Accessory pancreatic duct",
+      "Anterior basal segmental bronchus of left lung (BVIII)",
+      "Anterior basal segmental bronchus of right lung (BVIII)",
+      "Anterior lateral segment of liver (VI)",
+      "Anterior medial segment of liver (V)",
+      "Anterior segmental bronchus of left lung (BIII)"
+     ]
+    }
+   },
+   "unassigned": {
+    "joint": {
+     "n": 1,
+     "volume_cm3": 0.1,
+     "examples": [
+      "Intra-articular ligament of head of rib"
+     ]
+    },
+    "muscle": {
+     "n": 1,
+     "volume_cm3": 8.1,
+     "examples": [
+      "Iliocostalis colli muscle"
+     ]
+    },
+    "nerve": {
+     "n": 1,
+     "volume_cm3": 0.2,
+     "examples": [
+      "Common plantar digital branches of medial plantar nerve"
+     ]
+    },
+    "vessel": {
+     "n": 2,
+     "volume_cm3": 1.2,
+     "examples": [
+      "Descending branch of lateral circumflex femoral artery",
+      "Right superior phrenic vein"
+     ]
+    }
+   },
+   "upper_limb": {
+    "bursa": {
+     "n": 8,
+     "volume_cm3": 13.6,
+     "examples": [
+      "Infraspinatus (subtendinous) bursa",
+      "Infraspinatus (subtendinous) bursa",
+      "Subacromial-subdeltoid bursa",
+      "Subacromial-subdeltoid bursa",
+      "Coracobrachial bursa",
+      "Coracobrachial bursa"
+     ]
+    },
+    "cartilage": {
+     "n": 4,
+     "volume_cm3": 10.3,
+     "examples": [
+      "Elbow articular cartilage",
+      "Elbow articular cartilage",
+      "Glenohumeral articular cartilage",
+      "Glenohumeral articular cartilage"
+     ]
+    },
+    "fascia": {
+     "n": 7,
+     "volume_cm3": 7013.8,
+     "examples": [
+      "Brachial (deep) fascia of the arm",
+      "Deltoid fascia",
+      "Brachial fascia",
+      "Deltoid fascia",
+      "Lateral intermuscular septum of arm",
+      "Medial intermuscular septum of arm"
+     ]
+    },
+    "joint": {
+     "n": 8,
+     "volume_cm3": 1.7,
+     "examples": [
+      "Coracohumeral ligament",
+      "Coracohumeral ligament",
+      "Glenohumeral ligaments",
+      "Glenohumeral ligaments",
+      "Transverse humeral ligament",
+      "Transverse humeral ligament"
+     ]
+    },
+    "lymph": {
+     "n": 8,
+     "volume_cm3": 0.3,
+     "examples": [
+      "Brachial nodes",
+      "Brachial nodes",
+      "Lateral axillary nodes",
+      "Lateral axillary nodes",
+      "Posterior axillary nodes",
+      "Posterior axillary nodes"
+     ]
+    },
+    "nerve": {
+     "n": 14,
+     "volume_cm3": 2.8,
+     "examples": [
+      "Axillary nerve (left)",
+      "Axillary nerve (right)",
+      "Musculocutaneous nerve (left)",
+      "Musculocutaneous nerve (right)",
+      "Radial nerve (left)",
+      "Radial nerve (right)"
+     ]
+    },
+    "vessel": {
+     "n": 27,
+     "volume_cm3": 44.7,
+     "examples": [
+      "Anterior circumflex humeral artery",
+      "Anterior circumflex humeral artery",
+      "Anterior circumflex humeral vein",
+      "Anterior circumflex humeral vein",
+      "Basilic vein",
+      "Basilic vein"
+     ]
+    }
+   }
+  },
+  "muscle_gap_gate_status": {
+   "held_by_gate": {
+    "cricothyroid_l": "Q62s7b_vhm_head_neck: 17.1% of vertices inside his air lumen (> 5%)",
+    "cricothyroid_r": "Q62s7b_vhm_head_neck: 18.6% of vertices inside his air lumen (> 5%)",
+    "depressor_anguli_oris_l": "Q62s7b_vhm_head_neck: 10.0% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 49.2% before)",
+    "depressor_anguli_oris_r": "Q62s7b_vhm_head_neck: 22.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 56.9% before)",
+    "fibularis_brevis_l": "Q62s9_vhm_trunk_leg: 63.4% of vertices inside other muscles/organs (> 10%; his structures 63.4%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_l)",
+    "fibularis_brevis_r": "Q62s9_vhm_trunk_leg: 64.1% of vertices inside other muscles/organs (> 10%; his structures 64.1%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_r)",
+    "fibularis_tertius_l": "Q62s9_vhm_trunk_leg: 54.1% of vertices inside other muscles/organs (> 10%; his structures 54.1%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly extensor_digitorum_longus_l)",
+    "fibularis_tertius_r": "Q62s9_vhm_trunk_leg: 57.1% of vertices inside other muscles/organs (> 10%; his structures 57.1%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly extensor_digitorum_longus_r)",
+    "frontalis_l": "Q62s7b_vhm_head_neck: 19.4% of vertices inside his air lumen (> 5%)",
+    "frontalis_r": "Q62s7b_vhm_head_neck: 26.4% of vertices inside his air lumen (> 5%)",
+    "interspinales_l": "Q62s9_vhm_trunk_leg: bone around it fits his CT at 3.23 mm median (> 3.0 mm)",
+    "interspinales_r": "Q62s9_vhm_trunk_leg: bone around it fits his CT at 3.22 mm median (> 3.0 mm)",
+    "levator_labii_superioris_l": "Q62s7b_vhm_head_neck: 14.3% of vertices inside his air lumen (> 5%)",
+    "levator_labii_superioris_r": "Q62s7b_vhm_head_neck: 19.5% of vertices inside his air lumen (> 5%)",
+    "levatores_costarum_l": "Q62s9_vhm_trunk_leg: 46.0% of vertices inside other muscles/organs (> 10%; his structures 46.0%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly external_intercostals_l)",
+    "levatores_costarum_r": "Q62s9_vhm_trunk_leg: 5.4% of vertices still inside his bone after the bounded push-out (> 5%; 32.5% before)",
+    "mentalis_l": "Q62s7b_vhm_head_neck: the fixes leave 66% of its transferred volume (< 75%)",
+    "mentalis_r": "Q62s7b_vhm_head_neck: the fixes leave 54% of its transferred volume (< 75%)",
+    "nasalis_l": "Q62s7b_vhm_head_neck: 6.8% of vertices inside his air lumen (> 5%)",
+    "nasalis_r": "Q62s7b_vhm_head_neck: 11.4% of vertices inside his air lumen (> 5%)",
+    "omohyoid_l": "Q62s7b_vhm_head_neck: bone around it fits his CT at 4.16 mm median (> 3.0 mm)",
+    "omohyoid_r": "Q62s7b_vhm_head_neck: bone around it fits his CT at 4.06 mm median (> 3.0 mm)",
+    "orbicularis_oculi_l": "Q62s7b_vhm_head_neck: 5.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 32.8% before)",
+    "orbicularis_oculi_r": "Q62s7b_vhm_head_neck: 14.8% of vertices inside his air lumen (> 5%)",
+    "palatopharyngeus_l": "Q62s7b_vhm_head_neck: 6.4% of vertices inside his air lumen (> 5%)",
+    "palatopharyngeus_r": "Q62s7b_vhm_head_neck: 24.2% of vertices inside other muscles/organs (> 10%; his structures 24.2%, new muscles 0.1% vs 0.4% in Z-Anatomy itself; mostly longus_colli_r)",
+    "platysma_l": "Q62s7b_vhm_head_neck: 21.4% of vertices inside other muscles/organs (> 10%; his structures 21.4%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_l)",
+    "platysma_r": "Q62s7b_vhm_head_neck: 16.9% of vertices inside other muscles/organs (> 10%; his structures 16.9%, new muscles 3.1% vs 3.2% in Z-Anatomy itself; mostly sternocleidomastoid_r)",
+    "procerus": "Q62s7b_vhm_head_neck: 6.4% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 46.2% before)",
+    "pyramidalis_l": "Q62s9_vhm_trunk_leg: bone around it fits his CT at 79.06 mm median (> 3.0 mm)",
+    "pyramidalis_r": "Q62s9_vhm_trunk_leg: bone around it fits his CT at 77.47 mm median (> 3.0 mm)",
+    "risorius_l": "Q62s7b_vhm_head_neck: 49.7% of vertices inside other muscles/organs (> 10%; his structures 49.7%, new muscles 21.6% vs 21.6% in Z-Anatomy itself; mostly masseter_l)",
+    "risorius_r": "Q62s7b_vhm_head_neck: 25.0% of vertices inside other muscles/organs (> 10%; his structures 25.0%, new muscles 26.4% vs 26.7% in Z-Anatomy itself; mostly masseter_r)",
+    "rotatores_l": "Q62s9_vhm_trunk_leg: 72.5% of vertices inside other muscles/organs (> 10%; his structures 72.3%, new muscles 2.8% vs 2.6% in Z-Anatomy itself; mostly multifidus_l)",
+    "rotatores_r": "Q62s9_vhm_trunk_leg: 67.3% of vertices inside other muscles/organs (> 10%; his structures 67.0%, new muscles 2.8% vs 2.6% in Z-Anatomy itself; mostly multifidus_r)",
+    "semispinalis_thoracis_l": "Q62s9_vhm_trunk_leg: 76.1% of vertices inside other muscles/organs (> 10%; his structures 74.9%, new muscles 6.4% vs 5.2% in Z-Anatomy itself; mostly multifidus_l)",
+    "semispinalis_thoracis_r": "Q62s9_vhm_trunk_leg: 71.4% of vertices inside other muscles/organs (> 10%; his structures 70.5%, new muscles 6.1% vs 5.1% in Z-Anatomy itself; mostly multifidus_r)",
+    "serratus_posterior_inferior_l": "Q62s9_vhm_trunk_leg: 48.5% of vertices inside other muscles/organs (> 10%; his structures 48.4%, new muscles 3.0% vs 2.9% in Z-Anatomy itself; mostly iliocostalis_l)",
+    "serratus_posterior_inferior_r": "Q62s9_vhm_trunk_leg: 57.9% of vertices inside other muscles/organs (> 10%; his structures 57.9%, new muscles 2.8% vs 2.9% in Z-Anatomy itself; mostly iliocostalis_r)",
+    "serratus_posterior_superior_l": "Q62s9_vhm_trunk_leg: 38.4% of vertices inside other muscles/organs (> 10%; his structures 38.3%, new muscles 3.0% vs 2.9% in Z-Anatomy itself; mostly subscapularis_l)",
+    "serratus_posterior_superior_r": "Q62s9_vhm_trunk_leg: 38.2% of vertices inside other muscles/organs (> 10%; his structures 38.2%, new muscles 3.5% vs 3.5% in Z-Anatomy itself; mostly longissimus_r)",
+    "splenius_capitis_l": "Q62s7b_vhm_head_neck: 7.1% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.6% before)",
+    "splenius_capitis_r": "Q62s7b_vhm_head_neck: 6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.1% before)",
+    "sternohyoid_l": "Q62s7b_vhm_head_neck: 7.6% of vertices inside his air lumen (> 5%)",
+    "sternohyoid_r": "Q62s7b_vhm_head_neck: 6.5% of vertices inside his air lumen (> 5%)",
+    "stylohyoid_l": "Q62s7b_vhm_head_neck: 25.2% of vertices inside other muscles/organs (> 10%; his structures 25.2%, new muscles 4.6% vs 4.6% in Z-Anatomy itself; mostly geniohyoid_l)",
+    "stylopharyngeus_l": "Q62s7b_vhm_head_neck: 21.9% of vertices inside other muscles/organs (> 10%; his structures 21.9%, new muscles 3.1% vs 3.8% in Z-Anatomy itself; mostly longus_capitis_l)",
+    "stylopharyngeus_r": "Q62s7b_vhm_head_neck: 6.9% of vertices inside his air lumen (> 5%)",
+    "transversus_thoracis_l": "Q62s9_vhm_trunk_leg: 24.5% of vertices inside his lung (> 5%)",
+    "transversus_thoracis_r": "Q62s9_vhm_trunk_leg: 23.2% of vertices inside his lung (> 5%)",
+    "zygomaticus_major_l": "Q62s7b_vhm_head_neck: 6.8% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 15.4% before)",
+    "zygomaticus_minor_l": "Q62s7b_vhm_head_neck: 5.5% of vertices still inside his bone/cartilage after the bounded push-out (> 5%; 12.8% before)"
+   },
+   "held_by_limb_route_skin_gate": {
+    "abductor_pollicis_brevis_l": "per-bone transform put 70% of this structure outside the specimen's own skin (driving bones ['carpals_l', 'radius_l', 'ulna_l']) -- not shipped",
+    "abductor_pollicis_brevis_r": "per-bone transform put 65% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+    "anconeus_l": "per-bone transform put 100% of this structure outside the specimen's own skin (driving bones ['ulna_l']) -- not shipped",
+    "anconeus_r": "per-bone transform put 100% of this structure outside the specimen's own skin (driving bones ['ulna_r']) -- not shipped",
+    "extensor_digiti_minimi_l": "per-bone transform put 64% of this structure outside the specimen's own skin (driving bones ['ulna_l', 'radius_l']) -- not shipped",
+    "extensor_digitorum_l": "per-bone transform put 55% of this structure outside the specimen's own skin (driving bones ['radius_l', 'carpals_l', 'ulna_l']) -- not shipped",
+    "extensor_indicis_l": "per-bone transform put 60% of this structure outside the specimen's own skin (driving bones ['ulna_l']) -- not shipped",
+    "flexor_carpi_radialis_r": "per-bone transform put 59% of this structure outside the specimen's own skin (driving bones ['ulna_r', 'radius_r', 'metacarpals_r']) -- not shipped",
+    "flexor_carpi_ulnaris_r": "per-bone transform put 58% of this structure outside the specimen's own skin (driving bones ['ulna_r', 'radius_r', 'carpals_r']) -- not shipped",
+    "flexor_digitorum_profundus_l": "per-bone transform put 53% of this structure outside the specimen's own skin (driving bones ['ulna_l', 'carpals_l']) -- not shipped",
+    "flexor_pollicis_brevis_l": "per-bone transform put 81% of this structure outside the specimen's own skin (driving bones ['carpals_l', 'radius_l', 'ulna_l']) -- not shipped",
+    "flexor_pollicis_brevis_r": "per-bone transform put 81% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+    "opponens_digiti_minimi_l": "per-bone transform put 57% of this structure outside the specimen's own skin (driving bones ['metacarpals_l', 'carpals_l', 'ulna_l']) -- not shipped",
+    "opponens_pollicis_r": "per-bone transform put 70% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped"
+   },
+   "never_run_through_a_gated_route": [
+    "quadratus_lumborum_r"
+   ],
+   "counts": {
+    "held_by_gate": 52,
+    "held_by_limb_route_skin_gate": 14,
+    "never_run_through_a_gated_route": 1
+   }
+  },
+  "own_ids_without_same_id_in_z": [
+   "adductor_magnus_distal_tendon_l",
+   "adductor_magnus_distal_tendon_r",
+   "ankle_articular_cartilage_l",
+   "ankle_articular_cartilage_r",
+   "bulbospongiosus_l",
+   "bulbospongiosus_r",
+   "carpals_l",
+   "carpals_r",
+   "cervical_vertebrae",
+   "common_carotid_a_r",
+   "coracoclavicular_ligament_l",
+   "cranium",
+   "deep_transverse_perineal_l",
+   "deep_transverse_perineal_r",
+   "deltoid_l",
+   "deltoid_r",
+   "external_intercostals_l",
+   "external_intercostals_r",
+   "femoral_a_l",
+   "femoral_a_r",
+   "femoral_v_l",
+   "femoral_v_r",
+   "iliopsoas_l",
+   "iliopsoas_r",
+   "iliopsoas_tendon_l",
+   "iliopsoas_tendon_r",
+   "internal_carotid_a_l",
+   "internal_carotid_a_r",
+   "internal_jugular_v_l",
+   "internal_jugular_v_r",
+   "intervertebral_disc_l5_s1",
+   "intervertebral_disc_t12_l1",
+   "ischiocavernosus_l",
+   "ischiocavernosus_r",
+   "lateral_cricoarytenoid_l",
+   "lateral_cricoarytenoid_r",
+   "lumbar_vertebrae",
+   "metacarpals_l",
+   "metacarpals_r",
+   "metatarsals_l",
+   "metatarsals_r",
+   "oblique_arytenoid_l",
+   "optic_n",
+   "patellofemoral_articular_cartilage_l",
+   "patellofemoral_articular_cartilage_r",
+   "pectoralis_major_l",
+   "pectoralis_major_r",
+   "phalanges_foot_l",
+   "phalanges_foot_r",
+   "phalanges_hand_l",
+   "phalanges_hand_r",
+   "popliteal_v_l",
+   "popliteal_v_r",
+   "prostate",
+   "quadriceps_tendon_l",
+   "quadriceps_tendon_r",
+   "rectum",
+   "ribs_l",
+   "ribs_r",
+   "sciatic_n",
+   "semispinalis_capitis_l",
+   "semispinalis_capitis_r",
+   "semispinalis_cervicis_l",
+   "semispinalis_cervicis_r",
+   "sigmoid_colon",
+   "skin",
+   "styloglossus_l",
+   "styloglossus_r",
+   "temporalis_l",
+   "temporalis_r",
+   "thoracic_vertebrae",
+   "thyroarytenoid_l",
+   "tibial_n",
+   "tibialis_posterior_l",
+   "tibialis_posterior_r",
+   "triceps_brachii_l",
+   "triceps_brachii_r",
+   "urinary_bladder"
+  ]
+ },
+ "own_female": {
+  "body": "female",
+  "dir": "/home/user/NMSK_Atlas/build/viewer_f_hr_q189",
+  "entries": 459,
+  "ids": 435,
+  "triangles_shipped": 3407651,
+  "by_class": {
+   "measured": {
+    "entries": 163,
+    "ids": 139,
+    "volume_cm3": 96255.8,
+    "hidden_by_default_entries": 2
+   },
+   "rule_based": {
+    "entries": 147,
+    "ids": 147,
+    "volume_cm3": 7254.3,
+    "hidden_by_default_entries": 2
+   },
+   "transferred": {
+    "entries": 87,
+    "ids": 87,
+    "volume_cm3": 10366.1,
+    "hidden_by_default_entries": 8
+   },
+   "filled_zan": {
+    "entries": 62,
+    "ids": 62,
+    "volume_cm3": 1453.7,
+    "hidden_by_default_entries": 1
+   },
+   "other_specimen": {
+    "entries": 0,
+    "ids": 0,
+    "volume_cm3": 0,
+    "hidden_by_default_entries": 0
+   }
+  },
+  "by_class_excl_skin_volume_cm3": {
+   "measured": 9806.3,
+   "rule_based": 7254.3,
+   "transferred": 10366.1,
+   "filled_zan": 1453.7,
+   "other_specimen": 0
+  },
+  "visible_default_by_class": {
+   "measured": 137,
+   "rule_based": 145,
+   "transferred": 79,
+   "filled_zan": 61,
+   "other_specimen": 0
+  },
+  "by_system": {
+   "bone": {
+    "entries": {
+     "measured": 54,
+     "rule_based": 26,
+     "transferred": 3
+    },
+    "volume_cm3": {
+     "measured": 3396.5,
+     "rule_based": 1660.0,
+     "transferred": 234.8
+    }
+   },
+   "cartilage": {
+    "entries": {
+     "measured": 4,
+     "rule_based": 21,
+     "transferred": 8
+    },
+    "volume_cm3": {
+     "measured": 323.4,
+     "rule_based": 99.8,
+     "transferred": 31.5
+    }
+   },
+   "fascia": {
+    "entries": {
+     "measured": 1,
+     "filled_zan": 7
+    },
+    "volume_cm3": {
+     "measured": 86449.6,
+     "filled_zan": 1205.0
+    }
+   },
+   "ligament": {
+    "entries": {
+     "measured": 3,
+     "transferred": 8
+    },
+    "volume_cm3": {
+     "measured": 12.2,
+     "transferred": 12.4
+    }
+   },
+   "muscle": {
+    "entries": {
+     "rule_based": 93,
+     "measured": 70,
+     "transferred": 68,
+     "filled_zan": 55
+    },
+    "volume_cm3": {
+     "rule_based": 5466.3,
+     "measured": 5404.4,
+     "transferred": 10087.6,
+     "filled_zan": 248.7
+    }
+   },
+   "nerve": {
+    "entries": {
+     "measured": 2,
+     "rule_based": 3
+    },
+    "volume_cm3": {
+     "measured": 1.0,
+     "rule_based": 21.4
+    }
+   },
+   "organ": {
+    "entries": {
+     "measured": 3
+    },
+    "volume_cm3": {
+     "measured": 252.6
+    }
+   },
+   "tendon": {
+    "entries": {
+     "measured": 6
+    },
+    "volume_cm3": {
+     "measured": 35.2
+    }
+   },
+   "vessel": {
+    "entries": {
+     "measured": 20,
+     "rule_based": 4
+    },
+    "volume_cm3": {
+     "measured": 381.0,
+     "rule_based": 6.7
+    }
+   }
+  },
+  "by_region": {
+   "foot": {
+    "entries": {
+     "rule_based": 14,
+     "transferred": 6,
+     "filled_zan": 24
+    },
+    "volume_cm3": {
+     "rule_based": 259.1,
+     "transferred": 129.1,
+     "filled_zan": 1034.4
+    }
+   },
+   "forearm_hand": {
+    "entries": {
+     "measured": 2,
+     "rule_based": 23,
+     "filled_zan": 10
+    },
+    "volume_cm3": {
+     "measured": 34.1,
+     "rule_based": 343.0,
+     "filled_zan": 390.0
+    }
+   },
+   "head_neck": {
+    "entries": {
+     "measured": 42,
+     "rule_based": 30,
+     "filled_zan": 25
+    },
+    "volume_cm3": {
+     "measured": 992.8,
+     "rule_based": 194.8,
+     "filled_zan": 21.1
+    }
+   },
+   "lower_limb": {
+    "entries": {
+     "rule_based": 12,
+     "measured": 6,
+     "transferred": 60,
+     "filled_zan": 1
+    },
+    "volume_cm3": {
+     "rule_based": 1400.9,
+     "measured": 509.6,
+     "transferred": 8971.5,
+     "filled_zan": 0.8
+    }
+   },
+   "trunk": {
+    "entries": {
+     "measured": 86,
+     "rule_based": 51,
+     "transferred": 19,
+     "filled_zan": 2
+    },
+    "volume_cm3": {
+     "measured": 7377.1,
+     "rule_based": 3226.3,
+     "transferred": 1198.7,
+     "filled_zan": 7.3
+    }
+   },
+   "unassigned": {
+    "entries": {
+     "measured": 14,
+     "rule_based": 7
+    },
+    "volume_cm3": {
+     "measured": 106.4,
+     "rule_based": 28.1
+    }
+   },
+   "upper_limb": {
+    "entries": {
+     "measured": 12,
+     "rule_based": 10,
+     "transferred": 2
+    },
+    "volume_cm3": {
+     "measured": 786.3,
+     "rule_based": 1802.0,
+     "transferred": 66.8
+    }
+   },
+   "whole_body": {
+    "entries": {
+     "measured": 1
+    },
+    "volume_cm3": {
+     "measured": 86449.6
+    }
+   }
+  },
+  "subjects": {
+   "ct_vhf_head": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 692.6,
+    "ids": [
+     "cranium",
+     "mandible"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_craniofacial_structures.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 2
+   },
+   "ct_vhf_legs": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 12,
+    "volume_cm3": 1400.9,
+    "ids": [
+     "femur_l",
+     "femur_r",
+     "fibula_l",
+     "fibula_r",
+     "metatarsals_l",
+     "metatarsals_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_lower_limb_bones.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 10,
+    "mapping_notes_total": 12
+   },
+   "ct_vhf_tarsal": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 14,
+    "volume_cm3": 259.1,
+    "ids": [
+     "calcaneus_l",
+     "calcaneus_r",
+     "cuboid_l",
+     "cuboid_r",
+     "cuneiform_intermediate_l",
+     "cuneiform_intermediate_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_tarsals_split.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 14
+   },
+   "ct_vhf_armb": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 4,
+    "volume_cm3": 66.6,
+    "ids": [
+     "carpals_r",
+     "phalanges_hand_r",
+     "radius_r",
+     "ulna_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_bones_ct.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 4
+   },
+   "ct_vhf_mcsplit": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 5,
+    "volume_cm3": 25.4,
+    "ids": [
+     "metacarpal_1_r",
+     "metacarpal_2_r",
+     "metacarpal_3_r",
+     "metacarpal_4_r",
+     "metacarpal_5_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_metacarpals_split.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 5
+   },
+   "ct_vhf_descaorta": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 1,
+    "volume_cm3": 120.0,
+    "ids": [
+     "descending_thoracic_aorta"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total_q185k.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhf_hyoid_fix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 9.0,
+    "ids": [
+     "genioglossus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 10,
+    "mapping_notes_total": 10
+   },
+   "ct_vhf_armm_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 4,
+    "volume_cm3": 886.1,
+    "ids": [
+     "biceps_brachii_l",
+     "biceps_brachii_r",
+     "brachialis_r",
+     "triceps_brachii_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_armm_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 395.9,
+    "ids": [
+     "brachialis_l",
+     "triceps_brachii_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_arm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_delt_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 223.7,
+    "ids": [
+     "deltoid_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deltoid_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "ct_vhf_dneck_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 3.5,
+    "ids": [
+     "longus_capitis_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 16,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_dneck_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 6,
+    "volume_cm3": 109.7,
+    "ids": [
+     "longus_capitis_r",
+     "rectus_capitis_posterior_major_r",
+     "semispinalis_capitis_l",
+     "semispinalis_capitis_r",
+     "semispinalis_cervicis_l",
+     "semispinalis_cervicis_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 16,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_forearm_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 35.0,
+    "ids": [
+     "extensor_carpi_radialis_longus_r",
+     "extensor_pollicis_longus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 14,
+    "mapping_notes_total": 14
+   },
+   "ct_vhf_forearm_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 43.5,
+    "ids": [
+     "extensor_carpi_ulnaris_r",
+     "flexor_digitorum_profundus_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 14,
+    "mapping_notes_total": 14
+   },
+   "ct_vhf_hyoid_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 1.1,
+    "ids": [
+     "styloglossus_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 10,
+    "mapping_notes_total": 10
+   },
+   "ct_vhf_orbit_contfix": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 1,
+    "volume_cm3": 0.4,
+    "ids": [
+     "superior_rectus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_pfloor_contfix": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 1.8,
+    "ids": [
+     "deep_transverse_perineal_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 11,
+    "mapping_notes_total": 11
+   },
+   "ct_vhf_abd_contfix_mesh": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 297.4,
+    "ids": [
+     "external_oblique_l",
+     "external_oblique_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_abdominal_muscles.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_cuff_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 3,
+    "volume_cm3": 353.9,
+    "ids": [
+     "subscapularis_l",
+     "supraspinatus_l",
+     "supraspinatus_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_es_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 100.3,
+    "ids": [
+     "spinalis_l",
+     "spinalis_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_erector_columns.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_hand_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 16.5,
+    "ids": [
+     "dorsal_interossei_hand_r",
+     "palmar_interossei_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_left_forearm_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 22.5,
+    "ids": [
+     "extensor_digitorum_l"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 15,
+    "mapping_notes_total": 15
+   },
+   "ct_vhf_shsp_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 3,
+    "volume_cm3": 479.2,
+    "ids": [
+     "infraspinatus_l",
+     "infraspinatus_r",
+     "teres_minor_l"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_twall_contfix_mesh": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 274.2,
+    "ids": [
+     "diaphragm"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_trunk_wall.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 3,
+    "mapping_notes_total": 3
+   },
+   "ct_vhf_ribs": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 2,
+    "volume_cm3": 270.1,
+    "ids": [
+     "ribs_l",
+     "ribs_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 24
+   },
+   "ct_vhf": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 70,
+    "volume_cm3": 5182.4,
+    "ids": [
+     "abdominal_aorta",
+     "acromioclavicular_ligament_l",
+     "acromioclavicular_ligament_r",
+     "adductor_magnus_distal_tendon_l",
+     "adductor_magnus_distal_tendon_r",
+     "aortic_arch_and_great_vessels",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_total_q185k.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 84
+   },
+   "ct_vhf_headm": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 10,
+    "volume_cm3": 161.8,
+    "ids": [
+     "digastric_l",
+     "digastric_r",
+     "lateral_pterygoid_l",
+     "lateral_pterygoid_r",
+     "masseter_l",
+     "masseter_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_head_muscles.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 10
+   },
+   "ct_vhf_neck": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 22,
+    "volume_cm3": 503.4,
+    "ids": [
+     "inferior_pharyngeal_constrictor_l",
+     "inferior_pharyngeal_constrictor_r",
+     "levator_scapulae_l",
+     "levator_scapulae_r",
+     "middle_pharyngeal_constrictor_l",
+     "middle_pharyngeal_constrictor_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_headneck_muscles_merged.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 18
+   },
+   "ct_vhf_neckbv": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 9,
+    "volume_cm3": 24.6,
+    "ids": [
+     "hyoid",
+     "internal_carotid_a_l",
+     "internal_carotid_a_r",
+     "internal_jugular_v_l",
+     "internal_jugular_v_r",
+     "temporal_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_headneck_bones_vessels.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 9
+   },
+   "ct_vhf_orbit": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 15,
+    "volume_cm3": 10.0,
+    "ids": [
+     "inferior_oblique_l",
+     "inferior_oblique_r",
+     "inferior_rectus_l",
+     "inferior_rectus_r",
+     "lateral_rectus_l",
+     "lateral_rectus_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_oculomotor_muscles.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_abd": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 14,
+    "volume_cm3": 1999.1,
+    "ids": [
+     "internal_oblique_l",
+     "internal_oblique_r",
+     "latissimus_dorsi_l",
+     "latissimus_dorsi_r",
+     "multifidus_l",
+     "multifidus_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_abdominal_muscles.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_shsp": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 3,
+    "volume_cm3": 196.1,
+    "ids": [
+     "teres_major_l",
+     "teres_major_r",
+     "teres_minor_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_shoulder_split_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_delt": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 280.5,
+    "ids": [
+     "deltoid_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deltoid_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "ct_vhf_cuff": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 278.2,
+    "ids": [
+     "subscapularis_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_rotator_cuff_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_es": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 4,
+    "volume_cm3": 887.1,
+    "ids": [
+     "iliocostalis_l",
+     "iliocostalis_r",
+     "longissimus_l",
+     "longissimus_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_erector_columns.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_forearm": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 10,
+    "volume_cm3": 188.6,
+    "ids": [
+     "abductor_pollicis_longus_r",
+     "brachioradialis_r",
+     "extensor_carpi_radialis_brevis_r",
+     "extensor_digiti_minimi_r",
+     "extensor_digitorum_r",
+     "extensor_indicis_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 14,
+    "mapping_notes_total": 14
+   },
+   "ct_vhf_left_forearm": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 4,
+    "volume_cm3": 31.8,
+    "ids": [
+     "abductor_pollicis_longus_l",
+     "extensor_digiti_minimi_l",
+     "extensor_pollicis_brevis_l",
+     "extensor_pollicis_longus_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_left_forearm_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 15,
+    "mapping_notes_total": 15
+   },
+   "ct_vhf_dneck": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 9,
+    "volume_cm3": 28.8,
+    "ids": [
+     "longus_colli_l",
+     "longus_colli_r",
+     "obliquus_capitis_inferior_l",
+     "obliquus_capitis_inferior_r",
+     "obliquus_capitis_superior_l",
+     "obliquus_capitis_superior_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_deep_neck_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 16,
+    "mapping_notes_total": 16
+   },
+   "ct_vhf_hyoid": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 8,
+    "volume_cm3": 38.8,
+    "ids": [
+     "genioglossus_l",
+     "geniohyoid_l",
+     "geniohyoid_r",
+     "hyoglossus_l",
+     "hyoglossus_r",
+     "mylohyoid_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hyoid_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 10,
+    "mapping_notes_total": 10
+   },
+   "ct_vhf_hand": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 4,
+    "volume_cm3": 20.8,
+    "ids": [
+     "abductor_digiti_minimi_hand_r",
+     "adductor_pollicis_r",
+     "flexor_digiti_minimi_brevis_hand_r",
+     "opponens_digiti_minimi_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_hand_muscles_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 6,
+    "mapping_notes_total": 6
+   },
+   "ct_vhf_femoral": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 3,
+    "volume_cm3": 5.1,
+    "ids": [
+     "femoral_a_r",
+     "femoral_n",
+     "femoral_v_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_femoral_bundle_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 3
+   },
+   "ct_vhf_popliteal": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 3,
+    "volume_cm3": 3.5,
+    "ids": [
+     "popliteal_a_r",
+     "popliteal_v_r",
+     "tibial_n"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_popliteal_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 3
+   },
+   "ct_vhf_pfloor": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 10,
+    "volume_cm3": 93.0,
+    "ids": [
+     "bulbospongiosus_l",
+     "bulbospongiosus_r",
+     "coccygeus_l",
+     "coccygeus_r",
+     "deep_transverse_perineal_l",
+     "external_anal_sphincter",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pelvic_floor_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 11,
+    "mapping_notes_total": 11
+   },
+   "ct_vhf_twall": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 325.2,
+    "ids": [
+     "external_intercostals_l",
+     "external_intercostals_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_trunk_wall.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 3,
+    "mapping_notes_total": 3
+   },
+   "ct_vhf_pmr": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 2,
+    "volume_cm3": 59.2,
+    "ids": [
+     "pectoralis_minor_l",
+     "pectoralis_minor_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_pecminor_rhomboids_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "xfer_vhm2vhf_rhom": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 2,
+    "volume_cm3": 39.6,
+    "ids": [
+     "rhomboid_minor_l",
+     "rhomboid_minor_r"
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer vhm -> vhf",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhf_pelvis": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 3,
+    "volume_cm3": 252.7,
+    "ids": [
+     "rectum",
+     "sigmoid_colon",
+     "urinary_bladder"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "data/ct_sources/task_outputs/vhf_pelvic_viscera.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhf_discs": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 23,
+    "volume_cm3": 299.6,
+    "ids": [
+     "intervertebral_disc_c2_c3",
+     "intervertebral_disc_c3_c4",
+     "intervertebral_disc_c4_c5",
+     "intervertebral_disc_c5_c6",
+     "intervertebral_disc_c6_c7",
+     "intervertebral_disc_c7_t1",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "rule_based_from_ct_labels",
+     "source_volume": "data/ct_sources/task_outputs/vhf_total_q185k.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "ct_vhf_tam": {
+    "class": "rule_based",
+    "why": "badge starts RULE-BASED",
+    "entries": 2,
+    "volume_cm3": 82.1,
+    "ids": [
+     "transversus_abdominis_l",
+     "transversus_abdominis_r"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_transversus_q185f2.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 2,
+    "mapping_notes_total": 2
+   },
+   "ct_vhf_nerve": {
+    "class": "rule_based",
+    "why": "subject description says rule",
+    "entries": 1,
+    "volume_cm3": 19.5,
+    "ids": [
+     "sciatic_n"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_nerves_cryo.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 1,
+    "mapping_notes_total": 1
+   },
+   "ct_vhf_skin": {
+    "class": "measured",
+    "why": "own segmentation (no rule / transfer marker)",
+    "entries": 1,
+    "volume_cm3": 86449.6,
+    "ids": [
+     "skin"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/vhf_ts/skin_union.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 1
+   },
+   "ct_vhf_xfersepta_fix_contfix": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 1,
+    "volume_cm3": 38.7,
+    "ids": [
+     "extensor_digitorum_longus_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 4
+   },
+   "ct_vhf_xfersepta_fix": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 3,
+    "volume_cm3": 69.2,
+    "ids": [
+     "extensor_hallucis_longus_l",
+     "flexor_digitorum_longus_l",
+     "plantaris_l"
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 4
+   },
+   "xfer_vhm2vhf_sep_contfix_mesh": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 4,
+    "volume_cm3": 651.5,
+    "ids": [
+     "adductor_brevis_l",
+     "obturator_internus_r",
+     "semimembranosus_r",
+     "tensor_fasciae_latae_r"
+    ],
+    "manifest": {
+     "source_kind": "mesh-space island drop of an already-built subject",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 57
+   },
+   "xfer_vhm2vhf_sep_contfix": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 17,
+    "volume_cm3": 3387.5,
+    "ids": [
+     "adductor_longus_l",
+     "adductor_magnus_r",
+     "biceps_femoris_l",
+     "biceps_femoris_r",
+     "extensor_digitorum_longus_r",
+     "extensor_hallucis_longus_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 57
+   },
+   "xfer_vhm2vhf_sep": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 32,
+    "volume_cm3": 5568.5,
+    "ids": [
+     "adductor_brevis_r",
+     "adductor_longus_r",
+     "adductor_magnus_l",
+     "fibularis_longus_l",
+     "fibularis_longus_r",
+     "flexor_digitorum_longus_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "labelled volume (NIfTI)",
+     "source_volume": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhf_xfer_lowerlimb_septa.nii.gz"
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 57
+   },
+   "xfer_vhm2vhf": {
+    "class": "transferred",
+    "why": "subject xfer*",
+    "entries": 28,
+    "volume_cm3": 611.5,
+    "ids": [
+     "ankle_articular_cartilage_l",
+     "ankle_articular_cartilage_r",
+     "anterior_cruciate_ligament_l",
+     "anterior_cruciate_ligament_r",
+     "coccyx",
+     "coracobrachialis_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer vhm -> vhf",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhf_foot": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 12,
+    "volume_cm3": 90.4,
+    "ids": [
+     "abductor_digiti_minimi_foot_l",
+     "abductor_digiti_minimi_foot_r",
+     "abductor_hallucis_r",
+     "dorsal_interossei_foot_l",
+     "extensor_digitorum_brevis_l",
+     "extensor_digitorum_brevis_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhf_head": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 26,
+    "volume_cm3": 23.8,
+    "ids": [
+     "depressor_anguli_oris_l",
+     "depressor_labii_inferioris_l",
+     "depressor_labii_inferioris_r",
+     "lateral_cricoarytenoid_l",
+     "lateral_cricoarytenoid_r",
+     "levator_anguli_oris_l",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhf_trunk": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 1,
+    "volume_cm3": 4.5,
+    "ids": [
+     "subclavius_r"
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhf (Q168 per-bone fit)",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhf_limb_photo": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 4,
+    "volume_cm3": 55.8,
+    "ids": [
+     "anconeus_r",
+     "flexor_carpi_radialis_r",
+     "opponens_pollicis_r",
+     "pronator_teres_r"
+    ],
+    "manifest": {
+     "source_kind": "Q151b photograph-gradient watershed refinement of Q147 zanatomy transfer",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   },
+   "xfer_zan2vhf_limb": {
+    "class": "filled_zan",
+    "why": "subject xfer_zan2*",
+    "entries": 19,
+    "volume_cm3": 1279.3,
+    "ids": [
+     "abductor_hallucis_l",
+     "adductor_hallucis_l",
+     "adductor_hallucis_r",
+     "antebrachial_fascia_r",
+     "dorsal_interossei_foot_r",
+     "extensor_retinaculum_r",
+     "..."
+    ],
+    "manifest": {
+     "source_kind": "cross-subject transfer zanatomy -> vhf",
+     "source_volume": null
+    },
+    "mapping_notes_mentioning_rule": 0,
+    "mapping_notes_total": 0
+   }
+  },
+  "mislabel_checks": {
+   "measured_with_zan_or_transfer_marker": [],
+   "zan_without_zan_badge": [],
+   "transfer_without_transfer_badge": [],
+   "class_vs_manifest_disagreements": [],
+   "class_vs_mapping_notes_disagreements": []
+  }
+ },
+ "zan_female": {
+  "viewer": "build/viewer_zan_female",
+  "label": "Z-Anatomy female (reference, fitted onto her skeleton)",
+  "meshes": 2939,
+  "matched_to_project_atlas_id": 661,
+  "orphan_zan_ids": 2278,
+  "volume_cm3_total": 107691.8,
+  "by_layer": {
+   "vessel": 651,
+   "nerve": 337,
+   "muscle": 424,
+   "cartilage": 53,
+   "joint": 325,
+   "bursa": 114,
+   "fascia": 59,
+   "bone": 250,
+   "insertion": 4,
+   "cns": 203,
+   "viscera": 109,
+   "lymph": 162,
+   "skin": 248
+  },
+  "fitted_onto_her_skeleton_badged": 2939,
+  "fitted_with_error_stated": 2939,
+  "bbox_identical_to_own_mesh_of_same_id": [],
+  "badge_mentions_specimen_geometry": [],
+  "badges_citing_her_ct_only_for_error_or_anchor": 1418
+ },
+ "gaps_female": {
+  "zan_structures_excl_skin": 2691,
+  "counterpart_by_atlas_id_by_own_class": {
+   "measured": 96,
+   "filled_zan": 55,
+   "rule_based": 113,
+   "transferred": 79
+  },
+  "counterpart_by_linked_record_or_name_by_own_class": {
+   "filled_zan": 9,
+   "rule_based": 71,
+   "measured": 132,
+   "transferred": 30
+  },
+  "without_counterpart": 2106,
+  "without_counterpart_volume_cm3": 79517.6,
+  "by_region_and_z_layer": {
+   "foot": {
+    "bone": {
+     "n": 12,
+     "volume_cm3": 80.2,
+     "examples": [
+      "Fifth metatarsal bone",
+      "Fifth metatarsal bone",
+      "First metatarsal bone",
+      "First metatarsal bone",
+      "Fourth metatarsal bone",
+      "Fourth metatarsal bone"
+     ]
+    },
+    "bursa": {
+     "n": 6,
+     "volume_cm3": 8.5,
+     "examples": [
+      "Subcutaneous calcaneal (Achilles/pre-Achilles) bursa",
+      "Subcutaneous calcaneal (Achilles/pre-Achilles) bursa",
+      "Subtendinous calcaneal bursa",
+      "Subtendinous calcaneal bursa",
+      "Tendon sheath of tibialis posterior muscle",
+      "Tendon sheath of tibialis posterior muscle"
+     ]
+    },
+    "fascia": {
+     "n": 1,
+     "volume_cm3": 840.0,
+     "examples": [
+      "Plantar aponeurosis"
+     ]
+    },
+    "joint": {
+     "n": 79,
+     "volume_cm3": 673.9,
+     "examples": [
+      "Anterior talocalcaneal ligament",
+      "Anterior talocalcaneal ligament",
+      "Articular capsule of interphalangeal joint of great toe",
+      "Articular capsule of interphalangeal joint of great toe",
+      "Articular capsules of distal interphalangeal joints of foot",
+      "Articular capsules of distal interphalangeal joints of foot"
+     ]
+    },
+    "muscle": {
+     "n": 3,
+     "volume_cm3": 11.7,
+     "examples": [
+      "Flexor hallucis brevis",
+      "Lumbrical muscles of foot",
+      "Lumbrical muscles of foot"
+     ]
+    },
+    "nerve": {
+     "n": 23,
+     "volume_cm3": 4.4,
+     "examples": [
+      "Lateral plantar nerve (left)",
+      "Lateral plantar nerve (right)",
+      "Medial plantar nerve (left)",
+      "Medial plantar nerve (right)",
+      "Intermediate dorsal cutaneous nerve of the foot (left)",
+      "Intermediate dorsal cutaneous nerve of the foot (right)"
+     ]
+    },
+    "vessel": {
+     "n": 48,
+     "volume_cm3": 25.6,
+     "examples": [
+      "Arcuate artery",
+      "Arcuate artery",
+      "Calcaneal branches of fibular artery",
+      "Calcaneal branches of fibular artery",
+      "Calcaneal branches of posterior tibial artery",
+      "Calcaneal branches of posterior tibial artery"
+     ]
+    }
+   },
+   "forearm_hand": {
+    "bone": {
+     "n": 34,
+     "volume_cm3": 138.9,
+     "examples": [
+      "Radius",
+      "Ulna",
+      "Capitate bone",
+      "Distal phalanx of fifth finger of hand",
+      "Distal phalanx of first finger of hand",
+      "Distal phalanx of fourth finger of hand"
+     ]
+    },
+    "bursa": {
+     "n": 19,
+     "volume_cm3": 72.4,
+     "examples": [
+      "Bicipitoradial (cubital) bursa",
+      "Bicipitoradial (cubital) bursa",
+      "Common flexor tendon sheath",
+      "Common flexor tendon sheath",
+      "Subtendinous bursa of triceps brachii muscle",
+      "Subtendinous bursa of triceps brachii muscle"
+     ]
+    },
+    "fascia": {
+     "n": 5,
+     "volume_cm3": 1858.7,
+     "examples": [
+      "Palmar aponeurosis",
+      "Antebrachial fascia",
+      "Dorsal fascia of hand",
+      "Dorsal fascia of hand",
+      "Palmar aponeurosis"
+     ]
+    },
+    "joint": {
+     "n": 69,
+     "volume_cm3": 104.0,
+     "examples": [
+      "Annular ligament of radius",
+      "Annular ligament of radius",
+      "Articular capsule of radiocarpal joint",
+      "Articular capsule of radiocarpal joint",
+      "Articular capsules of distal interphalangeal joints",
+      "Articular capsules of distal interphalangeal joints"
+     ]
+    },
+    "lymph": {
+     "n": 2,
+     "volume_cm3": 0.0,
+     "examples": [
+      "Cubital nodes",
+      "Cubital nodes"
+     ]
+    },
+    "muscle": {
+     "n": 29,
+     "volume_cm3": 413.0,
+     "examples": [
+      "Abductor pollicis brevis",
+      "Abductor pollicis brevis",
+      "Adductor pollicis",
+      "Anconeus",
+      "Brachioradialis",
+      "Extensor carpi radialis brevis"
+     ]
+    },
+    "nerve": {
+     "n": 44,
+     "volume_cm3": 8.0,
+     "examples": [
+      "Anterior interosseous nerve (left)",
+      "Anterior interosseous nerve (right)",
+      "Median nerve, lateral root (left)",
+      "Median nerve, lateral root (right)",
+      "Posterior interosseous nerve (deep branch of radial n.) (left)",
+      "Posterior interosseous nerve (deep branch of radial n.) (right)"
+     ]
+    },
+    "vessel": {
+     "n": 49,
+     "volume_cm3": 16.8,
+     "examples": [
+      "Cephalic vein",
+      "Common interosseous artery",
+      "Common interosseous artery",
+      "Common palmar digital arteries",
+      "Common palmar digital arteries",
+      "Deep palmar arch"
+     ]
+    }
+   },
+   "head_neck": {
+    "bone": {
+     "n": 66,
+     "volume_cm3": 431.3,
+     "examples": [
+      "Ethmoid bone",
+      "Frontal bone",
+      "Incus (ear ossicle)",
+      "Incus (ear ossicle)",
+      "Inferior nasal concha",
+      "Inferior nasal concha"
+     ]
+    },
+    "cns": {
+     "n": 181,
+     "volume_cm3": 625.2,
+     "examples": [
+      "Angular gyrus",
+      "Angular gyrus",
+      "Anterior chamber of eyeball",
+      "Anterior chamber of eyeball",
+      "Anterior quadrangular lobule",
+      "Anterior quadrangular lobule"
+     ]
+    },
+    "fascia": {
+     "n": 8,
+     "volume_cm3": 4768.6,
+     "examples": [
+      "Epicranial aponeurosis",
+      "Epicranial aponeurosis",
+      "Masseteric fascia",
+      "Masseteric fascia",
+      "Superficial investing cervical fascia",
+      "Superficial investing cervical fascia"
+     ]
+    },
+    "insertion": {
+     "n": 2,
+     "volume_cm3": 0.0,
+     "examples": [
+      "Intermediate tendon of digastric",
+      "Intermediate tendon of digastric"
+     ]
+    },
+    "joint": {
+     "n": 24,
+     "volume_cm3": 3.5,
+     "examples": [
+      "Nuchal ligament (ligamentum nuchae)",
+      "Articular capsule of temporomandibular joint",
+      "Articular capsule of temporomandibular joint",
+      "Articular disc of temporomandibular joint",
+      "Articular disc of temporomandibular joint",
+      "Cricopharyngeal ligament"
+     ]
+    },
+    "lymph": {
+     "n": 39,
+     "volume_cm3": 1.6,
+     "examples": [
+      "Anterior inferior jugular nodes",
+      "Anterior inferior jugular nodes",
+      "Bucinator node",
+      "Bucinator node",
+      "Intraglandular parotid nodes",
+      "Intraglandular parotid nodes"
+     ]
+    },
+    "muscle": {
+     "n": 51,
+     "volume_cm3": 153.2,
+     "examples": [
+      "Cricothyroideus",
+      "Cricothyroideus",
+      "Depressor anguli oris",
+      "Depressor septi nasi",
+      "Depressor septi nasi",
+      "Frontalis"
+     ]
+    },
+    "nerve": {
+     "n": 134,
+     "volume_cm3": 568.0,
+     "examples": [
+      "Abducens nerve (left)",
+      "Abducens nerve (right)",
+      "Chorda tympani (left)",
+      "Chorda tympani (right)",
+      "Glossopharyngeal nerve (left)",
+      "Glossopharyngeal nerve (right)"
+     ]
+    },
+    "vessel": {
+     "n": 205,
+     "volume_cm3": 87.0,
+     "examples": [
+      "Straight sinus",
+      "Superior sagittal sinus",
+      "Accessory branch of middle meningeal artery",
+      "Accessory branch of middle meningeal artery",
+      "Angular artery",
+      "Angular artery"
+     ]
+    },
+    "viscera": {
+     "n": 39,
+     "volume_cm3": 140.5,
+     "examples": [
+      "(Accessory parotid gland)",
+      "(Accessory parotid gland)",
+      "Adenohypophysis",
+      "Epiglottis",
+      "Gingiva",
+      "Inferior parathyroid gland"
+     ]
+    }
+   },
+   "lower_limb": {
+    "bursa": {
+     "n": 38,
+     "volume_cm3": 46.6,
+     "examples": [
+      "Anserine bursa (pes anserine bursa)",
+      "Anserine bursa (pes anserine bursa)",
+      "Iliopsoas bursa (iliopectineal bursa)",
+      "Iliopsoas bursa (iliopectineal bursa)",
+      "Common tendon sheath of fibularis muscles",
+      "Common tendon sheath of fibularis muscles"
+     ]
+    },
+    "cartilage": {
+     "n": 5,
+     "volume_cm3": 8.3,
+     "examples": [
+      "Acetabular labrum",
+      "Lateral meniscus",
+      "Lateral meniscus",
+      "Medial meniscus",
+      "Medial meniscus"
+     ]
+    },
+    "fascia": {
+     "n": 17,
+     "volume_cm3": 15711.2,
+     "examples": [
+      "Anterior intermuscular septum of the leg",
+      "Crural (deep) fascia of the leg",
+      "Fascia lata",
+      "Iliotibial (IT) tract/band",
+      "Lateral intermuscular septum of the arm",
+      "Medial intermuscular septum of the arm"
+     ]
+    },
+    "insertion": {
+     "n": 2,
+     "volume_cm3": 43.2,
+     "examples": [
+      "Calcaneal tendon",
+      "Calcaneal tendon"
+     ]
+    },
+    "joint": {
+     "n": 51,
+     "volume_cm3": 53.9,
+     "examples": [
+      "Popliteofibular ligament",
+      "Popliteofibular ligament",
+      "Transverse ligament of the knee (transverse geniculate ligament)",
+      "Transverse ligament of the knee (transverse geniculate ligament)",
+      "Anterior ligament of fibular head",
+      "Anterior ligament of fibular head"
+     ]
+    },
+    "lymph": {
+     "n": 10,
+     "volume_cm3": 0.1,
+     "examples": [
+      "(Anterior tibial node)",
+      "(Anterior tibial node)",
+      "Deep popliteal nodes",
+      "Deep popliteal nodes",
+      "(Fibular node)",
+      "(Fibular node)"
+     ]
+    },
+    "muscle": {
+     "n": 6,
+     "volume_cm3": 71.7,
+     "examples": [
+      "Fibularis (peroneus) brevis",
+      "Fibularis (peroneus) brevis",
+      "Fibularis (peroneus) tertius",
+      "Fibularis (peroneus) tertius",
+      "(Adductor minimus)",
+      "(Adductor minimus)"
+     ]
+    },
+    "nerve": {
+     "n": 19,
+     "volume_cm3": 5.1,
+     "examples": [
+      "Common fibular (peroneal) nerve (left)",
+      "Common fibular (peroneal) nerve (right)",
+      "Deep fibular (peroneal) nerve (left)",
+      "Deep fibular (peroneal) nerve (right)",
+      "Anterior cutaneous branches of the femoral nerve (left)",
+      "Anterior cutaneous branches of the femoral nerve (right)"
+     ]
+    },
+    "vessel": {
+     "n": 51,
+     "volume_cm3": 209.1,
+     "examples": [
+      "Anterior tibial artery",
+      "Anterior tibial artery",
+      "Anterior tibial veins",
+      "Anterior tibial veins",
+      "Deep femoral artery",
+      "Deep femoral artery"
+     ]
+    }
+   },
+   "trunk": {
+    "bone": {
+     "n": 1,
+     "volume_cm3": 1.3,
+     "examples": [
+      "Xiphoid process"
+     ]
+    },
+    "bursa": {
+     "n": 2,
+     "volume_cm3": 5.2,
+     "examples": [
+      "Subcutaneous acromial bursa",
+      "Subcutaneous acromial bursa"
+     ]
+    },
+    "cartilage": {
+     "n": 6,
+     "volume_cm3": 21.0,
+     "examples": [
+      "Acetabular labrum",
+      "Glenoid labrum",
+      "Glenoid labrum",
+      "Interpubic fibrocartilaginous disc",
+      "Triradiate cartilage",
+      "Triradiate cartilage"
+     ]
+    },
+    "cns": {
+     "n": 6,
+     "volume_cm3": 4.7,
+     "examples": [
+      "Anterior horn of spinal cord",
+      "Anterior spinocerebellar tract",
+      "Cauda equina",
+      "Posterior spinocerebellar tract",
+      "White matter of spinal cord",
+      "Posterior horn of spinal cord"
+     ]
+    },
+    "fascia": {
+     "n": 17,
+     "volume_cm3": 27813.4,
+     "examples": [
+      "Thoracolumbar fascia, anterior layer (quadratus lumborum fascia)",
+      "Clavipectoral fascia",
+      "Diaphragmatic fascia (phrenicopleural/phrenicoperitoneal)",
+      "Linea alba",
+      "Thoracolumbar fascia, middle layer",
+      "Pectoral fascia"
+     ]
+    },
+    "joint": {
+     "n": 72,
+     "volume_cm3": 65.7,
+     "examples": [
+      "Anterior longitudinal ligament (ALL)",
+      "Arcuate (inferior) pubic ligament",
+      "Iliolumbar ligament",
+      "Iliolumbar ligament",
+      "Inguinal ligament (Poupart's ligament)",
+      "Interclavicular ligament"
+     ]
+    },
+    "lymph": {
+     "n": 103,
+     "volume_cm3": 67.2,
+     "examples": [
+      "Anterior axillary nodes",
+      "Anterior axillary nodes",
+      "Apical axillary nodes",
+      "Apical axillary nodes",
+      "Appendicular nodes",
+      "Brachiocephalic nodes"
+     ]
+    },
+    "muscle": {
+     "n": 36,
+     "volume_cm3": 825.3,
+     "examples": [
+      "Interspinales",
+      "Interspinales",
+      "Levatores costarum",
+      "Levatores costarum",
+      "Omohyoid",
+      "Omohyoid"
+     ]
+    },
+    "nerve": {
+     "n": 98,
+     "volume_cm3": 58.5,
+     "examples": [
+      "Posterior cord (left)",
+      "Posterior cord (right)",
+      "Inferior trunk, anterior division (left)",
+      "Inferior trunk, anterior division (right)",
+      "Inferior trunk, posterior division (left)",
+      "Inferior trunk, posterior division (right)"
+     ]
+    },
+    "vessel": {
+     "n": 245,
+     "volume_cm3": 968.9,
+     "examples": [
+      "Ascending lumbar vein (left)",
+      "Ascending lumbar vein (right)",
+      "Azygos vein",
+      "Common hepatic artery",
+      "Inferior mesenteric artery",
+      "Left gastric artery"
+     ]
+    },
+    "viscera": {
+     "n": 68,
+     "volume_cm3": 16403.3,
+     "examples": [
+      "Accessory pancreatic duct",
+      "Anterior basal segmental bronchus of left lung (BVIII)",
+      "Anterior basal segmental bronchus of right lung (BVIII)",
+      "Anterior lateral segment of liver (VI)",
+      "Anterior medial segment of liver (V)",
+      "Anterior segmental bronchus of left lung (BIII)"
+     ]
+    }
+   },
+   "unassigned": {
+    "joint": {
+     "n": 1,
+     "volume_cm3": 0.1,
+     "examples": [
+      "Intra-articular ligament of head of rib"
+     ]
+    },
+    "muscle": {
+     "n": 1,
+     "volume_cm3": 7.3,
+     "examples": [
+      "Iliocostalis colli muscle"
+     ]
+    },
+    "nerve": {
+     "n": 1,
+     "volume_cm3": 0.0,
+     "examples": [
+      "Common plantar digital branches of medial plantar nerve"
+     ]
+    },
+    "vessel": {
+     "n": 2,
+     "volume_cm3": 1.2,
+     "examples": [
+      "Descending branch of lateral circumflex femoral artery",
+      "Right superior phrenic vein"
+     ]
+    }
+   },
+   "upper_limb": {
+    "bursa": {
+     "n": 8,
+     "volume_cm3": 7.5,
+     "examples": [
+      "Infraspinatus (subtendinous) bursa",
+      "Infraspinatus (subtendinous) bursa",
+      "Subacromial-subdeltoid bursa",
+      "Subacromial-subdeltoid bursa",
+      "Coracobrachial bursa",
+      "Coracobrachial bursa"
+     ]
+    },
+    "cartilage": {
+     "n": 4,
+     "volume_cm3": 6.7,
+     "examples": [
+      "Elbow articular cartilage",
+      "Elbow articular cartilage",
+      "Glenohumeral articular cartilage",
+      "Glenohumeral articular cartilage"
+     ]
+    },
+    "fascia": {
+     "n": 7,
+     "volume_cm3": 6027.3,
+     "examples": [
+      "Brachial (deep) fascia of the arm",
+      "Deltoid fascia",
+      "Brachial fascia",
+      "Deltoid fascia",
+      "Lateral intermuscular septum of arm",
+      "Medial intermuscular septum of arm"
+     ]
+    },
+    "joint": {
+     "n": 8,
+     "volume_cm3": 1.0,
+     "examples": [
+      "Coracohumeral ligament",
+      "Coracohumeral ligament",
+      "Glenohumeral ligaments",
+      "Glenohumeral ligaments",
+      "Transverse humeral ligament",
+      "Transverse humeral ligament"
+     ]
+    },
+    "lymph": {
+     "n": 8,
+     "volume_cm3": 0.2,
+     "examples": [
+      "Brachial nodes",
+      "Brachial nodes",
+      "Lateral axillary nodes",
+      "Lateral axillary nodes",
+      "Posterior axillary nodes",
+      "Posterior axillary nodes"
+     ]
+    },
+    "nerve": {
+     "n": 14,
+     "volume_cm3": 4.2,
+     "examples": [
+      "Axillary nerve (left)",
+      "Axillary nerve (right)",
+      "Musculocutaneous nerve (left)",
+      "Musculocutaneous nerve (right)",
+      "Radial nerve (left)",
+      "Radial nerve (right)"
+     ]
+    },
+    "vessel": {
+     "n": 27,
+     "volume_cm3": 43.2,
+     "examples": [
+      "Anterior circumflex humeral artery",
+      "Anterior circumflex humeral artery",
+      "Anterior circumflex humeral vein",
+      "Anterior circumflex humeral vein",
+      "Basilic vein",
+      "Basilic vein"
+     ]
+    }
+   }
+  },
+  "muscle_gap_gate_status": {
+   "held_by_gate": {
+    "cricothyroid_l": "Q62s7_vhf_head_neck: 8.8% of vertices inside her air lumen (> 5%)",
+    "cricothyroid_r": "Q62s7_vhf_head_neck: 10.3% of vertices inside her air lumen (> 5%)",
+    "depressor_anguli_oris_r": "Q62s7_vhf_head_neck: the fixes leave 75% of its transferred volume (< 75%)",
+    "depressor_septi_nasi_l": "Q62s7_vhf_head_neck: bone around it fits her CT at 3.49 mm median (> 3.0 mm)",
+    "depressor_septi_nasi_r": "Q62s7_vhf_head_neck: bone around it fits her CT at 3.32 mm median (> 3.0 mm)",
+    "fibularis_brevis_l": "Q62s9_vhf_trunk_leg: 70.6% of vertices inside other muscles/organs (> 10%; her structures 70.6%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_l)",
+    "fibularis_brevis_r": "Q62s9_vhf_trunk_leg: 72.0% of vertices inside other muscles/organs (> 10%; her structures 72.0%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly fibularis_longus_r)",
+    "fibularis_tertius_l": "Q62s9_vhf_trunk_leg: 39.8% of vertices inside other muscles/organs (> 10%; her structures 39.8%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly extensor_digitorum_longus_l)",
+    "fibularis_tertius_r": "Q62s9_vhf_trunk_leg: the fixes leave 75% of its transferred volume (< 75%)",
+    "flexor_hallucis_brevis_r": "Q62s5_vhf_foot_intrinsics: 7.6% of vertices still inside her foot bones after the bounded push-out (> 5%; 26.5% before)",
+    "frontalis_l": "Q62s7_vhf_head_neck: the fixes leave 69% of its transferred volume (< 75%)",
+    "frontalis_r": "Q62s7_vhf_head_neck: the fixes leave 56% of its transferred volume (< 75%)",
+    "interspinales_l": "Q62s9_vhf_trunk_leg: bone around it fits her CT at 3.22 mm median (> 3.0 mm)",
+    "interspinales_r": "Q62s9_vhf_trunk_leg: bone around it fits her CT at 3.23 mm median (> 3.0 mm)",
+    "levator_labii_superioris_l": "Q62s7_vhf_head_neck: 10.7% of vertices inside her air lumen (> 5%)",
+    "levator_labii_superioris_r": "Q62s7_vhf_head_neck: 5.5% of vertices inside her air lumen (> 5%)",
+    "levatores_costarum_l": "Q62s9_vhf_trunk_leg: bone around it fits her CT at 3.11 mm median (> 3.0 mm)",
+    "levatores_costarum_r": "Q62s9_vhf_trunk_leg: 54.0% of vertices inside other muscles/organs (> 10%; her structures 54.0%, new muscles 0.1% vs 0.0% in Z-Anatomy itself; mostly longissimus_r)",
+    "mentalis_l": "Q62s7_vhf_head_neck: the fixes leave 60% of its transferred volume (< 75%)",
+    "mentalis_r": "Q62s7_vhf_head_neck: the fixes leave 60% of its transferred volume (< 75%)",
+    "omohyoid_l": "Q62s7_vhf_head_neck: 32.0% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 41.8% before)",
+    "omohyoid_r": "Q62s7_vhf_head_neck: 28.4% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 38.2% before)",
+    "orbicularis_oculi_l": "Q62s7_vhf_head_neck: 5.8% of vertices inside her air lumen (> 5%)",
+    "palatopharyngeus_l": "Q62s7_vhf_head_neck: 26.0% of vertices inside other muscles/organs (> 10%; her structures 24.3%, new muscles 16.1% vs 14.4% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_l)",
+    "palatopharyngeus_r": "Q62s7_vhf_head_neck: 25.9% of vertices inside other muscles/organs (> 10%; her structures 23.9%, new muscles 16.3% vs 14.4% in Z-Anatomy itself; mostly inferior_pharyngeal_constrictor_r)",
+    "pyramidalis_l": "Q62s9_vhf_trunk_leg: bone around it fits her CT at 7.57 mm median (> 3.0 mm)",
+    "pyramidalis_r": "Q62s9_vhf_trunk_leg: bone around it fits her CT at 7.33 mm median (> 3.0 mm)",
+    "rectus_capitis_anterior_r": "Q62s7_vhf_head_neck: 16.0% of vertices inside other muscles/organs (> 10%; her structures 16.0%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly longus_colli_r)",
+    "risorius_l": "Q62s7_vhf_head_neck: bone around it fits her CT at 3.36 mm median (> 3.0 mm)",
+    "risorius_r": "Q62s7_vhf_head_neck: 69.9% of vertices inside other muscles/organs (> 10%; her structures 69.9%, new muscles 12.2% vs 12.8% in Z-Anatomy itself; mostly masseter_r)",
+    "rotatores_l": "Q62s9_vhf_trunk_leg: 66.0% of vertices inside other muscles/organs (> 10%; her structures 65.5%, new muscles 3.0% vs 2.6% in Z-Anatomy itself; mostly multifidus_l)",
+    "rotatores_r": "Q62s9_vhf_trunk_leg: 65.2% of vertices inside other muscles/organs (> 10%; her structures 64.8%, new muscles 3.0% vs 2.6% in Z-Anatomy itself; mostly multifidus_r)",
+    "semispinalis_thoracis_l": "Q62s9_vhf_trunk_leg: 76.6% of vertices inside other muscles/organs (> 10%; her structures 76.2%, new muscles 5.5% vs 5.1% in Z-Anatomy itself; mostly multifidus_l)",
+    "semispinalis_thoracis_r": "Q62s9_vhf_trunk_leg: 75.5% of vertices inside other muscles/organs (> 10%; her structures 75.0%, new muscles 5.8% vs 5.2% in Z-Anatomy itself; mostly multifidus_r)",
+    "serratus_posterior_inferior_l": "Q62s9_vhf_trunk_leg: 53.3% of vertices inside other muscles/organs (> 10%; her structures 53.3%, new muscles 2.4% vs 2.9% in Z-Anatomy itself; mostly iliocostalis_l)",
+    "serratus_posterior_inferior_r": "Q62s9_vhf_trunk_leg: 54.9% of vertices inside other muscles/organs (> 10%; her structures 54.9%, new muscles 2.7% vs 2.9% in Z-Anatomy itself; mostly iliocostalis_r)",
+    "serratus_posterior_superior_l": "Q62s9_vhf_trunk_leg: bone around it fits her CT at 3.47 mm median (> 3.0 mm)",
+    "serratus_posterior_superior_r": "Q62s9_vhf_trunk_leg: 75.1% of vertices inside other muscles/organs (> 10%; her structures 75.1%, new muscles 0.3% vs 0.7% in Z-Anatomy itself; mostly subscapularis_r)",
+    "splenius_capitis_l": "Q62s7_vhf_head_neck: 6.0% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 12.1% before)",
+    "splenius_capitis_r": "Q62s7_vhf_head_neck: 7.2% of vertices still inside her bone/cartilage after the bounded push-out (> 5%; 11.9% before)",
+    "sternohyoid_r": "Q62s7_vhf_head_neck: 6.9% of vertices inside her air lumen (> 5%)",
+    "stylohyoid_l": "Q62s7_vhf_head_neck: 12.9% of vertices inside other muscles/organs (> 10%; her structures 12.9%, new muscles 3.4% vs 4.6% in Z-Anatomy itself; mostly geniohyoid_l)",
+    "stylohyoid_r": "Q62s7_vhf_head_neck: 22.6% of vertices inside other muscles/organs (> 10%; her structures 22.6%, new muscles 4.0% vs 4.6% in Z-Anatomy itself; mostly hyoglossus_r)",
+    "stylopharyngeus_l": "Q62s7_vhf_head_neck: 16.8% of vertices inside other muscles/organs (> 10%; her structures 16.8%, new muscles 4.9% vs 5.6% in Z-Anatomy itself; mostly genioglossus_l)",
+    "stylopharyngeus_r": "Q62s7_vhf_head_neck: 16.8% of vertices inside other muscles/organs (> 10%; her structures 16.8%, new muscles 5.4% vs 5.6% in Z-Anatomy itself; mostly hyoglossus_r)",
+    "subclavius_l": "Q62s9_vhf_trunk_leg: 19.4% of vertices inside other muscles/organs (> 10%; her structures 19.4%, new muscles 0.0% vs 0.0% in Z-Anatomy itself; mostly pectoralis_minor_l)",
+    "superior_pharyngeal_constrictor_l": "Q62s7_vhf_head_neck: 24.9% of vertices inside other muscles/organs (> 10%; her structures 24.9%, new muscles 7.5% vs 7.5% in Z-Anatomy itself; mostly medial_pterygoid_l)",
+    "superior_pharyngeal_constrictor_r": "Q62s7_vhf_head_neck: 24.2% of vertices inside other muscles/organs (> 10%; her structures 24.2%, new muscles 7.5% vs 7.5% in Z-Anatomy itself; mostly medial_pterygoid_r)",
+    "transversus_thoracis_l": "Q62s9_vhf_trunk_leg: 15.7% of vertices inside her lung (> 5%)",
+    "transversus_thoracis_r": "Q62s9_vhf_trunk_leg: 10.8% of vertices inside her lung (> 5%)"
+   },
+   "held_by_limb_route_skin_gate": {
+    "abductor_pollicis_brevis_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+    "abductor_pollicis_brevis_r": "per-bone transform put 57% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+    "adductor_pollicis_l": "no driving bone available on this specimen (metacarpals_l,phalanges_hand_l,radius_l,ulna_l)",
+    "anconeus_l": "no driving bone available on this specimen (ulna_l)",
+    "brachioradialis_l": "no driving bone available on this specimen (radius_l)",
+    "extensor_carpi_radialis_brevis_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+    "extensor_carpi_radialis_longus_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+    "extensor_carpi_ulnaris_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+    "extensor_indicis_l": "no driving bone available on this specimen (phalanges_hand_l,ulna_l)",
+    "flexor_carpi_radialis_l": "no driving bone available on this specimen (metacarpals_l,radius_l,ulna_l)",
+    "flexor_carpi_ulnaris_l": "no driving bone available on this specimen (carpals_l,radius_l,ulna_l)",
+    "flexor_digitorum_profundus_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,ulna_l)",
+    "flexor_digitorum_superficialis_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+    "flexor_pollicis_brevis_l": "no driving bone available on this specimen (carpals_l,phalanges_hand_l,radius_l,ulna_l)",
+    "flexor_pollicis_brevis_r": "per-bone transform put 68% of this structure outside the specimen's own skin (driving bones ['carpals_r', 'radius_r', 'ulna_r']) -- not shipped",
+    "flexor_pollicis_longus_l": "no driving bone available on this specimen (phalanges_hand_l,radius_l)",
+    "opponens_digiti_minimi_l": "no driving bone available on this specimen (carpals_l,metacarpals_l,radius_l,ulna_l)",
+    "opponens_pollicis_l": "no driving bone available on this specimen (carpals_l,metacarpals_l,radius_l,ulna_l)",
+    "palmar_interossei_l": "no driving bone available on this specimen (metacarpals_l,phalanges_hand_l,radius_l,ulna_l)",
+    "pronator_quadratus_l": "no driving bone available on this specimen (radius_l,ulna_l)",
+    "pronator_teres_l": "no driving bone available on this specimen (radius_l)",
+    "supinator_l": "no driving bone available on this specimen (radius_l)"
+   },
+   "never_run_through_a_gated_route": [],
+   "counts": {
+    "held_by_gate": 50,
+    "held_by_limb_route_skin_gate": 22,
+    "never_run_through_a_gated_route": 0
+   }
+  },
+  "own_ids_without_same_id_in_z": [
+   "adductor_magnus_distal_tendon_l",
+   "adductor_magnus_distal_tendon_r",
+   "ankle_articular_cartilage_l",
+   "ankle_articular_cartilage_r",
+   "bulbospongiosus_l",
+   "bulbospongiosus_r",
+   "carpals_r",
+   "cervical_vertebrae",
+   "common_carotid_a_l",
+   "common_carotid_a_r",
+   "common_iliac_a_l",
+   "common_iliac_a_r",
+   "common_iliac_v_l",
+   "common_iliac_v_r",
+   "coracoclavicular_ligament_r",
+   "cranium",
+   "deep_transverse_perineal_l",
+   "deep_transverse_perineal_r",
+   "deltoid_l",
+   "deltoid_r",
+   "extensor_pollicis_longus_l",
+   "extensor_pollicis_longus_r",
+   "external_intercostals_l",
+   "external_intercostals_r",
+   "femoral_a_r",
+   "femoral_n",
+   "femoral_v_r",
+   "iliopsoas_l",
+   "iliopsoas_r",
+   "iliopsoas_tendon_l",
+   "iliopsoas_tendon_r",
+   "internal_carotid_a_l",
+   "internal_carotid_a_r",
+   "internal_jugular_v_l",
+   "internal_jugular_v_r",
+   "intervertebral_disc_c7_t1",
+   "intervertebral_disc_l5_s1",
+   "intervertebral_disc_t12_l1",
+   "ischiocavernosus_l",
+   "ischiocavernosus_r",
+   "lateral_cricoarytenoid_l",
+   "lateral_cricoarytenoid_r",
+   "lumbar_vertebrae",
+   "lumbricals_foot_l",
+   "metacarpal_1_r",
+   "metacarpal_2_r",
+   "metacarpal_3_r",
+   "metacarpal_4_r",
+   "metacarpal_5_r",
+   "metatarsals_l",
+   "metatarsals_r",
+   "oblique_arytenoid_l",
+   "oblique_arytenoid_r",
+   "optic_n",
+   "patellofemoral_articular_cartilage_l",
+   "patellofemoral_articular_cartilage_r",
+   "pectoralis_major_l",
+   "pectoralis_major_r",
+   "phalanges_foot_l",
+   "phalanges_foot_r",
+   "phalanges_hand_r",
+   "popliteal_a_r",
+   "popliteal_v_r",
+   "quadriceps_tendon_l",
+   "quadriceps_tendon_r",
+   "rectum",
+   "ribs_l",
+   "ribs_r",
+   "sciatic_n",
+   "semispinalis_capitis_l",
+   "semispinalis_capitis_r",
+   "semispinalis_cervicis_l",
+   "semispinalis_cervicis_r",
+   "sigmoid_colon",
+   "skin",
+   "styloglossus_l",
+   "styloglossus_r",
+   "subclavian_a_l",
+   "subclavian_a_r",
+   "tarsals_l",
+   "tarsals_r",
+   "temporalis_l",
+   "temporalis_r",
+   "thoracic_vertebrae",
+   "thyroarytenoid_l",
+   "thyroarytenoid_r",
+   "tibial_n",
+   "tibialis_posterior_l",
+   "tibialis_posterior_r",
+   "triceps_brachii_l",
+   "triceps_brachii_r",
+   "urinary_bladder"
+  ]
+ },
+ "fills_q189": {
+  "shipped": [],
+  "note": "no Z-Anatomy fill passed the repo gates in Q189",
+  "trial_male_quadratus_lumborum_r": {
+   "route": "scripts/transfer/zan_to_vh_trunk_leg.py --target vhm, REGIONS += lumbar_wall (quadratus_lumborum), ct_s1159 ids treated as absent",
+   "shipped": [],
+   "held": {
+    "quadratus_lumborum_r": "8.3% of vertices still inside his bone after the bounded push-out (> 5%; 17.3% before)"
+   },
+   "report": "data/derived/Q189_ql_r_fill_trial_vhm.json",
+   "row": {
+    "inside_bone_frac_before": 0.173,
+    "inside_bone_frac_after_push": 0.0833,
+    "outside_skin_frac_after": 0.0,
+    "carrier_local": {
+     "n": 2603,
+     "median_mm": 3.03,
+     "p90_mm": 6.71
+    },
+    "volume_cm3": 121.13
+   }
+  }
+ },
+ "queue_not_fillable_now": {
+  "muscles_held_by_the_Q62_gates": {
+   "male": {
+    "held_by_gate": 52,
+    "held_by_limb_route_skin_gate": 14,
+    "never_run_through_a_gated_route": 1
+   },
+   "female": {
+    "held_by_gate": 50,
+    "held_by_limb_route_skin_gate": 22,
+    "never_run_through_a_gated_route": 0
+   },
+   "why": "per-id reasons in gaps_*.muscle_gap_gate_status (inside other muscles/organs > 10 %, inside lung/air > 5 %, inside bone > 5 %, carrier-bone median > 3 mm)"
+  },
+  "forearm_hand_muscles": "Q147 limb route fails the 0 % outside-skin gate (50-100 % outside); the Q168 whole-body forearm_hand surface error is 5.8 / 6.3 mm median (male / female) so the 3 mm carrier gate cannot pass; her left forearm/hand have no CT bones",
+  "viscera_vessels_nerves_cns_lymph_joints_bursae_fascia": "no gated Q168 route exists for them (the Q62 steps are muscle-only); for the heart, lungs, liver, spleen, kidneys, stomach, aorta and oesophagus both bodies HAVE TotalSegmentator labels (vhm_total / vhf_total.nii.gz) that are not meshed: a MEASURED build would beat a Z-Anatomy fill and is the first queue item",
+  "female_pelvic_organs": "uterus, ovaries, tubes, vagina: no label in any of her volumes and Z-Anatomy ships none for the female (Q168); nothing invented",
+  "skin_chest_perineum_female": "Z female skin is male-shaped there; her own CT skin cannot be joined within the seam gate (Q186b shipped=False)"
+ }
+}

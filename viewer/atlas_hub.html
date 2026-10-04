@@ -67,7 +67,7 @@ footer code { font: 0.8rem var(--f-data); color: var(--ink); }
 <div class="wrap">
   <header>
     <h1>NMSK Atlas</h1>
-    <p class="lede">Four whole-body viewers. The Z-Anatomy row is the textbook reference model. The specimen row is rebuilt from the Visible Human cryosection and CT data, one real body each. Every viewer opens in its own tab and works on a phone.</p>
+    <p class="lede">Four whole-body viewers of two kinds, kept apart. Reference models are Z-Anatomy, the textbook body, with no scan geometry in them (the female is only fitted onto her skeleton). Specimen models are rebuilt from the Visible Human CT and cryosections, one real body each; where the scan has nothing, Z-Anatomy fills the gap and is badged as a fill. Every viewer opens in its own tab and works on a phone.</p>
   </header>
 
   <section class="matrix" aria-label="Viewers by model and sex">
@@ -106,9 +106,10 @@ footer code { font: 0.8rem var(--f-data); color: var(--ink); }
     <article class="card">
       <h2>Own model male</h2>
       <span class="chip live">Live · high resolution</span>
-      <p>Segmented from the Visible Human male. Structures that were transferred or rule-based show their measured errors in the inspector.</p>
+      <p>Rebuilt from the Visible Human male's CT and cryosections. A Source control separates what is measured on him from rule-based, transferred and Z-Anatomy-filled structures; each card states which, with its error.</p>
       <dl>
         <dt>Structures</dt><dd>464</dd>
+        <dt>By source</dt><dd>199 measured · 90 rule-based · 43 transferred · 84 Z-fill (+13 hidden, another person's CT)</dd>
         <dt>Triangles</dt><dd>2.25 M</dd>
         <dt>Source</dt><dd>Visible Human male (NLM)</dd>
       </dl>
@@ -118,9 +119,10 @@ footer code { font: 0.8rem var(--f-data); color: var(--ink); }
     <article class="card">
       <h2>Own model female</h2>
       <span class="chip live">Live · high resolution</span>
-      <p>Segmented from the Visible Human female, with photo-refined structures kept at full detail and her own bladder and rectum. Transferred structures show their measured errors.</p>
+      <p>Rebuilt from the Visible Human female's CT and cryosections, with her own bladder and rectum. A Source control separates what is measured on her from rule-based, transferred and Z-Anatomy-filled structures; each card states which, with its error.</p>
       <dl>
         <dt>Structures</dt><dd>459</dd>
+        <dt>By source</dt><dd>139 measured · 147 rule-based · 87 transferred · 62 Z-fill</dd>
         <dt>Triangles</dt><dd>3.41 M</dd>
         <dt>Source</dt><dd>Visible Human female (NLM)</dd>
       </dl>

@@ -347,6 +347,21 @@ def main():
         res[f"own_{k}"] = {kk: vv for kk, vv in o.items() if not kk.startswith("_")}
         res[f"zan_{k}"] = {kk: vv for kk, vv in zan[k].items() if not kk.startswith("_")}
         res[f"gaps_{k}"] = g[k]
+    trial = REPO / "data" / "derived" / "Q189_ql_r_fill_trial_vhm.json"
+    res["fills_q189"] = {"shipped": [], "note": "no Z-Anatomy fill passed the repo gates in Q189"}
+    if trial.exists():
+        t = json.loads(trial.read_text())
+        res["fills_q189"]["trial_male_quadratus_lumborum_r"] = {
+            "route": "scripts/transfer/zan_to_vh_trunk_leg.py --target vhm, REGIONS += lumbar_wall (quadratus_lumborum), ct_s1159 ids treated as absent",
+            "shipped": t["summary"]["shipped"], "held": t["summary"]["dropped"], "report": str(trial.relative_to(REPO)),
+            "row": {k: t["rows"]["quadratus_lumborum_r"].get(k) for k in ("inside_bone_frac_before", "inside_bone_frac_after_push", "outside_skin_frac_after", "carrier_local", "volume_cm3")}}
+    res["queue_not_fillable_now"] = {
+        "muscles_held_by_the_Q62_gates": {"male": res["gaps_male"]["muscle_gap_gate_status"]["counts"], "female": res["gaps_female"]["muscle_gap_gate_status"]["counts"],
+                                          "why": "per-id reasons in gaps_*.muscle_gap_gate_status (inside other muscles/organs > 10 %, inside lung/air > 5 %, inside bone > 5 %, carrier-bone median > 3 mm)"},
+        "forearm_hand_muscles": "Q147 limb route fails the 0 % outside-skin gate (50-100 % outside); the Q168 whole-body forearm_hand surface error is 5.8 / 6.3 mm median (male / female) so the 3 mm carrier gate cannot pass; her left forearm/hand have no CT bones",
+        "viscera_vessels_nerves_cns_lymph_joints_bursae_fascia": "no gated Q168 route exists for them (the Q62 steps are muscle-only); for the heart, lungs, liver, spleen, kidneys, stomach, aorta and oesophagus both bodies HAVE TotalSegmentator labels (vhm_total / vhf_total.nii.gz) that are not meshed: a MEASURED build would beat a Z-Anatomy fill and is the first queue item",
+        "female_pelvic_organs": "uterus, ovaries, tubes, vagina: no label in any of her volumes and Z-Anatomy ships none for the female (Q168); nothing invented",
+        "skin_chest_perineum_female": "Z female skin is male-shaped there; her own CT skin cannot be joined within the seam gate (Q186b shipped=False)"}
     Path(REPO / a.out).write_text(json.dumps(res, indent=1, ensure_ascii=False))
     for k in ("male", "female"):
         print(k, {c: (v["ids"], v["entries"], v["volume_cm3"]) for c, v in own[k]["by_class"].items()})

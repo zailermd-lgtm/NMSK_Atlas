@@ -11125,3 +11125,47 @@ of the classification table (e.g. brain parts as "other organ").
 - Owner 2026-10-02: 'yes, publish needle insertion for all 4 models' + 'only report when unfinished, last word UNFINISHED'. Published needle module + motor points + risk files: male v81, female v64, Z-Anatomy male v9, Z-Anatomy female v3. Open owner decisions: lumbar L1-L6 vs L1B; motor-point review-only sources + multi-head sector rule; forearm seeds (80) review.
 - [x] Q186c (2026-10-04): DONE as a separate build, NOT published, build/viewer_zan_female(_q*) untouched: `build_zan_atlas_viewer.py --target-body vhf --trunk-refit` -> build/viewer_zan_female_trunkfix. Root causes (measured vs her CT): Q168 ribs 16 mm off her rib labels (cage 12-30 mm too narrow, 25-40 mm too deep), Z L3-L5 22-29 mm too high, soft tissue/skin carried by the per-bone blend (skin median 28 mm inside her CT skin, pleats at the costal margin). Fix: per-rib/vertebra ICP onto her CT labels (ribs 16.1 -> 2.2 mm) + one smooth RBF field anchored on her bones + CT skin outline (front/back sectors; lateral band hidden by her arms is interpolated), skin share by distance from bone, volume guard. Skin gap front/back 21.8 -> 5.9 mm median, muscles in lung 10.6 -> 1.1 %, rectus abdominis vs her own mesh 20.6 -> ~5 mm, overlap 10.2 -> 9.8 %. NOT met: field Jacobian >= 0.25 (5 % of samples below; mesh-level flips 2.2 -> 1.3 %); hip/lumbar-gluteal skin shelf and right costal cartilage (Z->her 3.3 -> 9.3 mm) remain. Numbers: data/derived/Q186c_trunk_refit.json (+ _audit.json, Q186c_zan_female_trunkfix_{build,report}.json); code scripts/zanatomy/trunk_refit_q186c{,_audit}.py, tests/test_trunk_refit_q186c.py (5 pass; build test 22 pass). Next: owner review of build/viewer_zan_female_trunkfix renders (build/viewer_zan_female_trunkfix/renders/), then main session rebuilds build/viewer_zan_female with --trunk-refit + republishes.
 - Main session (2026-10-04 ~14:00): Q186c trunk refit PUBLISHED on the Z-Anatomy female page (v5; geometry from build/viewer_zan_female_trunkfix, same files copied into build/viewer_zan_female). zan_f motor points regenerated on the refit geometry (184 points, was 188; merged into clinical/data/motor_points.json, coverage file updated); risk file unchanged (calibres only). Open: lumbar/gluteal back shelf, right costal cartilage 9.3 mm, field Jacobian guard 95 %. Zan male page still carries the older motor_points file (its zan_f entry is stale, unused there).
+
+## Q189 (2026-10-04) -- two kinds of model, separated: provenance audit + Source facet in the own viewers (NOT published)
+Owner: both kinds must exist (Z-Anatomy reference vs specimen rebuilt from data), clearly separated, Z-Anatomy only as badged gap-fill.
+- [x] Audit: scripts/audit_q189_model_separation.py -> data/derived/Q189_model_separation_audit.json (per-subject class table, per-region / per-system
+  counts + volumes, gaps by Z layer and region, mislabel checks, Z viewers scanned). Classes derive from subject name + the subject's description in
+  the template + its badge (xfer_zan2* = Z fill; xfer* = transferred; ct_s1159* = another person; "rule" in description or badge RULE-BASED = rule-based; else measured).
+- [x] Builds (geometry md5-identical to build/viewer_m_hr / viewer_f_hr; only the template differs): build/viewer_m_hr_q189, build/viewer_f_hr_q189.
+- [x] UI (viewer/atlas_viewer.template.html): "Source of each structure" section (colour-by-source toggle + 4-5 class chips with counts, tap = hide/show;
+  default = all on, tissue colours, visible-at-load unchanged 338 / 340), card line "Measured on this body" / "Filled from Z-Anatomy (reference model), fitted to this
+  body -- error X mm" etc., minimize toggle (same behaviour as the Z-Anatomy info card, remembered, minimised by default under 900 px). Works in the phone sheet.
+  Descriptions added/clarified so the class is right: ct_vhm_ggl, ct_vhm_sgl, ct_vhf_left_forearm (rule-based), ct_vhf_xfersepta_fix (transferred -- its
+  name starts ct_ but it is the male's muscle refined to her septa), ct_vhf_femoral/popliteal (rule-based), the nine xfer_zan2* subjects.
+- [x] Hub text: two kinds + separation explicit; per-source counts on the specimen cards.
+- [x] Tests: tests/test_source_facet_q189.py (6) + viewer_template, hidden_default_q184, clinical_q188 template tests: 34 passed. Headless (swiftshader): 0 page errors,
+  desktop + phone, JS class counts == audit counts, no horizontal scroll; shots build/q189_renders/*.png (facet off / on, card, phone sheet).
+
+| viewer (ids; entries) | measured | rule-based | transferred (other VH) | Z-Anatomy fill | other person (hidden) |
+|---|---|---|---|---|---|
+| own male (429; 464), ids / cm3 | 199 / 138,556 (33,180 without skin) | 90 / 8,639 | 43 / 212 | 84 / 1,814 | 13 / 339 |
+| own female (435; 459), ids / cm3 | 139 / 96,256 (9,806 without skin) | 147 / 7,254 | 87 / 10,366 | 62 / 1,454 | 0 |
+| Z-Anatomy male | 2,966 meshes, all Z-native (0 specimen geometry; 0 badges naming a specimen) | | | | |
+| Z-Anatomy female | 2,939 meshes, all Z geometry fitted onto her skeleton, each badged with its error; 0 bbox-identical to her meshes; her skin patch (Q186b) not shipped | | | | |
+- Filled from Z-Anatomy, by region (entries / cm3), all muscle (+ 5-7 fascia): male foot 25/1,349, forearm-hand 37/436, head-neck 20/16, trunk 2/13;
+  female foot 24/1,034, forearm-hand 10/390, head-neck 25/21, trunk 2/7, leg 1/1. Everything else is measured or rule-based on that body; his lower limb
+  (88 entries) is all measured (DU release); her leg is mostly the male's muscle transferred (60 entries, 8,972 cm3) -- the largest non-measured volume anywhere.
+- Mislabel checks, 0 findings on both bodies: measured/rule with a Z/transfer marker; Z fill without Z badge; transfer without transfer text; class vs manifest
+  source_kind; class vs mapping-note "rule". Found and fixed in the process: 3 subjects classed measured whose notes say rule (above) and 4 female
+  ct_vhf_xfersepta_fix muscles that read as measured. Granularity caveat: classes are per subject, so ct_vhf_legs (femur measured, tibia/fibula/patella/foot split by
+  watershed rules) is all "rule-based" -- conservative.
+- Gaps no source fills (Z structures excl. skin with no own counterpart by atlas id, linked record or name): male 2,136 of 2,716, female 2,106 of 2,691. By Z layer
+  (male / female): vessels 648/627, nerves 334/333, joints 305/304, CNS 202/187, lymph 162/162, muscle 123/126, viscera 121/107, bone 93/113, bursae 72/73, fascia 56/55,
+  cartilage 16/15. By region: head-neck (CNS, cranial nerves, vessels, viscera, facial/laryngeal muscles), trunk (viscera, vessels, nerves, lymph, deep-back muscles), then limbs
+  (joint capsules, bursae, small vessels/nerves; forearm-hand muscles). 78 / 92 own ids have no same-id Z mesh (merged pieces such as cranium, cervical_vertebrae).
+- Fills (task 3): none shipped. 52 / 50 gap muscles (male / female) were already run through the Q62 gates and held with reasons; 14 / 22 forearm-hand-foot muscles held by the Q147 limb
+  route's skin gate; the only never-attempted one, male quadratus_lumborum_r (today only another person's hidden s1159 geometry), was run through the step-9 route and HELD
+  (8.3 % inside bone > 5 %, carrier 3.03 mm > 3.0): data/derived/Q189_ql_r_fill_trial_vhm.json. No geometry was fabricated.
+- Queue (not fillable now, reasons in the audit JSON `queue_not_fillable_now`):
+  - [ ] FIRST: MEASURED heart, lungs, liver, spleen, kidneys, stomach, aorta, oesophagus on both bodies from their existing TotalSegmentator `total` labels (not meshed today; beats a Z fill).
+  - [ ] Forearm-hand muscles (male 22 / female 29 missing): need a new gated step (skin + bone + carrier) on the photographs-registered forearm bones; Q168 forearm_hand surface error 5.8 / 6.3 mm > 3 mm gate.
+  - [ ] Z vessels / nerves / lymph / CNS / joints / bursae: no gated route exists; define one (carrier-bone fit + inside-skin + overlap) before any fill.
+  - [ ] Male quadratus_lumborum_r: his own right QL failed Q183b; retry from cryosection photographs, or accept the hidden foreign one.
+  - [ ] Owner: whether to show the 13 hidden other-person structures at all (male); clinical files for the q189 dirs not staged (owner decision pending).
+- Note: Z female numbers are a snapshot of build/viewer_zan_female (published v5) while another agent works on the trunk; re-run the audit after it republishes.
+- NEXT: main session publishes build/viewer_m_hr_q189 + build/viewer_f_hr_q189 (anatomy only unless the owner wants the needle files staged) and the hub.
