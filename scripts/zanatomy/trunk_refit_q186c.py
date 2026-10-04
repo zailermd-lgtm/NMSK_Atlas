@@ -17,8 +17,13 @@ transition (T10-L1), thorax too narrow all round.  Measured causes (data/derived
          (anterior + posterior sectors only; the lateral band is hidden by her arms, which are fused with her skin
          there, so it is interpolated by the field, never measured).
      applied to every non-bone vertex with a smooth weight w = 1 within W0 mm of the trunk bones, 0 beyond W1 mm
-     (continuous in position, so neighbouring patches / muscles never tear).  Fold guard: Jacobian determinant of
-     the whole map sampled on a grid, plus the share of faces whose normal flips against the Q168 result.
+     (continuous in position, so neighbouring patches / muscles never tear); non-skin tissue follows the outline only
+     as far as it lies away from bone (skin_share: 0 within 15 mm of a trunk bone, 1 beyond 60 mm) and every closed
+     structure is kept within 0.65-1.5 x its Z-Anatomy volume at her body scale (the skin share is cut back if not).
+     Fold guard, as measured (data/derived/Q186c_trunk_refit.json): the field's own Jacobian determinant is REPORTED
+     (it does NOT reach the >= 0.25 target even at the largest smoothing tried: 5 % of sampled points below 0.25, min -3.9;
+     anchors from different bones conflict locally), so the guard that is actually met is the mesh-level one: faces
+     flipped against the Z-Anatomy source normal 2.2 % -> 1.3 % (skin), 8.3 % -> 6.9 % (muscle p90).
 Nothing is invented: all targets are her own CT labels / CT skin; the soft tissue's mutual arrangement is Z-Anatomy's.
 """
 from __future__ import annotations
