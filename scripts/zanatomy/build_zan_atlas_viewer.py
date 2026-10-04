@@ -694,15 +694,21 @@ def refit_trunk_q186c(pending: list[dict], raw: dict) -> dict:
     import re
     from scripts.zanatomy import trunk_refit_q186c as Q186c
     bones = Q186c.refit_bones(pending)
+    cart = Q186c.refit_cartilage(pending)
     rep = Q186c.refit_trunk(pending, raw)
     for p in pending:
         p.pop("anchor_mask", None)
+        p.pop("anchor_target", None)
     by_id = {p["mesh_id"]: p for p in pending}
     for mid, b in bones.items():
         if b.get("status") == "refit":
             by_id[mid]["fit_note"] += (f" Q186c: refit onto her own CT label of this bone (TotalSegmentator, her scan): her label to this "
                                        f"mesh {b['her_label_to_Z_mm_before']} -> {b['her_label_to_Z_mm_after']} mm median, this mesh to her "
                                        f"label {b['Z_to_her_label_mm_before']} -> {b['Z_to_her_label_mm_after']} mm (similarity, scale {b['scale']}).")
+    for mid, c in cart.items():
+        if c.get("status") == "anchors":
+            by_id[mid]["fit_note"] += (f" Q186c: anchored on her own CT costal-cartilage mesh (rigid ICP, {c['supported_vertex_fraction']:.0%} of its vertices within "
+                                       f"{Q186c.SUPPORT_MM:.0f} mm of it): {c['to_her_mesh_mm_before']} -> {c['after']} mm median to her mesh.")
     for k, st in rep["_per_structure_shift"].items():
         if st["shift_max"] > 1.0:
             by_id[k]["fit_note"] += (f" Q186c trunk refit: carried by one smooth field anchored on her own CT ribs, vertebrae, pelvis "
@@ -715,6 +721,7 @@ def refit_trunk_q186c(pending: list[dict], raw: dict) -> dict:
     LAST_REPORTS["fit_to_vhf"]["skin_vs_her_ct_skin_after_q186c"] = skin_fit
     out = {k: v for k, v in rep.items() if not k.startswith("_")}
     out["bones"] = bones
+    out["cartilage"] = cart
     out["skin_vs_her_ct_skin"] = skin_fit
     return out
 

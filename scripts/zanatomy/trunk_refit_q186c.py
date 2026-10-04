@@ -48,10 +48,13 @@ VOLUME_RATIO = (0.65, 1.5)               # per closed structure: volume after / 
 BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_zan_to_vhf.json)
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
-RBF_SMOOTH = 30.0
-RBF_KERNEL = "cubic"
+RBF_SMOOTH = 1920.0
+RBF_KERNEL = "thin_plate_spline"      # Q186c v2: far fewer fold-over points than "cubic" (3.6 % vs 5.3 % of samples < 0.25, min det -0.55 vs -3.9)
+ANCHOR_REACH_MM = 90.0               # limb bones anchor the field only within this raw distance of a trunk bone (humeral/femoral heads)
+GRID_MM = 8.0                        # the field is evaluated on this lattice and interpolated trilinearly (checked against direct evaluation)
 OUT_JSON = REPO / "data" / "derived" / "Q186c_trunk_refit.json"
-SKIN_ANTERIOR_DEG, SKIN_POSTERIOR_DEG, SKIN_POSTERIOR_LOW_DEG = 62.0, 122.0, 100.0   # trusted sectors of her outline: |theta| < 62 (front), > 122 (back)
+SKIN_ANTERIOR_DEG, SKIN_POSTERIOR_DEG, SKIN_POSTERIOR_LOW_DEG = 62.0, 122.0, 95.0
+SHOULDER_Y_MM = 545.0               # above this her torso + shoulder contour is ONE outline (arms hang below it): all sectors usable   # trusted sectors of her outline: |theta| < 62 (front), > 122 (back)
 
 
 # ----------------------------------------------------------------------------------- her labels
@@ -149,6 +152,47 @@ def refit_bones(pending: list[dict], vol=None, log=print) -> dict:
     return rep
 
 
+def refit_cartilage(pending: list[dict], log=print) -> dict:
+    """Her own costal-cartilage meshes (ct_vhf `costal_cartilage_l/r`, from her CT cartilage label) as anchors: each Z-Anatomy
+    costal cartilage is moved by a bounded rigid ICP onto her side mesh (a single cartilage is PART of her mesh: Z -> her
+    pairing only); its vertices within SUPPORT_MM of her mesh then become field anchors (p["anchor_target"]), the cartilage
+    itself is carried by the field like the other soft tissue, so its ends stay with the ribs and the sternum."""
+    from scripts.transfer.zan_to_vhf_whole_body import apply_sim, trimmed_icp, sim_scale, surface_distance, load_her_meshes
+    her = load_her_meshes()
+    rep = {}
+    for p in pending:
+        mid = p["mesh_id"]
+        if p["cat"] != "cartilage" or "costal_cartilage" not in mid or mid[-2:] not in ("_l", "_r"):
+            continue
+        hv = her.get("costal_cartilage_" + mid[-1])
+        if hv is None:
+            continue
+        dst = hv["v"]
+        v0 = p["v"]
+        part = mid.startswith("zan_costal_cartilage_of")
+        rng = np.random.default_rng(len(v0))
+        src = v0[rng.choice(len(v0), min(len(v0), 3000), replace=False)]
+        dsub = dst[rng.choice(len(dst), min(len(dst), 8000), replace=False)]
+        tree = cKDTree(dst)
+        before = float(np.median(tree.query(src)[0]))
+        A, t = trimmed_icp(src, dsub, np.eye(3), np.zeros(3), scale=False, corr="src" if part else "sym", iters=50, trim=0.8)
+        new = apply_sim(A, t, v0)
+        shift = float(np.linalg.norm(new.mean(0) - v0.mean(0)))
+        after = float(np.median(tree.query(new[rng.choice(len(new), min(len(new), 3000), replace=False)])[0]))
+        if shift > 30.0 or after >= before:
+            rep[mid] = {"status": "held", "to_her_mesh_mm": round(before, 2), "shift_mm": round(shift, 1)}
+            continue
+        mask = tree.query(new)[0] <= SUPPORT_MM
+        if mask.sum() < 10:
+            rep[mid] = {"status": "held (no supported vertices)", "to_her_mesh_mm": round(before, 2)}
+            continue
+        p["anchor_target"], p["anchor_mask"] = new, mask
+        rep[mid] = {"status": "anchors", "to_her_mesh_mm_before": round(before, 2), "after": round(after, 2), "shift_mm": round(shift, 1),
+                    "supported_vertex_fraction": round(float(mask.mean()), 2)}
+        log(f"  {mid}: {rep[mid]}")
+    return rep
+
+
 # ----------------------------------------------------------------------------------- her outline chart
 def trunk_axis(sv: np.ndarray):
     """her trunk axis (x(y), z(y)): centre of the skin slab between |x| < 110 (arms excluded), smoothed"""
@@ -182,11 +226,16 @@ def her_outline_chart(skin_mesh, axis, ys, ths):
     first[~np.isfinite(first)] = np.nan
     R, nh = first.reshape(Y.shape), nh.reshape(Y.shape)
     adeg = np.abs(np.degrees(Th))
-    # below the lower ribs (y < 190) her arms/hands hang in front of / beside the hips, never behind them: posterior sector from 100 deg
+    odd = (nh % 2 == 1) & ~np.isnan(R)               # a ray from inside leaves the body an odd number of times
+    # smoothness: a fused arm / hand shows up as a jump of the first-exit radius against its neighbourhood
+    Rf = np.where(np.isnan(R), np.nanmedian(R), R)
+    Rp = np.pad(Rf, ((0, 0), (4, 4)), mode="wrap")
+    smooth = (np.abs(Rf - ndi.median_filter(Rp, size=(5, 9), mode="nearest")[:, 4:-4]) < 18.0)
+    # anterior: her hands hang in front of the hips -> keep away from multi-crossing cells; posterior (no hand behind her
+    # hips/back, y < 190 from 95 deg, higher up from 122 deg): odd crossing count is enough; shoulder level: every sector
     post = np.where(Y < 190.0, SKIN_POSTERIOR_LOW_DEG, np.where(Y < 230.0, SKIN_POSTERIOR_LOW_DEG + (SKIN_POSTERIOR_DEG - SKIN_POSTERIOR_LOW_DEG) * (Y - 190.0) / 40.0, SKIN_POSTERIOR_DEG))
-    sector = (adeg < SKIN_ANTERIOR_DEG) | (adeg > post)
     multi = ndi.binary_dilation(nh != 1, structure=np.ones((5, 5), bool), iterations=2)
-    trusted = sector & ~multi & ~np.isnan(R)
+    trusted = ((adeg < SKIN_ANTERIOR_DEG) & ~multi & odd) | ((adeg > post) & odd & smooth) | ((Y >= SHOULDER_Y_MM) & ~multi & odd & smooth)
     return R, nh, trusted
 
 
@@ -212,7 +261,8 @@ def trunk_weight(q: np.ndarray, axis) -> np.ndarray:
     patches and muscles never tear."""
     xc, zc = axis(q[:, 1])
     rho = np.hypot(q[:, 0] - xc, q[:, 2] - zc)
-    wr = smoothstep((215.0 - rho) / 50.0)
+    rho1 = 215.0 + 80.0 * smoothstep((q[:, 1] - 430.0) / 90.0)      # the shoulder girdle (|x| up to ~270 mm) is inside the field's reach
+    wr = smoothstep((rho1 - rho) / 50.0)
     wy = np.minimum(smoothstep((q[:, 1] + 170.0) / 60.0), smoothstep((640.0 - q[:, 1]) / 80.0))
     return wr * wy
 
@@ -229,7 +279,38 @@ def skin_share(d_bone: np.ndarray) -> np.ndarray:
 
 def rbf(src: np.ndarray, dst: np.ndarray, smoothing: float):
     from scipy.interpolate import RBFInterpolator
-    return RBFInterpolator(src, dst - src, kernel=RBF_KERNEL, smoothing=smoothing, degree=1)
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        return RBFInterpolator(src, dst - src, kernel=RBF_KERNEL, smoothing=smoothing, degree=1)
+
+
+class GridField:
+    """`f` evaluated on a GRID_MM lattice over the cells that hold the given points, trilinear in between (the fields are
+    smooth: checked against direct evaluation in the report). Call with the same points."""
+
+    def __init__(self, f, pts: np.ndarray, step: float = GRID_MM):
+        self.f, self.step = f, step
+        self.lo = np.floor(pts.min(0) / step).astype(int) - 1
+        cells = np.unique(np.floor(pts / step).astype(int) - self.lo, axis=0)
+        off = np.array([[a, b, c] for a in (0, 1) for b in (0, 1) for c in (0, 1)])
+        nodes = np.unique((cells[:, None, :] + off[None]).reshape(-1, 3), axis=0)
+        self.shape = tuple(nodes.max(0) + 2)
+        self.val = np.full(self.shape + (3,), np.nan)
+        pos = (nodes + self.lo) * step
+        self.val[tuple(nodes.T)] = np.vstack([f(pos[i:i + 20000]) for i in range(0, len(pos), 20000)])
+        self.n_nodes = len(nodes)
+
+    def __call__(self, p: np.ndarray) -> np.ndarray:
+        g = p / self.step - self.lo
+        i0 = np.floor(g).astype(int); t = g - i0
+        out = np.zeros_like(p)
+        for a in (0, 1):
+            for b in (0, 1):
+                for c in (0, 1):
+                    w = (t[:, 0] if a else 1 - t[:, 0]) * (t[:, 1] if b else 1 - t[:, 1]) * (t[:, 2] if c else 1 - t[:, 2])
+                    out += w[:, None] * self.val[i0[:, 0] + a, i0[:, 1] + b, i0[:, 2] + c]
+        return out
 
 
 def apply_rbf(f, p: np.ndarray, chunk: int = 8000) -> np.ndarray:
@@ -252,7 +333,7 @@ def jacobian_stats(f, pts: np.ndarray, h: float = 4.0) -> dict:
 
 
 SKIN_LIMB = ("arm", "forearm", "wrist", "hand", "digits", "palm", "nail", "perionyx", "thigh", "radial", "bicipital",
-             "border_of_forearm", "deltoid_region", "foveola", "sternocleido", "muscular_triangle", "anal", "gluteal_fold")
+             "border_of_forearm", "foveola", "sternocleido", "muscular_triangle", "anal", "gluteal_fold")
 SKIN_HAND = ("forearm", "wrist", "hand", "digits", "palm", "nail", "perionyx", "radial_foveola")   # never moved by the field
 FIELD_SKIP_REGIONS = ("forearm_hand", "foot")                                                      # Q168 regions never moved
 
@@ -264,24 +345,35 @@ def trunk_skin_ids(pending: list[dict]) -> list[str]:
         if p["cat"] != "skin":
             continue
         c = p["v"].mean(0)
-        if (-30 < c[1] < 600 and (abs(c[0]) < 160 or "hip_region" in p["mesh_id"])
+        if (-30 < c[1] < 600 and (abs(c[0]) < 160 or "hip_region" in p["mesh_id"] or "deltoid_region" in p["mesh_id"])
                 and not any(s in p["mesh_id"] for s in SKIN_LIMB)):
             out.append(p["mesh_id"])
     return out
 
 
 # ----------------------------------------------------------------------------------- the refit
-def _sample_bones(pending, raw, step=16.0):
-    """one anchor per `step` mm voxel of every bone near the trunk (raw Z-Anatomy position -> final bone position)"""
+def _sample_bones(pending, raw, step=16.0, reach=ANCHOR_REACH_MM):
+    """one anchor per `step` mm voxel of every bone near the trunk (raw Z-Anatomy position -> final position), plus the
+    label-supported costal cartilage vertices (p["anchor_target"]).  Limb bones (humerus, femur, hand, foot ...) enter only
+    within `reach` mm (raw) of a trunk bone: their raw pose differs from hers by up to 300 mm and would shear the field."""
+    core = [raw[p["mesh_id"]][::4] for p in pending if p["cat"] == "bone" and any(t in p["mesh_id"] for t in TRUNK_BONE_RE)
+            and "phalanx" not in p["mesh_id"] and "metacarpal" not in p["mesh_id"]]
+    core_tree = cKDTree(np.vstack(core))
     src, dst, ids = [], [], []
     for p in pending:
-        if p["cat"] != "bone" or p["mesh_id"] not in raw:
+        tgt = p.get("anchor_target")
+        if (p["cat"] != "bone" and tgt is None) or p["mesh_id"] not in raw:
             continue
-        if not (-320 < p["v"][:, 1].mean() < 780):
+        if p["cat"] == "bone" and not (-320 < p["v"][:, 1].mean() < 780):
             continue
         ok = p.get("anchor_mask")
-        r = raw[p["mesh_id"]] if ok is None else raw[p["mesh_id"]][ok]
-        vv = p["v"] if ok is None else p["v"][ok]
+        r = raw[p["mesh_id"]]
+        vv = p["v"] if tgt is None else tgt
+        if ok is not None:
+            r, vv = r[ok], vv[ok]
+        if p["cat"] == "bone" and not any(t in p["mesh_id"] for t in TRUNK_BONE_RE) and len(r):
+            near = core_tree.query(r)[0] <= reach
+            r, vv = r[near], vv[near]
         if len(r) < 3:
             continue
         _, j = np.unique(np.floor(r / step).astype(int), axis=0, return_index=True)
@@ -301,12 +393,12 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
 
     # 1. bone anchors -> base field (bones only): smooth replacement of the Q168 blend
     bs, bd, _ = _sample_bones(pending, raw)
-    base = rbf(bs, bd, smoothing)
+    base = rbf(bs, bd, 30.0)
     rep["rbf"]["bone_anchors"] = int(len(bs))
     rep["bone_anchor_residual_mm"] = _res(base, bs, bd)
 
     # 2. skin anchors: base position of each trunk-skin vertex -> her outline along the horizontal ray from her axis
-    ys = np.arange(-60.0, 641.0, 5.0); ths = np.radians(np.arange(-180.0, 180.0, 2.0))
+    ys = np.arange(-140.0, 641.0, 5.0); ths = np.radians(np.arange(-180.0, 180.0, 2.0))
     R, nh, trusted = her_outline_chart(skin_mesh, axis, ys, ths)
     sk_ids = trunk_skin_ids(pending)
     S = {k: apply_rbf(base, raw[k]) for k in sk_ids}
@@ -349,14 +441,14 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     A_src, A_dst = np.vstack([bs, sk_src]), np.vstack([bd, sk_dst])
     grid_pts = _jac_grid(pending, raw, axis)
     sm = smoothing
-    for attempt in range(4):
+    for attempt in range(3):
         field = rbf(A_src, A_dst, sm)
         jac = jacobian_stats(field, grid_pts)
         rep["jacobian"] = {**jac, "smoothing": sm, "attempt": attempt}
         log(f"  field smoothing {sm}: Jacobian {jac}")
-        if jac["min"] >= 0.25 or attempt == 3:
+        if jac["min"] >= 0.25 or attempt == 2:
             break
-        sm *= 4
+        sm *= 2.5
     rep["rbf"]["final_smoothing"] = sm
     rep["layer_rule"] = {"skin_share_d0_mm": LAMBDA_D0_MM, "skin_share_d1_mm": LAMBDA_D1_MM}
     rep["bone_anchor_residual_final_mm"] = _res(field, bs, bd)
@@ -368,16 +460,23 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     tb = [p["v"] for p in pending if p["cat"] == "bone" and any(t in p["mesh_id"] for t in TRUNK_BONE_RE)]
     bone_tree = cKDTree(np.vstack([b[::3] for b in tb]))
     regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
+    todo = []
     for p in pending:
-        if p["cat"] == "bone":
+        if p["cat"] == "bone" or regions.get(p["mesh_id"]) in FIELD_SKIP_REGIONS or (p["cat"] == "skin" and any(s in p["mesh_id"] for s in SKIN_HAND)):
             continue
-        if regions.get(p["mesh_id"]) in FIELD_SKIP_REGIONS or (p["cat"] == "skin" and any(s in p["mesh_id"] for s in SKIN_HAND)):
-            continue
+        w = trunk_weight(p["v"], axis)
+        if (w > 1e-3).any():
+            todo.append((p, w))
+    pts_all = np.vstack([raw[p["mesh_id"]][w > 1e-3] for p, w in todo])
+    direct_field, direct_base = field, base
+    field, base = GridField(direct_field, pts_all), GridField(direct_base, pts_all)
+    chk = pts_all[np.random.default_rng(0).choice(len(pts_all), 3000, replace=False)]
+    err = np.linalg.norm(field(chk) - direct_field(chk), axis=1)
+    rep["grid_interpolation_error_mm"] = {"nodes": int(field.n_nodes), "step_mm": GRID_MM, "median": round(float(np.median(err)), 3), "max": round(float(err.max()), 2)}
+    log(f"  grid field {field.n_nodes} nodes, error vs direct {rep['grid_interpolation_error_mm']}")
+    for p, w in todo:
         q = p["v"]
-        w = trunk_weight(q, axis)
         sel = w > 1e-3
-        if not sel.any():
-            continue
         r_sel = raw[p["mesh_id"]][sel]
         f_full = apply_rbf(field, r_sel)
         if p["cat"] == "skin":

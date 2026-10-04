@@ -68,6 +68,17 @@ aside{border-right:1px solid var(--line)}
 .sys .ct{font-size:11px;color:var(--muted)}
 .sys[aria-pressed="false"]{opacity:.4}
 .sys[aria-pressed="false"] .sw{background:transparent!important}
+/* ---------- Q189 source facet ---------- */
+.src-colour{display:block;width:100%;padding:6px 8px;margin-bottom:5px;border:1px solid var(--line);border-radius:5px;background:var(--surface);
+  font-size:11.5px;font-weight:600;text-align:left}
+.src-colour[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.sys.src .nm{text-transform:none;font-size:12px;line-height:1.25}
+.srcnote{margin:6px 0 0;font-size:10.5px;line-height:1.4;color:var(--muted)}
+#i-src{margin-top:8px;padding:6px 8px;border-left:3px solid var(--line);background:var(--sunk);font-size:11.5px;line-height:1.4;font-weight:600}
+#insp-head{position:sticky}
+#insp-min{position:absolute;top:8px;right:10px;background:none;border:0;font-size:20px;line-height:1;color:var(--muted);padding:2px 7px;cursor:pointer}
+#insp-head h2{padding-right:30px}
+#inspector.min #i-body{display:none}
 
 /* ---------- search + list ---------- */
 #q{width:100%;padding:6px 8px;border:1px solid var(--line);border-radius:5px;
@@ -208,6 +219,12 @@ button.mini:hover{background:#f2f2f2}
       <p class="eyebrow">Tissue systems</p>
       <div id="systems"></div>
     </div>
+    <div class="sec" id="src-sec" hidden>
+      <p class="eyebrow">Source of each structure</p>
+      <button type="button" class="src-colour" id="src-colour" aria-pressed="false" title="Colour every structure by where its geometry comes from instead of by tissue">Colour by source</button>
+      <div id="src-list"></div>
+      <p class="srcnote" id="src-note"></p>
+    </div>
     <div class="sec">
       <p class="eyebrow">Structures</p>
       <input id="q" type="search" placeholder="Search 130 structures" autocomplete="off">
@@ -239,9 +256,11 @@ button.mini:hover{background:#f2f2f2}
 
   <div id="inspector">
     <div id="insp-head">
+      <button type="button" id="insp-min" aria-label="Minimize or expand details" title="Minimize / expand">&minus;</button>
       <h2 id="i-name">Select a structure</h2>
       <div class="lat" id="i-lat"></div>
       <div class="idline mono" id="i-id"></div>
+      <div id="i-src" hidden></div>
       <div class="tagrow" id="i-tags"></div>
     </div>
     <div id="i-body"><div class="empty">Click any structure in the model, or pick one from the list.</div></div>
@@ -301,10 +320,23 @@ var SUBJECT_LABELS = {
   ct_vhf_delt: "Visible Human female, colour cryosections registered to her CT (height corrected 2026-09-13) -- deltoid by the male's superficial-proximity rule adapted to her (depth band relative to the muscle compartment, window scaled to her scapula, lateral wedge below the humeral head); rule-based, still above expectation on the left",
   ct_vhf_es: "Visible Human female, CT -- erector spinae columns (spinalis, longissimus, iliocostalis) by distance-from-midline rule on her model labels",
   ct_vhm_forearm: "Visible Human male, colour cryosections at full resolution (0.33 mm) -- right forearm muscles by position rules in the radius-ulna frame (bones tracked in the photographs) with boundaries on the pale fascial lines; rule-based; only flexor digitorum superficialis/profundus and abductor pollicis longus shipped by name, the other regions had volumes far above expectation and stay unshipped",
+  ct_vhm_ggl: "Visible Human male, frozen CT -- genioglossus from his own CT tongue label, position-anchored on his mandibular symphysis midline; rule-based",
+  ct_vhm_sgl: "Visible Human male, frozen CT -- styloglossus (intralingual portion only) from his own CT tongue label; rule-based",
+  ct_vhf_left_forearm: "Visible Human female, colour cryosections at full resolution (0.33 mm) -- LEFT forearm muscles by position-rule markers and a marker watershed on the fascial septa; rule-based",
+  ct_vhf_xfersepta_fix: "TRANSFERRED from the Visible Human male, not measured on her: his lower-leg muscle carried onto her bones and re-bounded on HER intermuscular septa (re-conversion of four labels of the transferred set at no smoothing, to keep its continuity); the muscle set and rough shape are still his",
+  xfer_zan2vhm_limb: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on him: forearm, hand and foot soft tissue carried onto his own bones one bone at a time; the badge states the validation error",
+  xfer_zan2vhm_limb_photo: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on him: the Z-Anatomy shape refined to his cryosection photographs by a watershed on tissue boundaries; the badge states the validation error",
+  xfer_zan2vhm_head: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on him: head and neck muscles fitted onto his own skull, mandible, hyoid and spine; the badge states the carrier-bone error",
+  xfer_zan2vhm_trunk: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on him: trunk and small leg muscles fitted onto his own spine, ribs, sternum, shoulder girdle and pelvis; the badge states the carrier-bone error",
+  xfer_zan2vhf_limb: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on her: forearm, hand and foot soft tissue carried onto her own bones one bone at a time; the badge states the validation error",
+  xfer_zan2vhf_limb_photo: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on her: the Z-Anatomy shape refined to her cryosection photographs by a watershed on tissue boundaries; the badge states the validation error",
+  xfer_zan2vhf_head: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on her: head and neck muscles fitted onto her own skull, mandible, hyoid and spine; the badge states the carrier-bone error",
+  xfer_zan2vhf_foot: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on her: foot intrinsic muscles fitted onto her own foot bones one bone at a time; the badge states the carrier-bone error",
+  xfer_zan2vhf_trunk: "FILLED from Z-Anatomy (CC BY-SA 4.0 reference model), not measured on her: trunk and small leg muscles fitted onto her own spine, ribs, sternum, shoulder girdle and pelvis; the badge states the carrier-bone error",
   xfer_vhm2vhf_rhom: "TRANSFERRED from the Visible Human male, not measured on her: his rhomboid minor (itself split by rule from his rhomboid label) carried onto her scapula and spine by the piecewise affine map, because her own rhomboid mass could not be split. An estimate; 26.0 and 13.6 cm3",
   ct_vhf_pfloor: "Visible Human female, CT labels with her 1 mm colour cryosections as the tissue evidence -- pelvic floor and perineum by position rules inside her bony pelvis (levator ani, coccygeus, external anal sphincter, bulbospongiosus, ischiocavernosus, deep transverse perineal); rule-based. The levator comes out 1.35x the published MRI volume because the rule gives a 10-13 mm sheet where Gray's describes 3-5 mm (review); bulbospongiosus and ischiocavernosus include their erectile bodies; superficial transverse perineal is too small for the frame and is unshipped",
-  ct_vhf_popliteal: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) -- the popliteal artery and vein LUMEN and the tibial nerve tracked level by level in the popliteal fossa (artery deepest on the femur, vein between, nerve most superficial: verified on the meshes). Lumens measure under a living vessel (post-mortem contraction and a collapsed vein). The division at the lower border of popliteus is NOT covered: below y -390 mm the walk ran into gastrocnemius",
-  ct_vhf_femoral: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) -- the femoral artery and vein LUMEN and the femoral nerve trunk tracked level by level in the femoral triangle from a landmark seed (nerve lateral, artery, vein medial). Only y +14 to -46 mm: the top of the common femoral vessels is above the crops and the adductor canal could not be confirmed, so it is not shipped. The nerve trunk ends where it divides, 45 mm below the inguinal ligament, and rests on 9 detected levels of 26",
+  ct_vhf_popliteal: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) -- the popliteal artery and vein LUMEN and the tibial nerve tracked level by level in the popliteal fossa (rule-based) (artery deepest on the femur, vein between, nerve most superficial: verified on the meshes). Lumens measure under a living vessel (post-mortem contraction and a collapsed vein). The division at the lower border of popliteus is NOT covered: below y -390 mm the walk ran into gastrocnemius",
+  ct_vhf_femoral: "Visible Human female, colour cryosections at FULL resolution (0.33 mm) -- the femoral artery and vein LUMEN and the femoral nerve trunk tracked level by level in the femoral triangle from a landmark seed (rule-based) (nerve lateral, artery, vein medial). Only y +14 to -46 mm: the top of the common femoral vessels is above the crops and the adductor canal could not be confirmed, so it is not shipped. The nerve trunk ends where it divides, 45 mm below the inguinal ligament, and rests on 9 detected levels of 26",
   ct_vhf_hand: "Visible Human female, colour cryosections at full resolution (0.33 mm) -- right hand intrinsics by compartment rules around her metacarpal shafts (adductor pollicis, the three hypothenar muscles, the dorsal and palmar interossei as groups); rule-based; the thenar group could not be split into abductor/flexor/opponens pollicis and stays unshipped, as do the lumbricals and palmaris brevis; adductor pollicis is above expectation (review)",
   ct_vhf_hyoid: "Visible Human female, colour cryosections (1 mm frame) registered to her CT -- floor of the mouth and extrinsic tongue muscles by position rules between her mandible, hyoid, styloid and tongue labels (mylohyoid, geniohyoid, genioglossus, hyoglossus, styloglossus); rule-based; her head is flexed, mylohyoid and the left hyoglossus are above expectation (review); the infrahyoid straps came out as fragments and are unshipped",
   ct_vhf_dneck: "Visible Human female, colour cryosections (1 mm frame) registered to her CT -- deep neck and suboccipital muscles by layer and position rules between her vertebral, trapezius, SCM, scalene and erector labels (semispinalis capitis/cervicis, the four suboccipitals, longus colli/capitis); splenius and the erector sink not shipped; rule-based",
@@ -347,6 +379,39 @@ var SUBJECT_LABELS = {
   ct_s1159_orbit: "third specimen -- s1159 extraocular muscles (oculomotor_muscles task)",
   ct_s1159_abd: "third specimen -- s1159 trunk-wall muscles (abdominal_muscles task)"
 };
+/* Q189: provenance class of every structure, derived from its subject name, that subject's description above and its own
+   badge -- no new data. Mirrors classify() in scripts/audit_q189_model_separation.py, which counts the same classes. */
+var SRC = [
+  {k:"measured",       name:"Measured on this body",             hex:0x1F8A5B, say:"Measured on this body \u2014 segmented from its own CT or cryosections."},
+  {k:"rule_based",     name:"Rule-based on this body's data",    hex:0xD9922B, say:"Rule-based on this body's own data \u2014 derived by rule from its CT or cryosections, not read off a segmentation."},
+  {k:"transferred",    name:"Transferred from the other Visible Human", hex:0x7B5CC4, say:"Transferred from the other Visible Human body and fitted to this one \u2014 not measured here."},
+  {k:"filled_zan",     name:"Filled from Z-Anatomy",             hex:0x2A7DE1, say:"Filled from Z-Anatomy (reference model), fitted to this body \u2014 not measured here."},
+  {k:"other_specimen", name:"Another person's CT",               hex:0x8A8F98, say:"Another person's CT (TotalSegmentator case s1159) \u2014 NOT this body's geometry; hidden by default."}
+];
+var SRC_BY = {}; SRC.forEach(function(c){ SRC_BY[c.k] = c; });
+function baseSubject(sub){
+  sub = (sub || "").replace(/(_contfix_mesh|_contfix)$/, "");
+  if (!SUBJECT_LABELS[sub]) sub = sub.replace(/_fix$/, "");   // ct_vhm_pfloor_fix -> ct_vhm_pfloor; ct_vhf_xfersepta_fix keeps its own description
+  return sub;
+}
+function classifySource(sub, badge){
+  var b = baseSubject(sub);
+  if (b.indexOf("xfer_zan2") === 0) return "filled_zan";
+  if (/(^|_)xfer/.test(b)) return "transferred";
+  if (b.indexOf("ct_s1159") === 0) return "other_specimen";
+  if (/rule/i.test(SUBJECT_LABELS[b] || "")) return "rule_based";
+  if (/^\s*rule-based/i.test(badge || "")) return "rule_based";
+  return "measured";
+}
+/* the error the badge states, for the card's one-line source statement */
+function sourceError(badge){
+  var m = /validation median(?: error)? ([\d.]+) mm, max ([\d.]+) mm/.exec(badge || "");
+  if (m) return "error " + m[1] + " mm median (max " + m[2] + " mm)";
+  m = /fits (?:his|her) CT at ([\d.]+) mm median/.exec(badge || "");
+  if (m) return "carrier-bone error " + m[1] + " mm median";
+  return "";
+}
+
 
 /* ---------- decode ---------- */
 var bin = atob(B64), buf = new ArrayBuffer(bin.length), bytes = new Uint8Array(buf);
@@ -619,6 +684,30 @@ cats.forEach(function(c){
   sysBox.appendChild(b);
 });
 
+/* ---------- Q189 source facet: filter / colour by provenance class (default: everything shown, tissue colours) ---------- */
+var srcOn = {}, srcCount = {}, srcColour = false;
+meshes.forEach(function(m){ var s = m.userData; s.src = classifySource(s.subject, s.rec && s.rec.procedural_badge); if (groups[s.id]) groups[s.id].src = s.src; });
+(function(){
+  var seen = {};
+  meshes.forEach(function(m){ var s = m.userData; if (!seen[s.id]){ seen[s.id] = 1; srcCount[s.src] = (srcCount[s.src] || 0) + 1; } });
+  var present = SRC.filter(function(c){ return srcCount[c.k]; });
+  if (present.length < 2) return;                      // a single-source build has nothing to separate
+  var box = document.getElementById("src-list");
+  present.forEach(function(c){
+    srcOn[c.k] = true;
+    var b = document.createElement("button");
+    b.className = "sys src"; b.setAttribute("aria-pressed", "true"); b.dataset.src = c.k; b.title = c.say;
+    b.innerHTML = '<span class="sw" style="background:' + hexCss(c.hex) + '"></span><span class="nm">' + c.name +
+                  '</span><span class="ct mono">' + srcCount[c.k] + '</span>';
+    b.addEventListener("click", function(){ srcOn[c.k] = !srcOn[c.k]; b.setAttribute("aria-pressed", String(srcOn[c.k])); apply(); });
+    box.appendChild(b);
+  });
+  var cb = document.getElementById("src-colour");
+  cb.addEventListener("click", function(){ srcColour = !srcColour; cb.setAttribute("aria-pressed", String(srcColour)); apply(); });
+  document.getElementById("src-note").textContent = "Counts are structures. Z-Anatomy is only ever a badged gap-fill here, never measured data; tap a chip to hide or show its class.";
+  document.getElementById("src-sec").hidden = false;
+})();
+
 /* ---------- list ---------- */
 var listBox = document.getElementById("list"), qEl = document.getElementById("q");
 qEl.placeholder = "Search " + BUNDLE.structures.length + " structures";
@@ -641,6 +730,11 @@ function renderList(){
     b.addEventListener("click", function(){
       // Picking a structure whose system is switched off should show it,
       // not select something invisible.
+      if (s.src && srcOn[s.src] === false){
+        srcOn[s.src] = true;
+        var sb = document.querySelector('#src-list [data-src="' + s.src + '"]');
+        if (sb) sb.setAttribute("aria-pressed", "true");
+      }
       if (!on[s.cat]){
         on[s.cat] = true;
         var btn = sysBox.querySelector('[data-cat="' + s.cat + '"]');
@@ -664,12 +758,13 @@ function apply(){
   meshes.forEach(function(m){
     var s = m.userData;
     var vis = on[s.cat] && (!s.hidden_default || !!hdShown[s.id]);
+    if (srcOn[s.src] === false) vis = false;   // Q189 source facet (all classes on by default)
     if (iso && selected) vis = (s.id === selected);
     m.visible = vis;
     if (vis){ tris += s.nf; if (!seen[s.id]){ seen[s.id] = 1; shown++; } }
     var isSel = (s.id === selected);
     var tis = TISSUE[s.cat] || TISSUE.other;
-    m.material.color.setHex(isSel ? 0x0A6E8E : tis.hex);
+    m.material.color.setHex(isSel ? 0x0A6E8E : (srcColour && SRC_BY[s.src] ? SRC_BY[s.src].hex : tis.hex));
     m.material.emissive.setHex(isSel ? 0x0A2C38 : 0x000000);
     var base = (s.cat === "muscle" && xray) ? 0.34 : (xray && s.cat !== "bone" ? 0.5 : 1);
     var ov = opacityOverride ? opacityOverride(s.cat, s.id) : null;   // Q188 add-on hook (null = no change)
@@ -752,6 +847,15 @@ function pointHtml(p){
     (p.source ? '<p class="cite">' + esc(p.source) + '</p>' : "") +
     '</div>';
 }
+var inspEl = document.getElementById("inspector"), inspBtn = document.getElementById("insp-min"), inspMin;
+try { var _im = localStorage.getItem("nmsk_info_min"); inspMin = _im === null ? (window.innerWidth <= 900) : _im === "1"; }
+catch (err){ inspMin = window.innerWidth <= 900; }
+function showInspMin(){ inspEl.classList.toggle("min", inspMin); inspBtn.innerHTML = inspMin ? "+" : "&minus;"; }
+inspBtn.addEventListener("click", function(){
+  inspMin = !inspMin; try { localStorage.setItem("nmsk_info_min", inspMin ? "1" : "0"); } catch (err){}
+  showInspMin();
+});
+showInspMin();
 function select(id){
   selected = id;
   if (id && layoutReady && app.classList.contains("phone")) openSheet("info");
@@ -765,10 +869,17 @@ function select(id){
     document.getElementById("i-lat").textContent = "";
     document.getElementById("i-id").textContent = "";
     document.getElementById("i-tags").innerHTML = "";
+    document.getElementById("i-src").hidden = true;
     body.innerHTML = '<div class="empty">Click any structure in the model, or pick one from the list.</div>';
     apply(); return;
   }
   var r = s.rec || {};
+  var sc = SRC_BY[s.src], srcEl = document.getElementById("i-src");
+  if (sc){
+    var se = sourceError(r.procedural_badge);
+    srcEl.textContent = sc.say + (se ? " " + se.charAt(0).toUpperCase() + se.slice(1) + "." : (s.src === "filled_zan" || s.src === "transferred" ? " The error is stated in the note below." : ""));
+    srcEl.style.borderLeftColor = hexCss(sc.hex); srcEl.hidden = false;
+  } else srcEl.hidden = true;
   head.textContent = r.name || s.id;
   document.getElementById("i-lat").textContent = r.latin || "";
   document.getElementById("i-id").textContent = s.id;
@@ -782,7 +893,7 @@ function select(id){
     (s.parts > 1 ? '<span class="tag">' + s.parts + ' meshes</span>' : "") +
     (s.subject && s.subject !== PRIMARY_SUBJECT
       ? '<span class="tag warn" title="Shown for reference at the same scale, not as part of one continuous cadaver -- see docs/GEOMETRY_SOURCES.md">' +
-        esc(SUBJECT_LABELS[s.subject] || s.subject) + '</span>'
+        esc(SUBJECT_LABELS[s.subject] || SUBJECT_LABELS[baseSubject(s.subject)] || s.subject) + '</span>'
       : "") +
     (r.procedural_badge
       ? '<span class="tag warn" title="' + esc(r.procedural_badge) + '">Adjusted geometry — see note</span>' +
