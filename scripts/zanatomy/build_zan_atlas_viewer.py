@@ -687,6 +687,38 @@ def fit_to_vhf(pending: list[dict]) -> dict:
             "female_pelvic_organs": rep["female_pelvic_organs"]}
 
 
+def refit_trunk_q186c(pending: list[dict], raw: dict) -> dict:
+    """Q186c (owner: error in the female chest/abdomen): per-bone refit of her ribs + vertebrae onto her CT labels, then
+    one smooth displacement field for the soft tissue (scripts/zanatomy/trunk_refit_q186c.py); badges every moved
+    structure and re-measures the skin patches against her CT skin."""
+    import re
+    from scripts.zanatomy import trunk_refit_q186c as Q186c
+    bones = Q186c.refit_bones(pending)
+    rep = Q186c.refit_trunk(pending, raw)
+    for p in pending:
+        p.pop("anchor_mask", None)
+    by_id = {p["mesh_id"]: p for p in pending}
+    for mid, b in bones.items():
+        if b.get("status") == "refit":
+            by_id[mid]["fit_note"] += (f" Q186c: refit onto her own CT label of this bone (TotalSegmentator, her scan): her label to this "
+                                       f"mesh {b['her_label_to_Z_mm_before']} -> {b['her_label_to_Z_mm_after']} mm median, this mesh to her "
+                                       f"label {b['Z_to_her_label_mm_before']} -> {b['Z_to_her_label_mm_after']} mm (similarity, scale {b['scale']}).")
+    for k, st in rep["_per_structure_shift"].items():
+        if st["shift_max"] > 1.0:
+            by_id[k]["fit_note"] += (f" Q186c trunk refit: carried by one smooth field anchored on her own CT ribs, vertebrae, pelvis "
+                                     f"and CT skin outline (not the per-bone blend); moved a median {st['shift_med']:.0f} mm "
+                                     f"(max {st['shift_max']:.0f} mm) from the Q168 position. An estimate: Z-Anatomy's arrangement, her frame.")
+    for p in pending:
+        if p["cat"] == "skin":
+            p["fit_note"] = re.sub(r" Skin: compared with her own CT skin surface.*$", "", p["fit_note"], flags=re.S)
+    skin_fit = skin_vs_her_skin(pending)
+    LAST_REPORTS["fit_to_vhf"]["skin_vs_her_ct_skin_after_q186c"] = skin_fit
+    out = {k: v for k, v in rep.items() if not k.startswith("_")}
+    out["bones"] = bones
+    out["skin_vs_her_ct_skin"] = skin_fit
+    return out
+
+
 def close_muscle_gaps(pending: list[dict]) -> dict:
     """Q162: gap closure over every muscle-layer mesh (see muscle_gap_closure.py for the rule and
     its citations); tendons are closed onto, everything else is an obstacle."""
@@ -739,7 +771,8 @@ def close_muscle_gaps(pending: list[dict]) -> dict:
 def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           corrections_dir: Path, budget_scale: float, category_scale: dict | None = None,
           close_gaps: bool = True, target_body: str | None = None,
-          integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False):
+          integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
+          trunk_refit: bool = False):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -913,8 +946,12 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # Q168: the female variant is moved onto her skeleton BEFORE gap closure, so the 1 mm interface
     # is restored in her frame (the per-bone fits stretch neighbouring muscles differently).
     LAST_REPORTS.pop("fit_to_vhf", None)
+    LAST_REPORTS.pop("trunk_refit", None)
     if target_body == "vhf":
+        raw_before_fit = {p["mesh_id"]: p["v"].copy() for p in pending} if trunk_refit else None
         LAST_REPORTS["fit_to_vhf"] = fit_to_vhf(pending)
+        if trunk_refit:
+            LAST_REPORTS["trunk_refit"] = refit_trunk_q186c(pending, raw_before_fit)
     elif target_body is not None:
         raise ValueError(f"unknown target body {target_body!r}")
     gap_report = close_muscle_gaps(pending) if close_gaps else {"skipped": True}
@@ -1061,6 +1098,9 @@ def main(argv=None) -> int:
     ap.add_argument("--integ-inventory", default=str(DEFAULT_INTEG_INVENTORY),
                     help="Q186: Integument (skin) inventory; '' to build without skin")
     ap.add_argument("--with-hair", action="store_true", help="Q186: also ship the Z-Anatomy hair objects")
+    ap.add_argument("--trunk-refit", action="store_true",
+                    help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
+                         "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
     ap.add_argument("--target-body", choices=["vhf"], default=None,
                     help="Q168: fit the whole model onto the VH female's skeleton (female variant)")
     ap.add_argument("--q162-report", default=None,
@@ -1088,7 +1128,8 @@ def main(argv=None) -> int:
         zan_dir=Path(args.zan_dir), inventory_path=Path(args.inventory), namemap_path=Path(args.namemap),
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
         category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body,
-        integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair)
+        integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
+        trunk_refit=args.trunk_refit)
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(

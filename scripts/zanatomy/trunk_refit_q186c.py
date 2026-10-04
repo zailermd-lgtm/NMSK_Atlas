@@ -38,6 +38,7 @@ RIB_NAMES = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", 
 RIB_LABEL0 = {"l": 92, "r": 104}          # TotalSegmentator total: rib_left_1 = 92 ... rib_right_1 = 104
 RIB_SCALE_BOUNDS = (0.85, 1.20)
 RIB_SHIFT_MAX_MM = 45.0
+SUPPORT_MM = 5.0
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
 RBF_SMOOTH = 30.0
@@ -79,47 +80,65 @@ def rib_id(i: int, side: str) -> str:
     return f"zan_{RIB_NAMES[i]}_rib_{side}"
 
 
-# ----------------------------------------------------------------------------------- rib refit
-def refit_ribs(pending: list[dict], vol=None, log=print) -> dict:
-    """per-rib similarity ICP of the (Q168-placed) Z-Anatomy rib onto her label rib; moves p["v"] in place."""
+# ----------------------------------------------------------------------------------- bone refit
+VERTEBRAE = [f"t{i}" for i in range(1, 13)] + [f"l{i}" for i in range(1, 6)]
+
+
+def bone_targets() -> dict:
+    """{zan mesh id: TotalSegmentator `total` label id of HER CT}: ribs 1-12 l/r, vertebrae T1-L5"""
+    out = {}
+    for side in "lr":
+        for i in range(12):
+            out[rib_id(i, side)] = RIB_LABEL0[side] + i
+    ids = {v: int(k) for k, v in json.loads((REPO / "mappings" / "totalsegmentator_labels.json").read_text())["labels"].items()}
+    for v in VERTEBRAE:
+        out[f"zan_vertebra_{v}"] = ids[f"vertebrae_{v.upper()}"]
+    return out
+
+
+def refit_bones(pending: list[dict], vol=None, log=print) -> dict:
+    """per-bone similarity ICP of each (Q168-placed) Z-Anatomy rib / thoracic + lumbar vertebra onto its own CT
+    label (partial-aware: every label point pairs with the nearest Z-Anatomy point); moves p["v"] in place.
+    A bone is only moved when both one-sided medians improve."""
     from scripts.transfer.zan_to_vhf_whole_body import apply_sim, trimmed_icp, sim_scale, surface_distance
     by_id = {p["mesh_id"]: p for p in pending}
     vol = vol or load_her_vol()
     rep = {}
-    for side in "lr":
-        for i in range(12):
-            mid = rib_id(i, side)
-            p = by_id.get(mid)
-            if p is None:
-                continue
-            dst = rib_label_points(RIB_LABEL0[side] + i, vol)
-            if len(dst) < 200:
-                rep[mid] = {"status": "no label"}
-                continue
-            v0 = p["v"]
-            rng = np.random.default_rng(i)
-            src = v0[rng.choice(len(v0), min(len(v0), 4000), replace=False)]
-            dsub = dst[rng.choice(len(dst), min(len(dst), 6000), replace=False)]
-            before = surface_distance(src, dst)
-            best = None
-            for scale_free in (True, False):
-                A, t = trimmed_icp(src, dsub, np.eye(3), np.zeros(3), scale=scale_free, corr="dst", iters=60, trim=0.85)
-                s = sim_scale(A)
-                shift = float(np.linalg.norm(apply_sim(A, t, v0).mean(0) - v0.mean(0)))
-                ok = RIB_SCALE_BOUNDS[0] <= s <= RIB_SCALE_BOUNDS[1] and shift <= RIB_SHIFT_MAX_MM
-                d = surface_distance(apply_sim(A, t, src), dst)
-                cand = {"A": A, "t": t, "scale": s, "shift": shift, "ok": ok, "d": d, "scale_free": scale_free}
-                if ok and (best is None or d["b_to_a"] < best["d"]["b_to_a"]):
-                    best = cand
-            if best is None:
-                rep[mid] = {"status": "held (scale/shift out of bounds)"}
-                continue
-            p["v"] = apply_sim(best["A"], best["t"], v0)
-            rep[mid] = {"status": "refit", "scale": round(best["scale"], 3), "shift_mm": round(best["shift"], 1),
-                        "scale_free": best["scale_free"],
-                        "her_label_to_Z_mm_before": round(before["b_to_a"], 2), "her_label_to_Z_mm_after": round(best["d"]["b_to_a"], 2),
-                        "Z_to_her_label_mm_before": round(before["a_to_b"], 2), "Z_to_her_label_mm_after": round(best["d"]["a_to_b"], 2)}
-            log(f"  {mid}: {rep[mid]}")
+    for mid, lab in bone_targets().items():
+        p = by_id.get(mid)
+        if p is None:
+            continue
+        dst = rib_label_points(lab, vol)
+        if len(dst) < 200:
+            rep[mid] = {"status": "no label"}
+            continue
+        v0 = p["v"]
+        rng = np.random.default_rng(lab)
+        src = v0[rng.choice(len(v0), min(len(v0), 4000), replace=False)]
+        dsub = dst[rng.choice(len(dst), min(len(dst), 6000), replace=False)]
+        before = surface_distance(src, dst)
+        best = None
+        for scale_free in (True, False):
+            A, t = trimmed_icp(src, dsub, np.eye(3), np.zeros(3), scale=scale_free, corr="dst", iters=60, trim=0.85)
+            s = sim_scale(A)
+            shift = float(np.linalg.norm(apply_sim(A, t, v0).mean(0) - v0.mean(0)))
+            d = surface_distance(apply_sim(A, t, src), dst)
+            ok = (RIB_SCALE_BOUNDS[0] <= s <= RIB_SCALE_BOUNDS[1] and shift <= RIB_SHIFT_MAX_MM
+                  and d["b_to_a"] < before["b_to_a"] and d["a_to_b"] < before["a_to_b"])
+            if ok and (best is None or d["b_to_a"] < best["d"]["b_to_a"]):
+                best = {"A": A, "t": t, "scale": s, "shift": shift, "d": d, "scale_free": scale_free}
+        if best is None:
+            rep[mid] = {"status": "held (no bounded improvement)", "her_label_to_Z_mm": round(before["b_to_a"], 2),
+                        "Z_to_her_label_mm": round(before["a_to_b"], 2)}
+            continue
+        p["v"] = apply_sim(best["A"], best["t"], v0)
+        # vertices her label actually supports (<= SUPPORT_MM from it) may anchor the field; the unlabelled
+        # ends (rib ends towards the costal cartilage) were only carried by the rigid fit
+        p["anchor_mask"] = cKDTree(dst).query(p["v"])[0] <= SUPPORT_MM
+        rep[mid] = {"status": "refit", "scale": round(best["scale"], 3), "shift_mm": round(best["shift"], 1),
+                    "her_label_to_Z_mm_before": round(before["b_to_a"], 2), "her_label_to_Z_mm_after": round(best["d"]["b_to_a"], 2),
+                    "Z_to_her_label_mm_before": round(before["a_to_b"], 2), "Z_to_her_label_mm_after": round(best["d"]["a_to_b"], 2)}
+        log(f"  {mid}: {rep[mid]}")
     return rep
 
 
@@ -231,18 +250,21 @@ def trunk_skin_ids(pending: list[dict]) -> list[str]:
 
 
 # ----------------------------------------------------------------------------------- the refit
-def _sample_bones(pending, raw, per_bone=120, seed=3):
-    rng = np.random.default_rng(seed)
+def _sample_bones(pending, raw, step=16.0):
+    """one anchor per `step` mm voxel of every bone near the trunk (raw Z-Anatomy position -> final bone position)"""
     src, dst, ids = [], [], []
     for p in pending:
         if p["cat"] != "bone" or p["mesh_id"] not in raw:
             continue
-        c = p["v"].mean(0)
-        if not (-320 < c[1] < 780):
+        if not (-320 < p["v"][:, 1].mean() < 780):
             continue
-        n = len(p["v"]); k = min(n, per_bone * (3 if any(s in p["mesh_id"] for s in TRUNK_BONE_RE) else 1))
-        j = rng.choice(n, k, replace=False)
-        src.append(raw[p["mesh_id"]][j]); dst.append(p["v"][j]); ids += [p["mesh_id"]] * k
+        ok = p.get("anchor_mask")
+        r = raw[p["mesh_id"]] if ok is None else raw[p["mesh_id"]][ok]
+        vv = p["v"] if ok is None else p["v"][ok]
+        if len(r) < 3:
+            continue
+        _, j = np.unique(np.floor(r / step).astype(int), axis=0, return_index=True)
+        src.append(r[j]); dst.append(vv[j]); ids += [p["mesh_id"]] * len(j)
     return np.vstack(src), np.vstack(dst), ids
 
 
@@ -304,14 +326,14 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
 
     # 3. final field, fold-guarded: raise the smoothing until the Jacobian determinant stays >= 0.25
     A_src, A_dst = np.vstack([bs, sk_src]), np.vstack([bd, sk_dst])
-    grid_pts = _jac_grid(pending, raw)
+    grid_pts = _jac_grid(pending, raw, axis)
     sm = smoothing
     for attempt in range(4):
         field = rbf(A_src, A_dst, sm)
         jac = jacobian_stats(field, grid_pts)
         rep["jacobian"] = {**jac, "smoothing": sm, "attempt": attempt}
         log(f"  field smoothing {sm}: Jacobian {jac}")
-        if jac["min"] >= 0.25:
+        if jac["min"] >= 0.25 or attempt == 3:
             break
         sm *= 4
     rep["rbf"]["final_smoothing"] = sm
@@ -333,13 +355,13 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
         new[sel] = q[sel] + w[sel, None] * (f_new - q[sel])
         stat[p["mesh_id"]] = {"w_mean": float(w.mean()), "shift_med": float(np.median(np.linalg.norm(new - q, axis=1)[sel])),
                               "shift_max": float(np.linalg.norm(new - q, axis=1).max())}
-        p["v_q168"] = q
         p["v"] = new
         moved += 1
     rep["structures_moved"] = moved
     rep["shift_vs_q168_mm"] = {"median_of_structure_medians": round(float(np.median([s["shift_med"] for s in stat.values()])), 1),
                                "max": round(float(max(s["shift_max"] for s in stat.values())), 1)}
     rep["_per_structure_shift"] = stat
+    rep["_field"], rep["_grid"], rep["_anchors"], rep["_axis"], rep["_base"] = field, grid_pts, (A_src, A_dst), axis, base
     return rep
 
 
@@ -348,8 +370,14 @@ def _res(f, src, dst) -> dict:
     return {"median": round(float(np.median(e)), 2), "p90": round(float(np.percentile(e, 90)), 2), "max": round(float(e.max()), 2)}
 
 
-def _jac_grid(pending, raw, step=16.0, near=18.0):
-    """raw-space grid points within `near` mm of any trunk-structure vertex (the places the field is used)"""
-    pts = np.vstack([raw[p["mesh_id"]][::7] for p in pending if p["cat"] != "bone" and p["mesh_id"] in raw])
+def _jac_grid(pending, raw, axis, step=16.0):
+    """raw-space grid cells holding trunk-weighted (w > 0.05) non-bone vertices: the places the field is used"""
+    pts = []
+    for p in pending:
+        if p["cat"] == "bone" or p["mesh_id"] not in raw:
+            continue
+        w = trunk_weight(p["v"], axis)
+        pts.append(raw[p["mesh_id"]][w > 0.05][::5])
+    pts = np.vstack(pts)
     key = np.unique(np.floor(pts / step).astype(int), axis=0)
     return (key + 0.5) * step
