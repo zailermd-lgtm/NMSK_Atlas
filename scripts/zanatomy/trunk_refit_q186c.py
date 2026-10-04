@@ -48,10 +48,11 @@ VOLUME_RATIO = (0.65, 1.5)               # per closed structure: volume after / 
 BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_zan_to_vhf.json)
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
-RBF_SMOOTH = 1920.0
+RBF_SMOOTH = 6000.0
 BASE_SMOOTH = 300.0                  # bone-only field: bones reproduced to ~1 mm median, fewer conflicts than the exact interpolant
-SKIN_INSET_MM = 2.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
-CLAMP_MARGIN_MM, CLAMP_MAX_MM = 1.0, 30.0
+SKIN_INSET_MM = 1.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
+CLAMP_MARGIN_MM, CLAMP_MAX_MM = 0.5, 30.0
+CLAMP_SMOOTH_ITERS = 4
 CLAMP_SKIP_REGIONS = ("forearm_hand", "foot")
 RBF_KERNEL = "thin_plate_spline"      # Q186c v2: far fewer fold-over points than "cubic" (3.6 % vs 5.3 % of samples < 0.25, min det -0.55 vs -3.9)
 ANCHOR_REACH_MM = 90.0               # limb bones anchor the field only within this raw distance of a trunk bone (humeral/femoral heads)
@@ -484,29 +485,33 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
         r_sel = raw[p["mesh_id"]][sel]
         f_full = apply_rbf(field, r_sel)
         if p["cat"] == "skin":
-            cands = [(1.0, f_full)]
+            cands = [("field", 1.0, f_full)]
         else:
             f_base = apply_rbf(base, r_sel)
             lam = skin_share(bone_tree.query(q[sel])[0])
-            cands = [(g, f_base + g * lam[:, None] * (f_full - f_base)) for g in (1.0, 0.5, 0.0)]
+            cands = [("field", g, f_base + g * lam[:, None] * (f_full - f_base)) for g in (1.0, 0.5, 0.0)]
         closed = _closed(p["f"]) and _vol(raw[p["mesh_id"]], p["f"]) > 1000.0
         ref = BODY_SCALE ** 3 * _vol(raw[p["mesh_id"]], p["f"]) if closed else None
         best = None
-        for gain, f_new in cands:   # volume guard: closed structures keep 0.65-1.5 x the Z-Anatomy volume at her body scale
-            new = q.copy()
-            new[sel] = q[sel] + w[sel, None] * (f_new - q[sel])
+        options = []
+        for n, g, f_new in cands:   # volume guard: closed structures keep 0.65-1.5 x the Z-Anatomy volume at her body scale
+            new = q.copy(); new[sel] = q[sel] + w[sel, None] * (f_new - q[sel]); options.append((n, g, new))
+        if p.get("anchor_target") is not None:
+            options.append(("rigid onto her cartilage mesh", 0.0, p["anchor_target"].copy()))
+        options.append(("Q168 position", 0.0, q.copy()))
+        for n, gain, new in options:
             ratio = _vol(new, p["f"]) / ref if closed else None
             dev = abs(np.log(ratio)) if closed else 0.0
             if best is None or dev < best[0] - 1e-9:
-                best = (dev, gain, new, ratio)
+                best = (dev, gain, new, ratio, n)
             if not closed or VOLUME_RATIO[0] <= ratio <= VOLUME_RATIO[1]:
-                best = (dev, gain, new, ratio)
+                best = (dev, gain, new, ratio, n)
                 break
-        _, gain, new, ratio = best
+        _, gain, new, ratio, how = best
         if closed:
             vol_ratios.append(ratio)
-            if gain < 1.0:
-                guarded[p["mesh_id"]] = {"skin_gain": gain, "volume_ratio_vs_source": round(float(ratio), 2)}
+            if gain < 1.0 or how != "field":
+                guarded[p["mesh_id"]] = {"carried_by": how, "skin_gain": gain, "volume_ratio_vs_source": round(float(ratio), 2)}
         stat[p["mesh_id"]] = {"w_mean": float(w.mean()), "shift_med": float(np.median(np.linalg.norm(new - q, axis=1)[sel])),
                               "shift_max": float(np.linalg.norm(new - q, axis=1).max())}
         p["v"] = new
@@ -523,6 +528,30 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     rep["_field"], rep["_grid"], rep["_anchors"], rep["_axis"], rep["_base"] = field, grid_pts, (A_src, A_dst), axis, base
     rep["_parts"] = dict(bs=bs, bd=bd, sk_src=sk_src, sk_dst=sk_dst, direct_base=direct_base)
     return rep
+
+
+def _smooth_clamp(v: np.ndarray, new: np.ndarray, f: np.ndarray, skin_mesh) -> np.ndarray:
+    """spread the clamp displacement over the mesh neighbours (CLAMP_SMOOTH_ITERS Laplacian passes, moving vertices keep
+    at least their own clamp), then re-clamp whatever is still outside her skin: no facets where a patch crosses her skin"""
+    from scipy import sparse
+    D = new - v
+    moved = np.linalg.norm(D, axis=1) > 0
+    if not moved.any():
+        return new
+    n = len(v)
+    e = np.vstack([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]])
+    A = sparse.coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)).tocsr()
+    A = ((A + A.T) > 0).astype(float)
+    deg = np.asarray(A.sum(1)).ravel()
+    Ds = D.copy()
+    for _ in range(CLAMP_SMOOTH_ITERS):
+        Ds = np.where(deg[:, None] > 0, (A @ Ds) / np.maximum(deg, 1)[:, None], Ds)
+        Ds[moved] = np.where(np.linalg.norm(Ds[moved], axis=1)[:, None] > np.linalg.norm(D[moved], axis=1)[:, None], Ds[moved], D[moved])
+    cand = v + Ds
+    near = np.flatnonzero(np.linalg.norm(Ds, axis=1) > 1e-6)
+    still = near[~skin_mesh.contains(cand[near])] if len(near) else near
+    cand[still] = new[still]
+    return cand
 
 
 def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
@@ -553,6 +582,7 @@ def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
         mv = np.linalg.norm(tgt - v[out], axis=1)
         ok = mv <= CLAMP_MAX_MM
         new = v.copy(); new[out[ok]] = tgt[ok]
+        new = _smooth_clamp(v, new, p["f"], skin_mesh)
         p["v_unclamped"] = v
         p["v"] = new
         n_out += int(ok.sum())

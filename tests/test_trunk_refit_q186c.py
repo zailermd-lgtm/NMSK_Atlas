@@ -44,3 +44,28 @@ def test_bone_targets_cover_ribs_and_vertebrae():
     assert len(t) == 24 + 17
     assert t["zan_first_rib_l"] == 92 and t["zan_twelfth_rib_r"] == 115
     assert t["zan_vertebra_t1"] == 43 and t["zan_vertebra_l5"] == 27
+
+
+def test_grid_field_matches_direct_evaluation_and_clamp_helper_is_pure():
+    rng = np.random.default_rng(1)
+    src = rng.uniform(-60, 60, (300, 3))
+    dst = src + 8 * np.sin(src / 40.0)                 # smooth field
+    f = T.rbf(src, dst, smoothing=10.0)
+    pts = rng.uniform(-40, 40, (400, 3))
+    g = T.GridField(f, pts, step=6.0)
+    assert np.abs(g(pts) - f(pts)).max() < 0.5
+
+
+def test_shoulder_girdle_is_inside_the_reach_at_shoulder_height_only():
+    axis = lambda y: (np.zeros_like(y), np.zeros_like(y))
+    lo = T.trunk_weight(np.array([[250.0, 300.0, 0.0]]), axis)[0]
+    hi = T.trunk_weight(np.array([[250.0, 540.0, 0.0]]), axis)[0]
+    assert lo == 0.0 and hi > 0.9
+
+
+def test_flip_fraction_detects_a_mirrored_triangle():
+    v0 = np.array([[0, 0, 0], [1, 0, 0], [0, 1, 0]], float)
+    f = np.array([[0, 1, 2]])
+    assert T._flip_frac(v0, v0, f) == 0.0
+    v1 = v0.copy(); v1[:, 2] = 0; v1[[1, 2]] = v1[[2, 1]]
+    assert T._flip_frac(v0, v1, f) == 1.0
