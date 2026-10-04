@@ -138,6 +138,36 @@ def measure(M: dict, ref: Ref, sk: list[str], region: dict, her: dict, lab_pts: 
         a = np.array([x for k, x in rb.items() if key in k])
         res[f"{name}_vs_her_ct_label_mm"] = {"n": len(a), "Z_to_label_median": round(float(np.median(a[:, 0])), 1),
                                              "label_to_Z_median": round(float(np.median(a[:, 1])), 1)}
+    # posterior / shoulder / pelvis: skin groups vs her skin, and every non-bone structure by zone
+    groups = {"shoulder skin (deltoid, scapular, supra/infraclavicular, deltopectoral)": ("deltoid_region", "scapular_region", "supraclavicular", "infraclavicular", "deltopectoral", "triangle_of_ausc"),
+              "lumbar + sacral skin": ("lumbar_region", "sacral_region", "vertebral_region", "infrascapular"),
+              "gluteal + hip skin": ("gluteal_region", "hip_region"),
+              "chest + abdomen front skin": ("pectoral", "mammary", "inframammary", "presternal", "epigastric", "umbilical", "hypogastric", "hypochondriac", "inguinal"),
+              "flank skin": ("lateral_region_of",)}
+    res["skin_by_group"] = {}
+    for gname, keys in groups.items():
+        ks = [k for k, m in M.items() if m["sys"] == "skin" and any(t in k for t in keys)]
+        if not ks:
+            continue
+        gg = np.concatenate([ref.radial_gap(M[k]["v"])[0] for k in ks])
+        gg = gg[~np.isnan(gg)]
+        mm = ref.metrics({k: M[k] for k in ks})
+        res["skin_by_group"][gname] = {"patches": len(ks), "gap_her_minus_fitted_median": round(float(np.median(gg)), 1), "gap_p10": round(float(np.percentile(gg, 10)), 1),
+                                       "gap_p90": round(float(np.percentile(gg, 90)), 1), "outside_her_skin_frac": _wavg(list(mm.values()), "outside_skin_frac"),
+                                       "outside_max_mm": round(max(m["outside_max_mm"] for m in mm.values()), 1)}
+    def zone(m):
+        c = m["v"].mean(0)
+        if c[1] < 110: return "pelvis/buttock (y<110)"
+        if c[1] < 430: return "abdomen/lower thorax (110-430)"
+        if abs(c[0]) > 110 and c[1] > 470: return "shoulder"
+        return "upper thorax"
+    zi = {k: m for k, m in M.items() if m["sys"] != "bone" and -140 < m["v"][:, 1].mean() < 640 and abs(m["v"][:, 0].mean()) < 260
+          and not any(t in k for t in ("forearm", "wrist", "hand", "digit", "palm", "nail", "perionyx", "phalang", "carpal", "metacarp", "finger", "thumb", "pollic"))}
+    mz = ref.metrics(zi, max_pts=12000)
+    byz = collections.defaultdict(lambda: collections.defaultdict(list))
+    for k, m in zi.items():
+        byz[zone(m)][m["sys"]].append(mz[k])
+    res["zones"] = {z: {c: {"structures": len(L), **{f: _wavg(L, f) for f in ("outside_skin_frac", "in_bone_frac", "in_lung_frac", "in_organ_frac")}} for c, L in d.items()} for z, d in byz.items()}
     res["per_bone_vs_her_label_mm"] = {k: [round(a, 1), round(b, 1)] for k, (a, b) in rb.items()}
     zr = np.concatenate([M[k]["v"] for k in M if M[k]["sys"] == "bone" and k.startswith("zan_") and k.endswith(("rib_l", "rib_r"))])
     lab = np.vstack(list(lab_pts_ribs(lab_pts)))
@@ -215,11 +245,47 @@ def profile_plot(Mb: dict, Ma: dict, sk: list[str], ref: Ref, lab_pts: dict, out
     fig.tight_layout(); fig.savefig(out, dpi=75); plt.close(fig)
 
 
+def posterior_profile(Mb: dict, Ma: dict, ref: Ref, out: Path) -> dict:
+    """back-surface depth (min z of the skin) vs height at the midline and 80 mm either side: fitted vs her CT skin.
+    Her back is flat (CT table), so this is the reference the buttocks / lumbar / scapular skin may not exceed."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    ys = np.arange(-120, 600, 10.0)
+    her = np.asarray(ref.skin.vertices, np.float64)
+
+    def prof(V, x0, w=18.0, h=6.0):
+        o = []
+        for y in ys:
+            s = (np.abs(V[:, 1] - y) < h) & (np.abs(V[:, 0] - x0) < w)
+            o.append(V[s, 2].min() if s.sum() > 3 else np.nan)
+        return np.array(o)
+
+    def skin_all(M):
+        return np.concatenate([m["v"] for k, m in M.items() if m["sys"] == "skin" and not any(t in k for t in LIMB_RE + ("thigh", "gluteal_fold"))
+                               and -150 < m["v"][:, 1].mean() < 620 and abs(m["v"][:, 0].mean()) < 200])
+    sb, sa = skin_all(Mb), skin_all(Ma)
+    fig, ax = plt.subplots(1, 3, figsize=(18, 8))
+    stats = {}
+    for a, x0 in zip(ax, (-80, 0, 80)):
+        h, b, c = prof(her, x0), prof(sb, x0), prof(sa, x0)
+        a.plot(h, ys, "k", lw=2.4, label="her CT skin (back surface)"); a.plot(b, ys, "tab:red", label="fitted skin BEFORE")
+        a.plot(c, ys, "tab:green", lw=2, label="fitted skin AFTER"); a.set_title(f"back surface z (mm) at x = {x0:+d} mm"); a.grid(alpha=.3)
+        a.set_ylabel("y (mm, pelvis to shoulders)"); a.legend(loc="lower right", fontsize=8)
+        ok = ~np.isnan(h) & ~np.isnan(b) & ~np.isnan(c)
+        stats[str(x0)] = {"median_abs_gap_before": round(float(np.nanmedian(np.abs(h - b)[ok])), 1), "median_abs_gap_after": round(float(np.nanmedian(np.abs(h - c)[ok])), 1),
+                          "max_protrusion_behind_her_back_before": round(float(np.nanmax((h - b)[ok])), 1), "max_protrusion_behind_her_back_after": round(float(np.nanmax((h - c)[ok])), 1)}
+    fig.suptitle("Q186c: posterior contour (back surface depth vs height), fitted vs her CT skin")
+    fig.tight_layout(); fig.savefig(out, dpi=75); plt.close(fig)
+    return stats
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--before", default=str(REPO / "build" / "viewer_zan_female"))
     ap.add_argument("--after", default=str(REPO / "build" / "viewer_zan_female_trunkfix"))
     ap.add_argument("--png", default=None)
+    ap.add_argument("--png-posterior", default=None)
     ap.add_argument("--out", default=str(REPO / "data" / "derived" / "Q186c_trunk_refit_audit.json"))
     args = ap.parse_args(argv)
     from scripts.transfer import zan_to_vhf_whole_body as Q
@@ -234,6 +300,9 @@ def main(argv=None) -> int:
     Path(args.out).write_text(json.dumps(out, indent=1))
     if args.png:
         profile_plot(Mb, Ma, sk, ref, lab_pts, Path(args.png))
+    if args.png_posterior:
+        out["posterior_contour"] = posterior_profile(Mb, Ma, ref, Path(args.png_posterior))
+        Path(args.out).write_text(json.dumps(out, indent=1))
     for t in ("before", "after"):
         print(t, json.dumps({k: v for k, v in out[t].items() if k in ("skin_gap_her_minus_fitted_mm_front_back_sectors", "skin_patches", "ribs_vs_her_ct_label_mm", "vertebrae_vs_her_ct_label_mm", "trunk_muscles_vs_her_own_mesh_mm")}))
     return 0

@@ -693,18 +693,26 @@ def refit_trunk_q186c(pending: list[dict], raw: dict) -> dict:
     structure and re-measures the skin patches against her CT skin."""
     import re
     from scripts.zanatomy import trunk_refit_q186c as Q186c
+    before_refit = {p["mesh_id"]: p["v"].copy() for p in pending}
     bones = Q186c.refit_bones(pending)
     cart = Q186c.refit_cartilage(pending)
     rep = Q186c.refit_trunk(pending, raw)
+    clamp = Q186c.clamp_inside_skin(pending)
+    flips = Q186c.mesh_flip_stats(pending, raw, before_refit)
+    del before_refit
     for p in pending:
         p.pop("anchor_mask", None)
         p.pop("anchor_target", None)
+        p.pop("v_unclamped", None)
     by_id = {p["mesh_id"]: p for p in pending}
     for mid, b in bones.items():
         if b.get("status") == "refit":
             by_id[mid]["fit_note"] += (f" Q186c: refit onto her own CT label of this bone (TotalSegmentator, her scan): her label to this "
                                        f"mesh {b['her_label_to_Z_mm_before']} -> {b['her_label_to_Z_mm_after']} mm median, this mesh to her "
                                        f"label {b['Z_to_her_label_mm_before']} -> {b['Z_to_her_label_mm_after']} mm (similarity, scale {b['scale']}).")
+    for mid, c in clamp["per_structure"].items():
+        if c["fraction"] >= 0.01 and mid in by_id:
+            by_id[mid]["fit_note"] += (f" Q186c: {c['fraction']:.0%} of its vertices lay outside her CT skin and were moved inside it (median {c['median_mm']} mm, max {c['max_mm']} mm).")
     for mid, c in cart.items():
         if c.get("status") == "anchors":
             by_id[mid]["fit_note"] += (f" Q186c: anchored on her own CT costal-cartilage mesh (rigid ICP, {c['supported_vertex_fraction']:.0%} of its vertices within "
@@ -722,6 +730,8 @@ def refit_trunk_q186c(pending: list[dict], raw: dict) -> dict:
     out = {k: v for k, v in rep.items() if not k.startswith("_")}
     out["bones"] = bones
     out["cartilage"] = cart
+    out["mesh_flips_vs_source"] = flips
+    out["clamp_inside_her_skin"] = {k: v for k, v in clamp.items() if k != "per_structure"}
     out["skin_vs_her_ct_skin"] = skin_fit
     return out
 

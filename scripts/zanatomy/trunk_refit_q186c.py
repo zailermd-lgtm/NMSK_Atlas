@@ -49,6 +49,10 @@ BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_za
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
 RBF_SMOOTH = 1920.0
+BASE_SMOOTH = 300.0                  # bone-only field: bones reproduced to ~1 mm median, fewer conflicts than the exact interpolant
+SKIN_INSET_MM = 2.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
+CLAMP_MARGIN_MM, CLAMP_MAX_MM = 1.0, 30.0
+CLAMP_SKIP_REGIONS = ("forearm_hand", "foot")
 RBF_KERNEL = "thin_plate_spline"      # Q186c v2: far fewer fold-over points than "cubic" (3.6 % vs 5.3 % of samples < 0.25, min det -0.55 vs -3.9)
 ANCHOR_REACH_MM = 90.0               # limb bones anchor the field only within this raw distance of a trunk bone (humeral/femoral heads)
 GRID_MM = 8.0                        # the field is evaluated on this lattice and interpolated trilinearly (checked against direct evaluation)
@@ -393,7 +397,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
 
     # 1. bone anchors -> base field (bones only): smooth replacement of the Q168 blend
     bs, bd, _ = _sample_bones(pending, raw)
-    base = rbf(bs, bd, 30.0)
+    base = rbf(bs, bd, BASE_SMOOTH)
     rep["rbf"]["bone_anchors"] = int(len(bs))
     rep["bone_anchor_residual_mm"] = _res(base, bs, bd)
 
@@ -424,7 +428,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     cap = np.abs(d) <= 90.0
     use = trust_v & cap
     t_pts = allS.copy()
-    t_pts[use, 0] += d[use] * np.sin(th[use]); t_pts[use, 2] += d[use] * np.cos(th[use])
+    t_pts[use, 0] += (d[use] - SKIN_INSET_MM) * np.sin(th[use]); t_pts[use, 2] += (d[use] - SKIN_INSET_MM) * np.cos(th[use])
     raw_all = np.vstack([raw[k] for k in sk_ids])
     # one anchor per 5 mm voxel (the shells are dense)
     key = np.floor(raw_all[use] / 5.0).astype(int)
@@ -517,7 +521,76 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
                                "max": round(float(max(s["shift_max"] for s in stat.values())), 1)}
     rep["_per_structure_shift"] = stat
     rep["_field"], rep["_grid"], rep["_anchors"], rep["_axis"], rep["_base"] = field, grid_pts, (A_src, A_dst), axis, base
+    rep["_parts"] = dict(bs=bs, bd=bd, sk_src=sk_src, sk_dst=sk_dst, direct_base=direct_base)
     return rep
+
+
+def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
+    """Last guard (gate: 0 % outside her skin): every non-bone vertex that still lies outside her CT skin is moved to the
+    nearest point of her skin surface, CLAMP_MARGIN_MM inside it; moves above CLAMP_MAX_MM are left (reported).
+    Forearm/hand and foot regions (no usable outline) are skipped."""
+    from scripts.ribs_from_ct_labels import load_skin
+    skin_mesh = skin_mesh or load_skin("vhf")
+    regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
+    tree = cKDTree(np.asarray(skin_mesh.vertices, np.float64))
+    from trimesh.proximity import closest_point
+    rep_, n_out, n_tot, left = {}, 0, 0, {}
+    for p in pending:
+        if p["cat"] == "bone" or regions.get(p["mesh_id"]) in CLAMP_SKIP_REGIONS or any(s in p["mesh_id"] for s in SKIN_HAND):
+            continue
+        v = p["v"]
+        n_tot += len(v)
+        near = tree.query(v)[0] < 45.0                     # farther than this from her skin = deep inside
+        idx = np.flatnonzero(near)
+        if not len(idx):
+            continue
+        out = idx[~skin_mesh.contains(v[idx])]
+        if not len(out):
+            continue
+        cp, _, tri = closest_point(skin_mesh, v[out])
+        nrm = skin_mesh.face_normals[tri]
+        tgt = cp - CLAMP_MARGIN_MM * nrm
+        mv = np.linalg.norm(tgt - v[out], axis=1)
+        ok = mv <= CLAMP_MAX_MM
+        new = v.copy(); new[out[ok]] = tgt[ok]
+        p["v_unclamped"] = v
+        p["v"] = new
+        n_out += int(ok.sum())
+        rep_[p["mesh_id"]] = {"vertices_moved": int(ok.sum()), "fraction": round(float(ok.sum() / len(v)), 4), "median_mm": round(float(np.median(mv[ok])), 1) if ok.any() else 0.0,
+                              "max_mm": round(float(mv[ok].max()), 1) if ok.any() else 0.0}
+        if (~ok).any():
+            left[p["mesh_id"]] = int((~ok).sum())
+    log(f"  clamp inside her skin: {n_out} of {n_tot} vertices in {len(rep_)} structures; left (> {CLAMP_MAX_MM} mm): {sum(left.values())}")
+    return {"margin_mm": CLAMP_MARGIN_MM, "max_move_mm": CLAMP_MAX_MM, "vertices_moved": n_out, "vertices_total": n_tot,
+            "structures": len(rep_), "left_over_max": left, "per_structure": rep_}
+
+
+def _flip_frac(v_raw: np.ndarray, v_new: np.ndarray, f: np.ndarray) -> float:
+    """share of faces whose normal turned against the Z-Anatomy source normal (fold-over indicator)"""
+    def nrm(v):
+        n = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
+        a = np.linalg.norm(n, axis=1)
+        return n / np.maximum(a[:, None], 1e-12), a
+    n0, a0 = nrm(v_raw)
+    n1, _ = nrm(v_new)
+    ok = a0 > 1e-6
+    return float((np.einsum("ij,ij->i", n0, n1)[ok] < 0).mean())
+
+
+def mesh_flip_stats(pending: list[dict], raw: dict, before: dict) -> dict:
+    """fold-over of the moved structures against their raw source: Q168 position (`before`) vs the refit; skin by faces,
+    muscles per structure (median / p90)"""
+    out = {}
+    for name, sel in (("skin", lambda p: p["cat"] == "skin"), ("muscle", lambda p: p["cat"] == "muscle")):
+        ps = [p for p in pending if sel(p) and p["mesh_id"] in before]
+        fb = np.array([_flip_frac(raw[p["mesh_id"]], before[p["mesh_id"]], p["f"]) for p in ps])
+        fa = np.array([_flip_frac(raw[p["mesh_id"]], p["v"], p["f"]) for p in ps])
+        nf = np.array([len(p["f"]) for p in ps], float)
+        out[name] = {"structures": len(ps), "face_weighted_before": round(float((fb * nf).sum() / nf.sum()), 4),
+                     "face_weighted_after": round(float((fa * nf).sum() / nf.sum()), 4),
+                     "median_before": round(float(np.median(fb)), 4), "median_after": round(float(np.median(fa)), 4),
+                     "p90_before": round(float(np.percentile(fb, 90)), 4), "p90_after": round(float(np.percentile(fa, 90)), 4)}
+    return out
 
 
 def _vol(v: np.ndarray, f: np.ndarray) -> float:
