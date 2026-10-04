@@ -44,6 +44,7 @@ RIB_LABEL0 = {"l": 92, "r": 104}          # TotalSegmentator total: rib_left_1 =
 RIB_SCALE_BOUNDS = (0.85, 1.20)
 RIB_SHIFT_MAX_MM = 45.0
 SUPPORT_MM = 5.0
+CARTILAGE_SHIFT_MAX_MM = 45.0
 VOLUME_RATIO = (0.65, 1.5)               # per closed structure: volume after / (Z-Anatomy source volume x BODY_SCALE^3)
 BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_zan_to_vhf.json)
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
@@ -185,7 +186,7 @@ def refit_cartilage(pending: list[dict], log=print) -> dict:
         new = apply_sim(A, t, v0)
         shift = float(np.linalg.norm(new.mean(0) - v0.mean(0)))
         after = float(np.median(tree.query(new[rng.choice(len(new), min(len(new), 3000), replace=False)])[0]))
-        if shift > 30.0 or after >= before:
+        if shift > CARTILAGE_SHIFT_MAX_MM or after >= before:
             rep[mid] = {"status": "held", "to_her_mesh_mm": round(before, 2), "shift_mm": round(shift, 1)}
             continue
         mask = tree.query(new)[0] <= SUPPORT_MM
