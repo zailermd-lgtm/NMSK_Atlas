@@ -333,6 +333,7 @@ class ChartCorrection:
         r = np.hypot(p[:, 0] - xc, p[:, 2] - zc)
         # the chart is singular on the axis: the shift fades out inside 35-75 % of the local outer radius
         d = d * smoothstep((r / bilinear(self.rref, self.ys, self.ths, p[:, 1], th) - 0.35) / 0.4)
+        d = d * smoothstep((p[:, 1] + 130.0) / 55.0)     # below the crotch the legs are separate cylinders: the torso chart must not act on the thighs
         out = np.zeros_like(p)
         out[:, 0], out[:, 2] = d * np.sin(th), d * np.cos(th)
         return out
