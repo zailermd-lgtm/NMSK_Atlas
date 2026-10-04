@@ -554,7 +554,8 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
             f_base = apply_rbf(base, r_sel)
             lam = skin_share(bone_tree.query(q[sel])[0])
             cands = [("field", g, f_base + g * lam[:, None] * (f_full - f_base)) for g in (1.0, 0.5, 0.0)]
-        closed = _closed(p["f"]) and _vol(raw[p["mesh_id"]], p["f"]) > 1000.0
+        # thin sheets (skin patches, fascia) are closed shells a few mm thick: their volume is not a shape criterion
+        closed = p["cat"] not in ("skin", "fascia") and _closed(p["f"]) and _vol(raw[p["mesh_id"]], p["f"]) > 1000.0
         ref = BODY_SCALE ** 3 * _vol(raw[p["mesh_id"]], p["f"]) if closed else None
         best = None
         options = []
@@ -590,6 +591,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
                                "max": round(float(max(s["shift_max"] for s in stat.values())), 1)}
     rep["_per_structure_shift"] = stat
     rep["_field"], rep["_grid"], rep["_anchors"], rep["_axis"], rep["_base"] = field, grid_pts, (A_src, A_dst), axis, base
+    rep["_chart"] = dict(dg=dg, delta_raw=delta_grid, trusted=trusted, R=R, Rz=Rz_max, ys=ys, ths=ths)
     rep["_parts"] = dict(bs=bs, bd=bd, sk_src=sk_src, sk_dst=sk_dst, direct_base=direct_base)
     return rep
 
