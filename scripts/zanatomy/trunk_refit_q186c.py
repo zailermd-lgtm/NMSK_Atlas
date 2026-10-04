@@ -536,6 +536,10 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
         if p["cat"] == "bone" or regions.get(p["mesh_id"]) in FIELD_SKIP_REGIONS or (p["cat"] == "skin" and any(s in p["mesh_id"] for s in SKIN_HAND)):
             continue
         w = trunk_weight(p["v"], axis)
+        if regions.get(p["mesh_id"]) == "upper_limb" and p["cat"] != "skin":
+            # arm vessels / nerves / muscles keep their Q168 place below the shoulder: the arm skin is not carried by the
+            # field there, so a carried vessel would dangle outside it; fully carried only above y = 480 mm (shoulder girdle)
+            w = w * smoothstep((p["v"][:, 1] - 380.0) / 100.0)
         if (w > 1e-3).any():
             todo.append((p, w))
     pts_all = np.vstack([raw[p["mesh_id"]][w > 1e-3] for p, w in todo])
