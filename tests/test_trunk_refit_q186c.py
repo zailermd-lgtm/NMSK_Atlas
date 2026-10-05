@@ -69,3 +69,22 @@ def test_flip_fraction_detects_a_mirrored_triangle():
     assert T._flip_frac(v0, v0, f) == 0.0
     v1 = v0.copy(); v1[:, 2] = 0; v1[[1, 2]] = v1[[2, 1]]
     assert T._flip_frac(v0, v1, f) == 1.0
+
+
+def test_anterior_weight_is_one_in_front_zero_behind_and_below_the_crotch():
+    axis = lambda y: (np.zeros_like(y), np.zeros_like(y))
+    q = np.array([[0, 300.0, 100], [0, 300.0, -100], [150, 300.0, -30], [0, -100.0, 100], [60, 300.0, 100]])
+    w = T.anterior_weight(q, axis)
+    assert w[0] == 1.0 and w[1] == 0.0 and w[2] == 0.0 and w[3] == 0.0 and 0.99 < w[4] <= 1.0
+
+
+def test_blend_anterior_interpolates_between_the_two_results():
+    class D(dict):
+        pass
+    from scripts.zanatomy import trunk_refit_q186c as M
+    pend = [{"mesh_id": "a", "cat": "muscle", "v": np.array([[0, 300.0, 100], [0, 300.0, -100]])}]
+    legacy = {"a": np.array([[0, 300.0, 110], [0, 300.0, -110]])}
+    class S:  # her skin stub: a cylinder of vertices around the y axis
+        vertices = np.array([[np.sin(t) * 130, y, np.cos(t) * 130] for t in np.linspace(-3, 3, 60) for y in range(-100, 700, 20)])
+    M.blend_anterior(pend, legacy, skin_mesh=S)
+    assert abs(pend[0]["v"][0, 2] - 110) < 1e-6 and abs(pend[0]["v"][1, 2] + 100) < 1e-6
