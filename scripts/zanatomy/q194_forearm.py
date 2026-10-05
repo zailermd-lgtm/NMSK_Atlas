@@ -372,5 +372,141 @@ def refine_left_forearm(by: dict, raw: dict, fit: dict, regions: dict, log=print
             f"radius / ulna (Q192) and, for muscles, driven onto her own muscle mass in her left-forearm cryosection photographs (flow scale {scale}); out of her bones, inside her skin, volume guard 0.65-1.5x. "
             f"Before -> after: {_fmt(before)} -> {_fmt(after)}; mean move {report['structures'][i]['mean_move_mm']} mm. Which muscle lies where inside her muscle mass is the Z arrangement "
             f"(the photographs show the mass, not the individual muscles).")
+    report["skin_seams"] = reweld_patches(by, [i for i in changed if by[i]["cat"] == "skin"], rawd)
     report["ids_changed"] = changed
     return report
+
+
+def reweld_patches(by: dict, moved: list[str], raw: dict, passes=8) -> dict:
+    """the skin patches tile one surface: vertices of a moved patch that share a Z-source position with an UNMOVED patch are pinned to that patch's vertex, those shared only
+    between moved patches go to their common mean; the correction is spread over the moved patch (so no pleat)"""
+    from scripts.zanatomy import q190_refine as Q
+    if not moved:
+        return {}
+    fixed = {}
+    for i, d in by.items():
+        if d["cat"] == "skin" and i not in moved:
+            for x, p in zip(np.round(raw[i], 2), d["v"]):
+                fixed.setdefault(tuple(x), p)
+    acc = {}
+    for i in moved:
+        for x, p in zip(np.round(raw[i], 2), by[i]["v"]):
+            acc.setdefault(tuple(x), []).append(p)
+    rep = {}
+    for i in moved:
+        keys = [tuple(x) for x in np.round(raw[i], 2)]
+        tgt = np.array([fixed[k] if k in fixed else np.mean(acc[k], 0) for k in keys])
+        corr = tgt - by[i]["v"]
+        m = np.linalg.norm(corr, axis=1)
+        if m.max() < 1e-6:
+            continue
+        pinned = np.array([k in fixed for k in keys])
+        c2 = Q._smooth_push(by[i]["f"], corr, passes)
+        c2 = np.where((np.linalg.norm(corr, axis=1) > 1e-6)[:, None], corr, c2)
+        rep[i] = {"max_correction_mm": round(float(m.max()), 2), "pinned_vertices": int(pinned.sum())}
+        by[i]["v"] = by[i]["v"] + c2
+    return rep
+
+
+# ------------------------------------------------------------------------------------------------ right forearm (her own-model forearm labels exist)
+HER_ALIAS_R = {"zan_extensor_pollicis_longus_r": "extensor_pollicis_longus_r"}
+FOLLOW_R = ("nerve", "vessel", "lymphatic", "tendon", "fascia", "ligament", "bursa", "muscle")
+
+
+def refine_right_forearm(by: dict, raw: dict, regions: dict, her: dict, skin, skin_tree, log=print) -> dict:
+    """Q190 left the forearm muscles out of its per-structure refinement (SKIP_RE), so the right forearm muscles are still the global-field result: 35-50 % of their triangles
+    stretched outside 0.67-1.5x of the Z source and 8-15 mm from her own-model forearm labels (ECRB, ECU, EI, EPB, EPL).  Each muscle that has a label of hers is refined onto it
+    with the Q190 per-structure fit (similarity, bounded affine, bounded smooth residual, volume guard 0.65-1.5x), carried into the hand by the Q191 taper (hand part unchanged), out of
+    the displayed radius / ulna and inside her skin; the structures without a label follow (distance-weighted displacement, Q190 propagation rule)."""
+    from scripts.zanatomy import q190_metrics as Mx
+    from scripts.zanatomy import q190_refine as Q
+    from scripts.zanatomy import q191_hand as H
+    c_w, u = H.wrist_frame(raw["radius_r"])
+    near = cKDTree(np.vstack([raw["radius_r"], raw["ulna_r"]]))
+    zb = [H.Inside(by["radius_r"]["v"], by["radius_r"]["f"]), H.Inside(by["ulna_r"]["v"], by["ulna_r"]["f"])]
+    pend = [{"mesh_id": k, "cat": d["cat"]} for k, d in by.items()]
+    scope = [i for i in H.scope(pend, regions, "r") if by[i]["cat"] != "skin" and not H.FOOT_NAME.search(i)]
+    rep = {"muscles": {}, "followers": {}}
+    new, before = {}, {}
+    for i in scope:
+        d = by[i]
+        hid = HER_ALIAS_R.get(i, i)
+        if d["cat"] != "muscle" or hid not in her or her[hid]["cat"] != "muscle" or not Q._closed(d["f"]) or H.NOT_BODY.search(i):
+            continue
+        v0, r, f = d["v"].astype(float), raw[i].astype(float), d["f"]
+        ref = Q.Ref(her[hid]["v"].astype(float), her[hid]["f"].astype(int))
+        X, rr, _ = Q.refine_group([{"id": i, "v": v0, "r": r, "f": f}], ref, log=lambda *_: None)
+        X, _ = Q.volume_guard(X, r, f)
+        b = 1.0 - H.field_weight(r, c_w, u, near)
+        if b.max() < 0.05:
+            continue
+        v1 = v0 + b[:, None] * (X - v0)
+        v1 = H.push_out_of_bones(v1, f, zb, b > 0.02, tol=1.5, max_move=7.0)
+        v1 = H.clamp_inside_skin(v1, f, b > 0.02, skin, skin_tree, margin=1.0, max_move=14.0)
+        v1, vr = Q.volume_guard(v1, r, f)
+        part = rr["partial_reference"]
+        c0, c1 = Q.chamfer(v0, f, ref, partial=part), Q.chamfer(v1, f, ref, partial=part)
+        s0, s1 = Mx.stretch_stats(v0, r, f), Mx.stretch_stats(v1, r, f)
+        p0, p1 = 100 * (s0["area_frac_gt1.5"] + s0["area_frac_lt0.67"]), 100 * (s1["area_frac_gt1.5"] + s1["area_frac_lt0.67"])
+        f0, f1 = 100 * H.fold_stats(v0, r, f), 100 * H.fold_stats(v1, r, f)
+        status = "refined" if (c1[2] < 0.9 * c0[2] and p1 <= p0 + 2.0 and f1 <= f0 + 1.0) else "held"
+        rep["muscles"][i] = {"status": status, "her_label": hid, "partial_label": part, "chamfer_mm_before": round(c0[2], 2), "chamfer_mm_after": round(c1[2], 2),
+                             "stretch_area_pct_before": round(p0, 1), "stretch_area_pct_after": round(p1, 1), "folded_edges_pct_before": round(f0, 2), "folded_edges_pct_after": round(f1, 2),
+                             "volume_ratio_after": round(vr, 3), "mean_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).mean()), 1)}
+        log(f"  Q194 right forearm {i:36s} {status:8s} her-label chamfer {c0[2]:.1f} -> {c1[2]:.1f} mm, stretch {p0:.0f} -> {p1:.0f} %, vol x{vr:.2f}")
+        if status == "refined":
+            new[i] = v1
+            before[i] = v0
+            d["v"] = v1
+            m = rep["muscles"][i]
+            d["fit_note"] = (d.get("fit_note") or "") + (
+                f" Q194: RIGHT FOREARM muscle refined onto her own-model forearm label ({hid.replace('_', ' ')}{', partial label' if part else ''}): two-way median distance {c0[2]:.1f} -> {c1[2]:.1f} mm, "
+                f"triangles stretched outside 0.67-1.5x of the Z source {p0:.0f} -> {p1:.0f} %, folded edges {f0:.1f} -> {f1:.1f} %, volume {vr:.2f}x the Z source, mean move {m['mean_move_mm']} mm "
+                f"(the hand part is carried by the Q191 taper and unchanged); out of the displayed radius / ulna, inside her skin.")
+    if not new:
+        return rep
+    # followers: tendons, nerves, vessels, fascia and the muscles without a label of hers follow the refined muscles (Q190 propagation rule: Gaussian-weighted mean displacement,
+    # sigma 22 mm, gate 35 mm), only part of the way if their own shape would get more distorted
+    samp_old = np.vstack([before[i][:: max(1, len(before[i]) // 2500)] for i in new])
+    samp_dlt = np.vstack([(new[i] - before[i])[:: max(1, len(before[i]) // 2500)] for i in new])
+    tree = cKDTree(samp_old)
+    for i in scope:
+        d = by[i]
+        if i in new or d["cat"] not in FOLLOW_R or H.NOT_BODY.search(i) and d["cat"] == "muscle":
+            continue
+        if d["cat"] == "muscle" and i in rep["muscles"]:
+            continue                                            # a muscle with a label of hers that was held stays
+        v0, r, f = d["v"].astype(float), raw[i].astype(float), d["f"]
+        dist, idx = tree.query(v0, k=Q.PROP_K, distance_upper_bound=Q.PROP_GATE * 2.5)
+        has = np.isfinite(dist[:, 0])
+        if not has.any():
+            continue
+        dd = np.where(np.isfinite(dist), dist, 1e9)
+        w = np.exp(-(dd / Q.PROP_SIGMA) ** 2)
+        ws = w.sum(1)
+        ok = has & (ws > 1e-9)
+        ii = np.where(np.isfinite(dist), idx, 0)
+        D = np.zeros_like(v0)
+        D[ok] = (w[ok][:, :, None] * samp_dlt[ii[ok]]).sum(1) / ws[ok][:, None]
+        step = (np.exp(-(dd[:, 0] / Q.PROP_GATE) ** 2) * has)[:, None] * D
+        if np.linalg.norm(step, axis=1).max() < 0.3:
+            continue
+        s0 = Mx.stretch_stats(v0, r, f)
+        p0 = 100 * (s0["area_frac_gt1.5"] + s0["area_frac_lt0.67"]) if s0 else 0.0
+        for amp in (1.0, 0.6, 0.3):
+            v1 = v0 + amp * step
+            if d["cat"] in H.SOFT_PUSH_CATS:
+                v1 = H.push_out_of_bones(v1, f, zb, np.ones(len(v1), bool), tol=1.5, max_move=7.0)
+            v1 = H.clamp_inside_skin(v1, f, np.ones(len(v1), bool), skin, skin_tree, margin=1.0, max_move=14.0)
+            s1 = Mx.stretch_stats(v1, r, f)
+            p1 = 100 * (s1["area_frac_gt1.5"] + s1["area_frac_lt0.67"]) if s1 else 0.0
+            if p1 <= p0 + 3.0:
+                d["v"] = v1
+                rep["followers"][i] = {"amplitude": amp, "stretch_area_pct_before": round(p0, 1), "stretch_area_pct_after": round(p1, 1),
+                                       "mean_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).mean()), 1), "max_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).max()), 1)}
+                d["fit_note"] = (d.get("fit_note") or "") + (
+                    f" Q194: follows the right forearm muscles refined onto her own-model labels (distance-weighted displacement, {amp:.1f} of it; mean move "
+                    f"{rep['followers'][i]['mean_move_mm']} mm, max {rep['followers'][i]['max_move_mm']}; triangles stretched {p0:.0f} -> {p1:.0f} %).")
+                break
+    log(f"  Q194 right forearm: {len(new)} muscles refined onto her labels, {len(rep['followers'])} followers")
+    return rep

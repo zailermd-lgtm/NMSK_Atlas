@@ -1042,6 +1042,9 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         from scripts.zanatomy import q194_refine as Q194
         LAST_REPORTS["q194"] = Q194.refine_pending(
             pending, raw_before_fit, decimate_fn=lambda v, f, i, c: decimate(v, f, i, c, (category_scale or {}).get(c, budget_scale), prepped=True))
+        if q194.get("dump_after"):
+            from scripts.zanatomy import q190_refine as Q190
+            Q190.dump_pending(pending, raw_before_fit, q194["dump_after"])
     for item in pending:
         finish(**item)
 
@@ -1196,6 +1199,7 @@ def main(argv=None) -> int:
                     help="Q192 (with --q191-hand): data/derived/Q192_left_hand_fit.json -- place the LEFT hand/wrist bones on her left-hand cryosection photographs and run "
                          "the Q191 carry / candidates / gates for the left side (without it the left hand is held exactly as in Q191)")
     ap.add_argument("--q194-dump", default=None, help="Q194: write the final pre-export pending meshes (npz, after gap closure)")
+    ap.add_argument("--q194-dump-after", default=None, help="Q194: also write the full-resolution pending meshes (npz) after the Q194 refinement (audit input)")
     ap.add_argument("--q194-dump-only", action="store_true", help="Q194: exit right after --q194-dump")
     ap.add_argument("--q194-refine", action="store_true", help="Q194 (with the Q192 flags): bounded post-closure refinement (scripts/zanatomy/q194_refine.py)")
     ap.add_argument("--trunk-refit", action="store_true",
@@ -1232,7 +1236,7 @@ def main(argv=None) -> int:
         trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
         q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit},
-        q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine})
+        q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine, "dump_after": args.q194_dump_after})
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(

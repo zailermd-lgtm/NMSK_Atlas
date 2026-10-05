@@ -16,6 +16,8 @@ from scripts.zanatomy import q190_refine as Q
 MAX_MOVE_MM = 4.0
 MARGIN_MM = 0.4
 MIN_DEPTH_MM = 0.3
+STATS = {'tried': 0, 'vol_rej': 0, 'fold_rej': 0}
+FOLD_TOL = 0.003
 MAX_TOTAL_MM = 6.0         # cumulative bound over all rounds
 
 
@@ -121,17 +123,23 @@ def separate(meshes: dict, vol_ref: dict, movable: set, rounds=4, max_move=MAX_M
                 continue
             D = Q._smooth_push(f, D, smooth)
             D *= np.minimum(1.0, max_move / np.maximum(np.linalg.norm(D, axis=1), 1e-9))[:, None]
-            v2 = cur[i] + D
-            tot = v2 - meshes[i][0]
-            v2 = meshes[i][0] + tot * np.minimum(1.0, MAX_TOTAL_MM / np.maximum(np.linalg.norm(tot, axis=1), 1e-9))[:, None]
             ref = vol_ref.get(i)
-            ok = True
-            if ref:
-                r0, r1 = _volume(v, f) / ref, _volume(v2, f) / ref
-                ok = (0.65 <= r1 <= 1.5) or abs(r1 - 1.0) <= abs(r0 - 1.0)
-            ok = ok and new_folds(v, v2, f) <= 0.003 and (keep is None or keep(i, v2))
-            if ok:
-                new[i] = v2
+            for alpha in (1.0, 0.6, 0.35):                      # back-tracking: a smaller step is kept when the full one would fold / shrink / leave her skin
+                v2 = cur[i] + alpha * D
+                tot = v2 - meshes[i][0]
+                v2 = meshes[i][0] + tot * np.minimum(1.0, MAX_TOTAL_MM / np.maximum(np.linalg.norm(tot, axis=1), 1e-9))[:, None]
+                ok = True
+                STATS['tried'] += 1
+                if ref:
+                    r0, r1 = _volume(v, f) / ref, _volume(v2, f) / ref
+                    ok = (0.65 <= r1 <= 1.5) or abs(r1 - 1.0) <= abs(r0 - 1.0)
+                STATS['vol_rej'] += int(not ok)
+                nf = new_folds(v, v2, f)
+                STATS['fold_rej'] += int(nf > FOLD_TOL)
+                ok = ok and nf <= FOLD_TOL and (keep is None or keep(i, v2))
+                if ok:
+                    new[i] = v2
+                    break
         for i, v2 in new.items():
             cur[i] = v2
         log(f"    separation round {rd}: {len(new)} of {len(movable)} meshes moved")

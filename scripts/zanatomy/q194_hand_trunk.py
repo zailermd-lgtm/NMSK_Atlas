@@ -54,20 +54,20 @@ def skin_dist(skin_pts_tree, v):
     return skin_pts_tree.query(v)[0]
 
 
-def patch_membrane(by: dict, group: list[str], skin, skin_tree, inset=0.8, max_move=45.0, iters=400):
+def patch_membrane(by: dict, group: list[str], raw: dict, skin, skin_tree, inset=0.8, max_move=45.0, iters=400):
     """Z skin patches of `group` that lie far off her CT outline (Q190: gluteal fold, anal region 17-42 mm): the patches tile one surface, so their SEAM vertices (shared with
     patches outside the group) keep the neighbours' positions (which are on her skin), the interior vertices become the harmonic (membrane) interpolation of the seam, and then
     every vertex goes onto her CT skin, `inset` mm inside it.  Returns {id: v_new}"""
     from trimesh.proximity import closest_point
     other = [i for i, d in by.items() if d["cat"] == "skin" and i not in group]
-    ro = np.vstack([by[i]["r"] for i in other])
+    ro = np.vstack([raw[i] for i in other])
     keyo = {tuple(x) for x in np.round(ro, 2)}
     # unique vertex ids over the group
-    allr = np.vstack([by[i]["r"] for i in group]).astype(float)
+    allr = np.vstack([raw[i] for i in group]).astype(float)
     u, inv = np.unique(np.round(allr, 2), axis=0, return_inverse=True)
     inv = inv.reshape(-1)
     n = len(u)
-    off = np.cumsum([0] + [len(by[i]["r"]) for i in group])
+    off = np.cumsum([0] + [len(raw[i]) for i in group])
     pos = np.zeros((n, 3)); cnt = np.zeros(n)
     for k, i in enumerate(group):
         np.add.at(pos, inv[off[k]:off[k + 1]], by[i]["v"]); np.add.at(cnt, inv[off[k]:off[k + 1]], 1)
@@ -78,7 +78,7 @@ def patch_membrane(by: dict, group: list[str], skin, skin_tree, inset=0.8, max_m
     # fixed positions = the neighbour patch's current vertex at that raw position
     nb = {}
     for i in other:
-        for x, p in zip(np.round(by[i]["r"], 2), by[i]["v"]):
+        for x, p in zip(np.round(raw[i], 2), by[i]["v"]):
             nb.setdefault(tuple(x), p)
     for j in np.flatnonzero(fixed):
         pos[j] = nb[tuple(u[j])]
@@ -179,6 +179,38 @@ def refine(by: dict, raw: dict, regions: dict, decimate_fn=None, log=print) -> d
                       f"stays inside her skin and out of the displayed bones.")
     log(f"  Q194 relaxed {len(rep['relaxed'])} distorted structures")
 
+    # (a1) sacral / gluteal skin faceting: volume-preserving (Taubin) smoothing of the welded skin patches where the skin lies within tolerance of her CT skin; <= 6 mm, never
+    # further from her skin than before (+ 2 mm), never outside it, tapered at the region border; the patches are NOT decimated, so this is the shipped surface
+    from scripts.zanatomy import trunk_refit_q186c as T186
+    sk_ids = [i for i, d in by.items() if d["cat"] == "skin"]
+
+    def wfn(p):
+        wy = T186.smoothstep(np.minimum(p[:, 1] + 135.0, 115.0 - p[:, 1]) / 25.0)
+        wz = T186.smoothstep((15.0 - p[:, 2]) / 25.0)
+        near = (skin_tree.query(p)[0] < 8.0).astype(float)           # within tolerance of her CT skin
+        return wy * wz * near
+
+    smooth_v, _ = smooth_skin(by, sk_ids, raw, wfn, skin, skin_tree, iters=40, max_move=6.0, gap_tol=2.0)
+    rep["skin"]["smoothed"] = {}
+    for i in sk_ids:
+        dmax = float(np.linalg.norm(smooth_v[i] - by[i]["v"], axis=1).max())
+        if dmax < 0.3 or by[i]["v"].shape != smooth_v[i].shape:
+            continue
+        r0, r1 = face_roughness(by[i]["v"], by[i]["f"]), face_roughness(smooth_v[i], by[i]["f"])
+        g0, g1 = float(np.median(skin_tree.query(by[i]["v"])[0])), float(np.median(skin_tree.query(smooth_v[i])[0]))
+        rep["skin"]["smoothed"][i] = {"max_move_mm": round(dmax, 2), "face_roughness_deg_before": round(r0, 1), "face_roughness_deg_after": round(r1, 1),
+                                      "median_gap_to_her_skin_mm_before": round(g0, 2), "median_gap_to_her_skin_mm_after": round(g1, 2)}
+        by[i]["v"] = smooth_v[i]
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
+            f" Q194: sacral / gluteal skin faceting smoothed (volume-preserving Taubin smoothing, max move {dmax:.1f} mm, mean angle between neighbouring faces {r0:.1f} -> {r1:.1f} deg, "
+            f"median gap to her CT skin {g0:.1f} -> {g1:.1f} mm, inside her skin).")
+    log(f"  Q194 skin smoothing: {len(rep['skin']['smoothed'])} patches")
+
+    # (a0) right forearm muscles onto her own-model forearm labels (Q190 skipped the forearm)
+    from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
+    from scripts.zanatomy import q194_forearm as F
+    rep["right_forearm"] = F.refine_right_forearm(by, raw, regions, load_her_meshes(), skin, skin_tree, log=log)
+
     # (a2) right hand / forearm (Q191 leftovers): bones left outside her thin finger skin are nudged in (<= 4 mm); structures still > 25 % stretched get the shape relaxation
     pend0 = [{"mesh_id": k, "cat": d["cat"]} for k, d in by.items()]
     rep["right_hand"] = {"bones_nudged": {}, "relaxed": {}}
@@ -243,13 +275,13 @@ def refine(by: dict, raw: dict, regions: dict, decimate_fn=None, log=print) -> d
 
 
 # ------------------------------------------------------------------------------------------------ skin faceting
-def skin_graph(by: dict, ids: list[str]):
+def skin_graph(by: dict, ids: list[str], raw: dict):
     """welded vertex graph of the skin patches: unique Z-source positions (the patches share seam vertices), per-patch index maps, adjacency (sparse), mean positions"""
     from scipy import sparse
-    allr = np.vstack([by[i]["r"] for i in ids]).astype(float)
+    allr = np.vstack([raw[i] for i in ids]).astype(float)
     u, inv = np.unique(np.round(allr, 2), axis=0, return_inverse=True)
     inv = inv.reshape(-1)
-    off = np.cumsum([0] + [len(by[i]["r"]) for i in ids])
+    off = np.cumsum([0] + [len(raw[i]) for i in ids])
     n = len(u)
     pos = np.zeros((n, 3)); cnt = np.zeros(n)
     allv = np.vstack([by[i]["v"] for i in ids]).astype(float)
@@ -278,10 +310,10 @@ def face_roughness(v, f):
     return float(np.degrees(np.arccos(np.clip((n[a] * n[b]).sum(1), -1, 1))).mean()) if len(a) else 0.0
 
 
-def smooth_skin(by: dict, ids: list[str], weight_fn, skin, skin_tree, iters=20, lam=0.5, mu=-0.53, max_move=3.0, gap_tol=1.0):
+def smooth_skin(by: dict, ids: list[str], raw: dict, weight_fn, skin, skin_tree, iters=20, lam=0.5, mu=-0.53, max_move=3.0, gap_tol=1.0):
     """Taubin (volume-preserving) smoothing of the welded skin patches, weighted by weight_fn(v) in [0, 1] (smooth taper at the region border), displacement <= max_move mm,
     never further from her CT skin than before (+ gap_tol) and never outside it.  Returns {id: v_new} and the per-vertex displacement (welded)"""
-    u, inv, off, pos0, A = skin_graph(by, ids)
+    u, inv, off, pos0, A = skin_graph(by, ids, raw)
     deg = np.maximum(np.asarray(A.sum(1)).ravel(), 1.0)
     w = weight_fn(pos0)
     x = pos0.copy()
