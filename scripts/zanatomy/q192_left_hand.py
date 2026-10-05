@@ -226,7 +226,7 @@ def fit_forearm(M: HandModel, S: State, ev: np.ndarray, n_starts=11, log=print):
     for i in range(n_starts):
         rv = np.zeros(3) if i == 0 else rs[i - 1].as_rotvec() * np.radians(25) / np.linalg.norm(rs[i - 1].as_rotvec())
         tr = np.zeros(3) if i == 0 else rng.normal(size=3) * 20
-        r = minimize(J, np.r_[rv, tr, 1.0], args=(both,), method="Powell", bounds=[(-0.8, 0.8)] * 3 + [(-90, 90)] * 3 + [(0.9, 1.1)],
+        r = minimize(J, np.r_[rv, tr, 1.0], args=(both,), method="Powell", bounds=[(-0.8, 0.8)] * 3 + [(-90, 90)] * 3 + [(0.96, 1.04)],
                      options={"xtol": 1e-2, "ftol": 1e-5, "maxiter": 1200})
         res.append((float(r.fun), r.x))
     res.sort(key=lambda t: t[0])
@@ -237,7 +237,10 @@ def fit_forearm(M: HandModel, S: State, ev: np.ndarray, n_starts=11, log=print):
                 if np.linalg.norm(sim_apply(x, both, c0) - Pbest, axis=1).mean() > 5.0), None)
     log(f"  Q192 forearm pair: J {res[0][0]:.2f} (J of the Q168 pose {J(np.r_[0, 0, 0, 0, 0, 0, 1.0], both):.1f}); rot {np.degrees(np.linalg.norm(xp[:3])):.0f} deg, shift {xp[3:6].round(1)}, "
         f"scale {xp[6]:.3f}; next distinct optimum {nxt}; starts within 0.05 of best {sum(1 for f, _ in res if f < res[0][0] + 0.05)}/{n_starts}")
-    S.move(M.all_ids, lambda P: sim_apply(xp, P, c0))          # the hand follows the forearm pair (the wrist of the Z model is neutral), stage H turns it about the wrist
+    S.move([M.rad, M.uln], lambda P: sim_apply(xp, P, c0))
+    xr = xp.copy()
+    xr[6] = 1.0
+    S.move(M.hand_ids, lambda P: sim_apply(xr, P, c0))          # the hand follows the rigid part of the forearm pair (the wrist of the Z model is neutral), stage H turns it about the wrist
     # assignment and per-bone refinement
     tR, tU = cKDTree(S.pts[M.rad]), cKDTree(S.pts[M.uln])
     dR, dU = tR.query(ev)[0], tU.query(ev)[0]
@@ -397,7 +400,7 @@ def fit_ray(M, S, o, ev, skin, tt0, H, signs=(1, -1), log=print):
     return bs, X, XV, rep
 
 
-def fit_thumb(M, S, ev, skin, log=print):
+def fit_thumb(M, S, ev, skin, log=print, n_random=60, n_refine=8):
     sfx = SIDE_SUFFIX[M.side]
     bs = [M.mc("first")] + M.phal("first")
     P = [S.pts[b] for b in bs]
@@ -422,7 +425,10 @@ def fit_thumb(M, S, ev, skin, log=print):
         near = Ef[tA.query(Ef, distance_upper_bound=6.0)[0] < 6.0]
         g = trimmed(tA.query(near)[0], 0.5) if len(near) > 20 else 6.0
         coll = float(np.maximum(0.0, 2.0 - Ot.query(A)[0]).mean()) * 3.0
-        return f + 0.5 * g + coll + skin.pen(A) + reg * 100 * float((x ** 2).sum())
+        # evidence-centric term: the thumb is fitted last, so the evidence no other bone explains must be near it (the nearest 30 % of it); without this the chain can
+        # sit on any fat-edge evidence (Q192: it did, 8-24 mm from the thumb's own bone in the separate thumb piece)
+        h = trimmed(tA.query(Ef)[0], 0.30)
+        return f + 0.5 * g + 0.6 * h + coll + skin.pen(A) + reg * 100 * float((x ** 2).sum())
 
     A_ = [np.radians(a) for a in (-40, 0, 40)]
     B_ = [np.radians(a) for a in (-45, 0, 45)]
@@ -432,9 +438,13 @@ def fit_thumb(M, S, ev, skin, log=print):
             th = np.zeros((3, 3))
             th[0], th[1], th[2] = a1 * t + a2 * n_, a3 * t, a4 * t
             starts.append((obj(th.ravel()), th.ravel()))
+    rr = np.random.default_rng(11)
+    for _ in range(n_random):                                       # the thumb moves in 3-D (CMC saddle): random starts as well
+        x0 = np.concatenate([Rot.random(random_state=int(rr.integers(1 << 30))).as_rotvec() * rr.uniform(0.2, 1.0) / np.pi for _ in range(3)]) * np.pi
+        starts.append((obj(x0), x0))
     starts.sort(key=lambda s: s[0])
     res = []
-    for f0, x0 in starts[:5]:
+    for f0, x0 in starts[:n_refine]:
         r = minimize(obj, x0, method="Powell", bounds=[(-1.8, 1.8)] * 9, options={"xtol": 1e-2, "ftol": 1e-5, "maxiter": 3000})
         res.append((float(r.fun), r.x))
     res.sort(key=lambda s: s[0])
