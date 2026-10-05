@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhm",
-"generated":"2026-10-01",
+"generated":"2026-10-05",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -9,8 +9,9 @@
 "counts":{
 "artery":14,
 "vein":12,
-"nerve":3,
-"organ":4
+"organ":11,
+"lung":3,
+"nerve":3
 },
 "structures":[
 {
@@ -50,6 +51,22 @@
 "name":"Brachiocephalic (innominate) vein, right",
 "class":"vein",
 "r_mm":6.03,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"brain",
+"name":"Brain",
+"class":"organ",
+"r_mm":57.91,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"colon",
+"name":"Colon above the pelvic inlet (the pelvic sigmoid and rectum are separate structures)",
+"class":"organ",
+"r_mm":19.24,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -110,6 +127,14 @@
 "rays_hit":298
 },
 {
+"id":"esophagus",
+"name":"Oesophagus",
+"class":"organ",
+"r_mm":7.68,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
 "id":"femoral_a_l",
 "name":"Femoral artery",
 "class":"artery",
@@ -138,6 +163,14 @@
 "name":"Femoral vein",
 "class":"vein",
 "r_mm":3.07,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"heart",
+"name":"Heart (four chambers and myocardium, blood-filled)",
+"class":"organ",
+"r_mm":24.97,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -180,6 +213,30 @@
 "r_mm":5.3,
 "r_method":"sdf",
 "rays_hit":292
+},
+{
+"id":"liver",
+"name":"Liver",
+"class":"organ",
+"r_mm":37.26,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"lung_l",
+"name":"Left lung",
+"class":"lung",
+"r_mm":32.21,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"lung_r",
+"name":"Right lung",
+"class":"lung",
+"r_mm":31.5,
+"r_method":"sdf",
+"rays_hit":300
 },
 {
 "id":"optic_n",
@@ -238,6 +295,22 @@
 "rays_hit":300
 },
 {
+"id":"small_bowel",
+"name":"Small bowel (jejunum and ileum)",
+"class":"organ",
+"r_mm":15.07,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"stomach",
+"name":"Stomach (wall and contents)",
+"class":"organ",
+"r_mm":25.3,
+"r_method":"sdf",
+"rays_hit":299
+},
+{
 "id":"subclavian_a_l",
 "name":"Subclavian artery",
 "class":"artery",
@@ -266,6 +339,14 @@
 "name":"Tibial nerve",
 "class":"nerve",
 "r_mm":2.88,
+"r_method":"sdf",
+"rays_hit":300
+},
+{
+"id":"trachea",
+"name":"Trachea",
+"class":"lung",
+"r_mm":8.75,
 "r_method":"sdf",
 "rays_hit":300
 },
