@@ -423,12 +423,68 @@ def plan_groups(structs: list[dict], her: dict) -> dict:
     return groups
 
 
+class HerObstacles:
+    """her own muscle labels do not overlap each other: a refined Z muscle may not enter another label of hers.  Per label: closed mesh
+    (ray containment), vertex KD-tree and outward vertex normals (orientation checked by probing)."""
+
+    def __init__(self, her: dict):
+        import trimesh
+        self.d = {}
+        for k, h in her.items():
+            if h.get("cat") != "muscle" or len(h["v"]) < 50:
+                continue
+            v, f = h["v"].astype(np.float64), h["f"].astype(np.int64)
+            n = _vertex_normals(v, f)
+            m = trimesh.Trimesh(v, f, process=False)
+            probe = np.arange(0, len(v), max(1, len(v) // 300))
+            try:
+                outside_frac = (~m.contains(v[probe] + 1.0 * n[probe])).mean()
+            except Exception:
+                continue
+            if outside_frac < 0.5:
+                n = -n
+            self.d[k] = (v.min(0), v.max(0), cKDTree(v), n, v, m)
+
+    def push(self, X, F, own_hids, iters=3, margin=0.3, max_move=10.0, smooth=6):
+        X = X.copy()
+        X0 = X.copy()
+        for _ in range(iters):
+            D = np.zeros_like(X)
+            lo, hi = X.min(0), X.max(0)
+            hit = 0
+            for k, (l, h, tree, n, v, m) in self.d.items():
+                if k in own_hids or np.any(h < lo - 1) or np.any(l > hi + 1):
+                    continue
+                sel = np.flatnonzero(np.all((X >= l - 1) & (X <= h + 1), 1))
+                if not len(sel):
+                    continue
+                try:
+                    ins = m.contains(X[sel])
+                except Exception:
+                    continue
+                if not ins.any():
+                    continue
+                s2 = sel[ins]
+                dd, q = tree.query(X[s2])
+                depth = np.maximum(-np.einsum("ij,ij->i", X[s2] - v[q], n[q]), 0.0) + margin
+                push = np.minimum(depth, max_move)[:, None] * n[q]
+                big = np.linalg.norm(push, axis=1) > np.linalg.norm(D[s2], axis=1)
+                D[s2[big]] = push[big]
+                hit += int(ins.sum())
+            if not hit:
+                break
+            D = _smooth_push(F, D, smooth)
+            D *= np.minimum(1.0, max_move / np.maximum(np.linalg.norm(D, axis=1), 1e-9))[:, None]
+            X = X + D
+        return X, int((np.linalg.norm(X - X0, axis=1) > 0.2).sum())
+
+
 def _closed(f):
     e = np.sort(np.vstack([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1)
     return bool((np.unique(e, axis=0, return_counts=True)[1] == 2).all())
 
 
-def refine_all(structs, her, guards=None, log=print):
+def refine_all(structs, her, guards=None, log=print, obstacles=None):
     """per-group refinement; returns ({id: new v}, {id: report}); a group is HELD (v6 kept) when her-label chamfer does not improve"""
     groups = plan_groups(structs, her)
     new, rep = {}, {}
@@ -449,6 +505,9 @@ def refine_all(structs, her, guards=None, log=print):
         r["closed_mesh"] = bool(closed)
         if guards is not None:
             X = guards.push_out(X, F)
+        if obstacles is not None:
+            X, n_pushed = obstacles.push(X, F, {hid})
+            r["pushed_out_of_her_other_labels_vertices"] = n_pushed
         c = chamfer(X, F, ref, partial=r["partial_reference"])
         r["after_mm"] = [round(x, 2) for x in c]
         if c[2] < 0.9 * r["her_label_chamfer_before_mm"][2]:
@@ -545,8 +604,12 @@ def skin_displacement_smoothing(structs, mask_fn, iters=12, log=print):
         Us = (A @ Us) / deg[:, None]
     keep = np.concatenate([np.full(len(d["v"]), (not LIMB_SKIN.search(d["id"])) and -150 < d["v"].mean(0)[1] < 640 and abs(d["v"].mean(0)[0]) < 260)
                            for d in skin])
-    m = mask_fn(allv) * keep
-    newv = allv + m[:, None] * (Us[inv] - U[inv])
+    from scripts.zanatomy import trunk_refit_q186c as T
+    wy = T.smoothstep((allv[:, 1] + 110.0) / 30.0) * (1.0 - T.smoothstep((allv[:, 1] - 290.0) / 40.0))   # lumbar/sacral/gluteal/hip/flank only
+    m = mask_fn(allv) * keep * wy
+    dlt = m[:, None] * (Us[inv] - U[inv])
+    dlt *= np.minimum(1.0, 20.0 / np.maximum(np.linalg.norm(dlt, axis=1), 1e-9))[:, None]
+    newv = allv + dlt
     out = {}
     for d, a, b in zip(skin, off[:-1], off[1:]):
         out[d["id"]] = newv[a:b]
@@ -641,7 +704,7 @@ def skin_outline_pull(structs, skin_mesh, axis, chart, inset=1.5, cap_out=25.0, 
 
 # ------------------------------------------------------------------------------------------------ skin envelope (nerves / vessels / fascia)
 ARM_STRUCT = re.compile(r"brachial|axillary|cephalic|basilic|circumflex_humeral|humer|subscapular_(a|v|n)|thoracodorsal|lateral_thoracic|"
-                        r"musculocutaneous|radial|ulnar|median|antebrach|forearm|hand|digit|deltoid|biceps|triceps|coracobrachialis")
+                        r"musculocutaneous|radial|ulnar|median|antebrach|forearm|hand|digit|deltoid|biceps|triceps|coracobrachialis|of_arm|arm_")
 
 
 class SkinEnvelope:
@@ -677,8 +740,11 @@ def envelope_clamp(structs_by_id, ids, env: SkinEnvelope, axis, margin=1.0, reac
         if not bad.any():
             continue
         step = np.minimum(s[bad] + margin, max_move)[:, None] * env.N[j[bad]]
-        nv = v.copy()
-        nv[bad] = v[bad] - step
+        D = np.zeros_like(v)
+        D[bad] = -step
+        if len(d["f"]):
+            D = _smooth_push(d["f"], D, 6)           # spread over the mesh: no spikes / pleats where a structure crosses the skin
+        nv = v + D
         out[k] = (nv, int(bad.sum()), float(np.linalg.norm(step, axis=1).max()))
     return out
 
@@ -740,13 +806,16 @@ def run_all(structs, her, guards, skin_mesh, axis, log=print):
     from scripts.zanatomy import trunk_refit_q186c as T
     by_id = {d["id"]: d for d in structs}
     rep = {}
-    new, mrep = refine_all(structs, her, guards, log=log)
+    obstacles = HerObstacles(her)
+    new, mrep = refine_all(structs, her, guards, log=log, obstacles=obstacles)
     pr = propagate(structs, new, log=log)
     newv = {**new, **pr}
     rep["muscles"], rep["propagated"] = mrep, sorted(pr)
     rec, rrep = shape_recovery(structs, newv, skip_ids=set(new), log=log)
     newv.update(rec)
     rep["shape_recovery"] = rrep
+    mus_ids = [k for k, d in by_id.items() if d["cat"] == "muscle" and in_scope(d) and not ARM_STRUCT.search(k)]
+    rep["overlap_resolution"] = resolve_overlaps(by_id, newv, mus_ids, set(mus_ids), log=log)
     # skin: displacement smoothing (posterior/lateral only), then pull toward her measured back outline
     mask = lambda q: 1.0 - T.anterior_weight(q, axis)
     sm = skin_displacement_smoothing(structs, mask, iters=12, log=log)
@@ -767,7 +836,24 @@ def run_all(structs, her, guards, skin_mesh, axis, log=print):
     cl = envelope_clamp(cur, ids, env, axis)
     for k, (v, nmv, mx) in cl.items():
         newv[k] = v
+    # thin structures must not end up deeper inside her bone labels than they were in v6 (nerves leaving foramina keep their v6 contact)
+    bg = {}
+    for k, d in cur.items():
+        if d["cat"] not in ("nerve", "vessel", "fascia", "tendon") or k not in newv or ARM_STRUCT.search(k) or guards is None:
+            continue
+        v0, v1 = d["v"], newv[k]
+        sel = slice(None, None, max(1, len(v1) // 600))
+        f0, f1 = float((guards.depth(v0[sel]) > 1).mean()), float((guards.depth(v1[sel]) > 1).mean())
+        if f1 > f0 + 0.01:
+            v2 = guards.push_out(v1, d["f"], tol=1.0)
+            f2 = float((guards.depth(v2[sel]) > 1).mean())
+            if f2 < f1:
+                newv[k] = v2
+                bg[k] = {"in_bone_before": round(f0, 3), "after_recovery": round(f1, 3), "after_guard": round(f2, 3)}
+    rep["bone_guard_thin"] = bg
+    log(f"  bone guard (thin structures): {len(bg)} structures pushed out of her bone labels")
     rep["envelope_clamp"] = {k: {"vertices": c[1], "max_mm": round(c[2], 1)} for k, c in cl.items()}
+    newv.update(reweld_skin(structs, {k: newv[k] for k in skin_v}))
     log(f"  envelope clamp: {len(cl)} structures, {sum(c[1] for c in cl.values())} vertices")
     return newv, rep
 
@@ -832,3 +918,199 @@ def shape_recovery(structs, newv, skip_ids, log=print):
                       "max_dev_mm": round(float(np.linalg.norm(best[2] - v, axis=1).max()), 1)}
     log(f"  shape recovery: {len(out)} structures, mean distortion score {np.mean([r['score_before'] for r in rep.values()]):.1f} -> {np.mean([r['score_after'] for r in rep.values()]):.1f}" if rep else "  shape recovery: none")
     return out, rep
+
+
+# ------------------------------------------------------------------------------------------------ neighbour overlap
+def _vertex_normals(v, f):
+    fn = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
+    vn = np.zeros_like(v)
+    for k in range(3):
+        np.add.at(vn, f[:, k], fn)
+    return vn / np.maximum(np.linalg.norm(vn, axis=1, keepdims=True), 1e-9)
+
+
+def _smooth_push(f, D, passes):
+    from scipy import sparse
+    moved = np.linalg.norm(D, axis=1) > 1e-6
+    if not moved.any() or not passes:
+        return D
+    n = len(D)
+    e = np.vstack([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]])
+    A = sparse.coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)).tocsr()
+    A = ((A + A.T) > 0).astype(float)
+    deg = np.maximum(np.asarray(A.sum(1)).ravel(), 1)
+    Ds = D.copy()
+    for _ in range(passes):
+        Ds = (A @ Ds) / deg[:, None]
+        Ds[moved] = np.where((np.linalg.norm(Ds[moved], axis=1) > np.linalg.norm(D[moved], axis=1))[:, None], Ds[moved], D[moved])
+    return Ds
+
+
+NOT_A_MUSCLE_BODY = re.compile(r"bursa|septum|fascia|aponeurosis|tendon|sheath|ligament|membrane|retinaculum|capsule|raphe|linea|lamina")
+
+
+def resolve_overlaps(by_id, newv, ids, movable, iters=6, margin=0.5, max_move=8.0, smooth=6, revert_pts=3.0, log=print):
+    """closed trunk muscles that interpenetrate (Z muscles fitted one by one to her non-overlapping labels): each vertex lying inside
+    another muscle is moved out along that muscle's outward normal by half the depth + margin (the other muscle's inside vertices
+    do the other half); the push is spread over the mesh (smooth passes).  Several iterations."""
+    import trimesh
+    closed = [k for k in ids if _closed(by_id[k]["f"]) and not NOT_A_MUSCLE_BODY.search(k)]
+    movable = set(movable) & set(closed)
+    start = {k: newv.get(k, by_id[k]["v"]).copy() for k in movable}
+    tot0 = None
+    for it in range(iters):
+        cur = {k: newv.get(k, by_id[k]["v"]) for k in closed}
+        info = {k: (cur[k].min(0), cur[k].max(0), cKDTree(cur[k]), _vertex_normals(cur[k], by_id[k]["f"]),
+                    trimesh.Trimesh(cur[k], by_id[k]["f"], process=False)) for k in closed}
+        disp = {k: np.zeros_like(cur[k]) for k in closed}
+        n_in = 0
+        for k in closed:
+            if k not in movable:                  # only the refined muscles move; every other muscle is an obstacle
+                continue
+            v = cur[k]
+            lo, hi = info[k][0], info[k][1]
+            for j in closed:
+                if j == k:
+                    continue
+                lj, hj, tj, nj, mj = info[j]
+                if np.any(hj < lo - 1) or np.any(lj > hi + 1):
+                    continue
+                sel = np.flatnonzero(np.all((v >= lj - 1) & (v <= hj + 1), 1))
+                if not len(sel):
+                    continue
+                try:
+                    ins = mj.contains(v[sel])
+                except Exception:
+                    continue
+                if not ins.any():
+                    continue
+                s2 = sel[ins]
+                d, q = tj.query(v[s2])
+                depth = np.einsum("ij,ij->i", v[s2] - cur[j][q], -nj[q])
+                depth = np.maximum(depth, 0.0) + margin
+                push = (0.6 if j in movable else 1.0) * np.minimum(depth, 2 * max_move)[:, None] * nj[q]
+                bigger = np.linalg.norm(push, axis=1) > np.linalg.norm(disp[k][s2], axis=1)
+                disp[k][s2[bigger]] = push[bigger]
+                n_in += int(ins.sum())
+        if tot0 is None:
+            tot0 = n_in
+        for k in movable & set(closed):
+            if np.linalg.norm(disp[k], axis=1).max() > 0:
+                D = _smooth_push(by_id[k]["f"], disp[k], smooth)
+                m = np.linalg.norm(D, axis=1)
+                D *= np.minimum(1.0, max_move / np.maximum(m, 1e-9))[:, None]
+                newv[k] = cur[k] + D
+        log(f"  overlap resolution iteration {it + 1}: {n_in} muscle vertices inside another muscle")
+    # a muscle whose own shape gets more distorted by the push is put back where it was before the resolution
+    reverted = []
+    for k in movable:
+        if k not in newv or np.abs(newv[k] - start[k]).max() < 1e-9:
+            continue
+        d = by_id[k]
+        if Mx.distortion_score(Mx.stretch_stats(newv[k], d["r"], d["f"])) > Mx.distortion_score(Mx.stretch_stats(start[k], d["r"], d["f"])) + revert_pts:
+            newv[k] = start[k]
+            reverted.append(k)
+    log(f"  overlap resolution: {len(reverted)} muscles reverted (shape got worse)")
+    return {"vertices_inside_first_pass": tot0, "vertices_inside_last_pass": n_in, "reverted_for_shape": sorted(reverted)}
+
+
+def reweld_skin(structs, skin_v):
+    """the skin patches tile one surface: every set of vertices that shared a Z source position is put back on their common mean
+    (the global field and the clamps left tears of up to 6 mm)"""
+    skin = [d for d in structs if d["cat"] == "skin" and d["id"] in skin_v]
+    allr = np.vstack([d["r"] for d in skin]).astype(np.float64)
+    allv = np.vstack([skin_v[d["id"]] for d in skin]).astype(np.float64)
+    u, inv = np.unique(np.round(allr, 3), axis=0, return_inverse=True)
+    inv = inv.reshape(-1)
+    cnt = np.bincount(inv)
+    mean = np.zeros((len(u), 3)); np.add.at(mean, inv, allv); mean /= cnt[:, None]
+    allv = np.where((cnt[inv] > 1)[:, None], mean[inv], allv)
+    off = np.cumsum([0] + [len(d["r"]) for d in skin])
+    return {d["id"]: allv[a:b] for d, a, b in zip(skin, off[:-1], off[1:])}
+
+
+# ------------------------------------------------------------------------------------------------ build hook
+def _vol_cm3(v, f):
+    return abs(volume(v, f)) / 1000.0
+
+
+def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
+    """build hook (build_zan_atlas_viewer.py --q190-refine): runs run_all on the fitted pending meshes, applies the result, clamps once more
+    inside her CT skin, badges every moved structure (fit_note) and returns the report (written into the build report json)."""
+    from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
+    from scripts.placement_sweep_q185 import Body
+    from scripts.ribs_from_ct_labels import load_skin
+    from scripts.zanatomy import trunk_refit_q186c as T
+    from scripts.zanatomy import q190_audit as Au
+    structs = [{"id": p["mesh_id"], "cat": p["cat"], "v": p["v"], "r": raw[p["mesh_id"]].astype(np.float64), "f": p["f"]} for p in pending]
+    by_p = {p["mesh_id"]: p for p in pending}
+    her = load_her_meshes()
+    skin = load_skin("vhf")
+    axis = T.trunk_axis(np.asarray(skin.vertices, np.float64))
+    guards = Guards(Body("vhf"))
+    before = Au.table(structs)
+    newv, rep = run_all(structs, her, guards, skin, axis, log=log)
+    for k, v in newv.items():
+        by_p[k]["v"] = v
+    clamp = T.clamp_inside_skin(pending, skin_mesh=skin, log=log)
+    sk_ids = [p["mesh_id"] for p in pending if p["cat"] == "skin"]
+    rew = reweld_skin([{"id": p["mesh_id"], "cat": "skin", "r": raw[p["mesh_id"]]} for p in pending if p["cat"] == "skin"],
+                      {i: by_p[i]["v"] for i in sk_ids})
+    for i, v in rew.items():
+        by_p[i]["v"] = v
+    for p in pending:
+        p.pop("v_unclamped", None)
+    structs_after = [{"id": p["mesh_id"], "cat": p["cat"], "v": p["v"], "r": raw[p["mesh_id"]].astype(np.float64), "f": p["f"]} for p in pending]
+    after = Au.table(structs_after)
+    v6 = {d["id"]: d for d in structs}
+    out_struct = {}
+    for k, b in before.items():
+        a = after.get(k)
+        if a is None:
+            continue
+        d = v6[k]
+        moved = float(np.linalg.norm(by_p[k]["v"] - d["v"], axis=1).mean()) if len(d["v"]) else 0.0
+        e = {"cat": b["cat"], "region": b["region"], "distortion_score_before": round(b["score"], 2), "distortion_score_after": round(a["score"], 2),
+             "flipped_before": round(b["stretch"]["flipped"], 4), "flipped_after": round(a["stretch"]["flipped"], 4),
+             "edge_p95_before": round(b["stretch"]["edge_p95"], 3), "edge_p95_after": round(a["stretch"]["edge_p95"], 3),
+             "area_outside_0.67_1.5_before": round(b["stretch"]["area_frac_gt1.5"] + b["stretch"]["area_frac_lt0.67"], 4),
+             "area_outside_0.67_1.5_after": round(a["stretch"]["area_frac_gt1.5"] + a["stretch"]["area_frac_lt0.67"], 4),
+             "mean_move_mm": round(moved, 2)}
+        if _closed(d["f"]):
+            e["volume_cm3_v6"] = round(_vol_cm3(d["v"], d["f"]), 2)
+            e["volume_cm3_q190"] = round(_vol_cm3(by_p[k]["v"], d["f"]), 2)
+            e["volume_cm3_source_x_body_scale3"] = round(_vol_cm3(d["r"], d["f"]) * BODY_SCALE ** 3, 2)
+        if k in rep["muscles"]:
+            m = rep["muscles"][k]
+            e["her_label"] = m["her_id"]
+            e["her_label_chamfer_mm_before_after"] = [m["her_label_chamfer_before_mm"][2], m["after_mm"][2]]
+            e["her_label_partial"] = m["partial_reference"]
+        out_struct[k] = e
+        note = None
+        if k in rep["muscles"]:
+            m = rep["muscles"][k]
+            note = (f" Q190: refined onto her own CT-derived {m['her_id'].replace('_', ' ')} (her TotalSegmentator/own mesh is only the reference, the shape is "
+                    f"this Z-Anatomy mesh): two-way median distance to her label {m['her_label_chamfer_before_mm'][2]} -> {m['after_mm'][2]} mm"
+                    f"{' (her label covers only part of this muscle)' if m['partial_reference'] else ''}; {m['pose']} fit + smooth residual "
+                    f"<= {m['resid_max_mm']} mm; triangles stretched outside 0.67-1.5x of the Z source {100 * e['area_outside_0.67_1.5_before']:.0f} % -> "
+                    f"{100 * e['area_outside_0.67_1.5_after']:.0f} %"
+                    + (f"; volume {e['volume_cm3_v6']} -> {e['volume_cm3_q190']} cm3." if "volume_cm3_v6" in e else "."))
+        elif k in rep["shape_recovery"]:
+            sr = rep["shape_recovery"][k]
+            note = (f" Q190: global-field shear removed (displacement low-passed over its own mesh, {sr['sigma_mm']:.0f} mm), position kept within "
+                    f"{sr['max_dev_mm']} mm; triangles stretched outside 0.67-1.5x {100 * e['area_outside_0.67_1.5_before']:.0f} % -> "
+                    f"{100 * e['area_outside_0.67_1.5_after']:.0f} %.")
+        elif k in rep["propagated"]:
+            note = f" Q190: moved with the neighbouring refined muscles (mean {moved:.1f} mm)."
+        elif b["cat"] == "skin" and moved > 1.0:
+            note = (f" Q190: back/flank skin: displacement smoothed, set on her measured CT back outline (1.5 mm inside it) and moved out over her refined "
+                    f"muscles where they reached the old skin; mean move {moved:.1f} mm; front untouched.")
+        if k in rep["envelope_clamp"] and rep["envelope_clamp"][k]["vertices"] >= 5:
+            c = rep["envelope_clamp"][k]
+            note = (note or "") + f" Q190: {c['vertices']} vertices outside the fitted skin were moved inside it (max {c['max_mm']} mm)."
+        if note:
+            by_p[k]["fit_note"] = (by_p[k].get("fit_note") or "") + note
+    return {"rule": "scripts/zanatomy/q190_refine.py", "refine": {k: v for k, v in rep.items() if k not in ("muscles", "propagated", "shape_recovery", "envelope_clamp", "skin_ids")},
+            "muscle_groups": {k: v for k, v in rep["muscles"].items()},
+            "propagated": rep["propagated"], "shape_recovery": rep["shape_recovery"], "envelope_clamp": rep["envelope_clamp"],
+            "clamp_inside_her_skin": {k: v for k, v in clamp.items() if k != "per_structure"}, "structures": out_struct}

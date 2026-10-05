@@ -81,14 +81,16 @@ def overlap(structs, newv=None, ids=None, nsamp=1500, seed=0):
     """fraction of each trunk muscle's vertices lying INSIDE another (closed) trunk muscle; ray-parity containment"""
     import trimesh
     rng = np.random.default_rng(seed)
-    cand = [d for d in structs if d["cat"] == "muscle" and region_of(d) is not None and not HAND.search(d["id"]) and Q._closed(d["f"])]
+    cand = [d for d in structs if d["cat"] == "muscle" and region_of(d) is not None and not HAND.search(d["id"]) and Q._closed(d["f"])
+            and not Q.NOT_A_MUSCLE_BODY.search(d["id"])]
     meshes = {}
     for d in cand:
         v = newv.get(d["id"], d["v"]) if newv else d["v"]
         meshes[d["id"]] = (trimesh.Trimesh(v, d["f"], process=False), v.min(0), v.max(0))
     out = {}
     for d in structs:
-        if d["cat"] != "muscle" or region_of(d) is None or HAND.search(d["id"]) or (ids is not None and d["id"] not in ids):
+        if d["cat"] != "muscle" or region_of(d) is None or HAND.search(d["id"]) or (ids is not None and d["id"] not in ids) \
+                or Q.NOT_A_MUSCLE_BODY.search(d["id"]):          # bursae, fasciae, septa, sheaths touch muscles by design
             continue
         v = newv.get(d["id"], d["v"]) if newv else d["v"]
         p = v[rng.choice(len(v), min(len(v), nsamp), replace=False)]

@@ -90,20 +90,21 @@ def render(scene, views, out_dir, size=(760, 760), prefix=""):
 
 
 def section_lines(v, f, y):
-    """polyline segments of the plane y=const through a triangle mesh -> (k,2,2) array of (x,z) pairs"""
+    """polyline segments of the plane y=const through a triangle mesh -> (k,2,2) array of (x,z) pairs (vectorised)"""
     v = np.asarray(v, float); f = np.asarray(f)
     t = v[f]                                   # (m,3,3)
     s = t[:, :, 1] - y
     keep = (s.min(1) < 0) & (s.max(1) > 0)
     t, s = t[keep], s[keep]
-    segs = []
-    for tri, ss in zip(t, s):
-        pts = []
-        for a, b in ((0, 1), (1, 2), (2, 0)):
-            if ss[a] * ss[b] < 0:
-                u = ss[a] / (ss[a] - ss[b])
-                q = tri[a] + u * (tri[b] - tri[a])
-                pts.append((q[0], q[2]))
-        if len(pts) == 2:
-            segs.append(pts)
-    return np.asarray(segs).reshape(-1, 2, 2)
+    if not len(t):
+        return np.zeros((0, 2, 2))
+    pts = np.full((len(t), 3, 2), np.nan)
+    for e, (a, b) in enumerate(((0, 1), (1, 2), (2, 0))):
+        cr = s[:, a] * s[:, b] < 0
+        u = np.where(cr, s[:, a] / np.where(cr, s[:, a] - s[:, b], 1.0), 0.0)
+        q = t[:, a] + u[:, None] * (t[:, b] - t[:, a])
+        pts[cr, e] = q[cr][:, [0, 2]]
+    ok = (~np.isnan(pts[:, :, 0])).sum(1) == 2
+    pts = pts[ok]
+    order = np.argsort(np.isnan(pts[:, :, 0]), axis=1, kind="stable")[:, :2]
+    return np.take_along_axis(pts, order[:, :, None], axis=1)
