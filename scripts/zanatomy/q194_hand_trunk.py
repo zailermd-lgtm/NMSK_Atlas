@@ -265,21 +265,23 @@ def refine(by: dict, raw: dict, regions: dict, decimate_fn=None, log=print) -> d
     hand_r = [i for i in H.scope(pend, regions, "r") if by[i]["cat"] == "muscle"]
     hand_l = [i for i in H.scope(pend, regions, "l") if by[i]["cat"] == "muscle"]
     trunk = [k for k, d in by.items() if d["cat"] == "muscle" and A.region_of({"v": d["v"]}) is not None and not A.HAND.search(k)]
-    sets = {"trunk_shoulder": trunk, "right_forearm_hand": hand_r, "left_forearm_hand": hand_l}
-    done = {}
-    for name, ids in sets.items():
+    arm = {s: [k for k, d in by.items() if k.endswith("_" + s) and d["cat"] == "muscle" and Q._closed(d["f"]) and not Q.NOT_A_MUSCLE_BODY.search(k) and abs(d["v"].mean(0)[0]) > 120
+              and 300 < d["v"].mean(0)[1] < 540 and k not in hand_r and k not in hand_l] for s in "lr"}
+    sets = {"trunk_shoulder": (trunk, []), "right_forearm_hand": (hand_r, arm["r"]), "left_forearm_hand": (hand_l, arm["l"])}     # (movable, fixed neighbours at the elbow)
+    for name, (ids, fixed_extra) in sets.items():
         ids = [i for i in ids if Q._closed(by[i]["f"]) and not Q.NOT_A_MUSCLE_BODY.search(i) and not H.FOOT_NAME.search(i)]
-        meshes = {i: done.get(i) or decimate_fn(by[i]["v"].astype(float), by[i]["f"], i, "muscle") for i in ids}
+        allids = ids + [i for i in fixed_extra if i not in ids]
+        meshes = {i: by[i].get("pre_decimated") or decimate_fn(by[i]["v"].astype(float), by[i]["f"], i, "muscle") for i in allids}      # an earlier set may have moved it
         meshes = {i: (np.asarray(v, float), f) for i, (v, f) in meshes.items()}
-        vol_ref = {i: abs(Q.volume(raw[i].astype(float), by[i]["f"])) * Mx.BODY_SCALE ** 3 for i in ids}
+        vol_ref = {i: abs(Q.volume(raw[i].astype(float), by[i]["f"])) * Mx.BODY_SCALE ** 3 for i in allids}
         ov0 = Sp.overlap_pct(meshes)
-        movable = {i for i, o in ov0.items() if o > 0.3}
+        movable = {i for i in ids if ov0[i] > 0.3}
         base = {i: meshes[i][0] for i in movable}
         out, mrep = Sp.separate(meshes, vol_ref, movable, keep=lambda i, v2: G.accept(i, base[i], v2), log=log)
-        ov1 = Sp.overlap_pct({i: (out[i], meshes[i][1]) for i in ids})
-        rep["separated"][name] = {"structures": len(ids), "with_overlap_gt_0.3pct_before": len(movable),
-                                  "mean_overlap_pct_before": round(float(np.mean(list(ov0.values()))), 2), "mean_overlap_pct_after": round(float(np.mean(list(ov1.values()))), 2),
-                                  "moved": mrep, "overlap_pct": {i: [round(ov0[i], 1), round(ov1[i], 1)] for i in ids if i in movable}}
+        ov1 = Sp.overlap_pct({i: (out[i], meshes[i][1]) for i in allids})
+        rep["separated"][name] = {"structures": len(ids), "fixed_neighbours": len(allids) - len(ids), "with_overlap_gt_0.3pct_before": len(movable),
+                                  "mean_overlap_pct_before": round(float(np.mean([ov0[i] for i in ids])), 2), "mean_overlap_pct_after": round(float(np.mean([ov1[i] for i in ids])), 2),
+                                  "moved": mrep, "overlap_pct": {i: [round(ov0[i], 1), round(ov1[i], 1)] for i in allids if i in movable or i in fixed_extra}}
         for i, m in mrep.items():
             if m["max_move_mm"] < 0.3:
                 continue
@@ -288,7 +290,7 @@ def refine(by: dict, raw: dict, regions: dict, decimate_fn=None, log=print) -> d
             by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
                 f" Q194: overlap with neighbouring muscles removed by a bounded per-vertex separation along the contact normal on the shipped mesh (vertices inside a neighbour "
                 f"{ov0[i]:.1f} -> {ov1[i]:.1f} %, mean move {m['mean_move_mm']} mm, max {m['max_move_mm']}, volume {vr:.2f}x the Z source).")
-        log(f"  Q194 separation [{name}]: {len(ids)} muscles, overlap {rep['separated'][name]['mean_overlap_pct_before']} -> {rep['separated'][name]['mean_overlap_pct_after']} %")
+        log(f"  Q194 separation [{name}]: {len(ids)} muscles (+{len(allids) - len(ids)} fixed neighbours), overlap {rep['separated'][name]['mean_overlap_pct_before']} -> {rep['separated'][name]['mean_overlap_pct_after']} %")
     return rep
 
 
