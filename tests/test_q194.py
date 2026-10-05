@@ -62,16 +62,16 @@ def test_separation_removes_overlap_keeps_volume():
     b, fb = sphere((14, 0, 0), 10.0)                     # overlap lens 6 mm deep
     meshes = {"a": (a, fa), "b": (b, fb)}
     ov0 = Sp.overlap_pct(meshes)
-    out, rep = Sp.separate(meshes, {"a": a, "b": b}, {"a", "b"}, rounds=3, log=lambda *_: None)
+    out, rep = Sp.separate(meshes, {k: abs(Q.volume(*meshes[k])) for k in meshes}, {"a", "b"}, rounds=3, log=lambda *_: None)
     ov1 = Sp.overlap_pct({k: (out[k], meshes[k][1]) for k in meshes})
     assert max(ov0.values()) > 10 and max(ov1.values()) < max(ov0.values()) / 2
     for k in "ab":
         assert 0.65 <= abs(Q.volume(out[k], meshes[k][1])) / abs(Q.volume(meshes[k][0], meshes[k][1])) <= 1.5
-    assert max(r["max_move_mm"] for r in rep.values()) <= Sp.MAX_MOVE_MM + 1e-6
+    assert max(r["max_move_mm"] for r in rep.values()) <= Sp.MAX_TOTAL_MM + 1e-6
 
 
 def test_separation_leaves_disjoint_meshes_untouched():
     a, fa = sphere((0, 0, 0), 10.0)
     b, fb = sphere((40, 0, 0), 10.0)
-    out, rep = Sp.separate({"a": (a, fa), "b": (b, fb)}, {"a": a, "b": b}, {"a", "b"}, log=lambda *_: None)
+    out, rep = Sp.separate({"a": (a, fa), "b": (b, fb)}, {}, {"a", "b"}, log=lambda *_: None)
     assert not rep and np.array_equal(out["a"], a)

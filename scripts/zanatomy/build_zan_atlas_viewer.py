@@ -869,10 +869,12 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
 
     def finish(mesh_id: str, display_name: str, side_raw, cat: str, v: np.ndarray, f: np.ndarray,
                rec_override=None, zanatomy_name: str | None = None, parent_link=None, notes=(),
-               fit_note: str | None = None):
+               fit_note: str | None = None, pre_decimated=None):
         nonlocal byte_off, matched_with_record, parent_linked_count
         note = " ".join(notes)
-        if cat == "skin":
+        if pre_decimated is not None:        # Q194: the shipped (decimated) mesh was moved by the bounded neighbour separation
+            dv, df = pre_decimated
+        elif cat == "skin":
             dv, df = v, f  # Q186: patches tile one surface; decimating each alone would open the seams
         else:
             dv, df = decimate(v, f, mesh_id, cat, (category_scale or {}).get(cat, budget_scale), prepped=True)
@@ -1038,7 +1040,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     if q194 and q194.get("refine"):
         # Q194: bounded post-closure refinements (left forearm on her photographs, overlap / distortion leftovers); everything not listed in the report stays bit-identical
         from scripts.zanatomy import q194_refine as Q194
-        LAST_REPORTS["q194"] = Q194.refine_pending(pending, raw_before_fit)
+        LAST_REPORTS["q194"] = Q194.refine_pending(
+            pending, raw_before_fit, decimate_fn=lambda v, f, i, c: decimate(v, f, i, c, (category_scale or {}).get(c, budget_scale), prepped=True))
     for item in pending:
         finish(**item)
 

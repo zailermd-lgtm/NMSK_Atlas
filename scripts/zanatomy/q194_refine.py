@@ -14,7 +14,7 @@ REPO = Path(__file__).resolve().parents[2]
 LEFT_FIT = REPO / "data" / "derived" / "Q192_left_hand_fit.json"
 
 
-def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
+def refine_pending(pending: list[dict], raw: dict, decimate_fn=None, log=print) -> dict:
     from scripts.transfer.zan_to_vhf_whole_body import DEFAULT_REPORT
     from scripts.zanatomy import q194_forearm as F
     by = {p["mesh_id"]: p for p in pending}
@@ -27,5 +27,5 @@ def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     except ImportError:
         HT = None
     if HT is not None:
-        rep.update(HT.refine(by, rawd, regions, log=log))
+        rep.update(HT.refine(by, rawd, regions, decimate_fn=decimate_fn, log=log))
     return rep

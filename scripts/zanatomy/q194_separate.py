@@ -12,11 +12,11 @@ import numpy as np
 from scipy.spatial import cKDTree
 
 from scripts.zanatomy import q190_refine as Q
-from scripts.zanatomy import q191_hand as H
 
 MAX_MOVE_MM = 4.0
 MARGIN_MM = 0.4
 MIN_DEPTH_MM = 0.3
+MAX_TOTAL_MM = 6.0         # cumulative bound over all rounds
 
 
 class Skel:
@@ -70,8 +70,31 @@ def overlap_pct(meshes: dict, ids=None, nmax=3000, seed=0):
     return out
 
 
-def separate(meshes: dict, raw: dict, movable: set, rounds=3, max_move=MAX_MOVE_MM, smooth=8, keep=None, log=print):
-    """meshes: {id: (v, f)} (all closed neighbour muscles in the area); movable: ids that may move.  keep(id, v) -> bool: extra acceptance test.  Returns ({id: v_new}, report)"""
+def _volume(v, f):
+    return abs(Q.volume(v, f))
+
+
+def new_folds(v0, v1, f):
+    """share of interior edges that were smooth in v0 (dihedral < 60 deg) and are folded over in v1 (> 100 deg): needs no source correspondence, so it works on decimated meshes"""
+    def fn(x):
+        n = np.cross(x[f[:, 1]] - x[f[:, 0]], x[f[:, 2]] - x[f[:, 0]])
+        return n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+    n0, n1 = fn(v0), fn(v1)
+    e = np.vstack([np.c_[f[:, 0], f[:, 1], np.arange(len(f))], np.c_[f[:, 1], f[:, 2], np.arange(len(f))], np.c_[f[:, 2], f[:, 0], np.arange(len(f))]])
+    key = np.sort(e[:, :2], 1)
+    o = np.lexsort((key[:, 1], key[:, 0]))
+    k, fi = key[o], e[o, 2]
+    same = (k[1:] == k[:-1]).all(1)
+    a, b = fi[:-1][same], fi[1:][same]
+    if not len(a):
+        return 0.0
+    sel = (n0[a] * n0[b]).sum(1) > 0.5
+    return float(((n1[a] * n1[b]).sum(1) < -0.17)[sel].mean()) if sel.any() else 0.0
+
+
+def separate(meshes: dict, vol_ref: dict, movable: set, rounds=4, max_move=MAX_MOVE_MM, smooth=6, share=0.6, keep=None, log=print):
+    """meshes: {id: (v, f)} closed neighbour muscles (the shipped, decimated meshes); vol_ref: {id: source volume x scale^3 or None}; movable: ids that may move.
+    keep(id, v_new) -> bool: extra acceptance test (containment).  Returns ({id: v_new}, report)"""
     cur = {i: v.copy() for i, (v, f) in meshes.items()}
     rep = {}
     for rd in range(rounds):
@@ -88,7 +111,7 @@ def separate(meshes: dict, raw: dict, movable: set, rounds=3, max_move=MAX_MOVE_
                 m = d > MIN_DEPTH_MM
                 if m.any():
                     n = s.dirn(v[m])
-                    step = np.minimum(0.5 * (d[m] + MARGIN_MM), max_move)
+                    step = np.minimum(share * (d[m] + MARGIN_MM), max_move)
                     cand = n * step[:, None]
                     idx = np.flatnonzero(m)
                     bigger = np.linalg.norm(cand, axis=1) > np.linalg.norm(D[idx], axis=1)
@@ -97,12 +120,16 @@ def separate(meshes: dict, raw: dict, movable: set, rounds=3, max_move=MAX_MOVE_
             if not hit.any():
                 continue
             D = Q._smooth_push(f, D, smooth)
-            cap = np.minimum(1.0, max_move / np.maximum(np.linalg.norm(D, axis=1), 1e-9))
-            D *= cap[:, None]
-            v2 = v + D
-            vr = H.vol_ratio(v2, raw[i], f)
-            fold0, fold1 = H.fold_stats(v, raw[i], f), H.fold_stats(v2, raw[i], f)
-            ok = (vr is None or 0.65 <= vr <= 1.5) and fold1 <= fold0 + 0.003 and (keep is None or keep(i, v2))
+            D *= np.minimum(1.0, max_move / np.maximum(np.linalg.norm(D, axis=1), 1e-9))[:, None]
+            v2 = cur[i] + D
+            tot = v2 - meshes[i][0]
+            v2 = meshes[i][0] + tot * np.minimum(1.0, MAX_TOTAL_MM / np.maximum(np.linalg.norm(tot, axis=1), 1e-9))[:, None]
+            ref = vol_ref.get(i)
+            ok = True
+            if ref:
+                r0, r1 = _volume(v, f) / ref, _volume(v2, f) / ref
+                ok = (0.65 <= r1 <= 1.5) or abs(r1 - 1.0) <= abs(r0 - 1.0)
+            ok = ok and new_folds(v, v2, f) <= 0.003 and (keep is None or keep(i, v2))
             if ok:
                 new[i] = v2
         for i, v2 in new.items():
