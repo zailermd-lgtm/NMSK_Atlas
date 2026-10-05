@@ -275,6 +275,10 @@ for s in ct_vhm_foot vhm_both ct_vhm_arm ct_vhm_armm ct_vhm_forearm ct_vhm_shsp 
 [ -f build/vh/xfer_zan2vhm_limb_photo/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb_photo"
 [ -f build/vh/xfer_zan2vhm_limb/manifest.json ] && SUBJ="$SUBJ --subject xfer_zan2vhm_limb"
 [ -f build/vh/ct_vhm_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_pelvis"   # Q170 pelvic viscera (ids unique; listed last so no other structure moves)
+# Q193: organs (liver, lungs, heart, stomach, bowel, kidneys, ... whichever pass the gates) meshed from this body's own TotalSegmentator `total`
+# labels (scripts/viscera_from_ct_labels_q193.py; held organs and the reason are in data/derived/Q193_viscera_vhm.json). Ids unique; listed last.
+[ -f build/vh/ct_vhm_viscera/manifest.json ] || python3 scripts/viscera_from_ct_labels_q193.py build --body vhm 2>&1 | tail -22
+[ -f build/vh/ct_vhm_viscera/manifest.json ] && SUBJ="$SUBJ --subject ct_vhm_viscera"   # Q193
 # Q185c: intervertebral discs filled between his own adjacent vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py;
 # held levels carry the Q104 mesh re-badged). The Q104 cylinders in ct_vhm are dropped at export, C1/C2 (no disc there) included.
 [ -f build/vh/ct_vhm_discs/manifest.json ] || python3 scripts/discs_from_vertebrae_q185c.py build --body vhm | tail -1

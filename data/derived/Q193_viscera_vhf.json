@@ -1,0 +1,1001 @@
+{
+ "task": "Q193",
+ "body": "vhf",
+ "subject": "ct_vhf_viscera",
+ "script": "scripts/viscera_from_ct_labels_q193.py",
+ "label_volume": "data/ct_sources/task_outputs/vhf_viscera_q193.nii.gz",
+ "origin_atlas_mm": [
+  7.769,
+  -885.229,
+  14.137
+ ],
+ "gates": {
+  "max_outside_skin_frac": 0.0,
+  "max_in_bone_frac": 0.05,
+  "max_overlap_frac": 0.1,
+  "volume_tol": 0.03,
+  "min_largest_share": 0.85,
+  "min_ratio_to_reference": 0.35,
+  "size_caveat_ratio": 1.5
+ },
+ "shipped": [
+  "liver",
+  "spleen",
+  "stomach",
+  "pancreas",
+  "gallbladder",
+  "duodenum",
+  "small_bowel",
+  "colon",
+  "kidney_r",
+  "kidney_l",
+  "suprarenal_gland_r",
+  "suprarenal_gland_l",
+  "lung_r",
+  "lung_l",
+  "heart",
+  "esophagus",
+  "brain"
+ ],
+ "held": {
+  "trachea": "label fragmented: largest component is 78% of it (< 85%); volume 4 cm3 outside the plausibility window [15.0, 80.0]",
+  "thyroid_gland": "label fragmented: largest component is 67% of it (< 85%); under-segmented: 0.35x the published reference (< 0.35x)"
+ },
+ "organs": {
+  "liver": {
+   "labels": [
+    5
+   ],
+   "label_names": [
+    "liver"
+   ],
+   "name": "Liver",
+   "side": null,
+   "label_voxel_cm3": 2162.46,
+   "pieces_kept": 1,
+   "components_in_label": 2,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [
+    0.007
+   ],
+   "pieces_dropped_total_cm3": 0.01,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 2162.46,
+   "reference": {
+    "kind": "published",
+    "source": "Vauthey 2002, Liver Transpl 8:233, doi:10.1053/jlts.2002.31654 (PMID 11910568): CT total liver volume = -794.41 + 1267.28 x BSA; evaluated at BSA 1.9 (male) / 1.7 (female) m2 -- the specimens' height/weight were NOT looked up, so the reference is for a typical adult of that sex (BSA 1.6-2.2 m2 spans 1,233-1,994 cm3)",
+    "value_cm3": 1360.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 1.59,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 2162.6,
+   "mesh_vs_label": 1.0001,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 368132,
+   "position": {
+    "bbox_min_mm": [
+     -112.2,
+     233.7,
+     -86.8
+    ],
+    "bbox_max_mm": [
+     127.6,
+     412.7,
+     73.5
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0002,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "spleen": {
+   "labels": [
+    1
+   ],
+   "label_names": [
+    "spleen"
+   ],
+   "name": "Spleen",
+   "side": null,
+   "label_voxel_cm3": 158.17,
+   "pieces_kept": 1,
+   "components_in_label": 2,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [
+    0.004
+   ],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 158.17,
+   "reference": {
+    "kind": "published",
+    "source": "Prassopoulos 1997, Eur Radiol 7:246, doi:10.1007/s003300050145 (PMID 9038125): CT splenic volume mean 214.6 cm3, range 107.2-314.5 (n=140; no sex/age dependence)",
+    "value_cm3": 214.6,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 0.74,
+   "iso_level": 0.486,
+   "mesh_full_cm3": 158.21,
+   "mesh_vs_label": 1.0003,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 64096,
+   "position": {
+    "bbox_min_mm": [
+     -129.1,
+     265.7,
+     -86.8
+    ],
+    "bbox_max_mm": [
+     -40.1,
+     377.2,
+     -23.1
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "stomach": {
+   "labels": [
+    6
+   ],
+   "label_names": [
+    "stomach"
+   ],
+   "name": "Stomach (wall and contents)",
+   "side": null,
+   "label_voxel_cm3": 1093.57,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 1093.58,
+   "reference": {
+    "kind": "window",
+    "source": "wall plus contents; volume is set by what was eaten (empty ~50 cm3 to ~1.5 L distended); plausibility window only",
+    "value_cm3": null,
+    "window_cm3": [
+     50.0,
+     1600.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 1093.03,
+   "mesh_vs_label": 0.9995,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 240112,
+   "position": {
+    "bbox_min_mm": [
+     -127.3,
+     152.7,
+     -70.2
+    ],
+    "bbox_max_mm": [
+     35.8,
+     391.7,
+     94.2
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "pancreas": {
+   "labels": [
+    7
+   ],
+   "label_names": [
+    "pancreas"
+   ],
+   "name": "Pancreas",
+   "side": null,
+   "label_voxel_cm3": 68.01,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 68.01,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (140 g / 120 g, 1.05)",
+    "value_cm3": 113.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 0.6,
+   "iso_level": 0.476,
+   "mesh_full_cm3": 68.06,
+   "mesh_vs_label": 1.0007,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 45464,
+   "position": {
+    "bbox_min_mm": [
+     -92.6,
+     212.7,
+     -33.4
+    ],
+    "bbox_max_mm": [
+     46.4,
+     276.8,
+     36.5
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "gallbladder": {
+   "labels": [
+    4
+   ],
+   "label_names": [
+    "gallbladder"
+   ],
+   "name": "Gallbladder",
+   "side": null,
+   "label_voxel_cm3": 14.05,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 14.05,
+   "reference": {
+    "kind": "window",
+    "source": "fasting contents 20-50 cm3, contracted a few cm3; plausibility window only",
+    "value_cm3": null,
+    "window_cm3": [
+     3.0,
+     80.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.467,
+   "mesh_full_cm3": 14.07,
+   "mesh_vs_label": 1.0017,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 11236,
+   "position": {
+    "bbox_min_mm": [
+     60.2,
+     232.8,
+     3.1
+    ],
+    "bbox_max_mm": [
+     94.9,
+     265.7,
+     44.2
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "duodenum": {
+   "labels": [
+    19
+   ],
+   "label_names": [
+    "duodenum"
+   ],
+   "name": "Duodenum",
+   "side": null,
+   "label_voxel_cm3": 83.21,
+   "pieces_kept": 1,
+   "components_in_label": 2,
+   "largest_component_share": 0.945,
+   "pieces_dropped_cm3": [
+    4.617
+   ],
+   "pieces_dropped_total_cm3": 4.62,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 78.59,
+   "reference": {
+    "kind": "window",
+    "source": "plausibility window (length ~25 cm, lumen 2-4 cm); no published norm used",
+    "value_cm3": null,
+    "window_cm3": [
+     15.0,
+     150.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.476,
+   "mesh_full_cm3": 78.72,
+   "mesh_vs_label": 1.0016,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 41648,
+   "position": {
+    "bbox_min_mm": [
+     -23.5,
+     179.7,
+     -18.4
+    ],
+    "bbox_max_mm": [
+     75.3,
+     274.7,
+     18.3
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "small_bowel": {
+   "labels": [
+    18
+   ],
+   "label_names": [
+    "small_bowel"
+   ],
+   "name": "Small bowel (jejunum and ileum)",
+   "side": null,
+   "label_voxel_cm3": 1115.66,
+   "pieces_kept": 1,
+   "components_in_label": 10,
+   "largest_component_share": 0.999,
+   "pieces_dropped_cm3": [
+    0.931,
+    0.085,
+    0.019,
+    0.009,
+    0.004,
+    0.004,
+    0.004,
+    0.004
+   ],
+   "pieces_dropped_total_cm3": 1.06,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 1114.6,
+   "reference": {
+    "kind": "window",
+    "source": "plausibility window (content-dependent); no published norm used",
+    "value_cm3": null,
+    "window_cm3": [
+     300.0,
+     2500.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 1113.38,
+   "mesh_vs_label": 0.9989,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 464048,
+   "position": {
+    "bbox_min_mm": [
+     -104.5,
+     2.7,
+     -45.2
+    ],
+    "bbox_max_mm": [
+     108.0,
+     238.7,
+     91.3
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "colon": {
+   "labels": [
+    20
+   ],
+   "label_names": [
+    "colon"
+   ],
+   "name": "Colon above the pelvic inlet (the pelvic sigmoid and rectum are separate structures)",
+   "side": null,
+   "pelvic_part_removed": "TS colon minus the Q169/Q170 rectum + pelvic sigmoid voxels",
+   "label_voxel_cm3": 583.47,
+   "pieces_kept": 2,
+   "components_in_label": 9,
+   "largest_component_share": 0.988,
+   "pieces_dropped_cm3": [
+    7.058,
+    0.007,
+    0.004,
+    0.004,
+    0.004,
+    0.004,
+    0.003
+   ],
+   "pieces_dropped_total_cm3": 7.08,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 576.39,
+   "reference": {
+    "kind": "window",
+    "source": "Pritchard 2014, Neurogastroenterol Motil 26:124, doi:10.1111/nmo.12243 (fasting MRI colon segments summing ~560 mL in volunteers); here the pelvic part is excluded; window only",
+    "value_cm3": null,
+    "window_cm3": [
+     200.0,
+     2500.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.486,
+   "mesh_full_cm3": 575.77,
+   "mesh_vs_label": 0.9989,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 255588,
+   "position": {
+    "bbox_min_mm": [
+     -137.6,
+     27.8,
+     -28.7
+    ],
+    "bbox_max_mm": [
+     134.3,
+     246.6,
+     93.2
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "kidney_r": {
+   "labels": [
+    2
+   ],
+   "label_names": [
+    "kidney_right"
+   ],
+   "name": "Right kidney",
+   "side": "right",
+   "label_voxel_cm3": 155.85,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 155.85,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (kidneys 310 g male / 275 g female, both, 1.05 g/cm3, halved); method validated for CT volume in Heymsfield 1979, Ann Intern Med 90:185, doi:10.7326/0003-4819-90-2-185",
+    "value_cm3": 131.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 1.19,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 155.68,
+   "mesh_vs_label": 0.9989,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 62888,
+   "position": {
+    "bbox_min_mm": [
+     28.3,
+     179.7,
+     -70.9
+    ],
+    "bbox_max_mm": [
+     105.2,
+     280.7,
+     -8.0
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "kidney_l": {
+   "labels": [
+    3
+   ],
+   "label_names": [
+    "kidney_left"
+   ],
+   "name": "Left kidney",
+   "side": "left",
+   "label_voxel_cm3": 206.28,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 206.28,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (kidneys 310 g male / 275 g female, both, 1.05 g/cm3, halved); method validated for CT volume in Heymsfield 1979, Ann Intern Med 90:185, doi:10.7326/0003-4819-90-2-185",
+    "value_cm3": 131.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 1.57,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 206.17,
+   "mesh_vs_label": 0.9995,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 78908,
+   "position": {
+    "bbox_min_mm": [
+     -114.2,
+     157.7,
+     -76.5
+    ],
+    "bbox_max_mm": [
+     -42.6,
+     280.7,
+     -6.2
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "suprarenal_gland_r": {
+   "labels": [
+    8
+   ],
+   "label_names": [
+    "adrenal_gland_right"
+   ],
+   "name": "Right suprarenal (adrenal) gland",
+   "side": "right",
+   "label_voxel_cm3": 4.99,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 4.99,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (both 14 g / 13 g, 1.05, halved)",
+    "value_cm3": 6.2,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 0.8,
+   "iso_level": 0.458,
+   "mesh_full_cm3": 4.99,
+   "mesh_vs_label": 1.0005,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 7264,
+   "position": {
+    "bbox_min_mm": [
+     17.9,
+     274.0,
+     -61.1
+    ],
+    "bbox_max_mm": [
+     35.9,
+     319.4,
+     -28.6
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "suprarenal_gland_l": {
+   "labels": [
+    9
+   ],
+   "label_names": [
+    "adrenal_gland_left"
+   ],
+   "name": "Left suprarenal (adrenal) gland",
+   "side": "left",
+   "label_voxel_cm3": 4.66,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 4.66,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (both 14 g / 13 g, 1.05, halved)",
+    "value_cm3": 6.2,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 0.75,
+   "iso_level": 0.453,
+   "mesh_full_cm3": 4.66,
+   "mesh_vs_label": 0.9999,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 6832,
+   "position": {
+    "bbox_min_mm": [
+     -46.7,
+     256.8,
+     -51.0
+    ],
+    "bbox_max_mm": [
+     -31.6,
+     301.8,
+     -11.8
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "lung_r": {
+   "labels": [
+    12,
+    13,
+    14
+   ],
+   "label_names": [
+    "lung_upper_lobe_right",
+    "lung_middle_lobe_right",
+    "lung_lower_lobe_right"
+   ],
+   "name": "Right lung",
+   "side": "right",
+   "label_voxel_cm3": 1230.95,
+   "pieces_kept": 1,
+   "components_in_label": 6,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [
+    0.011,
+    0.007,
+    0.005,
+    0.004,
+    0.003
+   ],
+   "pieces_dropped_total_cm3": 0.03,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 1230.92,
+   "reference": {
+    "kind": "window",
+    "source": "no verified CT lung-volume norm found; living total lung capacity is 4.5-7 L and CT volume varies by ~25 % of TLC with inspiration (Vikgren 2003, Eur Radiol 13:1235, doi:10.1007/s00330-002-1643-4); a cadaver's lungs are collapsed -- window only",
+    "value_cm3": null,
+    "window_cm3": [
+     600.0,
+     4000.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 1230.53,
+   "mesh_vs_label": 0.9997,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 256656,
+   "position": {
+    "bbox_min_mm": [
+     -12.9,
+     359.4,
+     -86.7
+    ],
+    "bbox_max_mm": [
+     119.3,
+     561.7,
+     49.2
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0178,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "lung_l": {
+   "labels": [
+    10,
+    11
+   ],
+   "label_names": [
+    "lung_upper_lobe_left",
+    "lung_lower_lobe_left"
+   ],
+   "name": "Left lung",
+   "side": "left",
+   "label_voxel_cm3": 967.98,
+   "pieces_kept": 1,
+   "components_in_label": 9,
+   "largest_component_share": 0.992,
+   "pieces_dropped_cm3": [
+    5.553,
+    2.608,
+    0.016,
+    0.007,
+    0.004,
+    0.004,
+    0.002,
+    0.002
+   ],
+   "pieces_dropped_total_cm3": 8.19,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 959.78,
+   "reference": {
+    "kind": "window",
+    "source": "no verified CT lung-volume norm found; living total lung capacity is 4.5-7 L and CT volume varies by ~25 % of TLC with inspiration (Vikgren 2003, Eur Radiol 13:1235, doi:10.1007/s00330-002-1643-4); a cadaver's lungs are collapsed -- window only",
+    "value_cm3": null,
+    "window_cm3": [
+     600.0,
+     4000.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 959.07,
+   "mesh_vs_label": 0.9993,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 243696,
+   "position": {
+    "bbox_min_mm": [
+     -129.1,
+     346.4,
+     -86.8
+    ],
+    "bbox_max_mm": [
+     -19.6,
+     569.7,
+     55.7
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0205,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "heart": {
+   "labels": [
+    51
+   ],
+   "label_names": [
+    "heart"
+   ],
+   "name": "Heart (four chambers and myocardium, blood-filled)",
+   "side": null,
+   "label_voxel_cm3": 599.3,
+   "pieces_kept": 1,
+   "components_in_label": 10,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [
+    0.028,
+    0.026,
+    0.025,
+    0.024,
+    0.005,
+    0.004,
+    0.004,
+    0.004
+   ],
+   "pieces_dropped_total_cm3": 0.12,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 599.64,
+   "reference": {
+    "kind": "window",
+    "source": "no verified whole-heart (myocardium + blood-filled chambers) volume norm found; ICRP 89 myocardium 330 g / 250 g plus chamber blood gives a window of about 500-1100 cm3 -- ratio against 800 / 650 is indicative only",
+    "value_cm3": 650.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 0.92,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 598.79,
+   "mesh_vs_label": 0.9986,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 163628,
+   "position": {
+    "bbox_min_mm": [
+     -111.4,
+     375.0,
+     -51.0
+    ],
+    "bbox_max_mm": [
+     43.2,
+     498.7,
+     46.3
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "esophagus": {
+   "labels": [
+    15
+   ],
+   "label_names": [
+    "esophagus"
+   ],
+   "name": "Oesophagus",
+   "side": null,
+   "label_voxel_cm3": 28.99,
+   "pieces_kept": 1,
+   "components_in_label": 13,
+   "largest_component_share": 0.998,
+   "pieces_dropped_cm3": [
+    0.007,
+    0.007,
+    0.005,
+    0.004,
+    0.004,
+    0.004,
+    0.004,
+    0.004
+   ],
+   "pieces_dropped_total_cm3": 0.04,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 28.95,
+   "reference": {
+    "kind": "window",
+    "source": "plausibility window (length ~25 cm, wall + lumen, ICRP 89 wall mass 40 g male); no published norm used",
+    "value_cm3": null,
+    "window_cm3": [
+     15.0,
+     90.0
+    ]
+   },
+   "inside_window": true,
+   "iso_level": 0.458,
+   "mesh_full_cm3": 28.96,
+   "mesh_vs_label": 1.0005,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 33286,
+   "position": {
+    "bbox_min_mm": [
+     -35.0,
+     351.7,
+     -48.5
+    ],
+    "bbox_max_mm": [
+     5.9,
+     585.8,
+     4.2
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.0,
+   "max_overlap_frac": 0.0,
+   "held": false
+  },
+  "trachea": {
+   "labels": [
+    16
+   ],
+   "label_names": [
+    "trachea"
+   ],
+   "name": "Trachea",
+   "side": null,
+   "label_voxel_cm3": 5.03,
+   "pieces_kept": 1,
+   "components_in_label": 13,
+   "largest_component_share": 0.78,
+   "pieces_dropped_cm3": [
+    0.838,
+    0.102,
+    0.077,
+    0.028,
+    0.02,
+    0.012,
+    0.011,
+    0.005
+   ],
+   "pieces_dropped_total_cm3": 1.11,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 3.93,
+   "reference": {
+    "kind": "window",
+    "source": "plausibility window (length 10-12 cm, lumen 15-20 mm + wall); no published norm used",
+    "value_cm3": null,
+    "window_cm3": [
+     15.0,
+     80.0
+    ]
+   },
+   "inside_window": false,
+   "held": true,
+   "hold_reason": "label fragmented: largest component is 78% of it (< 85%); volume 4 cm3 outside the plausibility window [15.0, 80.0]"
+  },
+  "thyroid_gland": {
+   "labels": [
+    17
+   ],
+   "label_names": [
+    "thyroid_gland"
+   ],
+   "name": "Thyroid gland",
+   "side": null,
+   "label_voxel_cm3": 8.3,
+   "pieces_kept": 1,
+   "components_in_label": 3,
+   "largest_component_share": 0.666,
+   "pieces_dropped_cm3": [
+    2.659,
+    0.117
+   ],
+   "pieces_dropped_total_cm3": 2.78,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 5.53,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (20 g / 17 g, 1.05)",
+    "value_cm3": 16.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 0.35,
+   "held": true,
+   "hold_reason": "label fragmented: largest component is 67% of it (< 85%); under-segmented: 0.35x the published reference (< 0.35x)"
+  },
+  "brain": {
+   "labels": [
+    90
+   ],
+   "label_names": [
+    "brain"
+   ],
+   "name": "Brain",
+   "side": null,
+   "label_voxel_cm3": 1293.87,
+   "pieces_kept": 1,
+   "components_in_label": 1,
+   "largest_component_share": 1.0,
+   "pieces_dropped_cm3": [],
+   "pieces_dropped_total_cm3": 0.0,
+   "touches_array_edge": [],
+   "kept_voxel_cm3": 1293.87,
+   "reference": {
+    "kind": "icrp",
+    "source": "ICRP Publication 89 (2002), Ann ICRP 32(3-4), doi:10.1016/S0146-6453(03)00002-2, Table 2.8 reference adult organ masses / density (1450 g / 1300 g, 1.04)",
+    "value_cm3": 1250.0,
+    "window_cm3": null
+   },
+   "ratio_to_reference": 1.04,
+   "iso_level": 0.495,
+   "mesh_full_cm3": 1293.6,
+   "mesh_vs_label": 0.9998,
+   "mesh_specks_dropped_cm3": [],
+   "full_res_triangles": 208496,
+   "position": {
+    "bbox_min_mm": [
+     -62.6,
+     690.9,
+     -81.2
+    ],
+    "bbox_max_mm": [
+     64.9,
+     835.4,
+     81.0
+    ]
+   },
+   "outside_skin_frac": 0.0,
+   "in_bone_gt1mm_frac": 0.0,
+   "in_bone_any_frac": 0.5881,
+   "max_overlap_frac": 0.0,
+   "held": false
+  }
+ }
+}

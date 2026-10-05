@@ -143,6 +143,10 @@ done
 [ -f build/vh/ct_vhf_ribs/manifest.json ] || python3 scripts/ribs_from_ct_labels.py build --body vhf | tail -1
 SUBJ="$SUBJ --subject ct_vhf_ribs --subject ct_vhf --subject ct_vhf_headm --subject ct_vhf_neck --subject ct_vhf_neckbv --subject ct_vhf_orbit --subject ct_vhf_abd --subject ct_vhf_shsp --subject ct_vhf_delt --subject ct_vhf_cuff --subject ct_vhf_es --subject ct_vhf_armm --subject ct_vhf_forearm --subject ct_vhf_left_forearm --subject ct_vhf_dneck --subject ct_vhf_hyoid --subject ct_vhf_hand --subject ct_vhf_femoral --subject ct_vhf_popliteal --subject ct_vhf_pfloor --subject ct_vhf_twall --subject ct_vhf_pmr --subject xfer_vhm2vhf_rhom"
 [ -f build/vh/ct_vhf_pelvis/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_pelvis"   # Q169 pelvic viscera (ids unique to this subject)
+# Q193: organs (liver, lungs, heart, stomach, bowel, kidneys, ... whichever pass the gates) meshed from this body's own TotalSegmentator `total`
+# labels (scripts/viscera_from_ct_labels_q193.py; held organs and the reason are in data/derived/Q193_viscera_vhf.json). Ids unique; listed last.
+[ -f build/vh/ct_vhf_viscera/manifest.json ] || python3 scripts/viscera_from_ct_labels_q193.py build --body vhf 2>&1 | tail -22
+[ -f build/vh/ct_vhf_viscera/manifest.json ] && SUBJ="$SUBJ --subject ct_vhf_viscera"   # Q193
 # Q185c: intervertebral discs filled between her own adjacent vertebral-body endplates (scripts/discs_from_vertebrae_q185c.py;
 # held levels carry the Q104 mesh re-badged). The Q104 cylinders in ct_vhf are dropped at export, C1/C2 (no disc there) included.
 [ -f build/vh/ct_vhf_discs/manifest.json ] || python3 scripts/discs_from_vertebrae_q185c.py build --body vhf | tail -1

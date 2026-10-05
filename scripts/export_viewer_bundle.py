@@ -73,7 +73,10 @@ BUDGET_OVERRIDES = {"cranium": 14000, "mandible": 6000, "skin": 30000,
                     # into 2 at every step below ~2000 triangles and joined again at >=2000 -- measured
                     # directly, not tuned by feel; 2400 keeps a safety margin above that threshold at
                     # both bodies' budget-scale (0.85 female / 0.9 male).
-                    "descending_thoracic_aorta": 2400}
+                    "descending_thoracic_aorta": 2400,
+                    # Q193: large organs read as crude at the default organ budget (1500); new ids only, the pelvic organs keep theirs
+                    "liver": 4000, "lung_r": 4000, "lung_l": 4000, "heart": 3000, "stomach": 3000, "brain": 4000,
+                    "colon": 3000, "small_bowel": 3000, "esophagus": 2400, "trachea": 2400}
 # Q147: per-SUBJECT budget multiplier (on top of --budget-scale), for a subject whose own
 # structures are all lower-trust generic fills rather than measured imaging -- currently
 # just the two Z-Anatomy forearm/hand/foot per-bone transfers (see their own use just below).
