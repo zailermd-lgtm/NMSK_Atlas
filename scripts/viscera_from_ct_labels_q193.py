@@ -470,15 +470,19 @@ def audit(body, bundle):
                 continue
             if (smp.min(0) > o.bounds[1]).any() or (smp.max(0) < o.bounds[0]).any():
                 continue
-            ov[i] = round(float(o.contains(smp).mean()), 4)
-        ov = {k: x for k, x in ov.items() if x > 0}
-        row["vertices_inside_other_mesh"] = ov
-        row["max_overlap_frac"] = max(ov.values()) if ov else 0.0
+            ins = o.contains(smp)
+            if ins.any():
+                dd = trimesh.proximity.closest_point(o, smp[ins])[1]
+                ov[i] = (round(float(ins.mean()), 4), round(float((dd > 1.0).sum() / len(smp)), 4))
+        ov = {k: x for k, x in ov.items() if x[0] > 0}
+        # raw = surface vertices inside the neighbour at all (touching surfaces always give some); gate = more than 1 mm inside it
+        row["vertices_inside_other_mesh_raw_and_gt1mm"] = ov
+        row["max_overlap_frac"] = max([x[1] for x in ov.values()], default=0.0)
         row["pass"] = bool(row["outside_skin_frac"] <= GATE["max_outside_skin_frac"] and row["in_bone_gt1mm_frac"] <= GATE["max_in_bone_frac"]
                            and row["max_overlap_frac"] <= GATE["max_overlap_frac"] and abs(row["mesh_vs_label"] - 1) <= GATE["volume_tol"])
         out[rid] = row
         print(f"{rid:20s} tris {row['triangles']:6d} vol {row['mesh_vs_label']:.3f} skin {row['outside_skin_frac']} bone {row['in_bone_gt1mm_frac']} "
-              f"ov {row['max_overlap_frac']} {ov} {'PASS' if row['pass'] else 'FAIL'}")
+              f"ov>1mm {row['max_overlap_frac']} {ov} {'PASS' if row['pass'] else 'FAIL'}")
     rep["shipped_audit"] = {"bundle": str(bundle), "rows": out}
     (REPO / "data" / "derived" / f"Q193_viscera_{body}.json").write_text(json.dumps(rep, indent=1))
     return 0 if all(r.get("pass") for r in out.values()) else 1

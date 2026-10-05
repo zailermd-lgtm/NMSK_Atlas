@@ -136,3 +136,73 @@ class Gates:
         if d["cat"] != "bone" and self.inside_bone_pct(v1) > self.inside_bone_pct(v0) + bone_tol:
             return False
         return True
+
+
+# ------------------------------------------------------------------------------------------------ driver
+NAMED_DISTORTED = re.compile(r"^(zan_cephalic_vein_[lr]|zan_skin_(greater|lesser)_supraclavicular_fossa_[lr]|zan_musculophrenic_(artery|veins)_[lr]|supraspinous_ligament|"
+                             r"zan_deep_branch_of_transverse_cervical_artery_[lr]|(zan_)?intervertebral_disc_(c7_t1|t[1-6]_t[2-7])|rhomboid_major_[lr]|"
+                             r"zan_(abdominal|clavicular|sternocostal)_(part|head)_of_pectoralis_major_muscle_[lr]|subclavius_[lr])$")
+
+
+def _note(i, what, before, after):
+    return f" Q194: {what}: {before} -> {after}."
+
+
+def refine(by: dict, raw: dict, regions: dict, log=print) -> dict:
+    """hand + trunk leftovers (see the module docstring); returns the report sections"""
+    import trimesh  # noqa: F401
+    from scripts.ribs_from_ct_labels import load_skin
+    from scripts.zanatomy import q190_audit as A
+    from scripts.zanatomy import q194_separate as Sp
+    skin = load_skin("vhf")
+    skin_tree = cKDTree(H.surf_pts(np.asarray(skin.vertices, float), np.asarray(skin.faces), 200000))
+    G = Gates(by, skin, skin_tree)
+    snap = {i: d["v"].copy() for i, d in by.items()}
+    rep = {"relaxed": {}, "separated": {}, "skin": {}}
+
+    def commit(i, v, text):
+        by[i]["v"] = v
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + text
+
+    # (a) the still-distorted trunk structures: shape relaxation
+    for i, d in by.items():
+        if not NAMED_DISTORTED.match(i):
+            continue
+        dd = {"id": i, "v": d["v"], "r": raw[i], "f": d["f"], "cat": d["cat"]}
+        res = relax_one(dd, accept=lambda k, a, b: G.accept(k, a, b))
+        if res is None:
+            continue
+        v1, info = res
+        rep["relaxed"][i] = info
+        commit(i, v1, f" Q194: shape relaxation (low-pass {info['sigma_mm']} mm of the displacement from its own Z source shape, the global field had sheared it): "
+                      f"triangles stretched outside 0.67-1.5x {info['stretch_before_pct']} -> {info['stretch_after_pct']} %, mean move {info['mean_move_mm']} mm (max {info['max_move_mm']}); "
+                      f"stays inside her skin and out of the displayed bones.")
+    log(f"  Q194 relaxed {len(rep['relaxed'])} distorted structures")
+
+    # (b) neighbour-muscle overlap: bounded separation (trunk + shoulder; right hand + forearm; left hand + forearm, whose muscles Q194 has just re-placed and which never saw
+    # the gap closure)
+    pend = [{"mesh_id": k, "cat": d["cat"]} for k, d in by.items()]
+    hand_r = [i for i in H.scope(pend, regions, "r") if by[i]["cat"] == "muscle"]
+    hand_l = [i for i in H.scope(pend, regions, "l") if by[i]["cat"] == "muscle"]
+    trunk = [d["id"] for d in ({"id": k, "v": by[k]["v"], "cat": by[k]["cat"]} for k in by)
+             if d["cat"] == "muscle" and A.region_of(d) is not None and not A.HAND.search(d["id"])]
+    sets = {"trunk_shoulder": trunk, "right_forearm_hand": hand_r, "left_forearm_hand": hand_l}
+    for name, ids in sets.items():
+        ids = [i for i in ids if Q._closed(by[i]["f"]) and not Q.NOT_A_MUSCLE_BODY.search(i) and not H.FOOT_NAME.search(i)]
+        meshes = {i: (by[i]["v"].astype(float), by[i]["f"]) for i in ids}
+        ov0 = Sp.overlap_pct(meshes)
+        movable = {i for i, o in ov0.items() if o > 1.0}
+        base = {i: by[i]["v"].astype(float) for i in movable}
+        out, mrep = Sp.separate(meshes, {i: raw[i] for i in ids}, movable, keep=lambda i, v2: G.accept(i, base[i], v2), log=log)
+        ov1 = Sp.overlap_pct({i: (out[i], meshes[i][1]) for i in ids})
+        rep["separated"][name] = {"structures": len(ids), "with_overlap_gt_1pct_before": len(movable),
+                                  "mean_overlap_pct_before": round(float(np.mean(list(ov0.values()))), 2), "mean_overlap_pct_after": round(float(np.mean(list(ov1.values()))), 2),
+                                  "moved": mrep, "overlap_pct": {i: [round(ov0[i], 1), round(ov1[i], 1)] for i in ids if i in movable}}
+        for i, m in mrep.items():
+            if m["max_move_mm"] < 0.3:
+                continue
+            vr = H.vol_ratio(out[i], raw[i], by[i]["f"])
+            commit(i, out[i], f" Q194: overlap with neighbouring muscles removed by a bounded per-vertex separation along the contact normal (vertices inside a neighbour "
+                              f"{ov0[i]:.1f} -> {ov1[i]:.1f} %, mean move {m['mean_move_mm']} mm, max {m['max_move_mm']}, volume {vr:.2f}x the Z source).")
+        log(f"  Q194 separation [{name}]: {len(ids)} muscles, overlap {rep['separated'][name]['mean_overlap_pct_before']} -> {rep['separated'][name]['mean_overlap_pct_after']} %")
+    return rep

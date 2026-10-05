@@ -997,5 +997,282 @@
    "max_overlap_frac": 0.0,
    "held": false
   }
+ },
+ "shipped_audit": {
+  "bundle": "build/viewer_f_hr_q193",
+  "rows": {
+   "liver": {
+    "triangles": 10000,
+    "mesh_cm3": 2162.17,
+    "label_cm3": 2162.46,
+    "mesh_vs_label": 0.9999,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "inferior_vena_cava": 0.0024,
+     "stomach": 0.056,
+     "gallbladder": 0.0062,
+     "duodenum": 0.0002,
+     "colon": 0.0004,
+     "kidney_r": 0.0024,
+     "suprarenal_gland_r": 0.0018,
+     "lung_r": 0.0006
+    },
+    "max_overlap_frac": 0.056,
+    "pass": true
+   },
+   "spleen": {
+    "triangles": 3748,
+    "mesh_cm3": 158.08,
+    "label_cm3": 158.17,
+    "mesh_vs_label": 0.9994,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "stomach": 0.0784,
+     "lung_l": 0.0064
+    },
+    "max_overlap_frac": 0.0784,
+    "pass": true
+   },
+   "stomach": {
+    "triangles": 7498,
+    "mesh_cm3": 1092.5,
+    "label_cm3": 1093.58,
+    "mesh_vs_label": 0.999,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "liver": 0.0621,
+     "spleen": 0.0267,
+     "pancreas": 0.0051
+    },
+    "max_overlap_frac": 0.0621,
+    "pass": true
+   },
+   "pancreas": {
+    "triangles": 3750,
+    "mesh_cm3": 67.91,
+    "label_cm3": 68.01,
+    "mesh_vs_label": 0.9986,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "stomach": 0.0277
+    },
+    "max_overlap_frac": 0.0277,
+    "pass": true
+   },
+   "gallbladder": {
+    "triangles": 3750,
+    "mesh_cm3": 14.06,
+    "label_cm3": 14.05,
+    "mesh_vs_label": 1.0006,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "liver": 0.2962
+    },
+    "max_overlap_frac": 0.2962,
+    "pass": false
+   },
+   "duodenum": {
+    "triangles": 3750,
+    "mesh_cm3": 78.65,
+    "label_cm3": 78.59,
+    "mesh_vs_label": 1.0007,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "abdominal_aorta": 0.0085,
+     "inferior_vena_cava": 0.0101,
+     "liver": 0.0021,
+     "small_bowel": 0.0101
+    },
+    "max_overlap_frac": 0.0101,
+    "pass": true
+   },
+   "small_bowel": {
+    "triangles": 7500,
+    "mesh_cm3": 1110.5,
+    "label_cm3": 1114.6,
+    "mesh_vs_label": 0.9963,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "common_iliac_a_r": 0.0003,
+     "colon": 0.0118
+    },
+    "max_overlap_frac": 0.0118,
+    "pass": true
+   },
+   "colon": {
+    "triangles": 7498,
+    "mesh_cm3": 574.18,
+    "label_cm3": 576.39,
+    "mesh_vs_label": 0.9962,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 2,
+    "vertices_inside_other_mesh": {
+     "sigmoid_colon": 0.0003,
+     "liver": 0.0005,
+     "small_bowel": 0.0291
+    },
+    "max_overlap_frac": 0.0291,
+    "pass": true
+   },
+   "kidney_r": {
+    "triangles": 3748,
+    "mesh_cm3": 155.63,
+    "label_cm3": 155.85,
+    "mesh_vs_label": 0.9986,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "liver": 0.0123
+    },
+    "max_overlap_frac": 0.0123,
+    "pass": true
+   },
+   "kidney_l": {
+    "triangles": 3748,
+    "mesh_cm3": 206.0,
+    "label_cm3": 206.28,
+    "mesh_vs_label": 0.9986,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {},
+    "max_overlap_frac": 0.0,
+    "pass": true
+   },
+   "suprarenal_gland_r": {
+    "triangles": 3750,
+    "mesh_cm3": 4.99,
+    "label_cm3": 4.99,
+    "mesh_vs_label": 0.9993,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "inferior_vena_cava": 0.0011,
+     "liver": 0.1119
+    },
+    "max_overlap_frac": 0.1119,
+    "pass": false
+   },
+   "suprarenal_gland_l": {
+    "triangles": 3750,
+    "mesh_cm3": 4.66,
+    "label_cm3": 4.66,
+    "mesh_vs_label": 0.9993,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {},
+    "max_overlap_frac": 0.0,
+    "pass": true
+   },
+   "lung_r": {
+    "triangles": 10000,
+    "mesh_cm3": 1230.29,
+    "label_cm3": 1230.92,
+    "mesh_vs_label": 0.9995,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "brachiocephalic_v_r": 0.0002,
+     "liver": 0.0002,
+     "heart": 0.0018
+    },
+    "max_overlap_frac": 0.0018,
+    "pass": true
+   },
+   "lung_l": {
+    "triangles": 10000,
+    "mesh_cm3": 958.69,
+    "label_cm3": 959.78,
+    "mesh_vs_label": 0.9989,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "subclavian_a_l": 0.0002,
+     "spleen": 0.002
+    },
+    "max_overlap_frac": 0.002,
+    "pass": true
+   },
+   "heart": {
+    "triangles": 7498,
+    "mesh_cm3": 598.44,
+    "label_cm3": 599.64,
+    "mesh_vs_label": 0.998,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {
+     "superior_vena_cava": 0.0016,
+     "inferior_vena_cava": 0.0048,
+     "lung_r": 0.0021,
+     "lung_l": 0.0005
+    },
+    "max_overlap_frac": 0.0048,
+    "pass": true
+   },
+   "esophagus": {
+    "triangles": 5998,
+    "mesh_cm3": 28.91,
+    "label_cm3": 28.95,
+    "mesh_vs_label": 0.9985,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": false,
+    "components": 2,
+    "vertices_inside_other_mesh": {
+     "heart": 0.001
+    },
+    "max_overlap_frac": 0.001,
+    "pass": true
+   },
+   "brain": {
+    "triangles": 9998,
+    "mesh_cm3": 1293.36,
+    "label_cm3": 1293.87,
+    "mesh_vs_label": 0.9996,
+    "outside_skin_frac": 0.0,
+    "in_bone_gt1mm_frac": 0.0,
+    "watertight": true,
+    "components": 1,
+    "vertices_inside_other_mesh": {},
+    "max_overlap_frac": 0.0,
+    "pass": true
+   }
+  }
  }
 }
