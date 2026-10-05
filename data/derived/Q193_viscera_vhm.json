@@ -873,7 +873,7 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": false,
     "components": 3,
-    "vertices_inside_other_mesh": {},
+    "vertices_inside_other_mesh_raw_and_gt1mm": {},
     "max_overlap_frac": 0.0,
     "pass": true
    },
@@ -886,7 +886,7 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": false,
     "components": 1,
-    "vertices_inside_other_mesh": {},
+    "vertices_inside_other_mesh_raw_and_gt1mm": {},
     "max_overlap_frac": 0.0,
     "pass": true
    },
@@ -899,10 +899,13 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": false,
     "components": 4,
-    "vertices_inside_other_mesh": {
-     "sigmoid_colon": 0.0008
+    "vertices_inside_other_mesh_raw_and_gt1mm": {
+     "sigmoid_colon": [
+      0.0008,
+      0.0
+     ]
     },
-    "max_overlap_frac": 0.0008,
+    "max_overlap_frac": 0.0,
     "pass": true
    },
    "colon": {
@@ -914,7 +917,7 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": false,
     "components": 3,
-    "vertices_inside_other_mesh": {},
+    "vertices_inside_other_mesh_raw_and_gt1mm": {},
     "max_overlap_frac": 0.0,
     "pass": true
    },
@@ -927,11 +930,17 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": true,
     "components": 2,
-    "vertices_inside_other_mesh": {
-     "brachiocephalic_v_r": 0.0004,
-     "esophagus": 0.0002
+    "vertices_inside_other_mesh_raw_and_gt1mm": {
+     "brachiocephalic_v_r": [
+      0.0002,
+      0.0
+     ],
+     "esophagus": [
+      0.0002,
+      0.0
+     ]
     },
-    "max_overlap_frac": 0.0004,
+    "max_overlap_frac": 0.0,
     "pass": true
    },
    "lung_l": {
@@ -943,12 +952,21 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": true,
     "components": 1,
-    "vertices_inside_other_mesh": {
-     "aortic_arch_and_great_vessels": 0.0038,
-     "subclavian_a_l": 0.0006,
-     "heart": 0.0004
+    "vertices_inside_other_mesh_raw_and_gt1mm": {
+     "aortic_arch_and_great_vessels": [
+      0.0038,
+      0.0032
+     ],
+     "subclavian_a_l": [
+      0.0006,
+      0.0
+     ],
+     "heart": [
+      0.0004,
+      0.0
+     ]
     },
-    "max_overlap_frac": 0.0038,
+    "max_overlap_frac": 0.0032,
     "pass": true
    },
    "heart": {
@@ -960,14 +978,29 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": true,
     "components": 1,
-    "vertices_inside_other_mesh": {
-     "superior_vena_cava": 0.0013,
-     "aortic_arch_and_great_vessels": 0.0053,
-     "common_carotid_a_l": 0.0003,
-     "brachiocephalic_v_l": 0.0091,
-     "lung_l": 0.0045
+    "vertices_inside_other_mesh_raw_and_gt1mm": {
+     "superior_vena_cava": [
+      0.0013,
+      0.0
+     ],
+     "aortic_arch_and_great_vessels": [
+      0.0053,
+      0.004
+     ],
+     "common_carotid_a_l": [
+      0.0003,
+      0.0
+     ],
+     "brachiocephalic_v_l": [
+      0.0091,
+      0.0064
+     ],
+     "lung_l": [
+      0.0045,
+      0.0
+     ]
     },
-    "max_overlap_frac": 0.0091,
+    "max_overlap_frac": 0.0064,
     "pass": true
    },
    "esophagus": {
@@ -979,13 +1012,25 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": true,
     "components": 1,
-    "vertices_inside_other_mesh": {
-     "aortic_arch_and_great_vessels": 0.007,
-     "common_carotid_a_l": 0.0097,
-     "lung_r": 0.001,
-     "trachea": 0.001
+    "vertices_inside_other_mesh_raw_and_gt1mm": {
+     "aortic_arch_and_great_vessels": [
+      0.007,
+      0.002
+     ],
+     "common_carotid_a_l": [
+      0.0097,
+      0.004
+     ],
+     "lung_r": [
+      0.001,
+      0.0
+     ],
+     "trachea": [
+      0.001,
+      0.0
+     ]
     },
-    "max_overlap_frac": 0.0097,
+    "max_overlap_frac": 0.004,
     "pass": true
    },
    "trachea": {
@@ -997,10 +1042,13 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": true,
     "components": 1,
-    "vertices_inside_other_mesh": {
-     "esophagus": 0.0013
+    "vertices_inside_other_mesh_raw_and_gt1mm": {
+     "esophagus": [
+      0.0013,
+      0.0
+     ]
     },
-    "max_overlap_frac": 0.0013,
+    "max_overlap_frac": 0.0,
     "pass": true
    },
    "brain": {
@@ -1012,7 +1060,7 @@
     "in_bone_gt1mm_frac": 0.0,
     "watertight": true,
     "components": 1,
-    "vertices_inside_other_mesh": {},
+    "vertices_inside_other_mesh_raw_and_gt1mm": {},
     "max_overlap_frac": 0.0,
     "pass": true
    }
