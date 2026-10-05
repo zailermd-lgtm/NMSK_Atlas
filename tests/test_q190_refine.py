@@ -82,3 +82,24 @@ def test_skin_envelope_clamp_moves_a_point_inside():
     out = Q.envelope_clamp({"n": nerve}, ["n"], env, axis)
     v = out["n"][0]
     assert np.linalg.norm(v[0]) < 100.0 and np.allclose(v[1], nerve["v"][1])
+
+
+def test_q190_build_output_if_present():
+    """the committed q190 build keeps the v6 structure set, finite geometry, its badges, and the v6 front skin"""
+    from pathlib import Path
+    import pytest
+    root = Path(__file__).resolve().parents[1]
+    after, before = root / "build" / "viewer_zan_female_q190", root / "build" / "viewer_zan_female"
+    if not (after / "atlas_viewer_zan_female.html").exists() or not (before / "atlas_viewer_zan_female.html").exists():
+        pytest.skip("q190 build not present")
+    from scripts.zanatomy import trunk_refit_q186c_audit as A186
+    Ma, Mb = A186.load_viewer(after), A186.load_viewer(before)
+    assert set(Ma) == set(Mb)
+    assert all(np.isfinite(m["v"]).all() for m in Ma.values())
+    moved_front = 0
+    for k, m in Mb.items():
+        if m["sys"] == "skin" and "chest" not in k and "pectoral" in k and len(m["v"]) == len(Ma[k]["v"]):
+            moved_front = max(moved_front, float(np.abs(m["v"] - Ma[k]["v"]).max()))
+    assert moved_front < 3.0               # the anterior chest skin of v6 is kept (quantisation + seam re-weld only)
+    html = (after / "atlas_viewer_zan_female.html").read_text()
+    assert "Q190: refined onto her own CT-derived gluteus maximus" in html

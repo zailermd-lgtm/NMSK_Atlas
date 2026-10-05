@@ -58,7 +58,7 @@ def _matrix(az, el, target, half, aspect=1.0, depth=2000.0):
 def render(scene, views, out_dir, size=(760, 760), prefix=""):
     """scene = [{"v","f","color"}]; views = [{"name","az","el","target","half","clip_y"?}] -> writes out_dir/<prefix><name>.png"""
     from playwright.sync_api import sync_playwright
-    out_dir = Path(out_dir); out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir = Path(out_dir).resolve(); out_dir.mkdir(parents=True, exist_ok=True)
     W, H = size
     tri = []
     col = []

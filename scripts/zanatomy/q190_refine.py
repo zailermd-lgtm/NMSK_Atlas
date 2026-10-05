@@ -541,7 +541,7 @@ def propagate(structs, new, log=print):
     tree = cKDTree(old)
     out = {}
     for d in structs:
-        if d["id"] in new or d["cat"] not in PROP_CATS or SKIP_RE.search(d["id"]):
+        if d["id"] in new or d["cat"] not in PROP_CATS or SKIP_RE.search(d["id"]) or CNS_STRUCT.search(d["id"]):
             continue
         c = d["v"].mean(0)
         if not (-200 < c[1] < 700):
@@ -582,7 +582,7 @@ def skin_displacement_smoothing(structs, mask_fn, iters=12, log=print):
     from scipy import sparse
     skin = [d for d in structs if d["cat"] == "skin"]
     allraw = np.vstack([d["r"] for d in skin]).astype(np.float64)
-    key = np.round(allraw, 3)
+    key = np.round(allraw, 2)
     uniq, inv = np.unique(key, axis=0, return_inverse=True)
     inv = inv.reshape(-1)
     n = len(uniq)
@@ -654,7 +654,7 @@ def outward_vertex_normals(v, f, axis_fn):
 def _welded(skin):
     from scipy import sparse
     allraw = np.vstack([d["r"] for d in skin]).astype(np.float64)
-    uniq, inv = np.unique(np.round(allraw, 3), axis=0, return_inverse=True)
+    uniq, inv = np.unique(np.round(allraw, 2), axis=0, return_inverse=True)
     inv = inv.reshape(-1)
     n = len(uniq)
     off = np.cumsum([0] + [len(d["r"]) for d in skin])
@@ -749,7 +749,7 @@ def envelope_clamp(structs_by_id, ids, env: SkinEnvelope, axis, margin=1.0, reac
     return out
 
 
-def skin_cover_muscles(structs, skin_newv, muscle_v, env_axis, axis_fn, chart, margin=3.0, cap=25.0, smooth_iters=10, log=print):
+def skin_cover_muscles(structs, skin_newv, muscle_v, env_axis, axis_fn, chart, margin=3.0, cap=25.0, smooth_iters=24, tol=2.0, log=print):
     """Where a (refined) trunk muscle reaches outside the fitted skin (flank: her outline is hidden by her arms, so the v6 skin sits
     ~20 mm inside), the skin patches are moved OUTWARD along their normals until they cover it by `margin` mm, never beyond her
     outline interpolated by the chart (+0.5 mm) and never more than `cap` mm.  Offsets are smoothed over the welded skin graph."""
@@ -765,6 +765,9 @@ def skin_cover_muscles(structs, skin_newv, muscle_v, env_axis, axis_fn, chart, m
     for d, a_, b_ in zip(skin, off_[:-1], off_[1:]):
         vn = outward_vertex_normals(allv[a_:b_], d["f"], axis_fn)
         fn_v[a_:b_] = vn
+    # seam vertices (one copy per patch) must move in the SAME direction: welded mean normal
+    Nw = np.zeros((n, 3)); np.add.at(Nw, inv, fn_v)
+    fn_v = Nw[inv] / np.maximum(np.linalg.norm(Nw[inv], axis=1, keepdims=True), 1e-9)
     tree = cKDTree(allv[keep])
     kidx = np.flatnonzero(keep)
     need = np.zeros(len(allv))
@@ -789,7 +792,7 @@ def skin_cover_muscles(structs, skin_newv, muscle_v, env_axis, axis_fn, chart, m
     O = needw.copy()
     for _ in range(smooth_iters):
         O = (A @ O) / deg
-    off = np.maximum(O, needw)[inv]               # smoothing must not retreat from what is needed
+    off = np.maximum(O, needw - tol)[inv]         # smooth offsets; a muscle may still reach `tol` mm into the skin margin (no bumps)
     newv = allv + off[:, None] * fn_v
     out = dict(skin_newv)
     moved = 0
@@ -815,7 +818,9 @@ def run_all(structs, her, guards, skin_mesh, axis, log=print):
     newv.update(rec)
     rep["shape_recovery"] = rrep
     mus_ids = [k for k, d in by_id.items() if d["cat"] == "muscle" and in_scope(d) and not ARM_STRUCT.search(k)]
-    rep["overlap_resolution"] = resolve_overlaps(by_id, newv, mus_ids, set(mus_ids), log=log)
+    # resolve_overlaps() exists but is NOT run: measured gain 16.8 % -> 16.2-16.6 % of trunk-muscle vertices inside another muscle, at a
+    # distortion cost and a ray-tracer crash risk; the her-label exclusion in refine_all is what keeps the refined muscles out of each other
+    rep["overlap_resolution"] = {"run": False}
     # skin: displacement smoothing (posterior/lateral only), then pull toward her measured back outline
     mask = lambda q: 1.0 - T.anterior_weight(q, axis)
     sm = skin_displacement_smoothing(structs, mask, iters=12, log=log)
@@ -832,14 +837,23 @@ def run_all(structs, her, guards, skin_mesh, axis, log=print):
     cur = {d["id"]: {**d, "v": newv.get(d["id"], d["v"])} for d in structs}
     env = SkinEnvelope([cur[k] for k in skin_v], axis)
     ids = [k for k, d in cur.items() if d["cat"] in ("muscle", "fascia", "tendon", "nerve", "vessel", "bursa", "ligament") and not ARM_STRUCT.search(k)
+           and not CNS_STRUCT.search(k)
            and -150 < d["v"].mean(0)[1] < 650 and abs(d["v"].mean(0)[0]) < 200]
     cl = envelope_clamp(cur, ids, env, axis)
-    for k, (v, nmv, mx) in cl.items():
+    skipped = []
+    for k, (v, nmv, mx) in list(cl.items()):
+        d = by_id[k]
+        # shape guard: a structure that the clamp would distort (> 6 points more triangles outside 0.67-1.5x) is left where it was
+        if k not in set(new) and Mx.distortion_score(Mx.stretch_stats(v, d["r"], d["f"])) > Mx.distortion_score(Mx.stretch_stats(cur[k]["v"], d["r"], d["f"])) + 6.0:
+            skipped.append(k)
+            del cl[k]
+            continue
         newv[k] = v
+    rep["envelope_clamp_skipped_for_shape"] = skipped
     # thin structures must not end up deeper inside her bone labels than they were in v6 (nerves leaving foramina keep their v6 contact)
     bg = {}
     for k, d in cur.items():
-        if d["cat"] not in ("nerve", "vessel", "fascia", "tendon") or k not in newv or ARM_STRUCT.search(k) or guards is None:
+        if d["cat"] not in ("nerve", "vessel", "fascia", "tendon") or k not in newv or ARM_STRUCT.search(k) or guards is None or CNS_STRUCT.search(k):
             continue
         v0, v1 = d["v"], newv[k]
         sel = slice(None, None, max(1, len(v1) // 600))
@@ -894,7 +908,7 @@ def shape_recovery(structs, newv, skip_ids, log=print):
     out, rep = {}, {}
     for d in structs:
         k = d["id"]
-        if k in skip_ids or d["cat"] not in RECOVER_CATS or Au.HAND.search(k) or Au.region_of(d) is None or len(d["f"]) < 30:
+        if k in skip_ids or d["cat"] not in RECOVER_CATS or Au.HAND.search(k) or CNS_STRUCT.search(k) or Au.region_of(d) is None or len(d["f"]) < 30:
             continue
         v = newv.get(k, d["v"])
         s0 = Mx.distortion_score(Mx.stretch_stats(v, d["r"], d["f"]))
@@ -944,6 +958,10 @@ def _smooth_push(f, D, passes):
         Ds = (A @ Ds) / deg[:, None]
         Ds[moved] = np.where((np.linalg.norm(Ds[moved], axis=1) > np.linalg.norm(D[moved], axis=1))[:, None], Ds[moved], D[moved])
     return Ds
+
+
+CNS_STRUCT = re.compile(r"(spinal|spino|cortico|rubro|olivo|tecto|reticulo|vestibulo|posterolateral|solitary|lissauer)[a-z_]*tract|fasciculus|horn_of|funiculus|root_of_spinal|spinal_ganglion|spinal_reticular|central_canal|commissure|substantia|"
+                        r"spinal_cord|lemniscus|decussation|gracile|cuneate|nucleus|cerebr|brain|ventric")      # inside the vertebral canal: follows her vertebrae, never the muscles
 
 
 NOT_A_MUSCLE_BODY = re.compile(r"bursa|septum|fascia|aponeurosis|tendon|sheath|ligament|membrane|retinaculum|capsule|raphe|linea|lamina")
@@ -1020,7 +1038,7 @@ def reweld_skin(structs, skin_v):
     skin = [d for d in structs if d["cat"] == "skin" and d["id"] in skin_v]
     allr = np.vstack([d["r"] for d in skin]).astype(np.float64)
     allv = np.vstack([skin_v[d["id"]] for d in skin]).astype(np.float64)
-    u, inv = np.unique(np.round(allr, 3), axis=0, return_inverse=True)
+    u, inv = np.unique(np.round(allr, 2), axis=0, return_inverse=True)
     inv = inv.reshape(-1)
     cnt = np.bincount(inv)
     mean = np.zeros((len(u), 3)); np.add.at(mean, inv, allv); mean /= cnt[:, None]

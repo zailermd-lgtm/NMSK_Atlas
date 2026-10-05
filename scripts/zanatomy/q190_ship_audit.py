@@ -73,14 +73,17 @@ def main(argv=None):
     # 2. containment
     rng = np.random.default_rng(0)
     cont = {}
-    for cat in ("muscle", "fascia", "nerve", "vessel", "tendon", "ligament"):
+    for cat in ("muscle", "fascia", "nerve", "vessel", "joint", "insertion", "bursa"):
         res = {}
         for tag, S_ in (("before", sb), ("after", sa)):
             ids = [d["id"] for d in S_ if d["cat"] == cat and Au.region_of(d) and not Au.HAND.search(d["id"])]
             by = {d["id"]: d for d in S_}
+            if not ids:
+                continue
             P = np.vstack([by[k]["v"][::max(1, len(by[k]["v"]) // 400)] for k in ids])
             res[tag] = {"n_structures": len(ids), "outside_her_skin": round(float((~skin.contains(P)).mean()), 4), "inside_her_bone_gt1mm": round(float((G.depth(P) > 1).mean()), 4)}
-        cont[cat] = res
+        if res:
+            cont[cat] = res
     out["containment"] = cont
     # 3. symmetry
     s0, base = Au.lr_symmetry(sb, axis, None, her)
