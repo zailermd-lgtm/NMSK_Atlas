@@ -37,6 +37,9 @@ def main(argv=None):
             d = float("inf")
         else:
             d = float(np.abs(mb["v"] - ma["v"]).max())
+        if d > 0.05 and np.isfinite(d):          # decimation may renumber the vertices of a moved mesh: compare as point sets (max nearest-vertex distance, both ways)
+            from scipy.spatial import cKDTree
+            d = float(max(cKDTree(mb["v"]).query(ma["v"])[0].max(), cKDTree(ma["v"]).query(mb["v"])[0].max()))
         if d <= 0.05:
             unchanged += 1
         else:

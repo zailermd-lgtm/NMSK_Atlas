@@ -87,7 +87,12 @@ def test_q191_build_output_if_present():
     Ma, Mb = A186.load_viewer(after), A186.load_viewer(before)
     assert set(Ma) == set(Mb)
     assert all(np.isfinite(m["v"]).all() for m in Ma.values())
-    far = [k for k, m in Mb.items() if m["v"].mean(0)[1] > 250 and k in Ma and len(Ma[k]["v"]) == len(m["v"])]
-    assert far and max(float(np.abs(Mb[k]["v"] - Ma[k]["v"]).max()) for k in far if "radius" not in k and "forearm" not in k) < 60.0
+    import json
+    diff = root / "data" / "derived" / "Q191_ship_diff.json"
+    if diff.exists():                       # scripts/zanatomy/q191_ship_audit.py: vertex diff of the shipped geometry vs v7
+        d = json.loads(diff.read_text())
+        assert d["unchanged_by_q168_region"]["trunk"]["unchanged"] == d["unchanged_by_q168_region"]["trunk"]["total"]
+        assert all(d["unchanged_by_q168_region"][r]["unchanged"] == d["unchanged_by_q168_region"][r]["total"] for r in ("lower_limb", "foot"))
+        assert len(d["changed_outside_hand_scope"]) <= 3 and all(d["changed_ids"][k] <= 2.0 for k in d["changed_outside_hand_scope"])
     html = (after / "atlas_viewer_zan_female.html").read_text()
     assert "Q191 (hand/wrist refit onto her own CT hand)" in html

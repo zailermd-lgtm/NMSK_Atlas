@@ -75,13 +75,17 @@ def zone(by: dict, raw: dict, side: str, regions: dict):
     return ids, {i: W[i] > 0.02 for i in ids}, hb
 
 
-def audit(by: dict, raw: dict, her: dict, skin, regions: dict, with_stretch=True, log=print) -> dict:
+def audit(by: dict, raw: dict, her: dict, skin, regions: dict, with_stretch=True, state: dict | None = None, log=print) -> dict:
     """by {id: {v, f, cat}}; raw {id: Z source verts} (zone definition, stretch)"""
     skin_tree = cKDTree(np.asarray(skin.vertices, float))
     out = {}
     her_bones = [H.merged_bones([(her[k]["v"].astype(float), her[k]["f"].astype(int)) for k in list(H.HER_BONES.values()) + list(H.HER_FOREARM_BONES)])]
     for side in "rl":
-        ids, act, hb = zone(by, raw, side, regions)
+        ids, act, hb = zone(state or by, raw, side, regions)
+        if state is not None:                  # shipped (decimated) geometry: a vertex is in the hand zone if it lies within 4 mm of a zone vertex of the full-resolution state
+            for i in ids:
+                act[i] = cKDTree(state[i]["v"][act[i]]).query(by[i]["v"])[0] < 4.0
+            ids = [i for i in ids if act[i].any()]
         zb = H.merged_bones([(by[i]["v"].astype(float), by[i]["f"]) for i in hb + [f"radius_{side}", f"ulna_{side}"]])
         ctx = H.Ctx(skin, skin_tree, her_bones if side == "r" else [], [zb])
         for i in ids + hb:
@@ -210,6 +214,8 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--npz")
     ap.add_argument("--viewer")
+    ap.add_argument("--raw-npz", default=None, help="a dump carrying the Z source frame (viewer mode)")
+    ap.add_argument("--state-npz", default=None, help="the full-resolution dump of the SAME state as --viewer (zone definition)")
     ap.add_argument("--label", required=True)
     ap.add_argument("--out", default=None)
     args = ap.parse_args(argv)
@@ -227,10 +233,11 @@ def main(argv=None):
         M = A186.load_viewer(Path(args.viewer))
         by = {k: {"v": m["v"], "f": m["f"], "cat": m["sys"]} for k, m in M.items()}
         # zone definition needs the Z source frame: take it from the dump of the same ids (identical for every build)
-        z = {d["id"]: d["r"] for d in Mx.load_dump(args.npz or "/tmp/q191/after_q190.npz")}
+        z = {d["id"]: d["r"] for d in Mx.load_dump(args.raw_npz)}
         raw = {k: z[k] for k in by if k in z}
         by = {k: v for k, v in by.items() if k in raw}
-        tab = audit(by, raw, her, skin, regions, with_stretch=False)
+        st = {d["id"]: {"v": d["v"], "f": d["f"], "cat": d["cat"]} for d in Mx.load_dump(args.state_npz)}
+        tab = audit(by, raw, her, skin, regions, with_stretch=False, state=st)
     res = {"label": args.label, "thresholds": THRESH, "table": tab, "issues": issues(tab)}
     out = Path(args.out or REPO / "data" / "derived" / f"Q191_hand_audit_{args.label}.json")
     out.write_text(json.dumps(res, indent=1, default=float))
