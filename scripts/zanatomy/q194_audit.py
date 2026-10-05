@@ -38,6 +38,8 @@ def moved_ids_from_report(rep: dict) -> set:
     for s in q.get("separated", {}).values():
         out |= {k for k, m in s.get("moved", {}).items() if m["max_move_mm"] >= 0.3}
     out |= set(q.get("skin", {}).get("smoothed", {}))
+    rf = q.get("right_forearm", {})
+    out |= {k for k, m in rf.get("muscles", {}).items() if m.get("status") == "refined"} | set(rf.get("followers", {}))
     return out
 
 
