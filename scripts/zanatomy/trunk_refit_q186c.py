@@ -53,7 +53,7 @@ RBF_SMOOTH = 3000.0
 BASE_SMOOTH = 300.0                  # bone-only field: bones reproduced to ~1 mm median, fewer conflicts than the exact interpolant
 CHART_SMOOTH_CELLS = 1.5             # Gaussian smoothing (5 mm x 2 deg cells) of the outline offsets
 SKIN_INSET_MM = 1.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
-CLAMP_MARGIN_MM, CLAMP_MAX_MM = 0.5, 30.0
+CLAMP_MARGIN_MM, CLAMP_MAX_MM = 0.5, 150.0     # nerves/vessels lying far outside are dropped onto her skin too (no slivers hanging outside)
 CLAMP_SMOOTH_ITERS = 4
 CLAMP_SKIP_REGIONS = ("forearm_hand", "foot")
 RBF_KERNEL = "thin_plate_spline"      # Q186c v2: far fewer fold-over points than "cubic" (3.6 % vs 5.3 % of samples < 0.25, min det -0.55 vs -3.9)
@@ -624,6 +624,38 @@ def _smooth_clamp(v: np.ndarray, new: np.ndarray, f: np.ndarray, skin_mesh) -> n
     still = near[~skin_mesh.contains(cand[near])] if len(near) else near
     cand[still] = new[still]
     return cand
+
+
+ANT_FULL_DEG, ANT_ZERO_DEG = 55.0, 95.0     # anterior blend: v5 field fully inside |theta| < 55 deg, new field beyond 95 deg
+ANT_Y_ZERO_MM, ANT_Y_FULL_MM = -60.0, -10.0
+
+
+def anterior_weight(q: np.ndarray, axis) -> np.ndarray:
+    """share of the v5 (legacy) result in the blend at her-frame points q: 1 in front (|theta| < 55 deg around her trunk
+    axis, from the groin up), 0 behind/lateral (> 95 deg) and below the crotch -- smooth in position, so the blend is a
+    continuous map between two continuous maps"""
+    xc, zc = axis(q[:, 1])
+    th = np.degrees(np.abs(np.arctan2(q[:, 0] - xc, q[:, 2] - zc)))
+    return (1.0 - smoothstep((th - ANT_FULL_DEG) / (ANT_ZERO_DEG - ANT_FULL_DEG))) * smoothstep((q[:, 1] - ANT_Y_ZERO_MM) / (ANT_Y_FULL_MM - ANT_Y_ZERO_MM))
+
+
+def blend_anterior(pending: list[dict], legacy_v: dict, skin_mesh=None) -> dict:
+    """p["v"] <- (1 - b) * new + b * legacy, b = anterior_weight (legacy_v = {mesh_id: v5 vertices})"""
+    from scripts.ribs_from_ct_labels import load_skin
+    skin_mesh = skin_mesh or load_skin("vhf")
+    axis = trunk_axis(np.asarray(skin_mesh.vertices, np.float64))
+    n_b, n_tot, structures = 0, 0, 0
+    for p in pending:
+        v5 = legacy_v.get(p["mesh_id"])
+        if v5 is None or p["cat"] == "bone":
+            continue
+        b = anterior_weight(p["v"], axis)
+        n_tot += len(b)
+        if (b > 1e-3).any():
+            p["v"] = (1.0 - b)[:, None] * p["v"] + b[:, None] * v5
+            n_b += int((b > 0.5).sum()); structures += 1
+    return {"theta_full_deg": ANT_FULL_DEG, "theta_zero_deg": ANT_ZERO_DEG, "y_zero_mm": ANT_Y_ZERO_MM, "y_full_mm": ANT_Y_FULL_MM,
+            "structures_blended": structures, "vertices_mostly_legacy": n_b, "vertices_total": n_tot}
 
 
 def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:

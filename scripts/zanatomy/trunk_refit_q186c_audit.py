@@ -168,6 +168,7 @@ def measure(M: dict, ref: Ref, sk: list[str], region: dict, her: dict, lab_pts: 
     for k, m in zi.items():
         byz[zone(m)][m["sys"]].append(mz[k])
     res["zones"] = {z: {c: {"structures": len(L), **{f: _wavg(L, f) for f in ("outside_skin_frac", "in_bone_frac", "in_lung_frac", "in_organ_frac")}} for c, L in d.items()} for z, d in byz.items()}
+    res["crease_front_skin"] = crease_stats(M, ref)
     res["per_bone_vs_her_label_mm"] = {k: [round(a, 1), round(b, 1)] for k, (a, b) in rb.items()}
     zr = np.concatenate([M[k]["v"] for k in M if M[k]["sys"] == "bone" and k.startswith("zan_") and k.endswith(("rib_l", "rib_r"))])
     lab = np.vstack(list(lab_pts_ribs(lab_pts)))
@@ -189,6 +190,39 @@ def measure(M: dict, ref: Ref, sk: list[str], region: dict, her: dict, lab_pts: 
                                                "Z_to_her_mesh_median": round(float(np.median(a[:, 1])), 1)}
     res["trunk_muscles_her_mesh_to_Z_mm"] = {k: round(x[0], 1) for k, x in rows.items()}
     return res
+
+
+def crease_stats(M: dict, ref: "Ref") -> dict:
+    """front chest/abdomen skin (|theta| < 70 deg of her trunk axis, y 200-460 mm = costal margin and breast): angle between the
+    normals of faces sharing an edge inside one skin patch (a crease / fold shows as a large angle), per patch and pooled"""
+    per, allang = {}, []
+    for k, m in M.items():
+        if m["sys"] != "skin":
+            continue
+        v, f = m["v"], m["f"]
+        c = v.mean(0)
+        xc, zc = ref.axis(np.array([c[1]]))
+        th = abs(np.degrees(np.arctan2(c[0] - xc[0], c[2] - zc[0])))
+        if not (200 < c[1] < 460 and th < 70) or any(t in k for t in LIMB_RE):
+            continue
+        n = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
+        a = np.linalg.norm(n, axis=1)
+        ok = a > 1e-9
+        n = n / np.maximum(a, 1e-12)[:, None]
+        e = np.sort(np.vstack([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1)
+        fid = np.tile(np.arange(len(f)), 3)
+        order = np.lexsort((e[:, 1], e[:, 0]))
+        e, fid = e[order], fid[order]
+        same = np.flatnonzero((e[1:] == e[:-1]).all(1))
+        i, j = fid[same], fid[same + 1]
+        good = ok[i] & ok[j]
+        ang = np.degrees(np.arccos(np.clip((n[i[good]] * n[j[good]]).sum(1), -1, 1)))
+        if len(ang):
+            per[k] = {"edges": int(len(ang)), "p99_deg": round(float(np.percentile(ang, 99)), 1), "frac_gt_40deg": round(float((ang > 40).mean()), 4)}
+            allang.append(ang)
+    a = np.concatenate(allang)
+    return {"patches": len(per), "edges": int(len(a)), "p99_deg": round(float(np.percentile(a, 99)), 1), "frac_gt_40deg": round(float((a > 40).mean()), 4),
+            "frac_gt_60deg": round(float((a > 60).mean()), 4), "worst_patches": dict(sorted(per.items(), key=lambda x: -x[1]["frac_gt_40deg"])[:6])}
 
 
 def lab_pts_ribs(lab_pts):
