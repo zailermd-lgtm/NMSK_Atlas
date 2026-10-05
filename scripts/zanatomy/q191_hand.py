@@ -249,7 +249,7 @@ def field_weight(Xraw, c_w, u, near_tree):
 BONE_VOLUME = (0.80, 1.25)
 
 
-def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print):
+def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print, skin=None):
     """Z hand bones of `side` -> her CT hand bones.  Returns (new_v {id: verts}, T {id: (s,R,t) raw->her frame, before the residual}, report)"""
     ids = bone_ids(side)
     new_v, Tout, rep = {}, {}, {}
@@ -277,10 +277,13 @@ def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print):
                 T[i] = T0[i]; X2 = apply_T(T0[i], P["r"])
                 vr = abs(Q.volume(X2, P["f"])) / vol_src
             after = chamfer2(surf_pts(X2, P["f"], 2500), S) if len(S) > 30 else (np.nan,) * 3
-            if len(S) > 30 and after[2] > before[2] - 0.15:      # keep the Q168 placement unless the fit gains >= 0.15 mm
+            ref_tree = cKDTree(ref_pts)
+            z0 = float(np.median(ref_tree.query(surf_pts(P["v"], P["f"], 1500))[0]))
+            z1 = float(np.median(ref_tree.query(surf_pts(X2, P["f"], 1500))[0]))
+            if len(S) < 150 or z1 > z0 - 0.1 or after[2] > before[2] - 0.15:      # keep the Q168 placement unless the fit gains (assigned samples AND her whole mesh)
                 T[i] = T0[i]; X2 = apply_T(T0[i], P["r"]); after = before
                 vr = abs(Q.volume(X2, P["f"])) / vol_src
-                diag = {"amp": 0.0, "resid_max_mm": 0.0, "held": "not better than Q168"}
+                diag = {"amp": 0.0, "resid_max_mm": 0.0, "held": "no gain over the Q168 placement on her mesh"}
             new_v[i] = X2
             Tout[i] = T[i]
             rep[i] = {"her_ref": HER_BONES["carpals" if name == "carpals" else "phal" if name == "phalanges" else name],
@@ -291,6 +294,31 @@ def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print):
         a0, a1 = chamfer2(np.vstack(cur_all), ref_pts), chamfer2(np.vstack(new_all), ref_pts)
         log(f"  Q191 bones {name}: two-way median to her mesh {a0[2]:.2f} -> {a1[2]:.2f} mm")
         rep[f"_group_{name}"] = {"before_mm": [round(x, 2) for x in a0], "after_mm": [round(x, 2) for x in a1]}
+    # her CT skin is the envelope: a bone more than 2 % outside it is translated (bounded) toward the inside, if that does not move it off her bone mesh
+    if skin is not None:
+        from trimesh.proximity import closest_point
+        allref = {k: cKDTree(surf_pts(her[HER_BONES[("carpals" if k in ids["carpals"] else "phal" if k in ids["phal"] else f"mc{ids['mc'].index(k) + 1}")]]["v"].astype(float),
+                                      her[HER_BONES[("carpals" if k in ids["carpals"] else "phal" if k in ids["phal"] else f"mc{ids['mc'].index(k) + 1}")]]["f"], 5000)) for k in new_v}
+        for k, X in list(new_v.items()):
+            for _ in range(3):
+                out = ~skin.contains(X)
+                if out.mean() <= 0.02:
+                    break
+                cp, _, tri = closest_point(skin, X[out])
+                push = (cp - 1.0 * skin.face_normals[tri]) - X[out]
+                t = np.clip(0.8 * push.mean(0), -4.0, 4.0)
+                X2 = X + t
+                if np.median(allref[k].query(X2[::2])[0]) > np.median(allref[k].query(X[::2])[0]) + 1.5 or (~skin.contains(X2)).mean() >= out.mean():
+                    break
+                X = X2
+            if X is not new_v[k]:
+                shift = float(np.linalg.norm(X.mean(0) - new_v[k].mean(0)))
+                if shift > 0.05:
+                    rep[k]["skin_nudge_mm"] = round(shift, 2)
+                    rep[k]["outside_her_skin_pct_after_nudge"] = round(100 * float((~skin.contains(X)).mean()), 1)
+                new_v[k] = X
+    for k in new_v:
+        Tout[k] = kabsch(raw[k], new_v[k], scale=True)
     return new_v, Tout, rep
 
 
@@ -302,7 +330,8 @@ HAND_NAME = re.compile(r"hand|manus|digit|palm|pollic|carpal|carpi|metacarp|lumb
 SIDE_RE = re.compile(r"_([rl])(_\d+)?$")
 SKIN_HAND = re.compile(r"^zan_skin_.*(forearm|wrist|hand|digits_of_hand|palm|perionyx|radial_foveola)")
 SOFT_PUSH_CATS = ("muscle", "nerve", "vessel", "lymphatic", "tendon", "fascia")      # pushed out of bone; ligaments/capsules/sheaths attach to it
-FOOT_NAME = re.compile(r"foot|plantar|hallucis|fibular|peroneal|tibial|calcaneo|talo|cune|cuboid|navicular|metatars|tarsal|toe")
+NOT_BODY = Q.NOT_A_MUSCLE_BODY
+FOOT_NAME = re.compile(r"foot|plantar|hallucis|digitorum_(brevis|longus)|fibular|peroneal|tibial|calcaneo|talo|cune|cuboid|navicular|metatars|tarsal|toe")
 
 
 def side_of(i: str):
@@ -521,6 +550,8 @@ def refine_small(members, ref, cap=6.0, spacing=9.0):
 
 
 # right hand: Z structure id -> her own CT/cryo label id (hand intrinsics she has a label of)
+HAND_LABEL_GROUPS = {"hypothenar": ["abductor_digiti_minimi_hand_r", "flexor_digiti_minimi_brevis_hand_r", "opponens_digiti_minimi_r"],
+                     "interossei": ["dorsal_interossei_hand_r", "palmar_interossei_r"], "adductor_pollicis": ["adductor_pollicis_r"]}
 HAND_LABELS = {"abductor_digiti_minimi_hand_r": "abductor_digiti_minimi_hand_r", "adductor_pollicis_r": "adductor_pollicis_r",
                "dorsal_interossei_hand_r": "dorsal_interossei_hand_r", "palmar_interossei_r": "palmar_interossei_r",
                "flexor_digiti_minimi_brevis_hand_r": "flexor_digiti_minimi_brevis_hand_r", "opponens_digiti_minimi_r": "opponens_digiti_minimi_r"}
@@ -542,8 +573,38 @@ def _fmt(x, nd=1):
     return "n/a" if x is None else f"{x:.{nd}f}"
 
 
+def _guard_volume(v, r, f, active):
+    """volume guard 0.65-1.5x of the Z source (x body scale^3) on the closed part of the structure that sits in the hand (the opponens mesh also
+    holds a foot part: it is scaled about its own hand centroid, not the global one)"""
+    if active.all():
+        return Q.volume_guard(v, r, f)[0] if Q._closed(f) else v
+    vs, fs, idx = submesh(v, f, active)
+    if len(fs) < 20 or not Q._closed(fs):
+        return v
+    X, _ = Q.volume_guard(vs, r[idx], fs)
+    out = v.copy()
+    out[idx] = X
+    return out
+
+
+CAND_W = {"outside_her_skin_pct": 2.0, "inside_her_bone_pct": 2.0, "inside_z_bone_pct": 1.0, "stretch_area_outside_0.67_1.5_pct": 0.5, "folded_edges_pct": 3.0}
+
+
+def cand_score(m, cat):
+    """one number to choose between the candidate placements of a structure: containment first (outside her skin, inside bone), then distortion.
+    Ligaments / capsules / sheaths attach to bone by design: their inside-bone share does not count."""
+    s_ = 0.0
+    for k, w in CAND_W.items():
+        if k.startswith("inside") and cat in ("ligament", "joint", "bursa", "tendon"):
+            continue
+        s_ += w * m.get(k, 0.0)
+    return s_
+
+
 def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, bone_T, relax_sigma=8.0, log=print, label_refine=True, trace=None):
-    """moves the hand/wrist structures of one side (bones already fitted: bone_new_v / bone_T); returns the per-structure report"""
+    """moves the hand/wrist structures of one side (bones already fitted: bone_new_v / bone_T); returns the per-structure report.
+    Every structure gets up to four candidate placements (field only / field + shape relaxation, each with and without the bone / skin
+    constraints) and keeps the one with the best containment-first score (see cand_score); the unmoved Q168 placement competes too."""
     ids_b = bone_ids(side)
     hb_ids = sum(ids_b.values(), [])
     rad, uln = f"radius_{side}", f"ulna_{side}"
@@ -560,7 +621,6 @@ def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, 
     weights = {i: field_weight(raw[i].astype(float), c_w, u, near_tree) for i in ids}
     ids = [i for i in ids if weights[i].max() > 0.02]
     act = {i: weights[i] > 0.02 for i in ids}
-    # contexts: her CT bones (right only) and the displayed Z hand bones, before and after
     her_b = []
     if side == "r":
         her_b = [merged_bones([(her[k]["v"].astype(float), her[k]["f"].astype(int)) for k in list(HER_BONES.values()) + list(HER_FOREARM_BONES)])]
@@ -569,97 +629,126 @@ def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, 
     before = {i: struct_metrics(by[i]["v"].astype(float), raw[i].astype(float), by[i]["f"], ctx0, act[i]) for i in ids}
     v0 = {i: by[i]["v"].astype(float).copy() for i in ids}
     # 1. bones
-    bone_before = {i: by[i]["v"].astype(float).copy() for i in hb_ids}
     for i in hb_ids:
         by[i]["v"] = bone_new_v[i]
     z_bones_new = merged_bones([(by[i]["v"].astype(float), by[i]["f"]) for i in hb_ids + [rad, uln]])
     ctx1 = Ctx(skin, skin_tree, her_b, [z_bones_new])
-    # 2. field
-    v1 = {}
+    # 2. field, and its shape-relaxed version (Q190 idea at hand scale; weighted by the field weight: forearm part and seam unchanged)
+    cand = {i: {"field": None, "relax": None} for i in ids}
     for i in ids:
         Xn = HM.map(raw[i].astype(float))
-        v1[i] = v0[i] + weights[i][:, None] * (Xn - v0[i])
-    if trace is not None:
-        trace["field"] = {i: v1[i].copy() for i in ids}
-    if relax_sigma:
-        # shape recovery (Q190 idea, hand scale): the field's shear is low-passed over each structure's own mesh (displacement from its Z source
-        # shape), weighted by the field weight so the forearm part and the seam stay exactly as they were
-        for i in ids:
-            if i in HAND_LABELS:
-                continue
-            vs = Q.smooth_displacement({"r": raw[i].astype(float), "f": by[i]["f"]}, v1[i], relax_sigma)
-            v1[i] = v1[i] + weights[i][:, None] * (vs - v1[i])
-    if trace is not None:
-        trace["relax"] = {i: v1[i].copy() for i in ids}
+        cand[i]["field"] = v0[i] + weights[i][:, None] * (Xn - v0[i])
+        if relax_sigma and i not in HAND_LABELS:
+            vs = Q.smooth_displacement({"r": raw[i].astype(float), "f": by[i]["f"]}, cand[i]["field"], relax_sigma)
+            cand[i]["relax"] = cand[i]["field"] + weights[i][:, None] * (vs - cand[i]["field"])
     log(f"  Q191 {side}: field carried {len(ids)} structures")
-    # 3. skin onto her skin
+    # 3. skin onto her skin (per variant; welded patches are processed together)
     sk_ids = [i for i in ids if by[i]["cat"] == "skin"]
     skin_rep = {}
-    if sk_ids:
-        patches = [{"id": i, "v": v1[i], "r": raw[i], "f": by[i]["f"]} for i in sk_ids]
+    for var in ("field", "relax"):
+        if not sk_ids or cand[sk_ids[0]][var] is None:
+            continue
+        patches = [{"id": i, "v": cand[i][var], "r": raw[i], "f": by[i]["f"]} for i in sk_ids]
         bone_pts = np.vstack([by[i]["v"][::2] for i in hb_ids + [rad, uln]])
         if SKIN_METHOD == "rbf":
-            new, skin_rep = set_skin_rbf(patches, skin, skin_tree)
+            new, skin_rep[var] = set_skin_rbf(patches, skin, skin_tree)
         else:
-            new, skin_rep = set_skin_onto_her(patches, skin, skin_vn, skin_tree, bone_pts)
+            new, skin_rep[var] = set_skin_onto_her(patches, skin, skin_vn, skin_tree, bone_pts)
         for i in sk_ids:
-            v1[i] = v1[i] + weights[i][:, None] * (new[i] - v1[i])
-        rew = Q.reweld_skin([{"id": i, "cat": "skin", "r": raw[i]} for i in sk_ids], {i: v1[i] for i in sk_ids})
+            cand[i][var] = cand[i][var] + weights[i][:, None] * (new[i] - cand[i][var])
+        rew = Q.reweld_skin([{"id": i, "cat": "skin", "r": raw[i]} for i in sk_ids], {i: cand[i][var] for i in sk_ids})
+        for rnd in range(2):
+            for i in sk_ids:
+                cand[i][var] = clamp_inside_skin(rew[i], by[i]["f"], act[i], skin, skin_tree, margin=0.8, max_move=6.0)
+            rew = Q.reweld_skin([{"id": i, "cat": "skin", "r": raw[i]} for i in sk_ids], {i: cand[i][var] for i in sk_ids})
         for i in sk_ids:
-            v1[i] = clamp_inside_skin(rew[i], by[i]["f"], act[i], skin, skin_tree, margin=0.8, max_move=6.0)
-        rew = Q.reweld_skin([{"id": i, "cat": "skin", "r": raw[i]} for i in sk_ids], {i: v1[i] for i in sk_ids})
-        for i in sk_ids:
-            v1[i] = clamp_inside_skin(rew[i], by[i]["f"], act[i], skin, skin_tree, margin=0.8, max_move=6.0)
-        log(f"  Q191 {side}: hand skin onto her skin: {skin_rep}")
-    if trace is not None:
-        trace["skin"] = {i: v1[i].copy() for i in ids}
-    # 4. muscles she has a label of
+            cand[i][var] = rew[i]
+    log(f"  Q191 {side}: hand skin onto her skin: {skin_rep}")
+    # 4. muscles she has a label of: refined from the field placement, neighbours TOGETHER (one fit of the group onto the union of her labels keeps their
+    # arrangement: fitting each onto its own abutting compartment inflates them into one another)
     lab_rep = {}
     if label_refine and side == "r":
-        for zid, hid in HAND_LABELS.items():
-            if zid not in v1 or hid not in her:
+        for gname, zids in HAND_LABEL_GROUPS.items():
+            members, parts = [], []
+            for zid in zids:
+                hid = HAND_LABELS[zid]
+                if zid not in cand or hid not in her:
+                    continue
+                m = weights[zid] > 0.5
+                if m.sum() < 30:
+                    continue
+                vsub, fsub, idx = submesh(cand[zid]["field"], by[zid]["f"], m)
+                members.append({"id": zid, "v": vsub, "r": raw[zid].astype(float)[idx], "f": fsub})
+                parts.append((zid, idx, hid))
+            if not members:
                 continue
-            m = weights[zid] > 0.5
-            if m.sum() < 30:
-                continue
-            vsub, fsub, idx = submesh(v1[zid], by[zid]["f"], m)
-            rsub = raw[zid].astype(float)[idx]
-            ref = Q.Ref(her[hid]["v"].astype(float), her[hid]["f"].astype(int))
-            X2, rep, _ = refine_small([{"id": zid, "v": vsub, "r": rsub, "f": fsub}], ref)
-            X2, vr = Q.volume_guard(X2, rsub, fsub)
-            v1[zid] = v1[zid].copy()
-            v1[zid][idx] = X2
-            lab_rep[zid] = {**rep, "her_id": hid, "volume_ratio_after_guard": round(vr, 3), "vertices_refined": int(m.sum())}
-            log(f"  Q191 {side}: {zid} onto her label {hid}: {rep['her_label_chamfer_before_mm'][2]} -> {rep['after_mm'][2]} mm")
-    # 5. constraints: out of the displayed bones, inside her skin (two rounds: the push can leave the skin, the clamp can re-enter bone)
+            hv, hf, off = [], [], 0
+            for _, _, hid in parts:
+                hv.append(her[hid]["v"].astype(float)); hf.append(her[hid]["f"].astype(int) + off); off += len(hv[-1])
+            ref = Q.Ref(np.vstack(hv), np.vstack(hf))
+            X2, rep, _ = refine_small(members, ref)
+            o = 0
+            for (zid, idx, hid), mem in zip(parts, members):
+                n = len(mem["r"])
+                cand[zid]["field"] = cand[zid]["field"].copy()
+                cand[zid]["field"][idx] = X2[o:o + n]
+                o += n
+                own = Q.Ref(her[hid]["v"].astype(float), her[hid]["f"].astype(int))
+                if len(parts) > 1:               # then each member alone, a small bounded smooth residual (<= 3 mm) onto its own label
+                    orig_sp = Q.RBF_SPACING
+                    Q.RBF_SPACING = 9.0
+                    try:
+                        X3, _ = Q.residual_fit(X2[o - n:o], own, cap=3.0, iters=3)
+                        X2[o - n:o] = X3
+                        cand[zid]["field"][idx] = X3
+                    except np.linalg.LinAlgError:       # a very small mesh: keep the group fit
+                        pass
+                    finally:
+                        Q.RBF_SPACING = orig_sp
+                lab_rep[zid] = {**rep, "group": gname, "her_id": hid, "vertices_refined": int(n),
+                                "her_label_chamfer_before_mm": [None, None, round(Q.chamfer(mem["v"], mem["f"], own)[2], 2)],
+                                "after_mm": [None, None, round(Q.chamfer(X2[o - n:o], mem["f"], own)[2], 2)]}
+            log(f"  Q191 {side}: group {gname} {[z for z, _, _ in parts]} onto the union of her labels: {rep['her_label_chamfer_before_mm'][2]} -> {rep['after_mm'][2]} mm")
+
+    # 5. constraints (out of the displayed + her CT bones, inside her skin; two rounds) and the volume guard of closed muscles
     def constrain(i, v):
         for _ in range(2):
             if by[i]["cat"] in SOFT_PUSH_CATS:
                 v = push_out_of_bones(v, by[i]["f"], [z_bones_new] + her_b, act[i])
             v = clamp_inside_skin(v, by[i]["f"], act[i], skin, skin_tree, **({"margin": 0.8, "max_move": 6.0} if by[i]["cat"] == "skin" else {}))
+        if by[i]["cat"] == "muscle" and Q._closed(by[i]["f"]) and not NOT_BODY.search(i):
+            v, _ = Q.volume_guard(v, raw[i].astype(float), by[i]["f"])
         return v
 
-    for i in ids:
-        if by[i]["cat"] != "skin":
-            v1[i] = constrain(i, v1[i])
-    # 6. shape guard (skin: welded patches, constrained together below)
     per = {}
     for i in ids:
         r_ = raw[i].astype(float)
-        a_ = struct_metrics(v1[i], r_, by[i]["f"], ctx1, act[i])
-        b_ = before[i]
-        held = None
-        if by[i]["cat"] != "skin" and a_["folded_edges_pct"] > b_["folded_edges_pct"] + 2.0 and a_["folded_edges_pct"] > 4.0:
-            held = f"folded edges {b_['folded_edges_pct']} -> {a_['folded_edges_pct']} %"
-            v2 = constrain(i, smooth_for_guard({"r": r_, "f": by[i]["f"]}, v1[i]))
-            a2 = struct_metrics(v2, r_, by[i]["f"], ctx1, act[i])
-            if a2["folded_edges_pct"] <= b_["folded_edges_pct"] + 2.0:
-                v1[i], a_, held = v2, a2, held + " (displacement low-passed)"
-        per[i] = {"before": b_, "after": a_, "mean_move_mm": round(float(np.linalg.norm(v1[i] - v0[i], axis=1)[act[i]].mean()), 2),
-                  "max_move_mm": round(float(np.linalg.norm(v1[i] - v0[i], axis=1).max()), 2), **({"guard": held} if held else {}),
-                  **({"label": lab_rep[i]} if i in lab_rep else {})}
-        by[i]["v"] = v1[i]
-    return {"structures": per, "bones_moved": hb_ids, "skin": skin_rep, "labels": lab_rep, "wrist_point_z_source": [round(float(x), 1) for x in c_w]}
+        f_ = by[i]["f"]
+        opts = {"q168": v0[i]}
+        for var in ("field", "relax"):
+            if cand[i][var] is None:
+                continue
+            opts[var] = cand[i][var]
+            if by[i]["cat"] != "skin":
+                opts[var + "+constraints"] = constrain(i, cand[i][var])
+        mets = {k: struct_metrics(v, r_, f_, ctx1, act[i]) for k, v in opts.items()}
+        sc = {k: cand_score(m, by[i]["cat"]) for k, m in mets.items()}
+        if i in lab_rep:                        # a labelled muscle follows her label (never the Q168 placement) and respects bone and skin
+            sc = {k: v for k, v in sc.items() if k.endswith("+constraints")}
+        best = min(sc, key=sc.get)
+        by[i]["v"] = opts[best]
+        per[i] = {"before": before[i], "after": mets[best], "chosen": best, "scores": {k: round(v, 1) for k, v in sc.items()},
+                  "mean_move_mm": round(float(np.linalg.norm(opts[best] - v0[i], axis=1)[act[i]].mean()), 2),
+                  "max_move_mm": round(float(np.linalg.norm(opts[best] - v0[i], axis=1).max()), 2)}
+        if i in lab_rep:
+            per[i]["label"] = {**lab_rep[i], "volume_ratio_after": mets[best].get("volume_ratio_vs_source")}
+    # 6. volume guard 0.65-1.5x of the Z source for the muscles (after every other step)
+    for i in ids:
+        if by[i]["cat"] == "muscle" and not NOT_BODY.search(i):
+            by[i]["v"] = _guard_volume(by[i]["v"].astype(float), raw[i].astype(float), by[i]["f"], act[i])
+            per[i]["after"] = struct_metrics(by[i]["v"].astype(float), raw[i].astype(float), by[i]["f"], ctx1, act[i])
+    return {"structures": per, "bones_moved": hb_ids, "skin": skin_rep, "labels": lab_rep, "wrist_point_z_source": [round(float(x), 1) for x in c_w],
+            "chosen_counts": {k: sum(1 for r in per.values() if r["chosen"] == k) for k in ("q168", "field", "relax", "field+constraints", "relax+constraints")}}
 
 
 def smooth_for_guard(d, v, sigma=10.0):
@@ -696,177 +785,57 @@ def set_skin_rbf(patches, skin, skin_tree, cap=12.0, near_mm=9.0, spacing=9.0, i
     return out, {"method": "rbf", **diag, "moved_mean_mm": round(float(dl.mean()), 2), "moved_max_mm": round(float(dl.max()), 2), "her_skin_points": int(len(cand))}
 
 
-# ------------------------------------------------------------------------------------------------ left hand: pose from her skin envelope
-class SkinSDF:
-    """signed distance to her CT skin (>0 inside, mm) on a regular grid around one hand: nearest skin vertex distance, sign by ray parity.
-    Used to place a hand whose bones she has no CT of: the hand must lie inside her skin and its dorsal skin must lie on hers."""
-
-    def __init__(self, skin, tree, box_lo, box_hi, h=2.0):
-        self.lo, self.h = np.asarray(box_lo, float), h
-        n = np.ceil((np.asarray(box_hi, float) - self.lo) / h).astype(int) + 1
-        self.shape = tuple(n)
-        g = np.stack(np.meshgrid(*[self.lo[k] + h * np.arange(n[k]) for k in range(3)], indexing="ij"), -1).reshape(-1, 3)
-        d = tree.query(g)[0]
-        sgn = np.ones(len(g))
-        near = d < 60.0
-        ins = np.zeros(len(g), bool)
-        idx = np.flatnonzero(near)
-        for a in range(0, len(idx), 200000):
-            ii = idx[a:a + 200000]
-            ins[ii] = skin.contains(g[ii])
-        sgn = np.where(ins, 1.0, -1.0)
-        sgn[~near] = -1.0                                  # far from the skin: outside unless proven inside (a hand box lies mostly outside the body)
-        self.f = (sgn * d).reshape(self.shape)
-
-    def __call__(self, P):
-        u = (np.asarray(P, float) - self.lo) / self.h
-        i0 = np.floor(u).astype(int)
-        i0 = np.clip(i0, 0, np.array(self.shape) - 2)
-        w = np.clip(u - i0, 0, 1)
-        out = 0.0
-        for dx in (0, 1):
-            for dy in (0, 1):
-                for dz in (0, 1):
-                    wt = (w[:, 0] if dx else 1 - w[:, 0]) * (w[:, 1] if dy else 1 - w[:, 1]) * (w[:, 2] if dz else 1 - w[:, 2])
-                    out = out + wt * self.f[i0[:, 0] + dx, i0[:, 1] + dy, i0[:, 2] + dz]
-        return out
+def _note(i, r, bone=False):
+    b, a = r["before"], r["after"]
+    t = (f" Q191 (hand/wrist refit onto her own CT hand): moved {r['mean_move_mm']} mm on average (max {r['max_move_mm']} mm). Before -> after: "
+         f"outside her skin {b['outside_her_skin_pct']} -> {a['outside_her_skin_pct']} %")
+    if "inside_her_bone_pct" in b:
+        t += f"; inside her CT hand/forearm bone meshes {b['inside_her_bone_pct']} -> {a['inside_her_bone_pct']} %"
+    t += (f"; triangles stretched outside 0.67-1.5x of the Z source {b.get('stretch_area_outside_0.67_1.5_pct')} -> {a.get('stretch_area_outside_0.67_1.5_pct')} %; "
+          f"folded edges {b['folded_edges_pct']} -> {a['folded_edges_pct']} %.")
+    if "label" in r:
+        lb = r["label"]
+        t += (f" Refined onto her own {lb['her_id'].replace('_', ' ')} (CT/cryosection label, rule-based compartment): two-way median distance "
+              f"{lb['her_label_chamfer_before_mm'][2]} -> {lb['after_mm'][2]} mm; volume {lb.get('volume_ratio_after')}x of the Z source.")
+    t += f" Placement chosen among {len(r['scores'])} candidates: {r['chosen']}."
+    return t
 
 
-def rotvec_apply(rv, P, c):
-    from scipy.spatial.transform import Rotation as Rot
-    return Rot.from_rotvec(rv).apply(P - c) + c
-
-
-T_REG = 0.01
-
-
-def skin_pose_objective(x, c, P_bone, P_dorsal, P_volar, sdf, dmax=None, depth_min=3.0, reg=2e-4):
-    rv, t = x[:3], x[3:]
-    Pb = rotvec_apply(rv, P_bone, c) + t
-    Pd = rotvec_apply(rv, P_dorsal, c) + t
-    Pv = rotvec_apply(rv, P_volar, c) + t
-    sb = sdf(Pb)
-    jb = np.mean(np.maximum(0.0, depth_min - sb) ** 2)
-    if dmax is not None:         # a hand bone lies a few mm under her skin, not deep in the fused arm / trunk volume
-        jb = jb + np.mean(np.maximum(0.0, sb - dmax) ** 2)
-    jd = np.mean(np.minimum(sdf(Pd) ** 2, 100.0))
-    jv = np.mean(np.maximum(0.0, -sdf(Pv)) ** 2)
-    return jb + 0.5 * jd + jv + reg * (np.degrees(np.linalg.norm(rv)) ** 2) + T_REG * float(t @ t)
-
-
-_POSE_ARGS = None
-
-
-def _pose_job(x0):
-    from scipy.optimize import minimize
-    r = minimize(skin_pose_objective, x0, args=_POSE_ARGS, method="Powell", options={"xtol": 1e-2, "ftol": 1e-4, "maxiter": 4000})
-    return r.x, float(r.fun)
-
-
-def skin_pose_fit(c, P_bone, P_dorsal, P_volar, sdf, dmax=None, starts=24, seed=0, max_deg=75.0, workers=4, log=print):
-    """rigid rotation about the wrist point `c` (+ a small translation) minimising the skin-envelope objective; best of several random starts
-    (run in parallel).  Returns (rotvec, t, J, info)"""
-    global _POSE_ARGS
-    import multiprocessing as mp
-    rng = np.random.default_rng(seed)
-    x0s = [np.zeros(6)] + [np.r_[rng.normal(size=3) * np.radians(rng.uniform(10, max_deg)) / 1.7, rng.normal(size=3) * 4.0] for _ in range(starts - 1)]
-    _POSE_ARGS = (c, P_bone, P_dorsal, P_volar, sdf, dmax)
-    try:
-        with mp.get_context("fork").Pool(workers) as pool:
-            res = pool.map(_pose_job, x0s)
-    except Exception:                                   # no fork / pool trouble: serial
-        res = [_pose_job(x0) for x0 in x0s]
-    order = np.argsort([r[1] for r in res])
-    bx, bf = res[order[0]]
-    info = {"J_best": float(bf), "J_start_pose": float(skin_pose_objective(np.zeros(6), *_POSE_ARGS)),
-            "J_all_starts_sorted": [round(res[k][1], 2) for k in order[:6]], "rot_deg": round(float(np.degrees(np.linalg.norm(bx[:3]))), 1),
-            "shift_mm": round(float(np.linalg.norm(bx[3:])), 1)}
-    # how much the next best distinct solutions differ (mean point shift of the bone points between the best and the 2nd..5th best poses)
-    Pb = rotvec_apply(bx[:3], P_bone, c) + bx[3:]
-    info["alt_solution_shift_mm"] = [round(float(np.linalg.norm((rotvec_apply(res[k][0][:3], P_bone, c) + res[k][0][3:]) - Pb, axis=1).mean()), 1) for k in order[1:5]]
-    return bx[:3], bx[3:], bf, info
-
-
-def finger_rays(side):
-    """{ray: [Z phalanx ids, proximal -> distal]}"""
-    ids = bone_ids(side)
-    out = {}
-    for k, o in enumerate(ORD):
-        out[o] = [i for i in ids["phal"] if f"_of_{o}_finger" in i]
-        out[o].sort(key=lambda i: ("proximal", "middle", "distal").index(i.split("_phalanx")[0].split("zan_")[1]))
-    return out
-
-
-def joint_point(seg_v, prev_centroid, frac=0.12):
-    """joint centre = mean of the `frac` of the segment's vertices nearest to the previous (proximal) segment's centroid"""
-    d = np.linalg.norm(seg_v - prev_centroid, axis=1)
-    return seg_v[np.argsort(d)[:max(8, int(frac * len(seg_v)))]].mean(0)
-
-
-def articulate_fingers(side, verts, sdf, max_deg=40.0, depth_min=3.0, reg=3e-4, log=print):
-    """per finger: rotations about MCP / PIP / DIP (bounded) so the phalanges lie inside her skin envelope.  verts {id: (n,3)} current positions
-    (after the rigid hand fit); returns new verts and a report"""
-    from scipy.optimize import minimize
-    ids = bone_ids(side)
-    mc = {o: verts[ids["mc"][k]] for k, o in enumerate(ORD)}
-    out = {i: v.copy() for i, v in verts.items()}
-    rep = {}
-    for o, segs in finger_rays(side).items():
-        segs = [s for s in segs if s in verts]
-        prev_c = mc[o].mean(0)
-        joints = []
-        cen = prev_c
-        for s in segs:
-            joints.append(joint_point(verts[s], cen))
-            cen = verts[s].mean(0)
-        P = [verts[s][::2] for s in segs]
-
-        def pose(x, pts=P):
-            res = []
-            for a in range(len(segs)):
-                Q_ = pts[a]
-                for j in range(a, -1, -1):          # segment a moves with every joint proximal to it (distal-most rotation applied first)
-                    Q_ = rotvec_apply(x[3 * j:3 * j + 3], Q_, joints_cur[j])
-                res.append(Q_)
-            return res
-
-        # joint positions move with the proximal rotations: first-order, rotate the joint centres with the proximal ones
-        def obj(x):
-            global_j = [joints[0]]
-            for j in range(1, len(segs)):
-                p = joints[j]
-                for jj in range(j - 1, -1, -1):
-                    p = rotvec_apply(x[3 * jj:3 * jj + 3], p[None], joints[jj])[0]
-                global_j.append(p)
-            res = []
-            for a in range(len(segs)):
-                Q_ = P[a]
-                for j in range(a, -1, -1):
-                    c = joints[j]
-                    for jj in range(j - 1, -1, -1):
-                        c = rotvec_apply(x[3 * jj:3 * jj + 3], c[None], joints[jj])[0]
-                    Q_ = rotvec_apply(x[3 * j:3 * j + 3], Q_, c)
-                res.append(Q_)
-            Pn = np.vstack(res)
-            ang = [np.degrees(np.linalg.norm(x[3 * j:3 * j + 3])) for j in range(len(segs))]
-            return np.mean(np.maximum(0.0, depth_min - sdf(Pn)) ** 2) + reg * sum(a * a for a in ang) + 5.0 * sum(max(0.0, a - max_deg) ** 2 for a in ang)
-
-        joints_cur = joints
-        best = None
-        rng = np.random.default_rng(1)
-        for st in range(6):
-            x0 = np.zeros(3 * len(segs)) if st == 0 else rng.normal(size=3 * len(segs)) * np.radians(15)
-            r = minimize(obj, x0, method="Powell", options={"xtol": 1e-2, "ftol": 1e-5, "maxiter": 3000})
-            if best is None or r.fun < best.fun:
-                best = r
-        x = best.x
-        for a, s in enumerate(segs):
-            Q_ = verts[s]
-            for j in range(a, -1, -1):
-                c = joints[j]
-                for jj in range(j - 1, -1, -1):
-                    c = rotvec_apply(x[3 * jj:3 * jj + 3], c[None], joints[jj])[0]
-                Q_ = rotvec_apply(x[3 * j:3 * j + 3], Q_, c)
-            out[s] = Q_
-        rep[o] = {"J0": round(float(obj(np.zeros_like(x))), 3), "J": round(float(best.fun), 3), "angles_deg": [round(float(np.degrees(np.linalg.norm(x[3 * j:3 * j + 3]))), 1) for j in range(len(segs))]}
-    return out, rep
+def refine_hand(pending: list[dict], raw: dict, log=print) -> dict:
+    """build hook (--q191-hand): right hand fitted onto her CT hand bones, soft tissue carried / refined / constrained; the left hand is held
+    (she has no left hand bones and the skin-envelope trial found no unique pose: scripts/zanatomy/q191_left_trial.py)"""
+    import json
+    from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
+    from scripts.ribs_from_ct_labels import load_skin
+    from scripts.transfer.zan_to_vhf_whole_body import DEFAULT_REPORT
+    by = {p["mesh_id"]: p for p in pending}
+    her = load_her_meshes()
+    skin = load_skin("vhf")
+    skin_tree = cKDTree(np.asarray(skin.vertices, float))
+    skin_vn = skin_normals(skin)
+    regions = json.loads(DEFAULT_REPORT.read_text())["region_of_structure"]
+    raw = {k: np.asarray(v, float) for k, v in raw.items()}
+    # right hand
+    new_v, T, brep = fit_hand_bones(by, raw, her, "r", log=log, skin=skin)
+    rep = run_side("r", by, raw, regions, her, skin, skin_tree, skin_vn, new_v, T, log=log)
+    ids = bone_ids("r")
+    for i, r in brep.items():
+        if i.startswith("_"):
+            continue
+        txt = (f" Q191: fitted onto her own CT {r['her_ref'].replace('_', ' ')} (similarity, bounded refinement): two-way median distance {r['chamfer_mm_before'][2]} -> "
+               f"{r['chamfer_mm_after'][2]} mm; scale {r['scale_vs_q168']}x, turned {r['rot_deg_vs_q168']} deg vs the Q168 fit; volume {r['volume_ratio_vs_source']}x of the Z source."
+               + (f" Kept at the Q168 placement ({r['note']})." if "note" in r else ""))
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + txt
+    for i, r in rep["structures"].items():
+        if by[i]["cat"] != "bone":
+            by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
+    # left hand: held; measure and say so
+    lids = sum(bone_ids("l").values(), [])
+    inside = float(skin.contains(np.vstack([by[i]["v"] for i in lids])).mean())
+    for i in lids:
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
+            f" Q191: NOT moved. Her CT has no left hand bones; {100 * (1 - inside):.0f} % of the Z left hand bone vertices lie outside her CT skin "
+            f"(right hand after Q191: 0 %), so this placement is an unchecked estimate.")
+    return {"rule": "scripts/zanatomy/q191_hand.py", "right": {k: v for k, v in rep.items() if k != "structures"}, "bones": brep, "structures": rep["structures"],
+            "left_hand": {"held": True, "bone_vertices_outside_her_skin_pct": round(100 * (1 - inside), 1),
+                          "reason": "no left hand bones in her CT; skin-envelope trial ambiguous (data/derived/Q191_left_hand_trial.json)"}}

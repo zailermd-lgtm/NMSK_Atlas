@@ -997,6 +997,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             # Q191: hand/wrist bones onto her own hand bones, soft tissue carried by a bone-anchored field, intrinsic muscles refined
             from scripts.zanatomy import q191_hand as Q191
             LAST_REPORTS["q191"] = Q191.refine_hand(pending, raw_before_fit)
+            if q191.get("dump_after"):
+                Q190.dump_pending(pending, raw_before_fit, q191["dump_after"])
     elif target_body is not None:
         raise ValueError(f"unknown target body {target_body!r}")
     gap_report = close_muscle_gaps(pending) if close_gaps else {"skipped": True}
@@ -1149,6 +1151,7 @@ def main(argv=None) -> int:
     ap.add_argument("--q190-refine", action="store_true",
                     help="Q190 (with --trunk-refit): per-structure refinement of the fitted muscles toward her own CT label surfaces")
     ap.add_argument("--q191-dump", default=None, help="Q191: write the fitted pending meshes (npz) after the Q190 refinement and exit")
+    ap.add_argument("--q191-dump-after", default=None, help="Q191: also write the pending meshes (npz) right after the hand refit (audit input)")
     ap.add_argument("--q191-hand", action="store_true",
                     help="Q191 (with --trunk-refit --q190-refine): fit the hand/wrist bones onto her own hand bones and carry/refine the hand soft tissue")
     ap.add_argument("--trunk-refit", action="store_true",
@@ -1184,7 +1187,7 @@ def main(argv=None) -> int:
         integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
         trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
-        q191={"dump": args.q191_dump, "hand": args.q191_hand})
+        q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after})
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(
