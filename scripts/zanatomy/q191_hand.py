@@ -238,9 +238,10 @@ TAPER_PROX_MM, TAPER_FULL_MM = 62.0, 12.0      # axial taper: 0 this far up the 
 GATE_NEAR_MM, GATE_FAR_MM = 85.0, 125.0        # a vertex further than this from the Z hand/forearm bones of its side is not a hand vertex
 
 
-def field_weight(Xraw, c_w, u, near_tree):
+def field_weight(Xraw, c_w, u, near_tree, taper=None):
+    prox, full = taper if taper is not None else (TAPER_PROX_MM, TAPER_FULL_MM)
     s = (Xraw - c_w) @ u
-    tau = smoothstep((s + TAPER_PROX_MM) / (TAPER_PROX_MM - TAPER_FULL_MM))
+    tau = smoothstep((s + prox) / (prox - full))
     d = near_tree.query(Xraw)[0]
     gate = 1.0 - smoothstep((d - GATE_NEAR_MM) / (GATE_FAR_MM - GATE_NEAR_MM))
     return tau * gate
@@ -601,7 +602,7 @@ def cand_score(m, cat):
     return s_
 
 
-def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, bone_T, relax_sigma=8.0, log=print, label_refine=True, trace=None):
+def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, bone_T, relax_sigma=8.0, log=print, label_refine=True, trace=None, taper=None):
     """moves the hand/wrist structures of one side (bones already fitted: bone_new_v / bone_T); returns the per-structure report.
     Every structure gets up to four candidate placements (field only / field + shape relaxation, each with and without the bone / skin
     constraints) and keeps the one with the best containment-first score (see cand_score); the unmoved Q168 placement competes too."""
@@ -618,7 +619,7 @@ def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, 
     HM = HandMap(bone_raw, T)
     near_tree = cKDTree(np.vstack(list(bone_raw.values())))
     ids = scope([{"mesh_id": k, "cat": by[k]["cat"]} for k in by], regions, side)
-    weights = {i: field_weight(raw[i].astype(float), c_w, u, near_tree) for i in ids}
+    weights = {i: field_weight(raw[i].astype(float), c_w, u, near_tree, taper) for i in ids}
     ids = [i for i in ids if weights[i].max() > 0.02]
     act = {i: weights[i] > 0.02 for i in ids}
     her_b = []

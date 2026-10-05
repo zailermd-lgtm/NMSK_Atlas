@@ -70,17 +70,17 @@ def crop(v, f, c, r):
     return v, f[m[f].any(1)]
 
 
-def run(before, after, out, size=(430, 430), half=80):
+def run(before, after, out, size=(430, 430), half=80, labels=("v7", "q191"), sides="rl"):
     from PIL import Image, ImageDraw
     from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes, DEFAULT_REPORT
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
     her = load_her_meshes()
     regions = json.loads(DEFAULT_REPORT.read_text())["region_of_structure"]
-    states = {"v7": A186.load_viewer(Path(before)), "q191": A186.load_viewer(Path(after))}
+    states = {labels[0]: A186.load_viewer(Path(before)), labels[1]: A186.load_viewer(Path(after))}
     sk = her["skin"]
-    for side in "rl":
+    for side in sides:
         ids_b = H.bone_ids(side); hb = sum(ids_b.values(), [])
-        centre, axis, radial, palm = hand_frame(states["q191"], side)
+        centre, axis, radial, palm = hand_frame(states[labels[1]], side)
         sv, sf = crop(sk["v"].astype(np.float32), sk["f"], centre, 150)
         dirs = {"palmar": palm, "dorsal": -palm, "radial": radial, "ulnar": -radial}
         for layer in ("muscles_nerves_vessels", "fascia_ligaments", "bones_vs_her_ct", "skin_vs_her_ct"):
@@ -110,10 +110,10 @@ def run(before, after, out, size=(430, 430), half=80):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    for side in "rl":
-        centre, *_ = hand_frame(states["q191"], side)
-        levels = {"palm": float(np.median(np.vstack([states["q191"][i]["v"] for i in H.bone_ids(side)["mc"]])[:, 1])),
-                  "carpal_tunnel": float(np.median(np.vstack([states["q191"][i]["v"] for i in H.bone_ids(side)["carpals"]])[:, 1]))}
+    for side in sides:
+        centre, *_ = hand_frame(states[labels[1]], side)
+        levels = {"palm": float(np.median(np.vstack([states[labels[1]][i]["v"] for i in H.bone_ids(side)["mc"]])[:, 1])),
+                  "carpal_tunnel": float(np.median(np.vstack([states[labels[1]][i]["v"] for i in H.bone_ids(side)["carpals"]])[:, 1]))}
         fig, ax = plt.subplots(2, 2, figsize=(14, 14))
         for r, (lv, y) in enumerate(levels.items()):
             for c_, (st, M) in enumerate(states.items()):

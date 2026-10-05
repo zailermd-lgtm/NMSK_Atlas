@@ -478,6 +478,41 @@ def fit_chains(M, S, ev, skin, passes=2, log=print):
     return rep
 
 
+def nudge_inside(M: HandModel, S: State, env, ev: np.ndarray, max_mm=4.0, tol_pct=2.0, log=print):
+    """a hand bone more than tol_pct outside the left-hand envelope is translated (<= max_mm = 4 mm) toward the inside, kept only if it does not move off the evidence
+    (Q191 does the same for the right hand against her CT skin)"""
+    rep = {}
+    et = cKDTree(ev)
+    for i in M.hand_ids:
+        P = S.pts[i]
+        out0 = float((env.sdf(P) < 0).mean())
+        if out0 * 100 <= tol_pct:
+            continue
+        t_tot = np.zeros(3)
+        X = P
+        for _ in range(4):
+            s = env.sdf(X)
+            o = s < 0
+            if not o.any():
+                break
+            g = np.stack([env.sdf(X[o] + e) - env.sdf(X[o] - e) for e in np.eye(3) * 0.75], 1) / 1.5      # inward = increasing signed distance
+            g /= np.maximum(np.linalg.norm(g, axis=1, keepdims=True), 1e-9)
+            step = np.clip((1.0 - s[o])[:, None] * g, -max_mm, max_mm).mean(0) * 0.8
+            if np.linalg.norm(t_tot + step) > max_mm:
+                step = step * (max_mm / max(np.linalg.norm(t_tot + step), 1e-9))
+            t_tot = t_tot + step
+            X = P + t_tot
+        d0 = float(np.median(et.query(P[::3])[0]))
+        d1 = float(np.median(et.query(X[::3])[0]))
+        out1 = float((env.sdf(X) < 0).mean())
+        if out1 < out0 and d1 <= d0 + 0.3:
+            S.move([i], lambda Q, t=t_tot: Q + t)
+            rep[i] = {"outside_pct_before": round(100 * out0, 1), "outside_pct_after": round(100 * out1, 1), "shift_mm": [round(float(a), 2) for a in t_tot],
+                      "median_evidence_distance_mm": [round(d0, 2), round(d1, 2)]}
+            log(f"  Q192 nudge {i}: outside the envelope {100 * out0:.1f} -> {100 * out1:.1f} %, shift {np.linalg.norm(t_tot):.1f} mm")
+    return rep
+
+
 # ------------------------------------------------------------------------------------------------ evaluation against the evidence
 def evidence_fit(M, S, ev_hand, ev_fa=None):
     """how well the fitted Z bones explain the photographs: share of evidence voxels within 1.5 / 3 mm of a bone and share of bone volume on evidence"""
@@ -519,6 +554,7 @@ def fit_left(by: dict, ev: dict, her_skin, log=print):
     log(f"  Q192 hand evidence after removing her radius/ulna: {len(evh)} voxels")
     rep["hand_rigid"] = fit_hand_rigid(M, S, evh, skin, log=log)
     rep["chains"] = fit_chains(M, S, evh, skin, log=log)
+    rep["nudged_inside_envelope"] = nudge_inside(M, S, skin, evh, log=log)
     rep["evidence_fit"] = evidence_fit(M, S, evh, ev["forearm"])
     rep["seconds"] = round(time.time() - t0)
     return M, S, rep, skin
@@ -562,7 +598,7 @@ def _note(i, r):
     return t
 
 
-def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, log=print) -> dict:
+def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, log=print, taper=None, relax_sigma=8.0) -> dict:
     """build hook: the stored Q192 transforms move radius_l / ulna_l and the 27 left hand bones, then the Q191 bone-anchored soft-tissue carry, intrinsic-free
     candidates, skin and gates run for side 'l' against the left-hand envelope (her skin + photograph silhouettes).  Returns the report."""
     from scripts.zanatomy import q191_hand as H
@@ -579,7 +615,26 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
     em = env.mesh()
     etree = cKDTree(np.asarray(em.vertices, float))
     evn = H.skin_normals(em)
-    rep = H.run_side("l", by, rawd, regions, her, em, etree, evn, {i: new_v[i] for i in hb}, {i: T[i] for i in hb}, log=log, label_refine=False)
+    rep = H.run_side("l", by, rawd, regions, her, em, etree, evn, {i: new_v[i] for i in hb}, {i: T[i] for i in hb}, log=log, label_refine=False, taper=taper, relax_sigma=relax_sigma)
+    # left forearm structures OUTSIDE the hand zone that the refit radius / ulna now overlap: pushed out of the displayed bones (the Q191 push, <= 7 mm), badged
+    zb = H.merged_bones([(by[rad]["v"].astype(float), by[rad]["f"]), (by[uln]["v"].astype(float), by[uln]["f"])])
+    pushed = {}
+    for i, d in by.items():
+        if not i.endswith("_l") or i in rep["structures"] or i in hb or i in (rad, uln) or d["cat"] not in H.SOFT_PUSH_CATS:
+            continue
+        v = np.asarray(d["v"], float)
+        near = np.abs(v[:, 0] + 190.0) < 70.0
+        dep = zb.depth(v)
+        pct = 100 * float(((dep > 1.5) & near).mean())
+        if pct < 1.0:
+            continue
+        v2 = H.push_out_of_bones(v, d["f"], [zb], near, tol=1.5, max_move=7.0)
+        pct2 = 100 * float(((zb.depth(v2) > 1.5) & near).mean())
+        d["v"] = v2
+        pushed[i] = {"inside_bone_pct_before": round(pct, 2), "inside_bone_pct_after": round(pct2, 2), "max_move_mm": round(float(np.linalg.norm(v2 - v, axis=1).max()), 2)}
+        d["fit_note"] = (d.get("fit_note") or "") + (f" Q192: pushed out of the left radius / ulna that were refit onto her photographs (inside the displayed bone {pct:.1f} -> {pct2:.1f} % of its vertices, "
+                                                      f"max move {pushed[i]['max_move_mm']} mm).")
+    log(f"  Q192 left forearm structures pushed out of the refit radius / ulna: {len(pushed)}")
     shown = {i: float(np.linalg.norm(by[i]["v"] - old_v[i], axis=1).mean()) for i in hb + [rad, uln]}
     fr = fit["report"]
     for i in hb + [rad, uln]:
@@ -591,12 +646,12 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
         if by[i]["cat"] != "bone":
             by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
     return {"rule": "scripts/zanatomy/q192_left_hand.py", "left": {k: v for k, v in rep.items() if k != "structures"}, "structures": rep["structures"],
-            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "fit_report": fr}
+            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "forearm_pushed_out_of_bones": pushed, "fit_report": fr}
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=["fit"])
+    ap.add_argument("cmd", choices=["fit", "nudge"], help="fit: the whole pipeline; nudge: only its last stage (bones > 2 %% outside the envelope moved <= 4 mm) applied to a stored fit")
     ap.add_argument("--npz", required=True)
     ap.add_argument("--evidence", default=str(EVIDENCE))
     ap.add_argument("--out", default=str(FIT))
@@ -609,6 +664,21 @@ def main(argv=None):
     ev = load_evidence(Path(a.evidence))
     her_skin = load_skin("vhf")
     out = {"source": "Q192: scripts/zanatomy/q192_left_hand.py on data/derived/Q192_left_hand_evidence.npz (her left-hand cryosection photographs, scripts/cryo/q192_hand_evidence.py)"}
+    if a.cmd == "nudge":
+        fit = json.loads(Path(a.out).read_text())
+        M = HandModel(L, "l")
+        S = State(M)
+        raw = {i: L[i]["r"] for i in M.all_ids}
+        for i, v in apply_transforms(raw, fit["transforms_from_Z_source_frame"]).items():
+            S.v[i], S.pts[i] = v, interior(v, M.f[i], 0.9)
+        env = Envelope(her_skin, ev)
+        evh = clean_hand_evidence(M, S, ev["hand"])
+        fit["report"]["nudged_inside_envelope"] = nudge_inside(M, S, env, evh)
+        fit["report"]["evidence_fit"] = evidence_fit(M, S, evh, ev["forearm"])
+        fit["transforms_from_Z_source_frame"] = to_transforms(M, S)
+        Path(a.out).write_text(json.dumps(fit, indent=1))
+        print("updated", a.out)
+        return
     if not a.only_right:
         M, S, rep, env = fit_left(L, ev, her_skin)
         out.update({"report": rep, "transforms_from_Z_source_frame": to_transforms(M, S)})
