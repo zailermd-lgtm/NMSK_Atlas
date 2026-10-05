@@ -1711,8 +1711,8 @@
   },
   "zan_f": {
    "label": "Z-Anatomy fitted to the female body",
-   "points": 190,
-   "muscle_sides_with_points": 108,
+   "points": 192,
+   "muscle_sides_with_points": 110,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
     "abductor_pollicis_brevis",
@@ -1773,6 +1773,7 @@
    ],
    "per_muscle": {
     "abductor_digiti_minimi_hand_l": 1,
+    "abductor_digiti_minimi_hand_r": 1,
     "abductor_pollicis_brevis_l": 1,
     "abductor_pollicis_brevis_r": 1,
     "adductor_brevis_l": 1,
@@ -1804,6 +1805,7 @@
     "flexor_carpi_ulnaris_l": 1,
     "flexor_carpi_ulnaris_r": 1,
     "flexor_digiti_minimi_brevis_hand_l": 1,
+    "flexor_digiti_minimi_brevis_hand_r": 1,
     "flexor_digitorum_longus_l": 1,
     "flexor_digitorum_longus_r": 1,
     "flexor_digitorum_profundus_l": 1,
@@ -1996,9 +1998,9 @@
     "mp.triceps_brachii_l.3": 291.5,
     "mp.triceps_brachii_r.4": 305.2,
     "mp.triceps_brachii_l.4": 291.5,
-    "mp.brachioradialis_r.1": 284.6,
+    "mp.brachioradialis_r.1": 275.6,
     "mp.brachioradialis_l.1": 284.6,
-    "mp.brachioradialis_r.2": 284.6,
+    "mp.brachioradialis_r.2": 275.6,
     "mp.brachioradialis_l.2": 284.6,
     "mp.supraspinatus_r.1": 150.9,
     "mp.supraspinatus_l.1": 152.6,
@@ -2044,17 +2046,19 @@
     "mp.flexor_digitorum_profundus_r.1": 257.7,
     "mp.flexor_digitorum_profundus_l.1": 240.6,
     "mp.flexor_pollicis_longus_l.1": 240.6,
-    "mp.extensor_carpi_radialis_longus_r.1": 315.1,
+    "mp.extensor_carpi_radialis_longus_r.1": 312.2,
     "mp.extensor_carpi_radialis_longus_l.1": 295.7,
-    "mp.extensor_carpi_radialis_brevis_r.1": 299.5,
+    "mp.extensor_carpi_radialis_brevis_r.1": 299.0,
     "mp.extensor_carpi_radialis_brevis_l.1": 286.0,
     "mp.supinator_r.1": 92.5,
     "mp.supinator_l.1": 112.4,
-    "mp.abductor_pollicis_brevis_r.1": 77.5,
+    "mp.abductor_pollicis_brevis_r.1": 69.7,
     "mp.abductor_pollicis_brevis_l.1": 55.9,
-    "mp.flexor_pollicis_brevis_r.1": 66.0,
+    "mp.flexor_pollicis_brevis_r.1": 61.7,
     "mp.flexor_pollicis_brevis_l.1": 52.0,
+    "mp.abductor_digiti_minimi_hand_r.1": 70.7,
     "mp.abductor_digiti_minimi_hand_l.1": 62.8,
+    "mp.flexor_digiti_minimi_brevis_hand_r.1": 68.0,
     "mp.flexor_digiti_minimi_brevis_hand_l.1": 60.4,
     "mp.sternocleidomastoid_r.1": 160.4,
     "mp.sternocleidomastoid_l.1": 156.0,
@@ -2076,7 +2080,7 @@
    "failed": [
     {
      "rule": "palmaris_longus_r zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside zan_palmaris_longus_muscle_r is 8.4 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside zan_palmaris_longus_muscle_r is 7.2 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "palmaris_longus_l zhou2023 innervation_zone",
@@ -2107,16 +2111,8 @@
      "why": "FAILED: nearest point inside flexor_pollicis_longus_r is 15.5 mm from the rule plane/line (> 5.0 mm)"
     },
     {
-     "rule": "abductor_digiti_minimi_hand_r xie2012 innervation_zone",
-     "why": "FAILED: no point at least 1 mm inside abductor_digiti_minimi_hand_r near the rule plane/line"
-    },
-    {
-     "rule": "flexor_digiti_minimi_brevis_hand_r xie2012 innervation_zone",
-     "why": "FAILED: rule plane/line misses flexor_digiti_minimi_brevis_hand_r by 0.0 mm"
-    },
-    {
      "rule": "opponens_digiti_minimi_r xie2012 innervation_zone",
-     "why": "FAILED: rule plane/line misses opponens_digiti_minimi_r by 293.5 mm"
+     "why": "FAILED: rule plane/line misses opponens_digiti_minimi_r by 295.1 mm"
     },
     {
      "rule": "opponens_digiti_minimi_l xie2012 innervation_zone",
@@ -2151,7 +2147,7 @@
    ],
    "uncertainty_mm_range": [
     5.0,
-    100.3
+    100.2
    ],
    "depth_from_skin": "null: this viewer has no skin mesh"
   }
