@@ -666,6 +666,7 @@ def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
     skin_mesh = skin_mesh or load_skin("vhf")
     regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
     tree = cKDTree(np.asarray(skin_mesh.vertices, np.float64))
+    axis_c = trunk_axis(np.asarray(skin_mesh.vertices, np.float64))
     from trimesh.proximity import closest_point
     rep_, n_out, n_tot, left = {}, 0, 0, {}
     for p in pending:
@@ -673,8 +674,12 @@ def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
             continue
         v = p["v"]
         n_tot += len(v)
-        near = tree.query(v)[0] < 45.0                     # farther than this from her skin = deep inside
-        idx = np.flatnonzero(near)
+        dist = tree.query(v)[0]
+        xc, zc = axis_c(v[:, 1])
+        rho = np.hypot(v[:, 0] - xc, v[:, 2] - zc)
+        # within 45 mm of her skin, or far from it AND away from the trunk core (a far-out vertex of a nerve/vessel hanging
+        # beside the body is NOT deep inside): everything else is deep inside
+        idx = np.flatnonzero((dist < 45.0) | (rho > 120.0))
         if not len(idx):
             continue
         out = idx[~skin_mesh.contains(v[idx])]
