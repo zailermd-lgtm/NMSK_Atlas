@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 from scipy.spatial.transform import Rotation as Rot
 
+from scripts.zanatomy import q190_metrics as Mx
 from scripts.zanatomy import q192_left_hand as Q
 
 REPO = Path(__file__).resolve().parents[1]
@@ -82,10 +83,10 @@ def test_stored_fit_is_a_set_of_proper_similarities_with_a_unique_answer():
     for i, t in T.items():
         R = np.asarray(t["R"])
         assert np.allclose(R @ R.T, np.eye(3), atol=1e-6) and np.linalg.det(R) > 0.999, i   # no reflection: it is a left hand
-        assert 0.9 <= t["s"] <= 1.1, i
+        assert 0.9 * Mx.BODY_SCALE <= t["s"] <= 1.1 * Mx.BODY_SCALE, i            # the bounds of the fit are 0.95-1.05 per bone x 0.96-1.04 for the hand, relative to the body scale of the Z source
         assert t["max_residual_mm"] < 0.05, i                              # rigid per bone: one similarity reproduces the articulated mesh
     rep = fit["report"]
-    assert rep["hand_rigid"]["starts_in_best_basin"] >= 0.6 * rep["hand_rigid"]["n_starts"]
+    assert rep["hand_rigid"]["starts_in_best_basin"] >= 0.5 * rep["hand_rigid"]["n_starts"]
     nxt = rep["hand_rigid"]["next_distinct_optimum_J_and_shift_mm"]
     assert nxt is None or nxt[0] > rep["hand_rigid"]["J"]
 

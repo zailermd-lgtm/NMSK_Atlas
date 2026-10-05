@@ -802,6 +802,9 @@ def _note(i, r, bone=False):
     return t
 
 
+LEFT_HELD_SNAPSHOT: dict = {}      # Q192: every structure's vertices right before the left-hand refit (the Q191 state), for the build's gap-closure isolation
+
+
 def refine_hand(pending: list[dict], raw: dict, log=print, left_fit: dict | None = None) -> dict:
     """build hook (--q191-hand): right hand fitted onto her CT hand bones, soft tissue carried / refined / constrained; the left hand is held
     (she has no left hand bones and the skin-envelope trial found no unique pose: scripts/zanatomy/q191_left_trial.py)"""
@@ -833,6 +836,8 @@ def refine_hand(pending: list[dict], raw: dict, log=print, left_fit: dict | None
     if left_fit is not None:
         # Q192: the left hand placed on her left-hand cryosection photographs (scripts/zanatomy/q192_left_hand.py), same carry / candidates / gates for side 'l'
         from scripts.zanatomy import q192_left_hand as Q192
+        LEFT_HELD_SNAPSHOT.clear()
+        LEFT_HELD_SNAPSHOT.update({k: p["v"].copy() for k, p in by.items()})
         lrep = Q192.refine_left(by, raw, regions, her, skin, left_fit, log=log)
         return {"rule": "scripts/zanatomy/q191_hand.py + q192_left_hand.py", "right": {k: v for k, v in rep.items() if k != "structures"}, "bones": brep,
                 "structures": rep["structures"], "left_hand": {"held": False, "q192": lrep}}

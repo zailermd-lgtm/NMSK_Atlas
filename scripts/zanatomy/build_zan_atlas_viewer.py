@@ -1004,7 +1004,29 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                 Q190.dump_pending(pending, raw_before_fit, q191["dump_after"])
     elif target_body is not None:
         raise ValueError(f"unknown target body {target_body!r}")
+    pend_held = None
+    if close_gaps and q191 and q191.get("left_fit"):
+        # Q192: the gap closure is ONE global ray scene (deterministic, but every mesh that moves perturbs the rays of the others by a hair; measured: the left hand
+        # alone changed 110 right-side and 227 left muscles by 0.01-1 mm and decimation then re-samples them).  So it is run twice, on the Q191 state (left hand held)
+        # and on the Q192 state, and every structure that is neither moved by the left-hand refit nor within 10 mm of one that is keeps its Q191 result bit for bit.
+        from scripts.zanatomy import q191_hand as Q191H
+        snap = Q191H.LEFT_HELD_SNAPSHOT
+        pend_held = [{**p, "v": snap.get(p["mesh_id"], p["v"]), "notes": list(p["notes"])} for p in pending]
+        moved = [p["v"] for p in pending if p["mesh_id"] in snap and (len(snap[p["mesh_id"]]) != len(p["v"]) or not np.array_equal(snap[p["mesh_id"]], p["v"]))]
+        moved += [snap[p["mesh_id"]] for p in pending if p["mesh_id"] in snap and not np.array_equal(snap[p["mesh_id"]], p["v"])]
+        from scipy.spatial import cKDTree as _KD
+        mtree = _KD(np.vstack([m[::3] for m in moved]))
+        coupled = {p["mesh_id"] for p in pending if mtree.query(p["v"][::4], distance_upper_bound=10.0)[0].min() < 10.0}
     gap_report = close_muscle_gaps(pending) if close_gaps else {"skipped": True}
+    if pend_held is not None:
+        close_muscle_gaps(pend_held)
+        kept = 0
+        for p, ph in zip(pending, pend_held):
+            if p["mesh_id"] not in coupled:
+                kept += int(not np.array_equal(p["v"], ph["v"]))
+                p["v"], p["notes"] = ph["v"], ph["notes"]
+        gap_report["q192_isolation"] = {"coupled_structures_keep_the_Q192_closure": len(coupled), "structures_restored_to_their_Q191_closure": kept,
+                                        "why": "the global closure scene couples distant meshes at the 0.01-1 mm level; outside the left-hand refit (and its 10 mm neighbourhood) the Q191 result is kept"}
     LAST_REPORTS["contralateral"] = contra_report
     LAST_REPORTS["gap_closure"] = gap_report
     for item in pending:

@@ -634,7 +634,23 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
         pushed[i] = {"inside_bone_pct_before": round(pct, 2), "inside_bone_pct_after": round(pct2, 2), "max_move_mm": round(float(np.linalg.norm(v2 - v, axis=1).max()), 2)}
         d["fit_note"] = (d.get("fit_note") or "") + (f" Q192: pushed out of the left radius / ulna that were refit onto her photographs (inside the displayed bone {pct:.1f} -> {pct2:.1f} % of its vertices, "
                                                       f"max move {pushed[i]['max_move_mm']} mm).")
-    log(f"  Q192 left forearm structures pushed out of the refit radius / ulna: {len(pushed)}")
+    # hand-zone structures still > 5 % inside the displayed bones after the Q191 candidates: one deeper push (<= 10 mm, wider smoothing), kept only if it helps
+    deeper = {}
+    for i, r in rep["structures"].items():
+        d = by[i]
+        if d["cat"] not in H.SOFT_PUSH_CATS or r["after"].get("inside_z_bone_pct", 0.0) <= 5.0:
+            continue
+        v = np.asarray(d["v"], float)
+        act = np.ones(len(v), bool)
+        v2 = H.push_out_of_bones(v, d["f"], [zb], act, tol=1.0, max_move=10.0, iters=5, passes=14)
+        if d["cat"] == "muscle" and H.Q._closed(d["f"]) and not H.NOT_BODY.search(i):
+            v2, _ = H.Q.volume_guard(v2, rawd[i], d["f"])
+        p0, p1 = 100 * float((zb.depth(v) > 1.5).mean()), 100 * float((zb.depth(v2) > 1.5).mean())
+        if p1 < p0 and H.fold_stats(v2, rawd[i], d["f"]) <= H.fold_stats(v, rawd[i], d["f"]) + 0.005:
+            d["v"] = v2
+            deeper[i] = {"inside_bone_pct_before": round(p0, 2), "inside_bone_pct_after": round(p1, 2), "max_move_mm": round(float(np.linalg.norm(v2 - v, axis=1).max()), 2)}
+            d["fit_note"] = (d.get("fit_note") or "") + f" Q192: deeper push out of the displayed bones after the candidate choice (whole-mesh inside share {p0:.1f} -> {p1:.1f} %, max move {deeper[i]['max_move_mm']} mm)."
+    log(f"  Q192 left forearm structures pushed out of the refit radius / ulna: {len(pushed)}; hand-zone structures pushed deeper: {len(deeper)}")
     shown = {i: float(np.linalg.norm(by[i]["v"] - old_v[i], axis=1).mean()) for i in hb + [rad, uln]}
     fr = fit["report"]
     for i in hb + [rad, uln]:
@@ -646,7 +662,7 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
         if by[i]["cat"] != "bone":
             by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
     return {"rule": "scripts/zanatomy/q192_left_hand.py", "left": {k: v for k, v in rep.items() if k != "structures"}, "structures": rep["structures"],
-            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "forearm_pushed_out_of_bones": pushed, "fit_report": fr}
+            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "forearm_pushed_out_of_bones": pushed, "deeper_push": deeper, "fit_report": fr}
 
 
 def main(argv=None):
