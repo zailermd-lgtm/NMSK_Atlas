@@ -800,7 +800,8 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           corrections_dir: Path, budget_scale: float, category_scale: dict | None = None,
           close_gaps: bool = True, target_body: str | None = None,
           integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
-          trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None, q191: dict | None = None):
+          trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None, q191: dict | None = None,
+          q194: dict | None = None):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -1029,6 +1030,15 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                                         "why": "the global closure scene couples distant meshes at the 0.01-1 mm level; outside the left-hand refit (and its 10 mm neighbourhood) the Q191 result is kept"}
     LAST_REPORTS["contralateral"] = contra_report
     LAST_REPORTS["gap_closure"] = gap_report
+    if q194 and q194.get("dump"):         # Q194: the exact full-resolution state right before the decimation / export (= v9 without --q194-refine)
+        from scripts.zanatomy import q190_refine as Q190
+        Q190.dump_pending(pending, raw_before_fit, q194["dump"])
+        if q194.get("dump_only"):
+            raise SystemExit(0)
+    if q194 and q194.get("refine"):
+        # Q194: bounded post-closure refinements (left forearm on her photographs, overlap / distortion leftovers); everything not listed in the report stays bit-identical
+        from scripts.zanatomy import q194_refine as Q194
+        LAST_REPORTS["q194"] = Q194.refine_pending(pending, raw_before_fit)
     for item in pending:
         finish(**item)
 
@@ -1182,6 +1192,9 @@ def main(argv=None) -> int:
     ap.add_argument("--q192-left-fit", default=None,
                     help="Q192 (with --q191-hand): data/derived/Q192_left_hand_fit.json -- place the LEFT hand/wrist bones on her left-hand cryosection photographs and run "
                          "the Q191 carry / candidates / gates for the left side (without it the left hand is held exactly as in Q191)")
+    ap.add_argument("--q194-dump", default=None, help="Q194: write the final pre-export pending meshes (npz, after gap closure)")
+    ap.add_argument("--q194-dump-only", action="store_true", help="Q194: exit right after --q194-dump")
+    ap.add_argument("--q194-refine", action="store_true", help="Q194 (with the Q192 flags): bounded post-closure refinement (scripts/zanatomy/q194_refine.py)")
     ap.add_argument("--trunk-refit", action="store_true",
                     help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
                          "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
@@ -1215,7 +1228,8 @@ def main(argv=None) -> int:
         integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
         trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
-        q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit})
+        q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit},
+        q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine})
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(
