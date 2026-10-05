@@ -13,6 +13,7 @@ quadratus 22 mm (5), the muscle bellies lay outside her skin in the photographs.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -72,6 +73,17 @@ def carry_weights(raw_v, c_w, u, s_elbow, full_above_elbow=10.0, fade_mm=100.0):
     return smoothstep(t)
 
 
+def q191_near_tree(raw: dict, side: str, h):
+    """(c_w, u, KD-tree) exactly as q191_hand.run_side builds them: the Z hand bones + the distal 90 mm of radius / ulna (Z source frame); the Q191 / Q192 carry weight of a vertex
+    is h.field_weight(raw, c_w, u, tree)"""
+    rad, uln = f"radius_{side}", f"ulna_{side}"
+    c_w, u = h.wrist_frame(raw[rad])
+    pts = [raw[i] for i in sum(h.bone_ids(side).values(), [])]
+    for i in (rad, uln):
+        pts.append(raw[i][(raw[i] - c_w) @ u > -90.0])
+    return c_w, u, cKDTree(np.vstack(pts))
+
+
 def carry(by: dict, raw: dict, fit: dict, ids: list[str], h) -> dict:
     """new vertices of the left forearm structures: x = v + (1 - w_old) (F(r) - v), F(r) = (1 - w) T_humerus(r) + w HM_radius_ulna(r), r = Z source vertex, w = axial weight
     (1 over the forearm, 0 at the humerus), w_old = what the Q192 carry applied (1 in the hand: unchanged).  Returns ({id: (v_new, weight)}, info)"""
@@ -82,11 +94,12 @@ def carry(by: dict, raw: dict, fit: dict, ids: list[str], h) -> dict:
     T_hum = h.kabsch(raw[hum], by[hum]["v"], scale=True)           # the Z humerus onto her (CT-fitted) humerus: the frame the upper arm / elbow end lives in
     s_top = float(((raw[uln] - c_w) @ u).min())            # most proximal point of the Z ulna along the axis (olecranon), negative
     near_tree = cKDTree(np.vstack([raw[rad], raw[uln]]))
+    c_w_old, u_old, near_old = q191_near_tree(raw, "l", h)        # the weight the Q192 carry applied (hand bones included in its gate)
     out = {}
     for i in ids:
         r = raw[i].astype(float)
         w = carry_weights(r, c_w, u, s_top)
-        w_old = h.field_weight(r, c_w, u, near_tree)       # what the Q192 carry already applied
+        w_old = h.field_weight(r, c_w_old, u_old, near_old)  # what the Q192 carry already applied
         Fr = (1.0 - w)[:, None] * h.apply_T(T_hum, r) + w[:, None] * HM.map(r)
         gate = 1.0 - smoothstep((near_tree.query(r)[0] - GATE_MM[0]) / (GATE_MM[1] - GATE_MM[0]))     # the foot half of a merged mesh, far structures: untouched
         b = (1.0 - w_old) * gate
@@ -306,7 +319,7 @@ def refine_left_forearm(by: dict, raw: dict, fit: dict, regions: dict, log=print
     from scripts.zanatomy import q191_hand as H
     near = cKDTree(np.vstack([rawd["radius_l"], rawd["ulna_l"]]))
     ids = [k for k, d in by.items() if k.endswith("_l") and d["cat"] != "bone" and not H.FOOT_NAME.search(k)
-           and (regions.get(k) == "forearm_hand" or H.HAND_NAME.search(k) or H.SKIN_HAND.search(k)) and near.query(rawd[k][::4])[0].min() < 100.0]
+           and (regions.get(k) == "forearm_hand" or H.SKIN_HAND.search(k)) and near.query(rawd[k][::4])[0].min() < 100.0]
     res, info = carry(by, rawd, fit, ids, H)
     changed = [i for i in ids if np.linalg.norm(res[i][0] - by[i]["v"], axis=1).max() > 0.5]
     P = load_photo_masks()
@@ -421,11 +434,12 @@ def refine_right_forearm(by: dict, raw: dict, regions: dict, her: dict, skin, sk
     from scripts.zanatomy import q190_metrics as Mx
     from scripts.zanatomy import q190_refine as Q
     from scripts.zanatomy import q191_hand as H
-    c_w, u = H.wrist_frame(raw["radius_r"])
+    c_w, u, near_q191 = q191_near_tree(raw, "r", H)
     near = cKDTree(np.vstack([raw["radius_r"], raw["ulna_r"]]))
     zb = [H.Inside(by["radius_r"]["v"], by["radius_r"]["f"]), H.Inside(by["ulna_r"]["v"], by["ulna_r"]["f"])]
     pend = [{"mesh_id": k, "cat": d["cat"]} for k, d in by.items()]
-    scope = [i for i in H.scope(pend, regions, "r") if by[i]["cat"] != "skin" and not H.FOOT_NAME.search(i)]
+    scope = [i for i in H.scope(pend, regions, "r") if by[i]["cat"] != "skin" and not H.FOOT_NAME.search(i) and near.query(raw[i][::4])[0].min() < 100.0
+             and not re.search(r"trapezius|opponens_digiti_minimi", i)]
     rep = {"muscles": {}, "followers": {}}
     new, before = {}, {}
     for i in scope:
@@ -437,7 +451,7 @@ def refine_right_forearm(by: dict, raw: dict, regions: dict, her: dict, skin, sk
         ref = Q.Ref(her[hid]["v"].astype(float), her[hid]["f"].astype(int))
         X, rr, _ = Q.refine_group([{"id": i, "v": v0, "r": r, "f": f}], ref, log=lambda *_: None)
         X, _ = Q.volume_guard(X, r, f)
-        b = 1.0 - H.field_weight(r, c_w, u, near)
+        b = 1.0 - H.field_weight(r, c_w, u, near_q191)
         if b.max() < 0.05:
             continue
         v1 = v0 + b[:, None] * (X - v0)

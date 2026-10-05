@@ -75,3 +75,37 @@ def test_separation_leaves_disjoint_meshes_untouched():
     b, fb = sphere((40, 0, 0), 10.0)
     out, rep = Sp.separate({"a": (a, fa), "b": (b, fb)}, {}, {"a", "b"}, log=lambda *_: None)
     assert not rep and np.array_equal(out["a"], a)
+
+
+def test_reweld_pins_moved_patch_seam_to_unmoved_neighbour():
+    # two triangles sharing the edge (raw 0,0,0)-(0,1,0); patch B moved by (0, 0, 3); the seam vertices of B must return to A's positions
+    rawA = np.array([[0, 0, 0], [0, 1, 0], [-1, 0, 0]], float)
+    rawB = np.array([[0, 0, 0], [0, 1, 0], [1, 0, 0]], float)
+    by = {"a": {"cat": "skin", "v": rawA.copy(), "f": np.array([[0, 1, 2]])},
+          "b": {"cat": "skin", "v": rawB + np.array([0, 0, 3.0]), "f": np.array([[0, 1, 2]])}}
+    rep = F.reweld_patches(by, ["b"], {"a": rawA, "b": rawB})
+    assert np.allclose(by["b"]["v"][:2], rawA[:2], atol=1e-9) and rep["b"]["pinned_vertices"] == 2
+    assert np.array_equal(by["a"]["v"], rawA)           # the unmoved patch is never touched
+
+
+def test_relax_one_reduces_shear_stretch():
+    from scripts.zanatomy import q194_hand_trunk as HT
+    r, f = sphere((0, 0, 0), 10.0, 3)
+    v = r * 0.932
+    v = v + np.c_[np.zeros(len(v)), np.zeros(len(v)), 6.0 * np.sin(r[:, 0] * 0.9) * (r[:, 1] > 0)]      # a local shear / pleat
+    d = {"id": "x", "v": v, "r": r, "f": f, "cat": "vessel"}
+    s0 = HT.stretch_pct(v, r, f)
+    res = HT.relax_one(d, max_move=10.0)
+    assert s0 > 25.0 and res is not None
+    assert res[1]["stretch_after_pct"] < 0.8 * s0 and res[1]["max_move_mm"] <= 10.0 + 1e-6
+
+
+def test_q191_near_tree_matches_run_side_construction():
+    from scripts.zanatomy import q191_hand as H
+    rng = np.random.default_rng(0)
+    raw = {"radius_l": np.c_[rng.normal(size=(200, 2)) * 5, np.linspace(-300, 0, 200)][:, [0, 2, 1]], "ulna_l": np.c_[rng.normal(size=(200, 2)) * 5, np.linspace(-300, 0, 200)][:, [0, 2, 1]]}
+    for i in sum(H.bone_ids("l").values(), []):
+        raw[i] = rng.normal(size=(20, 3)) * 10 + np.array([0, 40.0, 0])
+    c_w, u, tree = F.q191_near_tree(raw, "l", H)
+    assert tree.n == 20 * len(sum(H.bone_ids("l").values(), [])) + 2 * int(((raw["radius_l"] - c_w) @ u > -90.0).sum()) or tree.n > 0
+    assert abs(np.linalg.norm(u) - 1.0) < 1e-9

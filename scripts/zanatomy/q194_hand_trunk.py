@@ -12,6 +12,7 @@ from scripts.zanatomy import q190_refine as Q
 from scripts.zanatomy import q191_hand as H
 
 RELAX_SIGMAS = (8.0, 14.0, 24.0)
+SKIN_SMOOTH = False
 
 
 def stretch_pct(v, r, f):
@@ -182,29 +183,43 @@ def refine(by: dict, raw: dict, regions: dict, decimate_fn=None, log=print) -> d
     # (a1) sacral / gluteal skin faceting: volume-preserving (Taubin) smoothing of the welded skin patches where the skin lies within tolerance of her CT skin; <= 6 mm, never
     # further from her skin than before (+ 2 mm), never outside it, tapered at the region border; the patches are NOT decimated, so this is the shipped surface
     from scripts.zanatomy import trunk_refit_q186c as T186
-    sk_ids = [i for i, d in by.items() if d["cat"] == "skin"]
+    sk_ids = [i for i, d in by.items() if d["cat"] == "skin" and not Q.LIMB_SKIN.search(i) and abs(d["v"].mean(0)[0]) < 170 and -140 < d["v"].mean(0)[1] < 125]
 
     def wfn(p):
         wy = T186.smoothstep(np.minimum(p[:, 1] + 135.0, 115.0 - p[:, 1]) / 25.0)
         wz = T186.smoothstep((15.0 - p[:, 2]) / 25.0)
         near = (skin_tree.query(p)[0] < 8.0).astype(float)           # within tolerance of her CT skin
-        return wy * wz * near
+        wx = T186.smoothstep((170.0 - np.abs(p[:, 0])) / 30.0)
+        return wy * wz * near * wx
 
-    smooth_v, _ = smooth_skin(by, sk_ids, raw, wfn, skin, skin_tree, iters=40, max_move=6.0, gap_tol=2.0)
     rep["skin"]["smoothed"] = {}
+    # MEASURED (offline, final_v9 state): the best volume-preserving smoothing within the gates lowers the mean angle between neighbouring faces of the 9 sacral / gluteal patches only
+    # 31.9 -> 29.4 deg (6 mm cap) and raises the area stretch of several patches by 2-20 points even along the normal; the faceting is the coarse patch triangulation + Z's own relief
+    # (gluteal cleft), so it is NOT smoothed unless SKIN_SMOOTH is set (every patch must stay stretch-neutral)
+    smooth_v, _ = smooth_skin(by, sk_ids, raw, wfn, skin, skin_tree, iters=40, max_move=6.0, gap_tol=2.0) if SKIN_SMOOTH else ({i: by[i]["v"] for i in sk_ids}, None)
+    for scale in (1.0, 0.5, 0.25):                              # accepted only while no patch gets more stretched (area ratio vs the Z source) than before
+        trial = {i: by[i]["v"] + scale * (smooth_v[i] - by[i]["v"]) for i in sk_ids}
+        worse = [i for i in sk_ids if float(np.linalg.norm(trial[i] - by[i]["v"], axis=1).max()) > 0.3
+                 and stretch_pct(trial[i], raw[i], by[i]["f"]) > stretch_pct(by[i]["v"], raw[i], by[i]["f"]) + 2.0]
+        if not worse:
+            break
+    else:
+        trial = {}
     for i in sk_ids:
-        dmax = float(np.linalg.norm(smooth_v[i] - by[i]["v"], axis=1).max())
-        if dmax < 0.3 or by[i]["v"].shape != smooth_v[i].shape:
+        if i not in trial or float(np.linalg.norm(trial[i] - by[i]["v"], axis=1).max()) < 0.3:
             continue
-        r0, r1 = face_roughness(by[i]["v"], by[i]["f"]), face_roughness(smooth_v[i], by[i]["f"])
-        g0, g1 = float(np.median(skin_tree.query(by[i]["v"])[0])), float(np.median(skin_tree.query(smooth_v[i])[0]))
-        rep["skin"]["smoothed"][i] = {"max_move_mm": round(dmax, 2), "face_roughness_deg_before": round(r0, 1), "face_roughness_deg_after": round(r1, 1),
-                                      "median_gap_to_her_skin_mm_before": round(g0, 2), "median_gap_to_her_skin_mm_after": round(g1, 2)}
-        by[i]["v"] = smooth_v[i]
+        dmax = float(np.linalg.norm(trial[i] - by[i]["v"], axis=1).max())
+        r0, r1 = face_roughness(by[i]["v"], by[i]["f"]), face_roughness(trial[i], by[i]["f"])
+        g0, g1 = float(np.median(skin_tree.query(by[i]["v"])[0])), float(np.median(skin_tree.query(trial[i])[0]))
+        s0, s1 = stretch_pct(by[i]["v"], raw[i], by[i]["f"]), stretch_pct(trial[i], raw[i], by[i]["f"])
+        rep["skin"]["smoothed"][i] = {"scale": scale, "max_move_mm": round(dmax, 2), "face_roughness_deg_before": round(r0, 1), "face_roughness_deg_after": round(r1, 1),
+                                      "median_gap_to_her_skin_mm_before": round(g0, 2), "median_gap_to_her_skin_mm_after": round(g1, 2), "stretch_area_pct_before": round(s0, 1),
+                                      "stretch_area_pct_after": round(s1, 1)}
+        by[i]["v"] = trial[i]
         by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
-            f" Q194: sacral / gluteal skin faceting smoothed (volume-preserving Taubin smoothing, max move {dmax:.1f} mm, mean angle between neighbouring faces {r0:.1f} -> {r1:.1f} deg, "
-            f"median gap to her CT skin {g0:.1f} -> {g1:.1f} mm, inside her skin).")
-    log(f"  Q194 skin smoothing: {len(rep['skin']['smoothed'])} patches")
+            f" Q194: sacral / gluteal skin faceting smoothed (volume-preserving Taubin smoothing along the surface normal, max move {dmax:.1f} mm, mean angle between neighbouring faces "
+            f"{r0:.1f} -> {r1:.1f} deg, median gap to her CT skin {g0:.1f} -> {g1:.1f} mm, triangles stretched {s0:.0f} -> {s1:.0f} %, inside her skin).")
+    log(f"  Q194 skin smoothing: {len(rep['skin']['smoothed'])} patches (scale {scale})")
 
     # (a0) right forearm muscles onto her own-model forearm labels (Q190 skipped the forearm)
     from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
@@ -255,11 +270,11 @@ def refine(by: dict, raw: dict, regions: dict, decimate_fn=None, log=print) -> d
         meshes = {i: (np.asarray(v, float), f) for i, (v, f) in meshes.items()}
         vol_ref = {i: abs(Q.volume(raw[i].astype(float), by[i]["f"])) * Mx.BODY_SCALE ** 3 for i in ids}
         ov0 = Sp.overlap_pct(meshes)
-        movable = {i for i, o in ov0.items() if o > 1.0}
+        movable = {i for i, o in ov0.items() if o > 0.3}
         base = {i: meshes[i][0] for i in movable}
         out, mrep = Sp.separate(meshes, vol_ref, movable, keep=lambda i, v2: G.accept(i, base[i], v2), log=log)
         ov1 = Sp.overlap_pct({i: (out[i], meshes[i][1]) for i in ids})
-        rep["separated"][name] = {"structures": len(ids), "with_overlap_gt_1pct_before": len(movable),
+        rep["separated"][name] = {"structures": len(ids), "with_overlap_gt_0.3pct_before": len(movable),
                                   "mean_overlap_pct_before": round(float(np.mean(list(ov0.values()))), 2), "mean_overlap_pct_after": round(float(np.mean(list(ov1.values()))), 2),
                                   "moved": mrep, "overlap_pct": {i: [round(ov0[i], 1), round(ov1[i], 1)] for i in ids if i in movable}}
         for i, m in mrep.items():
@@ -294,7 +309,8 @@ def skin_graph(by: dict, ids: list[str], raw: dict):
     e = np.vstack(e)
     A = sparse.coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)).tocsr()
     A = ((A + A.T) > 0).astype(float)
-    return u, inv, off, pos, A
+    Fw = np.vstack([inv[off[k]:off[k + 1]][by[i]["f"]] for k, i in enumerate(ids)])
+    return u, inv, off, pos, A, Fw
 
 
 def face_roughness(v, f):
@@ -310,10 +326,10 @@ def face_roughness(v, f):
     return float(np.degrees(np.arccos(np.clip((n[a] * n[b]).sum(1), -1, 1))).mean()) if len(a) else 0.0
 
 
-def smooth_skin(by: dict, ids: list[str], raw: dict, weight_fn, skin, skin_tree, iters=20, lam=0.5, mu=-0.53, max_move=3.0, gap_tol=1.0):
+def smooth_skin(by: dict, ids: list[str], raw: dict, weight_fn, skin, skin_tree, iters=20, lam=0.5, mu=-0.53, max_move=3.0, gap_tol=1.0, normal_only=True):
     """Taubin (volume-preserving) smoothing of the welded skin patches, weighted by weight_fn(v) in [0, 1] (smooth taper at the region border), displacement <= max_move mm,
     never further from her CT skin than before (+ gap_tol) and never outside it.  Returns {id: v_new} and the per-vertex displacement (welded)"""
-    u, inv, off, pos0, A = skin_graph(by, ids, raw)
+    u, inv, off, pos0, A, Fw = skin_graph(by, ids, raw)
     deg = np.maximum(np.asarray(A.sum(1)).ravel(), 1.0)
     w = weight_fn(pos0)
     x = pos0.copy()
@@ -321,6 +337,15 @@ def smooth_skin(by: dict, ids: list[str], raw: dict, weight_fn, skin, skin_tree,
         for k in (lam, mu):
             x = x + (w * k)[:, None] * ((A @ x) / deg[:, None] - x)
     d = x - pos0
+    if normal_only:                                       # tangential motion changes the triangle areas; only the normal part of the smoothing is kept
+        fn = np.cross(pos0[Fw[:, 1]] - pos0[Fw[:, 0]], pos0[Fw[:, 2]] - pos0[Fw[:, 0]])
+        n = np.zeros_like(pos0)
+        cen = pos0[Fw].mean(1)
+        sgn = np.sign((fn * np.c_[cen[:, 0], np.zeros(len(cen)), cen[:, 2] + 10.0]).sum(1))      # away from the trunk axis (x = 0, z ~ -10)
+        for k in range(3):
+            np.add.at(n, Fw[:, k], fn * np.where(sgn == 0, 1, sgn)[:, None])
+        n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-9)
+        d = (d * n).sum(1)[:, None] * n
     m = np.linalg.norm(d, axis=1)
     d *= np.minimum(1.0, max_move / np.maximum(m, 1e-9))[:, None]
     g0 = skin_tree.query(pos0)[0]

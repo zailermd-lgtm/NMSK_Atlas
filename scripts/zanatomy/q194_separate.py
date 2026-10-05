@@ -14,8 +14,8 @@ from scipy.spatial import cKDTree
 from scripts.zanatomy import q190_refine as Q
 
 MAX_MOVE_MM = 4.0
-MARGIN_MM = 0.4
-MIN_DEPTH_MM = 0.3
+MARGIN_MM = 0.3
+MIN_DEPTH_MM = 0.1
 STATS = {'tried': 0, 'vol_rej': 0, 'fold_rej': 0}
 FOLD_TOL = 0.003
 MAX_TOTAL_MM = 6.0         # cumulative bound over all rounds
@@ -94,7 +94,7 @@ def new_folds(v0, v1, f):
     return float(((n1[a] * n1[b]).sum(1) < -0.17)[sel].mean()) if sel.any() else 0.0
 
 
-def separate(meshes: dict, vol_ref: dict, movable: set, rounds=4, max_move=MAX_MOVE_MM, smooth=6, share=0.6, keep=None, log=print):
+def separate(meshes: dict, vol_ref: dict, movable: set, rounds=6, max_move=MAX_MOVE_MM, smooth=6, share=0.7, keep=None, log=print):
     """meshes: {id: (v, f)} closed neighbour muscles (the shipped, decimated meshes); vol_ref: {id: source volume x scale^3 or None}; movable: ids that may move.
     keep(id, v_new) -> bool: extra acceptance test (containment).  Returns ({id: v_new}, report)"""
     cur = {i: v.copy() for i, (v, f) in meshes.items()}
