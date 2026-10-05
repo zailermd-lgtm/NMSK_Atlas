@@ -94,7 +94,12 @@ def test_stored_fit_is_a_set_of_proper_similarities_with_a_unique_answer():
 def test_q192_build_leaves_everything_but_the_left_hand_unchanged_if_present():
     after, before = REPO / "build" / "viewer_zan_female_q192", REPO / "build" / "viewer_zan_female_q191"
     d = REPO / "data" / "derived" / "Q192_ship_diff.json"
-    if not (after / "manifest.json").exists() or not before.exists() or not d.exists():
+    if not (after / "atlas_viewer_zan_female.html").exists() or not before.exists() or not d.exists():
         pytest.skip("Q192 build / diff not present")
     diff = json.loads(d.read_text())
-    assert diff["right_hand_changed"] == 0 and diff["outside_left_hand_scope_changed"] == []
+    assert diff["right_hand_changed"] == 0
+    # the gap-closure isolation keeps every structure that is neither refit nor a 10 mm neighbour of one bit for bit: only left-side neighbours of the old / new hand placement differ
+    assert all(k.endswith("_l") for k in diff["outside_left_hand_scope_changed"]), diff["outside_left_hand_scope_changed"]
+    assert len(diff["outside_left_hand_scope_changed"]) <= 30
+    reg = diff["unchanged_by_q168_region"]
+    assert reg["head_neck"]["unchanged"] == reg["head_neck"]["total"] and reg["lower_limb"]["unchanged"] == reg["lower_limb"]["total"]

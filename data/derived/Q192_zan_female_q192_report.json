@@ -57,12 +57,12 @@
   },
   {
    "path": "atlas_viewer_zan_female_geo_02.txt",
-   "bytes": 6358808,
+   "bytes": 6358778,
    "enc": "base64"
   }
  ],
- "binary_bytes": 28358808,
- "html_bytes": 3505572,
+ "binary_bytes": 28358778,
+ "html_bytes": 3506381,
  "meshes": 2939,
  "by_layer": {
   "vessel": 651,
@@ -1171,18 +1171,18 @@
   "before": {
    "vertices": 915194,
    "median_gap_mm": 1.42,
-   "frac_vertices_gap_gt_1_25mm": 0.1339,
+   "frac_vertices_gap_gt_1_25mm": 0.1343,
    "frac_vertices_inside_other_muscle": 0.1133
   },
   "after": {
    "vertices": 915194,
-   "median_gap_mm": 0.97,
-   "frac_vertices_gap_gt_1_25mm": 0.0941,
-   "frac_vertices_inside_other_muscle": 0.1071
+   "median_gap_mm": 0.98,
+   "frac_vertices_gap_gt_1_25mm": 0.0945,
+   "frac_vertices_inside_other_muscle": 0.1072
   },
   "q192_isolation": {
-   "coupled_structures_keep_the_Q192_closure": 328,
-   "structures_restored_to_their_Q191_closure": 288,
+   "coupled_structures_keep_the_Q192_closure": 362,
+   "structures_restored_to_their_Q191_closure": 287,
    "why": "the global closure scene couples distant meshes at the 0.01-1 mm level; outside the left-hand refit (and its 10 mm neighbourhood) the Q191 result is kept"
   }
  },
