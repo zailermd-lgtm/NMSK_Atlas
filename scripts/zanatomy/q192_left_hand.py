@@ -615,7 +615,7 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
     em = env.mesh()
     etree = cKDTree(np.asarray(em.vertices, float))
     evn = H.skin_normals(em)
-    rep = H.run_side("l", by, rawd, regions, her, em, etree, evn, {i: new_v[i] for i in hb}, {i: T[i] for i in hb}, log=log, label_refine=False, taper=taper, relax_sigma=relax_sigma)
+    rep = H.run_side("l", by, rawd, regions, her, em, etree, evn, {i: new_v[i] for i in hb}, {i: T[i] for i in hb}, log=log, label_refine=False, taper=taper, relax_sigma=relax_sigma, keep_q168=False)
     # left forearm structures OUTSIDE the hand zone that the refit radius / ulna now overlap: pushed out of the displayed bones (the Q191 push, <= 7 mm), badged
     zb = H.merged_bones([(by[rad]["v"].astype(float), by[rad]["f"]), (by[uln]["v"].astype(float), by[uln]["f"])])
     pushed = {}
@@ -651,6 +651,38 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
             deeper[i] = {"inside_bone_pct_before": round(p0, 2), "inside_bone_pct_after": round(p1, 2), "max_move_mm": round(float(np.linalg.norm(v2 - v, axis=1).max()), 2)}
             d["fit_note"] = (d.get("fit_note") or "") + f" Q192: deeper push out of the displayed bones after the candidate choice (whole-mesh inside share {p0:.1f} -> {p1:.1f} %, max move {deeper[i]['max_move_mm']} mm)."
     log(f"  Q192 left forearm structures pushed out of the refit radius / ulna: {len(pushed)}; hand-zone structures pushed deeper: {len(deeper)}")
+    # structures that stayed behind their bones: median distance to the nearest displayed hand/forearm bone more than 8 mm above what it is in the Z source (the audit's check).
+    # Re-attached by the radius / ulna maps over a longer axial taper (160 mm), kept only if that brings them back
+    reattached = {}
+    bsrc = [rawd[i] * H.BODY_SCALE for i in hb + [rad, uln]]
+    tr_src = cKDTree(np.vstack([b[::2] for b in bsrc]))
+    tr_now = cKDTree(np.vstack([by[i]["v"][::2] for i in hb + [rad, uln]]))
+    c_w, u_ax = H.wrist_frame(rawd[rad])
+    near_tree = cKDTree(np.vstack([rawd[rad], rawd[uln]]))
+    Tfa = {rad: H.kabsch(rawd[rad], by[rad]["v"], scale=True), uln: H.kabsch(rawd[uln], by[uln]["v"], scale=True)}
+    HM2 = H.HandMap({rad: rawd[rad], uln: rawd[uln]}, Tfa, k=2)
+    for i, r in rep["structures"].items():
+        d = by[i]
+        if d["cat"] == "skin":
+            continue
+        w = H.field_weight(rawd[i], c_w, u_ax, near_tree, taper=(160.0, 12.0))
+        a = H.field_weight(rawd[i], c_w, u_ax, near_tree) > 0.02
+        if a.sum() < 20:
+            continue
+        ex0 = float(np.median(tr_now.query(d["v"][a])[0]) - np.median(tr_src.query(rawd[i][a] * H.BODY_SCALE)[0]))
+        if ex0 <= 8.0:
+            continue
+        v = np.asarray(d["v"], float)
+        v2 = v + w[:, None] * (HM2.map(rawd[i]) - v)
+        if d["cat"] in H.SOFT_PUSH_CATS:
+            v2 = H.push_out_of_bones(v2, d["f"], [zb], a, tol=1.5, max_move=7.0)
+        ex1 = float(np.median(tr_now.query(v2[a])[0]) - np.median(tr_src.query(rawd[i][a] * H.BODY_SCALE)[0]))
+        if ex1 < 0.5 * ex0:
+            d["v"] = v2
+            reattached[i] = {"excess_mm_before": round(ex0, 1), "excess_mm_after": round(ex1, 1), "max_move_mm": round(float(np.linalg.norm(v2 - v, axis=1).max()), 1)}
+            d["fit_note"] = (d.get("fit_note") or "") + (f" Q192: this structure stayed {ex0:.0f} mm behind its bones after the carry; re-attached to the refit radius / ulna "
+                                                          f"(now {ex1:.0f} mm from the Z-source relation, max move {reattached[i]['max_move_mm']} mm).")
+    log(f"  Q192 structures re-attached to the refit radius / ulna: {len(reattached)}")
     shown = {i: float(np.linalg.norm(by[i]["v"] - old_v[i], axis=1).mean()) for i in hb + [rad, uln]}
     fr = fit["report"]
     for i in hb + [rad, uln]:
@@ -662,7 +694,7 @@ def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, 
         if by[i]["cat"] != "bone":
             by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
     return {"rule": "scripts/zanatomy/q192_left_hand.py", "left": {k: v for k, v in rep.items() if k != "structures"}, "structures": rep["structures"],
-            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "forearm_pushed_out_of_bones": pushed, "deeper_push": deeper, "fit_report": fr}
+            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "forearm_pushed_out_of_bones": pushed, "deeper_push": deeper, "reattached_to_radius_ulna": reattached, "fit_report": fr}
 
 
 def main(argv=None):

@@ -43,6 +43,24 @@ def forearm_inside_bones(by: dict, raw: dict, regions: dict, side="l") -> dict:
     return out
 
 
+def detached_from_bones(by: dict, raw: dict, regions: dict, side="l") -> dict:
+    """a structure must stay where it is in the Z source relative to the hand / forearm bones: median distance of its zone vertices to the nearest displayed bone vertex vs the same distance in the
+    Z source (x body scale).  An unmoved structure beside moved bones (Q192 first build: hypothenar muscles + ulnar-side vessels stayed 45 mm behind their bones) explodes this ratio."""
+    ids, act, hb = A.zone(by, raw, side, regions)
+    bones = hb + [f"radius_{side}", f"ulna_{side}"]
+    tb = cKDTree(np.vstack([by[i]["v"][::2] for i in bones]))
+    tr = cKDTree(np.vstack([raw[i][::2] * Mx.BODY_SCALE for i in bones]))
+    out = {}
+    for i in ids:
+        a = act[i]
+        if a.sum() < 20 or by[i]["cat"] == "skin":
+            continue
+        d1 = float(np.median(tb.query(by[i]["v"][a])[0]))
+        d0 = float(np.median(tr.query(raw[i][a] * Mx.BODY_SCALE)[0]))
+        out[i] = {"median_dist_to_bones_mm": round(d1, 1), "source_mm": round(d0, 1), "excess_mm": round(d1 - d0, 1)}
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--npz", required=True)
@@ -62,10 +80,13 @@ def main(argv=None):
     tab = {k: v for k, v in tab_r.items() if k.startswith("_") or v.get("side") == "r"}
     tab.update({k: v for k, v in tab_l.items() if not k.startswith("_") and v.get("side") == "l"})
     res = {"label": a.label, "note": "left rows vs the left-hand envelope (her skin + photograph silhouettes), right rows vs her skin mesh", "thresholds": A.THRESH, "table": tab,
-           "issues": A.issues(tab), "left_forearm_inside_radius_ulna": forearm_inside_bones(by, raw, regions)}
+           "issues": A.issues(tab), "left_forearm_inside_radius_ulna": forearm_inside_bones(by, raw, regions),
+           "left_distance_to_bones_vs_source": detached_from_bones(by, raw, regions)}
     out = Path(a.out or REPO / "data" / "derived" / f"Q192_hand_audit_{a.label}.json")
     out.write_text(json.dumps(res, indent=1, default=float))
     print(json.dumps(res["issues"]["by_criterion"], indent=1))
+    dd = res["left_distance_to_bones_vs_source"]
+    print("left structures > 8 mm farther from the hand/forearm bones than in the Z source:", sorted((round(v["excess_mm"]), k) for k, v in dd.items() if v["excess_mm"] > 8.0))
 
 
 if __name__ == "__main__":

@@ -602,10 +602,11 @@ def cand_score(m, cat):
     return s_
 
 
-def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, bone_T, relax_sigma=8.0, log=print, label_refine=True, trace=None, taper=None):
+def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, bone_T, relax_sigma=8.0, log=print, label_refine=True, trace=None, taper=None, keep_q168=True):
     """moves the hand/wrist structures of one side (bones already fitted: bone_new_v / bone_T); returns the per-structure report.
     Every structure gets up to four candidate placements (field only / field + shape relaxation, each with and without the bone / skin
-    constraints) and keeps the one with the best containment-first score (see cand_score); the unmoved Q168 placement competes too."""
+    constraints) and keeps the one with the best containment-first score (see cand_score); the unmoved Q168 placement competes too (keep_q168; Q192 turns it
+    off for the left hand: the held left hand sat inside her hip, where "unmoved" scores as perfectly contained)."""
     ids_b = bone_ids(side)
     hb_ids = sum(ids_b.values(), [])
     rad, uln = f"radius_{side}", f"ulna_{side}"
@@ -725,7 +726,7 @@ def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, 
     for i in ids:
         r_ = raw[i].astype(float)
         f_ = by[i]["f"]
-        opts = {"q168": v0[i]}
+        opts = {"q168": v0[i]} if keep_q168 else {}
         for var in ("field", "relax"):
             if cand[i][var] is None:
                 continue
