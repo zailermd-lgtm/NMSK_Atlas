@@ -800,7 +800,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           corrections_dir: Path, budget_scale: float, category_scale: dict | None = None,
           close_gaps: bool = True, target_body: str | None = None,
           integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
-          trunk_refit: bool = False, anterior_v5: bool = False):
+          trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -980,6 +980,15 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         LAST_REPORTS["fit_to_vhf"] = fit_to_vhf(pending)
         if trunk_refit:
             LAST_REPORTS["trunk_refit"] = refit_trunk_q186c(pending, raw_before_fit, anterior_v5=anterior_v5)
+            if q190 and q190.get("dump"):
+                from scripts.zanatomy import q190_refine as Q190
+                Q190.dump_pending(pending, raw_before_fit, q190["dump"])
+                raise SystemExit(0)
+            if q190 and q190.get("refine"):
+                # Q190: per-structure refinement of each fitted Z muscle/fascia/nerve/skin toward her own CT label (after the
+                # global field + clamp, before the Q162 gap closure and the decimation)
+                from scripts.zanatomy import q190_refine as Q190
+                LAST_REPORTS["q190"] = Q190.refine_pending(pending, raw_before_fit)
     elif target_body is not None:
         raise ValueError(f"unknown target body {target_body!r}")
     gap_report = close_muscle_gaps(pending) if close_gaps else {"skipped": True}
@@ -1128,6 +1137,9 @@ def main(argv=None) -> int:
     ap.add_argument("--with-hair", action="store_true", help="Q186: also ship the Z-Anatomy hair objects")
     ap.add_argument("--anterior-v5", action="store_true",
                     help="Q186c3 (with --trunk-refit): blend the v5 field into the anterior sector (front, groin to shoulders)")
+    ap.add_argument("--q190-dump", default=None, help="Q190: write the fitted pending meshes (npz) after the trunk refit and exit")
+    ap.add_argument("--q190-refine", action="store_true",
+                    help="Q190 (with --trunk-refit): per-structure refinement of the fitted muscles toward her own CT label surfaces")
     ap.add_argument("--trunk-refit", action="store_true",
                     help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
                          "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
@@ -1159,7 +1171,8 @@ def main(argv=None) -> int:
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
         category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body,
         integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
-        trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5)
+        trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5,
+        q190={"dump": args.q190_dump, "refine": args.q190_refine})
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(
