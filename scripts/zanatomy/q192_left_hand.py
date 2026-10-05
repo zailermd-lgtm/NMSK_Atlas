@@ -43,6 +43,7 @@ sys.path.insert(0, str(REPO))
 from scripts.zanatomy.q191_hand import ORD, bone_ids, kabsch  # noqa: E402
 
 EVIDENCE = REPO / "data" / "derived" / "Q192_left_hand_evidence.npz"
+CAL = {"px_mm": 0.33, "y_offset": 1850.0, "az": -166.4, "ax": {"l": 352.2, "r": 353.5}}      # cryo photograph -> atlas frame, see scripts/cryo/q192_hand_evidence.py
 FIT = REPO / "data" / "derived" / "Q192_left_hand_fit.json"
 SIDE_SUFFIX = {"l": "_l", "r": "_r"}
 
@@ -51,7 +52,10 @@ SIDE_SUFFIX = {"l": "_l", "r": "_r"}
 def load_evidence(path=EVIDENCE) -> dict:
     z = np.load(path)
     u = float(z["unit_mm"])
-    return {k: z[k].astype(np.float32) * u for k in ("hand", "forearm", "right_hand")}
+    out = {k: z[k].astype(np.float32) * u for k in ("hand", "forearm", "right_hand")}
+    for k in ("hand_roi", "hand_roi_shape", "hand_roi_zc", "hand_roi_box"):
+        out[k] = z[k]
+    return out
 
 
 def trimmed(a, f):
@@ -91,20 +95,74 @@ def chain_apply(th, P, cs):
     return out
 
 
-class Skin:
-    """her skin as a signed-distance field around the hand (>0 inside); built once from the skin mesh (q191_left_trial.SkinSDF), cached"""
+class Envelope:
+    """her left-hand skin envelope = her skin mesh UNITED with the silhouettes of the hand pieces in her photographs.
 
-    def __init__(self, cache: Path | None = None, lo=(-250, 0, 10), hi=(-30, 230, 190)):
-        if cache is not None and cache.exists():
-            self.sdf = pickle.loads(cache.read_bytes())
-            return
-        from scipy.spatial import cKDTree as KD
-        from scripts.ribs_from_ct_labels import load_skin
+    Her skin mesh (scripts/cryo/vhf_skin_union.py) keeps only photograph pieces >= 20 cm2 per slice, which drops the distal fingers (evidence voxels at atlas
+    y 40-60 are only 63 % inside it, Q191 saw the fingers 'pointing out of the body'); the hand silhouettes of the same photographs (no area limit) restore them
+    (+38 cm3).  Occupancy on a 1 mm grid around the hand; signed distance (mm, >0 inside) by two Euclidean transforms; `mesh()` = closed marching-cubes surface
+    (smoothed 0.7 voxel) used as `skin` by q191_hand.run_side for the left hand."""
+
+    LO = np.array([-262.0, 5.0, 5.0])
+    HI = np.array([-28.0, 235.0, 185.0])
+    H = 1.0
+
+    def __init__(self, her_skin, ev: dict, near_mm=40.0, log=print):
+        from scipy import ndimage as ndi
+        n = np.ceil((self.HI - self.LO) / self.H).astype(int) + 1
+        xs, ys, zs = (self.LO[k] + self.H * np.arange(n[k]) for k in range(3))
+        X, Y, Z = np.meshgrid(xs, ys, zs, indexing="ij")
+        sil = np.zeros(n, bool)
+        roi = np.unpackbits(ev["hand_roi"], axis=None)[:int(np.prod(ev["hand_roi_shape"]))].reshape(ev["hand_roi_shape"]).astype(bool)
+        zc, box = ev["hand_roi_zc"], ev["hand_roi_box"]
+        dz = zc[0] - zc[1]
+        for iy, y in enumerate(ys):
+            j = int(round((zc[0] - (y - CAL["y_offset"])) / dz))
+            if j < 0 or j >= len(zc):
+                continue
+            col = (((CAL["ax"]["l"] - X[:, iy, :]) / CAL["px_mm"] - box[1]) / 2 - 0.5).round().astype(int)
+            row = (((Z[:, iy, :] - CAL["az"]) / CAL["px_mm"] - box[0]) / 2 - 0.5).round().astype(int)
+            ok = (col >= 0) & (col < roi.shape[2]) & (row >= 0) & (row < roi.shape[1])
+            m = np.zeros(col.shape, bool)
+            m[ok] = roi[j][row[ok], col[ok]]
+            sil[:, iy, :] = m
+        near = ndi.distance_transform_edt(~sil) <= near_mm
+        inside = np.zeros(n, bool)
+        P = np.stack([X[near], Y[near], Z[near]], 1)
+        res = np.zeros(len(P), bool)
+        for a in range(0, len(P), 200000):
+            res[a:a + 200000] = her_skin.contains(P[a:a + 200000])
+        inside[near] = res
+        occ = (inside | sil) & near
+        occ = ndi.binary_fill_holes(ndi.binary_closing(occ, iterations=1))
+        self.occ = occ
+        self.f = (ndi.distance_transform_edt(occ) - ndi.distance_transform_edt(~occ)).astype(np.float32)
+        log(f"  Q192 left-hand envelope: her skin {int(inside.sum())} voxels, photograph silhouettes {int(sil.sum())}, added by the photographs {int((occ & ~inside).sum())} mm3")
+
+    def sdf(self, P):
+        from scipy import ndimage as ndi
+        return ndi.map_coordinates(self.f, ((np.asarray(P, float) - self.LO) / self.H).T, order=1, mode="nearest")
+
+    __call__ = sdf
+
+    def pen(self, A, depth=2.5, w=0.35):
+        return w * float(np.mean(np.maximum(0.0, depth - self.sdf(A)) ** 2))
+
+    def mesh(self):
+        import trimesh
+        from scipy import ndimage as ndi
+        from skimage import measure
+        pad = ndi.gaussian_filter(np.pad(self.occ, 1).astype(np.float32), 0.7)
+        v, f, _, _ = measure.marching_cubes(pad, 0.5, spacing=(self.H,) * 3)
+        return trimesh.Trimesh(v - self.H + self.LO, f[:, ::-1], process=False)
+
+
+class SkinField:
+    """signed distance to her skin around a hand where the mesh itself is complete (the right hand: CT + photographs)"""
+
+    def __init__(self, her_skin, lo, hi):
         from scripts.zanatomy.q191_left_trial import SkinSDF
-        skin = load_skin("vhf")
-        self.sdf = SkinSDF(skin, KD(np.asarray(skin.vertices, float)), lo, hi, h=1.5)
-        if cache is not None:
-            cache.write_bytes(pickle.dumps(self.sdf))
+        self.sdf = SkinSDF(her_skin, cKDTree(np.asarray(her_skin.vertices, float)), lo, hi, h=1.5)
 
     def pen(self, A, depth=2.5, w=0.35):
         return w * float(np.mean(np.maximum(0.0, depth - self.sdf(A)) ** 2))
@@ -213,7 +271,7 @@ def clean_hand_evidence(M, S, ev_hand, y_max=172.0):
     return ev_hand[(d > 4.0) & (ev_hand[:, 1] < y_max)]
 
 
-def fit_hand_rigid(M: HandModel, S: State, ev: np.ndarray, skin: Skin, n_starts=15, scale_rng=(0.96, 1.04), cone=1.1, log=print):
+def fit_hand_rigid(M: HandModel, S: State, ev: np.ndarray, skin: Envelope, n_starts=15, scale_rng=(0.96, 1.04), cone=1.1, log=print):
     rng = np.random.default_rng(4)
     core_ids = [i for i in M.hand_ids if "phalanx" not in i]
     core = np.vstack([S.pts[i] for i in core_ids])
@@ -441,11 +499,11 @@ def apply_transforms(raw: dict, T: dict) -> dict:
 
 
 # ------------------------------------------------------------------------------------------------ drivers
-def fit_left(by: dict, ev: dict, skin_cache: Path | None = None, log=print):
+def fit_left(by: dict, ev: dict, her_skin, log=print):
     t0 = time.time()
     M = HandModel(by, "l")
     S = State(M)
-    skin = Skin(skin_cache)
+    skin = Envelope(her_skin, ev, log=log)
     rep = {"forearm": fit_forearm(M, S, ev["forearm"], log=log)}
     evh = clean_hand_evidence(M, S, ev["hand"])
     log(f"  Q192 hand evidence after removing her radius/ulna: {len(evh)} voxels")
@@ -453,10 +511,10 @@ def fit_left(by: dict, ev: dict, skin_cache: Path | None = None, log=print):
     rep["chains"] = fit_chains(M, S, evh, skin, log=log)
     rep["evidence_fit"] = evidence_fit(M, S, evh, ev["forearm"])
     rep["seconds"] = round(time.time() - t0)
-    return M, S, rep
+    return M, S, rep, skin
 
 
-def validate_right(by: dict, ev: dict, her_ct: dict, shift=(-1.0, -2.0, 13.0), start_turn_deg=25.0, skin=None, log=print):
+def validate_right(by: dict, ev: dict, her_ct: dict, her_skin, shift=(-1.0, -2.0, 13.0), start_turn_deg=25.0, log=print):
     """the same pipeline on the RIGHT hand, where her CT bones exist.  Start: the Z right hand (Q168/Q191 pose = her CT) moved by the photograph-vs-CT shift of her right arm
     and turned `start_turn_deg` about the wrist (the left hand starts ~25 deg from its answer); result vs her CT bones (moved by the same shift)."""
     from scripts.zanatomy.q191_hand import chamfer2, surf_pts
@@ -467,7 +525,7 @@ def validate_right(by: dict, ev: dict, her_ct: dict, shift=(-1.0, -2.0, 13.0), s
     R0 = Rot.from_rotvec(np.radians(start_turn_deg) * np.array([0.3, 0.8, 0.5]) / np.linalg.norm([0.3, 0.8, 0.5]))
     S.move(M.all_ids, lambda P: R0.apply(P + sh - cap) + cap)
     evh = ev["right_hand"][ev["right_hand"][:, 1] < 172.0]
-    skin = skin or Skin(None, lo=(30, 0, 10), hi=(250, 230, 190))
+    skin = SkinField(her_skin, (30, 0, 10), (250, 230, 190))
     rep = {"rigid": fit_hand_rigid(M, S, evh, skin, log=log)}
     rep["chains"] = fit_chains(M, S, evh, skin, log=log)
     groups = {"carpals": (M.ids["carpals"], "carpals_r"), "phalanges": (M.ids["phal"], "phalanges_hand_r"), **{f"mc{k + 1}": ([M.ids["mc"][k]], f"metacarpal_{k + 1}_r") for k in range(5)}}
@@ -483,25 +541,70 @@ def validate_right(by: dict, ev: dict, her_ct: dict, shift=(-1.0, -2.0, 13.0), s
     return rep
 
 
+# ------------------------------------------------------------------------------------------------ build hook
+def _note(i, r):
+    b, a = r["before"], r["after"]
+    t = (f" Q192 (LEFT hand/wrist refit onto her left-hand cryosection photographs; her CT has no left hand): moved {r['mean_move_mm']} mm on average (max {r['max_move_mm']} mm). "
+         f"Before -> after: outside her skin (her skin + the photograph hand silhouettes) {b['outside_her_skin_pct']} -> {a['outside_her_skin_pct']} %; "
+         f"inside the displayed Z hand/forearm bones {b.get('inside_z_bone_pct')} -> {a.get('inside_z_bone_pct')} %; "
+         f"triangles stretched outside 0.67-1.5x of the Z source {b.get('stretch_area_outside_0.67_1.5_pct')} -> {a.get('stretch_area_outside_0.67_1.5_pct')} %; "
+         f"folded edges {b['folded_edges_pct']} -> {a['folded_edges_pct']} %. Placement chosen among {len(r['scores'])} candidates: {r['chosen']}.")
+    return t
+
+
+def refine_left(by: dict, raw: dict, regions: dict, her: dict, skin, fit: dict, log=print) -> dict:
+    """build hook: the stored Q192 transforms move radius_l / ulna_l and the 27 left hand bones, then the Q191 bone-anchored soft-tissue carry, intrinsic-free
+    candidates, skin and gates run for side 'l' against the left-hand envelope (her skin + photograph silhouettes).  Returns the report."""
+    from scripts.zanatomy import q191_hand as H
+    from scripts.zanatomy.q191_hand import apply_T
+    T = {i: (float(t["s"]), np.asarray(t["R"], float), np.asarray(t["t"], float)) for i, t in fit["transforms_from_Z_source_frame"].items()}
+    rawd = {k: np.asarray(v, float) for k, v in raw.items()}
+    new_v = {i: apply_T(T[i], rawd[i]) for i in T}
+    hb = sum(bone_ids("l").values(), [])
+    rad, uln = "radius_l", "ulna_l"
+    old_v = {i: np.asarray(by[i]["v"], float).copy() for i in hb + [rad, uln]}
+    for i in (rad, uln):
+        by[i]["v"] = new_v[i]
+    env = Envelope(skin, load_evidence(), log=log)
+    em = env.mesh()
+    etree = cKDTree(np.asarray(em.vertices, float))
+    evn = H.skin_normals(em)
+    rep = H.run_side("l", by, rawd, regions, her, em, etree, evn, {i: new_v[i] for i in hb}, {i: T[i] for i in hb}, log=log, label_refine=False)
+    shown = {i: float(np.linalg.norm(by[i]["v"] - old_v[i], axis=1).mean()) for i in hb + [rad, uln]}
+    fr = fit["report"]
+    for i in hb + [rad, uln]:
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
+            f" Q192: LEFT {'forearm' if i in (rad, uln) else 'hand'} bone placed on her own left-hand cryosection photographs (her CT has no left hand). Before (Q168/Q191 proxy placement, "
+            f"held in Q191) -> after: moved {shown[i]:.1f} mm on average. Method: bounded similarity per bone / hand rigid body / finger-chain joints fitted to the cream bone "
+            f"voxels of her photographs (evidence fit: {fr['evidence_fit']['hand']['evidence_within_3mm_pct']} % of the hand-bone evidence within 3 mm of a Z bone).")
+    for i, r in rep["structures"].items():
+        if by[i]["cat"] != "bone":
+            by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
+    return {"rule": "scripts/zanatomy/q192_left_hand.py", "left": {k: v for k, v in rep.items() if k != "structures"}, "structures": rep["structures"],
+            "bone_mean_move_mm": {i: round(v, 2) for i, v in shown.items()}, "fit_report": fr}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=["fit"])
     ap.add_argument("--npz", required=True)
     ap.add_argument("--evidence", default=str(EVIDENCE))
     ap.add_argument("--out", default=str(FIT))
-    ap.add_argument("--skin-cache", default=None)
-    ap.add_argument("--validate-right", action="store_true")
+    ap.add_argument("--validate-right", action="store_true", help="also run the same pipeline on the right hand and compare with her CT hand bones")
+    ap.add_argument("--only-right", action="store_true", help="only the right-hand validation (writes --out as a validation file)")
     a = ap.parse_args(argv)
+    from scripts.ribs_from_ct_labels import load_skin
     from scripts.zanatomy import q190_metrics as Mx
     L = {d["id"]: d for d in Mx.load_dump(a.npz)}
     ev = load_evidence(Path(a.evidence))
-    M, S, rep = fit_left(L, ev, Path(a.skin_cache) if a.skin_cache else None)
-    T = to_transforms(M, S)
-    out = {"source": "Q192: scripts/zanatomy/q192_left_hand.py on data/derived/Q192_left_hand_evidence.npz (her left-hand cryosection photographs, scripts/cryo/q192_hand_evidence.py)",
-           "report": rep, "transforms_from_Z_source_frame": T}
-    if a.validate_right:
+    her_skin = load_skin("vhf")
+    out = {"source": "Q192: scripts/zanatomy/q192_left_hand.py on data/derived/Q192_left_hand_evidence.npz (her left-hand cryosection photographs, scripts/cryo/q192_hand_evidence.py)"}
+    if not a.only_right:
+        M, S, rep, env = fit_left(L, ev, her_skin)
+        out.update({"report": rep, "transforms_from_Z_source_frame": to_transforms(M, S)})
+    if a.validate_right or a.only_right:
         from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
-        out["validation_right_hand"] = validate_right(L, ev, load_her_meshes())
+        out["validation_right_hand"] = validate_right(L, ev, load_her_meshes(), her_skin)
     Path(a.out).write_text(json.dumps(out, indent=1))
     print("wrote", a.out)
 

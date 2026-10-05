@@ -996,7 +996,10 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                 raise SystemExit(0)
             # Q191: hand/wrist bones onto her own hand bones, soft tissue carried by a bone-anchored field, intrinsic muscles refined
             from scripts.zanatomy import q191_hand as Q191
-            LAST_REPORTS["q191"] = Q191.refine_hand(pending, raw_before_fit)
+            left_fit = None
+            if q191.get("left_fit"):          # Q192: the left hand placed on her left-hand cryosection photographs
+                left_fit = json.loads(Path(q191["left_fit"]).read_text())
+            LAST_REPORTS["q191"] = Q191.refine_hand(pending, raw_before_fit, left_fit=left_fit)
             if q191.get("dump_after"):
                 Q190.dump_pending(pending, raw_before_fit, q191["dump_after"])
     elif target_body is not None:
@@ -1154,6 +1157,9 @@ def main(argv=None) -> int:
     ap.add_argument("--q191-dump-after", default=None, help="Q191: also write the pending meshes (npz) right after the hand refit (audit input)")
     ap.add_argument("--q191-hand", action="store_true",
                     help="Q191 (with --trunk-refit --q190-refine): fit the hand/wrist bones onto her own hand bones and carry/refine the hand soft tissue")
+    ap.add_argument("--q192-left-fit", default=None,
+                    help="Q192 (with --q191-hand): data/derived/Q192_left_hand_fit.json -- place the LEFT hand/wrist bones on her left-hand cryosection photographs and run "
+                         "the Q191 carry / candidates / gates for the left side (without it the left hand is held exactly as in Q191)")
     ap.add_argument("--trunk-refit", action="store_true",
                     help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
                          "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
@@ -1187,7 +1193,7 @@ def main(argv=None) -> int:
         integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
         trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
-        q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after})
+        q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit})
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(

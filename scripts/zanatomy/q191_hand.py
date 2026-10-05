@@ -801,7 +801,7 @@ def _note(i, r, bone=False):
     return t
 
 
-def refine_hand(pending: list[dict], raw: dict, log=print) -> dict:
+def refine_hand(pending: list[dict], raw: dict, log=print, left_fit: dict | None = None) -> dict:
     """build hook (--q191-hand): right hand fitted onto her CT hand bones, soft tissue carried / refined / constrained; the left hand is held
     (she has no left hand bones and the skin-envelope trial found no unique pose: scripts/zanatomy/q191_left_trial.py)"""
     import json
@@ -829,6 +829,12 @@ def refine_hand(pending: list[dict], raw: dict, log=print) -> dict:
     for i, r in rep["structures"].items():
         if by[i]["cat"] != "bone":
             by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
+    if left_fit is not None:
+        # Q192: the left hand placed on her left-hand cryosection photographs (scripts/zanatomy/q192_left_hand.py), same carry / candidates / gates for side 'l'
+        from scripts.zanatomy import q192_left_hand as Q192
+        lrep = Q192.refine_left(by, raw, regions, her, skin, left_fit, log=log)
+        return {"rule": "scripts/zanatomy/q191_hand.py + q192_left_hand.py", "right": {k: v for k, v in rep.items() if k != "structures"}, "bones": brep,
+                "structures": rep["structures"], "left_hand": {"held": False, "q192": lrep}}
     # left hand: held; measure and say so
     lids = sum(bone_ids("l").values(), [])
     inside = float(skin.contains(np.vstack([by[i]["v"] for i in lids])).mean())

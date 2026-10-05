@@ -204,6 +204,8 @@ def main(argv=None):
         else:
             m = proposals(im, roi)
         res[name] = to_atlas(m, zc, bx, side)
+        if name == "left_hand":
+            res["_roi"], res["_zc"], res["_box"] = roi, zc.astype(np.float32), np.array([bx[0], bx[2]], np.int32)
         if name == "left_hand":                              # her radius / ulna discs at the wrist levels (y 150-210) from the same slices
             m2 = np.zeros(roi.shape, bool)
             for j in range(len(im)):
@@ -214,6 +216,7 @@ def main(argv=None):
     q = lambda p: np.round(p * 4).astype(np.int16)
     np.savez_compressed(a.out, hand=q(res["left_hand"]), forearm=q(np.vstack([res["left_forearm"][res["left_forearm"][:, 1] >= 210], res["left_wrist_discs"][res["left_wrist_discs"][:, 1] < 210]])),
                         right_hand=q(res["right_hand"]), unit_mm=np.float32(0.25),
+                        hand_roi=np.packbits(res["_roi"], axis=None), hand_roi_shape=np.array(res["_roi"].shape), hand_roi_zc=res["_zc"], hand_roi_box=res["_box"],
                         note=np.array("Q192 bone evidence (cream voxel centres, atlas mm x 4); scripts/cryo/q192_hand_evidence.py"))
     print("wrote", a.out)
 
