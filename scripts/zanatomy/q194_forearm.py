@@ -31,6 +31,18 @@ GATE_MM = (110.0, 150.0)   # distance from the Z source radius / ulna beyond whi
 BLEND_SOFT_MM, BLEND_POWER = 12.0, 1.5       # inverse-distance blend of the radius / ulna maps: softer than the hand's (2.5, 2.5) so a muscle is sheared less across the forearm
 
 
+def area_ok(v1, v0, r, f, lo=0.7, hi=1.45, rel=(0.8, 1.25)):
+    """surface-area guard (a vessel / nerve must not swell into a tube or collapse into a sliver): area / (Z source area x BODY_SCALE^2) in [lo, hi], or at most 20-25 % off
+    what it was before the move"""
+    from scripts.zanatomy import q190_metrics as Mx
+    a = lambda x: float(Mx.tri_area(x, f).sum())
+    ref = a(r.astype(float)) * Mx.BODY_SCALE ** 2
+    if ref < 1e-6:
+        return True
+    r1, r0 = a(v1) / ref, a(v0) / ref
+    return (lo <= r1 <= hi) or (rel[0] <= r1 / max(r0, 1e-9) <= rel[1])
+
+
 def smoothstep(x):
     x = np.clip(x, 0.0, 1.0)
     return x * x * (3 - 2 * x)
@@ -371,7 +383,7 @@ def refine_left_forearm(by: dict, raw: dict, fit: dict, regions: dict, log=print
             if d["cat"] == "muscle" and Q._closed(d["f"]) and not H.NOT_BODY.search(i):
                 v, _ = Q.volume_guard(v, r, d["f"])
             after = metrics(v, r, d["f"], d["cat"], skin_occ, zb)
-            ok = after["folded_edges_pct"] <= max(before["folded_edges_pct"] + 1.0, 2.0) and (after.get("stretch_area_outside_0.67_1.5_pct") or 0) <= max((before.get("stretch_area_outside_0.67_1.5_pct") or 0) + 15.0, 25.0)
+            ok = area_ok(v, v0, r, d["f"]) and after["folded_edges_pct"] <= max(before["folded_edges_pct"] + 1.0, 2.0) and (after.get("stretch_area_outside_0.67_1.5_pct") or 0) <= max((before.get("stretch_area_outside_0.67_1.5_pct") or 0) + 15.0, 25.0)
             sc = after.get("stretch_area_outside_0.67_1.5_pct") or 0
             cost = (after.get("outside_her_skin_pct") or 0) * 2 + after["inside_z_bone_pct"] * 2 + after["folded_edges_pct"] * 2 + sc * 0.3 + (0 if ok else 50)
             if best is None or cost < best[3]:
@@ -463,7 +475,7 @@ def refine_right_forearm(by: dict, raw: dict, regions: dict, her: dict, skin, sk
         s0, s1 = Mx.stretch_stats(v0, r, f), Mx.stretch_stats(v1, r, f)
         p0, p1 = 100 * (s0["area_frac_gt1.5"] + s0["area_frac_lt0.67"]), 100 * (s1["area_frac_gt1.5"] + s1["area_frac_lt0.67"])
         f0, f1 = 100 * H.fold_stats(v0, r, f), 100 * H.fold_stats(v1, r, f)
-        status = "refined" if (c1[2] < 0.9 * c0[2] and p1 <= p0 + 2.0 and f1 <= f0 + 1.0) else "held"
+        status = "refined" if (c1[2] < 0.9 * c0[2] and p1 <= p0 + 2.0 and f1 <= f0 + 1.0 and area_ok(v1, v0, r, f)) else "held"
         rep["muscles"][i] = {"status": status, "her_label": hid, "partial_label": part, "chamfer_mm_before": round(c0[2], 2), "chamfer_mm_after": round(c1[2], 2),
                              "stretch_area_pct_before": round(p0, 1), "stretch_area_pct_after": round(p1, 1), "folded_edges_pct_before": round(f0, 2), "folded_edges_pct_after": round(f1, 2),
                              "volume_ratio_after": round(vr, 3), "mean_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).mean()), 1)}
@@ -514,7 +526,7 @@ def refine_right_forearm(by: dict, raw: dict, regions: dict, her: dict, skin, sk
             v1 = H.clamp_inside_skin(v1, f, np.ones(len(v1), bool), skin, skin_tree, margin=1.0, max_move=14.0)
             s1 = Mx.stretch_stats(v1, r, f)
             p1 = 100 * (s1["area_frac_gt1.5"] + s1["area_frac_lt0.67"]) if s1 else 0.0
-            if p1 <= p0 + 3.0:
+            if p1 <= p0 + 3.0 and area_ok(v1, v0, r, f):
                 d["v"] = v1
                 rep["followers"][i] = {"amplitude": amp, "stretch_area_pct_before": round(p0, 1), "stretch_area_pct_after": round(p1, 1),
                                        "mean_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).mean()), 1), "max_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).max()), 1)}

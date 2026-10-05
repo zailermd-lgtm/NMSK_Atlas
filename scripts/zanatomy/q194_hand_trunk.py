@@ -39,6 +39,9 @@ def relax_one(d, sigmas=RELAX_SIGMAS, max_move=10.0, accept=None):
             continue
         if H.fold_stats(v1, r, f) > H.fold_stats(v0, r, f) + 0.003:
             continue
+        from scripts.zanatomy.q194_forearm import area_ok
+        if not area_ok(v1, v0, r, f):
+            continue
         info = {"sigma_mm": sg, "stretch_before_pct": round(s0, 1), "stretch_after_pct": round(s1, 1), "max_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).max()), 2),
                 "mean_move_mm": round(float(np.linalg.norm(v1 - v0, axis=1).mean()), 2)}
         if best is None or s1 < best[1]["stretch_after_pct"]:
