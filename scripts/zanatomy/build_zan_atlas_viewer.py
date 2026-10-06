@@ -1229,8 +1229,8 @@ def split_blob(blob: bytes, stem: str, max_bytes: int = BIN_FILE_MAX):
 
 # Q168 female variant: page wording only (the template itself stays the reference viewer's).
 VHF_WORDING = [
-    ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Z-Anatomy female</title>"),
-    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Z-Anatomy female</h1>"),
+    ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Z-Anatomy fitted to the female</title>"),
+    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Z-Anatomy, fitted</h1>"),
     ("    <div class=\"licence\">",
      "    <p><strong>Fitted to a real body (Q168).</strong> In this female variant every Z-Anatomy structure has been "
      "moved onto the skeleton of the Visible Human female (U.S. National Library of Medicine), bone by bone; soft "

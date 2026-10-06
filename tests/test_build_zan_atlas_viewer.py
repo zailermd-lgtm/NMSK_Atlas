@@ -311,7 +311,7 @@ def test_fit_badge_uses_the_measured_error_or_says_it_is_a_region_estimate():
 def test_female_wording_replaces_each_template_anchor_once():
     from scripts.zanatomy.build_zan_atlas_viewer import TEMPLATE_PATH, apply_vhf_wording
     html = apply_vhf_wording(TEMPLATE_PATH.read_text(encoding="utf-8"))
-    assert "<title>NMSK Atlas — Z-Anatomy female</title>" in html
+    assert "<title>NMSK Atlas — Z-Anatomy fitted to the female</title>" in html
     assert "Fitted to a real body (Q168)" in html
 
 
