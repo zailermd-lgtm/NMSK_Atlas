@@ -15,61 +15,83 @@ from scripts.zanatomy import q190_refine as Q
 
 MAX_MOVE_MM = 4.0
 MARGIN_MM = 0.3
-MIN_DEPTH_MM = 0.1
+MIN_DEPTH_MM = 0.3
 STATS = {'tried': 0, 'vol_rej': 0, 'fold_rej': 0}
 FOLD_TOL = 0.003
 MAX_TOTAL_MM = 6.0         # cumulative bound over all rounds
 
 
 class Skel:
-    """closed mesh: depth(P) > 0 for points inside (ray parity), depth = distance to the surface; dirn = outward face normal of the nearest triangle.
-    (The Q191 `Inside` sampled-normal test misreads meshes with a few flipped / folded triangles; the ray parity does not.)"""
+    """closed mesh: query(P) -> (depth, normal): depth > 0 inside (mm below the surface), < 0 outside; normal = outward normal at the nearest surface sample.
+    Inside / outside = ray parity of trimesh's PURE-NUMPY ray tester, only for the points within MAXD mm of the surface (a KD-tree of surface samples decides which): the first full
+    build died with a SEGFAULT inside the pyembree ray parity test after a few rounds of moved meshes, and the sampled-normal sign alone misreads the sub-millimetre contacts
+    the gap closure leaves.  depth = distance to the nearest sample (0.7 mm sample spacing)."""
+    MAXD = 8.0
+    UNSURE = 2.0
 
-    def __init__(self, v, f, spacing=0.8):
+    def __init__(self, v, f, spacing=1.0):
         import trimesh
+        from trimesh.ray.ray_triangle import RayMeshIntersector
         self.m = trimesh.Trimesh(v, f, process=False)
         if self.m.volume < 0:
             self.m.invert()
+        fn = self.m.face_normals
+        area = self.m.area_faces
+        n = int(min(40000, max(500, area.sum() / spacing ** 2)))
+        rng = np.random.default_rng(0)
+        idx = rng.choice(len(self.m.faces), n, p=area / area.sum())
+        u = rng.random((n, 2)); mm = u.sum(1) > 1; u[mm] = 1 - u[mm]
+        tri = self.m.vertices[self.m.faces[idx]]
+        self.pts = tri[:, 0] + u[:, :1] * (tri[:, 1] - tri[:, 0]) + u[:, 1:] * (tri[:, 2] - tri[:, 0])
+        self.nrm = fn[idx]
+        self.tree = cKDTree(self.pts)
+        self.ray = RayMeshIntersector(self.m)
         self.lo, self.hi = v.min(0), v.max(0)
 
-    def depth(self, P):
-        out = np.full(len(P), -1e9)
-        sel = np.flatnonzero(np.all((P >= self.lo - 1.0) & (P <= self.hi + 1.0), axis=1))
+    def query(self, P):
+        depth = np.full(len(P), -1e9)
+        nrm = np.zeros((len(P), 3))
+        sel = np.flatnonzero(np.all(np.isfinite(P), axis=1) & np.all((P >= self.lo - self.MAXD) & (P <= self.hi + self.MAXD), axis=1))
         if not len(sel):
-            return out
-        try:
-            c = self.m.contains(P[sel])
-        except Exception:
-            return out
-        out[sel] = -1.0
-        ins = sel[c]
-        if len(ins):
-            from trimesh.proximity import closest_point
-            _, d, _ = closest_point(self.m, P[ins])
-            out[ins] = d
-        return out
+            return depth, nrm
+        d, j = self.tree.query(P[sel])
+        near = d < self.MAXD
+        sel, d, j = sel[near], d[near], j[near]
+        if not len(sel):
+            return depth, nrm
+        s = ((P[sel] - self.pts[j]) * self.nrm[j]).sum(1)
+        inside = s < 0                                         # decisive when the nearest surface sample is > UNSURE mm away
+        unsure = d <= self.UNSURE
+        if unsure.any():                                       # parity only for the points close to the surface
+            inside[unsure] = self.ray.contains_points(P[sel][unsure])
+        depth[sel] = np.where(inside, np.maximum(d, 1e-3), -np.maximum(d, 1e-3))
+        nrm[sel] = self.nrm[j]
+        return depth, nrm
 
-    def dirn(self, P):
-        from trimesh.proximity import closest_point
-        _, _, tri = closest_point(self.m, P)
-        return self.m.face_normals[tri]
+    def depth(self, P):
+        return self.query(P)[0]
 
 
-def overlap_pct(meshes: dict, ids=None, nmax=3000, seed=0):
+def _overlap_one(args):
+    i, P = args
+    inside = np.zeros(len(P), bool)
+    for j, s in _SK.items():
+        if j != i:
+            inside |= s.depth(P) > MIN_DEPTH_MM
+    return i, 100.0 * float(inside.mean())
+
+
+def overlap_pct(meshes: dict, ids=None, nmax=3000, seed=0, workers=4):
     """{id: % of its vertices (sampled) lying > MIN_DEPTH_MM inside another mesh of the set}"""
+    import multiprocessing as mp
     rng = np.random.default_rng(seed)
-    sk = {i: Skel(v, f) for i, (v, f) in meshes.items()}
-    out = {}
-    for i, (v, f) in meshes.items():
-        if ids is not None and i not in ids:
-            continue
-        P = v[rng.choice(len(v), min(len(v), nmax), replace=False)]
-        inside = np.zeros(len(P), bool)
-        for j, s in sk.items():
-            if j != i:
-                inside |= s.depth(P) > MIN_DEPTH_MM
-        out[i] = 100.0 * float(inside.mean())
-    return out
+    _SK.clear()
+    _SK.update({i: Skel(v, f) for i, (v, f) in meshes.items()})
+    jobs = [(i, v[rng.choice(len(v), min(len(v), nmax), replace=False)]) for i, (v, f) in meshes.items() if ids is None or i in ids]
+    if workers > 1 and len(jobs) > 8:
+        with mp.get_context("fork").Pool(workers) as pool:
+            return dict(pool.map(_overlap_one, jobs, chunksize=4))
+    return dict(_overlap_one(j) for j in jobs)
 
 
 def _volume(v, f):
@@ -94,38 +116,61 @@ def new_folds(v0, v1, f):
     return float(((n1[a] * n1[b]).sum(1) < -0.17)[sel].mean()) if sel.any() else 0.0
 
 
-def separate(meshes: dict, vol_ref: dict, movable: set, rounds=6, max_move=MAX_MOVE_MM, smooth=6, share=0.7, keep=None, log=print):
+_SK = {}
+_MESHES = {}
+
+
+def _contact(args):
+    """worker: raw contact push of mesh i against every other mesh (module globals _SK / _MESHES are inherited through fork)"""
+    i, cur_v, share, max_move = args
+    f = _MESHES[i][1]
+    D = np.zeros_like(cur_v)
+    hit = np.zeros(len(cur_v), bool)
+    for j, s in _SK.items():
+        if j == i:
+            continue
+        d, nall = s.query(cur_v)
+        m = d > MIN_DEPTH_MM
+        if m.any():
+            n = nall[m]
+            step = np.minimum(share * (d[m] + MARGIN_MM), max_move)
+            cand = n * step[:, None]
+            idx = np.flatnonzero(m)
+            bigger = np.linalg.norm(cand, axis=1) > np.linalg.norm(D[idx], axis=1)
+            D[idx[bigger]] = cand[bigger]
+            hit[idx] = True
+    return i, D, hit
+
+
+def separate(meshes: dict, vol_ref: dict, movable: set, rounds=6, max_move=MAX_MOVE_MM, smooth=6, share=0.7, keep=None, log=print, workers=4):
     """meshes: {id: (v, f)} closed neighbour muscles (the shipped, decimated meshes); vol_ref: {id: source volume x scale^3 or None}; movable: ids that may move.
-    keep(id, v_new) -> bool: extra acceptance test (containment).  Returns ({id: v_new}, report)"""
+    keep(id, v_new) -> bool: extra acceptance test (containment).  The contact search of one round runs in `workers` forked processes.  Returns ({id: v_new}, report)"""
+    import multiprocessing as mp
     cur = {i: v.copy() for i, (v, f) in meshes.items()}
     rep = {}
+    _MESHES.clear()
+    _MESHES.update(meshes)
     for rd in range(rounds):
-        sk = {i: Skel(cur[i], meshes[i][1]) for i in meshes}
+        _SK.clear()
+        _SK.update({i: Skel(cur[i], meshes[i][1]) for i in meshes})
+        order = sorted(movable)
+        if workers > 1 and len(order) > 8:
+            with mp.get_context("fork").Pool(workers) as pool:
+                res = pool.map(_contact, [(i, cur[i], share, max_move) for i in order], chunksize=4)
+        else:
+            res = [_contact((i, cur[i], share, max_move)) for i in order]
         new = {}
-        for i in movable:
+        for i, D, hit in res:
             v, f = cur[i], meshes[i][1]
-            D = np.zeros_like(v)
-            hit = np.zeros(len(v), bool)
-            for j, s in sk.items():
-                if j == i:
-                    continue
-                d = s.depth(v)
-                m = d > MIN_DEPTH_MM
-                if m.any():
-                    n = s.dirn(v[m])
-                    step = np.minimum(share * (d[m] + MARGIN_MM), max_move)
-                    cand = n * step[:, None]
-                    idx = np.flatnonzero(m)
-                    bigger = np.linalg.norm(cand, axis=1) > np.linalg.norm(D[idx], axis=1)
-                    D[idx[bigger]] = cand[bigger]
-                    hit[idx] = True
             if not hit.any():
                 continue
-            D = Q._smooth_push(f, D, smooth)
+            D = np.nan_to_num(Q._smooth_push(f, np.nan_to_num(D), smooth))
             D *= np.minimum(1.0, max_move / np.maximum(np.linalg.norm(D, axis=1), 1e-9))[:, None]
             ref = vol_ref.get(i)
             for alpha in (1.0, 0.6, 0.35):                      # back-tracking: a smaller step is kept when the full one would fold / shrink / leave her skin
                 v2 = cur[i] + alpha * D
+                if not np.isfinite(v2).all():
+                    continue
                 tot = v2 - meshes[i][0]
                 v2 = meshes[i][0] + tot * np.minimum(1.0, MAX_TOTAL_MM / np.maximum(np.linalg.norm(tot, axis=1), 1e-9))[:, None]
                 ok = True

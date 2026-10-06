@@ -1040,8 +1040,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     if q194 and q194.get("refine"):
         # Q194: bounded post-closure refinements (left forearm on her photographs, overlap / distortion leftovers); everything not listed in the report stays bit-identical
         from scripts.zanatomy import q194_refine as Q194
-        LAST_REPORTS["q194"] = Q194.refine_pending(
-            pending, raw_before_fit, decimate_fn=lambda v, f, i, c: decimate(v, f, i, c, (category_scale or {}).get(c, budget_scale), prepped=True))
+        LAST_REPORTS["q194"] = Q194.refine_pending(pending, raw_before_fit, budget_scale=budget_scale, category_scale=category_scale)
         if q194.get("dump_after"):
             from scripts.zanatomy import q190_refine as Q190
             Q190.dump_pending(pending, raw_before_fit, q194["dump_after"])
