@@ -1,0 +1,307 @@
+{
+ "what": "Q195 Z-Anatomy male fitted to the Visible Human male: numbers (stage 1 = bone fit + clamp inside his skin; final = + trunk refit (Q186c method) + Q190 muscles + Q191 hands + Q195 organs/leg/head muscles/limb skin/bone guard/volume guard)",
+ "build_dir": "build/viewer_zan_male_fitted_q195 (final), build/viewer_zan_male_fitted_q195_s1 (stage 1), build/viewer_zan_male_fitted_q195_B (intermediate)",
+ "bone_fit": {
+  "units": {
+   "units_fitted": 54,
+   "residual_median_mm": 1.94,
+   "residual_max_mm": 5.62,
+   "over_5mm": [
+    "metacarpals_r",
+    "phalanges_hand_l",
+    "phalanges_hand_r",
+    "ribs_l"
+   ]
+  },
+  "body_scale": 1.0579,
+  "region_errors_surface_mm": {
+   "head_neck": {
+    "median": 6.6,
+    "max": 28.8
+   },
+   "trunk": {
+    "median": 8.7,
+    "max": 29.6
+   },
+   "upper_limb": {
+    "median": 9.4,
+    "max": 10.3
+   },
+   "forearm_hand": {
+    "median": 5.8,
+    "max": 26.3
+   },
+   "lower_limb": {
+    "median": 7.6,
+    "max": 27.2
+   },
+   "foot": {
+    "median": 1.0,
+    "max": 8.5
+   },
+   "whole_body": {
+    "median": 7.1,
+    "max": 29.6
+   },
+   "whole_body_soft_tissue": {
+    "median": 8.6,
+    "max": 29.6
+   },
+   "whole_body_bones": {
+    "median": 1.9,
+    "max": 9.3
+   },
+   "whole_body_her_mesh_complete": {
+    "median": 5.6,
+    "max": 29.6
+   },
+   "proxy_fit_targets_not_independent": null
+  }
+ },
+ "error_vs_his_own_meshes_mm_two_way_median": {
+  "all": {
+   "n": 247,
+   "before_median": 7.32,
+   "after_median": 3.73,
+   "before_max": 26.2,
+   "after_max": 24.5
+  },
+  "bones": {
+   "n": 39,
+   "before_median": 1.75,
+   "after_median": 1.75,
+   "before_max": 8.7,
+   "after_max": 8.7
+  },
+  "soft_tissue": {
+   "n": 196,
+   "before_median": 8.56,
+   "after_median": 4.28,
+   "before_max": 26.2,
+   "after_max": 24.5
+  },
+  "organs": {
+   "n": 12,
+   "before_median": 9.46,
+   "after_median": 3.16,
+   "before_max": 20.2,
+   "after_max": 11.0
+  },
+  "region:foot": {
+   "n": 4,
+   "before_median": 4.59,
+   "after_median": 3.18,
+   "before_max": 4.7,
+   "after_max": 3.4
+  },
+  "region:forearm_hand": {
+   "n": 3,
+   "before_median": 10.1,
+   "after_median": 10.26,
+   "before_max": 24.2,
+   "after_max": 24.5
+  },
+  "region:head_neck": {
+   "n": 37,
+   "before_median": 6.76,
+   "after_median": 4.0,
+   "before_max": 15.5,
+   "after_max": 15.5
+  },
+  "region:lower_limb": {
+   "n": 54,
+   "before_median": 8.41,
+   "after_median": 3.33,
+   "before_max": 20.8,
+   "after_max": 15.5
+  },
+  "region:trunk": {
+   "n": 104,
+   "before_median": 9.43,
+   "after_median": 4.66,
+   "before_max": 26.2,
+   "after_max": 15.9
+  },
+  "region:upper_limb": {
+   "n": 6,
+   "before_median": 8.57,
+   "after_median": 4.68,
+   "before_max": 10.2,
+   "after_max": 5.4
+  }
+ },
+ "skin_vs_his_ct_skin_nearest_vertex_mm": {
+  "stage1": {
+   "all": {
+    "median_mm": 7.9,
+    "p90_mm": 26.7,
+    "within_5mm": 0.334
+   },
+   "trunk_chest_abdomen_back": {
+    "median_mm": 8.5,
+    "p90_mm": 29.7,
+    "within_5mm": 0.301
+   },
+   "legs": {
+    "median_mm": 4.9,
+    "p90_mm": 15.8,
+    "within_5mm": 0.511
+   }
+  },
+  "final": {
+   "all": {
+    "median_mm": 4.8,
+    "p90_mm": 17.9,
+    "within_5mm": 0.514
+   },
+   "trunk_chest_abdomen_back": {
+    "median_mm": 4.9,
+    "p90_mm": 18.6,
+    "within_5mm": 0.512
+   },
+   "legs": {
+    "median_mm": 2.8,
+    "p90_mm": 8.0,
+    "within_5mm": 0.728
+   }
+  }
+ },
+ "gates_stage1": {
+  "outside_his_skin_mean_by_cat": {
+   "bone": 0.0387,
+   "bursa": 0.0,
+   "cartilage": 0.0,
+   "fascia": 0.0326,
+   "ligament": 0.0118,
+   "lymphatic": 0.0041,
+   "muscle": 0.0237,
+   "nerve": 0.0058,
+   "organ": 0.0,
+   "skin": null,
+   "tendon": 0.0394,
+   "vessel": 0.0059
+  },
+  "inside_bone_mean_by_cat": {
+   "bone": null,
+   "bursa": 0.1476,
+   "cartilage": 0.1568,
+   "fascia": 0.0269,
+   "ligament": 0.1637,
+   "lymphatic": 0.0344,
+   "muscle": 0.0725,
+   "nerve": 0.0593,
+   "organ": 0.0097,
+   "skin": null,
+   "tendon": 0.1056,
+   "vessel": 0.0977
+  },
+  "inside_lung_mean_by_cat": {
+   "bone": null,
+   "bursa": 0.0,
+   "cartilage": 0.0057,
+   "fascia": 0.0034,
+   "ligament": 0.0002,
+   "lymphatic": 0.0195,
+   "muscle": 0.0016,
+   "nerve": 0.0003,
+   "organ": 0.0028,
+   "skin": null,
+   "tendon": 0.0,
+   "vessel": 0.0331
+  },
+  "outside_his_skin_all_nonskin": 0.0134,
+  "structures_with_any_vertex_outside_skin": 187,
+  "soft_inside_bone": 0.0841,
+  "soft_inside_lung": 0.0106,
+  "volume_guard": {
+   "closed_structures": 766,
+   "within_0.65_1.5": 0.8629,
+   "median": 0.99,
+   "p05": 0.542,
+   "p95": 1.609
+  },
+  "distortion": {
+   "mean_score_pct_faces": 12.46,
+   "structures_gt25pct": 501,
+   "mean_flipped_frac": 0.0338,
+   "structures_flipped_gt2pct": 433
+  },
+  "muscle_overlap": {
+   "muscles": 393,
+   "mean_vertex_fraction_inside_another": 0.1851,
+   "gt10pct": 272
+  }
+ },
+ "gates_final": {
+  "outside_his_skin_mean_by_cat": {
+   "bone": 0.0272,
+   "bursa": 0.0,
+   "cartilage": 0.0,
+   "fascia": 0.0036,
+   "ligament": 0.0016,
+   "lymphatic": 0.0,
+   "muscle": 0.003,
+   "nerve": 0.0004,
+   "organ": 0.0,
+   "skin": null,
+   "tendon": 0.0,
+   "vessel": 0.0009
+  },
+  "inside_bone_mean_by_cat": {
+   "bone": null,
+   "bursa": 0.1267,
+   "cartilage": 0.1669,
+   "fascia": 0.0221,
+   "ligament": 0.1731,
+   "lymphatic": 0.0281,
+   "muscle": 0.0571,
+   "nerve": 0.0546,
+   "organ": 0.0072,
+   "skin": null,
+   "tendon": 0.1177,
+   "vessel": 0.0918
+  },
+  "inside_lung_mean_by_cat": {
+   "bone": null,
+   "bursa": 0.0,
+   "cartilage": 0.0029,
+   "fascia": 0.0,
+   "ligament": 0.0,
+   "lymphatic": 0.0185,
+   "muscle": 0.0008,
+   "nerve": 0.0001,
+   "organ": 0.0011,
+   "skin": null,
+   "tendon": 0.0,
+   "vessel": 0.024
+  },
+  "outside_his_skin_all_nonskin": 0.0036,
+  "structures_with_any_vertex_outside_skin": 78,
+  "soft_inside_bone": 0.0789,
+  "soft_inside_lung": 0.0078,
+  "volume_guard": {
+   "closed_structures": 766,
+   "within_0.65_1.5": 0.9125,
+   "median": 0.976,
+   "p05": 0.574,
+   "p95": 1.5
+  },
+  "distortion": {
+   "mean_score_pct_faces": 12.85,
+   "structures_gt25pct": 534,
+   "mean_flipped_frac": 0.0373,
+   "structures_flipped_gt2pct": 543
+  },
+  "muscle_overlap": {
+   "muscles": 393,
+   "mean_vertex_fraction_inside_another": 0.178,
+   "gt10pct": 253
+  }
+ },
+ "page": {
+  "desktop_and_phone": "0 page errors (only console resource errors: 404 clinical add-on files not staged, offline font fetch), no horizontal scroll, 2966 structures, title 'Z-Anatomy male, fitted to the Visible Human male'"
+ },
+ "raw_z_source_muscle_overlap_whole_body": 0.158,
+ "raw_z_source_muscle_overlap_trunk_q190_definition": 0.1424,
+ "female_regression": "data/derived/Q195_female_regression.json (2939 structures, 0 differ)"
+}
