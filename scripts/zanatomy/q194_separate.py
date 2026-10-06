@@ -1,10 +1,11 @@
-"""Q194: bounded per-vertex separation of overlapping neighbour muscles along the contact normal.
+"""Q194: bounded per-vertex separation of overlapping neighbour muscles along the contact normal, on the SHIPPED (decimated) meshes.
 
-Q190 resolved muscle-muscle overlap with a push-apart that collapsed the muscles (volume lost, folds); the neighbour overlap then rose 8.0 -> 9.7 % of the vertices.
-Here each round: for every pair of (closed) neighbour meshes A, B, a vertex of A that lies > 0.3 mm inside B is moved along B's outward surface normal by HALF its
-depth (+ 0.4 mm margin, the other half is B's own move), capped at MAX_MOVE_MM; every mesh's displacement is smoothed over its own surface (so no spikes) and the
-result per mesh is accepted only if (i) volume stays in 0.65-1.5 x the Z source, (ii) the share of folded edges does not grow, (iii) it stays out of the displayed
-bones and inside her skin where the caller says so (`keep`), else that mesh keeps its previous round.  Nothing moves that does not overlap.
+Q190 resolved muscle-muscle overlap with a push-apart that collapsed the muscles (volume lost, folds); the neighbour overlap then rose 8.0 -> 9.7 % of the vertices (measured on
+the shipped meshes: decimation makes it larger than at full resolution).  Here each round: for every pair of closed neighbour meshes A, B, a vertex of A that lies > MIN_DEPTH_MM
+inside B is moved along B's outward surface normal by `share` (0.7) x (its depth + MARGIN_MM), capped at MAX_MOVE_MM per round and MAX_TOTAL_MM overall; each displacement is smoothed
+over the mesh (so no spikes) and back-tracked (1, 0.6, 0.35 of the step) until the mesh (i) keeps its volume within 0.65-1.5 x the Z source (or does not get further from 1.0),
+(ii) creates no new folded edges, (iii) satisfies the caller's containment test (inside her skin, out of the displayed bones).  Nothing moves that does not overlap; a mesh that
+cannot move without breaking a guard stays.
 """
 from __future__ import annotations
 
