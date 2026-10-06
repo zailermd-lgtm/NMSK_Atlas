@@ -60,3 +60,20 @@ def test_committed_report_has_his_composite_metacarpals_and_body_scale():
     assert r["target"] == "vhm" and 0.9 < r["body_scale"] < 1.2
     assert r["bone_fits"]["metacarpals_r"]["status"] == "fitted" and r["bone_fits"]["metacarpals_l"]["status"] == "fitted"
     assert "metacarpal_1_r" not in r["bone_fits"]
+
+
+def test_final_volume_guard_scales_only_out_of_range_closed_muscles():
+    import numpy as np
+    import trimesh
+    from scripts.zanatomy import q195_refine as R
+    m = trimesh.creation.icosphere(subdivisions=2, radius=15.0)
+    r = np.asarray(m.vertices); f = np.asarray(m.faces)
+    s = 0.932                                  # body scale of the female default context; ratio = (k s)^3 / s^3 = k^3 for a mesh scaled by k*s
+    big = {"mesh_id": "m_big", "cat": "muscle", "v": r * (s * 1.4), "f": f}      # volume 2.7x -> out of range
+    ok = {"mesh_id": "m_ok", "cat": "muscle", "v": r * s, "f": f}
+    skin = {"mesh_id": "skin_x", "cat": "skin", "v": r * (s * 1.4), "f": f}
+    raw = {"m_big": r, "m_ok": r, "skin_x": r}
+    ok_v = ok["v"].copy()
+    rep = R.final_volume_guard([big, ok, skin], raw, log=lambda *a: None)
+    assert rep["m_big"]["applied"] and abs(rep["m_big"]["ratio_after"] - 1.5) < 0.01 and "m_ok" not in rep and "skin_x" not in rep
+    assert np.array_equal(ok["v"], ok_v) and "volume brought" in big["fit_note"]

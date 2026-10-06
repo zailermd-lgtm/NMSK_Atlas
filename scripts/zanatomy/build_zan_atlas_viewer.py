@@ -1127,6 +1127,9 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                                         "why": "the global closure scene couples distant meshes at the 0.01-1 mm level; outside the left-hand refit (and its 10 mm neighbourhood) the Q191 result is kept"}
     LAST_REPORTS["contralateral"] = contra_report
     LAST_REPORTS["gap_closure"] = gap_report
+    if target_body == "vhm" and q195_refine:
+        from scripts.zanatomy import q195_refine as Q195R
+        LAST_REPORTS["q195_final_volume_guard"] = _body_words(pending, lambda: Q195R.final_volume_guard(pending, raw_before_fit))
     if q194 and q194.get("dump"):         # Q194: the exact full-resolution state right before the decimation / export (= v9 without --q194-refine)
         from scripts.zanatomy import q190_refine as Q190
         Q190.dump_pending(pending, raw_before_fit, q194["dump"])

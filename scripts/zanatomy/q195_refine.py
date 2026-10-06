@@ -38,6 +38,8 @@ ORGAN_GROUPS = {
     "prostate": ["zan_prostate"],
 }
 FOLLOW_CATS = ("organ", "vessel", "lymphatic", "nerve", "ligament", "fascia", "tendon", "bursa", "muscle")
+HEAD_RE = re.compile(r"masseter|temporalis|pterygoid|pharyng|glossus|rectus_(superior|inferior|medial|lateral)|oblique_(superior|inferior)|levator_palpebrae|"
+                     r"digastric|hyoid|mylohyoid|thyro|platysma|capitis|colli")        # the head / neck muscles Q190 leaves out (its SKIP_RE)
 LEG_Y_MAX = -140.0                    # Z muscles whose centroid lies below this are lower limb (the Q190 trunk scope ends here)
 FOOT_Y = -840.0
 MIN_GAIN = 0.90                       # chamfer after / before must be below this
@@ -205,6 +207,33 @@ def bone_guard(structs, newv, guards, regions, log=print):
     return rep
 
 
+def final_volume_guard(pending, raw, log=print):
+    """after the gap closure: closed muscle-layer structures (source volume > 1 cm3, fasciae / skin / cartilage excluded) outside 0.65-1.5 x the Z source volume at body
+    scale are scaled about their centroid to the nearest bound (Q190 volume_guard); bounded: nothing moves more than 10 mm (skipped otherwise, reported)"""
+    rep = {}
+    for p in pending:
+        if p["cat"] not in ("muscle", "organ") or p["mesh_id"] not in raw or len(p["f"]) == 0 or not Q._closed(p["f"]) or Q.NOT_A_MUSCLE_BODY.search(p["mesh_id"]):
+            continue
+        r = raw[p["mesh_id"]].astype(np.float64)
+        if abs(Q.volume(r, p["f"])) < 1000.0:
+            continue
+        v = p["v"]
+        v2, ratio = Q.volume_guard(v, r, p["f"])
+        before = abs(Q.volume(v, p["f"])) / (abs(Q.volume(r, p["f"])) * Q.BODY_SCALE ** 3)
+        if ratio == before:
+            continue
+        mv = float(np.linalg.norm(v2 - v, axis=1).max())
+        if mv > 10.0:
+            rep[p["mesh_id"]] = {"ratio_before": round(float(before), 3), "applied": False, "max_move_mm": round(mv, 1)}
+            continue
+        p["v"] = v2
+        rep[p["mesh_id"]] = {"ratio_before": round(float(before), 3), "ratio_after": round(float(ratio), 3), "applied": True, "max_move_mm": round(mv, 1)}
+        p["fit_note"] = (p.get("fit_note") or "") + (f" Q195: volume brought from {before:.2f}x to {ratio:.2f}x of the Z source (guard 0.65-1.5x at his body scale) by scaling about its centre "
+                                                      f"(at most {mv:.1f} mm).")
+    log(f"  final volume guard: {sum(r['applied'] for r in rep.values())} applied, {sum(not r['applied'] for r in rep.values())} skipped (> 10 mm)")
+    return rep
+
+
 def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
     from scripts.placement_sweep_q185 import Body
@@ -232,12 +261,15 @@ def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     # 2. lower-limb muscles
     lg = {}
     for d in structs:
-        if d["cat"] != "muscle" or d["v"].mean(0)[1] >= LEG_Y_MAX or d["v"].mean(0)[1] < FOOT_Y or Q.NOT_A_MUSCLE_BODY.search(d["id"]):
+        if d["cat"] != "muscle" or Q.NOT_A_MUSCLE_BODY.search(d["id"]):
+            continue
+        yy = d["v"].mean(0)[1]
+        if not ((FOOT_Y <= yy < LEG_Y_MAX) or (HEAD_RE.search(d["id"]) and yy > 500.0)):
             continue
         hid = Q.her_id_for(d["id"], her)
         if hid:
             lg.setdefault(hid, []).append(d)
-    new_l, rep_l = _refine_groups(lg, lambda k: k, by, her, guards, obstacles, "leg muscle", log)
+    new_l, rep_l = _refine_groups(lg, lambda k: k, by, her, guards, obstacles, "limb/head muscle", log)
     new = {**new_o, **new_l}
     # 3. followers (bronchi, segments, vessels, nodes, the leg tendons / fasciae / nerves / vessels / muscles he has no mesh of)
     pr = Q.propagate(structs, new, log=log, y_range=(-1100.0, 700.0), cats=FOLLOW_CATS)
