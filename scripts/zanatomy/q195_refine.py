@@ -260,7 +260,7 @@ def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     # apply + badges
     for k, v in newv.items():
         by_p[k]["v"] = v
-    clamp = T.clamp_inside_skin(pending, skin_mesh=skin, log=log)
+    clamp = T.clamp_inside_skin(pending, skin_mesh=skin, log=log, skip_regions=())     # his CT skin covers hands and feet: final containment for every region
     for p in pending:
         p.pop("v_unclamped", None)
     for k, r in {**rep_o, **rep_l}.items():

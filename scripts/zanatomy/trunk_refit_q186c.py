@@ -56,7 +56,7 @@ CHART_SMOOTH_CELLS = 1.5             # Gaussian smoothing (5 mm x 2 deg cells) o
 SKIN_INSET_MM = 1.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
 CLAMP_MARGIN_MM, CLAMP_MAX_MM = 0.5, 150.0     # nerves/vessels lying far outside are dropped onto her skin too (no slivers hanging outside)
 CLAMP_SMOOTH_ITERS = 4
-CLAMP_SKIP_REGIONS = ("forearm_hand", "foot") if _ctx.BODY == "vhf" else ()      # Q195: his CT skin covers his hands and feet
+CLAMP_SKIP_REGIONS = ("forearm_hand", "foot")
 RBF_KERNEL = "thin_plate_spline"      # Q186c v2: far fewer fold-over points than "cubic" (3.6 % vs 5.3 % of samples < 0.25, min det -0.55 vs -3.9)
 ANCHOR_REACH_MM = 90.0               # limb bones anchor the field only within this raw distance of a trunk bone (humeral/femoral heads)
 GRID_MM = 8.0                        # the field is evaluated on this lattice and interpolated trilinearly (checked against direct evaluation)
@@ -659,7 +659,7 @@ def blend_anterior(pending: list[dict], legacy_v: dict, skin_mesh=None) -> dict:
             "structures_blended": structures, "vertices_mostly_legacy": n_b, "vertices_total": n_tot}
 
 
-def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
+def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print, skip_regions=None) -> dict:
     """Last guard (gate: 0 % outside her skin): every non-bone vertex that still lies outside her CT skin is moved to the
     nearest point of her skin surface, CLAMP_MARGIN_MM inside it; moves above CLAMP_MAX_MM are left (reported).
     Forearm/hand and foot regions (no usable outline) are skipped."""
@@ -671,7 +671,7 @@ def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
     from trimesh.proximity import closest_point
     rep_, n_out, n_tot, left = {}, 0, 0, {}
     for p in pending:
-        if p["cat"] == "bone" or regions.get(p["mesh_id"]) in CLAMP_SKIP_REGIONS or any(s in p["mesh_id"] for s in SKIN_HAND):
+        if p["cat"] == "bone" or regions.get(p["mesh_id"]) in (CLAMP_SKIP_REGIONS if skip_regions is None else skip_regions) or any(s in p["mesh_id"] for s in SKIN_HAND):
             continue
         v = p["v"]
         n_tot += len(v)
