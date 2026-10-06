@@ -570,9 +570,11 @@ def _fmt_mm(x) -> str:
     return f"{x:.1f}" if isinstance(x, (int, float)) else "n/a"
 
 
-def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool, region: str | None = None) -> str:
+def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool, region: str | None = None, body: str = "vhf") -> str:
     """Q168: one structure's badge text -- its own measured error where her CT mesh exists,
-    otherwise its region's median/max, labelled as an estimate."""
+    otherwise its region's median/max, labelled as an estimate.  Q195: body="vhm" = the same for the VH male (his)."""
+    if body == "vhm":
+        return fit_badge_vhm(mesh_id, rep, region)
     head = ("Q168: Z-Anatomy geometry fitted onto the Visible Human female's own skeleton "
             "(per-bone similarity fits, soft tissue blended from the nearest bones). ")
     ps = rep["per_structure"].get(mesh_id)
@@ -597,11 +599,34 @@ def fit_badge(mesh_id: str, rep: dict, left_forearm_proxy: bool, region: str | N
     return head + txt
 
 
+def fit_badge_vhm(mesh_id: str, rep: dict, region: str | None = None) -> str:
+    """Q195: the badge of a structure fitted onto the VH MALE's own skeleton: measured error against his own mesh where one
+    exists (before -> after), otherwise the median/max of his body region, labelled as an estimate."""
+    head = ("Q195: Z-Anatomy geometry fitted onto the Visible Human male's own skeleton (his CT / DU release bones; per-bone "
+            "similarity fits, soft tissue blended from the nearest bones). ")
+    ps = rep["per_structure"].get(mesh_id)
+    if ps is not None:
+        txt = (f"Measured against his own mesh ({ps['her_subject']}): centroid {_fmt_mm(ps['centroid_mm'])} mm, "
+               f"surface {_fmt_mm(ps['surface_mm'])} mm (Z-Anatomy unfitted: {_fmt_mm(ps['raw_centroid_mm'])} / "
+               f"{_fmt_mm(ps['raw_surface_mm'])} mm).")
+        if (ps.get("her_extent_ratio") or 1.0) < 0.7:
+            txt += " His mesh is cut off by the scan field or only partly segmented, so the centroid error is overstated."
+        return head + txt
+    region = rep["region_of_structure"].get(mesh_id) or region or "whole_body"
+    re_ = rep["region_errors"].get(region) or rep["region_errors"]["whole_body"]
+    s = re_["surface_mm"]
+    return head + (f"Not measured on this structure (he has no mesh of it). Estimate from his {region.replace('_', '/')} "
+                   f"region: surface error median {_fmt_mm(s['median'])} mm, max {_fmt_mm(s['max'])} mm (n={re_['n']}).")
+
+
+TARGET = {"body": "vhf"}          # Q195: which body this build fits onto (set in build())
+
+
 def load_her_skin():
     """Her own CT body-surface mesh (atlas id `skin`, first of her subjects carrying it), or None."""
     from scripts.transfer import zan_to_vhf_whole_body as Q168
     try:
-        order = Q168.her_subject_order()
+        order = Q168.her_subject_order()      # Q195: the configured body's bundle (female unless body_ctx.configure("vhm"))
     except (OSError, ValueError, KeyError):
         return None
     for sub in order:
@@ -625,7 +650,7 @@ def skin_vs_her_skin(pending: list[dict]) -> dict:
     her = load_her_skin() if skin else None
     if her is None:
         for p in skin:
-            p["fit_note"] += " Not compared with her own skin (her CT skin mesh is not available in this build)."
+            p["fit_note"] += " Not compared with " + ("his" if TARGET["body"] == "vhm" else "her") + " own skin (the CT skin mesh is not available in this build)."
         return {"compared": False}
     sub, hv = her
     tree = cKDTree(hv)
@@ -633,6 +658,11 @@ def skin_vs_her_skin(pending: list[dict]) -> dict:
     for p in skin:
         d = tree.query(p["v"])[0]
         allv.append(d)
+        if TARGET["body"] == "vhm":
+            p["fit_note"] += (f" Skin: compared with his own CT skin surface ({sub}), this patch lies a median "
+                              f"{np.median(d):.1f} mm (90th percentile {np.percentile(d, 90):.1f} mm) from it; the "
+                              f"shape is still Z-Anatomy's body, so fat and contour are not his.")
+            continue
         p["fit_note"] += (f" Skin: compared with her own CT skin surface ({sub}), this patch lies a median "
                           f"{np.median(d):.1f} mm (90th percentile {np.percentile(d, 90):.1f} mm) from it; the "
                           f"shape is Z-Anatomy's male body, so breasts, fat and contour are not hers.")
@@ -642,15 +672,21 @@ def skin_vs_her_skin(pending: list[dict]) -> dict:
             "frac_within_10mm": round(float((d <= 10).mean()), 3)}
 
 
-def fit_to_vhf(pending: list[dict]) -> dict:
+def fit_to_vhf(pending: list[dict], body: str = "vhf") -> dict:
     """Q168 (owner: 'Z-Anatomy female -- fit it to her skeleton'): drop the male-only objects, move
-    every structure into the VH female's frame with the committed per-bone fits, badge each one."""
+    every structure into the VH female's frame with the committed per-bone fits, badge each one.
+    Q195: body="vhm" fits onto the VH male (his own bones, Q195 report), keeping the male-only structures."""
     from scripts.transfer import zan_to_vhf_whole_body as Q168  # lazy: that module imports this one
-    rep = json.loads(Q168.DEFAULT_REPORT.read_text())
-    male = Q168.MALE_ONLY_IDS | MALE_ONLY_SKIN
+    report_path = Q168.DEFAULT_REPORT
+    if body == "vhm":
+        from scripts.transfer import zan_to_vhm_whole_body as Q195
+        Q195.apply_male_units()
+        report_path = Q195.REPORT
+    rep = json.loads(Path(report_path).read_text())
+    male = (Q168.MALE_ONLY_IDS | MALE_ONLY_SKIN) if body == "vhf" else frozenset()
     dropped = [p["mesh_id"] for p in pending if p["mesh_id"] in male]
     pending[:] = [p for p in pending if p["mesh_id"] not in male]
-    xf = Q168.load_zan_to_vhf(zan_meshes={p["mesh_id"]: p["v"] for p in pending})
+    xf = Q168.load_zan_to_vhf(zan_meshes={p["mesh_id"]: p["v"] for p in pending}, report_path=report_path)
     # Q186: ids Q168's report does not list (skin, renamed orphans) get their region the way Q168 assigned
     # every other structure's (nearest Z-Anatomy bones, in the source frame, before the fit)
     new_ids = [p for p in pending if p["mesh_id"] not in rep["region_of_structure"]]
@@ -672,7 +708,7 @@ def fit_to_vhf(pending: list[dict]) -> dict:
             p["v"] = np.asarray(xf(p["mesh_id"], p["cat"], p["v"]), dtype=np.float64)
         region = rep["region_of_structure"].get(p["mesh_id"]) or new_region.get(p["mesh_id"], "whole_body")
         left_proxy = p["mesh_id"] in proxy_ids or (region == "forearm_hand" and side_code(p["side_raw"]) == "l")
-        p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy, region)
+        p["fit_note"] = fit_badge(p["mesh_id"], rep, left_proxy, region, body)
         measured += p["mesh_id"] in rep["per_structure"]
     skin_fit = skin_vs_her_skin(pending)
     tears = [max(np.linalg.norm(pending[a][ "v"][b] - pending[c]["v"][d]) for (a, b) in cp for (c, d) in cp)
@@ -681,10 +717,10 @@ def fit_to_vhf(pending: list[dict]) -> dict:
         t = np.asarray(tears)
         skin_fit["seam_tear_mm"] = {"shared_vertices": len(t), "median": round(float(np.median(t)), 2),
                                     "p99": round(float(np.percentile(t, 99)), 2), "max": round(float(t.max()), 2)}
-    return {"skin_vs_her_ct_skin": skin_fit,"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)", "fits": str(Q168.DEFAULT_REPORT.relative_to(REPO)),
+    return {"skin_vs_her_ct_skin": skin_fit,"rule": "scripts/transfer/zan_to_vhf_whole_body.py (Q168)" + (" via zan_to_vhm_whole_body.py (Q195)" if body == "vhm" else ""), "fits": str(Path(report_path).relative_to(REPO)),
             "male_only_dropped": sorted(dropped), "structures": len(pending),
             "measured_on_her_mesh": measured, "region_errors": rep["region_errors"],
-            "female_pelvic_organs": rep["female_pelvic_organs"]}
+            "female_pelvic_organs": rep.get("female_pelvic_organs")}
 
 
 def refit_trunk_q186c(pending: list[dict], raw: dict, anterior_v5: bool = False) -> dict:
@@ -802,6 +838,10 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
           trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None, q191: dict | None = None,
           q194: dict | None = None, pure_source: bool = False):
+    TARGET["body"] = target_body or "vhf"
+    if target_body == "vhm":                  # Q195: aim the Q168/Q186c/Q190/Q191 fitting code at the VH male BEFORE it is imported
+        from scripts.zanatomy import body_ctx
+        body_ctx.configure("vhm")
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -978,9 +1018,9 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # is restored in her frame (the per-bone fits stretch neighbouring muscles differently).
     LAST_REPORTS.pop("fit_to_vhf", None)
     LAST_REPORTS.pop("trunk_refit", None)
-    if target_body == "vhf":
-        raw_before_fit = {p["mesh_id"]: p["v"].copy() for p in pending} if (trunk_refit or q191) else None
-        LAST_REPORTS["fit_to_vhf"] = fit_to_vhf(pending)
+    if target_body in ("vhf", "vhm"):
+        raw_before_fit = {p["mesh_id"]: p["v"].copy() for p in pending} if (trunk_refit or q191 or q190 or q194) else None
+        LAST_REPORTS["fit_to_vhf"] = fit_to_vhf(pending, body=target_body)
         if trunk_refit:
             LAST_REPORTS["trunk_refit"] = refit_trunk_q186c(pending, raw_before_fit, anterior_v5=anterior_v5)
             if q190 and q190.get("dump"):
@@ -1153,6 +1193,21 @@ VHF_WORDING = [
 ]
 
 
+# Q195 male variant: Z-Anatomy male fitted to the Visible Human male (his body does have the male-only structures, so they stay, fitted)
+VHM_WORDING = [
+    ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Z-Anatomy male, fitted to the Visible Human male</title>"),
+    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Z-Anatomy male, fitted to the Visible Human male</h1>"),
+    ("    <div class=\"licence\">",
+     "    <p><strong>Fitted to a real body (Q195).</strong> Z-Anatomy male, fitted to the Visible Human male: every Z-Anatomy structure "
+     "has been moved onto the skeleton of the Visible Human male (U.S. National Library of Medicine), bone by bone; soft tissue "
+     "follows the nearest bones. His body has the male-only structures, so they are kept and fitted. Every structure's card states "
+     "its fit error, measured against his own CT-derived mesh where one exists and otherwise estimated from its body region; the "
+     "shapes and the arrangement of the soft tissue are Z-Anatomy's, not his. Fits and errors: "
+     "<code>data/derived/Q195_zan_to_vhm.json</code>.</p>\n"
+     "    <div class=\"licence\">"),
+]
+
+
 def apply_vhf_wording(template: str, wording=None) -> str:
     for old, new in (wording or VHF_WORDING):
         if template.count(old) != 1:
@@ -1189,6 +1244,8 @@ def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> s
         raise SystemExit("base64 payload contains a script terminator")
     if manifest.get("variant") == "vhf":
         template = apply_vhf_wording(template)
+    elif manifest.get("variant") == "vhm":
+        template = apply_vhf_wording(template, VHM_WORDING)
     elif manifest.get("variant") == "native_female":
         template = apply_vhf_wording(template, NATIVE_FEMALE_WORDING)
     html = template.replace("__MANIFEST_JSON__", manifest_json, 1)
@@ -1236,8 +1293,8 @@ def main(argv=None) -> int:
     ap.add_argument("--trunk-refit", action="store_true",
                     help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
                          "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
-    ap.add_argument("--target-body", choices=["vhf", "native_female"], default=None,
-                    help="vhf (Q168): fit the whole model onto the VH female's skeleton; native_female (Q196): the unfitted Z-Anatomy body "
+    ap.add_argument("--target-body", choices=["vhf", "vhm", "native_female"], default=None,
+                    help="vhf (Q168): fit the whole model onto the VH female's skeleton; vhm (Q195): onto the VH male's; native_female (Q196): the unfitted Z-Anatomy body "
                          "in its own frame without the male-only objects")
     ap.add_argument("--pure-source", action="store_true",
                     help="Q196: no declarative corrections, no contralateral repair, no muscle gap closure (decimation + skin only)")
@@ -1252,13 +1309,17 @@ def main(argv=None) -> int:
     derived = REPO / "data" / "derived"
     female = args.target_body == "vhf"
     native = args.target_body == "native_female"
-    args.q162_report = args.q162_report or str(derived / ("Q168_zan_female_build.json" if female
+    male_fit = args.target_body == "vhm"
+    args.q162_report = args.q162_report or str(derived / ("Q195_zan_male_fitted_build.json" if male_fit
+                                                         else "Q168_zan_female_build.json" if female
                                                          else "Q196_zan_female_native_build.json" if native
                                                          else "Q162_gap_closure_contralateral.json"))
-    args.report = args.report or str(derived / ("Q168_zan_female_report.json" if female
+    args.report = args.report or str(derived / ("Q195_zan_male_fitted_report.json" if male_fit
+                                                     else "Q168_zan_female_report.json" if female
                                                      else "Q196_zan_female_native_report.json" if native
                                                      else "Q157_zan_atlas_report.json"))
-    args.out = args.out or ("build/viewer_zan_female/atlas_viewer_zan_female.html" if female
+    args.out = args.out or ("build/viewer_zan_male_fitted_q195/atlas_viewer_zan_male_fitted.html" if male_fit
+                            else "build/viewer_zan_female/atlas_viewer_zan_female.html" if female
                             else "build/viewer_base_female_q196/atlas_viewer_base_female.html" if native
                             else "build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
 

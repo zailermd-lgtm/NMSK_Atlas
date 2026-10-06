@@ -327,3 +327,26 @@ def test_committed_female_build_report_drops_male_only_and_badges_every_structur
     assert set(fit["male_only_dropped"]) <= MALE_ONLY_IDS | MALE_ONLY_SKIN and len(fit["male_only_dropped"]) >= 20
     assert fit["structures"] == rep["meshes"]
     assert fit["measured_on_her_mesh"] >= 150
+
+
+def test_native_female_wording_replaces_each_template_anchor_once():
+    from scripts.zanatomy.build_zan_atlas_viewer import NATIVE_FEMALE_WORDING, TEMPLATE_PATH, apply_vhf_wording
+    html = apply_vhf_wording(TEMPLATE_PATH.read_text(encoding="utf-8"), NATIVE_FEMALE_WORDING)
+    assert "<title>NMSK Atlas — Female base model</title>" in html
+    assert "The source has no female body" in html and "fitted to any specimen" in html
+
+
+def test_committed_native_female_report_is_unfitted_and_drops_male_only():
+    """Q196: the unadapted female variant carries no fit and drops only male-only ids."""
+    import json
+    from scripts.transfer.zan_to_vhf_whole_body import MALE_ONLY_IDS
+    from scripts.zanatomy.build_zan_atlas_viewer import MALE_ONLY_SKIN
+    path = REPO_ROOT / "data" / "derived" / "Q196_zan_female_native_report.json"
+    if not path.exists():
+        pytest.skip("native female variant not built")
+    rep = json.loads(path.read_text())
+    assert "fit_to_vhf" not in rep and "trunk_refit" not in rep
+    nf = rep["native_female"]
+    assert nf["fitted_to_any_specimen"] is False
+    assert len(nf["male_only_dropped"]) >= 20 and set(nf["male_only_dropped"]) <= MALE_ONLY_IDS | MALE_ONLY_SKIN
+    assert nf["structures"] == rep["meshes"]

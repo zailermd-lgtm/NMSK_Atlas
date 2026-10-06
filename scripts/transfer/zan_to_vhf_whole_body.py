@@ -363,15 +363,19 @@ def sim_scale(A: np.ndarray) -> float:
 
 
 # ---------------------------------------------------------------- data loading
-def her_subject_order(bundle_json: Path = FEMALE_BUNDLE_JSON) -> list[str]:
+def her_subject_order(bundle_json: Path | None = None) -> list[str]:
+    from scripts.zanatomy import body_ctx          # Q195: default = the configured body's bundle (female unless configure("vhm"))
+    bundle_json = bundle_json or body_ctx.BUNDLE_JSON
     b = json.loads(Path(bundle_json).read_text())
     # ct_s1159*: a different (TotalSegmentator sample) body placed into the male viewer -- never his own
     return [s for s in b["subject"].split("+") if not s.startswith(("xfer_", "zanatomy", "zan_", "ct_s1159"))]
 
 
-def load_her_meshes(order: list[str] | None = None, vh_dir: Path = VH_DIR, bundle_json: Path = FEMALE_BUNDLE_JSON):
+def load_her_meshes(order: list[str] | None = None, vh_dir: Path = VH_DIR, bundle_json: Path | None = None):
     """{atlas_id: {'v','f','subject','cat'}} from her OWN subjects, first subject in the viewer's
     priority order to carry an id wins (exactly what the female viewer ships)."""
+    from scripts.zanatomy import body_ctx
+    bundle_json = bundle_json or body_ctx.BUNDLE_JSON
     order = order or her_subject_order(bundle_json)
     cats = {e["id"]: e["cat"] for e in json.loads(Path(bundle_json).read_text())["structures"]}
     out: dict = {}
