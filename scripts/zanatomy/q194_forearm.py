@@ -116,7 +116,7 @@ def carry(by: dict, raw: dict, fit: dict, ids: list[str], h) -> dict:
         gate = 1.0 - smoothstep((near_tree.query(r)[0] - GATE_MM[0]) / (GATE_MM[1] - GATE_MM[0]))     # the foot half of a merged mesh, far structures: untouched
         b = (1.0 - w_old) * gate
         v = by[i]["v"].astype(float)
-        out[i] = (v + b[:, None] * (Fr - v), b)
+        out[i] = (v + b[:, None] * (Fr - v), b, w)
     return out, {"s_elbow_mm": s_top, "c_w": c_w.tolist(), "u": u.tolist()}
 
 
@@ -362,9 +362,13 @@ def refine_left_forearm(by: dict, raw: dict, fit: dict, regions: dict, log=print
             s = sample_grid(sd_skin, carried)
             g = grad_grid(sd_skin, carried)
             g /= np.maximum(np.linalg.norm(g, axis=1, keepdims=True), 1e-6)
-            move = np.where((m & (res[i][1] > 0.02))[:, None], -(s + 0.8)[:, None] * g, 0.0)
+            move = np.where((m & (res[i][1] > 0.02))[:, None], -(s + 0.8)[:, None] * g * res[i][2][:, None], 0.0)       # strength = the carry weight: the elbow end stays in the upper-arm frame
             move = np.clip(move, -14.0, 14.0)
             cand = carried + Q._smooth_push(d["f"], move, 10)
+            # the elbow end of the forearm skin stays where the upper-arm skin is (CT frame): full photograph placement below y = 268, none above y = 318 (the seam with the elbow patches lies at y ~ 305-320)
+            ws = smoothstep((318.0 - v0[:, 1]) / 50.0)[:, None]
+            cand = v0 + ws * (cand - v0)
+            carried = v0 + ws * (carried - v0)
         before = metrics(v0, r, d["f"], d["cat"], skin_occ, zb)
         best = None
         # candidates: flow on top of the carry (full / half), each with and without the Q190/Q191 shape relaxation (low-pass of the displacement against the Z source, 8 mm)
@@ -402,17 +406,18 @@ def refine_left_forearm(by: dict, raw: dict, fit: dict, regions: dict, log=print
     return report
 
 
-def reweld_patches(by: dict, moved: list[str], raw: dict, passes=8) -> dict:
+def reweld_patches(by: dict, moved: list[str], raw: dict, passes=24) -> dict:
     """the skin patches tile one surface: vertices of a moved patch that share a Z-source position with an UNMOVED patch are pinned to that patch's vertex, those shared only
     between moved patches go to their common mean; the correction is spread over the moved patch (so no pleat)"""
     from scripts.zanatomy import q190_refine as Q
     if not moved:
         return {}
-    fixed = {}
+    fixed, owner = {}, {}
     for i, d in by.items():
         if d["cat"] == "skin" and i not in moved:
             for x, p in zip(np.round(raw[i], 2), d["v"]):
                 fixed.setdefault(tuple(x), p)
+                owner.setdefault(tuple(x), i)
     acc = {}
     for i in moved:
         for x, p in zip(np.round(raw[i], 2), by[i]["v"]):
@@ -429,6 +434,8 @@ def reweld_patches(by: dict, moved: list[str], raw: dict, passes=8) -> dict:
         c2 = Q._smooth_push(by[i]["f"], corr, passes)
         c2 = np.where((np.linalg.norm(corr, axis=1) > 1e-6)[:, None], corr, c2)
         rep[i] = {"max_correction_mm": round(float(m.max()), 2), "pinned_vertices": int(pinned.sum())}
+        worst = int(np.argmax(m))
+        rep[i]["worst_seam"] = {"neighbour": owner.get(keys[worst], "moved patch"), "y_mm": round(float(by[i]["v"][worst, 1]), 0)}
         by[i]["v"] = by[i]["v"] + c2
     return rep
 
