@@ -1220,7 +1220,9 @@ def apply_vhf_wording(template: str, wording=None) -> str:
 NATIVE_FEMALE_WORDING = [
     ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Female base model</title>"),
     ("<h2>NMSK Atlas — Z-Anatomy</h2>", "<h2>NMSK Atlas — Female base model (unadapted)</h2>"),
-    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Female base model (unadapted)</h1>"),
+    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Female base</h1>"),
+    ('matched+" atlas-linked · "+partOf+" part-of-linked";',
+     'matched+" atlas-linked · "+partOf+" part-of-linked · generic Z-Anatomy body, male-only organs removed, not fitted to any specimen";'),
     ("    <div class=\"licence\">",
      "    <p><strong>Source limitation (Q196).</strong> The source has no female body: Z-Anatomy (and BodyParts3D "
      "under it) ships ONE male-derived body. This page is the generic Z-Anatomy body in its own frame with the "
