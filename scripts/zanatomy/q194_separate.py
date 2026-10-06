@@ -15,109 +15,70 @@ from scripts.zanatomy import q190_refine as Q
 
 MAX_MOVE_MM = 4.0
 MARGIN_MM = 0.3
-MIN_DEPTH_MM = 0.3
+MIN_DEPTH_MM = 0.1
 STATS = {'tried': 0, 'vol_rej': 0, 'fold_rej': 0}
 FOLD_TOL = 0.003
 MAX_TOTAL_MM = 6.0         # cumulative bound over all rounds
 
 
 class Skel:
-    """closed mesh: query(P) -> (depth, normal): depth > 0 inside (mm below the surface), < 0 outside; normal = outward normal at the nearest surface sample.
-    Inside / outside = ray parity of trimesh's PURE-NUMPY ray tester, only for the points within MAXD mm of the surface (a KD-tree of surface samples decides which): the first full
-    build died with a SEGFAULT inside the pyembree ray parity test after a few rounds of moved meshes, and the sampled-normal sign alone misreads the sub-millimetre contacts
-    the gap closure leaves.  depth = distance to the nearest sample (0.7 mm sample spacing)."""
-    MAXD = 8.0
-    UNSURE = 2.0
+    """closed mesh: query(P) -> (depth, normal): depth > 0 inside (distance to the surface), < 0 outside; normal = outward face normal of the nearest triangle.
+    Inside = ray parity (embree through trimesh: fast).  The first full build died with a SEGFAULT inside pyembree on a mesh state reached after several separation rounds, so every
+    parallel round is run in forked workers and, if one dies, repeated with SAFE = True (trimesh's pure-numpy ray tester: ~20x slower, cannot crash)."""
+    SAFE = False
 
-    def __init__(self, v, f, spacing=1.0):
+    def __init__(self, v, f, spacing=0.8):
         import trimesh
-        from trimesh.ray.ray_triangle import RayMeshIntersector
         self.m = trimesh.Trimesh(v, f, process=False)
         if self.m.volume < 0:
             self.m.invert()
-        fn = self.m.face_normals
-        area = self.m.area_faces
-        n = int(min(40000, max(500, area.sum() / spacing ** 2)))
-        rng = np.random.default_rng(0)
-        idx = rng.choice(len(self.m.faces), n, p=area / area.sum())
-        u = rng.random((n, 2)); mm = u.sum(1) > 1; u[mm] = 1 - u[mm]
-        tri = self.m.vertices[self.m.faces[idx]]
-        self.pts = tri[:, 0] + u[:, :1] * (tri[:, 1] - tri[:, 0]) + u[:, 1:] * (tri[:, 2] - tri[:, 0])
-        self.nrm = fn[idx]
-        self.tree = cKDTree(self.pts)
-        self.ray = RayMeshIntersector(self.m)
         self.lo, self.hi = v.min(0), v.max(0)
+        self._ray = None
+
+    def contains(self, P):
+        if not Skel.SAFE:
+            return self.m.contains(P)
+        if self._ray is None:
+            from trimesh.ray.ray_triangle import RayMeshIntersector
+            self._ray = RayMeshIntersector(self.m)
+        return self._ray.contains_points(P)
 
     def query(self, P):
+        from trimesh.proximity import closest_point
         depth = np.full(len(P), -1e9)
         nrm = np.zeros((len(P), 3))
-        sel = np.flatnonzero(np.all(np.isfinite(P), axis=1) & np.all((P >= self.lo - self.MAXD) & (P <= self.hi + self.MAXD), axis=1))
+        sel = np.flatnonzero(np.all(np.isfinite(P), axis=1) & np.all((P >= self.lo - 1.0) & (P <= self.hi + 1.0), axis=1))
         if not len(sel):
             return depth, nrm
-        d, j = self.tree.query(P[sel])
-        near = d < self.MAXD
-        sel, d, j = sel[near], d[near], j[near]
-        if not len(sel):
-            return depth, nrm
-        s = ((P[sel] - self.pts[j]) * self.nrm[j]).sum(1)
-        inside = s < 0                                         # decisive when the nearest surface sample is > UNSURE mm away
-        unsure = d <= self.UNSURE
-        if unsure.any():                                       # parity only for the points close to the surface
-            inside[unsure] = self.ray.contains_points(P[sel][unsure])
-        depth[sel] = np.where(inside, np.maximum(d, 1e-3), -np.maximum(d, 1e-3))
-        nrm[sel] = self.nrm[j]
+        c = self.contains(P[sel])
+        depth[sel] = -1.0
+        ins = sel[c]
+        if len(ins):
+            cp, d, tri = closest_point(self.m, P[ins])
+            depth[ins] = np.maximum(d, 1e-3)
+            nrm[ins] = self.m.face_normals[tri]
         return depth, nrm
 
     def depth(self, P):
         return self.query(P)[0]
 
 
-def _overlap_one(args):
-    i, P = args
-    inside = np.zeros(len(P), bool)
-    for j, s in _SK.items():
-        if j != i:
-            inside |= s.depth(P) > MIN_DEPTH_MM
-    return i, 100.0 * float(inside.mean())
-
-
-def overlap_pct(meshes: dict, ids=None, nmax=3000, seed=0, workers=4):
-    """{id: % of its vertices (sampled) lying > MIN_DEPTH_MM inside another mesh of the set}"""
-    import multiprocessing as mp
-    rng = np.random.default_rng(seed)
-    _SK.clear()
-    _SK.update({i: Skel(v, f) for i, (v, f) in meshes.items()})
-    jobs = [(i, v[rng.choice(len(v), min(len(v), nmax), replace=False)]) for i, (v, f) in meshes.items() if ids is None or i in ids]
-    if workers > 1 and len(jobs) > 8:
-        with mp.get_context("fork").Pool(workers) as pool:
-            return dict(pool.map(_overlap_one, jobs, chunksize=4))
-    return dict(_overlap_one(j) for j in jobs)
-
-
-def _volume(v, f):
-    return abs(Q.volume(v, f))
-
-
-def new_folds(v0, v1, f):
-    """share of interior edges that were smooth in v0 (dihedral < 60 deg) and are folded over in v1 (> 100 deg): needs no source correspondence, so it works on decimated meshes"""
-    def fn(x):
-        n = np.cross(x[f[:, 1]] - x[f[:, 0]], x[f[:, 2]] - x[f[:, 0]])
-        return n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
-    n0, n1 = fn(v0), fn(v1)
-    e = np.vstack([np.c_[f[:, 0], f[:, 1], np.arange(len(f))], np.c_[f[:, 1], f[:, 2], np.arange(len(f))], np.c_[f[:, 2], f[:, 0], np.arange(len(f))]])
-    key = np.sort(e[:, :2], 1)
-    o = np.lexsort((key[:, 1], key[:, 0]))
-    k, fi = key[o], e[o, 2]
-    same = (k[1:] == k[:-1]).all(1)
-    a, b = fi[:-1][same], fi[1:][same]
-    if not len(a):
-        return 0.0
-    sel = (n0[a] * n0[b]).sum(1) > 0.5
-    return float(((n1[a] * n1[b]).sum(1) < -0.17)[sel].mean()) if sel.any() else 0.0
-
-
 _SK = {}
 _MESHES = {}
+
+
+def _run(jobs, fn, workers, log):
+    """map fn over jobs in forked workers (the module globals _SK / _MESHES are inherited); a worker that dies (segfault) -> the whole map is repeated with the safe ray tester"""
+    import concurrent.futures as cf
+    import multiprocessing as mp
+    if workers > 1 and len(jobs) > 8:
+        try:
+            with cf.ProcessPoolExecutor(workers, mp_context=mp.get_context("fork")) as ex:
+                return list(ex.map(fn, jobs, chunksize=4))
+        except Exception as e:               # BrokenProcessPool: a worker crashed
+            log(f"    worker died ({type(e).__name__}); repeating with the safe ray tester")
+            Skel.SAFE = True
+    return [fn(j) for j in jobs] if Skel.SAFE else list(map(fn, jobs))
 
 
 def _contact(args):
@@ -142,6 +103,46 @@ def _contact(args):
     return i, D, hit
 
 
+def _overlap_one(args):
+    i, P = args
+    inside = np.zeros(len(P), bool)
+    for j, s in _SK.items():
+        if j != i:
+            inside |= s.depth(P) > MIN_DEPTH_MM
+    return i, 100.0 * float(inside.mean())
+
+
+def overlap_pct(meshes: dict, ids=None, nmax=3000, seed=0, workers=4):
+    """{id: % of its vertices (sampled) lying > MIN_DEPTH_MM inside another mesh of the set}"""
+    rng = np.random.default_rng(seed)
+    _SK.clear()
+    _SK.update({i: Skel(v, f) for i, (v, f) in meshes.items()})
+    jobs = [(i, v[rng.choice(len(v), min(len(v), nmax), replace=False)]) for i, (v, f) in meshes.items() if ids is None or i in ids]
+    return dict(_run(jobs, _overlap_one, workers, print))
+
+
+def _volume(v, f):
+    return abs(Q.volume(v, f))
+
+
+def new_folds(v0, v1, f):
+    """share of interior edges that were smooth in v0 (dihedral < 60 deg) and are folded over in v1 (> 100 deg): needs no source correspondence, so it works on decimated meshes"""
+    def fn(x):
+        n = np.cross(x[f[:, 1]] - x[f[:, 0]], x[f[:, 2]] - x[f[:, 0]])
+        return n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+    n0, n1 = fn(v0), fn(v1)
+    e = np.vstack([np.c_[f[:, 0], f[:, 1], np.arange(len(f))], np.c_[f[:, 1], f[:, 2], np.arange(len(f))], np.c_[f[:, 2], f[:, 0], np.arange(len(f))]])
+    key = np.sort(e[:, :2], 1)
+    o = np.lexsort((key[:, 1], key[:, 0]))
+    k, fi = key[o], e[o, 2]
+    same = (k[1:] == k[:-1]).all(1)
+    a, b = fi[:-1][same], fi[1:][same]
+    if not len(a):
+        return 0.0
+    sel = (n0[a] * n0[b]).sum(1) > 0.5
+    return float(((n1[a] * n1[b]).sum(1) < -0.17)[sel].mean()) if sel.any() else 0.0
+
+
 def separate(meshes: dict, vol_ref: dict, movable: set, rounds=6, max_move=MAX_MOVE_MM, smooth=6, share=0.7, keep=None, log=print, workers=4):
     """meshes: {id: (v, f)} closed neighbour muscles (the shipped, decimated meshes); vol_ref: {id: source volume x scale^3 or None}; movable: ids that may move.
     keep(id, v_new) -> bool: extra acceptance test (containment).  The contact search of one round runs in `workers` forked processes.  Returns ({id: v_new}, report)"""
@@ -154,11 +155,7 @@ def separate(meshes: dict, vol_ref: dict, movable: set, rounds=6, max_move=MAX_M
         _SK.clear()
         _SK.update({i: Skel(cur[i], meshes[i][1]) for i in meshes})
         order = sorted(movable)
-        if workers > 1 and len(order) > 8:
-            with mp.get_context("fork").Pool(workers) as pool:
-                res = pool.map(_contact, [(i, cur[i], share, max_move) for i in order], chunksize=4)
-        else:
-            res = [_contact((i, cur[i], share, max_move)) for i in order]
+        res = _run([(i, cur[i], share, max_move) for i in order], _contact, workers, log)
         new = {}
         for i, D, hit in res:
             v, f = cur[i], meshes[i][1]

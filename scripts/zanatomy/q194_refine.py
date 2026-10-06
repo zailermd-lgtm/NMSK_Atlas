@@ -65,7 +65,11 @@ def refine_pending(pending: list[dict], raw: dict, budget_scale=1.0, category_sc
     cmd = [sys.executable, str(Path(__file__).resolve()), "--child", str(tmp / "in.npz"), str(tmp / "out.npz"), "--budget-scale", str(budget_scale),
            "--category-scale", json.dumps(category_scale or {})]
     log(f"  Q194: running the refinement in a child process ({tmp})")
-    subprocess.run(cmd, check=True, cwd=str(REPO), env={**__import__("os").environ, "PYTHONPATH": str(REPO)})
+    env = {**__import__("os").environ, "PYTHONPATH": str(REPO)}
+    r = subprocess.run(cmd, cwd=str(REPO), env=env)
+    if r.returncode != 0:                    # e.g. a pyembree segfault in the child: once more with the pure-numpy ray tester (slow, cannot crash)
+        log(f"  Q194: child exited with {r.returncode}; repeating with --safe")
+        subprocess.run(cmd + ["--safe"], check=True, cwd=str(REPO), env=env)
     z = np.load(tmp / "out.npz", allow_pickle=False)
     rep = json.loads(str(z["report"]))
     by = {p["mesh_id"]: p for p in pending}
@@ -124,6 +128,10 @@ if __name__ == "__main__":
     ap.add_argument("--child", nargs=2, metavar=("IN", "OUT"), required=True)
     ap.add_argument("--budget-scale", type=float, default=1.0)
     ap.add_argument("--category-scale", default="{}")
+    ap.add_argument("--safe", action="store_true")
     args = ap.parse_args()
+    if args.safe:
+        from scripts.zanatomy import q194_separate as _S
+        _S.Skel.SAFE = True
     args.inp, args.out = args.child
     child(args)
