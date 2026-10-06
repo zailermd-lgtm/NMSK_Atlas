@@ -170,6 +170,41 @@ def snap_limb_skin(structs, skin_mesh, log=print):
     return out, rep
 
 
+BONE_GUARD_CATS = ("muscle", "nerve", "vessel", "fascia", "lymphatic")      # tendons / ligaments / cartilage attach to bone by design
+
+
+def bone_guard(structs, newv, guards, regions, log=print):
+    """soft structures with > 3 % of their vertices > 1 mm inside HIS bone (label volume / bone meshes) are pushed out (Q190 Guards.push_out, Laplacian-spread);
+    kept only if the inside share falls to <= 70 % of before, the volume stays in 0.65-1.5 x source (closed meshes) and the distortion score does not rise > 6 points.
+    Hand / forearm structures are skipped (the Q191 hand pass has its own constraint)."""
+    rep = {}
+    for d in structs:
+        k = d["id"]
+        if d["cat"] not in BONE_GUARD_CATS or regions.get(k) == "forearm_hand" or len(d["f"]) == 0:
+            continue
+        v = newv.get(k, d["v"])
+        sel = slice(None, None, max(1, len(v) // 800))
+        f0 = float((guards.depth(v[sel]) > 1.0).mean())
+        if f0 < 0.03:
+            continue
+        v2 = guards.push_out(v, d["f"], tol=1.5, iters=4, max_move=12.0, smooth=30)
+        f1 = float((guards.depth(v2[sel]) > 1.0).mean())
+        s0 = Mx.distortion_score(Mx.stretch_stats(v, d["r"], d["f"]))
+        s1 = Mx.distortion_score(Mx.stretch_stats(v2, d["r"], d["f"]))
+        ok = f1 <= 0.7 * f0 and s1 <= s0 + 6.0
+        if ok and Q._closed(d["f"]) and d["cat"] != "fascia":
+            vs = abs(Q.volume(d["r"], d["f"])) * Q.BODY_SCALE ** 3
+            if vs > 1000.0:
+                ratio = abs(Q.volume(v2, d["f"])) / vs
+                ok = 0.65 <= ratio <= 1.5 or abs(np.log(ratio)) <= abs(np.log(max(abs(Q.volume(v, d["f"])) / vs, 1e-3)))
+        rep[k] = {"inside_bone_before": round(f0, 3), "inside_bone_after": round(f1, 3), "score_before": round(s0, 1), "score_after": round(s1, 1),
+                  "max_move_mm": round(float(np.linalg.norm(v2 - v, axis=1).max()), 1), "applied": bool(ok)}
+        if ok:
+            newv[k] = v2
+    log(f"  bone guard: {sum(r['applied'] for r in rep.values())} of {len(rep)} structures with > 3 % inside his bone pushed out")
+    return rep
+
+
 def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
     from scripts.placement_sweep_q185 import Body
@@ -209,6 +244,12 @@ def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     newv = {**new, **pr}
     for k, v in newv.items():
         by[k]["v"] = v
+    # 3b. soft structures out of his bones
+    regions = __import__("json").loads(ctx.REGION_REPORT.read_text())["region_of_structure"]
+    bg = bone_guard(structs, newv, guards, regions, log=log)
+    for k, v in newv.items():
+        by[k]["v"] = v
+    rep["bone_guard"] = bg
     # 4. limb skin onto his CT skin
     sk_new, sk_rep = snap_limb_skin(structs, skin, log=log)
     for k, v in sk_new.items():
@@ -240,6 +281,10 @@ def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
                 f" Q195: held at the bone-fit position (no gain >= 10 % onto his {r['his_id'].replace('_', ' ')}: {r['her_label_chamfer_before_mm'][2]} -> {r['after_mm'][2]} mm).")
     for k in pr:
         by_p[k]["fit_note"] = (by_p[k].get("fit_note") or "") + " Q195: moved with the neighbouring structures refined onto his own meshes."
+    for k, r in bg.items():
+        if r["applied"]:
+            by_p[k]["fit_note"] = (by_p[k].get("fit_note") or "") + (
+                f" Q195: pushed out of his bone ({r['inside_bone_before'] * 100:.0f} % -> {r['inside_bone_after'] * 100:.0f} % of its vertices more than 1 mm inside his bone labels / meshes; moved at most {r['max_move_mm']} mm).")
     for k, s in sk_rep.items():
         by_p[k]["fit_note"] = (by_p[k].get("fit_note") or "") + (
             f" Q195: limb skin set toward his CT skin (mean move {s['mean_move_mm']} mm, max {s['max_move_mm']} mm); now a median {s['median_to_his_skin_after_mm']} mm from it.")

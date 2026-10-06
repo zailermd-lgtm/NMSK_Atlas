@@ -27,7 +27,7 @@ def load_fitted(d: Path):
     from scripts.zanatomy.trunk_refit_q186c_audit import load_viewer
     stem = next(Path(d).glob("*.html")).stem
     M = load_viewer(Path(d), stem)
-    return {k: {"v": m["v"], "f": m["f"], "cat": m["sys"]} for k, m in M.items()}
+    return {k: {"v": m["v"], "f": m["f"], "cat": "skin" if k.startswith("zan_skin_") else m["sys"]} for k, m in M.items()}
 
 
 def load_own(d: Path):

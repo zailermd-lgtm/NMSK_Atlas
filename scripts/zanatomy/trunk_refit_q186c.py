@@ -56,7 +56,7 @@ CHART_SMOOTH_CELLS = 1.5             # Gaussian smoothing (5 mm x 2 deg cells) o
 SKIN_INSET_MM = 1.0                  # skin anchors aim this far inside her CT skin (the smoothed field leaves a few mm of residual)
 CLAMP_MARGIN_MM, CLAMP_MAX_MM = 0.5, 150.0     # nerves/vessels lying far outside are dropped onto her skin too (no slivers hanging outside)
 CLAMP_SMOOTH_ITERS = 4
-CLAMP_SKIP_REGIONS = ("forearm_hand", "foot")
+CLAMP_SKIP_REGIONS = ("forearm_hand", "foot") if _ctx.BODY == "vhf" else ()      # Q195: his CT skin covers his hands and feet
 RBF_KERNEL = "thin_plate_spline"      # Q186c v2: far fewer fold-over points than "cubic" (3.6 % vs 5.3 % of samples < 0.25, min det -0.55 vs -3.9)
 ANCHOR_REACH_MM = 90.0               # limb bones anchor the field only within this raw distance of a trunk bone (humeral/femoral heads)
 GRID_MM = 8.0                        # the field is evaluated on this lattice and interpolated trilinearly (checked against direct evaluation)
