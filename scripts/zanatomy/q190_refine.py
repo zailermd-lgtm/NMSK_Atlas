@@ -528,7 +528,7 @@ PROP_CATS = ("muscle", "fascia", "tendon", "nerve", "vessel", "bursa")
 PROP_SIGMA, PROP_GATE, PROP_K = 22.0, 35.0, 24
 
 
-def propagate(structs, new, log=print):
+def propagate(structs, new, log=print, y_range=(-200, 700), cats=None):
     """structures without a counterpart of hers (tendons, fascia, nerves, vessels, the muscles she has no label for) follow the
     refined muscles: displacement = distance-weighted mean of the refined muscles' displacements (Gaussian, sigma PROP_SIGMA),
     gated to 0 beyond PROP_GATE of the nearest refined vertex.  Returns {id: new v}"""
@@ -541,10 +541,10 @@ def propagate(structs, new, log=print):
     tree = cKDTree(old)
     out = {}
     for d in structs:
-        if d["id"] in new or d["cat"] not in PROP_CATS or SKIP_RE.search(d["id"]) or CNS_STRUCT.search(d["id"]):
+        if d["id"] in new or d["cat"] not in (cats or PROP_CATS) or SKIP_RE.search(d["id"]) or CNS_STRUCT.search(d["id"]):
             continue
         c = d["v"].mean(0)
-        if not (-200 < c[1] < 700):
+        if not (y_range[0] < c[1] < y_range[1]):
             continue
         dist, idx = tree.query(d["v"], k=PROP_K, distance_upper_bound=PROP_GATE * 2.5)
         has = np.isfinite(dist[:, 0])
@@ -1063,9 +1063,10 @@ def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
     structs = [{"id": p["mesh_id"], "cat": p["cat"], "v": p["v"], "r": raw[p["mesh_id"]].astype(np.float64), "f": p["f"]} for p in pending]
     by_p = {p["mesh_id"]: p for p in pending}
     her = load_her_meshes()
-    skin = load_skin("vhf")
+    from scripts.zanatomy import body_ctx as _ctx
+    skin = load_skin(_ctx.BODY)
     axis = T.trunk_axis(np.asarray(skin.vertices, np.float64))
-    guards = Guards(Body("vhf"))
+    guards = Guards(Body(_ctx.BODY))
     before = Au.table(structs)
     newv, rep = run_all(structs, her, guards, skin, axis, log=log)
     for k, v in newv.items():

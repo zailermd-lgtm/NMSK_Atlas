@@ -16,7 +16,6 @@ BODY_SCALE = 0.932        # Q168 female body scale
 Y_SCALE = 1.0             # hard-coded female trunk heights (mm, atlas y) x this = the same landmark on the target body
 BUNDLE_JSON = REPO / "build" / "viewer_f_hr" / "bundle.json"
 REGION_REPORT = REPO / "data" / "derived" / "Q168_zan_to_vhf.json"
-HEIGHT_REF_BODY_SCALE = 0.932
 
 
 def configure(body: str) -> None:
@@ -32,6 +31,6 @@ def configure(body: str) -> None:
         Q.TARGETS["vhm"] = (M.BUNDLE, M.REPORT)
         BODY, BUNDLE_JSON, REGION_REPORT = "vhm", M.BUNDLE, M.REPORT
         BODY_SCALE = float(json.loads(M.REPORT.read_text())["body_scale"])
-        Y_SCALE = BODY_SCALE / HEIGHT_REF_BODY_SCALE
+        Y_SCALE = 1.0          # measured: his sternum/clavicle/cranium-base heights are 1.01-1.04 x hers (the body scale 1.058 is leg-driven), so the hard-coded trunk heights stay
     else:
         raise ValueError(body)

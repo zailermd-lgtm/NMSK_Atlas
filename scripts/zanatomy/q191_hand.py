@@ -37,6 +37,22 @@ HER_BONES = {"carpals": "carpals_r", "phal": "phalanges_hand_r", **{f"mc{k}": f"
 HER_FOREARM_BONES = ("radius_r", "ulna_r")
 
 
+def _male() -> bool:
+    from scripts.zanatomy import body_ctx
+    return body_ctx.BODY == "vhm"
+
+
+def her_bones(side="r") -> dict:
+    """his / her CT hand bone mesh ids of one side.  Q195: his metacarpals are ONE composite mesh per hand ("mc"), hers five meshes (mc1..mc5)"""
+    if _male():
+        return {"carpals": f"carpals_{side}", "phal": f"phalanges_hand_{side}", "mc": f"metacarpals_{side}"}
+    return HER_BONES
+
+
+def forearm_bones(side="r"):
+    return (f"radius_{side}", f"ulna_{side}") if _male() else HER_FOREARM_BONES
+
+
 # ------------------------------------------------------------------------------------------------ geometry helpers
 def kabsch(src, dst, w=None, scale=False):
     """similarity (s,R,t) with dst ~ s R src + t (weighted)"""
@@ -258,9 +274,13 @@ def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print, skin=
     def piece(i):
         return {"r": raw[i].astype(float), "v": by_id[i]["v"].astype(float), "f": by_id[i]["f"]}
 
-    groups = [("carpals", ids["carpals"], her[HER_BONES["carpals"]], True, dict(max_rot=14.0, max_shift=6.0, scale_rng=(0.93, 1.08))),
-              ("phalanges", ids["phal"], her[HER_BONES["phal"]], True, dict(max_rot=18.0, max_shift=8.0, scale_rng=(0.93, 1.08)))]
-    groups += [(f"mc{k + 1}", [ids["mc"][k]], her[HER_BONES[f"mc{k + 1}"]], False, dict(max_rot=15.0, max_shift=8.0, scale_rng=(0.93, 1.08))) for k in range(5)]
+    HB = her_bones(side)
+    groups = [("carpals", ids["carpals"], her[HB["carpals"]], True, dict(max_rot=14.0, max_shift=6.0, scale_rng=(0.93, 1.08))),
+              ("phalanges", ids["phal"], her[HB["phal"]], True, dict(max_rot=18.0, max_shift=8.0, scale_rng=(0.93, 1.08)))]
+    if "mc" in HB:        # Q195: his five metacarpals are one composite mesh: fitted like the carpals (samples split between the pieces by the nearest fitted piece)
+        groups += [("metacarpals", ids["mc"], her[HB["mc"]], True, dict(max_rot=15.0, max_shift=8.0, scale_rng=(0.93, 1.08)))]
+    else:
+        groups += [(f"mc{k + 1}", [ids["mc"][k]], her[HB[f"mc{k + 1}"]], False, dict(max_rot=15.0, max_shift=8.0, scale_rng=(0.93, 1.08))) for k in range(5)]
     for name, zids, hm, comp, kw in groups:
         ref_pts = surf_pts(hm["v"].astype(float), hm["f"], 7000 if comp else 3500)
         pcs = {i: piece(i) for i in zids}
@@ -287,7 +307,7 @@ def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print, skin=
                 diag = {"amp": 0.0, "resid_max_mm": 0.0, "held": "no gain over the Q168 placement on her mesh"}
             new_v[i] = X2
             Tout[i] = T[i]
-            rep[i] = {"her_ref": HER_BONES["carpals" if name == "carpals" else "phal" if name == "phalanges" else name],
+            rep[i] = {"her_ref": HB["carpals" if name == "carpals" else "phal" if name == "phalanges" else "mc" if name == "metacarpals" else name],
                       "assigned_samples": int(len(S)), "chamfer_mm_before": [round(x, 2) for x in before], "chamfer_mm_after": [round(x, 2) for x in after],
                       "scale_vs_q168": round(T[i][0] / T0[i][0], 3), "rot_deg_vs_q168": round(rot_deg(T[i][1] @ T0[i][1].T), 1),
                       "volume_ratio_vs_source": round(vr, 3), "resid_max_mm": diag.get("resid_max_mm"), **({"note": diag["held"]} if "held" in diag else {})}
@@ -298,8 +318,9 @@ def fit_hand_bones(by_id: dict, raw: dict, her: dict, side="r", log=print, skin=
     # her CT skin is the envelope: a bone more than 2 % outside it is translated (bounded) toward the inside, if that does not move it off her bone mesh
     if skin is not None:
         from trimesh.proximity import closest_point
-        allref = {k: cKDTree(surf_pts(her[HER_BONES[("carpals" if k in ids["carpals"] else "phal" if k in ids["phal"] else f"mc{ids['mc'].index(k) + 1}")]]["v"].astype(float),
-                                      her[HER_BONES[("carpals" if k in ids["carpals"] else "phal" if k in ids["phal"] else f"mc{ids['mc'].index(k) + 1}")]]["f"], 5000)) for k in new_v}
+        def _ref_of(k):
+            return HB["carpals"] if k in ids["carpals"] else HB["phal"] if k in ids["phal"] else HB["mc"] if "mc" in HB else HB[f"mc{ids['mc'].index(k) + 1}"]
+        allref = {k: cKDTree(surf_pts(her[_ref_of(k)]["v"].astype(float), her[_ref_of(k)]["f"], 5000)) for k in new_v}
         for k, X in list(new_v.items()):
             for _ in range(3):
                 out = ~skin.contains(X)
@@ -624,8 +645,8 @@ def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, 
     ids = [i for i in ids if weights[i].max() > 0.02]
     act = {i: weights[i] > 0.02 for i in ids}
     her_b = []
-    if side == "r":
-        her_b = [merged_bones([(her[k]["v"].astype(float), her[k]["f"].astype(int)) for k in list(HER_BONES.values()) + list(HER_FOREARM_BONES)])]
+    if side == "r" or _male():
+        her_b = [merged_bones([(her[k]["v"].astype(float), her[k]["f"].astype(int)) for k in list(her_bones(side).values()) + list(forearm_bones(side))])]
     zb_old = [merged_bones([(by[i]["v"].astype(float), by[i]["f"]) for i in hb_ids + [rad, uln]])]
     ctx0 = Ctx(skin, skin_tree, her_b, zb_old)
     before = {i: struct_metrics(by[i]["v"].astype(float), raw[i].astype(float), by[i]["f"], ctx0, act[i]) for i in ids}
@@ -669,11 +690,12 @@ def run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, bone_new_v, 
     # 4. muscles she has a label of: refined from the field placement, neighbours TOGETHER (one fit of the group onto the union of her labels keeps their
     # arrangement: fitting each onto its own abutting compartment inflates them into one another)
     lab_rep = {}
-    if label_refine and side == "r":
+    sfx = (lambda z: z[:-2] + "_" + side) if _male() else (lambda z: z)         # Q195: his labels exist per side (ADM_l, AdP l/r, DI l/r, FDMB_l, OP_l, PI l/r)
+    if label_refine and (side == "r" or _male()):
         for gname, zids in HAND_LABEL_GROUPS.items():
             members, parts = [], []
-            for zid in zids:
-                hid = HAND_LABELS[zid]
+            for zid in [sfx(z) for z in zids]:
+                hid = sfx(HAND_LABELS[zid[:-2] + "_r"])
                 if zid not in cand or hid not in her:
                     continue
                 m = weights[zid] > 0.5
@@ -812,14 +834,16 @@ def refine_hand(pending: list[dict], raw: dict, log=print, left_fit: dict | None
     import json
     from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
     from scripts.ribs_from_ct_labels import load_skin
-    from scripts.transfer.zan_to_vhf_whole_body import DEFAULT_REPORT
     by = {p["mesh_id"]: p for p in pending}
     her = load_her_meshes()
-    skin = load_skin("vhf")
+    from scripts.zanatomy import body_ctx as _ctx
+    skin = load_skin(_ctx.BODY)
     skin_tree = cKDTree(np.asarray(skin.vertices, float))
     skin_vn = skin_normals(skin)
-    regions = json.loads(DEFAULT_REPORT.read_text())["region_of_structure"]
+    regions = json.loads(_ctx.REGION_REPORT.read_text())["region_of_structure"]
     raw = {k: np.asarray(v, float) for k, v in raw.items()}
+    if _male():
+        return _refine_hands_male(by, raw, regions, her, skin, skin_tree, skin_vn, log)
     # right hand
     new_v, T, brep = fit_hand_bones(by, raw, her, "r", log=log, skin=skin)
     rep = run_side("r", by, raw, regions, her, skin, skin_tree, skin_vn, new_v, T, log=log)
@@ -852,3 +876,24 @@ def refine_hand(pending: list[dict], raw: dict, log=print, left_fit: dict | None
     return {"rule": "scripts/zanatomy/q191_hand.py", "right": {k: v for k, v in rep.items() if k != "structures"}, "bones": brep, "structures": rep["structures"],
             "left_hand": {"held": True, "bone_vertices_outside_her_skin_pct": round(100 * (1 - inside), 1),
                           "reason": "no left hand bones in her CT; skin-envelope trial ambiguous (data/derived/Q191_left_hand_trial.json)"}}
+
+
+def _refine_hands_male(by, raw, regions, her, skin, skin_tree, skin_vn, log):
+    """Q195: both hands of the Z-Anatomy male fitted onto HIS CT hand bones (he has carpals, metacarpals (one composite mesh), phalanges and radius/ulna of both
+    sides), soft tissue carried / refined / constrained by the same rules as the female right hand (run_side)"""
+    out = {"rule": "scripts/zanatomy/q191_hand.py (Q195: both hands of the VH male)", "sides": {}}
+    for side in "rl":
+        new_v, T, brep = fit_hand_bones(by, raw, her, side, log=log, skin=skin)
+        rep = run_side(side, by, raw, regions, her, skin, skin_tree, skin_vn, new_v, T, log=log)
+        for i, r in brep.items():
+            if i.startswith("_"):
+                continue
+            txt = (f" Q191 method on his body: fitted onto her own CT {r['her_ref'].replace('_', ' ')} (similarity, bounded refinement): two-way median distance {r['chamfer_mm_before'][2]} -> "
+                   f"{r['chamfer_mm_after'][2]} mm; scale {r['scale_vs_q168']}x, turned {r['rot_deg_vs_q168']} deg vs the bone-fit placement; volume {r['volume_ratio_vs_source']}x of the Z source."
+                   + (f" Kept at the bone-fit placement ({r['note']})." if "note" in r else ""))
+            by[i]["fit_note"] = (by[i].get("fit_note") or "") + txt
+        for i, r in rep["structures"].items():
+            if by[i]["cat"] != "bone":
+                by[i]["fit_note"] = (by[i].get("fit_note") or "") + _note(i, r)
+        out["sides"][side] = {**{k: v for k, v in rep.items() if k != "structures"}, "bones": brep, "structures": rep["structures"]}
+    return out

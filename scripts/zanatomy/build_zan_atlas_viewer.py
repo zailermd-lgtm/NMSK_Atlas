@@ -770,7 +770,7 @@ def refit_trunk_q186c(pending: list[dict], raw: dict, anterior_v5: bool = False)
                                      f"(max {st['shift_max']:.0f} mm) from the Q168 position. An estimate: Z-Anatomy's arrangement, her frame.")
     for p in pending:
         if p["cat"] == "skin":
-            p["fit_note"] = re.sub(r" Skin: compared with her own CT skin surface.*$", "", p["fit_note"], flags=re.S)
+            p["fit_note"] = re.sub(r" Skin: compared with (?:her|his) own CT skin surface.*$", "", p["fit_note"], flags=re.S)
     skin_fit = skin_vs_her_skin(pending)
     LAST_REPORTS["fit_to_vhf"]["skin_vs_her_ct_skin_after_q186c"] = skin_fit
     out = {k: v for k, v in rep.items() if not k.startswith("_")}
@@ -781,6 +781,46 @@ def refit_trunk_q186c(pending: list[dict], raw: dict, anterior_v5: bool = False)
     out["clamp_inside_her_skin"] = {k: v for k, v in clamp.items() if k != "per_structure"}
     out["skin_vs_her_ct_skin"] = skin_fit
     return out
+
+
+def _vhm_text(s: str) -> str:
+    import re
+    s = re.sub(r"\bhers\b", "his", s)
+    s = re.sub(r"\b(her)\b", "his", s)
+    s = re.sub(r"\bHer\b", "His", s)
+    return re.sub(r"\bshe\b", "he", re.sub(r"\bShe\b", "He", s))
+
+
+def _body_words(pending: list[dict], fn):
+    """Q195: the female refit hooks write her-wording badges; for the male build the text they ADD is rewritten to his (pronoun swap only)."""
+    n0 = {p["mesh_id"]: len(p.get("fit_note") or "") for p in pending}
+    out = fn()
+    if TARGET["body"] == "vhm":
+        for p in pending:
+            n = n0.get(p["mesh_id"], 0)
+            note = p.get("fit_note") or ""
+            if len(note) > n:
+                p["fit_note"] = note[:n] + _vhm_text(note[n:])
+    return out
+
+
+def clamp_to_skin_q195(pending: list[dict]) -> dict:
+    """Q195 stage 1 (his body, no trunk refit): every non-bone vertex that the Q168 per-bone blend left outside HIS CT skin is moved to just inside it
+    (scripts/zanatomy/trunk_refit_q186c.clamp_inside_skin, body-aware via body_ctx); badges the structures it touched and re-measures the skin patches."""
+    import re
+    from scripts.zanatomy import trunk_refit_q186c as T
+    clamp = T.clamp_inside_skin(pending)
+    by_id = {p["mesh_id"]: p for p in pending}
+    for mid, c in clamp["per_structure"].items():
+        if c["fraction"] >= 0.01 and mid in by_id:
+            by_id[mid]["fit_note"] += (f" Q195: {c['fraction']:.0%} of its vertices lay outside his CT skin and were moved inside it (median {c['median_mm']} mm, max {c['max_mm']} mm).")
+    for p in pending:
+        p.pop("v_unclamped", None)
+        if p["cat"] == "skin":
+            p["fit_note"] = re.sub(r" Skin: compared with his own CT skin surface.*$", "", p["fit_note"], flags=re.S)
+    skin_fit = skin_vs_her_skin(pending)
+    LAST_REPORTS["fit_to_vhf"]["skin_vs_his_ct_skin_after_clamp"] = skin_fit
+    return {"clamp_inside_his_skin": {k: v for k, v in clamp.items() if k != "per_structure"}, "skin_vs_his_ct_skin": skin_fit}
 
 
 def close_muscle_gaps(pending: list[dict]) -> dict:
@@ -837,7 +877,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           close_gaps: bool = True, target_body: str | None = None,
           integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
           trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None, q191: dict | None = None,
-          q194: dict | None = None, pure_source: bool = False):
+          q194: dict | None = None, pure_source: bool = False, q195_refine: bool = False):
     TARGET["body"] = target_body or "vhf"
     if target_body == "vhm":                  # Q195: aim the Q168/Q186c/Q190/Q191 fitting code at the VH male BEFORE it is imported
         from scripts.zanatomy import body_ctx
@@ -1021,8 +1061,10 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     if target_body in ("vhf", "vhm"):
         raw_before_fit = {p["mesh_id"]: p["v"].copy() for p in pending} if (trunk_refit or q191 or q190 or q194) else None
         LAST_REPORTS["fit_to_vhf"] = fit_to_vhf(pending, body=target_body)
+        if target_body == "vhm" and not trunk_refit:
+            LAST_REPORTS["clamp_q195"] = clamp_to_skin_q195(pending)
         if trunk_refit:
-            LAST_REPORTS["trunk_refit"] = refit_trunk_q186c(pending, raw_before_fit, anterior_v5=anterior_v5)
+            LAST_REPORTS["trunk_refit"] = _body_words(pending, lambda: refit_trunk_q186c(pending, raw_before_fit, anterior_v5=anterior_v5))
             if q190 and q190.get("dump"):
                 from scripts.zanatomy import q190_refine as Q190
                 Q190.dump_pending(pending, raw_before_fit, q190["dump"])
@@ -1031,7 +1073,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
                 # Q190: per-structure refinement of each fitted Z muscle/fascia/nerve/skin toward her own CT label (after the
                 # global field + clamp, before the Q162 gap closure and the decimation)
                 from scripts.zanatomy import q190_refine as Q190
-                LAST_REPORTS["q190"] = Q190.refine_pending(pending, raw_before_fit)
+                LAST_REPORTS["q190"] = _body_words(pending, lambda: Q190.refine_pending(pending, raw_before_fit))
         if q191 and (q191.get("dump") or q191.get("hand")):
             from scripts.zanatomy import q190_refine as Q190
             if q191.get("dump"):
@@ -1042,9 +1084,13 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             left_fit = None
             if q191.get("left_fit"):          # Q192: the left hand placed on her left-hand cryosection photographs
                 left_fit = json.loads(Path(q191["left_fit"]).read_text())
-            LAST_REPORTS["q191"] = Q191.refine_hand(pending, raw_before_fit, left_fit=left_fit)
+            LAST_REPORTS["q191"] = _body_words(pending, lambda: Q191.refine_hand(pending, raw_before_fit, left_fit=left_fit))
             if q191.get("dump_after"):
                 Q190.dump_pending(pending, raw_before_fit, q191["dump_after"])
+        if target_body == "vhm" and q195_refine:
+            # Q195: organs and lower-limb muscles refined onto HIS measured meshes, limb skin onto his CT skin (scripts/zanatomy/q195_refine.py)
+            from scripts.zanatomy import q195_refine as Q195R
+            LAST_REPORTS["q195_refine"] = _body_words(pending, lambda: Q195R.refine_pending(pending, raw_before_fit))
     elif target_body == "native_female":
         # Q196: the generic Z-Anatomy body in its OWN frame, male-only objects removed, nothing fitted to any specimen
         from scripts.transfer import zan_to_vhf_whole_body as Q168
@@ -1292,6 +1338,8 @@ def main(argv=None) -> int:
     ap.add_argument("--q194-dump-after", default=None, help="Q194: also write the full-resolution pending meshes (npz) after the Q194 refinement (audit input)")
     ap.add_argument("--q194-dump-only", action="store_true", help="Q194: exit right after --q194-dump")
     ap.add_argument("--q194-refine", action="store_true", help="Q194 (with the Q192 flags): bounded post-closure refinement (scripts/zanatomy/q194_refine.py)")
+    ap.add_argument("--q195-refine", action="store_true",
+                    help="Q195 (with --target-body vhm): organs + lower-limb muscles refined onto his measured meshes, limb skin onto his CT skin")
     ap.add_argument("--trunk-refit", action="store_true",
                     help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
                          "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
@@ -1335,7 +1383,7 @@ def main(argv=None) -> int:
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
         category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body,
         integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
-        trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5, pure_source=args.pure_source,
+        trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5, pure_source=args.pure_source, q195_refine=args.q195_refine,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
         q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit},
         q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine, "dump_after": args.q194_dump_after})

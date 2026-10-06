@@ -37,6 +37,7 @@ from scipy.spatial import cKDTree
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
+from scripts.zanatomy import body_ctx as _ctx   # Q195: which VH body (female unless build.py --target-body vhm called body_ctx.configure first)
 
 RIB_NAMES = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth",
              "eleventh", "twelfth"]
@@ -46,7 +47,7 @@ RIB_SHIFT_MAX_MM = 45.0
 SUPPORT_MM = 5.0
 CARTILAGE_SHIFT_MAX_MM = 45.0
 VOLUME_RATIO = (0.65, 1.5)               # per closed structure: volume after / (Z-Anatomy source volume x BODY_SCALE^3)
-BODY_SCALE = 0.932                       # Q168 body scale (data/derived/Q168_zan_to_vhf.json)
+BODY_SCALE = _ctx.BODY_SCALE             # Q168 body scale (data/derived/Q168_zan_to_vhf.json; Q195: his, Q195_zan_to_vhm.json)
 TRUNK_BONE_RE = ("rib", "sternum", "xiphoid", "vertebra", "sacrum", "coccyx", "hip_bone", "clavicle", "scapula")
 W0_MM, W1_MM = 150.0, 230.0               # weight 1 within W0 of a trunk bone, 0 beyond W1
 RBF_SMOOTH = 3000.0
@@ -72,10 +73,10 @@ def rib_label_points(label: int, vol=None):
     from engine.volume_ingest import voxels_to_atlas
     from scripts.ribs_from_ct_labels import ORIGIN, TASK
     if vol is None:
-        img = nib.load(TASK / "vhf_total.nii.gz")
+        img = nib.load(TASK / f"{_ctx.BODY}_total.nii.gz")
         vol = (np.asarray(img.dataobj).astype(np.uint8), img.affine)
     V, A = vol
-    O = np.array([float(x) for x in ORIGIN["vhf"].split(",")])
+    O = np.array([float(x) for x in ORIGIN[_ctx.BODY].split(",")])
     objs = ndi.find_objects((V == label).astype(np.uint8))
     sl = objs[0]
     if sl is None:
@@ -89,7 +90,7 @@ def rib_label_points(label: int, vol=None):
 def load_her_vol():
     import nibabel as nib
     from scripts.ribs_from_ct_labels import TASK
-    img = nib.load(TASK / "vhf_total.nii.gz")
+    img = nib.load(TASK / f"{_ctx.BODY}_total.nii.gz")
     return np.asarray(img.dataobj).astype(np.uint8), img.affine
 
 
@@ -451,7 +452,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     """Move every non-bone vertex of `pending` (already Q168-placed, bones + ribs final) by the smooth field.
     raw = {mesh_id: vertices before the Q168 fit}.  Returns the report dict."""
     from scripts.ribs_from_ct_labels import load_skin
-    skin_mesh = skin_mesh or load_skin("vhf")
+    skin_mesh = skin_mesh or load_skin(_ctx.BODY)
     sv = np.asarray(skin_mesh.vertices, np.float64)
     axis = trunk_axis(sv)
     by_id = {p["mesh_id"]: p for p in pending}
@@ -530,7 +531,7 @@ def refit_trunk(pending: list[dict], raw: dict, skin_mesh=None, log=print, smoot
     vol_ratios, guarded = [], {}
     tb = [p["v"] for p in pending if p["cat"] == "bone" and any(t in p["mesh_id"] for t in TRUNK_BONE_RE)]
     bone_tree = cKDTree(np.vstack([b[::3] for b in tb]))
-    regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
+    regions = json.loads(_ctx.REGION_REPORT.read_text())["region_of_structure"]
     todo = []
     for p in pending:
         if p["cat"] == "bone" or regions.get(p["mesh_id"]) in FIELD_SKIP_REGIONS or (p["cat"] == "skin" and any(s in p["mesh_id"] for s in SKIN_HAND)):
@@ -642,7 +643,7 @@ def anterior_weight(q: np.ndarray, axis) -> np.ndarray:
 def blend_anterior(pending: list[dict], legacy_v: dict, skin_mesh=None) -> dict:
     """p["v"] <- (1 - b) * new + b * legacy, b = anterior_weight (legacy_v = {mesh_id: v5 vertices})"""
     from scripts.ribs_from_ct_labels import load_skin
-    skin_mesh = skin_mesh or load_skin("vhf")
+    skin_mesh = skin_mesh or load_skin(_ctx.BODY)
     axis = trunk_axis(np.asarray(skin_mesh.vertices, np.float64))
     n_b, n_tot, structures = 0, 0, 0
     for p in pending:
@@ -663,8 +664,8 @@ def clamp_inside_skin(pending: list[dict], skin_mesh=None, log=print) -> dict:
     nearest point of her skin surface, CLAMP_MARGIN_MM inside it; moves above CLAMP_MAX_MM are left (reported).
     Forearm/hand and foot regions (no usable outline) are skipped."""
     from scripts.ribs_from_ct_labels import load_skin
-    skin_mesh = skin_mesh or load_skin("vhf")
-    regions = json.loads((REPO / "data" / "derived" / "Q168_zan_to_vhf.json").read_text())["region_of_structure"]
+    skin_mesh = skin_mesh or load_skin(_ctx.BODY)
+    regions = json.loads(_ctx.REGION_REPORT.read_text())["region_of_structure"]
     tree = cKDTree(np.asarray(skin_mesh.vertices, np.float64))
     axis_c = trunk_axis(np.asarray(skin_mesh.vertices, np.float64))
     from trimesh.proximity import closest_point

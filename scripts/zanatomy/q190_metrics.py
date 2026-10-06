@@ -7,7 +7,8 @@ from pathlib import Path
 import numpy as np
 from scipy.spatial import cKDTree
 
-BODY_SCALE = 0.932   # Q168 body scale; source edge lengths are multiplied by it so a perfectly carried mesh reads 1.0
+from scripts.zanatomy import body_ctx as _ctx
+BODY_SCALE = _ctx.BODY_SCALE   # Q168 body scale; source edge lengths are multiplied by it so a perfectly carried mesh reads 1.0
 
 
 def load_dump(path):
