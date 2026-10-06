@@ -801,7 +801,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           close_gaps: bool = True, target_body: str | None = None,
           integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
           trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None, q191: dict | None = None,
-          q194: dict | None = None):
+          q194: dict | None = None, pure_source: bool = False):
     inventory = json.loads(Path(inventory_path).read_text())
     namemap = json.loads(Path(namemap_path).read_text())
 
@@ -830,7 +830,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # project's own atlas id, several sub-parts possibly concatenated; orphan; rescued; skin)
     provenance: dict = {}
     origin, origin_report = compute_origin(zan_dir)
-    corrections = load_corrections(corrections_dir)
+    corrections = {} if pure_source else load_corrections(corrections_dir)  # Q196: pure_source = no declarative correction
     atlas_records = load_atlas_records()
     id_to_cat = {e.entity_id: e.category for e in load_full_atlas()}
 
@@ -973,7 +973,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     # Q162 (owner: "look on the contralateral side and other accurate models and medical articles"):
     # (1) replace the few left-side source objects the mirror audit found broken by the mirrored
     # right side; (2) close the artificial gaps between neighbouring muscles to a cited 1 mm interface.
-    contra_report = repair_contralateral(pending)
+    contra_report = {"skipped": "pure_source"} if pure_source else repair_contralateral(pending)
     # Q168: the female variant is moved onto her skeleton BEFORE gap closure, so the 1 mm interface
     # is restored in her frame (the per-bone fits stretch neighbouring muscles differently).
     LAST_REPORTS.pop("fit_to_vhf", None)
@@ -1005,9 +1005,18 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             LAST_REPORTS["q191"] = Q191.refine_hand(pending, raw_before_fit, left_fit=left_fit)
             if q191.get("dump_after"):
                 Q190.dump_pending(pending, raw_before_fit, q191["dump_after"])
+    elif target_body == "native_female":
+        # Q196: the generic Z-Anatomy body in its OWN frame, male-only objects removed, nothing fitted to any specimen
+        from scripts.transfer import zan_to_vhf_whole_body as Q168
+        male = Q168.MALE_ONLY_IDS | MALE_ONLY_SKIN
+        dropped = sorted(p["mesh_id"] for p in pending if p["mesh_id"] in male)
+        pending[:] = [p for p in pending if p["mesh_id"] not in male]
+        LAST_REPORTS["native_female"] = {"male_only_dropped": dropped, "structures": len(pending),
+                                         "fitted_to_any_specimen": False}
     elif target_body is not None:
         raise ValueError(f"unknown target body {target_body!r}")
     pend_held = None
+    close_gaps = close_gaps and not pure_source
     if close_gaps and q191 and q191.get("left_fit"):
         # Q192: the gap closure is ONE global ray scene (deterministic, but every mesh that moves perturbs the rays of the others by a hair; measured: the left hand
         # alone changed 110 right-side and 227 left muscles by 0.01-1 mm and decimation then re-samples them).  So it is run twice, on the Q191 state (left hand held)
@@ -1099,8 +1108,11 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
             "muscle_gap_closure": {k: v for k, v in gap_report.items() if k != "per_mesh"},
             **({"fit_to_vhf": {k: v for k, v in LAST_REPORTS["fit_to_vhf"].items() if k != "region_errors"}}
                if target_body == "vhf" else {}),
+            **({"native_female": LAST_REPORTS["native_female"]} if target_body == "native_female" else {}),
         },
         **({"variant": "vhf"} if target_body == "vhf" else {}),
+        **({"variant": "native_female"} if target_body == "native_female" else {}),
+        **({"pure_source": True} if pure_source else {}),
         "meshes": meshes,
     }
     blob = b"".join(bin_chunks)
@@ -1141,12 +1153,30 @@ VHF_WORDING = [
 ]
 
 
-def apply_vhf_wording(template: str) -> str:
-    for old, new in VHF_WORDING:
+def apply_vhf_wording(template: str, wording=None) -> str:
+    for old, new in (wording or VHF_WORDING):
         if template.count(old) != 1:
             raise SystemExit(f"female wording: template anchor not found once: {old[:50]!r}")
         template = template.replace(old, new, 1)
     return template
+
+
+# Q196 native female variant: page wording only (no body is fitted, nothing is invented)
+NATIVE_FEMALE_WORDING = [
+    ("<title>NMSK Atlas — Z-Anatomy reference body</title>", "<title>NMSK Atlas — Female base model</title>"),
+    ("<h2>NMSK Atlas — Z-Anatomy</h2>", "<h2>NMSK Atlas — Female base model (unadapted)</h2>"),
+    ("<h1>NMSK Atlas — Z-Anatomy</h1>", "<h1>NMSK Atlas — Female base model (unadapted)</h1>"),
+    ("    <div class=\"licence\">",
+     "    <p><strong>Source limitation (Q196).</strong> The source has no female body: Z-Anatomy (and BodyParts3D "
+     "under it) ships ONE male-derived body. This page is the generic Z-Anatomy body in its own frame with the "
+     "male-only organs removed (penis, scrotum and male external skin, testes, epididymides, seminal glands, "
+     "prostate and their vessels). No female reproductive organs are shown and none were invented. Nothing is "
+     "fitted to any specimen, scan or Visible Human; body proportions, breasts and pelvis are the source's. "
+     "Same repairs as the male base page (a few mirrored left-side objects, muscle gaps closed to a 1 mm "
+     "interface). A genuinely female open atlas was searched for and not found: "
+     "<code>data/derived/Q196_female_base_sources.json</code>.</p>\n"
+     "    <div class=\"licence\">"),
+]
 
 
 def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> str:
@@ -1159,6 +1189,8 @@ def render_html(manifest: dict, blob: bytes, bin_files: list | None = None) -> s
         raise SystemExit("base64 payload contains a script terminator")
     if manifest.get("variant") == "vhf":
         template = apply_vhf_wording(template)
+    elif manifest.get("variant") == "native_female":
+        template = apply_vhf_wording(template, NATIVE_FEMALE_WORDING)
     html = template.replace("__MANIFEST_JSON__", manifest_json, 1)
     html = html.replace("__BIN_FILES_JSON__", json.dumps(bin_files or []), 1)
     html = html.replace("__BIN_B64__", b64, 1)
@@ -1204,8 +1236,11 @@ def main(argv=None) -> int:
     ap.add_argument("--trunk-refit", action="store_true",
                     help="Q186c (female only): refit her ribs/vertebrae onto her CT labels and carry the trunk soft tissue by one "
                          "smooth field anchored on her bones + CT skin outline (scripts/zanatomy/trunk_refit_q186c.py)")
-    ap.add_argument("--target-body", choices=["vhf"], default=None,
-                    help="Q168: fit the whole model onto the VH female's skeleton (female variant)")
+    ap.add_argument("--target-body", choices=["vhf", "native_female"], default=None,
+                    help="vhf (Q168): fit the whole model onto the VH female's skeleton; native_female (Q196): the unfitted Z-Anatomy body "
+                         "in its own frame without the male-only objects")
+    ap.add_argument("--pure-source", action="store_true",
+                    help="Q196: no declarative corrections, no contralateral repair, no muscle gap closure (decimation + skin only)")
     ap.add_argument("--q162-report", default=None,
                     help="default data/derived/Q162_gap_closure_contralateral.json (Q168_zan_female_build.json with --target-body vhf)")
     ap.add_argument("-o", "--out", default=None,
@@ -1216,10 +1251,15 @@ def main(argv=None) -> int:
     args = ap.parse_args(argv)
     derived = REPO / "data" / "derived"
     female = args.target_body == "vhf"
+    native = args.target_body == "native_female"
     args.q162_report = args.q162_report or str(derived / ("Q168_zan_female_build.json" if female
+                                                         else "Q196_zan_female_native_build.json" if native
                                                          else "Q162_gap_closure_contralateral.json"))
-    args.report = args.report or str(derived / ("Q168_zan_female_report.json" if female else "Q157_zan_atlas_report.json"))
+    args.report = args.report or str(derived / ("Q168_zan_female_report.json" if female
+                                                     else "Q196_zan_female_native_report.json" if native
+                                                     else "Q157_zan_atlas_report.json"))
     args.out = args.out or ("build/viewer_zan_female/atlas_viewer_zan_female.html" if female
+                            else "build/viewer_base_female_q196/atlas_viewer_base_female.html" if native
                             else "build/viewer_zan_atlas/atlas_viewer_zan_atlas.html")
 
     category_scale = dict(HIRES_CATEGORY_SCALE) if args.external_bin and not args.category_scale else {}
@@ -1232,7 +1272,7 @@ def main(argv=None) -> int:
         corrections_dir=Path(args.corrections_dir), budget_scale=args.budget_scale,
         category_scale=category_scale, close_gaps=not args.no_gap_closure, target_body=args.target_body,
         integ_inventory_path=Path(args.integ_inventory) if args.integ_inventory else None, with_hair=args.with_hair,
-        trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5,
+        trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5, pure_source=args.pure_source,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
         q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit},
         q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine, "dump_after": args.q194_dump_after})
