@@ -177,7 +177,8 @@ button.mini:hover{background:#f2f2f2}
 #cut-panel .cp-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
 #cut-panel .cp-row button{flex:1 1 auto}
 #cut-panel .cp-steps button{flex:1 1 0;font-variant-numeric:tabular-nums}
-#cut-panel .cp-wide{flex:1 1 100%}
+#cut-panel #cut-axis button{padding:4px 3px}
+#cut-panel #cut-state{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
 #cut-panel button{font:inherit;font-size:11.5px;color:var(--cp-ink);background:transparent;border:1px solid var(--cp-line);
   border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
 #cut-panel button:hover{border-color:var(--cp-accent)}
@@ -188,8 +189,10 @@ button.mini:hover{background:#f2f2f2}
 #cut-panel .cp-hint:empty{display:none}
 #cut-panel.cp-min .cp-body{display:none}
 #cut-panel.cp-phone{width:auto;padding:6px 8px 7px;max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-#cut-panel.cp-phone button{min-height:40px;font-size:13px}
-#cut-panel.cp-phone .cp-head button{min-height:32px}
+#cut-panel.cp-phone button{font-size:13px}
+#cut-panel.cp-phone .cp-head button{min-height:36px}
+#cut-panel.cp-phone button{min-height:38px}
+#cut-panel.cp-phone .cp-lbl{margin:5px 0 2px}
 #cut-panel.cp-phone .cp-keys{display:none}
 #cut-panel.cp-phone input[type=range]{height:34px}
 body.cut-armed canvas{cursor:crosshair!important}
@@ -203,6 +206,7 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-panel,#cut-svg{--cp-bg:var(--surface);--cp-ink:var(--ink);--cp-dim:var(--muted);--cp-line:var(--line);--cp-accent:var(--accent);--cp-accent-ink:var(--accent-ink);--cp-warn:var(--risk);--cp-shadow:var(--shadow)}
 #cut-panel{position:absolute;right:12px;top:48px}
 #app.phone #cut-panel{left:8px;right:8px;top:auto;bottom:8px}
+#app.phone.sheet-open #cut-panel{display:none}
 @media (max-width:1080px){
   #app{grid-template-columns:200px minmax(0,1fr) 300px}
 }
@@ -283,7 +287,7 @@ body.cut-armed canvas{cursor:crosshair!important}
     <div class="cp-row" id="cut-axis">
       <button type="button" data-axis="x" aria-pressed="true" title="Plane normal along the body's left-right axis">sagittal</button><button type="button" data-axis="y" aria-pressed="false" title="Plane normal along the head-to-foot axis">axial</button><button type="button" data-axis="z" aria-pressed="false" title="Plane normal along the front-to-back axis">coronal</button><button type="button" data-axis="view" aria-pressed="false" title="A plane facing the camera, using the view direction at the moment you press it">facing me</button>
     </div>
-    <div class="cp-row"><button type="button" id="cut-place" class="cp-wide" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button></div>
+    <div class="cp-row"><button type="button" id="cut-place" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
     <p id="cut-hint" class="cp-hint" aria-live="polite"></p>
     <div class="cp-lbl">Removed side</div>
     <div class="cp-row" id="cut-side">
@@ -294,7 +298,6 @@ body.cut-armed canvas{cursor:crosshair!important}
     <div class="cp-row cp-steps" id="cut-steps">
       <button type="button" data-step="-10">&minus;10</button><button type="button" data-step="-1">&minus;1</button><button type="button" data-step="1">+1</button><button type="button" data-step="10">+10</button>
     </div>
-    <div class="cp-row"><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>
@@ -1071,9 +1074,9 @@ function select(id){
 /* One movable plane (the shared controller below: sagittal / axial / coronal in atlas axes, facing the camera, or
    through a clicked point; side choice; move along the normal). Engine side: every anatomy material clips against
    it (three keeps n.p + c >= 0), so the removed part is really gone and the remaining part shows the cut (open
-   surfaces, no cap). The anchor markers are clipped too; the add-on's needle trajectory is NOT (it must stay
-   visible when the cut passes through it) and its halos take the plane through api.three.clippingPlanes().
-   picking ignores hits in the removed half, so a click on the cut opening reaches the deep structure exposed
+   surfaces, no cap). The anchor markers are clipped too; the add-on's needle trajectory is NOT clipped (it must
+   stay visible when the cut passes through it) while its halos take the plane through api.three.clippingPlanes().
+   Picking ignores hits in the removed half, so a click on the cut opening reaches the deep structure exposed
    there. Root only translates, so a local-frame plane maps to world by shifting its constant. */
 /* CUT-MODE js begin */
 /* One Cut mode for every page (Q197). The plane is {x : n0.x = a}; the removed side is the one where
@@ -1370,6 +1373,7 @@ function openSheet(which){
   var list = which === "list", info = which === "info";
   asideEl.classList.toggle("open", list); inspEl.classList.toggle("open", info);
   mList.setAttribute("aria-pressed", String(list)); mInfo.setAttribute("aria-pressed", String(info));
+  app.classList.toggle("sheet-open", list || info);       // Q197: on the phone the cut panel steps aside while a sheet is open
 }
 function applyLayout(){
   var pref = layoutPref();

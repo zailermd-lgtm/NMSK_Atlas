@@ -221,7 +221,8 @@
 #cut-panel .cp-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
 #cut-panel .cp-row button{flex:1 1 auto}
 #cut-panel .cp-steps button{flex:1 1 0;font-variant-numeric:tabular-nums}
-#cut-panel .cp-wide{flex:1 1 100%}
+#cut-panel #cut-axis button{padding:4px 3px}
+#cut-panel #cut-state{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
 #cut-panel button{font:inherit;font-size:11.5px;color:var(--cp-ink);background:transparent;border:1px solid var(--cp-line);
   border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
 #cut-panel button:hover{border-color:var(--cp-accent)}
@@ -232,8 +233,10 @@
 #cut-panel .cp-hint:empty{display:none}
 #cut-panel.cp-min .cp-body{display:none}
 #cut-panel.cp-phone{width:auto;padding:6px 8px 7px;max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
-#cut-panel.cp-phone button{min-height:40px;font-size:13px}
-#cut-panel.cp-phone .cp-head button{min-height:32px}
+#cut-panel.cp-phone button{font-size:13px}
+#cut-panel.cp-phone .cp-head button{min-height:36px}
+#cut-panel.cp-phone button{min-height:38px}
+#cut-panel.cp-phone .cp-lbl{margin:5px 0 2px}
 #cut-panel.cp-phone .cp-keys{display:none}
 #cut-panel.cp-phone input[type=range]{height:34px}
 body.cut-armed canvas{cursor:crosshair!important}
@@ -248,6 +251,7 @@ body.cut-armed canvas{cursor:crosshair!important}
   #cut-panel{position:fixed;top:calc(3.7rem + var(--safe-t));right:calc(.9rem + var(--safe-r));z-index:26}
   @media (max-width:900px){
     #cut-panel{top:auto;left:.5rem;right:.5rem;bottom:calc(4.4rem + var(--safe-b))}
+    body.sheet-open #cut-panel{display:none}
   }
 
   /* ---------- tablet ---------- */
@@ -315,7 +319,7 @@ body.cut-armed canvas{cursor:crosshair!important}
     <div class="cp-row" id="cut-axis">
       <button type="button" data-axis="x" aria-pressed="true" title="Plane normal along the body's left-right axis">sagittal</button><button type="button" data-axis="y" aria-pressed="false" title="Plane normal along the head-to-foot axis">axial</button><button type="button" data-axis="z" aria-pressed="false" title="Plane normal along the front-to-back axis">coronal</button><button type="button" data-axis="view" aria-pressed="false" title="A plane facing the camera, using the view direction at the moment you press it">facing me</button>
     </div>
-    <div class="cp-row"><button type="button" id="cut-place" class="cp-wide" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button></div>
+    <div class="cp-row"><button type="button" id="cut-place" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
     <p id="cut-hint" class="cp-hint" aria-live="polite"></p>
     <div class="cp-lbl">Removed side</div>
     <div class="cp-row" id="cut-side">
@@ -326,7 +330,6 @@ body.cut-armed canvas{cursor:crosshair!important}
     <div class="cp-row cp-steps" id="cut-steps">
       <button type="button" data-step="-10">&minus;10</button><button type="button" data-step="-1">&minus;1</button><button type="button" data-step="1">+1</button><button type="button" data-step="10">+10</button>
     </div>
-    <div class="cp-row"><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>
@@ -1421,9 +1424,9 @@ function NMSKCutMode(E){
     document.getElementById("btn-reset").onclick=resetAll;
 
     var rail=document.getElementById("rail"); var sheetOpen=false;
-    function closeSheet(){ if(window.innerWidth<=900&&sheetOpen){sheetOpen=false;rail.classList.remove("open");} }
+    function closeSheet(){ if(window.innerWidth<=900&&sheetOpen){sheetOpen=false;rail.classList.remove("open");document.body.classList.remove("sheet-open");} }
     var sb=document.getElementById("btn-panel");
-    if(sb) sb.onclick=function(){ sheetOpen=!sheetOpen; rail.classList.toggle("open",sheetOpen); };
+    if(sb) sb.onclick=function(){ sheetOpen=!sheetOpen; rail.classList.toggle("open",sheetOpen); document.body.classList.toggle("sheet-open",sheetOpen); };
 
     var modal=document.getElementById("modal");
     document.getElementById("about-btn").onclick=function(){modal.classList.add("open");};

@@ -5,7 +5,7 @@
     <div class="cp-row" id="cut-axis">
       <button type="button" data-axis="x" aria-pressed="true" title="Plane normal along the body's left-right axis">sagittal</button><button type="button" data-axis="y" aria-pressed="false" title="Plane normal along the head-to-foot axis">axial</button><button type="button" data-axis="z" aria-pressed="false" title="Plane normal along the front-to-back axis">coronal</button><button type="button" data-axis="view" aria-pressed="false" title="A plane facing the camera, using the view direction at the moment you press it">facing me</button>
     </div>
-    <div class="cp-row"><button type="button" id="cut-place" class="cp-wide" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button></div>
+    <div class="cp-row"><button type="button" id="cut-place" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
     <p id="cut-hint" class="cp-hint" aria-live="polite"></p>
     <div class="cp-lbl">Removed side</div>
     <div class="cp-row" id="cut-side">
@@ -16,7 +16,6 @@
     <div class="cp-row cp-steps" id="cut-steps">
       <button type="button" data-step="-10">&minus;10</button><button type="button" data-step="-1">&minus;1</button><button type="button" data-step="1">+1</button><button type="button" data-step="10">+10</button>
     </div>
-    <div class="cp-row"><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>
