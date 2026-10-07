@@ -46,11 +46,13 @@ SUBJECT = {("vhm", "sh"): "xfer_zan2vhm_shoulder_q203", ("vhm", "seam"): "xfer_z
 SUFFIX = {"sh": "_zfill203", "seam": "_zfill203s"}
 ZONE_MM = 175.0           # caps whose centroid lies within this distance of the glenohumeral centre belong to the shoulder-girdle group
 MIN_CAP_MM2 = 100.0
+MAX_SHIFT_MM = 30.0       # in-plane move of the Z section onto the measured cap face (a larger move = the Z structure is not where the measured one is)
 MIN_BEYOND_MUSCLE = 6.0   # Z must extend this far beyond the plane (Q200: 10 mm); the loft length is bounded by what Z has
 SH_STEMS = ["deltoid", "supraspinatus", "infraspinatus", "teres_minor", "teres_major", "subscapularis", "biceps_brachii", "triceps_brachii",
             "coracobrachialis", "pectoralis_major", "pectoralis_minor", "trapezius", "latissimus_dorsi", "rhomboid_major", "rhomboid_minor",
             "levator_scapulae", "serratus_anterior", "subclavius"]
 SH_BONES = ["scapula", "clavicle", "humerus"]
+GEN_BONES = ["femur", "tibia", "fibula", "hip_bone"]       # long bones / pelvis outside the shoulder: caps continued by the same rule (group "seam")
 # stem -> bones the muscle attaches to (union of both ends; the continuation's far end is carried onto the nearest of them)
 ATT = {
     "deltoid": ["clavicle", "scapula", "humerus"], "supraspinatus": ["scapula", "humerus"], "infraspinatus": ["scapula", "humerus"],
@@ -143,7 +145,7 @@ class Ctx:
         pat = re.compile(r"^(" + "|".join(SH_STEMS) + r")_(l|r)$")
         self.muscles = [i for i, o in self.own.items() if o["e"]["cat"] in ("muscle", "tendon") and not re.search(r"_zfill", i) and not SKIP_IDS.search(i)
                         and (scope == "all" or pat.match(i))]
-        want = list(self.muscles) + [f"{b}_{s}" for b in SH_BONES for s in "lr"]
+        want = list(self.muscles) + [f"{b}_{s}" for b in SH_BONES + GEN_BONES + ["radius", "ulna"] for s in "lr"]
         self.zit = load_z(want, SCRATCH / f"zc_{body}_{scope}.pkl")
         from scripts.transfer import zan_to_vhf_whole_body as Q
         self.xf = Q.load_zan_to_vhf(report_path=self.cfg["rep"])
@@ -214,7 +216,7 @@ def group_of(ctx, cen, side):
 def stage_bones(ctx, log=print):
     own = ctx.own
     for side in "lr":
-        for b in SH_BONES:
+        for b in SH_BONES + GEN_BONES:
             bid = f"{b}_{side}"
             if bid not in own or bid not in ctx.zit:
                 continue
@@ -226,21 +228,27 @@ def stage_bones(ctx, log=print):
             caps = []
             for c in find_caps(o["v"], o["f"], minarea=40.0, at_end=2.5):
                 cen = o["v"][np.unique(o["f"][c["faces"]])].mean(0)
-                if shoulder_dist(ctx, cen, side) > ZONE_MM or (b == "humerus" and shoulder_dist(ctx, cen, side) > 120):
+                if b in SH_BONES and (shoulder_dist(ctx, cen, side) > ZONE_MM or (b == "humerus" and shoulder_dist(ctx, cen, side) > 120)):
                     continue
                 if any(k_["axis"] == c["axis"] and k_["sign"] == c["sign"] and abs(k_["pos"] - c["pos"]) < 4.0 for k_ in caps):
                     continue
                 caps.append(c)
-            pcs = []
+            pcs = {"sh": [], "seam": []}
             for cap in caps:
-                row = dict(id=bid, stage="bone", axis=cap["axis"], pos=round(cap["pos"], 1), sign=cap["sign"], area=round(cap["area"]), n_frag=cap["n_comp"])
+                cen = o["v"][np.unique(o["f"][cap["faces"]])].mean(0)
+                grp = group_of(ctx, cen, side)
+                row = dict(id=bid, stage="bone", group=grp, axis=cap["axis"], pos=round(cap["pos"], 1), sign=cap["sign"], area=round(cap["area"]), n_frag=cap["n_comp"])
                 best = None
                 for cname, zv, zf in cands:
                     r = continue_cap(o["v"], cap, zv, zf, min_beyond=3.0)
                     if "v" not in r:
                         row.setdefault("tried", []).append(f"{cname[:12]}: {r['reason'][:60]}"); continue
+                    if r["sh"] > MAX_SHIFT_MM:
+                        row.setdefault("tried", []).append(f"{cname[:12]}: Z section {r['sh']:.0f} mm off the cap face"); continue
                     dd = E.fit_error(o["v"], o["f"], zv, zf, cap)
                     med = float(np.median(dd))
+                    if med > 8.0:
+                        row.setdefault("tried", []).append(f"{cname[:12]}: fit {med:.1f} mm > 8"); continue
                     if best is None or med < best[0]:
                         best = (med, float(np.quantile(dd, .95)), r, cname)
                 if best is None:
@@ -265,13 +273,103 @@ def stage_bones(ctx, log=print):
                 row.update(status="continued", z_source=cname, beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1), mode=r["mode"],
                            cap_covered=round(r["cap_covered"], 2), fit_err_median_mm=round(med, 1), fit_err_max_mm=round(p95, 1), nv=len(r["v"]), nf=len(r["f"]), constraints=cinfo)
                 r["info"] = row
-                ctx.rows.append(row); pcs.append(r)
-            if pcs:
-                V, F, off = [], [], 0
-                for r in pcs:
-                    V.append(r["v"]); F.append(r["f"] + off); off += len(r["v"])
-                ctx.pieces[f"{bid}{SUFFIX['sh']}"] = dict(v=np.vstack(V), f=np.vstack(F), base=bid, cat="bone", pieces=pcs, kind="bone", group="sh")
-                ctx.cbone[bid] = (np.vstack([o["v"], np.vstack(V)]), np.vstack([o["f"], np.vstack(F) + len(o["v"])]))
+                ctx.rows.append(row); pcs[grp].append(r)
+            for grp, lst in pcs.items():
+                if lst:
+                    V, F, off = [], [], 0
+                    for r in lst:
+                        V.append(r["v"]); F.append(r["f"] + off); off += len(r["v"])
+                    ctx.pieces[f"{bid}{SUFFIX[grp]}"] = dict(v=np.vstack(V), f=np.vstack(F), base=bid, cat="bone", pieces=lst, kind="bone", group=grp)
+                    cb = ctx.cbone.get(bid, (o["v"], o["f"]))
+                    ctx.cbone[bid] = (np.vstack([cb[0], np.vstack(V)]), np.vstack([cb[1], np.vstack(F) + len(cb[0])]))
+    ctx.refresh_bones()
+
+
+def stage_bone_ends(ctx, log=print):
+    """Long-bone ENDS the data block / segmentation stopped short of (his radius / ulna distal ends, her right ulna): the part of the Z bone (candidates: per-bone
+    transform, page fitted to this body) that lies beyond the measured (+ Q200) bone's end along the shaft axis is added, clipped 12 mm inside the measured end
+    and closed by a planar face that lies inside the measured bone; Z beyond >= 6 mm, fit of the Z shaft to the measured shaft within 40 mm of the end <= 5 mm (median)."""
+    import trimesh
+    own = ctx.own
+    for side in "lr":
+        for b in ("radius", "ulna"):
+            bid = f"{b}_{side}"
+            o = own.get(bid)
+            if o is None or str(o["e"].get("subject", "")).startswith("xfer_zan2"):
+                continue
+            mv, mf = o["v"], o["f"]
+            zf_ = ctx.own.get(f"{bid}_zfill")
+            if zf_ is not None:
+                mv = np.vstack([mv, zf_["v"]]); mf = np.vstack([mf, zf_["f"] + len(o["v"])])
+            c = mv.mean(0); u = np.linalg.svd(mv - c, full_matrices=False)[2][0]
+            if u[1] < 0:
+                u = -u                                   # towards the elbow
+            tm = (mv - c) @ u
+            cands = []
+            if bid in ctx.zit:
+                cands.append(("Q168/Q195 per-bone transform", zbone_body(ctx, bid), ctx.zit[bid]["f"]))
+            if bid in ctx.page:
+                # the page fitted to this body carries the axial position from both ends; the per-bone transform of a truncated bone can slide along its shaft
+                cands = [(BODY[ctx.body]["page"][3], ctx.page[bid]["v"], ctx.page[bid]["f"])]
+            for end, sgn in (("distal", -1), ("proximal", 1)):
+                row = dict(id=bid, stage="bone_end", end=end)
+                tend = tm.max() if sgn > 0 else tm.min()
+                best = None
+                for cname, zv, zf in cands:
+                    tz = (zv - c) @ u
+                    beyond = sgn * (tz.max() if sgn > 0 else tz.min()) - sgn * tend
+                    if beyond < 6.0:
+                        row.setdefault("tried", []).append(f"{cname[:12]}: Z ends {beyond:.1f} mm beyond"); continue
+                    win = mv[(sgn * (tm - tend) > -40) ]
+                    zs = sample_surface(zv, zf, 6000, 3)
+                    d = cKDTree(zs).query(win)[0]
+                    med = float(np.median(d))
+                    if med > 5.0:
+                        row.setdefault("tried", []).append(f"{cname[:12]}: shaft fit {med:.1f} mm > 5"); continue
+                    if best is None or med < best[0]:
+                        best = (med, float(np.quantile(d, .95)), zv, zf, cname, beyond)
+                if best is None:
+                    row["status"] = "held: " + "; ".join(row.get("tried", ["no Z bone"])); ctx.rows.append(row); continue
+                med, p95, zv, zf, cname, beyond = best
+                pl = c + u * (tend - sgn * 12.0)
+                m = trimesh.Trimesh(zv, zf, process=False)
+                try:
+                    r = trimesh.intersections.slice_mesh_plane(m, -sgn * u, pl, cap=True)
+                except Exception as ex:  # noqa: BLE001
+                    row["status"] = f"held: clip failed ({ex})"; ctx.rows.append(row); continue
+                pv, pf = np.asarray(r.vertices, float), np.asarray(r.faces, np.int64)
+                if len(pf) < 20:
+                    row["status"] = "held: clip left too little"; ctx.rows.append(row); continue
+                others = ctx.bones_near(pv.min(0), pv.max(0), exclude=(bid,))
+                far = sgn * ((pv - c) @ u - tend) > -1.0
+                inside = np.zeros(len(pv), bool)
+                for m_ in others:
+                    lo_, hi_ = m_.bounds
+                    sel = np.where(far & np.all((pv >= lo_ - 1) & (pv <= hi_ + 1), axis=1))[0]
+                    if len(sel):
+                        inside[sel[m_.contains(pv[sel])]] = True
+                frac_in = float(inside.sum() / max(far.sum(), 1))
+                row["inside_other_bone_frac"] = round(frac_in, 2)
+                if frac_in > 0.35:
+                    row["status"] = f"held: {100 * frac_in:.0f} % of the Z end would sit inside the neighbouring (carpal / humeral) bones"; ctx.rows.append(row); continue
+                # keep out of the other bones beyond the overlap zone only (weight ramps from the closing plane)
+                from scripts.transfer.limb_per_bone_transfer import push_off_bones
+                w = np.clip(sgn * ((pv - c) @ u - tend) / 6.0 + 2.0, 0, 1)[:, None]
+                v1, nsk = clip_skin_nearest(pv.copy(), ctx.skin_mesh)
+                v2, nb = push_off_bones(v1, others)
+                pv2 = pv + w * (v2 - pv)
+                row.update(status="continued", z_source=cname, beyond_mm=round(beyond, 1), fit_err_median_mm=round(med, 1), fit_err_max_mm=round(p95, 1),
+                           nv=len(pv2), nf=len(pf), constraints=dict(skin_clipped=int(nsk), bone_pushed=int(nb)))
+                ctx.rows.append(row)
+                piece = dict(v=pv2, f=pf, info=row, ring0=np.zeros(0, int), covered=[])
+                key = f"{bid}{SUFFIX['seam']}"
+                if key in ctx.pieces:
+                    pc = ctx.pieces[key]; off = len(pc["v"])
+                    pc["v"] = np.vstack([pc["v"], pv2]); pc["f"] = np.vstack([pc["f"], pf + off]); pc["pieces"].append(piece)
+                else:
+                    ctx.pieces[key] = dict(v=pv2, f=pf, base=bid, cat="bone", pieces=[piece], kind="bone", group="seam")
+                cb = ctx.cbone.get(bid, (o["v"], o["f"]))
+                ctx.cbone[bid] = (np.vstack([cb[0], pv2]), np.vstack([cb[1], pf + len(cb[0])]))
     ctx.refresh_bones()
 
 
@@ -360,6 +458,8 @@ def stage_muscles(ctx, only=None, log=print):
                 r = continue_cap(o["v"], cap, ZVa, ZF, min_beyond=MIN_BEYOND_MUSCLE, loft=True if section_like else False)
                 if "v" not in r:
                     tried.append(f"{cname[:14]}: {r['reason'][:70]}"); continue
+                if r["sh"] > MAX_SHIFT_MM:
+                    tried.append(f"{cname[:14]}: Z section {r['sh']:.0f} mm off the cap face > {MAX_SHIFT_MM:g}"); continue
                 dd = E.fit_error(o["v"], o["f"], ZVa, ZF, cap)
                 med = float(np.median(dd))
                 if med > E.FIT_ERR_MAX_MM:
@@ -432,7 +532,14 @@ def badge_text(ctx, pieces, name, kind, group):
     cfg = ctx.cfg
     meds = [p["info"].get("fit_err_median_mm") for p in pieces if p["info"].get("fit_err_median_mm") is not None]
     maxs = [p["info"].get("fit_err_max_mm") for p in pieces if p["info"].get("fit_err_max_mm") is not None]
-    ends = ", ".join(sorted({f"{p['info']['axis']}={p['info']['pos']} mm" for p in pieces}))
+    ends = ", ".join(sorted({(f"{p['info']['axis']}={p['info']['pos']} mm" if "axis" in p["info"] else f"{p['info']['end']} end of the shaft") for p in pieces}))
+    if all(p["info"].get("stage") == "bone_end" for p in pieces):
+        srcs0 = sorted({p["info"].get("z_source", "") for p in pieces})
+        meds0 = [p["info"]["fit_err_median_mm"] for p in pieces]
+        return (f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) completion of the measured {name}: its {ends} stops {', '.join('%.0f' % p['info']['beyond_mm'] for p in pieces)} mm "
+                f"short of the Z-Anatomy bone fitted to {cfg['he']} own bones [{'; '.join(srcs0)}] (the CT segmentation / data block ends there); the Z end is clipped 12 mm inside the measured end, closed by a planar face "
+                f"inside the measured bone, kept inside {cfg['he']} skin and out of the neighbouring bones; the measured bone is not edited. Q203 validation: Z shaft vs the measured shaft within 40 mm of the end, "
+                f"median {np.median(meds0):.1f} mm.")
     srcs = sorted({p["info"].get("z_source", "") for p in pieces if p["info"].get("z_source")})
     att = []
     for p in pieces:
@@ -494,6 +601,7 @@ if __name__ == "__main__":
     ctx = Ctx(a.body, scope=a.scope)
     print("ctx", round(time.time() - t, 1), flush=True)
     stage_bones(ctx)
+    stage_bone_ends(ctx)
     print("bones done", round(time.time() - t, 1), flush=True)
     stage_muscles(ctx, only=a.only)
     print("muscles done", round(time.time() - t, 1), flush=True)
@@ -507,6 +615,6 @@ if __name__ == "__main__":
         assemble(ctx)
         out = Path(a.out) if a.out else ctx.cfg["out"]
         print("bundle bytes", write_bundle(ctx, out))
-        seams = {nid: [dict(axis=r["axis"], pos=r["pos"], polys=r["covered"]) for r in pc["pieces"] if "covered" in r] for nid, pc in ctx.pieces.items() if "pieces" in pc}
+        seams = {nid: [dict(axis=r["axis"], pos=r["pos"], polys=r["covered"]) for r in pc["pieces"] if "covered" in r and "axis" in r] for nid, pc in ctx.pieces.items() if "pieces" in pc}
         (REPO / f"data/derived/Q203_seams_{a.body}.json").write_text(json.dumps(seams))
     print("done", round(time.time() - t, 1))
