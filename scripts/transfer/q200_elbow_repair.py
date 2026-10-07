@@ -152,7 +152,7 @@ def seam_planes(B, min_struct=3, tol=1.0):
     return out
 
 
-ZONE_MM = 150.0     # only seams within this distance of the elbow joint centre are repaired here (shoulder / wrist seams: queue)
+ZONE_MM = 210.0     # seams within this distance of the elbow joint centre are repaired (elbow + forearm block seams up to the wrist); shoulder seams: queue
 
 
 def elbow_centre(body, side, own):
@@ -212,7 +212,8 @@ def pull_end(cv, axis, pos, sign, anchors, bone_tree, max_pull=35.0, reach_mm=1.
 
 def constrain(cv, axis, pos, sign, skin_mesh, bone_meshes, ramp_mm=8.0):
     """continuation inside the skin and out of the bones (Q147 rules), faded to 0 at the seam plane so the weld stays exact."""
-    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    from scripts.transfer.limb_per_bone_transfer import push_off_bones
+    from scripts.transfer.q200_geom import clip_skin_nearest as clip_to_skin_mesh
     k = AX[axis]
     s = np.maximum(sign * (cv[:, k] - pos), 0)
     w = np.clip(s / ramp_mm, 0, 1)[:, None]
@@ -424,7 +425,8 @@ def stage_left_muscles(ctx):
         v0 = q["v"]
         v1 = corrected_zf(ctx, mid, v0)
         v2, n_skin = None, 0
-        from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+        from scripts.transfer.limb_per_bone_transfer import push_off_bones
+        from scripts.transfer.q200_geom import clip_skin_nearest as clip_to_skin_mesh
         v2, n_skin = clip_to_skin_mesh(v1.copy(), ctx.skin_mesh)
         v3, n_bone = push_off_bones(v2, bm)
         ctx.rows.append(dict(id=mid, stage="left muscle", status="added", nv=len(v3), moved_by_joint_correction_mm=round(float(np.median(np.linalg.norm(v1 - v0, axis=1))), 1),
@@ -530,10 +532,17 @@ def stage_muscles(ctx, only=None, log=print):
             ctx.pieces[f"{tid}_zfill"] = dict(v=np.vstack(V), f=np.vstack(F), base=tid, cat=o["e"]["cat"], pieces=pieces, kind="muscle")
 
 
+def edge_growth(v0, v1, f):
+    """largest edge after / largest edge before (a torn tube shows as a many-fold stretched edge)"""
+    e0 = np.linalg.norm(v0[f[:, 0]] - v0[f[:, 1]], axis=1).max(); e1 = np.linalg.norm(v1[f[:, 0]] - v1[f[:, 1]], axis=1).max()
+    return float(e1 / max(e0, 1e-6))
+
+
 def stage_vessels(ctx, sides="lr"):
     """Z-Anatomy arm vessels / nerves through the elbow (the own models have none there): carried by the Q168/Q195 transform (her left arm: the
     Q194 build's left-forearm placement), kept inside the skin and out of the bones; every number in the card."""
-    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    from scripts.transfer.limb_per_bone_transfer import push_off_bones
+    from scripts.transfer.q200_geom import clip_skin_nearest as clip_to_skin_mesh
     own = ctx.own
     for side in sides:
         bm = ctx.bone_meshes(side)
@@ -561,7 +570,7 @@ def stage_vessels(ctx, sides="lr"):
             for m in bm:
                 inb = max(inb, float(m.contains(v2).mean()))
             row = dict(id=zid, stage="vessel", status="added", nv=len(v2), outside_skin_before_pct=round(100 * out_before, 1), skin_clipped=int(n_skin),
-                       bone_pushed=int(n_bone), inside_bone_after_pct=round(100 * inb, 2))
+                       bone_pushed=int(n_bone), inside_bone_after_pct=round(100 * inb, 2), edge_growth=round(edge_growth(v0, v2, f), 2))
             if inb > 0.05:
                 row["status"] = f"held: {100 * inb:.1f} % of the vertices stay inside a bone (> 5 %)"
                 ctx.rows.append(row); continue
@@ -574,7 +583,8 @@ def stage_vessels(ctx, sides="lr"):
 def stage_attach(ctx, log=print):
     """Z-filled / Z-transferred muscles (never the measured ones) whose end in the elbow zone stops 5-40 mm short of the bone it attaches
     to: smooth bounded translation of that end (weight 0 at 60 % of the length from the end), then skin / bone constraints."""
-    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    from scripts.transfer.limb_per_bone_transfer import push_off_bones
+    from scripts.transfer.q200_geom import clip_skin_nearest as clip_to_skin_mesh
     own = ctx.own
     replaced = {}
     for side in "lr":
@@ -588,8 +598,8 @@ def stage_attach(ctx, log=print):
                 items.append(("piece", nid, pc["v"], pc["f"], pc, nid))
         for i in ctx.muscles:
             o = own[i]
-            if i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2"):
-                items.append(("entry", i, o["v"], o["f"], None, i))
+            if i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2") and f"{i}_zfill" not in ctx.pieces:
+                items.append(("entry", i, o["v"], o["f"], None, i))        # a base that carries a continuation stays where its seam weld is
         for kind, i, v, f, pc, base in items:
             stem = re.sub(r"_(l|r)$", "", base)
             prox_b, dist_b = ATTACH.get(stem, ([], []))
@@ -635,7 +645,8 @@ def stage_separate(ctx, log=print):
     """Bounded separation (q200_overlap) of every Z-filled / Z-transferred muscle of the elbow zone from the MEASURED muscles it sits inside.
     Measured entries are never moved. Returns {id: (v, f, info)} for the existing xfer entries; the new pieces are updated in place."""
     import trimesh
-    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    from scripts.transfer.limb_per_bone_transfer import push_off_bones
+    from scripts.transfer.q200_geom import clip_skin_nearest as clip_to_skin_mesh
     from scripts.transfer.q200_overlap import separate, inside_fraction
     own = ctx.own
     replaced = {}
@@ -663,7 +674,8 @@ def stage_separate(ctx, log=print):
                 movers.append(("piece", nid, pc["v"], pc["f"], pc))
         for i in ctx.muscles:
             o = own[i]
-            if i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2") and np.linalg.norm(o["v"].mean(0) - ec) <= 150:
+            if (i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2") and np.linalg.norm(o["v"].mean(0) - ec) <= 150
+                    and f"{i}_zfill" not in ctx.pieces):
                 movers.append(("entry", i, o["v"], o["f"], None))
         cur_m = {i: (v, f) for kind, i, v, f, pc in movers}
         for kind, i, v, f, pc in movers:

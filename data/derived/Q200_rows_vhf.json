@@ -130,7 +130,7 @@
   "nv": 1802,
   "moved_by_joint_correction_mm": 3.7,
   "skin_clipped": 5,
-  "bone_pushed": 101
+  "bone_pushed": 105
  },
  {
   "id": "extensor_carpi_radialis_brevis_l",
@@ -157,7 +157,7 @@
   "nv": 703,
   "moved_by_joint_correction_mm": 1.7,
   "skin_clipped": 11,
-  "bone_pushed": 108
+  "bone_pushed": 113
  },
  {
   "id": "extensor_indicis_l",
@@ -166,7 +166,7 @@
   "nv": 573,
   "moved_by_joint_correction_mm": 1.2,
   "skin_clipped": 106,
-  "bone_pushed": 49
+  "bone_pushed": 64
  },
  {
   "id": "flexor_carpi_radialis_l",
@@ -184,7 +184,7 @@
   "nv": 1791,
   "moved_by_joint_correction_mm": 2.2,
   "skin_clipped": 113,
-  "bone_pushed": 87
+  "bone_pushed": 88
  },
  {
   "id": "flexor_digitorum_profundus_l",
@@ -193,7 +193,7 @@
   "nv": 1805,
   "moved_by_joint_correction_mm": 2.5,
   "skin_clipped": 90,
-  "bone_pushed": 490
+  "bone_pushed": 498
  },
  {
   "id": "flexor_digitorum_superficialis_l",
@@ -247,7 +247,7 @@
   "nv": 1802,
   "moved_by_joint_correction_mm": 2.8,
   "skin_clipped": 72,
-  "bone_pushed": 327
+  "bone_pushed": 326
  },
  {
   "id": "zan_palmaris_longus_muscle_l",
@@ -472,7 +472,7 @@
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 0
+   "bone_pushed": 1
   },
   "nv": 63,
   "nf": 93
@@ -605,7 +605,7 @@
   },
   "constraints": {
    "skin_clipped": 19,
-   "bone_pushed": 239
+   "bone_pushed": 224
   },
   "nv": 1164,
   "nf": 2157
@@ -615,6 +615,46 @@
   "stage": "muscle",
   "status": "held: no Z-Anatomy counterpart mesh",
   "caps": 2
+ },
+ {
+  "id": "flexor_digitorum_profundus_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 163.8,
+  "sign": -1,
+  "area": 411,
+  "n_frag": 1,
+  "seam_structures": 5,
+  "align": {
+   "before_median": 1.7,
+   "after_median": 1.5,
+   "rot_deg": 7.8,
+   "move_mm": 1.2,
+   "mode": "rigid",
+   "applied": true
+  },
+  "fit_err_median_mm": 3.9,
+  "fit_err_max_mm": 16.5,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 184.6,
+  "L": 9.3,
+  "shift_mm": 11.5,
+  "mode": "loft",
+  "section_like": true,
+  "cap_covered": 1.0,
+  "z_to_cap_area": 0.4,
+  "pull": {
+   "closest_to_bone_mm": 0.3,
+   "pulled": false,
+   "note": "attached (closest vertex within 2.5 mm of the bone)"
+  },
+  "constraints": {
+   "skin_clipped": 790,
+   "bone_pushed": 124
+  },
+  "nv": 2229,
+  "nf": 4332
  },
  {
   "id": "extensor_carpi_ulnaris_r",
@@ -719,6 +759,209 @@
   },
   "nv": 636,
   "nf": 1090
+ },
+ {
+  "id": "flexor_carpi_ulnaris_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 169.8,
+  "sign": -1,
+  "area": 111,
+  "n_frag": 1,
+  "seam_structures": 5,
+  "align": {
+   "before_median": 3.0,
+   "after_median": 1.8,
+   "rot_deg": 0.0,
+   "move_mm": 6.1,
+   "mode": "translation",
+   "applied": true
+  },
+  "fit_err_median_mm": 1.8,
+  "fit_err_max_mm": 6.0,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 112.9,
+  "L": 7.4,
+  "shift_mm": 2.7,
+  "mode": "loft",
+  "section_like": true,
+  "cap_covered": 1.0,
+  "z_to_cap_area": 1.669,
+  "pull": {
+   "closest_to_bone_mm": 0.2,
+   "pulled": false,
+   "note": "attached (closest vertex within 2.5 mm of the bone)"
+  },
+  "constraints": {
+   "skin_clipped": 0,
+   "bone_pushed": 288
+  },
+  "nv": 905,
+  "nf": 1682
+ },
+ {
+  "id": "flexor_pollicis_longus_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 163.8,
+  "sign": -1,
+  "area": 49,
+  "n_frag": 1,
+  "seam_structures": 5,
+  "align": {
+   "before_median": 1.3,
+   "after_median": 1.3,
+   "rot_deg": 11.1,
+   "move_mm": 0.9,
+   "mode": "rigid",
+   "applied": true
+  },
+  "fit_err_median_mm": 4.9,
+  "fit_err_max_mm": 14.9,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 159.1,
+  "L": 6.5,
+  "shift_mm": 6.5,
+  "mode": "loft",
+  "section_like": true,
+  "cap_covered": 1.0,
+  "z_to_cap_area": 1.916,
+  "pull": {
+   "closest_to_bone_mm": 2.2,
+   "pulled": false,
+   "note": "attached (closest vertex within 2.5 mm of the bone)"
+  },
+  "constraints": {
+   "skin_clipped": 94,
+   "bone_pushed": 99
+  },
+  "nv": 362,
+  "nf": 686
+ },
+ {
+  "id": "pronator_quadratus_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 168.7,
+  "sign": 1,
+  "area": 642,
+  "n_frag": 1,
+  "seam_structures": 5,
+  "align": {
+   "before_median": 2.9,
+   "after_median": 3.0,
+   "rot_deg": 0.0,
+   "move_mm": 1.5,
+   "mode": "translation",
+   "applied": false,
+   "reason": "bounds / no gain"
+  },
+  "fit_err_median_mm": 6.9,
+  "fit_err_max_mm": 17.7,
+  "status": "continued",
+  "end": "proximal",
+  "beyond_mm": 23.2,
+  "L": 0.0,
+  "shift_mm": 0.0,
+  "mode": "local",
+  "section_like": false,
+  "cap_covered": 0.34,
+  "z_to_cap_area": 0.655,
+  "pull": {
+   "closest_to_bone_mm": 13.5,
+   "pull_mm": 13.5,
+   "pulled": true
+  },
+  "constraints": {
+   "skin_clipped": 0,
+   "bone_pushed": 39
+  },
+  "nv": 148,
+  "nf": 290
+ },
+ {
+  "id": "pronator_quadratus_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 145.8,
+  "sign": -1,
+  "area": 440,
+  "n_frag": 1,
+  "seam_structures": 4,
+  "align": {
+   "before_median": 2.5,
+   "after_median": 2.6,
+   "rot_deg": 0.0,
+   "move_mm": 0.7,
+   "mode": "translation",
+   "applied": false,
+   "reason": "bounds / no gain"
+  },
+  "fit_err_median_mm": 6.9,
+  "fit_err_max_mm": 17.7,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 29.7,
+  "L": 0.0,
+  "shift_mm": 0.0,
+  "mode": "local",
+  "section_like": false,
+  "cap_covered": 0.13,
+  "z_to_cap_area": 0.285,
+  "pull": {
+   "closest_to_bone_mm": 1.1,
+   "pulled": false,
+   "note": "attached (closest vertex within 2.5 mm of the bone)"
+  },
+  "constraints": {
+   "skin_clipped": 0,
+   "bone_pushed": 158
+  },
+  "nv": 301,
+  "nf": 598
+ },
+ {
+  "id": "pronator_quadratus_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 166.8,
+  "sign": 1,
+  "area": 375,
+  "n_frag": 1,
+  "seam_structures": 5,
+  "align": {
+   "before_median": 2.9,
+   "after_median": 3.0,
+   "rot_deg": 0.0,
+   "move_mm": 1.2,
+   "mode": "translation",
+   "applied": false,
+   "reason": "bounds / no gain"
+  },
+  "fit_err_median_mm": 6.4,
+  "fit_err_max_mm": 17.0,
+  "status": "continued",
+  "end": "proximal",
+  "beyond_mm": 25.2,
+  "L": 0.0,
+  "shift_mm": 18.5,
+  "mode": "local",
+  "section_like": false,
+  "cap_covered": 0.37,
+  "z_to_cap_area": 3.523,
+  "pull": {
+   "closest_to_bone_mm": 15.2,
+   "pull_mm": 15.2,
+   "pulled": true
+  },
+  "constraints": {
+   "skin_clipped": 0,
+   "bone_pushed": 0
+  },
+  "nv": 162,
+  "nf": 319
  },
  {
   "id": "brachioradialis_r",
@@ -858,6 +1101,58 @@
   "status": "held: Z counterpart ends -5.1 mm beyond the plane (< 10 mm): no Z material to add"
  },
  {
+  "id": "abductor_pollicis_longus_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 171.8,
+  "sign": -1,
+  "area": 44,
+  "n_frag": 1,
+  "seam_structures": 0,
+  "end_to_expected_bone_mm": 11.5,
+  "status": "skipped: flat facet shared with fewer than 3 structures (not a data-block seam)"
+ },
+ {
+  "id": "extensor_pollicis_brevis_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 163.8,
+  "sign": -1,
+  "area": 55,
+  "n_frag": 1,
+  "seam_structures": 5,
+  "align": {
+   "before_median": 4.1,
+   "after_median": 3.2,
+   "rot_deg": 0.0,
+   "move_mm": 8.1,
+   "mode": "translation",
+   "applied": true
+  },
+  "fit_err_median_mm": 1.4,
+  "fit_err_max_mm": 3.4,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 131.4,
+  "L": 7.3,
+  "shift_mm": 10.8,
+  "mode": "loft",
+  "section_like": true,
+  "cap_covered": 1.0,
+  "z_to_cap_area": 3.462,
+  "pull": {
+   "closest_to_bone_mm": 18.6,
+   "pull_mm": 18.6,
+   "pulled": true
+  },
+  "constraints": {
+   "skin_clipped": 81,
+   "bone_pushed": 0
+  },
+  "nv": 525,
+  "nf": 932
+ },
+ {
   "id": "extensor_pollicis_brevis_r",
   "stage": "muscle",
   "axis": "y",
@@ -868,6 +1163,47 @@
   "seam_structures": 0,
   "end_to_expected_bone_mm": 8.4,
   "status": "skipped: flat facet shared with fewer than 3 structures (not a data-block seam)"
+ },
+ {
+  "id": "extensor_indicis_r",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 152.8,
+  "sign": -1,
+  "area": 234,
+  "n_frag": 1,
+  "seam_structures": 0,
+  "end_to_expected_bone_mm": 14.3,
+  "align": {
+   "before_median": 13.6,
+   "after_median": 2.0,
+   "rot_deg": 0.0,
+   "move_mm": 17.3,
+   "mode": "translation",
+   "applied": true
+  },
+  "fit_err_median_mm": 17.1,
+  "fit_err_max_mm": 31.1,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 169.8,
+  "L": 12.4,
+  "shift_mm": 15.8,
+  "mode": "loft",
+  "section_like": true,
+  "cap_covered": 1.0,
+  "z_to_cap_area": 0.006,
+  "pull": {
+   "closest_to_bone_mm": 18.6,
+   "pull_mm": 18.6,
+   "pulled": true
+  },
+  "constraints": {
+   "skin_clipped": 408,
+   "bone_pushed": 0
+  },
+  "nv": 870,
+  "nf": 1546
  },
  {
   "id": "extensor_digiti_minimi_l",
@@ -891,6 +1227,47 @@
   "fit_err_median_mm": 44.3,
   "fit_err_max_mm": 51.8,
   "status": "held: the Z-Anatomy counterpart does not coincide with the measured structure near the seam (median 44.3 mm > 25 mm)"
+ },
+ {
+  "id": "abductor_pollicis_longus_l",
+  "stage": "muscle",
+  "axis": "y",
+  "pos": 183.8,
+  "sign": -1,
+  "area": 184,
+  "n_frag": 1,
+  "seam_structures": 0,
+  "end_to_expected_bone_mm": 13.5,
+  "align": {
+   "before_median": 28.5,
+   "after_median": 6.0,
+   "rot_deg": 0.0,
+   "move_mm": 36.4,
+   "mode": "translation",
+   "applied": true
+  },
+  "fit_err_median_mm": 10.1,
+  "fit_err_max_mm": 17.4,
+  "status": "continued",
+  "end": "distal",
+  "beyond_mm": 35.6,
+  "L": 10.8,
+  "shift_mm": 29.4,
+  "mode": "loft",
+  "section_like": true,
+  "cap_covered": 1.0,
+  "z_to_cap_area": 0.044,
+  "pull": {
+   "closest_to_bone_mm": 15.1,
+   "pull_mm": 15.1,
+   "pulled": true
+  },
+  "constraints": {
+   "skin_clipped": 0,
+   "bone_pushed": 0
+  },
+  "nv": 332,
+  "nf": 599
  },
  {
   "id": "abductor_pollicis_longus_l",
@@ -974,7 +1351,7 @@
   },
   "constraints": {
    "skin_clipped": 1,
-   "bone_pushed": 22
+   "bone_pushed": 23
   },
   "nv": 419,
   "nf": 834
@@ -1079,7 +1456,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 15,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_brachial_veins_l",
@@ -1089,7 +1467,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "median_n_lateral_root_l",
@@ -1099,7 +1478,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 68,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "ulnar_n_l",
@@ -1109,7 +1489,8 @@
   "outside_skin_before_pct": 2.3,
   "skin_clipped": 14,
   "bone_pushed": 9,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "radial_n_l",
@@ -1119,7 +1500,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 101,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "musculocutaneous_n_l",
@@ -1129,7 +1511,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_ulnar_artery_l",
@@ -1139,7 +1522,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_ulnar_veins_l",
@@ -1149,7 +1533,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_radial_veins_l",
@@ -1159,7 +1544,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_basilic_vein_l",
@@ -1169,7 +1555,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_cephalic_vein_l",
@@ -1179,7 +1566,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 35,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_median_cubital_vein_l",
@@ -1189,7 +1577,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "posterior_interosseous_n_l",
@@ -1199,7 +1588,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 18,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "anterior_interosseous_n_l",
@@ -1209,7 +1599,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 1,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_radial_collateral_artery_l",
@@ -1219,7 +1610,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 152,
-  "inside_bone_after_pct": 0.26
+  "inside_bone_after_pct": 0.26,
+  "edge_growth": 0.97
  },
  {
   "id": "zan_middle_collateral_artery_l",
@@ -1229,7 +1621,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 161,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.79
  },
  {
   "id": "zan_superior_ulnar_collateral_artery_l",
@@ -1239,7 +1632,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 47,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_inferior_ulnar_collateral_artery_l",
@@ -1249,7 +1643,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_deep_brachial_artery_l",
@@ -1259,7 +1654,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_brachial_artery_r",
@@ -1269,7 +1665,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 29,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_brachial_veins_r",
@@ -1279,7 +1676,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 35,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "median_n_lateral_root_r",
@@ -1289,7 +1687,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 178,
-  "inside_bone_after_pct": 0.35
+  "inside_bone_after_pct": 0.35,
+  "edge_growth": 1.56
  },
  {
   "id": "ulnar_n_r",
@@ -1299,7 +1698,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 297,
-  "inside_bone_after_pct": 1.1
+  "inside_bone_after_pct": 1.1,
+  "edge_growth": 1.33
  },
  {
   "id": "radial_n_r",
@@ -1308,8 +1708,9 @@
   "nv": 2520,
   "outside_skin_before_pct": 2.1,
   "skin_clipped": 52,
-  "bone_pushed": 79,
-  "inside_bone_after_pct": 0.0
+  "bone_pushed": 74,
+  "inside_bone_after_pct": 0.95,
+  "edge_growth": 1.22
  },
  {
   "id": "musculocutaneous_n_r",
@@ -1319,7 +1720,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 65,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.95
  },
  {
   "id": "zan_ulnar_artery_r",
@@ -1329,7 +1731,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 97,
-  "inside_bone_after_pct": 1.65
+  "inside_bone_after_pct": 1.65,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_ulnar_veins_r",
@@ -1339,7 +1742,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 321,
-  "inside_bone_after_pct": 0.55
+  "inside_bone_after_pct": 0.55,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_radial_veins_r",
@@ -1349,7 +1753,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 30,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_basilic_vein_r",
@@ -1359,7 +1764,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 4,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_cephalic_vein_r",
@@ -1369,7 +1775,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 45,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_median_cubital_vein_r",
@@ -1378,8 +1785,9 @@
   "nv": 378,
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
-  "bone_pushed": 130,
-  "inside_bone_after_pct": 0.0
+  "bone_pushed": 120,
+  "inside_bone_after_pct": 0.26,
+  "edge_growth": 1.0
  },
  {
   "id": "posterior_interosseous_n_r",
@@ -1389,7 +1797,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 36,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "anterior_interosseous_n_r",
@@ -1399,27 +1808,30 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 202,
-  "inside_bone_after_pct": 0.41
+  "inside_bone_after_pct": 0.41,
+  "edge_growth": 1.05
  },
  {
   "id": "zan_radial_collateral_artery_r",
   "stage": "vessel",
-  "status": "held: 9.4 % of the vertices stay inside a bone (> 5 %)",
+  "status": "held: 10.3 % of the vertices stay inside a bone (> 5 %)",
   "nv": 543,
   "outside_skin_before_pct": 1.1,
   "skin_clipped": 6,
-  "bone_pushed": 164,
-  "inside_bone_after_pct": 9.39
+  "bone_pushed": 155,
+  "inside_bone_after_pct": 10.31,
+  "edge_growth": 1.04
  },
  {
   "id": "zan_middle_collateral_artery_r",
   "stage": "vessel",
-  "status": "added",
+  "status": "held: 12.2 % of the vertices stay inside a bone (> 5 %)",
   "nv": 189,
   "outside_skin_before_pct": 5.8,
   "skin_clipped": 11,
-  "bone_pushed": 100,
-  "inside_bone_after_pct": 2.12
+  "bone_pushed": 81,
+  "inside_bone_after_pct": 12.17,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_superior_ulnar_collateral_artery_r",
@@ -1429,7 +1841,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 74,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.21
  },
  {
   "id": "zan_inferior_ulnar_collateral_artery_r",
@@ -1439,7 +1852,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 0,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "zan_deep_brachial_artery_r",
@@ -1449,7 +1863,8 @@
   "outside_skin_before_pct": 0.0,
   "skin_clipped": 0,
   "bone_pushed": 59,
-  "inside_bone_after_pct": 0.0
+  "inside_bone_after_pct": 0.0,
+  "edge_growth": 1.0
  },
  {
   "id": "anconeus_l",
@@ -1497,7 +1912,7 @@
     11.5
    ]
   ],
-  "move_max": 13.8
+  "move_max": 10.0
  },
  {
   "id": "flexor_carpi_radialis_l",
@@ -1536,22 +1951,6 @@
   "move_max": 30.4
  },
  {
-  "id": "pronator_teres_r",
-  "stage": "attach",
-  "kind": "entry",
-  "ends_pulled": [
-   [
-    "proximal",
-    13.0
-   ],
-   [
-    "distal",
-    5.6
-   ]
-  ],
-  "move_max": 11.5
- },
- {
   "id": "anconeus_l",
   "stage": "overlap",
   "kind": "piece",
@@ -1569,12 +1968,12 @@
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.418,
+  "inside_before": 0.419,
   "inside_after": 0.309,
   "depth_before": 15.341,
   "depth_after": 9.9,
   "move_max": 8.0,
-  "move_median": 0.456,
+  "move_median": 0.452,
   "volume_ratio": 1.003
  },
  {
@@ -1612,72 +2011,72 @@
   "inside_after": 0.054,
   "depth_before": 3.643,
   "depth_after": 2.241,
-  "move_max": 9.903,
+  "move_max": 3.125,
   "move_median": 0.005,
-  "volume_ratio": 0.941
+  "volume_ratio": 0.939
  },
  {
   "id": "extensor_indicis_l",
   "stage": "overlap",
   "kind": "piece",
-  "rounds": 0.0,
-  "inside_before": 0.0,
-  "inside_after": 0.0,
-  "depth_before": 0.0,
-  "depth_after": 0.0,
-  "move_max": 0.0,
+  "rounds": 5.0,
+  "inside_before": 0.016,
+  "inside_after": 0.003,
+  "depth_before": 0.695,
+  "depth_after": 0.06,
+  "move_max": 0.94,
   "move_median": 0.0,
-  "volume_ratio": 1.0
+  "volume_ratio": 0.992
  },
  {
   "id": "flexor_carpi_radialis_l",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.49,
+  "inside_before": 0.486,
   "inside_after": 0.358,
   "depth_before": 6.746,
   "depth_after": 3.678,
   "move_max": 5.754,
   "move_median": 0.488,
-  "volume_ratio": 0.917
+  "volume_ratio": 0.918
  },
  {
   "id": "flexor_carpi_ulnaris_l",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.065,
-  "inside_after": 0.03,
+  "inside_before": 0.081,
+  "inside_after": 0.035,
   "depth_before": 3.542,
-  "depth_after": 1.839,
+  "depth_after": 1.867,
   "move_max": 7.324,
-  "move_median": 0.0,
-  "volume_ratio": 0.984
+  "move_median": 0.001,
+  "volume_ratio": 0.985
  },
  {
   "id": "flexor_digitorum_profundus_l",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.108,
-  "inside_after": 0.062,
+  "inside_before": 0.112,
+  "inside_after": 0.061,
   "depth_before": 3.077,
   "depth_after": 2.036,
-  "move_max": 14.43,
+  "move_max": 7.157,
   "move_median": 0.008,
-  "volume_ratio": 0.981
+  "volume_ratio": 0.987
  },
  {
   "id": "flexor_digitorum_superficialis_l",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.155,
-  "inside_after": 0.113,
+  "inside_before": 0.153,
+  "inside_after": 0.098,
   "depth_before": 3.413,
-  "depth_after": 2.112,
-  "move_max": 2.093,
+  "depth_after": 2.829,
+  "move_max": 2.237,
   "move_median": 0.032,
   "volume_ratio": 0.987
  },
@@ -1712,8 +2111,8 @@
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.149,
-  "inside_after": 0.043,
+  "inside_before": 0.148,
+  "inside_after": 0.039,
   "depth_before": 3.602,
   "depth_after": 2.665,
   "move_max": 4.201,
@@ -1726,38 +2125,38 @@
   "kind": "piece",
   "rounds": 5.0,
   "inside_before": 0.314,
-  "inside_after": 0.138,
+  "inside_after": 0.139,
   "depth_before": 4.402,
   "depth_after": 2.728,
-  "move_max": 3.355,
-  "move_median": 0.172,
-  "volume_ratio": 0.965
+  "move_max": 3.297,
+  "move_median": 0.175,
+  "volume_ratio": 0.964
  },
  {
   "id": "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.196,
+  "inside_before": 0.202,
   "inside_after": 0.123,
   "depth_before": 4.713,
   "depth_after": 3.606,
-  "move_max": 8.081,
-  "move_median": 0.05,
-  "volume_ratio": 0.97
+  "move_max": 5.33,
+  "move_median": 0.049,
+  "volume_ratio": 0.971
  },
  {
   "id": "zan_palmaris_longus_muscle_l",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.184,
+  "inside_before": 0.185,
   "inside_after": 0.109,
   "depth_before": 4.954,
   "depth_after": 2.948,
   "move_max": 3.943,
   "move_median": 0.0,
-  "volume_ratio": 1.108
+  "volume_ratio": 1.107
  },
  {
   "id": "biceps_brachii_l_zfill",
@@ -1767,36 +2166,36 @@
   "inside_before": 0.309,
   "inside_after": 0.223,
   "depth_before": 6.826,
-  "depth_after": 3.294,
-  "move_max": 3.534,
+  "depth_after": 3.289,
+  "move_max": 3.539,
   "move_median": 0.55,
-  "volume_ratio": 1.001
+  "volume_ratio": 1.0
  },
  {
   "id": "brachialis_l_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.532,
-  "inside_after": 0.28,
+  "inside_before": 0.531,
+  "inside_after": 0.278,
   "depth_before": 7.667,
   "depth_after": 3.201,
   "move_max": 7.796,
-  "move_median": 0.733,
+  "move_median": 0.737,
   "volume_ratio": 1.025
  },
  {
   "id": "abductor_pollicis_longus_l_zfill",
   "stage": "overlap",
   "kind": "piece",
-  "rounds": 0.0,
-  "inside_before": 0.866,
-  "inside_after": 0.866,
+  "rounds": 1.0,
+  "inside_before": 0.558,
+  "inside_after": 0.533,
   "depth_before": 6.861,
-  "depth_after": 6.861,
-  "move_max": 0.0,
-  "move_median": 0.0,
-  "volume_ratio": 1.0
+  "depth_after": 5.471,
+  "move_max": 3.964,
+  "move_median": 0.279,
+  "volume_ratio": 1.348
  },
  {
   "id": "biceps_brachii_r_zfill",
@@ -1816,13 +2215,13 @@
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.784,
-  "inside_after": 0.556,
+  "inside_before": 0.763,
+  "inside_after": 0.502,
   "depth_before": 4.996,
-  "depth_after": 2.434,
-  "move_max": 4.293,
-  "move_median": 1.44,
-  "volume_ratio": 1.017
+  "depth_after": 2.44,
+  "move_max": 4.361,
+  "move_median": 1.401,
+  "volume_ratio": 1.034
  },
  {
   "id": "triceps_brachii_r_zfill",
@@ -1841,156 +2240,195 @@
   "id": "extensor_carpi_radialis_longus_r_zfill",
   "stage": "overlap",
   "kind": "piece",
-  "rounds": 4.0,
+  "rounds": 5.0,
   "inside_before": 0.562,
-  "inside_after": 0.405,
+  "inside_after": 0.412,
   "depth_before": 8.895,
-  "depth_after": 7.879,
-  "move_max": 11.0,
-  "move_median": 0.994,
-  "volume_ratio": 0.655
+  "depth_after": 7.891,
+  "move_max": 8.0,
+  "move_median": 1.065,
+  "volume_ratio": 0.743
+ },
+ {
+  "id": "flexor_digitorum_profundus_r_zfill",
+  "stage": "overlap",
+  "kind": "piece",
+  "rounds": 5.0,
+  "inside_before": 0.139,
+  "inside_after": 0.043,
+  "depth_before": 8.687,
+  "depth_after": 7.293,
+  "move_max": 8.0,
+  "move_median": 0.0,
+  "volume_ratio": 1.472
  },
  {
   "id": "extensor_carpi_ulnaris_r_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 2.0,
-  "inside_before": 0.537,
-  "inside_after": 0.457,
+  "inside_before": 0.133,
+  "inside_after": 0.123,
   "depth_before": 4.593,
   "depth_after": 2.836,
-  "move_max": 2.309,
-  "move_median": 0.293,
-  "volume_ratio": 0.669
+  "move_max": 2.226,
+  "move_median": 0.0,
+  "volume_ratio": 0.708
  },
  {
   "id": "flexor_carpi_ulnaris_r_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.302,
-  "inside_after": 0.17,
+  "inside_before": 0.265,
+  "inside_after": 0.131,
   "depth_before": 4.954,
   "depth_after": 4.89,
-  "move_max": 5.229,
-  "move_median": 0.075,
-  "volume_ratio": 1.028
+  "move_max": 5.2,
+  "move_median": 0.034,
+  "volume_ratio": 1.013
+ },
+ {
+  "id": "flexor_pollicis_longus_r_zfill",
+  "stage": "overlap",
+  "kind": "piece",
+  "rounds": 2.0,
+  "inside_before": 0.271,
+  "inside_after": 0.141,
+  "depth_before": 3.063,
+  "depth_after": 3.014,
+  "move_max": 2.846,
+  "move_median": 0.007,
+  "volume_ratio": 0.813
+ },
+ {
+  "id": "pronator_quadratus_r_zfill",
+  "stage": "overlap",
+  "kind": "piece",
+  "rounds": 5.0,
+  "inside_before": 0.26,
+  "inside_after": 0.196,
+  "depth_before": 3.869,
+  "depth_after": 2.764,
+  "move_max": 3.32,
+  "move_median": 0.063,
+  "volume_ratio": 0.957
  },
  {
   "id": "brachioradialis_r_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.495,
-  "inside_after": 0.307,
+  "inside_before": 0.497,
+  "inside_after": 0.308,
   "depth_before": 7.021,
   "depth_after": 4.582,
   "move_max": 7.096,
-  "move_median": 0.728,
-  "volume_ratio": 1.037
+  "move_median": 0.718,
+  "volume_ratio": 1.032
  },
  {
   "id": "extensor_carpi_radialis_brevis_r_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.4,
-  "inside_after": 0.195,
+  "inside_before": 0.414,
+  "inside_after": 0.181,
   "depth_before": 5.948,
   "depth_after": 2.923,
   "move_max": 5.497,
-  "move_median": 0.385,
-  "volume_ratio": 1.108
+  "move_median": 0.402,
+  "volume_ratio": 1.093
+ },
+ {
+  "id": "extensor_pollicis_brevis_r_zfill",
+  "stage": "overlap",
+  "kind": "piece",
+  "rounds": 5.0,
+  "inside_before": 0.358,
+  "inside_after": 0.128,
+  "depth_before": 5.5,
+  "depth_after": 3.538,
+  "move_max": 4.703,
+  "move_median": 0.049,
+  "volume_ratio": 0.848
+ },
+ {
+  "id": "extensor_indicis_r_zfill",
+  "stage": "overlap",
+  "kind": "piece",
+  "rounds": 0.0,
+  "inside_before": 0.005,
+  "inside_after": 0.005,
+  "depth_before": 0.129,
+  "depth_after": 0.129,
+  "move_max": 0.0,
+  "move_median": 0.0,
+  "volume_ratio": 1.0
  },
  {
   "id": "anconeus_r_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.315,
+  "inside_before": 0.325,
   "inside_after": 0.215,
   "depth_before": 5.468,
   "depth_after": 1.844,
   "move_max": 4.604,
-  "move_median": 0.036,
-  "volume_ratio": 0.943
+  "move_median": 0.038,
+  "volume_ratio": 0.944
  },
  {
   "id": "pronator_teres_r_zfill",
   "stage": "overlap",
   "kind": "piece",
   "rounds": 5.0,
-  "inside_before": 0.362,
-  "inside_after": 0.196,
+  "inside_before": 0.363,
+  "inside_after": 0.193,
   "depth_before": 5.89,
   "depth_after": 5.364,
-  "move_max": 7.802,
-  "move_median": 0.065,
+  "move_max": 7.819,
+  "move_median": 0.061,
   "volume_ratio": 1.008
- },
- {
-  "id": "anconeus_r",
-  "stage": "overlap",
-  "kind": "entry",
-  "rounds": 5.0,
-  "inside_before": 0.066,
-  "inside_after": 0.042,
-  "depth_before": 2.43,
-  "depth_after": 2.167,
-  "move_max": 3.547,
-  "move_median": 0.0,
-  "volume_ratio": 0.977
  },
  {
   "id": "flexor_carpi_radialis_r",
   "stage": "overlap",
   "kind": "entry",
   "rounds": 5.0,
-  "inside_before": 0.261,
-  "inside_after": 0.139,
+  "inside_before": 0.209,
+  "inside_after": 0.105,
   "depth_before": 6.325,
-  "depth_after": 4.372,
-  "move_max": 5.143,
-  "move_median": 0.038,
-  "volume_ratio": 0.991
- },
- {
-  "id": "pronator_teres_r",
-  "stage": "overlap",
-  "kind": "entry",
-  "rounds": 5.0,
-  "inside_before": 0.585,
-  "inside_after": 0.197,
-  "depth_before": 6.771,
-  "depth_after": 4.463,
-  "move_max": 6.964,
-  "move_median": 0.63,
-  "volume_ratio": 1.061
+  "depth_after": 4.385,
+  "move_max": 5.163,
+  "move_median": 0.02,
+  "volume_ratio": 0.982
  },
  {
   "id": "flexor_digitorum_superficialis_r",
   "stage": "overlap",
   "kind": "entry",
   "rounds": 5.0,
-  "inside_before": 0.236,
-  "inside_after": 0.181,
+  "inside_before": 0.266,
+  "inside_after": 0.197,
   "depth_before": 7.8,
-  "depth_after": 4.22,
-  "move_max": 5.955,
-  "move_median": 0.183,
-  "volume_ratio": 0.938
+  "depth_after": 4.224,
+  "move_max": 5.98,
+  "move_median": 0.225,
+  "volume_ratio": 0.937
  },
  {
   "id": "supinator_r",
   "stage": "overlap",
   "kind": "entry",
   "rounds": 5.0,
-  "inside_before": 0.401,
-  "inside_after": 0.254,
+  "inside_before": 0.385,
+  "inside_after": 0.238,
   "depth_before": 8.75,
-  "depth_after": 7.888,
+  "depth_after": 7.885,
   "move_max": 8.0,
-  "move_median": 0.882,
-  "volume_ratio": 1.096
+  "move_median": 0.866,
+  "volume_ratio": 1.09
  }
 ]

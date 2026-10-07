@@ -155,3 +155,21 @@ def align_rigid_local(zv, zf, mv, mf, axis_k, pos, sign, window=45.0, iters=25, 
         return zv, info
     info["applied"] = True
     return zv @ R.T + t, info
+
+
+def clip_skin_nearest(v, skin_mesh, inset=1.5, iters=3):
+    """vertices outside the skin go to the nearest skin-surface point, inset by `inset` mm towards the inside (a local move: unlike a pull
+    towards the structure's centroid it cannot stretch a long thin structure across the limb). Returns (v', n_moved)."""
+    out = v.copy(); moved = 0
+    for _ in range(iters):
+        ins = skin_mesh.contains(out)
+        bad = np.where(~ins)[0]
+        if not len(bad):
+            break
+        cl, d, tri = skin_mesh.nearest.on_surface(out[bad])
+        nrm = skin_mesh.face_normals[tri]
+        a = cl - nrm * inset; b = cl + nrm * inset
+        ok_a = skin_mesh.contains(a)
+        tgt = np.where(ok_a[:, None], a, b)
+        out[bad] = tgt; moved += len(bad)
+    return out, moved

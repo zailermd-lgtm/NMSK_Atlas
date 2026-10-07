@@ -168,3 +168,72 @@ def test_new_subjects_are_described_and_classed_as_z_fill():
     for s in sorted(set().union(*NEW_SUBJECTS.values())):
         assert re.search(rf"^\s{{2}}{s}:\s*\"", txt, re.M), s
         assert s.startswith("xfer_zan2")      # classifySource(): startswith xfer_zan2 -> filled_zan
+
+
+# ---------------------------------------------------------------- derived data of the Q200 run
+DER = REPO / "data" / "derived"
+
+
+def _json(name):
+    p = DER / name
+    if not p.exists():
+        pytest.skip(f"{name} not present")
+    return json.loads(p.read_text())
+
+
+def test_vertex_diff_no_measured_entry_changed():
+    d = _json("Q200_vertex_diff.json")
+    for body, v in d.items():
+        assert v["changed_non_Z_entries"] == 0, body
+        assert v["removed"] == [], body
+        assert v["identical_entries"] + len(v["changed"]) == v["entries_before"]
+        assert all(c["subject"].startswith("xfer_zan2") for c in v["changed"])
+
+
+def test_before_after_elbow_numbers_improved_where_it_was_worst():
+    d = _json("Q200_before_after.json")
+    fr = d["own_f_r"]
+    assert fr["before"]["bone_gap_mm"] > 20 and fr["after"]["bone_gap_mm"] < 3.0         # her right radius/ulna/humerus now articulate
+    assert fr["after"]["ends_over_5mm"] < fr["before"]["ends_over_5mm"] / 3
+    assert fr["after"]["flat_cap_area_mm2"] < 0.4 * fr["before"]["flat_cap_area_mm2"]
+    fl = d["own_f_l"]["after"]
+    assert set(fl["bones_present"]) >= {"humerus_l", "radius_l", "ulna_l"} and fl["bone_gap_mm"] < 3.0      # her left forearm exists and articulates
+    for k in ("own_m_l", "own_m_r"):
+        assert d[k]["after"]["flat_cap_area_mm2"] <= 0.6 * d[k]["before"]["flat_cap_area_mm2"] + 1
+        assert d[k]["after"]["bone_gap_mm"] < 3.0
+
+
+@pytest.mark.parametrize("body", ["vhm", "vhf"])
+def test_continuations_sit_on_a_cap_plane_of_their_measured_structure(body):
+    seams = _json(f"Q200_seams_{body}.json")
+    if not (Q200[body] / "bundle.json").exists():
+        pytest.skip("q200 bundle not built")
+    B = Bundle(Q200[body])
+    assert seams
+    checked = 0
+    for nid, lst in seams.items():
+        base = B.get(nid[:-6])
+        assert base is not None, nid
+        planes = [(c["axis"], c["pos"]) for kw in (dict(), dict(minarea=60.0, at_end=2.5)) for c in find_caps(base["v"], base["f"], **kw)]
+        piece = B.get(nid)
+        for s in lst:
+            assert any(a == s["axis"] and abs(p - s["pos"]) < 4.0 for a, p in planes), (nid, s["axis"], s["pos"], planes[:4])
+            k = "xyz".index(s["axis"])
+            assert (np.abs(piece["v"][:, k] - s["pos"]) < 0.35).sum() >= 4              # the continuation really starts on that plane
+            checked += 1
+    assert checked >= 10
+
+
+@pytest.mark.parametrize("body", ["vhm", "vhf"])
+def test_added_vessels_and_nerves_are_not_torn(body):
+    if not (Q200[body] / "bundle.json").exists():
+        pytest.skip("q200 bundle not built")
+    B = Bundle(Q200[body])
+    n = 0
+    for it in B.items:
+        e = it["e"]
+        if e["subject"].endswith("armvessels_q200"):
+            v, f = B.mesh(it)
+            assert np.linalg.norm(v[f[:, 0]] - v[f[:, 1]], axis=1).max() < 80.0, e["id"]
+            n += 1
+    assert n >= 20

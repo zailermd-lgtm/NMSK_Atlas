@@ -11,9 +11,9 @@
  "own_male": {
   "body": "male",
   "dir": "/home/user/NMSK_Atlas/build/viewer_m_hr_q200",
-  "entries": 524,
-  "ids": 489,
-  "triangles_shipped": 2413854,
+  "entries": 528,
+  "ids": 493,
+  "triangles_shipped": 2421808,
   "by_class": {
    "measured": {
     "entries": 244,
@@ -34,9 +34,9 @@
     "hidden_by_default_entries": 0
    },
    "filled_zan": {
-    "entries": 134,
-    "ids": 134,
-    "volume_cm3": 3320.9,
+    "entries": 138,
+    "ids": 138,
+    "volume_cm3": 3201.7,
     "hidden_by_default_entries": 3
    },
    "other_specimen": {
@@ -50,14 +50,14 @@
    "measured": 42905.0,
    "rule_based": 8639.3,
    "transferred": 211.7,
-   "filled_zan": 3320.9,
+   "filled_zan": 3201.7,
    "other_specimen": 339.2
   },
   "visible_default_by_class": {
    "measured": 207,
    "rule_based": 89,
    "transferred": 43,
-   "filled_zan": 131,
+   "filled_zan": 135,
    "other_specimen": 0
   },
   "by_system": {
@@ -105,26 +105,26 @@
      "transferred": 36,
      "measured": 117,
      "other_specimen": 1,
-     "filled_zan": 93
+     "filled_zan": 98
     },
     "volume_cm3": {
      "rule_based": 8464.3,
      "transferred": 182.9,
      "measured": 25844.2,
      "other_specimen": 31.3,
-     "filled_zan": 2005.2
+     "filled_zan": 1887.0
     }
    },
    "nerve": {
     "entries": {
      "transferred": 1,
      "rule_based": 2,
-     "filled_zan": 11
+     "filled_zan": 10
     },
     "volume_cm3": {
      "transferred": 1.0,
      "rule_based": 11.7,
-     "filled_zan": 6.9
+     "filled_zan": 6.7
     }
    },
    "organ": {
@@ -156,7 +156,7 @@
      "measured": 23.6,
      "other_specimen": 307.9,
      "rule_based": 35.3,
-     "filled_zan": 42.5
+     "filled_zan": 41.6
     }
    }
   },
@@ -175,12 +175,12 @@
     "entries": {
      "rule_based": 3,
      "measured": 4,
-     "filled_zan": 51
+     "filled_zan": 50
     },
     "volume_cm3": {
      "rule_based": 104.0,
      "measured": 177.0,
-     "filled_zan": 451.6
+     "filled_zan": 452.0
     }
    },
    "head_neck": {
@@ -237,12 +237,12 @@
     "entries": {
      "rule_based": 10,
      "measured": 11,
-     "filled_zan": 36
+     "filled_zan": 41
     },
     "volume_cm3": {
      "rule_based": 2479.9,
      "measured": 1017.8,
-     "filled_zan": 1491.3
+     "filled_zan": 1371.6
     }
    },
    "whole_body": {
@@ -985,7 +985,7 @@
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
     "entries": 6,
-    "volume_cm3": 159.8,
+    "volume_cm3": 160.4,
     "ids": [
      "brachioradialis_r",
      "extensor_pollicis_brevis_r",
@@ -1005,7 +1005,7 @@
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
     "entries": 56,
-    "volume_cm3": 1629.7,
+    "volume_cm3": 1629.5,
     "ids": [
      "abductor_digiti_minimi_foot_l",
      "abductor_digiti_minimi_foot_r",
@@ -1172,15 +1172,15 @@
    "xfer_zan2vhm_elbow_q200": {
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
-    "entries": 17,
-    "volume_cm3": 1453.6,
+    "entries": 22,
+    "volume_cm3": 1335.1,
     "ids": [
+     "abductor_pollicis_longus_r_zfill",
      "biceps_brachii_l_zfill",
      "biceps_brachii_r_zfill",
      "brachialis_l_zfill",
      "brachialis_r_zfill",
      "brachioradialis_r_zfill",
-     "extensor_carpi_radialis_brevis_l_zfill",
      "..."
     ],
     "manifest": {},
@@ -1190,15 +1190,15 @@
    "xfer_zan2vhm_armvessels_q200": {
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
-    "entries": 33,
-    "volume_cm3": 49.5,
+    "entries": 32,
+    "volume_cm3": 48.6,
     "ids": [
      "anterior_interosseous_n_l",
      "anterior_interosseous_n_r",
      "median_n_lateral_root_l",
      "median_n_lateral_root_r",
      "musculocutaneous_n_l",
-     "posterior_interosseous_n_l",
+     "posterior_interosseous_n_r",
      "..."
     ],
     "manifest": {},
@@ -1246,7 +1246,7 @@
  "gaps_male": {
   "zan_structures_excl_skin": 2716,
   "counterpart_by_atlas_id_by_own_class": {
-   "filled_zan": 113,
+   "filled_zan": 112,
    "rule_based": 66,
    "measured": 159,
    "transferred": 33
@@ -1257,8 +1257,8 @@
    "rule_based": 36,
    "measured": 189
   },
-  "without_counterpart": 2097,
-  "without_counterpart_volume_cm3": 83268.6,
+  "without_counterpart": 2098,
+  "without_counterpart_volume_cm3": 83268.8,
   "by_region_and_z_layer": {
    "foot": {
     "bone": {
@@ -1407,15 +1407,15 @@
      ]
     },
     "nerve": {
-     "n": 34,
-     "volume_cm3": 4.8,
+     "n": 35,
+     "volume_cm3": 4.9,
      "examples": [
+      "Posterior interosseous nerve (deep branch of radial n.) (left)",
       "Superficial branch of radial nerve (left)",
       "Superficial branch of radial nerve (right)",
       "Deep branch of ulnar nerve (left)",
       "Deep branch of ulnar nerve (right)",
-      "Superficial branch of ulnar nerve (left)",
-      "Superficial branch of ulnar nerve (right)"
+      "Superficial branch of ulnar nerve (left)"
      ]
     },
     "vessel": {
@@ -1983,6 +1983,7 @@
    }
   },
   "own_ids_without_same_id_in_z": [
+   "abductor_pollicis_longus_r_zfill",
    "adductor_magnus_distal_tendon_l",
    "adductor_magnus_distal_tendon_r",
    "ankle_articular_cartilage_l",
@@ -2000,6 +2001,7 @@
    "cervical_vertebrae",
    "colon",
    "common_carotid_a_r",
+   "coracobrachialis_l_zfill",
    "coracoclavicular_ligament_l",
    "cranium",
    "deep_transverse_perineal_l",
@@ -2012,12 +2014,15 @@
    "extensor_carpi_radialis_longus_l_zfill",
    "extensor_carpi_ulnaris_l_zfill",
    "extensor_carpi_ulnaris_r_zfill",
+   "extensor_pollicis_brevis_r_zfill",
    "external_intercostals_l",
    "external_intercostals_r",
    "femoral_a_l",
    "femoral_a_r",
    "femoral_v_l",
    "femoral_v_r",
+   "flexor_digitorum_profundus_r_zfill",
+   "flexor_pollicis_longus_r_zfill",
    "heart",
    "humerus_l_zfill",
    "humerus_r_zfill",
@@ -2093,9 +2098,9 @@
  "own_female": {
   "body": "female",
   "dir": "/home/user/NMSK_Atlas/build/viewer_f_hr_q200",
-  "entries": 554,
-  "ids": 530,
-  "triangles_shipped": 3636202,
+  "entries": 558,
+  "ids": 534,
+  "triangles_shipped": 3646832,
   "by_class": {
    "measured": {
     "entries": 180,
@@ -2116,9 +2121,9 @@
     "hidden_by_default_entries": 8
    },
    "filled_zan": {
-    "entries": 140,
-    "ids": 140,
-    "volume_cm3": 3365.3,
+    "entries": 144,
+    "ids": 144,
+    "volume_cm3": 3434.1,
     "hidden_by_default_entries": 1
    },
    "other_specimen": {
@@ -2132,14 +2137,14 @@
    "measured": 19545.3,
    "rule_based": 7254.3,
    "transferred": 10366.1,
-   "filled_zan": 3365.3,
+   "filled_zan": 3434.1,
    "other_specimen": 0
   },
   "visible_default_by_class": {
    "measured": 154,
    "rule_based": 145,
    "transferred": 79,
-   "filled_zan": 139,
+   "filled_zan": 143,
    "other_specimen": 0
   },
   "by_system": {
@@ -2194,13 +2199,13 @@
      "rule_based": 93,
      "measured": 70,
      "transferred": 68,
-     "filled_zan": 84
+     "filled_zan": 89
     },
     "volume_cm3": {
      "rule_based": 5466.3,
      "measured": 5404.4,
      "transferred": 10087.6,
-     "filled_zan": 1538.0
+     "filled_zan": 1606.3
     }
    },
    "nerve": {
@@ -2212,7 +2217,7 @@
     "volume_cm3": {
      "measured": 1.0,
      "rule_based": 21.4,
-     "filled_zan": 6.2
+     "filled_zan": 6.3
     }
    },
    "organ": {
@@ -2235,12 +2240,12 @@
     "entries": {
      "measured": 20,
      "rule_based": 4,
-     "filled_zan": 25
+     "filled_zan": 24
     },
     "volume_cm3": {
      "measured": 381.0,
      "rule_based": 6.7,
-     "filled_zan": 47.3
+     "filled_zan": 47.6
     }
    }
   },
@@ -2266,7 +2271,7 @@
     "volume_cm3": {
      "measured": 34.1,
      "rule_based": 343.0,
-     "filled_zan": 785.3
+     "filled_zan": 785.0
     }
    },
    "head_neck": {
@@ -2324,13 +2329,13 @@
      "measured": 12,
      "rule_based": 10,
      "transferred": 2,
-     "filled_zan": 45
+     "filled_zan": 49
     },
     "volume_cm3": {
      "measured": 786.3,
      "rule_based": 1802.0,
      "transferred": 66.8,
-     "filled_zan": 1516.3
+     "filled_zan": 1585.5
     }
    },
    "whole_body": {
@@ -3429,7 +3434,7 @@
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
     "entries": 4,
-    "volume_cm3": 65.1,
+    "volume_cm3": 63.7,
     "ids": [
      "anconeus_r",
      "flexor_carpi_radialis_r",
@@ -3447,7 +3452,7 @@
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
     "entries": 19,
-    "volume_cm3": 1280.3,
+    "volume_cm3": 1280.2,
     "ids": [
      "abductor_hallucis_l",
      "adductor_hallucis_l",
@@ -3467,8 +3472,8 @@
    "xfer_zan2vhf_elbow_q200": {
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
-    "entries": 16,
-    "volume_cm3": 1424.7,
+    "entries": 21,
+    "volume_cm3": 1493.4,
     "ids": [
      "abductor_pollicis_longus_l_zfill",
      "anconeus_r_zfill",
@@ -3486,7 +3491,7 @@
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
     "entries": 25,
-    "volume_cm3": 422.9,
+    "volume_cm3": 424.1,
     "ids": [
      "anconeus_l",
      "brachioradialis_l",
@@ -3503,8 +3508,8 @@
    "xfer_zan2vhf_armvessels_q200": {
     "class": "filled_zan",
     "why": "subject xfer_zan2*",
-    "entries": 37,
-    "volume_cm3": 53.5,
+    "entries": 36,
+    "volume_cm3": 54.0,
     "ids": [
      "anterior_interosseous_n_l",
      "anterior_interosseous_n_r",
@@ -3580,7 +3585,7 @@
   "zan_structures_excl_skin": 2691,
   "counterpart_by_atlas_id_by_own_class": {
    "measured": 96,
-   "filled_zan": 110,
+   "filled_zan": 109,
    "rule_based": 113,
    "transferred": 79
   },
@@ -3590,8 +3595,8 @@
    "measured": 141,
    "transferred": 30
   },
-  "without_counterpart": 2015,
-  "without_counterpart_volume_cm3": 79482.7,
+  "without_counterpart": 2016,
+  "without_counterpart_volume_cm3": 79482.8,
   "by_region_and_z_layer": {
    "foot": {
     "bone": {
@@ -4215,14 +4220,14 @@
      ]
     },
     "vessel": {
-     "n": 9,
-     "volume_cm3": 13.3,
+     "n": 10,
+     "volume_cm3": 13.4,
      "examples": [
       "Anterior circumflex humeral artery",
       "Anterior circumflex humeral artery",
       "Anterior circumflex humeral vein",
       "Anterior circumflex humeral vein",
-      "Posterior circumflex humeral artery",
+      "Middle collateral artery",
       "Posterior circumflex humeral artery"
      ]
     }
@@ -4334,6 +4339,8 @@
    "extensor_carpi_radialis_brevis_r_zfill",
    "extensor_carpi_radialis_longus_r_zfill",
    "extensor_carpi_ulnaris_r_zfill",
+   "extensor_indicis_r_zfill",
+   "extensor_pollicis_brevis_r_zfill",
    "extensor_pollicis_longus_l",
    "extensor_pollicis_longus_r",
    "external_intercostals_l",
@@ -4342,6 +4349,8 @@
    "femoral_n",
    "femoral_v_r",
    "flexor_carpi_ulnaris_r_zfill",
+   "flexor_digitorum_profundus_r_zfill",
+   "flexor_pollicis_longus_r_zfill",
    "gallbladder",
    "heart",
    "humerus_r_zfill",
@@ -4393,6 +4402,7 @@
    "phalanges_hand_r",
    "popliteal_a_r",
    "popliteal_v_r",
+   "pronator_quadratus_r_zfill",
    "pronator_teres_r_zfill",
    "quadriceps_tendon_l",
    "quadriceps_tendon_r",
