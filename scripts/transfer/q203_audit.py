@@ -10,7 +10,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO)); sys.path.insert(0, str(REPO / "scripts" / "zanatomy"))
 
-SUFFIXES = ("_zfill", "_zfill203")
+SUFFIXES = ("_zfill", "_zfill203", "_zfill203s")
 
 
 def base_of(i):
