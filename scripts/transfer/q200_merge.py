@@ -9,7 +9,7 @@ from shapely.ops import unary_union
 from scripts.transfer.q200_continue import find_caps, AX
 
 
-def merge_structure(mv, mf, pv, pf, covered):
+def merge_structure(mv, mf, pv, pf, covered, weld=False):
     """-> (v, f, info). covered: [{axis, pos, polys:[[[x,y],..],..]}] (from Q200_seams_<body>.json): the region of the cap plane the continuation
     starts on; the measured cap faces whose centroid lies in it are dropped (interior), the rest stay."""
     from shapely.geometry import Point
@@ -36,4 +36,10 @@ def merge_structure(mv, mf, pv, pf, covered):
     info["cap_area_left"] = capleft
     v = np.vstack([mv, pv])
     f = np.vstack([mf[keep], pf + len(mv)])
+    if weld:
+        # the continuation's ring 0 is the measured cap outline itself (same vertex positions): weld coincident vertices (audit only)
+        key = np.round(v / 0.02).astype(np.int64)
+        _, first, inv = np.unique(key, axis=0, return_index=True, return_inverse=True)
+        v, f = v[first], inv.reshape(-1)[f]
+        f = f[(f[:, 0] != f[:, 1]) & (f[:, 1] != f[:, 2]) & (f[:, 0] != f[:, 2])]
     return v, f, info
