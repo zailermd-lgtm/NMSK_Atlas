@@ -153,6 +153,7 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, his=None, decimate_fn
         s = "_" + side
         r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side], hcs[side]], allow_unchanged=True, note_fn=note, tube_close=TUBE_CLOSE, close_rounds=10, arm_radius_mm=800.0, final_skin_clamp=12.0, revert_outside_pp=8.0,
                          field_fn=lambda i, v0: DF.delta(i, raw[i]))
+        rep.setdefault("reverted_outside_skin", {})[side] = r.get("reverted_outside_skin", {})
         rep["bones"].update(r["bones"])
         bone_notes(by, side, rep["chain"][side], r["bones"])
         rep["structures"].update(r["structures"])
