@@ -95,8 +95,15 @@ separate file `clinical_needle_tool.js` next to each viewer page by
 `clinical_motor_points.json`. The page keeps only a generic hook (a script tag that loads the
 file if present, and an anatomy API object: meshes, structure records, picking, visibility,
 opacity, camera). Without the file the page is an anatomy-only atlas and shows no needle button.
-The page itself keeps a general **Cut** tool (sagittal / axial / coronal / facing-me plane,
-movable, flip side); picking ignores the removed half.
+The page itself keeps a general **Cut** mode (Q197, the same on all six pages, desktop and phone): orientation
+presets (sagittal / axial / coronal / facing me = the camera direction when pressed) or **Place on model** (then click
+or tap the model: the plane passes through that point); the plane is drawn as a translucent rectangle with an arrow to
+the removed side; choose the removed side with the two side buttons or **flip side** (default: the +axis side, for
+facing me the side nearer the viewer); move the plane along its normal with the mm slider, the -10/-1/+1/+10 mm
+buttons, arrow keys (Shift or PageUp/PageDown = 10 mm) or the wheel over the slider; **reset cut**, **exit cut**.
+The removed part is clipped for real (every material / fragment, incl. skin and the add-on's halos; the needle
+trajectory itself is not clipped, so it stays visible); picking ignores the removed half. No cap is drawn: the cut
+shows the open surfaces. Shared source: `viewer/cut_mode/`, synced into both templates by `scripts/sync_cut_mode_q197.py`.
 
 With the add-on present, the **Needle** button opens its panel. The original measurement is kept:
 the first click on any structure sets the entry point (normally the skin, so switch its system on

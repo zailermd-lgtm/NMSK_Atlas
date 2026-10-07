@@ -172,7 +172,7 @@ button.mini:hover{background:#f2f2f2}
 #cut-panel .cp-head b{font-size:13px}
 #cut-panel .cp-sp{flex:1}
 #cut-panel .cp-dim,#cut-panel .cp-hint,#cut-panel output{color:var(--cp-dim)}
-#cut-panel output{float:right;font-variant-numeric:tabular-nums;color:var(--cp-ink);font-weight:600}
+#cut-panel output{float:right;font-variant-numeric:tabular-nums;color:var(--cp-ink);font-weight:600;text-transform:none;letter-spacing:0}
 #cut-panel .cp-lbl{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cp-dim)}
 #cut-panel .cp-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
 #cut-panel .cp-row button{flex:1 1 auto}
@@ -207,6 +207,8 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-panel{position:absolute;right:12px;top:48px}
 #app.phone #cut-panel{left:8px;right:8px;top:auto;bottom:8px}
 #app.phone.sheet-open #cut-panel{display:none}
+/* the add-on's needle panel takes the stage bottom on the phone: the cut panel moves to the top while it is open */
+#app.phone:has(#needle-panel:not([hidden])) #cut-panel{top:96px;bottom:auto;max-height:44vh}
 @media (max-width:1080px){
   #app{grid-template-columns:200px minmax(0,1fr) 300px}
 }
