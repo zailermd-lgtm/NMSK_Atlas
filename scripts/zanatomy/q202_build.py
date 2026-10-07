@@ -74,7 +74,45 @@ def add_closure(page_key, S, spec, out_dir, extra_replace=None, extra_note=""):
     return info
 
 
-def weld_skin(page_key, raw_key, only_bad_gt=None, log=print):
+def weld_components(by, raw, pid, log=print, share=0.5, sigma=30.0):
+    """a skin patch of several face-connected components (the urogenital patch: scrotal bag + perineal strip) whose components touch in the source (< 1.5 mm) and have been pulled apart by the
+    per-patch fits: the smaller component is moved by a displacement that is 0 at its far end and the full gap vector at the contact (linear in the coordinate along the line far end -> contact),
+    the other component and every other patch stay."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    v0, f = by[pid]["v"], by[pid]["f"]
+    r0 = raw[pid]
+    n = len(r0)
+    A = coo_matrix((np.ones(len(f) * 3), (np.r_[f[:, 0], f[:, 1], f[:, 2]], np.r_[f[:, 1], f[:, 2], f[:, 0]])), shape=(n, n))
+    nc, lab = connected_components(A, directed=False)
+    if nc < 2:
+        return None
+    sizes = np.bincount(lab)
+    big, small = int(np.argsort(-sizes)[0]), int(np.argsort(-sizes)[1])
+    ia, ib = np.where(lab == big)[0], np.where(lab == small)[0]
+    d, k = cKDTree(r0[ia]).query(r0[ib])
+    j = int(np.argmin(d))
+    if d[j] > 1.5:
+        return None
+    b_c, a_c = ib[j], ia[k[j]]                       # contact vertices (source): small comp / big comp
+    gap = v0[a_c] - v0[b_c]
+    far = ib[np.argmax(np.linalg.norm(r0[ib] - r0[b_c], axis=1))]
+    ax = r0[b_c] - r0[far]; L = np.linalg.norm(ax); ax /= L
+    w = np.clip(((r0[ib] - r0[far]) @ ax) / L, 0.0, 1.0)
+    # all small-component vertices that touch the big one in the source follow the contact
+    dd, kk = cKDTree(r0[ia]).query(r0[ib])
+    out = v0.copy()
+    out[ib] = v0[ib] + share * w[:, None] * gap[None, :]                  # the strip comes up to meet the bag ...
+    wa = np.exp(-(np.linalg.norm(r0[ia] - r0[a_c], axis=1) ** 2) / (2 * sigma ** 2))
+    out[ia] = v0[ia] - (1 - share) * wa[:, None] * gap[None, :]          # ... and the bag comes down a little (localised bulge around the contact)
+    rep = {"patch": pid, "share_of_gap_taken_by_the_strip": share, "component_sizes": [int(sizes[big]), int(sizes[small])], "source_contact_mm": round(float(d[j]), 2), "gap_before_mm": round(float(np.linalg.norm(gap)), 2),
+           "max_displacement_mm": round(float(np.linalg.norm(out - v0, axis=1).max()), 2)}
+    log(f"  components of {pid}: {rep}")
+    by[pid]["v"] = out
+    return rep
+
+
+def weld_skin(page_key, raw_key, only_bad_gt=None, contact_gate=2.0, contact_weld=False, components=False, log=print):
     """shared-border weld of the skin patches (cross-side pairs too) with the Q199 / Q201 machinery; returns (replace dict, report, by)"""
     from scripts.zanatomy import q199_elbow as E
     man, blob, S = skin_of(page_key)
@@ -84,9 +122,37 @@ def weld_skin(page_key, raw_key, only_bad_gt=None, log=print):
     ids = sorted(by)
     before = E.skin_seam_rows(by, raw, None, ids)
     movable = set(ids) if only_bad_gt is None else {x for r in before if r["step_mm_max"] > only_bad_gt for x in (r["a"], r["b"])}
+    if components:
+        movable |= {i for i in ids if "urogenital" in i}
     log(f"  {len(before)} adjacent patch pairs; steps > 3 mm: {sum(r['step_mm_max'] > 3 for r in before)}; movable patches {len(movable)}")
     v0 = {i: by[i]["v"].copy() for i in ids}
+    comp_rep = {}
+    if components:
+        for pid in ids:
+            if "urogenital" in pid:
+                r_ = weld_components(by, raw, pid, log=log)
+                if r_:
+                    comp_rep[pid] = r_
     E.weld_borders(by, raw, ids, movable, rounds=8, cap=14.0)
+    if components:      # the strip moved: re-weld its borders, but keep the component contact (the strip's contact end is held, the borders follow)
+        for _ in range(3):
+            for pid in [i for i in ids if "urogenital" in i]:
+                weld_components(by, raw, pid, log=lambda *a: None)
+            E.weld_borders(by, raw, ids, movable - {i for i in ids if "urogenital" in i}, rounds=4, cap=14.0)
+    after = E.skin_seam_rows(by, raw, None, ids)
+    # contact seams (vertex on the edge / face of the neighbour in the source): same weld rule
+    from scripts.zanatomy import q202_contact as K
+    rawd = {i: {"v": raw[i], "f": S[i]["f"]} for i in ids}
+    cons = K.contacts(rawd, ids)
+    g0 = K.gaps(by, ids, cons)
+    bad = {x for c, gg in zip(cons, g0) if gg > contact_gate for x in (ids[c[0]], ids[c[1 + 1]])}
+    cmov = set(ids) if only_bad_gt is None else bad
+    if contact_weld:   # off by default: the half-way pull oscillates where a vertex touches several patches (tested on fit_m: contact gaps > 3 mm 45 -> 100), reported only
+        K.contact_weld(by, ids, [c for c, gg in zip(cons, g0) if gg > 0.3], cmov, rounds=10, cap=14.0)
+    g1 = K.gaps(by, ids, cons)
+    contact_rep = {"contacts": len(cons), "gap_gt_2mm": [int((g0 > 2).sum()), int((g1 > 2).sum())], "gap_gt_3mm": [int((g0 > 3).sum()), int((g1 > 3).sum())], "gap_gt_5mm": [int((g0 > 5).sum()), int((g1 > 5).sum())],
+                   "gap_max_mm": [round(float(g0.max()), 2), round(float(g1.max()), 2)], "gap_p99_mm": [round(float(np.percentile(g0, 99)), 2), round(float(np.percentile(g1, 99)), 2)]}
+    log(f"  contacts: {contact_rep}")
     after = E.skin_seam_rows(by, raw, None, ids)
     replace, moved = {}, {}
     for i in ids:
@@ -100,7 +166,7 @@ def weld_skin(page_key, raw_key, only_bad_gt=None, log=print):
         rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + f" Q202: rule-based seam weld of this skin patch to its neighbours (largest shared-border step {sb} -> {sa} mm; mean move {mv.mean():.1f} mm, max {mv.max():.1f} mm); not a measurement.").strip()
         replace[i] = (by[i]["v"], S[i]["f"], rec)
     summ = lambda rows: {"pairs": len(rows), "steps_gt_3mm": int(sum(r["step_mm_max"] > 3 for r in rows)), "max_step_mm": round(max([r["step_mm_max"] for r in rows] or [0]), 2)}
-    rep = {"before": summ(before), "after": summ(after), "patches_moved": len(moved), "max_displacement_mm": max([m["max_displacement_mm"] for m in moved.values()] or [0]), "moved": moved,
+    rep = {"components": comp_rep, "contact": contact_rep, "before": summ(before), "after": summ(after), "patches_moved": len(moved), "max_displacement_mm": max([m["max_displacement_mm"] for m in moved.values()] or [0]), "moved": moved,
            "worst_after": sorted([(r["a"], r["b"], r["step_mm_max"]) for r in after], key=lambda t: -t[2])[:6]}
     log(f"  seams {rep['before']} -> {rep['after']}; {len(moved)} patches moved, max {rep['max_displacement_mm']} mm")
     return replace, rep, by, (man, blob, S)
@@ -120,7 +186,7 @@ def main(argv=None):
         info = add_closure("base_f", S, spec, out)
         rep = {"closure": info}
     elif a.page == "fit_m":
-        replace, rep, by, (man, blob, S) = weld_skin("fit_m", "base_m", only_bad_gt=1.0)
+        replace, rep, by, (man, blob, S) = weld_skin("fit_m", "base_m", only_bad_gt=2.0, components=True)
         P.save_page(out, P.PAGES["fit_m"][1], man, blob, replace=replace)
     else:
         replace, rep, by, (man, blob, S) = weld_skin("fit_f", "base_f")

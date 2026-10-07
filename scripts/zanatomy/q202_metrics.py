@@ -19,6 +19,7 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "scripts" / "zanatomy"))
 from scripts.zanatomy import q202_pages as P  # noqa: E402
 from scripts.zanatomy import q198_core as C  # noqa: E402
+C_ = C
 from scripts.zanatomy import q198_joints as J  # noqa: E402
 
 SIDE = {"l": "l", "r": "r", "m": "m", "left": "l", "right": "r"}
@@ -112,6 +113,10 @@ def escape(skin, n_dirs=4000, seed=0):
     return out
 
 
+def raw_by_ids(skin, raw):
+    return [s_["id"] for s_ in skin if s_["id"] in raw]
+
+
 def run(dir_, stem, raw_key=None):
     S = struct_list(dir_, stem, {"skin", "bone"})
     skin = [s for s in S if s["sys"] == "skin"]
@@ -120,7 +125,16 @@ def run(dir_, stem, raw_key=None):
         raw = {s["id"]: s["v"] for s in struct_list(REPO / rd, rs, {"skin"})}
     else:
         raw = {s["id"]: s["v"] for s in skin}
-    res = {"n_skin_patches": len(skin), "seams": seams(skin, raw), "open": open_edges(skin), "sections": sections(S, skin), "escape": escape(skin)}
+    from scripts.zanatomy import q202_contact as K
+    ids = sorted(i for i in raw_by_ids(skin, raw))
+    by = {s_["id"]: {"v": s_["v"], "f": s_["f"]} for s_ in skin}
+    cons = K.contacts({i: {"v": raw[i], "f": by[i]["f"]} for i in ids}, ids)
+    g = K.gaps(by, ids, cons)
+    contact = {"contacts": len(cons), "gap_p99_mm": round(float(np.percentile(g, 99)), 2), "gap_gt_2mm": int((g > 2).sum()), "gap_gt_3mm": int((g > 3).sum()), "gap_gt_5mm": int((g > 5).sum()), "gap_max_mm": round(float(g.max()), 2)}
+    env = {}
+    for cl in (2, 3):
+        env[f"envelope_L_close{cl}"] = round(C_.SkinField(skin, 3.0, close=cl).vol_L, 1)
+    res = {"n_skin_patches": len(skin), "contact": contact, "envelope": env, "seams": seams(skin, raw), "open": open_edges(skin), "sections": sections(S, skin), "escape": escape(skin)}
     sec = res["sections"].values()
     res["sections_summary"] = {"junctions": len(res["sections"]), "open_or_missing_total": int(sum((x["open_or_missing_sections"] or 0) for x in sec)),
                                "max_radius_step_mm_per_3mm": max([x["max_radius_step_mm_per_3mm"] or 0 for x in sec] or [0]), "junctions_with_step_gt3": int(sum(1 for x in sec if (x["max_radius_step_mm_per_3mm"] or 0) > 3))}

@@ -74,7 +74,9 @@ def triangulate_loop(L, target_edge=6.0):
     c = L.mean(0)
     u, s, vt = np.linalg.svd(L - c)
     cands = [vt[:2]]
-    a = np.array([1.0, 0, 0]); b = vt[0] - a * (vt[0] @ a); b /= np.linalg.norm(b); cands.append(np.stack([a, b]))
+    a = np.array([1.0, 0, 0]); b = vt[0] - a * (vt[0] @ a)
+    if np.linalg.norm(b) > 1e-9:
+        b /= np.linalg.norm(b); cands.append(np.stack([a, b]))
     for B2 in cands:
         P2 = (L - c) @ B2.T
         poly = Polygon(P2)
@@ -108,6 +110,47 @@ def triangulate_loop(L, target_edge=6.0):
     cen = P_all[tri].mean(1)
     keep = np.array([pp.contains(Point(*q)) for q in cen])
     tri = tri[keep]
+    # Delaunay drops the flat triangles on densified straight loop segments (their centroid is on the boundary) and leaves an interior triangle on the chord (ring[i], ring[j]):
+    # fan it over the ring vertices in between
+    def _flat(t):
+        a_, b_, c_ = P_all[t]
+        L_ = max(np.linalg.norm(b_ - a_), np.linalg.norm(c_ - b_), np.linalg.norm(a_ - c_))
+        return abs((b_[0] - a_[0]) * (c_[1] - a_[1]) - (b_[1] - a_[1]) * (c_[0] - a_[0])) / max(L_, 1e-9) < 0.05
+    tri = [t for t in tri.tolist() if not _flat(t)]
+    ringset = {tuple(sorted((k, (k + 1) % nb))) for k in range(nb)}
+    changed = True
+    while changed:
+        changed = False
+        cnt = {}
+        for t in tri:
+            for e_ in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])):
+                cnt[tuple(sorted(e_))] = cnt.get(tuple(sorted(e_)), 0) + 1
+        for ti, t in enumerate(tri):
+            for (x, y) in ((t[0], t[1]), (t[1], t[2]), (t[2], t[0])):
+                e_ = tuple(sorted((x, y)))
+                if cnt[e_] == 1 and e_ not in ringset and x < nb and y < nb:
+                    d_ = [q for q in t if q not in (x, y)][0]
+                    a_, c_ = e_
+                    # ring vertices strictly between a_ and c_ (the short way round)
+                    fwd = [(a_ + k) % nb for k in range(1, (c_ - a_) % nb)]
+                    bwd = [(c_ + k) % nb for k in range(1, (a_ - c_) % nb)]
+                    mids = fwd if len(fwd) <= len(bwd) else bwd
+                    chain = [a_] + (mids if mids is fwd else mids[::-1]) + [c_]
+                    new_t = [[chain[k], chain[k + 1], d_] if (x, y) == (a_, c_) or True else None for k in range(len(chain) - 1)]
+                    # keep the winding of the original triangle (x, y, d_)
+                    ori = np.sign((P_all[y][0] - P_all[x][0]) * (P_all[d_][1] - P_all[x][1]) - (P_all[y][1] - P_all[x][1]) * (P_all[d_][0] - P_all[x][0]))
+                    out = []
+                    for k in range(len(chain) - 1):
+                        u_, v_ = chain[k], chain[k + 1]
+                        o2 = np.sign((P_all[v_][0] - P_all[u_][0]) * (P_all[d_][1] - P_all[u_][1]) - (P_all[v_][1] - P_all[u_][1]) * (P_all[d_][0] - P_all[u_][0]))
+                        out.append([u_, v_, d_] if o2 == ori or o2 == 0 else [v_, u_, d_])
+                    tri.pop(ti)
+                    tri += out
+                    changed = True
+                    break
+            if changed:
+                break
+    tri = np.array(tri)
     # boundary edges present?
     es = {tuple(sorted(e)) for e in _edges(tri).tolist()}
     missing = [(i, (i + 1) % nb) for i in range(nb) if tuple(sorted((i, (i + 1) % nb))) not in es]
@@ -170,6 +213,10 @@ def build_slab(L1, L2, n_ext_hint=(0.0, -1.0, 0.3), target_edge=6.0):
     Dn = solve_dirichlet(laplacian(X, f0, "uniform"), D, ring)
     Y = X + Dn
     thick = (X - Y) @ n_ext                      # > 0 where the inner sheet lies behind the outer one
+    deficit = np.maximum(0.3 - thick, 0.0)       # never let the inner sheet touch / cross the outer one (the rim offsets of the neighbours are oblique at the apex)
+    Y = Y - deficit[:, None] * n_ext
+    n_fixed, max_fix = int((deficit > 0).sum()), float(deficit.max())
+    thick = (X - Y) @ n_ext
     N = len(X)
     # rim wall (quads between consecutive ring vertices), inner sheet reversed
     rim = []
@@ -182,6 +229,6 @@ def build_slab(L1, L2, n_ext_hint=(0.0, -1.0, 0.3), target_edge=6.0):
     F = np.vstack([f_out, f_out[:, ::-1] + N, rim])
     info = {"outer_vertices": int(N), "triangles": int(len(F)), "ring_vertices": int(len(ring)), "outer_area_mm2": round(float(tri_area(X, f_out).sum()), 1),
             "inner_area_mm2": round(float(tri_area(Y, f_out).sum()), 1), "thickness_mm": {"min": round(float(thick.min()), 2), "median": round(float(np.median(thick)), 2), "max": round(float(thick.max()), 2)},
-            "relaxation_max_move_last_iter_mm": round(hist[-1], 4), "iterations": len(hist), "n_ext": n_ext.round(3).tolist(),
+            "inner_sheet_vertices_pushed_back": n_fixed, "inner_sheet_max_push_back_mm": round(max_fix, 2), "relaxation_max_move_last_iter_mm": round(hist[-1], 4), "iterations": len(hist), "n_ext": n_ext.round(3).tolist(),
             "max_displacement_from_harmonic_mm": round(float(np.linalg.norm(X - X_harm, axis=1).max()), 2)}
     return {"v": V, "f": F, "outer": X, "inner": Y, "f_out": f_out, "ring": ring, "info": info, "n_ext": n_ext}

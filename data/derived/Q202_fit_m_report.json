@@ -1,4 +1,51 @@
 {
+ "components": {
+  "zan_skin_urogenital_region_l": {
+   "patch": "zan_skin_urogenital_region_l",
+   "share_of_gap_taken_by_the_strip": 0.5,
+   "component_sizes": [
+    616,
+    30
+   ],
+   "source_contact_mm": 1.32,
+   "gap_before_mm": 11.79,
+   "max_displacement_mm": 5.9
+  },
+  "zan_skin_urogenital_region_r": {
+   "patch": "zan_skin_urogenital_region_r",
+   "share_of_gap_taken_by_the_strip": 0.5,
+   "component_sizes": [
+    616,
+    30
+   ],
+   "source_contact_mm": 1.32,
+   "gap_before_mm": 9.88,
+   "max_displacement_mm": 4.94
+  }
+ },
+ "contact": {
+  "contacts": 23744,
+  "gap_gt_2mm": [
+   219,
+   219
+  ],
+  "gap_gt_3mm": [
+   56,
+   56
+  ],
+  "gap_gt_5mm": [
+   13,
+   13
+  ],
+  "gap_max_mm": [
+   26.06,
+   26.06
+  ],
+  "gap_p99_mm": [
+   1.96,
+   1.96
+  ]
+ },
  "before": {
   "pairs": 627,
   "steps_gt_3mm": 5,
@@ -6,401 +53,89 @@
  },
  "after": {
   "pairs": 627,
-  "steps_gt_3mm": 0,
-  "max_step_mm": 1.83
+  "steps_gt_3mm": 1,
+  "max_step_mm": 3.56
  },
- "patches_moved": 71,
- "max_displacement_mm": 4.92,
+ "patches_moved": 19,
+ "max_displacement_mm": 8.25,
  "moved": {
   "zan_skin_anal_region_l": {
-   "max_displacement_mm": 2.31,
-   "mean_displacement_mm": 0.74,
+   "max_displacement_mm": 2.66,
+   "mean_displacement_mm": 0.71,
    "seam_step_max_before_mm": 4.64,
-   "seam_step_max_after_mm": 0.02
+   "seam_step_max_after_mm": 0.47
   },
   "zan_skin_anal_region_r": {
-   "max_displacement_mm": 2.31,
-   "mean_displacement_mm": 0.93,
+   "max_displacement_mm": 2.5,
+   "mean_displacement_mm": 0.89,
    "seam_step_max_before_mm": 4.64,
-   "seam_step_max_after_mm": 0.02
-  },
-  "zan_skin_anterior_region_of_arm_r": {
-   "max_displacement_mm": 0.86,
-   "mean_displacement_mm": 0.22,
-   "seam_step_max_before_mm": 1.46,
-   "seam_step_max_after_mm": 0.02
-  },
-  "zan_skin_anterior_region_of_forearm_l": {
-   "max_displacement_mm": 0.61,
-   "mean_displacement_mm": 0.13,
-   "seam_step_max_before_mm": 1.22,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_anterior_region_of_forearm_r": {
-   "max_displacement_mm": 0.65,
-   "mean_displacement_mm": 0.12,
-   "seam_step_max_before_mm": 1.3,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_anterior_region_of_thigh_l": {
-   "max_displacement_mm": 0.58,
-   "mean_displacement_mm": 0.04,
-   "seam_step_max_before_mm": 1.09,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_anterior_region_of_thigh_r": {
-   "max_displacement_mm": 0.7,
-   "mean_displacement_mm": 0.06,
-   "seam_step_max_before_mm": 1.24,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_anterior_region_of_wrist_l": {
-   "max_displacement_mm": 0.96,
-   "mean_displacement_mm": 0.52,
-   "seam_step_max_before_mm": 1.92,
-   "seam_step_max_after_mm": 0.0
+   "seam_step_max_after_mm": 0.47
   },
   "zan_skin_anterior_region_of_wrist_r": {
    "max_displacement_mm": 1.55,
-   "mean_displacement_mm": 0.5,
+   "mean_displacement_mm": 0.6,
    "seam_step_max_before_mm": 3.09,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_antihelix_r": {
-   "max_displacement_mm": 0.48,
-   "mean_displacement_mm": 0.07,
-   "seam_step_max_before_mm": 1.31,
-   "seam_step_max_after_mm": 1.12
-  },
-  "zan_skin_deltopectoral_triangle_l": {
-   "max_displacement_mm": 0.83,
-   "mean_displacement_mm": 0.44,
-   "seam_step_max_before_mm": 1.24,
-   "seam_step_max_after_mm": 0.02
-  },
-  "zan_skin_deltopectoral_triangle_r": {
-   "max_displacement_mm": 0.83,
-   "mean_displacement_mm": 0.47,
-   "seam_step_max_before_mm": 1.31,
-   "seam_step_max_after_mm": 0.02
-  },
-  "zan_skin_dorsal_surfaces_of_digits_of_hand_l": {
-   "max_displacement_mm": 0.86,
-   "mean_displacement_mm": 0.07,
-   "seam_step_max_before_mm": 1.71,
-   "seam_step_max_after_mm": 0.74
-  },
-  "zan_skin_dorsal_surfaces_of_digits_of_hand_r": {
-   "max_displacement_mm": 0.66,
-   "mean_displacement_mm": 0.06,
-   "seam_step_max_before_mm": 1.97,
-   "seam_step_max_after_mm": 1.31
-  },
-  "zan_skin_dorsum_of_hand_l": {
-   "max_displacement_mm": 0.86,
-   "mean_displacement_mm": 0.12,
-   "seam_step_max_before_mm": 1.71,
-   "seam_step_max_after_mm": 0.03
+   "seam_step_max_after_mm": 0.01
   },
   "zan_skin_dorsum_of_hand_r": {
    "max_displacement_mm": 1.19,
-   "mean_displacement_mm": 0.16,
+   "mean_displacement_mm": 0.2,
    "seam_step_max_before_mm": 2.38,
-   "seam_step_max_after_mm": 0.01
-  },
-  "zan_skin_eminentia_scaphae_r": {
-   "max_displacement_mm": 0.93,
-   "mean_displacement_mm": 0.05,
-   "seam_step_max_before_mm": 1.98,
-   "seam_step_max_after_mm": 1.82
-  },
-  "zan_skin_epigastric_region_l": {
-   "max_displacement_mm": 0.5,
-   "mean_displacement_mm": 0.15,
-   "seam_step_max_before_mm": 1.01,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_epigastric_region_r": {
-   "max_displacement_mm": 0.5,
-   "mean_displacement_mm": 0.18,
-   "seam_step_max_before_mm": 1.01,
-   "seam_step_max_after_mm": 0.0
+   "seam_step_max_after_mm": 0.03
   },
   "zan_skin_gluteal_region_l": {
-   "max_displacement_mm": 1.11,
-   "mean_displacement_mm": 0.2,
+   "max_displacement_mm": 1.22,
+   "mean_displacement_mm": 0.23,
    "seam_step_max_before_mm": 2.23,
-   "seam_step_max_after_mm": 0.0
+   "seam_step_max_after_mm": 0.01
   },
   "zan_skin_gluteal_region_r": {
-   "max_displacement_mm": 1.24,
-   "mean_displacement_mm": 0.23,
-   "seam_step_max_before_mm": 2.59,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_helix_r": {
-   "max_displacement_mm": 0.81,
-   "mean_displacement_mm": 0.08,
-   "seam_step_max_before_mm": 1.98,
-   "seam_step_max_after_mm": 1.82
-  },
-  "zan_skin_infraclavicular_fossa_l": {
-   "max_displacement_mm": 0.56,
-   "mean_displacement_mm": 0.16,
-   "seam_step_max_before_mm": 1.11,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_infraclavicular_fossa_r": {
-   "max_displacement_mm": 0.65,
-   "mean_displacement_mm": 0.15,
-   "seam_step_max_before_mm": 1.31,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_interscapular_region_r": {
-   "max_displacement_mm": 0.7,
-   "mean_displacement_mm": 0.16,
-   "seam_step_max_before_mm": 1.08,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_labial_commissure_l": {
-   "max_displacement_mm": 1.5,
-   "mean_displacement_mm": 0.29,
-   "seam_step_max_before_mm": 1.41,
-   "seam_step_max_after_mm": 0.41
-  },
-  "zan_skin_labial_commissure_r": {
-   "max_displacement_mm": 0.84,
-   "mean_displacement_mm": 0.15,
-   "seam_step_max_before_mm": 1.41,
-   "seam_step_max_after_mm": 0.31
-  },
-  "zan_skin_lateral_border_of_forearm_l": {
-   "max_displacement_mm": 0.61,
-   "mean_displacement_mm": 0.14,
-   "seam_step_max_before_mm": 1.22,
-   "seam_step_max_after_mm": 0.01
-  },
-  "zan_skin_lateral_region_of_neck_r": {
-   "max_displacement_mm": 0.75,
-   "mean_displacement_mm": 0.25,
-   "seam_step_max_before_mm": 1.12,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_lumbar_region_l": {
-   "max_displacement_mm": 0.73,
+   "max_displacement_mm": 1.35,
    "mean_displacement_mm": 0.27,
-   "seam_step_max_before_mm": 1.06,
-   "seam_step_max_after_mm": 0.01
-  },
-  "zan_skin_lumbar_region_r": {
-   "max_displacement_mm": 0.92,
-   "mean_displacement_mm": 0.4,
-   "seam_step_max_before_mm": 1.57,
-   "seam_step_max_after_mm": 0.01
-  },
-  "zan_skin_medial_bicipital_groove_r": {
-   "max_displacement_mm": 0.73,
-   "mean_displacement_mm": 0.36,
-   "seam_step_max_before_mm": 1.46,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_muscular_triangle_l": {
-   "max_displacement_mm": 0.68,
-   "mean_displacement_mm": 0.12,
-   "seam_step_max_before_mm": 1.36,
-   "seam_step_max_after_mm": 0.04
-  },
-  "zan_skin_muscular_triangle_r": {
-   "max_displacement_mm": 0.68,
-   "mean_displacement_mm": 0.14,
-   "seam_step_max_before_mm": 1.36,
-   "seam_step_max_after_mm": 0.04
-  },
-  "zan_skin_nasal_region_l": {
-   "max_displacement_mm": 1.93,
-   "mean_displacement_mm": 0.34,
-   "seam_step_max_before_mm": 1.54,
-   "seam_step_max_after_mm": 0.19
-  },
-  "zan_skin_nasal_region_r": {
-   "max_displacement_mm": 0.71,
-   "mean_displacement_mm": 0.12,
-   "seam_step_max_before_mm": 1.54,
-   "seam_step_max_after_mm": 0.19
+   "seam_step_max_before_mm": 2.59,
+   "seam_step_max_after_mm": 0.02
   },
   "zan_skin_occipital_region_l": {
    "max_displacement_mm": 1.05,
-   "mean_displacement_mm": 0.16,
+   "mean_displacement_mm": 0.15,
    "seam_step_max_before_mm": 2.09,
-   "seam_step_max_after_mm": 0.16
+   "seam_step_max_after_mm": 0.64
   },
   "zan_skin_occipital_region_r": {
    "max_displacement_mm": 1.04,
-   "mean_displacement_mm": 0.12,
+   "mean_displacement_mm": 0.13,
    "seam_step_max_before_mm": 2.09,
-   "seam_step_max_after_mm": 0.16
-  },
-  "zan_skin_oral_region_l": {
-   "max_displacement_mm": 1.99,
-   "mean_displacement_mm": 0.17,
-   "seam_step_max_before_mm": 1.88,
-   "seam_step_max_after_mm": 0.83
-  },
-  "zan_skin_oral_region_r": {
-   "max_displacement_mm": 1.18,
-   "mean_displacement_mm": 0.1,
-   "seam_step_max_before_mm": 1.88,
-   "seam_step_max_after_mm": 0.85
-  },
-  "zan_skin_palm_l": {
-   "max_displacement_mm": 0.96,
-   "mean_displacement_mm": 0.28,
-   "seam_step_max_before_mm": 1.92,
-   "seam_step_max_after_mm": 0.08
+   "seam_step_max_after_mm": 0.64
   },
   "zan_skin_palm_r": {
    "max_displacement_mm": 1.43,
    "mean_displacement_mm": 0.26,
    "seam_step_max_before_mm": 2.86,
-   "seam_step_max_after_mm": 0.03
-  },
-  "zan_skin_pectoral_region_l": {
-   "max_displacement_mm": 0.61,
-   "mean_displacement_mm": 0.11,
-   "seam_step_max_before_mm": 1.24,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_pectoral_region_r": {
-   "max_displacement_mm": 0.63,
-   "mean_displacement_mm": 0.14,
-   "seam_step_max_before_mm": 1.29,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_perionyx_r": {
-   "max_displacement_mm": 0.49,
-   "mean_displacement_mm": 0.04,
-   "seam_step_max_before_mm": 1.97,
-   "seam_step_max_after_mm": 1.31
-  },
-  "zan_skin_philtrum_l": {
-   "max_displacement_mm": 1.62,
-   "mean_displacement_mm": 0.6,
-   "seam_step_max_before_mm": 1.94,
-   "seam_step_max_after_mm": 0.69
-  },
-  "zan_skin_philtrum_r": {
-   "max_displacement_mm": 0.98,
-   "mean_displacement_mm": 0.31,
-   "seam_step_max_before_mm": 1.94,
-   "seam_step_max_after_mm": 0.83
-  },
-  "zan_skin_posterior_region_of_forearm_l": {
-   "max_displacement_mm": 0.54,
-   "mean_displacement_mm": 0.08,
-   "seam_step_max_before_mm": 1.08,
-   "seam_step_max_after_mm": 0.02
-  },
-  "zan_skin_posterior_region_of_forearm_r": {
-   "max_displacement_mm": 0.76,
-   "mean_displacement_mm": 0.1,
-   "seam_step_max_before_mm": 1.53,
-   "seam_step_max_after_mm": 0.03
-  },
-  "zan_skin_posterior_region_of_neck_l": {
-   "max_displacement_mm": 0.65,
-   "mean_displacement_mm": 0.11,
-   "seam_step_max_before_mm": 1.32,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_posterior_region_of_neck_r": {
-   "max_displacement_mm": 0.74,
-   "mean_displacement_mm": 0.12,
-   "seam_step_max_before_mm": 1.32,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_posterior_region_of_thigh_l": {
-   "max_displacement_mm": 0.69,
-   "mean_displacement_mm": 0.05,
-   "seam_step_max_before_mm": 1.37,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_posterior_region_of_thigh_r": {
-   "max_displacement_mm": 0.73,
-   "mean_displacement_mm": 0.06,
-   "seam_step_max_before_mm": 1.57,
-   "seam_step_max_after_mm": 0.0
+   "seam_step_max_after_mm": 0.06
   },
   "zan_skin_posterior_region_of_wrist_r": {
    "max_displacement_mm": 1.55,
-   "mean_displacement_mm": 0.34,
+   "mean_displacement_mm": 0.41,
    "seam_step_max_before_mm": 3.09,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_presternal_region_l": {
-   "max_displacement_mm": 0.52,
-   "mean_displacement_mm": 0.1,
-   "seam_step_max_before_mm": 1.06,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_presternal_region_r": {
-   "max_displacement_mm": 0.54,
-   "mean_displacement_mm": 0.1,
-   "seam_step_max_before_mm": 1.06,
    "seam_step_max_after_mm": 0.0
   },
   "zan_skin_radial_foveola_r": {
    "max_displacement_mm": 1.33,
-   "mean_displacement_mm": 0.37,
+   "mean_displacement_mm": 0.41,
    "seam_step_max_before_mm": 2.67,
    "seam_step_max_after_mm": 0.0
   },
   "zan_skin_sacral_region_l": {
-   "max_displacement_mm": 3.15,
-   "mean_displacement_mm": 0.72,
+   "max_displacement_mm": 3.17,
+   "mean_displacement_mm": 0.73,
    "seam_step_max_before_mm": 6.45,
-   "seam_step_max_after_mm": 0.02
+   "seam_step_max_after_mm": 0.0
   },
   "zan_skin_sacral_region_r": {
-   "max_displacement_mm": 3.4,
-   "mean_displacement_mm": 0.67,
+   "max_displacement_mm": 3.42,
+   "mean_displacement_mm": 0.65,
    "seam_step_max_before_mm": 6.45,
-   "seam_step_max_after_mm": 0.02
-  },
-  "zan_skin_scapha_r": {
-   "max_displacement_mm": 0.46,
-   "mean_displacement_mm": 0.15,
-   "seam_step_max_before_mm": 1.22,
-   "seam_step_max_after_mm": 1.03
-  },
-  "zan_skin_scapular_region_r": {
-   "max_displacement_mm": 0.55,
-   "mean_displacement_mm": 0.08,
-   "seam_step_max_before_mm": 1.11,
-   "seam_step_max_after_mm": 0.09
-  },
-  "zan_skin_sternocleidomastoid_region_r": {
-   "max_displacement_mm": 0.77,
-   "mean_displacement_mm": 0.23,
-   "seam_step_max_before_mm": 1.12,
    "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_triangle_of_auscultation_r": {
-   "max_displacement_mm": 0.55,
-   "mean_displacement_mm": 0.17,
-   "seam_step_max_before_mm": 1.11,
-   "seam_step_max_after_mm": 0.0
-  },
-  "zan_skin_tubercle_of_upper_lip_l": {
-   "max_displacement_mm": 1.73,
-   "mean_displacement_mm": 0.69,
-   "seam_step_max_before_mm": 1.88,
-   "seam_step_max_after_mm": 0.85
-  },
-  "zan_skin_tubercle_of_upper_lip_r": {
-   "max_displacement_mm": 1.03,
-   "mean_displacement_mm": 0.42,
-   "seam_step_max_before_mm": 1.88,
-   "seam_step_max_after_mm": 0.74
   },
   "zan_skin_umbilical_region_l": {
    "max_displacement_mm": 0.82,
@@ -409,66 +144,66 @@
    "seam_step_max_after_mm": 1.83
   },
   "zan_skin_umbilical_region_r": {
-   "max_displacement_mm": 0.81,
-   "mean_displacement_mm": 0.18,
+   "max_displacement_mm": 0.8,
+   "mean_displacement_mm": 0.2,
    "seam_step_max_before_mm": 2.9,
    "seam_step_max_after_mm": 1.83
   },
   "zan_skin_urogenital_region_l": {
-   "max_displacement_mm": 3.41,
-   "mean_displacement_mm": 0.56,
+   "max_displacement_mm": 8.25,
+   "mean_displacement_mm": 2.66,
    "seam_step_max_before_mm": 6.81,
-   "seam_step_max_after_mm": 0.02
+   "seam_step_max_after_mm": 3.56
   },
   "zan_skin_urogenital_region_r": {
-   "max_displacement_mm": 3.41,
-   "mean_displacement_mm": 0.55,
+   "max_displacement_mm": 6.95,
+   "mean_displacement_mm": 2.11,
    "seam_step_max_before_mm": 6.81,
-   "seam_step_max_after_mm": 0.02
+   "seam_step_max_after_mm": 2.97
   },
   "zan_skin_vertebral_region_l": {
-   "max_displacement_mm": 4.92,
-   "mean_displacement_mm": 0.62,
+   "max_displacement_mm": 4.91,
+   "mean_displacement_mm": 0.56,
    "seam_step_max_before_mm": 9.81,
-   "seam_step_max_after_mm": 0.02
+   "seam_step_max_after_mm": 0.35
   },
   "zan_skin_vertebral_region_r": {
    "max_displacement_mm": 4.9,
-   "mean_displacement_mm": 0.57,
+   "mean_displacement_mm": 0.58,
    "seam_step_max_before_mm": 9.81,
-   "seam_step_max_after_mm": 0.02
+   "seam_step_max_after_mm": 0.35
   }
  },
  "worst_after": [
   [
-   "zan_skin_umbilical_region_l",
-   "zan_skin_umbilical_region_r",
-   1.83
+   "zan_skin_anterior_region_of_thigh_l",
+   "zan_skin_urogenital_region_l",
+   3.56
+  ],
+  [
+   "zan_skin_urogenital_region_l",
+   "zan_skin_urogenital_region_r",
+   2.97
+  ],
+  [
+   "zan_skin_anterior_region_of_thigh_r",
+   "zan_skin_urogenital_region_r",
+   2.86
   ],
   [
    "zan_skin_eminentia_scaphae_r",
    "zan_skin_helix_r",
-   1.82
+   1.98
   ],
   [
    "zan_skin_dorsal_surfaces_of_digits_of_hand_r",
    "zan_skin_perionyx_r",
-   1.31
+   1.97
   ],
   [
-   "zan_skin_antihelix_r",
-   "zan_skin_helix_r",
-   1.12
-  ],
-  [
-   "zan_skin_antihelix_r",
-   "zan_skin_scapha_r",
-   1.03
-  ],
-  [
-   "zan_skin_hypogastric_region_r",
-   "zan_skin_inguinal_region_r",
-   0.98
+   "zan_skin_philtrum_l",
+   "zan_skin_philtrum_r",
+   1.94
   ]
  ]
 }
