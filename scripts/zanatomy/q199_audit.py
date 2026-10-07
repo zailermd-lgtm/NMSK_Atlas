@@ -121,7 +121,7 @@ def continuity(Mb, Ma, raw, side, ids, jc, touch_mm=3.0):
             dd, _ = rt[j].query(ra)
             k = int(np.argmin(dd))
             d0 = float(dd[k]) * __import__("scripts.zanatomy.q190_metrics", fromlist=["x"]).BODY_SCALE
-            if d0 > touch_mm or np.linalg.norm(ra[k] - jc) > E.ELBOW_ZONE_MM:
+            if d0 > touch_mm or np.linalg.norm(ra[k] - np.atleast_2d(jc), axis=1).min() > E.ELBOW_ZONE_MM:
                 continue
             gb = float(tb[j].query(pts_b[i])[0].min())
             ga = float(ta[j].query(pts_a[i])[0].min())

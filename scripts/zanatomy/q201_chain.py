@@ -31,6 +31,7 @@ CAP_FAR_MM = 60.0
 SCALE_ABS = {"humerus": (1.0, 1.15), "radius": (0.95, 1.12), "ulna": (0.95, 1.12)}      # absolute scale of the Z source bone (his humerus label is 1.11 x the Z source)
 ROT_MAX_DEG = 75.0
 W_PAIR = 2.0
+W_WRIST = 2.0
 BOX = (5.0, 8.0, 0.03)              # stage B may move a bone at most 5 deg / 8 mm / 3 % scale from its label-only fit (+ the bend)
 BONES = ("humerus", "radius", "ulna")
 
@@ -41,7 +42,7 @@ def _sstep(x):
 
 
 BEND_FROM = 0.45           # the bend (shape difference between his bone and the Z bone) grows from 45 % of the bone length towards the elbow end to the full amount at the end
-BEND_MAX_MM = 15.0
+BEND_MAX_MM = {"humerus": 15.0, "radius": 15.0, "ulna": 15.0}     # per component, mm
 
 
 class ChainM:
@@ -136,8 +137,29 @@ class Fit:
         self.lo, self.edt, self.bound = _union_field(U)
         self.bound_s = self.bound[rng.permutation(len(self.bound))[:3000]]
         self.jsmp, self.jsel, self.jj, self.jd0 = E.joint_pairs(raw, side, by)
+        self._wrist(by, raw, side)
         self.cur = {b: np.r_[np.zeros(6), 1.0, np.zeros(3)] for b in BONES}
         self.abs0 = {b: _procrustes_scale(raw[b + s], by[b + s]["v"]) for b in BONES}
+
+    def _wrist(self, by, raw, side, d_cut=8.0, n=1500):
+        """the wrist: samples of the Z-source radius / ulna that touch (< d_cut mm) the Z-source scaphoid / lunate / triquetrum, with their source distance; the carpals are fixed (his CT, Q191)"""
+        s = "_" + side
+        ids = [f"zan_{c}_bone{s}" for c in ("scaphoid", "lunate", "triquetrum") if f"zan_{c}_bone{s}" in by]
+        self.wr_ids = ids
+        self.wr = {}
+        if not ids:
+            return
+        carp_raw = np.vstack([raw[i] for i in ids])
+        carp_now = np.vstack([E.at(by[i]["v"], E.bary_samples(raw[i], by[i]["f"], 800, seed=31)) for i in ids])
+        self.wr_tree = cKDTree(carp_now)
+        tr = cKDTree(carp_raw)
+        for b in ("radius", "ulna"):
+            smp = E.bary_samples(raw[b + s], by[b + s]["f"], 4000, seed=33)
+            P0 = E.at(raw[b + s], smp)
+            d0 = tr.query(P0)[0]
+            sel = np.where(d0 < d_cut)[0]
+            if len(sel):
+                self.wr[b] = ((smp[0][sel], smp[1][sel]), d0[sel])
 
     def chain(self, cur=None):
         ch = ChainM(self.side, self.by, cur or self.cur)
@@ -162,6 +184,11 @@ class Fit:
         h = E.at(ch.hum(self.v0["humerus"]), self.jsmp["humerus"])
         f = np.vstack([E.at(ch.rad(self.v0["radius"]), self.jsmp["radius"]), E.at(ch.uln(self.v0["ulna"]), self.jsmp["ulna"])])
         pair = np.linalg.norm(h[self.jsel] - f[self.jj], axis=1) - self.jd0
+        wr = []
+        for b, (sm, d0) in self.wr.items():
+            P = E.at(ch.apply(b, self.v0[b]), sm)
+            wr.append(self.wr_tree.query(P)[0] - d0)
+        self.wrist_last = np.concatenate(wr) if wr else np.zeros(0)
         return np.concatenate(sh), np.concatenate(sr), up, ur, pair
 
     def reg(self, cur, active):
@@ -177,7 +204,8 @@ class Fit:
         jt = E.joint_stat(self.jsmp, self.jsel, self.jj, self.jd0, ch.hum(self.v0["humerus"]), ch.rad(self.v0["radius"]), ch.uln(self.v0["ulna"]))
         return {"label_surface_to_Z_mm_median": round(float(np.median(sr)), 2), "Z_to_label_mm_median": round(float(np.median(sh[sh > 0])) if (sh > 0).any() else 0.0, 2),
                 "union_Z_outside_solid_mm_mean": round(float(up[up > 0].mean()) if (up > 0).any() else 0.0, 2), "union_Z_outside_solid_pct": round(100 * float((up > 0.5).mean()), 1),
-                "union_boundary_to_Z_mm_median": round(float(np.median(ur)), 2), "union_boundary_to_Z_mm_p90": round(float(np.percentile(ur, 90)), 2), "joint": jt}
+                "union_boundary_to_Z_mm_median": round(float(np.median(ur)), 2), "union_boundary_to_Z_mm_p90": round(float(np.percentile(ur, 90)), 2), "joint": jt,
+                "wrist_gap_change_mm_mean_abs": round(float(np.abs(self.wrist_last).mean()), 2) if len(self.wrist_last) else None, "wrist_pairs": int(len(self.wrist_last))}
 
     def axis(self, b):
         v = self.v0[b]
@@ -199,12 +227,12 @@ class Fit:
             c = unpack(x)
             sh, sr, up, ur, pair = self.parts(c, active)
             if labels_only:
-                return np.r_[sh, sr, self.reg(c, active)]
-            return np.r_[sh, sr, w_union * up, w_union * ur, w_pair * pair, self.reg(c, active)]
+                return np.r_[sh, sr, W_WRIST * self.wrist_last, self.reg(c, active)]
+            return np.r_[sh, sr, w_union * up, w_union * ur, w_pair * pair, W_WRIST * self.wrist_last, self.reg(c, active)]
         x0 = np.concatenate([cur[b] for b in active])
         lo, hi = [], []
-        bm = 1e-6 if labels_only else BEND_MAX_MM
         for b in active:
+            bm = 1e-6 if labels_only else BEND_MAX_MM[b]
             smin, smax = SCALE_ABS[b][0] / self.abs0[b], SCALE_ABS[b][1] / self.abs0[b]
             if box is None:
                 r = np.radians(rot_max_deg)
@@ -234,6 +262,33 @@ class Fit:
                 best = (cost, c[b], roll)
         return best
 
+    def roll_agreement(self):
+        """the humerus alone, fitted (a) to its head + shaft labels and (b) to the elbow flare (the union of the zone): the rotation component along the shaft each asks for (deg, relative to the
+        Q195 pose) -- two independent measurements of the roll error of the Q168 fit"""
+        b = "humerus"
+        ax = self.axis(b)
+        out = {}
+        for mode in ("shaft_labels", "elbow_flare"):
+            def res(x):
+                cur = dict(self.cur)
+                cur[b] = np.r_[x, np.zeros(3)]
+                if mode == "shaft_labels":
+                    sh, sr, _, _, _ = self.parts(cur, (b,))
+                    return np.r_[sh, sr, self.reg(cur, (b,))]
+                _, S = self.surfaces(cur)
+                inz = (S[b][:, 1] >= ZONE[0]) & (S[b][:, 1] <= ZONE[1])
+                return np.r_[np.where(inz, np.minimum(_lookup(self.lo, self.edt, S[b]), CAP_FAR_MM), 0.0), self.reg(cur, (b,))]
+            lo = np.r_[-1.4 * np.ones(3), -60 * np.ones(3), SCALE_ABS[b][0] / self.abs0[b]]
+            hi = np.r_[1.4 * np.ones(3), 60 * np.ones(3), SCALE_ABS[b][1] / self.abs0[b]]
+            best = None
+            for roll in (0, -45, 45):
+                x0 = np.r_[np.radians(roll) * ax, np.zeros(3), 1.0]
+                r = least_squares(res, np.clip(x0, lo + 1e-9, hi - 1e-9), bounds=(lo, hi), x_scale=np.r_[0.05 * np.ones(3), 5 * np.ones(3), 0.02], loss="soft_l1", f_scale=3.0, max_nfev=40)
+                if best is None or r.cost < best.cost:
+                    best = r
+            out[mode] = round(float(np.degrees(best.x[:3] @ ax)), 1)
+        return out
+
     def run(self, log=print):
         before = self.stats(self.cur)
         cur = dict(self.cur)
@@ -250,13 +305,23 @@ class Fit:
         return cur, before, self.stats(cur)
 
 
+def wrist_centre(by, raw, side):
+    """the Z-source wrist (raw frame): mean of the radius / ulna samples that touch the scaphoid / lunate / triquetrum"""
+    F = Fit.__new__(Fit)
+    F._wrist(by, raw, side)
+    s = "_" + side
+    pts = [E.at(raw[b + s], sm) for b, (sm, _) in F.wr.items()]
+    return np.vstack(pts).mean(0) if pts else raw["radius" + s][np.argmin(raw["radius" + s][:, 1])]
+
+
 def fit_male(side, by, raw, ev=None, log=print):
     """returns (ChainM, report)"""
     ev = ev if ev is not None else load_evidence()
     F = Fit(side, by, raw, ev)
+    roll = F.roll_agreement()
     cur, before, after = F.run(log)
     ch = F.chain(cur)
-    rep = {"frame": "his CT labels completed through his cryosection photographs (atlas = world + (6.0, 895.4 z, -4.8 y))", "before": before, "after": after,
+    rep = {"frame": "his CT labels completed through his cryosection photographs (atlas = world + (6.0, 895.4 z, -4.8 y))", "humerus_roll_deg": roll, "wrist_centre_raw": wrist_centre(by, raw, side).round(2).tolist(), "before": before, "after": after,
            "stage_a": {"stats": F.stage_a_stats, "start_roll_deg": F.starts, "params": {b: F.stage_a[b].round(4).tolist() for b in BONES}},
            "params": {b: {"rot_deg": round(float(np.degrees(np.linalg.norm(ch.p[b][:3]))), 2), "translation_mm": ch.p[b][3:6].round(2).tolist(), "scale_vs_q195": round(float(ch.p[b][6]), 4), "bend_mm": ch.p[b][7:10].round(1).tolist()} for b in BONES},
            "bone_move_mm": {b: {"max": round(float(np.linalg.norm(ch.apply(b, F.v0[b]) - F.v0[b], axis=1).max()), 1), "mean": round(float(np.linalg.norm(ch.apply(b, F.v0[b]) - F.v0[b], axis=1).mean()), 1)} for b in BONES}}

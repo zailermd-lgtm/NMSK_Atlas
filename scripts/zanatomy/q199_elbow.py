@@ -512,7 +512,7 @@ def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
     return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -531,10 +531,10 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
            "structures": {}}
     hum_tree = cKDTree(at(raw["humerus" + s], bary_samples(raw["humerus" + s], by["humerus" + s]["f"], 6000, seed=5)))
     ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)
-           and (regions is None or in_scope(side, i, raw[i], regions.get(i), jc, hum_tree, humerus_moved=bool(np.abs(ch.P[:6]).max() > 1e-9)))]
+           and (regions is None or (scope or in_scope)(side, i, raw[i], regions.get(i), jc, hum_tree, humerus_moved=bool(np.abs(ch.P[:6]).max() > 1e-9)))]
     # = see in_scope: arm structures, the shoulder muscles that insert on a MOVED humerus, merged Z meshes that hold an arm part (the field is zero on their other parts)
     v_before = {i: by[i]["v"].copy() for i in ids}
-    lab = Labels(by, raw, her, ids) if (her is not None and side == "r") else None
+    lab = Labels(by, raw, her, ids) if (her is not None and side in label_sides) else None
     lab_base = {i: lab.med(i, v_before[i]) for i in lab.items} if lab else {}
     lex = (lambda i, v: lab.excess(i, v, lab_base[i]) if lab and i in lab_base else 0.0)
     v_field = {i: by[i]["v"].copy() for i in ids}            # after the field step: the attachment and closure steps stay within ADJUST_CAP_MM of it
@@ -564,6 +564,8 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
                 cands.append(("field, low-passed 10 mm", lowpass(D, f, 10.0)))
                 cands.append(("field, low-passed 25 mm", lowpass(D, f, 25.0)))
             cands.append(("mean translation of the field", np.tile(D.mean(0), (len(v0), 1))))
+            if allow_unchanged:
+                cands.append(("kept where it was (the field would take it off its own measured mesh / the bones it was fitted to)", np.zeros_like(D)))
             res = []
             for nm, Dc in cands:
                 vv = make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
@@ -592,7 +594,8 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             continue
         record(i, name, v1, m0, m1, a_before, att.stat(i, v1, att_trees), n_pull)
     before_closure = {i: by[i]["v"].copy() for i in ids}
-    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, v_field, log=log, rounds=6 if "close" in STEPS else 0, veto=(lambda k, vk: lex(k, vk) > 0.5) if lab else None)
+    centres = np.vstack([jc[None]] + [np.asarray(c, float)[None] for c in extra_centres])
+    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, centres, v_field, log=log, rounds=6 if "close" in STEPS else 0, veto=(lambda k, vk: lex(k, vk) > 0.5) if lab else None)
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
         if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)
@@ -607,7 +610,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             q["m1"] = _metrics(d["v"], raw[i].astype(float), d["f"], skin, zb)
             q["att1"] = att.stat(i, d["v"], att_trees)
             c["after"], c["attachment_after"] = q["m1"], q["att1"]
-        d["fit_note"] = (d.get("fit_note") or "") + _note(side, i, d["cat"], q, q["m1"], mv, rep["continuity"]["per_structure"].get(i))
+        d["fit_note"] = (d.get("fit_note") or "") + (note_fn or _note)(side, i, d["cat"], q, q["m1"], mv, rep["continuity"]["per_structure"].get(i))
     # the shipped (pre-decimated) meshes of the Q194 neighbour separation follow with the displacement of their full-resolution mesh
     n_pre = 0
     for i in rep["structures"]:
@@ -658,7 +661,7 @@ def contact_pairs(side, by, raw, ids, movable, centre, touch_mm=3.0):
             dd, jj = tr[b].query(sub[a])
             k = int(np.argmin(dd))
             d0 = float(dd[k]) * Mx.BODY_SCALE
-            if d0 <= touch_mm and np.linalg.norm(sub[a][k] - centre) < ELBOW_ZONE_MM:
+            if d0 <= touch_mm and np.linalg.norm(sub[a][k] - np.atleast_2d(centre), axis=1).min() < ELBOW_ZONE_MM:
                 out.append((a, b, d0))
     return out
 
