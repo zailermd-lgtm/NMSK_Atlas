@@ -208,7 +208,7 @@ body.cut-armed canvas{cursor:crosshair!important}
 #app.phone #cut-panel{left:8px;right:8px;top:auto;bottom:8px}
 #app.phone.sheet-open #cut-panel{display:none}
 /* the add-on's needle panel takes the stage bottom on the phone: the cut panel moves to the top while it is open */
-#app.phone:has(#needle-panel:not([hidden])) #cut-panel{top:96px;bottom:auto;max-height:44vh}
+#app.phone:has(#needle-panel:not([hidden])) #cut-panel{top:96px;bottom:auto;max-height:min(40vh,300px)}
 @media (max-width:1080px){
   #app{grid-template-columns:200px minmax(0,1fr) 300px}
 }
