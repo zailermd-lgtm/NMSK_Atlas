@@ -343,6 +343,7 @@ def _vol_out(vr):
 
 
 ATTACH_W = 1.5
+ATTACH_CAP_RUN = ATTACH_CAP_MM       # cap of the attachment pull as called by refine_side (Q201 male: 20)
 
 
 LABEL_W, LABEL_TOL_MM = 2.0, 1.5
@@ -583,11 +584,11 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
         v_field[i] = v1.copy()
         n_pull = 0
         if has_zone:
-            v2, n_pull = att.pull(i, v1, f, att_trees, gate=(lab.gate(i, v1) if lab and i in lab.items else None))
+            v2, n_pull = att.pull(i, v1, f, att_trees, cap=ATTACH_CAP_RUN, gate=(lab.gate(i, v1) if lab and i in lab.items else None))
             if n_pull:
                 v2 = make_candidate(v1, f, r, cat, i, v2 - v1, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
                 m2 = _metrics(v2, r, f, skin, zb)
-                v2 = cap_to(v2, v_field[i])
+                v2 = cap_to(v2, v_field[i], ATTACH_CAP_RUN)
                 if cost(m2, m0, cat, att.excess(i, v2, att_trees), lex(i, v2)) <= cost(m1, m0, cat, att.excess(i, v1, att_trees), lex(i, v1)) + 3.0:
                     v1, m1 = v2, m2
                 else:

@@ -148,6 +148,9 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, his=None, decimate_fn
     DF = FLD.DeltaField(FLD.load_xf(raw), chains)
     scope = make_scope(jcs, wcs, hcs)
     E.SKIN_W = 6.0
+    E.ATTACH_W = 3.0                           # origin / insertion footprints weigh twice as much as in Q199 (his forearm tissue was carried by wrong bones)
+    E.ATTACH_CAP_RUN = 20.0
+    E.SEPARATE_MAX_MM = 8.0
     E.SKIN_CAP_MM = 20.0                       # his skin is a hard envelope: the clamp may move a vertex 20 mm (Q199 female: 10) from the field result
     for side in sides:
         s = "_" + side
@@ -159,7 +162,7 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, his=None, decimate_fn
         rep["structures"].update(r["structures"])
         rep.setdefault("continuity", {})[side] = r["continuity"]
         if decimate_fn is not None and do_separate:
-            rep.setdefault("separation", {})[side] = E.separate_elbow(side, by, raw, skin, skin_tree, decimate_fn, log=log, radius=240.0)
+            rep.setdefault("separation", {})[side] = E.separate_elbow(side, by, raw, skin, skin_tree, decimate_fn, log=log, radius=160.0)
             rep["moved_ids"] = sorted(set(rep["moved_ids"]) | {k for k, m in rep["separation"][side]["moved"].items() if m["max_move_mm"] >= 0.3})
         log(f"  Q201 {side}: {len(r['structures'])} structures moved")
     rep["skin_seams"] = weld_all_skin(by, raw, log=log)

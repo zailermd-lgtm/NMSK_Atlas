@@ -206,3 +206,50 @@ def test_hook_is_wired_into_the_builder_and_asserts_the_male_context():
     from scripts.zanatomy import q201_refine as R
     import inspect
     assert "body_ctx.BODY == \"vhm\"" in inspect.getsource(R.refine_core)
+
+
+REPORT = REPO / "data" / "derived" / "Q201_zan_vhm_q201_build.json"
+AUDIT = REPO / "data" / "derived" / "Q201_arm_audit.json"
+SHIP = REPO / "data" / "derived" / "Q201_ship_diff.json"
+
+
+@pytest.mark.skipif(not REPORT.exists(), reason="Q201 build report not committed yet")
+def test_committed_report_chain_is_on_his_evidence_and_the_wrist_is_seated():
+    rep = json.loads(REPORT.read_text())["q201"]
+    for side in ("l", "r"):
+        c = rep["chain"][side]
+        assert c["after"]["label_surface_to_Z_mm_median"] <= 2.5 and c["after"]["union_boundary_to_Z_mm_median"] <= 3.5
+        assert c["after"]["wrist_gap_change_mm_mean_abs"] < c["before"]["wrist_gap_change_mm_mean_abs"] / 3        # the Q168 radius / ulna were 30 mm off the carpals
+        assert c["after"]["joint"]["nearest_surface_gap_mm_median"] <= c["after"]["joint"]["source_gap_mm_median"] + 3.0
+        assert abs(c["humerus_roll_deg"]["shaft_labels"] - c["humerus_roll_deg"]["elbow_flare"]) < 15          # two independent measurements of the humerus roll agree
+        for b, p in c["params"].items():
+            assert max(abs(x) for x in p["bend_mm"]) <= C.BEND_MAX_MM[b] + 1e-6
+    assert len(rep["moved_ids"]) > 150 and rep["skin_seams"]["l"]["after"]["steps_gt_3mm"] == 0 and rep["skin_seams"]["r"]["after"]["steps_gt_3mm"] <= 1
+
+
+@pytest.mark.skipif(not AUDIT.exists(), reason="Q201 audit not committed yet")
+def test_committed_audit_elbow_is_a_joint_with_continuing_centrelines_and_closed_skin():
+    a = json.loads(AUDIT.read_text())
+    for side in ("left", "right"):
+        o = a[side]
+        assert o["joint"]["after"]["nearest_surface_gap_mm_median"] <= o["joint"]["after"]["source_gap_mm_median"] + 3.0
+        assert -5 < o["angles"]["after"]["carrying_deg_lateral_positive"] < 20          # was -35 deg in the Q195 state
+        assert o["wrist"]["after"]["gap_change_mm_mean_abs"] < 8.0
+        assert o["touching_summary"]["gap_gt5mm_after"] < o["touching_summary"]["gap_gt5mm_before"] / 2
+        assert o["footprints_summary"]["after_mm"] < o["footprints_summary"]["mean_worst_bone_deviation_from_source_before_mm"]
+        assert o["containment"]["after"]["inside_bone_pct"] < o["containment"]["before"]["inside_bone_pct"] / 2
+        assert o["containment"]["after"]["outside_her_skin_pct"] <= o["containment"]["before"]["outside_her_skin_pct"] + 0.05
+        named = {(r["a"], r["b"]): r for r in o["named_centrelines"]}
+        brachial = [r for k, r in named.items() if "brachial_artery" in k[0] and k[1].startswith(("zan_radial_artery", "zan_ulnar_artery"))]
+        assert brachial and all(r["after_mm"] <= 3.0 for r in brachial)
+    for side in ("l", "r"):
+        assert a["skin_seams"]["after"][side]["all"]["steps_gt3mm"] <= 1 < a["skin_seams"]["before"][side]["all"]["steps_gt3mm"]
+
+
+@pytest.mark.skipif(not SHIP.exists(), reason="Q201 ship diff not committed yet")
+def test_committed_ship_diff_changes_only_listed_structures_and_nothing_midline():
+    d = json.loads(SHIP.read_text())
+    assert d["changed_but_not_listed_in_report"] == [] and d["listed_in_report_but_unchanged"] == []
+    arm = ("_l", "_r")
+    assert all(k.endswith(arm) or "_l_" in k or "_r_" in k for k in d["changed_detail"])
+    assert d["unchanged_within_0.05mm"] > 2300
