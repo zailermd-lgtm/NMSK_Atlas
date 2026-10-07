@@ -648,6 +648,8 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, log=print, r
                 T = vec[near].mean(0)
                 dz = cKDTree(vk0[fk][near]).query(vk0)[0]
                 vk = vk0 + T[None, :] * np.exp(-((dz / CLOSE_SIGMA_MM) ** 2))[:, None]
+                if by[k]["cat"] in PUSH_CATS:
+                    vk = H.push_out_of_bones(vk, by[k]["f"], zb, np.ones(len(vk), bool), tol=1.5, max_move=7.0)
                 rk = raw[k].astype(float)
                 if by[k]["cat"] == "muscle" and _closed(by[k]["f"]) and not H.NOT_BODY.search(k):
                     vk, _ = Q.volume_guard(vk, rk, by[k]["f"])
