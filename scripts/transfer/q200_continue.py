@@ -90,7 +90,7 @@ def find_caps(v, f, minarea=40.0, tol=0.35, at_end=2.0, group_mm=0.7):
         for kb in sorted(binarea, key=lambda x: -binarea[x]):
             if binarea[kb] < minarea or kb in taken:
                 continue
-            g = [kb] + [n for n in (kb - 1, kb + 1) if n in binarea and n not in taken and binarea[n] >= 0.25 * binarea[kb]]
+            g = [kb] + [n for n in (kb - 2, kb - 1, kb + 1, kb + 2) if n in binarea and n not in taken and binarea[n] >= 0.12 * binarea[kb]]
             taken.update(g); groups.append(g)
         groups = [idx[np.isin(key, g)] for g in groups]
         for g in groups:
@@ -394,7 +394,7 @@ def _uu_polys(ps):
     return unary_union(ps)
 
 
-def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nstep=4, nang=64, local_ratio=0.35):
+def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nstep=4, nang=64, local_ratio=0.6, local_upper=1.8):
     """Z continuation beyond the cap plane P0 of M, as a loft + Z piece (M is not edited):
       ring 0   = outline of M's cap (the loop itself for a one-piece cap, the closed union of the fragments otherwise) at P0;
       ring K   = outline of the fitted Z counterpart's section at the plane P1, Lt mm beyond P0 (Lt grows with the size mismatch);
@@ -431,7 +431,7 @@ def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nste
     cz0 = np.asarray(poly0.centroid.coords[0])
     from shapely.ops import unary_union as _uu
     capA = _uu(cap["polys"])
-    if poly0.area < local_ratio * capA.area:
+    if poly0.area < local_ratio * capA.area or poly0.area > local_upper * capA.area:
         return _local_continuation(s0, cap, capA, axis, pos, sign, kk, k, beyond, shift_decay)
     Rm = polar_radius(xm, cm); Rz0 = polar_radius(np.asarray(poly0.exterior.coords)[:-1], cz0)
     if Rm is None or Rz0 is None:

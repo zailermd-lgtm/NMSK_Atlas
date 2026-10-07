@@ -9,11 +9,13 @@ from scripts.transfer.q200_bundle import Bundle
 from scripts.zanatomy import q190_render as R
 from PIL import Image
 B = Bundle(sys.argv[1]); out = Path(sys.argv[2]); c = np.array([float(x) for x in sys.argv[3:6]]); half = float(sys.argv[6])
-ids = sys.argv[7].split(","); azs = [float(a) for a in (sys.argv[8].split(",") if len(sys.argv) > 8 else ["0", "90", "180", "270"])]
+ids0 = sys.argv[7].split(","); ids = ids0; azs = [float(a) for a in (sys.argv[8].split(",") if len(sys.argv) > 8 else ["0", "90", "180", "270"])]
 sc = []
 for it in B.items:
     e = it["e"]
-    keep = e["id"] in ids or any(e["id"] == i + "_zfill" for i in ids)
+    only_z = ids0[0].startswith("~")
+    ids = [i.lstrip("~") for i in ids0]
+    keep = (e["id"] in ids and not only_z) or any(e["id"] == i + "_zfill" for i in ids)
     bone = e["cat"] == "bone" and e["id"].split("_zfill")[0].startswith(("humerus", "radius", "ulna"))
     if not (keep or bone):
         continue

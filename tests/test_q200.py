@@ -54,7 +54,7 @@ def test_find_caps_and_ordered_loop():
 def test_continuation_joins_the_cap_outline_exactly():
     # measured: a cylinder cut flat at y=100 (outward = -y); Z counterpart: longer, thinner, shifted 3 mm
     mv, mf = cyl(10, 10, 100, 200)
-    zv, zf = cyl(8, 3, 40, 210, cx=3.0)
+    zv, zf = cyl(10, 5, 40, 210, cx=3.0)
     cap = [c for c in find_caps(mv, mf) if c["axis"] == "y" and abs(c["pos"] - 100) < 1e-6][0]
     r = continue_cap2(mv, cap, zv, zf, min_beyond=10.0)
     assert "v" in r, r
