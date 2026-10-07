@@ -1,0 +1,128 @@
+"""Q199 build hook (--q199-refine): the elbow of the female Z-Anatomy viewer, both arms (scripts/zanatomy/q199_elbow.py).  Everything not listed in the returned report stays bit-identical.
+
+Runs AFTER the Q194 hook and the gap closure, BEFORE the decimation, in a CHILD process (the build process holds ~10 GB at this point; the child needs only the pending meshes: they go
+through an npz, the results come back the same way, like q194_refine).  The shipped (pre-decimated) meshes the Q194 neighbour separation produced travel with them (`pv<k>`, `pf<k>`):
+the field is a function of position only, so it moves them exactly as it moves the full-resolution mesh.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+import numpy as np
+
+REPO = Path(__file__).resolve().parents[2]
+
+
+def refine_core(by: dict, raw: dict, log=print, skin=None, her=None) -> dict:
+    """by: {id: {"v","f","cat","fit_note"?,"pre_decimated"?}} (mutated), raw: {id: Z source vertices}"""
+    from scipy.spatial import cKDTree
+    from scripts.ribs_from_ct_labels import load_skin
+    from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
+    from scripts.zanatomy import q199_elbow as E
+    skin = skin if skin is not None else load_skin("vhf")
+    skin_tree = cKDTree(np.asarray(skin.vertices, float))
+    her = her if her is not None else load_her_meshes()
+    rep = {"rule": "scripts/zanatomy/q199_elbow.py", "chain": {}, "structures": {}, "bones": {}}
+    ch_l, rl = E.fit_left(by, raw, log=log)
+    rep["chain"]["left"] = rl
+    ch_r, rr = E.fit_right(by, raw, her, log=log)
+    rep["chain"]["right"] = rr
+    for side, ch in (("l", ch_l), ("r", ch_r)):
+        r = E.refine_side(side, by, raw, ch, skin, skin_tree, log=log)
+        rep["bones"].update(r["bones"])
+        rep["structures"].update(r["structures"])
+        log(f"  Q199 {side}: {len(r['structures'])} structures moved")
+    rep["moved_ids"] = sorted(list(rep["structures"]) + list(rep["bones"]))
+    return rep
+
+
+def refine_pending(pending: list[dict], raw: dict, log=print) -> dict:
+    """build hook: moves / annotates the pending meshes in place; returns the report"""
+    import ctypes
+    import gc
+    gc.collect()
+    try:
+        ctypes.CDLL("libc.so.6").malloc_trim(0)
+    except OSError:
+        pass
+    tmp = Path(tempfile.mkdtemp(prefix="q199_"))
+    ids = [p["mesh_id"] for p in pending]
+    arrs = {"ids": np.array(json.dumps(ids)), "cats": np.array(json.dumps([p["cat"] for p in pending])),
+            "notes": np.array(json.dumps({p["mesh_id"]: p.get("fit_note") or "" for p in pending}))}
+    for k, p in enumerate(pending):
+        arrs[f"v{k}"] = np.asarray(p["v"], np.float64)
+        arrs[f"f{k}"] = np.asarray(p["f"], np.int32)
+        arrs[f"r{k}"] = np.asarray(raw[p["mesh_id"]], np.float64)
+        if p.get("pre_decimated") is not None:
+            arrs[f"pv{k}"] = np.asarray(p["pre_decimated"][0], np.float64)
+            arrs[f"pf{k}"] = np.asarray(p["pre_decimated"][1], np.int32)
+    np.savez(tmp / "in.npz", **arrs)
+    del arrs
+    cmd = [sys.executable, str(Path(__file__).resolve()), "--child", str(tmp / "in.npz"), str(tmp / "out.npz")]
+    log(f"  Q199: running the elbow refinement in a child process ({tmp})")
+    env = {**__import__("os").environ, "PYTHONPATH": str(REPO)}
+    subprocess.run(cmd, check=True, cwd=str(REPO), env=env)
+    z = np.load(tmp / "out.npz", allow_pickle=False)
+    rep = json.loads(str(z["report"]))
+    by = {p["mesh_id"]: p for p in pending}
+    notes = json.loads(str(z["notes"]))
+    for i in json.loads(str(z["changed"])):
+        k = ids.index(i)
+        if f"nv{k}" in z.files:
+            by[i]["v"] = z[f"nv{k}"]
+        if f"pv{k}" in z.files:
+            by[i]["pre_decimated"] = (z[f"pv{k}"], z[f"pf{k}"].astype(np.int64))
+        if i in notes:
+            by[i]["fit_note"] = notes[i]
+    for f_ in tmp.iterdir():
+        f_.unlink()
+    tmp.rmdir()
+    return rep
+
+
+def child(a):
+    import faulthandler
+    faulthandler.enable()
+    z = np.load(a.inp, allow_pickle=False)
+    ids, cats = json.loads(str(z["ids"])), json.loads(str(z["cats"]))
+    notes0 = json.loads(str(z["notes"]))
+    by = {i: {"v": z[f"v{k}"], "f": z[f"f{k}"].astype(np.int64), "cat": c, "fit_note": notes0.get(i, "")} for k, (i, c) in enumerate(zip(ids, cats))}
+    for k, i in enumerate(ids):
+        if f"pv{k}" in z.files:
+            by[i]["pre_decimated"] = (z[f"pv{k}"], z[f"pf{k}"].astype(np.int64))
+    raw = {i: z[f"r{k}"] for k, i in enumerate(ids)}
+    v0 = {i: d["v"].copy() for i, d in by.items()}
+    p0 = {i: d["pre_decimated"][0].copy() for i, d in by.items() if d.get("pre_decimated") is not None}
+    rep = refine_core(by, raw)
+    out = {"report": np.array(json.dumps(rep, default=float))}
+    changed, notes = [], {}
+    for k, i in enumerate(ids):
+        d = by[i]
+        moved = not np.array_equal(d["v"], v0[i])
+        pre = d.get("pre_decimated")
+        pmoved = pre is not None and (i not in p0 or not np.array_equal(pre[0], p0[i]))
+        if moved or pmoved or d.get("fit_note") != notes0.get(i, ""):
+            changed.append(i)
+            if moved:
+                out[f"nv{k}"] = np.asarray(d["v"], np.float64)
+            if pmoved:
+                out[f"pv{k}"] = np.asarray(pre[0], np.float64)
+                out[f"pf{k}"] = np.asarray(pre[1], np.int32)
+            notes[i] = d.get("fit_note") or ""
+    out["changed"] = np.array(json.dumps(changed))
+    out["notes"] = np.array(json.dumps(notes))
+    np.savez(a.out, **out)
+    print("q199 child: changed", len(changed))
+
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--child", nargs=2, metavar=("IN", "OUT"), required=True)
+    args = ap.parse_args()
+    args.inp, args.out = args.child
+    child(args)

@@ -877,7 +877,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
           close_gaps: bool = True, target_body: str | None = None,
           integ_inventory_path: Path | None = DEFAULT_INTEG_INVENTORY, with_hair: bool = False,
           trunk_refit: bool = False, anterior_v5: bool = False, q190: dict | None = None, q191: dict | None = None,
-          q194: dict | None = None, pure_source: bool = False, q195_refine: bool = False):
+          q194: dict | None = None, pure_source: bool = False, q195_refine: bool = False, q199: dict | None = None):
     TARGET["body"] = target_body or "vhf"
     if target_body == "vhm":                  # Q195: aim the Q168/Q186c/Q190/Q191 fitting code at the VH male BEFORE it is imported
         from scripts.zanatomy import body_ctx
@@ -1142,6 +1142,13 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
         if q194.get("dump_after"):
             from scripts.zanatomy import q190_refine as Q190
             Q190.dump_pending(pending, raw_before_fit, q194["dump_after"])
+    if q199 and q199.get("refine"):
+        # Q199: the elbow of both arms (humerus - radius - ulna as one kinematic chain, bone-anchored field, per-structure guards); everything not listed stays bit-identical
+        from scripts.zanatomy import q199_refine as Q199
+        LAST_REPORTS["q199"] = Q199.refine_pending(pending, raw_before_fit)
+        if q199.get("dump_after"):
+            from scripts.zanatomy import q190_refine as Q190
+            Q190.dump_pending(pending, raw_before_fit, q199["dump_after"])
     for item in pending:
         finish(**item)
 
@@ -1340,6 +1347,8 @@ def main(argv=None) -> int:
     ap.add_argument("--q194-dump", default=None, help="Q194: write the final pre-export pending meshes (npz, after gap closure)")
     ap.add_argument("--q194-dump-after", default=None, help="Q194: also write the full-resolution pending meshes (npz) after the Q194 refinement (audit input)")
     ap.add_argument("--q194-dump-only", action="store_true", help="Q194: exit right after --q194-dump")
+    ap.add_argument("--q199-refine", action="store_true", help="Q199 (with the Q194 flags): the elbow of both arms (scripts/zanatomy/q199_refine.py)")
+    ap.add_argument("--q199-dump-after", default=None, help="Q199: also write the full-resolution pending meshes (npz) after the Q199 refinement (audit input)")
     ap.add_argument("--q194-refine", action="store_true", help="Q194 (with the Q192 flags): bounded post-closure refinement (scripts/zanatomy/q194_refine.py)")
     ap.add_argument("--q195-refine", action="store_true",
                     help="Q195 (with --target-body vhm): organs + lower-limb muscles refined onto his measured meshes, limb skin onto his CT skin")
@@ -1389,7 +1398,8 @@ def main(argv=None) -> int:
         trunk_refit=args.trunk_refit, anterior_v5=args.anterior_v5, pure_source=args.pure_source, q195_refine=args.q195_refine,
         q190={"dump": args.q190_dump, "refine": args.q190_refine},
         q191={"dump": args.q191_dump, "hand": args.q191_hand, "dump_after": args.q191_dump_after, "left_fit": args.q192_left_fit},
-        q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine, "dump_after": args.q194_dump_after})
+        q194={"dump": args.q194_dump, "dump_only": args.q194_dump_only, "refine": args.q194_refine, "dump_after": args.q194_dump_after},
+        q199={"refine": args.q199_refine, "dump_after": args.q199_dump_after})
     src = Q162_REPORT_SOURCE + (" Q168 female variant: every structure first moved onto the VH female's skeleton "
                                 "(scripts/transfer/zan_to_vhf_whole_body.py), then gap-closed in her frame." if female else "")
     Path(args.q162_report).write_text(json.dumps(
