@@ -28,6 +28,17 @@ def to_q198(B):
     return out
 
 
+def elbow_json(model, side):
+    import json
+    j = R8.elbow_json(model, side)
+    if j is None:
+        p = R8.DER / f"Q200_model_{model}_elbow.json"
+        if p.exists():
+            r = json.loads(p.read_text())
+            j = next((x for x in r["junctions"] if x["name"] == "elbow" and x["side"] == side), None)
+    return j
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("bundle"); ap.add_argument("out"); ap.add_argument("model")
@@ -41,7 +52,7 @@ def main():
     hl = None if a.no_hl else {s["id"]: (0.15, 0.45, 0.95) for s in S if s["src"].endswith("_q200") and s["sys"] not in ("vessel", "nerve")}
     hlb = {}
     for sd in a.sides:
-        j = R8.elbow_json(a.model, sd)
+        j = elbow_json(a.model, sd)
         if j is None:
             continue
         R8.surface_views(a.model, sd, S, j, hl=hl, tag=a.tag)

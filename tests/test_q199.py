@@ -169,3 +169,31 @@ def test_committed_report_states_the_numbers():
         assert j["joint_after"]["nearest_surface_gap_mm_median"] < j["joint_before"]["nearest_surface_gap_mm_median"]
         assert j["joint_after"]["nearest_surface_gap_mm_median"] <= 8.0
     assert len(rep["moved_ids"]) > 50
+
+
+AUDIT = REPO / "data" / "derived" / "Q199_elbow_audit.json"
+SHIP = REPO / "data" / "derived" / "Q199_ship_diff.json"
+
+
+@pytest.mark.skipif(not AUDIT.exists(), reason="Q199 audit not committed yet")
+def test_committed_audit_elbow_is_a_joint_and_centrelines_continue():
+    a = json.loads(AUDIT.read_text())
+    for side in ("left", "right"):
+        o = a[side]
+        assert o["joint"]["after"]["nearest_surface_gap_mm_median"] <= o["joint"]["after"]["source_gap_mm_median"] + 3.0
+        assert o["joint"]["after"]["nearest_surface_gap_mm_median"] < o["joint"]["before"]["nearest_surface_gap_mm_median"]
+        named = {(r["a"], r["b"]): r for r in o["named_centreline_pairs"]}
+        brachial = [r for k, r in named.items() if "brachial_artery" in k[0] and k[1].startswith(("zan_radial_artery", "zan_ulnar_artery"))]
+        assert brachial and all(r["after_mm"] <= 3.0 for r in brachial)       # the brachial artery continues into the radial and ulnar arteries
+        assert o["attachments_summary"]["after"] <= o["attachments_summary"]["muscles_dev_gt5mm_before"]
+        assert all(r["step_mm_max"] <= 3.0 for r in o["skin_seams"]["after"] if "elbow" in r["a"] + r["b"])
+    assert a["left"]["photographs"]["after"]["humerus_centre_to_photo_disc_mm_mean"] <= 4.0
+
+
+@pytest.mark.skipif(not SHIP.exists(), reason="Q199 ship diff not committed yet")
+def test_committed_ship_diff_changes_only_listed_arm_structures():
+    d = json.loads(SHIP.read_text())
+    assert d["changed_but_not_listed_in_report"] == [] and d["listed_in_report_but_unchanged"] == []
+    arm = ("_l", "_r")
+    assert all(k.endswith(arm) or "_l_" in k or "_r_" in k for k in d["changed_detail"])        # nothing without a side (trunk midline, head, ...) moved
+    assert d["unchanged_within_0.05mm"] > 2500
