@@ -279,15 +279,17 @@ ARM_RADIUS_MM = 420.0
 PUSH_CATS = ("muscle", "vessel", "nerve", "fascia", "lymphatic")
 BONE_OK_CATS = ("ligament", "bursa", "cartilage", "tendon")      # attach to / lie on bone by design: no inside-bone cost
 ATTACH_CATS = ("muscle", "tendon", "ligament", "bursa")
-ATTACH_ZONE_MM, ATTACH_TOL_MM, ATTACH_CAP_MM = 8.0, 3.0, 12.0
+ATTACH_ZONE_MM, ATTACH_TOL_MM, ATTACH_CAP_MM = 8.0, 3.0, 10.0
 PULL_SIGMA_MM = 25.0
 CONT_CATS = ("muscle", "tendon", "ligament", "fascia", "vessel", "nerve", "bursa", "cartilage")
 GAP_TOL_MM, GAP_TOL_VESSEL_MM, GAP_CAP_MM = 5.0, 3.0, 12.0
 CLOSE_SIGMA_MM = 15.0
+CLOSE_TARGET_MM, CLOSE_TARGET_MUSCLE_MM = 1.5, 3.0
 PREFER_FIELD_MARGIN = 2.0
 STEPS = {"attach", "close"}          # diagnostic switches (the build uses both)
-ADJUST_CAP_MM = 12.0          # push-out / skin clamp / volume / attachment / closure adjustments may not move a vertex further than this from the field's own result (+ <= SEPARATE_MAX_MM on the shipped mesh = 15 mm)
-SEPARATE_MAX_MM = 3.0
+ADJUST_CAP_MM = 10.0          # push-out / skin clamp / volume / attachment / closure adjustments may not move a vertex further than this from the field's own result (+ <= SEPARATE_MAX_MM on the shipped mesh = 15 mm)
+SEPARATE_MAX_MM = 5.0
+SEPARATE_FOLD_TOL = 0.01      # share of edges newly folded per mesh (Q194: 0.003 rejected 80 % of the moves at the crowded right elbow)
 ELBOW_ZONE_MM = 100.0         # continuity is judged where the contact lies within this distance of the Z-source elbow joint
 ARM_REGIONS = ("upper_limb", "forearm_hand")
 
@@ -629,7 +631,8 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log
     tolof = lambda a, b: GAP_TOL_VESSEL_MM if (by[a]["cat"] in ("vessel", "nerve") and by[b]["cat"] in ("vessel", "nerve")) else GAP_TOL_MM
     v_start = {i: by[i]["v"].copy() for i in allids}
     for rnd in range(rounds):
-        for a, b, d0 in sorted(pairs, key=lambda t: -g_field[(t[0], t[1])]):
+        thin = lambda x: by[x]["cat"] in ("vessel", "nerve")
+        for a, b, d0 in sorted(pairs, key=lambda t: (0 if (thin(t[0]) and thin(t[1])) else 1, -g_field[(t[0], t[1])])):      # centrelines first
             if _gap(by, a, b) <= max(tolof(a, b), d0 + 2.0):
                 continue
             ra, rb = raw[a].astype(float), raw[b].astype(float)
@@ -641,6 +644,11 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log
             da, ja = cKDTree(vb).query(va[fa])
             db_, jb = cKDTree(va).query(vb[fb])
             share_a, share_b = (0.5, 0.5) if (a in movable and b in movable) else ((1.0, 0.0) if a in movable else (0.0, 1.0))
+            if thin(a) != thin(b):                                  # vessel / nerve against a muscle, fascia, ligament ...: only the thin one moves
+                share_a, share_b = ((1.0, 0.0) if thin(a) else (0.0, 1.0))
+                if (share_a and a not in movable) or (share_b and b not in movable):
+                    continue
+            d0 = max(d0, CLOSE_TARGET_MUSCLE_MM if (by[a]["cat"] == "muscle" and by[b]["cat"] == "muscle") else CLOSE_TARGET_MM)      # vertex-vertex distance: the surfaces then stay apart
             new = {}
             for k, fk, dk, tgt, share, vk0 in ((a, fa, da, vb[ja], share_a, va), (b, fb, db_, va[jb], share_b, vb)):
                 if share == 0.0:
@@ -793,6 +801,7 @@ def separate_elbow(side, by, raw, skin, skin_tree, decimate_fn, log=print, radiu
     vol_ref = {i: abs(Q.volume(raw[i].astype(float), by[i]["f"])) * Mx.BODY_SCALE ** 3 for i in ids}
     G = HT.Gates(by, skin, skin_tree)
     Sp.MAX_TOTAL_MM = SEPARATE_MAX_MM
+    Sp.FOLD_TOL = SEPARATE_FOLD_TOL
     ov0 = Sp.overlap_pct(meshes)
     movable = {i for i in ids if ov0[i] > 0.3}
     base = {i: meshes[i][0] for i in movable}
