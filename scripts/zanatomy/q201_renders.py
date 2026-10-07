@@ -34,7 +34,7 @@ def load_state(p):
         from scripts.zanatomy import q190_metrics as Mx
         return {d["id"]: {"v": d["v"], "f": d["f"], "sys": d["cat"]} for d in Mx.load_dump(str(p))}
     from scripts.zanatomy import trunk_refit_q186c_audit as A186
-    return A186.load_viewer(p)
+    return A186.load_viewer(p, "atlas_viewer_zan_male_fitted")
 
 
 def mcol(i, sysn):

@@ -34,6 +34,7 @@ from scripts.zanatomy import q201_chain as C  # noqa: E402
 
 SOFT = A.SOFT
 WRIST_ZONE_MM = 90.0
+STEM = "atlas_viewer_zan_male_fitted"
 
 
 def zone_ids(M, raw, side, jc, wc, hc=None, cats=SOFT, r_elbow=140.0, r_wrist=WRIST_ZONE_MM, r_hand=110.0):
@@ -176,7 +177,7 @@ def main(argv=None):
     Db = {d["id"]: {"v": d["v"], "f": d["f"], "sys": d["cat"], "cat": d["cat"]} for d in Db_l}
     Da = {d["id"]: {"v": d["v"], "f": d["f"], "sys": d["cat"], "cat": d["cat"]} for d in Da_l}
     if a.after:
-        Mb, Ma = A186.load_viewer(Path(a.before)), A186.load_viewer(Path(a.after))
+        Mb, Ma = A186.load_viewer(Path(a.before), STEM), A186.load_viewer(Path(a.after), STEM)
     else:
         Mb, Ma = Db, Da
     skin = load_skin("vhm")
