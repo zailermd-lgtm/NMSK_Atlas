@@ -489,11 +489,19 @@ def stage_muscles(ctx, only=None, log=print):
             sm = sorted([x for x in ctx.seams if x[0] == cap["axis"] and abs(x[1] - cap["pos"]) <= SEAM_MATCH_MM], key=lambda x: abs(x[1] - cap["pos"]))
             row["seam_structures"] = sm[0][2] if sm else 0
             if not sm:
-                row["status"] = "skipped: flat facet shared with fewer than 3 structures (not a data-block seam)"
-                ctx.rows.append(row); continue
+                # a lone flat end that stops short of the bone the muscle attaches to is a cut end as well (her left-forearm extensors)
+                allb = bone_ids(own, prox_b + dist_b, side)
+                gap_b = float(ctx.bone_tree(allb)[0].query(ccen)[0]) if allb else 0.0
+                row["end_to_expected_bone_mm"] = round(gap_b, 1)
+                if not (cap["area"] >= 60.0 and gap_b > 8.0):
+                    row["status"] = "skipped: flat facet shared with fewer than 3 structures (not a data-block seam)"
+                    ctx.rows.append(row); continue
             ZVa, ainfo = align_rigid_local(ZV, ZF, o["v"], o["f"], AX[cap["axis"]], cap["pos"], cap["sign"])
             row["align"] = {k_: (round(v_, 1) if isinstance(v_, float) else v_) for k_, v_ in ainfo.items()}
-            r = continue_cap(o["v"], cap, ZVa, ZF, min_beyond=10.0)
+            ax_m = np.linalg.svd(o["v"] - o["v"].mean(0), full_matrices=False)[2][0]
+            nrm = np.zeros(3); nrm[AX[cap["axis"]]] = 1.0
+            section_like = abs(float(ax_m @ nrm)) >= 0.6          # the cap closes the muscle across its length (not a face along it)
+            r = continue_cap(o["v"], cap, ZVa, ZF, min_beyond=10.0, loft=True if section_like else False)
             if "v" not in r:
                 row["status"] = "held: " + r["reason"]; ctx.rows.append(row); continue
             kax = AX[cap["axis"]]
@@ -512,7 +520,7 @@ def stage_muscles(ctx, only=None, log=print):
             r["v"] = cv
             r["info"] = row
             row.update(status="continued", end="proximal" if toward_prox else "distal", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1),
-                       shift_mm=round(r["sh"], 1), mode=r["mode"], cap_covered=round(r["cap_covered"], 2), z_to_cap_area=round(r["area_ratio"], 3), pull=pinfo, constraints=cinfo, nv=len(cv), nf=len(r["f"]))
+                       shift_mm=round(r["sh"], 1), mode=r["mode"], section_like=bool(section_like), cap_covered=round(r["cap_covered"], 2), z_to_cap_area=round(r["area_ratio"], 3), pull=pinfo, constraints=cinfo, nv=len(cv), nf=len(r["f"]))
             ctx.rows.append(row)
             pieces.append(r)
         if pieces:
@@ -563,6 +571,66 @@ def stage_vessels(ctx, sides="lr"):
                                    side="left" if side == "l" else "right", subject=VESSEL_SUBJECT[ctx.body], info=row, n_ref=zid)
 
 
+def stage_attach(ctx, log=print):
+    """Z-filled / Z-transferred muscles (never the measured ones) whose end in the elbow zone stops 5-40 mm short of the bone it attaches
+    to: smooth bounded translation of that end (weight 0 at 60 % of the length from the end), then skin / bone constraints."""
+    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    own = ctx.own
+    replaced = {}
+    for side in "lr":
+        if f"humerus_{side}" not in own:
+            continue
+        ec = elbow_centre(ctx.body, side, own)
+        bm = ctx.bone_meshes(side)
+        items = []
+        for nid, pc in ctx.pieces.items():
+            if pc["kind"] == "left_muscle" and nid.endswith("_" + side):
+                items.append(("piece", nid, pc["v"], pc["f"], pc, nid))
+        for i in ctx.muscles:
+            o = own[i]
+            if i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2"):
+                items.append(("entry", i, o["v"], o["f"], None, i))
+        for kind, i, v, f, pc, base in items:
+            stem = re.sub(r"_(l|r)$", "", base)
+            prox_b, dist_b = ATTACH.get(stem, ([], []))
+            if not prox_b:
+                continue
+            vv = v[np.unique(f)]
+            c0, V = vv.mean(0), np.linalg.svd(vv - vv.mean(0), full_matrices=False)[2]
+            ax = V[0] if V[0][1] > 0 else -V[0]              # towards the shoulder
+            t = (v - c0) @ ax
+            lo, hi = float(t.min()), float(t.max()); L = hi - lo
+            cur = v.copy(); did = []
+            for end, names, sgn in (("proximal", prox_b, +1), ("distal", dist_b, -1)):
+                ids = bone_ids(own, names, side)
+                if not ids or L < 30:
+                    continue
+                tt = (cur - c0) @ ax
+                near_end = tt >= hi - 0.08 * L if sgn > 0 else tt <= lo + 0.08 * L
+                tip = cur[near_end]
+                if np.linalg.norm(tip.mean(0) - ec) > 110:
+                    continue
+                tree, pts = ctx.bone_tree(ids)
+                d, jj = tree.query(tip)
+                m = int(np.argmin(d)); d0 = float(d[m])
+                if not (5.0 < d0 <= 40.0):
+                    continue
+                u = (pts[jj[m]] - tip[m]); u = u * (1 - 1.5 / max(np.linalg.norm(u), 1e-6))
+                dist_from_end = (hi - tt) if sgn > 0 else (tt - lo)
+                w = np.clip(1.0 - dist_from_end / (0.6 * L), 0, 1); w = w * w * (3 - 2 * w)
+                cur = cur + w[:, None] * u
+                did.append((end, round(d0, 1)))
+            if did:
+                v1, _ = clip_to_skin_mesh(cur.copy(), ctx.skin_mesh)
+                v2, _ = push_off_bones(v1, bm)
+                ctx.rows.append(dict(id=i, stage="attach", kind=kind, ends_pulled=did, move_max=round(float(np.linalg.norm(v2 - v, axis=1).max()), 1)))
+                if kind == "piece":
+                    pc["v"] = v2
+                else:
+                    replaced[i] = (v2, f, dict(attach=did))
+    return replaced
+
+
 def stage_separate(ctx, log=print):
     """Bounded separation (q200_overlap) of every Z-filled / Z-transferred muscle of the elbow zone from the MEASURED muscles it sits inside.
     Measured entries are never moved. Returns {id: (v, f, info)} for the existing xfer entries; the new pieces are updated in place."""
@@ -597,8 +665,13 @@ def stage_separate(ctx, log=print):
             o = own[i]
             if i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2") and np.linalg.norm(o["v"].mean(0) - ec) <= 150:
                 movers.append(("entry", i, o["v"], o["f"], None))
+        cur_m = {i: (v, f) for kind, i, v, f, pc in movers}
         for kind, i, v, f, pc in movers:
             others = [m for m, fid in zip(fixed, fixed_ids) if fid != i.split("_zfill")[0]]
+            # the other Z-filled / Z-transferred muscles of this arm are obstacles too (their current positions); the measured ones stay fixed
+            for j_, (vj, fj) in cur_m.items():
+                if j_ != i and j_.split("_zfill")[0] != i.split("_zfill")[0] and len(fj) > 3:
+                    others.append(trimesh.Trimesh(vj, fj, process=False))
             pin = None
             if kind == "piece" and pc["kind"] == "muscle":
                 pin = np.zeros(len(v), bool); off = 0
@@ -610,6 +683,7 @@ def stage_separate(ctx, log=print):
             row = dict(id=i, stage="overlap", kind=kind, **{k: round(float(x), 3) for k, x in info.items()})
             ctx.rows.append(row)
             if info["rounds"] > 0:
+                cur_m[i] = (nv, f)
                 if kind == "piece":
                     pc["v"] = nv
                 else:
@@ -710,18 +784,31 @@ if __name__ == "__main__":
     replaced = {}
     if not a.only:
         stage_vessels(ctx)
+        rep_att = stage_attach(ctx)
+        # the attach-moved entries are the input of the separation
+        for i, (nv, nf, info) in rep_att.items():
+            ctx.own[i] = dict(ctx.own[i], v=nv)
         replaced = stage_separate(ctx)
+        for i, (nv, nf, info) in rep_att.items():
+            if i not in replaced:
+                replaced[i] = (nv, nf, dict(attach=info["attach"], inside_before=0.0, inside_after=0.0, move_max=0.0, volume_ratio=1.0, rounds=0))
+            else:
+                replaced[i][2]["attach"] = info["attach"]
     for r in ctx.rows:
         print(r)
     if not a.only:
         for i, (nv, nf, info) in replaced.items():
             old = ctx.own[i]["e"]["rec"].get("procedural_badge", "")
             ctx.B.replace(i, nv, nf, rec_updates={"procedural_badge": (old + " " if old else "") + (
-                f"Q200: separated from the measured muscles it sat inside (inside them {100 * info['inside_before']:.1f} % -> {100 * info['inside_after']:.1f} % of "
-                f"the vertices, moved at most {info['move_max']:.1f} mm, volume {info['volume_ratio']:.2f}x; the measured muscles were not moved).")})
+                (f"Q200: end carried onto its bone ({', '.join(f'{e} end was {d} mm short' for e, d in info['attach'])}); " if info.get("attach") else "Q200: ") +
+                (f"separated from the measured muscles it sat inside (inside them {100 * info['inside_before']:.1f} % -> {100 * info['inside_after']:.1f} % of "
+                 f"the vertices, moved at most {info['move_max']:.1f} mm, volume {info['volume_ratio']:.2f}x; the measured muscles were not moved)." if info.get("rounds") else "no overlap with the measured muscles to resolve."))})
         assemble(ctx)
         out = Path(a.out) if a.out else ctx.cfg["out"]
         print("bundle bytes", write_bundle(ctx, out))
     if a.rows:
         Path(a.rows).write_text(json.dumps(ctx.rows, indent=1, default=str))
+    seams = {nid: [dict(axis=r["axis"], pos=r["pos"], polys=r["covered"]) for r in pc["pieces"] if "covered" in r]
+             for nid, pc in ctx.pieces.items() if pc["kind"] in ("muscle", "bone") and "pieces" in pc}
+    (REPO / f"data/derived/Q200_seams_{a.body}.json").write_text(json.dumps(seams))
     print("done", round(time.time() - t, 1))
