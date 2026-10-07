@@ -1145,7 +1145,7 @@ def build(*, zan_dir: Path, inventory_path: Path, namemap_path: Path,
     if q199 and q199.get("refine"):
         # Q199: the elbow of both arms (humerus - radius - ulna as one kinematic chain, bone-anchored field, per-structure guards); everything not listed stays bit-identical
         from scripts.zanatomy import q199_refine as Q199
-        LAST_REPORTS["q199"] = Q199.refine_pending(pending, raw_before_fit)
+        LAST_REPORTS["q199"] = Q199.refine_pending(pending, raw_before_fit, budget_scale=budget_scale, category_scale=category_scale)
         if q199.get("dump_after"):
             from scripts.zanatomy import q190_refine as Q190
             Q190.dump_pending(pending, raw_before_fit, q199["dump_after"])

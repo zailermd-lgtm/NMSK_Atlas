@@ -480,8 +480,11 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
                               "mean_move_mm": round(float(np.linalg.norm(by[n + s]["v"] - old[n + s], axis=1).mean()), 1)} for n in ("humerus", "radius", "ulna")},
            "structures": {}}
     ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)
-           and (regions is None or regions.get(i) in ARM_REGIONS or i in att.zone)]       # arm structures, plus the trunk muscles that attach to the humerus / forearm bones
+           and (regions is None or regions.get(i) in ARM_REGIONS or i in att.zone
+                or int((np.linalg.norm(by[i]["v"] - ch.ce, axis=1) < ELBOW_ZONE_MM).sum()) >= 100)]
+    # = arm structures, the trunk muscles that attach to the humerus / forearm bones, and merged Z meshes that hold an arm part (the field is zero on their other parts)
     v_before = {i: by[i]["v"].copy() for i in ids}
+    v_field = {i: by[i]["v"].copy() for i in ids}            # after the field step: the attachment and closure steps stay within ADJUST_CAP_MM of it
     ctx = {}
 
     def record(i, name, v1, m0, m1, a0, a1, n_pull):
@@ -520,12 +523,14 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             pick = res[0] if res[0][0] <= best[0] + PREFER_FIELD_MARGIN else best
             _, name, v1, m1 = pick
         a_before = att.stat(i, v0, att_before_trees)
+        v_field[i] = v1.copy()
         n_pull = 0
         if has_zone:
             v2, n_pull = att.pull(i, v1, f, att_trees)
             if n_pull:
                 v2 = make_candidate(v1, f, r, cat, i, v2 - v1, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
                 m2 = _metrics(v2, r, f, skin, zb)
+                v2 = cap_to(v2, v_field[i])
                 if cost(m2, m0, cat, att.excess(i, v2, att_trees)) <= cost(m1, m0, cat, att.excess(i, v1, att_trees)) + 3.0:
                     v1, m1 = v2, m2
                 else:
@@ -534,7 +539,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             continue
         record(i, name, v1, m0, m1, a_before, att.stat(i, v1, att_trees), n_pull)
     before_closure = {i: by[i]["v"].copy() for i in ids}
-    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, log=log)
+    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, v_field, log=log)
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
         if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)
@@ -588,7 +593,7 @@ def contact_pairs(side, by, raw, ids, movable, centre, touch_mm=3.0):
     tr = {i: cKDTree(p) for i, p in sub.items()}
     keys = list(sub)
     cen = {i: sub[i].mean(0) for i in keys}
-    ext = {i: np.ptp(sub[i], axis=0).max() / 2 for i in keys}
+    ext = {i: float(np.linalg.norm(sub[i] - cen[i], axis=1).max()) for i in keys}
     out = []
     for x in range(len(keys)):
         for y in range(x + 1, len(keys)):
@@ -611,7 +616,7 @@ def _gap(by, a, b):
     return float(cKDTree(pb).query(pa)[0].min())
 
 
-def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, log=print, rounds=2):
+def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log=print, rounds=6):
     """pairs that touch in the Z source and are further apart now (> GAP_TOL_MM; vessel / nerve pairs GAP_TOL_VESSEL_MM): both structures (only the moved one if the other did not
     move) go half way to each other over the footprint that touches in the source (<= GAP_CAP_MM each, spread over the mesh, volume / fold guarded)"""
     from scripts.zanatomy import q190_refine as Q
@@ -654,7 +659,9 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, log=print, r
                 if by[k]["cat"] == "muscle" and _closed(by[k]["f"]) and not H.NOT_BODY.search(k):
                     vk, _ = Q.volume_guard(vk, rk, by[k]["f"])
                 f0, f1 = H.fold_stats(vk0, rk, by[k]["f"]), H.fold_stats(vk, rk, by[k]["f"])
-                if f1 > max(f0 + 0.01, 0.02) or np.linalg.norm(vk - v_start[k], axis=1).max() > 2 * GAP_CAP_MM:
+                vk = cap_to(vk, v_field[k]) if k in v_field else vk
+                f1 = H.fold_stats(vk, rk, by[k]["f"])
+                if f1 > max(f0 + 0.01, 0.02):
                     new = None
                     break
                 new[k] = vk
@@ -765,3 +772,40 @@ def weld_elbow_skin(side, by, raw, log=print):
     out = {"patches": ids, "moved": rep, "before": summ(pick(before)), "after": summ(pick(after)), "seams_before": pick(before), "seams_after": pick(after)}
     log(f"  Q199 skin seams {side}: {out['before']} -> {out['after']}")
     return out
+
+
+# ------------------------------------------------------------------------------------------------ neighbour-muscle separation on the shipped meshes
+def separate_elbow(side, by, raw, skin, skin_tree, decimate_fn, log=print, radius=140.0):
+    """the field / attachment / closure steps pack muscles against each other (neighbour overlap rose 14.6 -> 19.8 % left, 16.5 -> 22.7 % right at full resolution): the Q194 bounded per-vertex
+    separation along the contact normal (q194_separate.separate: <= 4 mm per round, 6 mm in all, volume 0.65-1.5x, no new folds, containment) on the SHIPPED (decimated) meshes of the closed
+    muscles of the elbow zone; a mesh that cannot move without breaking a guard stays"""
+    from scripts.zanatomy import q190_metrics as Mx
+    from scripts.zanatomy import q190_refine as Q
+    from scripts.zanatomy import q194_hand_trunk as HT
+    from scripts.zanatomy import q194_separate as Sp
+    s = "_" + side
+    jsmp, jsel, _, _ = joint_pairs(raw, side, by)
+    jc = at(raw["humerus" + s], jsmp["humerus"])[jsel].mean(0)
+    ids = [i for i in side_ids(by, side) if by[i]["cat"] == "muscle" and _closed(by[i]["f"]) and not Q.NOT_A_MUSCLE_BODY.search(i)
+           and np.any(np.linalg.norm(raw[i] - jc, axis=1) < radius)]
+    meshes = {i: by[i].get("pre_decimated") or decimate_fn(by[i]["v"].astype(float), by[i]["f"], i, "muscle") for i in ids}
+    meshes = {i: (np.asarray(v, float), f) for i, (v, f) in meshes.items()}
+    vol_ref = {i: abs(Q.volume(raw[i].astype(float), by[i]["f"])) * Mx.BODY_SCALE ** 3 for i in ids}
+    G = HT.Gates(by, skin, skin_tree)
+    ov0 = Sp.overlap_pct(meshes)
+    movable = {i for i in ids if ov0[i] > 0.3}
+    base = {i: meshes[i][0] for i in movable}
+    out, mrep = Sp.separate(meshes, vol_ref, movable, keep=lambda i, v2: G.accept(i, base[i], v2), log=log)
+    ov1 = Sp.overlap_pct({i: (out[i], meshes[i][1]) for i in ids})
+    rep = {"muscles": len(ids), "with_overlap_gt_0.3pct_before": len(movable), "mean_overlap_pct_before": round(float(np.mean([ov0[i] for i in ids])), 2),
+           "mean_overlap_pct_after": round(float(np.mean([ov1[i] for i in ids])), 2), "moved": mrep, "overlap_pct": {i: [round(ov0[i], 1), round(ov1[i], 1)] for i in ids}}
+    for i, m in mrep.items():
+        if m["max_move_mm"] < 0.3:
+            continue
+        by[i]["pre_decimated"] = (out[i], meshes[i][1])
+        vr = abs(Q.volume(out[i], meshes[i][1])) / vol_ref[i]
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
+            f" Q199: overlap with neighbouring muscles reduced by the Q194 bounded per-vertex separation on the shipped mesh (vertices inside a neighbour {ov0[i]:.1f} -> {ov1[i]:.1f} %, "
+            f"mean move {m['mean_move_mm']} mm, max {m['max_move_mm']}, volume {vr:.2f}x the Z source).")
+    log(f"  Q199 separation {side}: {len(ids)} muscles, overlap {rep['mean_overlap_pct_before']} -> {rep['mean_overlap_pct_after']} % (shipped meshes)")
+    return rep

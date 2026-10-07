@@ -182,12 +182,18 @@ def audit_pair(Mb, Ma, raw, skin, side, log=print):
     out["continuity_pairs"] = rows
     out["continuity_summary"] = summary_gaps(rows)
     out["centreline_pairs_summary"] = summary_gaps([r for r in rows if re.search(r"vessel|nerve", r["cats"])])
+    out["named_centreline_pairs"] = named_centrelines([r for r in rows if re.search(r"vessel|nerve", r["cats"]) and not r["cats"].startswith("muscle") and not r["cats"].endswith("muscle")])
     soft_ids = [i for i in ids if cat_of(Ma[i]) in ("muscle", "vessel", "nerve", "tendon", "fascia")]
     bones = ["humerus" + s, "radius" + s, "ulna" + s]
     cb, perb = containment(Mb, skin, bones, soft_ids)
     ca, pera = containment(Ma, skin, bones, soft_ids)
     out["containment"] = {"before": cb, "after": ca}
     out["containment_worst_after"] = sorted(((k, v["outside_skin_pct"], v["inside_bone_pct"]) for k, v in pera.items()), key=lambda t: -(t[1] + t[2]))[:12]
+    try:
+        out["muscle_overlap"] = muscle_overlap(Mb, Ma, ids)
+    except Exception as e:                                   # a pyembree crash in a worker: once more with the pure-numpy ray tester
+        log(f"  overlap audit failed ({e!r}); repeating in safe mode")
+        out["muscle_overlap"] = muscle_overlap(Mb, Ma, ids, safe=True)
     sb, sa = skin_seams(Mb, raw, side), skin_seams(Ma, raw, side)
     out["skin_seams"] = {"before": sb, "after": sa}
     return out
@@ -260,6 +266,40 @@ def right_label_chamfer(Mb, Ma, her, ids=None):
             row[tag] = {"label_to_Z_median_mm": round(float(np.median(cKDTree(Z).query(lab)[0])), 2),
                         "Z_to_label_median_mm": round(float(np.median(tl.query(Z[(Z[:, 1] >= y0) & (Z[:, 1] <= y1)])[0])), 2) if ((Z[:, 1] >= y0) & (Z[:, 1] <= y1)).any() else None}
         out[i] = row
+    return out
+
+
+def muscle_overlap(Mb, Ma, ids, safe=False):
+    """neighbour-muscle overlap (q194_separate.overlap_pct: share of sampled vertices lying > MIN_DEPTH_MM inside another muscle of the set), the arm muscles crossing the elbow"""
+    from scripts.zanatomy import q190_refine as Q
+    from scripts.zanatomy import q194_separate as Sp
+    if safe:
+        Sp.Skel.SAFE = True
+    mus = [i for i in ids if cat_of(Mb[i]) == "muscle" and Q._closed(Mb[i]["f"]) and not Q.NOT_A_MUSCLE_BODY.search(i)]
+    out = {}
+    for tag, M in (("before", Mb), ("after", Ma)):
+        ov = Sp.overlap_pct({i: (M[i]["v"], M[i]["f"]) for i in mus})
+        out[tag] = {"muscles": len(mus), "mean_overlap_pct": round(float(np.mean(list(ov.values()))), 2), "max_overlap_pct": round(float(np.max(list(ov.values()))), 2),
+                    "muscles_overlap_gt5pct": int(sum(v > 5 for v in ov.values())), "per_muscle": {k: round(float(v), 1) for k, v in ov.items()}}
+    return out
+
+
+NAMED_CENTRELINES = [("brachial_artery", "radial_artery"), ("brachial_artery", "ulnar_artery"), ("brachial_veins", "radial_veins"), ("brachial_veins", "ulnar_veins"),
+                     ("radial_n_l|radial_n_r", "radial_n_superficial_branch|posterior_interosseous_n"), ("musculocutaneous_n", "lateral_antebrachial_cutaneous_nerve"),
+                     ("median_n_lateral_root", "anterior_interosseous_n|muscular_branches_of_median_nerve"), ("ulnar_n_l|ulnar_n_r", "muscular_branches_of_ulnar_nerve"),
+                     ("deep_brachial_artery", "radial_collateral_artery|middle_collateral_artery"), ("brachial_artery", "superior_ulnar_collateral_artery|inferior_ulnar_collateral_artery"),
+                     ("common_interosseous_artery", "posterior_interosseous_artery|recurrent_interosseous_artery")]
+
+
+def named_centrelines(rows):
+    """the vessel / nerve pairs that continue each other across the elbow, from the continuity rows (only the pairs that touch in the Z source appear)"""
+    out = []
+    for pa, pb in NAMED_CENTRELINES:
+        for r in rows:
+            for x, y in ((r["a"], r["b"]), (r["b"], r["a"])):
+                if re.search(pa, x) and re.search(pb, y):
+                    out.append({"a": x, "b": y, "source_mm": r["source_mm"], "before_mm": r["before_mm"], "after_mm": r["after_mm"]})
+                    break
     return out
 
 
