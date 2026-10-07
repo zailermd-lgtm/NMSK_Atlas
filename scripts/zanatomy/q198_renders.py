@@ -67,6 +67,8 @@ def region_scene(S, side, c, r=135, hl=None, sysset=None, bones_only_side=True):
         v, f = s["v"], s["f"]
         if len(f) == 0 or np.linalg.norm(v - c, axis=1).min() > r:
             continue
+        if s["sys"] == "bone" and not re.match(rf"^(humerus|radius|ulna)_{side}", s["id"]):
+            continue                                                  # ribs / scapula / hand bones are not part of the elbow close-up
         cen = v[f].mean(1)
         keep = np.linalg.norm(cen - c, axis=1) < r
         if atree is not None and s["sys"] != "bone":

@@ -32,12 +32,17 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, her=None) -> dict:
     rep["chain"]["left"] = rl
     ch_r, rr = E.fit_right(by, raw, her, log=log)
     rep["chain"]["right"] = rr
+    from scripts.transfer.zan_to_vhf_whole_body import DEFAULT_REPORT
+    regions = json.loads(DEFAULT_REPORT.read_text())["region_of_structure"]
     for side, ch in (("l", ch_l), ("r", ch_r)):
-        r = E.refine_side(side, by, raw, ch, skin, skin_tree, log=log)
+        r = E.refine_side(side, by, raw, ch, skin, skin_tree, regions=regions, log=log)
         rep["bones"].update(r["bones"])
         rep["structures"].update(r["structures"])
+        rep.setdefault("continuity", {})[side] = r["continuity"]
+        rep.setdefault("skin_seams", {})[side] = E.weld_elbow_skin(side, by, raw, log=log)
+        rep["moved_ids"] = sorted(set(rep.get("moved_ids", [])) | set(rep["skin_seams"][side]["moved"]))
         log(f"  Q199 {side}: {len(r['structures'])} structures moved")
-    rep["moved_ids"] = sorted(list(rep["structures"]) + list(rep["bones"]))
+    rep["moved_ids"] = sorted(set(rep["moved_ids"]) | set(rep["structures"]) | set(rep["bones"]))
     return rep
 
 

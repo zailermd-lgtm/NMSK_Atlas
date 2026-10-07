@@ -40,6 +40,10 @@ def nrm(i):
     return re.sub(r"^zan_|(_l|_r)$", "", i)
 
 
+PLURAL = re.compile(r"(nerves|arteries|veins|branches|roots|rami|nodes|vessels|digital|perforating|intercostal|lumbar_arteries|ligaments|bursae|tendons|muscles|plexus)")
+EARLARYNX = re.compile(r"tympan|stapes|stapedius|malleus|incus|arytenoid|cricoarytenoid|auric|cochlea|ossicle|tensor_tympani|vocal")
+
+
 def junction_defects(key, kind, res, fit):
     D = []
     def add(region, side, structure, check, value, unit, sev, detail, src=None, cls=None, extra=None):
@@ -71,7 +75,7 @@ def junction_defects(key, kind, res, fit):
             if ea["flexion_deg"] > 140:
                 add(jn, sd, None, "flexion", ea["flexion_deg"], "deg", 2, f"flexion {ea['flexion_deg']} deg implausible for a standing specimen")
         sk = j.get("skin") or {}
-        if sk and kind == "zan":
+        if sk and kind == "zan" and jn in ("elbow", "wrist", "knee", "ankle"):
             no = sk.get("open_or_missing_sections", 0)
             add(jn, sd, None, "skin_open_sections", no, "slices of 57", STEP(no, THRESH["skin_open_sections"]) + (1 if no >= 3 else 0), f"skin outline not closed in {no}/57 cross-sections (patches torn apart >2 mm)", extra={"cause": "skin_envelope"})
             st = sk.get("max_radius_step_mm_per_3mm", 0)
@@ -106,16 +110,16 @@ def junction_defects(key, kind, res, fit):
                         {"plane": f"{cp['axis']}={cp['plane_mm']}"})
             if s_.get("open_edge_frac", 0) > THRESH["open_edge_frac"][0] and s_["sys"] in ("muscle",):
                 add(jn, sd, nm, "ragged_open_boundary", s_["open_edge_frac"], "frac of edges", 2 if s_["open_edge_frac"] > THRESH["open_edge_frac"][1] else 1, f"{nm}: {s_['open_edges']} open boundary edges ({100*s_['open_edge_frac']:.1f}% of edges; {s_['open_loops_in_zone']} loops in zone)", src, cls)
-            if s_.get("max_island_gap_mm", 0) > THRESH["island_gap_mm"] and s_.get("max_island_share_gt5mm", 0) > THRESH["island_area_share"][0]:
+            if s_["sys"] in ("muscle", "tendon") and 5 < s_.get("max_island_gap_mm", 0) <= 60 and s_.get("max_island_share_gt5mm", 0) > THRESH["island_area_share"][0] and not PLURAL.search(nm):
                 add(jn, sd, nm, "disconnected_island", s_["max_island_share_gt5mm"], "area share", STEP(s_["max_island_share_gt5mm"], THRESH["island_area_share"]),
                     f"{nm}: detached piece with {100*s_['max_island_share_gt5mm']:.1f}% of its area, {s_['max_island_gap_mm']} mm from the main belly", src, cls)
-            if s_.get("max_axial_gap_mm", 0) > THRESH["axial_gap_mm"][0]:
+            if s_["sys"] in ("muscle", "tendon") and s_.get("max_axial_gap_mm", 0) > THRESH["axial_gap_mm"][0] and s_.get("max_axial_gap_mm", 0) < 150:
                 add(jn, sd, nm, "axial_gap", s_["max_axial_gap_mm"], "mm", STEP(s_["max_axial_gap_mm"], THRESH["axial_gap_mm"]), f"{nm}: empty stretch {s_['max_axial_gap_mm']} mm along its axis", src, cls)
             o, ox = s_.get("outside_skin_pct", 0), s_.get("outside_skin_max_mm", 0)
             if ox > 5:
                 add(jn, sd, nm, "outside_skin", o, "% of vertices", STEP(o, THRESH["outside_skin_pct_with_>5mm_excursion"]), f"{o}% of {nm} lies outside the skin (up to {ox} mm)", src, cls, {"cause_hint": "soft_vs_envelope"})
             ib, ibx = s_.get("inside_bone_pct", 0), s_.get("inside_bone_max_mm", 0)
-            if ibx > 3 and s_["sys"] != "cartilage":
+            if ibx > 3 and s_["sys"] in ("muscle", "tendon") and not EARLARYNX.search(nm):
                 add(jn, sd, nm, "inside_bone", ib, "% of vertices", STEP(ib, THRESH["inside_bone_pct_with_>3mm_depth"]), f"{ib}% of {nm} inside bone (up to {ibx} mm)", src, cls)
         for nm, ov in (j.get("muscle_overlap") or {}).items():
             if isinstance(ov, dict) and ov.get("overlap_pct", 0) > THRESH["muscle_overlap_pct"][0] and ov.get("vol_cm3", 0) > 3:
@@ -124,19 +128,19 @@ def junction_defects(key, kind, res, fit):
             if "error" in t or not t.get("near_zone"):
                 continue
             nm = t["id"]
-            if t.get("max_island_gap_mm", 0) > 5:
+            if 5 < t.get("max_island_gap_mm", 0) <= 150 and not PLURAL.search(nm):
                 add(jn, sd, nm, "tube_gap", t["max_island_gap_mm"], "mm", STEP(t["max_island_gap_mm"], [5, 12, 25]), f"{nm}: separate pieces {t['max_island_gap_mm']} mm apart (not continuous)", t.get("src"), t.get("cls"))
             o, ox = t.get("outside_skin_pct", 0), t.get("outside_skin_max_mm", 0)
             if ox > 5 and o > 5:
                 add(jn, sd, nm, "outside_skin", o, "% of vertices", STEP(o, THRESH["outside_skin_pct_with_>5mm_excursion"]), f"{o}% of {nm} lies outside the skin (up to {ox} mm)", t.get("src"), t.get("cls"), {"cause_hint": "soft_vs_envelope"})
             ib, ibx = t.get("inside_bone_pct", 0), t.get("inside_bone_max_mm", 0)
-            if ibx > 3 and ib > 8:
+            if ibx > 3 and ib > 8 and not EARLARYNX.search(nm) and jn in ("shoulder", "elbow", "wrist", "hip", "knee", "ankle") and not PLURAL.search(nm):
                 add(jn, sd, nm, "inside_bone", ib, "% of vertices", STEP(ib, THRESH["inside_bone_pct_with_>3mm_depth"]), f"{ib}% of {nm} inside bone (up to {ibx} mm)", t.get("src"), t.get("cls"))
         for c in j.get("chains") or []:
             if "min_surface_vertex_mm" not in c:
                 continue
             gp = c["min_surface_vertex_mm"]
-            add(jn, sd, c["child"], "chain_gap", gp, "mm", STEP(gp, THRESH["chain_gap_mm"]), f"{c['parent']} -> {c['child']}: the two vessel/nerve meshes are {gp} mm apart (end-to-end {c.get('end_to_end_mm')} mm)")
+            add(jn, sd, c["child"], "chain_gap", gp, "mm", min(STEP(gp, THRESH["chain_gap_mm"]), 2 if "_n_" in c["child"] or "nerve" in c["child"] or c["child"].endswith("_n_l") or c["child"].endswith("_n_r") else 3), f"{c['parent']} -> {c['child']}: the two vessel/nerve meshes are {gp} mm apart (end-to-end {c.get('end_to_end_mm')} mm)")
     # seams (global)
     for sp in res.get("seam_planes", []):
         add("seam", None, None, "block_seam_plane", sp["n_structures"], "structures cut in one plane", 3 if sp["total_area_mm2"] > 3000 else 2,

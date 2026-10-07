@@ -223,7 +223,7 @@ def zone_ids(S, J, sysset, sidef=True, minv=3):
     c, R = J["centre"], J["R"]
     out = []
     for s in S:
-        if s["sys"] not in sysset:
+        if s["sys"] not in sysset or s["id"] == "skin":
             continue
         if sidef and J["side"] in ("l", "r") and s["side"] not in (J["side"], "m"):
             continue
@@ -275,7 +275,7 @@ def audit_junction(S, byid, J, B, skin, bf, kind, only_flags, skin_structs=None)
             rec["elbow_angles"] = elbow_angles(J, B, J["side"])
         except Exception as ex:  # noqa
             rec["elbow_angles"] = {"error": repr(ex)}
-    rec["skin"] = skin_profile(skin_structs, J, half=min(90, R)) if J["name"] in ("elbow", "wrist", "knee", "ankle", "shoulder") else {}
+    rec["skin"] = skin_profile(skin_structs, J, half=min(90, R)) if J["name"] in ("elbow", "wrist", "knee", "ankle") else {}
     softsys = SOFT_SYS_OWN if kind == "own" else SOFT_SYS_Z
     soft, tubes = [], []
     for s in zone_ids(S, J, softsys):

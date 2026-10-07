@@ -107,6 +107,7 @@ def main(bk, fk):
             if pb and db:
                 Rrel = tf[pb[0]]["R"].T @ tf[db[0]]["R"]
                 rec["articulation_change_deg"] = round(rot_angle(Rrel), 1)
+                rec["joint_centre_split_mm"] = round(float(np.linalg.norm(tf[pb[0]]["c_img"] - tf[db[0]]["c_img"])), 1)   # the same base joint centre mapped by the proximal bone's frame vs the distal bone's frame
                 rec["bone_frame_rigid_rms_mm"] = {b: round(tf[b]["rms"], 2) for b in bones}
         # stretch of structures in zone (fit edge / base edge relative to own median)
         st = []

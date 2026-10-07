@@ -30,7 +30,7 @@ from scipy.spatial.transform import Rotation as Rot
 REPO = Path(__file__).resolve().parents[2]
 EVID = REPO / "data" / "derived" / "Q199_left_arm_evidence.npz"
 
-W_SOFT_MM, W_POWER, W_NULL_MM = 6.0, 2.0, 55.0
+W_SOFT_MM, W_POWER, W_NULL_MM = 6.0, 2.0, 90.0
 HEAD_SHIFT_MM = 4.0
 SWING_DEG_W = 0.15
 CAP_MM = 7.0
@@ -74,12 +74,13 @@ class Chain:
         self.side = side
         v = by["humerus" + s]["v"]
         self.hc = sphere_centre(v[v[:, 1] > v[:, 1].max() - 30.0])            # humeral head (top 30 mm of the bone)
-        self.u = v[v[:, 1] > np.percentile(v[:, 1], 70)].mean(0) - v[v[:, 1] < np.percentile(v[:, 1], 30)].mean(0)
+        self.u = v[v[:, 1] >= np.percentile(v[:, 1], 70)].mean(0) - v[v[:, 1] <= np.percentile(v[:, 1], 30)].mean(0)
         self.u /= np.linalg.norm(self.u)
         self.cw = (distal_end(raw["radius" + s], by["radius" + s]["v"]) + distal_end(raw["ulna" + s], by["ulna" + s]["v"])) / 2
         ce = (distal_end(raw["radius" + s], by["radius" + s]["v"], proximal=True) + distal_end(raw["ulna" + s], by["ulna" + s]["v"], proximal=True)) / 2
         af = (ce - self.cw) / np.linalg.norm(ce - self.cw)
-        self.e1 = np.cross(af, [0, 1.0, 0])
+        ref = np.array([0, 1.0, 0]) if abs(af[1]) < 0.95 else np.array([0, 0, 1.0])
+        self.e1 = np.cross(af, ref)
         self.e1 /= np.linalg.norm(self.e1)
         self.e2 = np.cross(af, self.e1)
         self.ce = ce
@@ -283,7 +284,10 @@ ATTACH_CATS = ("muscle", "tendon", "ligament", "bursa")
 ATTACH_ZONE_MM, ATTACH_TOL_MM, ATTACH_CAP_MM = 8.0, 3.0, 15.0
 CONT_CATS = ("muscle", "tendon", "ligament", "fascia", "vessel", "nerve", "bursa", "cartilage")
 GAP_TOL_MM, GAP_TOL_VESSEL_MM, GAP_CAP_MM = 5.0, 3.0, 12.0
-PREFER_FIELD_MARGIN = 4.0
+PREFER_FIELD_MARGIN = 2.0
+ADJUST_CAP_MM = 15.0          # push-out / skin clamp / volume / attachment adjustments may not move a vertex further than this from the field's own result
+ELBOW_ZONE_MM = 100.0         # continuity is judged where the contact lies within this distance of the Z-source elbow joint
+ARM_REGIONS = ("upper_limb", "forearm_hand")
 
 
 def _sstep(x):
@@ -329,13 +333,16 @@ def _vol_out(vr):
     return 0.0 if vr is None else max(0.65 - vr, vr - 1.5, 0.0)
 
 
-def cost(m, m0, cat):
-    c = 2.0 * m.get("outside_her_skin_pct", 0) + 0.5 * (m.get("stretch_area_outside_0.67_1.5_pct", 0) or 0) + 3.0 * m.get("folded_edges_pct", 0)
+ATTACH_W = 1.5
+
+
+def cost(m, m0, cat, att_excess=0.0):
+    c = 2.0 * m.get("outside_her_skin_pct", 0) + 1.0 * (m.get("stretch_area_outside_0.67_1.5_pct", 0) or 0) + 6.0 * m.get("folded_edges_pct", 0)
     if cat not in BONE_OK_CATS:
         c += 2.0 * m.get("inside_z_bone_pct", 0)
     if cat == "muscle":
         c += 60.0 * max(0.0, _vol_out(m.get("volume_ratio_vs_source")) - _vol_out(m0.get("volume_ratio_vs_source")))
-    return c
+    return c + ATTACH_W * att_excess
 
 
 def at_nearest(Dfull, vfull, P, k=3):
@@ -346,17 +353,43 @@ def at_nearest(Dfull, vfull, P, k=3):
     return (Dfull[j] * w[:, :, None]).sum(1)
 
 
-def make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb):
+def vol_clamp(v, r, f, lo, hi):
+    from scripts.zanatomy import q190_refine as Q
+    vs = abs(Q.volume(r, f)) * Q.BODY_SCALE ** 3
+    if vs < 1e-6:
+        return v
+    ratio = abs(Q.volume(v, f)) / vs
+    lim = min(max(ratio, lo), hi)
+    if lim == ratio:
+        return v
+    c = v.mean(0)
+    return c + (v - c) * (lim / ratio) ** (1 / 3)
+
+
+def cap_to(v1, ref, cap=ADJUST_CAP_MM):
+    """no vertex further than `cap` from `ref` (the field's own result)"""
+    d = v1 - ref
+    n = np.linalg.norm(d, axis=1)
+    k = np.minimum(1.0, cap / np.maximum(n, 1e-9))
+    return ref + d * k[:, None]
+
+
+def make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, vr0=None):
     from scripts.zanatomy import q190_refine as Q
     from scripts.zanatomy import q191_hand as H
-    v1 = v0 + Dc
+    ref = v0 + Dc
+    v1 = ref.copy()
     ones = np.ones(len(v1), bool)
     if cat in PUSH_CATS:
         v1 = H.push_out_of_bones(v1, f, zb, ones, tol=1.5, max_move=7.0)
     if cat not in ("ligament", "bursa", "cartilage"):
         v1 = H.clamp_inside_skin(v1, f, ones, skin, skin_tree)
-    if cat == "muscle" and _closed(f) and not H.NOT_BODY.search(i):
-        v1, _ = Q.volume_guard(v1, r, f)
+    v1 = cap_to(v1, ref)
+    if _closed(f) and not H.NOT_BODY.search(i):
+        if cat == "muscle":
+            v1, _ = Q.volume_guard(v1, r, f)
+        elif vr0 is not None:
+            v1 = vol_clamp(v1, r, f, vr0 * 0.9, vr0 * 1.1)
     return v1
 
 
@@ -366,7 +399,7 @@ class Attach:
     def __init__(self, side, by, raw):
         from scripts.zanatomy import q190_metrics as Mx
         s = "_" + side
-        self.bones = [n + s for n in ("humerus", "radius", "ulna")]
+        self.bones = [n + s for n in ("humerus", "radius", "ulna", "scapula", "clavicle") if n + s in by]
         self.scale = Mx.BODY_SCALE
         self.smp = {b: bary_samples(raw[b], by[b]["f"], 6000, seed=5) for b in self.bones}
         src = {b: cKDTree(at(raw[b], self.smp[b])) for b in self.bones}
@@ -393,6 +426,13 @@ class Attach:
             out[b] = {"source_mm": round(float(np.median(d0)), 1), "now_mm": round(float(np.median(d1)), 1), "vertices": int(len(idx))}
         return out
 
+    def excess(self, i, v, trees):
+        """sum over the footprint bones of how much the median footprint distance exceeds the Z-source one (+ATTACH_TOL_MM), mm"""
+        tot = 0.0
+        for b, (idx, d0) in self.zone.get(i, {}).items():
+            tot += max(0.0, float(np.median(trees[b].query(v[idx])[0])) - float(np.median(d0)) - ATTACH_TOL_MM)
+        return tot
+
     def pull(self, i, v, f, trees, cap=ATTACH_CAP_MM):
         """footprint vertices that sit further from their bone than in the Z source (+ATTACH_TOL_MM) are brought back to the source distance (<= cap), spread over the mesh"""
         from scripts.zanatomy import q190_refine as Q
@@ -415,13 +455,15 @@ class Attach:
         return v + Q._smooth_push(f, D, 12), n_pull
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, log=print, only=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
     F = Field(side, by, raw, ch)
     old = {n: by[n]["v"].copy() for n in ("humerus" + s, "radius" + s, "ulna" + s)}
     att = Attach(side, by, raw)
+    jsmp, jsel, _, _ = joint_pairs(raw, side, by)
+    jc = at(raw["humerus" + s], jsmp["humerus"])[jsel].mean(0)          # the Z-source elbow joint (raw frame): where continuity is judged
     att_before_trees = att.trees(by)
     for n, fn in (("humerus", ch.hum), ("radius", ch.rad), ("ulna", ch.uln)):
         by[n + s]["v"] = fn(old[n + s])
@@ -430,7 +472,8 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, log=print, only=None)
     rep = {"bones": {n + s: {"max_move_mm": round(float(np.linalg.norm(by[n + s]["v"] - old[n + s], axis=1).max()), 1),
                               "mean_move_mm": round(float(np.linalg.norm(by[n + s]["v"] - old[n + s], axis=1).mean()), 1)} for n in ("humerus", "radius", "ulna")},
            "structures": {}}
-    ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)]
+    ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)
+           and (regions is None or regions.get(i) in ARM_REGIONS or i in att.zone)]       # arm structures, plus the trunk muscles that attach to the humerus / forearm bones
     v_before = {i: by[i]["v"].copy() for i in ids}
     for i in ids:
         d = by[i]
@@ -442,13 +485,15 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, log=print, only=None)
         cands = [("field", D)]
         if len(v0) > 30:
             cands.append(("field, low-passed 10 mm", lowpass(D, f, 10.0)))
+            cands.append(("field, low-passed 25 mm", lowpass(D, f, 25.0)))
         cands.append(("mean translation of the field", np.tile(D.mean(0), (len(v0), 1))))
         res = []
         for name, Dc in cands:
-            v1 = make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb)
+            v1 = make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
             m1 = _metrics(v1, r, f, skin, zb)
-            res.append((cost(m1, m0, cat), name, v1, m1))
-            if name == "field" and cost(m1, m0, cat) <= cost(m0, m0, cat) + 1.0:
+            c1 = cost(m1, m0, cat, att.excess(i, v1, att_trees))
+            res.append((c1, name, v1, m1))
+            if name == "field" and c1 <= cost(m0, m0, cat, att.excess(i, v0, att_before_trees)) + 1.0:
                 break                                   # the field is not worse than before: no need to try the others
         best = min(res, key=lambda t: t[0])
         pick = res[0] if res[0][0] <= best[0] + PREFER_FIELD_MARGIN else best
@@ -459,9 +504,9 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, log=print, only=None)
         if cat in ATTACH_CATS and i in att.zone:
             v2, n_pull = att.pull(i, v1, f, att_trees)
             if n_pull:
-                v2 = make_candidate(v1, f, r, cat, i, v2 - v1, skin, skin_tree, zb)
+                v2 = make_candidate(v1, f, r, cat, i, v2 - v1, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
                 m2 = _metrics(v2, r, f, skin, zb)
-                if cost(m2, m0, cat) <= cost(m1, m0, cat) + 3.0:
+                if cost(m2, m0, cat, att.excess(i, v2, att_trees)) <= cost(m1, m0, cat, att.excess(i, v1, att_trees)) + 3.0:
                     v1, m1 = v2, m2
                 else:
                     n_pull = 0
@@ -472,7 +517,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, log=print, only=None)
         rep["structures"][i] = {"cat": cat, "ladder": name, "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m0, "after": m1,
                                 "attachment_before": a_before, "attachment_after": a_after, "attachment_pull_vertices": n_pull}
     before_closure = {i: by[i]["v"].copy() for i in rep["structures"]}
-    rep["continuity"] = close_gaps(side, by, raw, set(rep["structures"]), skin, skin_tree, zb, log=log)
+    rep["continuity"] = close_gaps(side, by, raw, set(rep["structures"]), skin, skin_tree, zb, jc, log=log)
     for i, c in rep["structures"].items():
         d = by[i]
         q = d.pop("_q199")
@@ -510,7 +555,7 @@ def _note(side, i, cat, q, m1, mv, cont):
     return txt
 
 
-def contact_pairs(side, by, raw, ids, movable, touch_mm=3.0):
+def contact_pairs(side, by, raw, ids, movable, centre, touch_mm=3.0):
     """pairs of arm structures that touch in the Z source (vertex sets < touch_mm apart, x body scale), at least one of them moved: (a, b, d0)"""
     from scripts.zanatomy import q190_metrics as Mx
     sub = {i: raw[i][::max(1, len(raw[i]) // 1200)].astype(float) for i in ids if by[i]["cat"] in CONT_CATS and len(raw[i]) > 3}
@@ -526,8 +571,10 @@ def contact_pairs(side, by, raw, ids, movable, touch_mm=3.0):
                 continue
             if np.linalg.norm(cen[a] - cen[b]) > ext[a] + ext[b] + touch_mm + 5:
                 continue
-            d0 = float(tr[b].query(sub[a])[0].min()) * Mx.BODY_SCALE
-            if d0 <= touch_mm:
+            dd, jj = tr[b].query(sub[a])
+            k = int(np.argmin(dd))
+            d0 = float(dd[k]) * Mx.BODY_SCALE
+            if d0 <= touch_mm and np.linalg.norm(sub[a][k] - centre) < ELBOW_ZONE_MM:
                 out.append((a, b, d0))
     return out
 
@@ -538,7 +585,7 @@ def _gap(by, a, b):
     return float(cKDTree(pb).query(pa)[0].min())
 
 
-def close_gaps(side, by, raw, movable, skin, skin_tree, zb, log=print, rounds=2):
+def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, log=print, rounds=2):
     """pairs that touch in the Z source and are further apart now (> GAP_TOL_MM; vessel / nerve pairs GAP_TOL_VESSEL_MM): both structures (only the moved one if the other did not
     move) go half way to each other over the footprint that touches in the source (<= GAP_CAP_MM each, spread over the mesh, volume / fold guarded)"""
     from scripts.zanatomy import q190_refine as Q
@@ -546,7 +593,7 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, log=print, rounds=2)
     from scripts.zanatomy import q190_metrics as Mx
     allids = [i for i in side_ids(by, side) if i in movable or np.linalg.norm(by[i]["v"].mean(0) - by["humerus_" + side]["v"].mean(0)) < 330.0]
     movable = set(movable)
-    pairs = contact_pairs(side, by, raw, allids, movable)
+    pairs = contact_pairs(side, by, raw, allids, movable, centre)
     g_field = {(a, b): _gap(by, a, b) for a, b, _ in pairs}
     tolof = lambda a, b: GAP_TOL_VESSEL_MM if (by[a]["cat"] in ("vessel", "nerve") and by[b]["cat"] in ("vessel", "nerve")) else GAP_TOL_MM
     v_start = {i: by[i]["v"].copy() for i in allids}
@@ -597,3 +644,92 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, log=print, rounds=2)
             "gap_gt_tol_after_closure": int(sum(r["after_closure_mm"] > max(r["tol_mm"], r["source_mm"] + 2) for r in rows)), "structures_moved_by_closure": len(changed)}
     log(f"  Q199 continuity {side}: {summ}")
     return {"summary": summ, "rows": rows, "per_structure": {k: v for k, v in per.items() if k in movable}, "closure_moved": sorted(changed)}
+
+
+# ------------------------------------------------------------------------------------------------ skin seams
+SKIN_ELBOW_RE = re.compile(r"skin_(anterior|posterior)_region_of_(arm|elbow|forearm)|skin_cubital_fossa|skin_(medial|lateral)_(border_of_forearm|bicipital_groove)")
+
+
+def skin_seam_rows(by, raw, side, ids):
+    """adjacent skin patches (their borders share Z-source vertices, < 1.5 mm): the step between the shared border vertices now"""
+    rows = []
+    for x in range(len(ids)):
+        for y in range(x + 1, len(ids)):
+            i, j = ids[x], ids[y]
+            d, k = cKDTree(raw[j]).query(raw[i])
+            sel = d < 1.5
+            if sel.sum() < 3:
+                continue
+            step = np.linalg.norm(by[i]["v"][sel] - by[j]["v"][k[sel]], axis=1)
+            rows.append({"a": i, "b": j, "border_vertices": int(sel.sum()), "step_mm_p95": round(float(np.percentile(step, 95)), 2), "step_mm_max": round(float(step.max()), 2)})
+    return rows
+
+
+def weld_borders(by, raw, patches, movable, rounds=2, passes=24, cap=8.0):
+    """borders of adjacent skin patches (vertices < 1.5 mm apart in the Z source, nearest partner): the two border vertices go to their common mean when both patches may move, a
+    movable patch goes all the way to a fixed neighbour; the correction is spread over the movable patch (no pleat)"""
+    from scripts.zanatomy import q190_refine as Q
+    pairs = []
+    for x in range(len(patches)):
+        for y in range(x + 1, len(patches)):
+            a, b = patches[x], patches[y]
+            if a not in movable and b not in movable:
+                continue
+            d, k = cKDTree(raw[b]).query(raw[a])
+            sel = np.where(d < 1.5)[0]
+            if len(sel) >= 3:
+                pairs.append((a, b, sel, k[sel]))
+    moved = {}
+    for _ in range(rounds):
+        corr = {i: np.zeros_like(by[i]["v"]) for i in movable}
+        cnt = {i: np.zeros(len(by[i]["v"])) for i in movable}
+        for a, b, ia, ib in pairs:
+            vec = by[b]["v"][ib] - by[a]["v"][ia]
+            sa, sb = (0.5, 0.5) if (a in movable and b in movable) else ((1.0, 0.0) if a in movable else (0.0, 1.0))
+            if sa:
+                corr[a][ia] += sa * vec
+                cnt[a][ia] += 1
+            if sb:
+                corr[b][ib] -= sb * vec
+                cnt[b][ib] += 1
+        for i in movable:
+            m = cnt[i] > 0
+            if not m.any():
+                continue
+            c = np.zeros_like(corr[i])
+            c[m] = corr[i][m] / cnt[i][m][:, None]
+            n = np.linalg.norm(c, axis=1)
+            c *= np.minimum(1.0, cap / np.maximum(n, 1e-9))[:, None]
+            c2 = Q._smooth_push(by[i]["f"], c, passes)
+            c2 = np.where((n > 1e-6)[:, None], c, c2)
+            by[i]["v"] = by[i]["v"] + c2
+            moved[i] = moved.get(i, 0.0) + float(np.linalg.norm(c2, axis=1).max())
+    return moved
+
+
+def weld_elbow_skin(side, by, raw, log=print):
+    """the skin patches of the arm / elbow / forearm tile ONE surface but were fitted to her skin one by one (Q186 / Q190 / Q194): the border vertices are welded (weld_borders), the
+    patches around the set (wrist, thorax) stay where they are; seam steps > 3 mm are the defect"""
+    s = "_" + side
+    ids = [i for i, d in by.items() if d["cat"] == "skin" and i.endswith(s) and SKIN_ELBOW_RE.search(i)]
+    around = [i for i, d in by.items() if d["cat"] == "skin" and i.endswith(s)]
+    elbow_set = set(ids)
+    before = skin_seam_rows(by, raw, side, around)
+    v0 = {i: by[i]["v"].copy() for i in ids}
+    moved = weld_borders(by, raw, around, elbow_set)
+    after = skin_seam_rows(by, raw, side, around)
+    pick = lambda rows: [r for r in rows if r["a"] in elbow_set or r["b"] in elbow_set]
+    rep = {}
+    for i in ids:
+        mv = np.linalg.norm(by[i]["v"] - v0[i], axis=1)
+        if mv.max() < 0.05:
+            continue
+        sb = max([r["step_mm_max"] for r in before if i in (r["a"], r["b"])] or [0])
+        sa = max([r["step_mm_max"] for r in after if i in (r["a"], r["b"])] or [0])
+        rep[i] = {"max_correction_mm": round(float(mv.max()), 2), "mean_correction_mm": round(float(mv.mean()), 2), "seam_step_max_before_mm": sb, "seam_step_max_after_mm": sa}
+        by[i]["fit_note"] = (by[i].get("fit_note") or "") + (
+            f" Q199: skin patch welded to its neighbours across the arm / elbow / forearm seams (largest seam step {sb} -> {sa} mm; mean move {mv.mean():.1f} mm, max {mv.max():.1f} mm).")
+    summ = lambda rows: {"seams": len(rows), "steps_gt_3mm": int(sum(r["step_mm_max"] > 3 for r in rows)), "max_step_mm": round(max([r["step_mm_max"] for r in rows] or [0]), 2)}
+    out = {"patches": ids, "moved": rep, "before": summ(pick(before)), "after": summ(pick(after)), "seams_before": pick(before), "seams_after": pick(after)}
+    log(f"  Q199 skin seams {side}: {out['before']} -> {out['after']}")
+    return out

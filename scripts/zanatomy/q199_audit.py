@@ -44,16 +44,14 @@ def in_box(v, side, pad=0.0):
     return bool(np.all(v.max(0) >= lo - pad) and np.all(v.min(0) <= hi + pad)) and bool(np.all(c >= lo - 60) and np.all(c <= hi + 60))
 
 
-def elbow_ids(M, raw, side, cats=SOFT):
+def elbow_ids(M, raw, side, jc, cats=SOFT, radius=140.0):
+    """soft structures of the side with vertices within `radius` mm of the Z-source elbow joint centre (raw frame)"""
     s = "_" + side
     out = []
     for i, d in M.items():
-        if not (i.endswith(s) or s + "_" in i) or cat_of(d) not in cats:
+        if not (i.endswith(s) or s + "_" in i) or cat_of(d) not in cats or i not in raw:
             continue
-        v = d["v"]
-        lo, hi = ELBOW_BOX[side]
-        # structures that have vertices in the elbow box (raw frame is not used: the audit is about where they are)
-        if np.any(np.all((v >= lo) & (v <= hi), axis=1)):
+        if np.any(np.linalg.norm(raw[i] - jc, axis=1) < radius):
             out.append(i)
     return out
 
@@ -80,11 +78,29 @@ def attachments(Mb, Ma, raw, side, ids):
             row[n] = {"footprint_vertices": int(len(fp)), "source_mm": round(float(np.median(d0[fp])), 1),
                       "before_mm": round(float(np.median(tb[n].query(Mb[i]["v"][fp])[0])), 1), "after_mm": round(float(np.median(ta[n].query(Ma[i]["v"][fp])[0])), 1)}
         if row:
+            rec = record_attachments(i)
+            if rec:
+                exp = [b.rsplit("_", 1)[0] for b in (rec.get("origin_bone"), rec.get("insertion_bone")) if b]
+                exp = [b for b in exp if b in ("humerus", "radius", "ulna")]
+                row["_atlas_record"] = {"origin_bone": rec.get("origin_bone"), "origin_landmark": rec.get("origin_landmark"), "insertion_bone": rec.get("insertion_bone"),
+                                        "insertion_landmark": rec.get("insertion_landmark"), "expected_on_elbow_bones": exp,
+                                        "expected_footprint_found_in_Z_source": [b for b in exp if b in row],
+                                        "after_gap_within_source_plus_3mm": [b for b in exp if b in row and row[b]["after_mm"] <= row[b]["source_mm"] + 3.0]}
             out[i] = row
     return out
 
 
-def continuity(Mb, Ma, raw, side, ids, touch_mm=3.0):
+def record_attachments(mid):
+    """the atlas record's attachments block (data/muscles/*/<id>.json), if the Z id has one"""
+    for p in (REPO / "data" / "muscles").glob(f"*/{mid}.json"):
+        try:
+            return json.loads(p.read_text()).get("attachments")
+        except (OSError, ValueError):
+            return None
+    return None
+
+
+def continuity(Mb, Ma, raw, side, ids, jc, touch_mm=3.0):
     """pairs of elbow structures that touch in the Z source (< touch_mm between vertex sets): gap now (min distance of the vertex sets, shipped meshes: surface-sampled)"""
     from scripts.zanatomy import q191_hand as H
     S = {}
@@ -102,8 +118,10 @@ def continuity(Mb, Ma, raw, side, ids, touch_mm=3.0):
         for b_ in range(a_ + 1, len(ids)):
             i, j = ids[a_], ids[b_]
             ra = raw[i][::max(1, len(raw[i]) // 1500)]
-            d0 = float(rt[j].query(ra)[0].min()) * __import__("scripts.zanatomy.q190_metrics", fromlist=["x"]).BODY_SCALE
-            if d0 > touch_mm:
+            dd, _ = rt[j].query(ra)
+            k = int(np.argmin(dd))
+            d0 = float(dd[k]) * __import__("scripts.zanatomy.q190_metrics", fromlist=["x"]).BODY_SCALE
+            if d0 > touch_mm or np.linalg.norm(ra[k] - jc) > E.ELBOW_ZONE_MM:
                 continue
             gb = float(tb[j].query(pts_b[i])[0].min())
             ga = float(ta[j].query(pts_a[i])[0].min())
@@ -131,22 +149,11 @@ def containment(M, skin, bones, ids):
 
 
 def skin_seams(M, raw, side):
-    """adjacent skin patches around the elbow (they share a border in the Z source: raw vertices < 1.5 mm apart): distance of the shared-border vertices now"""
     s = "_" + side
-    ids = [i for i, d in M.items() if cat_of(d) == "skin" and (i.endswith(s)) and np.any(np.all((d["v"] >= ELBOW_BOX[side][0] - 20) & (d["v"] <= ELBOW_BOX[side][1] + 20), axis=1))]
-    rows = []
-    for a_ in range(len(ids)):
-        for b_ in range(a_ + 1, len(ids)):
-            i, j = ids[a_], ids[b_]
-            if len(raw[i]) != len(M[i]["v"]) or len(raw[j]) != len(M[j]["v"]):
-                continue
-            d, k = cKDTree(raw[j]).query(raw[i])
-            sel = d < 1.5
-            if sel.sum() < 3:
-                continue
-            step = np.linalg.norm(M[i]["v"][sel] - M[j]["v"][k[sel]], axis=1)
-            rows.append({"a": i, "b": j, "border_vertices": int(sel.sum()), "step_mm_p95": round(float(np.percentile(step, 95)), 2), "step_mm_max": round(float(step.max()), 2)})
-    return rows
+    ids = [i for i, d in M.items() if cat_of(d) == "skin" and i.endswith(s) and E.SKIN_ELBOW_RE.search(i)]
+    around = [i for i, d in M.items() if cat_of(d) == "skin" and i.endswith(s)]
+    d = {i: {"v": M[i]["v"]} for i in around}
+    return [r for r in E.skin_seam_rows(d, raw, side, around) if r["a"] in ids or r["b"] in ids]
 
 
 def summary_gaps(rows):
@@ -162,15 +169,16 @@ def audit_pair(Mb, Ma, raw, skin, side, log=print):
     smp, sel, jj, d0 = E.joint_pairs(raw, side, Mb)
     out["joint"] = {"before": E.joint_stat(smp, sel, jj, d0, Mb["humerus" + s]["v"], Mb["radius" + s]["v"], Mb["ulna" + s]["v"]),
                     "after": E.joint_stat(smp, sel, jj, d0, Ma["humerus" + s]["v"], Ma["radius" + s]["v"], Ma["ulna" + s]["v"])}
-    ids = elbow_ids(Ma, raw, side)
+    jc = E.at(raw["humerus" + s], smp["humerus"])[sel].mean(0)
+    ids = elbow_ids(Ma, raw, side, jc)
     out["n_elbow_structures"] = len(ids)
     att = attachments(Mb, Ma, raw, side, ids)
     out["attachments"] = att
-    dev_b = [max(abs(v["before_mm"] - v["source_mm"]) for v in r.values()) for r in att.values()]
-    dev_a = [max(abs(v["after_mm"] - v["source_mm"]) for v in r.values()) for r in att.values()]
+    dev_b = [max(abs(v["before_mm"] - v["source_mm"]) for k, v in r.items() if k != "_atlas_record") for r in att.values()]
+    dev_a = [max(abs(v["after_mm"] - v["source_mm"]) for k, v in r.items() if k != "_atlas_record") for r in att.values()]
     out["attachments_summary"] = {"muscles": len(att), "mean_worst_bone_deviation_from_source_before_mm": round(float(np.mean(dev_b)), 2) if dev_b else None,
                                   "after_mm": round(float(np.mean(dev_a)), 2) if dev_a else None, "muscles_dev_gt5mm_before": int(sum(d > 5 for d in dev_b)), "after": int(sum(d > 5 for d in dev_a))}
-    rows = continuity(Mb, Ma, raw, side, ids)
+    rows = continuity(Mb, Ma, raw, side, ids, jc)
     out["continuity_pairs"] = rows
     out["continuity_summary"] = summary_gaps(rows)
     out["centreline_pairs_summary"] = summary_gaps([r for r in rows if re.search(r"vessel|nerve", r["cats"])])
@@ -182,6 +190,76 @@ def audit_pair(Mb, Ma, raw, skin, side, log=print):
     out["containment_worst_after"] = sorted(((k, v["outside_skin_pct"], v["inside_bone_pct"]) for k, v in pera.items()), key=lambda t: -(t[1] + t[2]))[:12]
     sb, sa = skin_seams(Mb, raw, side), skin_seams(Ma, raw, side)
     out["skin_seams"] = {"before": sb, "after": sa}
+    return out
+
+
+def left_photo_compartment(Mb, Ma, y0=345.0, y1=468.0):
+    """her left upper arm in her photographs (y 345 .. 468): share of the Z muscle volume inside her photographed muscle compartment (muscle-coloured tissue closed over the fascial
+    planes + the humerus, silhouette arm only, q194_forearm.muscle_region), and the distance of the Z humerus section centre to the humerus disc centres of the photographs"""
+    from scipy import ndimage as ndi
+    from scripts.zanatomy import q194_forearm as F
+    P = F.load_photo_masks()
+    xs = F.GRID_LO[0] + np.arange(F.GRID_N[0])
+    out = {}
+    z = np.load(E.EVID)
+    shaft = z["shaft_y_x_z"]
+    names = [i for i, m in Mb.items() if i.endswith("_l") and m["sys"] == "muscle" and re.search(r"biceps|brachialis|triceps|coracobrachialis|anconeus|brachioradialis", i)
+             and "fascia" not in i and "bursa" not in i and "septum" not in i]
+    for tag, M in (("before", Mb), ("after", Ma)):
+        bone = F.occupancy(M["humerus_l"]["v"], M["humerus_l"]["f"])
+        R = F.muscle_region(P, bone, y0, y1)
+        R[xs > -170] = False
+        U = np.zeros(R.shape, bool)
+        for i in names:
+            if M[i]["sys"] == "muscle" and len(M[i]["f"]):
+                U |= F.occupancy(M[i]["v"], M[i]["f"])
+        band = (F.GRID_LO[1] + np.arange(F.GRID_N[1]) >= y0) & (F.GRID_LO[1] + np.arange(F.GRID_N[1]) <= y1)
+        Ub, Rb = U[:, band, :], R[:, band, :]
+        res = []
+        for y, x, zz in shaft:
+            if y > y1:
+                continue
+            c = sec_centre(M["humerus_l"]["v"], M["humerus_l"]["f"], y)
+            if c is not None:
+                res.append(float(np.hypot(c[0] - x, c[1] - zz)))
+        out[tag] = {"muscles": len(names), "muscle_volume_cm3": round(float(Ub.sum()) / 1000, 1), "volume_inside_her_compartment_pct": round(100 * float((Ub & Rb).sum() / max(1, Ub.sum())), 1),
+                    "compartment_volume_cm3": round(float(Rb.sum()) / 1000, 1), "humerus_centre_to_photo_disc_mm_mean": round(float(np.mean(res)), 1) if res else None,
+                    "humerus_centre_to_photo_disc_mm_max": round(float(np.max(res)), 1) if res else None}
+    return out
+
+
+def sec_centre(v, f, y):
+    import trimesh
+    s = trimesh.Trimesh(v, f, process=False).section(plane_origin=[0, y, 0], plane_normal=[0, 1, 0])
+    if s is None:
+        return None
+    best = None
+    for p in s.discrete:
+        P = np.asarray(p)[:, [0, 2]]
+        x, z = P[:, 0], P[:, 1]
+        a = 0.5 * (np.dot(x, np.roll(z, -1)) - np.dot(z, np.roll(x, -1)))
+        if abs(a) > 1e-6 and (best is None or abs(a) > abs(best[0])):
+            cx = np.sum((x + np.roll(x, -1)) * (x * np.roll(z, -1) - np.roll(x, -1) * z)) / (6 * a)
+            cz = np.sum((z + np.roll(z, -1)) * (x * np.roll(z, -1) - np.roll(x, -1) * z)) / (6 * a)
+            best = (a, cx, cz)
+    return None if best is None else (best[1], best[2])
+
+
+def right_label_chamfer(Mb, Ma, her, ids=None):
+    """right arm: shipped Z muscles vs her own-model labels (CT frame): median surface distance label -> Z (coverage of her label) and Z -> label inside the label's y range"""
+    import trimesh
+    from scripts.zanatomy import q191_hand as H
+    out = {}
+    for i in (ids or [k for k in her if k.endswith("_r") and her[k]["cat"] == "muscle" and k in Mb]):
+        lab = trimesh.Trimesh(her[i]["v"], her[i]["f"], process=False).sample(5000)
+        y0, y1 = lab[:, 1].min(), lab[:, 1].max()
+        tl = cKDTree(lab)
+        row = {}
+        for tag, M in (("before", Mb), ("after", Ma)):
+            Z = H.surf_pts(M[i]["v"], M[i]["f"], 5000)
+            row[tag] = {"label_to_Z_median_mm": round(float(np.median(cKDTree(Z).query(lab)[0])), 2),
+                        "Z_to_label_median_mm": round(float(np.median(tl.query(Z[(Z[:, 1] >= y0) & (Z[:, 1] <= y1)])[0])), 2) if ((Z[:, 1] >= y0) & (Z[:, 1] <= y1)).any() else None}
+        out[i] = row
     return out
 
 
@@ -207,6 +285,11 @@ def main(argv=None):
     skin = load_skin("vhf")
     rep = json.loads(Path(a.report).read_text())
     out = {"left": audit_pair(Mb, Ma, raw, skin, "l"), "right": audit_pair(Mb, Ma, raw, skin, "r")}
+    out["left"]["photographs"] = left_photo_compartment(Mb, Ma)
+    from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
+    her = load_her_meshes()
+    out["right"]["labels"] = right_label_chamfer(Mb, Ma, her)
+    out["left"]["ct_labels_upper_arm"] = right_label_chamfer(Mb, Ma, {k: v for k, v in her.items() if k.endswith("_l") and k in ("biceps_brachii_l", "brachialis_l", "triceps_brachii_l")})
     Path(a.out).write_text(json.dumps(out, indent=1, default=float))
     changed, unchanged = diff(Mb, Ma)
     listed = set(rep.get("q199", rep).get("moved_ids", []))
