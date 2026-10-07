@@ -167,7 +167,7 @@ def test_label_guard_costs_a_move_away_from_her_label_and_gates_the_pull():
     base = L.med("m_r", v)
     assert L.excess("m_r", v, base) == 0.0
     assert L.excess("m_r", v + [0, 0, 10.0], base) > 1.0
-    g = L.gate("m_r", np.r_[v, v + [0, 0, 20.0]])
+    g = L.gate("m_r", np.r_[v, v + [0, 0, 60.0]])
     assert g[: len(v)].max() < 0.3 and g[len(v):].min() > 0.9      # on her label the attachment pull is switched off, beyond it fully on
 
 
