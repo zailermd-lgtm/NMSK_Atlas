@@ -137,7 +137,7 @@ def main(argv=None):
     out.mkdir(parents=True, exist_ok=True)
     Mb, Ma = A186.load_viewer(Path(a.before)), A186.load_viewer(Path(a.after))
     for side in ("l", "r"):
-        for name, layers in (("muscles", ("bone", "muscle")), ("vessels_nerves", ("bone", "vessel", "nerve", "ligament", "joint"))):
+        for name, layers in (("bones", ("bone", "joint")), ("muscles", ("bone", "muscle")), ("vessels_nerves", ("bone", "vessel", "nerve", "ligament", "joint"))):
             rows = []
             for tag, M in (("v12", Mb), ("q199", Ma)):
                 views = [{"name": f"{n}", "az": az, "el": 0, "target": ELBOW[side], "half": 95}

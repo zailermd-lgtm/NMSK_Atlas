@@ -153,9 +153,9 @@ def test_weld_borders_closes_a_seam_step_and_pins_to_the_fixed_neighbour():
 
 
 def test_close_sigma_and_caps_are_the_documented_ones():
-    assert E.GAP_TOL_MM == 5.0 and E.GAP_TOL_VESSEL_MM == 3.0 and E.ATTACH_CAP_MM == 15.0 and E.ADJUST_CAP_MM == 15.0
+    assert E.GAP_TOL_MM == 5.0 and E.GAP_TOL_VESSEL_MM == 3.0 and E.ATTACH_CAP_MM == 12.0 and E.ADJUST_CAP_MM == 12.0 and E.SEPARATE_MAX_MM == 3.0
     v1 = np.zeros((3, 3)); ref = np.array([[20.0, 0, 0], [0, 5.0, 0], [0, 0, 0]])
-    assert np.linalg.norm(E.cap_to(ref, v1) - v1, axis=1).max() <= 15.0 + 1e-9
+    assert np.linalg.norm(E.cap_to(ref, v1) - v1, axis=1).max() <= 12.0 + 1e-9
 
 
 REPORT = REPO / "data" / "derived" / "Q199_zan_female_q199_build.json"

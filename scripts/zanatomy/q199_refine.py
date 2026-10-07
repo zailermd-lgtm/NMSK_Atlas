@@ -43,7 +43,7 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, her=None, decimate_fn
         rep.setdefault("skin_seams", {})[side] = E.weld_elbow_skin(side, by, raw, log=log)
         if decimate_fn is not None:
             rep.setdefault("separation", {})[side] = E.separate_elbow(side, by, raw, skin, skin_tree, decimate_fn, log=log)
-            rep["moved_ids"] = sorted(set(rep["moved_ids"]) | {k for k, m in rep["separation"][side]["moved"].items() if m["max_move_mm"] >= 0.3})
+            rep["moved_ids"] = sorted(set(rep.get("moved_ids", [])) | {k for k, m in rep["separation"][side]["moved"].items() if m["max_move_mm"] >= 0.3})
         rep["moved_ids"] = sorted(set(rep.get("moved_ids", [])) | set(rep["skin_seams"][side]["moved"]))
         log(f"  Q199 {side}: {len(r['structures'])} structures moved")
     rep["moved_ids"] = sorted(set(rep["moved_ids"]) | set(rep["structures"]) | {b for b, m in rep["bones"].items() if m["max_move_mm"] > 0.05})

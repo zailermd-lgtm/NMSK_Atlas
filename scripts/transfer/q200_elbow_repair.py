@@ -43,6 +43,29 @@ ARM_STEMS = ["biceps_brachii", "brachialis", "triceps_brachii", "coracobrachiali
 SIDE = {"l": "left", "r": "right"}
 
 
+Q192_FIT = REPO / "data/derived/Q192_left_hand_fit.json"
+Q194_DIR = REPO / "build/viewer_zan_female_q194"
+
+
+def load_q194_left():
+    """left-arm structures of the Q194 Z-Anatomy-female build (READ-ONLY reference geometry: left forearm placed on her photographs, her atlas frame)"""
+    import base64
+    html = (Q194_DIR / "atlas_viewer_zan_female.html").read_text(encoding="utf-8")
+    files = json.loads(re.search(r"BIN_FILES(?:__)?\s*=\s*(\[.*?\])\s*;?\s*$", html, re.M).group(1))
+    blob = b"".join(base64.b64decode((Q194_DIR / f["path"]).read_text().strip()) for f in files)
+    man = json.loads(re.search(r"^window\.__ANATOMY_MANIFEST__=(.*);$", html, re.M).group(1))
+    out = {}
+    for r in man["meshes"]:
+        if r["side"] != "l" or r["sys"] not in ("muscle", "tendon", "fascia", "joint", "ligament"):
+            continue
+        vc, ic = r["vc"], r["ic"]
+        q = np.frombuffer(blob, np.uint16, vc * 3, r["vo"]).reshape(-1, 3).astype(np.float64)
+        f = np.frombuffer(blob, np.uint16, ic * 3, r["io"]).reshape(-1, 3).astype(np.int64)
+        v = np.asarray(r["min"]) + q / 65535.0 * np.asarray(r["span"])
+        out[r["id"]] = dict(v=v, f=f, sys=r["sys"], name=r["name"], rec=r.get("rec") or {})
+    return out
+
+
 def z_ids(own_id):
     m = re.match(r"^(.*)_(l|r)$", own_id)
     if not m:
@@ -120,6 +143,19 @@ def seam_planes(B, min_struct=3, tol=1.0):
     return out
 
 
+ZONE_MM = 150.0     # only seams within this distance of the elbow joint centre are repaired here (shoulder / wrist seams: queue)
+
+
+def elbow_centre(body, side, own):
+    key = "own_m" if body == "vhm" else "own_f"
+    r = json.loads((REPO / f"data/derived/Q198_model_{key}.json").read_text())
+    for j in r["junctions"]:
+        if j["name"] == "elbow" and j["side"] == side:
+            return np.asarray(j["centre_mm"], float)
+    h = own[f"humerus_{side}"]["v"]
+    return h[h[:, 1] < h[:, 1].min() + 8].mean(0)
+
+
 def bone_ids(own, names, side):
     out = []
     for n in names:
@@ -176,134 +212,370 @@ def constrain(cv, axis, pos, sign, skin_mesh, bone_meshes, ramp_mm=8.0):
     return cv + w * (v2 - cv), dict(skin_clipped=int(n_skin), bone_pushed=int(n_bone))
 
 
-def run(body, only=None, log=print):
-    import trimesh
-    cfg = BODY[body]
-    B = Bundle(cfg["src"])
-    own = {}
-    for it in B.items:
-        e = it["e"]
-        if e["id"] not in own:
-            v, f = B.mesh(it)
-            own[e["id"]] = dict(e=e, v=v, f=f)
-    sk = own["skin"]
-    skin_mesh = trimesh.Trimesh(sk["v"], sk["f"], process=False)
-    scratch = Path("/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad")
-    targets = [i for i in own if re.match(r"^(" + "|".join(ARM_STEMS) + r")_(l|r)$", i) and own[i]["e"]["cat"] in ("muscle", "tendon")]
-    if only:
-        targets = [t for t in targets if t in only]
-    zit = load_z(body, targets, scratch / f"zarm_{body}.pkl")
-    from scripts.transfer import zan_to_vhf_whole_body as Q
-    xf = Q.load_zan_to_vhf(report_path=cfg["rep"])
-    bone_cache = {}
+def fit_error(mv, mf, zv, zf, cap, window=30.0):
+    """distance from the measured structure's surface within `window` mm of the seam plane (M's side) to the fitted Z surface"""
+    k = AX[cap["axis"]]
+    P = sample_surface(mv, mf, 12000, 5)
+    P = P[(cap["sign"] * (P[:, k] - cap["pos"]) > -window) & (cap["sign"] * (P[:, k] - cap["pos"]) < 1.0)]
+    if len(P) < 30:
+        return np.array([0.0])
+    return cKDTree(sample_surface(zv, zf, 12000, 6)).query(P)[0]
 
-    def bone_pts(ids):
+
+class Ctx:
+    """everything the two stages share for one body"""
+
+    def __init__(self, body):
+        import trimesh
+        self.body, self.cfg = body, BODY[body]
+        self.B = Bundle(self.cfg["src"])
+        self.own = {}
+        for it in self.B.items:
+            e = it["e"]
+            if e["id"] not in self.own:
+                v, f = self.B.mesh(it)
+                self.own[e["id"]] = dict(e=e, v=v, f=f)
+        sk = self.own["skin"]
+        self.skin_mesh = trimesh.Trimesh(sk["v"], sk["f"], process=False)
+        self.scratch = Path("/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad")
+        self.muscles = [i for i in self.own if re.match(r"^(" + "|".join(ARM_STEMS) + r")_(l|r)$", i) and self.own[i]["e"]["cat"] in ("muscle", "tendon")]
+        want = list(self.muscles) + [f"{b}_{s}" for b in ("humerus", "radius", "ulna") for s in "lr"]
+        self.q192 = None
+        if body == "vhf":
+            self.q192 = json.loads(Q192_FIT.read_text())["transforms_from_Z_source_frame"]
+            want += [k for k in self.q192 if k not in ("radius_l", "ulna_l")]
+        self.zit = load_z(body, want, self.scratch / f"zarm_{body}.pkl")
+        self.q194 = load_q194_left() if body == "vhf" else {}
+        from scripts.transfer import zan_to_vhf_whole_body as Q
+        self.xf = Q.load_zan_to_vhf(report_path=self.cfg["rep"])
+        self.seams = seam_planes(self.B)
+        self.zbone = {}          # bone id -> Z mesh vertices in the body frame (after the Q168 transform and the joint correction)
+        self.corr = {}           # bone id -> (pre-correction vertices in the body frame, correction fn)
+        self.pieces = {}         # new entry id -> dict(v, f, cat, side, rec, rows)
+        self.rows = []
+        self.cbone = {}          # bone id -> (v, f) measured + continuation, for attachment / constraints
+        self._bt = {}
+
+    def side_bones(self, side):
+        return [self.cbone.get(i, (self.own[i]["v"], self.own[i]["f"])) for i in
+                bone_ids(self.own, ["humerus", "radius", "ulna", "scapula", "clavicle", "hand"], side)]
+
+    def bone_tree(self, ids):
         key = tuple(ids)
-        if key not in bone_cache:
-            pts = np.vstack([sample_surface(own[i]["v"], own[i]["f"], 5000, 11) for i in ids])
-            bone_cache[key] = (cKDTree(pts), pts)
-        return bone_cache[key]
+        if key not in self._bt:
+            pts = np.vstack([sample_surface(*self.cbone.get(i, (self.own[i]["v"], self.own[i]["f"])), 5000, 11) for i in ids])
+            self._bt[key] = (cKDTree(pts), pts)
+        return self._bt[key]
 
-    bone_meshes_cache = {}
+    def bone_meshes(self, side):
+        import trimesh
+        return [trimesh.Trimesh(v, f, process=False) for v, f in self.side_bones(side)]
 
-    def bone_meshes(side):
-        if side not in bone_meshes_cache:
-            ids = bone_ids(own, ["humerus", "radius", "ulna", "scapula", "clavicle", "hand"], side)
-            bone_meshes_cache[side] = [trimesh.Trimesh(own[i]["v"], own[i]["f"], process=False) for i in ids]
-        return bone_meshes_cache[side]
 
-    seams = seam_planes(B)
-    rows, adds = [], {}
+def zbone_in_body(ctx, bid):
+    z = ctx.zit[bid]
+    return ctx.xf(bid, "bone", z["v"])
+
+
+def stage_bones(ctx, sides="lr", log=print):
+    """Z-Anatomy completion of the elbow bones: (i) the Z forearm bones get the bounded joint correction (q200_chain),
+    (ii) every flat cap of a humerus / radius / ulna within the elbow zone is continued by its Z counterpart."""
+    from scripts.transfer.q200_chain import refine_to_joint
+    own = ctx.own
+    for side in sides:
+        hid = f"humerus_{side}"
+        if hid not in own:
+            continue
+        Zh = zbone_in_body(ctx, hid)
+        ctx.zbone[hid] = Zh
+        Ht = cKDTree(sample_surface(Zh, ctx.zit[hid]["f"], 30000, 9))
+        for b in ("ulna", "radius"):
+            bid = f"{b}_{side}"
+            if bid not in own or bid not in ctx.zit:
+                continue
+            Zb = zbone_in_body(ctx, bid)
+            info = dict(id=bid, stage="bone", action="joint correction")
+            from scripts.transfer.q200_geom import sample_surface as ss
+            gap = cKDTree(Ht.data).query(ss(Zb, ctx.zit[bid]["f"], 4000, 3))[0].min()
+            if gap <= 3.0:
+                ctx.zbone[bid] = Zb; info.update(status="not needed: joint already closed", gap_mm=round(float(gap), 2))
+            else:
+                Zc, ci, fn = refine_to_joint(Zb, ctx.zit[bid]["f"], own[bid]["v"], own[bid]["f"], Ht, +1)
+                ctx.zbone[bid] = Zc; ctx.corr[bid] = (Zb, fn)
+                info.update(status="corrected", **{k: round(float(v), 2) for k, v in ci.items()})
+            ctx.rows.append(info)
+        # continuation of the cut ends
+        ec = elbow_centre(ctx.body, side, own)
+        for b in ("humerus", "ulna", "radius"):
+            bid = f"{b}_{side}"
+            if bid not in own or bid not in ctx.zbone:
+                continue
+            o = own[bid]
+            caps = [c for c in find_caps(o["v"], o["f"], minarea=60.0, at_end=2.5)
+                    if np.linalg.norm(o["v"][np.unique(o["f"][c["faces"]])].mean(0) - ec) <= ZONE_MM]
+            keep_caps = []
+            for c in caps:
+                if any(k_["axis"] == c["axis"] and k_["sign"] == c["sign"] and abs(k_["pos"] - c["pos"]) < 4.0 for k_ in keep_caps):
+                    continue
+                keep_caps.append(c)
+            caps = keep_caps
+            pcs = []
+            for cap in caps:
+                row = dict(id=bid, stage="bone", axis=cap["axis"], pos=round(cap["pos"], 1), sign=cap["sign"], area=round(cap["area"]), n_frag=cap["n_comp"])
+                r = continue_cap(o["v"], cap, ctx.zbone[bid], ctx.zit[bid]["f"], min_beyond=3.0)
+                if "v" not in r:
+                    row["status"] = "held: " + r["reason"]; ctx.rows.append(row); continue
+                dd = fit_error(o["v"], o["f"], ctx.zbone[bid], ctx.zit[bid]["f"], cap)
+                row.update(status="continued", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1),
+                           fit_err_median_mm=round(float(np.median(dd)), 1), fit_err_max_mm=round(float(np.quantile(dd, .95)), 1), nv=len(r["v"]), nf=len(r["f"]))
+                r["info"] = row
+                ctx.rows.append(row); pcs.append(r)
+            if pcs:
+                V, F, off = [], [], 0
+                for r in pcs:
+                    V.append(r["v"]); F.append(r["f"] + off); off += len(r["v"])
+                ctx.pieces[f"{bid}_zfill"] = dict(v=np.vstack(V), f=np.vstack(F), base=bid, cat="bone", pieces=pcs, kind="bone")
+                ctx.cbone[bid] = (np.vstack([o["v"], np.vstack(V)]), np.vstack([o["f"], np.vstack(F) + len(o["v"])]))
+
+
+LEFT_SUBJECT = "xfer_zan2vhf_leftforearm_q200"
+LEFT_ADD = ["anconeus_l", "brachioradialis_l", "extensor_carpi_radialis_brevis_l", "extensor_carpi_radialis_longus_l", "extensor_carpi_ulnaris_l",
+            "extensor_indicis_l", "flexor_carpi_radialis_l", "flexor_carpi_ulnaris_l", "flexor_digitorum_profundus_l", "flexor_digitorum_superficialis_l",
+            "flexor_pollicis_longus_l", "pronator_quadratus_l", "pronator_teres_l", "supinator_l",
+            "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l", "zan_palmaris_longus_muscle_l"]
+HAND_L = {"carpals_l": ["scaphoid", "lunate", "triquetrum", "pisiform", "trapezium", "trapezoid", "capitate", "hamate"],
+          "metacarpal_1_l": ["first_metacarpal"], "metacarpal_2_l": ["second_metacarpal"], "metacarpal_3_l": ["third_metacarpal"],
+          "metacarpal_4_l": ["fourth_metacarpal"], "metacarpal_5_l": ["fifth_metacarpal"]}
+
+
+def q192_apply(T, k, v):
+    t = T[k]
+    return v @ (t["s"] * np.array(t["R"])).T + np.array(t["t"])
+
+
+def stage_left_bones(ctx):
+    """Her LEFT radius / ulna / carpals / metacarpals / phalanges (absent from the own model): the Z-Anatomy bones on the Q192 per-bone
+    similarities (placed on her left-hand / forearm cryosection photographs), radius + ulna then joint-corrected (bounded) against her
+    own humerus_l."""
+    from scripts.transfer.q200_chain import refine_to_joint
+    own, T = ctx.own, ctx.q192
+    Zh = zbone_in_body(ctx, "humerus_l")
+    ctx.zbone["humerus_l"] = Zh
+    hs = np.vstack([sample_surface(own["humerus_l"]["v"], own["humerus_l"]["f"], 20000, 9), sample_surface(Zh, ctx.zit["humerus_l"]["f"], 15000, 8)])
+    Ht = cKDTree(hs)
+    for b in ("ulna", "radius"):
+        bid = f"{b}_l"
+        zf = ctx.zit[bid]["f"]
+        Zb = q192_apply(T, bid, ctx.zit[bid]["v"])
+        d0 = cKDTree(hs).query(sample_surface(Zb, zf, 4000, 3))[0].min()
+        Zc, ci, fn = refine_to_joint(Zb, zf, Zb, zf, Ht, +1, scale_rng=(0.98, 1.02), max_trans=15.0)
+        ctx.zbone[bid] = Zc; ctx.corr[bid] = (Zb, fn)
+        ctx.rows.append(dict(id=bid, stage="bone", action="Z bone on the Q192 photograph placement + joint correction", status="added",
+                             **{k: round(float(v), 2) for k, v in ci.items()}))
+        rr = ctx.own["radius_r"]["e"]["rec"] if b == "radius" else ctx.own["ulna_r"]["e"]["rec"]
+        ctx.pieces[bid] = dict(v=Zc, f=zf, base=bid, cat="bone", kind="left_bone", rec=rr, side="left", subject=LEFT_SUBJECT,
+                               info=ci, n_ref=bid)
+        ctx.cbone[bid] = (Zc, zf)
+        own[bid] = dict(e=dict(id=bid, cat="bone", side="left", rec=rr), v=Zc, f=zf)
+    for nid, zn in HAND_L.items():
+        V, F, off = [], [], 0
+        for n in zn:
+            zid = [k for k in T if k.startswith(f"zan_{n}") and k.endswith("_l")]
+            for k in zid:
+                v = q192_apply(T, k, ctx.zit[k]["v"])
+                V.append(v); F.append(ctx.zit[k]["f"] + off); off += len(v)
+        if V:
+            rr = ctx.own.get(nid.replace("_l", "_r"), {}).get("e", {}).get("rec", {"name": nid})
+            ctx.pieces[nid] = dict(v=np.vstack(V), f=np.vstack(F), base=nid, cat="bone", kind="left_bone", rec=rr, side="left", subject=LEFT_SUBJECT, info={}, n_ref=nid)
+            ctx.cbone[nid] = (np.vstack(V), np.vstack(F))
+            own[nid] = dict(e=dict(id=nid, cat="bone", side="left", rec=rr), v=np.vstack(V), f=np.vstack(F))
+    ph = [k for k in T if "phalanx" in k]
+    V, F, off = [], [], 0
+    for k in ph:
+        v = q192_apply(T, k, ctx.zit[k]["v"]); V.append(v); F.append(ctx.zit[k]["f"] + off); off += len(v)
+    rr = ctx.own["phalanges_hand_r"]["e"]["rec"]
+    ctx.pieces["phalanges_hand_l"] = dict(v=np.vstack(V), f=np.vstack(F), base="phalanges_hand_l", cat="bone", kind="left_bone", rec=rr, side="left",
+                                          subject=LEFT_SUBJECT, info={}, n_ref="phalanges_hand_l")
+    ctx.cbone["phalanges_hand_l"] = (np.vstack(V), np.vstack(F))
+    own["phalanges_hand_l"] = dict(e=dict(id="phalanges_hand_l", cat="bone", side="left", rec=rr), v=np.vstack(V), f=np.vstack(F))
+
+
+def stage_left_muscles(ctx):
+    """Z-Anatomy left forearm muscles absent from her own model, taken from the Q194 build (left forearm driven onto her photographed muscle
+    compartment, read-only reference), carried with the joint correction and kept out of the bones / inside her skin."""
+    import trimesh
+    own = ctx.own
+    bm = ctx.bone_meshes("l")
+    for mid in LEFT_ADD:
+        q = ctx.q194.get(mid)
+        if q is None or mid in own:
+            ctx.rows.append(dict(id=mid, stage="left muscle", status="held: " + ("already in the model" if mid in own else "not in the Q194 build")))
+            continue
+        v0 = q["v"]
+        v1 = corrected_zf(ctx, mid, v0)
+        v2, n_skin = None, 0
+        from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+        v2, n_skin = clip_to_skin_mesh(v1.copy(), ctx.skin_mesh)
+        v3, n_bone = push_off_bones(v2, bm)
+        ctx.rows.append(dict(id=mid, stage="left muscle", status="added", nv=len(v3), moved_by_joint_correction_mm=round(float(np.median(np.linalg.norm(v1 - v0, axis=1))), 1),
+                             skin_clipped=int(n_skin), bone_pushed=int(n_bone)))
+        rec = dict(q["rec"]); rec.setdefault("name", q["name"])
+        ctx.pieces[mid] = dict(v=v3, f=q["f"], base=mid, cat=q["sys"], kind="left_muscle", rec=rec, side="left", subject=LEFT_SUBJECT, info={}, n_ref=mid)
+
+
+def corrected_zf(ctx, tid, ZV):
+    """Z muscle (already in the body frame) carried with the bones' joint corrections: weights = inverse-square distances to the
+    Z bones' pre-correction positions, the humerus (uncorrected) holds the rest."""
+    side = tid[-1]
+    cb = [b for b in (f"ulna_{side}", f"radius_{side}") if b in ctx.corr]
+    if not cb:
+        return ZV
+    names = [f"humerus_{side}"] + cb
+    pre = {}
+    for n in names:
+        pre[n] = ctx.corr[n][0] if n in ctx.corr else ctx.zbone[n]
+    D = np.stack([cKDTree(sample_surface(pre[n], ctx.zit[n]["f"], 3000, 1)).query(ZV)[0] for n in names], 1)
+    W = 1.0 / (D + 8.0) ** 2
+    W /= W.sum(1, keepdims=True)
+    out = ZV.copy()
+    for k, n in enumerate(names):
+        if n in ctx.corr:
+            out += W[:, [k]] * (ctx.corr[n][1](ZV) - ZV)
+    return out
+
+
+def stage_muscles(ctx, only=None, log=print):
+    own = ctx.own
+    targets = [t for t in ctx.muscles if (not only or t in only)]
     for tid in targets:
         o = own[tid]
         caps = find_caps(o["v"], o["f"])
         if not caps:
             continue
-        zs = [zit.get(z) for z in z_ids(tid)]
-        zs = [z for z in zs if z is not None]
+        left_q194 = ctx.body == "vhf" and tid.endswith("_l") and all(z in ctx.q194 for z in z_ids(tid))
+        if left_q194:
+            zs = [dict(mesh_id=z, v=ctx.q194[z]["v"], f=ctx.q194[z]["f"]) for z in z_ids(tid)]
+        else:
+            zs = [ctx.zit.get(z) for z in z_ids(tid)]
+            zs = [z for z in zs if z is not None]
         if not zs:
-            rows.append(dict(id=tid, status="held: no Z-Anatomy counterpart mesh", caps=len(caps)))
+            ctx.rows.append(dict(id=tid, stage="muscle", status="held: no Z-Anatomy counterpart mesh", caps=len(caps)))
             continue
         zv, zf, off = [], [], 0
         for z in zs:
-            zv.append(xf(z["mesh_id"], "muscle", z["v"])); zf.append(z["f"] + off); off += len(z["v"])
-        ZV, ZF = np.vstack(zv), np.vstack(zf)
+            zv.append(z["v"] if left_q194 else ctx.xf(z["mesh_id"], "muscle", z["v"])); zf.append(z["f"] + off); off += len(z["v"])
+        ZV, ZF = corrected_zf(ctx, tid, np.vstack(zv)), np.vstack(zf)
         side = tid[-1]; stem = tid[:-2]
         prox_b, dist_b = ATTACH.get(stem, ([], []))
         anch = anchors_of(o["e"]["rec"])
         cen_y = o["v"][:, 1].mean()
+        ec = elbow_centre(ctx.body, side, own)
         pieces = []
         for cap in caps:
-            row = dict(id=tid, axis=cap["axis"], pos=round(cap["pos"], 1), sign=cap["sign"], area=round(cap["area"]), n_frag=cap["n_comp"])
-            sm = sorted([x for x in seams if x[0] == cap["axis"] and abs(x[1] - cap["pos"]) <= SEAM_MATCH_MM], key=lambda x: abs(x[1] - cap["pos"]))
+            ccen = o["v"][np.unique(o["f"][cap["faces"]])].mean(0)
+            if np.linalg.norm(ccen - ec) > ZONE_MM:
+                continue
+            row = dict(id=tid, stage="muscle", axis=cap["axis"], pos=round(cap["pos"], 1), sign=cap["sign"], area=round(cap["area"]), n_frag=cap["n_comp"])
+            sm = sorted([x for x in ctx.seams if x[0] == cap["axis"] and abs(x[1] - cap["pos"]) <= SEAM_MATCH_MM], key=lambda x: abs(x[1] - cap["pos"]))
             row["seam_structures"] = sm[0][2] if sm else 0
             if not sm:
                 row["status"] = "skipped: flat facet shared with fewer than 3 structures (not a data-block seam)"
-                rows.append(row); continue
+                ctx.rows.append(row); continue
             ZVa, ainfo = align_rigid_local(ZV, ZF, o["v"], o["f"], AX[cap["axis"]], cap["pos"], cap["sign"])
             row["align"] = {k_: (round(v_, 1) if isinstance(v_, float) else v_) for k_, v_ in ainfo.items()}
-            r = continue_cap(o["v"], cap, ZVa, ZF)
+            r = continue_cap(o["v"], cap, ZVa, ZF, min_beyond=10.0)
             if "v" not in r:
-                row["status"] = "held: " + r["reason"]; rows.append(row); continue
-            # which end is it: proximal (towards the shoulder) or distal
-            tip_y = r["v"][np.argmax(cap["sign"] * (r["v"][:, AX[cap["axis"]]] - cap["pos"]))][1]
-            toward_prox = tip_y > cen_y
-            names = prox_b if toward_prox else dist_b
-            ids = bone_ids(own, names, side)
-            bt = bone_pts(ids) if ids else None
-            cv, pinfo = pull_end(r["v"], cap["axis"], cap["pos"], cap["sign"], anch if toward_prox is not None else [], bt)
-            cv, cinfo = constrain(cv, cap["axis"], cap["pos"], cap["sign"], skin_mesh, bone_meshes(side))
+                row["status"] = "held: " + r["reason"]; ctx.rows.append(row); continue
             kax = AX[cap["axis"]]
-            near = (cap["sign"] * (ZVa[:, kax] - cap["pos"]) > -25.0) & (cap["sign"] * (ZVa[:, kax] - cap["pos"]) < 0)
-            if near.sum() > 20:
-                dd = cKDTree(sample_surface(o["v"], o["f"], 8000, 5)).query(ZVa[near])[0]
-                row["fit_err_median_mm"] = round(float(np.median(dd)), 1); row["fit_err_max_mm"] = round(float(np.quantile(dd, 0.95)), 1)
+            dd = fit_error(o["v"], o["f"], ZVa, ZF, cap)
+            row["fit_err_median_mm"] = round(float(np.median(dd)), 1); row["fit_err_max_mm"] = round(float(np.quantile(dd, 0.95)), 1)
             if row.get("fit_err_median_mm", 0) > FIT_ERR_MAX_MM:
                 row["status"] = (f"held: the Z-Anatomy counterpart does not coincide with the measured structure near the seam "
                                  f"(median {row['fit_err_median_mm']} mm > {FIT_ERR_MAX_MM:g} mm)")
-                rows.append(row); continue
+                ctx.rows.append(row); continue
+            tip_y = r["v"][np.argmax(cap["sign"] * (r["v"][:, kax] - cap["pos"]))][1]
+            toward_prox = tip_y > cen_y
+            ids = bone_ids(own, prox_b if toward_prox else dist_b, side)
+            bt = ctx.bone_tree(ids) if ids else None
+            cv, pinfo = pull_end(r["v"], cap["axis"], cap["pos"], cap["sign"], anch, bt)
+            cv, cinfo = constrain(cv, cap["axis"], cap["pos"], cap["sign"], ctx.skin_mesh, ctx.bone_meshes(side))
             r["v"] = cv
             r["info"] = row
-            row.update(status="continued", end="proximal" if toward_prox else "distal", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1),
-                       z_to_cap_area=round(r["area_ratio"], 3), pull=pinfo, constraints=cinfo, nv=len(cv), nf=len(r["f"]))
-            rows.append(row)
+            row.update(status="continued", end="proximal" if toward_prox else "distal", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1),
+                       shift_mm=round(r["sh"], 1), z_to_cap_area=round(r["area_ratio"], 3), pull=pinfo, constraints=cinfo, nv=len(cv), nf=len(r["f"]))
+            ctx.rows.append(row)
             pieces.append(r)
         if pieces:
-            adds[tid] = pieces
-    return B, own, adds, rows
+            V, F, off = [], [], 0
+            for r in pieces:
+                V.append(r["v"]); F.append(r["f"] + off); off += len(r["v"])
+            ctx.pieces[f"{tid}_zfill"] = dict(v=np.vstack(V), f=np.vstack(F), base=tid, cat=o["e"]["cat"], pieces=pieces, kind="muscle")
 
 
-def badge_text(cfg, tid, pieces, name):
+def badge_text(cfg, tid, pieces, name, kind):
     meds = [p["info"].get("fit_err_median_mm") for p in pieces if p["info"].get("fit_err_median_mm") is not None]
     maxs = [p["info"].get("fit_err_max_mm") for p in pieces if p["info"].get("fit_err_max_mm") is not None]
-    ends = ", ".join(sorted({f"{p['info']['end']} end at the {p['info']['axis']}={p['info']['pos']} mm data-block seam" for p in pieces}))
+    ends = ", ".join(sorted({f"{p['info']['axis']}={p['info']['pos']} mm" for p in pieces}))
     att = []
     for p in pieces:
         pl = p["info"].get("pull") or {}
-        att.append(pl.get("note", "pulled %.1f mm onto the bone" % pl.get("pull_mm", 0)) if not pl.get("pulled") else "far end carried %.1f mm onto its bone" % pl["pull_mm"])
-    return (f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) continuation of the measured {name} beyond its flat cut ({ends}): the fitted Z-Anatomy "
-            f"counterpart (Q168 per-bone transform onto {cfg['he']} own bones), clipped at the seam plane, warped onto the measured end face and closed there; "
-            f"{'; '.join(att)}; held inside {cfg['he']} skin and out of {cfg['he']} bones. The measured structure is not edited. "
-            f"Q200 validation median error {np.median(meds):.1f} mm, max {max(maxs):.1f} mm (Z fit vs the measured part within 25 mm of the seam).")
+        if pl.get("pulled"):
+            att.append("far end carried %.1f mm onto its bone" % pl["pull_mm"])
+        elif pl.get("note"):
+            att.append(pl["note"])
+    s = (f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) continuation of the measured {name} beyond its flat cut at the data-block seam ({ends}): "
+         f"the fitted Z-Anatomy counterpart (Q168 per-bone transform onto {cfg['he']} own bones{', joint-corrected' if kind == 'bone' else ''}), "
+         f"clipped at the seam plane and joined to the measured end face by a short loft; ")
+    if att:
+        s += "; ".join(att) + "; "
+    if kind == "muscle":
+        s += f"held inside {cfg['he']} skin and out of {cfg['he']} bones; "
+    s += "the measured structure is not edited. "
+    if meds:
+        s += f"Q200 validation median error {np.median(meds):.1f} mm, max {max(maxs):.1f} mm (Z fit vs the measured part within 25-30 mm of the seam)."
+    return s
 
 
-def assemble(body, B, own, adds):
-    cfg = BODY[body]
+def left_badge(pc):
+    i = pc["info"]
+    if pc["kind"] == "left_bone":
+        t = ("Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) bone placed on her LEFT forearm / hand cryosection photographs (Q192: per-bone similarity fitted to the "
+             "bone-coloured tissue of her left-hand photographs, evidence fit median 0.5-1.1 mm)")
+        if i:
+            t += (f"; joint-corrected against her own humerus (gap {i['gap_before_mm']:.1f} -> {i['gap_after_mm']:.1f} mm, scale {i['scale']:.2f}, rotation "
+                  f"{i['rot_deg']:.1f} deg, shift {i['trans_mm']:.1f} mm)")
+        return t + ". Not measured on her: her CT has no left forearm or hand bones."
+    return ("Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) muscle placed on her LEFT forearm: the Q194 fit onto her photographed muscle compartment "
+            "(Q192 bones + her left-forearm cryosections), carried with the Q200 joint correction, kept inside her skin and out of the bones. "
+            "An estimate: the photographs show the muscle mass, not the individual muscle borders.")
+
+
+def assemble(ctx):
+    cfg = ctx.cfg
     out = []
-    for tid, pieces in adds.items():
-        V, F, off = [], [], 0
-        for r in pieces:
-            V.append(r["v"]); F.append(r["f"] + off); off += len(r["v"])
-        V, F = np.vstack(V), np.vstack(F)
-        e = own[tid]["e"]; rec = e["rec"]
-        name = rec.get("name", tid)
+    for nid, pc in ctx.pieces.items():
+        if pc["kind"].startswith("left_"):
+            rec = {k: pc["rec"][k] for k in ("name", "latin", "folder", "region", "origin", "insertion") if k in pc["rec"]}
+            rec["source"] = "Z-Anatomy (CC BY-SA 4.0), placed on her left-forearm / hand cryosection photographs (Q192 / Q194); see the badge"
+            rec["procedural_badge"] = left_badge(pc)
+            ctx.B.add(nid, pc["cat"], pc["side"], pc["subject"], rec, pc["v"], pc["f"])
+            out.append(nid); continue
+        e = ctx.own[pc["base"]]["e"]; rec = e["rec"]
+        name = rec.get("name", pc["base"])
         newrec = {k: rec[k] for k in ("latin", "folder", "region", "origin", "insertion") if k in rec}
         newrec.update(name=f"{name} (continuation beyond the data-block seam, filled from Z-Anatomy)",
                       source="Z-Anatomy (CC BY-SA 4.0), fitted to this body; see the badge",
-                      procedural_badge=badge_text(cfg, tid, pieces, name))
-        B.add(f"{tid}_zfill", e["cat"], e["side"], cfg["subject"], newrec, V, F)
-        out.append(f"{tid}_zfill")
+                      procedural_badge=badge_text(cfg, pc["base"], pc["pieces"], name, pc["kind"]))
+        ctx.B.add(nid, pc["cat"], e["side"], cfg["subject"], newrec, pc["v"], pc["f"])
+        out.append(nid)
     return out
+
+
+def write_bundle(ctx, out):
+    att = {ctx.cfg["subject"]: ["Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D): continuations of structures cut flat at CT data-block seams, "
+           "fitted onto this body's own bones (Q200); the measured structures are not edited. Z-Anatomy: models by the Z-Anatomy project, app by "
+           "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this derivative remains CC BY-SA 4.0 (ShareAlike)."]}
+    return ctx.B.write(out, new_subject_attribution=att)
 
 
 if __name__ == "__main__":
@@ -311,16 +583,22 @@ if __name__ == "__main__":
     ap.add_argument("--body", required=True, choices=["vhm", "vhf"])
     ap.add_argument("--only", nargs="*")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--rows", default=None)
     a = ap.parse_args()
     t = time.time()
-    B, own, adds, rows = run(a.body, only=a.only)
-    for r in rows:
+    ctx = Ctx(a.body)
+    stage_bones(ctx, sides="lr" if a.body == "vhm" else "r")
+    if a.body == "vhf":
+        stage_left_bones(ctx)
+        stage_left_muscles(ctx)
+    print("bones done", round(time.time() - t, 1))
+    stage_muscles(ctx, only=a.only)
+    for r in ctx.rows:
         print(r)
     if not a.only:
-        assemble(a.body, B, own, adds)
-        att = {BODY[a.body]["subject"]: ["Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D): continuations of structures cut flat at CT data-block seams, "
-               "fitted onto this body's own bones (Q200); the measured structures are not edited. Z-Anatomy: models by the Z-Anatomy project, app by "
-               "Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this derivative remains CC BY-SA 4.0 (ShareAlike)."]}
-        n = B.write(Path(a.out) if a.out else Path("/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad/stage1_" + a.body), new_subject_attribution=att)
-        print("bundle bytes", n)
+        assemble(ctx)
+        out = Path(a.out) if a.out else ctx.scratch / ("stage1_" + a.body)
+        print("bundle bytes", write_bundle(ctx, out))
+    if a.rows:
+        Path(a.rows).write_text(json.dumps(ctx.rows, indent=1, default=str))
     print("done", round(time.time() - t, 1))

@@ -257,7 +257,7 @@ def right_label_chamfer(Mb, Ma, her, ids=None):
     from scripts.zanatomy import q191_hand as H
     out = {}
     for i in (ids or [k for k in her if k.endswith("_r") and her[k]["cat"] == "muscle" and k in Mb]):
-        lab = trimesh.Trimesh(her[i]["v"], her[i]["f"], process=False).sample(5000)
+        lab = E.at(np.asarray(her[i]["v"], float), E.bary_samples(her[i]["v"], np.asarray(her[i]["f"]), 5000, seed=7))
         y0, y1 = lab[:, 1].min(), lab[:, 1].max()
         tl = cKDTree(lab)
         row = {}

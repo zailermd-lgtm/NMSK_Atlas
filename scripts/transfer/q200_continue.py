@@ -82,14 +82,17 @@ def find_caps(v, f, minarea=40.0, tol=0.35, at_end=2.0, group_mm=0.7):
         pc = vf[:, :, k].mean(1)
         lo, hi = v[:, k].min(), v[:, k].max()
         idx = np.where(fk)[0]
-        order = idx[np.argsort(pc[idx])]
-        groups, cur = [], [order[0]]
-        for a in order[1:]:
-            if pc[a] - pc[cur[-1]] <= group_mm:
-                cur.append(a)
-            else:
-                groups.append(cur); cur = [a]
-        groups.append(cur)
+        key = np.round(pc[idx] / group_mm).astype(int)
+        binarea = {}
+        for kk_, a_ in zip(key, ar[idx]):
+            binarea[kk_] = binarea.get(kk_, 0.0) + a_
+        taken, groups = set(), []
+        for kb in sorted(binarea, key=lambda x: -binarea[x]):
+            if binarea[kb] < minarea or kb in taken:
+                continue
+            g = [kb] + [n for n in (kb - 1, kb + 1) if n in binarea and n not in taken and binarea[n] >= 0.25 * binarea[kb]]
+            taken.update(g); groups.append(g)
+        groups = [idx[np.isin(key, g)] for g in groups]
         for g in groups:
             g = np.asarray(g)
             area = float(ar[g].sum()); pos = float(np.average(pc[g], weights=ar[g]))
@@ -347,7 +350,7 @@ def _ease(t):
     return t * t * (3 - 2 * t)
 
 
-def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=6.0, shift_decay=30.0, nstep=4, nang=64):
+def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nstep=4, nang=64):
     """Z continuation beyond the cap plane P0 of M, as a loft + Z piece (M is not edited):
       ring 0   = outline of M's cap (the loop itself for a one-piece cap, the closed union of the fragments otherwise) at P0;
       ring K   = outline of the fitted Z counterpart's section at the plane P1, Lt mm beyond P0 (Lt grows with the size mismatch);
@@ -357,8 +360,8 @@ def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=6.0, shift_decay=30.0, nstep
     axis, pos, sign = cap["axis"], cap["pos"], cap["sign"]
     k = AX[axis]; kk = [i for i in range(3) if i != k]
     beyond = sign * (Zv[:, k] - pos)
-    if beyond.max() < min_beyond + 4.0:
-        return dict(reason=f"Z counterpart ends {beyond.max():.1f} mm beyond the plane (< {min_beyond + 4:g} mm): no Z material to add")
+    if beyond.max() < min_beyond:
+        return dict(reason=f"Z counterpart ends {beyond.max():.1f} mm beyond the plane (< {min_beyond:g} mm): no Z material to add")
     xm, um = cap_outline(cap)
     cm = np.asarray(um.centroid.coords[0])
     # Z section at P0 -> centroid and size
@@ -386,9 +389,14 @@ def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=6.0, shift_decay=30.0, nstep
     if Rm is None or Rz0 is None:
         return dict(reason="degenerate section")
     dR = abs(float(Rm.mean() - Rz0.mean()))
-    Lt = float(np.clip(6.0 + 0.8 * dR, 6.0, 35.0))
-    p1 = pos + sign * Lt
-    s1 = section(p1)
+    Lt0 = float(np.clip(6.0 + 0.8 * dR, 6.0, 35.0))
+    s1 = None
+    for Lt in (Lt0, 0.7 * Lt0, 0.5 * Lt0, 4.0, 2.5):
+        Lt = float(min(Lt, max(beyond.max() - 1.0, 1.5)))
+        p1 = pos + sign * Lt
+        s1 = section(p1)
+        if s1 is not None:
+            break
     if s1 is None:
         return dict(reason="Z mesh has no closed section at the loft end")
     v1, f1, loops1, keep1, poly1 = s1

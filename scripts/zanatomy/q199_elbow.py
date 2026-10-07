@@ -187,14 +187,12 @@ def fit_left(by, raw, evid=None, log=print):
 
 def fit_right(by, raw, her, log=print):
     """right chain: her CT labels carry the whole chain, the humerus stays on its label; the radius / ulna swing (bounded) so the Z-source joint closes while they stay on their labels"""
-    import trimesh
     ch = Chain("r", by, raw)
     names = ("humerus_r", "radius_r", "ulna_r")
     smp = {n: bary_samples(raw[n], by[n]["f"], 3000) for n in names}
     lab, labtree, laby = {}, {}, {}
     for n in names:
-        m = trimesh.Trimesh(her[n]["v"], her[n]["f"], process=False)
-        lab[n] = m.sample(6000)
+        lab[n] = at(np.asarray(her[n]["v"], float), bary_samples(her[n]["v"], np.asarray(her[n]["f"]), 6000, seed=7))      # seeded: the fit is reproducible
         labtree[n] = cKDTree(lab[n])
         laby[n] = (lab[n][:, 1].min(), lab[n][:, 1].max())
     jsmp, jsel, jj, jd0 = joint_pairs(raw, "r", by)
@@ -281,13 +279,14 @@ ARM_RADIUS_MM = 420.0
 PUSH_CATS = ("muscle", "vessel", "nerve", "fascia", "lymphatic")
 BONE_OK_CATS = ("ligament", "bursa", "cartilage", "tendon")      # attach to / lie on bone by design: no inside-bone cost
 ATTACH_CATS = ("muscle", "tendon", "ligament", "bursa")
-ATTACH_ZONE_MM, ATTACH_TOL_MM, ATTACH_CAP_MM = 8.0, 3.0, 15.0
+ATTACH_ZONE_MM, ATTACH_TOL_MM, ATTACH_CAP_MM = 8.0, 3.0, 12.0
 PULL_SIGMA_MM = 25.0
 CONT_CATS = ("muscle", "tendon", "ligament", "fascia", "vessel", "nerve", "bursa", "cartilage")
 GAP_TOL_MM, GAP_TOL_VESSEL_MM, GAP_CAP_MM = 5.0, 3.0, 12.0
 CLOSE_SIGMA_MM = 15.0
 PREFER_FIELD_MARGIN = 2.0
-ADJUST_CAP_MM = 15.0          # push-out / skin clamp / volume / attachment adjustments may not move a vertex further than this from the field's own result
+ADJUST_CAP_MM = 12.0          # push-out / skin clamp / volume / attachment / closure adjustments may not move a vertex further than this from the field's own result (+ <= SEPARATE_MAX_MM on the shipped mesh = 15 mm)
+SEPARATE_MAX_MM = 3.0
 ELBOW_ZONE_MM = 100.0         # continuity is judged where the contact lies within this distance of the Z-source elbow joint
 ARM_REGIONS = ("upper_limb", "forearm_hand")
 
@@ -792,6 +791,7 @@ def separate_elbow(side, by, raw, skin, skin_tree, decimate_fn, log=print, radiu
     meshes = {i: (np.asarray(v, float), f) for i, (v, f) in meshes.items()}
     vol_ref = {i: abs(Q.volume(raw[i].astype(float), by[i]["f"])) * Mx.BODY_SCALE ** 3 for i in ids}
     G = HT.Gates(by, skin, skin_tree)
+    Sp.MAX_TOTAL_MM = SEPARATE_MAX_MM
     ov0 = Sp.overlap_pct(meshes)
     movable = {i for i in ids if ov0[i] > 0.3}
     base = {i: meshes[i][0] for i in movable}
