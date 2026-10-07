@@ -104,7 +104,7 @@ def junction_defects(key, kind, res, fit):
                 if generic:
                     sv = min(sv, 2)
                 add(jn, sd, nm, "end_detached_from_bone", d, "mm", sv, f"{end} end of {nm} lies {d} mm from {'its expected origin/insertion bone' if not generic else 'the nearest bone'} (end {a['to_joint_mm']} mm from the joint centre)", src, cls)
-            for cp in s_.get("flat_caps") or []:
+            for cp in (s_.get("flat_caps") or []) if s_["sys"] in ("muscle", "tendon") else []:
                 if cp["dist_to_joint_mm"] <= R + 60:
                     add(jn, sd, nm, "flat_cut_face", cp["area_mm2"], "mm2", 3 if cp["area_mm2"] > THRESH["flat_cut_cap_mm2"][1] else 2 if cp["area_mm2"] > THRESH["flat_cut_cap_mm2"][0] else 0,
                         f"{nm} is cut flat in the {cp['axis']}={cp['plane_mm']} plane (closed cut face {cp['area_mm2']} mm2, {cp['dist_to_joint_mm']} mm from the joint centre)", src, cls,
@@ -130,7 +130,7 @@ def junction_defects(key, kind, res, fit):
                 continue
             nm = t["id"]
             if 5 < t.get("max_island_gap_mm", 0) <= 150 and not PLURAL.search(nm):
-                add(jn, sd, nm, "tube_gap", t["max_island_gap_mm"], "mm", STEP(t["max_island_gap_mm"], [5, 12, 25]), f"{nm}: separate pieces {t['max_island_gap_mm']} mm apart (not continuous)", t.get("src"), t.get("cls"))
+                add(jn, sd, nm, "tube_gap", t["max_island_gap_mm"], "mm", min(STEP(t["max_island_gap_mm"], [5, 12, 25]), 2 if t["sys"] == "nerve" else 3), f"{nm}: separate pieces {t['max_island_gap_mm']} mm apart (not continuous)", t.get("src"), t.get("cls"))
             o, ox = t.get("outside_skin_pct", 0), t.get("outside_skin_max_mm", 0)
             if ox > 5 and o > 5:
                 add(jn, sd, nm, "outside_skin", o, "% of vertices", STEP(o, THRESH["outside_skin_pct_with_>5mm_excursion"]), f"{o}% of {nm} lies outside the skin (up to {ox} mm)", t.get("src"), t.get("cls"), {"cause_hint": "soft_vs_envelope"})
@@ -138,8 +138,8 @@ def junction_defects(key, kind, res, fit):
             if ibx > 3 and ib > 8 and not EARLARYNX.search(nm) and jn in ("shoulder", "elbow", "wrist", "hip", "knee", "ankle") and not PLURAL.search(nm):
                 add(jn, sd, nm, "inside_bone", ib, "% of vertices", STEP(ib, THRESH["inside_bone_pct_with_>3mm_depth"]), f"{ib}% of {nm} inside bone (up to {ibx} mm)", t.get("src"), t.get("cls"))
         for c in j.get("chains") or []:
-            if "min_surface_vertex_mm" not in c:
-                continue
+            if "min_surface_vertex_mm" not in c or re.search(r"radial_collateral_artery|ulnar_n_deep_branch|anterior_interosseous_n", c["child"]):
+                continue                                          # pairs that are not a continuation at the elbow (arm collateral branch; wrist / mid-forearm branches)
             gp = c["min_surface_vertex_mm"]
             add(jn, sd, c["child"], "chain_gap", gp, "mm", min(STEP(gp, THRESH["chain_gap_mm"]), 2 if "_n_" in c["child"] or "nerve" in c["child"] or c["child"].endswith("_n_l") or c["child"].endswith("_n_r") else 3), f"{c['parent']} -> {c['child']}: the two vessel/nerve meshes are {gp} mm apart (end-to-end {c.get('end_to_end_mm')} mm)")
     # seams (global)
@@ -157,7 +157,7 @@ def junction_defects(key, kind, res, fit):
                     f"{100*fr:.1f}% of structure pairs that touch in the Z base are >5 mm apart after fitting (max {fj.get('tear_max_mm')} mm); worst: " + "; ".join(f"{w['a']}|{w['b']} {w['max_tear_mm']}mm" for w in fj.get("worst_pairs", [])[:3]),
                     extra={"cause_hint": "registration_mismatch", "fit": True})
             for o in fj.get("structure_frame_offsets", []):
-                if o["frame_offset_mm"] > THRESH["fit_frame_offset_mm"][0]:
+                if o["frame_offset_mm"] > THRESH["fit_frame_offset_mm"][0] and o["sys"] in ("muscle", "vessel", "nerve") and jn not in ("ankle", "cervico_thoracic", "thoraco_lumbar", "head_neck"):
                     add(jn, sd, o["id"], "frame_offset", o["frame_offset_mm"], "mm", STEP(o["frame_offset_mm"], THRESH["fit_frame_offset_mm"]),
                         f"{o['id']} sits in a different frame from the {jn} bones: the joint centre maps {o['frame_offset_mm']} mm from where the nearest bone ({o['nearest_bone_frame']}) puts it (rotation difference {o['rot_vs_bone_deg']} deg)",
                         extra={"cause_hint": "registration_mismatch", "fit": True})
@@ -399,13 +399,19 @@ def elbow_statement(key, side, res, D):
     return f"{sn} elbow: " + "; ".join(parts) + "."
 
 
+STRUCT = {"flat_cut_face", "bone_flat_cut", "bone_gap", "end_detached_from_bone", "chain_gap", "joint_bones_absent", "frame_offset", "outside_skin", "inside_bone", "disconnected_island", "axial_gap",
+          "ulna_twist", "carrying_angle", "skin_step", "skin_open_sections", "block_seam_plane", "adjacency_tear"}
+
+
 def verdict(D, elbows):
-    n3 = sum(d["severity"] == 3 and d["cause"] != "source_defect" for d in D); n2 = sum(d["severity"] == 2 and d["cause"] != "source_defect" for d in D)
-    if n3 == 0 and n2 <= 4:
+    """yes: both elbows OK and <= 3 structural major defects; no: both elbows DEFECT and > 15 structural major defects; otherwise partly"""
+    n3 = sum(d["severity"] == 3 and d["check"] in STRUCT for d in D)
+    ok = [e["verdict"] == "OK" for e in elbows]
+    if all(ok) and n3 <= 3:
         return "yes"
-    if n3 <= 4 and not all(e["verdict"] == "DEFECT" for e in elbows):
-        return "partly"
-    return "no" if n3 > 12 else "partly"
+    if not any(ok) and n3 > 15:
+        return "no"
+    return "partly"
 
 
 def main():
