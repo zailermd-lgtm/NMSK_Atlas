@@ -631,8 +631,7 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log
     tolof = lambda a, b: GAP_TOL_VESSEL_MM if (by[a]["cat"] in ("vessel", "nerve") and by[b]["cat"] in ("vessel", "nerve")) else GAP_TOL_MM
     v_start = {i: by[i]["v"].copy() for i in allids}
     for rnd in range(rounds):
-        thin = lambda x: by[x]["cat"] in ("vessel", "nerve")
-        for a, b, d0 in sorted(pairs, key=lambda t: (0 if (thin(t[0]) and thin(t[1])) else 1, -g_field[(t[0], t[1])])):      # centrelines first
+        for a, b, d0 in sorted(pairs, key=lambda t: -g_field[(t[0], t[1])]):
             if _gap(by, a, b) <= max(tolof(a, b), d0 + 2.0):
                 continue
             ra, rb = raw[a].astype(float), raw[b].astype(float)
@@ -644,10 +643,6 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log
             da, ja = cKDTree(vb).query(va[fa])
             db_, jb = cKDTree(va).query(vb[fb])
             share_a, share_b = (0.5, 0.5) if (a in movable and b in movable) else ((1.0, 0.0) if a in movable else (0.0, 1.0))
-            if thin(a) != thin(b):                                  # vessel / nerve against a muscle, fascia, ligament ...: only the thin one moves
-                share_a, share_b = ((1.0, 0.0) if thin(a) else (0.0, 1.0))
-                if (share_a and a not in movable) or (share_b and b not in movable):
-                    continue
             d0 = max(d0, CLOSE_TARGET_MUSCLE_MM if (by[a]["cat"] == "muscle" and by[b]["cat"] == "muscle") else CLOSE_TARGET_MM)      # vertex-vertex distance: the surfaces then stay apart
             new = {}
             for k, fk, dk, tgt, share, vk0 in ((a, fa, da, vb[ja], share_a, va), (b, fb, db_, va[jb], share_b, vb)):
