@@ -1,16 +1,16 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhf",
-"generated":"2026-10-05",
+"generated":"2026-10-07",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
 "table_version":1,
 "counts":{
-"artery":14,
-"vein":10,
+"artery":26,
+"nerve":16,
+"vein":22,
 "organ":18,
-"nerve":4,
 "lung":2
 },
 "structures":[
@@ -21,6 +21,22 @@
 "r_mm":7.7,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"anterior_interosseous_n_l",
+"name":"Anterior interosseous nerve (left)",
+"class":"nerve",
+"r_mm":0.41,
+"r_method":"sdf",
+"rays_hit":277
+},
+{
+"id":"anterior_interosseous_n_r",
+"name":"Anterior interosseous nerve of forearm.r",
+"class":"nerve",
+"r_mm":0.26,
+"r_method":"sdf",
+"rays_hit":222
 },
 {
 "id":"aortic_arch_and_great_vessels",
@@ -263,6 +279,38 @@
 "rays_hit":300
 },
 {
+"id":"median_n_lateral_root_l",
+"name":"Median nerve, lateral root (left)",
+"class":"nerve",
+"r_mm":0.73,
+"r_method":"sdf",
+"rays_hit":276
+},
+{
+"id":"median_n_lateral_root_r",
+"name":"Median nerve.r",
+"class":"nerve",
+"r_mm":0.67,
+"r_method":"sdf",
+"rays_hit":260
+},
+{
+"id":"musculocutaneous_n_l",
+"name":"Musculocutaneous nerve (left)",
+"class":"nerve",
+"r_mm":0.79,
+"r_method":"sdf",
+"rays_hit":297
+},
+{
+"id":"musculocutaneous_n_r",
+"name":"Musculocutaneous nerve.r",
+"class":"nerve",
+"r_mm":0.88,
+"r_method":"sdf",
+"rays_hit":264
+},
+{
 "id":"optic_n",
 "name":"Optic nerve (CN II)",
 "class":"nerve",
@@ -293,6 +341,38 @@
 "r_mm":2.38,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"posterior_interosseous_n_l",
+"name":"Posterior interosseous nerve (deep branch of radial n.) (left)",
+"class":"nerve",
+"r_mm":0.41,
+"r_method":"sdf",
+"rays_hit":269
+},
+{
+"id":"posterior_interosseous_n_r",
+"name":"Deep branch of radial nerve.r",
+"class":"nerve",
+"r_mm":0.34,
+"r_method":"sdf",
+"rays_hit":275
+},
+{
+"id":"radial_n_l",
+"name":"Radial nerve (left)",
+"class":"nerve",
+"r_mm":0.42,
+"r_method":"sdf",
+"rays_hit":199
+},
+{
+"id":"radial_n_r",
+"name":"Radial nerve.r",
+"class":"nerve",
+"r_mm":0.44,
+"r_method":"sdf",
+"rays_hit":244
 },
 {
 "id":"rectum",
@@ -391,12 +471,220 @@
 "rays_hit":300
 },
 {
+"id":"ulnar_n_l",
+"name":"Ulnar nerve (left)",
+"class":"nerve",
+"r_mm":0.52,
+"r_method":"sdf",
+"rays_hit":275
+},
+{
+"id":"ulnar_n_r",
+"name":"Ulnar nerve.r",
+"class":"nerve",
+"r_mm":0.53,
+"r_method":"sdf",
+"rays_hit":266
+},
+{
 "id":"urinary_bladder",
 "name":"Urinary bladder",
 "class":"organ",
 "r_mm":12.07,
 "r_method":"sdf",
 "rays_hit":300
+},
+{
+"id":"zan_basilic_vein_l",
+"name":"Basilic vein",
+"class":"vein",
+"r_mm":1.5,
+"r_method":"sdf",
+"rays_hit":293
+},
+{
+"id":"zan_basilic_vein_r",
+"name":"Basilic vein",
+"class":"vein",
+"r_mm":1.6,
+"r_method":"sdf",
+"rays_hit":290
+},
+{
+"id":"zan_brachial_artery_l",
+"name":"Brachial artery",
+"class":"artery",
+"r_mm":1.66,
+"r_method":"sdf",
+"rays_hit":284
+},
+{
+"id":"zan_brachial_artery_r",
+"name":"Brachial artery",
+"class":"artery",
+"r_mm":1.24,
+"r_method":"sdf",
+"rays_hit":280
+},
+{
+"id":"zan_brachial_veins_l",
+"name":"Brachial veins",
+"class":"vein",
+"r_mm":1.79,
+"r_method":"sdf",
+"rays_hit":288
+},
+{
+"id":"zan_brachial_veins_r",
+"name":"Brachial veins",
+"class":"vein",
+"r_mm":2.25,
+"r_method":"sdf",
+"rays_hit":259
+},
+{
+"id":"zan_cephalic_vein_l",
+"name":"Cephalic vein",
+"class":"vein",
+"r_mm":1.59,
+"r_method":"sdf",
+"rays_hit":280
+},
+{
+"id":"zan_cephalic_vein_r",
+"name":"Cephalic vein",
+"class":"vein",
+"r_mm":1.63,
+"r_method":"sdf",
+"rays_hit":291
+},
+{
+"id":"zan_deep_brachial_artery_l",
+"name":"Deep brachial artery",
+"class":"artery",
+"r_mm":1.24,
+"r_method":"sdf",
+"rays_hit":178
+},
+{
+"id":"zan_deep_brachial_artery_r",
+"name":"Deep brachial artery",
+"class":"artery",
+"r_mm":1.28,
+"r_method":"sdf",
+"rays_hit":141
+},
+{
+"id":"zan_inferior_ulnar_collateral_artery_l",
+"name":"Inferior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.64,
+"r_method":"sdf",
+"rays_hit":289
+},
+{
+"id":"zan_inferior_ulnar_collateral_artery_r",
+"name":"Inferior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.63,
+"r_method":"sdf",
+"rays_hit":286
+},
+{
+"id":"zan_median_cubital_vein_l",
+"name":"Median cubital vein",
+"class":"vein",
+"r_mm":1.1,
+"r_method":"sdf",
+"rays_hit":281
+},
+{
+"id":"zan_median_cubital_vein_r",
+"name":"Median cubital vein",
+"class":"vein",
+"r_mm":0.46,
+"r_method":"sdf",
+"rays_hit":177
+},
+{
+"id":"zan_middle_collateral_artery_l",
+"name":"Middle collateral artery",
+"class":"artery",
+"r_mm":0.18,
+"r_method":"sdf",
+"rays_hit":121
+},
+{
+"id":"zan_radial_collateral_artery_l",
+"name":"Radial collateral artery",
+"class":"artery",
+"r_mm":0.91,
+"r_method":"sdf",
+"rays_hit":213
+},
+{
+"id":"zan_radial_veins_l",
+"name":"Radial veins",
+"class":"vein",
+"r_mm":1.18,
+"r_method":"sdf",
+"rays_hit":290
+},
+{
+"id":"zan_radial_veins_r",
+"name":"Radial veins",
+"class":"vein",
+"r_mm":1.03,
+"r_method":"sdf",
+"rays_hit":269
+},
+{
+"id":"zan_superior_ulnar_collateral_artery_l",
+"name":"Superior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.57,
+"r_method":"sdf",
+"rays_hit":264
+},
+{
+"id":"zan_superior_ulnar_collateral_artery_r",
+"name":"Superior ulnar collateral artery",
+"class":"artery",
+"r_mm":0.65,
+"r_method":"sdf",
+"rays_hit":252
+},
+{
+"id":"zan_ulnar_artery_l",
+"name":"Ulnar artery",
+"class":"artery",
+"r_mm":1.46,
+"r_method":"sdf",
+"rays_hit":295
+},
+{
+"id":"zan_ulnar_artery_r",
+"name":"Ulnar artery",
+"class":"artery",
+"r_mm":0.96,
+"r_method":"sdf",
+"rays_hit":219
+},
+{
+"id":"zan_ulnar_veins_l",
+"name":"Ulnar veins",
+"class":"vein",
+"r_mm":1.38,
+"r_method":"sdf",
+"rays_hit":294
+},
+{
+"id":"zan_ulnar_veins_r",
+"name":"Ulnar veins",
+"class":"vein",
+"r_mm":0.78,
+"r_method":"sdf",
+"rays_hit":227
 }
 ]
 }
