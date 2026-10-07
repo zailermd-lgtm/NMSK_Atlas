@@ -512,7 +512,7 @@ def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
     return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None, arm_radius_mm=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -530,7 +530,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
                               "mean_move_mm": round(float(np.linalg.norm(by[n + s]["v"] - old[n + s], axis=1).mean()), 1)} for n in ("humerus", "radius", "ulna")},
            "structures": {}}
     hum_tree = cKDTree(at(raw["humerus" + s], bary_samples(raw["humerus" + s], by["humerus" + s]["f"], 6000, seed=5)))
-    ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)
+    ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < (arm_radius_mm or ARM_RADIUS_MM) and (only is None or i in only)
            and (regions is None or (scope or in_scope)(side, i, raw[i], regions.get(i), jc, hum_tree, humerus_moved=bool(np.abs(ch.P[:6]).max() > 1e-9)))]
     # = see in_scope: arm structures, the shoulder muscles that insert on a MOVED humerus, merged Z meshes that hold an arm part (the field is zero on their other parts)
     v_before = {i: by[i]["v"].copy() for i in ids}

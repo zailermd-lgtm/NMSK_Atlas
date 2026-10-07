@@ -36,13 +36,13 @@ SOFT = A.SOFT
 WRIST_ZONE_MM = 90.0
 
 
-def zone_ids(M, raw, side, jc, wc, cats=SOFT, r_elbow=140.0, r_wrist=WRIST_ZONE_MM):
+def zone_ids(M, raw, side, jc, wc, hc=None, cats=SOFT, r_elbow=140.0, r_wrist=WRIST_ZONE_MM, r_hand=110.0):
     s = "_" + side
     out = []
     for i, d in M.items():
         if not (i.endswith(s) or s + "_" in i) or A.cat_of(d) not in cats or i not in raw:
             continue
-        if np.any(np.linalg.norm(raw[i] - jc, axis=1) < r_elbow) or np.any(np.linalg.norm(raw[i] - wc, axis=1) < r_wrist):
+        if np.any(np.linalg.norm(raw[i] - jc, axis=1) < r_elbow) or np.any(np.linalg.norm(raw[i] - wc, axis=1) < r_wrist) or (hc is not None and np.any(np.linalg.norm(raw[i] - hc, axis=1) < r_hand)):
             out.append(i)
     return out
 
@@ -116,6 +116,7 @@ def audit_side(side, Db, Da, Mb, Ma, raw, skin, ev, log=print):
     smp, sel, jj, d0 = E.joint_pairs(raw, side, Db)
     jc = E.at(raw["humerus" + s], smp["humerus"])[sel].mean(0)
     wc = C.wrist_centre(Db, raw, side)
+    hc = np.vstack([raw[k] for k in raw if k.startswith("zan_") and "_metacarpal_bone" in k and k.endswith(s)]).mean(0)
     out["joint"] = {"before": E.joint_stat(smp, sel, jj, d0, Db["humerus" + s]["v"], Db["radius" + s]["v"], Db["ulna" + s]["v"]),
                     "after": E.joint_stat(smp, sel, jj, d0, Da["humerus" + s]["v"], Da["radius" + s]["v"], Da["ulna" + s]["v"])}
     ctr = lambda M: E.at(M["humerus" + s]["v"], smp["humerus"])[sel].mean(0)
@@ -125,7 +126,7 @@ def audit_side(side, Db, Da, Mb, Ma, raw, skin, ev, log=print):
             out["angles"][t].pop(k, None)
     out["evidence"] = {"before": evidence_stats(side, Db, ev), "after": evidence_stats(side, Da, ev)}
     out["wrist"] = {"before": wrist_stat(side, Db, raw), "after": wrist_stat(side, Da, raw)}
-    ids_f = zone_ids(Da, raw, side, jc, wc)
+    ids_f = zone_ids(Da, raw, side, jc, wc, hc)
     out["n_zone_structures"] = len(ids_f)
     att = A.attachments(Db, Da, raw, side, ids_f)
     out["footprints"] = att
@@ -133,8 +134,8 @@ def audit_side(side, Db, Da, Mb, Ma, raw, skin, ev, log=print):
     deva = [max(abs(v["after_mm"] - v["source_mm"]) for k, v in r.items() if k != "_atlas_record") for r in att.values()]
     out["footprints_summary"] = {"muscles": len(att), "mean_worst_bone_deviation_from_source_before_mm": round(float(np.mean(devb)), 2) if devb else None,
                                  "after_mm": round(float(np.mean(deva)), 2) if deva else None, "muscles_dev_gt5mm_before": int(sum(d > 5 for d in devb)), "after": int(sum(d > 5 for d in deva))}
-    ids_s = zone_ids(Ma, raw, side, jc, wc)
-    cen = np.vstack([jc, wc])
+    ids_s = zone_ids(Ma, raw, side, jc, wc, hc)
+    cen = np.vstack([jc, wc, hc])
     rows = A.continuity(Mb, Ma, raw, side, ids_s, cen)
     out["touching_pairs"] = rows
     out["touching_summary"] = A.summary_gaps(rows)
