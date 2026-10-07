@@ -512,7 +512,7 @@ def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
     return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -595,7 +595,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
         record(i, name, v1, m0, m1, a_before, att.stat(i, v1, att_trees), n_pull)
     before_closure = {i: by[i]["v"].copy() for i in ids}
     centres = np.vstack([jc[None]] + [np.asarray(c, float)[None] for c in extra_centres])
-    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, centres, v_field, log=log, rounds=6 if "close" in STEPS else 0, veto=(lambda k, vk: lex(k, vk) > 0.5) if lab else None)
+    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, centres, v_field, log=log, rounds=(close_rounds or 6) if "close" in STEPS else 0, veto=(lambda k, vk: lex(k, vk) > 0.5) if lab else None, tube_close=tube_close)
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
         if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)
@@ -672,7 +672,7 @@ def _gap(by, a, b):
     return float(cKDTree(pb).query(pa)[0].min())
 
 
-def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log=print, rounds=6, veto=None):
+def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log=print, rounds=6, veto=None, tube_close=None):
     """pairs that touch in the Z source and are further apart now (> GAP_TOL_MM; vessel / nerve pairs GAP_TOL_VESSEL_MM): both structures (only the moved one if the other did not
     move) go half way to each other over the footprint that touches in the source (<= GAP_CAP_MM each, spread over the mesh, volume / fold guarded)"""
     from scripts.zanatomy import q190_refine as Q
@@ -702,21 +702,22 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log
             for k, fk, dk, tgt, share, vk0 in ((a, fa, da, vb[ja], share_a, va), (b, fb, db_, va[jb], share_b, vb)):
                 if share == 0.0:
                     continue
-                step = np.clip(share * (dk - d0), 0, GAP_CAP_MM)
+                tube = tube_close is not None and by[k]["cat"] in ("vessel", "nerve")
+                step = np.clip(share * (dk - d0), 0, tube_close[0] if tube else GAP_CAP_MM)
                 vec = (tgt - vk0[fk]) / np.maximum(dk, 1e-6)[:, None] * step[:, None]
                 near = step > 0.5
                 if near.sum() < 3:
                     continue
                 T = vec[near].mean(0)
                 dz = cKDTree(vk0[fk][near]).query(vk0)[0]
-                vk = vk0 + T[None, :] * np.exp(-((dz / CLOSE_SIGMA_MM) ** 2))[:, None]
+                vk = vk0 + T[None, :] * np.exp(-((dz / (tube_close[1] if tube else CLOSE_SIGMA_MM)) ** 2))[:, None]
                 if by[k]["cat"] in PUSH_CATS:
                     vk = H.push_out_of_bones(vk, by[k]["f"], zb, np.ones(len(vk), bool), tol=1.5, max_move=7.0)
                 rk = raw[k].astype(float)
                 if by[k]["cat"] == "muscle" and _closed(by[k]["f"]) and not H.NOT_BODY.search(k):
                     vk, _ = Q.volume_guard(vk, rk, by[k]["f"])
                 f0, f1 = H.fold_stats(vk0, rk, by[k]["f"]), H.fold_stats(vk, rk, by[k]["f"])
-                vk = cap_to(vk, v_field[k]) if k in v_field else vk
+                vk = cap_to(vk, v_field[k], tube_close[2] if tube else ADJUST_CAP_MM) if k in v_field else vk
                 f1 = H.fold_stats(vk, rk, by[k]["f"])
                 if f1 > max(f0 + 0.01, 0.02) or (veto is not None and veto(k, vk)):
                     new = None

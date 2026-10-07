@@ -16,10 +16,12 @@ from pathlib import Path
 import numpy as np
 
 REPO = Path(__file__).resolve().parents[2]
+TUBE_CLOSE = (25.0, 25.0, 35.0)     # vessel / nerve pairs: closure step cap, Gaussian sigma, distance cap from the field result (mm); muscles keep the Q199 12 / 15 / 10 mm
+HAND_ZONE_MM = 110.0            # arm structures within this distance of the Z-source hand (metacarpal centroid) are movable by the gap closure
 WRIST_ZONE_MM = 90.0            # arm structures with a Z-source vertex this close to the Z-source wrist are in scope (the forearm bones' distal ends move onto the carpals)
 
 
-def make_scope(jc_by_side: dict, wc_by_side: dict):
+def make_scope(jc_by_side: dict, wc_by_side: dict, hc_by_side: dict | None = None):
     """the Q201 scope: ARM structures (Q168 region upper_limb / forearm_hand) that reach the elbow zone (ELBOW_ZONE + 40 mm of the Z-source joint) or the wrist zone, plus merged Z meshes (not
     trunk / head-neck) that hold an arm part there.  The shoulder girdle and the trunk muscles are NOT in scope (the humerus head does not move beyond the Q195 fit)."""
     from scripts.zanatomy import q199_elbow as E
@@ -28,11 +30,22 @@ def make_scope(jc_by_side: dict, wc_by_side: dict):
         wc = wc_by_side[side]
         d_e = np.linalg.norm(raw_i - jc_by_side[side], axis=1)
         d_w = np.linalg.norm(raw_i - wc, axis=1)
-        near = bool((d_e < E.ELBOW_ZONE_MM + 40.0).any() or (d_w < WRIST_ZONE_MM).any())
-        n_near = int((d_e < E.ELBOW_ZONE_MM + 40.0).sum() + (d_w < WRIST_ZONE_MM).sum())
+        d_h = np.linalg.norm(raw_i - hc_by_side[side], axis=1) if hc_by_side else np.full(len(raw_i), 1e9)
+        near = bool((d_e < E.ELBOW_ZONE_MM + 40.0).any() or (d_w < WRIST_ZONE_MM).any() or (d_h < HAND_ZONE_MM).any())
+        n_near = int((d_e < E.ELBOW_ZONE_MM + 40.0).sum() + (d_w < WRIST_ZONE_MM).sum() + (d_h < HAND_ZONE_MM).sum())
         merged = region not in ("trunk", "head_neck") and n_near >= 100
         return (region in E.ARM_REGIONS and near) or merged
     return scope
+
+
+def zone_centres(by, raw, side, wc=None):
+    """(elbow joint centre, hand centre) in the Z-source frame: the Z-source humerus - radius / ulna contact patch, the mean of the five Z metacarpals"""
+    from scripts.zanatomy import q199_elbow as E
+    s = "_" + side
+    jsmp, jsel, _, _ = E.joint_pairs(raw, side, by)
+    jc = E.at(raw["humerus" + s], jsmp["humerus"])[jsel].mean(0)
+    hc = np.vstack([raw[k] for k in raw if k.startswith("zan_") and "_metacarpal_bone" in k and k.endswith(s)]).mean(0)
+    return jc, hc
 
 
 def weld_all_skin(by, raw, log=print, rounds=8, cap=14.0):
@@ -124,21 +137,19 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, his=None, decimate_fn
         regions = json.loads(body_ctx.REGION_REPORT.read_text())["region_of_structure"]
     ev = ev if ev is not None else C.load_evidence()
     rep = {"rule": "scripts/zanatomy/q201_chain.py + q199_elbow.py (his evidence)", "chain": {}, "structures": {}, "bones": {}, "moved_ids": []}
-    chains, jcs, wcs = {}, {}, {}
+    chains, jcs, wcs, hcs = {}, {}, {}, {}
     for side in sides:
         ch, rc = C.fit_male(side, by, raw, ev, log=log)
         chains[side] = ch
         rep["chain"][side] = rc
-        s = "_" + side
-        jsmp, jsel, _, _ = E.joint_pairs(raw, side, by)
-        jcs[side] = E.at(raw["humerus" + s], jsmp["humerus"])[jsel].mean(0)
         wcs[side] = np.asarray(rc["wrist_centre_raw"], float)
+        jcs[side], hcs[side] = zone_centres(by, raw, side)
     from scripts.zanatomy import q201_field as FLD
     DF = FLD.DeltaField(FLD.load_xf(raw), chains)
-    scope = make_scope(jcs, wcs)
+    scope = make_scope(jcs, wcs, hcs)
     for side in sides:
         s = "_" + side
-        r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side]], allow_unchanged=True, note_fn=note,
+        r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side], hcs[side]], allow_unchanged=True, note_fn=note, tube_close=TUBE_CLOSE, close_rounds=10,
                          field_fn=lambda i, v0: DF.delta(i, raw[i]))
         rep["bones"].update(r["bones"])
         bone_notes(by, side, rep["chain"][side], r["bones"])

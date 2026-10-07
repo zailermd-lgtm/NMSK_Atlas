@@ -160,7 +160,7 @@ def audit_side(side, Db, Da, Mb, Ma, raw, skin, ev, log=print):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--before", default=str(REPO / "build" / "q197" / "viewer_zan_male_fitted"))
-    ap.add_argument("--after", default=str(REPO / "build" / "viewer_zan_vhm_q201"))
+    ap.add_argument("--after", default=None, help="the shipped page dir after (decimated meshes: touching pairs, containment, overlap, ship diff); omitted = the full-resolution dumps are used for everything")
     ap.add_argument("--before-dump", required=True, help="full-resolution dump of the Q195 state (the hook's input)")
     ap.add_argument("--after-dump", required=True, help="full-resolution dump after the hook (--q201-dump-after)")
     ap.add_argument("--out", default=str(REPO / "data" / "derived" / "Q201_arm_audit.json"))
@@ -174,13 +174,16 @@ def main(argv=None):
     raw = {d["id"]: d["r"] for d in Db_l}
     Db = {d["id"]: {"v": d["v"], "f": d["f"], "sys": d["cat"], "cat": d["cat"]} for d in Db_l}
     Da = {d["id"]: {"v": d["v"], "f": d["f"], "sys": d["cat"], "cat": d["cat"]} for d in Da_l}
-    Mb, Ma = A186.load_viewer(Path(a.before)), A186.load_viewer(Path(a.after))
+    if a.after:
+        Mb, Ma = A186.load_viewer(Path(a.before)), A186.load_viewer(Path(a.after))
+    else:
+        Mb, Ma = Db, Da
     skin = load_skin("vhm")
     ev = C.load_evidence()
     out = {side_name: audit_side(side, Db, Da, Mb, Ma, raw, skin, ev) for side, side_name in (("l", "left"), ("r", "right"))}
     out["skin_seams"] = {"before": skin_seams_all(Db, raw), "after": skin_seams_all(Da, raw)}
     Path(a.out).write_text(json.dumps(out, indent=1, default=float))
-    changed, unchanged = A.diff(Mb, Ma)
+    changed, unchanged = A.diff(Mb, Ma) if a.after else ({}, 0)
     listed = set()
     if a.report:
         rep = json.loads(Path(a.report).read_text())
