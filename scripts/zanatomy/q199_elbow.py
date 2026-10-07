@@ -12,8 +12,11 @@ blend.  Here:
   2. FIELD.  Every soft structure of the arm moves by  D(x) = sum_b w_b(x) D_b(x)  over the moving bones (humerus: its rigid motion, radius / ulna: their swings) and the fixed bones
      (shoulder girdle, ribs, carpals, hand: D = 0) plus a null anchor 40 mm out (so tissue far from every bone moves less, and skin does not move);  w_b = 1 / (d_b + 6 mm)^2 with d_b the
      distance to the bone as it was.  No axial blend length: the elbow transition is where the nearest bone changes.
-  3. PER STRUCTURE.  guards (volume 0.65-1.5x the Z source, folds, stretch, area, inside her skin, out of bone) with a fallback ladder (full field -> low-passed field -> mean translation ->
-     unchanged), then the origin / insertion zones (the vertices that touch the bone in the Z source, atlas record data/muscles/*) are brought back to the Z-source gap to that bone (<= 15 mm).
+  3. PER STRUCTURE.  candidates (field, field low-passed 10 / 25 mm, mean translation) pushed out of the displayed bones, inside her skin, volume 0.65-1.5x the Z source (other closed
+     meshes +-10 %), the cheapest by a cost (skin + bone + stretch + 6 x folds + attachment excess + her-label excess, the field is kept unless another is better by > 2); then the origin /
+     insertion footprints (Z-source vertices < 8 mm from the humerus / radius / ulna / scapula / clavicle) that sit > 3 mm further from their bone than in the Z source are brought back by a
+     smooth end translation (<= 10 mm; the part of a right-arm muscle that lies on her own label is not moved); pairs that touch in the Z source and are > 5 mm apart (vessel / nerve pairs > 3 mm)
+     close up; the neighbour-muscle overlap is reduced by the Q194 bounded separation on the shipped meshes (<= 5 mm).  Everything after the field stays within 10 mm of the field result.
 Everything else is untouched (bit-identical vertices).
 """
 from __future__ import annotations
