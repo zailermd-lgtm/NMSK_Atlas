@@ -350,7 +350,51 @@ def _ease(t):
     return t * t * (3 - 2 * t)
 
 
-def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nstep=4, nang=64):
+def _local_continuation(s0, cap, capA, axis, pos, sign, kk, k, beyond, shift_decay):
+    """The Z counterpart's section at the seam is much smaller than the measured cap face (the measured mass is wider than the Z muscle):
+    no loft over the whole face. The Z structure is clipped at the seam plane, its section closed by a planar face, and shifted in-plane
+    (fading over `shift_decay` mm) so that the section lies on the measured cap face; the rest of the flat face stays as it is (reported)."""
+    import mapbox_earcut as earcut
+    from shapely.geometry import Point as _P
+    from shapely.ops import nearest_points
+    v1, f1, loops1, keep1, poly0 = s0
+    comps = face_components(f1)
+    kv = set(int(x) for i in keep1 for x in loops1[i])
+    fk = np.concatenate([f1[c] for c in comps if kv & set(f1[c].ravel().tolist())])
+    used = np.unique(fk)
+    remap = -np.ones(len(v1), int); remap[used] = np.arange(len(used))
+    zv, zf = v1[used].copy(), remap[fk]
+    zloops = [remap[loops1[i]] for i in keep1]
+    c = _P(poly0.centroid.coords[0])
+    if capA.contains(c):
+        sh = np.zeros(2)
+    else:
+        q = nearest_points(capA, c)[0]
+        sh = np.array([q.x - c.x, q.y - c.y])
+        # move far enough that the section's own extent starts to overlap the face
+    s = np.maximum(sign * (zv[:, k] - pos), 0)
+    w = 1.0 - _ease(np.clip(s / shift_decay, 0, 1))
+    zv[:, kk[0]] += w * sh[0]; zv[:, kk[1]] += w * sh[1]
+    faces = [zf]
+    for l in zloops:
+        zv[l, k] = pos
+        P2 = zv[l][:, kk]
+        tri = earcut.triangulate_float64(P2.astype(np.float64), np.array([len(P2)], np.uint32)).reshape(-1, 3)
+        faces.append(l[tri])
+    from shapely.geometry import Polygon as _Pg
+    zpoly = _uu_polys([_Pg(zv[l][:, kk]).buffer(0) for l in zloops])
+    cover = float(zpoly.intersection(capA).area / max(capA.area, 1e-9))
+    ring0 = np.unique(np.concatenate(zloops))
+    return dict(v=zv, f=np.vstack(faces), ring0=ring0, n=len(ring0), n_loops_z=len(zloops), Lt=0.0, beyond_mm=float(beyond.max()), sh=float(np.linalg.norm(sh)),
+                area_ratio=float(poly0.area / max(capA.area, 1e-6)), n_frag=cap["n_comp"], mode="local", cap_covered=cover)
+
+
+def _uu_polys(ps):
+    from shapely.ops import unary_union
+    return unary_union(ps)
+
+
+def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nstep=4, nang=64, local_ratio=0.35):
     """Z continuation beyond the cap plane P0 of M, as a loft + Z piece (M is not edited):
       ring 0   = outline of M's cap (the loop itself for a one-piece cap, the closed union of the fragments otherwise) at P0;
       ring K   = outline of the fitted Z counterpart's section at the plane P1, Lt mm beyond P0 (Lt grows with the size mismatch);
@@ -385,6 +429,10 @@ def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nste
         return dict(reason="Z mesh has no closed section at the plane")
     poly0 = s0[4]
     cz0 = np.asarray(poly0.centroid.coords[0])
+    from shapely.ops import unary_union as _uu
+    capA = _uu(cap["polys"])
+    if poly0.area < local_ratio * capA.area:
+        return _local_continuation(s0, cap, capA, axis, pos, sign, kk, k, beyond, shift_decay)
     Rm = polar_radius(xm, cm); Rz0 = polar_radius(np.asarray(poly0.exterior.coords)[:-1], cz0)
     if Rm is None or Rz0 is None:
         return dict(reason="degenerate section")
@@ -452,5 +500,5 @@ def continue_cap2(Mv, cap, Zv, Zf_faces, min_beyond=10.0, shift_decay=30.0, nste
     tri = earcut.triangulate_float64(rings[-1][:, kk].astype(np.float64), np.array([n], np.uint32)).reshape(-1, 3) + nstep * n
     V = np.vstack([LV, zv])
     F = np.vstack([lf, tri, zf + len(LV)])
-    return dict(v=V, f=F, ring0=np.arange(n), n=n, n_loops_z=len(zloops), Lt=Lt, beyond_mm=float(beyond.max()), sh=float(np.linalg.norm(sh)),
+    return dict(v=V, f=F, ring0=np.arange(n), n=n, mode="loft", cap_covered=1.0, n_loops_z=len(zloops), Lt=Lt, beyond_mm=float(beyond.max()), sh=float(np.linalg.norm(sh)),
                 area_ratio=float(poly0.area / max(um.area, 1e-6)), n_frag=cap["n_comp"])

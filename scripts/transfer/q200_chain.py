@@ -28,8 +28,8 @@ def refine_to_joint(zv, zf, own_v, own_f, hum_pts_tree, prox_sign, partner=None,
                     scale_rng=(0.92, 1.15), w_art=6.0, art_len=40.0):
     """Correction of the Z bone (vertices zv in the body frame; the Q168/Q195 placement) so that its articular end touches the
     humerus samples. prox_sign +1: the articular end is the end with the largest y. Returns (zv', info, fn) where fn applies the same correction to any points."""
-    zs = sample_surface(zv, zf, 6000, 1)
-    os_ = sample_surface(own_v, own_f, 5000, 2)
+    zs = sample_surface(zv, zf, 5000, 1)
+    os_ = sample_surface(own_v, own_f, 4000, 2)
     yv = prox_sign * zs[:, 1]
     top = zs[yv >= yv.max() - art_len]
     pivot = top.mean(0)
@@ -46,7 +46,10 @@ def refine_to_joint(zv, zf, own_v, own_f, hum_pts_tree, prox_sign, partner=None,
             cp, dm = partner(T)
             c += w_art * 0.5 * (cp - 1.5) ** 2 * 0 + (0 if dm >= 0.5 else 5 * (0.5 - dm))
         reg = 0.02 * (np.degrees(np.linalg.norm(x[1:4])) ** 2) + 0.01 * np.sum(x[4:7] ** 2)
-        return c + reg
+        # soft bounds inside the search, so the clipped result is the optimum and not a clipped excursion
+        pen = 50.0 * max(0.0, np.degrees(np.linalg.norm(x[1:4])) - max_rot_deg) ** 2 + 5.0 * max(0.0, np.linalg.norm(x[4:7]) - max_trans) ** 2
+        pen += 2000.0 * (max(0.0, np.log(scale_rng[0]) - x[0]) ** 2 + max(0.0, x[0] - np.log(scale_rng[1])) ** 2)
+        return c + reg + pen
 
     x0 = np.zeros(7)
     d0 = cKDTree(zs).query(os_)[0]

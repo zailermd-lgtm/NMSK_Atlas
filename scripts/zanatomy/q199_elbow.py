@@ -285,6 +285,7 @@ CONT_CATS = ("muscle", "tendon", "ligament", "fascia", "vessel", "nerve", "bursa
 GAP_TOL_MM, GAP_TOL_VESSEL_MM, GAP_CAP_MM = 5.0, 3.0, 12.0
 CLOSE_SIGMA_MM = 15.0
 PREFER_FIELD_MARGIN = 2.0
+STEPS = {"attach", "close"}          # diagnostic switches (the build uses both)
 ADJUST_CAP_MM = 12.0          # push-out / skin clamp / volume / attachment / closure adjustments may not move a vertex further than this from the field's own result (+ <= SEPARATE_MAX_MM on the shipped mesh = 15 mm)
 SEPARATE_MAX_MM = 3.0
 ELBOW_ZONE_MM = 100.0         # continuity is judged where the contact lies within this distance of the Z-source elbow joint
@@ -499,7 +500,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
         v0, f, r, cat = v_before[i].astype(float), d["f"], raw[i].astype(float), d["cat"]
         D = gated(F(v0))
         dmax = float(np.linalg.norm(D, axis=1).max())
-        has_zone = cat in ATTACH_CATS and i in att.zone
+        has_zone = "attach" in STEPS and cat in ATTACH_CATS and i in att.zone
         if dmax < 0.05 and not (has_zone and att.excess(i, v0, att_trees) > 0):
             continue
         m0 = _metrics(v0, r, f, skin, zb)
@@ -538,7 +539,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             continue
         record(i, name, v1, m0, m1, a_before, att.stat(i, v1, att_trees), n_pull)
     before_closure = {i: by[i]["v"].copy() for i in ids}
-    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, v_field, log=log)
+    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, v_field, log=log, rounds=6 if "close" in STEPS else 0)
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
         if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)

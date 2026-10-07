@@ -56,7 +56,7 @@ def load_q194_left():
     man = json.loads(re.search(r"^window\.__ANATOMY_MANIFEST__=(.*);$", html, re.M).group(1))
     out = {}
     for r in man["meshes"]:
-        if r["side"] != "l" or r["sys"] not in ("muscle", "tendon", "fascia", "joint", "ligament"):
+        if r["side"] != "l" or r["sys"] not in ("muscle", "tendon", "fascia", "joint", "ligament", "vessel", "nerve"):
             continue
         vc, ic = r["vc"], r["ic"]
         q = np.frombuffer(blob, np.uint16, vc * 3, r["vo"]).reshape(-1, 3).astype(np.float64)
@@ -64,6 +64,13 @@ def load_q194_left():
         v = np.asarray(r["min"]) + q / 65535.0 * np.asarray(r["span"])
         out[r["id"]] = dict(v=v, f=f, sys=r["sys"], name=r["name"], rec=r.get("rec") or {})
     return out
+
+
+ARM_VESSELS = ["zan_brachial_artery", "zan_brachial_veins", "median_n_lateral_root", "ulnar_n", "radial_n", "musculocutaneous_n",
+               "zan_ulnar_artery", "zan_ulnar_veins", "zan_radial_veins", "zan_basilic_vein", "zan_cephalic_vein", "zan_median_cubital_vein",
+               "posterior_interosseous_n", "anterior_interosseous_n", "zan_radial_collateral_artery", "zan_middle_collateral_artery",
+               "zan_superior_ulnar_collateral_artery", "zan_inferior_ulnar_collateral_artery", "zan_deep_brachial_artery"]
+VESSEL_SUBJECT = {"vhm": "xfer_zan2vhm_armvessels_q200", "vhf": "xfer_zan2vhf_armvessels_q200"}
 
 
 def z_ids(own_id):
@@ -77,12 +84,14 @@ def z_ids(own_id):
 
 
 def load_z(body, ids, cache):
-    if cache.exists():
-        return pickle.load(open(cache, "rb"))
-    from scripts.transfer.zan_to_vhf_whole_body import collect_zan
+    import hashlib
     want = set()
     for i in ids:
         want.update(z_ids(i))
+    cache = cache.with_name(cache.stem + "_" + hashlib.md5("|".join(sorted(want)).encode()).hexdigest()[:8] + ".pkl")
+    if cache.exists():
+        return pickle.load(open(cache, "rb"))
+    from scripts.transfer.zan_to_vhf_whole_body import collect_zan
     items = {it["mesh_id"]: it for it in collect_zan(want, contralateral=False)}
     pickle.dump(items, open(cache, "wb"))
     return items
@@ -239,7 +248,7 @@ class Ctx:
         self.skin_mesh = trimesh.Trimesh(sk["v"], sk["f"], process=False)
         self.scratch = Path("/tmp/claude-0/-home-user-NMSK-Atlas/c87934a2-ee76-5e9b-b227-2ff779a6e56e/scratchpad")
         self.muscles = [i for i in self.own if re.match(r"^(" + "|".join(ARM_STEMS) + r")_(l|r)$", i) and self.own[i]["e"]["cat"] in ("muscle", "tendon")]
-        want = list(self.muscles) + [f"{b}_{s}" for b in ("humerus", "radius", "ulna") for s in "lr"]
+        want = list(self.muscles) + [f"{b}_{s}" for b in ("humerus", "radius", "ulna") for s in "lr"] + [f"{v}_{s}" for v in ARM_VESSELS for s in "lr"]
         self.q192 = None
         if body == "vhf":
             self.q192 = json.loads(Q192_FIT.read_text())["transforms_from_Z_source_frame"]
@@ -288,7 +297,8 @@ def stage_bones(ctx, sides="lr", log=print):
             continue
         Zh = zbone_in_body(ctx, hid)
         ctx.zbone[hid] = Zh
-        Ht = cKDTree(sample_surface(Zh, ctx.zit[hid]["f"], 30000, 9))
+        # the joint partner is the measured distal humerus together with its Z completion (the measured piece decides where the joint is)
+        Ht = cKDTree(np.vstack([sample_surface(own[hid]["v"], own[hid]["f"], 20000, 9), sample_surface(Zh, ctx.zit[hid]["f"], 15000, 8)]))
         for b in ("ulna", "radius"):
             bid = f"{b}_{side}"
             if bid not in own or bid not in ctx.zit:
@@ -326,7 +336,7 @@ def stage_bones(ctx, sides="lr", log=print):
                 if "v" not in r:
                     row["status"] = "held: " + r["reason"]; ctx.rows.append(row); continue
                 dd = fit_error(o["v"], o["f"], ctx.zbone[bid], ctx.zit[bid]["f"], cap)
-                row.update(status="continued", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1),
+                row.update(status="continued", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1), mode=r["mode"], cap_covered=round(r["cap_covered"], 2),
                            fit_err_median_mm=round(float(np.median(dd)), 1), fit_err_max_mm=round(float(np.quantile(dd, .95)), 1), nv=len(r["v"]), nf=len(r["f"]))
                 r["info"] = row
                 ctx.rows.append(row); pcs.append(r)
@@ -502,7 +512,7 @@ def stage_muscles(ctx, only=None, log=print):
             r["v"] = cv
             r["info"] = row
             row.update(status="continued", end="proximal" if toward_prox else "distal", beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1),
-                       shift_mm=round(r["sh"], 1), z_to_cap_area=round(r["area_ratio"], 3), pull=pinfo, constraints=cinfo, nv=len(cv), nf=len(r["f"]))
+                       shift_mm=round(r["sh"], 1), mode=r["mode"], cap_covered=round(r["cap_covered"], 2), z_to_cap_area=round(r["area_ratio"], 3), pull=pinfo, constraints=cinfo, nv=len(cv), nf=len(r["f"]))
             ctx.rows.append(row)
             pieces.append(r)
         if pieces:
@@ -510,6 +520,101 @@ def stage_muscles(ctx, only=None, log=print):
             for r in pieces:
                 V.append(r["v"]); F.append(r["f"] + off); off += len(r["v"])
             ctx.pieces[f"{tid}_zfill"] = dict(v=np.vstack(V), f=np.vstack(F), base=tid, cat=o["e"]["cat"], pieces=pieces, kind="muscle")
+
+
+def stage_vessels(ctx, sides="lr"):
+    """Z-Anatomy arm vessels / nerves through the elbow (the own models have none there): carried by the Q168/Q195 transform (her left arm: the
+    Q194 build's left-forearm placement), kept inside the skin and out of the bones; every number in the card."""
+    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    own = ctx.own
+    for side in sides:
+        bm = ctx.bone_meshes(side)
+        for base in ARM_VESSELS:
+            zid = f"{base}_{side}"
+            if zid in own:
+                ctx.rows.append(dict(id=zid, stage="vessel", status="held: already in the model")); continue
+            if ctx.body == "vhf" and side == "l":
+                q = ctx.q194.get(zid)
+                if q is None:
+                    ctx.rows.append(dict(id=zid, stage="vessel", status="held: not in the Q194 build")); continue
+                v0, f, sysn, name, rec0 = q["v"], q["f"], q["sys"], q["name"], q["rec"]
+                v0 = corrected_zf(ctx, zid, v0)
+            else:
+                z = ctx.zit.get(zid)
+                if z is None:
+                    ctx.rows.append(dict(id=zid, stage="vessel", status="held: no Z-Anatomy counterpart mesh")); continue
+                v0 = ctx.xf(zid, z["cat"], z["v"]); f = z["f"]; sysn = z["cat"]; name = z["name"]; rec0 = {}
+                v0 = corrected_zf(ctx, zid, v0)
+            out_before = float((~ctx.skin_mesh.contains(v0)).mean())
+            v1, n_skin = clip_to_skin_mesh(v0.copy(), ctx.skin_mesh)
+            v2, n_bone = push_off_bones(v1, bm)
+            import trimesh
+            inb = 0.0
+            for m in bm:
+                inb = max(inb, float(m.contains(v2).mean()))
+            row = dict(id=zid, stage="vessel", status="added", nv=len(v2), outside_skin_before_pct=round(100 * out_before, 1), skin_clipped=int(n_skin),
+                       bone_pushed=int(n_bone), inside_bone_after_pct=round(100 * inb, 2))
+            if inb > 0.05:
+                row["status"] = f"held: {100 * inb:.1f} % of the vertices stay inside a bone (> 5 %)"
+                ctx.rows.append(row); continue
+            ctx.rows.append(row)
+            rec = {"name": name, "latin": rec0.get("latin", name), "folder": "upper_limb", "region": "upper_limb"}
+            ctx.pieces[zid] = dict(v=v2, f=f, base=zid, cat="nerve" if sysn == "nerve" else "vessel", kind="arm_vessel", rec=rec,
+                                   side="left" if side == "l" else "right", subject=VESSEL_SUBJECT[ctx.body], info=row, n_ref=zid)
+
+
+def stage_separate(ctx, log=print):
+    """Bounded separation (q200_overlap) of every Z-filled / Z-transferred muscle of the elbow zone from the MEASURED muscles it sits inside.
+    Measured entries are never moved. Returns {id: (v, f, info)} for the existing xfer entries; the new pieces are updated in place."""
+    import trimesh
+    from scripts.transfer.limb_per_bone_transfer import clip_to_skin_mesh, push_off_bones
+    from scripts.transfer.q200_overlap import separate, inside_fraction
+    own = ctx.own
+    replaced = {}
+    for side in "lr":
+        if side not in ("l", "r") or f"humerus_{side}" not in own:
+            continue
+        ec = elbow_centre(ctx.body, side, own)
+        fixed, fixed_ids = [], []
+        for i, o in own.items():
+            e = o["e"]
+            if e["cat"] not in ("muscle", "tendon") or str(e.get("subject", "")).startswith("xfer_zan2") or not i.endswith("_" + side):
+                continue
+            if "subject" not in e or np.linalg.norm(o["v"].mean(0) - ec) > 220:
+                continue
+            fixed.append(trimesh.Trimesh(o["v"], o["f"], process=False)); fixed_ids.append(i)
+        bm = ctx.bone_meshes(side)
+
+        def constrain(v):
+            v1, _ = clip_to_skin_mesh(v.copy(), ctx.skin_mesh)
+            v2, _ = push_off_bones(v1, bm)
+            return v2
+        movers = []
+        for nid, pc in ctx.pieces.items():
+            if pc["kind"] in ("muscle", "left_muscle") and nid.replace("_zfill", "").endswith("_" + side):
+                movers.append(("piece", nid, pc["v"], pc["f"], pc))
+        for i in ctx.muscles:
+            o = own[i]
+            if i.endswith("_" + side) and str(o["e"].get("subject", "")).startswith("xfer_zan2") and np.linalg.norm(o["v"].mean(0) - ec) <= 150:
+                movers.append(("entry", i, o["v"], o["f"], None))
+        for kind, i, v, f, pc in movers:
+            others = [m for m, fid in zip(fixed, fixed_ids) if fid != i.split("_zfill")[0]]
+            pin = None
+            if kind == "piece" and pc["kind"] == "muscle":
+                pin = np.zeros(len(v), bool); off = 0
+                for r in pc["pieces"]:
+                    pin[off + r["ring0"]] = True; off += len(r["v"])
+            if len(f) < 4:
+                continue
+            nv, info = separate(v, f, others, constrain=constrain, pin=pin)
+            row = dict(id=i, stage="overlap", kind=kind, **{k: round(float(x), 3) for k, x in info.items()})
+            ctx.rows.append(row)
+            if info["rounds"] > 0:
+                if kind == "piece":
+                    pc["v"] = nv
+                else:
+                    replaced[i] = (nv, f, info)
+    return replaced
 
 
 def badge_text(cfg, tid, pieces, name, kind):
@@ -554,6 +659,15 @@ def assemble(ctx):
     cfg = ctx.cfg
     out = []
     for nid, pc in ctx.pieces.items():
+        if pc["kind"] == "arm_vessel":
+            rec = dict(pc["rec"]); i = pc["info"]
+            rec["source"] = "Z-Anatomy (CC BY-SA 4.0), fitted to this body; see the badge"
+            rec["procedural_badge"] = (f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) {pc['cat']} through the elbow: not measured on {cfg['he']} body (the CT / "
+                f"photographs show no resolvable {pc['cat']} here), carried by the per-bone Z-Anatomy transform onto {cfg['he']} own humerus / radius / ulna, "
+                f"{i['skin_clipped']} vertices pulled inside the skin ({i['outside_skin_before_pct']} % were outside), {i['bone_pushed']} pushed out of bone "
+                f"({i['inside_bone_after_pct']} % inside a bone after). A position estimate (generic course), not a dissection.")
+            ctx.B.add(nid, pc["cat"], pc["side"], pc["subject"], rec, pc["v"], pc["f"])
+            out.append(nid); continue
         if pc["kind"].startswith("left_"):
             rec = {k: pc["rec"][k] for k in ("name", "latin", "folder", "region", "origin", "insertion") if k in pc["rec"]}
             rec["source"] = "Z-Anatomy (CC BY-SA 4.0), placed on her left-forearm / hand cryosection photographs (Q192 / Q194); see the badge"
@@ -593,11 +707,20 @@ if __name__ == "__main__":
         stage_left_muscles(ctx)
     print("bones done", round(time.time() - t, 1))
     stage_muscles(ctx, only=a.only)
+    replaced = {}
+    if not a.only:
+        stage_vessels(ctx)
+        replaced = stage_separate(ctx)
     for r in ctx.rows:
         print(r)
     if not a.only:
+        for i, (nv, nf, info) in replaced.items():
+            old = ctx.own[i]["e"]["rec"].get("procedural_badge", "")
+            ctx.B.replace(i, nv, nf, rec_updates={"procedural_badge": (old + " " if old else "") + (
+                f"Q200: separated from the measured muscles it sat inside (inside them {100 * info['inside_before']:.1f} % -> {100 * info['inside_after']:.1f} % of "
+                f"the vertices, moved at most {info['move_max']:.1f} mm, volume {info['volume_ratio']:.2f}x; the measured muscles were not moved).")})
         assemble(ctx)
-        out = Path(a.out) if a.out else ctx.scratch / ("stage1_" + a.body)
+        out = Path(a.out) if a.out else ctx.cfg["out"]
         print("bundle bytes", write_bundle(ctx, out))
     if a.rows:
         Path(a.rows).write_text(json.dumps(ctx.rows, indent=1, default=str))

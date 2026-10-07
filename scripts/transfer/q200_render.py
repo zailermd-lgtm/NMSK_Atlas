@@ -38,7 +38,7 @@ def main():
     B = Bundle(a.bundle)
     S = to_q198(B)
     R8.OUT = Path(a.out)
-    hl = None if a.no_hl else {s["id"]: (0.15, 0.45, 0.95) for s in S if s["src"].endswith("_q200") and s["sys"] != "bone"}
+    hl = None if a.no_hl else {s["id"]: (0.15, 0.45, 0.95) for s in S if s["src"].endswith("_q200") and s["sys"] not in ("vessel", "nerve")}
     hlb = {}
     for sd in a.sides:
         j = R8.elbow_json(a.model, sd)
