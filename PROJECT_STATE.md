@@ -11342,3 +11342,5 @@ Owner (translated): "First of all the anatomy must be correct ... everything con
 - Z female page v13 (1GEpFS…) from `build/q199/viewer_zan_female` (installed copy updated in `build/viewer_zan_female`); zan_f motor points regenerated against it (190 points, 55 muscles; merged into `clinical/data/motor_points.json` + `Q187_motor_points_coverage.json`), `risk_zan_f.json` regenerated (1300 ids), clinical files staged. Tests: motor_points_q187 + clinical_q188 pass.
 - Follow-up: vhm/vhf motor points were built on pre-Q200 pages; regenerate against `build/q200/viewer_*_hr` (new Z-filled elbow muscles lack points). Right proximal bone ends of Z female may sit 15-20 mm high (right-arm photographs unused).
 - Next: Q201 Z male fitted forearm/hand/wrist/humerus roll + skin welds; own-model shoulder seams; his wrist-end radius/ulna.
+
+- Main session: own male/female motor points regenerated on the Q200 pages (vhf 154->170, vhm 162) and republished (male v86, female v69); tests pass.
