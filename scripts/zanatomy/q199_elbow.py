@@ -340,13 +340,17 @@ def _vol_out(vr):
 ATTACH_W = 1.5
 
 
-def cost(m, m0, cat, att_excess=0.0):
+LABEL_W, LABEL_TOL_MM = 2.0, 1.5
+HER_ALIAS_R = {"zan_extensor_pollicis_longus_r": "extensor_pollicis_longus_r"}
+
+
+def cost(m, m0, cat, att_excess=0.0, lab_excess=0.0):
     c = 2.0 * m.get("outside_her_skin_pct", 0) + 1.0 * (m.get("stretch_area_outside_0.67_1.5_pct", 0) or 0) + 6.0 * m.get("folded_edges_pct", 0)
     if cat not in BONE_OK_CATS:
         c += 2.0 * m.get("inside_z_bone_pct", 0)
     if cat == "muscle":
         c += 60.0 * max(0.0, _vol_out(m.get("volume_ratio_vs_source")) - _vol_out(m0.get("volume_ratio_vs_source")))
-    return c + ATTACH_W * att_excess
+    return c + ATTACH_W * att_excess + LABEL_W * lab_excess
 
 
 def at_nearest(Dfull, vfull, P, k=3):
@@ -397,6 +401,31 @@ def make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, vr0=None):
     return v1
 
 
+class Labels:
+    """her own-model labels (CT frame, the RIGHT arm: her real measurement) of the right muscles that have one: median distance label -> Z surface (the coverage of her label).  A move that
+    takes a labelled muscle more than LABEL_TOL_MM further from its label costs; the Z-source attachment footprint is not allowed to override her label"""
+
+    def __init__(self, by, raw, her, ids):
+        self.items = {}
+        for i in ids:
+            hid = HER_ALIAS_R.get(i, i)
+            if by[i]["cat"] != "muscle" or hid not in her or her[hid]["cat"] != "muscle" or not _closed(by[i]["f"]):
+                continue
+            lab = at(np.asarray(her[hid]["v"], float), bary_samples(her[hid]["v"], np.asarray(her[hid]["f"]), 3000, seed=11))
+            self.items[i] = (cKDTree(lab), lab, bary_samples(raw[i], by[i]["f"], 2500, seed=12))
+
+    def gate(self, i, v):
+        """0 on her label (< 3 mm), 1 beyond 9 mm from it"""
+        return _sstep((self.items[i][0].query(v)[0] - 3.0) / 6.0)
+
+    def med(self, i, v):
+        t, lab, smp = self.items[i]
+        return float(np.median(cKDTree(at(v, smp)).query(lab)[0]))
+
+    def excess(self, i, v, base):
+        return 0.0 if i not in self.items else max(0.0, self.med(i, v) - base - LABEL_TOL_MM)
+
+
 class Attach:
     """origin / insertion footprints from the Z source: the vertices of a structure within ATTACH_ZONE_MM of the humerus / radius / ulna (x body scale) and their source distance"""
 
@@ -437,7 +466,7 @@ class Attach:
             tot += max(0.0, float(np.median(trees[b].query(v[idx])[0])) - float(np.median(d0)) - ATTACH_TOL_MM)
         return tot
 
-    def pull(self, i, v, f, trees, cap=ATTACH_CAP_MM, sigma=PULL_SIGMA_MM):
+    def pull(self, i, v, f, trees, cap=ATTACH_CAP_MM, sigma=PULL_SIGMA_MM, gate=None):
         """footprint vertices that sit further from their bone than in the Z source (+ATTACH_TOL_MM): the structure end moves by the MEAN pull vector of those vertices (<= cap), the motion
         fading with the distance from them (Gaussian, sigma mm), so the structure keeps its shape instead of being sheared vertex by vertex"""
         D = np.zeros_like(v)
@@ -461,10 +490,12 @@ class Attach:
             n_pull += int(too.sum())
         if not n_pull:
             return v, 0
+        if gate is not None:                      # the part of the structure that lies on her own label stays: only the end beyond the label (the extrapolated part) is brought to the bone
+            D = D * gate[:, None]
         return v + D, n_pull
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -486,6 +517,9 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
                 or int((np.linalg.norm(by[i]["v"] - ch.ce, axis=1) < ELBOW_ZONE_MM).sum()) >= 100)]
     # = arm structures, the trunk muscles that attach to the humerus / forearm bones, and merged Z meshes that hold an arm part (the field is zero on their other parts)
     v_before = {i: by[i]["v"].copy() for i in ids}
+    lab = Labels(by, raw, her, ids) if (her is not None and side == "r") else None
+    lab_base = {i: lab.med(i, v_before[i]) for i in lab.items} if lab else {}
+    lex = (lambda i, v: lab.excess(i, v, lab_base[i]) if lab and i in lab_base else 0.0)
     v_field = {i: by[i]["v"].copy() for i in ids}            # after the field step: the attachment and closure steps stay within ADJUST_CAP_MM of it
     ctx = {}
 
@@ -517,7 +551,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             for nm, Dc in cands:
                 vv = make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
                 mm = _metrics(vv, r, f, skin, zb)
-                c1 = cost(mm, m0, cat, att.excess(i, vv, att_trees))
+                c1 = cost(mm, m0, cat, att.excess(i, vv, att_trees), lex(i, vv))
                 res.append((c1, nm, vv, mm))
                 if nm == "field" and c1 <= cost(m0, m0, cat, att.excess(i, v0, att_before_trees)) + 1.0:
                     break                                   # the field is not worse than before: no need to try the others
@@ -528,12 +562,12 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
         v_field[i] = v1.copy()
         n_pull = 0
         if has_zone:
-            v2, n_pull = att.pull(i, v1, f, att_trees)
+            v2, n_pull = att.pull(i, v1, f, att_trees, gate=(lab.gate(i, v1) if lab and i in lab.items else None))
             if n_pull:
                 v2 = make_candidate(v1, f, r, cat, i, v2 - v1, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
                 m2 = _metrics(v2, r, f, skin, zb)
                 v2 = cap_to(v2, v_field[i])
-                if cost(m2, m0, cat, att.excess(i, v2, att_trees)) <= cost(m1, m0, cat, att.excess(i, v1, att_trees)) + 3.0:
+                if cost(m2, m0, cat, att.excess(i, v2, att_trees), lex(i, v2)) <= cost(m1, m0, cat, att.excess(i, v1, att_trees), lex(i, v1)) + 3.0:
                     v1, m1 = v2, m2
                 else:
                     n_pull = 0
@@ -541,7 +575,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             continue
         record(i, name, v1, m0, m1, a_before, att.stat(i, v1, att_trees), n_pull)
     before_closure = {i: by[i]["v"].copy() for i in ids}
-    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, v_field, log=log, rounds=6 if "close" in STEPS else 0)
+    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, v_field, log=log, rounds=6 if "close" in STEPS else 0, veto=(lambda k, vk: lex(k, vk) > 0.5) if lab else None)
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
         if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)
@@ -618,7 +652,7 @@ def _gap(by, a, b):
     return float(cKDTree(pb).query(pa)[0].min())
 
 
-def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log=print, rounds=6):
+def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log=print, rounds=6, veto=None):
     """pairs that touch in the Z source and are further apart now (> GAP_TOL_MM; vessel / nerve pairs GAP_TOL_VESSEL_MM): both structures (only the moved one if the other did not
     move) go half way to each other over the footprint that touches in the source (<= GAP_CAP_MM each, spread over the mesh, volume / fold guarded)"""
     from scripts.zanatomy import q190_refine as Q
@@ -664,7 +698,7 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, v_field, log
                 f0, f1 = H.fold_stats(vk0, rk, by[k]["f"]), H.fold_stats(vk, rk, by[k]["f"])
                 vk = cap_to(vk, v_field[k]) if k in v_field else vk
                 f1 = H.fold_stats(vk, rk, by[k]["f"])
-                if f1 > max(f0 + 0.01, 0.02):
+                if f1 > max(f0 + 0.01, 0.02) or (veto is not None and veto(k, vk)):
                     new = None
                     break
                 new[k] = vk

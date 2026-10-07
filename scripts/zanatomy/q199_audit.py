@@ -163,7 +163,7 @@ def summary_gaps(rows):
             "mean_gap_after": round(float(a.mean()), 2) if len(a) else None, "max_gap_before": round(float(b.max()), 2) if len(b) else None, "max_gap_after": round(float(a.max()), 2) if len(a) else None}
 
 
-def audit_pair(Mb, Ma, raw, skin, side, log=print):
+def audit_pair(Mb, Ma, raw, skin, side, log=print, closed=None):
     s = "_" + side
     out = {}
     smp, sel, jj, d0 = E.joint_pairs(raw, side, Mb)
@@ -190,10 +190,10 @@ def audit_pair(Mb, Ma, raw, skin, side, log=print):
     out["containment"] = {"before": cb, "after": ca}
     out["containment_worst_after"] = sorted(((k, v["outside_skin_pct"], v["inside_bone_pct"]) for k, v in pera.items()), key=lambda t: -(t[1] + t[2]))[:12]
     try:
-        out["muscle_overlap"] = muscle_overlap(Mb, Ma, ids)
+        out["muscle_overlap"] = muscle_overlap(Mb, Ma, ids, closed=closed)
     except Exception as e:                                   # a pyembree crash in a worker: once more with the pure-numpy ray tester
         log(f"  overlap audit failed ({e!r}); repeating in safe mode")
-        out["muscle_overlap"] = muscle_overlap(Mb, Ma, ids, safe=True)
+        out["muscle_overlap"] = muscle_overlap(Mb, Ma, ids, safe=True, closed=closed)
     sb, sa = skin_seams(Mb, raw, side), skin_seams(Ma, raw, side)
     out["skin_seams"] = {"before": sb, "after": sa}
     return out
@@ -251,12 +251,12 @@ def sec_centre(v, f, y):
     return None if best is None else (best[1], best[2])
 
 
-def right_label_chamfer(Mb, Ma, her, ids=None):
+def right_label_chamfer(Mb, Ma, her, ids=None, side="r"):
     """right arm: shipped Z muscles vs her own-model labels (CT frame): median surface distance label -> Z (coverage of her label) and Z -> label inside the label's y range"""
     import trimesh
     from scripts.zanatomy import q191_hand as H
     out = {}
-    for i in (ids or [k for k in her if k.endswith("_r") and her[k]["cat"] == "muscle" and k in Mb]):
+    for i in (ids or [k for k in her if k.endswith("_" + side) and her[k]["cat"] == "muscle" and k in Mb]):
         lab = E.at(np.asarray(her[i]["v"], float), E.bary_samples(her[i]["v"], np.asarray(her[i]["f"]), 5000, seed=7))
         y0, y1 = lab[:, 1].min(), lab[:, 1].max()
         tl = cKDTree(lab)
@@ -269,13 +269,13 @@ def right_label_chamfer(Mb, Ma, her, ids=None):
     return out
 
 
-def muscle_overlap(Mb, Ma, ids, safe=False):
+def muscle_overlap(Mb, Ma, ids, safe=False, closed=None):
     """neighbour-muscle overlap (q194_separate.overlap_pct: share of sampled vertices lying > MIN_DEPTH_MM inside another muscle of the set), the arm muscles crossing the elbow"""
     from scripts.zanatomy import q190_refine as Q
     from scripts.zanatomy import q194_separate as Sp
     if safe:
         Sp.Skel.SAFE = True
-    mus = [i for i in ids if cat_of(Mb[i]) == "muscle" and Q._closed(Mb[i]["f"]) and not Q.NOT_A_MUSCLE_BODY.search(i)]
+    mus = [i for i in ids if cat_of(Mb[i]) == "muscle" and (i in closed if closed is not None else Q._closed(Mb[i]["f"])) and not Q.NOT_A_MUSCLE_BODY.search(i)]
     out = {}
     for tag, M in (("before", Mb), ("after", Ma)):
         ov = Sp.overlap_pct({i: (M[i]["v"], M[i]["f"]) for i in mus})
@@ -315,21 +315,38 @@ def main(argv=None):
     ap.add_argument("--report", default=str(REPO / "data" / "derived" / "Q199_zan_female_q199_build.json"))
     ap.add_argument("--out", default=str(REPO / "data" / "derived" / "Q199_elbow_audit.json"))
     ap.add_argument("--ship-diff", default=str(REPO / "data" / "derived" / "Q199_ship_diff.json"))
+    ap.add_argument("--before-dump", default=None, help="the full-resolution state of v12 (the --q194-dump / --q194-dump-after npz of the Q194 build): vertex-by-vertex attachment audit before")
     ap.add_argument("--raw-dump", default=None, help="a full-resolution dump (npz, q190_refine.dump_pending) whose r<i> arrays are the Z source vertices")
     a = ap.parse_args(argv)
     from scripts.ribs_from_ct_labels import load_skin
     from scripts.zanatomy import trunk_refit_q186c_audit as A186
     from scripts.zanatomy import q190_metrics as Mx
     Mb, Ma = A186.load_viewer(Path(a.before)), A186.load_viewer(Path(a.after))
-    raw = {d["id"]: d["r"] for d in Mx.load_dump(a.raw_dump)}
+    dump = Mx.load_dump(a.raw_dump)
+    raw = {d["id"]: d["r"] for d in dump}
+    from scripts.zanatomy import q190_refine as Q190
+    closed = {d["id"] for d in dump if Q190._closed(d["f"])}               # the muscle set = the closed meshes at full resolution (the decimated shipped faces are not always watertight)
     skin = load_skin("vhf")
     rep = json.loads(Path(a.report).read_text())
-    out = {"left": audit_pair(Mb, Ma, raw, skin, "l"), "right": audit_pair(Mb, Ma, raw, skin, "r")}
+    out = {"left": audit_pair(Mb, Ma, raw, skin, "l", closed=closed), "right": audit_pair(Mb, Ma, raw, skin, "r", closed=closed)}
     out["left"]["photographs"] = left_photo_compartment(Mb, Ma)
+    if a.before_dump:                              # the shipped meshes are decimated (no vertex correspondence): the attachment footprints are audited on the full-resolution dumps
+        Db, Da = {d["id"]: d for d in Mx.load_dump(a.before_dump)}, {d["id"]: d for d in dump}
+        Fb = {i: {"v": d["v"], "f": d["f"], "sys": d["cat"]} for i, d in Db.items()}
+        Fa = {i: {"v": Da[i]["v"], "f": Da[i]["f"], "sys": Da[i]["cat"]} for i in Db}
+        for side, key in (("l", "left"), ("r", "right")):
+            smp, sel, _, _ = E.joint_pairs(raw, side, Fb)
+            jc = E.at(raw["humerus_" + side], smp["humerus"])[sel].mean(0)
+            ids_f = elbow_ids(Fa, raw, side, jc)
+            att = attachments(Fb, Fa, raw, side, ids_f)
+            devb = [max(abs(v["before_mm"] - v["source_mm"]) for k, v in r.items() if k != "_atlas_record") for r in att.values()]
+            deva = [max(abs(v["after_mm"] - v["source_mm"]) for k, v in r.items() if k != "_atlas_record") for r in att.values()]
+            out[key]["attachments_fullres"] = {"summary": {"muscles": len(att), "mean_worst_bone_deviation_from_source_before_mm": round(float(np.mean(devb)), 2), "after_mm": round(float(np.mean(deva)), 2),
+                                                           "muscles_dev_gt5mm_before": int(sum(d > 5 for d in devb)), "after": int(sum(d > 5 for d in deva))}, "per_muscle": att}
     from scripts.transfer.zan_to_vhf_whole_body import load_her_meshes
     her = load_her_meshes()
     out["right"]["labels"] = right_label_chamfer(Mb, Ma, her)
-    out["left"]["ct_labels_upper_arm"] = right_label_chamfer(Mb, Ma, {k: v for k, v in her.items() if k.endswith("_l") and k in ("biceps_brachii_l", "brachialis_l", "triceps_brachii_l")})
+    out["left"]["arm_labels"] = right_label_chamfer(Mb, Ma, {k: v for k, v in her.items() if k.endswith("_l") and k in ("biceps_brachii_l", "brachialis_l")}, side="l")
     Path(a.out).write_text(json.dumps(out, indent=1, default=float))
     changed, unchanged = diff(Mb, Ma)
     listed = set(rep.get("q199", rep).get("moved_ids", []))

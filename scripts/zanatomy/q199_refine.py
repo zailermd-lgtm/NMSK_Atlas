@@ -35,7 +35,7 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, her=None, decimate_fn
     from scripts.transfer.zan_to_vhf_whole_body import DEFAULT_REPORT
     regions = json.loads(DEFAULT_REPORT.read_text())["region_of_structure"]
     for side, ch in (("l", ch_l), ("r", ch_r)):
-        r = E.refine_side(side, by, raw, ch, skin, skin_tree, regions=regions, log=log)
+        r = E.refine_side(side, by, raw, ch, skin, skin_tree, regions=regions, log=log, her=her)
         rep["bones"].update(r["bones"])
         _bone_notes(by, side, rep["chain"]["left" if side == "l" else "right"], r["bones"])
         rep["structures"].update(r["structures"])

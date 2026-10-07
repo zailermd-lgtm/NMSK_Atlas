@@ -158,6 +158,19 @@ def test_close_sigma_and_caps_are_the_documented_ones():
     assert np.linalg.norm(E.cap_to(ref, v1) - v1, axis=1).max() <= 10.0 + 1e-9
 
 
+def test_label_guard_costs_a_move_away_from_her_label_and_gates_the_pull():
+    v, f = cyl((0, 0, 0), 80, 6, n=24)
+    by = {"m_r": {"v": v, "f": f, "cat": "muscle"}}
+    raw = {"m_r": v.copy()}
+    her = {"m_r": {"v": v + [0, 0, 1.0], "f": f, "cat": "muscle"}}
+    L = E.Labels(by, raw, her, ["m_r"])
+    base = L.med("m_r", v)
+    assert L.excess("m_r", v, base) == 0.0
+    assert L.excess("m_r", v + [0, 0, 10.0], base) > 1.0
+    g = L.gate("m_r", np.r_[v, v + [0, 0, 20.0]])
+    assert g[: len(v)].max() < 0.3 and g[len(v):].min() > 0.9      # on her label the attachment pull is switched off, beyond it fully on
+
+
 REPORT = REPO / "data" / "derived" / "Q199_zan_female_q199_build.json"
 
 
