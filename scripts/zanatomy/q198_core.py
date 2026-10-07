@@ -228,6 +228,8 @@ def flat_caps(v, f, minarea=40.0, tol=0.3, at_end=1.5):
         for kk in np.unique(key):
             m = key == kk
             area = float(a2[m].sum()); pos = float(pc[m].mean())
+            if kn == "x" and abs(pos) < 15:
+                continue                                              # the midline plane between the two halves of a paired structure is not a data cut
             if area > minarea and (abs(pos - ext[0]) < at_end or abs(pos - ext[1]) < at_end):
                 caps.append({"axis": kn, "plane_mm": round(pos, 1), "area_mm2": round(area, 1), "centre": vk[m].reshape(-1, 3).mean(0).tolist()})
     return sorted(caps, key=lambda x: -x["area_mm2"])

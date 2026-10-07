@@ -45,10 +45,10 @@ def bones_of(S):
 def spine_levels(vert):
     """own: cervical_vertebrae x7 / thoracic x12 / lumbar x5 (same id repeated); Z: zan_vertebra_c3.. + atlas/axis. -> dict 'C1'..'L5' -> struct"""
     out = {}
-    own = [s for s in vert if s["id"] in ("cervical_vertebrae", "thoracic_vertebrae", "lumbar_vertebrae")]
+    own = [s for s in vert if s["id"].split("#")[0] in ("cervical_vertebrae", "thoracic_vertebrae", "lumbar_vertebrae")]
     if own:
         for grp, pre, n in (("cervical_vertebrae", "C", 7), ("thoracic_vertebrae", "T", 12), ("lumbar_vertebrae", "L", 5)):
-            g = sorted([s for s in own if s["id"] == grp], key=lambda s: -s["v"][:, 1].mean())
+            g = sorted([s for s in own if s["id"].split("#")[0] == grp], key=lambda s: -s["v"][:, 1].mean())
             for k, s in enumerate(g):
                 out[f"{pre}{k+1}"] = s
         return out

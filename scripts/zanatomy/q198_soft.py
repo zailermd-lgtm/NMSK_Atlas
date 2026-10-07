@@ -140,7 +140,7 @@ def analyse_belly(s, J, bf, skin, bonefill, expb=None, near_end_R=None):
     e_prox, e_dist = vv[ends[0]], vv[ends[1]]
     # closed flat caps (a cut through a closed mesh)
     from scripts.zanatomy.q198_core import flat_caps
-    caps = flat_caps(v, f)
+    caps = [] if (s["sys"] in ("cartilage", "skin") or "disc" in s["id"]) else flat_caps(v, f)
     for cp in caps:
         cp["dist_to_joint_mm"] = round(float(np.linalg.norm(np.asarray(cp.pop("centre")) - c)), 1)
     res["flat_caps"] = caps[:4]

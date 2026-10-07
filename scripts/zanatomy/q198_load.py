@@ -49,6 +49,15 @@ def load(key: str, with_markers=False):
             f = np.frombuffer(blob, np.uint16, ic * 3, r["io"]).reshape(-1, 3).astype(np.int64)
             v = np.asarray(r["min"]) + q / 65535.0 * np.asarray(r["span"])
             out.append(dict(id=r["id"], name=r["name"], sys=r["sys"], side=r["side"], v=v, f=f, src="zan", rec=r.get("rec") or {}))
+    cnt = {}
+    for s_ in out:
+        if s_["sys"] == "bone":
+            cnt[s_["id"]] = cnt.get(s_["id"], 0) + 1
+    seen = {}
+    for s_ in out:
+        if s_["sys"] == "bone" and cnt[s_["id"]] > 1:
+            seen[s_["id"]] = seen.get(s_["id"], 0) + 1
+            s_["id"] = f"{s_['id']}#{seen[s_['id']]}"
     return out
 
 

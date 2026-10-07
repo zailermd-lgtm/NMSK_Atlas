@@ -58,6 +58,8 @@ def main(bk, fk):
         tr = cKDTree(V)
         pr = tr.query_pairs(2.0, output_type="ndarray")
         pr = pr[L[pr[:, 0]] != L[pr[:, 1]]]
+        soft_n = np.array([bi[i]["sys"] not in ("bone", "skin", "cartilage") for i in ids])      # bone-bone / bone-skin pairs legitimately move (articulation, sliding skin)
+        pr = pr[soft_n[L[pr[:, 0]]] & soft_n[L[pr[:, 1]]]]
         dB = np.linalg.norm(V[pr[:, 0]] - V[pr[:, 1]], axis=1); dF = np.linalg.norm(W[pr[:, 0]] - W[pr[:, 1]], axis=1)
         rec = {"name": jb["name"], "side": jb["side"], "zone_structures": len(ids), "adjacent_pairs": int(len(pr))}
         if len(pr):
@@ -81,14 +83,16 @@ def main(bk, fk):
             Pz, Qz = V[m], W[m]
             s, Rm, t = umeyama(Pz, Qz)
             res = np.sqrt((((s * (Pz @ Rm.T) + t) - Qz) ** 2).sum(1).mean())
-            tf[i] = {"s": s, "R": Rm, "t": t, "rms": float(res), "n": int(m.sum()), "c_img": s * Rm @ c + t, "sys": bi[i]["sys"]}
+            pc_ = Pz.mean(0)
+            tf[i] = {"s": s, "R": Rm, "t": t, "rms": float(res), "n": int(m.sum()), "c_img": s * Rm @ c + t, "sys": bi[i]["sys"], "pc": pc_}
         bones = [x for x in (jb["prox"] + jb["dist"]) if x in tf]
         rec["frame_bones"] = bones
         offs = []
         for i, T in tf.items():
             if T["sys"] == "bone":
                 continue
-            dd = {b: float(np.linalg.norm(T["c_img"] - tf[b]["c_img"])) for b in bones}
+            pcs = T["pc"]
+            dd = {b: float(np.linalg.norm((T["s"] * T["R"] @ pcs + T["t"]) - (tf[b]["s"] * tf[b]["R"] @ pcs + tf[b]["t"]))) for b in bones}
             if not dd:
                 continue
             bnear = min(dd, key=dd.get)

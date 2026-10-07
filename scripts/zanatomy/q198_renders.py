@@ -3,7 +3,7 @@
 sections (matplotlib) of the elbow of both arms of one model, bones visible.   python3 scripts/zanatomy/q198_renders.py MODEL [--highlight]
 Outputs build/q198_renders/<model>/elbow_<side>_<view>[_hl].png"""
 from __future__ import annotations
-import argparse, json, sys, zlib
+import argparse, json, re, sys, zlib
 from pathlib import Path
 import numpy as np
 
@@ -51,6 +51,11 @@ def frame(j, side):
 
 
 def region_scene(S, side, c, r=135, hl=None, sysset=None, bones_only_side=True):
+    from scipy.spatial import cKDTree
+    from scripts.zanatomy.q198_core import surf_points
+    arm = [s for s in S if s["sys"] == "bone" and s["side"] == side and re.match(rf"^(humerus|radius|ulna)_{side}", s["id"])]
+    ap = np.concatenate([surf_points(b["v"], b["f"], 3.0, cap=8000) for b in arm]) if arm else None
+    atree = cKDTree(ap) if ap is not None else None
     sc = []
     for s in S:
         if s["sys"] == "skin" or s["id"] == "skin":
@@ -64,6 +69,8 @@ def region_scene(S, side, c, r=135, hl=None, sysset=None, bones_only_side=True):
             continue
         cen = v[f].mean(1)
         keep = np.linalg.norm(cen - c, axis=1) < r
+        if atree is not None and s["sys"] != "bone":
+            keep &= atree.query(cen)[0] < 62               # arm tissue only: faces within 62 mm of the humerus / radius / ulna (drops the trunk wall)
         if keep.sum() < 2:
             continue
         sc.append({"v": v, "f": f[keep], "color": color_of(s, hl)})

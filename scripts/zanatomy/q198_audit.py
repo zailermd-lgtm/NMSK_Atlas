@@ -55,10 +55,10 @@ def seam_planes(S, minn=3):
     from scripts.zanatomy.q198_core import flat_caps
     rows = []
     for s in S:
-        if s["sys"] == "skin" or s["id"] == "skin" or len(s["f"]) < 8:
+        if s["sys"] in ("skin", "cartilage") or s["id"] == "skin" or "disc" in s["id"] or len(s["f"]) < 8:
             continue
         v, f = weld(s["v"], s["f"])
-        for cp in flat_caps(v, f, minarea=60.0):
+        for cp in flat_caps(v, f, minarea=100.0):
             rows.append((s["id"], s["sys"], s["side"], cp["axis"], cp["plane_mm"], cp["area_mm2"], np.asarray(cp["centre"]), s.get("src")))
     out = []
     for ax in "xyz":
@@ -204,10 +204,12 @@ def skin_profile(skin_structs, J, half=90.0, dt=3.0):
         if not polys:
             rows.append((t, np.nan, np.nan, np.nan, 1)); continue
         pl = max(polys, key=lambda p: p.area)
+        if np.sqrt(pl.area / np.pi) > 110:
+            rows.append((t, np.nan, np.nan, np.nan, 2)); continue        # section merged with the trunk: not a limb section
         rows.append((t, float(np.sqrt(pl.area / np.pi)), pl.centroid.x, pl.centroid.y, 0))
     r = np.array(rows)
     ok = ~np.isnan(r[:, 1])
-    out = {"slices": int(len(r)), "valid": int(ok.sum()), "open_or_missing_sections": int((r[:, 4] > 0).sum())}
+    out = {"slices": int(len(r)), "valid": int(ok.sum()), "open_or_missing_sections": int((r[:, 4] == 1).sum()), "merged_with_trunk_sections": int((r[:, 4] == 2).sum())}
     if ok.sum() > 6:
         rr, cu, cw = r[ok, 1], r[ok, 2], r[ok, 3]
         dr = np.abs(np.diff(rr)); dc = np.hypot(np.diff(cu), np.diff(cw))
@@ -337,8 +339,17 @@ def main():
     skin = SkinField(skin_structs + female_sealers(key, S), 3.0, close=1 if kind == "own" else 2)
     bones = [s for s in S if s["sys"] == "bone"]
     bf = SO.BoneField(bones)
+    sm = {"patches": len(skin_structs)}
+    if kind == "own":
+        v_, f_ = weld(skin_structs[0]["v"], skin_structs[0]["f"]); lp, nb_, nm_ = boundary_loops(v_, f_)
+        sm.update({"open_boundary_edges": int(nb_), "nonmanifold_edges": int(nm_), "area_m2": round(float(tri_area(v_, f_).sum() / 1e6), 3)})
+    else:
+        tb = 0
+        for s_ in skin_structs:
+            v_, f_ = weld(s_["v"], s_["f"]); lp, nb_, nm_ = boundary_loops(v_, f_); tb += nb_
+        sm.update({"open_boundary_edges_total": int(tb)})
     res_seams = seam_planes(S) if not only else []
-    res = {"seam_planes": res_seams, "missing_joints": B.get("_missing", []), "model": key, "label": MODELS[key][3], "kind": kind, "n_structures": len(S), "skin_volume_L": round(skin.vol_L, 1), "junctions": []}
+    res = {"seam_planes": res_seams, "missing_joints": B.get("_missing", []), "model": key, "label": MODELS[key][3], "kind": kind, "n_structures": len(S), "skin_volume_L": round(skin.vol_L, 1), "skin_mesh": sm, "junctions": []}
     for j in J:
         if only and j["name"] not in only:
             continue
