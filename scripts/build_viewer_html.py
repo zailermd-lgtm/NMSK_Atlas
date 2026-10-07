@@ -35,10 +35,14 @@ def main() -> int:
                     help="Q163: write the geometry as sibling base64 <out-stem>_geo_NN.txt files (each "
                          "under the artifact host's 16 MB text-file cap) fetched by the page, instead of "
                          "inlining it -- lifts the single-page size ceiling; publish them with the page.")
+    ap.add_argument("--template", default=None,
+                    help="Q197: template file (default viewer/atlas_viewer.template.html). With an existing "
+                         "bundle.json/bundle.b64 and --external-bin this is the template-only re-render: no "
+                         "geometry is recomputed and the geo files come out byte-identical to the bundle's.")
     args = ap.parse_args()
 
     src = REPO_ROOT / args.bundle
-    template = (REPO_ROOT / "viewer" / "atlas_viewer.template.html").read_text(encoding="utf-8")
+    template = (Path(args.template) if args.template else REPO_ROOT / "viewer" / "atlas_viewer.template.html").read_text(encoding="utf-8")
     if args.title:
         template = template.replace(
             "<title>NMSK Atlas Viewer</title>", f"<title>{args.title}</title>", 1)
