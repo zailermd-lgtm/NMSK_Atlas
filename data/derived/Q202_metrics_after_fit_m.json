@@ -2,22 +2,37 @@
  "n_skin_patches": 250,
  "contact": {
   "contacts": 23744,
-  "gap_p99_mm": 1.82,
-  "gap_gt_2mm": 170,
-  "gap_gt_3mm": 45,
+  "gap_p99_mm": 1.96,
+  "gap_gt_2mm": 219,
+  "gap_gt_3mm": 56,
   "gap_gt_5mm": 13,
-  "gap_max_mm": 25.92
+  "gap_max_mm": 26.06
  },
  "envelope": {
-  "envelope_L_close2": 11.9,
+  "envelope_L_close2": 99.3,
   "envelope_L_close3": 99.4
  },
  "seams": {
-  "surface_gap_gt1mm": 21,
-  "surface_gap_gt2mm": 0,
-  "surface_gap_gt3mm": 0,
-  "surface_gap_max_mm": 1.79,
+  "surface_gap_gt1mm": 26,
+  "surface_gap_gt2mm": 3,
+  "surface_gap_gt3mm": 1,
+  "surface_gap_max_mm": 3.2,
   "surface_gap_worst": [
+   [
+    "zan_skin_anterior_region_of_thigh_l",
+    "zan_skin_urogenital_region_l",
+    3.2
+   ],
+   [
+    "zan_skin_urogenital_region_l",
+    "zan_skin_urogenital_region_r",
+    2.97
+   ],
+   [
+    "zan_skin_anterior_region_of_thigh_r",
+    "zan_skin_urogenital_region_r",
+    2.54
+   ],
    [
     "zan_skin_philtrum_l",
     "zan_skin_philtrum_r",
@@ -32,29 +47,29 @@
     "zan_skin_oral_region_l",
     "zan_skin_oral_region_r",
     1.73
-   ],
-   [
-    "zan_skin_anterior_region_of_wrist_l",
-    "zan_skin_palm_l",
-    1.51
-   ],
-   [
-    "zan_skin_oral_region_l",
-    "zan_skin_tubercle_of_upper_lip_r",
-    1.48
-   ],
-   [
-    "zan_skin_tubercle_of_upper_lip_l",
-    "zan_skin_tubercle_of_upper_lip_r",
-    1.48
    ]
   ],
   "seams": 627,
-  "steps_gt_1mm": 37,
-  "steps_gt_3mm": 0,
-  "max_step_mm": 1.98,
-  "mean_step_mm": 0.278,
+  "steps_gt_1mm": 44,
+  "steps_gt_3mm": 1,
+  "max_step_mm": 3.56,
+  "mean_step_mm": 0.304,
   "worst": [
+   [
+    "zan_skin_anterior_region_of_thigh_l",
+    "zan_skin_urogenital_region_l",
+    3.56
+   ],
+   [
+    "zan_skin_urogenital_region_l",
+    "zan_skin_urogenital_region_r",
+    2.97
+   ],
+   [
+    "zan_skin_anterior_region_of_thigh_r",
+    "zan_skin_urogenital_region_r",
+    2.86
+   ],
    [
     "zan_skin_eminentia_scaphae_r",
     "zan_skin_helix_r",
@@ -69,21 +84,6 @@
     "zan_skin_philtrum_l",
     "zan_skin_philtrum_r",
     1.94
-   ],
-   [
-    "zan_skin_anterior_region_of_wrist_l",
-    "zan_skin_palm_l",
-    1.92
-   ],
-   [
-    "zan_skin_oral_region_l",
-    "zan_skin_oral_region_r",
-    1.88
-   ],
-   [
-    "zan_skin_oral_region_l",
-    "zan_skin_tubercle_of_upper_lip_r",
-    1.88
    ]
   ]
  },
@@ -180,8 +180,8 @@
     -60,
     20
    ],
-   "escape_fraction": 0.00225,
-   "escape_dirs": 9
+   "escape_fraction": 0.0,
+   "escape_dirs": 0
   },
   "pelvis_centre": {
    "point": [
@@ -189,8 +189,8 @@
     -10,
     20
    ],
-   "escape_fraction": 0.00075,
-   "escape_dirs": 3
+   "escape_fraction": 0.00025,
+   "escape_dirs": 1
   },
   "perineal_gap": {
    "point": [
@@ -198,8 +198,8 @@
     -80,
     25
    ],
-   "escape_fraction": 0.012,
-   "escape_dirs": 48
+   "escape_fraction": 0.0,
+   "escape_dirs": 0
   },
   "lower_abdomen": {
    "point": [
@@ -207,8 +207,8 @@
     60,
     30
    ],
-   "escape_fraction": 0.00075,
-   "escape_dirs": 3
+   "escape_fraction": 0.0,
+   "escape_dirs": 0
   },
   "chest": {
    "point": [
@@ -216,8 +216,8 @@
     330,
     20
    ],
-   "escape_fraction": 0.00025,
-   "escape_dirs": 1
+   "escape_fraction": 0.0,
+   "escape_dirs": 0
   },
   "r_thigh": {
    "point": [

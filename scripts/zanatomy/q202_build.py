@@ -163,7 +163,8 @@ def weld_skin(page_key, raw_key, only_bad_gt=None, contact_gate=2.0, contact_wel
         sa = max([r["step_mm_max"] for r in after if i in (r["a"], r["b"])] or [0])
         moved[i] = {"max_displacement_mm": round(float(mv.max()), 2), "mean_displacement_mm": round(float(mv.mean()), 2), "seam_step_max_before_mm": sb, "seam_step_max_after_mm": sa}
         rec = dict(S[i]["m"].get("rec") or {})
-        rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + f" Q202: rule-based seam weld of this skin patch to its neighbours (largest shared-border step {sb} -> {sa} mm; mean move {mv.mean():.1f} mm, max {mv.max():.1f} mm); not a measurement.").strip()
+        cnote = (f" Q202: the scrotal bag and the perineal strip of this patch, 5-12 mm apart after the per-patch fits (1.3 mm in the Z source), were brought back together (strip {comp_rep[i]['share_of_gap_taken_by_the_strip']:.0%} of the gap, bag the rest, localised); max move {comp_rep[i]['max_displacement_mm']} mm.") if i in comp_rep else ""
+        rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + cnote + f" Q202: rule-based seam weld of this skin patch to its neighbours (largest shared-border step {sb} -> {sa} mm; mean move {mv.mean():.1f} mm, max {mv.max():.1f} mm); not a measurement.").strip()
         replace[i] = (by[i]["v"], S[i]["f"], rec)
     summ = lambda rows: {"pairs": len(rows), "steps_gt_3mm": int(sum(r["step_mm_max"] > 3 for r in rows)), "max_step_mm": round(max([r["step_mm_max"] for r in rows] or [0]), 2)}
     rep = {"components": comp_rep, "contact": contact_rep, "before": summ(before), "after": summ(after), "patches_moved": len(moved), "max_displacement_mm": max([m["max_displacement_mm"] for m in moved.values()] or [0]), "moved": moved,
