@@ -133,10 +133,13 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, his=None, decimate_fn
         jsmp, jsel, _, _ = E.joint_pairs(raw, side, by)
         jcs[side] = E.at(raw["humerus" + s], jsmp["humerus"])[jsel].mean(0)
         wcs[side] = np.asarray(rc["wrist_centre_raw"], float)
+    from scripts.zanatomy import q201_field as FLD
+    DF = FLD.DeltaField(FLD.load_xf(raw), chains)
     scope = make_scope(jcs, wcs)
     for side in sides:
         s = "_" + side
-        r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side]], allow_unchanged=True, note_fn=note)
+        r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side]], allow_unchanged=True, note_fn=note,
+                         field_fn=lambda i, v0: DF.delta(i, raw[i]))
         rep["bones"].update(r["bones"])
         bone_notes(by, side, rep["chain"][side], r["bones"])
         rep["structures"].update(r["structures"])

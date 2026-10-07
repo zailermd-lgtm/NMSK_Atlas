@@ -512,7 +512,7 @@ def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
     return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -551,7 +551,7 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
     for i in ids:
         d = by[i]
         v0, f, r, cat = v_before[i].astype(float), d["f"], raw[i].astype(float), d["cat"]
-        D = gated(F(v0))
+        D = gated(field_fn(i, v0) if field_fn is not None else F(v0))
         dmax = float(np.linalg.norm(D, axis=1).max())
         has_zone = "attach" in STEPS and cat in ATTACH_CATS and i in att.zone
         if dmax < 0.05 and not (has_zone and att.excess(i, v0, att_trees) > 0):
