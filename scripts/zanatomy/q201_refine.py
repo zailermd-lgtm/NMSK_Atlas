@@ -147,9 +147,10 @@ def refine_core(by: dict, raw: dict, log=print, skin=None, his=None, decimate_fn
     from scripts.zanatomy import q201_field as FLD
     DF = FLD.DeltaField(FLD.load_xf(raw), chains)
     scope = make_scope(jcs, wcs, hcs)
+    E.SKIN_CAP_MM = 20.0                       # his skin is a hard envelope: the clamp may move a vertex 20 mm (Q199 female: 10) from the field result
     for side in sides:
         s = "_" + side
-        r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side], hcs[side]], allow_unchanged=True, note_fn=note, tube_close=TUBE_CLOSE, close_rounds=10, arm_radius_mm=800.0,
+        r = E.refine_side(side, by, raw, chains[side], skin, skin_tree, regions=regions, log=log, her=his, label_sides=("l", "r"), scope=scope, extra_centres=[wcs[side], hcs[side]], allow_unchanged=True, note_fn=note, tube_close=TUBE_CLOSE, close_rounds=10, arm_radius_mm=800.0, final_skin_clamp=12.0,
                          field_fn=lambda i, v0: DF.delta(i, raw[i]))
         rep["bones"].update(r["bones"])
         bone_notes(by, side, rep["chain"][side], r["bones"])

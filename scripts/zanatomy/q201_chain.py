@@ -251,16 +251,15 @@ class Fit:
     def label_fit(self, b):
         """one bone against its own label (the wrist / shaft / head: CT), multi-start over the roll about its long axis (the roll is the weakly constrained DOF of a long bone)"""
         ax = self.axis(b)
-        best = None
+        cands = []
         for roll in (0, 45, -45, 90, -90, 135, 180):
             cur = dict(self.cur)
             p = np.r_[np.radians(roll) * ax, np.zeros(3), 1.0, np.zeros(3)]
             p[6] = float(np.clip(Mx.BODY_SCALE / self.abs0[b], SCALE_ABS[b][0] / self.abs0[b], SCALE_ABS[b][1] / self.abs0[b])) if b != "humerus" else 1.0
             cur[b] = p
             c, cost = self.stage((b,), 0.0, cur, labels_only=True)
-            if best is None or cost < best[0]:
-                best = (cost, c[b], roll)
-        return best
+            cands.append((cost, c[b], roll))
+        return sorted(cands, key=lambda t: t[0])
 
     def roll_agreement(self):
         """the humerus alone, fitted (a) to its head + shaft labels and (b) to the elbow flare (the union of the zone): the rotation component along the shaft each asks for (deg, relative to the
@@ -293,10 +292,26 @@ class Fit:
         before = self.stats(self.cur)
         cur = dict(self.cur)
         starts = {}
-        for b in BONES:                                          # A. every bone against its own label (humerus: head + shaft, radius / ulna: shaft + wrist)
-            cost, p, roll = self.label_fit(b)
-            cur[b] = p
-            starts[b] = roll
+        cands = {b: self.label_fit(b) for b in BONES}
+        for b in BONES:
+            cur[b] = cands[b][0][1]
+            starts[b] = cands[b][0][2]
+        # the roll of a long bone is the weakly constrained DOF of the label fit (several rolls fit the labels equally: Q201 measured label->Z 2.17-2.36 mm for six rolls of the left ulna):
+        # among the label-only solutions that are DISTINCT (roll differs > 20 deg) the one the whole evidence prefers wins (elbow bone mass + Z-source joint + wrist + labels)
+        self.roll_choice = {}
+        for b in ("radius", "ulna"):
+            best = None
+            ax = self.axis(b)
+            for cost0, p, roll in cands[b]:
+                key = float(np.degrees(Rot.from_rotvec(p[:3]).as_rotvec() @ ax))          # signed roll about the long axis
+                trial = dict(cur)
+                trial[b] = p
+                c, cost = self.stage((b,), W_PAIR, trial, box=BOX)
+                self.roll_choice.setdefault(b, []).append({"start_roll_deg": roll, "label_only_cost": round(cost0, 1), "total_cost": round(cost, 1), "roll_about_axis_deg": round(key, 1)})
+                if best is None or cost < best[0]:
+                    best = (cost, p, roll)
+            cur[b] = best[1]
+            starts[b] = best[2]
         self.stage_a = {b: cur[b].copy() for b in BONES}
         self.stage_a_stats = self.stats(cur)
         cur, _ = self.stage(BONES, W_PAIR, cur, box=BOX)         # B. all three: the union of the elbow zone and the Z-source joint, within a small box around A
@@ -322,7 +337,7 @@ def fit_male(side, by, raw, ev=None, log=print):
     cur, before, after = F.run(log)
     ch = F.chain(cur)
     rep = {"frame": "his CT labels completed through his cryosection photographs (atlas = world + (6.0, 895.4 z, -4.8 y))", "humerus_roll_deg": roll, "wrist_centre_raw": wrist_centre(by, raw, side).round(2).tolist(), "before": before, "after": after,
-           "stage_a": {"stats": F.stage_a_stats, "start_roll_deg": F.starts, "params": {b: F.stage_a[b].round(4).tolist() for b in BONES}},
+           "stage_a": {"stats": F.stage_a_stats, "start_roll_deg": F.starts, "roll_candidates": F.roll_choice, "params": {b: F.stage_a[b].round(4).tolist() for b in BONES}},
            "params": {b: {"rot_deg": round(float(np.degrees(np.linalg.norm(ch.p[b][:3]))), 2), "translation_mm": ch.p[b][3:6].round(2).tolist(), "scale_vs_q195": round(float(ch.p[b][6]), 4), "bend_mm": ch.p[b][7:10].round(1).tolist()} for b in BONES},
            "bone_move_mm": {b: {"max": round(float(np.linalg.norm(ch.apply(b, F.v0[b]) - F.v0[b], axis=1).max()), 1), "mean": round(float(np.linalg.norm(ch.apply(b, F.v0[b]) - F.v0[b], axis=1).mean()), 1)} for b in BONES}}
     log(f"  Q201 {side} chain: {rep['params']}")

@@ -290,6 +290,7 @@ CLOSE_SIGMA_MM = 15.0
 CLOSE_TARGET_MM, CLOSE_TARGET_MUSCLE_MM = 1.5, 3.0
 PREFER_FIELD_MARGIN = 2.0
 STEPS = {"attach", "close"}          # diagnostic switches (the build uses both)
+SKIN_CAP_MM = 10.0            # the inside-skin clamp of make_candidate may move a vertex this far from the field result (Q199: = ADJUST_CAP_MM)
 ADJUST_CAP_MM = 10.0          # push-out / skin clamp / volume / attachment / closure adjustments may not move a vertex further than this from the field's own result (+ <= SEPARATE_MAX_MM on the shipped mesh = 15 mm)
 SEPARATE_MAX_MM = 5.0
 SEPARATE_FOLD_TOL = 0.01      # share of edges newly folded per mesh (Q194: 0.003 rejected 80 % of the moves at the crowded right elbow)
@@ -395,7 +396,7 @@ def make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, vr0=None):
         v1 = H.push_out_of_bones(v1, f, zb, ones, tol=1.5, max_move=7.0)
     if cat not in ("ligament", "bursa", "cartilage"):
         v1 = H.clamp_inside_skin(v1, f, ones, skin, skin_tree)
-    v1 = cap_to(v1, ref)
+    v1 = cap_to(v1, ref, SKIN_CAP_MM)
     if _closed(f) and not H.NOT_BODY.search(i):
         if cat == "muscle":
             v1, _ = Q.volume_guard(v1, r, f)
@@ -512,7 +513,7 @@ def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
     return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None, arm_radius_mm=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None, arm_radius_mm=None, final_skin_clamp=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -596,6 +597,14 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
     before_closure = {i: by[i]["v"].copy() for i in ids}
     centres = np.vstack([jc[None]] + [np.asarray(c, float)[None] for c in extra_centres])
     rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, centres, v_field, log=log, rounds=(close_rounds or 6) if "close" in STEPS else 0, veto=(lambda k, vk: lex(k, vk) > 0.5) if lab else None, tube_close=tube_close)
+    if final_skin_clamp:                             # Q201: the closure / pull steps may take a structure out through his skin again: one more bounded clamp (not for ligament / bursa / cartilage, as in make_candidate)
+        for i in ids:
+            if by[i]["cat"] in ("ligament", "bursa", "cartilage", "skin", "bone"):
+                continue
+            v1 = by[i]["v"]
+            v2 = cap_to(H.clamp_inside_skin(v1.copy(), by[i]["f"], np.ones(len(v1), bool), skin, skin_tree), v1, final_skin_clamp)
+            if not np.array_equal(v2, v1):
+                by[i]["v"] = v2
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
         if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)
