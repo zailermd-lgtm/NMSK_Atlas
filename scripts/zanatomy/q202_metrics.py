@@ -46,10 +46,8 @@ def seams(skin, raw_by):
     from scripts.zanatomy import q199_elbow as E
     by = {s["id"]: {"v": s["v"], "f": s["f"], "cat": "skin"} for s in skin}
     raw = {i: raw_by[i] for i in by if i in raw_by}
-    rows = []
-    for side in ("l", "r"):
-        ids = [i for i in by if i.endswith("_" + side) and i in raw]
-        rows += E.skin_seam_rows(by, raw, side, ids)
+    ids = [i for i in by if i in raw]                     # ALL patches, cross-side pairs (midline) included
+    rows = E.skin_seam_rows(by, raw, None, ids)
     st = [r["step_mm_max"] for r in rows]
     # true surface gap: the border vertices of A against the SURFACE of B (a vertex-to-vertex step over-reads where the two borders are sampled differently)
     import trimesh
