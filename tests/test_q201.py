@@ -92,7 +92,9 @@ def test_label_fit_recovers_a_translation_and_a_roll_of_a_lumpy_bone():
     shift = np.array([0.0, -12.0, 9.0])
     ev = evidence_from(by, shift=shift)
     F = C.Fit("l", by, raw, ev, n=1500)
-    cost, p, roll = F.label_fit("radius")
+    cands = F.label_fit("radius")
+    cost, p, roll = cands[0]
+    assert len(cands) == 7 and cands[0][0] <= cands[-1][0]            # all roll starts are returned, best first
     ch = F.chain({**F.cur, "radius": p})
     moved = ch.rad(by["radius_l"]["v"]) - by["radius_l"]["v"]
     # only the part of the radius below the zone is evidence; the fit puts it onto the shifted label

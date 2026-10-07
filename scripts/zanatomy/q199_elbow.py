@@ -290,6 +290,7 @@ CLOSE_SIGMA_MM = 15.0
 CLOSE_TARGET_MM, CLOSE_TARGET_MUSCLE_MM = 1.5, 3.0
 PREFER_FIELD_MARGIN = 2.0
 STEPS = {"attach", "close"}          # diagnostic switches (the build uses both)
+SKIN_W = 2.0                  # weight of the share of vertices outside the skin in the candidate cost (Q201 male: 6)
 SKIN_CAP_MM = 10.0            # the inside-skin clamp of make_candidate may move a vertex this far from the field result (Q199: = ADJUST_CAP_MM)
 ADJUST_CAP_MM = 10.0          # push-out / skin clamp / volume / attachment / closure adjustments may not move a vertex further than this from the field's own result (+ <= SEPARATE_MAX_MM on the shipped mesh = 15 mm)
 SEPARATE_MAX_MM = 5.0
@@ -349,7 +350,7 @@ HER_ALIAS_R = {"zan_extensor_pollicis_longus_r": "extensor_pollicis_longus_r"}
 
 
 def cost(m, m0, cat, att_excess=0.0, lab_excess=0.0):
-    c = 2.0 * m.get("outside_her_skin_pct", 0) + 1.0 * (m.get("stretch_area_outside_0.67_1.5_pct", 0) or 0) + 6.0 * m.get("folded_edges_pct", 0)
+    c = SKIN_W * m.get("outside_her_skin_pct", 0) + 1.0 * (m.get("stretch_area_outside_0.67_1.5_pct", 0) or 0) + 6.0 * m.get("folded_edges_pct", 0)
     if cat not in BONE_OK_CATS:
         c += 2.0 * m.get("inside_z_bone_pct", 0)
     if cat == "muscle":
@@ -513,7 +514,7 @@ def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
     return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
 
 
-def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None, arm_radius_mm=None, final_skin_clamp=None):
+def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None, label_sides=("r",), scope=None, extra_centres=(), allow_unchanged=False, note_fn=None, field_fn=None, tube_close=None, close_rounds=None, arm_radius_mm=None, final_skin_clamp=None, revert_outside_pp=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
     s = "_" + side
@@ -605,8 +606,20 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
             v2 = cap_to(H.clamp_inside_skin(v1.copy(), by[i]["f"], np.ones(len(v1), bool), skin, skin_tree), v1, final_skin_clamp)
             if not np.array_equal(v2, v1):
                 by[i]["v"] = v2
+    if revert_outside_pp:                            # Q201 safety net: a structure that ends clearly more outside his skin than it was is put back to its pre-hook mesh (reported)
+        rep["reverted_outside_skin"] = {}
+        for i in ids:
+            if by[i]["cat"] in ("ligament", "bursa", "cartilage", "skin", "bone") or np.array_equal(by[i]["v"], v_before[i]):
+                continue
+            o0 = float((~skin.contains(v_before[i])).mean())
+            o1 = float((~skin.contains(by[i]["v"])).mean())
+            if 100 * (o1 - o0) > revert_outside_pp:
+                rep["reverted_outside_skin"][i] = {"outside_pct_before": round(100 * o0, 1), "outside_pct_field_result": round(100 * o1, 1)}
+                by[i]["v"] = v_before[i].copy()
+                rep["structures"].pop(i, None)
+                ctx.pop(i, None)
     for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
-        if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
+        if i not in rep["structures"] and i not in rep.get("reverted_outside_skin", {}) and not np.array_equal(by[i]["v"], before_closure[i]):
             r = raw[i].astype(float)
             m0 = _metrics(before_closure[i], r, by[i]["f"], skin, zb)
             record(i, "gap closure only", by[i]["v"], m0, _metrics(by[i]["v"], r, by[i]["f"], skin, zb), att.stat(i, v_before[i], att_before_trees), att.stat(i, by[i]["v"], att_trees), 0)
