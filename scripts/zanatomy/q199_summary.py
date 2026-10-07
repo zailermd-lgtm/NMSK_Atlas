@@ -40,7 +40,8 @@ def main(argv=None):
     ap.add_argument("--audit", default=str(REPO / "data" / "derived" / "Q199_elbow_audit.json"))
     a = ap.parse_args(argv)
     rep = json.loads(Path(a.build).read_text())["q199"]
-    st = rep["structures"]
+    gone = set(rep.get("reverted_out_of_scope_to_v12", {}).get("ids", []))
+    st = {k: v for k, v in rep["structures"].items() if k not in gone}
     print("moved structures:", len(st), dict(Counter(s["cat"] for s in st.values())), "| ladder:", dict(Counter(s["ladder"] for s in st.values())))
     print("moved ids (incl. bones, skin patches, shipped-mesh separation):", len(rep["moved_ids"]))
     for side in ("l", "r"):

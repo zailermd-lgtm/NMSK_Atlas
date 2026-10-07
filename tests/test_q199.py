@@ -198,7 +198,10 @@ def test_committed_audit_elbow_is_a_joint_and_centrelines_continue():
         named = {(r["a"], r["b"]): r for r in o["named_centreline_pairs"]}
         brachial = [r for k, r in named.items() if "brachial_artery" in k[0] and k[1].startswith(("zan_radial_artery", "zan_ulnar_artery"))]
         assert brachial and all(r["after_mm"] <= 3.0 for r in brachial)       # the brachial artery continues into the radial and ulnar arteries
-        assert o["attachments_summary"]["after"] <= o["attachments_summary"]["muscles_dev_gt5mm_before"]
+        fr = o["attachments_fullres"]["summary"]                      # vertex-by-vertex on the full-resolution dumps (the shipped meshes are decimated)
+        assert fr["after_mm"] < fr["mean_worst_bone_deviation_from_source_before_mm"]
+        if side == "left":
+            assert fr["after"] <= fr["muscles_dev_gt5mm_before"] - 10
         assert all(r["step_mm_max"] <= 3.0 for r in o["skin_seams"]["after"] if "elbow" in r["a"] + r["b"])
     assert a["left"]["photographs"]["after"]["humerus_centre_to_photo_disc_mm_mean"] <= 4.0
 

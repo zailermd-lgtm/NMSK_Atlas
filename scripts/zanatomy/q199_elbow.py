@@ -498,6 +498,20 @@ class Attach:
         return v + D, n_pull
 
 
+def in_scope(side, i, raw_i, region, jc, hum_tree=None, humerus_moved=True):
+    """the Q199 scope (also what the post-build trim keeps): ARM structures (Q168 region upper_limb / forearm_hand) -- on the right side only where they reach the elbow zone (the right
+    humerus does not move: its shoulder is not touched); trunk-region muscles that insert on the humerus (LEFT only, the humerus moved: shoulder blend zone); merged Z meshes (non-trunk,
+    non-head) that hold an arm part in the elbow zone (the field is zero on their other parts)"""
+    arm = region in ARM_REGIONS
+    n_near = int((np.linalg.norm(raw_i - jc, axis=1) < ELBOW_ZONE_MM + 40.0).sum())
+    merged = region not in ("trunk", "head_neck") and n_near >= 100
+    if side == "r":
+        return (arm and n_near > 0) or merged
+    if arm or merged:
+        return True
+    return bool(humerus_moved and hum_tree is not None and int((hum_tree.query(raw_i)[0] < ATTACH_ZONE_MM).sum()) >= 6)
+
+
 def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None, her=None):
     """new bones, field-carried soft tissue with the guard ladder, attachments, continuity; mutates by[i]["v"] (and ["pre_decimated"]), returns the per-structure report"""
     from scripts.zanatomy import q191_hand as H
@@ -515,10 +529,10 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
     rep = {"bones": {n + s: {"max_move_mm": round(float(np.linalg.norm(by[n + s]["v"] - old[n + s], axis=1).max()), 1),
                               "mean_move_mm": round(float(np.linalg.norm(by[n + s]["v"] - old[n + s], axis=1).mean()), 1)} for n in ("humerus", "radius", "ulna")},
            "structures": {}}
+    hum_tree = cKDTree(at(raw["humerus" + s], bary_samples(raw["humerus" + s], by["humerus" + s]["f"], 6000, seed=5)))
     ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)
-           and (regions is None or regions.get(i) in ARM_REGIONS or i in att.zone
-                or int((np.linalg.norm(by[i]["v"] - ch.ce, axis=1) < ELBOW_ZONE_MM).sum()) >= 100)]
-    # = arm structures, the trunk muscles that attach to the humerus / forearm bones, and merged Z meshes that hold an arm part (the field is zero on their other parts)
+           and (regions is None or in_scope(side, i, raw[i], regions.get(i), jc, hum_tree, humerus_moved=bool(np.abs(ch.P[:6]).max() > 1e-9)))]
+    # = see in_scope: arm structures, the shoulder muscles that insert on a MOVED humerus, merged Z meshes that hold an arm part (the field is zero on their other parts)
     v_before = {i: by[i]["v"].copy() for i in ids}
     lab = Labels(by, raw, her, ids) if (her is not None and side == "r") else None
     lab_base = {i: lab.med(i, v_before[i]) for i in lab.items} if lab else {}
