@@ -125,6 +125,39 @@ def test_lowpass_keeps_mean_motion():
     assert abs(L.mean(0)[2] - D.mean(0)[2]) < 0.5 and L[:, 2].max() < 10.0 and L[:, 2].min() > 0.0
 
 
+
+def grid_patch(x0, x1, ny=8, nx=8, z=0.0):
+    xs, ys = np.linspace(x0, x1, nx), np.linspace(0, 70, ny)
+    X, Y = np.meshgrid(xs, ys)
+    v = np.c_[X.ravel(), Y.ravel(), np.full(X.size, z)]
+    f = []
+    for j in range(ny - 1):
+        for i in range(nx - 1):
+            a = j * nx + i
+            f += [[a, a + 1, a + nx], [a + 1, a + nx + 1, a + nx]]
+    return v, np.array(f)
+
+
+def test_weld_borders_closes_a_seam_step_and_pins_to_the_fixed_neighbour():
+    va, fa = grid_patch(0, 50)
+    vb, fb = grid_patch(50, 100)
+    vc, fc = grid_patch(100, 150)
+    raw = {"a": va.copy(), "b": vb.copy(), "c": vc.copy()}
+    by = {"a": {"v": va.copy(), "f": fa}, "b": {"v": vb + [0, 0, 6.0], "f": fb}, "c": {"v": vc.copy(), "f": fc}}
+    moved = E.weld_borders(by, raw, ["a", "b", "c"], {"a", "b"})
+    step_ab = np.linalg.norm(by["a"]["v"][7::8] - by["b"]["v"][0::8], axis=1)
+    step_bc = np.linalg.norm(by["b"]["v"][7::8] - by["c"]["v"][0::8], axis=1)
+    assert step_ab.max() < 0.8 and step_bc.max() < 0.8          # both seams closed
+    assert np.allclose(by["c"]["v"], vc)                          # the fixed neighbour did not move
+    assert set(moved) == {"a", "b"}
+
+
+def test_close_sigma_and_caps_are_the_documented_ones():
+    assert E.GAP_TOL_MM == 5.0 and E.GAP_TOL_VESSEL_MM == 3.0 and E.ATTACH_CAP_MM == 15.0 and E.ADJUST_CAP_MM == 15.0
+    v1 = np.zeros((3, 3)); ref = np.array([[20.0, 0, 0], [0, 5.0, 0], [0, 0, 0]])
+    assert np.linalg.norm(E.cap_to(ref, v1) - v1, axis=1).max() <= 15.0 + 1e-9
+
+
 REPORT = REPO / "data" / "derived" / "Q199_zan_female_q199_build.json"
 
 

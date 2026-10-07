@@ -88,9 +88,13 @@ def main(bk, fk):
         bones = [x for x in (jb["prox"] + jb["dist"]) if x in tf]
         rec["frame_bones"] = bones
         offs = []
+        bone_pts = np.concatenate([bi[b]["v"] for b in bones]) if bones else None
+        btree = cKDTree(bone_pts) if bone_pts is not None else None
         for i, T in tf.items():
-            if T["sys"] == "bone":
+            if T["sys"] in ("bone", "skin", "lymph", "viscera", "cns", "bursa", "cartilage"):
                 continue
+            if btree is not None and btree.query(T["pc"])[0] > 25:
+                continue                                              # only structures that hug the joint's own bones: for them the bone frame is the reference
             pcs = T["pc"]
             dd = {b: float(np.linalg.norm((T["s"] * T["R"] @ pcs + T["t"]) - (tf[b]["s"] * tf[b]["R"] @ pcs + tf[b]["t"]))) for b in bones}
             if not dd:

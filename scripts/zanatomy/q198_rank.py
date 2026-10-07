@@ -64,7 +64,8 @@ def junction_defects(key, kind, res, fit):
         s = STEP(b["max_penetration_mm"], THRESH["bone_penetration_mm"])
         add(jn, sd, None, "bone_penetration", b["max_penetration_mm"], "mm", s, f"bones interpenetrate up to {b['max_penetration_mm']} mm ({b['penetration_vol_mm3']} mm3)")
         ea = j.get("elbow_angles")
-        if ea and "error" not in ea:
+        trunc = any((bd.get("id") or "").startswith(("humerus", "radius", "ulna")) and any(c["dist_to_joint_mm"] <= R + 60 and c["area_mm2"] > 150 for c in (bd.get("flat_caps") or [])) for bd in j.get("bones_detail", []))
+        if ea and "error" not in ea and not trunc:
             ca = ea["carrying_deg_lateral_positive"]; lo, hi = THRESH["carrying_angle_deg_ok_range"]
             ex = max(lo - ca, ca - hi, 0)
             add(jn, sd, None, "carrying_angle", ca, "deg", 3 if ex > 25 else 2 if ex > 10 else 1 if ex > 0 else 0, f"carrying angle {ca} deg (physiological about 5-15 deg valgus; tolerated {lo}..{hi})")
@@ -297,7 +298,8 @@ def elbow_summary(res, D, side):
     if j is None:
         return {"side": side, "verdict": "DEFECT", "reason": "elbow bones absent from the model: " + (json.dumps(miss) if miss else "")}
     dd = [d for d in D if d["region"] == "elbow" and d.get("side") == side]
-    n3, n2 = sum(d["severity"] == 3 for d in dd), sum(d["severity"] == 2 for d in dd)
+    core = [d for d in dd if d["check"] not in ("chain_gap", "tube_gap")]
+    n3, n2 = sum(d["severity"] == 3 for d in core) + sum(d["severity"] == 3 and d["check"] == "chain_gap" for d in dd), sum(d["severity"] == 2 for d in core)
     soft = [s for s in j["soft"] if "error" not in s]
     det = []
     for s in soft:
@@ -342,6 +344,61 @@ def group_issues(D):
     return out
 
 
+def elbow_statement(key, side, res, D):
+    """plain-language, number-driven statement of what is wrong (or not) at one elbow"""
+    sn = "left" if side == "l" else "right"
+    j = next((x for x in res["junctions"] if x["name"] == "elbow" and x["side"] == side), None)
+    miss = [m for m in res.get("missing_joints", []) if m["name"] == "elbow" and m["side"] == side]
+    if j is None:
+        return f"{sn} elbow: the radius, ulna, carpals and hand bones are not in the model at all (only the humerus and the arm muscles reach the elbow), so no elbow joint exists. Verdict DEFECT."
+    dd = [d for d in D if d["region"] == "elbow" and d.get("side") == side]
+    parts = []
+    b = j["bones"]
+    trunc = [bd for bd in j.get("bones_detail", []) if any(c["dist_to_joint_mm"] <= j["R"] + 60 and c["area_mm2"] > 150 for c in (bd.get("flat_caps") or []))]
+    if trunc:
+        parts.append("bones cut flat at a data-block edge: " + ", ".join(sorted({bd["id"] for bd in trunc})) + f" (planes {', '.join(sorted({c['axis']+'='+str(c['plane_mm']) for bd in trunc for c in bd['flat_caps'] if c['area_mm2']>150}))})")
+    if b["surface_gap_mm"] > 3:
+        parts.append(f"bones not articulated: closest approach {b['surface_gap_mm']} mm")
+    if b["max_penetration_mm"] > 3:
+        parts.append(f"bones interpenetrate {b['max_penetration_mm']} mm")
+    ea = j.get("elbow_angles") or {}
+    if ea and "error" not in ea and not trunc:
+        if ea["ulna_vs_epicondylar_twist_deg"] > 30:
+            parts.append(f"forearm bones twisted {ea['ulna_vs_epicondylar_twist_deg']} deg about the shaft relative to the humeral epicondylar axis")
+        if not (-12 <= ea["carrying_deg_lateral_positive"] <= 32):
+            parts.append(f"forearm leaves the hinge plane by {ea['carrying_deg_lateral_positive']} deg")
+    fl = [d for d in dd if d["check"] == "flat_cut_face" and d["severity"] >= 2]
+    if fl:
+        parts.append(f"{len({d['structure'] for d in fl})} muscles cut flat ({', '.join(sorted({d['structure'] for d in fl})[:6])}; planes {', '.join(sorted({d.get('plane','') for d in fl})[:4])})")
+    det = sorted([d for d in dd if d["check"] == "end_detached_from_bone" and d["severity"] >= 1], key=lambda d: -float(d["value"]))
+    if det:
+        parts.append(f"{len(det)} muscle/ligament ends detached from their bone (worst {det[0]['structure']} {det[0]['value']} mm)")
+    isl = [d for d in dd if d["check"] in ("disconnected_island", "axial_gap")]
+    if isl:
+        parts.append(f"{len(isl)} muscles with disconnected pieces / empty stretches")
+    ch = [d for d in dd if d["check"] in ("chain_gap", "tube_gap") and d["severity"] >= 2]
+    if ch:
+        parts.append(f"{len(ch)} vessel/nerve continuity gaps (worst {max(float(d['value']) for d in ch)} mm)")
+    sk = [d for d in dd if d["check"] in ("skin_open_sections", "skin_step") and d["severity"] >= 2]
+    if sk:
+        parts.append("skin torn / stepped: " + "; ".join(d["detail"] for d in sk[:2]))
+    osk = [d for d in dd if d["check"] == "outside_skin" and d["severity"] >= 2]
+    if osk:
+        parts.append(f"{len(osk)} structures partly outside the skin (worst {max(float(d['value']) for d in osk)}%)")
+    ibn = [d for d in dd if d["check"] == "inside_bone" and d["severity"] >= 2]
+    if ibn:
+        parts.append(f"{len(ibn)} structures inside bone")
+    ov = [d for d in dd if d["check"] == "muscle_interpenetration" and d["severity"] >= 2]
+    if ov:
+        parts.append(f"{len(ov)} muscles buried >{THRESH['muscle_overlap_pct'][1]}% inside other muscles (transferred / Z-filled muscles do not tile)")
+    nm = [d for d in dd if d["check"] == "structures_not_modelled"]
+    if nm:
+        parts.append(nm[0]["detail"])
+    if not parts:
+        return f"{sn} elbow: no moderate or major defect found (bones articulate, muscle ends reach their bones, vessels/nerves continuous, skin closed)."
+    return f"{sn} elbow: " + "; ".join(parts) + "."
+
+
 def verdict(D, elbows):
     n3 = sum(d["severity"] == 3 and d["cause"] != "source_defect" for d in D); n2 = sum(d["severity"] == 2 and d["cause"] != "source_defect" for d in D)
     if n3 == 0 and n2 <= 4:
@@ -369,6 +426,8 @@ def main():
                       "detail": "the two urogenital skin patches of Z-Anatomy were deleted for the female variant (Q196): the skin envelope is open between the thighs (no replacement surface)", "src": None, "cls": None,
                       "cause": "skin_envelope", "cause_text": CAUSE_FIX["skin_envelope"][0], "fix_approach": CAUSE_FIX["skin_envelope"][1], "in_unfitted_base": k == "z_female_fit"})
         el = [elbow_summary(res, D, s) for s in ("l", "r")]
+        for e_ in el:
+            e_["statement"] = elbow_statement(k, e_["side"], res, D)
         D.sort(key=lambda d: (-d["severity"], d["cause"] == "source_defect"))
         for n, d in enumerate(D, 1):
             d["rank"] = n

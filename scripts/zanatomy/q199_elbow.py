@@ -282,8 +282,10 @@ PUSH_CATS = ("muscle", "vessel", "nerve", "fascia", "lymphatic")
 BONE_OK_CATS = ("ligament", "bursa", "cartilage", "tendon")      # attach to / lie on bone by design: no inside-bone cost
 ATTACH_CATS = ("muscle", "tendon", "ligament", "bursa")
 ATTACH_ZONE_MM, ATTACH_TOL_MM, ATTACH_CAP_MM = 8.0, 3.0, 15.0
+PULL_SIGMA_MM = 25.0
 CONT_CATS = ("muscle", "tendon", "ligament", "fascia", "vessel", "nerve", "bursa", "cartilage")
 GAP_TOL_MM, GAP_TOL_VESSEL_MM, GAP_CAP_MM = 5.0, 3.0, 12.0
+CLOSE_SIGMA_MM = 15.0
 PREFER_FIELD_MARGIN = 2.0
 ADJUST_CAP_MM = 15.0          # push-out / skin clamp / volume / attachment adjustments may not move a vertex further than this from the field's own result
 ELBOW_ZONE_MM = 100.0         # continuity is judged where the contact lies within this distance of the Z-source elbow joint
@@ -433,26 +435,31 @@ class Attach:
             tot += max(0.0, float(np.median(trees[b].query(v[idx])[0])) - float(np.median(d0)) - ATTACH_TOL_MM)
         return tot
 
-    def pull(self, i, v, f, trees, cap=ATTACH_CAP_MM):
-        """footprint vertices that sit further from their bone than in the Z source (+ATTACH_TOL_MM) are brought back to the source distance (<= cap), spread over the mesh"""
-        from scripts.zanatomy import q190_refine as Q
+    def pull(self, i, v, f, trees, cap=ATTACH_CAP_MM, sigma=PULL_SIGMA_MM):
+        """footprint vertices that sit further from their bone than in the Z source (+ATTACH_TOL_MM): the structure end moves by the MEAN pull vector of those vertices (<= cap), the motion
+        fading with the distance from them (Gaussian, sigma mm), so the structure keeps its shape instead of being sheared vertex by vertex"""
         D = np.zeros_like(v)
         n_pull = 0
         for b, (idx, d0) in self.zone.get(i, {}).items():
             dist, j = trees[b].query(v[idx])
             P = trees[b].data[j]
-            tooFar = dist > d0 + ATTACH_TOL_MM
-            if not tooFar.any():
+            too = dist > d0 + ATTACH_TOL_MM
+            if too.sum() < 3:
                 continue
-            k = idx[tooFar]
-            step = (dist[tooFar] - d0[tooFar])
-            dirn = (P[tooFar] - v[k]) / np.maximum(dist[tooFar], 1e-6)[:, None]
-            Dk = dirn * np.minimum(step, cap)[:, None]
-            D[k] = np.where(np.linalg.norm(Dk, axis=1)[:, None] > np.linalg.norm(D[k], axis=1)[:, None], Dk, D[k])
-            n_pull += int(tooFar.sum())
+            k = idx[too]
+            vec = (P[too] - v[k]) / np.maximum(dist[too], 1e-6)[:, None] * (dist[too] - d0[too])[:, None]
+            T = vec.mean(0)
+            n = np.linalg.norm(T)
+            if n < 1.0:
+                continue
+            T *= min(1.0, cap / n)
+            dz = cKDTree(v[k]).query(v)[0]
+            Db = T[None, :] * np.exp(-((dz / sigma) ** 2))[:, None]
+            D = np.where(np.linalg.norm(Db, axis=1)[:, None] > np.linalg.norm(D, axis=1)[:, None], Db, D)
+            n_pull += int(too.sum())
         if not n_pull:
             return v, 0
-        return v + Q._smooth_push(f, D, 12), n_pull
+        return v + D, n_pull
 
 
 def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=print, only=None):
@@ -475,33 +482,46 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
     ids = [i for i in side_ids(by, side) if np.linalg.norm(by[i]["v"].mean(0) - ch.hc) < ARM_RADIUS_MM and (only is None or i in only)
            and (regions is None or regions.get(i) in ARM_REGIONS or i in att.zone)]       # arm structures, plus the trunk muscles that attach to the humerus / forearm bones
     v_before = {i: by[i]["v"].copy() for i in ids}
+    ctx = {}
+
+    def record(i, name, v1, m0, m1, a0, a1, n_pull):
+        d = by[i]
+        d["v"] = v1
+        mv = np.linalg.norm(v1 - v_before[i], axis=1)
+        ctx[i] = {"name": name, "m0": m0, "m1": m1, "att0": a0, "att1": a1, "pulled": n_pull}
+        rep["structures"][i] = {"cat": d["cat"], "ladder": name, "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m0, "after": m1,
+                                "attachment_before": a0, "attachment_after": a1, "attachment_pull_vertices": n_pull}
+
     for i in ids:
         d = by[i]
         v0, f, r, cat = v_before[i].astype(float), d["f"], raw[i].astype(float), d["cat"]
         D = gated(F(v0))
-        if np.linalg.norm(D, axis=1).max() < 0.05:
+        dmax = float(np.linalg.norm(D, axis=1).max())
+        has_zone = cat in ATTACH_CATS and i in att.zone
+        if dmax < 0.05 and not (has_zone and att.excess(i, v0, att_trees) > 0):
             continue
         m0 = _metrics(v0, r, f, skin, zb)
-        cands = [("field", D)]
-        if len(v0) > 30:
-            cands.append(("field, low-passed 10 mm", lowpass(D, f, 10.0)))
-            cands.append(("field, low-passed 25 mm", lowpass(D, f, 25.0)))
-        cands.append(("mean translation of the field", np.tile(D.mean(0), (len(v0), 1))))
-        res = []
-        for name, Dc in cands:
-            v1 = make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
-            m1 = _metrics(v1, r, f, skin, zb)
-            c1 = cost(m1, m0, cat, att.excess(i, v1, att_trees))
-            res.append((c1, name, v1, m1))
-            if name == "field" and c1 <= cost(m0, m0, cat, att.excess(i, v0, att_before_trees)) + 1.0:
-                break                                   # the field is not worse than before: no need to try the others
-        best = min(res, key=lambda t: t[0])
-        pick = res[0] if res[0][0] <= best[0] + PREFER_FIELD_MARGIN else best
-        _, name, v1, m1 = pick
+        name, v1, m1 = "not moved by the field", v0, m0
+        if dmax >= 0.05:
+            cands = [("field", D)]
+            if len(v0) > 30:
+                cands.append(("field, low-passed 10 mm", lowpass(D, f, 10.0)))
+                cands.append(("field, low-passed 25 mm", lowpass(D, f, 25.0)))
+            cands.append(("mean translation of the field", np.tile(D.mean(0), (len(v0), 1))))
+            res = []
+            for nm, Dc in cands:
+                vv = make_candidate(v0, f, r, cat, i, Dc, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
+                mm = _metrics(vv, r, f, skin, zb)
+                c1 = cost(mm, m0, cat, att.excess(i, vv, att_trees))
+                res.append((c1, nm, vv, mm))
+                if nm == "field" and c1 <= cost(m0, m0, cat, att.excess(i, v0, att_before_trees)) + 1.0:
+                    break                                   # the field is not worse than before: no need to try the others
+            best = min(res, key=lambda t: t[0])
+            pick = res[0] if res[0][0] <= best[0] + PREFER_FIELD_MARGIN else best
+            _, name, v1, m1 = pick
         a_before = att.stat(i, v0, att_before_trees)
-        a_field = att.stat(i, v1, att_trees)
         n_pull = 0
-        if cat in ATTACH_CATS and i in att.zone:
+        if has_zone:
             v2, n_pull = att.pull(i, v1, f, att_trees)
             if n_pull:
                 v2 = make_candidate(v1, f, r, cat, i, v2 - v1, skin, skin_tree, zb, m0.get("volume_ratio_vs_source"))
@@ -510,22 +530,26 @@ def refine_side(side, by, raw, ch: Chain, skin, skin_tree, regions=None, log=pri
                     v1, m1 = v2, m2
                 else:
                     n_pull = 0
-        d["v"] = v1
-        a_after = att.stat(i, v1, att_trees)
-        mv = np.linalg.norm(v1 - v0, axis=1)
-        d["_q199"] = {"name": name, "m0": m0, "m1": m1, "att0": a_before, "att1": a_after, "pulled": n_pull}
-        rep["structures"][i] = {"cat": cat, "ladder": name, "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m0, "after": m1,
-                                "attachment_before": a_before, "attachment_after": a_after, "attachment_pull_vertices": n_pull}
-    before_closure = {i: by[i]["v"].copy() for i in rep["structures"]}
-    rep["continuity"] = close_gaps(side, by, raw, set(rep["structures"]), skin, skin_tree, zb, jc, log=log)
+        if np.array_equal(v1, v0):
+            continue
+        record(i, name, v1, m0, m1, a_before, att.stat(i, v1, att_trees), n_pull)
+    before_closure = {i: by[i]["v"].copy() for i in ids}
+    rep["continuity"] = close_gaps(side, by, raw, set(ids), skin, skin_tree, zb, jc, log=log)
+    for i in ids:                                    # structures the gap closure moved that the field / attachment step had left alone
+        if i not in rep["structures"] and not np.array_equal(by[i]["v"], before_closure[i]):
+            r = raw[i].astype(float)
+            m0 = _metrics(before_closure[i], r, by[i]["f"], skin, zb)
+            record(i, "gap closure only", by[i]["v"], m0, _metrics(by[i]["v"], r, by[i]["f"], skin, zb), att.stat(i, v_before[i], att_before_trees), att.stat(i, by[i]["v"], att_trees), 0)
     for i, c in rep["structures"].items():
         d = by[i]
-        q = d.pop("_q199")
+        q = ctx[i]
         mv = np.linalg.norm(d["v"] - v_before[i], axis=1)
         c["mean_move_mm"], c["max_move_mm"] = round(float(mv.mean()), 2), round(float(mv.max()), 2)
-        m1 = _metrics(d["v"], raw[i].astype(float), d["f"], skin, zb) if not np.array_equal(d["v"], before_closure[i]) else q["m1"]
-        c["after"] = m1
-        d["fit_note"] = (d.get("fit_note") or "") + _note(side, i, d["cat"], q, m1, mv, rep["continuity"]["per_structure"].get(i))
+        if not np.array_equal(d["v"], before_closure[i]) and q["name"] != "gap closure only":
+            q["m1"] = _metrics(d["v"], raw[i].astype(float), d["f"], skin, zb)
+            q["att1"] = att.stat(i, d["v"], att_trees)
+            c["after"], c["attachment_after"] = q["m1"], q["att1"]
+        d["fit_note"] = (d.get("fit_note") or "") + _note(side, i, d["cat"], q, q["m1"], mv, rep["continuity"]["per_structure"].get(i))
     # the shipped (pre-decimated) meshes of the Q194 neighbour separation follow with the displacement of their full-resolution mesh
     n_pre = 0
     for i in rep["structures"]:
@@ -545,8 +569,10 @@ def _fmt_m(m):
 
 
 def _note(side, i, cat, q, m1, mv, cont):
-    txt = (f" Q199: moved with the {'left' if side == 'l' else 'right'} elbow chain (humerus - radius - ulna fitted as one kinematic chain, tissue carried by the bone-anchored field; {q['name']}; "
-           f"mean {mv.mean():.1f} mm, max {mv.max():.1f} mm). Before -> after: " + _fmt_m(q["m0"]) + " -> " + _fmt_m(m1) + ".")
+    how = {"not moved by the field": "its origin / insertion footprint brought back to the bone", "gap closure only": "closed up against the structures it touches in the Z source"}.get(q["name"])
+    txt = (f" Q199: {'adjusted' if how else 'moved'} at the {'left' if side == 'l' else 'right'} elbow ("
+           + (how if how else f"humerus - radius - ulna fitted as one kinematic chain, tissue carried by the bone-anchored field: {q['name']}")
+           + f"; mean {mv.mean():.1f} mm, max {mv.max():.1f} mm). Before -> after: " + _fmt_m(q["m0"]) + " -> " + _fmt_m(m1) + ".")
     a0, a1 = q["att0"], q["att1"]
     if a0 and a1:
         txt += " Origin / insertion footprint to the bone (source / before / after, mm): " + "; ".join(f"{b.rsplit('_', 1)[0]} {a1[b]['source_mm']} / {a0[b]['now_mm']} / {a1[b]['now_mm']}" for b in a1 if b in a0) + "."
@@ -614,10 +640,14 @@ def close_gaps(side, by, raw, movable, skin, skin_tree, zb, centre, log=print, r
             for k, fk, dk, tgt, share, vk0 in ((a, fa, da, vb[ja], share_a, va), (b, fb, db_, va[jb], share_b, vb)):
                 if share == 0.0:
                     continue
-                Dk = np.zeros_like(vk0)
                 step = np.clip(share * (dk - d0), 0, GAP_CAP_MM)
-                Dk[fk] = (tgt - vk0[fk]) / np.maximum(dk, 1e-6)[:, None] * step[:, None]
-                vk = vk0 + Q._smooth_push(by[k]["f"], Dk, 12)
+                vec = (tgt - vk0[fk]) / np.maximum(dk, 1e-6)[:, None] * step[:, None]
+                near = step > 0.5
+                if near.sum() < 3:
+                    continue
+                T = vec[near].mean(0)
+                dz = cKDTree(vk0[fk][near]).query(vk0)[0]
+                vk = vk0 + T[None, :] * np.exp(-((dz / CLOSE_SIGMA_MM) ** 2))[:, None]
                 rk = raw[k].astype(float)
                 if by[k]["cat"] == "muscle" and _closed(by[k]["f"]) and not H.NOT_BODY.search(k):
                     vk, _ = Q.volume_guard(vk, rk, by[k]["f"])
@@ -665,7 +695,7 @@ def skin_seam_rows(by, raw, side, ids):
     return rows
 
 
-def weld_borders(by, raw, patches, movable, rounds=2, passes=24, cap=8.0):
+def weld_borders(by, raw, patches, movable, rounds=4, passes=24, cap=8.0):
     """borders of adjacent skin patches (vertices < 1.5 mm apart in the Z source, nearest partner): the two border vertices go to their common mean when both patches may move, a
     movable patch goes all the way to a fixed neighbour; the correction is spread over the movable patch (no pleat)"""
     from scripts.zanatomy import q190_refine as Q
