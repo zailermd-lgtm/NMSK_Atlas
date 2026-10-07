@@ -205,6 +205,51 @@
 
   #btn-panel{display:none}
 
+  /* ---------- Q197 cut mode (shared block: viewer/cut_mode/, synced by scripts/sync_cut_mode_q197.py) ---------- */
+  /* CUT-MODE css begin */
+#cut-panel,#cut-svg{--cp-bg:#fff;--cp-ink:#111;--cp-dim:#667;--cp-line:#ccd;--cp-accent:#0a6e8e;--cp-accent-ink:#fff;--cp-warn:#c4410c;--cp-shadow:0 8px 24px rgba(0,0,0,.18)}
+#cut-panel{box-sizing:border-box;width:268px;max-width:calc(100vw - 16px);padding:8px 10px 9px;border-radius:9px;
+  background:var(--cp-bg);color:var(--cp-ink);border:1px solid var(--cp-line);box-shadow:var(--cp-shadow);
+  font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto;z-index:30}
+#cut-panel[hidden]{display:none}
+#cut-panel .cp-head{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+#cut-panel .cp-head b{font-size:13px}
+#cut-panel .cp-sp{flex:1}
+#cut-panel .cp-dim,#cut-panel .cp-hint,#cut-panel output{color:var(--cp-dim)}
+#cut-panel output{float:right;font-variant-numeric:tabular-nums;color:var(--cp-ink);font-weight:600}
+#cut-panel .cp-lbl{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cp-dim)}
+#cut-panel .cp-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+#cut-panel .cp-row button{flex:1 1 auto}
+#cut-panel .cp-steps button{flex:1 1 0;font-variant-numeric:tabular-nums}
+#cut-panel .cp-wide{flex:1 1 100%}
+#cut-panel button{font:inherit;font-size:11.5px;color:var(--cp-ink);background:transparent;border:1px solid var(--cp-line);
+  border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#cut-panel button:hover{border-color:var(--cp-accent)}
+#cut-panel button[aria-pressed="true"]{background:var(--cp-accent);color:var(--cp-accent-ink);border-color:var(--cp-accent)}
+#cut-panel .cp-head button{flex:0 0 auto;min-height:26px;padding:2px 8px}
+#cut-panel input[type=range]{display:block;width:100%;margin:2px 0 6px;height:26px;accent-color:var(--cp-accent);touch-action:pan-y}
+#cut-panel .cp-hint{margin:2px 0 4px;font-size:10.5px}
+#cut-panel .cp-hint:empty{display:none}
+#cut-panel.cp-min .cp-body{display:none}
+#cut-panel.cp-phone{width:auto;padding:6px 8px 7px;max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#cut-panel.cp-phone button{min-height:40px;font-size:13px}
+#cut-panel.cp-phone .cp-head button{min-height:32px}
+#cut-panel.cp-phone .cp-keys{display:none}
+#cut-panel.cp-phone input[type=range]{height:34px}
+body.cut-armed canvas{cursor:crosshair!important}
+#cut-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;display:none;overflow:visible}
+#cut-svg .cut-fill{fill:var(--cp-accent);fill-opacity:.13;stroke:var(--cp-accent);stroke-width:1.6;stroke-opacity:.95;stroke-linejoin:round}
+#cut-svg .cut-arrow{stroke:var(--cp-warn);stroke-width:2.4;stroke-linecap:round;fill:none}
+#cut-svg .cut-head{fill:var(--cp-warn)}
+#cut-svg .cut-pt{fill:none;stroke:var(--cp-warn);stroke-width:2}
+#cut-svg text{fill:var(--cp-warn);font:600 11px system-ui,sans-serif;paint-order:stroke;stroke:var(--cp-bg);stroke-width:3px}
+/* CUT-MODE css end */
+  #cut-panel,#cut-svg{--cp-bg:color-mix(in srgb,var(--panel) 97%,transparent);--cp-ink:var(--ink);--cp-dim:var(--ink-dim);--cp-line:var(--line-strong);--cp-accent:var(--accent);--cp-accent-ink:var(--ground);--cp-warn:#d9562a;--cp-shadow:var(--shadow)}
+  #cut-panel{position:fixed;top:calc(3.7rem + var(--safe-t));right:calc(.9rem + var(--safe-r));z-index:26}
+  @media (max-width:900px){
+    #cut-panel{top:auto;left:.5rem;right:.5rem;bottom:calc(4.4rem + var(--safe-b))}
+  }
+
   /* ---------- tablet ---------- */
   @media (max-width:1100px){
     #rail{width:246px}
@@ -240,6 +285,7 @@
 </style>
 
 <canvas id="view"></canvas>
+<svg id="cut-svg" aria-hidden="true"></svg>
 
 <div id="boot">
   <div class="boot-inner">
@@ -257,8 +303,34 @@
 
 <div id="topright">
   <button class="pill" id="btn-panel">layers</button>
+  <button class="pill" id="t-cut" aria-pressed="false" title="Cut the model with a movable plane (sagittal, axial, coronal, facing you, or through a point you click) and lift the chosen side away">cut</button>
   <button class="pill" id="about-btn">sources</button>
 </div>
+
+<!-- CUT-MODE html begin -->
+<div id="cut-panel" hidden role="group" aria-label="Cut mode">
+  <div class="cp-head"><b>Cut</b><span id="cut-state" class="cp-dim"></span><span class="cp-sp"></span><button type="button" id="cut-min" aria-expanded="true" aria-label="Collapse or expand the cut panel" title="Collapse / expand">&#9662;</button><button type="button" id="cut-exit" title="Leave cut mode and show the whole model again">exit cut</button></div>
+  <div class="cp-body">
+    <div class="cp-lbl">Plane</div>
+    <div class="cp-row" id="cut-axis">
+      <button type="button" data-axis="x" aria-pressed="true" title="Plane normal along the body's left-right axis">sagittal</button><button type="button" data-axis="y" aria-pressed="false" title="Plane normal along the head-to-foot axis">axial</button><button type="button" data-axis="z" aria-pressed="false" title="Plane normal along the front-to-back axis">coronal</button><button type="button" data-axis="view" aria-pressed="false" title="A plane facing the camera, using the view direction at the moment you press it">facing me</button>
+    </div>
+    <div class="cp-row"><button type="button" id="cut-place" class="cp-wide" aria-pressed="false" title="Then click or tap the model: the plane passes through that point">Place on model</button></div>
+    <p id="cut-hint" class="cp-hint" aria-live="polite"></p>
+    <div class="cp-lbl">Removed side</div>
+    <div class="cp-row" id="cut-side">
+      <button type="button" id="cut-side-a" data-rs="1" aria-pressed="false"></button><button type="button" id="cut-side-b" data-rs="-1" aria-pressed="false"></button><button type="button" id="cut-flip" aria-pressed="false" title="Remove the other side">flip side</button>
+    </div>
+    <div class="cp-lbl">Move plane <output id="cut-mm" for="cut-pos">0.0 mm</output></div>
+    <input id="cut-pos" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Move the cut plane along its normal (millimetres)">
+    <div class="cp-row cp-steps" id="cut-steps">
+      <button type="button" data-step="-10">&minus;10</button><button type="button" data-step="-1">&minus;1</button><button type="button" data-step="1">+1</button><button type="button" data-step="10">+10</button>
+    </div>
+    <div class="cp-row"><button type="button" id="cut-reset" title="Back to the default sagittal plane through the middle, default side">reset cut</button></div>
+    <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
+  </div>
+</div>
+<!-- CUT-MODE html end -->
 
 <aside id="rail">
   <div class="rail-body">
@@ -284,21 +356,6 @@
         <button id="btn-vasc">vessels</button>
         <button id="btn-organs">organs</button>
         <button id="btn-insert">insertions</button>
-      </div>
-    </div>
-    <div>
-      <p class="lbl">Cut plane</p>
-      <div id="clip-axis">
-        <button data-axis="0" class="on">sagittal</button>
-        <button data-axis="1">axial</button>
-        <button data-axis="2">coronal</button>
-        <button data-axis="v" title="A plane facing the current view, through the centre of the screen">facing me</button>
-      </div>
-      <div class="tool-row"><span>depth</span>
-        <input id="clip-pos" type="range" min="0" max="100" value="50" step="0.1" aria-label="Cut plane depth"></div>
-      <div id="clip-acts">
-        <button id="clip-on">cut on</button>
-        <button id="clip-flip">flip side</button>
       </div>
     </div>
     <div>
@@ -341,13 +398,13 @@
       <li><strong>Rotate</strong> — drag with the left mouse button, or one finger.</li>
       <li><strong>Move (pan)</strong> — drag with the middle or right button, hold <code>Shift</code> while dragging, drag with <strong>two fingers</strong>, or press <strong>move</strong> to make plain dragging pan.</li>
       <li><strong>Zoom</strong> — scroll wheel, or pinch. <code>Shift</code>+wheel pans vertically.</li>
-      <li><strong>Cut plane</strong> — pick sagittal / axial / coronal, set the depth, press <strong>cut on</strong>, <strong>flip side</strong> to keep the other half.</li>
+      <li><strong>Cut</strong> — press <strong>cut</strong> (top right): pick sagittal / axial / coronal / facing me, or <strong>place on model</strong> and click the model to put the plane through that point; choose which side is removed (or <strong>flip side</strong>); move the plane along its normal with the slider (millimetres), the &minus;10 / &minus;1 / +1 / +10 buttons, the arrow keys (Shift or PageUp/PageDown = 10 mm) or the mouse wheel over the slider. <strong>reset cut</strong> restores the default plane, <strong>exit cut</strong> shows the whole model.</li>
       <li><strong>Isolate a 3D region</strong> — select a structure, press <strong>isolate 3D</strong> (or key <code>i</code>); everything outside the box around it disappears. The <em>size</em> slider grows or shrinks the box; <strong>clear isolation</strong> ends it.</li>
       <li><strong>Hide / fade one structure</strong> — select it, then <strong>hide</strong> or <strong>fade</strong> in its card, or keys <code>h</code> and <code>f</code>.</li>
       <li><strong>Solo a layer</strong> — the small <em>solo</em> button beside any tissue layer shows that layer alone. Press again to restore.</li>
       <li><code>Esc</code> clears the selection; <code>r</code> resets the camera.</li>
     </ul>
-    <p>Deep structures — brain and spinal cord, nerves, vessels, viscera, cartilage — sit inside bone and muscle, so at full opacity they are hidden behind the surface. Use a preset (<strong>nervous</strong>, <strong>vessels</strong>, <strong>organs</strong>, <strong>x-ray</strong>), a layer <em>solo</em>, or the cut plane to reach them.</p>
+    <p>Deep structures — brain and spinal cord, nerves, vessels, viscera, cartilage — sit inside bone and muscle, so at full opacity they are hidden behind the surface. Use a preset (<strong>nervous</strong>, <strong>vessels</strong>, <strong>organs</strong>, <strong>x-ray</strong>), a layer <em>solo</em>, or the cut (top right) to reach them.</p>
 
     <h3>Geometry</h3>
     <p>All 3D meshes come from <strong>Z-Anatomy</strong> (<a href="https://github.com/LluisV/Z-Anatomy" target="_blank" rel="noopener">github.com/LluisV/Z-Anatomy</a>), itself a derivative of <strong>BodyParts3D</strong> (The Database Center for Life Science, Japan). Both credits are required together, verbatim, per the release's own licence file:</p>
@@ -605,7 +662,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     alphaFor.skin = 0.3;    // Q186: skin (Regions of human body) shown as a translucent envelope by default   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
-    var clip = { on:false, axis:0, t:0.5, flip:false, vn:null, vc:null };
+    var clip = { on:false, P:[0,0,0,0] };     // Q197: P = (n, w), fragments discarded where dot(p, n) + w > 0 (set by the cut-mode controller)
     var box = { on:false, min:[0,0,0], max:[0,0,0] };
     var COL = {};
 
@@ -642,20 +699,10 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // away whole meshes that lie entirely in the discarded region, so a deep cut
     // costs proportionally less to draw instead of rasterising the whole body.
     // Kept in lock-step with the fragment shader's plane and box tests.
-    // Q188: the plane as (n, w) with fragments discarded where dot(p, n) + w > 0 -- an atlas axis
-    // (the cut keeps coordinates below the slider position) or a plane facing the viewer ("v":
-    // vn points toward the removed, viewer-side half, vc is the screen centre when it was set).
-    function clipPlane() {
-      var n = [0,0,0], w;
-      if (clip.axis === "v") {
-        n = clip.vn.slice();
-        var off = (clip.t - 0.5) * HGT * 0.5;
-        w = -(n[0]*(clip.vc[0]-n[0]*off) + n[1]*(clip.vc[1]-n[1]*off) + n[2]*(clip.vc[2]-n[2]*off));
-      } else {
-        var a = clip.axis; n[a] = 1; w = -(bbMin[a] + (bbMax[a] - bbMin[a]) * clip.t);
-      }
-      return clip.flip ? [-n[0], -n[1], -n[2], -w] : [n[0], n[1], n[2], w];
-    }
+    // Q197: the cut plane as (n, w) with fragments discarded where dot(p, n) + w > 0, i.e. n points toward the REMOVED
+    // half. The cut-mode controller (shared block below) owns the plane's meaning -- orientation, side, offset -- and
+    // hands it over through its adaptor's apply(); clip.P is that plane in this model's millimetre frame.
+    function clipPlane() { return clip.P.slice(); }
     function passClip(o) {
       if (!clip.on) return true;
       var P = clipPlane(), m = P[3];
@@ -686,7 +733,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     window.addEventListener("resize", resize);
     window.addEventListener("orientationchange", function(){ setTimeout(resize,250); });
 
-    var lastMVP=null, lastEye=null, lastRight=null, lastUp=null;
+    var lastMVP=null, lastEye=null, lastRight=null, lastUp=null, lastFwd=[0,0,-1];
     var drawCount = 0;
     function draw() {
       drawCount++;
@@ -700,7 +747,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var view=mL(eye,cam.tgt,[0,1,0]);
       var mvp=mMul(mP(0.85,W/H,HGT*0.02,HGT*14),view);
       lastMVP=mvp; lastEye=eye;
-      lastRight=[view[0],view[4],view[8]]; lastUp=[view[1],view[5],view[9]];
+      lastRight=[view[0],view[4],view[8]]; lastUp=[view[1],view[5],view[9]]; lastFwd=[-view[2],-view[6],-view[10]];
       gl.uniformMatrix4fv(U.uMVP,false,mvp);
       gl.uniformMatrix3fv(U.uN,false,new Float32Array([view[0],view[1],view[2],view[4],view[5],view[6],view[8],view[9],view[10]]));
 
@@ -776,7 +823,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.useProgram(prog); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
         gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
       }
+      if (cutCtl) cutCtl.overlay();
     }
+    var cutCtl = null;
     function loop(){ if(spinning){cam.az+=0.0022;need=true;} if(need){draw();need=false;} requestAnimationFrame(loop); }
 
     function proj(p){
@@ -803,10 +852,29 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     gl.attachShader(pprog, sh(gl.FRAGMENT_SHADER, PFS));
     gl.bindAttribLocation(pprog, 0, "aPos"); gl.bindAttribLocation(pprog, 1, "aNrm");
     gl.linkProgram(pprog);
-    var PU = {};
+    var PUid = {};
     ["uMVP","uN","uId","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
-      PU[n] = gl.getUniformLocation(pprog, n);
+      PUid[n] = gl.getUniformLocation(pprog, n);
     });
+    // Q197: the same pass with the fragment depth packed into RGBA (highp where the GPU has it) -- the clicked point for
+    // "place the cut plane on the model" is read back from it, so it follows exactly what the ID pass picked
+    var DFS = "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n" +
+      "varying vec3 vN;varying vec3 vP;" +
+      "uniform vec4 uClip;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
+      "void main(){" +
+      " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
+      " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
+      " vec4 e=fract(gl_FragCoord.z*vec4(1.0,255.0,65025.0,16581375.0)); e-=e.yzww*vec4(1.0/255.0,1.0/255.0,1.0/255.0,0.0);" +
+      " gl_FragColor=e;}";
+    var dprog = gl.createProgram();
+    gl.attachShader(dprog, sh(gl.VERTEX_SHADER, VS));
+    gl.attachShader(dprog, sh(gl.FRAGMENT_SHADER, DFS));
+    gl.bindAttribLocation(dprog, 0, "aPos"); gl.bindAttribLocation(dprog, 1, "aNrm");
+    gl.linkProgram(dprog);
+    var DU = {};
+    ["uMVP","uN","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) { DU[n] = gl.getUniformLocation(dprog, n); });
+    var hiP = gl.getShaderPrecisionFormat ? gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT) : null;
+    var depthOK = !!(hiP && hiP.precision >= 23) && !!gl.getProgramParameter(dprog, gl.LINK_STATUS);
     OBJ.forEach(function (o, i) { o.pid = i + 1; });
     var pfb = null, ptex = null, pdep = null, pW = 0, pH = 0, pickKey = null;
     function pickTarget() {
@@ -832,7 +900,8 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function pickable(o, all) {
       return vis(o) && (all || (!faded.has(o) && alphaFor[o.layer] >= 0.35));
     }
-    function renderIds(all) {
+    function renderIds(all, depth) {
+      var PP = depth ? dprog : pprog, PU = depth ? DU : PUid;
       pickTarget();
       gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
       gl.viewport(0, 0, W, H);
@@ -840,7 +909,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
       gl.enable(gl.DEPTH_TEST); gl.disable(gl.BLEND); gl.depthMask(true);
       gl.disable(gl.CULL_FACE);
-      gl.useProgram(pprog);
+      gl.useProgram(PP);
       gl.uniformMatrix4fv(PU.uMVP, false, lastMVP);
       gl.uniformMatrix3fv(PU.uN, false, new Float32Array([1,0,0,0,1,0,0,0,1]));
       if (clip.on) {
@@ -860,7 +929,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.ib);
         B.objs.forEach(function (o) {
           if (!pickable(o, all)) return;
-          gl.uniform3f(PU.uId, (o.pid & 255) / 255, ((o.pid >> 8) & 255) / 255, ((o.pid >> 16) & 255) / 255);
+          if (!depth) gl.uniform3f(PU.uId, (o.pid & 255) / 255, ((o.pid >> 8) & 255) / 255, ((o.pid >> 16) & 255) / 255);
           gl.drawElements(gl.TRIANGLES, o.iCount, gl.UNSIGNED_SHORT, o.iStart * 2);
         });
       });
@@ -880,10 +949,34 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       else gl.bindFramebuffer(gl.FRAMEBUFFER, pfb);
       var hit = readId(mx, my);
       var thin = faded.size > 0 || LK.some(function (k) { return on[k] && alphaFor[k] > 0.01 && alphaFor[k] < 0.35; });
-      if (!hit && thin) { renderIds(true); pickKey = null; hit = readId(mx, my); }
+      lastPickAll = false;
+      if (!hit && thin) { renderIds(true); pickKey = null; hit = readId(mx, my); lastPickAll = true; }
       gl.bindFramebuffer(gl.FRAMEBUFFER, null);
       gl.viewport(0, 0, W, H);
       return hit;
+    }
+    // Q197: the model-frame point under the canvas pixel (mx, my): the structure the ID pass names there, at the
+    // depth the depth pass read back for the same pixel (null when nothing is pickable under it)
+    var lastPickAll = false;
+    function pickPoint(mx, my) {
+      var o = pick(mx, my);
+      if (!o || !lastMVP) return null;
+      var x = Math.max(0, Math.min(W - 1, Math.round(mx))), y = Math.max(0, Math.min(H - 1, Math.round(my)));
+      var th = Math.tan(0.85 / 2), as = W / H, xn = ((x + 0.5) / W) * 2 - 1, yn = 1 - ((y + 0.5) / H) * 2;
+      var f = lastFwd, R = lastRight, Up = lastUp, d = [f[0] + xn*th*as*R[0] + yn*th*Up[0], f[1] + xn*th*as*R[1] + yn*th*Up[1], f[2] + xn*th*as*R[2] + yn*th*Up[2]];
+      var zv = null;
+      if (depthOK) {
+        renderIds(lastPickAll, true); pickKey = null;
+        gl.readPixels(x, H - 1 - y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, pxBuf);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H);
+        var dep = pxBuf[0] / 255 + pxBuf[1] / 65025 + pxBuf[2] / 16581375 + pxBuf[3] / 4228250625, n0 = HGT * 0.02, f0 = HGT * 14;
+        if (dep > 0 && dep < 1) zv = 2 * f0 * n0 / ((f0 + n0) - (2 * dep - 1) * (f0 - n0));
+      }
+      if (zv == null) {                         // no highp depth on this GPU: the point of the picked structure's centre nearest to the ray
+        var e = lastEye, c = o.center, t = (c[0]-e[0])*d[0] + (c[1]-e[1])*d[1] + (c[2]-e[2])*d[2];
+        zv = Math.max(HGT * 0.02, t / (d[0]*d[0] + d[1]*d[1] + d[2]*d[2]));
+      }
+      return [lastEye[0] + d[0]*zv, lastEye[1] + d[1]*zv, lastEye[2] + d[2]*zv];
     }
 
     // ================= UI =================
@@ -945,27 +1038,184 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     };
     Object.keys(P).forEach(function(id){ var e=document.getElementById(id); if(e) e.onclick=P[id]; });
 
-    // ---- clipping ----
-    var clipOn=document.getElementById("clip-on"), clipPos=document.getElementById("clip-pos"),
-        clipFlip=document.getElementById("clip-flip");
-    if(clipOn){
-      clipOn.onclick=function(){ clip.on=!clip.on; clipOn.classList.toggle("on",clip.on); need=true; };
-      clipPos.oninput=function(){ clip.t=clipPos.value/100; if(clip.on) need=true; };
-      clipFlip.onclick=function(){ clip.flip=!clip.flip; clipFlip.classList.toggle("on",clip.flip); need=true; };
-      document.querySelectorAll("#clip-axis button").forEach(function(b){
-        b.onclick=function(){
-          document.querySelectorAll("#clip-axis button").forEach(function(x){x.classList.remove("on");});
-          b.classList.add("on");
-          if(b.dataset.axis==="v"){ clipFaceView(); clip.t=0.5; clipPos.value=50; } else clip.axis=+b.dataset.axis;
-          need=true;
-        };
-      });
+    // ---- Q197 cut mode: the shared controller drives this page's fragment-shader plane ----
+    // The removed half is discarded per fragment (screen pass AND the ID/depth pick pass, so picking never lands in it);
+    // every layer, the skin, the highlight and the add-on's halos take the plane. The add-on's needle trajectory is not
+    // clipped (it must stay visible when the cut passes through it). No cap: the cut shows the open surfaces.
+    /* CUT-MODE js begin */
+/* One Cut mode for every page (Q197). The plane is {x : n0.x = a}; the removed side is the one where
+   rs * (n0.x - a) > 0 (rs = +1 or -1); everything here is in the model's own millimetre frame. The engine
+   (three.js clipping planes, or the WebGL fragment-shader discard) is reached only through the adaptor E:
+   bounds() target() forward() apply(kn,c,on) project(p) canvasRect() pickPoint(ev) isPhone() [words].
+   apply() receives the KEPT half as kn.x + c >= 0 (the convention of the add-on hook's cut()/setCut()). */
+function NMSKCutMode(E){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var panel = $("cut-panel"), svg = $("cut-svg"), btn = $("t-cut"), slider = $("cut-pos");
+  var WORDS = E.words || {x:["right","left"], y:["upper","lower"], z:["front","back"], view:["far","near"]};   // [rs = +1 side, rs = -1 side]
+  var AX = {x:[1,0,0], y:[0,1,0], z:[0,0,1]}, AXN = {x:"X", y:"Y", z:"Z"};
+  var NAMES = {x:"sagittal", y:"axial", z:"coronal", view:"facing the camera"};
+  var S = {on:false, ori:"x", n0:[1,0,0], rs:1, anchor:[0,0,0], placed:false, a0:0, a:0, lo:0, hi:0, armed:false, hint:""};
+  function dot(a, b){ return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
+  function cross(a, b){ return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]; }
+  function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
+  function axpy(p, d, t){ return [p[0] + d[0]*t, p[1] + d[1]*t, p[2] + d[2]*t]; }
+  function corners(){
+    var b = E.bounds(), mn = b.min, mx = b.max, c = [];
+    for (var i = 0; i < 8; i++) c.push([(i & 1) ? mx[0] : mn[0], (i & 2) ? mx[1] : mn[1], (i & 4) ? mx[2] : mn[2]]);
+    return c;
+  }
+  function centre(){ var b = E.bounds(); return [(b.min[0] + b.max[0]) / 2, (b.min[1] + b.max[1]) / 2, (b.min[2] + b.max[2]) / 2]; }
+  function basis(n){ var up = Math.abs(n[1]) < 0.99 ? [0,1,0] : [1,0,0], u = unit(cross(up, n)); return [u, cross(n, u)]; }
+  function defRs(ori){ return ori === "view" ? -1 : 1; }          // default: the +axis side (superior / anterior / +X); facing me: the near side
+  function range(){
+    var lo = 1e18, hi = -1e18;
+    corners().forEach(function(c){ var d = dot(S.n0, c); if (d < lo) lo = d; if (d > hi) hi = d; });
+    S.lo = Math.min(lo, S.a0); S.hi = Math.max(hi, S.a0);
+  }
+  function clamp(a){ return Math.max(S.lo, Math.min(S.hi, a)); }
+  /* orient: set the plane's orientation (and default side) through `point` (a clicked point, the earlier clicked
+     point, the screen centre for facing me, or the model centre) with the offset back at 0 */
+  function orient(ori, point){
+    S.ori = ori;
+    if (ori === "view"){ S.n0 = unit(E.forward()); }
+    else S.n0 = AX[ori].slice();
+    S.rs = defRs(ori);
+    S.anchor = (point || (S.placed ? S.anchor : (ori === "view" ? E.target() : centre()))).slice();
+    S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range();
+  }
+  function planeKept(){ return {kn: [-S.rs * S.n0[0], -S.rs * S.n0[1], -S.rs * S.n0[2]], c: S.rs * S.a}; }
+  function mm(v){ return (v < 0 ? "−" : "+") + Math.abs(v).toFixed(1) + " mm"; }
+  function ui(){
+    if (!panel) return;
+    panel.hidden = !S.on;
+    if (btn){ btn.setAttribute("aria-pressed", String(S.on)); btn.classList.toggle("on", S.on); }
+    document.body.classList.toggle("cut-armed", S.armed && S.on);
+    panel.classList.toggle("cp-phone", !!(E.isPhone && E.isPhone()));
+    Array.prototype.forEach.call(panel.querySelectorAll("#cut-axis button"), function(b){ b.setAttribute("aria-pressed", String(b.dataset.axis === S.ori)); });
+    var w = WORDS[S.ori], a = $("cut-side-a"), b = $("cut-side-b");
+    a.textContent = "remove " + w[0]; b.textContent = "remove " + w[1];
+    a.setAttribute("aria-pressed", String(S.rs === 1)); b.setAttribute("aria-pressed", String(S.rs === -1));
+    $("cut-flip").setAttribute("aria-pressed", String(S.rs !== defRs(S.ori)));
+    slider.min = String(Math.floor((S.lo - S.a0) * 2) / 2); slider.max = String(Math.ceil((S.hi - S.a0) * 2) / 2);
+    slider.value = String(S.a - S.a0);
+    $("cut-mm").textContent = mm(S.a - S.a0);
+    $("cut-state").textContent = NAMES[S.ori] + (S.ori === "view" ? "" : ", " + AXN[S.ori] + " = " + S.a.toFixed(1) + " mm");
+    $("cut-place").setAttribute("aria-pressed", String(S.armed));
+    $("cut-hint").textContent = S.armed ? "Click or tap the model: the plane will pass through that point." : S.hint;
+  }
+  function push(){
+    var p = planeKept();
+    E.apply(p.kn, p.c, S.on);
+    ui(); overlay();
+  }
+  /* ---- the plane drawn over the canvas: translucent rectangle, edge, arrow toward the removed side ---- */
+  function nearClip(poly){
+    var out = [], n = poly.length;
+    for (var i = 0; i < n; i++){
+      var a = poly[i], b = poly[(i + 1) % n], da = a[2] + a[3], db = b[2] + b[3];
+      if (da >= 0) out.push(a);
+      if ((da >= 0) !== (db >= 0)){ var t = da / (da - db); out.push([a[0] + (b[0]-a[0])*t, a[1] + (b[1]-a[1])*t, a[2] + (b[2]-a[2])*t, a[3] + (b[3]-a[3])*t]); }
     }
-    function clipFaceView(){
-      var ce=Math.cos(cam.el), se=Math.sin(cam.el);
-      clip.axis="v"; clip.vn=[ce*Math.sin(cam.az), se, ce*Math.cos(cam.az)];   // toward the viewer
-      clip.vc=cam.tgt.slice();
+    return out;
+  }
+  function scr(q, r){ return [r.left + (q[0]/q[3] * 0.5 + 0.5) * r.width, r.top + (0.5 - 0.5 * q[1]/q[3]) * r.height]; }
+  function overlay(){
+    if (!svg) return;
+    if (!S.on){ svg.style.display = "none"; return; }
+    var r = E.canvasRect(), uv = basis(S.n0), U = uv[0], V = uv[1], ua = 1e18, ub = -1e18, va = 1e18, vb = -1e18;
+    corners().forEach(function(c){ var x = dot(U, c), y = dot(V, c); ua = Math.min(ua, x); ub = Math.max(ub, x); va = Math.min(va, y); vb = Math.max(vb, y); });
+    var pad = 0.03 * Math.max(ub - ua, vb - va); ua -= pad; ub += pad; va -= pad; vb += pad;
+    var O = axpy([0,0,0], S.n0, S.a);
+    function at(x, y){ return axpy(axpy(O, U, x), V, y); }
+    var poly = nearClip([at(ua, va), at(ub, va), at(ub, vb), at(ua, vb)].map(E.project));
+    var s = "";
+    if (poly.length >= 3) s += '<polygon class="cut-fill" points="' + poly.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+    var c0 = (S.placed || S.ori === "view") ? axpy(S.anchor, S.n0, S.a - dot(S.n0, S.anchor)) : at((ua + ub) / 2, (va + vb) / 2);
+    var L = 0.11 * Math.max(ub - ua, vb - va), tip = axpy(c0, S.n0, S.rs * L), q0 = E.project(c0), q1 = E.project(tip);
+    if (q0[2] + q0[3] > 0 && q1[2] + q1[3] > 0){
+      var p0 = scr(q0, r), p1 = scr(q1, r), dx = p1[0] - p0[0], dy = p1[1] - p0[1], len = Math.hypot(dx, dy);
+      if (len >= 14){
+        var ux = dx / len, uy = dy / len;
+        s += '<line class="cut-arrow" x1="' + p0[0].toFixed(1) + '" y1="' + p0[1].toFixed(1) + '" x2="' + (p1[0] - ux*6).toFixed(1) + '" y2="' + (p1[1] - uy*6).toFixed(1) + '"/>' +
+             '<polygon class="cut-head" points="' + [p1[0], p1[1], p1[0] - ux*11 - uy*5.5, p1[1] - uy*11 + ux*5.5, p1[0] - ux*11 + uy*5.5, p1[1] - uy*11 - ux*5.5].map(function(v){ return v.toFixed(1); }).join(",") + '"/>';
+      } else {                                           // arrow along the view axis: a dot (toward you) or a cross (away)
+        var toward = q1[3] < q0[3], g = '<circle class="cut-pt" cx="' + p0[0].toFixed(1) + '" cy="' + p0[1].toFixed(1) + '" r="9"/>';
+        g += toward ? '<circle class="cut-head" cx="' + p0[0].toFixed(1) + '" cy="' + p0[1].toFixed(1) + '" r="3"/>'
+                    : '<path class="cut-arrow" d="M' + (p0[0]-5).toFixed(1) + ' ' + (p0[1]-5).toFixed(1) + 'l10 10m0-10l-10 10"/>';
+        s += g;
+      }
+      s += '<text x="' + (p1[0] + 9).toFixed(1) + '" y="' + (p1[1] - 7).toFixed(1) + '">removed</text>';
+      if (S.placed) s += '<circle class="cut-pt" cx="' + p0[0].toFixed(1) + '" cy="' + p0[1].toFixed(1) + '" r="5"/>';
     }
+    svg.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
+                         Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
+    svg.innerHTML = s; svg.style.display = "block";
+  }
+  /* ---- actions ---- */
+  function move(d){ S.a = clamp(S.a + d); push(); }
+  function setOri(o){ S.armed = false; S.hint = ""; orient(o, null); push(); }
+  function exit(reset){ S.on = false; S.armed = false; S.hint = ""; if (reset){ S.placed = false; orient("x", null); } push(); }
+  function enter(){ S.on = true; push(); }
+  orient("x", null);
+  if (btn) btn.addEventListener("click", function(){ if (S.on) exit(false); else enter(); });
+  Array.prototype.forEach.call(panel.querySelectorAll("#cut-axis button"), function(b){ b.addEventListener("click", function(){ setOri(b.dataset.axis); }); });
+  $("cut-place").addEventListener("click", function(){ S.armed = !S.armed; S.hint = ""; ui(); });
+  $("cut-side-a").addEventListener("click", function(){ S.rs = 1; push(); });
+  $("cut-side-b").addEventListener("click", function(){ S.rs = -1; push(); });
+  $("cut-flip").addEventListener("click", function(){ S.rs = -S.rs; push(); });
+  slider.addEventListener("input", function(){ S.a = clamp(S.a0 + parseFloat(slider.value)); push(); });
+  slider.addEventListener("wheel", function(e){ e.preventDefault(); var d = e.deltaY || e.deltaX; if (d) move((d < 0 ? 1 : -1) * (e.shiftKey ? 10 : 1)); }, {passive:false});
+  Array.prototype.forEach.call(panel.querySelectorAll("#cut-steps button"), function(b){ b.addEventListener("click", function(){ move(parseFloat(b.dataset.step)); }); });
+  $("cut-reset").addEventListener("click", function(){ S.placed = false; S.armed = false; S.hint = ""; orient("x", null); push(); });
+  $("cut-exit").addEventListener("click", function(){ exit(false); });
+  $("cut-min").addEventListener("click", function(){ var m = !panel.classList.contains("cp-min"); panel.classList.toggle("cp-min", m); this.setAttribute("aria-expanded", String(!m)); });
+  window.addEventListener("keydown", function(e){
+    if (!S.on || e.altKey || e.ctrlKey || e.metaKey) return;
+    var t = e.target, tag = t && t.tagName;
+    if ((tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") && t.id !== "cut-pos") return;
+    var k = e.key, d = 0;
+    if (k === "ArrowRight" || k === "ArrowUp") d = 1; else if (k === "ArrowLeft" || k === "ArrowDown") d = -1;
+    else if (k === "PageUp") d = 10; else if (k === "PageDown") d = -10; else return;
+    if (e.shiftKey && Math.abs(d) === 1) d *= 10;
+    e.preventDefault(); move(d);
+  });
+  window.addEventListener("resize", function(){ ui(); overlay(); });
+  return {
+    /* the engine's pointer-up calls this first: while "Place on model" is armed the click puts the plane through the hit point */
+    consumeClick: function(e){
+      if (!S.on || !S.armed) return false;
+      var p = E.pickPoint(e);
+      if (p){ S.placed = true; S.armed = false; S.hint = "Plane placed through the clicked point."; orient(S.ori, p); push(); }
+      else { S.hint = "Nothing under the pointer: click on the model."; ui(); }
+      return true;
+    },
+    overlay: overlay,
+    /* add-on hook: a plane facing `spec.normal` (into the kept half) through `spec.point`; null leaves cut mode */
+    setFromSpec: function(spec){
+      if (!spec){ exit(false); return; }
+      S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = "";
+      S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
+    },
+    exit: exit, enter: enter, move: move, setOrientation: setOri,
+    state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c}; }
+  };
+}
+/* CUT-MODE js end */
+    cutCtl = NMSKCutMode({
+      bounds:function(){ return {min:bbMin, max:bbMax}; },
+      target:function(){ return cam.tgt.slice(); },
+      forward:function(){ var ce=Math.cos(cam.el), se=Math.sin(cam.el); return [-ce*Math.sin(cam.az), -se, -ce*Math.cos(cam.az)]; },
+      apply:function(kn, c, on){ clip.on=on; clip.P=[-kn[0], -kn[1], -kn[2], -c]; need=true; },
+      project:function(p){
+        var m=lastMVP; if(!m) return [0,0,0,-1];
+        return [m[0]*p[0]+m[4]*p[1]+m[8]*p[2]+m[12], m[1]*p[0]+m[5]*p[1]+m[9]*p[2]+m[13],
+                m[2]*p[0]+m[6]*p[1]+m[10]*p[2]+m[14], m[3]*p[0]+m[7]*p[1]+m[11]*p[2]+m[15]];
+      },
+      canvasRect:function(){ return canvas.getBoundingClientRect(); },
+      pickPoint:function(e){ var r=canvas.getBoundingClientRect(); return pickPoint((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr); },
+      isPhone:function(){ return window.innerWidth<=900; }
+    });
     // ---- 3D isolation box ----
     var boxSize=document.getElementById("box-size");
     function isolateAround(o, mult){
@@ -1130,7 +1380,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       if(ptrs.has(e.pointerId)){
         if(ptrs.size===1&&moved<10&&Date.now()-downT<500&&!panMode){
           var r=canvas.getBoundingClientRect();
-          if(!(addonClick&&addonClick(e))) select(pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr),false);
+          if(!(cutCtl&&cutCtl.consumeClick(e)) && !(addonClick&&addonClick(e))) select(pick((e.clientX-r.left)*dpr,(e.clientY-r.top)*dpr),false);
         }
         ptrs.delete(e.pointerId);
       }
@@ -1162,9 +1412,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     function resetAll(){
       cam={az:DEF.az,el:DEF.el,dist:DEF.dist,tgt:DEF.tgt.slice()};
       hidden.clear(); faded.clear(); soloLayer=null; box.on=false; box.src=null;
-      clip.on=false; clip.flip=false;
-      if(clipOn) clipOn.classList.remove("on");
-      if(clipFlip) clipFlip.classList.remove("on");
+      if(cutCtl) cutCtl.exit(true);
       if(boxClear) boxClear.classList.remove("on");
       LK.forEach(function(k){on[k]=true;alphaFor[k]=1;});
       alphaFor.skin=0.3;
@@ -1200,7 +1448,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // read-only view of interaction state, for testing and debugging
     window.__viewerState=function(){ return {
       cam:{az:cam.az,el:cam.el,dist:cam.dist,tgt:cam.tgt.slice()},
-      clip:{on:clip.on,axis:clip.axis,t:clip.t,flip:clip.flip},
+      clip:(function(){ var c=cutCtl.state(); return {on:c.on,axis:c.ori,t:c.offset,flip:c.rs!==(c.ori==="view"?-1:1)}; })(),
       box:{on:box.on,min:box.min.slice(),max:box.max.slice()},
       hidden:hidden.size, faded:faded.size, solo:soloLayer, side:sideFilter
     }; };
@@ -1213,11 +1461,6 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       var recs=OBJ.map(function(o,i){ return {i:i,id:o.id||o.name,name:o.name,cat:o.layer,vt:o.vt||null,
         side:o.side==="m"?null:o.side,bmin:o.bmin.slice(),bmax:o.bmax.slice()}; });
       function fwd(){ var e=lastEye||[0,0,0],t=cam.tgt,d=[t[0]-e[0],t[1]-e[1],t[2]-e[2]],l=Math.hypot(d[0],d[1],d[2])||1; return [d[0]/l,d[1]/l,d[2]/l]; }
-      function sync2(){
-        if(clipOn) clipOn.classList.toggle("on",clip.on);
-        if(clipFlip) clipFlip.classList.toggle("on",clip.flip);
-        document.querySelectorAll("#clip-axis button").forEach(function(x){ x.classList.toggle("on", String(x.dataset.axis)===String(clip.axis)); });
-      }
       return {
         version:1, kind:"webgl", units:"mm", frame:"Z-Anatomy model frame (mm, +Y superior)",
         viewerGuess: (MAN.totals&&MAN.totals.fit_to_vhf)?"zan_f":"zan_m",
@@ -1247,13 +1490,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         view:function(){ var r=canvas.getBoundingClientRect(); return {eye:lastEye.slice(),target:cam.tgt.slice(),dir:fwd(),w:r.width,h:r.height}; },
         toScreen:function(p){ var s=proj(p); if(!s) return null; var r=canvas.getBoundingClientRect(); return [r.left+s.x/dpr, r.top+s.y/dpr]; },
         cut:function(){ if(!clip.on) return null; var P=clipPlane(); return [-P[0],-P[1],-P[2],-P[3]]; },
-        setCut:function(spec){
-          if(!spec){ clip.on=false; sync2(); need=true; return; }
-          var n=spec.normal, l=Math.hypot(n[0],n[1],n[2])||1;
-          clip.axis="v"; clip.vn=[-n[0]/l,-n[1]/l,-n[2]/l]; clip.vc=spec.point.slice(); clip.t=0.5; clip.flip=false; clip.on=true;
-          if(clipPos) clipPos.value=50;
-          sync2(); need=true;
-        },
+        setCut:function(spec){ cutCtl.setFromSpec(spec?{normal:Array.from(spec.normal),point:Array.from(spec.point)}:null); },
         focus:function(p,d){ cam.tgt=p.slice(); if(d) cam.dist=d; stopSpin(); need=true; },
         redraw:function(){ need=true; }, refresh:function(){ need=true; },
         setOpacityOverride:function(fn){ addonOpacity=fn?function(k){ return fn(k,null); }:null; need=true; },

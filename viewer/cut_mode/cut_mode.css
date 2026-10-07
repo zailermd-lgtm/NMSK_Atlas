@@ -1,0 +1,36 @@
+#cut-panel,#cut-svg{--cp-bg:#fff;--cp-ink:#111;--cp-dim:#667;--cp-line:#ccd;--cp-accent:#0a6e8e;--cp-accent-ink:#fff;--cp-warn:#c4410c;--cp-shadow:0 8px 24px rgba(0,0,0,.18)}
+#cut-panel{box-sizing:border-box;width:268px;max-width:calc(100vw - 16px);padding:8px 10px 9px;border-radius:9px;
+  background:var(--cp-bg);color:var(--cp-ink);border:1px solid var(--cp-line);box-shadow:var(--cp-shadow);
+  font:12px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;pointer-events:auto;z-index:30}
+#cut-panel[hidden]{display:none}
+#cut-panel .cp-head{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+#cut-panel .cp-head b{font-size:13px}
+#cut-panel .cp-sp{flex:1}
+#cut-panel .cp-dim,#cut-panel .cp-hint,#cut-panel output{color:var(--cp-dim)}
+#cut-panel output{float:right;font-variant-numeric:tabular-nums;color:var(--cp-ink);font-weight:600}
+#cut-panel .cp-lbl{margin:7px 0 3px;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cp-dim)}
+#cut-panel .cp-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+#cut-panel .cp-row button{flex:1 1 auto}
+#cut-panel .cp-steps button{flex:1 1 0;font-variant-numeric:tabular-nums}
+#cut-panel .cp-wide{flex:1 1 100%}
+#cut-panel button{font:inherit;font-size:11.5px;color:var(--cp-ink);background:transparent;border:1px solid var(--cp-line);
+  border-radius:6px;padding:4px 8px;min-height:30px;cursor:pointer;touch-action:manipulation}
+#cut-panel button:hover{border-color:var(--cp-accent)}
+#cut-panel button[aria-pressed="true"]{background:var(--cp-accent);color:var(--cp-accent-ink);border-color:var(--cp-accent)}
+#cut-panel .cp-head button{flex:0 0 auto;min-height:26px;padding:2px 8px}
+#cut-panel input[type=range]{display:block;width:100%;margin:2px 0 6px;height:26px;accent-color:var(--cp-accent);touch-action:pan-y}
+#cut-panel .cp-hint{margin:2px 0 4px;font-size:10.5px}
+#cut-panel .cp-hint:empty{display:none}
+#cut-panel.cp-min .cp-body{display:none}
+#cut-panel.cp-phone{width:auto;padding:6px 8px 7px;max-height:62vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#cut-panel.cp-phone button{min-height:40px;font-size:13px}
+#cut-panel.cp-phone .cp-head button{min-height:32px}
+#cut-panel.cp-phone .cp-keys{display:none}
+#cut-panel.cp-phone input[type=range]{height:34px}
+body.cut-armed canvas{cursor:crosshair!important}
+#cut-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;display:none;overflow:visible}
+#cut-svg .cut-fill{fill:var(--cp-accent);fill-opacity:.13;stroke:var(--cp-accent);stroke-width:1.6;stroke-opacity:.95;stroke-linejoin:round}
+#cut-svg .cut-arrow{stroke:var(--cp-warn);stroke-width:2.4;stroke-linecap:round;fill:none}
+#cut-svg .cut-head{fill:var(--cp-warn)}
+#cut-svg .cut-pt{fill:none;stroke:var(--cp-warn);stroke-width:2}
+#cut-svg text{fill:var(--cp-warn);font:600 11px system-ui,sans-serif;paint-order:stroke;stroke:var(--cp-bg);stroke-width:3px}
