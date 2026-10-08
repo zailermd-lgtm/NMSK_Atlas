@@ -26,6 +26,7 @@ from scripts.zanatomy.q207_inflate import POLICY, demands, OwnSkin  # noqa: E402
 OUTER_SD_MM = -1.2        # skin vertices with envelope depth above this are the outer sheet (the inner sheet lies one slab thickness, 3 mm, below)
 KERNEL_SIGMA_MM = 3.0
 SMOOTH_SIGMA_MM = 3.0
+MAX_TOTAL_MM = 16.0       # no vertex ends further than this from where the Q206 page has it
 RHO_MIN, RHO_MAX = 3.0, 9.0
 H_MAX = 16.0              # obstacles further than this above a vertex along its normal are not followed here
 RELAX = 1.0
@@ -196,6 +197,11 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
                     pending[i] = (idx, x, us)
         for i, (idx, x, u) in pending.items():
             v = V[i]
+            tot = x + u - V0[i][idx]
+            nt = np.linalg.norm(tot, axis=1)
+            over = nt > MAX_TOTAL_MM
+            if over.any():                                 # cap the accumulated movement (the iterations add up)
+                u = u - tot * np.where(over, 1.0 - MAX_TOTAL_MM / np.maximum(nt, 1e-9), 0.0)[:, None]
             mv = np.linalg.norm(u, axis=1)
             if (mv > 1e-3).any():
                 w_ = v.copy()
