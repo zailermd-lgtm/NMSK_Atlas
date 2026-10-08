@@ -224,7 +224,10 @@ def load_atlas_records():
     """atlas_id -> the record the viewer shows, flattened from data/."""
     out = {}
     for path in sorted(DATA_DIR.rglob("*.json")):
-        if path.parent.name == "rig":
+        # Q204: data/derived holds audit/report rows (Q200/Q203 *_rows_*.json are lists of
+        # {"id": <structure id>, ...}); sorted before data/muscles, setdefault let them SHADOW
+        # the real atlas record (card name = raw id, folder "derived", no origin/insertion/nerve).
+        if path.parent.name in ("rig", "derived"):
             continue
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))

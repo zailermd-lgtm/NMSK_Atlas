@@ -350,3 +350,12 @@ def test_committed_native_female_report_is_unfitted_and_drops_male_only():
     assert nf["fitted_to_any_specimen"] is False
     assert len(nf["male_only_dropped"]) >= 20 and set(nf["male_only_dropped"]) <= MALE_ONLY_IDS | MALE_ONLY_SKIN
     assert nf["structures"] == rep["meshes"]
+
+
+def test_atlas_records_ignore_derived_audit_rows():
+    """Q204: data/derived/*.json audit rows ({"id": <structure id>, ...}) sort before data/muscles and used to shadow the real atlas record
+    (card name = raw id, folder 'derived', no origin/insertion/nerve) on every page built after Q200."""
+    from scripts.export_viewer_bundle import load_atlas_records
+    rec = load_atlas_records().get("pronator_teres_l")
+    assert rec is not None and rec[0] != "derived"
+    assert rec[1].get("name_common") == "Pronator teres"
