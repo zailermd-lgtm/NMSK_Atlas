@@ -60,6 +60,8 @@ class FakeEnv:
     def skin_sd(self, P):
         return self.skin.value(P)
 
+    measure = EN.Env.measure
+
 
 def test_fields_value_and_gradient_point_outward():
     env = FakeEnv()
@@ -98,7 +100,7 @@ def test_clamp_skin_brings_vertices_back_inside_but_not_more_than_the_cap():
     v, f = icosphere(3.0, 2)
     v = v + np.array([45.0, 0, 0])                              # 5 mm outside the plane at x = 40
     v1 = C.clamp_skin(env, v, f, 5.0)
-    assert (env.skin_sd(v1) > 1.0).mean() < 0.1
+    assert (env.skin_sd(v1) > C.SKIN_TARGET_MM + 0.5).mean() < 0.1
     assert np.linalg.norm(v1 - v, axis=1).max() <= C.SKIN_MAX + 1e-6
     far = v + np.array([60.0, 0, 0])                            # 65 mm outside: capped, not teleported
     v2 = C.clamp_skin(env, far, f, 5.0)
@@ -204,3 +206,42 @@ def test_female_clinical_files_are_the_q205_ones_unchanged():
         pytest.skip("Q206 female page not built here")
     for f in src.glob("clinical_*"):
         assert (d / f.name).read_bytes() == f.read_bytes()
+
+
+def tube(x0, y0, y1, n=12, r=0.8):
+    ys = np.linspace(y0, y1, n)
+    ang = np.linspace(0, 2 * np.pi, 7)[:-1]
+    v = np.array([[x0 + r * np.cos(a), y, r * np.sin(a)] for y in ys for a in ang])
+    f = []
+    for i in range(n - 1):
+        for k in range(6):
+            a, b, c, d = i * 6 + k, i * 6 + (k + 1) % 6, (i + 1) * 6 + k, (i + 1) * 6 + (k + 1) % 6
+            f += [[a, b, c], [b, d, c]]
+    return v, np.array(f)
+
+
+def test_chain_closure_closes_a_parent_child_gap_that_touches_in_the_source():
+    env = FakeEnv()
+    side = "r"
+    va, fa = tube(20.0, 0.0, 20.0)                     # parent (radial artery)
+    vb, fb = tube(20.0, 33.0, 60.0)                   # child (deep palmar arch), 13 mm further along y
+    ra, rb = va.copy(), vb.copy()
+    rb[:, 1] -= 13.0                                  # in the Z source the two touch
+    by = {"zan_radial_artery_r": {"v": va.copy(), "f": fa, "cat": "vessel"}, "zan_deep_palmar_arch_r": {"v": vb.copy(), "f": fb, "cat": "vessel"}}
+    raw = {"zan_radial_artery_r": ra, "zan_deep_palmar_arch_r": rb}
+    g0 = C._end_gap(va, vb)[0]
+    rows = C.chain_closure(env, side, by, raw, list(by), log=lambda *a: None)
+    g1 = C._end_gap(by["zan_radial_artery_r"]["v"], by["zan_deep_palmar_arch_r"]["v"])[0]
+    assert g0 > 10 and rows and g1 < 3.0
+    k = "zan_radial_artery_r -> zan_deep_palmar_arch_r"
+    assert rows[k]["gap_before_mm"] > 10 and rows[k]["gap_after_mm"] < 3.0
+
+
+def test_chain_closure_leaves_pairs_alone_that_are_not_continuous_in_the_source():
+    env = FakeEnv()
+    va, fa = tube(20.0, 0.0, 20.0)
+    vb, fb = tube(20.0, 33.0, 60.0)
+    by = {"zan_radial_artery_r": {"v": va.copy(), "f": fa, "cat": "vessel"}, "zan_deep_palmar_arch_r": {"v": vb.copy(), "f": fb, "cat": "vessel"}}
+    raw = {"zan_radial_artery_r": va.copy(), "zan_deep_palmar_arch_r": vb.copy()}          # 13 mm apart in the source too
+    rows = C.chain_closure(env, "r", by, raw, list(by), log=lambda *a: None)
+    assert rows == {} and np.array_equal(by["zan_deep_palmar_arch_r"]["v"], vb)
