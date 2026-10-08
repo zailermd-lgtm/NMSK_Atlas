@@ -57,22 +57,18 @@ def run(which, log=print):
     for i in moved:
         d = np.linalg.norm(V1[i] - V0[i], axis=1)
         rep["moved_patches"][i] = {"max_move_mm": round(float(d.max()), 2), "mean_move_mm": round(float(d.mean()), 2), "moved_vertices_gt0.3mm": int((d > 0.3).sum()), "vertices": len(d), **q[i]}
-    # intersections of the limb / hand patches and the moved ones (before / after), new pairs and their depth
+    # intersections of the limb / hand patches and the moved ones (before / after / Z source); the nail plates and perionyx are overlays that lie in the dorsal digit slab by design and are counted separately
     ids = sorted(set(moved) | {i for i in pg.skin_ids if C.LIMB_SKIN_RE.search(i)})
-    m0 = {i: (V0[i], pg.f(i)) for i in ids}
-    m1 = {i: (V1[i], pg.f(i)) for i in ids}
-    Vc0, F0, ow0, nm = G.concat(m0)
-    Vc1, F1, ow1, _ = G.concat(m1)
-    p0 = G.intersecting_pairs(Vc0, F0, ow0)
-    p1 = G.intersecting_pairs(Vc1, F1, ow1)
-    newp = G.new_pairs(p0, p1)
-    rep["intersections"] = {"patches_checked": len(ids), "face_pairs_before": int(len(p0)), "face_pairs_after": int(len(p1)), "new_pairs": int(len(newp)),
-                            "new_pairs_depth_p50_p95_max_mm": [round(float(x), 2) for x in np.percentile(G.pair_depth(Vc1, F1, newp), [50, 95, 100])] if len(newp) else [0, 0, 0],
-                            "before_depth_p50_p95_max_mm": [round(float(x), 2) for x in np.percentile(G.pair_depth(Vc0, F0, p0), [50, 95, 100])]}
-    # the Z source's own count for the same patches (context)
-    mr = {i: (raw.v(i), pg.f(i)) for i in ids if i in raw.S}
-    Vr, Fr, owr, nmr = G.concat(mr)
-    rep["intersections"]["face_pairs_z_source"] = int(len(G.intersecting_pairs(Vr, Fr, owr)))
+    rep["intersections"] = {"patches_checked": len(ids)}
+    for tag, flt in (("all_patches", lambda i: True), ("without_overlays", lambda i: "nail_plate" not in i and "perionyx" not in i)):
+        ii = [i for i in ids if flt(i)]
+        row = {}
+        for t, VV in (("before", V0), ("after", V1), ("z_source", {i: raw.v(i) for i in raw.skin_ids})):
+            Vc, F, ow, nm = G.concat({i: (VV[i], pg.f(i)) for i in ii if i in VV})
+            p_ = G.intersecting_pairs(Vc, F, ow)
+            dd = G.pair_depth(Vc, F, p_)
+            row[t] = {"face_pairs": int(len(p_)), "depth_gt_1mm": int((dd > 1).sum()), "depth_gt_2mm": int((dd > 2).sum()), "depth_gt_4mm": int((dd > 4).sum())}
+        rep["intersections"][tag] = row
     log(f"   intersections: {rep['intersections']}")
     # seams: border steps and contacts, before / after (q202 machinery)
     from scripts.zanatomy import q199_elbow as E

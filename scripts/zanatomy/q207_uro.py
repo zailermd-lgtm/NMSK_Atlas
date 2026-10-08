@@ -84,7 +84,7 @@ def components(f, n):
     return connected_components(A, directed=False)
 
 
-def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target=None, tol_border=1.5, near_mm=140.0, w_c=1000.0, tie_mm=6.5, w_tie=20.0, strip_max_vertices=100, keep_strips=False, log=print):
+def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target=None, tol_border=1.5, near_mm=140.0, w_c=1000.0, tie_mm=6.5, w_tie=20.0, strip_max_vertices=100, keep_strips=False, split=(), conflict_mm=3.0, log=print):
     """raw / cur: {id: vertices} of the two patches (Z source, current page); faces {id: f}; others_*: {id: vertices} of all other skin patches (source / current state).
     The two small components of each half (the perineal strips) are NOT refit: they stay where the Q202 weld put them and act as neighbours (the bag / strip contact vertices of the source are tied to them).
     Constraints for the bag components = every place where they touch a neighbour in the SOURCE: (a) vertices within tol of a neighbour's vertex or ON a neighbour's face -> pulled onto that point of the
@@ -108,6 +108,10 @@ def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target
             fm = (~isbag[i][faces[i]]).all(1)
             oraw["strip_" + i] = raw[i][sv]; ocur["strip_" + i] = cur[i][sv]; ofac["strip_" + i] = remap[faces[i][fm]]
     X, node, off = build_nodes({i: raw[i] for i in ids}, ids, faces=faces)
+    node = node.copy()
+    for root in split:                       # nodes whose hard targets of the two halves disagree: the right half gets its own node again (the seam stays open there as in the current page)
+        sel = (node == root) & (np.arange(len(node)) >= off[1])
+        node[sel] = 10_000_000 + root
     # drop the strip vertices from the node set: each strip vertex is its own (fixed) vertex
     F_all = np.vstack([faces[i] + off[k] for k, i in enumerate(ids)])
     bagmask = np.concatenate([isbag[i] for i in ids])
@@ -171,9 +175,9 @@ def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target
         if len(lst) > 1:
             a = np.array(lst)
             sp = float(np.linalg.norm(a[:, None] - a[None], axis=2).max())
-            if sp > 2.0:
-                conflicts.append((round(sp, 1), np.round(a.mean(0), 0).tolist()))
-    log(f"   hard-target conflicts > 2 mm at {len(conflicts)} nodes: {sorted(conflicts, reverse=True)[:8]}")
+            if sp > conflict_mm:
+                conflicts.append((round(sp, 1), np.round(a.mean(0), 0).tolist(), int(uniq[nd])))
+    log(f"   hard-target conflicts > {conflict_mm} mm at {len(conflicts)} nodes: {sorted(conflicts, reverse=True)[:8]}")
     log(f"   uro refit (bags; strips kept): {n_hard} hard constraints + {len(rows) - n_hard} soft ties, {int(nodes_bag.sum())} bag nodes")
     e = np.concatenate([Fb[:, [0, 1]], Fb[:, [1, 2]], Fb[:, [2, 0]]])
     e = np.unique(np.sort(inv[e], axis=1), axis=0)
@@ -226,7 +230,20 @@ def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target
         if e2 < err:
             err, s, out, vv_, Z = e2, s2, o, v2, Z2
     resid = np.linalg.norm(Cm @ Z - T, axis=1)[:n_hard]
+    big = np.argsort(-resid)[:8]
+    log("   largest hard-constraint residuals (mm, target xyz, nodes): " + str([(round(float(resid[b]), 1), np.round(T[b], 0).tolist(), [n_ for n_, w_ in rows[b][0]][:3]) for b in big]))
     rep = {"scale": round(float(s), 4), "volume_target": round(vt), "volumes": [round(v) for v in vv_], "hard_constraints": n_hard, "soft_ties": len(rows) - n_hard,
-           "constraint_residual_mm_mean_max": [round(float(resid.mean()), 2), round(float(resid.max()), 2)], "bag_nodes": int(nodes_bag.sum()), "strip_vertices_kept": int((~np.concatenate([isbag[i] for i in ids])).sum())}
+           "constraint_residual_mm_mean_max": [round(float(resid.mean()), 2), round(float(resid.max()), 2)], "bag_nodes": int(nodes_bag.sum()), "strip_vertices_kept": int((~np.concatenate([isbag[i] for i in ids])).sum()), "conflict_roots": [c[2] for c in conflicts], "split_nodes": len(split)}
     log(f"   uro refit: {rep}")
+    return out, rep
+
+
+def refit_split(raw, cur, faces, others_raw, others_cur, others_faces=None, log=print, **kw):
+    """refit, then split the l / r seam nodes whose hard targets (the neighbours of the two halves) disagree by more than conflict_mm and refit again"""
+    out, rep = refit(raw, cur, faces, others_raw, others_cur, others_faces, log=log, **kw)
+    roots = rep.get("conflict_roots", [])
+    if roots:
+        log(f"   splitting {len(roots)} seam nodes whose neighbours disagree and refitting")
+        out, rep = refit(raw, cur, faces, others_raw, others_cur, others_faces, split=tuple(roots), log=log, **kw)
+        rep["split_nodes"] = len(roots)
     return out, rep

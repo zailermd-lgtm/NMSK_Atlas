@@ -25,6 +25,7 @@ from scripts.zanatomy.q207_inflate import POLICY, demands, OwnSkin  # noqa: E402
 
 OUTER_SD_MM = -1.2        # skin vertices with envelope depth above this are the outer sheet (the inner sheet lies one slab thickness, 3 mm, below)
 KERNEL_SIGMA_MM = 3.0
+SMOOTH_SIGMA_MM = 3.0
 RHO_MIN, RHO_MAX = 3.0, 9.0
 H_MAX = 16.0              # obstacles further than this above a vertex along its normal are not followed here
 RELAX = 1.0
@@ -94,6 +95,7 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
         tot_moved = 0
         mmax = []
         Ufull = {}
+        pending = {}
         for i in movable:
             if i in FOLLOW:
                 continue
@@ -112,6 +114,11 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
             n = np.stack([ndi.map_coordinates(g_, c, order=1, mode="nearest") for g_ in gr], 1)
             n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
             o = x - sd[:, None] * n
+            # the direction of a stack of sheets is the normal at the OUTER point o (not at each vertex): the two sheets of a slab / an overlay and its sheet move by the same vector, so their offset
+            # (thickness 3 mm; 0.3 mm for a collapsed slab) is not turned by r * (angle between the two vertex normals)
+            c2 = ((o - fine.lo) / fine.h).T
+            n = np.stack([ndi.map_coordinates(g_, c2, order=1, mode="nearest") for g_ in gr], 1)
+            n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
             nbr = rtree.query_ball_point(o, 8.0)
             rho = np.clip(np.array([RR[l].mean() if l else RHO_MIN for l in nbr]), RHO_MIN, RHO_MAX)
             cand = qtree.query_ball_point(o, np.sqrt((1.6 * rho) ** 2 + H_MAX ** 2))
@@ -153,11 +160,35 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
             Uf = np.zeros_like(v)
             Uf[idx] = u
             Ufull[i] = (v.copy(), Uf)
+            pending[i] = (idx, x, u)
+        # position-based smoothing of the displacement over ALL skin vertices around (both sheets, all patches): neighbouring layers of the (crumpled) skin move by the same vector, so they do not
+        # cut through each other; vertices that share a position get the same movement
+        if pending and SMOOTH_SIGMA_MM > 0:
+            AP = np.vstack([p_[1] for p_ in pending.values()])
+            AU = np.vstack([p_[2] for p_ in pending.values()])
+            if (np.linalg.norm(AU, axis=1) > 1e-3).any():
+                st = cKDTree(AP)
+                for i, (idx, x, u) in pending.items():
+                    if not (np.linalg.norm(u, axis=1) > 1e-3).any() and not any(np.linalg.norm(AU[l], axis=1).max() > 1e-3 for l in st.query_ball_point(x[:1], 3 * SMOOTH_SIGMA_MM)):
+                        continue
+                    nb = st.query_ball_point(x, 3 * SMOOTH_SIGMA_MM)
+                    us = np.zeros_like(u)
+                    for k, lst in enumerate(nb):
+                        d = np.linalg.norm(AP[lst] - x[k], axis=1)
+                        w = np.exp(-(d ** 2) / (2 * SMOOTH_SIGMA_MM ** 2))
+                        us[k] = (w[:, None] * AU[lst]).sum(0) / w.sum()
+                    # the smoothed movement never falls below what clears the obstacles at this vertex: take the larger of the two along the vertex's own displacement direction
+                    pending[i] = (idx, x, np.where((np.linalg.norm(us, axis=1) > np.linalg.norm(u, axis=1))[:, None], us, u))
+        for i, (idx, x, u) in pending.items():
+            v = V[i]
+            mv = np.linalg.norm(u, axis=1)
             if (mv > 1e-3).any():
                 w_ = v.copy()
                 w_[idx] = x + u
                 V[i] = w_
                 tot_moved += int((mv > 0.3).sum()); mmax.append(mv.max())
+            Ufull[i] = (v.copy(), np.where(np.isin(np.arange(len(v)), idx)[:, None], np.zeros_like(v), 0.0))
+            Uf = np.zeros_like(v); Uf[idx] = u; Ufull[i] = (v.copy(), Uf)
         # overlay patches (nail plate, perionyx) lie ON the dorsal digit sheet: they take exactly the movement of the nearest dorsal-sheet vertices (the offset between the sheets is kept)
         for i, lead in FOLLOW.items():
             if i in V and lead in Ufull:

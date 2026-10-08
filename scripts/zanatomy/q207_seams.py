@@ -59,7 +59,7 @@ def true_gap_constraints(items, ids, faces, V, min_true=1.5, skip=()):
     return cons, sel
 
 
-def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, skip=(), log=print, **kw):
+def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, skip=(), fixed=(), log=print, **kw):
     items, cons_all, g = classify(ids, V, faces, raw, log=log)
     tc, sel = true_gap_constraints(items, ids, faces, V, min_true, skip)
     log(f"   contacts with partner gap > 2 mm: {len(items)}; true gap > {min_true} mm: {len(tc)}")
@@ -72,6 +72,7 @@ def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, skip=(), log=pri
     if ring:
         free |= {ids[pa] for pa, a, ps in bp if ids[pa] in free for p, q, w in ps} | {ids[p] for pa, a, ps in bp for p, q, w in ps if ids[pa] in free}
         free |= {ids[pa] for pa, a, ps in bp if any(ids[p] in free for p, q, w in ps)}
+    free -= set(fixed)
     cons = bp + tc
     kw.setdefault('w_hold', 1.0)
     new = WD.solve(V, faces, ids, cons, free, gate_gap=0.8, log=log, **kw)

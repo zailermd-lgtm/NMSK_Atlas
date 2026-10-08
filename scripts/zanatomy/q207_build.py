@@ -95,7 +95,7 @@ def stage_uro(which, log=print):
         return V, {}
     ids = list(URO.IDS)
     oth = [i for i in pg.skin_ids if i not in ids and i in raw.S]
-    out, r = URO.refit({i: raw.v(i) for i in ids}, {i: pg.v(i) for i in ids}, {i: pg.f(i) for i in ids}, {i: raw.v(i) for i in oth}, {i: V[i] for i in oth}, others_faces={i: pg.f(i) for i in oth}, log=log)
+    out, r = URO.refit_split({i: raw.v(i) for i in ids}, {i: pg.v(i) for i in ids}, {i: pg.f(i) for i in ids}, {i: raw.v(i) for i in oth}, {i: V[i] for i in oth}, others_faces={i: pg.f(i) for i in oth}, log=log)
     V = dict(V)
     V.update(out)
     pickle.dump((V, r), open(state_path(which, "uro"), "wb"))

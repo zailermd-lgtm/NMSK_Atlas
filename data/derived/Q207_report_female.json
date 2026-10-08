@@ -1,17 +1,49 @@
 {
  "moved_patches": {
+  "zan_skin_anterior_region_of_forearm_l": {
+   "max_move_mm": 14.41,
+   "mean_move_mm": 0.04,
+   "moved_vertices_gt0.3mm": 4,
+   "vertices": 586,
+   "thickness_median_mm": [
+    2.29,
+    2.31
+   ],
+   "thickness_p5_mm": [
+    1.12,
+    1.1
+   ],
+   "edge_ratio_p5_p95": [
+    [
+     0.78,
+     1.38
+    ],
+    [
+     0.78,
+     1.4
+    ]
+   ],
+   "outside_own_skin_gt2mm_pct": [
+    0.0,
+    0.0
+   ],
+   "seam_step_max_mm": [
+    0.01,
+    0.04
+   ]
+  },
   "zan_skin_anterior_region_of_forearm_r": {
-   "max_move_mm": 10.83,
-   "mean_move_mm": 0.51,
-   "moved_vertices_gt0.3mm": 58,
+   "max_move_mm": 12.26,
+   "mean_move_mm": 0.75,
+   "moved_vertices_gt0.3mm": 115,
    "vertices": 586,
    "thickness_median_mm": [
     1.97,
-    1.92
+    1.91
    ],
    "thickness_p5_mm": [
     0.48,
-    0.4
+    0.42
    ],
    "edge_ratio_p5_p95": [
     [
@@ -19,8 +51,40 @@
      1.27
     ],
     [
-     0.48,
+     0.45,
      1.36
+    ]
+   ],
+   "outside_own_skin_gt2mm_pct": [
+    0.0,
+    0.0
+   ],
+   "seam_step_max_mm": [
+    0.01,
+    0.13
+   ]
+  },
+  "zan_skin_anterior_region_of_wrist_l": {
+   "max_move_mm": 14.76,
+   "mean_move_mm": 0.5,
+   "moved_vertices_gt0.3mm": 6,
+   "vertices": 108,
+   "thickness_median_mm": [
+    2.84,
+    2.84
+   ],
+   "thickness_p5_mm": [
+    2.3,
+    1.7
+   ],
+   "edge_ratio_p5_p95": [
+    [
+     0.87,
+     1.26
+    ],
+    [
+     0.87,
+     1.54
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -33,13 +97,13 @@
    ]
   },
   "zan_skin_anterior_region_of_wrist_r": {
-   "max_move_mm": 10.84,
-   "mean_move_mm": 0.78,
-   "moved_vertices_gt0.3mm": 19,
+   "max_move_mm": 11.56,
+   "mean_move_mm": 0.87,
+   "moved_vertices_gt0.3mm": 24,
    "vertices": 108,
    "thickness_median_mm": [
     1.59,
-    1.45
+    1.51
    ],
    "thickness_p5_mm": [
     0.36,
@@ -51,7 +115,7 @@
      2.07
     ],
     [
-     0.52,
+     0.48,
      2.1
     ]
    ],
@@ -61,7 +125,7 @@
    ],
    "seam_step_max_mm": [
     0.0,
-    0.01
+    0.0
    ]
   },
   "zan_skin_apex_of_auricle_l": {
@@ -129,17 +193,17 @@
    ]
   },
   "zan_skin_dorsal_surfaces_of_digits_of_hand_l": {
-   "max_move_mm": 7.16,
-   "mean_move_mm": 0.2,
-   "moved_vertices_gt0.3mm": 246,
+   "max_move_mm": 7.31,
+   "mean_move_mm": 0.37,
+   "moved_vertices_gt0.3mm": 516,
    "vertices": 2144,
    "thickness_median_mm": [
     1.9,
-    1.69
+    1.71
    ],
    "thickness_p5_mm": [
     0.11,
-    0.1
+    0.11
    ],
    "edge_ratio_p5_p95": [
     [
@@ -148,30 +212,30 @@
     ],
     [
      0.62,
-     1.38
+     1.39
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
     25.56,
-    25.42
+    25.28
    ],
    "seam_step_max_mm": [
     0.72,
-    2.11
+    2.39
    ]
   },
   "zan_skin_dorsal_surfaces_of_digits_of_hand_r": {
-   "max_move_mm": 7.1,
-   "mean_move_mm": 0.35,
-   "moved_vertices_gt0.3mm": 255,
+   "max_move_mm": 7.18,
+   "mean_move_mm": 0.51,
+   "moved_vertices_gt0.3mm": 524,
    "vertices": 2144,
    "thickness_median_mm": [
     2.14,
-    2.08
+    2.09
    ],
    "thickness_p5_mm": [
     0.16,
-    0.12
+    0.13
    ],
    "edge_ratio_p5_p95": [
     [
@@ -179,8 +243,8 @@
      1.34
     ],
     [
-     0.49,
-     1.45
+     0.48,
+     1.43
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -193,17 +257,17 @@
    ]
   },
   "zan_skin_dorsum_of_hand_l": {
-   "max_move_mm": 2.32,
-   "mean_move_mm": 0.09,
-   "moved_vertices_gt0.3mm": 30,
+   "max_move_mm": 1.82,
+   "mean_move_mm": 0.13,
+   "moved_vertices_gt0.3mm": 55,
    "vertices": 358,
    "thickness_median_mm": [
     2.06,
-    1.93
+    1.99
    ],
    "thickness_p5_mm": [
     0.63,
-    0.45
+    0.43
    ],
    "edge_ratio_p5_p95": [
     [
@@ -225,17 +289,17 @@
    ]
   },
   "zan_skin_dorsum_of_hand_r": {
-   "max_move_mm": 8.83,
-   "mean_move_mm": 0.86,
-   "moved_vertices_gt0.3mm": 84,
+   "max_move_mm": 8.47,
+   "mean_move_mm": 0.98,
+   "moved_vertices_gt0.3mm": 96,
    "vertices": 358,
    "thickness_median_mm": [
     2.38,
-    2.36
+    2.37
    ],
    "thickness_p5_mm": [
     0.36,
-    0.21
+    0.36
    ],
    "edge_ratio_p5_p95": [
     [
@@ -243,8 +307,8 @@
      1.58
     ],
     [
-     0.57,
-     1.63
+     0.55,
+     1.66
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -257,17 +321,17 @@
    ]
   },
   "zan_skin_medial_border_of_forearm_r": {
-   "max_move_mm": 0.68,
-   "mean_move_mm": 0.02,
-   "moved_vertices_gt0.3mm": 2,
+   "max_move_mm": 2.57,
+   "mean_move_mm": 0.14,
+   "moved_vertices_gt0.3mm": 10,
    "vertices": 80,
    "thickness_median_mm": [
     2.72,
-    2.72
+    2.69
    ],
    "thickness_p5_mm": [
     1.86,
-    1.67
+    1.82
    ],
    "edge_ratio_p5_p95": [
     [
@@ -275,7 +339,7 @@
      1.19
     ],
     [
-     0.54,
+     0.59,
      1.19
     ]
    ],
@@ -285,7 +349,7 @@
    ],
    "seam_step_max_mm": [
     0.0,
-    0.0
+    0.31
    ]
   },
   "zan_skin_metatarsal_region_r": {
@@ -321,9 +385,9 @@
    ]
   },
   "zan_skin_nail_plate_l": {
-   "max_move_mm": 2.2,
-   "mean_move_mm": 0.5,
-   "moved_vertices_gt0.3mm": 925,
+   "max_move_mm": 2.86,
+   "mean_move_mm": 0.59,
+   "moved_vertices_gt0.3mm": 964,
    "vertices": 1392,
    "thickness_median_mm": [
     0.14,
@@ -331,7 +395,7 @@
    ],
    "thickness_p5_mm": [
     0.01,
-    0.09
+    0.05
    ],
    "edge_ratio_p5_p95": [
     [
@@ -339,23 +403,23 @@
      1.66
     ],
     [
-     0.6,
-     1.13
+     0.5,
+     1.27
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
     38.43,
-    39.37
+    39.22
    ],
    "seam_step_max_mm": [
     0.85,
-    2.11
+    2.39
    ]
   },
   "zan_skin_nail_plate_r": {
-   "max_move_mm": 5.74,
-   "mean_move_mm": 0.75,
-   "moved_vertices_gt0.3mm": 1030,
+   "max_move_mm": 6.62,
+   "mean_move_mm": 0.93,
+   "moved_vertices_gt0.3mm": 1041,
    "vertices": 1392,
    "thickness_median_mm": [
     0.22,
@@ -363,7 +427,7 @@
    ],
    "thickness_p5_mm": [
     0.01,
-    0.12
+    0.06
    ],
    "edge_ratio_p5_p95": [
     [
@@ -371,8 +435,8 @@
      2.07
     ],
     [
-     0.65,
-     1.33
+     0.51,
+     1.65
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -385,17 +449,17 @@
    ]
   },
   "zan_skin_palm_l": {
-   "max_move_mm": 3.49,
-   "mean_move_mm": 0.09,
-   "moved_vertices_gt0.3mm": 22,
+   "max_move_mm": 3.53,
+   "mean_move_mm": 0.16,
+   "moved_vertices_gt0.3mm": 38,
    "vertices": 298,
    "thickness_median_mm": [
     2.64,
-    2.64
+    2.62
    ],
    "thickness_p5_mm": [
     1.15,
-    1.13
+    1.15
    ],
    "edge_ratio_p5_p95": [
     [
@@ -403,7 +467,7 @@
      1.33
     ],
     [
-     0.74,
+     0.75,
      1.33
     ]
    ],
@@ -417,9 +481,9 @@
    ]
   },
   "zan_skin_palm_r": {
-   "max_move_mm": 9.24,
-   "mean_move_mm": 0.95,
-   "moved_vertices_gt0.3mm": 54,
+   "max_move_mm": 8.96,
+   "mean_move_mm": 1.05,
+   "moved_vertices_gt0.3mm": 76,
    "vertices": 298,
    "thickness_median_mm": [
     1.81,
@@ -427,7 +491,7 @@
    ],
    "thickness_p5_mm": [
     0.3,
-    0.25
+    0.22
    ],
    "edge_ratio_p5_p95": [
     [
@@ -435,8 +499,8 @@
      1.61
     ],
     [
-     0.39,
-     1.85
+     0.4,
+     1.84
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -449,13 +513,13 @@
    ]
   },
   "zan_skin_palmar_surfaces_of_digits_of_hand_l": {
-   "max_move_mm": 5.82,
-   "mean_move_mm": 0.34,
-   "moved_vertices_gt0.3mm": 278,
+   "max_move_mm": 7.31,
+   "mean_move_mm": 0.66,
+   "moved_vertices_gt0.3mm": 630,
    "vertices": 1922,
    "thickness_median_mm": [
     2.43,
-    2.32
+    2.31
    ],
    "thickness_p5_mm": [
     0.66,
@@ -468,12 +532,12 @@
     ],
     [
      0.67,
-     1.36
+     1.38
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
     14.1,
-    13.32
+    12.7
    ],
    "seam_step_max_mm": [
     0.72,
@@ -481,17 +545,17 @@
    ]
   },
   "zan_skin_palmar_surfaces_of_digits_of_hand_r": {
-   "max_move_mm": 5.94,
-   "mean_move_mm": 0.31,
-   "moved_vertices_gt0.3mm": 255,
+   "max_move_mm": 6.31,
+   "mean_move_mm": 0.42,
+   "moved_vertices_gt0.3mm": 460,
    "vertices": 1922,
    "thickness_median_mm": [
     1.66,
-    1.62
+    1.63
    ],
    "thickness_p5_mm": [
     0.16,
-    0.1
+    0.12
    ],
    "edge_ratio_p5_p95": [
     [
@@ -499,8 +563,8 @@
      1.31
     ],
     [
-     0.52,
-     1.47
+     0.51,
+     1.46
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -509,21 +573,21 @@
    ],
    "seam_step_max_mm": [
     0.47,
-    0.47
+    0.81
    ]
   },
   "zan_skin_perionyx_l": {
-   "max_move_mm": 1.86,
-   "mean_move_mm": 0.41,
-   "moved_vertices_gt0.3mm": 56,
+   "max_move_mm": 2.93,
+   "mean_move_mm": 0.8,
+   "moved_vertices_gt0.3mm": 88,
    "vertices": 128,
    "thickness_median_mm": [
     0.29,
-    0.31
+    0.55
    ],
    "thickness_p5_mm": [
     0.1,
-    0.08
+    0.06
    ],
    "edge_ratio_p5_p95": [
     [
@@ -531,31 +595,31 @@
      1.67
     ],
     [
-     0.5,
-     1.69
+     0.54,
+     1.3
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
     32.81,
-    33.59
+    32.03
    ],
    "seam_step_max_mm": [
     0.85,
-    1.59
+    2.32
    ]
   },
   "zan_skin_perionyx_r": {
-   "max_move_mm": 5.13,
-   "mean_move_mm": 0.58,
-   "moved_vertices_gt0.3mm": 20,
+   "max_move_mm": 6.46,
+   "mean_move_mm": 1.17,
+   "moved_vertices_gt0.3mm": 84,
    "vertices": 128,
    "thickness_median_mm": [
     0.53,
-    0.5
+    0.51
    ],
    "thickness_p5_mm": [
     0.12,
-    0.1
+    0.08
    ],
    "edge_ratio_p5_p95": [
     [
@@ -563,8 +627,8 @@
      1.28
     ],
     [
-     0.53,
-     1.4
+     0.55,
+     1.64
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -573,7 +637,7 @@
    ],
    "seam_step_max_mm": [
     0.65,
-    3.01
+    3.99
    ]
   },
   "zan_skin_posterior_auricular_groove_l": {
@@ -609,13 +673,13 @@
    ]
   },
   "zan_skin_posterior_region_of_forearm_l": {
-   "max_move_mm": 5.36,
-   "mean_move_mm": 0.08,
-   "moved_vertices_gt0.3mm": 24,
+   "max_move_mm": 5.26,
+   "mean_move_mm": 0.12,
+   "moved_vertices_gt0.3mm": 34,
    "vertices": 668,
    "thickness_median_mm": [
     1.71,
-    1.7
+    1.72
    ],
    "thickness_p5_mm": [
     0.22,
@@ -637,13 +701,13 @@
    ],
    "seam_step_max_mm": [
     0.01,
-    0.01
+    0.28
    ]
   },
   "zan_skin_posterior_region_of_forearm_r": {
-   "max_move_mm": 1.5,
-   "mean_move_mm": 0.02,
-   "moved_vertices_gt0.3mm": 14,
+   "max_move_mm": 1.51,
+   "mean_move_mm": 0.03,
+   "moved_vertices_gt0.3mm": 16,
    "vertices": 668,
    "thickness_median_mm": [
     2.28,
@@ -651,7 +715,7 @@
    ],
    "thickness_p5_mm": [
     0.78,
-    0.85
+    0.81
    ],
    "edge_ratio_p5_p95": [
     [
@@ -659,7 +723,7 @@
      1.58
     ],
     [
-     0.78,
+     0.77,
      1.58
     ]
    ],
@@ -669,21 +733,21 @@
    ],
    "seam_step_max_mm": [
     0.01,
-    0.01
+    0.31
    ]
   },
   "zan_skin_posterior_region_of_wrist_r": {
-   "max_move_mm": 4.51,
-   "mean_move_mm": 0.41,
-   "moved_vertices_gt0.3mm": 20,
+   "max_move_mm": 5.47,
+   "mean_move_mm": 0.49,
+   "moved_vertices_gt0.3mm": 26,
    "vertices": 124,
    "thickness_median_mm": [
     2.22,
-    2.24
+    2.23
    ],
    "thickness_p5_mm": [
     0.55,
-    0.55
+    0.5
    ],
    "edge_ratio_p5_p95": [
     [
@@ -2521,11 +2585,11 @@
      "flexor_digitorum_profundus_l": {
       "sys": "muscle",
       "n": 1365,
-      "audit_gt3_pct": 0.1,
-      "audit_max_mm": 4.2,
-      "fine_gt0.5_pct": 0.8,
+      "audit_gt3_pct": 0.0,
+      "audit_max_mm": 3.0,
+      "fine_gt0.5_pct": 0.7,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 3.0
+      "fine_max_mm": 2.3
      },
      "flexor_digitorum_superficialis_l": {
       "sys": "muscle",
@@ -2721,9 +2785,9 @@
       "n": 54,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 0.0,
-      "fine_gt0.5_pct": 3.7,
+      "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.9
+      "fine_max_mm": 0.0
      },
      "zan_capitate_bone_l": {
       "sys": "bone",
@@ -2921,14 +2985,14 @@
       "audit_max_mm": 0.0,
       "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.4
+      "fine_max_mm": 0.1
      },
      "zan_dorsal_digital_branches_of_radial_nerve_l": {
       "sys": "nerve",
       "n": 1225,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 3.0,
-      "fine_gt0.5_pct": 1.3,
+      "fine_gt0.5_pct": 1.2,
       "fine_gt3_pct": 0.0,
       "fine_max_mm": 0.9
      },
@@ -3011,7 +3075,7 @@
       "audit_max_mm": 0.0,
       "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.4
+      "fine_max_mm": 0.0
      },
      "zan_extensor_pollicis_longus_l": {
       "sys": "muscle",
@@ -3029,7 +3093,7 @@
       "audit_max_mm": 0.0,
       "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.4
+      "fine_max_mm": 0.0
      },
      "zan_first_metacarpal_bone_l": {
       "sys": "bone",
@@ -3290,7 +3354,7 @@
       "audit_max_mm": 0.0,
       "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.3
+      "fine_max_mm": 0.1
      },
      "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": {
       "sys": "nerve",
@@ -3594,9 +3658,9 @@
       "n": 504,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 3.0,
-      "fine_gt0.5_pct": 0.4,
+      "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.9
+      "fine_max_mm": 0.4
      },
      "zan_collateral_interphalangeal_ligaments_of_hand_l": {
       "sys": "joint",
@@ -3612,7 +3676,7 @@
       "n": 819,
       "audit_gt3_pct": 0.4,
       "audit_max_mm": 4.2,
-      "fine_gt0.5_pct": 4.6,
+      "fine_gt0.5_pct": 4.4,
       "fine_gt3_pct": 0.1,
       "fine_max_mm": 3.5
      },
@@ -3659,7 +3723,7 @@
       "audit_max_mm": 3.0,
       "fine_gt0.5_pct": 1.5,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 1.4
+      "fine_max_mm": 1.2
      },
      "zan_tendon_sheath_of_extensor_carpi_ulnaris_l": {
       "sys": "bursa",
@@ -3706,23 +3770,23 @@
       "audit_mean_outside_pct": 0.0,
       "fine_mean_gt0.5_pct": 0.0,
       "audit_worst_mm": 0.0,
-      "fine_worst_mm": 0.4
+      "fine_worst_mm": 0.0
      },
      "vessel": {
       "structures": 23,
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 0.16,
+      "fine_mean_gt0.5_pct": 0.0,
       "audit_worst_mm": 0.0,
-      "fine_worst_mm": 0.9
+      "fine_worst_mm": 0.3
      },
      "nerve": {
       "structures": 20,
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 0.07,
+      "fine_mean_gt0.5_pct": 0.06,
       "audit_worst_mm": 3.0,
       "fine_worst_mm": 0.9
      },
@@ -3749,7 +3813,7 @@
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.13,
-      "fine_mean_gt0.5_pct": 2.17,
+      "fine_mean_gt0.5_pct": 1.97,
       "audit_worst_mm": 4.2,
       "fine_worst_mm": 3.5
      },
@@ -3758,9 +3822,9 @@
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 0.03,
-      "audit_worst_mm": 4.2,
-      "fine_worst_mm": 3.0
+      "fine_mean_gt0.5_pct": 0.02,
+      "audit_worst_mm": 3.0,
+      "fine_worst_mm": 2.3
      }
     },
     "bones": {
@@ -3843,7 +3907,7 @@
       "audit_max_mm": 0.0,
       "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.4
+      "fine_max_mm": 0.0
      },
      "zan_first_metacarpal_bone_l": {
       "sys": "bone",
@@ -4017,7 +4081,7 @@
       "fine_max_mm": 0.0
      }
     },
-    "fine_inside_frac": 0.3813
+    "fine_inside_frac": 0.382
    }
   },
   "r": {
@@ -5722,7 +5786,7 @@
       "audit_max_mm": 3.0,
       "fine_gt0.5_pct": 3.2,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 1.4
+      "fine_max_mm": 1.3
      },
      "anterior_interosseous_n_r": {
       "sys": "nerve",
@@ -5754,11 +5818,11 @@
      "extensor_carpi_radialis_brevis_r": {
       "sys": "muscle",
       "n": 559,
-      "audit_gt3_pct": 23.1,
+      "audit_gt3_pct": 26.5,
       "audit_max_mm": 6.7,
-      "fine_gt0.5_pct": 52.8,
-      "fine_gt3_pct": 30.1,
-      "fine_max_mm": 5.8
+      "fine_gt0.5_pct": 52.6,
+      "fine_gt3_pct": 29.7,
+      "fine_max_mm": 5.9
      },
      "extensor_carpi_radialis_longus_r": {
       "sys": "muscle",
@@ -5837,7 +5901,7 @@
       "n": 729,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 3.0,
-      "fine_gt0.5_pct": 0.5,
+      "fine_gt0.5_pct": 0.4,
       "fine_gt3_pct": 0.0,
       "fine_max_mm": 1.5
      },
@@ -5935,10 +5999,10 @@
       "sys": "fascia",
       "n": 749,
       "audit_gt3_pct": 0.0,
-      "audit_max_mm": 3.0,
-      "fine_gt0.5_pct": 0.0,
+      "audit_max_mm": 0.0,
+      "fine_gt0.5_pct": 0.3,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.5
+      "fine_max_mm": 0.9
      },
      "palmar_interossei_r": {
       "sys": "muscle",
@@ -6476,9 +6540,9 @@
       "n": 225,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 0.0,
-      "fine_gt0.5_pct": 0.0,
+      "fine_gt0.5_pct": 0.4,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.0
+      "fine_max_mm": 0.6
      },
      "zan_middle_phalanx_of_second_finger_of_hand_r": {
       "sys": "bone",
@@ -6530,9 +6594,9 @@
       "n": 793,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 0.0,
-      "fine_gt0.5_pct": 0.1,
+      "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.6
+      "fine_max_mm": 0.0
      },
      "zan_palmar_interphalangeal_ligaments_r": {
       "sys": "joint",
@@ -6638,18 +6702,18 @@
       "n": 782,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 0.0,
-      "fine_gt0.5_pct": 1.3,
+      "fine_gt0.5_pct": 0.0,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 1.0
+      "fine_max_mm": 0.3
      },
      "zan_proper_palmar_digital_branches_of_median_nerve_r": {
       "sys": "nerve",
       "n": 622,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 0.0,
-      "fine_gt0.5_pct": 3.9,
+      "fine_gt0.5_pct": 1.3,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.9
+      "fine_max_mm": 0.5
      },
      "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": {
       "sys": "nerve",
@@ -7018,27 +7082,27 @@
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 0.0,
+      "fine_mean_gt0.5_pct": 0.01,
       "audit_worst_mm": 0.0,
-      "fine_worst_mm": 0.0
+      "fine_worst_mm": 0.6
      },
      "vessel": {
       "structures": 23,
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 0.06,
+      "fine_mean_gt0.5_pct": 0.0,
       "audit_worst_mm": 0.0,
-      "fine_worst_mm": 1.0
+      "fine_worst_mm": 0.3
      },
      "nerve": {
       "structures": 20,
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 0.2,
+      "fine_mean_gt0.5_pct": 0.07,
       "audit_worst_mm": 0.0,
-      "fine_worst_mm": 0.9
+      "fine_worst_mm": 0.5
      },
      "joint": {
       "structures": 34,
@@ -7063,16 +7127,16 @@
       "audit_gt5pct": 0,
       "fine_gt5pct": 0,
       "audit_mean_outside_pct": 0.0,
-      "fine_mean_gt0.5_pct": 1.07,
+      "fine_mean_gt0.5_pct": 1.17,
       "audit_worst_mm": 3.0,
-      "fine_worst_mm": 1.4
+      "fine_worst_mm": 1.3
      },
      "muscle": {
       "structures": 29,
       "audit_gt5pct": 1,
       "fine_gt5pct": 2,
-      "audit_mean_outside_pct": 0.96,
-      "fine_mean_gt0.5_pct": 2.17,
+      "audit_mean_outside_pct": 1.08,
+      "fine_mean_gt0.5_pct": 2.16,
       "audit_worst_mm": 6.7,
       "fine_worst_mm": 6.8
      }
@@ -7209,9 +7273,9 @@
       "n": 225,
       "audit_gt3_pct": 0.0,
       "audit_max_mm": 0.0,
-      "fine_gt0.5_pct": 0.0,
+      "fine_gt0.5_pct": 0.4,
       "fine_gt3_pct": 0.0,
-      "fine_max_mm": 0.0
+      "fine_max_mm": 0.6
      },
      "zan_middle_phalanx_of_second_finger_of_hand_r": {
       "sys": "bone",
@@ -7331,27 +7395,53 @@
       "fine_max_mm": 0.0
      }
     },
-    "fine_inside_frac": 0.4376
+    "fine_inside_frac": 0.438
    }
   }
  },
  "page": "female",
  "intersections": {
   "patches_checked": 46,
-  "face_pairs_before": 10772,
-  "face_pairs_after": 14925,
-  "new_pairs": 6677,
-  "new_pairs_depth_p50_p95_max_mm": [
-   0.47,
-   2.56,
-   11.73
-  ],
-  "before_depth_p50_p95_max_mm": [
-   0.61,
-   2.58,
-   8.87
-  ],
-  "face_pairs_z_source": 8717
+  "all_patches": {
+   "before": {
+    "face_pairs": 10772,
+    "depth_gt_1mm": 3298,
+    "depth_gt_2mm": 914,
+    "depth_gt_4mm": 196
+   },
+   "after": {
+    "face_pairs": 12454,
+    "depth_gt_1mm": 3862,
+    "depth_gt_2mm": 1151,
+    "depth_gt_4mm": 229
+   },
+   "z_source": {
+    "face_pairs": 8717,
+    "depth_gt_1mm": 762,
+    "depth_gt_2mm": 157,
+    "depth_gt_4mm": 4
+   }
+  },
+  "without_overlays": {
+   "before": {
+    "face_pairs": 7646,
+    "depth_gt_1mm": 3035,
+    "depth_gt_2mm": 888,
+    "depth_gt_4mm": 196
+   },
+   "after": {
+    "face_pairs": 8828,
+    "depth_gt_1mm": 3466,
+    "depth_gt_2mm": 1103,
+    "depth_gt_4mm": 229
+   },
+   "z_source": {
+    "face_pairs": 4831,
+    "depth_gt_1mm": 688,
+    "depth_gt_2mm": 154,
+    "depth_gt_4mm": 4
+   }
+  }
  },
  "seams": {
   "before": {
@@ -7360,7 +7450,7 @@
    "max_step_mm": 1.2
   },
   "after": {
-   "steps_gt_2mm": 3,
+   "steps_gt_2mm": 4,
    "steps_gt_3mm": 2,
    "max_step_mm": 4.41
   }
@@ -7374,8 +7464,8 @@
   },
   "after": {
    "gt_2mm": 93,
-   "gt_3mm": 26,
-   "gt_5mm": 4,
+   "gt_3mm": 30,
+   "gt_5mm": 5,
    "max_mm": 13.28
   }
  },
@@ -7474,28 +7564,10 @@
     "true_gap": 3.3
    },
    {
-    "A": "dorsal_surfaces_of_digits_of_hand_r",
-    "B": "dorsum_of_hand_r",
-    "partner_gap": 3.8,
-    "true_gap": 1.5
-   },
-   {
     "A": "helix_l",
     "B": "apex_of_auricle_l",
     "partner_gap": 7.5,
     "true_gap": 6.4
-   },
-   {
-    "A": "palmar_surfaces_of_digits_of_hand_l",
-    "B": "dorsal_surfaces_of_digits_of_hand_l",
-    "partner_gap": 2.1,
-    "true_gap": 1.9
-   },
-   {
-    "A": "perionyx_l",
-    "B": "nail_plate_l",
-    "partner_gap": 2.2,
-    "true_gap": 1.9
    },
    {
     "A": "plantar_surfaces_of_digits_of_foot_l",
@@ -7522,20 +7594,17 @@
     "true_gap": 4.2
    }
   ],
-  "sliding_contacts_still_touching_after": 78
+  "sliding_contacts_still_touching_after": 81
  },
  "envelope_L": {
   "before": 0.0,
   "after": 77.4
  },
  "seam_stage": {
-  "closed": 13,
+  "closed": 10,
   "free": [
    "zan_skin_anterior_notch_of_auricle_l",
    "zan_skin_anterior_notch_of_auricle_r",
-   "zan_skin_anterior_region_of_forearm_r",
-   "zan_skin_anterior_region_of_wrist_l",
-   "zan_skin_anterior_region_of_wrist_r",
    "zan_skin_antihelix_l",
    "zan_skin_antihelix_r",
    "zan_skin_antitragus_l",
@@ -7560,12 +7629,8 @@
    "zan_skin_distal_transverse_arch_of_foot_r",
    "zan_skin_dorsal_surfaces_of_digits_of_foot_l",
    "zan_skin_dorsal_surfaces_of_digits_of_foot_r",
-   "zan_skin_dorsal_surfaces_of_digits_of_hand_l",
-   "zan_skin_dorsal_surfaces_of_digits_of_hand_r",
    "zan_skin_dorsum_of_foot_l",
    "zan_skin_dorsum_of_foot_r",
-   "zan_skin_dorsum_of_hand_l",
-   "zan_skin_dorsum_of_hand_r",
    "zan_skin_eminentia_conchae_l",
    "zan_skin_eminentia_conchae_r",
    "zan_skin_eminentia_fossae_triangularis_l",
@@ -7601,29 +7666,18 @@
    "zan_skin_muscular_triangle_l",
    "zan_skin_nail_plate_foot_l",
    "zan_skin_nail_plate_foot_r",
-   "zan_skin_nail_plate_l",
-   "zan_skin_nail_plate_r",
    "zan_skin_occipital_region_l",
    "zan_skin_orbital_region_l",
-   "zan_skin_palm_l",
-   "zan_skin_palm_r",
-   "zan_skin_palmar_surfaces_of_digits_of_hand_l",
-   "zan_skin_palmar_surfaces_of_digits_of_hand_r",
    "zan_skin_parietal_region_l",
    "zan_skin_parotideomasseteric_region_l",
    "zan_skin_perionyx_foot_l",
    "zan_skin_perionyx_foot_r",
-   "zan_skin_perionyx_l",
-   "zan_skin_perionyx_r",
    "zan_skin_plantar_surfaces_of_digits_of_foot_l",
    "zan_skin_plantar_surfaces_of_digits_of_foot_r",
    "zan_skin_posterior_auricular_groove_l",
-   "zan_skin_posterior_region_of_forearm_r",
-   "zan_skin_posterior_region_of_wrist_r",
    "zan_skin_presternal_region_l",
    "zan_skin_proximal_transverse_arch_of_foot_l",
    "zan_skin_proximal_transverse_arch_of_foot_r",
-   "zan_skin_radial_foveola_r",
    "zan_skin_scapha_l",
    "zan_skin_sole_l",
    "zan_skin_sole_r",
@@ -7646,14 +7700,6 @@
    "zan_skin_metatarsal_region_r": {
     "max_mm": 0.62,
     "mean_mm": 0.08
-   },
-   "zan_skin_nail_plate_l": {
-    "max_mm": 0.51,
-    "mean_mm": 0.08
-   },
-   "zan_skin_perionyx_l": {
-    "max_mm": 0.59,
-    "mean_mm": 0.23
    },
    "zan_skin_posterior_auricular_groove_l": {
     "max_mm": 0.55,
