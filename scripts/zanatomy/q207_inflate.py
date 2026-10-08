@@ -167,7 +167,7 @@ def inflate(page, V, side, wrist, coarse, own, zone=None, iters=10, tol_mm=0.5, 
     movable = {i for i in V if i.endswith("_" + side) and C.LIMB_SKIN_RE.search(i)}
     s_init = {}
     hist = []
-    bonedir = None
+    N = None
     for it in range(iters):
         t0 = time.time()
         fine = C.Fine(page, V, coarse, lo, hi, h=1.0)
@@ -191,11 +191,12 @@ def inflate(page, V, side, wrist, coarse, own, zone=None, iters=10, tol_mm=0.5, 
         hist.append({"it": it, "demand_vertices": viol, "max_demand_mm": float(need.max()) if len(need) else 0.0})
         if viol == 0:
             break
-        if bonedir is None:
-            bonedir = bone_direction(fine, page, side)
+        if N is None:
+            # outward direction = gradient of the signed distance of the envelope of the LIMB patches alone (a hand lying on the thigh keeps its own outside), fixed at the start
+            fineN = C.Fine(page, V0, coarse, lo, hi, h=1.0, patches=sorted(movable), deep_mm=1e9)
+            N = normal_field(fineN)
+            del fineN
         A = level_field(fine, Q, np.minimum(need * gain, MAX_TOTAL_MM))
-        O = C.Outer(page, wrist, 260, bone_pts, spacing=1.0, V=V, side=side)
-        N = normal_field(fine, O, bonedir=bonedir)
         for i, v in V.items():
             if i not in movable:
                 continue

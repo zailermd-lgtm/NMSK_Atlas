@@ -182,9 +182,13 @@ class Fine:
         keep = keep[keep > 0]
         outside = np.isin(lab, keep) & ~(csd < -deep_mm)          # the deep interior of the sealed coarse envelope can never be reached through a seam gap
         self.inside = ~outside
-        d_in = ndi.distance_transform_edt(self.inside, sampling=h).astype(np.float32)
-        d_out = ndi.distance_transform_edt(outside, sampling=h).astype(np.float32)
-        self.sd = np.where(self.inside, -(d_in - 0.5 * h), d_out - 0.5 * h).astype(np.float32)
+        self.close, self.surf = close, surf
+        # the TRUE inside: the closing dilation put the boundary `close` voxels outside the outer sheet; erode it back (the slab itself stays inside)
+        tin = ndi.binary_erosion(self.inside, iterations=close) | surf if close else self.inside
+        self.inside_true = tin
+        d_in = ndi.distance_transform_edt(tin, sampling=h).astype(np.float32)
+        d_out = ndi.distance_transform_edt(~tin, sampling=h).astype(np.float32)
+        self.sd = np.where(tin, -(d_in - 0.5 * h), d_out - 0.5 * h).astype(np.float32)
         self.coarse_sd = csd
 
     def value(self, p, outside=50.0):
