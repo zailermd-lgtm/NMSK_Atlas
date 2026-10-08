@@ -2,93 +2,93 @@
  "n_skin_patches": 249,
  "contact": {
   "contacts": 23484,
-  "gap_p99_mm": 1.52,
-  "gap_gt_2mm": 93,
-  "gap_gt_3mm": 30,
-  "gap_gt_5mm": 5,
+  "gap_p99_mm": 1.53,
+  "gap_gt_2mm": 83,
+  "gap_gt_3mm": 19,
+  "gap_gt_5mm": 2,
   "gap_max_mm": 13.28
  },
  "envelope": {
   "envelope_L_close2": 77.0,
-  "envelope_L_close3": 77.1
+  "envelope_L_close3": 77.2
  },
  "seams": {
-  "surface_gap_gt1mm": 4,
-  "surface_gap_gt2mm": 2,
+  "surface_gap_gt1mm": 1,
+  "surface_gap_gt2mm": 0,
   "surface_gap_gt3mm": 0,
-  "surface_gap_max_mm": 2.77,
+  "surface_gap_max_mm": 1.58,
   "surface_gap_worst": [
-   [
-    "zan_skin_dorsal_surfaces_of_digits_of_hand_r",
-    "zan_skin_nail_plate_r",
-    2.77
-   ],
-   [
-    "zan_skin_dorsal_surfaces_of_digits_of_hand_l",
-    "zan_skin_nail_plate_l",
-    2.38
-   ],
    [
     "zan_skin_nail_plate_r",
     "zan_skin_perionyx_r",
     1.58
    ],
    [
-    "zan_skin_nail_plate_l",
-    "zan_skin_perionyx_l",
-    1.5
-   ],
-   [
     "zan_skin_dorsal_surfaces_of_digits_of_hand_l",
-    "zan_skin_palmar_surfaces_of_digits_of_hand_l",
-    0.7
+    "zan_skin_nail_plate_l",
+    0.92
    ],
    [
-    "zan_skin_antihelix_r",
-    "zan_skin_concha_of_auricle_r",
-    0.63
-   ]
-  ],
-  "seams": 618,
-  "steps_gt_1mm": 8,
-  "steps_gt_3mm": 2,
-  "max_step_mm": 4.41,
-  "mean_step_mm": 0.095,
-  "worst": [
+    "zan_skin_distal_transverse_arch_of_foot_l",
+    "zan_skin_plantar_surfaces_of_digits_of_foot_l",
+    0.91
+   ],
    [
     "zan_skin_dorsal_surfaces_of_digits_of_hand_r",
     "zan_skin_nail_plate_r",
-    4.41
+    0.86
    ],
+   [
+    "zan_skin_auricular_region_l",
+    "zan_skin_posterior_auricular_groove_l",
+    0.8
+   ],
+   [
+    "zan_skin_nail_plate_l",
+    "zan_skin_perionyx_l",
+    0.71
+   ]
+  ],
+  "seams": 618,
+  "steps_gt_1mm": 12,
+  "steps_gt_3mm": 1,
+  "max_step_mm": 4.19,
+  "mean_step_mm": 0.109,
+  "worst": [
    [
     "zan_skin_nail_plate_r",
     "zan_skin_perionyx_r",
-    3.99
+    4.19
    ],
    [
-    "zan_skin_dorsal_surfaces_of_digits_of_hand_l",
-    "zan_skin_nail_plate_l",
-    2.39
+    "zan_skin_dorsal_surfaces_of_digits_of_foot_r",
+    "zan_skin_metatarsal_region_r",
+    2.64
    ],
    [
-    "zan_skin_nail_plate_l",
-    "zan_skin_perionyx_l",
-    2.32
+    "zan_skin_auricular_region_l",
+    "zan_skin_posterior_auricular_groove_l",
+    1.98
    ],
    [
-    "zan_skin_dorsal_surfaces_of_digits_of_hand_l",
-    "zan_skin_perionyx_l",
-    1.29
+    "zan_skin_dorsal_surfaces_of_digits_of_hand_r",
+    "zan_skin_nail_plate_r",
+    1.55
    ],
    [
-    "zan_skin_antihelix_l",
-    "zan_skin_scapha_l",
-    1.2
+    "zan_skin_distal_transverse_arch_of_foot_l",
+    "zan_skin_plantar_surfaces_of_digits_of_foot_l",
+    1.43
+   ],
+   [
+    "zan_skin_dorsal_surfaces_of_digits_of_foot_l",
+    "zan_skin_metatarsal_region_l",
+    1.42
    ]
   ]
  },
  "open": {
-  "open_boundary_edges_total": 1430,
+  "open_boundary_edges_total": 1431,
   "patches_with_open_edges": 40
  },
  "sections": {
@@ -107,8 +107,8 @@
    "valid": 37,
    "open_or_missing_sections": 0,
    "merged_with_trunk_sections": 0,
-   "max_radius_step_mm_per_3mm": 1.21,
-   "max_centroid_step_mm_per_3mm": 2.4,
+   "max_radius_step_mm_per_3mm": 1.18,
+   "max_centroid_step_mm_per_3mm": 2.34,
    "steps_gt3mm": 0,
    "at_t_mm": 8.0
   },
@@ -147,8 +147,8 @@
    "valid": 37,
    "open_or_missing_sections": 0,
    "merged_with_trunk_sections": 0,
-   "max_radius_step_mm_per_3mm": 0.66,
-   "max_centroid_step_mm_per_3mm": 1.38,
+   "max_radius_step_mm_per_3mm": 0.64,
+   "max_centroid_step_mm_per_3mm": 1.29,
    "steps_gt3mm": 0,
    "at_t_mm": -16.0
   },
@@ -168,7 +168,7 @@
    "open_or_missing_sections": 0,
    "merged_with_trunk_sections": 0,
    "max_radius_step_mm_per_3mm": 0.89,
-   "max_centroid_step_mm_per_3mm": 3.38,
+   "max_centroid_step_mm_per_3mm": 3.36,
    "steps_gt3mm": 1,
    "at_t_mm": 57.0
   }

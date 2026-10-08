@@ -78,11 +78,15 @@ def stage_nails(which, log=print):
                 continue
             f = pg.f(i)
             before = N.degenerate_share(V[i], f, raw.v(i))
-            if bad[side]:           # both overlays of a hand are re-seated together so that they keep their source relation to each other
-                V[i] = N.transfer(raw.v(i), raw.v(base), pg.f(base), V[base])
+            if before > 0.01:       # HYBRID: only the collapsed part (+ 2 rings of neighbours) is re-seated on the dorsal digit sheet; the rest keeps the movement of the sheet (the vertex steps to the sheet stay small)
+                S = N.collapsed_vertices(V[i], f, raw.v(i))
+                T = N.transfer(raw.v(i), raw.v(base), pg.f(base), V[base])
+                P = V[i].copy()
+                P[S] = T[S]
+                V[i] = P
                 after = N.degenerate_share(V[i], f, raw.v(i))
-                done[i] = {"degenerate_edge_share": [round(before, 4), round(after, 4)]}
-                log(f"   {i}: collapsed edges {before:.3f} -> {after:.3f}")
+                done[i] = {"degenerate_edge_share": [round(before, 4), round(after, 4)], "vertices_reseated": int(S.sum()), "vertices": int(len(S))}
+                log(f"   {i}: collapsed edges {before:.3f} -> {after:.3f}; {int(S.sum())} of {len(S)} vertices re-seated")
     pickle.dump((V, {"wrap": rep, "nails": done}), open(state_path(which, "nails"), "wb"))
     return V, done
 

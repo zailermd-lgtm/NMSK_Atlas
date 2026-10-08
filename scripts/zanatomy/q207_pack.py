@@ -75,8 +75,8 @@ def note_nail(i, rep, nd):
     mp = rep["moved_patches"][i]
     er = mp.get("edge_ratio_p5_p95")
     t0, t1 = mp["thickness_median_mm"]
-    s = (f" Q207: this overlay patch lies on the dorsal digit skin; after the earlier hand re-fits {nd['degenerate_edge_share'][0] * 100:.1f} % of its edges had collapsed to < 0.05 mm (Z source 0 %). It was re-seated on the cleared dorsal digit sheet: "
-         f"every vertex keeps its source place relative to that sheet (face, barycentric position, offset along the face normal) and is recomputed from the sheet's current position: collapsed edges {nd['degenerate_edge_share'][0] * 100:.1f} -> {nd['degenerate_edge_share'][1] * 100:.1f} %")
+    s = (f" Q207: this overlay patch lies on the dorsal digit skin; after the earlier hand re-fits {nd['degenerate_edge_share'][0] * 100:.1f} % of its edges had collapsed to < 0.05 mm (Z source 0 %). The collapsed part ({nd.get('vertices_reseated', '')} of {nd.get('vertices', '')} vertices: the vertices of the collapsed edges and two rings of neighbours) was re-seated on the cleared dorsal digit sheet: "
+         f"each such vertex keeps its source place relative to that sheet (face, barycentric position, offset along the face normal) and is recomputed from the sheet's current position, the other vertices follow the sheet's movement: collapsed edges {nd['degenerate_edge_share'][0] * 100:.1f} -> {nd['degenerate_edge_share'][1] * 100:.1f} %")
     if er:
         s += f", edge-length ratio to the Z source p5 / p95 {er[0][0]} / {er[0][1]} -> {er[1][0]} / {er[1][1]}"
     s += f", median thickness {t0} -> {t1} mm; mean move {mp['mean_move_mm']} mm, max {mp['max_move_mm']} mm. Rule-based, nothing invented."

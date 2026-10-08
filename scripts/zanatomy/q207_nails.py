@@ -28,3 +28,18 @@ def degenerate_share(v, f, v_src, tol=0.05):
     l1 = np.linalg.norm(v[e[:, 0]] - v[e[:, 1]], axis=1)
     l0 = np.linalg.norm(v_src[e[:, 0]] - v_src[e[:, 1]], axis=1)
     return float(((l1 < tol) & (l0 > 0.3)).mean())
+
+
+def collapsed_vertices(v, f, v_src, tol=0.05, rings=2):
+    """vertices that belong to an edge collapsed below `tol` mm (source length > 0.3 mm), plus `rings` rings of neighbours"""
+    e = np.unique(np.sort(np.concatenate([f[:, [0, 1]], f[:, [1, 2]], f[:, [2, 0]]]), axis=1), axis=0)
+    l1 = np.linalg.norm(v[e[:, 0]] - v[e[:, 1]], axis=1)
+    l0 = np.linalg.norm(v_src[e[:, 0]] - v_src[e[:, 1]], axis=1)
+    bad = np.zeros(len(v), bool)
+    bad[e[(l1 < tol) & (l0 > 0.3)].ravel()] = True
+    for _ in range(rings):
+        nb = bad.copy()
+        nb[e[bad[e[:, 0]], 1]] = True
+        nb[e[bad[e[:, 1]], 0]] = True
+        bad = nb
+    return bad
