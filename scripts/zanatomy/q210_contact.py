@@ -33,7 +33,7 @@ from scripts.zanatomy.q198_core import surf_points  # noqa: E402
 BASE = lambda i: i[len("zan_skin_"):-2]
 NB = ("palm", "dorsum_of_hand", "radial_foveola", "anterior_region_of_arm", "posterior_region_of_arm", "deltoid_region", "dorsal_surfaces_of_digits_of_hand", "palmar_surfaces_of_digits_of_hand",
       "nail_plate", "perionyx", "medial_bicipital_groove", "lateral_bicipital_groove", "lateral_region_of_arm", "medial_region_of_arm")
-SIGMA, TAPER_MM, RELAX, MARGIN_KEEP, STOP_DEPTH = 4.0, 10.0, 1.4, 1.0, 0.3
+SIGMA, TAPER_MM, MARGIN_KEEP, STOP_DEPTH = 4.0, 8.0, 1.0, 0.3
 
 
 def forearm_ids(pg, side=None):
@@ -120,7 +120,23 @@ def anchors_of(pg, raw, free, V):
     return anc
 
 
-def relax(pg, raw, V0, F_ids, T_ids, tissue, max_it=40, log=print):
+def twins(raw, ids, V):
+    """slab twin of every vertex (nearest other vertex of the same patch in the Z source, reciprocal pairs only; -1 otherwise)"""
+    out = {}
+    for i in ids:
+        v0 = raw.v(i)
+        d, k = cKDTree(v0).query(v0, k=2)
+        tw = k[:, 1]
+        recip = tw[tw] == np.arange(len(v0))
+        out[i] = np.where(recip & (d[:, 1] < 6.0), tw, -1)
+    return out
+
+
+def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, absorb_it=12, log=print):
+    """partition relaxation.  d_F(x), d_T(x) = distance of x to the forearm / trunk deep tissue, w = d_F / (d_F + d_T).  The gap between the two tissues is split in the ratio rho (the forearm share, from the margins):
+    a forearm skin vertex must satisfy w <= rho - delta, a trunk skin vertex w >= rho + delta, so the two skins cannot cross.  A violating vertex moves toward its own tissue by the violation (mm); both sheets of a slab
+    take the movement of the sheet that violates; Gaussian smoothing (4 mm), taper over 10 mm from the fixed neighbours, margin limit.  Pairs that survive (thin forearm corners, tapered rims) are removed by the
+    trunk skin alone (absorb phase: the trunk vertices of a deep pair move toward their tissue by the pair depth)."""
     free = list(F_ids) + list(T_ids)
     isF = {i: (i in F_ids) for i in free}
     V = {i: V0[i].copy() for i in free}
@@ -130,97 +146,149 @@ def relax(pg, raw, V0, F_ids, T_ids, tissue, max_it=40, log=print):
     off, allv0, owner, shared, g = mesh_graph(V, faces, free, anchors)
     taper = np.clip(g / TAPER_MM, 0, 1)
     taper = taper * taper * (3 - 2 * taper)
+    N = len(allv0)
     side_of = np.concatenate([[i[-1]] * len(V[i]) for i in free])
     isF_v = np.concatenate([[isF[i]] * len(V[i]) for i in free])
-    # margins over the own deep tissue and the direction toward it
-    tf = {s: cKDTree(tissue[s]) for s in "lr"}
+    tw = twins(raw, free, V)
+    twg = np.full(N, -1)
+    for i in free:
+        t_ = tw[i]
+        twg[off[i]: off[i] + len(t_)] = np.where(t_ >= 0, t_ + off[i], -1)
+    tf = {s_: cKDTree(tissue[s_]) for s_ in "lr"}
     tt = cKDTree(tissue["trunk"])
-    N = len(allv0)
-    margin = np.zeros(N)
-    towards = np.zeros((N, 3))
-    for s in "lr":
-        for isf in (True, False):
-            m = (side_of == s) & (isF_v == isf)
-            if not m.any():
-                continue
-            tr, P = (tf[s], tissue[s]) if isf else (tt, tissue["trunk"])
-            d, k = tr.query(allv0[m])
-            margin[m] = d
-            tw = P[k] - allv0[m]
-            towards[m] = tw / np.maximum(np.linalg.norm(tw, axis=1, keepdims=True), 1e-9)
-    log(f"   free patches {len(free)} (forearm {len(F_ids)}, trunk / thigh {len(T_ids)}), {N} vertices, anchors {int(anchors.sum())}; margin over own tissue: forearm min {margin[isF_v].min():.1f} median {np.median(margin[isF_v]):.1f}, trunk min {margin[~isF_v].min():.1f} median {np.median(margin[~isF_v]):.1f}")
-    total = np.zeros((N, 3))
+
+    def geometry(cv):
+        dF = np.zeros(N); dT = np.zeros(N); dirv = np.zeros((N, 3))
+        for s_ in "lr":
+            m = side_of == s_
+            dF[m], kF = tf[s_].query(cv[m])
+            dT[m], kT = tt.query(cv[m])
+            mf = isF_v[m]
+            pF = tissue[s_][kF] - cv[m]
+            pT = tissue["trunk"][kT] - cv[m]
+            pick = np.where(mf[:, None], pF, pT)                       # toward the OWN tissue
+            dirv[m] = pick / np.maximum(np.linalg.norm(pick, axis=1, keepdims=True), 1e-9)
+        return dF, dT, dirv
+    cv = allv0.copy()
+    dF, dT, dirv = geometry(cv)
+    # the split ratio per side from the margins of the vertices that are in contact (initial F x T pairs)
+    Vc, Fc, ow, nm = G.concat({i: (V[i], faces[i]) for i in free})
+    pr = G.intersecting_pairs(Vc, Fc, ow)
+    dd = G.pair_depth(Vc, Fc, pr) if len(pr) else np.zeros(0)
+    loc0 = np.cumsum([0] + [len(faces[i]) for i in free])
+
+    def gverts(fi):
+        k = np.searchsorted(loc0, fi, side="right") - 1
+        return off[free[k]] + faces[free[k]][fi - loc0[k]]
+    inpair = np.zeros(N, bool)
+    for (x, y), d in zip(pr, dd):
+        if isF[nm[ow[x]]] != isF[nm[ow[y]]] and d > 0.3:
+            inpair[gverts(x)] = True
+            inpair[gverts(y)] = True
+    rho_s = {}
+    for s_ in "lr":
+        mF_ = dF[inpair & isF_v & (side_of == s_)]
+        mT_ = dT[inpair & ~isF_v & (side_of == s_)]
+        rho_s[s_] = float(np.median(mF_) / (np.median(mF_) + np.median(mT_))) if rho is None else rho
+        log(f"   side {s_}: contact vertices forearm {len(mF_)} (median margin {np.median(mF_):.1f} mm), trunk {len(mT_)} (median margin {np.median(mT_):.1f} mm) -> forearm share rho = {rho_s[s_]:.2f}")
+    rho_v = np.where(side_of == "l", rho_s["l"], rho_s["r"])
+    margin0 = np.where(isF_v, dF, dT)
+    log(f"   free patches {len(free)} (forearm {len(F_ids)}, trunk / thigh {len(T_ids)}), {N} vertices, anchors {int(anchors.sum())}")
     hist = []
-    for it in range(max_it):
-        cur = np.vstack([V[i] for i in free]) if it else allv0.copy()
-        Vc, Fc, ow, nm = G.concat({i: (V[i], faces[i]) for i in free})
-        pr = G.intersecting_pairs(Vc, Fc, ow)
-        dd = G.pair_depth(Vc, Fc, pr) if len(pr) else np.zeros(0)
-        # F x T pairs
-        ft = [(x, y, d) for (x, y), d in zip(pr, dd) if isF[nm[ow[x]]] != isF[nm[ow[y]]]]
-        deep = [r for r in ft if r[2] > 2.0]
-        mx = max([r[2] for r in ft] or [0])
-        n03 = sum(1 for r in ft if r[2] > STOP_DEPTH)
-        hist.append(dict(it=it, ft_pairs=len(ft), gt0_3=n03, deep_gt2=len(deep), max_mm=round(float(mx), 2)))
-        log(f"   it{it}: forearm|trunk pairs {len(ft)}, > {STOP_DEPTH} mm {n03}, > 2 mm {len(deep)}, max {mx:.2f} mm")
-        if n03 == 0:
-            break
-        # vertex penetration: both skins; global vertex index = off[patch] + local
-        pen = np.zeros(N)
-        # local face -> global vertex ids
-        loc0 = np.cumsum([0] + [len(f) for f in (faces[i] for i in free)])
-        def gverts(fi):
-            k = np.searchsorted(loc0, fi, side="right") - 1
-            i = free[k]
-            return off[i] + faces[i][fi - loc0[k]]
-        for x, y, d in ft:
-            va, vb = gverts(x), gverts(y)
-            f_va, t_vb = (va, vb) if isF[nm[ow[x]]] else (vb, va)
-            mF, mT = margin[f_va].mean(), margin[t_vb].mean()
-            sF = mF / max(mF + mT, 1e-6)
-            sF = np.clip(sF, 0.05, 0.95)
-            pen[f_va] = np.maximum(pen[f_va], sF * d * RELAX)
-            pen[t_vb] = np.maximum(pen[t_vb], (1 - sF) * d * RELAX)
-        u = towards * pen[:, None]
-        # position-based smoothing over both sheets (and the shared vertices of free patches)
-        cv = np.vstack([V[i] for i in free])
-        tr = cKDTree(cv)
-        nb = tr.query_ball_point(cv, 3 * SIGMA)
+    tr0 = cKDTree(allv0)
+
+    def count(Vd):
+        Vc_, Fc_, ow_, nm_ = G.concat({i: (Vd[i], faces[i]) for i in free})
+        pr_ = G.intersecting_pairs(Vc_, Fc_, ow_)
+        dd_ = G.pair_depth(Vc_, Fc_, pr_) if len(pr_) else np.zeros(0)
+        ft = [(x, y, d) for (x, y), d in zip(pr_, dd_) if isF[nm_[ow_[x]]] != isF[nm_[ow_[y]]]]
+        return ft, nm_, ow_
+
+    def smooth(u):
+        cvv = np.vstack([V[i] for i in free])
+        tr = cKDTree(cvv)
         act = np.linalg.norm(u, axis=1) > 1e-6
-        # Gaussian average over the ACTIVE neighbours; the share of active weight (x 1 / 0.35, capped at 1) lets the movement decay away from the contact
-        us2 = np.zeros_like(u)
+        nb = tr.query_ball_point(cvv, 3 * SIGMA)
+        us = np.zeros_like(u)
         for k, lst in enumerate(nb):
             lst = np.asarray(lst)
             a = lst[act[lst]]
             if len(a) == 0:
                 continue
-            w = np.exp(-np.linalg.norm(cv[a] - cv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
-            wall = np.exp(-np.linalg.norm(cv[lst] - cv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
-            us2[k] = (w[:, None] * u[a]).sum(0) / w.sum() * min(1.0, w.sum() / (0.35 * wall.sum()))
-        u = us2 * taper[:, None]
-        # shared vertices of two free patches: the same movement
+            w = np.exp(-np.linalg.norm(cvv[a] - cvv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
+            wall = np.exp(-np.linalg.norm(cvv[lst] - cvv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
+            us[k] = (w[:, None] * u[a]).sum(0) / w.sum() * min(1.0, w.sum() / (0.35 * wall.sum()))
+        return us
+
+    def finish(u):
+        has = twg >= 0
+        # both sheets of a slab take the movement of the sheet that violates (the larger one)
+        a = np.flatnonzero(has)
+        big = np.where((np.linalg.norm(u[a], axis=1) >= np.linalg.norm(u[twg[a]], axis=1))[:, None], u[a], u[twg[a]])
+        u = u.copy()
+        u[a] = big
         if len(shared):
             avg = 0.5 * (u[shared[:, 0]] + u[shared[:, 1]])
             u[shared[:, 0]] = avg
             u[shared[:, 1]] = avg
-        # margin limit: never further than margin - MARGIN_KEEP toward the own tissue
+        return u
+
+    def apply(u, cap_by_margin=True):
+        nonlocal cv
+        cvv = np.vstack([V[i] for i in free])
+        dF_, dT_, dir_ = geometry(cvv)
+        mg = np.where(isF_v, dF_, dT_)
+        # margin limit for both sheets of a slab: the smaller margin of the two
+        mg2 = np.where(twg >= 0, np.minimum(mg, mg[np.maximum(twg, 0)]), mg)
         nu = np.linalg.norm(u, axis=1)
-        lim = np.maximum(margin - MARGIN_KEEP, 0.0)
-        sc = np.where(nu > lim, lim / np.maximum(nu, 1e-9), 1.0)
-        u = u * sc[:, None]
-        total += u
+        lim = np.maximum(mg2 - MARGIN_KEEP, 0.0)
+        u = u * np.where(nu > lim, lim / np.maximum(nu, 1e-9), 1.0)[:, None]
         for i in free:
             V[i] = V[i] + u[off[i]: off[i] + len(V[i])]
+        return u
+    ft, nm_, ow_ = count(V)
+    hist.append(dict(phase="start", ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2)))
+    log(f"   start: forearm|trunk pairs {hist[-1]['ft_pairs']}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}")
+    for it in range(max_it):
+        cvv = np.vstack([V[i] for i in free])
+        dF, dT, dirv = geometry(cvv)
+        eF = (1 - rho_v + delta) * dF - (rho_v - delta) * dT
+        eT = (rho_v + delta) * dT - (1 - rho_v - delta) * dF
+        e = np.where(isF_v, eF, eT)
+        s = np.maximum(e, 0.0)
+        if s.max() < 0.3:
+            log(f"   partition it{it}: max violation {s.max():.2f} mm - done")
+            break
+        u = dirv * s[:, None]
+        u = smooth(u) * taper[:, None]
+        u = finish(u)
+        u = apply(u)
         mv = np.linalg.norm(u, axis=1)
-        log(f"      moved: vertices > 0.3 mm {int((mv > 0.3).sum())}, max {mv.max():.2f} mm, forearm max {mv[isF_v].max():.2f}, trunk max {mv[~isF_v].max():.2f}")
-        # recompute the margin along the way (distance to the own tissue at the new place)
-        cv2 = np.vstack([V[i] for i in free])
-        for s in "lr":
-            for isf in (True, False):
-                m = (side_of == s) & (isF_v == isf)
-                if m.any():
-                    margin[m] = (tf[s] if isf else tt).query(cv2[m])[0]
-    return V, dict(hist=hist, free=free, F=list(F_ids), T=list(T_ids), total_move_max=float(np.linalg.norm(total, axis=1).max()))
+        ft, nm_, ow_ = count(V)
+        hist.append(dict(phase="partition", it=it, max_violation_mm=round(float(s.max()), 2), moved_gt0_3=int((mv > 0.3).sum()), max_move_mm=round(float(mv.max()), 2), ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2)))
+        log(f"   partition it{it}: violation max {s.max():.1f} mm, moved {int((mv > 0.3).sum())} (max {mv.max():.1f}); pairs {len(ft)}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}")
+    for it in range(absorb_it):
+        if not ft or max(r[2] for r in ft) <= STOP_DEPTH:
+            break
+        pen = np.zeros(N)
+        for x, y, d in ft:
+            if d <= STOP_DEPTH:
+                continue
+            for fi, isf in ((x, isF[nm_[ow_[x]]]), (y, isF[nm_[ow_[y]]])):
+                if not isf:
+                    vv = gverts(fi)
+                    pen[vv] = np.maximum(pen[vv], d * 1.3)
+        cvv = np.vstack([V[i] for i in free])
+        dF, dT, dirv = geometry(cvv)
+        u = dirv * pen[:, None]
+        u = smooth(u) * taper[:, None]
+        u = finish(u)
+        u = apply(u)
+        mv = np.linalg.norm(u, axis=1)
+        ft, nm_, ow_ = count(V)
+        hist.append(dict(phase="absorb", it=it, moved_gt0_3=int((mv > 0.3).sum()), max_move_mm=round(float(mv.max()), 2), ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2)))
+        log(f"   absorb it{it}: trunk moved {int((mv > 0.3).sum())} (max {mv.max():.1f}); pairs {len(ft)}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}")
+    return V, dict(hist=hist, free=free, F=list(F_ids), T=list(T_ids), rho=rho_s)
 
 
 if __name__ == "__main__":
