@@ -314,7 +314,7 @@ def source_contacts(M, ids, touch_mm=3.0):
     return out
 
 
-def fit_carpals(H, M, S, ev, Et, env, contacts, log=print, rounds=2):
+def fit_carpals(H, M, S, ev, Et, env, contacts, log=print, rounds=2, only=None):
     """each carpal: bounded similarity (<= 0.35 rad, <= 8 mm, scale 0.96-1.04) about its own centroid; objective = (a) distance of its interior points to the evidence (capped) + (b) COVERAGE of
     the carpal evidence (the evidence within 5 mm of the carpal group) by the union of the carpals, so a bone cannot shrink into the mass + collision with every other hand / forearm bone +
     the Z-source contacts (pairs that touch in the Z source keep touching: <= 1.5 mm) + skin; kept only if the objective gains.  Returns (report, {id: (s, R, t) net motion})"""
@@ -331,6 +331,8 @@ def fit_carpals(H, M, S, ev, Et, env, contacts, log=print, rounds=2):
         E_g = ev[cKDTree(U0).query(ev)[0] < 5.0]
         Eg_t = cKDTree(E_g)
         for nm in order:
+            if only is not None and nm not in only:
+                continue
             b = f"zan_{nm}_bone_{M.side}"
             P = S.pts[b]
             c = P.mean(0)
@@ -515,6 +517,7 @@ def main(argv=None):
     import argparse
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("side", choices=["r", "l"])
+    ap.add_argument("--polish", action="store_true", help="second pass on the saved fit")
     ap.add_argument("--state", default=str(REPO / "build" / "q201" / "after_q201.npz"))
     a = ap.parse_args(argv)
     from scripts.zanatomy import body_ctx
@@ -522,13 +525,17 @@ def main(argv=None):
     from scripts.zanatomy import q190_metrics as Mx
     from scripts.ribs_from_ct_labels import load_skin
     by = {d["id"]: d for d in Mx.load_dump(a.state)}
+    if a.polish:
+        M, S, rep = polish(by, a.side, load_skin("vhm"))
+        arrs = {f"v_{i}": S.v[i].astype(np.float32) for i in M.hand_ids}
+        np.savez_compressed(REPO / "data" / "derived" / f"Q205_hand_bones_{a.side}.npz", **arrs)
+        (REPO / "data" / "derived" / f"Q205_hand_polish_{a.side}.json").write_text(json.dumps(rep, indent=1, default=float))
+        print("polished", a.side, rep["seconds"], "s")
+        return
     M, S, rep = fit_side(by, a.side, load_skin("vhm"))
     save_fit(M, S, rep, a.side)
     print("done", a.side, rep["seconds"], "s")
 
-
-if __name__ == "__main__":
-    main()
 
 
 # ------------------------------------------------------------------------------------------------ soft tissue
@@ -548,3 +555,58 @@ def hand_note(i, r):
     for a, b in ((" outside her skin", " outside his skin"), ("inside her CT", "inside his CT"), ("onto her own", "onto his own"), (" her ", " his ")):
         t = t.replace(a, b)
     return t
+
+
+def beam_ray(H, M, S, o, evh, env, log=print):
+    """a ray whose hinge fit left the bones off the evidence (mean score > 1.5): its three phalanges re-searched as an articulated chain (MCP / PIP / DIP, 3 DOF each, <= 110 / 110 / 90 deg)
+    about the joints of their CURRENT pose over the evidence no other Z hand bone explains; kept only if the mean score gains >= 0.3"""
+    bs = M.phal(o)
+    Et_all = cKDTree(evh)
+    sc0 = np.mean([bone_score(S, b, Et_all) for b in bs])
+    snap = {b: (S.v[b].copy(), S.pts[b].copy()) for b in bs}
+    mc = S.pts[M.mc(o)]
+    cs, prev = [], mc.mean(0)
+    for b in bs:
+        cs.append(H.joint_point(S.pts[b], prev))
+        prev = S.pts[b].mean(0)
+    others = np.vstack([S.pts[b][::2] for b in M.all_ids if b not in bs])
+    Ot = cKDTree(others)
+    free = evh[Ot.query(evh)[0] > 2.0]
+    near = free[np.linalg.norm(free - cs[0], axis=1) < 120.0]
+    Et = cKDTree(near)
+    X, XV, r = beam_chain(H, M, S, bs, cs, Et, Ot, env, max_deg=(110.0, 110.0, 90.0), log=log, label=f"ray {o}")
+    for b, x, xv in zip(bs, X, XV):
+        S.pts[b], S.v[b] = x, xv
+    sc1 = np.mean([bone_score(S, b, Et_all) for b in bs])
+    if sc1 > sc0 - 0.3:
+        for b, (v, p) in snap.items():
+            S.v[b], S.pts[b] = v, p
+        return {"kept": "current pose", "evidence_score": [round(float(sc0), 2), round(float(sc1), 2)]}
+    return {"kept": "beam refit", "evidence_score": [round(float(sc0), 2), round(float(sc1), 2)], **r}
+
+
+def polish(by, side, skin, log=print):
+    """second pass on the saved fit (Q205_hand_bones_<side>.npz): the pisiform alone (the global block fit leaves it off; no joint with a metacarpal).  Tried and dropped: refitting every carpal with the rays following
+    (evidence agreement 80.9 -> 70.7 %: the thumb chain, fitted on the block pose, lost its place) and an articulated re-search of the second ray (no gain)"""
+    H = _setup()
+    t0 = time.time()
+    ev = load_evidence(side)
+    env = HisEnvelope(skin, side)
+    M = H.HandModel(by, side)
+    S = H.State(M)
+    z = np.load(REPO / "data" / "derived" / f"Q205_hand_bones_{side}.npz")
+    restore_state(H, M, S, {k[2:]: z[k] for k in z.files})
+    evh = H.clean_hand_evidence(M, S, ev, y_max=1e9)
+    Et = cKDTree(evh)
+    rep = {}
+    contacts = source_contacts(M, M.hand_ids + [M.rad, M.uln])
+    rep["carpals"], net = fit_carpals(H, M, S, evh, Et, env, contacts, log=log, rounds=1, only=("pisiform",))      # the pisiform has no joint with a metacarpal: refit alone (the other carpals keep the block fit, their rays follow them)
+    rep["evidence_after"] = H.evidence_fit(M, S, evh)
+    rep["bone_evidence_score_after"] = {b[4:]: round(bone_score(S, b, Et), 2) for b in M.hand_ids}
+    rep["thumb_gap_after_mm"] = round(thumb_gap(S, M), 3)
+    rep["seconds"] = round(time.time() - t0)
+    return M, S, rep
+
+
+if __name__ == "__main__":
+    main()
