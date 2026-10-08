@@ -20,11 +20,22 @@ from scipy.spatial import cKDTree
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
 LABELS = REPO / "data" / "derived" / "Q205_his_hand_labels.npz"
+CT_EVID = REPO / "data" / "derived" / "Q205_his_hand_ct_evidence.npz"
+Y_BLOCK = 34.0                      # atlas y: above = the torso CT block (HU evidence), below = the legs-block fingers (label volume)
 
 
 def load_labels(side):
     z = np.load(LABELS)
     return {k: z[f"{k}_{side}"].astype(np.float64) for k in ("carp", "mc", "ph", "radius", "ulna")}
+
+
+def load_evidence(side):
+    """his hand-bone evidence of one side (atlas mm): the frozen-CT HU >= 250 solids for atlas y >= 34 (scripts/cryo/q205_ct_hand_evidence.py; the label volume kept only the dorsal-ulnar bones there,
+    the thumb and most metacarpals / phalanges of the torso block are NOT in it) plus the label volume's carpal / metacarpal / phalanx voxels below y = 34 (legs-block fingers)"""
+    lab = load_labels(side)
+    L = np.vstack([lab["carp"], lab["mc"], lab["ph"]])
+    ct = np.load(CT_EVID)[f"ct_{side}"].astype(np.float64)
+    return np.vstack([L[L[:, 1] < Y_BLOCK], ct]).astype(np.float32)
 
 
 class HisEnvelope:
@@ -136,7 +147,7 @@ def fit_thumb2(H, M, S, ev, env, log=print, n_random=80, n_refine=10):
     Ot = cKDTree(others[::2])
     Ps = [M.sub(p, 300) for p in P]
     # the Z-source continuity: nearest surface distance MC1 -> proximal phalanx in the CURRENT state (the Z source touches within ~0.1 mm; the chain keeps that by construction when only joint rotations are used)
-    lim = np.array([0.5] * 3 + [1.2] * 3 + [1.4] * 3)
+    lim = np.array([0.9] * 3 + [1.3] * 3 + [1.4] * 3)
 
     def chain_pts(x):
         return H.chain_apply(x.reshape(3, 3), Ps, cs)
@@ -190,7 +201,7 @@ def fit_side(by, side, skin, log=print, quick=False):
     H = _setup()
     t0 = time.time()
     lab = load_labels(side)
-    ev = np.vstack([lab["carp"], lab["mc"], lab["ph"]]).astype(np.float32)
+    ev = load_evidence(side)
     env = HisEnvelope(skin, side)
     M = H.HandModel(by, side)
     S = H.State(M)
@@ -207,10 +218,196 @@ def fit_side(by, side, skin, log=print, quick=False):
             for b, x, xv in zip(bs, X, XV):
                 S.pts[b], S.v[b] = x, xv
             rep["chains"][o] = r
-    evt = H.clean_hand_evidence(M, S, np.vstack([lab["mc"], lab["ph"]]).astype(np.float32), y_max=1e9)      # the carpal label block is NOT evidence for the thumb (it would attract the phalanges to the carpals)
-    rep["chains"]["first"] = fit_thumb2(H, M, S, evt, env, log=log, n_random=30 if quick else 80)
+    rep["chains"]["first"] = fit_thumb2(H, M, S, evh, env, log=log, n_random=30 if quick else 80)
     rep["nudged_inside_his_skin"] = H.nudge_inside(M, S, env, evh, log=log)
     rep["evidence_after"] = H.evidence_fit(M, S, evh)
     rep["thumb_gap_after_mm"] = round(thumb_gap(S, M), 3)
     rep["seconds"] = round(time.time() - t0)
     return M, S, rep, env
+
+
+# ------------------------------------------------------------------------------------------------ evidence-scored articulated search (v2)
+def _score(P, Et, cap=4.0):
+    return float(np.minimum(Et.query(P)[0], cap).mean())
+
+
+def bone_score(S, b, Et):
+    return _score(S.pts[b], Et)
+
+
+def so3_grid(n=1200, max_deg=100.0, seed=0):
+    """rotation vectors: the identity + n quasi-random rotations with angle <= max_deg"""
+    from scipy.spatial.transform import Rotation as Rot
+    r = Rot.random(n * 3, random_state=seed)
+    rv = r.as_rotvec()
+    ang = np.linalg.norm(rv, axis=1)
+    rv = rv[ang <= np.radians(max_deg)][:n]
+    return np.vstack([np.zeros((1, 3)), rv])
+
+
+def beam_chain(H, M, S, bs, joints, Et, others_tree, env, max_deg=(110.0, 100.0, 90.0), beam=6, n_rot=1500, log=print, w_env=1.0, label="chain"):
+    """articulated chain bs = [b0, b1, ...] turned about joints[i] (points in the CURRENT frame): stage i samples rotations of bone i (and of everything distal of it, rigidly) about joints[i]
+    (the joint centre moves with the proximal bones), scores bone i by the mean distance of its interior points to the evidence (capped), collision with the other bones and containment in his
+    skin; a beam of the best partial chains is kept; the best full chain is polished by Powell.  Everything is a rotation about a joint: bone lengths and joint distances stay those of the Z source"""
+    from scipy.spatial.transform import Rotation as Rot
+    from scipy.optimize import minimize
+    P = [S.pts[b] for b in bs]
+    V = [S.v[b] for b in bs]
+    k = len(bs)
+    Ps = [M.sub(p, 400) for p in P]
+
+    def pose(th):
+        return H.chain_apply(th, Ps, joints)
+
+    def cost_i(Xi):
+        coll = float(np.maximum(0.0, 1.5 - others_tree.query(Xi)[0]).mean()) * 3.0
+        return _score(Xi, Et) + coll + w_env * env.pen(Xi)
+
+    states = [(0.0, np.zeros((k, 3)))]
+    for i in range(k):
+        cand = []
+        grid = so3_grid(n_rot, max_deg[min(i, len(max_deg) - 1)], seed=i)
+        for sc, th in states:
+            Xs_prev = None
+            for rv in grid:
+                t2 = th.copy()
+                t2[i] = rv
+                Xi = pose(t2[:i + 1])[i] if False else H.chain_apply(t2[:i + 1], Ps[:i + 1], joints[:i + 1])[i]
+                cand.append((sc + cost_i(Xi), t2))
+        cand.sort(key=lambda t: t[0])
+        # beam with diversity: skip candidates whose pose of bone i is within 2 mm (mean) of a kept one
+        kept, keptX = [], []
+        for c, t2 in cand:
+            Xi = H.chain_apply(t2[:i + 1], Ps[:i + 1], joints[:i + 1])[i]
+            if all(np.linalg.norm(Xi - x, axis=1).mean() > 2.0 for x in keptX):
+                kept.append((c, t2))
+                keptX.append(Xi)
+            if len(kept) >= beam:
+                break
+        states = kept
+        log(f"  Q205 {label}: stage {i + 1}/{k}: best cumulative cost {states[0][0]:.2f}")
+    best = None
+    for sc, th in states:
+        def obj(x):
+            Xs = pose(x.reshape(k, 3))
+            return sum(cost_i(X) for X in Xs) + 0.5 * float((x ** 2).sum()) * 0.02
+        lim = np.array([np.radians(m) for m in (list(max_deg) + [max_deg[-1]] * k)[:k] for _ in range(3)])
+        r = minimize(obj, th.ravel(), method="Powell", bounds=list(zip(-lim, lim)), options={"xtol": 1e-3, "ftol": 1e-5, "maxiter": 2500})
+        if best is None or r.fun < best[0]:
+            best = (float(r.fun), r.x.reshape(k, 3))
+    th = best[1]
+    X = H.chain_apply(th, P, joints)
+    XV = H.chain_apply(th, V, joints)
+    return X, XV, {"cost": round(best[0], 3), "joint_rotation_deg": [round(float(np.degrees(np.linalg.norm(t))), 1) for t in th]}
+
+
+def source_contacts(M, ids, touch_mm=3.0):
+    """pairs of bones (from ids + forearm bones) that touch in the Z source (raw frame x body scale): {(a, b): source distance}"""
+    from scripts.zanatomy import q190_metrics as Mx
+    from scripts.zanatomy.q191_hand import surf_pts
+    pts = {i: surf_pts(M.r[i], M.f[i], 1500) for i in ids}
+    out = {}
+    for a in ids:
+        ta = cKDTree(pts[a])
+        for b in ids:
+            if a < b:
+                d = float(ta.query(pts[b])[0].min()) * Mx.BODY_SCALE
+                if d <= touch_mm:
+                    out[(a, b)] = d
+    return out
+
+
+def fit_carpals(H, M, S, ev, Et, env, contacts, log=print, rounds=2):
+    """each carpal: bounded similarity (<= 0.35 rad, <= 8 mm, scale 0.96-1.04) about its own centroid; objective = (a) distance of its interior points to the evidence (capped) + (b) COVERAGE of
+    the carpal evidence (the evidence within 5 mm of the carpal group) by the union of the carpals, so a bone cannot shrink into the mass + collision with every other hand / forearm bone +
+    the Z-source contacts (pairs that touch in the Z source keep touching: <= 1.5 mm) + skin; kept only if the objective gains.  Returns (report, {id: (s, R, t) net motion})"""
+    from scipy.optimize import minimize
+    from scipy.spatial.transform import Rotation as Rot
+    from scripts.zanatomy.q191_hand import kabsch
+    carp = list(M.ids["carpals"])
+    v_start = {b: S.v[b].copy() for b in carp}
+    E_g = None
+    rep = {}
+    order = ["capitate", "hamate", "lunate", "scaphoid", "triquetrum", "trapezium", "trapezoid", "pisiform"]
+    for rd in range(rounds):
+        U0 = np.vstack([S.pts[k] for k in carp])
+        E_g = ev[cKDTree(U0).query(ev)[0] < 5.0]
+        Eg_t = cKDTree(E_g)
+        for nm in order:
+            b = f"zan_{nm}_bone_{M.side}"
+            P = S.pts[b]
+            c = P.mean(0)
+            Ps = M.sub(P, 500)
+            oth = [k for k in M.all_ids if k != b]
+            Ot = cKDTree(np.vstack([S.pts[k][::2] for k in oth]))
+            other_carp = np.vstack([S.pts[k][::2] for k in carp if k != b])
+            nb = [(a if a != b else bb, d) for (a, bb), d in contacts.items() if b in (a, bb)]
+            nbt = {k: cKDTree(S.pts[k][::2]) for k, _ in nb if k in S.pts}
+
+            def sim(x, Q):
+                return x[6] * Rot.from_rotvec(x[:3]).apply(Q - c) + c + x[3:6]
+
+            def obj(x, ret_parts=False):
+                A = sim(x, Ps)
+                coll = float(np.maximum(0.0, 1.5 - Ot.query(A)[0]).mean()) * 4.0
+                cont = 0.0
+                for k, d0 in nb:
+                    if k in nbt:
+                        cont += max(0.0, float(nbt[k].query(A)[0].min()) - max(1.5, d0 + 1.0)) ** 2
+                U = np.vstack([other_carp, A])
+                cov = float(np.minimum(cKDTree(U).query(E_g)[0], 3.0).mean())
+                return _score(A, Et) + 0.8 * cov + coll + 0.6 * cont + env.pen(A) + 3.0 * float((x[:3] ** 2).sum()) + 15.0 * (x[6] - 1.0) ** 2
+
+            x0 = np.r_[np.zeros(6), 1.0]
+            f0 = obj(x0)
+            r = minimize(obj, x0, method="Powell", bounds=[(-0.35, 0.35)] * 3 + [(-8, 8)] * 3 + [(0.96, 1.04)], options={"xtol": 1e-3, "ftol": 1e-6, "maxiter": 1500})
+            if r.fun < f0 - 0.1:
+                s0, s1 = _score(P, Et), _score(sim(r.x, P), Et)
+                S.move([b], lambda Q, x=r.x, c=c: sim(x, Q))
+                rep[b] = {"evidence_score_before": round(s0, 2), "evidence_score_after": round(s1, 2), "turn_deg": round(float(np.degrees(np.linalg.norm(r.x[:3]))), 1),
+                          "shift_mm": round(float(np.linalg.norm(r.x[3:6])), 1), "scale": round(float(r.x[6]), 3), "objective": [round(f0, 2), round(float(r.fun), 2)]}
+                log(f"  Q205 carpal {nm}: objective {f0:.2f} -> {r.fun:.2f}; evidence score {s0:.2f} -> {s1:.2f}, turn {rep[b]['turn_deg']} deg, shift {rep[b]['shift_mm']} mm, scale {rep[b]['scale']}")
+    net = {b: kabsch(v_start[b], S.v[b], scale=False) for b in carp}
+    return rep, net
+
+
+def follow_rays(H, M, S, net, contacts, log=print):
+    """every ray (metacarpal + phalanges) moves with the carpal it articulates with (the Z-source carpometacarpal contact with the smallest source distance): the CMC joints stay closed"""
+    from scripts.zanatomy.q191_hand import apply_T
+    rep = {}
+    for o in ("first", "second", "third", "fourth", "fifth"):
+        mc = M.mc(o)
+        cand = [(d, (a if a != mc else b)) for (a, b), d in contacts.items() if mc in (a, b) and (a if a != mc else b) in net]
+        if not cand:
+            continue
+        d, c = min(cand)
+        T = net[c]
+        for b in [mc] + M.phal(o):
+            S.pts[b] = apply_T(T, S.pts[b])
+            S.v[b] = apply_T(T, S.v[b])
+        rep[o] = {"follows": c[4:], "source_distance_mm": round(d, 2)}
+    return rep
+
+
+def thumb_beam(H, M, S, ev, env, log=print):
+    """thumb: reseat the phalanges on the metacarpal (Z-source posture), then the evidence-scored articulated search CMC -> MCP -> IP over the evidence that no other Z hand bone explains"""
+    bs = [M.mc("first")] + M.phal("first")
+    sfx = "_" + M.side
+    trap = S.pts[f"zan_trapezium_bone{sfx}"].mean(0)
+    P = [S.pts[b] for b in bs]
+    cs, prev = [], trap
+    for p in P:
+        cs.append(H.joint_point(p, prev))
+        prev = p.mean(0)
+    others = np.vstack([S.pts[b][::2] for b in M.all_ids if b not in bs])
+    Ot = cKDTree(others)
+    free = ev[Ot.query(ev)[0] > 2.0]
+    near = free[np.linalg.norm(free - cs[0], axis=1) < 140.0]
+    Et = cKDTree(near)
+    log(f"  Q205 thumb: {len(near)} evidence voxels of the {len(ev)} are not explained by another Z bone and lie within 140 mm of the CMC joint")
+    X, XV, rep = beam_chain(H, M, S, bs, cs, Et, Ot, env, log=log, label="thumb")
+    for b, x, xv in zip(bs, X, XV):
+        S.pts[b], S.v[b] = x, xv
+    rep["evidence_voxels_free"] = int(len(near))
+    rep["thumb_bones_evidence_score"] = {b[4:-2]: round(_score(S.pts[b], Et), 2) for b in bs}
+    return rep
