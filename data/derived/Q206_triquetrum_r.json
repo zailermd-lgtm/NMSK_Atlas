@@ -1,0 +1,61 @@
+{
+ "evidence_voxels_within_90mm_of_wrist": 222413,
+ "carpal_support": {
+  "scaphoid": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 91.0,
+   "median_mm": 0.47
+  },
+  "lunate": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 65.1,
+   "median_mm": 0.85
+  },
+  "triquetrum": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 88.5,
+   "median_mm": 0.5
+  },
+  "pisiform": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 31.9,
+   "median_mm": 2.07
+  },
+  "trapezium": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 60.1,
+   "median_mm": 0.92
+  },
+  "trapezoid": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 61.6,
+   "median_mm": 0.7
+  },
+  "capitate": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 97.5,
+   "median_mm": 0.43
+  },
+  "hamate": {
+   "surface_within_1.5mm_of_photograph_bone_pct": 73.1,
+   "median_mm": 0.57
+  }
+ },
+ "along_her_ulna_axis_mm": {
+  "her_CT_ulna_distal_end": 54.0,
+  "her_CT_radius_distal_end": 61.0,
+  "refit_Z_ulna_distal_end": 74.1,
+  "refit_Z_radius_distal_end": 77.6,
+  "Z_carpal_centroids": {
+   "scaphoid": 90.8,
+   "lunate": 80.4,
+   "triquetrum": 93.2,
+   "pisiform": 95.5,
+   "trapezium": 110.2,
+   "trapezoid": 102.8,
+   "capitate": 95.6,
+   "hamate": 103.5
+  },
+  "her_CT_carpal_mesh_extent": [
+   54.2,
+   108.6
+  ]
+ },
+ "Z_triquetrum_to_her_CT_carpal_mesh_mean_mm": 1.44,
+ "gap_refit_ulna_to_Z_triquetrum_mm": 13.51,
+ "gap_her_CT_ulna_to_Z_triquetrum_mm": 32.04,
+ "verdict": "not resolved, not changed: her photographs support the Z triquetrum where it is (88 % of its surface within 1.5 mm of cream bone voxels, median 0.5 mm; the pisiform is the weakest carpal, 32 %), and her CT carpal mesh is 54 mm long (a carpal block is 30-35 mm) and starts exactly at the ends of her CT ulna / radius, so its proximal ~20 mm are most likely the distal radius / ulna epiphyses (her radius / ulna meshes are cut there); neither source separates the triquetrum from its neighbours, the 13.5 mm is the surface gap refit ulna -> triquetrum (32 mm to her cut CT ulna)"
+}
