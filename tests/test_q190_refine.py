@@ -94,7 +94,7 @@ def test_q190_build_output_if_present():
         pytest.skip("q190 build not present")
     from scripts.zanatomy import trunk_refit_q186c_audit as A186
     Ma, Mb = A186.load_viewer(after), A186.load_viewer(before)
-    assert set(Ma) == set(Mb)
+    assert set(Ma) <= set(Mb) and set(Mb) - set(Ma) <= {"zan_skin_perineal_closure"}  # Q202 added the closure patch to the installed page
     assert all(np.isfinite(m["v"]).all() for m in Ma.values())
     moved_front = 0
     for k, m in Mb.items():
