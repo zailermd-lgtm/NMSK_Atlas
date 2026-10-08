@@ -158,13 +158,34 @@ def test_continuity_chain_gap_is_the_closest_vertex_distance():
 
 
 # ------------------------------------------------------------------------------------------------ committed result files
-def test_summary_file_has_both_pages_and_the_wrist_counts():
-    f = REPO / "data" / "derived" / "Q206_summary.json"
-    if not f.exists():
-        pytest.skip("summary not written")
-    s = json.loads(f.read_text())
+def test_summary_files_have_both_pages_the_wrist_counts_and_the_chain_gaps():
     for w in ("male", "female"):
-        assert set(s[w]["wrist_junction_major_moderate_minor"]) >= {"before", "after"}
+        f = REPO / "data" / "derived" / f"Q206_summary_{w}.json"
+        if not f.exists():
+            pytest.skip("summary not written")
+        s = json.loads(f.read_text())
+        assert set(s["wrist_junction_major_moderate_minor"]) == {"before", "after"}
+        b, a = s["wrist_junction_major_moderate_minor"]["before"], s["wrist_junction_major_moderate_minor"]["after"]
+        for k in ("wrist_l", "wrist_r"):
+            assert sum(a[k][:2]) <= sum(b[k][:2])                       # major + moderate never rise at the wrist
+        assert s["wrist_structures_findings_ge_moderate"]["after"]["n"] < s["wrist_structures_findings_ge_moderate"]["before"]["n"]
+        assert all(m["after"]["inside_bone_pct"] <= m["before"]["inside_bone_pct"] + 5.0 for m in s["moved_structures"].values() if m["cat"] in ("vessel", "nerve") and m.get("after"))
+
+
+def test_continuity_file_chains_do_not_open_beyond_the_source_gaps():
+    """pairs that touch in the Z source (unfitted gap <= 3 mm) stay within max(3.5, source + 2) mm on the Q206 page; pairs the Z source itself leaves open (> 3 mm) are not worse than the Q205 page"""
+    f = REPO / "data" / "derived" / "Q206_continuity.json"
+    if not f.exists():
+        pytest.skip("continuity not written")
+    c = json.loads(f.read_text())
+    for base, before, after in (("z_male", "q205_m", "q206_m"), ("z_base_f", "q205_f", "q206_f")):
+        for sd in "lr":
+            for k, g in c[after][sd].items():
+                b0 = c[base][sd][k]
+                if b0 <= 3.0:
+                    assert g <= max(3.5, b0 + 2.0), (after, sd, k, g)
+                else:
+                    assert g <= c[before][sd][k] + 0.5, (after, sd, k, g)
 
 
 # ------------------------------------------------------------------------------------------------ page level (only when the pages are built)

@@ -19,6 +19,11 @@ def main(argv):
     v, notes, cats, rep = PK.load_dumps([dump])
     r = SD.diff(cfg["page"], cfg["out"], cfg["stem"], sorted(v))
     r["listed_structures"] = len(v)
+    # the shipped meshes are re-decimated (vertex order differs): the index-wise 'max_vertex_change_mm' of the diff is meaningless for them, the full-resolution move is the one to read
+    full = {i: x.get("max_move_mm") for rp in rep.values() for sdr in rp.values() for i, x in sdr["structures"].items()}
+    for i, x in r["geometry_changed"].items():
+        x["index_compare_mm_unreliable_after_redecimation"] = x.pop("max_vertex_change_mm")
+        x["max_move_fullres_mm"] = full.get(i)
     (REPO / "data" / "derived" / f"Q206_ship_diff_{which}.json").write_text(json.dumps(r, indent=1))
     print({k: (len(x) if hasattr(x, "__len__") else x) for k, x in r.items()})
 

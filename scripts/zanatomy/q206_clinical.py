@@ -14,7 +14,7 @@ from scripts.zanatomy import q206_state as ST  # noqa: E402
 
 
 def main():
-    out = {"threshold_mm": 5.0, "note": "max vertex change between the Q205 page and the Q206 page of the same structure; no bone, muscle or skin patch is in the Q206 scope"}
+    out = {"threshold_mm": 5.0, "note": "max vertex move (full-resolution mesh, same vertex order) between the Q205 state and the Q206 state of the structure (the shipped meshes are re-decimated, their vertex order differs); no bone, muscle or skin patch is in the Q206 scope"}
     for which in ("male", "female"):
         cfg = ST.CFG[which]
         diff = json.loads((REPO / "data" / "derived" / f"Q206_ship_diff_{which}.json").read_text())
@@ -25,14 +25,15 @@ def main():
         if rf.exists():
             risk = {s.get("id") for s in json.loads(rf.read_text())["structures"]}
         rows = {"vessel": [], "nerve": [], "muscle": [], "other": []}
-        for i, x in diff["geometry_changed"].items():
-            mv = x["max_vertex_change_mm"]
+        summ = json.loads((REPO / "data" / "derived" / f"Q206_summary_{which}.json").read_text())["moved_structures"]
+        for i in diff["geometry_changed"]:
+            mv = summ[i]["max_move_mm"]
             if mv is None or mv <= 5.0:
                 continue
             k = sysof[i] if sysof[i] in rows else "other"
-            rows[k].append({"id": i, "sys": sysof[i], "max_vertex_change_mm": mv, "in_clinical_risk_file": i in risk})
+            rows[k].append({"id": i, "sys": sysof[i], "max_vertex_move_mm": mv, "mean_move_mm": summ[i]["mean_move_mm"], "in_clinical_risk_file": i in risk})
         for k in rows:
-            rows[k].sort(key=lambda r: -r["max_vertex_change_mm"])
+            rows[k].sort(key=lambda r: -r["max_vertex_move_mm"])
         out[which] = {"counts_over_5mm": {k: len(v) for k, v in rows.items()}, "structures": rows}
     (REPO / "data" / "derived" / "Q206_moved_over_5mm.json").write_text(json.dumps(out, indent=1))
     for w in ("male", "female"):

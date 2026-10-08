@@ -300,7 +300,7 @@ def _move_end(v, k, target, sigma):
     return v + (target - v[k])[None, :] * np.exp(-((dz / sigma) ** 2))[:, None]
 
 
-def chain_closure(env, side, by, raw, ids, log=print, rounds=3, tol=3.0, w_gap=4.0, sigma=25.0):
+def chain_closure(env, side, by, raw, ids, log=print, rounds=3, tol=3.0, w_gap=6.0, sigma=25.0):
     """the wrist chains of q206_continuity (radial / ulnar artery -> palmar arches -> digital arteries, median / ulnar nerve -> digital branches ...): a pair that is continuous in the Z source (<= 3 mm) and is
     now further apart than `tol` is closed by moving the end of the parent, of the child or of both (<= 35 mm, Gaussian over `sigma` mm of the tube), each through the full guard ladder; the cheapest
     by  cost(parent) + cost(child) + w_gap * (gap - tol)  wins, and only if it beats the present pair."""
@@ -334,7 +334,7 @@ def chain_closure(env, side, by, raw, ids, log=print, rounds=3, tol=3.0, w_gap=4
                 gb = guard(env, side, nb, by[b]["f"], rb, by[b]["cat"], b, nb, None) if nb is not vb else vb
                 g1 = _end_gap(ga, gb)[0]
                 ma1, mb1 = metrics(env, side, ga, ra, by[a]["f"]), metrics(env, side, gb, rb, by[b]["f"])
-                if ma1["folded_pct"] > max(ma["folded_pct"] + FOLD_SLACK_TUBE, 10.0) or mb1["folded_pct"] > max(mb["folded_pct"] + FOLD_SLACK_TUBE, 10.0):
+                if ma1["folded_pct"] > max(ma["folded_pct"] + 2 * FOLD_SLACK_TUBE, 15.0) or mb1["folded_pct"] > max(mb["folded_pct"] + 2 * FOLD_SLACK_TUBE, 15.0):       # continuity of the chain outranks pleats of a 1-2 mm tube
                     continue
                 j1 = cost(ma1, by[a]["cat"], ma) + cost(mb1, by[b]["cat"], mb) + w_gap * max(g1 - tol, 0.0)
                 if best is None or j1 < best[0]:
