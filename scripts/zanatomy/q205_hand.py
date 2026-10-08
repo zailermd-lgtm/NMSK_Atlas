@@ -196,34 +196,31 @@ def fit_thumb2(H, M, S, ev, env, log=print, n_random=80, n_refine=10):
     return rep
 
 
-def fit_side(by, side, skin, log=print, quick=False):
-    """full per-bone chain fit of one hand on his evidence.  Returns (M, S, report, env)"""
+def fit_side(by, side, skin, log=print):
+    """per-bone chain fit of one hand on his evidence: (1) the Z-source hand on his forearm, (2) carpal + metacarpal block turned about the wrist (global rotation sampling), (3) each ray:
+    metacarpal turn + hinge chain, kept only where the evidence score gains, (4) thumb: reseat on its metacarpal, CMC / MCP / IP articulated beam search, (5) bones > 2 % outside his skin nudged in.
+    Returns (M, S, report)"""
     H = _setup()
     t0 = time.time()
-    lab = load_labels(side)
     ev = load_evidence(side)
     env = HisEnvelope(skin, side)
     M = H.HandModel(by, side)
     S = H.State(M)
     evh = H.clean_hand_evidence(M, S, ev, y_max=1e9)
-    rep = {"labels_voxels": int(len(evh)), "evidence_before": H.evidence_fit(M, S, evh)}
+    Et = cKDTree(evh)
+    rep = {"evidence_voxels": int(len(evh)), "evidence_before": H.evidence_fit(M, S, evh),
+           "bone_evidence_score_before": {b[4:]: round(bone_score(S, b, Et), 2) for b in M.hand_ids}}
+    rep["forearm_given"] = forearm_given_pose(H, M, S, log=log)
+    rep["hand_block"] = fit_hand_global(H, M, S, evh, env, log=log)
     rep["reseat_thumb"] = reseat_phalanges(H, M, S, "first", log=log)
-    rep["hand_rigid"] = H.fit_hand_rigid(M, S, evh, env, n_starts=5 if quick else 9, scale_rng=(0.96, 1.06), cone=0.5, log=log)
-    rep["metacarpals"] = {o: fit_mc(H, M, S, o, evh, env, log=log) for o in ("fifth", "fourth", "third", "second")}
-    cap, Hh, d, t = H.hand_frame(M, S)
-    rep["chains"] = {}
-    for ps in range(1 if quick else 2):
-        for o in ("fifth", "fourth", "third", "second"):
-            bs, X, XV, r = H.fit_ray(M, S, o, evh, env, t, Hh, log=log)
-            for b, x, xv in zip(bs, X, XV):
-                S.pts[b], S.v[b] = x, xv
-            rep["chains"][o] = r
-    rep["chains"]["first"] = fit_thumb2(H, M, S, evh, env, log=log, n_random=30 if quick else 80)
+    rep["rays"] = refine_rays(H, M, S, evh, env, log=log)
+    rep["thumb"] = thumb_beam(H, M, S, evh, env, log=log)
     rep["nudged_inside_his_skin"] = H.nudge_inside(M, S, env, evh, log=log)
     rep["evidence_after"] = H.evidence_fit(M, S, evh)
+    rep["bone_evidence_score_after"] = {b[4:]: round(bone_score(S, b, Et), 2) for b in M.hand_ids}
     rep["thumb_gap_after_mm"] = round(thumb_gap(S, M), 3)
     rep["seconds"] = round(time.time() - t0)
-    return M, S, rep, env
+    return M, S, rep
 
 
 # ------------------------------------------------------------------------------------------------ evidence-scored articulated search (v2)
@@ -405,9 +402,149 @@ def thumb_beam(H, M, S, ev, env, log=print):
     near = free[np.linalg.norm(free - cs[0], axis=1) < 140.0]
     Et = cKDTree(near)
     log(f"  Q205 thumb: {len(near)} evidence voxels of the {len(ev)} are not explained by another Z bone and lie within 140 mm of the CMC joint")
-    X, XV, rep = beam_chain(H, M, S, bs, cs, Et, Ot, env, log=log, label="thumb")
+    X, XV, rep = beam_chain(H, M, S, bs, cs, Et, Ot, env, max_deg=(75.0, 100.0, 90.0), log=log, label="thumb")
     for b, x, xv in zip(bs, X, XV):
         S.pts[b], S.v[b] = x, xv
     rep["evidence_voxels_free"] = int(len(near))
     rep["thumb_bones_evidence_score"] = {b[4:-2]: round(_score(S.pts[b], Et), 2) for b in bs}
     return rep
+
+
+def restore_state(H, M, S, V):
+    for i, v in V.items():
+        if i in S.v:
+            S.v[i] = np.asarray(v, float)
+            S.pts[i] = H.interior(S.v[i], M.f[i], 0.9)
+
+
+def refine_rays(H, M, S, evh, env, log=print):
+    """metacarpals 2-5 (turn about their carpal end, <= 0.3 rad) and phalanx chains 2-5 (Q192 hinges) on the evidence; a ray's new pose is kept only when the mean evidence score of its bones gains"""
+    Et = cKDTree(evh)
+    rep = {}
+    cap, Hh, d, t = H.hand_frame(M, S)
+    for o in ("fifth", "fourth", "third", "second"):
+        chain = [M.mc(o)] + M.phal(o)
+        sc0 = np.mean([bone_score(S, b, Et) for b in chain])
+        snap = {b: (S.v[b].copy(), S.pts[b].copy()) for b in chain}
+        r1 = fit_mc(H, M, S, o, evh, env, log=log)
+        bs, X, XV, r2 = H.fit_ray(M, S, o, evh, env, t, Hh, log=log)
+        for b, x, xv in zip(bs, X, XV):
+            S.pts[b], S.v[b] = x, xv
+        sc1 = np.mean([bone_score(S, b, Et) for b in chain])
+        if sc1 > sc0 - 0.1:
+            for b, (v, p) in snap.items():
+                S.v[b], S.pts[b] = v, p
+            rep[o] = {"kept": "current pose", "evidence_score": [round(float(sc0), 2), round(float(sc1), 2)]}
+        else:
+            rep[o] = {"kept": "refit", "evidence_score": [round(float(sc0), 2), round(float(sc1), 2)], "metacarpal": r1, "chain": r2}
+        log(f"  Q205 ray {o}: evidence score {sc0:.2f} -> {sc1:.2f}: {rep[o]['kept']}")
+    return rep
+
+
+# ------------------------------------------------------------------------------------------------ v3: the hand as the Z-source arrangement on HIS forearm, turned about the wrist
+def forearm_given_pose(H, M, S, log=print):
+    """carpals / metacarpals / phalanges = the Z-SOURCE hand attached to his forearm: one similarity from the raw distal radius + ulna (distal 80 mm) to their current (Q201) positions, applied
+    to every raw hand bone.  The wrist contacts (forearm bones -> carpals) and every joint of the Z source then hold exactly (source congruence); evidence moves the hand from there"""
+    from scripts.zanatomy.q191_hand import kabsch, apply_T
+    pts_r, pts_v = [], []
+    for k in (M.rad, M.uln):
+        r = M.r[k]
+        # distal end = the end toward the hand: lowest along the forearm axis (the hand centroid side)
+        hc = np.vstack([M.r[b] for b in M.hand_ids]).mean(0)
+        d = np.linalg.norm(r - hc, axis=1)
+        sel = d < np.sort(d)[int(0.35 * len(d))]
+        pts_r.append(r[sel])
+        pts_v.append(S.v[k][sel])
+    T = kabsch(np.vstack(pts_r), np.vstack(pts_v), scale=True)
+    for b in M.hand_ids:
+        newv = apply_T(T, M.r[b])
+        Tb = kabsch(S.v[b], newv, scale=True)
+        S.pts[b] = apply_T(Tb, S.pts[b])
+        S.v[b] = newv
+    log(f"  Q205 hand = Z-source arrangement on his forearm (similarity scale {T[0]:.3f})")
+    return {"forearm_similarity_scale": round(float(T[0]), 4)}
+
+
+def fit_hand_global(H, M, S, evh, env, n_rot=2500, cone_deg=65.0, log=print):
+    """the carpal + metacarpal 2-5 block turned about the wrist (lunate centroid): global sampling of rotations within the cone (no local optimum, no roll ambiguity beyond the cone), scored by the
+    one-way evidence distance of the block + the coverage of the evidence near it + collision with radius / ulna + skin; top 8 polished by Powell with a bounded shift / scale"""
+    from scipy.optimize import minimize
+    from scipy.spatial.transform import Rotation as Rot
+    ids = list(M.ids["carpals"]) + M.ids["mc"][1:]
+    block = np.vstack([S.pts[k] for k in ids])
+    c0 = S.pts[f"zan_lunate_bone_{M.side}"].mean(0)
+    rng = np.random.default_rng(0)
+    Zs = block[rng.choice(len(block), min(2000, len(block)), replace=False)]
+    Ew = evh[np.linalg.norm(evh - block.mean(0), axis=1) < 75.0]
+    Et = cKDTree(Ew)
+    FA = cKDTree(np.vstack([S.pts[M.rad][::3], S.pts[M.uln][::3]]))
+
+    def Jx(x, P=Zs):
+        A = Rot.from_rotvec(x[:3]).apply(P - c0) * x[6] + c0 + x[3:6]
+        cov = np.minimum(cKDTree(A).query(Ew)[0], 3.0).mean()
+        coll = float(np.maximum(0.0, 1.5 - FA.query(A)[0]).mean()) * 4.0
+        return float(np.minimum(Et.query(A)[0], 4.0).mean() + 0.8 * cov + coll + env.pen(A))
+
+    J0 = Jx(np.r_[np.zeros(6), 1.0])
+    rv = Rot.random(n_rot * 4, random_state=7).as_rotvec()
+    rv = rv[np.linalg.norm(rv, axis=1) <= np.radians(cone_deg)][:n_rot]
+    res = sorted(((Jx(np.r_[r, 0, 0, 0, 1.0]), r) for r in rv), key=lambda t: t[0])
+    out = []
+    for f, r in res[:8]:
+        o = minimize(Jx, np.r_[r, 0, 0, 0, 1.0], method="Powell", bounds=[(-1.2, 1.2)] * 3 + [(-8, 8)] * 3 + [(0.96, 1.04)], options={"xtol": 1e-3, "ftol": 1e-6, "maxiter": 2000})
+        out.append((float(o.fun), o.x))
+    out.sort(key=lambda t: t[0])
+    f, x = out[0]
+    nxt = next(((round(f2, 2), round(float(np.degrees(np.linalg.norm(x2[:3] - x[:3]))), 0)) for f2, x2 in out[1:] if np.degrees(np.linalg.norm(x2[:3] - x[:3])) > 8.0), None)
+    R = Rot.from_rotvec(x[:3])
+    allhand = [k for k in M.hand_ids if "phalan" not in k and k != M.mc("first")] + [b for o in ("second", "third", "fourth", "fifth") for b in M.phal(o)] + M.phal("first") + [M.mc("first")]
+    S.move(allhand, lambda P: R.apply(P - c0) * x[6] + c0 + x[3:6])
+    log(f"  Q205 hand block: J {J0:.2f} -> {f:.2f}; turn {np.degrees(np.linalg.norm(x[:3])):.0f} deg about the wrist, shift {np.linalg.norm(x[3:6]):.1f} mm, scale {x[6]:.3f}; next distinct optimum {nxt}")
+    return {"J_forearm_given": round(J0, 3), "J": round(f, 3), "turn_deg": round(float(np.degrees(np.linalg.norm(x[:3]))), 1), "shift_mm": [round(float(a), 1) for a in x[3:6]], "scale": round(float(x[6]), 4),
+            "next_distinct_optimum_J_and_turn_difference_deg": nxt, "wrist_centre": [round(float(a), 1) for a in c0]}
+
+
+def save_fit(M, S, rep, side, out_dir=None):
+    out_dir = Path(out_dir or REPO / "data" / "derived")
+    arrs = {f"v_{i}": S.v[i].astype(np.float32) for i in M.hand_ids}
+    np.savez_compressed(out_dir / f"Q205_hand_bones_{side}.npz", **arrs)
+    (out_dir / f"Q205_hand_fit_{side}.json").write_text(json.dumps(rep, indent=1, default=float))
+
+
+def main(argv=None):
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("side", choices=["r", "l"])
+    ap.add_argument("--state", default=str(REPO / "build" / "q201" / "after_q201.npz"))
+    a = ap.parse_args(argv)
+    from scripts.zanatomy import body_ctx
+    body_ctx.configure("vhm")
+    from scripts.zanatomy import q190_metrics as Mx
+    from scripts.ribs_from_ct_labels import load_skin
+    by = {d["id"]: d for d in Mx.load_dump(a.state)}
+    M, S, rep = fit_side(by, a.side, load_skin("vhm"))
+    save_fit(M, S, rep, a.side)
+    print("done", a.side, rep["seconds"], "s")
+
+
+if __name__ == "__main__":
+    main()
+
+
+# ------------------------------------------------------------------------------------------------ soft tissue
+def refine_soft(by, raw, side, bone_v, skin, skin_tree, skin_vn, regions, his, log=print):
+    """the Q191 / Q195 carry for one hand with the NEW bones: bone-anchored field from the Z source (per-bone similarity maps, forearm bones as anchors), up to four candidate placements per
+    structure with his skin / bone / stretch / fold / volume guards, hand skin onto his CT skin, labelled intrinsics onto his labels.  `bone_v` = {id: new vertices}"""
+    from scripts.zanatomy import q191_hand as H191
+    raw = {k: np.asarray(v, float) for k, v in raw.items()}
+    T = {i: H191.kabsch(raw[i], bone_v[i], scale=True) for i in bone_v}
+    rep = H191.run_side(side, by, raw, regions, his, skin, skin_tree, skin_vn, {i: np.asarray(v, float) for i, v in bone_v.items()}, T, log=log)
+    return rep
+
+
+def hand_note(i, r):
+    from scripts.zanatomy import q191_hand as H191
+    t = H191._note(i, r).replace(" Q191 (hand/wrist refit onto her own CT hand)", " Q205 (hand soft tissue re-carried by the per-bone chain fit of his hand bones on his CT / photographs)", 1)
+    for a, b in ((" outside her skin", " outside his skin"), ("inside her CT", "inside his CT"), ("onto her own", "onto his own"), (" her ", " his ")):
+        t = t.replace(a, b)
+    return t
