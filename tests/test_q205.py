@@ -168,7 +168,8 @@ def test_no_card_name_equals_its_raw_id(which):
     if not (d / f"{stem}.html").exists():
         pytest.skip(f"{which} Q205 page not built here")
     man, _ = P.load_page(d, stem)
-    bad = [m["id"] for m in man["meshes"] if norm(m["name"]) == norm(m["id"]) and (m.get("rec") or {}).get("folder") is not None and m["sys"] in ("muscle", "bone", "ligament", "nerve", "vessel", "tendon")]
+    # a raw-id card name = the id with its side suffix as the name ("pronator teres l"); single-word names equal to their id up to case ("Coccyx") are legitimate
+    bad = [m["id"] for m in man["meshes"] if norm(m["name"]) == norm(m["id"]) and re.search(r"_[lr]$", m["id"]) and not m["id"].startswith("zan_")]
     assert not bad, bad[:10]
     # every card that exists in the clean base page carries the same name
     bd, bstem = BASES[which]

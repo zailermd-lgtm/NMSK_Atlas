@@ -550,7 +550,14 @@ def refine_soft(by, raw, side, bone_v, skin, skin_tree, skin_vn, regions, his, l
     from scripts.zanatomy import q191_hand as H191
     raw = {k: np.asarray(v, float) for k, v in raw.items()}
     T = {i: H191.kabsch(raw[i], bone_v[i], scale=True) for i in bone_v}
-    rep = H191.run_side(side, by, raw, regions, his, skin, skin_tree, skin_vn, {i: np.asarray(v, float) for i, v in bone_v.items()}, T, log=log)
+    orig_rbf = H191.set_skin_rbf
+    # the hand skin patches are carried by the bones (Z-source shape, forearm taper) and clamped inside his CT skin, NOT re-projected onto it: the Q191 RBF onto his CT skin slid the patches
+    # over the surface (edge ratio p5 / p95 0.5 / 2.3, 50-110 mm vertex displacement) and tore the seams to the untouched forearm patches (steps 43-63 mm)
+    H191.set_skin_rbf = lambda patches, skin_, tree_, **kw: ({p["id"]: p["v"] for p in patches}, {"method": "bone-carried field, no projection onto the CT skin"})
+    try:
+        rep = H191.run_side(side, by, raw, regions, his, skin, skin_tree, skin_vn, {i: np.asarray(v, float) for i, v in bone_v.items()}, T, log=log)
+    finally:
+        H191.set_skin_rbf = orig_rbf
     return rep
 
 

@@ -39,6 +39,31 @@ def load_dumps(paths):
     return v, notes, cats, rep
 
 
+Q204_THUMB_GAP_MM = {"l": 81.81, "r": 88.68}       # Q204 hands audit of the published Q202 page: first metacarpal -> proximal phalanx surface gap (Z source 0.07 / 0.09 mm)
+
+
+def repair_notes(notes, which):
+    """wording / numbers of the notes written by the hooks: his body ('her' -> 'his'), the Q204 thumb gap, the final per-bone evidence numbers (polish report, left thumb re-search)"""
+    import re
+    out = {}
+    fits = {s: json.loads((REPO / "data" / "derived" / f"Q205_hand_polish_{s}.json").read_text()) for s in "lr"} if which == "male" else {}
+    for i, t in notes.items():
+        for a, b in ((" outside her skin", " outside his skin"), ("outside her skin", "outside his skin"), ("inside her CT", "inside his CT"), ("onto her own", "onto his own"), (" her ", " his ")):
+            t = t.replace(a, b)
+        m = re.search(r"this (left|right) hand bone re-fitted", t)
+        if which == "male" and m:
+            s = "l" if m.group(1) == "left" else "r"
+            pol = fits[s]
+            key = i[4:]
+            t = re.sub(r"\(Q195 left the thumb phalanges [0-9.]+ mm from it\)", f"(Q204 measured the Q195 thumb phalanges {Q204_THUMB_GAP_MM[s]} mm from it)", t)
+            t = re.sub(r"-> [0-9.]+ %; this bone's mean distance to his bone voxels ([0-9.]+) -> [0-9.]+ mm\.", lambda mm: f"-> {pol['evidence_after']['hand']['evidence_within_1.5mm_of_a_Z_bone_pct']} %; this bone's mean distance to his bone voxels {mm.group(1)} -> {pol['bone_evidence_score_after'][key]} mm (capped at 4).", t)
+            t = t.replace("%) {}", "%)")
+            if s == "l" and "first" in i:
+                t += " LEFT thumb: the first search (CMC <= 75 deg) found no chain; re-searched with CMC <= 110 deg: CMC 107 / MCP 7 / IP 34 deg, bone-to-evidence 1.6 / 0.8 / 0.7 mm (data/derived/Q205_hand_thumb_l.json)."
+        out[i] = t
+    return out
+
+
 def pack(which, dumps, out=None, state_by=None, extra_replace=None, log=print):
     cfg = PAGES[which]
     out = Path(out or cfg["out"])
@@ -47,6 +72,7 @@ def pack(which, dumps, out=None, state_by=None, extra_replace=None, log=print):
     E = {m["id"]: m for m in man["meshes"]}
     meta = P.card_repairs(man, bman)
     v, notes, cats, rep = load_dumps(dumps)
+    notes = repair_notes(notes, which)
     replace = {}
     for i, vv in v.items():
         if i not in E:
