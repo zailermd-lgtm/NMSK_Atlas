@@ -37,7 +37,7 @@ SOFT = ("vessel", "nerve", "ligament", "tendon", "fascia", "bursa", "cartilage")
 BONE_OK = ("ligament", "bursa", "cartilage", "tendon")
 HAND_RE = re.compile(r"metacarpal|finger_of_hand|scaphoid|lunate|triquetrum|pisiform|trapezi|capitate|hamate")
 PUSH_TOL = {"vessel": 1.0, "nerve": 1.0, "fascia": 1.0, "lymphatic": 1.0, "ligament": 3.0, "tendon": 3.0, "bursa": 3.0, "cartilage": 3.0}
-SKIN_TARGET_MM = 1.0           # a vertex more than this outside the displayed skin is brought back to 1 mm inside
+SKIN_TARGET_MM = 2.0           # a vertex more than this outside the displayed skin is brought back to 0.5 mm inside (the Q198 audit counts > 3 mm)
 SKIN_COUNT_MM = 3.0            # the Q198 audit counts > 3 mm
 BONE_COUNT_MM = 1.5
 PUSH_MAX = 8.0
@@ -142,9 +142,9 @@ def guard(env, side, v, f, r, cat, i, ref, vr0):
     v1 = np.asarray(v, float).copy()
     tol = PUSH_TOL.get(cat, 1.0)
     sigma = 5.0 if cat in ("vessel", "nerve") else 8.0
-    for _ in range(3):
-        v1 = push_out(env, side, v1, f, tol, sigma)
+    for _ in range(3):                      # the last step is the bone push: a structure never ends inside a bone because the (thin) displayed skin squeezed it
         v1 = clamp_skin(env, v1, f, sigma)
+        v1 = push_out(env, side, v1, f, tol, sigma)
     v1 = E.cap_to(v1, ref, CAP_MM)
     if E._closed(f) and not H.NOT_BODY.search(i) and cat != "bone" and vr0 is not None:
         v1 = E.vol_clamp(v1, r, f, vr0 * 0.9, vr0 * 1.1)
@@ -163,7 +163,7 @@ def metrics(env, side, v, r, f):
 
 def cost(m, cat, m0):
     c = 6.0 * m["outside_skin_pct"] + 1.0 * m["stretched_pct"] + (3.0 if cat in ("vessel", "nerve") else 6.0) * m["folded_pct"]
-    c += (0.5 if cat in BONE_OK else 2.0) * m["inside_bone_pct"]
+    c += (0.5 if cat in BONE_OK else 3.0) * m["inside_bone_pct"]
     return c
 
 

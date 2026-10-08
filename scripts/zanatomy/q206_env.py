@@ -71,7 +71,7 @@ class Env:
         for side, c in self.wrist.items():
             s_ = "_" + side
             pts = [s["v"] for s in self.S if s["sys"] == "bone" and s["id"].endswith(s_) and re.search(r"carpal|finger_of_hand|phalanges_hand|scaphoid|lunate|triquetrum|pisiform|trapezium|trapezoid|capitate|hamate", s["id"])]
-            pts += [s["v"][np.linalg.norm(s["v"] - c, axis=1) < 170.0] for s in self.S if s["sys"] == "bone" and s["id"] in ("radius" + s_, "ulna" + s_)]
+            pts += [s["v"] for s in self.S if s["sys"] == "bone" and s["id"] in ("radius" + s_, "ulna" + s_)]          # the whole forearm: the radial / ulnar vessels and nerves run along both bones to the elbow
             V = np.vstack(pts)
             lo, hi = V.min(0) - 45.0, V.max(0) + 45.0
             g = Grid(lo, hi, h_bone)

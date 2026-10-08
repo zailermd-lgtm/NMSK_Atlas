@@ -1,0 +1,3737 @@
+{
+ "keys": {
+  "before": "q205_f",
+  "after": "q206_f",
+  "pre": "z_female_fit",
+  "base": "z_base_f",
+  "fit": "z_female_fit",
+  "ref": "z_base_f"
+ },
+ "wrist_junction_major_moderate_minor": {
+  "before": {
+   "shoulder_l": [
+    4,
+    10,
+    26
+   ],
+   "shoulder_r": [
+    3,
+    14,
+    16
+   ],
+   "elbow_l": [
+    2,
+    10,
+    10
+   ],
+   "elbow_r": [
+    2,
+    8,
+    15
+   ],
+   "wrist_l": [
+    2,
+    8,
+    18
+   ],
+   "wrist_r": [
+    2,
+    10,
+    25
+   ]
+  },
+  "after": {
+   "shoulder_l": [
+    4,
+    10,
+    26
+   ],
+   "shoulder_r": [
+    3,
+    14,
+    15
+   ],
+   "elbow_l": [
+    2,
+    10,
+    10
+   ],
+   "elbow_r": [
+    2,
+    7,
+    14
+   ],
+   "wrist_l": [
+    1,
+    4,
+    16
+   ],
+   "wrist_r": [
+    1,
+    6,
+    17
+   ]
+  }
+ },
+ "wrist_structures_findings_ge_moderate": {
+  "before": {
+   "n": 10,
+   "by_check": {
+    "inside_bone": 10
+   },
+   "items": [
+    [
+     "l",
+     "zan_dorsal_carpal_anastomosis_l",
+     "inside_bone",
+     3,
+     43.08
+    ],
+    [
+     "l",
+     "zan_deep_palmar_arch_l",
+     "inside_bone",
+     2,
+     25.45
+    ],
+    [
+     "l",
+     "zan_deep_venous_palmar_arch_l",
+     "inside_bone",
+     2,
+     27.3
+    ],
+    [
+     "l",
+     "zan_dorsal_branch_of_ulnar_nerve_l",
+     "inside_bone",
+     2,
+     25.65
+    ],
+    [
+     "l",
+     "zan_dorsal_carpal_branch_of_ulnar_artery_l",
+     "inside_bone",
+     2,
+     31.69
+    ],
+    [
+     "r",
+     "ulnar_n_superficial_branch_r",
+     "inside_bone",
+     3,
+     54.5
+    ],
+    [
+     "r",
+     "ulnar_n_deep_branch_r",
+     "inside_bone",
+     2,
+     24.26
+    ],
+    [
+     "r",
+     "zan_deep_venous_palmar_arch_r",
+     "inside_bone",
+     2,
+     21.0
+    ],
+    [
+     "r",
+     "zan_dorsal_branch_of_ulnar_nerve_r",
+     "inside_bone",
+     2,
+     37.94
+    ],
+    [
+     "r",
+     "zan_dorsal_venous_network_of_hand_r",
+     "inside_bone",
+     2,
+     29.17
+    ]
+   ]
+  },
+  "after": {
+   "n": 0,
+   "by_check": {},
+   "items": []
+  }
+ },
+ "wrist_zone_soft_stats": {
+  "before": {
+   "l": {
+    "structures": 77,
+    "inside_bone_gt8pct_depth_gt3mm": 32,
+    "outside_skin_gt5pct_excursion_gt5mm": 1,
+    "inside_bone_ids": [
+     "posterior_interosseous_n_l",
+     "zan_articular_capsule_of_radiocarpal_joint_l",
+     "zan_common_palmar_digital_branches_of_ulnar_nerve_l",
+     "zan_deep_palmar_arch_l",
+     "zan_deep_venous_palmar_arch_l",
+     "zan_dorsal_branch_of_ulnar_nerve_l",
+     "zan_dorsal_carpal_anastomosis_l",
+     "zan_dorsal_carpal_branch_of_ulnar_artery_l",
+     "zan_dorsal_carpometacarpal_ligaments_l",
+     "zan_dorsal_intercarpal_ligaments_l",
+     "zan_dorsal_metacarpal_arteries_l",
+     "zan_dorsal_radiocarpal_ligament_l",
+     "zan_dorsal_scaphotriquetral_ligament_l",
+     "zan_dorsal_ulnocarpal_ligament_l",
+     "zan_extensor_retinaculum_of_wrist_l",
+     "zan_flexor_retinaculum_of_wrist_l",
+     "zan_interosseous_metacarpal_ligaments_l",
+     "zan_palmar_carpometacarpal_ligaments_l",
+     "zan_palmar_metacarpal_arteries_l",
+     "zan_palmar_metacarpal_ligaments_l",
+     "zan_pisotriquetral_ligament_l",
+     "zan_radial_collateral_ligament_of_wrist_joint_l",
+     "zan_radiate_carpal_ligament_l",
+     "zan_scaphotrapeziotrapezoidal_ligament_l",
+     "zan_superficial_venous_palmar_arch_l",
+     "zan_tendon_sheath_of_extensor_carpi_ulnaris_l",
+     "zan_tendon_sheath_of_extensor_digiti_minimi_manus_l",
+     "zan_tendon_sheath_of_extensor_digitorum_and_extensor_indicis_l",
+     "zan_tendon_sheath_of_flexor_pollicis_longus_l",
+     "zan_ulnar_collateral_ligament_of_wrist_joint_l",
+     "zan_ulnocapitate_ligament_l",
+     "zan_ulnolunate_ligament_l"
+    ],
+    "outside_skin_ids": [
+     "zan_antebrachial_fascia_l"
+    ],
+    "mean_inside_bone_pct": 16.43,
+    "mean_outside_skin_pct": 0.23
+   },
+   "r": {
+    "structures": 79,
+    "inside_bone_gt8pct_depth_gt3mm": 32,
+    "outside_skin_gt5pct_excursion_gt5mm": 3,
+    "inside_bone_ids": [
+     "ulnar_n_deep_branch_r",
+     "ulnar_n_superficial_branch_r",
+     "zan_articular_capsule_of_radiocarpal_joint_r",
+     "zan_common_flexor_tendon_sheath_r",
+     "zan_common_palmar_digital_arteries_r",
+     "zan_common_palmar_digital_branches_of_ulnar_nerve_r",
+     "zan_communicating_branch_of_median_nerve_with_ulnar_nerve_r",
+     "zan_deep_palmar_arch_r",
+     "zan_deep_venous_palmar_arch_r",
+     "zan_dorsal_branch_of_ulnar_nerve_r",
+     "zan_dorsal_carpal_anastomosis_r",
+     "zan_dorsal_carpal_branch_of_ulnar_artery_r",
+     "zan_dorsal_carpometacarpal_ligaments_r",
+     "zan_dorsal_intercarpal_ligaments_r",
+     "zan_dorsal_metacarpal_arteries_r",
+     "zan_dorsal_metacarpal_ligaments_r",
+     "zan_dorsal_radiocarpal_ligament_r",
+     "zan_dorsal_venous_network_of_hand_r",
+     "zan_interosseous_metacarpal_ligaments_r",
+     "zan_palmar_carpometacarpal_ligaments_r",
+     "zan_palmar_metacarpal_arteries_r",
+     "zan_palmar_metacarpal_ligaments_r",
+     "zan_pisotriquetral_ligament_r",
+     "zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
+     "zan_radiate_carpal_ligament_r",
+     "zan_superficial_palmar_arch_r",
+     "zan_superficial_venous_palmar_arch_r",
+     "zan_tendon_sheath_of_extensor_digiti_minimi_manus_r",
+     "zan_tendon_sheath_of_extensor_digitorum_and_extensor_indicis_r",
+     "zan_tendon_sheath_of_flexor_pollicis_longus_r",
+     "zan_triquetrocapitate_ligament_r",
+     "zan_ulnocapitate_ligament_r"
+    ],
+    "outside_skin_ids": [
+     "antebrachial_fascia_r",
+     "zan_cephalic_vein_r",
+     "zan_median_antebrachial_vein_r"
+    ],
+    "mean_inside_bone_pct": 11.48,
+    "mean_outside_skin_pct": 0.38
+   }
+  },
+  "after": {
+   "l": {
+    "structures": 77,
+    "inside_bone_gt8pct_depth_gt3mm": 15,
+    "outside_skin_gt5pct_excursion_gt5mm": 1,
+    "inside_bone_ids": [
+     "zan_articular_capsule_of_radiocarpal_joint_l",
+     "zan_dorsal_carpometacarpal_ligaments_l",
+     "zan_dorsal_scaphotriquetral_ligament_l",
+     "zan_extensor_retinaculum_of_wrist_l",
+     "zan_flexor_retinaculum_of_wrist_l",
+     "zan_interosseous_metacarpal_ligaments_l",
+     "zan_palmar_carpometacarpal_ligaments_l",
+     "zan_pisotriquetral_ligament_l",
+     "zan_radial_collateral_ligament_of_wrist_joint_l",
+     "zan_radiate_carpal_ligament_l",
+     "zan_scaphotrapeziotrapezoidal_ligament_l",
+     "zan_tendon_sheath_of_extensor_digiti_minimi_manus_l",
+     "zan_tendon_sheath_of_flexor_pollicis_longus_l",
+     "zan_ulnar_collateral_ligament_of_wrist_joint_l",
+     "zan_ulnocapitate_ligament_l"
+    ],
+    "outside_skin_ids": [
+     "zan_antebrachial_fascia_l"
+    ],
+    "mean_inside_bone_pct": 8.34,
+    "mean_outside_skin_pct": 0.17
+   },
+   "r": {
+    "structures": 78,
+    "inside_bone_gt8pct_depth_gt3mm": 13,
+    "outside_skin_gt5pct_excursion_gt5mm": 0,
+    "inside_bone_ids": [
+     "zan_common_flexor_tendon_sheath_r",
+     "zan_dorsal_intercarpal_ligaments_r",
+     "zan_dorsal_radiocarpal_ligament_r",
+     "zan_interosseous_metacarpal_ligaments_r",
+     "zan_palmar_carpometacarpal_ligaments_r",
+     "zan_palmar_metacarpal_ligaments_r",
+     "zan_pisotriquetral_ligament_r",
+     "zan_radiate_carpal_ligament_r",
+     "zan_tendon_sheath_of_extensor_digiti_minimi_manus_r",
+     "zan_tendon_sheath_of_extensor_digitorum_and_extensor_indicis_r",
+     "zan_tendon_sheath_of_flexor_pollicis_longus_r",
+     "zan_triquetrocapitate_ligament_r",
+     "zan_ulnar_collateral_ligament_of_wrist_joint_r"
+    ],
+    "outside_skin_ids": [],
+    "mean_inside_bone_pct": 5.78,
+    "mean_outside_skin_pct": 0.01
+   }
+  }
+ },
+ "regions": {
+  "before": {
+   "wrist_hand": {
+    "major": 4,
+    "moderate": 14,
+    "minor": 16,
+    "n": 238,
+    "soft_inside_bone_sev2plus": 3,
+    "soft_outside_skin_sev2plus": 0
+   },
+   "arm_elbow_forearm": {
+    "major": 3,
+    "moderate": 22,
+    "minor": 18,
+    "n": 147,
+    "soft_inside_bone_sev2plus": 1,
+    "soft_outside_skin_sev2plus": 3
+   },
+   "shoulder": {
+    "major": 2,
+    "moderate": 10,
+    "minor": 11,
+    "n": 133,
+    "soft_inside_bone_sev2plus": 5,
+    "soft_outside_skin_sev2plus": 0
+   }
+  },
+  "after": {
+   "wrist_hand": {
+    "major": 4,
+    "moderate": 16,
+    "minor": 16,
+    "n": 238,
+    "soft_inside_bone_sev2plus": 5,
+    "soft_outside_skin_sev2plus": 0
+   },
+   "arm_elbow_forearm": {
+    "major": 3,
+    "moderate": 22,
+    "minor": 20,
+    "n": 147,
+    "soft_inside_bone_sev2plus": 2,
+    "soft_outside_skin_sev2plus": 2
+   },
+   "shoulder": {
+    "major": 2,
+    "moderate": 10,
+    "minor": 11,
+    "n": 133,
+    "soft_inside_bone_sev2plus": 5,
+    "soft_outside_skin_sev2plus": 0
+   }
+  }
+ },
+ "continuity_gap_mm": {
+  "unfitted_base": {
+   "l": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 0.37,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.97,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 0.64,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 0.07,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 0.54,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 0.22,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 0.28,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.49,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.08,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 1.08,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 0.36,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 0.59,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 0.02,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 0.09,
+    "ulnar_n -> ulnar_n_superficial_branch": 0.12,
+    "ulnar_n -> ulnar_n_deep_branch": 11.76,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 0.07,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 0.08,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.0,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 11.94,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 0.08,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 0.03
+   },
+   "r": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 0.37,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.97,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 0.64,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 0.07,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 0.54,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 0.22,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 0.28,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.49,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.09,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 1.08,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 0.36,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 0.57,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 0.02,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 0.09,
+    "ulnar_n -> ulnar_n_superficial_branch": 0.12,
+    "ulnar_n -> ulnar_n_deep_branch": 11.98,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 0.07,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 0.08,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.08,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 11.94,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 0.08,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 0.04
+   }
+  },
+  "q202_page": {
+   "l": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 2.73,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.4,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 0.56,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 0.16,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 0.89,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 2.24,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 0.1,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.27,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.14,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 4.36,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 1.84,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 0.77,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 3.58,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 0.3,
+    "ulnar_n -> ulnar_n_superficial_branch": 6.13,
+    "ulnar_n -> ulnar_n_deep_branch": 9.88,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 5.97,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 0.18,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.62,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 11.74,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 2.26,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 1.16
+   },
+   "r": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 7.66,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.87,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 1.42,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 8.18,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 5.61,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 6.55,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 0.17,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.22,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.43,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 18.45,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 4.59,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 1.81,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 12.09,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 2.33,
+    "ulnar_n -> ulnar_n_superficial_branch": 1.92,
+    "ulnar_n -> ulnar_n_deep_branch": 4.55,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 1.34,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 7.82,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.18,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 17.86,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 3.35,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 5.63
+   }
+  },
+  "q205_page": {
+   "l": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 0.48,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.7,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 0.34,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 0.46,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 2.6,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 0.85,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 0.01,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.14,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.09,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 0.18,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 1.06,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 1.29,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 1.56,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 1.12,
+    "ulnar_n -> ulnar_n_superficial_branch": 0.9,
+    "ulnar_n -> ulnar_n_deep_branch": 8.94,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 0.89,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 0.28,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.92,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 11.3,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 0.33,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 0.14
+   },
+   "r": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 0.75,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 1.25,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 1.02,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 1.82,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 1.83,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 0.15,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 2.47,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.38,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.49,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 0.67,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 0.33,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 1.42,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 0.51,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 0.66,
+    "ulnar_n -> ulnar_n_superficial_branch": 2.53,
+    "ulnar_n -> ulnar_n_deep_branch": 1.17,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 1.17,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 0.86,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.64,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 17.65,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 0.39,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 0.92
+   }
+  },
+  "q206_page": {
+   "l": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 0.4,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.78,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 0.73,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 1.63,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 2.0,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 0.91,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 0.17,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.16,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.11,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 4.83,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 1.81,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 0.87,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 3.51,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 0.19,
+    "ulnar_n -> ulnar_n_superficial_branch": 0.9,
+    "ulnar_n -> ulnar_n_deep_branch": 8.94,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 0.4,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 0.23,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.31,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 11.3,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 0.26,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 3.67
+   },
+   "r": {
+    "zan_radial_artery -> zan_deep_palmar_arch": 3.45,
+    "zan_radial_artery -> zan_palmar_carpal_branch_of_radial_artery": 0.51,
+    "zan_radial_artery -> zan_superficial_palmar_arch": 0.11,
+    "zan_ulnar_artery -> zan_superficial_palmar_arch": 1.22,
+    "zan_ulnar_artery -> zan_dorsal_carpal_branch_of_ulnar_artery": 1.15,
+    "zan_radial_artery -> zan_dorsal_carpal_anastomosis": 4.82,
+    "zan_deep_palmar_arch -> zan_palmar_metacarpal_arteries": 1.5,
+    "zan_superficial_palmar_arch -> zan_common_palmar_digital_arteries": 0.38,
+    "zan_common_palmar_digital_arteries -> zan_proper_palmar_digital_arteries": 0.22,
+    "zan_radial_veins -> zan_deep_venous_palmar_arch": 11.52,
+    "zan_ulnar_veins -> zan_superficial_venous_palmar_arch": 5.11,
+    "median_n_lateral_root -> zan_palmar_branch_of_median_nerve": 3.36,
+    "median_n_lateral_root -> zan_common_palmar_digital_branches_of_median_nerve": 12.52,
+    "zan_common_palmar_digital_branches_of_median_nerve -> zan_proper_palmar_digital_branches_of_median_nerve": 2.19,
+    "ulnar_n -> ulnar_n_superficial_branch": 2.02,
+    "ulnar_n -> ulnar_n_deep_branch": 1.61,
+    "ulnar_n -> zan_dorsal_branch_of_ulnar_nerve": 1.63,
+    "ulnar_n_superficial_branch -> zan_common_palmar_digital_branches_of_ulnar_nerve": 8.62,
+    "zan_common_palmar_digital_branches_of_ulnar_nerve -> zan_proper_palmar_digital_branches_of_ulnar_nerve": 0.43,
+    "zan_communicating_branch_of_median_nerve_with_ulnar_nerve -> zan_common_palmar_digital_branches_of_ulnar_nerve": 14.95,
+    "radial_n_superficial_branch -> zan_dorsal_digital_branches_of_radial_nerve": 0.41,
+    "zan_dorsal_branch_of_ulnar_nerve -> zan_dorsal_digital_branches_of_ulnar_nerve": 5.75
+   }
+  }
+ },
+ "moved_structures": {
+  "antebrachial_fascia_r": {
+   "cat": "fascia",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.1,
+   "max_move_mm": 11.93,
+   "before": {
+    "outside_skin_pct": 21.98,
+    "outside_skin_max_mm": 10.7,
+    "inside_bone_pct": 0.31,
+    "inside_bone_max_mm": 1.9,
+    "stretched_pct": 35.8,
+    "folded_pct": 1.21,
+    "volume_ratio": null,
+    "edge_scale": 0.9769
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.6,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 38.1,
+    "folded_pct": 1.15,
+    "volume_ratio": null,
+    "edge_scale": 0.9467
+   }
+  },
+  "anterior_interosseous_n_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.45,
+   "max_move_mm": 3.86,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.91,
+    "inside_bone_max_mm": 1.8,
+    "stretched_pct": 23.8,
+    "folded_pct": 2.98,
+    "volume_ratio": null,
+    "edge_scale": 1.1771
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 14.5,
+    "folded_pct": 2.42,
+    "volume_ratio": null,
+    "edge_scale": 1.0624
+   }
+  },
+  "extensor_retinaculum_r": {
+   "cat": "fascia",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.56,
+   "max_move_mm": 8.17,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 4.3,
+    "inside_bone_max_mm": 2.3,
+    "stretched_pct": 14.1,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.323603374422963,
+    "edge_scale": 1.1832
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 10.3,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.5942579434751711,
+    "edge_scale": 1.269
+   }
+  },
+  "flexor_retinaculum_r": {
+   "cat": "fascia",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 5.54,
+   "max_move_mm": 9.08,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 4.92,
+    "inside_bone_max_mm": 4.8,
+    "stretched_pct": 44.5,
+    "folded_pct": 1.6,
+    "volume_ratio": 0.6400526723926239,
+    "edge_scale": 1.0879
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 34.4,
+    "folded_pct": 0.87,
+    "volume_ratio": 0.6109390266446271,
+    "edge_scale": 1.0408
+   }
+  },
+  "median_n_lateral_root_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.42,
+   "max_move_mm": 8.36,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 2.5,
+    "inside_bone_max_mm": 4.4,
+    "stretched_pct": 19.3,
+    "folded_pct": 3.72,
+    "volume_ratio": null,
+    "edge_scale": 0.9763
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.3,
+    "stretched_pct": 19.7,
+    "folded_pct": 1.93,
+    "volume_ratio": null,
+    "edge_scale": 0.9616
+   }
+  },
+  "palmar_aponeurosis_r": {
+   "cat": "fascia",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.15,
+   "max_move_mm": 8.82,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 10.55,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 26.6,
+    "folded_pct": 1.86,
+    "volume_ratio": null,
+    "edge_scale": 0.9867
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 28.3,
+    "folded_pct": 2.31,
+    "volume_ratio": null,
+    "edge_scale": 0.9793
+   }
+  },
+  "posterior_interosseous_n_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.13,
+   "max_move_mm": 9.82,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 3.14,
+    "inside_bone_max_mm": 1.9,
+    "stretched_pct": 36.8,
+    "folded_pct": 5.63,
+    "volume_ratio": null,
+    "edge_scale": 1.0431
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.3,
+    "stretched_pct": 38.5,
+    "folded_pct": 4.23,
+    "volume_ratio": null,
+    "edge_scale": 1.0393
+   }
+  },
+  "radial_n_superficial_branch_r": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.22,
+   "max_move_mm": 2.84,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 2.76,
+    "inside_bone_max_mm": 3.7,
+    "stretched_pct": 29.4,
+    "folded_pct": 2.92,
+    "volume_ratio": null,
+    "edge_scale": 1.2256
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 31.2,
+    "folded_pct": 3.06,
+    "volume_ratio": null,
+    "edge_scale": 1.2236
+   }
+  },
+  "ulnar_n_deep_branch_r": {
+   "cat": "nerve",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 4.63,
+   "max_move_mm": 6.89,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.64,
+    "inside_bone_max_mm": 4.4,
+    "stretched_pct": 15.2,
+    "folded_pct": 1.58,
+    "volume_ratio": null,
+    "edge_scale": 1.1239
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 14.7,
+    "folded_pct": 1.72,
+    "volume_ratio": null,
+    "edge_scale": 1.2841
+   }
+  },
+  "ulnar_n_r": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.12,
+   "max_move_mm": 4.45,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.65,
+    "inside_bone_max_mm": 3.9,
+    "stretched_pct": 6.2,
+    "folded_pct": 0.12,
+    "volume_ratio": null,
+    "edge_scale": 0.9477
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 8.1,
+    "folded_pct": 0.22,
+    "volume_ratio": null,
+    "edge_scale": 0.9499
+   }
+  },
+  "ulnar_n_superficial_branch_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 4.39,
+   "max_move_mm": 6.86,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 58.11,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 27.0,
+    "folded_pct": 4.13,
+    "volume_ratio": null,
+    "edge_scale": 1.1176
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 32.3,
+    "folded_pct": 4.21,
+    "volume_ratio": null,
+    "edge_scale": 1.221
+   }
+  },
+  "zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.23,
+   "max_move_mm": 2.99,
+   "before": {
+    "outside_skin_pct": 0.41,
+    "outside_skin_max_mm": 3.1,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.0,
+    "stretched_pct": 15.8,
+    "folded_pct": 0.79,
+    "volume_ratio": null,
+    "edge_scale": 1.0011
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.0,
+    "stretched_pct": 19.2,
+    "folded_pct": 1.21,
+    "volume_ratio": null,
+    "edge_scale": 1.0
+   }
+  },
+  "zan_articular_capsule_of_radiocarpal_joint_r": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.17,
+   "max_move_mm": 8.08,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 14.36,
+    "inside_bone_max_mm": 5.4,
+    "stretched_pct": 27.0,
+    "folded_pct": 0.42,
+    "volume_ratio": null,
+    "edge_scale": 1.2013
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 9.35,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 18.5,
+    "folded_pct": 0.21,
+    "volume_ratio": null,
+    "edge_scale": 1.2492
+   }
+  },
+  "zan_articular_capsules_of_distal_interphalangeal_joints_r": {
+   "cat": "ligament",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 3.45,
+   "max_move_mm": 3.98,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 74.82,
+    "inside_bone_max_mm": 3.7,
+    "stretched_pct": 1.5,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.4601
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 42.08,
+    "inside_bone_max_mm": 3.2,
+    "stretched_pct": 1.9,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.4598
+   }
+  },
+  "zan_articular_capsules_of_proximal_interphalangeal_joints_r": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.6,
+   "max_move_mm": 2.41,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 41.65,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 22.1,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.6854
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 39.72,
+    "inside_bone_max_mm": 3.9,
+    "stretched_pct": 8.8,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.6922
+   }
+  },
+  "zan_articular_disc_of_distal_radio_ulnar_joint_r": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 3.08,
+   "max_move_mm": 3.94,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.2,
+    "stretched_pct": 35.7,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.7315000000006027,
+    "edge_scale": 1.3713
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.4,
+    "stretched_pct": 14.3,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.458349999996925,
+    "edge_scale": 1.4037
+   }
+  },
+  "zan_basilic_vein_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 0.85,
+   "max_move_mm": 4.16,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.33,
+    "inside_bone_max_mm": 1.6,
+    "stretched_pct": 30.9,
+    "folded_pct": 1.66,
+    "volume_ratio": null,
+    "edge_scale": 1.022
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.3,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 30.8,
+    "folded_pct": 1.48,
+    "volume_ratio": null,
+    "edge_scale": 1.0202
+   }
+  },
+  "zan_cephalic_vein_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.53,
+   "max_move_mm": 7.84,
+   "before": {
+    "outside_skin_pct": 5.39,
+    "outside_skin_max_mm": 6.6,
+    "inside_bone_pct": 0.21,
+    "inside_bone_max_mm": 2.1,
+    "stretched_pct": 36.5,
+    "folded_pct": 3.16,
+    "volume_ratio": null,
+    "edge_scale": 1.0419
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 36.3,
+    "folded_pct": 3.12,
+    "volume_ratio": null,
+    "edge_scale": 1.0275
+   }
+  },
+  "zan_collateral_metacarpophalangeal_ligaments_r": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.78,
+   "max_move_mm": 7.93,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 31.3,
+    "inside_bone_max_mm": 4.9,
+    "stretched_pct": 3.3,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.7233888170228211,
+    "edge_scale": 0.9103
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 23.15,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 3.8,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.678130904739192,
+    "edge_scale": 0.8816
+   }
+  },
+  "zan_common_flexor_tendon_sheath_r": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.42,
+   "max_move_mm": 5.89,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 16.59,
+    "inside_bone_max_mm": 4.7,
+    "stretched_pct": 42.2,
+    "folded_pct": 0.45,
+    "volume_ratio": null,
+    "edge_scale": 1.0384
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 13.81,
+    "inside_bone_max_mm": 4.3,
+    "stretched_pct": 45.0,
+    "folded_pct": 0.34,
+    "volume_ratio": null,
+    "edge_scale": 1.0636
+   }
+  },
+  "zan_common_palmar_digital_arteries_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.17,
+   "max_move_mm": 4.04,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 14.06,
+    "inside_bone_max_mm": 3.3,
+    "stretched_pct": 8.2,
+    "folded_pct": 0.9,
+    "volume_ratio": null,
+    "edge_scale": 1.1261
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 8.8,
+    "folded_pct": 1.21,
+    "volume_ratio": null,
+    "edge_scale": 1.1423
+   }
+  },
+  "zan_common_palmar_digital_branches_of_median_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 6.41,
+   "max_move_mm": 9.22,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 7.15,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 2.4,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0859
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 1.3,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0945
+   }
+  },
+  "zan_common_palmar_digital_branches_of_ulnar_nerve_r": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 1.19,
+   "max_move_mm": 5.01,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 34.67,
+    "inside_bone_max_mm": 4.2,
+    "stretched_pct": 10.6,
+    "folded_pct": 1.02,
+    "volume_ratio": null,
+    "edge_scale": 0.9644
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 16.0,
+    "folded_pct": 1.26,
+    "volume_ratio": null,
+    "edge_scale": 0.9726
+   }
+  },
+  "zan_communicating_branch_of_median_nerve_with_ulnar_nerve_r": {
+   "cat": "nerve",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 4.79,
+   "max_move_mm": 6.11,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 21.67,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 37.7,
+    "folded_pct": 4.93,
+    "volume_ratio": null,
+    "edge_scale": 1.5065
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 35.1,
+    "folded_pct": 3.64,
+    "volume_ratio": null,
+    "edge_scale": 1.4943
+   }
+  },
+  "zan_deep_palmar_arch_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.71,
+   "max_move_mm": 2.8,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 16.53,
+    "inside_bone_max_mm": 3.4,
+    "stretched_pct": 12.7,
+    "folded_pct": 2.28,
+    "volume_ratio": null,
+    "edge_scale": 1.2558
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 20.7,
+    "folded_pct": 2.78,
+    "volume_ratio": null,
+    "edge_scale": 1.2472
+   }
+  },
+  "zan_deep_transverse_metacarpal_ligament_r": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 4.2,
+   "max_move_mm": 6.77,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 11.11,
+    "inside_bone_max_mm": 2.8,
+    "stretched_pct": 11.7,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.2794465413936533,
+    "edge_scale": 1.087
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 13.89,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 6.7,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.4497136683358405,
+    "edge_scale": 1.1611
+   }
+  },
+  "zan_deep_venous_palmar_arch_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 4.99,
+   "max_move_mm": 12.12,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.56,
+    "inside_bone_max_mm": 5.4,
+    "stretched_pct": 31.3,
+    "folded_pct": 2.4,
+    "volume_ratio": null,
+    "edge_scale": 1.1273
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 39.3,
+    "folded_pct": 3.24,
+    "volume_ratio": null,
+    "edge_scale": 1.1941
+   }
+  },
+  "zan_dorsal_branch_of_ulnar_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 4.33,
+   "max_move_mm": 7.09,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 42.34,
+    "inside_bone_max_mm": 4.0,
+    "stretched_pct": 19.1,
+    "folded_pct": 2.11,
+    "volume_ratio": null,
+    "edge_scale": 1.0711
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 37.5,
+    "folded_pct": 1.54,
+    "volume_ratio": null,
+    "edge_scale": 1.0193
+   }
+  },
+  "zan_dorsal_carpal_anastomosis_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.62,
+   "max_move_mm": 2.19,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 13.85,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 2.1,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.4788
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 18.2,
+    "folded_pct": 1.23,
+    "volume_ratio": null,
+    "edge_scale": 1.4786
+   }
+  },
+  "zan_dorsal_carpal_branch_of_ulnar_artery_r": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 2.9,
+   "max_move_mm": 5.41,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 14.48,
+    "inside_bone_max_mm": 4.1,
+    "stretched_pct": 9.0,
+    "folded_pct": 2.19,
+    "volume_ratio": null,
+    "edge_scale": 0.9358
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 12.6,
+    "folded_pct": 3.52,
+    "volume_ratio": null,
+    "edge_scale": 1.0155
+   }
+  },
+  "zan_dorsal_carpometacarpal_ligaments_r": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 2.74,
+   "max_move_mm": 5.15,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 61.63,
+    "inside_bone_max_mm": 4.6,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.3494
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 41.86,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 3.4,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.4143
+   }
+  },
+  "zan_dorsal_digital_arteries_of_hand_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 1.12,
+   "max_move_mm": 5.84,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 26.18,
+    "inside_bone_max_mm": 5.0,
+    "stretched_pct": 47.6,
+    "folded_pct": 9.1,
+    "volume_ratio": null,
+    "edge_scale": 0.8453
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.1,
+    "stretched_pct": 54.4,
+    "folded_pct": 11.12,
+    "volume_ratio": null,
+    "edge_scale": 0.8448
+   }
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_r": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.64,
+   "max_move_mm": 3.3,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 16.35,
+    "inside_bone_max_mm": 3.5,
+    "stretched_pct": 12.4,
+    "folded_pct": 1.23,
+    "volume_ratio": null,
+    "edge_scale": 0.815
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 13.4,
+    "folded_pct": 1.18,
+    "volume_ratio": null,
+    "edge_scale": 0.8258
+   }
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.87,
+   "max_move_mm": 8.46,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 19.69,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 19.3,
+    "folded_pct": 1.93,
+    "volume_ratio": null,
+    "edge_scale": 0.6053
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 20.3,
+    "folded_pct": 1.44,
+    "volume_ratio": null,
+    "edge_scale": 0.5829
+   }
+  },
+  "zan_dorsal_digital_veins_of_hand_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.59,
+   "max_move_mm": 3.45,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 18.84,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 44.0,
+    "folded_pct": 9.96,
+    "volume_ratio": null,
+    "edge_scale": 0.9978
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 47.7,
+    "folded_pct": 11.06,
+    "volume_ratio": null,
+    "edge_scale": 1.0014
+   }
+  },
+  "zan_dorsal_metacarpal_arteries_r": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 3.57,
+   "max_move_mm": 6.79,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 23.55,
+    "inside_bone_max_mm": 3.7,
+    "stretched_pct": 13.0,
+    "folded_pct": 1.7,
+    "volume_ratio": null,
+    "edge_scale": 1.1322
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 24.1,
+    "folded_pct": 2.67,
+    "volume_ratio": null,
+    "edge_scale": 1.0847
+   }
+  },
+  "zan_dorsal_metacarpal_ligaments_r": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.27,
+   "max_move_mm": 4.85,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 37.5,
+    "inside_bone_max_mm": 3.5,
+    "stretched_pct": 2.1,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.4307898055346455,
+    "edge_scale": 1.3595
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 28.12,
+    "inside_bone_max_mm": 2.8,
+    "stretched_pct": 6.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.825864140762926,
+    "edge_scale": 1.395
+   }
+  },
+  "zan_dorsal_radiocarpal_ligament_r": {
+   "cat": "ligament",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 6.42,
+   "max_move_mm": 8.66,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 22.22,
+    "inside_bone_max_mm": 5.4,
+    "stretched_pct": 16.1,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.3989
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 26.19,
+    "inside_bone_max_mm": 2.8,
+    "stretched_pct": 2.8,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.5354
+   }
+  },
+  "zan_dorsal_ulnocarpal_ligament_r": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 0.17,
+   "max_move_mm": 1.87,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 12.5,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.5375
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 12.5,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.5519
+   }
+  },
+  "zan_dorsal_venous_network_of_hand_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 4.76,
+   "max_move_mm": 6.78,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 36.28,
+    "inside_bone_max_mm": 4.7,
+    "stretched_pct": 9.4,
+    "folded_pct": 0.76,
+    "volume_ratio": null,
+    "edge_scale": 1.0444
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 16.1,
+    "folded_pct": 1.01,
+    "volume_ratio": null,
+    "edge_scale": 1.0683
+   }
+  },
+  "zan_lateral_antebrachial_cutaneous_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.24,
+   "max_move_mm": 8.0,
+   "before": {
+    "outside_skin_pct": 3.88,
+    "outside_skin_max_mm": 3.5,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 20.4,
+    "folded_pct": 2.67,
+    "volume_ratio": null,
+    "edge_scale": 0.8387
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 22.9,
+    "folded_pct": 1.28,
+    "volume_ratio": null,
+    "edge_scale": 0.8135
+   }
+  },
+  "zan_median_antebrachial_vein_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 5.22,
+   "max_move_mm": 12.48,
+   "before": {
+    "outside_skin_pct": 16.21,
+    "outside_skin_max_mm": 5.8,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 23.4,
+    "folded_pct": 2.96,
+    "volume_ratio": null,
+    "edge_scale": 0.9351
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.7,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 23.1,
+    "folded_pct": 2.16,
+    "volume_ratio": null,
+    "edge_scale": 0.9492
+   }
+  },
+  "zan_palmar_branch_of_median_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.81,
+   "max_move_mm": 5.1,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.17,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 46.1,
+    "folded_pct": 4.14,
+    "volume_ratio": null,
+    "edge_scale": 1.109
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.4,
+    "stretched_pct": 43.0,
+    "folded_pct": 1.4,
+    "volume_ratio": null,
+    "edge_scale": 1.1583
+   }
+  },
+  "zan_palmar_carpal_branch_of_radial_artery_r": {
+   "cat": "vessel",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 12.28,
+   "max_move_mm": 14.06,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 42.4,
+    "folded_pct": 13.16,
+    "volume_ratio": null,
+    "edge_scale": 1.1496
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 31.8,
+    "folded_pct": 11.99,
+    "volume_ratio": null,
+    "edge_scale": 1.041
+   }
+  },
+  "zan_palmar_carpometacarpal_ligaments_r": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.35,
+   "max_move_mm": 1.82,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.09,
+    "inside_bone_max_mm": 4.4,
+    "stretched_pct": 1.4,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.5054
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 25.45,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 1.4,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.4941
+   }
+  },
+  "zan_palmar_digital_veins_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 4.06,
+   "max_move_mm": 9.31,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 16.42,
+    "inside_bone_max_mm": 4.3,
+    "stretched_pct": 25.9,
+    "folded_pct": 2.91,
+    "volume_ratio": null,
+    "edge_scale": 0.8263
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.2,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 27.1,
+    "folded_pct": 3.02,
+    "volume_ratio": null,
+    "edge_scale": 0.8062
+   }
+  },
+  "zan_palmar_interphalangeal_ligaments_r": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.8,
+   "max_move_mm": 8.12,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 59.78,
+    "inside_bone_max_mm": 3.3,
+    "stretched_pct": 1.3,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.14816945730569503,
+    "edge_scale": 0.5277
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 26.89,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 2.4,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.1464863834064458,
+    "edge_scale": 0.525
+   }
+  },
+  "zan_palmar_metacarpal_arteries_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.6,
+   "max_move_mm": 3.23,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.6,
+    "inside_bone_pct": 16.72,
+    "inside_bone_max_mm": 3.3,
+    "stretched_pct": 17.1,
+    "folded_pct": 1.96,
+    "volume_ratio": null,
+    "edge_scale": 1.0862
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.7,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.1,
+    "stretched_pct": 21.2,
+    "folded_pct": 1.69,
+    "volume_ratio": null,
+    "edge_scale": 1.082
+   }
+  },
+  "zan_palmar_metacarpal_ligaments_r": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.24,
+   "max_move_mm": 4.63,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 28.12,
+    "inside_bone_max_mm": 3.8,
+    "stretched_pct": 6.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.8401515784784124,
+    "edge_scale": 1.4754
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 15.62,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 6.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 3.359723950313607,
+    "edge_scale": 1.5276
+   }
+  },
+  "zan_palmar_radio_ulnar_ligament_r": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 0.69,
+   "max_move_mm": 0.84,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.4,
+    "stretched_pct": 3.8,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.6363214307161923,
+    "edge_scale": 0.8528
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.4,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.6836056510883427,
+    "edge_scale": 0.8781
+   }
+  },
+  "zan_pisotriquetral_ligament_r": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 1.19,
+   "max_move_mm": 3.52,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 85.0,
+    "inside_bone_max_mm": 4.4,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.8994799757352032,
+    "edge_scale": 0.9928
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 74.29,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.9175665028975519,
+    "edge_scale": 0.9926
+   }
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 0.88,
+   "max_move_mm": 2.5,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.1,
+    "stretched_pct": 8.3,
+    "folded_pct": 0.23,
+    "volume_ratio": null,
+    "edge_scale": 1.0306
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 7.4,
+    "folded_pct": 0.23,
+    "volume_ratio": null,
+    "edge_scale": 1.027
+   }
+  },
+  "zan_proper_palmar_digital_arteries_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.7,
+   "max_move_mm": 4.91,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 13.78,
+    "inside_bone_max_mm": 4.2,
+    "stretched_pct": 34.8,
+    "folded_pct": 4.83,
+    "volume_ratio": null,
+    "edge_scale": 0.8204
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.3,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.3,
+    "stretched_pct": 36.3,
+    "folded_pct": 5.16,
+    "volume_ratio": null,
+    "edge_scale": 0.8312
+   }
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 4.74,
+   "max_move_mm": 8.54,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 11.38,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 8.3,
+    "folded_pct": 0.64,
+    "volume_ratio": null,
+    "edge_scale": 0.7142
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 8.2,
+    "folded_pct": 0.62,
+    "volume_ratio": null,
+    "edge_scale": 0.7038
+   }
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_r": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.55,
+   "max_move_mm": 9.12,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.36,
+    "inside_bone_max_mm": 3.9,
+    "stretched_pct": 11.0,
+    "folded_pct": 1.16,
+    "volume_ratio": null,
+    "edge_scale": 0.7211
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 13.0,
+    "folded_pct": 1.01,
+    "volume_ratio": null,
+    "edge_scale": 0.7347
+   }
+  },
+  "zan_radial_artery_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.32,
+   "max_move_mm": 11.66,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.15,
+    "inside_bone_max_mm": 1.6,
+    "stretched_pct": 43.1,
+    "folded_pct": 7.8,
+    "volume_ratio": null,
+    "edge_scale": 1.2825
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 42.1,
+    "folded_pct": 8.01,
+    "volume_ratio": null,
+    "edge_scale": 1.1684
+   }
+  },
+  "zan_radial_veins_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.92,
+   "max_move_mm": 7.12,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 40.8,
+    "folded_pct": 11.25,
+    "volume_ratio": null,
+    "edge_scale": 1.1364
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 37.7,
+    "folded_pct": 11.75,
+    "volume_ratio": null,
+    "edge_scale": 1.1384
+   }
+  },
+  "zan_superficial_palmar_arch_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.4,
+   "max_move_mm": 9.59,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 1.9,
+    "inside_bone_pct": 15.12,
+    "inside_bone_max_mm": 6.1,
+    "stretched_pct": 32.5,
+    "folded_pct": 3.19,
+    "volume_ratio": null,
+    "edge_scale": 1.3006
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 1.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 36.6,
+    "folded_pct": 5.18,
+    "volume_ratio": null,
+    "edge_scale": 1.2651
+   }
+  },
+  "zan_superficial_venous_palmar_arch_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.72,
+   "max_move_mm": 2.82,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 2.7,
+    "inside_bone_pct": 15.83,
+    "inside_bone_max_mm": 3.4,
+    "stretched_pct": 30.8,
+    "folded_pct": 5.11,
+    "volume_ratio": null,
+    "edge_scale": 1.26
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 34.9,
+    "folded_pct": 6.47,
+    "volume_ratio": null,
+    "edge_scale": 1.2359
+   }
+  },
+  "zan_tendon_sheath_of_extensor_digitorum_and_extensor_indicis_r": {
+   "cat": "tendon",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.12,
+   "max_move_mm": 1.4,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 12.31,
+    "inside_bone_max_mm": 4.2,
+    "stretched_pct": 2.9,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.043132381332809,
+    "edge_scale": 1.3083
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 10.71,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 2.8,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.98067053057718,
+    "edge_scale": 1.2998
+   }
+  },
+  "zan_triquetrocapitate_ligament_r": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.67,
+   "max_move_mm": 0.98,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 33.33,
+    "inside_bone_max_mm": 3.7,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.484853169608441,
+    "edge_scale": 0.8114
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 25.0,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.476319070137439,
+    "edge_scale": 0.8206
+   }
+  },
+  "zan_ulnar_artery_r": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.42,
+   "max_move_mm": 3.03,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 6.35,
+    "inside_bone_max_mm": 3.9,
+    "stretched_pct": 36.7,
+    "folded_pct": 5.38,
+    "volume_ratio": null,
+    "edge_scale": 1.0152
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 39.1,
+    "folded_pct": 5.87,
+    "volume_ratio": null,
+    "edge_scale": 1.0207
+   }
+  },
+  "zan_ulnar_collateral_ligament_of_wrist_joint_r": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 1.19,
+   "max_move_mm": 2.16,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 12.12,
+    "inside_bone_max_mm": 2.1,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.713665697788732,
+    "edge_scale": 1.2428
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 12.12,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 0.8,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.9217203119862658,
+    "edge_scale": 1.2756
+   }
+  },
+  "zan_ulnar_veins_r": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.1,
+   "max_move_mm": 6.21,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 4.05,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 50.8,
+    "folded_pct": 9.68,
+    "volume_ratio": null,
+    "edge_scale": 1.0561
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 42.2,
+    "folded_pct": 6.01,
+    "volume_ratio": null,
+    "edge_scale": 1.0561
+   }
+  },
+  "zan_ulnocapitate_ligament_r": {
+   "cat": "ligament",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 2.96,
+   "max_move_mm": 3.82,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 19.7,
+    "inside_bone_max_mm": 3.5,
+    "stretched_pct": 3.9,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.0161972038290197,
+    "edge_scale": 0.9911
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 9.09,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 2.3,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.002551970740387,
+    "edge_scale": 0.9895
+   }
+  },
+  "zan_ulnotriquetral_ligament_r": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 0.24,
+   "max_move_mm": 1.14,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.3,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.7131768626263189,
+    "edge_scale": 1.2086
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.2,
+    "stretched_pct": 1.8,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.6754221113816226,
+    "edge_scale": 1.2462
+   }
+  },
+  "zan_tendon_sheath_of_extensor_carpi_ulnaris_r": {
+   "cat": "tendon",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 0.46,
+   "max_move_mm": 0.46,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 3.53,
+    "inside_bone_max_mm": 2.2,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.4129202373417638,
+    "edge_scale": 1.1297
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 3.11,
+    "inside_bone_max_mm": 2.2,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.4129202373423198,
+    "edge_scale": 1.1297
+   }
+  },
+  "zan_tendon_sheath_of_flexor_carpi_radialis_r": {
+   "cat": "tendon",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 6.34,
+   "max_move_mm": 16.12,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.28,
+    "inside_bone_max_mm": 1.7,
+    "stretched_pct": 40.0,
+    "folded_pct": 0.67,
+    "volume_ratio": 2.3228019048300905,
+    "edge_scale": 1.5229
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.18,
+    "inside_bone_max_mm": 1.7,
+    "stretched_pct": 28.4,
+    "folded_pct": 0.0,
+    "volume_ratio": 3.9935600632687818,
+    "edge_scale": 1.6253
+   }
+  },
+  "zan_tendon_sheath_of_flexor_pollicis_longus_r": {
+   "cat": "tendon",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 2.79,
+   "max_move_mm": 3.82,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 35.22,
+    "inside_bone_max_mm": 5.5,
+    "stretched_pct": 16.7,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.7940459398727844,
+    "edge_scale": 1.2498
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 15.99,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 23.4,
+    "folded_pct": 0.04,
+    "volume_ratio": 1.7797390262731216,
+    "edge_scale": 1.2257
+   }
+  },
+  "anterior_interosseous_n_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.03,
+   "max_move_mm": 0.93,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.64,
+    "inside_bone_max_mm": 1.8,
+    "stretched_pct": 0.7,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9828
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 1.7,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9824
+   }
+  },
+  "median_n_lateral_root_l": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.33,
+   "max_move_mm": 9.34,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 2.27,
+    "inside_bone_max_mm": 2.1,
+    "stretched_pct": 24.2,
+    "folded_pct": 1.24,
+    "volume_ratio": null,
+    "edge_scale": 0.9435
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 22.2,
+    "folded_pct": 1.08,
+    "volume_ratio": null,
+    "edge_scale": 0.9532
+   }
+  },
+  "posterior_interosseous_n_l": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.99,
+   "max_move_mm": 7.06,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 7.06,
+    "inside_bone_max_mm": 5.4,
+    "stretched_pct": 18.0,
+    "folded_pct": 0.23,
+    "volume_ratio": null,
+    "edge_scale": 1.0202
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 13.4,
+    "folded_pct": 0.43,
+    "volume_ratio": null,
+    "edge_scale": 1.0113
+   }
+  },
+  "ulnar_n_superficial_branch_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.05,
+   "max_move_mm": 0.37,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.68,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.1368
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.1301
+   }
+  },
+  "zan_articular_capsule_of_radiocarpal_joint_l": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 5.4,
+   "max_move_mm": 11.11,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 23.32,
+    "inside_bone_max_mm": 6.3,
+    "stretched_pct": 2.8,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0719
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 15.94,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 2.5,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0476
+   }
+  },
+  "zan_articular_disc_of_distal_radio_ulnar_joint_l": {
+   "cat": "ligament",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 3.78,
+   "max_move_mm": 5.26,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 10.7,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.6143287890011218,
+    "edge_scale": 1.0998
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.9037839524536329,
+    "edge_scale": 1.2691
+   }
+  },
+  "zan_basilic_vein_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 6.13,
+   "max_move_mm": 20.0,
+   "before": {
+    "outside_skin_pct": 1.78,
+    "outside_skin_max_mm": 4.2,
+    "inside_bone_pct": 0.22,
+    "inside_bone_max_mm": 1.6,
+    "stretched_pct": 39.5,
+    "folded_pct": 1.78,
+    "volume_ratio": null,
+    "edge_scale": 0.999
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.3,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 41.1,
+    "folded_pct": 2.23,
+    "volume_ratio": null,
+    "edge_scale": 0.9928
+   }
+  },
+  "zan_collateral_metacarpophalangeal_ligaments_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.06,
+   "max_move_mm": 1.0,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 30.0,
+    "inside_bone_max_mm": 3.8,
+    "stretched_pct": 3.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.9461523803751579,
+    "edge_scale": 1.0009
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 28.89,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 3.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.9456603882233057,
+    "edge_scale": 1.0003
+   }
+  },
+  "zan_common_flexor_tendon_sheath_l": {
+   "cat": "tendon",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 3.97,
+   "max_move_mm": 8.27,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 9.83,
+    "inside_bone_max_mm": 3.8,
+    "stretched_pct": 9.1,
+    "folded_pct": 0.08,
+    "volume_ratio": null,
+    "edge_scale": 1.0349
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.7,
+    "inside_bone_pct": 3.06,
+    "inside_bone_max_mm": 2.2,
+    "stretched_pct": 2.9,
+    "folded_pct": 0.08,
+    "volume_ratio": null,
+    "edge_scale": 1.0303
+   }
+  },
+  "zan_common_palmar_digital_branches_of_median_nerve_l": {
+   "cat": "nerve",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 2.68,
+   "max_move_mm": 5.33,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.18,
+    "inside_bone_max_mm": 2.3,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0381
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0019
+   }
+  },
+  "zan_common_palmar_digital_branches_of_ulnar_nerve_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.42,
+   "max_move_mm": 3.25,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 8.17,
+    "inside_bone_max_mm": 3.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0302
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 4.2,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0266
+   }
+  },
+  "zan_deep_palmar_arch_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 2.11,
+   "max_move_mm": 5.1,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 36.98,
+    "inside_bone_max_mm": 3.3,
+    "stretched_pct": 7.3,
+    "folded_pct": 0.71,
+    "volume_ratio": null,
+    "edge_scale": 1.0303
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.1,
+    "stretched_pct": 17.6,
+    "folded_pct": 1.85,
+    "volume_ratio": null,
+    "edge_scale": 1.0196
+   }
+  },
+  "zan_deep_venous_palmar_arch_l": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 3.31,
+   "max_move_mm": 7.91,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 32.32,
+    "inside_bone_max_mm": 5.7,
+    "stretched_pct": 12.5,
+    "folded_pct": 1.67,
+    "volume_ratio": null,
+    "edge_scale": 1.0675
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 18.5,
+    "folded_pct": 2.94,
+    "volume_ratio": null,
+    "edge_scale": 1.0252
+   }
+  },
+  "zan_dorsal_branch_of_ulnar_nerve_l": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 10.63,
+   "max_move_mm": 16.8,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.7,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 3.3,
+    "folded_pct": 0.09,
+    "volume_ratio": null,
+    "edge_scale": 1.1097
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 2.3,
+    "folded_pct": 0.09,
+    "volume_ratio": null,
+    "edge_scale": 1.0743
+   }
+  },
+  "zan_dorsal_carpal_anastomosis_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 6.13,
+   "max_move_mm": 7.4,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 47.69,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 1.3,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9567
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9977
+   }
+  },
+  "zan_dorsal_carpal_branch_of_ulnar_artery_l": {
+   "cat": "vessel",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 14.87,
+   "max_move_mm": 18.44,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 35.25,
+    "inside_bone_max_mm": 6.3,
+    "stretched_pct": 8.9,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.1151
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 0.7,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0453
+   }
+  },
+  "zan_dorsal_carpometacarpal_ligaments_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 2.42,
+   "max_move_mm": 4.5,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 94.19,
+    "inside_bone_max_mm": 5.7,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0161
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 77.91,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 3.4,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9988
+   }
+  },
+  "zan_dorsal_digital_arteries_of_hand_l": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.51,
+   "max_move_mm": 4.77,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 16.42,
+    "inside_bone_max_mm": 3.9,
+    "stretched_pct": 29.4,
+    "folded_pct": 9.11,
+    "volume_ratio": null,
+    "edge_scale": 1.0211
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 32.2,
+    "folded_pct": 9.62,
+    "volume_ratio": null,
+    "edge_scale": 1.022
+   }
+  },
+  "zan_dorsal_digital_branches_of_radial_nerve_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.67,
+   "max_move_mm": 4.47,
+   "before": {
+    "outside_skin_pct": 3.88,
+    "outside_skin_max_mm": 5.0,
+    "inside_bone_pct": 9.3,
+    "inside_bone_max_mm": 4.3,
+    "stretched_pct": 26.0,
+    "folded_pct": 3.42,
+    "volume_ratio": null,
+    "edge_scale": 0.9553
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.7,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 26.5,
+    "folded_pct": 3.46,
+    "volume_ratio": null,
+    "edge_scale": 0.9564
+   }
+  },
+  "zan_dorsal_digital_branches_of_ulnar_nerve_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 1.08,
+   "max_move_mm": 4.55,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 28.95,
+    "inside_bone_max_mm": 4.0,
+    "stretched_pct": 37.1,
+    "folded_pct": 5.9,
+    "volume_ratio": null,
+    "edge_scale": 0.9346
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 35.2,
+    "folded_pct": 6.09,
+    "volume_ratio": null,
+    "edge_scale": 0.9383
+   }
+  },
+  "zan_dorsal_digital_veins_of_hand_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 4.72,
+   "max_move_mm": 12.26,
+   "before": {
+    "outside_skin_pct": 0.44,
+    "outside_skin_max_mm": 3.5,
+    "inside_bone_pct": 17.88,
+    "inside_bone_max_mm": 4.2,
+    "stretched_pct": 33.4,
+    "folded_pct": 9.51,
+    "volume_ratio": null,
+    "edge_scale": 1.0231
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 22.6,
+    "folded_pct": 4.58,
+    "volume_ratio": null,
+    "edge_scale": 1.0414
+   }
+  },
+  "zan_dorsal_intercarpal_ligaments_l": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 9.02,
+   "max_move_mm": 9.96,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 81.08,
+    "inside_bone_max_mm": 6.0,
+    "stretched_pct": 5.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.321630625324751,
+    "edge_scale": 1.1022
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 32.43,
+    "inside_bone_max_mm": 2.8,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.1212339803968316,
+    "edge_scale": 1.0358
+   }
+  },
+  "zan_dorsal_metacarpal_arteries_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 7.16,
+   "max_move_mm": 20.0,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 23.31,
+    "inside_bone_max_mm": 6.4,
+    "stretched_pct": 10.3,
+    "folded_pct": 0.09,
+    "volume_ratio": null,
+    "edge_scale": 1.1229
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.48,
+    "inside_bone_max_mm": 1.8,
+    "stretched_pct": 0.8,
+    "folded_pct": 0.03,
+    "volume_ratio": null,
+    "edge_scale": 1.0271
+   }
+  },
+  "zan_dorsal_radiocarpal_ligament_l": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 5.61,
+   "max_move_mm": 9.95,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 73.02,
+    "inside_bone_max_mm": 6.0,
+    "stretched_pct": 22.6,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9789
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.37,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0714
+   }
+  },
+  "zan_dorsal_ulnocarpal_ligament_l": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 9.84,
+   "max_move_mm": 11.48,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 93.75,
+    "inside_bone_max_mm": 5.8,
+    "stretched_pct": 20.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.1822
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 20.31,
+    "inside_bone_max_mm": 2.6,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.2923
+   }
+  },
+  "zan_dorsal_venous_network_of_hand_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 6.4,
+   "max_move_mm": 20.0,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.92,
+    "inside_bone_max_mm": 1.9,
+    "stretched_pct": 22.9,
+    "folded_pct": 1.52,
+    "volume_ratio": null,
+    "edge_scale": 1.0361
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0396
+   }
+  },
+  "zan_lateral_antebrachial_cutaneous_nerve_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 1.09,
+   "max_move_mm": 4.23,
+   "before": {
+    "outside_skin_pct": 12.67,
+    "outside_skin_max_mm": 4.4,
+    "inside_bone_pct": 0.57,
+    "inside_bone_max_mm": 1.7,
+    "stretched_pct": 1.4,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9765
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 0.9,
+    "stretched_pct": 4.7,
+    "folded_pct": 0.47,
+    "volume_ratio": null,
+    "edge_scale": 0.9627
+   }
+  },
+  "zan_palmar_carpometacarpal_ligaments_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.36,
+   "max_move_mm": 1.51,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 61.36,
+    "inside_bone_max_mm": 4.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0852
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 55.45,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0839
+   }
+  },
+  "zan_palmar_digital_veins_l": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.84,
+   "max_move_mm": 5.03,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 21.18,
+    "inside_bone_max_mm": 4.8,
+    "stretched_pct": 18.1,
+    "folded_pct": 3.54,
+    "volume_ratio": null,
+    "edge_scale": 1.0102
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 24.8,
+    "folded_pct": 4.28,
+    "volume_ratio": null,
+    "edge_scale": 1.012
+   }
+  },
+  "zan_palmar_metacarpal_arteries_l": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.94,
+   "max_move_mm": 5.34,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 20.36,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 3.8,
+    "folded_pct": 0.35,
+    "volume_ratio": null,
+    "edge_scale": 1.0561
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 10.5,
+    "folded_pct": 1.57,
+    "volume_ratio": null,
+    "edge_scale": 1.0299
+   }
+  },
+  "zan_palmar_metacarpal_ligaments_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.23,
+   "max_move_mm": 1.02,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 62.5,
+    "inside_bone_max_mm": 3.8,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.23281469498528,
+    "edge_scale": 1.0734
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 59.38,
+    "inside_bone_max_mm": 2.8,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.2139304853947745,
+    "edge_scale": 1.0705
+   }
+  },
+  "zan_palmar_scaphotriquetral_ligament_l": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 0.09,
+   "max_move_mm": 0.72,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 24.62,
+    "inside_bone_max_mm": 2.4,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.2429914251552856,
+    "edge_scale": 1.0358
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 24.62,
+    "inside_bone_max_mm": 2.4,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.1429735909985934,
+    "edge_scale": 1.0385
+   }
+  },
+  "zan_pisotriquetral_ligament_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.32,
+   "max_move_mm": 1.34,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 36.43,
+    "inside_bone_max_mm": 3.9,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.988044465504322,
+    "edge_scale": 0.9917
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 26.43,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.9807477081643143,
+    "edge_scale": 0.9894
+   }
+  },
+  "zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.79,
+   "max_move_mm": 6.65,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.4,
+    "stretched_pct": 34.3,
+    "folded_pct": 4.5,
+    "volume_ratio": null,
+    "edge_scale": 0.9969
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 32.5,
+    "folded_pct": 4.24,
+    "volume_ratio": null,
+    "edge_scale": 0.9901
+   }
+  },
+  "zan_posterior_interosseous_nerve_of_forearm_l": {
+   "cat": "nerve",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.06,
+   "max_move_mm": 3.91,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.4,
+    "stretched_pct": 20.1,
+    "folded_pct": 1.16,
+    "volume_ratio": null,
+    "edge_scale": 1.0335
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 11.7,
+    "folded_pct": 0.66,
+    "volume_ratio": null,
+    "edge_scale": 1.01
+   }
+  },
+  "zan_proper_palmar_digital_arteries_l": {
+   "cat": "vessel",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 4.91,
+   "max_move_mm": 10.78,
+   "before": {
+    "outside_skin_pct": 0.32,
+    "outside_skin_max_mm": 3.7,
+    "inside_bone_pct": 18.26,
+    "inside_bone_max_mm": 4.4,
+    "stretched_pct": 17.4,
+    "folded_pct": 3.47,
+    "volume_ratio": null,
+    "edge_scale": 1.0007
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.3,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 10.7,
+    "folded_pct": 1.33,
+    "volume_ratio": null,
+    "edge_scale": 1.015
+   }
+  },
+  "zan_proper_palmar_digital_branches_of_median_nerve_l": {
+   "cat": "nerve",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 4.12,
+   "max_move_mm": 12.21,
+   "before": {
+    "outside_skin_pct": 0.04,
+    "outside_skin_max_mm": 3.0,
+    "inside_bone_pct": 14.09,
+    "inside_bone_max_mm": 3.6,
+    "stretched_pct": 19.7,
+    "folded_pct": 2.28,
+    "volume_ratio": null,
+    "edge_scale": 0.9057
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 0.9,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 0.9404
+   }
+  },
+  "zan_proper_palmar_digital_branches_of_ulnar_nerve_l": {
+   "cat": "nerve",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.41,
+   "max_move_mm": 2.04,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 7.96,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 2.8,
+    "folded_pct": 0.4,
+    "volume_ratio": null,
+    "edge_scale": 0.9546
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 4.0,
+    "folded_pct": 0.42,
+    "volume_ratio": null,
+    "edge_scale": 0.9601
+   }
+  },
+  "zan_radial_artery_l": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.14,
+   "max_move_mm": 1.92,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.51,
+    "inside_bone_max_mm": 2.1,
+    "stretched_pct": 14.9,
+    "folded_pct": 1.71,
+    "volume_ratio": null,
+    "edge_scale": 1.0097
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 15.9,
+    "folded_pct": 1.96,
+    "volume_ratio": null,
+    "edge_scale": 1.0081
+   }
+  },
+  "zan_radiate_carpal_ligament_l": {
+   "cat": "ligament",
+   "ladder": "field from its pre-Q205 pose",
+   "mean_move_mm": 0.95,
+   "max_move_mm": 3.84,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 40.29,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.2123587012368342,
+    "edge_scale": 1.0504
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 29.13,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.1311970359857169,
+    "edge_scale": 1.0356
+   }
+  },
+  "zan_superficial_palmar_arch_l": {
+   "cat": "vessel",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.07,
+   "max_move_mm": 6.92,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 5.48,
+    "inside_bone_max_mm": 2.2,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.0683
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 5.8,
+    "folded_pct": 0.0,
+    "volume_ratio": null,
+    "edge_scale": 1.051
+   }
+  },
+  "zan_superficial_venous_palmar_arch_l": {
+   "cat": "vessel",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 1.16,
+   "max_move_mm": 3.52,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 24.3,
+    "inside_bone_max_mm": 3.6,
+    "stretched_pct": 5.6,
+    "folded_pct": 0.95,
+    "volume_ratio": null,
+    "edge_scale": 1.0957
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.0,
+    "stretched_pct": 14.4,
+    "folded_pct": 2.53,
+    "volume_ratio": null,
+    "edge_scale": 1.0866
+   }
+  },
+  "zan_tendon_sheath_abd_pollicis_longus_ext_pollicis_brevis_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.98,
+   "max_move_mm": 5.21,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 4.68,
+    "inside_bone_max_mm": 2.1,
+    "stretched_pct": 6.2,
+    "folded_pct": 0.3,
+    "volume_ratio": 1.1571280057366078,
+    "edge_scale": 1.1654
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.46,
+    "inside_bone_max_mm": 2.4,
+    "stretched_pct": 4.3,
+    "folded_pct": 0.2,
+    "volume_ratio": 1.274989043296436,
+    "edge_scale": 1.1956
+   }
+  },
+  "zan_tendon_sheath_of_extensor_digitorum_and_extensor_indicis_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.99,
+   "max_move_mm": 6.49,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 15.6,
+    "inside_bone_max_mm": 5.6,
+    "stretched_pct": 9.8,
+    "folded_pct": 0.37,
+    "volume_ratio": 1.490634591568631,
+    "edge_scale": 1.1639
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 5.14,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 0.1,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.3011892185229703,
+    "edge_scale": 1.1198
+   }
+  },
+  "zan_tendon_sheath_of_extensor_pollicis_longus_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.45,
+   "max_move_mm": 3.5,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 7.8,
+    "inside_bone_max_mm": 2.5,
+    "stretched_pct": 0.7,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.5811955689219697,
+    "edge_scale": 1.1645
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 7.34,
+    "inside_bone_max_mm": 2.6,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.648178712623973,
+    "edge_scale": 1.1787
+   }
+  },
+  "zan_tendon_sheath_of_extensors_carpi_radialis_l": {
+   "cat": "tendon",
+   "ladder": "mean translation of the field",
+   "mean_move_mm": 3.91,
+   "max_move_mm": 8.25,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 1.21,
+    "inside_bone_max_mm": 2.0,
+    "stretched_pct": 18.8,
+    "folded_pct": 0.23,
+    "volume_ratio": 0.8435318607727019,
+    "edge_scale": 1.1009
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.95,
+    "inside_bone_max_mm": 2.0,
+    "stretched_pct": 10.2,
+    "folded_pct": 0.12,
+    "volume_ratio": 1.2982997762293376,
+    "edge_scale": 1.2048
+   }
+  },
+  "zan_ulnar_collateral_ligament_of_wrist_joint_l": {
+   "cat": "ligament",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 10.13,
+   "max_move_mm": 10.23,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 53.03,
+    "inside_bone_max_mm": 5.2,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.6030587199293882,
+    "edge_scale": 1.1751
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 18.18,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.442401902026312,
+    "edge_scale": 1.1387
+   }
+  },
+  "zan_ulnolunate_ligament_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 3.95,
+   "max_move_mm": 4.02,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 14.81,
+    "inside_bone_max_mm": 4.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.8787412510094286,
+    "edge_scale": 0.9428
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 7.41,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 2.9,
+    "folded_pct": 0.0,
+    "volume_ratio": 0.8613373119688364,
+    "edge_scale": 0.9184
+   }
+  },
+  "zan_ulnotriquetral_ligament_l": {
+   "cat": "ligament",
+   "ladder": "kept where the Q205 page has it",
+   "mean_move_mm": 0.1,
+   "max_move_mm": 0.45,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 23.33,
+    "inside_bone_max_mm": 3.2,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.1775703653208534,
+    "edge_scale": 1.3099
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 20.0,
+    "inside_bone_max_mm": 2.9,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 2.123076793161678,
+    "edge_scale": 1.3047
+   }
+  },
+  "zan_tendon_sheath_of_extensor_carpi_ulnaris_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 10.21,
+   "max_move_mm": 10.67,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 43.57,
+    "inside_bone_max_mm": 5.6,
+    "stretched_pct": 12.6,
+    "folded_pct": 0.35,
+    "volume_ratio": 1.240421504578215,
+    "edge_scale": 1.0803
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 8.92,
+    "inside_bone_max_mm": 2.4,
+    "stretched_pct": 14.1,
+    "folded_pct": 0.35,
+    "volume_ratio": 1.1220344469806927,
+    "edge_scale": 1.0546
+   }
+  },
+  "zan_tendon_sheath_of_extensor_digiti_minimi_manus_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 8.7,
+   "max_move_mm": 10.75,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 41.95,
+    "inside_bone_max_mm": 6.9,
+    "stretched_pct": 11.5,
+    "folded_pct": 0.45,
+    "volume_ratio": 1.3215332809773301,
+    "edge_scale": 1.0968
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 15.44,
+    "inside_bone_max_mm": 3.0,
+    "stretched_pct": 4.4,
+    "folded_pct": 0.34,
+    "volume_ratio": 1.2337414843363448,
+    "edge_scale": 1.0658
+   }
+  },
+  "zan_tendon_sheath_of_flexor_carpi_radialis_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 1.11,
+   "max_move_mm": 2.11,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.18,
+    "inside_bone_max_mm": 1.9,
+    "stretched_pct": 1.8,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.493557810837622,
+    "edge_scale": 1.1841
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 0.0,
+    "inside_bone_max_mm": 1.5,
+    "stretched_pct": 0.0,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.5254494337876472,
+    "edge_scale": 1.1774
+   }
+  },
+  "zan_tendon_sheath_of_flexor_pollicis_longus_l": {
+   "cat": "tendon",
+   "ladder": "field low-passed 10 mm",
+   "mean_move_mm": 2.93,
+   "max_move_mm": 4.99,
+   "before": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 21.02,
+    "inside_bone_max_mm": 3.8,
+    "stretched_pct": 3.4,
+    "folded_pct": 0.06,
+    "volume_ratio": 0.9987268036773819,
+    "edge_scale": 1.0327
+   },
+   "after": {
+    "outside_skin_pct": 0.0,
+    "outside_skin_max_mm": 0.0,
+    "inside_bone_pct": 16.37,
+    "inside_bone_max_mm": 3.1,
+    "stretched_pct": 0.2,
+    "folded_pct": 0.0,
+    "volume_ratio": 1.0437374546589293,
+    "edge_scale": 1.0354
+   }
+  }
+ }
+}
