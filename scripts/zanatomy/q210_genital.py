@@ -3,7 +3,7 @@
 Q207 refit the two urogenital skin halves to the Z-SOURCE volume (37.1 k mm3 each) while the fitted structures kept the fit scale of the person (testes +30 % volume, spongiosum +22 %, penis length +20 %, all of them inside
 his own CT skin); moving the structures with the Q207 skin warp would shorten the penis by 8-37 % (glans 45 -> 28 mm) and shrink the testes by 20 %.  Here the Q207 refit (q207_uro.refit_split: ONE similarity +
 harmonic residual onto the fixed neighbours, nodes at the seam) is re-run with the volume target of the person's own genital scale: the smallest target (2 k mm3 grid) at which every listed structure is enclosed
-(audit measure: no vertex > 3 mm outside the Q198 envelope; 1 mm envelope: <= 12 % of the vertices > 0.5 mm, none > 5 mm outside), then the Q208 rim weld (q208_uro.weld) closes the border steps again.  The refit shape is looser than the structures (its outer sheet lies up to 19 mm outside his own CT skin, which the structures touch from
+(audit measure: no vertex > 3 mm outside the Q198 envelope; 1 mm envelope: <= 12 % of the vertices > 0.5 mm, none > 5 mm outside), then the Q208 rim weld (q208_uro.weld) closes the border steps again (l | r seam nodes merged within 12 mm of the Z source, SEAM_MM).  The refit shape is looser than the structures (its outer sheet lies up to 19 mm outside his own CT skin, which the structures touch from
 inside), so the outer sheet is finally CLAMPED onto his own skin (own_clamp: 0.3 mm inside it, both sheets of a slab together, welds kept): the skin encloses the structures and stays inside his own skin.
     python3 scripts/zanatomy/q210_genital.py [T_mm3 ...]        (no argument: search the target)"""
 from __future__ import annotations
@@ -23,11 +23,29 @@ from scripts.zanatomy import q207_uro as U7  # noqa: E402
 from scripts.zanatomy import q208_uro as U8  # noqa: E402
 
 
-def refit(pg, raw, V0, T, own=None, log=lambda *a: None):
+SEAM_MM = 12.0      # l | r seam nodes: vertices of one half within 12 mm of the other half at the midline in the Z source are one node (Q207: 4.5 mm; at the larger volume the perineal slit of the source,
+#                     up to ~11 mm at its anal end, stayed open and 7 of 4000 rays from the perineal probe point escaped through it)
+
+
+def refit(pg, raw, V0, T, own=None, seam_mm=SEAM_MM, log=lambda *a: None):
     ids = list(K.UROS)
     oth = [i for i in pg.skin_ids if i not in ids and i in raw.S]
-    out, rep = U7.refit_split({i: raw.v(i) for i in ids}, {i: pg.v(i) for i in ids}, {i: pg.f(i) for i in ids}, {i: raw.v(i) for i in oth}, {i: V0[i] for i in oth},
-                              others_faces={i: pg.f(i) for i in oth}, vol_target=T, log=log)
+    orig = U7.build_nodes
+    U7.build_nodes = lambda *a, **k: orig(*a, **{**k, "seam_mm": seam_mm})
+    try:
+        out, rep = _refit_split(pg, raw, V0, T, ids, oth, log)
+    finally:
+        U7.build_nodes = orig
+    rep["seam_mm"] = seam_mm
+    return _finish(pg, raw, V0, out, rep, own, log)
+
+
+def _refit_split(pg, raw, V0, T, ids, oth, log):
+    return U7.refit_split({i: raw.v(i) for i in ids}, {i: pg.v(i) for i in ids}, {i: pg.f(i) for i in ids}, {i: raw.v(i) for i in oth}, {i: V0[i] for i in oth},
+                          others_faces={i: pg.f(i) for i in oth}, vol_target=T, log=log)
+
+
+def _finish(pg, raw, V0, out, rep, own, log):
     V = dict(V0)
     V.update(out)
     rawv = {i: raw.v(i) for i in pg.skin_ids if i in raw.S}

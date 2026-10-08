@@ -233,6 +233,9 @@ def run(log=print):
                                seam_step_max_mm=[R2(sb), R2(sa)])
     rep["seams"] = {"q208": seam_summary(s0), "q210": seam_summary(s1)}
     log(f"seams {rep['seams']['q208']['steps_gt_3mm']} -> {rep['seams']['q210']['steps_gt_3mm']} steps > 3 mm; max {rep['seams']['q208']['max_step_mm']} -> {rep['seams']['q210']['max_step_mm']}")
+    from scripts.zanatomy import q202_metrics as M2
+    rep["escape"] = {tag: M2.escape([{"id": i, "v": VV[i], "f": pg.f(i)} for i in pg.skin_ids]) for tag, VV in (("q208", V0), ("q210", V1))}
+    log("rays escaping (perineal probe): " + str({t: rep["escape"][t]["perineal_gap"]["escape_dirs"] for t in rep["escape"]}))
     gen = pickle.load(open(K.state_path("genital"), "rb"))[1]
     rep["genital"] = genital_block(pg, raw, V0, pickle.load(open(K.state_path("genital"), "rb"))[0], log)
     rep["genital"]["target_volume_mm3"] = gen["T"]
