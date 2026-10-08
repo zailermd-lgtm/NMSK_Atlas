@@ -95,7 +95,21 @@ def calibrate_roll(pg, raw, own, V, side, margin=MARGIN, log=print):
     return best_p, best_d, info
 
 
-def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True):
+def contact_mesh(pg, own, V, side=None):
+    """own skin + the skin patches of the trunk / thigh / pelvis (every patch that is not a limb patch of the Z page): where the forearm rests on the body the voxel skin of the CT is fused and the trunk skin patches
+    of the earlier fits lie INSIDE the forearm; the forearm skin must not cut through them (ray target of the own-skin profile = whichever surface the ray meets first)"""
+    import trimesh
+    from scripts.zanatomy import q207_core as C7
+    ids = [i for i in pg.skin_ids if not (C7.LIMB_SKIN_RE.search(i) and i[-2:] in ("_l", "_r"))]
+    vs, fs, o = [own.tm.vertices], [own.tm.faces], len(own.tm.vertices)
+    for i in ids:
+        vs.append(V[i])
+        fs.append(pg.f(i) + o)
+        o += len(V[i])
+    return trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False)
+
+
+def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=True):
     from scripts.zanatomy.q207_inflate import OwnSkin
     pg, raw = K.load(which)
     own = OwnSkin(which)
@@ -108,7 +122,7 @@ def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True):
             dp, dd, rinfo = calibrate_roll(pg, raw, own, V, side, margin=margin, log=log)
             s0, s1 = Fp.grid[0], Fp.grid[-1]
             Fp.roll = lambda s, dp=dp, dd=dd, s0=s0, s1=s1: np.interp(s, [s0, s1], [dp, dd])
-        prof = T.OwnProfile(own.tm, Fp, g(-262.0), g(45.0))
+        prof = T.OwnProfile(own.tm, Fp, g(-262.0), g(45.0), ray_mesh=contact_mesh(pg, own, V) if contact else None)
         P, outer, co = RF.tube_positions(S, Fs, Fp, g, prof, margin=margin, outer=outer)
         nb = [K.pid(n, side) for n in K.WRIST_NB]
         tgf = RF.rim_targets(S, None, {i: raw.v(i) for i in nb}, {i: V[i] for i in nb})

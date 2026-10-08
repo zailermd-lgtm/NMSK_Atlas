@@ -116,7 +116,7 @@ def monotone_map(s_src, s_page, ds=10.0):
 class OwnProfile:
     """radius of the person's own skin along rays from the page centreline: grid over (s, theta), first exit, smoothed (Gaussian), minus a margin"""
 
-    def __init__(self, tm, frames, s_lo, s_hi, ds=2.0, ntheta=96, rmax=130.0, sigma_s=3.0, sigma_t=2.0, bone_rho=None):
+    def __init__(self, tm, frames, s_lo, s_hi, ds=2.0, ntheta=96, rmax=130.0, sigma_s=3.0, sigma_t=2.0, bone_rho=None, ray_mesh=None):
         self.f = frames
         self.s = np.arange(s_lo, s_hi + 1e-6, ds)
         self.th = np.linspace(-np.pi, np.pi, ntheta, endpoint=False)
@@ -124,7 +124,7 @@ class OwnProfile:
         S, T = np.meshgrid(np.arange(len(self.s)), np.arange(ntheta), indexing="ij")
         D = np.cos(self.th)[None, :, None] * e1[:, None, :] + np.sin(self.th)[None, :, None] * e2[:, None, :]
         O = np.repeat(origin[:, None, :], ntheta, 1)
-        loc, ray, tri = tm.ray.intersects_location(O.reshape(-1, 3), D.reshape(-1, 3), multiple_hits=True)
+        loc, ray, tri = (ray_mesh if ray_mesh is not None else tm).ray.intersects_location(O.reshape(-1, 3), D.reshape(-1, 3), multiple_hits=True)
         rho = np.full(len(O.reshape(-1, 3)), np.nan)
         if len(ray):
             d = np.linalg.norm(loc - O.reshape(-1, 3)[ray], axis=1)
