@@ -46,6 +46,7 @@ CAP_MM = 12.0
 A_CAP_MM = 20.0            # no vertex further than this from where the Q205 page has the structure
 REG_W = 0.3                # cost per mm of mean move away from the Q205 page
 ARM_REGIONS = ("upper_limb", "forearm_hand")
+FOLD_SLACK, FOLD_SLACK_TUBE = 2.5, 6.0      # share of edges newly folded a candidate may add (tubes: 1-2 mm radius, a 2-5 mm push folds a few of their sliver triangles)
 EDGE_SCALE_TOL = 0.25      # length guard: median edge ratio vs the Z source may not change by more than this from the Q205 page
 ZONE_HAND_MM, ZONE_WRIST_MM = 30.0, 120.0
 
@@ -161,7 +162,7 @@ def metrics(env, side, v, r, f):
 
 
 def cost(m, cat, m0):
-    c = 6.0 * m["outside_skin_pct"] + 1.0 * m["stretched_pct"] + 6.0 * m["folded_pct"]
+    c = 6.0 * m["outside_skin_pct"] + 1.0 * m["stretched_pct"] + (3.0 if cat in ("vessel", "nerve") else 6.0) * m["folded_pct"]
     c += (0.5 if cat in BONE_OK else 2.0) * m["inside_bone_pct"]
     return c
 
@@ -219,7 +220,7 @@ def carry_side(env, side, by, v_pre, raw, centre_raw, regions, log=print):
         for nm, vv in cands:
             g = E.cap_to(guard(env, side, vv, f, r, cat, i, vv, vr0), vA, A_CAP_MM)
             mm = metrics(env, side, g, r, f)
-            if mm["folded_pct"] > max(mA["folded_pct"] + 1.5, 3.0):          # fold guard
+            if mm["folded_pct"] > (max(mA["folded_pct"] + FOLD_SLACK_TUBE, 10.0) if cat in ("vessel", "nerve") else max(mA["folded_pct"] + FOLD_SLACK, 4.0)):          # fold guard
                 continue
             if not E._closed(f) and abs(mm["edge_scale"] / max(mA["edge_scale"], 1e-6) - 1.0) > EDGE_SCALE_TOL:      # length guard (tubes, sheets)
                 continue
