@@ -44,12 +44,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("bundle"); ap.add_argument("out"); ap.add_argument("model")
     ap.add_argument("--sides", default="lr"); ap.add_argument("--tag", default=""); ap.add_argument("--r", type=float, default=150.0)
-    ap.add_argument("--muscles-only", action="store_true"); ap.add_argument("--focus", action="store_true"); ap.add_argument("--half", type=float, default=120.0)
+    ap.add_argument("--muscles-only", action="store_true"); ap.add_argument("--focus", action="store_true"); ap.add_argument("--focus-from", default=None); ap.add_argument("--half", type=float, default=120.0)
     a = ap.parse_args()
     global FOCUS
     FOCUS = a.focus
     B = Bundle(a.bundle)
-    filled = {it["e"]["id"].rsplit("_zfill", 1)[0] for it in B.items if "_zfill" in it["e"]["id"] and it["e"].get("subject", "").endswith("_q203")}
+    FB = Bundle(a.focus_from) if a.focus_from else B
+    filled = {it["e"]["id"].rsplit("_zfill", 1)[0] for it in FB.items if "_zfill" in it["e"]["id"] and it["e"].get("subject", "").endswith("_q203")}
     r_ = json.loads((REPO / f"data/derived/Q198_model_{a.model}.json").read_text())
     cen = {j["side"]: np.asarray(j["centre_mm"], float) for j in r_["junctions"] if j["name"] == "shoulder"}
     for sd in a.sides:
