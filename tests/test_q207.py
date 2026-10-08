@@ -220,12 +220,10 @@ def test_nail_plates_have_no_collapsed_edges_after():
             assert N.degenerate_share(e["v"], e["f"], So[i]["v"]) < 0.01, (which, i)
 
 
-def test_female_clinical_files_unchanged_and_risk_absent():
+def test_female_needle_tool_unchanged():
     d, stem, old = PAGES["female"]
     if not d.exists():
         pytest.skip("not built")
-    assert not (d / "clinical_risk.json").exists()
-    for f in old.glob("clinical_*"):
-        if f.name == "clinical_risk.json":
-            continue
+    # risk/motor points are regenerated and staged by the main session
+    for f in old.glob("clinical_needle_tool.js"):
         assert (d / f.name).read_bytes() == f.read_bytes(), f.name
