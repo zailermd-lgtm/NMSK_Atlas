@@ -101,7 +101,7 @@ def contact_mesh(pg, own, V, side=None):
     import trimesh
     from scripts.zanatomy import q207_core as C7
     ids = [i for i in pg.skin_ids if not (C7.LIMB_SKIN_RE.search(i) and i[-2:] in ("_l", "_r"))]
-    vs, fs, o = [own.tm.vertices], [own.tm.faces], len(own.tm.vertices)
+    vs, fs, o = [], [], 0
     for i in ids:
         vs.append(V[i])
         fs.append(pg.f(i) + o)
@@ -109,7 +109,7 @@ def contact_mesh(pg, own, V, side=None):
     return trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False)
 
 
-def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=True):
+def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=False):
     from scripts.zanatomy.q207_inflate import OwnSkin
     pg, raw = K.load(which)
     own = OwnSkin(which)

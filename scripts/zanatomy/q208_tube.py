@@ -116,7 +116,7 @@ def monotone_map(s_src, s_page, ds=10.0):
 class OwnProfile:
     """radius of the person's own skin along rays from the page centreline: grid over (s, theta), first exit, smoothed (Gaussian), minus a margin"""
 
-    def __init__(self, tm, frames, s_lo, s_hi, ds=2.0, ntheta=96, rmax=130.0, sigma_s=3.0, sigma_t=2.0, bone_rho=None, ray_mesh=None):
+    def __init__(self, tm, frames, s_lo, s_hi, ds=2.0, ntheta=96, rmax=130.0, sigma_s=3.0, sigma_t=2.0, bone_rho=None, ray_mesh=None, extra_gap=1.5):
         self.f = frames
         self.s = np.arange(s_lo, s_hi + 1e-6, ds)
         self.th = np.linspace(-np.pi, np.pi, ntheta, endpoint=False)
@@ -124,15 +124,21 @@ class OwnProfile:
         S, T = np.meshgrid(np.arange(len(self.s)), np.arange(ntheta), indexing="ij")
         D = np.cos(self.th)[None, :, None] * e1[:, None, :] + np.sin(self.th)[None, :, None] * e2[:, None, :]
         O = np.repeat(origin[:, None, :], ntheta, 1)
-        loc, ray, tri = (ray_mesh if ray_mesh is not None else tm).ray.intersects_location(O.reshape(-1, 3), D.reshape(-1, 3), multiple_hits=True)
-        rho = np.full(len(O.reshape(-1, 3)), np.nan)
-        if len(ray):
-            d = np.linalg.norm(loc - O.reshape(-1, 3)[ray], axis=1)
-            order = np.lexsort((d, ray))
-            ray_s, d_s = ray[order], d[order]
-            first = np.r_[True, ray_s[1:] != ray_s[:-1]]
-            ok = d_s[first] < rmax
-            rho[ray_s[first][ok]] = d_s[first][ok]
+        O2, D2 = O.reshape(-1, 3), D.reshape(-1, 3)
+
+        def first_hits(mesh):
+            loc, ray, tri = mesh.ray.intersects_location(O2, D2, multiple_hits=True)
+            r_ = np.full(len(O2), np.nan)
+            if len(ray):
+                d = np.linalg.norm(loc - O2[ray], axis=1)
+                order = np.lexsort((d, ray))
+                ray_s, d_s = ray[order], d[order]
+                first = np.r_[True, ray_s[1:] != ray_s[:-1]]
+                ok = d_s[first] < rmax
+                r_[ray_s[first][ok]] = d_s[first][ok]
+            return r_
+        rho = first_hits(tm)
+        rho_x = first_hits(ray_mesh).reshape(len(self.s), ntheta) if ray_mesh is not None else None
         rho = rho.reshape(len(self.s), ntheta)
         self.raw = rho.copy()
         # fill gaps (rays that left the body far away or hit nothing: the limb touches the trunk, the voxel skin is fused there): per row a low-order Fourier fit of the valid samples, the residual
@@ -160,6 +166,15 @@ class OwnProfile:
         rho[bad] = med[bad]
         self.nbad = int(bad.sum())
         rho = ndi.gaussian_filter(rho, (sigma_s / ds, sigma_t), mode=("nearest", "wrap"))
+        self.n_contact = 0
+        if rho_x is not None:
+            # skin patches of the rest of the body that lie INSIDE the own-skin radius (the voxel skin is fused where the limb rests on the body): the forearm skin stays `extra_gap` mm in front of them;
+            # the obstacle distance is eroded over the facet size so that the smoothed profile cannot reach into them
+            ox = np.where(np.isnan(rho_x), np.inf, rho_x)
+            ox = ndi.minimum_filter(ox, size=(5, 7), mode=("nearest", "wrap"))
+            lim = ox - extra_gap
+            self.n_contact = int((lim < rho).sum())
+            rho = np.minimum(rho, lim)
         self.rho = rho
 
     def at(self, s, th):
