@@ -450,3 +450,38 @@ def rim_ruled_positions(S, Fs, top, bottom):
     Vb = np.interp(th, ub, vb, period=2 * np.pi)
     lam = np.clip((s_ - Vt) / np.where(np.abs(Vb - Vt) < 1e-6, 1e-6, Vb - Vt), 0, 1)
     return (1 - lam)[:, None] * Pt + lam[:, None] * Pb
+
+
+def tension_relax(S, outer, X, fixed, own_tm, margin=1.0, rounds=6, power=1.5, step=0.7, inner_iters=60):
+    """Reweighted spring relaxation of the outer sheet (rim nodes fixed, free nodes projected onto the own skin after every sweep): springs whose current length exceeds the source length are stiffened by
+    (L / L0) ** power, so the long edges that a plain harmonic solve leaves where the rims are far apart (thin slivers across the crease) are pulled short and the nodes spread evenly.  Returns node positions."""
+    import trimesh
+    n = S.nnode
+    key, w0 = outer_graph(S, outer, "inv_len")
+    r = node_values(S, S.V)
+    L0 = np.linalg.norm(r[key[:, 0]] - r[key[:, 1]], axis=1)
+    onode = np.zeros(n, bool)
+    onode[S.node[outer]] = True
+    isf = np.zeros(n, bool)
+    for k in fixed:
+        isf[k] = True
+    free = np.flatnonzero(onode & ~isf)
+    X = X.copy()
+    for rd in range(rounds):
+        L = np.linalg.norm(X[key[:, 0]] - X[key[:, 1]], axis=1)
+        w = w0 * np.clip(L / np.maximum(L0, 0.5), 1.0, 12.0) ** power
+        A = coo_matrix((np.r_[w, w], (np.r_[key[:, 0], key[:, 1]], np.r_[key[:, 1], key[:, 0]])), shape=(n, n)).tocsr()
+        deg = np.asarray(A.sum(1)).ravel()
+        deg[deg == 0] = 1.0
+        for it in range(inner_iters):
+            X[free] = X[free] + step * ((A[free] @ X) / deg[free][:, None] - X[free])
+            cp, dist, tri = trimesh.proximity.closest_point(own_tm, X[free])
+            X[free] = cp - margin * own_tm.face_normals[tri]
+    nrm = np.zeros((n, 3))
+    cp, dist, tri = trimesh.proximity.closest_point(own_tm, X[free])
+    nrm[free] = own_tm.face_normals[tri]
+    fx = np.flatnonzero(isf & onode)
+    if len(fx):
+        cp, dist, tri = trimesh.proximity.closest_point(own_tm, X[fx])
+        nrm[fx] = own_tm.face_normals[tri]
+    return X, nrm

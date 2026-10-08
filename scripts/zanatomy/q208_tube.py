@@ -116,7 +116,7 @@ def monotone_map(s_src, s_page, ds=10.0):
 class OwnProfile:
     """radius of the person's own skin along rays from the page centreline: grid over (s, theta), first exit, smoothed (Gaussian), minus a margin"""
 
-    def __init__(self, tm, frames, s_lo, s_hi, ds=2.0, ntheta=96, rmax=130.0, sigma_s=3.0, sigma_t=2.0, bone_rho=None, ray_mesh=None, extra_gap=1.5):
+    def __init__(self, tm, frames, s_lo, s_hi, ds=2.0, ntheta=96, rmax=130.0, sigma_s=3.0, sigma_t=2.0, bone_rho=None, ray_mesh=None, extra_gap=1.5, cap_fn=None):
         self.f = frames
         self.s = np.arange(s_lo, s_hi + 1e-6, ds)
         self.th = np.linspace(-np.pi, np.pi, ntheta, endpoint=False)
@@ -160,6 +160,12 @@ class OwnProfile:
         if m.any():
             for k in range(ntheta):
                 rho[m, k] = np.interp(self.s[m], self.s[~m], rho[~m, k])
+        if cap_fn is not None:
+            # where the limb rests on the body (or on itself, flexed elbow) the voxel skin is fused and a ray from the axis leaves far away: the radius never exceeds `cap` (the Z source profile times a generous size ratio)
+            cap = cap_fn(self.s, self.th)
+            capped = np.isfinite(cap) & (rho > cap)
+            self.n_capped = int(capped.sum())
+            rho = np.where(capped, cap, rho)
         # robust outlier clamp against the median of the neighbours (a ray that slipped between facets / hit the other limb)
         med = ndi.median_filter(rho, size=(5, 5), mode="wrap")
         bad = np.abs(rho - med) > 12.0

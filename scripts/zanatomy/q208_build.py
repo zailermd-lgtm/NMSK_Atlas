@@ -95,6 +95,33 @@ def calibrate_roll(pg, raw, own, V, side, margin=MARGIN, log=print):
     return best_p, best_d, info
 
 
+def source_cap(raw, ids, Fs, g, ratio=1.4):
+    """cap function for T.OwnProfile: ratio x the Z source skin radius (farthest hit of the source tube slabs from the source axis) at the same (s, theta)"""
+    import trimesh
+    vs, fs, o = [], [], 0
+    for i in ids:
+        vs.append(raw.v(i))
+        fs.append(raw.f(i) + o)
+        o += len(raw.v(i))
+    zm = trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False)
+    sg = np.linspace(-300, 80, 400)
+    pg_ = g(sg)
+
+    def cap(sp, th):
+        s_src = np.interp(sp, pg_, sg)
+        org, e1, e2 = Fs.at(s_src)
+        D = np.cos(th)[None, :, None] * e1[:, None, :] + np.sin(th)[None, :, None] * e2[:, None, :]
+        O = np.repeat(org[:, None, :], len(th), 1).reshape(-1, 3)
+        loc, ray, tri = zm.ray.intersects_location(O, D.reshape(-1, 3), multiple_hits=True)
+        rz = np.full(len(O), np.nan)
+        d = np.linalg.norm(loc - O[ray], axis=1)
+        for r_, dd in zip(ray, d):
+            if np.isnan(rz[r_]) or dd > rz[r_]:
+                rz[r_] = dd
+        return ratio * rz.reshape(len(sp), len(th))
+    return cap
+
+
 def contact_mesh(pg, own, V, side=None):
     """own skin + the skin patches of the trunk / thigh / pelvis (every patch that is not a limb patch of the Z page): where the forearm rests on the body the voxel skin of the CT is fused and the trunk skin patches
     of the earlier fits lie INSIDE the forearm; the forearm skin must not cut through them (ray target of the own-skin profile = whichever surface the ray meets first)"""
@@ -109,7 +136,7 @@ def contact_mesh(pg, own, V, side=None):
     return trimesh.Trimesh(np.vstack(vs), np.vstack(fs), process=False)
 
 
-def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=False):
+def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=False, cap=True):
     from scripts.zanatomy.q207_inflate import OwnSkin
     pg, raw = K.load(which)
     own = OwnSkin(which)
@@ -122,7 +149,9 @@ def stage_tube(which, log=print, margin=MARGIN, sides="lr", roll=True, contact=F
             dp, dd, rinfo = calibrate_roll(pg, raw, own, V, side, margin=margin, log=log)
             s0, s1 = Fp.grid[0], Fp.grid[-1]
             Fp.roll = lambda s, dp=dp, dd=dd, s0=s0, s1=s1: np.interp(s, [s0, s1], [dp, dd])
-        prof = T.OwnProfile(own.tm, Fp, g(-262.0), g(45.0), ray_mesh=contact_mesh(pg, own, V) if contact else None)
+        prof = T.OwnProfile(own.tm, Fp, g(-262.0), g(45.0), ray_mesh=contact_mesh(pg, own, V) if contact else None, cap_fn=source_cap(raw, ids, Fs, g) if cap else None)
+        if cap:
+            log(f"   own-skin profile: {prof.n_capped} of {prof.rho.size} cells capped at 1.4 x the Z source radius (fused skin)")
         P, outer, co = RF.tube_positions(S, Fs, Fp, g, prof, margin=margin, outer=outer)
         nb = [K.pid(n, side) for n in K.WRIST_NB]
         tgf = RF.rim_targets(S, None, {i: raw.v(i) for i in nb}, {i: V[i] for i in nb})
@@ -267,7 +296,7 @@ def elbow_side_e1(pg, raw, own, V, side, mu=0.05, relief=True, log=None):
     return S, P2, info
 
 
-def elbow_side(pg, raw, own, V, side, margin=MARGIN, thickness=3.0, mu_in=0.05, spring="inv_len", normals="own", drape=False, w_pull=8.0, relief=True, nsmooth=3, start="harmonic", step=1.0, proj_every=5, iters=300, radial=False, e1_hint=False, ruled=False, guard_mm=None):
+def elbow_side(pg, raw, own, V, side, margin=MARGIN, thickness=3.0, mu_in=0.05, spring="inv_len", normals="own", drape=False, w_pull=8.0, relief=True, nsmooth=3, start="harmonic", step=1.0, proj_every=5, iters=300, radial=False, e1_hint=False, ruled=False, guard_mm=None, tension=0):
     """elbow / cubital slabs of one side between the fixed arm skin and the refitted forearm skin (V: current skin).  -> (S, P2 vertex positions, info dict)"""
     s = "_" + side
     Fs = T.Frames(raw.v("radius" + s), raw.v("ulna" + s), raw.wrist()[side])
@@ -330,6 +359,11 @@ def elbow_side(pg, raw, own, V, side, margin=MARGIN, thickness=3.0, mu_in=0.05, 
         guard_info = int(bad.sum())
     else:
         guard_info = 0
+    if tension:
+        free_t = onode & ~np.isin(np.arange(S.nnode), list(outer_fixed))
+        Xt, nrm_t = RF.tension_relax(S, outer, Xo, outer_fixed, own.tm, margin=margin, rounds=tension)
+        Xo = np.where(free_t[:, None], Xt, Xo)
+        nrm = np.where(free_t[:, None], nrm_t, nrm)
     if drape:
         free_mask = onode & ~np.isin(np.arange(S.nnode), list(outer_fixed))
         Xo2, nrm2 = RF.drape_asap(S, outer, Xo, outer_fixed, own.tm, margin=margin, w_pull=w_pull, free_mask=free_mask)
@@ -453,7 +487,7 @@ def stage_elbow(which, log=print, margin=MARGIN, sides="lr", **kw):
     rep = {}
     for side in sides:
         cand = {}
-        for tag, fn in (("S", lambda: elbow_side(pg, raw, own, V, side, margin=margin, **kw)), ("R", lambda: elbow_side_e1(pg, raw, own, V, side, mu=0.2, relief=False))):
+        for tag, fn in (("S", lambda: elbow_side(pg, raw, own, V, side, margin=margin, **kw)), ("R", lambda: elbow_side_e1(pg, raw, own, V, side, mu=0.03, relief=False))):
             S, P2, d = fn()
             Vc = dict(V)
             for i, v in S.split(P2).items():
