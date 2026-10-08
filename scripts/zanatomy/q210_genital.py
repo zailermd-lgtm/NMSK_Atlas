@@ -2,9 +2,10 @@
 """Q210 (1): the male genital structures lie OUTSIDE the Q207 / Q208 urogenital skin.  Decision (numbers in Q210_genital_male.json): the SKIN follows the structures.
 Q207 refit the two urogenital skin halves to the Z-SOURCE volume (37.1 k mm3 each) while the fitted structures kept the fit scale of the person (testes +30 % volume, spongiosum +22 %, penis length +20 %, all of them inside
 his own CT skin); moving the structures with the Q207 skin warp would shorten the penis by 8-37 % (glans 45 -> 28 mm) and shrink the testes by 20 %.  Here the Q207 refit (q207_uro.refit_split: ONE similarity +
-harmonic residual onto the fixed neighbours, nodes at the seam) is re-run with the volume target of the person's own genital scale: the smallest target (2 k mm3 grid) at which every listed structure is enclosed
-(audit measure: no vertex > 3 mm outside the Q198 envelope; 1 mm envelope: <= 12 % of the vertices > 0.5 mm, none > 5 mm outside), then the Q208 rim weld (q208_uro.weld) closes the border steps again (l | r seam nodes merged within 12 mm of the Z source, SEAM_MM).  The refit shape is looser than the structures (its outer sheet lies up to 19 mm outside his own CT skin, which the structures touch from
-inside), so the outer sheet is finally CLAMPED onto his own skin (own_clamp: 0.3 mm inside it, both sheets of a slab together, welds kept): the skin encloses the structures and stays inside his own skin.
+harmonic residual onto the fixed neighbours, nodes at the seam) is re-run with the volume target of the person's own genital scale (grid search 48-60 k mm3 by bisection; 48 k = 1.3 x the Z-source volume = the fit volume ratio of the testes is the lowest tested and
+enclosing every listed structure; audit measure: no vertex > 3 mm outside the Q198 envelope; 1 mm envelope: <= 12 % of the vertices > 0.5 mm, none > 5 mm outside), then the Q208 rim weld (q208_uro.weld) closes the border steps again (l | r seam nodes merged within 12 mm of the Z source, SEAM_MM).  The refit shape is looser than the structures (its outer sheet lies up to 19 mm outside his own CT skin, which the structures touch from
+inside), so the outer sheet is finally CLAMPED onto his own skin (own_clamp: 0.3 mm inside it, never closer than 3 mm above a genital structure, both sheets of a slab together, welds kept) and CLEARED outward by a few
+mm around the structure vertices that still lie outside the 1 mm envelope (clear_structures): the skin encloses the structures; where they touch his own skin from inside the 3 mm slab lies outside it.
     python3 scripts/zanatomy/q210_genital.py [T_mm3 ...]        (no argument: search the target)"""
 from __future__ import annotations
 

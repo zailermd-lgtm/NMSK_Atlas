@@ -649,17 +649,17 @@
    ]
   },
   "zan_skin_urogenital_region_l": {
-   "max_move_mm": 37.36,
-   "mean_move_mm": 13.3,
+   "max_move_mm": 38.76,
+   "mean_move_mm": 11.73,
    "vertices": 646,
-   "vertices_moved_gt0_3mm": 618,
+   "vertices_moved_gt0_3mm": 612,
    "thickness_median_mm": [
     2.69,
-    3.1
+    3.0
    ],
    "thickness_p5_mm": [
     1.27,
-    0.91
+    0.55
    ],
    "edge_ratio_p5_p95": [
     [
@@ -667,8 +667,8 @@
      1.68
     ],
     [
-     0.35,
-     2.08
+     0.33,
+     2.21
     ]
    ],
    "edge_ratio_max": [
@@ -677,25 +677,25 @@
    ],
    "outside_own_skin_gt2mm_pct": [
     0.46,
-    0.15
+    14.86
    ],
    "seam_step_max_mm": [
     0.8,
-    1.16
+    2.23
    ]
   },
   "zan_skin_urogenital_region_r": {
-   "max_move_mm": 36.66,
-   "mean_move_mm": 12.19,
+   "max_move_mm": 36.07,
+   "mean_move_mm": 10.92,
    "vertices": 646,
-   "vertices_moved_gt0_3mm": 605,
+   "vertices_moved_gt0_3mm": 601,
    "thickness_median_mm": [
     2.72,
-    2.89
+    2.78
    ],
    "thickness_p5_mm": [
     1.25,
-    0.81
+    0.25
    ],
    "edge_ratio_p5_p95": [
     [
@@ -703,21 +703,21 @@
      1.68
     ],
     [
-     0.18,
-     2.17
+     0.21,
+     2.12
     ]
    ],
    "edge_ratio_max": [
     4.44,
-    11.18
+    11.17
    ],
    "outside_own_skin_gt2mm_pct": [
     2.48,
-    0.15
+    21.67
    ],
    "seam_step_max_mm": [
     0.8,
-    1.16
+    2.23
    ]
   }
  },
@@ -755,10 +755,15 @@
    ]
   },
   "q210": {
-   "steps_gt_2mm": 0,
+   "steps_gt_2mm": 1,
    "steps_gt_3mm": 0,
-   "max_step_mm": 1.94,
+   "max_step_mm": 2.23,
    "worst": [
+    [
+     "urogenital_region_l",
+     "urogenital_region_r",
+     2.23
+    ],
     [
      "philtrum_l",
      "philtrum_r",
@@ -778,11 +783,6 @@
      "tubercle_of_upper_lip_l",
      "tubercle_of_upper_lip_r",
      1.88
-    ],
-    [
-     "umbilical_region_l",
-     "umbilical_region_r",
-     1.83
     ]
    ]
   }
@@ -934,11 +934,11 @@
     "after": {
      "n": 226,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 3.1,
-     "audit_max_mm": 3.0,
-     "fine_gt0.5_pct": 4.42,
+     "audit_gt0_pct": 0.0,
+     "audit_max_mm": 0.0,
+     "fine_gt0.5_pct": 2.65,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 2.7
+     "fine_max_mm": 2.5
     }
    },
    "zan_corpus_spongiosum_of_penis": {
@@ -956,9 +956,9 @@
      "audit_gt3_pct": 0.0,
      "audit_gt0_pct": 0.0,
      "audit_max_mm": 0.0,
-     "fine_gt0.5_pct": 1.76,
+     "fine_gt0.5_pct": 0.0,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 0.8
+     "fine_max_mm": 0.0
     }
    },
    "zan_deep_artery_of_penis_l": {
@@ -1018,7 +1018,7 @@
      "audit_max_mm": 0.0,
      "fine_gt0.5_pct": 0.0,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 0.1
+     "fine_max_mm": 0.0
     }
    },
    "zan_dorsal_artery_of_penis_l": {
@@ -1034,11 +1034,11 @@
     "after": {
      "n": 407,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 7.86,
+     "audit_gt0_pct": 1.47,
      "audit_max_mm": 3.0,
-     "fine_gt0.5_pct": 7.37,
+     "fine_gt0.5_pct": 6.63,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 2.2
+     "fine_max_mm": 2.8
     }
    },
    "zan_dorsal_artery_of_penis_r": {
@@ -1058,7 +1058,7 @@
      "audit_max_mm": 0.0,
      "fine_gt0.5_pct": 0.0,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 0.3
+     "fine_max_mm": 0.0
     }
    },
    "zan_glans_penis": {
@@ -1074,11 +1074,11 @@
     "after": {
      "n": 225,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 4.0,
-     "audit_max_mm": 3.0,
-     "fine_gt0.5_pct": 10.67,
+     "audit_gt0_pct": 0.0,
+     "audit_max_mm": 0.0,
+     "fine_gt0.5_pct": 4.0,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 2.4
+     "fine_max_mm": 2.1
     }
    },
    "zan_superficial_dorsal_veins_of_penis": {
@@ -1094,11 +1094,11 @@
     "after": {
      "n": 383,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 1.31,
-     "audit_max_mm": 3.0,
-     "fine_gt0.5_pct": 3.13,
+     "audit_gt0_pct": 0.0,
+     "audit_max_mm": 0.0,
+     "fine_gt0.5_pct": 0.0,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 0.9
+     "fine_max_mm": 0.0
     }
    },
    "zan_testis_l": {
@@ -1114,11 +1114,11 @@
     "after": {
      "n": 226,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 3.1,
-     "audit_max_mm": 3.0,
-     "fine_gt0.5_pct": 11.5,
-     "fine_gt3_pct": 2.65,
-     "fine_max_mm": 4.4
+     "audit_gt0_pct": 0.0,
+     "audit_max_mm": 0.0,
+     "fine_gt0.5_pct": 4.42,
+     "fine_gt3_pct": 0.0,
+     "fine_max_mm": 2.3
     }
    },
    "zan_testis_r": {
@@ -1134,11 +1134,11 @@
     "after": {
      "n": 226,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 2.21,
-     "audit_max_mm": 3.0,
+     "audit_gt0_pct": 0.0,
+     "audit_max_mm": 0.0,
      "fine_gt0.5_pct": 9.73,
-     "fine_gt3_pct": 1.33,
-     "fine_max_mm": 4.2
+     "fine_gt3_pct": 0.44,
+     "fine_max_mm": 3.3
     }
    },
    "zan_urethra": {
@@ -1156,9 +1156,9 @@
      "audit_gt3_pct": 0.0,
      "audit_gt0_pct": 0.0,
      "audit_max_mm": 0.0,
-     "fine_gt0.5_pct": 3.49,
+     "fine_gt0.5_pct": 0.87,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 1.6
+     "fine_max_mm": 0.9
     }
    },
    "zan_external_pudendal_veins_l": {
@@ -1173,12 +1173,12 @@
     },
     "after": {
      "n": 388,
-     "audit_gt3_pct": 3.87,
-     "audit_gt0_pct": 8.76,
-     "audit_max_mm": 6.7,
-     "fine_gt0.5_pct": 9.54,
-     "fine_gt3_pct": 7.22,
-     "fine_max_mm": 6.2
+     "audit_gt3_pct": 6.7,
+     "audit_gt0_pct": 9.02,
+     "audit_max_mm": 8.5,
+     "fine_gt0.5_pct": 10.05,
+     "fine_gt3_pct": 7.99,
+     "fine_max_mm": 6.6
     }
    },
    "zan_external_pudendal_veins_r": {
@@ -1196,9 +1196,9 @@
      "audit_gt3_pct": 0.0,
      "audit_gt0_pct": 0.0,
      "audit_max_mm": 0.0,
-     "fine_gt0.5_pct": 0.0,
+     "fine_gt0.5_pct": 0.26,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 0.0
+     "fine_max_mm": 0.6
     }
    },
    "zan_superficial_external_pudendal_artery_l": {
@@ -1214,11 +1214,11 @@
     "after": {
      "n": 387,
      "audit_gt3_pct": 0.0,
-     "audit_gt0_pct": 0.78,
+     "audit_gt0_pct": 4.91,
      "audit_max_mm": 3.0,
-     "fine_gt0.5_pct": 4.39,
+     "fine_gt0.5_pct": 5.68,
      "fine_gt3_pct": 0.0,
-     "fine_max_mm": 2.5
+     "fine_max_mm": 2.9
     }
    },
    "zan_superficial_external_pudendal_artery_r": {
@@ -1236,9 +1236,9 @@
      "audit_gt3_pct": 0.0,
      "audit_gt0_pct": 0.0,
      "audit_max_mm": 0.0,
-     "fine_gt0.5_pct": 0.0,
-     "fine_gt3_pct": 0.0,
-     "fine_max_mm": 0.1
+     "fine_gt0.5_pct": 9.54,
+     "fine_gt3_pct": 3.09,
+     "fine_max_mm": 3.6
     }
    },
    "zan_ductus_deferens_l": {
@@ -1549,12 +1549,12 @@
   "volume_mm3": {
    "l": [
     39527,
-    52373,
+    50891,
     37068
    ],
    "r": [
     37835,
-    46621,
+    42370,
     37068
    ]
   },
@@ -1563,8 +1563,8 @@
    "r_reaches_into_l_side": 0.6
   },
   "across_midline_plane_mm_after": {
-   "l_reaches_into_r_side": 2.6,
-   "r_reaches_into_l_side": 3.7
+   "l_reaches_into_r_side": 2.8,
+   "r_reaches_into_l_side": 1.9
   },
   "structure_fit_scale": {
    "zan_testis_l": {
@@ -1704,7 +1704,7 @@
    "zan_testis_r": 0.0,
    "zan_urethra": 0.0
   },
-  "target_volume_mm3": 52000,
+  "target_volume_mm3": 48000,
   "search": {
    "54000": {
     "ok": true,
@@ -1714,89 +1714,68 @@
     ],
     "scale": 1.023,
     "own_clamp": {
-     "vertices_moved_gt0_3": 632,
+     "vertices_moved_gt0_3": 464,
      "max_move_mm": 19.1,
      "outside_own_skin_gt2mm_pct": [
       31.7,
-      0.2
+      14.9
      ],
      "outside_own_skin_max_mm": [
       19.1,
-      3.5
+      8.5
      ]
     },
     "bad": {}
    },
    "50000": {
-    "ok": false,
+    "ok": true,
     "volumes": [
      50903,
      49124
     ],
     "scale": 0.939,
     "own_clamp": {
-     "vertices_moved_gt0_3": 599,
-     "max_move_mm": 15.6,
+     "vertices_moved_gt0_3": 385,
+     "max_move_mm": 15.5,
      "outside_own_skin_gt2mm_pct": [
       27.8,
-      0.3
+      16.1
      ],
      "outside_own_skin_max_mm": [
       16.0,
-      3.0
+      9.5
      ]
     },
-    "bad": {
-     "corpus_cavernosum_of_penis": [
-      0.88,
-      4.2,
-      8.85
-     ],
-     "dorsal_artery_of_penis_l": [
-      0.49,
-      4.2,
-      20.88
-     ],
-     "glans_penis": [
-      0.44,
-      4.2,
-      25.78
-     ],
-     "testis_l": [
-      0.44,
-      4.2,
-      12.39
-     ]
-    }
+    "bad": {}
    },
-   "52000": {
+   "48000": {
     "ok": true,
     "volumes": [
-     52920,
-     51097
+     48872,
+     47138
     ],
-    "scale": 0.982,
+    "scale": 0.893,
     "own_clamp": {
-     "vertices_moved_gt0_3": 611,
-     "max_move_mm": 17.2,
+     "vertices_moved_gt0_3": 345,
+     "max_move_mm": 15.0,
      "outside_own_skin_gt2mm_pct": [
-      30.2,
-      0.2
+      25.6,
+      16.5
      ],
      "outside_own_skin_max_mm": [
-      17.3,
-      2.5
+      15.7,
+      8.8
      ]
     },
     "bad": {}
    }
   },
   "refit": {
-   "scale": 0.982,
-   "volume_target": 52000,
+   "scale": 0.893,
+   "volume_target": 48000,
    "volumes": [
-    52920,
-    51097
+    48872,
+    47138
    ],
    "hard_constraints": 165,
    "soft_ties": 216,
@@ -1810,16 +1789,27 @@
    "split_nodes": 3,
    "seam_mm": 12.0,
    "own_clamp": {
-    "vertices_moved_gt0_3": 611,
-    "max_move_mm": 17.2,
+    "vertices_moved_gt0_3": 345,
+    "max_move_mm": 15.0,
     "outside_own_skin_gt2mm_pct": [
-     30.2,
-     0.2
+     25.6,
+     16.5
     ],
     "outside_own_skin_max_mm": [
-     17.3,
-     2.5
+     15.7,
+     8.8
     ]
+   },
+   "clearing": {
+    "iterations": 4,
+    "outside_vertices_per_iteration": [
+     201,
+     145,
+     112,
+     96
+    ],
+    "outside_own_skin_gt2mm_pct": 18.3,
+    "outside_own_skin_max_mm": 9.8
    }
   },
   "weld_moves_max_mean_mm": {
@@ -1868,20 +1858,20 @@
    "zan_corpus_cavernosum_of_penis": {
     "n": 226,
     "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 3.1,
-    "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 4.42,
+    "audit_gt0_pct": 0.0,
+    "audit_max_mm": 0.0,
+    "fine_gt0.5_pct": 2.65,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 2.7
+    "fine_max_mm": 2.5
    },
    "zan_corpus_spongiosum_of_penis": {
     "n": 227,
     "audit_gt3_pct": 0.0,
     "audit_gt0_pct": 0.0,
     "audit_max_mm": 0.0,
-    "fine_gt0.5_pct": 1.76,
+    "fine_gt0.5_pct": 0.0,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 0.8
+    "fine_max_mm": 0.0
    },
    "zan_deep_artery_of_penis_l": {
     "n": 382,
@@ -1908,16 +1898,16 @@
     "audit_max_mm": 0.0,
     "fine_gt0.5_pct": 0.0,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 0.1
+    "fine_max_mm": 0.0
    },
    "zan_dorsal_artery_of_penis_l": {
     "n": 407,
     "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 7.86,
+    "audit_gt0_pct": 1.47,
     "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 7.37,
+    "fine_gt0.5_pct": 6.63,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 2.2
+    "fine_max_mm": 2.8
    },
    "zan_dorsal_artery_of_penis_r": {
     "n": 403,
@@ -1926,64 +1916,19 @@
     "audit_max_mm": 0.0,
     "fine_gt0.5_pct": 0.0,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 0.3
+    "fine_max_mm": 0.0
    },
    "zan_glans_penis": {
     "n": 225,
     "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 4.0,
-    "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 10.67,
+    "audit_gt0_pct": 0.0,
+    "audit_max_mm": 0.0,
+    "fine_gt0.5_pct": 4.0,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 2.4
+    "fine_max_mm": 2.1
    },
    "zan_superficial_dorsal_veins_of_penis": {
     "n": 383,
-    "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 1.31,
-    "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 3.13,
-    "fine_gt3_pct": 0.0,
-    "fine_max_mm": 0.9
-   },
-   "zan_testis_l": {
-    "n": 226,
-    "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 3.1,
-    "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 11.5,
-    "fine_gt3_pct": 2.65,
-    "fine_max_mm": 4.4
-   },
-   "zan_testis_r": {
-    "n": 226,
-    "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 2.21,
-    "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 10.18,
-    "fine_gt3_pct": 1.33,
-    "fine_max_mm": 4.2
-   },
-   "zan_urethra": {
-    "n": 229,
-    "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 0.0,
-    "audit_max_mm": 0.0,
-    "fine_gt0.5_pct": 3.49,
-    "fine_gt3_pct": 0.0,
-    "fine_max_mm": 1.6
-   },
-   "zan_external_pudendal_veins_l": {
-    "n": 388,
-    "audit_gt3_pct": 3.87,
-    "audit_gt0_pct": 8.76,
-    "audit_max_mm": 6.7,
-    "fine_gt0.5_pct": 9.54,
-    "fine_gt3_pct": 7.22,
-    "fine_max_mm": 6.2
-   },
-   "zan_external_pudendal_veins_r": {
-    "n": 388,
     "audit_gt3_pct": 0.0,
     "audit_gt0_pct": 0.0,
     "audit_max_mm": 0.0,
@@ -1991,23 +1936,68 @@
     "fine_gt3_pct": 0.0,
     "fine_max_mm": 0.0
    },
+   "zan_testis_l": {
+    "n": 226,
+    "audit_gt3_pct": 0.0,
+    "audit_gt0_pct": 0.0,
+    "audit_max_mm": 0.0,
+    "fine_gt0.5_pct": 4.42,
+    "fine_gt3_pct": 0.0,
+    "fine_max_mm": 2.3
+   },
+   "zan_testis_r": {
+    "n": 226,
+    "audit_gt3_pct": 0.0,
+    "audit_gt0_pct": 0.0,
+    "audit_max_mm": 0.0,
+    "fine_gt0.5_pct": 9.73,
+    "fine_gt3_pct": 0.44,
+    "fine_max_mm": 3.3
+   },
+   "zan_urethra": {
+    "n": 229,
+    "audit_gt3_pct": 0.0,
+    "audit_gt0_pct": 0.0,
+    "audit_max_mm": 0.0,
+    "fine_gt0.5_pct": 0.87,
+    "fine_gt3_pct": 0.0,
+    "fine_max_mm": 0.9
+   },
+   "zan_external_pudendal_veins_l": {
+    "n": 388,
+    "audit_gt3_pct": 6.7,
+    "audit_gt0_pct": 9.02,
+    "audit_max_mm": 8.5,
+    "fine_gt0.5_pct": 10.05,
+    "fine_gt3_pct": 7.99,
+    "fine_max_mm": 6.6
+   },
+   "zan_external_pudendal_veins_r": {
+    "n": 388,
+    "audit_gt3_pct": 0.0,
+    "audit_gt0_pct": 0.0,
+    "audit_max_mm": 0.0,
+    "fine_gt0.5_pct": 0.26,
+    "fine_gt3_pct": 0.0,
+    "fine_max_mm": 0.6
+   },
    "zan_superficial_external_pudendal_artery_l": {
     "n": 387,
     "audit_gt3_pct": 0.0,
-    "audit_gt0_pct": 0.78,
+    "audit_gt0_pct": 4.91,
     "audit_max_mm": 3.0,
-    "fine_gt0.5_pct": 4.39,
+    "fine_gt0.5_pct": 5.68,
     "fine_gt3_pct": 0.0,
-    "fine_max_mm": 2.5
+    "fine_max_mm": 2.9
    },
    "zan_superficial_external_pudendal_artery_r": {
     "n": 388,
     "audit_gt3_pct": 0.0,
     "audit_gt0_pct": 0.0,
     "audit_max_mm": 0.0,
-    "fine_gt0.5_pct": 0.0,
-    "fine_gt3_pct": 0.0,
-    "fine_max_mm": 0.1
+    "fine_gt0.5_pct": 9.54,
+    "fine_gt3_pct": 3.09,
+    "fine_max_mm": 3.6
    },
    "zan_ductus_deferens_l": {
     "n": 229,
@@ -2471,7 +2461,7 @@
   },
   "rho": {
    "l": 0.4365519073632238,
-   "r": 0.3844622851319573
+   "r": 0.38446236268084283
   },
   "history": [
    {
