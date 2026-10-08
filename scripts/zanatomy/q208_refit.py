@@ -59,7 +59,10 @@ class Slabs:
             lone = np.flatnonzero(flip & ~flip[self.twin])
             new[self.twin[lone]] = ~new[lone]
             outer = new
-        return outer
+        # vertices that the patches share in the source (one merged node) are one position: a node with members of both kinds is an outer node (majority, tie -> outer)
+        cnt = np.bincount(self.node, minlength=self.nnode)
+        so = np.bincount(self.node, weights=outer, minlength=self.nnode)
+        return (so / np.maximum(cnt, 1) >= 0.5)[self.node]
 
 
 def tube_positions(S, Fs, Fp, g, prof, margin=1.0, outer=None):
@@ -74,13 +77,10 @@ def tube_positions(S, Fs, Fp, g, prof, margin=1.0, outer=None):
     ur = np.cos(th)[:, None] * e1 + np.sin(th)[:, None] * e2
     ut = -np.sin(th)[:, None] * e1 + np.cos(th)[:, None] * e2
     xo = org + rN[:, None] * ur
-    off = v[S.twin] - v
-    _, e1s, e2s = Fs.at(sx)
-    urs = np.cos(th)[:, None] * e1s + np.sin(th)[:, None] * e2s
-    uts = -np.sin(th)[:, None] * e1s + np.cos(th)[:, None] * e2s
-    comp = np.stack([(off * urs).sum(1), (off * uts).sum(1), (off * Fs.a).sum(1)], 1)
-    offp = comp[:, :1] * ur + comp[:, 1:2] * ut + comp[:, 2:3] * Fp.a
-    new = np.where(outer[:, None], xo, xo[S.twin] - offp)
+    # the inner sheet: the twin's outer position minus the source twin distance along the RADIAL direction of the twin (a function of position: vertices that two patches share get the same inner place, so the rim
+    # walls of neighbouring slabs coincide and the slabs do not cut each other at the seams)
+    dist = np.linalg.norm(v[S.twin] - v, axis=1)
+    new = np.where(outer[:, None], xo, xo[S.twin] - dist[:, None] * ur[S.twin])
     return new, outer, dict(s=sx, theta=th, rho=rho, s_new=sN, rho_new=rN)
 
 

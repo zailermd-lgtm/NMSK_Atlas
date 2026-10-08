@@ -429,7 +429,7 @@ def bones_poking(pg, raw, V, side, radius_mm=90.0):
 
 def stage_elbow(which, log=print, margin=MARGIN, sides="lr", **kw):
     """both candidate refits of the elbow slabs of a side (S = drape on the own skin between the fixed rims, R = rim-following: Q207 shape, rims follow) are built and scored: deep skin crossings of the
-    elbow slabs (> 2 mm) + 20 x bone vertices of the elbow region that the displayed skin does not enclose; the better one is kept (reported)"""
+    elbow slabs (> 2 mm) + 8 x the extra bone vertices of the elbow region that the displayed skin does not enclose (against the better candidate); the better one is kept (reported)"""
     from scripts.zanatomy.q207_inflate import OwnSkin
     from scripts.zanatomy import q208_eval as E
     pg, raw = K.load(which)
@@ -448,9 +448,10 @@ def stage_elbow(which, log=print, margin=MARGIN, sides="lr", **kw):
             r, deep = E.crossings(pg, Vc, lim)
             el = sum(c for k, c in deep.items() if any(x in k[0] or x in k[1] for x in ("elbow", "cubital")))
             poke, npts = bones_poking(pg, raw, Vc, side)
-            cand[tag] = (el + 20 * poke, el, poke, S, P2, d)
+            cand[tag] = (el, el, poke, S, P2, d)
             log(f"[{which} {side}] elbow candidate {tag}: elbow deep crossings {el}, bone vertices not enclosed {poke} of {npts}")
-        tag = min(cand, key=lambda t: cand[t][0])
+        pm = min(c[2] for c in cand.values())
+        tag = min(cand, key=lambda t: cand[t][1] + 8 * (cand[t][2] - pm))
         _, el, poke, S, P2, d = cand[tag]
         log(f"[{which} {side}] elbow: candidate {tag} kept")
         for i, v in S.split(P2).items():
@@ -459,6 +460,24 @@ def stage_elbow(which, log=print, margin=MARGIN, sides="lr", **kw):
                          relief=d.get("relief"))
     pickle.dump((V, rep), open(K.state_path(which, "elbow"), "wb"))
     return V, rep
+
+def stage_uro(which, log=print):
+    from scripts.zanatomy import q208_uro as U8
+    pg, raw = K.load(which)
+    V, rep = pickle.load(open(K.state_path(which, "elbow"), "rb"))
+    V = dict(V)
+    if which != "male":
+        pickle.dump((V, {}), open(K.state_path(which, "uro"), "wb"))
+        return V, {}
+    rawv = {i: raw.v(i) for i in pg.skin_ids if i in raw.S}
+    faces = {i: pg.f(i) for i in pg.skin_ids}
+    V2, info = U8.weld(faces, rawv, V, list(rawv), w_pull=20.0, lam_s=0.3, log=lambda *a: None)
+    mv = {i: [round(float(np.linalg.norm(V2[i] - V[i], axis=1).max()), 2), round(float(np.linalg.norm(V2[i] - V[i], axis=1).mean()), 2)] for i in info["free"]}
+    log(f"[{which}] urogenital weld: {info['constraints']} border constraints, moves (max, mean mm) {mv}")
+    info["moves"] = mv
+    pickle.dump((V2, info), open(K.state_path(which, "uro"), "wb"))
+    return V2, info
+
 
 if __name__ == "__main__":
     which, stage = sys.argv[1], sys.argv[2]
