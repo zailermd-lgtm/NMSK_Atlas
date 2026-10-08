@@ -71,6 +71,18 @@ def note_uro(i, rep):
             f"Volume {v0} -> {v1} mm3 (source {vs} mm3); mean move {mp['mean_move_mm']} mm, max {mp['max_move_mm']} mm. Nothing invented.")
 
 
+def note_nail(i, rep, nd):
+    mp = rep["moved_patches"][i]
+    er = mp.get("edge_ratio_p5_p95")
+    t0, t1 = mp["thickness_median_mm"]
+    s = (f" Q207: this overlay patch lies on the dorsal digit skin; after the earlier hand re-fits {nd['degenerate_edge_share'][0] * 100:.1f} % of its edges had collapsed to < 0.05 mm (Z source 0 %). It was re-seated on the cleared dorsal digit sheet: "
+         f"every vertex keeps its source place relative to that sheet (face, barycentric position, offset along the face normal) and is recomputed from the sheet's current position: collapsed edges {nd['degenerate_edge_share'][0] * 100:.1f} -> {nd['degenerate_edge_share'][1] * 100:.1f} %")
+    if er:
+        s += f", edge-length ratio to the Z source p5 / p95 {er[0][0]} / {er[0][1]} -> {er[1][0]} / {er[1][1]}"
+    s += f", median thickness {t0} -> {t1} mm; mean move {mp['mean_move_mm']} mm, max {mp['max_move_mm']} mm. Rule-based, nothing invented."
+    return s
+
+
 def note_seam(i, rep, mv):
     items = rep["contacts_true_gap"]
     before = [x for x in items["before"] if i[9:] in (x["A"], x["B"])]
@@ -88,7 +100,9 @@ def run(which, out=None, log=print):
     rep = pickle.load(open(B.state_path(which, "report"), "rb"))
     Vw, _ = pickle.load(open(B.state_path(which, "wrap"), "rb"))
     Vu, ur = pickle.load(open(B.state_path(which, "uro"), "rb"))
+    Vn, nr = pickle.load(open(B.state_path(which, "nails"), "rb"))
     V1, sr = pickle.load(open(B.state_path(which, "seams"), "rb"))
+    nails = nr.get("nails", {})
     V0 = {i: pg.v(i) for i in pg.skin_ids}
     if which == "male":
         rep["urogenital"]["scale"] = ur.get("scale")
@@ -100,7 +114,9 @@ def run(which, out=None, log=print):
         badge = rec.get("procedural_badge") or ""
         notes = []
         st = []
-        if np.linalg.norm(Vw[i] - V0[i], axis=1).max() > 0.05:
+        if i in nails:
+            notes.append(note_nail(i, rep, nails[i])); st.append("overlay re-seated")
+        elif np.linalg.norm(Vw[i] - V0[i], axis=1).max() > 0.05:
             notes.append(note_wrap(i, rep, which)); st.append("clearing")
         if which == "male" and i in ("zan_skin_urogenital_region_l", "zan_skin_urogenital_region_r"):
             notes.append(note_uro(i, rep)); st.append("urogenital refit")

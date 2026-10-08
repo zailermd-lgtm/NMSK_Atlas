@@ -29,7 +29,7 @@ def volume(v, f):
     return float(np.einsum("ij,ij->i", t[:, 0], np.cross(t[:, 1], t[:, 2])).sum() / 6.0)
 
 
-def build_nodes(raw, ids, tol=1.5, seam_mm=6.5, comp_mm=14.0, faces=None):
+def build_nodes(raw, ids, tol=1.5, seam_mm=4.5, comp_mm=14.0, faces=None):
     """union-find of vertices (patch, index) -> node: l / r seam pairs and bag / strip contacts (< tol in the source)"""
     off = np.cumsum([0] + [len(raw[i]) for i in ids])
     X = np.vstack([raw[i] for i in ids])
@@ -160,6 +160,20 @@ def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target
     for a in np.flatnonzero((dist >= 0.05) & (dist < tie_mm) & (d >= tol_border) & bagmask):
         tgt = (Vc[Fo[tid[a]]] * bcs[a][:, None]).sum(0) + (X[a] - cl[a])
         rows.append(([(inv[a], 1.0)], tgt)); wts.append(w_tie / w_c)
+    # diagnostics: nodes whose hard targets (from different neighbour vertices) disagree
+    from collections import defaultdict
+    tg = defaultdict(list)
+    for (lst, tgt) in rows[:n_hard]:
+        if len(lst) == 1:
+            tg[lst[0][0]].append(tgt)
+    conflicts = []
+    for nd, lst in tg.items():
+        if len(lst) > 1:
+            a = np.array(lst)
+            sp = float(np.linalg.norm(a[:, None] - a[None], axis=2).max())
+            if sp > 2.0:
+                conflicts.append((round(sp, 1), np.round(a.mean(0), 0).tolist()))
+    log(f"   hard-target conflicts > 2 mm at {len(conflicts)} nodes: {sorted(conflicts, reverse=True)[:8]}")
     log(f"   uro refit (bags; strips kept): {n_hard} hard constraints + {len(rows) - n_hard} soft ties, {int(nodes_bag.sum())} bag nodes")
     e = np.concatenate([Fb[:, [0, 1]], Fb[:, [1, 2]], Fb[:, [2, 0]]])
     e = np.unique(np.sort(inv[e], axis=1), axis=0)
@@ -198,7 +212,7 @@ def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target
         return out, Z
     vt = vol_target or volume(raw[ids[0]], faces[ids[0]])
     best = None
-    for s in np.linspace(0.55, 1.12, 58):
+    for s in np.linspace(0.30, 1.12, 83):
         o, Z = place(s)
         vv_ = [volume(o[i], faces[i]) for i in ids]
         err = max(abs(v / vt - 1) for v in vv_)

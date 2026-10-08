@@ -62,9 +62,33 @@ def stage_wrap(which, log=print):
     return V, rep
 
 
-def stage_uro(which, log=print):
+def stage_nails(which, log=print):
+    """overlay patches whose edges the earlier fits collapsed (degenerate share > 1 %) are re-seated on the dorsal digit sheet (q207_nails)"""
+    from scripts.zanatomy import q207_nails as N
     pg, raw = load_ctx(which)
     V, rep = pickle.load(open(state_path(which, "wrap"), "rb"))
+    V = dict(V)
+    done = {}
+    for side in "lr":
+        base = f"zan_skin_dorsal_surfaces_of_digits_of_hand_{side}"
+        for ov in ("nail_plate", "perionyx"):
+            i = f"zan_skin_{ov}_{side}"
+            if i not in V:
+                continue
+            f = pg.f(i)
+            before = N.degenerate_share(V[i], f, raw.v(i))
+            if before > 0.01:
+                V[i] = N.transfer(raw.v(i), raw.v(base), pg.f(base), V[base])
+                after = N.degenerate_share(V[i], f, raw.v(i))
+                done[i] = {"degenerate_edge_share": [round(before, 4), round(after, 4)]}
+                log(f"   {i}: collapsed edges {before:.3f} -> {after:.3f}")
+    pickle.dump((V, {"wrap": rep, "nails": done}), open(state_path(which, "nails"), "wb"))
+    return V, done
+
+
+def stage_uro(which, log=print):
+    pg, raw = load_ctx(which)
+    V, rep = pickle.load(open(state_path(which, "nails"), "rb"))
     if which != "male":
         pickle.dump((V, {}), open(state_path(which, "uro"), "wb"))
         return V, {}
@@ -101,6 +125,6 @@ def stage_seams(which, log=print, min_move=0.5):
 
 if __name__ == "__main__":
     which, stage = sys.argv[1], sys.argv[2]
-    stages = ["wrap", "uro", "seams"] if stage == "all" else [stage]
+    stages = ["wrap", "nails", "uro", "seams"] if stage == "all" else [stage]
     for s in stages:
         globals()["stage_" + s](which)
