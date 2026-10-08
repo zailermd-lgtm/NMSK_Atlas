@@ -1689,11 +1689,11 @@
     "extensor_carpi_radialis_longus",
     "fibularis_brevis",
     "fibularis_longus",
+    "flexor_carpi_radialis",
     "flexor_carpi_ulnaris",
     "flexor_digiti_minimi_brevis_hand",
     "flexor_digitorum_longus",
     "flexor_digitorum_profundus",
-    "flexor_digitorum_superficialis",
     "flexor_hallucis_longus",
     "flexor_pollicis_brevis",
     "gastrocnemius",
@@ -1760,6 +1760,7 @@
     "fibularis_brevis_r": 2,
     "fibularis_longus_l": 2,
     "fibularis_longus_r": 2,
+    "flexor_carpi_radialis_r": 1,
     "flexor_carpi_ulnaris_r": 1,
     "flexor_digiti_minimi_brevis_hand_l": 1,
     "flexor_digiti_minimi_brevis_hand_r": 1,
@@ -1767,8 +1768,6 @@
     "flexor_digitorum_longus_r": 1,
     "flexor_digitorum_profundus_l": 1,
     "flexor_digitorum_profundus_r": 1,
-    "flexor_digitorum_superficialis_l": 1,
-    "flexor_digitorum_superficialis_r": 1,
     "flexor_hallucis_longus_l": 2,
     "flexor_hallucis_longus_r": 2,
     "flexor_pollicis_brevis_l": 1,
@@ -1784,6 +1783,7 @@
     "levator_scapulae_l": 1,
     "levator_scapulae_r": 1,
     "palmaris_longus_l": 1,
+    "palmaris_longus_r": 1,
     "pectoralis_major_l": 4,
     "pectoralis_major_r": 4,
     "pectoralis_minor_l": 2,
@@ -1938,28 +1938,28 @@
     "mp.biceps_brachii_l.1": 263.5,
     "mp.biceps_brachii_r.2": 270.8,
     "mp.biceps_brachii_l.2": 276.8,
-    "mp.biceps_brachii_r.3": 290.0,
-    "mp.biceps_brachii_l.3": 292.1,
-    "mp.biceps_brachii_r.4": 290.0,
-    "mp.biceps_brachii_l.4": 292.1,
-    "mp.biceps_brachii_r.5": 290.0,
-    "mp.biceps_brachii_l.5": 292.1,
+    "mp.biceps_brachii_r.3": 285.0,
+    "mp.biceps_brachii_l.3": 287.7,
+    "mp.biceps_brachii_r.4": 285.0,
+    "mp.biceps_brachii_l.4": 287.7,
+    "mp.biceps_brachii_r.5": 285.0,
+    "mp.biceps_brachii_l.5": 287.7,
     "mp.brachialis_r.1": 258.5,
     "mp.brachialis_l.1": 263.5,
     "mp.brachialis_r.2": 270.8,
     "mp.brachialis_l.2": 276.8,
-    "mp.triceps_brachii_r.1": 290.0,
-    "mp.triceps_brachii_l.1": 292.1,
-    "mp.triceps_brachii_r.2": 290.0,
-    "mp.triceps_brachii_l.2": 292.1,
-    "mp.triceps_brachii_r.3": 290.0,
-    "mp.triceps_brachii_l.3": 292.1,
-    "mp.triceps_brachii_r.4": 290.0,
-    "mp.triceps_brachii_l.4": 292.1,
-    "mp.brachioradialis_r.1": 286.4,
-    "mp.brachioradialis_l.1": 282.6,
-    "mp.brachioradialis_r.2": 286.4,
-    "mp.brachioradialis_l.2": 282.6,
+    "mp.triceps_brachii_r.1": 285.0,
+    "mp.triceps_brachii_l.1": 287.7,
+    "mp.triceps_brachii_r.2": 285.0,
+    "mp.triceps_brachii_l.2": 287.7,
+    "mp.triceps_brachii_r.3": 285.0,
+    "mp.triceps_brachii_l.3": 287.7,
+    "mp.triceps_brachii_r.4": 285.0,
+    "mp.triceps_brachii_l.4": 287.7,
+    "mp.brachioradialis_r.1": 295.2,
+    "mp.brachioradialis_l.1": 285.9,
+    "mp.brachioradialis_r.2": 295.2,
+    "mp.brachioradialis_l.2": 285.9,
     "mp.supraspinatus_r.1": 151.3,
     "mp.supraspinatus_l.1": 145.9,
     "mp.infraspinatus_r.1": 138.9,
@@ -1992,30 +1992,30 @@
     "mp.pectoralis_minor_l.1": 173.2,
     "mp.pectoralis_minor_r.2": 189.1,
     "mp.pectoralis_minor_l.2": 173.2,
-    "mp.flexor_carpi_ulnaris_r.1": 256.0,
-    "mp.palmaris_longus_l.1": 236.0,
-    "mp.pronator_teres_r.1": 256.0,
-    "mp.pronator_teres_l.1": 236.0,
-    "mp.pronator_teres_r.2": 256.0,
-    "mp.pronator_teres_l.2": 236.0,
-    "mp.flexor_digitorum_superficialis_r.1": 256.0,
-    "mp.flexor_digitorum_superficialis_l.1": 236.0,
-    "mp.flexor_digitorum_profundus_r.1": 256.0,
-    "mp.flexor_digitorum_profundus_l.1": 236.0,
-    "mp.extensor_carpi_radialis_longus_r.1": 309.7,
-    "mp.extensor_carpi_radialis_longus_l.1": 308.0,
-    "mp.extensor_carpi_radialis_brevis_r.1": 304.3,
-    "mp.extensor_carpi_radialis_brevis_l.1": 285.2,
-    "mp.supinator_r.1": 95.2,
-    "mp.supinator_l.1": 105.7,
-    "mp.abductor_pollicis_brevis_r.1": 67.4,
-    "mp.abductor_pollicis_brevis_l.1": 58.7,
-    "mp.flexor_pollicis_brevis_r.1": 60.6,
-    "mp.flexor_pollicis_brevis_l.1": 53.9,
-    "mp.abductor_digiti_minimi_hand_r.1": 70.7,
-    "mp.abductor_digiti_minimi_hand_l.1": 66.5,
-    "mp.flexor_digiti_minimi_brevis_hand_r.1": 68.0,
-    "mp.flexor_digiti_minimi_brevis_hand_l.1": 62.6,
+    "mp.flexor_carpi_radialis_r.1": 253.4,
+    "mp.flexor_carpi_ulnaris_r.1": 253.4,
+    "mp.palmaris_longus_r.1": 253.4,
+    "mp.palmaris_longus_l.1": 243.7,
+    "mp.pronator_teres_r.1": 253.4,
+    "mp.pronator_teres_l.1": 243.7,
+    "mp.pronator_teres_r.2": 253.4,
+    "mp.pronator_teres_l.2": 243.7,
+    "mp.flexor_digitorum_profundus_r.1": 253.4,
+    "mp.flexor_digitorum_profundus_l.1": 243.7,
+    "mp.extensor_carpi_radialis_longus_r.1": 314.8,
+    "mp.extensor_carpi_radialis_longus_l.1": 304.8,
+    "mp.extensor_carpi_radialis_brevis_r.1": 298.3,
+    "mp.extensor_carpi_radialis_brevis_l.1": 286.3,
+    "mp.supinator_r.1": 100.2,
+    "mp.supinator_l.1": 112.3,
+    "mp.abductor_pollicis_brevis_r.1": 73.9,
+    "mp.abductor_pollicis_brevis_l.1": 59.9,
+    "mp.flexor_pollicis_brevis_r.1": 58.3,
+    "mp.flexor_pollicis_brevis_l.1": 55.2,
+    "mp.abductor_digiti_minimi_hand_r.1": 70.4,
+    "mp.abductor_digiti_minimi_hand_l.1": 67.3,
+    "mp.flexor_digiti_minimi_brevis_hand_r.1": 63.3,
+    "mp.flexor_digiti_minimi_brevis_hand_l.1": 64.4,
     "mp.sternocleidomastoid_r.1": 160.4,
     "mp.sternocleidomastoid_l.1": 156.0,
     "mp.sternocleidomastoid_r.2": 160.4,
@@ -2035,44 +2035,44 @@
    },
    "failed": [
     {
-     "rule": "flexor_carpi_radialis_r zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside flexor_carpi_radialis_r is 5.9 mm from the rule plane/line (> 5.0 mm)"
-    },
-    {
      "rule": "flexor_carpi_radialis_l zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside flexor_carpi_radialis_l is 16.8 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside flexor_carpi_radialis_l is 11.5 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_carpi_ulnaris_l zhou2023 innervation_zone",
      "why": "FAILED: no point at least 1 mm inside flexor_carpi_ulnaris_l near the rule plane/line"
     },
     {
-     "rule": "palmaris_longus_r zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside zan_palmaris_longus_muscle_r is 5.9 mm from the rule plane/line (> 5.0 mm)"
+     "rule": "flexor_digitorum_superficialis_r zhou2023 proximal target",
+     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_r is 6.3 mm from the rule plane/line (> 5.0 mm)"
+    },
+    {
+     "rule": "flexor_digitorum_superficialis_l zhou2023 proximal target",
+     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_l is 5.4 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_digitorum_superficialis_r zhou2023 distal target",
-     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_r is 14.6 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_r is 11.7 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_digitorum_superficialis_l zhou2023 distal target",
-     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_l is 12.5 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside flexor_digitorum_superficialis_l is 9.8 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_digitorum_profundus_r zhou2023 ulnar half",
-     "why": "FAILED: no point at least 1 mm inside flexor_digitorum_profundus_r near the rule plane/line"
+     "why": "FAILED: nearest point inside flexor_digitorum_profundus_r is 15.4 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_digitorum_profundus_l zhou2023 ulnar half",
-     "why": "FAILED: nearest point inside flexor_digitorum_profundus_l is 23.0 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: no point at least 1 mm inside flexor_digitorum_profundus_l near the rule plane/line"
     },
     {
      "rule": "flexor_pollicis_longus_r zhou2023 innervation_zone",
-     "why": "FAILED: nearest point inside flexor_pollicis_longus_r is 13.0 mm from the rule plane/line (> 5.0 mm)"
+     "why": "FAILED: nearest point inside flexor_pollicis_longus_r is 10.1 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "flexor_pollicis_longus_l zhou2023 innervation_zone",
-     "why": "FAILED: no point at least 1 mm inside flexor_pollicis_longus_l near the rule plane/line"
+     "why": "FAILED: nearest point inside flexor_pollicis_longus_l is 8.8 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "opponens_digiti_minimi_r xie2012 innervation_zone",
@@ -2111,7 +2111,7 @@
    ],
    "uncertainty_mm_range": [
     5.0,
-    101.9
+    99.9
    ],
    "depth_from_skin": "null: this viewer has no skin mesh"
   }

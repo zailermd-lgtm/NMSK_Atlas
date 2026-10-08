@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"zan_f",
-"generated":"2026-10-07",
+"generated":"2026-10-08",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"Z-Anatomy model frame (mm, +Y superior)",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -42,17 +42,17 @@
 "id":"anterior_interosseous_n_l",
 "name":"Anterior interosseous nerve (left)",
 "class":"nerve",
-"r_mm":0.39,
+"r_mm":0.38,
 "r_method":"sdf",
-"rays_hit":296
+"rays_hit":295
 },
 {
 "id":"anterior_interosseous_n_r",
 "name":"Anterior interosseous nerve (right)",
 "class":"nerve",
-"r_mm":0.4,
+"r_mm":0.39,
 "r_method":"sdf",
-"rays_hit":277
+"rays_hit":269
 },
 {
 "id":"aortic_arch_and_great_vessels",
@@ -586,17 +586,17 @@
 "id":"median_n_lateral_root_l",
 "name":"Median nerve, lateral root (left)",
 "class":"nerve",
-"r_mm":0.7,
+"r_mm":0.71,
 "r_method":"sdf",
-"rays_hit":294
+"rays_hit":278
 },
 {
 "id":"median_n_lateral_root_r",
 "name":"Median nerve, lateral root (right)",
 "class":"nerve",
-"r_mm":0.78,
+"r_mm":0.75,
 "r_method":"sdf",
-"rays_hit":283
+"rays_hit":272
 },
 {
 "id":"median_sacral_a",
@@ -610,17 +610,17 @@
 "id":"musculocutaneous_n_l",
 "name":"Musculocutaneous nerve (left)",
 "class":"nerve",
-"r_mm":0.7,
+"r_mm":0.71,
 "r_method":"sdf",
-"rays_hit":297
+"rays_hit":294
 },
 {
 "id":"musculocutaneous_n_r",
 "name":"Musculocutaneous nerve (right)",
 "class":"nerve",
-"r_mm":0.85,
+"r_mm":0.87,
 "r_method":"sdf",
-"rays_hit":291
+"rays_hit":286
 },
 {
 "id":"nerve_to_piriformis_l",
@@ -738,17 +738,17 @@
 "id":"posterior_interosseous_n_l",
 "name":"Posterior interosseous nerve (deep branch of radial n.) (left)",
 "class":"nerve",
-"r_mm":0.39,
+"r_mm":0.4,
 "r_method":"sdf",
-"rays_hit":295
+"rays_hit":274
 },
 {
 "id":"posterior_interosseous_n_r",
 "name":"Posterior interosseous nerve (deep branch of radial n.) (right)",
 "class":"nerve",
-"r_mm":0.33,
+"r_mm":0.34,
 "r_method":"sdf",
-"rays_hit":261
+"rays_hit":254
 },
 {
 "id":"pudendal_n_l",
@@ -770,17 +770,17 @@
 "id":"radial_n_l",
 "name":"Radial nerve (left)",
 "class":"nerve",
-"r_mm":0.27,
+"r_mm":0.28,
 "r_method":"sdf",
-"rays_hit":270
+"rays_hit":268
 },
 {
 "id":"radial_n_r",
 "name":"Radial nerve (right)",
 "class":"nerve",
-"r_mm":0.25,
+"r_mm":0.22,
 "r_method":"sdf",
-"rays_hit":205
+"rays_hit":200
 },
 {
 "id":"radial_n_superficial_branch_l",
@@ -788,15 +788,15 @@
 "class":"nerve",
 "r_mm":0.46,
 "r_method":"sdf",
-"rays_hit":282
+"rays_hit":287
 },
 {
 "id":"radial_n_superficial_branch_r",
 "name":"Superficial branch of radial nerve (right)",
 "class":"nerve",
-"r_mm":0.41,
+"r_mm":0.36,
 "r_method":"sdf",
-"rays_hit":262
+"rays_hit":259
 },
 {
 "id":"saphenous_n_infrapatellar_branch_l",
@@ -1146,49 +1146,49 @@
 "id":"ulnar_n_deep_branch_l",
 "name":"Deep branch of ulnar nerve (left)",
 "class":"nerve",
-"r_mm":0.41,
+"r_mm":0.4,
 "r_method":"sdf",
-"rays_hit":296
+"rays_hit":295
 },
 {
 "id":"ulnar_n_deep_branch_r",
 "name":"Deep branch of ulnar nerve (right)",
 "class":"nerve",
-"r_mm":0.41,
+"r_mm":0.39,
 "r_method":"sdf",
-"rays_hit":286
+"rays_hit":287
 },
 {
 "id":"ulnar_n_l",
 "name":"Ulnar nerve (left)",
 "class":"nerve",
-"r_mm":0.48,
+"r_mm":0.5,
 "r_method":"sdf",
-"rays_hit":275
+"rays_hit":271
 },
 {
 "id":"ulnar_n_r",
 "name":"Ulnar nerve (right)",
 "class":"nerve",
-"r_mm":0.61,
+"r_mm":0.57,
 "r_method":"sdf",
-"rays_hit":296
+"rays_hit":298
 },
 {
 "id":"ulnar_n_superficial_branch_l",
 "name":"Superficial branch of ulnar nerve (left)",
 "class":"nerve",
-"r_mm":0.54,
+"r_mm":0.53,
 "r_method":"sdf",
-"rays_hit":291
+"rays_hit":290
 },
 {
 "id":"ulnar_n_superficial_branch_r",
 "name":"Superficial branch of ulnar nerve (right)",
 "class":"nerve",
-"r_mm":0.12,
+"r_mm":0.1,
 "r_method":"sdf",
-"rays_hit":17
+"rays_hit":19
 },
 {
 "id":"vestibulocochlear_n_l",
@@ -1404,15 +1404,15 @@
 "class":"nerve",
 "r_mm":0.35,
 "r_method":"sdf",
-"rays_hit":291
+"rays_hit":279
 },
 {
 "id":"zan_anterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
 "name":"Anterior branch of medial antebrachial cutaneous nerve",
 "class":"nerve",
-"r_mm":0.25,
+"r_mm":0.26,
 "r_method":"sdf",
-"rays_hit":273
+"rays_hit":281
 },
 {
 "id":"zan_anterior_cerebral_artery_l",
@@ -2154,9 +2154,9 @@
 "id":"zan_basilic_vein_l",
 "name":"Basilic vein",
 "class":"vein",
-"r_mm":1.43,
+"r_mm":1.35,
 "r_method":"sdf",
-"rays_hit":293
+"rays_hit":292
 },
 {
 "id":"zan_basilic_vein_r",
@@ -2202,23 +2202,23 @@
 "id":"zan_brachial_artery_l",
 "name":"Brachial artery",
 "class":"artery",
-"r_mm":1.46,
+"r_mm":1.45,
 "r_method":"sdf",
-"rays_hit":292
+"rays_hit":293
 },
 {
 "id":"zan_brachial_artery_r",
 "name":"Brachial artery",
 "class":"artery",
-"r_mm":1.89,
+"r_mm":1.88,
 "r_method":"sdf",
-"rays_hit":294
+"rays_hit":293
 },
 {
 "id":"zan_brachial_veins_l",
 "name":"Brachial veins",
 "class":"vein",
-"r_mm":1.69,
+"r_mm":1.66,
 "r_method":"sdf",
 "rays_hit":290
 },
@@ -2226,9 +2226,9 @@
 "id":"zan_brachial_veins_r",
 "name":"Brachial veins",
 "class":"vein",
-"r_mm":1.99,
+"r_mm":1.98,
 "r_method":"sdf",
-"rays_hit":269
+"rays_hit":273
 },
 {
 "id":"zan_branch_to_angular_gyrus_l",
@@ -2426,17 +2426,17 @@
 "id":"zan_cephalic_vein_l",
 "name":"Cephalic vein",
 "class":"vein",
-"r_mm":1.52,
+"r_mm":1.4,
 "r_method":"sdf",
-"rays_hit":292
+"rays_hit":290
 },
 {
 "id":"zan_cephalic_vein_r",
 "name":"Cephalic vein",
 "class":"vein",
-"r_mm":1.44,
+"r_mm":1.45,
 "r_method":"sdf",
-"rays_hit":286
+"rays_hit":284
 },
 {
 "id":"zan_choroid_plexus_l",
@@ -2682,57 +2682,57 @@
 "id":"zan_common_interosseous_artery_r",
 "name":"Common interosseous artery",
 "class":"artery",
-"r_mm":0.28,
+"r_mm":0.23,
 "r_method":"sdf",
-"rays_hit":53
+"rays_hit":55
 },
 {
 "id":"zan_common_palmar_digital_arteries_l",
 "name":"Common palmar digital arteries",
 "class":"artery",
-"r_mm":0.7,
+"r_mm":0.68,
 "r_method":"sdf",
-"rays_hit":279
+"rays_hit":281
 },
 {
 "id":"zan_common_palmar_digital_arteries_r",
 "name":"Common palmar digital arteries",
 "class":"artery",
-"r_mm":1.13,
-"r_method":"2V/A",
-"rays_hit":6
+"r_mm":6.61,
+"r_method":"sdf",
+"rays_hit":12
 },
 {
 "id":"zan_common_palmar_digital_branches_of_median_nerve_l",
 "name":"Common palmar digital branches of median nerve",
 "class":"nerve",
-"r_mm":0.46,
+"r_mm":0.45,
 "r_method":"sdf",
-"rays_hit":289
+"rays_hit":283
 },
 {
 "id":"zan_common_palmar_digital_branches_of_median_nerve_r",
 "name":"Common palmar digital branches of median nerve",
 "class":"nerve",
-"r_mm":0.51,
+"r_mm":0.48,
 "r_method":"sdf",
-"rays_hit":282
+"rays_hit":286
 },
 {
 "id":"zan_common_palmar_digital_branches_of_ulnar_nerve_l",
 "name":"Common palmar digital branches of ulnar nerve",
 "class":"nerve",
-"r_mm":0.48,
+"r_mm":0.46,
 "r_method":"sdf",
-"rays_hit":282
+"rays_hit":283
 },
 {
 "id":"zan_common_palmar_digital_branches_of_ulnar_nerve_r",
 "name":"Common palmar digital branches of ulnar nerve",
 "class":"nerve",
-"r_mm":0.43,
+"r_mm":0.4,
 "r_method":"sdf",
-"rays_hit":258
+"rays_hit":271
 },
 {
 "id":"zan_common_plantar_digital_arteries_l",
@@ -2786,7 +2786,7 @@
 "id":"zan_communicating_branch_of_median_nerve_with_ulnar_nerve_l",
 "name":"(Communicating branch of median nerve with ulnar nerve)",
 "class":"nerve",
-"r_mm":2.48,
+"r_mm":2.45,
 "r_method":"2V/A",
 "rays_hit":0
 },
@@ -2794,9 +2794,9 @@
 "id":"zan_communicating_branch_of_median_nerve_with_ulnar_nerve_r",
 "name":"(Communicating branch of median nerve with ulnar nerve)",
 "class":"nerve",
-"r_mm":0.22,
+"r_mm":0.25,
 "r_method":"sdf",
-"rays_hit":17
+"rays_hit":36
 },
 {
 "id":"zan_cornea_l",
@@ -2986,17 +2986,17 @@
 "id":"zan_deep_palmar_arch_l",
 "name":"Deep palmar arch",
 "class":"artery",
-"r_mm":1.79,
+"r_mm":1.88,
 "r_method":"2V/A",
-"rays_hit":2
+"rays_hit":4
 },
 {
 "id":"zan_deep_palmar_arch_r",
 "name":"Deep palmar arch",
 "class":"artery",
-"r_mm":0.89,
+"r_mm":0.85,
 "r_method":"2V/A",
-"rays_hit":1
+"rays_hit":2
 },
 {
 "id":"zan_deep_plantar_artery_l",
@@ -3018,17 +3018,17 @@
 "id":"zan_deep_venous_palmar_arch_l",
 "name":"Deep venous palmar arch",
 "class":"vein",
-"r_mm":0.65,
+"r_mm":0.66,
 "r_method":"sdf",
-"rays_hit":289
+"rays_hit":292
 },
 {
 "id":"zan_deep_venous_palmar_arch_r",
 "name":"Deep venous palmar arch",
 "class":"vein",
-"r_mm":0.71,
+"r_mm":0.68,
 "r_method":"sdf",
-"rays_hit":282
+"rays_hit":284
 },
 {
 "id":"zan_descending_branch_of_lateral_circumflex_femoral_artery_l",
@@ -3098,7 +3098,7 @@
 "id":"zan_dorsal_branch_of_ulnar_nerve_l",
 "name":"Dorsal branch of ulnar nerve",
 "class":"nerve",
-"r_mm":0.51,
+"r_mm":0.49,
 "r_method":"sdf",
 "rays_hit":291
 },
@@ -3106,9 +3106,9 @@
 "id":"zan_dorsal_branch_of_ulnar_nerve_r",
 "name":"Dorsal branch of ulnar nerve",
 "class":"nerve",
-"r_mm":0.41,
+"r_mm":0.4,
 "r_method":"sdf",
-"rays_hit":272
+"rays_hit":276
 },
 {
 "id":"zan_dorsal_carpal_anastomosis_l",
@@ -3122,7 +3122,7 @@
 "id":"zan_dorsal_carpal_anastomosis_r",
 "name":"Dorsal carpal anastomosis",
 "class":"artery",
-"r_mm":0.11,
+"r_mm":0.1,
 "r_method":"sdf",
 "rays_hit":11
 },
@@ -3130,17 +3130,17 @@
 "id":"zan_dorsal_carpal_branch_of_ulnar_artery_l",
 "name":"Dorsal carpal branch of ulnar artery",
 "class":"artery",
-"r_mm":0.68,
+"r_mm":0.49,
 "r_method":"sdf",
-"rays_hit":290
+"rays_hit":288
 },
 {
 "id":"zan_dorsal_carpal_branch_of_ulnar_artery_r",
 "name":"Dorsal carpal branch of ulnar artery",
 "class":"artery",
-"r_mm":0.87,
-"r_method":"2V/A",
-"rays_hit":7
+"r_mm":0.06,
+"r_method":"sdf",
+"rays_hit":10
 },
 {
 "id":"zan_dorsal_digital_arteries_of_foot_l",
@@ -3162,17 +3162,17 @@
 "id":"zan_dorsal_digital_arteries_of_hand_l",
 "name":"Dorsal digital arteries of hand",
 "class":"artery",
-"r_mm":0.28,
+"r_mm":0.27,
 "r_method":"sdf",
-"rays_hit":95
+"rays_hit":191
 },
 {
 "id":"zan_dorsal_digital_arteries_of_hand_r",
 "name":"Dorsal digital arteries of hand",
 "class":"artery",
-"r_mm":0.22,
+"r_mm":0.2,
 "r_method":"sdf",
-"rays_hit":198
+"rays_hit":192
 },
 {
 "id":"zan_dorsal_digital_branches_of_deep_fibular_nerve_l",
@@ -3194,17 +3194,17 @@
 "id":"zan_dorsal_digital_branches_of_radial_nerve_l",
 "name":"Dorsal digital branches of radial nerve",
 "class":"nerve",
-"r_mm":0.4,
+"r_mm":0.33,
 "r_method":"sdf",
-"rays_hit":293
+"rays_hit":194
 },
 {
 "id":"zan_dorsal_digital_branches_of_radial_nerve_r",
 "name":"Dorsal digital branches of radial nerve",
 "class":"nerve",
-"r_mm":0.32,
+"r_mm":0.31,
 "r_method":"sdf",
-"rays_hit":254
+"rays_hit":241
 },
 {
 "id":"zan_dorsal_digital_branches_of_superficial_fibular_nerve_l",
@@ -3226,17 +3226,17 @@
 "id":"zan_dorsal_digital_branches_of_ulnar_nerve_l",
 "name":"Dorsal digital branches of ulnar nerve",
 "class":"nerve",
-"r_mm":0.34,
+"r_mm":0.22,
 "r_method":"sdf",
-"rays_hit":263
+"rays_hit":158
 },
 {
 "id":"zan_dorsal_digital_branches_of_ulnar_nerve_r",
 "name":"Dorsal digital branches of ulnar nerve",
 "class":"nerve",
-"r_mm":0.24,
+"r_mm":0.21,
 "r_method":"sdf",
-"rays_hit":17
+"rays_hit":259
 },
 {
 "id":"zan_dorsal_digital_veins_of_foot_l",
@@ -3258,31 +3258,31 @@
 "id":"zan_dorsal_digital_veins_of_hand_l",
 "name":"Dorsal digital veins of hand",
 "class":"vein",
-"r_mm":0.37,
+"r_mm":0.18,
 "r_method":"sdf",
-"rays_hit":25
+"rays_hit":189
 },
 {
 "id":"zan_dorsal_digital_veins_of_hand_r",
 "name":"Dorsal digital veins of hand",
 "class":"vein",
-"r_mm":0.08,
+"r_mm":0.11,
 "r_method":"sdf",
-"rays_hit":41
+"rays_hit":42
 },
 {
 "id":"zan_dorsal_metacarpal_arteries_l",
 "name":"Dorsal metacarpal arteries",
 "class":"artery",
-"r_mm":0.8,
+"r_mm":0.75,
 "r_method":"sdf",
-"rays_hit":287
+"rays_hit":280
 },
 {
 "id":"zan_dorsal_metacarpal_arteries_r",
 "name":"Dorsal metacarpal arteries",
 "class":"artery",
-"r_mm":0.81,
+"r_mm":0.83,
 "r_method":"sdf",
 "rays_hit":274
 },
@@ -3338,17 +3338,17 @@
 "id":"zan_dorsal_venous_network_of_hand_l",
 "name":"Dorsal venous network of hand",
 "class":"vein",
-"r_mm":1.3,
+"r_mm":1.13,
 "r_method":"sdf",
-"rays_hit":293
+"rays_hit":287
 },
 {
 "id":"zan_dorsal_venous_network_of_hand_r",
 "name":"Dorsal venous network of hand",
 "class":"vein",
-"r_mm":1.29,
+"r_mm":1.26,
 "r_method":"sdf",
-"rays_hit":293
+"rays_hit":295
 },
 {
 "id":"zan_dorsalis_pedis_artery_l",
@@ -4146,9 +4146,9 @@
 "id":"zan_inferior_lateral_brachial_cutaneous_nerve_l",
 "name":"Inferior lateral brachial cutaneous nerve",
 "class":"nerve",
-"r_mm":0.32,
+"r_mm":0.31,
 "r_method":"sdf",
-"rays_hit":289
+"rays_hit":288
 },
 {
 "id":"zan_inferior_lateral_brachial_cutaneous_nerve_r",
@@ -4474,17 +4474,17 @@
 "id":"zan_inferior_ulnar_collateral_artery_l",
 "name":"Inferior ulnar collateral artery",
 "class":"artery",
-"r_mm":0.44,
+"r_mm":0.46,
 "r_method":"sdf",
-"rays_hit":285
+"rays_hit":288
 },
 {
 "id":"zan_inferior_ulnar_collateral_artery_r",
 "name":"Inferior ulnar collateral artery",
 "class":"artery",
-"r_mm":0.72,
+"r_mm":0.73,
 "r_method":"sdf",
-"rays_hit":288
+"rays_hit":292
 },
 {
 "id":"zan_inferior_vein_of_left_ventricle",
@@ -4916,15 +4916,15 @@
 "class":"nerve",
 "r_mm":0.45,
 "r_method":"sdf",
-"rays_hit":297
+"rays_hit":296
 },
 {
 "id":"zan_lateral_antebrachial_cutaneous_nerve_r",
 "name":"Lateral antebrachial cutaneous nerve",
 "class":"nerve",
-"r_mm":0.15,
-"r_method":"2V/A",
-"rays_hit":1
+"r_mm":0.33,
+"r_method":"sdf",
+"rays_hit":285
 },
 {
 "id":"zan_lateral_basal_segmental_artery_of_left_lung",
@@ -5914,17 +5914,17 @@
 "id":"zan_median_antebrachial_vein_l",
 "name":"Median antebrachial vein",
 "class":"vein",
-"r_mm":0.95,
-"r_method":"2V/A",
-"rays_hit":7
+"r_mm":0.14,
+"r_method":"sdf",
+"rays_hit":9
 },
 {
 "id":"zan_median_antebrachial_vein_r",
 "name":"Median antebrachial vein",
 "class":"vein",
-"r_mm":0.82,
+"r_mm":0.2,
 "r_method":"sdf",
-"rays_hit":13
+"rays_hit":33
 },
 {
 "id":"zan_median_cubital_vein_l",
@@ -5938,9 +5938,9 @@
 "id":"zan_median_cubital_vein_r",
 "name":"Median cubital vein",
 "class":"vein",
-"r_mm":0.97,
+"r_mm":0.88,
 "r_method":"sdf",
-"rays_hit":244
+"rays_hit":238
 },
 {
 "id":"zan_medulla_oblongata_l",
@@ -6090,7 +6090,7 @@
 "id":"zan_middle_collateral_artery_l",
 "name":"Middle collateral artery",
 "class":"artery",
-"r_mm":1.1,
+"r_mm":1.14,
 "r_method":"sdf",
 "rays_hit":174
 },
@@ -6098,9 +6098,9 @@
 "id":"zan_middle_collateral_artery_r",
 "name":"Middle collateral artery",
 "class":"artery",
-"r_mm":0.14,
-"r_method":"2V/A",
-"rays_hit":6
+"r_mm":0.09,
+"r_method":"sdf",
+"rays_hit":15
 },
 {
 "id":"zan_middle_frontal_gyrus_l",
@@ -6250,7 +6250,7 @@
 "id":"zan_muscular_branches_of_median_nerve_l",
 "name":"Muscular branches of median nerve",
 "class":"nerve",
-"r_mm":4.43,
+"r_mm":4.53,
 "r_method":"2V/A",
 "rays_hit":0
 },
@@ -6258,23 +6258,23 @@
 "id":"zan_muscular_branches_of_median_nerve_r",
 "name":"Muscular branches of median nerve",
 "class":"nerve",
-"r_mm":0.07,
+"r_mm":0.16,
 "r_method":"sdf",
-"rays_hit":15
+"rays_hit":211
 },
 {
 "id":"zan_muscular_branches_of_ulnar_nerve_l",
 "name":"Muscular branches of ulnar nerve",
 "class":"nerve",
-"r_mm":3.04,
+"r_mm":2.63,
 "r_method":"2V/A",
-"rays_hit":4
+"rays_hit":2
 },
 {
 "id":"zan_muscular_branches_of_ulnar_nerve_r",
 "name":"Muscular branches of ulnar nerve",
 "class":"nerve",
-"r_mm":3.78,
+"r_mm":4.69,
 "r_method":"2V/A",
 "rays_hit":0
 },
@@ -6834,23 +6834,23 @@
 "id":"zan_palmar_branch_of_median_nerve_l",
 "name":"Palmar branch of median nerve",
 "class":"nerve",
-"r_mm":0.46,
+"r_mm":0.44,
 "r_method":"sdf",
-"rays_hit":296
+"rays_hit":295
 },
 {
 "id":"zan_palmar_branch_of_median_nerve_r",
 "name":"Palmar branch of median nerve",
 "class":"nerve",
-"r_mm":0.52,
+"r_mm":0.36,
 "r_method":"sdf",
-"rays_hit":274
+"rays_hit":219
 },
 {
 "id":"zan_palmar_carpal_branch_of_radial_artery_l",
 "name":"Palmar carpal branch of radial artery",
 "class":"artery",
-"r_mm":0.42,
+"r_mm":0.41,
 "r_method":"2V/A",
 "rays_hit":0
 },
@@ -6858,41 +6858,41 @@
 "id":"zan_palmar_carpal_branch_of_radial_artery_r",
 "name":"Palmar carpal branch of radial artery",
 "class":"artery",
-"r_mm":0.05,
+"r_mm":0.07,
 "r_method":"sdf",
-"rays_hit":12
+"rays_hit":33
 },
 {
 "id":"zan_palmar_digital_veins_l",
 "name":"Palmar digital veins",
 "class":"vein",
-"r_mm":0.51,
+"r_mm":0.44,
 "r_method":"sdf",
-"rays_hit":280
+"rays_hit":247
 },
 {
 "id":"zan_palmar_digital_veins_r",
 "name":"Palmar digital veins",
 "class":"vein",
-"r_mm":0.37,
+"r_mm":0.39,
 "r_method":"sdf",
-"rays_hit":235
+"rays_hit":229
 },
 {
 "id":"zan_palmar_metacarpal_arteries_l",
 "name":"Palmar metacarpal arteries",
 "class":"artery",
-"r_mm":0.66,
+"r_mm":0.65,
 "r_method":"sdf",
-"rays_hit":286
+"rays_hit":287
 },
 {
 "id":"zan_palmar_metacarpal_arteries_r",
 "name":"Palmar metacarpal arteries",
 "class":"artery",
-"r_mm":0.77,
+"r_mm":0.74,
 "r_method":"sdf",
-"rays_hit":279
+"rays_hit":273
 },
 {
 "id":"zan_pancreas",
@@ -7378,17 +7378,17 @@
 "id":"zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_l",
 "name":"Posterior branch of medial antebrachial cutaneous nerve",
 "class":"nerve",
-"r_mm":0.26,
+"r_mm":0.24,
 "r_method":"sdf",
-"rays_hit":206
+"rays_hit":215
 },
 {
 "id":"zan_posterior_branch_of_medial_antebrachial_cutaneous_nerve_r",
 "name":"Posterior branch of medial antebrachial cutaneous nerve",
 "class":"nerve",
-"r_mm":0.4,
+"r_mm":0.39,
 "r_method":"sdf",
-"rays_hit":294
+"rays_hit":293
 },
 {
 "id":"zan_posterior_cerebral_artery_l",
@@ -7610,25 +7610,25 @@
 "id":"zan_posterior_interosseous_artery_r",
 "name":"Posterior interosseous artery",
 "class":"artery",
-"r_mm":0.26,
-"r_method":"sdf",
-"rays_hit":236
+"r_mm":0.54,
+"r_method":"2V/A",
+"rays_hit":0
 },
 {
 "id":"zan_posterior_interosseous_nerve_of_forearm_l",
 "name":"Posterior interosseous nerve of forearm",
 "class":"nerve",
-"r_mm":0.32,
+"r_mm":0.35,
 "r_method":"sdf",
-"rays_hit":279
+"rays_hit":286
 },
 {
 "id":"zan_posterior_interosseous_nerve_of_forearm_r",
 "name":"Posterior interosseous nerve of forearm",
 "class":"nerve",
-"r_mm":0.45,
+"r_mm":0.47,
 "r_method":"sdf",
-"rays_hit":296
+"rays_hit":295
 },
 {
 "id":"zan_posterior_lateral_nasal_branches_of_sphenopalatine_artery_l",
@@ -7994,41 +7994,41 @@
 "id":"zan_proper_palmar_digital_arteries_l",
 "name":"Proper palmar digital arteries",
 "class":"artery",
-"r_mm":0.25,
+"r_mm":0.37,
 "r_method":"sdf",
-"rays_hit":29
+"rays_hit":28
 },
 {
 "id":"zan_proper_palmar_digital_arteries_r",
 "name":"Proper palmar digital arteries",
 "class":"artery",
-"r_mm":0.32,
+"r_mm":0.19,
 "r_method":"sdf",
-"rays_hit":259
+"rays_hit":21
 },
 {
 "id":"zan_proper_palmar_digital_branches_of_median_nerve_l",
 "name":"Proper palmar digital branches of median nerve",
 "class":"nerve",
-"r_mm":0.37,
+"r_mm":0.15,
 "r_method":"sdf",
-"rays_hit":298
+"rays_hit":16
 },
 {
 "id":"zan_proper_palmar_digital_branches_of_median_nerve_r",
 "name":"Proper palmar digital branches of median nerve",
 "class":"nerve",
-"r_mm":0.26,
+"r_mm":0.24,
 "r_method":"sdf",
-"rays_hit":261
+"rays_hit":268
 },
 {
 "id":"zan_proper_palmar_digital_branches_of_ulnar_nerve_l",
 "name":"Proper palmar digital branches of ulnar nerve",
 "class":"nerve",
-"r_mm":0.41,
+"r_mm":0.42,
 "r_method":"sdf",
-"rays_hit":288
+"rays_hit":279
 },
 {
 "id":"zan_proper_palmar_digital_branches_of_ulnar_nerve_r",
@@ -8036,7 +8036,7 @@
 "class":"nerve",
 "r_mm":0.29,
 "r_method":"sdf",
-"rays_hit":268
+"rays_hit":259
 },
 {
 "id":"zan_proper_plantar_digital_arteries_l",
@@ -8154,39 +8154,39 @@
 "id":"zan_radial_artery_l",
 "name":"Radial artery",
 "class":"artery",
-"r_mm":1.27,
+"r_mm":1.28,
 "r_method":"sdf",
-"rays_hit":295
+"rays_hit":281
 },
 {
 "id":"zan_radial_artery_r",
 "name":"Radial artery",
 "class":"artery",
-"r_mm":0.81,
+"r_mm":0.83,
 "r_method":"sdf",
-"rays_hit":264
+"rays_hit":263
 },
 {
 "id":"zan_radial_collateral_artery_l",
 "name":"Radial collateral artery",
 "class":"artery",
-"r_mm":0.84,
+"r_mm":0.83,
 "r_method":"sdf",
-"rays_hit":224
+"rays_hit":226
 },
 {
 "id":"zan_radial_collateral_artery_r",
 "name":"Radial collateral artery",
 "class":"artery",
-"r_mm":1.02,
+"r_mm":0.88,
 "r_method":"sdf",
-"rays_hit":247
+"rays_hit":243
 },
 {
 "id":"zan_radial_veins_l",
 "name":"Radial veins",
 "class":"vein",
-"r_mm":1.06,
+"r_mm":1.08,
 "r_method":"sdf",
 "rays_hit":291
 },
@@ -8194,25 +8194,25 @@
 "id":"zan_radial_veins_r",
 "name":"Radial veins",
 "class":"vein",
-"r_mm":0.59,
+"r_mm":0.64,
 "r_method":"sdf",
-"rays_hit":254
+"rays_hit":256
 },
 {
 "id":"zan_recurrent_interosseous_artery_l",
 "name":"Recurrent interosseous artery",
 "class":"artery",
-"r_mm":0.38,
+"r_mm":0.39,
 "r_method":"sdf",
-"rays_hit":265
+"rays_hit":257
 },
 {
 "id":"zan_recurrent_interosseous_artery_r",
 "name":"Recurrent interosseous artery",
 "class":"artery",
-"r_mm":0.54,
+"r_mm":0.22,
 "r_method":"sdf",
-"rays_hit":207
+"rays_hit":81
 },
 {
 "id":"zan_red_nucleus_l",
@@ -9012,15 +9012,15 @@
 "class":"artery",
 "r_mm":1.01,
 "r_method":"sdf",
-"rays_hit":296
+"rays_hit":295
 },
 {
 "id":"zan_superficial_palmar_arch_r",
 "name":"Superficial palmar arch",
 "class":"artery",
-"r_mm":1.06,
+"r_mm":1.03,
 "r_method":"sdf",
-"rays_hit":284
+"rays_hit":276
 },
 {
 "id":"zan_superficial_temporal_artery_l",
@@ -9058,17 +9058,17 @@
 "id":"zan_superficial_venous_palmar_arch_l",
 "name":"Superficial venous palmar arch",
 "class":"vein",
-"r_mm":0.72,
+"r_mm":0.71,
 "r_method":"sdf",
-"rays_hit":293
+"rays_hit":291
 },
 {
 "id":"zan_superficial_venous_palmar_arch_r",
 "name":"Superficial venous palmar arch",
 "class":"vein",
-"r_mm":0.72,
+"r_mm":0.74,
 "r_method":"sdf",
-"rays_hit":279
+"rays_hit":277
 },
 {
 "id":"zan_superior_anorectal_artery",
@@ -9596,7 +9596,7 @@
 "class":"artery",
 "r_mm":0.58,
 "r_method":"sdf",
-"rays_hit":289
+"rays_hit":288
 },
 {
 "id":"zan_superior_ulnar_collateral_artery_r",
@@ -10178,9 +10178,9 @@
 "id":"zan_ulnar_artery_l",
 "name":"Ulnar artery",
 "class":"artery",
-"r_mm":1.42,
+"r_mm":1.4,
 "r_method":"sdf",
-"rays_hit":294
+"rays_hit":292
 },
 {
 "id":"zan_ulnar_artery_r",
@@ -10188,29 +10188,29 @@
 "class":"artery",
 "r_mm":0.82,
 "r_method":"sdf",
-"rays_hit":270
+"rays_hit":260
 },
 {
 "id":"zan_ulnar_recurrent_artery_l",
 "name":"(Ulnar recurrent artery)",
 "class":"artery",
-"r_mm":0.08,
-"r_method":"2V/A",
-"rays_hit":4
+"r_mm":0.49,
+"r_method":"sdf",
+"rays_hit":117
 },
 {
 "id":"zan_ulnar_recurrent_artery_r",
 "name":"(Ulnar recurrent artery)",
 "class":"artery",
-"r_mm":0.33,
+"r_mm":0.37,
 "r_method":"sdf",
-"rays_hit":86
+"rays_hit":84
 },
 {
 "id":"zan_ulnar_veins_l",
 "name":"Ulnar veins",
 "class":"vein",
-"r_mm":0.97,
+"r_mm":0.95,
 "r_method":"sdf",
 "rays_hit":295
 },
@@ -10218,9 +10218,9 @@
 "id":"zan_ulnar_veins_r",
 "name":"Ulnar veins",
 "class":"vein",
-"r_mm":0.83,
+"r_mm":0.7,
 "r_method":"sdf",
-"rays_hit":267
+"rays_hit":233
 },
 {
 "id":"zan_unnamed",
