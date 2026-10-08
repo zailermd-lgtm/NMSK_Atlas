@@ -34,6 +34,7 @@ BASE = lambda i: i[len("zan_skin_"):-2]
 NB = ("palm", "dorsum_of_hand", "radial_foveola", "anterior_region_of_arm", "posterior_region_of_arm", "deltoid_region", "dorsal_surfaces_of_digits_of_hand", "palmar_surfaces_of_digits_of_hand",
       "nail_plate", "perionyx", "medial_bicipital_groove", "lateral_bicipital_groove", "lateral_region_of_arm", "medial_region_of_arm")
 SIGMA, TAPER_MM, MARGIN_KEEP, STOP_DEPTH, OVERRELAX, DAMP = 3.0, 8.0, 1.0, 0.3, 1.3, 0.12
+DELTA, MAX_IT, ABSORB_IT = 0.04, 8, 6       # partition half-gap (share of the tissue gap), iterations
 
 
 def forearm_ids(pg, side=None):
