@@ -6,12 +6,17 @@ import numpy as np
 import trimesh
 
 
-def transfer(raw_over_v, raw_base_v, base_f, cur_base_v):
+def transfer(raw_over_v, raw_base_v, base_f, cur_base_v, snap=0.7):
     tm = trimesh.Trimesh(raw_base_v, base_f, process=False)
     cl, dist, tid = trimesh.proximity.closest_point(tm, raw_over_v)
     bary = trimesh.triangles.points_to_barycentric(tm.triangles[tid], cl)
     bary = np.clip(bary, 0, 1)
     bary /= bary.sum(1, keepdims=True)
+    # a vertex that lies (almost) on a vertex of the sheet sits exactly on that vertex again (the border pairs of the seam metric stay vertex to vertex)
+    hot = bary.max(1) > snap
+    oh = np.zeros_like(bary)
+    oh[np.arange(len(bary)), bary.argmax(1)] = 1.0
+    bary = np.where(hot[:, None], oh, bary)
     off = ((raw_over_v - cl) * tm.face_normals[tid]).sum(1)
     cur = trimesh.Trimesh(cur_base_v, base_f, process=False)
     P = (cur.triangles[tid] * bary[:, :, None]).sum(1) + off[:, None] * cur.face_normals[tid]

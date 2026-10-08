@@ -108,9 +108,18 @@ def run(which, log=print):
         ids = list(URO.IDS)
         vol = lambda Vk, i: round(URO.volume(Vk[i], pg.f(i)))
         u = {"volume_mm3": {i[-1]: [vol(V0, i), vol(V1, i), vol({k: raw.v(k) for k in ids}, i)] for i in ids}}
+        # midline plane = best-fit plane through the vertices of the two halves that lie on the seam in the Z source (|x| < 1.2 mm); how far each half reaches across it (mm, + = across)
+        sl = np.abs(raw.v(ids[0])[:, 0]) < 1.2
+        sr = np.abs(raw.v(ids[1])[:, 0]) < 1.2
         for tag, Vk in (("before", V0), ("after", V1)):
             l, r = Vk[ids[0]], Vk[ids[1]]
+            P = np.vstack([l[sl], r[sr]])
+            c = P.mean(0)
+            n = np.linalg.svd(P - c)[2][2]
+            if (r.mean(0) - c) @ n < 0:
+                n = -n
             u["x_range_mm_" + tag] = {"l": [round(float(l[:, 0].min()), 1), round(float(l[:, 0].max()), 1)], "r": [round(float(r[:, 0].min()), 1), round(float(r[:, 0].max()), 1)]}
+            u["across_midline_plane_mm_" + tag] = {"l_reaches_into_r_side": round(float(((l - c) @ n).max()), 1), "r_reaches_into_l_side": round(float((-(r - c) @ n).max()), 1)}
         rep["urogenital"] = u
         log(f"   urogenital {u}")
     rep["envelope_L"] = {"before": round(float(cf0.f.skin_vol_L if hasattr(cf0.f, 'skin_vol_L') else 0), 1), "after": round(float(cf1.vol_L), 1)}

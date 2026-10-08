@@ -63,11 +63,11 @@ def note_uro(i, rep):
     u = rep["urogenital"]
     k = i[-1]
     v0, v1, vs = u["volume_mm3"][k]
-    xb, xa = u["x_range_mm_before"][k], u["x_range_mm_after"][k]
+    xb, xa = u["across_midline_plane_mm_before"], u["across_midline_plane_mm_after"]
     mp = rep["moved_patches"][i]
     return (f" Q207: this male-only urogenital patch (scrotal bag and perineal strip, left and right half) had been volume-distorted by the per-patch fit (volume {v0} mm3 against {vs} mm3 in the Z source) and its two halves overlapped across the midline "
-            f"(x range {xb[0]} .. {xb[1]} mm -> {xa[0]} .. {xa[1]} mm). Refit to the Z source: every vertex is the source vertex placed by ONE rigid transform shared by both halves (scale {u.get('scale', '')}) plus a smooth harmonic residual that "
-            f"keeps the border vertices exactly on the welded positions of the neighbouring skin patches (anal, hypogastric, inguinal, femoral triangle, thigh); the seam vertices of the two halves and the bag / strip contact vertices are one node. "
+            f"(the left half reached {xb['l_reaches_into_r_side']} mm and the right half {xb['r_reaches_into_l_side']} mm across the midline plane -> {xa['l_reaches_into_r_side']} / {xa['r_reaches_into_l_side']} mm). Refit to the Z source: every vertex is the source vertex placed by ONE similarity transform shared by both halves (rotation + translation + scale {u.get('scale', '')}, the scale chosen so that each half has the source volume) plus a smooth "
+            f"harmonic residual that pulls the border and contact vertices onto the welded positions of the neighbouring skin patches (anal, hypogastric, inguinal, femoral triangle, thigh; these do not move); the seam vertices of the two halves and the strip / bag contact vertices are one node, so the halves meet along the midline. "
             f"Volume {v0} -> {v1} mm3 (source {vs} mm3); mean move {mp['mean_move_mm']} mm, max {mp['max_move_mm']} mm. Nothing invented.")
 
 

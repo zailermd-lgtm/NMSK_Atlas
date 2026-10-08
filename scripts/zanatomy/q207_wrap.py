@@ -114,7 +114,7 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
             o = x - sd[:, None] * n
             nbr = rtree.query_ball_point(o, 8.0)
             rho = np.clip(np.array([RR[l].mean() if l else RHO_MIN for l in nbr]), RHO_MIN, RHO_MAX)
-            cand = qtree.query_ball_point(o, np.sqrt(rho ** 2 + H_MAX ** 2))
+            cand = qtree.query_ball_point(o, np.sqrt((1.6 * rho) ** 2 + H_MAX ** 2))
             r = np.zeros(len(x))
             for k, lst in enumerate(cand):
                 if not lst:
@@ -122,18 +122,25 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
                 d = Q[lst] - o[k]
                 h = d @ n[k]
                 lat = np.linalg.norm(d - h[:, None] * n[k], axis=1)
-                ok = (lat <= rho[k]) & (h > -3.0) & (h < H_MAX) & (h <= Xs[lst] + 0.7 * lat + 2.0)     # an obstacle counts only when its height above o is the height it has above the envelope
-                if ok.any():
-                    r[k] = max(0.0, float((h[ok] + Mg[lst][ok]).max()))
+                # smooth in position (a vertex shared by two patches / lying 1-2 mm from its partner must get the same movement): lateral taper 1 -> 0 between rho and 1.6 rho,
+                # and the consistency filter (the obstacle's height above o is the height it has above the envelope) as a soft weight
+                wl = np.where(lat <= rho[k], 1.0, np.where(lat >= 1.6 * rho[k], 0.0, 0.5 * (1 + np.cos(np.pi * (lat - rho[k]) / (0.6 * rho[k])))))
+                wc = np.clip(1.0 - (h - (Xs[lst] + 0.7 * lat + 2.0)) / 2.0, 0.0, 1.0)
+                wt = wl * wc * ((h > -3.0) & (h < H_MAX))
+                if (wt > 0).any():
+                    r[k] = max(0.0, float((wt * (h + Mg[lst])).max()))
             # a skin never moves into another part of the skin (the neighbouring finger, the thigh the hand lies on): march along the normal through the free space of the current envelope
             if (r > 0.3).any():
                 kk = np.flatnonzero(r > 0.3)
-                tt = np.arange(1.5, H_MAX + 1.0, 0.5)
+                tt = np.arange(0.5, H_MAX + 1.0, 0.5)
                 P3 = o[kk][:, None, :] + tt[None, :, None] * n[kk][:, None, :]
                 cc = ((P3.reshape(-1, 3) - fine.lo) / fine.h).T
                 ins = ndi.map_coordinates(fine.inside_true.astype(np.uint8), cc, order=0, mode="nearest").reshape(len(kk), len(tt)) > 0
-                first = np.where(ins.any(1), ins.argmax(1), len(tt))
-                tfree = np.where(first < len(tt), tt[np.minimum(first, len(tt) - 1)] - 0.5 - 0.5, 1e9)      # stay 0.5 mm clear of the other skin
+                # free space: leave the envelope first (an overlapping slab of the neighbouring patch right above o does not count), then the next entry into the envelope is another part of the skin
+                out_ix = np.where((~ins).any(1), (~ins).argmax(1), len(tt))
+                after = ins & (np.arange(len(tt))[None, :] > out_ix[:, None])
+                first = np.where(after.any(1), after.argmax(1), len(tt))
+                tfree = np.where(first < len(tt), tt[np.minimum(first, len(tt) - 1)] - 1.0, 1e9)         # stay 0.5 mm clear of the other skin (+ the 0.5 mm voxel offset)
                 tfree = np.maximum(tfree, 0.0)
                 r[kk] = np.minimum(r[kk], tfree)
             u = n * (RELAX * r)[:, None]

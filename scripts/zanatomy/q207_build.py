@@ -69,6 +69,7 @@ def stage_nails(which, log=print):
     V, rep = pickle.load(open(state_path(which, "wrap"), "rb"))
     V = dict(V)
     done = {}
+    bad = {side: any(f"zan_skin_{ov}_{side}" in V and N.degenerate_share(V[f"zan_skin_{ov}_{side}"], pg.f(f"zan_skin_{ov}_{side}"), raw.v(f"zan_skin_{ov}_{side}")) > 0.01 for ov in ("nail_plate", "perionyx")) for side in "lr"}
     for side in "lr":
         base = f"zan_skin_dorsal_surfaces_of_digits_of_hand_{side}"
         for ov in ("nail_plate", "perionyx"):
@@ -77,7 +78,7 @@ def stage_nails(which, log=print):
                 continue
             f = pg.f(i)
             before = N.degenerate_share(V[i], f, raw.v(i))
-            if before > 0.01:
+            if bad[side]:           # both overlays of a hand are re-seated together so that they keep their source relation to each other
                 V[i] = N.transfer(raw.v(i), raw.v(base), pg.f(base), V[base])
                 after = N.degenerate_share(V[i], f, raw.v(i))
                 done[i] = {"degenerate_edge_share": [round(before, 4), round(after, 4)]}
