@@ -33,7 +33,7 @@ from scripts.zanatomy.q198_core import surf_points  # noqa: E402
 BASE = lambda i: i[len("zan_skin_"):-2]
 NB = ("palm", "dorsum_of_hand", "radial_foveola", "anterior_region_of_arm", "posterior_region_of_arm", "deltoid_region", "dorsal_surfaces_of_digits_of_hand", "palmar_surfaces_of_digits_of_hand",
       "nail_plate", "perionyx", "medial_bicipital_groove", "lateral_bicipital_groove", "lateral_region_of_arm", "medial_region_of_arm")
-SIGMA, TAPER_MM, MARGIN_KEEP, STOP_DEPTH = 4.0, 8.0, 1.0, 0.3
+SIGMA, TAPER_MM, MARGIN_KEEP, STOP_DEPTH, OVERRELAX, DAMP = 3.0, 8.0, 1.0, 0.3, 1.3, 0.12
 
 
 def forearm_ids(pg, side=None):
@@ -132,7 +132,7 @@ def twins(raw, ids, V):
     return out
 
 
-def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, absorb_it=12, log=print):
+def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, absorb_it=12, count_every=3, log=print):
     """partition relaxation.  d_F(x), d_T(x) = distance of x to the forearm / trunk deep tissue, w = d_F / (d_F + d_T).  The gap between the two tissues is split in the ratio rho (the forearm share, from the margins):
     a forearm skin vertex must satisfy w <= rho - delta, a trunk skin vertex w >= rho + delta, so the two skins cannot cross.  A violating vertex moves toward its own tissue by the violation (mm); both sheets of a slab
     take the movement of the sheet that violates; Gaussian smoothing (4 mm), taper over 10 mm from the fixed neighbours, margin limit.  Pairs that survive (thin forearm corners, tapered rims) are removed by the
@@ -205,19 +205,23 @@ def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, ab
         return ft, nm_, ow_
 
     def smooth(u):
+        """Gaussian smoothing of the movement over the ACTIVE neighbours of the same body (forearm or trunk, both sheets of the slabs): the two skins move in opposite directions where they overlap, so they must not be mixed"""
         cvv = np.vstack([V[i] for i in free])
-        tr = cKDTree(cvv)
         act = np.linalg.norm(u, axis=1) > 1e-6
-        nb = tr.query_ball_point(cvv, 3 * SIGMA)
         us = np.zeros_like(u)
-        for k, lst in enumerate(nb):
-            lst = np.asarray(lst)
-            a = lst[act[lst]]
-            if len(a) == 0:
-                continue
-            w = np.exp(-np.linalg.norm(cvv[a] - cvv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
-            wall = np.exp(-np.linalg.norm(cvv[lst] - cvv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
-            us[k] = (w[:, None] * u[a]).sum(0) / w.sum() * min(1.0, w.sum() / (0.35 * wall.sum()))
+        for grp in (isF_v, ~isF_v):
+            gi = np.flatnonzero(grp)
+            tr = cKDTree(cvv[gi])
+            nb = tr.query_ball_point(cvv[gi], 3 * SIGMA)
+            for kk, lst in enumerate(nb):
+                lst = gi[np.asarray(lst)]
+                a_ = lst[act[lst]]
+                if len(a_) == 0:
+                    continue
+                k = gi[kk]
+                w = np.exp(-np.linalg.norm(cvv[a_] - cvv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
+                wall = np.exp(-np.linalg.norm(cvv[lst] - cvv[k], axis=1) ** 2 / (2 * SIGMA ** 2))
+                us[k] = (w[:, None] * u[a_]).sum(0) / w.sum() * min(1.0, w.sum() / (DAMP * wall.sum()))
         return us
 
     def finish(u):
@@ -255,7 +259,7 @@ def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, ab
         eF = (1 - rho_v + delta) * dF - (rho_v - delta) * dT
         eT = (rho_v + delta) * dT - (1 - rho_v - delta) * dF
         e = np.where(isF_v, eF, eT)
-        s = np.maximum(e, 0.0)
+        s = np.maximum(e, 0.0) * OVERRELAX
         if s.max() < 0.3:
             log(f"   partition it{it}: max violation {s.max():.2f} mm - done")
             break
@@ -264,9 +268,16 @@ def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, ab
         u = finish(u)
         u = apply(u)
         mv = np.linalg.norm(u, axis=1)
-        ft, nm_, ow_ = count(V)
-        hist.append(dict(phase="partition", it=it, max_violation_mm=round(float(s.max()), 2), moved_gt0_3=int((mv > 0.3).sum()), max_move_mm=round(float(mv.max()), 2), ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2)))
-        log(f"   partition it{it}: violation max {s.max():.1f} mm, moved {int((mv > 0.3).sum())} (max {mv.max():.1f}); pairs {len(ft)}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}")
+        if it % count_every == 0 or it == max_it - 1:
+            ft, nm_, ow_ = count(V)
+            hist.append(dict(phase="partition", it=it, max_violation_mm=round(float(s.max()), 2), moved_gt0_3=int((mv > 0.3).sum()), max_move_mm=round(float(mv.max()), 2), ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2)))
+            log(f"   partition it{it}: violation max {s.max():.1f} mm, moved {int((mv > 0.3).sum())} (max {mv.max():.1f}); pairs {len(ft)}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}")
+        else:
+            log(f"   partition it{it}: violation max {s.max():.1f} mm, moved {int((mv > 0.3).sum())} (max {mv.max():.1f})")
+    Vp = {i: V[i].copy() for i in free}
+    ft, nm_, ow_ = count(V)
+    hist.append(dict(phase="after_partition", ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2), max_mm=round(float(max([r[2] for r in ft] or [0])), 2)))
+    log(f"   after partition: forearm|trunk pairs {len(ft)}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}, max {hist[-1]['max_mm']} mm")
     for it in range(absorb_it):
         if not ft or max(r[2] for r in ft) <= STOP_DEPTH:
             break
@@ -288,7 +299,7 @@ def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, ab
         ft, nm_, ow_ = count(V)
         hist.append(dict(phase="absorb", it=it, moved_gt0_3=int((mv > 0.3).sum()), max_move_mm=round(float(mv.max()), 2), ft_pairs=len(ft), gt0_3=sum(1 for r in ft if r[2] > STOP_DEPTH), deep_gt2=sum(1 for r in ft if r[2] > 2)))
         log(f"   absorb it{it}: trunk moved {int((mv > 0.3).sum())} (max {mv.max():.1f}); pairs {len(ft)}, > 0.3 mm {hist[-1]['gt0_3']}, > 2 mm {hist[-1]['deep_gt2']}")
-    return V, dict(hist=hist, free=free, F=list(F_ids), T=list(T_ids), rho=rho_s)
+    return V, dict(hist=hist, free=free, F=list(F_ids), T=list(T_ids), rho=rho_s, V_partition=Vp, taper=taper, geodesic=g, off=off, anchors=anchors)
 
 
 if __name__ == "__main__":
