@@ -84,7 +84,7 @@ def components(f, n):
     return connected_components(A, directed=False)
 
 
-def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target=None, tol_border=1.5, near_mm=140.0, w_c=1000.0, tie_mm=6.5, w_tie=20.0, strip_max_vertices=100, keep_strips=False, split=(), conflict_mm=3.0, log=print):
+def refit(raw, cur, faces, others_raw, others_cur, others_faces=None, vol_target=None, tol_border=1.5, near_mm=140.0, w_c=1000.0, tie_mm=6.5, w_tie=20.0, strip_max_vertices=100, keep_strips=False, split=(), conflict_mm=9.0, log=print):
     """raw / cur: {id: vertices} of the two patches (Z source, current page); faces {id: f}; others_*: {id: vertices} of all other skin patches (source / current state).
     The two small components of each half (the perineal strips) are NOT refit: they stay where the Q202 weld put them and act as neighbours (the bag / strip contact vertices of the source are tied to them).
     Constraints for the bag components = every place where they touch a neighbour in the SOURCE: (a) vertices within tol of a neighbour's vertex or ON a neighbour's face -> pulled onto that point of the

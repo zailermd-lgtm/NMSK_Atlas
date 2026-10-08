@@ -110,6 +110,9 @@ def stage_seams(which, log=print, min_move=0.5):
     rv = {i: raw.v(i) for i in ids}
     from scripts.zanatomy import q207_uro as U
     V2, rep = SM.weld_true_gaps(ids, {i: V[i] for i in ids}, faces, rv, skip=tuple(U.IDS) if which == 'male' else (), log=log)
+    V2b, rep2 = SM.weld_pass2(ids, V2, faces, rv, log=log)
+    V2 = V2b
+    rep["pass2"] = rep2
     out = dict(V)
     moved = {}
     for i in ids:

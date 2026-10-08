@@ -75,7 +75,42 @@ def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, skip=(), fixed=(
     free -= set(fixed)
     cons = bp + tc
     kw.setdefault('w_hold', 1.0)
+    kw.setdefault('w_pull', 8.0)
+    kw.setdefault('lam_s', 1.0)
     new = WD.solve(V, faces, ids, cons, free, gate_gap=0.8, log=log, **kw)
     V2 = dict(V)
     V2.update(new)
     return V2, {"closed": len(tc), "items": items, "free": sorted(free)}
+
+
+def weld_pass2(ids, V, faces, raw, min_true=1.5, log=print, **kw):
+    """second pass for what the first pass left: the LARGER patch of each remaining contact pair is free (a big patch absorbs a few mm over its area; a tiny one would translate), the smaller is fixed"""
+    items, _, _ = classify(ids, V, faces, raw, log=log)
+    tc, sel = true_gap_constraints(items, ids, faces, V, min_true)
+    free = set()
+    keep = []
+    for c, it in zip(tc, sel):
+        a, b = it["A"], it["B"]
+        if a == b:
+            continue
+        big = a if len(V[a]) >= len(V[b]) else b
+        if len(V[a]) == len(V[b]):
+            continue
+        free.add(big)
+        keep.append(c)
+    if not keep:
+        return V, {"closed": 0}
+    bp = WD.border_pairs({i: raw[i] for i in ids}, ids)
+    kw.setdefault("w_hold", 1.0)
+    kw.setdefault("w_pull", 8.0)
+    kw.setdefault("lam_s", 1.0)
+    new = WD.solve(V, faces, ids, bp + keep, free, gate_gap=0.8, log=log, **kw)
+    V2 = dict(V)
+    V2.update(new)
+    items2, _, _ = classify(ids, V2, faces, raw, log=log)
+    g0 = [x["true_gap"] for x in items if x["true_gap"] > min_true]
+    g1 = [x["true_gap"] for x in items2 if x["true_gap"] > min_true]
+    if len(g1) >= len(g0) or max(g1 or [0]) > max(g0 or [0]):          # accept only a pass that really closes gaps
+        log(f"   second pass rejected: true gaps > {min_true} mm {len(g0)} -> {len(g1)} (max {max(g0 or [0]):.1f} -> {max(g1 or [0]):.1f})")
+        return V, {"closed": 0, "rejected": True}
+    return V2, {"closed": len(keep), "free": sorted(free), "true_gaps_before_after": [len(g0), len(g1)]}
