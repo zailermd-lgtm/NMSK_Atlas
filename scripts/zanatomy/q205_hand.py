@@ -289,8 +289,12 @@ def beam_chain(H, M, S, bs, joints, Et, others_tree, env, max_deg=(110.0, 100.0,
             Xs = pose(x.reshape(k, 3))
             return sum(cost_i(X) for X in Xs) + 0.5 * float((x ** 2).sum()) * 0.02
         lim = np.array([np.radians(m) for m in (list(max_deg) + [max_deg[-1]] * k)[:k] for _ in range(3)])
-        r = minimize(obj, th.ravel(), method="Powell", bounds=list(zip(-lim, lim)), options={"xtol": 1e-3, "ftol": 1e-5, "maxiter": 2500})
-        if best is None or r.fun < best[0]:
+        f_start = float(obj(th.ravel()))
+        if best is None or f_start < best[0]:
+            best = (f_start, th.copy())
+        x0 = np.clip(th.ravel(), -lim, lim)
+        r = minimize(obj, x0, method="Powell", bounds=list(zip(-lim, lim)), options={"xtol": 1e-3, "ftol": 1e-5, "maxiter": 2500})
+        if r.fun < best[0]:
             best = (float(r.fun), r.x.reshape(k, 3))
     th = best[1]
     X = H.chain_apply(th, P, joints)
@@ -388,7 +392,7 @@ def follow_rays(H, M, S, net, contacts, log=print):
     return rep
 
 
-def thumb_beam(H, M, S, ev, env, log=print):
+def thumb_beam(H, M, S, ev, env, log=print, max_deg=(75.0, 100.0, 90.0), beam=6, n_rot=1500):
     """thumb: reseat the phalanges on the metacarpal (Z-source posture), then the evidence-scored articulated search CMC -> MCP -> IP over the evidence that no other Z hand bone explains"""
     bs = [M.mc("first")] + M.phal("first")
     sfx = "_" + M.side
@@ -404,7 +408,7 @@ def thumb_beam(H, M, S, ev, env, log=print):
     near = free[np.linalg.norm(free - cs[0], axis=1) < 140.0]
     Et = cKDTree(near)
     log(f"  Q205 thumb: {len(near)} evidence voxels of the {len(ev)} are not explained by another Z bone and lie within 140 mm of the CMC joint")
-    X, XV, rep = beam_chain(H, M, S, bs, cs, Et, Ot, env, max_deg=(75.0, 100.0, 90.0), log=log, label="thumb")
+    X, XV, rep = beam_chain(H, M, S, bs, cs, Et, Ot, env, max_deg=max_deg, beam=beam, n_rot=n_rot, log=log, label="thumb")
     for b, x, xv in zip(bs, X, XV):
         S.pts[b], S.v[b] = x, xv
     rep["evidence_voxels_free"] = int(len(near))
