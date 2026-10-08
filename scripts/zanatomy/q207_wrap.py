@@ -66,6 +66,7 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
     V = {i: v.copy() for i, v in V.items()}
     V0 = {i: v.copy() for i, v in V.items()}
     movable = sorted(i for i in V if i.endswith("_" + side) and C.LIMB_SKIN_RE.search(i))
+    FOLLOW = {f"zan_skin_nail_plate_{side}": f"zan_skin_dorsal_surfaces_of_digits_of_hand_{side}", f"zan_skin_perionyx_{side}": f"zan_skin_dorsal_surfaces_of_digits_of_hand_{side}"}
     hist = []
     for it in range(iters):
         t0 = time.time()
@@ -92,7 +93,10 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
         # o(x) = x - sd(x) n(x); u(x) = r(o(x)) n(x)   -> a stack of sheets (slab, overlay on a slab) moves as one, vertices at the same position get the same movement
         tot_moved = 0
         mmax = []
+        Ufull = {}
         for i in movable:
+            if i in FOLLOW:
+                continue
             v = V[i]
             m = ((v > lo + 2) & (v < hi - 2)).all(1)
             if not m.any():
@@ -139,11 +143,25 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
             sc = np.where(s1 > room, np.clip((room - s0) / np.maximum(s1 - s0, 1e-6), 0, 1), 1.0)
             u = u * sc[:, None]
             mv = np.linalg.norm(u, axis=1)
+            Uf = np.zeros_like(v)
+            Uf[idx] = u
+            Ufull[i] = (v.copy(), Uf)
             if (mv > 1e-3).any():
                 w_ = v.copy()
                 w_[idx] = x + u
                 V[i] = w_
                 tot_moved += int((mv > 0.3).sum()); mmax.append(mv.max())
+        # overlay patches (nail plate, perionyx) lie ON the dorsal digit sheet: they take exactly the movement of the nearest dorsal-sheet vertices (the offset between the sheets is kept)
+        for i, lead in FOLLOW.items():
+            if i in V and lead in Ufull:
+                p0, uf = Ufull[lead]
+                tr = cKDTree(p0)
+                d, k = tr.query(V[i], k=3)
+                w = 1.0 / np.maximum(d, 0.3) ** 2
+                uu = (uf[k] * w[..., None]).sum(1) / w.sum(1, keepdims=True)
+                far = d[:, 0] > 6.0
+                uu[far] = 0.0
+                V[i] = V[i] + uu
         log(f"      vertices moved > 0.3 mm: {tot_moved}; max {max(mmax) if mmax else 0:.1f} mm")
         if not tot_moved:
             break

@@ -42,8 +42,10 @@ def depth_table(page, V, coarse, side, wrist, zone_pts_lo_hi):
     rows = {}
     for i in page.ids:
         if page.sys(i) == "bone" and i.endswith("_" + side) and BONE.search(i) and "foot" not in i:
-            d = -F.value(page.v(i))                      # depth below the skin (+ inside)
-            rows[i] = d
+            v = page.v(i)
+            inb = ((v > lo + 3) & (v < hi - 3)).all(1)                 # only the vertices inside the local grid (the radius / ulna run on beyond it)
+            if inb.sum() > 10:
+                rows[i] = -F.value(v[inb])                           # depth below the skin (+ inside)
     return rows, F
 
 

@@ -20,7 +20,7 @@ def _seg_tri(p0, p1, a, b, c, eps=1e-9, margin=1e-3):
     return ok & (u > margin) & (v > margin) & (u + v < 1 - margin) & (t > margin) & (t < 1 - margin)
 
 
-def intersecting_pairs(V, F, owner, weld_tol=0.3, max_pairs=3_000_000):
+def intersecting_pairs(V, F, owner, weld_tol=0.3, max_pairs=15_000_000):
     """V (n,3), F (m,3) of ALL meshes concatenated, owner (m,) patch index per face.  Returns the (k,2) array of intersecting face pairs.  Pairs that share a vertex index or have vertices closer than
     weld_tol (welded seams) are not counted."""
     T = V[F]
@@ -115,3 +115,24 @@ def edge_ratio(v, f, v0):
     l0 = np.linalg.norm(v0[e[:, 0]] - v0[e[:, 1]], axis=1)
     ok = l0 > 0.3
     return l1[ok] / l0[ok]
+
+
+def pair_depth(V, F, pairs):
+    """approximate penetration depth (mm) of intersecting triangle pairs: how far the vertices of one triangle reach to the far side of the other's plane (min over the two directions, both ways)"""
+    T = V[F]
+    a, b = pairs[:, 0], pairs[:, 1]
+    out = np.zeros(len(pairs))
+    for (x, y) in ((a, b), (b, a)):
+        P0, P1, P2 = T[y, 0], T[y, 1], T[y, 2]
+        n = np.cross(P1 - P0, P2 - P0)
+        n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+        d = np.einsum("kij,kj->ki", T[x] - P0[:, None, :], n)
+        out = np.maximum(out, np.minimum(np.abs(np.where(d > 0, d, 0)).max(1), np.abs(np.where(d < 0, d, 0)).max(1)))
+    return out
+
+
+def new_pairs(pairs0, pairs1, owner0=None):
+    """pairs that exist after but not before (face index pairs; the face numbering of the concatenation is the same)"""
+    s0 = {(int(x), int(y)) for x, y in np.sort(pairs0, axis=1)}
+    keep = [k for k, (x, y) in enumerate(np.sort(pairs1, axis=1)) if (int(x), int(y)) not in s0]
+    return pairs1[keep]

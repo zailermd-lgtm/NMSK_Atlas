@@ -23,10 +23,15 @@ def classify(ids, V, faces, raw, gate_partner=2.0, log=print):
     g = K.gaps(by, ids, cons)
     pq = {}
     out = []
+    used = {i: np.zeros(len(V[i]), bool) for i in ids}
+    for i in ids:
+        used[i][np.unique(faces[i])] = True                      # vertices no face refers to (isolated, 1 per patch in the Z source) are not geometry
     for c, gg in zip(cons, g):
         if gg <= gate_partner:
             continue
         pi, a, pj, vi, w, d0 = c
+        if not used[ids[pi]][a]:
+            continue
         B = ids[pj]
         if B not in pq:
             pq[B] = trimesh.Trimesh(V[B], faces[B], process=False)
@@ -35,12 +40,12 @@ def classify(ids, V, faces, raw, gate_partner=2.0, log=print):
     return out, cons, g
 
 
-def true_gap_constraints(items, ids, faces, V, min_true=1.5):
+def true_gap_constraints(items, ids, faces, V, min_true=1.5, skip=()):
     """constraints (pa, a, [(pb, vertex, weight)]) pulling the vertex onto the nearest point of the other patch's surface"""
     cons = []
     sel = []
     for it in items:
-        if it["true_gap"] <= min_true:
+        if it["true_gap"] <= min_true or it["A"] in skip or it["B"] in skip:
             continue
         pi, a, pj, vi, w, d0 = it["c"]
         B = it["B"]
@@ -54,9 +59,9 @@ def true_gap_constraints(items, ids, faces, V, min_true=1.5):
     return cons, sel
 
 
-def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, log=print, **kw):
+def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, skip=(), log=print, **kw):
     items, cons_all, g = classify(ids, V, faces, raw, log=log)
-    tc, sel = true_gap_constraints(items, ids, faces, V, min_true)
+    tc, sel = true_gap_constraints(items, ids, faces, V, min_true, skip)
     log(f"   contacts with partner gap > 2 mm: {len(items)}; true gap > {min_true} mm: {len(tc)}")
     if not tc:
         return V, {"closed": 0, "items": items}
@@ -68,6 +73,7 @@ def weld_true_gaps(ids, V, faces, raw, min_true=1.5, ring=True, log=print, **kw)
         free |= {ids[pa] for pa, a, ps in bp if ids[pa] in free for p, q, w in ps} | {ids[p] for pa, a, ps in bp for p, q, w in ps if ids[pa] in free}
         free |= {ids[pa] for pa, a, ps in bp if any(ids[p] in free for p, q, w in ps)}
     cons = bp + tc
+    kw.setdefault('w_hold', 1.0)
     new = WD.solve(V, faces, ids, cons, free, gate_gap=0.8, log=log, **kw)
     V2 = dict(V)
     V2.update(new)
