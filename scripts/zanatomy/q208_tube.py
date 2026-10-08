@@ -22,6 +22,7 @@ def unit(v, axis=-1):
 class Frames:
     def __init__(self, bones_r, bones_u, wrist, sigma_mm=12.0, ds=2.0, slab=6.0):
         self.W = np.asarray(wrist, float)
+        self.roll = None
         both = np.vstack([bones_r, bones_u])
         c = both.mean(0)
         a = np.linalg.svd(both - c, full_matrices=False)[2][0]
@@ -70,6 +71,9 @@ class Frames:
         e1 = unit(np.stack([np.interp(sc, g, self.e1[:, k]) for k in range(3)], 1))
         e1 = unit(e1 - (e1 @ self.a)[:, None] * self.a)
         e2 = np.cross(self.a, e1)
+        if self.roll is not None:           # roll correction about the axis (radians, function of s): the skin frame turned against the bone pair frame
+            d = np.asarray(self.roll(s), float)
+            e1, e2 = np.cos(d)[:, None] * e1 + np.sin(d)[:, None] * e2, -np.sin(d)[:, None] * e1 + np.cos(d)[:, None] * e2
         origin = self.W + s[:, None] * self.a + o
         return origin, e1, e2
 
