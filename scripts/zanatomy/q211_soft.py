@@ -83,9 +83,10 @@ def ladder(env, zone, v, f, r, cat, i, vr0):
     return C6.guard(env, zone, v, f, r, CAT.get(cat, "vessel") if cat in CAT else cat, i, v, vr0)
 
 
-def relax_zone(env, zone, pg, base, ids, centre, R, rounds=4, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=14.0, att_coeff=5.0, log=print, accept_slack=1.0, w_c=4.0):
+def relax_zone(env, zone, st, ids, centre, R, rounds=8, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=18.0, att_coeff=5.0, log=print, w_c=10.0):
     """returns (V_new {id: vertices} for the structures that moved > 0.3 mm, report)"""
-    cur = {i: pg.v(i).astype(float) for i in ids}
+    pg, base = st.pg, st.base
+    cur = {i: st.v(i).astype(float) for i in ids}
     Z = RX.Zone(ids, {i: base.v(i) for i in ids}, cur, {i: pg.f(i) for i in ids}, centre, R)
     cst = cstay_vector(env, zone, Z, pg, att_coeff)
     t0 = Z.tears()

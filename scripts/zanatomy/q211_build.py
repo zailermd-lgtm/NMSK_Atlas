@@ -143,6 +143,31 @@ def stage_follow(which, log=print):
     return st
 
 
+def stage_zones(which, log=print, joints=("shoulder", "elbow"), sides=("l", "r")):
+    from scripts.zanatomy import q211_soft as SF
+    cfg = K.PAGES[which]
+    st = State.load(which, "follow")
+    rb = json.loads((REPO / f"build/q209_raw/Q198_model_{cfg['base_key']}.json").read_text())
+    st.reports.setdefault("zones", {})
+    for side in sides:
+        for jn in joints:
+            jb = next(x for x in rb["junctions"] if x["name"] == jn and x["side"] == side)
+            c, R = np.asarray(jb["centre_mm"], float), jb["R"] + 25
+            ids = SF.zone_ids(st.pg, st.base, jb["zone_ids"])
+            allp = np.vstack([st.v(i) for i in ids] + [st.v(i) for i in st.pg.ids if st.pg.sys(i) == "bone" and i.endswith("_" + side) and np.linalg.norm(st.v(i).mean(0) - c) < 250])
+            zone = f"{jn}_{side}"
+            env = make_env(st, {zone: (allp.min(0) - 20, allp.max(0) + 20)}, log)
+            t = time.time()
+            out, rep, Z, X = SF.relax_zone(env, zone, st, ids, c, R, log=log)
+            for i, v in out.items():
+                st.set(i, v, stage="zone", zone=zone, **rep["structures_report"][i])
+            rep.pop("structures_report")
+            st.reports["zones"][zone] = rep
+            log(f"  {zone}: moved {len(out)} structures, tear > 5 mm {rep['tear_gt5_before']} -> {rep['tear_gt5_after']} [{time.time() - t:.0f}s]")
+            st.save("zones")
+    return st
+
+
 if __name__ == "__main__":
     which, stages = sys.argv[1], sys.argv[2:]
     for s in (["bones", "follow", "zones", "inbone", "pack"] if stages == ["all"] else stages):
