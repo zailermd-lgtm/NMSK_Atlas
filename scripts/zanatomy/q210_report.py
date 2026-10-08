@@ -248,6 +248,12 @@ def run(log=print):
     fineF = K.fine_box(pg, V1, sfF)
     rep["genital"]["structures_final_state"] = K.outside_rows(pg, sfF, fine=fineF)
     rep["genital"]["envelope_L_final"] = R2(sfF.vol_L, 1)
+    # forearm-axis sections (Q208 measure): outline closed / segment crossings / radius step, before -> after
+    from scripts.zanatomy import q208_report as R8
+    rep["forearm_sections"] = {}
+    for side in "lr":
+        rep["forearm_sections"][side] = {"q208": R8.forearm_sections(pg, V0, side), "q210": R8.forearm_sections(pg, V1, side)}
+        log(f"forearm sections {side}: {rep['forearm_sections'][side]}")
     # palmaris longus
     if K.state_path("struct").exists():
         sv, sinfo = pickle.load(open(K.state_path("struct"), "rb"))
