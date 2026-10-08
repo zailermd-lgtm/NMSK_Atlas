@@ -833,8 +833,8 @@
    ]
   },
   "zan_skin_urogenital_region_l": {
-   "max_move_mm": 47.91,
-   "mean_move_mm": 16.84,
+   "max_move_mm": 47.87,
+   "mean_move_mm": 16.82,
    "moved_vertices_gt0.3mm": 626,
    "vertices": 646,
    "thickness_median_mm": [
@@ -843,7 +843,7 @@
    ],
    "thickness_p5_mm": [
     0.9,
-    1.34
+    1.33
    ],
    "edge_ratio_p5_p95": [
     [
@@ -852,7 +852,7 @@
     ],
     [
      0.43,
-     1.69
+     1.68
     ]
    ],
    "outside_own_skin_gt2mm_pct": [
@@ -861,17 +861,17 @@
    ],
    "seam_step_max_mm": [
     0.24,
-    5.16
+    7.62
    ]
   },
   "zan_skin_urogenital_region_r": {
-   "max_move_mm": 47.21,
+   "max_move_mm": 47.16,
    "mean_move_mm": 15.21,
    "moved_vertices_gt0.3mm": 626,
    "vertices": 646,
    "thickness_median_mm": [
     2.75,
-    2.73
+    2.72
    ],
    "thickness_p5_mm": [
     0.39,
@@ -893,7 +893,7 @@
    ],
    "seam_step_max_mm": [
     0.24,
-    5.11
+    7.62
    ]
   }
  },
@@ -7538,9 +7538,9 @@
     "depth_gt_4mm": 784
    },
    "after": {
-    "face_pairs": 14439,
-    "depth_gt_1mm": 6185,
-    "depth_gt_2mm": 3206,
+    "face_pairs": 14438,
+    "depth_gt_1mm": 6184,
+    "depth_gt_2mm": 3205,
     "depth_gt_4mm": 1334
    },
    "z_source": {
@@ -7558,9 +7558,9 @@
     "depth_gt_4mm": 784
    },
    "after": {
-    "face_pairs": 11003,
-    "depth_gt_1mm": 5935,
-    "depth_gt_2mm": 3174,
+    "face_pairs": 11002,
+    "depth_gt_1mm": 5934,
+    "depth_gt_2mm": 3173,
     "depth_gt_4mm": 1334
    },
    "z_source": {
@@ -7578,8 +7578,8 @@
    "max_step_mm": 1.98
   },
   "after": {
-   "steps_gt_2mm": 6,
-   "steps_gt_3mm": 6,
+   "steps_gt_2mm": 7,
+   "steps_gt_3mm": 7,
    "max_step_mm": 14.35
   }
  },
@@ -7591,9 +7591,9 @@
    "max_mm": 25.93
   },
   "after": {
-   "gt_2mm": 139,
-   "gt_3mm": 60,
-   "gt_5mm": 13,
+   "gt_2mm": 137,
+   "gt_3mm": 58,
+   "gt_5mm": 11,
    "max_mm": 19.55
   }
  },
@@ -7625,18 +7625,6 @@
    }
   ],
   "after": [
-   {
-    "A": "anal_region_l",
-    "B": "urogenital_region_l",
-    "partner_gap": 5.2,
-    "true_gap": 5.0
-   },
-   {
-    "A": "anal_region_r",
-    "B": "urogenital_region_r",
-    "partner_gap": 5.1,
-    "true_gap": 5.1
-   },
    {
     "A": "anterior_region_of_thigh_l",
     "B": "urogenital_region_l",
@@ -7705,15 +7693,15 @@
    },
    {
     "A": "urogenital_region_l",
-    "B": "anal_region_l",
-    "partner_gap": 5.2,
-    "true_gap": 1.5
+    "B": "urogenital_region_r",
+    "partner_gap": 7.6,
+    "true_gap": 7.4
    },
    {
     "A": "urogenital_region_r",
-    "B": "anal_region_r",
-    "partner_gap": 5.1,
-    "true_gap": 1.7
+    "B": "urogenital_region_l",
+    "partner_gap": 7.6,
+    "true_gap": 7.5
    }
   ],
   "sliding_contacts_still_touching_after": 122
@@ -7722,12 +7710,12 @@
   "volume_mm3": {
    "l": [
     59952,
-    37715,
+    37704,
     37068
    ],
    "r": [
     42583,
-    36404,
+    36455,
     37068
    ]
   },
@@ -7748,16 +7736,16 @@
   "x_range_mm_after": {
    "l": [
     -55.7,
-    4.1
+    2.5
    ],
    "r": [
-    -2.2,
+    -2.3,
     49.1
    ]
   },
   "across_midline_plane_mm_after": {
-   "l_reaches_into_r_side": 2.1,
-   "r_reaches_into_l_side": 0.6
+   "l_reaches_into_r_side": 1.0,
+   "r_reaches_into_l_side": 0.5
   }
  },
  "envelope_L": {

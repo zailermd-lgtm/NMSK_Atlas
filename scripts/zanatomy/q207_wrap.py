@@ -59,6 +59,70 @@ def local_scale(page, V, ids):
     return cKDTree(RP), RR
 
 
+class Ctx:
+    def __init__(self, fine, gr, Q, Mg, Xs, qtree, rtree, RR, own):
+        self.fine, self.gr, self.Q, self.Mg, self.Xs, self.qtree, self.rtree, self.RR, self.own = fine, gr, Q, Mg, Xs, qtree, rtree, RR, own
+
+
+def displace(x, cx, dbg=None):
+    """movement of skin points x (n,3) for the current envelope / obstacles: -> (selector of the points near the envelope boundary, u (k,3)).  A function of POSITION only."""
+    fine, gr, Q, Mg, Xs, qtree, rtree, RR, own = cx.fine, cx.gr, cx.Q, cx.Mg, cx.Xs, cx.qtree, cx.rtree, cx.RR, cx.own
+    sd = fine.value(x)
+    near = (sd > -6.0) & (sd < 6.0)
+    if not near.any():
+        return near, np.zeros((0, 3))
+    x, sd = x[near], sd[near]
+    c = ((x - fine.lo) / fine.h).T
+    n = np.stack([ndi.map_coordinates(g_, c, order=1, mode="nearest") for g_ in gr], 1)
+    n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
+    o = x - sd[:, None] * n
+    # the direction of a stack of sheets is the normal at the OUTER point o (not at each vertex): the two sheets of a slab / an overlay and its sheet move by the same vector, so their offset
+    # (thickness 3 mm; 0.3 mm for a collapsed slab) is not turned by r * (angle between the two vertex normals)
+    c2 = ((o - fine.lo) / fine.h).T
+    n = np.stack([ndi.map_coordinates(g_, c2, order=1, mode="nearest") for g_ in gr], 1)
+    n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
+    nbr = rtree.query_ball_point(o, 8.0)
+    rho = np.clip(np.array([RR[l].mean() if l else RHO_MIN for l in nbr]), RHO_MIN, RHO_MAX)
+    cand = qtree.query_ball_point(o, np.sqrt((1.6 * rho) ** 2 + H_MAX ** 2))
+    r = np.zeros(len(x))
+    for k, lst in enumerate(cand):
+        if not lst:
+            continue
+        d = Q[lst] - o[k]
+        h = d @ n[k]
+        lat = np.linalg.norm(d - h[:, None] * n[k], axis=1)
+        # smooth in position (a vertex shared by two patches / lying 1-2 mm from its partner must get the same movement): lateral taper 1 -> 0 between rho and 1.6 rho,
+        # and the consistency filter (the obstacle's height above o is the height it has above the envelope) as a soft weight
+        wl = np.where(lat <= rho[k], 1.0, np.where(lat >= 1.6 * rho[k], 0.0, 0.5 * (1 + np.cos(np.pi * (lat - rho[k]) / (0.6 * rho[k])))))
+        wc = np.clip(1.0 - (h - (Xs[lst] + 0.7 * lat + 2.0)) / 2.0, 0.0, 1.0)
+        wt = wl * wc * ((h > -3.0) & (h < H_MAX))
+        if (wt > 0).any():
+            r[k] = max(0.0, float((wt * (h + Mg[lst])).max()))
+    r0 = r.copy()
+    # a skin never moves into another part of the skin (the neighbouring finger, the thigh the hand lies on): march along the normal through the free space of the current envelope
+    if (r > 0.3).any():
+        kk = np.flatnonzero(r > 0.3)
+        tt = np.arange(0.5, H_MAX + 1.0, 0.5)
+        P3 = o[kk][:, None, :] + tt[None, :, None] * n[kk][:, None, :]
+        cc = ((P3.reshape(-1, 3) - fine.lo) / fine.h).T
+        ins = ndi.map_coordinates(fine.inside_true.astype(np.uint8), cc, order=0, mode="nearest").reshape(len(kk), len(tt)) > 0
+        # free space: leave the envelope first (an overlapping slab of the neighbouring patch right above o does not count), then the next entry into the envelope is another part of the skin
+        out_ix = np.where((~ins).any(1), (~ins).argmax(1), len(tt))
+        after = ins & (np.arange(len(tt))[None, :] > out_ix[:, None])
+        first = np.where(after.any(1), after.argmax(1), len(tt))
+        tfree = np.where(first < len(tt), tt[np.minimum(first, len(tt) - 1)] - 1.0, 1e9)         # stay 0.5 mm clear of the other skin (+ the 0.5 mm voxel offset)
+        tfree = np.maximum(tfree, 0.0)
+        r[kk] = np.minimum(r[kk], tfree)
+    u = n * (RELAX * r)[:, None]
+    s0 = own.sd(x)
+    s1 = own.sd(x + u)
+    room = np.maximum(s0, -0.5)
+    sc = np.where(s1 > room, np.clip((room - s0) / np.maximum(s1 - s0, 1e-6), 0, 1), 1.0)
+    if dbg is not None:
+        dbg.update({"sd": sd, "n": n, "o": o, "rho": rho, "r_obstacles": r0, "r_after_free_space": r.copy(), "own_scale": sc, "own_s0": s0})
+    return near, u * sc[:, None]
+
+
 def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=print, snap=None):
     zone = zone or page.zone_structs(side, wrist)
     dem = demands(page, zone, wrist)
@@ -90,6 +154,7 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
         sm = ndi.gaussian_filter(fine.sd, 1.5)
         gr = [ndi.sobel(sm, axis=a, mode="nearest") / (8.0 * fine.h) for a in range(3)]
         rtree, RR = local_scale(page, V, movable)
+        cx = Ctx(fine, gr, Q, Mg, Xs, qtree, rtree, RR, own)
         # every vertex (both sheets of a slab, overlays such as the nail plates, rim vertices) moves by the movement needed at the point of the OUTER boundary on its own normal line:
         # o(x) = x - sd(x) n(x); u(x) = r(o(x)) n(x)   -> a stack of sheets (slab, overlay on a slab) moves as one, vertices at the same position get the same movement
         tot_moved = 0
@@ -105,57 +170,10 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
                 continue
             idx = np.flatnonzero(m)
             x = v[idx]
-            sd = fine.value(x)
-            near = (sd > -6.0) & (sd < 6.0)
+            near, u = displace(v[idx], cx)
             if not near.any():
                 continue
-            idx, x, sd = idx[near], x[near], sd[near]
-            c = ((x - fine.lo) / fine.h).T
-            n = np.stack([ndi.map_coordinates(g_, c, order=1, mode="nearest") for g_ in gr], 1)
-            n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
-            o = x - sd[:, None] * n
-            # the direction of a stack of sheets is the normal at the OUTER point o (not at each vertex): the two sheets of a slab / an overlay and its sheet move by the same vector, so their offset
-            # (thickness 3 mm; 0.3 mm for a collapsed slab) is not turned by r * (angle between the two vertex normals)
-            c2 = ((o - fine.lo) / fine.h).T
-            n = np.stack([ndi.map_coordinates(g_, c2, order=1, mode="nearest") for g_ in gr], 1)
-            n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
-            nbr = rtree.query_ball_point(o, 8.0)
-            rho = np.clip(np.array([RR[l].mean() if l else RHO_MIN for l in nbr]), RHO_MIN, RHO_MAX)
-            cand = qtree.query_ball_point(o, np.sqrt((1.6 * rho) ** 2 + H_MAX ** 2))
-            r = np.zeros(len(x))
-            for k, lst in enumerate(cand):
-                if not lst:
-                    continue
-                d = Q[lst] - o[k]
-                h = d @ n[k]
-                lat = np.linalg.norm(d - h[:, None] * n[k], axis=1)
-                # smooth in position (a vertex shared by two patches / lying 1-2 mm from its partner must get the same movement): lateral taper 1 -> 0 between rho and 1.6 rho,
-                # and the consistency filter (the obstacle's height above o is the height it has above the envelope) as a soft weight
-                wl = np.where(lat <= rho[k], 1.0, np.where(lat >= 1.6 * rho[k], 0.0, 0.5 * (1 + np.cos(np.pi * (lat - rho[k]) / (0.6 * rho[k])))))
-                wc = np.clip(1.0 - (h - (Xs[lst] + 0.7 * lat + 2.0)) / 2.0, 0.0, 1.0)
-                wt = wl * wc * ((h > -3.0) & (h < H_MAX))
-                if (wt > 0).any():
-                    r[k] = max(0.0, float((wt * (h + Mg[lst])).max()))
-            # a skin never moves into another part of the skin (the neighbouring finger, the thigh the hand lies on): march along the normal through the free space of the current envelope
-            if (r > 0.3).any():
-                kk = np.flatnonzero(r > 0.3)
-                tt = np.arange(0.5, H_MAX + 1.0, 0.5)
-                P3 = o[kk][:, None, :] + tt[None, :, None] * n[kk][:, None, :]
-                cc = ((P3.reshape(-1, 3) - fine.lo) / fine.h).T
-                ins = ndi.map_coordinates(fine.inside_true.astype(np.uint8), cc, order=0, mode="nearest").reshape(len(kk), len(tt)) > 0
-                # free space: leave the envelope first (an overlapping slab of the neighbouring patch right above o does not count), then the next entry into the envelope is another part of the skin
-                out_ix = np.where((~ins).any(1), (~ins).argmax(1), len(tt))
-                after = ins & (np.arange(len(tt))[None, :] > out_ix[:, None])
-                first = np.where(after.any(1), after.argmax(1), len(tt))
-                tfree = np.where(first < len(tt), tt[np.minimum(first, len(tt) - 1)] - 1.0, 1e9)         # stay 0.5 mm clear of the other skin (+ the 0.5 mm voxel offset)
-                tfree = np.maximum(tfree, 0.0)
-                r[kk] = np.minimum(r[kk], tfree)
-            u = n * (RELAX * r)[:, None]
-            s0 = own.sd(x)
-            s1 = own.sd(x + u)
-            room = np.maximum(s0, -0.5)
-            sc = np.where(s1 > room, np.clip((room - s0) / np.maximum(s1 - s0, 1e-6), 0, 1), 1.0)
-            u = u * sc[:, None]
+            idx, x = idx[near], v[idx][near]
             mv = np.linalg.norm(u, axis=1)
             Uf = np.zeros_like(v)
             Uf[idx] = u
@@ -169,16 +187,13 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
             if (np.linalg.norm(AU, axis=1) > 1e-3).any():
                 st = cKDTree(AP)
                 for i, (idx, x, u) in pending.items():
-                    if not (np.linalg.norm(u, axis=1) > 1e-3).any() and not any(np.linalg.norm(AU[l], axis=1).max() > 1e-3 for l in st.query_ball_point(x[:1], 3 * SMOOTH_SIGMA_MM)):
-                        continue
                     nb = st.query_ball_point(x, 3 * SMOOTH_SIGMA_MM)
                     us = np.zeros_like(u)
                     for k, lst in enumerate(nb):
                         d = np.linalg.norm(AP[lst] - x[k], axis=1)
                         w = np.exp(-(d ** 2) / (2 * SMOOTH_SIGMA_MM ** 2))
                         us[k] = (w[:, None] * AU[lst]).sum(0) / w.sum()
-                    # the smoothed movement never falls below what clears the obstacles at this vertex: take the larger of the two along the vertex's own displacement direction
-                    pending[i] = (idx, x, np.where((np.linalg.norm(us, axis=1) > np.linalg.norm(u, axis=1))[:, None], us, u))
+                    pending[i] = (idx, x, us)
         for i, (idx, x, u) in pending.items():
             v = V[i]
             mv = np.linalg.norm(u, axis=1)
