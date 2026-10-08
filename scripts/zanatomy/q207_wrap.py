@@ -88,70 +88,65 @@ def wrap(page, V, side, wrist, coarse, own, zone=None, iters=5, tol_mm=0.5, log=
         sm = ndi.gaussian_filter(fine.sd, 1.5)
         gr = [ndi.sobel(sm, axis=a, mode="nearest") / (8.0 * fine.h) for a in range(3)]
         rtree, RR = local_scale(page, V, movable)
-        src_p, src_u = [], []
+        # every vertex (both sheets of a slab, overlays such as the nail plates, rim vertices) moves by the movement needed at the point of the OUTER boundary on its own normal line:
+        # o(x) = x - sd(x) n(x); u(x) = r(o(x)) n(x)   -> a stack of sheets (slab, overlay on a slab) moves as one, vertices at the same position get the same movement
+        tot_moved = 0
+        mmax = []
         for i in movable:
             v = V[i]
             m = ((v > lo + 2) & (v < hi - 2)).all(1)
             if not m.any():
                 continue
-            sd_old = fine.value(v[m])
-            outer = sd_old > OUTER_SD_MM
-            if not outer.any():
+            idx = np.flatnonzero(m)
+            x = v[idx]
+            sd = fine.value(x)
+            near = (sd > -6.0) & (sd < 6.0)
+            if not near.any():
                 continue
-            x = v[m][outer]
+            idx, x, sd = idx[near], x[near], sd[near]
             c = ((x - fine.lo) / fine.h).T
             n = np.stack([ndi.map_coordinates(g_, c, order=1, mode="nearest") for g_ in gr], 1)
             n /= np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-6)
-            nbr = rtree.query_ball_point(x, 8.0)
-            rho = np.clip(np.array([RR[l].mean() for l in nbr]), RHO_MIN, RHO_MAX)
-            cand = qtree.query_ball_point(x, np.sqrt(rho ** 2 + H_MAX ** 2))
+            o = x - sd[:, None] * n
+            nbr = rtree.query_ball_point(o, 8.0)
+            rho = np.clip(np.array([RR[l].mean() if l else RHO_MIN for l in nbr]), RHO_MIN, RHO_MAX)
+            cand = qtree.query_ball_point(o, np.sqrt(rho ** 2 + H_MAX ** 2))
             r = np.zeros(len(x))
             for k, lst in enumerate(cand):
                 if not lst:
                     continue
-                d = Q[lst] - x[k]
+                d = Q[lst] - o[k]
                 h = d @ n[k]
                 lat = np.linalg.norm(d - h[:, None] * n[k], axis=1)
-                ok = (lat <= rho[k]) & (h > -3.0) & (h < H_MAX) & (h <= Xs[lst] + 0.7 * lat + 2.0)     # an obstacle counts only when its height above x is the height it has above the envelope
+                ok = (lat <= rho[k]) & (h > -3.0) & (h < H_MAX) & (h <= Xs[lst] + 0.7 * lat + 2.0)     # an obstacle counts only when its height above o is the height it has above the envelope
                 if ok.any():
                     r[k] = max(0.0, float((h[ok] + Mg[lst][ok]).max()))
-            uu = n * (RELAX * r)[:, None]
-            mvd = r > 0.3
-            if mvd.any():
-                dsd = fine.value(x[mvd] + uu[mvd]) - fine.value(x[mvd])
-                log(f"      {i[9:36]:27s} raised {int(mvd.sum()):4d}  median move {np.median(r[mvd]):.1f}  envelope sd change at the new position: median {np.median(dsd):.1f}, share < 0: {(dsd < -0.3).mean():.2f}")
-            src_p.append(x); src_u.append(uu)
-        SP, SU = np.vstack(src_p), np.vstack(src_u)
-        mm = np.linalg.norm(SU, axis=1)
-        log(f"      outer vertices {len(mm)}; raised > 0.3 mm: {int((mm > 0.3).sum())}; p50/p90/max of those {np.percentile(mm[mm > 0.3], 50) if (mm > 0.3).any() else 0:.1f}/{np.percentile(mm[mm > 0.3], 90) if (mm > 0.3).any() else 0:.1f}/{mm.max():.1f} mm")
-        if not (mm > 0.02).any():
-            break
-        tree = cKDTree(SP)
-        for i in movable:
-            v = V[i]
-            m = ((v > lo) & (v < hi)).all(1)
-            if not m.any():
-                continue
-            dd, kk = tree.query(v[m])
-            own_vertex = dd < 1e-6
-            nb = tree.query_ball_point(v[m], 3 * KERNEL_SIGMA_MM)
-            u = np.zeros((m.sum(), 3))
-            for k, lst in enumerate(nb):
-                if own_vertex[k]:
-                    u[k] = SU[kk[k]]
-                elif lst:
-                    d = np.linalg.norm(SP[lst] - v[m][k], axis=1)
-                    w = np.exp(-(d ** 2) / (2 * KERNEL_SIGMA_MM ** 2))
-                    u[k] = (w[:, None] * SU[lst]).sum(0) / w.sum()
-            if np.abs(u).max() < 1e-3:
-                continue
-            s0 = own.sd(v[m])
-            s1 = own.sd(v[m] + u)
+            # a skin never moves into another part of the skin (the neighbouring finger, the thigh the hand lies on): march along the normal through the free space of the current envelope
+            if (r > 0.3).any():
+                kk = np.flatnonzero(r > 0.3)
+                tt = np.arange(1.5, H_MAX + 1.0, 0.5)
+                P3 = o[kk][:, None, :] + tt[None, :, None] * n[kk][:, None, :]
+                cc = ((P3.reshape(-1, 3) - fine.lo) / fine.h).T
+                ins = ndi.map_coordinates(fine.inside_true.astype(np.uint8), cc, order=0, mode="nearest").reshape(len(kk), len(tt)) > 0
+                first = np.where(ins.any(1), ins.argmax(1), len(tt))
+                tfree = np.where(first < len(tt), tt[np.minimum(first, len(tt) - 1)] - 0.5 - 0.5, 1e9)      # stay 0.5 mm clear of the other skin
+                tfree = np.maximum(tfree, 0.0)
+                r[kk] = np.minimum(r[kk], tfree)
+            u = n * (RELAX * r)[:, None]
+            s0 = own.sd(x)
+            s1 = own.sd(x + u)
             room = np.maximum(s0, -0.5)
             sc = np.where(s1 > room, np.clip((room - s0) / np.maximum(s1 - s0, 1e-6), 0, 1), 1.0)
-            w_ = v.copy()
-            w_[m] = v[m] + u * sc[:, None]
-            V[i] = w_
+            u = u * sc[:, None]
+            mv = np.linalg.norm(u, axis=1)
+            if (mv > 1e-3).any():
+                w_ = v.copy()
+                w_[idx] = x + u
+                V[i] = w_
+                tot_moved += int((mv > 0.3).sum()); mmax.append(mv.max())
+        log(f"      vertices moved > 0.3 mm: {tot_moved}; max {max(mmax) if mmax else 0:.1f} mm")
+        if not tot_moved:
+            break
         if snap is not None:
             snap.append({k: x.copy() for k, x in V.items()})
     return V, hist
