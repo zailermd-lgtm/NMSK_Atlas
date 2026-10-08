@@ -2,13 +2,13 @@
 """Q210 (2): male forearm vs trunk / thigh / lateral-abdomen SKIN crossing (Q209: 1083 deep face pairs, median 5.0 mm, p90 9.6, max 17.2 mm; the arms rest on the body in the CT, the deep tissue is clear by 23-25 mm).
 LOCAL SYMMETRIC CONTACT RELAXATION, skin only (no bone / muscle / vessel moves):
   * free patches: the 6 forearm / wrist slabs of each side and the trunk / thigh patches that cross them; every other skin patch is fixed (its shared border vertices are anchors);
-  * each iteration: the face pairs forearm | trunk that cut through each other (q207_geom) give every vertex of the pair the penetration depth; the depth is SPLIT between the two skins in proportion to
-    their margins over their own deep tissue (trunk skin stands 12-60 mm over trunk tissue, forearm skin 2.7-26 mm over forearm tissue): the share of the trunk skin is margin_trunk / (margin_trunk + margin_forearm);
-    a vertex moves toward its OWN deep tissue (nearest bone / muscle point) by share x depth x relax, never further than margin - 1 mm (the thin forearm corners);
-  * the movement is a function of POSITION (Gaussian smoothing over both sheets of the slabs, 4 mm: thickness kept), tapers to 0 over 10 mm of mesh distance from the anchors (welds / border steps kept), vertices
-    shared by two free patches get the same movement;
-  * stops when no forearm | trunk face pair is left deeper than 0.3 mm.
-    python3 scripts/zanatomy/q210_contact.py"""
+  * the gap between the forearm deep tissue and the trunk deep tissue (nearest bone / muscle points) is SPLIT between the two skins in the ratio of their margins over their own tissue (forearm share rho = median forearm
+    margin / (forearm + trunk margin) of the vertices in contact, 0.44 left / 0.38 right): w = d_forearm / (d_forearm + d_trunk); a forearm skin vertex must satisfy w <= rho - delta, a trunk skin vertex w >= rho + delta,
+    so the two skins cannot cross.  A violating vertex moves toward its OWN tissue by the violation (mm), never closer than 1 mm to it;
+  * both sheets of a slab take the movement of the sheet that violates (thickness kept), the movement is smoothed (3 mm, forearm and trunk separately: they move in opposite directions where they overlap), tapers
+    to 0 over 8 mm of mesh distance from the vertices shared with fixed patches (welds / border steps kept), vertices shared by two free patches get the same movement;
+  * face pairs that survive (thin corners, tapered rims) are removed by the trunk skin alone (absorb phase).
+    python3 scripts/zanatomy/q210_build.py contact"""
 from __future__ import annotations
 
 import json
@@ -304,12 +304,5 @@ def relax(pg, raw, V0, F_ids, T_ids, tissue, rho=None, delta=0.02, max_it=25, ab
 
 
 if __name__ == "__main__":
-    pg, raw = K.load(REPO / "build/q210/_after_genital" if (REPO / "build/q210/_after_genital").exists() else None)
-    V0 = {i: pg.v(i) for i in pg.skin_ids}
-    Fs, Ts, cand = find_sets(pg, V0)
-    print("F", [i[9:] for i in Fs], "T", [i[9:] for i in Ts])
-    tis = tissue_points(pg)
-    t = time.time()
-    V, rep = relax(pg, raw, V0, forearm_ids(pg), Ts, tis)
-    print(rep["hist"][-1], time.time() - t)
-    pickle.dump((V, rep), open(K.state_path("contact"), "wb"))
+    from scripts.zanatomy import q210_build as B
+    B.stage_contact()
