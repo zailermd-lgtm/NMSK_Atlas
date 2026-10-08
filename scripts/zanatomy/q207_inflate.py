@@ -8,6 +8,7 @@ from the moved skin) until the demands are met; the person's own CT / cryosectio
 """
 from __future__ import annotations
 
+import re
 import sys
 import time
 from pathlib import Path
@@ -20,19 +21,32 @@ sys.path.insert(0, str(REPO))
 from scripts.zanatomy import q207_core as C  # noqa: E402
 
 # class policy: margin (mm the structure must lie inside the envelope) and cap (largest single demand the skin follows, mm)
-POLICY = {"bone": (1.0, 14.0), "vessel": (0.5, 12.0), "nerve": (0.5, 12.0), "joint": (0.5, 12.0), "bursa": (0.5, 12.0), "cartilage": (0.5, 12.0), "lymph": (0.5, 12.0),
+POLICY = {"bone": (0.5, 14.0), "vessel": (0.3, 12.0), "nerve": (0.3, 12.0), "joint": (0.3, 12.0), "bursa": (0.3, 12.0), "cartilage": (0.3, 12.0), "lymph": (0.3, 12.0),
           "fascia": (0.0, 5.0), "muscle": (0.0, 5.0), "viscera": (0.0, 0.0), "cns": (0.0, 0.0), "insertion": (0.0, 0.0)}
 R0_MM = 3.5            # plateau radius around a demand point
 TAPER_MIN, TAPER_MAX, TAPER_PER_MM = 8.0, 28.0, 2.0
 MAX_TOTAL_MM = 16.0
 
 
-def demands(page, zone, V_unused=None):
+MUSCLE_ZONE_MM = 45.0     # muscles / fascia only count where they are tendons: within this distance of the wrist joint centre or of a hand bone (the bellies are out of scope)
+
+
+def demands(page, zone, wrist=None):
     """-> dict(id -> (vertex indices, margin, cap)) of the structures of the zone"""
     out = {}
+    hand = None
     for i, m in zone.items():
         mg, cp = POLICY.get(page.sys(i), (0.5, 0.0))
         if cp <= 0:
+            continue
+        m = m.copy()
+        if page.sys(i) in ("muscle", "fascia") and wrist is not None:
+            if hand is None:
+                from scipy.spatial import cKDTree
+                side = "r" if "_r" in i[-3:] or i.endswith("_r") else "l"
+                hand = None
+            m &= np.linalg.norm(page.v(i) - wrist, axis=1) < MUSCLE_ZONE_MM
+        if not m.any():
             continue
         out[i] = (np.where(m)[0], mg, cp)
     return out
@@ -73,7 +87,26 @@ def sample(grid, lo, h, P, order=1):
     return ndi.map_coordinates(grid, c, order=order, mode="nearest")
 
 
-def normal_field(fine, O=None, sigma_mm=3.0):
+def bone_direction(fine, page, side, sigma_mm=12.0):
+    """outward direction from the local bone mass: x - (gaussian-weighted centre of the arm / hand bone voxels around x); 'bone-anchored'"""
+    from scripts.zanatomy.q198_core import Grid
+    g = Grid(fine.lo, fine.lo + (np.array(fine.shape) - 1) * fine.h, fine.h)
+    occ = np.zeros(fine.shape, bool)
+    for i in page.ids:
+        if page.sys(i) == "bone" and i.endswith("_" + side) and (C.HAND_RE.search(i) or re.search(r"radius|ulna|humerus", i)):
+            v = page.v(i)
+            if ((v > fine.lo - 40) & (v < fine.lo + np.array(fine.shape) * fine.h + 40)).all(1).any():
+                occ |= g.raster(v, page.f(i), spacing=fine.h * 0.5)
+    sg = sigma_mm / fine.h
+    S0 = ndi.gaussian_filter(occ.astype(np.float32), sg)
+    ix = np.stack(np.meshgrid(*[np.arange(n) for n in fine.shape], indexing="ij"), 0).astype(np.float32)
+    cen = [ndi.gaussian_filter(occ * ix[a], sg) / np.maximum(S0, 1e-6) for a in range(3)]
+    d = [ix[a] - cen[a] for a in range(3)]
+    n = np.sqrt(d[0] ** 2 + d[1] ** 2 + d[2] ** 2) + 1e-6
+    return [x / n for x in d], S0
+
+
+def normal_field(fine, O=None, sigma_mm=3.0, bonedir=None):
     """outward direction field: the smoothed normals of the OUTER sheet samples (faces of the limb patches whose normal points away from the nearest bone); where no sample is near, the gradient of the envelope"""
     sm = ndi.gaussian_filter(fine.sd, 2.5 / fine.h)
     g = [ndi.sobel(sm, axis=a, mode="nearest") / (8.0 * fine.h) for a in range(3)]
@@ -93,6 +126,10 @@ def normal_field(fine, O=None, sigma_mm=3.0):
     out = []
     for a in range(3):
         out.append((w * acc[a] / np.maximum(m, 1e-9) + (1 - w) * g[a]).astype(np.float32))
+    if bonedir is not None:
+        bd, S0 = bonedir
+        wb = np.clip(S0 / 0.02, 0, 1) * 0.7
+        out = [(1 - wb) * out[a] + wb * bd[a] for a in range(3)]
     nn = np.sqrt(out[0] ** 2 + out[1] ** 2 + out[2] ** 2) + 1e-9
     return [x / nn for x in out]
 
@@ -118,10 +155,10 @@ def measure(page, fine, dem):
     return rows
 
 
-def inflate(page, V, side, wrist, coarse, own, zone=None, iters=8, tol_mm=0.3, log=print, only_ids=None):
+def inflate(page, V, side, wrist, coarse, own, zone=None, iters=10, tol_mm=0.5, log=print, only_ids=None, gain=1.2, snap=None):
     """V: {skin id: (n,3)} current skin (modified copy returned).  Returns (V2, report)"""
     zone = zone or page.zone_structs(side, wrist)
-    dem = demands(page, zone)
+    dem = demands(page, zone, wrist)
     pts = np.vstack([page.v(i)[m] for i, m in zone.items()])
     lo, hi = pts.min(0) - 22, pts.max(0) + 22
     V = {i: v.copy() for i, v in V.items()}
@@ -130,10 +167,12 @@ def inflate(page, V, side, wrist, coarse, own, zone=None, iters=8, tol_mm=0.3, l
     movable = {i for i in V if i.endswith("_" + side) and C.LIMB_SKIN_RE.search(i)}
     s_init = {}
     hist = []
+    bonedir = None
     for it in range(iters):
         t0 = time.time()
         fine = C.Fine(page, V, coarse, lo, hi, h=1.0)
         Q, need = [], []
+        per = {}
         for i, (idx, mg, cp) in dem.items():
             p = page.v(i)[idx]
             s = fine.value(p)
@@ -142,16 +181,21 @@ def inflate(page, V, side, wrist, coarse, own, zone=None, iters=8, tol_mm=0.3, l
             remaining = cp - np.maximum(s_init[i] - s, 0.0)           # a capped class may follow the skin only up to `cap` in total
             nd = np.minimum(s + mg, np.maximum(remaining, 0.0))
             m = nd > 0.05
+            per[i] = (int((nd > tol_mm).sum()), float(nd.max()) if len(nd) else 0.0)
             Q.append(p[m]); need.append(nd[m])
         Q, need = (np.vstack(Q), np.concatenate(need)) if Q else (np.zeros((0, 3)), np.zeros(0))
         viol = int((need > tol_mm).sum())
         log(f"   it{it}: demand vertices > {tol_mm} mm: {viol}, max demand {need.max() if len(need) else 0:.2f} mm [{time.time()-t0:.0f}s]")
+        top = sorted(per.items(), key=lambda kv: -kv[1][0])[:5]
+        log("      top: " + "; ".join(f"{k[:28]} {v[0]} ({v[1]:.1f})" for k, v in top))
         hist.append({"it": it, "demand_vertices": viol, "max_demand_mm": float(need.max()) if len(need) else 0.0})
         if viol == 0:
             break
-        A = level_field(fine, Q, need)
+        if bonedir is None:
+            bonedir = bone_direction(fine, page, side)
+        A = level_field(fine, Q, np.minimum(need * gain, MAX_TOTAL_MM))
         O = C.Outer(page, wrist, 260, bone_pts, spacing=1.0, V=V, side=side)
-        N = normal_field(fine, O)
+        N = normal_field(fine, O, bonedir=bonedir)
         for i, v in V.items():
             if i not in movable:
                 continue
@@ -178,4 +222,6 @@ def inflate(page, V, side, wrist, coarse, own, zone=None, iters=8, tol_mm=0.3, l
             if k.any():
                 w[k] = V0[i][k] + (w[k] - V0[i][k]) * (MAX_TOTAL_MM / tot[k])[:, None]
             V[i] = w
+        if snap is not None:
+            snap.append({k: x.copy() for k, x in V.items()})
     return V, hist

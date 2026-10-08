@@ -107,7 +107,7 @@ class Outer:
     """the OUTER sheet of the displayed skin near a wrist: faces of the closed, outward-wound slabs whose normal points away from the nearest bone (the inner sheet and the rim wall face the other way);
     dense surface samples with normals -> signed clearance (mm, + = outside the outer sheet) of any point by the nearest sample."""
 
-    def __init__(self, page, centre, radius, bone_pts, spacing=1.0, V=None, side=None):
+    def __init__(self, page, centre, radius, bone_pts, spacing=1.0, V=None, side=None, outer_cos=0.4):
         Vs, Fs, off = [], [], 0
         self.patch_of_face = []
         self.ids = []
@@ -134,7 +134,7 @@ class Outer:
         d, k = bt.query(cen)
         dirv = cen - bone_pts[k]
         dirv /= np.maximum(np.linalg.norm(dirv, axis=1, keepdims=True), 1e-9)
-        self.outer = (nrm * dirv).sum(1) > 0.0
+        self.outer = (nrm * dirv).sum(1) > outer_cos        # rim wall faces (normal along the surface) are not outer sheet
         Fo = self.F[self.outer]
         self.Fo, self.No = Fo, nrm[self.outer]
         a = ar[self.outer]
