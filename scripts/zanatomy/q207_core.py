@@ -161,7 +161,7 @@ class Fine:
     (h = 3 mm, closing 2) calls clearly outside: > `seed_mm`, plus the box faces where the coarse field is outside); everything else is inside the skin.  Unlike the sealed coarse field the web between
     fingers stays outside.  sd = signed distance to the envelope surface (+ outside), trilinear."""
 
-    def __init__(self, page, V, coarse, lo, hi, h=1.0, seed_mm=1.5, close=2, patches=None, deep_mm=5.0):
+    def __init__(self, page, V, coarse, lo, hi, h=1.0, seed_mm=12.0, close=2, patches=None, deep_mm=5.0):
         from scipy import ndimage as ndi
         from scripts.zanatomy.q198_core import Grid
         self.h, self.lo = float(h), np.asarray(lo, float)
@@ -176,7 +176,10 @@ class Fine:
         ix = np.stack(np.meshgrid(*[np.arange(s) for s in g.shape], indexing="ij"), -1)
         P = self.lo + ix.reshape(-1, 3) * h
         csd = coarse.value(P, outside=50.0).reshape(g.shape)
-        seeds = (csd > seed_mm) & ~cl
+        seeds = (csd > seed_mm) & ~cl          # clearly outside in the (original, sealed) coarse field; the skin may have moved by up to ~16 mm since, so seeds nearer than `seed_mm` could lie inside it
+        face = np.zeros(g.shape, bool)
+        face[0], face[-1], face[:, 0], face[:, -1], face[:, :, 0], face[:, :, -1] = True, True, True, True, True, True
+        seeds |= face & (csd > 1.5) & ~cl
         lab, nl = ndi.label(~cl)
         keep = np.unique(lab[seeds])
         keep = keep[keep > 0]
