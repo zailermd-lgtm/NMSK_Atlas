@@ -261,6 +261,7 @@ def carry_side(env, side, by, v_pre, raw, centre_raw, regions, log=print):
             cont.setdefault("reverted_after_closure", []).append(i)
         else:
             by[i]["v"] = vc
+    chain = chain_closure(env, side, by, raw, ids, log=log)
     for i in ids:
         if i in rep or np.array_equal(by[i]["v"], v_cur[i]):
             continue
@@ -281,7 +282,71 @@ def carry_side(env, side, by, v_pre, raw, centre_raw, regions, log=print):
         rep[i]["after"] = metrics(env, side, by[i]["v"], r, f)
         rep[i]["mean_move_mm"], rep[i]["max_move_mm"] = round(float(mv.mean()), 2), round(float(mv.max()), 2)
         rep[i]["closure"] = cont["per_structure"].get(i)
-    return {"structures": rep, "continuity": {k: v for k, v in cont.items() if k != "rows"}, "n_zone": len(ids), "moving_bones": F.bone_dv}
+    for k, v in chain.items():
+        for i in k.split(" -> "):
+            if i in rep:
+                rep[i].setdefault("chain", []).append({"pair": k, **v})
+    return {"structures": rep, "continuity": {k: v for k, v in cont.items() if k != "rows"}, "chain_closure": chain, "n_zone": len(ids), "moving_bones": F.bone_dv}
+
+
+def _end_gap(va, vb):
+    d, j = cKDTree(vb).query(va)
+    k = int(np.argmin(d))
+    return float(d[k]), k, int(j[k])
+
+
+def _move_end(v, k, target, sigma):
+    dz = np.linalg.norm(v - v[k], axis=1)
+    return v + (target - v[k])[None, :] * np.exp(-((dz / sigma) ** 2))[:, None]
+
+
+def chain_closure(env, side, by, raw, ids, log=print, rounds=3, tol=3.0, w_gap=4.0, sigma=25.0):
+    """the wrist chains of q206_continuity (radial / ulnar artery -> palmar arches -> digital arteries, median / ulnar nerve -> digital branches ...): a pair that is continuous in the Z source (<= 3 mm) and is
+    now further apart than `tol` is closed by moving the end of the parent, of the child or of both (<= 35 mm, Gaussian over `sigma` mm of the tube), each through the full guard ladder; the cheapest
+    by  cost(parent) + cost(child) + w_gap * (gap - tol)  wins, and only if it beats the present pair."""
+    from scripts.zanatomy import q206_continuity as CT
+    from scripts.zanatomy import q190_metrics as Mx
+    s_ = "_" + side
+    idset = set(ids)
+    rows = {}
+    for rnd in range(rounds):
+        n_closed = 0
+        for p_, c_ in CT.CHAINS:
+            a, b = f"{p_}{s_}", f"{c_}{s_}"
+            if a not in idset or b not in idset:
+                continue
+            ra, rb = raw[a].astype(float), raw[b].astype(float)
+            src = float(cKDTree(rb).query(ra)[0].min()) * Mx.BODY_SCALE
+            if src > 3.0:
+                continue                                   # not continuous in the Z source either
+            va, vb = by[a]["v"], by[b]["v"]
+            g0, ka, jb = _end_gap(va, vb)
+            if g0 <= max(tol, src + 2.0):
+                continue
+            ma, mb = metrics(env, side, va, ra, by[a]["f"]), metrics(env, side, vb, rb, by[b]["f"])
+            j0 = cost(ma, by[a]["cat"], ma) + cost(mb, by[b]["cat"], mb) + w_gap * (g0 - tol)
+            best = None
+            ta, tb = vb[jb], va[ka]
+            toward = lambda x, y: x + (y - x) / max(np.linalg.norm(y - x), 1e-6) * min(max(np.linalg.norm(y - x) - 1.0, 0.0), 35.0)
+            for nm, na, nb in (("parent", _move_end(va, ka, toward(va[ka], ta), sigma), vb), ("child", va, _move_end(vb, jb, toward(vb[jb], tb), sigma)),
+                               ("both", _move_end(va, ka, va[ka] + 0.5 * (toward(va[ka], ta) - va[ka]), sigma), _move_end(vb, jb, vb[jb] + 0.5 * (toward(vb[jb], tb) - vb[jb]), sigma))):
+                ga = guard(env, side, na, by[a]["f"], ra, by[a]["cat"], a, na, None) if na is not va else va
+                gb = guard(env, side, nb, by[b]["f"], rb, by[b]["cat"], b, nb, None) if nb is not vb else vb
+                g1 = _end_gap(ga, gb)[0]
+                ma1, mb1 = metrics(env, side, ga, ra, by[a]["f"]), metrics(env, side, gb, rb, by[b]["f"])
+                if ma1["folded_pct"] > max(ma["folded_pct"] + FOLD_SLACK_TUBE, 10.0) or mb1["folded_pct"] > max(mb["folded_pct"] + FOLD_SLACK_TUBE, 10.0):
+                    continue
+                j1 = cost(ma1, by[a]["cat"], ma) + cost(mb1, by[b]["cat"], mb) + w_gap * max(g1 - tol, 0.0)
+                if best is None or j1 < best[0]:
+                    best = (j1, nm, ga, gb, g1)
+            if best is not None and best[0] < j0 - 1.0 and best[4] < g0:
+                by[a]["v"], by[b]["v"] = best[2], best[3]
+                rows[f"{a} -> {b}"] = {"mover": best[1], "gap_before_mm": round(g0, 2), "gap_after_mm": round(best[4], 2), "source_mm": round(src, 2)}
+                n_closed += 1
+        if not n_closed:
+            break
+    log(f"  Q206 {side}: chain closure {len(rows)} pairs, " + ", ".join(f"{k.split(' -> ')[1][:22]} {v['gap_before_mm']}->{v['gap_after_mm']}" for k, v in list(rows.items())[:6]))
+    return rows
 
 
 def note(side, i, r):
@@ -291,6 +356,8 @@ def note(side, i, r):
            "gap closure only": "closed up against the structures it touches in the Z source"}.get(r["ladder"], f"carried by the bone-anchored field of the Q205 bones ({r['ladder']})")
     t = (f" Q206: wrist / hand soft tissue refit against the DISPLAYED {s} hand bones and skin ({how}; mean {r.get('mean_move_mm', 0):.1f} mm, max {r.get('max_move_mm', 0):.1f} mm from the Q205 page). "
          f"Before -> after: {fmt(b)} -> {fmt(a)}.")
+    for ch in r.get("chain", []):
+        t += f" Wrist chain {ch['pair'].replace(' -> ', ' to ')}: gap {ch['gap_before_mm']} -> {ch['gap_after_mm']} mm (Z source {ch['source_mm']} mm; moved: {ch['mover']})."
     c = r.get("closure")
     if c:
         t += f" Gap to {c['neighbours']} neighbour structure(s) it touches in the Z source: {c['before_mm']} -> {c['after_mm']} mm."
