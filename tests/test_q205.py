@@ -217,3 +217,33 @@ def test_thumb_chain_is_continuous_on_the_page(which):
             continue
         g = cKDTree(mc["v"]).query(ph["v"])[0].min()
         assert g < 3.0, (s, g)
+
+
+# ------------------------------------------------------------------------------------------------ wrist chain / clinical files of the built pages
+def _gap(S, a, b):
+    from scipy.spatial import cKDTree
+    return float(cKDTree(S[a]["v"]).query(S[b]["v"])[0].min())
+
+
+@pytest.mark.parametrize("which,limit", [("male", 9.0), ("female", 15.0)])
+def test_wrist_chain_radius_ulna_to_carpals_not_open(which, limit):
+    d, stem = PAGES[which]
+    if not (d / f"{stem}.html").exists():
+        pytest.skip("page not built here")
+    man, blob = P.load_page(d, stem)
+    S = P.decode(man, blob, only=lambda m: m["sys"] == "bone")
+    for s in "lr":
+        for c in ("scaphoid", "lunate", "triquetrum"):
+            g = min(_gap(S, f"{b}_{s}", f"zan_{c}_bone_{s}") for b in ("radius", "ulna"))
+            assert g < limit, (which, s, c, g)
+        if which == "female" and s == "l":
+            assert min(_gap(S, f"{b}_l", "zan_scaphoid_bone_l") for b in ("radius", "ulna")) < 5.0
+
+
+def test_female_clinical_files_are_the_q202_ones_unchanged():
+    d = PAGES["female"][0]
+    old = REPO / "build" / "q202" / "viewer_zan_female"
+    if not d.exists() or not old.exists():
+        pytest.skip("female page not built here")
+    for f in old.glob("clinical_*"):
+        assert (d / f.name).read_bytes() == f.read_bytes()

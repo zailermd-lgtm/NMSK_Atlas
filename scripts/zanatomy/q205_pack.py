@@ -48,8 +48,9 @@ def repair_notes(notes, which):
     out = {}
     fits = {s: json.loads((REPO / "data" / "derived" / f"Q205_hand_polish_{s}.json").read_text()) for s in "lr"} if which == "male" else {}
     for i, t in notes.items():
-        for a, b in ((" outside her skin", " outside his skin"), ("outside her skin", "outside his skin"), ("inside her CT", "inside his CT"), ("onto her own", "onto his own"), (" her ", " his ")):
-            t = t.replace(a, b)
+        if which == "male":
+            for a, b in ((" outside her skin", " outside his skin"), ("outside her skin", "outside his skin"), ("inside her CT", "inside his CT"), ("onto her own", "onto his own"), (" her ", " his ")):
+                t = t.replace(a, b)
         m = re.search(r"this (left|right) hand bone re-fitted", t)
         if which == "male" and m:
             s = "l" if m.group(1) == "left" else "r"
@@ -101,7 +102,11 @@ def main(argv=None):
     ap.add_argument("--out")
     a = ap.parse_args(argv)
     from scripts.zanatomy import q205_male as M
-    by, _ = M.load_all(str(REPO / "build" / "q201" / "after_q201.npz")) if a.which == "male" else (None, None)
+    if a.which == "male":
+        by, _ = M.load_all(str(REPO / "build" / "q201" / "after_q201.npz"))
+    else:
+        from scripts.zanatomy import q205_female as F
+        by, _ = F.load_all(str(REPO / "build" / "q205" / "after_q199.npz"))
     man2, blob2, replace, meta, rep = pack(a.which, a.dumps, a.out, state_by=by)
     print("page written:", a.out or PAGES[a.which]["out"], "| replaced", len(replace), "| card repairs", len(meta))
 

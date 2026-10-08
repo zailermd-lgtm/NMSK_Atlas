@@ -140,12 +140,17 @@ def forearm_and_hand(by, raw, side, her, skin, skin_tree, regions, moved_prev, l
         by[b]["v"] = hb_before[b].copy()            # refine_side measures with the bones where the field was built; the ray bones are set after it
     FX = FieldX(base, side, by, moves) if moves else base
     zone = {}
+    from scripts.zanatomy.q191_hand import bone_ids
+    fb = [n + s for n in ("radius", "ulna")] + sum(bone_ids(side).values(), [])
+    near_tree = cKDTree(np.vstack([by[b]["v"][::3] for b in fb]))
     for i, d in by.items():
         if d["cat"] in ("skin", "bone") or not (i.endswith(s) or s + "_" in i) or i in moved_prev:
             continue
-        if np.linalg.norm(d["v"].mean(0) - ch.hc) > 700.0:
+        if near_tree.query(d["v"][::2])[0].min() > 120.0:                 # scope: structures within 120 mm of the forearm / hand bones (the far trunk / pelvis structures the field reaches with ~1 mm are not touched)
             continue
-        if float(np.linalg.norm(FX(d["v"]), axis=1).max()) >= 1.5:
+        if regions.get(i) not in ("forearm_hand", "upper_limb"):             # arm structures only (the pelvis / trunk structures next to her resting hands are not forearm structures)
+            continue
+        if float(np.linalg.norm(FX(d["v"]), axis=1).max()) >= 3.0:        # the field must really move it (full gate): no structure is touched only for the volume / skin guards
             zone[i] = True
     log(f"  Q205 {side}: {len(zone)} forearm / wrist / hand structures follow the refit bones")
 
@@ -158,8 +163,38 @@ def forearm_and_hand(by, raw, side, her, skin, skin_tree, regions, moved_prev, l
                       tube_close=TUBE_CLOSE, close_rounds=10, arm_radius_mm=800.0, final_skin_clamp=12.0, revert_outside_pp=8.0, field_fn=lambda i, v0: FX(v0))
     for b, t in moves.items():
         by[b]["v"] = by[b]["v"] + t
-    return {"forearm": frep, "ray_moves_mm": {b: round(float(np.linalg.norm(t)), 2) for b, t in moves.items()}, "structures": r["structures"], "bones": r["bones"], "continuity": {k: v for k, v in r["continuity"].items() if k != "rows"},
+    deeper = deeper_push(by, raw, side, [i for i in r["structures"]], log=log)
+    return {"deeper_push": deeper, "forearm": frep, "ray_moves_mm": {b: round(float(np.linalg.norm(t)), 2) for b, t in moves.items()}, "structures": r["structures"], "bones": r["bones"], "continuity": {k: v for k, v in r["continuity"].items() if k != "rows"},
             "reverted_outside_skin": r.get("reverted_outside_skin", {})}
+
+
+def deeper_push(by, raw, side, ids, log=print):
+    """the field moved the dorsal / palmar carpal vessels, nerves and intrinsic muscles over the (unmoved) carpals: a structure still > 3 % inside the displayed hand / forearm bones is pushed out (Q192 deeper push:
+    tol 1 mm, <= 10 mm), kept only if the inside share falls and the fold measure does not grow"""
+    from scripts.zanatomy import q191_hand as H
+    s = "_" + side
+    hb = sum(H.bone_ids(side).values(), []) + ["radius" + s, "ulna" + s]
+    zb = H.merged_bones([(by[b]["v"].astype(float), by[b]["f"]) for b in hb])
+    done = {}
+    for i in ids:
+        d = by[i]
+        if d["cat"] not in H.SOFT_PUSH_CATS or i in hb:
+            continue
+        v = np.asarray(d["v"], float)
+        p0 = 100 * float((zb.depth(v) > 1.5).mean())
+        if p0 <= 3.0:
+            continue
+        v2 = H.push_out_of_bones(v, d["f"], [zb], np.ones(len(v), bool), tol=1.0, max_move=10.0, iters=5, passes=14)
+        if d["cat"] == "muscle" and H.Q._closed(d["f"]) and not H.NOT_BODY.search(i):
+            v2, _ = H.Q.volume_guard(v2, raw[i].astype(float), d["f"])
+        p1 = 100 * float((zb.depth(v2) > 1.5).mean())
+        if p1 < p0 and H.fold_stats(v2, raw[i].astype(float), d["f"]) <= H.fold_stats(v, raw[i].astype(float), d["f"]) + 0.005:
+            mv = np.linalg.norm(v2 - v, axis=1)
+            d["v"] = v2
+            d["fit_note"] = (d.get("fit_note") or "") + f" Q205: deeper push out of the displayed hand / forearm bones after the candidate choice (inside the bones {p0:.1f} -> {p1:.1f} % of its vertices, max move {mv.max():.1f} mm)."
+            done[i] = {"inside_pct_before": round(p0, 2), "inside_pct_after": round(p1, 2), "max_move_mm": round(float(mv.max()), 2)}
+    log(f"  Q205 {side}: deeper push for {len(done)} structures")
+    return done
 
 
 def note(side, i, cat, q, m1, mv, cont):

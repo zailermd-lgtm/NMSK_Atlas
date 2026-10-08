@@ -56,7 +56,13 @@ class FitF(C.Fit):
         cur = dict(self.cur)
         for b in act:
             cands = self.label_fit(b)
-            cur[b] = cands[0][1]
+            # the roll of a long bone about its axis is the weakly constrained DOF of a partial label (Q201: six rolls of one ulna fit the label equally): among the label-only solutions within 5 % of the
+            # best cost the one with the SMALLEST rotation from the Q199 pose wins (no roll the evidence does not ask for)
+            c0 = cands[0][0]
+            ok = [c for c in cands if c[0] <= 1.05 * c0 + 1e-9]
+            best = min(ok, key=lambda c: float(np.linalg.norm(c[1][:3])))
+            cur[b] = best[1]
+            log(f"  Q205 {self.side} {b}: label-only candidates within 5 %: {len(ok)} of {len(cands)}; chosen rotation {np.degrees(np.linalg.norm(best[1][:3])):.0f} deg (best-cost one {np.degrees(np.linalg.norm(cands[0][1][:3])):.0f} deg)")
         cur, _ = self.stage(act, C.W_PAIR, cur, box=C.BOX, w_union=0.0)
         self.cur = cur
         return cur, before, self.stats_f(cur)
