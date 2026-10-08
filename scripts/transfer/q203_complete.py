@@ -200,6 +200,71 @@ class Ctx:
         self._allb = None; self._bt = {}
 
 
+def refine_piece(v, f, max_edge=4.0):
+    """midpoint subdivision of long edges (original vertices keep their indices): a coarse Z piece (decimated page mesh) conforms to the neighbouring bone after the push-out"""
+    import trimesh
+    if len(f) == 0:
+        return v, f
+    v2, f2 = trimesh.remesh.subdivide_to_size(np.asarray(v, float), np.asarray(f, np.int64), max_edge=max_edge, max_iter=4)
+    return np.asarray(v2), np.asarray(f2, np.int64)
+
+
+def solid_sd(others, lo, hi, h=1.5):
+    """signed distance (mm, + outside) of the union of the neighbouring bones on a voxel grid over [lo, hi] (the audit's own solid rasterisation, which also
+    closes the non-watertight CT bone meshes); None when no bone lies in the box"""
+    from scipy import ndimage as ndi
+    from scripts.zanatomy.q198_core import Grid
+    g = Grid(lo - 12.0, hi + 12.0, h)
+    uni = np.zeros(g.shape, bool)
+    for m in others:
+        b_lo, b_hi = m.bounds
+        if (b_hi < lo - 12).any() or (b_lo > hi + 12).any():
+            continue
+        uni |= g.solid(np.asarray(m.vertices, float), np.asarray(m.faces, np.int64), close=1)
+    if not uni.any():
+        return None, None
+    sd = (ndi.distance_transform_edt(~uni, sampling=h) - ndi.distance_transform_edt(uni, sampling=h)).astype(np.float32)
+    g.uni = uni
+    return g, sd
+
+
+def solid_overlap(v, f, g):
+    """(overlap volume mm3, overlap / volume of the piece's own filled solid) of a closed-ish piece with the neighbouring bones' solid"""
+    if g is None:
+        return 0.0, 0.0
+    sp = g.solid(v, f, close=1)
+    ov = float((sp & g.uni).sum() * g.h ** 3)
+    return ov, ov / max(float(sp.sum() * g.h ** 3), 1.0)
+
+
+def inside_frac(v, mask, g, sd):
+    if g is None or not mask.any():
+        return 0.0
+    d, ok = g.lookup(sd, v[mask])
+    return float(((d < 0) & ok).sum() / max(mask.sum(), 1))
+
+
+def push_out_solids(v, g, sd, weight=None, margin=1.8, iters=14):
+    """move every vertex that lies inside the solid (or within `margin` of it) out along the gradient of the signed distance; weight (0..1) fades the move"""
+    if g is None:
+        return v, 0
+    gx = np.gradient(sd, g.h)
+    cur = v.copy(); moved = np.zeros(len(v), bool)
+    for _ in range(iters):
+        d, ok = g.lookup(sd, cur)
+        bad = ok & (d < margin)
+        if not bad.any():
+            break
+        i = g.idx(cur[bad])
+        grad = np.stack([gx[k][i[:, 0], i[:, 1], i[:, 2]] for k in range(3)], 1)
+        grad /= np.maximum(np.linalg.norm(grad, axis=1, keepdims=True), 1e-6)
+        step = (margin - d[bad]) + 0.3
+        w = np.ones(bad.sum()) if weight is None else weight[bad]
+        cur[bad] += grad * (step * w)[:, None]
+        moved |= bad
+    return cur, int(moved.sum())
+
+
 def zbone_body(ctx, bid):
     return ctx.xf(bid, "bone", ctx.zit[bid]["v"])
 
@@ -257,18 +322,23 @@ def stage_bones(ctx, log=print):
                 others = ctx.bones_near(r["v"].min(0), r["v"].max(0), exclude=(bid,))
                 k_ = AX[cap["axis"]]
                 far = cap["sign"] * (r["v"][:, k_] - cap["pos"]) > 1.0
-                inside = np.zeros(len(r["v"]), bool)
-                for m_ in others:
-                    lo_, hi_ = m_.bounds
-                    sel = np.where(far & np.all((r["v"] >= lo_ - 1) & (r["v"] <= hi_ + 1), axis=1))[0]
-                    if len(sel):
-                        inside[sel[m_.contains(r["v"][sel])]] = True
-                frac_in = float(inside.sum() / max(far.sum(), 1))
+                g_, sd_ = solid_sd(others, r["v"].min(0), r["v"].max(0))
+                frac_in = inside_frac(r["v"], far, g_, sd_)
                 row["inside_other_bone_frac"] = round(frac_in, 2)
                 if frac_in > 0.25:
                     row["status"] = f"held: the cut face lies against the neighbouring bone ({100 * frac_in:.0f} % of the Z continuation would sit inside it)"
                     ctx.rows.append(row); continue
-                cv, cinfo = E.constrain(r["v"], cap["axis"], cap["pos"], cap["sign"], ctx.skin_mesh, others, ramp_mm=2.0)
+                r["v"], r["f"] = refine_piece(r["v"], r["f"])
+                g_, sd_ = solid_sd(others, r["v"].min(0), r["v"].max(0))
+                wgt = np.clip(cap["sign"] * (r["v"][:, k_] - cap["pos"]) / 2.0, 0, 1)
+                cv, nmv = push_out_solids(r["v"], g_, sd_, weight=wgt)
+                ov_mm3, ov_frac = solid_overlap(cv, r["f"], g_)
+                row["overlap_with_neighbour_bones_mm3"] = round(ov_mm3)
+                if ov_frac > 0.15 or ov_mm3 > 400:
+                    row["status"] = f"held: the Z continuation (as a solid) overlaps the neighbouring bones by {ov_mm3:.0f} mm3 ({100 * ov_frac:.0f} % of its volume) after the push-out"
+                    ctx.rows.append(row); continue
+                cv, cinfo = E.constrain(cv, cap["axis"], cap["pos"], cap["sign"], ctx.skin_mesh, [], ramp_mm=2.0)
+                cinfo["bone_pushed"] = nmv
                 r["v"] = cv
                 row.update(status="continued", z_source=cname, beyond_mm=round(r["beyond_mm"], 1), L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1), mode=r["mode"],
                            cap_covered=round(r["cap_covered"], 2), fit_err_median_mm=round(med, 1), fit_err_max_mm=round(p95, 1), nv=len(r["v"]), nf=len(r["f"]), constraints=cinfo)
@@ -334,7 +404,7 @@ def stage_bone_ends(ctx, log=print):
                 pl = c + u * (tend - sgn * 12.0)
                 m = trimesh.Trimesh(zv, zf, process=False)
                 try:
-                    r = trimesh.intersections.slice_mesh_plane(m, -sgn * u, pl, cap=True)
+                    r = trimesh.intersections.slice_mesh_plane(m, sgn * u, pl, cap=True)
                 except Exception as ex:  # noqa: BLE001
                     row["status"] = f"held: clip failed ({ex})"; ctx.rows.append(row); continue
                 pv, pf = np.asarray(r.vertices, float), np.asarray(r.faces, np.int64)
@@ -342,22 +412,35 @@ def stage_bone_ends(ctx, log=print):
                     row["status"] = "held: clip left too little"; ctx.rows.append(row); continue
                 others = ctx.bones_near(pv.min(0), pv.max(0), exclude=(bid,))
                 far = sgn * ((pv - c) @ u - tend) > -1.0
-                inside = np.zeros(len(pv), bool)
-                for m_ in others:
-                    lo_, hi_ = m_.bounds
-                    sel = np.where(far & np.all((pv >= lo_ - 1) & (pv <= hi_ + 1), axis=1))[0]
-                    if len(sel):
-                        inside[sel[m_.contains(pv[sel])]] = True
-                frac_in = float(inside.sum() / max(far.sum(), 1))
+                g_, sd_ = solid_sd(others, pv.min(0), pv.max(0))
+                frac_in = inside_frac(pv, far, g_, sd_)
                 row["inside_other_bone_frac"] = round(frac_in, 2)
-                if frac_in > 0.35:
-                    row["status"] = f"held: {100 * frac_in:.0f} % of the Z end would sit inside the neighbouring (carpal / humeral) bones"; ctx.rows.append(row); continue
-                # keep out of the other bones beyond the overlap zone only (weight ramps from the closing plane)
-                from scripts.transfer.limb_per_bone_transfer import push_off_bones
-                w = np.clip(sgn * ((pv - c) @ u - tend) / 6.0 + 2.0, 0, 1)[:, None]
+                if frac_in > 0.25:
+                    row["status"] = f"held: {100 * frac_in:.0f} % of the Z end would sit inside the neighbouring (carpal) bones: his carpals start where this bone ends"; ctx.rows.append(row); continue
+                pv, pf = refine_piece(pv, pf)
+                g_, sd_ = solid_sd(others, pv.min(0), pv.max(0))
+                w = np.clip(sgn * ((pv - c) @ u - tend) / 6.0 + 2.0, 0, 1)
                 v1, nsk = clip_skin_nearest(pv.copy(), ctx.skin_mesh)
-                v2, nb = push_off_bones(v1, others)
-                pv2 = pv + w * (v2 - pv)
+                pv2, nb = push_out_solids(v1, g_, sd_, weight=w)
+                # the part of the Z end that lies inside the neighbouring bones (his carpals start where this bone ends) is cut away: the piece ends on their surface
+                cen = pv2[pf].mean(1)
+                dcen, okc = g_.lookup(sd_, cen) if g_ is not None else (np.ones(len(pf)), np.ones(len(pf), bool))
+                dv, okv = g_.lookup(sd_, pv2) if g_ is not None else (np.ones(len(pv2)), np.ones(len(pv2), bool))
+                inside_f = (okc & (dcen < 0.3)) | (okv[pf] & (dv[pf] < -0.3)).any(1)
+                frac_cut = float(inside_f.mean())
+                row["part_cut_away_by_neighbour_bones"] = round(frac_cut, 2)
+                if frac_cut > 0.35:
+                    row["status"] = (f"held: {100 * frac_cut:.0f} % of the Z end lies inside the neighbouring (carpal) bones: they occupy the volume where the Z end would be"); ctx.rows.append(row); continue
+                pf = pf[~inside_f]
+                used = np.unique(pf); remap = -np.ones(len(pv2), int); remap[used] = np.arange(len(used))
+                pv2, pf = pv2[used], remap[pf]
+                # the audit's own measure: filled solid of (measured + Q200 + this piece) against the neighbouring bones, vs the measured bone alone
+                base_ov = solid_overlap(mv, mf, g_)[0]
+                new_ov = solid_overlap(np.vstack([mv, pv2]), np.vstack([mf, pf + len(mv)]), g_)[0]
+                row["added_overlap_with_neighbour_bones_mm3"] = round(new_ov - base_ov)
+                if new_ov - base_ov > 150.0:
+                    row["status"] = (f"held: the Z end would add {new_ov - base_ov:.0f} mm3 of overlap with the neighbouring (carpal) bones (> 150 mm3): "
+                                     f"his carpals occupy the volume where the Z end would be"); ctx.rows.append(row); continue
                 row.update(status="continued", z_source=cname, beyond_mm=round(beyond, 1), fit_err_median_mm=round(med, 1), fit_err_max_mm=round(p95, 1),
                            nv=len(pv2), nf=len(pf), constraints=dict(skin_clipped=int(nsk), bone_pushed=int(nb)))
                 ctx.rows.append(row)
@@ -538,7 +621,7 @@ def badge_text(ctx, pieces, name, kind, group):
         meds0 = [p["info"]["fit_err_median_mm"] for p in pieces]
         return (f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) completion of the measured {name}: its {ends} stops {', '.join('%.0f' % p['info']['beyond_mm'] for p in pieces)} mm "
                 f"short of the Z-Anatomy bone fitted to {cfg['he']} own bones [{'; '.join(srcs0)}] (the CT segmentation / data block ends there); the Z end is clipped 12 mm inside the measured end, closed by a planar face "
-                f"inside the measured bone, kept inside {cfg['he']} skin and out of the neighbouring bones; the measured bone is not edited. Q203 validation: Z shaft vs the measured shaft within 40 mm of the end, "
+                f"inside the measured bone, kept inside {cfg['he']} skin; the part that would lie inside the neighbouring bones ({'; '.join('%.0f %%' % (100 * p['info'].get('part_cut_away_by_neighbour_bones', 0)) for p in pieces)} of the end) is cut away; the measured bone is not edited. Q203 validation: Z shaft vs the measured shaft within 40 mm of the end, "
                 f"median {np.median(meds0):.1f} mm.")
     srcs = sorted({p["info"].get("z_source", "") for p in pieces if p["info"].get("z_source")})
     att = []

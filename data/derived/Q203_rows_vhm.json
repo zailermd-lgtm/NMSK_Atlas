@@ -114,6 +114,7 @@
   "area": 72,
   "n_frag": 3,
   "inside_other_bone_frac": 0.0,
+  "overlap_with_neighbour_bones_mm3": 0,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "beyond_mm": 5.4,
@@ -123,8 +124,8 @@
   "cap_covered": 0.86,
   "fit_err_median_mm": 1.7,
   "fit_err_max_mm": 6.3,
-  "nv": 124,
-  "nf": 244,
+  "nv": 837,
+  "nf": 1670,
   "constraints": {
    "skin_clipped": 0,
    "bone_pushed": 0
@@ -157,22 +158,9 @@
   "tried": [
    "Q201 chain p: Z counterpart ends 2.0 mm beyond the plane (< 3 mm): no Z ma"
   ],
-  "inside_other_bone_frac": 0.19,
-  "status": "continued",
-  "z_source": "Q168/Q195 per-bone transform",
-  "beyond_mm": 9.4,
-  "L": 0.0,
-  "shift_mm": 0.0,
-  "mode": "local",
-  "cap_covered": 1.0,
-  "fit_err_median_mm": 3.0,
-  "fit_err_max_mm": 8.2,
-  "nv": 208,
-  "nf": 412,
-  "constraints": {
-   "skin_clipped": 0,
-   "bone_pushed": 54
-  }
+  "inside_other_bone_frac": 0.05,
+  "overlap_with_neighbour_bones_mm3": 641,
+  "status": "held: the Z continuation (as a solid) overlaps the neighbouring bones by 641 mm3 (8 % of its volume) after the push-out"
  },
  {
   "id": "femur_r",
@@ -208,18 +196,8 @@
   "id": "radius_l",
   "stage": "bone_end",
   "end": "distal",
-  "inside_other_bone_frac": 0.0,
-  "status": "continued",
-  "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
-  "beyond_mm": 15.3,
-  "fit_err_median_mm": 1.5,
-  "fit_err_max_mm": 4.2,
-  "nv": 257,
-  "nf": 510,
-  "constraints": {
-   "skin_clipped": 0,
-   "bone_pushed": 126
-  }
+  "inside_other_bone_frac": 0.38,
+  "status": "held: 38 % of the Z end would sit inside the neighbouring (carpal) bones: his carpals start where this bone ends"
  },
  {
   "id": "radius_l",
@@ -234,17 +212,18 @@
   "id": "ulna_l",
   "stage": "bone_end",
   "end": "distal",
-  "inside_other_bone_frac": 0.0,
+  "inside_other_bone_frac": 0.19,
+  "part_cut_away_by_neighbour_bones": 0.07,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "beyond_mm": 20.9,
   "fit_err_median_mm": 1.6,
   "fit_err_max_mm": 4.3,
-  "nv": 365,
-  "nf": 726,
+  "nv": 499,
+  "nf": 933,
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 177
+   "bone_pushed": 45
   }
  },
  {
@@ -260,18 +239,8 @@
   "id": "radius_r",
   "stage": "bone_end",
   "end": "distal",
-  "inside_other_bone_frac": 0.0,
-  "status": "continued",
-  "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
-  "beyond_mm": 17.8,
-  "fit_err_median_mm": 1.7,
-  "fit_err_max_mm": 4.2,
-  "nv": 256,
-  "nf": 508,
-  "constraints": {
-   "skin_clipped": 0,
-   "bone_pushed": 48
-  }
+  "inside_other_bone_frac": 0.3,
+  "status": "held: 30 % of the Z end would sit inside the neighbouring (carpal) bones: his carpals start where this bone ends"
  },
  {
   "id": "radius_r",
@@ -286,17 +255,18 @@
   "id": "ulna_r",
   "stage": "bone_end",
   "end": "distal",
-  "inside_other_bone_frac": 0.0,
+  "inside_other_bone_frac": 0.13,
+  "part_cut_away_by_neighbour_bones": 0.09,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "beyond_mm": 16.4,
   "fit_err_median_mm": 1.3,
   "fit_err_max_mm": 3.1,
-  "nv": 383,
-  "nf": 762,
+  "nv": 496,
+  "nf": 925,
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 138
+   "bone_pushed": 45
   }
  },
  {
@@ -458,7 +428,7 @@
   "area": 2903,
   "n_frag": 3,
   "skin_gap_mm": 29.5,
-  "end_to_nearest_bone_mm": 19.1,
+  "end_to_nearest_bone_mm": 19.0,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 4.4,
@@ -477,7 +447,7 @@
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 105
+   "bone_pushed": 147
   },
   "nv": 490,
   "nf": 975,
@@ -522,7 +492,7 @@
   "area": 217,
   "n_frag": 3,
   "skin_gap_mm": 35.5,
-  "end_to_nearest_bone_mm": 1.9,
+  "end_to_nearest_bone_mm": 2.2,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 4.7,
@@ -535,13 +505,13 @@
   "cap_covered": 0.19,
   "z_to_cap_area": 12.462,
   "pull": {
-   "closest_to_bone_mm": 0.8,
+   "closest_to_bone_mm": 1.0,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
    "skin_clipped": 19,
-   "bone_pushed": 214
+   "bone_pushed": 272
   },
   "nv": 550,
   "nf": 1095,
@@ -564,7 +534,7 @@
   "area": 175,
   "n_frag": 5,
   "skin_gap_mm": 60.0,
-  "end_to_nearest_bone_mm": 9.3,
+  "end_to_nearest_bone_mm": 9.4,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 2.9,
@@ -577,7 +547,7 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 0.833,
   "pull": {
-   "closest_to_bone_mm": 0.9,
+   "closest_to_bone_mm": 0.8,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
@@ -723,7 +693,7 @@
   "area": 642,
   "n_frag": 10,
   "skin_gap_mm": 29.5,
-  "end_to_nearest_bone_mm": 86.6,
+  "end_to_nearest_bone_mm": 110.2,
   "status": "continued",
   "z_source": "Q168/Q195 per-bone transform",
   "fit_err_median_mm": 10.1,
@@ -736,13 +706,13 @@
   "cap_covered": 0.31,
   "z_to_cap_area": 6.609,
   "pull": {
-   "closest_to_bone_mm": 0.7,
-   "pulled": false,
-   "note": "attached (closest vertex within 2.5 mm of the bone)"
+   "closest_to_bone_mm": 2.6,
+   "pull_mm": 2.6,
+   "pulled": true
   },
   "constraints": {
-   "skin_clipped": 47,
-   "bone_pushed": 229
+   "skin_clipped": 44,
+   "bone_pushed": 265
   },
   "nv": 741,
   "nf": 1444,
@@ -778,13 +748,13 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 0.036,
   "pull": {
-   "closest_to_bone_mm": 0.7,
+   "closest_to_bone_mm": 0.9,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 3
+   "bone_pushed": 2
   },
   "nv": 146,
   "nf": 244,
@@ -831,13 +801,13 @@
   "cap_covered": 0.46,
   "z_to_cap_area": 1.951,
   "pull": {
-   "closest_to_bone_mm": 0.6,
+   "closest_to_bone_mm": 0.7,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 257
+   "bone_pushed": 233
   },
   "nv": 607,
   "nf": 1206,
@@ -1150,7 +1120,7 @@
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 5
+   "bone_pushed": 0
   },
   "nv": 495,
   "nf": 899,
@@ -1173,7 +1143,7 @@
   "area": 913,
   "n_frag": 8,
   "skin_gap_mm": 27.5,
-  "end_to_nearest_bone_mm": 79.6,
+  "end_to_nearest_bone_mm": 79.2,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 6.0,
@@ -1186,10 +1156,10 @@
   "cap_covered": 0.12,
   "z_to_cap_area": 2.124,
   "pull": {
-   "closest_to_bone_mm": 43.6,
-   "pull_mm": 43.6,
+   "closest_to_bone_mm": 43.0,
+   "pull_mm": 43.0,
    "pulled": false,
-   "note": "closest vertex 44 mm from the bone > 40 mm bound"
+   "note": "closest vertex 43 mm from the bone > 40 mm bound"
   },
   "constraints": {
    "skin_clipped": 0,
@@ -1227,7 +1197,7 @@
   "area": 2144,
   "n_frag": 2,
   "skin_gap_mm": 28.5,
-  "end_to_nearest_bone_mm": 4.6,
+  "end_to_nearest_bone_mm": 4.5,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 3.8,
@@ -1282,12 +1252,12 @@
   "cap_covered": 0.89,
   "z_to_cap_area": 11.757,
   "pull": {
-   "closest_to_bone_mm": 22.5,
-   "pull_mm": 37.4,
+   "closest_to_bone_mm": 22.4,
+   "pull_mm": 34.4,
    "pulled": true
   },
   "constraints": {
-   "skin_clipped": 117,
+   "skin_clipped": 115,
    "bone_pushed": 0
   },
   "nv": 1263,
@@ -1311,7 +1281,7 @@
   "area": 180,
   "n_frag": 2,
   "skin_gap_mm": 60.0,
-  "end_to_nearest_bone_mm": 16.2,
+  "end_to_nearest_bone_mm": 15.8,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 3.6,
@@ -1324,8 +1294,8 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 1.041,
   "pull": {
-   "closest_to_bone_mm": 3.1,
-   "pull_mm": 7.6,
+   "closest_to_bone_mm": 3.2,
+   "pull_mm": 8.3,
    "pulled": true
   },
   "constraints": {
@@ -1503,7 +1473,7 @@
   "area": 1173,
   "n_frag": 4,
   "skin_gap_mm": 43.5,
-  "end_to_nearest_bone_mm": 24.9,
+  "end_to_nearest_bone_mm": 24.8,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 15.3,
@@ -1829,7 +1799,7 @@
   "area": 741,
   "n_frag": 18,
   "skin_gap_mm": 43.5,
-  "end_to_nearest_bone_mm": 102.7,
+  "end_to_nearest_bone_mm": 102.0,
   "status": "continued",
   "z_source": "Q168/Q195 per-bone transform",
   "fit_err_median_mm": 4.3,
@@ -2939,7 +2909,7 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 4.416,
   "pull": {
-   "closest_to_bone_mm": 1.6,
+   "closest_to_bone_mm": 1.4,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
@@ -5157,7 +5127,7 @@
   "area": 344,
   "n_frag": 1,
   "skin_gap_mm": 60.0,
-  "end_to_nearest_bone_mm": 1.3,
+  "end_to_nearest_bone_mm": 2.1,
   "status": "continued",
   "z_source": "Q168/Q195 per-bone transform",
   "fit_err_median_mm": 7.0,
@@ -5170,13 +5140,13 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 0.332,
   "pull": {
-   "closest_to_bone_mm": 0.7,
+   "closest_to_bone_mm": 0.4,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 71
+   "bone_pushed": 75
   },
   "nv": 645,
   "nf": 1190,
@@ -5221,7 +5191,7 @@
   "area": 949,
   "n_frag": 1,
   "skin_gap_mm": 31.5,
-  "end_to_nearest_bone_mm": 7.0,
+  "end_to_nearest_bone_mm": 6.7,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 7.5,
@@ -5240,7 +5210,7 @@
   },
   "constraints": {
    "skin_clipped": 4,
-   "bone_pushed": 80
+   "bone_pushed": 92
   },
   "nv": 325,
   "nf": 642,
@@ -5263,7 +5233,7 @@
   "area": 101,
   "n_frag": 2,
   "skin_gap_mm": 60.0,
-  "end_to_nearest_bone_mm": 12.7,
+  "end_to_nearest_bone_mm": 13.2,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 6.5,
@@ -5276,8 +5246,8 @@
   "cap_covered": 0.01,
   "z_to_cap_area": 1.232,
   "pull": {
-   "closest_to_bone_mm": 11.2,
-   "pull_mm": 11.2,
+   "closest_to_bone_mm": 11.3,
+   "pull_mm": 11.3,
    "pulled": true
   },
   "constraints": {
@@ -5329,14 +5299,14 @@
   "cap_covered": 0.24,
   "z_to_cap_area": 6.563,
   "pull": {
-   "closest_to_bone_mm": 6.3,
-   "pull_mm": 16.7,
+   "closest_to_bone_mm": 6.8,
+   "pull_mm": 15.5,
    "pulled": false,
-   "note": "closest vertex 17 mm from the bone > 15 mm bound"
+   "note": "closest vertex 16 mm from the bone > 15 mm bound"
   },
   "constraints": {
    "skin_clipped": 75,
-   "bone_pushed": 13
+   "bone_pushed": 2
   },
   "nv": 216,
   "nf": 428,
@@ -5412,7 +5382,7 @@
   "area": 751,
   "n_frag": 1,
   "skin_gap_mm": 22.5,
-  "end_to_nearest_bone_mm": 4.6,
+  "end_to_nearest_bone_mm": 4.5,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 1.8,
@@ -5507,7 +5477,7 @@
   "area": 1992,
   "n_frag": 2,
   "skin_gap_mm": 24.5,
-  "end_to_nearest_bone_mm": 5.2,
+  "end_to_nearest_bone_mm": 5.8,
   "status": "continued",
   "z_source": "Q168/Q195 per-bone transform",
   "fit_err_median_mm": 2.9,
@@ -5520,13 +5490,13 @@
   "cap_covered": 0.32,
   "z_to_cap_area": 2.603,
   "pull": {
-   "closest_to_bone_mm": 0.4,
+   "closest_to_bone_mm": 0.5,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
    "skin_clipped": 27,
-   "bone_pushed": 177
+   "bone_pushed": 280
   },
   "nv": 417,
   "nf": 839,
@@ -5560,7 +5530,7 @@
   "area": 351,
   "n_frag": 2,
   "skin_gap_mm": 29.5,
-  "end_to_nearest_bone_mm": 2.4,
+  "end_to_nearest_bone_mm": 3.8,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 11.5,
@@ -5573,13 +5543,13 @@
   "cap_covered": 0.02,
   "z_to_cap_area": 9.913,
   "pull": {
-   "closest_to_bone_mm": 0.7,
+   "closest_to_bone_mm": 0.3,
    "pulled": false,
    "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 25
+   "bone_pushed": 22
   },
   "nv": 148,
   "nf": 292,
@@ -5637,7 +5607,7 @@
   "area": 151,
   "n_frag": 2,
   "skin_gap_mm": 24.5,
-  "end_to_nearest_bone_mm": 1.7,
+  "end_to_nearest_bone_mm": 1.9,
   "status": "continued",
   "z_source": "Q201 chain page (Z-Anatomy fitted to his labels and photographs)",
   "fit_err_median_mm": 1.2,
@@ -5656,7 +5626,7 @@
   },
   "constraints": {
    "skin_clipped": 0,
-   "bone_pushed": 297
+   "bone_pushed": 296
   },
   "nv": 826,
   "nf": 1640,
@@ -5697,12 +5667,12 @@
   "id": "brachialis_r_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.291,
-  "inside_after": 0.173,
+  "inside_before": 0.304,
+  "inside_after": 0.187,
   "depth_before": 7.996,
   "depth_after": 4.284,
   "move_max": 12.604,
-  "move_median": 0.002,
+  "move_median": 0.004,
   "volume_ratio": 1.001
  },
  {
@@ -5721,20 +5691,20 @@
   "id": "triceps_brachii_r_zfill203",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.59,
-  "inside_after": 0.433,
+  "inside_before": 0.581,
+  "inside_after": 0.429,
   "depth_before": 8.611,
-  "depth_after": 8.187,
+  "depth_after": 8.186,
   "move_max": 8.0,
-  "move_median": 1.454,
-  "volume_ratio": 1.269
+  "move_median": 1.452,
+  "volume_ratio": 1.265
  },
  {
   "id": "biceps_brachii_l_zfill203",
   "stage": "overlap",
   "rounds": 5.0,
   "inside_before": 0.434,
-  "inside_after": 0.216,
+  "inside_after": 0.218,
   "depth_before": 6.349,
   "depth_after": 3.029,
   "move_max": 6.128,
@@ -5745,13 +5715,13 @@
   "id": "biceps_brachii_l_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.374,
-  "inside_after": 0.241,
+  "inside_before": 0.381,
+  "inside_after": 0.251,
   "depth_before": 8.255,
   "depth_after": 7.125,
   "move_max": 8.0,
-  "move_median": 0.135,
-  "volume_ratio": 1.123
+  "move_median": 0.159,
+  "volume_ratio": 1.138
  },
  {
   "id": "brachialis_l_zfill203",
@@ -5770,12 +5740,12 @@
   "stage": "overlap",
   "rounds": 5.0,
   "inside_before": 0.291,
-  "inside_after": 0.198,
+  "inside_after": 0.201,
   "depth_before": 7.43,
-  "depth_after": 6.345,
-  "move_max": 9.105,
-  "move_median": 0.076,
-  "volume_ratio": 0.999
+  "depth_after": 6.662,
+  "move_max": 9.033,
+  "move_median": 0.073,
+  "volume_ratio": 0.996
  },
  {
   "id": "coracobrachialis_l_zfill203",
@@ -5793,12 +5763,12 @@
   "id": "triceps_brachii_l_zfill203",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.614,
-  "inside_after": 0.354,
+  "inside_before": 0.6,
+  "inside_after": 0.35,
   "depth_before": 9.066,
-  "depth_after": 7.629,
+  "depth_after": 7.616,
   "move_max": 8.0,
-  "move_median": 0.998,
+  "move_median": 1.01,
   "volume_ratio": 0.997
  },
  {
@@ -5830,9 +5800,9 @@
   "stage": "overlap",
   "rounds": 5.0,
   "inside_before": 0.12,
-  "inside_after": 0.074,
-  "depth_before": 5.872,
-  "depth_after": 3.572,
+  "inside_after": 0.075,
+  "depth_before": 5.919,
+  "depth_after": 3.565,
   "move_max": 8.0,
   "move_median": 0.0,
   "volume_ratio": 1.001
@@ -5854,12 +5824,12 @@
   "stage": "overlap",
   "rounds": 5.0,
   "inside_before": 0.261,
-  "inside_after": 0.11,
+  "inside_after": 0.111,
   "depth_before": 5.743,
-  "depth_after": 4.731,
+  "depth_after": 4.733,
   "move_max": 5.41,
   "move_median": 0.006,
-  "volume_ratio": 0.973
+  "volume_ratio": 0.974
  },
  {
   "id": "diaphragm_zfill203s",
@@ -5901,13 +5871,13 @@
   "id": "external_oblique_l_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.186,
-  "inside_after": 0.129,
+  "inside_before": 0.185,
+  "inside_after": 0.128,
   "depth_before": 9.688,
   "depth_after": 6.908,
   "move_max": 6.49,
   "move_median": 0.147,
-  "volume_ratio": 1.179
+  "volume_ratio": 1.18
  },
  {
   "id": "transversus_abdominis_l_zfill203s",
@@ -5916,7 +5886,7 @@
   "inside_before": 0.404,
   "inside_after": 0.364,
   "depth_before": 12.222,
-  "depth_after": 8.869,
+  "depth_after": 8.87,
   "move_max": 8.0,
   "move_median": 0.657,
   "volume_ratio": 1.021
@@ -5985,13 +5955,13 @@
   "id": "rhomboid_minor_r_zfill203",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.178,
-  "inside_after": 0.099,
+  "inside_before": 0.181,
+  "inside_after": 0.098,
   "depth_before": 5.932,
   "depth_after": 2.693,
-  "move_max": 3.208,
-  "move_median": 0.013,
-  "volume_ratio": 0.889
+  "move_max": 3.241,
+  "move_median": 0.014,
+  "volume_ratio": 0.885
  },
  {
   "id": "teres_minor_l_zfill203",
@@ -6057,13 +6027,13 @@
   "id": "spinalis_r_zfill203",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.281,
-  "inside_after": 0.186,
+  "inside_before": 0.271,
+  "inside_after": 0.192,
   "depth_before": 7.06,
   "depth_after": 7.06,
-  "move_max": 6.982,
+  "move_max": 6.981,
   "move_median": 0.0,
-  "volume_ratio": 1.049
+  "volume_ratio": 1.05
  },
  {
   "id": "iliocostalis_r_zfill203s",
@@ -6075,7 +6045,7 @@
   "depth_after": 4.46,
   "move_max": 7.059,
   "move_median": 0.106,
-  "volume_ratio": 1.029
+  "volume_ratio": 1.027
  },
  {
   "id": "sternocleidomastoid_r_zfill203",
@@ -6117,13 +6087,13 @@
   "id": "levator_scapulae_l_zfill203",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.825,
-  "inside_after": 0.371,
+  "inside_before": 0.838,
+  "inside_after": 0.364,
   "depth_before": 6.873,
   "depth_after": 4.947,
   "move_max": 8.0,
   "move_median": 1.805,
-  "volume_ratio": 0.918
+  "volume_ratio": 0.917
  },
  {
   "id": "scalenus_anterior_r_zfill203",
@@ -6153,24 +6123,24 @@
   "id": "rectus_capitis_posterior_major_r_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.395,
-  "inside_after": 0.29,
+  "inside_before": 0.407,
+  "inside_after": 0.315,
   "depth_before": 2.485,
-  "depth_after": 1.217,
-  "move_max": 1.773,
-  "move_median": 0.239,
-  "volume_ratio": 1.001
+  "depth_after": 1.537,
+  "move_max": 1.975,
+  "move_median": 0.256,
+  "volume_ratio": 1.002
  },
  {
   "id": "rectus_capitis_posterior_major_l_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.664,
-  "inside_after": 0.632,
+  "inside_before": 0.671,
+  "inside_after": 0.638,
   "depth_before": 2.963,
-  "depth_after": 1.182,
-  "move_max": 2.563,
-  "move_median": 0.283,
+  "depth_after": 1.287,
+  "move_max": 2.315,
+  "move_median": 0.273,
   "volume_ratio": 1.002
  },
  {
@@ -6230,7 +6200,7 @@
   "depth_before": 13.854,
   "depth_after": 13.854,
   "move_max": 7.295,
-  "move_median": 0.57,
+  "move_median": 0.568,
   "volume_ratio": 0.955
  },
  {
@@ -6238,12 +6208,12 @@
   "stage": "overlap",
   "rounds": 5.0,
   "inside_before": 0.022,
-  "inside_after": 0.011,
+  "inside_after": 0.012,
   "depth_before": 1.252,
   "depth_after": 0.326,
-  "move_max": 0.928,
+  "move_max": 0.989,
   "move_median": 0.0,
-  "volume_ratio": 1.0
+  "volume_ratio": 1.001
  },
  {
   "id": "pronator_quadratus_r_zfill203s",
@@ -6253,7 +6223,7 @@
   "inside_after": 0.188,
   "depth_before": 5.72,
   "depth_after": 5.72,
-  "move_max": 5.795,
+  "move_max": 5.794,
   "move_median": 0.0,
   "volume_ratio": 0.978
  },
@@ -6261,13 +6231,13 @@
   "id": "supinator_r_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.231,
-  "inside_after": 0.185,
+  "inside_before": 0.241,
+  "inside_after": 0.194,
   "depth_before": 2.802,
   "depth_after": 2.802,
-  "move_max": 3.753,
+  "move_max": 3.754,
   "move_median": 0.002,
-  "volume_ratio": 1.004
+  "volume_ratio": 1.003
  },
  {
   "id": "adductor_hallucis_l_zfill203s",
@@ -6298,7 +6268,7 @@
   "stage": "overlap",
   "rounds": 5.0,
   "inside_before": 0.402,
-  "inside_after": 0.338,
+  "inside_after": 0.339,
   "depth_before": 5.473,
   "depth_after": 3.049,
   "move_max": 8.0,
@@ -6309,36 +6279,36 @@
   "id": "extensor_carpi_ulnaris_l_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.173,
-  "inside_after": 0.115,
-  "depth_before": 2.656,
-  "depth_after": 2.645,
-  "move_max": 7.868,
-  "move_median": 0.027,
-  "volume_ratio": 0.8
+  "inside_before": 0.197,
+  "inside_after": 0.127,
+  "depth_before": 3.028,
+  "depth_after": 2.845,
+  "move_max": 8.0,
+  "move_median": 0.043,
+  "volume_ratio": 0.919
  },
  {
   "id": "extensor_carpi_ulnaris_r_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.209,
-  "inside_after": 0.122,
+  "inside_before": 0.189,
+  "inside_after": 0.128,
   "depth_before": 4.661,
   "depth_after": 4.661,
-  "move_max": 5.458,
+  "move_max": 5.438,
   "move_median": 0.008,
-  "volume_ratio": 1.009
+  "volume_ratio": 1.006
  },
  {
   "id": "supinator_l_zfill203s",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.142,
-  "inside_after": 0.074,
+  "inside_before": 0.134,
+  "inside_after": 0.07,
   "depth_before": 1.151,
   "depth_after": 0.534,
-  "move_max": 6.248,
-  "move_median": 0.027,
-  "volume_ratio": 0.769
+  "move_max": 5.474,
+  "move_median": 0.025,
+  "volume_ratio": 0.746
  }
 ]

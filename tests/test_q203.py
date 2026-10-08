@@ -153,12 +153,14 @@ def test_before_after_shoulder_flat_caps_down_and_counts_recorded():
 def test_wrist_ends_added_for_his_radius_and_ulna_and_her_right_ulna():
     rm = _json("Q203_rows_vhm.json"); rf = _json("Q203_rows_vhf.json")
     got = {(r["id"], r["end"]) for r in rm if r.get("stage") == "bone_end" and r.get("status") == "continued"}
-    assert {("radius_r", "distal"), ("ulna_r", "distal"), ("radius_l", "distal"), ("ulna_l", "distal")} <= got
+    assert {("ulna_r", "distal"), ("ulna_l", "distal")} <= got            # his ulnar heads; his radii end where his carpals start (Z end would sit 30-50 % inside them: held)
+    held = {(r["id"], r["end"]) for r in rm if r.get("stage") == "bone_end" and str(r.get("status", "")).startswith("held") and "carpal" in r.get("status", "")}
+    assert ("radius_l", "distal") in held
     gf = {(r["id"], r["end"]) for r in rf if r.get("stage") == "bone_end" and r.get("status") == "continued"}
     assert ("ulna_r", "distal") in gf
     for r in rm + rf:
         if r.get("stage") == "bone_end" and r.get("status") == "continued":
-            assert r["fit_err_median_mm"] <= 5.0 and r["beyond_mm"] >= 6.0 and r["inside_other_bone_frac"] <= 0.35
+            assert r["fit_err_median_mm"] <= 5.0 and r["beyond_mm"] >= 6.0 and r["inside_other_bone_frac"] <= 0.25
 
 
 def test_source_facet_counts_recorded_and_page_equals_audit():

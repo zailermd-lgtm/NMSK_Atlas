@@ -53,6 +53,12 @@ def main():
         for m in ma:
             if ma[m] != mb[m]:
                 print(f"   {m}: {ma[m]} -> {mb[m]}")
+    sumk = ["structs_with_flat_cap", "flat_caps", "flat_cap_area_mm2", "bone_flat_caps", "bone_flat_cap_area_mm2", "muscle_ends_gt5mm_from_bone", "islands_gt5mm", "open_loops_in_zone"]
+    tot = {w: {k: sum((v[w][k] or 0) for v in out.values()) for k in sumk} for w in ("before", "after")}
+    out["total"] = tot
+    print("TOTAL (sum over junction zones; zones overlap)")
+    for k in sumk:
+        print(f"   {k}: {tot['before'][k]} -> {tot['after'][k]}")
     if "--json" in sys.argv:
         Path(sys.argv[sys.argv.index("--json") + 1]).write_text(json.dumps(out, indent=1))
 
