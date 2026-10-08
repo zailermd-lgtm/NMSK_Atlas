@@ -210,6 +210,7 @@ def fit_side(by, side, skin, log=print):
     Et = cKDTree(evh)
     rep = {"evidence_voxels": int(len(evh)), "evidence_before": H.evidence_fit(M, S, evh),
            "bone_evidence_score_before": {b[4:]: round(bone_score(S, b, Et), 2) for b in M.hand_ids}}
+    rep["thumb_gap_before_mm"] = round(thumb_gap(S, M), 2)
     rep["forearm_given"] = forearm_given_pose(H, M, S, log=log)
     rep["hand_block"] = fit_hand_global(H, M, S, evh, env, log=log)
     rep["reseat_thumb"] = reseat_phalanges(H, M, S, "first", log=log)
