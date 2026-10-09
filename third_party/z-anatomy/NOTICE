@@ -1,0 +1,81 @@
+Z-Anatomy -- NOTICE
+====================
+
+This directory documents third-party material used as described in README.md
+in this same directory. It is committed for licence compliance; the geometry
+itself is NOT committed here or anywhere in this repository (see README.md).
+
+Source
+------
+Project:     Z-Anatomy (the open source atlas of anatomy)
+Repository:  https://github.com/LluisV/Z-Anatomy
+Pinned commit: 6c7f9016bd5899ac8edafd31b9900c151df42ed6
+Clone used:  read-only, at /home/user/lluisv/z-anatomy (this project does not
+             modify that checkout; scripts/zanatomy/extract_fbx.py reads from
+             it and is reproducible from the commit above).
+
+Attribution (verbatim, from the clone's own Resources/Models/License.txt and
+LICENSE, both read directly rather than assumed)
+-----------------------------------------------------------------------------
+"The content of this file is a derivative of the model from 'BodyParts3D'
+made by 'Z-Anatomy' in a modified version of 'Blender'"
+
+Required attribution strings, both together, per that same file:
+
+    "BodyParts3D - The Database Center for Life Science - CC-BY-SA 2.1 Japan"
+    "Z-Anatomy - The open source atlas of anatomy - CC-BY-SA 4.0"
+
+App credit (from the clone's top-level LICENSE, first lines):
+    "Lluis Vinent Juanico developed this app, incorporating models from the
+    Z-Anatomy project [CC-BY-SA]." Other contributors: Gauthier Kervyn.
+
+Licence
+-------
+The Z-Anatomy models (and, upstream, BodyParts3D) are licensed
+CC BY-SA 4.0 (BodyParts3D itself under CC-BY-SA 2.1 Japan). The full CC BY-SA
+4.0 legal text is in LICENSE in this directory (copied verbatim from the
+pinned clone's own LICENSE file).
+
+ShareAlike means: a derivative WORK made from this geometry must itself be
+distributed under CC BY-SA 4.0 (or a listed BY-SA-compatible licence) --
+not plain CC BY, not a proprietary licence, and not "all rights reserved".
+Editing, retopologising, decimating, re-triangulating, converting units, or
+registering the mesh to a different body does not change this: the protected
+expression is the shape, and a modified mesh of the same shape is still an
+Adapted Material under Section 1(a) of the licence. See README.md for how
+this project isolates that obligation to only the files it actually applies
+to.
+
+NOT CC BY-SA -- excluded, non-commercial subcomponents
+-------------------------------------------------------
+The same Resources/Models/License.txt states that a few named subcomponents
+of the release carry a DIFFERENT, more restrictive licence than the rest:
+
+    "Cranial Nerves and Foramina - by University of Dundee, CAHID - CC-BY 4.0"
+    "Anatomy of the Inner Ear - by University of Dundee School of Medicine -
+     CC-BY-NC-SA 4.0"
+    "Kidney - by lissiecowley - CC-BY-NC 4.0"
+
+The Cranial Nerves credit is CC BY 4.0 -- compatible, even more permissive
+than the rest of the release. The Inner Ear and Kidney credits carry NC
+(NonCommercial), which this project's commercial intent cannot satisfy at
+any level of adaptation, independent of the owner's CC BY-SA decision below.
+scripts/zanatomy/extract_fbx.py flags any extracted object whose name matches
+kidney/renal/cochlea/vestibular/inner-ear/labyrinth patterns as
+license != "CC-BY-SA-4.0" in data/derived/zanatomy_inventory.json, and
+scripts/zanatomy/map_names.py refuses to map any such object to an atlas
+entity id regardless of name score. Some of those name patterns
+(cochlear/vestibular nerve and nuclei) could belong to either the CC-BY
+Cranial Nerves package or the NC Inner Ear package; flagged conservatively
+as excluded pending direct clarification from the Z-Anatomy project, since
+NC content shipped in a commercial product cannot be cured after the fact.
+
+Owner decision permitting this material into the repository
+-------------------------------------------------------------
+2026-09-23 (recorded in full in ../../docs/GEOMETRY_SOURCES.md and
+../../PROJECT_STATE.md, Q141): the anatomy MODEL layer (geometry, plus this
+project's own corrections to it) may be CC BY-SA compatible. Everything
+built on top -- registration to real imaging, ultrasound guidance, needling,
+clinical tooling -- stays under the owner's private licence and must live in
+separate files that reference the anatomy layer rather than sit inside it.
+This replaces the prior blanket rule "no CC BY-SA source may enter it".

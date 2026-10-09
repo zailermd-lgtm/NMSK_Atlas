@@ -1,0 +1,10305 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain): her colour cryosections at full resolution (0.33 mm, NCI Imaging Data Commons) re-streamed by scripts/cryo/vhm_stream_leg_crops.py --body vhf and registered to her CT femur (Q179); her CT bones and CT muscles (VH female CT, TotalSegmentator labels); her thigh muscles = the male's (DU lower-extremity release, Andreassen TE et al., Sci Data 10:34 (2023), CC BY 4.0) transferred onto her and refined to her septa (Q48); her tracked outlines Q53/Q55/Q56 (Q179 candidates). Derived data (scripts/cryo/vhf_thigh_refit_q181.py).",
+ "_README": "Q181b store: the refit label volume (OUT_VOL) and its inputs' hashes; ship_ids / snap / badges are written by measure and read by apply.",
+ "q48_vol_md5": "83ffcf4245bf164f5a8a7c61531b151d",
+ "out_vol_md5": "b1f16caf05e76289ce0a6f7152367f55",
+ "reg_json_md5": "e4d2326560f025de41fb46589ccff4cd",
+ "field_full_weight_levels": [
+  -386,
+  14
+ ],
+ "held": [
+  "biceps_femoris_r",
+  "gemellus_inferior_l",
+  "gracilis_l",
+  "gracilis_r",
+  "obturator_internus_r",
+  "pectineus_r",
+  "plantaris_l",
+  "quadratus_femoris_l",
+  "rectus_femoris_l",
+  "sartorius_l",
+  "semimembranosus_r",
+  "semitendinosus_r",
+  "vastus_intermedius_l",
+  "vastus_medialis_r"
+ ],
+ "hold_reasons": {
+  "gemellus_inferior_l": "round 0: volume -24.4 % vs Q48 (mesh -27.9 %) and +24.6 % vs the transfer; main piece 0.677 < 0.980 (Q48 1.000)",
+  "gracilis_l": "round 0: volume +14.3 % vs Q48 (mesh +14.4 %) and +20.1 % vs the transfer",
+  "gracilis_r": "round 0: main piece 0.641 < 0.645 (Q48 0.645)",
+  "obturator_internus_r": "round 0: volume +12.9 % vs Q48 (mesh +12.9 %) and +29.9 % vs the transfer",
+  "pectineus_r": "round 0: volume +10.3 % vs Q48 (mesh +10.1 %) and +37.4 % vs the transfer",
+  "plantaris_l": "round 0: volume +13.4 % vs Q48 (mesh +13.5 %) and +40.5 % vs the transfer",
+  "quadratus_femoris_l": "round 0: volume -36.3 % vs Q48 (mesh -37.1 %) and -27.3 % vs the transfer",
+  "rectus_femoris_l": "round 0: volume +11.8 % vs Q48 (mesh +11.9 %) and +23.6 % vs the transfer",
+  "sartorius_l": "round 0: volume +16.9 % vs Q48 (mesh +16.5 %) and +31.3 % vs the transfer",
+  "semitendinosus_r": "round 0: main piece 0.816 < 0.908 (Q48 0.908)",
+  "vastus_intermedius_l": "round 0: volume +15.6 % vs Q48 (mesh +15.7 %) and +29.2 % vs the transfer",
+  "vastus_medialis_r": "round 0: volume +18.6 % vs Q48 (mesh +18.8 %) and +32.2 % vs the transfer",
+  "biceps_femoris_r": "round 1: volume -11.7 % vs Q48 (mesh -11.8 %) and -21.5 % vs the transfer",
+  "semimembranosus_r": "round 1: volume -10.4 % vs Q48 (mesh -9.5 %) and -22.4 % vs the transfer"
+ },
+ "hold_rounds": [
+  {
+   "held_in": [],
+   "failed": {
+    "gemellus_inferior_l": {
+     "vox_pct_vs_q48": -24.39,
+     "mesh_pct_vs_q48": -27.87,
+     "vox_pct_vs_xfer": 24.62,
+     "mesh_pct_vs_xfer": 43.1,
+     "voxels_q48_xfer_new": [
+      6593,
+      4000,
+      4985
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      6.16,
+      3.11,
+      4.44
+     ],
+     "main_frac_q48_new": [
+      1.0,
+      0.6768
+     ],
+     "passes": [],
+     "fail": [
+      "volume -24.4 % vs Q48 (mesh -27.9 %) and +24.6 % vs the transfer",
+      "main piece 0.677 < 0.980 (Q48 1.000)"
+     ]
+    },
+    "gracilis_l": {
+     "vox_pct_vs_q48": 14.34,
+     "mesh_pct_vs_q48": 14.37,
+     "vox_pct_vs_xfer": 20.15,
+     "mesh_pct_vs_xfer": 41.62,
+     "voxels_q48_xfer_new": [
+      95419,
+      90800,
+      109099
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      92.07,
+      74.36,
+      105.3
+     ],
+     "main_frac_q48_new": [
+      0.9783,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +14.3 % vs Q48 (mesh +14.4 %) and +20.1 % vs the transfer"
+     ]
+    },
+    "gracilis_r": {
+     "vox_pct_vs_q48": -6.23,
+     "mesh_pct_vs_q48": -3.41,
+     "vox_pct_vs_xfer": -37.92,
+     "mesh_pct_vs_xfer": -26.51,
+     "voxels_q48_xfer_new": [
+      75407,
+      113900,
+      70709
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      68.92,
+      90.58,
+      66.57
+     ],
+     "main_frac_q48_new": [
+      0.6449,
+      0.6409
+     ],
+     "passes": [
+      "within 10 % of Q48"
+     ],
+     "fail": [
+      "main piece 0.641 < 0.645 (Q48 0.645)"
+     ]
+    },
+    "obturator_internus_r": {
+     "vox_pct_vs_q48": 12.91,
+     "mesh_pct_vs_q48": 12.88,
+     "vox_pct_vs_xfer": 29.89,
+     "mesh_pct_vs_xfer": 42.88,
+     "voxels_q48_xfer_new": [
+      150930,
+      131200,
+      170421
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      149.91,
+      118.44,
+      169.22
+     ],
+     "main_frac_q48_new": [
+      1.0,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +12.9 % vs Q48 (mesh +12.9 %) and +29.9 % vs the transfer"
+     ]
+    },
+    "pectineus_r": {
+     "vox_pct_vs_q48": 10.31,
+     "mesh_pct_vs_q48": 10.13,
+     "vox_pct_vs_xfer": 37.36,
+     "mesh_pct_vs_xfer": 49.33,
+     "voxels_q48_xfer_new": [
+      122165,
+      98100,
+      134755
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      121.15,
+      89.35,
+      133.42
+     ],
+     "main_frac_q48_new": [
+      1.0,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +10.3 % vs Q48 (mesh +10.1 %) and +37.4 % vs the transfer"
+     ]
+    },
+    "plantaris_l": {
+     "vox_pct_vs_q48": 13.44,
+     "mesh_pct_vs_q48": 13.54,
+     "vox_pct_vs_xfer": 40.5,
+     "mesh_pct_vs_xfer": 74.61,
+     "voxels_q48_xfer_new": [
+      13747,
+      11100,
+      15595
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      13.62,
+      8.85,
+      15.46
+     ],
+     "main_frac_q48_new": [
+      0.9981,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +13.4 % vs Q48 (mesh +13.5 %) and +40.5 % vs the transfer"
+     ]
+    },
+    "quadratus_femoris_l": {
+     "vox_pct_vs_q48": -36.28,
+     "mesh_pct_vs_q48": -37.08,
+     "vox_pct_vs_xfer": -27.3,
+     "mesh_pct_vs_xfer": -17.3,
+     "voxels_q48_xfer_new": [
+      51229,
+      44900,
+      32642
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      50.48,
+      38.41,
+      31.77
+     ],
+     "main_frac_q48_new": [
+      1.0,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume -36.3 % vs Q48 (mesh -37.1 %) and -27.3 % vs the transfer"
+     ]
+    },
+    "rectus_femoris_l": {
+     "vox_pct_vs_q48": 11.79,
+     "mesh_pct_vs_q48": 11.95,
+     "vox_pct_vs_xfer": 23.56,
+     "mesh_pct_vs_xfer": 47.22,
+     "voxels_q48_xfer_new": [
+      176853,
+      160000,
+      197697
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      173.91,
+      132.24,
+      194.69
+     ],
+     "main_frac_q48_new": [
+      0.6639,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +11.8 % vs Q48 (mesh +11.9 %) and +23.6 % vs the transfer"
+     ]
+    },
+    "sartorius_l": {
+     "vox_pct_vs_q48": 16.92,
+     "mesh_pct_vs_q48": 16.48,
+     "vox_pct_vs_xfer": 31.31,
+     "mesh_pct_vs_xfer": 50.9,
+     "voxels_q48_xfer_new": [
+      169802,
+      151200,
+      198536
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      165.18,
+      127.5,
+      192.4
+     ],
+     "main_frac_q48_new": [
+      0.5837,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +16.9 % vs Q48 (mesh +16.5 %) and +31.3 % vs the transfer"
+     ]
+    },
+    "semitendinosus_r": {
+     "vox_pct_vs_q48": 2.57,
+     "mesh_pct_vs_q48": 2.18,
+     "vox_pct_vs_xfer": -20.57,
+     "mesh_pct_vs_xfer": -12.84,
+     "voxels_q48_xfer_new": [
+      172071,
+      222200,
+      176493
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      166.72,
+      195.45,
+      170.36
+     ],
+     "main_frac_q48_new": [
+      0.9083,
+      0.8158
+     ],
+     "passes": [
+      "within 10 % of Q48"
+     ],
+     "fail": [
+      "main piece 0.816 < 0.908 (Q48 0.908)"
+     ]
+    },
+    "vastus_intermedius_l": {
+     "vox_pct_vs_q48": 15.58,
+     "mesh_pct_vs_q48": 15.73,
+     "vox_pct_vs_xfer": 29.23,
+     "mesh_pct_vs_xfer": 30.08,
+     "voxels_q48_xfer_new": [
+      280631,
+      251000,
+      324355
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      276.8,
+      246.27,
+      320.35
+     ],
+     "main_frac_q48_new": [
+      0.6739,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +15.6 % vs Q48 (mesh +15.7 %) and +29.2 % vs the transfer"
+     ]
+    },
+    "vastus_medialis_r": {
+     "vox_pct_vs_q48": 18.63,
+     "mesh_pct_vs_q48": 18.77,
+     "vox_pct_vs_xfer": 32.21,
+     "mesh_pct_vs_xfer": 40.72,
+     "voxels_q48_xfer_new": [
+      263464,
+      236400,
+      312546
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      260.63,
+      219.98,
+      309.55
+     ],
+     "main_frac_q48_new": [
+      1.0,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume +18.6 % vs Q48 (mesh +18.8 %) and +32.2 % vs the transfer"
+     ]
+    }
+   }
+  },
+  {
+   "held_in": [
+    "gemellus_inferior_l",
+    "gracilis_l",
+    "gracilis_r",
+    "obturator_internus_r",
+    "pectineus_r",
+    "plantaris_l",
+    "quadratus_femoris_l",
+    "rectus_femoris_l",
+    "sartorius_l",
+    "semitendinosus_r",
+    "vastus_intermedius_l",
+    "vastus_medialis_r"
+   ],
+   "failed": {
+    "biceps_femoris_r": {
+     "vox_pct_vs_q48": -11.68,
+     "mesh_pct_vs_q48": -11.81,
+     "vox_pct_vs_xfer": -21.5,
+     "mesh_pct_vs_xfer": -16.4,
+     "voxels_q48_xfer_new": [
+      337052,
+      379200,
+      297683
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      332.4,
+      350.65,
+      293.15
+     ],
+     "main_frac_q48_new": [
+      0.9718,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume -11.7 % vs Q48 (mesh -11.8 %) and -21.5 % vs the transfer"
+     ]
+    },
+    "semimembranosus_r": {
+     "vox_pct_vs_q48": -10.39,
+     "mesh_pct_vs_q48": -9.48,
+     "vox_pct_vs_xfer": -22.37,
+     "mesh_pct_vs_xfer": -17.38,
+     "voxels_q48_xfer_new": [
+      311689,
+      359800,
+      279303
+     ],
+     "mesh_cm3_q48_xfer_new": [
+      305.72,
+      334.93,
+      276.72
+     ],
+     "main_frac_q48_new": [
+      0.8742,
+      1.0
+     ],
+     "passes": [],
+     "fail": [
+      "volume -10.4 % vs Q48 (mesh -9.5 %) and -22.4 % vs the transfer"
+     ]
+    }
+   }
+  },
+  {
+   "held_in": [
+    "gemellus_inferior_l",
+    "gracilis_l",
+    "gracilis_r",
+    "obturator_internus_r",
+    "pectineus_r",
+    "plantaris_l",
+    "quadratus_femoris_l",
+    "rectus_femoris_l",
+    "sartorius_l",
+    "semitendinosus_r",
+    "vastus_intermedius_l",
+    "vastus_medialis_r",
+    "biceps_femoris_r",
+    "semimembranosus_r"
+   ],
+   "failed": {}
+  }
+ ],
+ "gates": {
+  "adductor_brevis_l": {
+   "vox_pct_vs_q48": -0.84,
+   "mesh_pct_vs_q48": -1.49,
+   "vox_pct_vs_xfer": -0.18,
+   "mesh_pct_vs_xfer": 1.72,
+   "voxels_q48_xfer_new": [
+    121905,
+    121100,
+    120881
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    119.62,
+    115.84,
+    117.83
+   ],
+   "main_frac_q48_new": [
+    0.9606,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "adductor_brevis_r": {
+   "vox_pct_vs_q48": -1.38,
+   "mesh_pct_vs_q48": -1.85,
+   "vox_pct_vs_xfer": -4.82,
+   "mesh_pct_vs_xfer": -2.75,
+   "voxels_q48_xfer_new": [
+    144294,
+    149500,
+    142301
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    141.81,
+    143.12,
+    139.18
+   ],
+   "main_frac_q48_new": [
+    0.9995,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "adductor_longus_l": {
+   "vox_pct_vs_q48": 3.82,
+   "mesh_pct_vs_q48": 2.63,
+   "vox_pct_vs_xfer": 10.72,
+   "mesh_pct_vs_xfer": 17.53,
+   "voxels_q48_xfer_new": [
+    132892,
+    124600,
+    137963
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    132.29,
+    115.51,
+    135.76
+   ],
+   "main_frac_q48_new": [
+    0.9963,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "adductor_longus_r": {
+   "vox_pct_vs_q48": -1.45,
+   "mesh_pct_vs_q48": -1.85,
+   "vox_pct_vs_xfer": -7.91,
+   "mesh_pct_vs_xfer": -1.82,
+   "voxels_q48_xfer_new": [
+    153531,
+    164300,
+    151311
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    150.36,
+    150.33,
+    147.58
+   ],
+   "main_frac_q48_new": [
+    0.9997,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "adductor_magnus_l": {
+   "vox_pct_vs_q48": -1.02,
+   "mesh_pct_vs_q48": -1.32,
+   "vox_pct_vs_xfer": -8.8,
+   "mesh_pct_vs_xfer": -7.01,
+   "voxels_q48_xfer_new": [
+    630154,
+    683900,
+    623700
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    625.84,
+    664.13,
+    617.59
+   ],
+   "main_frac_q48_new": [
+    0.5187,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "adductor_magnus_r": {
+   "vox_pct_vs_q48": -4.06,
+   "mesh_pct_vs_q48": -4.47,
+   "vox_pct_vs_xfer": -19.73,
+   "mesh_pct_vs_xfer": -18.7,
+   "voxels_q48_xfer_new": [
+    683552,
+    817000,
+    655789
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    680.05,
+    799.0,
+    649.62
+   ],
+   "main_frac_q48_new": [
+    0.9975,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "biceps_femoris_l": {
+   "vox_pct_vs_q48": -0.44,
+   "mesh_pct_vs_q48": -0.77,
+   "vox_pct_vs_xfer": -3.61,
+   "mesh_pct_vs_xfer": 5.77,
+   "voxels_q48_xfer_new": [
+    262861,
+    271500,
+    261694
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    259.21,
+    243.18,
+    257.22
+   ],
+   "main_frac_q48_new": [
+    0.9934,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "fibularis_longus_l": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": 0.0,
+   "vox_pct_vs_xfer": -2.19,
+   "mesh_pct_vs_xfer": 0.7,
+   "voxels_q48_xfer_new": [
+    75217,
+    76900,
+    75218
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    72.64,
+    72.14,
+    72.64
+   ],
+   "main_frac_q48_new": [
+    0.7774,
+    0.7774
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "fibularis_longus_r": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": 0.0,
+   "vox_pct_vs_xfer": 2.74,
+   "mesh_pct_vs_xfer": 12.92,
+   "voxels_q48_xfer_new": [
+    103765,
+    101000,
+    103766
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    100.48,
+    88.99,
+    100.48
+   ],
+   "main_frac_q48_new": [
+    0.8141,
+    0.8141
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "flexor_digitorum_longus_l": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": -0.01,
+   "vox_pct_vs_xfer": 64.2,
+   "mesh_pct_vs_xfer": 103.8,
+   "voxels_q48_xfer_new": [
+    42033,
+    25600,
+    42035
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    41.72,
+    20.47,
+    41.71
+   ],
+   "main_frac_q48_new": [
+    0.9969,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "flexor_digitorum_longus_r": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": 0.01,
+   "vox_pct_vs_xfer": 20.88,
+   "mesh_pct_vs_xfer": 1.81,
+   "voxels_q48_xfer_new": [
+    21153,
+    17500,
+    21154
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    18.87,
+    18.53,
+    18.87
+   ],
+   "main_frac_q48_new": [
+    0.7744,
+    0.7745
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "flexor_hallucis_longus_l": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": -0.01,
+   "vox_pct_vs_xfer": 13.57,
+   "mesh_pct_vs_xfer": 6.74,
+   "voxels_q48_xfer_new": [
+    93919,
+    82700,
+    93920
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    92.16,
+    86.34,
+    92.15
+   ],
+   "main_frac_q48_new": [
+    0.9985,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "flexor_hallucis_longus_r": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": 0.0,
+   "vox_pct_vs_xfer": 3.13,
+   "mesh_pct_vs_xfer": -6.85,
+   "voxels_q48_xfer_new": [
+    90033,
+    87300,
+    90035
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    88.05,
+    94.52,
+    88.05
+   ],
+   "main_frac_q48_new": [
+    0.9994,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "gastrocnemius_l": {
+   "vox_pct_vs_q48": 1.05,
+   "mesh_pct_vs_q48": 0.91,
+   "vox_pct_vs_xfer": -5.28,
+   "mesh_pct_vs_xfer": -3.4,
+   "voxels_q48_xfer_new": [
+    373005,
+    397900,
+    376910
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    370.6,
+    387.15,
+    373.98
+   ],
+   "main_frac_q48_new": [
+    0.9982,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "gastrocnemius_r": {
+   "vox_pct_vs_q48": -1.2,
+   "mesh_pct_vs_q48": -1.09,
+   "vox_pct_vs_xfer": -6.95,
+   "mesh_pct_vs_xfer": -5.8,
+   "voxels_q48_xfer_new": [
+    367215,
+    389900,
+    362806
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    363.01,
+    381.18,
+    359.06
+   ],
+   "main_frac_q48_new": [
+    0.9895,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "obturator_externus_l": {
+   "vox_pct_vs_q48": -1.37,
+   "mesh_pct_vs_q48": -1.62,
+   "vox_pct_vs_xfer": 12.18,
+   "mesh_pct_vs_xfer": 21.86,
+   "voxels_q48_xfer_new": [
+    114992,
+    101100,
+    113415
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    113.84,
+    91.9,
+    111.99
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "obturator_externus_r": {
+   "vox_pct_vs_q48": 0.51,
+   "mesh_pct_vs_q48": 0.37,
+   "vox_pct_vs_xfer": 12.35,
+   "mesh_pct_vs_xfer": 24.07,
+   "voxels_q48_xfer_new": [
+    105410,
+    94300,
+    105943
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    104.23,
+    84.32,
+    104.62
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "obturator_internus_l": {
+   "vox_pct_vs_q48": 7.28,
+   "mesh_pct_vs_q48": 7.66,
+   "vox_pct_vs_xfer": 25.65,
+   "mesh_pct_vs_xfer": 37.81,
+   "voxels_q48_xfer_new": [
+    141600,
+    120900,
+    151908
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    140.82,
+    110.01,
+    151.6
+   ],
+   "main_frac_q48_new": [
+    0.9943,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "pectineus_l": {
+   "vox_pct_vs_q48": -9.54,
+   "mesh_pct_vs_q48": -10.49,
+   "vox_pct_vs_xfer": 2.92,
+   "mesh_pct_vs_xfer": 11.15,
+   "voxels_q48_xfer_new": [
+    110819,
+    97400,
+    100243
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    109.63,
+    88.29,
+    98.13
+   ],
+   "main_frac_q48_new": [
+    0.998,
+    1.0
+   ],
+   "passes": [
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "plantaris_r": {
+   "vox_pct_vs_q48": -0.03,
+   "mesh_pct_vs_q48": -1.55,
+   "vox_pct_vs_xfer": 9.3,
+   "mesh_pct_vs_xfer": 28.32,
+   "voxels_q48_xfer_new": [
+    14431,
+    13200,
+    14427
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    13.55,
+    10.39,
+    13.34
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "popliteus_l": {
+   "vox_pct_vs_q48": -0.17,
+   "mesh_pct_vs_q48": -0.18,
+   "vox_pct_vs_xfer": 1.79,
+   "mesh_pct_vs_xfer": 12.89,
+   "voxels_q48_xfer_new": [
+    19576,
+    19200,
+    19543
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    18.58,
+    16.43,
+    18.54
+   ],
+   "main_frac_q48_new": [
+    0.9887,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "popliteus_r": {
+   "vox_pct_vs_q48": -0.68,
+   "mesh_pct_vs_q48": -0.31,
+   "vox_pct_vs_xfer": -6.91,
+   "mesh_pct_vs_xfer": 8.27,
+   "voxels_q48_xfer_new": [
+    18747,
+    20000,
+    18619
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    17.88,
+    16.46,
+    17.83
+   ],
+   "main_frac_q48_new": [
+    0.9951,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "quadratus_femoris_r": {
+   "vox_pct_vs_q48": 6.6,
+   "mesh_pct_vs_q48": 6.3,
+   "vox_pct_vs_xfer": 28.01,
+   "mesh_pct_vs_xfer": 45.74,
+   "voxels_q48_xfer_new": [
+    55240,
+    46000,
+    58885
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    54.43,
+    39.7,
+    57.85
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "rectus_femoris_r": {
+   "vox_pct_vs_q48": 1.51,
+   "mesh_pct_vs_q48": 0.92,
+   "vox_pct_vs_xfer": 7.75,
+   "mesh_pct_vs_xfer": 23.46,
+   "voxels_q48_xfer_new": [
+    191273,
+    180200,
+    194161
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    189.77,
+    155.11,
+    191.51
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "sartorius_r": {
+   "vox_pct_vs_q48": 7.48,
+   "mesh_pct_vs_q48": 7.06,
+   "vox_pct_vs_xfer": -1.82,
+   "mesh_pct_vs_xfer": 16.35,
+   "voxels_q48_xfer_new": [
+    149443,
+    163600,
+    160627
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    145.78,
+    134.15,
+    156.08
+   ],
+   "main_frac_q48_new": [
+    0.5432,
+    0.5529
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "semimembranosus_l": {
+   "vox_pct_vs_q48": 0.84,
+   "mesh_pct_vs_q48": 0.55,
+   "vox_pct_vs_xfer": 2.1,
+   "mesh_pct_vs_xfer": 7.83,
+   "voxels_q48_xfer_new": [
+    305574,
+    301800,
+    308128
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    303.48,
+    283.01,
+    305.16
+   ],
+   "main_frac_q48_new": [
+    0.9958,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "semitendinosus_l": {
+   "vox_pct_vs_q48": -4.76,
+   "mesh_pct_vs_q48": -4.3,
+   "vox_pct_vs_xfer": -24.05,
+   "mesh_pct_vs_xfer": -15.37,
+   "voxels_q48_xfer_new": [
+    157752,
+    197800,
+    150238
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    153.6,
+    173.68,
+    146.99
+   ],
+   "main_frac_q48_new": [
+    0.8565,
+    0.9551
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "soleus_l": {
+   "vox_pct_vs_q48": -0.0,
+   "mesh_pct_vs_q48": -0.06,
+   "vox_pct_vs_xfer": -7.22,
+   "mesh_pct_vs_xfer": -1.39,
+   "voxels_q48_xfer_new": [
+    363901,
+    392200,
+    363899
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    360.97,
+    365.82,
+    360.75
+   ],
+   "main_frac_q48_new": [
+    0.9957,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "soleus_r": {
+   "vox_pct_vs_q48": 0.01,
+   "mesh_pct_vs_q48": 0.02,
+   "vox_pct_vs_xfer": -0.55,
+   "mesh_pct_vs_xfer": 5.94,
+   "voxels_q48_xfer_new": [
+    426890,
+    429300,
+    426937
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    424.28,
+    400.6,
+    424.38
+   ],
+   "main_frac_q48_new": [
+    0.9999,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "tensor_fasciae_latae_l": {
+   "vox_pct_vs_q48": -4.66,
+   "mesh_pct_vs_q48": -5.06,
+   "vox_pct_vs_xfer": -35.6,
+   "mesh_pct_vs_xfer": -31.46,
+   "voxels_q48_xfer_new": [
+    69912,
+    103500,
+    66651
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    68.51,
+    94.89,
+    65.04
+   ],
+   "main_frac_q48_new": [
+    0.9957,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "tensor_fasciae_latae_r": {
+   "vox_pct_vs_q48": 5.07,
+   "mesh_pct_vs_q48": 5.41,
+   "vox_pct_vs_xfer": -18.47,
+   "mesh_pct_vs_xfer": -13.06,
+   "voxels_q48_xfer_new": [
+    83954,
+    108200,
+    88214
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    82.32,
+    99.82,
+    86.78
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48"
+   ],
+   "fail": []
+  },
+  "tibialis_anterior_l": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": 0.0,
+   "vox_pct_vs_xfer": 4.38,
+   "mesh_pct_vs_xfer": 14.89,
+   "voxels_q48_xfer_new": [
+    124941,
+    119700,
+    124942
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    123.8,
+    107.76,
+    123.8
+   ],
+   "main_frac_q48_new": [
+    0.9506,
+    0.9506
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "tibialis_posterior_l": {
+   "vox_pct_vs_q48": 0.0,
+   "mesh_pct_vs_q48": 0.0,
+   "vox_pct_vs_xfer": -0.5,
+   "mesh_pct_vs_xfer": 12.05,
+   "voxels_q48_xfer_new": [
+    83384,
+    83800,
+    83384
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    80.35,
+    71.71,
+    80.35
+   ],
+   "main_frac_q48_new": [
+    1.0,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "vastus_intermedius_r": {
+   "vox_pct_vs_q48": -14.78,
+   "mesh_pct_vs_q48": -14.99,
+   "vox_pct_vs_xfer": -3.0,
+   "mesh_pct_vs_xfer": -2.86,
+   "voxels_q48_xfer_new": [
+    393933,
+    346100,
+    335724
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    390.46,
+    341.73,
+    331.95
+   ],
+   "main_frac_q48_new": [
+    0.9999,
+    1.0
+   ],
+   "passes": [
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "vastus_lateralis_l": {
+   "vox_pct_vs_q48": 0.92,
+   "mesh_pct_vs_q48": 0.5,
+   "vox_pct_vs_xfer": -11.75,
+   "mesh_pct_vs_xfer": -3.21,
+   "voxels_q48_xfer_new": [
+    323201,
+    369600,
+    326186
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    320.71,
+    333.02,
+    322.32
+   ],
+   "main_frac_q48_new": [
+    0.9885,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "vastus_lateralis_r": {
+   "vox_pct_vs_q48": -1.29,
+   "mesh_pct_vs_q48": -1.28,
+   "vox_pct_vs_xfer": -3.39,
+   "mesh_pct_vs_xfer": 4.03,
+   "voxels_q48_xfer_new": [
+    494141,
+    504900,
+    487783
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    489.82,
+    464.8,
+    483.53
+   ],
+   "main_frac_q48_new": [
+    0.9958,
+    1.0
+   ],
+   "passes": [
+    "within 10 % of Q48",
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  },
+  "vastus_medialis_l": {
+   "vox_pct_vs_q48": -18.99,
+   "mesh_pct_vs_q48": -19.74,
+   "vox_pct_vs_xfer": -1.84,
+   "mesh_pct_vs_xfer": 3.85,
+   "voxels_q48_xfer_new": [
+    294688,
+    243200,
+    238716
+   ],
+   "mesh_cm3_q48_xfer_new": [
+    292.45,
+    226.01,
+    234.72
+   ],
+   "main_frac_q48_new": [
+    0.999,
+    1.0
+   ],
+   "passes": [
+    "within 15 % of the transfer"
+   ],
+   "fail": []
+  }
+ },
+ "xfer_refs": {
+  "adductor_brevis_l": [
+   121100,
+   115.83794271243347
+  ],
+  "adductor_brevis_r": [
+   149500,
+   143.11651512266937
+  ],
+  "adductor_longus_l": [
+   124600,
+   115.50973030681065
+  ],
+  "adductor_longus_r": [
+   164300,
+   150.32500063711245
+  ],
+  "adductor_magnus_l": [
+   683900,
+   664.1275675652918
+  ],
+  "adductor_magnus_r": [
+   817000,
+   798.9951775641035
+  ],
+  "biceps_femoris_l": [
+   271500,
+   243.17656101438567
+  ],
+  "biceps_femoris_r": [
+   379200,
+   350.6495661190895
+  ],
+  "extensor_digitorum_longus_l": [
+   41800,
+   52.79257516443068
+  ],
+  "extensor_digitorum_longus_r": [
+   32300,
+   45.313281791081884
+  ],
+  "extensor_hallucis_longus_l": [
+   16000,
+   16.50707019358578
+  ],
+  "extensor_hallucis_longus_r": [
+   26200,
+   20.980912006238988
+  ],
+  "fibularis_longus_l": [
+   76900,
+   72.13626776975285
+  ],
+  "fibularis_longus_r": [
+   101000,
+   88.99045953068715
+  ],
+  "flexor_digitorum_longus_l": [
+   25600,
+   20.467403647407085
+  ],
+  "flexor_digitorum_longus_r": [
+   17500,
+   18.53449067052893
+  ],
+  "flexor_hallucis_longus_l": [
+   82700,
+   86.33919736137184
+  ],
+  "flexor_hallucis_longus_r": [
+   87300,
+   94.52474148047197
+  ],
+  "gastrocnemius_l": [
+   397900,
+   387.1463360216503
+  ],
+  "gastrocnemius_r": [
+   389900,
+   381.17840457918913
+  ],
+  "gemellus_inferior_l": [
+   4000,
+   3.105590052927028
+  ],
+  "gracilis_l": [
+   90800,
+   74.35802501404909
+  ],
+  "gracilis_r": [
+   113900,
+   90.57694668632438
+  ],
+  "obturator_externus_l": [
+   101100,
+   91.8995133696614
+  ],
+  "obturator_externus_r": [
+   94300,
+   84.32131391687075
+  ],
+  "obturator_internus_l": [
+   120900,
+   110.0051270865787
+  ],
+  "obturator_internus_r": [
+   131200,
+   118.43751121754201
+  ],
+  "pectineus_l": [
+   97400,
+   88.28661515451752
+  ],
+  "pectineus_r": [
+   98100,
+   89.34955375025173
+  ],
+  "plantaris_l": [
+   11100,
+   8.853773524633366
+  ],
+  "plantaris_r": [
+   13200,
+   10.392913537228031
+  ],
+  "popliteus_l": [
+   19200,
+   16.42589303944063
+  ],
+  "popliteus_r": [
+   20000,
+   16.46389673193765
+  ],
+  "quadratus_femoris_l": [
+   44900,
+   38.41018182096479
+  ],
+  "quadratus_femoris_r": [
+   46000,
+   39.69610590350366
+  ],
+  "rectus_femoris_l": [
+   160000,
+   132.24307974561805
+  ],
+  "rectus_femoris_r": [
+   180200,
+   155.11430431969794
+  ],
+  "sartorius_l": [
+   151200,
+   127.50001837777447
+  ],
+  "sartorius_r": [
+   163600,
+   134.14512825533555
+  ],
+  "semimembranosus_l": [
+   301800,
+   283.0111319938371
+  ],
+  "semimembranosus_r": [
+   359800,
+   334.9303517259369
+  ],
+  "semitendinosus_l": [
+   197800,
+   173.68133261674097
+  ],
+  "semitendinosus_r": [
+   222200,
+   195.44845852444143
+  ],
+  "soleus_l": [
+   392200,
+   365.82435578831115
+  ],
+  "soleus_r": [
+   429300,
+   400.60497535011064
+  ],
+  "tensor_fasciae_latae_l": [
+   103500,
+   94.89220462197838
+  ],
+  "tensor_fasciae_latae_r": [
+   108200,
+   99.82054062336695
+  ],
+  "tibialis_anterior_l": [
+   119700,
+   107.76110141915393
+  ],
+  "tibialis_anterior_r": [
+   116400,
+   99.52548493353433
+  ],
+  "tibialis_posterior_l": [
+   83800,
+   71.70515885165725
+  ],
+  "tibialis_posterior_r": [
+   89000,
+   78.90717853730918
+  ],
+  "vastus_intermedius_l": [
+   251000,
+   246.27493311561713
+  ],
+  "vastus_intermedius_r": [
+   346100,
+   341.73154127486583
+  ],
+  "vastus_lateralis_l": [
+   369600,
+   333.0161820875993
+  ],
+  "vastus_lateralis_r": [
+   504900,
+   464.8007350095592
+  ],
+  "vastus_medialis_l": [
+   243200,
+   226.01015767538104
+  ],
+  "vastus_medialis_r": [
+   236400,
+   219.97619056213276
+  ]
+ },
+ "muscle_rule": "q48",
+ "traced_excluded": true,
+ "params": {
+  "erode": 3,
+  "dilate": 4,
+  "max_move": 8,
+  "hold_band_mm": 3,
+  "bone_words": [
+   "femur",
+   "patella",
+   "tibia",
+   "fibula",
+   "hip_bone",
+   "sacrum"
+  ],
+  "max_dvol_pct_vs_q48": 10.0,
+  "max_dvol_pct_vs_xfer": 15.0,
+  "min_piece_frac": 0.02,
+  "main_frac_floor": 0.98,
+  "notch_frac": 0.5
+ },
+ "voxels_before_after": {
+  "adductor_brevis_l": [
+   121905,
+   120881
+  ],
+  "adductor_brevis_r": [
+   144294,
+   142301
+  ],
+  "adductor_longus_l": [
+   132892,
+   137963
+  ],
+  "adductor_longus_r": [
+   153531,
+   151311
+  ],
+  "adductor_magnus_l": [
+   630154,
+   623700
+  ],
+  "adductor_magnus_r": [
+   683552,
+   655789
+  ],
+  "biceps_femoris_l": [
+   262861,
+   261694
+  ],
+  "biceps_femoris_r": [
+   337052,
+   338845
+  ],
+  "extensor_digitorum_longus_l": [
+   39655,
+   39655
+  ],
+  "extensor_digitorum_longus_r": [
+   34645,
+   34645
+  ],
+  "extensor_hallucis_longus_l": [
+   14669,
+   14669
+  ],
+  "extensor_hallucis_longus_r": [
+   27095,
+   27095
+  ],
+  "fibularis_longus_l": [
+   75217,
+   75218
+  ],
+  "fibularis_longus_r": [
+   103765,
+   103766
+  ],
+  "flexor_digitorum_longus_l": [
+   42033,
+   42035
+  ],
+  "flexor_digitorum_longus_r": [
+   21153,
+   21154
+  ],
+  "flexor_hallucis_longus_l": [
+   93919,
+   93920
+  ],
+  "flexor_hallucis_longus_r": [
+   90033,
+   90035
+  ],
+  "gastrocnemius_l": [
+   373005,
+   376910
+  ],
+  "gastrocnemius_r": [
+   367215,
+   362806
+  ],
+  "gemellus_inferior_l": [
+   6593,
+   6593
+  ],
+  "gracilis_l": [
+   95419,
+   96983
+  ],
+  "gracilis_r": [
+   75407,
+   75407
+  ],
+  "obturator_externus_l": [
+   114992,
+   113415
+  ],
+  "obturator_externus_r": [
+   105410,
+   105943
+  ],
+  "obturator_internus_l": [
+   141600,
+   151908
+  ],
+  "obturator_internus_r": [
+   150930,
+   151067
+  ],
+  "pectineus_l": [
+   110819,
+   100243
+  ],
+  "pectineus_r": [
+   122165,
+   122165
+  ],
+  "plantaris_l": [
+   13747,
+   13583
+  ],
+  "plantaris_r": [
+   14431,
+   14427
+  ],
+  "popliteus_l": [
+   19576,
+   19543
+  ],
+  "popliteus_r": [
+   18747,
+   18619
+  ],
+  "quadratus_femoris_l": [
+   51229,
+   51229
+  ],
+  "quadratus_femoris_r": [
+   55240,
+   58885
+  ],
+  "rectus_femoris_l": [
+   176853,
+   178709
+  ],
+  "rectus_femoris_r": [
+   191273,
+   194161
+  ],
+  "sartorius_l": [
+   169802,
+   170818
+  ],
+  "sartorius_r": [
+   149443,
+   160627
+  ],
+  "semimembranosus_l": [
+   305574,
+   308128
+  ],
+  "semimembranosus_r": [
+   311689,
+   311689
+  ],
+  "semitendinosus_l": [
+   157752,
+   150238
+  ],
+  "semitendinosus_r": [
+   172071,
+   173756
+  ],
+  "soleus_l": [
+   363901,
+   363899
+  ],
+  "soleus_r": [
+   426890,
+   426937
+  ],
+  "tensor_fasciae_latae_l": [
+   69912,
+   66651
+  ],
+  "tensor_fasciae_latae_r": [
+   83954,
+   88214
+  ],
+  "tibialis_anterior_l": [
+   124941,
+   124942
+  ],
+  "tibialis_anterior_r": [
+   106242,
+   106242
+  ],
+  "tibialis_posterior_l": [
+   83384,
+   83384
+  ],
+  "tibialis_posterior_r": [
+   90178,
+   90178
+  ],
+  "vastus_intermedius_l": [
+   280631,
+   290532
+  ],
+  "vastus_intermedius_r": [
+   393933,
+   335724
+  ],
+  "vastus_lateralis_l": [
+   323201,
+   326186
+  ],
+  "vastus_lateralis_r": [
+   494141,
+   487783
+  ],
+  "vastus_medialis_l": [
+   294688,
+   238716
+  ],
+  "vastus_medialis_r": [
+   263464,
+   267052
+  ]
+ },
+ "changed_ids": [
+  "adductor_brevis_l",
+  "adductor_brevis_r",
+  "adductor_longus_l",
+  "adductor_longus_r",
+  "adductor_magnus_l",
+  "adductor_magnus_r",
+  "biceps_femoris_l",
+  "biceps_femoris_r",
+  "fibularis_longus_l",
+  "fibularis_longus_r",
+  "flexor_digitorum_longus_l",
+  "flexor_digitorum_longus_r",
+  "flexor_hallucis_longus_l",
+  "flexor_hallucis_longus_r",
+  "gastrocnemius_l",
+  "gastrocnemius_r",
+  "gracilis_l",
+  "obturator_externus_l",
+  "obturator_externus_r",
+  "obturator_internus_l",
+  "obturator_internus_r",
+  "pectineus_l",
+  "plantaris_l",
+  "plantaris_r",
+  "popliteus_l",
+  "popliteus_r",
+  "quadratus_femoris_r",
+  "rectus_femoris_l",
+  "rectus_femoris_r",
+  "sartorius_l",
+  "sartorius_r",
+  "semimembranosus_l",
+  "semitendinosus_l",
+  "semitendinosus_r",
+  "soleus_l",
+  "soleus_r",
+  "tensor_fasciae_latae_l",
+  "tensor_fasciae_latae_r",
+  "tibialis_anterior_l",
+  "tibialis_posterior_l",
+  "vastus_intermedius_l",
+  "vastus_intermedius_r",
+  "vastus_lateralis_l",
+  "vastus_lateralis_r",
+  "vastus_medialis_l",
+  "vastus_medialis_r"
+ ],
+ "levels": {
+  "right:345": {
+   "y": -405.771,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.011,
+   "changed_vox": 0
+  },
+  "right:346": {
+   "y": -404.771,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.061,
+   "changed_vox": 0
+  },
+  "right:347": {
+   "y": -403.771,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.111,
+   "changed_vox": 232
+  },
+  "right:348": {
+   "y": -402.771,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.161,
+   "changed_vox": 247
+  },
+  "right:349": {
+   "y": -401.771,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.211,
+   "changed_vox": 372
+  },
+  "right:350": {
+   "y": -400.771,
+   "shift_vox": [
+    1,
+    1
+   ],
+   "weight": 0.261,
+   "changed_vox": 419
+  },
+  "right:351": {
+   "y": -399.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 0.311,
+   "changed_vox": 493
+  },
+  "right:352": {
+   "y": -398.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 0.361,
+   "changed_vox": 540
+  },
+  "right:353": {
+   "y": -397.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 0.411,
+   "changed_vox": 572
+  },
+  "right:354": {
+   "y": -396.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 0.461,
+   "changed_vox": 683
+  },
+  "right:355": {
+   "y": -395.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 0.511,
+   "changed_vox": 676
+  },
+  "right:356": {
+   "y": -394.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 0.561,
+   "changed_vox": 675
+  },
+  "right:357": {
+   "y": -393.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 0.611,
+   "changed_vox": 673
+  },
+  "right:358": {
+   "y": -392.771,
+   "shift_vox": [
+    4,
+    1
+   ],
+   "weight": 0.661,
+   "changed_vox": 649
+  },
+  "right:359": {
+   "y": -391.771,
+   "shift_vox": [
+    4,
+    1
+   ],
+   "weight": 0.711,
+   "changed_vox": 642
+  },
+  "right:360": {
+   "y": -390.771,
+   "shift_vox": [
+    4,
+    2
+   ],
+   "weight": 0.761,
+   "changed_vox": 654
+  },
+  "right:361": {
+   "y": -389.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 0.811,
+   "changed_vox": 715
+  },
+  "right:362": {
+   "y": -388.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 0.861,
+   "changed_vox": 663
+  },
+  "right:363": {
+   "y": -387.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 0.911,
+   "changed_vox": 668
+  },
+  "right:364": {
+   "y": -386.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 0.961,
+   "changed_vox": 679
+  },
+  "right:365": {
+   "y": -385.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 684
+  },
+  "right:366": {
+   "y": -384.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 688
+  },
+  "right:367": {
+   "y": -383.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 671
+  },
+  "right:368": {
+   "y": -382.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 800
+  },
+  "right:369": {
+   "y": -381.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 860
+  },
+  "right:370": {
+   "y": -380.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 843
+  },
+  "right:371": {
+   "y": -379.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 850
+  },
+  "right:372": {
+   "y": -378.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 738
+  },
+  "right:373": {
+   "y": -377.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 689
+  },
+  "right:374": {
+   "y": -376.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 615
+  },
+  "right:375": {
+   "y": -375.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 656
+  },
+  "right:376": {
+   "y": -374.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 656
+  },
+  "right:377": {
+   "y": -373.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 806
+  },
+  "right:378": {
+   "y": -372.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 703
+  },
+  "right:379": {
+   "y": -371.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 706
+  },
+  "right:380": {
+   "y": -370.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 645
+  },
+  "right:381": {
+   "y": -369.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 669
+  },
+  "right:382": {
+   "y": -368.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 623
+  },
+  "right:383": {
+   "y": -367.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 604
+  },
+  "right:384": {
+   "y": -366.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 586
+  },
+  "right:385": {
+   "y": -365.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 706
+  },
+  "right:386": {
+   "y": -364.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 588
+  },
+  "right:387": {
+   "y": -363.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 521
+  },
+  "right:388": {
+   "y": -362.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 568
+  },
+  "right:389": {
+   "y": -361.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 494
+  },
+  "right:390": {
+   "y": -360.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 465
+  },
+  "right:391": {
+   "y": -359.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 369
+  },
+  "right:392": {
+   "y": -358.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 456
+  },
+  "right:393": {
+   "y": -357.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 399
+  },
+  "right:394": {
+   "y": -356.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 315
+  },
+  "right:395": {
+   "y": -355.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 308
+  },
+  "right:396": {
+   "y": -354.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 268
+  },
+  "right:397": {
+   "y": -353.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 285
+  },
+  "right:398": {
+   "y": -352.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 288
+  },
+  "right:399": {
+   "y": -351.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 300
+  },
+  "right:400": {
+   "y": -350.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 491
+  },
+  "right:401": {
+   "y": -349.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 496
+  },
+  "right:402": {
+   "y": -348.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 510
+  },
+  "right:403": {
+   "y": -347.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 520
+  },
+  "right:404": {
+   "y": -346.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 516
+  },
+  "right:405": {
+   "y": -345.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 508
+  },
+  "right:406": {
+   "y": -344.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 551
+  },
+  "right:407": {
+   "y": -343.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 574
+  },
+  "right:408": {
+   "y": -342.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 550
+  },
+  "right:409": {
+   "y": -341.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 562
+  },
+  "right:410": {
+   "y": -340.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 514
+  },
+  "right:411": {
+   "y": -339.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 560
+  },
+  "right:412": {
+   "y": -338.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 561
+  },
+  "right:413": {
+   "y": -337.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 583
+  },
+  "right:414": {
+   "y": -336.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 603
+  },
+  "right:415": {
+   "y": -335.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 581
+  },
+  "right:416": {
+   "y": -334.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 631
+  },
+  "right:417": {
+   "y": -333.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 578
+  },
+  "right:418": {
+   "y": -332.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 598
+  },
+  "right:419": {
+   "y": -331.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 603
+  },
+  "right:420": {
+   "y": -330.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 628
+  },
+  "right:421": {
+   "y": -329.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 615
+  },
+  "right:422": {
+   "y": -328.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 631
+  },
+  "right:423": {
+   "y": -327.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 707
+  },
+  "right:424": {
+   "y": -326.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 695
+  },
+  "right:425": {
+   "y": -325.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 671
+  },
+  "right:426": {
+   "y": -324.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 694
+  },
+  "right:427": {
+   "y": -323.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 797
+  },
+  "right:428": {
+   "y": -322.771,
+   "shift_vox": [
+    5,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 788
+  },
+  "right:429": {
+   "y": -321.771,
+   "shift_vox": [
+    5,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 828
+  },
+  "right:430": {
+   "y": -320.771,
+   "shift_vox": [
+    5,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 813
+  },
+  "right:431": {
+   "y": -319.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 922
+  },
+  "right:432": {
+   "y": -318.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 901
+  },
+  "right:433": {
+   "y": -317.771,
+   "shift_vox": [
+    6,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 965
+  },
+  "right:434": {
+   "y": -316.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1006
+  },
+  "right:435": {
+   "y": -315.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 995
+  },
+  "right:436": {
+   "y": -314.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1018
+  },
+  "right:437": {
+   "y": -313.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1027
+  },
+  "right:438": {
+   "y": -312.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1043
+  },
+  "right:439": {
+   "y": -311.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1091
+  },
+  "right:440": {
+   "y": -310.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1005
+  },
+  "right:441": {
+   "y": -309.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1052
+  },
+  "right:442": {
+   "y": -308.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1115
+  },
+  "right:443": {
+   "y": -307.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1360
+  },
+  "right:444": {
+   "y": -306.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1586
+  },
+  "right:445": {
+   "y": -305.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1455
+  },
+  "right:446": {
+   "y": -304.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1550
+  },
+  "right:447": {
+   "y": -303.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1403
+  },
+  "right:448": {
+   "y": -302.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1589
+  },
+  "right:449": {
+   "y": -301.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1591
+  },
+  "right:450": {
+   "y": -300.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1550
+  },
+  "right:451": {
+   "y": -299.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1514
+  },
+  "right:452": {
+   "y": -298.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1525
+  },
+  "right:453": {
+   "y": -297.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1535
+  },
+  "right:454": {
+   "y": -296.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1557
+  },
+  "right:455": {
+   "y": -295.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1523
+  },
+  "right:456": {
+   "y": -294.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1449
+  },
+  "right:457": {
+   "y": -293.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1429
+  },
+  "right:458": {
+   "y": -292.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1458
+  },
+  "right:459": {
+   "y": -291.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1561
+  },
+  "right:460": {
+   "y": -290.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1511
+  },
+  "right:461": {
+   "y": -289.771,
+   "shift_vox": [
+    6,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1484
+  },
+  "right:462": {
+   "y": -288.771,
+   "shift_vox": [
+    6,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1460
+  },
+  "right:463": {
+   "y": -287.771,
+   "shift_vox": [
+    6,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1411
+  },
+  "right:464": {
+   "y": -286.771,
+   "shift_vox": [
+    6,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1403
+  },
+  "right:465": {
+   "y": -285.771,
+   "shift_vox": [
+    6,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1423
+  },
+  "right:466": {
+   "y": -284.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1393
+  },
+  "right:467": {
+   "y": -283.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1386
+  },
+  "right:468": {
+   "y": -282.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1408
+  },
+  "right:469": {
+   "y": -281.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1394
+  },
+  "right:470": {
+   "y": -280.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1400
+  },
+  "right:471": {
+   "y": -279.771,
+   "shift_vox": [
+    5,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1229
+  },
+  "right:472": {
+   "y": -278.771,
+   "shift_vox": [
+    5,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1266
+  },
+  "right:473": {
+   "y": -277.771,
+   "shift_vox": [
+    5,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1242
+  },
+  "right:474": {
+   "y": -276.771,
+   "shift_vox": [
+    5,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 1342
+  },
+  "right:475": {
+   "y": -275.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1312
+  },
+  "right:476": {
+   "y": -274.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1383
+  },
+  "right:477": {
+   "y": -273.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1291
+  },
+  "right:478": {
+   "y": -272.771,
+   "shift_vox": [
+    4,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1180
+  },
+  "right:479": {
+   "y": -271.771,
+   "shift_vox": [
+    4,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1196
+  },
+  "right:480": {
+   "y": -270.771,
+   "shift_vox": [
+    4,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1145
+  },
+  "right:481": {
+   "y": -269.771,
+   "shift_vox": [
+    4,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1132
+  },
+  "right:482": {
+   "y": -268.771,
+   "shift_vox": [
+    4,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1094
+  },
+  "right:483": {
+   "y": -267.771,
+   "shift_vox": [
+    4,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1128
+  },
+  "right:484": {
+   "y": -266.771,
+   "shift_vox": [
+    4,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 996
+  },
+  "right:485": {
+   "y": -265.771,
+   "shift_vox": [
+    4,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1107
+  },
+  "right:486": {
+   "y": -264.771,
+   "shift_vox": [
+    4,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1119
+  },
+  "right:487": {
+   "y": -263.771,
+   "shift_vox": [
+    4,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1181
+  },
+  "right:488": {
+   "y": -262.771,
+   "shift_vox": [
+    4,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1241
+  },
+  "right:489": {
+   "y": -261.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1217
+  },
+  "right:490": {
+   "y": -260.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1197
+  },
+  "right:491": {
+   "y": -259.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1173
+  },
+  "right:492": {
+   "y": -258.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1202
+  },
+  "right:493": {
+   "y": -257.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1183
+  },
+  "right:494": {
+   "y": -256.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1185
+  },
+  "right:495": {
+   "y": -255.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1271
+  },
+  "right:496": {
+   "y": -254.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1249
+  },
+  "right:497": {
+   "y": -253.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1392
+  },
+  "right:498": {
+   "y": -252.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1377
+  },
+  "right:499": {
+   "y": -251.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1365
+  },
+  "right:500": {
+   "y": -250.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1354
+  },
+  "right:501": {
+   "y": -249.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1356
+  },
+  "right:502": {
+   "y": -248.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1389
+  },
+  "right:503": {
+   "y": -247.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1358
+  },
+  "right:504": {
+   "y": -246.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1331
+  },
+  "right:505": {
+   "y": -245.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1321
+  },
+  "right:506": {
+   "y": -244.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1307
+  },
+  "right:507": {
+   "y": -243.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1215
+  },
+  "right:508": {
+   "y": -242.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1212
+  },
+  "right:509": {
+   "y": -241.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1326
+  },
+  "right:510": {
+   "y": -240.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1294
+  },
+  "right:511": {
+   "y": -239.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1322
+  },
+  "right:512": {
+   "y": -238.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1253
+  },
+  "right:513": {
+   "y": -237.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1204
+  },
+  "right:514": {
+   "y": -236.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1237
+  },
+  "right:515": {
+   "y": -235.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1141
+  },
+  "right:516": {
+   "y": -234.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1257
+  },
+  "right:517": {
+   "y": -233.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1346
+  },
+  "right:518": {
+   "y": -232.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1382
+  },
+  "right:519": {
+   "y": -231.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1363
+  },
+  "right:520": {
+   "y": -230.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1328
+  },
+  "right:521": {
+   "y": -229.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1426
+  },
+  "right:522": {
+   "y": -228.771,
+   "shift_vox": [
+    4,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1383
+  },
+  "right:523": {
+   "y": -227.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1620
+  },
+  "right:524": {
+   "y": -226.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1560
+  },
+  "right:525": {
+   "y": -225.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1621
+  },
+  "right:526": {
+   "y": -224.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1675
+  },
+  "right:527": {
+   "y": -223.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1553
+  },
+  "right:528": {
+   "y": -222.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1464
+  },
+  "right:529": {
+   "y": -221.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1514
+  },
+  "right:530": {
+   "y": -220.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1425
+  },
+  "right:531": {
+   "y": -219.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1460
+  },
+  "right:532": {
+   "y": -218.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1531
+  },
+  "right:533": {
+   "y": -217.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1526
+  },
+  "right:534": {
+   "y": -216.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1594
+  },
+  "right:535": {
+   "y": -215.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1629
+  },
+  "right:536": {
+   "y": -214.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1585
+  },
+  "right:537": {
+   "y": -213.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1628
+  },
+  "right:538": {
+   "y": -212.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1556
+  },
+  "right:539": {
+   "y": -211.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1658
+  },
+  "right:540": {
+   "y": -210.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1596
+  },
+  "right:541": {
+   "y": -209.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1674
+  },
+  "right:542": {
+   "y": -208.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1759
+  },
+  "right:543": {
+   "y": -207.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1860
+  },
+  "right:544": {
+   "y": -206.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1857
+  },
+  "right:545": {
+   "y": -205.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1922
+  },
+  "right:546": {
+   "y": -204.771,
+   "shift_vox": [
+    5,
+    -1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2051
+  },
+  "right:547": {
+   "y": -203.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1913
+  },
+  "right:548": {
+   "y": -202.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1933
+  },
+  "right:549": {
+   "y": -201.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1936
+  },
+  "right:550": {
+   "y": -200.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2064
+  },
+  "right:551": {
+   "y": -199.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1897
+  },
+  "right:552": {
+   "y": -198.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1870
+  },
+  "right:553": {
+   "y": -197.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1824
+  },
+  "right:554": {
+   "y": -196.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1886
+  },
+  "right:555": {
+   "y": -195.771,
+   "shift_vox": [
+    5,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 1924
+  },
+  "right:556": {
+   "y": -194.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2049
+  },
+  "right:557": {
+   "y": -193.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2059
+  },
+  "right:558": {
+   "y": -192.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2253
+  },
+  "right:559": {
+   "y": -191.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2301
+  },
+  "right:560": {
+   "y": -190.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2266
+  },
+  "right:561": {
+   "y": -189.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2355
+  },
+  "right:562": {
+   "y": -188.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2337
+  },
+  "right:563": {
+   "y": -187.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2318
+  },
+  "right:564": {
+   "y": -186.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2243
+  },
+  "right:565": {
+   "y": -185.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2316
+  },
+  "right:566": {
+   "y": -184.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2393
+  },
+  "right:567": {
+   "y": -183.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2407
+  },
+  "right:568": {
+   "y": -182.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2450
+  },
+  "right:569": {
+   "y": -181.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2360
+  },
+  "right:570": {
+   "y": -180.771,
+   "shift_vox": [
+    6,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 2334
+  },
+  "right:571": {
+   "y": -179.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2317
+  },
+  "right:572": {
+   "y": -178.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2457
+  },
+  "right:573": {
+   "y": -177.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2355
+  },
+  "right:574": {
+   "y": -176.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2401
+  },
+  "right:575": {
+   "y": -175.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2556
+  },
+  "right:576": {
+   "y": -174.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2535
+  },
+  "right:577": {
+   "y": -173.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2773
+  },
+  "right:578": {
+   "y": -172.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2656
+  },
+  "right:579": {
+   "y": -171.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2705
+  },
+  "right:580": {
+   "y": -170.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2805
+  },
+  "right:581": {
+   "y": -169.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2882
+  },
+  "right:582": {
+   "y": -168.771,
+   "shift_vox": [
+    6,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2830
+  },
+  "right:583": {
+   "y": -167.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2760
+  },
+  "right:584": {
+   "y": -166.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2998
+  },
+  "right:585": {
+   "y": -165.771,
+   "shift_vox": [
+    6,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2864
+  },
+  "right:586": {
+   "y": -164.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2908
+  },
+  "right:587": {
+   "y": -163.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2939
+  },
+  "right:588": {
+   "y": -162.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3063
+  },
+  "right:589": {
+   "y": -161.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3097
+  },
+  "right:590": {
+   "y": -160.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3037
+  },
+  "right:591": {
+   "y": -159.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3184
+  },
+  "right:592": {
+   "y": -158.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3135
+  },
+  "right:593": {
+   "y": -157.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3193
+  },
+  "right:594": {
+   "y": -156.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3309
+  },
+  "right:595": {
+   "y": -155.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3338
+  },
+  "right:596": {
+   "y": -154.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3340
+  },
+  "right:597": {
+   "y": -153.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3510
+  },
+  "right:598": {
+   "y": -152.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3504
+  },
+  "right:599": {
+   "y": -151.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3367
+  },
+  "right:600": {
+   "y": -150.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3415
+  },
+  "right:601": {
+   "y": -149.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3489
+  },
+  "right:602": {
+   "y": -148.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3393
+  },
+  "right:603": {
+   "y": -147.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3560
+  },
+  "right:604": {
+   "y": -146.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3360
+  },
+  "right:605": {
+   "y": -145.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3359
+  },
+  "right:606": {
+   "y": -144.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3212
+  },
+  "right:607": {
+   "y": -143.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2851
+  },
+  "right:608": {
+   "y": -142.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2744
+  },
+  "right:609": {
+   "y": -141.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2662
+  },
+  "right:610": {
+   "y": -140.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2680
+  },
+  "right:611": {
+   "y": -139.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2722
+  },
+  "right:612": {
+   "y": -138.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2625
+  },
+  "right:613": {
+   "y": -137.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2833
+  },
+  "right:614": {
+   "y": -136.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2751
+  },
+  "right:615": {
+   "y": -135.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2788
+  },
+  "right:616": {
+   "y": -134.771,
+   "shift_vox": [
+    5,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3122
+  },
+  "right:617": {
+   "y": -133.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3075
+  },
+  "right:618": {
+   "y": -132.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3322
+  },
+  "right:619": {
+   "y": -131.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3178
+  },
+  "right:620": {
+   "y": -130.771,
+   "status": "interpolated",
+   "between": [
+    619,
+    625
+   ],
+   "changed_vox": 3060
+  },
+  "right:621": {
+   "y": -129.771,
+   "status": "interpolated",
+   "between": [
+    619,
+    625
+   ],
+   "changed_vox": 3090
+  },
+  "right:622": {
+   "y": -128.771,
+   "status": "interpolated",
+   "between": [
+    619,
+    625
+   ],
+   "changed_vox": 3549
+  },
+  "right:623": {
+   "y": -127.771,
+   "status": "interpolated",
+   "between": [
+    619,
+    625
+   ],
+   "changed_vox": 3277
+  },
+  "right:624": {
+   "y": -126.771,
+   "status": "interpolated",
+   "between": [
+    619,
+    625
+   ],
+   "changed_vox": 3280
+  },
+  "right:625": {
+   "y": -125.771,
+   "shift_vox": [
+    4,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3268
+  },
+  "right:626": {
+   "y": -124.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 3201
+  },
+  "right:627": {
+   "y": -123.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 3077
+  },
+  "right:628": {
+   "y": -122.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2911
+  },
+  "right:629": {
+   "y": -121.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2635
+  },
+  "right:630": {
+   "y": -120.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2737
+  },
+  "right:631": {
+   "y": -119.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2570
+  },
+  "right:632": {
+   "y": -118.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2701
+  },
+  "right:633": {
+   "y": -117.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2799
+  },
+  "right:634": {
+   "y": -116.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2898
+  },
+  "right:635": {
+   "y": -115.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2863
+  },
+  "right:636": {
+   "y": -114.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2798
+  },
+  "right:637": {
+   "y": -113.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2765
+  },
+  "right:638": {
+   "y": -112.771,
+   "shift_vox": [
+    4,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2691
+  },
+  "right:639": {
+   "y": -111.771,
+   "shift_vox": [
+    3,
+    4
+   ],
+   "weight": 1.0,
+   "changed_vox": 2504
+  },
+  "right:640": {
+   "y": -110.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2408
+  },
+  "right:641": {
+   "y": -109.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2311
+  },
+  "right:642": {
+   "y": -108.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2375
+  },
+  "right:643": {
+   "y": -107.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2281
+  },
+  "right:644": {
+   "y": -106.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2254
+  },
+  "right:645": {
+   "y": -105.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2367
+  },
+  "right:646": {
+   "y": -104.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2414
+  },
+  "right:647": {
+   "y": -103.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2394
+  },
+  "right:648": {
+   "y": -102.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2604
+  },
+  "right:649": {
+   "y": -101.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2504
+  },
+  "right:650": {
+   "y": -100.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3026
+  },
+  "right:651": {
+   "y": -99.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2850
+  },
+  "right:652": {
+   "y": -98.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2758
+  },
+  "right:653": {
+   "y": -97.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2696
+  },
+  "right:654": {
+   "y": -96.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2643
+  },
+  "right:655": {
+   "y": -95.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2377
+  },
+  "right:656": {
+   "y": -94.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2408
+  },
+  "right:657": {
+   "y": -93.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2371
+  },
+  "right:658": {
+   "y": -92.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2433
+  },
+  "right:659": {
+   "y": -91.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2300
+  },
+  "right:660": {
+   "y": -90.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2595
+  },
+  "right:661": {
+   "y": -89.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2590
+  },
+  "right:662": {
+   "y": -88.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2570
+  },
+  "right:663": {
+   "y": -87.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2657
+  },
+  "right:664": {
+   "y": -86.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2704
+  },
+  "right:665": {
+   "y": -85.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2804
+  },
+  "right:666": {
+   "y": -84.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2710
+  },
+  "right:667": {
+   "y": -83.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2764
+  },
+  "right:668": {
+   "y": -82.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2930
+  },
+  "right:669": {
+   "y": -81.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2965
+  },
+  "right:670": {
+   "y": -80.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3023
+  },
+  "right:671": {
+   "y": -79.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3049
+  },
+  "right:672": {
+   "y": -78.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 3130
+  },
+  "right:673": {
+   "y": -77.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2904
+  },
+  "right:674": {
+   "y": -76.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2824
+  },
+  "right:675": {
+   "y": -75.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2907
+  },
+  "right:676": {
+   "y": -74.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3025
+  },
+  "right:677": {
+   "y": -73.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3211
+  },
+  "right:678": {
+   "y": -72.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3158
+  },
+  "right:679": {
+   "y": -71.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3182
+  },
+  "right:680": {
+   "y": -70.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3073
+  },
+  "right:681": {
+   "y": -69.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3138
+  },
+  "right:682": {
+   "y": -68.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3186
+  },
+  "right:683": {
+   "y": -67.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3128
+  },
+  "right:684": {
+   "y": -66.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3225
+  },
+  "right:685": {
+   "y": -65.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3339
+  },
+  "right:686": {
+   "y": -64.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 3313
+  },
+  "right:687": {
+   "y": -63.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 3158
+  },
+  "right:688": {
+   "y": -62.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 3107
+  },
+  "right:689": {
+   "y": -61.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2945
+  },
+  "right:690": {
+   "y": -60.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2951
+  },
+  "right:691": {
+   "y": -59.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2811
+  },
+  "right:692": {
+   "y": -58.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2822
+  },
+  "right:693": {
+   "y": -57.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2767
+  },
+  "right:694": {
+   "y": -56.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2614
+  },
+  "right:695": {
+   "y": -55.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2786
+  },
+  "right:696": {
+   "y": -54.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 3012
+  },
+  "right:697": {
+   "y": -53.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 3060
+  },
+  "right:698": {
+   "y": -52.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 3016
+  },
+  "right:699": {
+   "y": -51.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2871
+  },
+  "right:700": {
+   "y": -50.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2815
+  },
+  "right:701": {
+   "y": -49.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2578
+  },
+  "right:702": {
+   "y": -48.771,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 2625
+  },
+  "right:703": {
+   "y": -47.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2764
+  },
+  "right:704": {
+   "y": -46.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2803
+  },
+  "right:705": {
+   "y": -45.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2792
+  },
+  "right:706": {
+   "y": -44.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 2642
+  },
+  "right:707": {
+   "y": -43.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2564
+  },
+  "right:708": {
+   "y": -42.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2560
+  },
+  "right:709": {
+   "y": -41.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2368
+  },
+  "right:710": {
+   "y": -40.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2173
+  },
+  "right:711": {
+   "y": -39.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2320
+  },
+  "right:712": {
+   "y": -38.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2217
+  },
+  "right:713": {
+   "y": -37.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2204
+  },
+  "right:714": {
+   "y": -36.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2250
+  },
+  "right:715": {
+   "y": -35.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2093
+  },
+  "right:716": {
+   "y": -34.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2058
+  },
+  "right:717": {
+   "y": -33.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2017
+  },
+  "right:718": {
+   "y": -32.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2081
+  },
+  "right:719": {
+   "y": -31.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2089
+  },
+  "right:720": {
+   "y": -30.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 2031
+  },
+  "right:721": {
+   "y": -29.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1945
+  },
+  "right:722": {
+   "y": -28.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1933
+  },
+  "right:723": {
+   "y": -27.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1892
+  },
+  "right:724": {
+   "y": -26.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1811
+  },
+  "right:725": {
+   "y": -25.771,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 1.0,
+   "changed_vox": 1737
+  },
+  "right:726": {
+   "y": -24.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1732
+  },
+  "right:727": {
+   "y": -23.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1623
+  },
+  "right:728": {
+   "y": -22.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1529
+  },
+  "right:729": {
+   "y": -21.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1496
+  },
+  "right:730": {
+   "y": -20.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 1.0,
+   "changed_vox": 1462
+  },
+  "right:731": {
+   "y": -19.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1262
+  },
+  "right:732": {
+   "y": -18.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1344
+  },
+  "right:733": {
+   "y": -17.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1290
+  },
+  "right:734": {
+   "y": -16.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1291
+  },
+  "right:735": {
+   "y": -15.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1311
+  },
+  "right:736": {
+   "y": -14.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1243
+  },
+  "right:737": {
+   "y": -13.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1126
+  },
+  "right:738": {
+   "y": -12.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1123
+  },
+  "right:739": {
+   "y": -11.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1045
+  },
+  "right:740": {
+   "y": -10.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 1012
+  },
+  "right:741": {
+   "y": -9.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 872
+  },
+  "right:742": {
+   "y": -8.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 827
+  },
+  "right:743": {
+   "y": -7.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 680
+  },
+  "right:744": {
+   "y": -6.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 771
+  },
+  "right:745": {
+   "y": -5.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 715
+  },
+  "right:746": {
+   "y": -4.771,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 596
+  },
+  "right:747": {
+   "y": -3.771,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 584
+  },
+  "right:748": {
+   "y": -2.771,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 639
+  },
+  "right:749": {
+   "y": -1.771,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 527
+  },
+  "right:750": {
+   "y": -0.771,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 604
+  },
+  "right:751": {
+   "y": 0.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 615
+  },
+  "right:752": {
+   "y": 1.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 643
+  },
+  "right:753": {
+   "y": 2.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 638
+  },
+  "right:754": {
+   "y": 3.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 642
+  },
+  "right:755": {
+   "y": 4.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 592
+  },
+  "right:756": {
+   "y": 5.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 642
+  },
+  "right:757": {
+   "y": 6.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 662
+  },
+  "right:758": {
+   "y": 7.229,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 689
+  },
+  "right:759": {
+   "y": 8.229,
+   "shift_vox": [
+    3,
+    1
+   ],
+   "weight": 1.0,
+   "changed_vox": 703
+  },
+  "right:760": {
+   "y": 9.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 607
+  },
+  "right:761": {
+   "y": 10.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 597
+  },
+  "right:762": {
+   "y": 11.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 593
+  },
+  "right:763": {
+   "y": 12.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 503
+  },
+  "right:764": {
+   "y": 13.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 1.0,
+   "changed_vox": 579
+  },
+  "right:765": {
+   "y": 14.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 0.989,
+   "changed_vox": 556
+  },
+  "right:766": {
+   "y": 15.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 0.939,
+   "changed_vox": 440
+  },
+  "right:767": {
+   "y": 16.229,
+   "shift_vox": [
+    3,
+    0
+   ],
+   "weight": 0.889,
+   "changed_vox": 443
+  },
+  "right:768": {
+   "y": 17.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.839,
+   "changed_vox": 412
+  },
+  "right:769": {
+   "y": 18.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.789,
+   "changed_vox": 369
+  },
+  "right:770": {
+   "y": 19.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.739,
+   "changed_vox": 400
+  },
+  "right:771": {
+   "y": 20.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.689,
+   "changed_vox": 394
+  },
+  "right:772": {
+   "y": 21.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.639,
+   "changed_vox": 412
+  },
+  "right:773": {
+   "y": 22.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.589,
+   "changed_vox": 388
+  },
+  "right:774": {
+   "y": 23.229,
+   "shift_vox": [
+    2,
+    0
+   ],
+   "weight": 0.539,
+   "changed_vox": 378
+  },
+  "right:775": {
+   "y": 24.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.489,
+   "changed_vox": 335
+  },
+  "right:776": {
+   "y": 25.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.439,
+   "changed_vox": 315
+  },
+  "right:777": {
+   "y": 26.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.389,
+   "changed_vox": 277
+  },
+  "right:778": {
+   "y": 27.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.339,
+   "changed_vox": 282
+  },
+  "right:779": {
+   "y": 28.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.289,
+   "changed_vox": 238
+  },
+  "right:780": {
+   "y": 29.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.239,
+   "changed_vox": 230
+  },
+  "right:781": {
+   "y": 30.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.189,
+   "changed_vox": 224
+  },
+  "right:782": {
+   "y": 31.229,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.139,
+   "changed_vox": 194
+  },
+  "right:783": {
+   "y": 32.229,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.089,
+   "changed_vox": 119
+  },
+  "right:784": {
+   "y": 33.229,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.039,
+   "changed_vox": 0
+  },
+  "right:notch_blended": [
+   {
+    "label": 2,
+    "y": [
+     -141.771,
+     -141.771
+    ]
+   },
+   {
+    "label": 37,
+    "y": [
+     -131.771,
+     -127.771
+    ]
+   },
+   {
+    "label": 39,
+    "y": [
+     -131.771,
+     -128.771
+    ]
+   },
+   {
+    "label": 47,
+    "y": [
+     -73.771,
+     -73.771
+    ]
+   },
+   {
+    "label": 55,
+    "y": [
+     -340.771,
+     -338.771
+    ]
+   },
+   {
+    "label": 37,
+    "y": [
+     -131.771,
+     -128.771
+    ]
+   },
+   {
+    "label": 37,
+    "y": [
+     -131.771,
+     -129.771
+    ]
+   }
+  ],
+  "right:broken_q48_levels": [
+   -131.771,
+   -130.771,
+   -129.771,
+   15.229
+  ],
+  "left:345": {
+   "y": -405.771,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.011,
+   "changed_vox": 0
+  },
+  "left:346": {
+   "y": -404.771,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.061,
+   "changed_vox": 0
+  },
+  "left:347": {
+   "y": -403.771,
+   "shift_vox": [
+    1,
+    1
+   ],
+   "weight": 0.111,
+   "changed_vox": 308
+  },
+  "left:348": {
+   "y": -402.771,
+   "shift_vox": [
+    1,
+    1
+   ],
+   "weight": 0.161,
+   "changed_vox": 304
+  },
+  "left:349": {
+   "y": -401.771,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 0.211,
+   "changed_vox": 411
+  },
+  "left:350": {
+   "y": -400.771,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 0.261,
+   "changed_vox": 547
+  },
+  "left:351": {
+   "y": -399.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 0.311,
+   "changed_vox": 586
+  },
+  "left:352": {
+   "y": -398.771,
+   "shift_vox": [
+    3,
+    2
+   ],
+   "weight": 0.361,
+   "changed_vox": 594
+  },
+  "left:353": {
+   "y": -397.771,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 0.411,
+   "changed_vox": 691
+  },
+  "left:354": {
+   "y": -396.771,
+   "shift_vox": [
+    4,
+    3
+   ],
+   "weight": 0.461,
+   "changed_vox": 711
+  },
+  "left:355": {
+   "y": -395.771,
+   "shift_vox": [
+    4,
+    3
+   ],
+   "weight": 0.511,
+   "changed_vox": 784
+  },
+  "left:356": {
+   "y": -394.771,
+   "shift_vox": [
+    5,
+    3
+   ],
+   "weight": 0.561,
+   "changed_vox": 828
+  },
+  "left:357": {
+   "y": -393.771,
+   "shift_vox": [
+    5,
+    4
+   ],
+   "weight": 0.611,
+   "changed_vox": 980
+  },
+  "left:358": {
+   "y": -392.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 0.661,
+   "changed_vox": 1089
+  },
+  "left:359": {
+   "y": -391.771,
+   "shift_vox": [
+    6,
+    4
+   ],
+   "weight": 0.711,
+   "changed_vox": 896
+  },
+  "left:360": {
+   "y": -390.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 0.761,
+   "changed_vox": 1133
+  },
+  "left:361": {
+   "y": -389.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 0.811,
+   "changed_vox": 1047
+  },
+  "left:362": {
+   "y": -388.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 0.861,
+   "changed_vox": 970
+  },
+  "left:363": {
+   "y": -387.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 0.911,
+   "changed_vox": 1089
+  },
+  "left:364": {
+   "y": -386.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 0.961,
+   "changed_vox": 1064
+  },
+  "left:365": {
+   "y": -385.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1089
+  },
+  "left:366": {
+   "y": -384.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1049
+  },
+  "left:367": {
+   "y": -383.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1013
+  },
+  "left:368": {
+   "y": -382.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 918
+  },
+  "left:369": {
+   "y": -381.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 916
+  },
+  "left:370": {
+   "y": -380.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 905
+  },
+  "left:371": {
+   "y": -379.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 955
+  },
+  "left:372": {
+   "y": -378.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 874
+  },
+  "left:373": {
+   "y": -377.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 882
+  },
+  "left:374": {
+   "y": -376.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 872
+  },
+  "left:375": {
+   "y": -375.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 853
+  },
+  "left:376": {
+   "y": -374.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 983
+  },
+  "left:377": {
+   "y": -373.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 911
+  },
+  "left:378": {
+   "y": -372.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 989
+  },
+  "left:379": {
+   "y": -371.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 936
+  },
+  "left:380": {
+   "y": -370.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 983
+  },
+  "left:381": {
+   "y": -369.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1023
+  },
+  "left:382": {
+   "y": -368.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1064
+  },
+  "left:383": {
+   "y": -367.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1061
+  },
+  "left:384": {
+   "y": -366.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1120
+  },
+  "left:385": {
+   "y": -365.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1177
+  },
+  "left:386": {
+   "y": -364.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1156
+  },
+  "left:387": {
+   "y": -363.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1211
+  },
+  "left:388": {
+   "y": -362.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1253
+  },
+  "left:389": {
+   "y": -361.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1261
+  },
+  "left:390": {
+   "y": -360.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1283
+  },
+  "left:391": {
+   "y": -359.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1175
+  },
+  "left:392": {
+   "y": -358.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1252
+  },
+  "left:393": {
+   "y": -357.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1272
+  },
+  "left:394": {
+   "y": -356.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1227
+  },
+  "left:395": {
+   "y": -355.771,
+   "shift_vox": [
+    9,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 1423
+  },
+  "left:396": {
+   "y": -354.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1139
+  },
+  "left:397": {
+   "y": -353.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1337
+  },
+  "left:398": {
+   "y": -352.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1307
+  },
+  "left:399": {
+   "y": -351.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1329
+  },
+  "left:400": {
+   "y": -350.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1373
+  },
+  "left:401": {
+   "y": -349.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 1600
+  },
+  "left:402": {
+   "y": -348.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 1780
+  },
+  "left:403": {
+   "y": -347.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 1869
+  },
+  "left:404": {
+   "y": -346.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 1841
+  },
+  "left:405": {
+   "y": -345.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 1832
+  },
+  "left:406": {
+   "y": -344.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 1797
+  },
+  "left:407": {
+   "y": -343.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 1897
+  },
+  "left:408": {
+   "y": -342.771,
+   "shift_vox": [
+    7,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 1860
+  },
+  "left:409": {
+   "y": -341.771,
+   "shift_vox": [
+    7,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 1966
+  },
+  "left:410": {
+   "y": -340.771,
+   "shift_vox": [
+    7,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 2050
+  },
+  "left:411": {
+   "y": -339.771,
+   "shift_vox": [
+    7,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 2093
+  },
+  "left:412": {
+   "y": -338.771,
+   "shift_vox": [
+    7,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2224
+  },
+  "left:413": {
+   "y": -337.771,
+   "shift_vox": [
+    7,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2376
+  },
+  "left:414": {
+   "y": -336.771,
+   "shift_vox": [
+    7,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2314
+  },
+  "left:415": {
+   "y": -335.771,
+   "shift_vox": [
+    7,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2334
+  },
+  "left:416": {
+   "y": -334.771,
+   "shift_vox": [
+    6,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2272
+  },
+  "left:417": {
+   "y": -333.771,
+   "shift_vox": [
+    6,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2315
+  },
+  "left:418": {
+   "y": -332.771,
+   "shift_vox": [
+    6,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 2407
+  },
+  "left:419": {
+   "y": -331.771,
+   "shift_vox": [
+    6,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 2589
+  },
+  "left:420": {
+   "y": -330.771,
+   "shift_vox": [
+    6,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 2631
+  },
+  "left:421": {
+   "y": -329.771,
+   "shift_vox": [
+    6,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 2770
+  },
+  "left:422": {
+   "y": -328.771,
+   "shift_vox": [
+    6,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 2705
+  },
+  "left:423": {
+   "y": -327.771,
+   "shift_vox": [
+    6,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 2736
+  },
+  "left:424": {
+   "y": -326.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2841
+  },
+  "left:425": {
+   "y": -325.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2844
+  },
+  "left:426": {
+   "y": -324.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2961
+  },
+  "left:427": {
+   "y": -323.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3144
+  },
+  "left:428": {
+   "y": -322.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3141
+  },
+  "left:429": {
+   "y": -321.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3055
+  },
+  "left:430": {
+   "y": -320.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3116
+  },
+  "left:431": {
+   "y": -319.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3033
+  },
+  "left:432": {
+   "y": -318.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3248
+  },
+  "left:433": {
+   "y": -317.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3295
+  },
+  "left:434": {
+   "y": -316.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2960
+  },
+  "left:435": {
+   "y": -315.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3036
+  },
+  "left:436": {
+   "y": -314.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3131
+  },
+  "left:437": {
+   "y": -313.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3123
+  },
+  "left:438": {
+   "y": -312.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3162
+  },
+  "left:439": {
+   "y": -311.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3051
+  },
+  "left:440": {
+   "y": -310.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2991
+  },
+  "left:441": {
+   "y": -309.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3154
+  },
+  "left:442": {
+   "y": -308.771,
+   "shift_vox": [
+    7,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3195
+  },
+  "left:443": {
+   "y": -307.771,
+   "shift_vox": [
+    7,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3169
+  },
+  "left:444": {
+   "y": -306.771,
+   "shift_vox": [
+    7,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3219
+  },
+  "left:445": {
+   "y": -305.771,
+   "shift_vox": [
+    7,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3250
+  },
+  "left:446": {
+   "y": -304.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3172
+  },
+  "left:447": {
+   "y": -303.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3140
+  },
+  "left:448": {
+   "y": -302.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3149
+  },
+  "left:449": {
+   "y": -301.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3100
+  },
+  "left:450": {
+   "y": -300.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3017
+  },
+  "left:451": {
+   "y": -299.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3236
+  },
+  "left:452": {
+   "y": -298.771,
+   "shift_vox": [
+    7,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3529
+  },
+  "left:453": {
+   "y": -297.771,
+   "shift_vox": [
+    8,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3607
+  },
+  "left:454": {
+   "y": -296.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3576
+  },
+  "left:455": {
+   "y": -295.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3481
+  },
+  "left:456": {
+   "y": -294.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3417
+  },
+  "left:457": {
+   "y": -293.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3610
+  },
+  "left:458": {
+   "y": -292.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3605
+  },
+  "left:459": {
+   "y": -291.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3497
+  },
+  "left:460": {
+   "y": -290.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3582
+  },
+  "left:461": {
+   "y": -289.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 3687
+  },
+  "left:462": {
+   "y": -288.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3443
+  },
+  "left:463": {
+   "y": -287.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3334
+  },
+  "left:464": {
+   "y": -286.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3231
+  },
+  "left:465": {
+   "y": -285.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3366
+  },
+  "left:466": {
+   "y": -284.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3506
+  },
+  "left:467": {
+   "y": -283.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3410
+  },
+  "left:468": {
+   "y": -282.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3589
+  },
+  "left:469": {
+   "y": -281.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3670
+  },
+  "left:470": {
+   "y": -280.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3558
+  },
+  "left:471": {
+   "y": -279.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3550
+  },
+  "left:472": {
+   "y": -278.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3573
+  },
+  "left:473": {
+   "y": -277.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 3515
+  },
+  "left:474": {
+   "y": -276.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 3471
+  },
+  "left:475": {
+   "y": -275.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 3392
+  },
+  "left:476": {
+   "y": -274.771,
+   "shift_vox": [
+    7,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 3338
+  },
+  "left:477": {
+   "y": -273.771,
+   "shift_vox": [
+    7,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 3542
+  },
+  "left:478": {
+   "y": -272.771,
+   "shift_vox": [
+    7,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 3509
+  },
+  "left:479": {
+   "y": -271.771,
+   "shift_vox": [
+    7,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 3365
+  },
+  "left:480": {
+   "y": -270.771,
+   "shift_vox": [
+    7,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 3366
+  },
+  "left:481": {
+   "y": -269.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 3397
+  },
+  "left:482": {
+   "y": -268.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 3374
+  },
+  "left:483": {
+   "y": -267.771,
+   "shift_vox": [
+    7,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 3381
+  },
+  "left:484": {
+   "y": -266.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3160
+  },
+  "left:485": {
+   "y": -265.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3297
+  },
+  "left:486": {
+   "y": -264.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3340
+  },
+  "left:487": {
+   "y": -263.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3398
+  },
+  "left:488": {
+   "y": -262.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3466
+  },
+  "left:489": {
+   "y": -261.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3324
+  },
+  "left:490": {
+   "y": -260.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3242
+  },
+  "left:491": {
+   "y": -259.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3305
+  },
+  "left:492": {
+   "y": -258.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3372
+  },
+  "left:493": {
+   "y": -257.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3559
+  },
+  "left:494": {
+   "y": -256.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3603
+  },
+  "left:495": {
+   "y": -255.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3615
+  },
+  "left:496": {
+   "y": -254.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3680
+  },
+  "left:497": {
+   "y": -253.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3636
+  },
+  "left:498": {
+   "y": -252.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3752
+  },
+  "left:499": {
+   "y": -251.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3719
+  },
+  "left:500": {
+   "y": -250.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3485
+  },
+  "left:501": {
+   "y": -249.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3651
+  },
+  "left:502": {
+   "y": -248.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3587
+  },
+  "left:503": {
+   "y": -247.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3503
+  },
+  "left:504": {
+   "y": -246.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3648
+  },
+  "left:505": {
+   "y": -245.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3753
+  },
+  "left:506": {
+   "y": -244.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3698
+  },
+  "left:507": {
+   "y": -243.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3606
+  },
+  "left:508": {
+   "y": -242.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3609
+  },
+  "left:509": {
+   "y": -241.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3630
+  },
+  "left:510": {
+   "y": -240.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3742
+  },
+  "left:511": {
+   "y": -239.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3753
+  },
+  "left:512": {
+   "y": -238.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3715
+  },
+  "left:513": {
+   "y": -237.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3836
+  },
+  "left:514": {
+   "y": -236.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3815
+  },
+  "left:515": {
+   "y": -235.771,
+   "shift_vox": [
+    7,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3769
+  },
+  "left:516": {
+   "y": -234.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3902
+  },
+  "left:517": {
+   "y": -233.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3984
+  },
+  "left:518": {
+   "y": -232.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3801
+  },
+  "left:519": {
+   "y": -231.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3929
+  },
+  "left:520": {
+   "y": -230.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3816
+  },
+  "left:521": {
+   "y": -229.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4011
+  },
+  "left:522": {
+   "y": -228.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3977
+  },
+  "left:523": {
+   "y": -227.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3960
+  },
+  "left:524": {
+   "y": -226.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3934
+  },
+  "left:525": {
+   "y": -225.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3929
+  },
+  "left:526": {
+   "y": -224.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4020
+  },
+  "left:527": {
+   "y": -223.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3872
+  },
+  "left:528": {
+   "y": -222.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3893
+  },
+  "left:529": {
+   "y": -221.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4018
+  },
+  "left:530": {
+   "y": -220.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4103
+  },
+  "left:531": {
+   "y": -219.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4113
+  },
+  "left:532": {
+   "y": -218.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4087
+  },
+  "left:533": {
+   "y": -217.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4131
+  },
+  "left:534": {
+   "y": -216.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4118
+  },
+  "left:535": {
+   "y": -215.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 3990
+  },
+  "left:536": {
+   "y": -214.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4153
+  },
+  "left:537": {
+   "y": -213.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4116
+  },
+  "left:538": {
+   "y": -212.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4075
+  },
+  "left:539": {
+   "y": -211.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4219
+  },
+  "left:540": {
+   "y": -210.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4411
+  },
+  "left:541": {
+   "y": -209.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4342
+  },
+  "left:542": {
+   "y": -208.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4397
+  },
+  "left:543": {
+   "y": -207.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4349
+  },
+  "left:544": {
+   "y": -206.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4363
+  },
+  "left:545": {
+   "y": -205.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4246
+  },
+  "left:546": {
+   "y": -204.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4179
+  },
+  "left:547": {
+   "y": -203.771,
+   "shift_vox": [
+    8,
+    5
+   ],
+   "weight": 1.0,
+   "changed_vox": 4238
+  },
+  "left:548": {
+   "y": -202.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4443
+  },
+  "left:549": {
+   "y": -201.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4508
+  },
+  "left:550": {
+   "y": -200.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4573
+  },
+  "left:551": {
+   "y": -199.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4619
+  },
+  "left:552": {
+   "y": -198.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4592
+  },
+  "left:553": {
+   "y": -197.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4563
+  },
+  "left:554": {
+   "y": -196.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4744
+  },
+  "left:555": {
+   "y": -195.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4724
+  },
+  "left:556": {
+   "y": -194.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4616
+  },
+  "left:557": {
+   "y": -193.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4621
+  },
+  "left:558": {
+   "y": -192.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4711
+  },
+  "left:559": {
+   "y": -191.771,
+   "shift_vox": [
+    8,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4879
+  },
+  "left:560": {
+   "y": -190.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4846
+  },
+  "left:561": {
+   "y": -189.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5026
+  },
+  "left:562": {
+   "y": -188.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5084
+  },
+  "left:563": {
+   "y": -187.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5132
+  },
+  "left:564": {
+   "y": -186.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4975
+  },
+  "left:565": {
+   "y": -185.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5152
+  },
+  "left:566": {
+   "y": -184.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5217
+  },
+  "left:567": {
+   "y": -183.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5159
+  },
+  "left:568": {
+   "y": -182.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5087
+  },
+  "left:569": {
+   "y": -181.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 4975
+  },
+  "left:570": {
+   "y": -180.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5098
+  },
+  "left:571": {
+   "y": -179.771,
+   "shift_vox": [
+    9,
+    6
+   ],
+   "weight": 1.0,
+   "changed_vox": 5076
+  },
+  "left:572": {
+   "y": -178.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5210
+  },
+  "left:573": {
+   "y": -177.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5139
+  },
+  "left:574": {
+   "y": -176.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5505
+  },
+  "left:575": {
+   "y": -175.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5384
+  },
+  "left:576": {
+   "y": -174.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5392
+  },
+  "left:577": {
+   "y": -173.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5520
+  },
+  "left:578": {
+   "y": -172.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5425
+  },
+  "left:579": {
+   "y": -171.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5402
+  },
+  "left:580": {
+   "y": -170.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5243
+  },
+  "left:581": {
+   "y": -169.771,
+   "shift_vox": [
+    9,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 5143
+  },
+  "left:582": {
+   "y": -168.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 4922
+  },
+  "left:583": {
+   "y": -167.771,
+   "shift_vox": [
+    8,
+    7
+   ],
+   "weight": 1.0,
+   "changed_vox": 4907
+  },
+  "left:584": {
+   "y": -166.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 4891
+  },
+  "left:585": {
+   "y": -165.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5049
+  },
+  "left:586": {
+   "y": -164.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5036
+  },
+  "left:587": {
+   "y": -163.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5146
+  },
+  "left:588": {
+   "y": -162.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5071
+  },
+  "left:589": {
+   "y": -161.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 4852
+  },
+  "left:590": {
+   "y": -160.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 4936
+  },
+  "left:591": {
+   "y": -159.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 4900
+  },
+  "left:592": {
+   "y": -158.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5076
+  },
+  "left:593": {
+   "y": -157.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5054
+  },
+  "left:594": {
+   "y": -156.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 5013
+  },
+  "left:595": {
+   "y": -155.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 4935
+  },
+  "left:596": {
+   "y": -154.771,
+   "shift_vox": [
+    8,
+    8
+   ],
+   "weight": 1.0,
+   "changed_vox": 4788
+  },
+  "left:597": {
+   "y": -153.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5006
+  },
+  "left:598": {
+   "y": -152.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5073
+  },
+  "left:599": {
+   "y": -151.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5151
+  },
+  "left:600": {
+   "y": -150.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5132
+  },
+  "left:601": {
+   "y": -149.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5039
+  },
+  "left:602": {
+   "y": -148.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5245
+  },
+  "left:603": {
+   "y": -147.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5267
+  },
+  "left:604": {
+   "y": -146.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5241
+  },
+  "left:605": {
+   "y": -145.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5369
+  },
+  "left:606": {
+   "y": -144.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5335
+  },
+  "left:607": {
+   "y": -143.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5315
+  },
+  "left:608": {
+   "y": -142.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5180
+  },
+  "left:609": {
+   "y": -141.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5230
+  },
+  "left:610": {
+   "y": -140.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5225
+  },
+  "left:611": {
+   "y": -139.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5064
+  },
+  "left:612": {
+   "y": -138.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5398
+  },
+  "left:613": {
+   "y": -137.771,
+   "shift_vox": [
+    8,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 5482
+  },
+  "left:614": {
+   "y": -136.771,
+   "shift_vox": [
+    8,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 5756
+  },
+  "left:615": {
+   "y": -135.771,
+   "shift_vox": [
+    7,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 5711
+  },
+  "left:616": {
+   "y": -134.771,
+   "shift_vox": [
+    7,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 5765
+  },
+  "left:617": {
+   "y": -133.771,
+   "shift_vox": [
+    7,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 5615
+  },
+  "left:618": {
+   "y": -132.771,
+   "shift_vox": [
+    7,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 5537
+  },
+  "left:619": {
+   "y": -131.771,
+   "status": "interpolated",
+   "between": [
+    618,
+    625
+   ],
+   "changed_vox": 5574
+  },
+  "left:620": {
+   "y": -130.771,
+   "status": "interpolated",
+   "between": [
+    618,
+    625
+   ],
+   "changed_vox": 5649
+  },
+  "left:621": {
+   "y": -129.771,
+   "status": "interpolated",
+   "between": [
+    618,
+    625
+   ],
+   "changed_vox": 5652
+  },
+  "left:622": {
+   "y": -128.771,
+   "status": "interpolated",
+   "between": [
+    618,
+    625
+   ],
+   "changed_vox": 5737
+  },
+  "left:623": {
+   "y": -127.771,
+   "status": "interpolated",
+   "between": [
+    618,
+    625
+   ],
+   "changed_vox": 5721
+  },
+  "left:624": {
+   "y": -126.771,
+   "status": "interpolated",
+   "between": [
+    618,
+    625
+   ],
+   "changed_vox": 5806
+  },
+  "left:625": {
+   "y": -125.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 5966
+  },
+  "left:626": {
+   "y": -124.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 5851
+  },
+  "left:627": {
+   "y": -123.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 5963
+  },
+  "left:628": {
+   "y": -122.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 5607
+  },
+  "left:629": {
+   "y": -121.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5899
+  },
+  "left:630": {
+   "y": -120.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5759
+  },
+  "left:631": {
+   "y": -119.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5657
+  },
+  "left:632": {
+   "y": -118.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5446
+  },
+  "left:633": {
+   "y": -117.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5565
+  },
+  "left:634": {
+   "y": -116.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5474
+  },
+  "left:635": {
+   "y": -115.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5438
+  },
+  "left:636": {
+   "y": -114.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5538
+  },
+  "left:637": {
+   "y": -113.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5506
+  },
+  "left:638": {
+   "y": -112.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5372
+  },
+  "left:639": {
+   "y": -111.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5326
+  },
+  "left:640": {
+   "y": -110.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5508
+  },
+  "left:641": {
+   "y": -109.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5463
+  },
+  "left:642": {
+   "y": -108.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5369
+  },
+  "left:643": {
+   "y": -107.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5327
+  },
+  "left:644": {
+   "y": -106.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5393
+  },
+  "left:645": {
+   "y": -105.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5454
+  },
+  "left:646": {
+   "y": -104.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5533
+  },
+  "left:647": {
+   "y": -103.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5616
+  },
+  "left:648": {
+   "y": -102.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5608
+  },
+  "left:649": {
+   "y": -101.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5495
+  },
+  "left:650": {
+   "y": -100.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5396
+  },
+  "left:651": {
+   "y": -99.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5297
+  },
+  "left:652": {
+   "y": -98.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5096
+  },
+  "left:653": {
+   "y": -97.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5093
+  },
+  "left:654": {
+   "y": -96.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5050
+  },
+  "left:655": {
+   "y": -95.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5043
+  },
+  "left:656": {
+   "y": -94.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5134
+  },
+  "left:657": {
+   "y": -93.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5219
+  },
+  "left:658": {
+   "y": -92.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5285
+  },
+  "left:659": {
+   "y": -91.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5275
+  },
+  "left:660": {
+   "y": -90.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5083
+  },
+  "left:661": {
+   "y": -89.771,
+   "shift_vox": [
+    4,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5146
+  },
+  "left:662": {
+   "y": -88.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 5092
+  },
+  "left:663": {
+   "y": -87.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4932
+  },
+  "left:664": {
+   "y": -86.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4767
+  },
+  "left:665": {
+   "y": -85.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4607
+  },
+  "left:666": {
+   "y": -84.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4613
+  },
+  "left:667": {
+   "y": -83.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4643
+  },
+  "left:668": {
+   "y": -82.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4570
+  },
+  "left:669": {
+   "y": -81.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4324
+  },
+  "left:670": {
+   "y": -80.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4353
+  },
+  "left:671": {
+   "y": -79.771,
+   "shift_vox": [
+    5,
+    13
+   ],
+   "weight": 1.0,
+   "changed_vox": 4352
+  },
+  "left:672": {
+   "y": -78.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4255
+  },
+  "left:673": {
+   "y": -77.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4447
+  },
+  "left:674": {
+   "y": -76.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4328
+  },
+  "left:675": {
+   "y": -75.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4536
+  },
+  "left:676": {
+   "y": -74.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4290
+  },
+  "left:677": {
+   "y": -73.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4323
+  },
+  "left:678": {
+   "y": -72.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4813
+  },
+  "left:679": {
+   "y": -71.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4944
+  },
+  "left:680": {
+   "y": -70.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4686
+  },
+  "left:681": {
+   "y": -69.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4750
+  },
+  "left:682": {
+   "y": -68.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4395
+  },
+  "left:683": {
+   "y": -67.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4310
+  },
+  "left:684": {
+   "y": -66.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4427
+  },
+  "left:685": {
+   "y": -65.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4413
+  },
+  "left:686": {
+   "y": -64.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4602
+  },
+  "left:687": {
+   "y": -63.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4747
+  },
+  "left:688": {
+   "y": -62.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4920
+  },
+  "left:689": {
+   "y": -61.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4872
+  },
+  "left:690": {
+   "y": -60.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4612
+  },
+  "left:691": {
+   "y": -59.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4345
+  },
+  "left:692": {
+   "y": -58.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4363
+  },
+  "left:693": {
+   "y": -57.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4273
+  },
+  "left:694": {
+   "y": -56.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4028
+  },
+  "left:695": {
+   "y": -55.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3845
+  },
+  "left:696": {
+   "y": -54.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4087
+  },
+  "left:697": {
+   "y": -53.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4131
+  },
+  "left:698": {
+   "y": -52.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4308
+  },
+  "left:699": {
+   "y": -51.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4377
+  },
+  "left:700": {
+   "y": -50.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4253
+  },
+  "left:701": {
+   "y": -49.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4237
+  },
+  "left:702": {
+   "y": -48.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4010
+  },
+  "left:703": {
+   "y": -47.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 3898
+  },
+  "left:704": {
+   "y": -46.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4049
+  },
+  "left:705": {
+   "y": -45.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4195
+  },
+  "left:706": {
+   "y": -44.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4207
+  },
+  "left:707": {
+   "y": -43.771,
+   "shift_vox": [
+    6,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4233
+  },
+  "left:708": {
+   "y": -42.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 4266
+  },
+  "left:709": {
+   "y": -41.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4341
+  },
+  "left:710": {
+   "y": -40.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 4076
+  },
+  "left:711": {
+   "y": -39.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3686
+  },
+  "left:712": {
+   "y": -38.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3822
+  },
+  "left:713": {
+   "y": -37.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3585
+  },
+  "left:714": {
+   "y": -36.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3651
+  },
+  "left:715": {
+   "y": -35.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3543
+  },
+  "left:716": {
+   "y": -34.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3520
+  },
+  "left:717": {
+   "y": -33.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3242
+  },
+  "left:718": {
+   "y": -32.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3216
+  },
+  "left:719": {
+   "y": -31.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3238
+  },
+  "left:720": {
+   "y": -30.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3160
+  },
+  "left:721": {
+   "y": -29.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3013
+  },
+  "left:722": {
+   "y": -28.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3020
+  },
+  "left:723": {
+   "y": -27.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2903
+  },
+  "left:724": {
+   "y": -26.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2884
+  },
+  "left:725": {
+   "y": -25.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2967
+  },
+  "left:726": {
+   "y": -24.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 3003
+  },
+  "left:727": {
+   "y": -23.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2912
+  },
+  "left:728": {
+   "y": -22.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2891
+  },
+  "left:729": {
+   "y": -21.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2708
+  },
+  "left:730": {
+   "y": -20.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2696
+  },
+  "left:731": {
+   "y": -19.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2584
+  },
+  "left:732": {
+   "y": -18.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2669
+  },
+  "left:733": {
+   "y": -17.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2733
+  },
+  "left:734": {
+   "y": -16.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2462
+  },
+  "left:735": {
+   "y": -15.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2530
+  },
+  "left:736": {
+   "y": -14.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2353
+  },
+  "left:737": {
+   "y": -13.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2548
+  },
+  "left:738": {
+   "y": -12.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2839
+  },
+  "left:739": {
+   "y": -11.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2611
+  },
+  "left:740": {
+   "y": -10.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2308
+  },
+  "left:741": {
+   "y": -9.771,
+   "shift_vox": [
+    6,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2246
+  },
+  "left:742": {
+   "y": -8.771,
+   "shift_vox": [
+    5,
+    12
+   ],
+   "weight": 1.0,
+   "changed_vox": 2350
+  },
+  "left:743": {
+   "y": -7.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2237
+  },
+  "left:744": {
+   "y": -6.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2357
+  },
+  "left:745": {
+   "y": -5.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2306
+  },
+  "left:746": {
+   "y": -4.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2236
+  },
+  "left:747": {
+   "y": -3.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2130
+  },
+  "left:748": {
+   "y": -2.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 2184
+  },
+  "left:749": {
+   "y": -1.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 1987
+  },
+  "left:750": {
+   "y": -0.771,
+   "shift_vox": [
+    5,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 1695
+  },
+  "left:751": {
+   "y": 0.229,
+   "shift_vox": [
+    4,
+    11
+   ],
+   "weight": 1.0,
+   "changed_vox": 1671
+  },
+  "left:752": {
+   "y": 1.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1333
+  },
+  "left:753": {
+   "y": 2.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1622
+  },
+  "left:754": {
+   "y": 3.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1599
+  },
+  "left:755": {
+   "y": 4.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1485
+  },
+  "left:756": {
+   "y": 5.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1390
+  },
+  "left:757": {
+   "y": 6.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1278
+  },
+  "left:758": {
+   "y": 7.229,
+   "shift_vox": [
+    4,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1250
+  },
+  "left:759": {
+   "y": 8.229,
+   "shift_vox": [
+    3,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1215
+  },
+  "left:760": {
+   "y": 9.229,
+   "shift_vox": [
+    3,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1149
+  },
+  "left:761": {
+   "y": 10.229,
+   "shift_vox": [
+    3,
+    10
+   ],
+   "weight": 1.0,
+   "changed_vox": 1005
+  },
+  "left:762": {
+   "y": 11.229,
+   "shift_vox": [
+    3,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 1007
+  },
+  "left:763": {
+   "y": 12.229,
+   "shift_vox": [
+    3,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 946
+  },
+  "left:764": {
+   "y": 13.229,
+   "shift_vox": [
+    3,
+    9
+   ],
+   "weight": 1.0,
+   "changed_vox": 893
+  },
+  "left:765": {
+   "y": 14.229,
+   "shift_vox": [
+    3,
+    9
+   ],
+   "weight": 0.989,
+   "changed_vox": 869
+  },
+  "left:766": {
+   "y": 15.229,
+   "shift_vox": [
+    3,
+    9
+   ],
+   "weight": 0.939,
+   "changed_vox": 913
+  },
+  "left:767": {
+   "y": 16.229,
+   "shift_vox": [
+    3,
+    8
+   ],
+   "weight": 0.889,
+   "changed_vox": 788
+  },
+  "left:768": {
+   "y": 17.229,
+   "shift_vox": [
+    3,
+    8
+   ],
+   "weight": 0.839,
+   "changed_vox": 850
+  },
+  "left:769": {
+   "y": 18.229,
+   "shift_vox": [
+    2,
+    7
+   ],
+   "weight": 0.789,
+   "changed_vox": 731
+  },
+  "left:770": {
+   "y": 19.229,
+   "shift_vox": [
+    2,
+    6
+   ],
+   "weight": 0.739,
+   "changed_vox": 780
+  },
+  "left:771": {
+   "y": 20.229,
+   "shift_vox": [
+    2,
+    6
+   ],
+   "weight": 0.689,
+   "changed_vox": 706
+  },
+  "left:772": {
+   "y": 21.229,
+   "shift_vox": [
+    2,
+    5
+   ],
+   "weight": 0.639,
+   "changed_vox": 676
+  },
+  "left:773": {
+   "y": 22.229,
+   "shift_vox": [
+    3,
+    5
+   ],
+   "weight": 0.589,
+   "changed_vox": 805
+  },
+  "left:774": {
+   "y": 23.229,
+   "shift_vox": [
+    3,
+    4
+   ],
+   "weight": 0.539,
+   "changed_vox": 641
+  },
+  "left:775": {
+   "y": 24.229,
+   "shift_vox": [
+    3,
+    3
+   ],
+   "weight": 0.489,
+   "changed_vox": 762
+  },
+  "left:776": {
+   "y": 25.229,
+   "shift_vox": [
+    2,
+    3
+   ],
+   "weight": 0.439,
+   "changed_vox": 528
+  },
+  "left:777": {
+   "y": 26.229,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 0.389,
+   "changed_vox": 407
+  },
+  "left:778": {
+   "y": 27.229,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 0.339,
+   "changed_vox": 395
+  },
+  "left:779": {
+   "y": 28.229,
+   "shift_vox": [
+    2,
+    2
+   ],
+   "weight": 0.289,
+   "changed_vox": 319
+  },
+  "left:780": {
+   "y": 29.229,
+   "shift_vox": [
+    2,
+    1
+   ],
+   "weight": 0.239,
+   "changed_vox": 250
+  },
+  "left:781": {
+   "y": 30.229,
+   "shift_vox": [
+    1,
+    1
+   ],
+   "weight": 0.189,
+   "changed_vox": 252
+  },
+  "left:782": {
+   "y": 31.229,
+   "shift_vox": [
+    1,
+    1
+   ],
+   "weight": 0.139,
+   "changed_vox": 159
+  },
+  "left:783": {
+   "y": 32.229,
+   "shift_vox": [
+    1,
+    0
+   ],
+   "weight": 0.089,
+   "changed_vox": 105
+  },
+  "left:784": {
+   "y": 33.229,
+   "shift_vox": [
+    0,
+    0
+   ],
+   "weight": 0.039,
+   "changed_vox": 0
+  },
+  "left:notch_blended": [
+   {
+    "label": 1,
+    "y": [
+     -136.771,
+     -136.771
+    ]
+   },
+   {
+    "label": 5,
+    "y": [
+     -291.771,
+     -291.771
+    ]
+   },
+   {
+    "label": 5,
+    "y": [
+     -289.771,
+     -289.771
+    ]
+   },
+   {
+    "label": 7,
+    "y": [
+     -115.771,
+     -115.771
+    ]
+   },
+   {
+    "label": 42,
+    "y": [
+     -101.771,
+     -96.771
+    ]
+   },
+   {
+    "label": 42,
+    "y": [
+     -98.771,
+     -97.771
+    ]
+   }
+  ],
+  "left:broken_q48_levels": [
+   -354.771,
+   -352.771,
+   -351.771,
+   -350.771,
+   -133.771,
+   -132.771,
+   -131.771,
+   -130.771,
+   -129.771,
+   -128.771
+  ],
+  "pieces_dropped": {
+   "adductor_brevis_l": {
+    "n": 27,
+    "voxels": 359,
+    "to": {
+     "background": 66,
+     "adductor_longus_l": 1,
+     "adductor_magnus_l": 243,
+     "obturator_externus_l": 1,
+     "pectineus_l": 1,
+     "vastus_medialis_l": 47
+    }
+   },
+   "adductor_brevis_r": {
+    "n": 49,
+    "voxels": 283,
+    "to": {
+     "background": 52,
+     "adductor_longus_r": 34,
+     "adductor_magnus_r": 189,
+     "obturator_externus_r": 5,
+     "vastus_intermedius_r": 3
+    }
+   },
+   "adductor_longus_l": {
+    "n": 30,
+    "voxels": 1763,
+    "to": {
+     "background": 39,
+     "adductor_brevis_l": 10,
+     "adductor_magnus_l": 1691,
+     "pectineus_l": 14,
+     "vastus_medialis_l": 9
+    }
+   },
+   "adductor_longus_r": {
+    "n": 63,
+    "voxels": 1253,
+    "to": {
+     "background": 139,
+     "adductor_brevis_r": 20,
+     "adductor_magnus_r": 1094
+    }
+   },
+   "adductor_magnus_l": {
+    "n": 101,
+    "voxels": 762,
+    "to": {
+     "background": 579,
+     "adductor_brevis_l": 6,
+     "adductor_longus_l": 7,
+     "biceps_femoris_l": 22,
+     "obturator_externus_l": 6,
+     "semimembranosus_l": 12,
+     "vastus_lateralis_l": 13,
+     "vastus_medialis_l": 117
+    }
+   },
+   "adductor_magnus_r": {
+    "n": 192,
+    "voxels": 2417,
+    "to": {
+     "background": 2234,
+     "adductor_brevis_r": 11,
+     "adductor_longus_r": 61,
+     "obturator_externus_r": 2,
+     "quadratus_femoris_r": 5,
+     "sartorius_r": 18,
+     "vastus_intermedius_r": 79,
+     "vastus_lateralis_r": 7
+    }
+   },
+   "biceps_femoris_l": {
+    "n": 107,
+    "voxels": 2217,
+    "to": {
+     "background": 1181,
+     "adductor_magnus_l": 874,
+     "gastrocnemius_l": 4,
+     "semitendinosus_l": 156,
+     "vastus_medialis_l": 2
+    }
+   },
+   "gastrocnemius_l": {
+    "n": 77,
+    "voxels": 307,
+    "to": {
+     "background": 243,
+     "biceps_femoris_l": 33,
+     "popliteus_l": 2,
+     "semimembranosus_l": 9,
+     "soleus_l": 20
+    }
+   },
+   "gastrocnemius_r": {
+    "n": 116,
+    "voxels": 1331,
+    "to": {
+     "background": 1196,
+     "plantaris_r": 67,
+     "popliteus_r": 3,
+     "soleus_r": 65
+    }
+   },
+   "obturator_externus_l": {
+    "n": 32,
+    "voxels": 164,
+    "to": {
+     "background": 159,
+     "adductor_magnus_l": 4,
+     "obturator_internus_l": 1
+    }
+   },
+   "obturator_externus_r": {
+    "n": 18,
+    "voxels": 20,
+    "to": {
+     "background": 8,
+     "adductor_magnus_r": 7,
+     "quadratus_femoris_r": 5
+    }
+   },
+   "obturator_internus_l": {
+    "n": 29,
+    "voxels": 47,
+    "to": {
+     "background": 40,
+     "obturator_externus_l": 7
+    }
+   },
+   "pectineus_l": {
+    "n": 34,
+    "voxels": 94,
+    "to": {
+     "background": 40,
+     "adductor_brevis_l": 46,
+     "vastus_medialis_l": 8
+    }
+   },
+   "plantaris_r": {
+    "n": 9,
+    "voxels": 17,
+    "to": {
+     "background": 9,
+     "gastrocnemius_r": 8
+    }
+   },
+   "popliteus_l": {
+    "n": 14,
+    "voxels": 51,
+    "to": {
+     "background": 48,
+     "gastrocnemius_l": 1,
+     "soleus_l": 2
+    }
+   },
+   "popliteus_r": {
+    "n": 8,
+    "voxels": 90,
+    "to": {
+     "background": 15,
+     "gastrocnemius_r": 10,
+     "soleus_r": 65
+    }
+   },
+   "quadratus_femoris_r": {
+    "n": 14,
+    "voxels": 24,
+    "to": {
+     "background": 12,
+     "adductor_magnus_r": 3,
+     "obturator_externus_r": 9
+    }
+   },
+   "rectus_femoris_r": {
+    "n": 33,
+    "voxels": 96,
+    "to": {
+     "background": 43,
+     "sartorius_r": 41,
+     "tensor_fasciae_latae_r": 1,
+     "vastus_intermedius_r": 10,
+     "vastus_lateralis_r": 1
+    }
+   },
+   "sartorius_r": {
+    "n": 68,
+    "voxels": 220,
+    "to": {
+     "background": 205,
+     "adductor_longus_r": 2,
+     "adductor_magnus_r": 9,
+     "rectus_femoris_r": 2,
+     "tensor_fasciae_latae_r": 2
+    }
+   },
+   "semimembranosus_l": {
+    "n": 58,
+    "voxels": 216,
+    "to": {
+     "background": 194,
+     "adductor_magnus_l": 1,
+     "biceps_femoris_l": 10,
+     "gastrocnemius_l": 6,
+     "semitendinosus_l": 3,
+     "vastus_medialis_l": 2
+    }
+   },
+   "semitendinosus_l": {
+    "n": 107,
+    "voxels": 3141,
+    "to": {
+     "background": 1202,
+     "adductor_magnus_l": 1263,
+     "biceps_femoris_l": 23,
+     "semimembranosus_l": 653
+    }
+   },
+   "soleus_l": {
+    "n": 15,
+    "voxels": 24,
+    "to": {
+     "background": 15,
+     "fibularis_longus_l": 1,
+     "flexor_digitorum_longus_l": 1,
+     "flexor_hallucis_longus_l": 1,
+     "gastrocnemius_l": 2,
+     "popliteus_l": 2,
+     "tibialis_posterior_l": 2
+    }
+   },
+   "soleus_r": {
+    "n": 27,
+    "voxels": 83,
+    "to": {
+     "background": 62,
+     "fibularis_longus_r": 1,
+     "flexor_digitorum_longus_r": 1,
+     "flexor_hallucis_longus_r": 2,
+     "gastrocnemius_r": 8,
+     "popliteus_r": 9
+    }
+   },
+   "tensor_fasciae_latae_l": {
+    "n": 26,
+    "voxels": 113,
+    "to": {
+     "background": 93,
+     "vastus_lateralis_l": 20
+    }
+   },
+   "tensor_fasciae_latae_r": {
+    "n": 24,
+    "voxels": 202,
+    "to": {
+     "background": 167,
+     "rectus_femoris_r": 33,
+     "sartorius_r": 1,
+     "vastus_lateralis_r": 1
+    }
+   },
+   "tibialis_posterior_l": {
+    "n": 2,
+    "voxels": 2,
+    "to": {
+     "flexor_digitorum_longus_l": 1,
+     "tibialis_anterior_l": 1
+    }
+   },
+   "vastus_intermedius_r": {
+    "n": 68,
+    "voxels": 536,
+    "to": {
+     "background": 270,
+     "adductor_brevis_r": 93,
+     "adductor_longus_r": 20,
+     "adductor_magnus_r": 60,
+     "rectus_femoris_r": 6,
+     "vastus_lateralis_r": 87
+    }
+   },
+   "vastus_lateralis_l": {
+    "n": 70,
+    "voxels": 970,
+    "to": {
+     "background": 927,
+     "adductor_magnus_l": 2,
+     "biceps_femoris_l": 4,
+     "tensor_fasciae_latae_l": 37
+    }
+   },
+   "vastus_lateralis_r": {
+    "n": 77,
+    "voxels": 282,
+    "to": {
+     "background": 251,
+     "adductor_magnus_r": 6,
+     "quadratus_femoris_r": 2,
+     "tensor_fasciae_latae_r": 6,
+     "vastus_intermedius_r": 17
+    }
+   },
+   "vastus_medialis_l": {
+    "n": 90,
+    "voxels": 698,
+    "to": {
+     "background": 165,
+     "adductor_brevis_l": 35,
+     "adductor_longus_l": 4,
+     "adductor_magnus_l": 24,
+     "biceps_femoris_l": 1,
+     "pectineus_l": 413,
+     "semimembranosus_l": 7,
+     "vastus_lateralis_l": 49
+    }
+   }
+  }
+ },
+ "ship_ids": [
+  "adductor_brevis_l",
+  "adductor_brevis_r",
+  "adductor_longus_l",
+  "adductor_longus_r",
+  "adductor_magnus_l",
+  "adductor_magnus_r",
+  "biceps_femoris_l",
+  "fibularis_longus_l",
+  "fibularis_longus_r",
+  "flexor_digitorum_longus_l",
+  "flexor_digitorum_longus_r",
+  "flexor_hallucis_longus_l",
+  "flexor_hallucis_longus_r",
+  "gastrocnemius_l",
+  "gastrocnemius_r",
+  "obturator_externus_l",
+  "obturator_externus_r",
+  "obturator_internus_l",
+  "pectineus_l",
+  "plantaris_r",
+  "popliteus_l",
+  "popliteus_r",
+  "quadratus_femoris_r",
+  "rectus_femoris_r",
+  "sartorius_r",
+  "semimembranosus_l",
+  "semitendinosus_l",
+  "soleus_l",
+  "soleus_r",
+  "tensor_fasciae_latae_l",
+  "tensor_fasciae_latae_r",
+  "tibialis_anterior_l",
+  "tibialis_posterior_l",
+  "vastus_intermedius_r",
+  "vastus_lateralis_l",
+  "vastus_lateralis_r",
+  "vastus_medialis_l"
+ ],
+ "hold_ids": [],
+ "snap_npz_md5": "a1e0ec09da1bf525ee07a480774aef7a",
+ "badges": {
+  "adductor_brevis_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 119.6 -> 117.8 cm3 (the male transfer Q48 started from: 115.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 96.1% -> 100.0% of its surface; section on her photographed muscle 66% -> 75%; mesh vertices > 1 mm inside bone 968 -> 957; surface moved up to 18.5 mm (95 % within 11.3 mm). Continuity: detached surface pieces < 2% (12 vertices) dropped (Q181b rule).",
+  "adductor_brevis_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 141.8 -> 139.2 cm3 (the male transfer Q48 started from: 143.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 69% -> 68%; mesh vertices > 1 mm inside bone 493 -> 456; surface moved up to 9.8 mm (95 % within 4.5 mm). Continuity: detached surface pieces < 2% (412 vertices) dropped (Q181b rule).",
+  "adductor_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 132.3 -> 135.8 cm3 (the male transfer Q48 started from: 115.5 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 39% -> 66%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 24.1 mm (95 % within 11.7 mm). Continuity: detached surface pieces < 2% (100 vertices) dropped (Q181b rule).",
+  "adductor_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 150.4 -> 147.6 cm3 (the male transfer Q48 started from: 150.3 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 52% -> 53%; mesh vertices > 1 mm inside bone 17 -> 0; surface moved up to 25.5 mm (95 % within 5.2 mm). Continuity: detached surface pieces < 2% (524 vertices) dropped (Q181b rule).",
+  "adductor_magnus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 625.8 -> 617.6 cm3 (the male transfer Q48 started from: 664.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 51.9% -> 100.0% of its surface; section on her photographed muscle 73% -> 70%; mesh vertices > 1 mm inside bone 1894 -> 1911; surface moved up to 26.2 mm (95 % within 11.0 mm). Then its posterolateral face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.52 / max 5.55 mm, volume -0.8 %); 1019 of its vertices remain > 1 mm inside it (was 1178). Continuity: detached surface pieces < 2% (1342 vertices) dropped (Q181b rule).",
+  "adductor_magnus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 680.0 -> 649.6 cm3 (the male transfer Q48 started from: 799.0 cm3; kept because within 10 % of Q48); main piece 99.8% -> 100.0% of its surface; section on her photographed muscle 70% -> 68%; mesh vertices > 1 mm inside bone 2541 -> 2647; surface moved up to 17.1 mm (95 % within 5.2 mm). Then its posterior face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.60 / max 5.43 mm, volume -0.9 %); 146 of its vertices remain > 1 mm inside it (was 213). Continuity: detached surface pieces < 2% (532 vertices) dropped (Q181b rule).",
+  "biceps_femoris_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 259.2 -> 257.2 cm3 (the male transfer Q48 started from: 243.2 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.3% -> 100.0% of its surface; section on her photographed muscle 67% -> 70%; mesh vertices > 1 mm inside bone 895 -> 884; surface moved up to 36.0 mm (95 % within 10.6 mm). Then its medial face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.57 / max 5.30 mm, volume -1.1 %); 162 of its vertices remain > 1 mm inside it (was 202). Continuity: detached surface pieces < 2% (942 vertices) dropped (Q181b rule).",
+  "fibularis_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 72.6 -> 72.6 cm3 (the male transfer Q48 started from: 72.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 77.7% -> 77.7% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 2582 -> 2582; surface moved up to 0.3 mm (95 % within 0.0 mm).",
+  "fibularis_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 100.5 -> 100.5 cm3 (the male transfer Q48 started from: 89.0 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 81.4% -> 81.4% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 1912 -> 1912; surface moved up to 0.2 mm (95 % within 0.0 mm).",
+  "flexor_digitorum_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 41.7 -> 41.7 cm3 (the male transfer Q48 started from: 20.5 cm3; kept because within 10 % of Q48); main piece 99.7% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 4471 -> 4471; surface moved up to 8.5 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (92 vertices) dropped (Q181b rule).",
+  "flexor_digitorum_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 18.9 -> 18.9 cm3 (the male transfer Q48 started from: 18.5 cm3; kept because within 10 % of Q48); main piece 77.4% -> 77.5% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 4364 -> 4364; surface moved up to 0.5 mm (95 % within 0.0 mm).",
+  "flexor_hallucis_longus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 92.2 -> 92.2 cm3 (the male transfer Q48 started from: 86.3 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.9% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 2612 -> 2612; surface moved up to 5.2 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (50 vertices) dropped (Q181b rule).",
+  "flexor_hallucis_longus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 88.0 -> 88.0 cm3 (the male transfer Q48 started from: 94.5 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.9% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 3222 -> 3222; surface moved up to 4.5 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (18 vertices) dropped (Q181b rule).",
+  "gastrocnemius_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 370.6 -> 374.0 cm3 (the male transfer Q48 started from: 387.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.8% -> 100.0% of its surface; section on her photographed muscle 58% -> 59%; mesh vertices > 1 mm inside bone 1808 -> 1709; surface moved up to 10.8 mm (95 % within 4.0 mm). Continuity: detached surface pieces < 2% (442 vertices) dropped (Q181b rule).",
+  "gastrocnemius_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 363.0 -> 359.1 cm3 (the male transfer Q48 started from: 381.2 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.0% -> 100.0% of its surface; section on her photographed muscle 60% -> 60%; mesh vertices > 1 mm inside bone 1407 -> 1367; surface moved up to 11.6 mm (95 % within 2.4 mm). Continuity: slice gaps bridged (1 mm max, 0.1 % of volume, Q152 rule); detached surface pieces < 2% (362 vertices) dropped (Q181b rule).",
+  "obturator_externus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 113.8 -> 112.0 cm3 (the male transfer Q48 started from: 91.9 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 36% -> 33%; mesh vertices > 1 mm inside bone 5191 -> 5192; surface moved up to 15.6 mm (95 % within 6.4 mm). Continuity: detached surface pieces < 2% (124 vertices) dropped (Q181b rule).",
+  "obturator_externus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 104.2 -> 104.6 cm3 (the male transfer Q48 started from: 84.3 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 42% -> 42%; mesh vertices > 1 mm inside bone 4602 -> 4603; surface moved up to 9.3 mm (95 % within 3.0 mm).",
+  "obturator_internus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 140.8 -> 151.6 cm3 (the male transfer Q48 started from: 110.0 cm3; kept because within 10 % of Q48); main piece 99.4% -> 100.0% of its surface; section on her photographed muscle 19% -> 19%; mesh vertices > 1 mm inside bone 357 -> 356; surface moved up to 16.1 mm (95 % within 7.1 mm). Continuity: detached surface pieces < 2% (242 vertices) dropped (Q181b rule).",
+  "pectineus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 109.6 -> 98.1 cm3 (the male transfer Q48 started from: 88.3 cm3; kept because within 15 % of the transfer); main piece 99.8% -> 100.0% of its surface; section on her photographed muscle 37% -> 51%; mesh vertices > 1 mm inside bone 669 -> 699; surface moved up to 18.9 mm (95 % within 10.0 mm).",
+  "plantaris_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 13.6 -> 13.3 cm3 (the male transfer Q48 started from: 10.4 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 51% -> 45%; mesh vertices > 1 mm inside bone 445 -> 445; surface moved up to 9.8 mm (95 % within 4.3 mm). Then its anteromedial face, where her tracked popliteal artery still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 0.86 / max 3.36 mm, volume -2.3 %); 1 of its vertices remain > 1 mm inside it (was 2). Continuity: detached surface pieces < 2% (82 vertices) dropped (Q181b rule).",
+  "popliteus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 18.6 -> 18.5 cm3 (the male transfer Q48 started from: 16.4 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 98.9% -> 100.0% of its surface; section on her photographed muscle 18% -> 18%; mesh vertices > 1 mm inside bone 1846 -> 1849; surface moved up to 14.3 mm (95 % within 0.0 mm). Continuity: slice gaps bridged (1 mm max, 0.1 % of volume, Q152 rule); detached surface pieces < 2% (103 vertices) dropped (Q181b rule).",
+  "popliteus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 17.9 -> 17.8 cm3 (the male transfer Q48 started from: 16.5 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.5% -> 100.0% of its surface; section on her photographed muscle 24% -> 24%; mesh vertices > 1 mm inside bone 1294 -> 1293; surface moved up to 6.6 mm (95 % within 0.0 mm).",
+  "quadratus_femoris_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 54.4 -> 57.9 cm3 (the male transfer Q48 started from: 39.7 cm3; kept because within 10 % of Q48); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 33% -> 32%; mesh vertices > 1 mm inside bone 2997 -> 2997; surface moved up to 6.4 mm (95 % within 2.7 mm).",
+  "rectus_femoris_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 189.8 -> 191.5 cm3 (the male transfer Q48 started from: 155.1 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 57% -> 63%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 13.0 mm (95 % within 5.2 mm). Continuity: detached surface pieces < 2% (236 vertices) dropped (Q181b rule).",
+  "sartorius_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 145.8 -> 156.1 cm3 (the male transfer Q48 started from: 134.2 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 54.3% -> 55.3% of its surface; section on her photographed muscle 36% -> 38%; mesh vertices > 1 mm inside bone 61 -> 61; surface moved up to 11.3 mm (95 % within 5.9 mm). Continuity: slice gaps bridged (4 mm max, 0.1 % of volume, Q152 rule); detached surface pieces < 2% (592 vertices) dropped (Q181b rule).",
+  "semimembranosus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 303.5 -> 305.2 cm3 (the male transfer Q48 started from: 283.0 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 57% -> 69%; mesh vertices > 1 mm inside bone 343 -> 342; surface moved up to 16.9 mm (95 % within 10.7 mm). Then its anterolateral face, where her tracked sciatic nerve still entered it, moved inward onto the fat plane photographed in her 0.33 mm cryosections (Q177 rule, her muscle colour; median 1.64 / max 6.25 mm, volume -0.4 %); 262 of its vertices remain > 1 mm inside it (was 327). Continuity: detached surface pieces < 2% (6 vertices) dropped (Q181b rule).",
+  "semitendinosus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 153.6 -> 147.0 cm3 (the male transfer Q48 started from: 173.7 cm3; kept because within 10 % of Q48); main piece 85.7% -> 95.5% of its surface; section on her photographed muscle 78% -> 71%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 39.9 mm (95 % within 12.1 mm). Continuity: detached surface pieces < 2% (504 vertices) dropped (Q181b rule).",
+  "soleus_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 361.0 -> 360.8 cm3 (the male transfer Q48 started from: 365.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 17% -> 24%; mesh vertices > 1 mm inside bone 1784 -> 1751; surface moved up to 9.7 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (332 vertices) dropped (Q181b rule).",
+  "soleus_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 424.3 -> 424.4 cm3 (the male transfer Q48 started from: 400.6 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 17% -> 17%; mesh vertices > 1 mm inside bone 2649 -> 2645; surface moved up to 2.8 mm (95 % within 0.0 mm). Continuity: detached surface pieces < 2% (10 vertices) dropped (Q181b rule).",
+  "tensor_fasciae_latae_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 68.5 -> 65.0 cm3 (the male transfer Q48 started from: 94.9 cm3; kept because within 10 % of Q48); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 55% -> 60%; mesh vertices > 1 mm inside bone 43 -> 43; surface moved up to 14.9 mm (95 % within 10.9 mm). Continuity: detached surface pieces < 2% (174 vertices) dropped (Q181b rule).",
+  "tensor_fasciae_latae_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 82.3 -> 86.8 cm3 (the male transfer Q48 started from: 99.8 cm3; kept because within 10 % of Q48); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 46% -> 54%; mesh vertices > 1 mm inside bone 0 -> 0; surface moved up to 10.9 mm (95 % within 4.8 mm). Continuity: detached surface pieces < 2% (26 vertices) dropped (Q181b rule).",
+  "tibialis_anterior_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 123.8 -> 123.8 cm3 (the male transfer Q48 started from: 107.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 95.1% -> 95.1% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 4340 -> 4340; surface moved up to 0.5 mm (95 % within 0.0 mm). Continuity: slice gaps bridged (3 mm max, 0.8 % of volume, Q152 rule); 8 stray fragment(s) (0.0 % of volume) dropped (Q152 rule).",
+  "tibialis_posterior_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 80.3 -> 80.3 cm3 (the male transfer Q48 started from: 71.7 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 0% -> 0%; mesh vertices > 1 mm inside bone 3189 -> 3189; surface moved up to 0.5 mm (95 % within 0.0 mm).",
+  "vastus_intermedius_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 390.5 -> 331.9 cm3 (the male transfer Q48 started from: 341.7 cm3; kept because within 15 % of the transfer); main piece 100.0% -> 100.0% of its surface; section on her photographed muscle 65% -> 60%; mesh vertices > 1 mm inside bone 11243 -> 10882; surface moved up to 12.0 mm (95 % within 6.0 mm). Continuity: detached surface pieces < 2% (232 vertices) dropped (Q181b rule).",
+  "vastus_lateralis_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 320.7 -> 322.3 cm3 (the male transfer Q48 started from: 333.0 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 98.9% -> 100.0% of its surface; section on her photographed muscle 69% -> 61%; mesh vertices > 1 mm inside bone 6157 -> 6153; surface moved up to 17.0 mm (95 % within 10.1 mm). Continuity: detached surface pieces < 2% (94 vertices) dropped (Q181b rule).",
+  "vastus_lateralis_r": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 5 mm (median, right leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 489.8 -> 483.5 cm3 (the male transfer Q48 started from: 464.8 cm3; kept because within 10 % of Q48 and within 15 % of the transfer); main piece 99.6% -> 100.0% of its surface; section on her photographed muscle 55% -> 70%; mesh vertices > 1 mm inside bone 4114 -> 4110; surface moved up to 27.8 mm (95 % within 6.2 mm). Continuity: detached surface pieces < 2% (398 vertices) dropped (Q181b rule).",
+  "vastus_medialis_l": "Boundaries with its neighbouring muscles re-fitted (Q181b) on her cryosections as re-registered to her CT femur: its Q48 septa had been fitted in her lost 1 mm photograph frame, which sits 12 mm (median, left leg) off her CT; the Q48 step (marker watershed on the photographed fascial lines, max 8 mm) was re-run with its markers moved by that offset and her traced sciatic nerve / femoral and popliteal vessels (re-registered, Q179) kept out of the muscle region, while every surface within 3 mm of her bones or her CT muscles was held where it was. Volume 292.4 -> 234.7 cm3 (the male transfer Q48 started from: 226.0 cm3; kept because within 15 % of the transfer); main piece 99.9% -> 100.0% of its surface; section on her photographed muscle 57% -> 60%; mesh vertices > 1 mm inside bone 4982 -> 5034; surface moved up to 19.6 mm (95 % within 8.9 mm). Continuity: detached surface pieces < 2% (126 vertices) dropped (Q181b rule)."
+ }
+}

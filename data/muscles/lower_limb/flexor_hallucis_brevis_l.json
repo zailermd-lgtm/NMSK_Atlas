@@ -1,0 +1,128 @@
+{
+  "id": "flexor_hallucis_brevis_l",
+  "name_ta": "Flexor hallucis brevis",
+  "name_common": "Flexor hallucis brevis",
+  "side": "left",
+  "region": "lower_limb",
+  "overall_architecture_type": "bipennate",
+  "attachments": {
+    "origin_bone": "tarsals_l",
+    "origin_landmark": "cuboid, lateral cuneiform",
+    "insertion_bone": "phalanges_foot_l",
+    "insertion_landmark": "proximal phalanx of the great toe, base: medial head to the medial side via the medial sesamoid, lateral head to the lateral side via the lateral sesamoid",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "medial_plantar_n",
+    "root_levels": "S1-S3"
+  },
+  "actions": [
+    "flexes the great toe's MTP joint"
+  ],
+  "functional_compartments": [
+    {
+      "id": "flexor_hallucis_brevis_l_medial",
+      "name": "Medial head",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 30,
+        "physiological_cross_section_area_mm2": 130,
+        "max_isometric_force_N": 29.2
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -15,
+          -20,
+          -15
+        ],
+        [
+          -25,
+          0,
+          10
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Inserts via the medial sesamoid bone, one of the two sesamoids embedded in this muscle's tendons beneath the 1st metatarsal head -- a classic radiographic landmark and a site of sesamoiditis.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            50,
+            70
+          ],
+          "reference_line_from": "middle-lowest point of the sole of the foot",
+          "reference_line_to": "middle-lowest point of the great toe",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the muscle as a whole; the medial and lateral heads are not separately mapped in the source.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "medial_plantar_n_muscular_branches"
+      ]
+    },
+    {
+      "id": "flexor_hallucis_brevis_l_lateral",
+      "name": "Lateral head",
+      "fiber_architecture": {
+        "architecture_type": "unipennate",
+        "pennation_deg": 10,
+        "optimal_fascicle_length_mm": 30,
+        "physiological_cross_section_area_mm2": 120,
+        "max_isometric_force_N": 27.0
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          -10,
+          -20,
+          -18
+        ],
+        [
+          -22,
+          0,
+          8
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band -- for where this band lies along the muscle, see motor_endplate_zones",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Inserts via the lateral sesamoid; often partly blended with adductor hallucis's transverse head fibers at their shared insertion.",
+      "source": "Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+      "motor_endplate_zones": [
+        {
+          "zone_percent_range": [
+            50,
+            70
+          ],
+          "reference_line_from": "middle-lowest point of the sole of the foot",
+          "reference_line_to": "middle-lowest point of the great toe",
+          "method": "intramuscular neural arborization mapping",
+          "notes": "Reported for the muscle as a whole; the medial and lateral heads are not separately mapped in the source.",
+          "source": "Diaconu S et al. (Elias University Hospital), 'A Visual Guide to Ultrasound-Guided Botulinum Toxin Injection in Spasticity, Part IV -- Distal Lower Limb Muscles', Toxins 17(10):508 (2025), doi:10.3390/toxins17100508 -- review synthesis of the intramuscular neural arborization literature it cites (Lee, Yi and others)"
+        }
+      ],
+      "innervation_branch_ids": [
+        "medial_plantar_n_muscular_branches"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Ward SR, Eng CM, Smallwood LH, Lieber RL (2009) Clin Orthop Relat Res 467:1074-1082 -- lower-extremity muscle architecture (fascicle length, PCSA, sarcomere length) cadaver dataset",
+  "trigger_points": [
+    {
+      "location_description": "Muscle belly beneath the first metatarsal, medial and plantar to the sesamoid bones.",
+      "referred_pain_pattern": "Pain mainly over the medial and plantar aspects of the first metatarsal head, with occasional spillover into the great toe and second toe.",
+      "activation_perpetuating_factors": "Prolonged standing/walking, push-off loading of the great toe (running, dancing), and a rigid or unsupportive shoe sole limiting first-MTP extension.",
+      "notes": "Active trigger points in flexor hallucis brevis were the second most prevalent finding (59%) in a case-control study of chronic plantar heel pain, second only to quadratus plantae; can mimic sesamoiditis or first MTP joint pathology (e.g. hallux rigidus/limitus).",
+      "source": "Simons, Travell & Simons Trigger Point Manual, Vol. 2 (Lower Extremities), 1999 -- as cited in secondary summaries (e.g. Morningside Acupuncture NYC 'Flexor Hallucis Brevis Trigger Points', triggerpoints.net) describing the medial/plantar first-metatarsal-head referral pattern; prevalence and clinical association in plantar heel pain per Ortega-Santiago R, Rios-Leon M, Martin-Casas P, Fernandez-de-Las-Penas C, Plaza-Manzano G (2020) Pain Med 21(5):1032-1038, doi:10.1093/pm/pnz086 -- retrieved via PubMed"
+    }
+  ]
+}

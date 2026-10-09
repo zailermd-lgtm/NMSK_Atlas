@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nmsk-atlas/schema/bursa.schema.json",
+  "title": "Bursa",
+  "description": "A named synovial bursa (or a small number of anatomically well-established, unnamed-but-constant bursae described in the surgical literature) -- a fluid-filled sac reducing friction between a tendon/muscle and adjacent bone or another tendon. Distinct from schema/fascia.schema.json's retinacula/fibrous tunnels: a bursa is a synovial-lined potential space, not a fibrous sheet, and 'bursitis' plus real ultrasound/fluoroscopy-guided bursal aspiration and corticosteroid/PRP injection are common, distinct clinical procedures from either a muscle motor-point injection or a tendon-substance injection.",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name_ta": { "type": "string" },
+    "name_common": { "type": "string" },
+    "side": { "$ref": "common.schema.json#/definitions/side" },
+    "region": { "type": "string" },
+    "adjacent_structures": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "ids or plain-text names of the tendon(s)/muscle(s)/bone(s) this bursa lies between or deep to -- an id where this atlas already models the structure, plain text otherwise."
+    },
+    "communicates_with_joint": {
+      "type": "boolean",
+      "description": "whether this bursa's cavity is documented to communicate with an adjacent synovial joint in a meaningful proportion of individuals (e.g. the subacromial-subdeltoid bursa does not communicate with the glenohumeral joint in a healthy shoulder, but the pisotriquetral joint often communicates with the radiocarpal joint) -- clinically relevant because a communicating bursa can spread an infection or an injectate into the joint."
+    },
+    "clinical_significance": {
+      "type": "string",
+      "description": "the named clinical entity this bursa is most associated with (e.g. 'subacromial bursitis / rotator cuff impingement', 'prepatellar bursitis (housemaid's knee)')."
+    },
+    "injection_approach": {
+      "type": "object",
+      "description": "How this bursa is found and safely aspirated/injected under ultrasound -- the bursal counterpart of a muscle's ultrasound_injection_approach or a tendon's prp_injection_approach. Populated only where real, citable clinical literature exists.",
+      "required": ["transducer_placement", "source"],
+      "properties": {
+        "transducer_placement": { "type": "string" },
+        "depth_layer": { "type": "string" },
+        "identification_cues": { "type": "string" },
+        "structures_at_risk": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "string" },
+        "source": { "type": "string" }
+      }
+    },
+    "function": { "type": "string" },
+    "source": { "$ref": "common.schema.json#/definitions/citation" }
+  },
+  "required": ["id", "name_ta", "region", "adjacent_structures", "function", "source"]
+}

@@ -1,0 +1,1979 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections at full resolution (0.33 mm) and CT via the NCI Imaging Data Commons. Derived data (scripts/cryo/vhf_brachial_track.py).",
+ "badge": "rule-based",
+ "task": "Q56 brachial artery with the median, ulnar and radial nerves, right upper arm (VH female cryosections, 0.33 mm)",
+ "voxel_mm": [
+  0.5,
+  0.5,
+  1.0
+ ],
+ "volume_cm3": {
+  "brachial_a_r": 0.53,
+  "median_n": 0.02,
+  "radial_n": 1.29,
+  "ulnar_n": 0.03
+ },
+ "volume_tracks": {
+  "brachial_a_r:right": {
+   "levels": 103,
+   "y_top": 498,
+   "y_bottom": 396,
+   "tracked_levels": 60,
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "artery"
+   },
+   "section_mm2_median": 4.2
+  },
+  "median_n:right": {
+   "levels": 1,
+   "y_top": 496,
+   "y_bottom": 496,
+   "tracked_levels": 1,
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "median_n"
+   },
+   "section_mm2_median": 19.2
+  },
+  "ulnar_n:right": {
+   "levels": 1,
+   "y_top": 495,
+   "y_bottom": 495,
+   "tracked_levels": 1,
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "ulnar_n"
+   },
+   "section_mm2_median": 23.9
+  },
+  "radial_n:right": {
+   "levels": 40,
+   "y_top": 461,
+   "y_bottom": 401,
+   "tracked_levels": 18,
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "radial_n"
+   },
+   "section_mm2_median": 23.4
+  }
+ },
+ "expected_diameter_mm": {
+  "artery": [
+   3.5,
+   5.0
+  ],
+  "median_n": [
+   3.0,
+   6.0
+  ],
+  "ulnar_n": [
+   3.0,
+   6.0
+  ],
+  "radial_n": [
+   3.0,
+   6.0
+  ]
+ },
+ "cleaning_band_mm": {
+  "artery": [
+   2.0,
+   6.5
+  ],
+  "median_n": [
+   2.5,
+   8.0
+  ],
+  "ulnar_n": [
+   2.5,
+   8.0
+  ],
+  "radial_n": [
+   2.5,
+   8.0
+  ]
+ },
+ "structures": {
+  "artery:right": {
+   "atlas_id": "brachial_a_r",
+   "shipped": false,
+   "y_top": 498,
+   "y_bottom": 396,
+   "y_span_mm": 102,
+   "levels": 103,
+   "tracked_levels": 60,
+   "gaps_filled": 43,
+   "levels_dropped_by_cleaning": 2,
+   "diameter_mm": {
+    "median": 2.1,
+    "p10": 1.8,
+    "p90": 2.7,
+    "inscribed_median": 1.9
+   },
+   "diameter_by_level": {
+    "498": 2.1,
+    "496": 2.1,
+    "495": 1.8,
+    "489": 2.0,
+    "488": 2.0,
+    "487": 1.8,
+    "486": 2.8,
+    "485": 2.0,
+    "484": 2.4,
+    "483": 1.6,
+    "482": 2.0,
+    "481": 1.6,
+    "480": 1.6,
+    "479": 1.7,
+    "478": 1.6,
+    "477": 1.8,
+    "476": 2.8,
+    "475": 1.9,
+    "474": 2.0,
+    "473": 2.1,
+    "472": 2.5,
+    "471": 2.7,
+    "470": 2.8,
+    "466": 2.0,
+    "465": 2.6,
+    "462": 1.9,
+    "461": 1.9,
+    "460": 2.5,
+    "459": 2.6,
+    "457": 2.2,
+    "454": 1.9,
+    "453": 2.0,
+    "452": 1.8,
+    "451": 2.3,
+    "450": 2.6,
+    "446": 2.3,
+    "444": 2.1,
+    "443": 2.1,
+    "441": 2.6,
+    "440": 2.0,
+    "439": 2.7,
+    "438": 2.3,
+    "432": 2.1,
+    "431": 2.5,
+    "430": 2.8,
+    "429": 2.2,
+    "428": 2.1,
+    "427": 2.1,
+    "426": 2.6,
+    "424": 2.4,
+    "422": 2.1,
+    "421": 2.3,
+    "420": 2.6,
+    "418": 1.8,
+    "417": 1.8,
+    "414": 2.3,
+    "411": 2.8,
+    "402": 2.4,
+    "398": 2.7,
+    "396": 2.7
+   },
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "artery"
+   }
+  },
+  "median_n:right": {
+   "atlas_id": "median_n",
+   "shipped": false,
+   "y_top": 496,
+   "y_bottom": 496,
+   "y_span_mm": 0,
+   "levels": 1,
+   "tracked_levels": 1,
+   "gaps_filled": 0,
+   "levels_dropped_by_cleaning": 0,
+   "diameter_mm": {
+    "median": 4.9,
+    "p10": 4.9,
+    "p90": 4.9,
+    "inscribed_median": 3.0
+   },
+   "diameter_by_level": {
+    "496": 4.9
+   },
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "median_n"
+   }
+  },
+  "ulnar_n:right": {
+   "atlas_id": "ulnar_n",
+   "shipped": false,
+   "y_top": 495,
+   "y_bottom": 495,
+   "y_span_mm": 0,
+   "levels": 1,
+   "tracked_levels": 1,
+   "gaps_filled": 0,
+   "levels_dropped_by_cleaning": 0,
+   "diameter_mm": {
+    "median": 5.5,
+    "p10": 5.5,
+    "p90": 5.5,
+    "inscribed_median": 3.3
+   },
+   "diameter_by_level": {
+    "495": 5.5
+   },
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "ulnar_n"
+   }
+  },
+  "radial_n:right": {
+   "atlas_id": "radial_n",
+   "shipped": false,
+   "y_top": 461,
+   "y_bottom": 401,
+   "y_span_mm": 60,
+   "levels": 61,
+   "tracked_levels": 18,
+   "gaps_filled": 43,
+   "levels_dropped_by_cleaning": 38,
+   "diameter_mm": {
+    "median": 7.5,
+    "p10": 3.9,
+    "p90": 8.1,
+    "inscribed_median": 5.1
+   },
+   "diameter_by_level": {
+    "461": 7.9,
+    "460": 8.0,
+    "459": 7.6,
+    "457": 7.8,
+    "456": 8.1,
+    "455": 8.1,
+    "454": 8.2,
+    "453": 8.0,
+    "431": 7.5,
+    "430": 7.5,
+    "429": 7.6,
+    "421": 4.7,
+    "419": 4.7,
+    "410": 5.5,
+    "406": 3.8,
+    "405": 3.8,
+    "403": 5.0,
+    "401": 3.9
+   },
+   "seed": {
+    "y": 496,
+    "x": 165.8,
+    "z": -4.1,
+    "humerus_photographed": {
+     "x": 181.6,
+     "z": -25.3,
+     "r_mm": 5.7
+    },
+    "medial_of_humerus_mm": 15.8,
+    "rule": "the seed is a LANDMARK RULE, not a hand click: at each level of an 8 mm ladder the best round dark lumen of the MEDIAL BICIPITAL GROOVE corridor is taken (12-40 mm medial of the photographed humerus, within 25 mm of it in depth, inside the deep-arm muscle hull, with a pale wall and a surround that is not muscle-red), the artery is walked up and down from each, and the seed whose walk survives the MOST levels is kept - the brachial artery is the one lumen of the groove that runs the length of the arm",
+    "seeds_tried": [
+     {
+      "y": 512,
+      "levels": 11,
+      "span_mm": 12,
+      "medial_mm": 20.8,
+      "diam_mm": 2.6
+     },
+     {
+      "y": 496,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 15.8,
+      "diam_mm": 2.1
+     },
+     {
+      "y": 472,
+      "levels": 62,
+      "span_mm": 102,
+      "medial_mm": 18.9,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 448,
+      "levels": 1,
+      "span_mm": 0,
+      "medial_mm": 28.9,
+      "diam_mm": 2.0
+     },
+     {
+      "y": 432,
+      "levels": 11,
+      "span_mm": 33,
+      "medial_mm": 26.4,
+      "diam_mm": 1.8
+     },
+     {
+      "y": 416,
+      "levels": 55,
+      "span_mm": 74,
+      "medial_mm": 12.5,
+      "diam_mm": 2.4
+     },
+     {
+      "y": 408,
+      "levels": 46,
+      "span_mm": 82,
+      "medial_mm": 24.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 400,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 392,
+      "levels": 56,
+      "span_mm": 74,
+      "medial_mm": 15.6,
+      "diam_mm": 2.5
+     },
+     {
+      "y": 384,
+      "levels": 53,
+      "span_mm": 74,
+      "medial_mm": 16.1,
+      "diam_mm": 2.3
+     },
+     {
+      "y": 360,
+      "levels": 7,
+      "span_mm": 6,
+      "medial_mm": 33.6,
+      "diam_mm": 4.9
+     },
+     {
+      "y": 328,
+      "levels": 18,
+      "span_mm": 27,
+      "medial_mm": 12.2,
+      "diam_mm": 2.9
+     }
+    ],
+    "structure": "radial_n"
+   }
+  }
+ },
+ "nulled": {
+  "median_n:right": "too short and too broken to ship under this name: only 0 mm of course (< 30 mm) and only 1 verified levels (< 20)",
+  "ulnar_n:right": "too short and too broken to ship under this name: only 0 mm of course (< 30 mm) and only 1 verified levels (< 20)",
+  "radial_n:right": "too short and too broken to ship under this name: only 18 verified levels (< 20)",
+  "artery:right": "FAILED the human check on the montage: the mask does not sit on an arterial lumen. Over all 60 kept levels it outlines a small dark patch (median diameter 2.1 mm, p10 1.8, p90 2.7) lying ON the medial border of the arm's muscle mass at the muscle/fat interface, with no pale arterial wall around it. A brachial artery in a woman is 3.5-5 mm; this is under a third of that area and the wrong appearance, so it is NOT shipped as brachial_a_r."
+ },
+ "limits": [
+  "NOTHING IS SHIPPED UNDER AN ANATOMICAL NAME. All four labels are nulled in the subject mapping with the reason in their notes. The label volume and the montage are kept so the run can be reviewed.",
+  "WHY: this cadaver's brachial artery does not photograph as a dark clotted lumen. The femoral/popliteal lumen rule looks for a near-black core (3 mm mean red < 58); her UPPER-ARM muscle photographs at red 44-90, i.e. as dark as a thigh lumen, so that rule finds either nothing or the whole belly. The rule was rewritten for local contrast (a blob at least 35 red levels darker than its own 8 mm neighbourhood, a pale wall at least 30 above it, and a 0.7-2 mm annulus that is at least 35-50% not muscle-red), which does find real vessels in this arm - but inside the deep bundle corridor it yields a median of 0-1 candidates per level and no chain longer than 27 levels.",
+  "The only dark vessel that survives the length of this arm anywhere inside the deep-arm hull (144 of 211 levels, y 502 to 359, median diameter 4.1 mm) lies 45 mm ANTERIOR to the humerus centre at the muscle/subcutaneous-fat interface, i.e. OUTSIDE the deep fascia. That is a superficial vein of the arm (cephalic or basilic), not the brachial artery, and it is 45 mm from the bone so the 38 mm bundle corridor refuses it. It is reported here and not shipped: naming it would be a guess.",
+  "The three nerves were not found. vhf_nerve_track.nerve_blobs was relaxed for the arm (stand-off 0.7 mm instead of 1 mm, core 2.5 mm2 instead of 4 mm2, because an arm nerve is 3-6 mm and lies in fat) and the walks still held 1, 1 and 18 levels. Their seeds are relations to the tracked artery, which is itself rejected, so they could not have been right either.",
+  "The frame IS sound and is what the run contributes: the deep-arm muscle hull separates her arm from the chest wall it touches at these levels (a plain tissue island, as written for the free forearm, runs into the thorax), and the photographed humerus disc was tracked on 182 of 203 levels from y 520 to y 318. The CT humerus label lands a median 8.9 mm off the photographed bone (per level in the report), which is why the CT is only a seed.",
+  "Only the RIGHT arm was run. The brachial artery's origin at the lower border of teres major and its division into radial and ulnar arteries in the cubital fossa are not covered.",
+  "The tracked vessel mask would in any case be the LUMEN, not the wall, and a cadaveric muscular artery is contracted, so measured diameters under the living 3.5-5 mm would be reported as measured."
+ ],
+ "montage": "data/ct_sources/task_outputs/vhf_brachial_cryo_right.png",
+ "verification": {
+  "humerus_ct_to_photo_shift_mm": {
+   "note": "the photographed humerus disc centre minus the CT humerus section centroid, per level (row, col) in mm: why the CT is only a seed",
+   "median": [
+    8.9,
+    0.1
+   ],
+   "per_level": {
+    "470": [
+     4.4,
+     -0.2
+    ],
+    "469": [
+     3.8,
+     -0.0
+    ],
+    "468": [
+     4.2,
+     0.2
+    ],
+    "467": [
+     4.6,
+     -0.2
+    ],
+    "466": [
+     4.7,
+     -0.2
+    ],
+    "465": [
+     4.9,
+     -0.2
+    ],
+    "464": [
+     4.8,
+     0.1
+    ],
+    "463": [
+     5.3,
+     -0.2
+    ],
+    "462": [
+     5.5,
+     -0.2
+    ],
+    "461": [
+     5.0,
+     0.7
+    ],
+    "460": [
+     3.2,
+     3.6
+    ],
+    "459": [
+     3.3,
+     3.8
+    ],
+    "458": [
+     3.5,
+     3.4
+    ],
+    "457": [
+     3.7,
+     3.1
+    ],
+    "456": [
+     3.8,
+     3.0
+    ],
+    "455": [
+     4.4,
+     3.3
+    ],
+    "454": [
+     4.6,
+     3.7
+    ],
+    "453": [
+     4.8,
+     3.7
+    ],
+    "452": [
+     5.0,
+     3.7
+    ],
+    "451": [
+     5.1,
+     3.6
+    ],
+    "450": [
+     8.7,
+     -0.1
+    ],
+    "449": [
+     8.2,
+     -0.2
+    ],
+    "448": [
+     8.5,
+     -0.2
+    ],
+    "447": [
+     8.7,
+     -0.6
+    ],
+    "446": [
+     8.8,
+     -0.3
+    ],
+    "445": [
+     9.0,
+     -0.7
+    ],
+    "444": [
+     9.2,
+     -0.4
+    ],
+    "443": [
+     9.8,
+     -0.0
+    ],
+    "442": [
+     10.1,
+     -0.4
+    ],
+    "441": [
+     10.7,
+     -0.3
+    ],
+    "440": [
+     10.6,
+     0.1
+    ],
+    "439": [
+     10.8,
+     0.1
+    ],
+    "438": [
+     11.0,
+     0.1
+    ],
+    "437": [
+     11.5,
+     -0.3
+    ],
+    "436": [
+     11.5,
+     -0.3
+    ],
+    "435": [
+     11.9,
+     -0.3
+    ],
+    "434": [
+     12.0,
+     -0.3
+    ],
+    "433": [
+     12.2,
+     -0.3
+    ],
+    "432": [
+     12.2,
+     -0.4
+    ],
+    "431": [
+     12.4,
+     -0.3
+    ],
+    "430": [
+     13.0,
+     0.1
+    ],
+    "429": [
+     13.6,
+     0.0
+    ],
+    "428": [
+     14.0,
+     0.1
+    ],
+    "427": [
+     14.1,
+     0.1
+    ],
+    "426": [
+     14.2,
+     -0.0
+    ],
+    "425": [
+     14.6,
+     -0.0
+    ],
+    "424": [
+     14.8,
+     -0.0
+    ],
+    "423": [
+     14.9,
+     -0.1
+    ],
+    "422": [
+     15.3,
+     -0.0
+    ],
+    "421": [
+     15.8,
+     0.0
+    ],
+    "420": [
+     15.8,
+     0.1
+    ],
+    "419": [
+     15.8,
+     0.2
+    ],
+    "418": [
+     15.8,
+     0.2
+    ],
+    "417": [
+     16.2,
+     0.8
+    ],
+    "416": [
+     16.3,
+     1.1
+    ],
+    "415": [
+     16.2,
+     0.9
+    ],
+    "414": [
+     16.2,
+     0.9
+    ],
+    "413": [
+     16.5,
+     1.0
+    ],
+    "412": [
+     16.5,
+     1.3
+    ],
+    "411": [
+     16.5,
+     2.3
+    ],
+    "410": [
+     17.1,
+     2.5
+    ],
+    "409": [
+     17.0,
+     2.6
+    ],
+    "408": [
+     16.6,
+     2.8
+    ],
+    "407": [
+     16.9,
+     2.9
+    ],
+    "406": [
+     17.2,
+     3.3
+    ],
+    "405": [
+     17.4,
+     3.6
+    ],
+    "404": [
+     16.9,
+     3.3
+    ],
+    "403": [
+     17.2,
+     3.1
+    ],
+    "402": [
+     20.1,
+     2.1
+    ],
+    "401": [
+     20.7,
+     2.3
+    ],
+    "400": [
+     17.0,
+     2.9
+    ],
+    "399": [
+     17.5,
+     3.1
+    ],
+    "398": [
+     20.0,
+     4.3
+    ],
+    "395": [
+     16.2,
+     -3.0
+    ],
+    "394": [
+     14.6,
+     -1.5
+    ],
+    "393": [
+     13.5,
+     4.4
+    ],
+    "392": [
+     16.4,
+     2.6
+    ],
+    "391": [
+     15.1,
+     4.5
+    ],
+    "390": [
+     12.9,
+     5.3
+    ],
+    "389": [
+     16.5,
+     1.8
+    ],
+    "387": [
+     15.8,
+     -5.3
+    ],
+    "384": [
+     16.7,
+     1.5
+    ],
+    "383": [
+     16.1,
+     1.0
+    ],
+    "382": [
+     16.2,
+     1.2
+    ],
+    "381": [
+     16.1,
+     1.0
+    ],
+    "380": [
+     16.2,
+     0.8
+    ],
+    "379": [
+     15.6,
+     0.6
+    ],
+    "378": [
+     15.9,
+     0.5
+    ],
+    "377": [
+     15.9,
+     0.2
+    ],
+    "376": [
+     15.5,
+     0.1
+    ],
+    "375": [
+     16.1,
+     -0.3
+    ],
+    "374": [
+     16.5,
+     -0.7
+    ],
+    "373": [
+     16.3,
+     -1.1
+    ],
+    "372": [
+     16.5,
+     -1.1
+    ],
+    "371": [
+     16.7,
+     -1.1
+    ],
+    "370": [
+     16.9,
+     -1.5
+    ],
+    "369": [
+     16.8,
+     -1.2
+    ],
+    "368": [
+     16.7,
+     -1.7
+    ],
+    "367": [
+     17.0,
+     -2.1
+    ],
+    "366": [
+     17.4,
+     -2.5
+    ],
+    "365": [
+     17.3,
+     -2.6
+    ],
+    "364": [
+     17.4,
+     -2.7
+    ],
+    "363": [
+     17.4,
+     -2.8
+    ],
+    "362": [
+     17.3,
+     -2.9
+    ],
+    "361": [
+     16.1,
+     -1.9
+    ],
+    "360": [
+     16.3,
+     -1.9
+    ],
+    "350": [
+     4.6,
+     16.5
+    ],
+    "349": [
+     2.5,
+     21.6
+    ],
+    "348": [
+     0.0,
+     26.4
+    ],
+    "347": [
+     3.2,
+     29.5
+    ],
+    "346": [
+     2.9,
+     28.6
+    ],
+    "345": [
+     3.0,
+     27.2
+    ],
+    "344": [
+     5.6,
+     28.6
+    ],
+    "343": [
+     8.8,
+     31.7
+    ],
+    "342": [
+     6.0,
+     26.7
+    ],
+    "341": [
+     9.0,
+     21.0
+    ],
+    "340": [
+     9.1,
+     19.7
+    ],
+    "339": [
+     9.6,
+     18.0
+    ],
+    "338": [
+     8.7,
+     16.7
+    ],
+    "337": [
+     9.0,
+     16.2
+    ],
+    "336": [
+     9.2,
+     15.9
+    ],
+    "335": [
+     9.5,
+     15.0
+    ],
+    "334": [
+     10.0,
+     14.1
+    ],
+    "333": [
+     13.2,
+     18.6
+    ],
+    "332": [
+     12.8,
+     17.5
+    ],
+    "331": [
+     9.0,
+     21.1
+    ],
+    "330": [
+     6.1,
+     20.8
+    ],
+    "328": [
+     4.7,
+     19.7
+    ],
+    "326": [
+     3.7,
+     20.0
+    ],
+    "325": [
+     2.1,
+     19.0
+    ],
+    "324": [
+     3.2,
+     13.4
+    ],
+    "323": [
+     1.6,
+     19.0
+    ],
+    "322": [
+     3.3,
+     13.9
+    ],
+    "321": [
+     1.1,
+     12.9
+    ],
+    "318": [
+     -4.5,
+     6.4
+    ],
+    "471": [
+     6.2,
+     -0.6
+    ],
+    "472": [
+     7.1,
+     -0.5
+    ],
+    "473": [
+     7.4,
+     -0.5
+    ],
+    "474": [
+     6.7,
+     -0.4
+    ],
+    "475": [
+     6.6,
+     -0.3
+    ],
+    "476": [
+     5.9,
+     -0.3
+    ],
+    "477": [
+     5.7,
+     -0.6
+    ],
+    "478": [
+     4.0,
+     -0.3
+    ],
+    "479": [
+     3.6,
+     -0.3
+    ],
+    "480": [
+     6.6,
+     -1.9
+    ],
+    "481": [
+     6.1,
+     -2.1
+    ],
+    "482": [
+     2.7,
+     -0.5
+    ],
+    "483": [
+     3.7,
+     -1.1
+    ],
+    "484": [
+     4.3,
+     -1.2
+    ],
+    "485": [
+     4.8,
+     -1.5
+    ],
+    "486": [
+     4.5,
+     -1.4
+    ],
+    "487": [
+     4.1,
+     -1.5
+    ],
+    "488": [
+     3.4,
+     -1.5
+    ],
+    "489": [
+     1.4,
+     -0.4
+    ],
+    "490": [
+     3.0,
+     -1.0
+    ],
+    "491": [
+     1.2,
+     0.4
+    ],
+    "492": [
+     2.4,
+     -0.7
+    ],
+    "493": [
+     2.4,
+     -1.3
+    ],
+    "494": [
+     2.0,
+     -1.6
+    ],
+    "495": [
+     2.3,
+     -1.7
+    ],
+    "496": [
+     6.5,
+     0.2
+    ],
+    "497": [
+     6.5,
+     0.3
+    ],
+    "498": [
+     5.5,
+     0.2
+    ],
+    "499": [
+     6.2,
+     -0.2
+    ],
+    "500": [
+     7.8,
+     0.5
+    ],
+    "501": [
+     7.5,
+     0.6
+    ],
+    "502": [
+     1.4,
+     -1.4
+    ],
+    "503": [
+     7.1,
+     -1.8
+    ],
+    "504": [
+     7.5,
+     -0.4
+    ],
+    "505": [
+     7.1,
+     -0.3
+    ],
+    "506": [
+     7.0,
+     -0.3
+    ],
+    "507": [
+     2.0,
+     -1.9
+    ],
+    "508": [
+     4.0,
+     -7.2
+    ],
+    "509": [
+     -0.1,
+     -2.8
+    ],
+    "510": [
+     -1.0,
+     -2.5
+    ],
+    "511": [
+     -0.9,
+     -2.4
+    ],
+    "512": [
+     -1.1,
+     -2.0
+    ],
+    "513": [
+     -0.7,
+     -1.9
+    ],
+    "514": [
+     -1.4,
+     -2.0
+    ],
+    "515": [
+     -1.3,
+     -1.9
+    ],
+    "516": [
+     -1.9,
+     -1.5
+    ],
+    "517": [
+     -1.5,
+     -2.1
+    ]
+   }
+  },
+  "relation_to_artery_per_level": {
+   "median_n_vs_artery": {
+    "levels": 1,
+    "y_top": 496,
+    "y_bottom": 496,
+    "lateral_mm": {
+     "median": 12.5,
+     "top_third": 12.5,
+     "bottom_third": 12.5
+    },
+    "anterior_mm": {
+     "median": 4.2,
+     "top_third": 4.2,
+     "bottom_third": 4.2
+    },
+    "levels_lateral": 1,
+    "levels_medial": 0
+   },
+   "ulnar_n_vs_artery": {
+    "levels": 1,
+    "y_top": 495,
+    "y_bottom": 495,
+    "lateral_mm": {
+     "median": 6.1,
+     "top_third": 6.1,
+     "bottom_third": 6.1
+    },
+    "anterior_mm": {
+     "median": -27.8,
+     "top_third": -27.8,
+     "bottom_third": -27.8
+    },
+    "levels_lateral": 1,
+    "levels_medial": 0
+   },
+   "radial_n_vs_artery": {
+    "levels": 10,
+    "y_top": 461,
+    "y_bottom": 421,
+    "lateral_mm": {
+     "median": 30.2,
+     "top_third": 28.5,
+     "bottom_third": 35.8
+    },
+    "anterior_mm": {
+     "median": -31.5,
+     "top_third": -32.5,
+     "bottom_third": -25.3
+    },
+    "levels_lateral": 10,
+    "levels_medial": 0
+   }
+  },
+  "mean_atlas_x_z_per_20mm_band": {
+   "480..500": {
+    "brachial_a_r": {
+     "x": 168.7,
+     "z": -3.0
+    },
+    "median_n": {
+     "x": 178.2,
+     "z": 0.2
+    },
+    "ulnar_n": {
+     "x": 174.5,
+     "z": -30.0
+    }
+   },
+   "460..480": {
+    "brachial_a_r": {
+     "x": 172.3,
+     "z": -6.4
+    },
+    "radial_n": {
+     "x": 201.4,
+     "z": -43.3
+    }
+   },
+   "440..460": {
+    "brachial_a_r": {
+     "x": 174.4,
+     "z": -10.8
+    },
+    "radial_n": {
+     "x": 203.0,
+     "z": -42.9
+    }
+   },
+   "420..440": {
+    "brachial_a_r": {
+     "x": 177.5,
+     "z": -11.8
+    },
+    "radial_n": {
+     "x": 212.8,
+     "z": -40.6
+    }
+   },
+   "400..420": {
+    "brachial_a_r": {
+     "x": 180.4,
+     "z": -17.3
+    },
+    "radial_n": {
+     "x": 216.3,
+     "z": -44.0
+    }
+   }
+  },
+  "offsets_from_artery_per_20mm_band": {
+   "480..500": {
+    "median_n": {
+     "lateral_mm": 9.5,
+     "anterior_mm": 3.2
+    },
+    "ulnar_n": {
+     "lateral_mm": 5.8,
+     "anterior_mm": -27.0
+    }
+   },
+   "460..480": {
+    "radial_n": {
+     "lateral_mm": 29.1,
+     "anterior_mm": -36.9
+    }
+   },
+   "440..460": {
+    "radial_n": {
+     "lateral_mm": 28.6,
+     "anterior_mm": -32.1
+    }
+   },
+   "420..440": {
+    "radial_n": {
+     "lateral_mm": 35.3,
+     "anterior_mm": -28.8
+    }
+   },
+   "400..420": {
+    "radial_n": {
+     "lateral_mm": 35.9,
+     "anterior_mm": -26.7
+    }
+   }
+  },
+  "rule": "Measured on the shipped label volume. On this RIGHT arm MEDIAL is smaller atlas x and ANTERIOR is larger atlas z, so lateral_mm = +(x - artery x) and anterior_mm = z - artery z. Expected: the MEDIAN nerve lateral (+) in the top bands and medial (-) in the bottom bands (it crosses in front of the artery about mid-arm); the ULNAR nerve medial AND posterior (both negative) in the bottom bands (it pierces the medial septum and runs behind the medial epicondyle); the RADIAL nerve posterior in the top bands, behind the artery and behind the humerus (spiral groove).",
+  "montage_check": {
+   "montage": "data/ct_sources/task_outputs/vhf_brachial_cryo_right.png",
+   "read_with": "the Read tool, 12 tiles every 5 tracked levels from y 498 to y 414, 48 mm wide, 0.33 mm px",
+   "artery": "REJECTED. The red outline is a 2 mm dark patch on the medial edge of the muscle belly, against the subcutaneous fat, at every tile. It has no pale arterial wall and no round lumen. It is not the brachial artery.",
+   "median_n": "not assessable: the walk held 1 level (y 496); nothing to draw.",
+   "ulnar_n": "not assessable: the walk held 1 level (y 495); nothing to draw.",
+   "radial_n": "18 kept levels over 60 mm, median section 7.5 mm - larger than a radial nerve (3-6 mm) and resting on too few levels; not shipped."
+  },
+  "relation_verdict": {
+   "median_crosses_lateral_to_medial": "NOT MEASURABLE: the median-nerve walk held a single level (y 496), where it is 12.5 mm lateral and 4.2 mm anterior of the tracked artery. One level cannot show the crossing.",
+   "ulnar_posterior_medial_at_the_epicondyle": "NOT MEASURABLE: one level (y 495), 6.1 mm LATERAL and 27.8 mm posterior of the tracked artery - posterior as expected but on the wrong side, and 160 mm above the epicondyle.",
+   "radial_posterior_against_the_humerus": "Directionally right, on too little: over its 10 shared levels (y 461-421) the radial track is 31.5 mm POSTERIOR of the tracked artery (median), 32.5 mm in the top third and 25.3 mm in the bottom third, i.e. always behind it; per 20 mm band off the label volume it is 27-37 mm posterior. But the reference it is measured against is itself rejected, and 18 levels is under the gate."
+  },
+  "convert": {
+   "command": "cp mappings/subjects/ct_vhf_brachial_volume_mapping.json build/vh/ && python3 scripts/ingest_volume_geometry.py convert data/ct_sources/task_outputs/vhf_brachial_cryo.nii.gz --labels vhf_brachial --subject ct_vhf_brachial --origin='7.769,-885.229,14.137' --smooth 1.0",
+   "result": "refused, exit 2: 'ct_vhf_brachial_volume_mapping.json has no entry with an atlas_id'. That is the correct behaviour here - all four labels are nulled - so build/vh/ct_vhf_brachial/ and its manifest.json do NOT exist. The subject ct_vhf_brachial carries no geometry.",
+   "manifest": null
+  }
+ },
+ "crops": {
+  "script": "scripts/cryo/vhf_stream_crops.py",
+  "box_atlas_mm": {
+   "right": [
+    95,
+    240,
+    -140,
+    30
+   ]
+  },
+  "y_streamed": [
+   592,
+   300
+  ],
+  "levels": 293,
+  "step_mm": 1,
+  "crop_px": [
+   516,
+   441
+  ],
+  "bytes": 200021852,
+  "note": "NEW upper-arm levels, shoulder to just below the elbow: her existing full-resolution arm crops (arm_full_*.npy) cover elbow-to-fingertips only. The box was set from her CT humerus mesh extents (right humerus x 135-227, y 314.5-591.7, z -100 to +4) with ~45 mm of soft tissue around it. Deleted after these outputs were verified.",
+  "deleted_after_use": true
+ },
+ "tests": {
+  "file": "tests/test_brachial_track.py",
+  "result": "7 passed"
+ }
+}

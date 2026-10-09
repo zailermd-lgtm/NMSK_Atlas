@@ -1,0 +1,307 @@
+{
+ "source": "Q62 step 9 (scripts/transfer/zan_to_vh_trunk_leg.py --target vhm): Z-Anatomy trunk and small lower-limb muscles (CC BY-SA 4.0) carried onto the VH male's own skeleton (Q168 per-bone fits, data/derived/Q182_q168_ribrefit_vhm.json).",
+ "gates": {
+  "max_inside_bone_frac": 0.05,
+  "max_outside_skin_preclip_frac": 0.5,
+  "max_carrier_mm": 3.0,
+  "max_overlap_frac": 0.1,
+  "max_in_lung_frac": 0.05,
+  "max_skin_moved_frac": 0.25,
+  "min_volume_kept": 0.75,
+  "push_bound_mm": 3.0,
+  "local_mm": 15.0
+ },
+ "summary": {
+  "targets": [
+   "quadratus_lumborum_r"
+  ],
+  "shipped": [],
+  "n_shipped": 0,
+  "dropped": {
+   "quadratus_lumborum_r": "8.3% of vertices still inside his bone after the bounded push-out (> 5%; 17.3% before)"
+  },
+  "by_group": {
+   "deep_back": {
+    "shipped": [],
+    "held": {}
+   },
+   "posterior_thoracic_wall": {
+    "shipped": [],
+    "held": {}
+   },
+   "chest_wall": {
+    "shipped": [],
+    "held": {}
+   },
+   "abdominal_wall": {
+    "shipped": [],
+    "held": {}
+   },
+   "leg": {
+    "shipped": [],
+    "held": {}
+   },
+   "lumbar_wall": {
+    "shipped": [],
+    "held": {
+     "quadratus_lumborum_r": "8.3% of vertices still inside his bone after the bounded push-out (> 5%; 17.3% before)"
+    }
+   }
+  },
+  "group_carrier": {
+   "deep_back": {
+    "median_mm": null,
+    "p90_mm": null,
+    "held": false
+   },
+   "posterior_thoracic_wall": {
+    "median_mm": null,
+    "p90_mm": null,
+    "held": false
+   },
+   "chest_wall": {
+    "median_mm": null,
+    "p90_mm": null,
+    "held": false
+   },
+   "abdominal_wall": {
+    "median_mm": null,
+    "p90_mm": null,
+    "held": false
+   },
+   "leg": {
+    "median_mm": null,
+    "p90_mm": null,
+    "held": false
+   },
+   "lumbar_wall": {
+    "median_mm": 3.03,
+    "p90_mm": 6.71,
+    "held": true
+   }
+  },
+  "not_built": {
+   "cremaster_r": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "cremaster_l": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "dartos": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "subcostales_r": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name) ('Subcostal artery/vein' are vessels)",
+   "subcostales_l": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name) ('Subcostal artery/vein' are vessels)",
+   "superficial_transverse_perineal_r": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "superficial_transverse_perineal_l": "no CC BY-SA Z-Anatomy object of this name (inventory + name map searched by name)",
+   "articularis_genus_r": "Z-Anatomy has only its attachment-area markers on the femur ('Articularis genus muscle.o<s>', Skeletal system), no muscle object",
+   "articularis_genus_l": "Z-Anatomy has only its attachment-area markers on the femur ('Articularis genus muscle.o<s>', Skeletal system), no muscle object"
+  },
+  "trunk_bones_from_ct_labels": {
+   "spine": [
+    "total",
+    [
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45,
+     46,
+     47,
+     48,
+     49,
+     50
+    ]
+   ],
+   "ribs_r": [
+    "total",
+    [
+     104,
+     105,
+     106,
+     107,
+     108,
+     109,
+     110,
+     111,
+     112,
+     113,
+     114,
+     115
+    ]
+   ],
+   "ribs_l": [
+    "total",
+    [
+     92,
+     93,
+     94,
+     95,
+     96,
+     97,
+     98,
+     99,
+     100,
+     101,
+     102,
+     103
+    ]
+   ],
+   "sternum": [
+    "total",
+    [
+     116
+    ]
+   ],
+   "clavicle_r": [
+    "total",
+    [
+     74
+    ]
+   ],
+   "clavicle_l": [
+    "total",
+    [
+     73
+    ]
+   ],
+   "scapula_r": [
+    "total",
+    [
+     72
+    ]
+   ],
+   "scapula_l": [
+    "total",
+    [
+     71
+    ]
+   ],
+   "hip_bone_r": [
+    "total",
+    [
+     78
+    ]
+   ],
+   "hip_bone_l": [
+    "total",
+    [
+     77
+    ]
+   ]
+  }
+ },
+ "published_volumes": {},
+ "published_note": "No per-muscle adult volume could be read for any of these muscles (PubMed searched 2026-10-01). Fibularis brevis: Jeng CL et al. Foot Ankle Int 2012;33(5):394-9 (doi:10.3113/FAI.2012.0394, 3T MRI, n=10) measured it but the abstract gives no value; Ward SR et al. Clin Orthop Relat Res 2009;467(4):1074-82 (doi:10.1007/s11999-008-0594-8, cadaver masses) -- PMC full text came back empty; Handsfield GG et al. J Biomech 2014;47(3):631-8 (doi:10.1016/j.jbiomech.2013.12.002) pools the peroneals. Fibularis tertius, subclavius, pyramidalis, serratus posterior, transversus thoracis, intercostals and the deep back muscles: none found. Rows compare with the Z-Anatomy source only, so no SIZE CAVEAT can trigger.",
+ "rows": {
+  "quadratus_lumborum_r": {
+   "atlas_id": "quadratus_lumborum_r",
+   "group": "lumbar_wall",
+   "zanatomy_objects": [
+    "Quadratus lumborum muscle.r"
+   ],
+   "zanatomy_mesh_ids": [
+    "quadratus_lumborum_r"
+   ],
+   "partial": null,
+   "vertices": 1416,
+   "triangles": 2832,
+   "inside_bone_frac_before": 0.173,
+   "inside_bone_by_bone": {
+    "spine": 0.0247,
+    "ribs_r": 0.0141,
+    "hip_bone_r": 0.1342
+   },
+   "outside_skin_frac_before": 0.0,
+   "outside_skin_depth_mm": {
+    "p95": 0.0,
+    "max": 0.0
+   },
+   "pushed_off_bone": 127,
+   "inside_bone_deeper_than_bound": 118,
+   "inside_bone_frac_after_push": 0.0833,
+   "rides_on": {
+    "bones": [
+     {
+      "piece": "zan_twelfth_rib_r",
+      "share": 0.228,
+      "fit_residual_mm": 4.61
+     },
+     {
+      "piece": "hip_bone_r",
+      "share": 0.18,
+      "fit_residual_mm": 3.1665
+     },
+     {
+      "piece": "zan_vertebra_l2",
+      "share": 0.138,
+      "fit_residual_mm": 1.65
+     },
+     {
+      "piece": "zan_vertebra_l3",
+      "share": 0.119,
+      "fit_residual_mm": 1.71
+     },
+     {
+      "piece": "zan_vertebra_l4",
+      "share": 0.112,
+      "fit_residual_mm": 1.82
+     },
+     {
+      "piece": "zan_vertebra_l1",
+      "share": 0.076,
+      "fit_residual_mm": 1.67
+     }
+    ],
+    "weighted_median_fit_mm": 2.41,
+    "max_fit_mm": 4.61
+   },
+   "carrier_local": {
+    "n": 2603,
+    "median_mm": 3.03,
+    "p90_mm": 6.71
+   },
+   "clipped_to_skin": 0,
+   "skin_moved_frac": 0.0,
+   "fix_move_mm": {
+    "p95": 2.12,
+    "max": 4.0
+   },
+   "inside_bone_frac_after": 0.0833,
+   "outside_skin_frac_after": 0.0,
+   "inside_label_frac": {
+    "heart": 0.0,
+    "liver": 0.0,
+    "spleen": 0.0,
+    "kidneys": 0.0,
+    "stomach": 0.0,
+    "aorta": 0.0,
+    "oesophagus": 0.0,
+    "lung": 0.0,
+    "costal_cartilage": 0.0
+   },
+   "inside_lung_frac": 0.0,
+   "depth_under_skin_mm": {
+    "min": 41.9,
+    "median": 61.0
+   },
+   "volume_method": "closed mesh",
+   "volume_zanatomy_cm3": 86.78,
+   "volume_transferred_before_fix_cm3": 120.53,
+   "volume_cm3": 121.13,
+   "volume_ratio_vs_zanatomy": 1.396,
+   "volume_kept_after_fix": 1.005,
+   "dropped": "8.3% of vertices still inside his bone after the bounded push-out (> 5%; 17.3% before)"
+  }
+ }
+}

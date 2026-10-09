@@ -1,0 +1,151 @@
+{
+  "_README": [
+    "Label id -> structure name for TotalSegmentator v2's 'headneck_muscles' task, plus the reviewed mapping onto atlas entities.",
+    "A KEY, not data: it contains no anatomy and no geometry. Entries with atlas_id null are decisions NOT to map, each with its reason."
+  ],
+  "source": "Wasserthal J et al., TotalSegmentator (Radiology: AI 2023, doi:10.1148/ryai.230024); class map transcribed from totalsegmentator/map_to_binary.py, v2.18.0, Apache-2.0. Task listed in the project README under 'Openly available for any usage (Apache-2.0 license)'.",
+  "task": "headneck_muscles",
+  "version": "v2.18.0",
+  "labels": {
+    "1": "sternocleidomastoid_right",
+    "2": "sternocleidomastoid_left",
+    "3": "superior_pharyngeal_constrictor",
+    "4": "middle_pharyngeal_constrictor",
+    "5": "inferior_pharyngeal_constrictor",
+    "6": "trapezius_right",
+    "7": "trapezius_left",
+    "8": "platysma_right",
+    "9": "platysma_left",
+    "10": "levator_scapulae_right",
+    "11": "levator_scapulae_left",
+    "12": "anterior_scalene_right",
+    "13": "anterior_scalene_left",
+    "14": "middle_scalene_right",
+    "15": "middle_scalene_left",
+    "16": "posterior_scalene_right",
+    "17": "posterior_scalene_left",
+    "18": "sterno_thyroid_right",
+    "19": "sterno_thyroid_left",
+    "20": "thyrohyoid_right",
+    "21": "thyrohyoid_left",
+    "22": "prevertebral_right",
+    "23": "prevertebral_left"
+  },
+  "atlas": {
+    "sternocleidomastoid_right": {
+      "atlas_id": "sternocleidomastoid_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "sternocleidomastoid_left": {
+      "atlas_id": "sternocleidomastoid_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "trapezius_right": {
+      "atlas_id": "trapezius_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "trapezius_left": {
+      "atlas_id": "trapezius_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "platysma_right": {
+      "atlas_id": "platysma_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "platysma_left": {
+      "atlas_id": "platysma_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "levator_scapulae_right": {
+      "atlas_id": "levator_scapulae_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "levator_scapulae_left": {
+      "atlas_id": "levator_scapulae_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "anterior_scalene_right": {
+      "atlas_id": "scalenus_anterior_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "anterior_scalene_left": {
+      "atlas_id": "scalenus_anterior_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "middle_scalene_right": {
+      "atlas_id": "scalenus_medius_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "middle_scalene_left": {
+      "atlas_id": "scalenus_medius_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "posterior_scalene_right": {
+      "atlas_id": "scalenus_posterior_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "posterior_scalene_left": {
+      "atlas_id": "scalenus_posterior_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "sterno_thyroid_right": {
+      "atlas_id": "sternothyroid_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "sterno_thyroid_left": {
+      "atlas_id": "sternothyroid_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "thyrohyoid_right": {
+      "atlas_id": "thyrohyoid_r",
+      "relationship": "exact",
+      "note": ""
+    },
+    "thyrohyoid_left": {
+      "atlas_id": "thyrohyoid_l",
+      "relationship": "exact",
+      "note": ""
+    },
+    "superior_pharyngeal_constrictor": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped."
+    },
+    "middle_pharyngeal_constrictor": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped."
+    },
+    "inferior_pharyngeal_constrictor": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "Unsided in the release; the atlas carries _l/_r halves. A midline split needs vertebral or sternal labels, which this task's label map does not contain. Not mapped."
+    },
+    "prevertebral_right": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: longus colli, longus capitis."
+    },
+    "prevertebral_left": {
+      "atlas_id": null,
+      "relationship": "no_atlas_entity",
+      "note": "One mask over a group the atlas carries as separate entities; the ATLAS is finer than this task resolves, which no mapping can fix (same situation as 'autochthon' in the total task). Atlas: longus colli, longus capitis."
+    }
+  }
+}

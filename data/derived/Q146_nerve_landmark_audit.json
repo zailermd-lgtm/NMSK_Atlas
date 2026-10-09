@@ -1,0 +1,115 @@
+{
+  "source": "Q146 (2026-09-23): the same audit-and-correct pipeline Q144/Q145 used for the radial nerve, run against four more major nerve landmarks on the Z-Anatomy reference model -- ulnar (cubital tunnel, FCU heads, Guyon's canal), median (pronator teres passage, carpal tunnel vs wrist-crease landmarks), common fibular (fibular head/neck), sciatic (piriformis + ischial-tuberosity/greater-trochanter line). CC BY-SA anatomy layer only (third_party/z-anatomy/NOTICE); no clinical/private content touched. All reference targets are real cadaveric morphometry retrieved via the PubMed MCP tools (search_articles/get_article_metadata), cited by author/year/journal/PMID/DOI, numbers taken from the cited abstract (no full text was needed to get the numbers used here). RESULT: measured and re-checked for measurement-methodology artifacts the same way Q145 did for the PIN, but unlike Q145, NONE of the 12 landmarks checked here met the bar for a geometry correction -- every one is within its cited range, qualitatively consistent, a small/borderline discrepancy of the same order Q144 itself declined to correct, or genuinely unsourced. SHIPPED NO NEW CORRECTION FILES and NO CHANGE to scripts/zanatomy/apply_corrections.py -- a valid outcome this project has taken before (see PROJECT_STATE.md Q142's own 'shipped nothing' precedent). The Z-Anatomy NV bundle was still rebuilt end-to-end to confirm the existing Q144/Q145 radial-nerve correction still applies cleanly and nothing regressed: 662 matched entities, zan_ref_nv 1402 structures (both exactly unchanged from Q145), verify_zan_reference.py OK, build/viewer_zan/atlas_viewer_zanatomy_nv.html 12.86MB (unchanged from Q145, well under the 15MB budget).",
+  "method": "Same method family as Q144/Q145: centreline = per-Y-bin (nbins=120-300 depending on landmark) vertex centroid of the nerve mesh on scripts/zanatomy/zan_source.to_atlas_frame() geometry, sorted superior->inferior; bony landmarks fit LIVE from this same build's own Skeletal/*.npz meshes (never a baked-in number) using the same slab-and-pick-extreme-vertex convention apply_corrections.py's own lateral_epicondyle_y() already uses, generalised here to a medial epicondyle (opposite-sign-X pick from the same distal humerus slab), a fibular head tip (proximal-most fibula vertex), an ischial tuberosity (most-inferior hip-bone vertex) and a greater trochanter (most-lateral vertex of the proximal 40mm femur slab); proximity via scipy.spatial.cKDTree nearest-vertex distance; intramuscular entry via trimesh.Trimesh.contains() point-in-mesh containment, exactly as Q144 used for the PIN/supinator. Side check: right and left measured independently on every landmark below and confirmed to mirror to within 0.01mm on every single value (full numbers in the per-landmark table) -- same standard Q144/Q145 set. Two landmarks triggered this task's own 'is this a measurement artifact, not a real geometry gap' check (the instruction Q145 itself was given and is carried forward here): the ulnar nerve/FCU-heads landmark (both FCU 'head' objects in this Z-Anatomy release are the FULL muscle-belly-plus-tendon-to-pisiform object, not just the short converging heads segment near the elbow, so a global nearest-vertex minimum lands far down the forearm rather than at the true elbow-level arcade -- excluded by re-measuring within a physiologically-bounded elbow window instead) and the sciatic/IT-GT-line landmark (the cited study's own S2 point is a calliper measurement on the exposed POSTERIOR SURFACE of the specimen, i.e. a 2-D projection, not a full 3-D nearest-point-on-line -- re-measured by projecting onto the atlas X-Y posterior-view plane, which collapsed the apparent miss from 29.85mm perpendicular / 13.0% along the line to 0.85mm perpendicular / 21.8% along the line, i.e. within the cited range once the convention artifact is removed).",
+  "reference_frame": "atlas +Y (superior), millimetres. Humerus length (both sides): 317.6mm. Lateral epicondyle Y: 1100.61mm; medial epicondyle Y: 1101.74mm (both fit live per-side, mirror-exact). Fibular head tip Y: 417.70mm. Ischial tuberosity (r): [43.23, 797.34, -34.34]mm; greater trochanter (r): [143.57, 849.45, -10.92]mm; IT-GT line length 115.46mm (both sides mirror-exact in X).",
+  "ulnar_nerve": [
+    {
+      "id": "a_cubital_tunnel_position",
+      "description": "Ulnar nerve position at the elbow relative to the medial epicondyle and olecranon (retrocondylar/cubital tunnel groove).",
+      "measured": {"min_dist_to_humerus_near_ME_mm": 3.85, "min_dist_to_ulna_near_ME_mm": 18.12, "mean_dist_to_humerus_mm": 9.27, "mean_dist_to_ulna_mm": 20.44, "window": "nerve centreline points within +-20mm of medial epicondyle Y"},
+      "cited_range": null,
+      "citation_search": "Extensive PubMed search for a numeric cadaveric target for this specific position check (queries recorded: 'ulnar nerve cubital tunnel medial epicondyle cadaveric distance', 'cubital tunnel width medial epicondyle olecranon ulnar nerve cadaveric measurement elbow flexion', 'ulnar nerve posterior medial epicondyle olecranon cadaver morphometry elbow', etc.) returned only qualitative/indirect studies (e.g. Felder et al. 2018, PMID 29682985, DOI 10.1177/1558944718771390 -- structures distal to the medial epicondyle relevant to ulnar nerve transposition, not a position-at-the-groove number) -- no cadaveric study reporting a direct nerve-to-ME or nerve-to-olecranon distance at this specific level was found.",
+      "status": "unsourced -- not corrected",
+      "corrected": false
+    },
+    {
+      "id": "b_fcu_heads_passage",
+      "description": "Ulnar nerve passage between the humeral and ulnar heads of flexor carpi ulnaris (humero-ulnar arcade / Osborne's fascia), distance distal to the medial epicondyle.",
+      "measured": {
+        "elbow_window_min_dist_mm": 2.03, "elbow_window_max_dist_mm": 5.25, "elbow_window_mean_dist_mm": 3.73,
+        "window": "-10 to +70mm distal to ME (spans every cited target below with margin)",
+        "note": "checked for measurement artifact first (see top-level 'method'): unrestricted global nearest-vertex minimum to the combined FCU-heads mesh was 0.32mm at 87.7mm distal to ME -- investigated and found to be an artifact of both FCU 'head' objects being the full muscle-belly-plus-tendon mesh (extending 220-270mm distal to ME, to the pisiform insertion), not the short converging heads segment near the elbow; excluded. Within the physiologically-bounded elbow window instead, the nerve stays a fairly constant 2-5mm from the combined two-heads mesh throughout -- i.e. it genuinely runs in the interval between the two heads over the whole range the cited studies place the passage in, but neither head's mesh models just the short 'head' segment, so there is no clean containment-based single crossing point comparable to the citations' own specific point estimates."
+      },
+      "cited_range": {"derived_from_Manoukov_mm": [40.7, 45.8], "related_landmark_Majid_mm": 18.2},
+      "citation": [
+        "Manoukov Y, Herisson O, Sali E, Sautet A, Masquelet AC, Cambon-Binder A (2020). Anatomy of the posterior branch of the medial antebrachial cutaneous nerve: A cadaveric study. Orthop Traumatol Surg Res 106(4):771-774. PMID 32360558, DOI 10.1016/j.otsr.2020.02.006. (20 limbs/13 cadavers: PBMACN was 2.53cm distal to ME at 45 deg flexion / 2.96cm at 90 deg; distance from PBMACN to the ulnar-nerve FCU-penetration point was a further 1.54cm/1.62cm distal -- summed here, both anchored to the same ME landmark in the same paper, to derive an indirect ME-to-FCU-passage estimate of 4.07-4.58cm; the paper itself does not report this sum directly.)",
+        "Majid SS, Patel NT, Mrowczynski OD, Goldman E, Rizk EB, Harbaugh KS (2024). The Crossing Motor Ulnar Nerve Branch at Elbow. Oper Neurosurg (Hagerstown) 27(4):471-474. PMID 39222350, DOI 10.1227/ons.0000000000001155. (48 elbow specimens: a motor branch crosses the ulnar nerve at the area of compression by the deep FCU fascia at a mean 18.2mm distal to ME -- a related but not identical landmark, kept separate, not pooled with Manoukov's derived range.)"
+      ],
+      "status": "qualitatively consistent -- specific crossing point not independently verifiable with available two-heads geometry -- not corrected",
+      "corrected": false
+    },
+    {
+      "id": "c_guyon_canal",
+      "description": "Ulnar nerve bifurcation into superficial and deep branches (within Guyon's canal), relative to the pisiform.",
+      "measured": {"deep_branch_start_offset_from_pisiform_mm": 4.69, "superficial_branch_start_offset_from_pisiform_mm": 38.19, "trunk_end_offset_from_pisiform_mm": 39.68, "direction": "all three proximal to pisiform Y; magnitude compared below"},
+      "cited_range": {"mean_mm": 8.9, "sd_mm": 2.5},
+      "citation": "Punja R, Kini G, Hosapatna M (2022). Unexplored parameters of ulnar nerve in the palm and its clinical implications; A cadaveric study. Ann Med Surg (Lond) 74:103259. PMID 35145657, PMCID PMC8818893, DOI 10.1016/j.amsu.2022.103259. (30 formalin-fixed hand specimens: pisiform to division of ulnar nerve into superficial/deep branch = 0.89 +/- 0.25cm = 8.9 +/- 2.5mm.)",
+      "status": "borderline -- measured 4.69mm sits below the cited mean-1SD bound (6.4mm) but within mean-2SD (3.9mm); same order-of-magnitude small discrepancy Q144 itself left uncorrected for its own landmark (d) -- not corrected",
+      "corrected": false
+    }
+  ],
+  "median_nerve": [
+    {
+      "id": "a_pronator_teres_passage",
+      "description": "Median nerve passage between the humeral and ulnar heads of pronator teres, distance distal to the medial epicondyle / interepicondylar line.",
+      "measured": {"deep_head_containment_entry_distal_to_intercondylar_mm": 41.48, "nearest_approach_to_both_heads_distal_to_intercondylar_mm": 45.31, "distal_to_ME_mm": [42.04, 45.87]},
+      "cited_range": {"mean_mm": 50.4, "sd_mm": 10.7, "reference_point": "interepicondylar line"},
+      "citation": "Gurses IA, Altinel L, Gayretli O, Akgul T, Uzun I, Dikici F (2017). Morphology and morphometry of the ulnar head of the pronator teres muscle in relation to median nerve compression at the proximal forearm. Orthop Traumatol Surg Res 102(8):1005-1008. PMID 27843079, DOI 10.1016/j.otsr.2016.08.016. (112 forearms: median nerve passed anterior to the ulnar head of pronator teres at 50.4 +/- 10.7mm from the interepicondylar line.)",
+      "status": "within_cited_range (mean-1SD to mean+1SD = 39.7-61.1mm; measured 41.5-45.9mm)",
+      "corrected": false
+    },
+    {
+      "id": "b_carpal_tunnel_vs_wrist_crease",
+      "description": "Median nerve / carpal tunnel position relative to distal-wrist-crease-region bony landmarks (pisiform, scaphoid tubercle, hook of hamate).",
+      "measured": {
+        "median_nerve_own_mesh_distal_terminus_offset_from_pisiform_mm": 9.18,
+        "carpal_row_distal_pole_offset_from_pisiform_mm": 14.12,
+        "note": "this project's own 'Median_nerve.r/.l' Z-Anatomy mesh object terminates only 9.18mm distal to the pisiform, almost certainly at its own registry-object boundary (where it hands off to 'Common palmar digital branches of median nerve', a separate object) rather than at the true anatomical carpal-tunnel exit the cited study measures from -- the two are not independently comparable with the geometry available."
+      },
+      "cited_range": {"value_mm": 31.2, "reference_point": "distal margin of the transverse carpal ligament, relative to the distal wrist crease"},
+      "citation": "Ma NT, Tran TD, Tran Q, Duong MC (2022). A Cadaveric Study of the Carpal Tunnel and Anatomical Variations of the Median Nerve in Vietnamese Adults: Implications for Single Portal Endoscopic Carpal Tunnel Release. Malays Orthop J 16(1):4-10. PMID 35519519, PMCID PMC9017906, DOI 10.5704/MOJ.2203.002. (20 hands/10 cadavers: median distance from TCL distal margin to the distal wrist crease = 31.2mm.)",
+      "status": "not independently verifiable with available geometry (mesh-object-boundary mismatch, not a geometry claim either way) -- not corrected",
+      "corrected": false
+    }
+  ],
+  "common_fibular_nerve": [
+    {
+      "id": "fibular_head_neck_relation",
+      "description": "Common fibular nerve winding around the fibular neck, distance distal to the fibular head/tip.",
+      "measured": {"global_nearest_approach_distal_to_tip_mm": 22.84, "first_within_5mm_of_fibula_distal_to_tip_mm": 13.71},
+      "cited_range": {"primary_mm": [19.7, 21.7], "primary_mean_sd_mm": [20.7, 1.0], "pooled_corroborating_range_mm": [14.2, 50.0]},
+      "citation": [
+        "Teo HLT, Ang KXM, Loh SYJ (2020). A reproducible reference point for the common peroneal nerve during surgery at the posterolateral corner of the knee: a cadaveric study. Knee Surg Relat Res 32(1):23. PMID 32660595, PMCID PMC7245813, DOI 10.1186/s43019-020-00039-2. (12 cadaveric knees: CPN crosses the posterior border of the fibular neck at 20.7 +/- 1mm from the tip of the fibular head (F to N distance) -- same reference-point definition, 'fibular head tip', this task's own wording uses.)",
+        "Baruah RK, Harikrishnan SV, Baruah JP (2018). Safe corridor for fibular transfixation wire in relation to common peroneal nerve: A cadaveric analysis. J Clin Orthop Trauma 10(2):432-438. PMID 30828221, PMCID PMC6383134, DOI 10.1016/j.jcot.2018.05.002. (10 knees: CPN crosses the fibular neck at 32.3 +/- 8.53mm from the fibula tip, range 20-50mm -- corroborating, not pooled, different specimen population.)",
+        "Dearden P, Lowery K, Sherman K, Mahadevan V, Sharma H (2015). Fibular head transfixion wire and its relationship to common peroneal nerve: cadaveric analysis. Strategies Trauma Limb Reconstr 10(2):73-8. PMID 26017165, PMCID PMC4570888, DOI 10.1007/s11751-015-0225-3. (10 knees: CPN crosses the fibular neck at 34.8mm from the tip, range 21.5-44.3mm.)",
+        "Fongsri W, Chokchaipermpoonphol P, Parinyakhup W, Yuenyongviwat V (2026). Anatomical Landmarks for Decompression of Common Peroneal Nerve: A Cadaveric study. Plast Reconstr Surg Glob Open 14(3):e7589. PMID 41907090, PMCID PMC13023720, DOI 10.1097/GOX.0000000000007589. (30 limbs/15 cadavers: CPN 19.0 +/- 4.4mm from the fibular head, 29.4 +/- 4.5mm from the fibular tip.)"
+      ],
+      "status": "within_cited_range (measured 22.84mm sits within ~2mm of the tightest single-study target (20.7mm) and comfortably inside the pooled corroborating range 14.2-50mm across all four studies)",
+      "corrected": false
+    }
+  ],
+  "sciatic_nerve": [
+    {
+      "id": "a_relative_to_piriformis",
+      "description": "Sciatic nerve exit relative to the inferior border of piriformis.",
+      "measured": {"nearest_approach_to_piriformis_mm": 1.27, "offset_below_inferior_border_mm": 1.56},
+      "cited_range": null,
+      "citation": "Wan-Ae-Loh P, Huanmanop T, Agthong S, Chentanez V (2020). Evaluation of the sciatic nerve location regarding its relationship to the piriformis muscle. Folia Morphol (Warsz) 79(4):681-689. PMID 31907919, DOI 10.5603/FM.a2019.0140. (204 specimens/102 cadavers, using the Beaton & Anson classification: type a (nerve entirely inferior to piriformis) = 74.0% -- a qualitative/categorical finding, no numeric nerve-to-piriformis-border gap is reported.)",
+      "status": "qualitatively consistent (nerve emerges essentially immediately -- 1.3-1.6mm -- inferior to piriformis, i.e. this model's own geometry matches the majority/'type a' pattern) -- no numeric target to correct against -- not corrected",
+      "corrected": false
+    },
+    {
+      "id": "b_IT_GT_line_crossing",
+      "description": "Sciatic nerve position where it crosses the line joining the ischial tuberosity and the greater trochanter, as a percentage of that line's length measured from the ischial tuberosity (Wan-Ae-Loh et al. 2019's own 'S2' point).",
+      "measured": {
+        "3D_nearest_line_point_pct_from_IT": 12.97, "3D_perp_dist_mm": 29.85,
+        "2D_posterior_projection_pct_from_IT": 21.81, "2D_perp_dist_mm": 0.85,
+        "note": "checked for measurement artifact first (per this task's own instruction, same discipline Q145 applied to the PIN): the cited study's S2 is a calliper measurement on the specimen's exposed POSTERIOR surface, i.e. a 2-D projection, not a full 3-D nearest-point-on-line. The initial 3-D method gave a large apparent miss (12.97% vs cited 37.87%, 29.85mm off the line); re-measured by projecting the sciatic centreline and the IT-GT line onto the atlas X-Y (posterior-view) plane instead, which collapsed the perpendicular miss to 0.85mm (the nerve genuinely crosses close to the projected line, confirming X-Y is the right convention) and moved the crossing to 21.81% from IT."
+      },
+      "cited_range": {"mean_pct": 37.87, "sd_pct": 8.27, "IT_GT_line_length_mean_mm": 73.02, "IT_GT_line_length_sd_mm": 10.20},
+      "citation": "Wan-Ae-Loh P, Huanmanop T, Agthong S, Chentanez V (2020). Evaluation of the sciatic nerve location regarding its relationship to the piriformis muscle. Folia Morphol (Warsz) 79(4):681-689. PMID 31907919, DOI 10.5603/FM.a2019.0140. (204 specimens/102 cadavers: SN at S2 located at 37.87 +/- 8.27% of the IT-GT line length, measured from IT.)",
+      "status": "within_cited_range once the 2-D/3-D measurement-convention artifact is corrected (21.81% sits inside mean-2SD = 21.3-54.4%, just outside mean-1SD = 29.6-46.1% -- the residual gap is attributable to this model's own IT/GT landmark-fitting proxies (most-inferior hip-bone vertex / most-lateral proximal-femur-slab vertex) rather than a demonstrated geometry defect)",
+      "corrected": false
+    }
+  ],
+  "tests": "Full suite re-run after this task's own build/verification steps: `python -m pytest -q` -- 289 passed, 0 failed (no new correction logic was added, so no new correction-application tests were needed; scripts/zanatomy/apply_corrections.py is byte-for-byte unchanged from Q145).",
+  "bundle_rebuild": {
+    "steps": [
+      "python3 scripts/zanatomy/build_zan_reference.py",
+      "python3 scripts/export_viewer_bundle.py --subject zan_ref_nv -o build/viewer_zan_nv --budget-scale 0.5 --sheet-categories nerve,vessel --force-badge \"$BADGE\" --strip-clinical --subject-label \"Z-Anatomy reference model (neurovascular / visceral)\"",
+      "python3 scripts/build_viewer_html.py --bundle build/viewer_zan_nv -o build/viewer_zan/atlas_viewer_zanatomy_nv.html --title \"Z-Anatomy Reference (Neurovascular)\"",
+      "python3 scripts/zanatomy/verify_zan_reference.py"
+    ],
+    "result": "matched entities 662, zan_ref_nv 1402 structures (both exactly unchanged from Q145 -- this task only measured, it did not touch the matching/coverage pipeline or apply_corrections.py); verify_zan_reference.py RESULT: OK, problems: []; build/viewer_zan/atlas_viewer_zanatomy_nv.html 12.86MB (unchanged from Q145, well under the 15MB budget). Q143_zan_reference_verification.json's own 'currently missing on both specimens' entity-coverage count dropped from 303 (Q145) to 252 here -- expected and unrelated to this task: Q147/Q148/Q149/Q150 filled real soft-tissue/disc/abdominal-wall gaps directly on the two Visible Human specimens in between, shrinking the pool of entities Z-Anatomy is the only reference for."
+  }
+}

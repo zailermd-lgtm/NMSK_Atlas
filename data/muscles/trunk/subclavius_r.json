@@ -1,0 +1,113 @@
+{
+  "id": "subclavius_r",
+  "name_ta": "Subclavius",
+  "name_common": "Subclavius",
+  "side": "right",
+  "region": "trunk",
+  "overall_architecture_type": "fusiform",
+  "attachments": {
+    "origin_bone": "ribs_r",
+    "origin_landmark": "1st rib / costal cartilage (anterior)",
+    "insertion_bone": "clavicle_r",
+    "insertion_landmark": "subclavian groove of clavicle",
+    "via_points": []
+  },
+  "innervation": {
+    "nerve": "nerve_to_subclavius",
+    "root_levels": "C5-C6"
+  },
+  "actions": [
+    "depresses and stabilizes the clavicle at the sternoclavicular joint"
+  ],
+  "functional_compartments": [
+    {
+      "id": "subclavius_r_main",
+      "name": "Single fiber population",
+      "fiber_architecture": {
+        "architecture_type": "fusiform",
+        "pennation_deg": 5,
+        "optimal_fascicle_length_mm": 90,
+        "physiological_cross_section_area_mm2": 60,
+        "max_isometric_force_N": 13.5
+      },
+      "fiber_field_seed_region_local_mm": [
+        [
+          10,
+          5,
+          15
+        ],
+        [
+          -60,
+          -5,
+          5
+        ]
+      ],
+      "neuromuscular_junction_zone": {
+        "location_description": "mid-belly endplate band",
+        "position_fraction_along_fascicle": 0.5,
+        "band_width_fraction": 0.12,
+        "evidence": "modelling_default"
+      },
+      "function_note": "Small, deeply-placed muscle beneath the clavicle; cushions the subclavian vessels immediately below it from the bone during clavicle fracture, a clinically relevant protective relationship.",
+      "source": "Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+      "innervation_branch_ids": [
+        "nerve_to_subclavius"
+      ]
+    }
+  ],
+  "source": "Gray's Anatomy for Students, 4th ed. (Drake, Vogl, Mitchell); Terminologia Anatomica (FICAT 1998); Holzbaur KR, Murray WM, Delp SL (2005) Ann Biomed Eng 33(6):829-840 -- upper-extremity muscle architecture model (fascicle length, pennation, PCSA)",
+  "ultrasound_injection_approach": {
+    "transducer_placement": "Linear probe placed longitudinally along the inferior surface of the clavicle, in the infraclavicular fossa, to bring this muscle's short belly into view running from the clavicle's undersurface toward the first rib/costal cartilage.",
+    "depth_layer": "Immediately deep to the clavicle and the clavipectoral fascia, superficial to the subclavian vessels and brachial plexus (which lie deep and slightly caudal/medial to it) -- real-time ultrasound guidance is used specifically to keep the needle out of that neurovascular plane.",
+    "identification_cues": "Small, short, band-like muscle directly under the clavicle's acoustic shadow; contracts (visible on dynamic scanning) with shoulder depression/retraction.",
+    "structures_at_risk": [
+      "subclavian artery and vein, deep and slightly caudal to the muscle",
+      "brachial plexus, deep and lateral to the muscle -- the reason this and the other injections in the same series (anterior scalene, pectoralis minor) were done under real-time ultrasound rather than landmark technique",
+      "pleura/apex of lung, deep to the neurovascular bundle"
+    ],
+    "notes": "Genuine clinical finding: ultrasound-guided botulinum toxin injection of subclavius (along with anterior scalene and pectoralis minor) is a real, described technique for neurogenic thoracic outlet syndrome (NTOS), where an overactive/hypertrophied subclavius is one of several muscles thought to compress the brachial plexus. In this retrospective series of 41 subjects, only 1 of 92 total injections targeted subclavius specifically (58 anterior scalene, 33 pectoralis minor, 1 subclavius) -- so while the technique and rationale are real and specific to this muscle, the direct clinical experience with it is limited to a single reported case within that series. No dedicated motor-point/neural-arborization mapping study for this muscle was found.",
+    "source": "Torriani M, Gupta R, Donahue DM (2010) 'Botulinum toxin injection in neurogenic thoracic outlet syndrome: results and experience using a ultrasound-guided approach', Skeletal Radiol 39(10):973-980, doi:10.1007/s00256-010-0897-1"
+  },
+  "trigger_points": [
+    {
+      "location_description": "Single trigger point in the small belly just below the clavicle at its mid-third, deep to the pectoralis major clavicular fibres",
+      "referred_pain_pattern": "A distinctive pattern: across the anterior shoulder and down the front of the arm along the biceps, then skipping the elbow and wrist to the radial forearm and the radial side of the hand -- thumb, index and middle fingers (a C6/carpal-tunnel mimic without objective deficit).",
+      "activation_perpetuating_factors": "Vague restriction of full elevation/abduction with anterior tightness; symptoms with sustained arm-overhead posture or heavy carrying.",
+      "source": "Simons, Travell & Simons Trigger Point Manual -- as cited in this atlas's uploaded shoulder muscle reference document (Donnelly JM, Fernandez-de-las-Penas C, Finnegan M, Freeman JL (eds), Myofascial Pain and Dysfunction: The Trigger Point Manual, 3rd ed., Wolters Kluwer, 2019)"
+    }
+  ],
+  "clinical": [
+    {
+      "document": "shoulder_muscles_reference_v1.html",
+      "compiled": "31/08/2026",
+      "compiled_by": "repository owner (physician); shoulder_muscles_reference_v1.html, compiled 31/08/2026. Sources policy: Gray’s Anatomy 43rd ed. (2026), Moore 9th ed., Neumann 3rd ed., Travell & Simons 3rd ed. (2019) and peer-reviewed journals only; 13 journal records re-retrieved via PubMed on 31/08/2026 (tagged), the rest flagged.",
+      "function_biomechanics": "Depresses and steadies the clavicle, pulling it medially against the sternoclavicular joint; damps clavicular motion during arm use and cushions the subclavian vessels beneath a fractured clavicle (fragments rarely injure the vessels partly because of it). Minor accessory inspiration (first rib).",
+      "adjacent_structures": "Adjacent bursae: None constant. Adjacent structures — mutual influence: Costoclavicular space: hypertrophy/tightness (with anterior scalene and a tight costocoracoid membrane) contributes to thoracic-outlet compression, especially the venous type (effort thrombosis territory); SC joint pathology alters its loading; clavicle fracture/malunion changes its geometry.",
+      "trigger_points": [
+        {
+          "location": "Single TrP in the small belly just below the clavicle at its mid-third, deep to pectoralis major clavicular fibres.",
+          "referred_pain": "A distinctive pattern: across the anterior shoulder and down the front of the arm along the biceps, then skipping the elbow and wrist to the radial forearm and the radial side of the hand — thumb, index and middle fingers (a C6/carpal-tunnel mimic without objective deficit).",
+          "source": "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section."
+        }
+      ],
+      "pain_referred_into_this_muscle_from": [
+        "Into the infraclavicular zone: pectoralis major clavicular fibres, scalenus anterior (which also refers to the radial hand), sternocleidomastoid clavicular head",
+        "SC-joint arthritis",
+        "apical lung/Pancoast pathology presents nearby — keep it on the list for unexplained infraclavicular pain."
+      ],
+      "movement_restrictions_aggravators": "Vague restriction of full elevation/abduction with anterior tightness; symptoms with sustained arm-overhead or heavy carrying.",
+      "notes": "In radial-hand paraesthesiae with normal NCS, examine subclavius and scalenus anterior TrPs before repeating electrodiagnostics.",
+      "caveat": "Trigger-point locations and referral maps derive from the Travell–Simons clinical-observational tradition, now standardised by Delphi consensus criteria [32] and supported by prevalence and hyperalgesia studies in shoulder pain [30,31]; they are expert-level evidence, not trial-level, and inter-examiner reliability of TrP palpation is moderate. Facet, ACJ and subacromial referral patterns, by contrast, come from experimental provocation in volunteers/patients [33,34,37]. Textbook anatomy is cited at section level; where major texts disagree (segmental levels), the range is given and flagged. Figures and patterns older than 12 months are anatomical/physiological constants and are not considered stale.",
+      "sources": [
+        "Standring S, Tubbs SR (eds). Gray’s Anatomy: The Anatomical Basis of Clinical Practice. 43rd ed. Elsevier; 2026. Section: Upper limb (pectoral girdle, shoulder region, axilla and arm chapters).",
+        "Dalley AF, Agur AMR. Moore’s Clinically Oriented Anatomy. 9th ed. Wolters Kluwer; 2023. Ch. 3 (Upper limb); referred visceral pain discussed in the thorax/abdomen chapters.",
+        "Neumann DA. Kinesiology of the Musculoskeletal System: Foundations for Rehabilitation. 3rd ed. Elsevier; 2017. Ch. 5 (Shoulder complex).",
+        "Donnelly JM, Fernández-de-las-Peñas C, Finnegan M, Freeman JL (eds). Travell, Simons & Simons’ Myofascial Pain and Dysfunction: The Trigger Point Manual. 3rd ed. Wolters Kluwer; 2019. Muscle chapters as named in each section.",
+        "Sanders RJ, Rao NM. The forgotten pectoralis minor syndrome: 100 operations for pectoralis minor syndrome alone or accompanied by neurogenic thoracic outlet syndrome. Ann Vasc Surg. 2010;24(6):701–708. doi:10.1016/j.avsg.2010.02.022. PMID 20471786. [retrieved 31/08/2026]",
+        "[30] Bron C, Dommerholt J, Stegenga B, Wensing M, Oostendorp RAB. High prevalence of shoulder girdle muscles with myofascial trigger points in patients with shoulder pain. BMC Musculoskelet Disord. 2011;12:139. doi:10.1186/1471-2474-12-139. PMID 21711512. [record retrieved via PubMed, 31/08/2026]",
+        "[31] Hidalgo-Lozano A, Fernández-de-las-Peñas C, Alonso-Blanco C, Ge HY, Arendt-Nielsen L, Arroyo-Morales M. Muscle trigger points and pressure pain hyperalgesia in the shoulder muscles in patients with unilateral shoulder impingement. Exp Brain Res. 2010;202(4):915–925.",
+        "[32] Fernández-de-las-Peñas C, Dommerholt J. International consensus on diagnostic criteria and clinical considerations of myofascial trigger points: a Delphi study. Pain Med. 2018;19(1):142–150."
+      ]
+    }
+  ]
+}

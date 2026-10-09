@@ -1,0 +1,490 @@
+{
+  "source": "Q148 (2026-09-23): owner complaint that the specimen viewers upper body \"structures have moved\" -- fixes the intervertebral disc placement generator (scripts/generate_intervertebral_discs.py) on both ct_vhm/ct_vhf, and a systematic misplacement audit of both rebuilt viewer bundles. No external literature; internal geometry-consistency audit only. See PROJECT_STATE.md's Q148 entry.",
+  "task": "Q148",
+  "part1_intervertebral_discs": {
+    "bug": "Every disc in a region shared one fixed X/Y (region-wide bbox center) and was spread only along Z (this atlas's ANTERIOR axis) by fraction of level index -- front-to-back instead of stacked between vertebrae along Y (craniocaudal). Lumbar had the same symptom on the male subject because its OBJ files were never regenerated after Q111's lumbar-only per-level fix (mtime + value match to the pre-Q111 numbers confirmed this, not assumed).",
+    "root_cause": [
+      "create_cylinder_mesh built the disc's thickness axis on Z and radius on XY, when +Y is this atlas's craniocaudal axis (frame: +X right, +Y superior, +Z anterior) -- every disc's 40mm radius therefore landed in Y, ~80mm tall regardless of the true ~10-40mm inter-vertebral gap.",
+      "cervical/thoracic centers were a single region-wide bbox X/Y (Q111 fixed lumbar only, generalized here to all three regions)."
+    ],
+    "fix": "scripts/generate_intervertebral_discs.py: create_cylinder_mesh's axis swapped to Y (radius now XZ); compute_lumbar_disc_centers generalized to compute_region_vertebra_pieces + compute_level_disc_centers, used for cervical/thoracic/lumbar alike. Vertebra fragments identified by sorting each region's manifest records by mean Y descending (7 cervical/12 thoracic/5 lumbar records per subject, one per real vertebra, count-verified) -- no per-vertebra name/label id needed, so it works on ct_vhm (which lacks one) same as ct_vhf.",
+    "verification": [
+      "Regenerated all 21x2 disc OBJs and re-ran ingest_intervertebral_discs.py into build/vh/ct_vhm and build/vh/ct_vhf.",
+      "Centroids strictly increase in Y from L4-L5 up to C1-C2 on both subjects (tests/test_intervertebral_discs.py::test_disc_centroids_strictly_increase_in_y_bottom_to_top).",
+      "Each disc's Y lies between its two adjacent vertebrae's own mean Y (tests/test_intervertebral_discs.py::test_each_disc_lies_between_its_two_adjacent_vertebrae).",
+      "Before/after sagittal renders (scratchpad disc_fix_male.png / disc_fix_female.png): discs collapsed into 3 front-to-back blobs before, tracking the spine's real curve after."
+    ],
+    "disc_volume": {
+      "per_disc_cm3": 99.89,
+      "note": "identical across all 21 levels x 2 subjects: same procedural 40mm-radius/20mm-thick cylinder at every level, not an anatomical measurement"
+    },
+    "final_disc_centroids_mm": {
+      "ct_vhm": {
+        "intervertebral_disc_c1_c2": [
+          9.3,
+          706.9,
+          10.8
+        ],
+        "intervertebral_disc_c2_c3": [
+          8.6,
+          688.0,
+          6.6
+        ],
+        "intervertebral_disc_c3_c4": [
+          7.5,
+          669.4,
+          7.0
+        ],
+        "intervertebral_disc_c4_c5": [
+          6.1,
+          652.4,
+          5.5
+        ],
+        "intervertebral_disc_c5_c6": [
+          6.2,
+          635.8,
+          0.5
+        ],
+        "intervertebral_disc_c6_c7": [
+          7.5,
+          619.6,
+          -7.8
+        ],
+        "intervertebral_disc_l1_l2": [
+          -3.6,
+          259.8,
+          -42.9
+        ],
+        "intervertebral_disc_l2_l3": [
+          -5.8,
+          223.2,
+          -35.1
+        ],
+        "intervertebral_disc_l3_l4": [
+          -6.6,
+          186.1,
+          -27.4
+        ],
+        "intervertebral_disc_l4_l5": [
+          -6.4,
+          149.7,
+          -23.9
+        ],
+        "intervertebral_disc_t10_t11": [
+          -0.6,
+          360.4,
+          -60.5
+        ],
+        "intervertebral_disc_t11_t12": [
+          -0.8,
+          329.8,
+          -57.1
+        ],
+        "intervertebral_disc_t1_t2": [
+          8.6,
+          584.9,
+          -31.9
+        ],
+        "intervertebral_disc_t2_t3": [
+          8.9,
+          565.3,
+          -41.8
+        ],
+        "intervertebral_disc_t3_t4": [
+          8.8,
+          543.9,
+          -46.1
+        ],
+        "intervertebral_disc_t4_t5": [
+          8.5,
+          520.5,
+          -51.1
+        ],
+        "intervertebral_disc_t5_t6": [
+          7.1,
+          496.1,
+          -54.5
+        ],
+        "intervertebral_disc_t6_t7": [
+          6.7,
+          472.0,
+          -59.0
+        ],
+        "intervertebral_disc_t7_t8": [
+          5.1,
+          444.3,
+          -69.2
+        ],
+        "intervertebral_disc_t8_t9": [
+          2.0,
+          415.1,
+          -67.1
+        ],
+        "intervertebral_disc_t9_t10": [
+          0.4,
+          388.4,
+          -64.4
+        ]
+      },
+      "ct_vhf": {
+        "intervertebral_disc_c1_c2": [
+          2.0,
+          677.0,
+          -8.9
+        ],
+        "intervertebral_disc_c2_c3": [
+          2.5,
+          659.8,
+          -9.3
+        ],
+        "intervertebral_disc_c3_c4": [
+          2.9,
+          643.9,
+          -12.6
+        ],
+        "intervertebral_disc_c4_c5": [
+          2.8,
+          629.3,
+          -15.0
+        ],
+        "intervertebral_disc_c5_c6": [
+          1.7,
+          614.6,
+          -20.6
+        ],
+        "intervertebral_disc_c6_c7": [
+          0.9,
+          599.6,
+          -29.1
+        ],
+        "intervertebral_disc_l1_l2": [
+          -4.2,
+          248.5,
+          -59.7
+        ],
+        "intervertebral_disc_l2_l3": [
+          -4.4,
+          206.2,
+          -55.0
+        ],
+        "intervertebral_disc_l3_l4": [
+          -3.7,
+          173.2,
+          -50.3
+        ],
+        "intervertebral_disc_l4_l5": [
+          -1.3,
+          141.9,
+          -47.5
+        ],
+        "intervertebral_disc_t10_t11": [
+          -3.6,
+          363.6,
+          -71.0
+        ],
+        "intervertebral_disc_t11_t12": [
+          -3.9,
+          334.8,
+          -70.6
+        ],
+        "intervertebral_disc_t1_t2": [
+          -0.9,
+          566.2,
+          -51.2
+        ],
+        "intervertebral_disc_t2_t3": [
+          -1.8,
+          546.5,
+          -56.8
+        ],
+        "intervertebral_disc_t3_t4": [
+          -2.2,
+          525.8,
+          -56.9
+        ],
+        "intervertebral_disc_t4_t5": [
+          -1.8,
+          504.6,
+          -61.3
+        ],
+        "intervertebral_disc_t5_t6": [
+          -1.5,
+          482.0,
+          -70.0
+        ],
+        "intervertebral_disc_t6_t7": [
+          -1.8,
+          458.2,
+          -74.3
+        ],
+        "intervertebral_disc_t7_t8": [
+          -2.1,
+          434.8,
+          -74.5
+        ],
+        "intervertebral_disc_t8_t9": [
+          -2.5,
+          411.7,
+          -74.2
+        ],
+        "intervertebral_disc_t9_t10": [
+          -3.1,
+          388.2,
+          -74.2
+        ]
+      }
+    }
+  },
+  "part2_misplacement_audit": {
+    "method": "Decoded build/viewer_m/atlas_viewer_male.html and build/viewer_f/atlas_viewer_female.html (bundle-json + bundle-b64) after the Q148 disc rebuild. (a) sided-midline: for every atlas_id ending _l/_r, centroid x vs. a piecewise spine x(y) built from every vertebra fragment's own centroid; _r must have x > spine x at its level. (b) muscle centroid vs. the bbox union of its origin_bone/insertion_bone (from data/muscles/**/*.json attachments), flagged if >40mm outside; also flagged any structure bbox entirely outside the subject's own skin bbox (+20mm pad). (c) per-subject-block (the 'subject' field the bundle carries per structure) _l/_r pair midpoint vs. spine x at that level, flagged if >15mm off.",
+    "excluded_per_lead_already_being_fixed": [
+      "male ct_vhm_abw (abdominal wall mirrored about x~100) -- confirmed already fixed in this build: mirror_x_fix marker present in build/vh/ct_vhm_abw/manifest.json.",
+      "female transversus_abdominis_l/_r from xfer_vhm2vhf (sides swapped) -- confirmed already fixed: build/vh/xfer_vhm2vhf_tva/manifest.json present with correct sides."
+    ],
+    "lead_noted_nit_carried_as_queue_item_not_fixed_here": {
+      "location": "male abdominal wall (ct_vhm_abw), top slice y~345",
+      "issue": "a thin stray strip of the left obliques extends laterally to x~-240 into the arm"
+    },
+    "raw_findings": {
+      "male": {
+        "sided_midline": [],
+        "outside_skin": [],
+        "far_from_attachment": [
+          {
+            "atlas_id": "gastrocnemius_l",
+            "centroid": [
+              -111.0,
+              -537.1,
+              -82.9
+            ],
+            "attachment_bones": [
+              "femur_l",
+              "tarsals_l"
+            ],
+            "dist_outside_bbox_mm": 82.3
+          },
+          {
+            "atlas_id": "gastrocnemius_r",
+            "centroid": [
+              139.2,
+              -531.9,
+              -76.4
+            ],
+            "attachment_bones": [
+              "femur_r",
+              "tarsals_r"
+            ],
+            "dist_outside_bbox_mm": 82.4
+          },
+          {
+            "atlas_id": "sternocleidomastoid_r",
+            "centroid": [
+              59.1,
+              632.8,
+              37.3
+            ],
+            "attachment_bones": [
+              "sternum",
+              "temporal_r"
+            ],
+            "dist_outside_bbox_mm": 87.5
+          },
+          {
+            "atlas_id": "sternocleidomastoid_l",
+            "centroid": [
+              -44.1,
+              628.6,
+              35.1
+            ],
+            "attachment_bones": [
+              "sternum",
+              "temporal_l"
+            ],
+            "dist_outside_bbox_mm": 81.8
+          },
+          {
+            "atlas_id": "styloglossus_l",
+            "centroid": [
+              -4.6,
+              698.5,
+              66.9
+            ],
+            "attachment_bones": [
+              "temporal_l",
+              "hyoid"
+            ],
+            "dist_outside_bbox_mm": 40.5
+          }
+        ],
+        "block_symmetry": [
+          {
+            "block": "vhm_both",
+            "family": "gastrocnemius",
+            "pair_midpoint": [
+              14.1,
+              -534.5,
+              -79.7
+            ],
+            "spine_x_at_level": -2.3,
+            "offset_mm": 16.5
+          },
+          {
+            "block": "vhm_both",
+            "family": "soleus",
+            "pair_midpoint": [
+              12.8,
+              -610.9,
+              -67.4
+            ],
+            "spine_x_at_level": -2.3,
+            "offset_mm": 15.1
+          },
+          {
+            "block": "ct_vhm_arm",
+            "family": "phalanges_hand",
+            "pair_midpoint": [
+              -18.3,
+              9.1,
+              141.1
+            ],
+            "spine_x_at_level": -2.3,
+            "offset_mm": 16.0
+          }
+        ]
+      },
+      "female": {
+        "sided_midline": [
+          {
+            "atlas_id": "geniohyoid_r",
+            "side": "r",
+            "centroid": [
+              1.8,
+              641.4,
+              42.3
+            ],
+            "spine_x_at_level": 3.0,
+            "delta": -1.2
+          }
+        ],
+        "outside_skin": [],
+        "far_from_attachment": [
+          {
+            "atlas_id": "lateral_rectus_r",
+            "centroid": [
+              28.0,
+              739.6,
+              53.8
+            ],
+            "attachment_bones": [
+              "sphenoid",
+              "zygomatic_r"
+            ],
+            "dist_outside_bbox_mm": 43.4
+          },
+          {
+            "atlas_id": "biceps_brachii_l",
+            "centroid": [
+              -196.6,
+              422.4,
+              -18.2
+            ],
+            "attachment_bones": [
+              "scapula_l",
+              "radius_l"
+            ],
+            "dist_outside_bbox_mm": 55.0
+          },
+          {
+            "atlas_id": "triceps_brachii_l",
+            "centroid": [
+              -199.0,
+              442.1,
+              -61.9
+            ],
+            "attachment_bones": [
+              "scapula_l",
+              "ulna_l"
+            ],
+            "dist_outside_bbox_mm": 42.0
+          },
+          {
+            "atlas_id": "extensor_carpi_radialis_longus_r",
+            "centroid": [
+              214.2,
+              260.7,
+              -3.7
+            ],
+            "attachment_bones": [
+              "humerus_r",
+              "metacarpals_r"
+            ],
+            "dist_outside_bbox_mm": 53.8
+          },
+          {
+            "atlas_id": "extensor_carpi_radialis_brevis_r",
+            "centroid": [
+              236.6,
+              263.7,
+              -4.5
+            ],
+            "attachment_bones": [
+              "humerus_r",
+              "metacarpals_r"
+            ],
+            "dist_outside_bbox_mm": 51.7
+          },
+          {
+            "atlas_id": "extensor_carpi_ulnaris_r",
+            "centroid": [
+              242.7,
+              243.1,
+              -27.6
+            ],
+            "attachment_bones": [
+              "humerus_r",
+              "metacarpals_r"
+            ],
+            "dist_outside_bbox_mm": 73.1
+          },
+          {
+            "atlas_id": "extensor_digitorum_l",
+            "centroid": [
+              -186.2,
+              255.1,
+              -6.5
+            ],
+            "attachment_bones": [
+              "humerus_l",
+              "phalanges_hand_l"
+            ],
+            "dist_outside_bbox_mm": 67.1
+          },
+          {
+            "atlas_id": "extensor_digiti_minimi_l",
+            "centroid": [
+              -198.6,
+              255.7,
+              -26.6
+            ],
+            "attachment_bones": [
+              "humerus_l",
+              "phalanges_hand_l"
+            ],
+            "dist_outside_bbox_mm": 66.6
+          }
+        ],
+        "block_symmetry": []
+      }
+    },
+    "assessment": {
+      "sided_midline": "Essentially clean. Female geniohyoid_r at delta -1.2mm (barely past the spine line, near-midline structure) -- measurement noise, not a real left/right swap. No action.",
+      "outside_skin": "Clean on both subjects (0 findings).",
+      "far_from_attachment": "13 muscles flagged (gastrocnemius, sternocleidomastoid, biceps/triceps brachii, forearm extensors, styloglossus, lateral_rectus, coccygeus, etc.), all across both subjects. Manual review: every one is a normal two-joint or long muscle whose belly legitimately occupies the natural gap between its two named attachment bones' bboxes (e.g. gastrocnemius's femur bbox and tarsal bbox do not overlap -- the whole calf is a 'gap' by this bbox-union metric that the muscle correctly fills). NOT filed as placement bugs; noted as a limitation of the >40mm-outside-bbox heuristic for any muscle whose attachments span an intervening unlisted bone (tibia/fibula, radius/ulna, humerus shaft).",
+      "block_symmetry": "3 male pairs just past the 15mm threshold: gastrocnemius 16.5mm, soleus 15.1mm (both vhm_both block), phalanges_hand 16.0mm (ct_vhm_arm block). Plausible natural limb-pose asymmetry in the source photography (nothing like the abw's ~100mm mirror offset) -- queued for a visual check rather than fixed blind."
+    },
+    "queue_items": [
+      "Visually verify the 3 male block-symmetry findings (gastrocnemius/soleus in vhm_both, phalanges_hand in ct_vhm_arm) are natural pose asymmetry, not a coordinate bug.",
+      "Lead-noted: thin stray strip at male abdominal wall top slice (y~345), left obliques extending to x~-240 into the arm -- not touched here per the lead's own framing as a queue item."
+    ]
+  }
+}

@@ -1,0 +1,85 @@
+{
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), male colour cryosections and CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 scapula / humerus / vertebra labels as anchors. Rules from Standring S (ed.), Gray's Anatomy, 42nd ed., 'Shoulder girdle and arm'. Derived data (scripts/cryo/split_shoulder_girdle.py).",
+ "body": "male",
+ "method": {
+  "right": "markers by rule, boundaries by flat marker watershed (nearest marker)",
+  "left": "markers by rule, boundaries by flat marker watershed (nearest marker)"
+ },
+ "levels_mm": {
+  "right": {
+   "z_ia": -452.0,
+   "z_top": -288.0,
+   "z_spine": -324.08,
+   "z_gl": -350.0,
+   "z_tm": -418.0,
+   "t1_spinous_z": -303.63043478260875,
+   "t1_spinous_x": 1.9225543478261216,
+   "spine_root_z": -324.0,
+   "spine_root_x": 83.0
+  },
+  "left": {
+   "z_ia": -442.0,
+   "z_top": -276.0,
+   "z_spine": -312.52,
+   "z_gl": -337.0,
+   "z_tm": -407.0,
+   "t1_spinous_z": -303.63043478260875,
+   "t1_spinous_x": 1.9225543478261216,
+   "spine_root_z": -313.0,
+   "spine_root_x": -72.0
+  }
+ },
+ "volumes_cm3": {
+  "right": {
+   "before": {
+    "infraspinatus_merged": 353.3,
+    "rhomboid_merged": 123.9
+   },
+   "after": {
+    "infraspinatus": 248.4,
+    "teres_minor": 50.2,
+    "teres_major": 93.8,
+    "rhomboid_major": 94.0,
+    "rhomboid_minor": 30.0
+   }
+  },
+  "left": {
+   "before": {
+    "infraspinatus_merged": 339.6,
+    "rhomboid_merged": 135.1
+   },
+   "after": {
+    "infraspinatus": 233.6,
+    "teres_minor": 51.5,
+    "teres_major": 89.4,
+    "rhomboid_major": 89.0,
+    "rhomboid_minor": 46.1
+   }
+  }
+ },
+ "taken_from_subscapularis_cm3": {
+  "right": 39.5,
+  "left": 35.9
+ },
+ "montage": {
+  "right": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo_right.png",
+  "left": "/home/user/NMSK_Atlas/data/ct_sources/task_outputs/vhm_shoulder_split_cryo_left.png"
+ },
+ "notes": [
+  "right infraspinatus 248.4 cm3 outside the plausible 100-200",
+  "right teres_minor 50.2 cm3 outside the plausible 20-45",
+  "left infraspinatus 233.6 cm3 outside the plausible 100-200",
+  "left teres_minor 51.5 cm3 outside the plausible 20-45",
+  "left rhomboid_minor 46.1 cm3 outside the plausible 10-40"
+ ],
+ "legend": {
+  "infraspinatus": "rgb(80, 200, 255)",
+  "teres_minor": "rgb(255, 220, 40)",
+  "teres_major": "rgb(255, 80, 80)",
+  "rhomboid_major": "rgb(120, 255, 120)",
+  "rhomboid_minor": "rgb(255, 140, 255)"
+ },
+ "_README": [
+  "Shoulder-girdle split of the male: infraspinatus / teres minor / teres major and rhomboid major / minor by the rules in scripts/cryo/split_shoulder_girdle.py. Rule-based, derived data; badge it."
+ ]
+}

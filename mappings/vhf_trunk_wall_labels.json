@@ -1,0 +1,31 @@
+{
+ "_README": [
+  "Label id -> structure name for the Visible Human FEMALE trunk-wall sheet volume (scripts/trunk_wall_from_ct.py: diaphragm and intercostal sheets by geometric rules on the `total` labels), plus the mapping onto atlas entities.",
+  "A KEY, not data. Rule-based: textbook sheets placed by distance rules, not segmentations; badge it. The intercostal sheet stands for all three layers (external, internal, innermost) which CT cannot separate."
+ ],
+ "source": "U.S. National Library of Medicine, The Visible Human Project (public domain), female fresh-cadaver 'Normal' CT via the NCI Imaging Data Commons; TotalSegmentator v2.18.0 `total` labels.",
+ "task": "vhf_trunk_wall",
+ "version": "2026-09-14",
+ "labels": {
+  "1": "diaphragm",
+  "2": "intercostals_right",
+  "3": "intercostals_left"
+ },
+ "atlas": {
+  "diaphragm": {
+   "atlas_id": "diaphragm",
+   "relationship": "exact",
+   "note": "4 mm sheet between the lung/heart and liver/spleen/stomach labels, costal part to the costal margin, crura on T12-L3; rule-based."
+  },
+  "intercostals_right": {
+   "atlas_id": "external_intercostals_r",
+   "relationship": "part_of",
+   "note": "ONE sheet for the external, internal and innermost intercostals of the right side (not separable on CT); rule-based."
+  },
+  "intercostals_left": {
+   "atlas_id": "external_intercostals_l",
+   "relationship": "part_of",
+   "note": "ONE sheet for the external, internal and innermost intercostals of the left side (not separable on CT); rule-based."
+  }
+ }
+}
