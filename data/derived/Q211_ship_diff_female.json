@@ -72,13 +72,6 @@
     736
    ]
   },
-  "anconeus_l": {
-   "max_vertex_change_mm": 3.94,
-   "vertices": [
-    723,
-    723
-   ]
-  },
   "anconeus_r": {
    "max_vertex_change_mm": 5.08,
    "vertices": [
@@ -269,7 +262,7 @@
    ]
   },
   "brachialis_l": {
-   "max_vertex_change_mm": 27.56,
+   "max_vertex_change_mm": 15.11,
    "vertices": [
     1741,
     1741
@@ -381,7 +374,7 @@
    ]
   },
   "extensor_digiti_minimi_l": {
-   "max_vertex_change_mm": 8.28,
+   "max_vertex_change_mm": 8.53,
    "vertices": [
     1078,
     1078
@@ -402,7 +395,7 @@
    ]
   },
   "extensor_digitorum_l": {
-   "max_vertex_change_mm": 5.37,
+   "max_vertex_change_mm": 5.66,
    "vertices": [
     1798,
     1798
@@ -1011,7 +1004,7 @@
    ]
   },
   "supinator_l": {
-   "max_vertex_change_mm": 12.6,
+   "max_vertex_change_mm": 8.31,
    "vertices": [
     1379,
     1379
@@ -1647,13 +1640,6 @@
     2428
    ]
   },
-  "zan_lateral_thoracic_artery_l": {
-   "max_vertex_change_mm": 6.33,
-   "vertices": [
-    387,
-    387
-   ]
-  },
   "zan_lateral_vestibulospinal_tract": {
    "max_vertex_change_mm": 5.99,
    "vertices": [
@@ -2145,7 +2131,7 @@
    ]
   },
   "zan_suprascapular_artery_l": {
-   "max_vertex_change_mm": 5.67,
+   "max_vertex_change_mm": 5.89,
    "vertices": [
     387,
     387
@@ -2405,9 +2391,9 @@
   }
  },
  "card_only": [],
- "unchanged": 2597,
+ "unchanged": 2599,
  "geometry_changed_but_not_listed": [],
- "listed_structures": 343,
+ "listed_structures": 341,
  "stages": {
   "zan_vertebra_l1": [
    "bone"
@@ -2768,8 +2754,7 @@
    "zone:shoulder_l"
   ],
   "brachialis_l": [
-   "zone:shoulder_l",
-   "zone:elbow_l"
+   "zone:shoulder_l"
   ],
   "coracobrachialis_l": [
    "zone:shoulder_l"
@@ -2932,9 +2917,6 @@
   "abductor_pollicis_longus_l": [
    "zone:elbow_l"
   ],
-  "anconeus_l": [
-   "zone:elbow_l"
-  ],
   "annular_ligament_l": [
    "zone:elbow_l"
   ],
@@ -2948,7 +2930,8 @@
    "zone:elbow_l"
   ],
   "extensor_digiti_minimi_l": [
-   "zone:elbow_l"
+   "zone:elbow_l",
+   "inbone:inbone_arm_l"
   ],
   "flexor_carpi_radialis_l": [
    "zone:elbow_l"
@@ -3440,9 +3423,6 @@
   ],
   "zan_innermost_intercostal_muscles_l": [
    "inbone:inbone_trunk_m"
-  ],
-  "zan_lateral_thoracic_artery_l": [
-   "inbone:inbone_trunk_m"
   ]
  },
  "moved_over_5mm": {
@@ -3610,9 +3590,9 @@
   },
   "brachialis_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 27.56,
-   "mean_vertex_change_mm": 10.68,
-   "share_of_vertices_over_5mm": 0.807
+   "max_vertex_change_mm": 15.11,
+   "mean_vertex_change_mm": 4.06,
+   "share_of_vertices_over_5mm": 0.25
   },
   "brachialis_r": {
    "sys": "muscle",
@@ -3694,9 +3674,9 @@
   },
   "extensor_digiti_minimi_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 8.28,
-   "mean_vertex_change_mm": 2.23,
-   "share_of_vertices_over_5mm": 0.071
+   "max_vertex_change_mm": 8.53,
+   "mean_vertex_change_mm": 1.71,
+   "share_of_vertices_over_5mm": 0.03
   },
   "extensor_digiti_minimi_r": {
    "sys": "muscle",
@@ -3712,9 +3692,9 @@
   },
   "extensor_digitorum_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 5.37,
-   "mean_vertex_change_mm": 0.75,
-   "share_of_vertices_over_5mm": 0.002
+   "max_vertex_change_mm": 5.66,
+   "mean_vertex_change_mm": 0.74,
+   "share_of_vertices_over_5mm": 0.003
   },
   "extensor_digitorum_r": {
    "sys": "muscle",
@@ -3941,8 +3921,8 @@
   "pronator_teres_l": {
    "sys": "muscle",
    "max_vertex_change_mm": 7.61,
-   "mean_vertex_change_mm": 0.71,
-   "share_of_vertices_over_5mm": 0.008
+   "mean_vertex_change_mm": 0.73,
+   "share_of_vertices_over_5mm": 0.011
   },
   "pronator_teres_r": {
    "sys": "muscle",
@@ -4072,9 +4052,9 @@
   },
   "supinator_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 12.6,
-   "mean_vertex_change_mm": 4.17,
-   "share_of_vertices_over_5mm": 0.239
+   "max_vertex_change_mm": 8.31,
+   "mean_vertex_change_mm": 2.75,
+   "share_of_vertices_over_5mm": 0.05
   },
   "supinator_r": {
    "sys": "muscle",
@@ -4418,12 +4398,6 @@
    "mean_vertex_change_mm": 0.47,
    "share_of_vertices_over_5mm": 0.035
   },
-  "zan_lateral_thoracic_artery_l": {
-   "sys": "vessel",
-   "max_vertex_change_mm": 6.33,
-   "mean_vertex_change_mm": 1.27,
-   "share_of_vertices_over_5mm": 0.013
-  },
   "zan_lateral_vestibulospinal_tract": {
    "sys": "nerve",
    "max_vertex_change_mm": 5.99,
@@ -4750,9 +4724,9 @@
   },
   "zan_suprascapular_artery_l": {
    "sys": "vessel",
-   "max_vertex_change_mm": 5.67,
-   "mean_vertex_change_mm": 0.6,
-   "share_of_vertices_over_5mm": 0.021
+   "max_vertex_change_mm": 5.89,
+   "mean_vertex_change_mm": 0.63,
+   "share_of_vertices_over_5mm": 0.031
   },
   "zan_supreme_intercostal_artery_l": {
    "sys": "vessel",

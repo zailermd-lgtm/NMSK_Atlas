@@ -62,18 +62,33 @@ def note_inbone(L):
             f"folds and stretch bounded; mean move {L['mean_move_mm']} mm, max {L['max_move_mm']} mm). Before -> after: {fm(L['before'])} -> {fm(L['after'])}.")
 
 
+def note_final(L):
+    return (f" Q211 final guard (attachments): after the junction repair an end of this muscle / tendon lay further from the nearest displayed bone ({L['end_dist_full_move_mm']} mm) than on the published page "
+            f"({L['end_dist_page_mm']} mm), i.e. its origin / insertion was pulled off the bone, so it keeps {int(round(100 * L['kept_share_of_move']))} % of the total move (mean {L['mean_move_mm']} mm, max {L['max_move_mm']} mm). "
+            f"Before (published page) -> after: {fm(L['before'])} -> {fm(L['after'])}.")
+
+
+def strip_after(t):
+    """superseded stage text: the stage description without its 'Before -> after' numbers (the final guard states the numbers that count)"""
+    k = t.rfind(" Before -> after:")
+    return t[:k] if k > 0 else t
+
+
 def compose(i, st):
     logs = st.log[i]
     parts = []
     for L in logs:
+        if L["stage"] == "final":
+            parts.append(note_final(L))
+            continue
         if L["stage"] == "bone":
             parts.append(note_bone(L, st.which))
         elif L["stage"] == "follow":
-            parts.append(note_follow(L, WHO[st.which]))
+            parts.append(note_follow(L, WHO[st.which]) if not L.get("superseded") else strip_after(note_follow(L, WHO[st.which])))
         elif L["stage"] == "zone":
-            parts.append(note_zone(L, st.reports["zones"][L["zone"]], i))
+            parts.append(note_zone(L, st.reports["zones"][L["zone"]], i) if not L.get("superseded") else strip_after(note_zone(L, st.reports["zones"][L["zone"]], i)))
         elif L["stage"] == "inbone":
-            parts.append(note_inbone(L))
+            parts.append(note_inbone(L) if not L.get("superseded") else strip_after(note_inbone(L)))
     return "".join(parts)
 
 

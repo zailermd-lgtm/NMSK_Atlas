@@ -325,7 +325,7 @@
    ]
   },
   "extensor_digiti_minimi_l": {
-   "max_vertex_change_mm": 24.0,
+   "max_vertex_change_mm": 15.85,
    "vertices": [
     1078,
     1078
@@ -563,7 +563,7 @@
    ]
   },
   "levator_scapulae_l": {
-   "max_vertex_change_mm": 24.0,
+   "max_vertex_change_mm": 7.92,
    "vertices": [
     1543,
     1543
@@ -668,14 +668,14 @@
    ]
   },
   "rhomboid_minor_l": {
-   "max_vertex_change_mm": 18.73,
+   "max_vertex_change_mm": 6.18,
    "vertices": [
     747,
     747
    ]
   },
   "rhomboid_minor_r": {
-   "max_vertex_change_mm": 20.69,
+   "max_vertex_change_mm": 13.66,
    "vertices": [
     747,
     747
@@ -808,7 +808,7 @@
    ]
   },
   "supinator_l": {
-   "max_vertex_change_mm": 16.24,
+   "max_vertex_change_mm": 10.72,
    "vertices": [
     1379,
     1379
@@ -920,7 +920,7 @@
    ]
   },
   "zan_abdominal_part_of_pectoralis_major_muscle_r": {
-   "max_vertex_change_mm": 23.08,
+   "max_vertex_change_mm": 7.62,
    "vertices": [
     756,
     756
@@ -1151,7 +1151,7 @@
    ]
   },
   "zan_extensor_pollicis_longus_l": {
-   "max_vertex_change_mm": 23.43,
+   "max_vertex_change_mm": 15.46,
    "vertices": [
     803,
     803
@@ -2372,7 +2372,8 @@
    "zone:elbow_l"
   ],
   "extensor_digiti_minimi_l": [
-   "zone:elbow_l"
+   "zone:elbow_l",
+   "inbone:inbone_arm_l"
   ],
   "flexor_carpi_radialis_l": [
    "zone:elbow_l"
@@ -3058,9 +3059,9 @@
   },
   "extensor_digiti_minimi_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 24.0,
-   "mean_vertex_change_mm": 6.77,
-   "share_of_vertices_over_5mm": 0.383
+   "max_vertex_change_mm": 15.85,
+   "mean_vertex_change_mm": 4.65,
+   "share_of_vertices_over_5mm": 0.346
   },
   "extensor_digiti_minimi_r": {
    "sys": "muscle",
@@ -3220,9 +3221,9 @@
   },
   "levator_scapulae_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 24.0,
-   "mean_vertex_change_mm": 9.61,
-   "share_of_vertices_over_5mm": 0.912
+   "max_vertex_change_mm": 7.92,
+   "mean_vertex_change_mm": 3.17,
+   "share_of_vertices_over_5mm": 0.138
   },
   "levator_scapulae_r": {
    "sys": "muscle",
@@ -3304,15 +3305,15 @@
   },
   "rhomboid_minor_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 18.73,
-   "mean_vertex_change_mm": 6.18,
-   "share_of_vertices_over_5mm": 0.657
+   "max_vertex_change_mm": 6.18,
+   "mean_vertex_change_mm": 2.04,
+   "share_of_vertices_over_5mm": 0.007
   },
   "rhomboid_minor_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 20.69,
-   "mean_vertex_change_mm": 4.95,
-   "share_of_vertices_over_5mm": 0.446
+   "max_vertex_change_mm": 13.66,
+   "mean_vertex_change_mm": 3.27,
+   "share_of_vertices_over_5mm": 0.08
   },
   "rotatores_l": {
    "sys": "muscle",
@@ -3382,9 +3383,9 @@
   },
   "supinator_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 16.24,
-   "mean_vertex_change_mm": 3.7,
-   "share_of_vertices_over_5mm": 0.165
+   "max_vertex_change_mm": 10.72,
+   "mean_vertex_change_mm": 2.44,
+   "share_of_vertices_over_5mm": 0.08
   },
   "supinator_r": {
    "sys": "muscle",
@@ -3466,9 +3467,9 @@
   },
   "zan_abdominal_part_of_pectoralis_major_muscle_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 23.08,
-   "mean_vertex_change_mm": 7.45,
-   "share_of_vertices_over_5mm": 0.987
+   "max_vertex_change_mm": 7.62,
+   "mean_vertex_change_mm": 2.46,
+   "share_of_vertices_over_5mm": 0.033
   },
   "zan_acromial_part_of_deltoid_muscle_l": {
    "sys": "muscle",
@@ -3568,9 +3569,9 @@
   },
   "zan_extensor_pollicis_longus_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 23.43,
-   "mean_vertex_change_mm": 8.65,
-   "share_of_vertices_over_5mm": 0.782
+   "max_vertex_change_mm": 15.46,
+   "mean_vertex_change_mm": 5.71,
+   "share_of_vertices_over_5mm": 0.436
   },
   "zan_facial_nerve_vii_l": {
    "sys": "nerve",

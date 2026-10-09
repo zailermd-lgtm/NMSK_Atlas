@@ -197,6 +197,69 @@ def stage_zones(which, log=print, joints=("shoulder", "elbow"), sides=("l", "r")
     return st
 
 
+def stage_final(which, log=print):
+    """last guards on the whole result: (1) vessels / nerves whose island gap (Q198 tube_gap measure) grew by > 3 mm go back to the published mesh; (2) muscles / tendons whose end moved away from the nearest displayed bone
+    (> 4.5 mm and > 1.5 mm further than on the published page) keep only 75 / 50 / 25 / 0 % of their total move; (3) metrics of the blended structures recomputed"""
+    from scripts.zanatomy import q211_soft as SF
+    from scripts.zanatomy import q206_carry as C6
+    from scipy.spatial import cKDTree
+    st = State.load(which, "inbone")
+    pg = st.pg
+    rep = {"reverted_island_gap": {}, "attachment_guard": {}}
+    for i in list(st.V):
+        if pg.sys(i) in ("vessel", "nerve"):
+            a, b = SF.island_gap(pg.v(i), pg.f(i)), SF.island_gap(st.V[i], pg.f(i))
+            if b > a + 3.0:
+                rep["reverted_island_gap"][i] = [round(a, 1), round(b, 1), [L["stage"] for L in st.log[i]]]
+                st.V.pop(i)
+                st.log.pop(i)
+    log(f"final: {len(rep['reverted_island_gap'])} vessels / nerves back to the published mesh (island gap): {list(rep['reverted_island_gap'])}")
+    bones = [i for i in pg.ids if pg.sys(i) == "bone"]
+    tree = cKDTree(np.vstack([st.v(b) for b in bones]))
+    blended = {}
+    for i in list(st.V):
+        if pg.sys(i) not in ("muscle", "tendon"):
+            continue
+        v0, v1 = pg.v(i).astype(float), st.V[i]
+        d0 = SF.end_distances(v0, tree)
+        for fct in (1.0, 0.75, 0.5, 0.25, 0.0):
+            v = v0 + fct * (v1 - v0)
+            d1 = SF.end_distances(v, tree)
+            if all(a <= max(b + 1.5, 4.5) for a, b in zip(d1, d0)):
+                break
+        if fct < 1.0:
+            rep["attachment_guard"][i] = {"end_dist_page_mm": [round(x, 1) for x in d0], "end_dist_full_move_mm": [round(x, 1) for x in SF.end_distances(v1, tree)], "kept_share_of_move": fct}
+            blended[i] = v
+    log(f"final: attachment guard reduced {len(blended)} muscles / tendons: " + ", ".join(f"{i[:26]} x{rep['attachment_guard'][i]['kept_share_of_move']}" for i in blended))
+    if blended:
+        pts = np.vstack([np.vstack([pg.v(i), v]) for i, v in blended.items()])
+        for i in blended:
+            pass
+        lo, hi = pts.min(0) - 40.0, pts.max(0) + 40.0
+        for i, v in blended.items():
+            fct = rep["attachment_guard"][i]["kept_share_of_move"]
+            if fct == 0.0:
+                st.V.pop(i, None)
+                st.log.pop(i, None)
+                continue
+            for L in st.log[i]:
+                L["superseded"] = True
+            st.V[i] = v
+        env = make_env(st, {"final": (lo, hi)}, log)
+        for i, v in blended.items():
+            fct = rep["attachment_guard"][i]["kept_share_of_move"]
+            if fct == 0.0:
+                continue
+            r = (st.base.v(i) if (i in st.base.S and len(st.base.v(i)) == len(v)) else pg.v(i)).astype(float)
+            m0 = C6.metrics(env, "final", pg.v(i).astype(float), r, pg.f(i))
+            m1 = C6.metrics(env, "final", v, r, pg.f(i))
+            mv = np.linalg.norm(v - pg.v(i), axis=1)
+            st.log[i].append({"stage": "final", "kind": "attachment_guard", "cat": pg.sys(i), "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m0, "after": m1, **rep["attachment_guard"][i]})
+    st.reports["final"] = rep
+    st.save("final")
+    return st
+
+
 REGION_GROUPS = {   # Q204 region -> zone group (separate boxes per side where the region is paired)
     "head_neck": "head", "thorax": "trunk", "abdomen_pelvis": "trunk", "shoulder": "arm", "arm_elbow_forearm": "arm", "wrist_hand": "arm", "hip": "leg", "thigh": "leg", "knee": "leg", "leg": "leg", "ankle": "leg", "foot": "leg"}
 
@@ -240,5 +303,5 @@ def stage_inbone(which, log=print, src="zones"):
 
 if __name__ == "__main__":
     which, stages = sys.argv[1], sys.argv[2:]
-    for s in (["bones", "follow", "zones", "inbone"] if stages == ["all"] else stages):
+    for s in (["bones", "follow", "zones", "inbone", "final"] if stages == ["all"] else stages):
         globals()["stage_" + s](which)

@@ -89,18 +89,15 @@ def accept(mm, m00, cat, f):
 
 
 def island_gap(v, f):
-    """largest distance (mm) from any face-connected island of the (welded) mesh to the rest of it (0 for one piece): the Q198 `tube_gap` measure"""
+    """the Q198 `tube_gap` measure: largest distance (mm) from any other face-connected island of the (welded) mesh to its MAIN (largest-area) island; 0 for one piece"""
     from scipy.spatial import cKDTree
     from scripts.zanatomy.q198_core import weld, islands
     w, g = weld(np.asarray(v, float), f)
     isl = islands(w, g)
     if len(isl) < 2:
         return 0.0
-    out = 0.0
-    for a in isl:
-        rest = np.concatenate([w[b["vidx"]] for b in isl if b is not a])
-        out = max(out, float(cKDTree(rest).query(w[a["vidx"]])[0].min()))
-    return out
+    mt = cKDTree(w[isl[0]["vidx"]])
+    return max(float(mt.query(w[b["vidx"]])[0].min()) for b in isl[1:])
 
 
 def gap_ok(cat, v_new, v_old, f, slack=3.0):

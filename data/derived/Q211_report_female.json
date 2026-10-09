@@ -160,15 +160,38 @@
     }
    },
    "reanchored": {},
-   "tear_gt5_after": 0.0278,
-   "tear_gt2_after": 0.2106,
-   "tear_median_after_mm": 1.48,
-   "moved": 31,
+   "tear_gt5_after": 0.1385,
+   "tear_gt2_after": 0.3319,
+   "tear_median_after_mm": 1.59,
+   "moved": 29,
+   "attach_guard": {
+    "brachialis_l": {
+     "end_dist_before_mm": [
+      4.9,
+      7.1
+     ],
+     "end_dist_after_relaxation_mm": [
+      14.6,
+      8.5
+     ],
+     "move_factor": 0.0
+    }
+   },
    "overlap_guard": {
+    "extensor_digiti_minimi_l": {
+     "before_pct": 47.4,
+     "after_pct": 53.9,
+     "move_factor": 0.66
+    },
+    "supinator_l": {
+     "before_pct": 60.9,
+     "after_pct": 62.6,
+     "move_factor": 0.66
+    },
     "anconeus_l": {
      "before_pct": 57.9,
-     "after_pct": 69.2,
-     "move_factor": 0.33
+     "after_pct": 61.1,
+     "move_factor": 0.0
     }
    }
   },
@@ -474,36 +497,36 @@
    },
    "after": {
     "abductor_pollicis_longus_l": 0.0,
-    "anconeus_l": 0.123,
-    "annular_ligament_l": 0.066,
+    "anconeus_l": 0.416,
+    "annular_ligament_l": 0.178,
     "bicipitoradial_bursa_l": 0.0,
-    "brachialis_l": 0.039,
+    "brachialis_l": 0.787,
     "extensor_carpi_radialis_brevis_l": 0.0,
-    "extensor_carpi_ulnaris_l": 0.07,
+    "extensor_carpi_ulnaris_l": 0.117,
     "extensor_digiti_minimi_l": 0.003,
     "flexor_carpi_radialis_l": 0.0,
-    "flexor_digitorum_superficialis_l": 0.016,
+    "flexor_digitorum_superficialis_l": 0.025,
     "flexor_pollicis_longus_l": 0.033,
-    "supinator_l": 0.0,
+    "supinator_l": 0.001,
     "zan_common_interosseous_artery_l": 0.0,
     "zan_deep_brachial_artery_l": 0.514,
     "zan_extensor_pollicis_longus_l": 0.0,
-    "zan_inferior_lateral_brachial_cutaneous_nerve_l": 0.0,
-    "zan_inferior_ulnar_collateral_artery_l": 0.0,
-    "zan_medial_head_of_triceps_brachii_l": 0.004,
-    "zan_median_cubital_vein_l": 0.0,
-    "zan_middle_collateral_artery_l": 0.145,
+    "zan_inferior_lateral_brachial_cutaneous_nerve_l": 0.873,
+    "zan_inferior_ulnar_collateral_artery_l": 0.222,
+    "zan_medial_head_of_triceps_brachii_l": 0.061,
+    "zan_median_cubital_vein_l": 0.163,
+    "zan_middle_collateral_artery_l": 0.148,
     "zan_muscular_branches_of_median_nerve_l": 0.0,
     "zan_posterior_interosseous_artery_l": 0.0,
     "zan_radial_collateral_ligament_l": 0.0,
-    "zan_recurrent_interosseous_artery_l": 0.032,
-    "zan_subtendinous_bursa_of_triceps_brachii_muscle_l": 0.017,
+    "zan_recurrent_interosseous_artery_l": 0.064,
+    "zan_subtendinous_bursa_of_triceps_brachii_muscle_l": 0.176,
     "zan_superior_ulnar_collateral_artery_l": 0.0,
-    "zan_ulnar_collateral_ligament_l": 0.147,
+    "zan_ulnar_collateral_ligament_l": 0.471,
     "zan_ulnar_recurrent_artery_l": 0.0,
-    "zan_brachial_fascia_l": 0.0,
-    "zan_lateral_intermuscular_septum_of_arm_l": 0.0,
-    "zan_medial_intermuscular_septum_of_arm_l": 0.0
+    "zan_brachial_fascia_l": 0.108,
+    "zan_lateral_intermuscular_septum_of_arm_l": 0.242,
+    "zan_medial_intermuscular_septum_of_arm_l": 0.183
    }
   },
   "shoulder_r": {
@@ -716,7 +739,6 @@
   "kept_unrepaired": [
    "coracobrachialis_l",
    "coracobrachialis_r",
-   "extensor_digiti_minimi_l",
    "gemellus_superior_l",
    "obturator_internus_l",
    "subscapularis_l",
@@ -725,12 +747,13 @@
    "zan_external_pudendal_veins_l",
    "zan_external_pudendal_veins_r",
    "zan_inferior_lateral_brachial_cutaneous_nerve_l",
+   "zan_lateral_thoracic_artery_l",
    "zan_right_subclavian_vein",
    "zan_superficial_external_pudendal_artery_l",
    "zan_superficial_external_pudendal_artery_r"
   ],
   "inside_bone_pct_mean_before_after": [
-   26.55,
+   26.1,
    0.9
   ],
   "outside_skin_pct_mean_before_after": [
@@ -739,11 +762,11 @@
   ],
   "max_move_mm": 12.0
  },
- "structures_changed": 343,
+ "structures_changed": 341,
  "by_stage": {
   "bone": 1,
   "follow": 107,
-  "zone": 181,
+  "zone": 180,
   "inbone": 55
  }
 }
