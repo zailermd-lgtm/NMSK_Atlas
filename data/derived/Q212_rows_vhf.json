@@ -34,6 +34,7 @@
   "n_frag": 6,
   "skin_gap_mm": 60.0,
   "end_to_nearest_bone_mm": 38.4,
+  "tip_to_bone_mm": 17.5,
   "status": "continued",
   "z_source": "Q199 chain page (Z-Anatomy fitted to her labels and photographs)",
   "fit_rule": "two-sided (near-cap 30.4 mm > 25; Z->measured 3.8 mm <= 8, belly 5.1 mm <= 10)",
@@ -270,6 +271,7 @@
   "n_frag": 2,
   "skin_gap_mm": 60.0,
   "end_to_nearest_bone_mm": 15.0,
+  "tip_to_bone_mm": 1.9,
   "status": "continued",
   "z_source": "Q168/Q195 per-bone transform",
   "fit_rule": "one-sided (Q200 gate, <= 25 mm)",
@@ -387,6 +389,7 @@
   "n_frag": 3,
   "skin_gap_mm": 60.0,
   "end_to_nearest_bone_mm": 12.1,
+  "tip_to_bone_mm": 4.4,
   "status": "continued",
   "z_source": "Q199 chain page (Z-Anatomy fitted to her labels and photographs)",
   "fit_rule": "one-sided (Q200 gate, <= 25 mm)",
@@ -444,6 +447,7 @@
   "n_frag": 2,
   "skin_gap_mm": 38.5,
   "end_to_nearest_bone_mm": 13.7,
+  "tip_to_bone_mm": 4.3,
   "status": "continued",
   "z_source": "Q199 chain page (Z-Anatomy fitted to her labels and photographs)",
   "fit_rule": "one-sided (Q200 gate, <= 25 mm)",
@@ -457,13 +461,12 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 0.474,
   "pull": {
-   "closest_to_bone_mm": 67.8,
-   "pull_mm": 67.8,
-   "pulled": false,
-   "note": "closest vertex 68 mm from the bone > 40 mm bound"
+   "closest_to_bone_mm": 8.3,
+   "pull_mm": 8.3,
+   "pulled": true
   },
   "constraints": {
-   "skin_clipped": 126,
+   "skin_clipped": 86,
    "bone_pushed": 0
   },
   "nv": 853,
@@ -2220,6 +2223,7 @@
   "n_frag": 1,
   "skin_gap_mm": 60.0,
   "end_to_nearest_bone_mm": 11.4,
+  "tip_to_bone_mm": 20.0,
   "status": "continued",
   "z_source": "Q168/Q195 per-bone transform",
   "fit_rule": "one-sided (Q200 gate, <= 25 mm)",
@@ -2233,13 +2237,13 @@
   "cap_covered": 1.0,
   "z_to_cap_area": 2.795,
   "pull": {
-   "closest_to_bone_mm": 15.4,
-   "pull_mm": 15.4,
-   "pulled": true
+   "closest_to_bone_mm": 0.4,
+   "pulled": false,
+   "note": "attached (closest vertex within 2.5 mm of the bone)"
   },
   "constraints": {
-   "skin_clipped": 179,
-   "bone_pushed": 13
+   "skin_clipped": 177,
+   "bone_pushed": 18
   },
   "nv": 351,
   "nf": 669,
@@ -3579,25 +3583,25 @@
   "id": "extensor_pollicis_longus_r_zfill212",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.438,
-  "inside_after": 0.231,
+  "inside_before": 0.447,
+  "inside_after": 0.236,
   "depth_before": 3.969,
   "depth_after": 1.924,
   "move_max": 4.076,
-  "move_median": 0.154,
-  "volume_ratio": 1.076
+  "move_median": 0.231,
+  "volume_ratio": 1.083
  },
  {
   "id": "extensor_pollicis_longus_l_zfill212",
   "stage": "overlap",
   "rounds": 5.0,
-  "inside_before": 0.077,
-  "inside_after": 0.037,
+  "inside_before": 0.066,
+  "inside_after": 0.031,
   "depth_before": 1.095,
-  "depth_after": 0.444,
-  "move_max": 1.251,
+  "depth_after": 0.445,
+  "move_max": 3.957,
   "move_median": 0.0,
-  "volume_ratio": 1.036
+  "volume_ratio": 1.193
  },
  {
   "id": "levator_ani_r_zfill212",

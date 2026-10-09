@@ -3157,5 +3157,158 @@
   "move_max": 8.0,
   "move_median": 0.0,
   "volume_ratio": 0.989
+ },
+ {
+  "id": "radius_r_distal_q212",
+  "stage": "wrist",
+  "side": "r",
+  "volume_cm3": 4.82,
+  "n_vertices": 580,
+  "n_triangles": 1156,
+  "photo": {
+   "in_photo_box": 0.9,
+   "within_1p5mm": 0.781,
+   "n_voxels_in_box": 31336
+  },
+  "bbox_min": [
+   120.1,
+   91.8,
+   101.0
+  ],
+  "bbox_max": [
+   156.1,
+   120.4,
+   128.1
+  ]
+ },
+ {
+  "id": "ulna_r_distal_q212",
+  "stage": "wrist",
+  "side": "r",
+  "volume_cm3": 1.53,
+  "n_vertices": 202,
+  "n_triangles": 400,
+  "photo": {
+   "in_photo_box": 1.0,
+   "within_1p5mm": 0.987,
+   "n_voxels_in_box": 11069
+  },
+  "bbox_min": [
+   145.2,
+   78.4,
+   99.9
+  ],
+  "bbox_max": [
+   162.1,
+   100.2,
+   115.9
+  ]
+ },
+ {
+  "id": "carpals_r_q212",
+  "stage": "wrist",
+  "side": "r",
+  "volume_cm3": 20.39,
+  "n_vertices": 2446,
+  "n_triangles": 4894,
+  "photo": {
+   "in_photo_box": 1.0,
+   "within_1p5mm": 0.975,
+   "n_voxels_in_box": 145016
+  },
+  "bbox_min": [
+   114.9,
+   53.7,
+   96.1
+  ],
+  "bbox_max": [
+   149.0,
+   108.4,
+   146.7
+  ]
+ },
+ {
+  "id": "radius_l_distal_q212",
+  "stage": "wrist",
+  "side": "l",
+  "volume_cm3": 5.76,
+  "n_vertices": 693,
+  "n_triangles": 1382,
+  "photo": {
+   "in_photo_box": 0.4,
+   "within_1p5mm": 0.631,
+   "n_voxels_in_box": 16490
+  },
+  "bbox_min": [
+   -176.9,
+   101.2,
+   91.9
+  ],
+  "bbox_max": [
+   -140.1,
+   127.5,
+   123.1
+  ]
+ },
+ {
+  "id": "ulna_l_distal_q212",
+  "stage": "wrist",
+  "side": "l",
+  "volume_cm3": 1.67,
+  "n_vertices": 201,
+  "n_triangles": 400,
+  "photo": {
+   "in_photo_box": 0.54,
+   "within_1p5mm": 0.813,
+   "n_voxels_in_box": 6580
+  },
+  "bbox_min": [
+   -183.7,
+   89.5,
+   91.7
+  ],
+  "bbox_max": [
+   -164.1,
+   111.6,
+   106.6
+  ]
+ },
+ {
+  "id": "carpals_l_q212",
+  "stage": "wrist",
+  "side": "l",
+  "volume_cm3": 28.23,
+  "n_vertices": 3385,
+  "n_triangles": 6774,
+  "photo": {
+   "in_photo_box": 0.99,
+   "within_1p5mm": 0.92,
+   "n_voxels_in_box": 197748
+  },
+  "bbox_min": [
+   -173.0,
+   62.5,
+   89.0
+  ],
+  "bbox_max": [
+   -116.2,
+   115.4,
+   142.0
+  ]
+ },
+ {
+  "id": "carpals_r",
+  "stage": "wrist_hidden",
+  "why": "grouped carpal mesh containing the distal radius and ulna ends"
+ },
+ {
+  "id": "carpals_l",
+  "stage": "wrist_hidden",
+  "why": "grouped carpal mesh containing the distal radius and ulna ends"
+ },
+ {
+  "id": "ulna_r_zfill203s",
+  "stage": "wrist_hidden",
+  "why": "Z-Anatomy ulnar head contradicted by his CT (only 36 % of its surface in bone density, vs 96 % of his measured ulna)"
  }
 ]

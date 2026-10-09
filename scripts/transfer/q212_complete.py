@@ -61,6 +61,10 @@ C.ATT.update({
     "extensor_pollicis_longus": ["ulna", "radius"], "iliopsoas": ["lumbar_vertebrae", "hip_bone", "femur"], "levator_ani": ["hip_bone", "sacrum", "coccyx"],
     "adductor_magnus": ["hip_bone", "femur"],
 })
+C.ATT["extensor_pollicis_longus"] = ["ulna", "radius", "carpals", "metacarpal_1", "phalanges_hand"]
+TIP_BONES = {"extensor_pollicis_longus": ["metacarpal_1", "metacarpals", "phalanges_hand"]}   # a tendon continuation must END on its insertion bone
+TIP_MAX_MM = 20.0          # the Q203 biceps / brachioradialis continuations (accepted, 7+3 with beyond >= 30 mm) end 11-25 mm from their bones, median 17.5
+TIP_MIN_BEYOND_MM = 30.0   # only a continuation that travels >= 30 mm beyond the cut must END on its bone (short local pieces end inside the muscle belly)
 _orig_z_ids = C.z_ids
 
 
@@ -175,6 +179,18 @@ def stage_muscles(ctx, only=None):
             pull_max = 40.0 if ids else 15.0
             cv, pinfo = E.pull_end(r["v"], cap["axis"], cap["pos"], cap["sign"], anch, bt, max_pull=pull_max)
             cv, cinfo = E.constrain(cv, cap["axis"], cap["pos"], cap["sign"], ctx.skin_mesh, ctx.bones_near(cv.min(0), cv.max(0)))
+            tip_note = None
+            if ids and r["beyond_mm"] >= TIP_MIN_BEYOND_MM:
+                kk_ = AX[cap["axis"]]
+                sd_ = cap["sign"] * (cv[:, kk_] - cap["pos"])
+                tipv = cv[sd_ >= 0.95 * sd_.max()]
+                tb = ctx.bone_tree(ctx.bone_ids(TIP_BONES.get(stem, C.ATT[stem]), side) or ids)
+                tip_d = float(np.median(tb[0].query(tipv)[0]))
+                row["tip_to_bone_mm"] = round(tip_d, 1)
+                if tip_d > TIP_MAX_MM:
+                    row["status"] = (f"held: the Z end of the continuation (best fit {med:.1f} mm, {cname[:14]}) stops {tip_d:.0f} mm from the bone it attaches to (> {TIP_MAX_MM:g} mm): "
+                                     f"the Z structure does not land on this person's bone")
+                    ctx.rows.append(row); continue
             r["v"] = cv; r["info"] = row
             row.update(status="continued", z_source=cname, fit_rule=rule, fit_err_median_mm=round(med, 1), fit_err_max_mm=round(p95, 1), beyond_mm=round(r["beyond_mm"], 1),
                        L=round(r["Lt"], 1), shift_mm=round(r["sh"], 1), mode=r["mode"], section_like=bool(section_like), cap_covered=round(r["cap_covered"], 2),
@@ -212,7 +228,57 @@ def write_bundle(ctx, out):
         f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D): continuations of structures cut flat at CT data-block edges, fitted onto {he} own bones or taken from the Z-Anatomy page fitted to "
         f"{he} body (Q212); the measured structures are not edited. Z-Anatomy: models by the Z-Anatomy project, app by Lluis Vinent Juanico -- see third_party/z-anatomy/NOTICE and "
         "third_party/z-anatomy/README.md. Licensed CC BY-SA 4.0; this derivative remains CC BY-SA 4.0 (ShareAlike).")}
+    if ctx.body == "vhm":
+        att[WRIST_SUBJECT] = ("His own frozen CT (Visible Human Project male, public domain; CT series 5d409385 of the NCI Imaging Data Commons mirror): wrist re-segmented in Q212 "
+                              "(radius / ulna distal ends and carpal bones). No third-party geometry.")
     return ctx.B.write(out, new_subject_attribution=att)
+
+
+WRIST_SUBJECT = "ct_vhm_wrist_q212"
+
+
+def add_wrist(ctx, log=print):
+    """HIS wrist re-segmented from his own CT (q212_wrist_seg.py -> q212_wrist_mesh.py): the radius / ulna distal ends his carpal label had swallowed are ADDED as new entries
+    (measured class: subject ct_vhm_wrist_q212), the carpal row without them is added as `carpals_?_q212`; the old grouped carpal mesh (which contains the two ends) and the Q203
+    Z-Anatomy ulnar head of the right wrist (contradicted by his CT: 36 % of its surface lies in bone density vs 96 % of the measured ulna's) are kept byte for byte but start hidden."""
+    rows = []
+    for sd, side_name in (("r", "right"), ("l", "left")):
+        W = np.load(REPO / f"build/q212/wrist_mesh_{sd}.npz")
+        info = json.loads(str(W["info"]))
+        for key, base, nid, label in (("radius_distal", f"radius_{sd}", f"radius_{sd}_distal_q212", "distal end of his radius (articular plate and styloid)"),
+                                      ("ulna_distal", f"ulna_{sd}", f"ulna_{sd}_distal_q212", "ulnar head and styloid"),
+                                      ("carpals", f"carpals_{sd}", f"carpals_{sd}_q212", "eight carpal bones")):
+            st = info[key]; ph = st["photo"]
+            b = ctx.own[base]["e"]
+            ph_txt = (f"{100 * ph['within_1p5mm']:.0f} % of its voxels inside the photographed box ({100 * ph['in_photo_box']:.0f} % of the piece) lie within 1.5 mm of his cryosection-photograph bone evidence"
+                      if ph.get("within_1p5mm") is not None else "outside the photographed box")
+            if key == "carpals":
+                core = (f"Measured on HIM, re-segmented from his frozen CT (Q212): the {label} ({st['volume_cm3']:.1f} cm3) = his carpal label without the distal radius and ulna ends it had swallowed "
+                        f"(his radius and ulna labels were cut where the carpal row was thought to start). It supersedes the grouped carpal mesh `{base}` (kept unchanged in the bundle, hidden by default: it contains the radius "
+                        f"and ulna ends). ")
+            else:
+                core = (f"Measured on HIM, re-segmented from his frozen CT (Q212): the {label} ({st['volume_cm3']:.1f} cm3) that his carpal label had swallowed because his {base.split('_')[0]} label was cut "
+                        f"where the carpal row was thought to start. It abuts the cut face of his measured {base} (unchanged). ")
+            badge = (core + "Separated from the carpals at the radiocarpal / ulnocarpal joint clefts by a marker watershed on his CT HU (relief = -HU, so the clefts are the ridges; markers = his radius, ulna, "
+                     "carpal and metacarpal labels; the Z-Anatomy radius fitted to him (Q201 page, 3 mm from his CT epiphysis) is used only as a marker prior inside his old carpal label); every voxel is his CT / his label, "
+                     f"no Z-Anatomy geometry. Check: {ph_txt}.")
+            rec = {k: ctx.own[base]["e"]["rec"][k] for k in ("latin", "folder", "region", "origin", "insertion") if k in ctx.own[base]["e"]["rec"]}
+            rec.update(name=f"{ctx.own[base]['e']['rec'].get('name', base)} ({'re-segmented from his CT: ' + label})", source="His own frozen CT (Visible Human Project male), Q212 re-segmentation; see the badge",
+                       procedural_badge=badge)
+            v, f = W[f"{key}_v"], W[f"{key}_f"]
+            ctx.B.add(nid, "bone", b["side"], WRIST_SUBJECT, rec, v, f)
+            rows.append(dict(id=nid, stage="wrist", side=sd, **{k: st[k] for k in ("volume_cm3", "n_vertices", "n_triangles", "photo", "bbox_min", "bbox_max")}))
+    for sid, why in (("carpals_r", "grouped carpal mesh containing the distal radius and ulna ends"), ("carpals_l", "grouped carpal mesh containing the distal radius and ulna ends"),
+                     ("ulna_r_zfill203s", "Z-Anatomy ulnar head contradicted by his CT (only 36 % of its surface in bone density, vs 96 % of his measured ulna)")):
+        i = ctx.B.find(sid)
+        assert len(i) == 1, sid
+        e = ctx.B.items[i[0]]["e"]
+        e["hidden_default"] = True
+        rec = dict(e["rec"])
+        rec["procedural_badge"] = (rec.get("procedural_badge", "") + f" Hidden by default since Q212 (not edited, kept for provenance): {why}; replaced by the Q212 CT re-segmentation of his wrist.").strip()
+        e["rec"] = rec
+        rows.append(dict(id=sid, stage="wrist_hidden", why=why))
+    return rows
 
 
 def build_ctx(body):
@@ -246,6 +312,10 @@ if __name__ == "__main__":
         Path(a.rows).write_text(json.dumps(ctx.rows, indent=1, default=str))
     if not a.dry:
         C.assemble(ctx)
+        if a.body == "vhm":
+            ctx.rows += add_wrist(ctx)
+            if a.rows:
+                Path(a.rows).write_text(json.dumps(ctx.rows, indent=1, default=str))
         out = Path(a.out) if a.out else ctx.cfg["out"]
         print("bundle bytes", write_bundle(ctx, out))
         seams = {nid: [dict(axis=r["axis"], pos=r["pos"], polys=r["covered"]) for r in pc["pieces"] if "covered" in r and "axis" in r] for nid, pc in ctx.pieces.items() if "pieces" in pc}
