@@ -31,10 +31,11 @@ def mesh_of(mask, xs, ys, zs, tri_per_cm3=TRI_PER_CM3, min_vox=MIN_COMP_VOX):
     if n:
         sz = np.bincount(lab.ravel()); keep = np.flatnonzero(sz >= min_vox); keep = keep[keep > 0]
         m = np.isin(lab, keep)
-    f = ndi.gaussian_filter(m.astype(np.float32), 0.6)
+    f = ndi.gaussian_filter(m.astype(np.float32), 0.8)
     v, fa, _, _ = marching_cubes(f, 0.5, spacing=(H, H, H))
     v = v - 2 * H + np.array([xs[0], ys[0], zs[0]])
     tm = trimesh.Trimesh(v, fa, process=True)
+    trimesh.smoothing.filter_taubin(tm, lamb=0.5, nu=-0.53, iterations=12)      # removes the voxel stair steps, volume-preserving
     vol = float(m.sum()) * H ** 3 / 1000.0
     target = int(max(400, tri_per_cm3 * vol))
     if len(tm.faces) > target:

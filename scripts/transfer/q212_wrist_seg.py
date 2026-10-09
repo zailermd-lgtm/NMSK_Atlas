@@ -74,7 +74,7 @@ def segment(side, ct, labels, zradius=None, log=print):
 
     def labvol(P):
         m = np.zeros(hu.shape, bool); i, j, k = vox(P); m[i, j, k] = True
-        return ndi.binary_dilation(ndi.binary_closing(ndi.binary_dilation(m, iterations=1), iterations=1), iterations=1)
+        return ndi.binary_dilation(m, structure=np.ones((2, 2, 2), bool))      # each 1 mm label voxel = its 2 x 2 x 2 cells of the 0.5 mm grid; the clefts between the carpals stay open
     Lr, Lu, Lc, Lm = (labvol(P) for P in (R, U, C, MC))
     allL = Lr | Lu | Lc | Lm
     sm = ndi.gaussian_filter(hu, 0.9)
