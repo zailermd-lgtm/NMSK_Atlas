@@ -793,11 +793,325 @@
   ],
   "max_move_mm": 11.84
  },
- "structures_changed": 283,
+ "structures_changed": 282,
  "by_stage": {
   "bone": 2,
-  "follow": 55,
+  "follow": 54,
   "zone": 179,
-  "inbone": 49
+  "inbone": 49,
+  "final": 18
+ },
+ "final": {
+  "reverted_island_gap": {
+   "sural_n_l": [
+    1.4,
+    15.5,
+    [
+     "follow"
+    ]
+   ]
+  },
+  "attachment_guard": {
+   "brachialis_l": {
+    "end_dist_page_mm": [
+     3.2,
+     11.2
+    ],
+    "end_dist_full_move_mm": [
+     5.0,
+     11.4
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "levator_scapulae_l": {
+    "end_dist_page_mm": [
+     11.1,
+     17.0
+    ],
+    "end_dist_full_move_mm": [
+     9.0,
+     18.9
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "rhomboid_minor_l": {
+    "end_dist_page_mm": [
+     2.6,
+     7.6
+    ],
+    "end_dist_full_move_mm": [
+     3.4,
+     9.4
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "subclavius_l": {
+    "end_dist_page_mm": [
+     3.7,
+     15.7
+    ],
+    "end_dist_full_move_mm": [
+     5.6,
+     13.5
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "teres_major_l": {
+    "end_dist_page_mm": [
+     5.5,
+     4.7
+    ],
+    "end_dist_full_move_mm": [
+     2.8,
+     6.9
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "zan_clavicular_head_of_pectoralis_major_muscle_l": {
+    "end_dist_page_mm": [
+     6.0,
+     2.4
+    ],
+    "end_dist_full_move_mm": [
+     8.1,
+     3.0
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "supinator_l": {
+    "end_dist_page_mm": [
+     1.9,
+     2.9
+    ],
+    "end_dist_full_move_mm": [
+     1.6,
+     4.9
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "brachialis_r": {
+    "end_dist_page_mm": [
+     6.9,
+     10.1
+    ],
+    "end_dist_full_move_mm": [
+     6.7,
+     12.7
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "rhomboid_minor_r": {
+    "end_dist_page_mm": [
+     10.2,
+     4.7
+    ],
+    "end_dist_full_move_mm": [
+     13.0,
+     5.5
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "teres_major_r": {
+    "end_dist_page_mm": [
+     12.6,
+     2.2
+    ],
+    "end_dist_full_move_mm": [
+     14.9,
+     3.4
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "zan_abdominal_part_of_pectoralis_major_muscle_r": {
+    "end_dist_page_mm": [
+     45.6,
+     5.6
+    ],
+    "end_dist_full_move_mm": [
+     47.8,
+     5.6
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "zan_clavicular_head_of_pectoralis_major_muscle_r": {
+    "end_dist_page_mm": [
+     4.4,
+     5.4
+    ],
+    "end_dist_full_move_mm": [
+     5.1,
+     7.0
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "zan_sternocostal_head_of_pectoralis_major_muscle_r": {
+    "end_dist_page_mm": [
+     16.4,
+     6.3
+    ],
+    "end_dist_full_move_mm": [
+     16.7,
+     8.2
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "depressor_anguli_oris_r": {
+    "end_dist_page_mm": [
+     3.3,
+     3.3
+    ],
+    "end_dist_full_move_mm": [
+     3.3,
+     5.1
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "levator_palpebrae_superioris_l": {
+    "end_dist_page_mm": [
+     4.3,
+     5.6
+    ],
+    "end_dist_full_move_mm": [
+     6.2,
+     5.0
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "levator_palpebrae_superioris_r": {
+    "end_dist_page_mm": [
+     6.3,
+     2.9
+    ],
+    "end_dist_full_move_mm": [
+     6.6,
+     4.9
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "popliteus_l": {
+    "end_dist_page_mm": [
+     3.9,
+     6.8
+    ],
+    "end_dist_full_move_mm": [
+     7.2,
+     9.4
+    ],
+    "kept_share_of_move": 0.25
+   },
+   "popliteus_r": {
+    "end_dist_page_mm": [
+     5.4,
+     3.3
+    ],
+    "end_dist_full_move_mm": [
+     8.3,
+     6.9
+    ],
+    "kept_share_of_move": 0.25
+   }
+  }
+ },
+ "guards_in_zones": {
+  "shoulder_l": {
+   "attach_guard": {
+    "levator_scapulae_l": {
+     "end_dist_before_mm": [
+      11.1,
+      17.0
+     ],
+     "end_dist_after_relaxation_mm": [
+      8.2,
+      22.1
+     ],
+     "move_factor": 0.33
+    },
+    "rhomboid_minor_l": {
+     "end_dist_before_mm": [
+      2.6,
+      7.6
+     ],
+     "end_dist_after_relaxation_mm": [
+      4.1,
+      14.2
+     ],
+     "move_factor": 0.33
+    }
+   },
+   "overlap_guard": {},
+   "reanchored": {}
+  },
+  "elbow_l": {
+   "attach_guard": {
+    "zan_extensor_pollicis_longus_l": {
+     "end_dist_before_mm": [
+      0.8,
+      6.2
+     ],
+     "end_dist_after_relaxation_mm": [
+      6.8,
+      3.7
+     ],
+     "move_factor": 0.66
+    }
+   },
+   "overlap_guard": {
+    "extensor_digiti_minimi_l": {
+     "before_pct": 60.2,
+     "after_pct": 64.8,
+     "move_factor": 0.66
+    },
+    "supinator_l": {
+     "before_pct": 59.4,
+     "after_pct": 62.8,
+     "move_factor": 0.66
+    }
+   },
+   "reanchored": {}
+  },
+  "shoulder_r": {
+   "attach_guard": {
+    "rhomboid_minor_r": {
+     "end_dist_before_mm": [
+      10.2,
+      4.7
+     ],
+     "end_dist_after_relaxation_mm": [
+      14.5,
+      5.8
+     ],
+     "move_factor": 0.66
+    },
+    "teres_major_r": {
+     "end_dist_before_mm": [
+      12.6,
+      2.2
+     ],
+     "end_dist_after_relaxation_mm": [
+      16.5,
+      3.6
+     ],
+     "move_factor": 0.66
+    },
+    "zan_abdominal_part_of_pectoralis_major_muscle_r": {
+     "end_dist_before_mm": [
+      45.6,
+      5.6
+     ],
+     "end_dist_after_relaxation_mm": [
+      51.9,
+      2.6
+     ],
+     "move_factor": 0.33
+    }
+   },
+   "overlap_guard": {},
+   "reanchored": {}
+  },
+  "elbow_r": {
+   "attach_guard": null,
+   "overlap_guard": null,
+   "reanchored": {}
+  }
  }
 }

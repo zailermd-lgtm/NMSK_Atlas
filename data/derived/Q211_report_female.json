@@ -762,11 +762,196 @@
   ],
   "max_move_mm": 12.0
  },
- "structures_changed": 341,
+ "structures_changed": 340,
  "by_stage": {
   "bone": 1,
   "follow": 107,
   "zone": 180,
-  "inbone": 55
+  "inbone": 54,
+  "final": 11
+ },
+ "final": {
+  "reverted_island_gap": {
+   "superficial_fibular_n_medial_dorsal_cutaneous_n_r": [
+    18.1,
+    50.9,
+    [
+     "inbone"
+    ]
+   ]
+  },
+  "attachment_guard": {
+   "brachialis_l": {
+    "end_dist_page_mm": [
+     2.9,
+     7.0
+    ],
+    "end_dist_full_move_mm": [
+     4.9,
+     7.1
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "coracobrachialis_l": {
+    "end_dist_page_mm": [
+     1.8,
+     3.5
+    ],
+    "end_dist_full_move_mm": [
+     4.8,
+     5.9
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "subclavius_l": {
+    "end_dist_page_mm": [
+     11.7,
+     5.5
+    ],
+    "end_dist_full_move_mm": [
+     7.1,
+     8.5
+    ],
+    "kept_share_of_move": 0.25
+   },
+   "flexor_digitorum_superficialis_l": {
+    "end_dist_page_mm": [
+     2.2,
+     3.4
+    ],
+    "end_dist_full_move_mm": [
+     3.6,
+     5.3
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "brachialis_r": {
+    "end_dist_page_mm": [
+     13.3,
+     3.5
+    ],
+    "end_dist_full_move_mm": [
+     10.8,
+     5.8
+    ],
+    "kept_share_of_move": 0.5
+   },
+   "extensor_carpi_radialis_brevis_r": {
+    "end_dist_page_mm": [
+     6.8,
+     1.5
+    ],
+    "end_dist_full_move_mm": [
+     2.9,
+     5.3
+    ],
+    "kept_share_of_move": 0.25
+   },
+   "extensor_digiti_minimi_r": {
+    "end_dist_page_mm": [
+     5.3,
+     2.2
+    ],
+    "end_dist_full_move_mm": [
+     4.6,
+     5.6
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "extensor_indicis_r": {
+    "end_dist_page_mm": [
+     16.4,
+     3.1
+    ],
+    "end_dist_full_move_mm": [
+     16.7,
+     5.1
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "flexor_hallucis_longus_l": {
+    "end_dist_page_mm": [
+     1.6,
+     3.6
+    ],
+    "end_dist_full_move_mm": [
+     1.1,
+     5.6
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "quadratus_femoris_l": {
+    "end_dist_page_mm": [
+     13.4,
+     4.5
+    ],
+    "end_dist_full_move_mm": [
+     15.1,
+     4.2
+    ],
+    "kept_share_of_move": 0.75
+   },
+   "quadratus_femoris_r": {
+    "end_dist_page_mm": [
+     5.3,
+     6.0
+    ],
+    "end_dist_full_move_mm": [
+     7.6,
+     9.5
+    ],
+    "kept_share_of_move": 0.5
+   }
+  }
+ },
+ "guards_in_zones": {
+  "shoulder_l": {
+   "attach_guard": null,
+   "overlap_guard": null,
+   "reanchored": {}
+  },
+  "elbow_l": {
+   "attach_guard": {
+    "brachialis_l": {
+     "end_dist_before_mm": [
+      4.9,
+      7.1
+     ],
+     "end_dist_after_relaxation_mm": [
+      14.6,
+      8.5
+     ],
+     "move_factor": 0.0
+    }
+   },
+   "overlap_guard": {
+    "extensor_digiti_minimi_l": {
+     "before_pct": 47.4,
+     "after_pct": 53.9,
+     "move_factor": 0.66
+    },
+    "supinator_l": {
+     "before_pct": 60.9,
+     "after_pct": 62.6,
+     "move_factor": 0.66
+    },
+    "anconeus_l": {
+     "before_pct": 57.9,
+     "after_pct": 61.1,
+     "move_factor": 0.0
+    }
+   },
+   "reanchored": {}
+  },
+  "shoulder_r": {
+   "attach_guard": null,
+   "overlap_guard": null,
+   "reanchored": {}
+  },
+  "elbow_r": {
+   "attach_guard": null,
+   "overlap_guard": null,
+   "reanchored": {}
+  }
  }
 }

@@ -157,3 +157,42 @@ def test_tear_reduced_in_every_repaired_zone():
         assert set(z) == {"shoulder_l", "elbow_l", "shoulder_r", "elbow_r"}
         for name, rep in z.items():
             assert rep["tear_gt5_after"] < 0.6 * rep["tear_gt5_before"], (which, name)
+
+
+@built
+def test_metrics_improved_no_new_majors():
+    p = REPO / "data" / "derived" / "Q211_metrics.json"
+    if not p.exists():
+        pytest.skip("metrics not written")
+    d = json.loads(p.read_text())
+    for which in ("male", "female"):
+        b, a = d[which]["before"], d[which]["after"]
+        assert a["q204"]["inside_bone_sev_ge2"] < 0.6 * b["q204"]["inside_bone_sev_ge2"]
+        assert a["q204"]["whole_body_major_moderate_minor"][0] <= b["q204"]["whole_body_major_moderate_minor"][0] - 15
+        assert a["q198"]["major_moderate_minor"][0] < b["q198"]["major_moderate_minor"][0]
+        for jn, x in b["q198"]["junction"].items():
+            assert a["q198"]["junction"][jn]["mmm"][0] <= x["mmm"][0], (which, jn)          # no junction gained a major finding
+
+
+@built
+@pytest.mark.parametrize("which", ["male", "female"])
+def test_final_guards_listed_and_reverted_structures_unchanged(which):
+    p = REPO / "data" / "derived" / f"Q211_report_{which}.json"
+    if not p.exists():
+        pytest.skip("report not written")
+    rep = json.loads(p.read_text())["final"]
+    r = json.loads(SHIP[which].read_text())
+    for i in rep["reverted_island_gap"]:                            # a vessel / nerve that a move would have torn apart stays on its published mesh
+        assert i not in r["geometry_changed"]
+    for i, g in rep["attachment_guard"].items():
+        assert g["kept_share_of_move"] in (0.75, 0.5, 0.25, 0.0)
+        assert (i in r["geometry_changed"]) == (g["kept_share_of_move"] > 0.0)
+
+
+@built
+def test_moved_over_5mm_report_present():
+    for which in ("male", "female"):
+        p = REPO / "data" / "derived" / f"Q211_moved_over_5mm_{which}.json"
+        assert p.exists()
+        by = json.loads(p.read_text())["by_system"]
+        assert len(by["muscle"]) > 20 and all(len(t) == 3 and t[1] > 5.0 for t in by["muscle"])

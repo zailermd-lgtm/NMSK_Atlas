@@ -3,7 +3,7 @@
   "page": "q211_m",
   "bone_gap_mm": 0.09,
   "major": 2,
-  "moderate": 16,
+  "moderate": 15,
   "minor": 16,
   "verdict_q198": "DEFECT",
   "angles": {
@@ -13,9 +13,9 @@
   },
   "seam": {
    "pairs": 4174,
-   "tear_gt5_actual": 0.1354,
+   "tear_gt5_actual": 0.1564,
    "tear_gt5_bone_chain_image": 0.001,
-   "tear_excess_gt5": 0.0982,
+   "tear_excess_gt5": 0.1167,
    "frame_offset_gt10_actual": 11,
    "frame_offset_gt10_bone_chain_image": 20
   },
@@ -33,10 +33,10 @@
     "severity": 3,
     "check": "adjacency_tear",
     "structure": null,
-    "value": 0.1322,
+    "value": 0.1526,
     "unit": "frac of base-adjacent pairs >5 mm apart",
     "class": "REAL",
-    "why": "13.5 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+    "why": "15.6 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
    },
    {
     "severity": 2,
@@ -69,10 +69,10 @@
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "extensor_digiti_minimi_l",
-    "value": 84.5,
+    "value": 84.4,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "84.5 % vs unfitted base 36.6 %"
+    "why": "84.4 % vs unfitted base 36.6 %"
    },
    {
     "severity": 2,
@@ -87,28 +87,19 @@
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_carpi_radialis_l",
-    "value": 70.7,
+    "value": 70.8,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "70.7 % vs unfitted base 38.0 %"
+    "why": "70.8 % vs unfitted base 38.0 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "pronator_teres_l",
-    "value": 66.3,
+    "value": 66.9,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "66.3 % vs unfitted base 22.6 %"
-   },
-   {
-    "severity": 2,
-    "check": "muscle_interpenetration",
-    "structure": "supinator_l",
-    "value": 62.0,
-    "unit": "% of volume",
-    "class": "REAL",
-    "why": "62.0 % vs unfitted base 20.6 %"
+    "why": "66.9 % vs unfitted base 22.6 %"
    },
    {
     "severity": 2,
@@ -184,7 +175,7 @@
    }
   ],
   "counts": {
-   "REAL": 10,
+   "REAL": 9,
    "ARTEFACT": 5,
    "SOURCE": 3
   },
@@ -199,7 +190,7 @@
   "bone_gap_mm": 0.17,
   "major": 1,
   "moderate": 7,
-  "minor": 11,
+  "minor": 12,
   "verdict_q198": "DEFECT",
   "angles": {
    "flexion_deg": 65.9,
@@ -208,9 +199,9 @@
   },
   "seam": {
    "pairs": 3954,
-   "tear_gt5_actual": 0.0083,
+   "tear_gt5_actual": 0.0268,
    "tear_gt5_bone_chain_image": 0.0043,
-   "tear_excess_gt5": 0.0048,
+   "tear_excess_gt5": 0.0109,
    "frame_offset_gt10_actual": 4,
    "frame_offset_gt10_bone_chain_image": 17
   },
@@ -307,9 +298,9 @@
   "minor": 1,
   "seam": {
    "pairs": 16954,
-   "tear_gt5_actual": 0.0576,
+   "tear_gt5_actual": 0.0658,
    "tear_gt5_bone_chain_image": 0.0024,
-   "tear_excess_gt5": 0.01,
+   "tear_excess_gt5": 0.0149,
    "frame_offset_gt10_actual": 14,
    "frame_offset_gt10_bone_chain_image": 12
   },
@@ -408,10 +399,10 @@
     "severity": 2,
     "check": "adjacency_tear",
     "structure": null,
-    "value": 0.0588,
+    "value": 0.0666,
     "unit": "frac of base-adjacent pairs >5 mm apart",
     "class": "REAL",
-    "why": "5.8 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.2 %"
+    "why": "6.6 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.2 %"
    },
    {
     "severity": 2,
@@ -465,13 +456,13 @@
   "page": "q211_m",
   "bone_gap_mm": 0.09,
   "major": 4,
-  "moderate": 8,
-  "minor": 6,
+  "moderate": 9,
+  "minor": 5,
   "seam": {
    "pairs": 16609,
-   "tear_gt5_actual": 0.0259,
+   "tear_gt5_actual": 0.0278,
    "tear_gt5_bone_chain_image": 0.0067,
-   "tear_excess_gt5": 0.0134,
+   "tear_excess_gt5": 0.0173,
    "frame_offset_gt10_actual": 12,
    "frame_offset_gt10_bone_chain_image": 10
   },
@@ -550,6 +541,15 @@
    },
    {
     "severity": 2,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.0299,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "2.8 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.7 %"
+   },
+   {
+    "severity": 2,
     "check": "tube_gap",
     "structure": "lateral_pectoral_n_r",
     "value": 43.25,
@@ -586,7 +586,7 @@
    }
   ],
   "counts": {
-   "REAL": 0,
+   "REAL": 1,
    "ARTEFACT": 7,
    "SOURCE": 5
   },
@@ -601,7 +601,7 @@
   "bone_gap_mm": 0.14,
   "major": 1,
   "moderate": 8,
-  "minor": 7,
+  "minor": 8,
   "verdict_q198": "DEFECT",
   "angles": {
    "flexion_deg": 58.0,
@@ -610,9 +610,9 @@
   },
   "seam": {
    "pairs": 4174,
-   "tear_gt5_actual": 0.1337,
+   "tear_gt5_actual": 0.1325,
    "tear_gt5_bone_chain_image": 0.0014,
-   "tear_excess_gt5": 0.0886,
+   "tear_excess_gt5": 0.0891,
    "frame_offset_gt10_actual": 4,
    "frame_offset_gt10_bone_chain_image": 14
   },
@@ -648,10 +648,10 @@
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "supinator_l",
-    "value": 63.6,
+    "value": 63.3,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "63.6 % vs unfitted base 20.6 %"
+    "why": "63.3 % vs unfitted base 20.6 %"
    },
    {
     "severity": 2,
@@ -675,10 +675,10 @@
     "severity": 2,
     "check": "adjacency_tear",
     "structure": null,
-    "value": 0.1385,
+    "value": 0.1405,
     "unit": "frac of base-adjacent pairs >5 mm apart",
     "class": "REAL",
-    "why": "13.4 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+    "why": "13.2 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
    },
    {
     "severity": 2,
@@ -715,7 +715,7 @@
   "bone_gap_mm": 0.1,
   "major": 2,
   "moderate": 5,
-  "minor": 11,
+  "minor": 10,
   "verdict_q198": "DEFECT",
   "angles": {
    "flexion_deg": 53.1,
@@ -724,10 +724,10 @@
   },
   "seam": {
    "pairs": 3954,
-   "tear_gt5_actual": 0.0857,
+   "tear_gt5_actual": 0.1191,
    "tear_gt5_bone_chain_image": 0.0005,
-   "tear_excess_gt5": 0.0463,
-   "frame_offset_gt10_actual": 4,
+   "tear_excess_gt5": 0.0665,
+   "frame_offset_gt10_actual": 3,
    "frame_offset_gt10_bone_chain_image": 8
   },
   "findings": [
@@ -771,10 +771,10 @@
     "severity": 2,
     "check": "adjacency_tear",
     "structure": null,
-    "value": 0.0846,
+    "value": 0.1168,
     "unit": "frac of base-adjacent pairs >5 mm apart",
     "class": "REAL",
-    "why": "8.6 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+    "why": "11.9 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
    },
    {
     "severity": 2,
@@ -811,12 +811,12 @@
   "bone_gap_mm": 3.95,
   "major": 3,
   "moderate": 8,
-  "minor": 18,
+  "minor": 19,
   "seam": {
    "pairs": 16954,
-   "tear_gt5_actual": 0.0111,
+   "tear_gt5_actual": 0.0185,
    "tear_gt5_bone_chain_image": 0.0021,
-   "tear_excess_gt5": 0.0083,
+   "tear_excess_gt5": 0.0114,
    "frame_offset_gt10_actual": 9,
    "frame_offset_gt10_bone_chain_image": 15
   },

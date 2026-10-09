@@ -262,14 +262,14 @@
    ]
   },
   "brachialis_l": {
-   "max_vertex_change_mm": 15.11,
+   "max_vertex_change_mm": 11.33,
    "vertices": [
     1741,
     1741
    ]
   },
   "brachialis_r": {
-   "max_vertex_change_mm": 17.35,
+   "max_vertex_change_mm": 8.67,
    "vertices": [
     1741,
     1741
@@ -304,7 +304,7 @@
    ]
   },
   "coracobrachialis_l": {
-   "max_vertex_change_mm": 10.63,
+   "max_vertex_change_mm": 5.32,
    "vertices": [
     582,
     582
@@ -353,7 +353,7 @@
    ]
   },
   "extensor_carpi_radialis_brevis_r": {
-   "max_vertex_change_mm": 15.22,
+   "max_vertex_change_mm": 3.8,
    "vertices": [
     1573,
     1573
@@ -381,7 +381,7 @@
    ]
   },
   "extensor_digiti_minimi_r": {
-   "max_vertex_change_mm": 16.82,
+   "max_vertex_change_mm": 12.62,
    "vertices": [
     1078,
     1078
@@ -409,7 +409,7 @@
    ]
   },
   "extensor_indicis_r": {
-   "max_vertex_change_mm": 5.23,
+   "max_vertex_change_mm": 3.93,
    "vertices": [
     573,
     573
@@ -444,7 +444,7 @@
    ]
   },
   "flexor_digitorum_superficialis_l": {
-   "max_vertex_change_mm": 15.29,
+   "max_vertex_change_mm": 11.47,
    "vertices": [
     640,
     640
@@ -465,7 +465,7 @@
    ]
   },
   "flexor_hallucis_longus_l": {
-   "max_vertex_change_mm": 6.07,
+   "max_vertex_change_mm": 4.55,
    "vertices": [
     1801,
     1801
@@ -787,14 +787,14 @@
    ]
   },
   "quadratus_femoris_l": {
-   "max_vertex_change_mm": 6.74,
+   "max_vertex_change_mm": 5.05,
    "vertices": [
     825,
     825
    ]
   },
   "quadratus_femoris_r": {
-   "max_vertex_change_mm": 12.0,
+   "max_vertex_change_mm": 6.0,
    "vertices": [
     825,
     825
@@ -948,7 +948,7 @@
    ]
   },
   "subclavius_l": {
-   "max_vertex_change_mm": 11.42,
+   "max_vertex_change_mm": 2.86,
    "vertices": [
     397,
     397
@@ -987,13 +987,6 @@
    "vertices": [
     614,
     614
-   ]
-  },
-  "superficial_fibular_n_medial_dorsal_cutaneous_n_r": {
-   "max_vertex_change_mm": 7.34,
-   "vertices": [
-    625,
-    625
    ]
   },
   "superior_mesenteric_a": {
@@ -2391,9 +2384,9 @@
   }
  },
  "card_only": [],
- "unchanged": 2599,
+ "unchanged": 2600,
  "geometry_changed_but_not_listed": [],
- "listed_structures": 341,
+ "listed_structures": 340,
  "stages": {
   "zan_vertebra_l1": [
    "bone"
@@ -2754,10 +2747,12 @@
    "zone:shoulder_l"
   ],
   "brachialis_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "coracobrachialis_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "coracohumeral_ligament_l": [
    "zone:shoulder_l"
@@ -2790,7 +2785,8 @@
    "zone:shoulder_l"
   ],
   "subclavius_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "subscapularis_l": [
    "zone:shoulder_l"
@@ -2937,7 +2933,8 @@
    "zone:elbow_l"
   ],
   "flexor_digitorum_superficialis_l": [
-   "zone:elbow_l"
+   "zone:elbow_l",
+   "final"
   ],
   "flexor_pollicis_longus_l": [
    "zone:elbow_l"
@@ -3025,7 +3022,8 @@
   ],
   "brachialis_r": [
    "zone:shoulder_r",
-   "zone:elbow_r"
+   "zone:elbow_r",
+   "final"
   ],
   "clavipectoral_fascia_r": [
    "zone:shoulder_r"
@@ -3194,13 +3192,15 @@
    "zone:elbow_r"
   ],
   "extensor_carpi_radialis_brevis_r": [
-   "zone:elbow_r"
+   "zone:elbow_r",
+   "final"
   ],
   "extensor_carpi_ulnaris_r": [
    "zone:elbow_r"
   ],
   "extensor_digiti_minimi_r": [
-   "zone:elbow_r"
+   "zone:elbow_r",
+   "final"
   ],
   "flexor_carpi_radialis_r": [
    "zone:elbow_r"
@@ -3284,7 +3284,8 @@
    "inbone:inbone_arm_r"
   ],
   "extensor_indicis_r": [
-   "inbone:inbone_arm_r"
+   "inbone:inbone_arm_r",
+   "final"
   ],
   "opponens_digiti_minimi_r": [
    "inbone:inbone_arm_r"
@@ -3329,13 +3330,15 @@
    "inbone:inbone_leg_l"
   ],
   "flexor_hallucis_longus_l": [
-   "inbone:inbone_leg_l"
+   "inbone:inbone_leg_l",
+   "final"
   ],
   "gemellus_inferior_l": [
    "inbone:inbone_leg_l"
   ],
   "quadratus_femoris_l": [
-   "inbone:inbone_leg_l"
+   "inbone:inbone_leg_l",
+   "final"
   ],
   "superficial_fibular_n_intermediate_dorsal_cutaneous_n_l": [
    "inbone:inbone_leg_l"
@@ -3374,12 +3377,10 @@
    "inbone:inbone_leg_r"
   ],
   "quadratus_femoris_r": [
-   "inbone:inbone_leg_r"
+   "inbone:inbone_leg_r",
+   "final"
   ],
   "superficial_fibular_n_intermediate_dorsal_cutaneous_n_r": [
-   "inbone:inbone_leg_r"
-  ],
-  "superficial_fibular_n_medial_dorsal_cutaneous_n_r": [
    "inbone:inbone_leg_r"
   ],
   "zan_arcuate_artery_r": [
@@ -3590,15 +3591,15 @@
   },
   "brachialis_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 15.11,
-   "mean_vertex_change_mm": 4.06,
-   "share_of_vertices_over_5mm": 0.25
+   "max_vertex_change_mm": 11.33,
+   "mean_vertex_change_mm": 3.05,
+   "share_of_vertices_over_5mm": 0.063
   },
   "brachialis_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 17.35,
-   "mean_vertex_change_mm": 4.97,
-   "share_of_vertices_over_5mm": 0.382
+   "max_vertex_change_mm": 8.67,
+   "mean_vertex_change_mm": 2.49,
+   "share_of_vertices_over_5mm": 0.036
   },
   "brachiocephalic_v_l": {
    "sys": "vessel",
@@ -3620,9 +3621,9 @@
   },
   "coracobrachialis_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 10.63,
-   "mean_vertex_change_mm": 4.11,
-   "share_of_vertices_over_5mm": 0.249
+   "max_vertex_change_mm": 5.32,
+   "mean_vertex_change_mm": 2.05,
+   "share_of_vertices_over_5mm": 0.005
   },
   "coracobrachialis_r": {
    "sys": "muscle",
@@ -3654,12 +3655,6 @@
    "mean_vertex_change_mm": 1.88,
    "share_of_vertices_over_5mm": 0.067
   },
-  "extensor_carpi_radialis_brevis_r": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 15.22,
-   "mean_vertex_change_mm": 7.22,
-   "share_of_vertices_over_5mm": 0.744
-  },
   "extensor_carpi_ulnaris_l": {
    "sys": "muscle",
    "max_vertex_change_mm": 8.88,
@@ -3680,9 +3675,9 @@
   },
   "extensor_digiti_minimi_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 16.82,
-   "mean_vertex_change_mm": 6.24,
-   "share_of_vertices_over_5mm": 0.538
+   "max_vertex_change_mm": 12.62,
+   "mean_vertex_change_mm": 4.68,
+   "share_of_vertices_over_5mm": 0.356
   },
   "extensor_digitorum_brevis_r": {
    "sys": "muscle",
@@ -3702,12 +3697,6 @@
    "mean_vertex_change_mm": 1.21,
    "share_of_vertices_over_5mm": 0.017
   },
-  "extensor_indicis_r": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 5.23,
-   "mean_vertex_change_mm": 0.8,
-   "share_of_vertices_over_5mm": 0.009
-  },
   "flexor_carpi_radialis_l": {
    "sys": "muscle",
    "max_vertex_change_mm": 5.37,
@@ -3722,9 +3711,9 @@
   },
   "flexor_digitorum_superficialis_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 15.29,
-   "mean_vertex_change_mm": 3.22,
-   "share_of_vertices_over_5mm": 0.103
+   "max_vertex_change_mm": 11.47,
+   "mean_vertex_change_mm": 2.41,
+   "share_of_vertices_over_5mm": 0.077
   },
   "flexor_digitorum_superficialis_r": {
    "sys": "muscle",
@@ -3737,12 +3726,6 @@
    "max_vertex_change_mm": 6.39,
    "mean_vertex_change_mm": 1.48,
    "share_of_vertices_over_5mm": 0.015
-  },
-  "flexor_hallucis_longus_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 6.07,
-   "mean_vertex_change_mm": 0.75,
-   "share_of_vertices_over_5mm": 0.007
   },
   "flexor_hallucis_longus_r": {
    "sys": "muscle",
@@ -3932,15 +3915,15 @@
   },
   "quadratus_femoris_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 6.74,
-   "mean_vertex_change_mm": 2.38,
-   "share_of_vertices_over_5mm": 0.038
+   "max_vertex_change_mm": 5.05,
+   "mean_vertex_change_mm": 1.79,
+   "share_of_vertices_over_5mm": 0.001
   },
   "quadratus_femoris_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 12.0,
-   "mean_vertex_change_mm": 10.32,
-   "share_of_vertices_over_5mm": 0.947
+   "max_vertex_change_mm": 6.0,
+   "mean_vertex_change_mm": 5.16,
+   "share_of_vertices_over_5mm": 0.687
   },
   "quadratus_lumborum_r": {
    "sys": "muscle",
@@ -4002,12 +3985,6 @@
    "mean_vertex_change_mm": 0.56,
    "share_of_vertices_over_5mm": 0.005
   },
-  "subclavius_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 11.42,
-   "mean_vertex_change_mm": 5.84,
-   "share_of_vertices_over_5mm": 0.652
-  },
   "subclavius_r": {
    "sys": "muscle",
    "max_vertex_change_mm": 7.74,
@@ -4037,12 +4014,6 @@
    "max_vertex_change_mm": 5.7,
    "mean_vertex_change_mm": 1.13,
    "share_of_vertices_over_5mm": 0.054
-  },
-  "superficial_fibular_n_medial_dorsal_cutaneous_n_r": {
-   "sys": "nerve",
-   "max_vertex_change_mm": 7.34,
-   "mean_vertex_change_mm": 1.0,
-   "share_of_vertices_over_5mm": 0.046
   },
   "superior_mesenteric_a": {
    "sys": "vessel",

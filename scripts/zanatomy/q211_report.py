@@ -29,12 +29,14 @@ def summarize(st):
     for i, logs in st.log.items():
         allv[i] = [L["stage"] for L in logs]
     out["structures_changed"] = len(st.V)
-    out["by_stage"] = {s: sum(1 for v in allv.values() if s in v) for s in ("bone", "follow", "zone", "inbone")}
+    out["by_stage"] = {s: sum(1 for v in allv.values() if s in v) for s in ("bone", "follow", "zone", "inbone", "final")}
+    out["final"] = r.get("final")
+    out["guards_in_zones"] = {z: {"attach_guard": rep.get("attach_guard"), "overlap_guard": rep.get("overlap_guard"), "reanchored": rep.get("reanchored")} for z, rep in r["zones"].items()}
     return out
 
 
 if __name__ == "__main__":
     for w in ("male", "female"):
-        st = State.load(w, "inbone")
+        st = State.load(w, "final")
         (REPO / "data" / "derived" / f"Q211_report_{w}.json").write_text(json.dumps(summarize(st), indent=1, default=float))
         print(w, json.dumps({k: v for k, v in summarize(st).items() if k in ("follow", "inbone", "by_stage", "structures_changed")}, default=float)[:700])

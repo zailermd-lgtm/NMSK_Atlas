@@ -220,14 +220,14 @@
    ]
   },
   "brachialis_l": {
-   "max_vertex_change_mm": 22.8,
+   "max_vertex_change_mm": 17.1,
    "vertices": [
     1741,
     1741
    ]
   },
   "brachialis_r": {
-   "max_vertex_change_mm": 12.86,
+   "max_vertex_change_mm": 6.43,
    "vertices": [
     1741,
     1741
@@ -283,7 +283,7 @@
    ]
   },
   "depressor_anguli_oris_r": {
-   "max_vertex_change_mm": 4.66,
+   "max_vertex_change_mm": 2.33,
    "vertices": [
     299,
     299
@@ -549,21 +549,21 @@
    ]
   },
   "levator_palpebrae_superioris_l": {
-   "max_vertex_change_mm": 7.96,
+   "max_vertex_change_mm": 5.97,
    "vertices": [
     1079,
     1079
    ]
   },
   "levator_palpebrae_superioris_r": {
-   "max_vertex_change_mm": 8.31,
+   "max_vertex_change_mm": 6.23,
    "vertices": [
     1079,
     1079
    ]
   },
   "levator_scapulae_l": {
-   "max_vertex_change_mm": 7.92,
+   "max_vertex_change_mm": 3.96,
    "vertices": [
     1543,
     1543
@@ -633,14 +633,14 @@
    ]
   },
   "popliteus_l": {
-   "max_vertex_change_mm": 11.84,
+   "max_vertex_change_mm": 2.96,
    "vertices": [
     566,
     566
    ]
   },
   "popliteus_r": {
-   "max_vertex_change_mm": 11.29,
+   "max_vertex_change_mm": 2.82,
    "vertices": [
     566,
     566
@@ -668,14 +668,14 @@
    ]
   },
   "rhomboid_minor_l": {
-   "max_vertex_change_mm": 6.18,
+   "max_vertex_change_mm": 4.63,
    "vertices": [
     747,
     747
    ]
   },
   "rhomboid_minor_r": {
-   "max_vertex_change_mm": 13.66,
+   "max_vertex_change_mm": 6.83,
    "vertices": [
     747,
     747
@@ -759,7 +759,7 @@
    ]
   },
   "subclavius_l": {
-   "max_vertex_change_mm": 5.67,
+   "max_vertex_change_mm": 4.25,
    "vertices": [
     397,
     397
@@ -808,7 +808,7 @@
    ]
   },
   "supinator_l": {
-   "max_vertex_change_mm": 10.72,
+   "max_vertex_change_mm": 8.04,
    "vertices": [
     1379,
     1379
@@ -835,22 +835,15 @@
     717
    ]
   },
-  "sural_n_l": {
-   "max_vertex_change_mm": 5.26,
-   "vertices": [
-    607,
-    607
-   ]
-  },
   "teres_major_l": {
-   "max_vertex_change_mm": 24.62,
+   "max_vertex_change_mm": 18.47,
    "vertices": [
     577,
     577
    ]
   },
   "teres_major_r": {
-   "max_vertex_change_mm": 16.0,
+   "max_vertex_change_mm": 8.0,
    "vertices": [
     577,
     577
@@ -920,7 +913,7 @@
    ]
   },
   "zan_abdominal_part_of_pectoralis_major_muscle_r": {
-   "max_vertex_change_mm": 7.62,
+   "max_vertex_change_mm": 3.81,
    "vertices": [
     756,
     756
@@ -1053,14 +1046,14 @@
    ]
   },
   "zan_clavicular_head_of_pectoralis_major_muscle_l": {
-   "max_vertex_change_mm": 8.25,
+   "max_vertex_change_mm": 4.13,
    "vertices": [
     425,
     425
    ]
   },
   "zan_clavicular_head_of_pectoralis_major_muscle_r": {
-   "max_vertex_change_mm": 6.46,
+   "max_vertex_change_mm": 4.85,
    "vertices": [
     425,
     425
@@ -1529,7 +1522,7 @@
    ]
   },
   "zan_sternocostal_head_of_pectoralis_major_muscle_r": {
-   "max_vertex_change_mm": 6.95,
+   "max_vertex_change_mm": 5.21,
    "vertices": [
     1611,
     1611
@@ -1985,9 +1978,9 @@
   }
  },
  "card_only": [],
- "unchanged": 2683,
+ "unchanged": 2684,
  "geometry_changed_but_not_listed": [],
- "listed_structures": 283,
+ "listed_structures": 282,
  "stages": {
   "tibia_l": [
    "bone"
@@ -2036,9 +2029,6 @@
    "follow"
   ],
   "superficial_fibular_n_medial_dorsal_cutaneous_n_l": [
-   "follow"
-  ],
-  "sural_n_l": [
    "follow"
   ],
   "tibial_n_l": [
@@ -2193,7 +2183,8 @@
   ],
   "brachialis_l": [
    "zone:shoulder_l",
-   "zone:elbow_l"
+   "zone:elbow_l",
+   "final"
   ],
   "coracobrachialis_l": [
    "zone:shoulder_l"
@@ -2211,13 +2202,15 @@
    "zone:shoulder_l"
   ],
   "levator_scapulae_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "omohyoid_l": [
    "zone:shoulder_l"
   ],
   "rhomboid_minor_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "scalenus_anterior_l": [
    "zone:shoulder_l"
@@ -2229,7 +2222,8 @@
    "zone:shoulder_l"
   ],
   "subclavius_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "subscapularis_l": [
    "zone:shoulder_l"
@@ -2238,7 +2232,8 @@
    "zone:shoulder_l"
   ],
   "teres_major_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "teres_minor_l": [
    "zone:shoulder_l"
@@ -2268,7 +2263,8 @@
    "zone:shoulder_l"
   ],
   "zan_clavicular_head_of_pectoralis_major_muscle_l": [
-   "zone:shoulder_l"
+   "zone:shoulder_l",
+   "final"
   ],
   "zan_clavicular_part_of_deltoid_muscle_l": [
    "zone:shoulder_l"
@@ -2385,7 +2381,8 @@
    "zone:elbow_l"
   ],
   "supinator_l": [
-   "zone:elbow_l"
+   "zone:elbow_l",
+   "final"
   ],
   "zan_common_interosseous_artery_l": [
    "zone:elbow_l"
@@ -2473,7 +2470,8 @@
   ],
   "brachialis_r": [
    "zone:shoulder_r",
-   "zone:elbow_r"
+   "zone:elbow_r",
+   "final"
   ],
   "clavipectoral_fascia_r": [
    "zone:shoulder_r"
@@ -2500,7 +2498,8 @@
    "zone:shoulder_r"
   ],
   "rhomboid_minor_r": [
-   "zone:shoulder_r"
+   "zone:shoulder_r",
+   "final"
   ],
   "scalenus_anterior_r": [
    "zone:shoulder_r"
@@ -2521,7 +2520,8 @@
    "zone:shoulder_r"
   ],
   "teres_major_r": [
-   "zone:shoulder_r"
+   "zone:shoulder_r",
+   "final"
   ],
   "teres_minor_r": [
    "zone:shoulder_r"
@@ -2530,7 +2530,8 @@
    "zone:shoulder_r"
   ],
   "zan_abdominal_part_of_pectoralis_major_muscle_r": [
-   "zone:shoulder_r"
+   "zone:shoulder_r",
+   "final"
   ],
   "zan_acromial_part_of_deltoid_muscle_r": [
    "zone:shoulder_r"
@@ -2548,7 +2549,8 @@
    "zone:shoulder_r"
   ],
   "zan_clavicular_head_of_pectoralis_major_muscle_r": [
-   "zone:shoulder_r"
+   "zone:shoulder_r",
+   "final"
   ],
   "zan_clavicular_part_of_deltoid_muscle_r": [
    "zone:shoulder_r"
@@ -2579,7 +2581,8 @@
    "zone:shoulder_r"
   ],
   "zan_sternocostal_head_of_pectoralis_major_muscle_r": [
-   "zone:shoulder_r"
+   "zone:shoulder_r",
+   "final"
   ],
   "zan_subclavian_nerve_r": [
    "zone:shoulder_r"
@@ -2744,13 +2747,16 @@
    "inbone:inbone_arm_r"
   ],
   "depressor_anguli_oris_r": [
-   "inbone:inbone_head_m"
+   "inbone:inbone_head_m",
+   "final"
   ],
   "levator_palpebrae_superioris_l": [
-   "inbone:inbone_head_m"
+   "inbone:inbone_head_m",
+   "final"
   ],
   "levator_palpebrae_superioris_r": [
-   "inbone:inbone_head_m"
+   "inbone:inbone_head_m",
+   "final"
   ],
   "mentalis_l": [
    "inbone:inbone_head_m"
@@ -2792,7 +2798,8 @@
    "inbone:inbone_leg_l"
   ],
   "popliteus_l": [
-   "inbone:inbone_leg_l"
+   "inbone:inbone_leg_l",
+   "final"
   ],
   "fibularis_brevis_r": [
    "inbone:inbone_leg_r"
@@ -2807,7 +2814,8 @@
    "inbone:inbone_leg_r"
   ],
   "popliteus_r": [
-   "inbone:inbone_leg_r"
+   "inbone:inbone_leg_r",
+   "final"
   ],
   "zan_inferior_medial_genicular_artery_r": [
    "inbone:inbone_leg_r"
@@ -2987,15 +2995,15 @@
   },
   "brachialis_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 22.8,
-   "mean_vertex_change_mm": 4.39,
-   "share_of_vertices_over_5mm": 0.379
+   "max_vertex_change_mm": 17.1,
+   "mean_vertex_change_mm": 3.29,
+   "share_of_vertices_over_5mm": 0.212
   },
   "brachialis_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 12.86,
-   "mean_vertex_change_mm": 4.62,
-   "share_of_vertices_over_5mm": 0.362
+   "max_vertex_change_mm": 6.43,
+   "mean_vertex_change_mm": 2.31,
+   "share_of_vertices_over_5mm": 0.027
   },
   "brachiocephalic_v_l": {
    "sys": "vessel",
@@ -3209,21 +3217,15 @@
   },
   "levator_palpebrae_superioris_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 7.96,
-   "mean_vertex_change_mm": 2.56,
-   "share_of_vertices_over_5mm": 0.074
+   "max_vertex_change_mm": 5.97,
+   "mean_vertex_change_mm": 1.92,
+   "share_of_vertices_over_5mm": 0.006
   },
   "levator_palpebrae_superioris_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 8.31,
-   "mean_vertex_change_mm": 2.31,
-   "share_of_vertices_over_5mm": 0.081
-  },
-  "levator_scapulae_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 7.92,
-   "mean_vertex_change_mm": 3.17,
-   "share_of_vertices_over_5mm": 0.138
+   "max_vertex_change_mm": 6.23,
+   "mean_vertex_change_mm": 1.73,
+   "share_of_vertices_over_5mm": 0.019
   },
   "levator_scapulae_r": {
    "sys": "muscle",
@@ -3273,18 +3275,6 @@
    "mean_vertex_change_mm": 0.78,
    "share_of_vertices_over_5mm": 0.013
   },
-  "popliteus_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 11.84,
-   "mean_vertex_change_mm": 4.73,
-   "share_of_vertices_over_5mm": 0.454
-  },
-  "popliteus_r": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 11.29,
-   "mean_vertex_change_mm": 4.91,
-   "share_of_vertices_over_5mm": 0.482
-  },
   "posterior_femoral_cutaneous_n_l": {
    "sys": "nerve",
    "max_vertex_change_mm": 9.19,
@@ -3303,17 +3293,11 @@
    "mean_vertex_change_mm": 0.51,
    "share_of_vertices_over_5mm": 0.028
   },
-  "rhomboid_minor_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 6.18,
-   "mean_vertex_change_mm": 2.04,
-   "share_of_vertices_over_5mm": 0.007
-  },
   "rhomboid_minor_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 13.66,
-   "mean_vertex_change_mm": 3.27,
-   "share_of_vertices_over_5mm": 0.08
+   "max_vertex_change_mm": 6.83,
+   "mean_vertex_change_mm": 1.63,
+   "share_of_vertices_over_5mm": 0.008
   },
   "rotatores_l": {
    "sys": "muscle",
@@ -3363,12 +3347,6 @@
    "mean_vertex_change_mm": 1.49,
    "share_of_vertices_over_5mm": 0.06
   },
-  "subclavius_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 5.67,
-   "mean_vertex_change_mm": 3.33,
-   "share_of_vertices_over_5mm": 0.01
-  },
   "subscapularis_l": {
    "sys": "muscle",
    "max_vertex_change_mm": 13.28,
@@ -3383,9 +3361,9 @@
   },
   "supinator_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 10.72,
-   "mean_vertex_change_mm": 2.44,
-   "share_of_vertices_over_5mm": 0.08
+   "max_vertex_change_mm": 8.04,
+   "mean_vertex_change_mm": 1.83,
+   "share_of_vertices_over_5mm": 0.045
   },
   "supinator_r": {
    "sys": "muscle",
@@ -3405,23 +3383,17 @@
    "mean_vertex_change_mm": 2.71,
    "share_of_vertices_over_5mm": 0.085
   },
-  "sural_n_l": {
-   "sys": "nerve",
-   "max_vertex_change_mm": 5.26,
-   "mean_vertex_change_mm": 1.46,
-   "share_of_vertices_over_5mm": 0.02
-  },
   "teres_major_l": {
    "sys": "muscle",
-   "max_vertex_change_mm": 24.62,
-   "mean_vertex_change_mm": 16.3,
+   "max_vertex_change_mm": 18.47,
+   "mean_vertex_change_mm": 12.22,
    "share_of_vertices_over_5mm": 1.0
   },
   "teres_major_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 16.0,
-   "mean_vertex_change_mm": 9.2,
-   "share_of_vertices_over_5mm": 1.0
+   "max_vertex_change_mm": 8.0,
+   "mean_vertex_change_mm": 4.6,
+   "share_of_vertices_over_5mm": 0.334
   },
   "teres_minor_l": {
    "sys": "muscle",
@@ -3464,12 +3436,6 @@
    "max_vertex_change_mm": 18.29,
    "mean_vertex_change_mm": 4.1,
    "share_of_vertices_over_5mm": 0.233
-  },
-  "zan_abdominal_part_of_pectoralis_major_muscle_r": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 7.62,
-   "mean_vertex_change_mm": 2.46,
-   "share_of_vertices_over_5mm": 0.033
   },
   "zan_acromial_part_of_deltoid_muscle_l": {
    "sys": "muscle",
@@ -3524,18 +3490,6 @@
    "max_vertex_change_mm": 7.09,
    "mean_vertex_change_mm": 3.21,
    "share_of_vertices_over_5mm": 0.339
-  },
-  "zan_clavicular_head_of_pectoralis_major_muscle_l": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 8.25,
-   "mean_vertex_change_mm": 2.45,
-   "share_of_vertices_over_5mm": 0.024
-  },
-  "zan_clavicular_head_of_pectoralis_major_muscle_r": {
-   "sys": "muscle",
-   "max_vertex_change_mm": 6.46,
-   "mean_vertex_change_mm": 1.71,
-   "share_of_vertices_over_5mm": 0.026
   },
   "zan_clavicular_part_of_deltoid_muscle_l": {
    "sys": "muscle",
@@ -3809,9 +3763,9 @@
   },
   "zan_sternocostal_head_of_pectoralis_major_muscle_r": {
    "sys": "muscle",
-   "max_vertex_change_mm": 6.95,
-   "mean_vertex_change_mm": 1.89,
-   "share_of_vertices_over_5mm": 0.016
+   "max_vertex_change_mm": 5.21,
+   "mean_vertex_change_mm": 1.42,
+   "share_of_vertices_over_5mm": 0.001
   },
   "zan_subclavian_nerve_l": {
    "sys": "nerve",
