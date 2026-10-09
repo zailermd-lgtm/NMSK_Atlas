@@ -168,6 +168,47 @@ def stage_zones(which, log=print, joints=("shoulder", "elbow"), sides=("l", "r")
     return st
 
 
+REGION_GROUPS = {   # Q204 region -> zone group (separate boxes per side where the region is paired)
+    "head_neck": "head", "thorax": "trunk", "abdomen_pelvis": "trunk", "shoulder": "arm", "arm_elbow_forearm": "arm", "wrist_hand": "arm", "hip": "leg", "thigh": "leg", "knee": "leg", "leg": "leg", "ankle": "leg", "foot": "leg"}
+
+
+def inbone_targets(which, st):
+    """soft structures with a Q204 inside-bone / outside-skin defect (severity >= 2) on the page that the unfitted Z base does NOT have (created or worsened by the fit)"""
+    cfg = K.PAGES[which]
+    F = {r["id"]: r for r in json.loads((REPO / f"build/q211_raw/Q204_regions_{cfg['key0']}.json").read_text())["rows"]}
+    B = {r["id"]: r for r in json.loads((REPO / f"build/q209_raw/Q204_regions_{cfg['base_key']}.json").read_text())["rows"]}
+    flagged = lambda r: any(x["check"] in ("inside_bone", "outside_skin") and x["severity"] >= 2 for x in r["defects"])
+    return sorted(i for i, r in F.items() if r["sys"] not in ("bone", "skin") and flagged(r) and not (i in B and flagged(B[i])))
+
+
+def stage_inbone(which, log=print, src="zones"):
+    from scripts.zanatomy import q211_soft as SF
+    st = State.load(which, src)
+    ids = inbone_targets(which, st)
+    log(f"inbone: {len(ids)} structures with a fit-made inside-bone defect")
+    cfg = K.PAGES[which]
+    F = {r["id"]: r for r in json.loads((REPO / f"build/q211_raw/Q204_regions_{cfg['key0']}.json").read_text())["rows"]}
+    groups = {}
+    for i in ids:
+        g = REGION_GROUPS.get(F[i]["region"], "trunk")
+        side = i[-1] if i[-2:] in ("_l", "_r") else "m"
+        groups.setdefault((g, side if g in ("arm", "leg") else "m"), []).append(i)
+    st.reports["inbone"] = {"targets": ids, "repaired": {}, "kept": []}
+    for (g, side), gi in sorted(groups.items()):
+        pts = np.vstack([st.v(i) for i in gi])
+        lo, hi = pts.min(0) - 30, pts.max(0) + 30
+        zone = f"inbone_{g}_{side}"
+        env = make_env(st, {zone: (lo, hi)}, log)
+        out = SF.push_group(env, zone, st, gi, log=log)
+        for i, (v, rep) in out.items():
+            st.set(i, v, stage="inbone", zone=zone, **rep)
+            st.reports["inbone"]["repaired"][i] = rep
+        st.reports["inbone"]["kept"] += [i for i in gi if i not in out]
+        log(f"  {zone}: {len(gi)} targets, {len(out)} repaired")
+        st.save("inbone")
+    return st
+
+
 if __name__ == "__main__":
     which, stages = sys.argv[1], sys.argv[2:]
     for s in (["bones", "follow", "zones", "inbone", "pack"] if stages == ["all"] else stages):

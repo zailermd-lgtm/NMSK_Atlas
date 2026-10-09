@@ -67,9 +67,10 @@ def accept(mm, m00, cat, f):
     folded edges (+3, tubes +8; floor 4 %), median edge scale (+-25 % for open meshes)"""
     tube = cat in ("vessel", "nerve")
     gain = (m00["inside_bone_pct"] - mm["inside_bone_pct"]) + (m00["outside_skin_pct"] - mm["outside_skin_pct"])
-    if gain >= 10.0:                                  # a structure that leaves a bone / comes back inside the skin may stretch / fold a little more for it
+    if gain >= 10.0:                                  # a structure that leaves a bone / comes back inside the skin may stretch / fold more for it (a large gain: much more)
+        big = gain >= 30.0
         ok = (mm["outside_skin_pct"] <= max(m00["outside_skin_pct"], 3.0) + 1.0 and mm["inside_bone_pct"] <= max(m00["inside_bone_pct"], 3.0) + 1.0
-              and mm["stretched_pct"] <= m00["stretched_pct"] + (25.0 if tube else 20.0) and mm["folded_pct"] <= max(m00["folded_pct"] + (10.0 if tube else 5.0), 6.0))
+              and mm["stretched_pct"] <= m00["stretched_pct"] + ((45.0 if big else 25.0) if tube else (40.0 if big else 20.0)) and mm["folded_pct"] <= max(m00["folded_pct"] + ((12.0 if big else 10.0) if tube else (8.0 if big else 5.0)), 6.0))
         if ok and (E._closed(f) or abs(mm["edge_scale"] / max(m00["edge_scale"], 1e-6) - 1.0) <= C6.EDGE_SCALE_TOL):
             return True, None
     ok = (mm["outside_skin_pct"] <= max(m00["outside_skin_pct"], 3.0) + 1.0 and mm["inside_bone_pct"] <= max(m00["inside_bone_pct"], 3.0) + 1.0
@@ -228,4 +229,28 @@ def follow(env, zone, st, moved, radius=35.0, min_move=1.5, log=print):
         elif not ok:
             log(f"    {i}: follow rejected (field {dmax:.1f} mm): {m00} -> {mm}")
     log(f"  follow {zone}: {len(out)} structures moved")
+    return out
+
+
+def push_group(env, zone, st, ids, log=print, cap=12.0):
+    """structures that the fit left inside a displayed bone: the guard ladder only (skin clamp, push out of the displayed bones, volume guard), kept if not worse (accept()).  -> {id: (vertices, report)}"""
+    pg = st.pg
+    out = {}
+    for i in ids:
+        v = st.v(i).astype(float)
+        f = pg.f(i)
+        r = (st.base.v(i) if (i in st.base.S and len(st.base.v(i)) == len(v)) else v).astype(float)
+        cat = CAT.get(pg.sys(i), pg.sys(i))
+        m00 = C6.metrics(env, zone, v, r, f)
+        if m00["inside_bone_pct"] <= 3.0 and m00["outside_skin_pct"] <= 3.0:
+            continue
+        vg = C6.guard(env, zone, v, f, r, cat, i, v, m00["volume_ratio"])
+        vg = E.cap_to(vg, v, cap)
+        mm = C6.metrics(env, zone, vg, r, f)
+        ok, _ = accept(mm, m00, cat, f)
+        mv = np.linalg.norm(vg - v, axis=1)
+        if ok and mv.max() > 0.3 and (mm["inside_bone_pct"] < m00["inside_bone_pct"] - 1.0 or mm["outside_skin_pct"] < m00["outside_skin_pct"] - 1.0):
+            out[i] = (vg, {"cat": pg.sys(i), "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m00, "after": mm})
+        else:
+            log(f"    {i}: not repaired (kept): {'rejected' if not ok else 'no gain'}  in-bone {m00['inside_bone_pct']}->{mm['inside_bone_pct']} stretched {m00['stretched_pct']}->{mm['stretched_pct']}")
     return out
