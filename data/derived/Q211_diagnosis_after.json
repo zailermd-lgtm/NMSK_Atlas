@@ -2,9 +2,9 @@
  "male_elbow_l": {
   "page": "q211_m",
   "bone_gap_mm": 0.09,
-  "major": 2,
-  "moderate": 17,
-  "minor": 16,
+  "major": 1,
+  "moderate": 18,
+  "minor": 15,
   "verdict_q198": "DEFECT",
   "angles": {
    "flexion_deg": 62.2,
@@ -13,10 +13,10 @@
   },
   "seam": {
    "pairs": 4174,
-   "tear_gt5_actual": 0.1425,
+   "tear_gt5_actual": 0.058,
    "tear_gt5_bone_chain_image": 0.001,
-   "tear_excess_gt5": 0.1234,
-   "frame_offset_gt10_actual": 12,
+   "tear_excess_gt5": 0.0407,
+   "frame_offset_gt10_actual": 11,
    "frame_offset_gt10_bone_chain_image": 20
   },
   "findings": [
@@ -30,130 +30,121 @@
     "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 4.05 mm; forearm: 27/27 closed, max step 2.38 mm; open outline ends 0"
    },
    {
-    "severity": 3,
-    "check": "adjacency_tear",
-    "structure": null,
-    "value": 0.1494,
-    "unit": "frac of base-adjacent pairs >5 mm apart",
-    "class": "REAL",
-    "why": "14.2 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
-   },
-   {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_pollicis_longus_l",
-    "value": 87.3,
+    "value": 89.7,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "87.3 % vs unfitted base None %"
+    "why": "89.7 % vs unfitted base None %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_digitorum_superficialis_l",
-    "value": 86.3,
+    "value": 86.6,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "86.3 % vs unfitted base 37.3 %"
+    "why": "86.6 % vs unfitted base 37.3 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "extensor_digiti_minimi_l",
-    "value": 82.4,
+    "value": 86.4,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "82.4 % vs unfitted base 36.6 %"
+    "why": "86.4 % vs unfitted base 36.6 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "extensor_carpi_ulnaris_l",
-    "value": 81.1,
+    "value": 84.6,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "81.1 % vs unfitted base 28.7 %"
+    "why": "84.6 % vs unfitted base 28.7 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "zan_extensor_pollicis_longus_l",
-    "value": 79.2,
+    "value": 78.0,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "79.2 % vs unfitted base None %"
-   },
-   {
-    "severity": 2,
-    "check": "muscle_interpenetration",
-    "structure": "supinator_l",
-    "value": 73.0,
-    "unit": "% of volume",
-    "class": "REAL",
-    "why": "73.0 % vs unfitted base 20.6 %"
+    "why": "78.0 % vs unfitted base None %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_carpi_radialis_l",
-    "value": 69.0,
+    "value": 70.7,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "69.0 % vs unfitted base 38.0 %"
+    "why": "70.7 % vs unfitted base 38.0 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "supinator_l",
+    "value": 69.4,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "69.4 % vs unfitted base 20.6 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "pronator_teres_l",
-    "value": 64.6,
+    "value": 66.3,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "64.6 % vs unfitted base 22.6 %"
+    "why": "66.3 % vs unfitted base 22.6 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "zan_palmaris_longus_muscle_l",
-    "value": 61.2,
+    "value": 62.0,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "61.2 % vs unfitted base 22.8 %"
+    "why": "62.0 % vs unfitted base 22.8 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
-    "structure": "anconeus_l",
-    "value": 60.2,
+    "structure": "extensor_carpi_radialis_longus_l",
+    "value": 60.5,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "60.2 % vs unfitted base 22.8 %"
-   },
-   {
-    "severity": 2,
-    "check": "frame_offset",
-    "structure": "extensor_digiti_minimi_l",
-    "value": 16.7,
-    "unit": "mm",
-    "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 19.0 mm on this criterion (page 16.7 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
-   },
-   {
-    "severity": 2,
-    "check": "frame_offset",
-    "structure": "zan_inferior_lateral_brachial_cutaneous_nerve_l",
-    "value": 16.3,
-    "unit": "mm",
-    "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 13.4 mm on this criterion (page 16.3 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "60.5 % vs unfitted base 35.9 %"
    },
    {
     "severity": 2,
     "check": "frame_offset",
     "structure": "extensor_carpi_radialis_brevis_l",
-    "value": 15.8,
+    "value": 19.5,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 23.2 mm on this criterion (page 15.8 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 23.2 mm on this criterion (page 19.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_inferior_lateral_brachial_cutaneous_nerve_l",
+    "value": 18.0,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 13.4 mm on this criterion (page 18.0 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "extensor_digiti_minimi_l",
+    "value": 16.1,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 19.0 mm on this criterion (page 16.1 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -166,9 +157,18 @@
    },
    {
     "severity": 2,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.0573,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "5.8 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+   },
+   {
+    "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_digitorum_profundus_l",
-    "value": 75.5,
+    "value": 76.7,
     "unit": "% of volume",
     "class": "SOURCE",
     "why": "the same finding exists in the unfitted Z base"
@@ -198,7 +198,7 @@
    "SOURCE": 3
   },
   "counts_major": {
-   "REAL": 1,
+   "REAL": 0,
    "ARTEFACT": 1,
    "SOURCE": 0
   }
@@ -217,9 +217,9 @@
   },
   "seam": {
    "pairs": 3954,
-   "tear_gt5_actual": 0.0129,
+   "tear_gt5_actual": 0.0083,
    "tear_gt5_bone_chain_image": 0.0043,
-   "tear_excess_gt5": 0.0089,
+   "tear_excess_gt5": 0.0048,
    "frame_offset_gt10_actual": 4,
    "frame_offset_gt10_bone_chain_image": 17
   },
@@ -246,37 +246,37 @@
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_carpi_radialis_r",
-    "value": 77.8,
+    "value": 75.9,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "77.8 % vs unfitted base 37.2 %"
-   },
-   {
-    "severity": 2,
-    "check": "muscle_interpenetration",
-    "structure": "extensor_carpi_radialis_longus_r",
-    "value": 71.7,
-    "unit": "% of volume",
-    "class": "REAL",
-    "why": "71.7 % vs unfitted base 34.5 %"
+    "why": "75.9 % vs unfitted base 37.2 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "flexor_digitorum_superficialis_r",
-    "value": 70.9,
+    "value": 73.1,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "70.9 % vs unfitted base 37.4 %"
+    "why": "73.1 % vs unfitted base 37.4 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "extensor_carpi_radialis_longus_r",
+    "value": 72.9,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "72.9 % vs unfitted base 34.5 %"
    },
    {
     "severity": 2,
     "check": "frame_offset",
     "structure": "zan_median_cubital_vein_r",
-    "value": 18.3,
+    "value": 18.5,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 23.0 mm on this criterion (page 18.3 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 23.0 mm on this criterion (page 18.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -316,9 +316,9 @@
   "minor": 2,
   "seam": {
    "pairs": 16954,
-   "tear_gt5_actual": 0.0234,
+   "tear_gt5_actual": 0.0576,
    "tear_gt5_bone_chain_image": 0.0024,
-   "tear_excess_gt5": 0.0009,
+   "tear_excess_gt5": 0.01,
    "frame_offset_gt10_actual": 14,
    "frame_offset_gt10_bone_chain_image": 12
   },
@@ -336,19 +336,19 @@
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_acromial_part_of_deltoid_muscle_l",
-    "value": 27.9,
+    "value": 28.1,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 21.7 mm on this criterion (page 27.9 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 21.7 mm on this criterion (page 28.1 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_circumflex_scapular_artery_l",
-    "value": 27.5,
+    "value": 27.2,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 39.3 mm on this criterion (page 27.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 39.3 mm on this criterion (page 27.2 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 3,
@@ -380,20 +380,20 @@
    {
     "severity": 2,
     "check": "frame_offset",
-    "structure": "zan_circumflex_scapular_vein_l",
-    "value": 20.7,
+    "structure": "coracobrachialis_l",
+    "value": 20.9,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 29.6 mm on this criterion (page 20.7 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 19.4 mm on this criterion (page 20.9 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
     "check": "frame_offset",
-    "structure": "coracobrachialis_l",
-    "value": 20.4,
+    "structure": "zan_circumflex_scapular_vein_l",
+    "value": 20.5,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 19.4 mm on this criterion (page 20.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 29.6 mm on this criterion (page 20.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -408,10 +408,10 @@
     "severity": 2,
     "check": "frame_offset",
     "structure": "supraspinatus_l",
-    "value": 18.9,
+    "value": 19.2,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 31.8 mm on this criterion (page 18.9 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 31.8 mm on this criterion (page 19.2 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -466,12 +466,12 @@
   "bone_gap_mm": 0.09,
   "major": 4,
   "moderate": 8,
-  "minor": 6,
+  "minor": 7,
   "seam": {
    "pairs": 16609,
-   "tear_gt5_actual": 0.0201,
+   "tear_gt5_actual": 0.0205,
    "tear_gt5_bone_chain_image": 0.0067,
-   "tear_excess_gt5": 0.0003,
+   "tear_excess_gt5": 0.0095,
    "frame_offset_gt10_actual": 12,
    "frame_offset_gt10_bone_chain_image": 10
   },
@@ -480,10 +480,10 @@
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_subscapular_artery_r",
-    "value": 33.8,
+    "value": 34.0,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 35.9 mm on this criterion (page 33.8 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 35.9 mm on this criterion (page 34.0 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 3,
@@ -498,10 +498,10 @@
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_acromial_part_of_deltoid_muscle_r",
-    "value": 25.1,
+    "value": 25.4,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 22.0 mm on this criterion (page 25.1 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 22.0 mm on this criterion (page 25.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 3,
@@ -516,10 +516,19 @@
     "severity": 2,
     "check": "frame_offset",
     "structure": "zan_circumflex_scapular_vein_r",
-    "value": 23.5,
+    "value": 23.4,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 30.4 mm on this criterion (page 23.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 30.4 mm on this criterion (page 23.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "coracobrachialis_r",
+    "value": 22.6,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 19.2 mm on this criterion (page 22.6 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -534,19 +543,10 @@
     "severity": 2,
     "check": "frame_offset",
     "structure": "supraspinatus_r",
-    "value": 22.2,
+    "value": 22.1,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 34.4 mm on this criterion (page 22.2 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
-   },
-   {
-    "severity": 2,
-    "check": "frame_offset",
-    "structure": "coracobrachialis_r",
-    "value": 21.6,
-    "unit": "mm",
-    "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 19.2 mm on this criterion (page 21.6 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 34.4 mm on this criterion (page 22.1 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -600,8 +600,8 @@
   "page": "q211_f",
   "bone_gap_mm": 0.14,
   "major": 1,
-  "moderate": 8,
-  "minor": 9,
+  "moderate": 7,
+  "minor": 12,
   "verdict_q198": "DEFECT",
   "angles": {
    "flexion_deg": 58.0,
@@ -610,10 +610,10 @@
   },
   "seam": {
    "pairs": 4174,
-   "tear_gt5_actual": 0.0062,
+   "tear_gt5_actual": 0.0194,
    "tear_gt5_bone_chain_image": 0.0014,
-   "tear_excess_gt5": 0.0012,
-   "frame_offset_gt10_actual": 7,
+   "tear_excess_gt5": 0.0057,
+   "frame_offset_gt10_actual": 4,
    "frame_offset_gt10_bone_chain_image": 14
   },
   "findings": [
@@ -638,47 +638,38 @@
    {
     "severity": 2,
     "check": "muscle_interpenetration",
-    "structure": "anconeus_l",
-    "value": 78.4,
-    "unit": "% of volume",
-    "class": "REAL",
-    "why": "78.4 % vs unfitted base 22.8 %"
-   },
-   {
-    "severity": 2,
-    "check": "muscle_interpenetration",
     "structure": "extensor_digiti_minimi_l",
-    "value": 77.7,
+    "value": 77.2,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "77.7 % vs unfitted base 36.6 %"
+    "why": "77.2 % vs unfitted base 36.6 %"
    },
    {
     "severity": 2,
     "check": "muscle_interpenetration",
     "structure": "supinator_l",
-    "value": 70.5,
+    "value": 70.7,
     "unit": "% of volume",
     "class": "REAL",
-    "why": "70.5 % vs unfitted base 20.6 %"
+    "why": "70.7 % vs unfitted base 20.6 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "anconeus_l",
+    "value": 68.3,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "68.3 % vs unfitted base 22.8 %"
    },
    {
     "severity": 2,
     "check": "frame_offset",
     "structure": "zan_deep_brachial_artery_l",
-    "value": 15.6,
+    "value": 15.7,
     "unit": "mm",
     "class": "REAL",
     "why": "page None mm vs bone-chain image None mm"
-   },
-   {
-    "severity": 2,
-    "check": "muscle_interpenetration",
-    "structure": "extensor_carpi_radialis_brevis_l",
-    "value": 61.9,
-    "unit": "% of volume",
-    "class": "SOURCE",
-    "why": "the same finding exists in the unfitted Z base"
    },
    {
     "severity": 2,
@@ -702,7 +693,7 @@
   "counts": {
    "REAL": 4,
    "ARTEFACT": 1,
-   "SOURCE": 4
+   "SOURCE": 3
   },
   "counts_major": {
    "REAL": 0,
@@ -715,7 +706,7 @@
   "bone_gap_mm": 0.1,
   "major": 2,
   "moderate": 5,
-  "minor": 10,
+  "minor": 11,
   "verdict_q198": "DEFECT",
   "angles": {
    "flexion_deg": 53.1,
@@ -724,10 +715,10 @@
   },
   "seam": {
    "pairs": 3954,
-   "tear_gt5_actual": 0.0094,
+   "tear_gt5_actual": 0.0857,
    "tear_gt5_bone_chain_image": 0.0005,
-   "tear_excess_gt5": 0.0076,
-   "frame_offset_gt10_actual": 5,
+   "tear_excess_gt5": 0.0463,
+   "frame_offset_gt10_actual": 4,
    "frame_offset_gt10_bone_chain_image": 8
   },
   "findings": [
@@ -744,19 +735,10 @@
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_common_interosseous_artery_r",
-    "value": 27.5,
+    "value": 29.7,
     "unit": "mm",
     "class": "REAL",
-    "why": "page 27.5 mm vs bone-chain image 9.0 mm"
-   },
-   {
-    "severity": 2,
-    "check": "muscle_interpenetration",
-    "structure": "supinator_r",
-    "value": 60.4,
-    "unit": "% of volume",
-    "class": "REAL",
-    "why": "60.4 % vs unfitted base 20.5 %"
+    "why": "page 29.7 mm vs bone-chain image 9.0 mm"
    },
    {
     "severity": 2,
@@ -775,6 +757,15 @@
     "unit": "slices of 57",
     "class": "ARTEFACT",
     "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 5.75 mm; forearm: 27/27 closed, max step 2.64 mm; open outline ends 0"
+   },
+   {
+    "severity": 2,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.0846,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "8.6 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
    },
    {
     "severity": 2,
@@ -810,13 +801,13 @@
   "page": "q211_f",
   "bone_gap_mm": 3.95,
   "major": 3,
-  "moderate": 9,
+  "moderate": 8,
   "minor": 19,
   "seam": {
    "pairs": 16954,
-   "tear_gt5_actual": 0.011,
+   "tear_gt5_actual": 0.0111,
    "tear_gt5_bone_chain_image": 0.0021,
-   "tear_excess_gt5": 0.0087,
+   "tear_excess_gt5": 0.0083,
    "frame_offset_gt10_actual": 9,
    "frame_offset_gt10_bone_chain_image": 15
   },
@@ -825,10 +816,10 @@
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_subscapular_artery_l",
-    "value": 29.2,
+    "value": 29.1,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 41.9 mm on this criterion (page 29.2 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 41.9 mm on this criterion (page 29.1 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 3,
@@ -852,10 +843,19 @@
     "severity": 2,
     "check": "frame_offset",
     "structure": "supraspinatus_l",
-    "value": 18.9,
+    "value": 19.8,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 29.3 mm on this criterion (page 18.9 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 29.3 mm on this criterion (page 19.8 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_medial_head_of_triceps_brachii_l",
+    "value": 19.2,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 16.0 mm on this criterion (page 19.2 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -865,24 +865,6 @@
     "unit": "mm",
     "class": "ARTEFACT",
     "why": "the bone-chain-consistent image of the Z source scores 43.1 mm on this criterion (page 18.8 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
-   },
-   {
-    "severity": 2,
-    "check": "frame_offset",
-    "structure": "zan_medial_head_of_triceps_brachii_l",
-    "value": 18.0,
-    "unit": "mm",
-    "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 16.0 mm on this criterion (page 18.0 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
-   },
-   {
-    "severity": 2,
-    "check": "frame_offset",
-    "structure": "coracobrachialis_l",
-    "value": 15.5,
-    "unit": "mm",
-    "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 26.8 mm on this criterion (page 15.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
@@ -932,7 +914,7 @@
   ],
   "counts": {
    "REAL": 0,
-   "ARTEFACT": 5,
+   "ARTEFACT": 4,
    "SOURCE": 7
   },
   "counts_major": {
@@ -949,9 +931,9 @@
   "minor": 13,
   "seam": {
    "pairs": 16609,
-   "tear_gt5_actual": 0.0249,
+   "tear_gt5_actual": 0.0256,
    "tear_gt5_bone_chain_image": 0.0044,
-   "tear_excess_gt5": 0.0122,
+   "tear_excess_gt5": 0.0125,
    "frame_offset_gt10_actual": 9,
    "frame_offset_gt10_bone_chain_image": 13
   },
@@ -960,10 +942,10 @@
     "severity": 3,
     "check": "frame_offset",
     "structure": "zan_subscapular_artery_r",
-    "value": 34.3,
+    "value": 33.5,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 39.3 mm on this criterion (page 34.3 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 39.3 mm on this criterion (page 33.5 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 3,
@@ -987,28 +969,28 @@
     "severity": 2,
     "check": "frame_offset",
     "structure": "zan_circumflex_scapular_vein_r",
-    "value": 19.3,
+    "value": 19.1,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 32.9 mm on this criterion (page 19.3 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 32.9 mm on this criterion (page 19.1 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
     "check": "frame_offset",
     "structure": "supraspinatus_r",
-    "value": 16.8,
+    "value": 17.4,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 27.1 mm on this criterion (page 16.8 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 27.1 mm on this criterion (page 17.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,
     "check": "frame_offset",
     "structure": "zan_clavicular_part_of_deltoid_muscle_r",
-    "value": 15.9,
+    "value": 15.4,
     "unit": "mm",
     "class": "ARTEFACT",
-    "why": "the bone-chain-consistent image of the Z source scores 24.3 mm on this criterion (page 15.9 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+    "why": "the bone-chain-consistent image of the Z source scores 24.3 mm on this criterion (page 15.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
    },
    {
     "severity": 2,

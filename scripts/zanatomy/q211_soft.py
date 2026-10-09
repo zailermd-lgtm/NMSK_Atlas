@@ -88,6 +88,28 @@ def accept(mm, m00, cat, f):
     return ok, None
 
 
+def island_gap(v, f):
+    """largest distance (mm) from any face-connected island of the (welded) mesh to the rest of it (0 for one piece): the Q198 `tube_gap` measure"""
+    from scipy.spatial import cKDTree
+    from scripts.zanatomy.q198_core import weld, islands
+    w, g = weld(np.asarray(v, float), f)
+    isl = islands(w, g)
+    if len(isl) < 2:
+        return 0.0
+    out = 0.0
+    for a in isl:
+        rest = np.concatenate([w[b["vidx"]] for b in isl if b is not a])
+        out = max(out, float(cKDTree(rest).query(w[a["vidx"]])[0].min()))
+    return out
+
+
+def gap_ok(cat, v_new, v_old, f, slack=3.0):
+    """a vessel / nerve must not be torn apart by a move: its island gap may not grow by more than `slack` mm"""
+    if cat not in ("vessel", "nerve"):
+        return True
+    return island_gap(v_new, f) <= island_gap(v_old, f) + slack
+
+
 def ladder(env, zone, v, f, r, cat, i, vr0):
     return C6.guard(env, zone, v, f, r, CAT.get(cat, "vessel") if cat in CAT else cat, i, v, vr0)
 
@@ -137,6 +159,7 @@ def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0
             mm = C6.metrics(env, zone, vg, r_[i], f_[i])
             cat = CAT.get(rcat[i], rcat[i])
             ok, why = accept(mm, m0[i], cat, f_[i])
+            ok = ok and gap_ok(cat, vg, X[a:b], f_[i])
             if not ok:
                 reasons[i] = (mm["outside_skin_pct"], mm["inside_bone_pct"], mm["stretched_pct"], mm["folded_pct"])
             if ok:
@@ -226,10 +249,12 @@ def follow(env, zone, st, moved, radius=35.0, min_move=1.5, log=print):
         vg = C6.guard(env, zone, cand, f, r, ccat, i, cand, m00["volume_ratio"])
         mm = C6.metrics(env, zone, vg, r, f)
         ok, _ = accept(mm, m00, ccat, f)
+        ok = ok and gap_ok(ccat, vg, v, f)
         if not ok:
             vg2 = C6.guard(env, zone, v + E.lowpass(D, f, 10.0), f, r, ccat, i, v + D, m00["volume_ratio"])
             mm2 = C6.metrics(env, zone, vg2, r, f)
             ok2, _ = accept(mm2, m00, ccat, f)
+            ok2 = ok2 and gap_ok(ccat, vg2, v, f)
             if ok2:
                 vg, mm, ok = vg2, mm2, True
         if not ok and ccat in ("ligament", "bursa", "cartilage", "tendon"):          # lie ON the bone by design: the raw field result (a smooth carried copy) is accepted if skin / stretch / folds are not worse
@@ -318,6 +343,7 @@ def push_group(env, zone, st, ids, log=print, cap=12.0):
         vg = E.cap_to(vg, v, cap)
         mm = C6.metrics(env, zone, vg, r, f)
         ok, _ = accept(mm, m00, cat, f)
+        ok = ok and gap_ok(cat, vg, v, f)
         mv = np.linalg.norm(vg - v, axis=1)
         if ok and mv.max() > 0.3 and (mm["inside_bone_pct"] < m00["inside_bone_pct"] - 1.0 or mm["outside_skin_pct"] < m00["outside_skin_pct"] - 1.0):
             out[i] = (vg, {"cat": pg.sys(i), "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m00, "after": mm})
@@ -326,7 +352,43 @@ def push_group(env, zone, st, ids, log=print, cap=12.0):
     return out
 
 
-def overlap_guard(st, muscle_ids, out, limit=60.0, max_rise=12.0, log=print):
+def end_distances(v, bone_tree, frac=0.1):
+    """distance (mm) of the two ends of a long structure (the 10 % of its vertices at either end of its first principal axis) to the nearest bone"""
+    c = v.mean(0)
+    u, s_, vt = np.linalg.svd(v - c, full_matrices=False)
+    t = (v - c) @ vt[0]
+    lo, hi = t.min(), t.max()
+    return [float(bone_tree.query(v[sel].mean(0))[0]) for sel in (t < lo + frac * (hi - lo), t > hi - frac * (hi - lo))]
+
+
+def attach_guard(st, out, bone_ids, log=print, rise=3.0, floor=6.0):
+    """muscles / tendons whose end moved away from the nearest bone (> `floor` mm and more than `rise` mm further than where it started: an origin / insertion torn off) go back part of the way (move x 0.66, 0.33, 0)"""
+    from scipy.spatial import cKDTree
+    pg = st.pg
+    tree = cKDTree(np.vstack([st.v(b) for b in bone_ids]))
+    info = {}
+    for i in list(out):
+        if pg.sys(i) not in ("muscle", "tendon"):
+            continue
+        v0 = st.v(i)
+        d0 = end_distances(v0, tree)
+        for fct in (1.0, 0.66, 0.33, 0.0):
+            v = v0 + fct * (out[i] - v0)
+            d1 = end_distances(v, tree)
+            if all(a <= max(b + rise, floor) for a, b in zip(d1, d0)):
+                break
+        if fct < 1.0:
+            info[i] = (d0, end_distances(out[i], tree), fct)
+            if fct == 0.0:
+                out.pop(i)
+            else:
+                out[i] = v0 + fct * (out[i] - v0)
+    if info:
+        log("    attachment guard: " + ", ".join(f"{i[:24]} ends {[round(x, 1) for x in a]}->{[round(x, 1) for x in b]} x{f}" for i, (a, b, f) in info.items()))
+    return out, info
+
+
+def overlap_guard(st, muscle_ids, out, limit=55.0, max_rise=6.0, log=print):
     """the Q198 muscle-in-muscle measure (share of a muscle's voxel solid inside the other zone muscles, `muscle_overlap`) is checked for the zone muscles the relaxation moved: a muscle that ends above `limit` %
     AND more than `max_rise` points above where it started goes back part of the way (move x 0.66, 0.33, 0) until it does not.  -> (out', {id: (before, after, factor)})"""
     pg = st.pg
