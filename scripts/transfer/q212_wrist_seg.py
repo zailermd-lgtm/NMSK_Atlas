@@ -28,6 +28,7 @@ sys.path.insert(0, str(REPO)); sys.path.insert(0, str(REPO / "scripts" / "zanato
 
 H = 0.5
 BOX = {"r": ((95, 195), (36, 135), (80, 160)), "l": ((-200, -95), (40, 140), (75, 160))}
+EXT_IT = 8            # unlabeled voxels admitted within EXT_IT * 0.5 mm of the labels
 TLOW = 140.0          # bone-density voxels (smoothed HU) allowed within 8 mm of the old labels
 DT = 14.0             # carpal markers: old carpal label more than this far distal of the radius label end
 ZSEED_T = -3.0        # radius-epiphysis markers lie at least 3 mm proximal of the plate's distal face (t = 0 is the old radius label end, - = distal)
@@ -77,7 +78,7 @@ def segment(side, ct, labels, zradius=None, log=print):
     Lr, Lu, Lc, Lm = (labvol(P) for P in (R, U, C, MC))
     allL = Lr | Lu | Lc | Lm
     sm = ndi.gaussian_filter(hu, 0.9)
-    mask = (allL | ((sm >= TLOW) & ndi.binary_dilation(allL, iterations=8))) & roi
+    mask = (allL | ((sm >= TLOW) & ndi.binary_dilation(allL, iterations=EXT_IT))) & roi
     mk = np.zeros(hu.shape, np.int8)
     er = lambda m: ndi.binary_erosion(m, iterations=1)  # noqa: E731
     mk[er(Lr & (T >= 3.0)) & mask] = 1

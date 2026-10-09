@@ -56,9 +56,20 @@ def photo_agreement(mask, xs, ys, zs, cream):
     return dict(in_photo_box=round(float(inb.mean()), 2), within_1p5mm=round(float((d <= 1.5).mean()), 3), n_voxels_in_box=int(inb.sum()))
 
 
+CLEFT_BAND_VOX = 3        # 1.5 mm either side of the partition surface
+CLEFT_HU = 220.0          # smoothed HU below which a voxel in the band is joint cleft (his bone is >= 250 HU, Q205 evidence rule), not bone
+
+
 def pieces(seg):
-    ws, Lc = seg["ws"], seg["Lc"]
-    return {"radius_distal": Lc & (ws == 1), "ulna_distal": Lc & (ws == 2), "carpals": Lc & (ws == 3)}
+    """voxel sets of the three pieces; the joint cleft the CT shows between the radius / ulna ends and the carpals (voxels within 1.5 mm of the partition surface whose smoothed HU is
+    below 220) is left out of both sides, so the pieces do not touch where his joint has a cleft"""
+    ws, Lc, hu = seg["ws"], seg["Lc"], seg["hu"]
+    A = (ws == 1) | (ws == 2)
+    Cc = ws == 3
+    band = ndi.binary_dilation(A, iterations=CLEFT_BAND_VOX) & ndi.binary_dilation(Cc, iterations=CLEFT_BAND_VOX)
+    cleft = band & (hu < CLEFT_HU)
+    keep = ~cleft
+    return {"radius_distal": Lc & (ws == 1) & keep, "ulna_distal": Lc & (ws == 2) & keep, "carpals": Lc & (ws == 3) & keep}
 
 
 if __name__ == "__main__":
