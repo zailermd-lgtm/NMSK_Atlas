@@ -1,0 +1,548 @@
+{
+ "male_l": {
+  "page": "q210_m",
+  "verdict_q198": "DEFECT",
+  "major": 3,
+  "moderate": 14,
+  "minor": 13,
+  "bone_gap_mm": 0.09,
+  "angles": {
+   "flexion_deg": 62.2,
+   "carrying_deg_lateral_positive": 7.7,
+   "ulna_vs_epicondylar_twist_deg": 28.4
+  },
+  "seam": {
+   "pairs": 4174,
+   "tear_gt5_actual": 0.8057,
+   "tear_gt5_bone_chain_image": 0.001,
+   "tear_excess_gt5": 0.6981,
+   "frame_offset_gt10_actual": 12,
+   "frame_offset_gt10_bone_chain_image": 20
+  },
+  "findings": [
+   {
+    "severity": 3,
+    "check": "skin_step",
+    "structure": null,
+    "value": 33.91,
+    "unit": "mm per 3 mm",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 4.05 mm; forearm: 27/27 closed, max step 2.38 mm; open outline ends 0"
+   },
+   {
+    "severity": 3,
+    "check": "frame_offset",
+    "structure": "extensor_digiti_minimi_l",
+    "value": 25.4,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 19.0 mm on this criterion (page 25.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 3,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.7959,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "80.6 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_pollicis_longus_l",
+    "value": 90.8,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "90.8 % vs unfitted base None %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_digitorum_superficialis_l",
+    "value": 86.1,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "86.1 % vs unfitted base 37.3 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "zan_extensor_pollicis_longus_l",
+    "value": 85.9,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "85.9 % vs unfitted base None %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "extensor_carpi_ulnaris_l",
+    "value": 85.1,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "85.1 % vs unfitted base 28.7 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "extensor_digiti_minimi_l",
+    "value": 79.9,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "79.9 % vs unfitted base 36.6 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_carpi_radialis_l",
+    "value": 74.7,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "74.7 % vs unfitted base 38.0 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "pronator_teres_l",
+    "value": 62.2,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "62.2 % vs unfitted base 22.6 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "anconeus_l",
+    "value": 61.5,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "61.5 % vs unfitted base 22.8 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "zan_palmaris_longus_muscle_l",
+    "value": 60.2,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "60.2 % vs unfitted base 22.8 %"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_inferior_lateral_brachial_cutaneous_nerve_l",
+    "value": 23.6,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 13.4 mm on this criterion (page 23.6 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "extensor_carpi_radialis_brevis_l",
+    "value": 22.3,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 23.2 mm on this criterion (page 22.3 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_recurrent_interosseous_artery_l",
+    "value": 17.0,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 13.0 mm on this criterion (page 17.0 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "skin_open_sections",
+    "structure": null,
+    "value": 5,
+    "unit": "slices of 57",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 4.05 mm; forearm: 27/27 closed, max step 2.38 mm; open outline ends 0"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_digitorum_profundus_l",
+    "value": 75.8,
+    "unit": "% of volume",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   },
+   {
+    "severity": 2,
+    "check": "chain_gap",
+    "structure": "zan_posterior_interosseous_nerve_of_forearm_l",
+    "value": 21.6,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   },
+   {
+    "severity": 2,
+    "check": "tube_gap",
+    "structure": "radial_n_superficial_branch_l",
+    "value": 17.44,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   }
+  ],
+  "counts": {
+   "REAL": 10,
+   "ARTEFACT": 6,
+   "SOURCE": 3
+  },
+  "counts_major": {
+   "REAL": 1,
+   "ARTEFACT": 2,
+   "SOURCE": 0
+  }
+ },
+ "male_r": {
+  "page": "q210_m",
+  "verdict_q198": "DEFECT",
+  "major": 2,
+  "moderate": 5,
+  "minor": 11,
+  "bone_gap_mm": 0.17,
+  "angles": {
+   "flexion_deg": 65.9,
+   "carrying_deg_lateral_positive": 6.6,
+   "ulna_vs_epicondylar_twist_deg": 24.4
+  },
+  "seam": {
+   "pairs": 3954,
+   "tear_gt5_actual": 0.4982,
+   "tear_gt5_bone_chain_image": 0.0043,
+   "tear_excess_gt5": 0.3275,
+   "frame_offset_gt10_actual": 6,
+   "frame_offset_gt10_bone_chain_image": 17
+  },
+  "findings": [
+   {
+    "severity": 3,
+    "check": "skin_step",
+    "structure": null,
+    "value": 36.5,
+    "unit": "mm per 3 mm",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 2.27 mm; forearm: 27/27 closed, max step 1.82 mm; open outline ends 0"
+   },
+   {
+    "severity": 3,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.4835,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "49.8 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.4 %"
+   },
+   {
+    "severity": 2,
+    "check": "tube_gap",
+    "structure": "posterior_femoral_cutaneous_n_r",
+    "value": 132.85,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the Z-source mesh itself is fragmented: its pieces are 211 mm apart in the unfitted base (the Q198 150 mm cut-off hides it there)"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "extensor_carpi_radialis_longus_r",
+    "value": 74.3,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "74.3 % vs unfitted base 34.5 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_carpi_radialis_r",
+    "value": 73.8,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "73.8 % vs unfitted base 37.2 %"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_digitorum_superficialis_r",
+    "value": 72.5,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "72.5 % vs unfitted base 37.4 %"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_median_cubital_vein_r",
+    "value": 16.7,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 23.0 mm on this criterion (page 16.7 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "skin_open_sections",
+    "structure": null,
+    "value": 7,
+    "unit": "slices of 57",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 2.27 mm; forearm: 27/27 closed, max step 1.82 mm; open outline ends 0"
+   },
+   {
+    "severity": 2,
+    "check": "chain_gap",
+    "structure": "zan_posterior_interosseous_nerve_of_forearm_r",
+    "value": 26.4,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   }
+  ],
+  "counts": {
+   "REAL": 4,
+   "ARTEFACT": 3,
+   "SOURCE": 2
+  },
+  "counts_major": {
+   "REAL": 1,
+   "ARTEFACT": 1,
+   "SOURCE": 0
+  }
+ },
+ "female_l": {
+  "page": "q208_f",
+  "verdict_q198": "DEFECT",
+  "major": 3,
+  "moderate": 3,
+  "minor": 10,
+  "bone_gap_mm": 0.14,
+  "angles": {
+   "flexion_deg": 58.0,
+   "carrying_deg_lateral_positive": -1.2,
+   "ulna_vs_epicondylar_twist_deg": 42.4
+  },
+  "seam": {
+   "pairs": 4174,
+   "tear_gt5_actual": 0.5937,
+   "tear_gt5_bone_chain_image": 0.0014,
+   "tear_excess_gt5": 0.4708,
+   "frame_offset_gt10_actual": 6,
+   "frame_offset_gt10_bone_chain_image": 14
+  },
+  "findings": [
+   {
+    "severity": 3,
+    "check": "outside_skin",
+    "structure": "zan_inferior_lateral_brachial_cutaneous_nerve_l",
+    "value": 38.67,
+    "unit": "% of vertices",
+    "class": "REAL",
+    "why": ""
+   },
+   {
+    "severity": 3,
+    "check": "skin_step",
+    "structure": null,
+    "value": 35.52,
+    "unit": "mm per 3 mm",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 21/27 closed sections, max radius step 37.95 mm; forearm: 27/27 closed, max step 0.95 mm; open outline ends 0"
+   },
+   {
+    "severity": 3,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.5897,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "59.4 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+   },
+   {
+    "severity": 2,
+    "check": "tube_gap",
+    "structure": "posterior_femoral_cutaneous_n_l",
+    "value": 147.82,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the Z-source mesh itself is fragmented: its pieces are 211 mm apart in the unfitted base (the Q198 150 mm cut-off hides it there)"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "extensor_digiti_minimi_l",
+    "value": 69.2,
+    "unit": "% of volume",
+    "class": "REAL",
+    "why": "69.2 % vs unfitted base 36.6 %"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_deep_brachial_artery_l",
+    "value": 16.1,
+    "unit": "mm",
+    "class": "REAL",
+    "why": "page None mm vs bone-chain image None mm"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_muscular_branches_of_median_nerve_l",
+    "value": 15.3,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 19.0 mm on this criterion (page 15.3 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "chain_gap",
+    "structure": "zan_posterior_interosseous_nerve_of_forearm_l",
+    "value": 21.3,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   },
+   {
+    "severity": 2,
+    "check": "tube_gap",
+    "structure": "radial_n_superficial_branch_l",
+    "value": 12.73,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   }
+  ],
+  "counts": {
+   "REAL": 4,
+   "ARTEFACT": 2,
+   "SOURCE": 3
+  },
+  "counts_major": {
+   "REAL": 2,
+   "ARTEFACT": 1,
+   "SOURCE": 0
+  }
+ },
+ "female_r": {
+  "page": "q208_f",
+  "verdict_q198": "DEFECT",
+  "major": 3,
+  "moderate": 4,
+  "minor": 12,
+  "bone_gap_mm": 0.1,
+  "angles": {
+   "flexion_deg": 53.1,
+   "carrying_deg_lateral_positive": -0.2,
+   "ulna_vs_epicondylar_twist_deg": 22.4
+  },
+  "seam": {
+   "pairs": 3954,
+   "tear_gt5_actual": 0.7451,
+   "tear_gt5_bone_chain_image": 0.0005,
+   "tear_excess_gt5": 0.6017,
+   "frame_offset_gt10_actual": 4,
+   "frame_offset_gt10_bone_chain_image": 8
+  },
+  "findings": [
+   {
+    "severity": 3,
+    "check": "skin_step",
+    "structure": null,
+    "value": 35.05,
+    "unit": "mm per 3 mm",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 5.75 mm; forearm: 27/27 closed, max step 2.64 mm; open outline ends 0"
+   },
+   {
+    "severity": 3,
+    "check": "frame_offset",
+    "structure": "zan_common_interosseous_artery_r",
+    "value": 31.3,
+    "unit": "mm",
+    "class": "REAL",
+    "why": "page 31.3 mm vs bone-chain image 9.1 mm"
+   },
+   {
+    "severity": 3,
+    "check": "adjacency_tear",
+    "structure": null,
+    "value": 0.7534,
+    "unit": "frac of base-adjacent pairs >5 mm apart",
+    "class": "REAL",
+    "why": "74.5 % of the Z-source-adjacent vertex pairs are > 5 mm apart; the bone-chain-consistent image of the Z source has 0.1 %"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_muscular_branches_of_median_nerve_r",
+    "value": 19.4,
+    "unit": "mm",
+    "class": "ARTEFACT",
+    "why": "the bone-chain-consistent image of the Z source scores 16.4 mm on this criterion (page 19.4 mm; moderate threshold 10 mm): the structure spans bones that moved differently"
+   },
+   {
+    "severity": 2,
+    "check": "frame_offset",
+    "structure": "zan_posterior_interosseous_artery_r",
+    "value": 16.7,
+    "unit": "mm",
+    "class": "REAL",
+    "why": "page 16.7 mm vs bone-chain image 3.9 mm"
+   },
+   {
+    "severity": 2,
+    "check": "skin_open_sections",
+    "structure": null,
+    "value": 5,
+    "unit": "slices of 57",
+    "class": "ARTEFACT",
+    "why": "section-plane / axis-point artefact of the flexed elbow: all outlines closed (0 dangling ends), pose-aware sections along the upper-arm and forearm axes: upper arm: 27/27 closed sections, max radius step 5.75 mm; forearm: 27/27 closed, max step 2.64 mm; open outline ends 0"
+   },
+   {
+    "severity": 2,
+    "check": "muscle_interpenetration",
+    "structure": "flexor_digitorum_profundus_r",
+    "value": 62.2,
+    "unit": "% of volume",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   },
+   {
+    "severity": 2,
+    "check": "tube_gap",
+    "structure": "radial_n_superficial_branch_r",
+    "value": 15.78,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   },
+   {
+    "severity": 2,
+    "check": "chain_gap",
+    "structure": "zan_posterior_interosseous_nerve_of_forearm_r",
+    "value": 13.9,
+    "unit": "mm",
+    "class": "SOURCE",
+    "why": "the same finding exists in the unfitted Z base"
+   }
+  ],
+  "counts": {
+   "REAL": 3,
+   "ARTEFACT": 3,
+   "SOURCE": 3
+  },
+  "counts_major": {
+   "REAL": 2,
+   "ARTEFACT": 1,
+   "SOURCE": 0
+  }
+ }
+}

@@ -21,6 +21,32 @@ from scripts.zanatomy.q198_audit import elbow_angles
 REPO = A.REPO
 
 
+def dangling(skin, centre, axis, ts, reach=95.0, q=0.6):
+    """per slice t (plane perpendicular to `axis` at centre + t * axis): number of section-outline END points that are not shared by a second segment (an open outline) within `reach` mm of the axis point.
+    A closed skin has none, whatever the pose: unlike the Q198 profile this does not need the axis point to lie inside the limb outline."""
+    import trimesh
+    from collections import Counter
+    V, F, off = [], [], 0
+    for s_ in skin:
+        if (np.linalg.norm(s_["v"] - centre, axis=1) < reach + 120).any():
+            V.append(s_["v"])
+            F.append(s_["f"] + off)
+            off += len(s_["v"])
+    tm = trimesh.Trimesh(np.concatenate(V), np.concatenate(F), process=False)
+    out = []
+    for t in ts:
+        c = centre + t * axis
+        seg = trimesh.intersections.mesh_plane(tm, axis, c, return_faces=False)
+        if len(seg) == 0:
+            out.append(None)
+            continue
+        keys = [tuple(r) for r in np.round(seg.reshape(-1, 3) / q).astype(np.int64)]
+        cnt = Counter(keys)
+        d = [np.array(k) * q for k, v in cnt.items() if v == 1]
+        out.append(int(sum(np.linalg.norm(x - c) < reach for x in d)))
+    return out
+
+
 def run(key, log=print):
     S = load(key)
     J, B, lev = find_joints(S)
@@ -36,9 +62,13 @@ def run(key, log=print):
         for nm, ax, sgn in (("upper_arm", hax, -1.0), ("forearm", fax, 1.0)):
             cc = c + sgn * 51.0 * ax
             p = A.skin_profile(skin, dict(centre=cc, axis=ax), half=39.0, dt=3.0)        # t = -39 .. 39 around cc  = 12 .. 90 mm from the joint centre
+            ts = np.arange(-39.0, 39.1, 3.0)
+            dg = dangling(skin, cc, ax, ts)
+            p["slices_with_open_outline_ends"] = int(sum(1 for x in dg if x))
+            p["dangling_ends_total"] = int(sum(x for x in dg if x))
             res[nm] = p
         out[j["side"]] = res
-        log(key, j["side"], {k: {x: y for x, y in v.items() if x in ("slices", "valid", "open_or_missing_sections", "max_radius_step_mm_per_3mm", "steps_gt3mm", "at_t_mm")} if isinstance(v, dict) else v for k, v in res.items()})
+        log(key, j["side"], {k: {x: y for x, y in v.items() if x in ("slices", "valid", "open_or_missing_sections", "max_radius_step_mm_per_3mm", "steps_gt3mm", "slices_with_open_outline_ends", "dangling_ends_total")} if isinstance(v, dict) else v for k, v in res.items()})
     return out
 
 
