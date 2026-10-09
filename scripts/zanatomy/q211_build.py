@@ -160,6 +160,34 @@ def stage_zones(which, log=print, joints=("shoulder", "elbow"), sides=("l", "r")
             t = time.time()
             fb = [b + "_" + side for b in ({"elbow": ("humerus", "radius", "ulna"), "shoulder": ("scapula", "humerus")}[jn]) if b + "_" + side in set(K.matched(st.pg, st.base))]
             out, rep, Z, X = SF.relax_zone(env, zone, st, ids, c, R, log=log, frame_bones=fb)
+            mus_all = [i for i in jb["zone_ids"] if st.pg.sys(i) == "muscle"]
+            out2, ginfo = SF.overlap_guard(st, mus_all, out, log=log)
+            if ginfo:
+                import scripts.zanatomy.q211_soft as _S
+                for i, (b_, a_, fct) in ginfo.items():
+                    if i in out2:
+                        out2[i] = np.asarray(out2[i], float)
+                for k, i in enumerate(Z.ids):
+                    if i in ginfo:
+                        v_ = out2.get(i, st.v(i))
+                        X[Z.off[i]:Z.off[i] + len(v_)] = v_
+                t1 = Z.tears(X)
+                rep["tear_gt5_after"], rep["tear_gt2_after"], rep["tear_median_after_mm"] = round(float((t1 > 5).mean()), 4), round(float((t1 > 2).mean()), 4), round(float(np.median(t1)), 2)
+                for k, i in enumerate(Z.ids):
+                    sel = (Z.lab[Z.P[:, 0]] == k) | (Z.lab[Z.P[:, 1]] == k)
+                    if sel.sum():
+                        rep["tear_gt5_by_structure"]["after"][i] = round(float((t1[sel] > 5).mean()), 3)
+                rep["overlap_guard"] = {i: {"before_pct": b_, "after_pct": a_, "move_factor": fct} for i, (b_, a_, fct) in ginfo.items()}
+                for i in list(rep["structures_report"]):
+                    if i not in out2:
+                        rep["structures_report"].pop(i)
+                    elif i in ginfo and ginfo[i][2] > 0:
+                        mv = np.linalg.norm(out2[i] - st.v(i), axis=1)
+                        rep["structures_report"][i]["mean_move_mm"], rep["structures_report"][i]["max_move_mm"] = round(float(mv.mean()), 2), round(float(mv.max()), 2)
+                        from scripts.zanatomy import q206_carry as _C6
+                        rep["structures_report"][i]["after"] = _C6.metrics(env, zone, out2[i], st.base.v(i).astype(float), st.pg.f(i))
+                rep["moved"] = len(out2)
+            out = out2
             for i, v in out.items():
                 st.set(i, v, stage="zone", zone=zone, **rep["structures_report"][i])
             rep.pop("structures_report")

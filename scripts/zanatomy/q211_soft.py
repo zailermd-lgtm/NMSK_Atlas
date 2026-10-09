@@ -29,15 +29,16 @@ def zone_ids_fitseams(pg, base, centre, R):
     return [i for i in m if pg.sys(i) not in ("bone", "skin", "cartilage") and (np.linalg.norm(base.v(i) - centre, axis=1) < R).any()]
 
 
-def cstay_vector(env, zone, Z, pg, att_coeff=5.0, att_mm=3.0):
-    """stay-put coefficient per vertex: 1, and `att_coeff` for muscle / tendon / ligament vertices within att_mm of a displayed bone (attachment footprints)"""
+def cstay_vector(env, zone, Z, pg, att_coeff=20.0, att_mm=6.0):
+    """stay-put coefficient per vertex: 1, and for muscle / tendon / ligament / bursa vertices 1 + (att_coeff - 1) * exp(-(d / att_mm)^2) with d = distance to the nearest displayed bone surface (attachment footprints
+    and structures lying on bone are held; the belly away from the bones is free)"""
     c = np.ones(Z.n)
-    sd = env.bone[zone].value(Z.X, outside=50.0)
+    sd = np.abs(env.bone[zone].value(Z.X, outside=50.0))
     att = np.zeros(Z.n, bool)
     for k, i in enumerate(Z.ids):
         if pg.sys(i) in ("muscle", "joint", "insertion", "tendon", "bursa"):
             att[Z.lab == k] = True
-    c[att & (np.abs(sd) < att_mm)] = att_coeff
+    c[att] = 1.0 + (att_coeff - 1.0) * np.exp(-(sd[att] / att_mm) ** 2)
     return c
 
 
@@ -91,7 +92,7 @@ def ladder(env, zone, v, f, r, cat, i, vr0):
     return C6.guard(env, zone, v, f, r, CAT.get(cat, "vessel") if cat in CAT else cat, i, v, vr0)
 
 
-def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=24.0, att_coeff=5.0, log=print, w_c=10.0, reanchor_share=0.5, rounds2=5, frame_bones=None):
+def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=24.0, att_coeff=20.0, log=print, w_c=10.0, reanchor_share=0.5, rounds2=5, frame_bones=None):
     """returns (V_new {id: vertices} for the structures that moved > 0.3 mm, report)"""
     pg, base = st.pg, st.base
     cur = {i: st.v(i).astype(float) for i in ids}
@@ -323,3 +324,41 @@ def push_group(env, zone, st, ids, log=print, cap=12.0):
         else:
             log(f"    {i}: not repaired (kept): {'rejected' if not ok else 'no gain'}  in-bone {m00['inside_bone_pct']}->{mm['inside_bone_pct']} stretched {m00['stretched_pct']}->{mm['stretched_pct']}")
     return out
+
+
+def overlap_guard(st, muscle_ids, out, limit=60.0, max_rise=12.0, log=print):
+    """the Q198 muscle-in-muscle measure (share of a muscle's voxel solid inside the other zone muscles, `muscle_overlap`) is checked for the zone muscles the relaxation moved: a muscle that ends above `limit` %
+    AND more than `max_rise` points above where it started goes back part of the way (move x 0.66, 0.33, 0) until it does not.  -> (out', {id: (before, after, factor)})"""
+    pg = st.pg
+    mus = [i for i in muscle_ids if pg.sys(i) == "muscle"]
+    if not mus:
+        return out, {}
+    pts = np.vstack([np.vstack([st.v(i), out[i]]) if i in out else st.v(i) for i in mus])
+    lo, hi = pts.min(0) - 5.0, pts.max(0) + 5.0
+    V0 = {i: st.v(i) for i in mus}
+    cur = {i: out.get(i, st.v(i)) for i in mus}
+    o0 = muscle_overlap(pg, V0, mus, lo, hi)
+    o1 = muscle_overlap(pg, cur, mus, lo, hi)
+    info = {}
+    bad = [i for i in out if i in o1 and i in o0 and o1[i]["overlap_pct"] > limit and o1[i]["overlap_pct"] - o0[i]["overlap_pct"] > max_rise]
+    log(f"    overlap guard: {len(bad)} moved muscles end > {limit} % and > {max_rise} points higher: " + ", ".join(f"{i[:24]} {o0[i]['overlap_pct']}->{o1[i]['overlap_pct']}" for i in bad))
+    for fct in (0.66, 0.33, 0.0):
+        if not bad:
+            break
+        for i in bad:
+            cur[i] = V0[i] + fct * (out[i] - V0[i])
+        o2 = muscle_overlap(pg, cur, mus, lo, hi)
+        nxt = []
+        for i in bad:
+            if i in o2 and o2[i]["overlap_pct"] > max(o0[i]["overlap_pct"] + max_rise, limit) and fct > 0.0:
+                nxt.append(i)
+            else:
+                info[i] = (o0[i]["overlap_pct"], o2.get(i, {"overlap_pct": None})["overlap_pct"], fct)
+        bad = nxt
+    out2 = dict(out)
+    for i, (b, a, fct) in info.items():
+        if fct == 0.0:
+            out2.pop(i, None)
+        else:
+            out2[i] = cur[i]
+    return out2, info
