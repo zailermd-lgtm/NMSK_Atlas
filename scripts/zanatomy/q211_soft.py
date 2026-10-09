@@ -91,7 +91,7 @@ def ladder(env, zone, v, f, r, cat, i, vr0):
     return C6.guard(env, zone, v, f, r, CAT.get(cat, "vessel") if cat in CAT else cat, i, v, vr0)
 
 
-def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=24.0, att_coeff=5.0, log=print, w_c=10.0):
+def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=24.0, att_coeff=5.0, log=print, w_c=10.0, reanchor_share=0.5, rounds2=5, frame_bones=None):
     """returns (V_new {id: vertices} for the structures that moved > 0.3 mm, report)"""
     pg, base = st.pg, st.base
     cur = {i: st.v(i).astype(float) for i in ids}
@@ -109,7 +109,13 @@ def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0
     c0 = {i: C6.cost(m0[i], CAT.get(rcat[i], rcat[i]), m0[i]) for i in ids}
     best = {i: cur[i] for i in ids}                    # accepted state
     X0 = Z.X
-    for rd in range(rounds):
+    reanchored = {}
+    for rd in range(rounds + rounds2):
+        if rd == rounds and reanchor_share is not None:
+            reanchored = reanchor(env, zone, st, Z, X, ids, rcat, r_, f_, m0, reanchor_share, log, frame_bones=frame_bones, centre=centre, R=R)
+            for i, vv in reanchored.items():
+                X[Z.off[i]:Z.off[i] + len(vv)] = vv
+            X0 = np.where(np.isin(np.arange(Z.n), np.concatenate([np.arange(Z.off[i], Z.off[i] + len(v)) for i, v in reanchored.items()] or [np.zeros(0, int)]))[:, None], X, Z.X)
         con = constraints(env, zone, Z, X, rcat)
         u, na = RX.solve(Z, X, cst, w_p=w_p, w_s=w_s, w_0=w_0, tol=tol, con=con, w_c=w_c)
         Xn = X + u
@@ -126,7 +132,7 @@ def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0
             if np.linalg.norm(vn - X[a:b], axis=1).max() < 0.05:
                 continue
             vg = ladder(env, zone, vn, f_[i], r_[i], rcat[i], i, m0[i]["volume_ratio"])
-            vg = E.cap_to(vg, cur[i], cap + 6.0)
+            vg = E.cap_to(vg, X0[a:b], cap + 6.0)
             mm = C6.metrics(env, zone, vg, r_[i], f_[i])
             cat = CAT.get(rcat[i], rcat[i])
             ok, why = accept(mm, m0[i], cat, f_[i])
@@ -152,6 +158,7 @@ def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0
         out[i] = X[a:b].copy()
         m1 = C6.metrics(env, zone, X[a:b], r_[i], f_[i])
         srep[i] = {"cat": rcat[i], "mean_move_mm": round(float(mv.mean()), 2), "max_move_mm": round(float(mv.max()), 2), "before": m0[i], "after": m1}
+    rep["reanchored"] = {i: round(float(np.linalg.norm(X[Z.off[i]:Z.off[i] + len(cur[i])] - cur[i], axis=1).mean()), 1) for i in reanchored}
     rep.update({"tear_gt5_after": round(float((t1 > 5).mean()), 4), "tear_gt2_after": round(float((t1 > 2).mean()), 4), "tear_median_after_mm": round(float(np.median(t1)), 2), "moved": len(out), "structures_report": srep})
     # per-structure pair tear before / after (own pairs)
     pb, pa = {}, {}
@@ -236,6 +243,61 @@ def follow(env, zone, st, moved, radius=35.0, min_move=1.5, log=print):
         elif not ok:
             log(f"    {i}: follow rejected (field {dmax:.1f} mm): {m00} -> {mm}")
     log(f"  follow {zone}: {len(out)} structures moved")
+    return out
+
+
+def reanchor(env, zone, st, Z, X, ids, rcat, r_, f_, m0, share_min, log, frame_bones=None, centre=None, R=None):
+    """structures that are still mostly torn from their Z-source neighbours after the relaxation (> share_min of their pairs > 5 mm: a structure left on an old frame, a gross misplacement beyond the relaxation cap)
+    are re-anchored: candidate = the Z source (base) vertices carried by the bone-anchored field of the base -> fitted bones (the Q168 / Q199 field), then the guard ladder; adopted if it is accepted by the
+    containment guards and its own pair tears fall by at least 0.25"""
+    pg, base = st.pg, st.base
+    bones = [i for i in K.bone_ids(pg) if i in set(K.matched(pg, base))]
+    F = K.ChainField({b: base.v(b) for b in bones}, {b: pg.v(b) for b in bones}, np.mean([base.v(i).mean(0) for i in ids], axis=0), bones)
+    t = Z.tears(X)
+    out = {}
+    pairs_dummy = None
+    # frame offsets of the zone structures on the CURRENT state vs their bone-chain image (the Q198 fit-seam measure): a structure with a REAL offset (> 10 mm and more than 8 mm above its image) is re-anchored too
+    real_frame = {}
+    if frame_bones:
+        bv = {i: base.v(i) for i in ids}
+        cv = {i: X[Z.off[i]:Z.off[i] + len(bv[i])] for i in ids}
+        for b in frame_bones:
+            bv[b], cv[b] = base.v(b), pg.v(b)
+        img = {i: bv[i] + F(bv[i]) for i in ids}
+        for b in frame_bones:
+            img[b] = pg.v(b)
+        sysf = lambda i: pg.sys(i)
+        allids = list(ids) + list(frame_bones)
+        V, W, L, keep = K.zone_arrays(bv, cv, sysf, allids, centre, R)
+        V2, W2, L2, keep2 = K.zone_arrays(bv, img, sysf, allids, centre, R)
+        fo, fo2 = K.frame_offsets(V, W, L, keep, sysf, list(frame_bones), centre, bv), K.frame_offsets(V2, W2, L2, keep2, sysf, list(frame_bones), centre, bv)
+        real_frame = {i: (v["frame_offset_mm"], fo2.get(i, {}).get("frame_offset_mm", 0.0)) for i, v in fo.items() if v["frame_offset_mm"] > 10.0 and v["frame_offset_mm"] > fo2.get(i, {}).get("frame_offset_mm", 0.0) + 8.0}
+        if real_frame:
+            log(f"    real frame offsets (page vs bone-chain image, mm): " + ", ".join(f"{i[:30]} {a:.1f} / {b:.1f}" for i, (a, b) in real_frame.items()))
+    for k, i in enumerate(ids):
+        sel = (Z.lab[Z.P[:, 0]] == k) | (Z.lab[Z.P[:, 1]] == k)
+        by_tear = sel.sum() >= 20 and (t[sel] > 5).mean() > share_min
+        if not by_tear and i not in real_frame:         # (a REAL frame offset is only logged and tried: adopted only if its pair tears fall)
+            continue
+        a, b = Z.off[i], Z.off[i] + len(r_[i])
+        cat = CAT.get(rcat[i], rcat[i])
+        cand = base.v(i) + F(base.v(i))
+        m_cur = C6.metrics(env, zone, X[a:b], r_[i], f_[i])
+        vg = C6.guard(env, zone, cand, f_[i], r_[i], cat, i, cand, m_cur["volume_ratio"])
+        mm = C6.metrics(env, zone, vg, r_[i], f_[i])
+        onbone = cat in ("ligament", "bursa", "cartilage", "tendon")
+        ok = (mm["outside_skin_pct"] <= max(m_cur["outside_skin_pct"], 3.0) + 1.0 and mm["inside_bone_pct"] <= max(m_cur["inside_bone_pct"], 3.0) + (10.0 if onbone else 1.0)
+              and mm["folded_pct"] <= max(m_cur["folded_pct"] + 6.0, 6.0))
+        Xt = X.copy()
+        Xt[a:b] = vg
+        t2 = Z.tears(Xt)
+        share_after = float((t2[sel] > 5).mean())
+        share_before = float((t[sel] > 5).mean())
+        if ok and share_after < share_before - 0.25:
+            out[i] = vg
+            log(f"    re-anchored {i}: pair tear share {share_before:.2f} -> {share_after:.2f}, mean move {np.linalg.norm(vg - X[a:b], axis=1).mean():.1f} mm" + (f", frame offset {real_frame[i][0]:.1f} mm (image {real_frame[i][1]:.1f})" if i in real_frame else ""))
+        else:
+            log(f"    not re-anchored {i}: {'guards' if not ok else 'no tear gain'} (share {share_before:.2f} -> {share_after:.2f})")
     return out
 
 

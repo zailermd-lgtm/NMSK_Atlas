@@ -158,7 +158,8 @@ def stage_zones(which, log=print, joints=("shoulder", "elbow"), sides=("l", "r")
             zone = f"{jn}_{side}"
             env = make_env(st, {zone: (allp.min(0) - 20, allp.max(0) + 20)}, log)
             t = time.time()
-            out, rep, Z, X = SF.relax_zone(env, zone, st, ids, c, R, log=log)
+            fb = [b + "_" + side for b in ({"elbow": ("humerus", "radius", "ulna"), "shoulder": ("scapula", "humerus")}[jn]) if b + "_" + side in set(K.matched(st.pg, st.base))]
+            out, rep, Z, X = SF.relax_zone(env, zone, st, ids, c, R, log=log, frame_bones=fb)
             for i, v in out.items():
                 st.set(i, v, stage="zone", zone=zone, **rep["structures_report"][i])
             rep.pop("structures_report")
