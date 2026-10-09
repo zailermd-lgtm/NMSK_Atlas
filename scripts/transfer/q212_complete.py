@@ -40,11 +40,33 @@ FIT_REV_MAX_MM = 8.0       # two-sided gate: Z surface -> measured surface media
 FIT_BELLY_MAX_MM = 10.0    # two-sided gate: measured belly 30-100 mm from the cap -> Z surface median
 LOFT_RATIO_MAX = 12.0      # loft mode: Z section / measured cap face (the 272 Q203 loft continuations of both bodies lie within 0.02 - 11.7)
 
-C.BODY["vhm"].update(src=REPO / "build/viewer_m_hr_q203", out=REPO / "build/viewer_m_hr_q212")
-C.BODY["vhf"].update(src=REPO / "build/viewer_f_hr_q203", out=REPO / "build/viewer_f_hr_q212")
-C.SUFFIX = {"sh": TAG, "seam": TAG}
-C.SUBJECT = {(b, g): f"xfer_zan2{b}_seams_q212" for b in ("vhm", "vhf") for g in ("sh", "seam")}
-C.group_of = lambda ctx, cen, side: "seam"
+_SAVED = {}
+
+
+def configure():
+    """patch the Q203 driver module for Q212 (done explicitly, not at import, so importing this module does not change q203_complete for other code / tests)"""
+    if _SAVED:
+        return
+    _SAVED.update(BODY={k: dict(v) for k, v in C.BODY.items()}, SUFFIX=C.SUFFIX, SUBJECT=C.SUBJECT, group_of=C.group_of, z_ids=C.z_ids, q200_covered_frac=C.q200_covered_frac,
+                  badge_text=C.badge_text, ATT=dict(C.ATT))
+    C.BODY["vhm"].update(src=REPO / "build/viewer_m_hr_q203", out=REPO / "build/viewer_m_hr_q212")
+    C.BODY["vhf"].update(src=REPO / "build/viewer_f_hr_q203", out=REPO / "build/viewer_f_hr_q212")
+    C.SUFFIX = {"sh": TAG, "seam": TAG}
+    C.SUBJECT = {(b, g): f"xfer_zan2{b}_seams_q212" for b in ("vhm", "vhf") for g in ("sh", "seam")}
+    C.group_of = lambda ctx, cen, side: "seam"
+    C.z_ids = z_ids
+    C.q200_covered_frac = q_covered_frac
+    C.badge_text = badge_text
+    C.ATT.update(ATT_EXTRA)
+
+
+def restore():
+    if not _SAVED:
+        return
+    C.BODY.clear(); C.BODY.update(_SAVED["BODY"]); C.SUFFIX = _SAVED["SUFFIX"]; C.SUBJECT = _SAVED["SUBJECT"]; C.group_of = _SAVED["group_of"]; C.z_ids = _SAVED["z_ids"]
+    C.q200_covered_frac = _SAVED["q200_covered_frac"]; C.badge_text = _SAVED["badge_text"]; C.ATT.clear(); C.ATT.update(_SAVED["ATT"])
+    _SAVED.clear()
+
 
 # own muscle stem -> Z-Anatomy mesh stems (all with the side suffix); the stems the Q203 id match could not reach
 ALIAS = {
@@ -56,12 +78,12 @@ ALIAS = {
     "levator_ani": ["levator_ani", "zan_iliococcygeus_muscle", "zan_pubococcygeus_muscle", "zan_pubo_analis_muscle"],
     "adductor_magnus": ["adductor_magnus", "zan_adductor_minimus"],
 }
-C.ATT.update({
+ATT_EXTRA = {
     "temporalis": ["cranium", "mandible"], "tibialis_posterior": ["tibia", "fibula"], "semispinalis_cervicis": ["cervical_vertebrae", "thoracic_vertebrae", "cranium"],
     "extensor_pollicis_longus": ["ulna", "radius"], "iliopsoas": ["lumbar_vertebrae", "hip_bone", "femur"], "levator_ani": ["hip_bone", "sacrum", "coccyx"],
     "adductor_magnus": ["hip_bone", "femur"],
-})
-C.ATT["extensor_pollicis_longus"] = ["ulna", "radius", "carpals", "metacarpal_1", "phalanges_hand"]
+    "extensor_pollicis_longus": ["ulna", "radius", "carpals", "metacarpal_1", "phalanges_hand"],
+}
 TIP_BONES = {"extensor_pollicis_longus": ["metacarpal_1", "metacarpals", "phalanges_hand"]}   # a tendon continuation must END on its insertion bone
 TIP_MAX_MM = 20.0          # the Q203 biceps / brachioradialis continuations (accepted, 7+3 with beyond >= 30 mm) end 11-25 mm from their bones, median 17.5
 TIP_MIN_BEYOND_MM = 30.0   # only a continuation that travels >= 30 mm beyond the cut must END on its bone (short local pieces end inside the muscle belly)
@@ -75,7 +97,6 @@ def z_ids(own_id):
     return _orig_z_ids(own_id)
 
 
-C.z_ids = z_ids
 
 
 def q_covered_frac(ctx, tid, cap):
@@ -92,7 +113,6 @@ def q_covered_frac(ctx, tid, cap):
     return float(unary_union(polys).intersection(capA).area / max(capA.area, 1e-9))
 
 
-C.q200_covered_frac = q_covered_frac
 
 
 def two_sided_fit(mv, mf, zv, zf, cap, window=30.0):
@@ -219,7 +239,6 @@ def badge_text(ctx, pieces, name, kind, group):
     return s
 
 
-C.badge_text = badge_text
 
 
 def write_bundle(ctx, out):
@@ -299,6 +318,7 @@ if __name__ == "__main__":
     ap.add_argument("--rows", default=None)
     ap.add_argument("--dry", action="store_true")
     a = ap.parse_args()
+    configure()
     t = time.time()
     ctx = build_ctx(a.body)
     print("ctx", round(time.time() - t, 1), flush=True)

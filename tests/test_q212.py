@@ -44,7 +44,14 @@ def test_alias_table_reaches_the_z_meshes_q203_missed():
     assert "semispinalis_capitis" not in Q.ALIAS                                      # Z-Anatomy has no semispinalis capitis: no wrong substitute
 
 
-def test_gates_documented():
+@pytest.fixture
+def configured():
+    Q.configure()
+    yield
+    Q.restore()
+
+
+def test_gates_documented(configured):
     assert Q.C.MIN_BEYOND_MUSCLE == 6.0 and Q.C.MAX_SHIFT_MM == 30.0 and Q.E.FIT_ERR_MAX_MM == 25.0       # unchanged Q203 gates
     assert Q.FIT_REV_MAX_MM == 8.0 and Q.FIT_BELLY_MAX_MM == 10.0 and Q.LOFT_RATIO_MAX == 12.0
     assert Q.TIP_MAX_MM == 20.0 and Q.TIP_MIN_BEYOND_MM == 30.0 and Q.TAG == "_zfill212"
