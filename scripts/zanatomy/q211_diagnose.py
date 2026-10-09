@@ -90,34 +90,38 @@ def classify(d, ss, skin_pose, base_overlap, base=None):
     return "REAL", ""
 
 
-def run(tags=None, after=False):
+def run(after=False, joints=("elbow", "shoulder")):
     out = {}
     for which in ("male", "female"):
         cfg = K.PAGES[which]
         tag = cfg["key1"] if after else cfg["key0"]
         rank = json.loads((REPO / f"build/q211_rank/{tag}.json").read_text())
-        rawm = json.loads((REPO / f"build/q211_raw/Q198_model_{tag}.json").read_text())
         rawb = json.loads((REPO / f"build/q209_raw/Q198_model_{cfg['base_key']}.json").read_text())
         skin = json.loads((REPO / "data/derived/Q211_skin_pose_aware.json").read_text())
-        for side in "lr":
-            jb = next(x for x in rawb["junctions"] if x["name"] == "elbow" and x["side"] == side)
-            base_ov = {k: v["overlap_pct"] for k, v in jb["muscle_overlap"].items()}
-            base = K.load(which, base=True)
-            ss = seam_summary(which, "elbow", side, page_dir=(cfg["out"] if after else None))
-            sp = skin[tag][side]
-            skin_pose = (f"upper arm: {sp['upper_arm']['valid']}/{sp['upper_arm']['slices']} closed sections, max radius step {sp['upper_arm']['max_radius_step_mm_per_3mm']} mm; "
-                         f"forearm: {sp['forearm']['valid']}/{sp['forearm']['slices']} closed, max step {sp['forearm']['max_radius_step_mm_per_3mm']} mm; open outline ends {sp['upper_arm']['dangling_ends_total'] + sp['forearm']['dangling_ends_total']}")
-            rows = []
-            for d in sorted([x for x in rank["defects"] if x["region"] == "elbow" and x.get("side") == side and x["severity"] >= 2], key=lambda x: -x["severity"]):
-                cl, why = classify(d, ss, skin_pose, base_ov, base)
-                rows.append({"severity": d["severity"], "check": d["check"], "structure": d.get("structure"), "value": d["value"], "unit": d["unit"], "class": cl, "why": why})
-            e = rank["elbow"][side]
-            out[f"{which}_{side}"] = {"page": tag, "verdict_q198": e["verdict"], "major": e["n_major"], "moderate": e["n_moderate"], "minor": e["n_minor"], "bone_gap_mm": e["bone_gap_mm"], "angles": e["angles"],
-                                      "seam": {k: v for k, v in ss.items() if not k.startswith("frame_offsets")}, "findings": rows,
-                                      "counts": {c: sum(1 for r in rows if r["class"] == c) for c in ("REAL", "ARTEFACT", "SOURCE")},
-                                      "counts_major": {c: sum(1 for r in rows if r["class"] == c and r["severity"] == 3) for c in ("REAL", "ARTEFACT", "SOURCE")}}
-            print(which, side, out[f"{which}_{side}"]["counts"], "major", out[f"{which}_{side}"]["counts_major"], "tear", ss["tear_gt5_actual"], "image", ss["tear_gt5_bone_chain_image"])
-    p = REPO / "data" / "derived" / ("Q211_elbow_diagnosis_after.json" if after else "Q211_elbow_diagnosis.json")
+        base = K.load(which, base=True)
+        for jn in joints:
+            for side in "lr":
+                jb = next(x for x in rawb["junctions"] if x["name"] == jn and x["side"] == side)
+                base_ov = {k: v["overlap_pct"] for k, v in jb.get("muscle_overlap", {}).items()}
+                ss = seam_summary(which, jn, side, page_dir=(cfg["out"] if after else None))
+                skin_pose = ""
+                if jn == "elbow":
+                    sp = skin[tag][side]
+                    skin_pose = (f"upper arm: {sp['upper_arm']['valid']}/{sp['upper_arm']['slices']} closed sections, max radius step {sp['upper_arm']['max_radius_step_mm_per_3mm']} mm; "
+                                 f"forearm: {sp['forearm']['valid']}/{sp['forearm']['slices']} closed, max step {sp['forearm']['max_radius_step_mm_per_3mm']} mm; open outline ends {sp['upper_arm']['dangling_ends_total'] + sp['forearm']['dangling_ends_total']}")
+                rows = []
+                for d in sorted([x for x in rank["defects"] if x["region"] == jn and x.get("side") == side and x["severity"] >= 2], key=lambda x: -x["severity"]):
+                    cl, why = classify(d, ss, skin_pose, base_ov, base)
+                    rows.append({"severity": d["severity"], "check": d["check"], "structure": d.get("structure"), "value": d["value"], "unit": d["unit"], "class": cl, "why": why})
+                e = rank["elbow"][side] if jn == "elbow" else None
+                jt = next(j for j in rank["junction_table"] if j["junction"] == jn and j["side"] == side)
+                key = f"{which}_{jn}_{side}"
+                out[key] = {"page": tag, "bone_gap_mm": jt["bone_gap_mm"], "major": jt["n_major"], "moderate": jt["n_moderate"], "minor": jt["n_minor"], **({"verdict_q198": e["verdict"], "angles": e["angles"]} if e else {}),
+                            "seam": {k: v for k, v in ss.items() if not k.startswith("frame_offsets")}, "findings": rows,
+                            "counts": {c: sum(1 for r in rows if r["class"] == c) for c in ("REAL", "ARTEFACT", "SOURCE")},
+                            "counts_major": {c: sum(1 for r in rows if r["class"] == c and r["severity"] == 3) for c in ("REAL", "ARTEFACT", "SOURCE")}}
+                print(key, out[key]["counts"], "major", out[key]["counts_major"], "tear", ss["tear_gt5_actual"], "chain image", ss["tear_gt5_bone_chain_image"])
+    p = REPO / "data" / "derived" / ("Q211_diagnosis_after.json" if after else "Q211_diagnosis.json")
     p.write_text(json.dumps(out, indent=1))
     return out
 

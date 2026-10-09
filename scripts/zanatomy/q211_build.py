@@ -153,7 +153,7 @@ def stage_zones(which, log=print, joints=("shoulder", "elbow"), sides=("l", "r")
         for jn in joints:
             jb = next(x for x in rb["junctions"] if x["name"] == jn and x["side"] == side)
             c, R = np.asarray(jb["centre_mm"], float), jb["R"] + 25
-            ids = SF.zone_ids(st.pg, st.base, jb["zone_ids"])
+            ids = SF.zone_ids_fitseams(st.pg, st.base, c, R)
             allp = np.vstack([st.v(i) for i in ids] + [st.v(i) for i in st.pg.ids if st.pg.sys(i) == "bone" and i.endswith("_" + side) and np.linalg.norm(st.v(i).mean(0) - c) < 250])
             zone = f"{jn}_{side}"
             env = make_env(st, {zone: (allp.min(0) - 20, allp.max(0) + 20)}, log)
@@ -211,5 +211,5 @@ def stage_inbone(which, log=print, src="zones"):
 
 if __name__ == "__main__":
     which, stages = sys.argv[1], sys.argv[2:]
-    for s in (["bones", "follow", "zones", "inbone", "pack"] if stages == ["all"] else stages):
+    for s in (["bones", "follow", "zones", "inbone"] if stages == ["all"] else stages):
         globals()["stage_" + s](which)

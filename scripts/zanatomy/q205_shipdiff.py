@@ -22,7 +22,7 @@ def diff(old, new, stem, listed=None):
             continue
         pn = bn[m["vo"]: m["vo"] + m["vc"] * 6] + bn[m["io"]: m["io"] + m["ic"] * 6]
         po = bo[o["vo"]: o["vo"] + o["vc"] * 6] + bo[o["io"]: o["io"] + o["ic"] * 6]
-        if pn != po or m["min"] != o["min"]:
+        if pn != po or m["min"] != o["min"] or m.get("span") != o.get("span"):
             vo, _ = P.decode_one(o, bo)
             vn, _ = P.decode_one(m, bn)
             mv = float(np.linalg.norm(vn - vo, axis=1).max()) if len(vo) == len(vn) else None

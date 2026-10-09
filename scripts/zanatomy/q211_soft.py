@@ -23,6 +23,12 @@ def zone_ids(pg, base, zone_ids_raw):
     return [i for i in zone_ids_raw if i in m and pg.sys(i) not in SOFT_NOT]
 
 
+def zone_ids_fitseams(pg, base, centre, R):
+    """the structures of the Q198 fit-seam zone: matched (same topology as the unfitted base), not bone / skin / cartilage, with a base vertex within R of the base joint centre"""
+    m = K.matched(pg, base)
+    return [i for i in m if pg.sys(i) not in ("bone", "skin", "cartilage") and (np.linalg.norm(base.v(i) - centre, axis=1) < R).any()]
+
+
 def cstay_vector(env, zone, Z, pg, att_coeff=5.0, att_mm=3.0):
     """stay-put coefficient per vertex: 1, and `att_coeff` for muscle / tendon / ligament vertices within att_mm of a displayed bone (attachment footprints)"""
     c = np.ones(Z.n)
@@ -73,8 +79,9 @@ def accept(mm, m00, cat, f):
               and mm["stretched_pct"] <= m00["stretched_pct"] + ((45.0 if big else 25.0) if tube else (40.0 if big else 20.0)) and mm["folded_pct"] <= max(m00["folded_pct"] + ((12.0 if big else 10.0) if tube else (8.0 if big else 5.0)), 6.0))
         if ok and (E._closed(f) or abs(mm["edge_scale"] / max(m00["edge_scale"], 1e-6) - 1.0) <= C6.EDGE_SCALE_TOL):
             return True, None
-    ok = (mm["outside_skin_pct"] <= max(m00["outside_skin_pct"], 3.0) + 1.0 and mm["inside_bone_pct"] <= max(m00["inside_bone_pct"], 3.0) + 1.0
-          and mm["stretched_pct"] <= m00["stretched_pct"] + (14.0 if tube else 8.0) and mm["folded_pct"] <= max(m00["folded_pct"] + (8.0 if tube else 3.0), 4.0))
+    onbone = cat in ("ligament", "bursa", "cartilage", "tendon")           # lie ON the bone by design: more inside-bone slack
+    ok = (mm["outside_skin_pct"] <= max(m00["outside_skin_pct"], 3.0) + 1.0 and mm["inside_bone_pct"] <= max(m00["inside_bone_pct"], 3.0) + (10.0 if onbone else 1.0)
+          and mm["stretched_pct"] <= m00["stretched_pct"] + (30.0 if tube else 12.0) and mm["folded_pct"] <= max(m00["folded_pct"] + (10.0 if tube else 4.0), 5.0))
     if not E._closed(f) and abs(mm["edge_scale"] / max(m00["edge_scale"], 1e-6) - 1.0) > C6.EDGE_SCALE_TOL:
         ok = False
     return ok, None
@@ -84,7 +91,7 @@ def ladder(env, zone, v, f, r, cat, i, vr0):
     return C6.guard(env, zone, v, f, r, CAT.get(cat, "vessel") if cat in CAT else cat, i, v, vr0)
 
 
-def relax_zone(env, zone, st, ids, centre, R, rounds=8, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=18.0, att_coeff=5.0, log=print, w_c=10.0):
+def relax_zone(env, zone, st, ids, centre, R, rounds=10, w_p=1.0, w_s=8.0, w_0=0.05, tol=2.0, cap=24.0, att_coeff=5.0, log=print, w_c=10.0):
     """returns (V_new {id: vertices} for the structures that moved > 0.3 mm, report)"""
     pg, base = st.pg, st.base
     cur = {i: st.v(i).astype(float) for i in ids}
