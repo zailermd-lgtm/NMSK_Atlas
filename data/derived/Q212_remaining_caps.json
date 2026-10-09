@@ -1,0 +1,168 @@
+{
+ "vhm": {
+  "the cut plane coincides with the end of the Z structure (Z ends within -6 .. +6 mm of it; gate 6 mm = the fit error scale)": {
+   "caps": 50,
+   "area_mm2": 16113,
+   "examples": [
+    "triceps_brachii_l y=272.1 (623 mm2)",
+    "teres_major_r y=443.0 (558 mm2)",
+    "teres_major_r z=-119.9 (258 mm2)",
+    "teres_major_r y=444.0 (60 mm2)",
+    "trapezius_r z=-122.2 (873 mm2)",
+    "trapezius_r z=-120.6 (272 mm2)"
+   ]
+  },
+  "not in the cap list (merge artefact / small continuation edge)": {
+   "caps": 22,
+   "area_mm2": 5161,
+   "examples": [
+    "deltoid_r x=249.7 (447 mm2)",
+    "deltoid_l x=-236.2 (157 mm2)",
+    "biceps_femoris_r x=177.5 (226 mm2)",
+    "biceps_femoris_l x=-115.3 (393 mm2)",
+    "semitendinosus_r x=160.5 (138 mm2)",
+    "gastrocnemius_l x=-60.3 (136 mm2)"
+   ]
+  },
+  "facet < 100 mm2": {
+   "caps": 59,
+   "area_mm2": 4201,
+   "examples": [
+    "coracobrachialis_r y=416.5 (64 mm2)",
+    "triceps_brachii_r x=243.0 (68 mm2)",
+    "semispinalis_cervicis_l y=608.7 (86 mm2)",
+    "trapezius_l y=348.0 (57 mm2)",
+    "external_oblique_r y=80.1 (69 mm2)",
+    "adductor_magnus_r x=138.7 (99 mm2)"
+   ]
+  },
+  "no Z-Anatomy counterpart mesh (not in Z-Anatomy under any name)": {
+   "caps": 13,
+   "area_mm2": 3638,
+   "examples": [
+    "semispinalis_capitis_l y=608.2 (372 mm2)",
+    "semispinalis_capitis_r y=609.1 (136 mm2)",
+    "styloglossus_r x=18.0 (182 mm2)",
+    "bulbospongiosus_r y=-48.0 (405 mm2)",
+    "ischiocavernosus_r y=-38.2 (151 mm2)",
+    "deep_transverse_perineal_r y=-38.1 (500 mm2)"
+   ]
+  },
+  "Z section lies > 30 mm off the cap face (not the same structure position)": {
+   "caps": 10,
+   "area_mm2": 3544,
+   "examples": [
+    "triceps_brachii_l x=-229.8 (115 mm2)",
+    "biceps_femoris_r x=169.0 (297 mm2)",
+    "biceps_femoris_l x=-150.5 (358 mm2)",
+    "semitendinosus_l x=-105.7 (340 mm2)",
+    "fibularis_longus_l x=-190.9 (355 mm2)",
+    "tibialis_posterior_r z=-53.6 (1214 mm2)"
+   ]
+  },
+  "measured mass larger: the Z structure ends >= 6 mm BEFORE the cut": {
+   "caps": 15,
+   "area_mm2": 3287,
+   "examples": [
+    "semispinalis_cervicis_l y=701.5 (171 mm2)",
+    "obliquus_capitis_inferior_l y=721.5 (142 mm2)",
+    "teres_major_l y=453.0 (422 mm2)",
+    "teres_major_l z=-115.4 (210 mm2)",
+    "diaphragm y=173.0 (113 mm2)",
+    "biceps_femoris_r z=-94.9 (293 mm2)"
+   ]
+  },
+  "already continued (Q200 / Q203 continuation covers the face)": {
+   "caps": 1,
+   "area_mm2": 1612,
+   "examples": [
+    "supraspinatus_l y=583.1 (1612 mm2)"
+   ]
+  },
+  "cap lies on the body surface (skin within 3 mm): table / skin contact, not a data-block seam": {
+   "caps": 1,
+   "area_mm2": 732,
+   "examples": [
+    "fibularis_longus_r x=212.2 (732 mm2)"
+   ]
+  },
+  "Z section many times the measured face": {
+   "caps": 1,
+   "area_mm2": 148,
+   "examples": [
+    "semispinalis_cervicis_r y=609.8 (148 mm2)"
+   ]
+  }
+ },
+ "vhf": {
+  "the cut plane coincides with the end of the Z structure (Z ends within -6 .. +6 mm of it; gate 6 mm = the fit error scale)": {
+   "caps": 59,
+   "area_mm2": 18184,
+   "examples": [
+    "genioglossus_r y=678.6 (310 mm2)",
+    "brachialis_r x=172.8 (107 mm2)",
+    "longus_capitis_r x=22.6 (106 mm2)",
+    "external_oblique_r x=153.5 (512 mm2)",
+    "external_oblique_l x=-159.9 (505 mm2)",
+    "supraspinatus_l y=612.2 (358 mm2)"
+   ]
+  },
+  "facet < 100 mm2": {
+   "caps": 99,
+   "area_mm2": 6754,
+   "examples": [
+    "brachialis_r z=-83.5 (43 mm2)",
+    "brachialis_l x=-180.3 (51 mm2)",
+    "longus_capitis_l y=592.8 (72 mm2)",
+    "rectus_capitis_posterior_major_r y=704.5 (81 mm2)",
+    "longus_capitis_r y=592.9 (74 mm2)",
+    "extensor_pollicis_longus_r y=236.7 (51 mm2)"
+   ]
+  },
+  "measured mass larger: the Z structure ends >= 6 mm BEFORE the cut": {
+   "caps": 13,
+   "area_mm2": 3430,
+   "examples": [
+    "semispinalis_cervicis_l y=676.7 (211 mm2)",
+    "subscapularis_l y=614.7 (637 mm2)",
+    "spinalis_r y=107.9 (281 mm2)",
+    "gluteus_medius_l z=37.0 (110 mm2)",
+    "multifidus_r y=112.9 (166 mm2)",
+    "multifidus_l y=114.8 (239 mm2)"
+   ]
+  },
+  "no Z-Anatomy counterpart mesh (not in Z-Anatomy under any name)": {
+   "caps": 5,
+   "area_mm2": 1414,
+   "examples": [
+    "semispinalis_capitis_r y=589.8 (275 mm2)",
+    "semispinalis_capitis_l y=590.0 (575 mm2)",
+    "deep_transverse_perineal_r y=-47.9 (322 mm2)",
+    "deep_transverse_perineal_r y=-38.2 (129 mm2)",
+    "bulbospongiosus_l y=-62.2 (114 mm2)"
+   ]
+  },
+  "not in the cap list (merge artefact / small continuation edge)": {
+   "caps": 10,
+   "area_mm2": 1265,
+   "examples": [
+    "teres_minor_r x=183.2 (72 mm2)",
+    "longissimus_r z=-113.0 (56 mm2)",
+    "extensor_pollicis_brevis_r z=120.1 (68 mm2)",
+    "external_intercostals_r z=-94.0 (527 mm2)",
+    "external_intercostals_r x=131.0 (55 mm2)",
+    "external_intercostals_l z=-95.4 (190 mm2)"
+   ]
+  },
+  "Z section lies > 30 mm off the cap face (not the same structure position)": {
+   "caps": 4,
+   "area_mm2": 820,
+   "examples": [
+    "gluteus_maximus_l z=-102.7 (256 mm2)",
+    "gluteus_maximus_l z=-34.3 (108 mm2)",
+    "gluteus_maximus_r z=-103.7 (285 mm2)",
+    "flexor_hallucis_longus_l x=-25.4 (172 mm2)"
+   ]
+  }
+ }
+}
