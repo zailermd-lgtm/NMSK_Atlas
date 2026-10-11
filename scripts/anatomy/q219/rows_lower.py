@@ -11,7 +11,10 @@ S("semimembranosus.insertions", "semimembranosus", "insertion_point", "Semimembr
 _SM = dict(cls="muscle", setid="semimembranosus.insertions")
 P("semimembranosus", "insertion_direct_arm", "insertion_point", "Direct arm (posteromedial tibia)", "Direct arm of the distal tendon, to the tibia (exact footprint wording differs between sources and is not reproduced here).",
   ["beltran2003", "demaeseneer2014sm"], ev="MR anatomy; dissection + 3 T MR", anchor=dict(bone="tibia", landmark="posteromedial tibia (direct arm; landmark wording not verified)"),
-  geom=dict(rule="end_snap_bone", end="distal", bone="tibia", tol_mm=10, aggregate="tibial arms (direct + anterior) cannot be separated on a muscle mesh"), **_SM)
+  **_SM)
+P("semimembranosus", "insertion_tibial_complex", "insertion_point", "Tibial insertion complex (direct + anterior arms together)", "Composite of the tibial arms of the distal semimembranosus tendon; a muscle mesh cannot separate the arms, so geometry is derived for the composite only.",
+  ["beltran2003", "demaeseneer2014sm"], ev="MR anatomy; dissection + 3 T MR", anchor=dict(bone="tibia", landmark="posteromedial tibia (wording not verified)"),
+  geom=dict(rule="end_snap_bone", end="distal", bone="tibia", tol_mm=10), note="Composite row for geometry; the arm rows are text-only.", **_SM)
 P("semimembranosus", "insertion_anterior_arm", "insertion_point", "Anterior arm (tibial, deep to the medial collateral ligament)", "Anterior arm of the distal tendon (named by both Beltran and De Maeseneer); its course deep to the superficial MCL is radiology teaching, not stated in the cited abstracts.",
   ["beltran2003", "demaeseneer2014sm", "laprade2007"], ev="MR anatomy; dissection", anchor=dict(bone="tibia", landmark="medial tibial condyle (anterior arm; wording not verified)"), **_SM)
 P("semimembranosus", "insertion_oblique_popliteal_ligament_arm", "insertion_point", "Oblique popliteal ligament arm / expansion (to the posterior capsule and lateral femoral condyle)", "Oblique expansion crossing the posterior capsule; Benninger 2013 argues it is a tendon expansion of the unit rather than a ligament.",
@@ -52,7 +55,9 @@ P("biceps_femoris", "mtj_proximal_long_head", "muscle_tendon_junction", "Proxima
 P("semitendinosus", "mtj_proximal", "muscle_tendon_junction", "Proximal MTJ (common tendon splits from biceps femoris long head)", "The musculotendinous junctions of semitendinosus and biceps femoris separate at a mean 9.9 +/- 1.5 cm from the most proximal origin site.",
   ["miller2007"], ev="cadaver dissection n=14", geom=dict(rule="mtj_by_distance_from_origin", distance_mm=99.0, sd_mm=15.0, origin_bone="hip_bone", origin_landmark="ischial_tuberosity"))
 P("rectus_femoris", "direct_head", "origin_part", "Direct (straight) head: anterior inferior iliac spine", "Footprint 13.4 x 26.0 mm on the AIIS; its superficial anterior tendon makes the unipennate proximal muscle.", ["ryan2014", "hasselman1995"], ev="cadaver dissection n=12 hips; architecture dissection",
-  anchor=dict(bone="hip_bone", landmark="anterior inferior iliac spine"), setid="rectus_femoris.heads", geom=dict(rule="end_snap_bone", end="proximal", bone="hip_bone", tol_mm=12))
+  anchor=dict(bone="hip_bone", landmark="anterior inferior iliac spine"), setid="rectus_femoris.heads")
+P("rectus_femoris", "origin_aiis_acetabulum_complex", "origin_part", "Origin complex (direct head on AIIS + reflected head on the acetabular rim)", "Composite of both heads of origin; a muscle mesh cannot separate them.", ["ryan2014", "hasselman1995"], ev="cadaver dissection n=12 hips",
+  anchor=dict(bone="hip_bone", landmark="anterior inferior iliac spine / superior acetabular rim"), setid="rectus_femoris.heads", geom=dict(rule="end_snap_bone", end="proximal", bone="hip_bone", tol_mm=12), note="Composite row for geometry.")
 P("rectus_femoris", "indirect_head", "origin_part", "Indirect (reflected) head: superior-lateral acetabulum / capsule", "Footprint 47.7 x 16.8 mm on the superior-lateral acetabulum and hip capsule; its deep intramuscular tendon makes the bipennate portion.", ["ryan2014", "hasselman1995"], ev="cadaver dissection n=12 hips",
   anchor=dict(bone="hip_bone", landmark="superior acetabular rim / hip capsule"), setid="rectus_femoris.heads")
 S("rectus_femoris.heads", "rectus_femoris", "origin_part", "Rectus femoris: heads of origin", [(2, "ryan2014", "direct + reflected head"), (2, "hasselman1995", "direct (superficial) + indirect (deep intramuscular) tendon")])
@@ -66,7 +71,9 @@ S("quadriceps_tendon.layers", "quadriceps_tendon", "ligament_component", "Quadri
 
 # =================================================================== HIP
 P("gluteus_medius", "insertion_lateral_facet", "insertion_point", "Insertion: lateral facet of the greater trochanter", "Lateral facet footprint area 438 mm2, 34.8 mm long, angled 36.8 deg to the femoral axis.", ["robertson2008", "pfirrmann2001"], ev="cadaver dissection n=8; MR/cadaver n=10",
-  anchor=dict(bone="femur", landmark="greater trochanter, lateral facet"), setid="gluteus_medius.insertions", geom=dict(rule="end_snap_bone", end="distal", bone="femur", tol_mm=12))
+  anchor=dict(bone="femur", landmark="greater trochanter, lateral facet"), setid="gluteus_medius.insertions")
+P("gluteus_medius", "insertion_greater_trochanter_complex", "insertion_point", "Insertion complex on the greater trochanter (lateral + superoposterior facets together)", "Composite of the two tendon insertion sites; a muscle mesh cannot separate the facets.", ["robertson2008", "pfirrmann2001"], ev="cadaver dissection n=8; MR/cadaver n=10",
+  anchor=dict(bone="femur", landmark="greater trochanter"), setid="gluteus_medius.insertions", geom=dict(rule="end_snap_bone", end="distal", bone="femur", tol_mm=12), note="Composite row for geometry.")
 P("gluteus_medius", "insertion_superoposterior_facet", "insertion_point", "Insertion: superoposterior facet of the greater trochanter", "Roughly circular footprint, area 196.5 mm2, mean diameter 17 mm.", ["robertson2008", "pfirrmann2001"], ev="cadaver dissection n=8",
   anchor=dict(bone="femur", landmark="greater trochanter, superoposterior facet"), setid="gluteus_medius.insertions")
 S("gluteus_medius.insertions", "gluteus_medius", "insertion_point", "Gluteus medius: tendon insertion sites", [(2, "robertson2008", "lateral facet + superoposterior facet"), (2, "pfirrmann2001", "superoposterior + lateral facets of four trochanteric facets")])

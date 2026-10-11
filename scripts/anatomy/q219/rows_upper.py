@@ -24,7 +24,7 @@ P("deltoid", "spinal_part", "head_belly", "Spinal (posterior) part",
   z=[_DELT_Z.format(p="scapular_spinal")], geom=dict(rule="deltoid_sector", sector="spinal"))
 P("deltoid", "origin_lateral_third_clavicle", "origin_part", "Origin: lateral third of clavicle (anterior border)",
   "Origin of the clavicular part.", ["gray42"], ver="unverified", ev="textbook", anchor=dict(bone="clavicle", landmark="anterior border, lateral third"),
-  note="Textbook origin; Gray's 42nd ed., chapter 'Shoulder girdle' (page not verified).", geom=dict(rule="end_snap_bone", muscle_part="clavicular", end="proximal", bone="clavicle", tol_mm=8))
+  note="Textbook origin; Gray's 42nd ed., chapter 'Shoulder girdle' (page not verified). Geometry only on the Z bodies (dedicated part mesh).", geom=dict(rule="end_snap_bone", muscle_part="clavicular", end="proximal", bone="clavicle", tol_mm=8))
 P("deltoid", "origin_acromion", "origin_part", "Origin: acromion (lateral margin and superior surface)",
   "Origin of the acromial part.", ["gray42"], ver="unverified", ev="textbook", anchor=dict(bone="scapula", landmark="acromion"),
   geom=dict(rule="end_snap_bone", muscle_part="acromial", end="proximal", bone="scapula", tol_mm=8))
@@ -43,6 +43,10 @@ P("deltoid", "insertion_posterior_tendon", "insertion_point", "Humeral insertion
 S("deltoid.insertions", "deltoid", "insertion_point", "Deltoid: humeral tendon insertions",
   [(3, "sakoma2011", "three tendinous insertions to the humerus (Sakoma 2011); Rispoli 2009 measured three insertion lines"),
    (3, "vohra2024", "anterior/middle/posterior tendons; 2/8 shoulders showed a 'step-off' pattern")])
+P("deltoid", "insertion_deltoid_tuberosity_complex", "insertion_point", "Humeral insertion complex (the three tendinous insertions together)",
+  "Composite of the anterior, middle and posterior head insertions on/around the deltoid tuberosity (three tendinous insertions, Sakoma 2011; three insertion lines, Rispoli 2009). A muscle mesh cannot separate the three tendons, so geometry is derived for the composite only.",
+  ["rispoli2009", "sakoma2011"], ev="cadaver dissection n=10 / n=60", anchor=dict(bone="humerus", landmark="deltoid tuberosity region"), setid="deltoid.insertions",
+  geom=dict(rule="end_snap_bone", end="distal", bone="humerus", tol_mm=8), note="Composite row: its coordinates stand for the three rows above, which are text-only.")
 P("deltoid", "insertion_step_off_variant", "insertion_point", "Variant: 'step-off' insertion pattern",
   "Anterior, middle and posterior tendons insert superior-medial, directly on and inferior-lateral to the deltoid tuberosity (2 of 8 shoulders).", ["vohra2024"],
   ev="cadaver dissection n=8", var="2/8", anchor=dict(bone="humerus", landmark="deltoid tuberosity"))
@@ -78,6 +82,10 @@ P("biceps_brachii", "insertion_long_head_tendon_radial_tuberosity", "insertion_p
 P("biceps_brachii", "insertion_short_head_tendon_radial_tuberosity", "insertion_point", "Insertion: short-head tendon on the distal part of the bicipital (radial) tuberosity",
   "Short-head tendon inserts on the distal aspect (footprint area 60 mm2); total footprint 108 mm2; more suited to elbow flexion.", ["athwal2007", "eames2007"], ev="cadaver dissection n=15 / n=17",
   anchor=dict(bone="radius", landmark="bicipital (radial) tuberosity, distal part"))
+P("biceps_brachii", "insertion_radial_tuberosity_complex", "insertion_point", "Distal biceps insertion complex on the radial tuberosity (long + short head tendons together)",
+  "Composite footprint (108 mm2 in 15 arms): long-head tendon proximal, short-head tendon distal on the tuberosity. A muscle mesh cannot separate the two tendons.",
+  ["athwal2007", "eames2007"], ev="cadaver dissection n=15 / n=17", anchor=dict(bone="radius", landmark="bicipital (radial) tuberosity"),
+  geom=dict(rule="end_snap_bone", end="distal", bone="radius", tol_mm=10), note="Composite row for geometry; the two tendon rows are text-only.")
 P("biceps_brachii", "insertion_lacertus_fibrosus", "insertion_point", "Insertion expansion: bicipital aponeurosis (lacertus fibrosus)",
   "Originates from the distal short-head tendon in all 15 specimens; three layers and encircles the ulnar-side forearm flexor muscles.", ["athwal2007", "eames2007"],
   ev="cadaver dissection", related=["bicipital_aponeurosis"])
@@ -86,6 +94,9 @@ P("biceps_brachii", "insertion_lacertus_fibrosus", "insertion_point", "Insertion
 P("brachialis", "superficial_head", "head_belly", "Superficial head", "Larger head from the anterolateral humerus; thick round tendon to the ulnar tuberosity.", ["leonello2007"], ev="cadaver dissection n=11", setid="brachialis.heads")
 P("brachialis", "deep_head", "head_belly", "Deep head", "Smaller, fan-shaped head from the distal humerus; inserts by aponeurosis on the coronoid process; its inferolateral fibres are supplied by the radial nerve.", ["leonello2007"], ev="cadaver dissection n=11", setid="brachialis.heads")
 S("brachialis.heads", "brachialis", "head_belly", "Brachialis: number of heads", [(2, "leonello2007", "two heads in all 11 specimens; contrasts with the single-belly textbook description")])
+P("brachialis", "insertion_proximal_ulna_complex", "insertion_point", "Insertion complex on the proximal ulna (ulnar tuberosity + coronoid process)",
+  "Composite of the superficial-head tendon (ulnar tuberosity) and the deep-head aponeurosis (coronoid process).", ["leonello2007"], ev="cadaver dissection n=11",
+  anchor=dict(bone="ulna", landmark="ulnar tuberosity / coronoid process"), geom=dict(rule="end_snap_bone", end="distal", bone="ulna", tol_mm=10), note="Composite row for geometry; the two rows below are text-only.")
 P("brachialis", "insertion_ulnar_tuberosity", "insertion_point", "Insertion: ulnar tuberosity (superficial head)", "Thick round tendon.", ["leonello2007"], ev="cadaver dissection n=11", anchor=dict(bone="ulna", landmark="ulnar tuberosity"))
 P("brachialis", "insertion_coronoid_process", "insertion_point", "Insertion: coronoid process (deep head)", "Aponeurotic insertion, more anterior than the superficial head.", ["leonello2007"], ev="cadaver dissection n=11", anchor=dict(bone="ulna", landmark="coronoid process"))
 
@@ -99,7 +110,8 @@ P("triceps_brachii", "medial_head", "head_belly", "Medial head", "Medial head (f
 S("triceps_brachii.heads", "triceps_brachii", "head_belly", "Triceps brachii: number of heads", [(3, "friden2001", "three heads measured: medial, lateral, long")])
 P("triceps_brachii", "origin_infraglenoid_tubercle", "origin_part", "Long head origin: infraglenoid tubercle", "Textbook origin.", ["gray42"], ver="unverified", ev="textbook", anchor=dict(bone="scapula", landmark="infraglenoid tubercle"))
 P("triceps_brachii", "insertion_tendon_proper_olecranon", "insertion_point", "Insertion: central triceps tendon on the olecranon",
-  "Tendon proper; mean width 23.7 mm; dome-shaped footprint 20.9 x 13.4 mm, 14.8 mm from the olecranon tip (n=36 elbows).", ["keener2010"], ev="cadaver dissection n=36", anchor=dict(bone="ulna", landmark="olecranon, posterior surface"))
+  "Tendon proper; mean width 23.7 mm; dome-shaped footprint 20.9 x 13.4 mm, 14.8 mm from the olecranon tip (n=36 elbows).", ["keener2010"], ev="cadaver dissection n=36", anchor=dict(bone="ulna", landmark="olecranon, posterior surface"),
+  geom=dict(rule="end_snap_bone", end="distal", bone="ulna", tol_mm=10))
 P("triceps_brachii", "insertion_lateral_expansion_anconeus_fascia", "insertion_point", "Insertion expansion: lateral triceps expansion into the anconeus fascia",
   "Distinct lateral tendon expansion continuous with the anconeus fascia in all specimens (mean width 16.8 mm).", ["keener2010"], ev="cadaver dissection n=36", var="36/36", related=["anconeus"])
 P("triceps_brachii", "insertion_medial_tendon", "insertion_point", "Insertion: medial triceps tendon", "Rolled medial edge, confluent with the central tendon at its insertion.", ["keener2010"], ev="cadaver dissection n=36")
@@ -113,6 +125,9 @@ P("pectoralis_major", "abdominal_part", "head_belly", "Abdominal part", "Lowest 
   ev="textbook", z=["zan_abdominal_part_of_pectoralis_major_muscle_{s}"], geom=dict(rule="z_part_mesh"))
 S("pectoralis_major.heads", "pectoralis_major", "head_belly", "Pectoralis major: heads / segments", [
     (2, "fung2009", "clavicular + sternal head; the sternal head itself has 6-7 segments"), (3, "gray42", "clavicular, sternocostal, abdominal (textbook; unverified)")])
+P("pectoralis_major", "insertion_humerus_complex", "insertion_point", "Humeral insertion (anterior + posterior tendon layers together)",
+  "Composite of the two continuous tendon layers on the humerus.", ["fung2009"], ev="dissection n=11", anchor=dict(bone="humerus", landmark="(site per source: lateral lip of the intertubercular sulcus; wording not in the abstract)"),
+  geom=dict(rule="end_snap_bone", end="distal", bone="humerus", tol_mm=10), note="Composite row for geometry.")
 P("pectoralis_major", "insertion_anterior_tendon_layer", "insertion_point", "Humeral tendon: anterior (longer) layer", "Tendon consists of a longer anterior and a shorter posterior layer continuous inferiorly.", ["fung2009"], ev="dissection n=11", anchor=dict(bone="humerus", landmark="lateral lip of intertubercular sulcus / crest of greater tubercle (textbook landmark, not from the cited paper)"))
 P("pectoralis_major", "insertion_posterior_tendon_layer", "insertion_point", "Humeral tendon: posterior (shorter) layer", "See anterior layer.", ["fung2009"], ev="dissection n=11", anchor=dict(bone="humerus", landmark="lateral lip of intertubercular sulcus / crest of greater tubercle (textbook landmark, not from the cited paper)"))
 

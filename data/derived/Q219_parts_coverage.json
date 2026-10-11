@@ -1,18 +1,18 @@
 {
  "generated": "2026-10-11",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 301,
- "structures_with_parts": 84,
+ "parts_total": 316,
+ "structures_with_parts": 90,
  "by_part_type": {
-  "head_belly": 38,
-  "origin_part": 16,
-  "insertion_point": 86,
-  "muscle_tendon_junction": 13,
-  "ligament_component": 119,
-  "fascial_passage": 29
+  "head_belly": 40,
+  "origin_part": 17,
+  "insertion_point": 92,
+  "muscle_tendon_junction": 14,
+  "ligament_component": 120,
+  "fascial_passage": 33
  },
  "by_verification": {
-  "verified": 269,
+  "verified": 284,
   "unverified": 32
  },
  "entity_classes": {
@@ -104,9 +104,10 @@
   },
   "fascia": {
    "entities": 95,
-   "with_parts": 16,
-   "without_parts": 79,
+   "with_parts": 18,
+   "without_parts": 77,
    "with_parts_ids": [
+    "adductor_canal",
     "antebrachial_fascia",
     "arcade_of_frohse",
     "arcade_of_struthers",
@@ -117,6 +118,7 @@
     "flexor_retinaculum",
     "flexor_retinaculum_ankle",
     "iliotibial_tract",
+    "inguinal_ligament",
     "interosseous_membrane_forearm",
     "linea_alba",
     "middle_layer_tlf",
@@ -125,7 +127,6 @@
     "rectus_sheath"
    ],
    "without_parts_ids": [
-    "adductor_canal",
     "adductor_compartment_hand",
     "alar_fascia",
     "anterior_intermuscular_septum_leg",
@@ -163,7 +164,6 @@
     "iliac_fascia",
     "iliopsoas_bursa_fascia",
     "infraspinous_fascia",
-    "inguinal_ligament",
     "internal_oblique_aponeurosis",
     "interosseous_compartment_hand",
     "interosseous_foot_compartment",
@@ -208,8 +208,8 @@
   },
   "ligaments": {
    "entities": 51,
-   "with_parts": 19,
-   "without_parts": 32,
+   "with_parts": 20,
+   "without_parts": 31,
    "with_parts_ids": [
     "anterior_cruciate_ligament",
     "coracoclavicular_ligament",
@@ -224,6 +224,7 @@
     "plantar_ligament_complex",
     "posterior_cruciate_ligament",
     "radial_collateral_ligament_complex_elbow",
+    "superior_transverse_scapular_ligament",
     "thumb_mcp_rcl",
     "thumb_mcp_ucl",
     "tibial_collateral_ligament",
@@ -259,7 +260,6 @@
     "sternoclavicular_ligament",
     "sternocostal_ligament_complex",
     "superior_pubic_ligament",
-    "superior_transverse_scapular_ligament",
     "supraspinous_ligament",
     "tmj_ligament_complex",
     "transverse_humeral_ligament",
@@ -268,8 +268,8 @@
   },
   "muscles": {
    "entities": 220,
-   "with_parts": 34,
-   "without_parts": 186,
+   "with_parts": 36,
+   "without_parts": 184,
    "with_parts_ids": [
     "abductor_pollicis_longus",
     "biceps_brachii",
@@ -293,12 +293,14 @@
     "pectoralis_major",
     "piriformis",
     "popliteus",
+    "pronator_quadratus",
     "pronator_teres",
     "rectus_abdominis",
     "rectus_femoris",
     "semimembranosus",
     "semitendinosus",
     "serratus_anterior",
+    "soleus",
     "subscapularis",
     "supraspinatus",
     "tibialis_posterior",
@@ -430,7 +432,6 @@
     "platysma",
     "posterior_cricoarytenoid",
     "procerus",
-    "pronator_quadratus",
     "pyramidalis",
     "quadratus_femoris",
     "quadratus_lumborum",
@@ -453,7 +454,6 @@
     "semispinalis_thoracis",
     "serratus_posterior_inferior",
     "serratus_posterior_superior",
-    "soleus",
     "spinalis",
     "splenius_capitis",
     "splenius_cervicis",
@@ -497,10 +497,11 @@
   },
   "tendons": {
    "entities": 26,
-   "with_parts": 9,
-   "without_parts": 17,
+   "with_parts": 10,
+   "without_parts": 16,
    "with_parts_ids": [
     "achilles_tendon",
+    "adductor_magnus_distal_tendon",
     "extensor_hood",
     "first_dorsal_compartment",
     "flexor_tendon_pulley_system_hand",
@@ -511,7 +512,6 @@
     "rotator_cuff_tendon_complex"
    ],
    "without_parts_ids": [
-    "adductor_magnus_distal_tendon",
     "biceps_brachii_tendon_complex",
     "central_tendon_diaphragm",
     "common_extensor_tendon",
@@ -552,7 +552,7 @@
     },
     "muscle": {
      "structures": 367,
-     "with_parts": 92
+     "with_parts": 97
     },
     "nerve": {
      "structures": 13,
@@ -564,7 +564,7 @@
     },
     "tendon": {
      "structures": 6,
-     "with_parts": 4
+     "with_parts": 6
     },
     "vessel": {
      "structures": 48,
@@ -572,7 +572,7 @@
     }
    },
    "structures_total": 561,
-   "structures_with_parts": 110,
+   "structures_with_parts": 117,
    "dedicated_part_meshes_present": []
   },
   "vhf": {
@@ -595,7 +595,7 @@
     },
     "muscle": {
      "structures": 390,
-     "with_parts": 92
+     "with_parts": 98
     },
     "nerve": {
      "structures": 16,
@@ -607,7 +607,7 @@
     },
     "tendon": {
      "structures": 6,
-     "with_parts": 4
+     "with_parts": 6
     },
     "vessel": {
      "structures": 48,
@@ -615,7 +615,7 @@
     }
    },
    "structures_total": 608,
-   "structures_with_parts": 112,
+   "structures_with_parts": 120,
    "dedicated_part_meshes_present": [
     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
    ]
@@ -648,7 +648,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 20
+     "with_parts": 22
     },
     "lymph": {
      "structures": 162,
@@ -656,7 +656,7 @@
     },
     "muscle": {
      "structures": 424,
-     "with_parts": 59
+     "with_parts": 63
     },
     "nerve": {
      "structures": 337,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 98,
+   "structures_with_parts": 104,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -786,7 +786,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 20
+     "with_parts": 22
     },
     "lymph": {
      "structures": 162,
@@ -794,7 +794,7 @@
     },
     "muscle": {
      "structures": 426,
-     "with_parts": 59
+     "with_parts": 63
     },
     "nerve": {
      "structures": 337,
@@ -814,7 +814,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 98,
+   "structures_with_parts": 104,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -898,19 +898,20 @@
   }
  },
  "structures_by_part_count": {
-  "deltoid": 14,
+  "deltoid": 15,
   "tibialis_posterior": 14,
   "wrist_ligament_complex": 13,
   "biceps_femoris": 13,
   "flexor_tendon_pulley_system_hand": 10,
-  "biceps_brachii": 8,
-  "semimembranosus": 8,
+  "biceps_brachii": 9,
+  "semimembranosus": 9,
   "fibularis_longus": 8,
   "triceps_brachii": 7,
+  "pectoralis_major": 6,
   "deltoid_ligament": 6,
   "rectus_abdominis": 6,
   "extensor_retinaculum": 6,
-  "pectoralis_major": 5,
+  "brachialis": 5,
   "glenohumeral_ligament_complex": 5,
   "interosseous_membrane_forearm": 5,
   "hip_ligament_complex": 5,
@@ -918,9 +919,10 @@
   "linea_alba": 5,
   "levator_ani": 5,
   "rectum": 5,
-  "brachialis": 4,
   "radial_collateral_ligament_complex_elbow": 4,
   "flexor_retinaculum": 4,
+  "rectus_femoris": 4,
+  "gluteus_medius": 4,
   "pes_anserinus": 4,
   "tibiofibular_syndesmosis": 4,
   "achilles_tendon": 4,
@@ -933,8 +935,6 @@
   "trapezius": 3,
   "serratus_anterior": 3,
   "ulnar_collateral_ligament_elbow": 3,
-  "rectus_femoris": 3,
-  "gluteus_medius": 3,
   "gluteus_minimus": 3,
   "gluteus_maximus": 3,
   "iliopsoas_tendon": 3,
@@ -964,6 +964,8 @@
   "thumb_mcp_ucl": 2,
   "antebrachial_fascia": 2,
   "crural_fascia": 2,
+  "pronator_quadratus": 2,
+  "adductor_canal": 2,
   "subscapularis": 1,
   "rotator_cuff_tendon_complex": 1,
   "semitendinosus": 1,
@@ -981,7 +983,11 @@
   "arcade_of_struthers": 1,
   "fascia_lata": 1,
   "flexor_retinaculum_ankle": 1,
-  "piriformis": 1
+  "piriformis": 1,
+  "soleus": 1,
+  "adductor_magnus_distal_tendon": 1,
+  "inguinal_ligament": 1,
+  "superior_transverse_scapular_ligament": 1
  },
  "unverified_rows": [
   "deltoid.origin_lateral_third_clavicle",

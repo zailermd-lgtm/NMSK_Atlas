@@ -1,0 +1,1976 @@
+{
+ "schema": "nmsk.parts_geometry.v1",
+ "body": "vhf",
+ "label": "own female (Visible Human female), Q216 bundle",
+ "generated": "2026-10-11",
+ "frame": "atlas mm (+X right, +Y superior, +Z anterior)",
+ "source": "build/viewer_f_hr_q216",
+ "source_classes": {
+  "rule_based": "rule applied to this body's own mesh by a documented rule with a published or measured error",
+  "z_fill": "position of a dedicated Z-Anatomy part mesh as fitted to this body (not segmented from the person)",
+  "transferred": "not used in phase 1",
+  "measured": "never used: no part boundary is measured from the person's own labelled evidence"
+ },
+ "counts": {
+  "placed": 29,
+  "parts_with_a_placement": 15,
+  "text_only": 301,
+  "placed_by_rule": {
+   "end_snap_bone": 19,
+   "cc_ligament_ratio": 4,
+   "mtj_by_distance_from_origin": 4,
+   "passage_contact": 2
+  },
+  "placed_by_class": {
+   "rule_based": 29
+  }
+ },
+ "placed": [
+  {
+   "position_mm": [
+    198.5,
+    457.97,
+    -33.0
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "deltoid_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 230,
+   "gap_mm": 0.19,
+   "patch_radius_mm": 23.3,
+   "error_bound_mm": 24.3,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "deltoid.insertion_deltoid_tuberosity_complex",
+   "structure_id": "deltoid",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -205.59,
+    468.83,
+    -41.34
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 8 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "deltoid_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 209,
+   "gap_mm": 0.25,
+   "patch_radius_mm": 20.32,
+   "error_bound_mm": 21.32,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "deltoid.insertion_deltoid_tuberosity_complex",
+   "structure_id": "deltoid",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    237.31,
+    321.95,
+    -58.79
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "biceps_brachii_r",
+    "radius_r"
+   ],
+   "bone_mesh": "radius_r",
+   "n_patch_vertices": 130,
+   "gap_mm": 0.56,
+   "patch_radius_mm": 26.1,
+   "error_bound_mm": 27.1,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "biceps_brachii.insertion_radial_tuberosity_complex",
+   "structure_id": "biceps_brachii",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -228.04,
+    297.67,
+    -25.42
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the radius mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "biceps_brachii_l",
+    "radius_l"
+   ],
+   "bone_mesh": "radius_l",
+   "n_patch_vertices": 47,
+   "gap_mm": 2.14,
+   "patch_radius_mm": 10.8,
+   "error_bound_mm": 11.8,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "biceps_brachii.insertion_radial_tuberosity_complex",
+   "structure_id": "biceps_brachii",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    223.25,
+    288.93,
+    -53.86
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "brachialis_r",
+    "ulna_r"
+   ],
+   "bone_mesh": "ulna_r",
+   "n_patch_vertices": 77,
+   "gap_mm": 0.83,
+   "patch_radius_mm": 11.54,
+   "error_bound_mm": 12.54,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "brachialis.insertion_proximal_ulna_complex",
+   "structure_id": "brachialis",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -240.7,
+    314.33,
+    -67.28
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "brachialis_l",
+    "ulna_l"
+   ],
+   "bone_mesh": "ulna_l",
+   "n_patch_vertices": 190,
+   "gap_mm": 0.68,
+   "patch_radius_mm": 24.22,
+   "error_bound_mm": 25.22,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "brachialis.insertion_proximal_ulna_complex",
+   "structure_id": "brachialis",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    231.07,
+    307.11,
+    -81.63
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "triceps_brachii_r",
+    "ulna_r"
+   ],
+   "bone_mesh": "ulna_r",
+   "n_patch_vertices": 40,
+   "gap_mm": 2.16,
+   "patch_radius_mm": 14.59,
+   "error_bound_mm": 15.59,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "triceps_brachii.insertion_tendon_proper_olecranon",
+   "structure_id": "triceps_brachii",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -242.58,
+    328.63,
+    -72.82
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the ulna mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "triceps_brachii_l",
+    "ulna_l"
+   ],
+   "bone_mesh": "ulna_l",
+   "n_patch_vertices": 178,
+   "gap_mm": 0.73,
+   "patch_radius_mm": 26.38,
+   "error_bound_mm": 27.38,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "triceps_brachii.insertion_tendon_proper_olecranon",
+   "structure_id": "triceps_brachii",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -148.93,
+    580.86,
+    -38.68
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "supraspinatus_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 109,
+   "gap_mm": 0.41,
+   "patch_radius_mm": 19.33,
+   "error_bound_mm": 20.33,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "supraspinatus.insertion_greater_tuberosity_footprint",
+   "structure_id": "supraspinatus",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    158.84,
+    590.71,
+    -33.0
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "infraspinatus_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 45,
+   "gap_mm": 6.52,
+   "patch_radius_mm": 13.85,
+   "error_bound_mm": 14.85,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "infraspinatus.insertion_greater_tuberosity_footprint",
+   "structure_id": "infraspinatus",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -165.25,
+    602.25,
+    -34.0
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "infraspinatus_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 62,
+   "gap_mm": 5.31,
+   "patch_radius_mm": 13.13,
+   "error_bound_mm": 14.13,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "infraspinatus.insertion_greater_tuberosity_footprint",
+   "structure_id": "infraspinatus",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    158.14,
+    591.75,
+    -18.62
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "subscapularis_r",
+    "humerus_r"
+   ],
+   "bone_mesh": "humerus_r",
+   "n_patch_vertices": 80,
+   "gap_mm": 0.83,
+   "patch_radius_mm": 35.68,
+   "error_bound_mm": 36.68,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "subscapularis.insertion_lesser_tuberosity_footprint",
+   "structure_id": "subscapularis",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -158.75,
+    602.75,
+    -21.42
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the humerus mesh within 10 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "rule_based",
+   "mesh_ids": [
+    "subscapularis_l",
+    "humerus_l"
+   ],
+   "bone_mesh": "humerus_l",
+   "n_patch_vertices": 104,
+   "gap_mm": 0.94,
+   "patch_radius_mm": 37.05,
+   "error_bound_mm": 38.05,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "subscapularis.insertion_lesser_tuberosity_footprint",
+   "structure_id": "subscapularis",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    101.0,
+    582.75,
+    -28.25
+   ],
+   "method": "cc_ligament_ratio: conoid clavicular attachment at 0.24 of the clavicle length from the lateral end (Rios 2007), inferior-most clavicle vertex in a 4 mm slab",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "clavicle_r"
+   ],
+   "clavicle_length_mm": 140.7,
+   "error_bound_mm": 5.49,
+   "error_basis": "sqrt(published SD 4.6 mm ^2 + 3 mm landmark^2); Rios 2007 SD of the position along the clavicle",
+   "part_id": "coracoclavicular_ligament.conoid",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "r",
+   "rule": "cc_ligament_ratio",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -106.25,
+    592.25,
+    -24.5
+   ],
+   "method": "cc_ligament_ratio: conoid clavicular attachment at 0.24 of the clavicle length from the lateral end (Rios 2007), inferior-most clavicle vertex in a 4 mm slab",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "clavicle_l"
+   ],
+   "clavicle_length_mm": 141.1,
+   "error_bound_mm": 5.49,
+   "error_basis": "sqrt(published SD 4.6 mm ^2 + 3 mm landmark^2); Rios 2007 SD of the position along the clavicle",
+   "part_id": "coracoclavicular_ligament.conoid",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "l",
+   "rule": "cc_ligament_ratio",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    110.75,
+    587.0,
+    -27.25
+   ],
+   "method": "cc_ligament_ratio: trapezoid clavicular attachment at 0.17 of the clavicle length from the lateral end (Rios 2007), inferior-most clavicle vertex in a 4 mm slab",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "clavicle_r"
+   ],
+   "clavicle_length_mm": 140.7,
+   "error_bound_mm": 4.76,
+   "error_basis": "sqrt(published SD 3.7 mm ^2 + 3 mm landmark^2); Rios 2007 SD of the position along the clavicle",
+   "part_id": "coracoclavicular_ligament.trapezoid",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "r",
+   "rule": "cc_ligament_ratio",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -116.5,
+    597.0,
+    -18.75
+   ],
+   "method": "cc_ligament_ratio: trapezoid clavicular attachment at 0.17 of the clavicle length from the lateral end (Rios 2007), inferior-most clavicle vertex in a 4 mm slab",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "clavicle_l"
+   ],
+   "clavicle_length_mm": 141.1,
+   "error_bound_mm": 4.76,
+   "error_basis": "sqrt(published SD 3.7 mm ^2 + 3 mm landmark^2); Rios 2007 SD of the position along the clavicle",
+   "part_id": "coracoclavicular_ligament.trapezoid",
+   "structure_id": "coracoclavicular_ligament",
+   "side": "l",
+   "rule": "cc_ligament_ratio",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    103.99,
+    -169.77,
+    -72.37
+   ],
+   "method": "mtj_by_distance_from_origin: centroid of the muscle cross-section 99 mm from the ischial tuberosity along the muscle axis (Miller 2007: ST/BF MTJs separate at 99 +/- 15 mm)",
+   "source_class": "rule_based",
+   "parent_source_class": "transferred",
+   "mesh_ids": [
+    "biceps_femoris_r"
+   ],
+   "error_bound_mm": 18.0,
+   "error_basis": "published SD 15 mm (Miller 2007, n=14) + 3 mm landmark/axis error",
+   "part_id": "biceps_femoris.mtj_proximal_long_head",
+   "structure_id": "biceps_femoris",
+   "side": "r",
+   "rule": "mtj_by_distance_from_origin",
+   "part_type": "muscle_tendon_junction",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -111.48,
+    -170.77,
+    -67.29
+   ],
+   "method": "mtj_by_distance_from_origin: centroid of the muscle cross-section 99 mm from the ischial tuberosity along the muscle axis (Miller 2007: ST/BF MTJs separate at 99 +/- 15 mm)",
+   "source_class": "rule_based",
+   "parent_source_class": "transferred",
+   "mesh_ids": [
+    "biceps_femoris_l"
+   ],
+   "error_bound_mm": 18.0,
+   "error_basis": "published SD 15 mm (Miller 2007, n=14) + 3 mm landmark/axis error",
+   "part_id": "biceps_femoris.mtj_proximal_long_head",
+   "structure_id": "biceps_femoris",
+   "side": "l",
+   "rule": "mtj_by_distance_from_origin",
+   "part_type": "muscle_tendon_junction",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    82.9,
+    -165.14,
+    -81.02
+   ],
+   "method": "mtj_by_distance_from_origin: centroid of the muscle cross-section 99 mm from the ischial tuberosity along the muscle axis (Miller 2007: ST/BF MTJs separate at 99 +/- 15 mm)",
+   "source_class": "rule_based",
+   "parent_source_class": "transferred",
+   "mesh_ids": [
+    "semitendinosus_r"
+   ],
+   "error_bound_mm": 18.0,
+   "error_basis": "published SD 15 mm (Miller 2007, n=14) + 3 mm landmark/axis error",
+   "part_id": "semitendinosus.mtj_proximal",
+   "structure_id": "semitendinosus",
+   "side": "r",
+   "rule": "mtj_by_distance_from_origin",
+   "part_type": "muscle_tendon_junction",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -89.93,
+    -170.64,
+    -68.5
+   ],
+   "method": "mtj_by_distance_from_origin: centroid of the muscle cross-section 99 mm from the ischial tuberosity along the muscle axis (Miller 2007: ST/BF MTJs separate at 99 +/- 15 mm)",
+   "source_class": "rule_based",
+   "parent_source_class": "transferred",
+   "mesh_ids": [
+    "semitendinosus_l"
+   ],
+   "error_bound_mm": 18.0,
+   "error_basis": "published SD 15 mm (Miller 2007, n=14) + 3 mm landmark/axis error",
+   "part_id": "semitendinosus.mtj_proximal",
+   "structure_id": "semitendinosus",
+   "side": "l",
+   "rule": "mtj_by_distance_from_origin",
+   "part_type": "muscle_tendon_junction",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    154.78,
+    -7.32,
+    -8.66
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "gluteus_medius_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 95,
+   "gap_mm": 0.51,
+   "patch_radius_mm": 15.75,
+   "error_bound_mm": 16.75,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "gluteus_medius.insertion_greater_trochanter_complex",
+   "structure_id": "gluteus_medius",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -153.16,
+    -2.0,
+    -8.75
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "gluteus_medius_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 49,
+   "gap_mm": 6.05,
+   "patch_radius_mm": 12.54,
+   "error_bound_mm": 13.54,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "gluteus_medius.insertion_greater_trochanter_complex",
+   "structure_id": "gluteus_medius",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    148.33,
+    -31.41,
+    -39.12
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "gluteus_minimus_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 140,
+   "gap_mm": 0.59,
+   "patch_radius_mm": 15.09,
+   "error_bound_mm": 16.09,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "gluteus_minimus.insertion_anterior_facet",
+   "structure_id": "gluteus_minimus",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -155.47,
+    -15.77,
+    -1.02
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "gluteus_minimus_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 61,
+   "gap_mm": 0.75,
+   "patch_radius_mm": 10.03,
+   "error_bound_mm": 11.03,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "gluteus_minimus.insertion_anterior_facet",
+   "structure_id": "gluteus_minimus",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    128.5,
+    -77.0,
+    -38.75
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "gluteus_maximus_r",
+    "femur_r"
+   ],
+   "bone_mesh": "femur_r",
+   "n_patch_vertices": 4,
+   "gap_mm": 10.48,
+   "patch_radius_mm": 3.94,
+   "error_bound_mm": 12.09,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "gluteus_maximus.insertion_femur",
+   "structure_id": "gluteus_maximus",
+   "side": "r",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -127.25,
+    -76.5,
+    -33.25
+   ],
+   "method": "end_snap_bone: the distal end of the muscle mesh (axis PCA, 12 % cap) touches the femur mesh within 12 mm; point = nearest bone-surface point to the centroid of the contact patch",
+   "source_class": "rule_based",
+   "parent_source_class": "measured",
+   "mesh_ids": [
+    "gluteus_maximus_l",
+    "femur_l"
+   ],
+   "bone_mesh": "femur_l",
+   "n_patch_vertices": 13,
+   "gap_mm": 8.04,
+   "patch_radius_mm": 10.05,
+   "error_bound_mm": 12.33,
+   "error_basis": "max(contact-patch radius, median gap) + 1 mm; footprints larger than the patch are not resolved",
+   "part_id": "gluteus_maximus.insertion_femur",
+   "structure_id": "gluteus_maximus",
+   "side": "l",
+   "rule": "end_snap_bone",
+   "part_type": "insertion_point",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    226.25,
+    312.29,
+    -46.79
+   ],
+   "method": "passage_contact: nerve-mesh vertices within 3 mm of the fascia/retinaculum mesh; point = their centroid",
+   "source_class": "rule_based",
+   "parent_source_class": "filled_zan",
+   "mesh_ids": [
+    "posterior_interosseous_n_r",
+    "supinator_r"
+   ],
+   "gap_mm": 0.35,
+   "n_contact_vertices": 182,
+   "contact_extent_mm": 35.1,
+   "error_bound_mm": 17.6,
+   "error_basis": "2 x contact spread + 3 mm threshold (a nerve running in contact along a muscle has an extended contact, the point is its centroid)",
+   "part_id": "arcade_of_frohse.pin_entry_supinator",
+   "structure_id": "arcade_of_frohse",
+   "side": "r",
+   "rule": "passage_contact",
+   "part_type": "fascial_passage",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -231.93,
+    307.26,
+    -20.63
+   ],
+   "method": "passage_contact: nerve-mesh vertices within 3 mm of the fascia/retinaculum mesh; point = their centroid",
+   "source_class": "rule_based",
+   "parent_source_class": "filled_zan",
+   "mesh_ids": [
+    "posterior_interosseous_n_l",
+    "supinator_l"
+   ],
+   "gap_mm": 0.2,
+   "n_contact_vertices": 165,
+   "contact_extent_mm": 62.7,
+   "error_bound_mm": 35.7,
+   "error_basis": "2 x contact spread + 3 mm threshold (a nerve running in contact along a muscle has an extended contact, the point is its centroid)",
+   "part_id": "arcade_of_frohse.pin_entry_supinator",
+   "structure_id": "arcade_of_frohse",
+   "side": "l",
+   "rule": "passage_contact",
+   "part_type": "fascial_passage",
+   "verification": "verified"
+  }
+ ],
+ "text_only": [
+  {
+   "part_id": "deltoid.clavicular_part",
+   "reason": "single deltoid mesh on this body; the azimuth sector rule has 6-40 mm centroid error against the Z parts (Q219_rule_validation.json) -> not placed"
+  },
+  {
+   "part_id": "deltoid.acromial_part",
+   "reason": "single deltoid mesh on this body; the azimuth sector rule has 6-40 mm centroid error against the Z parts (Q219_rule_validation.json) -> not placed"
+  },
+  {
+   "part_id": "deltoid.spinal_part",
+   "reason": "single deltoid mesh on this body; the azimuth sector rule has 6-40 mm centroid error against the Z parts (Q219_rule_validation.json) -> not placed"
+  },
+  {
+   "part_id": "deltoid.origin_lateral_third_clavicle",
+   "reason": "r: single muscle mesh on this body: the part cannot be separated (the sector rule is not validated); l: single muscle mesh on this body: the part cannot be separated (the sector rule is not validated)",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "deltoid.origin_acromion",
+   "reason": "r: single muscle mesh on this body: the part cannot be separated (the sector rule is not validated); l: single muscle mesh on this body: the part cannot be separated (the sector rule is not validated)",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "deltoid.origin_scapular_spine",
+   "reason": "r: single muscle mesh on this body: the part cannot be separated (the sector rule is not validated); l: single muscle mesh on this body: the part cannot be separated (the sector rule is not validated)",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "deltoid.insertion_anterior_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.insertion_middle_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.insertion_posterior_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.insertion_step_off_variant",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.insertion_lateral_intermuscular_septum_continuity",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.insertion_brachialis_deep_brachial_fascia_continuity",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.mtj_intramuscular_tendons_humeral_side",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid.mtj_intramuscular_septa_origin_side",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.long_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.short_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.origin_supraglenoid_tubercle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.origin_superior_labrum",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.origin_coracoid_apex_short_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.insertion_long_head_tendon_radial_tuberosity",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.insertion_short_head_tendon_radial_tuberosity",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_brachii.insertion_lacertus_fibrosus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "brachialis.superficial_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "brachialis.deep_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "brachialis.insertion_ulnar_tuberosity",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "brachialis.insertion_coronoid_process",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "triceps_brachii.long_head",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "triceps_brachii.lateral_head",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "triceps_brachii.medial_head",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "triceps_brachii.origin_infraglenoid_tubercle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "triceps_brachii.insertion_lateral_expansion_anconeus_fascia",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "triceps_brachii.insertion_medial_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pectoralis_major.clavicular_head",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "pectoralis_major.sternocostal_head",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "pectoralis_major.abdominal_part",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "pectoralis_major.insertion_humerus_complex",
+   "reason": "r: muscle mesh end is 25.4 mm from the humerus surface (> tolerance 10 mm); tendon/continuation not modelled; l: muscle mesh end is 27.6 mm from the humerus surface (> tolerance 10 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "pectoralis_major.insertion_anterior_tendon_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pectoralis_major.insertion_posterior_tendon_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "supraspinatus.insertion_greater_tuberosity_footprint",
+   "reason": "one side only: r: muscle mesh end is 15.5 mm from the humerus surface (> tolerance 10 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone",
+   "partial": true
+  },
+  {
+   "part_id": "supraspinatus.insertion_lesser_tuberosity_slip",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "supraspinatus.mtj_anterior_tendinous_portion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "infraspinatus.mtj_superior_tendinous_portion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rotator_cuff_tendon_complex.layers_five",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "coracohumeral_ligament.origin_coracoid_horizontal_limb",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "coracohumeral_ligament.subscapularis_envelope",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "glenohumeral_ligament_complex.superior_ghl",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "glenohumeral_ligament_complex.middle_ghl",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "glenohumeral_ligament_complex.inferior_ghl_anterior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "glenohumeral_ligament_complex.inferior_ghl_posterior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "glenohumeral_ligament_complex.inferior_ghl_axillary_pouch",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "trapezius.descending_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "trapezius.transverse_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "trapezius.ascending_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "serratus_anterior.superior_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "serratus_anterior.intermediate_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "serratus_anterior.inferior_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "radial_collateral_ligament_complex_elbow.superior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "radial_collateral_ligament_complex_elbow.anterior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "radial_collateral_ligament_complex_elbow.posterior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "radial_collateral_ligament_complex_elbow.conjoined_ulnar_insertion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "ulnar_collateral_ligament_elbow.anterior_bundle_anterior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "ulnar_collateral_ligament_elbow.anterior_bundle_posterior_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "ulnar_collateral_ligament_elbow.posterior_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.central_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.accessory_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.distal_oblique_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.proximal_oblique_cord",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "interosseous_membrane_forearm.dorsal_oblique_accessory_cord",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pronator_teres.humeral_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pronator_teres.ulnar_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_digitorum_superficialis.humeroulnar_head",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "flexor_digitorum_superficialis.radial_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.scapholunate_dorsal_region",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.scapholunate_proximal_region",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.scapholunate_palmar_region",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.radioscaphocapitate",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "wrist_ligament_complex.long_radiolunate",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.short_radiolunate",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.dorsal_radiocarpal",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "wrist_ligament_complex.dorsal_intercarpal",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "wrist_ligament_complex.tfcc_articular_disc",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.tfcc_radioulnar_ligaments",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "wrist_ligament_complex.tfcc_meniscus_homologue",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "wrist_ligament_complex.tfcc_ulnar_collateral_ligament",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "wrist_ligament_complex.tfcc_ecu_sheath",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_retinaculum.proximal_segment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_retinaculum.transverse_carpal_ligament",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "flexor_retinaculum.distal_segment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_direct_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_tibial_complex",
+   "reason": "r: muscle mesh end is 32.2 mm from the tibia surface (> tolerance 10 mm); tendon/continuation not modelled; l: muscle mesh end is 29.1 mm from the tibia surface (> tolerance 10 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "semimembranosus.insertion_anterior_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_oblique_popliteal_ligament_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_capsular_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_meniscal_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_posterior_oblique_ligament_extension",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.insertion_distal_tibial_expansion_popliteus_fascia",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "semimembranosus.origin_ischial_tuberosity",
+   "reason": "r: muscle mesh end is 101.4 mm from the hip_bone surface (> tolerance 12 mm); tendon/continuation not modelled; l: muscle mesh end is 81.4 mm from the hip_bone surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "proximal_hamstring_tendon.conjoint_st_bf_origin",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "proximal_hamstring_tendon.semimembranosus_origin_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.long_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.short_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_lh_reflected_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_lh_direct_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_lh_anterior_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_lh_lateral_aponeurosis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_lh_anterior_aponeurosis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_sh_capsular_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_sh_confluens",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_sh_direct_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_sh_anterior_arm",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "biceps_femoris.insertion_sh_lateral_aponeurosis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_femoris.direct_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_femoris.origin_aiis_acetabulum_complex",
+   "reason": "r: muscle mesh end is 16.3 mm from the hip_bone surface (> tolerance 12 mm); tendon/continuation not modelled; l: muscle mesh end is 15.3 mm from the hip_bone surface (> tolerance 12 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "rectus_femoris.indirect_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_femoris.mtj_intramuscular_tendon_indirect_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "vastus_lateralis.oblique_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "quadriceps_tendon.layers_classic_three",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "quadriceps_tendon.layers_ultrasound_one_to_five",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_medius.insertion_lateral_facet",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_medius.insertion_superoposterior_facet",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_medius.compartments_unresolved",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_minimus.origin_external_ilium_and_sciatic_notch",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_minimus.insertion_hip_capsule",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_maximus.insertion_fascia_lata_iliotibial_tract",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gluteus_maximus.insertion_lateral_intermuscular_septum",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "iliopsoas_tendon.psoas_major_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "iliopsoas_tendon.primary_iliacus_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "iliopsoas_tendon.accessory_iliacus_tendon",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "hip_ligament_complex.iliofemoral_superior_band",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "hip_ligament_complex.iliofemoral_inferior_band",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "hip_ligament_complex.ischiofemoral",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "hip_ligament_complex.pubofemoral",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "hip_ligament_complex.zona_orbicularis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "iliotibial_tract.distal_femoral_anchorage",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pes_anserinus.sartorius_tendon_superficial_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pes_anserinus.gracilis_tendon_deep_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pes_anserinus.semitendinosus_tendon_deep_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pes_anserinus.accessory_bands_to_gastrocnemius_fascia",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibial_collateral_ligament.superficial_proximal_tibial_attachment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibial_collateral_ligament.superficial_distal_tibial_attachment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibial_collateral_ligament.deep_meniscofemoral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibial_collateral_ligament.deep_meniscotibial",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibial_collateral_ligament.posterior_oblique_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_cruciate_ligament.anteromedial_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_cruciate_ligament.intermediate_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_cruciate_ligament.posterolateral_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_cruciate_ligament.anterolateral_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_cruciate_ligament.posteromedial_bundle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "meniscofemoral_ligaments.anterior_meniscofemoral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "meniscofemoral_ligaments.posterior_meniscofemoral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "popliteus.origin_femoral_popliteal_sulcus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "popliteus.attachment_fibular_head_popliteofibular_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "popliteus.attachment_lateral_meniscus_fascicles",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_meniscus.anterior_horn_tibial_insertion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_meniscus.posterior_horn_tibial_insertion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "lateral_meniscus.anterior_horn_tibial_insertion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "lateral_meniscus.posterior_horn_tibial_insertion",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibular_collateral_ligament.femoral_attachment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibular_collateral_ligament.fibular_attachment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_navicular_tuberosity",
+   "reason": "r: muscle mesh end is 71.0 mm from the navicular surface (> tolerance 15 mm); tendon/continuation not modelled; l: muscle mesh end is 74.3 mm from the navicular surface (> tolerance 15 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_medial_cuneiform",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_intermediate_cuneiform",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_lateral_cuneiform",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_cuboid",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_metatarsal_2_base",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_metatarsal_3_base",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_metatarsal_4_base",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_metatarsal_5_base",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.insertion_sustentaculum_tali_ramus_sustentacularis",
+   "reason": "r: muscle mesh end is 50.0 mm from the calcaneus surface (> tolerance 15 mm); tendon/continuation not modelled; l: muscle mesh end is 45.9 mm from the calcaneus surface (> tolerance 15 mm); tendon/continuation not modelled",
+   "rule_tried": "end_snap_bone"
+  },
+  {
+   "part_id": "tibialis_posterior.slip_spring_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.slip_flexor_hallucis_brevis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.slip_fibularis_longus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "tibialis_posterior.slip_abductor_hallucis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.insertion_first_metatarsal_base",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.insertion_medial_cuneiform",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.insertion_first_dorsal_interosseous",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.anterior_frenular_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.attachment_flexor_digiti_minimi_brevis_opponens",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.posterior_frenular_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.additional_band",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_longus.attachment_adductor_hallucis_oblique_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_tertius.insertion_fifth_metatarsal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fibularis_tertius.insertion_bifurcated_variant",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid_ligament.tibionavicular",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "deltoid_ligament.tibiospring",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid_ligament.tibiocalcaneal",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "deltoid_ligament.superficial_posterior_tibiotalar",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "deltoid_ligament.deep_posterior_tibiotalar",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "deltoid_ligament.deep_anterior_tibiotalar",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "lateral_ligament_complex_ankle.atfl",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "lateral_ligament_complex_ankle.cfl",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "lateral_ligament_complex_ankle.ptfl",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "tibiofibular_syndesmosis.anterior_tibiofibular",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "tibiofibular_syndesmosis.posterior_tibiofibular",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "tibiofibular_syndesmosis.transverse_ligament",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "tibiofibular_syndesmosis.interosseous_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "plantar_ligament_complex.spring_superomedial_calcaneonavicular",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "plantar_ligament_complex.spring_inferior_calcaneonavicular",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "plantar_ligament_complex.spring_third_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "achilles_tendon.medial_gastrocnemius_fibres_posterior_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "achilles_tendon.lateral_gastrocnemius_fibres_anterior_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "achilles_tendon.soleus_fibres_anteromedial",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "achilles_tendon.plantaris_insertion_variants",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "gastrocnemius.medial_head",
+   "reason": "no validated sector rule (Z-Anatomy has no separate gastrocnemius head meshes to validate against)"
+  },
+  {
+   "part_id": "gastrocnemius.lateral_head",
+   "reason": "no validated sector rule (Z-Anatomy has no separate gastrocnemius head meshes to validate against)"
+  },
+  {
+   "part_id": "gastrocnemius.mtj_medial_head_aponeurosis_with_soleus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "plantar_aponeurosis.achilles_paratenon_continuity",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_abdominis.intersection_proximal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_abdominis.intersection_middle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_abdominis.intersection_distal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_abdominis.intersection_accessory_fourth",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_abdominis.intersection_full_thickness_variant",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_sheath.anterior_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_sheath.posterior_layer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_sheath.arcuate_line",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "linea_alba.supraumbilical_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "linea_alba.umbilical_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "linea_alba.transition_zone",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "linea_alba.infraarcuate_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "levator_ani.puboperineal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "levator_ani.pubovaginal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "levator_ani.puboanal",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "levator_ani.puborectal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "levator_ani.iliococcygeal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "external_anal_sphincter.classic_tripartite_subdivision",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "external_anal_sphincter.outer_sphincter_vs_puborectalis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectum.lateral_ligament_medial_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectum.lateral_ligament_lateral_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectum.denonvilliers_fascia_penetration",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectum.rectosacral_fascia_waldeyer",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectum.anorectal_junction_puborectalis_sling",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pudendal_n.pudendal_canal_alcock",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pudendal_n.pudendal_nerve_conflict_sites",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_layer_tlf.superficial_lamina",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_layer_tlf.deep_lamina_paraspinal_retinacular_sheath",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "middle_layer_tlf.lateral_raphe",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_layer_tlf.thoracolumbar_composite_sacral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "posterior_layer_tlf.superior_cluneal_nerve_crossing",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "collateral_interphalangeal_ligaments_of_hand.pip_proper_collateral",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "collateral_interphalangeal_ligaments_of_hand.pip_accessory_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "palmar_interphalangeal_ligaments.pip_volar_plate_distal_fibrous",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "palmar_interphalangeal_ligaments.pip_volar_plate_proximal_membranous_checkrein",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "collateral_interphalangeal_ligaments_of_hand.dip_accessory_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "collateral_interphalangeal_ligaments_of_hand.dip_proper_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "finger_mcp_collateral_and_plate_complex.mcp_proper_collateral",
+   "reason": "Z-Anatomy part mesh rule; this body is an own reconstruction without a separate mesh for this part"
+  },
+  {
+   "part_id": "finger_mcp_collateral_and_plate_complex.mcp_accessory_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "finger_mcp_collateral_and_plate_complex.mcp_volar_plate",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "thumb_mcp_ucl.proper_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "thumb_mcp_ucl.accessory_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "thumb_mcp_rcl.proper_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.palmar_aponeurosis_pulley",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.a1",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.a2",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.a3",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.a4",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.a5",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.c1",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.c2",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.c3",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_tendon_pulley_system_hand.thumb_pulleys_four",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "dorsal_interossei_hand.multiple_heads",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "dorsal_interossei_hand.insertion_bone",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "dorsal_interossei_hand.insertion_extensor_apparatus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "dorsal_interossei_hand.insertion_volar_plate",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "palmar_interossei.multiple_heads",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "palmar_interossei.insertion_bone",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "palmar_interossei.insertion_extensor_apparatus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "palmar_interossei.insertion_volar_plate",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_digitorum.intertendinous_connection_2nd_space",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_digitorum.intertendinous_connection_3rd_space",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_digitorum.intertendinous_connection_4th_space",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_digiti_minimi.two_slips",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_hood.oblique_retinacular_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "abductor_pollicis_longus.tendon_slips",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_dorsal_compartment.separate_epb_subcompartment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_retinaculum.compartment_1",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_retinaculum.compartment_2",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_retinaculum.compartment_3",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_retinaculum.compartment_4",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_retinaculum.compartment_5",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "extensor_retinaculum.compartment_6",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_retinaculum.carpal_tunnel_passage",
+   "reason": "r: closest approach of nerve and flexor_retinaculum meshes is 16.6 mm (> 3 mm): meshes do not meet, passage not located; l: structure flexor_retinaculum absent",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "antebrachial_fascia.palmar_cutaneous_branch_median_nerve",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "antebrachial_fascia.superficial_radial_nerve_exit",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "cubital_tunnel_retinaculum.ulnar_nerve_roof",
+   "reason": "r: structure cubital_tunnel_retinaculum absent; l: structure cubital_tunnel_retinaculum absent",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "arcade_of_struthers.ulnar_nerve_passage",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "crural_fascia.superficial_fibular_nerve_exit",
+   "reason": "r: nerve mesh superficial_fibular_n absent; l: nerve mesh superficial_fibular_n absent",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "crural_fascia.medial_perforating_veins",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "fascia_lata.saphenous_opening",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "flexor_retinaculum_ankle.tarsal_tunnel_passage",
+   "reason": "r: closest approach of nerve and flexor_retinaculum_ankle meshes is 332.9 mm (> 3 mm): meshes do not meet, passage not located; l: structure flexor_retinaculum_ankle absent",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "piriformis.sciatic_nerve_infrapiriform_passage_variants",
+   "reason": "r: closest approach of nerve and piriformis meshes is 84.0 mm (> 3 mm): meshes do not meet, passage not located; l: closest approach of nerve and piriformis meshes is 74.5 mm (> 3 mm): meshes do not meet, passage not located",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "rectus_sheath.thoracoabdominal_nerves_and_deep_inferior_epigastric_plexus",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "linea_alba.umbilical_ring",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "rectus_abdominis.arcuate_line_inferior_epigastric_entry",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pronator_quadratus.superficial_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "pronator_quadratus.deep_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "soleus.tendinous_arch_origin_tibial_nerve_passage",
+   "reason": "r: closest approach of nerve and soleus meshes is 35.1 mm (> 3 mm): meshes do not meet, passage not located; l: closest approach of nerve and soleus meshes is 154.4 mm (> 3 mm): meshes do not meet, passage not located",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "adductor_canal.roof_two_zones",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_canal.saphenous_nerve_piercing_vastoadductor_membrane",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_magnus_distal_tendon.mtj_distal",
+   "reason": "r: no muscle vertex within 3 mm of the tendon (min 28.7 mm); l: no muscle vertex within 3 mm of the tendon (min 17.4 mm)",
+   "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "inguinal_ligament.lateral_femoral_cutaneous_nerve_passage",
+   "reason": "r: nerve mesh lateral_femoral_cutaneous_n absent; l: nerve mesh lateral_femoral_cutaneous_n absent",
+   "rule_tried": "passage_contact"
+  },
+  {
+   "part_id": "superior_transverse_scapular_ligament.suprascapular_nerve_passage",
+   "reason": "r: nerve mesh suprascapular_n absent; l: nerve mesh suprascapular_n absent",
+   "rule_tried": "passage_contact"
+  }
+ ]
+}

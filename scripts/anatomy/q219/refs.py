@@ -312,6 +312,25 @@ _R += [
       None, "7240329", "abstract: 39 patients with pronator teres syndrome (clinical series; no head count)"),
 ]
 REFS = dict(_R)
+_R += [
+    J("mastaglia1981", "Mastaglia FL, Venerys J, Stokes BA, Vaughan R.", "Compression of the tibial nerve by the tendinous arch of origin of the soleus muscle.", "Clin Exp Neurol", 1981, "18", "81-85",
+      None, "6926395", "abstract: 5 surgically confirmed cases; tibial nerve compressed beneath the tendinous arch of origin of soleus; popliteal vein compressed in one"),
+    J("stuart1996", "Stuart PR.", "Pronator quadratus revisited.", "J Hand Surg Br", 1996, "21(6)", "714-722",
+      "10.1016/s0266-7681(96)80175-6", "8982912", "abstract: consistent presence of two distinct heads; superficial head prime mover of pronation, deep head dynamic stabiliser of the DRUJ"),
+    J("sakamoto2014", "Sakamoto K, Nasu H, Nimura A, Hamada J, Akita K.", "An anatomic study of the structure and innervation of the pronator quadratus muscle.", "Anat Sci Int", 2014, "90(2)", "82-88",
+      "10.1007/s12565-014-0234-1", "24728963", "abstract: 46 forearms; superficial + deep heads; most distal fascicle reaches the base of the ulnar styloid; nerves to the superficial head penetrate the deep head"),
+    J("gungor2023", "Gungor Y, Veizi E, Yilmaz M, Acar HI, Bozkurt M.", "The adductor magnus tendon is a viable option for medial patellofemoral ligament reconstruction, but with a busy surrounding neurovascular topography.", "Knee Surg Sports Traumatol Arthrosc", 2023, "31(9)", "4000-4006",
+      "10.1007/s00167-023-07451-7", "37154912", "abstract: 16 cadavers; saphenous nerve pierces the vasto-adductor membrane at a mean distance of 100 mm (reference point defined in the paper) and crosses the ADM tendon at 67.6 mm; vascular structures exit the adductor hiatus at 89.1 mm from the adductor tubercle"),
+    J("lee2023ac", "Lee SH, Kim HJ, Kim SH, Cho TH, Kwon HJ, O J, Hong JE, Nam SH, Hwang YI, Yang HM.", "Anatomical study of the adductor canal: three-dimensional micro-computed tomography, histological, and immunofluorescence findings relevant to neural blockade.", "Korean J Anesthesiol", 2023, "76(3)", "252-260",
+      "10.4097/kja.22499", "36245345", "abstract: 39 thighs; adductor canal = thin subsartorial fascia proximally, thick aponeurosis-like vastoadductor membrane distally"),
+    J("giang2025", "Giang DH, Dao TX, Hoang DG.", "The lateral femoral cutaneous nerve is at high risk during direct anterior approach to the hip joint due to proximity and anatomic variations: a cadaveric study.", "Medeni Med J", 2025, "40(1)", "12-17",
+      "10.4274/MMJ.galenos.2024.47042", "40152087", "abstract: 15 cadavers (30 hips); branching below the inguinal ligament fan type 40 %, sartorius type 37 %, posterior type 23.3 %"),
+    J("wang2025ssn", "Wang J, Halling B, Hult D, Gupta M, Beutel BG.", "Suprascapular nerve anatomy and its implication for approaches to peripheral nerve stimulation of its sensory branching: a morphometric cadaveric study.", "Surg Radiol Anat", 2025, "47(1)", "181",
+      "10.1007/s00276-025-03692-y", "40730883", "abstract: 93 shoulders; SSN branches proximal to the notch 15 %, at the notch 54 %, distal 31 %; notch depth 5.8 mm, width 7.8 mm; nerve in the middle third of the notch in 59 %"),
+    J("sethy2025", "Sethy S, Nambule Syamuleya V, Kumar Singh A, Joshi KJ, Jasani K.", "Suprascapular artery variability in a Zambian cadaveric population: anatomical observations and their clinical significance.", "Cureus", 2025, "17(12)", "e99448",
+      "10.7759/cureus.99448", "41552191", "abstract: 66 limbs; the suprascapular artery normally passes above the superior transverse scapular ligament; beneath it in 3 %"),
+]
+REFS = dict(_R)
 REFS["gray42"] = dict(kind="textbook", citation="Standring S (ed.). Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. Elsevier, 2020 (section locator in the row; page not verified)",
                       doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")
 REFS["moore9"] = dict(kind="textbook", citation="Moore KL, Dalley AF, Agur AMR. Clinically Oriented Anatomy, 9th ed. Wolters Kluwer, 2022 (section locator in the row; page not verified)",

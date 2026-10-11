@@ -18,6 +18,8 @@ def P(sid, slug, ptype, name, desc, refs, *, cls="muscle", ev=None, ver="verifie
     assert ptype in PART_TYPES, ptype
     assert ver in ("verified", "unverified")
     pid = f"{sid}.{slug}"
+    if ver == "unverified" and not note:
+        note = "Unverified: textbook-level statement (edition cited, page not checked) or owner list; see refs."
     assert all(r["id"] != pid for r in ROWS), pid
     ROWS.append(dict(id=pid, structure_id=sid, structure_class=cls, part_type=ptype, name=name, description=desc, refs=list(refs),
                      evidence=ev, verification=ver, variability=var, anchor=anchor, z_part_ids=z or [], own_part_ids=own or [],
