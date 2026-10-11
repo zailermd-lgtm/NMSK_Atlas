@@ -2,15 +2,16 @@
    rs * (n0.x - a) > 0 (rs = +1 or -1); everything here is in the model's own millimetre frame. The engine
    (three.js clipping planes, or the WebGL fragment-shader discard) is reached only through the adaptor E:
    bounds() target() forward() apply(kn,c,on) project(p) canvasRect() pickPoint(ev) isPhone() [words].
-   apply() receives the KEPT half as kn.x + c >= 0 (the convention of the add-on hook's cut()/setCut()). */
+   apply() receives the KEPT half as kn.x + c >= 0 (the convention of the add-on hook's cut()/setCut()) and, as a
+   4th argument, the slice thickness th in mm: th > 0 keeps only 0 <= kn.x + c <= th (a slab behind the plane), th = 0 keeps all of it. */
 function NMSKCutMode(E){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
-  var panel = $("cut-panel"), svg = $("cut-svg"), btn = $("t-cut"), slider = $("cut-pos");
+  var panel = $("cut-panel"), svg = $("cut-svg"), btn = $("t-cut"), slider = $("cut-pos"), thSlider = $("cut-thsl");
   var WORDS = E.words || {x:["right","left"], y:["upper","lower"], z:["front","back"], view:["far","near"]};   // [rs = +1 side, rs = -1 side]
   var AX = {x:[1,0,0], y:[0,1,0], z:[0,0,1]}, AXN = {x:"X", y:"Y", z:"Z"};
   var NAMES = {x:"sagittal", y:"axial", z:"coronal", view:"facing the camera"};
-  var S = {on:false, ori:"x", n0:[1,0,0], rs:1, anchor:[0,0,0], placed:false, a0:0, a:0, lo:0, hi:0, armed:false, hint:""};
+  var S = {on:false, ori:"x", n0:[1,0,0], rs:1, anchor:[0,0,0], placed:false, a0:0, a:0, lo:0, hi:0, armed:false, hint:"", th:0};   // th = slice thickness in mm kept behind the plane (0 = the whole rest of the body)
   function dot(a, b){ return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
   function cross(a, b){ return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]; }
   function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
@@ -55,13 +56,16 @@ function NMSKCutMode(E){
     slider.min = String(Math.floor((S.lo - S.a0) * 2) / 2); slider.max = String(Math.ceil((S.hi - S.a0) * 2) / 2);
     slider.value = String(S.a - S.a0);
     $("cut-mm").textContent = mm(S.a - S.a0);
+    $("cut-th").textContent = S.th > 0 ? S.th.toFixed(1) + " mm slice" : "whole rest of body";
+    if (thSlider) thSlider.value = String(S.th > 0 ? S.th : thSlider.max);
+    Array.prototype.forEach.call(panel.querySelectorAll("#cut-thick button"), function(b){ b.setAttribute("aria-pressed", String(parseFloat(b.dataset.th) === S.th)); });
     $("cut-state").textContent = NAMES[S.ori] + (S.ori === "view" ? "" : ", " + AXN[S.ori] + " = " + S.a.toFixed(1) + " mm");
     $("cut-place").setAttribute("aria-pressed", String(S.armed));
     $("cut-hint").textContent = S.armed ? "Click or tap the model: the plane will pass through that point." : S.hint;
   }
   function push(){
     var p = planeKept();
-    E.apply(p.kn, p.c, S.on);
+    E.apply(p.kn, p.c, S.on, S.th);
     ui(); overlay();
   }
   /* ---- the plane drawn over the canvas: translucent rectangle, edge, arrow toward the removed side ---- */
@@ -86,6 +90,11 @@ function NMSKCutMode(E){
     var poly = nearClip([at(ua, va), at(ub, va), at(ub, vb), at(ua, vb)].map(E.project));
     var s = "";
     if (poly.length >= 3) s += '<polygon class="cut-fill" points="' + poly.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+    if (S.th > 0){                                         // the far face of the slice, th mm behind the plane
+      var O2 = axpy(O, S.n0, -S.rs * S.th);
+      var poly2 = nearClip([[ua, va], [ub, va], [ub, vb], [ua, vb]].map(function(q){ return E.project(axpy(axpy(O2, U, q[0]), V, q[1])); }));
+      if (poly2.length >= 3) s += '<polygon class="cut-fill cut-back" points="' + poly2.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+    }
     var c0 = (S.placed || S.ori === "view") ? axpy(S.anchor, S.n0, S.a - dot(S.n0, S.anchor)) : at((ua + ub) / 2, (va + vb) / 2);
     var L = 0.11 * Math.max(ub - ua, vb - va), tip = axpy(c0, S.n0, S.rs * L), q0 = E.project(c0), q1 = E.project(tip);
     if (q0[2] + q0[3] > 0 && q1[2] + q1[3] > 0){
@@ -109,6 +118,7 @@ function NMSKCutMode(E){
   }
   /* ---- actions ---- */
   function move(d){ S.a = clamp(S.a + d); push(); }
+  function setTh(t){ S.th = t > 0 ? Math.max(0.5, Math.min(100, t)) : 0; push(); }
   function setOri(o){ S.armed = false; S.hint = ""; orient(o, null); push(); }
   function exit(reset){ S.on = false; S.armed = false; S.hint = ""; if (reset){ S.placed = false; orient("x", null); } push(); }
   function enter(){ S.on = true; push(); }
@@ -122,7 +132,9 @@ function NMSKCutMode(E){
   slider.addEventListener("input", function(){ S.a = clamp(S.a0 + parseFloat(slider.value)); push(); });
   slider.addEventListener("wheel", function(e){ e.preventDefault(); var d = e.deltaY || e.deltaX; if (d) move((d < 0 ? 1 : -1) * (e.shiftKey ? 10 : 1)); }, {passive:false});
   Array.prototype.forEach.call(panel.querySelectorAll("#cut-steps button"), function(b){ b.addEventListener("click", function(){ move(parseFloat(b.dataset.step)); }); });
-  $("cut-reset").addEventListener("click", function(){ S.placed = false; S.armed = false; S.hint = ""; orient("x", null); push(); });
+  if (thSlider) thSlider.addEventListener("input", function(){ var v = parseFloat(thSlider.value); setTh(v >= parseFloat(thSlider.max) ? 0 : v); });
+  Array.prototype.forEach.call(panel.querySelectorAll("#cut-thick button"), function(b){ b.addEventListener("click", function(){ setTh(parseFloat(b.dataset.th)); }); });
+  $("cut-reset").addEventListener("click", function(){ S.th = 0; S.placed = false; S.armed = false; S.hint = ""; orient("x", null); push(); });
   $("cut-exit").addEventListener("click", function(){ exit(false); });
   $("cut-min").addEventListener("click", function(){ var m = !panel.classList.contains("cp-min"); panel.classList.toggle("cp-min", m); this.setAttribute("aria-expanded", String(!m)); });
   window.addEventListener("keydown", function(e){
@@ -152,7 +164,7 @@ function NMSKCutMode(E){
       S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = "";
       S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
     },
-    exit: exit, enter: enter, move: move, setOrientation: setOri,
-    state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c}; }
+    exit: exit, enter: enter, move: move, setOrientation: setOri, setThickness: setTh,
+    state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c, th:S.th}; }
   };
 }

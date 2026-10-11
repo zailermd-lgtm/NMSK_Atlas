@@ -16,6 +16,11 @@
     <div class="cp-row cp-steps" id="cut-steps">
       <button type="button" data-step="-10">&minus;10</button><button type="button" data-step="-1">&minus;1</button><button type="button" data-step="1">+1</button><button type="button" data-step="10">+10</button>
     </div>
+    <div class="cp-lbl">Slice thickness <output id="cut-th">whole rest of body</output></div>
+    <input id="cut-thsl" type="range" min="1" max="100" step="0.5" value="100" aria-label="Thickness of the slice that is kept behind the plane, in millimetres; the far end is the whole rest of the body">
+    <div class="cp-row cp-steps" id="cut-thick">
+      <button type="button" data-th="2">2</button><button type="button" data-th="5">5</button><button type="button" data-th="10">10</button><button type="button" data-th="25">25</button><button type="button" data-th="0" title="Keep the whole rest of the body behind the plane">all</button>
+    </div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
 </div>

@@ -242,6 +242,7 @@
 body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;display:none;overflow:visible}
 #cut-svg .cut-fill{fill:var(--cp-accent);fill-opacity:.13;stroke:var(--cp-accent);stroke-width:1.6;stroke-opacity:.95;stroke-linejoin:round}
+#cut-svg .cut-back{fill-opacity:.07;stroke-dasharray:5 4}
 #cut-svg .cut-arrow{stroke:var(--cp-warn);stroke-width:2.4;stroke-linecap:round;fill:none}
 #cut-svg .cut-head{fill:var(--cp-warn)}
 #cut-svg .cut-pt{fill:none;stroke:var(--cp-warn);stroke-width:2}
@@ -334,6 +335,11 @@ body.cut-armed canvas{cursor:crosshair!important}
     <input id="cut-pos" type="range" min="-100" max="100" step="0.5" value="0" aria-label="Move the cut plane along its normal (millimetres)">
     <div class="cp-row cp-steps" id="cut-steps">
       <button type="button" data-step="-10">&minus;10</button><button type="button" data-step="-1">&minus;1</button><button type="button" data-step="1">+1</button><button type="button" data-step="10">+10</button>
+    </div>
+    <div class="cp-lbl">Slice thickness <output id="cut-th">whole rest of body</output></div>
+    <input id="cut-thsl" type="range" min="1" max="100" step="0.5" value="100" aria-label="Thickness of the slice that is kept behind the plane, in millimetres; the far end is the whole rest of the body">
+    <div class="cp-row cp-steps" id="cut-thick">
+      <button type="button" data-th="2">2</button><button type="button" data-th="5">5</button><button type="button" data-th="10">10</button><button type="button" data-th="25">25</button><button type="button" data-th="0" title="Keep the whole rest of the body behind the plane">all</button>
     </div>
     <p class="cp-hint cp-keys">Keys: arrows &plusmn;1 mm, with Shift or PageUp/PageDown &plusmn;10 mm. Mouse wheel over the slider also moves the plane.</p>
   </div>
@@ -618,9 +624,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
              "void main(){vN=uN*aNrm;vP=aPos;gl_Position=uMVP*vec4(aPos,1.0);}";
     var FS = "precision mediump float;varying vec3 vN;varying vec3 vP;" +
       "uniform vec3 uColor;uniform float uAlpha;uniform float uHL;" +
-      "uniform vec4 uClip;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
+      "uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
       "void main(){" +
-      " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
+      " if(uClipOn>0.5 && (dot(vP,uClip.xyz)+uClip.w>0.0 || dot(vP,uClip2.xyz)+uClip2.w>0.0)) discard;" +
       " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
       " vec3 n=normalize(vN); if(!gl_FrontFacing) n=-n;" +
       " float d=max(dot(n,normalize(vec3(0.45,0.72,0.55))),0.0);" +
@@ -642,7 +648,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     gl.useProgram(prog);
     var U = {};
-    ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
+    ["uMVP","uN","uColor","uAlpha","uHL","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
       U[n] = gl.getUniformLocation(prog, n);
     });
 
@@ -670,7 +676,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     alphaFor.skin = 0.3;    // Q186: skin (Regions of human body) shown as a translucent envelope by default   // Q161: synovial sacs read as sacs, not solid blobs on the joint
     var sideFilter = "both", selected = null, hovered = null;
     var hidden = new Set(), faded = new Set(), soloLayer = null;
-    var clip = { on:false, P:[0,0,0,0] };     // Q197: P = (n, w), fragments discarded where dot(p, n) + w > 0 (set by the cut-mode controller)
+    var clip = { on:false, P:[0,0,0,0], P2:[0,0,0,-1] };     // Q197: P = (n, w), fragments discarded where dot(p, n) + w > 0 (set by the cut-mode controller)
     var box = { on:false, min:[0,0,0], max:[0,0,0] };
     var COL = {};
 
@@ -711,11 +717,12 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // half. The cut-mode controller (shared block below) owns the plane's meaning -- orientation, side, offset -- and
     // hands it over through its adaptor's apply(); clip.P is that plane in this model's millimetre frame.
     function clipPlane() { return clip.P.slice(); }
+    function clipPlane2() { return clip.P2.slice(); }
     function passClip(o) {
       if (!clip.on) return true;
-      var P = clipPlane(), m = P[3];
-      for (var k = 0; k < 3; k++) m += P[k] * (P[k] > 0 ? o.bmin[k] : o.bmax[k]);
-      return m <= 0;
+      var P = clipPlane(), m = P[3], P2 = clipPlane2(), m2 = P2[3];
+      for (var k = 0; k < 3; k++){ m += P[k] * (P[k] > 0 ? o.bmin[k] : o.bmax[k]); m2 += P2[k] * (P2[k] > 0 ? o.bmin[k] : o.bmax[k]); }
+      return m <= 0 && m2 <= 0;
     }
     // Q188 add-on hook state (inert without the add-on)
     var addonDraw = [], addonClick = null, addonOpacity = null;
@@ -761,8 +768,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
 
       // clip plane
       if (clip.on) {
-        var cp=clipPlane();
+        var cp=clipPlane(), cp2=clipPlane2();
         gl.uniform4f(U.uClip,cp[0],cp[1],cp[2],cp[3]);
+        gl.uniform4f(U.uClip2,cp2[0],cp2[1],cp2[2],cp2[3]);
         gl.uniform1f(U.uClipOn,1);
       } else gl.uniform1f(U.uClipOn,0);
       if (box.on) {
@@ -850,9 +858,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     // bounding-sphere test named whichever structure's CENTRE was nearest, so long vessels
     // and large muscles were reported where a different structure was visible.)
     var PFS = "precision mediump float;varying vec3 vN;varying vec3 vP;uniform vec3 uId;" +
-      "uniform vec4 uClip;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
+      "uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
       "void main(){" +
-      " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
+      " if(uClipOn>0.5 && (dot(vP,uClip.xyz)+uClip.w>0.0 || dot(vP,uClip2.xyz)+uClip2.w>0.0)) discard;" +
       " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
       " gl_FragColor=vec4(uId,1.0);}";
     var pprog = gl.createProgram();
@@ -861,16 +869,16 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     gl.bindAttribLocation(pprog, 0, "aPos"); gl.bindAttribLocation(pprog, 1, "aNrm");
     gl.linkProgram(pprog);
     var PUid = {};
-    ["uMVP","uN","uId","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
+    ["uMVP","uN","uId","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) {
       PUid[n] = gl.getUniformLocation(pprog, n);
     });
     // Q197: the same pass with the fragment depth packed into RGBA (highp where the GPU has it) -- the clicked point for
     // "place the cut plane on the model" is read back from it, so it follows exactly what the ID pass picked
     var DFS = "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n" +
       "varying vec3 vN;varying vec3 vP;" +
-      "uniform vec4 uClip;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
+      "uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;uniform vec3 uBoxMin;uniform vec3 uBoxMax;uniform float uBoxOn;" +
       "void main(){" +
-      " if(uClipOn>0.5 && dot(vP,uClip.xyz)+uClip.w>0.0) discard;" +
+      " if(uClipOn>0.5 && (dot(vP,uClip.xyz)+uClip.w>0.0 || dot(vP,uClip2.xyz)+uClip2.w>0.0)) discard;" +
       " if(uBoxOn>0.5 && (vP.x<uBoxMin.x||vP.y<uBoxMin.y||vP.z<uBoxMin.z||vP.x>uBoxMax.x||vP.y>uBoxMax.y||vP.z>uBoxMax.z)) discard;" +
       " vec4 e=fract(gl_FragCoord.z*vec4(1.0,255.0,65025.0,16581375.0)); e-=e.yzww*vec4(1.0/255.0,1.0/255.0,1.0/255.0,0.0);" +
       " gl_FragColor=e;}";
@@ -880,7 +888,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
     gl.bindAttribLocation(dprog, 0, "aPos"); gl.bindAttribLocation(dprog, 1, "aNrm");
     gl.linkProgram(dprog);
     var DU = {};
-    ["uMVP","uN","uClip","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) { DU[n] = gl.getUniformLocation(dprog, n); });
+    ["uMVP","uN","uClip","uClip2","uClipOn","uBoxMin","uBoxMax","uBoxOn"].forEach(function (n) { DU[n] = gl.getUniformLocation(dprog, n); });
     var hiP = gl.getShaderPrecisionFormat ? gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT) : null;
     var depthOK = !!(hiP && hiP.precision >= 23) && !!gl.getProgramParameter(dprog, gl.LINK_STATUS);
     OBJ.forEach(function (o, i) { o.pid = i + 1; });
@@ -921,8 +929,9 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
       gl.uniformMatrix4fv(PU.uMVP, false, lastMVP);
       gl.uniformMatrix3fv(PU.uN, false, new Float32Array([1,0,0,0,1,0,0,0,1]));
       if (clip.on) {
-        var cp = clipPlane();
+        var cp = clipPlane(), cp2 = clipPlane2();
         gl.uniform4f(PU.uClip, cp[0], cp[1], cp[2], cp[3]);
+        gl.uniform4f(PU.uClip2, cp2[0], cp2[1], cp2[2], cp2[3]);
         gl.uniform1f(PU.uClipOn, 1);
       } else gl.uniform1f(PU.uClipOn, 0);
       if (box.on) {
@@ -1055,15 +1064,16 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
    rs * (n0.x - a) > 0 (rs = +1 or -1); everything here is in the model's own millimetre frame. The engine
    (three.js clipping planes, or the WebGL fragment-shader discard) is reached only through the adaptor E:
    bounds() target() forward() apply(kn,c,on) project(p) canvasRect() pickPoint(ev) isPhone() [words].
-   apply() receives the KEPT half as kn.x + c >= 0 (the convention of the add-on hook's cut()/setCut()). */
+   apply() receives the KEPT half as kn.x + c >= 0 (the convention of the add-on hook's cut()/setCut()) and, as a
+   4th argument, the slice thickness th in mm: th > 0 keeps only 0 <= kn.x + c <= th (a slab behind the plane), th = 0 keeps all of it. */
 function NMSKCutMode(E){
   "use strict";
   var $ = function(id){ return document.getElementById(id); };
-  var panel = $("cut-panel"), svg = $("cut-svg"), btn = $("t-cut"), slider = $("cut-pos");
+  var panel = $("cut-panel"), svg = $("cut-svg"), btn = $("t-cut"), slider = $("cut-pos"), thSlider = $("cut-thsl");
   var WORDS = E.words || {x:["right","left"], y:["upper","lower"], z:["front","back"], view:["far","near"]};   // [rs = +1 side, rs = -1 side]
   var AX = {x:[1,0,0], y:[0,1,0], z:[0,0,1]}, AXN = {x:"X", y:"Y", z:"Z"};
   var NAMES = {x:"sagittal", y:"axial", z:"coronal", view:"facing the camera"};
-  var S = {on:false, ori:"x", n0:[1,0,0], rs:1, anchor:[0,0,0], placed:false, a0:0, a:0, lo:0, hi:0, armed:false, hint:""};
+  var S = {on:false, ori:"x", n0:[1,0,0], rs:1, anchor:[0,0,0], placed:false, a0:0, a:0, lo:0, hi:0, armed:false, hint:"", th:0};   // th = slice thickness in mm kept behind the plane (0 = the whole rest of the body)
   function dot(a, b){ return a[0]*b[0] + a[1]*b[1] + a[2]*b[2]; }
   function cross(a, b){ return [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]]; }
   function unit(a){ var l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; }
@@ -1108,13 +1118,16 @@ function NMSKCutMode(E){
     slider.min = String(Math.floor((S.lo - S.a0) * 2) / 2); slider.max = String(Math.ceil((S.hi - S.a0) * 2) / 2);
     slider.value = String(S.a - S.a0);
     $("cut-mm").textContent = mm(S.a - S.a0);
+    $("cut-th").textContent = S.th > 0 ? S.th.toFixed(1) + " mm slice" : "whole rest of body";
+    if (thSlider) thSlider.value = String(S.th > 0 ? S.th : thSlider.max);
+    Array.prototype.forEach.call(panel.querySelectorAll("#cut-thick button"), function(b){ b.setAttribute("aria-pressed", String(parseFloat(b.dataset.th) === S.th)); });
     $("cut-state").textContent = NAMES[S.ori] + (S.ori === "view" ? "" : ", " + AXN[S.ori] + " = " + S.a.toFixed(1) + " mm");
     $("cut-place").setAttribute("aria-pressed", String(S.armed));
     $("cut-hint").textContent = S.armed ? "Click or tap the model: the plane will pass through that point." : S.hint;
   }
   function push(){
     var p = planeKept();
-    E.apply(p.kn, p.c, S.on);
+    E.apply(p.kn, p.c, S.on, S.th);
     ui(); overlay();
   }
   /* ---- the plane drawn over the canvas: translucent rectangle, edge, arrow toward the removed side ---- */
@@ -1139,6 +1152,11 @@ function NMSKCutMode(E){
     var poly = nearClip([at(ua, va), at(ub, va), at(ub, vb), at(ua, vb)].map(E.project));
     var s = "";
     if (poly.length >= 3) s += '<polygon class="cut-fill" points="' + poly.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+    if (S.th > 0){                                         // the far face of the slice, th mm behind the plane
+      var O2 = axpy(O, S.n0, -S.rs * S.th);
+      var poly2 = nearClip([[ua, va], [ub, va], [ub, vb], [ua, vb]].map(function(q){ return E.project(axpy(axpy(O2, U, q[0]), V, q[1])); }));
+      if (poly2.length >= 3) s += '<polygon class="cut-fill cut-back" points="' + poly2.map(function(q){ return scr(q, r).map(function(v){ return v.toFixed(1); }).join(","); }).join(" ") + '"/>';
+    }
     var c0 = (S.placed || S.ori === "view") ? axpy(S.anchor, S.n0, S.a - dot(S.n0, S.anchor)) : at((ua + ub) / 2, (va + vb) / 2);
     var L = 0.11 * Math.max(ub - ua, vb - va), tip = axpy(c0, S.n0, S.rs * L), q0 = E.project(c0), q1 = E.project(tip);
     if (q0[2] + q0[3] > 0 && q1[2] + q1[3] > 0){
@@ -1162,6 +1180,7 @@ function NMSKCutMode(E){
   }
   /* ---- actions ---- */
   function move(d){ S.a = clamp(S.a + d); push(); }
+  function setTh(t){ S.th = t > 0 ? Math.max(0.5, Math.min(100, t)) : 0; push(); }
   function setOri(o){ S.armed = false; S.hint = ""; orient(o, null); push(); }
   function exit(reset){ S.on = false; S.armed = false; S.hint = ""; if (reset){ S.placed = false; orient("x", null); } push(); }
   function enter(){ S.on = true; push(); }
@@ -1175,7 +1194,9 @@ function NMSKCutMode(E){
   slider.addEventListener("input", function(){ S.a = clamp(S.a0 + parseFloat(slider.value)); push(); });
   slider.addEventListener("wheel", function(e){ e.preventDefault(); var d = e.deltaY || e.deltaX; if (d) move((d < 0 ? 1 : -1) * (e.shiftKey ? 10 : 1)); }, {passive:false});
   Array.prototype.forEach.call(panel.querySelectorAll("#cut-steps button"), function(b){ b.addEventListener("click", function(){ move(parseFloat(b.dataset.step)); }); });
-  $("cut-reset").addEventListener("click", function(){ S.placed = false; S.armed = false; S.hint = ""; orient("x", null); push(); });
+  if (thSlider) thSlider.addEventListener("input", function(){ var v = parseFloat(thSlider.value); setTh(v >= parseFloat(thSlider.max) ? 0 : v); });
+  Array.prototype.forEach.call(panel.querySelectorAll("#cut-thick button"), function(b){ b.addEventListener("click", function(){ setTh(parseFloat(b.dataset.th)); }); });
+  $("cut-reset").addEventListener("click", function(){ S.th = 0; S.placed = false; S.armed = false; S.hint = ""; orient("x", null); push(); });
   $("cut-exit").addEventListener("click", function(){ exit(false); });
   $("cut-min").addEventListener("click", function(){ var m = !panel.classList.contains("cp-min"); panel.classList.toggle("cp-min", m); this.setAttribute("aria-expanded", String(!m)); });
   window.addEventListener("keydown", function(e){
@@ -1205,8 +1226,8 @@ function NMSKCutMode(E){
       S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = "";
       S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
     },
-    exit: exit, enter: enter, move: move, setOrientation: setOri,
-    state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c}; }
+    exit: exit, enter: enter, move: move, setOrientation: setOri, setThickness: setTh,
+    state: function(){ var p = planeKept(); return {on:S.on, ori:S.ori, rs:S.rs, offset:S.a - S.a0, a:S.a, n0:S.n0.slice(), anchor:S.anchor.slice(), placed:S.placed, armed:S.armed, kn:p.kn, c:p.c, th:S.th}; }
   };
 }
 /* CUT-MODE js end */
@@ -1214,7 +1235,7 @@ function NMSKCutMode(E){
       bounds:function(){ return {min:bbMin, max:bbMax}; },
       target:function(){ return cam.tgt.slice(); },
       forward:function(){ var ce=Math.cos(cam.el), se=Math.sin(cam.el); return [-ce*Math.sin(cam.az), -se, -ce*Math.cos(cam.az)]; },
-      apply:function(kn, c, on){ clip.on=on; clip.P=[-kn[0], -kn[1], -kn[2], -c]; need=true; },
+      apply:function(kn, c, on, th){ clip.on=on; clip.P=[-kn[0], -kn[1], -kn[2], -c]; clip.P2=th>0 ? [kn[0], kn[1], kn[2], c-th] : [0,0,0,-1]; need=true; },
       project:function(p){
         var m=lastMVP; if(!m) return [0,0,0,-1];
         return [m[0]*p[0]+m[4]*p[1]+m[8]*p[2]+m[12], m[1]*p[0]+m[5]*p[1]+m[9]*p[2]+m[13],
