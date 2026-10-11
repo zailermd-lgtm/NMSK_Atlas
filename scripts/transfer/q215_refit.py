@@ -21,6 +21,7 @@ import numpy as np
 import nibabel as nib
 import trimesh
 from scipy import ndimage as ndi
+from scipy.spatial import cKDTree
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO))
@@ -111,6 +112,84 @@ def _level_no_bone(L0s, Ls, rgb_th, mus, B, C, move_px, held, Tk=None):
     return res
 
 
+def bridge_gaps(out, labels, forbid, max_gap=14, frac=0.15):
+    """a target muscle that is empty (< frac of its median section) over a few levels between two populated ones -- her blank / gel-spill photographs at y -127..-134 and the strict photographed-muscle
+    rule leave such gaps -- gets the signed-distance blend of its two bounding sections there (only into unlabelled voxels outside her bones / own muscles).  Returns {label: [(y0, y1), ...]} in k"""
+    done = {}
+    for l in labels:
+        area = (out == l).sum((0, 1))
+        ks = np.nonzero(area)[0]
+        if len(ks) < 3:
+            continue
+        med = float(np.median(area[ks]))
+        thin = np.zeros(len(area), bool)
+        thin[ks.min():ks.max() + 1] = area[ks.min():ks.max() + 1] < frac * med
+        k = ks.min()
+        while k <= ks.max():
+            if not thin[k]:
+                k += 1
+                continue
+            k1 = k
+            while k1 + 1 <= ks.max() and thin[k1 + 1]:
+                k1 += 1
+            ka, kb = k - 1, k1 + 1
+            if 0 < k - ks.min() and kb <= ks.max() and (k1 - k + 1) <= max_gap and not thin[ka] and not thin[kb]:
+                Sa, Sb = R.sdf(out[:, :, ka] == l), R.sdf(out[:, :, kb] == l)
+                for kk in range(k, k1 + 1):
+                    t = (kk - ka) / (kb - ka)
+                    m = (((1 - t) * Sa + t * Sb) < 0) & ~forbid[:, :, kk] & ((out[:, :, kk] == 0) | (out[:, :, kk] == l))
+                    out[:, :, kk][m] = l
+                done.setdefault(l, []).append((int(k), int(k1)))
+            k = k1 + 1
+    return done
+
+
+def zfill_seams():
+    """{target id: seam plane y (mm)} of the target muscles that carry a Z-fill continuation piece welded to a flat cut of the old mesh (the plane where the continuation touches the old base)"""
+    from scripts.transfer.q200_bundle import Bundle
+    B = Bundle(SRC_BUNDLE)
+    out = {}
+    for aid in target_ids():
+        if not B.find(aid):
+            continue
+        v0, _f0 = B.mesh(B.items[B.find(aid)[0]])
+        tree = cKDTree(v0)
+        zs = [B.mesh(it)[0] for it in B.items if re.fullmatch(re.escape(aid) + r"_zfill\w*", it["e"]["id"])]
+        if not zs:
+            continue
+        zv = np.vstack(zs)
+        near = zv[tree.query(zv)[0] < 1.0]
+        if len(near) >= 3:
+            out[aid] = float(np.median(near[:, 1]))
+    return out
+
+
+def seam_blend(out, base, seams, forbid, A, band_mm=20):
+    """Q215: a muscle whose old mesh carries a Z-fill continuation welded at a flat cut keeps its OLD end section at that plane: the label slice at the seam level is the base slice, blended by a signed-distance
+    morph into the re-fitted slice over the BAND_MM below it (the continuation stays welded; the re-fit takes over below the band).  Returns {id: (k_top, k_from)}"""
+    ids = R.label_ids()
+    done = {}
+    for aid, ys in seams.items():
+        l = ids[aid]
+        kb = np.nonzero((base == l).any((0, 1)))[0]
+        k_s = int(round((ys + R.ORIGIN[1] - A[2, 3]) / A[2, 2]))
+        if not len(kb) or not (kb.min() <= k_s <= kb.max() + 2):
+            continue
+        k_top = min(int(kb.max()), k_s)
+        sgn = 1 if A[2, 2] > 0 else -1
+        k_from = k_top - sgn * band_mm
+        for k in range(k_top, k_from - sgn, -sgn):
+            t = abs(k - k_from) / float(band_mm)        # 1 at the seam, 0 at the band's lower edge
+            Sb, Sr = R.sdf(base[:, :, k] == l), R.sdf(out[:, :, k] == l)
+            m = ((t * Sb + (1 - t) * Sr) < 0)
+            sl = out[:, :, k]
+            allowed = ((sl == 0) | (sl == l) | (base[:, :, k] == l)) & (~forbid[:, :, k] | (base[:, :, k] == l) & (t >= 0.5))
+            sl[sl == l] = 0
+            sl[m & allowed] = l
+        done[aid] = (k_top, k_from)
+    return done
+
+
 def refit(work, crops, hold_ids, rule="her", log=print):
     R.refit_level = _level_no_bone
     R.bc_raster = _bc_solid
@@ -125,6 +204,11 @@ def refit(work, crops, hold_ids, rule="her", log=print):
     kill = np.isin(out, tl) & (B3 | C3)
     out[kill] = 0
     lv["outside_window_bone_ct_removed_voxels"] = int(kill.sum())
+    lv["bridged_gaps_k"] = {str(l): g for l, g in bridge_gaps(out, tl, B3 | C3).items()}
+    base = np.asarray(nib.load(str(R.Q48_VOL)).dataobj)
+    seams = {a: y for a, y in zfill_seams().items() if a not in set(hold_ids)}
+    lv["seam_blend"] = {a: [int(x) for x in v] for a, v in seam_blend(out, base, seams, B3 | C3, img.affine).items()}
+    lv["zfill_seams_y_mm"] = seams
     after = {aid: int((out == l).sum()) for aid, l in ids.items()}
     changed = sorted(aid for aid, l in ids.items() if aid in before and before[aid] != after[aid])
     return out, lv, before, after, changed, img, full

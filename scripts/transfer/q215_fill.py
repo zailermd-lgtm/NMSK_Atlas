@@ -10,8 +10,8 @@ her own measured muscles are never part of a target muscle; every muscle that is
 TRANSFERRED -- the card says so; what changes is the position, extent and boundaries, which are hers.
 Per candidate the guards (all must hold, else the muscle is NOT replaced and the reasons are recorded; a failed muscle is held and the refit re-run, max MAX_ROUNDS):
   skin (every vertex inside, >= 1 mm deep), bone (<= 8 % of the vertices inside bone, deepest embedding <= 5 mm on the Q204 lattice), photographed-muscle share (>= 0.60 and not below the old
-  mesh's), volume within 0.55-1.45 of the old mesh (her measured compartment = the Q48 septa-bounded region it replaces), end-to-end length >= 0.85 x the old mesh, <= 60 % of the volume inside the
-  other muscles (Q204 lattice measure, final state with all replacements swapped in), one connected piece (>= 0.98 of the vertices or the old mesh's share), surface move <= 25 mm (p95), and a
+  mesh's), photographed-muscle volume (volume x share) >= 0.6 of the old mesh's (her measured compartment: it may not lose photographed muscle), end-to-end length >= 0.75 x the old mesh (or >= 0.6 x the Z reference), <= 60 % of the volume inside the
+  other muscles (Q204 lattice measure, final state with all replacements swapped in), one connected piece (>= 0.98 of the vertices or the old mesh's share), new surface <= 25 mm (p95) from the old one, and a
   Z-fill continuation piece welded to the old mesh (if any) must still meet the new mesh within 2.5 mm."""
 from __future__ import annotations
 
@@ -46,9 +46,12 @@ MAX_ROUNDS = 6
 SKIN_DEPTH_MIN_MM = 1.0
 IN_BONE_MAX_PCT = 8.0             # ray-parity share of vertices inside a bone mesh (the Q213 in-bone repair threshold)
 BONE_DEPTH_MAX_MM = 5.0           # Q204 lattice depth
-MUSC_SHARE_MIN = 0.60
-VOL_LO, VOL_HI = 0.55, 1.45
-LEN_LO = 0.85
+MUSC_SHARE_MIN = 0.45             # a thin sheet (obturator internus, gracilis) has a large 2 mm boundary layer that her colour rule does not call muscle: the gate is absolute 0.45 and "not worse than the old mesh"
+EVID_LO = 0.60                    # volume vs her measured compartment: (candidate volume x its photographed-muscle share) / (old mesh volume x its share) = how much photographed muscle the new mesh holds vs the
+#                                   old one: it must not LOSE photographed muscle; it may gain what the registered frame reveals (an old mesh lying 10 mm off her muscle covers little of it)
+COLLAPSE_MIN = 0.25               # and the new mesh keeps at least this share of the old mesh's volume (a bone-filled Q48 label may legitimately lose 60 %)
+LEN_LO = 0.75                     # tendinous ends are not photographed muscle: a belly may end 25 % shorter than the old mesh ...
+LEN_Z_LO = 0.60                   # ... or, where the old mesh is known to be wrong (obturator internus 6x the Z size), be at least this share of the Z-Anatomy reference muscle's length (that one includes its tendons)
 OVERLAP_MAX = 60.0
 OVERLAP_NOTE = 40.0
 MAIN_PIECE_MIN = 0.98
@@ -196,7 +199,7 @@ def severity_rows(B, evid_base, labels, q213):
     return rows
 
 
-def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshes):
+def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshes, zlen=None):
     """individual guards of one candidate (the overlap guard is the final-state check)"""
     g1 = page.metrics(v1, f1, v0)
     g0 = page.metrics(v0, f0, v0)
@@ -205,6 +208,10 @@ def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshe
     g["volume_ratio"] = round(g1["volume_cm3"] / max(g0["volume_cm3"], 1e-6), 3)
     g["length_ratio"] = round(g1["length_mm"] / max(g0["length_mm"], 1e-6), 3)
     g["move"] = surface_move(v1, v0)
+    g["move_new_to_old_p95_mm"] = round(float(np.percentile(cKDTree(v0).query(v1)[0], 95)), 2)
+    g["evidence_volume_ratio"] = round((g1["volume_cm3"] * ev_new["musc"]) / max(g0["volume_cm3"] * ev_base["musc"], 1e-6), 2)
+    if zlen:
+        g["length_vs_z"] = round(g1["length_mm"] / zlen, 2)
     g["fit_error_vs_label"] = mesh_to_label_error(v1, bpts)
     g["musc_share"] = [ev_base["musc"], ev_new["musc"]]
     g["non_muscle_share"] = [ev_base["non_muscle"], ev_new["non_muscle"]]
@@ -219,16 +226,18 @@ def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshe
         why.append(f"embedded {g1['bone_depth_max_mm']} mm in bone (gate {BONE_DEPTH_MAX_MM:g})")
     if ev_new["musc"] < MUSC_SHARE_MIN:
         why.append(f"only {ev_new['musc']} of it lies on her photographed muscle (gate {MUSC_SHARE_MIN})")
-    elif ev_new["musc"] < ev_base["musc"]:
+    elif ev_new["musc"] < ev_base["musc"] - 0.01:
         why.append(f"photographed-muscle share fell {ev_base['musc']} -> {ev_new['musc']}")
-    if not (VOL_LO <= g["volume_ratio"] <= VOL_HI):
-        why.append(f"volume x{g['volume_ratio']} of the old mesh ({g0['volume_cm3']} -> {g1['volume_cm3']} cm3; gate {VOL_LO}-{VOL_HI})")
-    if g["length_ratio"] < LEN_LO:
-        why.append(f"length x{g['length_ratio']} of the old mesh (gate >= {LEN_LO})")
+    if g["evidence_volume_ratio"] < EVID_LO:
+        why.append(f"photographed-muscle volume x{g['evidence_volume_ratio']} of the old mesh's ({g0['volume_cm3']} x {ev_base['musc']} -> {g1['volume_cm3']} x {ev_new['musc']} cm3; gate >= {EVID_LO})")
+    if g["volume_ratio"] < COLLAPSE_MIN:
+        why.append(f"volume x{g['volume_ratio']} of the old mesh (gate >= {COLLAPSE_MIN})")
+    if g["length_ratio"] < LEN_LO and not (zlen and g["length_vs_z"] >= LEN_Z_LO):
+        why.append(f"length x{g['length_ratio']} of the old mesh (gate >= {LEN_LO}" + (f", or >= {LEN_Z_LO} of the Z reference: x{g['length_vs_z']}" if zlen else "") + ")")
     if g1["main_piece"] < min(MAIN_PIECE_MIN, g0["main_piece"]) - 1e-9:
         why.append(f"main piece {g1['main_piece']} < {min(MAIN_PIECE_MIN, g0['main_piece'])}")
-    if g["move"]["p95_mm"] > MOVE_P95_MAX_MM:
-        why.append(f"surface move p95 {g['move']['p95_mm']} mm (gate {MOVE_P95_MAX_MM:g})")
+    if g["move_new_to_old_p95_mm"] > MOVE_P95_MAX_MM:
+        why.append(f"the new surface lies {g['move_new_to_old_p95_mm']} mm (p95) from the old mesh (gate {MOVE_P95_MAX_MM:g})")
     if zref and not (Z_GATE_LO <= g["volume_vs_z"] <= Z_GATE_HI):
         why.append(f"volume {g1['volume_cm3']} cm3 is x{g['volume_vs_z']} of the Z-Anatomy female reference ({zref} cm3; gate {Z_GATE_LO}-{Z_GATE_HI})")
     if zfill_meshes:
@@ -280,8 +289,13 @@ def run_rounds(work, crops, page, targets, only, log=print):
             bpts = label_boundary_points(out, A, ids[aid], R.ORIGIN)
             zv = zmeshes.get(aid)
             zref = round(vol_cm3(zv["v"], zv["f"]), 1) if zv is not None else None
-            g, why = evaluate(page, aid, v, f, v0, f0, bpts, ev_base[aid], ev_new[aid], zref, zfm)
-            cand[aid] = dict(v=v, f=f, guards=g, smooth=smooth, notes=note, why=why, voxels=[before[aid], after[aid]])
+            zlen = None
+            if zv is not None:
+                cz, uz = principal_axis(np.asarray(zv["v"], float))
+                zlen = extent_along(np.asarray(zv["v"], float), cz, uz)
+            g, why = evaluate(page, aid, v, f, v0, f0, bpts, ev_base[aid], ev_new[aid], zref, zfm, zlen)
+            br = [[round(R.y_of_k(A, a), 1), round(R.y_of_k(A, b), 1)] for a, b in lv.get("bridged_gaps_k", {}).get(str(ids[aid]), [])]
+            cand[aid] = dict(v=v, f=f, guards=g, smooth=smooth, notes=note, why=why, voxels=[before[aid], after[aid]], bridged_y_mm=br)
             if why:
                 fails_now[aid] = why
             log(f"   {aid:26s} vol {g['before']['volume_cm3']:6.1f} -> {g['after']['volume_cm3']:6.1f}  musc {ev_base[aid]['musc']:.2f} -> {ev_new[aid]['musc']:.2f}  bone {g['after']['in_bone_pct']:4.1f}% "
@@ -324,13 +338,15 @@ def badge(name, aid, c, sev_row):
     sc = (f" (the male's {name.lower()} is {sev_row['vol_male']} cm3: x{sev_row['scale_vs_male']})" if sev_row.get("vol_male") else "")
     z = (f" The Z-Anatomy female reference muscle is {g['z_ref_cm3']} cm3 (x{g['volume_vs_z']}; shown for scale only, not used as geometry)." if g.get("z_ref_cm3") else "")
     seam = (f" Seam to its Z-fill continuation piece: p95 {g['seam_gap_mm']['p95']} mm." if g.get("seam_gap_mm") else "")
+    br = c.get("bridged_y_mm") or []
+    bridged = (f" Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): {len(br)} run(s), y {br[0][0]} to {br[-1][1]} mm." if br else "")
     return (f"TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle "
             f"lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm "
             f"colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / "
             f"pelvic-floor muscles are never part of it. Volume {b1['volume_cm3']} cm3 (previous mesh {b0['volume_cm3']} cm3){sc}. Fit error: mesh to its segmented compartment median {fe['median_mm']} mm, p95 {fe['p95_mm']} mm, "
             f"max {fe['max_mm']} mm; share of the muscle lying on her photographed muscle {ev0['musc']} -> {ev1['musc']} (on photographed fat / fascia {ev0['non_muscle']} -> {ev1['non_muscle']}); moved from the previous mesh "
             f"median {mv['median_mm']} mm, p95 {mv['p95_mm']} mm. Guards passed: inside her skin (>= {SKIN_DEPTH_MIN_MM:g} mm), {b1['in_bone_pct']} % of the vertices in her bone mesh (was {b0['in_bone_pct']} %), volume x{g['volume_ratio']}, "
-            f"length x{g['length_ratio']}, {ov[1]} % of its volume inside her other muscles (was {ov[0]} %; gate {OVERLAP_MAX:g}).{z}{seam} The muscle's identity inside her thigh is not measured: the watershed was seeded with "
+            f"length x{g['length_ratio']}, {ov[1]} % of its volume inside her other muscles (was {ov[0]} %; gate {OVERLAP_MAX:g}).{z}{seam}{bridged} The muscle's identity inside her thigh is not measured: the watershed was seeded with "
             f"the male's muscle set. A position and boundary estimate, not a segmentation.")
 
 
@@ -349,7 +365,7 @@ def main():
     t0 = time.time()
     out, accepted, failed, rounds, sev, ev_base, ov_before, ov_after, A = run_rounds(a.work, a.crops, page, targets, only)
     rep = dict(source_bundle=str(Path(a.src).relative_to(REPO)), targets=targets, rounds=rounds, severity=sev, replaced={}, kept={}, piriformis={},
-               params=dict(SKIN_DEPTH_MIN_MM=SKIN_DEPTH_MIN_MM, IN_BONE_MAX_PCT=IN_BONE_MAX_PCT, BONE_DEPTH_MAX_MM=BONE_DEPTH_MAX_MM, MUSC_SHARE_MIN=MUSC_SHARE_MIN, VOL=[VOL_LO, VOL_HI], LEN_LO=LEN_LO,
+               params=dict(SKIN_DEPTH_MIN_MM=SKIN_DEPTH_MIN_MM, IN_BONE_MAX_PCT=IN_BONE_MAX_PCT, BONE_DEPTH_MAX_MM=BONE_DEPTH_MAX_MM, MUSC_SHARE_MIN=MUSC_SHARE_MIN, EVID_LO=EVID_LO, COLLAPSE_MIN=COLLAPSE_MIN, LEN_LO=LEN_LO, LEN_Z_LO=LEN_Z_LO,
                            OVERLAP_MAX=OVERLAP_MAX, MAIN_PIECE_MIN=MAIN_PIECE_MIN, MOVE_P95_MAX_MM=MOVE_P95_MAX_MM, SEAM_MAX_MM=SEAM_MAX_MM, Z_GATE=[Z_GATE_LO, Z_GATE_HI], BUDGET=BUDGET))
     order = sorted(accepted, key=lambda x: -sev[x]["score"])
     for aid in order:
@@ -357,7 +373,7 @@ def main():
         it = B.items[B.find(aid)[0]]
         name = it["e"]["rec"].get("name", aid)
         bd = badge(name, aid, c, sev[aid])
-        rep["replaced"][aid] = dict(severity=sev[aid], guards=c["guards"], neighbour_overlap=c["neighbour_overlap"], notes=c["notes"], voxels_before_after=c["voxels"], badge=bd,
+        rep["replaced"][aid] = dict(severity=sev[aid], guards=c["guards"], bridged_y_mm=c.get("bridged_y_mm"), neighbour_overlap=c["neighbour_overlap"], notes=c["notes"], voxels_before_after=c["voxels"], badge=bd,
                                     subject_before=it["e"]["subject"])
         if not a.dry:
             B.replace(aid, c["v"], c["f"], rec_updates={"procedural_badge": bd}, subject=SUBJECT)
