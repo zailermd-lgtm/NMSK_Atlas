@@ -374,21 +374,23 @@ def zones_of(v0, mode):
     return {"lo": lo, "hi": hi}
 
 
-def op_ends(env, sid, which, v0, f0, log=print, modes=("count12", "len10")):
+def op_ends(env, sid, which, v0, f0, log=print, modes=("count12", "len10"), quick=False):
     """pull the listed ends onto their bones: end zones by vertex count first (Q214's rule), by length second; the first mode whose best variant passes every guard wins"""
     best = None
     for mode in modes:
-        r = _op_ends(env, sid, which, v0, f0, log, mode)
+        r = _op_ends(env, sid, which, v0, f0, log, mode, quick)
         v1, _f1, inf = r
         inf["zone_mode"] = mode
         if v1 is not None and not inf.get("why"):
+            return r
+        if any("traced-nerve" in w for w in inf.get("why", [])):
             return r
         if best is None or (v1 is not None and (best[0] is None or len(inf.get("why", [])) < len(best[2].get("why", [])))):
             best = r
     return best
 
 
-def _op_ends(env, sid, which, v0, f0, log, zone_mode):
+def _op_ends(env, sid, which, v0, f0, log, zone_mode, quick=False):
     ctx, B = env.ctx, env.B
     rec = B.get(sid)["e"]["rec"]
     nb = named_bones(rec)
@@ -457,6 +459,8 @@ def _op_ends(env, sid, which, v0, f0, log, zone_mode):
     others = [m for k, m in ctx.muscle_overlap.tm.items() if k.split("#")[0] not in set(skip) and not ((m.bounds[1] < lo_b).any() or (m.bounds[0] > hi_b).any())]
     best = None
     variants = [(short, lam, lams, sep) for short in (0.0, 3.0, 5.0) for lam in (8.0, 40.0) for lams in F.LAMS[:1] for sep in (None, (3, 4.0), (6, 6.0), F.SEPARATION[0])]
+    if quick:                                           # repair of a side effect: three variants are enough, the rest would only repeat the same refusal
+        variants = [(0.0, 8.0, F.LAMS[0], None), (0.0, 8.0, F.LAMS[0], (3, 4.0)), (3.0, 8.0, F.LAMS[0], None)]
     for short, lam, lams, sep in variants:
         # a pull onto the NAMED bone lands on it (short = 0); when that crowds a neighbour the end is brought to within `short` mm of it instead (still inside the audit's 6 mm)
         zt_v = [(z, t, (max(s0, short) if named else s0)) for z, t, s0, named in zt]
@@ -511,7 +515,7 @@ def _op_ends(env, sid, which, v0, f0, log, zone_mode):
         log(f"      [{zone_mode}] pull short {short} lam {lam} sep {sep}: ends {[(e, a['min_any_bone_mm']) for e, a in st1['ends'].items()]}, vol x{g['volume_ratio']}, len x{g['length_ratio']}, overlap {round(o_old, 1)} -> {round(o_new, 1)}, bone {g['after']['in_bone_pct']} %, {why or 'ok'}")
         if best is None or key < best[0]:
             best = (key, cur, g, why, st1, lam, lams, sep, zfill_new, short)
-        if not why:
+        if not why or any("traced-nerve" in w for w in why):          # passed, or the pull itself re-enters her traced nerve: more variants cannot help
             break
     _, cur, g, why, st1, lam, lams, sep, zfill_new, short = best
     info.update(after=st1["ends"], variant=dict(pull_lam=lam, bone_chain=list(lams), separation=list(sep) if sep else None, stop_short_mm=short), zfill_reweld={z: ri for z, (zn, ri) in zfill_new.items()})
@@ -834,7 +838,7 @@ def main():
             worse = [en for en, a in st1["ends"].items() if a["min_any_bone_mm"] > END_GOAL_MM and st0["ends"][mt[en]]["min_any_bone_mm"] <= END_GOAL_MM]
             if worse:
                 log(f"R {sid}: end(s) {worse} crossed the {END_GOAL_MM:g} mm line ({ {en: (st0['ends'][mt[en]]['min_any_bone_mm'], st1['ends'][en]['min_any_bone_mm']) for en in worse} })")
-                v2, f2, inf = op_ends(env, sid, worse, v1, f1, log, modes=("len10", "count12"))
+                v2, f2, inf = op_ends(env, sid, worse, v1, f1, log, modes=("len10", "count12"), quick=True)
                 if v2 is not None and not inf.get("why"):
                     zfn = inf.pop("zfill_new", {})
                     inf.pop("why", None)

@@ -1851,7 +1851,7 @@
    },
    "overlap_vol_pct": [
     31.3,
-    36.5
+    37.6
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -1868,7 +1868,7 @@
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -1880,11 +1880,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -1896,7 +1896,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -1916,11 +1916,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -1928,7 +1924,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -1975,6 +1971,16 @@
        "new_to_old_p95_mm": 0.86,
        "old_to_new_p95_mm": 0.87,
        "max_mm": 6.22
+      },
+      "nerve": {
+       "inside": [
+        28,
+        0
+       ],
+       "closest_mm": [
+        0.22,
+        1.25
+       ]
       },
       "seam_gap_mm": {
        "adductor_brevis_l_zfill203s": {
@@ -2105,25 +2111,35 @@
      "new_to_old_p95_mm": 0.86,
      "old_to_new_p95_mm": 0.87,
      "max_mm": 6.22
+    },
+    "nerve": {
+     "inside": [
+      28,
+      0
+     ],
+     "closest_mm": [
+      0.22,
+      1.25
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.2 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.14 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.25 mm, none inside. Volume 99.4 cm3 (Q215 mesh 99.8 cm3); surface moved from the Q215 mesh median 0.43 mm, p95 0.86 mm, max 6.22 mm (36.5 % of its volume inside her other muscles, was 31.3 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.2 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.14 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.25 mm, none inside. Volume 99.4 cm3 (Q215 mesh 99.8 cm3); surface moved from the Q215 mesh median 0.43 mm, p95 0.86 mm, max 6.22 mm (37.6 % of its volume inside her other muscles, was 31.3 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "adductor_magnus_l": {
    "volume_cm3": [
     543.9,
-    492.2
+    490.3
    ],
    "move": {
-    "new_to_old_median_mm": 0.66,
-    "new_to_old_p95_mm": 8.61,
-    "old_to_new_p95_mm": 5.17,
-    "max_mm": 27.95
+    "new_to_old_median_mm": 0.53,
+    "new_to_old_p95_mm": 8.46,
+    "old_to_new_p95_mm": 3.96,
+    "max_mm": 27.75
    },
    "overlap_vol_pct": [
     16.4,
-    17.0
+    16.0
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -2140,11 +2156,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -2156,11 +2172,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -2172,7 +2188,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -2192,11 +2208,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -2204,7 +2216,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -2251,6 +2263,16 @@
        "new_to_old_p95_mm": 8.46,
        "old_to_new_p95_mm": 3.96,
        "max_mm": 27.75
+      },
+      "nerve": {
+       "inside": [
+        7181,
+        0
+       ],
+       "closest_mm": [
+        0.04,
+        0.64
+       ]
       },
       "seam_gap_mm": {
        "adductor_magnus_l_zfill212": {
@@ -2351,124 +2373,6 @@
      },
      "closest_nerve_mm": 0.64,
      "kind": "A"
-    },
-    {
-     "op": "ends",
-     "before": {
-      "prox": {
-       "min_any_bone_mm": 9.18,
-       "median_any_bone_mm": 19.13,
-       "centre": [
-        -64.7,
-        -271.8,
-        -17.5
-       ]
-      },
-      "dist": {
-       "min_any_bone_mm": 0.13,
-       "median_any_bone_mm": 4.79,
-       "centre": [
-        -46.9,
-        -45.3,
-        -2.0
-       ]
-      }
-     },
-     "named_bones": [
-      "hip_bone_l",
-      "femur_l"
-     ],
-     "pulled": {
-      "prox": {
-       "bone": "femur_l",
-       "step_mm": 10.47,
-       "applied_mm": 10.47,
-       "dist_before_p5_mm": 11.04,
-       "audit_before_mm": 9.18
-      }
-     },
-     "skipped": {},
-     "which": [
-      "prox"
-     ],
-     "overlap_old_pct": 16.1,
-     "after": {
-      "prox": {
-       "min_any_bone_mm": 0.71,
-       "median_any_bone_mm": 9.77,
-       "centre": [
-        -71.0,
-        -274.4,
-        -11.1
-       ]
-      },
-      "dist": {
-       "min_any_bone_mm": 0.3,
-       "median_any_bone_mm": 4.75,
-       "centre": [
-        -46.9,
-        -45.4,
-        -2.1
-       ]
-      }
-     },
-     "variant": {
-      "pull_lam": 8.0,
-      "bone_chain": [
-       160.0,
-       40.0,
-       10.0
-      ],
-      "separation": null,
-      "stop_short_mm": 0.0
-     },
-     "zfill_reweld": {},
-     "guards": {
-      "before": {
-       "in_bone_pct": 1.3,
-       "bone_depth_max_mm": 7.5,
-       "bone_deep_pct": 2.2,
-       "inside_skin_pct": 100.0,
-       "min_skin_depth_mm": 17.9,
-       "volume_cm3": 490.3,
-       "main_piece": 1.0,
-       "length_mm": 226.9
-      },
-      "after": {
-       "in_bone_pct": 1.3,
-       "bone_depth_max_mm": 7.5,
-       "bone_deep_pct": 2.6,
-       "inside_skin_pct": 100.0,
-       "min_skin_depth_mm": 18.1,
-       "volume_cm3": 492.2,
-       "main_piece": 1.0,
-       "length_mm": 229.9
-      },
-      "volume_ratio": 1.004,
-      "length_ratio": 1.013,
-      "move": {
-       "new_to_old_median_mm": 0.58,
-       "new_to_old_p95_mm": 1.58,
-       "old_to_new_p95_mm": 1.53,
-       "max_mm": 9.66
-      },
-      "overlap_field_pct": [
-       16.1,
-       16.9
-      ],
-      "neighbours_crossing_line": [],
-      "seam_gap_mm": {
-       "adductor_magnus_l_zfill212": {
-        "seam_vertices": 30,
-        "p95": 0.78,
-        "max": 0.83,
-        "p95_before": 0.79
-       }
-      }
-     },
-     "zone_mode": "len10",
-     "repair": true,
-     "kind": "C"
     }
    ],
    "cumulative_guards": {
@@ -2485,23 +2389,33 @@
     "after": {
      "in_bone_pct": 1.3,
      "bone_depth_max_mm": 7.5,
-     "bone_deep_pct": 2.6,
+     "bone_deep_pct": 2.2,
      "inside_skin_pct": 100.0,
-     "min_skin_depth_mm": 18.1,
-     "volume_cm3": 492.2,
+     "min_skin_depth_mm": 17.9,
+     "volume_cm3": 490.3,
      "main_piece": 1.0,
-     "length_mm": 230.0
+     "length_mm": 226.8
     },
-    "volume_ratio": 0.905,
-    "length_ratio": 0.957,
+    "volume_ratio": 0.901,
+    "length_ratio": 0.944,
     "move": {
-     "new_to_old_median_mm": 0.66,
-     "new_to_old_p95_mm": 8.61,
-     "old_to_new_p95_mm": 5.17,
-     "max_mm": 27.95
+     "new_to_old_median_mm": 0.53,
+     "new_to_old_p95_mm": 8.46,
+     "old_to_new_p95_mm": 3.96,
+     "max_mm": 27.75
+    },
+    "nerve": {
+     "inside": [
+      7181,
+      0
+     ],
+     "closest_mm": [
+      0.04,
+      0.64
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 48.0 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 52.43 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 0.64 mm, none inside. Attachment: prox end 9.18 mm from bone -> pulled 10.47 mm towards femur_l (Q214 attachment pull; ends from the Q204 end test now: prox 0.71 mm, dist 0.3 mm). Volume 492.2 cm3 (Q215 mesh 543.9 cm3); surface moved from the Q215 mesh median 0.66 mm, p95 8.61 mm, max 27.95 mm (17.0 % of its volume inside her other muscles, was 16.4 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 48.0 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 52.43 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 0.64 mm, none inside. Volume 490.3 cm3 (Q215 mesh 543.9 cm3); surface moved from the Q215 mesh median 0.53 mm, p95 8.46 mm, max 27.75 mm (16.0 % of its volume inside her other muscles, was 16.4 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "adductor_magnus_r": {
@@ -2534,11 +2448,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "sartorius_r": [
      17.1,
@@ -2546,11 +2460,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -2562,7 +2476,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -2582,11 +2496,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -2594,7 +2504,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -2641,6 +2551,16 @@
        "new_to_old_p95_mm": 1.17,
        "old_to_new_p95_mm": 1.06,
        "max_mm": 8.35
+      },
+      "nerve": {
+       "inside": [
+        1858,
+        0
+       ],
+       "closest_mm": [
+        0.1,
+        0.95
+       ]
       }
      },
      "nerve_before": {
@@ -2763,6 +2683,16 @@
      "new_to_old_p95_mm": 1.17,
      "old_to_new_p95_mm": 1.06,
      "max_mm": 8.35
+    },
+    "nerve": {
+     "inside": [
+      1858,
+      0
+     ],
+     "closest_mm": [
+      0.1,
+      0.95
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 12.4 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 7.8 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 0.95 mm, none inside. Volume 536.8 cm3 (Q215 mesh 545.7 cm3); surface moved from the Q215 mesh median 0.48 mm, p95 1.17 mm, max 8.35 mm (13.4 % of its volume inside her other muscles, was 14.5 %). A position and boundary estimate, not a segmentation.",
@@ -2781,7 +2711,7 @@
    },
    "overlap_vol_pct": [
     14.0,
-    14.6
+    14.0
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -2798,11 +2728,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -2814,11 +2744,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -2830,7 +2760,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -2850,11 +2780,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -2862,7 +2788,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -2909,6 +2835,16 @@
        "new_to_old_p95_mm": 0.92,
        "old_to_new_p95_mm": 0.94,
        "max_mm": 8.28
+      },
+      "nerve": {
+       "inside": [
+        75,
+        0
+       ],
+       "closest_mm": [
+        0.07,
+        0.84
+       ]
       }
      },
      "nerve_before": {
@@ -3031,9 +2967,19 @@
      "new_to_old_p95_mm": 0.92,
      "old_to_new_p95_mm": 0.94,
      "max_mm": 8.28
+    },
+    "nerve": {
+     "inside": [
+      75,
+      0
+     ],
+     "closest_mm": [
+      0.07,
+      0.84
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.5 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.39 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 0.84 mm, none inside. Volume 225.9 cm3 (Q215 mesh 227.0 cm3); surface moved from the Q215 mesh median 0.45 mm, p95 0.92 mm, max 8.28 mm (14.6 % of its volume inside her other muscles, was 14.0 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.5 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.39 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 0.84 mm, none inside. Volume 225.9 cm3 (Q215 mesh 227.0 cm3); surface moved from the Q215 mesh median 0.45 mm, p95 0.92 mm, max 8.28 mm (14.0 % of its volume inside her other muscles, was 14.0 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "biceps_femoris_r": {
@@ -3066,11 +3012,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -3082,11 +3028,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -3098,7 +3044,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -3118,11 +3064,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -3130,7 +3072,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -3177,6 +3119,16 @@
        "new_to_old_p95_mm": 1.44,
        "old_to_new_p95_mm": 1.18,
        "max_mm": 12.5
+      },
+      "nerve": {
+       "inside": [
+        2468,
+        0
+       ],
+       "closest_mm": [
+        0.07,
+        1.03
+       ]
       }
      },
      "nerve_before": {
@@ -3299,6 +3251,16 @@
      "new_to_old_p95_mm": 1.44,
      "old_to_new_p95_mm": 1.18,
      "max_mm": 12.5
+    },
+    "nerve": {
+     "inside": [
+      2470,
+      0
+     ],
+     "closest_mm": [
+      0.1,
+      1.03
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 9.3 % of its vertices, tibial_n 57.6 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 8.87 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.03 mm, none inside. Volume 245.3 cm3 (Q215 mesh 254.8 cm3); surface moved from the Q215 mesh median 0.47 mm, p95 1.44 mm, max 12.5 mm (14.3 % of its volume inside her other muscles, was 15.0 %). A position and boundary estimate, not a segmentation.",
@@ -3317,7 +3279,7 @@
    },
    "overlap_vol_pct": [
     10.1,
-    9.1
+    9.7
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -3334,11 +3296,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -3350,11 +3312,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -3366,7 +3328,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -3386,7 +3348,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -3394,7 +3356,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -3441,6 +3403,16 @@
        "new_to_old_p95_mm": 1.03,
        "old_to_new_p95_mm": 0.97,
        "max_mm": 11.14
+      },
+      "nerve": {
+       "inside": [
+        571,
+        0
+       ],
+       "closest_mm": [
+        0.0,
+        1.13
+       ]
       }
      },
      "nerve_before": {
@@ -3628,9 +3600,19 @@
      "new_to_old_p95_mm": 1.03,
      "old_to_new_p95_mm": 0.97,
      "max_mm": 11.17
+    },
+    "nerve": {
+     "inside": [
+      571,
+      0
+     ],
+     "closest_mm": [
+      0.0,
+      1.13
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 3.8 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 3.16 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.13 mm, none inside. Flat facet(s) (z=-87.5 plane 143.8 mm2) replaced by a shallow dome (amplitude 1.6 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 254.6 cm3 (Q215 mesh 258.4 cm3); surface moved from the Q215 mesh median 0.46 mm, p95 1.03 mm, max 11.17 mm (9.1 % of its volume inside her other muscles, was 10.1 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 3.8 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 3.16 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.13 mm, none inside. Flat facet(s) (z=-87.5 plane 143.8 mm2) replaced by a shallow dome (amplitude 1.6 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 254.6 cm3 (Q215 mesh 258.4 cm3); surface moved from the Q215 mesh median 0.46 mm, p95 1.03 mm, max 11.17 mm (9.7 % of its volume inside her other muscles, was 10.1 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "semimembranosus_r": {
@@ -3663,11 +3645,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -3679,11 +3661,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -3695,7 +3677,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -3715,11 +3697,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -3727,7 +3705,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -3774,6 +3752,16 @@
        "new_to_old_p95_mm": 0.92,
        "old_to_new_p95_mm": 0.91,
        "max_mm": 2.49
+      },
+      "nerve": {
+       "inside": [
+        55,
+        0
+       ],
+       "closest_mm": [
+        0.16,
+        1.18
+       ]
       }
      },
      "nerve_before": {
@@ -3896,6 +3884,16 @@
      "new_to_old_p95_mm": 0.92,
      "old_to_new_p95_mm": 0.91,
      "max_mm": 2.49
+    },
+    "nerve": {
+     "inside": [
+      55,
+      0
+     ],
+     "closest_mm": [
+      0.16,
+      1.18
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (popliteal_a_r 2.9 % of its vertices, popliteal_v_r 0.1 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.19 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.18 mm, none inside. Volume 234.3 cm3 (Q215 mesh 235.0 cm3); surface moved from the Q215 mesh median 0.44 mm, p95 0.92 mm, max 2.49 mm (12.5 % of its volume inside her other muscles, was 12.8 %). A position and boundary estimate, not a segmentation.",
@@ -3931,11 +3929,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -3947,11 +3945,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -3963,7 +3961,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -3983,11 +3981,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -3995,7 +3989,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -4042,6 +4036,16 @@
        "new_to_old_p95_mm": 0.91,
        "old_to_new_p95_mm": 0.9,
        "max_mm": 3.8
+      },
+      "nerve": {
+       "inside": [
+        103,
+        0
+       ],
+       "closest_mm": [
+        0.19,
+        1.28
+       ]
       }
      },
      "nerve_before": {
@@ -4210,6 +4214,16 @@
        "new_to_old_p95_mm": 0.84,
        "old_to_new_p95_mm": 0.83,
        "max_mm": 1.69
+      },
+      "nerve": {
+       "inside": [
+        0,
+        0
+       ],
+       "closest_mm": [
+        1.28,
+        1.26
+       ]
       }
      },
      "repair": true,
@@ -4244,6 +4258,16 @@
      "new_to_old_p95_mm": 0.91,
      "old_to_new_p95_mm": 0.92,
      "max_mm": 3.8
+    },
+    "nerve": {
+     "inside": [
+      103,
+      0
+     ],
+     "closest_mm": [
+      0.19,
+      1.26
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.7 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.43 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.28 mm, none inside. Flat facet(s) (z=-99.2 plane 57.5 mm2; z=-98.1 plane 113.0 mm2) replaced by a shallow dome (amplitude 1.6 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 134.2 cm3 (Q215 mesh 135.3 cm3); surface moved from the Q215 mesh median 0.44 mm, p95 0.91 mm, max 3.8 mm (22.9 % of its volume inside her other muscles, was 23.7 %). A position and boundary estimate, not a segmentation.",
@@ -4262,7 +4286,7 @@
    },
    "overlap_vol_pct": [
     24.8,
-    33.7
+    33.5
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -4279,11 +4303,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -4295,11 +4319,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -4311,7 +4335,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -4331,11 +4355,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -4386,6 +4406,16 @@
        "new_to_old_p95_mm": 0.91,
        "old_to_new_p95_mm": 0.93,
        "max_mm": 1.75
+      },
+      "nerve": {
+       "inside": [
+        2,
+        0
+       ],
+       "closest_mm": [
+        0.32,
+        1.22
+       ]
       }
      },
      "nerve_before": {
@@ -4508,9 +4538,19 @@
      "new_to_old_p95_mm": 0.91,
      "old_to_new_p95_mm": 0.93,
      "max_mm": 1.75
+    },
+    "nerve": {
+     "inside": [
+      2,
+      0
+     ],
+     "closest_mm": [
+      0.32,
+      1.22
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.0 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.02 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.22 mm, none inside. Volume 220.4 cm3 (Q215 mesh 221.1 cm3); surface moved from the Q215 mesh median 0.45 mm, p95 0.91 mm, max 1.75 mm (33.7 % of its volume inside her other muscles, was 24.8 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.0 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.02 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.22 mm, none inside. Volume 220.4 cm3 (Q215 mesh 221.1 cm3); surface moved from the Q215 mesh median 0.45 mm, p95 0.91 mm, max 1.75 mm (33.5 % of its volume inside her other muscles, was 24.8 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "vastus_intermedius_r": {
@@ -4543,11 +4583,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -4559,11 +4599,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -4575,7 +4615,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -4595,11 +4635,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -4607,7 +4643,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -4654,6 +4690,16 @@
        "new_to_old_p95_mm": 0.96,
        "old_to_new_p95_mm": 0.96,
        "max_mm": 8.46
+      },
+      "nerve": {
+       "inside": [
+        368,
+        0
+       ],
+       "closest_mm": [
+        0.14,
+        1.26
+       ]
       }
      },
      "nerve_before": {
@@ -4776,6 +4822,16 @@
      "new_to_old_p95_mm": 0.96,
      "old_to_new_p95_mm": 0.96,
      "max_mm": 8.46
+    },
+    "nerve": {
+     "inside": [
+      368,
+      0
+     ],
+     "closest_mm": [
+      0.14,
+      1.26
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 2.5 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 1.49 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.26 mm, none inside. Volume 245.4 cm3 (Q215 mesh 247.5 cm3); surface moved from the Q215 mesh median 0.46 mm, p95 0.96 mm, max 8.46 mm (28.4 % of its volume inside her other muscles, was 29.1 %). A position and boundary estimate, not a segmentation.",
@@ -4811,11 +4867,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -4827,11 +4883,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -4843,7 +4899,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -4863,11 +4919,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -4875,7 +4927,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -4896,7 +4948,7 @@
      "groove_extra_mm": 0.8,
      "guards": {
       "before": {
-       "in_bone_pct": 0.1,
+       "in_bone_pct": 0.0,
        "bone_depth_max_mm": 2.8,
        "bone_deep_pct": 2.4,
        "inside_skin_pct": 100.0,
@@ -4922,6 +4974,16 @@
        "new_to_old_p95_mm": 0.95,
        "old_to_new_p95_mm": 0.95,
        "max_mm": 3.8
+      },
+      "nerve": {
+       "inside": [
+        89,
+        0
+       ],
+       "closest_mm": [
+        0.22,
+        1.16
+       ]
       }
      },
      "nerve_before": {
@@ -5018,7 +5080,7 @@
    ],
    "cumulative_guards": {
     "before": {
-     "in_bone_pct": 0.1,
+     "in_bone_pct": 0.0,
      "bone_depth_max_mm": 2.8,
      "bone_deep_pct": 2.4,
      "inside_skin_pct": 100.0,
@@ -5044,6 +5106,16 @@
      "new_to_old_p95_mm": 0.95,
      "old_to_new_p95_mm": 0.95,
      "max_mm": 3.8
+    },
+    "nerve": {
+     "inside": [
+      89,
+      0
+     ],
+     "closest_mm": [
+      0.22,
+      1.16
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.6 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.42 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.16 mm, none inside. Volume 430.3 cm3 (Q215 mesh 431.5 cm3); surface moved from the Q215 mesh median 0.46 mm, p95 0.95 mm, max 3.8 mm (12.7 % of its volume inside her other muscles, was 13.2 %). A position and boundary estimate, not a segmentation.",
@@ -5062,7 +5134,7 @@
    },
    "overlap_vol_pct": [
     18.4,
-    30.6
+    28.1
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -5079,11 +5151,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -5095,7 +5167,7 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "adductor_brevis_r": [
      26.0,
@@ -5107,7 +5179,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -5127,11 +5199,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -5139,7 +5207,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -5186,6 +5254,16 @@
        "new_to_old_p95_mm": 0.93,
        "old_to_new_p95_mm": 0.94,
        "max_mm": 5.19
+      },
+      "nerve": {
+       "inside": [
+        100,
+        0
+       ],
+       "closest_mm": [
+        0.09,
+        1.08
+       ]
       }
      },
      "nerve_before": {
@@ -5308,9 +5386,19 @@
      "new_to_old_p95_mm": 0.93,
      "old_to_new_p95_mm": 0.94,
      "max_mm": 5.19
+    },
+    "nerve": {
+     "inside": [
+      100,
+      0
+     ],
+     "closest_mm": [
+      0.09,
+      1.08
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.7 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.44 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.08 mm, none inside. Volume 191.4 cm3 (Q215 mesh 192.5 cm3); surface moved from the Q215 mesh median 0.45 mm, p95 0.93 mm, max 5.19 mm (30.6 % of its volume inside her other muscles, was 18.4 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Nerve corridor: her photo-traced nerve / vessel tubes (sciatic_n 0.7 % of its vertices) lay inside this muscle after Q215; the muscle was carved away from them (corridor = tube + 1 mm, a groove open towards the nearest surface, 0.44 cm3 removed), the traced structures were NOT moved; closest nerve vertex to the surface now 1.08 mm, none inside. Volume 191.4 cm3 (Q215 mesh 192.5 cm3); surface moved from the Q215 mesh median 0.45 mm, p95 0.93 mm, max 5.19 mm (28.1 % of its volume inside her other muscles, was 18.4 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "sartorius_r": {
@@ -5343,11 +5431,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -5355,11 +5443,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -5371,7 +5459,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -5391,11 +5479,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -5403,7 +5487,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -5451,6 +5535,16 @@
        "new_to_old_p95_mm": 1.07,
        "old_to_new_p95_mm": 0.9,
        "max_mm": 10.62
+      },
+      "nerve": {
+       "inside": [
+        0,
+        0
+       ],
+       "closest_mm": [
+        27.29,
+        27.41
+       ]
       }
      },
      "after": {
@@ -5514,6 +5608,16 @@
      "new_to_old_p95_mm": 1.07,
      "old_to_new_p95_mm": 0.9,
      "max_mm": 10.62
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      27.29,
+      27.41
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Reconnected: the muscle consisted of two closed pieces 10.49 mm apart (the smaller one 17.32 cm3 = 22 % of the surface area); a loft of the two facing 3 mm sections (3.63 cm3) joins them. Volume 84.2 cm3 (Q215 mesh 81.1 cm3); surface moved from the Q215 mesh median 0.44 mm, p95 1.07 mm, max 10.62 mm (19.2 % of its volume inside her other muscles, was 17.1 %). A position and boundary estimate, not a segmentation.",
@@ -5532,7 +5636,7 @@
    },
    "overlap_vol_pct": [
     23.0,
-    27.5
+    27.4
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -5549,7 +5653,7 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_magnus_r": [
      14.5,
@@ -5561,11 +5665,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -5577,7 +5681,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -5597,11 +5701,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -5609,7 +5709,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -5762,9 +5862,19 @@
      "new_to_old_p95_mm": 5.33,
      "old_to_new_p95_mm": 4.44,
      "max_mm": 8.6
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      99.0,
+      99.0
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: prox end 10.63 mm from bone -> pulled 11.58 mm towards hip_bone_l (Q214 attachment pull; ends from the Q204 end test now: prox 3.0 mm, dist 3.34 mm). Volume 112.4 cm3 (Q215 mesh 116.3 cm3); surface moved from the Q215 mesh median 1.25 mm, p95 5.33 mm, max 8.6 mm (27.5 % of its volume inside her other muscles, was 23.0 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: prox end 10.63 mm from bone -> pulled 11.58 mm towards hip_bone_l (Q214 attachment pull; ends from the Q204 end test now: prox 3.0 mm, dist 3.34 mm). Volume 112.4 cm3 (Q215 mesh 116.3 cm3); surface moved from the Q215 mesh median 1.25 mm, p95 5.33 mm, max 8.6 mm (27.4 % of its volume inside her other muscles, was 23.0 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "adductor_longus_r": {
@@ -5797,11 +5907,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -5813,11 +5923,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -5825,7 +5935,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -5845,11 +5955,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -5857,7 +5963,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -6015,6 +6121,16 @@
      "new_to_old_p95_mm": 7.55,
      "old_to_new_p95_mm": 6.54,
      "max_mm": 14.18
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      28.08,
+      24.71
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: prox end 6.3 mm from bone -> pulled 7.77 mm towards femur_r; dist end 12.35 mm from bone -> pulled 16.04 mm towards hip_bone_r (Q214 attachment pull; ends from the Q204 end test now: prox 0.21 mm, dist 0.06 mm). Volume 119.0 cm3 (Q215 mesh 107.1 cm3); surface moved from the Q215 mesh median 2.54 mm, p95 7.55 mm, max 14.18 mm (36.3 % of its volume inside her other muscles, was 22.5 %). A position and boundary estimate, not a segmentation.",
@@ -6050,11 +6166,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -6066,11 +6182,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -6082,7 +6198,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "pectineus_l": [
      10.3,
@@ -6098,11 +6214,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -6110,7 +6222,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -6260,6 +6372,16 @@
      "new_to_old_p95_mm": 10.04,
      "old_to_new_p95_mm": 11.62,
      "max_mm": 16.45
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      99.0,
+      99.0
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: prox end 14.99 mm from bone -> pulled 16.45 mm towards hip_bone_l (Q214 attachment pull; ends from the Q204 end test now: prox 0.37 mm, dist 0.63 mm). Volume 43.0 cm3 (Q215 mesh 43.6 cm3); surface moved from the Q215 mesh median 1.19 mm, p95 10.04 mm, max 16.45 mm (19.0 % of its volume inside her other muscles, was 6.8 %). A position and boundary estimate, not a segmentation.",
@@ -6278,7 +6400,7 @@
    },
    "overlap_vol_pct": [
     20.8,
-    33.2
+    33.4
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -6295,11 +6417,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -6311,11 +6433,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -6327,7 +6449,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -6345,17 +6467,13 @@
      20.3,
      22.1
     ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
-    ],
     "tensor_fasciae_latae_l": [
      22.7,
      27.0
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -6514,9 +6632,19 @@
      "new_to_old_p95_mm": 6.51,
      "old_to_new_p95_mm": 6.15,
      "max_mm": 8.62
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      7.27,
+      4.93
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: prox end 11.57 mm from bone -> pulled 8.62 mm towards nearest bone of any kind (to within 4 mm; the named insertion is not on a bone within reach) (Q214 attachment pull; ends from the Q204 end test now: prox 3.69 mm, dist 0.75 mm). Volume 142.1 cm3 (Q215 mesh 141.3 cm3); surface moved from the Q215 mesh median 1.14 mm, p95 6.51 mm, max 8.62 mm (33.2 % of its volume inside her other muscles, was 20.8 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: prox end 11.57 mm from bone -> pulled 8.62 mm towards nearest bone of any kind (to within 4 mm; the named insertion is not on a bone within reach) (Q214 attachment pull; ends from the Q204 end test now: prox 3.69 mm, dist 0.75 mm). Volume 142.1 cm3 (Q215 mesh 141.3 cm3); surface moved from the Q215 mesh median 1.14 mm, p95 6.51 mm, max 8.62 mm (33.4 % of its volume inside her other muscles, was 20.8 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "tensor_fasciae_latae_l": {
@@ -6549,11 +6677,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -6565,11 +6693,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -6581,7 +6709,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -6601,15 +6729,11 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -6759,6 +6883,16 @@
      "new_to_old_p95_mm": 3.26,
      "old_to_new_p95_mm": 3.41,
      "max_mm": 4.27
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      99.0,
+      99.0
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: dist end 6.09 mm from bone -> pulled 4.19 mm towards nearest bone of any kind (to within 4 mm; the named insertion is not on a bone within reach) (Q214 attachment pull; ends from the Q204 end test now: prox 16.81 mm, dist 2.37 mm). Volume 52.7 cm3 (Q215 mesh 53.7 cm3); surface moved from the Q215 mesh median 0.84 mm, p95 3.26 mm, max 4.27 mm (27.0 % of its volume inside her other muscles, was 22.7 %). A position and boundary estimate, not a segmentation.",
@@ -6777,7 +6911,7 @@
    },
    "overlap_vol_pct": [
     17.5,
-    28.1
+    28.0
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -6794,11 +6928,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -6810,7 +6944,7 @@
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -6822,7 +6956,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -6842,11 +6976,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -6854,7 +6984,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -7015,9 +7145,19 @@
      "new_to_old_p95_mm": 6.24,
      "old_to_new_p95_mm": 7.03,
      "max_mm": 8.97
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      12.35,
+      11.36
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: dist end 7.41 mm from bone -> pulled 9.04 mm towards femur_l (Q214 attachment pull; ends from the Q204 end test now: prox 0.54 mm, dist 0.55 mm). Volume 231.7 cm3 (Q215 mesh 249.8 cm3); surface moved from the Q215 mesh median 0.86 mm, p95 6.24 mm, max 8.97 mm (28.1 % of its volume inside her other muscles, was 17.5 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Attachment: dist end 7.41 mm from bone -> pulled 9.04 mm towards femur_l (Q214 attachment pull; ends from the Q204 end test now: prox 0.54 mm, dist 0.55 mm). Volume 231.7 cm3 (Q215 mesh 249.8 cm3); surface moved from the Q215 mesh median 0.86 mm, p95 6.24 mm, max 8.97 mm (28.0 % of its volume inside her other muscles, was 17.5 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "rectus_femoris_r": {
@@ -7050,11 +7190,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -7066,11 +7206,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -7082,7 +7222,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -7102,11 +7242,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -7114,7 +7250,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -7223,6 +7359,16 @@
      "new_to_old_p95_mm": 0.89,
      "old_to_new_p95_mm": 0.89,
      "max_mm": 1.77
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      4.18,
+      4.14
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Flat facet(s) (z=14.5 plane 122.0 mm2; z=15.6 plane 142.9 mm2) replaced by a shallow dome (amplitude 1.2 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 171.2 cm3 (Q215 mesh 170.8 cm3); surface moved from the Q215 mesh median 0.4 mm, p95 0.89 mm, max 1.77 mm (14.4 % of its volume inside her other muscles, was 14.4 %). A position and boundary estimate, not a segmentation.",
@@ -7241,7 +7387,7 @@
    },
    "overlap_vol_pct": [
     23.0,
-    22.4
+    22.3
    ],
    "neighbour_overlap": {
     "gluteus_maximus_r": [
@@ -7258,11 +7404,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -7274,11 +7420,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -7290,7 +7436,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -7310,11 +7456,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -7322,7 +7464,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -7456,9 +7598,19 @@
      "new_to_old_p95_mm": 0.88,
      "old_to_new_p95_mm": 0.87,
      "max_mm": 1.85
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      3.37,
+      3.42
+     ]
     }
    },
-   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Flat facet(s) (y=-102.5 plane 54.2 mm2; z=-88.8 plane 70.8 mm2; z=-88.5 plane 183.0 mm2) replaced by a shallow dome (amplitude 1.6 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 127.8 cm3 (Q215 mesh 127.2 cm3); surface moved from the Q215 mesh median 0.37 mm, p95 0.88 mm, max 1.85 mm (22.4 % of its volume inside her other muscles, was 23.0 %). A position and boundary estimate, not a segmentation.",
+   "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Flat facet(s) (y=-102.5 plane 54.2 mm2; z=-88.8 plane 70.8 mm2; z=-88.5 plane 183.0 mm2) replaced by a shallow dome (amplitude 1.6 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 127.8 cm3 (Q215 mesh 127.2 cm3); surface moved from the Q215 mesh median 0.37 mm, p95 0.88 mm, max 1.85 mm (22.3 % of its volume inside her other muscles, was 23.0 %). A position and boundary estimate, not a segmentation.",
    "subject": "xfer_vhm2vhf_sep_q215"
   },
   "tensor_fasciae_latae_r": {
@@ -7491,11 +7643,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -7507,11 +7659,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -7523,7 +7675,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -7543,11 +7695,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -7555,7 +7703,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -7689,6 +7837,16 @@
      "new_to_old_p95_mm": 0.84,
      "old_to_new_p95_mm": 0.84,
      "max_mm": 1.68
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      99.0,
+      99.0
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Flat facet(s) (x=171.5 plane 82.2 mm2; x=172.0 plane 135.6 mm2; y=-84.1 plane 46.1 mm2) replaced by a shallow dome (amplitude 1.2 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 71.3 cm3 (Q215 mesh 70.9 cm3); surface moved from the Q215 mesh median 0.33 mm, p95 0.84 mm, max 1.68 mm (6.7 % of its volume inside her other muscles, was 6.7 %). A position and boundary estimate, not a segmentation.",
@@ -7724,11 +7882,11 @@
     ],
     "adductor_brevis_l": [
      31.3,
-     36.5
+     37.6
     ],
     "adductor_longus_l": [
      23.0,
-     27.5
+     27.4
     ],
     "adductor_magnus_r": [
      14.5,
@@ -7740,11 +7898,11 @@
     ],
     "vastus_lateralis_l": [
      17.5,
-     28.1
+     28.0
     ],
     "vastus_medialis_l": [
      18.4,
-     30.6
+     28.1
     ],
     "adductor_brevis_r": [
      26.0,
@@ -7756,7 +7914,7 @@
     ],
     "obturator_externus_l": [
      21.1,
-     23.4
+     23.3
     ],
     "obturator_internus_l": [
      6.8,
@@ -7776,11 +7934,7 @@
     ],
     "sartorius_l": [
      20.8,
-     33.2
-    ],
-    "semimembranosus_l": [
-     10.1,
-     9.1
+     33.4
     ],
     "tensor_fasciae_latae_l": [
      22.7,
@@ -7788,7 +7942,7 @@
     ],
     "vastus_intermedius_l": [
      24.8,
-     33.7
+     33.5
     ],
     "vastus_medialis_r": [
      13.6,
@@ -7826,6 +7980,16 @@
        "new_to_old_p95_mm": 9.84,
        "old_to_new_p95_mm": 12.29,
        "max_mm": 19.05
+      },
+      "nerve": {
+       "inside": [
+        0,
+        0
+       ],
+       "closest_mm": [
+        99.0,
+        99.0
+       ]
       }
      },
      "ev": [
@@ -7939,6 +8103,16 @@
        "new_to_old_p95_mm": 0.75,
        "old_to_new_p95_mm": 0.73,
        "max_mm": 1.95
+      },
+      "nerve": {
+       "inside": [
+        0,
+        0
+       ],
+       "closest_mm": [
+        99.0,
+        99.0
+       ]
       }
      },
      "repair": true,
@@ -7973,6 +8147,16 @@
      "new_to_old_p95_mm": 9.64,
      "old_to_new_p95_mm": 12.29,
      "max_mm": 19.05
+    },
+    "nerve": {
+     "inside": [
+      0,
+      0
+     ],
+     "closest_mm": [
+      99.0,
+      99.0
+     ]
     }
    },
    "badge_added": "Q216 clean-up of the Q215 re-bounded muscle (Source class unchanged: the muscle set is still the male's, position and extent hers): Re-bounded on her registered photographs with the Q215 method (no label of her own exists for the piriformis: its identity is still the male's; markers = the male-carried mesh, region = her photographed muscle, her bones and own muscles excluded): share of the muscle on her photographed muscle 0.537 -> 0.585. Flat facet(s) (y=58.6 plane 214.9 mm2) replaced by a shallow dome (amplitude 2.0 mm); the flat face was a raster/table-flattened plane of the Q215 label, not an anatomical cut. Volume 37.0 cm3 (Q215 mesh 59.2 cm3); surface moved from the Q215 mesh median 0.95 mm, p95 9.64 mm, max 19.05 mm (6.5 % of its volume inside her other muscles, was 9.8 %). A position and boundary estimate, not a segmentation.",
@@ -7987,7 +8171,19 @@
   }
  },
  "attempts": {},
- "residual": {},
+ "residual": {
+  "adductor_magnus_l": [
+   {
+    "what": "end_off_bone",
+    "ends": [
+     "prox"
+    ],
+    "why": [
+     "63 traced-nerve vertices inside the muscle (before 0)"
+    ]
+   }
+  ]
+ },
  "welded": {
   "sartorius_l_zfill203s": {
    "base": "sartorius_l",
