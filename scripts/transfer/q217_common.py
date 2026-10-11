@@ -128,3 +128,48 @@ def adjacency_pairs(base, names, near_mm=2.0, spacing=1.0):
             if d <= near_mm:
                 out.append((i, j, float(d)))
     return out
+
+
+class BoneVox:
+    """his bones as filled voxel solids (0.5 mm, open CT shells closed) with the depth (mm) of a point inside them (1 mm lattice)"""
+
+    def __init__(self, bones, lo=(-285.0, 90.0, -95.0), hi=(-125.0, 350.0, 150.0)):
+        from scipy import ndimage as ndi
+        from scripts.transfer import q217_domain as D
+        from scripts.transfer.q216_common import VoxGrid
+        g = VoxGrid(lo, hi, 0.5)
+        occ = np.zeros(g.shape, bool)
+        for k, (v, f) in bones.items():
+            v = np.asarray(v, float)
+            if (v.max(0) < np.asarray(lo)).any() or (v.min(0) > np.asarray(hi)).any():
+                continue
+            occ |= D.bone_solid(g, v, np.asarray(f, np.int64))
+        m = occ[::2, ::2, ::2]
+        self.lo, self.h = g.lo, 1.0
+        self.depth_vol = ndi.distance_transform_edt(m, sampling=1.0).astype(np.float32)
+        self.shape = m.shape
+
+    def depth(self, p):
+        i = np.floor((np.asarray(p) - self.lo) / self.h + 0.5).astype(np.int64)
+        ok = ((i >= 0) & (i < np.asarray(self.shape))).all(1)
+        out = np.zeros(len(p), np.float32)
+        out[ok] = self.depth_vol[i[ok, 0], i[ok, 1], i[ok, 2]]
+        return out
+
+
+def muscle_metrics(meshes, fixed, skin, bonevox, ids=None):
+    """per muscle: voxel volume, shared %, with-others, % vertices outside the skin (window y 100-320), skin depth min, % vertices > 1 mm inside a bone, deepest, mesh volume"""
+    ids = list(meshes) if ids is None else ids
+    M = dict(meshes)
+    M.update(fixed)
+    rows, tot = overlap_voxels(M, ids=list(M))
+    out = {}
+    for i in ids:
+        v, f = meshes[i]
+        win = (v[:, 1] > 100) & (v[:, 1] < 320)
+        sg = skin.signed(v[win]) if win.any() else np.zeros(1)
+        bd = bonevox.depth(v)
+        out[i] = dict(vol_cm3=rows[i]["vol_cm3"], shared_pct=rows[i]["shared_pct"], with_=rows[i]["with_"], outside_skin_pct=round(100.0 * float((sg > 0).mean()), 2),
+                      skin_depth_min_mm=round(float(-sg.max()), 2), in_bone_pct=round(100.0 * float((bd > 1.0).mean()), 2), bone_depth_max_mm=round(float(bd.max()), 1),
+                      mesh_cm3=round(mesh_volume(v, f), 1))
+    return out, tot
