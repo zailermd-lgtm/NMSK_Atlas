@@ -12,8 +12,8 @@
   C  ENDS.  A muscle end that lies > END_GOAL_MM from every bone (Q204 end test: extreme 8 % along the principal axis of the main piece) is pulled onto the bone its card names as origin / insertion with
      the Q214 attachment-pull code (q214_fit.pull_ends: end zone translated so the closest 10 % of its vertices land on that bone, smooth displacement field), then pushed out of bone, kept inside the skin.
      Cap ATTACH_CAP_MM; farther = not done, reason recorded.
-  D  FLAT CUTS.  A planar facet (all vertices within 0.3 mm of an axis-aligned plane at an extreme of the muscle, > 100 mm2) is replaced by a shallow dome (amplitude <= DOME_MAX_MM, profile 1 - (r/rho)^2 over
-     the facet, outward where the skin leaves >= 1.2 mm, else inward), checked with the audit's own flat_caps function.
+  D  FLAT CUTS.  A planar facet (all vertices within 0.3 mm of an axis-aligned plane at an extreme of the muscle, > 100 mm2) is replaced by a shallow dome (amplitude <= DOME_MAX_MM, profile 1 - r/rho over
+     the facet, outward where the skin leaves >= 1.2 mm, else inward), checked with the audit's own flat_caps function on the quantised mesh.
   P  PIRIFORMIS.  No label of her own exists (q216_piriformis.py); the male-carried mesh sits partly off her photographed muscle (share 0.54 r / 0.31 l), so q216_piriformis_refit.py re-bounds it with the Q215
      machinery (markers = the male mesh, region = her photographed muscle, bones / own muscles excluded) and the Q215 guards; candidates that pass (--piriformis PKL) replace the male-carried mesh (Source class unchanged).
   W  WELD.  A Z-fill continuation whose seam vertices no longer coincide with the re-bounded base (sartorius l: 0.25 mm) is snapped onto the base's vertices (<= 1 mm moves) = one connected surface again.
@@ -154,6 +154,9 @@ class Env:
         return m["v"], m["f"]
 
     def audit_state(self, sid, v=None, f=None, weld=True):
+        q = getattr(self.B, "q", None)
+        if v is not None and q:
+            v = np.round(np.asarray(v, float) / q) * q                      # the bundle stores the vertices on its quantum lattice: the audit sees the rounded mesh (a facet's area per 0.5 mm plane key changes with it)
         mv, mf = self.merged(sid, v, f, weld)
         ends, _ax, _cc = C.audit_ends(mv, mf, self.bone_tree)
         return dict(ends=ends, flat_caps=[dict(axis=c["axis"], plane_mm=c["plane_mm"], area_mm2=c["area_mm2"]) for c in C.flat_cap_rows(mv, mf) if c["area_mm2"] > 40.0],
@@ -547,7 +550,7 @@ def op_flat(env, sid, v0, f0, log=print):
             o = [a for a in range(3) if a != k]
             r = np.linalg.norm(v0[vi][:, o] - c[o], axis=1)
             rho = max(1.25 * float(r.max()), 4.0)
-            prof = np.clip(1.0 - (r / rho) ** 2, 0.0, None)
+            prof = np.clip(1.0 - r / rho, 0.0, None)                      # a shallow cone (slope amp / rho): no triangle of the facet stays within the audit's 0.3 mm planarity band
             # outward (sgn) where the skin leaves room, else inward
             trial = v0[vi].copy()
             trial[:, k] += sgn * amp * prof
