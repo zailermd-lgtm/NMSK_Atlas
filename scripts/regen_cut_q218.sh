@@ -16,7 +16,9 @@
 # scripts/zanatomy/rebuild_html_from_built.py: raw text, geo files copied byte for byte), copies every other sibling file of the
 # source dir (clinical_* etc.; if the source has none and build/q218/_clinical_live/<page>/ exists, those), refreshes
 # clinical_needle_tool.js from clinical/needle_tool.js (Q218: halos/picks honour the slice; NEEDLE_REFRESH=0 copies it verbatim),
-# writes index.html = the page, then scripts/verify_regen_q218.py proves source = old template + data and new = current template + data.
+# writes index.html = the page, then scripts/verify_regen_q218.py proves source = old template + data and new = current template + data
+# (JSON per page in build/q218/_verify/, outside the page dirs). A source dir restored from a published artifact carries the service's
+# document skeleton; it is removed (scripts/platform_wrap.py) so the output is the raw builder page again.
 set -eu; cd "$(dirname "$0")/.."
 OUT=${Q218_OUT:-build/q218}
 declare -A SRC=( [own_m]=build/q214/viewer_m_hr [own_f]=build/q216/viewer_f_hr [zan_m]=build/q211/viewer_zan_vhm
@@ -40,7 +42,8 @@ for p in "${PAGES[@]}"; do
   if [ -f "$dst/clinical_needle_tool.js" ] && [ "${NEEDLE_REFRESH:-1}" = 1 ]; then cp clinical/needle_tool.js "$dst/clinical_needle_tool.js"; fi
   [ -f "$src/index.html" ] && cp "$dst/$html" "$dst/index.html"
   # verification against the source (the _clinical_live fallback files are not in the source: compare them separately)
-  python3 scripts/verify_regen_q218.py "${KIND[$p]}" "$src" "$dst" | tee "$dst/.verify_q218.json" | cut -c1-400
+  mkdir -p "$OUT/_verify"
+  python3 scripts/verify_regen_q218.py "${KIND[$p]}" "$src" "$dst" | tee "$OUT/_verify/$name.json" | cut -c1-400
   echo "$p -> $dst"
 done
 echo Q218_REGEN_DONE
