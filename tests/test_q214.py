@@ -223,7 +223,12 @@ def test_every_wanted_muscle_is_added_or_skipped_with_a_reason_and_absence_was_v
         for s in sides:
             nid = f"{stem}_{s}"
             ab = rep["absence"][nid]
-            assert ab["on_bundle"] is False and ab["z_present"] is True and not ab["bundle_ids_with_stem"]
+            assert ab["on_bundle"] is False and ab["z_present"] is True and nid not in ab["bundle_ids_with_stem"]
+            src = BUNDLES[body][0] / "bundle.json"
+            if src.exists():                                                  # re-verified against the source bundle's own manifest
+                ids = {e["id"] for e in json.loads(src.read_text())["structures"]}
+                assert nid not in ids
+                assert sorted(i for i in ids if i.startswith(stem)) == ab["bundle_ids_with_stem"]
             assert (nid in rep["added"]) != (nid in rep["skipped"]), nid
             if nid in rep["skipped"]:
                 why = rep["skipped"][nid]

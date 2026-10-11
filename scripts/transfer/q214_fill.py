@@ -44,6 +44,25 @@ def load_z(cfg):
     return MP.load_viewer("_q214z")
 
 
+def z_manifest_ids(html):
+    h = Path(html).read_text(encoding="utf-8")
+    i = h.find("window.__ANATOMY_MANIFEST__=") + len("window.__ANATOMY_MANIFEST__=")
+    return [m["id"] for m in json.JSONDecoder().raw_decode(h[i:])[0]["meshes"]]
+
+
+def absence(body):
+    """step 0: the ids on the SOURCE bundle (manifest: bundle.json structures) that carry any of the wanted stems, and the Z ids on the Z page fitted to this body"""
+    cfg = T.BODY[body]
+    src_ids = sorted({e["id"] for e in json.loads((cfg["src"] / "bundle.json").read_text())["structures"]})
+    zids = set(z_manifest_ids(cfg["z_page"]))
+    out = {}
+    for stem, sides in T.WANT.items():
+        for s in sides:
+            nid, zid = T.own_id(stem, s), T.z_id(stem, s)
+            out[nid] = dict(on_bundle=nid in src_ids, bundle_ids_with_stem=[i for i in src_ids if i.startswith(stem)], z_id=zid, z_present=zid in zids)
+    return out
+
+
 def atlas_rec(nid):
     from scripts import export_viewer_bundle as X
     recs = X.load_atlas_records()
@@ -135,6 +154,7 @@ def run(body, out=None, report=None, dry=False, only=None, log=print):
     rep = dict(body=body, source_bundle=str(cfg["src"].relative_to(REPO)), z_page=str(cfg["z_page"].relative_to(REPO)), absence={}, added={}, skipped={}, own_evidence={},
                params=dict(ATTACH_CAP_MM=F.ATTACH_CAP_MM, END_DIST_MAX_MM=F.END_DIST_MAX_MM, BELLY_IN_BONE_MAX=F.BELLY_IN_BONE_MAX, ALL_IN_BONE_MAX=F.ALL_IN_BONE_MAX, OVERLAP_MAX=F.OVERLAP_MAX,
                            VOL=[F.VOL_LO, F.VOL_HI], LEN=[F.LEN_LO, F.LEN_HI], SKIN_DEPTH_MIN_MM=F.SKIN_DEPTH_MIN_MM, MEAN_MOVE_MAX=F.MEAN_MOVE_MAX, MAX_MOVE_MAX=F.MAX_MOVE_MAX))
+    absence_rec = absence(body)
     own_npz = None
     if body == "vhf":
         p = REPO / "build/q214/splenius_own.npz"
@@ -146,7 +166,7 @@ def run(body, out=None, report=None, dry=False, only=None, log=print):
             continue
         for s in sides:
             nid, zid = T.own_id(stem, s), T.z_id(stem, s)
-            rep["absence"][nid] = dict(on_bundle=bool(B.find(nid)), z_id=zid, z_present=zid in Z, bundle_ids_with_stem=sorted({it["e"]["id"] for it in B.items if it["e"]["id"].startswith(stem)}))
+            rep["absence"][nid] = absence_rec[nid]
             if B.find(nid):
                 rep["skipped"][nid] = "already on the page"
                 continue
@@ -205,7 +225,12 @@ def main():
     ap.add_argument("--body", required=True, choices=["vhm", "vhf"])
     ap.add_argument("--out"); ap.add_argument("--report"); ap.add_argument("--dry", action="store_true")
     ap.add_argument("--only", default="")
+    ap.add_argument("--absence-only", action="store_true", help="write data/derived/Q214_absence.json (step 0 for both bodies) and stop")
     a = ap.parse_args()
+    if a.absence_only:
+        (REPO / "data/derived/Q214_absence.json").write_text(json.dumps({b: absence(b) for b in ("vhm", "vhf")}, indent=1) + "\n")
+        print("wrote data/derived/Q214_absence.json")
+        return
     run(a.body, a.out, a.report, a.dry, [x for x in a.only.split(",") if x] or None)
 
 

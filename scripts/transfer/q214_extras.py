@@ -66,6 +66,14 @@ def main():
                             bone_ids_present=sorted(bones), fitted_fpb_end_distances_to_nearest_own_hand_bone_mm=dists, own_hand_bone_extents_mm=thumb_ray, z_thumb_bone_extents_mm=z_thumb,
                             has_first_metacarpal_entry="metacarpal_1_r" in bones)
         out[body] = o
+    # step 0 (absence) is a property of the SOURCE bundle: written into the two fit reports from the source manifests (q214_fill.absence), so that a muscle added earlier in the same run does not show up
+    # as an id "with the stem" of the next one
+    from scripts.transfer import q214_fill as FILL
+    for body in ("vhm", "vhf"):
+        rp = REPO / f"data/derived/Q214_{body}_report.json"
+        rep = json.loads(rp.read_text())
+        rep["absence"] = FILL.absence(body)
+        rp.write_text(json.dumps(rep, indent=1, default=str) + "\n")
     p = REPO / "data/derived/Q214_skip_evidence.json"
     p.write_text(json.dumps(out, indent=1) + "\n")
     print(json.dumps({b: {k: v for k, v in o.items() if k.startswith("fibularis")} for b, o in out.items()}, indent=1))

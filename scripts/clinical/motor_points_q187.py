@@ -385,11 +385,14 @@ class Body:
         return self.union(sid)[0]
 
     def piece_at(self, sid, p):
-        """Id of the piece of `sid` that contains p (base piece first); None if no single piece does."""
+        """Id of the piece of `sid` that contains p; None if no single piece does.  Q214: of the pieces that contain it the one it lies DEEPEST in (largest |winding number|; the base piece wins a tie): a point
+        next to the seam of a flat-cut base piece reads 0.5 + epsilon there (an open mesh) and 1.0 in the continuation piece it really lies in."""
+        best, bw = None, 0.5
         for i in self.pieces(sid):
-            if inside(p, self.m[i]["v"], self.m[i]["f"])[0]:
-                return i
-        return None
+            w = abs(float(winding(np.atleast_2d(p), self.m[i]["v"], self.m[i]["f"])[0]))
+            if w > bw + 1e-9:
+                best, bw = i, w
+        return best
 
     def has(self, sid):
         return sid in self.m
@@ -910,7 +913,7 @@ def place(body, rule, s):
     pos, moved = deepen(pos, V, F)
     if pos is None:
         return None, f"FAILED: no point at least 1 mm inside {sid} near the rule plane/line"
-    pid = body.piece_at(sid, pos)
+    pid = body.piece_at(sid, np.round(pos, 1))          # Q214: the piece is chosen at the position as it is stored (0.1 mm): a point next to a seam may change piece when rounded
     if pid is None and not rule.get("near"):
         return None, f"FAILED: the placed point lies on the seam between the pieces of {sid}"
     sid = pid or sid
