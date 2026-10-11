@@ -21,7 +21,7 @@ LAMS = (20.0, 8.0, 4.0, 2.0, 1.0, 1.0, 0.5, 0.5)
 
 
 class Territory:
-    """signed distance (mm, + outside, 0.5 mm) of one muscle's voxel territory + the mask of the voxels where it differs from the prior solid"""
+    """signed distance (mm, + outside) of one muscle's voxel territory on a 1 mm lattice (every 2nd voxel of the 0.5 mm grid) + the distance to the voxels where it differs from the prior solid"""
 
     def __init__(self, g, lab_mask, prior_mask, pad_mm=12.0):
         h = g.h
@@ -30,14 +30,14 @@ class Territory:
         hi = np.minimum(idx.max(0) + int(pad_mm / h) + 1, np.asarray(g.shape))
         sl = tuple(slice(int(lo[a]), int(hi[a])) for a in range(3))
         self.lo = g.lo + lo * h
-        self.h = h
-        m = lab_mask[sl]
-        din = ndi.distance_transform_edt(m, sampling=h)
-        dout = ndi.distance_transform_edt(~m, sampling=h)
-        self.phi = np.where(m, -(din - h / 2), dout - h / 2).astype(np.float32)
-        diff = (lab_mask[sl] ^ prior_mask[sl])
-        self.near_change = ndi.distance_transform_edt(~diff, sampling=h).astype(np.float32) if diff.any() else np.full(m.shape, 99.0, np.float32)
-        self.vol_cm3 = float(m.sum()) * h ** 3 / 1000.0
+        self.h = 2 * h
+        m = lab_mask[sl][::2, ::2, ::2]
+        din = ndi.distance_transform_edt(m, sampling=self.h)
+        dout = ndi.distance_transform_edt(~m, sampling=self.h)
+        self.phi = np.where(m, -(din - self.h / 2), dout - self.h / 2).astype(np.float32)
+        diff = (lab_mask[sl] ^ prior_mask[sl])[::2, ::2, ::2]
+        self.near_change = ndi.distance_transform_edt(~diff, sampling=self.h).astype(np.float32) if diff.any() else np.full(m.shape, 99.0, np.float32)
+        self.vol_cm3 = float(lab_mask[sl].sum()) * h ** 3 / 1000.0
         self.shape = m.shape
 
     def _s(self, arr, p, big):
