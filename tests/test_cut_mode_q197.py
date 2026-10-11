@@ -19,7 +19,8 @@ import rebuild_html_from_built as rb  # noqa: E402
 
 NODE = shutil.which("node")
 IDS = ["t-cut", "cut-panel", "cut-svg", "cut-axis", "cut-place", "cut-hint", "cut-side-a", "cut-side-b", "cut-flip", "cut-pos",
-       "cut-mm", "cut-steps", "cut-reset", "cut-exit", "cut-min"]
+       "cut-mm", "cut-steps", "cut-reset", "cut-exit", "cut-min",
+       "cut-th", "cut-thsl", "cut-thick"]          # Q218: slice thickness (readout, slider, preset buttons)
 
 
 @pytest.mark.parametrize("tpl", [OWN, ZAN], ids=["own", "zan"])
@@ -40,6 +41,9 @@ def test_templates_have_the_controls_and_handlers(tpl):
         assert f'data-axis="{axis}"' in t
     for step in ("-10", "-1", "1", "10"):
         assert f'data-step="{step}"' in t
+    for th in ("2", "5", "10", "25", "0"):                                   # Q218: thickness presets, 0 = "all"
+        assert f'data-th="{th}"' in t
+    assert re.search(r'id="cut-thsl" type="range" min="1" max="100"', t)
     for needle in ("function NMSKCutMode(E)", "consumeClick", "setFromSpec", "ArrowRight", "PageUp", "wheel", "pickPoint",
                    "NMSKCutMode({", "cutCtl.consumeClick", "cutCtl.overlay()"):
         assert needle in t, needle
@@ -61,7 +65,7 @@ def test_hook_contract_unchanged_for_the_addon():
     assert "clippingPlanes:function(){ return cut.on ? cutPlanes : null; }" in o
     assert "cut:function(){ return cut.on ? [cutLocal.normal.x, cutLocal.normal.y, cutLocal.normal.z, cutLocal.constant] : null; }" in o
     assert "cut:function(){ if(!clip.on) return null; var P=clipPlane(); return [-P[0],-P[1],-P[2],-P[3]]; }" in z
-    assert "ctx={gl:gl, mvp:mvp, eye:eye, W:W, H:H, clip:clip.on?clipPlane():null}" in z
+    assert "ctx={gl:gl, mvp:mvp, eye:eye, W:W, H:H, clip:clip.on?clipPlane():null, clip2:clip.on?clipPlane2():null}" in z   # Q218: clip2 is additive
     flat = lambda t: re.sub(r"\s*(//|/\*|\*/)?\s+", " ", t)
     assert "needle trajectory is NOT clipped" in flat(o) and "needle trajectory is not clipped" in flat(z)
     # anchor markers are clipped with the anatomy
@@ -74,6 +78,28 @@ def test_zan_picking_pass_and_depth_pass_share_the_plane():
     assert "function pickPoint(mx, my)" in z and "renderIds(lastPickAll, true)" in z
 
 
+def test_slice_thickness_in_both_engines():
+    """Q218: the kept slab is 0 <= kn.p + c <= th; own = a second three.js clipping plane (also in the picking filter), Z = a
+    second uniform in the screen, ID and depth shaders plus the AABB cull; both hand the add-on the same kept-half cut() and an
+    optional cutSlab() (+ ctx.clip2 on Z) so halos / picks that honour them stay inside the slab."""
+    o, z = OWN.read_text(encoding="utf-8"), ZAN.read_text(encoding="utf-8")
+    assert "cutPlanes = [cutWorld, cutWorld2]" in o
+    assert "cutWorld.distanceToPoint(h.point) >= 0 && cutWorld2.distanceToPoint(h.point) >= 0" in o
+    assert "cutWorld2.constant = (th > 0 ? th : 1e7) - c - cutWorld2.normal.dot(root.position)" in o
+    assert "apply:function(kn, c, on, th)" in o and "apply:function(kn, c, on, th)" in z
+    assert "cutSlab:function(){ return cut.on ? cutCtl.state().th : 0; }" in o
+    assert "cutSlab:function(){ return clip.on ? cutCtl.state().th : 0; }" in z
+    assert z.count("uniform vec4 uClip2;") == 3
+    assert z.count("dot(vP,uClip2.xyz)+uClip2.w>0.0") == 3
+    for lst in ('"uClip","uClip2","uClipOn"',):
+        assert z.count(lst) == 3, lst                                          # U, PUid, DU uniform tables
+    assert z.count("uniform4f(U.uClip2") == 1 and z.count("uniform4f(PU.uClip2") == 1       # screen pass + ID/depth pass (PU = ID or depth table)
+    assert "clip.P2=th>0 ? [kn[0], kn[1], kn[2], c-th] : [0,0,0,-1]" in z
+    assert "m <= 0 && m2 <= 0" in z                                            # AABB cull tests both planes
+    n = (REPO / "clinical" / "needle_tool.js").read_text(encoding="utf-8")
+    assert "uniform vec4 uClip2" in n and "ctx.clip2" in n and "this.api.cutSlab" in n   # add-on side, all optional
+
+
 def _run_controller(script: str):
     if not NODE:
         pytest.skip("node not available")
@@ -83,9 +109,12 @@ const els = {};
 function mk(id){ const e = {id, hidden:false, dataset:{}, style:{}, textContent:'', value:'0', min:'0', max:'0', _l:{}, _a:{}, children:[],
   classList:{_s:new Set(), toggle(c,v){ v===undefined?(this._s.has(c)?this._s.delete(c):this._s.add(c)):(v?this._s.add(c):this._s.delete(c)); }, contains(c){ return this._s.has(c); }},
   setAttribute(k,v){ this._a[k]=String(v); }, getAttribute(k){ return this._a[k]; }, addEventListener(t,f){ (this._l[t]=this._l[t]||[]).push(f); },
-  querySelectorAll(sel){ return sel==='#cut-axis button' ? axes : sel==='#cut-steps button' ? steps : []; }, innerHTML:'' }; els[id]=e; return e; }
+  querySelectorAll(sel){ return sel==='#cut-axis button' ? axes : sel==='#cut-steps button' ? steps : sel==='#cut-thick button' ? ths : []; }, innerHTML:'' }; els[id]=e; return e; }
+const ths = ['2','5','10','25','0'].map(a => { const e = mk('th_'+a); e.dataset.th = a; return e; });
 const axes = ['x','y','z','view'].map(a => { const e = mk('ax_'+a); e.dataset.axis = a; return e; });
 const steps = ['-10','-1','1','10'].map(a => { const e = mk('st_'+a); e.dataset.step = a; return e; });
+['cut-th','cut-thsl'].forEach(id => { mk(id); });
+els['cut-thsl'].max = '100'; els['cut-thsl'].min = '1';
 ['cut-panel','cut-svg','t-cut','cut-pos','cut-side-a','cut-side-b','cut-flip','cut-mm','cut-state','cut-place','cut-hint','cut-reset','cut-exit','cut-min'].forEach(mk);
 const winL = {};
 global.window = {addEventListener(t,f){ (winL[t]=winL[t]||[]).push(f); }};
@@ -93,7 +122,7 @@ global.document = {getElementById:id => els[id], body:{classList:els['cut-panel'
 const bounds = {min:[-100,-900,-60], max:[100,900,60]};
 let applied = null, cam = {fwd:[0,0,-1], tgt:[0,0,0]};
 """ + js + r"""
-const ctl = NMSKCutMode({bounds:()=>bounds, target:()=>cam.tgt, forward:()=>cam.fwd, apply:(kn,c,on)=>{ applied={kn,c,on}; },
+const ctl = NMSKCutMode({bounds:()=>bounds, target:()=>cam.tgt, forward:()=>cam.fwd, apply:(kn,c,on,th)=>{ applied={kn,c,on,th}; },
   project:p => [p[0], p[1], 0, 1000], canvasRect:()=>({left:0,top:0,right:1000,bottom:800,width:1000,height:800}),
   pickPoint:e => e.hit || null, isPhone:()=>false});
 const click = id => els[id]._l.click.forEach(f => f({}));
@@ -155,6 +184,34 @@ process.stdout.write(JSON.stringify({hi, lo, s, a, off: ctl.state().on}));""")
     assert out["hi"] == 900 and out["lo"] == -900
     assert out["s"]["on"] and out["s"]["ori"] == "view" and out["s"]["anchor"] == [0, 5, 7]
     assert out["a"]["kn"] == [0, 0, -1] and out["a"]["c"] == 7 and out["off"] is False
+
+
+def test_controller_slice_thickness():
+    out = _run_controller("""
+click('t-cut'); click('ax_y');
+const t0 = ctl.state().th, a0 = applied;
+click('th_5'); const t5 = ctl.state().th, a5 = applied, lab5 = els['cut-th'].textContent, sl5 = els['cut-thsl'].value, pr5 = els['th_5']._a['aria-pressed'];
+click('cut-flip'); const af = applied;                       // flipping the side keeps the thickness
+ctl.move(7); const am = applied;
+click('th_25'); const t25 = ctl.state().th;
+els['cut-thsl'].value = '3.5'; els['cut-thsl']._l.input.forEach(f => f({})); const t35 = ctl.state().th;
+els['cut-thsl'].value = '100'; els['cut-thsl']._l.input.forEach(f => f({})); const tmax = ctl.state().th, labmax = els['cut-th'].textContent;
+ctl.setThickness(1e6); const tcap = ctl.state().th;
+ctl.setThickness(0.01); const tmin = ctl.state().th;
+ctl.setThickness(5); click('cut-exit'); const aexit = applied, texit = ctl.state().th;       // exit keeps the value but the engine is told "off"
+click('t-cut'); const aback = applied;
+ctl.setFromSpec({normal:[0,0,-1], point:[0,5,7]}); const aspec = applied;                      // the add-on's plane keeps the whole rest
+ctl.setThickness(5); click('cut-reset'); const tr = ctl.state().th, ar = applied;
+process.stdout.write(JSON.stringify({t0, a0, t5, a5, lab5, sl5, pr5, af, am, t25, t35, tmax, labmax, tcap, tmin, aexit, texit, aback, aspec, tr, ar}));""")
+    assert out["t0"] == 0 and out["a0"]["th"] == 0                          # default: the whole rest of the body (old behaviour)
+    assert out["t5"] == 5 and out["a5"]["th"] == 5 and out["a5"]["kn"] == [0, -1, 0]
+    assert out["lab5"] == "5.0 mm slice" and out["sl5"] == "5" and out["pr5"] == "true"
+    assert out["af"]["th"] == 5 and out["af"]["kn"] == [0, 1, 0] and out["am"]["th"] == 5
+    assert out["t25"] == 25 and out["t35"] == 3.5
+    assert out["tmax"] == 0 and out["labmax"] == "whole rest of body"       # slider at its far end = all
+    assert out["tcap"] == 100 and out["tmin"] == 0.5
+    assert out["aexit"]["on"] is False and out["texit"] == 5 and out["aback"]["on"] is True and out["aback"]["th"] == 5
+    assert out["aspec"]["th"] == 0 and out["tr"] == 0 and out["ar"]["th"] == 0
 
 
 def test_click_does_nothing_unless_armed():

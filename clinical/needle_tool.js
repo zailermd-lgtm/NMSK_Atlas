@@ -418,8 +418,8 @@ function GLOverlay(api) {
            "void main(){vec3 p=aPos+normalize(aNrm)*uInflate;vN=aNrm;vP=p;gl_Position=uMVP*vec4(p,1.0);}";
   var FS = "#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\n" +
     "varying vec3 vN;varying vec3 vP;uniform vec3 uColor;uniform vec3 uEye;uniform float uAlpha;uniform float uLit;" +
-    "uniform float uShin;uniform float uEmis;uniform vec4 uClip;uniform float uClipOn;" +
-    "void main(){if(uClipOn>0.5&&dot(vP,uClip.xyz)+uClip.w>0.0)discard;" +
+    "uniform float uShin;uniform float uEmis;uniform vec4 uClip;uniform vec4 uClip2;uniform float uClipOn;" +
+    "void main(){if(uClipOn>0.5&&(dot(vP,uClip.xyz)+uClip.w>0.0||dot(vP,uClip2.xyz)+uClip2.w>0.0))discard;" +
     " vec3 n=normalize(vN);vec3 v=normalize(uEye-vP);if(dot(n,v)<0.0)n=-n;" +
     " vec3 l=normalize(v+vec3(0.3,0.55,0.2));float d=max(dot(n,l),0.0);" +
     " float s=pow(max(dot(n,normalize(l+v)),0.0),uShin);" +
@@ -431,7 +431,7 @@ function GLOverlay(api) {
   gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
   gl.bindAttribLocation(prog, 0, "aPos"); gl.bindAttribLocation(prog, 1, "aNrm"); gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
-  ["uMVP", "uInflate", "uColor", "uEye", "uAlpha", "uLit", "uShin", "uEmis", "uClip", "uClipOn"].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+  ["uMVP", "uInflate", "uColor", "uEye", "uAlpha", "uLit", "uShin", "uEmis", "uClip", "uClip2", "uClipOn"].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
   function upload(g) {
     function buf(type, data) { var b = gl.createBuffer(); gl.bindBuffer(type, b); gl.bufferData(type, data, gl.STATIC_DRAW); return b; }
     return {vb: buf(gl.ARRAY_BUFFER, new Float32Array(g.pos)), nb: buf(gl.ARRAY_BUFFER, new Float32Array(g.nrm)),
@@ -470,7 +470,12 @@ function GLOverlay(api) {
     all.filter(function (b) { return b.spec.pass === "opaque"; }).forEach(drawItem);
     gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
     if (halos.length) {
-      if (ctx.clip) { gl.uniform4f(U.uClip, ctx.clip[0], ctx.clip[1], ctx.clip[2], ctx.clip[3]); gl.uniform1f(U.uClipOn, 1); }
+      if (ctx.clip) {
+        gl.uniform4f(U.uClip, ctx.clip[0], ctx.clip[1], ctx.clip[2], ctx.clip[3]);
+        var c2 = ctx.clip2;   /* Q218: the far face of a cut slice (optional; absent = no second plane) */
+        gl.uniform4f(U.uClip2, c2 ? c2[0] : 0, c2 ? c2[1] : 0, c2 ? c2[2] : 0, c2 ? c2[3] : -1);
+        gl.uniform1f(U.uClipOn, 1);
+      }
       halos.forEach(function (h) {
         style(h.rgb, {alpha: h.alpha, shin: 8, emis: 0.45}); gl.uniform1f(U.uInflate, h.r);
         api.webgl.drawStructure(h.i);
@@ -608,11 +613,12 @@ TP.rayAll = function (i, o, d, near, far, ndDir) {
   return out;
 };
 TP.rayNearest = function (i, o, d, cut) {
-  var best = null;
+  var best = null, slab = (cut && this.api.cutSlab) ? this.api.cutSlab() : 0;   /* Q218: optional; mm kept behind the plane, 0 = all */
   this.rayAll(i, o, d, 1e-6, 1e9).forEach(function (h) {
     if (best && h.t >= best.t) return;
     var p = addS(o, d, h.t);
     if (cut && dot(cut, p) + cut[3] < -1e-6) return;
+    if (slab > 0 && dot(cut, p) + cut[3] > slab + 1e-6) return;
     best = {t: h.t, p: p, n: h.n};
   });
   return best;

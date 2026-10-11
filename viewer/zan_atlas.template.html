@@ -834,7 +834,7 @@ window.__ANATOMY_MANIFEST__=__MANIFEST_JSON__;
         gl.drawElements(gl.TRIANGLES,hi2.iCount,gl.UNSIGNED_SHORT,hi2.iStart*2);
       }
       if (addonDraw.length) {
-        var ctx={gl:gl, mvp:mvp, eye:eye, W:W, H:H, clip:clip.on?clipPlane():null};
+        var ctx={gl:gl, mvp:mvp, eye:eye, W:W, H:H, clip:clip.on?clipPlane():null, clip2:clip.on?clipPlane2():null};   // clip2 (Q218): the far face of a cut slice, same discard test as clip; [0,0,0,-1] = none
         addonDraw.forEach(function(f){ try { f(ctx); } catch (err) { console.error(err); } });
         gl.useProgram(prog); gl.enable(gl.DEPTH_TEST); gl.depthMask(true); gl.disable(gl.BLEND);
         gl.enableVertexAttribArray(0); gl.enableVertexAttribArray(1);
@@ -1220,10 +1220,11 @@ function NMSKCutMode(E){
       return true;
     },
     overlay: overlay,
-    /* add-on hook: a plane facing `spec.normal` (into the kept half) through `spec.point`; null leaves cut mode */
+    /* add-on hook: a plane facing `spec.normal` (into the kept half) through `spec.point`; null leaves cut mode.
+       Q218: the add-on's plane keeps the whole rest of the body (an earlier slice thickness is dropped: its purpose is to expose deep tissue). */
     setFromSpec: function(spec){
       if (!spec){ exit(false); return; }
-      S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = "";
+      S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = ""; S.th = 0;
       S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
     },
     exit: exit, enter: enter, move: move, setOrientation: setOri, setThickness: setTh,
@@ -1477,7 +1478,7 @@ function NMSKCutMode(E){
     // read-only view of interaction state, for testing and debugging
     window.__viewerState=function(){ return {
       cam:{az:cam.az,el:cam.el,dist:cam.dist,tgt:cam.tgt.slice()},
-      clip:(function(){ var c=cutCtl.state(); return {on:c.on,axis:c.ori,t:c.offset,flip:c.rs!==(c.ori==="view"?-1:1)}; })(),
+      clip:(function(){ var c=cutCtl.state(); return {on:c.on,axis:c.ori,t:c.offset,flip:c.rs!==(c.ori==="view"?-1:1),th:c.th}; })(),
       box:{on:box.on,min:box.min.slice(),max:box.max.slice()},
       hidden:hidden.size, faded:faded.size, solo:soloLayer, side:sideFilter
     }; };
@@ -1520,6 +1521,7 @@ function NMSKCutMode(E){
         toScreen:function(p){ var s=proj(p); if(!s) return null; var r=canvas.getBoundingClientRect(); return [r.left+s.x/dpr, r.top+s.y/dpr]; },
         cut:function(){ if(!clip.on) return null; var P=clipPlane(); return [-P[0],-P[1],-P[2],-P[3]]; },
         setCut:function(spec){ cutCtl.setFromSpec(spec?{normal:Array.from(spec.normal),point:Array.from(spec.point)}:null); },
+        cutSlab:function(){ return clip.on ? cutCtl.state().th : 0; },   // Q218, optional: mm kept behind the cut() plane (0 = the whole rest)
         focus:function(p,d){ cam.tgt=p.slice(); if(d) cam.dist=d; stopSpin(); need=true; },
         redraw:function(){ need=true; }, refresh:function(){ need=true; },
         setOpacityOverride:function(fn){ addonOpacity=fn?function(k){ return fn(k,null); }:null; need=true; },

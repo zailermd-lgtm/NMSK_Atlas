@@ -158,10 +158,11 @@ function NMSKCutMode(E){
       return true;
     },
     overlay: overlay,
-    /* add-on hook: a plane facing `spec.normal` (into the kept half) through `spec.point`; null leaves cut mode */
+    /* add-on hook: a plane facing `spec.normal` (into the kept half) through `spec.point`; null leaves cut mode.
+       Q218: the add-on's plane keeps the whole rest of the body (an earlier slice thickness is dropped: its purpose is to expose deep tissue). */
     setFromSpec: function(spec){
       if (!spec){ exit(false); return; }
-      S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = "";
+      S.ori = "view"; S.n0 = unit(spec.normal); S.rs = -1; S.anchor = spec.point.slice(); S.placed = true; S.armed = false; S.hint = ""; S.th = 0;
       S.a0 = dot(S.n0, S.anchor); S.a = S.a0; range(); S.on = true; push();
     },
     exit: exit, enter: enter, move: move, setOrientation: setOri, setThickness: setTh,
