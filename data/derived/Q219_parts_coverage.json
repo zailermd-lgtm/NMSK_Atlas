@@ -1,18 +1,18 @@
 {
  "generated": "2026-10-11",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 316,
- "structures_with_parts": 90,
+ "parts_total": 342,
+ "structures_with_parts": 99,
  "by_part_type": {
-  "head_belly": 40,
-  "origin_part": 17,
+  "head_belly": 44,
+  "origin_part": 21,
   "insertion_point": 92,
   "muscle_tendon_junction": 14,
-  "ligament_component": 120,
-  "fascial_passage": 33
+  "ligament_component": 137,
+  "fascial_passage": 34
  },
  "by_verification": {
-  "verified": 284,
+  "verified": 310,
   "unverified": 32
  },
  "entity_classes": {
@@ -49,10 +49,11 @@
   },
   "cartilage": {
    "entities": 46,
-   "with_parts": 2,
-   "without_parts": 44,
+   "with_parts": 3,
+   "without_parts": 43,
    "with_parts_ids": [
     "lateral_meniscus",
+    "lumbar_intervertebral_discs",
     "medial_meniscus"
    ],
    "without_parts_ids": [
@@ -91,7 +92,6 @@
     "intervertebral_disc_t9_t10",
     "knee_articular_cartilage",
     "laryngeal_cartilages",
-    "lumbar_intervertebral_discs",
     "nasal_cartilages",
     "patellofemoral_articular_cartilage",
     "pubic_symphysis_disc",
@@ -208,8 +208,8 @@
   },
   "ligaments": {
    "entities": 51,
-   "with_parts": 20,
-   "without_parts": 31,
+   "with_parts": 21,
+   "without_parts": 30,
    "with_parts_ids": [
     "anterior_cruciate_ligament",
     "coracoclavicular_ligament",
@@ -220,6 +220,7 @@
     "glenohumeral_ligament_complex",
     "hip_ligament_complex",
     "lateral_ligament_complex_ankle",
+    "medial_patellofemoral_ligament",
     "meniscofemoral_ligaments",
     "plantar_ligament_complex",
     "posterior_cruciate_ligament",
@@ -249,7 +250,6 @@
     "intertransverse_ligament",
     "ligamentum_flavum",
     "ligamentum_nuchae",
-    "medial_patellofemoral_ligament",
     "patellar_ligament",
     "popliteofibular_ligament",
     "posterior_longitudinal_ligament",
@@ -268,10 +268,13 @@
   },
   "muscles": {
    "entities": 220,
-   "with_parts": 36,
-   "without_parts": 184,
+   "with_parts": 40,
+   "without_parts": 180,
    "with_parts_ids": [
     "abductor_pollicis_longus",
+    "adductor_brevis",
+    "adductor_longus",
+    "adductor_pollicis",
     "biceps_brachii",
     "biceps_femoris",
     "brachialis",
@@ -306,18 +309,16 @@
     "tibialis_posterior",
     "trapezius",
     "triceps_brachii",
-    "vastus_lateralis"
+    "vastus_lateralis",
+    "vastus_medialis"
    ],
    "without_parts_ids": [
     "abductor_digiti_minimi_foot",
     "abductor_digiti_minimi_hand",
     "abductor_hallucis",
     "abductor_pollicis_brevis",
-    "adductor_brevis",
     "adductor_hallucis",
-    "adductor_longus",
     "adductor_magnus",
-    "adductor_pollicis",
     "anconeus",
     "antitragicus",
     "articularis_genus",
@@ -488,7 +489,6 @@
     "transversus_auriculae",
     "transversus_thoracis",
     "vastus_intermedius",
-    "vastus_medialis",
     "vertical_tongue",
     "vocalis",
     "zygomaticus_major",
@@ -497,11 +497,12 @@
   },
   "tendons": {
    "entities": 26,
-   "with_parts": 10,
-   "without_parts": 16,
+   "with_parts": 11,
+   "without_parts": 15,
    "with_parts_ids": [
     "achilles_tendon",
     "adductor_magnus_distal_tendon",
+    "common_extensor_tendon",
     "extensor_hood",
     "first_dorsal_compartment",
     "flexor_tendon_pulley_system_hand",
@@ -514,7 +515,6 @@
    "without_parts_ids": [
     "biceps_brachii_tendon_complex",
     "central_tendon_diaphragm",
-    "common_extensor_tendon",
     "common_flexor_tendon",
     "conjoint_tendon",
     "digastric_intermediate_tendon",
@@ -552,7 +552,7 @@
     },
     "muscle": {
      "structures": 367,
-     "with_parts": 97
+     "with_parts": 106
     },
     "nerve": {
      "structures": 13,
@@ -572,7 +572,7 @@
     }
    },
    "structures_total": 561,
-   "structures_with_parts": 117,
+   "structures_with_parts": 126,
    "dedicated_part_meshes_present": []
   },
   "vhf": {
@@ -595,7 +595,7 @@
     },
     "muscle": {
      "structures": 390,
-     "with_parts": 98
+     "with_parts": 107
     },
     "nerve": {
      "structures": 16,
@@ -615,7 +615,7 @@
     }
    },
    "structures_total": 608,
-   "structures_with_parts": 120,
+   "structures_with_parts": 129,
    "dedicated_part_meshes_present": [
     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
    ]
@@ -648,7 +648,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 22
+     "with_parts": 24
     },
     "lymph": {
      "structures": 162,
@@ -656,7 +656,7 @@
     },
     "muscle": {
      "structures": 424,
-     "with_parts": 63
+     "with_parts": 71
     },
     "nerve": {
      "structures": 337,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 104,
+   "structures_with_parts": 114,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -702,6 +702,8 @@
     "zan_conoid_ligament_r",
     "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l",
     "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r",
+    "zan_cuneometatarsal_interosseous_ligaments_l",
+    "zan_cuneometatarsal_interosseous_ligaments_r",
     "zan_descending_part_of_iliofemoral_ligament_l",
     "zan_descending_part_of_iliofemoral_ligament_r",
     "zan_dorsal_intercarpal_ligaments_l",
@@ -786,7 +788,7 @@
     },
     "joint": {
      "structures": 325,
-     "with_parts": 22
+     "with_parts": 24
     },
     "lymph": {
      "structures": 162,
@@ -794,7 +796,7 @@
     },
     "muscle": {
      "structures": 426,
-     "with_parts": 63
+     "with_parts": 71
     },
     "nerve": {
      "structures": 337,
@@ -814,7 +816,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 104,
+   "structures_with_parts": 114,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -840,6 +842,8 @@
     "zan_conoid_ligament_r",
     "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_l",
     "zan_cruciform_part_of_fibrous_sheath_of_digit_of_hand_r",
+    "zan_cuneometatarsal_interosseous_ligaments_l",
+    "zan_cuneometatarsal_interosseous_ligaments_r",
     "zan_descending_part_of_iliofemoral_ligament_l",
     "zan_descending_part_of_iliofemoral_ligament_r",
     "zan_dorsal_intercarpal_ligaments_l",
@@ -907,6 +911,7 @@
   "semimembranosus": 9,
   "fibularis_longus": 8,
   "triceps_brachii": 7,
+  "first_carpometacarpal": 7,
   "pectoralis_major": 6,
   "deltoid_ligament": 6,
   "rectus_abdominis": 6,
@@ -924,6 +929,8 @@
   "rectus_femoris": 4,
   "gluteus_medius": 4,
   "pes_anserinus": 4,
+  "anterior_cruciate_ligament": 4,
+  "lateral_ligament_complex_ankle": 4,
   "tibiofibular_syndesmosis": 4,
   "achilles_tendon": 4,
   "rectus_sheath": 4,
@@ -931,6 +938,7 @@
   "collateral_interphalangeal_ligaments_of_hand": 4,
   "dorsal_interossei_hand": 4,
   "palmar_interossei": 4,
+  "medial_patellofemoral_ligament": 4,
   "supraspinatus": 3,
   "trapezius": 3,
   "serratus_anterior": 3,
@@ -938,13 +946,13 @@
   "gluteus_minimus": 3,
   "gluteus_maximus": 3,
   "iliopsoas_tendon": 3,
-  "anterior_cruciate_ligament": 3,
   "popliteus": 3,
-  "lateral_ligament_complex_ankle": 3,
   "plantar_ligament_complex": 3,
   "gastrocnemius": 3,
   "finger_mcp_collateral_and_plate_complex": 3,
   "extensor_digitorum": 3,
+  "adductor_pollicis": 3,
+  "cuneometatarsal_interosseous_ligaments": 3,
   "infraspinatus": 2,
   "coracohumeral_ligament": 2,
   "coracoclavicular_ligament": 2,
@@ -966,6 +974,8 @@
   "crural_fascia": 2,
   "pronator_quadratus": 2,
   "adductor_canal": 2,
+  "vastus_medialis": 2,
+  "adductor_longus": 2,
   "subscapularis": 1,
   "rotator_cuff_tendon_complex": 1,
   "semitendinosus": 1,
@@ -987,7 +997,10 @@
   "soleus": 1,
   "adductor_magnus_distal_tendon": 1,
   "inguinal_ligament": 1,
-  "superior_transverse_scapular_ligament": 1
+  "superior_transverse_scapular_ligament": 1,
+  "common_extensor_tendon": 1,
+  "adductor_brevis": 1,
+  "lumbar_intervertebral_discs": 1
  },
  "unverified_rows": [
   "deltoid.origin_lateral_third_clavicle",

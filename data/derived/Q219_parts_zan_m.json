@@ -12,18 +12,18 @@
   "measured": "never used: no part boundary is measured from the person's own labelled evidence"
  },
  "counts": {
-  "placed": 119,
-  "parts_with_a_placement": 61,
-  "text_only": 255,
+  "placed": 121,
+  "parts_with_a_placement": 62,
+  "text_only": 280,
   "placed_by_rule": {
-   "z_part_mesh": 69,
+   "z_part_mesh": 71,
    "end_snap_bone": 29,
    "cc_ligament_ratio": 4,
    "mtj_by_distance_from_origin": 4,
    "passage_contact": 13
   },
   "placed_by_class": {
-   "z_fill": 82,
+   "z_fill": 84,
    "rule_based": 37
   }
  },
@@ -3701,6 +3701,76 @@
    "rule": "passage_contact",
    "part_type": "fascial_passage",
    "verification": "verified"
+  },
+  {
+   "position_mm": [
+    181.05,
+    -916.46,
+    14.82
+   ],
+   "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
+   "source_class": "z_fill",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_cuneometatarsal_interosseous_ligaments_r"
+   ],
+   "bbox_mm": [
+    [
+     166.49,
+     -923.64,
+     8.32
+    ],
+    [
+     191.95,
+     -910.39,
+     22.43
+    ]
+   ],
+   "n_vertices": 24,
+   "error_bound_mm": 8.5,
+   "error_median_mm": 1.0,
+   "error_basis": "region estimate in the structure's badge (surface error median/max)",
+   "part_id": "cuneometatarsal_interosseous_ligaments.lisfranc_interosseous",
+   "structure_id": "cuneometatarsal_interosseous_ligaments",
+   "side": "r",
+   "rule": "z_part_mesh",
+   "part_type": "ligament_component",
+   "verification": "verified"
+  },
+  {
+   "position_mm": [
+    -167.12,
+    -912.68,
+    23.46
+   ],
+   "method": "z_part_mesh: position of the dedicated Z-Anatomy part mesh as fitted to this body (inside-mesh centroid, else nearest vertex to the centroid)",
+   "source_class": "z_fill",
+   "parent_source_class": "z_fill",
+   "mesh_ids": [
+    "zan_cuneometatarsal_interosseous_ligaments_l"
+   ],
+   "bbox_mm": [
+    [
+     -176.31,
+     -920.34,
+     18.73
+    ],
+    [
+     -153.83,
+     -905.99,
+     30.85
+    ]
+   ],
+   "n_vertices": 24,
+   "error_bound_mm": 8.5,
+   "error_median_mm": 1.0,
+   "error_basis": "region estimate in the structure's badge (surface error median/max)",
+   "part_id": "cuneometatarsal_interosseous_ligaments.lisfranc_interosseous",
+   "structure_id": "cuneometatarsal_interosseous_ligaments",
+   "side": "l",
+   "rule": "z_part_mesh",
+   "part_type": "ligament_component",
+   "verification": "verified"
   }
  ],
  "text_only": [
@@ -4748,6 +4818,106 @@
    "part_id": "adductor_magnus_distal_tendon.mtj_distal",
    "reason": "r: tendon mesh adductor_magnus_distal_tendon absent in this body; l: tendon mesh adductor_magnus_distal_tendon absent in this body",
    "rule_tried": "mtj_interface"
+  },
+  {
+   "part_id": "common_extensor_tendon.ecrb_origin_lateral_epicondyle",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_patellofemoral_ligament.femoral_attachment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_patellofemoral_ligament.patellar_attachment",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_patellofemoral_ligament.vmo_fibre_merge",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "medial_patellofemoral_ligament.medial_patellomeniscal_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "vastus_medialis.longus_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "vastus_medialis.obliquus_part",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_longus.origin_pubic_footprint",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_longus.conjoint_tendons_with_brevis_and_gracilis",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_brevis.origin_inferior_pubic_ligament",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_pollicis.oblique_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_pollicis.transverse_head",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "adductor_pollicis.deep_ulnar_branch_between_heads",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.superficial_anterior_oblique",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.deep_anterior_oblique",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.dorsoradial",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.posterior_oblique",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.ulnar_collateral",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.proper_intermetacarpal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "first_carpometacarpal.dorsal_intermetacarpal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "cuneometatarsal_interosseous_ligaments.lisfranc_dorsal",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "cuneometatarsal_interosseous_ligaments.lisfranc_plantar",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "lateral_ligament_complex_ankle.subtalar_lateral_support_layers",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "lumbar_intervertebral_discs.anulus_laminae",
+   "reason": "no geometry rule defined for this part (text-only part)"
+  },
+  {
+   "part_id": "anterior_cruciate_ligament.am_pl_attachment_centres",
+   "reason": "no geometry rule defined for this part (text-only part)"
   }
  ]
 }

@@ -70,7 +70,7 @@ def test_table_basic_shape(table):
         assert p["id"].startswith(p["structure_id"] + "."), p["id"]
         assert p["name"] and p["description"], p["id"]
         assert p["verification"] in ("verified", "unverified")
-        assert p["structure_class"] in ("muscle", "ligament", "tendon", "fascia", "nerve", "cartilage"), p["id"]
+        assert p["structure_class"] in ("muscle", "ligament", "tendon", "fascia", "nerve", "cartilage", "joint"), p["id"]
 
 
 def test_every_row_has_a_citation(table):

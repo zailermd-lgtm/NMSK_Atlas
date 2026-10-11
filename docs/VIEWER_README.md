@@ -103,7 +103,11 @@ facing me the side nearer the viewer); move the plane along its normal with the 
 buttons, arrow keys (Shift or PageUp/PageDown = 10 mm) or the wheel over the slider; **reset cut**, **exit cut**.
 The removed part is clipped for real (every material / fragment, incl. skin and the add-on's halos; the needle
 trajectory itself is not clipped, so it stays visible); picking ignores the removed half. No cap is drawn: the cut
-shows the open surfaces. Shared source: `viewer/cut_mode/`, synced into both templates by `scripts/sync_cut_mode_q197.py`.
+shows the open surfaces. **Slice thickness** (Q218): how much is kept behind the plane, from the whole rest of the body (slider at
+its far end, button *all*, the default) down to a slice of 0.5-100 mm (slider, or the 2 / 5 / 10 / 25 mm buttons); the far face of
+the slice is drawn as a dashed outline, rendering, picking and the add-on's halos stay inside the slab, *reset cut* and the add-on's
+*Cut through target* go back to the whole rest. For the add-on `api.cut()` is unchanged (the kept half); the optional
+`api.cutSlab()` (mm, 0 = all) and, on the WebGL pages, `ctx.clip2` give the far face. Shared source: `viewer/cut_mode/`, synced into both templates by `scripts/sync_cut_mode_q197.py`.
 
 With the add-on present, the **Needle** button opens its panel. The original measurement is kept:
 the first click on any structure sets the entry point (normally the skin, so switch its system on

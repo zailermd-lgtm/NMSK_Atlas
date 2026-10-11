@@ -161,6 +161,7 @@ try:
             base_cut = img(pg)                                   # cut on (plane only, thickness all): the "previous state"
             pg.screenshot(path=f"{outp}_{name}_0_cut_all.png")
             ref = empty_ref()
+            Image.fromarray(ref.astype("uint8")).save(f"{outp}_{name}_empty_ref_canvas.png")
             ok["scene_content_frac"] = round(changed(base_cut, ref), 4)
             ok["scene_has_content"] = ok["scene_content_frac"] > 0.01
 
