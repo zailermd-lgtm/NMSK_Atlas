@@ -91,3 +91,32 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+def render_dicts(out, levels, dicts, titles, side="l", xwin=(-300, -130), zwin=(-70, 150), ncol=None, dpi=55):
+    """sections of several {id: dict(v, f, cat)} sets over his photograph at each level (rows = levels, columns = sets)"""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    vol = np.load(PH.CRYO / "cryo_1mm.npy", mmap_mode="r")
+    idx = json.loads((PH.CRYO / "cryo_index.json").read_text())
+    inst = {r[1]: i for i, r in enumerate(idx)}
+    reg = json.loads(PH.REG.read_text())["sides"]["left"]["levels"]
+    fig, axs = plt.subplots(len(levels), len(dicts), figsize=(6.0 * len(dicts), 5.0 * len(levels)), squeeze=False)
+    for r, y in enumerate(levels):
+        k = int(round(PH.Y_OFF - y))
+        X0, Y0 = reg[str(k)]["T"]
+        im = np.asarray(vol[inst[k]])
+        c_hi = min(int((X0 - (xwin[0] - 6.0)) / 0.99), im.shape[1] - 1)
+        c_lo = max(int((X0 - (xwin[1] - 6.0)) / 0.99), 0)
+        ext = [X0 - c_lo * 0.99 + 6.0, X0 - c_hi * 0.99 + 6.0, Y0 + im.shape[0] * 0.99 - 4.8, Y0 - 4.8]
+        for c, M in enumerate(dicts):
+            a = axs[r, c]
+            a.imshow(im[:, c_lo:c_hi], extent=ext)
+            sections(M, side, float(y), xwin, zwin, a)
+            a.set_xlim(*xwin)
+            a.set_ylim(*zwin)
+            a.set_title(f"{titles[c]}  y={y}", fontsize=8)
+    plt.tight_layout()
+    plt.savefig(out, dpi=dpi)
+    plt.close(fig)

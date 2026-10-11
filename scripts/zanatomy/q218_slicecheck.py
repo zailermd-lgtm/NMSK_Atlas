@@ -175,7 +175,7 @@ try:
             def find_hit(lo_, hi_, rows, step_x=24):
                 step_x = step_x * 3 if ZAN else step_x
                 f = "(function(P){ var a=__T.api(); for (var i=0;i<P.length;i++){ var h=a.pick({clientX:%f+P[i][0], clientY:%f+P[i][1]}); if(h && h.i>=0) return P[i]; } return null; })" % (cb["x"], cb["y"])
-                pts = [(x, y) for y in rows for x in range(30, W - 30, step_x)]
+                pts = [(x, y) for y in rows for x in range(int(W * 0.3), int(W * 0.7), step_x)]      # the middle of the canvas: side rails / panels overlap the edges
                 pts = [q for q in pts if q[1] < lo_ - 12 or q[1] > hi_ + 12]
                 return pg.evaluate(f + "(%s)" % json.dumps(pts))
 
