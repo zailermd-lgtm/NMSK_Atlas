@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Q216: clean up the side effects of Q215 on the OWN FEMALE page (bundle build/viewer_f_hr_q215 -> build/viewer_f_hr_q216).
 
-    python3 scripts/transfer/q216_fix.py [--only id,id] [--phases A,B,C,D,P,W] [--dry] [--cache DIR]
+    python3 scripts/transfer/q216_fix.py [--only id,id] [--phases A,B,C,D,P,W,R] [--dry] [--cache DIR]
 
   A  NERVE CORRIDOR.  Her photo-traced tibial / sciatic nerve (and the other Q53 / Q55 / Q56 traced tubes) is measured evidence and is NOT moved.  Every Q215 muscle that contains traced-nerve
      vertices (or lies closer than CLEAR_MIN_MM to them) is carved: the muscle solid (exact voxel raster at 0.5 mm of the closed mesh) minus the corridor (nerve + CLEAR_MM) minus the way out of it
@@ -14,6 +14,9 @@
      Cap ATTACH_CAP_MM; farther = not done, reason recorded.
   D  FLAT CUTS.  A planar facet (all vertices within 0.3 mm of an axis-aligned plane at an extreme of the muscle, > 100 mm2) is replaced by a shallow dome (amplitude <= DOME_MAX_MM, profile 1 - (r/rho)^2 over
      the facet, outward where the skin leaves >= 1.2 mm, else inward), checked with the audit's own flat_caps function.
+  P  PIRIFORMIS.  No label of her own exists (q216_piriformis.py); the male-carried mesh sits partly off her photographed muscle (share 0.54 r / 0.31 l), so q216_piriformis_refit.py re-bounds it with the Q215
+     machinery (markers = the male mesh, region = her photographed muscle, bones / own muscles excluded) and the Q215 guards; candidates that pass (--piriformis PKL) replace the male-carried mesh (Source class unchanged).
+  W  WELD.  A Z-fill continuation whose seam vertices no longer coincide with the re-bounded base (sartorius l: 0.25 mm) is snapped onto the base's vertices (<= 1 mm moves) = one connected surface again.
   Guards (all must hold per muscle, else the muscle keeps its Q215 mesh and the reasons are recorded): every vertex inside her skin >= 1 mm; <= 8 % of the vertices inside bone and deepest embedding <= 5 mm on the
   Q204 lattice (or not deeper than the Q215 mesh); volume / length within the bounds of the operation; one connected piece; <= 60 % of the volume inside other muscles (final state, all replacements swapped in)
   and not more than OVERLAP_RISE_MAX points above the Q215 mesh; new surface <= MOVE_P95_MAX_MM (p95) from the Q215 one.
@@ -79,6 +82,14 @@ WELD_TARGETS = {"sartorius_l": "sartorius_l_zfill203s"}
 def surf_pts(v, f, spacing=1.0):
     from scripts.zanatomy.q198_core import surf_points
     return surf_points(np.asarray(v, float), np.asarray(f, np.int64), spacing, cap=400000)
+
+
+def match_ends(ends_a, ends_b):
+    """{label in b: label in a} by the closest end centres: the audit's prox / dist names follow the sign of a principal axis, which can flip when a mesh is re-meshed"""
+    out = {}
+    for eb, xb in ends_b.items():
+        out[eb] = min(ends_a, key=lambda ea: float(np.linalg.norm(np.asarray(ends_a[ea]["centre"]) - np.asarray(xb["centre"]))))
+    return out
 
 
 def surface_move(v1, f1, v0, f0):
@@ -294,7 +305,7 @@ def op_bridge(env, sid, v0, f0, log=print):
 
 
 # ------------------------------------------------------------------------------------------ C: ends
-def pull_anchored(v, f, pulls, anchors, lam=8.0, w=30.0, w_anchor=30.0):
+def pull_anchored(v, f, pulls, anchors, lam=8.0, w=30.0, w_anchor=300.0):
     """q214_fit.pull_ends with (a) the other end zones ANCHORED (zero displacement, weight w_anchor): the muscle is stretched between them instead of translated, and (b) an optional stop-short distance for a
     pull towards 'the nearest bone of any kind' (the end is brought to within `short` mm of it, not onto it).  pulls = [(zone mask, target points, short_mm)] -> (new vertices or None, per-zone info)"""
     from scipy.sparse import diags, identity
@@ -331,14 +342,45 @@ def pull_anchored(v, f, pulls, anchors, lam=8.0, w=30.0, w_anchor=30.0):
     return v + D, info
 
 
-def op_ends(env, sid, which, v0, f0, log=print):
+def zones_of(v0, mode):
+    """end zones of a muscle mesh: 'count12' = the 12 % of the vertices at each end of the principal axis (q214_fit.axis_and_zones); 'len10' = the vertices within 10 % of the LENGTH from each extreme (what the audit's end
+    test looks at: a thin tail has few vertices, so the count rule puts most of the belly into the zone)"""
+    if mode == "count12":
+        u, t, z_lo, z_hi = F.axis_and_zones(v0)
+        return {"lo": z_lo, "hi": z_hi}
+    c = v0.mean(0)
+    u = np.linalg.svd(v0 - c, full_matrices=False)[2][0]
+    t = (v0 - c) @ u
+    L = float(t.max() - t.min())
+    lo, hi = t <= t.min() + 0.10 * L, t >= t.max() - 0.10 * L
+    if lo.sum() < 12:
+        lo = t <= np.sort(t)[11]
+    if hi.sum() < 12:
+        hi = t >= np.sort(t)[-12]
+    return {"lo": lo, "hi": hi}
+
+
+def op_ends(env, sid, which, v0, f0, log=print, modes=("count12", "len10")):
+    """pull the listed ends onto their bones: end zones by vertex count first (Q214's rule), by length second; the first mode whose best variant passes every guard wins"""
+    best = None
+    for mode in modes:
+        r = _op_ends(env, sid, which, v0, f0, log, mode)
+        v1, _f1, inf = r
+        inf["zone_mode"] = mode
+        if v1 is not None and not inf.get("why"):
+            return r
+        if best is None or (v1 is not None and (best[0] is None or len(inf.get("why", [])) < len(best[2].get("why", [])))):
+            best = r
+    return best
+
+
+def _op_ends(env, sid, which, v0, f0, log, zone_mode):
     ctx, B = env.ctx, env.B
     rec = B.get(sid)["e"]["rec"]
     nb = named_bones(rec)
     st = env.audit_state(sid, v0, f0)
     info = dict(op="ends", before=st["ends"], named_bones=nb, pulled={}, skipped={}, which=list(which))
-    u, t, z_lo, z_hi = F.axis_and_zones(v0)
-    zones = {"lo": z_lo, "hi": z_hi}
+    zones = zones_of(v0, zone_mode)
 
     def zone_of(centre):
         return min(zones, key=lambda k: np.linalg.norm(v0[zones[k]].mean(0) - np.asarray(centre)))
@@ -381,8 +423,19 @@ def op_ends(env, sid, which, v0, f0, log=print):
     for z, _t, _s, _n in zt:
         ends |= z
     anchors = [z for k, z in zones.items() if not any((z == zz).all() for zz, _t, _s, _n in zt)]
+    # the seam vertices of a Z-fill continuation (base vertices within 1.5 mm of one of its vertices) are anchored too: the continuation stays welded
+    for it in B.items:
+        if re.fullmatch(re.escape(sid) + r"_zfill\w*", it["e"]["id"]):
+            zv_, _zf_ = B.mesh(it)
+            seam = cKDTree(zv_).query(v0)[0] <= 1.5
+            if seam.any():
+                anchors.append(seam)
     from scripts.transfer.q200_overlap import separate
     skip = [sid] + [it["e"]["id"] for it in B.items if re.fullmatch(re.escape(sid) + r"_zfill\w*", it["e"]["id"])]
+    ends_all = ends.copy()                              # pulled zones + the other end + the seam of a continuation: held on / in their bone by the bone push (an embedding that the Q215 mesh has by design stays)
+    for z in anchors:
+        ends_all |= z
+    depth0 = float(ctx.bone_depth().depth(v0).max())
     ofield = F.OverlapField(ctx, skip_ids=skip)
     o_old = ofield.pct(v0, f0)
     info["overlap_old_pct"] = round(o_old, 1)
@@ -395,23 +448,33 @@ def op_ends(env, sid, which, v0, f0, log=print):
         zt_v = [(z, t, (max(s0, short) if named else s0)) for z, t, s0, named in zt]
         if short > 0 and not any(named for _z, _t, _s, named in zt):
             continue
-        pv, _ = pull_anchored(v0, f0, zt_v, anchors, lam=lam)
-        cur = F.bone_push(v0, f0, ctx, pv, ends, lams)
-        if sep is not None:
-            constrain = lambda x, lams=lams: F.bone_push(v0, f0, ctx, x, ends, lams)
-            cur, _si = separate(cur, f0, others, constrain=constrain, pin=ends, rounds=sep[0], step=0.7, per_round=3.0, total=sep[1], vol=(0.75, 1.3))
-        cur = F.smooth_displacement(v0, cur, f0, 8)
-        cur = ctx.skin_inset(cur)
-        cur = F.bone_push(v0, f0, ctx, cur, ends, lams)
-        cur = F.shallow_bone_clamp(v0, f0, ctx, cur)
+        cur = v0
+        for _pass in range(3):                           # a second / third pass pulls what the first one left (the zone moves by the mean step of its closest vertices, a thin tail needs more)
+            pv, _ = pull_anchored(cur, f0, zt_v, anchors, lam=lam)
+            nxt = F.bone_push(v0, f0, ctx, pv, ends_all, lams)
+            if sep is not None:
+                constrain = lambda x, lams=lams: F.bone_push(v0, f0, ctx, x, ends_all, lams)
+                nxt, _si = separate(nxt, f0, others, constrain=constrain, pin=ends_all, rounds=sep[0], step=0.7, per_round=3.0, total=sep[1], vol=(0.75, 1.3))
+            nxt = F.smooth_displacement(v0, nxt, f0, 8)
+            nxt = ctx.skin_inset(nxt)
+            nxt = F.bone_push(v0, f0, ctx, nxt, ends_all, lams)
+            if depth0 <= F.BONE_CLAMP_MM:
+                nxt = F.shallow_bone_clamp(v0, f0, ctx, nxt)
+            cur = nxt
+            stc = env.audit_state(sid, cur, f0)["ends"]
+            mtc = match_ends(stc, st["ends"])
+            if max(stc[mtc[en]]["min_any_bone_mm"] for en in pulled_en) <= END_GOAL_MM - 1.0:
+                break
         g, why = env.guards(sid, cur, f0, v0, f0, END_VOL, END_LEN, seam=False)
         st1 = env.audit_state(sid, cur, f0)
-        worst = max(st1["ends"][en]["min_any_bone_mm"] for en in pulled_en)
+        mt0 = match_ends(st1["ends"], st["ends"])                      # pulled ends: their labels in the new state
+        worst = max(st1["ends"][mt0[en]]["min_any_bone_mm"] for en in pulled_en)
         if worst > END_GOAL_MM:
             why = why + [f"an end is still {worst} mm from bone after the pull (gate {END_GOAL_MM:g})"]
+        mt = match_ends(st["ends"], st1["ends"])
         for en, a in st1["ends"].items():                 # an end that was not pulled must not leave its bone
-            b0 = st["ends"][en]["min_any_bone_mm"]
-            if en not in pulled_en and a["min_any_bone_mm"] > max(b0 + 1.0, END_GOAL_MM):
+            b0 = st["ends"][mt[en]]["min_any_bone_mm"]
+            if mt[en] not in pulled_en and a["min_any_bone_mm"] > max(b0 + 1.0, END_GOAL_MM):
                 why = why + [f"the {en} end moved off its bone ({b0} -> {a['min_any_bone_mm']} mm)"]
         o_new = ofield.pct(cur, f0)
         g["overlap_field_pct"] = [round(o_old, 1), round(o_new, 1)]
@@ -431,7 +494,7 @@ def op_ends(env, sid, which, v0, f0, log=print):
                     zfill_new[zid] = (zn, rinfo)
             g.setdefault("seam_gap_mm", {})[zid] = x
         key = (len(why), worst, o_new)
-        log(f"      pull short {short} lam {lam} sep {sep}: ends {[(e, a['min_any_bone_mm']) for e, a in st1['ends'].items()]}, vol x{g['volume_ratio']}, len x{g['length_ratio']}, overlap {round(o_old, 1)} -> {round(o_new, 1)}, bone {g['after']['in_bone_pct']} %, {why or 'ok'}")
+        log(f"      [{zone_mode}] pull short {short} lam {lam} sep {sep}: ends {[(e, a['min_any_bone_mm']) for e, a in st1['ends'].items()]}, vol x{g['volume_ratio']}, len x{g['length_ratio']}, overlap {round(o_old, 1)} -> {round(o_new, 1)}, bone {g['after']['in_bone_pct']} %, {why or 'ok'}")
         if best is None or key < best[0]:
             best = (key, cur, g, why, st1, lam, lams, sep, zfill_new, short)
         if not why:
@@ -464,7 +527,7 @@ def cap_triangles(v, f, tol=0.3):
 
 def op_flat(env, sid, v0, f0, log=print):
     ctx = env.ctx
-    st = env.audit_state(sid)
+    st = env.audit_state(sid, v0, f0)
     caps = [c for c in st["flat_caps"] if c["area_mm2"] > FLAT_AREA_MAX]
     info = dict(op="flat_cut", before=st["flat_caps"], dome=[])
     if not caps:
@@ -474,8 +537,10 @@ def op_flat(env, sid, v0, f0, log=print):
     for amp in (1.2, 1.6, 2.0, 2.5, DOME_MAX_MM):
         cur = v0.copy()
         dome = []
+        ext = (v0.min(0), v0.max(0))
         for (k, kk), (tri, pos, sgn, area) in groups.items():
-            if area <= 40.0:
+            # only what the audit calls a flat CUT face: a facet whose plane lies at an extreme of the muscle along its axis (q198_core.flat_caps: within 1.5 mm; the x = 0 midline is not a cut)
+            if area <= 40.0 or not (abs(pos - ext[0][k]) < 1.5 or abs(pos - ext[1][k]) < 1.5) or ("xyz"[k] == "x" and abs(pos) < 15.0):
                 continue
             vi = np.unique(f0[tri])
             c = v0[vi].mean(0)
@@ -558,7 +623,7 @@ def main():
     ap.add_argument("--out", default=str(OUT_BUNDLE))
     ap.add_argument("--report", default=str(REPO / "data/derived/Q216_report.json"))
     ap.add_argument("--only", default="")
-    ap.add_argument("--phases", default="A,B,C,D,P,W")
+    ap.add_argument("--phases", default="A,B,C,D,P,W,R")
     ap.add_argument("--dry", action="store_true")
     ap.add_argument("--cache", default="")
     ap.add_argument("--piriformis", default="", help="pickle written by q216_piriformis_refit.py (candidate meshes of piriformis r / l re-bounded on her registered photographs)")
@@ -577,7 +642,7 @@ def main():
     if cache:
         cache.mkdir(parents=True, exist_ok=True)
     cand = {}          # sid -> dict(v, f, ops: [info...], badge: [text...])
-    rep = dict(source_bundle=str(Path(a.src).relative_to(REPO)), nerve={}, ops={}, kept={}, attempts={}, welded={}, piriformis={}, params=dict(
+    rep = dict(source_bundle=str(Path(a.src).relative_to(REPO)), nerve={}, ops={}, kept={}, attempts={}, residual={}, welded={}, piriformis={}, params=dict(
         CLEAR_MM=CLEAR_MM, SLOT_EXTRA_MM=SLOT_EXTRA_MM, CLEAR_MIN_MM=CLEAR_MIN_MM, VOL_CARVE_MIN=VOL_CARVE_MIN, END_GOAL_MM=END_GOAL_MM, ATTACH_CAP_MM=ATTACH_CAP_MM, ANY_BONE_FALLBACK_MM=ANY_BONE_FALLBACK_MM,
         END_VOL=END_VOL, END_LEN=END_LEN, FLAT_AREA_MAX=FLAT_AREA_MAX, DOME_MAX_MM=DOME_MAX_MM, FLAT_VOL=FLAT_VOL, OVERLAP_MAX=OVERLAP_MAX, OVERLAP_RISE_MAX=OVERLAP_RISE_MAX, MOVE_P95_MAX_MM=MOVE_P95_MAX_MM,
         IN_BONE_MAX_PCT=IN_BONE_MAX_PCT, BONE_DEPTH_MAX_MM=BONE_DEPTH_MAX_MM, BONE_DEPTH_TOL_MM=BONE_DEPTH_TOL_MM, SKIN_DEPTH_MIN_MM=SKIN_DEPTH_MIN_MM, H=C.H))
@@ -740,6 +805,50 @@ def main():
                 rep["kept"].setdefault(zid, {})["weld"] = why
             else:
                 welds[zid] = (zv, zf_, inf, sid)
+    # ---- R: side effects of the operations themselves (a carve / re-mesh can shorten a thin tail, decimation can leave a planar facet): an end that crossed the 6 mm line or a flat facet that was not there before is
+    # repaired with the same code (C / D); what cannot be repaired is recorded as residual, the candidate is kept (the nerve fix has priority over a severity-1 end finding)
+    if "R" in phases:
+        for sid in list(cand):
+            if not want(sid):
+                continue
+            it0 = B.items[B.find(sid)[0]]
+            v0, f0 = B.mesh(it0)
+            st0 = env.audit_state(sid, v0, f0)
+            v1, f1 = cur_mesh(sid)
+            st1 = env.audit_state(sid, v1, f1)
+            mt = match_ends(st0["ends"], st1["ends"])
+            worse = [en for en, a in st1["ends"].items() if a["min_any_bone_mm"] > END_GOAL_MM and st0["ends"][mt[en]]["min_any_bone_mm"] <= END_GOAL_MM]
+            if worse:
+                log(f"R {sid}: end(s) {worse} crossed the {END_GOAL_MM:g} mm line ({ {en: (st0['ends'][mt[en]]['min_any_bone_mm'], st1['ends'][en]['min_any_bone_mm']) for en in worse} })")
+                v2, f2, inf = op_ends(env, sid, worse, v1, f1, log, modes=("len10", "count12"))
+                if v2 is not None and not inf.get("why"):
+                    zfn = inf.pop("zfill_new", {})
+                    inf.pop("why", None)
+                    record(sid, v2, f2, dict(inf, repair=True), "C")
+                    cand[sid]["zfill_new"] = {**cand[sid].get("zfill_new", {}), **zfn}
+                    v1, f1 = v2, f2
+                else:
+                    rep["residual"].setdefault(sid, []).append(dict(what="end_off_bone", ends=worse, why=(inf or {}).get("why") or (inf or {}).get("skipped")))
+            caps0 = [c for c in st0["flat_caps"] if c["area_mm2"] > FLAT_AREA_MAX]
+            st1 = env.audit_state(sid, v1, f1)
+            new_caps = [c for c in st1["flat_caps"] if c["area_mm2"] > FLAT_AREA_MAX and not any(c["axis"] == o["axis"] and abs(c["plane_mm"] - o["plane_mm"]) < 3.0 for o in caps0)]
+            if new_caps:
+                log(f"R {sid}: new flat facet(s) {new_caps}")
+                v2, f2, inf = op_flat(env, sid, v1, f1, log)
+                if v2 is not None and not inf.get("why"):
+                    inf.pop("why", None)
+                    record(sid, v2, f2, dict(inf, repair=True), "D")
+                else:
+                    rep["residual"].setdefault(sid, []).append(dict(what="flat_cut_face", caps=new_caps, why=(inf or {}).get("why")))
+    # cumulative guards of every candidate against its Q215 mesh (all operations together)
+    for sid, c in cand.items():
+        it0 = B.items[B.find(sid)[0]]
+        v0, f0 = B.mesh(it0)
+        pir = any(o["kind"] == "P" for o in c["ops"])             # a re-bounded piriformis may lose volume (the Q215 gates: >= 0.25 of the old mesh, evidence volume >= 0.6) and length
+        g, why = env.guards(sid, c["v"], c["f"], v0, f0, (0.25, 1.01) if pir else (0.84, 1.26), (0.7, 1.3) if pir else (0.88, 1.3), seam=False)
+        c["cumulative_guards"] = g
+        if why:
+            rep["residual"].setdefault(sid, []).append(dict(what="cumulative_guard", why=why))
     # ---- final-state overlap with everything swapped in
     page = env.page
     accepted = dict(cand)
@@ -769,7 +878,7 @@ def main():
         vol0, vol1 = C.volume_cm3(v0, f0), C.volume_cm3(c["v"], c["f"])
         mv = surface_move(c["v"], c["f"], v0, f0)
         txt = badge_q216(it["e"]["rec"].get("name", sid), c, vol0, vol1, mv)
-        rep["ops"][sid] = dict(volume_cm3=[round(vol0, 1), round(vol1, 1)], move=mv, overlap_vol_pct=c.get("overlap_vol_pct"), neighbour_overlap=c.get("neighbour_overlap"), operations=c["ops"], badge_added=txt,
+        rep["ops"][sid] = dict(volume_cm3=[round(vol0, 1), round(vol1, 1)], move=mv, overlap_vol_pct=c.get("overlap_vol_pct"), neighbour_overlap=c.get("neighbour_overlap"), operations=c["ops"], cumulative_guards=c.get("cumulative_guards"), badge_added=txt,
                                subject=it["e"]["subject"])
         if not a.dry:
             B.replace(sid, c["v"], c["f"], rec_updates={"procedural_badge": badge_add(old_badge, txt)})

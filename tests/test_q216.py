@@ -181,6 +181,32 @@ def test_pull_ends_reaches_the_bone_and_the_guards_pass_a_slightly_longer_muscle
     assert not any(w.startswith("skin") for w in why)
 
 
+def test_end_zones_by_length_follow_a_thin_tail_and_the_anchored_end_stays_put():
+    # a belly (x 0..70, 14 x 14 mm) with a thin tail (x 70..100, 4 x 4 mm): the length rule's 10 % zone is the tail's tip
+    bv, bf = box((0, -7, -7), (70, 7, 7), sub=3)
+    tv, tf = box((70, -2, -2), (100, 2, 2), sub=3)
+    v = np.vstack([bv, tv])
+    f = np.vstack([bf, tf + len(bv)])
+    zl = X.zones_of(v, "len10")
+    zc = X.zones_of(v, "count12")
+    xs = lambda z: v[z][:, 0]
+    hi_len = zl["hi"] if xs(zl["hi"]).mean() > 50 else zl["lo"]
+    assert xs(hi_len).min() >= 90.0 - 1e-6                                         # the tip: within 10 mm of the extreme
+    assert zl["hi"].sum() >= 12 and zl["lo"].sum() >= 12 and zc["lo"].sum() > 0 and zc["hi"].sum() > 0
+    # anchored pull: the tip is brought 8 mm towards a bone point cloud, the other end (anchored) moves < 0.5 mm
+    bone = np.array([[108.0, y, z] for y in np.linspace(-5, 5, 6) for z in np.linspace(-5, 5, 6)]) + OFF
+    lo_zone = zl["lo"] if xs(zl["lo"]).mean() < 50 else zl["hi"]
+    pv, inf = X.pull_anchored(v, f, [(hi_len, bone, 0.0)], [lo_zone], lam=8.0)
+    assert pv is not None and inf[0]["step_mm"] > 6.0
+    assert np.linalg.norm(pv[lo_zone] - v[lo_zone], axis=1).max() < 0.5
+    assert cKDTree(bone).query(pv[hi_len])[0].min() < 2.0
+    # a bone beyond the cap is refused, and a stop-short pull stays short of the bone
+    far = bone + np.array([60.0, 0, 0])
+    assert X.pull_anchored(v, f, [(hi_len, far, 0.0)], [lo_zone])[0] is None
+    pv2, _ = X.pull_anchored(v, f, [(hi_len, bone, 4.0)], [lo_zone])
+    assert cKDTree(bone).query(pv2[hi_len])[0].min() > 2.5
+
+
 # ---------------------------------------------------------------- D flat facets
 def clipped_sphere(r=14.0, zcut=10.0, subdiv=3):
     """an ellipsoid-like muscle belly with its top flattened at z = zcut: ONE planar facet (the kind of facet the audit calls a flat cut face)"""
@@ -393,6 +419,16 @@ def test_cards_carry_the_q216_text_with_volume_and_move():
         assert f"Volume {r['volume_cm3'][1]} cm3 (Q215 mesh {r['volume_cm3'][0]} cm3)" in badge
         assert abs(vol - r["volume_cm3"][1]) < 0.03 * r["volume_cm3"][1] + 0.3
         assert f"median {r['move']['new_to_old_median_mm']} mm" in badge and "Source class unchanged" in badge and "A position and boundary estimate" in badge
+
+
+def test_no_unrepaired_side_effect_remains_in_the_report():
+    rep = _report()
+    for sid, items in rep["residual"].items():
+        for it in items:
+            assert it["why"], (sid, it)                                            # whatever is left over is recorded with its reason
+    for sid, r in rep["ops"].items():
+        cg = r["cumulative_guards"]
+        assert cg["after"]["inside_skin_pct"] == 100.0 and cg["volume_ratio"] >= 0.84 and cg["volume_ratio"] <= 1.26, sid
 
 
 def test_sartorius_islands_end_off_bone_and_flat_cuts_are_resolved_in_the_audit():
