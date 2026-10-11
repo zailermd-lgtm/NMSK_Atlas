@@ -17,7 +17,7 @@ def sdf(mask, h):
 
 
 class Warp:
-    def __init__(self, g, prior_mask, terr_mask, pad_mm=14.0):
+    def __init__(self, g, prior_mask, terr_mask, pad_mm=14.0, edge_mm=8.0):
         h = g.h
         idx = np.argwhere(prior_mask | terr_mask)
         lo = np.maximum(idx.min(0) - int(pad_mm / h), 0)
@@ -28,6 +28,10 @@ class Warp:
         self.pS = sdf(prior_mask[sl][::2, ::2, ::2], self.h)
         self.pT = sdf(terr_mask[sl][::2, ::2, ::2], self.h)
         self.shape = self.pS.shape
+        # the territory exists only inside the working box: no force within edge_mm of the box faces along y (the muscle continues there, the territory does not)
+        ys = self.lo[1] + self.h * np.arange(self.shape[1])
+        y_lo, y_hi = g.lo[1], g.lo[1] + g.shape[1] * h
+        self.wy = np.clip(np.minimum(ys - y_lo, y_hi - ys) / edge_mm, 0.0, 1.0).astype(np.float32)
         self.u = None
         self.vol_prior = float(prior_mask[sl].sum()) * h ** 3 / 1000.0
         self.vol_terr = float(terr_mask[sl].sum()) * h ** 3 / 1000.0
@@ -60,6 +64,8 @@ class Warp:
                 upd = -diff[None] * gg / (n2[None] + 1e-2)
                 m = np.sqrt((upd ** 2).sum(0))
                 upd = np.where(m > clamp, upd * clamp / np.maximum(m, 1e-9), upd)
+                wy = ndi.zoom(self.wy, sh[1] / len(self.wy), order=1) if sh[1] != len(self.wy) else self.wy
+                upd = upd * wy[None, None, :, None]
                 u = u + upd
                 u = np.stack([ndi.gaussian_filter(u[k], sigma) for k in range(3)])
             self.last_resid = float(np.abs(diff[np.abs(S) < 4]).mean()) if (np.abs(S) < 4).any() else 0.0
@@ -79,9 +85,12 @@ class Warp:
         return out
 
 
-def carry_mesh(v0, warp, y_win=(100.0, 342.0), ramp=20.0, w=None):
+def carry_mesh(v0, warp, y_win=(100.0, 342.0), ramp=20.0, w=None, cap_mm=22.0):
     from scripts.transfer.q217_slide import smooth_ramp
     d = warp.disp(v0)
     y = v0[:, 1]
     wgt = 1.0 - np.maximum(smooth_ramp(y, y_win[0], ramp), 1.0 - smooth_ramp(y, y_win[1] - ramp, ramp))
-    return v0 + d * (wgt if w is None else w)[:, None]
+    d = d * (wgt if w is None else w)[:, None]
+    n = np.linalg.norm(d, axis=1, keepdims=True)
+    d = d * (cap_mm * np.tanh(n / cap_mm) / np.maximum(n, 1e-9))                 # soft saturation: no vertex travels much beyond cap_mm
+    return v0 + d
