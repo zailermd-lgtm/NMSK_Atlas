@@ -10,16 +10,16 @@ S("deltoid.heads", "deltoid", "head_belly", "Deltoid: number of parts", [
   note="The owner expected 'at least 3 heads, if not more': the classical count is 3 gross parts, the intramuscular-tendon count is 7 (Sakoma 2011).")
 _DELT_Z = "zan_{p}_part_of_deltoid_muscle_{{s}}"
 P("deltoid", "clavicular_part", "head_belly", "Clavicular (anterior) part",
-  "Anterior head of the deltoid; arises from the lateral third of the clavicle; has its own humeral tendon (anterior tendon).",
+  "Anterior head of the deltoid with its own humeral tendon (anterior tendon). Its origin from the lateral third of the clavicle is the textbook statement in the origin row below.",
   ["rispoli2009", "vohra2024", "sakoma2011"], ev="cadaver dissection (10, 8 and 60 shoulders)", setid="deltoid.heads",
   z=[_DELT_Z.format(p="clavicular")], geom=dict(rule="deltoid_sector", sector="clavicular"),
   note="Origin site itself is a separate unverified-textbook row (deltoid.origin_lateral_third_clavicle).")
 P("deltoid", "acromial_part", "head_belly", "Acromial (middle) part",
-  "Middle head of the deltoid, from the acromion; multipennate: the muscle fibres run between intramuscular tendons (see MTJ rows). Own humeral tendon (middle tendon).",
+  "Middle head of the deltoid with its own humeral tendon (middle tendon); the muscle fibres run between intramuscular tendons (see MTJ rows; textbook: multipennate, origin acromion).",
   ["rispoli2009", "vohra2024", "sakoma2011"], ev="cadaver dissection", setid="deltoid.heads",
   z=[_DELT_Z.format(p="acromial")], geom=dict(rule="deltoid_sector", sector="acromial"))
 P("deltoid", "spinal_part", "head_belly", "Spinal (posterior) part",
-  "Posterior head of the deltoid, from the spine of the scapula; own humeral tendon (posterior tendon). Its architecture (fibre bundle length) was measured separately in the posterior-deltoid-to-triceps transfer study.",
+  "Posterior head of the deltoid with its own humeral tendon (posterior tendon); its architecture (fibre bundle length) was measured separately in the posterior-deltoid-to-triceps transfer study (textbook origin: spine of the scapula).",
   ["rispoli2009", "vohra2024", "friden2001"], ev="cadaver dissection; microdissection architecture", setid="deltoid.heads",
   z=[_DELT_Z.format(p="scapular_spinal")], geom=dict(rule="deltoid_sector", sector="spinal"))
 P("deltoid", "origin_lateral_third_clavicle", "origin_part", "Origin: lateral third of clavicle (anterior border)",
@@ -101,7 +101,7 @@ P("brachialis", "insertion_ulnar_tuberosity", "insertion_point", "Insertion: uln
 P("brachialis", "insertion_coronoid_process", "insertion_point", "Insertion: coronoid process (deep head)", "Aponeurotic insertion, more anterior than the superficial head.", ["leonello2007"], ev="cadaver dissection n=11", anchor=dict(bone="ulna", landmark="coronoid process"))
 
 # =================================================================== TRICEPS
-P("triceps_brachii", "long_head", "head_belly", "Long head", "Long head (biarticular); architecture measured separately from the lateral and medial heads (fibre bundle length differs).", ["friden2001"], ev="microdissection n=10",
+P("triceps_brachii", "long_head", "head_belly", "Long head", "Long head; architecture measured separately from the lateral and medial heads (fibre bundle length differs).", ["friden2001"], ev="microdissection n=10",
   setid="triceps_brachii.heads", z=["zan_long_head_of_triceps_brachii_{s}"], geom=dict(rule="z_part_mesh"))
 P("triceps_brachii", "lateral_head", "head_belly", "Lateral head", "Lateral head (fibre bundle length 66.5 mm in the architectural study).", ["friden2001"], ev="microdissection n=10",
   setid="triceps_brachii.heads", z=["zan_lateral_head_of_triceps_brachii_{s}"], geom=dict(rule="z_part_mesh"))
@@ -221,3 +221,11 @@ P("flexor_retinaculum", "proximal_segment", "ligament_component", "Flexor retina
 P("flexor_retinaculum", "transverse_carpal_ligament", "ligament_component", "Flexor retinaculum: transverse carpal ligament (central segment)", "Mean proximal limit 11 mm distal to the capitate-lunate joint; carpal tunnel width at hook of hamate 20 mm.", ["cobb1993"], cls="fascia", ev="n=26", setid="flexor_retinaculum.segments", z=["zan_flexor_retinaculum_of_wrist_{s}"], geom=dict(rule="z_part_mesh"))
 P("flexor_retinaculum", "distal_segment", "ligament_component", "Flexor retinaculum: distal segment", "Aponeurosis between the thenar and hypothenar muscles; its distal limit reaches ~10 mm distal to the 3rd CMC joint.", ["cobb1993"], cls="fascia", ev="n=26", setid="flexor_retinaculum.segments")
 S("flexor_retinaculum.segments", "flexor_retinaculum", "ligament_component", "Flexor retinaculum: segments", [(3, "cobb1993", "proximal segment, transverse carpal ligament, distal segment")])
+
+# =================================================================== ADDITIONS (round 4)
+P("supraspinatus", "two_parts", "head_belly", "Two parts (anterior / posterior) differing in attachment, fibre orientation and structure", "In 3 male cadavers the supraspinatus consisted of two parts that differ in attachment site, fibre orientation and muscle structure but have similar fibre length (cf. the long tendinous anterior portion of Mochizuki 2008).", ["jensen1995", "mochizuki2008"], ev="cadaver n=3; n=113", var="n=3 only")
+P("teres_major", "distal_muscle_slip", "insertion_point", "Additional distal muscle slip with its own tendon", "Present in 12 of 16 shoulders (75 %), always distal to the teres major tendon, separate (distal) but continuous (mediolateral) humeral insertion within a common epimysial sheet; mean tendon width 13 mm; direct adhesions with latissimus dorsi in 83 %.", ["ernstbrunner2021"], ev="cadaver n=16 shoulders", var="75 %",
+  anchor=dict(bone="humerus", landmark="(site per source: humeral insertion distal to the teres major tendon)"))
+P("lumbricals_hand", "first_accessory_belly", "head_belly", "1st lumbrical: accessory belly (most common variant)", "Most frequent variant of the 1st lumbrical: an accessory belly, prevalence 3.8 % (meta-analysis, 1340 hands).", ["belbl2023"], ev="meta-analysis of 26 studies", var="3.8 %")
+P("lumbricals_hand", "second_variable_origin", "origin_part", "2nd lumbrical: variable origin (most common variant)", "Most frequent variant of the 2nd lumbrical: a variable origin, 7.7 %.", ["belbl2023"], ev="meta-analysis of 26 studies", var="7.7 %")
+P("lumbricals_hand", "fourth_variable_insertion", "insertion_point", "4th lumbrical: variable insertion (most common variant)", "Most frequent variant of the 4th lumbrical: a variable insertion, 5.8 % (the 3rd lumbrical's commonest variant is innervation, 12 %).", ["belbl2023"], ev="meta-analysis of 26 studies", var="5.8 %")

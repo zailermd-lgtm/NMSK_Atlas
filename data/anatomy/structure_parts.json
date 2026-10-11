@@ -109,6 +109,14 @@
    "verified": "pubmed-2026-10-11",
    "basis": "abstract: 16 hips; origin external ilium + sciatic notch; inserts anterosuperiorly into hip capsule and main insertion greater trochanter"
   },
+  "belbl2023": {
+   "kind": "journal",
+   "citation": "Belbl M, Kachlik D, Benes M, Kunc V, Kunc V. Variations of the lumbrical muscles of the hand: systematic review and meta-analysis. Ann Anat 2023;247:152065",
+   "doi": "10.1016/j.aanat.2023.152065",
+   "pmid": "36754240",
+   "verified": "pubmed-2026-10-11",
+   "basis": "abstract: 26 studies, 1340 hands; most common variant per lumbrical: accessory belly (1st) 3.8 %, variable origin (2nd) 7.7 %, variable innervation (3rd) 12 %, variable insertion (4th) 5.8 %"
+  },
   "beltran2003": {
    "kind": "journal",
    "citation": "Beltran J, Matityahu A, Hwang K, Jbara M, Maimon R, Padron M, Mota J, Beltran L, Sundaram M. The distal semimembranosus complex: normal MR anatomy, variants, biomechanics and pathology. Skeletal Radiol 2003;32(8):435-445",
@@ -413,6 +421,14 @@
    "verified": "pubmed-2026-10-11",
    "basis": "abstract: arcade of Struthers first proposed by Kane 1973; incidence in patients undergoing ulnar nerve transposition"
   },
+  "ernstbrunner2021": {
+   "kind": "journal",
+   "citation": "Ernstbrunner L, Jessen M, Rohner M, Dreu M, Bouaicha S, Wieser K, Borbas P. Anatomical study of the teres major muscle: description of an additional distal muscle slip. BMC Musculoskelet Disord 2021;22(1):359",
+   "doi": "10.1186/s12891-021-04227-3",
+   "pmid": "33863316",
+   "verified": "pubmed-2026-10-11",
+   "basis": "abstract: 16 shoulders; distal teres major slip in 12 (75 %), distal to the TM tendon, common epimysial sheet, separate but continuous humeral insertion; mean width 13 mm"
+  },
   "fairclough2006": {
    "kind": "journal",
    "citation": "Fairclough J, Hayashi K, Toumi H, Lyons K, Bydder G, Phillips N, Best TM, Benjamin M. The functional anatomy of the iliotibial band during flexion and extension of the knee: implications for understanding iliotibial band syndrome. J Anat 2006;208(3):309-316",
@@ -564,6 +580,14 @@
    "pmid": "16843147",
    "verified": "pubmed-2026-10-11",
    "basis": "abstract: 34 wrists; septal attachments on the radius and the 6 compartments of the extensor retinaculum"
+  },
+  "jensen1995": {
+   "kind": "journal",
+   "citation": "Jensen BR, Jorgensen K, Huijing PA, Sjogaard G. Soft tissue architecture and intramuscular pressure in the shoulder region. Eur J Morphol 1995;33(3):205-220",
+   "doi": null,
+   "pmid": "8534575",
+   "verified": "pubmed-2026-10-11",
+   "basis": "abstract: 3 male cadavers; supraspinatus composed of two parts that differ in attachment site, fibre orientation and muscle structure"
   },
   "johnson1995": {
    "kind": "journal",
@@ -2348,7 +2372,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Clavicular (anterior) part",
-   "description": "Anterior head of the deltoid; arises from the lateral third of the clavicle; has its own humeral tendon (anterior tendon).",
+   "description": "Anterior head of the deltoid with its own humeral tendon (anterior tendon). Its origin from the lateral third of the clavicle is the textbook statement in the origin row below.",
    "refs": [
     "rispoli2009",
     "vohra2024",
@@ -2408,7 +2432,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Acromial (middle) part",
-   "description": "Middle head of the deltoid, from the acromion; multipennate: the muscle fibres run between intramuscular tendons (see MTJ rows). Own humeral tendon (middle tendon).",
+   "description": "Middle head of the deltoid with its own humeral tendon (middle tendon); the muscle fibres run between intramuscular tendons (see MTJ rows; textbook: multipennate, origin acromion).",
    "refs": [
     "rispoli2009",
     "vohra2024",
@@ -2468,7 +2492,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Spinal (posterior) part",
-   "description": "Posterior head of the deltoid, from the spine of the scapula; own humeral tendon (posterior tendon). Its architecture (fibre bundle length) was measured separately in the posterior-deltoid-to-triceps transfer study.",
+   "description": "Posterior head of the deltoid with its own humeral tendon (posterior tendon); its architecture (fibre bundle length) was measured separately in the posterior-deltoid-to-triceps transfer study (textbook origin: spine of the scapula).",
    "refs": [
     "rispoli2009",
     "vohra2024",
@@ -4017,7 +4041,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Long head",
-   "description": "Long head (biarticular); architecture measured separately from the lateral and medial heads (fibre bundle length differs).",
+   "description": "Long head; architecture measured separately from the lateral and medial heads (fibre bundle length differs).",
    "refs": [
     "friden2001"
    ],
@@ -7455,6 +7479,247 @@
     "vhf",
     "zan_m",
     "zan_f"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "supraspinatus.two_parts",
+   "structure_id": "supraspinatus",
+   "structure_class": "muscle",
+   "part_type": "head_belly",
+   "name": "Two parts (anterior / posterior) differing in attachment, fibre orientation and structure",
+   "description": "In 3 male cadavers the supraspinatus consisted of two parts that differ in attachment site, fibre orientation and muscle structure but have similar fibre length (cf. the long tendinous anterior portion of Mochizuki 2008).",
+   "refs": [
+    "jensen1995",
+    "mochizuki2008"
+   ],
+   "evidence": "cadaver n=3; n=113",
+   "verification": "verified",
+   "variability": "n=3 only",
+   "anchor": null,
+   "geometry": null,
+   "set_id": null,
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Jensen BR et al. 1995 Eur J Morphol 33(3):205-220 PMID:8534575; Mochizuki T et al. 2008 J Bone Joint Surg Am 90(5):962-969 doi:10.2106/JBJS.G.00427 PMID:18451386",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [
+      "supraspinatus_l",
+      "supraspinatus_r"
+     ],
+     "vhf": [
+      "supraspinatus_l",
+      "supraspinatus_r"
+     ],
+     "zan_m": [
+      "supraspinatus_l",
+      "supraspinatus_r"
+     ],
+     "zan_f": [
+      "supraspinatus_l",
+      "supraspinatus_r"
+     ]
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data",
+    "vhm",
+    "vhf",
+    "zan_m",
+    "zan_f"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "teres_major.distal_muscle_slip",
+   "structure_id": "teres_major",
+   "structure_class": "muscle",
+   "part_type": "insertion_point",
+   "name": "Additional distal muscle slip with its own tendon",
+   "description": "Present in 12 of 16 shoulders (75 %), always distal to the teres major tendon, separate (distal) but continuous (mediolateral) humeral insertion within a common epimysial sheet; mean tendon width 13 mm; direct adhesions with latissimus dorsi in 83 %.",
+   "refs": [
+    "ernstbrunner2021"
+   ],
+   "evidence": "cadaver n=16 shoulders",
+   "verification": "verified",
+   "variability": "75 %",
+   "anchor": {
+    "bone": "humerus",
+    "landmark": "(site per source: humeral insertion distal to the teres major tendon)"
+   },
+   "geometry": null,
+   "set_id": null,
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Ernstbrunner L et al. 2021 BMC Musculoskelet Disord 22(1):359 doi:10.1186/s12891-021-04227-3 PMID:33863316",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [
+      "teres_major_l",
+      "teres_major_r"
+     ],
+     "vhf": [
+      "teres_major_l",
+      "teres_major_r"
+     ],
+     "zan_m": [
+      "teres_major_l",
+      "teres_major_r"
+     ],
+     "zan_f": [
+      "teres_major_l",
+      "teres_major_r"
+     ]
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data",
+    "vhm",
+    "vhf",
+    "zan_m",
+    "zan_f"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "lumbricals_hand.first_accessory_belly",
+   "structure_id": "lumbricals_hand",
+   "structure_class": "muscle",
+   "part_type": "head_belly",
+   "name": "1st lumbrical: accessory belly (most common variant)",
+   "description": "Most frequent variant of the 1st lumbrical: an accessory belly, prevalence 3.8 % (meta-analysis, 1340 hands).",
+   "refs": [
+    "belbl2023"
+   ],
+   "evidence": "meta-analysis of 26 studies",
+   "verification": "verified",
+   "variability": "3.8 %",
+   "anchor": null,
+   "geometry": null,
+   "set_id": null,
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Belbl M et al. 2023 Ann Anat 247:152065 doi:10.1016/j.aanat.2023.152065 PMID:36754240",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "lumbricals_hand.second_variable_origin",
+   "structure_id": "lumbricals_hand",
+   "structure_class": "muscle",
+   "part_type": "origin_part",
+   "name": "2nd lumbrical: variable origin (most common variant)",
+   "description": "Most frequent variant of the 2nd lumbrical: a variable origin, 7.7 %.",
+   "refs": [
+    "belbl2023"
+   ],
+   "evidence": "meta-analysis of 26 studies",
+   "verification": "verified",
+   "variability": "7.7 %",
+   "anchor": null,
+   "geometry": null,
+   "set_id": null,
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Belbl M et al. 2023 Ann Anat 247:152065 doi:10.1016/j.aanat.2023.152065 PMID:36754240",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
+   ],
+   "has_own_part_mesh": false,
+   "has_z_part_mesh": false,
+   "geometry_rule": null
+  },
+  {
+   "id": "lumbricals_hand.fourth_variable_insertion",
+   "structure_id": "lumbricals_hand",
+   "structure_class": "muscle",
+   "part_type": "insertion_point",
+   "name": "4th lumbrical: variable insertion (most common variant)",
+   "description": "Most frequent variant of the 4th lumbrical: a variable insertion, 5.8 % (the 3rd lumbrical's commonest variant is innervation, 12 %).",
+   "refs": [
+    "belbl2023"
+   ],
+   "evidence": "meta-analysis of 26 studies",
+   "verification": "verified",
+   "variability": "5.8 %",
+   "anchor": null,
+   "geometry": null,
+   "set_id": null,
+   "passes": null,
+   "related_structure_ids": [],
+   "note": null,
+   "citation": "Belbl M et al. 2023 Ann Anat 247:152065 doi:10.1016/j.aanat.2023.152065 PMID:36754240",
+   "maps_to": {
+    "structure_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    },
+    "part_ids": {
+     "vhm": [],
+     "vhf": [],
+     "zan_m": [],
+     "zan_f": []
+    }
+   },
+   "resolved_in": [
+    "data"
    ],
    "has_own_part_mesh": false,
    "has_z_part_mesh": false,
@@ -14767,7 +15032,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Puboperineal part",
-   "description": "Pubic origin to the perineal body. Part names from Kearney 2004; the descriptions beyond the part name are not all in the abstract.",
+   "description": "One of the five origin-insertion pairs of the levator ani named by Kearney 2004.",
    "refs": [
     "kearney2004"
    ],
@@ -14824,7 +15089,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Pubovaginal part (female)",
-   "description": "Pubic origin to the vaginal wall. Part names from Kearney 2004; the descriptions beyond the part name are not all in the abstract.",
+   "description": "One of the five origin-insertion pairs named by Kearney 2004.",
    "refs": [
     "kearney2004"
    ],
@@ -14881,7 +15146,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Puboanal part",
-   "description": "Pubic origin to the anus / intersphincteric groove. Z-Anatomy carries the 'pubo-analis muscle' as a separate mesh. Part names from Kearney 2004; the descriptions beyond the part name are not all in the abstract.",
+   "description": "One of the five pairs named by Kearney 2004. Z-Anatomy carries the 'pubo-analis muscle' as a separate mesh.",
    "refs": [
     "kearney2004"
    ],
@@ -14946,7 +15211,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Puborectal part (puborectalis)",
-   "description": "Forms the sling behind the anorectal junction; the upper outer half of the sphincter in Stoker's account. Part names from Kearney 2004; the descriptions beyond the part name are not all in the abstract.",
+   "description": "One of the five pairs named by Kearney 2004; in Stoker's account puborectalis is the upper outer half of the striated outer sphincter layer.",
    "refs": [
     "kearney2004",
     "stoker2009"
@@ -15004,7 +15269,7 @@
    "structure_class": "muscle",
    "part_type": "head_belly",
    "name": "Iliococcygeal part",
-   "description": "From the tendinous arch to the anococcygeal raphe / coccyx. Part names from Kearney 2004; the descriptions beyond the part name are not all in the abstract.",
+   "description": "One of the five pairs named by Kearney 2004.",
    "refs": [
     "kearney2004"
    ],
@@ -16574,8 +16839,8 @@
    "structure_id": "flexor_tendon_pulley_system_hand",
    "structure_class": "tendon",
    "part_type": "ligament_component",
-   "name": "Fifth annular pulley (A5); over the DIP joint, contains the middle and distal regions of the DIP assemblage nuclei.",
-   "description": "Fifth annular pulley (A5); over the DIP joint, contains the middle and distal regions of the DIP assemblage nuclei. Doyle 1988: 61 fingers; palmar aponeurosis pulley, five annular and three cruciform pulleys.",
+   "name": "Fifth annular pulley (A5); contains the middle and distal regions of the DIP assemblage nuclei.",
+   "description": "Fifth annular pulley (A5); contains the middle and distal regions of the DIP assemblage nuclei. Doyle 1988: 61 fingers; palmar aponeurosis pulley, five annular and three cruciform pulleys.",
    "refs": [
     "doyle1988",
     "chikenji2010",
@@ -20527,20 +20792,20 @@
   }
  ],
  "counts": {
-  "parts": 342,
+  "parts": 347,
   "by_part_type": {
-   "head_belly": 44,
-   "origin_part": 21,
-   "insertion_point": 92,
+   "head_belly": 46,
+   "origin_part": 22,
+   "insertion_point": 94,
    "muscle_tendon_junction": 14,
    "ligament_component": 137,
    "fascial_passage": 34
   },
   "by_verification": {
-   "verified": 310,
+   "verified": 315,
    "unverified": 32
   },
-  "structures": 99,
-  "references": 148
+  "structures": 101,
+  "references": 151
  }
 }

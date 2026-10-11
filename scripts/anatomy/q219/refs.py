@@ -358,6 +358,15 @@ _R += [
       "10.1007/s00276-019-02380-y", "31745617", "abstract: 21 hands; the deep branch of the ulnar nerve passes between the two heads of adductor pollicis at a constant point; 1-3 branches to the oblique head, transverse head and first dorsal interosseous"),
 ]
 REFS = dict(_R)
+_R += [
+    J("belbl2023", "Belbl M, Kachlik D, Benes M, Kunc V, Kunc V.", "Variations of the lumbrical muscles of the hand: systematic review and meta-analysis.", "Ann Anat", 2023, "247", "152065",
+      "10.1016/j.aanat.2023.152065", "36754240", "abstract: 26 studies, 1340 hands; most common variant per lumbrical: accessory belly (1st) 3.8 %, variable origin (2nd) 7.7 %, variable innervation (3rd) 12 %, variable insertion (4th) 5.8 %"),
+    J("jensen1995", "Jensen BR, Jorgensen K, Huijing PA, Sjogaard G.", "Soft tissue architecture and intramuscular pressure in the shoulder region.", "Eur J Morphol", 1995, "33(3)", "205-220",
+      None, "8534575", "abstract: 3 male cadavers; supraspinatus composed of two parts that differ in attachment site, fibre orientation and muscle structure"),
+    J("ernstbrunner2021", "Ernstbrunner L, Jessen M, Rohner M, Dreu M, Bouaicha S, Wieser K, Borbas P.", "Anatomical study of the teres major muscle: description of an additional distal muscle slip.", "BMC Musculoskelet Disord", 2021, "22(1)", "359",
+      "10.1186/s12891-021-04227-3", "33863316", "abstract: 16 shoulders; distal teres major slip in 12 (75 %), distal to the TM tendon, common epimysial sheet, separate but continuous humeral insertion; mean width 13 mm"),
+]
+REFS = dict(_R)
 REFS["gray42"] = dict(kind="textbook", citation="Standring S (ed.). Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. Elsevier, 2020 (section locator in the row; page not verified)",
                       doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")
 REFS["moore9"] = dict(kind="textbook", citation="Moore KL, Dalley AF, Agur AMR. Clinically Oriented Anatomy, 9th ed. Wolters Kluwer, 2022 (section locator in the row; page not verified)",

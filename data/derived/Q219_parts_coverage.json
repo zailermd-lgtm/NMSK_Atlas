@@ -1,18 +1,18 @@
 {
  "generated": "2026-10-11",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 342,
- "structures_with_parts": 99,
+ "parts_total": 347,
+ "structures_with_parts": 101,
  "by_part_type": {
-  "head_belly": 44,
-  "origin_part": 21,
-  "insertion_point": 92,
+  "head_belly": 46,
+  "origin_part": 22,
+  "insertion_point": 94,
   "muscle_tendon_junction": 14,
   "ligament_component": 137,
   "fascial_passage": 34
  },
  "by_verification": {
-  "verified": 310,
+  "verified": 315,
   "unverified": 32
  },
  "entity_classes": {
@@ -268,8 +268,8 @@
   },
   "muscles": {
    "entities": 220,
-   "with_parts": 40,
-   "without_parts": 180,
+   "with_parts": 42,
+   "without_parts": 178,
    "with_parts_ids": [
     "abductor_pollicis_longus",
     "adductor_brevis",
@@ -292,6 +292,7 @@
     "gluteus_minimus",
     "infraspinatus",
     "levator_ani",
+    "lumbricals_hand",
     "palmar_interossei",
     "pectoralis_major",
     "piriformis",
@@ -306,6 +307,7 @@
     "soleus",
     "subscapularis",
     "supraspinatus",
+    "teres_major",
     "tibialis_posterior",
     "trapezius",
     "triceps_brachii",
@@ -400,7 +402,6 @@
     "longus_capitis",
     "longus_colli",
     "lumbricals_foot",
-    "lumbricals_hand",
     "masseter",
     "medial_pterygoid",
     "medial_rectus",
@@ -477,7 +478,6 @@
     "tensor_fasciae_latae",
     "tensor_tympani",
     "tensor_veli_palatini",
-    "teres_major",
     "teres_minor",
     "thyroarytenoid",
     "thyrohyoid",
@@ -552,7 +552,7 @@
     },
     "muscle": {
      "structures": 367,
-     "with_parts": 106
+     "with_parts": 108
     },
     "nerve": {
      "structures": 13,
@@ -572,7 +572,7 @@
     }
    },
    "structures_total": 561,
-   "structures_with_parts": 126,
+   "structures_with_parts": 128,
    "dedicated_part_meshes_present": []
   },
   "vhf": {
@@ -595,7 +595,7 @@
     },
     "muscle": {
      "structures": 390,
-     "with_parts": 107
+     "with_parts": 111
     },
     "nerve": {
      "structures": 16,
@@ -615,7 +615,7 @@
     }
    },
    "structures_total": 608,
-   "structures_with_parts": 129,
+   "structures_with_parts": 133,
    "dedicated_part_meshes_present": [
     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
    ]
@@ -656,7 +656,7 @@
     },
     "muscle": {
      "structures": 424,
-     "with_parts": 71
+     "with_parts": 73
     },
     "nerve": {
      "structures": 337,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 114,
+   "structures_with_parts": 116,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -796,7 +796,7 @@
     },
     "muscle": {
      "structures": 426,
-     "with_parts": 71
+     "with_parts": 73
     },
     "nerve": {
      "structures": 337,
@@ -816,7 +816,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 114,
+   "structures_with_parts": 116,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -924,6 +924,7 @@
   "linea_alba": 5,
   "levator_ani": 5,
   "rectum": 5,
+  "supraspinatus": 4,
   "radial_collateral_ligament_complex_elbow": 4,
   "flexor_retinaculum": 4,
   "rectus_femoris": 4,
@@ -939,10 +940,10 @@
   "dorsal_interossei_hand": 4,
   "palmar_interossei": 4,
   "medial_patellofemoral_ligament": 4,
-  "supraspinatus": 3,
   "trapezius": 3,
   "serratus_anterior": 3,
   "ulnar_collateral_ligament_elbow": 3,
+  "lumbricals_hand": 3,
   "gluteus_minimus": 3,
   "gluteus_maximus": 3,
   "iliopsoas_tendon": 3,
@@ -978,6 +979,7 @@
   "adductor_longus": 2,
   "subscapularis": 1,
   "rotator_cuff_tendon_complex": 1,
+  "teres_major": 1,
   "semitendinosus": 1,
   "vastus_lateralis": 1,
   "iliotibial_tract": 1,
