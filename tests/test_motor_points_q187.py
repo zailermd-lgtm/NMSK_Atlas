@@ -70,6 +70,11 @@ def test_points_inside_their_muscle(mp, vk):
         vw["html"] = q213[0]
         if q213[1] is not None:
             vw["bin"] = q213[1]
+    # Q214: the two OWN viewers' points are generated on the Q214 pages (splenius capitis added to both bodies)
+    q214 = {"vhm": (REPO / "build/q214/viewer_m_hr/atlas_viewer_male.html", REPO / "build/viewer_m_hr_q214/bundle.bin"),
+            "vhf": (REPO / "build/q214/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q214/bundle.bin")}.get(vk)
+    if q214 and q214[0].exists() and q214[1].exists():
+        vw["html"], vw["bin"] = q214
     if not Path(vw["html"]).exists():
         pytest.skip(f"{vw['html']} not built")
     saved = M.VIEWERS[vk]

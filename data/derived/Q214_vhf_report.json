@@ -1,0 +1,803 @@
+{
+ "body": "vhf",
+ "source_bundle": "build/viewer_f_hr_q213",
+ "z_page": "build/q213/viewer_zan_female/atlas_viewer_zan_female.html",
+ "absence": {
+  "splenius_capitis_r": {
+   "on_bundle": false,
+   "z_id": "splenius_capitis_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "splenius_capitis_l": {
+   "on_bundle": false,
+   "z_id": "splenius_capitis_l",
+   "z_present": true,
+   "bundle_ids_with_stem": [
+    "splenius_capitis_r"
+   ]
+  },
+  "splenius_cervicis_r": {
+   "on_bundle": false,
+   "z_id": "zan_splenius_colli_muscle_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "splenius_cervicis_l": {
+   "on_bundle": false,
+   "z_id": "zan_splenius_colli_muscle_l",
+   "z_present": true,
+   "bundle_ids_with_stem": [
+    "splenius_cervicis_r"
+   ]
+  },
+  "fibularis_brevis_r": {
+   "on_bundle": false,
+   "z_id": "fibularis_brevis_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "fibularis_brevis_l": {
+   "on_bundle": false,
+   "z_id": "fibularis_brevis_l",
+   "z_present": true,
+   "bundle_ids_with_stem": [
+    "fibularis_brevis_r"
+   ]
+  },
+  "flexor_pollicis_brevis_r": {
+   "on_bundle": false,
+   "z_id": "flexor_pollicis_brevis_r",
+   "z_present": true,
+   "bundle_ids_with_stem": [
+    "flexor_pollicis_brevis_l"
+   ]
+  }
+ },
+ "added": {
+  "splenius_capitis_r": {
+   "guards": {
+    "in_bone_pct": 10.8,
+    "belly_in_bone_pct": 0.7,
+    "deep_in_bone_pct": 8.1,
+    "overlap_pct": 39.0,
+    "overlap_z_fit_pct": 37.6,
+    "overlap_vol_pct": 51.5,
+    "overlap_vol_z_fit_pct": 50.8,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 13.1,
+    "mean_move_mm": 1.4,
+    "max_move_mm": 5.67,
+    "volume_cm3": 31.17,
+    "volume_ratio": 0.942,
+    "length_mm": 200.5,
+    "length_ratio": 0.995,
+    "flipped_pct": 0.33,
+    "stretched_before": 0.0,
+    "stretched_after": 1.5,
+    "end_dist_mm": [
+     2.9,
+     1.6
+    ]
+   },
+   "why_not": [],
+   "variant": {
+    "pull_lam": 40.0,
+    "bone_chain": [
+     160.0,
+     40.0,
+     10.0
+    ],
+    "separation_rounds": 6,
+    "separation_total_mm": 10.0,
+    "displacement_smoothing": 8
+   },
+   "separation": {
+    "rounds": 6.0,
+    "inside_before": 0.405,
+    "inside_after": 0.335,
+    "depth_before": 7.995,
+    "depth_after": 5.135,
+    "move_max": 6.802,
+    "move_median": 0.258,
+    "volume_ratio": 1.027
+   },
+   "length_z_mm": 201.5,
+   "volume_z_cm3": 33.1,
+   "end_dist_z_mm": [
+    4.0,
+    1.4
+   ],
+   "attach_pull": [
+    {
+     "dist_before_p5": 3.958722821001686,
+     "dist_before_min": 2.5176606596542848,
+     "step_mm": 3.2668972920248556
+    },
+    {
+     "dist_before_p5": 1.429387596019982,
+     "dist_before_min": 0.603213604027971,
+     "step_mm": 0.09791170854765968
+    }
+   ],
+   "landmarks": {
+    "mastoid_landmark_mm": [
+     54.2,
+     694.8,
+     -8.8
+    ]
+   },
+   "seconds": 18.8,
+   "neighbours_pct": [
+    [
+     "semispinalis_capitis_r",
+     12.9
+    ],
+    [
+     "spinalis_r",
+     7.3
+    ],
+    [
+     "semispinalis_cervicis_r",
+     6.2
+    ],
+    [
+     "longissimus_r",
+     4.4
+    ],
+    [
+     "multifidus_l",
+     4.3
+    ],
+    [
+     "multifidus_r",
+     3.2
+    ],
+    [
+     "semispinalis_cervicis_r_zfill212",
+     2.1
+    ],
+    [
+     "obliquus_capitis_inferior_r",
+     1.4
+    ]
+   ],
+   "her_cryo_compartment": {
+    "vertices_inside_pct": 3.1,
+    "median_distance_mm": 11.6,
+    "note": "her cryosection splenius compartment (capitis + cervicis, one sheet; refused as the mesh, see own_evidence) as a cross-check of the position"
+   },
+   "badge": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of Splenius capitis, which her page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure fitted to her body (per-bone chain fits onto her own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto spinous processes C7-T3 of the person's own vertebrae and insertion zone onto mastoid process of the person's own cranium (landmark of the sternocleidomastoid rule, Q213) (contact distance origin / insertion 4.0 / 1.4 mm before, 2.9 / 1.6 mm after), pushed out of her own bone meshes (belly 0.7 % inside bone after; all vertices 10.8 %), separated from the neighbouring muscle meshes it sat in (37.6 % -> 39.0 % of its vertices inside other muscles, gate 60 %), held inside her skin (closest 13.1 mm below the surface). Volume 31.17 cm3 (fitted Z muscle 33.1 cm3, x0.942); length 200.5 mm (fitted Z muscle 201.5 mm, x0.995); mean / max move 1.4 / 5.67 mm; flipped faces 0.33 %. Q214 validation median error 2.7 mm, max 4.0 mm (end zones of the fitted Z muscle vs her own origin / insertion bone, before the pull). Cross-check with her own cryosection splenius compartment (capitis + cervicis in one sheet, 65-76 cm3, cut flat at the T1 body top; not used as the mesh because it fails the volume / length / attachment guards): 3.1 % of this muscle's vertices lie inside it, median distance 11.6 mm. Not measured on her. A position estimate of the usual muscle, not a segmentation."
+  },
+  "splenius_cervicis_r": {
+   "guards": {
+    "in_bone_pct": 4.7,
+    "belly_in_bone_pct": 1.8,
+    "deep_in_bone_pct": 1.1,
+    "overlap_pct": 56.0,
+    "overlap_z_fit_pct": 60.9,
+    "overlap_vol_pct": 44.8,
+    "overlap_vol_z_fit_pct": 44.2,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 24.8,
+    "mean_move_mm": 1.02,
+    "max_move_mm": 2.69,
+    "volume_cm3": 11.37,
+    "volume_ratio": 0.774,
+    "length_mm": 215.7,
+    "length_ratio": 1.003,
+    "flipped_pct": 0.33,
+    "stretched_before": 0.0,
+    "stretched_after": 1.2,
+    "end_dist_mm": [
+     0.5,
+     1.5
+    ]
+   },
+   "why_not": [],
+   "variant": {
+    "pull_lam": 40.0,
+    "bone_chain": [
+     160.0,
+     40.0,
+     10.0
+    ],
+    "separation_rounds": 6,
+    "separation_total_mm": 10.0,
+    "displacement_smoothing": 30
+   },
+   "separation": {
+    "rounds": 5.0,
+    "inside_before": 0.612,
+    "inside_after": 0.426,
+    "depth_before": 7.868,
+    "depth_after": 5.565,
+    "move_max": 8.81,
+    "move_median": 1.124,
+    "volume_ratio": 0.769
+   },
+   "length_z_mm": 215.1,
+   "volume_z_cm3": 14.69,
+   "end_dist_z_mm": [
+    0.6,
+    2.4
+   ],
+   "attach_pull": [
+    {
+     "dist_before_p5": 0.5653565096526959,
+     "dist_before_min": 0.20287165816732455,
+     "step_mm": 0.03168808265794739
+    },
+    {
+     "dist_before_p5": 2.376879583287017,
+     "dist_before_min": 0.41944646674463676,
+     "step_mm": 1.4514174905841508
+    }
+   ],
+   "landmarks": {},
+   "seconds": 19.7,
+   "neighbours_pct": [
+    [
+     "multifidus_r",
+     19.6
+    ],
+    [
+     "longissimus_r",
+     16.3
+    ],
+    [
+     "multifidus_l",
+     7.6
+    ],
+    [
+     "spinalis_r",
+     6.3
+    ],
+    [
+     "splenius_capitis_r",
+     6.2
+    ],
+    [
+     "subscapularis_r",
+     2.9
+    ],
+    [
+     "semispinalis_cervicis_r_zfill212",
+     2.1
+    ],
+    [
+     "levator_scapulae_r",
+     0.4
+    ]
+   ],
+   "her_cryo_compartment": {
+    "vertices_inside_pct": 0.0,
+    "median_distance_mm": 74.8,
+    "note": "her cryosection splenius compartment (capitis + cervicis, one sheet; refused as the mesh, see own_evidence) as a cross-check of the position"
+   },
+   "badge": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of Splenius cervicis, which her page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure fitted to her body (per-bone chain fits onto her own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto spinous processes T3-T6 of the person's own vertebrae and insertion zone onto transverse processes C1-C3 of the person's own cervical vertebrae (contact distance origin / insertion 0.6 / 2.4 mm before, 0.5 / 1.5 mm after), pushed out of her own bone meshes (belly 1.8 % inside bone after; all vertices 4.7 %), separated from the neighbouring muscle meshes it sat in (60.9 % -> 56.0 % of its vertices inside other muscles, gate 60 %), held inside her skin (closest 24.8 mm below the surface). Volume 11.37 cm3 (fitted Z muscle 14.69 cm3, x0.774); length 215.7 mm (fitted Z muscle 215.1 mm, x1.003); mean / max move 1.02 / 2.69 mm; flipped faces 0.33 %. Q214 validation median error 1.5 mm, max 2.4 mm (end zones of the fitted Z muscle vs her own origin / insertion bone, before the pull). Cross-check with her own cryosection splenius compartment (capitis + cervicis in one sheet, 65-76 cm3, cut flat at the T1 body top; not used as the mesh because it fails the volume / length / attachment guards): 0.0 % of this muscle's vertices lie inside it, median distance 74.8 mm. Not measured on her. A position estimate of the usual muscle, not a segmentation."
+  },
+  "splenius_cervicis_l": {
+   "guards": {
+    "in_bone_pct": 4.6,
+    "belly_in_bone_pct": 2.0,
+    "deep_in_bone_pct": 0.3,
+    "overlap_pct": 60.4,
+    "overlap_z_fit_pct": 63.3,
+    "overlap_vol_pct": 56.3,
+    "overlap_vol_z_fit_pct": 54.4,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 24.4,
+    "mean_move_mm": 1.03,
+    "max_move_mm": 4.08,
+    "volume_cm3": 10.07,
+    "volume_ratio": 0.751,
+    "length_mm": 213.4,
+    "length_ratio": 1.0,
+    "flipped_pct": 0.5,
+    "stretched_before": 0.0,
+    "stretched_after": 1.9,
+    "end_dist_mm": [
+     0.5,
+     0.7
+    ]
+   },
+   "why_not": [],
+   "variant": {
+    "pull_lam": 40.0,
+    "bone_chain": [
+     160.0,
+     40.0,
+     10.0
+    ],
+    "separation_rounds": 6,
+    "separation_total_mm": 10.0,
+    "displacement_smoothing": 16
+   },
+   "separation": {
+    "rounds": 6.0,
+    "inside_before": 0.66,
+    "inside_after": 0.481,
+    "depth_before": 5.922,
+    "depth_after": 5.093,
+    "move_max": 7.976,
+    "move_median": 1.065,
+    "volume_ratio": 0.838
+   },
+   "length_z_mm": 213.4,
+   "volume_z_cm3": 13.4,
+   "end_dist_z_mm": [
+    0.5,
+    0.7
+   ],
+   "attach_pull": [
+    {
+     "dist_before_p5": 0.496599609706632,
+     "dist_before_min": 0.2099364815481983,
+     "step_mm": 0.07549022584055327
+    },
+    {
+     "dist_before_p5": 0.7065219875833187,
+     "dist_before_min": 0.2576259593644988,
+     "step_mm": 0.18101780037891524
+    }
+   ],
+   "landmarks": {},
+   "seconds": 20.1,
+   "neighbours_pct": [
+    [
+     "multifidus_l",
+     20.1
+    ],
+    [
+     "spinalis_l",
+     11.6
+    ],
+    [
+     "longissimus_l",
+     11.5
+    ],
+    [
+     "splenius_cervicis_r",
+     9.2
+    ],
+    [
+     "splenius_capitis_r",
+     4.7
+    ],
+    [
+     "multifidus_r",
+     4.4
+    ],
+    [
+     "subscapularis_l",
+     3.0
+    ],
+    [
+     "semispinalis_cervicis_l_zfill212",
+     2.7
+    ]
+   ],
+   "her_cryo_compartment": {
+    "vertices_inside_pct": 0.0,
+    "median_distance_mm": 74.0,
+    "note": "her cryosection splenius compartment (capitis + cervicis, one sheet; refused as the mesh, see own_evidence) as a cross-check of the position"
+   },
+   "badge": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of Splenius cervicis, which her page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure fitted to her body (per-bone chain fits onto her own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto spinous processes T3-T6 of the person's own vertebrae and insertion zone onto transverse processes C1-C3 of the person's own cervical vertebrae (contact distance origin / insertion 0.5 / 0.7 mm before, 0.5 / 0.7 mm after), pushed out of her own bone meshes (belly 2.0 % inside bone after; all vertices 4.6 %), separated from the neighbouring muscle meshes it sat in (63.3 % -> 60.4 % of its vertices inside other muscles, gate 60 %), held inside her skin (closest 24.4 mm below the surface). Volume 10.07 cm3 (fitted Z muscle 13.4 cm3, x0.751); length 213.4 mm (fitted Z muscle 213.4 mm, x1.0); mean / max move 1.03 / 4.08 mm; flipped faces 0.5 %. Q214 validation median error 0.6 mm, max 0.7 mm (end zones of the fitted Z muscle vs her own origin / insertion bone, before the pull). Cross-check with her own cryosection splenius compartment (capitis + cervicis in one sheet, 65-76 cm3, cut flat at the T1 body top; not used as the mesh because it fails the volume / length / attachment guards): 0.0 % of this muscle's vertices lie inside it, median distance 74.0 mm. Not measured on her. A position estimate of the usual muscle, not a segmentation."
+  },
+  "fibularis_brevis_r": {
+   "guards": {
+    "in_bone_pct": 5.7,
+    "belly_in_bone_pct": 0.1,
+    "deep_in_bone_pct": 0.8,
+    "overlap_pct": 65.2,
+    "overlap_z_fit_pct": 69.1,
+    "overlap_vol_pct": 31.5,
+    "overlap_vol_z_fit_pct": 40.9,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 2.5,
+    "mean_move_mm": 3.42,
+    "max_move_mm": 7.87,
+    "volume_cm3": 18.86,
+    "volume_ratio": 1.115,
+    "length_mm": 272.9,
+    "length_ratio": 1.019,
+    "flipped_pct": 0.23,
+    "stretched_before": 0.0,
+    "stretched_after": 2.1,
+    "end_dist_mm": [
+     1.3,
+     0.7
+    ]
+   },
+   "why_not": [],
+   "variant": {
+    "pull_lam": 40.0,
+    "bone_chain": [
+     160.0,
+     40.0,
+     10.0
+    ],
+    "separation_rounds": 6,
+    "separation_total_mm": 10.0,
+    "displacement_smoothing": 30
+   },
+   "separation": {
+    "rounds": 3.0,
+    "inside_before": 0.672,
+    "inside_after": 0.589,
+    "depth_before": 9.022,
+    "depth_after": 7.324,
+    "move_max": 7.454,
+    "move_median": 1.368,
+    "volume_ratio": 1.25
+   },
+   "length_z_mm": 267.8,
+   "volume_z_cm3": 16.91,
+   "end_dist_z_mm": [
+    1.0,
+    8.2
+   ],
+   "attach_pull": [
+    {
+     "dist_before_p5": 1.0379708269898316,
+     "dist_before_min": 0.6402388922107299,
+     "step_mm": 0.25555962503657853
+    },
+    {
+     "dist_before_p5": 8.242087778790868,
+     "dist_before_min": 7.792245270323953,
+     "step_mm": 8.160205532539267
+    }
+   ],
+   "landmarks": {
+    "mt5_tuberosity_landmark_mm": [
+     66.5,
+     -838.2,
+     -14.8
+    ]
+   },
+   "seconds": 11.7,
+   "neighbours_pct": [
+    [
+     "fibularis_longus_r",
+     46.0
+    ],
+    [
+     "soleus_r",
+     16.0
+    ],
+    [
+     "flexor_hallucis_longus_r",
+     3.9
+    ],
+    [
+     "extensor_digitorum_brevis_r",
+     0.1
+    ]
+   ],
+   "badge": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of Fibularis (peroneus) brevis, which her page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure fitted to her body (per-bone chain fits onto her own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto lateral surface of the person's own fibula (distal two thirds) and insertion zone onto tuberosity of the base of the person's own 5th metatarsal (contact distance origin / insertion 1.0 / 8.2 mm before, 1.3 / 0.7 mm after), pushed out of her own bone meshes (belly 0.1 % inside bone after; all vertices 5.7 %), separated from the neighbouring muscle meshes it sat in (69.1 % -> 65.2 % of its vertices inside other muscles, gate 60 %), held inside her skin (closest 2.5 mm below the surface). Volume 18.86 cm3 (fitted Z muscle 16.91 cm3, x1.115); length 272.9 mm (fitted Z muscle 267.8 mm, x1.019); mean / max move 3.42 / 7.87 mm; flipped faces 0.23 %. Q214 validation median error 4.6 mm, max 8.2 mm (end zones of the fitted Z muscle vs her own origin / insertion bone, before the pull). Not measured on her. A position estimate of the usual muscle, not a segmentation."
+  }
+ },
+ "skipped": {
+  "splenius_capitis_l": {
+   "why_not": [
+    "61.1 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 59.8 %; 50.7 % of the vertices)"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 9.2,
+     "belly_in_bone_pct": 0.1,
+     "deep_in_bone_pct": 7.3,
+     "overlap_pct": 50.7,
+     "overlap_z_fit_pct": 47.8,
+     "overlap_vol_pct": 61.1,
+     "overlap_vol_z_fit_pct": 59.8,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 15.6,
+     "mean_move_mm": 1.32,
+     "max_move_mm": 4.5,
+     "volume_cm3": 32.18,
+     "volume_ratio": 0.923,
+     "length_mm": 198.8,
+     "length_ratio": 0.998,
+     "flipped_pct": 0.08,
+     "stretched_before": 0.0,
+     "stretched_after": 0.7,
+     "end_dist_mm": [
+      3.3,
+      1.3
+     ]
+    },
+    "why_not": [
+     "61.1 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 59.8 %; 50.7 % of the vertices)"
+    ],
+    "variant": {
+     "pull_lam": 40.0,
+     "bone_chain": [
+      160.0,
+      40.0,
+      10.0
+     ],
+     "separation_rounds": 12,
+     "separation_total_mm": 16.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 12.0,
+     "inside_before": 0.542,
+     "inside_after": 0.416,
+     "depth_before": 7.264,
+     "depth_after": 5.078,
+     "move_max": 7.612,
+     "move_median": 0.815,
+     "volume_ratio": 1.03
+    },
+    "length_z_mm": 199.2,
+    "volume_z_cm3": 34.85,
+    "end_dist_z_mm": [
+     6.6,
+     1.3
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 6.554616882540225,
+      "dist_before_min": 4.189847567085814,
+      "step_mm": 4.570634986254376
+     },
+     {
+      "dist_before_p5": 1.2611189507083185,
+      "dist_before_min": 0.3330534290986378,
+      "step_mm": 0.31351113916416967
+     }
+    ],
+    "landmarks": {
+     "mastoid_landmark_mm": [
+      -50.5,
+      693.8,
+      -15.0
+     ]
+    },
+    "seconds": 350.0
+   }
+  },
+  "fibularis_brevis_l": {
+   "why_not": [
+    "move mean 6.54 / max 14.81 mm (gate 6 / 20)",
+    "0.75 % faces flipped"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 7.9,
+     "belly_in_bone_pct": 0.0,
+     "deep_in_bone_pct": 2.0,
+     "overlap_pct": 32.0,
+     "overlap_z_fit_pct": 70.5,
+     "overlap_vol_pct": 47.5,
+     "overlap_vol_z_fit_pct": 50.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 2.0,
+     "mean_move_mm": 6.54,
+     "max_move_mm": 14.81,
+     "volume_cm3": 16.92,
+     "volume_ratio": 1.152,
+     "length_mm": 265.9,
+     "length_ratio": 1.043,
+     "flipped_pct": 0.75,
+     "stretched_before": 0.0,
+     "stretched_after": 3.5,
+     "end_dist_mm": [
+      1.6,
+      0.6
+     ]
+    },
+    "why_not": [
+     "move mean 6.54 / max 14.81 mm (gate 6 / 20)",
+     "0.75 % faces flipped"
+    ],
+    "variant": {
+     "pull_lam": 8.0,
+     "bone_chain": [
+      40.0,
+      10.0,
+      3.0
+     ],
+     "separation_rounds": 12,
+     "separation_total_mm": 16.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 9.0,
+     "inside_before": 0.683,
+     "inside_after": 0.262,
+     "depth_before": 10.903,
+     "depth_after": 5.902,
+     "move_max": 12.559,
+     "move_median": 3.4,
+     "volume_ratio": 1.298
+    },
+    "length_z_mm": 255.0,
+    "volume_z_cm3": 14.69,
+    "end_dist_z_mm": [
+     0.9,
+     14.9
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 0.9121400672912447,
+      "dist_before_min": 0.5108279551989658,
+      "step_mm": 0.12559771921816407
+     },
+     {
+      "dist_before_p5": 14.903660406053852,
+      "dist_before_min": 14.374729263970007,
+      "step_mm": 14.847007324868642
+     }
+    ],
+    "landmarks": {
+     "mt5_tuberosity_landmark_mm": [
+      -58.5,
+      -826.5,
+      -1.2
+     ]
+    },
+    "seconds": 251.7
+   }
+  },
+  "flexor_pollicis_brevis_r": {
+   "why_not": [
+    "move mean 8.84 / max 17.35 mm (gate 6 / 20)",
+    "an end lies 6.5 mm from its bone (gate 3.5)"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 4.1,
+     "belly_in_bone_pct": 0.0,
+     "deep_in_bone_pct": 0.0,
+     "overlap_pct": 24.3,
+     "overlap_z_fit_pct": 47.3,
+     "overlap_vol_pct": 46.0,
+     "overlap_vol_z_fit_pct": 71.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 1.2,
+     "mean_move_mm": 8.84,
+     "max_move_mm": 17.35,
+     "volume_cm3": 4.1,
+     "volume_ratio": 1.1,
+     "length_mm": 64.0,
+     "length_ratio": 1.192,
+     "flipped_pct": 0.39,
+     "stretched_before": 0.0,
+     "stretched_after": 3.7,
+     "end_dist_mm": [
+      1.9,
+      6.5
+     ]
+    },
+    "why_not": [
+     "move mean 8.84 / max 17.35 mm (gate 6 / 20)",
+     "an end lies 6.5 mm from its bone (gate 3.5)"
+    ],
+    "variant": {
+     "pull_lam": 40.0,
+     "bone_chain": [
+      160.0,
+      40.0,
+      10.0
+     ],
+     "separation_rounds": 16,
+     "separation_total_mm": 22.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 16.0,
+     "inside_before": 0.272,
+     "inside_after": 0.105,
+     "depth_before": 4.065,
+     "depth_after": 0.864,
+     "move_max": 4.09,
+     "move_median": 0.465,
+     "volume_ratio": 0.814
+    },
+    "length_z_mm": 53.7,
+    "volume_z_cm3": 3.73,
+    "end_dist_z_mm": [
+     0.5,
+     22.8
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 0.5395215743507901,
+      "dist_before_min": 0.33660579150177145,
+      "step_mm": 0.2296072124338591
+     },
+     {
+      "dist_before_p5": 22.788887798915795,
+      "dist_before_min": 21.772207539030376,
+      "step_mm": 22.506538816425504
+     }
+    ],
+    "landmarks": {},
+    "seconds": 73.9
+   }
+  }
+ },
+ "own_evidence": {
+  "splenius_capitis_r": {
+   "source": "her splenius compartment, cryosection frame (labels 1 / 11 of vhf_deep_neck_cryo.nii.gz)",
+   "guards": {
+    "in_bone_pct": 0.0,
+    "overlap_pct": 13.4,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 10.94,
+    "volume_cm3": 76.2,
+    "z_pair_volume_cm3": 47.8,
+    "volume_ratio": 1.59,
+    "end_dist_mm": [
+     9.9,
+     8.8
+    ],
+    "length_mm": 105.0,
+    "z_capitis_length_mm": 201.5,
+    "length_ratio": 0.52
+   },
+   "why_not": [
+    "volume 76.2 cm3 is x1.59 of the two Z-Anatomy splenius muscles fitted to her (47.8 cm3; gate 0.75-1.3)",
+    "length 105.0 mm is x0.52 of the Z capitis fitted to her (201.5 mm; gate 0.85-1.2): the compartment is cut flat at the T1 body top",
+    "an end lies 9.9 mm from the bone named as origin / insertion (gate 3.5): the lower end is the flat cut at the T1 body top, not her spinous processes"
+   ],
+   "accepted": false
+  },
+  "splenius_capitis_l": {
+   "source": "her splenius compartment, cryosection frame (labels 1 / 11 of vhf_deep_neck_cryo.nii.gz)",
+   "guards": {
+    "in_bone_pct": 0.0,
+    "overlap_pct": 19.2,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 12.8,
+    "volume_cm3": 65.0,
+    "z_pair_volume_cm3": 48.3,
+    "volume_ratio": 1.35,
+    "end_dist_mm": [
+     13.1,
+     7.4
+    ],
+    "length_mm": 106.2,
+    "z_capitis_length_mm": 199.2,
+    "length_ratio": 0.53
+   },
+   "why_not": [
+    "volume 65.0 cm3 is x1.35 of the two Z-Anatomy splenius muscles fitted to her (48.3 cm3; gate 0.75-1.3)",
+    "length 106.2 mm is x0.53 of the Z capitis fitted to her (199.2 mm; gate 0.85-1.2): the compartment is cut flat at the T1 body top",
+    "an end lies 13.1 mm from the bone named as origin / insertion (gate 3.5): the lower end is the flat cut at the T1 body top, not her spinous processes"
+   ],
+   "accepted": false
+  },
+  "splenius_cervicis_r": {
+   "source": "no separate label: splenius capitis + cervicis are ONE sheet in her photographs (Q62 not_shipped)",
+   "accepted": false
+  },
+  "splenius_cervicis_l": {
+   "source": "no separate label: splenius capitis + cervicis are ONE sheet in her photographs (Q62 not_shipped)",
+   "accepted": false
+  }
+ },
+ "params": {
+  "ATTACH_CAP_MM": 25.0,
+  "END_DIST_MAX_MM": 3.5,
+  "BELLY_IN_BONE_MAX": 5.0,
+  "ALL_IN_BONE_MAX": 25.0,
+  "OVERLAP_MAX": 60.0,
+  "VOL": [
+   0.75,
+   1.3
+  ],
+  "LEN": [
+   0.85,
+   1.2
+  ],
+  "SKIN_DEPTH_MIN_MM": 1.0,
+  "MEAN_MOVE_MAX": 6.0,
+  "MAX_MOVE_MAX": 20.0
+ }
+}

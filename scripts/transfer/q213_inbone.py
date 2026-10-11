@@ -101,7 +101,7 @@ def ends_mask(v, frac=0.12):
 W_SEAM, W_END = 200.0, 6.0
 
 
-def push_out(v, f, field, lam=10.0, passes=6, tether=1e-3, start=None, anchors=None, ends=None):
+def push_out(v, f, field, lam=10.0, passes=6, tether=1e-3, start=None, anchors=None, ends=None, margin=None):
     """-> (new vertices, report).  Per pass: minimise  sum_inside |d - p|^2 + lam * sum_edges |d_i - d_j|^2 + tether |d|^2  (p = vector to the bone
     surface + MARGIN); lam sets how rigidly the whole structure shifts (large = nearly a translation, small = a local push)."""
     from scipy.sparse import diags, identity
@@ -118,7 +118,7 @@ def push_out(v, f, field, lam=10.0, passes=6, tether=1e-3, start=None, anchors=N
         P = np.zeros_like(cur)
         dirn = cp[ins] - cur[ins]
         Ld = np.linalg.norm(dirn, axis=1, keepdims=True)
-        P[ins] = np.where(Ld > 1e-9, dirn / np.maximum(Ld, 1e-9), 0.0) * (Ld + MARGIN)
+        P[ins] = np.where(Ld > 1e-9, dirn / np.maximum(Ld, 1e-9), 0.0) * (Ld + (MARGIN if margin is None else margin))
         w = np.where(ins & (np.linalg.norm(P, axis=1) <= CAP_MM), 1.0, 0.0)
         if ends is not None:
             w = np.where(ends, 0.0, w)
@@ -149,10 +149,10 @@ def push_out(v, f, field, lam=10.0, passes=6, tether=1e-3, start=None, anchors=N
 CHAINS = ((160.0, 40.0, 10.0), (40.0, 10.0, 3.0), (10.0, 3.0, 1.0), (3.0, 1.0, 0.3))
 
 
-def chain(v, f, field, lams, anchors=None, ends=None):
+def chain(v, f, field, lams, anchors=None, ends=None, margin=None):
     cur = None
     for lam in lams:
-        cur, rep = push_out(v, f, field, lam=lam, start=cur, anchors=anchors, ends=ends)
+        cur, rep = push_out(v, f, field, lam=lam, start=cur, anchors=anchors, ends=ends, margin=margin)
     rep["lam"] = list(lams)
     return cur, rep
 

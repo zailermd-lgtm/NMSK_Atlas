@@ -211,8 +211,8 @@
  "viewers": {
   "vhm": {
    "label": "own male (Visible Human male)",
-   "points": 162,
-   "muscle_sides_with_points": 93,
+   "points": 166,
+   "muscle_sides_with_points": 96,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
     "adductor_brevis",
@@ -253,6 +253,8 @@
     "semimembranosus",
     "semitendinosus",
     "soleus",
+    "splenius_capitis",
+    "sternocleidomastoid",
     "supinator",
     "supraspinatus",
     "tensor_fasciae_latae",
@@ -274,7 +276,7 @@
     "adductor_magnus_l": 1,
     "adductor_magnus_r": 1,
     "biceps_brachii_l": 5,
-    "biceps_brachii_r": 5,
+    "biceps_brachii_r": 3,
     "biceps_femoris_l": 4,
     "biceps_femoris_r": 4,
     "brachialis_l": 2,
@@ -282,7 +284,7 @@
     "brachioradialis_l": 2,
     "brachioradialis_r": 2,
     "deltoid_l": 3,
-    "deltoid_r": 2,
+    "deltoid_r": 3,
     "extensor_carpi_radialis_brevis_l": 1,
     "extensor_carpi_radialis_brevis_r": 1,
     "extensor_carpi_radialis_longus_l": 1,
@@ -337,6 +339,9 @@
     "semitendinosus_r": 4,
     "soleus_l": 4,
     "soleus_r": 4,
+    "splenius_capitis_l": 1,
+    "splenius_capitis_r": 1,
+    "sternocleidomastoid_r": 3,
     "supinator_l": 1,
     "supinator_r": 1,
     "supraspinatus_l": 1,
@@ -449,20 +454,19 @@
     "mp.piriformis_l.2": 142.9,
     "mp.iliopsoas_r.1": 305.0,
     "mp.iliopsoas_l.1": 305.2,
-    "mp.deltoid_r.1": 174.5,
-    "mp.deltoid_l.1": 67.2,
-    "mp.deltoid_l.2": 67.2,
-    "mp.deltoid_r.2": 174.5,
-    "mp.deltoid_l.3": 67.2,
-    "mp.biceps_brachii_r.1": 320.3,
+    "mp.deltoid_r.1": 194.0,
+    "mp.deltoid_l.1": 138.0,
+    "mp.deltoid_r.2": 194.0,
+    "mp.deltoid_l.2": 138.0,
+    "mp.deltoid_r.3": 194.0,
+    "mp.deltoid_l.3": 138.0,
     "mp.biceps_brachii_l.1": 316.7,
-    "mp.biceps_brachii_r.2": 317.5,
+    "mp.biceps_brachii_r.1": 317.5,
     "mp.biceps_brachii_l.2": 323.4,
-    "mp.biceps_brachii_r.3": 346.5,
+    "mp.biceps_brachii_r.2": 346.5,
     "mp.biceps_brachii_l.3": 337.6,
-    "mp.biceps_brachii_r.4": 346.5,
     "mp.biceps_brachii_l.4": 337.6,
-    "mp.biceps_brachii_r.5": 346.5,
+    "mp.biceps_brachii_r.3": 346.5,
     "mp.biceps_brachii_l.5": 337.6,
     "mp.brachialis_r.1": 320.3,
     "mp.brachialis_l.1": 316.7,
@@ -476,24 +480,24 @@
     "mp.triceps_brachii_l.3": 337.6,
     "mp.triceps_brachii_r.4": 346.5,
     "mp.triceps_brachii_l.4": 337.6,
-    "mp.brachioradialis_r.1": 141.4,
+    "mp.brachioradialis_r.1": 303.1,
     "mp.brachioradialis_l.1": 233.3,
-    "mp.brachioradialis_r.2": 141.4,
+    "mp.brachioradialis_r.2": 303.1,
     "mp.brachioradialis_l.2": 233.3,
-    "mp.supraspinatus_r.1": 143.1,
-    "mp.supraspinatus_l.1": 128.9,
+    "mp.supraspinatus_r.1": 142.5,
+    "mp.supraspinatus_l.1": 128.8,
     "mp.infraspinatus_r.1": 152.5,
     "mp.infraspinatus_l.1": 156.2,
     "mp.teres_major_r.1": 150.1,
     "mp.teres_major_l.1": 149.4,
-    "mp.rhomboid_major_r.1": 133.0,
-    "mp.rhomboid_major_l.1": 135.8,
-    "mp.rhomboid_minor_r.1": 126.9,
+    "mp.rhomboid_major_r.1": 137.3,
+    "mp.rhomboid_major_l.1": 142.2,
+    "mp.rhomboid_minor_r.1": 145.9,
     "mp.rhomboid_minor_l.1": 134.5,
-    "mp.rhomboid_minor_r.2": 126.9,
+    "mp.rhomboid_minor_r.2": 145.9,
     "mp.rhomboid_minor_l.2": 134.5,
     "mp.levator_scapulae_r.1": 100.5,
-    "mp.levator_scapulae_l.1": 84.8,
+    "mp.levator_scapulae_l.1": 103.0,
     "mp.trapezius_l.1": 481.0,
     "mp.trapezius_r.1": 481.0,
     "mp.trapezius_l.2": 481.0,
@@ -509,16 +513,21 @@
     "mp.flexor_digitorum_superficialis_l.1": 258.6,
     "mp.flexor_digitorum_profundus_r.1": 235.9,
     "mp.extensor_carpi_radialis_longus_r.1": 305.1,
-    "mp.extensor_carpi_radialis_longus_l.1": 277.0,
-    "mp.extensor_carpi_radialis_brevis_r.1": 303.9,
-    "mp.extensor_carpi_radialis_brevis_l.1": 257.0,
-    "mp.supinator_r.1": 81.8,
-    "mp.supinator_l.1": 95.5,
+    "mp.extensor_carpi_radialis_longus_l.1": 293.5,
+    "mp.extensor_carpi_radialis_brevis_r.1": 342.0,
+    "mp.extensor_carpi_radialis_brevis_l.1": 315.8,
+    "mp.supinator_r.1": 110.5,
+    "mp.supinator_l.1": 133.6,
     "mp.abductor_digiti_minimi_hand_l.1": 95.3,
     "mp.flexor_digiti_minimi_brevis_hand_l.1": 86.5,
     "mp.opponens_digiti_minimi_r.1": 81.5,
-    "mp.scalenus_anterior_r.1": 47.5,
-    "mp.scalenus_anterior_l.1": 50.8,
+    "mp.sternocleidomastoid_r.1": 181.6,
+    "mp.sternocleidomastoid_r.2": 181.6,
+    "mp.sternocleidomastoid_r.3": 181.6,
+    "mp.splenius_capitis_r.1": 240.5,
+    "mp.splenius_capitis_l.1": 233.3,
+    "mp.scalenus_anterior_r.1": 60.1,
+    "mp.scalenus_anterior_l.1": 62.5,
     "mp.scalenus_medius_r.1": 44.4,
     "mp.scalenus_medius_l.1": 47.6,
     "mp.scalenus_posterior_r.1": 26.4,
@@ -526,8 +535,12 @@
    },
    "failed": [
     {
-     "rule": "deltoid_r yi2023delt middle belly",
-     "why": "FAILED: rule plane/line misses deltoid_r by 8.4 mm"
+     "rule": "biceps_brachii_r lee2009bb innervation_zone",
+     "why": "FAILED: the placed point lies on the seam between the pieces of biceps_brachii_r"
+    },
+    {
+     "rule": "biceps_brachii_r amirali2007 lateral edge",
+     "why": "FAILED: the placed point lies on the seam between the pieces of biceps_brachii_r"
     },
     {
      "rule": "trapezius_r yi2020trap superior part",
@@ -575,7 +588,7 @@
     },
     {
      "rule": "pronator_teres_l zhou2023 humeral head",
-     "why": "FAILED: no point at least 1 mm inside pronator_teres_l near the rule plane/line"
+     "why": "FAILED: nearest point inside pronator_teres_l_zfill is 7.5 mm from the rule plane/line (> 5.0 mm)"
     },
     {
      "rule": "pronator_teres_r zhou2023 ulnar head",
@@ -672,36 +685,16 @@
      "why": "no structure opponens_digiti_minimi_l in this viewer"
     },
     {
-     "rule": "sternocleidomastoid_r lee2010scm motor_point",
-     "why": "landmark not measurable on this body: skull surface 34 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
      "rule": "sternocleidomastoid_l lee2010scm motor_point",
      "why": "landmark not measurable on this body: skull surface 25 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "sternocleidomastoid_r yi2019scm lateral half",
-     "why": "landmark not measurable on this body: skull surface 34 mm from the SCM insertion (mastoid not in this skull mesh)"
     },
     {
      "rule": "sternocleidomastoid_l yi2019scm lateral half",
      "why": "landmark not measurable on this body: skull surface 25 mm from the SCM insertion (mastoid not in this skull mesh)"
     },
     {
-     "rule": "sternocleidomastoid_r yi2019scm medial half",
-     "why": "landmark not measurable on this body: skull surface 34 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
      "rule": "sternocleidomastoid_l yi2019scm medial half",
      "why": "landmark not measurable on this body: skull surface 25 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "splenius_capitis_r kwon2020sp innervation_zone",
-     "why": "no structure splenius_capitis_r in this viewer"
-    },
-    {
-     "rule": "splenius_capitis_l kwon2020sp innervation_zone",
-     "why": "no structure splenius_capitis_l in this viewer"
     },
     {
      "rule": "splenius_cervicis_r kwon2020sp innervation_zone",
@@ -714,7 +707,7 @@
    ],
    "uncertainty_mm_range": [
     5.0,
-    101.8
+    114.6
    ],
    "depth_from_skin": "nearest distance to this body's skin mesh"
   },

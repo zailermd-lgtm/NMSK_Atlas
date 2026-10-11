@@ -1,0 +1,835 @@
+{
+ "body": "vhm",
+ "source_bundle": "build/viewer_m_hr_q212",
+ "z_page": "build/q211/viewer_zan_vhm/atlas_viewer_zan_male_fitted.html",
+ "absence": {
+  "splenius_capitis_r": {
+   "on_bundle": false,
+   "z_id": "splenius_capitis_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "splenius_capitis_l": {
+   "on_bundle": false,
+   "z_id": "splenius_capitis_l",
+   "z_present": true,
+   "bundle_ids_with_stem": [
+    "splenius_capitis_r"
+   ]
+  },
+  "splenius_cervicis_r": {
+   "on_bundle": false,
+   "z_id": "zan_splenius_colli_muscle_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "splenius_cervicis_l": {
+   "on_bundle": false,
+   "z_id": "zan_splenius_colli_muscle_l",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "fibularis_brevis_r": {
+   "on_bundle": false,
+   "z_id": "fibularis_brevis_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "fibularis_brevis_l": {
+   "on_bundle": false,
+   "z_id": "fibularis_brevis_l",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  },
+  "flexor_pollicis_brevis_r": {
+   "on_bundle": false,
+   "z_id": "flexor_pollicis_brevis_r",
+   "z_present": true,
+   "bundle_ids_with_stem": []
+  }
+ },
+ "added": {
+  "splenius_capitis_r": {
+   "guards": {
+    "in_bone_pct": 9.5,
+    "belly_in_bone_pct": 0.2,
+    "deep_in_bone_pct": 6.3,
+    "bone_depth_max_mm": 3.0,
+    "overlap_pct": 31.9,
+    "overlap_z_fit_pct": 32.8,
+    "overlap_vol_pct": 50.7,
+    "neighbour_overlap_rise": [
+     [
+      "semispinalis_capitis_r",
+      40.0,
+      52.9
+     ],
+     [
+      "obliquus_capitis_inferior_r",
+      21.6,
+      27.3
+     ],
+     [
+      "spinalis_r",
+      43.9,
+      49.4
+     ],
+     [
+      "semispinalis_cervicis_r",
+      51.1,
+      54.6
+     ],
+     [
+      "longissimus_r",
+      17.9,
+      18.5
+     ],
+     [
+      "multifidus_r",
+      16.0,
+      16.5
+     ],
+     [
+      "rhomboid_minor_r",
+      28.9,
+      29.2
+     ],
+     [
+      "semispinalis_capitis_l",
+      27.2,
+      27.3
+     ]
+    ],
+    "overlap_vol_z_fit_pct": 54.2,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 12.5,
+    "mean_move_mm": 1.91,
+    "max_move_mm": 4.75,
+    "volume_cm3": 39.29,
+    "volume_ratio": 0.979,
+    "length_mm": 210.7,
+    "length_ratio": 0.998,
+    "flipped_pct": 0.36,
+    "stretched_before": 0.0,
+    "stretched_after": 2.1,
+    "end_dist_mm": [
+     3.3,
+     1.8
+    ]
+   },
+   "why_not": [],
+   "variant": {
+    "pull_lam": 40.0,
+    "bone_chain": [
+     160.0,
+     40.0,
+     10.0
+    ],
+    "separation_rounds": 6,
+    "separation_total_mm": 10.0,
+    "displacement_smoothing": 16
+   },
+   "separation": {
+    "rounds": 6.0,
+    "inside_before": 0.34,
+    "inside_after": 0.264,
+    "depth_before": 11.108,
+    "depth_after": 9.532,
+    "move_max": 6.278,
+    "move_median": 0.511,
+    "volume_ratio": 0.999
+   },
+   "length_z_mm": 211.1,
+   "volume_z_cm3": 40.13,
+   "end_dist_z_mm": [
+    5.1,
+    2.0
+   ],
+   "attach_pull": [
+    {
+     "dist_before_p5": 5.114891074911761,
+     "dist_before_min": 0.8138308935125397,
+     "step_mm": 2.690372255546205
+    },
+    {
+     "dist_before_p5": 2.037629932748552,
+     "dist_before_min": 0.3974638753691813,
+     "step_mm": 0.4637760502268112
+    }
+   ],
+   "landmarks": {
+    "mastoid_landmark_mm": [
+     63.0,
+     727.2,
+     9.8
+    ]
+   },
+   "seconds": 26.5,
+   "neighbours_pct": [
+    [
+     "semispinalis_capitis_r",
+     13.1
+    ],
+    [
+     "spinalis_r",
+     7.7
+    ],
+    [
+     "longissimus_r",
+     6.3
+    ],
+    [
+     "semispinalis_cervicis_r",
+     4.7
+    ],
+    [
+     "multifidus_r",
+     2.9
+    ],
+    [
+     "spinalis_r_zfill203",
+     0.6
+    ],
+    [
+     "semispinalis_capitis_l",
+     0.4
+    ],
+    [
+     "obliquus_capitis_inferior_r",
+     0.2
+    ]
+   ],
+   "badge": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of Splenius capitis, which his page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure fitted to his body (per-bone chain fits onto his own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto spinous processes C7-T3 of the person's own vertebrae and insertion zone onto mastoid process of the person's own cranium (landmark of the sternocleidomastoid rule, Q213) (contact distance origin / insertion 5.1 / 2.0 mm before, 3.3 / 1.8 mm after), pushed out of his own bone meshes (belly 0.2 % inside bone after; all vertices 9.5 %), separated from the neighbouring muscle meshes it sat in (32.8 % -> 31.9 % of its vertices inside other muscles, gate 60 %), held inside his skin (closest 12.5 mm below the surface). Volume 39.29 cm3 (fitted Z muscle 40.13 cm3, x0.979); length 210.7 mm (fitted Z muscle 211.1 mm, x0.998); mean / max move 1.91 / 4.75 mm; flipped faces 0.36 %. Q214 validation median error 3.6 mm, max 5.1 mm (end zones of the fitted Z muscle vs his own origin / insertion bone, before the pull). Not measured on him. A position estimate of the usual muscle, not a segmentation."
+  },
+  "splenius_capitis_l": {
+   "guards": {
+    "in_bone_pct": 9.6,
+    "belly_in_bone_pct": 0.0,
+    "deep_in_bone_pct": 6.2,
+    "bone_depth_max_mm": 3.0,
+    "overlap_pct": 40.1,
+    "overlap_z_fit_pct": 42.3,
+    "overlap_vol_pct": 54.4,
+    "neighbour_overlap_rise": [
+     [
+      "semispinalis_capitis_l",
+      27.3,
+      52.0
+     ],
+     [
+      "obliquus_capitis_superior_l",
+      27.4,
+      34.7
+     ],
+     [
+      "spinalis_l",
+      46.6,
+      53.7
+     ],
+     [
+      "obliquus_capitis_inferior_l",
+      27.9,
+      34.2
+     ],
+     [
+      "splenius_capitis_r",
+      50.7,
+      52.0
+     ],
+     [
+      "multifidus_l",
+      13.9,
+      14.7
+     ],
+     [
+      "semispinalis_cervicis_l",
+      47.5,
+      48.3
+     ],
+     [
+      "rhomboid_minor_r",
+      29.2,
+      29.8
+     ]
+    ],
+    "overlap_vol_z_fit_pct": 55.2,
+    "inside_skin_pct": 100.0,
+    "min_skin_depth_mm": 13.5,
+    "mean_move_mm": 1.75,
+    "max_move_mm": 5.96,
+    "volume_cm3": 47.07,
+    "volume_ratio": 1.082,
+    "length_mm": 203.9,
+    "length_ratio": 0.991,
+    "flipped_pct": 0.39,
+    "stretched_before": 0.0,
+    "stretched_after": 2.2,
+    "end_dist_mm": [
+     2.5,
+     2.0
+    ]
+   },
+   "why_not": [],
+   "variant": {
+    "pull_lam": 40.0,
+    "bone_chain": [
+     160.0,
+     40.0,
+     10.0
+    ],
+    "separation_rounds": 6,
+    "separation_total_mm": 10.0,
+    "displacement_smoothing": 30
+   },
+   "separation": {
+    "rounds": 6.0,
+    "inside_before": 0.427,
+    "inside_after": 0.31,
+    "depth_before": 7.808,
+    "depth_after": 5.721,
+    "move_max": 7.628,
+    "move_median": 0.234,
+    "volume_ratio": 1.102
+   },
+   "length_z_mm": 205.7,
+   "volume_z_cm3": 43.52,
+   "end_dist_z_mm": [
+    4.5,
+    2.4
+   ],
+   "attach_pull": [
+    {
+     "dist_before_p5": 4.457542974210233,
+     "dist_before_min": 0.5749931028066408,
+     "step_mm": 3.361662689216595
+    },
+    {
+     "dist_before_p5": 2.3971050988996843,
+     "dist_before_min": 0.5483740209444299,
+     "step_mm": 0.29100168998239534
+    }
+   ],
+   "landmarks": {
+    "mastoid_landmark_mm": [
+     -47.2,
+     717.0,
+     11.0
+    ],
+    "mastoid_landmark_note": "Q213 landmark rule refused (skull surface 25 mm from the SCM insertion (mastoid not in this skull mesh)); lowest cranium vertex within 20 mm of the cranium point nearest the SCM insertion (25 mm) used"
+   },
+   "seconds": 10.3,
+   "neighbours_pct": [
+    [
+     "semispinalis_capitis_l",
+     18.2
+    ],
+    [
+     "spinalis_l",
+     10.1
+    ],
+    [
+     "longissimus_l",
+     6.1
+    ],
+    [
+     "multifidus_l",
+     2.9
+    ],
+    [
+     "semispinalis_cervicis_l",
+     2.5
+    ],
+    [
+     "splenius_capitis_r",
+     1.3
+    ],
+    [
+     "obliquus_capitis_inferior_l",
+     1.2
+    ],
+    [
+     "rhomboid_minor_r_zfill203",
+     0.5
+    ]
+   ],
+   "badge": "Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of Splenius capitis, which his page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure fitted to his body (per-bone chain fits onto his own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto spinous processes C7-T3 of the person's own vertebrae and insertion zone onto mastoid process of the person's own cranium (landmark of the sternocleidomastoid rule, Q213) (contact distance origin / insertion 4.5 / 2.4 mm before, 2.5 / 2.0 mm after (Q213 landmark rule refused (skull surface 25 mm from the SCM insertion (mastoid not in this skull mesh)); lowest cranium vertex within 20 mm of the cranium point nearest the SCM insertion (25 mm) used)), pushed out of his own bone meshes (belly 0.0 % inside bone after; all vertices 9.6 %), separated from the neighbouring muscle meshes it sat in (42.3 % -> 40.1 % of its vertices inside other muscles, gate 60 %), held inside his skin (closest 13.5 mm below the surface). Volume 47.07 cm3 (fitted Z muscle 43.52 cm3, x1.082); length 203.9 mm (fitted Z muscle 205.7 mm, x0.991); mean / max move 1.75 / 5.96 mm; flipped faces 0.39 %. Q214 validation median error 3.4 mm, max 4.5 mm (end zones of the fitted Z muscle vs his own origin / insertion bone, before the pull). Not measured on him. A position estimate of the usual muscle, not a segmentation."
+  }
+ },
+ "skipped": {
+  "splenius_cervicis_r": {
+   "why_not": [
+    "71.3 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 72.1 %; 55.2 % of the vertices)"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 0.4,
+     "belly_in_bone_pct": 0.0,
+     "deep_in_bone_pct": 0.0,
+     "bone_depth_max_mm": 0.7,
+     "overlap_pct": 55.2,
+     "overlap_z_fit_pct": 63.6,
+     "overlap_vol_pct": 71.3,
+     "neighbour_overlap_rise": [
+      [
+       "splenius_capitis_r",
+       52.0,
+       54.9
+      ],
+      [
+       "longissimus_r",
+       18.5,
+       21.1
+      ],
+      [
+       "multifidus_r",
+       16.5,
+       18.6
+      ],
+      [
+       "spinalis_r",
+       49.4,
+       50.7
+      ],
+      [
+       "obliquus_capitis_inferior_r",
+       27.3,
+       28.2
+      ],
+      [
+       "semispinalis_cervicis_r",
+       54.6,
+       54.9
+      ],
+      [
+       "splenius_capitis_l",
+       54.4,
+       54.5
+      ]
+     ],
+     "overlap_vol_z_fit_pct": 72.1,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 27.3,
+     "mean_move_mm": 2.34,
+     "max_move_mm": 4.42,
+     "volume_cm3": 22.86,
+     "volume_ratio": 1.105,
+     "length_mm": 232.5,
+     "length_ratio": 1.001,
+     "flipped_pct": 0.22,
+     "stretched_before": 0.0,
+     "stretched_after": 0.7,
+     "end_dist_mm": [
+      1.1,
+      2.2
+     ]
+    },
+    "why_not": [
+     "71.3 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 72.1 %; 55.2 % of the vertices)"
+    ],
+    "variant": {
+     "pull_lam": 40.0,
+     "bone_chain": [
+      40.0,
+      10.0,
+      3.0
+     ],
+     "separation_rounds": 16,
+     "separation_total_mm": 22.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 3.0,
+     "inside_before": 0.6,
+     "inside_after": 0.457,
+     "depth_before": 8.774,
+     "depth_after": 6.933,
+     "move_max": 7.657,
+     "move_median": 0.926,
+     "volume_ratio": 1.255
+    },
+    "length_z_mm": 232.2,
+    "volume_z_cm3": 20.69,
+    "end_dist_z_mm": [
+     2.5,
+     4.6
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 2.4910203302061604,
+      "dist_before_min": 1.2687887022485278,
+      "step_mm": 1.8864403874207625
+     },
+     {
+      "dist_before_p5": 4.559583477828147,
+      "dist_before_min": 3.6618456296857955,
+      "step_mm": 3.3039144995811722
+     }
+    ],
+    "landmarks": {},
+    "seconds": 119.7
+   }
+  },
+  "splenius_cervicis_l": {
+   "why_not": [
+    "72.8 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 72.5 %; 69.7 % of the vertices)"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 0.7,
+     "belly_in_bone_pct": 0.1,
+     "deep_in_bone_pct": 0.0,
+     "bone_depth_max_mm": 1.3,
+     "overlap_pct": 69.7,
+     "overlap_z_fit_pct": 64.1,
+     "overlap_vol_pct": 72.8,
+     "neighbour_overlap_rise": [
+      [
+       "splenius_capitis_l",
+       54.4,
+       57.6
+      ],
+      [
+       "longissimus_l",
+       14.7,
+       17.2
+      ],
+      [
+       "multifidus_l",
+       14.7,
+       16.7
+      ],
+      [
+       "spinalis_l",
+       53.7,
+       55.6
+      ],
+      [
+       "obliquus_capitis_inferior_l",
+       34.2,
+       35.9
+      ]
+     ],
+     "overlap_vol_z_fit_pct": 72.5,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 27.5,
+     "mean_move_mm": 1.76,
+     "max_move_mm": 3.53,
+     "volume_cm3": 21.3,
+     "volume_ratio": 1.145,
+     "length_mm": 231.9,
+     "length_ratio": 1.003,
+     "flipped_pct": 0.08,
+     "stretched_before": 0.0,
+     "stretched_after": 0.5,
+     "end_dist_mm": [
+      1.1,
+      2.5
+     ]
+    },
+    "why_not": [
+     "72.8 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 72.5 %; 69.7 % of the vertices)"
+    ],
+    "variant": {
+     "pull_lam": 40.0,
+     "bone_chain": [
+      160.0,
+      40.0,
+      10.0
+     ],
+     "separation_rounds": 12,
+     "separation_total_mm": 16.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 2.0,
+     "inside_before": 0.697,
+     "inside_after": 0.657,
+     "depth_before": 9.528,
+     "depth_after": 8.837,
+     "move_max": 5.317,
+     "move_median": 0.788,
+     "volume_ratio": 1.256
+    },
+    "length_z_mm": 231.2,
+    "volume_z_cm3": 18.6,
+    "end_dist_z_mm": [
+     1.1,
+     3.4
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 1.0793075616015642,
+      "dist_before_min": 0.6256819292569057,
+      "step_mm": 0.10277078749837615
+     },
+     {
+      "dist_before_p5": 3.415940375376714,
+      "dist_before_min": 0.5777083251462529,
+      "step_mm": 1.5811683401133716
+     }
+    ],
+    "landmarks": {},
+    "seconds": 119.9
+   }
+  },
+  "fibularis_brevis_r": {
+   "why_not": [
+    "91.5 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 90.4 %; 65.6 % of the vertices)"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 1.6,
+     "belly_in_bone_pct": 0.0,
+     "deep_in_bone_pct": 0.0,
+     "bone_depth_max_mm": 0.7,
+     "overlap_pct": 65.6,
+     "overlap_z_fit_pct": 62.7,
+     "overlap_vol_pct": 91.5,
+     "neighbour_overlap_rise": [
+      [
+       "fibularis_longus_r",
+       9.9,
+       24.4
+      ],
+      [
+       "flexor_hallucis_longus_r",
+       19.9,
+       21.0
+      ],
+      [
+       "extensor_digitorum_brevis_r",
+       10.1,
+       10.7
+      ],
+      [
+       "extensor_hallucis_brevis_r",
+       13.1,
+       13.3
+      ],
+      [
+       "abductor_digiti_minimi_foot_r",
+       25.4,
+       25.5
+      ]
+     ],
+     "overlap_vol_z_fit_pct": 90.4,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 1.1,
+     "mean_move_mm": 1.45,
+     "max_move_mm": 3.1,
+     "volume_cm3": 22.42,
+     "volume_ratio": 1.078,
+     "length_mm": 279.0,
+     "length_ratio": 1.007,
+     "flipped_pct": 0.2,
+     "stretched_before": 0.0,
+     "stretched_after": 1.2,
+     "end_dist_mm": [
+      1.0,
+      0.8
+     ]
+    },
+    "why_not": [
+     "91.5 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 90.4 %; 65.6 % of the vertices)"
+    ],
+    "variant": {
+     "pull_lam": 8.0,
+     "bone_chain": [
+      40.0,
+      10.0,
+      3.0
+     ],
+     "separation_rounds": 6,
+     "separation_total_mm": 10.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 1.0,
+     "inside_before": 0.662,
+     "inside_after": 0.64,
+     "depth_before": 10.395,
+     "depth_after": 10.395,
+     "move_max": 3.069,
+     "move_median": 0.472,
+     "volume_ratio": 1.205
+    },
+    "length_z_mm": 277.1,
+    "volume_z_cm3": 20.8,
+    "end_dist_z_mm": [
+     1.1,
+     2.8
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 1.1415676898841385,
+      "dist_before_min": 0.35088047933281563,
+      "step_mm": 0.08263226577473572
+     },
+     {
+      "dist_before_p5": 2.7643372452450428,
+      "dist_before_min": 1.5155815568269588,
+      "step_mm": 2.3565600140577923
+     }
+    ],
+    "landmarks": {
+     "mt5_tuberosity_landmark_mm": [
+      206.5,
+      -943.0,
+      -18.8
+     ]
+    },
+    "seconds": 70.2
+   }
+  },
+  "fibularis_brevis_l": {
+   "why_not": [
+    "91.2 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 90.4 %; 63.4 % of the vertices)"
+   ],
+   "fit": {
+    "guards": {
+     "in_bone_pct": 0.2,
+     "belly_in_bone_pct": 0.1,
+     "deep_in_bone_pct": 0.0,
+     "bone_depth_max_mm": 0.2,
+     "overlap_pct": 63.4,
+     "overlap_z_fit_pct": 61.2,
+     "overlap_vol_pct": 91.2,
+     "neighbour_overlap_rise": [
+      [
+       "fibularis_longus_l",
+       10.0,
+       25.7
+      ],
+      [
+       "flexor_hallucis_longus_l",
+       18.8,
+       19.6
+      ],
+      [
+       "extensor_digitorum_brevis_l",
+       11.4,
+       12.1
+      ]
+     ],
+     "overlap_vol_z_fit_pct": 90.4,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 3.6,
+     "mean_move_mm": 3.54,
+     "max_move_mm": 10.47,
+     "volume_cm3": 22.45,
+     "volume_ratio": 1.044,
+     "length_mm": 295.7,
+     "length_ratio": 1.026,
+     "flipped_pct": 0.49,
+     "stretched_before": 0.0,
+     "stretched_after": 2.6,
+     "end_dist_mm": [
+      0.9,
+      1.2
+     ]
+    },
+    "why_not": [
+     "91.2 % of its volume inside the neighbouring muscles (gate 60; fitted Z muscle 90.4 %; 63.4 % of the vertices)"
+    ],
+    "variant": {
+     "pull_lam": 8.0,
+     "bone_chain": [
+      160.0,
+      40.0,
+      10.0
+     ],
+     "separation_rounds": 12,
+     "separation_total_mm": 16.0,
+     "displacement_smoothing": 30
+    },
+    "separation": {
+     "rounds": 2.0,
+     "inside_before": 0.648,
+     "inside_after": 0.572,
+     "depth_before": 10.483,
+     "depth_after": 10.483,
+     "move_max": 6.062,
+     "move_median": 0.596,
+     "volume_ratio": 1.238
+    },
+    "length_z_mm": 288.3,
+    "volume_z_cm3": 21.51,
+    "end_dist_z_mm": [
+     0.8,
+     11.2
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 0.8240020654837894,
+      "dist_before_min": 0.3218095935921641,
+      "step_mm": 0.1532643229789278
+     },
+     {
+      "dist_before_p5": 11.23669082988025,
+      "dist_before_min": 9.905597139557933,
+      "step_mm": 11.16564950258909
+     }
+    ],
+    "landmarks": {
+     "mt5_tuberosity_landmark_mm": [
+      -192.2,
+      -947.5,
+      8.8
+     ]
+    },
+    "seconds": 123.3
+   }
+  },
+  "flexor_pollicis_brevis_r": {
+   "why_not": [
+    "the fitted Z muscle's end lies 69 mm from the person's bone named as origin / insertion (cap 25 mm)"
+   ],
+   "fit": {
+    "guards": {},
+    "why_not": [
+     "the fitted Z muscle's end lies 69 mm from the person's bone named as origin / insertion (cap 25 mm)"
+    ],
+    "length_z_mm": 50.1,
+    "volume_z_cm3": 3.62,
+    "end_dist_z_mm": [
+     0.5,
+     69.4
+    ],
+    "attach_pull": [
+     {
+      "dist_before_p5": 0.49839439980653494,
+      "dist_before_min": 0.3693157869795002,
+      "step_mm": 0.1283083229415802
+     },
+     {
+      "dist_before_p5": 69.39741175813027,
+      "dist_before_min": 68.21099837386633,
+      "step_mm": 68.88715919883094,
+      "refused": true
+     }
+    ],
+    "landmarks": {},
+    "seconds": 0.0
+   }
+  }
+ },
+ "own_evidence": {},
+ "params": {
+  "ATTACH_CAP_MM": 25.0,
+  "END_DIST_MAX_MM": 3.5,
+  "BELLY_IN_BONE_MAX": 5.0,
+  "ALL_IN_BONE_MAX": 25.0,
+  "OVERLAP_MAX": 60.0,
+  "VOL": [
+   0.75,
+   1.3
+  ],
+  "LEN": [
+   0.85,
+   1.2
+  ],
+  "SKIN_DEPTH_MIN_MM": 1.0,
+  "MEAN_MOVE_MAX": 6.0,
+  "MAX_MOVE_MAX": 20.0
+ }
+}

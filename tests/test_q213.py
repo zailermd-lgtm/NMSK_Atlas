@@ -273,7 +273,10 @@ def test_q213_motor_points_lie_in_their_structure_on_the_q213_page(vk, page_html
         M.VIEWERS[vk] = saved
     assert mp
     for p in mp:
-        m = meshes[p["structure_id"]]
+        m = meshes.get(p["structure_id"])
+        if m is None:          # Q214: a muscle added to the own female page after Q213 (its points are checked in tests/test_q214.py)
+            assert vk == "vhf" and p["structure_id"].startswith(("splenius_", "fibularis_brevis", "flexor_pollicis_brevis")), p["id"]
+            continue
         q = np.array(p["pos"], float)
         ok = bool(M.inside(q, m["v"], m["f"])[0]) or float(np.min(np.linalg.norm(m["v"] - q, axis=1))) <= 1.0
         assert ok, (vk, p["id"])
