@@ -79,7 +79,27 @@ if __name__ == "__main__":
     st = sys.argv[1]
     if st == "tile":
         stage_tile(float(sys.argv[3]) if len(sys.argv) > 3 else 1.0)
+    elif st == "warp":
+        stage_warp()
     elif st == "fit":
         stage_fit()
     else:
         stage_eval(*(sys.argv[2:3]))
+
+
+def stage_warp():
+    from scripts.transfer import q217_warp as W
+    Z, g, *_ = setup()
+    z = np.load(CACHE / "zan_tile.npz")
+    lab, ids = z["lab"].astype(np.int16), list(z["ids"])
+    X = {}
+    t = time.time()
+    for k, i in enumerate(ids):
+        v0, f = Z[i]["v"], Z[i]["f"]
+        r = T.local_solid(g, v0, f)
+        prior = np.zeros(g.shape, bool)
+        prior[r[0]] = r[1]
+        wp = W.Warp(g, prior, lab == k + 1).run()
+        X[i] = W.carry_mesh(v0, wp)
+        print(i[:34].ljust(34), "prior", round(wp.vol_prior, 1), "terr", round(wp.vol_terr, 1), "resid", round(wp.last_resid, 3), "max move", round(float(np.linalg.norm(X[i] - v0, axis=1).max()), 1), round(time.time() - t), flush=True)
+    pickle.dump(X, open(CACHE / "zan_warp.pkl", "wb"))
