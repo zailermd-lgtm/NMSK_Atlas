@@ -185,6 +185,17 @@ class Env:
             why.append(f"main piece {g1['main_piece']} < {min(0.98, g0['main_piece'])}")
         if g["move"]["new_to_old_p95_mm"] > MOVE_P95_MAX_MM:
             why.append(f"new surface {g['move']['new_to_old_p95_mm']} mm (p95) from the Q215 mesh (gate {MOVE_P95_MAX_MM:g})")
+        if self.nerves:                                    # no operation may bring a muscle back over her traced nerves / vessels (measured evidence: the muscle yields)
+            n1 = nerve_state(self.nerves, v1, f1)
+            n0 = nerve_state(self.nerves, v0, f0)
+            in1, in0 = sum(x["inside"] for x in n1.values()), sum(x["inside"] for x in n0.values())
+            cl1 = min([x["closest_mm"] for x in n1.values() if x["closest_mm"] is not None] or [99.0])
+            cl0 = min([x["closest_mm"] for x in n0.values() if x["closest_mm"] is not None] or [99.0])
+            g["nerve"] = dict(inside=[in0, in1], closest_mm=[cl0, cl1])
+            if in1 > in0 or (in1 > 0 and in0 == 0):
+                why.append(f"{in1} traced-nerve vertices inside the muscle (before {in0})")
+            elif in1 == 0 and cl1 < min(CLEAR_MIN_MM, cl0) - 1e-6:
+                why.append(f"closest traced-nerve vertex {cl1} mm from the muscle surface (gate {CLEAR_MIN_MM} mm)")
         sg = self.seam_gap(sid, v0, f0, v1, f1) if seam else {}
         if sg:
             g["seam_gap_mm"] = sg
