@@ -51,6 +51,7 @@ EVID_LO = 0.60                    # volume vs her measured compartment: (candida
 #                                   old one: it must not LOSE photographed muscle; it may gain what the registered frame reveals (an old mesh lying 10 mm off her muscle covers little of it)
 COLLAPSE_MIN = 0.25               # and the new mesh keeps at least this share of the old mesh's volume (a bone-filled Q48 label may legitimately lose 60 %)
 LEN_LO = 0.75                     # tendinous ends are not photographed muscle: a belly may end 25 % shorter than the old mesh ...
+SQUEEZE_MIN = 0.80                # a muscle whose volume fell below this share of what the unconstrained refit (round 0, nothing held) gave it was squeezed by the OLD meshes of held neighbours: not replaced
 LEN_Z_LO = 0.60                   # ... or, where the old mesh is known to be wrong (obturator internus 6x the Z size), be at least this share of the Z-Anatomy reference muscle's length (that one includes its tendons)
 OVERLAP_MAX = 60.0
 OVERLAP_NOTE = 40.0
@@ -263,7 +264,7 @@ def run_rounds(work, crops, page, targets, only, log=print):
     rules = R.q152_rules()
     q213 = json.loads((REPO / "data/derived/Q213_target_muscle_audit.json").read_text())
     zmeshes = load_z()
-    hold_targets, failed, rounds = set(), {}, []
+    hold_targets, failed, rounds, vol_round0 = set(), {}, [], {}
     sev = severity_rows(page.B, ev_base, targets, q213)
     for rnd in range(MAX_ROUNDS):
         want = [a for a in targets if a not in hold_targets and (not only or a in only)]
@@ -296,6 +297,10 @@ def run_rounds(work, crops, page, targets, only, log=print):
             g, why = evaluate(page, aid, v, f, v0, f0, bpts, ev_base[aid], ev_new[aid], zref, zfm, zlen)
             br = [[round(R.y_of_k(A, a), 1), round(R.y_of_k(A, b), 1)] for a, b in lv.get("bridged_gaps_k", {}).get(str(ids[aid]), [])]
             cand[aid] = dict(v=v, f=f, guards=g, smooth=smooth, notes=note, why=why, voxels=[before[aid], after[aid]], bridged_y_mm=br)
+            if rnd == 0:
+                vol_round0[aid] = g["after"]["volume_cm3"]
+            elif g["after"]["volume_cm3"] < SQUEEZE_MIN * vol_round0.get(aid, 0.0):
+                why.append(f"volume {g['after']['volume_cm3']} cm3 is x{round(g['after']['volume_cm3'] / vol_round0[aid], 2)} of the {vol_round0[aid]} cm3 the unconstrained refit gave it: squeezed by the old meshes of held neighbours (gate >= {SQUEEZE_MIN})")
             if why:
                 fails_now[aid] = why
             log(f"   {aid:26s} vol {g['before']['volume_cm3']:6.1f} -> {g['after']['volume_cm3']:6.1f}  musc {ev_base[aid]['musc']:.2f} -> {ev_new[aid]['musc']:.2f}  bone {g['after']['in_bone_pct']:4.1f}% "
@@ -310,7 +315,7 @@ def run_rounds(work, crops, page, targets, only, log=print):
             c["guards"]["overlap_vol_pct"] = [ov_before.get(a), ov_after.get(a)]
             if ov_after.get(a, 0.0) > OVERLAP_MAX:
                 fails_now[a] = [f"{ov_after[a]} % of its volume inside the other muscles (gate {OVERLAP_MAX:g}; old mesh {ov_before.get(a)} %)"]
-        rounds.append(dict(round=rnd, held_in=sorted(hold_targets), failed={a: w for a, w in fails_now.items()}))
+        rounds.append(dict(round=rnd, held_in=sorted(hold_targets), failed={a: w for a, w in fails_now.items()}, volumes_cm3={a: c['guards']['after']['volume_cm3'] for a, c in cand.items()}))
         new_fail = [a for a in fails_now if a not in hold_targets]
         if not new_fail:
             accepted = {a: c for a, c in cand.items() if a not in fails_now}
@@ -382,8 +387,6 @@ def main():
     rep["piriformis"] = dict(piriformis_r="not in the Q48 septa volume (xfer_vhm2vhf, never refined to her septa) and above the photographed window: left as is",
                              piriformis_l="same")
     if not a.dry:
-        subs = B.j["subject"].split("+")
-        base_att = B.j["attribution"][subs.index("xfer_vhm2vhf_sep")] if "xfer_vhm2vhf_sep" in subs else ""
         n = B.write(a.out, new_subject_attribution={SUBJECT: ATTRIBUTION})
         print(f"wrote {a.out}: {n} bytes, {len(B.items)} entries (was {n0})")
     Path(a.report).write_text(json.dumps(rep, indent=1, default=str) + "\n")
