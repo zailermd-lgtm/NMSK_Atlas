@@ -158,9 +158,9 @@ RULES = [
     R("soleus", "yi2025sol", "innervation_zone", "level", "Most prominent nerve distribution in zone 5 of 10 (40-50%, zones counted from the calcaneal tuberosity line up to the fibular head line) in the lateral third.", A="calcaneal_tub", B="fibular_head", f=(40, 50), label="lateral third", sel=[("lat", 2 / 3, 1.0)]),
     R("soleus", "yi2025sol", "innervation_zone", "level", "Most prominent nerve distribution in zone 3 of 10 (20-30%, from the calcaneal tuberosity line) in the middle third.", A="calcaneal_tub", B="fibular_head", f=(20, 30), label="middle third", sel=[("lat", 1 / 3, 2 / 3)]),
     R("soleus", "yi2025sol", "innervation_zone", "level", "Most prominent nerve distribution in zone 5 of 10 (40-50%, from the calcaneal tuberosity line) in the medial third.", A="calcaneal_tub", B="fibular_head", f=(40, 50), label="medial third", sel=[("lat", 0.0, 1 / 3)]),
-    R("tibialis_posterior", "lee2010tp", "motor_point", "level", "82.5% of motor entry points at 10-30% of the line from the most proximal-medial tibial articular margin to the most distal point of the medial malleolus.", A="tibia_medial_plateau", B="medial_malleolus_tip", f=(10, 30), nerve="tibial nerve"),
-    R("tibialis_posterior", "lee2010tp", "innervation_zone", "level", "67.9% of intramuscular motor points at 10-40% of the proximal-medial tibial articular margin -> distal medial malleolus line.", A="tibia_medial_plateau", B="medial_malleolus_tip", f=(10, 40), nerve="tibial nerve"),
-    R("tibialis_posterior", "oddy2006", "motor_point", "level", "Nerve entered the muscle 22.1% down the posterior midline axis from the level of the fibular head to the intermalleolar axis.", A="fibular_head", B="intermalleolar_mid", f=22.1, nerve="nerve to tibialis posterior (tibial nerve)"),
+    R("tibialis_posterior", "lee2010tp", "motor_point", "level", "82.5% of motor entry points at 10-30% of the line from the most proximal-medial tibial articular margin to the most distal point of the medial malleolus.", A="tibia_medial_plateau", B="medial_malleolus_tip", f=(10, 30), nerve="tibial nerve", parts={"zan": "zan_tibialis_posterior_muscle_{s}"}),
+    R("tibialis_posterior", "lee2010tp", "innervation_zone", "level", "67.9% of intramuscular motor points at 10-40% of the proximal-medial tibial articular margin -> distal medial malleolus line.", A="tibia_medial_plateau", B="medial_malleolus_tip", f=(10, 40), nerve="tibial nerve", parts={"zan": "zan_tibialis_posterior_muscle_{s}"}),
+    R("tibialis_posterior", "oddy2006", "motor_point", "level", "Nerve entered the muscle 22.1% down the posterior midline axis from the level of the fibular head to the intermalleolar axis.", A="fibular_head", B="intermalleolar_mid", f=22.1, nerve="nerve to tibialis posterior (tibial nerve)", parts={"zan": "zan_tibialis_posterior_muscle_{s}"}),
     R("flexor_digitorum_longus", "diaconu4", "innervation_zone", "level", "Single zone at 40-50% of the line from the most prominent point of the lateral malleolus to the fibular head (review synthesis).", A="lat_malleolus_prom", B="fibular_head", f=(40, 50)),
     R("flexor_hallucis_longus", "diaconu4", "innervation_zone", "level", "Zone at 30-40% of the lateral malleolus (prominent point) -> fibular head line (review synthesis).", A="lat_malleolus_prom", B="fibular_head", f=(30, 40), label="distal zone"),
     R("flexor_hallucis_longus", "diaconu4", "innervation_zone", "level", "Zone at 60-70% of the lateral malleolus (prominent point) -> fibular head line (review synthesis).", A="lat_malleolus_prom", B="fibular_head", f=(60, 70), label="proximal zone"),
@@ -232,7 +232,7 @@ RULES = [
     R("supinator", "caetano2020", "motor_point", "level", "Motor branches from the posterior interosseous nerve entered within the proximal two-thirds (0-67%) in most limbs; ends measured on this body's own muscle.", A="mend_org:+sup", B="mend_ins:+sup", f=(0, 67), nerve="posterior interosseous nerve"),
     # ---------------- hand (Xie 2012: dense-branch zones stated in words, read as thirds of muscle length)
     *[R(m, "xie2012", "innervation_zone", "level", f"Nerve branches densely distributed {w} ({lo}-{hi}% of origin -> insertion, the source's words read as thirds); ends measured on this body's own muscle.",
-        A="mend_org:+sup", B="mend_ins:+sup", f=(lo, hi), nerve=nv)
+        A="mend_org:+sup", B="mend_ins:+sup", f=(lo, hi), nerve=nv, near="abductor_digiti_minimi_hand_{s}" if m == "opponens_digiti_minimi" else None)
       for m, w, lo, hi, nv in [("abductor_pollicis_brevis", "at the junction of the proximal and middle thirds", 30, 40, "recurrent branch of the median nerve"),
                                ("flexor_pollicis_brevis", "in the middle area", 33, 67, "median / ulnar nerve"),
                                ("abductor_digiti_minimi_hand", "in the middle part", 33, 67, "deep branch of the ulnar nerve"),
@@ -355,6 +355,41 @@ class Body:
         if self.skin is not None:
             self.skin_tree = cKDTree(self.skin["v"])
         self._cache = {}
+        self._union = {}
+
+    # ---- Q213: a muscle of an own page = its measured mesh + its badged Z-fill continuation pieces
+    def pieces(self, sid):
+        """[sid] + (own pages) the Z-fill continuation pieces `<sid>_zfill*` of the same category."""
+        ids = [sid]
+        if self.kind == "own":
+            ids += sorted(i for i in self.m if i.startswith(sid + "_zfill") and self.m[i]["cat"] == self.m[sid]["cat"])
+        return ids
+
+    def union(self, sid):
+        """(V, F) of the whole muscle (all pieces, face indices offset)."""
+        if sid not in self._union:
+            ids = self.pieces(sid)
+            if len(ids) == 1:
+                self._union[sid] = (self.m[sid]["v"], self.m[sid]["f"])
+            else:
+                vs, fs, o = [], [], 0
+                for i in ids:
+                    vs.append(self.m[i]["v"]); fs.append(self.m[i]["f"] + o); o += len(self.m[i]["v"])
+                self._union[sid] = (np.vstack(vs), np.vstack(fs))
+        return self._union[sid]
+
+    def mv(self, sid):
+        """Vertices of the whole muscle."""
+        if sid not in self.m:
+            raise LandmarkMissing(sid)
+        return self.union(sid)[0]
+
+    def piece_at(self, sid, p):
+        """Id of the piece of `sid` that contains p (base piece first); None if no single piece does."""
+        for i in self.pieces(sid):
+            if inside(p, self.m[i]["v"], self.m[i]["f"])[0]:
+                return i
+        return None
 
     def has(self, sid):
         return sid in self.m
@@ -421,7 +456,7 @@ class Body:
     def lm_scap_medial_border_isp(self, s):
         sx = 1 if s == "r" else -1
         sc = self.bone("scapula", s)
-        y0 = self.V(f"infraspinatus_{s}")[:, 1].mean()
+        y0 = self.mv(f"infraspinatus_{s}")[:, 1].mean()
         b = sc[np.abs(sc[:, 1] - y0) < 15]
         if len(b) == 0:
             raise LandmarkMissing("scapula at infraspinatus level")
@@ -541,7 +576,11 @@ class Body:
         # on: the skull vertex nearest the muscle's superior end, then the lowest skull vertex within
         # 20 mm of it (the tip). Pure extreme-point searches picked the styloid / condyles instead.
         k = self.m[f"temporal_{s}"]["v"] if f"temporal_{s}" in self.m else self._skull()
-        scm = self.V(f"sternocleidomastoid_{s}")
+        if self.kind == "own":
+            # Q213: the own pages' temporal_<s> is a 250-vertex styloid stub (x 36-42 mm, 21 mm tall); the mastoid
+            # process belongs to the cranium mesh -> measure on the whole skull
+            k = np.vstack([k] + [self.m[c]["v"] for c in ("cranium", "occipital") if c in self.m])
+        scm = self.mv(f"sternocleidomastoid_{s}")
         top = scm[scm[:, 1] >= np.percentile(scm[:, 1], 98)].mean(axis=0)
         d, i = cKDTree(k).query(top)
         if d > 20:
@@ -581,7 +620,7 @@ class Body:
         return ids
 
     def lm_deltoid_top(self, s):
-        v = np.vstack([self.m[i]["v"] for i in self.deltoid_ids(s)])
+        v = np.vstack([self.mv(i) for i in self.deltoid_ids(s)])
         return v[np.argmax(v[:, 1])]
 
     def lm_axillary_level(self, s):
@@ -589,7 +628,7 @@ class Body:
         levels, why = [], []
         for group in (("pectoralis_major_{s}", "zan_clavicular_head_of_pectoralis_major_muscle_{s}", "zan_sternocostal_head_of_pectoralis_major_muscle_{s}", "zan_abdominal_part_of_pectoralis_major_muscle_{s}"),
                       ("latissimus_dorsi_{s}",)):
-            vs = [self.m[g.format(s=s)]["v"] for g in group if g.format(s=s) in self.m]
+            vs = [self.mv(g.format(s=s)) for g in group if g.format(s=s) in self.m]
             if not vs:
                 why.append(group[0].format(s=s)); continue
             v = np.vstack(vs)
@@ -754,11 +793,34 @@ def _pt_tri(p, a, b, c):
     return np.linalg.norm(p - (a + ab * vb * den + ac * vc * den))
 
 
+def component_near(V, F, ref):
+    """The connected component of the mesh (V, F) whose centroid is nearest the point `ref`; (V, F) of that component only."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    n = len(V)
+    a = np.concatenate([F[:, 0], F[:, 1], F[:, 2]]); b = np.concatenate([F[:, 1], F[:, 2], F[:, 0]])
+    k, lab = connected_components(coo_matrix((np.ones(len(a)), (a, b)), shape=(n, n)), directed=False)
+    if k == 1:
+        return V, F
+    best = min(range(k), key=lambda i: np.linalg.norm(V[lab == i].mean(axis=0) - ref))
+    keep = lab[F[:, 0]] == best
+    remap = -np.ones(n, np.int64); idx = np.flatnonzero(lab == best); remap[idx] = np.arange(len(idx))
+    return V[idx], remap[F[keep]]
+
+
+def near_component(body, V, F, ref_sid):
+    """Q213: the component of (V, F) nearest the muscle `ref_sid` (a source mesh that merges two regions, e.g. Z-Anatomy's
+    opponens digiti minimi = the hand muscle + a foot piece)."""
+    if ref_sid not in body.m:
+        return V, F
+    return component_near(V, F, body.mv(ref_sid).mean(axis=0))
+
+
 def structure_for(body, rule, s):
     parts = rule.get("parts") or {}
-    if body.kind == "zan" and "zan" in parts:
+    if "zan" in parts:  # Q213: also own pages that carry a Z-named structure (her left palmaris longus)
         sid = parts["zan"].format(s=s)
-        if sid in body.m:
+        if sid in body.m and body.m[sid]["cat"] == "muscle":
             return sid, True
     sid = f"{rule['muscle']}_{s}"
     if sid in body.m and body.m[sid]["cat"] == "muscle":
@@ -778,7 +840,9 @@ def place(body, rule, s):
     sid, is_part = structure_for(body, rule, s)
     if sid is None:
         return None, f"no structure {rule['muscle']}_{s} in this viewer"
-    M = body.m[sid]; V, F = M["v"], M["f"]
+    V, F = body.union(sid)  # Q213: the whole muscle (own pages: measured mesh + badged Z-fill continuation pieces)
+    if rule.get("near"):
+        V, F = near_component(body, V, F, rule["near"].format(s=s))
     sel = None if is_part else rule.get("sel")
     typ = rule["type"]
     try:
@@ -846,6 +910,10 @@ def place(body, rule, s):
     pos, moved = deepen(pos, V, F)
     if pos is None:
         return None, f"FAILED: no point at least 1 mm inside {sid} near the rule plane/line"
+    pid = body.piece_at(sid, pos)
+    if pid is None and not rule.get("near"):
+        return None, f"FAILED: the placed point lies on the seam between the pieces of {sid}"
+    sid = pid or sid
     proj += moved
     if proj > FAIL_MM:
         return None, f"FAILED: nearest point inside {sid} is {proj:.1f} mm from the rule plane/line (> {FAIL_MM} mm)"
