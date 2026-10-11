@@ -52,7 +52,7 @@ HIDE = "#cut-svg,#cut-panel{visibility:hidden!important}"
 
 
 def img(pg, sel="canvas"):
-    pg.add_style_tag(content=HIDE)
+    pg.add_style_tag(content=HIDE + "*{-webkit-tap-highlight-color:transparent!important;outline:none!important}")
     b = pg.locator(sel).first.screenshot()
     pg.evaluate("document.querySelectorAll('style').forEach(function(s){ if(s.textContent.indexOf('#cut-svg,#cut-panel{visibility:hidden!important}')===0) s.remove(); })")
     im = np.asarray(Image.open(io.BytesIO(b)).convert("RGB")).astype(int)
