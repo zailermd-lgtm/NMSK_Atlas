@@ -48,13 +48,13 @@ class Warp:
             else:
                 u = np.stack([ndi.zoom(u[k], np.asarray(sh) / np.asarray(u.shape[1:]), order=1) for k in range(3)])
             grid = np.stack(np.meshgrid(*[np.arange(n, dtype=np.float32) for n in sh], indexing="ij"))
+            gT = np.stack(np.gradient(T, hh)).astype(np.float32)
+            gS = np.stack(np.gradient(S, hh)).astype(np.float32)
             for _ in range(iters):
                 co = grid + u / hh
                 Tw = map_coordinates(T, co, order=1, mode="nearest")
                 diff = Tw - S
-                gT = np.stack(np.gradient(T, hh))
                 gTw = np.stack([map_coordinates(gT[k], co, order=1, mode="nearest") for k in range(3)])
-                gS = np.stack(np.gradient(S, hh))
                 gg = 0.5 * (gTw + gS)
                 n2 = (gg ** 2).sum(0)
                 upd = -diff[None] * gg / (n2[None] + 1e-2)

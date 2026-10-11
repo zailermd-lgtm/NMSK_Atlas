@@ -66,7 +66,7 @@ class Territory:
         return -ph[:, None] * g / np.maximum(n, 1e-6), ph
 
 
-def fit_mesh(v0, f, terr, y_win=(100.0, 342.0), ramp=20.0, change_reach=2.5, rounds=len(LAMS), cap=3.0, alpha=0.8, wdata=30.0, extra_anchor=None, log=None):
+def fit_mesh(v0, f, terr, y_win=(100.0, 342.0), ramp=20.0, change_reach=2.5, rounds=len(LAMS), cap=3.0, alpha=0.8, wdata=30.0, extra_anchor=None, log=None, lams=None, far_mm=25.0):
     """-> (new vertices, report).  The driven vertices = those within `change_reach` mm of a changed voxel and inside the window."""
     n = len(v0)
     Lap = laplacian(n, f)
@@ -82,10 +82,11 @@ def fit_mesh(v0, f, terr, y_win=(100.0, 342.0), ramp=20.0, change_reach=2.5, rou
     hist = []
     for r in range(rounds):
         t, ph = terr.project(x)
+        t = np.where((np.abs(ph) > far_mm)[:, None], 0.0, t)       # parts that lie far from the territory (tendon tails outside the container) are not dragged
         nrm = np.linalg.norm(t, axis=1, keepdims=True)
         t = np.where(nrm > cap, t * cap / np.maximum(nrm, 1e-9), t)
         w = drive.astype(float) * wdata
-        d = solve_disp(Lap, w, t, LAMS[r % len(LAMS)], anch)
+        d = solve_disp(Lap, w, t, (lams or LAMS)[r % len(lams or LAMS)], anch)
         x = x + alpha * d
         hist.append(float(np.abs(terr.phi_at(x[drive])).mean()) if drive.any() else 0.0)
     rep = dict(driven_vertices=int(drive.sum()), driven_pct=round(100.0 * float(drive.mean()), 1), mean_abs_phi_mm=[round(h, 3) for h in hist[:1] + hist[-1:]])

@@ -331,6 +331,33 @@ _R += [
       "10.7759/cureus.99448", "41552191", "abstract: 66 limbs; the suprascapular artery normally passes above the superior transverse scapular ligament; beneath it in 3 %"),
 ]
 REFS = dict(_R)
+_R += [
+    J("bunata2007", "Bunata RE, Brown DS, Capelo R.", "Anatomic factors related to the cause of tennis elbow.", "J Bone Joint Surg Am", 2007, "89(9)", "1955-1963",
+      "10.2106/JBJS.F.00727", "17768192", "abstract: 85 elbows; ECRB humeral origin slightly medial and superior to the lateral edge of the capitellum; ECRB undersurface rubs on the capitellum edge while ECRL compresses ECRB"),
+    J("amis2003", "Amis AA, Firer P, Mountney J, Senavongse W, Thomas NP.", "Anatomy and biomechanics of the medial patellofemoral ligament.", "Knee", 2003, "10(3)", "215-220",
+      "10.1016/s0968-0160(03)00006-1", "12893142", "abstract: MPFL band from femoral medial epicondyle to medial patellar edge, ~55 mm long, overlaid by VMO whose deep aspect its fibres merge into"),
+    J("tuxoe2002", "Tuxoe JI, Teir M, Winge S, Nielsen PL.", "The medial patellofemoral ligament: a dissection study.", "Knee Surg Sports Traumatol Arthrosc", 2002, "10(3)", "138-140",
+      "10.1007/s00167-001-0261-z", "12012030", "abstract: 39 knees; MPFL present in all, width 1.9 cm, length 5.3 cm; medial patellomeniscal ligament inserts at the anterior horn of the medial meniscus and the inferomedial patella"),
+    J("bettinger1999", "Bettinger PC, Linscheid RL, Berger RA, Cooney WP 3rd, An KN.", "An anatomic study of the stabilizing ligaments of the trapezium and trapeziometacarpal joint.", "J Hand Surg Am", 1999, "24(4)", "786-798",
+      "10.1053/jhsu.1999.0786", "10447171", "abstract: 16 ligaments: 14 on the trapezium (superficial + deep anterior oblique, dorsoradial, posterior oblique, ulnar collateral, ...) and 2 on the metacarpal (proper and dorsal intermetacarpal)"),
+    J("depalma1997", "de Palma L, Santucci A, Sabetta SP, Rapali S.", "Anatomy of the Lisfranc joint complex.", "Foot Ankle Int", 1997, "18(6)", "356-364",
+      "10.1177/107110079701800609", "9208295", "abstract: Lisfranc ligaments by topography dorsal, interosseous, plantar; interosseous strongest; vary in course, number and insertions"),
+    J("harper1991", "Harper MC.", "The lateral ligamentous support of the subtalar joint.", "Foot Ankle", 1991, "11(6)", "354-358",
+      "10.1177/107110079101100604", "1894228", "abstract: lateral subtalar support in superficial, intermediate and deep layers; inferior extensor retinaculum is a discrete structure"),
+    J("marchand1990", "Marchand F, Ahmed AM.", "Investigation of the laminate structure of lumbar disc anulus fibrosus.", "Spine", 1990, "15(5)", "402-410",
+      "10.1097/00007632-199005000-00011", "2363068", "abstract: anulus (excluding transition zone) has 15-25 distinct layers; 20-62 fibre bundles over disc height"),
+    J("ziegler2011", "Ziegler CG, Pietrini SD, Westerhaus BD, Anderson CJ, Wijdicks CA, Johansen S, Engebretsen L, LaPrade RF.", "Arthroscopically pertinent landmarks for tunnel positioning in single-bundle and double-bundle anterior cruciate ligament reconstructions.", "Am J Sports Med", 2011, "39(4)", "743-752",
+      "10.1177/0363546510387511", "21173191", "abstract: 11 knees; centres of the ACL and of the AM and PL bundle attachments measured to bony and soft-tissue landmarks on femur and tibia"),
+    J("capurro2024", "Capurro B, Chapman RS, Kaplan DJ, Kazi O, Alvero AB, Holland TC, Rice M, Nho SJ.", "The genitofemoral nerve is the structure closest to the tendon footprint and is most at risk for iatrogenic injury during proximal adductor longus repair: a cadaveric anatomy study.", "Arthrosc Sports Med Rehabil", 2024, "6(5)", "100970",
+      "10.1016/j.asmr.2024.100970", "39534028", "abstract: 8 hemipelves; adductor longus footprint 16.95 x 9.36 mm"),
+    J("mathieu2024", "Mathieu T, Van Glabbeek F, Denteneer L, Van Winckel L, Schacht E, De Vlam B, Van Nassauw L.", "New anatomical concepts regarding pubic-related groin pain: a dissection study.", "Ann Anat", 2024, "254", "152238",
+      "10.1016/j.aanat.2024.152238", "38408529", "abstract: 22 cadavers; conjoint tendons AB/G 90.9 %, AB/AL 50 %, AL/G 50 %; AL, AB, G attach to the anterior pubic ligament; AB 64 % and G 100 % to the inferior pubic ligament"),
+    J("castanov2019", "Castanov V, Hassan SA, Shakeri S, Vienneau M, Zabjek K, Richardson D, McKee NH, Agur AMR.", "Muscle architecture of vastus medialis obliquus and longus and its functional implications: a three-dimensional investigation.", "Clin Anat", 2019, "32(4)", "515-523",
+      "10.1002/ca.23344", "30701597", "abstract: 12 specimens; VM has longus (VML) and obliquus (VMO) partitions, each with superficial and deep parts; VMO superficial part split into superior and inferior partitions"),
+    J("bini2019", "Bini N, Leclercq C.", "Anatomical study of the deep branch of the ulnar nerve and application to selective neurectomy in the treatment of spasticity of the first web space.", "Surg Radiol Anat", 2019, "42(3)", "253-258",
+      "10.1007/s00276-019-02380-y", "31745617", "abstract: 21 hands; the deep branch of the ulnar nerve passes between the two heads of adductor pollicis at a constant point; 1-3 branches to the oblique head, transverse head and first dorsal interosseous"),
+]
+REFS = dict(_R)
 REFS["gray42"] = dict(kind="textbook", citation="Standring S (ed.). Gray's Anatomy: The Anatomical Basis of Clinical Practice, 42nd ed. Elsevier, 2020 (section locator in the row; page not verified)",
                       doi=None, pmid=None, verified="not-verified-textbook", basis="general textbook statement; not page-checked")
 REFS["moore9"] = dict(kind="textbook", citation="Moore KL, Dalley AF, Agur AMR. Clinically Oriented Anatomy, 9th ed. Wolters Kluwer, 2022 (section locator in the row; page not verified)",
