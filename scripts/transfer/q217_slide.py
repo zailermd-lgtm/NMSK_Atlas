@@ -160,6 +160,67 @@ class MeshField:
         return np.where(ins, -d, d), dirn
 
 
+
+def surface_samples_faces(v, f, spacing=0.5, cap=400000):
+    """like surface_samples but also returns the face index of every sample"""
+    v = np.asarray(v, float)
+    f = np.asarray(f, np.int64)
+    a, b, c = v[f[:, 0]], v[f[:, 1]], v[f[:, 2]]
+    area = 0.5 * np.linalg.norm(np.cross(b - a, c - a), axis=1)
+    k = np.clip(np.ceil(np.sqrt(area) / spacing).astype(int), 1, 40)
+    P, F = [], []
+    for kk in np.unique(k):
+        sel = np.flatnonzero(k == kk)
+        if kk == 1:
+            P.append((a[sel] + b[sel] + c[sel]) / 3.0)
+            F.append(sel)
+            continue
+        ii, jj = np.meshgrid(np.arange(kk + 1), np.arange(kk + 1), indexing="ij")
+        m = ii + jj <= kk
+        u, w = ii[m] / kk, jj[m] / kk
+        Q = a[sel, None, :] * (1 - u - w)[None, :, None] + b[sel, None, :] * u[None, :, None] + c[sel, None, :] * w[None, :, None]
+        P.append(Q.reshape(-1, 3))
+        F.append(np.repeat(sel, Q.shape[1]))
+    P, F = np.concatenate(P), np.concatenate(F)
+    if len(P) > cap:
+        ii = np.random.default_rng(0).choice(len(P), cap, replace=False)
+        P, F = P[ii], F[ii]
+    return P, F
+
+
+class NormalField:
+    """signed distance of a (possibly open) triangle mesh from its nearest surface sample and the side of that sample's face normal (orientation made outward by the sign of n . (q - centroid) summed over the samples):
+    no ray parity, so open meshes do not flip the sign; phi < 0 inside; direction = unit vector out of the mesh at the nearest sample"""
+
+    def __init__(self, v, f, spacing=0.5):
+        from scipy.spatial import cKDTree
+        v = np.asarray(v, float)
+        f = np.asarray(f, np.int64)
+        self.pts, fi = surface_samples_faces(v, f, spacing)
+        n = np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]])
+        n = n / np.maximum(np.linalg.norm(n, axis=1, keepdims=True), 1e-12)
+        cen = v.mean(0)
+        area = 0.5 * np.linalg.norm(np.cross(v[f[:, 1]] - v[f[:, 0]], v[f[:, 2]] - v[f[:, 0]]), axis=1)
+        mid = v[f].mean(1)
+        sgn = float(np.sum(area * np.einsum("ij,ij->i", n, mid - cen)))
+        if sgn < 0:
+            n = -n
+        self.nrm = n[fi]
+        self.tree = cKDTree(self.pts)
+        self.lo, self.hi = v.min(0) - 1.0, v.max(0) + 1.0
+
+    def near(self, p, margin):
+        return np.flatnonzero(((p >= self.lo - margin) & (p <= self.hi + margin)).all(1))
+
+    def query(self, p):
+        d, i = self.tree.query(p)
+        q, n = self.pts[i], self.nrm[i]
+        side = np.einsum("ij,ij->i", p - q, n)
+        ins = side < 0
+        dirn = np.where(ins[:, None], n, (p - q) / np.maximum(d, 1e-9)[:, None])
+        return np.where(ins, -d, d), dirn
+
+
 class Separator:
     """moving muscles {id: (v, f)}, fixed muscles {id: (v, f)}, bones {id: (v, f)}, skin guard (signed(p) <= 0 inside)"""
 
@@ -200,7 +261,7 @@ class Separator:
         return SDF.from_solid(occ, g.lo)
 
     def muscle_sdfs(self):
-        return {k: MeshField(self.x[k], self.f[k]) for k in self.ids}
+        return {k: NormalField(self.x[k], self.f[k]) for k in self.ids}
 
     def targets(self, sd, gap_pair=FASCIA_MM / 2, gap_fixed=FASCIA_MM, gap_bone=0.3, skin_depth=1.0, share=0.6):
         T, W, why = {}, {}, {}

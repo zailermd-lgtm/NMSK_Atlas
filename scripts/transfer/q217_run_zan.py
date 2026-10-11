@@ -104,12 +104,34 @@ def stage_warp(procs=4):
     pickle.dump(X, open(CACHE / "zan_warp.pkl", "wb"))
 
 
+def stage_polish(src="zan_fit.pkl", dst="zan_polish.pkl", rounds=10):
+    from scripts.transfer import q217_slide as SL
+    Z = pickle.load(open(CACHE / "zan_zone.pkl", "rb"))
+    X = pickle.load(open(CACHE / src, "rb"))
+    from scripts.zanatomy import q217_paths  # noqa: F401
+    S = C.zan_left("zan_m")
+    G = C.SkinGuard([s for s in S.values() if s["sys"] == "skin"])
+    mov = {i: (X[i], Z[i]["f"]) for i in X}
+    fixed = {i: (Z[i]["v"], Z[i]["f"]) for i in C.side_ids(C.ARM) if i in Z}
+    bones = {i: (s["v"], s["f"]) for i, s in Z.items() if s["sys"] == "bone"}
+    sp = SL.Separator(mov, fixed, bones, G)
+    lams = [3.0, 3.0, 1.5, 1.5, 0.75, 0.75, 0.4, 0.4, 0.2, 0.2, 0.2, 0.2][:rounds]
+    for k, lam in enumerate(lams):
+        t = time.time()
+        tot = sp.step(lam)
+        mv = np.mean([np.linalg.norm(sp.x[i] - sp.x0[i], axis=1).mean() for i in sp.ids])
+        print(k, lam, {n: (v[0], round(v[1]), round(v[2], 1)) for n, v in tot.items()}, "mean move", round(mv, 2), round(time.time() - t), flush=True)
+        pickle.dump(sp.x, open(CACHE / dst, "wb"))
+
+
 if __name__ == "__main__":
     st = sys.argv[1]
     if st == "tile":
         stage_tile(float(sys.argv[3]) if len(sys.argv) > 3 else 1.0)
     elif st == "warp":
         stage_warp()
+    elif st == "polish":
+        stage_polish(*sys.argv[2:4])
     elif st == "fit":
         stage_fit()
     else:
