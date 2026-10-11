@@ -41,6 +41,8 @@ from scripts.cryo import vhf_thigh_refit_q181 as R  # noqa: E402
 
 SUBJECT = "xfer_vhm2vhf_sep_q215"
 BUDGET = 9000                     # triangles of a muscle of this page (the replaced meshes have 9000)
+SMOOTH_SIGMA = 1.5                # Gaussian sigma (voxels) of the label surface (Q48 used 1.0): the strict photographed-muscle rule leaves a ragged label, 1.5 removes the staircase and closes the surface
+#                                   (mesh-to-label error median 0.6 -> 0.6 mm, p95 1.0 -> 1.1 mm on vastus intermedius r; volume -1.3 %)
 MAX_ROUNDS = 6
 # ------------------------------------------------------------------ guards
 SKIN_DEPTH_MIN_MM = 1.0
@@ -57,13 +59,17 @@ OVERLAP_MAX = 60.0
 OVERLAP_NOTE = 40.0
 MAIN_PIECE_MIN = 0.98
 MOVE_P95_MAX_MM = 25.0
-SEAM_MAX_MM = 2.5
+SEAM_MAX_MM = 2.5                 # a Z-fill continuation welded to the old mesh may be this far (p95) from the new mesh's end face ...
+SEAM_WARP_MAX_MM = 8.0            # ... else it is re-welded (warped onto the new end face) when the largest seam distance is <= this; REWELD_P95_MM after the warp
 Z_GATE_LO, Z_GATE_HI = 0.25, 4.5  # reported against the Z-Anatomy female reference volume; gated wide (a muscle outside it is not a plausible adult muscle)
 
 ATTRIBUTION = ("U.S. National Library of Medicine, The Visible Human Project (public domain), female cryosections via the NCI Imaging Data Commons, registered to her CT femur (Q179); the transferred muscle "
                "set from the male's DU lower-limb release (Andreassen et al. 2023, Sci Data 10:34, doi:10.1038/s41597-022-01905-2, CC BY 4.0). Hip / thigh target muscles re-bounded on her registered "
                "photographs in Q215 (scripts/transfer/q215_refit.py, q215_fill.py). Derived data.")
 
+
+REWELD_P95_MM = 1.5
+REWELD_MAX_MOVE_MM = 8.0
 
 # ------------------------------------------------------------------ small helpers
 def vol_cm3(v, f):
@@ -83,6 +89,17 @@ def extent_along(v, c, u):
 def main_frac(f):
     mf, _lab, _cnt = R.main_frac(np.asarray(f, np.int64))
     return float(mf)
+
+
+def label_mesh_smooth(V, A, lab, aid, rules):
+    """Q181's label_mesh (convert-equivalent: Q152 bridges / island drops, detached pieces dropped) with the Q215 surface sigma"""
+    from engine import volume_ingest as VI
+    orig = VI.label_surface
+    VI.label_surface = lambda volume, label, step=1, smooth=0.0: orig(volume, label, step=step, smooth=(SMOOTH_SIGMA if smooth > 0 else smooth))
+    try:
+        return R.label_mesh(V, A, lab, aid, R.ORIGIN, rules)
+    finally:
+        VI.label_surface = orig
 
 
 def decimate(v, f, budget=BUDGET):
@@ -153,10 +170,13 @@ class Page:
     def overlap_state(self, replaced):
         """{group id: % of its voxels inside other muscles} for the page with `replaced` = {id: (v, f)} swapped in (Q204 lattice measure, Z-fill pieces merged)"""
         mus = dict(self.ctx.muscles)
-        for sid, (v, f) in replaced.items():
+        for sid, rv in replaced.items():
+            v, f = rv[0], rv[1]
             base, _zf = self.pieces(sid)
             assert len(base) == 1, (sid, base)
             mus[base[0]] = (v, f)
+            for key, zn in (rv[2] if len(rv) > 2 else {}).items():          # re-welded Z-fill continuation pieces
+                mus[key] = (zn, mus[key][1])
         shim = SimpleNamespace(all_min=self.ctx.all_min, all_max=self.ctx.all_max, muscles=mus, skin=self.ctx.skin)
         of = F.OverlapField(shim)
         out = {}
@@ -200,6 +220,30 @@ def severity_rows(B, evid_base, labels, q213):
     return rows
 
 
+def reweld_piece(zv, zf, seam, targets, lam=20.0):
+    """warp a Z-fill continuation piece so that its seam vertices land on the new mesh's surface: smooth displacement field (graph Laplacian), the seam vertices pulled onto `targets`, the 12 % of the
+    vertices farthest from the seam held (its free end stays on its bone)"""
+    from scipy.sparse import diags, identity
+    from scipy.sparse.linalg import spsolve
+    n = len(zv)
+    Lap = IB.laplacian(n, zf)
+    W = np.zeros(n)
+    P = np.zeros((n, 3))
+    W[seam] = 30.0
+    P[seam] = targets - zv[seam]
+    ds = cKDTree(zv[seam]).query(zv)[0]
+    far = ds >= np.percentile(ds, 88)
+    W[far & ~seam] = 5.0
+    M = (diags(W) + lam * Lap + 1e-3 * identity(n)).tocsc()
+    D = np.column_stack([spsolve(M, W * P[:, k]) for k in range(3)])
+    return zv + D
+
+
+def seam_vertices(v0, f0, zv, tol=0.8):
+    """vertices of a Z-fill continuation that sit on the OLD mesh's surface (the weld)"""
+    return trimesh.proximity.closest_point(trimesh.Trimesh(v0, f0, process=False), zv)[1] < tol
+
+
 def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshes, zlen=None):
     """individual guards of one candidate (the overlap guard is the final-state check)"""
     g1 = page.metrics(v1, f1, v0)
@@ -241,15 +285,43 @@ def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshe
         why.append(f"the new surface lies {g['move_new_to_old_p95_mm']} mm (p95) from the old mesh (gate {MOVE_P95_MAX_MM:g})")
     if zref and not (Z_GATE_LO <= g["volume_vs_z"] <= Z_GATE_HI):
         why.append(f"volume {g1['volume_cm3']} cm3 is x{g['volume_vs_z']} of the Z-Anatomy female reference ({zref} cm3; gate {Z_GATE_LO}-{Z_GATE_HI})")
-    if zfill_meshes:
-        zv = np.vstack([m[0] for m in zfill_meshes])
-        old_tree = cKDTree(v0)
-        seam = zv[old_tree.query(zv)[0] < 0.6]               # the vertices of the continuation that sit on the old mesh's end face
-        if len(seam):
-            d = cKDTree(v1).query(seam)[0]
-            g["seam_gap_mm"] = dict(vertices=int(len(seam)), median=round(float(np.median(d)), 2), p95=round(float(np.percentile(d, 95)), 2))
-            if g["seam_gap_mm"]["p95"] > SEAM_MAX_MM:
-                why.append(f"the Z-fill continuation welded to the old mesh would be {g['seam_gap_mm']['p95']} mm off the new mesh at the seam (gate {SEAM_MAX_MM:g})")
+    g["zfill_new"] = {}
+    for key, zv, zf in (zfill_meshes or []):
+        S = seam_vertices(v0, f0, zv)
+        if S.sum() < 3:
+            continue                                                  # not welded to the old mesh (a continuation that overlaps, or whose weld is a few vertices)
+        tm1 = trimesh.Trimesh(v1, f1, process=False)
+        cp, dn, _ = trimesh.proximity.closest_point(tm1, zv[S])
+        info = dict(piece=key.split("#")[0], seam_vertices=int(S.sum()), before=dict(median=round(float(np.median(dn)), 2), p95=round(float(np.percentile(dn, 95)), 2), max=round(float(dn.max()), 2)))
+        g.setdefault("seam_gap_mm", info)
+        if info["before"]["p95"] <= SEAM_MAX_MM:
+            continue
+        if info["before"]["max"] > SEAM_WARP_MAX_MM:
+            why.append(f"the Z-fill continuation welded to the old mesh would be {info['before']['p95']} mm (p95), {info['before']['max']} mm (max) off the new mesh at the seam (gate {SEAM_MAX_MM:g} mm, re-weld up to {SEAM_WARP_MAX_MM:g} mm)")
+            continue
+        zn = reweld_piece(zv, zf, S, cp)
+        d2 = trimesh.proximity.closest_point(tm1, zn[S])[1]
+        mv = np.linalg.norm(zn - zv, axis=1)
+        flipped, stretched = IB.flipped_pct(zv, zn, zf), IB.stretched_pct(zv, zn, zf) - IB.stretched_pct(zv, zv, zf)
+        sk_in, sk_d = page.ctx.skin_state(zn)
+        ins, _, _ = page.ctx.bone_field.inside(zn)
+        ins0, _, _ = page.ctx.bone_field.inside(zv)
+        info["after"] = dict(p95=round(float(np.percentile(d2, 95)), 2), max=round(float(d2.max()), 2), move_mean=round(float(mv.mean()), 2), move_max=round(float(mv.max()), 2), flipped_pct=round(flipped, 2),
+                             stretched_rise=round(float(stretched), 1), in_bone_pct=[round(100 * float(ins0.mean()), 1), round(100 * float(ins.mean()), 1)], inside_skin_pct=round(sk_in, 1))
+        bad = []
+        if info["after"]["p95"] > REWELD_P95_MM:
+            bad.append(f"re-weld leaves {info['after']['p95']} mm")
+        if mv.max() > REWELD_MAX_MOVE_MM:
+            bad.append(f"re-weld moves the continuation {round(float(mv.max()), 1)} mm")
+        if flipped > 1.0 or stretched > 12.0:
+            bad.append(f"re-weld folds {round(flipped, 2)} % / stretches +{round(float(stretched), 1)} points")
+        if sk_in < 100.0 or info["after"]["in_bone_pct"][1] > info["after"]["in_bone_pct"][0] + 2.0:
+            bad.append("re-weld puts the continuation outside the skin / into her bone")
+        if bad:
+            why.append("the Z-fill continuation welded to the old mesh cannot be re-welded to the new one: " + "; ".join(bad))
+        else:
+            g["zfill_new"][key] = zn
+            g["seam_gap_mm"] = info
     return g, why
 
 
@@ -276,7 +348,7 @@ def run_rounds(work, crops, page, targets, only, log=print):
         cand, fails_now = {}, {}
         for aid in want:
             t1 = time.time()
-            r = R.label_mesh(out, A, ids[aid], aid, R.ORIGIN, rules)
+            r = label_mesh_smooth(out, A, ids[aid], aid, rules)
             if r is None:
                 fails_now[aid] = ["empty label"]
                 continue
@@ -286,7 +358,7 @@ def run_rounds(work, crops, page, targets, only, log=print):
             it = page.B.items[page.B.find(aid)[0]]
             v0, f0 = page.B.mesh(it)
             base_k, zf_k = page.pieces(aid)
-            zfm = [page.ctx.muscles[k] for k in zf_k]
+            zfm = [(k, page.ctx.muscles[k][0], page.ctx.muscles[k][1]) for k in zf_k]
             bpts = label_boundary_points(out, A, ids[aid], R.ORIGIN)
             zv = zmeshes.get(aid)
             zref = round(vol_cm3(zv["v"], zv["f"]), 1) if zv is not None else None
@@ -296,7 +368,8 @@ def run_rounds(work, crops, page, targets, only, log=print):
                 zlen = extent_along(np.asarray(zv["v"], float), cz, uz)
             g, why = evaluate(page, aid, v, f, v0, f0, bpts, ev_base[aid], ev_new[aid], zref, zfm, zlen)
             br = [[round(R.y_of_k(A, a), 1), round(R.y_of_k(A, b), 1)] for a, b in lv.get("bridged_gaps_k", {}).get(str(ids[aid]), [])]
-            cand[aid] = dict(v=v, f=f, guards=g, smooth=smooth, notes=note, why=why, voxels=[before[aid], after[aid]], bridged_y_mm=br)
+            zn = g.pop("zfill_new", {})
+            cand[aid] = dict(v=v, f=f, guards=g, smooth=smooth, notes=note, why=why, voxels=[before[aid], after[aid]], bridged_y_mm=br, zfill_new=zn)
             if rnd == 0:
                 vol_round0[aid] = g["after"]["volume_cm3"]
             elif g["after"]["volume_cm3"] < SQUEEZE_MIN * vol_round0.get(aid, 0.0):
@@ -309,7 +382,7 @@ def run_rounds(work, crops, page, targets, only, log=print):
         ok = {a: c for a, c in cand.items() if a not in fails_now}
         t2 = time.time()
         ov_before = page.overlap_state({})
-        ov_after = page.overlap_state({a: (c["v"], c["f"]) for a, c in ok.items()})
+        ov_after = page.overlap_state({a: (c["v"], c["f"], c.get("zfill_new", {})) for a, c in ok.items()})
         log(f"   overlap state {time.time() - t2:.0f} s")
         for a, c in ok.items():
             c["guards"]["overlap_vol_pct"] = [ov_before.get(a), ov_after.get(a)]
@@ -342,7 +415,11 @@ def badge(name, aid, c, sev_row):
     ov = g.get("overlap_vol_pct", [None, None])
     sc = (f" (the male's {name.lower()} is {sev_row['vol_male']} cm3: x{sev_row['scale_vs_male']})" if sev_row.get("vol_male") else "")
     z = (f" The Z-Anatomy female reference muscle is {g['z_ref_cm3']} cm3 (x{g['volume_vs_z']}; shown for scale only, not used as geometry)." if g.get("z_ref_cm3") else "")
-    seam = (f" Seam to its Z-fill continuation piece: p95 {g['seam_gap_mm']['p95']} mm." if g.get("seam_gap_mm") else "")
+    sg = g.get("seam_gap_mm")
+    seam = ""
+    if sg:
+        seam = (f" Its Z-fill continuation piece (welded to the old flat cut) now meets it within p95 {sg['before']['p95']} mm." if "after" not in sg else
+                f" Its Z-fill continuation piece, welded to the old flat cut, was re-welded to the new end face (seam gap p95 {sg['before']['p95']} -> {sg['after']['p95']} mm, the piece moved {sg['after']['move_mean']} mm on average, max {sg['after']['move_max']} mm).")
     br = c.get("bridged_y_mm") or []
     bridged = (f" Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): {len(br)} run(s), y {br[0][0]} to {br[-1][1]} mm." if br else "")
     return (f"TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle "
@@ -361,6 +438,7 @@ def main():
     ap.add_argument("--src", default=str(SRC_BUNDLE)); ap.add_argument("--out", default=str(OUT_BUNDLE))
     ap.add_argument("--report", default=str(REPO / "data/derived/Q215_report.json"))
     ap.add_argument("--only", default=""); ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--save-labels", default="", help="write the final label volume (all labels, Q48 grid) here (scratch; not committed)")
     a = ap.parse_args()
     B = Bundle(a.src)
     n0 = len(B.items)
@@ -369,9 +447,11 @@ def main():
     only = [x for x in a.only.split(",") if x]
     t0 = time.time()
     out, accepted, failed, rounds, sev, ev_base, ov_before, ov_after, A = run_rounds(a.work, a.crops, page, targets, only)
-    rep = dict(source_bundle=str(Path(a.src).relative_to(REPO)), targets=targets, rounds=rounds, severity=sev, replaced={}, kept={}, piriformis={},
+    if a.save_labels:
+        nib.save(nib.Nifti1Image(out, A, nib.load(str(R.Q48_VOL)).header), a.save_labels)
+    rep = dict(source_bundle=str(Path(a.src).relative_to(REPO)), targets=targets, rounds=rounds, severity=sev, replaced={}, rewelded={}, kept={}, piriformis={},
                params=dict(SKIN_DEPTH_MIN_MM=SKIN_DEPTH_MIN_MM, IN_BONE_MAX_PCT=IN_BONE_MAX_PCT, BONE_DEPTH_MAX_MM=BONE_DEPTH_MAX_MM, MUSC_SHARE_MIN=MUSC_SHARE_MIN, EVID_LO=EVID_LO, COLLAPSE_MIN=COLLAPSE_MIN, LEN_LO=LEN_LO, LEN_Z_LO=LEN_Z_LO,
-                           OVERLAP_MAX=OVERLAP_MAX, MAIN_PIECE_MIN=MAIN_PIECE_MIN, MOVE_P95_MAX_MM=MOVE_P95_MAX_MM, SEAM_MAX_MM=SEAM_MAX_MM, Z_GATE=[Z_GATE_LO, Z_GATE_HI], BUDGET=BUDGET))
+                           OVERLAP_MAX=OVERLAP_MAX, MAIN_PIECE_MIN=MAIN_PIECE_MIN, SMOOTH_SIGMA=SMOOTH_SIGMA, SQUEEZE_MIN=SQUEEZE_MIN, MOVE_P95_MAX_MM=MOVE_P95_MAX_MM, SEAM_MAX_MM=SEAM_MAX_MM, SEAM_WARP_MAX_MM=SEAM_WARP_MAX_MM, REWELD_P95_MM=REWELD_P95_MM, REWELD_MAX_MOVE_MM=REWELD_MAX_MOVE_MM, Z_GATE=[Z_GATE_LO, Z_GATE_HI], BUDGET=BUDGET))
     order = sorted(accepted, key=lambda x: -sev[x]["score"])
     for aid in order:
         c = accepted[aid]
@@ -382,6 +462,15 @@ def main():
                                     subject_before=it["e"]["subject"])
         if not a.dry:
             B.replace(aid, c["v"], c["f"], rec_updates={"procedural_badge": bd}, subject=SUBJECT)
+        for key, zn in c.get("zfill_new", {}).items():
+            pid = key.split("#")[0]
+            zit = B.items[B.find(pid)[0]]
+            sg = c["guards"]["seam_gap_mm"]
+            note = (f" Q215: re-welded to the re-bounded {name.lower()} (its flat cut moved with the hip / thigh re-fit): seam gap p95 {sg['before']['p95']} -> {sg['after']['p95']} mm, the piece moved {sg['after']['move_mean']} mm "
+                    f"on average (max {sg['after']['move_max']} mm), its far end held on its bone; unchanged otherwise.")
+            rep["rewelded"][pid] = dict(base=aid, seam=sg, subject=zit["e"]["subject"])
+            if not a.dry:
+                B.replace(pid, zn, B.mesh(zit)[1], rec_updates={"procedural_badge": ((zit["e"]["rec"].get("procedural_badge") or "") + note).strip()})
     for aid in failed:
         rep["kept"][aid] = dict(severity=sev[aid], why_not=failed[aid])
     rep["piriformis"] = dict(piriformis_r="not in the Q48 septa volume (xfer_vhm2vhf, never refined to her septa) and above the photographed window: left as is",

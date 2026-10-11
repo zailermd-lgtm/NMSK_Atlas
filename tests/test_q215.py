@@ -258,22 +258,30 @@ def test_z_reference_volume_gate():
     assert not any("Z-Anatomy female reference" in w for w in why)
 
 
-def test_seam_guard_for_a_zfill_continuation():
+def test_seam_guard_for_a_zfill_continuation_weld_is_kept_rewelded_or_refused():
     v0, f0 = _cand((0, -5, -5), (100, 5, 5))
-    zv, zf = _cand((100, -5, -5), (120, 5, 5), sub=2)                          # the continuation touches the old end face at x = 100
+    zv, zf = _cand((100, -5, -5), (120, 5, 5), sub=3)                          # the continuation touches the old end face at x = 100
     ok1, okf1 = _cand((0, -5, -5), (100, 5, 5))
-    g, why = _eval(ok1, okf1, v0, f0, zfm=[(zv, zf)])
-    assert not any("Z-fill continuation" in w for w in why) and g["seam_gap_mm"]["p95"] < 1.0
-    far, farf = _cand((0, -5, -5), (88, 5, 5))                                 # the new end face stopped 12 mm short
-    g, why = _eval(far, farf, v0, f0, zfm=[(zv, zf)])
-    assert any("Z-fill continuation" in w for w in why)
+    g, why = _eval(ok1, okf1, v0, f0, zfm=[("z#0", zv, zf)])
+    assert not any("Z-fill continuation" in w for w in why) and g["seam_gap_mm"]["before"]["p95"] < 1.0 and g["zfill_new"] == {}       # still welded: nothing to do
+    near, nearf = _cand((0, -5, -5), (95, 5, 5))                               # the new end face stopped 5 mm short: re-weld
+    g, why = _eval(near, nearf, v0, f0, zfm=[("z#0", zv, zf)])
+    assert not any("Z-fill continuation" in w for w in why), why
+    sg = g["seam_gap_mm"]
+    assert sg["before"]["p95"] > Fi.SEAM_MAX_MM and sg["after"]["p95"] <= Fi.REWELD_P95_MM and "z#0" in g["zfill_new"]
+    zn = g["zfill_new"]["z#0"]
+    assert np.abs(zn[zv[:, 0] > 119.0] - zv[zv[:, 0] > 119.0]).max() < 3.0      # the free end (held, on its bone) moves far less than the 5 mm seam
+    assert np.linalg.norm(zn - zv, axis=1).max() <= Fi.REWELD_MAX_MOVE_MM
+    far, farf = _cand((0, -5, -5), (88, 5, 5))                                 # 12 mm short: refused
+    g, why = _eval(far, farf, v0, f0, zfm=[("z#0", zv, zf)])
+    assert any("Z-fill continuation" in w for w in why) and g["zfill_new"] == {}
 
 
 def test_gates_are_the_documented_ones():
     assert (Fi.OVERLAP_MAX, Fi.OVERLAP_NOTE) == (60.0, 40.0)
     assert Fi.SKIN_DEPTH_MIN_MM == 1.0 and Fi.IN_BONE_MAX_PCT == 8.0 and Fi.BONE_DEPTH_MAX_MM == 5.0
     assert Fi.MUSC_SHARE_MIN == 0.45 and Fi.EVID_LO == 0.60 and Fi.COLLAPSE_MIN == 0.25 and Fi.LEN_LO == 0.75 and Fi.LEN_Z_LO == 0.60
-    assert Fi.MOVE_P95_MAX_MM == 25.0 and Fi.SEAM_MAX_MM == 2.5 and Fi.MAIN_PIECE_MIN == 0.98 and Fi.SQUEEZE_MIN == 0.80 and Fi.BUDGET == 9000
+    assert Fi.MOVE_P95_MAX_MM == 25.0 and Fi.SEAM_MAX_MM == 2.5 and Fi.SEAM_WARP_MAX_MM == 8.0 and Fi.REWELD_P95_MM == 1.5 and Fi.REWELD_MAX_MOVE_MM == 8.0 and Fi.MAIN_PIECE_MIN == 0.98 and Fi.SQUEEZE_MIN == 0.80 and Fi.BUDGET == 9000
     assert Fi.SUBJECT == SUBJECT and RF.MIN_PIECE_FRAC == 0.15 and RF.NEAR_MM == 2
 
 
@@ -333,6 +341,7 @@ def _report():
 def test_every_target_is_replaced_or_kept_with_a_reason():
     rep = _report()
     assert set(rep["replaced"]) | set(rep["kept"]) == set(rep["targets"]) and not (set(rep["replaced"]) & set(rep["kept"]))
+    assert set(rep["rewelded"]) <= {p for p in (k for k in rep["rewelded"])} and all(v["base"] in rep["replaced"] for v in rep["rewelded"].values())
     assert len(rep["replaced"]) <= 26                                              # "up to ~25 muscle-sides this round"
     for aid, k in rep["kept"].items():
         assert k["why_not"], aid
@@ -355,7 +364,8 @@ def test_replaced_muscles_met_every_guard():
         assert g["overlap_vol_pct"][1] <= P["OVERLAP_MAX"], aid
         assert P["Z_GATE"][0] <= g.get("volume_vs_z", 1.0) <= P["Z_GATE"][1], aid
         if "seam_gap_mm" in g:
-            assert g["seam_gap_mm"]["p95"] <= P["SEAM_MAX_MM"], aid
+            sg = g["seam_gap_mm"]
+            assert (sg["after"]["p95"] <= P["REWELD_P95_MM"]) if "after" in sg else (sg["before"]["p95"] <= P["SEAM_MAX_MM"]), aid
         assert g["fit_error_vs_label"]["p95_mm"] < 2.5, aid
 
 
@@ -369,8 +379,13 @@ def test_bundle_keeps_every_other_entry_byte_for_byte():
         assert B.items[k]["e"]["id"] == it["e"]["id"]
         if B.items[k]["raw"] != it["raw"] or B.items[k]["e"] != it["e"]:
             changed.append(it["e"]["id"])
-    assert sorted(changed) == sorted(rep["replaced"])
-    for aid in changed:
+    assert sorted(changed) == sorted(set(rep["replaced"]) | set(rep["rewelded"]))
+    for pid, rw in rep["rewelded"].items():                                    # a re-welded Z-fill continuation keeps its Z-fill subject and its card, plus the note
+        e = B.items[B.find(pid)[0]]["e"]
+        e0 = A.items[A.find(pid)[0]]["e"]
+        assert e["subject"] == e0["subject"] and e["subject"].startswith("xfer_zan2vhf_seams") and rw["base"] in rep["replaced"]
+        assert e["rec"]["procedural_badge"].startswith(e0["rec"].get("procedural_badge") or "") and "Q215: re-welded" in e["rec"]["procedural_badge"]
+    for aid in rep["replaced"]:
         e = B.items[B.find(aid)[0]]["e"]
         e0 = A.items[A.find(aid)[0]]["e"]
         assert e["subject"] == SUBJECT and e0["subject"].startswith("xfer_vhm2vhf_sep") and e["cat"] == "muscle" and e["side"] == e0["side"]
@@ -417,7 +432,8 @@ def test_scope_check_json_lists_no_unlisted_change():
     d = json.loads(p.read_text())
     rep = _report()
     assert d["unlisted_changes"] == [] and d["listed_but_unchanged"] == [] and d["replaced_carry_q215_subject"]
-    assert sorted(d["changed_ids"]) == sorted(rep["replaced"]) and d["entries"] == d["identical"] + d["changed"] and d["quantum_same"]
+    assert sorted(d["changed_ids"]) == sorted(set(rep["replaced"]) | set(rep["rewelded"])) and d["entries"] == d["identical"] + d["changed"] and d["quantum_same"]
+    assert d["rewelded"] == sorted(rep["rewelded"])
 
 
 def test_source_class_counts_on_the_page_match_the_audit_and_the_z_fill_class_is_unchanged():

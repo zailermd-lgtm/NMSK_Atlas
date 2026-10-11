@@ -75,6 +75,10 @@ def test_points_inside_their_muscle(mp, vk):
             "vhf": (REPO / "build/q214/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q214/bundle.bin")}.get(vk)
     if q214 and q214[0].exists() and q214[1].exists():
         vw["html"], vw["bin"] = q214
+    # Q215: the own FEMALE viewer's points are generated on the Q215 page (hip / thigh target muscles re-bounded on her registered photographs)
+    q215 = {"vhf": (REPO / "build/q215/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q215/bundle.bin")}.get(vk)
+    if q215 and q215[0].exists() and q215[1].exists():
+        vw["html"], vw["bin"] = q215
     if not Path(vw["html"]).exists():
         pytest.skip(f"{vw['html']} not built")
     saved = M.VIEWERS[vk]
