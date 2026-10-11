@@ -9,7 +9,7 @@ Method = the Q48 marker watershed redone in the registered frame (q215_refit.py)
 her own measured muscles are never part of a target muscle; every muscle that is not a target is held at its base voxels.  The muscle SET (identity) is still the male's: Source class stays
 TRANSFERRED -- the card says so; what changes is the position, extent and boundaries, which are hers.
 Per candidate the guards (all must hold, else the muscle is NOT replaced and the reasons are recorded; a failed muscle is held and the refit re-run, max MAX_ROUNDS):
-  skin (every vertex inside, >= 1 mm deep), bone (<= 8 % of the vertices inside bone, deepest embedding <= 5 mm on the Q204 lattice), photographed-muscle share (>= 0.60 and not below the old
+  skin (every vertex inside, >= 1 mm deep), bone (<= 8 % of the vertices inside bone, deepest embedding <= 5 mm on the Q204 lattice or not deeper than the old mesh's: a flat cut kept at a seam), photographed-muscle share (>= 0.60 and not below the old
   mesh's), photographed-muscle volume (volume x share) >= 0.6 of the old mesh's (her measured compartment: it may not lose photographed muscle), end-to-end length >= 0.75 x the old mesh (or >= 0.6 x the Z reference), <= 60 % of the volume inside the
   other muscles (Q204 lattice measure, final state with all replacements swapped in), one connected piece (>= 0.98 of the vertices or the old mesh's share), new surface <= 25 mm (p95) from the old one, and a
   Z-fill continuation piece welded to the old mesh (if any) must still meet the new mesh within 2.5 mm."""
@@ -267,8 +267,8 @@ def evaluate(page, aid, v1, f1, v0, f0, bpts, ev_base, ev_new, zref, zfill_meshe
         why.append(f"skin: {g1['inside_skin_pct']} % inside, closest {g1['min_skin_depth_mm']} mm")
     if g1["in_bone_pct"] > IN_BONE_MAX_PCT:
         why.append(f"{g1['in_bone_pct']} % of the vertices inside her bone (gate {IN_BONE_MAX_PCT:g})")
-    if g1["bone_depth_max_mm"] > BONE_DEPTH_MAX_MM:
-        why.append(f"embedded {g1['bone_depth_max_mm']} mm in bone (gate {BONE_DEPTH_MAX_MM:g})")
+    if g1["bone_depth_max_mm"] > max(BONE_DEPTH_MAX_MM, g0["bone_depth_max_mm"]):
+        why.append(f"embedded {g1['bone_depth_max_mm']} mm in bone (gate {BONE_DEPTH_MAX_MM:g} mm or the old mesh's {g0['bone_depth_max_mm']} mm)")
     if ev_new["musc"] < MUSC_SHARE_MIN:
         why.append(f"only {ev_new['musc']} of it lies on her photographed muscle (gate {MUSC_SHARE_MIN})")
     elif ev_new["musc"] < ev_base["musc"] - 0.01:

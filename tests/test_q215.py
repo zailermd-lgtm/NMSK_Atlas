@@ -198,6 +198,9 @@ def test_bone_guard():
     v1, f1 = _cand((0, -5, -5), (100, 5, 5))                                   # half of it inside the bone block
     g, why = _eval(v1, f1, v0, f0, ctx=ctx)
     assert any("inside her bone" in w for w in why) and any("embedded" in w for w in why)
+    deep0, deepf0 = _cand((0, -5, -5), (100, 5, 5))                            # an old mesh that was just as deep in the bone: the depth gate is "not deeper than the old mesh"
+    g, why = _eval(v1, f1, deep0, deepf0, ctx=ctx)
+    assert not any("embedded" in w for w in why) and any("inside her bone" in w for w in why)
 
 
 def test_photographed_muscle_share_guards():
@@ -355,7 +358,7 @@ def test_replaced_muscles_met_every_guard():
         g = r["guards"]
         a, b = g["after"], g["before"]
         assert a["inside_skin_pct"] == 100.0 and a["min_skin_depth_mm"] >= P["SKIN_DEPTH_MIN_MM"], aid
-        assert a["in_bone_pct"] <= P["IN_BONE_MAX_PCT"] and a["bone_depth_max_mm"] <= P["BONE_DEPTH_MAX_MM"], aid
+        assert a["in_bone_pct"] <= P["IN_BONE_MAX_PCT"] and a["bone_depth_max_mm"] <= max(P["BONE_DEPTH_MAX_MM"], b["bone_depth_max_mm"]), aid
         assert g["musc_share"][1] >= P["MUSC_SHARE_MIN"] and g["musc_share"][1] >= g["musc_share"][0] - 0.01, aid
         assert g["evidence_volume_ratio"] >= P["EVID_LO"] and g["volume_ratio"] >= P["COLLAPSE_MIN"], aid
         assert g["length_ratio"] >= P["LEN_LO"] or g.get("length_vs_z", 0) >= P["LEN_Z_LO"], aid
@@ -423,7 +426,7 @@ def test_replaced_meshes_are_inside_the_skin_and_out_of_her_bones_in_the_shipped
         assert inside == 100.0 and depth >= 1.0, aid
         ins, _, _ = ctx.bone_field.inside(v)
         assert 100.0 * float(ins.mean()) <= Fi.IN_BONE_MAX_PCT, aid
-        assert float(ctx.bone_depth().depth(v).max()) <= Fi.BONE_DEPTH_MAX_MM, aid
+        assert float(ctx.bone_depth().depth(v).max()) <= max(Fi.BONE_DEPTH_MAX_MM, rep["replaced"][aid]["guards"]["before"]["bone_depth_max_mm"]), aid
 
 
 def test_scope_check_json_lists_no_unlisted_change():

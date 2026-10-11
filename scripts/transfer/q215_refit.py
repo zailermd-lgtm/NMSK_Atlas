@@ -183,7 +183,7 @@ def seam_blend(out, base, seams, forbid, A, band_mm=20):
             Sb, Sr = R.sdf(base[:, :, k] == l), R.sdf(out[:, :, k] == l)
             m = ((t * Sb + (1 - t) * Sr) < 0)
             sl = out[:, :, k]
-            allowed = ((sl == 0) | (sl == l) | (base[:, :, k] == l)) & ~forbid[:, :, k]          # her bones / own muscles are never part of it, at the seam either
+            allowed = ((sl == 0) | (sl == l) | (base[:, :, k] == l)) & (~forbid[:, :, k] | (base[:, :, k] == l) & (t >= 0.5))      # at the seam the OLD end section is kept as it was (it sat in her bone, the Z-fill continuation is welded to it)
             sl[sl == l] = 0
             sl[m & allowed] = l
         done[aid] = (k_top, k_from)
