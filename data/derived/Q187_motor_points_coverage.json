@@ -713,7 +713,7 @@
   },
   "vhf": {
    "label": "own female (Visible Human female)",
-   "points": 189,
+   "points": 188,
    "muscle_sides_with_points": 110,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
@@ -856,7 +856,7 @@
     "semimembranosus_l": 2,
     "semimembranosus_r": 2,
     "semitendinosus_l": 4,
-    "semitendinosus_r": 4,
+    "semitendinosus_r": 3,
     "soleus_l": 3,
     "soleus_r": 4,
     "splenius_capitis_l": 1,
@@ -910,9 +910,8 @@
     "mp.biceps_femoris_l.3": 348.2,
     "mp.biceps_femoris_r.4": 350.3,
     "mp.biceps_femoris_l.4": 348.2,
-    "mp.semitendinosus_r.3": 350.3,
     "mp.semitendinosus_l.3": 348.2,
-    "mp.semitendinosus_r.4": 350.3,
+    "mp.semitendinosus_r.3": 350.3,
     "mp.semitendinosus_l.4": 348.2,
     "mp.semimembranosus_r.2": 350.3,
     "mp.semimembranosus_l.2": 348.2,
@@ -1079,6 +1078,10 @@
     "mp.scalenus_posterior_l.1": 30.2
    },
    "failed": [
+    {
+     "rule": "semitendinosus_r rha2016 distal zone",
+     "why": "FAILED: rule plane/line misses semitendinosus_r by 8.3 mm"
+    },
     {
      "rule": "soleus_l yi2025sol middle third",
      "why": "FAILED: nearest point inside soleus_l is 5.1 mm from the rule plane/line (> 5.0 mm)"
