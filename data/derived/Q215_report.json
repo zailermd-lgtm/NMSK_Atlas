@@ -35,25 +35,19 @@
    "round": 0,
    "held_in": [],
    "failed": {
-    "adductor_magnus_l": [
-     "the Z-fill continuation welded to the old mesh would be 8.44 mm (p95), 10.79 mm (max) off the new mesh at the seam (gate 2.5 mm, re-weld up to 8 mm)"
-    ],
     "gracilis_r": [
      "main piece 0.4131 < 0.6152"
-    ],
-    "adductor_brevis_l": [
-     "69.2 % of its volume inside the other muscles (gate 60; old mesh 38.0 %)"
     ]
    },
    "volumes_cm3": {
     "obturator_internus_r": 42.7,
     "obturator_internus_l": 43.6,
     "adductor_brevis_r": 110.2,
-    "adductor_brevis_l": 99.7,
+    "adductor_brevis_l": 99.8,
     "adductor_longus_r": 108.9,
     "adductor_longus_l": 116.4,
     "adductor_magnus_r": 560.1,
-    "adductor_magnus_l": 540.5,
+    "adductor_magnus_l": 543.8,
     "gracilis_r": 56.4,
     "gracilis_l": 93.1,
     "sartorius_r": 82.1,
@@ -79,54 +73,6 @@
   {
    "round": 1,
    "held_in": [
-    "adductor_brevis_l",
-    "adductor_magnus_l",
-    "gracilis_r"
-   ],
-   "failed": {
-    "adductor_longus_l": [
-     "volume 59.2 cm3 is x0.51 of the 116.4 cm3 the unconstrained refit gave it: squeezed by the old meshes of held neighbours (gate >= 0.8)"
-    ],
-    "gracilis_l": [
-     "main piece 0.7746 < 0.9702",
-     "volume 33.8 cm3 is x0.36 of the 93.1 cm3 the unconstrained refit gave it: squeezed by the old meshes of held neighbours (gate >= 0.8)"
-    ]
-   },
-   "volumes_cm3": {
-    "obturator_internus_r": 42.7,
-    "obturator_internus_l": 43.6,
-    "adductor_brevis_r": 110.0,
-    "adductor_longus_r": 107.1,
-    "adductor_longus_l": 59.2,
-    "adductor_magnus_r": 545.8,
-    "gracilis_l": 33.8,
-    "sartorius_r": 81.1,
-    "sartorius_l": 129.6,
-    "tensor_fasciae_latae_r": 70.9,
-    "tensor_fasciae_latae_l": 53.7,
-    "rectus_femoris_r": 170.8,
-    "rectus_femoris_l": 159.1,
-    "vastus_lateralis_r": 431.6,
-    "vastus_lateralis_l": 249.8,
-    "vastus_medialis_r": 227.7,
-    "vastus_medialis_l": 181.2,
-    "vastus_intermedius_r": 247.5,
-    "vastus_intermedius_l": 220.3,
-    "biceps_femoris_r": 254.8,
-    "biceps_femoris_l": 229.2,
-    "semitendinosus_r": 135.2,
-    "semitendinosus_l": 126.9,
-    "semimembranosus_r": 235.0,
-    "semimembranosus_l": 254.8
-   }
-  },
-  {
-   "round": 2,
-   "held_in": [
-    "adductor_brevis_l",
-    "adductor_longus_l",
-    "adductor_magnus_l",
-    "gracilis_l",
     "gracilis_r"
    ],
    "failed": {},
@@ -134,10 +80,14 @@
     "obturator_internus_r": 42.7,
     "obturator_internus_l": 43.6,
     "adductor_brevis_r": 110.0,
+    "adductor_brevis_l": 99.8,
     "adductor_longus_r": 107.1,
+    "adductor_longus_l": 116.4,
     "adductor_magnus_r": 545.8,
+    "adductor_magnus_l": 543.8,
+    "gracilis_l": 93.1,
     "sartorius_r": 81.1,
-    "sartorius_l": 117.5,
+    "sartorius_l": 141.4,
     "tensor_fasciae_latae_r": 70.9,
     "tensor_fasciae_latae_l": 53.7,
     "rectus_femoris_r": 170.8,
@@ -145,15 +95,15 @@
     "vastus_lateralis_r": 431.6,
     "vastus_lateralis_l": 249.8,
     "vastus_medialis_r": 227.7,
-    "vastus_medialis_l": 179.0,
+    "vastus_medialis_l": 192.5,
     "vastus_intermedius_r": 247.5,
-    "vastus_intermedius_l": 220.2,
+    "vastus_intermedius_l": 221.1,
     "biceps_femoris_r": 254.8,
-    "biceps_femoris_l": 229.2,
+    "biceps_femoris_l": 227.0,
     "semitendinosus_r": 135.2,
-    "semitendinosus_l": 126.9,
+    "semitendinosus_l": 127.1,
     "semimembranosus_r": 235.0,
-    "semimembranosus_l": 254.1
+    "semimembranosus_l": 258.5
    }
   }
  ],
@@ -506,7 +456,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -518,7 +468,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -534,7 +484,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -542,19 +492,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "semimembranosus_r": [
      14.9,
@@ -566,7 +524,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -574,7 +532,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -582,7 +540,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -598,15 +556,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -618,7 +576,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -626,7 +584,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -636,29 +594,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -770,7 +736,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -782,7 +748,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -798,7 +764,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -806,19 +772,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -834,7 +808,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -842,7 +816,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -850,7 +824,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -866,15 +840,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -886,7 +860,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -894,11 +868,15 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
      16.5
+    ],
+    "pectineus_l": [
+     16.6,
+     10.2
     ],
     "pectineus_r": [
      14.9,
@@ -906,23 +884,27 @@
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -987,35 +969,35 @@
      "bone_deep_pct": 0.0,
      "inside_skin_pct": 100.0,
      "min_skin_depth_mm": 14.6,
-     "volume_cm3": 117.5,
+     "volume_cm3": 141.4,
      "main_piece": 1.0,
-     "length_mm": 384.8
+     "length_mm": 384.6
     },
-    "volume_ratio": 0.714,
+    "volume_ratio": 0.86,
     "length_ratio": 0.859,
     "move": {
-     "median_mm": 5.11,
-     "p95_mm": 22.51,
+     "median_mm": 5.77,
+     "p95_mm": 22.55,
      "max_mm": 61.48
     },
-    "move_new_to_old_p95_mm": 11.65,
-    "evidence_volume_ratio": 1.79,
+    "move_new_to_old_p95_mm": 11.67,
+    "evidence_volume_ratio": 2.14,
     "length_vs_z": 0.68,
     "fit_error_vs_label": {
-     "median_mm": 0.59,
-     "p95_mm": 1.08,
-     "max_mm": 1.77
+     "median_mm": 0.6,
+     "p95_mm": 1.07,
+     "max_mm": 1.66
     },
     "musc_share": [
      0.308,
-     0.772
+     0.768
     ],
     "non_muscle_share": [
      0.691,
-     0.227
+     0.231
     ],
     "z_ref_cm3": 80.5,
-    "volume_vs_z": 1.46,
+    "volume_vs_z": 1.76,
     "seam_gap_mm": {
      "piece": "sartorius_l_zfill203s",
      "seam_vertices": 6,
@@ -1027,13 +1009,13 @@
     },
     "overlap_vol_pct": [
      24.8,
-     24.1
+     20.6
     ]
    },
    "bridged_y_mm": [
     [
      -334.8,
-     -334.8
+     -333.8
     ],
     [
      -131.8,
@@ -1043,7 +1025,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -1055,7 +1037,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -1071,7 +1053,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -1079,19 +1061,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -1107,7 +1097,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -1115,7 +1105,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -1123,7 +1113,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -1139,15 +1129,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -1159,7 +1149,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -1167,7 +1157,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -1177,13 +1167,17 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
@@ -1191,15 +1185,15 @@
     ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -1226,14 +1220,12 @@
      17.0
     ]
    },
-   "notes": [
-    "detached surface pieces < 15% (28 vertices) dropped (Q181b rule)"
-   ],
+   "notes": [],
    "voxels_before_after": [
     169802,
-    125311
+    149504
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 117.5 cm3 (previous mesh 164.5 cm3) (the male's sartorius is 266.8 cm3: x0.62). Fit error: mesh to its segmented compartment median 0.59 mm, p95 1.08 mm, max 1.77 mm; share of the muscle lying on her photographed muscle 0.308 -> 0.772 (on photographed fat / fascia 0.691 -> 0.227); moved from the previous mesh median 5.11 mm, p95 22.51 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.2 %), volume x0.714, length x0.859, 24.1 % of its volume inside her other muscles (was 24.8 %; gate 60). The Z-Anatomy female reference muscle is 80.5 cm3 (x1.46; shown for scale only, not used as geometry). Its Z-fill continuation piece (welded to the old flat cut) now meets it within p95 0.64 mm. Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 2 run(s), y -334.8 to -125.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 141.4 cm3 (previous mesh 164.5 cm3) (the male's sartorius is 266.8 cm3: x0.62). Fit error: mesh to its segmented compartment median 0.6 mm, p95 1.07 mm, max 1.66 mm; share of the muscle lying on her photographed muscle 0.308 -> 0.768 (on photographed fat / fascia 0.691 -> 0.231); moved from the previous mesh median 5.77 mm, p95 22.55 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.2 %), volume x0.86, length x0.859, 20.6 % of its volume inside her other muscles (was 24.8 %; gate 60). The Z-Anatomy female reference muscle is 80.5 cm3 (x1.76; shown for scale only, not used as geometry). Its Z-fill continuation piece (welded to the old flat cut) now meets it within p95 0.64 mm. Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 2 run(s), y -334.8 to -125.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep"
   },
   "vastus_intermedius_r": {
@@ -1319,7 +1311,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -1331,7 +1323,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -1347,7 +1339,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -1355,19 +1347,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -1383,7 +1383,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -1391,7 +1391,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -1399,7 +1399,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -1415,15 +1415,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -1435,7 +1435,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -1443,7 +1443,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -1453,29 +1453,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_lateralis_r": [
      19.1,
@@ -1533,21 +1541,21 @@
     "after": {
      "in_bone_pct": 0.0,
      "bone_depth_max_mm": 2.8,
-     "bone_deep_pct": 9.5,
+     "bone_deep_pct": 9.7,
      "inside_skin_pct": 100.0,
      "min_skin_depth_mm": 11.7,
-     "volume_cm3": 220.2,
+     "volume_cm3": 221.1,
      "main_piece": 1.0,
      "length_mm": 290.3
     },
-    "volume_ratio": 0.769,
+    "volume_ratio": 0.772,
     "length_ratio": 0.971,
     "move": {
-     "median_mm": 4.54,
-     "p95_mm": 10.79,
+     "median_mm": 4.58,
+     "p95_mm": 10.84,
      "max_mm": 23.28
     },
-    "move_new_to_old_p95_mm": 9.16,
+    "move_new_to_old_p95_mm": 9.18,
     "evidence_volume_ratio": 1.09,
     "length_vs_z": 0.78,
     "fit_error_vs_label": {
@@ -1557,7 +1565,7 @@
     },
     "musc_share": [
      0.535,
-     0.76
+     0.759
     ],
     "non_muscle_share": [
      0.462,
@@ -1567,14 +1575,14 @@
     "volume_vs_z": 1.0,
     "overlap_vol_pct": [
      34.2,
-     24.0
+     24.8
     ]
    },
    "bridged_y_mm": [],
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -1586,7 +1594,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -1602,7 +1610,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -1610,19 +1618,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -1638,7 +1654,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -1646,7 +1662,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -1654,7 +1670,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -1670,15 +1686,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -1690,7 +1706,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -1698,7 +1714,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -1708,25 +1724,33 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -1758,10 +1782,566 @@
    ],
    "voxels_before_after": [
     280631,
-    228899
+    229830
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 220.2 cm3 (previous mesh 286.5 cm3) (the male's vastus intermedius is 808.5 cm3: x0.34). Fit error: mesh to its segmented compartment median 0.63 mm, p95 1.13 mm, max 1.76 mm; share of the muscle lying on her photographed muscle 0.535 -> 0.76 (on photographed fat / fascia 0.462 -> 0.234); moved from the previous mesh median 4.54 mm, p95 10.79 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 6.1 %), volume x0.769, length x0.971, 24.0 % of its volume inside her other muscles (was 34.2 %; gate 60). The Z-Anatomy female reference muscle is 220.6 cm3 (x1.0; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 221.1 cm3 (previous mesh 286.5 cm3) (the male's vastus intermedius is 808.5 cm3: x0.34). Fit error: mesh to its segmented compartment median 0.63 mm, p95 1.13 mm, max 1.76 mm; share of the muscle lying on her photographed muscle 0.535 -> 0.759 (on photographed fat / fascia 0.462 -> 0.234); moved from the previous mesh median 4.58 mm, p95 10.84 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 6.1 %), volume x0.772, length x0.971, 24.8 % of its volume inside her other muscles (was 34.2 %; gate 60). The Z-Anatomy female reference muscle is 220.6 cm3 (x1.0; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep"
+  },
+  "adductor_brevis_l": {
+   "severity": {
+    "score": 6.51,
+    "vol_own": 120.2,
+    "vol_male": 146.4,
+    "vol_z": 59.4,
+    "scale_vs_male": 0.82,
+    "overlap_pct_q213": 37.7,
+    "inside_bone_pct_q213": 7.5,
+    "musc_share_base": 0.648
+   },
+   "guards": {
+    "before": {
+     "in_bone_pct": 4.4,
+     "bone_depth_max_mm": 7.5,
+     "bone_deep_pct": 6.2,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 16.2,
+     "volume_cm3": 119.6,
+     "main_piece": 0.9509,
+     "length_mm": 149.1
+    },
+    "after": {
+     "in_bone_pct": 0.5,
+     "bone_depth_max_mm": 4.5,
+     "bone_deep_pct": 1.7,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 27.7,
+     "volume_cm3": 99.8,
+     "main_piece": 1.0,
+     "length_mm": 140.7
+    },
+    "volume_ratio": 0.834,
+    "length_ratio": 0.944,
+    "move": {
+     "median_mm": 5.25,
+     "p95_mm": 12.5,
+     "max_mm": 22.54
+    },
+    "move_new_to_old_p95_mm": 11.39,
+    "evidence_volume_ratio": 1.04,
+    "length_vs_z": 0.81,
+    "fit_error_vs_label": {
+     "median_mm": 0.6,
+     "p95_mm": 1.11,
+     "max_mm": 1.62
+    },
+    "musc_share": [
+     0.648,
+     0.811
+    ],
+    "non_muscle_share": [
+     0.351,
+     0.187
+    ],
+    "z_ref_cm3": 57.4,
+    "volume_vs_z": 1.74,
+    "seam_gap_mm": {
+     "piece": "adductor_brevis_l_zfill203s",
+     "seam_vertices": 52,
+     "before": {
+      "median": 0.26,
+      "p95": 0.73,
+      "max": 0.79
+     }
+    },
+    "overlap_vol_pct": [
+     38.0,
+     30.8
+    ]
+   },
+   "bridged_y_mm": [
+    [
+     -35.8,
+     -35.8
+    ]
+   ],
+   "neighbour_overlap": {
+    "deep_transverse_perineal_r": [
+     91.0,
+     88.3
+    ],
+    "gluteus_maximus_l": [
+     6.8,
+     4.4
+    ],
+    "gluteus_maximus_r": [
+     12.2,
+     7.5
+    ],
+    "levator_ani_r": [
+     73.3,
+     36.9
+    ],
+    "coccygeus_r": [
+     23.2,
+     11.7
+    ],
+    "bulbospongiosus_r": [
+     100.0,
+     33.0
+    ],
+    "ischiocavernosus_r": [
+     100.0,
+     78.1
+    ],
+    "levator_ani_l": [
+     81.6,
+     47.7
+    ],
+    "coccygeus_l": [
+     43.7,
+     7.3
+    ],
+    "bulbospongiosus_l": [
+     100.0,
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
+    ],
+    "external_anal_sphincter": [
+     75.0,
+     62.1
+    ],
+    "plantaris_l": [
+     53.9,
+     51.6
+    ],
+    "obturator_internus_r": [
+     19.5,
+     3.4
+    ],
+    "semimembranosus_r": [
+     14.9,
+     12.7
+    ],
+    "tensor_fasciae_latae_r": [
+     10.8,
+     6.7
+    ],
+    "adductor_longus_l": [
+     31.9,
+     23.1
+    ],
+    "adductor_magnus_r": [
+     17.9,
+     14.5
+    ],
+    "biceps_femoris_l": [
+     19.5,
+     14.1
+    ],
+    "biceps_femoris_r": [
+     18.7,
+     15.0
+    ],
+    "gracilis_l": [
+     31.7,
+     17.3
+    ],
+    "gracilis_r": [
+     29.4,
+     24.7
+    ],
+    "rectus_femoris_r": [
+     25.1,
+     14.6
+    ],
+    "sartorius_r": [
+     21.6,
+     17.0
+    ],
+    "semitendinosus_l": [
+     24.8,
+     23.0
+    ],
+    "vastus_lateralis_l": [
+     21.8,
+     17.5
+    ],
+    "vastus_medialis_l": [
+     21.9,
+     18.4
+    ],
+    "adductor_brevis_r": [
+     33.8,
+     26.0
+    ],
+    "adductor_longus_r": [
+     26.6,
+     22.4
+    ],
+    "adductor_magnus_l": [
+     20.8,
+     16.3
+    ],
+    "gemellus_inferior_l": [
+     30.6,
+     12.5
+    ],
+    "obturator_externus_l": [
+     24.5,
+     21.0
+    ],
+    "obturator_externus_r": [
+     22.1,
+     16.5
+    ],
+    "obturator_internus_l": [
+     26.1,
+     6.9
+    ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
+    "pectineus_r": [
+     14.9,
+     7.6
+    ],
+    "quadratus_femoris_l": [
+     19.6,
+     16.5
+    ],
+    "rectus_femoris_l": [
+     24.3,
+     20.3
+    ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
+    "semimembranosus_l": [
+     15.1,
+     10.1
+    ],
+    "tensor_fasciae_latae_l": [
+     21.5,
+     22.7
+    ],
+    "vastus_intermedius_l": [
+     34.2,
+     24.8
+    ],
+    "vastus_intermedius_r": [
+     32.7,
+     29.1
+    ],
+    "vastus_lateralis_r": [
+     19.1,
+     13.1
+    ],
+    "vastus_medialis_r": [
+     19.9,
+     13.6
+    ],
+    "gemellus_inferior_r": [
+     35.4,
+     8.0
+    ],
+    "gemellus_superior_l": [
+     47.5,
+     44.4
+    ],
+    "gemellus_superior_r": [
+     24.2,
+     17.0
+    ]
+   },
+   "notes": [
+    "detached surface pieces < 15% (760 vertices) dropped (Q181b rule)"
+   ],
+   "voxels_before_after": [
+    121905,
+    105500
+   ],
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 99.8 cm3 (previous mesh 119.6 cm3) (the male's adductor brevis is 146.4 cm3: x0.82). Fit error: mesh to its segmented compartment median 0.6 mm, p95 1.11 mm, max 1.62 mm; share of the muscle lying on her photographed muscle 0.648 -> 0.811 (on photographed fat / fascia 0.351 -> 0.187); moved from the previous mesh median 5.25 mm, p95 12.5 mm. Guards passed: inside her skin (>= 1 mm), 0.5 % of the vertices in her bone mesh (was 4.4 %), volume x0.834, length x0.944, 30.8 % of its volume inside her other muscles (was 38.0 %; gate 60). The Z-Anatomy female reference muscle is 57.4 cm3 (x1.74; shown for scale only, not used as geometry). Its Z-fill continuation piece (welded to the old flat cut) now meets it within p95 0.73 mm. Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 1 run(s), y -35.8 to -35.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "subject_before": "xfer_vhm2vhf_sep_contfix_mesh"
+  },
+  "gracilis_l": {
+   "severity": {
+    "score": 6.34,
+    "vol_own": 91.8,
+    "vol_male": 146.9,
+    "vol_z": 116.1,
+    "scale_vs_male": 0.62,
+    "overlap_pct_q213": 31.7,
+    "inside_bone_pct_q213": 0.0,
+    "musc_share_base": 0.189
+   },
+   "guards": {
+    "before": {
+     "in_bone_pct": 0.0,
+     "bone_depth_max_mm": 0.0,
+     "bone_deep_pct": 0.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 11.1,
+     "volume_cm3": 91.8,
+     "main_piece": 0.9702,
+     "length_mm": 265.7
+    },
+    "after": {
+     "in_bone_pct": 0.0,
+     "bone_depth_max_mm": 0.0,
+     "bone_deep_pct": 0.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 14.9,
+     "volume_cm3": 93.1,
+     "main_piece": 1.0,
+     "length_mm": 300.1
+    },
+    "volume_ratio": 1.014,
+    "length_ratio": 1.129,
+    "move": {
+     "median_mm": 4.73,
+     "p95_mm": 13.17,
+     "max_mm": 37.16
+    },
+    "move_new_to_old_p95_mm": 12.99,
+    "evidence_volume_ratio": 3.54,
+    "length_vs_z": 0.67,
+    "fit_error_vs_label": {
+     "median_mm": 0.58,
+     "p95_mm": 1.07,
+     "max_mm": 1.75
+    },
+    "musc_share": [
+     0.189,
+     0.66
+    ],
+    "non_muscle_share": [
+     0.808,
+     0.337
+    ],
+    "z_ref_cm3": 116.1,
+    "volume_vs_z": 0.8,
+    "overlap_vol_pct": [
+     31.7,
+     17.3
+    ]
+   },
+   "bridged_y_mm": [],
+   "neighbour_overlap": {
+    "deep_transverse_perineal_r": [
+     91.0,
+     88.3
+    ],
+    "gluteus_maximus_l": [
+     6.8,
+     4.4
+    ],
+    "gluteus_maximus_r": [
+     12.2,
+     7.5
+    ],
+    "levator_ani_r": [
+     73.3,
+     36.9
+    ],
+    "coccygeus_r": [
+     23.2,
+     11.7
+    ],
+    "bulbospongiosus_r": [
+     100.0,
+     33.0
+    ],
+    "ischiocavernosus_r": [
+     100.0,
+     78.1
+    ],
+    "levator_ani_l": [
+     81.6,
+     47.7
+    ],
+    "coccygeus_l": [
+     43.7,
+     7.3
+    ],
+    "bulbospongiosus_l": [
+     100.0,
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
+    ],
+    "external_anal_sphincter": [
+     75.0,
+     62.1
+    ],
+    "plantaris_l": [
+     53.9,
+     51.6
+    ],
+    "adductor_brevis_l": [
+     38.0,
+     30.8
+    ],
+    "obturator_internus_r": [
+     19.5,
+     3.4
+    ],
+    "semimembranosus_r": [
+     14.9,
+     12.7
+    ],
+    "tensor_fasciae_latae_r": [
+     10.8,
+     6.7
+    ],
+    "adductor_longus_l": [
+     31.9,
+     23.1
+    ],
+    "adductor_magnus_r": [
+     17.9,
+     14.5
+    ],
+    "biceps_femoris_l": [
+     19.5,
+     14.1
+    ],
+    "biceps_femoris_r": [
+     18.7,
+     15.0
+    ],
+    "gracilis_r": [
+     29.4,
+     24.7
+    ],
+    "rectus_femoris_r": [
+     25.1,
+     14.6
+    ],
+    "sartorius_r": [
+     21.6,
+     17.0
+    ],
+    "semitendinosus_l": [
+     24.8,
+     23.0
+    ],
+    "vastus_lateralis_l": [
+     21.8,
+     17.5
+    ],
+    "vastus_medialis_l": [
+     21.9,
+     18.4
+    ],
+    "adductor_brevis_r": [
+     33.8,
+     26.0
+    ],
+    "adductor_longus_r": [
+     26.6,
+     22.4
+    ],
+    "adductor_magnus_l": [
+     20.8,
+     16.3
+    ],
+    "gemellus_inferior_l": [
+     30.6,
+     12.5
+    ],
+    "obturator_externus_l": [
+     24.5,
+     21.0
+    ],
+    "obturator_externus_r": [
+     22.1,
+     16.5
+    ],
+    "obturator_internus_l": [
+     26.1,
+     6.9
+    ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
+    "pectineus_r": [
+     14.9,
+     7.6
+    ],
+    "quadratus_femoris_l": [
+     19.6,
+     16.5
+    ],
+    "rectus_femoris_l": [
+     24.3,
+     20.3
+    ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
+    "semimembranosus_l": [
+     15.1,
+     10.1
+    ],
+    "tensor_fasciae_latae_l": [
+     21.5,
+     22.7
+    ],
+    "vastus_intermedius_l": [
+     34.2,
+     24.8
+    ],
+    "vastus_intermedius_r": [
+     32.7,
+     29.1
+    ],
+    "vastus_lateralis_r": [
+     19.1,
+     13.1
+    ],
+    "vastus_medialis_r": [
+     19.9,
+     13.6
+    ],
+    "gemellus_inferior_r": [
+     35.4,
+     8.0
+    ],
+    "gemellus_superior_l": [
+     47.5,
+     44.4
+    ],
+    "gemellus_superior_r": [
+     24.2,
+     17.0
+    ]
+   },
+   "notes": [
+    "detached surface pieces < 15% (808 vertices) dropped (Q181b rule)"
+   ],
+   "voxels_before_after": [
+    95419,
+    100676
+   ],
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 93.1 cm3 (previous mesh 91.8 cm3) (the male's gracilis is 146.9 cm3: x0.62). Fit error: mesh to its segmented compartment median 0.58 mm, p95 1.07 mm, max 1.75 mm; share of the muscle lying on her photographed muscle 0.189 -> 0.66 (on photographed fat / fascia 0.808 -> 0.337); moved from the previous mesh median 4.73 mm, p95 13.17 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.0 %), volume x1.014, length x1.129, 17.3 % of its volume inside her other muscles (was 31.7 %; gate 60). The Z-Anatomy female reference muscle is 116.1 cm3 (x0.8; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "subject_before": "xfer_vhm2vhf_sep_contfix"
   },
   "adductor_brevis_r": {
    "severity": {
@@ -1834,7 +2414,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -1846,7 +2426,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -1862,7 +2442,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -1870,19 +2450,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -1898,7 +2486,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -1906,7 +2494,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -1914,7 +2502,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -1930,15 +2518,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_longus_r": [
      26.6,
@@ -1946,7 +2534,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -1954,7 +2542,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -1964,29 +2552,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -2096,7 +2692,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -2108,7 +2704,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -2124,7 +2720,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -2132,19 +2728,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -2160,7 +2764,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -2168,7 +2772,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -2176,7 +2780,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -2188,15 +2792,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -2208,7 +2812,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -2216,7 +2820,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -2226,29 +2830,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -2310,54 +2922,50 @@
     "after": {
      "in_bone_pct": 0.0,
      "bone_depth_max_mm": 2.8,
-     "bone_deep_pct": 6.6,
+     "bone_deep_pct": 6.0,
      "inside_skin_pct": 100.0,
      "min_skin_depth_mm": 14.3,
-     "volume_cm3": 179.0,
+     "volume_cm3": 192.5,
      "main_piece": 1.0,
-     "length_mm": 272.4
+     "length_mm": 270.5
     },
-    "volume_ratio": 0.589,
-    "length_ratio": 0.985,
+    "volume_ratio": 0.633,
+    "length_ratio": 0.978,
     "move": {
-     "median_mm": 4.09,
-     "p95_mm": 10.92,
-     "max_mm": 21.38
+     "median_mm": 4.16,
+     "p95_mm": 10.99,
+     "max_mm": 21.34
     },
-    "move_new_to_old_p95_mm": 10.0,
-    "evidence_volume_ratio": 0.84,
-    "length_vs_z": 0.76,
+    "move_new_to_old_p95_mm": 10.01,
+    "evidence_volume_ratio": 0.9,
+    "length_vs_z": 0.75,
     "fit_error_vs_label": {
      "median_mm": 0.62,
-     "p95_mm": 1.1,
-     "max_mm": 1.9
+     "p95_mm": 1.11,
+     "max_mm": 1.89
     },
     "musc_share": [
      0.56,
-     0.802
+     0.796
     ],
     "non_muscle_share": [
      0.437,
-     0.193
+     0.199
     ],
     "z_ref_cm3": 253.8,
-    "volume_vs_z": 0.71,
+    "volume_vs_z": 0.76,
     "overlap_vol_pct": [
      21.9,
-     15.7
+     18.4
     ]
    },
    "bridged_y_mm": [
     [
-     -105.8,
-     -105.8
+     -94.8,
+     -94.8
     ],
     [
-     -95.8,
-     -92.8
-    ],
-    [
-     -88.8,
+     -89.8,
      -87.8
     ],
     [
@@ -2368,7 +2976,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -2380,7 +2988,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -2396,7 +3004,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -2404,19 +3012,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -2432,7 +3048,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -2440,7 +3056,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -2448,7 +3064,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -2464,11 +3080,11 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "adductor_brevis_r": [
      33.8,
@@ -2480,7 +3096,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -2488,7 +3104,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -2498,29 +3114,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -2549,13 +3173,13 @@
    },
    "notes": [
     "1 stray fragment(s) (0.0 % of volume) dropped (Q152 rule)",
-    "detached surface pieces < 15% (18 vertices) dropped (Q181b rule)"
+    "detached surface pieces < 15% (140 vertices) dropped (Q181b rule)"
    ],
    "voxels_before_after": [
     294688,
-    185112
+    199678
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 179.0 cm3 (previous mesh 304.1 cm3) (the male's vastus medialis is 733.4 cm3: x0.4). Fit error: mesh to its segmented compartment median 0.62 mm, p95 1.1 mm, max 1.9 mm; share of the muscle lying on her photographed muscle 0.56 -> 0.802 (on photographed fat / fascia 0.437 -> 0.193); moved from the previous mesh median 4.09 mm, p95 10.92 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 4.4 %), volume x0.589, length x0.985, 15.7 % of its volume inside her other muscles (was 21.9 %; gate 60). The Z-Anatomy female reference muscle is 253.8 cm3 (x0.71; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 4 run(s), y -105.8 to -80.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 192.5 cm3 (previous mesh 304.1 cm3) (the male's vastus medialis is 733.4 cm3: x0.4). Fit error: mesh to its segmented compartment median 0.62 mm, p95 1.11 mm, max 1.89 mm; share of the muscle lying on her photographed muscle 0.56 -> 0.796 (on photographed fat / fascia 0.437 -> 0.199); moved from the previous mesh median 4.16 mm, p95 10.99 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 4.4 %), volume x0.633, length x0.978, 18.4 % of its volume inside her other muscles (was 21.9 %; gate 60). The Z-Anatomy female reference muscle is 253.8 cm3 (x0.76; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 3 run(s), y -94.8 to -80.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep_contfix"
   },
   "rectus_femoris_l": {
@@ -2641,7 +3265,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -2653,7 +3277,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -2669,7 +3293,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -2677,19 +3301,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -2705,7 +3337,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -2713,7 +3345,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -2721,7 +3353,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -2737,15 +3369,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -2757,7 +3389,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -2765,7 +3397,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -2775,25 +3407,33 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
+    ],
+    "sartorius_l": [
+     24.8,
+     20.6
     ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -2896,7 +3536,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -2908,7 +3548,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -2924,7 +3564,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -2932,19 +3572,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -2960,7 +3608,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -2968,7 +3616,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -2976,7 +3624,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -2992,15 +3640,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -3012,7 +3660,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -3020,7 +3668,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -3030,29 +3678,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -3160,7 +3816,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -3172,7 +3828,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -3188,7 +3844,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -3196,19 +3852,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -3224,7 +3888,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -3232,7 +3896,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -3240,7 +3904,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -3252,15 +3916,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -3272,7 +3936,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -3280,7 +3944,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -3290,29 +3954,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -3347,6 +4019,280 @@
     183079
    ],
    "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 170.8 cm3 (previous mesh 189.6 cm3) (the male's rectus femoris is 413.0 cm3: x0.46). Fit error: mesh to its segmented compartment median 0.59 mm, p95 1.07 mm, max 1.62 mm; share of the muscle lying on her photographed muscle 0.578 -> 0.745 (on photographed fat / fascia 0.422 -> 0.255); moved from the previous mesh median 2.93 mm, p95 9.57 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.0 %), volume x0.901, length x0.996, 14.6 % of its volume inside her other muscles (was 25.1 %; gate 60). The Z-Anatomy female reference muscle is 336.0 cm3 (x0.51; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 2 run(s), y -128.8 to 26.2 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "subject_before": "xfer_vhm2vhf_sep_contfix"
+  },
+  "adductor_longus_l": {
+   "severity": {
+    "score": 4.8,
+    "vol_own": 132.1,
+    "vol_male": 232.3,
+    "vol_z": 147.6,
+    "scale_vs_male": 0.57,
+    "overlap_pct_q213": 29.1,
+    "inside_bone_pct_q213": 0.04,
+    "musc_share_base": 0.399
+   },
+   "guards": {
+    "before": {
+     "in_bone_pct": 0.0,
+     "bone_depth_max_mm": 2.0,
+     "bone_deep_pct": 0.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 9.7,
+     "volume_cm3": 132.1,
+     "main_piece": 0.9933,
+     "length_mm": 197.0
+    },
+    "after": {
+     "in_bone_pct": 0.0,
+     "bone_depth_max_mm": 2.0,
+     "bone_deep_pct": 0.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 23.5,
+     "volume_cm3": 116.4,
+     "main_piece": 1.0,
+     "length_mm": 168.2
+    },
+    "volume_ratio": 0.881,
+    "length_ratio": 0.854,
+    "move": {
+     "median_mm": 5.25,
+     "p95_mm": 13.47,
+     "max_mm": 25.12
+    },
+    "move_new_to_old_p95_mm": 11.07,
+    "evidence_volume_ratio": 1.65,
+    "length_vs_z": 0.67,
+    "fit_error_vs_label": {
+     "median_mm": 0.61,
+     "p95_mm": 1.12,
+     "max_mm": 1.59
+    },
+    "musc_share": [
+     0.399,
+     0.747
+    ],
+    "non_muscle_share": [
+     0.59,
+     0.243
+    ],
+    "z_ref_cm3": 145.9,
+    "volume_vs_z": 0.8,
+    "overlap_vol_pct": [
+     31.9,
+     23.1
+    ]
+   },
+   "bridged_y_mm": [
+    [
+     -41.8,
+     -40.8
+    ]
+   ],
+   "neighbour_overlap": {
+    "deep_transverse_perineal_r": [
+     91.0,
+     88.3
+    ],
+    "gluteus_maximus_l": [
+     6.8,
+     4.4
+    ],
+    "gluteus_maximus_r": [
+     12.2,
+     7.5
+    ],
+    "levator_ani_r": [
+     73.3,
+     36.9
+    ],
+    "coccygeus_r": [
+     23.2,
+     11.7
+    ],
+    "bulbospongiosus_r": [
+     100.0,
+     33.0
+    ],
+    "ischiocavernosus_r": [
+     100.0,
+     78.1
+    ],
+    "levator_ani_l": [
+     81.6,
+     47.7
+    ],
+    "coccygeus_l": [
+     43.7,
+     7.3
+    ],
+    "bulbospongiosus_l": [
+     100.0,
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
+    ],
+    "external_anal_sphincter": [
+     75.0,
+     62.1
+    ],
+    "plantaris_l": [
+     53.9,
+     51.6
+    ],
+    "adductor_brevis_l": [
+     38.0,
+     30.8
+    ],
+    "obturator_internus_r": [
+     19.5,
+     3.4
+    ],
+    "semimembranosus_r": [
+     14.9,
+     12.7
+    ],
+    "tensor_fasciae_latae_r": [
+     10.8,
+     6.7
+    ],
+    "adductor_magnus_r": [
+     17.9,
+     14.5
+    ],
+    "biceps_femoris_l": [
+     19.5,
+     14.1
+    ],
+    "biceps_femoris_r": [
+     18.7,
+     15.0
+    ],
+    "gracilis_l": [
+     31.7,
+     17.3
+    ],
+    "gracilis_r": [
+     29.4,
+     24.7
+    ],
+    "rectus_femoris_r": [
+     25.1,
+     14.6
+    ],
+    "sartorius_r": [
+     21.6,
+     17.0
+    ],
+    "semitendinosus_l": [
+     24.8,
+     23.0
+    ],
+    "vastus_lateralis_l": [
+     21.8,
+     17.5
+    ],
+    "vastus_medialis_l": [
+     21.9,
+     18.4
+    ],
+    "adductor_brevis_r": [
+     33.8,
+     26.0
+    ],
+    "adductor_longus_r": [
+     26.6,
+     22.4
+    ],
+    "adductor_magnus_l": [
+     20.8,
+     16.3
+    ],
+    "gemellus_inferior_l": [
+     30.6,
+     12.5
+    ],
+    "obturator_externus_l": [
+     24.5,
+     21.0
+    ],
+    "obturator_externus_r": [
+     22.1,
+     16.5
+    ],
+    "obturator_internus_l": [
+     26.1,
+     6.9
+    ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
+    "pectineus_r": [
+     14.9,
+     7.6
+    ],
+    "quadratus_femoris_l": [
+     19.6,
+     16.5
+    ],
+    "rectus_femoris_l": [
+     24.3,
+     20.3
+    ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
+    "semimembranosus_l": [
+     15.1,
+     10.1
+    ],
+    "tensor_fasciae_latae_l": [
+     21.5,
+     22.7
+    ],
+    "vastus_intermedius_l": [
+     34.2,
+     24.8
+    ],
+    "vastus_intermedius_r": [
+     32.7,
+     29.1
+    ],
+    "vastus_lateralis_r": [
+     19.1,
+     13.1
+    ],
+    "vastus_medialis_r": [
+     19.9,
+     13.6
+    ],
+    "gemellus_inferior_r": [
+     35.4,
+     8.0
+    ],
+    "gemellus_superior_l": [
+     47.5,
+     44.4
+    ],
+    "gemellus_superior_r": [
+     24.2,
+     17.0
+    ]
+   },
+   "notes": [],
+   "voxels_before_after": [
+    132892,
+    119517
+   ],
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 116.4 cm3 (previous mesh 132.1 cm3) (the male's adductor longus is 232.3 cm3: x0.57). Fit error: mesh to its segmented compartment median 0.61 mm, p95 1.12 mm, max 1.59 mm; share of the muscle lying on her photographed muscle 0.399 -> 0.747 (on photographed fat / fascia 0.59 -> 0.243); moved from the previous mesh median 5.25 mm, p95 13.47 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.0 %), volume x0.881, length x0.854, 23.1 % of its volume inside her other muscles (was 31.9 %; gate 60). The Z-Anatomy female reference muscle is 145.9 cm3 (x0.8; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 1 run(s), y -41.8 to -40.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep_contfix"
   },
   "vastus_lateralis_r": {
@@ -3424,7 +4370,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -3436,7 +4382,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -3452,7 +4398,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -3460,19 +4406,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -3488,7 +4442,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -3496,7 +4450,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -3504,7 +4458,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -3520,15 +4474,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -3540,7 +4494,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -3548,7 +4502,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -3558,29 +4512,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -3639,20 +4601,20 @@
      "bone_deep_pct": 0.7,
      "inside_skin_pct": 100.0,
      "min_skin_depth_mm": 7.9,
-     "volume_cm3": 229.2,
+     "volume_cm3": 227.0,
      "main_piece": 1.0,
-     "length_mm": 301.9
+     "length_mm": 292.5
     },
-    "volume_ratio": 0.886,
-    "length_ratio": 0.965,
+    "volume_ratio": 0.877,
+    "length_ratio": 0.935,
     "move": {
-     "median_mm": 5.39,
-     "p95_mm": 11.32,
-     "max_mm": 28.04
+     "median_mm": 5.38,
+     "p95_mm": 11.16,
+     "max_mm": 37.64
     },
-    "move_new_to_old_p95_mm": 10.15,
-    "evidence_volume_ratio": 1.05,
-    "length_vs_z": 0.81,
+    "move_new_to_old_p95_mm": 9.64,
+    "evidence_volume_ratio": 1.04,
+    "length_vs_z": 0.79,
     "fit_error_vs_label": {
      "median_mm": 0.6,
      "p95_mm": 1.09,
@@ -3660,17 +4622,17 @@
     },
     "musc_share": [
      0.672,
-     0.796
+     0.797
     ],
     "non_muscle_share": [
      0.328,
-     0.203
+     0.202
     ],
     "z_ref_cm3": 387.5,
     "volume_vs_z": 0.59,
     "overlap_vol_pct": [
      19.5,
-     8.9
+     14.1
     ]
    },
    "bridged_y_mm": [
@@ -3681,12 +4643,16 @@
     [
      -382.8,
      -382.8
+    ],
+    [
+     -92.8,
+     -92.8
     ]
    ],
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -3698,7 +4664,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -3714,7 +4680,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -3722,19 +4688,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -3750,7 +4724,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -3762,7 +4736,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -3778,15 +4752,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -3798,7 +4772,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -3806,7 +4780,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -3816,29 +4790,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -3870,9 +4852,9 @@
    ],
    "voxels_before_after": [
     262861,
-    236025
+    233536
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 229.2 cm3 (previous mesh 258.8 cm3) (the male's biceps femoris is 443.1 cm3: x0.58). Fit error: mesh to its segmented compartment median 0.6 mm, p95 1.09 mm, max 1.59 mm; share of the muscle lying on her photographed muscle 0.672 -> 0.796 (on photographed fat / fascia 0.328 -> 0.203); moved from the previous mesh median 5.39 mm, p95 11.32 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 2.5 %), volume x0.886, length x0.965, 8.9 % of its volume inside her other muscles (was 19.5 %; gate 60). The Z-Anatomy female reference muscle is 387.5 cm3 (x0.59; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 2 run(s), y -390.8 to -382.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 227.0 cm3 (previous mesh 258.8 cm3) (the male's biceps femoris is 443.1 cm3: x0.58). Fit error: mesh to its segmented compartment median 0.6 mm, p95 1.09 mm, max 1.59 mm; share of the muscle lying on her photographed muscle 0.672 -> 0.797 (on photographed fat / fascia 0.328 -> 0.202); moved from the previous mesh median 5.38 mm, p95 11.16 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 2.5 %), volume x0.877, length x0.935, 14.1 % of its volume inside her other muscles (was 19.5 %; gate 60). The Z-Anatomy female reference muscle is 387.5 cm3 (x0.59; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 3 run(s), y -390.8 to -92.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep_contfix"
   },
   "adductor_magnus_r": {
@@ -3946,7 +4928,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -3958,7 +4940,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -3974,7 +4956,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -3982,19 +4964,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -4010,11 +5000,11 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -4022,7 +5012,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -4038,15 +5028,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -4058,7 +5048,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -4066,7 +5056,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -4076,29 +5066,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -4218,7 +5216,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -4230,7 +5228,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -4246,7 +5244,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -4254,19 +5252,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -4282,7 +5288,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -4290,11 +5296,11 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -4310,15 +5316,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -4330,7 +5336,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -4338,7 +5344,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -4348,29 +5354,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -4478,7 +5492,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -4490,7 +5504,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -4506,7 +5520,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -4514,19 +5528,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -4542,7 +5564,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -4550,7 +5572,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -4558,7 +5580,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -4574,15 +5596,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -4590,7 +5612,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -4598,7 +5620,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -4608,29 +5630,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -4738,7 +5768,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -4750,7 +5780,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -4766,7 +5796,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -4774,19 +5804,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -4802,7 +5840,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -4810,7 +5848,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -4818,7 +5856,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -4834,15 +5872,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -4854,7 +5892,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -4862,7 +5900,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -4872,29 +5910,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -4930,6 +5976,291 @@
    ],
    "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 135.2 cm3 (previous mesh 166.4 cm3) (the male's semitendinosus is 571.4 cm3: x0.29). Fit error: mesh to its segmented compartment median 0.61 mm, p95 1.1 mm, max 1.78 mm; share of the muscle lying on her photographed muscle 0.658 -> 0.769 (on photographed fat / fascia 0.34 -> 0.226); moved from the previous mesh median 3.35 mm, p95 13.15 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.0 %), volume x0.812, length x0.858, 23.7 % of its volume inside her other muscles (was 24.5 %; gate 60). The Z-Anatomy female reference muscle is 119.5 cm3 (x1.13; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 1 run(s), y -77.8 to -75.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep_contfix"
+  },
+  "adductor_magnus_l": {
+   "severity": {
+    "score": 3.91,
+    "vol_own": 633.7,
+    "vol_male": 1020.5,
+    "vol_z": 454.1,
+    "scale_vs_male": 0.62,
+    "overlap_pct_q213": 19.9,
+    "inside_bone_pct_q213": 5.13,
+    "musc_share_base": 0.719
+   },
+   "guards": {
+    "before": {
+     "in_bone_pct": 2.9,
+     "bone_depth_max_mm": 10.8,
+     "bone_deep_pct": 5.0,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 9.0,
+     "volume_cm3": 624.9,
+     "main_piece": 0.5379,
+     "length_mm": 251.4
+    },
+    "after": {
+     "in_bone_pct": 1.2,
+     "bone_depth_max_mm": 7.5,
+     "bone_deep_pct": 2.3,
+     "inside_skin_pct": 100.0,
+     "min_skin_depth_mm": 17.9,
+     "volume_cm3": 543.8,
+     "main_piece": 1.0,
+     "length_mm": 241.8
+    },
+    "volume_ratio": 0.87,
+    "length_ratio": 0.962,
+    "move": {
+     "median_mm": 5.0,
+     "p95_mm": 12.07,
+     "max_mm": 59.29
+    },
+    "move_new_to_old_p95_mm": 11.15,
+    "evidence_volume_ratio": 0.95,
+    "length_vs_z": 0.76,
+    "fit_error_vs_label": {
+     "median_mm": 0.66,
+     "p95_mm": 1.17,
+     "max_mm": 1.57
+    },
+    "musc_share": [
+     0.719,
+     0.782
+    ],
+    "non_muscle_share": [
+     0.276,
+     0.211
+    ],
+    "z_ref_cm3": 456.1,
+    "volume_vs_z": 1.19,
+    "seam_gap_mm": {
+     "piece": "adductor_magnus_l_zfill212",
+     "seam_vertices": 35,
+     "before": {
+      "median": 0.76,
+      "p95": 1.62,
+      "max": 2.42
+     }
+    },
+    "overlap_vol_pct": [
+     20.8,
+     16.3
+    ]
+   },
+   "bridged_y_mm": [
+    [
+     -279.8,
+     -279.8
+    ]
+   ],
+   "neighbour_overlap": {
+    "deep_transverse_perineal_r": [
+     91.0,
+     88.3
+    ],
+    "gluteus_maximus_l": [
+     6.8,
+     4.4
+    ],
+    "gluteus_maximus_r": [
+     12.2,
+     7.5
+    ],
+    "levator_ani_r": [
+     73.3,
+     36.9
+    ],
+    "coccygeus_r": [
+     23.2,
+     11.7
+    ],
+    "bulbospongiosus_r": [
+     100.0,
+     33.0
+    ],
+    "ischiocavernosus_r": [
+     100.0,
+     78.1
+    ],
+    "levator_ani_l": [
+     81.6,
+     47.7
+    ],
+    "coccygeus_l": [
+     43.7,
+     7.3
+    ],
+    "bulbospongiosus_l": [
+     100.0,
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
+    ],
+    "external_anal_sphincter": [
+     75.0,
+     62.1
+    ],
+    "plantaris_l": [
+     53.9,
+     51.6
+    ],
+    "adductor_brevis_l": [
+     38.0,
+     30.8
+    ],
+    "obturator_internus_r": [
+     19.5,
+     3.4
+    ],
+    "semimembranosus_r": [
+     14.9,
+     12.7
+    ],
+    "tensor_fasciae_latae_r": [
+     10.8,
+     6.7
+    ],
+    "adductor_longus_l": [
+     31.9,
+     23.1
+    ],
+    "adductor_magnus_r": [
+     17.9,
+     14.5
+    ],
+    "biceps_femoris_l": [
+     19.5,
+     14.1
+    ],
+    "biceps_femoris_r": [
+     18.7,
+     15.0
+    ],
+    "gracilis_l": [
+     31.7,
+     17.3
+    ],
+    "gracilis_r": [
+     29.4,
+     24.7
+    ],
+    "rectus_femoris_r": [
+     25.1,
+     14.6
+    ],
+    "sartorius_r": [
+     21.6,
+     17.0
+    ],
+    "semitendinosus_l": [
+     24.8,
+     23.0
+    ],
+    "vastus_lateralis_l": [
+     21.8,
+     17.5
+    ],
+    "vastus_medialis_l": [
+     21.9,
+     18.4
+    ],
+    "adductor_brevis_r": [
+     33.8,
+     26.0
+    ],
+    "adductor_longus_r": [
+     26.6,
+     22.4
+    ],
+    "gemellus_inferior_l": [
+     30.6,
+     12.5
+    ],
+    "obturator_externus_l": [
+     24.5,
+     21.0
+    ],
+    "obturator_externus_r": [
+     22.1,
+     16.5
+    ],
+    "obturator_internus_l": [
+     26.1,
+     6.9
+    ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
+    "pectineus_r": [
+     14.9,
+     7.6
+    ],
+    "quadratus_femoris_l": [
+     19.6,
+     16.5
+    ],
+    "rectus_femoris_l": [
+     24.3,
+     20.3
+    ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
+    "semimembranosus_l": [
+     15.1,
+     10.1
+    ],
+    "tensor_fasciae_latae_l": [
+     21.5,
+     22.7
+    ],
+    "vastus_intermedius_l": [
+     34.2,
+     24.8
+    ],
+    "vastus_intermedius_r": [
+     32.7,
+     29.1
+    ],
+    "vastus_lateralis_r": [
+     19.1,
+     13.1
+    ],
+    "vastus_medialis_r": [
+     19.9,
+     13.6
+    ],
+    "gemellus_inferior_r": [
+     35.4,
+     8.0
+    ],
+    "gemellus_superior_l": [
+     47.5,
+     44.4
+    ],
+    "gemellus_superior_r": [
+     24.2,
+     17.0
+    ]
+   },
+   "notes": [
+    "detached surface pieces < 15% (410 vertices) dropped (Q181b rule)"
+   ],
+   "voxels_before_after": [
+    630154,
+    552071
+   ],
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 543.8 cm3 (previous mesh 624.9 cm3) (the male's adductor magnus is 1020.5 cm3: x0.62). Fit error: mesh to its segmented compartment median 0.66 mm, p95 1.17 mm, max 1.57 mm; share of the muscle lying on her photographed muscle 0.719 -> 0.782 (on photographed fat / fascia 0.276 -> 0.211); moved from the previous mesh median 5.0 mm, p95 12.07 mm. Guards passed: inside her skin (>= 1 mm), 1.2 % of the vertices in her bone mesh (was 2.9 %), volume x0.87, length x0.962, 16.3 % of its volume inside her other muscles (was 20.8 %; gate 60). The Z-Anatomy female reference muscle is 456.1 cm3 (x1.19; shown for scale only, not used as geometry). Its Z-fill continuation piece (welded to the old flat cut) now meets it within p95 1.62 mm. Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 1 run(s), y -279.8 to -279.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "subject_before": "xfer_vhm2vhf_sep"
   },
   "vastus_lateralis_l": {
    "severity": {
@@ -4990,14 +6321,14 @@
     "volume_vs_z": 0.68,
     "overlap_vol_pct": [
      21.8,
-     16.9
+     17.5
     ]
    },
    "bridged_y_mm": [],
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -5009,7 +6340,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -5025,7 +6356,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -5033,19 +6364,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -5061,7 +6400,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -5069,7 +6408,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -5077,7 +6416,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -5093,11 +6432,11 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -5109,7 +6448,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -5117,7 +6456,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -5127,29 +6466,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -5179,9 +6526,9 @@
    "notes": [],
    "voxels_before_after": [
     323201,
-    256197
+    256204
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 249.8 cm3 (previous mesh 319.9 cm3) (the male's vastus lateralis is 1155.0 cm3: x0.3). Fit error: mesh to its segmented compartment median 0.64 mm, p95 1.12 mm, max 1.67 mm; share of the muscle lying on her photographed muscle 0.663 -> 0.74 (on photographed fat / fascia 0.336 -> 0.256); moved from the previous mesh median 4.75 mm, p95 11.44 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 7.9 %), volume x0.781, length x0.902, 16.9 % of its volume inside her other muscles (was 21.8 %; gate 60). The Z-Anatomy female reference muscle is 370.0 cm3 (x0.68; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 249.8 cm3 (previous mesh 319.9 cm3) (the male's vastus lateralis is 1155.0 cm3: x0.3). Fit error: mesh to its segmented compartment median 0.64 mm, p95 1.12 mm, max 1.67 mm; share of the muscle lying on her photographed muscle 0.663 -> 0.74 (on photographed fat / fascia 0.336 -> 0.256); moved from the previous mesh median 4.75 mm, p95 11.44 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 7.9 %), volume x0.781, length x0.902, 17.5 % of its volume inside her other muscles (was 21.8 %; gate 60). The Z-Anatomy female reference muscle is 370.0 cm3 (x0.68; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep_contfix"
   },
   "tensor_fasciae_latae_r": {
@@ -5255,7 +6602,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -5267,7 +6614,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -5283,7 +6630,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -5291,19 +6638,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -5315,7 +6670,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -5323,7 +6678,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -5331,7 +6686,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -5347,15 +6702,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -5367,7 +6722,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -5375,7 +6730,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -5385,29 +6740,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -5503,14 +6866,14 @@
     "volume_vs_z": 0.79,
     "overlap_vol_pct": [
      21.5,
-     22.6
+     22.7
     ]
    },
    "bridged_y_mm": [],
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -5522,7 +6885,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -5538,7 +6901,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -5546,19 +6909,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -5574,7 +6945,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -5582,7 +6953,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -5590,7 +6961,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -5606,15 +6977,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -5626,7 +6997,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -5634,7 +7005,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -5644,25 +7015,33 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -5694,7 +7073,7 @@
     69912,
     56305
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 53.7 cm3 (previous mesh 68.5 cm3) (the male's tensor fasciae latae is 133.8 cm3: x0.51). Fit error: mesh to its segmented compartment median 0.53 mm, p95 1.06 mm, max 1.61 mm; share of the muscle lying on her photographed muscle 0.546 -> 0.704 (on photographed fat / fascia 0.454 -> 0.296); moved from the previous mesh median 3.08 mm, p95 10.71 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.4 %), volume x0.784, length x1.03, 22.6 % of its volume inside her other muscles (was 21.5 %; gate 60). The Z-Anatomy female reference muscle is 67.8 cm3 (x0.79; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 53.7 cm3 (previous mesh 68.5 cm3) (the male's tensor fasciae latae is 133.8 cm3: x0.51). Fit error: mesh to its segmented compartment median 0.53 mm, p95 1.06 mm, max 1.61 mm; share of the muscle lying on her photographed muscle 0.546 -> 0.704 (on photographed fat / fascia 0.454 -> 0.296); moved from the previous mesh median 3.08 mm, p95 10.71 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.4 %), volume x0.784, length x1.03, 22.7 % of its volume inside her other muscles (was 21.5 %; gate 60). The Z-Anatomy female reference muscle is 67.8 cm3 (x0.79; shown for scale only, not used as geometry). The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep"
   },
   "semitendinosus_l": {
@@ -5725,11 +7104,11 @@
      "bone_deep_pct": 0.0,
      "inside_skin_pct": 100.0,
      "min_skin_depth_mm": 8.3,
-     "volume_cm3": 126.9,
+     "volume_cm3": 127.1,
      "main_piece": 1.0,
      "length_mm": 200.2
     },
-    "volume_ratio": 0.828,
+    "volume_ratio": 0.83,
     "length_ratio": 0.769,
     "move": {
      "median_mm": 6.45,
@@ -5746,7 +7125,7 @@
     },
     "musc_share": [
      0.769,
-     0.808
+     0.807
     ],
     "non_muscle_share": [
      0.231,
@@ -5756,7 +7135,7 @@
     "volume_vs_z": 1.09,
     "overlap_vol_pct": [
      24.8,
-     16.3
+     23.0
     ]
    },
    "bridged_y_mm": [
@@ -5784,7 +7163,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -5796,7 +7175,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -5812,7 +7191,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -5820,19 +7199,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -5848,7 +7235,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -5856,7 +7243,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -5864,7 +7251,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -5880,11 +7267,11 @@
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -5896,7 +7283,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -5904,7 +7291,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -5914,29 +7301,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -5966,9 +7361,9 @@
    "notes": [],
    "voxels_before_after": [
     157752,
-    129883
+    130114
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 126.9 cm3 (previous mesh 153.2 cm3) (the male's semitendinosus is 254.3 cm3: x0.6). Fit error: mesh to its segmented compartment median 0.6 mm, p95 1.11 mm, max 1.61 mm; share of the muscle lying on her photographed muscle 0.769 -> 0.808 (on photographed fat / fascia 0.231 -> 0.188); moved from the previous mesh median 6.45 mm, p95 22.79 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.0 %), volume x0.828, length x0.769, 16.3 % of its volume inside her other muscles (was 24.8 %; gate 60). The Z-Anatomy female reference muscle is 116.3 cm3 (x1.09; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 5 run(s), y -301.8 to -285.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 127.1 cm3 (previous mesh 153.2 cm3) (the male's semitendinosus is 254.3 cm3: x0.6). Fit error: mesh to its segmented compartment median 0.6 mm, p95 1.11 mm, max 1.61 mm; share of the muscle lying on her photographed muscle 0.769 -> 0.807 (on photographed fat / fascia 0.231 -> 0.188); moved from the previous mesh median 6.45 mm, p95 22.79 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.0 %), volume x0.83, length x0.769, 23.0 % of its volume inside her other muscles (was 24.8 %; gate 60). The Z-Anatomy female reference muscle is 116.3 cm3 (x1.09; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 5 run(s), y -301.8 to -285.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep_contfix"
   },
   "semimembranosus_l": {
@@ -5999,58 +7394,54 @@
      "bone_deep_pct": 0.2,
      "inside_skin_pct": 100.0,
      "min_skin_depth_mm": 7.8,
-     "volume_cm3": 254.1,
+     "volume_cm3": 258.5,
      "main_piece": 1.0,
      "length_mm": 232.6
     },
-    "volume_ratio": 0.838,
+    "volume_ratio": 0.853,
     "length_ratio": 1.0,
     "move": {
-     "median_mm": 5.54,
-     "p95_mm": 10.99,
+     "median_mm": 5.49,
+     "p95_mm": 11.15,
      "max_mm": 16.61
     },
-    "move_new_to_old_p95_mm": 10.26,
-    "evidence_volume_ratio": 1.16,
+    "move_new_to_old_p95_mm": 10.31,
+    "evidence_volume_ratio": 1.19,
     "length_vs_z": 0.63,
     "fit_error_vs_label": {
      "median_mm": 0.62,
      "p95_mm": 1.11,
-     "max_mm": 1.72
+     "max_mm": 1.78
     },
     "musc_share": [
      0.573,
-     0.794
+     0.801
     ],
     "non_muscle_share": [
      0.427,
-     0.206
+     0.199
     ],
     "z_ref_cm3": 284.9,
-    "volume_vs_z": 0.89,
+    "volume_vs_z": 0.91,
     "overlap_vol_pct": [
      15.1,
-     7.0
+     10.1
     ]
    },
    "bridged_y_mm": [
     [
+     -154.8,
+     -154.8
+    ],
+    [
      -152.8,
-     -152.8
-    ],
-    [
-     -150.8,
-     -149.8
-    ],
-    [
-     -147.8,
      -147.8
     ]
    ],
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -6062,7 +7453,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -6078,7 +7469,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -6086,19 +7477,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -6114,7 +7513,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -6122,7 +7521,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -6130,7 +7529,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -6146,15 +7545,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -6166,7 +7565,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -6174,7 +7573,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -6184,25 +7583,33 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -6230,13 +7637,13 @@
     ]
    },
    "notes": [
-    "detached surface pieces < 15% (5274 vertices) dropped (Q181b rule)"
+    "detached surface pieces < 15% (562 vertices) dropped (Q181b rule)"
    ],
    "voxels_before_after": [
     305574,
-    266995
+    263165
    ],
-   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 254.1 cm3 (previous mesh 303.2 cm3) (the male's semimembranosus is 440.1 cm3: x0.69). Fit error: mesh to its segmented compartment median 0.62 mm, p95 1.11 mm, max 1.72 mm; share of the muscle lying on her photographed muscle 0.573 -> 0.794 (on photographed fat / fascia 0.427 -> 0.206); moved from the previous mesh median 5.54 mm, p95 10.99 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.9 %), volume x0.838, length x1.0, 7.0 % of its volume inside her other muscles (was 15.1 %; gate 60). The Z-Anatomy female reference muscle is 284.9 cm3 (x0.89; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 3 run(s), y -152.8 to -147.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
+   "badge": "TRANSFERRED, re-bounded on her own evidence (Q215): the muscle SET is still the male's (Q48: his muscle carried onto her bones), so the Source class stays transferred -- but where this muscle lies and where it ends are hers. The Q48 boundaries had been drawn on her photographs in a frame that sits 2-14 mm off her CT bones; Q215 redoes the Q48 marker watershed in the frame in which her 1 mm colour cryosections are registered to her CT femur (Q179): region = her photographed muscle (colour rule validated on her traced outlines), borders = her intermuscular septa, her bones and her own CT / pelvic-floor muscles are never part of it. Volume 258.5 cm3 (previous mesh 303.2 cm3) (the male's semimembranosus is 440.1 cm3: x0.69). Fit error: mesh to its segmented compartment median 0.62 mm, p95 1.11 mm, max 1.78 mm; share of the muscle lying on her photographed muscle 0.573 -> 0.801 (on photographed fat / fascia 0.427 -> 0.199); moved from the previous mesh median 5.49 mm, p95 11.15 mm. Guards passed: inside her skin (>= 1 mm), 0.0 % of the vertices in her bone mesh (was 0.9 %), volume x0.853, length x1.0, 10.1 % of its volume inside her other muscles (was 15.1 %; gate 60). The Z-Anatomy female reference muscle is 284.9 cm3 (x0.91; shown for scale only, not used as geometry). Levels bridged by interpolation between the bounding sections (empty sections, e.g. her blank / gel-spill photographs at y -127 to -134): 2 run(s), y -154.8 to -147.8 mm. The muscle's identity inside her thigh is not measured: the watershed was seeded with the male's muscle set. A position and boundary estimate, not a segmentation.",
    "subject_before": "xfer_vhm2vhf_sep"
   },
   "semimembranosus_r": {
@@ -6305,7 +7712,7 @@
    "neighbour_overlap": {
     "deep_transverse_perineal_r": [
      91.0,
-     88.5
+     88.3
     ],
     "gluteus_maximus_l": [
      6.8,
@@ -6317,7 +7724,7 @@
     ],
     "levator_ani_r": [
      73.3,
-     37.3
+     36.9
     ],
     "coccygeus_r": [
      23.2,
@@ -6333,7 +7740,7 @@
     ],
     "levator_ani_l": [
      81.6,
-     49.5
+     47.7
     ],
     "coccygeus_l": [
      43.7,
@@ -6341,19 +7748,27 @@
     ],
     "bulbospongiosus_l": [
      100.0,
-     89.8
+     30.7
+    ],
+    "ischiocavernosus_l": [
+     100.0,
+     91.5
+    ],
+    "deep_transverse_perineal_l": [
+     99.3,
+     93.5
     ],
     "external_anal_sphincter": [
      75.0,
-     66.8
+     62.1
     ],
     "plantaris_l": [
      53.9,
-     51.5
+     51.6
     ],
     "adductor_brevis_l": [
      38.0,
-     36.6
+     30.8
     ],
     "obturator_internus_r": [
      19.5,
@@ -6365,7 +7780,7 @@
     ],
     "adductor_longus_l": [
      31.9,
-     22.8
+     23.1
     ],
     "adductor_magnus_r": [
      17.9,
@@ -6373,7 +7788,7 @@
     ],
     "biceps_femoris_l": [
      19.5,
-     8.9
+     14.1
     ],
     "biceps_femoris_r": [
      18.7,
@@ -6381,7 +7796,7 @@
     ],
     "gracilis_l": [
      31.7,
-     20.7
+     17.3
     ],
     "gracilis_r": [
      29.4,
@@ -6397,15 +7812,15 @@
     ],
     "semitendinosus_l": [
      24.8,
-     16.3
+     23.0
     ],
     "vastus_lateralis_l": [
      21.8,
-     16.9
+     17.5
     ],
     "vastus_medialis_l": [
      21.9,
-     15.7
+     18.4
     ],
     "adductor_brevis_r": [
      33.8,
@@ -6417,7 +7832,7 @@
     ],
     "adductor_magnus_l": [
      20.8,
-     11.7
+     16.3
     ],
     "gemellus_inferior_l": [
      30.6,
@@ -6425,7 +7840,7 @@
     ],
     "obturator_externus_l": [
      24.5,
-     22.4
+     21.0
     ],
     "obturator_externus_r": [
      22.1,
@@ -6435,29 +7850,37 @@
      26.1,
      6.9
     ],
+    "pectineus_l": [
+     16.6,
+     10.2
+    ],
     "pectineus_r": [
      14.9,
      7.6
     ],
     "quadratus_femoris_l": [
      19.6,
-     18.6
+     16.5
     ],
     "rectus_femoris_l": [
      24.3,
      20.3
     ],
+    "sartorius_l": [
+     24.8,
+     20.6
+    ],
     "semimembranosus_l": [
      15.1,
-     7.0
+     10.1
     ],
     "tensor_fasciae_latae_l": [
      21.5,
-     22.6
+     22.7
     ],
     "vastus_intermedius_l": [
      34.2,
-     24.0
+     24.8
     ],
     "vastus_intermedius_r": [
      32.7,
@@ -6497,21 +7920,6 @@
  },
  "rewelded": {},
  "kept": {
-  "adductor_magnus_l": {
-   "severity": {
-    "score": 3.91,
-    "vol_own": 633.7,
-    "vol_male": 1020.5,
-    "vol_z": 454.1,
-    "scale_vs_male": 0.62,
-    "overlap_pct_q213": 19.9,
-    "inside_bone_pct_q213": 5.13,
-    "musc_share_base": 0.719
-   },
-   "why_not": [
-    "the Z-fill continuation welded to the old mesh would be 8.44 mm (p95), 10.79 mm (max) off the new mesh at the seam (gate 2.5 mm, re-weld up to 8 mm)"
-   ]
-  },
   "gracilis_r": {
    "severity": {
     "score": 5.92,
@@ -6525,52 +7933,6 @@
    },
    "why_not": [
     "main piece 0.4131 < 0.6152"
-   ]
-  },
-  "adductor_brevis_l": {
-   "severity": {
-    "score": 6.51,
-    "vol_own": 120.2,
-    "vol_male": 146.4,
-    "vol_z": 59.4,
-    "scale_vs_male": 0.82,
-    "overlap_pct_q213": 37.7,
-    "inside_bone_pct_q213": 7.5,
-    "musc_share_base": 0.648
-   },
-   "why_not": [
-    "69.2 % of its volume inside the other muscles (gate 60; old mesh 38.0 %)"
-   ]
-  },
-  "adductor_longus_l": {
-   "severity": {
-    "score": 4.8,
-    "vol_own": 132.1,
-    "vol_male": 232.3,
-    "vol_z": 147.6,
-    "scale_vs_male": 0.57,
-    "overlap_pct_q213": 29.1,
-    "inside_bone_pct_q213": 0.04,
-    "musc_share_base": 0.399
-   },
-   "why_not": [
-    "volume 59.2 cm3 is x0.51 of the 116.4 cm3 the unconstrained refit gave it: squeezed by the old meshes of held neighbours (gate >= 0.8)"
-   ]
-  },
-  "gracilis_l": {
-   "severity": {
-    "score": 6.34,
-    "vol_own": 91.8,
-    "vol_male": 146.9,
-    "vol_z": 116.1,
-    "scale_vs_male": 0.62,
-    "overlap_pct_q213": 31.7,
-    "inside_bone_pct_q213": 0.0,
-    "musc_share_base": 0.189
-   },
-   "why_not": [
-    "main piece 0.7746 < 0.9702",
-    "volume 33.8 cm3 is x0.36 of the 93.1 cm3 the unconstrained refit gave it: squeezed by the old meshes of held neighbours (gate >= 0.8)"
    ]
   }
  },
