@@ -66,6 +66,7 @@ def run(src, out, report, dry=False, log=print):
     bones = {i: (e["v"], e["f"]) for i, e in S.items() if e["m"]["sys"] == "bone" and len(e["f"]) > 20}
     field = IB.BoneField(bones)
     tree = cKDTree(np.vstack([v for v, _ in bones.values()]))
+    mo = IB.MuscleOverlap({i: (e["v"], e["f"]) for i, e in S.items() if e["m"]["sys"] == "muscle"})
     rep_all = {"repaired": {}, "held": {}, "split": {}, "params": dict(IN_BONE_MIN=IN_BONE_MIN, MEAN_MOVE_MAX=IB.MEAN_MOVE_MAX, MAX_MOVE_MAX=IB.MAX_MOVE_MAX, GATE_PCT=IB.GATE_PCT, VOL=[IB.VOL_LO, IB.VOL_HI])}
     replace, add = {}, []
     # ---------------------------------------------------------------- (2) merged opponens digiti minimi
@@ -103,7 +104,7 @@ def run(src, out, report, dry=False, log=print):
         pct = 100.0 * float(ins.mean())
         if pct < IN_BONE_MIN:
             continue
-        nv, rep = IB.repair(v, f, field, end_tree=tree)
+        nv, rep = IB.repair(v, f, field, end_tree=tree, overlap=lambda V, i=i: mo.pct(V, (i,)))
         if nv is None:
             rep_all["held"][i] = rep
             log(f"  {i:44s} {pct:5.1f} % HELD {';'.join(rep['why_not'])}")
@@ -130,7 +131,8 @@ def badge_tail(rep):
     belly = (f" (belly {rep['inside_before_belly_pct']} -> {rep['inside_after_belly_pct']} %)" if "inside_before_belly_pct" in rep else "")
     return (f": {rep['inside_before_pct']} % of its vertices were inside them{belly} -- mostly the Z source's own overlap with the bones (the unfitted Z base has it too, so the Q211 in-bone pass skipped it). "
             f"Pushed out of the displayed bones (which are fitted to her own bones) by a guarded displacement field (origin / insertion zones held; mean move {rep['mean_move_mm']} mm, max {rep['max_move_mm']} mm; "
-            f"volume x{rep['volume_ratio']}; flipped faces {rep['flipped_pct']} %, stretched triangles {rep['stretched_before']} -> {rep['stretched_after']} %). In bone after: {rep['inside_after_pct']} % "
+            f"volume x{rep['volume_ratio']}; flipped faces {rep['flipped_pct']} %, stretched triangles {rep['stretched_before']} -> {rep['stretched_after']} %; share inside other muscles "
+            f"{rep.get('overlap_before_pct')} -> {rep.get('overlap_after_pct')} %, guard: rise <= {IB.OVERLAP_RISE_MAX:g} points). In bone after: {rep['inside_after_pct']} % "
             f"(belly {rep.get('inside_after_belly_pct', rep['inside_after_pct'])} %). Nothing invented.")
 
 

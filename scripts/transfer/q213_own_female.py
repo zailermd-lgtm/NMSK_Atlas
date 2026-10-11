@@ -67,7 +67,8 @@ def badge_repair(rep, who="her"):
     belly = (f" (belly {rep['inside_before_belly_pct']} -> {rep['inside_after_belly_pct']} %)" if "inside_before_belly_pct" in rep else "")
     return (f" Q213 (target-muscle audit): {rep['inside_before_pct']} % of this mesh's vertices lay inside {who} own bone meshes{belly}; pushed out of them by a guarded displacement field "
             f"(origin / insertion zones and the seam to the Z-fill continuation held; mean move {rep['mean_move_mm']} mm, max {rep['max_move_mm']} mm; volume x{rep['volume_ratio']}; "
-            f"flipped faces {rep['flipped_pct']} %, stretched triangles {rep['stretched_before']} -> {rep['stretched_after']} %). In bone after: {rep['inside_after_pct']} % "
+            f"flipped faces {rep['flipped_pct']} %, stretched triangles {rep['stretched_before']} -> {rep['stretched_after']} %; share inside her other muscles {rep.get('overlap_before_pct')} -> "
+            f"{rep.get('overlap_after_pct')} %, guard: rise <= {IB.OVERLAP_RISE_MAX:g} points). In bone after: {rep['inside_after_pct']} % "
             f"(belly {rep.get('inside_after_belly_pct', rep['inside_after_pct'])} %). Her bones are the evidence; nothing was added or invented.")
 
 
@@ -80,6 +81,8 @@ def run(src, out, report, dry=False, log=print):
             bones.setdefault(it["e"]["id"], (v, f))
     field = IB.BoneField(bones)
     tree = cKDTree(np.vstack([v for v, _ in bones.values()]))
+    mus_all = {it["e"]["id"]: B.mesh(it) for it in B.items if it["e"]["cat"] == "muscle"}
+    mo = IB.MuscleOverlap(mus_all)
     stems = target_stems()
     pat = re.compile(r"^(?:%s)_(r|l)(_zfill\w*)?$" % "|".join(map(re.escape, stems)))
     pat2 = re.compile(r"^zan_palmaris_longus_muscle_(r|l)$")
@@ -105,7 +108,8 @@ def run(src, out, report, dry=False, log=print):
             sv = np.vstack([B.mesh(B.items[j])[0] for j in sib])
             anchors = cKDTree(sv).query(v)[0] < 3.0
         t = time.time()
-        nv, rep = IB.repair(v, f, field, anchors=anchors, end_tree=tree)
+        own_ids = {j2["e"]["id"] for j2 in (B.items[x] for x in by_base[re.sub(r"_zfill\w*$", "", e["id"])])}
+        nv, rep = IB.repair(v, f, field, anchors=anchors, end_tree=tree, overlap=lambda V, ids=own_ids: mo.pct(V, ids))
         rep["pieces_seam_vertices"] = int(anchors.sum()) if anchors is not None else 0
         hidden = bool(e.get("hidden_default"))
         if nv is not None:
@@ -131,8 +135,8 @@ def run(src, out, report, dry=False, log=print):
     i0 = h.find("window.__ANATOMY_MANIFEST__=") + len("window.__ANATOMY_MANIFEST__=")
     zman = {m["id"]: m for m in json.JSONDecoder().raw_decode(h[i0:])[0]["meshes"]}
     zmesh = load_z_meshes()
-    own_muscles = {it["e"]["id"]: B.mesh(it) for it in B.items if it["e"]["cat"] == "muscle"}
-    own_tm = {k: trimesh.Trimesh(v, f, process=False) for k, (v, f) in own_muscles.items()}
+    own_muscles = mus_all
+    own_tm = mo.tm
     for zid in ADD:
         nid = zid
         if B.find(nid):

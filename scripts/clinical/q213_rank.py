@@ -20,11 +20,18 @@ REPO = Path(__file__).resolve().parents[2]
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--out", default=str(REPO / "data/derived/Q213_target_ranking.json"))
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--after", action="store_true", help="rank the corrected Q213 pages (audit = Q213_target_muscle_audit_after.json, coverage = the regenerated one)")
     a = ap.parse_args()
-    aud = json.loads((REPO / "data/derived/Q213_target_muscle_audit.json").read_text())
-    cov = json.loads((REPO / "data/derived/Q213_motor_points_coverage_before.json").read_text())["viewers"]
-    h = (REPO / "build/q212/viewer_f_hr/atlas_viewer_female.html").read_text(encoding="utf-8")
+    if a.after:
+        aud = json.loads((REPO / "data/derived/Q213_target_muscle_audit_after.json").read_text())
+        cov = json.loads((REPO / "data/derived/Q187_motor_points_coverage.json").read_text())["viewers"]
+        h = (REPO / "build/q213/viewer_f_hr/atlas_viewer_female.html").read_text(encoding="utf-8")
+    else:
+        aud = json.loads((REPO / "data/derived/Q213_target_muscle_audit.json").read_text())
+        cov = json.loads((REPO / "data/derived/Q213_motor_points_coverage_before.json").read_text())["viewers"]
+        h = (REPO / "build/q212/viewer_f_hr/atlas_viewer_female.html").read_text(encoding="utf-8")
+    a.out = a.out or str(REPO / ("data/derived/Q213_target_ranking_after.json" if a.after else "data/derived/Q213_target_ranking.json"))
     b = json.loads(re.search(r'<script id="bundle-json" type="application/json">(.*?)</script>', h, re.S).group(1))
     hidden = {e["id"] for e in b["structures"] if e.get("hidden_default")}
     notcovered = set(json.loads((REPO / "data/derived/Q187_motor_points_coverage.json").read_text())["muscles_without_usable_source"])
@@ -64,7 +71,7 @@ def main():
             if n:
                 r["score"] += n
                 r["items"].append(f"{nm}: {fails[vk][mu]} motor-point rule(s) failed / not placed (+{n})")
-        if mu == "opponens_digiti_minimi":
+        if mu == "opponens_digiti_minimi" and not a.after:
             r["score"] += 6
             r["items"].append("Z: one mesh merges the hand muscle with a foot piece (+3 per side)")
     ranked = sorted(rows.values(), key=lambda r: -r["score"])

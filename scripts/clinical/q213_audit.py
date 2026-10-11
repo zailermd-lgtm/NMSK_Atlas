@@ -105,7 +105,11 @@ def axis_len(V):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=str(REPO / "data/derived/Q213_target_muscle_audit.json"))
+    ap.add_argument("--after", action="store_true", help="audit the corrected Q213 pages instead (rows from build/q213_raw, written by scripts/zanatomy/q213_run.py q204_regions own_f|q213_f)")
     a = ap.parse_args()
+    if a.after:
+        PAGES["vhf"] = {**PAGES_AFTER["vhf_q213"], "rows": REPO / "build/q213_raw/Q204_regions_own_f.json"}
+        PAGES["zan_f"] = {**PAGES_AFTER["zan_f_q213"], "rows": REPO / "build/q213_raw/Q204_regions_q213_f.json"}
     data = {k: load(k) for k in PAGES}
     rows = {k: {r["id"]: r for r in json.loads(Path(PAGES[k]["rows"]).read_text())["rows"]} for k in ("vhf", "zan_f")}
     targets = sorted({r["muscle"] for r in M.RULES} | set(M.NOT_COVERED_REASON))

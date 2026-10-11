@@ -14,7 +14,7 @@ import numpy as np
 import trimesh
 from scipy.sparse import coo_matrix
 
-MARGIN = 0.6
+MARGIN = 2.0      # mm outside the bone surface after the push: the Q204 audit counts a vertex as inside bone when its 2 mm voxel is solid (depth >= 2 mm > 1.5 mm), i.e. up to ~1.7 mm outside the true surface; 2.0 mm clears both measures
 CAP_MM = 16.0
 GATE_PCT = 5.0
 SMOOTH_IT = 6
@@ -132,7 +132,10 @@ def push_out(v, f, field, lam=10.0, passes=6, tether=1e-3, start=None, anchors=N
         Mx = (diags(w + wa) + lam * Lap + tether * identity(n)).tocsc()
         D = np.column_stack([spsolve(Mx, w * P[:, k]) for k in range(3)])
         cur = cur + D
-    ins1, _, _ = field.inside(cur)
+    ins1, _, dist1 = field.inside(cur)
+    _, _, dist0 = field.inside(v)
+    rep["deep_before_pct"] = round(100.0 * float((np.isfinite(dist0) & (dist0 > 1.5)).mean()), 1)       # vertices > 1.5 mm inside a bone: the Q204 inside-bone measure
+    rep["deep_after_pct"] = round(100.0 * float((np.isfinite(dist1) & (dist1 > 1.5)).mean()), 1)
     mv = np.linalg.norm(cur - v, axis=1)
     if ends is not None:
         rep["inside_before_belly_pct"] = round(100.0 * float(in0[~ends].mean()), 1)
@@ -154,11 +157,12 @@ def chain(v, f, field, lams, anchors=None, ends=None):
     return cur, rep
 
 
-def repair(v, f, field, chains=CHAINS, anchors=None, end_tree=None, use_ends=True):
+def repair(v, f, field, chains=CHAINS, anchors=None, end_tree=None, use_ends=True, overlap=None):
     """every chain (stiffest = most rigid shift first, then more local) is tried; of the results that pass accept() the one with the smallest in-bone share of the belly is returned
     (ties: smaller mean move); if none passes, the best-gain result is returned with its reasons.  -> (vertices or None, report)"""
     best, ok_best = None, None
     ends = ends_mask(v) if use_ends else None
+    o0 = overlap(v) if overlap is not None else None
     key = lambda r: r.get("inside_after_belly_pct", r["inside_after_pct"])
     for lams in chains:
         nv, rep = chain(v, f, field, lams, anchors, ends)
@@ -169,6 +173,12 @@ def repair(v, f, field, chains=CHAINS, anchors=None, end_tree=None, use_ends=Tru
             if any(b > max(a + 1.5, 4.5) for a, b in zip(d0, d1)):
                 ok = False
                 why = why + ["an attachment end moved off its bone"]
+        if overlap is not None:
+            o1 = overlap(nv)
+            rep["overlap_before_pct"], rep["overlap_after_pct"] = round(o0, 1), round(o1, 1)
+            if o1 > o0 + OVERLAP_RISE_MAX:
+                ok = False
+                why = why + [f"muscle overlap {o0:.1f} -> {o1:.1f} %"]
         rep["accepted"], rep["why_not"] = ok, why
         if ok and (ok_best is None or (key(rep), rep["mean_move_mm"]) < (key(ok_best[1]), ok_best[1]["mean_move_mm"])):
             ok_best = (nv, rep)
@@ -189,6 +199,26 @@ def end_dist(v, tree, frac=0.1):
 
 
 MEAN_MOVE_MAX, MAX_MOVE_MAX = 4.0, 16.0
+OVERLAP_RISE_MAX = 6.0     # points: the share of vertices inside OTHER muscles may not rise by more than this (Q211 muscle-overlap guard)
+
+
+class MuscleOverlap:
+    """share (%) of the vertices of a mesh that lie inside other muscle meshes (ray parity); `others` = {id: (v, f)}, `skip` = ids that do not count (the muscle's own pieces)"""
+
+    def __init__(self, others):
+        self.tm = {k: trimesh.Trimesh(v, f, process=False) for k, (v, f) in others.items() if len(f) > 20}
+        self.box = {k: (m.bounds[0] - 1.0, m.bounds[1] + 1.0) for k, m in self.tm.items()}
+
+    def pct(self, V, skip=()):
+        inm = np.zeros(len(V), bool)
+        for k, m in self.tm.items():
+            if k in skip:
+                continue
+            lo, hi = self.box[k]
+            sel = np.flatnonzero(np.all((V >= lo) & (V <= hi), axis=1) & ~inm)
+            if len(sel):
+                inm[sel] = m.contains(V[sel])
+        return 100.0 * float(inm.mean())
 
 
 def accept(rep):

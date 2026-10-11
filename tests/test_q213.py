@@ -151,6 +151,28 @@ def test_seam_vertices_stay_put():
     assert np.linalg.norm(nv[seam] - mv[seam], axis=1).max() < 1.0      # anchored at weight 200
 
 
+def test_overlap_guard_refuses_a_push_into_a_neighbour_muscle():
+    (bv, bf), (mv, mf) = bone_and_muscle(2.5)
+    tm = trimesh.Trimesh(mv, mf).subdivide().subdivide().subdivide()
+    mv, mf = np.asarray(tm.vertices), np.asarray(tm.faces)
+    field = IB.BoneField({"b": (bv, bf)})
+    calls = [0]
+
+    def ov(V):
+        calls[0] += 1
+        return 0.0 if calls[0] == 1 else 40.0
+    nv, rep = IB.repair(mv, mf, field, overlap=ov)
+    assert nv is None and any("muscle overlap" in w for w in rep["why_not"])
+    nb = mesh((200, 0, -8), (230, 100, 8), sub=2)
+    mo = IB.MuscleOverlap({"far": (nb["v"], nb["f"])})
+    assert mo.pct(mv) == 0.0
+    nv, rep = IB.repair(mv, mf, field, overlap=lambda V: mo.pct(V))
+    assert nv is not None and rep["overlap_before_pct"] == 0.0 and rep["overlap_after_pct"] == 0.0
+    near = mesh((9, -10, -12), (30, 110, 12), sub=2)                  # the neighbour sits where the slab itself is: the share is measured against the OTHER muscles only
+    mo2 = IB.MuscleOverlap({"self": (near["v"], near["f"])})
+    assert mo2.pct(mv, skip=("self",)) == 0.0 and mo2.pct(mv) > 30.0
+
+
 # ---------------------------------------------------------------- built artefacts
 def _bundle(d):
     from scripts.transfer.q200_bundle import Bundle
@@ -256,3 +278,28 @@ def test_q213_motor_points_lie_in_their_structure_on_the_q213_page(vk, page_html
         ok = bool(M.inside(q, m["v"], m["f"])[0]) or float(np.min(np.linalg.norm(m["v"] - q, axis=1))) <= 1.0
         assert ok, (vk, p["id"])
         assert p["side"] == p["atlas_id"][-1] and (q[0] + 4.3) * (1 if p["side"] == "r" else -1) > -6.0     # no left / right swap
+
+
+def test_q213_motor_point_coverage_recorded_and_the_fixed_cases_are_placed():
+    cov_path = REPO / "data/derived/Q187_motor_points_coverage.json"
+    bef_path = REPO / "data/derived/Q213_motor_points_coverage_before.json"
+    mp = json.loads((REPO / "clinical/data/motor_points.json").read_text())
+    if not (cov_path.exists() and bef_path.exists()):
+        pytest.skip("coverage files missing")
+    cov = json.loads(cov_path.read_text())["viewers"]
+    bef = json.loads(bef_path.read_text())["viewers"]
+    assert (bef["vhf"]["points"], len(bef["vhf"]["failed"]), len(bef["vhf"]["not_placed"])) == (170, 15, 23)      # the published state (main session, after Q212)
+    assert (bef["zan_f"]["points"], len(bef["zan_f"]["failed"]), len(bef["zan_f"]["not_placed"])) == (191, 11, 6)
+    for vk in ("vhf", "zan_f"):
+        assert cov[vk]["points"] == len(mp["viewers"][vk]["points"])
+        assert cov[vk]["points"] > bef[vk]["points"]
+        assert len(cov[vk]["failed"]) <= len(bef[vk]["failed"]) and len(cov[vk]["not_placed"]) < len(bef[vk]["not_placed"])
+    assert cov["zan_f"]["not_placed"] == []                                         # tibialis posterior (Z id zan_tibialis_posterior_muscle_*) is placed now
+    assert "tibialis_posterior" in cov["zan_f"]["muscles_with_points"]
+    assert "sternocleidomastoid" in cov["vhf"]["muscles_with_points"]               # mastoid measured on her cranium
+    assert "palmaris_longus" in cov["vhf"]["muscles_with_points"]                    # her page's Z-named left palmaris longus + the added right one
+    # no point of the opponens digiti minimi lies in the foot island
+    for vk in ("vhf", "zan_f"):
+        for p in mp["viewers"][vk]["points"]:
+            if p["atlas_id"].startswith("opponens_digiti_minimi"):
+                assert p["pos"][1] > -100.0, p["id"]
