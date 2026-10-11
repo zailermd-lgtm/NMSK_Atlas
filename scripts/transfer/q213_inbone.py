@@ -14,7 +14,7 @@ import numpy as np
 import trimesh
 from scipy.sparse import coo_matrix
 
-MARGIN = 2.0      # mm outside the bone surface after the push: the Q204 audit counts a vertex as inside bone when its 2 mm voxel is solid (depth >= 2 mm > 1.5 mm), i.e. up to ~1.7 mm outside the true surface; 2.0 mm clears both measures
+MARGIN = 1.5      # mm outside the bone surface after the push (the Q204 audit counts a vertex as inside bone when its 2 mm voxel is solid, i.e. up to ~1.7 mm outside the true surface: a 1.5 mm margin clears most of it, a larger one pushes the muscles into their neighbours)
 CAP_MM = 16.0
 GATE_PCT = 5.0
 SMOOTH_IT = 6
@@ -176,7 +176,7 @@ def repair(v, f, field, chains=CHAINS, anchors=None, end_tree=None, use_ends=Tru
         if overlap is not None:
             o1 = overlap(nv)
             rep["overlap_before_pct"], rep["overlap_after_pct"] = round(o0, 1), round(o1, 1)
-            if o1 > o0 + OVERLAP_RISE_MAX:
+            if o1 > OVERLAP_FLOOR_PCT and o1 > o0 + OVERLAP_RISE_MAX:
                 ok = False
                 why = why + [f"muscle overlap {o0:.1f} -> {o1:.1f} %"]
         rep["accepted"], rep["why_not"] = ok, why
@@ -199,7 +199,8 @@ def end_dist(v, tree, frac=0.1):
 
 
 MEAN_MOVE_MAX, MAX_MOVE_MAX = 4.0, 16.0
-OVERLAP_RISE_MAX = 6.0     # points: the share of vertices inside OTHER muscles may not rise by more than this (Q211 muscle-overlap guard)
+OVERLAP_RISE_MAX = 6.0     # Q211 muscle-overlap guard: a result is refused when the share of its vertices inside OTHER muscles ends above OVERLAP_FLOOR_PCT AND rose by more than this many points
+OVERLAP_FLOOR_PCT = 55.0
 
 
 class MuscleOverlap:

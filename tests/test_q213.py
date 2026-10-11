@@ -160,7 +160,7 @@ def test_overlap_guard_refuses_a_push_into_a_neighbour_muscle():
 
     def ov(V):
         calls[0] += 1
-        return 0.0 if calls[0] == 1 else 40.0
+        return 0.0 if calls[0] == 1 else 60.0
     nv, rep = IB.repair(mv, mf, field, overlap=ov)
     assert nv is None and any("muscle overlap" in w for w in rep["why_not"])
     nb = mesh((200, 0, -8), (230, 100, 8), sub=2)

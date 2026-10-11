@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01",
+ "generated": "2026-10-11",
  "fail_threshold_mm": 5.0,
  "sources": {
   "kwon2009": {
@@ -720,10 +720,11 @@
   },
   "vhf": {
    "label": "own female (Visible Human female)",
-   "points": 170,
-   "muscle_sides_with_points": 96,
+   "points": 186,
+   "muscle_sides_with_points": 107,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
+    "abductor_pollicis_brevis",
     "adductor_brevis",
     "adductor_longus",
     "adductor_magnus",
@@ -742,6 +743,7 @@
     "flexor_digitorum_profundus",
     "flexor_digitorum_superficialis",
     "flexor_hallucis_longus",
+    "flexor_pollicis_brevis",
     "flexor_pollicis_longus",
     "gastrocnemius",
     "gracilis",
@@ -749,6 +751,7 @@
     "infraspinatus",
     "levator_scapulae",
     "opponens_digiti_minimi",
+    "palmaris_longus",
     "pectoralis_major",
     "pectoralis_minor",
     "piriformis",
@@ -764,6 +767,7 @@
     "semimembranosus",
     "semitendinosus",
     "soleus",
+    "sternocleidomastoid",
     "supinator",
     "supraspinatus",
     "tensor_fasciae_latae",
@@ -777,7 +781,10 @@
     "vastus_medialis"
    ],
    "per_muscle": {
+    "abductor_digiti_minimi_hand_l": 1,
     "abductor_digiti_minimi_hand_r": 1,
+    "abductor_pollicis_brevis_l": 1,
+    "abductor_pollicis_brevis_r": 1,
     "adductor_brevis_l": 1,
     "adductor_brevis_r": 1,
     "adductor_longus_l": 1,
@@ -802,6 +809,7 @@
     "fibularis_longus_r": 2,
     "flexor_carpi_radialis_r": 1,
     "flexor_carpi_ulnaris_r": 1,
+    "flexor_digiti_minimi_brevis_hand_l": 1,
     "flexor_digiti_minimi_brevis_hand_r": 1,
     "flexor_digitorum_longus_l": 1,
     "flexor_digitorum_longus_r": 1,
@@ -811,6 +819,7 @@
     "flexor_digitorum_superficialis_r": 1,
     "flexor_hallucis_longus_l": 1,
     "flexor_hallucis_longus_r": 2,
+    "flexor_pollicis_brevis_l": 1,
     "flexor_pollicis_longus_r": 1,
     "gastrocnemius_l": 4,
     "gastrocnemius_r": 4,
@@ -822,7 +831,10 @@
     "infraspinatus_r": 1,
     "levator_scapulae_l": 1,
     "levator_scapulae_r": 1,
+    "opponens_digiti_minimi_l": 1,
     "opponens_digiti_minimi_r": 1,
+    "palmaris_longus_l": 1,
+    "palmaris_longus_r": 1,
     "pectoralis_major_l": 4,
     "pectoralis_major_r": 3,
     "pectoralis_minor_l": 1,
@@ -831,6 +843,7 @@
     "popliteus_l": 1,
     "popliteus_r": 1,
     "pronator_teres_l": 2,
+    "pronator_teres_r": 2,
     "rectus_femoris_l": 2,
     "rectus_femoris_r": 2,
     "rhomboid_major_l": 1,
@@ -851,6 +864,8 @@
     "semitendinosus_r": 4,
     "soleus_l": 3,
     "soleus_r": 4,
+    "sternocleidomastoid_l": 3,
+    "sternocleidomastoid_r": 3,
     "supinator_l": 1,
     "supinator_r": 1,
     "supraspinatus_l": 1,
@@ -961,12 +976,12 @@
     "mp.piriformis_l.2": 159.8,
     "mp.iliopsoas_r.1": 328.7,
     "mp.iliopsoas_l.1": 321.8,
-    "mp.deltoid_r.1": 101.9,
-    "mp.deltoid_l.1": 108.5,
-    "mp.deltoid_r.2": 101.9,
-    "mp.deltoid_l.2": 108.5,
-    "mp.deltoid_r.3": 101.9,
-    "mp.deltoid_l.3": 108.5,
+    "mp.deltoid_r.1": 115.6,
+    "mp.deltoid_l.1": 146.1,
+    "mp.deltoid_r.2": 115.6,
+    "mp.deltoid_l.2": 146.1,
+    "mp.deltoid_r.3": 115.6,
+    "mp.deltoid_l.3": 146.1,
     "mp.biceps_brachii_r.1": 266.3,
     "mp.biceps_brachii_l.1": 261.1,
     "mp.biceps_brachii_r.2": 264.8,
@@ -989,23 +1004,23 @@
     "mp.triceps_brachii_l.3": 302.2,
     "mp.triceps_brachii_r.4": 376.1,
     "mp.triceps_brachii_l.4": 302.2,
-    "mp.brachioradialis_r.1": 85.9,
+    "mp.brachioradialis_r.1": 233.1,
     "mp.brachioradialis_l.1": 283.9,
-    "mp.brachioradialis_r.2": 85.9,
+    "mp.brachioradialis_r.2": 233.1,
     "mp.brachioradialis_l.2": 283.9,
-    "mp.supraspinatus_r.1": 103.7,
-    "mp.supraspinatus_l.1": 110.2,
+    "mp.supraspinatus_r.1": 103.4,
+    "mp.supraspinatus_l.1": 130.9,
     "mp.infraspinatus_r.1": 139.9,
     "mp.infraspinatus_l.1": 147.5,
     "mp.teres_major_r.1": 131.5,
-    "mp.teres_major_l.1": 133.7,
+    "mp.teres_major_l.1": 133.6,
     "mp.rhomboid_major_r.1": 174.1,
     "mp.rhomboid_major_l.1": 177.0,
     "mp.rhomboid_minor_r.1": 102.9,
-    "mp.rhomboid_minor_l.1": 118.5,
+    "mp.rhomboid_minor_l.1": 116.6,
     "mp.rhomboid_minor_r.2": 102.9,
-    "mp.rhomboid_minor_l.2": 118.5,
-    "mp.levator_scapulae_r.1": 116.3,
+    "mp.rhomboid_minor_l.2": 116.6,
+    "mp.levator_scapulae_r.1": 123.5,
     "mp.levator_scapulae_l.1": 106.9,
     "mp.trapezius_r.1": 413.8,
     "mp.trapezius_l.1": 413.8,
@@ -1023,22 +1038,38 @@
     "mp.pectoralis_minor_l.1": 182.6,
     "mp.flexor_carpi_radialis_r.1": 228.5,
     "mp.flexor_carpi_ulnaris_r.1": 228.5,
+    "mp.palmaris_longus_r.1": 228.5,
+    "mp.palmaris_longus_l.1": 253.6,
+    "mp.pronator_teres_r.1": 228.5,
     "mp.pronator_teres_l.1": 253.6,
+    "mp.pronator_teres_r.2": 228.5,
     "mp.pronator_teres_l.2": 253.6,
     "mp.flexor_digitorum_superficialis_r.1": 228.5,
     "mp.flexor_digitorum_superficialis_l.1": 253.6,
     "mp.flexor_digitorum_profundus_r.1": 228.5,
     "mp.flexor_digitorum_profundus_l.1": 253.6,
     "mp.flexor_pollicis_longus_r.1": 228.5,
-    "mp.extensor_carpi_radialis_longus_r.1": 108.5,
+    "mp.extensor_carpi_radialis_longus_r.1": 187.3,
     "mp.extensor_carpi_radialis_longus_l.1": 318.9,
-    "mp.extensor_carpi_radialis_brevis_r.1": 117.6,
+    "mp.extensor_carpi_radialis_brevis_r.1": 174.2,
     "mp.extensor_carpi_radialis_brevis_l.1": 294.7,
     "mp.supinator_r.1": 125.3,
     "mp.supinator_l.1": 110.1,
-    "mp.abductor_digiti_minimi_hand_r.1": 43.7,
+    "mp.abductor_pollicis_brevis_r.1": 73.9,
+    "mp.abductor_pollicis_brevis_l.1": 59.9,
+    "mp.flexor_pollicis_brevis_l.1": 55.2,
+    "mp.abductor_digiti_minimi_hand_r.1": 43.6,
+    "mp.abductor_digiti_minimi_hand_l.1": 67.2,
     "mp.flexor_digiti_minimi_brevis_hand_r.1": 48.5,
+    "mp.flexor_digiti_minimi_brevis_hand_l.1": 64.2,
     "mp.opponens_digiti_minimi_r.1": 43.7,
+    "mp.opponens_digiti_minimi_l.1": 48.9,
+    "mp.sternocleidomastoid_r.1": 152.7,
+    "mp.sternocleidomastoid_l.1": 147.9,
+    "mp.sternocleidomastoid_r.2": 152.7,
+    "mp.sternocleidomastoid_l.2": 147.9,
+    "mp.sternocleidomastoid_r.3": 152.7,
+    "mp.sternocleidomastoid_l.3": 147.9,
     "mp.scalenus_anterior_r.1": 55.8,
     "mp.scalenus_anterior_l.1": 57.7,
     "mp.scalenus_medius_r.1": 69.5,
@@ -1080,14 +1111,6 @@
      "why": "FAILED: no point at least 1 mm inside flexor_carpi_ulnaris_l near the rule plane/line"
     },
     {
-     "rule": "pronator_teres_r zhou2023 humeral head",
-     "why": "FAILED: no point at least 1 mm inside pronator_teres_r near the rule plane/line"
-    },
-    {
-     "rule": "pronator_teres_r zhou2023 ulnar head",
-     "why": "FAILED: no point at least 1 mm inside pronator_teres_r near the rule plane/line"
-    },
-    {
      "rule": "flexor_digitorum_superficialis_r zhou2023 proximal target",
      "why": "FAILED: nearest point inside flexor_digitorum_superficialis_r is 13.1 mm from the rule plane/line (> 5.0 mm)"
     },
@@ -1126,64 +1149,8 @@
      "why": "no structure fibularis_brevis_l in this viewer"
     },
     {
-     "rule": "palmaris_longus_r zhou2023 innervation_zone",
-     "why": "no structure palmaris_longus_r in this viewer"
-    },
-    {
-     "rule": "palmaris_longus_l zhou2023 innervation_zone",
-     "why": "no structure palmaris_longus_l in this viewer"
-    },
-    {
-     "rule": "abductor_pollicis_brevis_r xie2012 innervation_zone",
-     "why": "no structure abductor_pollicis_brevis_r in this viewer"
-    },
-    {
-     "rule": "abductor_pollicis_brevis_l xie2012 innervation_zone",
-     "why": "no structure abductor_pollicis_brevis_l in this viewer"
-    },
-    {
      "rule": "flexor_pollicis_brevis_r xie2012 innervation_zone",
      "why": "no structure flexor_pollicis_brevis_r in this viewer"
-    },
-    {
-     "rule": "flexor_pollicis_brevis_l xie2012 innervation_zone",
-     "why": "no structure flexor_pollicis_brevis_l in this viewer"
-    },
-    {
-     "rule": "abductor_digiti_minimi_hand_l xie2012 innervation_zone",
-     "why": "no structure abductor_digiti_minimi_hand_l in this viewer"
-    },
-    {
-     "rule": "flexor_digiti_minimi_brevis_hand_l xie2012 innervation_zone",
-     "why": "no structure flexor_digiti_minimi_brevis_hand_l in this viewer"
-    },
-    {
-     "rule": "opponens_digiti_minimi_l xie2012 innervation_zone",
-     "why": "no structure opponens_digiti_minimi_l in this viewer"
-    },
-    {
-     "rule": "sternocleidomastoid_r lee2010scm motor_point",
-     "why": "landmark not measurable on this body: skull surface 26 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "sternocleidomastoid_l lee2010scm motor_point",
-     "why": "landmark not measurable on this body: skull surface 29 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "sternocleidomastoid_r yi2019scm lateral half",
-     "why": "landmark not measurable on this body: skull surface 26 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "sternocleidomastoid_l yi2019scm lateral half",
-     "why": "landmark not measurable on this body: skull surface 29 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "sternocleidomastoid_r yi2019scm medial half",
-     "why": "landmark not measurable on this body: skull surface 26 mm from the SCM insertion (mastoid not in this skull mesh)"
-    },
-    {
-     "rule": "sternocleidomastoid_l yi2019scm medial half",
-     "why": "landmark not measurable on this body: skull surface 29 mm from the SCM insertion (mastoid not in this skull mesh)"
     },
     {
      "rule": "splenius_capitis_r kwon2020sp innervation_zone",
@@ -1672,8 +1639,8 @@
   },
   "zan_f": {
    "label": "Z-Anatomy fitted to the female body",
-   "points": 191,
-   "muscle_sides_with_points": 109,
+   "points": 199,
+   "muscle_sides_with_points": 113,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
     "abductor_pollicis_brevis",
@@ -1701,6 +1668,7 @@
     "iliopsoas",
     "infraspinatus",
     "levator_scapulae",
+    "opponens_digiti_minimi",
     "palmaris_longus",
     "pectoralis_major",
     "pectoralis_minor",
@@ -1725,6 +1693,7 @@
     "tensor_fasciae_latae",
     "teres_major",
     "tibialis_anterior",
+    "tibialis_posterior",
     "trapezius",
     "triceps_brachii",
     "vastus_intermedius",
@@ -1783,6 +1752,8 @@
     "infraspinatus_r": 1,
     "levator_scapulae_l": 1,
     "levator_scapulae_r": 1,
+    "opponens_digiti_minimi_l": 1,
+    "opponens_digiti_minimi_r": 1,
     "palmaris_longus_l": 1,
     "palmaris_longus_r": 1,
     "pectoralis_major_l": 4,
@@ -1831,6 +1802,8 @@
     "teres_major_r": 1,
     "tibialis_anterior_l": 2,
     "tibialis_anterior_r": 2,
+    "tibialis_posterior_l": 3,
+    "tibialis_posterior_r": 3,
     "trapezius_l": 3,
     "trapezius_r": 3,
     "triceps_brachii_l": 4,
@@ -1915,6 +1888,12 @@
     "mp.soleus_l.3": 358.9,
     "mp.soleus_r.4": 371.7,
     "mp.soleus_l.4": 358.9,
+    "mp.tibialis_posterior_r.1": 321.2,
+    "mp.tibialis_posterior_l.1": 318.3,
+    "mp.tibialis_posterior_r.2": 321.2,
+    "mp.tibialis_posterior_l.2": 318.3,
+    "mp.tibialis_posterior_r.3": 325.5,
+    "mp.tibialis_posterior_l.3": 312.6,
     "mp.flexor_digitorum_longus_r.1": 320.5,
     "mp.flexor_digitorum_longus_l.1": 310.0,
     "mp.flexor_hallucis_longus_r.1": 320.5,
@@ -1922,7 +1901,7 @@
     "mp.flexor_hallucis_longus_r.2": 320.5,
     "mp.flexor_hallucis_longus_l.2": 310.0,
     "mp.popliteus_r.1": 123.1,
-    "mp.popliteus_l.1": 117.4,
+    "mp.popliteus_l.1": 117.6,
     "mp.piriformis_r.1": 143.8,
     "mp.piriformis_l.1": 146.4,
     "mp.piriformis_r.2": 143.8,
@@ -2015,9 +1994,11 @@
     "mp.flexor_pollicis_brevis_r.1": 58.3,
     "mp.flexor_pollicis_brevis_l.1": 55.2,
     "mp.abductor_digiti_minimi_hand_r.1": 70.4,
-    "mp.abductor_digiti_minimi_hand_l.1": 67.3,
-    "mp.flexor_digiti_minimi_brevis_hand_r.1": 63.3,
-    "mp.flexor_digiti_minimi_brevis_hand_l.1": 64.4,
+    "mp.abductor_digiti_minimi_hand_l.1": 67.1,
+    "mp.flexor_digiti_minimi_brevis_hand_r.1": 63.2,
+    "mp.flexor_digiti_minimi_brevis_hand_l.1": 64.2,
+    "mp.opponens_digiti_minimi_r.1": 52.6,
+    "mp.opponens_digiti_minimi_l.1": 48.9,
     "mp.sternocleidomastoid_r.1": 160.4,
     "mp.sternocleidomastoid_l.1": 156.0,
     "mp.sternocleidomastoid_r.2": 160.4,
@@ -2071,42 +2052,9 @@
     {
      "rule": "flexor_pollicis_longus_l zhou2023 innervation_zone",
      "why": "FAILED: nearest point inside flexor_pollicis_longus_l is 5.2 mm from the rule plane/line (> 5.0 mm)"
-    },
-    {
-     "rule": "opponens_digiti_minimi_r xie2012 innervation_zone",
-     "why": "FAILED: rule plane/line misses opponens_digiti_minimi_r by 295.8 mm"
-    },
-    {
-     "rule": "opponens_digiti_minimi_l xie2012 innervation_zone",
-     "why": "FAILED: rule plane/line misses opponens_digiti_minimi_l by 303.1 mm"
     }
    ],
-   "not_placed": [
-    {
-     "rule": "tibialis_posterior_r lee2010tp motor_point",
-     "why": "no structure tibialis_posterior_r in this viewer"
-    },
-    {
-     "rule": "tibialis_posterior_l lee2010tp motor_point",
-     "why": "no structure tibialis_posterior_l in this viewer"
-    },
-    {
-     "rule": "tibialis_posterior_r lee2010tp innervation_zone",
-     "why": "no structure tibialis_posterior_r in this viewer"
-    },
-    {
-     "rule": "tibialis_posterior_l lee2010tp innervation_zone",
-     "why": "no structure tibialis_posterior_l in this viewer"
-    },
-    {
-     "rule": "tibialis_posterior_r oddy2006 motor_point",
-     "why": "no structure tibialis_posterior_r in this viewer"
-    },
-    {
-     "rule": "tibialis_posterior_l oddy2006 motor_point",
-     "why": "no structure tibialis_posterior_l in this viewer"
-    }
-   ],
+   "not_placed": [],
    "uncertainty_mm_range": [
     5.0,
     97.9
