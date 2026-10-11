@@ -480,7 +480,10 @@ def test_q215_motor_points_lie_in_their_structure():
         pytest.skip("q215 page not built")
     mp = json.loads((REPO / "clinical" / "data" / "motor_points.json").read_text())["viewers"]["vhf"]["points"]
     saved = M.VIEWERS["vhf"]
-    M.VIEWERS["vhf"] = {**saved, "html": PAGE / "atlas_viewer_female.html", "bin": NEW / "bundle.bin"}
+    page, binf = PAGE / "atlas_viewer_female.html", NEW / "bundle.bin"
+    if (REPO / "build/q216/viewer_f_hr/atlas_viewer_female.html").exists() and (REPO / "build/viewer_f_hr_q216/bundle.bin").exists():     # Q216: the file is regenerated on the Q216 page
+        page, binf = REPO / "build/q216/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q216/bundle.bin"
+    M.VIEWERS["vhf"] = {**saved, "html": page, "bin": binf}
     try:
         meshes = M.load_viewer("vhf")
     finally:

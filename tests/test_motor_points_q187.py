@@ -79,6 +79,10 @@ def test_points_inside_their_muscle(mp, vk):
     q215 = {"vhf": (REPO / "build/q215/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q215/bundle.bin")}.get(vk)
     if q215 and q215[0].exists() and q215[1].exists():
         vw["html"], vw["bin"] = q215
+    # Q216: ... and on the Q216 page (the Q215 muscles carved away from her traced nerves, ends / islands / flat facets cleaned)
+    q216 = {"vhf": (REPO / "build/q216/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q216/bundle.bin")}.get(vk)
+    if q216 and q216[0].exists() and q216[1].exists():
+        vw["html"], vw["bin"] = q216
     if not Path(vw["html"]).exists():
         pytest.skip(f"{vw['html']} not built")
     saved = M.VIEWERS[vk]

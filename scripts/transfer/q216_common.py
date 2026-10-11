@@ -192,19 +192,24 @@ def volume_cm3(v, f):
 
 
 def audit_ends(v, f, bone_tree, frac=0.08, minv=6):
-    """the Q204 / Q198 end test on a (merged) muscle mesh: PCA axis of the main connected component, the extreme 8 % along it at each end, distance of those vertices to the nearest bone surface sample
-    -> {'prox': {...}, 'dist': {...}}  (min / median any-bone mm; which end is prox is arbitrary here: they are labelled by the sign of the PCA axis)"""
+    """the Q204 / Q198 end test on a (merged) muscle mesh: PCA axis of the main connected component (oriented like the audit's pseudo joint axis = principal axis of all vertices), the extreme 8 % along it at
+    each end, distance of those vertices to the nearest bone surface sample -> ({'prox': {...}, 'dist': {...}}, axis, centre); 'prox' = the low end along the axis (the audit's name)"""
     from scripts.zanatomy.q198_core import islands, pca
     from scripts.zanatomy.q198_soft import end_region
+    v = np.asarray(v, float)
+    p = v if len(v) < 20000 else v[:: len(v) // 20000 + 1]
+    a = np.linalg.svd(p - p.mean(0), full_matrices=False)[2][0]            # q204_regions.pseudo_J
     vw, fw = weld_mesh(v, f)
     isl = islands(vw, fw)
     vm = vw[isl[0]["vidx"]]
     cc, vt, _sv = pca(vm)
     ax = vt[0]
+    if np.dot(ax, a) < 0:
+        ax = -ax
     vv = vw[np.unique(fw)]
     ends, _t = end_region(vv, ax, cc, frac, minv)
     out = {}
-    for nm, e in zip(("lo", "hi"), ends):
+    for nm, e in zip(("prox", "dist"), ends):
         d = bone_tree.query(vv[e])[0]
         out[nm] = dict(min_any_bone_mm=round(float(d.min()), 2), median_any_bone_mm=round(float(np.median(d)), 2), centre=np.round(vv[e].mean(0), 1).tolist())
     return out, ax, cc
