@@ -28,7 +28,7 @@
    },
    "after": {
     "vol_cm3": 130.8,
-    "overlap_pct": 36.8,
+    "overlap_pct": 37.8,
     "inside_bone_pct": 3.22,
     "inside_bone_max_mm": 3.5,
     "islands": 2,
@@ -86,7 +86,7 @@
    },
    "after": {
     "vol_cm3": 145.3,
-    "overlap_pct": 27.4,
+    "overlap_pct": 27.5,
     "inside_bone_pct": 0.0,
     "inside_bone_max_mm": 0.0,
     "islands": 1,
@@ -214,29 +214,35 @@
     "defects": []
    },
    "after": {
-    "vol_cm3": 596.4,
-    "overlap_pct": 17.1,
-    "inside_bone_pct": 2.69,
-    "inside_bone_max_mm": 7.5,
+    "vol_cm3": 593.0,
+    "overlap_pct": 16.1,
+    "inside_bone_pct": 2.29,
+    "inside_bone_max_mm": 7.2,
     "islands": 3,
     "flat_caps": [],
     "open_edge_frac": 0.0045,
     "outside_skin_pct": 0.0,
     "attach_ends": {
      "prox": {
-      "min_any_bone_mm": 0.71,
-      "median_any_bone_mm": 9.77,
-      "connective_mm": 21.2
+      "min_any_bone_mm": 9.18,
+      "median_any_bone_mm": 19.13,
+      "connective_mm": 26.8
      },
      "dist": {
-      "min_any_bone_mm": 0.26,
-      "median_any_bone_mm": 4.69,
-      "connective_mm": 43.5
+      "min_any_bone_mm": 0.15,
+      "median_any_bone_mm": 4.78,
+      "connective_mm": 43.4
      }
     },
-    "length_mm": 245.0,
+    "length_mm": 241.7,
     "region": "thigh",
-    "defects": []
+    "defects": [
+     [
+      "end_off_bone",
+      1,
+      "prox end lies 9.18 mm from the nearest bone and 26.8 mm from any tendon/ligament/fascia/cartilage"
+     ]
+    ]
    }
   },
   "adductor_magnus_r": {
@@ -337,7 +343,7 @@
    },
    "after": {
     "vol_cm3": 276.6,
-    "overlap_pct": 14.7,
+    "overlap_pct": 14.1,
     "inside_bone_pct": 0.36,
     "inside_bone_max_mm": 2.0,
     "islands": 1,
@@ -734,7 +740,7 @@
    },
    "after": {
     "vol_cm3": 195.5,
-    "overlap_pct": 33.4,
+    "overlap_pct": 33.5,
     "inside_bone_pct": 0.4,
     "inside_bone_max_mm": 2.8,
     "islands": 1,
@@ -885,7 +891,7 @@
    },
    "after": {
     "vol_cm3": 301.1,
-    "overlap_pct": 9.2,
+    "overlap_pct": 9.7,
     "inside_bone_pct": 0.11,
     "inside_bone_max_mm": 2.0,
     "islands": 1,
@@ -1055,7 +1061,7 @@
    },
    "after": {
     "vol_cm3": 157.8,
-    "overlap_pct": 22.4,
+    "overlap_pct": 22.2,
     "inside_bone_pct": 0.0,
     "inside_bone_max_mm": 0.0,
     "islands": 1,
@@ -1412,7 +1418,7 @@
    },
    "after": {
     "vol_cm3": 281.4,
-    "overlap_pct": 33.9,
+    "overlap_pct": 33.8,
     "inside_bone_pct": 14.88,
     "inside_bone_max_mm": 3.5,
     "islands": 1,
@@ -1522,7 +1528,7 @@
    },
    "after": {
     "vol_cm3": 328.9,
-    "overlap_pct": 28.2,
+    "overlap_pct": 28.1,
     "inside_bone_pct": 3.3,
     "inside_bone_max_mm": 4.9,
     "islands": 2,
@@ -1646,7 +1652,7 @@
    },
    "after": {
     "vol_cm3": 245.0,
-    "overlap_pct": 31.0,
+    "overlap_pct": 28.4,
     "inside_bone_pct": 8.87,
     "inside_bone_max_mm": 2.8,
     "islands": 1,
@@ -1834,7 +1840,13 @@
    1
   ]
  ],
- "new_findings": [],
+ "new_findings": [
+  [
+   "adductor_magnus_l",
+   "end_off_bone",
+   1
+  ]
+ ],
  "removed_findings": [
   [
    "adductor_longus_l",
@@ -1925,7 +1937,7 @@
  },
  "counts_after": {
   "structures": 547,
-  "defect_sev>=1": 283,
+  "defect_sev>=1": 284,
   "defect_sev>=2": 196,
   "muscles": 314,
   "muscle_defect_sev>=2": 178,
@@ -1973,7 +1985,7 @@
    },
    "after": {
     "structures": 38,
-    "defect_sev>=1": 22,
+    "defect_sev>=1": 23,
     "defect_sev>=2": 21,
     "muscles": 28,
     "muscle_defect_sev>=2": 16,

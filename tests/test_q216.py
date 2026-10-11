@@ -428,7 +428,8 @@ def test_no_unrepaired_side_effect_remains_in_the_report():
             assert it["why"], (sid, it)                                            # whatever is left over is recorded with its reason
     for sid, r in rep["ops"].items():
         cg = r["cumulative_guards"]
-        assert cg["after"]["inside_skin_pct"] == 100.0 and cg["volume_ratio"] >= 0.84 and cg["volume_ratio"] <= 1.26, sid
+        lo = 0.25 if any(o["kind"] == "P" for o in r["operations"]) else 0.84                  # a re-bounded piriformis may lose volume (Q215 gates: >= 0.25 of the old mesh)
+        assert cg["after"]["inside_skin_pct"] == 100.0 and lo <= cg["volume_ratio"] <= 1.26, sid
 
 
 def test_sartorius_islands_end_off_bone_and_flat_cuts_are_resolved_in_the_audit():
@@ -436,6 +437,9 @@ def test_sartorius_islands_end_off_bone_and_flat_cuts_are_resolved_in_the_audit(
     _skip_if_missing(p)
     d = json.loads(p.read_text())
     new = {tuple(x) for x in d["new_findings"]}
+    rep = _report()
+    documented = {(sid, it["what"]) for sid, items in rep["residual"].items() for it in items}          # a side effect that could not be repaired is recorded with its reason (adductor magnus l: the pull of its tail
+    assert all((i, c) in documented for i, c, _s in new), new - {x for x in new if (x[0], x[1]) in documented}      # would re-enter her traced sciatic nerve)
     assert not any(c == "disconnected_island" and i.startswith("sartorius") for i, c, _s in new)
     assert not any(c == "flat_cut_face" for _i, c, _s in new)
     q215 = {tuple(x) for x in d["q215_new_findings_targeted"]}
@@ -460,7 +464,7 @@ def test_piriformis_evidence_search_is_recorded_and_the_refit_follows_the_q215_g
     assert set(sides) == {"piriformis_r", "piriformis_l"} and rep["piriformis"]["refit_attempted"] is True
     for sid, r in sides.items():
         if r["decision"] == "refit":
-            assert sid in rep["ops"] and [o["kind"] for o in rep["ops"][sid]["operations"]] == ["P"]
+            assert sid in rep["ops"] and [o["kind"] for o in rep["ops"][sid]["operations"]][0] == "P" and {o["kind"] for o in rep["ops"][sid]["operations"]} <= {"P", "D"}      # + the dome of the label's flat top
             assert rep["ops"][sid]["subject"] == "xfer_vhm2vhf" and B.items[B.find(sid)[0]]["e"]["subject"] == "xfer_vhm2vhf"          # the Source class (TRANSFERRED) is untouched
             assert r["ev_new"]["musc"] >= Q15.MUSC_SHARE_MIN and r["ev_new"]["musc"] >= r["ev_base"]["musc"] - 0.01 and not r["reasons"]
             assert r["q215_guards"]["length_ratio"] >= Q15.LEN_LO or r["q215_guards"].get("length_vs_z", 0) >= Q15.LEN_Z_LO
