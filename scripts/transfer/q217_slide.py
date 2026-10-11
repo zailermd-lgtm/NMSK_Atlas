@@ -221,6 +221,64 @@ class NormalField:
         return np.where(ins, -d, d), dirn
 
 
+
+class VoxSDF:
+    """signed distance (mm, phi < 0 inside) of the filled solid of a mesh (union over its connected components, so overlapping pieces of one muscle are fine) on a 1 mm lattice (every 2nd voxel of a 0.5 mm grid
+    cropped to the working box); same query / near API as MeshField"""
+
+    def __init__(self, v, f, h=H, pad=6.0):
+        import trimesh
+        from scripts.transfer.q217_tile import local_solid
+        v = np.asarray(v, float)
+        f = np.asarray(f, np.int64)
+        lo = np.maximum(v.min(0) - pad, BOX_LO - 4.0)
+        hi = np.minimum(v.max(0) + pad, BOX_HI + 4.0)
+        self.valid = (hi > lo).all()
+        self.lo_b, self.hi_b = v.min(0) - 1.0, v.max(0) + 1.0
+        if not self.valid:
+            return
+        g = VoxGrid(lo, hi, h)
+        tm = trimesh.Trimesh(v, f, process=False)
+        occ = np.zeros(g.shape, bool)
+        for comp in tm.split(only_watertight=False):
+            if len(comp.faces) < 8:
+                continue
+            r = local_solid(g, comp.vertices, comp.faces, pad=1.0)
+            if r is not None:
+                occ[r[0]] |= r[1]
+        m = occ[::2, ::2, ::2]
+        self.h = 2 * h
+        self.lo = g.lo
+        din = ndi.distance_transform_edt(m, sampling=self.h)
+        dout = ndi.distance_transform_edt(~m, sampling=self.h)
+        self.phi = np.where(m, -(din - self.h / 2), dout - self.h / 2).astype(np.float32)
+        self.shape = m.shape
+
+    def near(self, p, margin):
+        if not self.valid:
+            return np.zeros(0, np.int64)
+        return np.flatnonzero(((p >= self.lo_b - margin) & (p <= self.hi_b + margin)).all(1))
+
+    def _s(self, p):
+        i = (np.asarray(p) - self.lo) / self.h
+        inb = ((i >= 0) & (i <= np.asarray(self.shape) - 1)).all(1)
+        out = np.full(len(p), 30.0, np.float32)
+        if inb.any():
+            out[inb] = map_coordinates(self.phi, i[inb].T, order=1, mode="nearest")
+        return out
+
+    def query(self, p):
+        ph = self._s(p)
+        e = 0.8
+        g = np.zeros_like(p)
+        for k in range(3):
+            d = np.zeros(3)
+            d[k] = e
+            g[:, k] = (self._s(p + d) - self._s(p - d)) / (2 * e)
+        n = np.linalg.norm(g, axis=1, keepdims=True)
+        return ph, g / np.maximum(n, 1e-6)
+
+
 class Separator:
     """moving muscles {id: (v, f)}, fixed muscles {id: (v, f)}, bones {id: (v, f)}, skin guard (signed(p) <= 0 inside)"""
 
@@ -261,7 +319,7 @@ class Separator:
         return SDF.from_solid(occ, g.lo)
 
     def muscle_sdfs(self):
-        return {k: NormalField(self.x[k], self.f[k]) for k in self.ids}
+        return {k: VoxSDF(self.x[k], self.f[k]) for k in self.ids}
 
     def targets(self, sd, gap_pair=FASCIA_MM / 2, gap_fixed=FASCIA_MM, gap_bone=0.3, skin_depth=1.0, share=0.6):
         T, W, why = {}, {}, {}

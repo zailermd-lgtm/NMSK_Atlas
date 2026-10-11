@@ -80,7 +80,7 @@ def polish(src="zan_carry.pkl", dst="zan_polish.pkl", rounds=12):
     fixed = {i: (P[i]["v"], P[i]["f"]) for i in C.side_ids(C.ARM) if i in P}
     bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
     sp = SL.Separator({i: d[i] for i in d}, fixed, bones, G)
-    lams = [3.0, 3.0, 1.5, 1.5, 0.75, 0.75, 0.4, 0.4, 0.2, 0.2, 0.2, 0.2]
+    lams = [3.0, 1.5, 0.75, 0.75, 0.4, 0.4, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]
     for k, lam in enumerate(lams[:rounds]):
         t = time.time()
         tot = sp.step(lam)

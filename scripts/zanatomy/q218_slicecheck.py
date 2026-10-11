@@ -89,6 +89,7 @@ try:
             pg.route("**/fonts.g*.com/**", lambda r: r.fulfill(status=200, body="", content_type="text/css"))
             pg.route("**/three*.js", lambda r: r.fulfill(path=three, content_type="application/javascript"))
             pg.goto(f"http://127.0.0.1:{port}/{rel}")
+            pg.add_init_script("document.addEventListener('DOMContentLoaded',function(){var s=document.createElement('style');s.textContent='*{-webkit-tap-highlight-color:transparent!important}';document.head.appendChild(s);})")   # the compositor's tap flash would show up in the canvas screenshots
             pg.wait_for_function("window.__T && document.getElementById('t-cut')", timeout=900000)
             pg.wait_for_function("(__T.OBJ ? __T.OBJ.length : __T.meshes.length) > 0", timeout=900000)
             pg.wait_for_timeout(2500)
