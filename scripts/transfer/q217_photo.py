@@ -23,7 +23,7 @@ TISSUE, FAT, MUSCLE, PALE, WHITE = 1, 2, 3, 4, 5
 
 
 def classify(im):
-    sys.path.insert(0, str(CRYO))
+    sys.path.insert(0, str(REPO / "scripts" / "cryo"))
     from cryo_classes import classify as c
     return c(im)
 
