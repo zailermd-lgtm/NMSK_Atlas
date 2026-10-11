@@ -30,8 +30,11 @@ PAGE = REPO / "build/q216/viewer_f_hr"
 REPORT = REPO / "data/derived/Q216_report.json"
 
 
+OFF = np.array([0.13, 0.07, 0.11])        # faces off the 0.5 mm grid planes: a face exactly on voxel centres makes ray parity ambiguous
+
+
 def box(lo, hi, sub=3):
-    lo, hi = np.asarray(lo, float), np.asarray(hi, float)
+    lo, hi = np.asarray(lo, float) + OFF, np.asarray(hi, float) + OFF
     m = trimesh.creation.box(extents=hi - lo)
     m.apply_translation((lo + hi) / 2)
     for _ in range(sub):
@@ -40,8 +43,9 @@ def box(lo, hi, sub=3):
 
 
 def tube(p0, p1, r, sections=16):
-    m = trimesh.creation.cylinder(radius=r, segment=np.array([p0, p1], float), sections=sections)
-    return np.asarray(m.vertices, float), np.asarray(m.faces, np.int64)
+    m = trimesh.creation.cylinder(radius=r, segment=np.array([p0, p1], float) + OFF, sections=sections)
+    v, f = trimesh.remesh.subdivide_to_size(np.asarray(m.vertices, float), np.asarray(m.faces, np.int64), max_edge=2.0)      # dense rings like the traced tubes
+    return np.asarray(v, float), np.asarray(f, np.int64)
 
 
 def stub_context(skin_half=150.0, bones=None):
@@ -69,7 +73,7 @@ def stub_env(ctx=None, items=()):
 # ---------------------------------------------------------------- voxel solids
 def test_voxel_solid_volume_matches_a_closed_mesh_and_the_band_is_decided_by_ray_parity():
     v, f = box((0, 0, 0), (20, 20, 40), sub=2)
-    g = C.VoxGrid(v.min(0) - 3, v.max(0) + 3, 0.5)
+    g = C.VoxGrid(v.min(0) - 3.21, v.max(0) + 3, 0.5)
     m = C.VoxGrid.solid(g, v, f)
     vol = C.mask_volume_cm3(m)
     assert abs(vol - 16.0) < 0.35, vol                                            # 20 x 20 x 40 mm = 16 cm3 (the shell-raster fill alone over-reads by ~5 %)
@@ -89,7 +93,7 @@ def test_corridor_is_the_tube_plus_the_clearance():
 def test_carve_makes_a_groove_open_to_the_nearest_surface_not_a_tunnel():
     v, f = box((0, -20, -15), (60, 20, 15), sub=3)                               # a muscle block, the nerve runs along x 7 mm below the top face (z = 15)
     tv, tf = tube((-5, 0, 8), (65, 0, 8), 2.5)
-    g = C.VoxGrid(v.min(0) - 3, v.max(0) + 3, 0.5)
+    g = C.VoxGrid(v.min(0) - 3.21, v.max(0) + 3, 0.5)
     mask = C.VoxGrid.solid(g, v, f)
     cor = C.corridor_mask(g, [(tv, tf)], 1.0)
     new, ch, dropped = C.carve_channel(mask, g, cor, 0.8)
@@ -102,7 +106,7 @@ def test_carve_makes_a_groove_open_to_the_nearest_surface_not_a_tunnel():
 
 def test_mask_to_mesh_is_one_closed_piece_within_the_triangle_budget():
     v, f = box((0, 0, 0), (30, 20, 20), sub=3)
-    g = C.VoxGrid(v.min(0) - 3, v.max(0) + 3, 0.5)
+    g = C.VoxGrid(v.min(0) - 3.21, v.max(0) + 3, 0.5)
     m = C.VoxGrid.solid(g, v, f)
     v1, f1 = C.mask_to_mesh(m, g, sigma_vox=0.8, budget=2000)
     tm = trimesh.Trimesh(v1, f1, process=False)
@@ -178,28 +182,41 @@ def test_pull_ends_reaches_the_bone_and_the_guards_pass_a_slightly_longer_muscle
 
 
 # ---------------------------------------------------------------- D flat facets
-def test_flat_facets_are_found_the_way_the_audit_finds_them_and_the_dome_removes_the_finding():
-    v0, f0 = box((0, -20, -6), (60, 20, 6), sub=3)                                 # big flat faces at the extremes
-    caps0 = [c for c in C.flat_cap_rows(v0, f0, 40.0) if c["area_mm2"] > 100.0]
-    assert caps0
-    env = stub_env()
+def clipped_sphere(r=14.0, zcut=10.0, subdiv=3):
+    """an ellipsoid-like muscle belly with its top flattened at z = zcut: ONE planar facet (the kind of facet the audit calls a flat cut face)"""
+    m = trimesh.creation.icosphere(subdivisions=subdiv, radius=r)
+    v = np.asarray(m.vertices, float) * np.array([1.0, 1.0, 1.0]) + OFF
+    v[:, 2] = np.minimum(v[:, 2], zcut + OFF[2])
+    return v, np.asarray(m.faces, np.int64)
+
+
+def _flat_env(v0, f0, skin_half=150.0):
+    env = stub_env(stub_context(skin_half=skin_half))
     env.audit_state = lambda sid, v=None, f=None: dict(flat_caps=[dict(axis=c["axis"], plane_mm=c["plane_mm"], area_mm2=c["area_mm2"]) for c in C.flat_cap_rows(v0 if v is None else v, f0 if f is None else f, 40.0)
                                                                    if c["area_mm2"] > 40.0], islands=[], ends={})
-    v1, f1, info = X.op_flat(env, "m", v0, f0, log=lambda *a: None)
+    return env
+
+
+def test_flat_facets_are_found_the_way_the_audit_finds_them_and_the_dome_removes_the_finding():
+    v0, f0 = clipped_sphere()
+    caps0 = [c for c in C.flat_cap_rows(v0, f0, 40.0) if c["area_mm2"] > 100.0]
+    assert len(caps0) == 1 and caps0[0]["axis"] == "z"
+    v1, f1, info = X.op_flat(_flat_env(v0, f0), "m", v0, f0, log=lambda *a: None)
     assert v1 is not None and not info["why"], info["why"]
     caps1 = [c for c in C.flat_cap_rows(v1, f1, 40.0) if c["area_mm2"] > 100.0]
-    assert not caps1 and info["amplitude_mm"] <= X.DOME_MAX_MM
-    assert 0.96 <= C.volume_cm3(v1, f1) / C.volume_cm3(v0, f0) <= 1.04
+    assert not caps1 and info["amplitude_mm"] <= X.DOME_MAX_MM and info["dome"][0]["outward"] is True
+    assert 0.96 <= C.volume_cm3(v1, f1) / C.volume_cm3(v0, f0) <= 1.06          # a 10.8 cm3 belly with a 200 mm2 facet: the dome is a few percent of it (the real facets are 110-180 mm2 on 130-330 cm3 muscles: +0.7 to +1.5 %)
+    # only the facet's vertices moved: the rest of the surface is untouched except for the 2 smoothing passes of the displacement field
+    moved = np.linalg.norm(v1 - v0, axis=1)
+    assert moved.max() <= X.DOME_MAX_MM + 0.01 and (moved > 0.05).mean() < 0.3
 
 
 def test_dome_goes_inward_where_the_skin_is_too_close():
-    v0, f0 = box((0, -20, -6), (60, 20, 6), sub=3)
-    env = stub_env(stub_context(skin_half=30.2))                                   # the x = 60 face is 0 mm from nowhere; the skin box (half-width 30.2) leaves < 1.2 mm at z = +-6? no: 24 mm; use the y face: |y| = 20 -> 10 mm
-    env.audit_state = lambda sid, v=None, f=None: dict(flat_caps=[dict(axis=c["axis"], plane_mm=c["plane_mm"], area_mm2=c["area_mm2"]) for c in C.flat_cap_rows(v0 if v is None else v, f0 if f is None else f, 40.0)
-                                                                   if c["area_mm2"] > 40.0], islands=[], ends={})
-    v1, f1, info = X.op_flat(env, "m", v0, f0, log=lambda *a: None)
-    assert v1 is not None and info["dome"], info
-    assert all(isinstance(d["outward"], bool) for d in info["dome"])
+    v0, f0 = clipped_sphere()
+    top = float(v0[:, 2].max())
+    v1, f1, info = X.op_flat(_flat_env(v0, f0, skin_half=top + 0.9), "m", v0, f0, log=lambda *a: None)          # the skin box leaves 0.9 mm above the facet: no room for an outward dome
+    assert v1 is not None and info["dome"] and info["dome"][0]["outward"] is False
+    assert float(v1[:, 2].max()) <= top + 1e-6
 
 
 # ---------------------------------------------------------------- W weld
@@ -298,7 +315,7 @@ def test_bundle_keeps_every_other_entry_byte_for_byte_and_the_source_class_uncha
         assert e["cat"] == "muscle" and e["side"] == e0["side"] and not e.get("hidden_default")
         for key in ("name", "latin", "origin", "insertion", "nerve", "compartments"):
             assert e["rec"].get(key) == e0["rec"].get(key), (sid, key)
-        assert e["rec"]["procedural_badge"].startswith(e0["rec"]["procedural_badge"]) and "Q216" in e["rec"]["procedural_badge"]
+        assert e["rec"]["procedural_badge"].startswith(e0["rec"].get("procedural_badge") or "") and "Q216" in e["rec"]["procedural_badge"]
     assert B.j["subject"] == A.j["subject"] and B.j["attribution"] == A.j["attribution"]
 
 
@@ -394,21 +411,26 @@ def test_sartorius_islands_end_off_bone_and_flat_cuts_are_resolved_in_the_audit(
     assert d["counts_after"]["defect_sev>=2"] <= d["counts_before"]["defect_sev>=2"]
 
 
-def test_piriformis_is_unchanged_and_the_evidence_search_is_recorded():
+def test_piriformis_evidence_search_is_recorded_and_the_refit_follows_the_q215_guards():
     p = REPO / "data/derived/Q216_piriformis_evidence.json"
     _skip_if_missing(p, SRC / "bundle.json", NEW / "bundle.json")
     d = json.loads(p.read_text())
     assert d["piriformis_labels_found"] == [] and d["q48_septa_has_piriformis"] is False and d["label_files_checked"] > 20
     assert "conclusion" in d and set(d["sides"]) == {"piriformis_r", "piriformis_l"}
+    assert d["photographed_tissue_share_of_mesh"]["piriformis_l"]["musc"] < 0.6              # the male-carried mesh sits partly off her photographed muscle: that is the evidence for the refit attempt
     A, B = _bundle(SRC), _bundle(NEW)
     rep = _report()
-    for s in "rl":
-        sid = f"piriformis_{s}"
-        if sid in rep["ops"]:
-            assert rep["ops"][sid]["subject"] == "xfer_vhm2vhf"                      # the class never changes
+    sides = rep["piriformis"]["sides"]
+    assert set(sides) == {"piriformis_r", "piriformis_l"} and rep["piriformis"]["refit_attempted"] is True
+    for sid, r in sides.items():
+        if r["decision"] == "refit":
+            assert sid in rep["ops"] and [o["kind"] for o in rep["ops"][sid]["operations"]] == ["P"]
+            assert rep["ops"][sid]["subject"] == "xfer_vhm2vhf" and B.items[B.find(sid)[0]]["e"]["subject"] == "xfer_vhm2vhf"          # the Source class (TRANSFERRED) is untouched
+            assert r["ev_new"]["musc"] >= Q15.MUSC_SHARE_MIN and r["ev_new"]["musc"] >= r["ev_base"]["musc"] - 0.01 and not r["reasons"]
+            assert r["q215_guards"]["length_ratio"] >= Q15.LEN_LO or r["q215_guards"].get("length_vs_z", 0) >= Q15.LEN_Z_LO
         else:
-            assert A.items[A.find(sid)[0]]["raw"] == B.items[B.find(sid)[0]]["raw"]
-    assert rep["piriformis"]["decision"] in ("left", "refit")
+            assert r["reasons"] and sid not in rep["ops"] and sid in rep["kept"]
+            assert A.items[A.find(sid)[0]]["raw"] == B.items[B.find(sid)[0]]["raw"] and A.items[A.find(sid)[0]]["e"] == B.items[B.find(sid)[0]]["e"]
 
 
 def test_scope_check_json_lists_no_unlisted_change():
