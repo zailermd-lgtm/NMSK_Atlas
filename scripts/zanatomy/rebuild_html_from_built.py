@@ -26,7 +26,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "scripts" / "zanatomy"))
+sys.path.insert(0, str(REPO / "scripts"))
 import build_zan_atlas_viewer as B  # noqa: E402  (wording tables + render path of the builder)
+from platform_wrap import unwrap  # noqa: E402  (Q218: a build dir restored from the published artifact carries the service's skeleton)
 
 LIT_RE = {
     "bin": re.compile(r'^window\.__ANATOMY_BIN__=(".*?");$', re.M | re.S),
@@ -91,7 +93,7 @@ def main(argv=None) -> int:
     out = Path(args.out).resolve()
     if out.parent.resolve() == built.parent.resolve():
         raise SystemExit("refusing to write into the directory of the built page")
-    old_html = built.read_text(encoding="utf-8")
+    old_html = unwrap(built.read_text(encoding="utf-8"))
     data = extract_data(old_html)
 
     if args.old_template:

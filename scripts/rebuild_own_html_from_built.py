@@ -20,7 +20,11 @@ import re
 import shutil
 from pathlib import Path
 
+import sys
+
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO / "scripts"))
+from platform_wrap import unwrap  # noqa: E402  (a build dir restored from the published artifact carries the service's skeleton)
 LIT_RE = {
     "json": re.compile(r'<script id="bundle-json" type="application/json">(.*?)</script>', re.S),
     "b64": re.compile(r'<script id="bundle-b64" type="text/plain">(.*?)</script>', re.S),
@@ -68,7 +72,7 @@ def main(argv=None) -> int:
     built, out = Path(a.built).resolve(), Path(a.out).resolve()
     if out.parent == built.parent:
         raise SystemExit("refusing to write into the directory of the built page")
-    old = built.read_text(encoding="utf-8")
+    old = unwrap(built.read_text(encoding="utf-8"))
     data = extract(old)
     if a.old_template:
         if render(Path(a.old_template).read_text(encoding="utf-8"), data) != old:
