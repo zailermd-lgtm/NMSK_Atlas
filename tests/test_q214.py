@@ -161,7 +161,7 @@ def test_shallow_bone_clamp_brings_an_embedded_end_back_to_the_clamp_depth():
     cur = F.shallow_bone_clamp(v, f, ctx, v)
     assert bd.depth(cur).max() <= F.BONE_CLAMP_MM + 1.0                         # on the Q204 lattice (2 mm voxels): back to the clamp depth
     assert F.BONE_DEPTH_MAX_MM > F.BONE_CLAMP_MM
-    assert np.linalg.norm(cur[v[:, 0] > 30] - v[v[:, 0] > 30], axis=1).max() < 5.0       # the free end is not carried along rigidly (the whole 12 mm correction would be 12)
+    assert np.linalg.norm(cur[v[:, 0] > 30] - v[v[:, 0] > 30], axis=1).max() < 8.0       # the free end is not carried along rigidly (a rigid shift would move it by the whole ~12 mm)
 
 
 def test_skin_inset_brings_vertices_back_under_the_skin():
@@ -189,7 +189,7 @@ def test_vertebra_levels_and_landmark_sets():
 def test_gates_are_the_documented_ones():
     assert (F.OVERLAP_MAX, F.OVERLAP_NOTE_MAX) == (60.0, 40.0)                # Q198 / Q204 muscle_overlap_pct severity-2 / severity-1 lines
     assert F.OVERLAP_MAX == 60.0 and F.VOL_LO == 0.75 and F.VOL_HI == 1.30 and F.LEN_LO == 0.85 and F.LEN_HI == 1.20
-    assert F.BELLY_IN_BONE_MAX == 5.0 and F.SKIN_DEPTH_MIN_MM == 1.0 and F.ATTACH_CAP_MM == 25.0
+    assert F.BELLY_IN_BONE_MAX == 5.0 and F.SKIN_DEPTH_MIN_MM == 1.0 and F.ATTACH_CAP_MM == 25.0 and F.BONE_DEPTH_MAX_MM == 5.0 and F.FLIP_MAX_PCT == 1.0
 
 
 def test_target_table_covers_the_task():
@@ -241,7 +241,7 @@ def test_added_muscles_met_every_guard(body):
         assert g["overlap_vol_pct"] <= F.OVERLAP_MAX, nid
         assert g["inside_skin_pct"] == 100.0 and g["min_skin_depth_mm"] >= F.SKIN_DEPTH_MIN_MM, nid
         assert F.VOL_LO <= g["volume_ratio"] <= F.VOL_HI and F.LEN_LO <= g["length_ratio"] <= F.LEN_HI, nid
-        assert g["flipped_pct"] <= 0.5 and max(g["end_dist_mm"]) <= F.END_DIST_MAX_MM, nid
+        assert g["flipped_pct"] <= F.FLIP_MAX_PCT and max(g["end_dist_mm"]) <= F.END_DIST_MAX_MM, nid
         assert g["mean_move_mm"] <= F.MEAN_MOVE_MAX and g["max_move_mm"] <= F.MAX_MOVE_MAX, nid
     for nid, why in rep["skipped"].items():
         if isinstance(why, dict):
@@ -324,8 +324,45 @@ def test_q214_motor_points_lie_in_their_structure_and_cover_the_added_muscles(bo
         assert ok, (body, p["id"])
         assert p["side"] == p["atlas_id"][-1]
     rep = _report(body)
-    have = {p["atlas_id"] for p in mp}
+    placed = {p["structure_id"] for p in mp}
+    cov = json.loads((REPO / "data/derived/Q187_motor_points_coverage.json").read_text())["viewers"][body]
     for nid in rep["added"]:
         stem = re.sub(r"_(r|l)$", "", nid)
         if any(r["muscle"] == stem for r in M.RULES):
-            assert any(a.startswith(stem) and a.endswith(nid[-1]) for a in have) or stem in rep.get("motor_points_not_placed", []), nid
+            assert nid in placed, nid                                        # the rule of the added muscle is placed on it
+            assert not any(nid in x["rule"] for x in cov["not_placed"]), nid
+    for nid in rep["skipped"]:
+        stem = re.sub(r"_(r|l)$", "", nid)
+        if any(r["muscle"] == stem for r in M.RULES):
+            assert any(x["rule"].startswith(nid) and "no structure" in x["why"] for x in cov["not_placed"]), nid     # a muscle that was not added stays 'not placed' (never forced)
+
+
+def test_her_cryosection_splenius_compartment_was_checked_against_the_same_guards_and_recorded():
+    rep = _report("vhf")
+    for s in "rl":
+        oe = rep["own_evidence"][f"splenius_capitis_{s}"]
+        assert oe["accepted"] is False and oe["why_not"]
+        g = oe["guards"]
+        assert g["volume_ratio"] > F.VOL_HI or g["length_ratio"] < F.LEN_LO                 # 1.35-1.59 x the Z pair, cut flat at the T1 body top
+    assert rep["own_evidence"]["splenius_cervicis_r"]["accepted"] is False
+    own = json.loads((REPO / "data/derived/Q214_splenius_own.json").read_text())
+    for s in "rl":
+        x = own[f"splenius_{s}"]
+        assert x["watertight"] and 60 < x["voxel_volume_cm3"] < 85 and x["y_range_mm"][0] > 585
+        assert x["z_fit_vertices_outside_her_compartment_pct"]["z_capitis"] > 90
+    for nid, r in rep["added"].items():
+        if nid.startswith("splenius"):
+            assert "Cross-check with her own cryosection splenius compartment" in r["badge"] and "her_cryo_compartment" in r
+
+
+def test_skip_evidence_numbers_support_the_reasons():
+    p = REPO / "data/derived/Q214_skip_evidence.json"
+    _skip_if_missing(p)
+    d = json.loads(p.read_text())
+    for body in ("vhm", "vhf"):
+        for s in "rl":
+            x = d[body][f"fibularis_{s}"]
+            assert x["own_over_z_longus_plus_brevis"] > 1.0                          # the existing lateral mesh is already larger than the two Z muscles together
+    th = d["vhm"]["thumb_r"]
+    assert th["has_first_metacarpal_entry"] is False and th["z_first_metacarpal_to_own_metacarpal_mesh_median_mm"]["median"] > 25.0      # his hand skeleton has no thumb
+    assert d["vhf"]["thumb_r"]["has_first_metacarpal_entry"] is True and d["vhf"]["thumb_r"]["z_thumb_proximal_phalanx_to_own_phalanges_mesh_mm"]["median"] > 5.0

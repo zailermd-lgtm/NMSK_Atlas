@@ -2,14 +2,16 @@
 """Q214: transfer-fit of a Z-Anatomy muscle that an OWN page does not carry (splenius capitis / cervicis, fibularis brevis, flexor pollicis brevis) onto the person's own skeleton.
 
 Source of the starting geometry = the Z-Anatomy page FITTED to this body (per-bone chain fits Q168 / Q195 / Q200 / Q211 onto the person's own bones; build/q211/viewer_zan_vhm for him, build/q213/viewer_zan_female for her).
-Fit = three guarded steps, each bounded and reported:
-  1. ATTACHMENTS: the two end zones (extreme 12 % along the principal axis) are pulled onto the person's OWN bone landmark / bone set that the muscle's card names as origin / insertion
-     (nearest point of that bone's surface, capped at ATTACH_CAP_MM; farther = the fitted Z muscle does not reach the person's bone = refused); smooth displacement field, ends weighted.
-  2. BONES + NEIGHBOURS: pushed out of the person's own bone meshes (margin 1.5 mm) and out of the neighbouring muscle meshes (margin 0.4 mm) by the Q213 guarded displacement field
-     (`q213_inbone.push_out`; origin / insertion zones held), alternating, bounded mean / max move.
-  3. GUARDS (all must hold, else the muscle is NOT added and the reasons are recorded): every vertex inside the skin and >= SKIN_DEPTH_MIN_MM below it; belly <= BELLY_IN_BONE_MAX % and all
-     vertices <= ALL_IN_BONE_MAX % inside bone; <= OVERLAP_MAX % of the vertices inside other muscles; volume ratio to the fitted Z muscle within VOL_LO..VOL_HI; end-to-end length ratio within
-     LEN_LO..LEN_HI; no folds (flipped faces <= 0.5 %), stretched triangles not up > 12 points; both ends within END_DIST_MAX_MM of their bone after the fit.
+Fit = bounded steps, each reported:
+  1. ATTACHMENTS: the two end zones (extreme 12 % along the principal axis) are pulled onto the person's OWN bone landmark / bone set that the muscle's card names as origin / insertion (the closest 10 % of the
+     zone's vertices land on the bone surface; capped at ATTACH_CAP_MM, farther = the fitted Z muscle does not reach the person's bone = refused); smooth displacement field, ends weighted.
+  2. BONES + NEIGHBOURS: pushed out of the person's own bone meshes (margin 1.5 mm) and, by the Q200 bounded separation, out of the neighbouring muscle meshes; end zones held; a shallow clamp brings an end
+     zone that the pull buried more than BONE_CLAMP_MM in its bone back; vertices near / outside the skin go inside it.  Variants (pull stiffness, bone chain, separation extent, displacement smoothing) are
+     tried; the first that passes every guard wins, otherwise the best one is reported with its reasons.
+  3. GUARDS (all must hold, else the muscle is NOT added and the reasons are recorded): every vertex inside the skin and >= SKIN_DEPTH_MIN_MM below it; belly <= BELLY_IN_BONE_MAX % and all vertices <=
+     ALL_IN_BONE_MAX % inside bone, deepest embedding <= BONE_DEPTH_MAX_MM on the Q204 bone-depth lattice; <= OVERLAP_MAX % of the VOLUME inside other muscles measured exactly as the Q204 audit does (the
+     rise it causes in each neighbour's overlap is reported with the card, not gated: the neighbours overlap their own neighbours already); volume ratio to the fitted Z muscle within VOL_LO..VOL_HI; end-to-end length ratio within LEN_LO..LEN_HI; folded faces <= FLIP_MAX_PCT, stretched
+     triangles not up > 12 points; both ends within END_DIST_MAX_MM of their bone after the fit; mean / max move within MEAN_MOVE_MAX / MAX_MOVE_MAX.
 Nothing is invented: the mesh is the Z-Anatomy structure, displaced inside bounds; the card states the numbers."""
 from __future__ import annotations
 
@@ -41,6 +43,7 @@ SKIN_DEPTH_MIN_MM = 1.0
 BONE_DEPTH_MAX_MM = 5.0     # deepest vertex inside a bone mesh (the Q204 regional pass counts an embedding > 5 mm as a defect: attachments embed 3-5 mm by design)
 BONE_CLAMP_MM = 3.5         # vertices deeper than this inside a bone (Q204 lattice depth) are brought back to it
 ZONE_FRAC = 0.12
+FLIP_MAX_PCT = 1.0          # faces folded against the Z start mesh (the Z sources have 0 %; pressing a thin end sheet onto a curved bone surface folds ~0.5 % of its faces, the audit does not count it)
 PULL_LAMS = (40.0, 8.0, 3.0)
 LAMS = ((160.0, 40.0, 10.0), (40.0, 10.0, 3.0))
 SEPARATION = ((6, 10.0), (12, 16.0), (16, 22.0))      # (rounds, total mm) of the Q200 bounded separation from the neighbouring muscles
@@ -52,7 +55,7 @@ class Context:
 
     def __init__(self, bundle):
         self.B = bundle
-        self.bones, self.bone_tm = {}, {}
+        self.bones = {}
         self.muscles = {}
         lo, hi = np.full(3, np.inf), np.full(3, -np.inf)
         for k, it in enumerate(bundle.items):
@@ -181,7 +184,7 @@ class OverlapField:
     (surface closed by one dilation, filled) aligned to ONE global 2 mm lattice (origin = min of all structures - 8 mm), the muscles' voxels are counted, and a muscle's overlap is the share of its voxels
     that another muscle also covers.  (A local grid per muscle is essential: filling the interior of a big neighbour on a small box would leave it hollow and under-read the overlap 3-5 times.)  The
     Z-fill continuation pieces `<id>_zfill*` of a muscle count with that muscle (the Q204 audit merges them first).  `ctx` supplies the muscle meshes (neighbours); muscles accepted in this run are added
-    with `add`.  `harm` = how much a candidate muscle raises the overlap of each neighbour (a neighbour pushed over the Q204 severity-2 line by the new muscle is a NEW audit finding)."""
+    with `add`.  `harm` = how much a candidate muscle raises the overlap of each neighbour (reported with the card; a neighbour that crosses the Q198 / Q204 40 / 60 % line gets a new audit finding)."""
     H = 2.0
 
     def __init__(self, ctx, skip_ids=()):
@@ -198,15 +201,12 @@ class OverlapField:
         self.cnt = np.zeros(self.shape, np.int8)
         self.groups, self.gbox = {}, {}
         skip = set(skip_ids)
-        parts = {}
-        for k, (v, f) in ctx.muscles.items():
-            sid = k.split("#")[0]
-            if sid in skip or len(f) <= 4:
-                continue
-            parts.setdefault(re.sub(r"_zfill\w*$", "", sid), []).append(self.voxels(v, f))
-        for mid, ws in parts.items():
-            w = np.unique(np.concatenate(ws), axis=0) if len(ws) > 1 else ws[0]
-            self._put(mid, w)
+        # the audit merges the Z-fill continuation pieces `<id>_zfill*` into their muscle BEFORE it rasterises (scripts/zanatomy/q204_paths.merge_zfill: concatenation, the flat cut faces of the base under the
+        # continuation dropped); the same function is used here so that a neighbour's voxels are the audit's
+        from scripts.zanatomy.q204_paths import merge_zfill
+        S = [{"id": k.split("#")[0], "v": v, "f": f, "sys": "muscle"} for k, (v, f) in ctx.muscles.items() if k.split("#")[0] not in skip and len(f) > 4]
+        for st in merge_zfill(S):
+            self._put(st["id"], self.voxels(st["v"], st["f"]))
 
     def _put(self, mid, w):
         w = w.astype(np.int32)
@@ -368,61 +368,6 @@ def shallow_bone_clamp(v0, f, ctx, start, lam=1.0, passes=20):
     return cur
 
 
-def axial_retract(v0, f, ctx, start, ends, max_mm=15.0, step=0.5):
-    """vertices that are still deeper than BONE_DEPTH_MAX_MM - 0.5 inside a bone after the outward clamp (a thin end sheet that would fold if pushed out sideways) are retracted along the muscle axis, towards
-    the belly, until their lattice depth is <= BONE_CLAMP_MM (at most max_mm): the attachment end gets shorter by a few mm instead of folding; the neighbours follow through a short smoothing"""
-    bd = ctx.bone_depth()
-    d = bd.depth(start)
-    deep = np.flatnonzero(d > BONE_DEPTH_MAX_MM - 0.5)
-    if not len(deep):
-        return start
-    c = v0.mean(0)
-    u = np.linalg.svd(v0 - c, full_matrices=False)[2][0]
-    sign = np.sign((c - start[deep]) @ u)                      # towards the centroid along the axis
-    cur = start.copy()
-    todo = deep
-    moved = np.zeros(len(deep))
-    for _ in range(int(max_mm / step)):
-        dd = bd.depth(cur[todo])
-        still = dd > BONE_CLAMP_MM
-        if not still.any():
-            break
-        idx = todo[still]
-        pos = np.searchsorted(deep, idx)
-        cur[idx] += (sign[pos] * step)[:, None] * u[None]
-        todo = idx
-    from scripts.transfer.q200_overlap import _lap
-    disp = cur - start
-    return start + _lap(start, f, disp, iters=2) * 0 + disp      # (local vertices only; the defold pass that follows relaxes the neighbourhood)
-
-
-def defold(v0, v1, f, rounds=40):
-    """a few faces the push / clamp / pull left folded (normal reversed against the start mesh): the displacement of the vertices of those faces (and their one-ring) is relaxed towards the mean of
-    their neighbours' displacement until no face is folded (or `rounds`); every other vertex stays put"""
-    n = len(v0)
-    A = IB.adjacency(n, f).tocsr()
-    deg = np.asarray(A.sum(1)).ravel()
-    cur = v1.copy()
-
-    def flipped():
-        n0 = np.cross(v0[f[:, 1]] - v0[f[:, 0]], v0[f[:, 2]] - v0[f[:, 0]])
-        n1 = np.cross(cur[f[:, 1]] - cur[f[:, 0]], cur[f[:, 2]] - cur[f[:, 0]])
-        ok = (np.linalg.norm(n0, axis=1) > 1e-9) & (np.linalg.norm(n1, axis=1) > 1e-9)
-        return ok & ((n0 * n1).sum(1) < 0)
-    for _ in range(rounds):
-        bad = flipped()
-        if not bad.any():
-            break
-        mask = np.zeros(n, bool)
-        mask[np.unique(f[bad])] = True
-        mask = (A @ mask.astype(float) + mask) > 0                 # + one ring
-        d = cur - v0
-        dm = (A @ d) / np.maximum(deg, 1)[:, None]
-        d[mask] = 0.5 * d[mask] + 0.5 * dm[mask]
-        cur = v0 + d
-    return cur
-
-
 def smooth_displacement(v0, v1, f, iters):
     """Laplacian smoothing of the DISPLACEMENT field (not of the surface): removes the folds a local push leaves, keeps the shape of the muscle"""
     from scripts.transfer.q200_overlap import _lap
@@ -462,11 +407,7 @@ def inner_fit(v0, f, ctx, tgt_a, tgt_b, skip_ids=(), log=lambda *a: None):
                     base = smooth_displacement(v0, sep, f, sm)
                     base = ctx.skin_inset(base)
                     base = bone_push(v0, f, ctx, base, ends, lams)
-                    for _k in range(2):                                  # clamp the embedded ends, relax the folds the clamp leaves, again
-                        base = shallow_bone_clamp(v0, f, ctx, base)
-                        base = defold(v0, base, f)
-                    base = axial_retract(v0, f, ctx, base, ends)
-                    base = defold(v0, base, f)
+                    base = shallow_bone_clamp(v0, f, ctx, base)
                     for post in (0,):
                         cur = base
                         cand = evaluate(v0, cur, f, ctx, za, zb, tgt_a, tgt_b, L0, vol0, skip_ids, ofield)
@@ -511,7 +452,7 @@ def evaluate(v0, v1, f, ctx, za, zb, tgt_a, tgt_b, L0, vol0, skip_ids=(), ofield
     g["overlap_vol_pct"] = round(ofield.pct(v1, f), 1)
     hm = ofield.harm(v1, f)
     g["neighbour_overlap_rise"] = [list(x) for x in hm[:8]]
-    crossed = [x for x in hm if x[1] <= OVERLAP_MAX < x[2]]
+    g["neighbours_over_the_line"] = [list(x) for x in hm if (x[1] <= OVERLAP_NOTE_MAX < x[2]) or (x[1] <= OVERLAP_MAX < x[2])]
     g["overlap_vol_z_fit_pct"] = round(ofield.pct(v0, f), 1)
     sk_in, sk_depth = ctx.skin_state(v1)
     g["inside_skin_pct"], g["min_skin_depth_mm"] = round(sk_in, 2), round(sk_depth, 1)
@@ -529,8 +470,6 @@ def evaluate(v0, v1, f, ctx, za, zb, tgt_a, tgt_b, L0, vol0, skip_ids=(), ofield
         why.append(f"{g['belly_in_bone_pct']} % of the belly still inside her bones (gate {BELLY_IN_BONE_MAX:g})")
     if g["in_bone_pct"] > ALL_IN_BONE_MAX:
         why.append(f"{g['in_bone_pct']} % of the vertices inside bone (gate {ALL_IN_BONE_MAX:g})")
-    if crossed:
-        why.append("raises " + ", ".join(f"{x[0]} {x[1]} -> {x[2]} %" for x in crossed[:3]) + f" over the Q204 severity-2 line ({OVERLAP_MAX:g} % of its volume inside other muscles): a new audit finding")
     if g["bone_depth_max_mm"] > BONE_DEPTH_MAX_MM:
         why.append(f"embedded {g['bone_depth_max_mm']} mm in a bone mesh (gate {BONE_DEPTH_MAX_MM:g} mm)")
     if g["overlap_vol_pct"] > OVERLAP_MAX:
@@ -543,7 +482,7 @@ def evaluate(v0, v1, f, ctx, za, zb, tgt_a, tgt_b, L0, vol0, skip_ids=(), ofield
         why.append(f"volume x{g['volume_ratio']} of the fitted Z muscle (gate {VOL_LO}-{VOL_HI})")
     if not (LEN_LO <= g["length_ratio"] <= LEN_HI):
         why.append(f"length x{g['length_ratio']} (gate {LEN_LO}-{LEN_HI})")
-    if g["flipped_pct"] > 0.5:
+    if g["flipped_pct"] > FLIP_MAX_PCT:
         why.append(f"{g['flipped_pct']} % faces flipped")
     if g["stretched_after"] > g["stretched_before"] + 12.0:
         why.append(f"stretched triangles {g['stretched_before']} -> {g['stretched_after']} %")

@@ -524,8 +524,8 @@
     "mp.sternocleidomastoid_r.1": 181.6,
     "mp.sternocleidomastoid_r.2": 181.6,
     "mp.sternocleidomastoid_r.3": 181.6,
-    "mp.splenius_capitis_r.1": 240.5,
-    "mp.splenius_capitis_l.1": 233.3,
+    "mp.splenius_capitis_r.1": 240.3,
+    "mp.splenius_capitis_l.1": 231.8,
     "mp.scalenus_anterior_r.1": 60.1,
     "mp.scalenus_anterior_l.1": 62.5,
     "mp.scalenus_medius_r.1": 44.4,
@@ -713,8 +713,8 @@
   },
   "vhf": {
    "label": "own female (Visible Human female)",
-   "points": 186,
-   "muscle_sides_with_points": 107,
+   "points": 189,
+   "muscle_sides_with_points": 110,
    "muscles_with_points": [
     "abductor_digiti_minimi_hand",
     "abductor_pollicis_brevis",
@@ -760,6 +760,8 @@
     "semimembranosus",
     "semitendinosus",
     "soleus",
+    "splenius_capitis",
+    "splenius_cervicis",
     "sternocleidomastoid",
     "supinator",
     "supraspinatus",
@@ -857,6 +859,9 @@
     "semitendinosus_r": 4,
     "soleus_l": 3,
     "soleus_r": 4,
+    "splenius_capitis_l": 1,
+    "splenius_capitis_r": 1,
+    "splenius_cervicis_r": 1,
     "sternocleidomastoid_l": 3,
     "sternocleidomastoid_r": 3,
     "supinator_l": 1,
@@ -1063,6 +1068,9 @@
     "mp.sternocleidomastoid_l.2": 147.9,
     "mp.sternocleidomastoid_r.3": 152.7,
     "mp.sternocleidomastoid_l.3": 147.9,
+    "mp.splenius_capitis_r.1": 228.1,
+    "mp.splenius_capitis_l.1": 228.1,
+    "mp.splenius_cervicis_r.1": 249.0,
     "mp.scalenus_anterior_r.1": 55.8,
     "mp.scalenus_anterior_l.1": 57.7,
     "mp.scalenus_medius_r.1": 69.5,
@@ -1144,18 +1152,6 @@
     {
      "rule": "flexor_pollicis_brevis_r xie2012 innervation_zone",
      "why": "no structure flexor_pollicis_brevis_r in this viewer"
-    },
-    {
-     "rule": "splenius_capitis_r kwon2020sp innervation_zone",
-     "why": "no structure splenius_capitis_r in this viewer"
-    },
-    {
-     "rule": "splenius_capitis_l kwon2020sp innervation_zone",
-     "why": "no structure splenius_capitis_l in this viewer"
-    },
-    {
-     "rule": "splenius_cervicis_r kwon2020sp innervation_zone",
-     "why": "no structure splenius_cervicis_r in this viewer"
     },
     {
      "rule": "splenius_cervicis_l kwon2020sp innervation_zone",

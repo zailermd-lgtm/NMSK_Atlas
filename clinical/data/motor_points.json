@@ -3806,9 +3806,9 @@
      "side": "r",
      "kind": "innervation_zone",
      "pos": [
-      25.5,
-      632.7,
-      -29.2
+      25.3,
+      633.2,
+      -29.0
      ],
      "depth_from_skin_mm": 50.8,
      "projection_mm": 0.0,
@@ -3830,13 +3830,13 @@
      "side": "l",
      "kind": "innervation_zone",
      "pos": [
-      -7.6,
-      633.1,
-      -33.3
+      -6.9,
+      633.2,
+      -33.4
      ],
-     "depth_from_skin_mm": 46.1,
+     "depth_from_skin_mm": 46.0,
      "projection_mm": 0.0,
-     "uncertainty_mm": 11.7,
+     "uncertainty_mm": 11.6,
      "nerve": null,
      "source": {
       "citation": "Kwon HJ, Yang HM, Won SY. Intramuscular innervation patterns of the splenius capitis and splenius cervicis and their clinical implications for botulinum toxin injections. Clin Anat 2020;33(8):1138-1143",
@@ -3844,7 +3844,7 @@
       "pmid": "31894602",
       "rule": "Innervation spreads from the central (50%) point of the origin -> insertion length; ends measured on this body's own muscle."
      },
-     "badge": "Rule-based from Kwon et al. 2020; landmarks measured on this body's own muscle ends; +/-11.7 mm (single value (no dispersion reported); +/-5% of the line assumed as reading precision)."
+     "badge": "Rule-based from Kwon et al. 2020; landmarks measured on this body's own muscle ends; +/-11.6 mm (single value (no dispersion reported); +/-5% of the line assumed as reading precision)."
     },
     {
      "id": "mp.scalenus_anterior_r.1",
@@ -8314,6 +8314,78 @@
       "rule": "Most densely innervated 6/10-7/10 along the medial half of the muscle (mastoid process -> sternoclavicular joint)."
      },
      "badge": "Rule-based from Yi et al. 2020; landmarks measured on this body's own bones; +/-7.4 mm (range 60-70%); head/part located as a sector of this body's single muscle mesh."
+    },
+    {
+     "id": "mp.splenius_capitis_r.1",
+     "structure_id": "splenius_capitis_r",
+     "atlas_id": "splenius_capitis_r",
+     "muscle_name": "Splenius capitis",
+     "side": "r",
+     "kind": "innervation_zone",
+     "pos": [
+      14.4,
+      612.7,
+      -51.0
+     ],
+     "depth_from_skin_mm": 50.5,
+     "projection_mm": 0.0,
+     "uncertainty_mm": 11.4,
+     "nerve": null,
+     "source": {
+      "citation": "Kwon HJ, Yang HM, Won SY. Intramuscular innervation patterns of the splenius capitis and splenius cervicis and their clinical implications for botulinum toxin injections. Clin Anat 2020;33(8):1138-1143",
+      "doi": "10.1002/ca.23553",
+      "pmid": "31894602",
+      "rule": "Innervation spreads from the central (50%) point of the origin -> insertion length; ends measured on this body's own muscle."
+     },
+     "badge": "Rule-based from Kwon et al. 2020; landmarks measured on this body's own muscle ends; +/-11.4 mm (single value (no dispersion reported); +/-5% of the line assumed as reading precision)."
+    },
+    {
+     "id": "mp.splenius_capitis_l.1",
+     "structure_id": "splenius_capitis_l",
+     "atlas_id": "splenius_capitis_l",
+     "muscle_name": "Splenius capitis",
+     "side": "l",
+     "kind": "innervation_zone",
+     "pos": [
+      -9.4,
+      613.3,
+      -53.6
+     ],
+     "depth_from_skin_mm": 49.3,
+     "projection_mm": 0.0,
+     "uncertainty_mm": 11.4,
+     "nerve": null,
+     "source": {
+      "citation": "Kwon HJ, Yang HM, Won SY. Intramuscular innervation patterns of the splenius capitis and splenius cervicis and their clinical implications for botulinum toxin injections. Clin Anat 2020;33(8):1138-1143",
+      "doi": "10.1002/ca.23553",
+      "pmid": "31894602",
+      "rule": "Innervation spreads from the central (50%) point of the origin -> insertion length; ends measured on this body's own muscle."
+     },
+     "badge": "Rule-based from Kwon et al. 2020; landmarks measured on this body's own muscle ends; +/-11.4 mm (single value (no dispersion reported); +/-5% of the line assumed as reading precision)."
+    },
+    {
+     "id": "mp.splenius_cervicis_r.1",
+     "structure_id": "splenius_cervicis_r",
+     "atlas_id": "splenius_cervicis_r",
+     "muscle_name": "Splenius cervicis",
+     "side": "r",
+     "kind": "innervation_zone",
+     "pos": [
+      24.3,
+      561.9,
+      -66.4
+     ],
+     "depth_from_skin_mm": 69.8,
+     "projection_mm": 1.0,
+     "uncertainty_mm": 49.8,
+     "nerve": null,
+     "source": {
+      "citation": "Kwon HJ, Yang HM, Won SY. Intramuscular innervation patterns of the splenius capitis and splenius cervicis and their clinical implications for botulinum toxin injections. Clin Anat 2020;33(8):1138-1143",
+      "doi": "10.1002/ca.23553",
+      "pmid": "31894602",
+      "rule": "Motor neurons innervate the muscle from about 30% to 70% of origin -> insertion; ends measured on this body's own muscle."
+     },
+     "badge": "Rule-based from Kwon et al. 2020; landmarks measured on this body's own muscle ends; +/-49.8 mm (range 30-70%)."
     },
     {
      "id": "mp.scalenus_anterior_r.1",

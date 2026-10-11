@@ -55,10 +55,14 @@ def vol_cm3(v, f):
     return abs(trimesh.Trimesh(v, f, process=False).volume) / 1000.0
 
 
+def pron_word(cfg):
+    return "his" if cfg["pron"] == "his" else "her"
+
+
 def badge_zfill(cfg, stem, s, rep, name):
     g = rep["guards"]
     pr, Pr = cfg["pron"], cfg["Pron"]
-    o_txt, i_txt = T.LANDMARK_TEXT[stem]
+    o_txt, i_txt = (t.replace("the person's", pron_word(cfg)) for t in T.LANDMARK_TEXT[stem])
     z0 = rep["end_dist_z_mm"]
     ends = g["end_dist_mm"]
     sep = rep.get("separation", {})
@@ -67,18 +71,22 @@ def badge_zfill(cfg, stem, s, rep, name):
     v = rep["variant"]
     lm = rep.get("landmarks", {})
     note = f" ({lm['mastoid_landmark_note']})" if lm.get("mastoid_landmark_note") else ""
+    rise = [x for x in g["neighbour_overlap_rise"] if x[2] - x[1] >= 1.0][:3]
+    rise_txt = ("It raises the overlap of its neighbours (share of their volume inside other muscles, Q204 audit measure): " + "; ".join(f"{x[0].replace('_', ' ')} {x[1]} -> {x[2]} %" for x in rise) + ". ") if rise else ""
     hc = rep.get("her_cryo_compartment")
     cross = (f"Cross-check with her own cryosection splenius compartment (capitis + cervicis in one sheet, 65-76 cm3, cut flat at the T1 body top; not used as the mesh because it fails the volume / length / attachment "
-             f"guards): {hc['vertices_inside_pct']} % of this muscle's vertices lie inside it, median distance {hc['median_distance_mm']} mm. ") if hc else ""
+             f"guards): of this muscle's vertices above the compartment's lower cut ({hc['vertices_compared']} of them) {hc['vertices_inside_pct']} % lie inside it, median distance to it {hc['median_distance_mm']} mm "
+             f"(her compartment lies more superficially: it is a rule-based layer under the trapezius). ") if hc else ""
     return (f"Z-Anatomy (CC BY-SA 4.0; Z-Anatomy / BodyParts3D) counterpart of {name}, which {pr} page did not carry (no measured or transferred mesh; Z-fill, Q214): the Z-Anatomy structure "
             f"fitted to {pr} body (per-bone chain fits onto {pr} own skeleton, Q168-Q211), refitted in Q214 inside guards -- origin zone pulled onto {o_txt} and insertion zone onto {i_txt} "
             f"(contact distance origin / insertion {z0[0]} / {z0[1]} mm before, {ends[0]} / {ends[1]} mm after{note}), pushed out of {pr} own bone meshes (belly {g['belly_in_bone_pct']} % inside bone after; "
-            f"all vertices {g['in_bone_pct']} %), separated from the neighbouring muscle meshes it sat in ({g['overlap_z_fit_pct']} % -> {g['overlap_pct']} % of its vertices inside other muscles, "
-            f"gate {F.OVERLAP_MAX:g} %), held inside {pr} skin (closest {g['min_skin_depth_mm']} mm below the surface). "
+            f"all vertices {g['in_bone_pct']} %, deepest {g['bone_depth_max_mm']} mm), separated from the neighbouring muscle meshes it sat in (share of its volume inside other muscles, measured the way the Q204 audit "
+            f"does: {g['overlap_vol_z_fit_pct']} % for the fitted Z muscle, {g['overlap_vol_pct']} % now; gate {F.OVERLAP_MAX:g} %{', above the audit severity-1 line of ' + format(F.OVERLAP_NOTE_MAX, 'g') + ' %' if g['overlap_vol_pct'] > F.OVERLAP_NOTE_MAX else ''}), "
+            f"held inside {pr} skin (closest {g['min_skin_depth_mm']} mm below the surface). "
             f"Volume {g['volume_cm3']} cm3 (fitted Z muscle {rep['volume_z_cm3']} cm3, x{g['volume_ratio']}); length {g['length_mm']} mm (fitted Z muscle {rep['length_z_mm']} mm, x{g['length_ratio']}); "
             f"mean / max move {g['mean_move_mm']} / {g['max_move_mm']} mm; flipped faces {g['flipped_pct']} %. "
             f"Q214 validation median error {err_med} mm, max {err_max} mm (end zones of the fitted Z muscle vs {pr} own origin / insertion bone, before the pull). "
-            f"{cross}Not measured on {'him' if pr == 'his' else 'her'}. A position estimate of the usual muscle, not a segmentation.")
+            f"{rise_txt}{cross}Not measured on {'him' if pr == 'his' else 'her'}. A position estimate of the usual muscle, not a segmentation.")
 
 
 def own_splenius_check(ctx, lm, s, v, f, zref):
@@ -168,9 +176,10 @@ def run(body, out=None, report=None, dry=False, only=None, log=print):
             r["neighbours_pct"] = F.neighbour_table(v, ctx, skip_ids=(nid,))
             if own_npz is not None and stem.startswith("splenius"):
                 cm = trimesh.Trimesh(own_npz[f"splenius_capitis_{s}_v"], own_npz[f"splenius_capitis_{s}_f"], process=False)
-                dd = trimesh.proximity.closest_point(cm, v)[1]
-                r["her_cryo_compartment"] = dict(vertices_inside_pct=round(100.0 * float(cm.contains(v).mean()), 1), median_distance_mm=round(float(np.median(dd)), 1),
-                                                 note="her cryosection splenius compartment (capitis + cervicis, one sheet; refused as the mesh, see own_evidence) as a cross-check of the position")
+                above = v[v[:, 1] >= cm.bounds[0][1]]                                   # only the part of the muscle that her compartment can speak for (it is cut at the T1 body top)
+                dd = trimesh.proximity.closest_point(cm, above)[1]
+                r["her_cryo_compartment"] = dict(vertices_compared=int(len(above)), vertices_inside_pct=round(100.0 * float(cm.contains(above).mean()), 1), median_distance_mm=round(float(np.median(dd)), 1),
+                                                 note="her cryosection splenius compartment (capitis + cervicis, one sheet; refused as the mesh, see own_evidence) as a cross-check of the position; vertices above its lower cut only")
             r["badge"] = badge_zfill(cfg, stem, s, r, name)
             rec = atlas_rec(nid)
             rec["source"] = "Z-Anatomy (CC BY-SA 4.0), fitted to this body; see the badge"
