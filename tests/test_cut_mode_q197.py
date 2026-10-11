@@ -274,3 +274,40 @@ def test_build_viewer_html_template_only_path(tmp_path):
                     "--external-bin", "--template", str(tpl)], check=True, capture_output=True, cwd=REPO)
     assert base64.b64decode((out.parent / "page_geo_00.txt").read_text()) == blob
     assert '{"structures":[]}|[{"path": "page_geo_00.txt"' in out.read_text()
+
+
+# ---------- Q218: own-page re-injection, platform skeleton, regen script ----------
+def test_own_page_reinject_is_lossless_and_keeps_title(tmp_path):
+    import rebuild_own_html_from_built as ro
+    from platform_wrap import unwrap
+    tpl = ('<meta charset="utf-8"><title>NMSK Atlas Viewer</title><script id="bundle-json" type="application/json">__BUNDLE_JSON__</script>\n'
+           '<script id="bundle-b64" type="text/plain">__BUNDLE_B64__</script>\nvar BIN_FILES = __BUNDLE_BIN_FILES__;\n')
+    data = {"json": '{"s":[1,2,"<\\/script>"]}', "b64": "", "files": '[{"path": "p_geo_00.txt", "bytes": 3}]', "title": "NMSK Atlas Viewer (VH female)"}
+    built_dir = tmp_path / "built"
+    built_dir.mkdir()
+    page = ro.render(tpl, data)
+    assert "(VH female)" in page
+    skeleton = ('<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1">'
+                '<style>:root{x:1}</style></head><body>\n')
+    wrapped = skeleton + page + "\n</body></html>"
+    assert unwrap(wrapped) == page and unwrap(page) == page             # service skeleton removed, raw pages untouched
+    (built_dir / "p.html").write_text(wrapped, encoding="utf-8")
+    (built_dir / "p_geo_00.txt").write_text("QUJD", encoding="ascii")
+    new_tpl = tmp_path / "new.html"
+    new_tpl.write_text(tpl.replace("<meta", "<!-- new -->\n<meta", 1), encoding="utf-8")
+    out = tmp_path / "o" / "p.html"
+    (tmp_path / "old.html").write_text(tpl, encoding="utf-8")
+    assert ro.main([str(built_dir / "p.html"), "-o", str(out), "--template", str(new_tpl), "--old-template", str(tmp_path / "old.html")]) == 0
+    new = out.read_text(encoding="utf-8")
+    assert "<!-- new -->" in new and ro.extract(new) == ro.extract(page)
+    assert (out.parent / "p_geo_00.txt").read_bytes() == b"QUJD"
+
+
+def test_regen_script_lists_the_six_pages_and_refuses_unknown_ones():
+    sh = (REPO / "scripts" / "regen_cut_q218.sh").read_text(encoding="utf-8")
+    for key, src in (("own_m", "build/q214/viewer_m_hr"), ("own_f", "build/q216/viewer_f_hr"), ("zan_m", "build/q211/viewer_zan_vhm"),
+                     ("zan_f", "build/q213/viewer_zan_female"), ("base_f", "build/q202/viewer_base_female"), ("base_m", "build/q197/viewer_zan_atlas")):
+        assert f"[{key}]={src}" in sh, key
+    assert "SRC_$p" in sh and "verify_regen_q218.py" in sh
+    r = subprocess.run(["bash", str(REPO / "scripts" / "regen_cut_q218.sh"), "nope"], capture_output=True, text=True)
+    assert r.returncode == 2 and "unknown page" in r.stderr
