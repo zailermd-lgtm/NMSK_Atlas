@@ -62,10 +62,22 @@ def test_rules_reference_known_sources():
 
 @pytest.mark.parametrize("vk", ["vhm", "vhf", "zan_m", "zan_f"])
 def test_points_inside_their_muscle(mp, vk):
-    vw = M.VIEWERS[vk]
+    vw = dict(M.VIEWERS[vk])
+    # Q213: the two female viewers' points are generated on the Q213 pages until the main session publishes them into build/viewer_f_hr / build/viewer_zan_female
+    q213 = {"vhf": (REPO / "build/q213/viewer_f_hr/atlas_viewer_female.html", REPO / "build/viewer_f_hr_q213/bundle.bin"),
+            "zan_f": (REPO / "build/q213/viewer_zan_female/atlas_viewer_zan_female.html", None)}.get(vk)
+    if q213 and q213[0].exists() and (q213[1] is None or q213[1].exists()):
+        vw["html"] = q213[0]
+        if q213[1] is not None:
+            vw["bin"] = q213[1]
     if not Path(vw["html"]).exists():
         pytest.skip(f"{vw['html']} not built")
-    meshes = M.load_viewer(vk)
+    saved = M.VIEWERS[vk]
+    M.VIEWERS[vk] = vw
+    try:
+        meshes = M.load_viewer(vk)
+    finally:
+        M.VIEWERS[vk] = saved
     pts = mp["viewers"][vk]["points"]
     assert pts, vk
     for p in pts:

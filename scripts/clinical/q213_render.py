@@ -98,7 +98,7 @@ def main():
     fig, axs = plt.subplots(1, 2, figsize=(14, 7))
     hl = tuple(a.hl.split(",")) if a.hl else ()
     for ax, k, t in ((axs[0], a.a, f"{a.a}"), (axs[1], a.b, f"{a.b}")):
-        panel(ax, k, a.y, a.x0, a.x1, k if k in ("vhf", "zan_f") else "vhf", hl=hl)
+        panel(ax, k, a.y, a.x0, a.x1, "vhf" if k.startswith("vhf") else "zan_f", hl=hl)
         ax.set_title(f"{t}  y={a.y:g} (x right +, z up = anterior)", fontsize=8)
     out = a.out or str(REPO / f"build/q213_renders/sec_{a.a}_{a.b}_y{int(a.y)}.png")
     fig.tight_layout()

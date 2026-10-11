@@ -33,12 +33,17 @@ PAGES = {
     "zbase_f": dict(html=REPO / "build/q202/viewer_base_female/atlas_viewer_base_female.html"),
     "vhm": dict(html=REPO / "build/q212/viewer_m_hr/atlas_viewer_male.html", bin=REPO / "build/viewer_m_hr_q212/bundle.bin"),
 }
+# the corrected pages (Q213): only used by the render / after-audit, not by main()
+PAGES_AFTER = {
+    "vhf_q213": dict(html=REPO / "build/q213/viewer_f_hr/atlas_viewer_female.html", bin=REPO / "build/viewer_f_hr_q213/bundle.bin"),
+    "zan_f_q213": dict(html=REPO / "build/q213/viewer_zan_female/atlas_viewer_zan_female.html"),
+}
 VOX = 4.0
 
 
 def load(key):
     """Meshes grouped per id (the motor-point loader) plus the per-id metadata."""
-    p = PAGES[key]
+    p = PAGES.get(key) or PAGES_AFTER[key]
     kind = "own" if "bin" in p else "zan"
     M.VIEWERS["_q213"] = {"kind": kind, "html": p["html"], **({"bin": p["bin"]} if "bin" in p else {}), "label": key}
     meshes = M.load_viewer("_q213")

@@ -32,7 +32,8 @@ from scripts.transfer import q213_inbone as IB  # noqa: E402
 import motor_points_q187 as MP  # noqa: E402
 
 IN_BONE_MIN = 8.0          # % of vertices inside her bones that makes a target muscle a repair candidate
-IN_BONE_MAX_ADD = 5.0      # an added Z muscle must leave <= this share (belly) in her bones
+IN_BONE_MAX_ADD = 8.0      # an added Z muscle must leave <= this share (belly, i.e. without its origin / insertion zones) in her bones (tiny hand muscles rest on their bones)
+IN_BONE_FINAL_MAX_ADD = 25.0   # ... and <= this share of all its vertices
 OVERLAP_MAX_ADD = 35.0     # ... and <= this share of its vertices inside her other muscles
 SUBJECT = "xfer_zan2vhf_hand_q213"
 Z_PAGE = REPO / "build/q211/viewer_zan_female/atlas_viewer_zan_female.html"
@@ -83,7 +84,7 @@ def run(src, out, report, dry=False, log=print):
     pat = re.compile(r"^(?:%s)_(r|l)(_zfill\w*)?$" % "|".join(map(re.escape, stems)))
     pat2 = re.compile(r"^zan_palmaris_longus_muscle_(r|l)$")
     rep_all = {"repaired": {}, "held": {}, "unhidden": [], "added": {}, "not_added": {}, "params": dict(IN_BONE_MIN=IN_BONE_MIN, MEAN_MOVE_MAX=IB.MEAN_MOVE_MAX, MAX_MOVE_MAX=IB.MAX_MOVE_MAX, GATE_PCT=IB.GATE_PCT,
-                                                                                                  VOL=[IB.VOL_LO, IB.VOL_HI], IN_BONE_MAX_ADD=IN_BONE_MAX_ADD, OVERLAP_MAX_ADD=OVERLAP_MAX_ADD)}
+                                                                                                  VOL=[IB.VOL_LO, IB.VOL_HI], IN_BONE_MAX_ADD=IN_BONE_MAX_ADD, IN_BONE_FINAL_MAX_ADD=IN_BONE_FINAL_MAX_ADD, OVERLAP_MAX_ADD=OVERLAP_MAX_ADD)}
     # ---------------------------------------------------------------- (1) in-bone repair
     cand = [(k, it) for k, it in enumerate(B.items) if it["e"]["cat"] == "muscle" and (pat.match(it["e"]["id"]) or pat2.match(it["e"]["id"]))]
     log(f"target-muscle entries: {len(cand)}")
@@ -154,7 +155,7 @@ def run(src, out, report, dry=False, log=print):
                 inm[sel] = tm.contains(use[sel])
         rep["inside_own_muscles_pct"] = round(100.0 * float(inm.mean()), 1)
         rep["inside_bone_final_pct"] = round(100.0 * float(ins.mean()), 1)
-        ok = rep["inside_after_belly_pct"] <= IN_BONE_MAX_ADD and rep["inside_own_muscles_pct"] <= OVERLAP_MAX_ADD
+        ok = rep["inside_after_belly_pct"] <= IN_BONE_MAX_ADD and rep["inside_bone_final_pct"] <= IN_BONE_FINAL_MAX_ADD and rep["inside_own_muscles_pct"] <= OVERLAP_MAX_ADD
         rep["accepted_for_add"] = bool(ok)
         log(f"  ADD? {zid:40s} in bone {rep['inside_before_pct']} -> {rep['inside_after_pct']} % (belly {rep['inside_after_belly_pct']}), in her muscles {rep['inside_own_muscles_pct']} % -> {'ADD' if ok else 'not added'}")
         if not ok:

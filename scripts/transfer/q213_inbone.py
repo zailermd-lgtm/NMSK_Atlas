@@ -15,7 +15,7 @@ import trimesh
 from scipy.sparse import coo_matrix
 
 MARGIN = 0.6
-CAP_MM = 12.0
+CAP_MM = 16.0
 GATE_PCT = 5.0
 SMOOTH_IT = 6
 VOL_LO, VOL_HI = 0.88, 1.20
@@ -98,7 +98,7 @@ def ends_mask(v, frac=0.12):
     return (t <= lo) | (t >= hi)
 
 
-W_SEAM, W_END = 30.0, 6.0
+W_SEAM, W_END = 200.0, 6.0
 
 
 def push_out(v, f, field, lam=10.0, passes=6, tether=1e-3, start=None, anchors=None, ends=None):
@@ -155,9 +155,11 @@ def chain(v, f, field, lams, anchors=None, ends=None):
 
 
 def repair(v, f, field, chains=CHAINS, anchors=None, end_tree=None, use_ends=True):
-    """first chain (stiffest = most rigid shift first, then more local) whose result passes accept(); else the best-gain result.  -> (vertices or None, report)"""
-    best = None
+    """every chain (stiffest = most rigid shift first, then more local) is tried; of the results that pass accept() the one with the smallest in-bone share of the belly is returned
+    (ties: smaller mean move); if none passes, the best-gain result is returned with its reasons.  -> (vertices or None, report)"""
+    best, ok_best = None, None
     ends = ends_mask(v) if use_ends else None
+    key = lambda r: r.get("inside_after_belly_pct", r["inside_after_pct"])
     for lams in chains:
         nv, rep = chain(v, f, field, lams, anchors, ends)
         ok, why = accept(rep)
@@ -168,10 +170,12 @@ def repair(v, f, field, chains=CHAINS, anchors=None, end_tree=None, use_ends=Tru
                 ok = False
                 why = why + ["an attachment end moved off its bone"]
         rep["accepted"], rep["why_not"] = ok, why
-        if ok:
-            return nv, rep
-        if best is None or rep.get("inside_after_belly_pct", rep["inside_after_pct"]) < best[1].get("inside_after_belly_pct", best[1]["inside_after_pct"]):
+        if ok and (ok_best is None or (key(rep), rep["mean_move_mm"]) < (key(ok_best[1]), ok_best[1]["mean_move_mm"])):
+            ok_best = (nv, rep)
+        if best is None or key(rep) < key(best[1]):
             best = (nv, rep)
+    if ok_best is not None:
+        return ok_best
     return None, best[1]
 
 
@@ -184,7 +188,7 @@ def end_dist(v, tree, frac=0.1):
     return [float(np.median(tree.query(v[t <= lo])[0])), float(np.median(tree.query(v[t >= hi])[0]))]
 
 
-MEAN_MOVE_MAX, MAX_MOVE_MAX = 4.0, 12.0
+MEAN_MOVE_MAX, MAX_MOVE_MAX = 4.0, 16.0
 
 
 def accept(rep):
