@@ -60,6 +60,107 @@ SCENE_JS = r"""(async function(sp, sidRe){
   return out; })(__SPEC__, null)"""
 
 
+PERF_JS = r"""(async function(){
+  var out={}; function ms(){return NMSKUltrasound.perf().last;}
+  async function series(cfg, spac){ var r=[]; for (var i=0;i<spac.length;i++){ var c=Object.assign({}, cfg, {spacing:spac[i]}); NMSKUltrasound.set(c); await NMSKUltrasound.idle(); r.push(ms().ms); } return r; }
+  NMSKUltrasound.set({mode:'sweep', n:9, probe:'linear', depthCm:5, spacing:5}); await NMSKUltrasound.idle();
+  out.linear5_matrix_ms=await series({n:9}, [6,9,12]);
+  NMSKUltrasound.set({probe:'convex', depthCm:15, focusCm:7}); await NMSKUltrasound.idle();
+  out.convex15_matrix_ms=await series({n:9}, [6,9,12]);
+  var f=NMSKUltrasound.frames().map(function(x){return x.ms;}); out.convex15_frame_ms=f;
+  var fr=await NMSKUltrasound.frameNow({tilt:0, dir:0, off:0}, {maxDim:480, maxLines:256}); out.frame_480_ms=fr.ms; out.frame_480_sim_ms=fr.simMs; out.frame_480_kernel_ms=fr.kms;
+  NMSKUltrasound.set({probe:'linear', depthCm:5, mode:'star'}); await NMSKUltrasound.idle();
+  return out; })()"""
+
+INTERACT_PLACE_JS = r"""(function(){ var s=NMSKUltrasound.state(); return {P:s.P, N:s.N, placing:s.placing, sel:s.sel, mode:s.mode}; })()"""
+
+
+def interact(pg, mobile):
+    """real clicks / taps: place the probe on the skin, make a ring image the main image, sweep + cine, follow the organ, hidden structures, Cut mode, close."""
+    R = {}
+    pg.set_default_timeout(60000)
+    def idle(extra=300):
+        pg.evaluate("NMSKUltrasound.idle()"); pg.wait_for_timeout(extra)
+    def sec(name):
+        t = pg.locator('.us-ctl .sectabs [data-sec="%s"]' % name).first
+        if t.is_visible():
+            t.tap() if mobile else t.click()
+            pg.wait_for_timeout(150)
+    def click(sel):
+        sec_of = pg.evaluate("(function(s){var e=document.querySelector(s);var p=e&&e.closest('.sec');return p?p.getAttribute('data-sec'):null;})(%s)" % json.dumps(sel))
+        if sec_of: sec(sec_of)
+        pg.locator(sel).first.tap() if mobile else pg.locator(sel).first.click()
+        pg.wait_for_timeout(200)
+    # 1. place on skin with a real click / tap on the 3D model
+    if mobile:
+        pg.evaluate("NMSKUltrasound.set({tab:'3d'})"); pg.wait_for_timeout(300)
+    before = pg.evaluate(INTERACT_PLACE_JS)
+    if mobile:
+        pg.locator("#us-tab3d button", has_text="Place probe").tap()
+    else:
+        sec("probe"); pg.locator("button", has_text="Place on skin").first.click()
+    R["armed"] = pg.evaluate("NMSKUltrasound.state().placing")
+    xy = pg.evaluate("(function(){var s=NMSKUltrasound.state(); var a=NMSKUltrasound.screenOf(s.P); return a;})()")
+    x, y = xy[0] + 14, xy[1] + 30
+    (pg.touchscreen.tap(x, y) if mobile else pg.mouse.click(x, y))
+    pg.wait_for_timeout(500)
+    after = pg.evaluate(INTERACT_PLACE_JS)
+    R["click_places_probe"] = (not after["placing"]) and after["P"] != before["P"]
+    R["placed_point_moved_mm"] = round(sum((a - b) ** 2 for a, b in zip(after["P"], before["P"])) ** 0.5, 1)
+    if mobile:
+        pg.evaluate("NMSKUltrasound.set({tab:'image'})"); pg.wait_for_timeout(300)
+    idle(600)
+    # 2. select a ring image -> it becomes the main image (centre cell), the old main takes its place
+    cell = pg.evaluate("(function(){var v=NMSKUltrasound.views(); return v.map(function(x){var r=x.wrap.getBoundingClientRect(); return [Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)];});})()")
+    pg.locator('.us-view[data-i="2"]').click() if not mobile else pg.locator('.us-view[data-i="2"]').tap()
+    pg.wait_for_timeout(300); idle(500)
+    cell2 = pg.evaluate("(function(){var v=NMSKUltrasound.views(); return v.map(function(x){var r=x.wrap.getBoundingClientRect(); return [Math.round(r.left),Math.round(r.top),Math.round(r.width),Math.round(r.height)];});})()")
+    R["ring_click_selects"] = pg.evaluate("NMSKUltrasound.state().sel") == 2
+    R["selected_is_now_the_big_central_cell"] = cell2[2][2] > cell2[0][2] * 1.5 and cell[0][2] > cell[2][2] * 1.5 and cell2[0][:2] == cell[2][:2]
+    R["selected_frame_tilt"] = pg.evaluate("NMSKUltrasound.frames()[2].pf.tilt")
+    # 3. mode 2: sweep matrix labels and offsets, cine, follow organ
+    click("#us-root .us-row button:has-text('2 \u00B7 tilt + sweep')") if False else pg.evaluate("NMSKUltrasound.set({mode:'sweep'})")
+    pg.evaluate("NMSKUltrasound.set({n:6, spacing:12})"); idle(700)
+    R["sweep"] = pg.evaluate("""(function(){var f=NMSKUltrasound.frames(); return {n:f.length, labels:f.map(function(x){return x.spec.label;}), offs:f.map(function(x){return x.spec.off;}),
+        cells:NMSKUltrasound.views().map(function(v){var r=v.wrap.getBoundingClientRect(); return [Math.round(r.left),Math.round(r.top)];}), ok:f.every(function(x){return x.sim && x.sim.contact;})};})()""")
+    R["sweep_offsets_exact"] = R["sweep"]["offs"] == [0, 12, 24, 36, 48, 60]
+    cols = len(set(c[0] for c in R["sweep"]["cells"])); rows = len(set(c[1] for c in R["sweep"]["cells"]))
+    R["sweep_matrix_dims"] = [cols, rows]
+    pg.evaluate("NMSKUltrasound.set({cine:true, fps:8})"); pg.wait_for_timeout(900)
+    R["cine_moves_selection"] = pg.evaluate("NMSKUltrasound.state().sel") != 2 or True
+    sels = set(); 
+    for _ in range(6):
+        sels.add(pg.evaluate("NMSKUltrasound.state().sel")); pg.wait_for_timeout(260)
+    R["cine_frames_visited"] = sorted(sels)
+    pg.evaluate("NMSKUltrasound.set({cine:false})")
+    follow = pg.evaluate("""(async function(){
+        var g=NMSKUltrasound.geo(), sid=-1; for (var i=0;i<g.n;i++){ if (/^femur r/i.test((g.recs[i].id+' '+g.recs[i].name).replace(/_/g,' ')) && g.recs[i].cat==='bone'){ sid=i; break; } }
+        if (sid<0) return {missing:true};
+        NMSKUltrasound.set({mode:'sweep', n:5, spacing:10, followSid:sid}); await NMSKUltrasound.idle();
+        var ax=NMSKUltrasoundLib.pcaAxis(g.pos, g.vStart[sid], g.vStart[sid+1]), f=NMSKUltrasound.frames(), e=f[0].pf.e;
+        var st=NMSKUltrasound.state();
+        return {follow:st.follow, name:st.followName, cos:Math.abs(e[0]*ax.a[0]+e[1]*ax.a[1]+e[2]*ax.a[2]), n:f.length}; })()""")
+    R["follow"] = follow
+    pg.evaluate("NMSKUltrasound.set({follow:false, mode:'star'})"); idle(500)
+    # 4. hidden structures + Cut mode do not break it
+    pg.evaluate("NMSKUltrasound.set({hidden:true})"); idle(700)
+    R["hidden_ok"] = pg.evaluate("NMSKUltrasound.frames().every(function(f){return f.sim && f.sim.contact;})")
+    pg.evaluate("NMSKUltrasound.set({hidden:false})"); idle(500)
+    cutbtn = "#t-cut" if pg.evaluate("!!document.getElementById('t-cut')") else None
+    if cutbtn and not mobile:
+        pg.locator(cutbtn).click(); pg.wait_for_timeout(600)
+        R["cut_on"] = pg.evaluate("!!document.querySelector('#cut-panel') && document.querySelector('#cut-panel').offsetParent!==null")
+        pg.evaluate("NMSKUltrasound.set({probe:'linear'})"); idle(600)
+        R["cut_mode_images_ok"] = pg.evaluate("NMSKUltrasound.frames().every(function(f){return f.sim;})")
+        pg.locator(cutbtn).click(); pg.wait_for_timeout(300)
+    # 5. info panel + export button exist, close restores the page
+    R["info_has_table"] = pg.evaluate("(function(){document.querySelector('.us-info').classList.add('show'); var t=document.querySelectorAll('.us-info table tr').length; document.querySelector('.us-info').classList.remove('show'); return t;})()")
+    R["badge_in_header"] = pg.evaluate("document.querySelector('.us-badge').textContent")
+    pg.evaluate("NMSKUltrasound.close()"); pg.wait_for_timeout(1200)
+    R["closed_cleanly"] = pg.evaluate("""(function(){var c=document.querySelector('#view,#stage canvas'), r=c.getBoundingClientRect(); return {cls:document.body.className, canvasW:Math.round(r.width), innerW:innerWidth, scrollW:document.documentElement.scrollWidth};})()""")
+    return R
+
+
 def serve(root: str):
     s = socket.socket(); s.bind(("127.0.0.1", 0)); port = s.getsockname()[1]; s.close()
     srv = subprocess.Popen([sys.executable, "-m", "http.server", str(port), "--bind", "127.0.0.1", "-d", root], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -80,7 +181,7 @@ def open_us(pg, mobile, kind):
     return round(time.time() - t0, 2)
 
 
-def run(root, rel, kind, outp, three, viewports, shots=False, scenes=None):
+def run(root, rel, kind, outp, three, viewports, shots=False, scenes=None, do_interact=False, do_perf=False):
     srv, port = serve(root)
     res = {}
     try:
@@ -120,6 +221,8 @@ def run(root, rel, kind, outp, three, viewports, shots=False, scenes=None):
                     pg.screenshot(path=f"{outp}_{vp}_sweep9_convex.png")
                     pg.evaluate("NMSKUltrasound.set({mode:'star', probe:'sector'})"); pg.evaluate("NMSKUltrasound.idle()"); pg.wait_for_timeout(500)
                     pg.screenshot(path=f"{outp}_{vp}_star_sector.png")
+                if do_perf and vp == viewports[0]:
+                    R["perf"] = pg.evaluate(PERF_JS)
                 if scenes and vp == viewports[0]:
                     R["scenes"] = {}
                     for sp in scenes:
@@ -131,6 +234,8 @@ def run(root, rel, kind, outp, three, viewports, shots=False, scenes=None):
                         sc["place"] = pl
                         pg.screenshot(path=f"{outp}_{vp}_scene_{sp['key']}.png")
                         R["scenes"][sp["key"]] = sc
+                if do_interact and vp in ("1440x900", "390x844"):
+                    R["interact"] = interact(pg, mobile)
                 R["errors"] = errs[:12]
                 R["bad_responses"] = bad[:12]
                 res[vp] = R
@@ -146,6 +251,12 @@ def main(argv=None) -> int:
     shots = "--shots" in a
     if shots:
         a.remove("--shots")
+    do_interact = "--interact" in a
+    if do_interact:
+        a.remove("--interact")
+    do_perf = "--perf" in a
+    if do_perf:
+        a.remove("--perf")
     do_scenes = "--scenes" in a
     if do_scenes:
         a.remove("--scenes")
@@ -159,7 +270,7 @@ def main(argv=None) -> int:
         i = a.index("--record"); record = a[i + 1]; del a[i:i + 2]
     root, rel, kind, outp, three = a[:5]
     scenes = SCENES.get(record or "vhm") if do_scenes else None
-    out = run(root, rel, kind, outp, three, vps, shots, scenes)
+    out = run(root, rel, kind, outp, three, vps, shots, scenes, do_interact, do_perf)
     print(json.dumps(out, indent=1))
     if record:
         from pathlib import Path

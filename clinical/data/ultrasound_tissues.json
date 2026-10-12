@@ -30,6 +30,8 @@
     "display_ref_fraction": 0.55,
     "display_note": "A liver-level echo (0 dB, gain 0) is displayed at 55 % of the grey range.",
     "gel": {"z_mrayl": 1.5, "alpha_db_cm_mhz": 0.0, "max_gap_mm": 12, "note": "Air between the probe face and the skin along a beam is treated as coupling gel (water-like) up to 12 mm; larger gaps = lost contact (no signal). ASSUMPTION."},
+    "air_pocket_fill_mm": 12,
+    "air_pocket_note": "Along a beam, an air band thinner than this that tissue follows again is treated as fat: the Z pages' skin is 250 overlapping patches whose even-odd union leaves air-labelled gaps between skin layers. A real gas pocket (lung, bowel gas) is larger or has no tissue behind it.",
     "noise_floor_db": -31,
     "noise_note": "Optional synthetic system noise (exponential intensity statistics) at this level re liver after TGC; default off. Clearly synthetic.",
     "axial_cycles": 2.5,

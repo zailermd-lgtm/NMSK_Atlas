@@ -55,9 +55,10 @@
 
   /* ---- tilt star: centre + 8 tilted frames ---- */
   var STAR_NAMES = ["away from marker (rock)", "away + heel", "heel (fan)", "toward marker + heel", "toward marker (rock)", "toward marker + toe", "toe (fan)", "away + toe"];
+  var STAR_SHORT = ["away", "away+heel", "heel", "toward+heel", "toward", "toward+toe", "toe", "away+toe"];
   function starTilts(theta) {
-    var out = [{id: 0, tilt: 0, dir: 0, name: "perpendicular (90°)"}], i;
-    for (i = 0; i < 8; i++) out.push({id: i + 1, tilt: theta, dir: i * 45, name: STAR_NAMES[i]});
+    var out = [{id: 0, tilt: 0, dir: 0, name: "perpendicular (90°)", short: "90°"}], i;
+    for (i = 0; i < 8; i++) out.push({id: i + 1, tilt: theta, dir: i * 45, name: STAR_NAMES[i], short: STAR_SHORT[i] + " " + theta + "°"});
     return out;
   }
   /* ---- sweep ---- */
@@ -115,7 +116,7 @@
       A.tex[i] = r.texture === "muscle" ? 1 : r.texture === "tendon" ? 2 : 0;
       if (r.aniso) { A.aOn[i] = 1; A.aTh[i] = r.aniso.theta_deg * DEG; A.aFl[i] = r.aniso.floor; A.aMin[i] = r.aniso.min_elong; }
     });
-    A.airId = C.ids.air; A.gelZ = US.global.gel.z_mrayl;
+    A.airId = C.ids.air; A.fatId = C.ids.fat; A.gelZ = US.global.gel.z_mrayl; A.airFillMm = US.global.air_pocket_fill_mm || 12;
     return A;
   }
 
@@ -205,7 +206,7 @@
     var tp = AC.tex_p;
     for (L = 0; L < nL; L++) {
       var ls = lineStart(g, L, nL), x0 = ls[0], y0 = ls[1], dx = ls[2], dy = ls[3];
-      var T = 1, prevZ = Zgel, prevCls = GEL, body = false, gap = 0, firstRev = -1, revVal = 0, bd = null;
+      var T = 1, prevZ = Zgel, prevCls = GEL, body = false, gap = 0, firstRev = -1, revVal = 0, bd = null, airUntil = -1, airNext = 0, fillK = Math.ceil(AC.airFillMm / ds);
       if (frame) bd = [frame.u[0] * dx + frame.b[0] * dy, frame.u[1] * dx + frame.b[1] * dy, frame.u[2] * dx + frame.b[2] * dy];
       for (k = 0; k < nS; k++) {
         var s = k * ds, X = x0 + dx * s, Y = y0 + dy * s + ysk;
@@ -213,6 +214,17 @@
         if (jx < 0 || jy < 0 || jx >= W || jy >= H) cls = prevCls === GEL ? AIR : prevCls; else { pix = jy * W + jx; cls = lab[pix]; }
         if (!body) {
           if (cls === AIR) { gap += ds; if (gap > maxGap) { nStats.lost++; break; } cls = GEL; } else body = true;
+        } else if (cls === AIR) {                                            // an air band thinner than airFillMm that tissue follows is a model artefact (overlapping skin shells), not a gas pocket: fat
+          if (k >= airNext) {
+            var kk2 = k + 1, kmx = Math.min(nS - 1, k + fillK), found = -1;
+            for (; kk2 <= kmx; kk2++) {
+              var jx2 = Math.floor((x0 + dx * kk2 * ds - pl.xr0) / px), jy2 = Math.floor((y0 + dy * kk2 * ds + ysk - pl.yr0) / px);
+              if (jx2 < 0 || jy2 < 0 || jx2 >= W || jy2 >= H) break;
+              if (lab[jy2 * W + jx2] !== AIR) { found = kk2; break; }
+            }
+            airUntil = found; airNext = found >= 0 ? found : k + 6;
+          }
+          if (k < airUntil) cls = AC.fatId;
         }
         var Z2 = cls === GEL ? Zgel : AC.z[cls];
         if (cls !== prevCls) {
@@ -509,10 +521,10 @@
     function frameSpecs() {
       var out = [], i;
       if (S.mode === "star") {
-        LIB.starTilts(S.tilt).forEach(function (t) { out.push({id: t.id, tilt: t.tilt, dir: t.dir, off: 0, label: t.id === 0 ? "90° (perpendicular)" : "tilt " + S.tilt + "° " + t.name}); });
+        LIB.starTilts(S.tilt).forEach(function (t) { out.push({id: t.id, tilt: t.tilt, dir: t.dir, off: 0, short: t.short, label: t.id === 0 ? "90° (perpendicular)" : "tilt " + S.tilt + "° " + t.name}); });
       } else {
         var sr = sweepRot(S.mTilt, S.mTiltDir), step = spacing(), offs = LIB.sweepOffsets(S.n, step, S.centered, sr.sign);
-        for (i = 0; i < S.n; i++) out.push({id: i, tilt: S.mTilt, dir: S.mTiltDir, off: offs[i], rotOverride: sr.rot, label: "#" + (i + 1) + "  " + (offs[i] >= 0 ? "+" : "−") + Math.abs(Math.round(offs[i] * 10) / 10) + " mm"});
+        for (i = 0; i < S.n; i++) out.push({id: i, tilt: S.mTilt, dir: S.mTiltDir, off: offs[i], rotOverride: sr.rot, label: "#" + (i + 1) + "  " + (offs[i] >= 0 ? "+" : "−") + Math.abs(Math.round(offs[i] * 10) / 10) + " mm", short: "#" + (i + 1) + " " + (offs[i] >= 0 ? "+" : "\u2212") + Math.abs(Math.round(offs[i])) + " mm"});
       }
       return out;
     }
@@ -759,7 +771,7 @@
       "#us-root select,#us-root input[type=number]{background:var(--panel);border:1px solid var(--line);border-radius:7px;padding:4px 6px;min-height:30px}",
       "#us-root input[type=range]{width:100%;accent-color:var(--acc);min-height:24px}",
       ".us-views{flex:1 1 0;min-height:0;display:grid;gap:4px;padding:4px;background:#000;position:relative}",
-      ".us-views.star{grid-template-columns:1fr 2.4fr 1fr;grid-template-rows:1fr 2.4fr 1fr}",
+      ".us-views.star{grid-template-columns:1fr 2fr 1fr;grid-template-rows:1fr 2fr 1fr}",
       ".us-views.single{grid-template-columns:1fr;grid-template-rows:1fr}",
       ".us-view{position:relative;min-width:0;min-height:0;overflow:hidden;background:#000;border:1px solid #1d2733;touch-action:manipulation;cursor:pointer}",
       ".us-view.act{border-color:var(--acc)}",
@@ -767,13 +779,13 @@
       ".us-view .ann{pointer-events:none;left:0;top:0}",
       "#us-root.ctl-off .us-ctl{display:none}",
       ".us-ctl .sec{display:contents}.us-ctl .sectabs{display:none;gap:4px;flex-wrap:wrap}.us-ctl .modrow{grid-column:1/-1}",
-      "#us-root.ctl-tabs .us-ctl{grid-template-columns:1fr;max-height:44%}",
+      "#us-root.ctl-tabs .us-ctl{grid-template-columns:1fr;max-height:36%}",
       "#us-root.ctl-tabs .sectabs{display:flex}",
       "#us-root.ctl-tabs .sec{display:grid;gap:6px}",
       "#us-root.ctl-tabs .sec:not(.act){display:none}",
       ".us-ctl{flex:0 0 auto;max-height:46%;overflow:auto;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px 14px;background:var(--bg);grid-template-columns:repeat(auto-fit,minmax(380px,1fr));align-content:start}",
       ".us-ctl>.us-status{grid-column:1/-1}",
-      "body.us-tab .us-ctl{max-height:44%}",
+      "body.us-tab .us-ctl{max-height:40%}",
       ".us-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}",
       ".us-row label{color:var(--dim);font-size:12px}",
       ".us-row .grow{flex:1 1 120px;min-width:90px}",
@@ -1081,15 +1093,17 @@
       txt(LIB_dirLabel(fr.pf.u, true), box.x + 6, midY, "left", "#ffd37a"); txt(LIB_dirLabel(fr.pf.u, false), box.x + box.w - 22, midY, "right", "#ffd37a");
       if (!tiny) txt(LIB_dirLabel(fr.pf.b, false) + " ↓", box.x + box.w / 2, box.y + box.h - 22, "center", "#ffd37a");
       /* header */
-      var t1 = (tiny ? "" : g.type + " " + g.w + " mm · ") + S.freq + " MHz · " + S.depthCm + " cm" + (tiny ? "" : " · gain " + (S.gain >= 0 ? "+" : "") + S.gain + " dB");
-      txt(t1, box.x + 6, box.y + 10, "left");
-      txt(fr.spec.label, box.x + 6, box.y + (tiny ? 21 : 24), "left", "#9fd0ff");
+      var t1 = (tiny ? "" : g.type + " " + g.w + " mm \u00B7 ") + S.freq + " MHz \u00B7 " + S.depthCm + " cm" + (tiny ? "" : " \u00B7 gain " + (S.gain >= 0 ? "+" : "") + S.gain + " dB");
+      if (box.h > 150) { txt(t1, box.x + 6, box.y + 10, "left"); txt(fr.spec.label, box.x + 6, box.y + (tiny ? 21 : 24), "left", "#9fd0ff"); }
+      else txt(fr.spec.short || fr.spec.label, box.x + 4, box.y + 8, "left", "#9fd0ff");
       if (!tiny) {
-        txt("tilt " + (Math.round(fr.pf.tilt * 10) / 10) + "° · normal " + fr.pf.N.map(function (x) { return x.toFixed(2); }).join(","), box.x + 6, box.y + 38, "left", "#b8c4d2");
+        txt("tilt " + (Math.round(fr.pf.tilt * 10) / 10) + "\u00B0 \u00B7 normal " + fr.pf.N.map(function (x) { return x.toFixed(2); }).join(","), box.x + 6, box.y + 38, "left", "#b8c4d2");
         if (S.speckle || S.noise || S.textures) txt("synthetic: " + [S.speckle ? "speckle" : "", S.textures ? "textures" : "", S.noise ? "noise" : ""].filter(Boolean).join(", "), box.x + 6, box.y + 52, "left", "#ff9d8a");
         if (!sim.contact) txt("NO SKIN CONTACT", box.x + box.w / 2, box.y + box.h / 2, "center", "#ff6a5a");
       }
-      txt(tiny ? "SIMULATED – NOT AN ULTRASOUND" : BADGE.toUpperCase(), box.x + box.w - 6, box.y + box.h - 8, "right", "#ff9d8a");
+      var bad = BADGE.toUpperCase(), bw2 = ctx.measureText(bad).width;
+      if (bw2 + 12 <= box.w) txt(bad, box.x + box.w - 6, box.y + box.h - 8, "right", "#ff9d8a");
+      else { txt("SIMULATED \u2013", box.x + box.w - 4, box.y + box.h - 17, "right", "#ff9d8a"); txt("NOT AN ULTRASOUND", box.x + box.w - 4, box.y + box.h - 7, "right", "#ff9d8a"); }
       /* cursor */
       if (v.hover && v.hover.fr === fr) { ctx.strokeStyle = "rgba(255,80,60,.9)"; ctx.beginPath(); ctx.arc(v.hover.cx, v.hover.cy, 6, 0, 6.2832); ctx.stroke(); }
     }
@@ -1132,6 +1146,7 @@
         "Orientation: the marker is on the screen LEFT (and the dot on the probe). Longitudinal: marker cranial (screen left = cranial). Transverse: marker to the patient's right (screen left = patient right, the CT convention). Depth scale in cm on the right edge, footprint at the top.",
         "Tilt = the probe handle leans by the stated angle (rigid rotation about the contact point). 'Away / toward marker' = rocking inside the image plane; 'heel / toe' = fanning (the plane swings sideways). Which heel/toe side faces the examiner depends on where the examiner stands.",
         "Sweep: parallel planes, frame k at k × step along the plane normal (perpendicular to the image plane); 'follow organ' rotates the probe about the skin normal so that this direction lies as close as possible to the PCA long axis of the chosen structure.",
+        "Model artefacts handled: an air band thinner than " + US.global.air_pocket_fill_mm + " mm along a beam that tissue follows again is treated as fat (the Z pages' skin is a set of overlapping patches; the slice kernel then labels gaps between skin layers as air); thin fascia / septa meshes are drawn one pixel wide and can show as bright lines with a stair-step on oblique planes.",
         "Synthetic parts: speckle (seeded value noise with Rayleigh statistics, attached to the sweep volume), muscle septa / tendon fibril textures, optional system noise: all labelled on the image and switchable off. Not modelled: " + US.artefacts.not_modelled.join("; ") + "."];
       var ul = el("ul"); how.forEach(function (t) { ul.appendChild(el("li", {text: t})); }); box.appendChild(ul);
       box.appendChild(el("h3", {text: "Honest limits"}));
