@@ -27,15 +27,26 @@ def q25(t):
     return t.replace(" Q211:", " Q225:").replace("Q211 final guard", "Q225 final guard")
 
 
+def pk(d, k):
+    """value of a pair-keyed dict in either order of the pair"""
+    if k in d:
+        return d[k]
+    a, b = k.split("|")
+    return d.get(f"{b}|{a}")
+
+
 def js(t):
     sp = t.get("joint_space_p05_mm")
-    return f"penetration {t['max_penetration_mm']} mm, joint space {sp if sp is not None else 'no contact patch'} mm (closest clearance {t['min_clearance_mm']} mm)"
+    return f"penetration {t['max_penetration_mm']} mm, " + (f"joint space {sp} mm" if sp is not None else "no contact patch (bones apart)") + f" (closest clearance {t['min_clearance_mm']} mm)"
 
 
 def note_bone(L, which):
     b = L["bone_report"]
     who = WHO[which]
-    pairs = "; ".join(f"{k.replace('_', ' ')}: {js(L['joint_before'][k])} -> {js(L['joint_after'][k])}, base model {L['base_gaps'][k]['joint_space_p05_mm']} mm" for k in L["joint_after"])
+    def own(k):
+        o = pk(L.get("own_gaps") or {}, k)
+        return "" if o is None else f", {who} own meshes {o} mm"
+    pairs = "; ".join(f"{k.replace('_', ' ').replace('|', ' | ')}: {js(L['joint_before'][k])} -> {js(L['joint_after'][k])} (joint space on the unfitted base model {pk(L['base_gaps'], k)['joint_space_p05_mm']} mm{own(k)}; target {pk(L.get('targets') or {}, k)} mm)" for k in L["joint_after"])
     fe = ""
     if "fit_error_before_zone_whole" in b:
         zb, wb = b["fit_error_before_zone_whole"]
@@ -47,7 +58,9 @@ def note_bone(L, which):
         why = (f" Q225: the fit placed the three left-arm bones on {who} evidence one bone at a time, so their joint surfaces were not congruent (the unfitted Z model has a normal joint space). This bone's elbow end was re-seated on the "
                f"humerus (local rigid correction: shift {b['translation_mm']} mm, turn {b['rotation_deg']} deg{tp}; max vertex move {b['max_move_mm']} mm, mean {b['mean_move_mm']} mm; volume x{b['volume_ratio']}). ")
     elif kind == "patella_reseat":
-        why = (f" Q225: the patella had been fitted to {who} own patella (1.4 mm) while the fitted femur's trochlea lies 5-8 mm behind {who} own femur, so it floated 9-12 mm in front of the femur (unfitted model 2.3 mm). It was moved "
+        k0 = next(iter(L["joint_before"]))
+        why = (f" Q225: the patella had been fitted to {who} own patella (mean surface distance {b['fit_error_before_zone_whole'][1][0]} mm) while the fitted femur's distal end lies {L.get('femur_offset_mm', '5-8')} mm away from {who} own femur "
+               f"(behind it), so the patella floated {L['joint_before'][k0]['min_clearance_mm']} mm in front of the femur (unfitted model: {pk(L['base_gaps'], k0)['joint_space_p05_mm']} mm). It was moved "
                f"back onto the femoral trochlea as one rigid piece (shift {b['translation_mm']} mm, turn {b['rotation_deg']} deg; volume x{b['volume_ratio']}). ")
     else:
         why = (f" Q225: the rib was fitted to {who} rib mass without its attachment: its head stood away from the vertebra it articulates with (unfitted model: in contact). The head end was re-seated on the vertebra "
@@ -78,6 +91,16 @@ def run(which, stage=None, out=None, log=print):
     stage = stage or "final"
     st = State.load(which, stage)
     out = Path(out or cfg["out"])
+    own = K5.own_bones(which)
+    from scipy.spatial import cKDTree
+    for i in st.V:                                         # distal-femur offset fitted -> own (for the patella card text)
+        if i.startswith("patella_"):
+            fe = "femur_" + i[-1]
+            fv, ov = st.pg.v(fe), own[fe][0]
+            fd, od = fv[fv[:, 1] < fv[:, 1].min() + 60], ov[ov[:, 1] < ov[:, 1].min() + 60]
+            for L in st.log[i]:
+                if L["stage"] == "bone":
+                    L["femur_offset_mm"] = round(float(np.linalg.norm(fd.mean(0) - od.mean(0))), 1)
     replace, kinds = {}, {}
     for i, v in st.V.items():
         rec = dict(st.pg.S[i]["m"].get("rec") or {})
