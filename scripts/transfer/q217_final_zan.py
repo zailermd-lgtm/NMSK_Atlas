@@ -22,7 +22,7 @@ OUT = REPO / "build/q217/viewer_zan_vhm"
 STEM = "atlas_viewer_zan_male_fitted"
 SKIN_MIN_MM = 1.0
 # carried vessels / nerves whose Q198 tube measures (level jump along the centreline, gap between the pieces) got worse than on the Q211 page: kept at the Q211 mesh
-REVERT = ("radial_n_l", "zan_basilic_vein_l", "zan_cephalic_vein_l", "zan_muscular_branches_of_median_nerve_l")
+REVERT = ("radial_n_l", "zan_basilic_vein_l", "zan_cephalic_vein_l")
 
 
 def clamp_meshes(d, G, bv, rounds=6, win=(100.0, 300.0)):
