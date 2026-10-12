@@ -1,18 +1,18 @@
 {
  "generated": "2026-10-12",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 484,
- "structures_with_parts": 160,
+ "parts_total": 500,
+ "structures_with_parts": 170,
  "by_part_type": {
-  "head_belly": 72,
-  "origin_part": 39,
-  "insertion_point": 114,
+  "head_belly": 77,
+  "origin_part": 40,
+  "insertion_point": 122,
   "muscle_tendon_junction": 16,
-  "ligament_component": 198,
+  "ligament_component": 200,
   "fascial_passage": 45
  },
  "by_verification": {
-  "verified": 452,
+  "verified": 468,
   "unverified": 32
  },
  "entity_classes": {
@@ -268,16 +268,20 @@
   },
   "muscles": {
    "entities": 220,
-   "with_parts": 78,
-   "without_parts": 142,
+   "with_parts": 88,
+   "without_parts": 132,
    "with_parts_ids": [
+    "abductor_digiti_minimi_foot",
     "abductor_digiti_minimi_hand",
+    "abductor_hallucis",
     "abductor_pollicis_brevis",
     "abductor_pollicis_longus",
     "adductor_brevis",
+    "adductor_hallucis",
     "adductor_longus",
     "adductor_magnus",
     "adductor_pollicis",
+    "articularis_genus",
     "biceps_brachii",
     "biceps_femoris",
     "brachialis",
@@ -302,6 +306,8 @@
     "flexor_pollicis_brevis",
     "flexor_pollicis_longus",
     "gastrocnemius",
+    "gemellus_inferior",
+    "gemellus_superior",
     "gluteus_maximus",
     "gluteus_medius",
     "gluteus_minimus",
@@ -316,6 +322,8 @@
     "lumbricals_hand",
     "masseter",
     "multifidus",
+    "obturator_externus",
+    "obturator_internus",
     "opponens_digiti_minimi",
     "opponens_pollicis",
     "palmar_interossei",
@@ -326,6 +334,7 @@
     "pronator_quadratus",
     "pronator_teres",
     "quadratus_lumborum",
+    "quadratus_plantae",
     "rectus_abdominis",
     "rectus_capitis_posterior_major",
     "rectus_capitis_posterior_minor",
@@ -343,6 +352,7 @@
     "temporalis",
     "tensor_fasciae_latae",
     "teres_major",
+    "tibialis_anterior",
     "tibialis_posterior",
     "transversus_abdominis",
     "trapezius",
@@ -351,12 +361,8 @@
     "vastus_medialis"
    ],
    "without_parts_ids": [
-    "abductor_digiti_minimi_foot",
-    "abductor_hallucis",
-    "adductor_hallucis",
     "anconeus",
     "antitragicus",
-    "articularis_genus",
     "auricularis_anterior",
     "auricularis_posterior",
     "auricularis_superior",
@@ -389,8 +395,6 @@
     "flexor_hallucis_brevis",
     "flexor_hallucis_longus",
     "frontalis",
-    "gemellus_inferior",
-    "gemellus_superior",
     "genioglossus",
     "geniohyoid",
     "helicis_major",
@@ -428,8 +432,6 @@
     "obliquus_auriculae",
     "obliquus_capitis_inferior",
     "obliquus_capitis_superior",
-    "obturator_externus",
-    "obturator_internus",
     "occipitofrontalis",
     "omohyoid",
     "orbicularis_oculi",
@@ -446,7 +448,6 @@
     "procerus",
     "pyramidalis",
     "quadratus_femoris",
-    "quadratus_plantae",
     "rectus_capitis_anterior",
     "rectus_capitis_lateralis",
     "rhomboid_major",
@@ -482,7 +483,6 @@
     "teres_minor",
     "thyroarytenoid",
     "thyrohyoid",
-    "tibialis_anterior",
     "tragicus",
     "transverse_arytenoid",
     "transverse_tongue",
@@ -552,7 +552,7 @@
     },
     "muscle": {
      "structures": 367,
-     "with_parts": 186
+     "with_parts": 205
     },
     "nerve": {
      "structures": 13,
@@ -572,7 +572,7 @@
     }
    },
    "structures_total": 561,
-   "structures_with_parts": 207,
+   "structures_with_parts": 226,
    "dedicated_part_meshes_present": []
   },
   "vhf": {
@@ -595,7 +595,7 @@
     },
     "muscle": {
      "structures": 390,
-     "with_parts": 196
+     "with_parts": 215
     },
     "nerve": {
      "structures": 16,
@@ -615,7 +615,7 @@
     }
    },
    "structures_total": 608,
-   "structures_with_parts": 221,
+   "structures_with_parts": 240,
    "dedicated_part_meshes_present": [
     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
    ]
@@ -656,7 +656,7 @@
     },
     "muscle": {
      "structures": 424,
-     "with_parts": 134
+     "with_parts": 152
     },
     "nerve": {
      "structures": 337,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 197,
+   "structures_with_parts": 215,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -796,7 +796,7 @@
     },
     "muscle": {
      "structures": 426,
-     "with_parts": 134
+     "with_parts": 152
     },
     "nerve": {
      "structures": 337,
@@ -816,7 +816,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 197,
+   "structures_with_parts": 215,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -949,6 +949,7 @@
   "peroneal_retinaculum": 4,
   "guyons_canal": 4,
   "annular_ligament": 4,
+  "articularis_genus": 4,
   "diaphragm": 4,
   "transversus_abdominis": 4,
   "latissimus_dorsi": 4,
@@ -1007,6 +1008,9 @@
   "tensor_fasciae_latae": 2,
   "gracilis": 2,
   "sartorius": 2,
+  "tibialis_anterior": 2,
+  "adductor_hallucis": 2,
+  "quadratus_plantae": 2,
   "erector_spinae_aponeurosis": 2,
   "acromioclavicular_ligament": 2,
   "flexor_digiti_minimi_brevis_hand": 2,
@@ -1045,6 +1049,12 @@
   "sternocleidomastoid": 1,
   "gluteal_fascia": 1,
   "fibularis_brevis": 1,
+  "obturator_internus": 1,
+  "gemellus_superior": 1,
+  "gemellus_inferior": 1,
+  "obturator_externus": 1,
+  "abductor_hallucis": 1,
+  "abductor_digiti_minimi_foot": 1,
   "transversalis_fascia": 1,
   "cremaster": 1,
   "deep_transverse_perineal": 1,
