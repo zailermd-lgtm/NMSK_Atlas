@@ -181,7 +181,7 @@
     "note": "First matching rule wins. Input = viewer category (cat), structure id and name (lower case, underscores -> spaces), vt ('v' = Z-Anatomy vein flag). Regexes use only the JS/Python common subset so the report script and the add-on agree (a test compares them).",
     "rules": [
       {"cat": ["skin"], "cls": "skin", "why": "Z-Anatomy skin patches = body envelope"},
-      {"cat": ["fascia"], "re": "^skin$", "cls": "skin", "why": "own-body skin mesh"},
+      {"cat": ["fascia"], "re": "^skin\\b", "cls": "skin", "why": "own-body skin mesh"},
       {"cat": ["bone"], "re": "tooth|teeth|incisor|molar|canine|premolar|enamel", "cls": "tooth", "kind": "tooth", "why": "teeth"},
       {"cat": ["bone"], "re": "\\b(femur|tibia|fibula|humerus|radius|ulna)\\b", "cls": "bone_cortical", "kind": "long", "why": "long bones: cortex + medullary canal"},
       {"cat": ["bone"], "re": "metacarp|metatars|phalan", "cls": "bone_cortical", "kind": "short_tubular", "why": "short tubular bones"},
