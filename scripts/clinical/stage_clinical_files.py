@@ -10,7 +10,15 @@ the anatomy geometry files:
     clinical_risk.json          <- clinical/data/risk_<viewer>.json   (per viewer)
     clinical_motor_points.json  <- clinical/data/motor_points.json    (if present, or --motor-points)
 
---remove deletes exactly those three names again (an anatomy-only build).
+Q226 (--imaging / --imaging-only): the IMAGING add-on (simulated CT / MRI of the cut plane), also private:
+
+    clinical_imaging_tool.js       <- clinical/imaging_tool.js
+    clinical_imaging_tissues.json  <- clinical/data/imaging_tissues.json   (tissue table, mapping rules, sources)
+
+It needs no per-viewer data, so it also works on the pages that have no needle files (Z male fitted, base female).
+--imaging-only stages just these two files (no needle tool, risk or motor points) -- any build dir name is accepted.
+
+--remove deletes exactly those names again (an anatomy-only build).
 
 Usage:
     python3 scripts/clinical/stage_clinical_files.py build/viewer_m_hr
@@ -34,6 +42,10 @@ DIR_VIEWER = {
     "viewer_zan_female": "zan_f",
 }
 NAMES = ("clinical_needle_tool.js", "clinical_risk.json", "clinical_motor_points.json")
+IMAGING_NAMES = ("clinical_imaging_tool.js", "clinical_imaging_tissues.json")
+# all six pages (Q226): build dir name -> viewer key (only the first four have needle data)
+ALL_PAGES = {"viewer_m_hr": "vhm", "viewer_f_hr": "vhf", "viewer_zan_atlas": "zan_m", "viewer_zan_female": "zan_f",
+             "viewer_zan_vhm": "zan_vhm", "viewer_base_female": "base_f"}
 
 
 def viewer_for(build_dir: Path) -> str:
@@ -41,6 +53,20 @@ def viewer_for(build_dir: Path) -> str:
     if not key:
         raise SystemExit(f"cannot tell the viewer of {build_dir}; pass --viewer (one of {sorted(set(DIR_VIEWER.values()))})")
     return key
+
+
+def stage_imaging(build_dir: Path, clinical: Path = CLINICAL) -> list[Path]:
+    build_dir = Path(build_dir)
+    if not build_dir.is_dir():
+        raise SystemExit(f"no such build dir: {build_dir}")
+    out = []
+    for src, name in ((clinical / "imaging_tool.js", IMAGING_NAMES[0]), (clinical / "data" / "imaging_tissues.json", IMAGING_NAMES[1])):
+        if not src.is_file():
+            raise SystemExit(f"missing source {src}")
+        dst = build_dir / name
+        shutil.copyfile(src, dst)
+        out.append(dst)
+    return out
 
 
 def stage(build_dir: Path, viewer: str | None = None, motor_points: Path | None = None,
@@ -67,7 +93,7 @@ def stage(build_dir: Path, viewer: str | None = None, motor_points: Path | None 
 
 def remove(build_dir: Path) -> list[Path]:
     gone = []
-    for n in NAMES:
+    for n in NAMES + IMAGING_NAMES:
         p = Path(build_dir) / n
         if p.exists():
             p.unlink()
@@ -81,7 +107,9 @@ def main(argv=None) -> int:
     ap.add_argument("--all", action="store_true", help="the four published viewer dirs under build/")
     ap.add_argument("--viewer", choices=sorted(set(DIR_VIEWER.values())))
     ap.add_argument("--motor-points", help="motor-point file to stage instead of clinical/data/motor_points.json")
-    ap.add_argument("--remove", action="store_true", help="delete the staged add-on files (anatomy-only build)")
+    ap.add_argument("--imaging", action="store_true", help="Q226: also stage the imaging add-on (clinical_imaging_tool.js + clinical_imaging_tissues.json)")
+    ap.add_argument("--imaging-only", action="store_true", help="Q226: stage ONLY the imaging add-on (any build dir, no needle files)")
+    ap.add_argument("--remove", action="store_true", help="delete the staged add-on files (anatomy-only build), needle and imaging")
     a = ap.parse_args(argv)
     dirs = [REPO / "build" / d for d in DIR_VIEWER] if a.all else [Path(d) for d in a.build_dir]
     if not dirs:
@@ -89,8 +117,12 @@ def main(argv=None) -> int:
     for d in dirs:
         if a.remove:
             print(f"{d}: removed {[p.name for p in remove(d)]}")
+        elif a.imaging_only:
+            print(f"{d}: staged {[p.name for p in stage_imaging(d)]}")
         else:
             files = stage(d, a.viewer, Path(a.motor_points) if a.motor_points else None)
+            if a.imaging:
+                files += stage_imaging(d)
             print(f"{d}: staged {[p.name for p in files]}")
     return 0
 
