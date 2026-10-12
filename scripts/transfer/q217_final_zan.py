@@ -144,46 +144,75 @@ def badge_forearm(i, a, b, mv, seam, ends):
             f"not filled (volumes are not inflated beyond the Z source). A position and boundary estimate, not a segmentation.")
 
 
+def badge_extra(i, sysn, info, before_end, after_end, in_win):
+    seams = []
+    for nm in ("wrist", "arm"):
+        x = info.get(nm)
+        if x and x.get("seam_shift_mm"):
+            seams.append(f"{'wrist' if nm == 'wrist' else 'upper-arm'} seam (y = {105 if nm == 'wrist' else 350} mm): its page part was shifted {', '.join(str(a) for a in x['seam_shift_mm'])} mm within the seam plane, decaying over 45 mm")
+    seam_txt = (" Joined at the " + "; ".join(seams) + ".") if seams else " It lies wholly inside the range of the map (no seam)."
+    what = ("the distal part of this arm muscle" if sysn == "muscle" else "this structure")
+    end_txt = f" Distance of its distal end zone to the bone its card names: {before_end} -> {after_end} mm (5th percentile)." if before_end is not None else ""
+    return (f"Q217: {what} touches the forearm muscles in the Z-Anatomy base (arm | forearm adjacency: brachialis | brachioradialis ...); the forearm muscles were carried onto his left forearm by one injective twisted-tube map "
+            f"(turn and shift of the section of his Z-fitted radius + ulna, chained to the distal-humerus block and the carpal block), so it is carried by the SAME map from the Z base, otherwise the pairs that touch in the base "
+            f"lay 10-30 mm apart on the Q211 page.{seam_txt} Pushed inside his skin and out of his bones where needed.{end_txt} Not measured on him; Source class unchanged (Z-Anatomy fitted to him). "
+            f"A position estimate of the usual course / shape.")
+
+
 def pack(src="zan_final.pkl"):
     from scripts.zanatomy import q205_pages as P5
     from scripts.zanatomy import q205_shipdiff as SD
     d = pickle.load(open(CACHE / src, "rb"))
+    ex = pickle.load(open(CACHE / "zan_extra_clamp.pkl", "rb"))
+    exinfo = pickle.load(open(CACHE / "zan_extra.pkl", "rb"))["info"]
     info = pickle.load(open(CACHE / "zan_carry.pkl", "rb"))["info"]
     met = json.loads((REPO / "data/derived/Q217_zan_metrics.json").read_text())
     erep = pickle.load(open(CACHE / "zan_ends_rep.pkl", "rb"))
     man, blob = P5.load_page(SRC, STEM)
     pg = P5.decode(man, blob)
+    B, P = load_pages()
+    bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
+    bt = E.bone_trees(bones)
     replace, listed = {}, []
+    # forearm muscles (and EPB / biceps end pulls of the first stage; the biceps is superseded by the carried one)
     for i, (v, f) in d.items():
-        if i not in pg:
+        if i not in pg or i in ex:
             continue
         v0 = pg[i]["v"]
         if len(v0) == len(v) and np.allclose(v0, v, atol=1e-6):
             continue
         rec = dict(pg[i]["m"].get("rec") or {})
-        if i in met["after"]["per_muscle"]:
-            a, b = met["before"]["per_muscle"][i], met["after"]["per_muscle"][i]
-            dd = np.linalg.norm(v - v0, axis=1) if len(v0) == len(v) else None
-            mv = (round(float(dd.mean()), 1), round(float(dd.max()), 1)) if dd is not None else ("-", "-")
-            ends = []
-            for e in erep.get(i, {}).get("ends", []):
-                e = dict(e)
-                if erep[i].get("pulled") and e["p5_before"] > E.END_GATE_MM:
-                    e["pulled_mm"] = erep[i]["applied_mm"][0] if erep[i].get("applied_mm") else None
-                ends.append(e)
-            txt = badge_forearm(i, a, b, mv, info.get(i, {}).get("seam_shift_mm"), ends)
-        else:
-            e = erep[i]
-            txt = ("Q217: distal end pulled onto the bone its card names ("
-                   + "; ".join(f"{x['end']} end {x['p5_before']} mm off {x['bone'].replace('_', ' ')}" for x in e["ends"] if x["p5_before"] > E.END_GATE_MM) + f"), applied {e.get('applied_mm')} mm, after {e.get('p5_after')} mm; the other end held, stretched along the muscle. Source class unchanged.")
-        rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + " " + txt).strip()
+        a, b = met["before"]["per_muscle"][i], met["after"]["per_muscle"][i]
+        dd = np.linalg.norm(v - v0, axis=1) if len(v0) == len(v) else None
+        mv = (round(float(dd.mean()), 1), round(float(dd.max()), 1)) if dd is not None else ("-", "-")
+        ends = []
+        for e in erep.get(i, {}).get("ends", []):
+            e = dict(e)
+            if erep[i].get("pulled") and e["p5_before"] > E.END_GATE_MM:
+                e["pulled_mm"] = erep[i]["applied_mm"][0] if erep[i].get("applied_mm") else None
+            ends.append(e)
+        rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + " " + badge_forearm(i, a, b, mv, info.get(i, {}).get("seam_shift_mm"), ends)).strip()
         replace[i] = (v, f, rec)
-        listed.append(i)
+    for i, (v, f) in ex.items():
+        if i not in pg:
+            continue
+        rec = dict(pg[i]["m"].get("rec") or {})
+        be = ae = None
+        if pg[i]["m"]["sys"] == "muscle":
+            for nm, z, bid, p5, mn in E.plan(pg[i]["v"], rec, bt):
+                if nm == "lo":
+                    be = round(p5, 1)
+            for nm, z, bid, p5, mn in E.plan(v, rec, bt):
+                if nm == "lo":
+                    ae = round(p5, 1)
+        rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + " " + badge_extra(i, pg[i]["m"]["sys"], exinfo[i], be, ae, None)).strip()
+        replace[i] = (v, f, rec)
     man2, blob2 = P5.save_page(OUT, STEM, man, blob, replace=replace)
     r = SD.diff(SRC, OUT, STEM, sorted(replace))
     r["listed_structures"] = len(replace)
+    r["by_system"] = {sy: sum(1 for i in replace if pg[i]["m"]["sys"] == sy) for sy in sorted({pg[i]["m"]["sys"] for i in replace})}
     (REPO / "data/derived/Q217_ship_diff_zan.json").write_text(json.dumps(r, indent=1))
-    print("page", OUT, "replaced", len(replace), "geometry_changed", len(r["geometry_changed"]), "unlisted", r["geometry_changed_but_not_listed"], "added", len(r["added"]), "removed", len(r["removed"]), "card_only", len(r["card_only"]), "unchanged", r["unchanged"])
+    print("page", OUT, "replaced", len(replace), r["by_system"], "geometry_changed", len(r["geometry_changed"]), "unlisted", r["geometry_changed_but_not_listed"], "added", len(r["added"]), "removed", len(r["removed"]), "card_only", len(r["card_only"]), "unchanged", r["unchanged"])
 
 
 def post(src="zan_ends.pkl", dst="zan_final.pkl"):
@@ -195,10 +224,8 @@ def post(src="zan_ends.pkl", dst="zan_final.pkl"):
     S = C.zan_left("zan_m")
     G = C.SkinGuard([s for s in S.values() if s["sys"] == "skin"])
     bones = {i: (s["v"], s["f"]) for i, s in P.items() if s["sys"] == "bone" and i.endswith("_l")}
-    # keep the attachment: the end zone itself (the 10 % at the pulled end) is held, the rest is cleared out of the bone
     out = dict(d)
-    cl = clamp_meshes(todo, G, C.BoneVox(bones), rounds=8)
-    for i, (x, f) in cl.items():
+    for i, (x, f) in clamp_meshes(todo, G, C.BoneVox(bones), rounds=8).items():
         out[i] = (x, f)
     pickle.dump(out, open(CACHE / dst, "wb"))
 
