@@ -33,7 +33,7 @@ def smoothstep(x):
 class Taper:
     """local rigid correction of the elbow end of a bone"""
 
-    def __init__(self, v, elbow_pt, taper=TAPER):
+    def __init__(self, v, elbow_pt, taper=TAPER, rigid=False):
         v = np.asarray(v, float)
         # elbow end = the end of the long axis nearest to `elbow_pt`
         c = v.mean(0)
@@ -47,7 +47,9 @@ class Taper:
         self.ax, self.c0, self.lo, self.L, self.taper = ax, c, lo, hi - lo, taper
         # centre of rotation = centroid of the elbow-end 15 % of the bone
         near = v[pr < lo + 0.15 * self.L]
-        self.cen = near.mean(0)
+        self.cen = v.mean(0) if rigid else near.mean(0)
+        if rigid:
+            self.taper = 1e6          # weight = 1 everywhere: a rigid 6-DOF move of the whole bone
 
     def weight(self, p):
         t = ((np.asarray(p, float) - self.c0) @ self.ax - self.lo) / self.L
@@ -71,12 +73,12 @@ def percentile_patch(c, patch_mm=6.0, q=5.0):
 class Fit:
     """bones: dict name -> (v, f) of the FITTED page; fixed = ('humerus_l',); moving = ('ulna_l', 'radius_l'); gaps = {(a, b): joint space on the base (mm)}; own = {name: (v, f)} evidence"""
 
-    def __init__(self, bones, own, gaps, elbow_pt, moving=("ulna_l", "radius_l"), fixed=("humerus_l",), h=1.0, log=print, w_ev=0.6, w_reg=0.02, w_pull=4.0, w_gap=6.0, ev_cap=8.0, taper=TAPER, floor_frac=0.5):
+    def __init__(self, bones, own, gaps, elbow_pt, moving=("ulna_l", "radius_l"), fixed=("humerus_l",), h=1.0, log=print, w_ev=0.6, w_reg=0.02, w_pull=4.0, w_gap=6.0, ev_cap=8.0, taper=TAPER, floor_frac=0.5, rigid=False):
         self.bones, self.own, self.gaps, self.moving, self.fixed, self.log = bones, own, gaps, list(moving), list(fixed), log
         self.names = list(fixed) + list(moving)
         self.w_ev, self.w_reg, self.w_pull, self.w_gap, self.ev_cap, self.floor_frac = w_ev, w_reg, w_pull, w_gap, ev_cap, floor_frac
         self.sdf = {n: J.Sdf(*bones[n], h=h) for n in self.names}
-        self.tp = {n: Taper(bones[n][0], elbow_pt, taper) for n in self.moving}
+        self.tp = {n: Taper(bones[n][0], elbow_pt, taper, rigid) for n in self.moving}
         self.samp = {}
         for n in self.names:
             idx, w = J.surf_samples(*bones[n], spacing=1.6, cap=4000)
@@ -121,9 +123,9 @@ class Fit:
             g = self.gaps.get((a, b), self.gaps.get((b, a)))
             c = np.concatenate([ca, cb])
             res.append(self.w_gap * np.maximum(self.floor_frac * g - c, 0.0) / np.sqrt(len(c)) * 6.0)
-            m = percentile_patch(c)
-            if np.isfinite(m):
-                res.append(np.array([self.w_pull * (m - g)]))
+            k = max(5, int(0.04 * len(c)))
+            m = float(np.sort(c)[:k].mean())        # joint space of the closest 4 % of the surface samples (also defined when the bones do not touch yet)
+            res.append(np.array([self.w_pull * (m - g)]))
         for n in self.moving:
             if n in self.ev:
                 tr_own = self.ev[n][0]
@@ -132,7 +134,7 @@ class Fit:
                 res.append(self.w_ev * d1 / np.sqrt(len(d1)) * 3.0)
         for n in self.moving:
             p = par[n]
-            res.append(np.array([self.w_reg * np.linalg.norm(p[:3]), self.w_reg * np.linalg.norm(p[3:]) * self.tp[n].L * self.tp[n].taper * 0.5]))
+            res.append(np.array([self.w_reg * np.linalg.norm(p[:3]), self.w_reg * np.linalg.norm(p[3:]) * self.tp[n].L * min(self.tp[n].taper, 1.0) * 0.5]))
         return np.concatenate(res)
 
     def solve(self, x0=None, max_nfev=80):
@@ -177,3 +179,40 @@ def evidence_error(v, f, own_vf, zone_frac=None, taper=None, cap=25.0):
         d = tf.query(O)[0]
     b = d[d < cap]
     return round(float(a.mean()), 2), round(float(b.mean()), 2) if len(b) else None
+
+
+def pair_table(vs, fs, pairs, h=J.H):
+    """exact (0.5 mm solid, Q223 rule) penetration + joint space of the pairs of the bones `vs` {name: vertices}, `fs` {name: faces}"""
+    sd = {n: J.Sdf(vs[n], fs[n], h=h) for n in {x for p in pairs for x in p}}
+    out = {}
+    for a, b in pairs:
+        r = J.pair_report(vs[a], fs[a], vs[b], fs[b], sdf_a=sd[a], sdf_b=sd[b])
+        out[f"{a}|{b}"] = dict(max_penetration_mm=r["max_depth_mm"], pct_vertices_over_1mm=max(r["a_in_b"]["pct_over_1mm"], r["b_in_a"]["pct_over_1mm"]), min_clearance_mm=r["min_clearance_mm"],
+                               joint_space_p05_mm=r["patch_p05_mm"], joint_space_median_mm=r["patch_median_mm"], patch_samples=r["patch_n"])
+    return out
+
+
+def reseat(bones, own, gaps, anchor_pt, moving, fixed, opts=None, log=print, own_for=None):
+    """Fit + solve + report.  bones {name: (v, f)} of the fitted page; own {name: (v, f)}; gaps {(a, b): joint space on the BASE (mm)}; own_for {moving name: own key} when they differ.
+    -> dict(par, W {name: new vertices}, report)"""
+    opts = dict(opts or {})
+    own_for = own_for or {}
+    ownd = {n: own[own_for.get(n, n)] for n in moving if own_for.get(n, n) in own}
+    F = Fit(bones, ownd, gaps, anchor_pt, moving=moving, fixed=fixed, log=log, **opts)
+    r = F.solve()
+    W = F.deformed(r.x)
+    pairs = [tuple(p) for p in F.pairs]
+    vs0 = {n: bones[n][0] for n in F.names}
+    vs1 = {**vs0, **W}
+    fs = {n: bones[n][1] for n in F.names}
+    rep = dict(options=opts, nfev=int(r.nfev), cost=float((r.fun ** 2).sum()), joint_before=pair_table(vs0, fs, pairs), joint_after=pair_table(vs1, fs, pairs), bones={})
+    for n in moving:
+        mv = np.linalg.norm(W[n] - bones[n][0], axis=1)
+        par = F.params(r.x)[n]
+        e = dict(translation_mm=[round(float(x), 2) for x in par[:3]], rotation_deg=[round(float(np.degrees(x)), 2) for x in par[3:]], max_move_mm=round(float(mv.max()), 2), mean_move_mm=round(float(mv.mean()), 2),
+                 taper_length_share=round(float(F.tp[n].taper), 2), bone_length_mm=round(float(F.tp[n].L), 1))
+        if n in ownd:
+            e["fit_error_before_zone_whole"] = [evidence_error(*bones[n], ownd[n], taper=F.tp[n]), evidence_error(*bones[n], ownd[n])]
+            e["fit_error_after_zone_whole"] = [evidence_error(W[n], bones[n][1], ownd[n], taper=F.tp[n]), evidence_error(W[n], bones[n][1], ownd[n])]
+        rep["bones"][n] = e
+    return dict(par=F.params(r.x), W=W, report=rep, fit=F)

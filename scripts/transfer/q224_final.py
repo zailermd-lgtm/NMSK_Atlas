@@ -114,6 +114,17 @@ def final(body):
             B._set(zit, zn, zf_)
             zit["e"]["rec"] = {**zit["e"]["rec"], "procedural_badge": ((zit["e"]["rec"].get("procedural_badge") or "") + " " + txt).strip()}
             welded[zid] = dict(base=sid, info=rinfo, badge_added=txt)
+    # vein badges are rebuilt here from the stage-1 report (subject-aware text, photograph check)
+    from scripts.transfer import q224_fix as FX
+    rep1 = json.loads((SCRATCH / f"stage1_{body}_report.json").read_text())
+    for sid in rep1["replaced"]:
+        if sid in rep1["veins"]:
+            it = B.items[B.find(sid)[0]]
+            old = it["e"]["rec"].get("procedural_badge") or ""
+            tail_at = old.find("Rule-based interpolation, not a segmentation.")
+            tail = old[tail_at + len("Rule-based interpolation, not a segmentation."):] if tail_at >= 0 else ""
+            new_b = FX.vein_badge(it["e"]["rec"].get("name", sid), rep1["veins"][sid], it["e"]["subject"], FX.VEIN_EXTRA.get((body, sid), ""))
+            it["e"]["rec"] = {**it["e"]["rec"], "procedural_badge": (new_b + tail).strip()}
     out = cfg["out_bundle"]
     nbytes = B.write(out)
     rep = json.loads((SCRATCH / f"stage1_{body}_report.json").read_text())

@@ -30,6 +30,7 @@ from scripts.transfer.q224_common import BODIES, SCRATCH, jdump, DERIVED  # noqa
 
 VEINS = {"m": ["femoral_v_r", "femoral_v_l", "internal_jugular_v_r", "internal_jugular_v_l"], "f": ["internal_jugular_v_r", "internal_jugular_v_l"]}
 TARGET_TRACE_MIN_MM = 0.5
+VEIN_EXTRA = {("m", "femoral_v_r"): "Checked on his 1 mm cryosection photographs (data/derived/Q224_photo_check_femoral_v_r.png): the stump sections at y -34 and y -100 sit on the clotted vessel, between them the bridge runs through the neurovascular bundle of the adductor canal; the Q174 tracker found no usable lumen in y -36..-97, so nothing there is measured."}
 
 
 def position(B, sid):
@@ -46,7 +47,7 @@ def replace_at(B, k, v, f, badge=None, prepend=False):
         it["e"]["rec"] = {**it["e"]["rec"], "procedural_badge": ((badge + " " + (old or "")) if prepend else ((old or "") + " " + badge)).strip()}
 
 
-def vein_badge(name, info):
+def vein_badge(name, info, subject="", extra=""):
     links = info["links"]
     gaps = "; ".join(f"{l['nearest_vertex_gap_mm']} mm gap, bridge {l['new_part_mm']} mm long (centreline {l['centreline_mm']} mm), radius {l['radius_mm']['start']} -> {l['radius_mm']['end']} mm" for l in links)
     tails = sum(info.get("tails_removed_mm3", {}).values())
@@ -55,7 +56,9 @@ def vein_badge(name, info):
             f"{', routed around bone' if any(l.get('bone_route') for l in links) else ''}), an elliptical section that morphs from the one stump's section to the other's (calibre continuous at both ends), "
             f"embedded 2.5 mm into each stump; the rounded tips of the stumps (label / tracker end caps, {tails / 1000.0:.2f} cm3) are replaced by the bridge, {len(info['specks'])} label speck(s) (<= 17 vertices, a few mm3, no lumen) that were separate pieces were dropped (listed in data/derived/Q224_report). "
             f"Bridge volume {info['volume_mm3']['bridge_new'] / 1000.0:.2f} cm3 of {info['volume_mm3']['result'] / 1000.0:.2f} cm3; the measured surface elsewhere moves <= {info['old_to_new_mm']['max_outside_bridge']} mm "
-            f"(p95 {info['old_to_new_mm']['p95_outside_bridge']} mm, re-meshing). Inside the skin and clear of bone (guards). Rule-based interpolation, not a segmentation.")
+            f"(p95 {info['old_to_new_mm']['p95_outside_bridge']} mm, re-meshing). Inside the skin and clear of bone (guards). "
+            + (f"The vein itself is the other Visible Human's, carried onto this body (subject {subject}: Source class stays Transferred). " if str(subject).startswith("xfer") else "")
+            + (extra + " " if extra else "") + "Rule-based interpolation, not a segmentation.")
 
 
 def stage1(body):
@@ -77,7 +80,7 @@ def stage1(body):
         if v1 is None:
             log(f"   NOT bridged: {info['why']}")
             continue
-        replace_at(B, k, v1, f1, vein_badge(g["e"]["rec"].get("name", sid), info), prepend=True)
+        replace_at(B, k, v1, f1, vein_badge(g["e"]["rec"].get("name", sid), info, g["e"]["subject"], VEIN_EXTRA.get((body, sid), "")), prepend=True)
         rep["replaced"].append(sid)
         log(f"   bridged: {[ (l['nearest_vertex_gap_mm'], l['new_part_mm']) for l in info['links']]} mm, pieces {len(info['pieces'])} -> 1")
     removals = []

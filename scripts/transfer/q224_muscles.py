@@ -42,6 +42,8 @@ ISLAND_GAP_MAX = 60.0
 BRIDGE_VOL = (1.0, 1.40)
 CUM_VOL = (0.84, 1.40)
 CUM_LEN = (0.88, 1.35)
+REFINED_VOL = (0.94, 1.10)    # a dome of 1.5-3 mm on a big cut face adds area x amp / 3 (the Q216 gate 0.96-1.04 refuses it on small muscles with a big face)
+FORCED_MIN_MM = 2.5
 CAP_END_RADIUS_MM = 30.0      # a cap belongs to an audit end when the cap centre is this close to the end's centre
 
 
@@ -71,53 +73,70 @@ def weld_pieces(v, f):
     return vw, fw, islands(vw, fw)
 
 
-def op_bridge_islands(env, sid, v0, f0, log=print, max_rounds=4):
-    """join every detached piece (> 2 % of the area, > 5 mm from the rest) to the belly by a loft of the two facing sections -> (v, f, info)"""
-    v, f = v0, f0
+def mesh_components(mask, grid, budget, keep_frac=0.01):
+    """marching cubes of EVERY connected component of the mask that has >= keep_frac of the largest one's voxels (C.mask_to_mesh keeps the largest piece only) -> (v, f, dropped volume fraction)"""
+    lab, n = ndi.label(mask, structure=np.ones((3, 3, 3)))
+    cnt = np.bincount(lab.ravel())[1:]
+    order = np.argsort(-cnt)
+    keep = [int(i) + 1 for i in order if cnt[i] >= keep_frac * cnt.max()]
+    tot = float(cnt[[k - 1 for k in keep]].sum())
+    vs, fs, off = [], [], 0
+    for k in keep:
+        m = lab == k
+        v1, f1 = C.mask_to_mesh(m, grid, sigma_vox=0.8, budget=max(int(budget * cnt[k - 1] / tot), 500))
+        vs.append(v1)
+        fs.append(f1 + off)
+        off += len(v1)
+    return np.vstack(vs), np.vstack(fs), float(1.0 - tot / cnt.sum()), len(keep)
+
+
+def op_bridge_islands(env, sid, v0, f0, log=print):
+    """join every detached piece (> 2 % of the area, > 5 mm from the belly) to the NEAREST other piece by a convex-hull loft of the two facing 3 mm sections, in one voxel union (all islands together), re-meshed
+    -> (v, f, info)"""
+    vw, fw, isl = weld_pieces(v0, f0)
     info = dict(op="bridge", rounds=[])
-    for _ in range(max_rounds):
-        vw, fw, isl = weld_pieces(v, f)
-        if len(isl) < 2:
-            break
-        tot = sum(i["area"] for i in isl)
-        big_idx = isl[0]["vidx"]
-        cand = []
-        for k in range(1, len(isl)):
-            d = cKDTree(vw[isl[0]["vidx"]]).query(vw[isl[k]["vidx"]])[0].min()
-            if isl[k]["area"] / tot > ISLAND_SHARE_MIN and d > ISLAND_GAP_MIN:
-                cand.append((isl[k]["area"], k, float(d)))
-        if not cand:
-            break
-        cand.sort(reverse=True)
-        _a, k, gap = cand[0]
-        # the facing ends: the small piece's vertices nearest to the belly (+ everything else that is not the small piece counts as 'belly')
+    if len(isl) < 2:
+        return None, None, dict(info, why=["no detached piece above the thresholds in the base mesh (the finding is in a Z-fill continuation or is the merged view)"])
+    tot = sum(i["area"] for i in isl)
+    todo = []
+    for k in range(1, len(isl)):
+        d = cKDTree(vw[isl[0]["vidx"]]).query(vw[isl[k]["vidx"]])[0].min()
+        if isl[k]["area"] / tot > ISLAND_SHARE_MIN and d > ISLAND_GAP_MIN:
+            todo.append((k, float(d)))
+    if not todo:
+        return None, None, dict(info, why=["no detached piece above the thresholds in the base mesh (the finding is in a Z-fill continuation or is the merged view)"])
+    grid = C.VoxGrid(vw.min(0) - 4.0, vw.max(0) + 4.0, C.H)
+    m = C.VoxGrid.solid(grid, v0, f0)
+    new = m.copy()
+    for k, gap in todo:
         small_v = vw[isl[k]["vidx"]]
-        rest = np.setdiff1d(np.arange(len(vw)), isl[k]["vidx"])
-        rest = np.intersect1d(rest, np.unique(fw))
-        d, i = cKDTree(vw[rest]).query(small_v)
-        j = int(np.argmin(d))
-        a_pt, b_pt = small_v[j], vw[rest][i[j]]
+        best = None
+        for q in range(len(isl)):
+            if q == k:
+                continue
+            d, i = cKDTree(vw[isl[q]["vidx"]]).query(small_v)
+            j = int(np.argmin(d))
+            if best is None or d[j] < best[0]:
+                best = (float(d[j]), q, small_v[j], vw[isl[q]["vidx"]][i[j]])
+        _d, q, a_pt, b_pt = best
         ax = (b_pt - a_pt) / np.linalg.norm(b_pt - a_pt)
         sec_a = small_v[(small_v - a_pt) @ ax >= -3.0]
-        vr = vw[rest]
-        sec_b = vr[(vr - b_pt) @ ax <= 3.0]
+        vq = vw[isl[q]["vidx"]]
+        sec_b = vq[(vq - b_pt) @ ax <= 3.0]
         sec_b = sec_b[np.linalg.norm(sec_b - b_pt, axis=1) <= 40.0]
         hull = trimesh.convex.convex_hull(np.vstack([sec_a, sec_b]))
-        grid = C.VoxGrid(vw.min(0) - 4.0, vw.max(0) + 4.0, C.H)
-        m = C.VoxGrid.solid(grid, v, f)
         lo, hi = np.maximum(grid.idx(hull.bounds[0] - 1), 0), np.minimum(grid.idx(hull.bounds[1] + 1) + 1, grid.shape)
         ii = np.argwhere(np.ones(tuple(hi - lo), bool)) + lo
         hm = np.zeros(grid.shape, bool)
         hm[tuple(ii[hull.contains(grid.pos(ii))].T)] = True
-        new = m | hm
-        new = ndi.binary_closing(new, iterations=1) | new
-        lab, n = ndi.label(new, structure=np.ones((3, 3, 3)))
-        v1, f1 = C.mask_to_mesh(new, grid, sigma_vox=0.8, budget=Q15.BUDGET)
-        info["rounds"].append(dict(gap_mm=round(gap, 2), small_part_area_share=round(isl[k]["area"] / tot, 3), bridge_added_cm3=round(C.mask_volume_cm3(new) - C.mask_volume_cm3(m), 2), components=int(n)))
-        v, f = v1, f1
-    if not info["rounds"]:
-        return None, None, dict(info, why=["no detached piece above the thresholds in the base mesh (the finding is in a Z-fill continuation or is the merged view)"])
-    return v, f, info
+        new |= hm
+        info["rounds"].append(dict(gap_mm=round(gap, 2), joined_to_piece=q, small_part_area_share=round(isl[k]["area"] / tot, 3), bridge_added_cm3=round(C.mask_volume_cm3(hm & ~m), 2)))
+    new = ndi.binary_closing(new, iterations=1) | new
+    v1, f1, dropped, ncomp = mesh_components(new, grid, Q15.BUDGET)
+    info["components_after"] = ncomp
+    info["dropped_volume_share"] = round(dropped, 4)
+    info["bridge_added_total_cm3"] = round(C.mask_volume_cm3(new) - C.mask_volume_cm3(m), 2)
+    return v1, f1, info
 
 
 # ------------------------------------------------------------------------------------------ step 3 (large cut faces): refined dome
@@ -197,7 +216,7 @@ def op_flat_refined(env, sid, v0, f0, log=print, edges=(3.6, 2.4)):
         return None, None, dict(info, why=["no cap above the threshold"])
     best = None
     ext = (v0.min(0), v0.max(0))
-    for max_edge, amp in [(me, am) for me in edges for am in (1.5, 2.0, 3.0, 4.0, 5.0)]:
+    for max_edge, amp in [(me, am) for me in edges for am in (1.5, 2.0, 3.0)]:
         if best is not None and not best[3]:
             break
         v, f = np.asarray(v0, float).copy(), np.asarray(f0, np.int64).copy()
@@ -217,6 +236,8 @@ def op_flat_refined(env, sid, v0, f0, log=print, edges=(3.6, 2.4)):
                     break
                 v, f = conforming_split(v, f, es)
             grp = [g for (kk_, _), g in X.cap_triangles(v, f).items() if kk_ == k and abs(g[1] - pos) < 0.3]
+            if not grp:
+                continue
             tri = np.concatenate([g[0] for g in grp])
             vi = np.unique(f[tri])
             # rim = facet vertices that also belong to a triangle outside the facet
@@ -243,7 +264,7 @@ def op_flat_refined(env, sid, v0, f0, log=print, edges=(3.6, 2.4)):
         if not dome:
             continue
         v = ctx.skin_inset(v)
-        g, why = env.guards(sid, v, f, v0, f0, X.FLAT_VOL)
+        g, why = env.guards(sid, v, f, v0, f0, REFINED_VOL)
         st1 = env.audit_state(sid, v, f)
         left = [c for c in st1["flat_caps"] if c["area_mm2"] > X.FLAT_AREA_MAX]
         if left:
@@ -299,8 +320,29 @@ def process(env, B, sid, cand, log=print):
             if dist <= CAP_END_RADIUS_MM and st["ends"][en]["min_any_bone_mm"] > X.END_GOAL_MM and en not in which:
                 which.append(en)
         res["cap_ends"] = dict(ends_to_pull=which, caps=[(c["axis"], c["plane_mm"], c["area_mm2"]) for c in caps])
+        forced = False
+        if not which:
+            # the cap's end is within 6 mm of SOME bone (the audit's gate) but may still be short of the bone its card names: try the attachment pull onto the NAMED bone only (gate 2.5 mm instead of 6;
+            # a pull that falls back to 'the nearest bone of any kind' is discarded below)
+            for c in caps:
+                en = min(st["ends"], key=lambda e: np.linalg.norm(np.asarray(st["ends"][e]["centre"]) - np.asarray(c["centre"])))
+                dist = float(np.linalg.norm(np.asarray(st["ends"][en]["centre"]) - np.asarray(c["centre"])))
+                if dist <= CAP_END_RADIUS_MM and FORCED_MIN_MM < st["ends"][en]["min_any_bone_mm"] <= X.END_GOAL_MM and en not in which:
+                    which.append(en)
+                    forced = True
+            res["cap_ends"]["forced_named_bone_ends"] = which if forced else []
         if which:
-            v1, f1, inf = X.op_ends(env, sid, which, v, f, log, quick=True)
+            g0 = X.END_GOAL_MM
+            if forced:
+                X.END_GOAL_MM = FORCED_MIN_MM
+            try:
+                v1, f1, inf = X.op_ends(env, sid, which, v, f, log, quick=True)
+            finally:
+                X.END_GOAL_MM = g0
+            if forced and v1 is not None and not inf.get("why"):
+                fallback = [en for en, p in inf.get("pulled", {}).items() if str(p["bone"]).startswith("nearest bone of any kind") or p["applied_mm"] < 1.0]
+                if fallback:
+                    inf["why"] = [f"forced pull used the any-bone fallback / moved < 1 mm at {fallback}: not an attachment to the named bone"]
             if v1 is None or inf.get("why"):
                 res["skipped"].append(dict(step="extend", why=(inf or {}).get("why") or (inf or {}).get("skipped"), pulled=(inf or {}).get("pulled"), skipped_ends=(inf or {}).get("skipped")))
             else:
