@@ -24,7 +24,7 @@ SCENES = {
     "vhm": [
         {"key": "femur_long", "re": "^femur r", "cat": "bone", "frac": 0.5, "ray": [0, 0, -1], "ref": "long", "probe": "convex", "freq": 3.5, "depth": 13, "expect_bone": True},
         {"key": "forearm_trans", "re": "^radius r", "cat": "bone", "frac": 0.5, "ray": [0, 0, -1], "ref": "trans", "probe": "linear", "freq": 7.5, "depth": 3, "expect_bone": True},
-        {"key": "carotid_trans", "re": "^common carotid a r", "cat": "vessel", "frac": 0.5, "ray": [0, 0, -1], "ref": "trans", "probe": "linear", "freq": 7.5, "depth": 4, "expect_blood": True},
+        {"key": "carotid_trans", "re": "^common carotid a r", "cat": "vessel", "centroid": True, "ray": [0, 0, -1], "ref": "trans", "probe": "linear", "freq": 7.5, "depth": 6, "expect_blood": True},
         {"key": "abdomen_liver", "re": "^liver", "cat": "organ", "frac": 0.72, "xfrac": 0.3, "ray": [0, 0, -1], "ref": "trans", "probe": "convex", "freq": 3.5, "depth": 14, "expect_liver": True},
     ],
     "zan_f": [
@@ -39,7 +39,8 @@ PLACE_JS = r"""(async function(sp){
   for (var i=0;i<g.n;i++){ var r=g.recs[i]; if ((!sp.cat||r.cat===sp.cat) && re.test((r.id+' '+r.name).replace(/_/g,' '))){ idx=i; break; } }
   if (idx<0) return {missing:true};
   var b=g.bbox, lo=[b[idx*6],b[idx*6+1],b[idx*6+2]], hi=[b[idx*6+3],b[idx*6+4],b[idx*6+5]];
-  var c=[lo[0]+(sp.xfrac||0.5)*(hi[0]-lo[0]), lo[1]+(sp.frac||0.5)*(hi[1]-lo[1]), (lo[2]+hi[2])/2], d=sp.ray, from=[c[0]-d[0]*900, c[1]-d[1]*900, c[2]-d[2]*900];
+  var cen=[0,0,0], nv=g.vStart[idx+1]-g.vStart[idx]; for (var q=g.vStart[idx]; q<g.vStart[idx+1]; q++){ cen[0]+=g.pos[3*q]/nv; cen[1]+=g.pos[3*q+1]/nv; cen[2]+=g.pos[3*q+2]/nv; }
+  var c=sp.centroid ? cen : [lo[0]+(sp.xfrac||0.5)*(hi[0]-lo[0]), lo[1]+(sp.frac||0.5)*(hi[1]-lo[1]), (lo[2]+hi[2])/2], d=sp.ray, from=[c[0]-d[0]*900, c[1]-d[1]*900, c[2]-d[2]*900];
   NMSKUltrasound.set({probe:sp.probe, mode:sp.mode||'star', refKey:sp.ref, rot:sp.rot||0, freq:sp.freq, depthCm:sp.depth, focusCm:sp.depth*0.5, tilt:sp.tilt||15, mTilt:sp.mTilt||0, mTiltDir:sp.mTiltDir||0, n:sp.n||6, spacing:sp.spacing||10});
   var h=NMSKUltrasound.placeRay(from, d);
   return {id:g.recs[idx].id, centre:c, hit:h};
@@ -196,8 +197,22 @@ def run(root, rel, kind, outp, three, viewports, shots=False, scenes=None, do_in
                 pg = ctx.new_page(); errs, bad = [], []
                 pg.set_default_timeout(600000)
                 pg.on("pageerror", lambda e: errs.append("pageerror:" + str(e)))
-                pg.on("console", lambda m: errs.append("console:" + m.text) if m.type == "error" and "GPU stall" not in m.text else None)
-                pg.on("response", lambda r: bad.append(f"{r.status} {r.url.rsplit('/', 1)[-1]}") if r.status >= 400 else None)
+                opt404 = []                                   # optional sibling files a page may legitimately lack (Z male fitted / female base have no needle files)
+                OPTIONAL = ("clinical_needle_tool.js", "clinical_risk.json", "clinical_motor_points.json")
+                def on_console(m):
+                    if m.type != "error" or "GPU stall" in m.text:
+                        return
+                    if "Failed to load resource" in m.text and "404" in m.text and len(opt404) > 0:
+                        opt404.append("console-404-matched"); return
+                    errs.append("console:" + m.text)
+                def on_response(r):
+                    name = r.url.rsplit("/", 1)[-1]
+                    if r.status == 404 and name in OPTIONAL:
+                        opt404.append(name); return
+                    if r.status >= 400:
+                        bad.append(f"{r.status} {name}")
+                pg.on("console", on_console)
+                pg.on("response", on_response)
                 pg.route("**/fonts.g*.com/**", lambda r: r.fulfill(status=200, body="", content_type="text/css"))
                 pg.route("**/three*.js", lambda r: r.fulfill(path=three, content_type="application/javascript"))
                 pg.goto(f"http://127.0.0.1:{port}/{rel}")
@@ -238,6 +253,7 @@ def run(root, rel, kind, outp, three, viewports, shots=False, scenes=None, do_in
                         R["scenes"][sp["key"]] = sc
                 if do_interact and vp in ("1440x900", "390x844"):
                     R["interact"] = interact(pg, mobile)
+                R["optional_404"] = [x for x in opt404 if x != "console-404-matched"]
                 R["errors"] = errs[:12]
                 R["bad_responses"] = bad[:12]
                 res[vp] = R

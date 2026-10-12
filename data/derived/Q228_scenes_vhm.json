@@ -2,9 +2,9 @@
  "femur_long": {
   "contact": true,
   "ysk": -0.14192580244204933,
-  "ms": 140,
-  "kms": 46,
-  "simMs": 89,
+  "ms": 107,
+  "kms": 25,
+  "simMs": 80,
   "beam": [
    [
     0,
@@ -51,6 +51,7 @@
     "muscle|adductor_magnus_r"
    ]
   ],
+  "central_mean_db": -14.1,
   "byClass": {
    "air": {
     "n": 4,
@@ -114,9 +115,9 @@
  "forearm_trans": {
   "contact": true,
   "ysk": -0.05624999999999858,
-  "ms": 73,
-  "kms": 31,
-  "simMs": 38,
+  "ms": 77,
+  "kms": 34,
+  "simMs": 43,
   "beam": [
    [
     0,
@@ -147,6 +148,7 @@
     "bone_cortical|radius_r"
    ]
   ],
+  "central_mean_db": -32,
   "byClass": {
    "skin": {
     "n": 552,
@@ -204,73 +206,91 @@
  },
  "carotid_trans": {
   "contact": true,
-  "ysk": -0.02916666666666856,
-  "ms": 51,
-  "kms": 8,
-  "simMs": 41,
+  "ysk": 0.10000000000000142,
+  "ms": 44,
+  "kms": 9,
+  "simMs": 35,
   "beam": [
    [
     0,
     "skin|skin_rim"
    ],
    [
-    3,
+    2,
     "fat|-"
    ],
    [
-    9,
+    5,
+    "muscle|sternocleidomastoid_r_zfill203"
+   ],
+   [
+    7,
     "muscle|sternocleidomastoid_r"
    ],
    [
-    20,
+    19,
+    "fat|-"
+   ],
+   [
+    42,
+    "blood_artery|common_carotid_a_r"
+   ],
+   [
+    50,
     "fat|-"
    ]
   ],
+  "central_mean_db": -22,
   "byClass": {
    "skin": {
-    "n": 431,
-    "mean": 8.1,
-    "max": 17
+    "n": 203,
+    "mean": 10.1,
+    "max": 17.3
    },
    "air": {
-    "n": 111,
-    "mean": 7.2,
-    "max": 14.7
+    "n": 23,
+    "mean": 8.7,
+    "max": 11.3
    },
    "fat": {
-    "n": 6494,
-    "mean": -18.6,
-    "max": 16.2
+    "n": 5581,
+    "mean": -20.8,
+    "max": 18
    },
    "muscle": {
-    "n": 2578,
-    "mean": -11.7,
-    "max": 11
+    "n": 2105,
+    "mean": -11.1,
+    "max": 11.3
+   },
+   "blood_artery": {
+    "n": 1058,
+    "mean": -29.6,
+    "max": 4.2
    }
   },
   "img": {
-   "mean": -14.9,
-   "min": -60,
-   "max": 31,
-   "valid_frac": 0.801
+   "mean": -15.5,
+   "min": -150,
+   "max": 37,
+   "valid_frac": 0.873
   },
   "place": {
    "id": "common_carotid_a_r",
    "centre": [
-    29.625,
-    596.875,
-    27
+    30.826318593500165,
+    583.3255194459236,
+    26.440063931806016
    ],
    "hit": {
     "P": [
-     29.625,
-     596.875,
-     72.0707831325301
+     30.826318593500165,
+     583.3255194459236,
+     71.40702463082982
     ],
     "N": [
-     -0.006366658723998164,
-     0.010291497452156502,
-     0.9999267726873227
+     -0.03789713863965047,
+     -0.02860822565052842,
+     0.9988720520207058
     ],
     "struct": 343
    }
@@ -279,9 +299,9 @@
  "abdomen_liver": {
   "contact": true,
   "ysk": -0.09173927036541585,
-  "ms": 72,
+  "ms": 64,
   "kms": 16,
-  "simMs": 55,
+  "simMs": 48,
   "beam": [
    [
     0,
@@ -300,6 +320,7 @@
     "fat|-"
    ]
   ],
+  "central_mean_db": -8.3,
   "byClass": {
    "skin": {
     "n": 39,

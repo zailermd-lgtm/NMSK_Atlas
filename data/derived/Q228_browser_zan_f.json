@@ -1,6 +1,6 @@
 {
  "1440x900": {
-  "open_s": 13.07,
+  "open_s": 5.15,
   "state": {
    "mode": "star",
    "probe": "linear",
@@ -8,24 +8,24 @@
    "depthCm": 5,
    "lay": "auto",
    "P": [
-    38.802436000672174,
-    -17.890850402975545,
-    93.31658036821045
+    38.1433855755231,
+    -17.87605729604816,
+    93.49320529918805
    ]
   },
   "perf_open": {
    "n": 9,
-   "ms": 1427,
+   "ms": 619,
    "per": [
-    446,
-    423,
-    51,
-    27,
-    31,
-    173,
-    39,
+    143,
+    145,
     37,
-    36
+    44,
+    36,
+    46,
+    36,
+    22,
+    24
    ]
   },
   "layout": {
@@ -53,42 +53,795 @@
    "views": [
     [
      352,
-     265
+     280
     ],
     [
      176,
-     275
+     280
     ],
     [
      176,
-     137
+     140
     ],
     [
      352,
-     137
+     140
     ],
     [
      176,
-     137
+     140
     ],
     [
      176,
-     275
+     280
     ],
     [
      176,
-     137
+     140
     ],
     [
      352,
-     137
+     140
     ],
     [
      176,
-     137
+     140
     ]
    ]
   },
+  "perf_sweep9": {
+   "n": 9,
+   "ms": 321,
+   "per": [
+    23,
+    42,
+    38,
+    21,
+    26,
+    34,
+    35,
+    23,
+    17
+   ]
+  },
+  "perf": {
+   "linear5_matrix_ms": [
+    155,
+    127,
+    131
+   ],
+   "convex15_matrix_ms": [
+    251,
+    223,
+    248
+   ],
+   "convex15_frame_ms": [
+    20,
+    23,
+    30,
+    27,
+    23,
+    22,
+    23,
+    32,
+    34
+   ],
+   "frame_480_ms": 1082,
+   "frame_480_sim_ms": 28,
+   "frame_480_kernel_ms": 12
+  },
+  "interact": {
+   "armed": true,
+   "click_places_probe": true,
+   "placed_point_moved_mm": 83.9,
+   "ring_click_selects": true,
+   "selected_is_now_the_big_central_cell": true,
+   "selected_frame_tilt": 15,
+   "sweep": {
+    "n": 6,
+    "labels": [
+     "#1  +0 mm",
+     "#2  +12 mm",
+     "#3  +24 mm",
+     "#4  +36 mm",
+     "#5  +48 mm",
+     "#6  +60 mm"
+    ],
+    "offs": [
+     0,
+     12,
+     24,
+     36,
+     48,
+     60
+    ],
+    "cells": [
+     [
+      725,
+      47
+     ],
+     [
+      963,
+      47
+     ],
+     [
+      1202,
+      47
+     ],
+     [
+      725,
+      333
+     ],
+     [
+      963,
+      333
+     ],
+     [
+      1202,
+      333
+     ]
+    ],
+    "ok": true
+   },
+   "sweep_offsets_exact": true,
+   "sweep_matrix_dims": [
+    3,
+    2
+   ],
+   "cine_moves_selection": true,
+   "cine_frames_visited": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "follow": {
+    "follow": true,
+    "name": "Femur",
+    "cos": 0.9502080164690051,
+    "n": 5
+   },
+   "hidden_ok": true,
+   "cut_on": false,
+   "cut_mode_images_ok": true,
+   "info_has_table": 34,
+   "badge_in_header": "Simulated from meshes \u2013 not an ultrasound",
+   "closed_cleanly": {
+    "cls": "us-z",
+    "canvasW": 1440,
+    "innerW": 1440,
+    "scrollW": 1440
+   }
+  },
+  "optional_404": [],
+  "errors": [],
+  "bad_responses": []
+ },
+ "1024x640": {
+  "open_s": 5.56,
+  "state": {
+   "mode": "star",
+   "probe": "linear",
+   "freq": 7.5,
+   "depthCm": 5,
+   "lay": "auto",
+   "P": [
+    38.33972645817221,
+    -17.873872934485036,
+    93.44369369668198
+   ]
+  },
+  "perf_open": {
+   "n": 9,
+   "ms": 570,
+   "per": [
+    139,
+    99,
+    34,
+    30,
+    39,
+    41,
+    45,
+    41,
+    16
+   ]
+  },
+  "layout": {
+   "cls": "nmsk-us us-z us-side",
+   "scrollW": 1024,
+   "innerW": 1024,
+   "scrollH": 640,
+   "innerH": 640,
+   "panel": [
+    512,
+    0,
+    512,
+    640
+   ],
+   "canvas": [
+    0,
+    0,
+    512,
+    640
+   ],
+   "smallButtons": 0,
+   "buttons": 23,
+   "ctlScrollW": 511,
+   "ctlClientW": 511,
+   "views": [
+    [
+     248,
+     138
+    ],
+    [
+     124,
+     138
+    ],
+    [
+     124,
+     69
+    ],
+    [
+     248,
+     69
+    ],
+    [
+     124,
+     69
+    ],
+    [
+     124,
+     138
+    ],
+    [
+     124,
+     69
+    ],
+    [
+     248,
+     69
+    ],
+    [
+     124,
+     69
+    ]
+   ]
+  },
+  "perf_sweep9": {
+   "n": 9,
+   "ms": 404,
+   "per": [
+    24,
+    58,
+    43,
+    34,
+    32,
+    32,
+    19,
+    69,
+    16
+   ]
+  },
+  "optional_404": [],
+  "errors": [],
+  "bad_responses": []
+ },
+ "820x1180": {
+  "open_s": 5.68,
+  "state": {
+   "mode": "star",
+   "probe": "linear",
+   "freq": 7.5,
+   "depthCm": 5,
+   "lay": "auto",
+   "P": [
+    38.1433855755231,
+    -17.87605729604816,
+    93.49320529918805
+   ]
+  },
+  "perf_open": {
+   "n": 9,
+   "ms": 595,
+   "per": [
+    152,
+    116,
+    28,
+    32,
+    44,
+    60,
+    42,
+    25,
+    15
+   ]
+  },
+  "layout": {
+   "cls": "nmsk-us us-z us-stack",
+   "scrollW": 820,
+   "innerW": 820,
+   "scrollH": 1180,
+   "innerH": 1180,
+   "panel": [
+    0,
+    448,
+    820,
+    732
+   ],
+   "canvas": [
+    0,
+    0,
+    820,
+    448
+   ],
+   "smallButtons": 0,
+   "buttons": 23,
+   "ctlScrollW": 820,
+   "ctlClientW": 820,
+   "views": [
+    [
+     402,
+     199
+    ],
+    [
+     201,
+     199
+    ],
+    [
+     201,
+     99
+    ],
+    [
+     402,
+     99
+    ],
+    [
+     201,
+     99
+    ],
+    [
+     201,
+     199
+    ],
+    [
+     201,
+     99
+    ],
+    [
+     402,
+     99
+    ],
+    [
+     201,
+     99
+    ]
+   ]
+  },
+  "perf_sweep9": {
+   "n": 9,
+   "ms": 340,
+   "per": [
+    16,
+    51,
+    40,
+    27,
+    26,
+    34,
+    39,
+    15,
+    17
+   ]
+  },
+  "optional_404": [],
+  "errors": [],
+  "bad_responses": []
+ },
+ "1180x820": {
+  "open_s": 5.7,
+  "state": {
+   "mode": "star",
+   "probe": "linear",
+   "freq": 7.5,
+   "depthCm": 5,
+   "lay": "auto",
+   "P": [
+    38.1433855755231,
+    -17.87605729604816,
+    93.49320529918805
+   ]
+  },
+  "perf_open": {
+   "n": 9,
+   "ms": 1398,
+   "per": [
+    1034,
+    73,
+    27,
+    29,
+    32,
+    43,
+    38,
+    39,
+    13
+   ]
+  },
+  "layout": {
+   "cls": "nmsk-us us-z us-side",
+   "scrollW": 1180,
+   "innerW": 1180,
+   "scrollH": 820,
+   "innerH": 820,
+   "panel": [
+    590,
+    0,
+    590,
+    820
+   ],
+   "canvas": [
+    0,
+    0,
+    590,
+    820
+   ],
+   "smallButtons": 0,
+   "buttons": 23,
+   "ctlScrollW": 589,
+   "ctlClientW": 589,
+   "views": [
+    [
+     287,
+     222
+    ],
+    [
+     143,
+     222
+    ],
+    [
+     143,
+     111
+    ],
+    [
+     287,
+     111
+    ],
+    [
+     143,
+     111
+    ],
+    [
+     143,
+     222
+    ],
+    [
+     143,
+     111
+    ],
+    [
+     287,
+     111
+    ],
+    [
+     143,
+     111
+    ]
+   ]
+  },
+  "perf_sweep9": {
+   "n": 9,
+   "ms": 292,
+   "per": [
+    14,
+    42,
+    21,
+    21,
+    24,
+    36,
+    38,
+    18,
+    16
+   ]
+  },
+  "optional_404": [],
+  "errors": [],
+  "bad_responses": []
+ },
+ "390x844": {
+  "open_s": 6.1,
+  "state": {
+   "mode": "star",
+   "probe": "linear",
+   "freq": 7.5,
+   "depthCm": 5,
+   "lay": "auto",
+   "P": [
+    38.1433855755231,
+    -17.87605729604816,
+    93.49320529918805
+   ]
+  },
+  "perf_open": {
+   "n": 9,
+   "ms": 561,
+   "per": [
+    157,
+    123,
+    24,
+    28,
+    37,
+    39,
+    39,
+    27,
+    14
+   ]
+  },
+  "layout": {
+   "cls": "nmsk-us us-z us-tab",
+   "scrollW": 390,
+   "innerW": 390,
+   "scrollH": 844,
+   "innerH": 844,
+   "panel": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "canvas": [
+    0,
+    0,
+    390,
+    844
+   ],
+   "smallButtons": 0,
+   "buttons": 24,
+   "ctlScrollW": 390,
+   "ctlClientW": 390,
+   "views": [
+    [
+     187,
+     172
+    ],
+    [
+     94,
+     172
+    ],
+    [
+     94,
+     86
+    ],
+    [
+     187,
+     86
+    ],
+    [
+     94,
+     86
+    ],
+    [
+     94,
+     172
+    ],
+    [
+     94,
+     86
+    ],
+    [
+     187,
+     86
+    ],
+    [
+     94,
+     86
+    ]
+   ]
+  },
+  "perf_sweep9": {
+   "n": 9,
+   "ms": 291,
+   "per": [
+    14,
+    37,
+    21,
+    21,
+    27,
+    33,
+    36,
+    20,
+    17
+   ]
+  },
+  "interact": {
+   "armed": true,
+   "click_places_probe": true,
+   "placed_point_moved_mm": 81.6,
+   "ring_click_selects": true,
+   "selected_is_now_the_big_central_cell": true,
+   "selected_frame_tilt": 15,
+   "sweep": {
+    "n": 6,
+    "labels": [
+     "#1  +0 mm",
+     "#2  +12 mm",
+     "#3  +24 mm",
+     "#4  +36 mm",
+     "#5  +48 mm",
+     "#6  +60 mm"
+    ],
+    "offs": [
+     0,
+     12,
+     24,
+     36,
+     48,
+     60
+    ],
+    "cells": [
+     [
+      4,
+      137
+     ],
+     [
+      197,
+      137
+     ],
+     [
+      4,
+      256
+     ],
+     [
+      197,
+      256
+     ],
+     [
+      4,
+      375
+     ],
+     [
+      197,
+      375
+     ]
+    ],
+    "ok": true
+   },
+   "sweep_offsets_exact": true,
+   "sweep_matrix_dims": [
+    2,
+    3
+   ],
+   "cine_moves_selection": true,
+   "cine_frames_visited": [
+    0,
+    2,
+    3,
+    4,
+    5
+   ],
+   "follow": {
+    "follow": true,
+    "name": "Femur",
+    "cos": 0.969796510482156,
+    "n": 5
+   },
+   "hidden_ok": true,
+   "info_has_table": 34,
+   "badge_in_header": "Simulated from meshes \u2013 not an ultrasound",
+   "closed_cleanly": {
+    "cls": "us-z",
+    "canvasW": 390,
+    "innerW": 390,
+    "scrollW": 390
+   }
+  },
+  "optional_404": [],
+  "errors": [],
+  "bad_responses": []
+ },
+ "844x390": {
+  "open_s": 4.92,
+  "state": {
+   "mode": "star",
+   "probe": "linear",
+   "freq": 7.5,
+   "depthCm": 5,
+   "lay": "auto",
+   "P": [
+    38.33972645817221,
+    -17.873872934485036,
+    93.44369369668198
+   ]
+  },
+  "perf_open": {
+   "n": 9,
+   "ms": 1226,
+   "per": [
+    830,
+    92,
+    45,
+    32,
+    40,
+    33,
+    32,
+    31,
+    24
+   ]
+  },
+  "layout": {
+   "cls": "nmsk-us us-z us-tab",
+   "scrollW": 844,
+   "innerW": 844,
+   "scrollH": 390,
+   "innerH": 390,
+   "panel": [
+    0,
+    0,
+    844,
+    390
+   ],
+   "canvas": [
+    0,
+    0,
+    844,
+    390
+   ],
+   "smallButtons": 0,
+   "buttons": 6,
+   "ctlScrollW": 0,
+   "ctlClientW": 0,
+   "views": [
+    [
+     414,
+     147
+    ],
+    [
+     207,
+     147
+    ],
+    [
+     207,
+     73
+    ],
+    [
+     414,
+     73
+    ],
+    [
+     207,
+     73
+    ],
+    [
+     207,
+     147
+    ],
+    [
+     207,
+     73
+    ],
+    [
+     414,
+     73
+    ],
+    [
+     207,
+     73
+    ]
+   ]
+  },
+  "perf_sweep9": {
+   "n": 9,
+   "ms": 374,
+   "per": [
+    25,
+    81,
+    35,
+    28,
+    28,
+    49,
+    24,
+    20,
+    13
+   ]
+  },
+  "optional_404": [],
   "errors": [],
   "bad_responses": []
  }

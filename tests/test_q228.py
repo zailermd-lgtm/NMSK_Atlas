@@ -411,6 +411,8 @@ def test_recorded_scenes_on_real_meshes_own_male():
     fa = s["forearm_trans"]["byClass"]
     assert fa["bone_cortical"]["max"] > 10 and fa["marrow_yellow"]["mean"] < -50          # radius: bright cortex arc, black below it
     assert "liver" in s["abdomen_liver"]["byClass"]
+    c = s["carotid_trans"]["byClass"]
+    assert "blood_artery" in c and c["blood_artery"]["mean"] < c["muscle"]["mean"] - 15            # the carotid lumen is anechoic against the sternocleidomastoid
 
 
 @browser
