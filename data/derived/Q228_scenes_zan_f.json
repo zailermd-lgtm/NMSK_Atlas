@@ -1,0 +1,272 @@
+{
+ "femur_long": {
+  "contact": true,
+  "ysk": -0.14192580244204933,
+  "ms": 372,
+  "kms": 82,
+  "simMs": 230,
+  "beam": [
+   [
+    0,
+    "skin|skin_rim"
+   ],
+   [
+    2,
+    "air|-"
+   ],
+   [
+    8,
+    "skin|skin_rim"
+   ],
+   [
+    10,
+    "muscle|vastus_medialis_r"
+   ],
+   [
+    22,
+    "blood_vein|zan_deep_femoral_vein_r"
+   ],
+   [
+    25,
+    "muscle|vastus_medialis_r"
+   ],
+   [
+    47,
+    "bone_cortical|femur_r"
+   ],
+   [
+    53,
+    "marrow_yellow|femur_r"
+   ],
+   [
+    64,
+    "bone_cortical|femur_r"
+   ],
+   [
+    69,
+    "tendon_ligament|medial_intermuscular_septum_r"
+   ],
+   [
+    70,
+    "muscle|biceps_femoris_r"
+   ],
+   [
+    74,
+    "muscle|adductor_magnus_r"
+   ],
+   [
+    77,
+    "muscle|biceps_femoris_r"
+   ],
+   [
+    108,
+    "skin|skin_rim"
+   ],
+   [
+    109,
+    "air|-"
+   ]
+  ],
+  "byClass": {
+   "skin": {
+    "n": 61,
+    "mean": 15.2,
+    "max": 26.2
+   },
+   "air": {
+    "n": 175,
+    "mean": 3.8,
+    "max": 20.9
+   }
+  },
+  "img": {
+   "mean": 6.8,
+   "min": -103,
+   "max": 31,
+   "valid_frac": 0.051
+  },
+  "place": {
+   "id": "femur_r",
+   "centre": [
+    96.37600231170654,
+    -190.9779930114746,
+    -20.599499702453613
+   ],
+   "hit": {
+    "P": [
+     96.37600231170654,
+     -190.9779930114746,
+     50.467938500650575
+    ],
+    "N": [
+     -0.10468106823811626,
+     -0.11787812532151697,
+     0.987495124809845
+    ],
+    "struct": 2710
+   }
+  }
+ },
+ "abdomen_liver": {
+  "contact": true,
+  "ysk": -0.09173927036541585,
+  "ms": 121,
+  "kms": 28,
+  "simMs": 92,
+  "beam": [
+   [
+    0,
+    "skin|skin_rim"
+   ],
+   [
+    4,
+    "air|-"
+   ],
+   [
+    9,
+    "skin|skin_rim"
+   ],
+   [
+    11,
+    "muscle|external_oblique_l"
+   ],
+   [
+    12,
+    "skin|skin_rim"
+   ],
+   [
+    16,
+    "air|-"
+   ],
+   [
+    17,
+    "skin|skin_rim"
+   ],
+   [
+    22,
+    "air|-"
+   ],
+   [
+    23,
+    "skin|skin_rim"
+   ],
+   [
+    25,
+    "muscle|rectus_abdominis_l"
+   ],
+   [
+    28,
+    "skin|skin_rim"
+   ],
+   [
+    30,
+    "air|-"
+   ],
+   [
+    32,
+    "skin|skin_rim"
+   ],
+   [
+    34,
+    "fat|-"
+   ],
+   [
+    42,
+    "liver|zan_left_anterior_lateral_segment_of_liver_iii"
+   ],
+   [
+    45,
+    "liver|zan_liver"
+   ],
+   [
+    89,
+    "liver|zan_left_anterior_lateral_segment_of_liver_iii"
+   ],
+   [
+    91,
+    "fat|-"
+   ],
+   [
+    104,
+    "gi_tract|zan_stomach"
+   ],
+   [
+    106,
+    "fat|-"
+   ],
+   [
+    115,
+    "liver|zan_liver"
+   ],
+   [
+    121,
+    "liver|zan_left_posterior_lateral_segment_of_liver_ii"
+   ],
+   [
+    122,
+    "fat|-"
+   ],
+   [
+    123,
+    "muscle|diaphragm"
+   ],
+   [
+    134,
+    "skin|skin_rim"
+   ],
+   [
+    138,
+    "air|-"
+   ]
+  ],
+  "byClass": {
+   "skin": {
+    "n": 141,
+    "mean": 7.2,
+    "max": 27.8
+   },
+   "air": {
+    "n": 166,
+    "mean": 9,
+    "max": 26.6
+   },
+   "muscle": {
+    "n": 27,
+    "mean": -13.9,
+    "max": 1.8
+   },
+   "tendon_ligament": {
+    "n": 2,
+    "mean": -31,
+    "max": -30.7
+   }
+  },
+  "img": {
+   "mean": 5.7,
+   "min": -140,
+   "max": 31,
+   "valid_frac": 0.05
+  },
+  "place": {
+   "id": "zan_liver",
+   "centre": [
+    -32.917198181152344,
+    371.2840087890625,
+    -2.829498291015625
+   ],
+   "hit": {
+    "P": [
+     -32.917198181152344,
+     371.2840087890625,
+     94.14442203064027
+    ],
+    "N": [
+     0.042372838121763616,
+     -0.04548961447502063,
+     0.9980657481170371
+    ],
+    "struct": 2757
+   }
+  }
+ }
+}

@@ -532,8 +532,12 @@
     function poseOf(spec) {
       var rot = spec.rotOverride != null ? spec.rotOverride : S.rot;
       var pf = LIB.probeFrame(S.N, orientRef(), rot, spec.tilt, spec.dir);
-      var O = [S.P[0] + pf.e[0] * spec.off, S.P[1] + pf.e[1] * spec.off, S.P[2] + pf.e[2] * spec.off];
-      return {pf: pf, O: O};
+      var O = [S.P[0] + pf.e[0] * spec.off, S.P[1] + pf.e[1] * spec.off, S.P[2] + pf.e[2] * spec.off], shift = 0;
+      if (spec.off !== 0 && geo) {                                              // re-seat on the skin by sliding the face along the beam axis (stays in the same image plane, so planes stay parallel)
+        var o2 = [O[0] + pf.N[0] * 60, O[1] + pf.N[1] * 60, O[2] + pf.N[2] * 60], h = LIB.skinHit(geo, o2, pf.b, null);
+        if (h && h.t < 140) { shift = h.t - 60; O = h.point; }
+      }
+      return {pf: pf, O: O, shift: shift};
     }
     function visMask() {
       var m = new Uint8Array(geo.n), i; for (i = 0; i < geo.n; i++) { var v = true; try { v = !!api.visible(i); } catch (e) {} m[i] = v ? 1 : 0; } return m;
@@ -551,7 +555,7 @@
     function rasterKey(spec, q) { return [S.probe, probeW(), S.depthCm, S.P.map(function (x) { return x.toFixed(2); }).join(), S.N.map(function (x) { return x.toFixed(4); }).join(), spec.tilt, spec.dir, spec.off, spec.rotOverride != null ? spec.rotOverride : S.rot, S.refKey, q.maxDim, q.maxLines, S.hidden ? 1 : 0].join("|"); }
     function computeFrame(spec, q, prev) {                                    // -> Promise(frame)
       var pose = poseOf(spec), geom = curGeom(), plan = LIB.planRaster(geom, q.maxDim, {maxLines: q.maxLines});
-      var fr = {spec: spec, pf: pose.pf, O: pose.O, geom: geom, plan: plan, lab: null, sid: null, rk: rasterKey(spec, q), sim: null, ms: 0, kms: 0};
+      var fr = {spec: spec, pf: pose.pf, O: pose.O, shift: pose.shift, geom: geom, plan: plan, lab: null, sid: null, rk: rasterKey(spec, q), sim: null, ms: 0, kms: 0};
       fr.sig = [S.freq, S.depthCm, S.tgc, S.focusCm, S.speckle, S.textures, S.reverb, S.noise, S.seed, S.mode].join("|");
       if (prev && prev.sim && prev.rk === fr.rk && prev.sig === fr.sig) return Promise.resolve(prev);
       var t0 = Date.now(), pr;
@@ -572,7 +576,6 @@
     function refresh(immediate) {
       clearTimeout(pumpTimer); pumpPending = true;
       pumpTimer = setTimeout(pump, immediate ? 0 : 70);
-      updateOverlay();
     }
     function pump() {
       pumpPending = false;
