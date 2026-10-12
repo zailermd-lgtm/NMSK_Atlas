@@ -76,20 +76,21 @@ def r1():
     sa = context(a, c, half, ("bone", "vessel", "nerve"), skip=("femoral_v_r",)) + [{"v": va, "f": fa, "color": MAG}]
     views = [dict(name="front", az=0, el=0, target=c, half=half), dict(name="side", az=90, el=0, target=c, half=half), dict(name="oblique", az=40, el=15, target=c, half=half)]
     montage("1_own_male_femoral_vein_r", "Own male | femoral_v_r (magenta): two pieces 62.0 mm apart -> one tube (rule-based bridge 70 mm between the two measured stumps)",
-            ["cream = bones, blue-grey = other vessels and nerves. The bridge is rule-based (Hermite centreline + morphing elliptical section), NOT measured; checked on his 1 mm photographs (build/q224_renders/photo_*)."], sb, sa, views)
+            ["cream = bones, blue-grey = other vessels and nerves. The bridge is rule-based (Hermite centreline + morphing elliptical section), NOT measured; checked on his 1 mm photographs (data/derived/Q224_photo_check_femoral_v_r.png)."], sb, sa, views)
 
 
 def r2():
     b, a = Bundle(BODIES["f"]["src_bundle"]), Bundle(BODIES["f"]["out_bundle"])
     vb, fb = get(b, "longissimus_l")
     va, fa = get(a, "longissimus_l")
-    c = vb.mean(0)
-    half = 170
-    sb = context(b, c, half, ("bone",)) + [{"v": vb, "f": fb, "color": MAG}]
-    sa = context(a, c, half, ("bone",)) + [{"v": va, "f": fa, "color": MAG}]
-    views = [dict(name="back", az=180, el=0, target=c, half=half), dict(name="side", az=-90, el=0, target=c, half=half), dict(name="oblique", az=150, el=20, target=c, half=half)]
-    montage("2_own_female_longissimus_l_flat_cut", "Own female | longissimus_l (magenta): flat sawn end in the z=-110.2 plane (1308 mm2, CT block edge) -> domed end",
-            ["cream = bones. The dome only removes the planar sawn face; where no bone is within reach the true continuation through the missing block is not known and not invented."], sb, sa, views)
+    end = vb[vb[:, 2] < vb[:, 2].min() + 1.0]
+    c = end.mean(0) + np.array([0, 25, 25])
+    half = 80
+    sb = context(b, c, half * 1.6, ("bone",)) + [{"v": vb, "f": fb, "color": MAG}]
+    sa = context(a, c, half * 1.6, ("bone",)) + [{"v": va, "f": fa, "color": MAG}]
+    views = [dict(name="below", az=0, el=-55, target=c, half=half), dict(name="side", az=-90, el=-10, target=c, half=half), dict(name="back", az=180, el=-25, target=c, half=half)]
+    montage("2_own_female_longissimus_l_flat_cut", "Own female | longissimus_l (magenta): flat face in the z=-110.2 plane (1308 mm2, the dorsal table-side plane of the CT block) -> domed",
+            ["cream = bones. The dome only removes the planar face; where no bone is within reach the true continuation through the missing block is not known and not invented (z is the antero-posterior axis: -110 = the back)."], sb, sa, views)
 
 
 def r3():

@@ -1,7 +1,7 @@
 {
 "schema":"nmsk.clinical_risk.v1",
 "viewer":"vhm",
-"generated":"2026-10-09",
+"generated":"2026-10-12",
 "licence":"PRIVATE -- owner's clinical layer (see clinical/LICENSE_PRIVATE.md). Not CC BY-SA, not for redistribution. Holds measurements about the anatomy model, not the model.",
 "frame":"atlas: +X right, +Y superior, +Z anterior, millimetres",
 "method":"Class: rule table in clinical/needle_tool.js (RISK_TABLE). r_mm: shape-diameter function -- median wall-to-wall distance along the inward vertex normal over <=300 vertices, halved, capped at half the smallest bounding-box extent; fallback |2V/A|, then half the smallest extent. Decimated viewing meshes: approximate, for the calibre term of a heuristic halo only.",
@@ -170,7 +170,7 @@
 "id":"femoral_v_l",
 "name":"Femoral vein",
 "class":"vein",
-"r_mm":3.24,
+"r_mm":3.48,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -178,7 +178,7 @@
 "id":"femoral_v_r",
 "name":"Femoral vein",
 "class":"vein",
-"r_mm":3.07,
+"r_mm":3.75,
 "r_method":"sdf",
 "rays_hit":300
 },
@@ -218,17 +218,17 @@
 "id":"internal_jugular_v_l",
 "name":"Internal jugular vein",
 "class":"vein",
-"r_mm":4.17,
+"r_mm":4.11,
 "r_method":"sdf",
-"rays_hit":298
+"rays_hit":300
 },
 {
 "id":"internal_jugular_v_r",
 "name":"Internal jugular vein",
 "class":"vein",
-"r_mm":5.3,
+"r_mm":4.57,
 "r_method":"sdf",
-"rays_hit":292
+"rays_hit":300
 },
 {
 "id":"liver",
