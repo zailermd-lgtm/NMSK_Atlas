@@ -5,10 +5,10 @@ import json, re, sys
 from pathlib import Path
 REPO = Path(__file__).resolve().parents[3]
 BODIES = {
-    "vhm": ("own", REPO / "build/viewer_m_hr_q214/bundle.json"),
+    "vhm": ("own", REPO / "build/viewer_m_hr_q217/bundle.json"),
     "vhf": ("own", REPO / "build/viewer_f_hr_q216/bundle.json"),
-    "zan_m": ("zan", REPO / "build/q211/viewer_zan_vhm/atlas_viewer_zan_male_fitted.html"),
-    "zan_f": ("zan", REPO / "build/q213/viewer_zan_female/atlas_viewer_zan_female.html"),
+    "zan_m": ("zan", REPO / "build/q221/viewer_zan_vhm/atlas_viewer_zan_male_fitted.html"),
+    "zan_f": ("zan", REPO / "build/q220/viewer_zan_female/atlas_viewer_zan_female.html"),
 }
 out = {}
 for k, (kind, p) in BODIES.items():

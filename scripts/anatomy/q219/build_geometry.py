@@ -345,6 +345,9 @@ def main():
     # attach the Z part-mesh patterns (rows carry them in maps_to only as resolved ids -> re-derive the patterns from the module rows)
     sys.path.insert(0, str(HERE))
     import rows_common, rows_upper, rows_lower, rows_trunk_hand, rows_hand_passages  # noqa: F401
+    import importlib, pkgutil
+    for _m in sorted(m.name for m in pkgutil.iter_modules([str(HERE)]) if m.name.startswith('rows_q222_')):
+        importlib.import_module(_m)   # Q222 rows (z_part_ids / geometry requests)
     pats = {r["id"]: r["z_part_ids"] for r in rows_common.ROWS}
     struct_pats = defaultdict(list)
     for r in rows_common.ROWS:

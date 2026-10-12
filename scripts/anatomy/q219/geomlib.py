@@ -7,10 +7,10 @@ from scipy.spatial import cKDTree
 
 REPO = Path(__file__).resolve().parents[3]
 BODIES = {
-    "vhm": dict(kind="own", label="own male (Visible Human male), Q214 bundle", path=REPO / "build/viewer_m_hr_q214", source_class_default="measured/rule-based/transferred per structure (Q189 subject classes)"),
+    "vhm": dict(kind="own", label="own male (Visible Human male), Q217 bundle", path=REPO / "build/viewer_m_hr_q217", source_class_default="measured/rule-based/transferred per structure (Q189 subject classes)"),
     "vhf": dict(kind="own", label="own female (Visible Human female), Q216 bundle", path=REPO / "build/viewer_f_hr_q216"),
-    "zan_m": dict(kind="zan", label="Z-Anatomy male fitted to the male VH (Q211 page)", path=REPO / "build/q211/viewer_zan_vhm/atlas_viewer_zan_male_fitted.html"),
-    "zan_f": dict(kind="zan", label="Z-Anatomy fitted to the female VH (Q213 page)", path=REPO / "build/q213/viewer_zan_female/atlas_viewer_zan_female.html"),
+    "zan_m": dict(kind="zan", label="Z-Anatomy male fitted to the male VH (Q221 page, Q217 geometry)", path=REPO / "build/q221/viewer_zan_vhm/atlas_viewer_zan_male_fitted.html"),
+    "zan_f": dict(kind="zan", label="Z-Anatomy fitted to the female VH (Q220 page)", path=REPO / "build/q220/viewer_zan_female/atlas_viewer_zan_female.html"),
     # Q220: the two UNFITTED Z-Anatomy reference bodies (base male page, base female page). Their meshes are not in the frame of the fitted
     # pages (the fit moves structures by up to ~90 mm), so the fitted placements cannot be used on them; run the same rules on these.
     "zbase_m": dict(kind="zan", label="Z-Anatomy reference body, unfitted (base male page)", path=REPO / "build/q218/viewer_zan_atlas/atlas_viewer_zan_atlas.html"),
