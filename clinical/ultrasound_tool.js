@@ -1188,7 +1188,7 @@
           renderInfo();
           if (loadErr || !AC) { setStatus("Ultrasound unavailable: " + (loadErr || "table missing")); return; }
           if (AC.missing.length) console.warn("ultrasound: classes without acoustic row:", AC.missing);
-          if (!S.initDone) { S.initDone = true; S.focusCm = S.depthCm * 0.5; var small = Math.min(window.innerWidth, window.innerHeight) < 520; if (small) S.sec = "probe"; var pp = US.probes[S.probe]; S.freq = pp.freq_default; S.depthCm = pp.depth_default_cm; S.focusCm = S.depthCm * 0.5; }
+          if (!S.initDone) { S.initDone = true; S.focusCm = S.depthCm * 0.5; var small = Math.min(window.innerWidth, window.innerHeight) < 520; if (small) S.sec = "probe"; if (window.innerHeight < 500 && chooseLayout() === "tab") { root.classList.add("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", "false"); } var pp = US.probes[S.probe]; S.freq = pp.freq_default; S.depthCm = pp.depth_default_cm; S.focusCm = S.depthCm * 0.5; }
           syncUi(); applyLayout(); refresh(true);
         });
       } else {
