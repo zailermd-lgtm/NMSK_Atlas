@@ -205,6 +205,75 @@ body.cut-armed canvas{cursor:crosshair!important}
 #cut-svg text{fill:var(--cp-warn);font:600 11px system-ui,sans-serif;paint-order:stroke;stroke:var(--cp-bg);stroke-width:3px}
 /* CUT-MODE css end */
 #cut-panel,#cut-svg{--cp-bg:var(--surface);--cp-ink:var(--ink);--cp-dim:var(--muted);--cp-line:var(--line);--cp-accent:var(--accent);--cp-accent-ink:var(--accent-ink);--cp-warn:var(--risk);--cp-shadow:var(--shadow)}
+/* PARTS-UI css begin */
+#pm-layer,#pm-card,.pm-sec{--pm-bg:#fff;--pm-ink:#111;--pm-dim:#667;--pm-line:#ccd;--pm-accent:#0a6e8e;--pm-sunk:#eef1f4;--pm-warn:#b3400c;--pm-rule:#e8a117;--pm-zfill:#2f8fe0}
+#pm-layer{position:fixed;left:0;top:0;width:100vw;height:100vh;pointer-events:none;z-index:21;overflow:hidden}
+#pm-layer .pm{position:absolute;left:0;top:0;width:0;height:0;padding:0;margin:0;border:0;background:none;pointer-events:none;overflow:visible;font:600 11px/1.2 system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--pm-ink)}
+#pm-layer .pm[hidden]{display:none}
+#pm-layer .pm .pm-ring{position:absolute;left:-11px;top:-11px;width:22px;height:22px;box-sizing:border-box;border-radius:50%;border:2px solid var(--pm-rule);background:rgba(255,255,255,.10);pointer-events:auto;cursor:pointer;opacity:.62}
+#pm-layer .pm.pm-z .pm-ring{border-color:var(--pm-zfill)}
+#pm-layer .pm.pm-sel .pm-ring{opacity:.95;background:rgba(255,255,255,.18)}
+#pm-layer .pm.pm-focus .pm-ring{opacity:1;border-width:3px;left:-14px;top:-14px;width:28px;height:28px;box-shadow:0 0 0 2px var(--pm-bg)}
+#pm-layer .pm .pm-ring:hover{opacity:1}
+#pm-layer .pm .pm-lab{position:absolute;left:15px;top:-9px;white-space:nowrap;padding:1px 5px;border-radius:4px;background:var(--pm-bg);border:1px solid var(--pm-line);color:var(--pm-ink);display:none;pointer-events:none;max-width:240px;overflow:hidden;text-overflow:ellipsis}
+#pm-layer .pm.pm-lab-on .pm-lab{display:block}
+#pm-layer .pm-err{position:absolute;left:0;top:0;border:1.5px dashed var(--pm-rule);border-radius:50%;pointer-events:none;box-sizing:border-box;opacity:.85}
+#pm-layer .pm-err.pm-z{border-color:var(--pm-zfill)}
+#pm-layer .pm-err[hidden]{display:none}
+body.cut-armed #pm-layer .pm .pm-ring{pointer-events:none}
+@media (hover:none){#pm-layer .pm .pm-ring{left:-14px;top:-14px;width:28px;height:28px}}
+#pm-card{position:fixed;left:0;top:0;z-index:46;box-sizing:border-box;width:min(318px,calc(100vw - 16px));max-height:min(60vh,420px);overflow-y:auto;padding:9px 11px 10px;border-radius:9px;
+  background:var(--pm-bg);color:var(--pm-ink);border:1px solid var(--pm-line);box-shadow:0 8px 28px rgba(0,0,0,.25);font:12px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;pointer-events:auto}
+#pm-card[hidden]{display:none}
+#pm-card .pm-ch{display:flex;gap:6px;align-items:flex-start}
+#pm-card .pm-ch b{flex:1;font-size:13px;line-height:1.25}
+#pm-card .pm-x{flex:none;border:0;background:none;color:var(--pm-dim);font-size:18px;line-height:1;padding:0 4px;cursor:pointer}
+#pm-card .pm-cs{margin:6px 0 4px;font-size:11.5px}
+#pm-card .pm-cls{display:inline-block;padding:1px 7px;border-radius:99px;font-weight:700;font-size:10.5px;color:#111;margin-right:4px}
+#pm-card .pm-cls-rule_based{background:var(--pm-rule)}
+#pm-card .pm-cls-z_fill{background:var(--pm-zfill);color:#fff}
+#pm-card dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 9px;margin:4px 0 0}
+#pm-card dt{color:var(--pm-dim)}
+#pm-card dd{margin:0;overflow-wrap:anywhere}
+#pm-card small{color:var(--pm-dim);font-size:10.5px}
+#pm-card .pm-not{margin:6px 0 0;padding:5px 7px;border-left:3px solid var(--pm-warn);background:var(--pm-sunk);font-size:11px}
+#pm-card a,.pm-sec a{color:var(--pm-accent)}
+.pm-sec{padding:12px 14px;border-bottom:1px solid var(--pm-line);color:var(--pm-ink)}
+.pm-sec summary{cursor:pointer;list-style:none;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.pm-sec summary::-webkit-details-marker{display:none}
+.pm-sec summary::before{content:"\25B8";color:var(--pm-dim);font-size:11px}
+.pm-sec details[open]>summary::before{content:"\25BE"}
+.pm-sec .pm-eb{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--pm-dim)}
+.pm-sec .pm-n{font-size:11px;color:var(--pm-dim)}
+.pm-sec .pm-top{margin:6px 0;font-size:11px;line-height:1.45;color:var(--pm-dim)}
+.pm-sec .pm-set{margin:6px 0;padding:6px 8px;border-left:3px solid var(--pm-warn);background:var(--pm-sunk);font-size:11.5px;line-height:1.45}
+.pm-sec .pm-set details{margin-top:3px;font-size:11px;color:var(--pm-dim)}
+.pm-sec .pm-set details summary{display:block;cursor:pointer}
+.pm-sec .pm-set details summary::before{content:""}
+.pm-sec .pm-row{padding:7px 8px;margin:5px 0;border:1px solid var(--pm-line);border-radius:7px;cursor:pointer;background:transparent}
+.pm-sec .pm-row:hover{border-color:var(--pm-accent)}
+.pm-sec .pm-row.pm-on{border-color:var(--pm-accent);box-shadow:inset 3px 0 0 var(--pm-accent)}
+.pm-sec .pm-r1{display:flex;gap:6px;align-items:baseline;flex-wrap:wrap}
+.pm-sec .pm-nm{font-size:12.5px;font-weight:700}
+.pm-sec .pm-ty,.pm-sec .pm-unv,.pm-sec .pm-pl{display:inline-block;padding:0 6px;border-radius:99px;font-size:10px;font-weight:700;letter-spacing:.02em;border:1px solid currentColor;white-space:nowrap}
+.pm-sec .pm-ty-head_belly{color:#2f7fbf}
+.pm-sec .pm-ty-origin_part{color:#b57a00}
+.pm-sec .pm-ty-insertion_point{color:#c2410c}
+.pm-sec .pm-ty-ligament_component{color:#6b8e23}
+.pm-sec .pm-ty-muscle_tendon_junction{color:#8e44ad}
+.pm-sec .pm-ty-fascial_passage{color:#13827a}
+.pm-sec .pm-unv{color:var(--pm-warn);background:var(--pm-sunk)}
+.pm-sec .pm-pl{color:var(--pm-dim)}
+.pm-sec .pm-d{margin:3px 0 0;font-size:12px;line-height:1.45}
+.pm-sec .pm-meta,.pm-sec .pm-c,.pm-sec .pm-un{margin:3px 0 0;font-size:10.5px;line-height:1.45;color:var(--pm-dim)}
+.pm-sec .pm-un{color:var(--pm-warn)}
+.pm-sec .pm-ref{display:block}
+.pm-sec .pm-msg{margin:4px 0 0;font-size:11px;font-weight:600;color:var(--pm-accent)}
+.pm-sec .pm-msg:empty{display:none}
+.pm-sec .pm-msg.pm-t{color:var(--pm-dim)}
+/* PARTS-UI css end */
+#pm-layer,#pm-card,.pm-sec{--pm-bg:var(--surface);--pm-ink:var(--ink);--pm-dim:var(--muted);--pm-line:var(--line);--pm-accent:var(--accent);--pm-sunk:var(--sunk);--pm-warn:var(--risk)}
+#inspector .pm-sec{background:transparent}
 #cut-panel{position:absolute;right:12px;top:48px}
 #app.phone #cut-panel{left:8px;right:8px;top:auto;bottom:8px}
 #app.phone.sheet-open #cut-panel{display:none}
@@ -310,6 +379,10 @@ body.cut-armed canvas{cursor:crosshair!important}
   </div>
 </div>
 <!-- CUT-MODE html end -->
+    <!-- PARTS-UI html begin -->
+<div id="pm-layer" aria-hidden="false"></div>
+<div id="pm-card" role="dialog" aria-label="Part marker" hidden></div>
+<!-- PARTS-UI html end -->
     <div class="overlay" id="frame-note">
       Atlas frame &mdash; origin at the midpoint of the hip joint centres.
     </div>
@@ -712,11 +785,13 @@ function resize(){
   if (!fitted){ dist = fitDistance(); HOME.dist = dist; fitted = true; }
   place(); draw();
 }
-var cutCtl = null;
+var cutCtl = null, partsCtl = null;
 function draw(){
+  if (partsCtl) partsCtl.update();          // Q220: which part markers are drawn (selection / toggle, cut + slab, layer state)
   renderer.render(scene, camera);
   drawAxes(); drawScale();
   if (cutCtl) cutCtl.overlay();
+  if (partsCtl) partsCtl.overlay();
 }
 function drawAxes(){
   var svg = document.getElementById("axes");
@@ -946,6 +1021,7 @@ inspBtn.addEventListener("click", function(){
 showInspMin();
 function select(id){
   selected = id;
+  if (partsCtl) partsCtl.select(id);
   if (id && layoutReady && app.classList.contains("phone")) openSheet("info");
   originMarker.visible = insertionMarker.visible = false;
   var s = id ? groups[id] : null;
@@ -1037,6 +1113,7 @@ function select(id){
   });
   if (r.notes) h += '<div class="sec"><p class="eyebrow">Notes</p><p class="note prose">' +
     esc(r.notes) + "</p></div>";
+  if (partsCtl) h += partsCtl.cardHtml();      // Q220: the sourced parts of this structure (empty when it has none / no sidecar)
   h += '<div class="sec"><p class="eyebrow">Mesh</p><dl class="kv">' +
     "<dt>Shown</dt><dd>" + s.nf.toLocaleString() + " triangles</dd>" +
     "<dt>Source</dt><dd>" + s.tris_full.toLocaleString() + " triangles</dd>" +
@@ -1091,6 +1168,7 @@ function select(id){
   if (r.source) h += '<div class="sec"><p class="eyebrow">Source</p><p class="cite">' +
     esc(r.source) + "</p></div>";
   body.innerHTML = h;
+  if (partsCtl) partsCtl.bind(body);
   document.getElementById("inspector").scrollTop = 0;
   apply();
 }
@@ -1276,6 +1354,296 @@ function NMSKCutMode(E){
   };
 }
 /* CUT-MODE js end */
+/* PARTS-UI js begin */
+/* The sourced PARTS of a structure (Q220, on the Q219 parts model): a Parts list in the structure card and point markers on the model.
+   Data = the page's sidecar parts_data.json (public anatomy layer), fetched with a graceful fallback: absent or invalid = no Parts section,
+   no toggle, nothing else changes. Engine adaptor E: url, canvasRect(), project(p)->[x,y,z,w] clip coords, cut()->null|{kn,c,th} (the kept
+   part is 0 <= kn.p + c <= th, th = 0 = no far face), meshVisible(id), focusAt(p), redraw(), setDots(list) (engine-drawn, depth-tested
+   dots), toolbar + toolClass (host of the "Parts markers" toggle), onLoaded().
+   A marker is a position derived by a stated rule on THIS model (rule-based) or the place of a Z-Anatomy mesh (Z-fill): always shown
+   with its source class and error bound, never as measured. Markers appear for the selected structure, or for every placed part with the
+   toggle; they follow Cut mode (incl. the slice thickness), the layer / hide / isolate state of their structure, and x-ray (the solid dot is
+   depth-tested by the engine: hidden behind opaque tissue, seen through x-ray; the hollow ring + label stay). */
+function NMSKParts(E){
+  "use strict";
+  var D = null, M = [], sel = null, showAll = false, focusI = -1, hoverI = -1, pinI = -1;
+  var btn = null, layer = null, card = null, errEl = null;
+  var DOT = {rule_based:[0.91, 0.63, 0.09], z_fill:[0.18, 0.56, 0.88]};
+  var CLS = {rule_based:"Rule-based", z_fill:"Z-Anatomy fill"};
+  var TYPES = {head_belly:"head", origin_part:"origin", insertion_point:"insertion", ligament_component:"ligament component",
+               muscle_tendon_junction:"MTJ", fascial_passage:"fascial passage"};
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+  function mmTxt(v){ return Number(v).toFixed(1).replace(/\.0$/, ""); }
+
+  /* ---------- data ---------- */
+  function refsHtml(keys){
+    return (keys || []).map(function(k){
+      var r = D.refs[k]; if (!r) return "";
+      var s = '<span class="pm-ref">' + esc(r.t);
+      if (r.pmid) s += ' <a href="https://pubmed.ncbi.nlm.nih.gov/' + esc(r.pmid) + '/" target="_blank" rel="noopener">PMID ' + esc(r.pmid) + '</a>';
+      if (r.doi) s += ' <a href="https://doi.org/' + esc(encodeURI(r.doi)) + '" target="_blank" rel="noopener">DOI</a>';
+      return s + '</span>';
+    }).join("");
+  }
+  function setsHtml(list){
+    var seen = {}, out = "";
+    list.forEach(function(pi){
+      var sid = D.parts[pi].set, st = sid && D.sets[sid];
+      if (!st || seen[sid] || st.counts.length < 2) return;
+      seen[sid] = 1;
+      out += '<p class="pm-set"><b>Sources disagree on the count.</b> ' + esc(st.n) + ': ' +
+        st.counts.map(function(c){ return '<b>' + esc(c.n) + '</b> (' + esc(c.by.join(", ")) + ')'; }).join(" / ") + '.' +
+        (st.note ? '<details><summary>about this count</summary>' + esc(st.note) + '</details>' : "") + '</p>';
+    });
+    return out;
+  }
+  function reasonFor(pi){
+    var id = D.parts[pi].id;
+    return (D.text_only && D.text_only[id]) || (D.partial && D.partial[id]) || "";
+  }
+  function placedFor(pi){
+    return M.filter(function(mk){ return mk.pi === pi && (!sel || sel.s === "m" || mk.s === sel.s); });
+  }
+
+  /* ---------- selection and the card section ---------- */
+  function select(meshId){
+    sel = null; focusI = -1; closeCard();
+    var e = D && meshId && D.mesh_parts[meshId];
+    if (e){ var set = {}; e.p.forEach(function(i){ set[i] = true; }); sel = {mesh:meshId, s:e.s, list:e.p.slice(), set:set}; }
+  }
+  function cardHtml(){
+    if (!D || !sel) return "";
+    var n = sel.list.length, unv = sel.list.filter(function(i){ return D.parts[i].u; }).length;
+    var h = '<div class="pm-sec" data-pm-mesh="' + esc(sel.mesh) + '"><details open><summary><span class="pm-eb">Parts</span><span class="pm-n">' + n + (n === 1 ? " part" : " parts") +
+      (unv ? " &middot; " + unv + " unverified" : "") + '</span></summary>' +
+      '<p class="pm-top">Each row cites its source. Click a row to find its marker on the model; markers are positions derived on this model (rule-based or Z-Anatomy fill), shown with their error bound &mdash; not measurements.</p>' +
+      setsHtml(sel.list) + '<div class="pm-list">';
+    sel.list.forEach(function(pi){
+      var p = D.parts[pi], pl = placedFor(pi).length > 0;
+      h += '<div class="pm-row" data-pi="' + pi + '" tabindex="0" role="button" aria-label="' + esc(p.n) + (pl ? ", has a marker on the model" : ", text only") + '">' +
+        '<div class="pm-r1"><span class="pm-ty pm-ty-' + esc(p.ty) + '">' + esc(TYPES[p.ty] || p.ty) + '</span><span class="pm-nm">' + esc(p.n) + '</span>' +
+        (p.u ? '<span class="pm-unv" title="Textbook or owner statement only; the page was not checked against a primary source">unverified</span>' : "") +
+        (pl ? '<span class="pm-pl" title="This part has a placed marker on this model">marker</span>' : "") + '</div>' +
+        (p.d ? '<div class="pm-d">' + esc(p.d) + '</div>' : "");
+      var meta = [];
+      if (p.an) meta.push("Anchor: " + esc(p.an.bone || "") + (p.an.landmark ? ", " + esc(p.an.landmark) : ""));
+      if (p.var) meta.push("Reported in: " + esc(p.var));
+      if (p.ev) meta.push("Evidence: " + esc(p.ev));
+      if (p.pass) meta.push("Passes: " + esc(p.pass.traversing_text || p.pass.kind || "") + (p.pass.through ? " through " + esc(p.pass.through) : ""));
+      if (meta.length) h += '<div class="pm-meta">' + meta.join(" &middot; ") + '</div>';
+      h += '<div class="pm-c">' + refsHtml(p.r) + '</div>';
+      if (p.u && p.note) h += '<div class="pm-un">' + esc(p.note) + '</div>';
+      h += '<div class="pm-msg" aria-live="polite"></div></div>';
+    });
+    return h + '</div></details></div>';
+  }
+  function bind(root){
+    var sec = root && root.querySelector(".pm-sec");
+    if (!sec) return;
+    sec.addEventListener("click", function(e){
+      if (e.target.closest("a, summary")) return;
+      var row = e.target.closest(".pm-row"); if (row) rowClick(+row.getAttribute("data-pi"), row);
+    });
+    sec.addEventListener("keydown", function(e){
+      if (e.key !== "Enter" && e.key !== " ") return;
+      var row = e.target.closest(".pm-row"); if (row && e.target === row){ e.preventDefault(); rowClick(+row.getAttribute("data-pi"), row); }
+    });
+  }
+  function rowClick(pi, row){
+    var msg = row.querySelector(".pm-msg");
+    Array.prototype.forEach.call(row.parentNode.querySelectorAll(".pm-row"), function(r){ r.classList.toggle("pm-on", r === row); });
+    var ms = placedFor(pi);
+    if (!ms.length){
+      focusI = -1; closeCard();
+      var why = reasonFor(pi);
+      msg.className = "pm-msg pm-t";
+      msg.textContent = "text only (no placement)" + (why ? " — " + why : "");
+      E.redraw(); return;
+    }
+    var mk = ms[0];
+    focusI = mk.j; update();
+    if (!mk.vis){
+      msg.className = "pm-msg pm-t";
+      msg.textContent = mk.why === "cut" ? "Marker placed, but cut away at the moment (move or reset the cut)." : "Marker placed, but its structure is hidden at the moment.";
+      E.redraw(); return;
+    }
+    msg.className = "pm-msg"; msg.textContent = "";
+    E.focusAt(mk.xyz); openCard(mk.j, true); E.redraw();
+  }
+
+  /* ---------- markers ---------- */
+  function kept(p){
+    var c = E.cut(); if (!c) return true;
+    var d = c.kn[0] * p[0] + c.kn[1] * p[1] + c.kn[2] * p[2] + c.c;
+    return d >= -1e-6 && (!(c.th > 0) || d <= c.th + 1e-6);
+  }
+  function inSel(mk){ return !!sel && sel.set[mk.pi] === true && (sel.s === "m" || mk.s === sel.s); }
+  function carriersVisible(mk){
+    for (var i = 0; i < mk.car.length; i++) if (E.meshVisible(mk.car[i])) return true;
+    return false;
+  }
+  /* called by the engine before it renders: decides which markers are drawn and hands the solid dots over */
+  function update(){
+    if (!D || !M.length) return;
+    var dots = [];
+    M.forEach(function(mk){
+      var why = "";
+      if (!(showAll || inSel(mk))) why = "off";
+      else if (!kept(mk.xyz)) why = "cut";
+      else if (!carriersVisible(mk)) why = "hidden";
+      mk.vis = why === ""; mk.why = why;
+      if (mk.vis) dots.push({p:mk.xyz, c:DOT[mk.c] || DOT.rule_based, big:mk.j === focusI || mk.j === hoverI || mk.j === pinI});
+    });
+    E.setDots(dots);
+  }
+  /* called by the engine after it rendered: positions of the rings / labels / card */
+  function overlay(){
+    if (!D || !layer || !M.length) return;
+    var r = E.canvasRect();
+    layer.style.clipPath = "inset(" + Math.max(0, r.top) + "px " + Math.max(0, document.documentElement.clientWidth - r.right) + "px " +
+      Math.max(0, document.documentElement.clientHeight - r.bottom) + "px " + Math.max(0, r.left) + "px)";
+    var act = pinI >= 0 ? pinI : (hoverI >= 0 ? hoverI : focusI);
+    M.forEach(function(mk){
+      var q = mk.vis ? E.project(mk.xyz) : null;
+      var ok = !!q && q[3] > 0;
+      if (ok){
+        mk.sx = r.left + (q[0] / q[3] * 0.5 + 0.5) * r.width; mk.sy = r.top + (0.5 - 0.5 * q[1] / q[3]) * r.height;
+        ok = mk.sx > r.left - 20 && mk.sx < r.right + 20 && mk.sy > r.top - 20 && mk.sy < r.bottom + 20;
+      }
+      if (!ok){ if (!mk.el.hidden) mk.el.hidden = true; return; }
+      if (mk.el.hidden) mk.el.hidden = false;
+      mk.el.style.transform = "translate(" + mk.sx.toFixed(1) + "px," + mk.sy.toFixed(1) + "px)";
+      mk.el.classList.toggle("pm-sel", inSel(mk));
+      mk.el.classList.toggle("pm-focus", mk.j === focusI || mk.j === pinI);
+      mk.el.classList.toggle("pm-lab-on", inSel(mk) || mk.j === act);
+    });
+    var a = act >= 0 ? M[act] : null;
+    if (a && a.vis && !a.el.hidden && a.e != null){
+      var s = scalePx(a), rad = Math.min(220, a.e * s);
+      if (rad >= 4){
+        errEl.hidden = false; errEl.className = "pm-err" + (a.c === "z_fill" ? " pm-z" : "");
+        errEl.style.width = errEl.style.height = (2 * rad).toFixed(1) + "px";
+        errEl.style.transform = "translate(" + (a.sx - rad).toFixed(1) + "px," + (a.sy - rad).toFixed(1) + "px)";
+      } else errEl.hidden = true;
+    } else errEl.hidden = true;
+    if (pinI >= 0 || hoverI >= 0){
+      var c = M[pinI >= 0 ? pinI : hoverI];
+      if (c && c.vis && !c.el.hidden) placeCard(c); else if (pinI < 0) closeCard();
+    }
+  }
+  /* pixels per mm at a marker (the projected lengths of three orthogonal 10 mm steps carry sqrt(2) times the scale) */
+  function scalePx(mk){
+    var r = E.canvasRect(), p = mk.xyz, q0 = E.project(p), sum = 0;
+    if (!(q0[3] > 0)) return 0;
+    [[10,0,0],[0,10,0],[0,0,10]].forEach(function(d){
+      var q = E.project([p[0] + d[0], p[1] + d[1], p[2] + d[2]]);
+      if (!(q[3] > 0)) return;
+      var dx = (q[0] / q[3] - q0[0] / q0[3]) * 0.5 * r.width, dy = (q[1] / q[3] - q0[1] / q0[3]) * 0.5 * r.height;
+      sum += dx * dx + dy * dy;
+    });
+    return Math.sqrt(sum / 2) / 10;
+  }
+
+  /* ---------- the marker card (hover on desktop, tap on touch) ---------- */
+  function renderCard(j){
+    var mk = M[j], p = D.parts[mk.pi];
+    var err = mk.e != null ? "&plusmn; " + mmTxt(mk.e) + " mm" :
+      "not stated" + (mk.ext ? " <small>(centre of a Z-Anatomy part mesh that spans about " + mk.ext + " mm; no fit to a person)</small>" : "");
+    card.innerHTML = '<div class="pm-ch"><b>' + esc(p.n) + '</b><button type="button" class="pm-x" aria-label="Close">&times;</button></div>' +
+      '<div class="pm-cs"><span class="pm-cls pm-cls-' + esc(mk.c) + '">' + esc(CLS[mk.c] || mk.c) + '</span> ' + esc(TYPES[p.ty] || p.ty) +
+      (p.u ? ' &middot; <span style="color:var(--pm-warn);font-weight:700">unverified</span>' : "") +
+      ' &middot; ' + (mk.s === "r" ? "right" : mk.s === "l" ? "left" : "midline") + '</div>' +
+      '<dl><dt>Error bound</dt><dd>' + err + (mk.eb ? '<br><small>' + esc(mk.eb) + '</small>' : "") + '</dd>' +
+      '<dt>Method</dt><dd>' + esc(mk.mt) + '</dd>' +
+      '<dt>Position</dt><dd class="mono">' + mk.xyz.map(mmTxt).join(", ") + ' mm <small>(atlas frame)</small></dd></dl>' +
+      '<p class="pm-not">A model position derived on this body by the rule above, not a measurement; the part itself is described by the citation below.</p>' +
+      '<div class="pm-c" style="margin-top:6px;font-size:10.5px;color:var(--pm-dim)">' + refsHtml(p.r) + '</div>';
+    card.querySelector(".pm-x").addEventListener("click", function(){ closeCard(); E.redraw(); });
+  }
+  function openCard(j, pinned){
+    if (pinned) pinI = j;
+    hoverI = j; renderCard(j); card.hidden = false;
+    if (M[j].sx != null) placeCard(M[j]);
+    E.redraw();
+  }
+  function placeCard(mk){
+    if (card.hidden || mk.sx == null) return;
+    var w = card.offsetWidth, h = card.offsetHeight, vw = document.documentElement.clientWidth, vh = document.documentElement.clientHeight;
+    var x = mk.sx + 18, y = mk.sy + 14;
+    if (x + w > vw - 8) x = Math.max(8, mk.sx - w - 18);
+    if (y + h > vh - 8) y = Math.max(8, vh - h - 8);
+    card.style.transform = "translate(" + Math.round(x) + "px," + Math.round(y) + "px)";
+  }
+  function closeCard(){
+    var was = pinI >= 0 || hoverI >= 0 || (card && !card.hidden);
+    pinI = -1; hoverI = -1; if (card) card.hidden = true;
+    return was;
+  }
+
+  /* ---------- build ---------- */
+  function build(){
+    layer = document.getElementById("pm-layer"); card = document.getElementById("pm-card");
+    layer.innerHTML = ""; M = [];
+    errEl = document.createElement("div"); errEl.className = "pm-err"; errEl.hidden = true; layer.appendChild(errEl);
+    D.placed.forEach(function(g, j){
+      var p = D.parts[g.p];
+      var el = document.createElement("div"); el.className = "pm" + (g.c === "z_fill" ? " pm-z" : ""); el.hidden = true;
+      el.innerHTML = '<span class="pm-ring" role="button" tabindex="0" aria-label="Part marker: ' + esc(p.n) + '"></span><span class="pm-lab">' + esc(p.n) + '</span>';
+      var ring = el.firstChild;
+      ring.addEventListener("mouseenter", function(){ if (pinI < 0 && window.matchMedia && matchMedia("(hover:hover)").matches) openCard(j, false); });
+      ring.addEventListener("mouseleave", function(){ if (pinI < 0){ hoverI = -1; card.hidden = true; E.redraw(); } });
+      ring.addEventListener("click", function(e){
+        e.stopPropagation();
+        if (pinI === j){ closeCard(); E.redraw(); return; }
+        focusI = j; openCard(j, true);
+      });
+      ring.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); ring.click(); } });
+      layer.appendChild(el);
+      M.push({j:j, pi:g.p, s:g.s, xyz:g.xyz, c:g.c, e:g.e, ext:g.ext, rule:g.rule, mt:g.mt, eb:g.eb, car:g.car, el:el, vis:false, why:"off", sx:null, sy:null});
+    });
+    if (M.length && E.toolbar && !btn){
+      btn = document.createElement("button");
+      btn.type = "button"; btn.id = "t-parts"; btn.className = E.toolClass || ""; btn.setAttribute("aria-pressed", "false");
+      btn.textContent = "Parts markers";
+      btn.title = "Show the point markers of every placed part (otherwise only those of the selected structure)";
+      btn.addEventListener("click", function(){ setShowAll(!showAll); });
+      E.toolbar.appendChild(btn);
+    }
+  }
+  function setShowAll(v){
+    showAll = !!v; if (btn) btn.setAttribute("aria-pressed", String(showAll));
+    if (!showAll && !sel){ focusI = -1; closeCard(); }
+    E.redraw();
+  }
+  document.addEventListener("pointerdown", function(e){
+    if (!card || card.hidden || pinI < 0) return;
+    if (card.contains(e.target) || (e.target.closest && e.target.closest(".pm-ring, .pm-row"))) return;
+    closeCard(); E.redraw();
+  }, true);
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && card && !card.hidden && pinI >= 0){ closeCard(); E.redraw(); e.stopImmediatePropagation(); }
+  }, true);
+
+  function load(){
+    if (!E.url || !window.fetch) return;
+    fetch(E.url).then(function(r){ if (!r.ok) throw new Error("no parts_data.json"); return r.json(); }).then(function(d){
+      if (!d || String(d.schema).indexOf("nmsk.parts_sidecar") !== 0 || !d.parts || !d.mesh_parts) throw new Error("not a parts sidecar");
+      D = d; build();
+      if (E.onLoaded) E.onLoaded();
+      E.redraw();
+    }).catch(function(){ D = null; });
+  }
+  return {
+    load:load, select:select, cardHtml:cardHtml, bind:bind, update:update, overlay:overlay, setShowAll:setShowAll,
+    /* read-only view for tests / debugging */
+    state:function(){
+      return {loaded:!!D, parts:D ? D.parts.length : 0, placements:M.length, showAll:showAll, focus:focusI, pinned:pinI,
+              sel:sel ? {mesh:sel.mesh, side:sel.s, n:sel.list.length} : null,
+              markers:M.map(function(mk){ return {j:mk.j, part:D.parts[mk.pi].id, side:mk.s, xyz:mk.xyz, cls:mk.c, e:mk.e, vis:mk.vis, why:mk.why, sx:mk.sx, sy:mk.sy, shown:!mk.el.hidden}; })};
+    }
+  };
+}
+/* PARTS-UI js end */
 var cut = {on:false};
 var cutLocal = new THREE.Plane(new THREE.Vector3(-1, 0, 0), 0), cutWorld = new THREE.Plane(), cutWorld2 = new THREE.Plane();
 var cutPlanes = [cutWorld, cutWorld2];      // the 2nd plane is the far face of the slice (Q218); with no slice it lies 1e7 mm away
@@ -1303,6 +1671,61 @@ cutCtl = NMSKCutMode({
   pickPoint:function(e){ var h = pickHit(e, null); return h ? [h.point.x - root.position.x, h.point.y - root.position.y, h.point.z - root.position.z] : null; },
   isPhone:function(){ return app.classList.contains("phone"); }
 });
+
+/* ---------- Q220 sourced parts (shared controller viewer/parts_ui/, synced by scripts/sync_parts_ui_q220.py) ---------- */
+/* Engine side: the solid dot of a part marker is a three.js Points object under `root` (depth-tested, so an opaque tissue in front hides it and
+   x-ray shows it; nudged 3 mm toward the camera so it does not z-fight the surface it lies on); the ring, label and cards are DOM (shared code).
+   Visibility of a marker: its structure's meshes (layer / hide / isolate / source facet) and the cut plane + slab, decided in the shared code. */
+var partsPts = (function(){
+  var cv = document.createElement("canvas"); cv.width = cv.height = 64;
+  var g2 = cv.getContext("2d");
+  g2.fillStyle = "#1b1b1b"; g2.beginPath(); g2.arc(32, 32, 31, 0, 6.2832); g2.fill();
+  g2.fillStyle = "#ffffff"; g2.beginPath(); g2.arc(32, 32, 24, 0, 6.2832); g2.fill();
+  var tex = new THREE.CanvasTexture(cv), MAXP = 400;
+  return [9, 15].map(function(px){
+    var gg = new THREE.BufferGeometry();
+    gg.setAttribute("position", new THREE.BufferAttribute(new Float32Array(MAXP * 3), 3));
+    gg.setAttribute("color", new THREE.BufferAttribute(new Float32Array(MAXP * 3), 3));
+    gg.setDrawRange(0, 0);
+    var o = new THREE.Points(gg, new THREE.PointsMaterial({size:px, sizeAttenuation:false, vertexColors:true, map:tex, alphaTest:0.5, transparent:false, depthTest:true, depthWrite:false}));
+    o.frustumCulled = false; o.renderOrder = 998; o.visible = false; root.add(o);
+    return o;
+  });
+})();
+function partsFill(o, list, eye){
+  var pa = o.geometry.attributes.position, ca = o.geometry.attributes.color, n = Math.min(list.length, pa.count);
+  for (var i = 0; i < n; i++){
+    var d = list[i], p = d.p, dx = eye.x - p[0], dy = eye.y - p[1], dz = eye.z - p[2], l = Math.hypot(dx, dy, dz) || 1;
+    pa.setXYZ(i, p[0] + dx / l * 3, p[1] + dy / l * 3, p[2] + dz / l * 3);
+    ca.setXYZ(i, d.c[0], d.c[1], d.c[2]);
+  }
+  o.geometry.setDrawRange(0, n); pa.needsUpdate = ca.needsUpdate = true; o.visible = n > 0;
+}
+partsCtl = NMSKParts({
+  url:"parts_data.json",
+  canvasRect:function(){ return renderer.domElement.getBoundingClientRect(); },
+  project:function(p){
+    var v = new THREE.Vector4(p[0] + root.position.x, p[1] + root.position.y, p[2] + root.position.z, 1);
+    v.applyMatrix4(camera.matrixWorldInverse).applyMatrix4(camera.projectionMatrix);
+    return [v.x, v.y, v.z, v.w];
+  },
+  cut:function(){ return cut.on ? {kn:[cutLocal.normal.x, cutLocal.normal.y, cutLocal.normal.z], c:cutLocal.constant, th:cutCtl.state().th} : null; },
+  meshVisible:function(id){ var g = groups[id]; if (!g) return false; for (var i = 0; i < g.meshes.length; i++) if (g.meshes[i].visible) return true; return false; },
+  focusAt:function(p){ target.set(p[0], p[1], p[2]).add(root.position); dist = Math.min(dist, Math.max(radius * 0.3, 200)); place(); draw(); },
+  redraw:function(){ draw(); },
+  setDots:function(list){
+    var eye = camera.position.clone().sub(root.position), a = [], b = [];
+    list.forEach(function(d){ (d.big ? b : a).push(d); });
+    partsFill(partsPts[0], a, eye); partsFill(partsPts[1], b, eye);
+  },
+  toolbar:document.getElementById("tools"), toolClass:"tool",
+  isPhone:function(){ return app.classList.contains("phone"); },
+  onLoaded:function(){   /* re-render the open card now that the sidecar has arrived (without the phone sheet popping open) */
+    if (!selected) return;
+    var lr = layoutReady; layoutReady = false; select(selected); layoutReady = lr;
+  }
+});
+window.__partsState = function(){ return partsCtl.state(); };
 
 /* ---------- Q188 add-on hook ---------- */
 /* Generic, anatomy-only API handed to an optional add-on script loaded from a
@@ -1441,6 +1864,7 @@ renderList();
 applyLayout();
 select(byId["biceps_femoris_r"] ? "biceps_femoris_r" : BUNDLE.structures[0].id);
 layoutReady = true;
+partsCtl.load();     // Q220: parts_data.json beside the page (graceful fallback when absent)
 setTimeout(function(){ app.classList.add("anim"); }, 400);  /* no slide on the first layout switch */
 new MutationObserver(draw).observe(document.documentElement, {attributes:true, attributeFilter:["data-theme"]});
 if (window.matchMedia) matchMedia("(prefers-color-scheme:dark)").addEventListener("change", draw);

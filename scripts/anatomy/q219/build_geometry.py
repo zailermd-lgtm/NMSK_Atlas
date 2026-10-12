@@ -337,6 +337,8 @@ def validate_rules(bodies, parts):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--bodies", default="vhm,vhf,zan_m,zan_f")
+    ap.add_argument("--out", default="data/derived/Q219_parts_{k}.json", help="output path template (Q220 runs the same rules on the unfitted Z bodies: data/derived/Q220_parts_{k}.json)")
+    ap.add_argument("--skip-validation", action="store_true", help="do not rewrite Q219_rule_validation.json (needs the fitted Z bodies)")
     a = ap.parse_args()
     table = json.loads(TABLE.read_text())
     parts = table["parts"]
@@ -353,8 +355,9 @@ def main():
         p["_structure_zpats"] = sorted(set(struct_pats[p["structure_id"]]))
     keys = a.bodies.split(",")
     bodies = {k: Body(k) for k in keys}
-    val = validate_rules(bodies, parts)
-    (REPO / "data/derived/Q219_rule_validation.json").write_text(json.dumps(val, indent=1) + "\n")
+    if not a.skip_validation:
+        val = validate_rules(bodies, parts)
+        (REPO / "data/derived/Q219_rule_validation.json").write_text(json.dumps(val, indent=1) + "\n")
     for k in keys:
         body = bodies[k]
         placed, text_only = [], []
@@ -402,7 +405,7 @@ def main():
                    counts=dict(placed=len(placed), parts_with_a_placement=len({x["part_id"] for x in placed}), text_only=len([t for t in text_only if not t.get("partial")]),
                                placed_by_rule=dict(Counter(x["rule"] for x in placed)), placed_by_class=dict(Counter(x["source_class"] for x in placed))),
                    placed=placed, text_only=text_only)
-        (REPO / f"data/derived/Q219_parts_{k}.json").write_text(json.dumps(out, indent=1) + "\n")
+        (REPO / a.out.format(k=k)).write_text(json.dumps(out, indent=1) + "\n")
         print(k, out["counts"])
 
 
