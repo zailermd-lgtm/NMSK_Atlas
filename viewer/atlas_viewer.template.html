@@ -2481,6 +2481,8 @@ function NMSKCap(E){
     },
     lookAtFace: function(){
       var c = E.cut(); if (!c || !c.on) return false;
+      var pn = $("cut-panel"), mn = $("cut-min");                  // phones: the open cut panel covers the model, so it folds down to its header (the arrow reopens it)
+      if (E.isPhone && E.isPhone() && pn && mn && !pn.classList.contains("cp-min")) mn.click();
       var bnd = E.bounds(), ctr = [(bnd.min[0] + bnd.max[0]) / 2, (bnd.min[1] + bnd.max[1]) / 2, (bnd.min[2] + bnd.max[2]) / 2];
       var kn = c.kn, sdist = kn[0]*ctr[0] + kn[1]*ctr[1] + kn[2]*ctr[2] + c.c, tgt = [ctr[0] - sdist*kn[0], ctr[1] - sdist*kn[1], ctr[2] - sdist*kn[2]], ext = 0;
       var r = st.res[0];
@@ -2798,6 +2800,7 @@ capCtl = NMSKCap({
   upload:capUpload, redraw:function(){ draw(); },
   show:function(f, v){ var o = capFaces[f]; if (o){ o.quad.visible = o.lines.visible = v; draw(); } },
   bounds:function(){ return {min:[minv.x, minv.y, minv.z], max:[maxv.x, maxv.y, maxv.z]}; },
+  isPhone:function(){ return !!app && app.classList.contains("phone"); },
   canvasRect:function(){ return renderer.domElement.getBoundingClientRect(); },
   lookAt:function(dir, tgt, ext, fr){             // dir = unit vector from the target toward the eye (the removed side); ext = size of the cut face in mm; fr = the free part of the canvas
     fr = fr || {cx:0.5, cy:0.5, w:1, h:1};

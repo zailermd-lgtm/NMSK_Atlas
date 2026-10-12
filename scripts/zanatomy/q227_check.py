@@ -64,6 +64,7 @@ def new_page(b, vp, mobile, touch, blocked=False):
     if blocked:
         ctx.add_init_script("(function(){var t=function(){throw new Error('blocked')};try{Storage.prototype.setItem=t;Storage.prototype.getItem=t;Storage.prototype.removeItem=t;}catch(e){}})();")
     pg = ctx.new_page()
+    pg.set_default_timeout(240000)                                    # a swiftshader frame of the whole body can take many seconds on a busy machine
     pg.errs, pg.notes = [], []
     pg.on("pageerror", lambda e: pg.errs.append(str(e)))
     pg.on("console", lambda m: pg.errs.append("console:" + m.text) if m.type == "error" and "Failed to load resource" not in m.text else None)
@@ -414,6 +415,7 @@ def cap_checks(pg, ctx, name, touch, tap, js, R, light=False):
         pass
     cs = js("window.__capState()")
     ok["xray_recolours_the_cap"] = cs["recolors"] >= 1 or cs["builds"] > b0
+    info["xray_cap_state"] = {k: cs[k] for k in ("on", "builds", "recolors", "busy", "showing")}; info["xray_builds_before"] = b0
     js("document.querySelector(%r).click()" % XRAY); pg.wait_for_timeout(800)
     # fill off removes it
     js("document.getElementById('cut-fill').click()"); pg.wait_for_timeout(500)
@@ -440,6 +442,7 @@ try:
             try:
                 run_viewport(b, name, (w, h), mobile, touch, R)
             except Exception as e:                                         # keep going: record the failure (the checks made so far are kept)
+                import traceback; traceback.print_exc(file=sys.stderr)
                 R["checks"]["completed"] = False; R["errors"].append(repr(e)[:400])
             R["seconds"] = round(time.time() - t0, 1)
             res["viewports"][name] = R

@@ -16,7 +16,7 @@
 #   zan_vhm build/q222/viewer_zan_vhm     Z male FITTED
 #   base_f build/q222/viewer_base_female  female BASE (Z generic body, female variant)
 # Env: Q226_OUT (default build/q226), TEMPLATE_OWN / TEMPLATE_ZAN (default viewer/*.template.html).
-# Z-fit pages being rebuilt elsewhere (build/q225*) are never read or written here.
+# Z-fit pages being rebuilt elsewhere (build/q225*) are never read or written here (Q226_ALLOW_Q225=1 lifts the guard once Q225 has landed).
 set -eu; cd "$(dirname "$0")/.."
 OUT=${Q226_OUT:-build/q226}
 TOWN=${TEMPLATE_OWN:-viewer/atlas_viewer.template.html}; TZAN=${TEMPLATE_ZAN:-viewer/zan_atlas.template.html}
@@ -27,7 +27,7 @@ PAGES=("$@"); [ ${#PAGES[@]} -gt 0 ] || PAGES=(own_m own_f zan_m zan_f zan_vhm b
 for p in "${PAGES[@]}"; do
   [ -n "${KIND[$p]:-}" ] || { echo "unknown page '$p' (own_m own_f zan_m zan_f zan_vhm base_f)" >&2; exit 2; }
   v="SRC_$p"; src=${!v:-${SRC[$p]}}
-  case "$src" in *q225*) echo "$p: refusing to read $src (Q225 is being built elsewhere)" >&2; exit 2;; esac
+  case "$src" in *q225*) [ "${Q226_ALLOW_Q225:-0}" = 1 ] || { echo "$p: refusing to read $src (Q225 is being built elsewhere; set Q226_ALLOW_Q225=1 once it has landed)" >&2; exit 2; };; esac
   [ -d "$src" ] || { echo "$p: source dir $src missing" >&2; exit 2; }
   name=$(basename "$src"); dst="$OUT/$name"; mkdir -p "$dst"
   html=$(cd "$src" && ls atlas_viewer*.html | head -1)

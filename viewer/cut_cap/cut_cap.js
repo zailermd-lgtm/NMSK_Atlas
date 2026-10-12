@@ -411,6 +411,8 @@ function NMSKCap(E){
     },
     lookAtFace: function(){
       var c = E.cut(); if (!c || !c.on) return false;
+      var pn = $("cut-panel"), mn = $("cut-min");                  // phones: the open cut panel covers the model, so it folds down to its header (the arrow reopens it)
+      if (E.isPhone && E.isPhone() && pn && mn && !pn.classList.contains("cp-min")) mn.click();
       var bnd = E.bounds(), ctr = [(bnd.min[0] + bnd.max[0]) / 2, (bnd.min[1] + bnd.max[1]) / 2, (bnd.min[2] + bnd.max[2]) / 2];
       var kn = c.kn, sdist = kn[0]*ctr[0] + kn[1]*ctr[1] + kn[2]*ctr[2] + c.c, tgt = [ctr[0] - sdist*kn[0], ctr[1] - sdist*kn[1], ctr[2] - sdist*kn[2]], ext = 0;
       var r = st.res[0];

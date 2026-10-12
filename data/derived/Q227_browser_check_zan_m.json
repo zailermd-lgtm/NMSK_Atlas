@@ -1,0 +1,709 @@
+{
+ "page": "zan_m",
+ "kind": "zan",
+ "viewports": {
+  "desktop": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "layer_off_hides_marked_in_it": true,
+    "layer_on_shows_them_again": true,
+    "xray_with_selection_works": true,
+    "parts_markers_follow_selection": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "shift_click_marks": true,
+    "ctrl_click_unmarks": true,
+    "mark_by_clicking": true,
+    "plain_click_still_selects": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "hover_on_cap_names_the_structure": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_recolours_the_cap": true,
+    "fill_off_removes_the_cap": true,
+    "remembered_last_selection_after_reload": true,
+    "link_in_the_address_restores": true,
+    "no_errors_on_reload": true,
+    "blocked_storage_page_works": true,
+    "blocked_storage_says_so": true,
+    "blocked_storage_export_works": true
+   },
+   "info": {
+    "ss_phone_class": false,
+    "marked_layer": "muscle",
+    "parts_markers_visible_only_vs_all": [
+     2,
+     128
+    ],
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 55
+    },
+    "probe_structure": "zan_dorsal_digital_veins_of_hand_r",
+    "link_chars": 59,
+    "sel_state": {
+     "marks": [
+      "zan_dorsal_digital_veins_of_hand_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:vhm",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 50,
+       "filled": 50,
+       "outline_only": 0,
+       "ms": 25,
+       "odd_rows": 0,
+       "rows": 3476
+      },
+      "thigh": {
+       "structures_cut": 72,
+       "filled": 70,
+       "outline_only": 0,
+       "ms": 111,
+       "odd_rows": 0,
+       "rows": 4243
+      },
+      "forearm": {
+       "structures_cut": 160,
+       "filled": 158,
+       "outline_only": 1,
+       "ms": 309,
+       "odd_rows": 11,
+       "rows": 7585
+      },
+      "thorax": {
+       "structures_cut": 229,
+       "filled": 214,
+       "outline_only": 13,
+       "ms": 81,
+       "odd_rows": 425,
+       "rows": 11431
+      }
+     },
+     "cap_pixel": {
+      "key": "sciatic_n_r",
+      "texel": [
+       217,
+       195,
+       63,
+       255
+      ],
+      "screen_rgb": [
+       217,
+       195,
+       63
+      ],
+      "max_dev": 0.0
+     },
+     "hover": "Sciatic nerve (right)",
+     "card": "Sciatic nerve (right)"
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js",
+    "404 clinical_needle_tool.js"
+   ],
+   "seconds": 329.6
+  },
+  "laptop": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "shift_click_marks": true,
+    "ctrl_click_unmarks": true,
+    "mark_by_clicking": true,
+    "plain_click_still_selects": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "hover_on_cap_names_the_structure": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_recolours_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": false,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 60
+    },
+    "probe_structure": "zan_dorsal_digital_veins_of_hand_r",
+    "link_chars": 59,
+    "sel_state": {
+     "marks": [
+      "zan_dorsal_digital_veins_of_hand_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:vhm",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 42,
+       "odd_rows": 0,
+       "rows": 5458
+      }
+     },
+     "cap_pixel": {
+      "key": "vastus_medialis_l",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "hover": "Vastus medialis",
+     "card": "Vastus medialis"
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js",
+    "404 clinical_needle_tool.js"
+   ],
+   "seconds": 126.5
+  },
+  "tablet": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "touch_targets_ge_38px": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_recolours_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": true,
+    "min_tap_px": 38,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 20
+    },
+    "probe_structure": "zan_dorsal_digital_branches_of_radial_nerve_r",
+    "link_chars": 70,
+    "sel_state": {
+     "marks": [
+      "zan_dorsal_digital_branches_of_radial_nerve_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:vhm",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 34,
+       "odd_rows": 0,
+       "rows": 5458
+      }
+     },
+     "cap_pixel": {
+      "key": "adductor_magnus_r",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Adductor magnus"
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js",
+    "404 clinical_needle_tool.js"
+   ],
+   "seconds": 111.6
+  },
+  "tablet_l": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_recolours_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": false,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 37
+    },
+    "probe_structure": "zan_dorsal_digital_veins_of_hand_r",
+    "link_chars": 59,
+    "sel_state": {
+     "marks": [
+      "zan_dorsal_digital_veins_of_hand_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:vhm",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 174,
+       "odd_rows": 0,
+       "rows": 5458
+      }
+     },
+     "cap_pixel": {
+      "key": "semitendinosus_l",
+      "texel": [
+       178,
+       72,
+       61,
+       255
+      ],
+      "screen_rgb": [
+       178,
+       72,
+       61
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Semitendinosus"
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js",
+    "404 clinical_needle_tool.js"
+   ],
+   "seconds": 112.8
+  },
+  "phone": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "touch_targets_ge_38px": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "layer_off_hides_marked_in_it": true,
+    "layer_on_shows_them_again": true,
+    "xray_with_selection_works": true,
+    "parts_markers_follow_selection": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": true,
+    "cap_pixel_equals_the_texel_colour": true,
+    "click_on_cap_selects_the_structure": true,
+    "click_on_cap_shows_its_card": true,
+    "xray_recolours_the_cap": false,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": true,
+    "min_tap_px": 38,
+    "marked_layer": "muscle",
+    "parts_markers_visible_only_vs_all": [
+     2,
+     128
+    ],
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 14
+    },
+    "probe_structure": "zan_dorsal_digital_veins_of_hand_r",
+    "link_chars": 59,
+    "sel_state": {
+     "marks": [
+      "zan_dorsal_digital_veins_of_hand_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:vhm",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 50,
+       "filled": 50,
+       "outline_only": 0,
+       "ms": 22,
+       "odd_rows": 0,
+       "rows": 3476
+      },
+      "thigh": {
+       "structures_cut": 71,
+       "filled": 69,
+       "outline_only": 0,
+       "ms": 435,
+       "odd_rows": 0,
+       "rows": 4221
+      },
+      "forearm": {
+       "structures_cut": 160,
+       "filled": 158,
+       "outline_only": 1,
+       "ms": 73,
+       "odd_rows": 11,
+       "rows": 7585
+      },
+      "thorax": {
+       "structures_cut": 229,
+       "filled": 214,
+       "outline_only": 13,
+       "ms": 43,
+       "odd_rows": 425,
+       "rows": 11431
+      }
+     },
+     "cap_pixel": {
+      "key": "sciatic_n_r",
+      "texel": [
+       217,
+       195,
+       63,
+       255
+      ],
+      "screen_rgb": [
+       217,
+       195,
+       63
+      ],
+      "max_dev": 0.0
+     },
+     "card": "Sciatic nerve (right)"
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js",
+    "404 clinical_needle_tool.js"
+   ],
+   "seconds": 166.3
+  },
+  "phone_l": {
+   "checks": {
+    "no_hscroll": true,
+    "selection_ui_present": true,
+    "list_has_tick_buttons": true,
+    "touch_targets_ge_38px": true,
+    "two_marked_from_list": true,
+    "chips_match": true,
+    "tick_pressed": true,
+    "only_shows_exactly_the_marked": true,
+    "toolbar_label_show_all": true,
+    "ghost_keeps_the_rest_drawn": true,
+    "ghost_rule_on_unmarked": true,
+    "hide_marked_hides_only_them": true,
+    "hide_toggles_back_to_all": true,
+    "cut_on_with_selection": true,
+    "cap_built_with_selection": true,
+    "slab_has_a_far_face": true,
+    "no_slab_no_far_face": true,
+    "reset_selection_clears_marks_and_modes": true,
+    "reset_selection_keeps_the_cut": true,
+    "reset_shows_more_than_the_marked": true,
+    "exit_cut_clears_the_cap": true,
+    "mark_by_tapping": true,
+    "mark_mode_off_again": true,
+    "long_press_toggles_the_mark": true,
+    "long_press_marks": true,
+    "long_press_did_not_select_a_card": true,
+    "saved_set_listed": true,
+    "saved_in_localstorage_keyed_by_model": true,
+    "load_restores_the_marks": true,
+    "export_is_json_with_the_set": true,
+    "delete_removes_the_set": true,
+    "import_brings_it_back": true,
+    "share_link_has_model_and_ids": true,
+    "landmarks_found": true,
+    "fill_off_shows_no_cap": true,
+    "fill_button_pressed": true,
+    "cap_filled_structures": true,
+    "cap_info_text": true,
+    "cap_build_under_500ms": true,
+    "cap_changes_the_picture": true,
+    "look_at_cut_face_is_perpendicular": true,
+    "cap_texel_candidates_on_screen": false,
+    "xray_recolours_the_cap": true,
+    "fill_off_removes_the_cap": true
+   },
+   "info": {
+    "ss_phone_class": true,
+    "min_tap_px": 38,
+    "cap_with_selection": {
+     "structures": 2,
+     "ms": 14
+    },
+    "probe_structure": "zan_third_metacarpal_bone_r",
+    "link_chars": 52,
+    "sel_state": {
+     "marks": [
+      "zan_third_metacarpal_bone_r"
+     ],
+     "mode": "all",
+     "ghost": false,
+     "markMode": false,
+     "storageOK": true,
+     "sets": [
+      "Check set"
+     ],
+     "model": "zan:vhm",
+     "remember": true
+    },
+    "cap": {
+     "planes": {
+      "femoral_shaft": {
+       "structures_cut": 54,
+       "filled": 54,
+       "outline_only": 0,
+       "ms": 42,
+       "odd_rows": 0,
+       "rows": 5458
+      }
+     }
+    }
+   },
+   "errors": [],
+   "http_ge_400": [
+    "404 clinical_imaging_tool.js",
+    "404 clinical_needle_tool.js"
+   ],
+   "seconds": 66.8
+  }
+ }
+}

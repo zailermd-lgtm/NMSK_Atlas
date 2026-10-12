@@ -127,6 +127,16 @@
       m.fill(1, j * W + i0, j * W + i1 + 1);
       if (i0 < bx0) bx0 = i0; if (i1 > bx1) bx1 = i1; if (j < by0) by0 = j; if (j > by1) by1 = j;
     }
+    function drawLabel(ns, W, H, lab, sid, cls, st) {
+      for (var k = 0; k < ns; k++) {
+        var x0 = segs[4 * k], y0 = segs[4 * k + 1], x1 = segs[4 * k + 2], y1 = segs[4 * k + 3];
+        var len = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0)), n = Math.ceil(len * 2) + 1, q;
+        for (q = 0; q <= n; q++) {
+          var f = n ? q / n : 0, xi = Math.floor(x0 + (x1 - x0) * f), yi = Math.floor(y0 + (y1 - y0) * f);
+          if (xi >= 0 && xi < W && yi >= 0 && yi < H) { lab[yi * W + xi] = cls; if (sid) sid[yi * W + xi] = st; }
+        }
+      }
+    }
     function drawOutline(ns, W, H, m) {                                     // 8-connected raster of every segment (skin contour)
       for (var k = 0; k < ns; k++) {
         var x0 = segs[4 * k], y0 = segs[4 * k + 1], x1 = segs[4 * k + 2], y1 = segs[4 * k + 3];
@@ -155,6 +165,25 @@
         if (y < rh - 1) { v = Math.min(v, D[j + w] + 3); if (x < rw - 1) v = Math.min(v, D[j + w + 1] + 4); if (x > 0) v = Math.min(v, D[j + w - 1] + 4); }
         D[j] = v;
       }
+    }
+
+    /* ---- exact Euclidean distance (Felzenszwalb-Huttenlocher) to the nearest 0 pixel; D in/out as Float32 squared distance ---- */
+    var eF = new Float64Array(0), eD = new Float64Array(0), eV = new Int32Array(0), eZ = new Float64Array(0);
+    function dt1(n) {
+      var k = 0, q, r, s;
+      eV[0] = 0; eZ[0] = -1e30; eZ[1] = 1e30;
+      for (q = 1; q < n; q++) {
+        for (;;) { r = eV[k]; s = ((eF[q] + q * q) - (eF[r] + r * r)) / (2 * q - 2 * r); if (s <= eZ[k]) k--; else break; if (k < 0) { k = 0; break; } }
+        k++; eV[k] = q; eZ[k] = s; eZ[k + 1] = 1e30;
+      }
+      k = 0;
+      for (q = 0; q < n; q++) { while (eZ[k + 1] < q) k++; r = eV[k]; eD[q] = (q - r) * (q - r) + eF[r]; }
+    }
+    function edt(D, rw, rh) {                                             // D: Float32Array(rw*rh), 0 = background, else INF; result: squared distance in pixels
+      var m = Math.max(rw, rh) + 2, x, y;
+      if (eF.length < m) { eF = new Float64Array(m); eD = new Float64Array(m); eV = new Int32Array(m); eZ = new Float64Array(m + 1); }
+      for (x = 0; x < rw; x++) { for (y = 0; y < rh; y++) eF[y] = D[y * rw + x]; dt1(rh); for (y = 0; y < rh; y++) D[y * rw + x] = eD[y]; }
+      for (y = 0; y < rh; y++) { for (x = 0; x < rw; x++) eF[x] = D[y * rw + x]; dt1(rw); for (x = 0; x < rw; x++) D[y * rw + x] = eD[x]; }
     }
 
     /* ---- the slice ----
@@ -199,7 +228,7 @@
       var lab = new Uint8Array(N); lab.fill(255);
       var sid = R.wantSid ? new Uint16Array(N) : null; if (sid) sid.fill(65535);
       if (M.length < N) M = new Uint8Array(N);
-      var body = new Uint8Array(N), ids = R.ids, nSeg = 0, nCand = 0;
+      var body = new Uint8Array(N), ids = R.ids, nSeg = 0, nCand = 0, badSt = [];
       /* skin: union of all skin structures' segments -> one even-odd fill + outline */
       var sk = 0, skSegs = null;
       for (i = 0; i < cand.length; i++) {
@@ -219,15 +248,17 @@
         for (k = 0; k < N; k++) body[k] = M[k];
         drawOutline(sk, W, H, body);
       }
-      /* the other structures in paint order */
+      /* the other structures in paint order (sheets are drawn after the solids) */
       for (i = 0; i < cand.length; i++) {
         var st3 = cand[i];
-        if (g.skin[st3]) continue;
+        if (g.skin[st3] || (g.render && g.render[st3] === 1)) continue;
         if (s < sdmin[st3] || s >= sdmax[st3]) continue;
         var n3 = collect(st3, s); if (!n3) continue;
         nCand++; nSeg += n3;
         M.fill(0, 0, N);
+        var pb0 = parityBad;
         fillMask(n3, W, H, M);
+        if (parityBad > pb0) badSt.push([st3, parityBad - pb0]);
         if (bx1 < bx0) continue;
         var cls = g.cls[st3], kd = g.kind[st3];
         if (kd === 0 || kd === 5) {
@@ -236,6 +267,14 @@
             for (k = bx0; k <= bx1; k++) if (M[rb + k]) { lab[rb + k] = cls; if (sid) sid[rb + k] = st3; }
           }
         } else boneFill(st3, kd, R, lab, sid, W, H, px, s);
+      }
+      for (i = 0; i < cand.length; i++) {                                   // thin sheets (fascia, septa, capsules, dura): a one-pixel line, never a filled volume
+        var st4 = cand[i];
+        if (!g.render || g.render[st4] !== 1 || g.skin[st4]) continue;
+        if (s < sdmin[st4] || s >= sdmax[st4]) continue;
+        var n4 = collect(st4, s); if (!n4) continue;
+        nCand++; nSeg += n4;
+        drawLabel(n4, W, H, lab, sid, g.cls[st4], st4);
       }
       /* body = skin fill + outline + everything painted; exterior = flood from the border over the rest */
       for (k = 0; k < N; k++) if (lab[k] !== 255) body[k] = 1;
@@ -258,23 +297,23 @@
         var thr = Math.max(R.skinMm, px) / px * 3;
         for (k = 0; k < N; k++) if (!ext[k]) { bodyPx++; if (D[k] <= thr) { lab[k] = ids.skin; if (sid) sid[k] = 65534; } }
       }
-      return {lab: lab, sid: sid, ms: Date.now() - t0, nCand: nCand, nSeg: nSeg, tris: triCount, parityBad: parityBad, bodyPx: bodyPx};
+      return {lab: lab, sid: sid, ms: Date.now() - t0, nCand: nCand, nSeg: nSeg, tris: triCount, parityBad: parityBad, bodyPx: bodyPx, badSt: badSt};
     }
 
     function boneFill(st, kd, R, lab, sid, W, H, px, s) {
       var P = R.bone[kd], ids = R.ids;
-      var rw = bx1 - bx0 + 3, rh = by1 - by0 + 3, D = new Uint16Array(rw * rh), x, y;
+      var rw = bx1 - bx0 + 3, rh = by1 - by0 + 3, D = new Float32Array(rw * rh), x, y;
       for (y = 0; y < rh; y++) {
         var sy = Math.min(H - 1, Math.max(0, by0 - 1 + y));
         for (x = 0; x < rw; x++) {
           var sx = Math.min(W - 1, Math.max(0, bx0 - 1 + x));
-          D[y * rw + x] = M[sy * W + sx] ? 65000 : 0;
+          D[y * rw + x] = M[sy * W + sx] ? 1e9 : 0;
         }
       }
-      chamfer(D, rw, rh);
+      edt(D, rw, rh);
       var rmax = 0;
-      for (y = 1; y < rh - 1; y++) for (x = 1; x < rw - 1; x++) { var dv = D[y * rw + x]; if (dv > rmax && dv < 60000) rmax = dv; }
-      var Rmm = rmax / 3 * px, tmaxEff = Math.min(P.tmax, Math.max(P.tthin, P.frac * Rmm));
+      for (y = 1; y < rh - 1; y++) for (x = 1; x < rw - 1; x++) { var dv = D[y * rw + x]; if (dv > rmax && dv < 1e8) rmax = dv; }
+      var Rmm = (Math.sqrt(rmax) - 0.5) * px, tmaxEff = Math.min(P.tmax, Math.max(P.tthin, P.frac * Rmm));
       var ax = 0, ay = 0, az = 0, cxm = 0, len = 1, haveAx = P.axial && axisInfo[st * 7 + 6] > 0, a0 = 0, au = 0, av = 0, an = 0;
       if (haveAx) {
         var ai = st * 7; cxm = axisInfo[ai]; var cym = axisInfo[ai + 1], czm = axisInfo[ai + 2]; ax = axisInfo[ai + 3]; ay = axisInfo[ai + 4]; az = axisInfo[ai + 5]; len = axisInfo[ai + 6];
@@ -285,14 +324,14 @@
         for (x = bx0; x <= bx1; x++) {
           var p = y * W + x;
           if (!M[p]) continue;
-          var d = D[(y - by0 + 1) * rw + (x - bx0 + 1)], dmm = d / 3 * px, w = 0;
+          var d = D[(y - by0 + 1) * rw + (x - bx0 + 1)], dmm = (Math.sqrt(d) - 0.5) * px, w = 0;   // distance from the pixel centre to the mesh edge
           if (haveAx) {
             var z = (a0 + au * (R.u0 + (x + 0.5) * px) + av * (R.v0 - (y + 0.5) * px)) / len + 0.5;
             if (z >= P.z0 && z <= P.z1) w = 1; else if (z < P.z0) w = Math.max(0, 1 - (P.z0 - z) / P.ramp); else w = Math.max(0, 1 - (z - P.z1) / P.ramp);
           }
           var tc = P.tthin + w * (tmaxEff - P.tthin); if (tc < P.tthin) tc = P.tthin;
           var c;
-          if (dmm <= Math.max(tc, px)) c = ids.cort; else if (P.canal && w > 0.5) c = ids.marrow; else c = ids.canc;
+          if (dmm <= Math.max(tc, 0.5 * px)) c = ids.cort; else if (P.canal && w > 0.5) c = ids.marrow; else c = ids.canc;
           lab[p] = c; if (sid) sid[p] = st;
         }
       }
@@ -308,7 +347,7 @@
     T.classes.forEach(function (c, ix) { c._i = ix; by[c.key] = c; });
     var rules = T.mapping_rules.rules.map(function (r, ix) {
       if (!by[r.cls]) throw new Error("mapping rule " + ix + ": unknown class " + r.cls);
-      return {cat: r.cat || null, re: r.re ? new RegExp(r.re, "i") : null, vt: r.vt || null, cls: by[r.cls]._i, kind: r.kind || null, why: r.why, ix: ix};
+      return {cat: r.cat || null, re: r.re ? new RegExp(r.re, "i") : null, vt: r.vt || null, cls: by[r.cls]._i, kind: r.kind || null, render: r.render || null, why: r.why, ix: ix};
     });
     var fb = by[T.mapping_rules.fallback.cls]._i;
     var kinds = {};
@@ -322,9 +361,9 @@
       if (r.cat && r.cat.indexOf(rec.cat) < 0) continue;
       if (r.vt && rec.vt !== r.vt) continue;
       if (r.re && !r.re.test(text)) continue;
-      return {cls: r.cls, kind: r.kind, rule: r.ix, why: r.why};
+      return {cls: r.cls, kind: r.kind, render: r.render, rule: r.ix, why: r.why};
     }
-    return {cls: C.fallback, kind: null, rule: -1, why: C.T.mapping_rules.fallback.why};
+    return {cls: C.fallback, kind: null, render: null, rule: -1, why: C.T.mapping_rules.fallback.why};
   }
   function poolSignal(pool, cls, q, P, T) {
     var t1 = pool.t1, t2 = pool.t2, t2s = pool.t2s;
@@ -395,7 +434,7 @@
     var S = {
       open: false, modality: "ct", ctWin: "soft", ctW: 400, ctL: 40, seq: "t1_se", sp: null, mrW: 1, mrL: 0.5, auto: true,
       thick: 5, slab: "avg", layout: "mpr", active: "cut", fov: {cut: 450, ax: 450, co: 700, sa: 700}, res: 320,
-      P: null, noise: 0, blur: 0, cross: true, labels: true, tab: "image", lay: "auto", sections: {}
+      P: null, noise: 0, blur: 0, cross: true, labels: true, tab: "image", lay: "auto", link: false
     };
     var views = {};
     var VIEWS = [["cut", "Cut plane"], ["ax", "Axial"], ["co", "Coronal"], ["sa", "Sagittal"]];
@@ -413,7 +452,7 @@
     function buildGeometry(progress) {
       return new Promise(function (resolve, reject) {
         if (geo) return resolve(geo);
-        var recs = api.list(), n = recs.length, i = 0, nv = 0, nt = 0, geoms = new Array(n), none = 0;
+        var recs = api.list(), n = recs.length, i = 0, nv = 0, nt = 0, geoms = new Array(n), none = 0, tm = {t0: Date.now()};
         function chunk() {
           var t0 = Date.now();
           while (i < n && Date.now() - t0 < 40) {
@@ -424,16 +463,16 @@
           if (progress) progress("Reading geometry " + i + " / " + n);
           if (i < n) return setTimeout(chunk, 0);
           if (none === n) return reject(new Error("this page does not expose its geometry to add-ons (no clinical hook data)"));
-          pack();
+          tm.read = Date.now() - tm.t0; pack();
         }
         function pack() {
           var pos = new Float32Array(nv * 3), idx = new Uint32Array(nt * 3), vStart = new Uint32Array(n + 1), tStart = new Uint32Array(n + 1);
-          var bbox = new Float32Array(n * 6), cls = new Uint8Array(n), kind = new Uint8Array(n), skin = new Uint8Array(n), names = new Array(n);
+          var bbox = new Float32Array(n * 6), cls = new Uint8Array(n), kind = new Uint8Array(n), skin = new Uint8Array(n), render = new Uint8Array(n), names = new Array(n);
           var vo = 0, to = 0, k, order = [], skinList = [], kindIds = {};
           Object.keys(C.kinds).forEach(function (kk) { kindIds[kk] = C.kinds[kk].id; });
           for (k = 0; k < n; k++) {
             var g = geoms[k], rec = recs[k], cl = classify(C, rec);
-            vStart[k] = vo; tStart[k] = to; cls[k] = cl.cls; kind[k] = cl.kind ? kindIds[cl.kind] : 0; names[k] = rec.name || rec.id;
+            vStart[k] = vo; tStart[k] = to; cls[k] = cl.cls; kind[k] = cl.kind ? kindIds[cl.kind] : 0; render[k] = cl.render === "sheet" ? 1 : 0; names[k] = rec.name || rec.id;
             if (g) {
               var p = g.pos, ix = g.idx, nvk = p.length / 3, ntk = ix.length / 3, mn = [1e30, 1e30, 1e30], mx = [-1e30, -1e30, -1e30], q;
               pos.set(p, vo * 3);
@@ -447,19 +486,19 @@
           vStart[n] = vo; tStart[n] = to;
           for (k = 0; k < n; k++) { if (!geoms[k]) continue; if (skin[k]) skinList.push(k); else order.push(k); }
           order.sort(function (a, b) { return (C.T.classes[cls[a]].priority - C.T.classes[cls[b]].priority) || (a - b); });
-          geo = {n: n, pos: pos, idx: idx, vStart: vStart, tStart: tStart, bbox: bbox, cls: cls, kind: kind, skin: skin, order: Uint32Array.from(order), skinList: Uint32Array.from(skinList), names: names, recs: recs, nv: nv, nt: nt};
+          geo = {n: n, pos: pos, idx: idx, vStart: vStart, tStart: tStart, bbox: bbox, cls: cls, kind: kind, skin: skin, render: render, order: Uint32Array.from(order), skinList: Uint32Array.from(skinList), names: names, recs: recs, nv: nv, nt: nt};
           var lo = [1e30, 1e30, 1e30], hi = [-1e30, -1e30, -1e30], src = skinList.length ? skinList : order;
           src.forEach(function (s) { for (var a = 0; a < 3; a++) { lo[a] = Math.min(lo[a], bbox[s * 6 + a]); hi[a] = Math.max(hi[a], bbox[s * 6 + 3 + a]); } });
           geo.bodyBox = {lo: lo, hi: hi};
-          geoms = null;
-          startKernel(geo).then(function () { resolve(geo); }, reject);
+          geoms = null; tm.pack = Date.now() - tm.t0 - tm.read; geo.timing = tm;
+          startKernel(geo).then(function () { tm.worker = Date.now() - tm.t0 - tm.read - tm.pack; resolve(geo); }, reject);
         }
         chunk();
       });
     }
     function startKernel(g) {
       return new Promise(function (resolve) {
-        var payload = {n: g.n, pos: g.pos, idx: g.idx, vStart: g.vStart, tStart: g.tStart, bbox: g.bbox, cls: g.cls, kind: g.kind, skin: g.skin, order: g.order, skinList: g.skinList};
+        var payload = {n: g.n, pos: g.pos, idx: g.idx, vStart: g.vStart, tStart: g.tStart, bbox: g.bbox, cls: g.cls, kind: g.kind, skin: g.skin, render: g.render, order: g.order, skinList: g.skinList};
         function local() {
           workerOk = false; worker = null;
           kernelLocal = KERNEL_FACTORY()
@@ -534,19 +573,27 @@
       lastMark = Date.now();
       (keys || Object.keys(views)).forEach(function (k) { var v = views[k]; if (!v) return; v.dirty = true; v.gen = ++genSeq; v.tier = quickFirst ? 0 : 1; });
       clearTimeout(timers.pump); timers.pump = setTimeout(pump, 40);
-      clearTimeout(timers.refine); timers.refine = setTimeout(function () { Object.keys(views).forEach(function (k) { var v = views[k]; if (v.tierDone === 0) { v.dirty = true; v.tier = 1; v.gen = ++genSeq; } }); pump(); }, 450);
+      clearTimeout(timers.refine);
     }
     function visibleViews() {
       if (!S.open) return [];
       if (S.layout === "mpr") return ["cut", "ax", "co", "sa"];
       return [S.active];
     }
+    function refineSoon() {                                                 // after the quick pass: the full-resolution / full-slab pass once the input is idle
+      clearTimeout(timers.refine);
+      timers.refine = setTimeout(function () {
+        var any = false;
+        visibleViews().forEach(function (k) { var v = views[k]; if (v && v.tierDone === 0 && !v.dirty) { v.dirty = true; v.tier = 1; v.gen = ++genSeq; any = true; } });
+        if (any) pump();
+      }, 350);
+    }
     function pump() {
       if (pumping || !S.open || !geo || !C) return;
       var vis = visibleViews(), pick = null, i;
       var order = [S.active].concat(vis.filter(function (k) { return k !== S.active; }));
       for (i = 0; i < order.length; i++) { var v = views[order[i]]; if (v && vis.indexOf(v.key) >= 0 && v.dirty) { pick = v; break; } }
-      if (!pick) { setStatus(); return; }
+      if (!pick) { setStatus(); refineSoon(); return; }
       pumping = true;
       doView(pick).then(function () { pumping = false; pump(); }, function (err) { pumping = false; console.error("imaging:", err); setStatus("error: " + (err && err.message || err)); });
     }
@@ -646,12 +693,14 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch);
       var box = imgBox(v, cw, ch);
       v.box = box; v.img.style.width = box.s + "px"; v.img.style.height = box.s + "px";
-      ctx.font = "600 " + (cw < 260 ? 10 : 12) + "px system-ui,sans-serif"; ctx.textBaseline = "middle";
+      var tiny = box.s < 280;
+      ctx.font = "600 " + (tiny ? 10 : 12) + "px system-ui,sans-serif"; ctx.textBaseline = "middle";
       function txt(s, x, y, al, col) { ctx.textAlign = al; ctx.fillStyle = "rgba(0,0,0,.65)"; ctx.fillText(s, x + 1, y + 1); ctx.fillStyle = col || "#e8eef5"; ctx.fillText(s, x, y); }
       if (v.spec && S.labels) {
         var sp = v.spec;
         txt(dirLabel(sp.u), box.x + box.s - 8, box.y + box.s / 2, "right", "#ffd37a"); txt(dirLabel([-sp.u[0], -sp.u[1], -sp.u[2]]), box.x + 8, box.y + box.s / 2, "left", "#ffd37a");
-        txt(dirLabel(sp.v), box.x + box.s / 2, box.y + 10, "center", "#ffd37a"); txt(dirLabel([-sp.v[0], -sp.v[1], -sp.v[2]]), box.x + box.s / 2, box.y + box.s - 10, "center", "#ffd37a");
+        var hw = Math.max(ctx.measureText(v.label + " | " + (S.thick > 0.01 ? S.thick + " mm " + S.slab : "single slice")).width, 90) + 16;
+        txt(dirLabel(sp.v), box.x + box.s / 2, box.y + (box.s / 2 - 12 > hw + 40 ? 10 : 40), "center", "#ffd37a"); txt(dirLabel([-sp.v[0], -sp.v[1], -sp.v[2]]), box.x + box.s / 2, box.y + box.s - 26, "center", "#ffd37a");
       }
       /* crosshair = anchor P in this view's plane */
       if (v.spec && S.cross && S.P) {
@@ -677,7 +726,11 @@
       var th = S.thick > 0.01 ? S.thick + " mm " + S.slab : "single slice";
       var t1 = v.label + " | " + th + (v.partial ? " | refining ..." : "");
       var t2 = S.modality === "ct" ? "CT W" + Math.round(S.ctW) + " L" + Math.round(S.ctL) : "MR " + (S.sp ? S.sp.label : "");
-      txt(t1, box.x + 8, box.y + 10, "left"); txt(t2, box.x + 8, box.y + 24, "left", "#9fd0ff");
+      txt(t1, box.x + 8, box.y + 10, "left"); if (!tiny) txt(t2, box.x + 8, box.y + 24, "left", "#9fd0ff");
+      if (v.spec && !tiny) {
+        txt("FOV " + Math.round(v.px * v.W) + " mm \u00B7 " + v.px.toFixed(2) + " mm/px", box.x + 8, box.y + 38, "left", "#b8c4d2");
+        if (S.noise > 0 || S.blur > 0) txt("synthetic " + (S.noise > 0 ? "noise " : "") + (S.blur > 0 ? "blur" : ""), box.x + 8, box.y + 52, "left", "#ff9d8a");
+      }
       txt("SIMULATED – NOT A SCAN", box.x + box.s - 8, box.y + box.s - 10, "right", "#ff9d8a");
     }
     function imgBox(v, cw, ch) { var s = Math.min(cw, ch); return {x: (cw - s) / 2, y: (ch - s) / 2, s: s}; }
@@ -711,15 +764,15 @@
       "#img-root *{box-sizing:border-box}",
       "body.nmsk-img #img-root{display:flex}",
       "body.nmsk-img.img-side #img-root{top:0;right:0;bottom:0;width:var(--img-w,50vw);border-left:1px solid var(--line)}",
-      "body.nmsk-img.img-stack #img-root{left:0;right:0;bottom:0;height:var(--img-h,50vh);border-top:1px solid var(--line)}",
+      "body.nmsk-img.img-stack #img-root{left:0;right:0;bottom:0;height:var(--img-h,62vh);border-top:1px solid var(--line)}",
       "body.nmsk-img.img-tab #img-root{inset:0}",
       "body.nmsk-img.img-tab.img-t3d #img-root{display:none}",
       "body.nmsk-img.img-side #app{width:calc(100vw - var(--img-w,50vw))!important;grid-template-columns:minmax(0,1fr)!important;overflow:hidden}",
       "body.nmsk-img.img-side #app aside,body.nmsk-img.img-side #app #inspector,body.nmsk-img.img-stack #app:not(.phone) aside,body.nmsk-img.img-stack #app:not(.phone) #inspector{display:none!important}",
       "body.nmsk-img.img-stack #app:not(.phone){grid-template-columns:minmax(0,1fr)!important}",
-      "body.nmsk-img.img-stack #app{height:calc(100vh - var(--img-h,50vh))!important;min-height:0}",
+      "body.nmsk-img.img-stack #app{height:calc(100vh - var(--img-h,62vh))!important;min-height:0}",
       "body.nmsk-img.img-side.img-z #view{width:calc(100vw - var(--img-w,50vw))!important;right:auto!important}",
-      "body.nmsk-img.img-stack.img-z #view{height:calc(100vh - var(--img-h,50vh))!important;bottom:auto!important}",
+      "body.nmsk-img.img-stack.img-z #view{height:calc(100vh - var(--img-h,62vh))!important;bottom:auto!important}",
       "body.nmsk-img.img-side.img-z #topright{right:calc(var(--img-w,50vw) + .9rem)!important}",
       "body.nmsk-img.img-side.img-z #cut-panel{right:calc(var(--img-w,50vw) + 12px)!important}",
       "#img-div{position:absolute;z-index:3;background:transparent}",
@@ -745,7 +798,14 @@
       ".img-view.act{border-color:var(--acc)}",
       ".img-view canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}",
       ".img-view .ann{pointer-events:none}",
-      ".img-ctl{flex:0 0 auto;max-height:46%;overflow:auto;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px;background:var(--bg)}",
+      "#img-root.ctl-off .img-ctl{display:none}",
+      ".img-ctl .sec{display:contents}.img-ctl .sectabs{display:none;gap:4px}.img-ctl .modrow{grid-column:1/-1}",
+      "#img-root.ctl-tabs .img-ctl{grid-template-columns:1fr;max-height:42%}",
+      "#img-root.ctl-tabs .sectabs{display:flex}",
+      "#img-root.ctl-tabs .sec{display:grid;gap:6px}",
+      "#img-root.ctl-tabs .sec:not(.act){display:none}",
+      ".img-ctl{flex:0 0 auto;max-height:46%;overflow:auto;padding:6px 8px 8px;border-top:1px solid var(--line);display:grid;gap:6px 14px;background:var(--bg);grid-template-columns:repeat(auto-fit,minmax(380px,1fr));align-content:start}",
+      ".img-ctl>.img-status{grid-column:1/-1}",
       "body.img-tab .img-ctl{max-height:44%}",
       ".img-row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}",
       ".img-row label{color:var(--dim);font-size:12px}",
@@ -785,10 +845,11 @@
       b.classList.add("img-" + lay);
       b.classList.toggle("img-t3d", lay === "tab" && S.tab === "3d");
       b.classList.toggle("img-z", api.kind === "webgl");
-      fireResize();
-      setTimeout(function () { Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); }, 60);
+      fireResize(); fitControls();
+      setTimeout(function () { fitControls(); Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); }, 60);
     }
-    function fireResize() { try { window.dispatchEvent(new Event("resize")); } catch (e) {} try { api.redraw(); } catch (e2) {} }
+    var firing = false;
+    function fireResize() { firing = true; try { window.dispatchEvent(new Event("resize")); } catch (e) {} firing = false; }
 
     function build() {
       if (root) return;
@@ -797,6 +858,7 @@
       var head = el("div", {class: "img-head"}, [
         el("b", {text: "Imaging"}), el("span", {class: "img-badge", text: "Simulated from meshes – not a scan"}), el("span", {class: "img-sp"}),
         (ui.layBtn = el("button", {type: "button", title: "Layout: auto / side by side / stacked / tabs", onclick: cycleLayout, text: "◫"})),
+        (ui.ctlBtn = el("button", {type: "button", title: "Show / hide the controls (more room for the image)", "aria-pressed": "true", onclick: function () { var off = root.classList.toggle("ctl-off"); ui.ctlBtn.setAttribute("aria-pressed", String(!off)); setTimeout(function () { Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); }, 50); }, text: "Controls"})),
         el("button", {type: "button", title: "Assumptions, sources and limits of the simulation", onclick: function () { ui.info.classList.toggle("show"); }, text: "Info"}),
         el("button", {type: "button", title: "Save the active view as PNG (with the badge)", onclick: savePng, text: "PNG"}),
         el("button", {type: "button", title: "Close imaging", "aria-label": "Close imaging", onclick: function () { setOpen(false); }, text: "✕"})
@@ -836,7 +898,7 @@
       document.body.appendChild(tabs); ui.tabs = tabs;
       /* in tab layout, the panel header gets a 3D button */
       head.insertBefore(ui.to3d = el("button", {type: "button", text: "◂ 3D", title: "Back to the 3D model", onclick: function () { S.tab = "3d"; applyLayout(); }}), head.children[1]);
-      window.addEventListener("resize", function () { if (S.open) { applyLayout(); updateLayoutUI(); } });
+      window.addEventListener("resize", function () { if (S.open && !firing) { applyLayout(); updateLayoutUI(); } });
       renderInfo();
     }
     function pumpAfterShow() { Object.keys(views).forEach(function (k) { if (views[k].labels.length) annotate(views[k]); }); markDirty(null, false); }
@@ -855,13 +917,18 @@
     function buildControls(ctl) {
       /* modality + view layout */
       ui.modBtns = {};
-      var r1 = el("div", {class: "img-row"}, [
+      var mrow = el("div", {class: "img-row modrow"}, [
         (ui.modBtns.ct = el("button", {type: "button", text: "CT", onclick: function () { setModality("ct"); }})),
         (ui.modBtns.mr = el("button", {type: "button", text: "MRI", onclick: function () { setModality("mr"); }})),
         el("span", {class: "img-sp"}),
-        (ui.lay1 = el("button", {type: "button", text: "MPR 2×2", onclick: function () { setLayout("mpr"); }})),
+        (ui.secTabs = el("div", {class: "sectabs"}, [["contrast", "Contrast"], ["slab", "Slab"], ["view", "View"], ["more", "More"]].map(function (d) {
+          return el("button", {type: "button", "data-sec": d[0], text: d[1], onclick: function () { setSec(d[0]); }});
+        })))
+      ]);
+      var r1 = el("div", {class: "img-row"}, [
+        (ui.lay1 = el("button", {type: "button", text: "MPR 2\u00D72", onclick: function () { setLayout("mpr"); }})),
         VIEWS.map(function (d) { return el("button", {type: "button", "data-v": d[0], text: d[1] === "Cut plane" ? "Cut" : d[1].slice(0, 3), title: d[1] + " only", onclick: function () { S.active = d[0]; setLayout("single"); }}); })
-      ].reduce(function (a, x) { return a.concat(x); }, []));
+      ]);
       /* CT controls */
       ui.ctBox = el("div", {class: "img-row"}, [
         el("label", {text: "Window"}),
@@ -870,7 +937,7 @@
         el("label", {text: "L"}), (ui.ctL = el("input", {type: "number", step: "10", oninput: function () { S.ctL = +ui.ctL.value || 0; S.ctWin = "custom"; ui.winSel.value = "custom"; rerenderAll(); }}))
       ]);
       /* MRI controls */
-      ui.mrBox = el("div", {class: "img-ctl", style: "padding:0;border:0;max-height:none;overflow:visible"}, [
+      ui.mrBox = el("div", {class: "mrbox", style: "display:grid;gap:6px"}, [
         el("div", {class: "img-row"}, [el("label", {text: "Sequence"}), (ui.seqSel = el("select", {class: "grow", onchange: function () { setSeq(ui.seqSel.value); }}))]),
         el("div", {class: "img-row"}, [
           el("label", {text: "TR"}), (ui.tr = el("input", {type: "number", step: "10", min: "1", oninput: onSeqEdit})),
@@ -892,6 +959,7 @@
         (ui.thSl = el("input", {type: "range", min: "0", max: "100", step: "1", class: "grow", "aria-label": "Slice thickness in millimetres (0 = single slice)", oninput: function () { setThick(+ui.thSl.value, true); }})),
         (ui.thOut = el("output", {text: ""})),
         [0, 1, 3, 5, 10, 25, 50].map(function (t) { return el("button", {type: "button", "data-th": String(t), text: String(t), onclick: function () { setThick(t, true); }}); }),
+        (ui.linkBtn = el("button", {type: "button", text: "3D slab", "aria-pressed": "false", title: "Also show this slab thickness in the 3D view (off: the 3D view keeps the slab set in its Cut panel, default = the whole rest of the body)", onclick: function () { S.link = !S.link; ui.linkBtn.setAttribute("aria-pressed", String(S.link)); if (S.link) pushSlabToCut(); }})),
         el("span", {class: "img-sp"}),
         ["avg", "mip", "minip"].map(function (m) { return el("button", {type: "button", "data-slab": m, text: m === "avg" ? "Avg" : m === "mip" ? "MIP" : "MinIP", title: m === "avg" ? "Average intensity projection (thick MPR)" : m === "mip" ? "Maximum intensity projection" : "Minimum intensity projection", onclick: function () { S.slab = m; syncSlab(); rerenderAll(); }}); })
       ].reduce(function (a, x) { return a.concat(x); }, []));
@@ -909,7 +977,20 @@
         (ui.lblBtn = el("button", {type: "button", text: "labels", "aria-pressed": "true", onclick: function () { S.labels = !S.labels; ui.lblBtn.setAttribute("aria-pressed", String(S.labels)); rerenderAll(); }}))
       ]);
       ui.status = el("div", {class: "img-status", text: ""});
-      [r1, ui.ctBox, ui.mrBox, ui.slabRow, ui.fovRow, ui.optRow, ui.status].forEach(function (x) { ctl.appendChild(x); });
+      function sec(name, kids) { var d = el("div", {class: "sec", "data-sec": name}, kids); ui.secs[name] = d; return d; }
+      ui.secs = {};
+      [mrow, sec("contrast", [ui.ctBox, ui.mrBox]), sec("slab", [ui.slabRow]), sec("view", [r1, ui.fovRow]), sec("more", [ui.optRow]), ui.status].forEach(function (x) { ctl.appendChild(x); });
+      setSec(S.sec || "contrast");
+    }
+    function setSec(name) {
+      S.sec = name;
+      Object.keys(ui.secs || {}).forEach(function (k) { ui.secs[k].classList.toggle("act", k === name); });
+      Array.prototype.forEach.call(ui.secTabs.querySelectorAll("[data-sec]"), function (b) { b.setAttribute("aria-pressed", String(b.dataset.sec === name)); });
+    }
+    function fitControls() {                                                // short panels: one section of the controls at a time
+      if (!root) return;
+      var h = root.getBoundingClientRect().height;
+      root.classList.toggle("ctl-tabs", h > 0 && h < 860);
     }
     function setStatus(t) {
       if (!ui.status) return;
@@ -953,7 +1034,7 @@
     function centerViews() { Object.keys(views).forEach(function (k) { views[k].CP = null; }); markDirty(null, true); }
     function setThick(t, push) {
       S.thick = Math.max(0, Math.min(100, t)); syncSlab();
-      if (push) pushSlabToCut();
+      if (push && S.link) pushSlabToCut();
       markDirty(null, true); rerenderAll();
     }
 
@@ -966,9 +1047,17 @@
     }
     function ensureCut() {
       if (cutPlane()) return true;
-      var btn = document.getElementById("t-cut");
-      var tgt = geo && geo.bodyBox ? [(geo.bodyBox.lo[0] + geo.bodyBox.hi[0]) / 2, (geo.bodyBox.lo[1] + geo.bodyBox.hi[1]) / 2 + 0.1 * (geo.bodyBox.hi[1] - geo.bodyBox.lo[1]), (geo.bodyBox.lo[2] + geo.bodyBox.hi[2]) / 2] : api.view().target;
-      try { api.setCut({normal: [0, -1, 0], point: tgt}); } catch (e) { if (btn) btn.click(); }
+      var btn = document.getElementById("t-cut"), ax = document.querySelector('#cut-axis button[data-axis="y"]');
+      if (btn) btn.click();
+      if (ax) ax.click();                                                    // the page's own axial preset: plane through the model centre, upper part removed
+      var c0 = cutPlane(), pos = document.getElementById("cut-pos"), bb0 = geo && geo.bodyBox;
+      if (c0 && pos && bb0 && Math.abs(c0.kn[1] + 1) < 1e-6) {               // start at the upper abdomen (about 68 % of the body height) instead of the mid-thigh
+        var yT = bb0.lo[1] + 0.68 * (bb0.hi[1] - bb0.lo[1]);
+        pos.value = String(yT - c0.c); pos.dispatchEvent(new Event("input", {bubbles: true}));
+      }
+      if (cutPlane()) return true;
+      var bb = geo && geo.bodyBox, tgt = bb ? [(bb.lo[0] + bb.hi[0]) / 2, (bb.lo[1] + bb.hi[1]) / 2, (bb.lo[2] + bb.hi[2]) / 2] : api.view().target;
+      try { api.setCut({normal: [0, -1, 0], point: tgt}); } catch (e) {}
       return !!cutPlane();
     }
     function movePointToPlane() {
@@ -981,7 +1070,8 @@
       var changed = false;
       if (key !== lastPlaneKey) {
         lastPlaneKey = key;
-        if (c) { if (!S.P) S.P = api.view().target.slice(); movePointToPlane(); changed = true; }
+        if (c) { if (!S.P) S.P = api.view().target.slice(); movePointToPlane(); changed = true; setStatus(""); }
+        else setStatus("Cut mode is off: the cut-plane view needs it (press Cut). The axial / coronal / sagittal views still work.");
       }
       if (Math.abs(sl - lastSlab) > 0.01) {
         lastSlab = sl;
@@ -1102,7 +1192,9 @@
     function build2() { if (built2 || !T) return; built2 = true; syncAll(); }
     function openContinue() {
       if (!T) { renderInfo(); setStatus(tableErr ? "tissue table missing: " + tableErr : "loading"); return; }
-      build2(); renderInfo(); applyLayout(); syncAll();
+      build2(); renderInfo();
+      if (!S.layoutTouched) { var small = Math.min(window.innerWidth, window.innerHeight) < 520 || window.innerHeight < 700; S.layout = small ? "single" : "mpr"; S.res = small ? 320 : 320; S.layoutTouched = true; root.classList.toggle("ctl-off", window.innerHeight < 500 && chooseLayout() === "tab"); ui.ctlBtn.setAttribute("aria-pressed", String(!root.classList.contains("ctl-off"))); }
+      applyLayout(); syncAll();
       setStatus("Preparing geometry ...");
       buildGeometry(function (m) { setStatus(m); }).then(function () {
         geoState = "ready"; mappingReport();
@@ -1110,7 +1202,7 @@
         var c = api.cut(); lastPlaneKey = c ? c.map(function (x) { return x.toFixed(4); }).join(",") : "off"; lastSlab = api.cutSlab ? api.cutSlab() : 0;
         if (!S.P) S.P = pickAnchor();
         movePointToPlane();
-        if (lastSlab > 0.01) S.thick = Math.min(100, lastSlab); else pushSlabToCut();
+        if (lastSlab > 0.01) S.thick = Math.min(100, lastSlab);
         syncSlab();
         applyLayout();
         markDirty(null, true);
@@ -1133,7 +1225,8 @@
       var btn = el("button", {type: "button", id: "t-imaging", title: "Imaging: simulated CT and MRI of the cut plane (not a scan)", "aria-pressed": "false", text: "Imaging", onclick: function () { setOpen(!S.open); }});
       var cut = document.getElementById("t-cut");
       if (cut && cut.parentNode === host) host.insertBefore(btn, cut.nextSibling); else host.appendChild(btn);
-      if (api.kind === "webgl") btn.className = "pill";
+      btn.className = cut ? cut.className : (api.kind === "webgl" ? "pill" : "tool");
+      if (api.kind === "webgl") btn.textContent = "imaging";
       ui.btn = btn;
     }
     addButton();

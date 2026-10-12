@@ -65,6 +65,7 @@ if (!quick){
   [0.1, 0.2, 0.5, 0.8, 0.9].forEach(f => planes.push(["axial_" + Math.round(f * 100) + "pct", [0, 1, 0], bb[0][1] + f * (bb[1][1] - bb[0][1])]));
   [-60, 60].forEach(d => planes.push(["sagittal_" + d, [1, 0, 0], (bb[0][0] + bb[1][0]) / 2 + d]));
 }
+if (process.env.Q227_PLANE_Y){ planes.length = 0; planes.push(["debug_axial", [0, 1, 0], +process.env.Q227_PLANE_Y]); }     // debugging: one axial plane
 const out = {page: pageName, kind, structures_in_page: items.length, planes: [], totals: {}, by_cat: {}, worst_outline_only: {}, params: {gap_mm: 1.0, min_px_mm: 0.4, max_dim: 2048, max_odd_row_fraction: 0.12, max_odd_run_rows: 30}};
 const tot = {planes: planes.length, structures_cut: 0, filled: 0, outline_only: 0, thin: 0, rows: 0, odd_rows_after_closing: 0, odd_rows_in_filled: 0, odd_rows_in_outline_only: 0, rows_in_filled: 0, filled_with_repair: 0, rows_repaired: 0, open_ends_before: 0, open_ends_after: 0, joined_pairs: 0, duplicate_segments: 0, ms_sum: 0, ms_max: 0};
 planes.forEach(([name, n, d]) => {

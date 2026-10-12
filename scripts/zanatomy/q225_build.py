@@ -25,6 +25,24 @@ from scripts.zanatomy import q211_build as B11  # noqa: E402
 from scripts.zanatomy import q225_elbow as EL  # noqa: E402
 
 State = B11.State
+
+
+def end_distances_stable(v, bone_tree, frac=0.1):
+    """distance (mm) of the two ends of a long structure to the nearest bone: Q211's `end_distances` with a DETERMINISTIC axis sign (the SVD sign is arbitrary, so the same muscle before / after a move could report its two ends
+    swapped and the attachment guard compared the wrong ends; found in Q225 where the forearm bones move).  Sign: positive y component when the axis is mostly along y, else the larger component positive."""
+    v = np.asarray(v, float)
+    c = v.mean(0)
+    u, s_, vt = np.linalg.svd(v - c, full_matrices=False)
+    ax = vt[0]
+    k = 1 if abs(ax[1]) > 0.3 else int(np.argmax(np.abs(ax)))
+    ax = ax * (1.0 if ax[k] > 0 else -1.0)
+    t = (v - c) @ ax
+    lo, hi = t.min(), t.max()
+    return [float(bone_tree.query(v[sel].mean(0))[0]) for sel in (t < lo + frac * (hi - lo), t > hi - frac * (hi - lo))]
+
+
+from scripts.zanatomy import q211_soft as _SF  # noqa: E402
+_SF.end_distances = end_distances_stable
 ELBOW_OPTS = dict(taper=0.4, w_reg=0.3, w_pull=2.0, w_ev=0.6, ev_cap=5.0, floor_frac=0.8)
 PATELLA_OPTS = dict(rigid=True, w_rot=8.0, w_reg=0.3, w_pull=4.0, w_ev=0.6, ev_cap=5.0, floor_frac=0.8)
 RIB_OPTS = dict(taper=0.4, w_reg=0.3, w_pull=2.0, w_ev=0.6, ev_cap=5.0, floor_frac=0.8)

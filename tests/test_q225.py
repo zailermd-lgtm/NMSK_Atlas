@@ -234,3 +234,19 @@ def test_female_motor_points_regenerated_and_other_viewers_kept():
     assert before["viewer"] == "zan_f" and before["n_points"] >= 190
     risk = json.loads((REPO / "clinical" / "data" / "risk_zan_f.json").read_text())
     assert risk and len(json.dumps(risk)) > 1000
+
+
+def test_end_distances_keep_the_order_of_the_two_ends_when_the_structure_moves():
+    from scipy.spatial import cKDTree
+    from scripts.zanatomy import q225_build as B
+    rng = np.random.default_rng(1)
+    bar = np.column_stack([rng.normal(0, 3, 400), np.linspace(0, 100, 400), rng.normal(0, 3, 400)])
+    tree = cKDTree(np.array([[0.0, -2.0, 0.0], [0.0, 160.0, 0.0]]))           # bone 'below' the low end (2 mm) and 60 mm beyond the high end
+    d = B.end_distances_stable(bar, tree)
+    assert d[0] < 10 and d[1] > 50
+    th = np.radians(25.0)
+    R = np.array([[1, 0, 0], [0, np.cos(th), -np.sin(th)], [0, np.sin(th), np.cos(th)]])
+    d2 = B.end_distances_stable(bar @ R.T + np.array([0.0, 0.0, 3.0]), tree)       # tilted + shifted: still the low end first
+    assert d2[0] < d2[1]
+    d3 = B.end_distances_stable(bar[::-1].copy(), tree)                             # vertex order must not matter
+    assert abs(d3[0] - d[0]) < 1e-9 and abs(d3[1] - d[1]) < 1e-9
