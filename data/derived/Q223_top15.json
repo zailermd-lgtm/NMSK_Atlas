@@ -1,0 +1,438 @@
+{
+ "top15": [
+  {
+   "rank": 1,
+   "defect": "Own pages: veins not continuous (a stretch of the vessel is missing)",
+   "kind": "real",
+   "pages": [
+    "own_m",
+    "own_f"
+   ],
+   "region": "thigh / head_neck",
+   "sev": 3,
+   "ids": {
+    "own_m": {
+     "femoral_v_r": "62.0 mm",
+     "femoral_v_l": "35.0 mm",
+     "internal_jugular_v_r": "51.8 mm",
+     "internal_jugular_v_l": "43.8 mm"
+    },
+    "own_f": {
+     "internal_jugular_v_r": "42.5 mm",
+     "internal_jugular_v_l": "36.0 mm"
+    }
+   },
+   "fix": "bridge each vein across the gap with a centreline loft between the facing ends at the traced calibre, badged 'interpolated' (S)",
+   "render": "Q223_render_1_own_male_femoral_vein_r.png"
+  },
+  {
+   "rank": 2,
+   "defect": "Own male: thumb ray absent on both hands (no first metacarpal / phalanges; Z-fit thumb on his evidence lies 18-53 mm from the nearest own hand bone) and the thumb muscles are missing",
+   "kind": "real",
+   "pages": [
+    "own_m",
+    "own_f"
+   ],
+   "region": "wrist_hand",
+   "sev": 3,
+   "ids": {
+    "own_m": {
+     "first_metacarpal+phalanges_l/r": "18-53 mm from nearest own hand bone",
+     "abductor_pollicis_brevis_l/r": "absent",
+     "flexor_pollicis_brevis_l/r": "absent",
+     "opponens_pollicis_r": "absent"
+    },
+    "own_f": {
+     "opponens_pollicis_l": "absent",
+     "flexor_pollicis_brevis_r": "absent"
+    }
+   },
+   "fix": "place the Q205 evidence-fitted thumb chain (his CT torso block shows it) and the Q213 thumb muscles on the own male page (M)",
+   "render": "Q223_render_5_own_male_left_thumb.png"
+  },
+  {
+   "rank": 3,
+   "defect": "Own pages: muscles sawn off flat at the CT block edges (166 flat-cut findings, 16 major)",
+   "kind": "real",
+   "pages": [
+    "own_m",
+    "own_f"
+   ],
+   "region": "thorax / shoulder / head_neck / abdomen_pelvis / arm / leg",
+   "sev": 3,
+   "ids": {
+    "own_f": {
+     "longissimus_l": "1308 mm2 z=-110.2",
+     "internal_oblique_r": "833 mm2 x=147.4",
+     "iliocostalis_r": "554 mm2",
+     "external_anal_sphincter": "453 mm2 y=-38.2",
+     "semispinalis_capitis_l": "450 mm2 y=589.8",
+     "infraspinatus_l": "422 mm2"
+    },
+    "own_m": {
+     "rhomboid_minor_l": "1149 mm2 y=619.9",
+     "genioglossus_r": "737 mm2 x=17.9",
+     "trapezius_r": "585 mm2 z=-122.5",
+     "triceps_brachii_l": "576 mm2 y=272.1 (left elbow)",
+     "teres_major_r/l": "544 / 422 mm2",
+     "deep_transverse_perineal_r/l": "449 / 539 mm2 y=-38",
+     "tibialis_posterior_r": "487 mm2 z=-54"
+    }
+   },
+   "fix": "complete each muscle across its plane with badged Z (Q200 method), perineal plane + shoulder girdle + erector spinae first (M-L)",
+   "render": "Q223_render_2_own_female_longissimus_l_flat_cut.png"
+  },
+  {
+   "rank": 4,
+   "defect": "Both Z-fitted pages: bones of the LEFT elbow interpenetrate (introduced by the fit; no elbow bone pair appears in the unfitted base penetration list); all four elbows still DEFECT",
+   "kind": "real",
+   "pages": [
+    "z_male_fit",
+    "z_female_fit"
+   ],
+   "region": "elbow",
+   "sev": 3,
+   "ids": {
+    "z_male_fit": {
+     "ulna_l into humerus_l": "9.4 mm (13 % of vertices > 1 mm)",
+     "humerus_l / radius_l": "6.7 mm",
+     "radius_l / ulna_l": "6.2 / 5.0 mm"
+    },
+    "z_female_fit": {
+     "humerus_l / radius_l": "7.7 / 7.2 mm"
+    }
+   },
+   "fix": "re-seat radius + ulna on the humerus by joint congruency (trochlear notch on the trochlea), then re-carry the Q217 soft tissue with the twist map (M)",
+   "render": "Q223_render_4_zfit_male_left_elbow_bones.png"
+  },
+  {
+   "rank": 5,
+   "defect": "Own female: left wrist bones 9.0 mm apart (forearm -> carpals; Z completion not seated); her left humerus is cut flat at x=-239.8 (166 mm2)",
+   "kind": "real",
+   "pages": [
+    "own_f"
+   ],
+   "region": "wrist_hand / elbow",
+   "sev": 3,
+   "ids": {
+    "own_f": {
+     "wrist_l bone gap": "9.01 mm",
+     "humerus_l flat cut": "166 mm2 x=-239.8"
+    }
+   },
+   "fix": "re-seat carpals on the distal radius / ulna (Q200 chain) and finish the humerus end (S-M)",
+   "render": null
+  },
+  {
+   "rank": 6,
+   "defect": "Own pages carry a grouped / superseded bone mesh on top of the individual bones",
+   "kind": "real",
+   "pages": [
+    "own_f",
+    "own_m"
+   ],
+   "region": "ankle_foot / wrist_hand",
+   "sev": 2,
+   "ids": {
+    "own_f": {
+     "tarsals_r / tarsals_l vs calcaneus": "14.9 / 14.1 mm",
+     "tarsals vs cuboid": "11.4 / 10.0 mm",
+     "tarsals vs talus": "8.1 / 6.4 mm",
+     "tarsals vs navicular": "6.9 / 6.5 mm"
+    },
+    "own_m": {
+     "carpals_l / carpals_r vs carpals_*_q212": "6.2 / 5.8 mm",
+     "radius_/ulna_*_distal_q212 into carpals": "5.8-5.9 mm",
+     "cuneiform_medial_l into metatarsals_l": "7.2 mm"
+    }
+   },
+   "fix": "remove the superseded group mesh (tarsals_l/r, carpals_l/r) and re-run (S)",
+   "render": "Q223_render_3_own_female_tarsals_group_mesh.png"
+  },
+  {
+   "rank": 7,
+   "defect": "Own pages: muscles in two pieces (detached piece with 31-46 % of the surface)",
+   "kind": "real",
+   "pages": [
+    "own_m",
+    "own_f"
+   ],
+   "region": "head_neck / thorax / shoulder / arm / foot",
+   "sev": 3,
+   "ids": {
+    "own_m": {
+     "longus_capitis_r": "59.1 mm, 37 %",
+     "pectoralis_minor_r": "57.2 mm, 36 %",
+     "longus_colli_r": "35.0 mm, 34 %",
+     "trapezius_r": "17.2 mm, 46 %",
+     "plantar_interossei_r": "7.5 mm, 34 %"
+    },
+    "own_f": {
+     "longus_colli_r": "38.0 mm, 35 %",
+     "brachialis_l": "29.1 mm, 31 %",
+     "geniohyoid_r": "16.3 mm, 35 %",
+     "plantar_interossei_l/r": "11.4 / 9.2 mm",
+     "extensor_carpi_ulnaris_r": "5.8 mm, 46 %"
+    }
+   },
+   "fix": "loft-bridge the pieces (Q216 sartorius method) or merge them (S-M)",
+   "render": null
+  },
+  {
+   "rank": 8,
+   "defect": "Z-fitted pages: soft tissue not carried with the fitted bones at wrist / hand, shoulder, ankle",
+   "kind": "real",
+   "pages": [
+    "z_male_fit",
+    "z_female_fit"
+   ],
+   "region": "wrist_hand / shoulder / ankle_foot",
+   "sev": 3,
+   "ids": {
+    "z_male_fit": {
+     "wrist L / R pairs touching in the base > 5 mm apart": "76.5 % (max 87.0 mm) / 61.2 % (42.4 mm)",
+     "zan_subscapular_artery_l/r vs humerus": "29.0 / 34.0 mm frame offset",
+     "abductor_pollicis_brevis_l": "29.8 mm frame offset",
+     "ankle L / R touching pairs > 5 mm": "17.6 % / 9.1 % (26.9 mm)"
+    },
+    "z_female_fit": {
+     "wrist R / L touching pairs > 5 mm": "57.3 % (30.5 mm) / 29.7 % (21.2 mm)",
+     "zan_subscapular_artery_l/r": "29.1 / 33.5 mm",
+     "cervico-thoracic touching pairs": "21.4 % (20.9 mm)"
+    }
+   },
+   "fix": "carry the wrist / hand ligaments, fascia, small muscles, vessels and the shoulder vessels with the bone-anchored field (Q199 / Q205 / Q217 method) (M)",
+   "render": null
+  },
+  {
+   "rank": 9,
+   "defect": "Own pages: muscle ends far from their bone (hamstrings, gastrocnemius; rectus abdominis ends at costal cartilage = partly artefact)",
+   "kind": "real (hamstrings) / partly artefact",
+   "pages": [
+    "own_m",
+    "own_f"
+   ],
+   "region": "thigh / leg / thorax",
+   "sev": 2,
+   "ids": {
+    "own_m": {
+     "semimembranosus_r / _l": "78.9 / 73.8 mm",
+     "semitendinosus_l": "58.2 mm",
+     "gastrocnemius_l": "48.6 mm",
+     "biceps_femoris_l": "43.8 mm"
+    },
+    "own_f": {
+     "rectus_abdominis_r": "90.0 mm (cartilage)",
+     "semimembranosus_r / _l": "73.2 / 65.4 mm",
+     "semitendinosus_l / _r": "57.6 / 53.9 mm"
+    }
+   },
+   "fix": "Q194 / Q214 bone-driven end pull + model the tendons (L)",
+   "render": null
+  },
+  {
+   "rank": 10,
+   "defect": "Muscle-in-muscle (muscles not tiled): right forearm of the own male, both female forearms, her Z fit, trunk",
+   "kind": "real",
+   "pages": [
+    "own_m",
+    "own_f",
+    "z_male_fit",
+    "z_female_fit"
+   ],
+   "region": "forearm / wrist_hand / shoulder / thorax",
+   "sev": 2,
+   "ids": {
+    "own_m": {
+     "extensor_digiti_minimi_r": "80 %",
+     "extensor_carpi_radialis_longus_r": "76 %",
+     "internal_oblique_r": "78 %"
+    },
+    "own_f": {
+     "rhomboid_minor_r / _l": "95 / 94 %",
+     "extensor_digiti_minimi_l": "90 %",
+     "abductor_pollicis_longus_l": "89 %"
+    },
+    "z_female_fit": {
+     "flexor_digitorum_profundus_r": "76 %",
+     "pronator_quadratus_r": "77 %",
+     "supinator_l": "69 %"
+    },
+    "z_male_fit": {
+     "pectoralis_minor_r": "79 %",
+     "semispinalis_thoracis_r / _l": "75 / 74 %"
+    }
+   },
+   "fix": "apply the Q217 twist-map tiling + 1 mm separator to the remaining forearms (M)",
+   "render": null
+  },
+  {
+   "rank": 11,
+   "defect": "Z-fitted pages: patellae and floating ribs float off their bones (base < 6 mm)",
+   "kind": "real (minor)",
+   "pages": [
+    "z_male_fit",
+    "z_female_fit"
+   ],
+   "region": "knee / thorax / head_neck / shoulder",
+   "sev": 1,
+   "ids": {
+    "z_male_fit": {
+     "patella_l / _r": "11.8 / 11.4 mm from femur",
+     "eleventh / twelfth ribs": "8.9-10.8 mm",
+     "knee_l bone gap": "3.6 mm"
+    },
+    "z_female_fit": {
+     "patella_l / _r": "9.0 / 11.4 mm",
+     "eleventh / twelfth ribs": "8.3-11.6 mm",
+     "second_rib_l": "6.4 mm from T2",
+     "cervico_thoracic / head_neck / left shoulder gap": "4.5 / 3.6 / 4.0 mm"
+    }
+   },
+   "fix": "re-snap patellae, ribs 2/11/12 and the cervical / shoulder bones onto their joint surfaces (S)",
+   "render": null
+  },
+  {
+   "rank": 12,
+   "defect": "Own bones sawn flat at CT block edges (10 per page, 150-400 mm2)",
+   "kind": "real (mostly hidden)",
+   "pages": [
+    "own_m",
+    "own_f"
+   ],
+   "region": "thorax / head_neck / thigh / shoulder",
+   "sev": 2,
+   "ids": {
+    "own_m": {
+     "ribs_r": "402 mm2 z=-96.1",
+     "ribs_l": "225 mm2",
+     "scapula_r": "229 mm2",
+     "femur_r": "216 mm2 y=-457.5",
+     "cranium": "155 mm2"
+    },
+    "own_f": {
+     "ribs_r": "399 mm2 z=-95.1",
+     "cranium": "260 / 248 / 229 / 204 mm2",
+     "femur_l": "235 mm2 y=24.2",
+     "femur_r": "196 mm2",
+     "humerus_l": "166 mm2"
+    }
+   },
+   "fix": "Z-badged bone completion or accept (hidden inside the body) (M)",
+   "render": null
+  },
+  {
+   "rank": 13,
+   "defect": "Z source defects (identical in the unfitted bases): vessels / nerves / muscles in separate pieces",
+   "kind": "source quirk",
+   "pages": [
+    "z_male",
+    "z_base_f",
+    "z_male_fit",
+    "z_female_fit"
+   ],
+   "region": "head_neck / thorax / foot",
+   "sev": 3,
+   "ids": {
+    "all four Z pages": {
+     "zan_superficial_temporal_artery_l/r": "54-57 mm",
+     "zan_apical_segmental_artery_of_right_lung": "36-54 mm",
+     "spinalis_l/r": "52-53 mm pieces",
+     "plantar_interossei": "9-17 mm",
+     "posterior_femoral_cutaneous_n": "133-148 mm (base 211)",
+     "sural_n / lateral_femoral_cutaneous_n": "12.5-17 mm"
+    }
+   },
+   "fix": "bridge / merge once in the base and re-fit, or accept as source (L / accept)",
+   "render": null
+  },
+  {
+   "rank": 14,
+   "defect": "Soft tissue really inside bone (exact 0.5 mm solid, >= 3 mm and >= 8 % of vertices > 1 mm)",
+   "kind": "real (small)",
+   "pages": [
+    "own_m",
+    "own_f",
+    "z_male_fit",
+    "z_female_fit"
+   ],
+   "region": "forearm / foot / thorax",
+   "sev": 2,
+   "ids": {
+    "own_m": {
+     "extensor_carpi_ulnaris_r": "9.9 mm",
+     "flexor_digitorum_profundus_l": "5.4 mm"
+    },
+    "own_f": {
+     "fibularis_longus_l": "6.4 mm",
+     "extensor_hallucis_brevis_r": "6.4 mm",
+     "extensor_digitorum_brevis_r": "6.0 mm",
+     "palmar_interossei_r": "5.1 mm"
+    },
+    "z_male_fit": {
+     "flexor_carpi_ulnaris_l": "7.6 mm",
+     "extensor_hallucis_brevis_l": "6.6 mm",
+     "zan_internal_intercostal_muscles_r": "5.4 mm"
+    },
+    "z_female_fit": {
+     "zan_internal_intercostal_muscles_l": "5.2 mm",
+     "superficial_fibular_n_medial_dorsal_cutaneous_n_r": "5.7 mm"
+    }
+   },
+   "fix": "push out of the bone with the Q213 field (S per page)",
+   "render": null
+  },
+  {
+   "rank": 15,
+   "defect": "Z-fitted skin patch borders: her feet (43 more border gaps than the base, max 23.1 vs 12.3 mm), source border gaps in both Z skins",
+   "kind": "real (hers) / source",
+   "pages": [
+    "z_female_fit",
+    "z_male_fit"
+   ],
+   "region": "ankle_foot / head_neck",
+   "sev": 1,
+   "ids": {
+    "z_female_fit": {
+     "foot border gaps 2-20 mm": "43 (base 0), max 18.9 mm"
+    },
+    "all Z pages": {
+     "foot border vertices without a partner patch within 20 mm": "272-274 (identical in base)",
+     "head_neck border gaps 2-12 mm": "78-79 (identical in base)"
+    }
+   },
+   "fix": "weld the shared border vertices (Q202 / Q205 rule) (S)",
+   "render": null
+  }
+ ],
+ "audit_artefacts": [
+  {
+   "name": "Q204 inside_bone 2 mm solid",
+   "detail": "the 2 mm voxel solid is 20-40 % fatter than the bone meshes (Q217); exact 0.5 mm re-measure of every severity >= 2 inside_bone finding: Own male 20 of 22; Own female 35 of 41; Z fit his 35 of 44; Z fit hers 38 of 46; Base female 87 of 92; Base male 87 of 92 are artefact (exact < 3 mm or < 8 % of vertices > 1 mm)"
+  },
+  {
+   "name": "Q204 bone-bone penetration at elbows / sinus",
+   "detail": "own male left elbow humerus/radius 9.8 mm -> exact 0.0 mm, humerus/ulna 6.0 -> 1.0, radius/ulna 6.0 -> 1.4; sphenoid / sphenoid sinus 7.5-8.0 -> 1.0 mm (all pages); teeth in maxilla are sockets"
+  },
+  {
+   "name": "flexed-pose elbow metrics (pose-unaware section planes)",
+   "detail": "skin cross-section radius jumps 33.9-36.5 mm at t = 59-74 mm on all four Z-fit elbows (the section plane cuts the flexed forearm obliquely; the same as the Q205 neck step); own male left 'forearm leaves the hinge plane 43.6 deg'; own female ulna twist 56-58 deg (pronated forearm), her Z fit 42 deg; none is a tear"
+  },
+  {
+   "name": "Z multi-piece vessels / nerves in elbow zones",
+   "detail": "posterior_femoral_cutaneous_n (133-186 mm, base 211), radial_n 27-39 mm, muscular branches of median / ulnar n 37-62 mm are listed as 'continuity gaps' at the elbow: identical in the unfitted base (by design: separate branch pieces)"
+  },
+  {
+   "name": "muscle end-off-bone for broad muscles / cartilage insertions",
+   "detail": "rectus abdominis (costal cartilage), tensor fasciae latae (iliotibial tract), trapezius / latissimus PCA ends: Q204 caps these at moderate; 23 Z-fit and 74-78 own findings are mostly this"
+  },
+  {
+   "name": "2 mm grid alignment",
+   "detail": "the bone voxel grid is aligned to the bone bounding box: +-2 structures flip between runs (own male thigh 24 vs 26, leg 10 vs 12 compared with the Q217 run); compare only differences larger than 3"
+  },
+  {
+   "name": "Q204 unfitted-base source quirks counted on the fitted pages",
+   "detail": "47 severity-3 and 84-92 severity-2 findings on each Z-fit page are also in the unfitted base (in_unfitted_base tag in the JSON)"
+  }
+ ]
+}
