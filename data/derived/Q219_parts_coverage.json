@@ -1,18 +1,18 @@
 {
  "generated": "2026-10-12",
  "note": "Coverage of the parts table over (a) the data/ entity list (side-agnostic ids) and (b) the structures of the four bodies. 'with_parts' = at least one sourced part row. Rows marked unverified count as covered but are flagged in the table.",
- "parts_total": 473,
- "structures_with_parts": 153,
+ "parts_total": 484,
+ "structures_with_parts": 160,
  "by_part_type": {
-  "head_belly": 63,
-  "origin_part": 38,
+  "head_belly": 72,
+  "origin_part": 39,
   "insertion_point": 114,
   "muscle_tendon_junction": 16,
   "ligament_component": 198,
-  "fascial_passage": 44
+  "fascial_passage": 45
  },
  "by_verification": {
-  "verified": 441,
+  "verified": 452,
   "unverified": 32
  },
  "entity_classes": {
@@ -268,8 +268,8 @@
   },
   "muscles": {
    "entities": 220,
-   "with_parts": 71,
-   "without_parts": 149,
+   "with_parts": 78,
+   "without_parts": 142,
    "with_parts_ids": [
     "abductor_digiti_minimi_hand",
     "abductor_pollicis_brevis",
@@ -314,6 +314,8 @@
     "levator_scapulae",
     "longissimus",
     "lumbricals_hand",
+    "masseter",
+    "multifidus",
     "opponens_digiti_minimi",
     "opponens_pollicis",
     "palmar_interossei",
@@ -325,15 +327,20 @@
     "pronator_teres",
     "quadratus_lumborum",
     "rectus_abdominis",
+    "rectus_capitis_posterior_major",
+    "rectus_capitis_posterior_minor",
     "rectus_femoris",
     "sartorius",
+    "scalenus_anterior",
     "semimembranosus",
     "semitendinosus",
     "serratus_anterior",
     "soleus",
+    "sternocleidomastoid",
     "subscapularis",
     "supinator",
     "supraspinatus",
+    "temporalis",
     "tensor_fasciae_latae",
     "teres_major",
     "tibialis_posterior",
@@ -410,12 +417,10 @@
     "longus_capitis",
     "longus_colli",
     "lumbricals_foot",
-    "masseter",
     "medial_pterygoid",
     "medial_rectus",
     "mentalis",
     "middle_pharyngeal_constrictor",
-    "multifidus",
     "musculus_uvulae",
     "mylohyoid",
     "nasalis",
@@ -444,14 +449,11 @@
     "quadratus_plantae",
     "rectus_capitis_anterior",
     "rectus_capitis_lateralis",
-    "rectus_capitis_posterior_major",
-    "rectus_capitis_posterior_minor",
     "rhomboid_major",
     "rhomboid_minor",
     "risorius",
     "rotatores",
     "salpingopharyngeus",
-    "scalenus_anterior",
     "scalenus_medius",
     "scalenus_posterior",
     "semispinalis_capitis",
@@ -463,7 +465,6 @@
     "splenius_capitis",
     "splenius_cervicis",
     "stapedius",
-    "sternocleidomastoid",
     "sternohyoid",
     "sternothyroid",
     "styloglossus",
@@ -476,7 +477,6 @@
     "superior_oblique",
     "superior_pharyngeal_constrictor",
     "superior_rectus",
-    "temporalis",
     "tensor_tympani",
     "tensor_veli_palatini",
     "teres_minor",
@@ -552,7 +552,7 @@
     },
     "muscle": {
      "structures": 367,
-     "with_parts": 167
+     "with_parts": 186
     },
     "nerve": {
      "structures": 13,
@@ -572,7 +572,7 @@
     }
    },
    "structures_total": 561,
-   "structures_with_parts": 188,
+   "structures_with_parts": 207,
    "dedicated_part_meshes_present": []
   },
   "vhf": {
@@ -595,7 +595,7 @@
     },
     "muscle": {
      "structures": 390,
-     "with_parts": 178
+     "with_parts": 196
     },
     "nerve": {
      "structures": 16,
@@ -615,7 +615,7 @@
     }
    },
    "structures_total": 608,
-   "structures_with_parts": 203,
+   "structures_with_parts": 221,
    "dedicated_part_meshes_present": [
     "zan_humero_ulnar_head_of_flexor_digitorum_superficialis_l"
    ]
@@ -656,7 +656,7 @@
     },
     "muscle": {
      "structures": 424,
-     "with_parts": 122
+     "with_parts": 134
     },
     "nerve": {
      "structures": 337,
@@ -676,7 +676,7 @@
     }
    },
    "structures_total": 2966,
-   "structures_with_parts": 185,
+   "structures_with_parts": 197,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -796,7 +796,7 @@
     },
     "muscle": {
      "structures": 426,
-     "with_parts": 122
+     "with_parts": 134
     },
     "nerve": {
      "structures": 337,
@@ -816,7 +816,7 @@
     }
    },
    "structures_total": 2942,
-   "structures_with_parts": 185,
+   "structures_with_parts": 197,
    "dedicated_part_meshes_present": [
     "zan_abdominal_part_of_pectoralis_major_muscle_l",
     "zan_abdominal_part_of_pectoralis_major_muscle_r",
@@ -966,6 +966,8 @@
   "cuneometatarsal_interosseous_ligaments": 3,
   "tmj_disc": 3,
   "bicipital_aponeurosis": 3,
+  "temporalis": 3,
+  "masseter": 3,
   "iliolumbar_ligament": 3,
   "popliteofibular_ligament": 3,
   "extensor_hallucis_longus": 3,
@@ -1036,6 +1038,11 @@
   "biceps_brachii_tendon_complex": 1,
   "latissimus_dorsi_aponeurosis": 1,
   "sacrotuberous_ligament": 1,
+  "multifidus": 1,
+  "scalenus_anterior": 1,
+  "rectus_capitis_posterior_major": 1,
+  "rectus_capitis_posterior_minor": 1,
+  "sternocleidomastoid": 1,
   "gluteal_fascia": 1,
   "fibularis_brevis": 1,
   "transversalis_fascia": 1,
