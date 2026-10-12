@@ -125,5 +125,64 @@ def metrics(src="zan_ends.pkl"):
               "in bone", a["in_bone_pct"], "->", b["in_bone_pct"], "depth", a["bone_depth_max_mm"], "->", b["bone_depth_max_mm"], flush=True)
 
 
+def badge_forearm(i, a, b, mv, seam, ends):
+    seam_txt = (f" Joined at y = 105 mm to the page's own hand-side tendon part (kept: his hand fit of Q205 / Q206), which was shifted {', '.join(str(x) for x in seam)} mm within the plane at the seam and decays to 0 over 45 mm."
+                if seam else " The whole muscle lies above the seam plane.")
+    e_txt = ""
+    for e in ends or []:
+        if e.get("pulled_mm"):
+            e_txt += f" Its {e['end']} end was {e['p5_before']} mm off the {e['bone'].replace('_', ' ')} its card names and was pulled {e['pulled_mm']} mm onto it (stretched along the muscle, other end held)."
+    return (f"Q217: this muscle was lying in a tangle with its neighbours on the Q211 page (share of its volume inside other muscles {a['shared_pct']} %; Z base 3.5 % mean). It is now the Z-Anatomy BASE muscle carried onto HIS "
+            f"left forearm by ONE injective map: at every axial level (8 mm) the section of the base forearm is turned and shifted exactly like the two bones radius + ulna of this page (his Z-fitted bones, same vertex order as the base "
+            f"bones: the pronation twist), the chain ending in the distal-humerus block above and the carpal block below, so the Z tiling (muscle | muscle) comes with it and no overlap is created.{seam_txt} "
+            f"Then pushed inside his skin (>= 1 mm) and out of his bones, and separated from the neighbouring muscles with a 1.0 mm fascial interface (0.5 mm each, no volume cut). Before -> after (voxel measures, 0.5 mm): "
+            f"volume {a['vol_cm3']} -> {b['vol_cm3']} cm3 (Z-Anatomy source volume kept; the page muscle had been shrunk), share inside other muscles {a['shared_pct']} -> {b['shared_pct']} %, vertices outside the displayed skin "
+            f"{a['outside_skin_pct']} -> {b['outside_skin_pct']} %, > 1 mm inside a displayed bone {a['in_bone_pct']} -> {b['in_bone_pct']} % (deepest {a['bone_depth_max_mm']} -> {b['bone_depth_max_mm']} mm); mean / max move vs the Q211 mesh "
+            f"{mv[0]} / {mv[1]} mm.{e_txt} Source class unchanged (Z-Anatomy fitted to him, not measured on him). His photographed forearm is mostly muscle and larger than the Z muscles: the space between the muscles is "
+            f"not filled (volumes are not inflated beyond the Z source). A position and boundary estimate, not a segmentation.")
+
+
+def pack(src="zan_ends.pkl"):
+    from scripts.zanatomy import q205_pages as P5
+    from scripts.zanatomy import q205_shipdiff as SD
+    d = pickle.load(open(CACHE / src, "rb"))
+    info = pickle.load(open(CACHE / "zan_carry.pkl", "rb"))["info"]
+    met = json.loads((REPO / "data/derived/Q217_zan_metrics.json").read_text())
+    erep = pickle.load(open(CACHE / "zan_ends_rep.pkl", "rb"))
+    man, blob = P5.load_page(SRC, STEM)
+    pg = P5.decode(man, blob)
+    replace, listed = {}, []
+    for i, (v, f) in d.items():
+        if i not in pg:
+            continue
+        v0 = pg[i]["v"]
+        if len(v0) == len(v) and np.allclose(v0, v, atol=1e-6):
+            continue
+        rec = dict(pg[i]["m"].get("rec") or {})
+        if i in met["after"]["per_muscle"]:
+            a, b = met["before"]["per_muscle"][i], met["after"]["per_muscle"][i]
+            dd = np.linalg.norm(v - v0, axis=1) if len(v0) == len(v) else None
+            mv = (round(float(dd.mean()), 1), round(float(dd.max()), 1)) if dd is not None else ("-", "-")
+            ends = []
+            for e in erep.get(i, {}).get("ends", []):
+                e = dict(e)
+                if erep[i].get("pulled") and e["p5_before"] > E.END_GATE_MM:
+                    e["pulled_mm"] = erep[i]["applied_mm"][0] if erep[i].get("applied_mm") else None
+                ends.append(e)
+            txt = badge_forearm(i, a, b, mv, info.get(i, {}).get("seam_shift_mm"), ends)
+        else:
+            e = erep[i]
+            txt = ("Q217: distal end pulled onto the bone its card names ("
+                   + "; ".join(f"{x['end']} end {x['p5_before']} mm off {x['bone'].replace('_', ' ')}" for x in e["ends"] if x["p5_before"] > E.END_GATE_MM) + f"), applied {e.get('applied_mm')} mm, after {e.get('p5_after')} mm; the other end held, stretched along the muscle. Source class unchanged.")
+        rec["procedural_badge"] = ((rec.get("procedural_badge") or "") + " " + txt).strip()
+        replace[i] = (v, f, rec)
+        listed.append(i)
+    man2, blob2 = P5.save_page(OUT, STEM, man, blob, replace=replace)
+    r = SD.diff(SRC, OUT, STEM, sorted(replace))
+    r["listed_structures"] = len(replace)
+    (REPO / "data/derived/Q217_ship_diff_zan.json").write_text(json.dumps(r, indent=1))
+    print("page", OUT, "replaced", len(replace), "geometry_changed", len(r["geometry_changed"]), "unlisted", r["geometry_changed_but_not_listed"], "added", len(r["added"]), "removed", len(r["removed"]), "card_only", len(r["card_only"]), "unchanged", r["unchanged"])
+
+
 if __name__ == "__main__":
-    {"clamp": clamp, "ends": ends, "metrics": metrics}[sys.argv[1]]()
+    {"clamp": clamp, "ends": ends, "metrics": metrics, "pack": pack}[sys.argv[1]]()
