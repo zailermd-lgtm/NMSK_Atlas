@@ -662,14 +662,14 @@
     "cap_colour_is_the_structure_display_colour": true,
     "click_on_cap_selects_the_structure": true,
     "click_on_cap_shows_its_card": true,
-    "xray_recolours_the_cap": true,
+    "xray_changes_the_cap": true,
     "fill_off_removes_the_cap": true
    },
    "info": {
     "ss_phone_class": false,
     "cap_with_selection": {
      "structures": 2,
-     "ms": 31
+     "ms": 50
     },
     "probe_structure": "rectus_abdominis_r_zfill203s",
     "link_chars": 53,
@@ -693,11 +693,15 @@
        "structures_cut": 28,
        "filled": 27,
        "outline_only": 1,
-       "ms": 164,
+       "ms": 30,
        "odd_rows": 24,
        "rows": 3164
       }
      },
+     "cap_pixel_match": [
+      41,
+      41
+     ],
      "cap_pixel": {
       "key": "vastus_lateralis_r",
       "texel": [
@@ -713,14 +717,25 @@
       ],
       "max_dev": 1.0
      },
-     "card": "Vastus lateralis"
+     "card": "Vastus lateralis",
+     "xray_cap_state": {
+      "on": true,
+      "builds": 6,
+      "recolors": 2,
+      "busy": false,
+      "showing": true
+     },
+     "xray_builds_before": [
+      6,
+      1
+     ]
     }
    },
    "errors": [],
    "http_ge_400": [
     "404 clinical_imaging_tool.js"
    ],
-   "seconds": 251.5
+   "seconds": 194.8
   }
  }
 }
