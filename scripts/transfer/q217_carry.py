@@ -153,9 +153,9 @@ def zip_loops(v, la, lb):
     return np.array(tris, np.int64)
 
 
-def join_closed(a_v, a_f, b_v, b_f, y_m, decay=DECAY):
-    """A (carried base, y >= y_m) and B (page, y <= y_m) cut at the plane y = y_m, B warped so that its rim loops land on A's (per-loop translation within the plane, decaying over `decay` mm below), the rims
-    zipped = ONE surface.  -> (v, f, info); a muscle that has no section at the plane on both sides is returned as A (whole) / unchanged"""
+def join_closed(a_v, a_f, b_v, b_f, y_m, decay=DECAY, a_above=True):
+    """A (carried base) and B (page) cut at the plane y = y_m (a_above: A keeps y >= y_m, B y <= y_m = the wrist seam; else the reverse = the upper-arm seam), B warped so that its rim loops land on A's (per-loop
+    translation within the plane, decaying over `decay` mm away from the seam), the rims zipped = ONE surface.  -> (v, f, info); a muscle that has no section at the plane on both sides is returned as A (whole)"""
     info = {}
     cA = loops_at(a_v, a_f, y_m)
     cB = loops_at(b_v, b_f, y_m)
@@ -163,8 +163,8 @@ def join_closed(a_v, a_f, b_v, b_f, y_m, decay=DECAY):
     if len(cA) == 0 or len(cB) == 0:
         info["note"] = "no seam"
         return np.asarray(a_v, float), np.asarray(a_f, np.int64), info
-    av, af = slice_keep(a_v, a_f, y_m, True)
-    bv, bf = slice_keep(b_v, b_f, y_m, False)
+    av, af = slice_keep(a_v, a_f, y_m, a_above)
+    bv, bf = slice_keep(b_v, b_f, y_m, not a_above)
     D = np.linalg.norm(cA[:, None, :] - cB[None, :, :], axis=2)
     ri, ci = linear_sum_assignment(D)
     pair = {int(j): int(i) for i, j in zip(ri, ci)}
@@ -176,7 +176,8 @@ def join_closed(a_v, a_f, b_v, b_f, y_m, decay=DECAY):
     w = 1.0 / (np.linalg.norm(bv[:, None, :] - cB[None, :, :], axis=2) + 3.0) ** 2
     w /= w.sum(1, keepdims=True)
     u = w @ t
-    dec = np.clip((bv[:, 1] - (y_m - decay)) / decay, 0.0, 1.0)
+    away = (y_m - bv[:, 1]) if a_above else (bv[:, 1] - y_m)
+    dec = np.clip(1.0 - away / decay, 0.0, 1.0)
     dec = 3 * dec ** 2 - 2 * dec ** 3
     bv = bv + u * dec[:, None]
     v = np.concatenate([av, bv])
@@ -187,7 +188,6 @@ def join_closed(a_v, a_f, b_v, b_f, y_m, decay=DECAY):
     info.update(seam_shift_mm=[round(float(np.linalg.norm(x)), 1) for x in t], rim_loops=[len(LA_a), len(LB_b)])
     if not LA_a or not LB_b:
         return v, f, info
-    # match the rim loops by centroid
     ca = np.array([v[l].mean(0) for l in LA_a])
     cb = np.array([v[l].mean(0) for l in LB_b])
     Dm = np.linalg.norm(ca[:, None, :] - cb[None, :, :], axis=2)
