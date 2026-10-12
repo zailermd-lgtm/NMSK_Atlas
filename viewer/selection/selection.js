@@ -17,7 +17,7 @@ function NMSKSelect(E){
   E.items().forEach(function(it){ if (!(it.id in names)){ names[it.id] = it.name || it.id; order.push(it.id); } });
   var sec = $("sel-sec"), chipsEl = $("sel-chips"), cntEl = $("sel-count"), statusEl = $("sel-status"), nameEl = $("sel-name"), setsEl = $("sel-sets"),
       ioEl = $("sel-io"), storeEl = $("sel-store"), remEl = $("sel-remember");
-  var tbMark = null, tbOnly = null, tbAll = null;
+  var tbMark = null, tbOnly = null;
 
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function has(id){ return Object.prototype.hasOwnProperty.call(names, id); }
@@ -73,8 +73,8 @@ function NMSKSelect(E){
     pr("sel-only", mode === "only"); pr("sel-hide", mode === "hide"); pr("sel-ghost", ghost); pr("sel-markmode", markMode);
     ["sel-only", "sel-hide", "sel-clear"].forEach(function(id){ var e = $(id); if (e) e.disabled = !n; });
     if (tbMark){ tbMark.setAttribute("aria-pressed", String(markMode)); tbMark.textContent = n ? "Mark · " + n : "Mark"; }
-    if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(mode === "only")); tbOnly.hidden = !n; tbOnly.textContent = "Only marked"; }
-    if (tbAll) tbAll.hidden = !activeState();
+    if (tbOnly){ tbOnly.setAttribute("aria-pressed", String(mode === "only")); tbOnly.hidden = !n; tbOnly.textContent = mode === "only" ? "Show all" : "Only marked";
+      tbOnly.title = mode === "only" ? "Show everything again (the marks stay)" : "Show only the marked structures"; }
     if (document.body && document.body.classList) document.body.classList.toggle("ss-marking", markMode);
   }
   function changed(){
@@ -279,8 +279,6 @@ function NMSKSelect(E){
   }
   tbMark = tb("t-mark", "Mark", "While on, a click or tap on the model marks / unmarks the structure under it (Shift/Ctrl-click or a long press does the same at any time)", function(){ markMode = !markMode; say(markMode ? "Click or tap structures on the model to mark / unmark them." : "Mark by clicking is off."); ui(); });
   tbOnly = tb("t-only", "Only marked", "Show only the marked structures", function(){ setMode("only"); });
-  tbAll = tb("t-showall", "Show all", "Clear the marks, the isolation and the ghosting and show everything again", resetAll);
-  if (tbAll) tbAll.removeAttribute("aria-pressed");
   function layout(){ var r = document.documentElement; if (r && r.classList) r.classList.toggle("ss-phone", !!(E.isPhone && E.isPhone())); }
   window.addEventListener("resize", layout);
   /* ---- start: stored sets, then (in this order of priority) a link in the address, the remembered last selection ---- */
@@ -304,12 +302,12 @@ function NMSKSelect(E){
       var b = document.createElement("button");
       b.type = "button"; b.className = "ss-mk"; b.textContent = "✓"; b.setAttribute("data-id", id);
       b.setAttribute("aria-pressed", String(set[id] === 1)); b.setAttribute("aria-label", "Mark " + name(id)); b.title = "Mark / unmark for the selection";
-      b.addEventListener("click", function(e){ e.stopPropagation(); toggle(id, true); });
+      b.addEventListener("click", function(e){ e.stopPropagation(); toggle(id, true); b.setAttribute("aria-pressed", String(set[id] === 1)); });
       return b;
     },
     consumeClick:consumeClick, layout:layout, toggle:toggle, mark:function(id, on){ var r = mark(id, on); changed(); return r; },
     setMode:setMode, setGhost:setGhost, clear:clearMarks, reset:resetAll, save:save, load:load, del:del, exportText:exportText, importText:importText,
     link:function(){ return hashOf(pack()); }, copyLink:copyLink, restored:restored,
-    state:function(){ return {marks:marks.slice(), mode:mode, ghost:ghost, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets), model:MODEL, remember:data.remember}; }
+    state:function(){ return {marks:marks.slice(), mode:mode, ghost:ghost, markMode:markMode, storageOK:storageOK, sets:Object.keys(data.sets).sort(), model:MODEL, remember:data.remember}; }
   };
 }

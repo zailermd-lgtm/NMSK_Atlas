@@ -195,7 +195,7 @@ var NMSKCapCore = (function(){
     var t0 = Date.now(), n = unit(plane.n), d = plane.d, UV = basis(n), U = UV[0], V = UV[1];
     var cut = [], k;
     items.forEach(function(it, ii){
-      if (!(it.alpha > 0.02)) return;
+      if (!(it.alpha >= 0.2)) return;                                  // a ghost / faded / (nearly) invisible structure is not cut: it must not hide what lies under it
       var gm = it.geom(); if (!gm || !boxCrosses(gm.bmin, gm.bmax, n, d)) return;
       var S = slice(gm.pos, gm.idx, n, d, U, V);
       if (!S) return;
@@ -318,7 +318,7 @@ function NMSKCap(E){
   function sigs(){
     var pl = planes(), ps = pl ? pl.map(function(p){ return p.n.map(r4).join(",") + "|" + r4(p.d); }).join(";") : "";
     var is = "", pal = "";
-    items.forEach(function(it){ is += it.key + (it.alpha > 0.02 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
+    items.forEach(function(it){ is += it.key + (it.alpha >= 0.2 ? "" : "~") + ";"; pal += it.rgb.map(function(x){ return Math.round(x * 255); }).join(",") + ":" + Math.round(it.alpha * 100) + ";"; });
     return {plane:ps, items:is, pal:pal, pl:pl};
   }
   function ui(){

@@ -122,6 +122,41 @@ Data: the sidecar `parts_data.json` beside the page (public anatomy layer, built
 absent = no Parts section and no button, nothing else changes). Shared source: `viewer/parts_ui/`, synced into both templates by
 `scripts/sync_parts_ui_q220.py`.
 
+**Marked structures and saved selections** (Q227, all six pages, the same code in both templates): a *Marked structures* section above the structure
+list. Mark with the tick at the left of every list row (search first, then **Mark list** ticks every match), **Mark selected** (the open card), a
+Shift / Ctrl / Cmd-click or a long press on a structure in 3D, or the **Mark** toolbar button / **Mark by clicking** (while on, a click or tap marks
+instead of selecting). Marked structures get an amber tint and a removable chip (with the count). **Show only marked** (toolbar: *Only marked* / *Show all*)
+hides everything else, **Hide marked** hides the marked ones, **Ghost the rest** draws what would be hidden as faint ghosts that are not pickable.
+**Reset selection** (or *Show all*) clears the marks, the isolation, the ghosting, the hover and the card and shows everything again; it does not touch the
+cut plane (*reset cut* does that), the layers, X-ray or the source facet. A selection only ever adds a veto, so it composes with the layer toggles, X-ray,
+the Source facet, Cut + slice thickness (and the filled cut face) and the Parts markers. **Saved selections**: name + *Save*, pick + *Load* / *Delete*;
+stored in the browser (`localStorage`, key `nmsk.sel.v1:<model>`, per model because structure ids differ between models) together with the last
+selection (*Remember my last selection*, on by default). Where storage is blocked (private window, embedded page) the sets live in memory for the session
+and the panel says so; **Export / Import** moves them as copyable JSON text and **Copy link** makes a `#nmsksel=...` address that opens the same marks
+(for the same model only). Shared source: `viewer/selection/`, synced into both templates by `scripts/sync_q227.py`.
+
+**Filled cut face** (Q227): in Cut mode, **Fill cross-section** fills the cut surface of every shown structure in its own display colour (current tissue /
+Source-facet colour, X-ray opacity, layer, hide and selection state) at the cut plane and, when a slice thickness is set, at the far face too, with a
+1 px outline per structure, so neighbouring structures are easy to tell apart in a cross-section. It is a real cross-section of the meshes computed in the
+browser (signed distance of the vertices, triangle / plane segments, even-odd scanline fill into an id raster, small organs / vessels / nerves painted over
+large muscle and fat), shown as a textured quad in the plane; it follows the plane while you drag it (hidden while it is stale, rebuilt in well under half
+a second) and every layer / X-ray / selection change. Clicking the cut face selects the structure under the cursor (its card opens), hovering names it,
+**Look at the cut face** turns the camera to look straight at the plane. The meshes are not watertight: gaps of the contour up to 1 mm are closed, rows
+with an odd number of crossings are repaired from the nearest good row when they are few, and a structure whose fill fails the parity sanity test
+(open sheets such as the skin patches, fascia, many tubes with open walls) gets its outline only, never a wrong fill; the count is shown under the button.
+Leak statistics per page: `data/derived/Q227_cap_stats_<page>.json`. Structures drawn at less than 20 % opacity (ghosts, faded) are not cut. Shared source:
+`viewer/cut_cap/`, synced by `scripts/sync_q227.py`.
+
+**Imaging** (Q226, PRIVATE add-on, phase 1 = CT + MRI): a second optional file `clinical_imaging_tool.js` (+ `clinical_imaging_tissues.json`) next to the
+page adds an **Imaging** button that opens a split screen -- the 3D model with its Cut plane / slab on one side, simulated images of that plane on
+the other (tablet portrait: stacked; phone: tabs 3D / Image). It is a **simulation computed from the segmented meshes -- not a scan**, badged on
+screen and inside every image: the cut plane (and slab) is intersected with every mesh, each pixel takes the tissue class of the top-most structure,
+CT = literature HU per class (windows soft / bone / lung / brain / MSK), MRI = spin-echo / inversion-recovery / gradient-echo equations on literature
+T1 / T2 / PD at 1.5 T (T1, T2, PD, PD fat-sat, T2 fat-sat, STIR, FLAIR, T2* GRE, T1 GRE, T1 +/- gadolinium; editable TR / TE / TI / flip angle). Slab
+thickness combines sub-slices as average, MIP or MinIP; views = the cut plane plus axial / coronal / sagittal through a crosshair (MPR). The Info panel
+lists every tissue class with its source and verification status. Without the files the page is the plain atlas. Details and the exact stage commands:
+PROJECT_STATE.md "## Q226".
+
 With the add-on present, the **Needle** button opens its panel. The original measurement is kept:
 the first click on any structure sets the entry point (normally the skin, so switch its system on
 first); the second sets the target, looking through the entry structure. The panel reports:
